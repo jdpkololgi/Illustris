@@ -17,7 +17,7 @@ def readsnap(path, snapno, xyzplot=True, lim=5000):
         X = u.kpc*object['halos']['GroupPos'][:,0][:lim]*sf/hub #spatial coordinates of halos
         Y = u.kpc*object['halos']['GroupPos'][:,1][:lim]*sf/hub
         Z = u.kpc*object['halos']['GroupPos'][:,2][:lim]*sf/hub
-        groupids = np.array(test['subhalos']['SubhaloGrNr'])
+        groupids = np.array(object['subhalos']['SubhaloGrNr'])
 
         assign = []
         for i in np.arange(lim):
@@ -49,4 +49,4 @@ def readsnap(path, snapno, xyzplot=True, lim=5000):
     return object
 
 if __name__ == '__main__':
-    test = readsnap(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1', 99)
+    test=readsnap(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1', 99)
