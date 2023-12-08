@@ -1,4 +1,5 @@
 import illustris_python as il
+import mistree as mist
 import numpy as np
 import matplotlib.pyplot as plt
 import astropy.units as u
@@ -11,6 +12,7 @@ def readsnap(path, snapno, xyzplot=True, lim=5000):
     object = il.groupcat.load(path,snapno)
 
     if xyzplot:
+        '''Plots in 3D the spatial coordinates of 5000 halos, finds all associated subhalos and plots them in 3D.'''
         sf = object['header']['Time'] #time of snapshot
         hub = object['header']['HubbleParam'] #hubble parameter of simulation
 
@@ -31,10 +33,10 @@ def readsnap(path, snapno, xyzplot=True, lim=5000):
         ax = fig.add_subplot(projection='3d')
         ax.grid(True)
         # ax.scatter(x, y, z)
-        ax.scatter(X, Y, Z)
+        ax.scatter(X.to('Mpc'), Y.to('Mpc'), Z.to('Mpc'), marker='o', color='b',s = 10, alpha=0.5, label=f'{lim} Halos')
 
         for i in range(len(assign)):
-            ax.scatter(x[assign[i]], y[assign[i]], z[assign[i]])
+            ax.scatter(x[assign[i]].to('Mpc'), y[assign[i]].to('Mpc'), z[assign[i]].to('Mpc'), marker='x', color='r', label='Subhalos')
             
         # ax.scatter3D(x, y, z)#, c=sfr, cmap='viridis', s=4)
         # ax.scatter3D(X, Y, Z)
@@ -44,9 +46,14 @@ def readsnap(path, snapno, xyzplot=True, lim=5000):
         ax.set_xlabel(r'x [Mpc]')
         ax.set_ylabel(r'y [Mpc]')
         ax.set_zlabel(r'z [Mpc]')
+        fig.legend()
         plt.show()
 
     return object
+
+def MST():
+    return 0
+
 
 if __name__ == '__main__':
     test=readsnap(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1', 99)
