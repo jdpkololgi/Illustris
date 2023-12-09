@@ -76,6 +76,24 @@ def MST(object, lim=500, xyzplot=True):
     mst.construct_mst()
     d, l, b, s, l_index, b_index = mst.get_stats(include_index=True)
 
+    # We want stats on the full dataset
+    X = object['halos']['GroupPos'][:,0][:lim]*sf/hub #spatial coordinates of halos
+    Y = object['halos']['GroupPos'][:,1][:lim]*sf/hub
+    Z = object['halos']['GroupPos'][:,2][:lim]*sf/hub
+    mst2 = mist.GetMST(x=X, y=Y, z=Z)
+    mst2.construct_mst()
+    d2, l2, b2, s2, l_index2, b_index2 = mst2.get_stats(include_index=True)
+    
+    # begins by binning the data and storing this in a dictionary.
+    hmst = mist.HistMST()
+    hmst.setup()
+    mst_dict = hmst.get_hist(d2, l2, b2, s2)
+
+    # plotting which takes as input the dictionary created before.
+    pmst = mist.PlotHistMST()
+    pmst.read_mst(mst_dict)
+    pmst.plot(usebox=True)
+
     if xyzplot:
         # Plot the MST nodes and edges
         fig = plt.figure(figsize=(8,8))
@@ -102,4 +120,4 @@ def MST(object, lim=500, xyzplot=True):
 
 if __name__ == '__main__':
     test=readsnap(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1', 99, xyzplot=False)
-    MST(test, xyzplot=True)
+    MST(test, xyzplot=False)
