@@ -77,10 +77,10 @@ def MST(object, lim=500, xyzplot=True):
     d, l, b, s, l_index, b_index = mst.get_stats(include_index=True)
 
     # We want stats on the full dataset
-    X = object['halos']['GroupPos'][:,0][:lim]*sf/hub #spatial coordinates of halos
-    Y = object['halos']['GroupPos'][:,1][:lim]*sf/hub
-    Z = object['halos']['GroupPos'][:,2][:lim]*sf/hub
-    mst2 = mist.GetMST(x=X, y=Y, z=Z)
+    # X = object['halos']['GroupPos'][:,0][:lim]*sf/hub #spatial coordinates of halos
+    # Y = object['halos']['GroupPos'][:,1][:lim]*sf/hub
+    # Z = object['halos']['GroupPos'][:,2][:lim]*sf/hub
+    mst2 = mist.GetMST(x=X.to('Mpc').value, y=Y.to('Mpc').value, z=Z.to('Mpc').value)
     mst2.construct_mst()
     d2, l2, b2, s2, l_index2, b_index2 = mst2.get_stats(include_index=True)
     
@@ -120,4 +120,4 @@ def MST(object, lim=500, xyzplot=True):
 
 if __name__ == '__main__':
     test=readsnap(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1', 99, xyzplot=False)
-    MST(test, xyzplot=False)
+    MST(test, xyzplot=True)
