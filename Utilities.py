@@ -80,13 +80,14 @@ def MST(object, lim=500, xyzplot=True):
     # X = object['halos']['GroupPos'][:,0][:lim]*sf/hub #spatial coordinates of halos
     # Y = object['halos']['GroupPos'][:,1][:lim]*sf/hub
     # Z = object['halos']['GroupPos'][:,2][:lim]*sf/hub
-    mst2 = mist.GetMST(x=X.to('Mpc').value, y=Y.to('Mpc').value, z=Z.to('Mpc').value)
+    uni = 'kpc'
+    mst2 = mist.GetMST(x=X.to(uni).value, y=Y.to(uni).value, z=Z.to(uni).value)
     mst2.construct_mst()
     d2, l2, b2, s2, l_index2, b_index2 = mst2.get_stats(include_index=True)
     
     # begins by binning the data and storing this in a dictionary.
     hmst = mist.HistMST()
-    hmst.setup()
+    hmst.setup(num_l_bins=25, num_b_bins=20, num_s_bins=15)
     mst_dict = hmst.get_hist(d2, l2, b2, s2)
 
     # plotting which takes as input the dictionary created before.
