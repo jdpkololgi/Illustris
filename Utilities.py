@@ -8,6 +8,79 @@ import astropy.constants as c
 import scienceplots
 plt.style.use(['science','dark_background','no-latex'])
 
+class cat():
+    def __init__(self, path, snapno):
+        '''Class to initialse a group object with integrated plotting functions.
+        Parameters
+        ----------
+        path: string
+            path to pass to readsnap function.
+        snapno: int
+            Illustris snapshot number.
+
+        Returns
+        -------
+        cat() object which will be populated with illustris group catalogue properties.
+        '''
+        if isinstance(path, str):
+            self.path = path
+        else:
+            raise TypeError('Name must be a string.')
+        
+        if isinstance(snapno, int):
+            if len(f'{snapno}') and 0<= snapno <=99:
+                self.snapno = snapno
+            else:
+                raise ValueError(f'The snapshot number {snapno} is invalid. Please enter a number from 0 to 99.')
+        else:
+            raise TypeError('The snapshot number must be an integer.')
+
+    def readcat(self, xyzplot, lim=5000):
+        '''Reads in groupcat data from the given path and snapshot number; also populates 
+        cat() instance with relevant attributes.'''
+        self.object = il.groupcat.load(self.path, self.snapno)
+        self.sf = self.object['header']['Time'] #time (scale factor) of snapshot
+        self.hub = self.object['header']['HubbleParam'] #hubble parameter of simulation
+
+        self.X = u.kpc*self.object['halos']['GroupPos'][:,0][:lim]*self.sf/self.hub #spatial coordinates of halos
+        self.Y = u.kpc*self.object['halos']['GroupPos'][:,1][:lim]*self.sf/self.hub
+        self.Z = u.kpc*self.object['halos']['GroupPos'][:,2][:lim]*self.sf/self.hub
+
+        self.x = u.kpc*self.object['subhalos']['SubhaloPos'][:,0]*self.sf/self.hub #spatial coordinates of subhalos
+        self.y = u.kpc*self.object['subhalos']['SubhaloPos'][:,1]*self.sf/self.hub
+        self.z = u.kpc*self.object['subhalos']['SubhaloPos'][:,2]*self.sf/self.hub
+
+        if xyzplot:
+            '''Plots in 3D the spatial coordinates of [lim] halos, finds all associated subhalos and plots them in 3D.'''
+            groupids = np.array(self.object['subhalos']['SubhaloGrNr'])
+
+            assign = []
+            for i in np.arange(lim):
+                assign.append(np.where(groupids==i))
+
+
+            fig = plt.figure(figsize=(8,8))
+            ax = fig.add_subplot(projection='3d')
+            ax.grid(True)
+            # ax.scatter(x, y, z)
+            ax.scatter(self.X.to('Mpc'), self.Y.to('Mpc'), self.Z.to('Mpc'), marker='o', color='b',s = 10, alpha=0.3, label = 'Halos')
+
+            for i in range(len(assign)):
+                ax.scatter(self.x[assign[i]].to('Mpc'), self.y[assign[i]].to('Mpc'), self.z[assign[i]].to('Mpc'), marker='.',s=5, color='r', label = 'Subhalos')
+                
+            # ax.scatter3D(x, y, z)#, c=sfr, cmap='viridis', s=4)
+            # ax.scatter3D(X, Y, Z)
+            # ax.ticklabel_format(axis='x', style='sci',scilimits=(0,0))
+            # ax.ticklabel_format(axis='y', style='sci',scilimits=(0,0))
+            # ax.ticklabel_format(axis='z', style='sci',scilimits=(0,0))
+            subhalopatch = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='r', markersize=5)
+            halopatch = Line2D([0], [0], marker='o', color='k', label='Scatter',markerfacecolor='b', markersize=10)
+            ax.set_xlabel(r'x [Mpc]')
+            ax.set_ylabel(r'y [Mpc]')
+            ax.set_zlabel(r'z [Mpc]')
+            ax.legend([subhalopatch, halopatch], [f'Subhalos', f'{lim} Halos'], loc='upper left')
+            plt.show()
+                
 def readsnap(path, snapno, xyzplot=True, lim=5000):
     '''Reads the snapshot data from the given path and snapshot number.'''
     object = il.groupcat.load(path,snapno)
@@ -175,6 +248,9 @@ def subhalo_MST(object, lim=500000, xyzplot=True):
 
 
 if __name__ == '__main__':
-    test=readsnap(r'/global/homes/d/dkololgi/TNG300-1', 99, xyzplot=False)
+    # test=readsnap(r'/global/homes/d/dkololgi/TNG300-1', 99, xyzplot=False)
     # halo_MST(test, xyzplot=True)
-    subhalo_MST(test, xyzplot=True)
+    # subhalo_MST(test, xyzplot=True)
+
+    testcat = cat(path=r'/global/homes/d/dkololgi/TNG300-1', snapno=99)
+    testcat.readcat(xyzplot=True)
