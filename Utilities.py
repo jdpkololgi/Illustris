@@ -6,7 +6,7 @@ from matplotlib.lines import Line2D
 import astropy.units as u
 import astropy.constants as c
 import scienceplots
-plt.style.use(['science','dark_background'])
+plt.style.use(['science','dark_background','no-latex'])
 
 def readsnap(path, snapno, xyzplot=True, lim=5000):
     '''Reads the snapshot data from the given path and snapshot number.'''
@@ -175,6 +175,7 @@ def subhalo_MST(object, lim=500000, xyzplot=True):
 
 
 if __name__ == '__main__':
-    test=readsnap(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1', 99, xyzplot=False)
+    test=readsnap(r'/global/homes/d/dkololgi/TNG300-1', 99, xyzplot=False)
+    oldpath = '/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1'
     # halo_MST(test, xyzplot=True)
     subhalo_MST(test, xyzplot=True)
