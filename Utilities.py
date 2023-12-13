@@ -56,7 +56,8 @@ class cat():
 
             assign = []
             for i in np.arange(lim):
-                assign.append(np.where(groupids==i))
+                assign.append(np.where(groupids==i)[0])
+
             subhalono = np.sum([len(assign[i]) for i in range(len(assign))])
 
             fig = plt.figure(figsize=(8,8))
