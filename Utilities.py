@@ -57,7 +57,7 @@ class cat():
             assign = []
             for i in np.arange(lim):
                 assign.append(np.where(groupids==i))
-
+            subhalono = np.sum([len(assign[i]) for i in range(len(assign))])
 
             fig = plt.figure(figsize=(8,8))
             ax = fig.add_subplot(projection='3d')
@@ -78,7 +78,7 @@ class cat():
             ax.set_xlabel(r'x [Mpc]')
             ax.set_ylabel(r'y [Mpc]')
             ax.set_zlabel(r'z [Mpc]')
-            ax.legend([subhalopatch, halopatch], [f'Subhalos', f'{lim} Halos'], loc='upper left')
+            ax.legend([subhalopatch, halopatch], [f'{subhalono} Subhalos', f'{lim} Halos'], loc='upper left')
             plt.show()
                 
 def readsnap(path, snapno, xyzplot=True, lim=5000):
