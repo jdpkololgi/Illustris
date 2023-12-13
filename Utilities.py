@@ -176,6 +176,5 @@ def subhalo_MST(object, lim=500000, xyzplot=True):
 
 if __name__ == '__main__':
     test=readsnap(r'/global/homes/d/dkololgi/TNG300-1', 99, xyzplot=False)
-    oldpath = '/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1'
     # halo_MST(test, xyzplot=True)
     subhalo_MST(test, xyzplot=True)
