@@ -34,6 +34,12 @@ class cat():
                 raise ValueError(f'The snapshot number {snapno} is invalid. Please enter a number from 0 to 99.')
         else:
             raise TypeError('The snapshot number must be an integer.')
+        
+    def __repr__(self):
+        #assert hasattr(self, 'object'), 'No TNG object has been read in. Please add one using the readcat() method.'
+        boxsize = round(((u.kpc*self.object['header']['BoxSize']*self.sf/self.hub).to('Mpc')).value)
+        redshift = round(self.object['header']['Redshift'])
+        return f'TNG{boxsize}Mpc_z={redshift}_Snapshot={self.snapno}'
 
     def readcat(self, xyzplot, lim=5000):
         '''Reads in groupcat data from the given path and snapshot number; also populates 
