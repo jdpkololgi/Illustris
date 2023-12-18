@@ -87,7 +87,52 @@ class cat():
             ax.set_zlabel(r'z [Mpc]')
             ax.legend([subhalopatch, halopatch], [f'{subhalono} Subhalos', f'{lim} Halos'], loc='upper left')
             plt.show()
-                
+    
+    def subhalo_MST(self, xyzplot=True):
+        '''Plots the MST of the subhalos in the given object.'''
+        uni = 'Mpc'
+        stars = (self.object['subhalos']['SubhaloMassType'][:,4]) #stellar mass of subhalos
+        masscut = 1e8*self.hub/1e10 #mass cut for subhalos
+        stars_indices = np.where(stars>=masscut)[0] #indices of subhalos with stellar mass greater than masscut
+
+        x = self.x[stars_indices] #spatial coordinates of subhalos with stellar mass greater than masscut
+        y = self.y[stars_indices]
+        z = self.z[stars_indices]
+
+        # Initialise MiSTree MST and plot statistics
+        mst = mist.GetMST(x=x.to(uni).value, y=y.to(uni).value, z=z.to(uni).value)
+        mst.construct_mst()
+        d, l, b, s, l_index, b_index = mst.get_stats(include_index=True)
+        
+        # begins by binning the data and storing this in a dictionary.
+        hmst = mist.HistMST()
+        hmst.setup(uselog=True)#num_l_bins=25, num_b_bins=20, num_s_bins=15)
+        mst_dict = hmst.get_hist(d, l, b, s)
+
+        # plotting which takes as input the dictionary created before.
+        pmst = mist.PlotHistMST()
+        pmst.read_mst(mst_dict)
+        pmst.plot(usebox=True)
+
+        if xyzplot:
+            # Plot the MST nodes and edges
+            fig = plt.figure(figsize=(8,8))
+            ax = fig.add_subplot(projection='3d')
+            ax.grid(False)
+            ax.scatter(x.to('Mpc'), y.to('Mpc'), z.to('Mpc'), marker='.', color='purple',s = 1, alpha=0.1)
+            
+            for i in range(len(l_index[0])):
+                ax.plot([x[l_index[0][i]].to('Mpc').value, x[l_index[1][i]].to('Mpc').value], [y[l_index[0][i]].to('Mpc').value, y[l_index[1][i]].to('Mpc').value], zs = [z[l_index[0][i]].to('Mpc').value, z[l_index[1][i]].to('Mpc').value], color='orange', alpha=0.5)
+            
+            subhalopatch = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='purple', markersize=5)
+            MSTpatch = Line2D([0], [0], marker='o', color='orange', label='Scatter',markerfacecolor='k', markersize=0.1)
+
+            ax.set_xlabel(r'x [Mpc]')
+            ax.set_ylabel(r'y [Mpc]')
+            ax.set_zlabel(r'z [Mpc]')
+            ax.legend([subhalopatch, MSTpatch], [f'{len(x)} Subhalos', 'Subalo MST'], loc='upper left')
+            plt.show()
+
 def readsnap(path, snapno, xyzplot=True, lim=5000):
     '''Reads the snapshot data from the given path and snapshot number.'''
     object = il.groupcat.load(path,snapno)
@@ -252,12 +297,11 @@ def subhalo_MST(object, lim=500000, xyzplot=True):
         ax.legend([subhalopatch, MSTpatch], [f'{lim} Subhalos', 'Subalo MST'], loc='upper left')
         plt.show()
 
-
-
 if __name__ == '__main__':
     # test=readsnap(r'/global/homes/d/dkololgi/TNG300-1', 99, xyzplot=False)
     # halo_MST(test, xyzplot=True)
     # subhalo_MST(test, xyzplot=True)
 
     testcat = cat(path=r'/global/homes/d/dkololgi/TNG300-1', snapno=99)
-    testcat.readcat(xyzplot=True)
+    testcat.readcat(xyzplot=False)
+    testcat.subhalo_MST(xyzplot=True)
