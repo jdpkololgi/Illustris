@@ -334,4 +334,4 @@ if __name__ == '__main__':
 
     testcat = cat(path=r'/global/homes/d/dkololgi/TNG300-1', snapno=99)
     testcat.readcat(xyzplot=False)
-    testcat.subhalo_MST(xyzplot=True, mode='sampled_sphere')
+    testcat.subhalo_MST(xyzplot=True, mode='sphere')
