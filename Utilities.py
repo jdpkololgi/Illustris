@@ -116,6 +116,18 @@ class cat():
             x = x[indices]
             y = y[indices]
             z = z[indices]
+        
+        elif mode=='sampled_sphere': #sampled sphere mode where we plot 1 in every sampling rate subhalos within a sphere of radius r
+            sampling = int(input('Please enter the sampling rate for the sampled sphere mode (Works best between 10 and 100): '))
+            r = int(input('Please enter the radius of the sphere in Mpc: '))*u.Mpc
+            x = self.x[stars_indices]
+            y = self.y[stars_indices]
+            z = self.z[stars_indices]
+            ctr = 150*u.Mpc #centre of sphere should be the centre of the box
+            indices = np.where(np.sqrt((x-ctr)**2+(y-ctr)**2+(z-ctr)**2)<=r)[0]
+            x = x[indices][::sampling]
+            y = y[indices][::sampling]
+            z = z[indices][::sampling]
 
         # Initialise MiSTree MST and plot statistics
         mst = mist.GetMST(x=x.to(uni).value, y=y.to(uni).value, z=z.to(uni).value)
@@ -322,4 +334,4 @@ if __name__ == '__main__':
 
     testcat = cat(path=r'/global/homes/d/dkololgi/TNG300-1', snapno=99)
     testcat.readcat(xyzplot=False)
-    testcat.subhalo_MST(xyzplot=True, mode='sphere')
+    testcat.subhalo_MST(xyzplot=True, mode='sampled_sphere')
