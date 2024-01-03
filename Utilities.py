@@ -88,16 +88,34 @@ class cat():
             ax.legend([subhalopatch, halopatch], [f'{subhalono} Subhalos', f'{lim} Halos'], loc='upper left')
             plt.show()
     
-    def subhalo_MST(self, xyzplot=True):
+    def subhalo_MST(self, xyzplot=True, masscut=1e8, mode='std'):
         '''Plots the MST of the subhalos in the given object.'''
         uni = 'Mpc'
         stars = (self.object['subhalos']['SubhaloMassType'][:,4]) #stellar mass of subhalos
-        masscut = 1e8*self.hub/1e10 #mass cut for subhalos
-        stars_indices = np.where(stars>=masscut)[0] #indices of subhalos with stellar mass greater than masscut
+        mc = masscut*self.hub/1e10 #mass cut for subhalos
+        stars_indices = np.where(stars>=mc)[0] #indices of subhalos with stellar mass greater than masscut
 
-        x = self.x[stars_indices] #spatial coordinates of subhalos with stellar mass greater than masscut
-        y = self.y[stars_indices]
-        z = self.z[stars_indices]
+        if mode=='std': #standard mode where we plot all subhalos with stellar mass greater than masscut
+            x = self.x[stars_indices] #spatial coordinates of subhalos with stellar mass greater than masscut
+            y = self.y[stars_indices]
+            z = self.z[stars_indices]
+
+        elif mode=='sparse': #sparse mode where we plot 1 in every sampling rate subhalos with stellar mass greater than masscut
+            sampling = int(input('Please enter the sampling rate for the sparse mode (Works best between 10 and 100): '))
+            x = self.x[stars_indices][::sampling]
+            y = self.y[stars_indices][::sampling]
+            z = self.z[stars_indices][::sampling]
+
+        elif mode=='sphere': #sphere mode where we plot all subhalos within a sphere of radius r
+            r = int(input('Please enter the radius of the sphere in Mpc: '))*u.Mpc
+            x = self.x[stars_indices]
+            y = self.y[stars_indices]
+            z = self.z[stars_indices]
+            ctr = 150*u.Mpc #centre of sphere should be the centre of the box
+            indices = np.where(np.sqrt((x-ctr)**2+(y-ctr)**2+(z-ctr)**2)<=r)[0]
+            x = x[indices]
+            y = y[indices]
+            z = z[indices]
 
         # Initialise MiSTree MST and plot statistics
         mst = mist.GetMST(x=x.to(uni).value, y=y.to(uni).value, z=z.to(uni).value)
@@ -304,4 +322,4 @@ if __name__ == '__main__':
 
     testcat = cat(path=r'/global/homes/d/dkololgi/TNG300-1', snapno=99)
     testcat.readcat(xyzplot=False)
-    testcat.subhalo_MST(xyzplot=True)
+    testcat.subhalo_MST(xyzplot=True, mode='sphere')
