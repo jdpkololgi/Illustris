@@ -144,6 +144,8 @@ class cat():
         pmst.read_mst(mst_dict)
         pmst.plot(usebox=True)
 
+        print(f'Mean Subhalo Separation: {np.round(np.mean(l), 2)} Mpc')
+
         if xyzplot:
             # Plot the MST nodes and edges
             fig = plt.figure(figsize=(8,8))
@@ -157,6 +159,7 @@ class cat():
             subhalopatch = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='purple', markersize=5)
             MSTpatch = Line2D([0], [0], marker='o', color='orange', label='Scatter',markerfacecolor='k', markersize=0.1)
 
+            ax.set_title(f'TNG300-1 z=0 Snapshot={self.snapno} Sampling={1/sampling} Radius={r}')
             ax.set_xlabel(r'x [Mpc]')
             ax.set_ylabel(r'y [Mpc]')
             ax.set_zlabel(r'z [Mpc]')
@@ -334,4 +337,4 @@ if __name__ == '__main__':
 
     testcat = cat(path=r'/global/homes/d/dkololgi/TNG300-1', snapno=99)
     testcat.readcat(xyzplot=False)
-    testcat.subhalo_MST(xyzplot=True, mode='sphere')
+    testcat.subhalo_MST(xyzplot=True, mode='sampled_sphere')
