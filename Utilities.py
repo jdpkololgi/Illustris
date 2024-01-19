@@ -147,13 +147,13 @@ class cat():
         print(f'Mean Subhalo Separation: {np.round(np.mean(l), 2)} Mpc')
 
         if mode=='std':
-            print(f'Number Density of Subhalos: {(len(x)/(300**3), 2)} Mpc^-3')
+            print(f'Number Density of Subhalos: {np.round(len(x)/(300**3), 5)} Mpc^-3')
         elif mode=='sparse':
-            print(f'Number Density of Subhalos: {(len(x)/(300**3*sampling), 2)} Mpc^-3')
+            print(f'Number Density of Subhalos: {np.round(len(x)/(300**3*sampling), 5)} Mpc^-3')
         elif mode=='sphere':
-            print(f'Number Density of Subhalos: {(len(x)/(4/3*np.pi*r**3), 2)} Mpc^-3')
+            print(f'Number Density of Subhalos: {np.round(len(x)/(4/3*np.pi*r**3), 5)} Mpc^-3')
         elif mode=='sampled_sphere':
-            print(f'Number Density of Subhalos: {(len(x)/(4/3*np.pi*r**3*sampling), 2)} Mpc^-3')
+            print(f'Number Density of Subhalos: {np.round(len(x)/(4/3*np.pi*r**3*sampling), 5)} Mpc^-3')
 
         if xyzplot:
             # Plot the MST nodes and edges
@@ -346,4 +346,4 @@ if __name__ == '__main__':
 
     testcat = cat(path=r'/global/homes/d/dkololgi/TNG300-1', snapno=99)
     testcat.readcat(xyzplot=False)
-    testcat.subhalo_MST(xyzplot=True, mode='sampled_sphere')
+    testcat.subhalo_MST(xyzplot=True, mode='sparse')
