@@ -99,12 +99,14 @@ class cat():
             x = self.x[stars_indices] #spatial coordinates of subhalos with stellar mass greater than masscut
             y = self.y[stars_indices]
             z = self.z[stars_indices]
+            title_text = f'TNG300-1 z=0 Snapshot={self.snapno}'
 
         elif mode=='sparse': #sparse mode where we plot 1 in every sampling rate subhalos with stellar mass greater than masscut
             sampling = int(input('Please enter the sampling rate for the sparse mode (Works best between 10 and 100): '))
             x = self.x[stars_indices][::sampling]
             y = self.y[stars_indices][::sampling]
             z = self.z[stars_indices][::sampling]
+            title_text = f'TNG300-1 z=0 Snapshot={self.snapno} Sampling={1/sampling}'
 
         elif mode=='sphere': #sphere mode where we plot all subhalos within a sphere of radius r
             r = int(input('Please enter the radius of the sphere in Mpc: '))*u.Mpc
@@ -116,6 +118,7 @@ class cat():
             x = x[indices]
             y = y[indices]
             z = z[indices]
+            title_text = f'TNG300-1 z=0 Snapshot={self.snapno} Radius={r}'
         
         elif mode=='sampled_sphere': #sampled sphere mode where we plot 1 in every sampling rate subhalos within a sphere of radius r
             sampling = int(input('Please enter the sampling rate for the sampled sphere mode (Works best between 10 and 100): '))
@@ -128,6 +131,7 @@ class cat():
             x = x[indices][::sampling]
             y = y[indices][::sampling]
             z = z[indices][::sampling]
+            title_text = f'TNG300-1 z=0 Snapshot={self.snapno} Sampling={1/sampling} Radius={r}'
 
         # Initialise MiSTree MST and plot statistics
         mst = mist.GetMST(x=x.to(uni).value, y=y.to(uni).value, z=z.to(uni).value)
@@ -168,7 +172,7 @@ class cat():
             subhalopatch = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='purple', markersize=5)
             MSTpatch = Line2D([0], [0], marker='o', color='orange', label='Scatter',markerfacecolor='k', markersize=0.1)
 
-            ax.set_title(f'TNG300-1 z=0 Snapshot={self.snapno} Sampling={1/sampling} Radius={r}')
+            ax.set_title(title_text)
             ax.set_xlabel(r'x [Mpc]')
             ax.set_ylabel(r'y [Mpc]')
             ax.set_zlabel(r'z [Mpc]')
