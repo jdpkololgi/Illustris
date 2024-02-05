@@ -179,6 +179,23 @@ class cat():
             ax.legend([subhalopatch, MSTpatch], [f'{len(x)} Subhalos', 'Subalo MST'], loc='upper left')
             plt.show()
 
+    def cweb(self):
+        '''Plots the cosmic web of the halos in the given object.'''
+        cwebfile = np.load('/global/homes/d/dkololgi/TNG/Illustris/TNG300_snap_099_nexus_env_merged.npz')
+        self.cwebdata = cwebfile['cweb']
+        ngrid = self.cwebdata.shape[0]
+        self.boxsize = u.kpc*self.object['header']['BoxSize']*self.sf/self.hub
+        self.dx = self.boxsize/ngrid
+
+        # Create a grid of points
+        xpix = (self.x/self.dx).astype(int)
+        ypix = (self.y/self.dx).astype(int)
+        zpix = (self.z/self.dx).astype(int)
+
+        # Relate subhalo coordinates with cweb flag
+        return self.cwebdata[xpix[0:-1], ypix[0:-1], zpix[0:-1]]
+
+
 def readsnap(path, snapno, xyzplot=True, lim=5000):
     '''Reads the snapshot data from the given path and snapshot number.'''
     object = il.groupcat.load(path,snapno)
@@ -350,4 +367,8 @@ if __name__ == '__main__':
 
     testcat = cat(path=r'/global/homes/d/dkololgi/TNG300-1', snapno=99)
     testcat.readcat(xyzplot=False)
-    testcat.subhalo_MST(xyzplot=True, mode='std', masscut=5e10)
+    # testcat.subhalo_MST(xyzplot=True, mode='std', masscut=5e10)
+    cweb = testcat.cweb()
+    print(type(cweb))
+    print(np.shape(cweb))
+    print(cweb)
