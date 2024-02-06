@@ -9,7 +9,7 @@ import scienceplots
 plt.style.use(['science','dark_background','no-latex'])
 
 class cat():
-    def __init__(self, path, snapno):
+    def __init__(self, path, snapno, masscut=1e8):
         '''Class to initialse a group object with integrated plotting functions.
         Parameters
         ----------
@@ -34,6 +34,11 @@ class cat():
                 raise ValueError(f'The snapshot number {snapno} is invalid. Please enter a number from 0 to 99.')
         else:
             raise TypeError('The snapshot number must be an integer.')
+        
+        if isinstance(masscut, (int, float)):
+            self.masscut = masscut
+        else:
+            raise TypeError('The masscut must be a number.')
         
     def __repr__(self):
         assert hasattr(self, 'object'), 'No TNG object has been read in. Please add one using the readcat() method.'
@@ -88,11 +93,11 @@ class cat():
             ax.legend([subhalopatch, halopatch], [f'{subhalono} Subhalos', f'{lim} Halos'], loc='upper left')
             plt.show()
     
-    def subhalo_MST(self, xyzplot=True, masscut=1e8, mode='std'):
+    def subhalo_MST(self, xyzplot=True, mode='std'):
         '''Plots the MST of the subhalos in the given object.'''
         uni = 'Mpc'
         stars = (self.object['subhalos']['SubhaloMassType'][:,4]) #stellar mass of subhalos
-        mc = masscut*self.hub/1e10 #mass cut for subhalos
+        mc = self.masscut*self.hub/1e10 #mass cut for subhalos
         stars_indices = np.where(stars>=mc)[0] #indices of subhalos with stellar mass greater than masscut
 
         if mode=='std': #standard mode where we plot all subhalos with stellar mass greater than masscut
@@ -179,8 +184,8 @@ class cat():
             ax.legend([subhalopatch, MSTpatch], [f'{len(x)} Subhalos', 'Subalo MST'], loc='upper left')
             plt.show()
 
-    def cweb(self):
-        '''Plots the cosmic web of the halos in the given object.'''
+    def cweb(self, xyzplot=True):
+        '''Plots the cosmic web classications of the subhalos in the given object.'''
         cwebfile = np.load('/global/homes/d/dkololgi/TNG/Illustris/TNG300_snap_099_nexus_env_merged.npz')
         self.cwebdata = cwebfile['cweb']
         ngrid = self.cwebdata.shape[0]
@@ -188,14 +193,46 @@ class cat():
         self.dx = self.boxsize/ngrid
 
         # Create a grid of points
-        xpix = (self.x/self.dx).astype(int)
-        ypix = (self.y/self.dx).astype(int)
-        zpix = (self.z/self.dx).astype(int)
+        stars = (self.object['subhalos']['SubhaloMassType'][:,4]) #stellar mass of subhalos
+        mc = self.masscut*self.hub/1e10 #mass cut for subhalos
+        stars_indices = np.where(stars>=mc)[0] #indices of subhalos with stellar mass greater than masscut
 
-        # Relate subhalo coordinates with cweb flag
-        return self.cwebdata[xpix[0:-1], ypix[0:-1], zpix[0:-1]]
+        # Get the spatial coordinates of the subhalos above the masscut
+        x = self.x[stars_indices]
+        y = self.y[stars_indices]
+        z = self.z[stars_indices]        
 
+        # Convert to cweb coordinates
+        self.xpix = (x/self.dx).astype(int)
+        self.ypix = (y/self.dx).astype(int)
+        self.zpix = (z/self.dx).astype(int)
 
+        # Get the cweb classifications of the subhalos
+        self.cweb = self.cwebdata[self.xpix, self.ypix, self.zpix]
+        colors = []
+        
+        for i in len(range(self.cweb)):
+            if self.cweb[i] == 0:
+                colors.append('r')
+            elif self.cweb[i] == 1:
+                colors.append('g')
+            elif self.cweb[i] == 2:
+                colors.append('b')
+            elif self.cweb[i] == 3:
+                colors.append('y')
+
+        # Plot the cosmic web classifications
+        if xyzplot:
+            fig = plt.figure(figsize=(8,8))
+            ax = fig.add_subplot(projection='3d')
+            ax.grid(False)
+            ax.scatter(x.to('Mpc'), y.to('Mpc'), z.to('Mpc'), marker='.', color=colors, s = 1, alpha=0.1)
+            ax.set_xlabel(r'x [Mpc]')
+            ax.set_ylabel(r'y [Mpc]')
+            ax.set_zlabel(r'z [Mpc]')
+            plt.show()
+            
+         
 def readsnap(path, snapno, xyzplot=True, lim=5000):
     '''Reads the snapshot data from the given path and snapshot number.'''
     object = il.groupcat.load(path,snapno)
@@ -365,7 +402,7 @@ if __name__ == '__main__':
     # halo_MST(test, xyzplot=True)
     # subhalo_MST(test, xyzplot=True)
 
-    testcat = cat(path=r'/global/homes/d/dkololgi/TNG300-1', snapno=99)
+    testcat = cat(path=r'/global/homes/d/dkololgi/TNG300-1', snapno=99, masscut=1e8)
     testcat.readcat(xyzplot=False)
     # testcat.subhalo_MST(xyzplot=True, mode='std', masscut=5e10)
     cweb = testcat.cweb()
