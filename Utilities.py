@@ -211,7 +211,7 @@ class cat():
         self.cweb = self.cwebdata[self.xpix, self.ypix, self.zpix]
         colors = []
         
-        for i in len(range(self.cweb)):
+        for i in range(len(self.cweb)):
             if self.cweb[i] == 0:
                 colors.append('r')
             elif self.cweb[i] == 1:
@@ -226,7 +226,7 @@ class cat():
             fig = plt.figure(figsize=(8,8))
             ax = fig.add_subplot(projection='3d')
             ax.grid(False)
-            ax.scatter(x.to('Mpc'), y.to('Mpc'), z.to('Mpc'), marker='.', color=colors, s = 1, alpha=0.1)
+            ax.scatter(x.to('Mpc'), y.to('Mpc'), z.to('Mpc'), marker='.', color=colors, s = 1, alpha=0.5)
             ax.set_xlabel(r'x [Mpc]')
             ax.set_ylabel(r'y [Mpc]')
             ax.set_zlabel(r'z [Mpc]')
