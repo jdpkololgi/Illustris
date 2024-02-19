@@ -209,17 +209,16 @@ class cat():
 
         # Get the cweb classifications of the subhalos
         self.cweb = self.cwebdata[self.xpix, self.ypix, self.zpix]
-        colors = []
-        
-        for i in range(len(self.cweb)):
-            if self.cweb[i] == 0:
-                colors.append('r')
-            elif self.cweb[i] == 1:
-                colors.append('g')
-            elif self.cweb[i] == 2:
-                colors.append('b')
-            elif self.cweb[i] == 3:
-                colors.append('y')
+        colors = np.empty(len(self.cweb), dtype=str)
+        reds = np.count_nonzero(self.cweb == 0)
+        greens = np.count_nonzero(self.cweb == 1)
+        blues = np.count_nonzero(self.cweb == 2)
+        yellows = np.count_nonzero(self.cweb == 3)
+
+        colors[self.cweb == 0] = 'r'
+        colors[self.cweb == 1] = 'g'
+        colors[self.cweb == 2] = 'b'
+        colors[self.cweb == 3] = 'y'
 
         # Plot the cosmic web classifications
         if xyzplot:
@@ -230,8 +229,13 @@ class cat():
             ax.set_xlabel(r'x [Mpc]')
             ax.set_ylabel(r'y [Mpc]')
             ax.set_zlabel(r'z [Mpc]')
-            plt.show()
-            
+            ax.set_title(f'TNG300-1 z=0 Snapshot={self.snapno} {len(x)} Subhalos Cosmic Web')
+            subhalopatchr = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='red', markersize=10)
+            subhalopatchg = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='green', markersize=10)
+            subhalopatchb = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='blue', markersize=10)
+            subhalopatchy = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='yellow', markersize=10)
+            ax.legend([subhalopatchr, subhalopatchg, subhalopatchb, subhalopatchy], [f'{reds} Void', f'{greens} Wall', f'{blues} Filamentary', f'{yellows} Cluster'], loc='upper left')
+            plt.show()            
          
 def readsnap(path, snapno, xyzplot=True, lim=5000):
     '''Reads the snapshot data from the given path and snapshot number.'''
@@ -402,10 +406,7 @@ if __name__ == '__main__':
     # halo_MST(test, xyzplot=True)
     # subhalo_MST(test, xyzplot=True)
 
-    testcat = cat(path=r'/global/homes/d/dkololgi/TNG300-1', snapno=99, masscut=1e8)
+    testcat = cat(path=r'/global/homes/d/dkololgi/TNG300-1', snapno=99, masscut=1e10)
     testcat.readcat(xyzplot=False)
     # testcat.subhalo_MST(xyzplot=True, mode='std', masscut=5e10)
     cweb = testcat.cweb()
-    print(type(cweb))
-    print(np.shape(cweb))
-    print(cweb)
