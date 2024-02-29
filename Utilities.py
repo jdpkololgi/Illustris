@@ -40,6 +40,9 @@ class cat():
         else:
             raise TypeError('The masscut must be a number.')
         
+        self.readcat = self.readcat(xyzplot=False)
+        self.subhalo_MST = self.subhalo_MST(xyzplot=False, mode='std')
+        
     def __repr__(self):
         assert hasattr(self, 'object'), 'No TNG object has been read in. Please add one using the readcat() method.'
         boxsize = round(((u.kpc*self.object['header']['BoxSize']*self.sf/self.hub).to('Mpc')).value)
@@ -141,7 +144,7 @@ class cat():
         # Initialise MiSTree MST and plot statistics
         mst = mist.GetMST(x=x.to(uni).value, y=y.to(uni).value, z=z.to(uni).value)
         mst.construct_mst()
-        d, l, b, s, l_index, b_index = mst.get_stats(include_index=True)
+        d, l, b, s, self.l_index, b_index = mst.get_stats(include_index=True)
         
         # begins by binning the data and storing this in a dictionary.
         hmst = mist.HistMST()
@@ -171,8 +174,8 @@ class cat():
             ax.grid(False)
             ax.scatter(x.to('Mpc'), y.to('Mpc'), z.to('Mpc'), marker='.', color='purple',s = 1, alpha=0.1)
             
-            for i in range(len(l_index[0])):
-                ax.plot([x[l_index[0][i]].to('Mpc').value, x[l_index[1][i]].to('Mpc').value], [y[l_index[0][i]].to('Mpc').value, y[l_index[1][i]].to('Mpc').value], zs = [z[l_index[0][i]].to('Mpc').value, z[l_index[1][i]].to('Mpc').value], color='orange', alpha=0.5)
+            for i in range(len(self.l_index[0])):
+                ax.plot([x[self.l_index[0][i]].to('Mpc').value, x[self.l_index[1][i]].to('Mpc').value], [y[self.l_index[0][i]].to('Mpc').value, y[self.l_index[1][i]].to('Mpc').value], zs = [z[self.l_index[0][i]].to('Mpc').value, z[self.l_index[1][i]].to('Mpc').value], color='orange', alpha=0.5)
             
             subhalopatch = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='purple', markersize=5)
             MSTpatch = Line2D([0], [0], marker='o', color='orange', label='Scatter',markerfacecolor='k', markersize=0.1)
@@ -186,8 +189,8 @@ class cat():
 
     def cweb(self, xyzplot=True):
         '''Plots the cosmic web classications of the subhalos in the given object.'''
-        cwebfile = np.load('/global/homes/d/dkololgi/TNG/Illustris/TNG300_snap_099_nexus_env_merged.npz')
-        self.cwebdata = cwebfile['cweb']
+        self.cwebfile = np.load('/global/homes/d/dkololgi/TNG/Illustris/TNG300_snap_099_nexus_env_merged.npz')
+        self.cwebdata = self.cwebfile['cweb']
         ngrid = self.cwebdata.shape[0]
         self.boxsize = u.kpc*self.object['header']['BoxSize']*self.sf/self.hub
         self.dx = self.boxsize/ngrid
@@ -235,7 +238,24 @@ class cat():
             subhalopatchb = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='blue', markersize=10)
             subhalopatchy = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='yellow', markersize=10)
             ax.legend([subhalopatchr, subhalopatchg, subhalopatchb, subhalopatchy], [f'{reds} Void', f'{greens} Wall', f'{blues} Filamentary', f'{yellows} Cluster'], loc='upper left')
-            plt.show()            
+            plt.show()
+               
+        # Classify the edges of the MST according to MiSTree
+        self.MST_x_edges = np.array([(x[self.l_index[0]]/self.dx).astype(int), (x[self.l_index[1]]/self.dx).astype(int)])
+        self.MST_y_edges = np.array([(y[self.l_index[0]]/self.dx).astype(int), (y[self.l_index[1]]/self.dx).astype(int)])
+        self.MST_z_edges = np.array([(z[self.l_index[0]]/self.dx).astype(int), (z[self.l_index[1]]/self.dx).astype(int)])
+
+        classifications = self.cwebdata[self.MST_x_edges, self.MST_y_edges, self.MST_z_edges] # Classifications of the MST edges
+        start = classifications[0]
+        end = classifications[1]
+        cross_boundary = np.where(start != end)[0] # Edges that cross a cosmic web classification boundary
+
+        # Need to find how much of an edge is in one boundary or another using pythagoras
+
+        # Plot the edge statistics
+        
+
+
 
 if __name__ == '__main__':
     # test=readsnap(r'/global/homes/d/dkololgi/TNG300-1', 99, xyzplot=False)
@@ -243,6 +263,6 @@ if __name__ == '__main__':
     # subhalo_MST(test, xyzplot=True)
 
     testcat = cat(path=r'/global/homes/d/dkololgi/TNG300-1', snapno=99, masscut=1e10)
-    testcat.readcat(xyzplot=False)
-    # testcat.subhalo_MST(xyzplot=True, mode='std', masscut=5e10)
+    # testcat.readcat(xyzplot=False)
+    # testcat.subhalo_MST(xyzplot=True, mode='std')
     cweb = testcat.cweb()
