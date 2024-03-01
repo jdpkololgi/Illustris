@@ -251,8 +251,29 @@ class cat():
         self.notcross_boundary = np.where(start == end)[0] # Edges that do not cross a cosmic web classification boundary
         self.cross_boundary = np.where(start != end)[0] # Edges that do cross a cosmic web classification boundary
 
-        # Need to find how much of an edge is in one boundary or another using pythagoras
+        # Need to find how much of an edge is in one boundary or another
+        # Find the midpoint of cross_boundary edge
+        midpoints = np.array([(x[self.l_index[0][self.cross_boundary]]+x[self.l_index[1][self.cross_boundary]])/2, (y[self.l_index[0][self.cross_boundary]]+y[self.l_index[1][self.cross_boundary]])/2, (z[self.l_index[0][self.cross_boundary]]+z[self.l_index[1][self.cross_boundary]])/2])
+        # Classification of midpoints
+        mid_classifications = self.cwebdata[(midpoints[0]/self.dx).astype(int), (midpoints[1]/self.dx).astype(int), (midpoints[2]/self.dx).astype(int)]
+        # Classification of midpoints same as start or end?
+        # Then find length from midpoint to start or end depending on classification
+        start_mask = start == mid_classifications
+        end_mask = end == mid_classifications
 
+        l_m_start = []
+        l_m_end = []
+
+        # Find the length from midpoint to start or end depending on classification
+        for i in range(len(start)):
+            if start_mask[i]:
+                l_m_start.append(np.sqrt((midpoints[0][i]-x[self.l_index[0][self.cross_boundary][i]])**2+(midpoints[1][i]-y[self.l_index[0][self.cross_boundary][i]])**2+(midpoints[2][i]-z[self.l_index[0][self.cross_boundary][i]])**2))
+            elif end_mask[i]:
+                l_m_end.append(np.sqrt((midpoints[0][i]-x[self.l_index[1][self.cross_boundary][i]])**2+(midpoints[1][i]-y[self.l_index[1][self.cross_boundary][i]])**2+(midpoints[2][i]-z[self.l_index[1][self.cross_boundary][i]])**2))
+
+        # Replace the edge length with the length from midpoint to start or end depending on classification
+        start[self.cross_boundary] = np.where(np.array(l_m_start) > self.l[self.cross_boundary]/2, start[self.cross_boundary], end[self.cross_boundary])
+        
         # Plot the edge statistics
         #edges = np.delete(self.l, self.cross_boundary)
         void_edges = self.l[list(set(np.where(start == 0)[0]))]
