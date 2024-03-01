@@ -144,19 +144,19 @@ class cat():
         # Initialise MiSTree MST and plot statistics
         mst = mist.GetMST(x=x.to(uni).value, y=y.to(uni).value, z=z.to(uni).value)
         mst.construct_mst()
-        d, l, b, s, self.l_index, b_index = mst.get_stats(include_index=True)
+        self.d, self.l, self.b, self.s, self.l_index, self.b_index = mst.get_stats(include_index=True)
         
         # begins by binning the data and storing this in a dictionary.
         hmst = mist.HistMST()
         hmst.setup(uselog=True)#num_l_bins=25, num_b_bins=20, num_s_bins=15)
-        mst_dict = hmst.get_hist(d, l, b, s)
+        mst_dict = hmst.get_hist(self.d, self.l, self.b, self.s)
 
         # plotting which takes as input the dictionary created before.
         pmst = mist.PlotHistMST()
         pmst.read_mst(mst_dict)
         pmst.plot(usebox=True)
 
-        print(f'Mean Subhalo Separation: {np.round(np.mean(l), 2)} Mpc')
+        print(f'Mean Subhalo Separation: {np.round(np.mean(self.l), 2)} Mpc')
 
         if mode=='std':
             print(f'Number Density of Subhalos: {np.round(len(x)/(300**3), 5)} Mpc^-3')
@@ -213,10 +213,10 @@ class cat():
         # Get the cweb classifications of the subhalos
         self.cweb = self.cwebdata[self.xpix, self.ypix, self.zpix]
         colors = np.empty(len(self.cweb), dtype=str)
-        reds = np.count_nonzero(self.cweb == 0)
-        greens = np.count_nonzero(self.cweb == 1)
-        blues = np.count_nonzero(self.cweb == 2)
-        yellows = np.count_nonzero(self.cweb == 3)
+        reds = np.count_nonzero(self.cweb == 0) # Voids
+        greens = np.count_nonzero(self.cweb == 1) # Walls
+        blues = np.count_nonzero(self.cweb == 2) # Filaments
+        yellows = np.count_nonzero(self.cweb == 3) # Clusters
 
         colors[self.cweb == 0] = 'r'
         colors[self.cweb == 1] = 'g'
@@ -248,11 +248,29 @@ class cat():
         classifications = self.cwebdata[self.MST_x_edges, self.MST_y_edges, self.MST_z_edges] # Classifications of the MST edges
         start = classifications[0]
         end = classifications[1]
-        cross_boundary = np.where(start != end)[0] # Edges that cross a cosmic web classification boundary
+        self.notcross_boundary = np.where(start == end)[0] # Edges that do not cross a cosmic web classification boundary
+        self.cross_boundary = np.where(start != end)[0] # Edges that do cross a cosmic web classification boundary
 
         # Need to find how much of an edge is in one boundary or another using pythagoras
 
         # Plot the edge statistics
+        #edges = np.delete(self.l, self.cross_boundary)
+        void_edges = self.l[list(set(np.where(start == 0)[0]))]
+        wall_edges = self.l[list(set(np.where(start == 1)[0]))]
+        filament_edges = self.l[list(set(np.where(start == 2)[0]))]
+        cluster_edges = self.l[list(set(np.where(start == 3)[0]))]
+
+        fig = plt.figure(figsize=(16,8))
+        ax = plt.subplot()
+        ax.hist(void_edges, bins=50, alpha=0.5, density = True, label=f'Void ({len(void_edges)})')
+        ax.hist(wall_edges, bins=100, alpha=0.5, density = True, label=f'Wall ({len(wall_edges)})')
+        ax.hist(filament_edges, bins=50, alpha=0.5, density = True, label=f'Filament ({len(filament_edges)})')
+        ax.hist(cluster_edges, bins=50, alpha=0.5, density = True, label=f'Cluster ({len(cluster_edges)})')
+        ax.legend()
+        ax.set_xlabel(r'Edge length distributions [$Mpc$]')
+        ax.set_ylabel('Frequency')
+        ax.set_title('Edge Lengths of MST')
+        plt.show()
         
 
 
