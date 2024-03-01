@@ -262,10 +262,10 @@ class cat():
 
         fig = plt.figure(figsize=(16,8))
         ax = plt.subplot()
-        ax.hist(void_edges, bins=50, alpha=0.5, density = True, label=f'Void ({len(void_edges)})')
+        # ax.hist(void_edges, bins=50, alpha=0.5, density = True, label=f'Void ({len(void_edges)})')
         ax.hist(wall_edges, bins=100, alpha=0.5, density = True, label=f'Wall ({len(wall_edges)})')
-        ax.hist(filament_edges, bins=50, alpha=0.5, density = True, label=f'Filament ({len(filament_edges)})')
-        ax.hist(cluster_edges, bins=50, alpha=0.5, density = True, label=f'Cluster ({len(cluster_edges)})')
+        ax.hist(filament_edges, bins=100, alpha=0.5, density = True, label=f'Filament ({len(filament_edges)})')
+        ax.hist(cluster_edges, bins=100, alpha=0.5, density = True, label=f'Cluster ({len(cluster_edges)})')
         ax.legend()
         ax.set_xlabel(r'Edge length distributions [$Mpc$]')
         ax.set_ylabel('Frequency')
