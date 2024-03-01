@@ -266,9 +266,9 @@ class cat():
 
         # Find the length from midpoint to start or end depending on classification
         for i in range(len(start)):
-            if start_mask[i]:
+            if (start_mask[i] == True):
                 l_m_start.append(np.sqrt((midpoints[0][i]-x[self.l_index[0][self.cross_boundary][i]])**2+(midpoints[1][i]-y[self.l_index[0][self.cross_boundary][i]])**2+(midpoints[2][i]-z[self.l_index[0][self.cross_boundary][i]])**2))
-            elif end_mask[i]:
+            elif (end_mask[i] == True):
                 l_m_end.append(np.sqrt((midpoints[0][i]-x[self.l_index[1][self.cross_boundary][i]])**2+(midpoints[1][i]-y[self.l_index[1][self.cross_boundary][i]])**2+(midpoints[2][i]-z[self.l_index[1][self.cross_boundary][i]])**2))
 
         # Replace the edge length with the length from midpoint to start or end depending on classification
