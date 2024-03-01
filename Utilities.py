@@ -267,9 +267,9 @@ class cat():
         ax.hist(filament_edges, bins=100, alpha=0.5, density = True, label=f'Filament ({len(filament_edges)})')
         ax.hist(cluster_edges, bins=100, alpha=0.5, density = True, label=f'Cluster ({len(cluster_edges)})')
         ax.legend()
-        ax.set_xlabel(r'Edge length distributions [$Mpc$]')
+        ax.set_xlabel(r'Edge length [$Mpc$]')
         ax.set_ylabel('Frequency')
-        ax.set_title('Edge Lengths of MST')
+        ax.set_title('MST Edge Length Distributions')
         plt.show()
         
 
