@@ -246,44 +246,34 @@ class cat():
         self.MST_z_edges = np.array([(z[self.l_index[0]]/self.dx).astype(int), (z[self.l_index[1]]/self.dx).astype(int)])
 
         classifications = self.cwebdata[self.MST_x_edges, self.MST_y_edges, self.MST_z_edges] # Classifications of the MST edges
-        start = classifications[0]
-        end = classifications[1]
-        self.notcross_boundary = np.where(start == end)[0] # Edges that do not cross a cosmic web classification boundary
-        self.cross_boundary = np.where(start != end)[0] # Edges that do cross a cosmic web classification boundary
+        self.start = classifications[0]
+        self.end = classifications[1]
+        self.notcross_boundary = np.where(self.start == self.end)[0] # Edges that do not cross a cosmic web classification boundary
+        self.cross_boundary = np.where(self.start != self.end)[0] # Edges that do cross a cosmic web classification boundary
 
         # Need to find how much of an edge is in one boundary or another
         # Find the midpoint of cross_boundary edge
-        midpoints = np.array([(x[self.l_index[0][self.cross_boundary]]+x[self.l_index[1][self.cross_boundary]])/2, (y[self.l_index[0][self.cross_boundary]]+y[self.l_index[1][self.cross_boundary]])/2, (z[self.l_index[0][self.cross_boundary]]+z[self.l_index[1][self.cross_boundary]])/2])
+        self.midpoints = np.array([(x[self.l_index[0][self.cross_boundary]]+x[self.l_index[1][self.cross_boundary]])/2, (y[self.l_index[0][self.cross_boundary]]+y[self.l_index[1][self.cross_boundary]])/2, (z[self.l_index[0][self.cross_boundary]]+z[self.l_index[1][self.cross_boundary]])/2])
         # Classification of midpoints
-        mid_classifications = self.cwebdata[(midpoints[0]/self.dx).astype(int), (midpoints[1]/self.dx).astype(int), (midpoints[2]/self.dx).astype(int)]
+        self.mid_classifications = self.cwebdata[(self.midpoints[0]/self.dx).astype(int), (self.midpoints[1]/self.dx).astype(int), (self.midpoints[2]/self.dx).astype(int)]
         # Classification of midpoints same as start or end?
-        # Then find length from midpoint to start or end depending on classification
-        start_mask = start == mid_classifications
-        end_mask = end == mid_classifications
+        # If the classification of the midpoints is the same as the start then the edge must have the same
+        # CWEB classification as the start, and vice versa
+        mask = self.mid_classifications == self.start[self.cross_boundary]
 
-        l_m_start = []
-        l_m_end = []
+        self.classifications = classifications[0]
+        self.classifications[self.cross_boundary] = classifications[0][self.cross_boundary]*mask + classifications[1][self.cross_boundary]*(~mask) # Correcting the classificaitons of the boudnary crossing edges. ~ is the bitwise NOT operator
 
-        # Find the length from midpoint to start or end depending on classification
-        for i in range(len(start)):
-            if (start_mask[i] == True):
-                l_m_start.append(np.sqrt((midpoints[0][i]-x[self.l_index[0][self.cross_boundary][i]])**2+(midpoints[1][i]-y[self.l_index[0][self.cross_boundary][i]])**2+(midpoints[2][i]-z[self.l_index[0][self.cross_boundary][i]])**2))
-            elif (end_mask[i] == True):
-                l_m_end.append(np.sqrt((midpoints[0][i]-x[self.l_index[1][self.cross_boundary][i]])**2+(midpoints[1][i]-y[self.l_index[1][self.cross_boundary][i]])**2+(midpoints[2][i]-z[self.l_index[1][self.cross_boundary][i]])**2))
-
-        # Replace the edge length with the length from midpoint to start or end depending on classification
-        start[self.cross_boundary] = np.where(np.array(l_m_start) > self.l[self.cross_boundary]/2, start[self.cross_boundary], end[self.cross_boundary])
-        
-        # Plot the edge statistics
+        # Plot the MST edges with their cosmic web classifications
         #edges = np.delete(self.l, self.cross_boundary)
-        void_edges = self.l[list(set(np.where(start == 0)[0]))]
-        wall_edges = self.l[list(set(np.where(start == 1)[0]))]
-        filament_edges = self.l[list(set(np.where(start == 2)[0]))]
-        cluster_edges = self.l[list(set(np.where(start == 3)[0]))]
+        void_edges = self.l[list(set(np.where(self.start == 0)[0]))]
+        wall_edges = self.l[list(set(np.where(self.start == 1)[0]))]
+        filament_edges = self.l[list(set(np.where(self.start == 2)[0]))]
+        cluster_edges = self.l[list(set(np.where(self.start == 3)[0]))]
 
         fig = plt.figure(figsize=(16,8))
         ax = plt.subplot()
-        # ax.hist(void_edges, bins=50, alpha=0.5, density = True, label=f'Void ({len(void_edges)})')
+        ax.hist(void_edges, bins=50, alpha=0.5, density = True, label=f'Void ({len(void_edges)})')
         ax.hist(wall_edges, bins=100, alpha=0.5, density = True, label=f'Wall ({len(wall_edges)})')
         ax.hist(filament_edges, bins=100, alpha=0.5, density = True, label=f'Filament ({len(filament_edges)})')
         ax.hist(cluster_edges, bins=100, alpha=0.5, density = True, label=f'Cluster ({len(cluster_edges)})')
