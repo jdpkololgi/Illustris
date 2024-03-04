@@ -254,8 +254,10 @@ class cat():
         # Need to find how much of an edge is in one boundary or another
         # Find the midpoint of cross_boundary edge
         self.midpoints = np.array([(x[self.l_index[0][self.cross_boundary]]+x[self.l_index[1][self.cross_boundary]])/2, (y[self.l_index[0][self.cross_boundary]]+y[self.l_index[1][self.cross_boundary]])/2, (z[self.l_index[0][self.cross_boundary]]+z[self.l_index[1][self.cross_boundary]])/2])
+        
         # Classification of midpoints
         self.mid_classifications = self.cwebdata[(self.midpoints[0]/self.dx).astype(int), (self.midpoints[1]/self.dx).astype(int), (self.midpoints[2]/self.dx).astype(int)]
+        
         # Classification of midpoints same as start or end?
         # If the classification of the midpoints is the same as the start then the edge must have the same
         # CWEB classification as the start, and vice versa
@@ -273,7 +275,7 @@ class cat():
 
         fig = plt.figure(figsize=(16,8))
         ax = plt.subplot()
-        ax.hist(void_edges, bins=50, alpha=0.5, density = True, label=f'Void ({len(void_edges)})')
+        # ax.hist(void_edges, bins=50, alpha=0.5, density = True, label=f'Void ({len(void_edges)})')
         ax.hist(wall_edges, bins=100, alpha=0.5, density = True, label=f'Wall ({len(wall_edges)})')
         ax.hist(filament_edges, bins=100, alpha=0.5, density = True, label=f'Filament ({len(filament_edges)})')
         ax.hist(cluster_edges, bins=100, alpha=0.5, density = True, label=f'Cluster ({len(cluster_edges)})')
