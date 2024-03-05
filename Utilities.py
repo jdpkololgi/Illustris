@@ -187,6 +187,74 @@ class cat():
             ax.legend([subhalopatch, MSTpatch], [f'{len(x)} Subhalos', 'Subalo MST'], loc='upper left')
             plt.show()
 
+    def edge_classification(self, x, y, z):
+        '''Classifies the edges of the MST of the subhalos in the given object.'''
+        # Classify the edges of the MST according to MiSTree
+        self.MST_x_edges = np.array([(x[self.l_index[0]]/self.dx).astype(int), (x[self.l_index[1]]/self.dx).astype(int)])
+        self.MST_y_edges = np.array([(y[self.l_index[0]]/self.dx).astype(int), (y[self.l_index[1]]/self.dx).astype(int)])
+        self.MST_z_edges = np.array([(z[self.l_index[0]]/self.dx).astype(int), (z[self.l_index[1]]/self.dx).astype(int)])
+
+        classifications = self.cwebdata[self.MST_x_edges, self.MST_y_edges, self.MST_z_edges] # Classifications of the MST edges
+        self.start = classifications[0]
+        self.end = classifications[1]
+        self.notcross_boundary = np.where(self.start == self.end)[0] # Edges that do not cross a cosmic web classification boundary
+        self.cross_boundary = np.where(self.start != self.end)[0] # Edges that do cross a cosmic web classification boundary
+
+        # Need to find how much of an edge is in one boundary or another
+        # Find the midpoint of cross_boundary edge
+        self.midpoints = np.array([(x[self.l_index[0][self.cross_boundary]]+x[self.l_index[1][self.cross_boundary]])/2, (y[self.l_index[0][self.cross_boundary]]+y[self.l_index[1][self.cross_boundary]])/2, (z[self.l_index[0][self.cross_boundary]]+z[self.l_index[1][self.cross_boundary]])/2])
+        
+        # Classification of midpoints
+        self.mid_classifications = self.cwebdata[(self.midpoints[0]/self.dx).astype(int), (self.midpoints[1]/self.dx).astype(int), (self.midpoints[2]/self.dx).astype(int)]
+        
+        # Classification of midpoints same as start or end?
+        # If the classification of the midpoints is the same as the start then the edge must have the same
+        # CWEB classification as the start, and vice versa
+        mask = self.mid_classifications == self.start[self.cross_boundary]
+
+        self.classifications = classifications[0]
+        self.classifications[self.cross_boundary] = classifications[0][self.cross_boundary]*mask + classifications[1][self.cross_boundary]*(~mask) # Correcting the classificaitons of the boudnary crossing edges. ~ is the bitwise NOT operator
+
+        # Plot the MST edges with their cosmic web classifications
+        #edges = np.delete(self.l, self.cross_boundary)
+        void_edges = self.l[list(set(np.where(self.start == 0)[0]))]
+        wall_edges = self.l[list(set(np.where(self.start == 1)[0]))]
+        filament_edges = self.l[list(set(np.where(self.start == 2)[0]))]
+        cluster_edges = self.l[list(set(np.where(self.start == 3)[0]))]
+
+        fig = plt.figure(figsize=(16,8))
+        ax = plt.subplot()
+        # ax.hist(void_edges, bins=50, alpha=0.5, density = True, label=f'Void ({len(void_edges)})')
+        ax.hist(wall_edges, bins=100, alpha=0.5, density = True, label=f'Wall ({len(wall_edges)})')
+        ax.hist(filament_edges, bins=100, alpha=0.5, density = True, label=f'Filament ({len(filament_edges)})')
+        ax.hist(cluster_edges, bins=100, alpha=0.5, density = True, label=f'Cluster ({len(cluster_edges)})')
+        ax.legend()
+        ax.set_xlabel(r'Edge length [$Mpc$]')
+        ax.set_ylabel('Frequency')
+        ax.set_title('MST Edge Length Distributions')
+        plt.show()
+
+    def degree_classification(self):
+        '''Classifies the degree of the subhalos in the given object.'''
+        # Classify the degree of the subhalos according to MiSTree
+        void_d = self.d[np.where(self.classifications == 0)[0]]
+        wall_d = self.d[np.where(self.classifications == 1)[0]]
+        filament_d = self.d[np.where(self.classifications == 2)[0]]
+        cluster_d = self.d[np.where(self.classifications == 3)[0]]
+
+        # Plot the degree distributions
+        fig = plt.figure(figsize=(16,8))
+        ax = plt.subplot()
+        ax.hist(void_d, alpha=0.5, density = True, label=f'Void ({len(void_d)})')
+        ax.hist(wall_d, alpha=0.5, density = True, label=f'Wall ({len(wall_d)})')
+        ax.hist(filament_d, alpha=0.5, density = True, label=f'Filament ({len(filament_d)})')
+        ax.hist(cluster_d, alpha=0.5, density = True, label=f'Cluster ({len(cluster_d)})')
+        ax.legend()
+        ax.set_xlabel(r'Degree')
+        ax.set_ylabel('Frequency')
+        ax.set_title('Degree Distributions')
+        plt.show()
+        
     def cweb(self, xyzplot=True):
         '''Plots the cosmic web classications of the subhalos in the given object.'''
         self.cwebfile = np.load('/global/homes/d/dkololgi/TNG/Illustris/TNG300_snap_099_nexus_env_merged.npz')
@@ -239,52 +307,9 @@ class cat():
             subhalopatchy = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='yellow', markersize=10)
             ax.legend([subhalopatchr, subhalopatchg, subhalopatchb, subhalopatchy], [f'{reds} Void', f'{greens} Wall', f'{blues} Filamentary', f'{yellows} Cluster'], loc='upper left')
             plt.show()
-               
-        # Classify the edges of the MST according to MiSTree
-        self.MST_x_edges = np.array([(x[self.l_index[0]]/self.dx).astype(int), (x[self.l_index[1]]/self.dx).astype(int)])
-        self.MST_y_edges = np.array([(y[self.l_index[0]]/self.dx).astype(int), (y[self.l_index[1]]/self.dx).astype(int)])
-        self.MST_z_edges = np.array([(z[self.l_index[0]]/self.dx).astype(int), (z[self.l_index[1]]/self.dx).astype(int)])
-
-        classifications = self.cwebdata[self.MST_x_edges, self.MST_y_edges, self.MST_z_edges] # Classifications of the MST edges
-        self.start = classifications[0]
-        self.end = classifications[1]
-        self.notcross_boundary = np.where(self.start == self.end)[0] # Edges that do not cross a cosmic web classification boundary
-        self.cross_boundary = np.where(self.start != self.end)[0] # Edges that do cross a cosmic web classification boundary
-
-        # Need to find how much of an edge is in one boundary or another
-        # Find the midpoint of cross_boundary edge
-        self.midpoints = np.array([(x[self.l_index[0][self.cross_boundary]]+x[self.l_index[1][self.cross_boundary]])/2, (y[self.l_index[0][self.cross_boundary]]+y[self.l_index[1][self.cross_boundary]])/2, (z[self.l_index[0][self.cross_boundary]]+z[self.l_index[1][self.cross_boundary]])/2])
         
-        # Classification of midpoints
-        self.mid_classifications = self.cwebdata[(self.midpoints[0]/self.dx).astype(int), (self.midpoints[1]/self.dx).astype(int), (self.midpoints[2]/self.dx).astype(int)]
-        
-        # Classification of midpoints same as start or end?
-        # If the classification of the midpoints is the same as the start then the edge must have the same
-        # CWEB classification as the start, and vice versa
-        mask = self.mid_classifications == self.start[self.cross_boundary]
-
-        self.classifications = classifications[0]
-        self.classifications[self.cross_boundary] = classifications[0][self.cross_boundary]*mask + classifications[1][self.cross_boundary]*(~mask) # Correcting the classificaitons of the boudnary crossing edges. ~ is the bitwise NOT operator
-
-        # Plot the MST edges with their cosmic web classifications
-        #edges = np.delete(self.l, self.cross_boundary)
-        void_edges = self.l[list(set(np.where(self.start == 0)[0]))]
-        wall_edges = self.l[list(set(np.where(self.start == 1)[0]))]
-        filament_edges = self.l[list(set(np.where(self.start == 2)[0]))]
-        cluster_edges = self.l[list(set(np.where(self.start == 3)[0]))]
-
-        fig = plt.figure(figsize=(16,8))
-        ax = plt.subplot()
-        # ax.hist(void_edges, bins=50, alpha=0.5, density = True, label=f'Void ({len(void_edges)})')
-        ax.hist(wall_edges, bins=100, alpha=0.5, density = True, label=f'Wall ({len(wall_edges)})')
-        ax.hist(filament_edges, bins=100, alpha=0.5, density = True, label=f'Filament ({len(filament_edges)})')
-        ax.hist(cluster_edges, bins=100, alpha=0.5, density = True, label=f'Cluster ({len(cluster_edges)})')
-        ax.legend()
-        ax.set_xlabel(r'Edge length [$Mpc$]')
-        ax.set_ylabel('Frequency')
-        ax.set_title('MST Edge Length Distributions')
-        plt.show()
-        
+        self.edge_classification(x=x, y=y, z=z)
+        self.degree_classification()
 
 
 
