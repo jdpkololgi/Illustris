@@ -254,6 +254,11 @@ class cat():
         ax.set_ylabel('Frequency')
         ax.set_title('Degree Distributions')
         plt.show()
+
+    def branch_classification(self):
+        '''Classifies the branch length of the subhalos in the given object.'''
+        # Classify the branch length of the subhalos according to MiSTree
+        
         
     def cweb(self, xyzplot=True):
         '''Plots the cosmic web classications of the subhalos in the given object.'''
@@ -310,6 +315,7 @@ class cat():
         
         self.edge_classification(x=x, y=y, z=z)
         self.degree_classification()
+        self.branch_classification()
 
 
 
