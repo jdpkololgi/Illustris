@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 import astropy.units as u
 import astropy.constants as c
+import pandas as pd
 import scienceplots
 plt.style.use(['science','dark_background','no-latex'])
 
@@ -256,10 +257,29 @@ class cat():
         plt.show()
 
     def branch_classification(self):
-        '''Classifies the branch length of the subhalos in the given object.'''
+        '''Classifies the branch length of the subhalos in the given object.
+        
+        This method classifies the branch length of the subhalos based on the given object's MST (Minimum Spanning Tree).
+        It prints the number of branches in the MST and assigns a classification value to each subhalo based on the
+        classifications dictionary.
+        '''
+        print(f"There are {len(self.b)} branches in the MST.")
         # Classify the branch length of the subhalos according to MiSTree
-        
-        
+        # for i in range(len(self.b_index)):
+        #     for j in range(len(self.b_index[i])):
+        #         if self.classifications[self.b_index[i][j]] == 0:
+        #             self.b_index[i][j] = 0
+        #         elif self.classifications[self.b_index[i][j]] == 1:
+        #             self.b_index[i][j] = 1
+        #         elif self.classifications[self.b_index[i][j]] == 2:
+        #             self.b_index[i][j] = 2
+        #         elif self.classifications[self.b_index[i][j]] == 3:
+        #             self.b_index[i][j] = 3
+
+        branch_classification = np.array([self.classifications[np.where(self.b_index[i])[0]] for i in range(len(self.b_index))])
+        edge_lengths = np.array([self.l[np.where(self.b_index[i])[0]] for i in range(len(self.b_index))])
+
+
     def cweb(self, xyzplot=True):
         '''Plots the cosmic web classications of the subhalos in the given object.'''
         self.cwebfile = np.load('/global/homes/d/dkololgi/TNG/Illustris/TNG300_snap_099_nexus_env_merged.npz')
@@ -315,7 +335,7 @@ class cat():
         
         self.edge_classification(x=x, y=y, z=z)
         self.degree_classification()
-        self.branch_classification()
+        # self.branch_classification()
 
 
 
