@@ -246,10 +246,11 @@ class cat():
         # Plot the degree distributions
         fig = plt.figure(figsize=(16,8))
         ax = plt.subplot()
-        ax.hist(void_d, alpha=0.5, density = True, label=f'Void ({len(void_d)})')
-        ax.hist(wall_d, alpha=0.5, density = True, label=f'Wall ({len(wall_d)})')
-        ax.hist(filament_d, alpha=0.5, density = True, label=f'Filament ({len(filament_d)})')
-        ax.hist(cluster_d, alpha=0.5, density = True, label=f'Cluster ({len(cluster_d)})')
+        ax.hist(void_d, alpha=0.5, density = False, label=f'Void ({len(void_d)})')
+        ax.hist(wall_d, alpha=0.5, density = False, label=f'Wall ({len(wall_d)})')
+        ax.hist(filament_d, alpha=0.5, density = False, label=f'Filament ({len(filament_d)})')
+        ax.hist(cluster_d, alpha=0.5, density = False, label=f'Cluster ({len(cluster_d)})')
+        ax.set_yscale('log')
         ax.legend()
         ax.set_xlabel(r'Degree')
         ax.set_ylabel('Frequency')
@@ -276,8 +277,8 @@ class cat():
         #         elif self.classifications[self.b_index[i][j]] == 3:
         #             self.b_index[i][j] = 3
 
-        branch_classification = np.array([self.classifications[np.where(self.b_index[i])[0]] for i in range(len(self.b_index))])
-        edge_lengths = np.array([self.l[np.where(self.b_index[i])[0]] for i in range(len(self.b_index))])
+        self.branch_classification = np.array([self.classifications[np.where(self.b_index[i])[0]] for i in range(len(self.b_index))])
+        self.edge_lengths = np.array([self.l[np.where(self.b_index[i])[0]] for i in range(len(self.b_index))])
 
 
     def cweb(self, xyzplot=True):
