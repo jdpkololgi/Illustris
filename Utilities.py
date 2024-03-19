@@ -277,8 +277,31 @@ class cat():
         #         elif self.classifications[self.b_index[i][j]] == 3:
         #             self.b_index[i][j] = 3
 
-        self.branch_classification = np.array([self.classifications[np.where(self.b_index[i])[0]] for i in range(len(self.b_index))])
-        self.edge_lengths = np.array([self.l[np.where(self.b_index[i])[0]] for i in range(len(self.b_index))])
+        # Do a weighted average of the branch lengths based on the classifications of the constituent edges
+
+        self.branch_edge_classification = [self.classifications[self.b_index[i]] for i in range(len(self.b_index))]
+        self.branch_edge_lengths = [self.l[self.b_index[i]] for i in range(len(self.b_index))]
+        self.branch_edge_length_ratios = [self.branch_edge_lengths[i]/np.sum(self.branch_edge_lengths[i]) for i in range(len(self.branch_edge_lengths))]
+        self.summy = np.array(self.branch_edge_length_ratios,dtype=object)*np.array(self.branch_edge_classification,dtype=object)
+        self.branch_classification = np.array([np.round(np.sum(self.summy[i])) for i in range(len(self.summy))],dtype=int)
+        
+        # Plot the branch length distributions
+        void_b = self.b[np.where(self.branch_classification == 0)[0]]
+        wall_b = self.b[np.where(self.branch_classification == 1)[0]]
+        filament_b = self.b[np.where(self.branch_classification == 2)[0]]
+        cluster_b = self.b[np.where(self.branch_classification == 3)[0]]
+        fig = plt.figure(figsize=(16,8))
+        ax = plt.subplot()
+        ax.hist(void_b, alpha=0.5, bins=100, density = False, label=f'Void ({len(void_b)})')
+        ax.hist(wall_b, alpha=0.5, bins=100, density = False, label=f'Wall ({len(wall_b)})')
+        ax.hist(filament_b, alpha=0.5, bins=100, density = False, label=f'Filament ({len(filament_b)})')
+        ax.hist(cluster_b, alpha=0.5, bins=100, density = False, label=f'Cluster ({len(cluster_b)})')
+        ax.set_yscale('log')
+        ax.legend()
+        ax.set_xlabel(r'Branch Length')
+        ax.set_ylabel('Frequency')
+        ax.set_title('Branch Length Distributions [$Mpc$]')
+        plt.show()
 
 
     def cweb(self, xyzplot=True):
@@ -336,7 +359,7 @@ class cat():
         
         self.edge_classification(x=x, y=y, z=z)
         self.degree_classification()
-        # self.branch_classification()
+        self.branch_classification()
 
 
 
