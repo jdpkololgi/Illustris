@@ -330,10 +330,10 @@ class cat():
         # Get the cweb classifications of the subhalos
         self.cweb = self.cwebdata[self.xpix, self.ypix, self.zpix]
         colors = np.empty(len(self.cweb), dtype=str)
-        reds = np.count_nonzero(self.cweb == 0) # Voids
-        greens = np.count_nonzero(self.cweb == 1) # Walls
-        blues = np.count_nonzero(self.cweb == 2) # Filaments
-        yellows = np.count_nonzero(self.cweb == 3) # Clusters
+        self.reds = np.count_nonzero(self.cweb == 0) # Voids
+        self.greens = np.count_nonzero(self.cweb == 1) # Walls
+        self.blues = np.count_nonzero(self.cweb == 2) # Filaments
+        self.yellows = np.count_nonzero(self.cweb == 3) # Clusters
 
         colors[self.cweb == 0] = 'r'
         colors[self.cweb == 1] = 'g'
@@ -354,12 +354,44 @@ class cat():
             subhalopatchg = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='green', markersize=10)
             subhalopatchb = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='blue', markersize=10)
             subhalopatchy = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='yellow', markersize=10)
-            ax.legend([subhalopatchr, subhalopatchg, subhalopatchb, subhalopatchy], [f'{reds} Void', f'{greens} Wall', f'{blues} Filamentary', f'{yellows} Cluster'], loc='upper left')
+            ax.legend([subhalopatchr, subhalopatchg, subhalopatchb, subhalopatchy], [f'Void ({self.reds})', f'Wall ({self.greens})', f'Filamentary ({self.blues})', f'Cluster ({self.yellows})'], loc='upper left')
             plt.show()
         
         self.edge_classification(x=x, y=y, z=z)
         self.degree_classification()
         self.branch_classification()
+
+    def cross_plots(self, x = 'branch length', y = 'edge length'):
+        if x == 'branch length' and y == 'edge length':
+            '''
+            Plot of branch length vs edge length, coloured by classification
+            '''
+            fig = plt.figure(figsize=(16,8))
+            ax = plt.subplot()
+            for i in range(len(self.branch_classification)):
+                if self.branch_classification[i] == 0:
+                    ax.scatter(np.repeat(self.b[i], len(self.branch_edge_lengths[i])), self.branch_edge_lengths[i], marker='.', color='r')
+                elif self.branch_classification[i] == 1:
+                    ax.scatter(np.repeat(self.b[i], len(self.branch_edge_lengths[i])), self.branch_edge_lengths[i], marker='.', color='g')
+                elif self.branch_classification[i] == 2:
+                    ax.scatter(np.repeat(self.b[i], len(self.branch_edge_lengths[i])), self.branch_edge_lengths[i], marker='.', color='b')
+                elif self.branch_classification[i] == 3:
+                    ax.scatter(np.repeat(self.b[i], len(self.branch_edge_lengths[i])), self.branch_edge_lengths[i], marker='.', color='y')
+            # Plot a x = y line for reference
+            ax.plot(np.linspace(0, 10, 100), np.linspace(0, 10, 100), '--', color='white')
+            ax.set_ylabel(r'Edge Length [$Mpc$]')
+            ax.set_xlabel(r'Branch Length [$Mpc$]')
+            subhalopatchr = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='red', markersize=20)
+            subhalopatchg = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='green', markersize=20)
+            subhalopatchb = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='blue', markersize=20)
+            subhalopatchy = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='yellow', markersize=20)
+            ax.legend([subhalopatchr, subhalopatchg, subhalopatchb, subhalopatchy], [f'Void ({self.reds})', f'Wall ({self.greens})', f'Filamentary ({self.blues})', f'Cluster ({self.yellows})'], loc='upper left')
+            plt.show()
+
+        # if x == 'degree' and y == 'edge length':
+        #     '''
+        #     Plot of degree vs edge length, coloured by classification
+        #     '''
 
 
 
@@ -369,29 +401,10 @@ if __name__ == '__main__':
     # subhalo_MST(test, xyzplot=True)
 
     testcat = cat(path=r'/global/homes/d/dkololgi/TNG300-1', snapno=99, masscut=1e10)
-    # testcat.readcat(xyzplot=False)
-    # testcat.subhalo_MST(xyzplot=True, mode='std')
+    # self.readcat(xyzplot=False)
+    # self.subhalo_MST(xyzplot=True, mode='std')
     cweb = testcat.cweb()
-
-    # Plot of branch length vs edge length, coloured by classification
-
+    testcat.cross_plots()
 
 
-    fig = plt.figure(figsize=(16,8))
-    ax = plt.subplot()
-    for i in range(len(testcat.branch_classification)):
-        if testcat.branch_classification[i] == 0:
-            plt.scatter(np.repeat(testcat.b[i], len(testcat.branch_edge_lengths[i])), testcat.branch_edge_lengths[i], marker='x', color='r')
-        elif testcat.branch_classification[i] == 1:
-            plt.scatter(np.repeat(testcat.b[i], len(testcat.branch_edge_lengths[i])), testcat.branch_edge_lengths[i], marker='x', color='g')
-        # elif testcat.branch_classification[i] == 2:
-        #     plt.scatter(np.repeat(testcat.b[i], len(testcat.branch_edge_lengths[i])), testcat.branch_edge_lengths[i], marker='x', color='b')
-        elif testcat.branch_classification[i] == 3:
-            plt.scatter(np.repeat(testcat.b[i], len(testcat.branch_edge_lengths[i])), testcat.branch_edge_lengths[i], marker='x', color='y')
-    ax.set_ylabel(r'Edge Length [$Mpc$]')
-    ax.set_xlabel(r'Branch Length [$Mpc$]')
-    subhalopatchr = Line2D([0], [0], marker='x', color='r', label='Scatter',markerfacecolor='red', markersize=10)
-    subhalopatchg = Line2D([0], [0], marker='x', color='g', label='Scatter',markerfacecolor='green', markersize=10)
-    subhalopatchb = Line2D([0], [0], marker='x', color='b', label='Scatter',markerfacecolor='blue', markersize=10)
-    subhalopatchy = Line2D([0], [0], marker='x', color='y', label='Scatter',markerfacecolor='yellow', markersize=10)
-    ax.legend([subhalopatchr, subhalopatchg, subhalopatchb, subhalopatchy], [f'Void', f'Wall', f'Filamentary', f'Cluster'], loc='upper left')
+
