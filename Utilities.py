@@ -372,3 +372,26 @@ if __name__ == '__main__':
     # testcat.readcat(xyzplot=False)
     # testcat.subhalo_MST(xyzplot=True, mode='std')
     cweb = testcat.cweb()
+
+    # Plot of branch length vs edge length, coloured by classification
+
+
+
+    fig = plt.figure(figsize=(16,8))
+    ax = plt.subplot()
+    for i in range(len(testcat.branch_classification)):
+        if testcat.branch_classification[i] == 0:
+            plt.scatter(np.repeat(testcat.b[i], len(testcat.branch_edge_lengths[i])), testcat.branch_edge_lengths[i], marker='x', color='r')
+        elif testcat.branch_classification[i] == 1:
+            plt.scatter(np.repeat(testcat.b[i], len(testcat.branch_edge_lengths[i])), testcat.branch_edge_lengths[i], marker='x', color='g')
+        # elif testcat.branch_classification[i] == 2:
+        #     plt.scatter(np.repeat(testcat.b[i], len(testcat.branch_edge_lengths[i])), testcat.branch_edge_lengths[i], marker='x', color='b')
+        elif testcat.branch_classification[i] == 3:
+            plt.scatter(np.repeat(testcat.b[i], len(testcat.branch_edge_lengths[i])), testcat.branch_edge_lengths[i], marker='x', color='y')
+    ax.set_ylabel(r'Edge Length [$Mpc$]')
+    ax.set_xlabel(r'Branch Length [$Mpc$]')
+    subhalopatchr = Line2D([0], [0], marker='x', color='r', label='Scatter',markerfacecolor='red', markersize=10)
+    subhalopatchg = Line2D([0], [0], marker='x', color='g', label='Scatter',markerfacecolor='green', markersize=10)
+    subhalopatchb = Line2D([0], [0], marker='x', color='b', label='Scatter',markerfacecolor='blue', markersize=10)
+    subhalopatchy = Line2D([0], [0], marker='x', color='y', label='Scatter',markerfacecolor='yellow', markersize=10)
+    ax.legend([subhalopatchr, subhalopatchg, subhalopatchb, subhalopatchy], [f'Void', f'Wall', f'Filamentary', f'Cluster'], loc='upper left')
