@@ -373,8 +373,8 @@ class cat():
                     ax.scatter(np.repeat(self.b[i], len(self.branch_edge_lengths[i])), self.branch_edge_lengths[i], marker='.', color='r')
                 elif self.branch_classification[i] == 1:
                     ax.scatter(np.repeat(self.b[i], len(self.branch_edge_lengths[i])), self.branch_edge_lengths[i], marker='.', color='g')
-                elif self.branch_classification[i] == 2:
-                    ax.scatter(np.repeat(self.b[i], len(self.branch_edge_lengths[i])), self.branch_edge_lengths[i], marker='.', color='b')
+                # elif self.branch_classification[i] == 2:
+                #     ax.scatter(np.repeat(self.b[i], len(self.branch_edge_lengths[i])), self.branch_edge_lengths[i], marker='.', color='b')
                 elif self.branch_classification[i] == 3:
                     ax.scatter(np.repeat(self.b[i], len(self.branch_edge_lengths[i])), self.branch_edge_lengths[i], marker='.', color='y')
             # Plot a x = y line for reference
@@ -385,7 +385,7 @@ class cat():
             subhalopatchg = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='green', markersize=20)
             subhalopatchb = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='blue', markersize=20)
             subhalopatchy = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='yellow', markersize=20)
-            ax.legend([subhalopatchr, subhalopatchg, subhalopatchb, subhalopatchy], [f'Void ({self.reds})', f'Wall ({self.greens})', f'Filamentary ({self.blues})', f'Cluster ({self.yellows})'], loc='upper left')
+            ax.legend([subhalopatchr, subhalopatchg, subhalopatchb, subhalopatchy], [f'Void ({np.count_nonzero(self.cweb == 0)})', f'Wall ({np.count_nonzero(self.cweb == 1)})', f'Filamentary ({np.count_nonzero(self.cweb == 2)})', f'Cluster ({np.count_nonzero(self.cweb == 3)})'], loc='upper left')
             plt.show()
 
         # if x == 'degree' and y == 'edge length':
