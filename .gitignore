@@ -1206,4 +1206,8 @@ TNG300-1/groups_099/fof_subhalo_tab_099.599.hdf5
 TNG300-1/postprocessing/offsets/offsets_099.hdf5
 TNG300_snap_099_nexus_env_merged.npz
 TNG300_DM_snap_099_nexus_env_merged.npz
+<<<<<<< HEAD
 python/illustris_python/
+=======
+python/illustris_python
+>>>>>>> 418744f (Revert "chore: Update .gitignore to ignore python/illustris_python directory")
