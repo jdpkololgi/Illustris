@@ -306,7 +306,7 @@ class cat():
 
     def cweb(self, xyzplot=True):
         '''Plots the cosmic web classications of the subhalos in the given object.'''
-        self.cwebfile = np.load('/global/homes/d/dkololgi/TNG/Illustris/TNG300_snap_099_nexus_env_merged.npz')
+        self.cwebfile = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/TNG300_snap_099_nexus_env_merged.npz')
         self.cwebdata = self.cwebfile['cweb']
         ngrid = self.cwebdata.shape[0]
         self.boxsize = u.kpc*self.object['header']['BoxSize']*self.sf/self.hub
@@ -345,7 +345,7 @@ class cat():
             fig = plt.figure(figsize=(8,8))
             ax = fig.add_subplot(projection='3d')
             ax.grid(False)
-            ax.scatter(x.to('Mpc'), y.to('Mpc'), z.to('Mpc'), marker='.', color=colors, s = 1, alpha=0.5)
+            ax.scatter(x.to('Mpc'), y.to('Mpc'), z.to('Mpc'), marker='.', color=list(colors), s = 1, alpha=0.5)
             ax.set_xlabel(r'x [Mpc]')
             ax.set_ylabel(r'y [Mpc]')
             ax.set_zlabel(r'z [Mpc]')
@@ -400,7 +400,7 @@ if __name__ == '__main__':
     # halo_MST(test, xyzplot=True)
     # subhalo_MST(test, xyzplot=True)
 
-    testcat = cat(path=r'/global/homes/d/dkololgi/TNG300-1', snapno=99, masscut=1e10)
+    testcat = cat(path=r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1', snapno=99, masscut=1e10)
     # self.readcat(xyzplot=False)
     # self.subhalo_MST(xyzplot=True, mode='std')
     cweb = testcat.cweb()
