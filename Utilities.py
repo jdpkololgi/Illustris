@@ -317,7 +317,7 @@ class cat():
 
         # Create a grid of points
         stars = (self.object['subhalos']['SubhaloMassType'][:,4]) #stellar mass of subhalos
-        mc = self.masscut*self.hub/1e12 #mass cut for subhalos
+        mc = self.masscut*self.hub/1e10 #mass cut for subhalos
         stars_indices = np.where(stars>=mc)[0] #indices of subhalos with stellar mass greater than masscut
 
         # Get the spatial coordinates of the subhalos above the masscut
