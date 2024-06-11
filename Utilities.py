@@ -57,9 +57,9 @@ class cat():
         self.sf = self.object['header']['Time'] #time (scale factor) of snapshot
         self.hub = self.object['header']['HubbleParam'] #hubble parameter of simulation
 
-        self.X = u.kpc*self.object['halos']['GroupPos'][:,0][:lim]*self.sf/self.hub #spatial coordinates of halos
-        self.Y = u.kpc*self.object['halos']['GroupPos'][:,1][:lim]*self.sf/self.hub
-        self.Z = u.kpc*self.object['halos']['GroupPos'][:,2][:lim]*self.sf/self.hub
+        # self.X = u.kpc*self.object['halos']['GroupPos'][:,0][:lim]*self.sf/self.hub #spatial coordinates of halos
+        # self.Y = u.kpc*self.object['halos']['GroupPos'][:,1][:lim]*self.sf/self.hub
+        # self.Z = u.kpc*self.object['halos']['GroupPos'][:,2][:lim]*self.sf/self.hub
 
         self.x = u.kpc*self.object['subhalos']['SubhaloPos'][:,0]*self.sf/self.hub #spatial coordinates of subhalos
         self.y = u.kpc*self.object['subhalos']['SubhaloPos'][:,1]*self.sf/self.hub
@@ -84,7 +84,7 @@ class cat():
             for i in range(len(assign)):
                 ax.scatter(self.x[assign[i]].to('Mpc'), self.y[assign[i]].to('Mpc'), self.z[assign[i]].to('Mpc'), marker='.',s=5, color='r', label = 'Subhalos')
                 
-            # ax.scatter3D(x, y, z)#, c=sfr, cmap='viridis', s=4)
+            # ax.scatter3D(x, y, z)#, c=sfr,s cmap='viridis', s=4)
             # ax.scatter3D(X, Y, Z)
             # ax.ticklabel_format(axis='x', style='sci',scilimits=(0,0))
             # ax.ticklabel_format(axis='y', style='sci',scilimits=(0,0))
@@ -96,6 +96,8 @@ class cat():
             ax.set_zlabel(r'z [Mpc]')
             ax.legend([subhalopatch, halopatch], [f'{subhalono} Subhalos', f'{lim} Halos'], loc='upper left')
             plt.show()
+
+        self.subhalo_table = pd.DataFrame(data = {'x':self.x, 'y':self.y, 'z':self.z})
     
     def subhalo_MST(self, xyzplot=True, mode='std'):
         '''Plots the MST of the subhalos in the given object.'''
@@ -225,10 +227,11 @@ class cat():
 
         fig = plt.figure(figsize=(16,8))
         ax = plt.subplot()
-        # ax.hist(void_edges, bins=50, alpha=0.5, density = True, label=f'Void ({len(void_edges)})')
-        ax.hist(wall_edges, bins=100, alpha=0.5, density = True, label=f'Wall ({len(wall_edges)})')
-        ax.hist(filament_edges, bins=100, alpha=0.5, density = True, label=f'Filament ({len(filament_edges)})')
-        ax.hist(cluster_edges, bins=100, alpha=0.5, density = True, label=f'Cluster ({len(cluster_edges)})')
+        bins = None # 100
+        # ax.hist(void_edges, bins=bins, alpha=0.5, density = True, label=f'Void ({len(void_edges)})')
+        ax.hist(wall_edges, bins=bins, alpha=0.5, density = True, label=f'Wall ({len(wall_edges)})')
+        ax.hist(filament_edges, bins=bins, alpha=0.5, density = True, label=f'Filament ({len(filament_edges)})')
+        ax.hist(cluster_edges, bins=bins, alpha=0.5, density = True, label=f'Cluster ({len(cluster_edges)})')
         ax.legend()
         ax.set_xlabel(r'Edge length [$Mpc$]')
         ax.set_ylabel('Frequency')
@@ -314,14 +317,14 @@ class cat():
 
         # Create a grid of points
         stars = (self.object['subhalos']['SubhaloMassType'][:,4]) #stellar mass of subhalos
-        mc = self.masscut*self.hub/1e10 #mass cut for subhalos
+        mc = self.masscut*self.hub/1e12 #mass cut for subhalos
         stars_indices = np.where(stars>=mc)[0] #indices of subhalos with stellar mass greater than masscut
 
         # Get the spatial coordinates of the subhalos above the masscut
         x = self.x[stars_indices]
         y = self.y[stars_indices]
         z = self.z[stars_indices]        
-
+        print(len(x))
         # Convert to cweb coordinates
         self.xpix = (x/self.dx).astype(int)
         self.ypix = (y/self.dx).astype(int)
@@ -392,6 +395,12 @@ class cat():
         #     '''
         #     Plot of degree vs edge length, coloured by classification
         #     '''
+
+        
+    # def cw_sig(self):
+    #     self.sigs = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/new_TNG300_snap_099_nexus_sig_merged.npz')
+
+
 
 
 
