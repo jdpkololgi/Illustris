@@ -228,7 +228,7 @@ class cat():
         fig = plt.figure(figsize=(16,8))
         ax = plt.subplot()
         bins = None # 100
-        # ax.hist(void_edges, bins=bins, alpha=0.5, density = True, label=f'Void ({len(void_edges)})')
+        ax.hist(void_edges, bins=bins, alpha=0.5, density = True, label=f'Void ({len(void_edges)})')
         ax.hist(wall_edges, bins=bins, alpha=0.5, density = True, label=f'Wall ({len(wall_edges)})')
         ax.hist(filament_edges, bins=bins, alpha=0.5, density = True, label=f'Filament ({len(filament_edges)})')
         ax.hist(cluster_edges, bins=bins, alpha=0.5, density = True, label=f'Cluster ({len(cluster_edges)})')
@@ -309,7 +309,7 @@ class cat():
 
     def cweb(self, xyzplot=True):
         '''Plots the cosmic web classications of the subhalos in the given object.'''
-        self.cwebfile = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/TNG300_snap_099_nexus_env_merged.npz')
+        self.cwebfile = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/new_TNG300_snap_099_nexus_env_merged.npz')
         self.cwebdata = self.cwebfile['cweb']
         ngrid = self.cwebdata.shape[0]
         self.boxsize = u.kpc*self.object['header']['BoxSize']*self.sf/self.hub
@@ -413,7 +413,7 @@ if __name__ == '__main__':
     # self.readcat(xyzplot=False)
     # self.subhalo_MST(xyzplot=True, mode='std')
     cweb = testcat.cweb()
-    testcat.cross_plots()
+    # testcat.cross_plots()
 
 
 
