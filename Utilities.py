@@ -6,6 +6,7 @@ from matplotlib.lines import Line2D
 import astropy.units as u
 import astropy.constants as c
 import pandas as pd
+import seaborn as sns
 import scienceplots
 plt.style.use(['science','dark_background','no-latex'])
 
@@ -228,10 +229,14 @@ class cat():
         fig = plt.figure(figsize=(16,8))
         ax = plt.subplot()
         bins = None # 100
-        ax.hist(void_edges, bins=bins, alpha=0.5, density = True, label=f'Void ({len(void_edges)})')
-        ax.hist(wall_edges, bins=bins, alpha=0.5, density = True, label=f'Wall ({len(wall_edges)})')
-        ax.hist(filament_edges, bins=bins, alpha=0.5, density = True, label=f'Filament ({len(filament_edges)})')
-        ax.hist(cluster_edges, bins=bins, alpha=0.5, density = True, label=f'Cluster ({len(cluster_edges)})')
+        ax.hist(void_edges, bins=bins, alpha=0.25, density = True, color='r')
+        sns.kdeplot(data=void_edges, alpha=1, label=f'Void ({len(void_edges)})', color='r')
+        ax.hist(wall_edges, bins=bins, alpha=0.25, density = True, color='g')
+        sns.kdeplot(data=wall_edges, alpha=1, label=f'Wall ({len(wall_edges)})', color='g')
+        ax.hist(filament_edges, bins=bins, alpha=0.25, density = True, color='b')
+        sns.kdeplot(data=filament_edges, alpha=1, label=f'Filament ({len(filament_edges)})', color='b')
+        ax.hist(cluster_edges, bins=bins, alpha=0.25, density = True, color='y')
+        sns.kdeplot(data=cluster_edges, alpha=1, label=f'Cluster ({len(cluster_edges)})', color='y')
         ax.legend()
         ax.set_xlabel(r'Edge length [$Mpc$]')
         ax.set_ylabel('Frequency')
@@ -409,7 +414,7 @@ if __name__ == '__main__':
     # halo_MST(test, xyzplot=True)
     # subhalo_MST(test, xyzplot=True)
 
-    testcat = cat(path=r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1', snapno=99, masscut=1e10)
+    testcat = cat(path=r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1', snapno=99, masscut=1e9)
     # self.readcat(xyzplot=False)
     # self.subhalo_MST(xyzplot=True, mode='std')
     cweb = testcat.cweb()
