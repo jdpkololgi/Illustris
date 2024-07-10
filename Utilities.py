@@ -112,6 +112,8 @@ class cat():
         mc = self.masscut*self.hub/1e10 #mass cut for subhalos
         stars_indices = np.where(stars>=mc)[0] #indices of subhalos with stellar mass greater than masscut
 
+        print(f'There are {len(stars_indices)} subhalos with stellar mass greater than {mc}.')
+
         if mode=='std': #standard mode where we plot all subhalos with stellar mass greater than masscut
             x = self.x[stars_indices] #spatial coordinates of subhalos with stellar mass greater than masscut
             y = self.y[stars_indices]
@@ -432,12 +434,12 @@ class cat():
     def cweb_classify(self, xyzplot=True):
         '''Plots the cosmic web classications of the subhalos in the given object.'''
         self.cwebfile = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/TNG300_snap_099_tweb_env_merged.npz') #TNG300_snap_099_tweb_env_merged.npz
-        # self.significances = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/new_TNG300_snap_099_nexus_sig_merged.npz')        
+        self.significances = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/new_TNG300_snap_099_nexus_sig_merged.npz')        
         filetype = 'T-Web' # Nexus+
         self.cwebdata = self.cwebfile['cweb']
-        # self.Sc = self.significances['Sc']
-        # self.Sf = self.significances['Sf']
-        # self.Sw = self.significances['Sw']
+        self.Sc = self.significances['Sc']
+        self.Sf = self.significances['Sf']
+        self.Sw = self.significances['Sw']
         ngrid = self.cwebdata.shape[0]
         self.boxsize = u.kpc*self.object['header']['BoxSize']*self.sf/self.hub
         self.dx = self.boxsize/ngrid
