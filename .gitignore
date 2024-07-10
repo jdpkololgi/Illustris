@@ -1207,3 +1207,4 @@ TNG300-1/postprocessing/offsets/offsets_099.hdf5
 TNG300_snap_099_nexus_env_merged.npz
 TNG300_DM_snap_099_nexus_env_merged.npz
 python/illustris_python
+__pycache__/Utilities.cpython-311.pyc
