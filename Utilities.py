@@ -6,9 +6,10 @@ from matplotlib.lines import Line2D
 import astropy.units as u
 import astropy.constants as c
 import pandas as pd
+import networkx as nx
 import seaborn as sns
 import scienceplots
-plt.style.use(['science','dark_background','no-latex'])
+plt.style.use(['science','no-latex'])
 
 class cat():
     def __init__(self, path, snapno, masscut=1e8):
@@ -97,8 +98,6 @@ class cat():
             ax.set_zlabel(r'z [Mpc]')
             ax.legend([subhalopatch, halopatch], [f'{subhalono} Subhalos', f'{lim} Halos'], loc='upper left')
             plt.show()
-
-        self.subhalo_table = pd.DataFrame(data = {'x':self.x, 'y':self.y, 'z':self.z})
     
     def subhalo_MST(self, xyzplot=True, mode='std'):
         '''Plots the MST of the subhalos in the given object.'''
@@ -149,7 +148,9 @@ class cat():
         mst = mist.GetMST(x=x.to(uni).value, y=y.to(uni).value, z=z.to(uni).value)
         mst.construct_mst()
         self.d, self.l, self.b, self.s, self.l_index, self.b_index = mst.get_stats(include_index=True)
-        
+        self.tree = mst.tree
+        print(mst.tree)
+        print(type(mst.tree))
         # begins by binning the data and storing this in a dictionary.
         hmst = mist.HistMST()
         hmst.setup(uselog=True)#num_l_bins=25, num_b_bins=20, num_s_bins=15)
@@ -171,7 +172,7 @@ class cat():
         elif mode=='sampled_sphere':
             print(f'Number Density of Subhalos: {np.round(len(x)/(4/3*np.pi*r**3*sampling), 5)} Mpc^-3')
 
-        if xyzplot:
+        if xyzplot:   
             # Plot the MST nodes and edges
             fig = plt.figure(figsize=(8,8))
             ax = fig.add_subplot(projection='3d')
@@ -190,6 +191,15 @@ class cat():
             ax.set_zlabel(r'z [Mpc]')
             ax.legend([subhalopatch, MSTpatch], [f'{len(x)} Subhalos', 'Subalo MST'], loc='upper left')
             plt.show()
+
+        self.subhalo_table = pd.DataFrame(data = {'x':x, 'y':y, 'z':z})
+
+        self.edge_table = pd.DataFrame(data = {'l':self.l, 'l_start':self.l_index[0], 'l_end':self.l_index[1]})
+
+        self.adj = np.zeros(shape=(len(self.d), len(self.d)))
+
+        self.adj[self.edge_table['l_start'].array, self.edge_table['l_end'].array] = 1
+        self.adj[self.edge_table['l_end'].array, self.edge_table['l_start'].array] = 1
 
     def edge_classification(self, x, y, z):
         '''Classifies the edges of the MST of the subhalos in the given object.'''
@@ -237,10 +247,12 @@ class cat():
         sns.kdeplot(data=filament_edges, alpha=1, label=f'Filament ({len(filament_edges)})', color='b')
         ax.hist(cluster_edges, bins=bins, alpha=0.25, density = True, color='y')
         sns.kdeplot(data=cluster_edges, alpha=1, label=f'Cluster ({len(cluster_edges)})', color='y')
-        ax.legend()
-        ax.set_xlabel(r'Edge length [$Mpc$]')
-        ax.set_ylabel('Frequency')
-        ax.set_title('MST Edge Length Distributions')
+        ax.legend(prop={'size':20})
+        ax.set_xlabel(r'Edge length [$Mpc$]', **fontname)
+        ax.set_ylabel('Frequency', **fontname)
+        ax.set_title('MST Edge Length Distributions', **fontname)
+        ax.tick_params(axis='x', labelsize=20)
+        ax.tick_params(axis='y', labelsize=20)
         plt.show()
 
     def degree_classification(self):
@@ -401,6 +413,20 @@ class cat():
         #     Plot of degree vs edge length, coloured by classification
         #     '''
 
+    def networkx(self):
+        return nx.from_scipy_sparse_array(self.tree)
+
+    def visualise_netx(self):
+        G = self.networkx()
+        pos = nx.spring_layout(G)
+        nx.draw(G, pos, with_labels=True)
+        plt.show()
+    # def MST_degree(self):
+    #     degree_dist = np.sum(self.adj, axis=0)
+    #     return degree_dist
+    
+    # def MST_
+
         
     # def cw_sig(self):
     #     self.sigs = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/new_TNG300_snap_099_nexus_sig_merged.npz')
@@ -414,11 +440,8 @@ if __name__ == '__main__':
     # halo_MST(test, xyzplot=True)
     # subhalo_MST(test, xyzplot=True)
 
-    testcat = cat(path=r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1', snapno=99, masscut=1e9)
+    testcat = cat(path=r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1', snapno=99, masscut=1e10)
     # self.readcat(xyzplot=False)
     # self.subhalo_MST(xyzplot=True, mode='std')
     cweb = testcat.cweb()
     # testcat.cross_plots()
-
-
-
