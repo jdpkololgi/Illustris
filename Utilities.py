@@ -151,6 +151,7 @@ class cat():
         self.tree = mst.tree
         print(mst.tree)
         print(type(mst.tree))
+
         # begins by binning the data and storing this in a dictionary.
         hmst = mist.HistMST()
         hmst.setup(uselog=True)#num_l_bins=25, num_b_bins=20, num_s_bins=15)
@@ -341,7 +342,7 @@ class cat():
         x = self.x[stars_indices]
         y = self.y[stars_indices]
         z = self.z[stars_indices]        
-        print(len(x))
+
         # Convert to cweb coordinates
         self.xpix = (x/self.dx).astype(int)
         self.ypix = (y/self.dx).astype(int)
