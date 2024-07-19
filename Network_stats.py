@@ -31,11 +31,11 @@ class network(cat):
         self.average_degree = nx.average_neighbor_degree(netx)
         self.katz_centrality = nx.katz_centrality(netx, alpha = 0.02)
         self.degree_centrality = nx.degree_centrality(netx)
-        self.eigen_centrality = nx.eigenvector_centrality_numpy(netx)
+        self.eigenvector_centrality = nx.eigenvector_centrality_numpy(netx)
         # self.betweenness_centrality = nx.betweenness_centrality(netx)
         # self.closeness_centrality = nx.closeness_centrality(netx)
         # self.harmonic_centrality = nx.harmonic_centrality(netx)
-        self.clustering = nx.clustering(netx)
-        self.square_clustering = nx.square_clustering(netx)
+        self.clustering = nx.clustering(netx) # Seems to only produce zeros
+        self.square_clustering = nx.square_clustering(netx) # Seems to only produce zeros
         self.generalized_degree = nx.generalized_degree(netx)
         self.triangles = nx.triangles(netx)
