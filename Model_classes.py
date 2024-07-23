@@ -9,42 +9,11 @@ from torch import nn
 from collections import OrderedDict
 
 
-'''
-MLP Model Architecture:
-+----------------------------+
-|          Input             |   (10 features)
-+----------------------------+
-             |
-             v
-+----------------------------+
-|    Linear Layer (fc1)      |   (Input: 10, Output: 20)
-|      Weights: [10x20]      |
-+----------------------------+
-             |
-             v
-+----------------------------+
-|       ReLU Activation      |
-+----------------------------+
-             |
-             v
-+----------------------------+
-|    Linear Layer (fc2)      |   (Input: 20, Output: 4)
-|      Weights: [20x4]       |
-+----------------------------+
-             |
-             v
-+----------------------------+
-|      Softmax Activation    |
-|     (along dim=1)          |
-+----------------------------+
-             |
-             v
-+----------------------------+
-|         Output             |   (4 classes)
-+----------------------------+
-'''
+
 
 class MLP(nn.Module):
+    
+
     def __init__(self, n_features = 10, n_hidden = 20, n_output_classes = 4):
         super().__init__()
 
@@ -59,3 +28,44 @@ class MLP(nn.Module):
     def forward(self, x):
         # Forward propagate input through the layers
         return self.layer_stack(x)
+    
+    def __repr__(self, draw = False):
+        arc = 'MLP Model Architecture:\n' + self.layer_stack.__repr__()
+        ptpic = '''
+                +----------------------------+
+                |          Input             |   (10 features)
+                +----------------------------+
+                            |
+                            v
+                +----------------------------+
+                |    Linear Layer (fc1)      |   (Input: 10, Output: 20)
+                |      Weights: [10x20]      |
+                +----------------------------+
+                            |
+                            v
+                +----------------------------+
+                |       ReLU Activation      |
+                +----------------------------+
+                            |
+                            v
+                +----------------------------+
+                |    Linear Layer (fc2)      |   (Input: 20, Output: 4)
+                |      Weights: [20x4]       |
+                +----------------------------+
+                            |
+                            v
+                +----------------------------+
+                |      Softmax Activation    |
+                |     (along dim=1)          |
+                +----------------------------+
+                            |
+                            v
+                +----------------------------+
+                |         Output             |   (4 classes)
+                +----------------------------+
+        '''
+        
+        if draw:
+            return arc + ptpic
+        else:
+            return arc
