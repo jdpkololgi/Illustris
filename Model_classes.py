@@ -83,7 +83,7 @@ class MLP(nn.Module):
         self.layer_stack.train() # Set the model to training mode
         for epoch in range(epochs): # Loop over the epochs. One complete pass through the entire training dataset
             with tqdm(total=len(train_loader), desc=f'Epoch {epoch+1}/{epochs}', unit='batch') as pbar: # tqdm is a progress bar. It shows the progress of the training. Each bar update is a batch
-                for i, (features, labels) in enumerate(train_loader): # Loop iterates over batches of data from the train_loader. It provides batches of features and corresponding labels
+                for features, labels in train_loader: # Loop iterates over batches of data from the train_loader. It provides batches of features and corresponding labels
                     # Forward pass
                     outputs = self.layer_stack(features)
                     loss = criterion(outputs, labels) # Calculate the loss
@@ -100,4 +100,23 @@ class MLP(nn.Module):
     def test(self, test_loader):
         '''
         Testing loop for the model
+        '''
+        self.layer_stack.eval() # Set the model to evaluation mode, ensuring that dropout and batchnorm layers are not active
+        correct = 0 # Counter for the number of correct predictions
+        total = 0 # Counter for the total number of predictions 
+
+        with torch.no_grad(): # Turn off gradient tracking to speed up the computation and reduce memory usage
+            for features, labels in test_loader: # Loop iterates over batches of data from the test_loader. It provides batches of features and corresponding labels
+                outputs = self.layer_stack(features) # Forward pass
+                _, predicted = torch.max(outputs, 1) # Get the class with the highest probability and 1 is the dimension along which to find the maximum
+                total += labels.size(0) # Increment the total by the number of labels in the batch
+                correct += (predicted == labels).sum().item() # Increment the correct counter by the number of correct predictions in the batch
+
+        self.test_accuracy = 100 * correct / total # Calculate the accuracy as a percentage
+        print(f'Test Accuracy: {self.test_accuracy}%')
+
+
+    def validate(self, val_loader):
+        '''
+        Validation loop for the model
         '''
