@@ -30,6 +30,7 @@ class MLP(nn.Module):
         return self.layer_stack(x)
     
     def __repr__(self, draw = False):
+        '''This method is called when the repr() method is called on the object'''
         arc = 'MLP Model Architecture:\n' + self.layer_stack.__repr__()
         ptpic = '''
                 +----------------------------+
@@ -69,3 +70,7 @@ class MLP(nn.Module):
             return arc + ptpic
         else:
             return arc
+
+    def __str__(self):
+        '''This method is called when the print() method is called on the object'''
+        return self.__repr__()
