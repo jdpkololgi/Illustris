@@ -7,6 +7,7 @@ import os
 import torch
 from torch import nn
 from collections import OrderedDict
+from tqdm import tqdm
 
 
 
@@ -74,3 +75,24 @@ class MLP(nn.Module):
     def __str__(self):
         '''This method is called when the print() method is called on the object'''
         return self.__repr__()
+    
+    def train(self, criterion, optimiser, train_loader, epochs):
+        '''
+        Training loop for the model
+        '''
+        self.layer_stack.train() # Set the model to training mode
+        for epoch in range(epochs): # Loop over the epochs. One complete pass through the entire training dataset
+            with tqdm(total=len(train_loader), desc=f'Epoch {epoch+1}/{epochs}', unit='batch') as pbar: # tqdm is a progress bar. It shows the progress of the training. Each bar update is a batch
+                for i, (features, labels) in enumerate(train_loader): # Loop iterates over batches of data from the train_loader. It provides batches of features and corresponding labels
+                    # Forward pass
+                    outputs = self.layer_stack(features)
+                    loss = criterion(outputs, labels) # Calculate the loss
+
+                    # Backward pass and optimisation
+                    optimiser.zero_grad() # Clear the gradients
+                    loss.backward() # Compute the gradients
+                    optimiser.step() # Update the weights
+                    
+                    # Update the progress bar
+                    pbar.set_postfix({'Loss': loss.item()})
+                    pbar.update(1)
