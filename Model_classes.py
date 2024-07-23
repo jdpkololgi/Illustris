@@ -96,3 +96,8 @@ class MLP(nn.Module):
                     # Update the progress bar
                     pbar.set_postfix({'Loss': loss.item()})
                     pbar.update(1)
+
+    def test(self, test_loader):
+        '''
+        Testing loop for the model
+        '''
