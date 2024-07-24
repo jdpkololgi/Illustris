@@ -76,7 +76,7 @@ class MLP(nn.Module):
         '''This method is called when the print() method is called on the object'''
         return self.__repr__()
     
-    def train(self, criterion, optimiser, train_loader, epochs):
+    def train(self, criterion, optimiser, train_loader, val_loader, epochs):
         '''
         Training loop for the model
         '''
@@ -96,6 +96,8 @@ class MLP(nn.Module):
                     # Update the progress bar
                     pbar.set_postfix({'Loss': loss.item()})
                     pbar.update(1)
+
+            self.validate(val_loader) # Validate the model after each epoch
 
     def test(self, test_loader):
         '''
