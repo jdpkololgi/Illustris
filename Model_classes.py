@@ -120,3 +120,22 @@ class MLP(nn.Module):
         '''
         Validation loop for the model
         '''
+        self.layer_stack.eval() # Set the model to evaluation mode, ensuring that dropout and batchnorm layers are not active
+        correct = 0 # Counter for the number of correct predictions
+        total = 0
+        validation_loss = 0.0
+        criterion = nn.CrossEntropyLoss()
+
+        with torch.no_grad(): # Turn off gradient tracking to speed up the computation and reduce memory usage
+            for features, labels in val_loader:
+                outputs = self.layer_stack(features) # Forward pass
+                loss = criterion(outputs, labels)
+                validation_loss += loss.item()
+                _, predicted = torch.max(outputs, 1)
+                total += labels.size(0)
+                correct += (predicted == labels).sum().item()
+
+        self.validation_accuracy = 100 * correct / total # Calculate the accuracy as a percentage
+        self.validation_loss = validation_loss / len(val_loader)
+        print(f'Validation Accuracy: {self.validation_accuracy}%')
+        print(f'Validation Loss: {self.validation_loss}')
