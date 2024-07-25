@@ -52,5 +52,5 @@ class Model():
 
 if __name__ == '__main__':
     model = Model(model_type='mlp')
-    model.run(epochs=10, learning_rate=0.01)
+    model.run(epochs=10, learning_rate=0.0001)
     model.test()
