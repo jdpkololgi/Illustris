@@ -30,18 +30,6 @@ class Model():
         '''
         return getattr(self._net, name)
     
-    def device_check(self):
-        '''
-        Function to check if a GPU is available
-        '''
-        if torch.cuda.is_available():
-            self.device = torch.device('cuda')
-
-        elif torch.backends.mps.is_available():
-            self.device = torch.device('mps')
-        else:
-            self.device = torch.device('cpu')
-    
     def model_selector(self, model_type):
         '''
         Function to select the model type
