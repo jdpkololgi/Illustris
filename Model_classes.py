@@ -10,13 +10,23 @@ from collections import OrderedDict
 from tqdm import tqdm
 
 
+def device_check():
+    '''
+    Function to check if a GPU is available
+    '''
+    if torch.cuda.is_available():
+        return torch.device('cuda')
 
+    elif torch.backends.mps.is_available():
+        return torch.device('mps')
+    else:
+        return torch.device('cpu')
 
 class MLP(nn.Module):
 
-    def __init__(self, n_features = 10, n_hidden = 20, n_output_classes = 4):
+    def __init__(self, n_features = 8, n_hidden = 20, n_output_classes = 4):
         super().__init__()
-
+        self.device = device_check() # Check if a GPU is available
         # Define the layers using nn.Sequential and OrderedDict for named layers
         self.layer_stack = nn.Sequential(OrderedDict([
             ('fc1', nn.Linear(n_features, n_hidden)),
@@ -24,8 +34,10 @@ class MLP(nn.Module):
             ('fc2', nn.Linear(n_hidden, n_output_classes)),
             ('softmax', nn.Softmax(dim = 1)) # dim=1 to apply softmax along the class dimension
         ]))
+        self.to(self.device) # Move the model to the device (GPU or CPU)
 
     def forward(self, x):
+        x = x.to(self.device) # Move the input to the device
         # Forward propagate input through the layers
         return self.layer_stack(x)
     
@@ -83,6 +95,7 @@ class MLP(nn.Module):
         for epoch in range(epochs): # Loop over the epochs. One complete pass through the entire training dataset
             with tqdm(total=len(train_loader), desc=f'Epoch {epoch+1}/{epochs}', unit='batch') as pbar: # tqdm is a progress bar. It shows the progress of the training. Each bar update is a batch
                 for features, labels in train_loader: # Loop iterates over batches of data from the train_loader. It provides batches of features and corresponding labels
+                    features, labels = features.to(self.device), labels.to(self.device) # Move the data to the device
                     # Forward pass
                     outputs = self.layer_stack(features)
                     loss = criterion(outputs, labels) # Calculate the loss
@@ -108,6 +121,8 @@ class MLP(nn.Module):
 
         with torch.no_grad(): # Turn off gradient tracking to speed up the computation and reduce memory usage
             for features, labels in test_loader: # Loop iterates over batches of data from the test_loader. It provides batches of features and corresponding labels
+                features, labels = features.to(self.device), labels.to(self.device) # Move the data to the device
+
                 outputs = self.layer_stack(features) # Forward pass
                 _, predicted = torch.max(outputs, 1) # Get the class with the highest probability and 1 is the dimension along which to find the maximum
                 total += labels.size(0) # Increment the total by the number of labels in the batch
@@ -129,6 +144,7 @@ class MLP(nn.Module):
 
         with torch.no_grad(): # Turn off gradient tracking to speed up the computation and reduce memory usage
             for features, labels in val_loader:
+                features, labels = features.to(self.device), labels.to(self.device) # Move the data to the device
                 outputs = self.layer_stack(features) # Forward pass
                 loss = criterion(outputs, labels)
                 validation_loss += loss.item()
