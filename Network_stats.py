@@ -51,6 +51,7 @@ class network(cat):
         '''
         # Load the data and target
         self.cweb(xyzplot=False)
+        self.network_stats()
         self.data = pd.DataFrame.from_dict({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Katz Centrality': list(self.katz_centrality.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Eigenvector Centrality': list(self.eigenvector_centrality.values()), 'x': self.posx, 'y': self.posy, 'z': self.posz, 'Target': self.cweb})
         self.data.index.name = 'Node ID'
 
