@@ -48,3 +48,8 @@ class Model():
         elif mode == 'test':
             # Begin testing
             self.model.test(test_loader=self.test_loader)
+
+if __name__ == '__main__':
+    model = Model(model_type='mlp')
+    model.run(epochs=100, learning_rate=0.001, mode='train')
+    model.run(epochs=100, learning_rate=0.001, mode='test')
