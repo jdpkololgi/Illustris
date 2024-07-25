@@ -45,11 +45,12 @@ class Model():
         if mode == 'train':    
             # Begin training
             self.model.train(criterion=criterion, optimiser=optimiser, train_loader=self.train_loader, val_loader=self.val_loader, epochs=epochs)
-        elif mode == 'test':
+    
+    def test(self):
             # Begin testing
             self.model.test(test_loader=self.test_loader)
 
 if __name__ == '__main__':
     model = Model(model_type='mlp')
-    model.run(epochs=10, learning_rate=0.001, mode='train')
-    model.run(epochs=10, learning_rate=0.001, mode='test')
+    model.run(epochs=10, learning_rate=0.01)
+    model.test()
