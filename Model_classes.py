@@ -13,7 +13,6 @@ from tqdm import tqdm
 
 
 class MLP(nn.Module):
-    
 
     def __init__(self, n_features = 10, n_hidden = 20, n_output_classes = 4):
         super().__init__()

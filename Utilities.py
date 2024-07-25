@@ -145,7 +145,10 @@ class cat():
             title_text = f'TNG300-1 z=0 Snapshot={self.snapno} Sampling={1/sampling} Radius={r}'
 
         # Initialise MiSTree MST and plot statistics
-        mst = mist.GetMST(x=x.to(uni).value, y=y.to(uni).value, z=z.to(uni).value)
+        self.posx = x.to(uni).value
+        self.posy = y.to(uni).value
+        self.posz = z.to(uni).value
+        mst = mist.GetMST(x=self.posx, y=self.posy, z=self.posz)
         mst.construct_mst()
         self.d, self.l, self.b, self.s, self.l_index, self.b_index = mst.get_stats(include_index=True)
         self.tree = mst.tree
@@ -378,9 +381,9 @@ class cat():
             ax.legend([subhalopatchr, subhalopatchg, subhalopatchb, subhalopatchy], [f'Void ({self.reds})', f'Wall ({self.greens})', f'Filamentary ({self.blues})', f'Cluster ({self.yellows})'], loc='upper left')
             plt.show()
         
-        self.edge_classification(x=x, y=y, z=z)
-        self.degree_classification()
-        self.branch_classification()
+        # self.edge_classification(x=x, y=y, z=z)
+        # self.degree_classification()
+        # self.branch_classification()
 
     def cross_plots(self, x = 'branch length', y = 'edge length'):
         if x == 'branch length' and y == 'edge length':
