@@ -91,8 +91,11 @@ class MLP(nn.Module):
         '''
         Training loop for the model
         '''
+        self.loss_list = [] # List to store the loss values
+        self.validation_loss_list = [] # List to store the validation loss values
         self.layer_stack.train() # Set the model to training mode
         for epoch in range(epochs): # Loop over the epochs. One complete pass through the entire training dataset
+            epoch_loss = 0.0
             with tqdm(total=len(train_loader), desc=f'Epoch {epoch+1}/{epochs}', unit='batch') as pbar: # tqdm is a progress bar. It shows the progress of the training. Each bar update is a batch
                 for features, labels in train_loader: # Loop iterates over batches of data from the train_loader. It provides batches of features and corresponding labels
                     features, labels = features.to(self.device), labels.to(self.device) # Move the data to the device
@@ -107,9 +110,13 @@ class MLP(nn.Module):
                     
                     # Update the progress bar
                     pbar.set_postfix({'Loss': loss.item()})
+                    epoch_loss += loss.item()
                     pbar.update(1)
 
+            # Calculate the average loss for the epoch
+            self.loss_list.append(epoch_loss / len(train_loader))
             self.validate(val_loader) # Validate the model after each epoch
+            self.validation_loss_list.append(self.validation_loss)
 
     def test(self, test_loader):
         '''

@@ -152,8 +152,8 @@ class cat():
         mst.construct_mst()
         self.d, self.l, self.b, self.s, self.l_index, self.b_index = mst.get_stats(include_index=True)
         self.tree = mst.tree
-        print(mst.tree)
-        print(type(mst.tree))
+        # print(mst.tree)
+        # print(type(mst.tree))
 
         # begins by binning the data and storing this in a dictionary.
         hmst = mist.HistMST()
@@ -161,9 +161,9 @@ class cat():
         mst_dict = hmst.get_hist(self.d, self.l, self.b, self.s)
 
         # plotting which takes as input the dictionary created before.
-        pmst = mist.PlotHistMST()
-        pmst.read_mst(mst_dict)
-        pmst.plot(usebox=True)
+        # pmst = mist.PlotHistMST()
+        # pmst.read_mst(mst_dict)
+        # pmst.plot(usebox=True)
 
         print(f'Mean Subhalo Separation: {np.round(np.mean(self.l), 2)} Mpc')
 

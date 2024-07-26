@@ -1208,3 +1208,4 @@ TNG300_snap_099_nexus_env_merged.npz
 TNG300_DM_snap_099_nexus_env_merged.npz
 python/illustris_python
 __pycache__/Utilities.cpython-311.pyc
+__pycache__/Model_classes.cpython-311.pyc

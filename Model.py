@@ -45,7 +45,15 @@ class Model():
         if mode == 'train':    
             # Begin training
             self.model.train(criterion=criterion, optimiser=optimiser, train_loader=self.train_loader, val_loader=self.val_loader, epochs=epochs)
-    
+            # Plot the loss
+            fig, ax = plt.subplots(figsize=(10, 5))
+            ax.plot(self.model.loss_list, 'x-', color='r', label='Training Loss')
+            ax.plot(self.model.validation_loss_list, 'x-', color='b', label='Validation Loss')
+            ax.set_xlabel('Epoch')
+            ax.set_ylabel('Loss')
+            ax.legend()
+            plt.show()
+
     def test(self):
             # Begin testing
             self.model.test(test_loader=self.test_loader)
