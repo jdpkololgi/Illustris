@@ -43,7 +43,7 @@ def device_check():
     else:
         return torch.device('cpu')
 
-def plot_confusion_matrix(cm, classes):
+def plot_confusion_matrix(cm):
     '''
     Plot confusion matrix
     '''
