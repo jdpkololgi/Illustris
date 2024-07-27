@@ -25,17 +25,16 @@ def device_check():
     else:
         return torch.device('cpu')
 
-def plot_confusion_matrix(cm, classes):
+def plot_confusion_matrix(cm):
     '''
     Plot confusion matrix
     '''
     fig, ax = plt.subplots(figsize=(10, 10))
-    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=classes, yticklabels=classes, ax=ax)
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', ax=ax)
     ax.set_xlabel('Predicted')
     ax.set_ylabel('Actual')
     ax.set_title('Confusion Matrix')
     return fig
-
 
 class MLP(nn.Module):
 
@@ -165,8 +164,11 @@ class MLP(nn.Module):
         print(f'Test Accuracy: {self.test_accuracy}%')
 
         # Compute the confusion matrix
+        # print(all_preds)
+        # print(all_labels)
         cm = confusion_matrix(all_labels, all_preds)
-        cm_fig = plot_confusion_matrix(cm, test_loader.dataset.classes)
+        print(cm)
+        cm_fig = plot_confusion_matrix(cm)
         writer.add_figure('Confusion Matrix/Test', cm_fig, global_step=None)
 
 
@@ -196,9 +198,10 @@ class MLP(nn.Module):
 
         self.validation_accuracy = 100 * correct / total # Calculate the accuracy as a percentage
         self.validation_loss = validation_loss / len(val_loader)
-        cm = confusion_matrix(all_labels, all_preds)
-        cm_fig = plot_confusion_matrix(cm, val_loader.dataset.classes)
-        writer.add_figure('Confusion Matrix/Validation', cm_fig, global_step=epoch) # The global step is the epoch number
+        # cm = confusion_matrix(all_labels, all_preds)
+
+        # cm_fig = plot_confusion_matrix(cm)
+        # writer.add_figure('Confusion Matrix/Validation', cm_fig) # The global step is the epoch number
         print(f'Validation Accuracy: {self.validation_accuracy}%')
         print(f'Validation Loss: {self.validation_loss}')
 

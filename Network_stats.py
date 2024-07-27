@@ -75,11 +75,15 @@ class network(cat):
         y_val = torch.tensor(y_val, dtype=torch.long)
         y_test = torch.tensor(y_test, dtype=torch.long)
 
+        # Define the classes
+        # classes = ['3.', '2.', '1.', '0.'] #torch.unique(y_train)
+
         # Create Dataset class
         class CustomDataset(Dataset): # Custom dataset class
             def __init__(self, features, targets):
                 self.features = features
                 self.targets = targets
+                # self.classes = classes
 
             def __len__(self): # Returns the number of samples in the dataset
                 return len(self.features)
