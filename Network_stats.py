@@ -80,23 +80,23 @@ class network(cat):
 
         # Create Dataset class
         class CustomDataset(Dataset): # Custom dataset class
-            def __init__(self, features, targets):
+            def __init__(self, features, targets, classes):
                 self.features = features
                 self.targets = targets
-                # self.classes = classes
+                self.classes = classes
 
             def __len__(self): # Returns the number of samples in the dataset
                 return len(self.features)
             
             def __getitem__(self, idx): # Returns the sample at the given index
                 return self.features[idx], self.targets[idx]
-            
-        train_dataset = CustomDataset(X_train, y_train) # Create the custom dataset
-        val_dataset = CustomDataset(X_val, y_val)
-        test_dataset = CustomDataset(X_test, y_test)
+        classes = ['Knot', 'Filament', 'Wall', 'Void']
+        train_dataset = CustomDataset(X_train, y_train, classes) # Create the custom dataset
+        val_dataset = CustomDataset(X_val, y_val, classes)
+        test_dataset = CustomDataset(X_test, y_test, classes)
 
         # Create DataLoader objects
         self.train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-        self.val_loader = DataLoader(val_dataset, batch_size=32)
-        self.test_loader = DataLoader(test_dataset, batch_size=32)
+        self.val_loader = DataLoader(val_dataset, batch_size=32, shuffle=True)
+        self.test_loader = DataLoader(test_dataset, batch_size=32, shuffle=True)
 

@@ -25,16 +25,17 @@ def device_check():
     else:
         return torch.device('cpu')
 
-def plot_confusion_matrix(cm):
+def plot_confusion_matrix(cm, classes):
     '''
     Plot confusion matrix
     '''
     fig, ax = plt.subplots(figsize=(10, 10))
-    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', ax=ax)
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', ax=ax, xticklabels=classes, yticklabels=classes)
     ax.set_xlabel('Predicted')
     ax.set_ylabel('Actual')
     ax.set_title('Confusion Matrix')
     return fig
+
 
 class MLP(nn.Module):
 
@@ -167,8 +168,8 @@ class MLP(nn.Module):
         # print(all_preds)
         # print(all_labels)
         cm = confusion_matrix(all_labels, all_preds)
-        print(cm)
-        cm_fig = plot_confusion_matrix(cm)
+        # print(cm)
+        cm_fig = plot_confusion_matrix(cm, classes=test_loader.dataset.classes) #classes=['3.', '2.', '1.', '0.'])
         writer.add_figure('Confusion Matrix/Test', cm_fig, global_step=None)
 
 
