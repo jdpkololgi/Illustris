@@ -166,7 +166,7 @@ class MLP(nn.Module):
 
         # Compute the confusion matrix
         cm = confusion_matrix(all_labels, all_preds)
-        cm_fig = self.plot_confusion_matrix(cm, test_loader.dataset.classes)
+        cm_fig = plot_confusion_matrix(cm, test_loader.dataset.classes)
         writer.add_figure('Confusion Matrix/Test', cm_fig, global_step=None)
 
 
@@ -197,7 +197,7 @@ class MLP(nn.Module):
         self.validation_accuracy = 100 * correct / total # Calculate the accuracy as a percentage
         self.validation_loss = validation_loss / len(val_loader)
         cm = confusion_matrix(all_labels, all_preds)
-        cm_fig = self.plot_confusion_matrix(cm, val_loader.dataset.classes)
+        cm_fig = plot_confusion_matrix(cm, val_loader.dataset.classes)
         writer.add_figure('Confusion Matrix/Validation', cm_fig, global_step=epoch) # The global step is the epoch number
         print(f'Validation Accuracy: {self.validation_accuracy}%')
         print(f'Validation Loss: {self.validation_loss}')
