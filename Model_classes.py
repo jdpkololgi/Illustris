@@ -2,10 +2,13 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import networkx as nx
+import seaborn as sns
 
 import os
 import torch
 from torch import nn
+from torch.utils.tensorboard import SummaryWriter
+from sklearn.metrics import confusion_matrix
 from collections import OrderedDict
 from tqdm import tqdm
 
@@ -21,6 +24,18 @@ def device_check():
         return torch.device('mps')
     else:
         return torch.device('cpu')
+
+def plot_confusion_matrix(cm, classes):
+    '''
+    Plot confusion matrix
+    '''
+    fig, ax = plt.subplots(figsize=(10, 10))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=classes, yticklabels=classes, ax=ax)
+    ax.set_xlabel('Predicted')
+    ax.set_ylabel('Actual')
+    ax.set_title('Confusion Matrix')
+    return fig
+
 
 class MLP(nn.Module):
 
@@ -91,6 +106,7 @@ class MLP(nn.Module):
         '''
         Training loop for the model
         '''
+        writer = SummaryWriter() # Create a SummaryWriter object to write the loss values to TensorBoard
         self.loss_list = [] # List to store the loss values
         self.validation_loss_list = [] # List to store the validation loss values
         self.layer_stack.train() # Set the model to training mode
@@ -114,17 +130,25 @@ class MLP(nn.Module):
                     pbar.update(1)
 
             # Calculate the average loss for the epoch
-            self.loss_list.append(epoch_loss / len(train_loader))
+            avg_epoch_loss = epoch_loss / len(train_loader)
+            self.loss_list.append(avg_epoch_loss)
+            writer.add_scalar('Loss/Train', avg_epoch_loss, epoch)
             self.validate(val_loader) # Validate the model after each epoch
             self.validation_loss_list.append(self.validation_loss)
+            writer.add_scalar('Loss/Validation', self.validation_loss, epoch)
+        writer.flush()    
+        writer.close()
 
     def test(self, test_loader):
         '''
         Testing loop for the model
         '''
+        writer = SummaryWriter() # Create a SummaryWriter object to write values to TensorBoard
         self.layer_stack.eval() # Set the model to evaluation mode, ensuring that dropout and batchnorm layers are not active
         correct = 0 # Counter for the number of correct predictions
         total = 0 # Counter for the total number of predictions 
+        all_preds = [] # List to store all the predictions for tensorboard
+        all_labels = [] # List to store all the labels for tensorboard
 
         with torch.no_grad(): # Turn off gradient tracking to speed up the computation and reduce memory usage
             for features, labels in test_loader: # Loop iterates over batches of data from the test_loader. It provides batches of features and corresponding labels
@@ -134,20 +158,30 @@ class MLP(nn.Module):
                 _, predicted = torch.max(outputs, 1) # Get the class with the highest probability and 1 is the dimension along which to find the maximum
                 total += labels.size(0) # Increment the total by the number of labels in the batch
                 correct += (predicted == labels).sum().item() # Increment the correct counter by the number of correct predictions in the batch
+                all_preds.extend(predicted.cpu().numpy())
+                all_labels.extend(labels.cpu().numpy())
 
         self.test_accuracy = 100 * correct / total # Calculate the accuracy as a percentage
         print(f'Test Accuracy: {self.test_accuracy}%')
+
+        # Compute the confusion matrix
+        cm = confusion_matrix(all_labels, all_preds)
+        cm_fig = self.plot_confusion_matrix(cm, test_loader.dataset.classes)
+        writer.add_figure('Confusion Matrix/Test', cm_fig, global_step=None)
 
 
     def validate(self, val_loader):
         '''
         Validation loop for the model
         '''
+        writer = SummaryWriter() # Create a SummaryWriter object to write values to TensorBoard
         self.layer_stack.eval() # Set the model to evaluation mode, ensuring that dropout and batchnorm layers are not active
         correct = 0 # Counter for the number of correct predictions
         total = 0
         validation_loss = 0.0
         criterion = nn.CrossEntropyLoss()
+        all_preds = []
+        all_labels = []
 
         with torch.no_grad(): # Turn off gradient tracking to speed up the computation and reduce memory usage
             for features, labels in val_loader:
@@ -159,7 +193,13 @@ class MLP(nn.Module):
                 total += labels.size(0)
                 correct += (predicted == labels).sum().item()
 
+
         self.validation_accuracy = 100 * correct / total # Calculate the accuracy as a percentage
         self.validation_loss = validation_loss / len(val_loader)
+        cm = confusion_matrix(all_labels, all_preds)
+        cm_fig = self.plot_confusion_matrix(cm, val_loader.dataset.classes)
+        writer.add_figure('Confusion Matrix/Validation', cm_fig, global_step=epoch) # The global step is the epoch number
         print(f'Validation Accuracy: {self.validation_accuracy}%')
         print(f'Validation Loss: {self.validation_loss}')
+
+    
