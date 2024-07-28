@@ -169,7 +169,7 @@ class MLP(nn.Module):
         # print(all_labels)
         cm = confusion_matrix(all_labels, all_preds)
         # print(cm)
-        cm_fig = plot_confusion_matrix(cm, classes=test_loader.dataset.classes) #classes=['3.', '2.', '1.', '0.'])
+        cm_fig = plot_confusion_matrix(cm, classes=['Cluster', 'Wall', 'Filament', 'Void'])#, classes=test_loader.dataset.classes) #
         writer.add_figure('Confusion Matrix/Test', cm_fig, global_step=None)
 
 

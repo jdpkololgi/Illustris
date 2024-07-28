@@ -90,7 +90,8 @@ class network(cat):
             
             def __getitem__(self, idx): # Returns the sample at the given index
                 return self.features[idx], self.targets[idx]
-        classes = ['Knot', 'Filament', 'Wall', 'Void']
+        classes = ['3.', '2.', '1.', '0.']
+        #['Knot', 'Filament', 'Wall', 'Void']
         train_dataset = CustomDataset(X_train, y_train, classes) # Create the custom dataset
         val_dataset = CustomDataset(X_val, y_val, classes)
         test_dataset = CustomDataset(X_test, y_test, classes)

@@ -330,7 +330,8 @@ class cat():
 
     def cweb(self, xyzplot=True):
         '''Plots the cosmic web classications of the subhalos in the given object.'''
-        self.cwebfile = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/new_TNG300_snap_099_nexus_env_merged.npz')
+        self.cwebfile = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/TNG300_snap_099_tweb_env_merged.npz')
+        filetype = 'T-Web' # Nexus+
         self.cwebdata = self.cwebfile['cweb']
         ngrid = self.cwebdata.shape[0]
         self.boxsize = u.kpc*self.object['header']['BoxSize']*self.sf/self.hub
@@ -373,7 +374,8 @@ class cat():
             ax.set_xlabel(r'x [Mpc]')
             ax.set_ylabel(r'y [Mpc]')
             ax.set_zlabel(r'z [Mpc]')
-            ax.set_title(f'TNG300-1 z=0 Snapshot={self.snapno} {len(x)} Subhalos Cosmic Web')
+            mc = np.log10(self.masscut)
+            ax.set_title(f'TNG300-1 z=0 {filetype} M/C: {mc} Subhalos {len(x)}')#Snapshot={self.snapno} {len(x)} Subhalos Cosmic Web')
             subhalopatchr = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='red', markersize=10)
             subhalopatchg = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='green', markersize=10)
             subhalopatchb = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='blue', markersize=10)
