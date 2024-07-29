@@ -1278,9 +1278,5 @@ runs/Jul27_22-55-37_Ghost-2.local/events.out.tfevents.1722117337.Ghost-2.local.5
 runs/Jul27_22-55-29_Ghost-2.local/events.out.tfevents.1722117329.Ghost-2.local.59074.2
 runs/Jul27_22-55-21_Ghost-2.local/events.out.tfevents.1722117321.Ghost-2.local.59074.1
 runs/Jul27_22-55-13_Ghost-2.local/events.out.tfevents.1722117313.Ghost-2.local.59074.0
-__pycache__/Network_stats.cpython-311.pyc
-__pycache__/Model_classes.cpython-311.pyc
-/runs/
-__pycache__/Network_stats.cpython-311.pyc
-__pycache__/Model_classes.cpython-311.pyc
+/runs/*
 /__pycache__/*
