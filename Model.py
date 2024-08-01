@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import networkx as nx
+import seaborn as sns
 
 import os
 import torch
@@ -9,6 +10,9 @@ from torch import nn
 
 from Network_stats import network
 import Model_classes
+from torch.utils.tensorboard import SummaryWriter
+from sklearn.metrics import confusion_matrix
+
 class Model():
     def __init__(self, model_type = 'mlp'):
         self._net = network()
@@ -58,7 +62,34 @@ class Model():
             # Begin testing
             self.model.test(test_loader=self.test_loader)
 
+    def cross_correlation(self):
+        '''
+        Function to calculate the cross-correlation of the features
+        '''
+        writer = SummaryWriter()
+        features = self.data.drop('Target', axis=1)
+        corr = features.corr()
+
+        # Pearson for cross-correlation of the features
+        fig, ax = plt.subplots(figsize=(10, 10))
+        sns.heatmap(corr, annot=True, cmap='Blues', ax=ax, xticklabels=corr.columns, yticklabels=corr.columns)
+        ax.set_title('Pearson Correlation Matrix')
+        plt.xticks(rotation=90)
+        plt.show()
+        writer.add_figure('Cross Correlation Matrix', fig)
+
+        # Spearman for correlation of the features with the target
+        corr_target = features.apply(lambda x: x.corr(self.data['Target'], method='spearman'))
+        fig, ax = plt.subplots(figsize=(10, 5))
+        corr_target.plot(kind='bar', ax=ax)
+        ax.set_title('Spearman Correlation')
+        ax.set_ylabel('Correlation')
+        plt.show()
+        writer.add_figure('Spearman Correlation', fig)
+
+
 if __name__ == '__main__':
     model = Model(model_type='mlp')
-    model.run(epochs=10, learning_rate=0.0001)
+    model.run(epochs=25, learning_rate=0.0003)
     model.test()
+    model.cross_correlation()

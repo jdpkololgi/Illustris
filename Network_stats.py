@@ -52,8 +52,16 @@ class network(cat):
         # Load the data and target
         self.cweb(xyzplot=False)
         self.network_stats()
-        self.data = pd.DataFrame.from_dict({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Katz Centrality': list(self.katz_centrality.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Eigenvector Centrality': list(self.eigenvector_centrality.values()), 'x': self.posx, 'y': self.posy, 'z': self.posz, 'Target': self.cweb})
+        # self.data = pd.DataFrame.from_dict({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Katz Centrality': list(self.katz_centrality.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Eigenvector Centrality': list(self.eigenvector_centrality.values()), 'x': self.posx, 'y': self.posy, 'z': self.posz, 'Target': self.cweb})
+        self.data = pd.DataFrame.from_dict({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Katz Centrality': list(self.katz_centrality.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Eigenvector Centrality': list(self.eigenvector_centrality.values()), 'Target': self.cweb})
+
         self.data.index.name = 'Node ID'
+
+        # Balancing the dataset by classes
+        class_counts = self.data['Target'].value_counts()
+        min_class = class_counts.idxmin()
+        min_class_count = class_counts.min()
+        self.data = self.data.groupby('Target').sample(min_class_count).sort_index() # Sample the minimum class count randomly from each class
 
         # Feature scaling
         features = self.data.iloc[:,:-1].values # All columns except the last one
@@ -64,7 +72,7 @@ class network(cat):
 
         # Train-test split
         X_train, X_test, y_train, y_test = train_test_split(features, targets, test_size=0.2, random_state=42)
-        X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.25, random_state=42)
+        X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, random_state=42)
         # 0.25 x 0.8 = 0.2
 
         # Convert to PyTorch tensors
@@ -100,4 +108,3 @@ class network(cat):
         self.train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
         self.val_loader = DataLoader(val_dataset, batch_size=32, shuffle=True)
         self.test_loader = DataLoader(test_dataset, batch_size=32, shuffle=True)
-
