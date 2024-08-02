@@ -44,6 +44,57 @@ class network(cat):
         # self.square_clustering = nx.square_clustering(netx) # Seems to only produce zeros
         # self.generalized_degree = nx.generalized_degree(netx)
         # self.triangles = nx.triangles(netx)
+        self.constraint = nx.constraint(netx)
+
+        # Incorporating edge lengths into the feature set
+        # Average length for each node
+        self.mean_elen = np.zeros(len(self.d))
+        for i in range(len(self.l)):
+            ind1, ind2 = self.l_index[0][i], self.l_index[1][i]
+            self.mean_elen[ind1] += self.l[i]
+            self.mean_elen[ind2] += self.l[i]
+
+        self.mean_elen /= self.d
+
+        # Incorporating node neighbour edge lengths into the feature set
+        # Average edge length for the neighbours of each node
+        self.mean_neigh_elen = np.zeros(len(self.d))
+        for i in range(len(self.d)):
+            neigh = list(netx.neighbors(i))
+            # neigh.append(i) # Include the node itself
+            elen_neigh = list(map(self.mean_elen.__getitem__, neigh))
+            self.mean_neigh_elen[i] = np.mean(elen_neigh)
+
+        # Incorporating node neighbour's neighbour edge lengths into the feature set
+        # Average edge length for the neighbour's neighbours of each node
+        self.mean_neigh_neigh_elen = np.zeros(len(self.d))
+        for i in range(len(self.d)):
+            neigh = list(netx.neighbors(i))
+            neigh_neigh = [list(netx.neighbors(j)) for j in neigh] # Neighbours of neighbours
+            neigh_neigh = [item for sublist in neigh_neigh for item in sublist] # Flatten the list
+            # Commenting next line out so we include the node and its neighbours in the calculation
+            neigh_neigh = list(set(neigh_neigh) - set(neigh)) # Remove the neighbours
+            elen_neigh_neigh = list(map(self.mean_elen.__getitem__, neigh_neigh)) # Get the edge lengths
+            self.mean_neigh_neigh_elen[i] = np.mean(elen_neigh_neigh)
+
+        # # Incorporating node neighbour's neighbour's neighbour edge lengths into the feature set
+        # # Average edge length for the neighbour's neighbour's neighbours of each node
+        # self.mean_neigh_neigh_neigh_elen = np.zeros(len(self.d))
+        # for i in range(len(self.d)):
+        #     neigh = list(netx.neighbors(i))
+        #     neigh_neigh = [list(netx.neighbors(j)) for j in neigh]
+        #     neigh_neigh = [item for sublist in neigh_neigh for item in sublist]
+        #     neigh_neigh = list(set(neigh_neigh) - set(neigh))
+        #     neigh_neigh_neigh = [list(netx.neighbors(j)) for j in neigh_neigh] # Neighbours of neighbours of neighbours
+        #     neigh_neigh_neigh = [item for sublist in neigh_neigh_neigh for item in sublist] # Flatten the list
+        #     neigh_neigh_neigh = list(set(neigh_neigh_neigh) - set(neigh_neigh)) # Remove the neighbours
+        #     elen_neigh_neigh_neigh = list(map(self.mean_elen.__getitem__, neigh_neigh_neigh)) # Get the edge lengths
+        #     self.mean_neigh_neigh_neigh_elen[i] = np.mean(elen_neigh_neigh_neigh)
+
+
+
+        
+
 
     def pipeline(self):
         '''
@@ -53,7 +104,7 @@ class network(cat):
         self.cweb(xyzplot=False)
         self.network_stats()
         # self.data = pd.DataFrame.from_dict({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Katz Centrality': list(self.katz_centrality.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Eigenvector Centrality': list(self.eigenvector_centrality.values()), 'x': self.posx, 'y': self.posy, 'z': self.posz, 'Target': self.cweb})
-        self.data = pd.DataFrame.from_dict({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Katz Centrality': list(self.katz_centrality.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Eigenvector Centrality': list(self.eigenvector_centrality.values()), 'Target': self.cweb})
+        self.data = pd.DataFrame.from_dict({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Katz Centrality': list(self.katz_centrality.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Eigenvector Centrality': list(self.eigenvector_centrality.values()), 'Mean Edge Length': self.mean_elen, 'Mean Neighbour Edge Length': self.mean_neigh_elen, 'Mean 2nd Degree Neighbour Edge Length': self.mean_neigh_neigh_elen, 'Target': self.cweb})
 
         self.data.index.name = 'Node ID'
 

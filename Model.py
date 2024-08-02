@@ -74,22 +74,26 @@ class Model():
         fig, ax = plt.subplots(figsize=(10, 10))
         sns.heatmap(corr, annot=True, cmap='Blues', ax=ax, xticklabels=corr.columns, yticklabels=corr.columns)
         ax.set_title('Pearson Correlation Matrix')
-        plt.xticks(rotation=90)
+        plt.xticks(rotation=45)
+        plt.yticks(rotation=0)
         plt.show()
         writer.add_figure('Cross Correlation Matrix', fig)
 
         # Spearman for correlation of the features with the target
-        corr_target = features.apply(lambda x: x.corr(self.data['Target'], method='spearman'))
+        corr_target = features.apply(lambda x: np.abs(x.corr(self.data['Target'], method='spearman')))
         fig, ax = plt.subplots(figsize=(10, 5))
         corr_target.plot(kind='bar', ax=ax)
         ax.set_title('Spearman Correlation')
         ax.set_ylabel('Correlation')
+        for p in ax.patches:
+            # Bar data to 2 decimal places
+            ax.annotate(str(p.get_height().round(2)), (p.get_x() * 1.005, p.get_height() * 1.005))
         plt.show()
         writer.add_figure('Spearman Correlation', fig)
 
 
 if __name__ == '__main__':
     model = Model(model_type='mlp')
-    model.run(epochs=25, learning_rate=0.0003)
+    model.run(epochs=25, learning_rate=0.00025)
     model.test()
     model.cross_correlation()
