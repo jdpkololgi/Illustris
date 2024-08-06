@@ -9,6 +9,9 @@ import pandas as pd
 import networkx as nx
 import seaborn as sns
 import scienceplots
+
+from sklearn.neighbors import radius_neighbors_graph
+
 plt.style.use(['science','no-latex'])
 
 class cat():
@@ -196,14 +199,22 @@ class cat():
             ax.legend([subhalopatch, MSTpatch], [f'{len(x)} Subhalos', 'Subalo MST'], loc='upper left')
             plt.show()
 
-        self.subhalo_table = pd.DataFrame(data = {'x':x, 'y':y, 'z':z})
+        self.subhalo_table = pd.DataFrame(data = {'x':x.to('Mpc'), 'y':y.to('Mpc'), 'z':z.to('Mpc')})
 
         self.edge_table = pd.DataFrame(data = {'l':self.l, 'l_start':self.l_index[0], 'l_end':self.l_index[1]})
 
-        self.adj = np.zeros(shape=(len(self.d), len(self.d)))
+        # self.adj = np.zeros(shape=(len(self.d), len(self.d)))
 
-        self.adj[self.edge_table['l_start'].array, self.edge_table['l_end'].array] = 1
-        self.adj[self.edge_table['l_end'].array, self.edge_table['l_start'].array] = 1
+        # self.adj[self.edge_table['l_start'].array, self.edge_table['l_end'].array] = 1
+        # self.adj[self.edge_table['l_end'].array, self.edge_table['l_start'].array] = 1
+    
+    def subhalo_complex_network(self, l=2):
+        '''Produces a network graph of subhalos where all subhalos are connected if their separation is less than the linking length.'''
+        # Find the subhalos that are connected
+        l = l/self.hub
+        self.adj = radius_neighbors_graph(self.subhalo_table[['x', 'y', 'z']], l, mode='distance', metric='minkowski', p=2, metric_params=None, include_self=False)
+        return nx.from_scipy_sparse_array(self.adj)
+
 
     def edge_classification(self, x, y, z):
         '''Classifies the edges of the MST of the subhalos in the given object.'''
@@ -420,6 +431,8 @@ class cat():
         #     '''
 
     def networkx(self):
+        
+        
         return nx.from_scipy_sparse_array(self.tree)
 
     def visualise_netx(self):

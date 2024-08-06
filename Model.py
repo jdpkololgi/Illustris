@@ -44,7 +44,7 @@ class Model():
         optimiser = torch.optim.Adam(self.model.parameters(), lr = learning_rate)
 
         # Load the data
-        self.pipeline()
+        self.pipeline(network_type='MST')
 
         if mode == 'train':    
             # Begin training
@@ -90,6 +90,20 @@ class Model():
             ax.annotate(str(p.get_height().round(2)), (p.get_x() * 1.005, p.get_height() * 1.005))
         plt.show()
         writer.add_figure('Spearman Correlation', fig)
+
+        # # Precision, Recall and F1 Score for each class
+        # stats = self.model.precision_recall_f1_score(test_loader=self.test_loader)
+        # fig, ax = plt.subplots(figsize=(10, 5))
+        # stats.plot(kind='bar', ax=ax)
+        # ax.set_title('Precision, Recall and F1 Score')
+        # ax.set_ylabel('Score')
+        # for p in ax.patches:
+        #     # Bar data to 2 decimal places
+        #     ax.annotate(str(p.get_height().round(2)), (p.get_x() * 1.005, p.get_height() * 1.005))
+        # plt.show()
+        # writer.add_figure('Precision, Recall and F1 Score', fig)
+
+
 
 
 if __name__ == '__main__':

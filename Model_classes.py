@@ -9,6 +9,7 @@ import torch
 from torch import nn
 from torch.utils.tensorboard import SummaryWriter
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import precision_recall_fscore_support
 from collections import OrderedDict
 from tqdm import tqdm
 
@@ -176,6 +177,21 @@ class MLP(nn.Module):
         cm_fig = plot_confusion_matrix(cm, classes=['Cluster', 'Wall', 'Filament', 'Void'])#, classes=test_loader.dataset.classes) #
         writer.add_figure('Confusion Matrix/Test', cm_fig, global_step=None)
 
+        # Precision, Recall, F1 Score
+        # For each class
+        stats = precision_recall_fscore_support(all_labels, all_preds)
+        stats_df = pd.DataFrame(list(stats), index=['Precision', 'Recall', 'F1 Score', 'Support'], columns=['Cluster', 'Wall', 'Filament', 'Void'])
+        fig, ax = plt.subplots(figsize=(10, 5))
+        print(stats_df.loc['Support'])
+        stats_df.drop('Support').T.plot(kind='bar', ax=ax)
+        ax.set_title('Precision, Recall and F1 Score')
+        ax.set_ylabel('Score')
+        ax.legend()
+        for p in ax.patches:
+            # Bar data to 2 decimal places
+            ax.annotate(str(p.get_height().round(2)), (p.get_x() * 1.005, p.get_height() * 1.005))
+        plt.show()
+        writer.add_figure('Precision, Recall and F1 Score', fig, global_step=None)
 
     def validate(self, val_loader):
         '''

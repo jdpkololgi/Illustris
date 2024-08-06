@@ -90,21 +90,41 @@ class network(cat):
         #     neigh_neigh_neigh = list(set(neigh_neigh_neigh) - set(neigh_neigh)) # Remove the neighbours
         #     elen_neigh_neigh_neigh = list(map(self.mean_elen.__getitem__, neigh_neigh_neigh)) # Get the edge lengths
         #     self.mean_neigh_neigh_neigh_elen[i] = np.mean(elen_neigh_neigh_neigh)
+        self.data = pd.DataFrame.from_dict({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Katz Centrality': list(self.katz_centrality.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Eigenvector Centrality': list(self.eigenvector_centrality.values()), 'Mean Edge Length': self.mean_elen, 'Mean Neighbour Edge Length': self.mean_neigh_elen, 'Mean 2nd Degree Neighbour Edge Length': self.mean_neigh_neigh_elen, 'Target': self.cweb})
+        self.data.index.name = 'Node ID'
 
-
-
+    def network_stats_complex(self):
+        '''
+        Function to calculate the network statistics, there are an arbitrary number of them
+        '''
+        netx = self.subhalo_complex_network()
+        assert isinstance(netx, nx.Graph), 'Networkx graph not created'
+        self.degree = netx.degree()
+        self.average_degree = nx.average_neighbor_degree(netx)
+        # self.katz_centrality = nx.katz_centrality(netx, alpha = 0.02)
+        self.degree_centrality = nx.degree_centrality(netx)
+        self.eigenvector_centrality = nx.eigenvector_centrality_numpy(netx)
+        # self.betweenness_centrality = nx.betweenness_centrality(netx)
+        # self.closeness_centrality = nx.closeness_centrality(netx)
+        # self.harmonic_centrality = nx.harmonic_centrality(netx)
+        self.clustering = nx.clustering(netx)
+        
+        self.data = pd.DataFrame.from_dict({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Eigenvector Centrality': list(self.eigenvector_centrality.values()), 'Clustering': list(self.clustering.values()), 'Target': self.cweb})
+        self.data.index.name = 'Node ID'
         
 
-
-    def pipeline(self):
+    def pipeline(self, network_type = 'MST'):
         '''
         Data preprocessing pipeline
         '''
         # Load the data and target
         self.cweb(xyzplot=False)
-        self.network_stats()
+        if network_type == 'MST':
+            self.network_stats()
+        elif network_type == 'Complex':
+            self.network_stats_complex()
         # self.data = pd.DataFrame.from_dict({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Katz Centrality': list(self.katz_centrality.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Eigenvector Centrality': list(self.eigenvector_centrality.values()), 'x': self.posx, 'y': self.posy, 'z': self.posz, 'Target': self.cweb})
-        self.data = pd.DataFrame.from_dict({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Katz Centrality': list(self.katz_centrality.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Eigenvector Centrality': list(self.eigenvector_centrality.values()), 'Mean Edge Length': self.mean_elen, 'Mean Neighbour Edge Length': self.mean_neigh_elen, 'Mean 2nd Degree Neighbour Edge Length': self.mean_neigh_neigh_elen, 'Target': self.cweb})
+        # self.data = pd.DataFrame.from_dict({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Katz Centrality': list(self.katz_centrality.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Eigenvector Centrality': list(self.eigenvector_centrality.values()), 'Mean Edge Length': self.mean_elen, 'Mean Neighbour Edge Length': self.mean_neigh_elen, 'Mean 2nd Degree Neighbour Edge Length': self.mean_neigh_neigh_elen, 'Target': self.cweb})
 
         self.data.index.name = 'Node ID'
 
@@ -158,4 +178,4 @@ class network(cat):
         # Create DataLoader objects
         self.train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
         self.val_loader = DataLoader(val_dataset, batch_size=32, shuffle=True)
-        self.test_loader = DataLoader(test_dataset, batch_size=32, shuffle=True)
+        self.test_loader = DataLoader(test_dataset, batch_size=32, shuffle=True)    
