@@ -11,6 +11,7 @@ import seaborn as sns
 import scienceplots
 
 from sklearn.neighbors import radius_neighbors_graph
+from scipy.spatial import Delaunay
 
 plt.style.use(['science','no-latex'])
 
@@ -214,6 +215,11 @@ class cat():
         l = l/self.hub
         self.adj = radius_neighbors_graph(self.subhalo_table[['x', 'y', 'z']], l, mode='distance', metric='minkowski', p=2, metric_params=None, include_self=False)
         return nx.from_scipy_sparse_array(self.adj)
+
+    def subhalo_delauany_network(self, xyzplot=True):
+        '''Produces a network graph of subhalos using the Delauany triangulation.'''
+        return 0
+
 
 
     def edge_classification(self, x, y, z):
