@@ -216,12 +216,82 @@ class cat():
         self.adj = radius_neighbors_graph(self.subhalo_table[['x', 'y', 'z']], l, mode='distance', metric='minkowski', p=2, metric_params=None, include_self=False)
         return nx.from_scipy_sparse_array(self.adj)
 
-    def subhalo_delauany_network(self, xyzplot=True):
+    def subhalo_delauany_network(self, xyzplot=True, slice = 0.5, tolerance = 0.5):
         '''Produces a network graph of subhalos using the Delauany triangulation.'''
-        return 0
+        points = np.array([self.posx, self.posy, self.posz]).T
 
+        tri = Delaunay(points) # Delauany triangulation of the subhalos
 
+        if xyzplot:
+            fig = plt.figure(figsize=(15,15))
+            ax = fig.add_subplot(projection='3d')
+            ax.scatter(points[:,0], points[:,1], points[:,2], c='r', marker='o', s=1) # Plot the subhalos as points
 
+            lines = []
+            for simplex in tri.simplices: # A simplex is a generalised triangle in n dimensions and tri.simplices is a list of tetrahedra as indices
+                for i in range(4):
+                    for j in range(i+1, len(simplex)):
+                        lines.append([points[simplex[i]], points[simplex[j]]])
+
+            from mpl_toolkits.mplot3d.art3d import Line3DCollection
+            line_collection = Line3DCollection(lines, colors='b', linewidth=0.05, alpha = 0.5)
+            ax.view_init(elev=20, azim=120)
+            ax.add_collection3d(line_collection)
+            ax.set_title('Delaunay Triangulation of Subhalos')
+            ax.set_xlabel(r'x [Mpc]')
+            ax.set_ylabel(r'y [Mpc]')
+            ax.set_zlabel(r'z [Mpc]')
+            plt.show()
+
+            # Define the z-value for the slice
+            z_slice = slice
+            # Define a small tolerance for selecting points near the slice
+
+            # Select points near the z_slice
+            slice_mask = np.abs(points[:, 2] - z_slice) < tolerance
+            slice_points = points[slice_mask]
+
+            # Filter the simplices to only those within the slice
+            slice_lines = []
+            for simplex in tri.simplices:
+                simplex_mask = slice_mask[simplex]
+                if np.sum(simplex_mask) >= 2:  # At least two points in the slice
+                    for i in range(len(simplex)):
+                        for j in range(i + 1, len(simplex)):
+                            if slice_mask[simplex[i]] and slice_mask[simplex[j]]:
+                                edge = [points[simplex[i]], points[simplex[j]]]
+                                slice_lines.append(edge)
+
+            # Plotting the 2D slice
+            fig, ax = plt.subplots(figsize=(8,8))
+
+            # Plot the points in the slice
+            ax.scatter(slice_points[:, 0], slice_points[:, 1], c='r', marker='o', s=1)
+
+            # Plot the edges in the slice
+            for line in slice_lines:
+                ax.plot([line[0][0], line[1][0]], [line[0][1], line[1][1]], 'b', lw=0.1)
+
+            ax.set_xlabel(r'x [Mpc]')
+            ax.set_ylabel(r'y [Mpc]')
+            ax.set_title(f'2D Slice at z = {z_slice*300} [Mpc]')
+
+            plt.show()
+
+        # Create a networkx graph from the Delaunay triangulation
+        G = nx.Graph()
+
+        # Add the nodes
+        for i, point in enumerate(points):
+            G.add_node(i, pos=point)
+
+        for i in range(len(tri.simplices)):
+            for j in range(4):
+                for k in range(j+1, 4):
+                    G.add_edge(tri.simplices[i][j], tri.simplices[i][k])
+
+        return G
+        
     def edge_classification(self, x, y, z):
         '''Classifies the edges of the MST of the subhalos in the given object.'''
         # Classify the edges of the MST according to MiSTree

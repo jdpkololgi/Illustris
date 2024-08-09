@@ -129,10 +129,10 @@ class network(cat):
         self.data.index.name = 'Node ID'
 
         # Balancing the dataset by classes
-        class_counts = self.data['Target'].value_counts()
-        min_class = class_counts.idxmin()
-        min_class_count = class_counts.min()
-        self.data = self.data.groupby('Target').sample(min_class_count).sort_index() # Sample the minimum class count randomly from each class
+        # class_counts = self.data['Target'].value_counts()
+        # min_class = class_counts.idxmin()
+        # min_class_count = class_counts.min()
+        # self.data = self.data.groupby('Target').sample(min_class_count).sort_index() # Sample the minimum class count randomly from each class
 
         # Feature scaling
         features = self.data.iloc[:,:-1].values # All columns except the last one
