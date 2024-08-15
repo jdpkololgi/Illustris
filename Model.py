@@ -44,7 +44,7 @@ class Model():
         optimiser = torch.optim.Adam(self.model.parameters(), lr = learning_rate)
 
         # Load the data
-        self.pipeline(network_type='MST')
+        self.pipeline(network_type='Delaunay')
 
         if mode == 'train':    
             # Begin training

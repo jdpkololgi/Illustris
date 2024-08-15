@@ -7,13 +7,35 @@ import pandas as pd
 import networkx as nx
 import seaborn as sns
 import scienceplots
-from networkx.algorithms import node_classification
+from scipy.spatial.distance import euclidean, minkowski
+
 
 from Utilities import cat
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from torch.utils.data import DataLoader, TensorDataset, Dataset
 import torch
+
+def angle_between_edges(edge1, edge2, netx):
+    '''
+    Function to calculate the angle between two edges
+    '''
+    # Get the nodes of the edges
+    u1, v1 = edge1
+    u2, v2 = edge2
+
+    # Get the positions of the nodes
+    pos1 = netx.nodes[u1]['pos'], netx.nodes[v1]['pos']
+    pos2 = netx.nodes[u2]['pos'], netx.nodes[v2]['pos']
+
+    # Get the vectors of the edges
+    vec1 = pos1[1] - pos1[0]
+    vec2 = pos2[1] - pos2[0]
+
+    # Calculate the angle between the edges
+    angle = np.arccos(np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2)))
+
+    return angle
 
 class network(cat):
     def __init__(self):
@@ -111,7 +133,45 @@ class network(cat):
         
         self.data = pd.DataFrame.from_dict({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Eigenvector Centrality': list(self.eigenvector_centrality.values()), 'Clustering': list(self.clustering.values()), 'Target': self.cweb})
         self.data.index.name = 'Node ID'
+    
+    def network_stats_delaunay(self):
+        '''
+        Function to calculate the network statistics for the Delaunay triangulation.
+        '''
+        netx = self.subhalo_delauany_network(xyzplot=False)
+        assert isinstance(netx, nx.Graph), 'Networkx graph not created'
+
+        self.degree = netx.degree()
+        self.average_degree = nx.average_neighbor_degree(netx)
+        self.degree_centrality = nx.degree_centrality(netx)
+        # self.betweenness_centrality = nx.betweenness_centrality(netx)
+        self.clustering = nx.clustering(netx)
+
+        # Use the edge lengths as features
+        self.edge_lengths = {(u, v): netx[u][v]['length'] for u, v in netx.edges()}
+        #{(u, v): euclidean(netx.nodes[u]['pos'], netx.nodes[v]['pos']) for u, v in netx.edges()}
+
+        self.neigh_list = [netx.edges(node) for node in netx.nodes()]
+
+        # Average length for each node
+        self.mean_elen = [np.mean([self.edge_lengths[tuple(sorted(edge))] for edge in self.neigh_list [node]]) for node in range(len(netx.nodes()))]
+        self.sum_elen = [np.sum([self.edge_lengths[tuple(sorted(edge))] for edge in self.neigh_list [node]]) for node in range(len(netx.nodes()))]
+        self.min_elen = [np.min([self.edge_lengths[tuple(sorted(edge))] for edge in self.neigh_list [node]]) for node in range(len(netx.nodes()))]
+        self.max_elen = [np.max([self.edge_lengths[tuple(sorted(edge))] for edge in self.neigh_list [node]]) for node in range(len(netx.nodes()))]
+
+        # Angle between edges
+        # self.angles = {}
+        # for node in range(len(netx.nodes())):
+        #     for edge1 in self.neigh_list[node]:
+        #         for edge2 in self.neigh_list[node]:
+        #             if edge1 != edge2:
+        #                 angle = self.angle_between_edges(edge1, edge2, netx)
+        #                 self.angles[(node, edge1, edge2)] = angle
         
+
+
+        self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Mean Edge Length': self.mean_elen, 'Sum Edge Length': self.sum_elen, 'Min Edge Length': self.min_elen, 'Max Edge Length': self.max_elen, 'Clustering': list(self.clustering.values()), 'Target': self.cweb})
+        self.data.index.name = 'Node ID'
 
     def pipeline(self, network_type = 'MST'):
         '''
@@ -123,6 +183,8 @@ class network(cat):
             self.network_stats()
         elif network_type == 'Complex':
             self.network_stats_complex()
+        elif network_type == 'Delaunay':
+            self.network_stats_delaunay()
         # self.data = pd.DataFrame.from_dict({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Katz Centrality': list(self.katz_centrality.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Eigenvector Centrality': list(self.eigenvector_centrality.values()), 'x': self.posx, 'y': self.posy, 'z': self.posz, 'Target': self.cweb})
         # self.data = pd.DataFrame.from_dict({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Katz Centrality': list(self.katz_centrality.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Eigenvector Centrality': list(self.eigenvector_centrality.values()), 'Mean Edge Length': self.mean_elen, 'Mean Neighbour Edge Length': self.mean_neigh_elen, 'Mean 2nd Degree Neighbour Edge Length': self.mean_neigh_neigh_elen, 'Target': self.cweb})
 

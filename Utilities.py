@@ -12,6 +12,8 @@ import scienceplots
 
 from sklearn.neighbors import radius_neighbors_graph
 from scipy.spatial import Delaunay
+from scipy.spatial.distance import euclidean, minkowski
+
 
 plt.style.use(['science','no-latex'])
 
@@ -218,20 +220,20 @@ class cat():
 
     def subhalo_delauany_network(self, xyzplot=True, slice = 0.5, tolerance = 0.5):
         '''Produces a network graph of subhalos using the Delauany triangulation.'''
-        points = np.array([self.posx, self.posy, self.posz]).T
+        self.points = np.array([self.posx, self.posy, self.posz]).T
 
-        tri = Delaunay(points) # Delauany triangulation of the subhalos
+        self.tri = Delaunay(self.points) # Delauany triangulation of the subhalos
 
         if xyzplot:
             fig = plt.figure(figsize=(15,15))
             ax = fig.add_subplot(projection='3d')
-            ax.scatter(points[:,0], points[:,1], points[:,2], c='r', marker='o', s=1) # Plot the subhalos as points
+            ax.scatter(self.points[:,0], self.points[:,1], self.points[:,2], c='r', marker='o', s=1) # Plot the subhalos as points
 
             lines = []
-            for simplex in tri.simplices: # A simplex is a generalised triangle in n dimensions and tri.simplices is a list of tetrahedra as indices
+            for simplex in self.tri.simplices: # A simplex is a generalised triangle in n dimensions and tri.simplices is a list of tetrahedra as indices
                 for i in range(4):
                     for j in range(i+1, len(simplex)):
-                        lines.append([points[simplex[i]], points[simplex[j]]])
+                        lines.append([self.points[simplex[i]], self.points[simplex[j]]])
 
             from mpl_toolkits.mplot3d.art3d import Line3DCollection
             line_collection = Line3DCollection(lines, colors='b', linewidth=0.05, alpha = 0.5)
@@ -248,18 +250,18 @@ class cat():
             # Define a small tolerance for selecting points near the slice
 
             # Select points near the z_slice
-            slice_mask = np.abs(points[:, 2] - z_slice) < tolerance
-            slice_points = points[slice_mask]
+            slice_mask = np.abs(self.points[:, 2] - z_slice) < tolerance
+            slice_points = self.points[slice_mask]
 
             # Filter the simplices to only those within the slice
             slice_lines = []
-            for simplex in tri.simplices:
+            for simplex in self.tri.simplices:
                 simplex_mask = slice_mask[simplex]
                 if np.sum(simplex_mask) >= 2:  # At least two points in the slice
                     for i in range(len(simplex)):
                         for j in range(i + 1, len(simplex)):
                             if slice_mask[simplex[i]] and slice_mask[simplex[j]]:
-                                edge = [points[simplex[i]], points[simplex[j]]]
+                                edge = [self.points[simplex[i]], self.points[simplex[j]]]
                                 slice_lines.append(edge)
 
             # Plotting the 2D slice
@@ -282,13 +284,16 @@ class cat():
         G = nx.Graph()
 
         # Add the nodes
-        for i, point in enumerate(points):
+        for i, point in enumerate(self.points):
             G.add_node(i, pos=point)
+            G.nodes[i]['pos'] = point
 
-        for i in range(len(tri.simplices)):
-            for j in range(4):
-                for k in range(j+1, 4):
-                    G.add_edge(tri.simplices[i][j], tri.simplices[i][k])
+        # Calculating the edge lengths from points using scipy's euclidean distance
+        for i in range(len(self.tri.simplices)): # For each simplex
+            for j in range(4): # For each point in the simplex
+                for k in range(j+1, 4): # For each other point in the simplex
+                    G.add_edge(self.tri.simplices[i][j], self.tri.simplices[i][k], length=euclidean(self.points[self.tri.simplices[i][j]], self.points[self.tri.simplices[i][k]]))
+
 
         return G
         
