@@ -40,7 +40,7 @@ def plot_confusion_matrix(cm, classes):
 
 class MLP(nn.Module):
 
-    def __init__(self, n_features = 8, n_hidden = 20, n_output_classes = 4):
+    def __init__(self, n_features = 9, n_hidden = 20, n_output_classes = 4):
         super().__init__()
         self.device = device_check() # Check if a GPU is available
         # Define the layers using nn.Sequential and OrderedDict for named layers

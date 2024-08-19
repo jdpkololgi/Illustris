@@ -8,6 +8,7 @@ import networkx as nx
 import seaborn as sns
 import scienceplots
 from scipy.spatial.distance import euclidean, minkowski
+import itertools
 
 
 from Utilities import cat
@@ -36,6 +37,15 @@ def angle_between_edges(edge1, edge2, netx):
     angle = np.arccos(np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2)))
 
     return angle
+
+def dict_angle_between_edges(netx, neigh_list):
+    empty = {}
+    for node in netx.nodes():
+        empty[node] = {}
+        for edge_duo in itertools.combinations(neigh_list[node], 2):
+            empty[node][edge_duo] = angle_between_edges(edge_duo[0], edge_duo[1], netx)
+
+    return empty
 
 class network(cat):
     def __init__(self):
@@ -134,18 +144,18 @@ class network(cat):
         self.data = pd.DataFrame.from_dict({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Eigenvector Centrality': list(self.eigenvector_centrality.values()), 'Clustering': list(self.clustering.values()), 'Target': self.cweb})
         self.data.index.name = 'Node ID'
     
-    def network_stats_delaunay(self):
+    def network_stats_delaunay(self, weight = 'length'):
         '''
         Function to calculate the network statistics for the Delaunay triangulation.
         '''
         netx = self.subhalo_delauany_network(xyzplot=False)
         assert isinstance(netx, nx.Graph), 'Networkx graph not created'
 
-        self.degree = netx.degree()
-        self.average_degree = nx.average_neighbor_degree(netx)
+        self.degree = netx.degree(weight=weight)
+        self.average_degree = nx.average_neighbor_degree(netx, weight=weight)
         self.degree_centrality = nx.degree_centrality(netx)
-        # self.betweenness_centrality = nx.betweenness_centrality(netx)
-        self.clustering = nx.clustering(netx)
+        # self.betweenness_centrality = nx.betweenness_centrality(netx) #this calculation is too slow
+        self.clustering = nx.clustering(netx, weight=weight)
 
         # Use the edge lengths as features
         self.edge_lengths = {(u, v): netx[u][v]['length'] for u, v in netx.edges()}
@@ -160,17 +170,22 @@ class network(cat):
         self.max_elen = [np.max([self.edge_lengths[tuple(sorted(edge))] for edge in self.neigh_list [node]]) for node in range(len(netx.nodes()))]
 
         # Angle between edges
-        # self.angles = {}
+        self.angles = dict_angle_between_edges(netx, self.neigh_list) # {node: {(edge1, edge2): angle}}
+        self.mean_angles = {node: np.max(list(self.angles[node].values())) for node in range(len(netx.nodes()))}
+        
+        # Solid angle for each tetrahedron
+        
+
         # for node in range(len(netx.nodes())):
         #     for edge1 in self.neigh_list[node]:
         #         for edge2 in self.neigh_list[node]:
         #             if edge1 != edge2:
-        #                 angle = self.angle_between_edges(edge1, edge2, netx)
-        #                 self.angles[(node, edge1, edge2)] = angle
+        #                 angle = angle_between_edges(edge1, edge2, netx)
+        #                 self.angles[node] = angle
         
 
 
-        self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Mean Edge Length': self.mean_elen, 'Sum Edge Length': self.sum_elen, 'Min Edge Length': self.min_elen, 'Max Edge Length': self.max_elen, 'Clustering': list(self.clustering.values()), 'Target': self.cweb})
+        self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Mean E.L.': self.mean_elen, 'Sum E.L.': self.sum_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Max Angle': list(self.mean_angles.values()), 'Target': self.cweb})
         self.data.index.name = 'Node ID'
 
     def pipeline(self, network_type = 'MST'):
