@@ -108,6 +108,6 @@ class Model():
 
 if __name__ == '__main__':
     model = Model(model_type='mlp')
-    model.run(epochs=25, learning_rate=0.00025)
+    model.run(epochs=15, learning_rate=0.00025)
     model.test()
     model.cross_correlation()

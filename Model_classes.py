@@ -40,7 +40,7 @@ def plot_confusion_matrix(cm, classes):
 
 class MLP(nn.Module):
 
-    def __init__(self, n_features = 9, n_hidden = 20, n_output_classes = 4):
+    def __init__(self, n_features = 8, n_hidden = 20, n_output_classes = 4):
         super().__init__()
         self.device = device_check() # Check if a GPU is available
         # Define the layers using nn.Sequential and OrderedDict for named layers
@@ -51,7 +51,9 @@ class MLP(nn.Module):
             ('relu2', nn.ReLU()),
             ('fc3', nn.Linear(15, 10)),
             ('relu3', nn.ReLU()),
-            ('fc4', nn.Linear(10, n_output_classes)),
+            ('fc4', nn.Linear(10, 7)),
+            ('relu4', nn.ReLU()),
+            ('fc5', nn.Linear(7, n_output_classes)),
             ('softmax', nn.Softmax(dim = 1)) # dim=1 to apply softmax along the class dimension
         ]))
         self.to(self.device) # Move the model to the device (GPU or CPU)
@@ -174,13 +176,13 @@ class MLP(nn.Module):
         # print(all_labels)
         cm = confusion_matrix(all_labels, all_preds)
         print(cm)
-        cm_fig = plot_confusion_matrix(cm, classes=['Cluster', 'Wall', 'Filament', 'Void'])#, classes=test_loader.dataset.classes) #
+        cm_fig = plot_confusion_matrix(cm, classes=test_loader.dataset.classes) #classes=['Cluster', 'Wall', 'Filament', 'Void'])#
         writer.add_figure('Confusion Matrix/Test', cm_fig, global_step=None)
 
         # Precision, Recall, F1 Score
         # For each class
         stats = precision_recall_fscore_support(all_labels, all_preds)
-        stats_df = pd.DataFrame(list(stats), index=['Precision', 'Recall', 'F1 Score', 'Support'], columns=['Cluster', 'Wall', 'Filament', 'Void'])
+        stats_df = pd.DataFrame(list(stats), index=['Precision', 'Recall', 'F1 Score', 'Support'], columns=test_loader.dataset.classes) #columns=['Cluster', 'Wall', 'Filament', 'Void'])
         fig, ax = plt.subplots(figsize=(10, 5))
         print(stats_df.loc['Support'])
         stats_df.drop('Support').T.plot(kind='bar', ax=ax)
