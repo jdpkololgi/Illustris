@@ -13,7 +13,7 @@ import itertools
 
 from Utilities import cat
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler
 from torch.utils.data import DataLoader, TensorDataset, Dataset
 import torch
 
@@ -57,6 +57,8 @@ def volume_tetrahedron(tetrahedron):
         tetrahedron[2] - tetrahedron[3]
     ])
     return abs(np.linalg.det(matrix) / 6)
+
+vec_volume_tetrahedron = np.vectorize(volume_tetrahedron, signature='(n,m)->()')
 
 class network(cat):
     def __init__(self):
@@ -163,7 +165,7 @@ class network(cat):
         assert isinstance(netx, nx.Graph), 'Networkx graph not created'
 
         self.degree = netx.degree(weight=weight)
-        self.average_degree = nx.average_neighbor_degree(netx, weight=weight)
+        # self.average_degree = nx.average_neighbor_degree(netx, weight=weight)
         #self.degree_centrality = nx.degree_centrality(netx)
         # self.betweenness_centrality = nx.betweenness_centrality(netx) #this calculation is too slow
         self.clustering = nx.clustering(netx, weight=weight)
@@ -176,7 +178,7 @@ class network(cat):
 
         # Average length for each node
         self.mean_elen = [np.mean([self.edge_lengths[tuple(sorted(edge))] for edge in self.neigh_list [node]]) for node in range(len(netx.nodes()))]
-        self.sum_elen = [np.sum([self.edge_lengths[tuple(sorted(edge))] for edge in self.neigh_list [node]]) for node in range(len(netx.nodes()))]
+        # self.sum_elen = [np.sum([self.edge_lengths[tuple(sorted(edge))] for edge in self.neigh_list [node]]) for node in range(len(netx.nodes()))]
         self.min_elen = [np.min([self.edge_lengths[tuple(sorted(edge))] for edge in self.neigh_list [node]]) for node in range(len(netx.nodes()))]
         self.max_elen = [np.max([self.edge_lengths[tuple(sorted(edge))] for edge in self.neigh_list [node]]) for node in range(len(netx.nodes()))]
 
@@ -185,17 +187,28 @@ class network(cat):
         #self.mean_angles = {node: np.max(list(self.angles[node].values())) for node in range(len(netx.nodes()))}
         
         # Number of connected triangles
-        self.triangles = nx.triangles(netx)
+        # self.triangles = nx.triangles(netx)
         
         # Volume of tetrahedra
         # self.tetrahedra = {}
         # for node in netx.nodes():
         #     self.tetrahedra[node] = np.sum([volume_tetrahedron(self.points[self.tri.simplices[np.where(self.tri.simplices == node)[0][0]]]) for node in netx.neighbors(node)])
-        
+        node_to_simplices = {node: [] for node in range(len(netx.nodes()))}
+        for simplex_index, simplex in enumerate(self.tri.simplices):
+            for node in simplex:
+                node_to_simplices[node].append(simplex_index)
 
+        simplex_points = {node: self.points[self.tri.simplices[simplices]] for node, simplices in node_to_simplices.items()}
+        self.tetra_dens = {node: 1/(0.25*np.sum(vec_volume_tetrahedron(points))) for node, points in simplex_points.items()} # Density of tetrahedra assuming each node has 1/4 of the volume of the tetrahedra around it
+
+        # Neighbour tetrahedra density
+        self.neigh_tetra_dens = {node: np.mean([self.tetra_dens[neigh] for neigh in netx.neighbors(node)]) for node in range(len(netx.nodes()))}
+
+        # # Neighbour neighbour tetrahedra density
+        # self.neigh_neigh_tetra_dens = {node: np.mean([self.tetra_dens[neigh] for neigh in netx.neighbors(neigh)]) for node, neigh in netx.neighbors(node)}
 
         #self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Mean E.L.': self.mean_elen, 'Sum E.L.': self.sum_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Max Angle': list(self.mean_angles.values()), 'Triangles': list(self.triangles.values()), 'Target': self.cweb})
-        self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Mean E.L.': self.mean_elen, 'Sum E.L.': self.sum_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Triangles': list(self.triangles.values()), 'Target': self.cweb})
+        self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': list(self.tetra_dens.values()), 'Neigh Density' : list(self.neigh_tetra_dens.values()),'Target': self.cweb})
         self.data.index.name = 'Node ID'
 
     def pipeline(self, network_type = 'MST'):
@@ -215,7 +228,7 @@ class network(cat):
 
         self.data.index.name = 'Node ID'
 
-        # Balancing the dataset by classes
+        # # Balancing the dataset by classes
         # class_counts = self.data['Target'].value_counts()
         # min_class = class_counts.idxmin()
         # min_class_count = class_counts.min()
@@ -228,10 +241,22 @@ class network(cat):
         scaler = StandardScaler()
         features = scaler.fit_transform(features)
 
-        # Train-test split
-        X_train, X_test, y_train, y_test = train_test_split(features, targets, test_size=0.2, stratify=targets)#, random_state=42)
-        X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, stratify=y_train)#, random_state=42)
+        # Train-test split       
+        X_train, X_test, y_train, y_test = train_test_split(features, targets, test_size=0.2, stratify=targets, random_state=21)
+        X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, stratify=y_train, random_state=21)
         # 0.25 x 0.8 = 0.2
+        
+        # # Balancing only the training set by class
+        # train_data = pd.DataFrame(X_train)
+        # train_data['Target'] = y_train
+
+        # class_counts = train_data['Target'].value_counts()
+        # min_class_count = class_counts.min()
+
+        # train_data = train_data.groupby('Target').sample(min_class_count).sort_index() # Sample the minimum class count randomly from each class
+
+        # X_train = train_data.iloc[:,:-1].values
+        # y_train = train_data.iloc[:,-1].values
 
         # Convert to PyTorch tensors
         X_train = torch.tensor(X_train, dtype=torch.float32)
@@ -263,6 +288,6 @@ class network(cat):
         test_dataset = CustomDataset(X_test, y_test, classes)
 
         # Create DataLoader objects
-        self.train_loader = DataLoader(train_dataset, batch_size=32, shuffle=False)
+        self.train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
         self.val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
         self.test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)    

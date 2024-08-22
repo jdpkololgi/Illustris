@@ -37,10 +37,21 @@ def plot_confusion_matrix(cm, classes):
     ax.set_title('Confusion Matrix')
     return fig
 
+def plot_normalised_confusion_matrix(cm, classes):
+    '''
+    Plot normalised confusion matrix
+    '''
+    cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+    fig, ax = plt.subplots(figsize=(10, 10))
+    sns.heatmap(cm, annot=True, fmt='.2f', cmap='Blues', ax=ax, xticklabels=classes, yticklabels=classes)
+    ax.set_xlabel('Predicted')
+    ax.set_ylabel('Actual')
+    ax.set_title('Normalised Confusion Matrix')
+    return fig
 
 class MLP(nn.Module):
 
-    def __init__(self, n_features = 8, n_hidden = 20, n_output_classes = 4):
+    def __init__(self, n_features = 7, n_hidden = 17, n_output_classes = 4):
         super().__init__()
         self.device = device_check() # Check if a GPU is available
         # Define the layers using nn.Sequential and OrderedDict for named layers

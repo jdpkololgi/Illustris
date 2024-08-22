@@ -85,6 +85,7 @@ class Model():
         corr_target.plot(kind='bar', ax=ax)
         ax.set_title('Spearman Correlation')
         ax.set_ylabel('Correlation')
+        plt.xticks(rotation=45)
         for p in ax.patches:
             # Bar data to 2 decimal places
             ax.annotate(str(p.get_height().round(2)), (p.get_x() * 1.005, p.get_height() * 1.005))
@@ -108,6 +109,6 @@ class Model():
 
 if __name__ == '__main__':
     model = Model(model_type='mlp')
-    model.run(epochs=15, learning_rate=0.00025)
+    model.run(epochs=25, learning_rate=0.00025)
     model.test()
     model.cross_correlation()
