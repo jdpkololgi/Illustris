@@ -326,7 +326,7 @@ class network(cat):
 
         self.data.index.name = 'Node ID'
 
-        # Balancing the dataset by classes
+        # # Balancing the dataset by classes
         # class_counts = self.data['Target'].value_counts()
         # min_class = class_counts.idxmin()
         # min_class_count = class_counts.min()
