@@ -60,7 +60,57 @@ class Model():
 
     def test(self):
             # Begin testing
-            self.model.test(test_loader=self.test_loader)
+            all_preds, all_labels = self.model.test(test_loader=self.test_loader)
+            # print(all_labels)
+            # print(all_preds)
+            # print(self.test_loader.dataset.classes)
+            # print(self.test_loader.dataset.targets)
+            # print(self.test_loader.dataset.features)
+            # classes = self.test_loader.dataset.classes
+            # targets = self.test_loader.dataset.targets
+            # features = self.test_loader.dataset.features
+            # dataset = pd.DataFrame(features)
+            # dataset = self.data
+            # n_features = len(dataset.columns) - 1
+            
+            # n_rows = n_features//3 + n_features%3
+            # n_cols = 3
+            # # strip plot for each feature and the 4 classes
+            # fig, axs = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(10, 10))
+            
+            # for i in range(n_features):
+            #     sns.stripplot(data=dataset, x='Target', ax=axs[i//3, i%3], y=dataset.columns[i], jitter=0.5, alpha=0.5)
+            #     axs[i//3, i%3].set_title(f'{dataset.columns[i]}')
+            # plt.tight_layout()
+            # plt.plot()
+            dataset = self.data
+            n_features = len(dataset.columns) - 1
+
+            n_rows = (n_features + 2) // 3  # calculate the number of rows needed
+            n_cols = min(n_features, 3)  # use 3 columns or less if n_features < 3
+
+            # strip plot for each feature and the 4 classes
+            fig, axs = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(10, 10))
+
+            # Flatten axs array if there's more than one subplot
+            if n_features > 1:
+                axs = axs.flatten()
+            else:
+                axs = [axs]
+
+            for i in range(n_features):
+                sns.violinplot(data=dataset, y=dataset.columns[i], x='Target', ax=axs[i], alpha=0.5) #jitter=0.2,
+                axs[i].set_title(f'{dataset.columns[i]}')
+                # axs[i].set_yscale('log')
+
+            # Remove empty subplots if any
+            for j in range(n_features, len(axs)):
+                fig.delaxes(axs[j])
+
+            plt.tight_layout()
+            plt.show()
+            
+            
 
     def cross_correlation(self):
         '''
@@ -109,6 +159,6 @@ class Model():
 
 if __name__ == '__main__':
     model = Model(model_type='mlp')
-    model.run(epochs=25, learning_rate=0.00025)
+    model.run(epochs=5, learning_rate=0.00025)
     model.test()
     model.cross_correlation()

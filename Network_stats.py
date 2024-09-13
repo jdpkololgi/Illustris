@@ -290,4 +290,4 @@ class network(cat):
         # Create DataLoader objects
         self.train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
         self.val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
-        self.test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)    
+        self.test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False) 

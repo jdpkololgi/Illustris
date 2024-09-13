@@ -205,6 +205,7 @@ class MLP(nn.Module):
             ax.annotate(str(p.get_height().round(2)), (p.get_x() * 1.005, p.get_height() * 1.005))
         plt.show()
         writer.add_figure('Precision, Recall and F1 Score', fig, global_step=None)
+        return all_preds, all_labels
 
     def validate(self, val_loader):
         '''
