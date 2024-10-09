@@ -13,6 +13,9 @@ import Model_classes
 from torch.utils.tensorboard import SummaryWriter
 from sklearn.metrics import confusion_matrix
 
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler
+
+
 class Model():
     def __init__(self, model_type = 'mlp'):
         self._net = network()
@@ -30,8 +33,15 @@ class Model():
         '''
         if model_type == 'mlp':
             self.model = Model_classes.MLP()
+            writer = SummaryWriter()
+            writer.add_graph(self.model, torch.randn(1, 7))
+            writer.close()
+            
         elif model_type == 'dnn':
             self.model = 'work in progress'
+
+        elif model_type == 'random_forest':
+            self.model = Model_classes.Random_Forest()
         else:
             raise ValueError('Model type not recognised')
         
@@ -39,29 +49,54 @@ class Model():
         '''
         Generic function to run different models
         '''
-        # Set the loss and optimiser
-        criterion = nn.CrossEntropyLoss()
-        optimiser = torch.optim.Adam(self.model.parameters(), lr = learning_rate)
-
         # Load the data
         self.pipeline(network_type='Delaunay')
 
-        if mode == 'train':    
-            # Begin training
-            self.model.train(criterion=criterion, optimiser=optimiser, train_loader=self.train_loader, val_loader=self.val_loader, epochs=epochs)
-            # Plot the loss
-            fig, ax = plt.subplots(figsize=(10, 5))
-            ax.plot(self.model.loss_list, 'x-', color='r', label='Training Loss')
-            ax.plot(self.model.validation_loss_list, 'x-', color='b', label='Validation Loss')
-            ax.set_xlabel('Epoch')
-            ax.set_ylabel('Loss')
-            ax.legend()
-            plt.show()
+        if isinstance(self.model, Model_classes.MLP):
+        
+            # Weight each class by the inverse of the frequency it depends on the masscut
+            class_weights_tensor = torch.tensor(self.class_weights, dtype=torch.float32).to(self.model.device)
+
+            # Set the loss and optimiser
+            criterion = nn.CrossEntropyLoss(weight=class_weights_tensor)
+            optimiser = torch.optim.Adam(self.model.parameters(), lr = learning_rate)
+
+            if mode == 'train':    
+                # Begin training
+                self.model.train_model(criterion=criterion, optimiser=optimiser, train_loader=self.train_loader, val_loader=self.val_loader, epochs=epochs)
+                # Plot the loss
+                fig, ax = plt.subplots(figsize=(10, 5))
+                ax.plot(self.model.loss_list, 'x-', color='r', label='Training Loss')
+                ax.plot(self.model.validation_loss_list, 'x-', color='b', label='Validation Loss')
+                ax.set_xlabel('Epoch')
+                ax.set_ylabel('Loss')
+                ax.legend()
+                plt.show()
+
+        elif isinstance(self.model, Model_classes.Random_Forest):
+            if mode == 'train':
+                # Train the model
+                self.model.train_model(train_loader=self.train_loader)
+                # Validate the model
+                val_accuracy = self.model.validate(val_loader=self.val_loader)
+                print(f'Validation accuracy: {val_accuracy}')
+        else:
+            raise ValueError('Unsupported model type')
 
     def test(self):
+        '''
+        Generic function to test different models
+        '''
+        if isinstance(self.model, Model_classes.MLP):
             # Begin testing
-            all_preds, all_labels = self.model.test(test_loader=self.test_loader)
-            # print(all_labels)
+            all_preds, all_labels = self.model.test_model(test_loader=self.test_loader)
+        elif isinstance(self.model, Model_classes.Random_Forest):
+            # Begin testing
+            all_preds, all_labels = self.model.test_model(test_loader=self.test_loader)
+        else:
+            raise ValueError('Unsupported model type')
+        
+        ''' # print(all_labels)
             # print(all_preds)
             # print(self.test_loader.dataset.classes)
             # print(self.test_loader.dataset.targets)
@@ -82,36 +117,71 @@ class Model():
             #     sns.stripplot(data=dataset, x='Target', ax=axs[i//3, i%3], y=dataset.columns[i], jitter=0.5, alpha=0.5)
             #     axs[i//3, i%3].set_title(f'{dataset.columns[i]}')
             # plt.tight_layout()
-            # plt.plot()
-            dataset = self.data
-            n_features = len(dataset.columns) - 1
+            # plt.plot()'''
+        
+        # Violin plot
+        dataset = self.data
+        # # quickly invert the density measures and change labels
+        # dataset['Density'] = 1/dataset['Density']
+        # dataset['KNN Density'] = 1/dataset['KNN Density']
+        # dataset.rename(columns={'Density':'Density Inverse', 'KNN Density':'KNN Density Inverse'}, inplace=True)
+        features = dataset.iloc[:,:-1].values # All columns except the last one
+        # targets = self.data.iloc[:,-1].values # The last column
 
-            n_rows = (n_features + 2) // 3  # calculate the number of rows needed
-            n_cols = min(n_features, 3)  # use 3 columns or less if n_features < 3
+        scaler = StandardScaler()
+        dataset.iloc[:,:-1] = scaler.fit_transform(features)
+        print(dataset)
 
-            # strip plot for each feature and the 4 classes
-            fig, axs = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(10, 10))
+        n_features = len(dataset.columns) - 1
 
-            # Flatten axs array if there's more than one subplot
-            if n_features > 1:
-                axs = axs.flatten()
-            else:
-                axs = [axs]
+        n_rows = (n_features + 2) // 3  # calculate the number of rows needed
+        n_cols = min(n_features, 3)  # use 3 columns or less if n_features < 3
 
-            for i in range(n_features):
-                sns.violinplot(data=dataset, y=dataset.columns[i], x='Target', ax=axs[i], alpha=0.5) #jitter=0.2,
-                axs[i].set_title(f'{dataset.columns[i]}')
-                # axs[i].set_yscale('log')
+        # strip plot for each feature and the 4 classes
+        fig, axs = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(10, 10))
+        fig1, axs1 = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(10, 10))
 
-            # Remove empty subplots if any
-            for j in range(n_features, len(axs)):
-                fig.delaxes(axs[j])
+        # Flatten axs array if there's more than one subplot
+        if n_features > 1:
+            axs = axs.flatten()
+            axs1 = axs1.flatten()
+        else:
+            axs = [axs]
+            axs1 = [axs1]
 
-            plt.tight_layout()
-            plt.show()
+        for i in range(n_features):
+            sns.violinplot(data=dataset, y=dataset.columns[i], x='Target', ax=axs[i], alpha=0.5) #jitter=0.2,
+            sns.stripplot(data=dataset, x='Target', ax=axs1[i], y=dataset.columns[i], jitter=0.25, alpha=0.5)
+            axs[i].set_title(f'{dataset.columns[i]}')
+            axs1[i].set_title(f'{dataset.columns[i]}')
+            axs[i].set_yscale('log')
+            # upper_95thpercentile = dataset[dataset.columns[i]].quantile(0.95)
+            # lower_95thpercentile = dataset[dataset.columns[i]].quantile(0.5)
+            # axs[i].set_ylim(lower_95thpercentile, upper_95thpercentile)
+            # axs1[i].set_ylim(lower_95thpercentile, upper_95thpercentile)
+
+        # Corner plot for the features against each other color-coded by cosmic web environment (Target)
+        pairplot = sns.pairplot(dataset, hue='Target', palette='Set1', diag_kind='kde', markers='o', plot_kws={'alpha':0.5}, corner=True)
+        pairplot.map_lower(sns.kdeplot, levels=4)
+        # for ax in pairplot.axes.flatten():
+        #     ax.set_xscale('log')
+        #     ax.set_yscale('log')
+
+
+        # Remove empty subplots if any
+        for j in range(n_features, len(axs)):
+            fig.delaxes(axs[j])
+            fig1.delaxes(axs1[j])
+
+        # axs[n_features-1].set_ylim(-1,1)
+        # axs1[n_features-1].set_ylim(-1,1)
+        # axs[n_features-1].set_yscale('log')
+        # axs1[n_features-1].set_yscale('log')
+
+        fig.tight_layout()
+        fig1.tight_layout()
+        plt.show()
             
-            
-
     def cross_correlation(self):
         '''
         Function to calculate the cross-correlation of the features
@@ -154,11 +224,23 @@ class Model():
         # plt.show()
         # writer.add_figure('Precision, Recall and F1 Score', fig)
 
+    def onnx_save(self):
+        '''
+        Function to visualise the neural network model in ONNX format
+        '''
+        # Prepare an example input (automatically adjust shape if architecture changes)
+        example_input = torch.randn(1, 7) # specific to the Delaunay network
+
+        # Export the model
+        torch.onnx.export(Model_classes.MLP(), example_input, 'model.onnx', verbose=False)
+
+        print(f'Model has been saved to {os.getcwd()}')
 
 
 
 if __name__ == '__main__':
-    model = Model(model_type='mlp')
-    model.run(epochs=5, learning_rate=0.00025)
+    model = Model(model_type='random_forest')
+    model.run(epochs=100, learning_rate=1e-5)#1e-5#0.000625#0.00025 # learning rate is not used for random forest
     model.test()
     model.cross_correlation()
+    model.onnx_save() 

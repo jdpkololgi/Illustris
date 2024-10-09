@@ -8,12 +8,16 @@ import networkx as nx
 import seaborn as sns
 import scienceplots
 from scipy.spatial.distance import euclidean, minkowski
+from scipy.spatial import Voronoi, ConvexHull, KDTree
+from sklearn.neighbors import KernelDensity
+
 import itertools
 
 
 from Utilities import cat
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler
+from sklearn.utils import compute_class_weight
 from torch.utils.data import DataLoader, TensorDataset, Dataset
 import torch
 
@@ -60,6 +64,69 @@ def volume_tetrahedron(tetrahedron):
 
 vec_volume_tetrahedron = np.vectorize(volume_tetrahedron, signature='(n,m)->()')
 
+def voronoi_density(points):
+    """
+    Calculate the density based on the Voronoi volume for each point.
+    
+    Parameters:
+    points (np.ndarray): Array of points (N x D).
+    
+    Returns:
+    np.ndarray: Array of densities for each point.
+    """
+    vor = Voronoi(points)
+    densities = np.zeros(points.shape[0])
+    
+    for i, region_index in enumerate(vor.point_region):
+        region = vor.regions[region_index]
+        if -1 in region:  # Skip regions with infinite vertices
+            densities[i] = np.inf
+        else:
+            vertices = vor.vertices[region]
+            if len(vertices) > 0:
+                volume = ConvexHull(vertices).volume
+                densities[i] = 1 / volume if volume > 0 else np.inf
+            else:
+                densities[i] = np.inf
+    
+    return densities
+
+def knn_density(points, k=5):
+    """
+    Calculate the k-nearest neighbor density for each point.
+    
+    Parameters:
+    points (np.ndarray): Array of points (N x D).
+    k (int): Number of nearest neighbors to consider.
+    
+    Returns:
+    np.ndarray: Array of densities for each point.
+    """
+    tree = KDTree(points)
+    densities = np.zeros(points.shape[0])
+    
+    for i, point in enumerate(points):
+        distances, _ = tree.query(point, k=k+1)  # k+1 because the point itself is included
+        densities[i] = k / np.sum(distances[1:])  # Exclude the distance to itself
+    
+    return densities
+
+def kde_density(points, bandwidth=1.0):
+    """
+    Calculate the density using Kernel Density Estimation (KDE).
+    
+    Parameters:
+    points (np.ndarray): Array of points (N x D).
+    bandwidth (float): Bandwidth for KDE.
+    
+    Returns:
+    np.ndarray: Array of densities for each point.
+    """
+    kde = KernelDensity(bandwidth=bandwidth)
+    kde.fit(points)
+    log_density = kde.score_samples(points)
+    return np.exp(log_density)
+
 class network(cat):
     def __init__(self):
         self._utils = cat(path=r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1', snapno=99, masscut=1e10)
@@ -69,8 +136,7 @@ class network(cat):
         Implmenting the __getattr__ method to access the attributes of the Utilities class
         '''
         return getattr(self._utils, name)
-    
-    
+        
     def network_stats(self):
         '''
         Function to calculate the network statistics, there are an arbitrary number of them
@@ -199,16 +265,38 @@ class network(cat):
                 node_to_simplices[node].append(simplex_index)
 
         simplex_points = {node: self.points[self.tri.simplices[simplices]] for node, simplices in node_to_simplices.items()}
-        self.tetra_dens = {node: 1/(0.25*np.sum(vec_volume_tetrahedron(points))) for node, points in simplex_points.items()} # Density of tetrahedra assuming each node has 1/4 of the volume of the tetrahedra around it
+        # self.tetra_dens = {node: 1/(0.25*np.sum(vec_volume_tetrahedron(points))) for node, points in simplex_points.items()} # Density of tetrahedra assuming each node has 1/4 of the volume of the tetrahedra around it
+        # self.tetra_dens = {node: len(node_to_simplices[node])/(np.sum(vec_volume_tetrahedron(points))) for node, points in simplex_points.items()} # New density of tetrahedra normalised by the number of tetrahedra around the node. A direct measure of participation in the l
+        # self.tetra_dens_degree = {node: self.degree[node]/(np.sum(vec_volume_tetrahedron(points))) for node, points in simplex_points.items()} # 
 
+        self.tetra_dens = {node: (len(simplices) / np.sum(vec_volume_tetrahedron(self.points[self.tri.simplices[simplices]]))) / self.degree[node] for node, simplices in node_to_simplices.items()}# if self.degree[node] > 0} # normalising by degree and number of tetrahedra around the node
+        
+        
         # Neighbour tetrahedra density
         self.neigh_tetra_dens = {node: np.mean([self.tetra_dens[neigh] for neigh in netx.neighbors(node)]) for node in range(len(netx.nodes()))}
 
+
+
+        '''
+        
+        
+        self.tetra_dens_degree = {node: self.degree[node] / np.sum(vec_volume_tetrahedron(points)) for node, points in simplex_points.items()}
+
+
+
+
         # # Neighbour neighbour tetrahedra density
         # self.neigh_neigh_tetra_dens = {node: np.mean([self.tetra_dens[neigh] for neigh in netx.neighbors(neigh)]) for node, neigh in netx.neighbors(node)}
-
+        '''
+        # self.tetra_dens = voronoi_density(self.points)
+        # self.tetra_dens_neigh = {node: np.mean([self.tetra_dens[neigh] for neigh in netx.neighbors(node)]) for node in range(len(netx.nodes()))}
+        # self.knn_dens = knn_density(self.points, k=5) # k-nearest neighbour density
         #self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Mean E.L.': self.mean_elen, 'Sum E.L.': self.sum_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Max Angle': list(self.mean_angles.values()), 'Triangles': list(self.triangles.values()), 'Target': self.cweb})
-        self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': list(self.tetra_dens.values()), 'Neigh Density' : list(self.neigh_tetra_dens.values()),'Target': self.cweb})
+        # self.kde_dens = kde_density(self.points)
+
+        # Throw error if self.cweb does not exist
+        assert hasattr(self, 'cweb'), 'cweb attribute does not exist, please run the cweb_classify method' 
+        self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density Inverse': 1/np.array(list(self.tetra_dens.values())), 'Neigh Density Inverse' : 1/np.array(list(self.neigh_tetra_dens.values())),'Target': self.cweb})
         self.data.index.name = 'Node ID'
 
     def pipeline(self, network_type = 'MST'):
@@ -216,19 +304,21 @@ class network(cat):
         Data preprocessing pipeline
         '''
         # Load the data and target
-        self.cweb(xyzplot=False)
+        self.cweb_classify(xyzplot=False)
         if network_type == 'MST':
             self.network_stats()
         elif network_type == 'Complex':
             self.network_stats_complex()
         elif network_type == 'Delaunay':
             self.network_stats_delaunay()
-        # self.data = pd.DataFrame.from_dict({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Katz Centrality': list(self.katz_centrality.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Eigenvector Centrality': list(self.eigenvector_centrality.values()), 'x': self.posx, 'y': self.posy, 'z': self.posz, 'Target': self.cweb})
-        # self.data = pd.DataFrame.from_dict({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Katz Centrality': list(self.katz_centrality.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Eigenvector Centrality': list(self.eigenvector_centrality.values()), 'Mean Edge Length': self.mean_elen, 'Mean Neighbour Edge Length': self.mean_neigh_elen, 'Mean 2nd Degree Neighbour Edge Length': self.mean_neigh_neigh_elen, 'Target': self.cweb})
+        
+        # Creating weights for the classes by the inverse of the frequency
+        self.class_weights = compute_class_weight(class_weight='balanced', classes=np.unique(self.data['Target']), y=self.data['Target'])
+        print("Class weights: ", self.class_weights)        
 
         self.data.index.name = 'Node ID'
 
-        # # Balancing the dataset by classes
+        # Balancing the dataset by classes
         # class_counts = self.data['Target'].value_counts()
         # min_class = class_counts.idxmin()
         # min_class_count = class_counts.min()
@@ -288,6 +378,6 @@ class network(cat):
         test_dataset = CustomDataset(X_test, y_test, classes)
 
         # Create DataLoader objects
-        self.train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-        self.val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
-        self.test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False) 
+        self.train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
+        self.val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False)
+        self.test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False) 

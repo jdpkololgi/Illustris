@@ -13,6 +13,22 @@ from sklearn.metrics import precision_recall_fscore_support
 from collections import OrderedDict
 from tqdm import tqdm
 
+# Random forest decision tree
+# Data Processing
+import pandas as pd
+import numpy as np
+
+# Modelling
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score, ConfusionMatrixDisplay
+from sklearn.model_selection import RandomizedSearchCV, train_test_split
+from scipy.stats import randint
+
+# Tree Visualisation
+from sklearn.tree import export_graphviz
+from IPython.display import Image
+import graphviz
+
 
 def device_check():
     '''
@@ -22,6 +38,7 @@ def device_check():
         return torch.device('cuda')
 
     elif torch.backends.mps.is_available():
+        
         return torch.device('mps')
     else:
         return torch.device('cpu')
@@ -51,20 +68,20 @@ def plot_normalised_confusion_matrix(cm, classes):
 
 class MLP(nn.Module):
 
-    def __init__(self, n_features = 7, n_hidden = 17, n_output_classes = 4):
+    def __init__(self, n_features = 7, n_hidden = 5, n_output_classes = 4):
         super().__init__()
         self.device = device_check() # Check if a GPU is available
         # Define the layers using nn.Sequential and OrderedDict for named layers
         self.layer_stack = nn.Sequential(OrderedDict([
-            ('fc1', nn.Linear(n_features, n_hidden)),
+            ('fc1', nn.Linear(n_features, 7)),
             ('relu1', nn.ReLU()),
-            ('fc2', nn.Linear(n_hidden, 15)),
-            ('relu2', nn.ReLU()),
-            ('fc3', nn.Linear(15, 10)),
-            ('relu3', nn.ReLU()),
-            ('fc4', nn.Linear(10, 7)),
+            # ('fc2', nn.Linear(n_hidden, 15)),
+            # ('relu2', nn.ReLU()),
+            # ('fc3', nn.Linear(n_hidden, 21)),
+            # ('relu3', nn.ReLU()),
+            ('fc4', nn.Linear(7, n_hidden)),
             ('relu4', nn.ReLU()),
-            ('fc5', nn.Linear(7, n_output_classes)),
+            ('fc5', nn.Linear(n_hidden, n_output_classes)),
             ('softmax', nn.Softmax(dim = 1)) # dim=1 to apply softmax along the class dimension
         ]))
         self.to(self.device) # Move the model to the device (GPU or CPU)
@@ -120,14 +137,18 @@ class MLP(nn.Module):
         '''This method is called when the print() method is called on the object'''
         return self.__repr__()
     
-    def train(self, criterion, optimiser, train_loader, val_loader, epochs):
+    def train_model(self, criterion, optimiser, train_loader, val_loader, epochs, patience=5):
         '''
-        Training loop for the model
+        Training loop for the model with early stopping
         '''
         writer = SummaryWriter() # Create a SummaryWriter object to write the loss values to TensorBoard
         self.loss_list = [] # List to store the loss values
         self.validation_loss_list = [] # List to store the validation loss values
         self.layer_stack.train() # Set the model to training mode
+        
+        best_val_loss = float('inf')
+        patience_counter = 0
+        
         for epoch in range(epochs): # Loop over the epochs. One complete pass through the entire training dataset
             epoch_loss = 0.0
             with tqdm(total=len(train_loader), desc=f'Epoch {epoch+1}/{epochs}', unit='batch') as pbar: # tqdm is a progress bar. It shows the progress of the training. Each bar update is a batch
@@ -151,13 +172,27 @@ class MLP(nn.Module):
             avg_epoch_loss = epoch_loss / len(train_loader)
             self.loss_list.append(avg_epoch_loss)
             writer.add_scalar('Loss/Train', avg_epoch_loss, epoch)
-            self.validate(val_loader) # Validate the model after each epoch
+            
+            # Validate the model after each epoch
+            self.validate(val_loader)
             self.validation_loss_list.append(self.validation_loss)
             writer.add_scalar('Loss/Validation', self.validation_loss, epoch)
+            
+            # Early stopping check
+            if self.validation_loss < best_val_loss:
+                best_val_loss = self.validation_loss
+                patience_counter = 0
+                print('Loss going down {:.6f}'.format(best_val_loss))
+            else:
+                patience_counter += 1
+                if patience_counter >= patience:
+                    print(f'Early stopping at epoch {epoch+1}')
+                    break
+        
         writer.flush()    
         writer.close()
 
-    def test(self, test_loader):
+    def test_model(self, test_loader):
         '''
         Testing loop for the model
         '''
@@ -189,6 +224,9 @@ class MLP(nn.Module):
         print(cm)
         cm_fig = plot_confusion_matrix(cm, classes=test_loader.dataset.classes) #classes=['Cluster', 'Wall', 'Filament', 'Void'])#
         writer.add_figure('Confusion Matrix/Test', cm_fig, global_step=None)
+        # Normalised confusion matrix
+        cm_fig_norm = plot_normalised_confusion_matrix(cm, classes=test_loader.dataset.classes) #classes=['Cluster', 'Wall', 'Filament', 'Void'])#
+        writer.add_figure('Normalised Confusion Matrix/Test', cm_fig_norm, global_step=None)
 
         # Precision, Recall, F1 Score
         # For each class
@@ -240,4 +278,80 @@ class MLP(nn.Module):
         print(f'Validation Accuracy: {self.validation_accuracy}%')
         print(f'Validation Loss: {self.validation_loss}')
 
-    
+# Below is GPT generated so check for bugs later
+class Random_Forest:
+    def __init__(self, n_estimators=100, random_state=42):
+        self.device = device_check()  # Check if a GPU is available
+        self.model = RandomForestClassifier(n_estimators=n_estimators, random_state=random_state)
+        self.n_estimators = n_estimators
+        self.random_state = random_state
+
+    def train_model(self, train_loader):
+        '''
+        Training loop for the model
+        '''
+        features_list = []
+        labels_list = []
+        for features, labels in train_loader:
+            features_list.append(features.numpy())
+            labels_list.append(labels.numpy())
+        
+        train_features = np.concatenate(features_list, axis=0)
+        train_labels = np.concatenate(labels_list, axis=0)
+        
+        self.model.fit(train_features, train_labels)
+        print("Training complete.")
+
+    def validate(self, val_loader):
+        '''
+        Validation loop for the model
+        '''
+        features_list = []
+        labels_list = []
+        for features, labels in val_loader:
+            features_list.append(features.numpy())
+            labels_list.append(labels.numpy())
+        
+        val_features = np.concatenate(features_list, axis=0)
+        val_labels = np.concatenate(labels_list, axis=0)
+        
+        val_predictions = self.model.predict(val_features)
+        val_accuracy = accuracy_score(val_labels, val_predictions)
+        print(f'Validation Accuracy: {val_accuracy * 100}%')
+        return val_accuracy
+
+    def test_model(self, test_loader):
+        '''
+        Testing loop for the model
+        '''
+        features_list = []
+        labels_list = []
+        for features, labels in test_loader:
+            features_list.append(features.numpy())
+            labels_list.append(labels.numpy())
+        
+        test_features = np.concatenate(features_list, axis=0)
+        test_labels = np.concatenate(labels_list, axis=0)
+        
+        test_predictions = self.model.predict(test_features)
+        test_accuracy = accuracy_score(test_labels, test_predictions)
+        print(f'Test Accuracy: {test_accuracy * 100}%')
+
+        # Compute the confusion matrix
+        cm = confusion_matrix(test_labels, test_predictions)
+        print(cm)
+        cm_fig = plot_confusion_matrix(cm, classes=test_loader.dataset.classes)
+        cm_fig_norm = plot_normalised_confusion_matrix(cm, classes=test_loader.dataset.classes)
+
+        # Precision, Recall, F1 Score
+        stats = precision_recall_fscore_support(test_labels, test_predictions)
+        stats_df = pd.DataFrame(list(stats), index=['Precision', 'Recall', 'F1 Score', 'Support'], columns=test_loader.dataset.classes)
+        fig, ax = plt.subplots(figsize=(10, 5))
+        stats_df.drop('Support').T.plot(kind='bar', ax=ax)
+        ax.set_title('Precision, Recall and F1 Score')
+        ax.set_ylabel('Score')
+        ax.legend()
+        for p in ax.patches:
+            ax.annotate(str(p.get_height().round(2)), (p.get_x() * 1.005, p.get_height() * 1.005))
+        plt.show()
+        return test_predictions, test_labels

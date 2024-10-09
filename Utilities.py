@@ -50,7 +50,7 @@ class cat():
             raise TypeError('The masscut must be a number.')
         
         self.readcat = self.readcat(xyzplot=False)
-        self.subhalo_MST = self.subhalo_MST(xyzplot=False, mode='std')
+        self.subhalo_MST(xyzplot=False, mode='std')
         
     def __repr__(self):
         assert hasattr(self, 'object'), 'No TNG object has been read in. Please add one using the readcat() method.'
@@ -225,7 +225,7 @@ class cat():
         self.tri = Delaunay(self.points) # Delauany triangulation of the subhalos
 
         if xyzplot:
-            fig = plt.figure(figsize=(15,15))
+            fig = plt.figure(figsize=(8,8))
             ax = fig.add_subplot(projection='3d')
             ax.scatter(self.points[:,0], self.points[:,1], self.points[:,2], c='r', marker='o', s=1) # Plot the subhalos as points
 
@@ -236,6 +236,11 @@ class cat():
                         lines.append([self.points[simplex[i]], self.points[simplex[j]]])
 
             from mpl_toolkits.mplot3d.art3d import Line3DCollection
+
+            subhalopatch = Line2D([0], [0], marker='.', color='white', label='Scatter',markerfacecolor='red', markersize=15)
+            Delpatch = Line2D([0], [0], marker='o', color='blue', label='Scatter',markerfacecolor='k', markersize=0.1)
+
+
             line_collection = Line3DCollection(lines, colors='b', linewidth=0.05, alpha = 0.5)
             ax.view_init(elev=20, azim=120)
             ax.add_collection3d(line_collection)
@@ -243,6 +248,7 @@ class cat():
             ax.set_xlabel(r'x [Mpc]')
             ax.set_ylabel(r'y [Mpc]')
             ax.set_zlabel(r'z [Mpc]')
+            ax.legend([subhalopatch, Delpatch], [f'{len(self.points[:,0])} Subhalos', 'Delaunay'], loc='upper left')
             plt.show()
 
             # Define the z-value for the slice
@@ -277,7 +283,7 @@ class cat():
             ax.set_xlabel(r'x [Mpc]')
             ax.set_ylabel(r'y [Mpc]')
             ax.set_title(f'2D Slice at z = {z_slice*300} [Mpc]')
-
+            ax.legend([subhalopatch, Delpatch], [f'{len(slice_points[:,0])} Subhalos', 'Delaunay'], loc='upper right')
             plt.show()
 
         # Create a networkx graph from the Delaunay triangulation
@@ -344,8 +350,8 @@ class cat():
         ax.hist(cluster_edges, bins=bins, alpha=0.25, density = True, color='y')
         sns.kdeplot(data=cluster_edges, alpha=1, label=f'Cluster ({len(cluster_edges)})', color='y')
         ax.legend(prop={'size':20})
-        ax.set_xlabel(r'Edge length [$Mpc$]')
-        ax.set_ylabel('Frequency')
+        ax.set_xlabel(r'Edge length [$Mpc$]', fontsize=20)
+        ax.set_ylabel('Frequency', fontsize=20)
         ax.set_title('MST Edge Length Distributions')
         ax.tick_params(axis='x', labelsize=20)
         ax.tick_params(axis='y', labelsize=20)
@@ -420,7 +426,7 @@ class cat():
         plt.show()
 
 
-    def cweb(self, xyzplot=True):
+    def cweb_classify(self, xyzplot=True):
         '''Plots the cosmic web classications of the subhalos in the given object.'''
         self.cwebfile = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/TNG300_snap_099_tweb_env_merged.npz')
         filetype = 'T-Web' # Nexus+
@@ -542,6 +548,6 @@ if __name__ == '__main__':
 
     testcat = cat(path=r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1', snapno=99, masscut=1e10)
     # self.readcat(xyzplot=False)
-    # self.subhalo_MST(xyzplot=True, mode='std')
-    cweb = testcat.cweb()
+    # testcat.subhalo_MST(xyzplot=True, mode='std')
+    # cweb = testcat.cweb_classify()
     # testcat.cross_plots()
