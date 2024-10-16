@@ -13,13 +13,16 @@ import Model_classes
 from torch.utils.tensorboard import SummaryWriter
 from sklearn.metrics import confusion_matrix
 
-from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, PowerTransformer
 
+import graphviz
+from sklearn.tree import export_graphviz
 
 class Model():
     def __init__(self, model_type = 'mlp'):
         self._net = network()
         self.model_selector(model_type)
+        self.pplot = True
 
     def __getattr__(self, name):
         '''
@@ -128,7 +131,8 @@ class Model():
         features = dataset.iloc[:,:-1].values # All columns except the last one
         # targets = self.data.iloc[:,-1].values # The last column
 
-        scaler = StandardScaler()
+        # scaler = StandardScaler()
+        scaler = PowerTransformer()
         dataset.iloc[:,:-1] = scaler.fit_transform(features)
         print(dataset)
 
@@ -160,27 +164,28 @@ class Model():
             # axs[i].set_ylim(lower_95thpercentile, upper_95thpercentile)
             # axs1[i].set_ylim(lower_95thpercentile, upper_95thpercentile)
 
-        # Corner plot for the features against each other color-coded by cosmic web environment (Target)
-        pairplot = sns.pairplot(dataset, hue='Target', palette='Set1', diag_kind='kde', markers='o', plot_kws={'alpha':0.5}, corner=True)
-        pairplot.map_lower(sns.kdeplot, levels=4)
-        # for ax in pairplot.axes.flatten():
-        #     ax.set_xscale('log')
-        #     ax.set_yscale('log')
+        if self.pplot:
+            # Corner plot for the features against each other color-coded by cosmic web environment (Target)
+            pairplot = sns.pairplot(dataset, hue='Target', palette='Set1', diag_kind='kde', markers='o', plot_kws={'alpha':0.5}, corner=True)
+            pairplot.map_lower(sns.kdeplot, levels=4)
+            # for ax in pairplot.axes.flatten():
+            #     ax.set_xscale('log')
+            #     ax.set_yscale('log')
 
 
-        # Remove empty subplots if any
-        for j in range(n_features, len(axs)):
-            fig.delaxes(axs[j])
-            fig1.delaxes(axs1[j])
+            # Remove empty subplots if any
+            for j in range(n_features, len(axs)):
+                fig.delaxes(axs[j])
+                fig1.delaxes(axs1[j])
 
-        # axs[n_features-1].set_ylim(-1,1)
-        # axs1[n_features-1].set_ylim(-1,1)
-        # axs[n_features-1].set_yscale('log')
-        # axs1[n_features-1].set_yscale('log')
+            # axs[n_features-1].set_ylim(-1,1)
+            # axs1[n_features-1].set_ylim(-1,1)
+            # axs[n_features-1].set_yscale('log')
+            # axs1[n_features-1].set_yscale('log')
 
-        fig.tight_layout()
-        fig1.tight_layout()
-        plt.show()
+            fig.tight_layout()
+            fig1.tight_layout()
+            plt.show()
             
     def cross_correlation(self):
         '''
@@ -231,12 +236,29 @@ class Model():
         # Prepare an example input (automatically adjust shape if architecture changes)
         example_input = torch.randn(1, 7) # specific to the Delaunay network
 
-        # Export the model
-        torch.onnx.export(Model_classes.MLP(), example_input, 'model.onnx', verbose=False)
+        if isinstance(self.model, Model_classes.MLP):
 
-        print(f'Model has been saved to {os.getcwd()}')
+            # Export the model
+            torch.onnx.export(Model_classes.MLP(), example_input, 'model.onnx', verbose=False)
+
+            print(f'Model has been saved to {os.getcwd()}')
+        elif isinstance(self.model, Model_classes.Random_Forest):
+            # Visualise model using .estimators
+            for i in range(1): # arbitary number
+                tree = self.model.model.estimators_[i]
+                dot_data = export_graphviz(tree,
+                                           feature_names=self.data.columns[:-1],
+                                           class_names=[str(cls) for cls in self.data['Target'].unique()],
+                                           filled=True,
+                                           impurity=False,
+                                           max_depth=3,
+                                           proportion=True)
+            graph = graphviz.Source(dot_data)
+            graph.render(filename='tree', format='png', cleanup=True)
 
 
+        else:
+            raise ValueError('Unsupported model type')
 
 if __name__ == '__main__':
     model = Model(model_type='random_forest')
