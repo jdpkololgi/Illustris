@@ -132,7 +132,7 @@ class Model():
         # targets = self.data.iloc[:,-1].values # The last column
 
         # scaler = StandardScaler()
-        scaler = PowerTransformer()
+        scaler = PowerTransformer(method = 'box-cox')
         dataset.iloc[:,:-1] = scaler.fit_transform(features)
         print(dataset)
 
@@ -158,7 +158,7 @@ class Model():
             sns.stripplot(data=dataset, x='Target', ax=axs1[i], y=dataset.columns[i], jitter=0.25, alpha=0.5)
             axs[i].set_title(f'{dataset.columns[i]}')
             axs1[i].set_title(f'{dataset.columns[i]}')
-            axs[i].set_yscale('log')
+            # axs[i].set_yscale('log')
             # upper_95thpercentile = dataset[dataset.columns[i]].quantile(0.95)
             # lower_95thpercentile = dataset[dataset.columns[i]].quantile(0.5)
             # axs[i].set_ylim(lower_95thpercentile, upper_95thpercentile)
@@ -254,14 +254,14 @@ class Model():
                                            max_depth=3,
                                            proportion=True)
             graph = graphviz.Source(dot_data)
-            graph.render(filename='tree', format='png', cleanup=True)
+            graph.render(filename='tree', format='pdf', cleanup=True)
 
 
         else:
             raise ValueError('Unsupported model type')
 
 if __name__ == '__main__':
-    model = Model(model_type='random_forest')
+    model = Model(model_type='mlp')
     model.run(epochs=100, learning_rate=1e-5)#1e-5#0.000625#0.00025 # learning rate is not used for random forest
     model.test()
     model.cross_correlation()

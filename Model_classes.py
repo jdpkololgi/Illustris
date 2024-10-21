@@ -226,6 +226,8 @@ class MLP(nn.Module):
         writer.add_figure('Confusion Matrix/Test', cm_fig, global_step=None)
         # Normalised confusion matrix
         cm_fig_norm = plot_normalised_confusion_matrix(cm, classes=test_loader.dataset.classes) #classes=['Cluster', 'Wall', 'Filament', 'Void'])#
+        cm_fig_norm.savefig('/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 2/Poster/Normalised_Confusion_Matrix_MLP.pdf')
+
         writer.add_figure('Normalised Confusion Matrix/Test', cm_fig_norm, global_step=None)
 
         # Precision, Recall, F1 Score
@@ -342,6 +344,8 @@ class Random_Forest:
         print(cm)
         cm_fig = plot_confusion_matrix(cm, classes=test_loader.dataset.classes)
         cm_fig_norm = plot_normalised_confusion_matrix(cm, classes=test_loader.dataset.classes)
+        cm_fig_norm.savefig('/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 2/Poster/Normalised_Confusion_Matrix_Random_Forest.pdf')
+
 
         # Precision, Recall, F1 Score
         stats = precision_recall_fscore_support(test_labels, test_predictions)

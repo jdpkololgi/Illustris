@@ -16,7 +16,7 @@ import itertools
 
 from Utilities import cat
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, PowerTransformer
 from sklearn.utils import compute_class_weight
 from torch.utils.data import DataLoader, TensorDataset, Dataset
 import torch
@@ -296,7 +296,7 @@ class network(cat):
 
         # Throw error if self.cweb does not exist
         assert hasattr(self, 'cweb'), 'cweb attribute does not exist, please run the cweb_classify method' 
-        self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density Inverse': 1/np.array(list(self.tetra_dens.values())), 'Neigh Density Inverse' : 1/np.array(list(self.neigh_tetra_dens.values())),'Target': self.cweb})
+        self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': np.array(list(self.tetra_dens.values())), 'Neigh Density' : np.array(list(self.neigh_tetra_dens.values())),'Target': self.cweb})
         self.data.index.name = 'Node ID'
 
     def pipeline(self, network_type = 'MST'):
@@ -328,7 +328,8 @@ class network(cat):
         features = self.data.iloc[:,:-1].values # All columns except the last one
         targets = self.data.iloc[:,-1].values # The last column
 
-        scaler = StandardScaler()
+        # scaler = StandardScaler()
+        scaler = PowerTransformer(method = 'box-cox')
         features = scaler.fit_transform(features)
 
         # Train-test split       

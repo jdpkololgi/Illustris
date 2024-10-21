@@ -283,7 +283,9 @@ class cat():
             ax.set_xlabel(r'x [Mpc]')
             ax.set_ylabel(r'y [Mpc]')
             ax.set_title(f'2D Slice at z = {z_slice*300} [Mpc]')
-            ax.legend([subhalopatch, Delpatch], [f'{len(slice_points[:,0])} Subhalos', 'Delaunay'], loc='upper right')
+            # ax.legend([subhalopatch, Delpatch], [f'{len(slice_points[:,0])} Subhalos', 'Delaunay'], loc='upper right')
+            fig.savefig('Delaunay_Slice.pdf')
+            print('Figure saved as Delaunay_Slice.pdf')
             plt.show()
 
         # Create a networkx graph from the Delaunay triangulation
@@ -350,11 +352,12 @@ class cat():
         ax.hist(cluster_edges, bins=bins, alpha=0.25, density = True, color='y')
         sns.kdeplot(data=cluster_edges, alpha=1, label=f'Cluster ({len(cluster_edges)})', color='y')
         ax.legend(prop={'size':20})
-        ax.set_xlabel(r'Edge length [$Mpc$]', fontsize=20)
-        ax.set_ylabel('Frequency', fontsize=20)
+        ax.set_xlabel(r'Edge length [$Mpc$]')
+        ax.set_ylabel('Frequency')
         ax.set_title('MST Edge Length Distributions')
-        ax.tick_params(axis='x', labelsize=20)
-        ax.tick_params(axis='y', labelsize=20)
+        ax.tick_params(axis='x')
+        ax.tick_params(axis='y')
+        fig.savefig('MST_Edge_Length_Distributions.pdf')
         plt.show()
 
     def degree_classification(self):
@@ -479,6 +482,8 @@ class cat():
             subhalopatchb = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='blue', markersize=10)
             subhalopatchy = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='yellow', markersize=10)
             ax.legend([subhalopatchr, subhalopatchg, subhalopatchb, subhalopatchy], [f'Void ({self.reds})', f'Wall ({self.greens})', f'Filamentary ({self.blues})', f'Cluster ({self.yellows})'], loc='upper left')
+            fig.savefig('TNG300-1_z=0_T-Web_Subhalos.pdf')
+            print('Figure saved as TNG300-1_z=0_T-Web_Subhalos.pdf')
             plt.show()
         
         # self.edge_classification(x=x, y=y, z=z)
