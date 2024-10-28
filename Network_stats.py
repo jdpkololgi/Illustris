@@ -274,16 +274,10 @@ class network(cat):
         
         # Neighbour tetrahedra density
         self.neigh_tetra_dens = {node: np.mean([self.tetra_dens[neigh] for neigh in netx.neighbors(node)]) for node in range(len(netx.nodes()))}
-
-
-
         '''
         
         
         self.tetra_dens_degree = {node: self.degree[node] / np.sum(vec_volume_tetrahedron(points)) for node, points in simplex_points.items()}
-
-
-
 
         # # Neighbour neighbour tetrahedra density
         # self.neigh_neigh_tetra_dens = {node: np.mean([self.tetra_dens[neigh] for neigh in netx.neighbors(neigh)]) for node, neigh in netx.neighbors(node)}
@@ -293,10 +287,22 @@ class network(cat):
         # self.knn_dens = knn_density(self.points, k=5) # k-nearest neighbour density
         #self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Mean E.L.': self.mean_elen, 'Sum E.L.': self.sum_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Max Angle': list(self.mean_angles.values()), 'Triangles': list(self.triangles.values()), 'Target': self.cweb})
         # self.kde_dens = kde_density(self.points)
+        
+
+
 
         # Throw error if self.cweb does not exist
         assert hasattr(self, 'cweb'), 'cweb attribute does not exist, please run the cweb_classify method' 
+
+        # Add in xyz coordinates and use them to remove 10Mpc from each side of the cube before dropping the fields
         self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': np.array(list(self.tetra_dens.values())), 'Neigh Density' : np.array(list(self.neigh_tetra_dens.values())),'Target': self.cweb})
+        # self.data['x'] = self.points[:,0]
+        # self.data['y'] = self.points[:,1]
+        # self.data['z'] = self.points[:,2]
+
+        # self.data = self.data[(self.data['x']>10) & (self.data['x']<290) & (self.data['y']>10) & (self.data['y']<290) & (self.data['z']>10) & (self.data['z']<290)]
+        # self.data = self.data.drop(columns=['x', 'y', 'z'])
+
         self.data.index.name = 'Node ID'
 
     def pipeline(self, network_type = 'MST'):
@@ -381,4 +387,4 @@ class network(cat):
         # Create DataLoader objects
         self.train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
         self.val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False)
-        self.test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False) 
+        self.test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)

@@ -431,13 +431,13 @@ class cat():
 
     def cweb_classify(self, xyzplot=True):
         '''Plots the cosmic web classications of the subhalos in the given object.'''
-        self.cwebfile = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/new_TNG300_snap_099_nexus_env_merged.npz') #TNG300_snap_099_tweb_env_merged.npz
-        self.significances = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/new_TNG300_snap_099_nexus_sig_merged.npz')        
+        self.cwebfile = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/TNG300_snap_099_tweb_env_merged.npz') #TNG300_snap_099_tweb_env_merged.npz
+        # self.significances = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/new_TNG300_snap_099_nexus_sig_merged.npz')        
         filetype = 'T-Web' # Nexus+
         self.cwebdata = self.cwebfile['cweb']
-        self.Sc = self.significances['Sc']
-        self.Sf = self.significances['Sf']
-        self.Sw = self.significances['Sw']
+        # self.Sc = self.significances['Sc']
+        # self.Sf = self.significances['Sf']
+        # self.Sw = self.significances['Sw']
         ngrid = self.cwebdata.shape[0]
         self.boxsize = u.kpc*self.object['header']['BoxSize']*self.sf/self.hub
         self.dx = self.boxsize/ngrid
@@ -459,9 +459,9 @@ class cat():
 
         # Get the cweb classifications of the subhalos
         self.cweb = self.cwebdata[self.xpix, self.ypix, self.zpix]
-        self.Sc_subhalos = self.Sc[self.xpix, self.ypix, self.zpix]
-        self.Sf_subhalos = self.Sf[self.xpix, self.ypix, self.zpix]
-        self.Sw_subhalos = self.Sw[self.xpix, self.ypix, self.zpix]
+        # self.Sc_subhalos = self.Sc[self.xpix, self.ypix, self.zpix]
+        # self.Sf_subhalos = self.Sf[self.xpix, self.ypix, self.zpix]
+        # self.Sw_subhalos = self.Sw[self.xpix, self.ypix, self.zpix]
         colors = np.empty(len(self.cweb), dtype=str)
         self.reds = np.count_nonzero(self.cweb == 0) # Voids
         self.greens = np.count_nonzero(self.cweb == 1) # Walls
