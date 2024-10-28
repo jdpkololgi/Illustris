@@ -296,12 +296,14 @@ class network(cat):
 
         # Add in xyz coordinates and use them to remove 10Mpc from each side of the cube before dropping the fields
         self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': np.array(list(self.tetra_dens.values())), 'Neigh Density' : np.array(list(self.neigh_tetra_dens.values())),'Target': self.cweb})
-        # self.data['x'] = self.points[:,0]
-        # self.data['y'] = self.points[:,1]
-        # self.data['z'] = self.points[:,2]
+        print('length before buffering: ', len(self.data))
+        self.data['x'] = self.points[:,0]
+        self.data['y'] = self.points[:,1]
+        self.data['z'] = self.points[:,2]
 
-        # self.data = self.data[(self.data['x']>10) & (self.data['x']<290) & (self.data['y']>10) & (self.data['y']<290) & (self.data['z']>10) & (self.data['z']<290)]
-        # self.data = self.data.drop(columns=['x', 'y', 'z'])
+        self.data = self.data[(self.data['x']>10) & (self.data['x']<290) & (self.data['y']>10) & (self.data['y']<290) & (self.data['z']>10) & (self.data['z']<290)]
+        self.data = self.data.drop(columns=['x', 'y', 'z'])
+        print('length after buffering: ', len(self.data))
 
         self.data.index.name = 'Node ID'
 
