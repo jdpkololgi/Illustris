@@ -437,9 +437,9 @@ class cat():
         self.significances = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/new_TNG300_snap_099_nexus_sig_merged.npz')        
         filetype = 'T-Web' # Nexus+
         self.cwebdata = self.cwebfile['cweb']
-        self.Sc = self.significances['Sc']
-        self.Sf = self.significances['Sf']
-        self.Sw = self.significances['Sw']
+        # self.Sc = self.significances['Sc']
+        # self.Sf = self.significances['Sf']
+        # self.Sw = self.significances['Sw']
         ngrid = self.cwebdata.shape[0]
         self.boxsize = u.kpc*self.object['header']['BoxSize']*self.sf/self.hub
         self.dx = self.boxsize/ngrid
