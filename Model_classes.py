@@ -187,7 +187,7 @@ class MLP(nn.Module):
                 patience_counter += 1
                 if patience_counter >= patience:
                     print(f'Early stopping at epoch {epoch+1}')
-                    # break
+                    break
         
         writer.flush()    
         writer.close()
