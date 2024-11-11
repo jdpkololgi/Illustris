@@ -99,6 +99,10 @@ class Model():
         else:
             raise ValueError('Unsupported model type')
         
+        # write table of galaxy indices and their corresponding labels and predictions to csv
+        table = pd.DataFrame({'Galaxy Index': self.test_indices, 'Labels': all_labels, 'Predictions': all_preds})
+        table.to_csv('predictions.csv', index=False)
+        
         ''' # print(all_labels)
             # print(all_preds)
             # print(self.test_loader.dataset.classes)
@@ -131,7 +135,7 @@ class Model():
         features = dataset.iloc[:,:-1].values # All columns except the last one
         # targets = self.data.iloc[:,-1].values # The last column
 
-        # scaler = StandardScaler()
+        scaler = StandardScaler()
         scaler = PowerTransformer(method = 'box-cox')
         dataset.iloc[:,:-1] = scaler.fit_transform(features)
         print(dataset)

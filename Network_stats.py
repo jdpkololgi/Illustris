@@ -333,17 +333,21 @@ class network(cat):
         # self.data = self.data.groupby('Target').sample(min_class_count).sort_index() # Sample the minimum class count randomly from each class
 
         # Feature scaling
-        features = self.data.iloc[:,:-1].values # All columns except the last one
-        targets = self.data.iloc[:,-1].values # The last column
+        features = self.data.iloc[:,:-1] # All columns except the last one
+        targets = self.data.iloc[:,-1] # The last column
 
         # scaler = StandardScaler()
         scaler = PowerTransformer(method = 'box-cox')
-        features = scaler.fit_transform(features)
+        features = pd.DataFrame(scaler.fit_transform(features), index=features.index, columns=features.columns)
 
         # Train-test split       
         X_train, X_test, y_train, y_test = train_test_split(features, targets, test_size=0.2, stratify=targets, random_state=21)
         X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, stratify=y_train, random_state=21)
         # 0.25 x 0.8 = 0.2
+
+        self.train_indices = X_train.index
+        self.val_indices = X_val.index
+        self.test_indices = X_test.index
         
         # # Balancing only the training set by class
         # train_data = pd.DataFrame(X_train)
@@ -358,12 +362,12 @@ class network(cat):
         # y_train = train_data.iloc[:,-1].values
 
         # Convert to PyTorch tensors
-        X_train = torch.tensor(X_train, dtype=torch.float32)
-        X_val = torch.tensor(X_val, dtype=torch.float32)
-        X_test = torch.tensor(X_test, dtype=torch.float32)
-        y_train = torch.tensor(y_train, dtype=torch.long)
-        y_val = torch.tensor(y_val, dtype=torch.long)
-        y_test = torch.tensor(y_test, dtype=torch.long)
+        X_train = torch.tensor(X_train.values, dtype=torch.float32)
+        X_val = torch.tensor(X_val.values, dtype=torch.float32)
+        X_test = torch.tensor(X_test.values, dtype=torch.float32)
+        y_train = torch.tensor(y_train.values, dtype=torch.long)
+        y_val = torch.tensor(y_val.values, dtype=torch.long)
+        y_test = torch.tensor(y_test.values, dtype=torch.long)
 
         # Define the classes
         # classes = ['3.', '2.', '1.', '0.'] #torch.unique(y_train)
