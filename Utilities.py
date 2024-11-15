@@ -355,12 +355,13 @@ class cat():
     def edge_classification(self, x, y, z):
         '''Classifies the edges of the MST of the subhalos in the given object.'''
         # Classify the edges of the MST according to MiSTree
-        self.MST_x_edges = np.array([(x[self.l_index[0]]/self.dx).astype(int), (x[self.l_index[1]]/self.dx).astype(int)])
-        self.MST_y_edges = np.array([(y[self.l_index[0]]/self.dx).astype(int), (y[self.l_index[1]]/self.dx).astype(int)])
-        self.MST_z_edges = np.array([(z[self.l_index[0]]/self.dx).astype(int), (z[self.l_index[1]]/self.dx).astype(int)])
+        # self.MST_x_edges = np.array([(x[self.l_index[0]]/self.dx).astype(int), (x[self.l_index[1]]/self.dx).astype(int)])
+        # self.MST_y_edges = np.array([(y[self.l_index[0]]/self.dx).astype(int), (y[self.l_index[1]]/self.dx).astype(int)])
+        # self.MST_z_edges = np.array([(z[self.l_index[0]]/self.dx).astype(int), (z[self.l_index[1]]/self.dx).astype(int)])
 
-        classifications = self.cwebdata[self.MST_x_edges, self.MST_y_edges, self.MST_z_edges] # Classifications of the MST edges
-        self.start = classifications[0]
+        # classifications = self.cwebdata[self.MST_x_edges, self.MST_y_edges, self.MST_z_edges] # Classifications of the MST edges
+        classifications = (self.cweb[self.l_index[0]], self.cweb[self.l_index[1]])
+        self.start = classifications[0] # classifications of the start of the edges
         self.end = classifications[1]
         self.notcross_boundary = np.where(self.start == self.end)[0] # Edges that do not cross a cosmic web classification boundary
         self.cross_boundary = np.where(self.start != self.end)[0] # Edges that do cross a cosmic web classification boundary
@@ -389,7 +390,7 @@ class cat():
 
         fig = plt.figure(figsize=(16,8))
         ax = plt.subplot()
-        bins = None # 100
+        bins = 50 # 100
         ax.hist(void_edges, bins=bins, alpha=0.25, density = True, color='r')
         sns.kdeplot(data=void_edges, alpha=1, label=f'Void ({len(void_edges)})', color='r')
         ax.hist(wall_edges, bins=bins, alpha=0.25, density = True, color='g')
@@ -401,7 +402,7 @@ class cat():
         ax.legend(prop={'size':20})
         ax.set_xlabel(r'Edge length [$Mpc$]')
         ax.set_ylabel('Frequency')
-        ax.set_title('MST Edge Length Distributions')
+        ax.set_title(f'MST Edge Length Distributions. {self.filetype} Cosmic Web. Subhalos: {len(x)}')
         ax.tick_params(axis='x')
         ax.tick_params(axis='y')
         fig.savefig('MST_Edge_Length_Distributions.pdf')
@@ -480,7 +481,7 @@ class cat():
         '''Plots the cosmic web classications of the subhalos in the given object.'''
         self.cwebfile = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/TNG300_snap_099_tweb_env_merged.npz') #TNG300_snap_099_tweb_env_merged.npz
         self.significances = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/new_TNG300_snap_099_nexus_sig_merged.npz')        
-        filetype = 'T-Web' # Nexus+
+        self.filetype = 'T-Web' # Nexus+
         self.cwebdata = self.cwebfile['cweb']
         # self.Sc = self.significances['Sc']
         # self.Sf = self.significances['Sf']
@@ -530,7 +531,7 @@ class cat():
             ax.set_ylabel(r'y [Mpc]')
             ax.set_zlabel(r'z [Mpc]')
             mc = np.log10(self.masscut)
-            ax.set_title(f'TNG300-1 z=0 {filetype}. M/C: $10^{{10}}\,$ M$_{{\odot}}$. Subhalos: {len(x)}')#Snapshot={self.snapno} {len(x)} Subhalos Cosmic Web')
+            ax.set_title(f'TNG300-1 z=0 {self.filetype}. M/C: $10^{{10}}\,$ M$_{{\odot}}$. Subhalos: {len(x)}')#Snapshot={self.snapno} {len(x)} Subhalos Cosmic Web')
             subhalopatchr = Line2D([0], [0], marker='.', color='w', label='Scatter',markerfacecolor='red', markersize=10)
             subhalopatchg = Line2D([0], [0], marker='.', color='w', label='Scatter',markerfacecolor='green', markersize=10)
             subhalopatchb = Line2D([0], [0], marker='.', color='w', label='Scatter',markerfacecolor='blue', markersize=10)
