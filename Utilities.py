@@ -118,7 +118,8 @@ class cat():
             x = self.x[stars_indices] #spatial coordinates of subhalos with stellar mass greater than masscut
             y = self.y[stars_indices]
             z = self.z[stars_indices]
-            title_text = f'TNG300-1 z=0 Snapshot={self.snapno}'
+            title_text = f'TNG300-1 z=0 MST. M/C: $10^{{10}}\,$ M$_{{\odot}}$. Subhalos: {len(x)}'
+            # f'TNG300-1 z=0 Snapshot={self.snapno}'
 
         elif mode=='sparse': #sparse mode where we plot 1 in every sampling rate subhalos with stellar mass greater than masscut
             sampling = int(input('Please enter the sampling rate for the sparse mode (Works best between 10 and 100): '))
@@ -194,7 +195,7 @@ class cat():
             for i in range(len(self.l_index[0])):
                 ax.plot([x[self.l_index[0][i]].to('Mpc').value, x[self.l_index[1][i]].to('Mpc').value], [y[self.l_index[0][i]].to('Mpc').value, y[self.l_index[1][i]].to('Mpc').value], zs = [z[self.l_index[0][i]].to('Mpc').value, z[self.l_index[1][i]].to('Mpc').value], color='orange', alpha=0.5)
             
-            subhalopatch = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='purple', markersize=5)
+            subhalopatch = Line2D([0], [0], marker='.', color='w', label='Scatter',markerfacecolor='purple', markersize=10)
             MSTpatch = Line2D([0], [0], marker='o', color='orange', label='Scatter',markerfacecolor='k', markersize=0.1)
 
             ax.set_title(title_text)
@@ -202,7 +203,10 @@ class cat():
             ax.set_ylabel(r'y [Mpc]')
             ax.set_zlabel(r'z [Mpc]')
             ax.legend([subhalopatch, MSTpatch], [f'{len(x)} Subhalos', 'Subalo MST'], loc='upper left')
+            ax.set_box_aspect(None, zoom=0.85)
             plt.show()
+            fig.savefig('MST_Cube.pdf')
+
 
         self.subhalo_table = pd.DataFrame(data = {'x':x.to('Mpc'), 'y':y.to('Mpc'), 'z':z.to('Mpc')})
 
@@ -213,12 +217,51 @@ class cat():
         # self.adj[self.edge_table['l_start'].array, self.edge_table['l_end'].array] = 1
         # self.adj[self.edge_table['l_end'].array, self.edge_table['l_start'].array] = 1
     
-    def subhalo_complex_network(self, l=2):
+    def subhalo_complex_network(self, l=2, xyzplot=False):
         '''Produces a network graph of subhalos where all subhalos are connected if their separation is less than the linking length.'''
         # Find the subhalos that are connected
-        l = l/self.hub
-        self.adj = radius_neighbors_graph(self.subhalo_table[['x', 'y', 'z']], l, mode='distance', metric='minkowski', p=2, metric_params=None, include_self=False)
-        return nx.from_scipy_sparse_array(self.adj)
+        # self.adj = radius_neighbors_graph(self.subhalo_table[['x', 'y', 'z']], l, mode='distance', metric='minkowski', p=2, metric_params=None, include_self=False)
+        self.adj = radius_neighbors_graph(self.subhalo_table[['x', 'y', 'z']], l, mode='connectivity', metric='minkowski', p=2, metric_params=None, include_self=False, n_jobs=-1)
+        
+        # G = nx.from_scipy_sparse_array(self.adj)
+        G = nx.from_scipy_sparse_array(self.adj)
+
+        # Add node coordinates as attributes
+        for i, coord in enumerate(np.array(self.subhalo_table)):
+            G.nodes[i]['pos'] = coord
+
+        # Add edge lengths as attributes
+        for u, v in G.edges():
+            G.edges[u, v]['length'] = euclidean(np.array(self.subhalo_table)[u], np.array(testcat.subhalo_table)[v])
+
+        
+        if xyzplot:
+            '''
+            Visualise the subhalos and their connections in 3D.
+            '''
+            title_text = f'TNG300-1 z=0 Complex (r = ${l}\,Mpc$). M/C: $10^{{10}}\,$ M$_{{\odot}}$. Subhalos: {len(self.subhalo_table)}'
+
+            fig = plt.figure(figsize=(8,8))
+            ax = fig.add_subplot(projection='3d')
+            ax.grid(False)
+            ax.scatter(self.subhalo_table['x'], self.subhalo_table['y'], self.subhalo_table['z'], marker='.', color='purple',s = 1, alpha=0.1)    
+
+            for edge in G.edges():
+                ax.plot([self.subhalo_table['x'][edge[0]], self.subhalo_table['x'][edge[1]]], [self.subhalo_table['y'][edge[0]], self.subhalo_table['y'][edge[1]]], zs = [self.subhalo_table['z'][edge[0]], self.subhalo_table['z'][edge[1]]], color='orange', alpha=0.8, linewidth=0.8)
+            
+            subhalopatch = Line2D([0], [0], marker='.', color='w', label='Scatter',markerfacecolor='purple', markersize=10)
+            Complexpatch = Line2D([0], [0], marker='o', color='orange', label='Scatter',markerfacecolor='k', markersize=0.1)
+            ax.legend([subhalopatch, Complexpatch], [f'{len(self.subhalo_table)} Subhalos', 'Subalo Complex'], loc='upper left')
+
+            ax.set_title(title_text)
+            ax.set_xlabel(r'x [Mpc]')
+            ax.set_ylabel(r'y [Mpc]')
+            ax.set_zlabel(r'z [Mpc]')
+            ax.set_box_aspect(None, zoom=0.85)
+            plt.show()
+            fig.savefig('Complex_Cube.pdf')
+
+        return G
 
     def subhalo_delauany_network(self, xyzplot=True, slice = 0.5, tolerance = 0.5):
         '''Produces a network graph of subhalos using the Delauany triangulation.'''
@@ -243,15 +286,17 @@ class cat():
             Delpatch = Line2D([0], [0], marker='o', color='blue', label='Scatter',markerfacecolor='k', markersize=0.1)
 
 
-            line_collection = Line3DCollection(lines, colors='b', linewidth=0.05, alpha = 0.5)
+            line_collection = Line3DCollection(lines, colors='b', linewidth=0.05, alpha = 0.2)
             ax.view_init(elev=20, azim=120)
             ax.add_collection3d(line_collection)
-            ax.set_title('Delaunay Triangulation of Subhalos')
+            ax.set_title(f'TNG300-1 z=0 Delaunay. M/C: $10^{{10}}\,$ M$_{{\odot}}$. Subhalos: {len(self.points)}')
             ax.set_xlabel(r'x [Mpc]')
             ax.set_ylabel(r'y [Mpc]')
             ax.set_zlabel(r'z [Mpc]')
             ax.legend([subhalopatch, Delpatch], [f'{len(self.points[:,0])} Subhalos', 'Delaunay'], loc='upper left')
+            ax.set_box_aspect(None, zoom=0.85)
             plt.show()
+            fig.savefig('Delaunay_Cube.pdf')
 
             # Define the z-value for the slice
             z_slice = slice
@@ -477,7 +522,7 @@ class cat():
 
         # Plot the cosmic web classifications
         if xyzplot:
-            fig = plt.figure(figsize=(8,8))
+            fig = plt.figure(figsize=(10,8))
             ax = fig.add_subplot(projection='3d')
             ax.grid(False)
             ax.scatter(x.to('Mpc'), y.to('Mpc'), z.to('Mpc'), marker='.', color=list(colors), s = 1, alpha=0.5)
@@ -485,12 +530,13 @@ class cat():
             ax.set_ylabel(r'y [Mpc]')
             ax.set_zlabel(r'z [Mpc]')
             mc = np.log10(self.masscut)
-            ax.set_title(f'TNG300-1 z=0 {filetype} M/C: {mc} Subhalos {len(x)}')#Snapshot={self.snapno} {len(x)} Subhalos Cosmic Web')
-            subhalopatchr = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='red', markersize=10)
-            subhalopatchg = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='green', markersize=10)
-            subhalopatchb = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='blue', markersize=10)
-            subhalopatchy = Line2D([0], [0], marker='.', color='k', label='Scatter',markerfacecolor='yellow', markersize=10)
+            ax.set_title(f'TNG300-1 z=0 {filetype}. M/C: $10^{{10}}\,$ M$_{{\odot}}$. Subhalos: {len(x)}')#Snapshot={self.snapno} {len(x)} Subhalos Cosmic Web')
+            subhalopatchr = Line2D([0], [0], marker='.', color='w', label='Scatter',markerfacecolor='red', markersize=10)
+            subhalopatchg = Line2D([0], [0], marker='.', color='w', label='Scatter',markerfacecolor='green', markersize=10)
+            subhalopatchb = Line2D([0], [0], marker='.', color='w', label='Scatter',markerfacecolor='blue', markersize=10)
+            subhalopatchy = Line2D([0], [0], marker='.', color='w', label='Scatter',markerfacecolor='yellow', markersize=10)
             ax.legend([subhalopatchr, subhalopatchg, subhalopatchb, subhalopatchy], [f'Void ({self.reds})', f'Wall ({self.greens})', f'Filamentary ({self.blues})', f'Cluster ({self.yellows})'], loc='upper left')
+            ax.set_box_aspect(None, zoom=0.85)
             fig.savefig('TNG300-1_z=0_T-Web_Subhalos.pdf')
             print('Figure saved as TNG300-1_z=0_T-Web_Subhalos.pdf')
             plt.show()
