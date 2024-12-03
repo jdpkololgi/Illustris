@@ -208,7 +208,7 @@ class network(cat):
         '''
         Function to calculate the network statistics, there are an arbitrary number of them
         '''
-        netx = self.subhalo_complex_network()
+        netx = self.subhalo_complex_network(l=2.92)
         assert isinstance(netx, nx.Graph), 'Networkx graph not created'
         self.degree = netx.degree()
         self.average_degree = nx.average_neighbor_degree(netx)
@@ -336,7 +336,7 @@ class network(cat):
         features = self.data.iloc[:,:-1] # All columns except the last one
         targets = self.data.iloc[:,-1] # The last column
 
-        # scaler = StandardScaler()
+        scaler = StandardScaler()
         scaler = PowerTransformer(method = 'box-cox')
         features = pd.DataFrame(scaler.fit_transform(features), index=features.index, columns=features.columns)
 

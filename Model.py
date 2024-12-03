@@ -53,7 +53,7 @@ class Model():
         Generic function to run different models
         '''
         # Load the data
-        self.pipeline(network_type='Delaunay')
+        self.pipeline(network_type='Delaunay') # {MST, Complex, Delaunay}
 
         if isinstance(self.model, Model_classes.MLP):
         
@@ -82,7 +82,6 @@ class Model():
                 self.model.train_model(train_loader=self.train_loader)
                 # Validate the model
                 val_accuracy = self.model.validate(val_loader=self.val_loader)
-                print(f'Validation accuracy: {val_accuracy}')
         else:
             raise ValueError('Unsupported model type')
 

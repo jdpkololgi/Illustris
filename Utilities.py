@@ -232,7 +232,7 @@ class cat():
 
         # Add edge lengths as attributes
         for u, v in G.edges():
-            G.edges[u, v]['length'] = euclidean(np.array(self.subhalo_table)[u], np.array(testcat.subhalo_table)[v])
+            G.edges[u, v]['length'] = euclidean(np.array(self.subhalo_table)[u], np.array(self.subhalo_table)[v])
 
         
         if xyzplot:
@@ -538,8 +538,8 @@ class cat():
             subhalopatchy = Line2D([0], [0], marker='.', color='w', label='Scatter',markerfacecolor='yellow', markersize=10)
             ax.legend([subhalopatchr, subhalopatchg, subhalopatchb, subhalopatchy], [f'Void ({self.reds})', f'Wall ({self.greens})', f'Filamentary ({self.blues})', f'Cluster ({self.yellows})'], loc='upper left')
             ax.set_box_aspect(None, zoom=0.85)
-            fig.savefig('TNG300-1_z=0_T-Web_Subhalos.pdf')
-            print('Figure saved as TNG300-1_z=0_T-Web_Subhalos.pdf')
+            fig.savefig('TNG300-1_z=0_{self.filetype}_Subhalos.pdf')
+            print('Figure saved as TNG300-1_z=0_{self.filetype}_Subhalos.pdf')
             plt.show()
         
         # self.edge_classification(x=x, y=y, z=z)
