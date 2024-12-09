@@ -498,7 +498,7 @@ class cat():
         # Get the spatial coordinates of the subhalos above the masscut
         x = self.x[stars_indices]
         y = self.y[stars_indices]
-        z = self.z[stars_indices]        
+        z = self.z[stars_indices]
 
         # Convert to cweb coordinates
         self.xpix = (x/self.dx).astype(int)

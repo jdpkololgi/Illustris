@@ -100,7 +100,7 @@ class Model():
         
         # write table of galaxy indices and their corresponding labels and predictions to csv
         table = pd.DataFrame({'Galaxy Index': self.test_indices, 'Labels': all_labels, 'Predictions': all_preds})
-        table.to_csv('predictions.csv', index=False)
+        table.to_csv(f'predictions_{self.model}.csv', index=False)
         
         ''' # print(all_labels)
             # print(all_preds)

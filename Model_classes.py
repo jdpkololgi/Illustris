@@ -409,7 +409,7 @@ class Random_Forest:
             if self.validation_loss < best_val_loss:
                 best_val_loss = self.validation_loss
                 patience_counter = 0
-                print('Loss going down {:.6f}'.format(best_val_loss))
+                print(f'Validation loss did not improve. Patience counter: {patience_counter}/{patience}')
             else:
                 patience_counter += 1
                 if patience_counter >= patience:
@@ -453,7 +453,7 @@ class Random_Forest:
         writer.add_figure('Confusion Matrix/Test', cm_fig, global_step=None)
         # Normalised confusion matrix
         cm_fig_norm = plot_normalised_confusion_matrix(cm, classes=test_loader.dataset.classes) #classes=['Cluster', 'Wall', 'Filament', 'Void'])#
-        cm_fig_norm.savefig('/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 2/Poster/Normalised_Confusion_Matrix_MLP.pdf')
+        cm_fig_norm.savefig(f'Normalised_Confusion_Matrix_{self.model}.pdf')
 
         writer.add_figure('Normalised Confusion Matrix/Test', cm_fig_norm, global_step=None)
 
@@ -571,8 +571,8 @@ class Random_Forest:
         print(cm)
         cm_fig = plot_confusion_matrix(cm, classes=test_loader.dataset.classes)
         cm_fig_norm = plot_normalised_confusion_matrix(cm, classes=test_loader.dataset.classes)
-        cm_fig_norm.savefig('/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 2/Poster/Normalised_Confusion_Matrix_Random_Forest.pdf')
 
+        cm_fig_norm.savefig(f'Normalised_Confusion_{self.model}.pdf')
 
         # Precision, Recall, F1 Score
         stats = precision_recall_fscore_support(test_labels, test_predictions)
