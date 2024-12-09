@@ -375,6 +375,7 @@ class Random_Forest:
         
         best_val_loss = float('inf')
         patience_counter = 0
+        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimiser, 'min', factor=0.2, patience=2, verbose=True) # Dynamically reduce the learning rate when the validation loss plateaus
         
         for epoch in range(epochs): # Loop over the epochs. One complete pass through the entire training dataset
             epoch_loss = 0.0
@@ -404,6 +405,7 @@ class Random_Forest:
             self.validate(val_loader)
             self.validation_loss_list.append(self.validation_loss)
             writer.add_scalar('Loss/Validation', self.validation_loss, epoch)
+            scheduler.step(self.validation_loss)
             
             # Early stopping check
             if self.validation_loss < best_val_loss:
