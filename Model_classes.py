@@ -148,7 +148,7 @@ class MLP(nn.Module):
         
         best_val_loss = float('inf')
         patience_counter = 0
-        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimiser, 'min', factor=0.2, patience=2, verbose=True) # Dynamically reduce the learning rate when the validation loss plateaus
+        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimiser, 'min', factor=0.3, patience=2, verbose=True) # Dynamically reduce the learning rate when the validation loss plateaus
 
         for epoch in range(epochs): # Loop over the epochs. One complete pass through the entire training dataset
             epoch_loss = 0.0
