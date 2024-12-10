@@ -289,6 +289,12 @@ class Random_Forest:
         self.n_estimators = n_estimators
         self.random_state = random_state
 
+    def __repr__(self):
+        return f'Random Forest Model with {self.n_estimators} estimators and random state {self.random_state}'
+    
+    def __str__(self):
+        return self.__repr__()
+
     def train_model(self, train_loader):
         '''
         Training loop for the model
