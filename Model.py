@@ -100,7 +100,7 @@ class Model():
         
         # write table of galaxy indices and their corresponding labels and predictions to csv
         table = pd.DataFrame({'Galaxy Index': self.test_indices, 'Labels': all_labels, 'Predictions': all_preds})
-        table.to_csv(f'predictions_{self.model}.csv', index=False)
+        table.to_csv(f'predictions_{self.model.__class__.__name__}.csv', index=False)
         
         ''' # print(all_labels)
             # print(all_preds)
@@ -263,9 +263,9 @@ class Model():
         else:
             raise ValueError('Unsupported model type')
 
-if __name__ == '__main__':
-    model = Model(model_type='mlp')
-    model.run(epochs=150, learning_rate=1e-5)#1e-5#0.000625#0.00025 # learning rate is not used for random forest
-    model.test()
-    model.cross_correlation()
-    model.onnx_save()
+# if __name__ == '__main__':
+#     model = Model(model_type='mlp')
+#     model.run(epochs=150, learning_rate=1e-5)#1e-5#0.000625#0.00025 # learning rate is not used for random forest
+#     model.test()
+#     model.cross_correlation()
+#     model.onnx_save()
