@@ -179,6 +179,7 @@ class MLP(nn.Module):
             self.validation_loss_list.append(self.validation_loss)
             writer.add_scalar('Loss/Validation', self.validation_loss, epoch)
             scheduler.step(self.validation_loss)
+            print(f'Learning rate: {optimiser.param_groups[0]["lr"]}')
             
             # Early stopping check
             if self.validation_loss < best_val_loss:

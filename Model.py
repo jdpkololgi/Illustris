@@ -263,9 +263,9 @@ class Model():
         else:
             raise ValueError('Unsupported model type')
 
-# if __name__ == '__main__':
-#     model = Model(model_type='mlp')
-#     model.run(epochs=150, learning_rate=1e-5)#1e-5#0.000625#0.00025 # learning rate is not used for random forest
-#     model.test()
-#     model.cross_correlation()
-#     model.onnx_save()
+if __name__ == '__main__':
+    model = Model(model_type='mlp')
+    model.run(epochs=150, learning_rate=1e-5)#1e-5#0.000625#0.00025 # learning rate is not used for random forest
+    model.test()
+    model.cross_correlation()
+    model.onnx_save()
