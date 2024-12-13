@@ -1,10 +1,8 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import networkx as nx
 import seaborn as sns
 
-import os
 import torch
 from torch import nn
 from torch.utils.tensorboard import SummaryWriter
@@ -82,7 +80,7 @@ class MLP(nn.Module):
             ('fc4', nn.Linear(7, n_hidden)),
             ('relu4', nn.ReLU()),
             ('fc5', nn.Linear(n_hidden, n_output_classes)),
-            ('softmax', nn.Softmax(dim = 1)) # dim=1 to apply softmax along the class dimension
+            ('softmax', nn.LogSoftmax(dim = 1)) # dim=1 to apply softmax along the class dimension
         ]))
         self.to(self.device) # Move the model to the device (GPU or CPU)
 
@@ -195,6 +193,39 @@ class MLP(nn.Module):
         writer.flush()    
         writer.close()
 
+    def validate(self, val_loader):
+        '''
+        Validation loop for the model
+        '''
+        writer = SummaryWriter() # Create a SummaryWriter object to write values to TensorBoard
+        self.layer_stack.eval() # Set the model to evaluation mode, ensuring that dropout and batchnorm layers are not active
+        correct = 0 # Counter for the number of correct predictions
+        total = 0
+        validation_loss = 0.0
+        criterion = nn.CrossEntropyLoss()
+        all_preds = []
+        all_labels = []
+
+        with torch.no_grad(): # Turn off gradient tracking to speed up the computation and reduce memory usage
+            for features, labels in val_loader:
+                features, labels = features.to(self.device), labels.to(self.device) # Move the data to the device
+                outputs = self.layer_stack(features) # Forward pass
+                loss = criterion(outputs, labels)
+                validation_loss += loss.item()
+                _, predicted = torch.max(outputs, 1)
+                total += labels.size(0)
+                correct += (predicted == labels).sum().item()
+
+
+        self.validation_accuracy = 100 * correct / total # Calculate the accuracy as a percentage
+        self.validation_loss = validation_loss / len(val_loader)
+        # cm = confusion_matrix(all_labels, all_preds)
+
+        # cm_fig = plot_confusion_matrix(cm)
+        # writer.add_figure('Confusion Matrix/Validation', cm_fig) # The global step is the epoch number
+        print(f'Validation Accuracy: {self.validation_accuracy}%')
+        print(f'Validation Loss: {self.validation_loss}')
+
     def test_model(self, test_loader):
         '''
         Testing loop for the model
@@ -250,38 +281,6 @@ class MLP(nn.Module):
         writer.add_figure('Precision, Recall and F1 Score', fig, global_step=None)
         return all_preds, all_labels
 
-    def validate(self, val_loader):
-        '''
-        Validation loop for the model
-        '''
-        writer = SummaryWriter() # Create a SummaryWriter object to write values to TensorBoard
-        self.layer_stack.eval() # Set the model to evaluation mode, ensuring that dropout and batchnorm layers are not active
-        correct = 0 # Counter for the number of correct predictions
-        total = 0
-        validation_loss = 0.0
-        criterion = nn.CrossEntropyLoss()
-        all_preds = []
-        all_labels = []
-
-        with torch.no_grad(): # Turn off gradient tracking to speed up the computation and reduce memory usage
-            for features, labels in val_loader:
-                features, labels = features.to(self.device), labels.to(self.device) # Move the data to the device
-                outputs = self.layer_stack(features) # Forward pass
-                loss = criterion(outputs, labels)
-                validation_loss += loss.item()
-                _, predicted = torch.max(outputs, 1)
-                total += labels.size(0)
-                correct += (predicted == labels).sum().item()
-
-
-        self.validation_accuracy = 100 * correct / total # Calculate the accuracy as a percentage
-        self.validation_loss = validation_loss / len(val_loader)
-        # cm = confusion_matrix(all_labels, all_preds)
-
-        # cm_fig = plot_confusion_matrix(cm)
-        # writer.add_figure('Confusion Matrix/Validation', cm_fig) # The global step is the epoch number
-        print(f'Validation Accuracy: {self.validation_accuracy}%')
-        print(f'Validation Loss: {self.validation_loss}')
 
 class Random_Forest:
     def __init__(self, n_estimators=100, random_state=42):
