@@ -1,4 +1,4 @@
-import os
+import datetime
 
 import optuna
 from optuna.trial import TrialState
@@ -125,4 +125,5 @@ if __name__ == '__main__':
         print('    {}: {}'.format(key, value))
 
     print(study.trials_dataframe())
-    study.trials_dataframe().to_csv('optuna_results.csv') # save results to csv file
+    current_time = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+    study.trials_dataframe().to_csv(f'optuna_results_{current_time}.csv') # save results to csv file
