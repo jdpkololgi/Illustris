@@ -25,8 +25,7 @@ N_VALID_EXAMPLES = BATCHSIZE * 10
 def load_CW_data():
     _net = network()
     _net.pipeline(network_type='Delaunay') # {MST, Complex, Delaunay}
-    return _net.train_loader, _net.val_loader, _net.class_weights
-
+    return _net.train_loader, _net.val_loader, torch.tensor(_net.class_weights, dtype=torch.float32).to(DEVICE) # move class weights to apple silicon gpu
 
 # Define MLP model
 def define_model(trial):
@@ -49,7 +48,6 @@ def define_model(trial):
 
     return nn.Sequential(*layers)
 
-
 def objective(trial, train_loader, val_loader, class_weights):
     # generate model
     model = define_model(trial).to(DEVICE) # create instance of model and move to apple silicon gpu
@@ -62,7 +60,6 @@ def objective(trial, train_loader, val_loader, class_weights):
 
     # choose weighted loss function
     loss_fn = trial.suggest_categorical('loss_fn', [F.cross_entropy, F.nll_loss]) # loss function will be one of CrossEntropyLoss or NLLLoss
-
     # train model
     for epoch in range(EPOCHS):
         model.train()
