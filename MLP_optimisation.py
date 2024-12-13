@@ -16,7 +16,7 @@ from Network_stats import network
 DEVICE = torch.device('mps') # Apple Silicon available
 BATCHSIZE = 16
 CLASSES = 4
-EPOCHS = 50 #no need to run a full experiment
+EPOCHS = 100 #no need to run a full experiment
 LOG_INTERVAL = 10 # print training status every 10 epochs
 N_TRAIN_EXAMPLES = BATCHSIZE * 30 # no need to use the full dataset - risk of overfitting
 N_VALID_EXAMPLES = BATCHSIZE * 10
@@ -38,8 +38,8 @@ def define_model(trial):
         out_features = trial.suggest_int('n_units_l{}'.format(i), 4, 128, log = True) # number of neurons in each layer will be between 4 and 128
         layers.append(nn.Linear(in_features, out_features))
         layers.append(nn.ReLU())
-        p = trial.suggest_float('dropout_l{}'.format(i), 0.2, 0.5)  # dropout ratio will be between 0.2 and 0.5
-        layers.append(nn.Dropout(p))
+        # p = trial.suggest_float('dropout_l{}'.format(i), 0.2, 0.5)  # dropout ratio will be between 0.2 and 0.5
+        # layers.append(nn.Dropout(p))
 
         in_features = out_features
     
@@ -105,7 +105,7 @@ if __name__ == '__main__':
 
     train_loader, val_loader, class_weights = load_CW_data()
     study = optuna.create_study(direction='maximize') # as objective function outputs accuracy, we want to maximise this
-    study.optimize(lambda trial: objective(trial, train_loader, val_loader, class_weights), n_trials=100, timeout=600) # run 100 trials or until 10 minutes have passed
+    study.optimize(lambda trial: objective(trial, train_loader, val_loader, class_weights), n_trials=500, timeout=600) # run 100 trials or until 10 minutes have passed
     
     pruned_trials = study.get_trials(deepcopy=False, states=[TrialState.PRUNED])
     complete_trials = study.get_trials(deepcopy=False, states=[TrialState.COMPLETE])

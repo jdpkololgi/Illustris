@@ -1318,3 +1318,4 @@ Normalised_Confusion_Matrix_MLP.pdf
 name.html
 db.sqlite3
 optuna_results.csv
+optuna_results_*.csv
