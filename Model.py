@@ -19,10 +19,10 @@ import graphviz
 from sklearn.tree import export_graphviz
 
 class Model():
-    def __init__(self, model_type = 'mlp'):
+    def __init__(self, model_type = 'mlp', pplot = True):
         self._net = network()
         self.model_selector(model_type)
-        self.pplot = True
+        self.pplot = pplot
 
     def __getattr__(self, name):
         '''
@@ -62,7 +62,7 @@ class Model():
 
             # Set the loss and optimiser
             criterion = nn.CrossEntropyLoss(weight=class_weights_tensor)
-            optimiser = torch.optim.Adam(self.model.parameters(), lr = learning_rate)
+            optimiser = torch.optim.Adam(self.model.parameters(), lr=learning_rate) #torch.optim.AdamW(self.model.parameters(), lr = learning_rate, weight_decay=0.01) # lr, weight_decay=0.01) # L2 regualarisation to prevent overfitting
 
             if mode == 'train':    
                 # Begin training
@@ -73,6 +73,15 @@ class Model():
                 ax.plot(self.model.validation_loss_list, 'x-', color='b', label='Validation Loss')
                 ax.set_xlabel('Epoch')
                 ax.set_ylabel('Loss')
+                ax.legend()
+                plt.show()
+
+                # Plot the accuracy
+                fig, ax = plt.subplots(figsize=(10, 5))
+                ax.plot(self.model.accuracy_list, 'x-', color='r', label='Training Accuracy')
+                ax.plot(self.model.validation_accuracy_list, 'x-', color='b', label='Validation Accuracy')
+                ax.set_xlabel('Epoch')
+                ax.set_ylabel('Accuracy')
                 ax.legend()
                 plt.show()
 
@@ -264,8 +273,8 @@ class Model():
             raise ValueError('Unsupported model type')
 
 if __name__ == '__main__':
-    model = Model(model_type='mlp')
-    model.run(epochs=150, learning_rate=1e-5)#1e-5#0.000625#0.00025 # learning rate is not used for random forest
+    model = Model(model_type='mlp', pplot=False)
+    model.run(epochs=300, learning_rate=1e-5)#1e-5#0.000625#0.00025 # learning rate is not used for random forest
     model.test()
     model.cross_correlation()
     model.onnx_save()
