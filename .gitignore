@@ -1319,3 +1319,6 @@ name.html
 db.sqlite3
 optuna_results.csv
 optuna_results_*.csv
+data_delaunay.csv
+ES_best_model.pth
+optuna_study.db

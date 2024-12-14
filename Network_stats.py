@@ -394,3 +394,78 @@ class network(cat):
         self.train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
         self.val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False)
         self.test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
+
+    def save_data(self, path):
+        '''
+        Save the data to a file. must be run after one network_stats method execution and before pipeline_from_save
+        '''
+        assert hasattr(self, 'data'), 'Data attribute does not exist, please run one of the network_stats methods'
+
+        self.data.to_csv(path)
+
+    def pipeline_from_save(self, network_type = 'MST'):
+        if network_type == 'MST':
+            self.data = pd.read_csv('data_mst.csv', index_col='Node ID')
+        elif network_type == 'Complex':
+            self.data = pd.read_csv('data_complex.csv', index_col='Node ID')
+        elif network_type == 'Delaunay':
+            # load the data
+            self.data = pd.read_csv('data_delaunay.csv', index_col='Node ID')
+
+        # Creating weights for the classes by the inverse of the frequency
+        self.class_weights = compute_class_weight(class_weight='balanced', classes=np.unique(self.data['Target']), y=self.data['Target'])
+        print("Class weights: ", self.class_weights)        
+
+        self.data.index.name = 'Node ID'
+
+        # Feature scaling
+        features = self.data.iloc[:,:-1] # All columns except the last one
+        targets = self.data.iloc[:,-1] # The last column
+
+        scaler = StandardScaler()
+        scaler = PowerTransformer(method = 'box-cox')
+        features = pd.DataFrame(scaler.fit_transform(features), index=features.index, columns=features.columns)
+
+        # Train-test split       
+        X_train, X_test, y_train, y_test = train_test_split(features, targets, test_size=0.2, stratify=targets)#, random_state=21)
+        X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, stratify=y_train)#, random_state=21)
+        # 0.25 x 0.8 = 0.2
+
+        self.train_indices = X_train.index
+        self.val_indices = X_val.index
+        self.test_indices = X_test.index
+
+        # Convert to PyTorch tensors
+        X_train = torch.tensor(X_train.values, dtype=torch.float32)
+        X_val = torch.tensor(X_val.values, dtype=torch.float32)
+        X_test = torch.tensor(X_test.values, dtype=torch.float32)
+        y_train = torch.tensor(y_train.values, dtype=torch.long)
+        y_val = torch.tensor(y_val.values, dtype=torch.long)
+        y_test = torch.tensor(y_test.values, dtype=torch.long)
+
+        # Define the classes
+        # classes = ['3.', '2.', '1.', '0.'] #torch.unique(y_train)
+
+        # Create Dataset class
+        class CustomDataset(Dataset): # Custom dataset class
+            def __init__(self, features, targets, classes):
+                self.features = features
+                self.targets = targets
+                self.classes = classes
+
+            def __len__(self): # Returns the number of samples in the dataset
+                return len(self.features)
+            
+            def __getitem__(self, idx): # Returns the sample at the given index
+                return self.features[idx], self.targets[idx]
+        classes = ['Void (0)', 'Wall (1)', 'Filament (2)', 'Cluster (3)']
+        #['Knot', 'Filament', 'Wall', 'Void']
+        train_dataset = CustomDataset(X_train, y_train, classes) # Create the custom dataset
+        val_dataset = CustomDataset(X_val, y_val, classes)
+        test_dataset = CustomDataset(X_test, y_test, classes)
+
+        # Create DataLoader objects
+        self.train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
+        self.val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False)
+        self.test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
+
