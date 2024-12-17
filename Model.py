@@ -37,7 +37,7 @@ class Model():
         if model_type == 'mlp':
             self.model = Model_classes.MLP()
             writer = SummaryWriter()
-            writer.add_graph(self.model, torch.randn(1, 7))
+            writer.add_graph(self.model, torch.randn(1, 6))
             writer.close()
             
         elif model_type == 'dnn':
@@ -246,7 +246,7 @@ class Model():
         Function to visualise the neural network model in ONNX format
         '''
         # Prepare an example input (automatically adjust shape if architecture changes)
-        example_input = torch.randn(1, 7) # specific to the Delaunay network
+        example_input = torch.randn(1, 6) # specific to the Delaunay network
 
         if isinstance(self.model, Model_classes.MLP):
 
@@ -274,7 +274,7 @@ class Model():
 
 if __name__ == '__main__':
     model = Model(model_type='mlp', pplot=False)
-    model.run(epochs=300, learning_rate=1e-5)#1e-5#0.000625#0.00025 # learning rate is not used for random forest
+    model.run(epochs=90, learning_rate=1e-5)#1e-5#0.000625#0.00025 # learning rate is not used for random forest
     model.test()
     model.cross_correlation()
     model.onnx_save()

@@ -77,19 +77,19 @@ def initialise_weights(m):
 
 class MLP(nn.Module):
 
-    def __init__(self, n_features = 7, n_hidden = 5, n_output_classes = 4):
+    def __init__(self, n_features = 6, n_hidden = 5, n_output_classes = 4):
         super().__init__()
         self.device = device_check() # Check if a GPU is available
         # Define the layers using nn.Sequential and OrderedDict for named layers
         self.layer_stack = nn.Sequential(OrderedDict([
             ('fc1', nn.Linear(n_features, 25)),
-            ('relu1', nn.ReLU()),
+            ('relu1', nn.LeakyReLU()),
             ('fc2', nn.Linear(25, 20)),
-            ('relu2', nn.ReLU()),
+            ('relu2', nn.LeakyReLU()),
             ('fc3', nn.Linear(20, 15)),
-            ('relu3', nn.ReLU()),
+            ('relu3', nn.LeakyReLU()),
             ('fc4', nn.Linear(15, 15)),
-            ('relu4', nn.ReLU()),
+            ('relu4', nn.LeakyReLU()),
             ('fc5', nn.Linear(15, n_output_classes)),
             # ('softmax', nn.LogSoftmax(dim = 1)) # dim=1 to apply softmax along the class dimension | no need to apply softmax as it is included in the cross entropy loss function
         ]))

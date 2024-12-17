@@ -295,7 +295,7 @@ class network(cat):
         assert hasattr(self, 'cweb'), 'cweb attribute does not exist, please run the cweb_classify method' 
 
         # Add in xyz coordinates and use them to remove 10Mpc from each side of the cube before dropping the fields
-        self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': np.array(list(self.tetra_dens.values())), 'Neigh Density' : np.array(list(self.neigh_tetra_dens.values())),'Target': self.cweb})
+        self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': np.array(list(self.tetra_dens.values())), 'Neigh Density' : np.array(list(self.neigh_tetra_dens.values())),'Target': self.cweb}) #, 'Min E.L.': self.min_elen
         print('length before buffering: ', len(self.data))
         self.data['x'] = self.points[:,0]
         self.data['y'] = self.points[:,1]
@@ -306,6 +306,11 @@ class network(cat):
         print('length after buffering: ', len(self.data))
 
         self.data.index.name = 'Node ID'
+
+        # self.conf_gal = pd.read_csv('shifted_galaxies_probs.csv', index_col='Galaxy Index') # filter out galaxies that are not >95% confident
+        # mask = (self.conf_gal['0']>0.95) | (self.conf_gal['1']>0.95) | (self.conf_gal['2']>0.95) | (self.conf_gal['3']>0.95) # true or false for each galaxy
+        # self.data = self.data[self.data.index.isin(self.conf_gal[mask].index)] # filter out galaxies that are not >95% confident
+        # print('length after filtering: ', len(self.data))
 
     def pipeline(self, network_type = 'MST'):
         '''
@@ -341,8 +346,8 @@ class network(cat):
         features = pd.DataFrame(scaler.fit_transform(features), index=features.index, columns=features.columns)
 
         # Train-test split       
-        X_train, X_test, y_train, y_test = train_test_split(features, targets, test_size=0.2, stratify=targets, random_state=21)
-        X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, stratify=y_train, random_state=21)
+        X_train, X_test, y_train, y_test = train_test_split(features, targets, test_size=0.2, stratify=targets)#, random_state=21)
+        X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, stratify=y_train)#, random_state=21)
         # 0.25 x 0.8 = 0.2
 
         self.train_indices = X_train.index
@@ -391,9 +396,9 @@ class network(cat):
         test_dataset = CustomDataset(X_test, y_test, classes)
 
         # Create DataLoader objects
-        self.train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
-        self.val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False)
-        self.test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
+        self.train_loader = DataLoader(train_dataset, batch_size=8, shuffle=True)
+        self.val_loader = DataLoader(val_dataset, batch_size=8, shuffle=False)
+        self.test_loader = DataLoader(test_dataset, batch_size=8, shuffle=False)
 
     def save_data(self, path):
         '''
