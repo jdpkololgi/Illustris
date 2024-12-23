@@ -77,7 +77,7 @@ def initialise_weights(m):
 
 class MLP(nn.Module):
 
-    def __init__(self, n_features = 6, n_hidden = 5, n_output_classes = 4):
+    def __init__(self, n_features = 7, n_hidden = 5, n_output_classes = 4):
         super().__init__()
         self.device = device_check() # Check if a GPU is available
         # Define the layers using nn.Sequential and OrderedDict for named layers
@@ -174,8 +174,8 @@ class MLP(nn.Module):
                 patience_counter += 1
                 if patience_counter >= patience:
                     print(f'Early stopping at epoch {epoch+1}')
-                    self.layer_stack.load_state_dict(torch.load('ES_best_model.pth'))
-                    # break
+                    # self.layer_stack.load_state_dict(torch.load('ES_best_model.pth'))
+                    break
         
         writer.flush()    
         writer.close()
@@ -220,22 +220,29 @@ class MLP(nn.Module):
         correct = 0 # Counter for the number of correct predictions
         total = 0 # Counter for the total number of predictions 
         all_preds = [] # List to store all the predictions for tensorboard
+        all_prob_preds = [] # List to store all the probability predictions for tensorboard
         all_labels = [] # List to store all the labels for tensorboard
+        all_prob_labels = [] # List to store all the probability labels for tensorboard
 
         with torch.no_grad(): # Turn off gradient tracking to speed up the computation and reduce memory usage
             for features, labels in test_loader: # Loop iterates over batches of data from the test_loader. It provides batches of features and corresponding labels
                 features, labels = features.to(self.device), labels.to(self.device) # Move the data to the device
 
                 outputs = self.layer_stack(features) # Forward pass
+                all_prob_preds.extend(outputs.cpu().numpy()) # Append the probability predictions to the list
+                all_prob_labels.extend(labels.cpu().numpy()) # Append the probability labels to the list
                 _, predicted = torch.max(outputs, 1) # Get the class with the highest probability and 1 is the dimension along which to find the maximum
                 total += labels.size(0) # Increment the total by the number of labels in the batch
                 correct += (predicted == labels).sum().item() # Increment the correct counter by the number of correct predictions in the batch
-                all_preds.extend(predicted.cpu().numpy())
-                all_labels.extend(labels.cpu().numpy())
+                all_preds.extend(predicted.cpu().numpy()) # Append the predictions to the list
+                all_labels.extend(labels.cpu().numpy()) # Append the labels to the list
 
         self.test_accuracy = 100 * correct / total # Calculate the accuracy as a percentage
         print(f'Test Accuracy: {self.test_accuracy}%')
-
+        df_prob_preds = pd.DataFrame(all_prob_preds) #columns=['Cluster', 'Wall', 'Filament', 'Void'])
+        df_prob_labels = pd.DataFrame(all_prob_labels) #columns=['Cluster', 'Wall', 'Filament', 'Void'])
+        df_prob_preds.to_csv('Test_probs_predictions_MLP.csv')
+        df_prob_labels.to_csv('Test_probs_labels_MLP.csv')
         # Compute the confusion matrix
         # print(all_preds)
         # print(all_labels)

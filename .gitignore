@@ -1323,3 +1323,6 @@ data_delaunay.csv
 ES_best_model.pth
 optuna_study.db
 shifted_galaxies_probs.csv
+data_delaunay2.csv
+Test_probs_labels_MLP.csv
+Test_probs_predictions_MLP.csv

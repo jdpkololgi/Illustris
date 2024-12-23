@@ -37,7 +37,7 @@ class Model():
         if model_type == 'mlp':
             self.model = Model_classes.MLP()
             writer = SummaryWriter()
-            writer.add_graph(self.model, torch.randn(1, 6))
+            writer.add_graph(self.model, torch.randn(1, 7))
             writer.close()
             
         elif model_type == 'dnn':
@@ -246,7 +246,7 @@ class Model():
         Function to visualise the neural network model in ONNX format
         '''
         # Prepare an example input (automatically adjust shape if architecture changes)
-        example_input = torch.randn(1, 6) # specific to the Delaunay network
+        example_input = torch.randn(1, 7) # specific to the Delaunay network
 
         if isinstance(self.model, Model_classes.MLP):
 
