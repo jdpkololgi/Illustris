@@ -33,6 +33,9 @@ def device_check():
     Function to check if a GPU is available
     '''
     if torch.cuda.is_available():
+        print('Nvidia GPU is available')
+        for i in range(torch.cuda.device_count()):
+            print(torch.cuda.get_device_properties(i))
         return torch.device('cuda')
 
     elif torch.backends.mps.is_available():

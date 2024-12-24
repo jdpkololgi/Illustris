@@ -35,7 +35,7 @@ for i in range(5):
     print(GroupFirstSub[i], frac)
 
 #Illustris300simulation data
-basePath2 = r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1'
+basePath2 = r'C:\Users\dkter\OneDrive - University College London\Year 1\Illustris\TNG300-1'
 object = il.groupcat.load(basePath2,99)
 print(object.keys())
 

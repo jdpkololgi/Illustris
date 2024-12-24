@@ -160,7 +160,7 @@ class cat():
         mst = mist.GetMST(x=self.posx, y=self.posy, z=self.posz)
         mst.construct_mst()
         self.d, self.l, self.b, self.s, self.l_index, self.b_index = mst.get_stats(include_index=True)
-        self.tree = mst.tree
+        # self.tree = mst.tree
         # print(mst.tree)
         # print(type(mst.tree))
 
