@@ -82,15 +82,15 @@ class MLP(nn.Module):
         self.device = device_check() # Check if a GPU is available
         # Define the layers using nn.Sequential and OrderedDict for named layers
         self.layer_stack = nn.Sequential(OrderedDict([
-            ('fc1', nn.Linear(n_features, 25)),
+            ('fc1', nn.Linear(n_features, 30)),
             ('relu1', nn.LeakyReLU()),
-            ('fc2', nn.Linear(25, 20)),
+            ('fc2', nn.Linear(30, 30)),
             ('relu2', nn.LeakyReLU()),
-            ('fc3', nn.Linear(20, 15)),
+            ('fc3', nn.Linear(30, 30)),
             ('relu3', nn.LeakyReLU()),
-            ('fc4', nn.Linear(15, 15)),
+            ('fc4', nn.Linear(30, 30)),
             ('relu4', nn.LeakyReLU()),
-            ('fc5', nn.Linear(15, n_output_classes)),
+            ('fc5', nn.Linear(30, n_output_classes)),
             # ('softmax', nn.LogSoftmax(dim = 1)) # dim=1 to apply softmax along the class dimension | no need to apply softmax as it is included in the cross entropy loss function
         ]))
         self.to(self.device) # Move the model to the device (GPU or CPU)

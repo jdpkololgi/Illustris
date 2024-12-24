@@ -390,9 +390,9 @@ class network(cat):
         test_dataset = CustomDataset(X_test, y_test, classes)
 
         # Create DataLoader objects
-        self.train_loader = DataLoader(train_dataset, batch_size=8, shuffle=True)
-        self.val_loader = DataLoader(val_dataset, batch_size=8, shuffle=False)
-        self.test_loader = DataLoader(test_dataset, batch_size=8, shuffle=False)
+        self.train_loader = DataLoader(train_dataset, batch_size=12, shuffle=True)
+        self.val_loader = DataLoader(val_dataset, batch_size=12, shuffle=False)
+        self.test_loader = DataLoader(test_dataset, batch_size=12, shuffle=False)
 
     # def save_data(self, path):
     #     '''
