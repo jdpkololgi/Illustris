@@ -494,9 +494,9 @@ class cat():
 
     def cweb_classify(self, xyzplot=True):
         '''Plots the cosmic web classications of the subhalos in the given object.'''
-        self.cwebfile = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/TNG300_snap_099_tweb_env_merged.npz') # #new_TNG300_snap_099_nexus_env_merged.npz
-        # self.significances = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/new_TNG300_snap_099_nexus_sig_merged.npz')        
-        self.filetype = 'TWEB' # Nexus+
+        self.cwebfile = np.load(r'C:\Users\dkter\OneDrive - University College London\Year 1\MST\TNG300_snap_099_tweb_env_merged.npz') #TNG300_snap_099_tweb_env_merged.npz
+        # self.significances = np.load(r'C:\Users\dkter\OneDrive - University College London\Year 1\MST\new_TNG300_snap_099_nexus_sig_merged.npz')        
+        self.filetype = 'T-Web' # Nexus+
         self.cwebdata = self.cwebfile['cweb']
         # self.Sc = self.significances['Sc']
         # self.Sf = self.significances['Sf']
@@ -622,7 +622,7 @@ if __name__ == '__main__':
     # halo_MST(test, xyzplot=True)
     # subhalo_MST(test, xyzplot=True)
 
-    testcat = cat(path=r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1', snapno=99, masscut=1e10)
+    testcat = cat(path=r'C:\Users\dkter\OneDrive - University College London\Year 1\Illustris\TNG300-1', snapno=99, masscut=1e10)
     # self.readcat(xyzplot=False)
     # testcat.subhalo_MST(xyzplot=True, mode='std')
     # cweb = testcat.cweb_classify()
