@@ -50,8 +50,7 @@ class cat():
             raise TypeError('The masscut must be a number.')
         
         self.readcat = self.readcat(xyzplot=False)
-        self.subhalo_MST(xyzplot=False, mode='std')
-        
+
     def __repr__(self):
         assert hasattr(self, 'object'), 'No TNG object has been read in. Please add one using the readcat() method.'
         boxsize = round(((u.kpc*self.object['header']['BoxSize']*self.sf/self.hub).to('Mpc')).value)
@@ -72,6 +71,22 @@ class cat():
         self.x = u.kpc*self.object['subhalos']['SubhaloPos'][:,0]*self.sf/self.hub #spatial coordinates of subhalos
         self.y = u.kpc*self.object['subhalos']['SubhaloPos'][:,1]*self.sf/self.hub
         self.z = u.kpc*self.object['subhalos']['SubhaloPos'][:,2]*self.sf/self.hub
+
+        uni = 'Mpc'
+        stars = (self.object['subhalos']['SubhaloMassType'][:,4]) #stellar mass of subhalos
+        mc = self.masscut*self.hub/1e10 #mass cut for subhalos
+        stars_indices = np.where(stars>=mc)[0] #indices of subhalos with stellar mass greater than masscut
+
+        print(f'There are {len(stars_indices)} subhalos with stellar mass greater than {mc}.')
+
+        #standard mode where we plot all subhalos with stellar mass greater than masscut
+        x = self.x[stars_indices] #spatial coordinates of subhalos with stellar mass greater than masscut
+        y = self.y[stars_indices]
+        z = self.z[stars_indices]
+
+        self.posx = x.to(uni).value
+        self.posy = y.to(uni).value
+        self.posz = z.to(uni).value
 
         if xyzplot:
             '''Plots in 3D the spatial coordinates of [lim] halos, finds all associated subhalos and plots them in 3D.'''
