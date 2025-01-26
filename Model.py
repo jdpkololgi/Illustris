@@ -58,7 +58,7 @@ class Model():
         if isinstance(self.model, Model_classes.MLP):
         
             # Weight each class by the inverse of the frequency it depends on the masscut
-            class_weights_tensor = torch.tensor(self.class_weights, dtype=torch.float32).to(self.model.device)
+            class_weights_tensor = torch.tensor(self.class_weights, dtype=torch.float32)#.to(self.model.device)
 
             # Set the loss and optimiser
             criterion = nn.CrossEntropyLoss(weight=class_weights_tensor)
@@ -178,7 +178,7 @@ class Model():
 
         if self.pplot:
             # Corner plot for the features against each other color-coded by cosmic web environment (Target)
-            pairplot = sns.pairplot(dataset, hue='Target', palette='Set1', diag_kind='kde', markers='o', plot_kws={'alpha':0.5}, corner=True)
+            pairplot = sns.pairplot(dataset, hue='Target', palette='Set1', diag_kind='kde', plot_kws={'alpha':0.5, 's':1}, corner=True)
             pairplot.map_lower(sns.kdeplot, levels=4)
             # for ax in pairplot.axes.flatten():
             #     ax.set_xscale('log')
@@ -273,7 +273,7 @@ class Model():
             raise ValueError('Unsupported model type')
 
 if __name__ == '__main__':
-    model = Model(model_type='mlp', pplot=False)
+    model = Model(model_type='mlp', pplot=True)
     model.run(epochs=90, learning_rate=1e-5)#1e-5#0.000625#0.00025 # learning rate is not used for random forest
     model.test()
     model.cross_correlation()

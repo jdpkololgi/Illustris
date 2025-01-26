@@ -128,8 +128,8 @@ def kde_density(points, bandwidth=1.0):
     return np.exp(log_density)
 
 class network(cat):
-    def __init__(self):
-        self._utils = cat(path=r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1', snapno=99, masscut=1e10)
+    def __init__(self, masscut=1e10):
+        self._utils = cat(path=r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1', snapno=99, masscut=masscut)
 
     def __getattr__(self, name):
         '''
@@ -294,7 +294,7 @@ class network(cat):
         # Throw error if self.cweb does not exist
         assert hasattr(self, 'cweb'), 'cweb attribute does not exist, please run the cweb_classify method' 
 
-        # Add in xyz coordinates and use them to remove 10Mpc from each side of the cube before dropping the fields
+        # Add in xyz coordinates and use them to remove 10Mpc from each side of the cube before dropping the fields'UB':self.UB, 'BV': self.BV, 'VK':self.VK, 'gr':self.gr, 'ri':self.ri, 'iz':self.iz, 
         self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': np.array(list(self.tetra_dens.values())), 'Neigh Density' : np.array(list(self.neigh_tetra_dens.values())),'Target': self.cweb}) 
         print('length before buffering: ', len(self.data))
         self.data['x'] = self.points[:,0]
