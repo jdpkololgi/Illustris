@@ -19,7 +19,7 @@ import graphviz
 from sklearn.tree import export_graphviz
 
 class Model():
-    def __init__(self, model_type = 'mlp', pplot = True):
+    def __init__(self, model_type = 'mlp', pplot = False):
         self._net = network()
         self.model_selector(model_type)
         self.pplot = pplot
