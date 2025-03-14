@@ -6,6 +6,8 @@ import seaborn as sns
 import torch
 from torch import nn
 from torch.utils.tensorboard import SummaryWriter
+import torch.nn.functional as F
+from torch_geometric.nn import GCNConv
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import precision_recall_fscore_support
 from collections import OrderedDict
@@ -82,15 +84,22 @@ class MLP(nn.Module):
         self.device = device_check() # Check if a GPU is available
         # Define the layers using nn.Sequential and OrderedDict for named layers
         self.layer_stack = nn.Sequential(OrderedDict([
-            ('fc1', nn.Linear(n_features, 30)),
+            # ('fc1', nn.Linear(n_features, 30)),
+            # ('relu1', nn.LeakyReLU()),
+            # ('fc2', nn.Linear(30, 30)),
+            # ('relu2', nn.LeakyReLU()),
+            # ('fc3', nn.Linear(30, 30)),
+            # ('relu3', nn.LeakyReLU()),
+            # ('fc4', nn.Linear(30, 30)),
+            # ('relu4', nn.LeakyReLU()),
+            # ('fc5', nn.Linear(30, n_output_classes)),
+
+            ('fc1', nn.Linear(n_features, 7)),
             ('relu1', nn.LeakyReLU()),
-            ('fc2', nn.Linear(30, 30)),
+            ('fc2', nn.Linear(7, 5)),
             ('relu2', nn.LeakyReLU()),
-            ('fc3', nn.Linear(30, 30)),
-            ('relu3', nn.LeakyReLU()),
-            ('fc4', nn.Linear(30, 30)),
-            ('relu4', nn.LeakyReLU()),
-            ('fc5', nn.Linear(30, n_output_classes)),
+            ('fc3', nn.Linear(5, 4)),
+
             # ('softmax', nn.LogSoftmax(dim = 1)) # dim=1 to apply softmax along the class dimension | no need to apply softmax as it is included in the cross entropy loss function
         ]))
         # self.to(self.device) # Move the model to the device (GPU or CPU)
@@ -219,60 +228,142 @@ class MLP(nn.Module):
         self.layer_stack.eval() # Set the model to evaluation mode, ensuring that dropout and batchnorm layers are not active
         correct = 0 # Counter for the number of correct predictions
         total = 0 # Counter for the total number of predictions 
-        all_preds = [] # List to store all the predictions for tensorboard
-        all_prob_preds = [] # List to store all the probability predictions for tensorboard
-        all_labels = [] # List to store all the labels for tensorboard
-        all_prob_labels = [] # List to store all the probability labels for tensorboard
+        self.all_preds = [] # List to store all the predictions for tensorboard
+        self.all_prob_preds = [] # List to store all the probability predictions for tensorboard
+        self.all_labels = [] # List to store all the labels for tensorboard
 
         with torch.no_grad(): # Turn off gradient tracking to speed up the computation and reduce memory usage
             for features, labels in test_loader: # Loop iterates over batches of data from the test_loader. It provides batches of features and corresponding labels
                 # features, labels = features.to(self.device), labels.to(self.device) # Move the data to the device
 
                 outputs = self.layer_stack(features) # Forward pass
-                all_prob_preds.extend(outputs.cpu().numpy()) # Append the probability predictions to the list
-                all_prob_labels.extend(labels.cpu().numpy()) # Append the probability labels to the list
+                self.all_prob_preds.extend(F.softmax(outputs, dim=1).cpu().numpy()) # Append the probability predictions to the list
                 _, predicted = torch.max(outputs, 1) # Get the class with the highest probability and 1 is the dimension along which to find the maximum
                 total += labels.size(0) # Increment the total by the number of labels in the batch
                 correct += (predicted == labels).sum().item() # Increment the correct counter by the number of correct predictions in the batch
-                all_preds.extend(predicted.cpu().numpy()) # Append the predictions to the list
-                all_labels.extend(labels.cpu().numpy()) # Append the labels to the list
+                self.all_preds.extend(predicted.cpu().numpy()) # Append the predictions to the list
+                self.all_labels.extend(labels.cpu().numpy()) # Append the labels to the list
 
         self.test_accuracy = 100 * correct / total # Calculate the accuracy as a percentage
         print(f'Test Accuracy: {self.test_accuracy}%')
-        df_prob_preds = pd.DataFrame(all_prob_preds) #columns=['Cluster', 'Wall', 'Filament', 'Void'])
-        df_prob_labels = pd.DataFrame(all_prob_labels) #columns=['Cluster', 'Wall', 'Filament', 'Void'])
-        df_prob_preds.to_csv('Test_probs_predictions_MLP.csv')
-        df_prob_labels.to_csv('Test_probs_labels_MLP.csv')
-        # Compute the confusion matrix
-        # print(all_preds)
-        # print(all_labels)
-        cm = confusion_matrix(all_labels, all_preds)
-        print(cm)
-        cm_fig = plot_confusion_matrix(cm, classes=test_loader.dataset.classes) #classes=['Cluster', 'Wall', 'Filament', 'Void'])#
-        writer.add_figure('Confusion Matrix/Test', cm_fig, global_step=None)
-        # Normalised confusion matrix
-        cm_fig_norm = plot_normalised_confusion_matrix(cm, classes=test_loader.dataset.classes) #classes=['Cluster', 'Wall', 'Filament', 'Void'])#
-        cm_fig_norm.savefig('Normalised_Confusion_Matrix_MLP.pdf')
+        # df_prob_preds = pd.DataFrame(all_prob_preds) #columns=['Cluster', 'Wall', 'Filament', 'Void'])
+        # df_prob_labels = pd.DataFrame(all_labels) #columns=['Cluster', 'Wall', 'Filament', 'Void'])
+        # df_prob_preds.to_csv('Test_probs_predictions_MLP.csv')
+        # df_prob_labels.to_csv('Test_probs_labels_MLP.csv')
 
-        writer.add_figure('Normalised Confusion Matrix/Test', cm_fig_norm, global_step=None)
+        # # Compute the confusion matrix
+        # cm = confusion_matrix(all_labels, all_preds)
+        # print(cm)
+        # cm_fig = plot_confusion_matrix(cm, classes=test_loader.dataset.classes) #classes=['Cluster', 'Wall', 'Filament', 'Void'])#
+        # writer.add_figure('Confusion Matrix/Test', cm_fig, global_step=None)
+        # # Normalised confusion matrix
+        # cm_fig_norm = plot_normalised_confusion_matrix(cm, classes=test_loader.dataset.classes) #classes=['Cluster', 'Wall', 'Filament', 'Void'])#
+        # cm_fig_norm.savefig('Normalised_Confusion_Matrix_MLP.pdf')
 
-        # Precision, Recall, F1 Score
-        # For each class
-        stats = precision_recall_fscore_support(all_labels, all_preds)
-        stats_df = pd.DataFrame(list(stats), index=['Precision', 'Recall', 'F1 Score', 'Support'], columns=test_loader.dataset.classes) #columns=['Cluster', 'Wall', 'Filament', 'Void'])
-        fig, ax = plt.subplots(figsize=(10, 5))
-        print(stats_df.loc['Support'])
-        stats_df.drop('Support').T.plot(kind='bar', ax=ax)
-        ax.set_title('Precision, Recall and F1 Score')
-        ax.set_ylabel('Score')
-        ax.legend()
-        for p in ax.patches:
-            # Bar data to 2 decimal places
-            ax.annotate(str(p.get_height().round(2)), (p.get_x() * 1.005, p.get_height() * 1.005))
-        plt.show()
-        writer.add_figure('Precision, Recall and F1 Score', fig, global_step=None)
-        return all_preds, all_labels
+        # writer.add_figure('Normalised Confusion Matrix/Test', cm_fig_norm, global_step=None)
 
+        # # Precision, Recall, F1 Score
+        # # For each class
+        # stats = precision_recall_fscore_support(all_labels, all_preds)
+        # stats_df = pd.DataFrame(list(stats), index=['Precision', 'Recall', 'F1 Score', 'Support'], columns=test_loader.dataset.classes) #columns=['Cluster', 'Wall', 'Filament', 'Void'])
+        # fig, ax = plt.subplots(figsize=(10, 5))
+        # print(stats_df.loc['Support'])
+        # stats_df.drop('Support').T.plot(kind='bar', ax=ax)
+        # ax.set_title('Precision, Recall and F1 Score')
+        # ax.set_ylabel('Score')
+        # ax.legend()
+        # for p in ax.patches:
+        #     # Bar data to 2 decimal places
+        #     ax.annotate(str(p.get_height().round(2)), (p.get_x() * 1.005, p.get_height() * 1.005))
+        # plt.show()
+        # writer.add_figure('Precision, Recall and F1 Score', fig, global_step=None)
+
+        self.all_labels = np.array(self.all_labels)
+        self.all_preds = np.array(self.all_preds)
+        self.all_prob_preds = np.array(self.all_prob_preds)
+        return self.all_preds, self.all_labels,  self.all_prob_preds
+    
+class GCN(nn.Module):
+    """Simple GNN model using the GCNLayer
+
+    Args:
+        input_dim (int): Dimensionality of the input feature vectors
+        output_dim (int): Dimensionality of the output softmax distribution
+    """
+
+    def __init__(self, n_features = 7, n_output_classes = 4):
+        super(GNN, self).__init__()
+    #     self.layer_stack = nn.Sequential(OrderedDict([
+    #         ('gcn1', GCNConv(n_features, 15)),
+    #         ('relu1', nn.ReLU()),
+    #         ('gcn2', GCNConv(15, 10)),
+    #         ('relu2', nn.ReLU()),
+    #         ('gcn3', GCNConv(10, n_output_classes))
+    #     ]))
+
+    # def forward(self, x, edge_index, edge_weight=None):
+    #     return self.layer_stack(x, edge_index, edge_weight)
+        self.gcn1 = GCNConv(n_features, 15)
+        self.gcn2 = GCNConv(15, 10)
+        self.gcn3 = GCNConv(10, n_output_classes)
+
+    def forward(self, x, edge_index, edge_weight=None):
+        x = F.relu(self.gcn1(x, edge_index, edge_weight))
+        x = F.relu(self.gcn2(x, edge_index, edge_weight))
+        y_hat = self.gcn3(x, edge_index, edge_weight)
+        return y_hat
+
+class GNN(nn.Module):    
+    def train_model(self, criterion, optimiser, data, epochs, patience=5):
+        '''
+        Training loop for the model with early stopping
+        '''
+        self.apply(initialise_weights) # Initialise the weights of the model
+        full_train_loss = []
+        full_val_loss = []
+        full_train_acc = []
+        full_val_acc = []
+
+        for epoch in range(epochs): # Loop over the epochs. One complete pass through the entire training dataset
+            optimiser.zero_grad() # Clear the gradients
+            self.train() # Set the model to training mode
+            output = self(data.x, data.edge_index, data.edge_attr) # Forward pass
+            loss = criterion(output[data.train_mask], data.y[data.train_mask]) # Calculate the loss
+            loss.backward() # Compute the gradients
+            optimiser.step() # Update the weights
+            train_probs = output[data.train_mask].detach().cpu().numpy()
+            _, predicted = torch.max(train_probs, 1)
+            correct = (predicted == data.y[data.train_mask]).sum().item()
+            total = data.train_mask.sum().item()
+
+            # validation accuracy and loss
+            self.eval() # Set the model to evaluation mode
+            with torch.no_grad(): # Turn off gradient tracking to speed up the computation and reduce memory usage
+                output = self(data.x, data.edge_index, data.edge_attr) # Forward pass
+                val_loss = criterion(output[data.val_mask], data.y[data.val_mask]) # Calculate the loss
+                val_probs = output[data.val_mask].detach().cpu().numpy()
+                _, predicted = torch.max(val_probs, 1)
+                val_correct = (predicted == data.y[data.val_mask]).sum().item()
+                val_total = data.y[data.val_mask].size(0)
+
+                return loss.item(), val_loss.item(), 100*correct / total, 100*val_correct / val_total
+        
+    def test_model(self, data):
+        '''
+        Testing loop for the model
+        '''
+        self.eval()
+        with torch.no_grad():
+            output = self(data.x, data.edge_index, data.edge_attr)
+            test_probs = F.softmax(output[data.test_mask], dim=1).detach().cpu().numpy()
+            _, predicted = torch.max(test_probs, 1)
+            correct = (predicted == data.y[data.test_mask]).sum().item()
+            total = data.y[data.test_mask].size(0)
+            print(f'Test Accuracy: {100 * correct / total:.2f}%')
+            return predicted, data.y[data.test_mask], test_probs
+
+
+        
 
 class Random_Forest:
     def __init__(self, n_estimators=100, random_state=42):

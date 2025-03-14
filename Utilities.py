@@ -494,9 +494,9 @@ class cat():
 
     def cweb_classify(self, xyzplot=True):
         '''Plots the cosmic web classications of the subhalos in the given object.'''
-        self.cwebfile = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/TNG300_snap_099_tweb_env_merged.npz') #TNG300_snap_099_tweb_env_merged.npz
+        self.cwebfile = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/new_TNG300_snap_099_nexus_env_merged.npz') #TNG300_snap_099_tweb_env_merged.npz #
         self.significances = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/new_TNG300_snap_099_nexus_sig_merged.npz')        
-        self.filetype = 'T-Web' # Nexus+
+        self.filetype = 'Nexus+' # Nexus+
         self.cwebdata = self.cwebfile['cweb']
         # self.Sc = self.significances['Sc']
         # self.Sf = self.significances['Sf']
@@ -546,7 +546,7 @@ class cat():
             ax.set_ylabel(r'y [Mpc]')
             ax.set_zlabel(r'z [Mpc]')
             mc = np.log10(self.masscut)
-            ax.set_title(f'TNG300-1 z=0 {self.filetype}. M/C: $10^{{10}}\,$ M$_{{\odot}}$. Subhalos: {len(x)}')#Snapshot={self.snapno} {len(x)} Subhalos Cosmic Web')
+            ax.set_title(f'TNG300-1 z=0 {self.filetype}. M/C [log$_{{10}}$(M$_{{\odot}})]$: ${(int(np.log10(self.masscut)))}\,$. Subhalos: {len(x)}')#Snapshot={self.snapno} {len(x)} Subhalos Cosmic Web')
             subhalopatchr = Line2D([0], [0], marker='.', color='w', label='Scatter',markerfacecolor='red', markersize=10)
             subhalopatchg = Line2D([0], [0], marker='.', color='w', label='Scatter',markerfacecolor='green', markersize=10)
             subhalopatchb = Line2D([0], [0], marker='.', color='w', label='Scatter',markerfacecolor='blue', markersize=10)

@@ -128,7 +128,7 @@ def kde_density(points, bandwidth=1.0):
     return np.exp(log_density)
 
 class network(cat):
-    def __init__(self, masscut=1e9):
+    def __init__(self, masscut=1e10):
         self._utils = cat(path=r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/Illustris/TNG300-1', snapno=99, masscut=masscut)
 
     def __getattr__(self, name):
@@ -300,7 +300,7 @@ class network(cat):
         self.data['x'] = self.points[:,0]
         self.data['y'] = self.points[:,1]
         self.data['z'] = self.points[:,2]
-        # self.data = self.data[(self.data['x']>10) & (self.data['x']<290) & (self.data['y']>10) & (self.data['y']<290) & (self.data['z']>10) & (self.data['z']<290)]
+        self.data = self.data[(self.data['x']>10) & (self.data['x']<290) & (self.data['y']>10) & (self.data['y']<290) & (self.data['z']>10) & (self.data['z']<290)]
         self.data = self.data.drop(columns=['x', 'y', 'z'])
         print('length after buffering: ', len(self.data))
 

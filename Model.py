@@ -10,6 +10,7 @@ from torch import nn
 
 from Network_stats import network
 import Model_classes
+from postprocessing import postprocessing
 from torch.utils.tensorboard import SummaryWriter
 from sklearn.metrics import confusion_matrix
 
@@ -67,23 +68,25 @@ class Model():
             if mode == 'train':    
                 # Begin training
                 self.model.train_model(criterion=criterion, optimiser=optimiser, train_loader=self.train_loader, val_loader=self.val_loader, epochs=epochs)
-                # Plot the loss
-                fig, ax = plt.subplots(figsize=(10, 5))
-                ax.plot(self.model.loss_list, 'x-', color='r', label='Training Loss')
-                ax.plot(self.model.validation_loss_list, 'x-', color='b', label='Validation Loss')
-                ax.set_xlabel('Epoch')
-                ax.set_ylabel('Loss')
-                ax.legend()
-                plt.show()
 
-                # Plot the accuracy
-                fig, ax = plt.subplots(figsize=(10, 5))
-                ax.plot(self.model.accuracy_list, 'x-', color='r', label='Training Accuracy')
-                ax.plot(self.model.validation_accuracy_list, 'x-', color='b', label='Validation Accuracy')
-                ax.set_xlabel('Epoch')
-                ax.set_ylabel('Accuracy')
-                ax.legend()
-                plt.show()
+
+                # # Plot the loss
+                # fig, ax = plt.subplots(figsize=(10, 5))
+                # ax.plot(self.model.loss_list, 'x-', color='r', label='Training Loss')
+                # ax.plot(self.model.validation_loss_list, 'x-', color='b', label='Validation Loss')
+                # ax.set_xlabel('Epoch')
+                # ax.set_ylabel('Loss')
+                # ax.legend()
+                # plt.show()
+
+                # # Plot the accuracy
+                # fig, ax = plt.subplots(figsize=(10, 5))
+                # ax.plot(self.model.accuracy_list, 'x-', color='r', label='Training Accuracy')
+                # ax.plot(self.model.validation_accuracy_list, 'x-', color='b', label='Validation Accuracy')
+                # ax.set_xlabel('Epoch')
+                # ax.set_ylabel('Accuracy')
+                # ax.legend()
+                # plt.show()
 
         elif isinstance(self.model, Model_classes.Random_Forest):
             if mode == 'train':
@@ -94,22 +97,26 @@ class Model():
         else:
             raise ValueError('Unsupported model type')
 
+        
+        # return self.model.loss_list, self.model.validation_loss_list, self.model.accuracy_list, self.model.validation_accuracy_list
+
     def test(self):
         '''
         Generic function to test different models
         '''
         if isinstance(self.model, Model_classes.MLP):
             # Begin testing
-            all_preds, all_labels = self.model.test_model(test_loader=self.test_loader)
+            all_preds, all_labels, all_prob_preds = self.model.test_model(test_loader=self.test_loader)
+
         elif isinstance(self.model, Model_classes.Random_Forest):
             # Begin testing
             all_preds, all_labels = self.model.test_model(test_loader=self.test_loader)
         else:
             raise ValueError('Unsupported model type')
         
-        # write table of galaxy indices and their corresponding labels and predictions to csv
-        table = pd.DataFrame({'Galaxy Index': self.test_indices, 'Labels': all_labels, 'Predictions': all_preds})
-        table.to_csv(f'predictions_{self.model.__class__.__name__}.csv', index=False)
+        # # write table of galaxy indices and their corresponding labels and predictions to csv
+        # table = pd.DataFrame({'Galaxy Index': self.test_indices, 'Labels': all_labels, 'Predictions': all_preds})
+        # table.to_csv(f'predictions_{self.model.__class__.__name__}.csv', index=False)
         
         ''' # print(all_labels)
             # print(all_preds)
@@ -134,70 +141,70 @@ class Model():
             # plt.tight_layout()
             # plt.plot()'''
         
-        # Violin plot
-        dataset = self.data
-        # # quickly invert the density measures and change labels
-        # dataset['Density'] = 1/dataset['Density']
-        # dataset['KNN Density'] = 1/dataset['KNN Density']
-        # dataset.rename(columns={'Density':'Density Inverse', 'KNN Density':'KNN Density Inverse'}, inplace=True)
-        features = dataset.iloc[:,:-1].values # All columns except the last one
-        # targets = self.data.iloc[:,-1].values # The last column
+        # # Violin plot
+        # dataset = self.data
+        # # # quickly invert the density measures and change labels
+        # # dataset['Density'] = 1/dataset['Density']
+        # # dataset['KNN Density'] = 1/dataset['KNN Density']
+        # # dataset.rename(columns={'Density':'Density Inverse', 'KNN Density':'KNN Density Inverse'}, inplace=True)
+        # features = dataset.iloc[:,:-1].values # All columns except the last one
+        # # targets = self.data.iloc[:,-1].values # The last column
 
-        scaler = StandardScaler()
-        scaler = PowerTransformer(method = 'box-cox')
-        dataset.iloc[:,:-1] = scaler.fit_transform(features)
-        print(dataset)
+        # scaler = StandardScaler()
+        # scaler = PowerTransformer(method = 'box-cox')
+        # dataset.iloc[:,:-1] = scaler.fit_transform(features)
+        # print(dataset)
 
-        n_features = len(dataset.columns) - 1
+        # n_features = len(dataset.columns) - 1
 
-        n_rows = (n_features + 2) // 3  # calculate the number of rows needed
-        n_cols = min(n_features, 3)  # use 3 columns or less if n_features < 3
+        # n_rows = (n_features + 2) // 3  # calculate the number of rows needed
+        # n_cols = min(n_features, 3)  # use 3 columns or less if n_features < 3
 
-        # strip plot for each feature and the 4 classes
-        fig, axs = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(10, 10))
-        fig1, axs1 = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(10, 10))
+        # # strip plot for each feature and the 4 classes
+        # fig, axs = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(10, 10))
+        # fig1, axs1 = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(10, 10))
 
-        # Flatten axs array if there's more than one subplot
-        if n_features > 1:
-            axs = axs.flatten()
-            axs1 = axs1.flatten()
-        else:
-            axs = [axs]
-            axs1 = [axs1]
+        # # Flatten axs array if there's more than one subplot
+        # if n_features > 1:
+        #     axs = axs.flatten()
+        #     axs1 = axs1.flatten()
+        # else:
+        #     axs = [axs]
+        #     axs1 = [axs1]
 
-        for i in range(n_features):
-            sns.violinplot(data=dataset, y=dataset.columns[i], x='Target', ax=axs[i], alpha=0.5) #jitter=0.2,
-            sns.stripplot(data=dataset, x='Target', ax=axs1[i], y=dataset.columns[i], jitter=0.25, alpha=0.5)
-            axs[i].set_title(f'{dataset.columns[i]}')
-            axs1[i].set_title(f'{dataset.columns[i]}')
-            # axs[i].set_yscale('log')
-            # upper_95thpercentile = dataset[dataset.columns[i]].quantile(0.95)
-            # lower_95thpercentile = dataset[dataset.columns[i]].quantile(0.5)
-            # axs[i].set_ylim(lower_95thpercentile, upper_95thpercentile)
-            # axs1[i].set_ylim(lower_95thpercentile, upper_95thpercentile)
+        # for i in range(n_features):
+        #     sns.violinplot(data=dataset, y=dataset.columns[i], x='Target', ax=axs[i], alpha=0.5) #jitter=0.2,
+        #     sns.stripplot(data=dataset, x='Target', ax=axs1[i], y=dataset.columns[i], jitter=0.25, alpha=0.5)
+        #     axs[i].set_title(f'{dataset.columns[i]}')
+        #     axs1[i].set_title(f'{dataset.columns[i]}')
+        #     # axs[i].set_yscale('log')
+        #     # upper_95thpercentile = dataset[dataset.columns[i]].quantile(0.95)
+        #     # lower_95thpercentile = dataset[dataset.columns[i]].quantile(0.5)
+        #     # axs[i].set_ylim(lower_95thpercentile, upper_95thpercentile)
+        #     # axs1[i].set_ylim(lower_95thpercentile, upper_95thpercentile)
 
-        if self.pplot:
-            # Corner plot for the features against each other color-coded by cosmic web environment (Target)
-            pairplot = sns.pairplot(dataset, hue='Target', palette='Set1', diag_kind='kde', plot_kws={'alpha':0.5, 's':1}, corner=True)
-            pairplot.map_lower(sns.kdeplot, levels=4)
-            # for ax in pairplot.axes.flatten():
-            #     ax.set_xscale('log')
-            #     ax.set_yscale('log')
+        # if self.pplot:
+        #     # Corner plot for the features against each other color-coded by cosmic web environment (Target)
+        #     pairplot = sns.pairplot(dataset, hue='Target', palette='Set1', diag_kind='kde', plot_kws={'alpha':0.5, 's':1}, corner=True)
+        #     pairplot.map_lower(sns.kdeplot, levels=4)
+        #     # for ax in pairplot.axes.flatten():
+        #     #     ax.set_xscale('log')
+        #     #     ax.set_yscale('log')
 
 
-            # Remove empty subplots if any
-            for j in range(n_features, len(axs)):
-                fig.delaxes(axs[j])
-                fig1.delaxes(axs1[j])
+        #     # Remove empty subplots if any
+        #     for j in range(n_features, len(axs)):
+        #         fig.delaxes(axs[j])
+        #         fig1.delaxes(axs1[j])
 
-            # axs[n_features-1].set_ylim(-1,1)
-            # axs1[n_features-1].set_ylim(-1,1)
-            # axs[n_features-1].set_yscale('log')
-            # axs1[n_features-1].set_yscale('log')
+        #     # axs[n_features-1].set_ylim(-1,1)
+        #     # axs1[n_features-1].set_ylim(-1,1)
+        #     # axs[n_features-1].set_yscale('log')
+        #     # axs1[n_features-1].set_yscale('log')
 
-            fig.tight_layout()
-            fig1.tight_layout()
-            plt.show()
+        #     fig.tight_layout()
+        #     fig1.tight_layout()
+        #     plt.show()
             
     def cross_correlation(self):
         '''
@@ -274,7 +281,14 @@ class Model():
 
 if __name__ == '__main__':
     model = Model(model_type='mlp', pplot=True)
-    model.run(epochs=90, learning_rate=1e-5)#1e-5#0.000625#0.00025 # learning rate is not used for random forest
+    model.run(epochs=30, learning_rate=1e-5)#1e-5#0.000625#0.00025 # learning rate is not used for random forest
     model.test()
+
+    pp = postprocessing(model.model)
+    pp.confusion_matrix()
+    pp.precision_recall_f1()
+    pp.precision_recall_curve()
+    pp.train_valid_loss_accuracy()
+
     model.cross_correlation()
     model.onnx_save()
