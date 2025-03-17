@@ -157,7 +157,7 @@ class postprocessing():
 
     def confusion_matrix(self):
         # normalised confusion matrix
-        cm = confusion_matrix(self.labels, self.predicted_labels)
+        cm = confusion_matrix(y_true=self.labels, y_pred=self.predicted_labels)
         cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
         
         # plot

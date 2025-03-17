@@ -18,7 +18,7 @@ from scipy.spatial.distance import euclidean, minkowski
 plt.style.use(['science','no-latex'])
 
 class cat():
-    def __init__(self, path, snapno, masscut=1e8):
+    def __init__(self, path, snapno, masscut=1e9):
         '''Class to initialse a group object with integrated plotting functions.
         Parameters
         ----------
@@ -494,9 +494,9 @@ class cat():
 
     def cweb_classify(self, xyzplot=True):
         '''Plots the cosmic web classications of the subhalos in the given object.'''
-        self.cwebfile = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/new_TNG300_snap_099_nexus_env_merged.npz') #TNG300_snap_099_tweb_env_merged.npz #
-        self.significances = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/new_TNG300_snap_099_nexus_sig_merged.npz')        
-        self.filetype = 'Nexus+' # Nexus+
+        self.cwebfile = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/TNG300_snap_099_tweb_env_merged.npz') # #new_TNG300_snap_099_nexus_env_merged.npz
+        # self.significances = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/new_TNG300_snap_099_nexus_sig_merged.npz')        
+        self.filetype = 'TWEB' # Nexus+
         self.cwebdata = self.cwebfile['cweb']
         # self.Sc = self.significances['Sc']
         # self.Sf = self.significances['Sf']

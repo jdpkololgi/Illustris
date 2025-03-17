@@ -223,7 +223,7 @@ class network(cat):
         self.data = pd.DataFrame.from_dict({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Eigenvector Centrality': list(self.eigenvector_centrality.values()), 'Clustering': list(self.clustering.values()), 'Target': self.cweb})
         self.data.index.name = 'Node ID'
     
-    def network_stats_delaunay(self, weight = 'length'):
+    def network_stats_delaunay(self, weight = 'length', buffer=False):
         '''
         Function to calculate the network statistics for the Delaunay triangulation.
         '''
@@ -300,7 +300,8 @@ class network(cat):
         self.data['x'] = self.points[:,0]
         self.data['y'] = self.points[:,1]
         self.data['z'] = self.points[:,2]
-        self.data = self.data[(self.data['x']>10) & (self.data['x']<290) & (self.data['y']>10) & (self.data['y']<290) & (self.data['z']>10) & (self.data['z']<290)]
+        if buffer:
+            self.data = self.data[(self.data['x']>10) & (self.data['x']<290) & (self.data['y']>10) & (self.data['y']<290) & (self.data['z']>10) & (self.data['z']<290)]
         self.data = self.data.drop(columns=['x', 'y', 'z'])
         print('length after buffering: ', len(self.data))
 
@@ -317,7 +318,7 @@ class network(cat):
         elif network_type == 'Complex':
             self.network_stats_complex()
         elif network_type == 'Delaunay':
-            self.network_stats_delaunay()
+            self.network_stats_delaunay(buffer=True)
         
         # Creating weights for the classes by the inverse of the frequency
         self.class_weights = compute_class_weight(class_weight='balanced', classes=np.unique(self.data['Target']), y=self.data['Target'])
@@ -383,6 +384,7 @@ class network(cat):
             
             def __getitem__(self, idx): # Returns the sample at the given index
                 return self.features[idx], self.targets[idx]
+    
         classes = ['Void (0)', 'Wall (1)', 'Filament (2)', 'Cluster (3)']
         #['Knot', 'Filament', 'Wall', 'Void']
         train_dataset = CustomDataset(X_train, y_train, classes) # Create the custom dataset
@@ -390,9 +392,9 @@ class network(cat):
         test_dataset = CustomDataset(X_test, y_test, classes)
 
         # Create DataLoader objects
-        self.train_loader = DataLoader(train_dataset, batch_size=12, shuffle=True)
-        self.val_loader = DataLoader(val_dataset, batch_size=12, shuffle=False)
-        self.test_loader = DataLoader(test_dataset, batch_size=12, shuffle=False)
+        self.train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
+        self.val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False)
+        self.test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
 
     # def save_data(self, path):
     #     '''
