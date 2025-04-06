@@ -59,7 +59,7 @@ class Model():
         if isinstance(self.model, Model_classes.MLP):
         
             # Weight each class by the inverse of the frequency it depends on the masscut
-            class_weights_tensor = torch.tensor(self.class_weights, dtype=torch.float32)#.to(self.model.device)
+            class_weights_tensor = torch.tensor(self.class_weights_prebuff, dtype=torch.float32)#.to(self.model.device)
 
             # Set the loss and optimiser
             criterion = nn.CrossEntropyLoss(weight=class_weights_tensor)
@@ -281,7 +281,7 @@ class Model():
 
 if __name__ == '__main__':
     model = Model(model_type='mlp', pplot=True)
-    model.run(epochs=70, learning_rate=1e-5)#1e-5#0.000625#0.00025 # learning rate is not used for random forest
+    model.run(epochs=100, learning_rate=1e-5)#1e-5#0.000625#0.00025 # learning rate is not used for random forest
     model.test()
 
     pp = postprocessing(model.model)

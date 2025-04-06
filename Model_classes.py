@@ -96,9 +96,9 @@ class MLP(nn.Module):
 
             ('fc1', nn.Linear(n_features, 10)),
             ('relu1', nn.LeakyReLU()),
-            ('fc2', nn.Linear(10, 5)),
+            ('fc2', nn.Linear(10, 10)),
             ('relu2', nn.LeakyReLU()),
-            ('fc3', nn.Linear(5, 4)),
+            ('fc3', nn.Linear(10, 4)),
 
             # ('softmax', nn.LogSoftmax(dim = 1)) # dim=1 to apply softmax along the class dimension | no need to apply softmax as it is included in the cross entropy loss function
         ]))

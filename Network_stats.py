@@ -287,19 +287,39 @@ class network(cat):
         # self.knn_dens = knn_density(self.points, k=5) # k-nearest neighbour density
         #self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Average Degree': list(self.average_degree.values()), 'Degree Centrality': list(self.degree_centrality.values()), 'Mean E.L.': self.mean_elen, 'Sum E.L.': self.sum_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Max Angle': list(self.mean_angles.values()), 'Triangles': list(self.triangles.values()), 'Target': self.cweb})
         # self.kde_dens = kde_density(self.points)
+
+        # commenting out the inertia eigenvalues for now
+        # inertia_eigenvalues = {}
+        # for node in netx.nodes:
+        #     neighbors = list(netx.neighbors(node))
+        #     if len(neighbors) < 3:
+        #         inertia_eigenvalues[node] = [0.0, 0.0, 0.0]
+        #         continue
+        #     nbr_pos = self.points[neighbors]  # shape (N_neighbors, 3)
+        #     center = nbr_pos.mean(axis=0)
+        #     rel_pos = nbr_pos - center
+        #     cov = np.dot(rel_pos.T, rel_pos) / len(neighbors)
+        #     eigvals = np.linalg.eigvalsh(cov)  # sorted eigenvalues
+        #     inertia_eigenvalues[node] = eigvals.tolist()
+
+        # I_eig1 = [inertia_eigenvalues[i][0] for i in range(len(inertia_eigenvalues))]
+        # I_eig2 = [inertia_eigenvalues[i][1] for i in range(len(inertia_eigenvalues))]
+        # I_eig3 = [inertia_eigenvalues[i][2] for i in range(len(inertia_eigenvalues))]
         
-
-
 
         # Throw error if self.cweb does not exist
         assert hasattr(self, 'cweb'), 'cweb attribute does not exist, please run the cweb_classify method' 
 
         # Add in xyz coordinates and use them to remove 10Mpc from each side of the cube before dropping the fields'UB':self.UB, 'BV': self.BV, 'VK':self.VK, 'gr':self.gr, 'ri':self.ri, 'iz':self.iz, 
-        self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': np.array(list(self.tetra_dens.values())), 'Neigh Density' : np.array(list(self.neigh_tetra_dens.values())),'Target': self.cweb}) 
+        # self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': np.array(list(self.tetra_dens.values())), 'Neigh Density' : np.array(list(self.neigh_tetra_dens.values())), 'I_eig1': I_eig1, 'I_eig2': I_eig2, 'I_eig3': I_eig3, 'Target': self.cweb}) 
+        self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': np.array(list(self.tetra_dens.values())), 'Neigh Density' : np.array(list(self.neigh_tetra_dens.values())), 'Target': self.cweb})
         print('length before buffering: ', len(self.data))
         self.data['x'] = self.points[:,0]
         self.data['y'] = self.points[:,1]
         self.data['z'] = self.points[:,2]
+        self.class_weights_prebuff = compute_class_weight(class_weight='balanced', classes=np.unique(self.data['Target']), y=self.data['Target'])
+        print("Class weights (pre-buffer): ", self.class_weights_prebuff)
+
         if buffer:
             self.data = self.data[(self.data['x']>10) & (self.data['x']<290) & (self.data['y']>10) & (self.data['y']<290) & (self.data['z']>10) & (self.data['z']<290)]
         self.data = self.data.drop(columns=['x', 'y', 'z'])
@@ -321,8 +341,8 @@ class network(cat):
             self.network_stats_delaunay(buffer=True)
         
         # Creating weights for the classes by the inverse of the frequency
-        self.class_weights = compute_class_weight(class_weight='balanced', classes=np.unique(self.data['Target']), y=self.data['Target'])
-        print("Class weights: ", self.class_weights)        
+        # self.class_weights = compute_class_weight(class_weight='balanced', classes=np.unique(self.data['Target']), y=self.data['Target'])
+        # print("Class weights (post buffer): ", self.class_weights)        
 
         self.data.index.name = 'Node ID'
 
