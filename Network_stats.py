@@ -128,8 +128,8 @@ def kde_density(points, bandwidth=1.0):
     return np.exp(log_density)
 
 class network(cat):
-    def __init__(self):
-        self._utils = cat(path=r'C:\Users\dkter\OneDrive - University College London\Year 1\Illustris\TNG300-1', snapno=99, masscut=1e10)
+    def __init__(self, masscut=1e10):
+        self._utils = cat(path=r'C:\Users\dkter\OneDrive - University College London\Year 1\Illustris\TNG300-1', snapno=99, masscut=masscut)
 
     def __getattr__(self, name):
         '''
@@ -289,30 +289,30 @@ class network(cat):
         # self.kde_dens = kde_density(self.points)
 
         # commenting out the inertia eigenvalues for now
-        # inertia_eigenvalues = {}
-        # for node in netx.nodes:
-        #     neighbors = list(netx.neighbors(node))
-        #     if len(neighbors) < 3:
-        #         inertia_eigenvalues[node] = [0.0, 0.0, 0.0]
-        #         continue
-        #     nbr_pos = self.points[neighbors]  # shape (N_neighbors, 3)
-        #     center = nbr_pos.mean(axis=0)
-        #     rel_pos = nbr_pos - center
-        #     cov = np.dot(rel_pos.T, rel_pos) / len(neighbors)
-        #     eigvals = np.linalg.eigvalsh(cov)  # sorted eigenvalues
-        #     inertia_eigenvalues[node] = eigvals.tolist()
+        inertia_eigenvalues = {}
+        for node in netx.nodes:
+            neighbors = list(netx.neighbors(node))
+            if len(neighbors) < 3:
+                inertia_eigenvalues[node] = [0.0, 0.0, 0.0]
+                continue
+            nbr_pos = self.points[neighbors]  # shape (N_neighbors, 3)
+            center = nbr_pos.mean(axis=0)
+            rel_pos = nbr_pos - center
+            cov = np.dot(rel_pos.T, rel_pos) / len(neighbors)
+            eigvals = np.linalg.eigvalsh(cov)  # sorted eigenvalues
+            inertia_eigenvalues[node] = eigvals.tolist()
 
-        # I_eig1 = [inertia_eigenvalues[i][0] for i in range(len(inertia_eigenvalues))]
-        # I_eig2 = [inertia_eigenvalues[i][1] for i in range(len(inertia_eigenvalues))]
-        # I_eig3 = [inertia_eigenvalues[i][2] for i in range(len(inertia_eigenvalues))]
+        I_eig1 = [inertia_eigenvalues[i][0] for i in range(len(inertia_eigenvalues))]
+        I_eig2 = [inertia_eigenvalues[i][1] for i in range(len(inertia_eigenvalues))]
+        I_eig3 = [inertia_eigenvalues[i][2] for i in range(len(inertia_eigenvalues))]
         
 
         # Throw error if self.cweb does not exist
         assert hasattr(self, 'cweb'), 'cweb attribute does not exist, please run the cweb_classify method' 
 
         # Add in xyz coordinates and use them to remove 10Mpc from each side of the cube before dropping the fields'UB':self.UB, 'BV': self.BV, 'VK':self.VK, 'gr':self.gr, 'ri':self.ri, 'iz':self.iz, 
-        # self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': np.array(list(self.tetra_dens.values())), 'Neigh Density' : np.array(list(self.neigh_tetra_dens.values())), 'I_eig1': I_eig1, 'I_eig2': I_eig2, 'I_eig3': I_eig3, 'Target': self.cweb}) 
-        self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': np.array(list(self.tetra_dens.values())), 'Neigh Density' : np.array(list(self.neigh_tetra_dens.values())), 'Target': self.cweb})
+        self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': np.array(list(self.tetra_dens.values())), 'Neigh Density' : np.array(list(self.neigh_tetra_dens.values())), 'I_eig1': I_eig1, 'I_eig2': I_eig2, 'I_eig3': I_eig3, 'Target': self.cweb}) 
+        # self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': np.array(list(self.tetra_dens.values())), 'Neigh Density' : np.array(list(self.neigh_tetra_dens.values())), 'Target': self.cweb})
         print('length before buffering: ', len(self.data))
         self.data['x'] = self.points[:,0]
         self.data['y'] = self.points[:,1]
