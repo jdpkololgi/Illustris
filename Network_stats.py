@@ -129,7 +129,7 @@ def kde_density(points, bandwidth=1.0):
 
 class network(cat):
     def __init__(self, masscut=1e10):
-        self._utils = cat(path=r'C:\Users\dkter\OneDrive - University College London\Year 1\Illustris\TNG300-1', snapno=99, masscut=masscut)
+        self._utils = cat(path=r'/global/homes/d/dkololgi/TNG300-1/', snapno=99, masscut=masscut)
 
     def __getattr__(self, name):
         '''
