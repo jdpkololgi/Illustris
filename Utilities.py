@@ -9,7 +9,7 @@ import pandas as pd
 import networkx as nx
 import seaborn as sns
 import scienceplots
-
+import sys
 from sklearn.neighbors import radius_neighbors_graph
 from scipy.spatial import Delaunay
 from scipy.spatial.distance import euclidean, minkowski
@@ -18,7 +18,7 @@ from scipy.spatial.distance import euclidean, minkowski
 plt.style.use(['science','no-latex'])
 
 class cat():
-    def __init__(self, path, snapno, masscut=1e9):
+    def __init__(self, path, snapno=None, masscut=1e9, from_DESI=False):
         '''Class to initialse a group object with integrated plotting functions.
         Parameters
         ----------
@@ -36,26 +36,57 @@ class cat():
         else:
             raise TypeError('Name must be a string.')
         
-        if isinstance(snapno, int):
-            if len(f'{snapno}') and 0<= snapno <=99:
-                self.snapno = snapno
-            else:
-                raise ValueError(f'The snapshot number {snapno} is invalid. Please enter a number from 0 to 99.')
-        else:
-            raise TypeError('The snapshot number must be an integer.')
-        
         if isinstance(masscut, (int, float)):
             self.masscut = masscut
         else:
             raise TypeError('The masscut must be a number.')
         
-        self.readcat = self.readcat(xyzplot=False)
+        if from_DESI:
+            self.get_DESI_GAL_CAT()
+            self.from_DESI = from_DESI
+        else:
+        
+            if isinstance(snapno, int):
+                if len(f'{snapno}') and 0<= snapno <=99:
+                    self.snapno = snapno
+                else:
+                    raise ValueError(f'The snapshot number {snapno} is invalid. Please enter a number from 0 to 99.')
+            else:
+                raise TypeError('The snapshot number must be an integer.')
+            
+
+            
+            self.readcat = self.readcat(xyzplot=False)
 
     def __repr__(self):
         assert hasattr(self, 'object'), 'No TNG object has been read in. Please add one using the readcat() method.'
         boxsize = round(((u.kpc*self.object['header']['BoxSize']*self.sf/self.hub).to('Mpc')).value)
         redshift = round(self.object['header']['Redshift'])
         return f'TNG{boxsize}Mpc_z={redshift}_Snapshot={self.snapno}'
+
+    def get_DESI_GAL_CAT(self):
+        '''Returns the DESI galaxy catalogue object.'''
+        sys.path.append("../")
+
+        from galaxy_catalog import GalaxyCatalog
+
+        self.DESI_GAL_CAT = GalaxyCatalog(
+            PATH=self.path, # Path to reduced fastspecfit BGS catalog,
+            LOGMSTAR=self.masscut # Stellar mass cut for the DESI galaxy catalogue
+        )
+
+        self.DESI_GAL_CAT.cartesian_coord()
+        self.posx = self.DESI_GAL_CAT.X
+        self.posxn = self.DESI_GAL_CAT.Xn
+        self.posxs = self.DESI_GAL_CAT.Xs
+
+        self.posy = self.DESI_GAL_CAT.Y
+        self.posyn = self.DESI_GAL_CAT.Yn
+        self.posys = self.DESI_GAL_CAT.Ys
+
+        self.posz = self.DESI_GAL_CAT.Z
+        self.poszn = self.DESI_GAL_CAT.Zn
+        self.poszs = self.DESI_GAL_CAT.Zs
 
     def readcat(self, xyzplot, lim=5000):
         '''Reads in groupcat data from the given path and snapshot number; also populates 
@@ -280,11 +311,21 @@ class cat():
 
     def subhalo_delauany_network(self, xyzplot=True, slice = 0.5, tolerance = 0.5):
         '''Produces a network graph of subhalos using the Delauany triangulation.'''
-        self.points = np.array([self.posx, self.posy, self.posz]).T
 
-        self.tri = Delaunay(self.points) # Delauany triangulation of the subhalos
+        if self.from_DESI==False:
+            self.points = np.vstack([self.posx, self.posy, self.posz]).T
+            self.tri = Delaunay(self.points) # Delauany triangulation of the subhalos
+            # self.tri = [(self.points, Delaunay(self.points))] # List of tuples containing the points and the Delauany triangulation object
 
-        if xyzplot:
+        elif self.from_DESI==True:
+            self.pointsn = np.vstack([self.posxn, self.posyn, self.poszn]).T
+            self.pointss = np.vstack([self.posxs, self.posys, self.poszs]).T
+            self.points = np.vstack([self.pointsn, self.pointss]) # Combine the north and south galactic hemispheres into one array
+            self.trin = Delaunay(self.pointsn) # Delauany triangulation of the subhalos in the north galactic hemisphere
+            self.tris = Delaunay(self.pointss) # Delauany triangulation of the subhalos in the south galactic hemisphere
+            # self.tri = [(self.pointsn, Delaunay(self.pointsn)), (self.pointss, Delaunay(self.pointss))] # List of tuples containing the points and the Delauany triangulation object for both hemispheres
+
+        if xyzplot & (self.from_DESI==False):
             fig = plt.figure(figsize=(8,8))
             ax = fig.add_subplot(projection='3d')
             ax.scatter(self.points[:,0], self.points[:,1], self.points[:,2], c='r', marker='o', s=1) # Plot the subhalos as points
@@ -297,14 +338,14 @@ class cat():
 
             from mpl_toolkits.mplot3d.art3d import Line3DCollection
 
-            subhalopatch = Line2D([0], [0], marker='.', color='white', label='Scatter',markerfacecolor='red', markersize=15)
-            Delpatch = Line2D([0], [0], marker='o', color='blue', label='Scatter',markerfacecolor='k', markersize=0.1)
+            subhalopatch = Line2D([0], [0], marker='.', color='white', label='Scatter',markerfacecolor='red', markersize=18)
+            Delpatch = Line2D([0], [0], marker='o', color='#4c78a8', label='Scatter',markerfacecolor='k', markersize=0.1)
 
 
-            line_collection = Line3DCollection(lines, colors='b', linewidth=0.05, alpha = 0.2)
+            line_collection = Line3DCollection(lines, colors='#4c78a8', linewidth=0.05, alpha = 0.2)
             ax.view_init(elev=20, azim=120)
             ax.add_collection3d(line_collection)
-            ax.set_title(f'TNG300-1 z=0 Delaunay. M/C: $10^{{10}}\,$ M$_{{\odot}}$. Subhalos: {len(self.points)}')
+            ax.set_title(f'TNG300-1 z=0 Delaunay. M/C: $10^{int(np.log10(self.masscut))}\,$ M$_{{\odot}}$. Subhalos: {len(self.points)}')
             ax.set_xlabel(r'x [Mpc]')
             ax.set_ylabel(r'y [Mpc]')
             ax.set_zlabel(r'z [Mpc]')
@@ -336,36 +377,62 @@ class cat():
             fig, ax = plt.subplots(figsize=(8,8))
 
             # Plot the points in the slice
-            ax.scatter(slice_points[:, 0], slice_points[:, 1], c='r', marker='o', s=1)
+            ax.scatter(slice_points[:, 0], slice_points[:, 1], c='r', marker='o', s=4)
 
             # Plot the edges in the slice
             for line in slice_lines:
-                ax.plot([line[0][0], line[1][0]], [line[0][1], line[1][1]], 'b', lw=0.1)
+                ax.plot([line[0][0], line[1][0]], [line[0][1], line[1][1]], '#4c78a8', lw=0.1)
 
             ax.set_xlabel(r'x [Mpc]')
             ax.set_ylabel(r'y [Mpc]')
-            ax.set_title(f'2D Slice at z = {z_slice*300} [Mpc]')
+            ax.set_title(f'2D Slice at z = {z_slice*300} [Mpc]. M/C: $10^{int(np.log10(self.masscut))}\,$ M$_{{\odot}}$. Subhalos: {len(self.points)}')
             # ax.legend([subhalopatch, Delpatch], [f'{len(slice_points[:,0])} Subhalos', 'Delaunay'], loc='upper right')
             fig.savefig('Delaunay_Slice.pdf')
             print('Figure saved as Delaunay_Slice.pdf')
             plt.show()
 
-        # Create a networkx graph from the Delaunay triangulation
-        G = nx.Graph()
+        if self.from_DESI == False:
+            # Create a networkx graph from the Delaunay triangulation
+            G = nx.Graph()
 
-        # Add the nodes
-        for i, point in enumerate(self.points):
-            G.add_node(i, pos=point)
-            G.nodes[i]['pos'] = point
+            # Add the nodes
+            for i, point in enumerate(self.points):
+                G.add_node(i, pos=point)
+                G.nodes[i]['pos'] = point
 
-        # Calculating the edge lengths from points using scipy's euclidean distance
-        for i in range(len(self.tri.simplices)): # For each simplex
-            for j in range(4): # For each point in the simplex
-                for k in range(j+1, 4): # For each other point in the simplex
-                    G.add_edge(self.tri.simplices[i][j], self.tri.simplices[i][k], length=euclidean(self.points[self.tri.simplices[i][j]], self.points[self.tri.simplices[i][k]]))
+            # Calculating the edge lengths from points using scipy's euclidean distance
+            for i in range(len(self.tri.simplices)): # For each simplex
+                for j in range(4): # For each point in the simplex
+                    for k in range(j+1, 4): # For each other point in the simplex
+                        G.add_edge(self.tri.simplices[i][j], self.tri.simplices[i][k], length=euclidean(self.points[self.tri.simplices[i][j]], self.points[self.tri.simplices[i][k]]))
 
+            return G
+        
+        elif self.from_DESI == True:
+            # Create a networkx graph from the Delaunay triangulation
+            G = nx.Graph()
 
-        return G
+            # Add the nodes for the north galactic hemisphere
+            for i, point in enumerate(self.pointsn):
+                G.add_node(i, pos=point)
+                G.nodes[i]['pos'] = point
+            for i, point in enumerate(self.pointss):
+                G.add_node(i + len(self.pointsn), pos=point)
+                G.nodes[i + len(self.pointsn)]['pos'] = point
+          
+            # Calculating the edge lengths from points using scipy's euclidean distance
+            for i in range(len(self.trin.simplices)):
+                for j in range(4):
+                    for k in range(j+1, 4):
+                        G.add_edge(self.trin.simplices[i][j], self.trin.simplices[i][k], length=euclidean(self.pointsn[self.trin.simplices[i][j]], self.pointsn[self.trin.simplices[i][k]]))
+            for i in range(len(self.tris.simplices)):
+                for j in range(4):
+                    for k in range(j+1, 4):
+                        idx_j = self.tris.simplices[i][j] + len(self.pointsn)
+                        idx_k = self.tris.simplices[i][k] + len(self.pointsn)
+                        G.add_edge(idx_j, idx_k, length=euclidean(self.pointss[self.tris.simplices[i][j]], self.pointss[self.tris.simplices[i][k]]))
+
+            return G
         
     def edge_classification(self, x, y, z):
         '''Classifies the edges of the MST of the subhalos in the given object.'''

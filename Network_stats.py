@@ -13,7 +13,6 @@ from sklearn.neighbors import KernelDensity
 
 import itertools
 
-
 from Utilities import cat
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, PowerTransformer
@@ -93,11 +92,11 @@ def voronoi_density(points):
 
 def knn_density(points, k=5):
     """
-    Calculate the k-nearest neighbor density for each point.
+    Calculate the k-nearest neighbour density for each point.
     
     Parameters:
     points (np.ndarray): Array of points (N x D).
-    k (int): Number of nearest neighbors to consider.
+    k (int): Number of nearest neighbours to consider.
     
     Returns:
     np.ndarray: Array of densities for each point.
@@ -128,8 +127,18 @@ def kde_density(points, bandwidth=1.0):
     return np.exp(log_density)
 
 class network(cat):
-    def __init__(self, masscut=1e10):
-        self._utils = cat(path=r'/global/homes/d/dkololgi/TNG300-1/', snapno=99, masscut=masscut)
+    def __init__(self, masscut=1e10, from_DESI=False):
+        self.from_DESI = from_DESI
+        if from_DESI:
+            # Initialize from DESI data
+            self._utils = cat(path=r'/global/homes/d/dkololgi/GraphWeb_DESI/loa-combined-lowz.fits', masscut=masscut, from_DESI=self.from_DESI)
+        else:
+            # Initialize from TNG300-1 data
+            # The path is hardcoded to the TNG300-1 simulation data
+            # Change the path to your local TNG300-1 data if needed
+            assert masscut > 0, 'Mass cut must be greater than 0'
+            assert isinstance(masscut, (int, float)), 'Mass cut must be an integer or a float'
+            self._utils = cat(path=r'/global/homes/d/dkololgi/TNG300-1/', snapno=99, masscut=masscut, from_DESI=from_DESI)
 
     def __getattr__(self, name):
         '''
@@ -259,18 +268,43 @@ class network(cat):
         # self.tetrahedra = {}
         # for node in netx.nodes():
         #     self.tetrahedra[node] = np.sum([volume_tetrahedron(self.points[self.tri.simplices[np.where(self.tri.simplices == node)[0][0]]]) for node in netx.neighbors(node)])
-        node_to_simplices = {node: [] for node in range(len(netx.nodes()))}
-        for simplex_index, simplex in enumerate(self.tri.simplices):
-            for node in simplex:
-                node_to_simplices[node].append(simplex_index)
-
-        simplex_points = {node: self.points[self.tri.simplices[simplices]] for node, simplices in node_to_simplices.items()}
-        # self.tetra_dens = {node: 1/(0.25*np.sum(vec_volume_tetrahedron(points))) for node, points in simplex_points.items()} # Density of tetrahedra assuming each node has 1/4 of the volume of the tetrahedra around it
-        # self.tetra_dens = {node: len(node_to_simplices[node])/(np.sum(vec_volume_tetrahedron(points))) for node, points in simplex_points.items()} # New density of tetrahedra normalised by the number of tetrahedra around the node. A direct measure of participation in the l
-        # self.tetra_dens_degree = {node: self.degree[node]/(np.sum(vec_volume_tetrahedron(points))) for node, points in simplex_points.items()} # 
-
-        self.tetra_dens = {node: (len(simplices) / np.sum(vec_volume_tetrahedron(self.points[self.tri.simplices[simplices]]))) / self.degree[node] for node, simplices in node_to_simplices.items()}# if self.degree[node] > 0} # normalising by degree and number of tetrahedra around the node
         
+        # if from DESI then we need to treat simplices from the two triangulations separately. We have self.trin and self.tris for north and south respectively.
+        if self.from_DESI:
+            offset = len(self.pointsn)
+            self.tetra_dens = {}
+
+            def process_tetra_dens(points, tri, offset=0):
+                node_to_simplices = {node + offset: [] for node in range(len(points))}
+                for simplex_index, simplex in enumerate(tri.simplices):
+                    for node in simplex:
+                        global_node = node + offset
+                        node_to_simplices[global_node].append(simplex_index)
+
+                for node, simplices in node_to_simplices.items():
+                    local_simplices = tri.simplices[simplices] # shapes (n, 4)
+                    tetra_coords = points[local_simplices] # shapes (n, 4, 3)
+                    volume = np.sum(vec_volume_tetrahedron(tetra_coords)) # Total volume of tetrahedra around the node
+                    deg = netx.degree(node) if netx.degree(node) > 0 else 1 # Avoid division by zero
+                    # Density of tetrahedra normalised by the number of tetrahedra around the node and degree
+                    self.tetra_dens[node] = (len(simplices) / volume) / deg if volume > 0 else 0
+
+            process_tetra_dens(self.pointsn, self.trin, offset=0)  # North
+            process_tetra_dens(self.pointss, self.tris, offset=offset)  # South
+
+        else:
+            node_to_simplices = {node: [] for node in range(len(netx.nodes()))}
+            for simplex_index, simplex in enumerate(self.tri.simplices):
+                for node in simplex:
+                    node_to_simplices[node].append(simplex_index)
+
+            # simplex_points = {node: self.points[self.tri.simplices[simplices]] for node, simplices in node_to_simplices.items()}
+            # self.tetra_dens = {node: 1/(0.25*np.sum(vec_volume_tetrahedron(points))) for node, points in simplex_points.items()} # Density of tetrahedra assuming each node has 1/4 of the volume of the tetrahedra around it
+            # self.tetra_dens = {node: len(node_to_simplices[node])/(np.sum(vec_volume_tetrahedron(points))) for node, points in simplex_points.items()} # New density of tetrahedra normalised by the number of tetrahedra around the node. A direct measure of participation in the l
+            # self.tetra_dens_degree = {node: self.degree[node]/(np.sum(vec_volume_tetrahedron(points))) for node, points in simplex_points.items()} # 
+
+            self.tetra_dens = {node: (len(simplices) / np.sum(vec_volume_tetrahedron(self.points[self.tri.simplices[simplices]]))) / self.degree[node] for node, simplices in node_to_simplices.items()}# if self.degree[node] > 0} # normalising by degree and number of tetrahedra around the node
+            
         
         # Neighbour tetrahedra density
         self.neigh_tetra_dens = {node: np.mean([self.tetra_dens[neigh] for neigh in netx.neighbors(node)]) for node in range(len(netx.nodes()))}
@@ -307,24 +341,27 @@ class network(cat):
         I_eig3 = [inertia_eigenvalues[i][2] for i in range(len(inertia_eigenvalues))]
         
 
-        # Throw error if self.cweb does not exist
-        assert hasattr(self, 'cweb'), 'cweb attribute does not exist, please run the cweb_classify method' 
+        # Throw error if self.cweb does not exist if run on IllustrisTNG
+        if self.from_DESI == False:
+            assert hasattr(self, 'cweb'), 'cweb attribute does not exist, please run the cweb_classify method' 
 
-        # Add in xyz coordinates and use them to remove 10Mpc from each side of the cube before dropping the fields'UB':self.UB, 'BV': self.BV, 'VK':self.VK, 'gr':self.gr, 'ri':self.ri, 'iz':self.iz, 
-        self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': np.array(list(self.tetra_dens.values())), 'Neigh Density' : np.array(list(self.neigh_tetra_dens.values())), 'I_eig1': I_eig1, 'I_eig2': I_eig2, 'I_eig3': I_eig3, 'Target': self.cweb}) 
-        # self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': np.array(list(self.tetra_dens.values())), 'Neigh Density' : np.array(list(self.neigh_tetra_dens.values())), 'Target': self.cweb})
-        print('length before buffering: ', len(self.data))
-        self.data['x'] = self.points[:,0]
-        self.data['y'] = self.points[:,1]
-        self.data['z'] = self.points[:,2]
-        self.class_weights_prebuff = compute_class_weight(class_weight='balanced', classes=np.unique(self.data['Target']), y=self.data['Target'])
-        print("Class weights (pre-buffer): ", self.class_weights_prebuff)
+            # Add in xyz coordinates and use them to remove 10Mpc from each side of the cube before dropping the fields'UB':self.UB, 'BV': self.BV, 'VK':self.VK, 'gr':self.gr, 'ri':self.ri, 'iz':self.iz, 
+            self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': np.array(list(self.tetra_dens.values())), 'Neigh Density' : np.array(list(self.neigh_tetra_dens.values())), 'I_eig1': I_eig1, 'I_eig2': I_eig2, 'I_eig3': I_eig3, 'Target': self.cweb}) 
+            # self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': np.array(list(self.tetra_dens.values())), 'Neigh Density' : np.array(list(self.neigh_tetra_dens.values())), 'Target': self.cweb})
+            print('length before buffering: ', len(self.data))
+            self.data['x'] = self.points[:,0]
+            self.data['y'] = self.points[:,1]
+            self.data['z'] = self.points[:,2]
+            self.class_weights_prebuff = compute_class_weight(class_weight='balanced', classes=np.unique(self.data['Target']), y=self.data['Target'])
+            print("Class weights (pre-buffer): ", self.class_weights_prebuff)
 
-        if buffer:
-            self.data = self.data[(self.data['x']>10) & (self.data['x']<290) & (self.data['y']>10) & (self.data['y']<290) & (self.data['z']>10) & (self.data['z']<290)]
-        self.data = self.data.drop(columns=['x', 'y', 'z'])
-        print('length after buffering: ', len(self.data))
+            if buffer:
+                self.data = self.data[(self.data['x']>10) & (self.data['x']<290) & (self.data['y']>10) & (self.data['y']<290) & (self.data['z']>10) & (self.data['z']<290)]
+            self.data = self.data.drop(columns=['x', 'y', 'z'])
+            print('length after buffering: ', len(self.data))
 
+        else:
+            self.data = pd.DataFrame({'Degree': list(dict(self.degree).values()), 'Mean E.L.': self.mean_elen, 'Min E.L.': self.min_elen, 'Max E.L.': self.max_elen, 'Clustering': list(self.clustering.values()), 'Density': np.array(list(self.tetra_dens.values())), 'Neigh Density' : np.array(list(self.neigh_tetra_dens.values())), 'I_eig1': I_eig1, 'I_eig2': I_eig2, 'I_eig3': I_eig3})
         self.data.index.name = 'Node ID'
 
     def pipeline(self, network_type = 'MST'):
