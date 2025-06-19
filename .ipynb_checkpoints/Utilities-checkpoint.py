@@ -297,14 +297,14 @@ class cat():
 
             from mpl_toolkits.mplot3d.art3d import Line3DCollection
 
-            subhalopatch = Line2D([0], [0], marker='.', color='white', label='Scatter',markerfacecolor='red', markersize=15)
-            Delpatch = Line2D([0], [0], marker='o', color='blue', label='Scatter',markerfacecolor='k', markersize=0.1)
+            subhalopatch = Line2D([0], [0], marker='.', color='white', label='Scatter',markerfacecolor='red', markersize=18)
+            Delpatch = Line2D([0], [0], marker='o', color='#4c78a8', label='Scatter',markerfacecolor='k', markersize=0.1)
 
 
-            line_collection = Line3DCollection(lines, colors='b', linewidth=0.05, alpha = 0.2)
+            line_collection = Line3DCollection(lines, colors='#4c78a8', linewidth=0.05, alpha = 0.2)
             ax.view_init(elev=20, azim=120)
             ax.add_collection3d(line_collection)
-            ax.set_title(f'TNG300-1 z=0 Delaunay. M/C: $10^{{10}}\,$ M$_{{\odot}}$. Subhalos: {len(self.points)}')
+            ax.set_title(f'TNG300-1 z=0 Delaunay. M/C: $10^{int(np.log10(self.masscut))}\,$ M$_{{\odot}}$. Subhalos: {len(self.points)}')
             ax.set_xlabel(r'x [Mpc]')
             ax.set_ylabel(r'y [Mpc]')
             ax.set_zlabel(r'z [Mpc]')
@@ -336,15 +336,15 @@ class cat():
             fig, ax = plt.subplots(figsize=(8,8))
 
             # Plot the points in the slice
-            ax.scatter(slice_points[:, 0], slice_points[:, 1], c='r', marker='o', s=1)
+            ax.scatter(slice_points[:, 0], slice_points[:, 1], c='r', marker='o', s=4)
 
             # Plot the edges in the slice
             for line in slice_lines:
-                ax.plot([line[0][0], line[1][0]], [line[0][1], line[1][1]], 'b', lw=0.1)
+                ax.plot([line[0][0], line[1][0]], [line[0][1], line[1][1]], '#4c78a8', lw=0.1)
 
             ax.set_xlabel(r'x [Mpc]')
             ax.set_ylabel(r'y [Mpc]')
-            ax.set_title(f'2D Slice at z = {z_slice*300} [Mpc]')
+            ax.set_title(f'2D Slice at z = {z_slice*300} [Mpc]. M/C: $10^{int(np.log10(self.masscut))}\,$ M$_{{\odot}}$. Subhalos: {len(self.points)}')
             # ax.legend([subhalopatch, Delpatch], [f'{len(slice_points[:,0])} Subhalos', 'Delaunay'], loc='upper right')
             fig.savefig('Delaunay_Slice.pdf')
             print('Figure saved as Delaunay_Slice.pdf')
