@@ -1341,3 +1341,11 @@ gat_attention_3d.html
 Network_stats_with_inertia.py
 gat_4H_10_9_test_out_cuda.csv
 TNG300_snap_099_tweb_env_merged.npz
+DESI_BGS_cartesian_10_9_dark.pdf
+.gitignore
+.ipynb_checkpoints/Delaunay_Slice-checkpoint.pdf
+.ipynb_checkpoints/Delaunay_Cube-checkpoint.pdf
+cosmic_web_z_slab.gif
+.gitignore
+trained_gat_simulation.pth
+full_training_checkpoint.pth
