@@ -15,7 +15,15 @@ from scipy.spatial import Delaunay
 from scipy.spatial.distance import euclidean, minkowski
 
 
-plt.style.use(['science','no-latex'])
+plt.style.use(['science', 'no-latex', 'dark_background'])  # Use dark background for better contrast
+
+# For black background
+custom_palette = {
+    0: '#80ffdb',  # Void — mint-teal neon (distinct from blue wall)
+    1: '#3a86ff',  # Wall — neon blue
+    2: '#ff006e',  # Filament — hot pink
+    3: '#ffbe0b'   # Cluster — neon yellow-orange
+}
 
 class cat():
     def __init__(self, path, snapno=None, masscut=1e9, from_DESI=False):
@@ -41,11 +49,12 @@ class cat():
         else:
             raise TypeError('The masscut must be a number.')
         
-        if from_DESI:
+        self.from_DESI = from_DESI
+
+        if self.from_DESI:
             self.get_DESI_GAL_CAT()
-            self.from_DESI = from_DESI
         else:
-        
+            
             if isinstance(snapno, int):
                 if len(f'{snapno}') and 0<= snapno <=99:
                     self.snapno = snapno
@@ -56,7 +65,7 @@ class cat():
             
 
             
-            self.readcat = self.readcat(xyzplot=False)
+            self.readcat_obj = self.readcat(xyzplot=False)
 
     def __repr__(self):
         assert hasattr(self, 'object'), 'No TNG object has been read in. Please add one using the readcat() method.'
@@ -129,11 +138,13 @@ class cat():
 
             subhalono = np.sum([len(assign[i]) for i in range(len(assign))])
 
-            fig = plt.figure(figsize=(8,8))
+            fig = plt.figure(figsize=(10,10), dpi=300)
             ax = fig.add_subplot(projection='3d')
-            ax.grid(True)
+            ax.grid(False)
+            ax.set_facecolor('none')    # makes axes transparent
+
             # ax.scatter(x, y, z)
-            ax.scatter(self.X.to('Mpc'), self.Y.to('Mpc'), self.Z.to('Mpc'), marker='o', color='b',s = 10, alpha=0.3, label = 'Halos')
+            # ax.scatter(self.X.to('Mpc'), self.Y.to('Mpc'), self.Z.to('Mpc'), marker='o', color='b',s = 10, alpha=0.3, label = 'Halos')
 
             for i in range(len(assign)):
                 ax.scatter(self.x[assign[i]].to('Mpc'), self.y[assign[i]].to('Mpc'), self.z[assign[i]].to('Mpc'), marker='.',s=5, color='r', label = 'Subhalos')
@@ -309,7 +320,7 @@ class cat():
 
         return G
 
-    def subhalo_delauany_network(self, xyzplot=True, slice = 0.5, tolerance = 0.5):
+    def subhalo_delauany_network(self, xyzplot=True, slice = 0.5, tolerance = 10):
         '''Produces a network graph of subhalos using the Delauany triangulation.'''
 
         if self.from_DESI==False:
@@ -326,33 +337,37 @@ class cat():
             # self.tri = [(self.pointsn, Delaunay(self.pointsn)), (self.pointss, Delaunay(self.pointss))] # List of tuples containing the points and the Delauany triangulation object for both hemispheres
 
         if xyzplot & (self.from_DESI==False):
-            fig = plt.figure(figsize=(8,8))
-            ax = fig.add_subplot(projection='3d')
-            ax.scatter(self.points[:,0], self.points[:,1], self.points[:,2], c='r', marker='o', s=1) # Plot the subhalos as points
+            plt.style.use(['science', 'no-latex', 'dark_background'])  # Use dark background for better contrast
 
-            lines = []
-            for simplex in self.tri.simplices: # A simplex is a generalised triangle in n dimensions and tri.simplices is a list of tetrahedra as indices
-                for i in range(4):
-                    for j in range(i+1, len(simplex)):
-                        lines.append([self.points[simplex[i]], self.points[simplex[j]]])
+            # fig = plt.figure(figsize=(10,10), dpi=300)
+            # ax = fig.add_subplot(projection='3d')
+            # ax.grid(False)
+            # ax.set_facecolor('none')    # makes axes transparent
+
+            # ax.scatter(self.points[:,0], self.points[:,1], self.points[:,2], c='#ff006e', marker='o', s=1) # Plot the subhalos as points
+
+            # lines = []
+            # for simplex in self.tri.simplices: # A simplex is a generalised triangle in n dimensions and tri.simplices is a list of tetrahedra as indices
+            #     for i in range(4):
+            #         for j in range(i+1, len(simplex)):
+            #             lines.append([self.points[simplex[i]], self.points[simplex[j]]])
 
             from mpl_toolkits.mplot3d.art3d import Line3DCollection
 
-            subhalopatch = Line2D([0], [0], marker='.', color='white', label='Scatter',markerfacecolor='red', markersize=18)
-            Delpatch = Line2D([0], [0], marker='o', color='#4c78a8', label='Scatter',markerfacecolor='k', markersize=0.1)
+            # subhalopatch = Line2D([0], [0], marker='.', color='white', label='Scatter',markerfacecolor='red', markersize=18)
+            # Delpatch = Line2D([0], [0], marker='o', color='#4c78a8', label='Scatter',markerfacecolor='k', markersize=0.1)
 
-
-            line_collection = Line3DCollection(lines, colors='#4c78a8', linewidth=0.05, alpha = 0.2)
-            ax.view_init(elev=20, azim=120)
-            ax.add_collection3d(line_collection)
-            ax.set_title(f'TNG300-1 z=0 Delaunay. M/C: $10^{int(np.log10(self.masscut))}\,$ M$_{{\odot}}$. Subhalos: {len(self.points)}')
-            ax.set_xlabel(r'x [Mpc]')
-            ax.set_ylabel(r'y [Mpc]')
-            ax.set_zlabel(r'z [Mpc]')
-            ax.legend([subhalopatch, Delpatch], [f'{len(self.points[:,0])} Subhalos', 'Delaunay'], loc='upper left')
-            ax.set_box_aspect(None, zoom=0.85)
-            plt.show()
-            fig.savefig('Delaunay_Cube.pdf')
+            # line_collection = Line3DCollection(lines, colors='#4c78a8', linewidth=0.05, alpha = 0.2)
+            # ax.view_init(elev=20, azim=120)
+            # ax.add_collection3d(line_collection)
+            # ax.set_title(f'TNG300-1 z=0 Delaunay. M/C: $10^{int(np.log10(self.masscut))}\,$ M$_{{\odot}}$. Subhalos: {len(self.points)}', fontsize = 18, pad=10)
+            # ax.set_xlabel(r'X [Mpc]', fontsize = 16)
+            # ax.set_ylabel(r'Y [Mpc]', fontsize = 16)
+            # ax.set_zlabel(r'Z [Mpc]', fontsize = 16)
+            # ax.legend([subhalopatch, Delpatch], [f'{len(self.points[:,0])} Subhalos', 'Delaunay'], loc='upper left')
+            # ax.set_aspect('equal', adjustable='box')
+            # fig.savefig('Delaunay_Cube.pdf')
+            # plt.show()
 
             # Define the z-value for the slice
             z_slice = slice
@@ -374,21 +389,25 @@ class cat():
                                 slice_lines.append(edge)
 
             # Plotting the 2D slice
-            fig, ax = plt.subplots(figsize=(8,8))
+            fig, ax = plt.subplots(figsize=(10,10), dpi=300)
+            ax.set_facecolor('none')    # makes axes transparent
 
             # Plot the points in the slice
-            ax.scatter(slice_points[:, 0], slice_points[:, 1], c='r', marker='o', s=4)
+            ax.scatter(slice_points[:, 0], slice_points[:, 1], c='#ff006e', marker='o', s=4, edgecolors='none')
 
             # Plot the edges in the slice
             for line in slice_lines:
                 ax.plot([line[0][0], line[1][0]], [line[0][1], line[1][1]], '#4c78a8', lw=0.1)
-
-            ax.set_xlabel(r'x [Mpc]')
-            ax.set_ylabel(r'y [Mpc]')
-            ax.set_title(f'2D Slice at z = {z_slice*300} [Mpc]. M/C: $10^{int(np.log10(self.masscut))}\,$ M$_{{\odot}}$. Subhalos: {len(self.points)}')
+            ax.set_xlim(0,300)
+            ax.set_ylim(0,300)
+            ax.tick_params(axis='both', labelsize=16)
+            ax.set_xlabel(r'X [Mpc]', fontsize = 16)
+            ax.set_ylabel(r'Y [Mpc]', fontsize = 16)
+            ax.set_title(f'2D Slice at z = {z_slice*300} [Mpc]. M/C: $10^{int(np.log10(self.masscut))}\,$ M$_{{\odot}}$. Subhalos: {len(self.points)}', pad=10, fontsize = 18)
+            ax.set_aspect('equal', adjustable='box')
             # ax.legend([subhalopatch, Delpatch], [f'{len(slice_points[:,0])} Subhalos', 'Delaunay'], loc='upper right')
-            fig.savefig('Delaunay_Slice.pdf')
-            print('Figure saved as Delaunay_Slice.pdf')
+            fig.savefig('Delaunay_Slice.png', transparent=True)
+            print('Figure saved as Delaunay_Slice.png')
             plt.show()
 
         if self.from_DESI == False:
@@ -592,36 +611,79 @@ class cat():
         # self.Sc_subhalos = self.Sc[self.xpix, self.ypix, self.zpix]
         # self.Sf_subhalos = self.Sf[self.xpix, self.ypix, self.zpix]
         # self.Sw_subhalos = self.Sw[self.xpix, self.ypix, self.zpix]
-        colors = np.empty(len(self.cweb), dtype=str)
-        self.reds = np.count_nonzero(self.cweb == 0) # Voids
-        self.greens = np.count_nonzero(self.cweb == 1) # Walls
-        self.blues = np.count_nonzero(self.cweb == 2) # Filaments
-        self.yellows = np.count_nonzero(self.cweb == 3) # Clusters
 
-        colors[self.cweb == 0] = 'r'
-        colors[self.cweb == 1] = 'g'
-        colors[self.cweb == 2] = 'b'
-        colors[self.cweb == 3] = 'y'
-
-        # Plot the cosmic web classifications
         if xyzplot:
-            fig = plt.figure(figsize=(10,8))
+            self.reds = np.count_nonzero(self.cweb == 0) # Voids
+            self.greens = np.count_nonzero(self.cweb == 1) # Walls
+            self.blues = np.count_nonzero(self.cweb == 2) # Filaments
+            self.yellows = np.count_nonzero(self.cweb == 3) # Clusters
+
+            colors = np.array([custom_palette[c] for c in self.cweb])
+
+            fig = plt.figure(figsize=(10,10), dpi=300)
             ax = fig.add_subplot(projection='3d')
             ax.grid(False)
+            ax.set_facecolor('none')
+            
+            # Add a plane at z=150 Mpc
+            x_min, x_max = 0, 300  # Box limits
+            y_min, y_max = 0, 300
+            z_plane = 150
+            
+            xx, yy = np.meshgrid(np.array([x_min, x_max]), np.array([y_min, y_max]))
+            zz = np.full_like(xx, z_plane)
+            
+            ax.plot_surface(xx, yy, zz, alpha=1., color='#1f2b24')#, color='#080080')
+            
             ax.scatter(x.to('Mpc'), y.to('Mpc'), z.to('Mpc'), marker='.', color=list(colors), s = 1, alpha=0.5)
-            ax.set_xlabel(r'x [Mpc]')
-            ax.set_ylabel(r'y [Mpc]')
-            ax.set_zlabel(r'z [Mpc]')
+            ax.set_xlim(0, 300)
+            ax.set_ylim(0, 300)
+            ax.set_zlim(0, 300)
+            ax.set_xlabel(r'X [Mpc]', fontsize=16, labelpad=10)
+            ax.set_ylabel(r'Y [Mpc]', fontsize=16, labelpad=10)
+            ax.set_zlabel(r'Z [Mpc]', fontsize=16, labelpad=10)
+            ax.tick_params(axis='both', labelsize=16)
             mc = np.log10(self.masscut)
-            ax.set_title(f'TNG300-1 z=0 {self.filetype}. M/C [log$_{{10}}$(M$_{{\odot}})]$: ${(int(np.log10(self.masscut)))}\,$. Subhalos: {len(x)}')#Snapshot={self.snapno} {len(x)} Subhalos Cosmic Web')
-            subhalopatchr = Line2D([0], [0], marker='.', color='w', label='Scatter',markerfacecolor='red', markersize=10)
-            subhalopatchg = Line2D([0], [0], marker='.', color='w', label='Scatter',markerfacecolor='green', markersize=10)
-            subhalopatchb = Line2D([0], [0], marker='.', color='w', label='Scatter',markerfacecolor='blue', markersize=10)
-            subhalopatchy = Line2D([0], [0], marker='.', color='w', label='Scatter',markerfacecolor='yellow', markersize=10)
-            ax.legend([subhalopatchr, subhalopatchg, subhalopatchb, subhalopatchy], [f'Void ({self.reds})', f'Wall ({self.greens})', f'Filamentary ({self.blues})', f'Cluster ({self.yellows})'], loc='upper left')
+            ax.set_title(f'TNG300-1 z=0 {self.filetype}. M/C [log$_{{10}}$(M$_{{\odot}})]$: ${(int(np.log10(self.masscut)))}\,$. Subhalos: {len(x)}', fontsize=18)
+            subhalopatch_void = Line2D([0], [0], marker='.', color='none', label='Scatter',markerfacecolor=custom_palette[0], markersize=10)
+            subhalopatch_wall = Line2D([0], [0], marker='.', color='none', label='Scatter',markerfacecolor=custom_palette[1], markersize=10)
+            subhalopatch_filament = Line2D([0], [0], marker='.', color='none', label='Scatter',markerfacecolor=custom_palette[2], markersize=10)
+            subhalopatch_cluster = Line2D([0], [0], marker='.', color='none', label='Scatter',markerfacecolor=custom_palette[3], markersize=10)
             ax.set_box_aspect(None, zoom=0.85)
-            fig.savefig('TNG300-1_z=0_{self.filetype}_Subhalos.pdf')
-            print('Figure saved as TNG300-1_z=0_{self.filetype}_Subhalos.pdf')
+            ax.set_aspect('auto', adjustable='box')
+            fig.savefig(f'TNG300-1_z=0_{self.filetype}_Subhalos.png', transparent=True)
+            print(f'Figure saved as TNG300-1_z=0_{self.filetype}_Subhalos.png')
+            plt.show()
+
+            plt.rcdefaults()
+            plt.style.use(['science', 'no-latex', 'dark_background'])  # Use dark background for better contrast with custom colors
+
+            # 2D projection plot of DESI galaxies with cosmic web predictions
+            zlims = (-10, 10)*u.Mpc  # Set z slab limits in Mpc
+            fig = plt.figure(figsize=(10, 10), dpi=300, constrained_layout=True)
+            
+            ax = fig.add_subplot()
+            # set z slab between -10 and 10 Mpc
+            mask = (z.to('Mpc') >= zlims[0]) & (z.to('Mpc') <= zlims[1])
+            ax.scatter(x[mask].to('Mpc'), y[mask].to('Mpc'), c=[custom_palette[c] for c in self.cweb[mask]], s=5, edgecolor='none')
+            ax.set_facecolor('none')    # makes axes transparent
+
+            # Set axis labels and title
+            # ax.legend(handles=[
+            # plt.Line2D([0], [0], marker='o', color='w', label=environ_dicts[i],
+            #    markerfacecolor=custom_palette[i], markersize=5) for i in range(4)
+            # ], loc='best')
+
+            ax.set_xlim(0, 300)
+            ax.set_ylim(0, 300)
+            ax.tick_params(axis='both', labelsize=16)
+            ax.set_xlabel('X [Mpc]', fontsize=16, labelpad=10)
+            ax.set_ylabel('Y [Mpc]', fontsize=16, labelpad=10)
+            ax.set_title('IllustrisTNG-300 by T-WEB Environments', fontsize=18, pad=10)
+            # Set aspect ratio to equal for better visualization
+            ax.set_aspect('equal', adjustable='box')
+            fig.savefig(f'TNG300-1_z=0_{self.filetype}_Subhalos_2D_Projection.png', transparent=True)
+            # Show the plot
             plt.show()
         
         # self.edge_classification(x=x, y=y, z=z)
@@ -688,9 +750,8 @@ if __name__ == '__main__':
     # test=readsnap(r'/global/homes/d/dkololgi/TNG300-1', 99, xyzplot=False)
     # halo_MST(test, xyzplot=True)
     # subhalo_MST(test, xyzplot=True)
-
-    testcat = cat(path=r'global/homes/d/dkololgi/TNG300-1', snapno=99, masscut=1e10)
-    # self.readcat(xyzplot=False)
+    testcat = cat(path=r'/global/homes/d/dkololgi/TNG300-1', snapno=99, masscut=1e9)
+    # self.readcat_obj(xyzplot=False)
     # testcat.subhalo_MST(xyzplot=True, mode='std')
     # cweb = testcat.cweb_classify()
     # testcat.cross_plots()

@@ -1361,3 +1361,10 @@ full_training_checkpoint.pth
 /.ipynb_checkpoints/
 .ipynb_checkpoints/GCN_test-checkpoint.ipynb
 .ipynb_checkpoints/Utilities-checkpoint.py
+Delaunay_Slice.png
+mutual_info_graph_metrics.png
+sim_bgs_side.png
+TNG300-1_z=0_{self.filetype}_Subhalos.png
+TNG300-1_z=0_T-Web_Subhalos_2D_Projection.png
+TNG300-1_z=0_T-Web_Subhalos.png
+umap_projection.png
