@@ -22,14 +22,14 @@ from utils import train_gcn_full, test_gcn_full, calculate_class_weights, prepro
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(f'Using device: {device}')
 
-def load_data(masscut=1e9, buffer=True):
+def load_data(masscut=1e9):
     """
     Load and preprocess data for GCN training.
     """
     print("Loading data...")
     testcat = network(masscut=masscut)
     testcat.cweb_classify(xyzplot=False)
-    testcat.network_stats_delaunay(buffer=buffer)
+    testcat.network_stats_delaunay(buffer=False) # For GNN models removing buffer region can only be done after pyg geom object created
     
     # Get the final dataset after all processing
     features = testcat.data.iloc[:, :-1]
@@ -42,26 +42,39 @@ def load_data(masscut=1e9, buffer=True):
     netx_geom = from_networkx(testcat.subhalo_delauany_network(xyzplot=False), group_edge_attrs='all')
     netx_geom.x = torch.tensor(features.values, dtype=torch.float32)
     netx_geom.y = torch.tensor(targets.values, dtype=torch.long)
+    print(netx_geom.num_nodes, netx_geom.num_edges, netx_geom.num_node_features, netx_geom.num_edge_features)
 
-    # Reset index to ensure continuous indexing from 0 to len-1
-    features = features.reset_index(drop=True)
-    targets = targets.reset_index(drop=True)
-
+    # removing 10Mpc buffer region from training to prevent edge galaxies biasing training
+    buffered_indices_for_mask = np.where((netx_geom.pos[:,0]>10) & (netx_geom.pos[:,0]<290) & (netx_geom.pos[:,1]>10) & (netx_geom.pos[:,1]<290) & (netx_geom.pos[:,2]>10) & (netx_geom.pos[:,2]<290))[0]
+    anti_buffered_indices_for_mask = np.where((netx_geom.pos[:,0]<10) | (netx_geom.pos[:,0]>290) | (netx_geom.pos[:,1]<10) | (netx_geom.pos[:,1]>290) | (netx_geom.pos[:,2]<10) | (netx_geom.pos[:,2]>290))[0]
+    print(len(buffered_indices_for_mask), len(anti_buffered_indices_for_mask), len(buffered_indices_for_mask)+len(anti_buffered_indices_for_mask))
+    
     # Now perform train/test split on the final dataset
-    train_x, test_x, train_y, test_y = train_test_split(features, targets, test_size=0.3, random_state=42, stratify=targets)
+    train_x, test_x, train_y, test_y = train_test_split(features.iloc[buffered_indices_for_mask], targets.iloc[buffered_indices_for_mask], test_size=0.3, random_state=42, stratify=targets.iloc[buffered_indices_for_mask])
     valid_x, test_x, valid_y, test_y = train_test_split(test_x, test_y, test_size=0.3, random_state=42, stratify=test_y)
 
+    # Create masks of lenth num_nodes
     train_mask = torch.zeros(len(netx_geom.y), dtype=torch.bool)
     valid_mask = torch.zeros(len(netx_geom.y), dtype=torch.bool)
     test_mask = torch.zeros(len(netx_geom.y), dtype=torch.bool)
 
+    # set indices of train/valid/test to True
     train_mask[train_x.index.values] = True
     valid_mask[valid_x.index.values] = True
     test_mask[test_x.index.values] = True
 
+    print(
+        'number counts for each class for train/valid/test sets',
+        train_y.value_counts(), 
+        valid_y.value_counts(), 
+        test_y.value_counts()
+    )
+
     netx_geom.train_mask = train_mask
     netx_geom.val_mask = valid_mask
     netx_geom.test_mask = test_mask
+
+    print('PyG Data object populted: ', netx_geom)
 
     return netx_geom, features, targets
 
