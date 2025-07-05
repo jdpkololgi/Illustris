@@ -11,6 +11,7 @@ from sklearn.utils.class_weight import compute_class_weight
 from torch_geometric.data import Data
 from torch_geometric.utils import from_networkx
 from torch_geometric.nn import GCNConv, GATv2Conv
+from torch.utils.checkpoint import checkpoint
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from Network_stats import network
 
@@ -91,7 +92,11 @@ def train_and_evaluate(model, data, class_weights, num_epochs=3000, lr=3e-3):
     train_loss, val_loss, train_acc, val_acc = [], [], [], []
 
     for epoch in range(num_epochs):
-        loss, val_loss_epoch, acc, val_acc_epoch, _ = train_gcn_full(model, data, optimizer, criterion)
+        with torch.amp.autocast('cuda'): # Enable mixed precision
+            # Wrap the forward pass with checkpointing
+            # Note: train_gcn_full already handles model.train() and model.eval() internally
+            # and returns loss, val_loss, train_acc, val_acc, None
+            loss, val_loss_epoch, acc, val_acc_epoch, _ = checkpoint(train_gcn_full, model, data, optimizer, criterion)
         train_loss.append(loss.item())
         val_loss.append(val_loss_epoch.item())
         train_acc.append(acc)
