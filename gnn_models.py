@@ -19,37 +19,52 @@ class SimpleGNN(nn.Module):
         return x
 
 class SimpleGAT(nn.Module):
-    def __init__(self, input_dim, output_dim, num_heads=1):
+    '''simple GAT model using the GATLayer
+    
+    Args:
+        input_dim (int): Dimensionality of the input feature vectors
+        output_dim (int): Dimensionality of the output softmax distribution
+        num_heads (int): Number of attention heads
+    
+    '''
+    def __init__(self, input_dim, output_dim, num_heads = 1): # keep a default of 1 head
         super(SimpleGAT, self).__init__()
-        hidden_dim = 20
-        total_hidden = hidden_dim * num_heads
 
-        self.gat1 = GATv2Conv(input_dim, hidden_dim, edge_dim=1, heads=num_heads, concat=True)
-        self.gat2 = GATv2Conv(total_hidden, hidden_dim, edge_dim=1, heads=num_heads, concat=True)
-        self.gat3 = GATv2Conv(total_hidden, hidden_dim, edge_dim=1, heads=num_heads, concat=True)
-        self.gat4 = GATv2Conv(hidden_dim * num_heads, output_dim, edge_dim=1, heads=1, concat=False)
+        hidden_dim = 20  # per-head output size
+        total_hidden = hidden_dim * num_heads  # total output size if concat=True
 
-        self.dropout = nn.Dropout(p=0.1)
+        self.gat_layer1 = GATv2Conv(input_dim, hidden_dim, edge_dim=1, heads=num_heads, concat=True)
+        self.gat_layer2 = GATv2Conv(total_hidden, hidden_dim, edge_dim=1, heads=num_heads, concat=True)
+        self.gat_layer3 = GATv2Conv(total_hidden, hidden_dim, edge_dim=1, heads=num_heads, concat=True)
+        self.gat_layer4 = GATv2Conv(hidden_dim * num_heads, output_dim, edge_dim=1, heads=1, concat=False)
+
+        self.gat_dropout = nn.Dropout(p=0.1)
         self.norm1 = nn.LayerNorm(total_hidden)
         self.norm2 = nn.LayerNorm(total_hidden)
         self.norm3 = nn.LayerNorm(total_hidden)
 
+
     def forward(self, x, edge_index, edge_weight=None, return_attention=False):
+        """Forward pass of the GNN model"""
+
         if return_attention:
-            x1, (ei1, attn1) = self.gat1(x, edge_index, edge_attr=edge_weight, return_attention_weights=True)
-            x1 = self.dropout(F.relu(self.norm1(x1)))
+            x1, (ei1, attn1) = self.gat_layer1(x, edge_index, edge_attr=edge_weight, return_attention_weights = True)
+            x1 = self.gat_dropout(F.relu(self.norm1(x1)))
 
-            x2, (ei2, attn2) = self.gat2(x1, edge_index, edge_attr=edge_weight, return_attention_weights=True)
-            x2 = self.dropout(F.relu(self.norm2(x2) + x1))
+            x2, (ei2, attn2) = self.gat_layer2(x1, edge_index, edge_attr=edge_weight, return_attention_weights = True)
+            x2 = self.gat_dropout(F.relu(self.norm2(x2) + x1))
 
-            x3, (ei3, attn3) = self.gat3(x2, edge_index, edge_attr=edge_weight, return_attention_weights=True)
-            x3 = self.dropout(F.relu(self.norm3(x3) + x2))
+            x3, (ei3, attn3) = self.gat_layer3(x2, edge_index, edge_attr=edge_weight, return_attention_weights = True)
+            x3 = self.gat_dropout(F.relu(self.norm3(x3) + x2))
 
-            y_hat, (ei4, attn4) = self.gat4(x3, edge_index, edge_attr=edge_weight, return_attention_weights=True)
+            y_hat, (ei4, attn4) = self.gat_layer4(x3, edge_index, edge_attr=edge_weight, return_attention_weights = True)
             return y_hat, [(ei1, attn1), (ei2, attn2), (ei3, attn3), (ei4, attn4)]
+        
         else:
-            x1 = self.dropout(F.relu(self.norm1(self.gat1(x, edge_index, edge_attr=edge_weight))))
-            x2 = self.dropout(F.relu(self.norm2(self.gat2(x1, edge_index, edge_attr=edge_weight)) + x1))
-            x3 = self.dropout(F.relu(self.norm3(self.gat3(x2, edge_index, edge_attr=edge_weight)) + x2))
-            y_hat = self.gat4(x3, edge_index, edge_attr=edge_weight)
+
+            x1 = self.gat_dropout(F.relu(self.norm1(self.gat_layer1(x, edge_index, edge_attr=edge_weight))))
+            x2 = self.gat_dropout(F.relu(self.norm2(self.gat_layer2(x1, edge_index, edge_attr=edge_weight)) + x1))
+            x3 = self.gat_dropout(F.relu(self.norm3(self.gat_layer3(x2, edge_index, edge_attr=edge_weight)) + x2))
+            y_hat = self.gat_layer4(x3, edge_index, edge_attr=edge_weight)
+
             return y_hat
