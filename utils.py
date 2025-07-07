@@ -18,7 +18,12 @@ def calculate_class_weights(targets):
     """
     Calculate class weights for imbalanced datasets.
     """
-    class_weights = compute_class_weight(class_weight='balanced', classes=np.unique(targets), y=targets)
+    # When loading from a torch cache, the underlying numpy array of the
+    # pandas Series can be read-only. Scikit-learn's compute_class_weight
+    # attempts to set the array's writeable flag to True, causing a
+    # ValueError. Creating a copy with np.copy() ensures the array is writeable.
+    targets_copy = np.copy(targets)
+    class_weights = compute_class_weight(class_weight='balanced', classes=np.unique(targets_copy), y=targets_copy)
     return torch.tensor(class_weights, dtype=torch.float32)
 
 scaler = GradScaler('cuda')

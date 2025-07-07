@@ -33,7 +33,7 @@ def load_data(masscut=1e9, cache_path=None):
     if os.path.exists(cache_path):
         print(f"Loading cached data from {cache_path}...")
         try:
-            data, features, targets = torch.load(cache_path)
+            data, features, targets = torch.load(cache_path, weights_only=False)
             print("Cached data loaded successfully.")
             return data, features, targets
         except Exception as e:
