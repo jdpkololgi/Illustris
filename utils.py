@@ -30,40 +30,32 @@ scaler = GradScaler('cuda')
 
 def train_gcn_full(model, data, optimizer, criterion):
     """
-    Train GCN model in full-batch mode.
+    Train GCN model in full-batch mode with mixed precision and distributed training compatibility.
     """
-
     model.train()
     optimizer.zero_grad()
 
-    # output = model(data.x, data.edge_index, data.edge_attr)
-    # loss = criterion(output[data.train_mask], data.y[data.train_mask])
-    
-    # loss.backward()
-    # optimizer.step()
-
+    # Mixed precision training
     with autocast('cuda'):
         output = model(data.x, data.edge_index, data.edge_attr)
-    loss = criterion(output[data.train_mask], data.y[data.train_mask])
+        loss = criterion(output[data.train_mask], data.y[data.train_mask])
     
-    scaler.scale(loss).backward() # scale the loss for mixed precision training
-    scaler.step(optimizer) # step the optimizer
-    scaler.update() # update the scaler
+    scaler.scale(loss).backward()  # Scale the loss for mixed precision training
 
-    # Check gradients are flowing and are not none
-    # total_norm = 0
-    # for p in model.parameters():
-    #     if p.grad is not None:
-    #         total_norm += p.grad.data.norm(2).item()**2
-    # total_norm = total_norm**0.5
-    # print(f"Grad norm: {total_norm:.4e}")
+    # Gradient clipping to prevent exploding gradients
+    torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
 
+    scaler.step(optimizer)  # Step the optimizer
+    scaler.update()  # Update the scaler
+
+    # Calculate training accuracy
     train_probs = output[data.train_mask]
     _, predicted = torch.max(train_probs, 1)
     correct = (predicted == data.y[data.train_mask]).sum().item()
     total = data.y[data.train_mask].size(0)
     train_acc = 100 * correct / total
 
+    # Validation accuracy and loss
     model.eval()
     with torch.no_grad():
         val_output = model(data.x, data.edge_index, data.edge_attr)
