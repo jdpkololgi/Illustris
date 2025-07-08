@@ -43,7 +43,7 @@ def train_gcn_full(model, data, optimizer, criterion):
     scaler.scale(loss).backward()  # Scale the loss for mixed precision training
 
     # Gradient clipping to prevent exploding gradients
-    torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+    # torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
 
     scaler.step(optimizer)  # Step the optimizer
     scaler.update()  # Update the scaler
