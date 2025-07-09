@@ -265,7 +265,7 @@ def main(rank, world_size):
 
     # Train and evaluate
     results = train_and_evaluate(
-        model, data, class_weights, rank, world_size, num_epochs=500, lr=3e-3
+        model, data, class_weights, rank, world_size, num_epochs=10000, lr=3e-3
     )
 
     # Save model only from rank 0
