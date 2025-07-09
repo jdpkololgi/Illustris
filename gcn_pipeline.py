@@ -244,7 +244,7 @@ def train_and_evaluate(model, data, class_weights, rank, world_size, num_epochs=
     else:
         return model, train_loss, val_loss, train_acc, val_acc, None, None, None
 
-def main(rank, world_size):
+def main(rank, world_size, num_epochs):
     """Main training function for each process."""
     setup_ddp(rank, world_size)
     
@@ -265,7 +265,7 @@ def main(rank, world_size):
 
     # Train and evaluate
     results = train_and_evaluate(
-        model, data, class_weights, rank, world_size, num_epochs=10000, lr=3e-3
+        model, data, class_weights, rank, world_size, num_epochs=num_epochs, lr=3e-3
     )
 
     # Save model only from rank 0
@@ -279,6 +279,7 @@ def main(rank, world_size):
 if __name__ == "__main__":
     # Automatically detect number of available GPUs
     world_size = torch.cuda.device_count()
+    num_epochs = 10000  # Set number of epochs for training
     print(f"Detected {world_size} GPUs. Starting distributed training...")
     
     if world_size < 2:
@@ -302,12 +303,12 @@ if __name__ == "__main__":
         scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.7, patience=200, 
                                     threshold=1.5e-3, cooldown=50, min_lr=5e-4)
         
-        for epoch in range(500):
+        for epoch in range(num_epochs):
             train_loss, val_loss, train_acc, val_acc, _ = train_gcn_full(model, data, optimizer, criterion)
             scheduler.step(val_loss.item())
             
             if (epoch+1) % 100 == 0:
-                print(f'Epoch {epoch+1}/500 - Training Loss: {train_loss:.4f} - '
+                print(f'Epoch {epoch+1}/num_epochs - Training Loss: {train_loss:.4f} - '
                       f'Validation Loss: {val_loss:.4f} - Training Accuracy: {train_acc:.2f}% - '
                       f'Validation Accuracy: {val_acc:.2f}%')
         
@@ -317,4 +318,4 @@ if __name__ == "__main__":
     else:
         # Multi-GPU training
         print(f"Starting multi-GPU training on {world_size} GPUs...")
-        mp.spawn(main, args=(world_size,), nprocs=world_size, join=True)
+        mp.spawn(main, args=(world_size,num_epochs,), nprocs=world_size, join=True)
