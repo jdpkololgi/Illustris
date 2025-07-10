@@ -1375,3 +1375,4 @@ trained_gat_model.pth
 processed_gcn_data_mc1e+09.pt
 trained_gat_model_ddp.pth
 DESI_galaxy_animation.gif
+DESI_galaxy_animation_black_bg.gif
