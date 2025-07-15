@@ -126,26 +126,26 @@ def kde_density(points, bandwidth=1.0):
     log_density = kde.score_samples(points)
     return np.exp(log_density)
 
-class network(cat):
+class network:  # Remove 'cat' inheritance
     def __init__(self, masscut=1e10, from_DESI=False):
         self.from_DESI = from_DESI
         if from_DESI:
             # Initialize from DESI data
-            self._utils = cat(path=r'/global/homes/d/dkololgi/GraphWeb_DESI/loa-combined-lowz.fits', masscut=masscut, from_DESI=self.from_DESI)
+            self._utils = cat(path=r'/global/homes/d/dkololgi/GraphWeb_DESI/loa-combined-lowz.fits', 
+                            masscut=masscut, from_DESI=self.from_DESI)
         else:
             # Initialize from TNG300-1 data
             # The path is hardcoded to the TNG300-1 simulation data
             # Change the path to your local TNG300-1 data if needed
             assert masscut > 0, 'Mass cut must be greater than 0'
             assert isinstance(masscut, (int, float)), 'Mass cut must be an integer or a float'
-            self._utils = cat(path=r'/global/homes/d/dkololgi/TNG300-1/', snapno=99, masscut=masscut, from_DESI=from_DESI)
+            self._utils = cat(path=r'/global/homes/d/dkololgi/TNG300-1/', 
+                            snapno=99, masscut=masscut, from_DESI=from_DESI)
 
     def __getattr__(self, name):
-        '''
-        Implmenting the __getattr__ method to access the attributes of the Utilities class
-        '''
+        '''Delegate attribute access to the cat instance'''
         return getattr(self._utils, name)
-        
+    
     def network_stats(self):
         '''
         Function to calculate the network statistics, there are an arbitrary number of them
