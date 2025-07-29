@@ -63,8 +63,6 @@ class cat():
             else:
                 raise TypeError('The snapshot number must be an integer.')
             
-
-            
             self.readcat_obj = self.readcat(xyzplot=False)
 
     def __repr__(self):
