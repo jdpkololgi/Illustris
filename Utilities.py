@@ -748,7 +748,7 @@ if __name__ == '__main__':
     # test=readsnap(r'/global/homes/d/dkololgi/TNG300-1', 99, xyzplot=False)
     # halo_MST(test, xyzplot=True)
     # subhalo_MST(test, xyzplot=True)
-    testcat = cat(path=r'/global/homes/d/dkololgi/TNG300-1', snapno=99, masscut=1e9)
+    testcat = cat(path=r'/pscratch/sd/d/dkololgi/TNG300-1', snapno=99, masscut=1e9)#'/global/homes/d/dkololgi/TNG300-1'
     # self.readcat_obj(xyzplot=False)
     # testcat.subhalo_MST(xyzplot=True, mode='std')
     # cweb = testcat.cweb_classify()

@@ -139,7 +139,7 @@ class network:  # Remove 'cat' inheritance
             # Change the path to your local TNG300-1 data if needed
             assert masscut > 0, 'Mass cut must be greater than 0'
             assert isinstance(masscut, (int, float)), 'Mass cut must be an integer or a float'
-            self._utils = cat(path=r'/global/homes/d/dkololgi/TNG300-1/', 
+            self._utils = cat(path=r'/pscratch/sd/d/dkololgi/TNG300-1',  #r'/global/homes/d/dkololgi/TNG300-1/'
                             snapno=99, masscut=masscut, from_DESI=from_DESI)
 
     def __getattr__(self, name):
