@@ -3,26 +3,13 @@ import scipy as sp
 import pandas as pd
 import networkit as nk
 
-points = np.load("/global/homes/d/dkololgi/TNG/Illustris/abacus_cartesian_coords.npy").astype(np.float64)
-edges = np.load("/global/homes/d/dkololgi/abacus_delaunay_edges_combined_idx.npy")
+points = np.load("/pscratch/sd/d/dkololgi/abacus/abacus_cartesian_coords.npy").astype(np.float64)
+edges = np.load("/pscratch/sd/d/dkololgi/abacus/abacus_delaunay_edges_combined_idx.npy")
 print("shape:", edges.shape)
 print("dtype:", edges.dtype)
 print("min index:", edges.min(), "max index:", edges.max())
 # peek at the first few:
 print("first 10 edges:\n", edges[:10])
-
-def volume_tetrahedron(tetrahedron):
-    '''
-    Function to calculate the volume of a tetrahedron
-    '''
-    matrix = np.array([
-        tetrahedron[0] - tetrahedron[3],
-        tetrahedron[1] - tetrahedron[3],
-        tetrahedron[2] - tetrahedron[3]
-    ])
-    return abs(np.linalg.det(matrix) / 6)
-
-vec_volume_tetrahedron = np.vectorize(volume_tetrahedron, signature='(n,m)->()')
 
 def edges_to_networkit(points, edges):
     '''
@@ -101,9 +88,98 @@ def calculate_edge_metrics_adjacency(G):
 nk_min_edge_lengths, nk_max_edge_lengths, nk_mean_edge_lengths = calculate_edge_metrics_adjacency(G)
 
 # Tetra dens and neigh tetra dens
-def calculate_tetrahedral_density(G):
-    print('in progress..')
-    G.iterNeighborsWeights(0)
+def calculate_tetrahedral_density_vectorized(tetrahedra, volumes, n_nodes):
+    """
+    Ultra-fast vectorized calculation of tetrahedral density.
+    """
+    print("Calculating tetrahedral density (vectorized)...")
+    
+    tetrahedral_density = np.zeros(n_nodes, dtype=np.float64)
+    
+    # Flatten tetrahedra to get all node indices
+    all_node_indices = tetrahedra.flatten()
+    
+    # Repeat volumes 4 times (one for each node in each tetrahedron)
+    repeated_volumes = np.repeat(volumes, 4)
+    
+    # Use numpy's bincount for ultra-fast accumulation
+    np.add.at(tetrahedral_density, all_node_indices, repeated_volumes)
+    
+    return tetrahedral_density
+
+def calculate_neighbor_tetrahedral_density(G, tetrahedral_density):
+    """
+    Calculate neighbor tetrahedral density using NetworkIt's graph structure.
+    """
+    print("Calculating neighbor tetrahedral density...")
+    
+    neighbor_tetrahedral_density = np.zeros(G.numberOfNodes(), dtype=np.float64)
+    
+    for node in G.iterNodes():
+        neighbors = list(G.iterNeighbors(node))
+        if neighbors:
+            # Sum densities of neighbors
+            neighbor_tetrahedral_density[node] = np.sum(tetrahedral_density[neighbors])
+        
+        if node % 1_000_000 == 0:
+            print(f"Processed {node:,} nodes...")
+    
+    return neighbor_tetrahedral_density
+
+# Load tetrahedra data (after running modified test_cgal.py)
+tetrahedra = np.load("/pscratch/sd/d/dkololgi/abacus/abacus_delaunay_tetrahedra_idx.npy")
+volumes = np.load("/pscratch/sd/d/dkololgi/abacus/abacus_delaunay_tetrahedra_volumes.npy")
+
+print(f"Loaded {len(tetrahedra):,} tetrahedra with volumes")
+
+# Calculate tetrahedral densities
+tetrahedral_density = calculate_tetrahedral_density_vectorized(tetrahedra, volumes, n_nodes)
+neighbor_tetrahedral_density = calculate_neighbor_tetrahedral_density(G, tetrahedral_density)
+
+print("Tetrahedral density statistics:")
+print(f"Min tetrahedral density: {tetrahedral_density.min():.6f}")
+print(f"Max tetrahedral density: {tetrahedral_density.max():.6f}")
+print(f"Mean tetrahedral density: {tetrahedral_density.mean():.6f}")
+
+print("Neighbor tetrahedral density statistics:")
+print(f"Min neighbor density: {neighbor_tetrahedral_density.min():.6f}")
+print(f"Max neighbor density: {neighbor_tetrahedral_density.max():.6f}")
+print(f"Mean neighbor density: {neighbor_tetrahedral_density.mean():.6f}")
+
+# Now calculating intertia eigenvalues
+
+def calculate_inertia_eigenvalues(G, points):
+    '''
+    Calculate inertia eigenvalues for the graph.
+    '''
+    print("Calculating inertia eigenvalues...")
+    inertia_eigenvalues = np.zeros((G.numberOfNodes(), 3), dtype=np.float64) # Placeholder for inertia eigenvalues
+
+    for node in G.iterNodes():
+        neighbors = list(G.iterNeighbors(node))
+        if len(neighbors) < 3:  # Need at least 3 neighbors to define a plane
+            inertia_eigenvalues[node] = [0.0, 0.0, 0.0]
+            continue       
+        nbr_pos = points[neighbors, :3]
+        center = nbr_pos.mean(axis=0)
+        rel_pos = nbr_pos - center
+        cov = rel_pos.T@rel_pos / len(neighbors)
+        eigvals = np.linalg.eigvalsh(cov)
+        inertia_eigenvalues[node] = eigvals
+        if node % 1_000_000 == 0:
+            print(f"Processed {node:,} nodes...")
+
+    return inertia_eigenvalues
+
+inertia_eigenvalues = calculate_inertia_eigenvalues(G, points)
+I_eig1 = inertia_eigenvalues[:, 0] # columns
+I_eig2 = inertia_eigenvalues[:, 1]
+I_eig3 = inertia_eigenvalues[:, 2]
+
+print("Inertia eigenvalue statistics:")
+print(f"Min λ1: {I_eig1.min():.6f}, Max λ1: {I_eig1.max():.6f}, Mean λ1: {I_eig1.mean():.6f}")
+print(f"Min λ2: {I_eig2.min():.6f}, Max λ2: {I_eig2.max():.6f}, Mean λ2: {I_eig2.mean():.6f}")
+print(f"Min λ3: {I_eig3.min():.6f}, Max λ3: {I_eig3.max():.6f}, Mean λ3: {I_eig3.mean():.6f}")
 
 #========================Validation Checks=========================
 print("Graph has", G.numberOfNodes(), "nodes and", G.numberOfEdges(), "edges.")
