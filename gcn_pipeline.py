@@ -279,7 +279,7 @@ def main(rank, world_size, num_epochs):
 if __name__ == "__main__":
     # Automatically detect number of available GPUs
     world_size = torch.cuda.device_count()
-    num_epochs = 10000  # Set number of epochs for training
+    num_epochs = 15000 #10000  # Set number of epochs for training
     print(f"Detected {world_size} GPUs. Starting distributed training...")
     
     if world_size < 2:

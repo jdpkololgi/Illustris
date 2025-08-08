@@ -82,7 +82,7 @@ class cat():
             LOGMSTAR=self.masscut # Stellar mass cut for the DESI galaxy catalogue
         )
 
-        self.DESI_GAL_CAT.cartesian_coord()
+        # self.DESI_GAL_CAT.cartesian_coord() # obsolete since cartesian coordinates are now generated on initialization
         self.posx = self.DESI_GAL_CAT.X
         self.posxn = self.DESI_GAL_CAT.Xn
         self.posxs = self.DESI_GAL_CAT.Xs

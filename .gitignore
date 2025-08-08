@@ -1366,3 +1366,6 @@ DESI_BGS_prerelease_VAC.csv
 DESI_BGS_PRERELEASE_VAC.pkl
 abacus_cartesian_coords.npy
 .ipynb_checkpoints
+trained_gat_model_ddp_old.pth
+trained_gat_model_ddp_old2.pth
+trained_gat_model_old.pth
