@@ -181,6 +181,8 @@ print(f"Min λ1: {I_eig1.min():.6f}, Max λ1: {I_eig1.max():.6f}, Mean λ1: {I_e
 print(f"Min λ2: {I_eig2.min():.6f}, Max λ2: {I_eig2.max():.6f}, Mean λ2: {I_eig2.mean():.6f}")
 print(f"Min λ3: {I_eig3.min():.6f}, Max λ3: {I_eig3.max():.6f}, Mean λ3: {I_eig3.mean():.6f}")
 
+data = {'Degree':nk_weighted_degrees, 'Mean E.L.':nk_mean_edge_lengths, 'Min E.L.':nk_min_edge_lengths, 'Max E.L.':nk_max_edge_lengths, 'Clustering': nk_weighted_clustering_coeffs, 'Density': tetrahedral_density, 'Neighbour Density': neighbor_tetrahedral_density, 'I_eig1': I_eig1, 'I_eig2': I_eig2, 'I_eig3': I_eig3}
+
 #========================Validation Checks=========================
 print("Graph has", G.numberOfNodes(), "nodes and", G.numberOfEdges(), "edges.")
 print("First 10 edges with weights:")
