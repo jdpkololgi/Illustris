@@ -14,8 +14,7 @@ from sklearn.neighbors import radius_neighbors_graph
 from scipy.spatial import Delaunay
 from scipy.spatial.distance import euclidean, minkowski
 
-
-plt.style.use(['science', 'no-latex', 'dark_background'])  # Use dark background for better contrast
+plt.style.use(['science', 'no-latex'])  # Use dark background for better contrast
 
 # For black background
 custom_palette = {
@@ -335,7 +334,7 @@ class cat():
             # self.tri = [(self.pointsn, Delaunay(self.pointsn)), (self.pointss, Delaunay(self.pointss))] # List of tuples containing the points and the Delauany triangulation object for both hemispheres
 
         if xyzplot & (self.from_DESI==False):
-            plt.style.use(['science', 'no-latex', 'dark_background'])  # Use dark background for better contrast
+            plt.style.use(['science', 'no-latex'])  # Use dark background for better contrast
 
             # fig = plt.figure(figsize=(10,10), dpi=300)
             # ax = fig.add_subplot(projection='3d')
@@ -387,24 +386,24 @@ class cat():
                                 slice_lines.append(edge)
 
             # Plotting the 2D slice
-            fig, ax = plt.subplots(figsize=(10,10), dpi=300)
-            ax.set_facecolor('none')    # makes axes transparent
+            fig, ax = plt.subplots(figsize=(10,10), dpi=600)
+            # ax.set_facecolor('none')    # makes axes transparent
 
             # Plot the points in the slice
-            ax.scatter(slice_points[:, 0], slice_points[:, 1], c='#ff006e', marker='o', s=4, edgecolors='none')
+            ax.scatter(slice_points[:, 0], slice_points[:, 1], c='#ff006e', marker='o', s=10, edgecolors='none')
 
             # Plot the edges in the slice
             for line in slice_lines:
                 ax.plot([line[0][0], line[1][0]], [line[0][1], line[1][1]], '#4c78a8', lw=0.1)
             ax.set_xlim(0,300)
             ax.set_ylim(0,300)
-            ax.tick_params(axis='both', labelsize=16)
-            ax.set_xlabel(r'X [Mpc]', fontsize = 16)
-            ax.set_ylabel(r'Y [Mpc]', fontsize = 16)
+            ax.tick_params(axis='both', labelsize=20)
+            ax.set_xlabel(r'X [Mpc]', fontsize = 20)
+            ax.set_ylabel(r'Y [Mpc]', fontsize = 20)
             ax.set_title(f'2D Slice at z = {z_slice*300} [Mpc]. M/C: $10^{int(np.log10(self.masscut))}\,$ M$_{{\odot}}$. Subhalos: {len(self.points)}', pad=10, fontsize = 18)
             ax.set_aspect('equal', adjustable='box')
             # ax.legend([subhalopatch, Delpatch], [f'{len(slice_points[:,0])} Subhalos', 'Delaunay'], loc='upper right')
-            fig.savefig('Delaunay_Slice.png', transparent=True)
+            fig.savefig('Delaunay_Slice.png')
             print('Figure saved as Delaunay_Slice.png')
             plt.show()
 

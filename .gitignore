@@ -1369,3 +1369,9 @@ abacus_cartesian_coords.npy
 trained_gat_model_ddp_old.pth
 trained_gat_model_ddp_old2.pth
 trained_gat_model_old.pth
+training_validation_accuracies_losses.png
+training_validation_accuracies_losses.pkl
+pairplot_delaunay_10_9.png
+umap_learned_features_true_labels.png
+mean_edge_length_distribution.png
+gatplus_confusion_matrix.png

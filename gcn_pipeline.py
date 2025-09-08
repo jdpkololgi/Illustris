@@ -1,3 +1,4 @@
+from copyreg import pickle
 import os
 import numpy as np
 import pandas as pd
@@ -240,9 +241,9 @@ def train_and_evaluate(model, data, class_weights, rank, world_size, num_epochs=
         # Use the full test mask for evaluation
         data.train_mask = torch.zeros_like(data.train_mask)  # Reset train mask for testing
         predicted, labels, probs, _ = test_gcn_full(ddp_model.module, data)
-        return model, train_loss, val_loss, train_acc, val_acc, predicted, labels, probs
+        return model, full_train_loss, full_val_loss, full_train_acc, full_val_acc, predicted, labels, probs
     else:
-        return model, train_loss, val_loss, train_acc, val_acc, None, None, None
+        return model, full_train_loss, full_val_loss, full_train_acc, full_val_acc, None, None, None
 
 def main(rank, world_size, num_epochs):
     """Main training function for each process."""
@@ -271,6 +272,14 @@ def main(rank, world_size, num_epochs):
     # Save model only from rank 0
     if rank == 0:
         model, train_loss, val_loss, train_acc, val_acc, predicted, labels, probs = results
+        
+        # Save losses as a pickle file
+        import pickle
+        with open('training_validation_accuracies_losses.pkl', 'wb') as f:
+            pickle.dump({'train_loss': train_loss, 'val_loss': val_loss,
+                          'train_acc': train_acc, 'val_acc': val_acc}, f)
+        print("Training and validation losses and accuracies saved to 'training_validation_accuracies_losses.pkl'")
+
         torch.save(model.state_dict(), 'trained_gat_model_ddp.pth')
         print("Model saved as 'trained_gat_model_ddp.pth'")
 
@@ -279,7 +288,7 @@ def main(rank, world_size, num_epochs):
 if __name__ == "__main__":
     # Automatically detect number of available GPUs
     world_size = torch.cuda.device_count()
-    num_epochs = 15000 #10000  # Set number of epochs for training
+    num_epochs = 10000 # 15000 # Set number of epochs for training
     print(f"Detected {world_size} GPUs. Starting distributed training...")
     
     if world_size < 2:

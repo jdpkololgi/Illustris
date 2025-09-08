@@ -182,6 +182,10 @@ print(f"Min λ2: {I_eig2.min():.6f}, Max λ2: {I_eig2.max():.6f}, Mean λ2: {I_e
 print(f"Min λ3: {I_eig3.min():.6f}, Max λ3: {I_eig3.max():.6f}, Mean λ3: {I_eig3.mean():.6f}")
 
 data = {'Degree':nk_weighted_degrees, 'Mean E.L.':nk_mean_edge_lengths, 'Min E.L.':nk_min_edge_lengths, 'Max E.L.':nk_max_edge_lengths, 'Clustering': nk_weighted_clustering_coeffs, 'Density': tetrahedral_density, 'Neighbour Density': neighbor_tetrahedral_density, 'I_eig1': I_eig1, 'I_eig2': I_eig2, 'I_eig3': I_eig3}
+ 
+# Save data
+
+pd.DataFrame(data).to_pickle('/pscratch/sd/d/dkololgi/abacus/abacus_graph_features.pkl')
 
 #========================Validation Checks=========================
 print("Graph has", G.numberOfNodes(), "nodes and", G.numberOfEdges(), "edges.")
@@ -384,10 +388,10 @@ def full_validation(G, points, edges, weights):
     return all_passed
 
 # Run all checks
-validation_passed = full_validation(G, points, edges, weights)
+# validation_passed = full_validation(G, points, edges, weights)
 
-if validation_passed:
-    print("Graph construction is valid! ✓")
-    # Proceed with graph analysis
-else:
-    print("Graph construction has issues! Please investigate.")
+# if validation_passed:
+#     print("Graph construction is valid! ✓")
+#     # Proceed with graph analysis
+# else:
+#     print("Graph construction has issues! Please investigate.")
