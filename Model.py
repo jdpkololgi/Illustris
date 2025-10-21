@@ -11,13 +11,29 @@ from torch import nn
 from Network_stats import network
 import Model_classes
 from postprocessing import postprocessing
-from torch.utils.tensorboard import SummaryWriter
 from sklearn.metrics import confusion_matrix
 
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, PowerTransformer
 
 import graphviz
 from sklearn.tree import export_graphviz
+# Make tensorboard SummaryWriter optional (avoid forcing tensorflow import)
+try:
+    from torch.utils.tensorboard import SummaryWriter
+except Exception:
+    class SummaryWriter:
+        def __init__(self, *args, **kwargs):
+            pass
+        def add_graph(self, *args, **kwargs):
+            pass
+        def add_figure(self, *args, **kwargs):
+            pass
+        def add_scalar(self, *args, **kwargs):
+            pass
+        def flush(self, *args, **kwargs):
+            pass
+        def close(self, *args, **kwargs):
+            pass
 
 class Model():
     def __init__(self, model_type = 'mlp', pplot = False):
@@ -37,9 +53,19 @@ class Model():
         '''
         if model_type == 'mlp':
             self.model = Model_classes.MLP()
-            writer = SummaryWriter()
-            writer.add_graph(self.model, torch.randn(1, 7))
-            writer.close()
+            # Try to write graph to TensorBoard if SummaryWriter is available.
+            try:
+                from torch.utils.tensorboard import SummaryWriter
+                writer = SummaryWriter()
+                try:
+                    writer.add_graph(self.model, torch.randn(1, 7))
+                except Exception:
+                    # some models / environments may not support add_graph; ignore
+                    pass
+                writer.close()
+            except Exception:
+                # TensorBoard not available or triggers heavy imports (tensorflow) — continue silently
+                pass
             
         elif model_type == 'dnn':
             self.model = 'work in progress'

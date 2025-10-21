@@ -240,8 +240,8 @@ def train_and_evaluate(model, data, class_weights, rank, world_size, num_epochs=
     if rank == 0:
         # Use the full test mask for evaluation
         data.train_mask = torch.zeros_like(data.train_mask)  # Reset train mask for testing
-        predicted, labels, probs, _ = test_gcn_full(ddp_model.module, data)
-        return model, full_train_loss, full_val_loss, full_train_acc, full_val_acc, predicted, labels, probs
+        predicted, labels, probs, embeddings = test_gcn_full(ddp_model.module, data)
+        return model, full_train_loss, full_val_loss, full_train_acc, full_val_acc, predicted, labels, probs, embeddings
     else:
         return model, full_train_loss, full_val_loss, full_train_acc, full_val_acc, None, None, None
 
@@ -271,7 +271,7 @@ def main(rank, world_size, num_epochs):
 
     # Save model only from rank 0
     if rank == 0:
-        model, train_loss, val_loss, train_acc, val_acc, predicted, labels, probs = results
+        model, train_loss, val_loss, train_acc, val_acc, predicted, labels, probs, embeddings = results
         
         # Save losses as a pickle file
         import pickle
@@ -283,12 +283,21 @@ def main(rank, world_size, num_epochs):
         torch.save(model.state_dict(), 'trained_gat_model_ddp.pth')
         print("Model saved as 'trained_gat_model_ddp.pth'")
 
+        with open('test_predictions_labels_probs.pkl', 'wb') as f:
+            pickle.dump({'predicted': predicted, 'labels': labels, 'probs': probs}, f)
+        print("Test predictions, labels, and probabilities saved to 'test_predictions_labels_probs.pkl'")
+
+        # Save node embeddings
+        with open('node_embeddings.pkl', 'wb') as f:
+            pickle.dump(embeddings, f)
+        print("Node embeddings saved to 'node_embeddings.pkl'")
+
     cleanup_ddp()
 
 if __name__ == "__main__":
     # Automatically detect number of available GPUs
     world_size = torch.cuda.device_count()
-    num_epochs = 10000 # 15000 # Set number of epochs for training
+    num_epochs = 8000 # 15000 # Set number of epochs for training
     print(f"Detected {world_size} GPUs. Starting distributed training...")
     
     if world_size < 2:
@@ -321,7 +330,7 @@ if __name__ == "__main__":
                       f'Validation Loss: {val_loss:.4f} - Training Accuracy: {train_acc:.2f}% - '
                       f'Validation Accuracy: {val_acc:.2f}%')
         
-        predicted, labels, probs, _ = test_gcn_full(model, data)
+        predicted, labels, probs, embeddings = test_gcn_full(model, data)
         torch.save(model.state_dict(), 'trained_gat_model.pth')
         print("Model saved as 'trained_gat_model.pth'")
     else:

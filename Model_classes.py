@@ -5,7 +5,6 @@ import seaborn as sns
 
 import torch
 from torch import nn
-from torch.utils.tensorboard import SummaryWriter
 import torch.nn.functional as F
 from torch_geometric.nn import GCNConv
 from sklearn.metrics import confusion_matrix
@@ -28,6 +27,22 @@ from scipy.stats import randint
 from sklearn.tree import export_graphviz
 from IPython.display import Image
 import graphviz
+
+
+# Make tensorboard SummaryWriter optional (avoid forcing tensorflow import)
+try:
+    from torch.utils.tensorboard import SummaryWriter
+except Exception:
+    # Fallback no-op SummaryWriter to avoid heavy tensorboard/tensorflow imports
+    class SummaryWriter:
+        def __init__(self, *args, **kwargs):
+            pass
+        def add_graph(self, *args, **kwargs):
+            pass
+        def add_figure(self, *args, **kwargs):
+            pass
+        def close(self, *args, **kwargs):
+            pass
 
 
 def device_check():

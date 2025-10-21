@@ -44,7 +44,7 @@ class SimpleGAT(nn.Module):
         self.norm3 = nn.LayerNorm(total_hidden)
 
 
-    def forward(self, x, edge_index, edge_weight=None, return_attention=False):
+    def forward(self, x, edge_index, edge_weight=None, return_attention=False, return_embeddings=False):
         """Forward pass of the GNN model"""
 
         if return_attention:
@@ -66,5 +66,8 @@ class SimpleGAT(nn.Module):
             x2 = self.gat_dropout(F.relu(self.norm2(self.gat_layer2(x1, edge_index, edge_attr=edge_weight)) + x1))
             x3 = self.gat_dropout(F.relu(self.norm3(self.gat_layer3(x2, edge_index, edge_attr=edge_weight)) + x2))
             y_hat = self.gat_layer4(x3, edge_index, edge_attr=edge_weight)
+
+            if return_embeddings:
+                return y_hat, x3  # return the last hidden layer as well for visualization using UMAP
 
             return y_hat

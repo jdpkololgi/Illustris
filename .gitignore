@@ -1375,3 +1375,6 @@ pairplot_delaunay_10_9.png
 umap_learned_features_true_labels.png
 mean_edge_length_distribution.png
 gatplus_confusion_matrix.png
+umap_gat_embeddings_true_predicted_labels.png
+test_predictions_labels_probs.pkl
+node_embeddings.pkl

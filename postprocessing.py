@@ -5,7 +5,21 @@ import seaborn as sns
 
 import torch
 from torch import nn
-from torch.utils.tensorboard import SummaryWriter
+try:
+    from torch.utils.tensorboard import SummaryWriter
+except Exception:
+    class SummaryWriter:
+        def __init__(self, *args, **kwargs):
+            pass
+        def add_figure(self, *args, **kwargs):
+            pass
+        def add_scalar(self, *args, **kwargs):
+            pass
+        def flush(self, *args, **kwargs):
+            pass
+        def close(self, *args, **kwargs):
+            pass
+
 import torch.nn.functional as F
 from torch_geometric.nn import GCNConv
 from sklearn.metrics import confusion_matrix

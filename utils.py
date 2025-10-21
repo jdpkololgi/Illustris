@@ -72,11 +72,11 @@ def test_gcn_full(model, data):
     """
     model.eval()
     with torch.no_grad():
-        output = model(data.x, data.edge_index, data.edge_attr)
-        
+        output, embeddings = model(data.x, data.edge_index, data.edge_attr, return_embeddings=True)
+        embeddings = embeddings # Move embeddings to CPU for further processing
         test_probs = F.softmax(output[data.test_mask], dim=1)
         _, predicted = torch.max(test_probs, 1)
         correct = (predicted == data.y[data.test_mask]).sum().item()
         total = data.y[data.test_mask].size(0)
         print(f'Test Accuracy: {100 * correct / total:.2f}%')
-    return predicted, data.y[data.test_mask], test_probs, None
+    return predicted, data.y[data.test_mask], test_probs, embeddings
