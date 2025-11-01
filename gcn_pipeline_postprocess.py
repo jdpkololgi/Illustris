@@ -28,11 +28,18 @@ plt.rcParams.update({'font.size': FONT_SIZE, 'axes.titlesize': FONT_SIZE, 'axes.
                      'xtick.labelsize': FONT_SIZE, 'ytick.labelsize': FONT_SIZE, 'legend.fontsize': FONT_SIZE})
 
 # Define a single canonical palette used across all plots
+# custom_palette = {
+#     'Void': '#4c78a8',     # deep teal
+#     'Wall': '#a05eb5',     # violet
+#     'Filament': '#76b7b2', # sky teal
+#     'Cluster': '#e17c9a'   # plum pink
+# }
+
 custom_palette = {
-    'Void': '#4c78a8',     # deep teal
-    'Wall': '#a05eb5',     # violet
-    'Filament': '#76b7b2', # sky teal
-    'Cluster': '#e17c9a'   # plum pink
+    'Void': '#80ffdb',  # Void — mint-teal neon (distinct from blue wall)
+    'Wall': '#3a86ff',  # Wall — neon blue
+    'Filament': '#ff006e',  # Filament — hot pink
+    'Cluster': '#ffbe0b'   # Cluster — neon yellow-orange
 }
 # also provide easy access by name used elsewhere
 classes = ['Void (0)', 'Wall (1)', 'Filament (2)', 'Cluster (3)']
@@ -173,6 +180,10 @@ row_labels = [np.asarray(targets2), np.asarray(targets2), np.asarray(predicted_l
 
 pairs = [(0, 1), (0, 2), (1, 2)]
 
+
+
+
+
 # ensure each subplot gets equal physical size: keep per-panel size and build gridspec
 n_rows, n_cols = 3, 3
 per_panel_w, per_panel_h = 6, 6   # each panel size (inches) — adjust to taste
@@ -196,41 +207,25 @@ normalised_entropy = entropy / np.log(test_probs.shape[1])  # in [0,1]
 conf = 1 - normalised_entropy  # confidence in [0,1]
 from matplotlib.cm import get_cmap
 cmap_grey = get_cmap("Greys")
-edgecols = cmap_grey(normalised_entropy)  # darker for lower entropy
+edgecols = cmap_grey(conf)  # darker for lower entropy
+cmap_greens = get_cmap("Greens")
+edgecols_green = cmap_greens(conf)  # darker for higher confidence
 
 # map confidence to marker area (matplotlib 's' is area). tune min/max for visibility.
 min_area = 6   # small visible dot
 max_area = 100 # large visible dot for highest confidence
 areas = min_area + conf * (max_area - min_area)  # shape == n_test_nodes
 
-def _plot_kde_contours_for_class(ax, emb, labels, cls_name, color, x, y, xlim, ylim,
-                                 grid_n=160, n_levels=7, min_pts=30, fill_alpha=0.35):
-    """Draw filled+line KDE contours for a single class on given axes."""
-    pts = emb[labels == cls_name]
-    if pts.shape[0] < min_pts:
-        return
-    pts = pts[:, [x, y]]
-    try:
-        kde = gaussian_kde(pts.T)
-    except Exception:
-        return  # singular covariance or other numerical issue
 
-    xs = np.linspace(xlim[0], xlim[1], grid_n)
-    ys = np.linspace(ylim[0], ylim[1], grid_n)
-    xx, yy = np.meshgrid(xs, ys)
-    zz = kde(np.vstack([xx.ravel(), yy.ravel()])).reshape(xx.shape)
 
-    # Use quantile-based levels for better cross-class comparability
-    zflat = zz.ravel()
-    zflat = zflat[np.isfinite(zflat)]
-    if zflat.size < 10 or np.allclose(zflat.max(), zflat.min()):
-        return
-    qs = np.linspace(0.55, 0.97, n_levels)  # emphasize higher-density regions
-    levels = np.quantile(zflat, qs)
 
-    # Filled contour (single-color colormap) + thin outline
-    ax.contourf(xx, yy, zz, levels=levels, cmap=ListedColormap([color]), alpha=fill_alpha, antialiased=True)
-    ax.contour(xx, yy, zz, levels=levels, colors=[color], linewidths=0.6, alpha=0.9)
+
+
+
+# Controls for performance with many points
+max_points_per_class_top_mid = 20000   # None to disable subsampling
+rasterize_top_mid = True
+_rng = np.random.default_rng(42)
 
 for row in range(n_rows):
     emb = row_embeddings[row]
@@ -245,36 +240,43 @@ for row in range(n_rows):
         ax = axes[row][col]
         ax.clear()
 
-        # Compute subplot extents once (robust to outliers)
+        # Compute subplot extents once
         xdata, ydata = emb[:, x], emb[:, y]
-        xlim = np.percentile(xdata, [1, 99])
-        ylim = np.percentile(ydata, [1, 99])
+        xlim = np.percentile(xdata, [0, 100])
+        ylim = np.percentile(ydata, [0, 100])
 
         for cls_name in custom_palette.keys():
             mask = (labels == cls_name)
             if not np.any(mask):
                 continue
 
+            idx = np.flatnonzero(mask)
+
+            # Top/middle: optional per-class subsampling and rasterized scatter for speed
+            if row in (0, 1) and max_points_per_class_top_mid is not None and idx.size > max_points_per_class_top_mid:
+                idx = _rng.choice(idx, size=max_points_per_class_top_mid, replace=False)
+
             if row == 2:
-                # Bottom row: keep point scatter (confidence via edge color/size if desired)
+                # Bottom row: keep confidence edgecolor; use current marker sizing
                 ax.scatter(
-                    emb[mask, x], emb[mask, y],
+                    emb[idx, x], emb[idx, y],
                     color=custom_palette[cls_name],
-                    s=marker_size,  # or use `areas[mask]` to scale by confidence
-                    edgecolor=edgecols[mask],
+                    s=marker_size,               # keep or switch to `areas[idx]` if you prefer size by confidence
+                    edgecolor=edgecols[idx],
                     alpha=alpha_const,
+                    linewidths=0.2,
                     label=cls_name if (row == 0 and col == 0) else None
                 )
             else:
-                # Top and middle rows: draw KDE contours per class
-                _plot_kde_contours_for_class(
-                    ax=ax,
-                    emb=emb,
-                    labels=labels,
-                    cls_name=cls_name,
+                # Fast scatter for dense rows
+                ax.scatter(
+                    emb[idx, x], emb[idx, y],
                     color=custom_palette[cls_name],
-                    x=x, y=y,
-                    xlim=xlim, ylim=ylim
+                    s=marker_size,
+                    alpha=alpha_const,
+                    edgecolor='none',
+                    rasterized=rasterize_top_mid,
+                    label=cls_name if (row == 0 and col == 0) else None
                 )
 
         ax.set_xlim(xlim)
@@ -314,14 +316,14 @@ edge_high = cmap_grey(0.05) # dark edge  -> high confidence (low entropy)
 size_proxies = [
     Line2D([0], [0],
            marker='o',
-           color='w',
+           color='k',
            markerfacecolor='none',
            markeredgecolor=edge_low,
            markersize=legend_min_size,
            lw=1),
     Line2D([0], [0],
            marker='o',
-           color='w',
+           color='k',
            markerfacecolor='none',
            markeredgecolor=edge_high,
            markersize=legend_max_size,
@@ -337,7 +339,10 @@ fig.legend(legend_handles,
            loc='upper center',
            ncol=len(class_labels) + 2,
            fontsize=FONT_SIZE,
-           bbox_to_anchor=(0.5, 0.99))  # scale scatter markers in legend for readability
+           bbox_to_anchor=(0.5, 1.02),
+           frameon=False)
+# leave headroom for the legend
+plt.tight_layout(rect=[0, 0, 1, 0.92])
 
 # # after plotting the 3x3 subplots, add centered titles for each row
 # row_titles = [
@@ -350,6 +355,40 @@ fig.legend(legend_handles,
 #     y_center = top - (r + 0.5) * (top - bottom) / n_rows
 #     fig.text(0.5, y_center+0.15, row_titles[r],
 #              ha='center', va='center', fontsize=FONT_SIZE + 2, weight='bold')
+
+# Bottom-row standalone figure: all three UMAP projections for test galaxies
+plt.style.use(['dark_background', 'science', 'no-latex'])
+pairs = [(0, 1), (0, 2), (1, 2)]
+fig, axes = plt.subplots(1, 3, figsize=(18, 6), dpi=300)
+colors = np.array([custom_palette[lbl] for lbl in predicted_labels_test])
+for ax, (x, y) in zip(axes, pairs):
+
+    # robust panel limits
+    xlim = np.percentile(z_test[:, x], [1, 99])
+    ylim = np.percentile(z_test[:, y], [1, 99])
+    ax.scatter(
+        z_test[:, x], z_test[:, y],
+        c=colors,
+        s=marker_size,            # size by entropy-derived areas
+        edgecolor=None, # edge encodes entropy
+        alpha=conf,
+        linewidths=0.2,
+        alpha=alpha_const,
+        rasterized=True
+    )
+    ax.set_xlabel(f'UMAP {x+1}', fontsize=FONT_SIZE)
+    ax.set_ylabel(f'UMAP {y+1}', fontsize=FONT_SIZE)
+    ax.tick_params(labelsize=FONT_SIZE)
+
+# Move legend above plots and reserve space
+fig.legend(legend_handles,
+           legend_labels,
+           loc='upper center',
+           ncol=len(class_labels) + 2,
+           fontsize=FONT_SIZE,
+           frameon=False)
+plt.tight_layout(rect=[0, 0, 1, 0.90])
+
 
 # entropy distribution by environment
 fig = plt.figure(figsize=(7, 5), dpi=300)
