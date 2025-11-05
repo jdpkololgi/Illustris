@@ -207,7 +207,9 @@ normalised_entropy = entropy / np.log(test_probs.shape[1])  # in [0,1]
 conf = 1 - normalised_entropy  # confidence in [0,1]
 from matplotlib.cm import get_cmap
 cmap_grey = get_cmap("Greys")
+cmap_grey_r = get_cmap("Greys_r")
 edgecols = cmap_grey(conf)  # darker for lower entropy
+edgecols_r = cmap_grey_r(conf)  # darker for higher entropy
 cmap_greens = get_cmap("Greens")
 edgecols_green = cmap_greens(conf)  # darker for higher confidence
 
@@ -359,7 +361,7 @@ plt.tight_layout(rect=[0, 0, 1, 0.92])
 # Bottom-row standalone figure: all three UMAP projections for test galaxies
 plt.style.use(['dark_background', 'science', 'no-latex'])
 pairs = [(0, 1), (0, 2), (1, 2)]
-fig, axes = plt.subplots(1, 3, figsize=(18, 6), dpi=300)
+fig, axes = plt.subplots(1, 3, figsize=(18, 6), dpi=600)
 colors = np.array([custom_palette[lbl] for lbl in predicted_labels_test])
 for ax, (x, y) in zip(axes, pairs):
 
@@ -370,15 +372,15 @@ for ax, (x, y) in zip(axes, pairs):
         z_test[:, x], z_test[:, y],
         c=colors,
         s=marker_size,            # size by entropy-derived areas
-        edgecolor=None, # edge encodes entropy
-        alpha=conf,
+        edgecolor=edgecols, # edge encodes entropy
         linewidths=0.2,
-        alpha=alpha_const,
+        alpha=0.8,  # alpha inversely proportional to confidence
         rasterized=True
     )
     ax.set_xlabel(f'UMAP {x+1}', fontsize=FONT_SIZE)
     ax.set_ylabel(f'UMAP {y+1}', fontsize=FONT_SIZE)
     ax.tick_params(labelsize=FONT_SIZE)
+    ax.set_facecolor('none')
 
 # Move legend above plots and reserve space
 fig.legend(legend_handles,
@@ -388,6 +390,7 @@ fig.legend(legend_handles,
            fontsize=FONT_SIZE,
            frameon=False)
 plt.tight_layout(rect=[0, 0, 1, 0.90])
+fig.savefig('umap_gat_embeddings_test_predictions.pdf', dpi=600, transparent=True)
 
 
 # entropy distribution by environment

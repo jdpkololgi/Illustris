@@ -14,7 +14,7 @@ from sklearn.neighbors import radius_neighbors_graph
 from scipy.spatial import Delaunay
 from scipy.spatial.distance import euclidean, minkowski
 
-plt.style.use(['science', 'no-latex'])  # Use dark background for better contrast
+plt.style.use(['science', 'no-latex', 'dark_background'])  # Use dark background for better contrast
 
 # For black background
 custom_palette = {
@@ -387,24 +387,25 @@ class cat():
 
             # Plotting the 2D slice
             fig, ax = plt.subplots(figsize=(10,10), dpi=600)
-            # ax.set_facecolor('none')    # makes axes transparent
-
-            # Plot the points in the slice
-            ax.scatter(slice_points[:, 0], slice_points[:, 1], c='#ff006e', marker='o', s=10, edgecolors='none')
+            ax.set_facecolor('none')    # makes axes transparent
 
             # Plot the edges in the slice
             for line in slice_lines:
-                ax.plot([line[0][0], line[1][0]], [line[0][1], line[1][1]], '#4c78a8', lw=0.1)
+                ax.plot([line[0][0], line[1][0]], [line[0][1], line[1][1]], '#3a86ff', lw=0.2)
+
+            # Plot the points in the slice
+            ax.scatter(slice_points[:, 0], slice_points[:, 1], c='#ff006e', marker='o', s=13, edgecolors='none')
+
             ax.set_xlim(0,300)
             ax.set_ylim(0,300)
             ax.tick_params(axis='both', labelsize=20)
             ax.set_xlabel(r'X [Mpc]', fontsize = 20)
             ax.set_ylabel(r'Y [Mpc]', fontsize = 20)
-            ax.set_title(f'2D Slice at z = {z_slice*300} [Mpc]. M/C: $10^{int(np.log10(self.masscut))}\,$ M$_{{\odot}}$. Subhalos: {len(self.points)}', pad=10, fontsize = 18)
+            ax.set_title(f'2D Slice at z = {z_slice*300} [Mpc]. M/C: $10^{int(np.log10(self.masscut))}\,$ M$_{{\odot}}$. Subhalos: {len(self.points)}', pad=10, fontsize = 20)
             ax.set_aspect('equal', adjustable='box')
             # ax.legend([subhalopatch, Delpatch], [f'{len(slice_points[:,0])} Subhalos', 'Delaunay'], loc='upper right')
-            fig.savefig('Delaunay_Slice.png')
-            print('Figure saved as Delaunay_Slice.png')
+            fig.savefig('Delaunay_Slice.pdf', bbox_inches='tight', dpi=600, transparent=True)
+            print('Figure saved as Delaunay_Slice.pdf')
             plt.show()
 
         if self.from_DESI == False:
@@ -649,7 +650,7 @@ class cat():
             ax.set_box_aspect(None, zoom=0.85)
             ax.set_aspect('auto', adjustable='box')
             fig.savefig(f'TNG300-1_z=0_{self.filetype}_Subhalos.png', transparent=True)
-            print(f'Figure saved as TNG300-1_z=0_{self.filetype}_Subhalos.png')
+            # print(f'Figure saved as TNG300-1_z=0_{self.filetype}_Subhalos.png')
             plt.show()
 
             plt.rcdefaults()
@@ -679,7 +680,7 @@ class cat():
             ax.set_title('IllustrisTNG-300 by T-WEB Environments', fontsize=18, pad=10)
             # Set aspect ratio to equal for better visualization
             ax.set_aspect('equal', adjustable='box')
-            fig.savefig(f'TNG300-1_z=0_{self.filetype}_Subhalos_2D_Projection.png', transparent=True)
+            # fig.savefig(f'TNG300-1_z=0_{self.filetype}_Subhalos_2D_Projection.png', transparent=True)
             # Show the plot
             plt.show()
         

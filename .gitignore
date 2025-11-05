@@ -1378,3 +1378,5 @@ gatplus_confusion_matrix.png
 umap_gat_embeddings_true_predicted_labels.png
 test_predictions_labels_probs.pkl
 node_embeddings.pkl
+sim_bgs_side_nocolors.pdf
+umap_gat_embeddings_test_predictions.pdf
