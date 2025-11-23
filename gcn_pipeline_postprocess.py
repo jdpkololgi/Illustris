@@ -1,5 +1,10 @@
 import os
+import builtins
+from contextlib import contextmanager
 
+import matplotlib
+matplotlib.use('Agg')  # force non-interactive backend for SSH runs
+import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 import numpy as np
 import pandas as pd
@@ -8,7 +13,6 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 import torch.distributed as dist
-import matplotlib.pyplot as plt
 from scipy.stats import gaussian_kde
 from matplotlib.colors import ListedColormap
 
@@ -21,6 +25,104 @@ import seaborn as sns
 from sklearn.feature_selection import mutual_info_classif
 
 
+@contextmanager
+def _disable_tensorflow_import():
+    """UMAP's parametric module imports TensorFlow, which crashes with numpy>=2 on this node."""
+    original_import = builtins.__import__
+
+    def _guard(name, globals=None, locals=None, fromlist=(), level=0):
+        if name.split(".")[0] == "tensorflow":
+            raise ImportError("TensorFlow import blocked for UMAP to avoid numpy compatibility issues.")
+        return original_import(name, globals, locals, fromlist, level)
+
+    builtins.__import__ = _guard
+    try:
+        yield
+    finally:
+        builtins.__import__ = original_import
+
+
+def _resolve_umap_class():
+    with _disable_tensorflow_import():
+        try:
+            from umap.umap_ import UMAP as umap_cls
+            return umap_cls
+        except ImportError:
+            try:
+                from umap import UMAP as umap_cls
+                return umap_cls
+            except ImportError as err:
+                raise ImportError(
+                    "UMAP is unavailable. Install `umap-learn` in the same environment."
+                ) from err
+
+
+def add_density_contours(ax, points, labels, palette, xlim, ylim, grid_size=200):
+    """Overlay solid KDE contours per class following Caro et al. (2024) Figure 13.
+    This version draws filled contours (contourf) between the chosen level and the peak density,
+    plus a stroked contour line for definition.
+    """
+    labels = np.asarray(labels)
+    points = np.asarray(points)
+    if points.shape[0] < 3:
+        return
+
+    xs = np.linspace(xlim[0], xlim[1], grid_size)
+    ys = np.linspace(ylim[0], ylim[1], grid_size)
+    xx, yy = np.meshgrid(xs, ys)
+    grid_positions = np.vstack([xx.ravel(), yy.ravel()])
+
+    for cls_name, color in palette.items():
+        cls_mask = labels == cls_name
+        if cls_mask.sum() < 5:
+            continue
+        cls_points = points[cls_mask]
+        try:
+            kde = gaussian_kde(cls_points.T)
+        except np.linalg.LinAlgError:
+            continue
+        density = kde(grid_positions).reshape(xx.shape)
+        mean_density = float(density.mean())
+        std_density = float(density.std())
+        level = mean_density + std_density
+        if not np.isfinite(level):
+            continue
+        density_max = float(density.max())
+        if density_max <= 0:
+            continue
+        # ensure the fill interval is valid; fall back to a fraction of the max if needed
+        if level >= density_max:
+            level = mean_density
+            if level >= density_max:
+                level = 0.5 * density_max
+        if level <= 0:
+            continue
+
+        # Filled contour between the threshold level and the maximum density
+        ax.contourf(xx, yy, density, levels=[level, density_max], colors=[color], alpha=0.35, antialiased=True)
+
+        # Optional: draw an outline at the threshold for clarity
+        ax.contour(xx, yy, density, levels=[level], colors=[color], linewidths=1.2, alpha=0.6)
+
+
+def compute_axis_limits(points, pad_fraction=0.05):
+    """Return padded axis limits matching scatter extents."""
+    pts = np.asarray(points)
+    if pts.ndim != 2 or pts.shape[1] != 2:
+        raise ValueError("points must have shape (N, 2)")
+
+    def _limits(component):
+        min_val = component.min()
+        max_val = component.max()
+        span = max_val - min_val
+        pad = span * pad_fraction if span > 0 else 1.0
+        return (min_val - pad, max_val + pad)
+
+    xlim = _limits(pts[:, 0])
+    ylim = _limits(pts[:, 1])
+    return xlim, ylim
+
+
 # Ensure consistent font size and style across all plots
 FONT_SIZE = 20
 plt.style.use(['science', 'no-latex'])
@@ -28,19 +130,19 @@ plt.rcParams.update({'font.size': FONT_SIZE, 'axes.titlesize': FONT_SIZE, 'axes.
                      'xtick.labelsize': FONT_SIZE, 'ytick.labelsize': FONT_SIZE, 'legend.fontsize': FONT_SIZE})
 
 # Define a single canonical palette used across all plots
-# custom_palette = {
-#     'Void': '#4c78a8',     # deep teal
-#     'Wall': '#a05eb5',     # violet
-#     'Filament': '#76b7b2', # sky teal
-#     'Cluster': '#e17c9a'   # plum pink
-# }
-
 custom_palette = {
-    'Void': '#80ffdb',  # Void — mint-teal neon (distinct from blue wall)
-    'Wall': '#3a86ff',  # Wall — neon blue
-    'Filament': '#ff006e',  # Filament — hot pink
-    'Cluster': '#ffbe0b'   # Cluster — neon yellow-orange
+    'Void': '#4c78a8',     # deep teal
+    'Wall': '#a05eb5',     # violet
+    'Filament': '#76b7b2', # sky teal
+    'Cluster': '#e17c9a'   # plum pink
 }
+
+# custom_palette = {
+#     'Void': '#80ffdb',  # Void — mint-teal neon (distinct from blue wall)
+#     'Wall': '#3a86ff',  # Wall — neon blue
+#     'Filament': '#ff006e',  # Filament — hot pink
+#     'Cluster': '#ffbe0b'   # Cluster — neon yellow-orange
+# }
 # also provide easy access by name used elsewhere
 classes = ['Void (0)', 'Wall (1)', 'Filament (2)', 'Cluster (3)']
 class_colors = [custom_palette['Void'], custom_palette['Wall'], custom_palette['Filament'], custom_palette['Cluster']]
@@ -60,15 +162,15 @@ cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
 
 # plot confusion matrix using a cmap derived from the Cluster color for consistency
 cmap = sns.light_palette(custom_palette['Void'], as_cmap=True)
-plt.figure(figsize=(10, 8))
+fig_cm = plt.figure(figsize=(10, 8))
 ax = sns.heatmap(cm, annot=True, fmt='.2f', cmap=cmap, xticklabels=classes, yticklabels=classes,
                  cbar_kws={'shrink': 0.75}, annot_kws={'fontsize': FONT_SIZE-2})
 ax.set_xlabel('Predicted', fontsize=FONT_SIZE)
 ax.set_ylabel('True', fontsize=FONT_SIZE)
 ax.tick_params(labelsize=FONT_SIZE)
-plt.tight_layout()
-plt.savefig('gatplus_confusion_matrix.png', dpi=600)
-plt.show()
+fig_cm.tight_layout()
+fig_cm.savefig('gatplus_confusion_matrix.png', dpi=600)
+plt.close(fig_cm)
 
 print(cm)
 
@@ -101,7 +203,7 @@ ax[1].legend(loc='best', fontsize=FONT_SIZE)
 
 plt.tight_layout()
 fig.savefig('training_validation_accuracies_losses.png', dpi=600)
-plt.show()
+plt.close(fig)
 
 
 stats = classification_report(true_labels, predicted_labels, target_names=classes, output_dict=True)
@@ -109,7 +211,7 @@ stats_df = pd.DataFrame(stats).transpose().drop(columns=['support'])
 print(stats_df)
 
 # KDE plots: ensure colors use the custom palette and fonts remain consistent
-plt.figure(figsize=(10, 6))
+fig_kde = plt.figure(figsize=(10, 6))
 sns.kdeplot(features['Mean E.L.'][targets == 0].values, label='Void', fill=True, alpha=0.5, color=custom_palette['Void'])
 sns.kdeplot(features['Mean E.L.'][targets == 1].values, label='Wall', fill=True, alpha=0.5, color=custom_palette['Wall'])
 sns.kdeplot(features['Mean E.L.'][targets == 2].values, label='Filament', fill=True, alpha=0.5, color=custom_palette['Filament'])
@@ -119,32 +221,27 @@ plt.xlabel('Mean Edge Length', fontsize=FONT_SIZE)
 plt.ylabel('Density', fontsize=FONT_SIZE)
 plt.legend(loc='upper left', fontsize=FONT_SIZE)
 plt.tick_params(labelsize=FONT_SIZE)
-plt.tight_layout()
-plt.savefig('mean_edge_length_distribution.png', dpi=600)
-plt.show()
+fig_kde.tight_layout()
+fig_kde.savefig('mean_edge_length_distribution.png', dpi=600)
+plt.close(fig_kde)
 
 # Calculate mutual information
 
 mi = mutual_info_classif(features, pd.Categorical(targets).codes, random_state=42)
 mi = pd.Series(mi, index=features.columns)
 mi = mi.sort_values(ascending=False)
-plt.figure(figsize=(10,8))
+fig_mi = plt.figure(figsize=(10,8))
 mi.plot.bar(color=custom_palette['Void'], alpha=0.8)
 plt.ylabel('Mutual Information', fontsize=FONT_SIZE)
 plt.xticks(rotation=45, ha='right', fontsize=FONT_SIZE)
 plt.title('Graph Metric Mutual Information with T-WEB Environments', fontsize=FONT_SIZE)
 plt.tick_params(axis='both', labelsize=FONT_SIZE)
-plt.tight_layout()
-plt.savefig('mutual_info_graph_metrics.png', dpi=600, transparent=True)
-plt.show()
+fig_mi.tight_layout()
+fig_mi.savefig('mutual_info_graph_metrics.png', dpi=600, transparent=True)
+plt.close(fig_mi)
 
 # UMAP visualization of learned features. 3e projections colored by true and predicted labels
-# Note: UMAP import is ignored in the InteractiveInput-1 file as per user instruction
-try:
-    from umap.umap_ import UMAP  # preferred: avoids TF entirely
-except Exception:
-    # last resort fallback (only if you later fix TF)
-    from umap import UMAP
+UMAP = _resolve_umap_class()
 
 reducer = UMAP(random_state=42, n_components=3)
 embeddings = reducer.fit_transform(data.x.numpy())
@@ -189,14 +286,14 @@ n_rows, n_cols = 3, 3
 per_panel_w, per_panel_h = 6, 6   # each panel size (inches) — adjust to taste
 fig_w, fig_h = n_cols * per_panel_w, n_rows * per_panel_h
 
-fig = plt.figure(figsize=(fig_w, fig_h), dpi=300)
+fig_grid = plt.figure(figsize=(fig_w, fig_h), dpi=300)
 # place grid with explicit margins so cells have equal allocation
 top, bottom, left, right = 0.95, 0.04, 0.06, 0.99
 hspace, wspace = 0.25, 0.18
-gs = fig.add_gridspec(n_rows, n_cols, left=left, right=right, top=top, bottom=bottom,
-                      hspace=hspace, wspace=wspace)
+gs = fig_grid.add_gridspec(n_rows, n_cols, left=left, right=right, top=top, bottom=bottom,
+                           hspace=hspace, wspace=wspace)
 
-axes = [[fig.add_subplot(gs[r, c]) for c in range(n_cols)] for r in range(n_rows)]
+axes = [[fig_grid.add_subplot(gs[r, c]) for c in range(n_cols)] for r in range(n_rows)]
 
 marker_size = 9
 alpha_const = 0.75  # constant alpha for visibility
@@ -281,8 +378,7 @@ for row in range(n_rows):
                     label=cls_name if (row == 0 and col == 0) else None
                 )
 
-        ax.set_xlim(xlim)
-        ax.set_ylim(ylim)
+
         ax.set_xlabel(f'UMAP {x+1}', fontsize=FONT_SIZE)
         ax.set_ylabel(f'UMAP {y+1}', fontsize=FONT_SIZE)
         ax.tick_params(axis='both', labelsize=FONT_SIZE)
@@ -336,15 +432,16 @@ size_proxies = [
 legend_handles = class_handles + size_proxies
 legend_labels = class_labels + ['Low Entropy', 'High Entropy']
 
-fig.legend(legend_handles,
-           legend_labels,
-           loc='upper center',
-           ncol=len(class_labels) + 2,
-           fontsize=FONT_SIZE,
-           bbox_to_anchor=(0.5, 1.02),
-           frameon=False)
+fig_grid.legend(legend_handles,
+                legend_labels,
+                loc='upper center',
+                ncol=len(class_labels) + 2,
+                fontsize=FONT_SIZE,
+                bbox_to_anchor=(0.5, 1.02),
+                frameon=False)
 # leave headroom for the legend
-plt.tight_layout(rect=[0, 0, 1, 0.92])
+fig_grid.tight_layout(rect=[0, 0, 1, 0.92])
+plt.close(fig_grid)
 
 # # after plotting the 3x3 subplots, add centered titles for each row
 # row_titles = [
@@ -355,21 +452,24 @@ plt.tight_layout(rect=[0, 0, 1, 0.92])
 # for r in range(n_rows):
 #     # compute vertical center of the r-th row in figure coordinates using the same top/bottom used by gridspec
 #     y_center = top - (r + 0.5) * (top - bottom) / n_rows
-#     fig.text(0.5, y_center+0.15, row_titles[r],
+#     fig_grid.text(0.5, y_center+0.15, row_titles[r],
 #              ha='center', va='center', fontsize=FONT_SIZE + 2, weight='bold')
 
 # Bottom-row standalone figure: all three UMAP projections for test galaxies
-plt.style.use(['dark_background', 'science', 'no-latex'])
+# plt.style.use(['dark_background', 'science', 'no-latex'])
+plt.style.use(['science', 'no-latex'])
+from scipy.ndimage import gaussian_filter
+
+
 pairs = [(0, 1), (0, 2), (1, 2)]
-fig, axes = plt.subplots(1, 3, figsize=(18, 6), dpi=600)
+fig, axes = plt.subplots(1, 3, figsize=(18, 6))
 colors = np.array([custom_palette[lbl] for lbl in predicted_labels_test])
 for ax, (x, y) in zip(axes, pairs):
 
-    # robust panel limits
-    xlim = np.percentile(z_test[:, x], [1, 99])
-    ylim = np.percentile(z_test[:, y], [1, 99])
+    plane = z_test[:, [x, y]]
+    xlim, ylim = compute_axis_limits(plane)
     ax.scatter(
-        z_test[:, x], z_test[:, y],
+        plane[:, 0], plane[:, 1],
         c=colors,
         s=marker_size,            # size by entropy-derived areas
         edgecolor=edgecols, # edge encodes entropy
@@ -381,6 +481,9 @@ for ax, (x, y) in zip(axes, pairs):
     ax.set_ylabel(f'UMAP {y+1}', fontsize=FONT_SIZE)
     ax.tick_params(labelsize=FONT_SIZE)
     ax.set_facecolor('none')
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
+    add_density_contours(ax, plane, predicted_labels_test, custom_palette, xlim, ylim)
 
 # Move legend above plots and reserve space
 fig.legend(legend_handles,
@@ -391,10 +494,10 @@ fig.legend(legend_handles,
            frameon=False)
 plt.tight_layout(rect=[0, 0, 1, 0.90])
 fig.savefig('umap_gat_embeddings_test_predictions.pdf', dpi=600, transparent=True)
-
+plt.close(fig)
 
 # entropy distribution by environment
-fig = plt.figure(figsize=(7, 5), dpi=300)
+fig_entropy = plt.figure(figsize=(18, 12))
 for k, name in enumerate(['Void','Wall','Filament','Cluster']):
     mask = predicted_labels_test == name
     print(f"{name:10s}: mean entropy = {entropy[mask].mean():.3f}")
@@ -404,5 +507,90 @@ plt.xlabel('Prediction Entropy', fontsize=FONT_SIZE)
 plt.ylabel('Density', fontsize=FONT_SIZE)
 plt.legend(loc='best', fontsize=FONT_SIZE)
 plt.tick_params(labelsize=FONT_SIZE)
-plt.tight_layout()
+fig_entropy.tight_layout()
+plt.close(fig_entropy)
 
+pairs = [(0, 1), (0, 2), (1, 2)]
+single_color = 'r'  # neutral color for entropy row
+
+fig_comb, axes_comb = plt.subplots(2, 3, figsize=(18, 12), dpi=300)
+
+# Row 0: color by predicted class (uniform size)
+colors = np.array([custom_palette[lbl] for lbl in predicted_labels_test])
+for ax, (x, y) in zip(axes_comb[0], pairs):
+    plane = z_test[:, [x, y]]
+    xlim, ylim = compute_axis_limits(plane)
+    # ax.scatter(
+    #     plane[:, 0], plane[:, 1],
+    #     c=colors,
+    #     s=marker_size,
+    #     edgecolor='none',
+    #     alpha=alpha_const,
+    #     rasterized=True
+    # )
+    ax.set_xlabel(f'UMAP {x+1}', fontsize=20)
+    ax.set_ylabel(f'UMAP {y+1}', fontsize=20)
+    ax.tick_params(labelsize=20)
+    ax.set_facecolor('none')
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
+    add_density_contours(ax, plane, predicted_labels_test, custom_palette, xlim, ylim)
+
+# Row 1: single color, size encodes entropy (areas already computed) + entropy contours
+for ax, (x, y) in zip(axes_comb[1], pairs):
+    plane = z_test[:, [x, y]]
+    xlim, ylim = compute_axis_limits(plane)
+
+    # scatter: single color, size by entropy-derived areas
+    ax.scatter(
+        plane[:, 0], plane[:, 1],
+        color='white',
+        s=marker_size,               # size encodes entropy (higher entropy -> larger area if you used conf, invert if needed)
+        edgecolor=edgecols_r,
+        alpha=0.3,
+        rasterized=True
+    )
+
+
+    ax.set_xlabel(f'UMAP {x+1}', fontsize=20)
+    ax.set_ylabel(f'UMAP {y+1}', fontsize=20)
+    ax.tick_params(labelsize=20)
+    ax.set_facecolor('none')
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
+
+# # Row titles
+# fig_comb.text(0.5, 0.97, 'Test galaxies: predicted classes', ha='center', va='top',
+#               fontsize=20+2, weight='bold')
+# fig_comb.text(0.5, 0.49, 'Test galaxies: entropy (marker size)', ha='center', va='top',
+#               fontsize=20+2, weight='bold')
+
+# Legends (classes + entropy size proxies) — use square markers to match contour fills
+class_labels = list(custom_palette.keys())
+class_colors = [custom_palette[k] for k in class_labels]
+class_handles = [
+    Line2D([0], [0], marker='s', linestyle='None',
+           markerfacecolor=class_colors[i], markeredgecolor='k',
+           markersize=14)
+    for i in range(len(class_labels))
+]
+
+entropy_handles = [
+    Line2D([0], [0], marker='o', linestyle='None',
+           markerfacecolor='white', markeredgecolor=edge_high,
+           alpha=alpha_const, markersize=legend_class_size),
+    Line2D([0], [0], marker='o', linestyle='None',
+           markerfacecolor='white', markeredgecolor=edge_low,
+           alpha=alpha_const, markersize=legend_class_size),
+]
+entropy_labels = ['Low entropy', 'High entropy']
+
+combined_handles = class_handles + entropy_handles
+combined_labels = class_labels + entropy_labels
+
+fig_comb.legend(combined_handles, combined_labels, ncol=len(class_labels) + 2,
+                fontsize=20, loc='upper center')
+
+plt.tight_layout(rect=[0, 0, 1, 0.93])
+plt.savefig('umap_gat_embeddings_test_predictions.pdf', dpi=600)
+plt.close(fig_comb)

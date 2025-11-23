@@ -3,6 +3,8 @@ import mistree as mist
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
+from matplotlib.path import Path
+from matplotlib.patches import PathPatch
 import astropy.units as u
 import astropy.constants as c
 import pandas as pd
@@ -14,7 +16,7 @@ from sklearn.neighbors import radius_neighbors_graph
 from scipy.spatial import Delaunay
 from scipy.spatial.distance import euclidean, minkowski
 
-plt.style.use(['science', 'no-latex', 'dark_background'])  # Use dark background for better contrast
+plt.style.use(['science', 'no-latex'])  # Use dark background for better contrast
 
 # For black background
 custom_palette = {
@@ -395,6 +397,23 @@ class cat():
 
             # Plot the points in the slice
             ax.scatter(slice_points[:, 0], slice_points[:, 1], c='#ff006e', marker='o', s=13, edgecolors='none')
+            # show buffer region of 10 Mpc around box
+            # Define the vertices for the outer and inner rectangles
+            # Outer: (0,0) -> (300,0) -> (300,300) -> (0,300) -> (0,0) (CCW)
+            # Inner: (10,10) -> (290,10) -> (290,290) -> (10,290) -> (10,10) (CW to make a hole)
+            vertices = [
+                (0, 0), (300, 0), (300, 300), (0, 300), (0, 0), # Outer
+                (10, 10), (10, 290), (290, 290), (290, 10), (10, 10) # Inner (CW)
+            ]
+
+            codes = [
+                Path.MOVETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.CLOSEPOLY,
+                Path.MOVETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.CLOSEPOLY
+            ]
+
+            path = Path(vertices, codes)
+            patch = PathPatch(path, facecolor='none', hatch='//', edgecolor='#e17c9a', alpha=1)
+            ax.add_patch(patch)
 
             ax.set_xlim(0,300)
             ax.set_ylim(0,300)
@@ -680,7 +699,7 @@ class cat():
             ax.set_title('IllustrisTNG-300 by T-WEB Environments', fontsize=18, pad=10)
             # Set aspect ratio to equal for better visualization
             ax.set_aspect('equal', adjustable='box')
-            # fig.savefig(f'TNG300-1_z=0_{self.filetype}_Subhalos_2D_Projection.png', transparent=True)
+            fig.savefig(f'TNG300-1_z=0_{self.filetype}_Subhalos_2D_Projection.png', transparent=True)
             # Show the plot
             plt.show()
         
@@ -753,3 +772,4 @@ if __name__ == '__main__':
     # testcat.subhalo_MST(xyzplot=True, mode='std')
     # cweb = testcat.cweb_classify()
     # testcat.cross_plots()
+    testcat.subhalo_delauany_network(xyzplot=True)
