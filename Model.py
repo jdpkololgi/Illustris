@@ -38,6 +38,10 @@ except Exception:
 class Model():
     def __init__(self, model_type = 'mlp', pplot = False):
         self._net = network()
+        # Weight each class by the inverse of the frequency it depends on the masscut        
+        # Load the data
+        self.pipeline(network_type='Delaunay') # {MST, Complex, Delaunay}
+        self.class_weights_tensor = torch.tensor(self.class_weights_prebuff, dtype=torch.float32)#.to(self.model.device)
         self.model_selector(model_type)
         self.pplot = pplot
 
@@ -58,7 +62,7 @@ class Model():
                 from torch.utils.tensorboard import SummaryWriter
                 writer = SummaryWriter()
                 try:
-                    writer.add_graph(self.model, torch.randn(1, 7))
+                    writer.add_graph(self.model, torch.randn(1, 10))
                 except Exception:
                     # some models / environments may not support add_graph; ignore
                     pass
@@ -71,7 +75,13 @@ class Model():
             self.model = 'work in progress'
 
         elif model_type == 'random_forest':
-            self.model = Model_classes.Random_Forest()
+            print(self.class_weights_tensor)    
+            class_weights_dict = {0: self.class_weights_tensor[0].item(), 1: self.class_weights_tensor[1].item(), 2: self.class_weights_tensor[2].item(), 3: self.class_weights_tensor[3].item()}
+            print(class_weights_dict)
+            
+            self.model = Model_classes.Random_Forest(class_weights=class_weights_dict)
+        elif model_type == 'xgboost':
+            self.model = Model_classes.XGB()
         else:
             raise ValueError('Model type not recognised')
         
@@ -79,16 +89,12 @@ class Model():
         '''
         Generic function to run different models
         '''
-        # Load the data
-        self.pipeline(network_type='Delaunay') # {MST, Complex, Delaunay}
 
-        if isinstance(self.model, Model_classes.MLP):
-        
-            # Weight each class by the inverse of the frequency it depends on the masscut
-            class_weights_tensor = torch.tensor(self.class_weights_prebuff, dtype=torch.float32)#.to(self.model.device)
 
+
+        if isinstance(self.model, Model_classes.MLP):       
             # Set the loss and optimiser
-            criterion = nn.CrossEntropyLoss(weight=class_weights_tensor)
+            criterion = nn.CrossEntropyLoss(weight=self.class_weights_tensor)
             optimiser = torch.optim.Adam(self.model.parameters(), lr=learning_rate) #torch.optim.AdamW(self.model.parameters(), lr = learning_rate, weight_decay=0.01) # lr, weight_decay=0.01) # L2 regualarisation to prevent overfitting
 
             if mode == 'train':    
@@ -120,6 +126,13 @@ class Model():
                 self.model.train_model(train_loader=self.train_loader)
                 # Validate the model
                 val_accuracy = self.model.validate(val_loader=self.val_loader)
+
+        elif isinstance(self.model, Model_classes.XGB):
+            if mode == 'train':
+                # Train the model
+                self.model.train_model(train_loader=self.train_loader, class_weights=self.class_weights_tensor)
+                # Validate the model
+                val_accuracy = self.model.validate(val_loader=self.val_loader)
         else:
             raise ValueError('Unsupported model type')
 
@@ -136,7 +149,10 @@ class Model():
 
         elif isinstance(self.model, Model_classes.Random_Forest):
             # Begin testing
-            all_preds, all_labels = self.model.test_model(test_loader=self.test_loader)
+            all_preds, all_labels, all_prob_preds = self.model.test_model(test_loader=self.test_loader)
+        elif isinstance(self.model, Model_classes.XGB):
+            # Begin testing
+            all_preds, all_labels, all_prob_preds = self.model.test_model(test_loader=self.test_loader)
         else:
             raise ValueError('Unsupported model type')
         
@@ -279,7 +295,7 @@ class Model():
         Function to visualise the neural network model in ONNX format
         '''
         # Prepare an example input (automatically adjust shape if architecture changes)
-        example_input = torch.randn(1, 7) # specific to the Delaunay network
+        example_input = torch.randn(1, 10) # specific to the Delaunay network
 
         if isinstance(self.model, Model_classes.MLP):
 
@@ -306,7 +322,7 @@ class Model():
             raise ValueError('Unsupported model type')
 
 if __name__ == '__main__':
-    model = Model(model_type='mlp', pplot=True)
+    model = Model(model_type='xgboost', pplot=True)
     model.run(epochs=100, learning_rate=1e-5)#1e-5#0.000625#0.00025 # learning rate is not used for random forest
     model.test()
 

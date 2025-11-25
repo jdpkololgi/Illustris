@@ -127,7 +127,7 @@ def kde_density(points, bandwidth=1.0):
     return np.exp(log_density)
 
 class network:  # Remove 'cat' inheritance
-    def __init__(self, masscut=1e10, from_DESI=False):
+    def __init__(self, masscut=1e9, from_DESI=False):
         self.from_DESI = from_DESI
         if from_DESI:
             # Initialize from DESI data

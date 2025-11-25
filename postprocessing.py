@@ -53,10 +53,12 @@ pred_colors = ['purple', 'orange', 'cyan', 'magenta']
 class postprocessing():
     def __init__(self, model):
         self.model = model
-        self.training_loss = model.loss_list
-        self.training_accuracy = model.accuracy_list
-        self.validation_loss = model.validation_loss_list
-        self.validation_accuracy = model.validation_accuracy_list
+
+        if self.model == 'mlp':
+            self.training_loss = model.loss_list
+            self.training_accuracy = model.accuracy_list
+            self.validation_loss = model.validation_loss_list
+            self.validation_accuracy = model.validation_accuracy_list
         self.labels = model.all_labels
         self.predicted_labels = model.all_preds
         self.predicted_probs = model.all_prob_preds
@@ -150,6 +152,7 @@ class postprocessing():
         ax[1,1].set_ylabel(r'Expected $P(k=3 \mid x) = \frac{n_{cluster}}{N_{bin}}$', fontsize=14)
 
     def train_valid_loss_accuracy(self):
+
         # make sure coverage test has been run first
         assert hasattr(self, 'A_max'), 'Coverage test has not been run, please run this first before plotting'
 
@@ -187,7 +190,7 @@ class postprocessing():
     def precision_recall_f1(self):
         stats = classification_report(self.labels, self.predicted_labels, target_names=classes, output_dict=True)
         stats_df = pd.DataFrame(stats).transpose().drop(columns=['support'])
-
+        print(stats_df)
         # plot
         fig, ax = plt.subplots(figsize=(10, 10))
         stats_df.plot(kind='bar', ax=ax)

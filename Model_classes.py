@@ -22,7 +22,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score, ConfusionMatrixDisplay
 from sklearn.model_selection import RandomizedSearchCV, train_test_split
 from scipy.stats import randint
-
+import xgboost
 # Tree Visualisation
 from sklearn.tree import export_graphviz
 from IPython.display import Image
@@ -97,7 +97,7 @@ def initialise_weights(m):
 
 class MLP(nn.Module):
 
-    def __init__(self, n_features = 7, n_hidden = 5, n_output_classes = 4):
+    def __init__(self, n_features = 10, n_hidden = 5, n_output_classes = 4):
         super().__init__()
         self.device = device_check() # Check if a GPU is available
         # Define the layers using nn.Sequential and OrderedDict for named layers
@@ -381,9 +381,9 @@ class MLP(nn.Module):
 #             return predicted, data.y[data.test_mask], test_probs
 
 class Random_Forest:
-    def __init__(self, n_estimators=100, random_state=42):
+    def __init__(self, n_estimators=500, random_state=42, class_weights=None):
         self.device = device_check()  # Check if a GPU is available
-        self.model = RandomForestClassifier(n_estimators=n_estimators, random_state=random_state)
+        self.model = RandomForestClassifier(n_estimators=n_estimators, random_state=random_state, class_weight='balanced', max_depth=50, min_samples_split=2, min_samples_leaf=1, bootstrap=True)
         self.n_estimators = n_estimators
         self.random_state = random_state
 
@@ -463,4 +463,89 @@ class Random_Forest:
         for p in ax.patches:
             ax.annotate(str(p.get_height().round(2)), (p.get_x() * 1.005, p.get_height() * 1.005))
         plt.show()
-        return test_predictions, test_labels
+        self.all_labels = test_labels
+        self.all_preds = test_predictions
+        self.all_prob_preds = self.model.predict_proba(test_features)
+        return self.all_preds, self.all_labels, self.all_prob_preds
+    
+class XGB:
+    def __init__(self):
+        self.model = xgboost.XGBClassifier(n_estimators=500, max_depth=8, learning_rate=0.2, colsample_bytree=0.7, min_child_weight=1, gamma=0)
+        self.all_labels = None
+        self.all_preds = None
+        self.all_prob_preds = None
+
+    def train_model(self, train_loader, class_weights):
+        features_list = []
+        labels_list = []
+        for features, labels in train_loader:
+            features_list.append(features.numpy())
+            labels_list.append(labels.numpy())
+        
+        train_features = np.concatenate(features_list, axis=0)
+        train_labels = np.concatenate(labels_list, axis=0)
+        
+        
+        # Convert class_weights to numpy if it's a tensor
+        if isinstance(class_weights, torch.Tensor):
+            class_weights = class_weights.numpy()
+            
+        # Map class weights to sample weights
+        # Assuming train_labels contains class indices (0, 1, 2, ...)
+        sample_weights = class_weights[train_labels.astype(int)]
+        
+        self.model.fit(train_features, train_labels, sample_weight=sample_weights)
+        print("Training complete.")
+
+    def validate(self, val_loader):
+        features_list = []
+        labels_list = []
+        for features, labels in val_loader:
+            features_list.append(features.numpy())
+            labels_list.append(labels.numpy())
+        
+        val_features = np.concatenate(features_list, axis=0)
+        val_labels = np.concatenate(labels_list, axis=0)
+        
+        val_predictions = self.model.predict(val_features)
+        val_accuracy = accuracy_score(val_labels, val_predictions)
+        print(f'Validation Accuracy: {val_accuracy * 100}%')
+        return val_accuracy
+    
+    def test_model(self, test_loader):
+        features_list = []
+        labels_list = []
+        for features, labels in test_loader:
+            features_list.append(features.numpy())
+            labels_list.append(labels.numpy())
+        
+        test_features = np.concatenate(features_list, axis=0)
+        test_labels = np.concatenate(labels_list, axis=0)
+        
+        test_predictions = self.model.predict(test_features)
+        test_accuracy = accuracy_score(test_labels, test_predictions)
+        print(f'Test Accuracy: {test_accuracy * 100}%')
+
+        # Compute the confusion matrix
+        cm = confusion_matrix(test_labels, test_predictions)
+        print(cm)
+        cm_fig = plot_confusion_matrix(cm, classes=test_loader.dataset.classes)
+        cm_fig_norm = plot_normalised_confusion_matrix(cm, classes=test_loader.dataset.classes)
+
+        cm_fig_norm.savefig('Normalised_Confusion_XGB.pdf')
+
+        # Precision, Recall, F1 Score
+        stats = precision_recall_fscore_support(test_labels, test_predictions)
+        stats_df = pd.DataFrame(list(stats), index=['Precision', 'Recall', 'F1 Score', 'Support'], columns=test_loader.dataset.classes)
+        fig, ax = plt.subplots(figsize=(10, 5))
+        stats_df.drop('Support').T.plot(kind='bar', ax=ax)
+        ax.set_title('Precision, Recall and F1 Score')
+        ax.set_ylabel('Score')
+        ax.legend()
+        for p in ax.patches:
+            ax.annotate(str(p.get_height().round(2)), (p.get_x() * 1.005, p.get_height() * 1.005))
+        plt.show()
+        self.all_labels = test_labels
+        self.all_preds = test_predictions
+        self.all_prob_preds = self.model.predict_proba(test_features)
+        return self.all_preds, self.all_labels, self.all_prob_preds
