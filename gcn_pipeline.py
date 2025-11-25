@@ -1,5 +1,6 @@
 from copyreg import pickle
 import os
+from datetime import datetime
 import numpy as np
 import pandas as pd
 import torch
@@ -235,7 +236,7 @@ def train_and_evaluate(model, data, class_weights, rank, world_size, num_epochs=
                   f'Validation Loss: {val_loss_tensor.item():.4f} - '
                   f'Training Accuracy: {train_acc_tensor.item():.2f}% - '
                   f'Validation Accuracy: {val_acc_tensor.item():.2f}%')
-
+        
     # Test only on rank 0 to avoid duplicated output
     if rank == 0:
         # Use the full test mask for evaluation
@@ -271,33 +272,34 @@ def main(rank, world_size, num_epochs):
 
     # Save model only from rank 0
     if rank == 0:
+        date_str = datetime.now().strftime("%Y-%m-%d")
         model, train_loss, val_loss, train_acc, val_acc, predicted, labels, probs, embeddings = results
         
         # Save losses as a pickle file
         import pickle
-        with open('training_validation_accuracies_losses.pkl', 'wb') as f:
+        with open(f'training_validation_accuracies_losses_{date_str}.pkl', 'wb') as f:
             pickle.dump({'train_loss': train_loss, 'val_loss': val_loss,
                           'train_acc': train_acc, 'val_acc': val_acc}, f)
-        print("Training and validation losses and accuracies saved to 'training_validation_accuracies_losses.pkl'")
+        print(f"Training and validation losses and accuracies saved to 'training_validation_accuracies_losses_{date_str}.pkl'")
 
-        torch.save(model.state_dict(), 'trained_gat_model_ddp.pth')
-        print("Model saved as 'trained_gat_model_ddp.pth'")
+        torch.save(model.state_dict(), f'trained_gat_model_ddp_{date_str}.pth')
+        print(f"Model saved as 'trained_gat_model_ddp_{date_str}.pth'")
 
-        with open('test_predictions_labels_probs.pkl', 'wb') as f:
+        with open(f'test_predictions_labels_probs_{date_str}.pkl', 'wb') as f:
             pickle.dump({'predicted': predicted, 'labels': labels, 'probs': probs}, f)
-        print("Test predictions, labels, and probabilities saved to 'test_predictions_labels_probs.pkl'")
+        print(f"Test predictions, labels, and probabilities saved to 'test_predictions_labels_probs_{date_str}.pkl'")
 
         # Save node embeddings
-        with open('node_embeddings.pkl', 'wb') as f:
+        with open(f'node_embeddings_{date_str}.pkl', 'wb') as f:
             pickle.dump(embeddings, f)
-        print("Node embeddings saved to 'node_embeddings.pkl'")
+        print(f"Node embeddings saved to 'node_embeddings_{date_str}.pkl'")
 
     cleanup_ddp()
 
 if __name__ == "__main__":
     # Automatically detect number of available GPUs
     world_size = torch.cuda.device_count()
-    num_epochs = 8000 # 15000 # Set number of epochs for training
+    num_epochs = 50000 # 15000 # Set number of epochs for training
     print(f"Detected {world_size} GPUs. Starting distributed training...")
     
     if world_size < 2:
@@ -331,8 +333,9 @@ if __name__ == "__main__":
                       f'Validation Accuracy: {val_acc:.2f}%')
         
         predicted, labels, probs, embeddings = test_gcn_full(model, data)
-        torch.save(model.state_dict(), 'trained_gat_model.pth')
-        print("Model saved as 'trained_gat_model.pth'")
+        date_str = datetime.now().strftime("%Y-%m-%d")
+        torch.save(model.state_dict(), f'trained_gat_model_{date_str}.pth')
+        print(f"Model saved as 'trained_gat_model_{date_str}.pth'")
     else:
         # Multi-GPU training
         print(f"Starting multi-GPU training on {world_size} GPUs...")

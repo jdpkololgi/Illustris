@@ -34,7 +34,7 @@ def edges_to_networkit(points, edges):
         for (u, v), w in zip(batch, dists):
             G.addEdge(u, v, w)
         if (i // batch_size) % 10 == 0:
-            print(f"Processed {i + len(batch)} / {len(edges)} edges")
+            print(f"Processed {i + len(batch):,} / {len(edges):,} edges")
     return G
 
 
@@ -137,14 +137,14 @@ tetrahedral_density = calculate_tetrahedral_density_vectorized(tetrahedra, volum
 neighbor_tetrahedral_density = calculate_neighbor_tetrahedral_density(G, tetrahedral_density)
 
 print("Tetrahedral density statistics:")
-print(f"Min tetrahedral density: {tetrahedral_density.min():.6f}")
-print(f"Max tetrahedral density: {tetrahedral_density.max():.6f}")
-print(f"Mean tetrahedral density: {tetrahedral_density.mean():.6f}")
+print(f"Min tetrahedral density: {tetrahedral_density.min():,.6f}")
+print(f"Max tetrahedral density: {tetrahedral_density.max():,.6f}")
+print(f"Mean tetrahedral density: {tetrahedral_density.mean():,.6f}")
 
 print("Neighbor tetrahedral density statistics:")
-print(f"Min neighbor density: {neighbor_tetrahedral_density.min():.6f}")
-print(f"Max neighbor density: {neighbor_tetrahedral_density.max():.6f}")
-print(f"Mean neighbor density: {neighbor_tetrahedral_density.mean():.6f}")
+print(f"Min neighbor density: {neighbor_tetrahedral_density.min():,.6f}")
+print(f"Max neighbor density: {neighbor_tetrahedral_density.max():,.6f}")
+print(f"Mean neighbor density: {neighbor_tetrahedral_density.mean():,.6f}")
 
 # Now calculating intertia eigenvalues
 
@@ -177,9 +177,9 @@ I_eig2 = inertia_eigenvalues[:, 1]
 I_eig3 = inertia_eigenvalues[:, 2]
 
 print("Inertia eigenvalue statistics:")
-print(f"Min λ1: {I_eig1.min():.6f}, Max λ1: {I_eig1.max():.6f}, Mean λ1: {I_eig1.mean():.6f}")
-print(f"Min λ2: {I_eig2.min():.6f}, Max λ2: {I_eig2.max():.6f}, Mean λ2: {I_eig2.mean():.6f}")
-print(f"Min λ3: {I_eig3.min():.6f}, Max λ3: {I_eig3.max():.6f}, Mean λ3: {I_eig3.mean():.6f}")
+print(f"Min λ1: {I_eig1.min():,.6f}, Max λ1: {I_eig1.max():,.6f}, Mean λ1: {I_eig1.mean():,.6f}")
+print(f"Min λ2: {I_eig2.min():,.6f}, Max λ2: {I_eig2.max():,.6f}, Mean λ2: {I_eig2.mean():,.6f}")
+print(f"Min λ3: {I_eig3.min():,.6f}, Max λ3: {I_eig3.max():,.6f}, Mean λ3: {I_eig3.mean():,.6f}")
 
 data = {'Degree':nk_weighted_degrees, 'Mean E.L.':nk_mean_edge_lengths, 'Min E.L.':nk_min_edge_lengths, 'Max E.L.':nk_max_edge_lengths, 'Clustering': nk_weighted_clustering_coeffs, 'Density': tetrahedral_density, 'Neighbour Density': neighbor_tetrahedral_density, 'I_eig1': I_eig1, 'I_eig2': I_eig2, 'I_eig3': I_eig3}
  
@@ -203,8 +203,8 @@ for u, v, w in G.iterEdgesWeights():
         min_weight = w
     if w > max_weight:
         max_weight = w
-print(f"Minimum edge weight: {min_weight}")
-print(f"Maximum edge weight: {max_weight}")
+print(f"Minimum edge weight: {min_weight:,.6f}")
+print(f"Maximum edge weight: {max_weight:,.6f}")
 
 def check_hemisphere_separation(G, points):
     """Verify no edges connect different hemispheres"""
@@ -229,21 +229,21 @@ def check_hemisphere_separation(G, points):
 def check_edge_weights(weights, points):
     """Validate edge weight distributions make physical sense"""
     print("Edge weight statistics:")
-    print(f"Min: {weights.min():.4f} Mpc")
-    print(f"Max: {weights.max():.4f} Mpc")
-    print(f"Mean: {weights.mean():.4f} Mpc")
-    print(f"Median: {np.median(weights):.4f} Mpc")
+    print(f"Min: {weights.min():,.6f} Mpc")
+    print(f"Max: {weights.max():,.6f} Mpc")
+    print(f"Mean: {weights.mean():,.6f} Mpc")
+    print(f"Median: {np.median(weights):,.6f} Mpc")
     
     # Check for unrealistic distances
     unrealistic_short = np.sum(weights < 0.001)  # < 1 kpc
     unrealistic_long = np.sum(weights > 1000)    # > 1 Gpc
     
-    print(f"Unrealistically short edges (< 1 kpc): {unrealistic_short}")
-    print(f"Unrealistically long edges (> 1 Gpc): {unrealistic_long}")
+    print(f"Unrealistically short edges (< 1 kpc): {unrealistic_short:,}")
+    print(f"Unrealistically long edges (> 1 Gpc): {unrealistic_long:,}")
     
     # Check for zero weights
     zero_weights = np.sum(weights == 0)
-    print(f"Zero-weight edges: {zero_weights}")
+    print(f"Zero-weight edges: {zero_weights:,}")
     
     return {
         'realistic': unrealistic_short == 0 and unrealistic_long == 0,
@@ -266,8 +266,8 @@ def check_node_indices(G, points):
     max_node = G.numberOfNodes() - 1
     max_point = len(points) - 1
     
-    print(f"Max node index in graph: {max_node}")
-    print(f"Max point index available: {max_point}")
+    print(f"Max node index in graph: {max_node  :,}")
+    print(f"Max point index available: {max_point:,}")
     print(f"Match: {max_node == max_point}")
     
     # Check for gaps in node indices
@@ -275,7 +275,7 @@ def check_node_indices(G, points):
     expected_nodes = set(range(G.numberOfNodes()))
     missing_nodes = expected_nodes - actual_nodes
     
-    print(f"Missing nodes: {len(missing_nodes)}")
+    print(f"Missing nodes: {len(missing_nodes):,}")
     if missing_nodes and len(missing_nodes) < 10:
         print(f"Missing node indices: {missing_nodes}")
     
@@ -286,9 +286,9 @@ def check_delaunay_properties(G):
     degrees = [G.degree(v) for v in G.iterNodes()]
     
     print(f"Degree statistics:")
-    print(f"Min degree: {min(degrees)}")
-    print(f"Max degree: {max(degrees)}")
-    print(f"Mean degree: {np.mean(degrees):.2f}")
+    print(f"Min degree: {min(degrees):,}")
+    print(f"Max degree: {max(degrees):,}")
+    print(f"Mean degree: {np.mean(degrees):,.2f}")
     
     # Check for isolated nodes
     isolated = sum(1 for d in degrees if d == 0)
@@ -305,7 +305,7 @@ def check_coordinate_ranges(points):
     
     print("Coordinate ranges:")
     for i, coord in enumerate(['X', 'Y', 'Z']):
-        print(f"{coord}: [{xyz[:, i].min():.2f}, {xyz[:, i].max():.2f}] Mpc")
+        print(f"{coord}: [{xyz[:, i].min():,.2f}, {xyz[:, i].max():,.2f}] Mpc")
     
     # Check if points are roughly spherical/cubic
     ranges = [xyz[:, i].max() - xyz[:, i].min() for i in range(3)]
@@ -313,7 +313,7 @@ def check_coordinate_ranges(points):
     
     # Should be similar for a cosmological box
     range_ratio = max(ranges) / min(ranges)
-    print(f"Range ratio (should be ~1 for cubic box): {range_ratio:.2f}")
+    print(f"Range ratio (should be ~1 for cubic box): {range_ratio:,.2f}")
     
     return range_ratio < 2.0  # Allow some variation
 
@@ -330,7 +330,7 @@ def verify_random_edges(G, points, n_samples=10):
         manual_dist = np.linalg.norm(points[u, :3] - points[v, :3])
         diff = abs(w - manual_dist)
         
-        print(f"Edge ({u},{v}): Graph={w:.6f}, Manual={manual_dist:.6f}, Diff={diff:.8f}")
+        print(f"Edge ({u},{v}): Graph={w:,.6f}, Manual={manual_dist:,.6f}, Diff={diff:,.8f}")
         
         edge_count += 1
     
@@ -387,11 +387,15 @@ def full_validation(G, points, edges, weights):
     
     return all_passed
 
-# Run all checks
-# validation_passed = full_validation(G, points, edges, weights)
+# Efficiently extract weights avoiding large Python list
+print("Extracting edge weights for validation...")
+weights = np.fromiter((w for u, v, w in G.iterEdgesWeights()), dtype=np.float64, count=G.numberOfEdges())
 
-# if validation_passed:
-#     print("Graph construction is valid! ✓")
-#     # Proceed with graph analysis
-# else:
-#     print("Graph construction has issues! Please investigate.")
+# Run all checks
+validation_passed = full_validation(G, points, edges, weights)
+
+if validation_passed:
+    print("Graph construction is valid! ✓")
+    # Proceed with graph analysis
+else:
+    print("Graph construction has issues! Please investigate.")

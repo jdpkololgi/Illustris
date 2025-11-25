@@ -393,10 +393,10 @@ class cat():
 
             # Plot the edges in the slice
             for line in slice_lines:
-                ax.plot([line[0][0], line[1][0]], [line[0][1], line[1][1]], '#3a86ff', lw=0.2)
+                ax.plot([line[0][0], line[1][0]], [line[0][1], line[1][1]], '#3a86ff', lw=0.2, zorder=1)
 
             # Plot the points in the slice
-            ax.scatter(slice_points[:, 0], slice_points[:, 1], c='#ff006e', marker='o', s=13, edgecolors='none')
+            ax.scatter(slice_points[:, 0], slice_points[:, 1], c='#e17c9a', marker='o', s=13, edgecolors='none', zorder=2)
             # show buffer region of 10 Mpc around box
             # Define the vertices for the outer and inner rectangles
             # Outer: (0,0) -> (300,0) -> (300,300) -> (0,300) -> (0,0) (CCW)
@@ -412,7 +412,7 @@ class cat():
             ]
 
             path = Path(vertices, codes)
-            patch = PathPatch(path, facecolor='none', hatch='//', edgecolor='#e17c9a', alpha=1)
+            patch = PathPatch(path, facecolor='none', hatch='//', edgecolor='#ff006e', alpha=1, zorder=3)
             ax.add_patch(patch)
 
             ax.set_xlim(0,300)

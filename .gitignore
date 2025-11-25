@@ -1390,3 +1390,6 @@ Paper_1/gcn_schematic_improved.png
 Paper_1/gatv2_schematic_matched.png
 Paper_1/GNN_example_layers.drawio
 Normalised_Confusion_XGB.pdf
+edge_length_distribution.png
+long_edges_spatial.png
+investigate_edges.py
