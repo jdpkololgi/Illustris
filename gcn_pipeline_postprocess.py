@@ -229,6 +229,7 @@ plt.close(fig_kde)
 
 mi = mutual_info_classif(features, pd.Categorical(targets).codes, random_state=42)
 mi = pd.Series(mi, index=features.columns)
+mi = mi.rename(index={'I_eig1': '$I_1$', 'I_eig2': '$I_2$', 'I_eig3': '$I_3$'})
 mi = mi.sort_values(ascending=False)
 fig_mi = plt.figure(figsize=(10,8))
 mi.plot.bar(color=custom_palette['Void'], alpha=0.8)

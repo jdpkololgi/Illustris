@@ -9,14 +9,16 @@ class SimpleGNN(nn.Module):
         self.gcn1 = GCNConv(input_dim, 15)
         self.gcn2 = GCNConv(15, 15)
         self.gcn3 = GCNConv(15, output_dim)
-        self.dropout = nn.Dropout(p=0.5)
+        # self.dropout = nn.Dropout(p=0.5)
 
-    def forward(self, x, edge_index, edge_weight=None):
-        x = F.relu(self.gcn1(x, edge_index, edge_weight))
-        x = F.relu(self.gcn2(x, edge_index, edge_weight))
-        x = self.dropout(x)
-        x = self.gcn3(x, edge_index, edge_weight)
-        return x
+    def forward(self, x, edge_index, edge_weight=None, return_embeddings=False):
+        x1 = F.relu(self.gcn1(x, edge_index, edge_weight))
+        x2 = F.relu(self.gcn2(x1, edge_index, edge_weight))
+        # x = self.dropout(x)
+        x3 = self.gcn3(x2, edge_index, edge_weight)
+        if return_embeddings:
+            return x3, x2
+        return x3
 
 class SimpleGAT(nn.Module):
     '''simple GAT model using the GATLayer
