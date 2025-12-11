@@ -597,7 +597,7 @@ class cat():
 
     def cweb_classify(self, xyzplot=True):
         '''Plots the cosmic web classications of the subhalos in the given object.'''
-        self.cwebfile = np.load(r'/Users/daksheshkololgi/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Year 1/MST/TNG300_snap_099_tweb_env_merged.npz') #TNG300_snap_099_tweb_env_merged.npz
+        self.cwebfile = np.load(r'/global/homes/d/dkololgi/TNG/Illustris/TNG300_snap_099_tweb_env_merged.npz') #TNG300_snap_099_tweb_env_merged.npz
         # self.significances = np.load(r'C:\Users\dkter\OneDrive - University College London\Year 1\MST\new_TNG300_snap_099_nexus_sig_merged.npz')        
         self.filetype = 'T-Web' # Nexus+
         self.cwebdata = self.cwebfile['cweb']
