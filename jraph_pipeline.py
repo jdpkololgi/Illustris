@@ -436,13 +436,14 @@ def main():
     
     # Save Model
     # Take params from first device
-    final_params = jax.device_get(jax.tree_map(lambda x: x[0], replicated_params))
+    final_params = jax.device_get(jax.tree_util.tree_map(lambda x: x[0], replicated_params))
     
-    date_str = datetime.now().strftime("%Y-%m-%d")
-    save_path = f'trained_jraph_model_{date_str}.pkl'
-    with open(save_path, 'wb') as f:
+    # Save model
+    print("Saving model...")
+    import pickle
+    with open('jraph_model_params.pkl', 'wb') as f:
         pickle.dump(final_params, f)
-    print(f"Model saved to {save_path}")
+    print("Model saved to jraph_model_params.pkl")
 
 if __name__ == '__main__':
     main()
