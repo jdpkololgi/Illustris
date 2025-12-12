@@ -1410,3 +1410,11 @@ test_predictions_labels_probs_2025-11-27.pkl
 trained_gcn_nodrop_20k_model_ddp_2025-11-27.pth
 trained_gcn_nodrop_model_ddp_2025-11-27.pth
 training_validation_accuracies_losses_2025-11-27.pkl
+jraph_confusion_matrix_seed_42.png
+jraph_predictions_seed_42.pkl
+jraph_roc_curves_seed_42.png
+jraph_prob_dists_seed_42.png
+jraph_optuna.db
+jraph_training_curves_42.png
+jraph_training_curves_46310146.png
+jraph_model_seed_42.pkl

@@ -9,54 +9,50 @@ import haiku as hk
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
 # Hyperparameters
-LATENT_SIZE = 80
-NUM_HEADS = 8
-HEAD_DIM = LATENT_SIZE // NUM_HEADS
-NUM_CLASSES = 4
+# Removed globals in favor of arguments
 
-
-def make_graph_network(num_passes: int = 4) -> Callable:
+def make_graph_network(
+    num_passes: int = 4,
+    latent_size: int = 80,
+    num_heads: int = 8,
+    dropout_rate: float = 0.1,
+    num_classes: int = 4
+) -> Callable:
     """
-    Creates a GraphNetwork with Multi-Head Attention (8 Heads).
-    Features:
-    - Latent Size: 80
-    - Dropout: 0.1 (if is_training=True)
-    - Gradient Checkpointing: Yes
+    Creates a GraphNetwork with Multi-Head Attention.
     """
+    head_dim = latent_size // num_heads
     
     def _network(graph: jraph.GraphsTuple, is_training: bool = True) -> jraph.GraphsTuple:
-        # Define Dropout Rate
-        dropout_rate = 0.1
-
-        # NOTE: We define update functions inside here to capture 'is_training'
+        # NOTE: We define update functions inside here to capture 'is_training' and params
         
         @jraph.concatenated_args
         def edge_update_fn(feats: jnp.ndarray) -> jnp.ndarray:
             net = hk.Sequential([
-                hk.Linear(LATENT_SIZE),
+                hk.Linear(latent_size),
                 jax.nn.relu,
                 hk.LayerNorm(axis=-1, create_scale=True, create_offset=True),
                 # Dropout
                 lambda x: hk.dropout(hk.next_rng_key(), dropout_rate, x) if is_training else x,
-                hk.Linear(LATENT_SIZE),
+                hk.Linear(latent_size),
                 jax.nn.relu,
                 # Dropout
                 lambda x: hk.dropout(hk.next_rng_key(), dropout_rate, x) if is_training else x,
-                hk.Linear(LATENT_SIZE),
+                hk.Linear(latent_size),
             ])
             return net(feats)
 
         @jraph.concatenated_args
         def node_update_fn(feats: jnp.ndarray) -> jnp.ndarray:
             net = hk.Sequential([
-                hk.Linear(LATENT_SIZE),
+                hk.Linear(latent_size),
                 jax.nn.relu,
                 hk.LayerNorm(axis=-1, create_scale=True, create_offset=True),
                 lambda x: hk.dropout(hk.next_rng_key(), dropout_rate, x) if is_training else x,
-                hk.Linear(LATENT_SIZE),
+                hk.Linear(latent_size),
                 jax.nn.relu,
                 lambda x: hk.dropout(hk.next_rng_key(), dropout_rate, x) if is_training else x,
-                hk.Linear(LATENT_SIZE), 
+                hk.Linear(latent_size), 
             ])
             return net(feats)
         
@@ -64,11 +60,11 @@ def make_graph_network(num_passes: int = 4) -> Callable:
         def attention_logit_fn(feats: jnp.ndarray) -> jnp.ndarray:
              # Attention mechanism
              head_logits = []
-             for i in range(NUM_HEADS):
+             for i in range(num_heads):
                  head_net = hk.Sequential([
-                     hk.Linear(LATENT_SIZE // NUM_HEADS, name = f'head_{i}_l1'),
+                     hk.Linear(latent_size // num_heads, name = f'head_{i}_l1'),
                      jax.nn.relu,
-                     hk.Linear(LATENT_SIZE // NUM_HEADS, name = f'head_{i}_l2'),
+                     hk.Linear(latent_size // num_heads, name = f'head_{i}_l2'),
                      jax.nn.relu,
                      hk.Linear(1, name = f'head_{i}_l3'),
                  ])
@@ -77,9 +73,9 @@ def make_graph_network(num_passes: int = 4) -> Callable:
 
         def attention_reduce_fn(edges: jnp.ndarray, weights: jnp.ndarray) -> jnp.ndarray:
             num_edges = edges.shape[0]
-            edges_per_head = edges.reshape(num_edges, NUM_HEADS, HEAD_DIM)
+            edges_per_head = edges.reshape(num_edges, num_heads, head_dim)
             weighted = edges_per_head * weights[:, :, None]
-            return weighted.reshape(num_edges, LATENT_SIZE)
+            return weighted.reshape(num_edges, latent_size)
 
         gn = jraph.GraphNetwork(
             update_edge_fn=edge_update_fn,       
@@ -92,8 +88,8 @@ def make_graph_network(num_passes: int = 4) -> Callable:
 
         # Encoder
         embedder = jraph.GraphMapFeatures(
-            embed_edge_fn=hk.Linear(LATENT_SIZE),
-            embed_node_fn=hk.Linear(LATENT_SIZE),
+            embed_edge_fn=hk.Linear(latent_size),
+            embed_node_fn=hk.Linear(latent_size),
         )
         graph = embedder(graph)
 
@@ -110,7 +106,7 @@ def make_graph_network(num_passes: int = 4) -> Callable:
         
         # Decoder
         decoder = jraph.GraphMapFeatures(
-            embed_node_fn=hk.Linear(NUM_CLASSES) 
+            embed_node_fn=hk.Linear(num_classes) 
         )
         return decoder(graph)
 

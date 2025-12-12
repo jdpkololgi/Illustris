@@ -16,6 +16,14 @@ import jax.numpy as jnp
 import jraph
 import haiku as hk
 import optax
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics import classification_report
+from sklearn.preprocessing import label_binarize # kept if needed for other things, but strictly not needed if plotting gone.
+# Actually, I'll clean up unused imports too.
+from sklearn.metrics import classification_report
 
 from Network_stats import network
 from graph_net_models import make_graph_network
@@ -146,8 +154,6 @@ def calculate_class_weights(targets):
         print(f"Warning: Could not calculate class weights: {e}")
         return jnp.ones(4, dtype=jnp.float32)
 
-# --- Modeling ---
-
 def loss_fn(params, graph, labels, mask, net_apply, rng, class_weights):
     """
     Cross Entropy Loss masked by 'mask'.
@@ -189,19 +195,15 @@ def compute_accuracy(logits, labels, mask):
     accuracy = jnp.sum(correct) / jnp.maximum(jnp.sum(mask), 1.0)
     return accuracy
 
-def main():
+def main(args):
     print(f"JAX Devices: {jax.devices()}")
     num_devices = jax.local_device_count()
     print(f"Running on {num_devices} devices.")
-    
     # 1. Load Data
     masscut = 1e9
-    graph, labels, (train_mask, val_mask, test_mask) = load_data(masscut=masscut)
+    graph, labels, masks = load_data(masscut=masscut)
+    train_mask, val_mask, test_mask = masks
     
-    # Calculate class weights - labels is a jnp array now
-    # We need to pass original targets array/series or just use the labels for weight calc
-    # load_data returns jax array for labels.
-    # We can convert back to numpy for sklearn weight calc
     class_weights = calculate_class_weights(np.array(labels))
     
     print(f"Graph stats: Nodes={graph.n_node[0]}, Edges={graph.n_edge[0]}")
@@ -211,14 +213,19 @@ def main():
     # Initialize network
     # make_graph_network returns a function that takes a graph
     # Reduced passes to 2 to prevent OOM on single GPU - RESTORED to 4 for Compute Node
-    net_fn = make_graph_network(num_passes=4)
+    net_fn = make_graph_network(
+        num_passes=4, 
+        latent_size=args.latent_size,
+        num_heads=args.num_heads,
+        dropout_rate=args.dropout
+    )
     net = hk.transform(net_fn) # hk.transform converts a function using Haiku modules into an (init, apply) pair.
     
     # Init params (single device for init)
-    rng = jax.random.PRNGKey(42)
+    rng = jax.random.PRNGKey(args.seed)
     # We need a dummy graph with correct shape for initialization
     # Jraph graphs can be batched/padded, but here we use the full graph logic.
-    params = net.init(rng, graph)
+    params = net.init(rng, graph, is_training=True)
     
     # 3. Optimizer
     # Similar schedule to gcn_pipeline if possible, or simple AdamW
@@ -235,15 +242,15 @@ def main():
     
     # 3. Optimizer
     # GCN uses 3e-3. We'll use a schedule.
-    num_epochs = 4000
+    num_epochs = args.epochs
     lr_schedule = optax.warmup_cosine_decay_schedule(
         init_value=1e-5,
-        peak_value=3e-3, # Match GCN peak
+        peak_value=args.lr, # Match GCN peak
         warmup_steps=500,
         decay_steps=num_epochs,
         end_value=1e-5
     )
-    optimizer = optax.adamw(lr_schedule)
+    optimizer = optax.adamw(lr_schedule, weight_decay=args.weight_decay)
     opt_state = optimizer.init(params)
     
     # Replicate optimizer state
@@ -439,11 +446,82 @@ def main():
     final_params = jax.device_get(jax.tree_util.tree_map(lambda x: x[0], replicated_params))
     
     # Save model
+    # Save model
     print("Saving model...")
     import pickle
-    with open('jraph_model_params.pkl', 'wb') as f:
+    save_filename = f'jraph_model_seed_{args.seed}.pkl'
+    with open(save_filename, 'wb') as f:
         pickle.dump(final_params, f)
-    print("Model saved to jraph_model_params.pkl")
+    print(f"Model saved to {save_filename}")
+    
+    # 6. Evaluation & Confusion Matrix
+    print("Generating predictions for confusion matrix...")
+    
+    # Define prediction function (no gradients, no dropout)
+    @jax.jit
+    def predict(params, graph, rng):
+        return net.apply(params, rng, graph, is_training=False).nodes
+
+    # Use final_params (on CPU/Host or first device)
+    # Re-use the graph (we need a single graph instance, not replicated)
+    # 'graph' variable from earlier is the original single graph.
+    
+    # Predict
+    eval_rng = jax.random.PRNGKey(args.seed + 999)
+    logits = predict(final_params, graph, eval_rng)
+    probs = jax.nn.softmax(logits, axis=-1)
+    preds = jnp.argmax(logits, axis=-1)
+    
+    # Convert to numpy for sklearn
+    preds_np = np.array(preds)
+    labels_np = np.array(labels)
+    test_mask_np = np.array(test_mask)
+    
+    # Filter for Test set
+    test_preds = preds_np[test_mask_np]
+    test_labels = labels_np[test_mask_np]
+    
+    # Plot Confusion Matrix
+    classes = ['Void', 'Wall', 'Filament', 'Cluster']
+    
+    # Classification Report
+    print("\nClassification Report:")
+    report = classification_report(test_labels, test_preds, target_names=classes)
+    print(report)
+    with open(f'jraph_classification_report_seed_{args.seed}.txt', 'w') as f:
+        f.write(report)
+        
+    # Save Predictions
+    preds_filename = f'jraph_predictions_seed_{args.seed}.pkl'
+    preds_data = {
+        'probs': probs, # All nodes
+        'preds': preds, # All nodes
+        'labels': labels, # All nodes
+        'test_mask': test_mask
+    }
+    with open(preds_filename, 'wb') as f:
+        pickle.dump(preds_data, f)
+    print(f"Predictions saved to {preds_filename}")
 
 if __name__ == '__main__':
-    main()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--seed", type=int, default=42, help="Random seed")
+    parser.add_argument("--epochs", type=int, default=4000, help="Number of epochs")
+    
+    # Model Hparams
+    parser.add_argument("--latent_size", type=int, default=80)
+    parser.add_argument("--num_heads", type=int, default=8)
+    parser.add_argument("--dropout", type=float, default=0.1)
+    parser.add_argument("--weight_decay", type=float, default=1e-2)
+    parser.add_argument("--lr", type=float, default=3e-3)
+    
+    args = parser.parse_args()
+    
+    # Pass args to main (we need to modify main signature or use globals, 
+    # better to refactor main to accept args)
+    # Since main is large, I'll pass args as a simple object or refactor main locally.
+    # Actually, simplest is to just use 'args' global since main is called in __name__ == main
+    # But I should update main definition to accept kwargs.
+    
+    main(args)

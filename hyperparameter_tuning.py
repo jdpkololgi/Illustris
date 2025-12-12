@@ -1,116 +1,167 @@
+import os
+import jax
+import jax.numpy as jnp
+import jraph
+import haiku as hk
+import optax
+import optuna
+from optuna.pruners import MedianPruner
+import pickle
+import time
+
 import numpy as np
-import pandas as pd
-from sklearn.model_selection import RandomizedSearchCV
-from sklearn.ensemble import RandomForestClassifier
-import xgboost as xgb
-from Model import Model
-import torch
+# Import from existing pipeline
+from jraph_pipeline import load_data, calculate_class_weights
+from graph_net_models import make_graph_network
 
-def get_data(model_type):
-    print(f"Loading data for {model_type}...")
-    # Initialize Model to get data loader
-    # We use 'random_forest' as a dummy to initialize, the data loading part is common or similar enough for this purpose
-    # or we can just use the specific model type if it matters for data loading in Model.py
-    # Looking at Model.py, pipeline() is called in __init__, which loads data.
-    # It seems independent of model_type for the data loading part (pipeline call).
-    
-    model_wrapper = Model(model_type=model_type)
-    
-    # Access train_loader
-    train_loader = model_wrapper.train_loader
-    
-    # Extract data from loader
-    features_list = []
-    labels_list = []
-    for features, labels in train_loader:
-        features_list.append(features.numpy())
-        labels_list.append(labels.numpy())
-    
-    X_train = np.concatenate(features_list, axis=0)
-    y_train = np.concatenate(labels_list, axis=0)
-    
-    print(f"Data loaded. Shape: {X_train.shape}")
-    return X_train, y_train
+# Configuration
+N_EPOCHS = 500 # Sufficient to judge potential
+N_TRIALS = 50
+STORAGE = "sqlite:///jraph_optuna.db"
+STUDY_NAME = "jraph_optimization"
 
-def tune_random_forest():
-    print("\n--- Tuning Random Forest ---")
-    X_train, y_train = get_data('random_forest')
+def objective(trial):
+    # 1. Sample Hyperparameters
+    learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-2, log=True)
+    weight_decay = trial.suggest_float("weight_decay", 1e-5, 1e-1, log=True)
+    dropout_rate = trial.suggest_float("dropout_rate", 0.0, 0.5)
     
-    param_dist = {
-        'n_estimators': [100, 200, 300, 400, 500],
-        'max_depth': [None, 10, 20, 30, 40, 50],
-        'min_samples_split': [2, 5, 10],
-        'min_samples_leaf': [1, 2, 4],
-        'bootstrap': [True, False]
-    }
+    latent_size = trial.suggest_categorical("latent_size", [64, 80, 128])
+    num_heads = trial.suggest_categorical("num_heads", [4, 8]) 
+    num_passes = trial.suggest_int("num_passes", 3, 5)
     
-    rf = RandomForestClassifier(class_weight='balanced', random_state=42)
+    # Pruning check (fail fast if memory risk with 128 latent on 4 passes?)
+    # A100 40GB handled 80 latent, 4 passes. 128 might OOM.
+    # We'll try, and catch OOM.
+
+    print(f"\n--- Trial {trial.number} ---")
+    print(f"Params: {trial.params}")
+
+    # 2. Load Data (Cached)
+    # Re-loading every trial is inefficient if large, but safer for memory isolation.
+    # ideally we load once globally.
+    global graph, train_mask, val_mask, test_mask, labels, class_weights
     
-    random_search = RandomizedSearchCV(
-        estimator=rf,
-        param_distributions=param_dist,
-        n_iter=20,
-        cv=3,
-        verbose=2,
-        random_state=42,
-        n_jobs=-1
+    # 3. Initialize Model
+    net_fn = make_graph_network(
+        num_passes=num_passes,
+        latent_size=latent_size,
+        num_heads=num_heads,
+        dropout_rate=dropout_rate,
+        num_classes=4
     )
+    net = hk.transform(net_fn)
     
-    random_search.fit(X_train, y_train)
-    
-    print(f"Best Parameters: {random_search.best_params_}")
-    print(f"Best Score: {random_search.best_score_}")
-    return random_search.best_params_
+    # Init Params
+    rng = jax.random.PRNGKey(trial.number) # Seed with trial number
+    try:
+        params = net.init(rng, graph, is_training=True)
+    except Exception as e:
+        print(f"Pruning trial due to Init Error (likely OOM): {e}")
+        raise optuna.TrialPruned()
 
-def tune_xgboost():
-    print("\n--- Tuning XGBoost ---")
-    X_train, y_train = get_data('xgboost')
-    
-    param_dist = {
-        'n_estimators': [100, 200, 300, 400, 500],
-        'learning_rate': [0.01, 0.05, 0.1, 0.2],
-        'max_depth': [3, 4, 5, 6, 8, 10],
-        'min_child_weight': [1, 3, 5],
-        'gamma': [0, 0.1, 0.2, 0.3, 0.4],
-        'colsample_bytree': [0.3, 0.4, 0.5, 0.7]
-    }
-    
-    # XGBoost handles class weights differently, often via scale_pos_weight for binary
-    # For multi-class, we might need to pass sample_weights to fit, or use a specific objective.
-    # The current Model_classes.py implementation passes sample_weights to fit.
-    # RandomizedSearchCV doesn't easily support passing sample_weights to fit for each split unless we wrap it or pass it as fit_params (which assumes same split).
-    # However, XGBClassifier has a class_weight parameter in recent versions or we can rely on the model learning it if the data is balanced or if we don't provide it.
-    # The original code manually balances classes or passes weights.
-    # Let's try to use sample weights if possible, or just run without explicit weights for tuning to find structural params.
-    # But wait, Model_classes.py uses `sample_weight` in `fit`.
-    # Let's compute sample weights for the whole training set and pass it to fit_params.
-    # Note: RandomizedSearchCV splits data, so passing a fixed array of sample_weights for X_train might be tricky if indices don't align.
-    # Actually, sklearn's cross_val_score/GridSearchCV/RandomizedSearchCV handles `fit_params` but it expects the parameters to be indexable if they are data-dependent (like sample_weight).
-    # Let's compute sample weights.
-    
-    from sklearn.utils import compute_class_weight
-    class_weights = compute_class_weight('balanced', classes=np.unique(y_train), y=y_train)
-    sample_weights = class_weights[y_train.astype(int)]
-    
-    xgb_model = xgb.XGBClassifier(objective='multi:softprob', num_class=len(np.unique(y_train)), eval_metric='mlogloss', random_state=42)
-    
-    random_search = RandomizedSearchCV(
-        estimator=xgb_model,
-        param_distributions=param_dist,
-        n_iter=20,
-        cv=3,
-        verbose=2,
-        random_state=42,
-        n_jobs=-1
+    # 4. Optimizer
+    # Minimal scheduler for tuning
+    lr_schedule = optax.warmup_cosine_decay_schedule(
+        init_value=learning_rate / 10,
+        peak_value=learning_rate,
+        warmup_steps=50,
+        decay_steps=N_EPOCHS,
+        end_value=learning_rate / 100
     )
+    optimizer = optax.adamw(learning_rate=lr_schedule, weight_decay=weight_decay)
+    opt_state = optimizer.init(params)
+
+    # 5. Compilation (JIT instead of PMAP for simpler single-process tuning)
+    # Using pmap inside Optuna on single GPU can be tricky with processes.
+    # We will use simple JIT for the tuning script to run on 1 GPU.
+    # Note: mask logic needs adjustment if not using pmap sharding.
     
-    # We pass sample_weight to fit. RandomizedSearchCV will slice it correctly if it's passed as a fit_param and is an array of length n_samples.
-    random_search.fit(X_train, y_train, sample_weight=sample_weights)
+    # Adjust Masks for JIT (No sharding)
+    # We use the full masks directly.
     
-    print(f"Best Parameters: {random_search.best_params_}")
-    print(f"Best Score: {random_search.best_score_}")
-    return random_search.best_params_
+    @jax.jit
+    def loss_fn(params, graph, labels, mask, rng):
+        # Pass is_training=True
+        logits = net.apply(params, rng, graph, is_training=True).nodes
+        labels_one_hot = jax.nn.one_hot(labels, num_classes=4)
+        per_node_loss = optax.softmax_cross_entropy(logits, labels_one_hot)
+        weights = jnp.take(class_weights, labels)
+        loss = jnp.sum(per_node_loss * weights * mask) / jnp.maximum(jnp.sum(mask), 1.0)
+        return loss
+
+    @jax.jit
+    def update(params, opt_state, graph, labels, mask, rng):
+        grads = jax.grad(loss_fn)(params, graph, labels, mask, rng)
+        updates, new_opt_state = optimizer.update(grads, opt_state, params)
+        new_params = optax.apply_updates(params, updates)
+        return new_params, new_opt_state
+
+    @jax.jit
+    def evaluate(params, graph, labels, mask):
+        logits = net.apply(params, None, graph, is_training=False).nodes
+        preds = jnp.argmax(logits, axis=-1)
+        accuracy = jnp.sum((preds == labels) * mask) / jnp.maximum(jnp.sum(mask), 1.0)
+        return accuracy
+
+    # 6. Training Loop
+    step_rng = rng
+    best_val_acc = 0.0
+    
+    for epoch in range(N_EPOCHS):
+        step_rng, train_rng = jax.random.split(step_rng)
+        try:
+            params, opt_state = update(params, opt_state, graph, labels, train_mask, train_rng)
+        except Exception as e:
+             print(f"Pruning trial due to OOM during Update: {e}")
+             raise optuna.TrialPruned()
+
+        if epoch % 10 == 0:
+            val_acc = evaluate(params, graph, labels, val_mask)
+            val_acc = float(val_acc)
+            
+            # Report to Optuna
+            trial.report(val_acc, epoch)
+            
+            if val_acc > best_val_acc:
+                best_val_acc = val_acc
+            
+            # Pruning
+            if trial.should_prune():
+                raise optuna.TrialPruned()
+                
+    return best_val_acc
 
 if __name__ == "__main__":
-    tune_random_forest()
-    tune_xgboost()
+    # Load Data Once
+    print("Loading data...")
+    # Fix Unpacking
+    graph, labels, masks = load_data()
+    train_mask, val_mask, test_mask = masks
+    
+    # Calculate Weights
+    # labels is jax array, convert to numpy for sklearn logic in calculate_class_weights
+    class_weights = calculate_class_weights(np.array(labels))
+    # Move to device once
+    # For JIT, we leave them as numpy or jax arrays, JIT handles transition or we verify device.
+    # jraph definitions are usually on host until placed.
+    # Let's put them on device explicitly if needed, but JIT handles it.
+    
+    # Create Study
+    study = optuna.create_study(
+        study_name=STUDY_NAME,
+        storage=STORAGE,
+        load_if_exists=True,
+        direction="maximize",
+        pruner=MedianPruner(n_startup_trials=5, n_warmup_steps=50)
+    )
+    
+    print("Starting Optimization...")
+    study.optimize(objective, n_trials=N_TRIALS)
+    
+    print("Best Params:", study.best_params)
+    print("Best Acc:", study.best_value)
+    
+    # Save best params
+    with open("best_hyperparameters.pkl", "wb") as f:
+        pickle.dump(study.best_params, f)
