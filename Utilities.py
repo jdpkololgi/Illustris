@@ -598,6 +598,11 @@ class cat():
     def cweb_classify(self, xyzplot=True):
         '''Plots the cosmic web classications of the subhalos in the given object.'''
         self.cwebfile = np.load(r'/global/homes/d/dkololgi/TNG/Illustris/TNG300_snap_099_tweb_env_merged.npz') #TNG300_snap_099_tweb_env_merged.npz
+        self.eigfile = np.load(r'/global/homes/d/dkololgi/TNG/Illustris/snap_099_eig_vals_0.npz') #TNG300_snap_099_tweb_env_merged.npz
+        self.eigdata = self.eigfile['eig_vals']
+        self.eig1data = self.eigdata[0]
+        self.eig2data = self.eigdata[1]
+        self.eig3data = self.eigdata[2]
         # self.significances = np.load(r'C:\Users\dkter\OneDrive - University College London\Year 1\MST\new_TNG300_snap_099_nexus_sig_merged.npz')        
         self.filetype = 'T-Web' # Nexus+
         self.cwebdata = self.cwebfile['cweb']
@@ -625,9 +630,9 @@ class cat():
 
         # Get the cweb classifications of the subhalos
         self.cweb = self.cwebdata[self.xpix, self.ypix, self.zpix]
-        # self.Sc_subhalos = self.Sc[self.xpix, self.ypix, self.zpix]
-        # self.Sf_subhalos = self.Sf[self.xpix, self.ypix, self.zpix]
-        # self.Sw_subhalos = self.Sw[self.xpix, self.ypix, self.zpix]
+        self.eig1 = self.eig1data[self.xpix, self.ypix, self.zpix]
+        self.eig2 = self.eig2data[self.xpix, self.ypix, self.zpix]
+        self.eig3 = self.eig3data[self.xpix, self.ypix, self.zpix]
 
         if xyzplot:
             self.reds = np.count_nonzero(self.cweb == 0) # Voids

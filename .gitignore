@@ -1443,3 +1443,4 @@ jraph_prob_dists_seed_46431036.png
 jraph_roc_curves_seed_46431036.png
 jraph_training_curves_46431036.png
 submit_jraph.slurm
+snap_099_eig_vals_0.npz
