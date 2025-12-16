@@ -103,13 +103,13 @@ class cat():
         self.sf = self.object['header']['Time'] #time (scale factor) of snapshot
         self.hub = self.object['header']['HubbleParam'] #hubble parameter of simulation
 
-        # self.X = u.kpc*self.object['halos']['GroupPos'][:,0][:lim]*self.sf/self.hub #spatial coordinates of halos
-        # self.Y = u.kpc*self.object['halos']['GroupPos'][:,1][:lim]*self.sf/self.hub
-        # self.Z = u.kpc*self.object['halos']['GroupPos'][:,2][:lim]*self.sf/self.hub
-
         self.x = u.kpc*self.object['subhalos']['SubhaloPos'][:,0]*self.sf/self.hub #spatial coordinates of subhalos
         self.y = u.kpc*self.object['subhalos']['SubhaloPos'][:,1]*self.sf/self.hub
         self.z = u.kpc*self.object['subhalos']['SubhaloPos'][:,2]*self.sf/self.hub
+
+        # self.x = u.kpc*self.object['subhalos']['SubhaloCM'][:,0]*self.sf/self.hub #spatial coordinates of subhalos
+        # self.y = u.kpc*self.object['subhalos']['SubhaloCM'][:,1]*self.sf/self.hub
+        # self.z = u.kpc*self.object['subhalos']['SubhaloCM'][:,2]*self.sf/self.hub
 
         uni = 'Mpc'
         stars = (self.object['subhalos']['SubhaloMassType'][:,4]) #stellar mass of subhalos

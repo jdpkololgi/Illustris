@@ -82,7 +82,7 @@ def objective(trial):
     
     @jax.jit
     def loss_fn(params, graph, labels, mask, rng):
-        # Pass is_training=True
+        # Cross Entropy Loss
         logits = net.apply(params, rng, graph, is_training=True).nodes
         labels_one_hot = jax.nn.one_hot(labels, num_classes=4)
         per_node_loss = optax.softmax_cross_entropy(logits, labels_one_hot)

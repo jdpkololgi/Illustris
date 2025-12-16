@@ -47,6 +47,8 @@ def plot_training_curves(epochs, train_loss, train_acc, val_loss, val_acc, seed)
     ax1.set_ylabel('Loss', fontsize=12)
     ax1.set_title('Training & Validation Loss', fontsize=14, fontweight='bold')
     ax1.grid(True, linestyle='--', alpha=0.3)
+    ax1.set_ylim(0, 1)
+    ax1.set_xlim(0, max(epochs)+50)
     ax1.legend(fontsize=10)
     
     # Plot 2: Accuracy
@@ -57,6 +59,8 @@ def plot_training_curves(epochs, train_loss, train_acc, val_loss, val_acc, seed)
     ax2.set_ylim(0, 100)
     ax2.set_title('Training & Validation Accuracy', fontsize=14, fontweight='bold')
     ax2.grid(True, linestyle='--', alpha=0.3)
+    ax2.set_ylim(0, 100)
+    ax2.set_xlim(0, max(epochs)+50)
     ax2.legend(fontsize=10)
     
     # Final Stats
