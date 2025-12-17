@@ -115,6 +115,7 @@ def generate_data(masscut, cache_path, version='v2'):
     # Note: testcat.data includes features and 'Target'.
     features = testcat.data.drop(columns=['Target'])
     targets = testcat.data['Target']
+    continuous_targets = [testcat.eig1, testcat.eig2, testcat.eig3]
     
     # Preprocess features
     features = preprocess_features(features)
@@ -299,29 +300,66 @@ def generate_data(masscut, cache_path, version='v2'):
     
     # Convert masks and labels to jnp
     masks = (jnp.array(train_mask), jnp.array(val_mask), jnp.array(test_mask))
-    labels = jnp.array(targets.values, dtype=jnp.int32)
+    classification_labels = jnp.array(targets.values, dtype=jnp.int32)
     
-    # Save to cache
+    # Prepare regression targets (eigenvalues)
+    # Stack eigenvalues: [N, 3]
+    eigenvalues_raw = np.stack([testcat.eig1, testcat.eig2, testcat.eig3], axis=-1).astype(np.float32)
+    
+    # Scale eigenvalues using StandardScaler (fit on training set only)
+    eigenvalue_scaler = StandardScaler()
+    eigenvalue_scaler.fit(eigenvalues_raw[train_idx])
+    eigenvalues_scaled = eigenvalue_scaler.transform(eigenvalues_raw)
+    regression_targets = jnp.array(eigenvalues_scaled, dtype=jnp.float32)
+    
+    print(f"Eigenvalue stats (raw): mean={np.mean(eigenvalues_raw, axis=0)}, std={np.std(eigenvalues_raw, axis=0)}")
+    print(f"Eigenvalue stats (scaled): mean={np.mean(eigenvalues_scaled, axis=0)}, std={np.std(eigenvalues_scaled, axis=0)}")
+    
+    # Save to cache (include both target types and the scaler for inverse transform)
     print(f"Saving generated data to {cache_path}...")
     with open(cache_path, 'wb') as f:
-        pickle.dump({'graph': graph, 'labels': labels, 'masks': masks}, f)
+        pickle.dump({
+            'graph': graph, 
+            'classification_labels': classification_labels, 
+            'regression_targets': regression_targets,
+            'eigenvalue_scaler': eigenvalue_scaler,
+            'masks': masks
+        }, f)
     
-    return graph, labels, masks
+    return graph, classification_labels, regression_targets, eigenvalue_scaler, masks
 
-def load_data(masscut=1e9, use_v2=True):
+def load_data(masscut=1e9, use_v2=True, prediction_mode='classification'):
     """
     Load data from cache if available, otherwise generate it.
     Can switch between v1 and v2 stats.
+    
+    Args:
+        masscut: Mass cutoff for halos
+        use_v2: Use v2 edge features
+        prediction_mode: 'classification' or 'regression'
+    
+    Returns:
+        graph, targets, masks (and eigenvalue_scaler if regression mode)
     """
     version = 'v2' if use_v2 else 'v1'
-    cache_path = f"processed_jraph_data_mc{masscut:.0e}_{version}_scaled_2.pkl"
+    cache_path = f"processed_jraph_data_mc{masscut:.0e}_{version}_scaled_3.pkl"  # Updated version for dual targets
     pyg_cache_path = f"processed_gcn_data_mc{masscut:.0e}.pt"
 
     if os.path.exists(cache_path):
         print(f"Loading cached Jraph data from {cache_path}...")
         with open(cache_path, 'rb') as f:
             data = pickle.load(f)
-            return data['graph'], data['labels'], data['masks']
+            
+            # Check if cache has both target types (new format)
+            if 'classification_labels' in data and 'regression_targets' in data:
+                if prediction_mode == 'classification':
+                    return data['graph'], data['classification_labels'], None, data['masks']
+                else:
+                    return data['graph'], data['regression_targets'], data['eigenvalue_scaler'], data['masks']
+            else:
+                # Old cache format - regenerate
+                print("Old cache format detected, regenerating...")
+                os.remove(cache_path)
             
     # Fallback for V1: Try loading PyG cache if exists
     if not use_v2 and os.path.exists(pyg_cache_path):
@@ -329,13 +367,18 @@ def load_data(masscut=1e9, use_v2=True):
         try:
             data_tuple = torch.load(pyg_cache_path, weights_only=False)
             netx_geom = data_tuple[0]
-            # Convert
-            return convert_pyg_to_jraph(netx_geom)
+            # Convert - this won't have regression targets, so we skip
+            print("PyG cache does not support regression mode, regenerating...")
         except Exception as e:
             print(f"Failed to load PyG cache: {e}. Generating fresh.")
             
     # Generate fresh
-    return generate_data(masscut, cache_path, version=version)
+    graph, class_labels, reg_targets, scaler, masks = generate_data(masscut, cache_path, version=version)
+    
+    if prediction_mode == 'classification':
+        return graph, class_labels, None, masks
+    else:
+        return graph, reg_targets, scaler, masks
 
 
 def calculate_class_weights(targets):
@@ -350,12 +393,14 @@ def calculate_class_weights(targets):
 
 
 
-
-
+#########################################################################
+# Main
+#########################################################################
 def main(args):
     print(f"JAX Devices: {jax.devices()}")
     num_devices = jax.local_device_count()
     print(f"Running on {num_devices} devices.")
+    print(f"Prediction Mode: {args.prediction_mode}")
     
     # generate unique timestamp
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -363,10 +408,18 @@ def main(args):
 
     # 1. Load Data
     masscut = 1e9
-    graph, labels, masks = load_data(masscut=masscut, use_v2=True)
+    graph, targets, eigenvalue_scaler, masks = load_data(
+        masscut=masscut, use_v2=True, prediction_mode=args.prediction_mode
+    )
     train_mask, val_mask, test_mask = masks
     
-    class_weights = calculate_class_weights(np.array(labels))
+    # Class weights only for classification
+    if args.prediction_mode == 'classification':
+        class_weights = calculate_class_weights(np.array(targets))
+        output_dim = 4  # 4 cosmic web classes
+    else:
+        class_weights = None  # Not used in regression
+        output_dim = 3  # 3 eigenvalues
     
     print(f"Graph stats: Nodes={graph.n_node[0]}, Edges={graph.n_edge[0]}")
     print(f"Train size: {jnp.sum(train_mask)}, Val size: {jnp.sum(val_mask)}, Test size: {jnp.sum(test_mask)}")
@@ -379,7 +432,8 @@ def main(args):
         num_passes=args.num_passes, # Used to be 4, increasing for more context 
         latent_size=args.latent_size,
         num_heads=args.num_heads,
-        dropout_rate=args.dropout
+        dropout_rate=args.dropout,
+        output_dim=output_dim  # Dynamic based on prediction mode
     )
     net = hk.transform(net_fn) # hk.transform converts a function using Haiku modules into an (init, apply) pair.
     
@@ -427,9 +481,15 @@ def main(args):
     # Since we have only 1 graph, we just expand it to [num_devices, ...]
     replicated_graph = jax.device_put_replicated(graph, jax.local_devices())
     
-    # Replicate labels
-    replicated_labels = jax.device_put_replicated(labels, jax.local_devices())
-    replicated_class_weights = jax.device_put_replicated(class_weights, jax.local_devices())
+    # Replicate targets (labels for classification, eigenvalues for regression)
+    replicated_targets = jax.device_put_replicated(targets, jax.local_devices())
+    
+    # Replicate class weights (None for regression)
+    if class_weights is not None:
+        replicated_class_weights = jax.device_put_replicated(class_weights, jax.local_devices())
+    else:
+        # Dummy weights for regression (not used but needed for function signature)
+        replicated_class_weights = jax.device_put_replicated(jnp.ones(4, dtype=jnp.float32), jax.local_devices())
 
     # Shard the Train Mask
     # We want to split train_mask indices among devices
@@ -469,108 +529,121 @@ def main(args):
     sharded_val_masks = jax.device_put_sharded(list(sharded_val_masks), jax.local_devices())
 
     # 4. Training Functions
-    def loss_fn(params, graph, labels, mask, net_apply, rng, class_weights, label_smoothing=0.1):
-        num_classes = 4
+    # Mode-aware loss function
+    def loss_fn(params, graph, targets, mask, net_apply, rng, class_weights, prediction_mode, label_smoothing=0.1):
         # Pass is_training=True for Dropout
-        logits = net_apply(params, rng, graph, is_training=True).nodes
+        outputs = net_apply(params, rng, graph, is_training=True).nodes
         
-        # Cross Entropy Loss
-        # logits: [N, C], labels: [N]
-        # one_hot labels
-        labels_one_hot = jax.nn.one_hot(labels, num_classes=num_classes)
-        smoothed_labels = optax.smooth_labels(labels_one_hot, alpha=label_smoothing)
-        # optax loss
-        per_node_loss = optax.softmax_cross_entropy(logits, smoothed_labels)
-        
-        # Apply class weights
-        weights = jnp.take(class_weights, labels)
-        weighted_loss = per_node_loss * weights
-        
-        # Mask
-        masked_loss = weighted_loss * mask
+        if prediction_mode == 'classification':
+            num_classes = 4
+            # Cross Entropy Loss
+            # outputs: [N, C], targets: [N] (class indices)
+            labels_one_hot = jax.nn.one_hot(targets, num_classes=num_classes)
+            smoothed_labels = optax.smooth_labels(labels_one_hot, alpha=label_smoothing)
+            per_node_loss = optax.softmax_cross_entropy(outputs, smoothed_labels)
+            
+            # Apply class weights
+            weights = jnp.take(class_weights, targets)
+            weighted_loss = per_node_loss * weights
+            
+            # Mask
+            masked_loss = weighted_loss * mask
+        else:
+            # Regression: MSE loss
+            # outputs: [N, 3], targets: [N, 3] (eigenvalues)
+            per_node_loss = jnp.mean(optax.l2_loss(outputs, targets), axis=-1)  # Mean over 3 eigenvalues
+            masked_loss = per_node_loss * mask
         
         # Mean over masked nodes
-        # Avoid division by zero
         num_masked = jnp.sum(mask)
         loss = jnp.sum(masked_loss) / jnp.maximum(num_masked, 1.0)
         
-        return loss, (logits, num_masked)
+        return loss, (outputs, num_masked)
 
-    # Update Function
-    def update(params, opt_state, graph, labels, mask, rng, class_weights):
+    # Update Function (mode-aware)
+    def update(params, opt_state, graph, targets, mask, rng, class_weights, prediction_mode):
         # rng mix
         step_rng = jax.random.fold_in(rng, jax.lax.axis_index('i'))
         
         # Gradients
-        (train_loss, (logits, num_masked)), grads = jax.value_and_grad(loss_fn, has_aux=True)(
-            params, graph, labels, mask, net.apply, step_rng, class_weights
+        (train_loss, (outputs, num_masked)), grads = jax.value_and_grad(loss_fn, has_aux=True)(
+            params, graph, targets, mask, net.apply, step_rng, class_weights, prediction_mode
         )
         
         # Sync gradients across devices (average)
         grads = jax.lax.pmean(grads, axis_name='i')
         
         # Sync Loss metrics for reporting
-        # We sum the loss*count from each device and divide by total count
         total_loss_part = train_loss * num_masked
         total_count = jax.lax.psum(num_masked, axis_name='i')
         global_loss = jax.lax.psum(total_loss_part, axis_name='i') / jnp.maximum(total_count, 1.0)
         
-        # Calculate Training Accuracy
-        preds = jnp.argmax(logits, axis=-1)
-        correct = (preds == labels) & mask
-        
-        total_correct = jax.lax.psum(jnp.sum(correct), axis_name='i')
-        # total_count matches total_mask roughly, but num_masked is float from loss_fn?
-        # loss_fn returns num_masked = jnp.sum(mask)
-        # So total_count is correct denominator.
-        global_acc = total_correct / jnp.maximum(total_count, 1.0)
+        # Calculate metric (Accuracy for classification, R² for regression)
+        if prediction_mode == 'classification':
+            preds = jnp.argmax(outputs, axis=-1)
+            correct = (preds == targets) & mask
+            total_correct = jax.lax.psum(jnp.sum(correct), axis_name='i')
+            global_metric = total_correct / jnp.maximum(total_count, 1.0)
+        else:
+            # R² score for regression (approximation across devices)
+            # R² = 1 - SS_res / SS_tot
+            # For simplicity, we report MSE here; R² needs global mean
+            # We'll compute MSE as the metric
+            mse_per_node = jnp.mean(optax.l2_loss(outputs, targets), axis=-1)
+            masked_mse = mse_per_node * mask
+            total_mse = jax.lax.psum(jnp.sum(masked_mse), axis_name='i')
+            global_metric = total_mse / jnp.maximum(total_count, 1.0)  # Mean MSE
         
         updates, new_opt_state = optimizer.update(grads, opt_state, params)
         new_params = optax.apply_updates(params, updates)
         
-        return new_params, new_opt_state, global_loss, global_acc
+        return new_params, new_opt_state, global_loss, global_metric
         
-    update = jax.pmap(update, axis_name='i')
+    update_fn = jax.pmap(update, axis_name='i', static_broadcasted_argnums=(7,))  # prediction_mode is static
 
-    def evaluate(params, graph, labels, mask, rng, class_weights):
+    def evaluate(params, graph, targets, mask, rng, class_weights, prediction_mode):
         # We can evaluate in parallel too
         step_rng = jax.random.fold_in(rng, jax.lax.axis_index('i'))
         
         # Pass is_training=False to disable Dropout
-        # We need to manually invoke the model here because loss_fn assumes training?
-        # Re-implementing evaluating part of loss_fn without gradients:
+        outputs = net.apply(params, step_rng, graph, is_training=False).nodes
         
-        logits = net.apply(params, step_rng, graph, is_training=False).nodes
-        
-        labels_one_hot = jax.nn.one_hot(labels, num_classes=4)
-        
-        labels_one_hot = jax.nn.one_hot(labels, num_classes=4)
-        
-        # Cross Entropy Logic
-        per_node_loss = optax.softmax_cross_entropy(logits, labels_one_hot)
-        weights = jnp.take(class_weights, labels)
-        masked_loss = per_node_loss * weights * mask
-        
-        num_masked = jnp.sum(mask)
-        loss = jnp.sum(masked_loss) / jnp.maximum(num_masked, 1.0)
-        
-        # Accuracy
-        preds = jnp.argmax(logits, axis=-1)
-        correct = (preds == labels) & mask
-        
-        total_correct = jax.lax.psum(jnp.sum(correct), axis_name='i')
-        total_mask = jax.lax.psum(jnp.sum(mask), axis_name='i')
-        
-        accuracy = total_correct / jnp.maximum(total_mask, 1.0)
+        if prediction_mode == 'classification':
+            labels_one_hot = jax.nn.one_hot(targets, num_classes=4)
+            per_node_loss = optax.softmax_cross_entropy(outputs, labels_one_hot)
+            weights = jnp.take(class_weights, targets)
+            masked_loss = per_node_loss * weights * mask
+            
+            num_masked = jnp.sum(mask)
+            loss = jnp.sum(masked_loss) / jnp.maximum(num_masked, 1.0)
+            
+            # Accuracy
+            preds = jnp.argmax(outputs, axis=-1)
+            correct = (preds == targets) & mask
+            total_correct = jax.lax.psum(jnp.sum(correct), axis_name='i')
+            total_mask = jax.lax.psum(jnp.sum(mask), axis_name='i')
+            metric = total_correct / jnp.maximum(total_mask, 1.0)
+        else:
+            # Regression: MSE
+            per_node_loss = jnp.mean(optax.l2_loss(outputs, targets), axis=-1)
+            masked_loss = per_node_loss * mask
+            
+            num_masked = jnp.sum(mask)
+            loss = jnp.sum(masked_loss) / jnp.maximum(num_masked, 1.0)
+            
+            # MSE as metric
+            total_mse = jax.lax.psum(jnp.sum(masked_loss), axis_name='i')
+            total_mask = jax.lax.psum(jnp.sum(mask), axis_name='i')
+            metric = total_mse / jnp.maximum(total_mask, 1.0)
         
         # Global loss logic
         total_loss_part = loss * num_masked
         total_count = jax.lax.psum(num_masked, axis_name='i')
         global_loss = jax.lax.psum(total_loss_part, axis_name='i') / jnp.maximum(total_count, 1.0)
         
-        return global_loss, accuracy
+        return global_loss, metric
         
-    evaluate = jax.pmap(evaluate, axis_name='i')
+    evaluate_fn = jax.pmap(evaluate, axis_name='i', static_broadcasted_argnums=(6,))  # prediction_mode is static
 
     # 5. Training Loop
     # num_epochs defined above
@@ -591,20 +664,23 @@ def main(args):
         # Replicate RNG
         step_rngs = jax.device_put_replicated(step_rng, jax.local_devices())
         
-        replicated_params, replicated_opt_state, train_loss, train_acc = update(
+        replicated_params, replicated_opt_state, train_loss, train_metric = update_fn(
             replicated_params, replicated_opt_state, 
-            replicated_graph, replicated_labels, sharded_train_masks, 
-            step_rngs, replicated_class_weights
+            replicated_graph, replicated_targets, sharded_train_masks, 
+            step_rngs, replicated_class_weights, args.prediction_mode
         )
         
         # Validation
         if epoch % report_every == 0:
-            val_loss, val_acc = evaluate(
-                replicated_params, replicated_graph, replicated_labels, 
-                sharded_val_masks, step_rngs, replicated_class_weights
+            val_loss, val_metric = evaluate_fn(
+                replicated_params, replicated_graph, replicated_targets, 
+                sharded_val_masks, step_rngs, replicated_class_weights, args.prediction_mode
             )
             # take first device result (they are identical due to pmean/psum)
-            print(f"Epoch {epoch} | Train Loss: {train_loss[0]:.4f} | Train Acc: {train_acc[0]*100:.3f}% | Val Loss: {val_loss[0]:.4f} | Val Acc: {val_acc[0]*100:.3f}%")
+            if args.prediction_mode == 'classification':
+                print(f"Epoch {epoch} | Train Loss: {train_loss[0]:.4f} | Train Acc: {train_metric[0]*100:.3f}% | Val Loss: {val_loss[0]:.4f} | Val Acc: {val_metric[0]*100:.3f}%")
+            else:
+                print(f"Epoch {epoch} | Train Loss: {train_loss[0]:.4f} | Train MSE: {train_metric[0]:.6f} | Val Loss: {val_loss[0]:.4f} | Val MSE: {val_metric[0]:.6f}")
 
     print(f"Training finished in {time.time() - t0:.2f}s")
     
@@ -621,8 +697,8 @@ def main(args):
         pickle.dump(final_params, f)
     print(f"Model saved to {save_filename}")
     
-    # 6. Evaluation & Confusion Matrix
-    print("Generating predictions for confusion matrix...")
+    # 6. Evaluation & Final Predictions
+    print("Generating final predictions...")
     
     # Define prediction function (no gradients, no dropout)
     @jax.jit
@@ -635,37 +711,90 @@ def main(args):
     
     # Predict
     eval_rng = jax.random.PRNGKey(args.seed + 999)
-    logits = predict(final_params, graph, eval_rng)
-    probs = jax.nn.softmax(logits, axis=-1)
-    preds = jnp.argmax(logits, axis=-1)
-    
-    # Convert to numpy for sklearn
-    preds_np = np.array(preds)
-    labels_np = np.array(labels)
+    outputs = predict(final_params, graph, eval_rng)
     test_mask_np = np.array(test_mask)
     
-    # Filter for Test set
-    test_preds = preds_np[test_mask_np]
-    test_labels = labels_np[test_mask_np]
-    
-    # Plot Confusion Matrix
-    classes = ['Void', 'Wall', 'Filament', 'Cluster']
-    
-    # Classification Report
-    print("\nClassification Report:")
-    report = classification_report(test_labels, test_preds, target_names=classes)
-    print(report)
-    with open(f'jraph_classification_report_seed_{args.seed}_{timestamp}.txt', 'w') as f:
-        f.write(report)
+    if args.prediction_mode == 'classification':
+        # Classification: Confusion matrix and classification report
+        probs = jax.nn.softmax(outputs, axis=-1)
+        preds = jnp.argmax(outputs, axis=-1)
         
-    # Save Predictions
-    preds_filename = f'jraph_predictions_seed_{args.seed}_{timestamp}.pkl'
-    preds_data = {
-        'probs': probs, # All nodes
-        'preds': preds, # All nodes
-        'labels': labels, # All nodes
-        'test_mask': test_mask
-    }
+        # Convert to numpy for sklearn
+        preds_np = np.array(preds)
+        targets_np = np.array(targets)
+        
+        # Filter for Test set
+        test_preds = preds_np[test_mask_np]
+        test_targets = targets_np[test_mask_np]
+        
+        # Classification Report
+        classes = ['Void', 'Wall', 'Filament', 'Cluster']
+        print("\nClassification Report:")
+        report = classification_report(test_targets, test_preds, target_names=classes)
+        print(report)
+        with open(f'jraph_classification_report_seed_{args.seed}_{timestamp}.txt', 'w') as f:
+            f.write(report)
+            
+        # Save Predictions
+        preds_filename = f'jraph_predictions_seed_{args.seed}_{timestamp}.pkl'
+        preds_data = {
+            'probs': probs, # All nodes
+            'preds': preds, # All nodes
+            'targets': targets, # All nodes
+            'test_mask': test_mask
+        }
+    else:
+        # Regression: MSE, R², inverse transform
+        preds_scaled = np.array(outputs)
+        targets_scaled = np.array(targets)
+        
+        # Inverse transform to get raw eigenvalues
+        if eigenvalue_scaler is not None:
+            preds_raw = eigenvalue_scaler.inverse_transform(preds_scaled)
+            targets_raw = eigenvalue_scaler.inverse_transform(targets_scaled)
+        else:
+            preds_raw = preds_scaled
+            targets_raw = targets_scaled
+        
+        # Filter for Test set
+        test_preds = preds_raw[test_mask_np]
+        test_targets = targets_raw[test_mask_np]
+        
+        # Compute metrics
+        mse = np.mean((test_preds - test_targets) ** 2)
+        mae = np.mean(np.abs(test_preds - test_targets))
+        
+        # R² per eigenvalue
+        ss_res = np.sum((test_targets - test_preds) ** 2, axis=0)
+        ss_tot = np.sum((test_targets - np.mean(test_targets, axis=0)) ** 2, axis=0)
+        r2_per_eig = 1 - ss_res / (ss_tot + 1e-8)
+        
+        print(f"\nRegression Metrics (Test Set):")
+        print(f"  MSE: {mse:.6f}")
+        print(f"  MAE: {mae:.6f}")
+        print(f"  R² per eigenvalue: λ1={r2_per_eig[0]:.4f}, λ2={r2_per_eig[1]:.4f}, λ3={r2_per_eig[2]:.4f}")
+        print(f"  Mean R²: {np.mean(r2_per_eig):.4f}")
+        
+        # Save report
+        report_filename = f'jraph_regression_report_seed_{args.seed}_{timestamp}.txt'
+        with open(report_filename, 'w') as f:
+            f.write(f"MSE: {mse:.6f}\n")
+            f.write(f"MAE: {mae:.6f}\n")
+            f.write(f"R² per eigenvalue: λ1={r2_per_eig[0]:.4f}, λ2={r2_per_eig[1]:.4f}, λ3={r2_per_eig[2]:.4f}\n")
+            f.write(f"Mean R²: {np.mean(r2_per_eig):.4f}\n")
+        print(f"Report saved to {report_filename}")
+        
+        # Save Predictions
+        preds_filename = f'jraph_predictions_seed_{args.seed}_{timestamp}.pkl'
+        preds_data = {
+            'preds_scaled': preds_scaled, # All nodes (scaled)
+            'preds_raw': preds_raw, # All nodes (raw eigenvalues)
+            'targets_scaled': targets_scaled, # All nodes (scaled)
+            'targets_raw': targets_raw, # All nodes (raw eigenvalues)
+            'test_mask': test_mask,
+            'eigenvalue_scaler': eigenvalue_scaler
+        }
+    
     with open(preds_filename, 'wb') as f:
         pickle.dump(preds_data, f)
     print(f"Predictions saved to {preds_filename}")
@@ -683,6 +812,9 @@ if __name__ == '__main__':
     parser.add_argument("--dropout", type=float, default=0.2)
     parser.add_argument("--weight_decay", type=float, default=0.08)
     parser.add_argument("--lr", type=float, default=1e-3) # Used to be 3e-3
+    parser.add_argument("--prediction_mode", type=str, default="classification",
+                        choices=["classification", "regression"],
+                        help="Prediction mode: 'classification' for cosmic web classes, 'regression' for eigenvalues")
        
     args = parser.parse_args()
     

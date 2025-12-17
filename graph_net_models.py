@@ -16,7 +16,7 @@ def make_graph_network(
     latent_size: int = 80,
     num_heads: int = 8,
     dropout_rate: float = 0.1,
-    num_classes: int = 4
+    output_dim: int = 4 # set to 3 for eigenvalue regression
 ) -> Callable:
     """
     Creates a GraphNetwork with Multi-Head Attention.
@@ -106,7 +106,7 @@ def make_graph_network(
         
         # Decoder
         decoder = jraph.GraphMapFeatures(
-            embed_node_fn=hk.Linear(num_classes) 
+            embed_node_fn=hk.Linear(output_dim) 
         )
         return decoder(graph)
 

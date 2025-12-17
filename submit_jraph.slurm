@@ -27,7 +27,7 @@ export XLA_PYTHON_CLIENT_ALLOCATOR=platform
 
 # Run the script
 echo "Starting Jraph training job on $(hostname) with 4 GPUs (80GB VRAM requested)..."
-srun python /global/homes/d/dkololgi/TNG/Illustris/jraph_pipeline.py
+srun python /global/homes/d/dkololgi/TNG/Illustris/jraph_pipeline.py --prediction_mode regression
     # --lr 0.003 \
     # --weight_decay 0.08 \
     # --dropout 0.2 \
