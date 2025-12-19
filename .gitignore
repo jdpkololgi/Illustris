@@ -1444,3 +1444,15 @@ jraph_roc_curves_seed_46431036.png
 jraph_training_curves_46431036.png
 submit_jraph.slurm
 snap_099_eig_vals_0.npz
+processed_jraph_data_mc1e+09_v2_scaled_3.pkl
+**/docs/
+**/logs/
+**/sbi_outputs/
+**/sbi_plots_distrax/
+**/sbi_plots_distrax_full/
+**/sbi_plots_flowjax/
+**/sbi_plots_flowjax_full/
+**/sbi_plots_flowjax_aggregate/
+**/sbi_plots_flowjax_7000/
+submit_sbi_flowjax.slurm
+submit_sbi.slurm

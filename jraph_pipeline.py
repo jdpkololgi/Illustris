@@ -403,6 +403,9 @@ def main(args):
     print(f"Prediction Mode: {args.prediction_mode}")
     
     # generate unique timestamp
+    # Create output directory
+    os.makedirs(args.output_dir, exist_ok=True)
+    
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     print(f"Job Timestamp: {timestamp}")
 
@@ -689,10 +692,9 @@ def main(args):
     final_params = jax.device_get(jax.tree_util.tree_map(lambda x: x[0], replicated_params))
     
     # Save model
-    # Save model
     print("Saving model...")
     import pickle
-    save_filename = f'jraph_model_seed_{args.seed}_{timestamp}.pkl'
+    save_filename = os.path.join(args.output_dir, f'jraph_{args.prediction_mode}_model_seed_{args.seed}_{timestamp}.pkl')
     with open(save_filename, 'wb') as f:
         pickle.dump(final_params, f)
     print(f"Model saved to {save_filename}")
@@ -732,11 +734,12 @@ def main(args):
         print("\nClassification Report:")
         report = classification_report(test_targets, test_preds, target_names=classes)
         print(report)
-        with open(f'jraph_classification_report_seed_{args.seed}_{timestamp}.txt', 'w') as f:
+        report_filename = os.path.join(args.output_dir, f'jraph_{args.prediction_mode}_report_seed_{args.seed}_{timestamp}.txt')
+        with open(report_filename, 'w') as f:
             f.write(report)
             
         # Save Predictions
-        preds_filename = f'jraph_predictions_seed_{args.seed}_{timestamp}.pkl'
+        preds_filename = os.path.join(args.output_dir, f'jraph_{args.prediction_mode}_predictions_seed_{args.seed}_{timestamp}.pkl')
         preds_data = {
             'probs': probs, # All nodes
             'preds': preds, # All nodes
@@ -776,7 +779,7 @@ def main(args):
         print(f"  Mean R²: {np.mean(r2_per_eig):.4f}")
         
         # Save report
-        report_filename = f'jraph_regression_report_seed_{args.seed}_{timestamp}.txt'
+        report_filename = os.path.join(args.output_dir, f'jraph_{args.prediction_mode}_report_seed_{args.seed}_{timestamp}.txt')
         with open(report_filename, 'w') as f:
             f.write(f"MSE: {mse:.6f}\n")
             f.write(f"MAE: {mae:.6f}\n")
@@ -785,7 +788,7 @@ def main(args):
         print(f"Report saved to {report_filename}")
         
         # Save Predictions
-        preds_filename = f'jraph_predictions_seed_{args.seed}_{timestamp}.pkl'
+        preds_filename = os.path.join(args.output_dir, f'jraph_{args.prediction_mode}_predictions_seed_{args.seed}_{timestamp}.pkl')
         preds_data = {
             'preds_scaled': preds_scaled, # All nodes (scaled)
             'preds_raw': preds_raw, # All nodes (raw eigenvalues)
@@ -815,6 +818,8 @@ if __name__ == '__main__':
     parser.add_argument("--prediction_mode", type=str, default="classification",
                         choices=["classification", "regression"],
                         help="Prediction mode: 'classification' for cosmic web classes, 'regression' for eigenvalues")
+    parser.add_argument("--output_dir", type=str, default="/pscratch/sd/d/dkololgi/TNG_Illustris_outputs/",
+                        help="Directory to save models and predictions")
        
     args = parser.parse_args()
     
