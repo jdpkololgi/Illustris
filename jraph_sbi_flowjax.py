@@ -20,6 +20,8 @@ if user_site not in sys.path:
 
 os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "false"
 os.environ["XLA_PYTHON_CLIENT_ALLOCATOR"] = "platform"
+os.environ["XLA_FLAGS"] = "--xla_gpu_cuda_data_dir=/opt/nvidia/hpc_sdk/Linux_x86_64/23.9/cuda/12.2"
+
 
 import time
 import pickle
@@ -60,7 +62,7 @@ def main(args):
     # =========================================================================
     print("\n[1/6] Loading data...")
     
-    data_path = 'processed_jraph_data_mc1e+09_v2_scaled_3.pkl'
+    data_path = '/pscratch/sd/d/dkololgi/Cosmic_env_TNG_cache/processed_jraph_data_mc1e+09_v2_scaled_3_eigenvalues.pkl' #'/pscratch/sd/d/dkololgi/Cosmic_env_TNG_cache/processed_jraph_data_mc1e+09_v2_scaled_3.pkl'
     print(f"Loading cached Jraph data from {data_path}...")
     with open(data_path, 'rb') as f:
         data = pickle.load(f)
@@ -68,7 +70,7 @@ def main(args):
     graph = data['graph']
     targets = data['regression_targets']  # Scaled eigenvalues
     train_mask, val_mask, test_mask = data['masks']
-    eigenvalue_scaler = data['eigenvalue_scaler']
+    eigenvalue_scaler = data['target_scaler']
     
     print(f"Graph stats: Nodes={graph.nodes.shape[0]}, Edges={graph.edges.shape[0]}")
     print(f"Train size: {jnp.sum(train_mask)}, Val size: {jnp.sum(val_mask)}, Test size: {jnp.sum(test_mask)}")

@@ -597,8 +597,8 @@ class cat():
 
     def cweb_classify(self, xyzplot=True):
         '''Plots the cosmic web classications of the subhalos in the given object.'''
-        self.cwebfile = np.load(r'/global/homes/d/dkololgi/TNG/Illustris/TNG300_snap_099_tweb_env_merged.npz') #TNG300_snap_099_tweb_env_merged.npz
-        self.eigfile = np.load(r'/global/homes/d/dkololgi/TNG/Illustris/snap_099_eig_vals_0.npz') #TNG300_snap_099_tweb_env_merged.npz
+        self.cwebfile = np.load(r'/pscratch/sd/d/dkololgi/Cosmic_env_TNG_cache/TNG300_snap_099_tweb_env_merged.npz') #TNG300_snap_099_tweb_env_merged.npz
+        self.eigfile = np.load(r'/pscratch/sd/d/dkololgi/Cosmic_env_TNG_cache/snap_099_eig_vals_0.npz') #TNG300_snap_099_tweb_env_merged.npz
         self.eigdata = self.eigfile['eig_vals']
         self.eig1data = self.eigdata[0]
         self.eig2data = self.eigdata[1]

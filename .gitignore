@@ -1456,3 +1456,14 @@ processed_jraph_data_mc1e+09_v2_scaled_3.pkl
 **/sbi_plots_flowjax_7000/
 submit_sbi_flowjax.slurm
 submit_sbi.slurm
+target_distributions_scaled.png
+target_distributions_scaled2.png
+target_distributions_scaled3.png
+target_distributions.png
+SBI_INTEGRATION_PLAN.md
+SHAPE_PARAMS_IMPLEMENTATION_SUMMARY.md
+run_sbi_two_stage.slurm
+run_jraph_sbi_flowjax.sh
+sbi-logs/NPE_C/2025-12-21T08_27_10.128763/events.out.tfevents.1766334430.nid001032.483466.0
+sbi-logs/NPE_C/2025-12-22T07_03_51.063336/events.out.tfevents.1766415831.nid008653.167388.0
+jraph_sbi_flowjax_original.py.tmp

@@ -1,10 +1,13 @@
 import os
 import sys
 
-# Force priority for user installed packages to resolve numpy/scipy/astropy conflicts
+# Force priority for user installed packages (must be FIRST to avoid NumPy version conflicts)
 user_site = "/global/homes/d/dkololgi/.local/lib/python3.10/site-packages"
-if user_site not in sys.path:
-    sys.path.insert(0, user_site)
+# Remove user_site if it exists anywhere in sys.path
+while user_site in sys.path:
+    sys.path.remove(user_site)
+# Insert at the very beginning
+sys.path.insert(0, user_site)
 
 os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "false"
 os.environ["XLA_PYTHON_CLIENT_ALLOCATOR"] = "platform"
@@ -29,10 +32,9 @@ import optax
 from sklearn.metrics import classification_report
 
 from graph_net_models import make_graph_network
-
+from eigenvalue_transformations import eigenvalues_to_shape_params, shape_params_to_eigenvalues, compute_shape_param_statistics, eigenvalues_to_increments, increments_to_eigenvalues
 # Set up JAX to use 64-bit precision if needed, though 32 is usually fine for ML
 # jax.config.update("jax_enable_x64", True)
-
 
 def convert_pyg_to_jraph(pyg_data):
     """
@@ -94,7 +96,7 @@ def preprocess_features(features):
     scaler = PowerTransformer(method='box-cox')
     return pd.DataFrame(scaler.fit_transform(features), index=features.index, columns=features.columns)
 
-def generate_data(masscut, cache_path, version='v2'):
+def generate_data(masscut, cache_path, version='v2', use_transformed_eig=True):
     """Generate Jraph data from scratch using Network_stats."""
     print(f"Generating data using {version}...")
     testcat = network(masscut=masscut, from_DESI=False)
@@ -302,33 +304,84 @@ def generate_data(masscut, cache_path, version='v2'):
     masks = (jnp.array(train_mask), jnp.array(val_mask), jnp.array(test_mask))
     classification_labels = jnp.array(targets.values, dtype=jnp.int32)
     
-    # Prepare regression targets (eigenvalues)
+    # Prepare regression targets
     # Stack eigenvalues: [N, 3]
-    eigenvalues_raw = np.stack([testcat.eig1, testcat.eig2, testcat.eig3], axis=-1).astype(np.float32)
+    eigenvalues_raw = np.stack([testcat.eig1, testcat.eig2, testcat.eig3], axis=-1).astype(np.float64)
     
-    # Scale eigenvalues using StandardScaler (fit on training set only)
-    eigenvalue_scaler = StandardScaler()
-    eigenvalue_scaler.fit(eigenvalues_raw[train_idx])
-    eigenvalues_scaled = eigenvalue_scaler.transform(eigenvalues_raw)
-    regression_targets = jnp.array(eigenvalues_scaled, dtype=jnp.float32)
+    # Always use StandardScaler for regression targets to ensure balanced loss
+    target_scaler = StandardScaler()
     
-    print(f"Eigenvalue stats (raw): mean={np.mean(eigenvalues_raw, axis=0)}, std={np.std(eigenvalues_raw, axis=0)}")
-    print(f"Eigenvalue stats (scaled): mean={np.mean(eigenvalues_scaled, axis=0)}, std={np.std(eigenvalues_scaled, axis=0)}")
-    
-    # Save to cache (include both target types and the scaler for inverse transform)
-    print(f"Saving generated data to {cache_path}...")
-    with open(cache_path, 'wb') as f:
-        pickle.dump({
-            'graph': graph, 
-            'classification_labels': classification_labels, 
-            'regression_targets': regression_targets,
-            'eigenvalue_scaler': eigenvalue_scaler,
-            'masks': masks
-        }, f)
-    
-    return graph, classification_labels, regression_targets, eigenvalue_scaler, masks
+    if use_transformed_eig:
+        # Transform to shape parameters
+        transformed_eig = eigenvalues_to_increments(eigenvalues_raw)
+        
+        # Fit scaler on training set shape parameters
+        target_scaler.fit(transformed_eig[train_idx])
+        transformed_eig_scaled = target_scaler.transform(transformed_eig)
+        regression_targets = jnp.array(transformed_eig_scaled, dtype=jnp.float64)
+        
+        # Calculate bounds for bounded activations (on the scaled targets)
+        # Update stats to reflect the SCALED ranges
+        scaled_min = np.min(transformed_eig_scaled[train_idx], axis=0)
+        scaled_max = np.max(transformed_eig_scaled[train_idx], axis=0)
+        stats = {
+            'v1_min_scaled': float(scaled_min[0]),
+            'v1_max_scaled': float(scaled_max[0]),
+            'target_min': scaled_min.tolist(),
+            'target_max': scaled_max.tolist(),
+            'scaler_mean': target_scaler.mean_.tolist(),
+            'scaler_std': target_scaler.scale_.tolist()
+        }
 
-def load_data(masscut=1e9, use_v2=True, prediction_mode='classification'):
+        print(f"\nTraining Set Stats:")
+        print(f"  Means: {np.mean(transformed_eig_scaled[train_idx], axis=0)}")
+        print(f"  Stds:  {np.std(transformed_eig_scaled[train_idx], axis=0)}")
+        print(f"\nTransformed Eigenvalue Stats:")
+        print(f" Means: {stats['scaler_mean']}")
+        print(f" Stds: {stats['scaler_std']}")
+        print(f" Min: {stats['target_min']}")
+        print(f" Max: {stats['target_max']}")
+
+        # Save to cache
+        print(f"Saving generated data to {cache_path}...")
+        with open(cache_path, 'wb') as f:
+            pickle.dump({
+                'graph': graph, 
+                'classification_labels': classification_labels, 
+                'regression_targets': regression_targets,
+                'target_scaler': target_scaler,
+                'stats': stats,
+                'eigenvalues_raw': eigenvalues_raw,
+                'masks': masks
+            }, f)
+    
+        # Always return everything as a 7-tuple
+        return graph, classification_labels, regression_targets, stats, target_scaler, eigenvalues_raw, masks
+    
+    else:
+        # Scale raw eigenvalues
+        target_scaler.fit(eigenvalues_raw[train_idx])
+        eigenvalues_scaled = target_scaler.transform(eigenvalues_raw)
+        regression_targets = jnp.array(eigenvalues_scaled, dtype=jnp.float32)
+    
+        print(f"Eigenvalue stats (raw): mean={np.mean(eigenvalues_raw, axis=0)}")
+        print(f"Eigenvalue stats (scaled): mean={np.mean(eigenvalues_scaled, axis=0)}")
+    
+        # Save to cache
+        print(f"Saving generated data to {cache_path}...")
+        with open(cache_path, 'wb') as f:
+            pickle.dump({
+                'graph': graph,
+                'classification_labels': classification_labels,
+                'regression_targets': regression_targets,
+                'target_scaler': target_scaler,
+                'eigenvalues_raw': eigenvalues_raw,
+                'masks': masks
+            }, f)
+            
+        return graph, classification_labels, regression_targets, None, target_scaler, eigenvalues_raw, masks
+
+def load_data(masscut=1e9, use_v2=True, prediction_mode='classification', use_transformed_eig=True):
     """
     Load data from cache if available, otherwise generate it.
     Can switch between v1 and v2 stats.
@@ -339,46 +392,39 @@ def load_data(masscut=1e9, use_v2=True, prediction_mode='classification'):
         prediction_mode: 'classification' or 'regression'
     
     Returns:
-        graph, targets, masks (and eigenvalue_scaler if regression mode)
+        For classification: graph, targets, None, None, masks
+        For regression: graph, targets, stats, eigenvalues_raw, masks
     """
     version = 'v2' if use_v2 else 'v1'
-    cache_path = f"processed_jraph_data_mc{masscut:.0e}_{version}_scaled_3.pkl"  # Updated version for dual targets
-    pyg_cache_path = f"processed_gcn_data_mc{masscut:.0e}.pt"
+    cache_suffix = '_transformed_eig' if use_transformed_eig else '_raw_eig'
+    cache_dir = '/pscratch/sd/d/dkololgi/Cosmic_env_TNG_cache'
+    cache_path = f"{cache_dir}/processed_jraph_data_mc{masscut:.0e}_{version}_scaled_3{cache_suffix}.pkl"
+    pyg_cache_path = f"{cache_dir}/processed_gcn_data_mc{masscut:.0e}.pt"
 
     if os.path.exists(cache_path):
         print(f"Loading cached Jraph data from {cache_path}...")
         with open(cache_path, 'rb') as f:
             data = pickle.load(f)
             
-            # Check if cache has both target types (new format)
-            if 'classification_labels' in data and 'regression_targets' in data:
-                if prediction_mode == 'classification':
-                    return data['graph'], data['classification_labels'], None, data['masks']
-                else:
-                    return data['graph'], data['regression_targets'], data['eigenvalue_scaler'], data['masks']
+            # Universal fallback for all regression modes
+            if prediction_mode == 'regression':
+                targets = data.get('regression_targets')
+                stats = data.get('stats')
+                scaler = data.get('target_scaler')
+                raw_eig = data.get('eigenvalues_raw')
+                return data['graph'], targets, stats, scaler, raw_eig, data['masks']
             else:
-                # Old cache format - regenerate
-                print("Old cache format detected, regenerating...")
-                os.remove(cache_path)
-            
-    # Fallback for V1: Try loading PyG cache if exists
-    if not use_v2 and os.path.exists(pyg_cache_path):
-        print(f"Loading cached PyG data from {pyg_cache_path}...")
-        try:
-            data_tuple = torch.load(pyg_cache_path, weights_only=False)
-            netx_geom = data_tuple[0]
-            # Convert - this won't have regression targets, so we skip
-            print("PyG cache does not support regression mode, regenerating...")
-        except Exception as e:
-            print(f"Failed to load PyG cache: {e}. Generating fresh.")
+                # Classification
+                return data['graph'], data['classification_labels'], None, None, None, data['masks']
             
     # Generate fresh
-    graph, class_labels, reg_targets, scaler, masks = generate_data(masscut, cache_path, version=version)
+    # generate_data returns: graph, labels, reg_targets, stats, scaler, raw_eig, masks
+    res = generate_data(masscut, cache_path, version=version, use_transformed_eig=use_transformed_eig)
     
     if prediction_mode == 'classification':
-        return graph, class_labels, None, masks
+        return res[0], res[1], None, None, None, res[6]
     else:
-        return graph, reg_targets, scaler, masks
+        return res[0], res[2], res[3], res[4], res[5], res[6]
 
 
 def calculate_class_weights(targets):
@@ -411,32 +457,42 @@ def main(args):
 
     # 1. Load Data
     masscut = 1e9
-    graph, targets, eigenvalue_scaler, masks = load_data(
-        masscut=masscut, use_v2=True, prediction_mode=args.prediction_mode
+    use_transformed_eig = not getattr(args, 'no_transformed_eig', False)
+
+    graph, targets, stats, target_scaler, eigenvalues_raw, masks = load_data(
+        masscut=masscut, use_v2=True, prediction_mode=args.prediction_mode, use_transformed_eig=use_transformed_eig
     )
     train_mask, val_mask, test_mask = masks
-    
+
     # Class weights only for classification
     if args.prediction_mode == 'classification':
         class_weights = calculate_class_weights(np.array(targets))
         output_dim = 4  # 4 cosmic web classes
+        stats = None
+        eigenvalue_scaler = None
     else:
         class_weights = None  # Not used in regression
-        output_dim = 3  # 3 eigenvalues
-    
+        output_dim = 3  # 3 transformed eigenvalues or raw eigenvalues
+
+        if use_transformed_eig:
+            # Using transformed eigenvalues (v₁, Δλ₂, Δλ₃) - standard scored
+            print("\n[Regression Mode] Using transformed eigenvalues (v₁, Δλ₂, Δλ₃)")
+        else:
+            # Using raw scaled eigenvalues
+            stats = None
+            print("\n[Regression Mode] Using raw eigenvalues (λ₁, λ₂, λ₃)")
+
     print(f"Graph stats: Nodes={graph.n_node[0]}, Edges={graph.n_edge[0]}")
     print(f"Train size: {jnp.sum(train_mask)}, Val size: {jnp.sum(val_mask)}, Test size: {jnp.sum(test_mask)}")
-    
+
     # 2. Model Setup
-    # Initialize network
-    # make_graph_network returns a function that takes a graph
-    # Reduced passes to 2 to prevent OOM on single GPU - RESTORED to 4 for Compute Node
+    # Initialize network with simple linear output
     net_fn = make_graph_network(
-        num_passes=args.num_passes, # Used to be 4, increasing for more context 
+        num_passes=args.num_passes,
         latent_size=args.latent_size,
         num_heads=args.num_heads,
         dropout_rate=args.dropout,
-        output_dim=output_dim  # Dynamic based on prediction mode
+        output_dim=output_dim,
     )
     net = hk.transform(net_fn) # hk.transform converts a function using Haiku modules into an (init, apply) pair.
     
@@ -462,11 +518,12 @@ def main(args):
     # 3. Optimizer
     # GCN uses 3e-3. We'll use a schedule.
     num_epochs = args.epochs
+    warmup_steps = min(500, num_epochs // 2)  # Ensure warmup doesn't exceed half the epochs
     lr_schedule = optax.warmup_cosine_decay_schedule(
         init_value=1e-4,
         peak_value=args.lr, # Match GCN peak
-        warmup_steps=500,
-        decay_steps=num_epochs,
+        warmup_steps=warmup_steps,
+        decay_steps=max(1, num_epochs - warmup_steps),  # Ensure positive decay steps
         end_value=1e-4
     )
     optimizer = optax.adamw(lr_schedule, weight_decay=args.weight_decay)
@@ -748,55 +805,140 @@ def main(args):
         }
     else:
         # Regression: MSE, R², inverse transform
-        preds_scaled = np.array(outputs)
-        targets_scaled = np.array(targets)
-        
-        # Inverse transform to get raw eigenvalues
-        if eigenvalue_scaler is not None:
-            preds_raw = eigenvalue_scaler.inverse_transform(preds_scaled)
-            targets_raw = eigenvalue_scaler.inverse_transform(targets_scaled)
+        preds_output = np.array(outputs)  # Model outputs 
+        targets_output = np.array(targets)  # Targets in same space as model outputs
+
+        if use_transformed_eig:
+            # Model predicted transformed eigenvalues
+            preds_scaled = preds_output
+            targets_scaled = targets_output
+
+            # Inverse transform to get raw eigenvalues
+            if target_scaler is not None:
+                preds_transformed_eig = target_scaler.inverse_transform(preds_scaled)
+                targets_transformed_eig = target_scaler.inverse_transform(targets_scaled)
+            else:
+                preds_transformed_eig = preds_scaled
+                targets_transformed_eig = targets_scaled
+
+            # Convert to eigenvalues for physical interpretation
+            preds_eigenvalues = increments_to_eigenvalues(preds_transformed_eig)
+            targets_eigenvalues = eigenvalues_raw  # Already have raw eigenvalues
+
+            # Filter for test set
+            test_preds_shape = preds_transformed_eig[test_mask_np]
+            test_targets_shape = targets_transformed_eig[test_mask_np]
+            test_preds_eig = preds_eigenvalues[test_mask_np]
+            test_targets_eig = targets_eigenvalues[test_mask_np]
+
+            # Compute metrics in shape parameter space
+            mse_shape = np.mean((test_preds_shape - test_targets_shape) ** 2)
+            mae_shape = np.mean(np.abs(test_preds_shape - test_targets_shape))
+
+            ss_res_shape = np.sum((test_targets_shape - test_preds_shape) ** 2, axis=0)
+            ss_tot_shape = np.sum((test_targets_shape - np.mean(test_targets_shape, axis=0)) ** 2, axis=0)
+            r2_shape = 1 - ss_res_shape / (ss_tot_shape + 1e-8)
+
+            # Compute metrics in eigenvalue space (physical interpretation)
+            mse_eig = np.mean((test_preds_eig - test_targets_eig) ** 2)
+            mae_eig = np.mean(np.abs(test_preds_eig - test_targets_eig))
+
+            ss_res_eig = np.sum((test_targets_eig - test_preds_eig) ** 2, axis=0)
+            ss_tot_eig = np.sum((test_targets_eig - np.mean(test_targets_eig, axis=0)) ** 2, axis=0)
+            r2_eig = 1 - ss_res_eig / (ss_tot_eig + 1e-8)
+
+            print(f"\nRegression Metrics (Test Set):")
+            print(f"\n  Transformed Eigenvalue Space (v₁, Δλ₂, Δλ₃):")
+            print(f"    MSE: {mse_shape:.6f}")
+            print(f"    MAE: {mae_shape:.6f}")
+            print(f"    R² per param: v₁={r2_shape[0]:.4f}, Δλ₂={r2_shape[1]:.4f}, Δλ₃={r2_shape[2]:.4f}")
+            print(f"    Mean R²: {np.mean(r2_shape):.4f}")
+            print(f"\n  Eigenvalue Space (λ₁, λ₂, λ₃) - Physical:")
+            print(f"    MSE: {mse_eig:.6f}")
+            print(f"    MAE: {mae_eig:.6f}")
+            print(f"    R² per eigenvalue: λ₁={r2_eig[0]:.4f}, λ₂={r2_eig[1]:.4f}, λ₃={r2_eig[2]:.4f}")
+            print(f"    Mean R²: {np.mean(r2_eig):.4f}")
+
+            # Save report
+            report_filename = os.path.join(args.output_dir, f'jraph_{args.prediction_mode}_transformed_eig_report_seed_{args.seed}_{timestamp}.txt')
+            with open(report_filename, 'w') as f:
+                f.write("Transformed Eigenvalue Regression Results\n")
+                f.write("=" * 50 + "\n\n")
+                f.write("Transformed Eigenvalue Space (v₁, Δλ₂, Δλ₃):\n")
+                f.write(f"  MSE: {mse_shape:.6f}\n")
+                f.write(f"  MAE: {mae_shape:.6f}\n")
+                f.write(f"  R² per param: v₁={r2_shape[0]:.4f}, Δλ₂={r2_shape[1]:.4f}, Δλ₃={r2_shape[2]:.4f}\n")
+                f.write(f"  Mean R²: {np.mean(r2_shape):.4f}\n\n")
+                f.write("Eigenvalue Space (λ₁, λ₂, λ₃) - Physical:\n")
+                f.write(f"  MSE: {mse_eig:.6f}\n")
+                f.write(f"  MAE: {mae_eig:.6f}\n")
+                f.write(f"  R² per eigenvalue: λ₁={r2_eig[0]:.4f}, λ₂={r2_eig[1]:.4f}, λ₃={r2_eig[2]:.4f}\n")
+                f.write(f"  Mean R²: {np.mean(r2_eig):.4f}\n")
+            print(f"Report saved to {report_filename}")
+
+            # Save Predictions
+            preds_filename = os.path.join(args.output_dir, f'jraph_{args.prediction_mode}_transformed_eig_predictions_seed_{args.seed}_{timestamp}.pkl')
+            preds_data = {
+                'preds_transformed_eig': preds_transformed_eig,  # All nodes (I₁, e, p)
+                'targets_transformed_eig': targets_transformed_eig,  # All nodes (I₁, e, p)
+                'preds_eigenvalues': preds_eigenvalues,  # All nodes (λ₁, λ₂, λ₃)
+                'targets_eigenvalues': targets_eigenvalues,  # All nodes (λ₁, λ₂, λ₃)
+                'test_mask': test_mask,
+                'stats': stats,
+                'use_transformed_eig': True
+            }
         else:
-            preds_raw = preds_scaled
-            targets_raw = targets_scaled
-        
-        # Filter for Test set
-        test_preds = preds_raw[test_mask_np]
-        test_targets = targets_raw[test_mask_np]
-        
-        # Compute metrics
-        mse = np.mean((test_preds - test_targets) ** 2)
-        mae = np.mean(np.abs(test_preds - test_targets))
-        
-        # R² per eigenvalue
-        ss_res = np.sum((test_targets - test_preds) ** 2, axis=0)
-        ss_tot = np.sum((test_targets - np.mean(test_targets, axis=0)) ** 2, axis=0)
-        r2_per_eig = 1 - ss_res / (ss_tot + 1e-8)
-        
-        print(f"\nRegression Metrics (Test Set):")
-        print(f"  MSE: {mse:.6f}")
-        print(f"  MAE: {mae:.6f}")
-        print(f"  R² per eigenvalue: λ1={r2_per_eig[0]:.4f}, λ2={r2_per_eig[1]:.4f}, λ3={r2_per_eig[2]:.4f}")
-        print(f"  Mean R²: {np.mean(r2_per_eig):.4f}")
-        
-        # Save report
-        report_filename = os.path.join(args.output_dir, f'jraph_{args.prediction_mode}_report_seed_{args.seed}_{timestamp}.txt')
-        with open(report_filename, 'w') as f:
-            f.write(f"MSE: {mse:.6f}\n")
-            f.write(f"MAE: {mae:.6f}\n")
-            f.write(f"R² per eigenvalue: λ1={r2_per_eig[0]:.4f}, λ2={r2_per_eig[1]:.4f}, λ3={r2_per_eig[2]:.4f}\n")
-            f.write(f"Mean R²: {np.mean(r2_per_eig):.4f}\n")
-        print(f"Report saved to {report_filename}")
-        
-        # Save Predictions
-        preds_filename = os.path.join(args.output_dir, f'jraph_{args.prediction_mode}_predictions_seed_{args.seed}_{timestamp}.pkl')
-        preds_data = {
-            'preds_scaled': preds_scaled, # All nodes (scaled)
-            'preds_raw': preds_raw, # All nodes (raw eigenvalues)
-            'targets_scaled': targets_scaled, # All nodes (scaled)
-            'targets_raw': targets_raw, # All nodes (raw eigenvalues)
-            'test_mask': test_mask,
-            'eigenvalue_scaler': eigenvalue_scaler
-        }
+            # Legacy path: scaled eigenvalues
+            preds_scaled = preds_output
+            targets_scaled = targets_output
+
+            # Inverse transform to get raw eigenvalues
+            if target_scaler is not None:
+                preds_raw = target_scaler.inverse_transform(preds_scaled)
+                targets_raw = target_scaler.inverse_transform(targets_scaled)
+            else:
+                preds_raw = preds_scaled
+                targets_raw = targets_scaled
+
+            # Filter for Test set
+            test_preds = preds_raw[test_mask_np]
+            test_targets = targets_raw[test_mask_np]
+
+            # Compute metrics
+            mse = np.mean((test_preds - test_targets) ** 2)
+            mae = np.mean(np.abs(test_preds - test_targets))
+
+            # R² per eigenvalue
+            ss_res = np.sum((test_targets - test_preds) ** 2, axis=0)
+            ss_tot = np.sum((test_targets - np.mean(test_targets, axis=0)) ** 2, axis=0)
+            r2_per_eig = 1 - ss_res / (ss_tot + 1e-8)
+
+            print(f"\nRegression Metrics (Test Set):")
+            print(f"  MSE: {mse:.6f}")
+            print(f"  MAE: {mae:.6f}")
+            print(f"  R² per eigenvalue: λ₁={r2_per_eig[0]:.4f}, λ₂={r2_per_eig[1]:.4f}, λ₃={r2_per_eig[2]:.4f}")
+            print(f"  Mean R²: {np.mean(r2_per_eig):.4f}")
+
+            # Save report
+            report_filename = os.path.join(args.output_dir, f'jraph_{args.prediction_mode}_report_seed_{args.seed}_{timestamp}.txt')
+            with open(report_filename, 'w') as f:
+                f.write(f"MSE: {mse:.6f}\n")
+                f.write(f"MAE: {mae:.6f}\n")
+                f.write(f"R² per eigenvalue: λ₁={r2_per_eig[0]:.4f}, λ₂={r2_per_eig[1]:.4f}, λ₃={r2_per_eig[2]:.4f}\n")
+                f.write(f"Mean R²: {np.mean(r2_per_eig):.4f}\n")
+            print(f"Report saved to {report_filename}")
+
+            # Save Predictions
+            preds_filename = os.path.join(args.output_dir, f'jraph_{args.prediction_mode}_predictions_seed_{args.seed}_{timestamp}.pkl')
+            preds_data = {
+                'preds_scaled': preds_scaled, # All nodes (scaled)
+                'preds_raw': preds_raw, # All nodes (raw eigenvalues)
+                'targets_scaled': targets_scaled, # All nodes (scaled)
+                'targets_raw': targets_raw, # All nodes (raw eigenvalues)
+                'test_mask': test_mask,
+                'eigenvalue_scaler': eigenvalue_scaler,
+                'use_transformed_eig': False
+            }
     
     with open(preds_filename, 'wb') as f:
         pickle.dump(preds_data, f)
@@ -815,9 +957,11 @@ if __name__ == '__main__':
     parser.add_argument("--dropout", type=float, default=0.2)
     parser.add_argument("--weight_decay", type=float, default=0.08)
     parser.add_argument("--lr", type=float, default=1e-3) # Used to be 3e-3
-    parser.add_argument("--prediction_mode", type=str, default="classification",
+    parser.add_argument("--prediction_mode", type=str, default="regression",
                         choices=["classification", "regression"],
                         help="Prediction mode: 'classification' for cosmic web classes, 'regression' for eigenvalues")
+    parser.add_argument("--no_transformed_eig", action="store_true",
+                        help="Disable softplus transformed eigenvalues to train on increments instead of eigenvalues")
     parser.add_argument("--output_dir", type=str, default="/pscratch/sd/d/dkololgi/TNG_Illustris_outputs/",
                         help="Directory to save models and predictions")
        

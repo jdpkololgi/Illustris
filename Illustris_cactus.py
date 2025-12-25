@@ -59,5 +59,5 @@ plt.show()
 
 # %%
 # Save eigenvalues as npz file
-np.savez('snap_099_eig_vals_0.npz', eig_vals=eig_vals)
+# np.savez('snap_099_eig_vals_0.npz', eig_vals=eig_vals)
 
