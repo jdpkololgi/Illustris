@@ -8,8 +8,8 @@
 #SBATCH --qos=regular
 #SBATCH --account=desi
 #SBATCH --job-name=jraph_pipeline
-#SBATCH --output=logs/jraph_pipeline_%j.out
-#SBATCH --error=logs/jraph_pipeline_%j.err
+#SBATCH --output=/pscratch/sd/d/dkololgi/logs/jraph_pipeline_%j.out
+#SBATCH --error=/pscratch/sd/d/dkololgi/logs/jraph_pipeline_%j.err
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=dakshesh.kololgi.23@ucl.ac.uk
 
@@ -18,7 +18,7 @@ mkdir -p logs
 
 # Activate environment
 source ~/.bashrc
-conda activate base
+conda activate cosmic_env
 
 # Set environment variables for JAX
 # Use platform allocator to avoid fragmentation issues

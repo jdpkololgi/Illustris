@@ -32,12 +32,12 @@ def make_graph_network(
         def edge_update_fn(feats: jnp.ndarray) -> jnp.ndarray:
             net = hk.Sequential([
                 hk.Linear(latent_size),
-                jax.nn.relu,
+                jax.nn.gelu,
                 hk.LayerNorm(axis=-1, create_scale=True, create_offset=True),
                 # Dropout
                 lambda x: hk.dropout(hk.next_rng_key(), dropout_rate, x) if is_training else x,
                 hk.Linear(latent_size),
-                jax.nn.relu,
+                jax.nn.gelu,
                 # Dropout
                 lambda x: hk.dropout(hk.next_rng_key(), dropout_rate, x) if is_training else x,
                 hk.Linear(latent_size),
@@ -48,11 +48,11 @@ def make_graph_network(
         def node_update_fn(feats: jnp.ndarray) -> jnp.ndarray:
             net = hk.Sequential([
                 hk.Linear(latent_size),
-                jax.nn.relu,
+                jax.nn.gelu,
                 hk.LayerNorm(axis=-1, create_scale=True, create_offset=True),
                 lambda x: hk.dropout(hk.next_rng_key(), dropout_rate, x) if is_training else x,
                 hk.Linear(latent_size),
-                jax.nn.relu,
+                jax.nn.gelu,
                 lambda x: hk.dropout(hk.next_rng_key(), dropout_rate, x) if is_training else x,
                 hk.Linear(latent_size), 
             ])
@@ -65,9 +65,9 @@ def make_graph_network(
              for i in range(num_heads):
                  head_net = hk.Sequential([
                      hk.Linear(latent_size // num_heads, name = f'head_{i}_l1'),
-                     jax.nn.relu,
+                     jax.nn.gelu,
                      hk.Linear(latent_size // num_heads, name = f'head_{i}_l2'),
-                     jax.nn.relu,
+                     jax.nn.gelu,
                      hk.Linear(1, name = f'head_{i}_l3'),
                  ])
                  head_logits.append(head_net(feats))
@@ -154,11 +154,11 @@ def make_gnn_encoder(
         def edge_update_fn(feats: jnp.ndarray) -> jnp.ndarray:
             net = hk.Sequential([
                 hk.Linear(latent_size),
-                jax.nn.relu,
+                jax.nn.gelu,
                 hk.LayerNorm(axis=-1, create_scale=True, create_offset=True),
                 lambda x: hk.dropout(hk.next_rng_key(), dropout_rate, x) if is_training else x,
                 hk.Linear(latent_size),
-                jax.nn.relu,
+                jax.nn.gelu,
                 lambda x: hk.dropout(hk.next_rng_key(), dropout_rate, x) if is_training else x,
                 hk.Linear(latent_size),
             ])
@@ -168,11 +168,11 @@ def make_gnn_encoder(
         def node_update_fn(feats: jnp.ndarray) -> jnp.ndarray:
             net = hk.Sequential([
                 hk.Linear(latent_size),
-                jax.nn.relu,
+                jax.nn.gelu,
                 hk.LayerNorm(axis=-1, create_scale=True, create_offset=True),
                 lambda x: hk.dropout(hk.next_rng_key(), dropout_rate, x) if is_training else x,
                 hk.Linear(latent_size),
-                jax.nn.relu,
+                jax.nn.gelu,
                 lambda x: hk.dropout(hk.next_rng_key(), dropout_rate, x) if is_training else x,
                 hk.Linear(latent_size), 
             ])
@@ -184,9 +184,9 @@ def make_gnn_encoder(
             for i in range(num_heads):
                 head_net = hk.Sequential([
                     hk.Linear(latent_size // num_heads, name=f'head_{i}_l1'),
-                    jax.nn.relu,
+                    jax.nn.gelu,
                     hk.Linear(latent_size // num_heads, name=f'head_{i}_l2'),
-                    jax.nn.relu,
+                    jax.nn.gelu,
                     hk.Linear(1, name=f'head_{i}_l3'),
                 ])
                 head_logits.append(head_net(feats))
@@ -257,11 +257,11 @@ def make_graph_network_sbi(
         def edge_update_fn(feats: jnp.ndarray) -> jnp.ndarray:
             net = hk.Sequential([
                 hk.Linear(latent_size, name='edge_l1'),
-                jax.nn.relu,
+                jax.nn.gelu,
                 hk.LayerNorm(axis=-1, create_scale=True, create_offset=True, name='edge_ln'),
                 lambda x: hk.dropout(hk.next_rng_key(), dropout_rate, x) if is_training else x,
                 hk.Linear(latent_size, name='edge_l2'),
-                jax.nn.relu,
+                jax.nn.gelu,
                 lambda x: hk.dropout(hk.next_rng_key(), dropout_rate, x) if is_training else x,
                 hk.Linear(latent_size, name='edge_l3'),
             ])
@@ -271,11 +271,11 @@ def make_graph_network_sbi(
         def node_update_fn(feats: jnp.ndarray) -> jnp.ndarray:
             net = hk.Sequential([
                 hk.Linear(latent_size, name='node_l1'),
-                jax.nn.relu,
+                jax.nn.gelu,
                 hk.LayerNorm(axis=-1, create_scale=True, create_offset=True, name='node_ln'),
                 lambda x: hk.dropout(hk.next_rng_key(), dropout_rate, x) if is_training else x,
                 hk.Linear(latent_size, name='node_l2'),
-                jax.nn.relu,
+                jax.nn.gelu,
                 lambda x: hk.dropout(hk.next_rng_key(), dropout_rate, x) if is_training else x,
                 hk.Linear(latent_size, name='node_l3'),
             ])
@@ -287,9 +287,9 @@ def make_graph_network_sbi(
             for i in range(num_heads):
                 head_net = hk.Sequential([
                     hk.Linear(latent_size // num_heads, name=f'head_{i}_l1'),
-                    jax.nn.relu,
+                    jax.nn.gelu,
                     hk.Linear(latent_size // num_heads, name=f'head_{i}_l2'),
-                    jax.nn.relu,
+                    jax.nn.gelu,
                     hk.Linear(1, name=f'head_{i}_l3'),
                 ])
                 head_logits.append(head_net(feats))
