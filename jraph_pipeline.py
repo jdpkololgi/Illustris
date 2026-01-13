@@ -948,7 +948,7 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
-    parser.add_argument("--epochs", type=int, default=5000, help="Number of epochs")
+    parser.add_argument("--epochs", type=int, default=10000, help="Number of epochs")
     
     # Model Hparams
     parser.add_argument("--latent_size", type=int, default=80)

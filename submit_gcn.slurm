@@ -18,7 +18,7 @@ mkdir -p logs
 
 # Activate environment
 source ~/.bashrc
-conda activate base
+conda activate cosmic_env
 
 # Set environment variables for PyTorch distributed
 export MASTER_ADDR=$(hostname)

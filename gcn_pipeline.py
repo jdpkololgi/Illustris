@@ -48,7 +48,7 @@ def load_data(masscut=1e9, cache_path=None, rank=0, distributed=True):
     Only rank 0 loads and processes the data, then broadcasts to other ranks if distributed=True.
     """
     if cache_path is None:
-        cache_path = f"processed_gcn_data_mc{masscut:.0e}.pt"
+        cache_path = f"processed_gcn_data_alpha_mc{masscut:.0e}.pt"
 
     # Only rank 0 loads/processes the data (or in single GPU mode)
     if rank == 0 or not distributed:
@@ -86,7 +86,10 @@ def generate_data(masscut, cache_path):
     print("Loading data...")
     testcat = network(masscut=masscut, from_DESI=False)
     testcat.cweb_classify(xyzplot=False)
-    testcat.network_stats_delaunay(buffer=False)
+    G = testcat.galaxy_alpha_complex_network() # Creates the alpha complex network
+    # testcat.network_stats_delaunay(buffer=False) # Creates the Delaunay network
+    
+    testcat.network_stats_alpha(G=G) # Creates the alpha network statistics
     
     # Get the final dataset after all processing
     features = testcat.data.iloc[:, :-1]
@@ -96,27 +99,31 @@ def generate_data(masscut, cache_path):
     features = preprocess_features(features)
 
     # Convert to PyTorch Geometric Data object
-    netx_geom = from_networkx(testcat.subhalo_delauany_network(xyzplot=False), group_edge_attrs='all')
+    # netx_geom = from_networkx(testcat.subhalo_delauany_network(xyzplot=False), group_edge_attrs='all')
+    netx_geom = from_networkx(G, group_edge_attrs=['length'])
     netx_geom.x = torch.tensor(features.values, dtype=torch.float32)
     netx_geom.y = torch.tensor(targets.values, dtype=torch.long)
     print(netx_geom.num_nodes, netx_geom.num_edges, netx_geom.num_node_features, netx_geom.num_edge_features)
 
-    # removing 10Mpc buffer region from training to prevent edge galaxies biasing training
-    buffered_indices_for_mask = np.where((netx_geom.pos[:,0]>10) & (netx_geom.pos[:,0]<290) & 
-                                       (netx_geom.pos[:,1]>10) & (netx_geom.pos[:,1]<290) & 
-                                       (netx_geom.pos[:,2]>10) & (netx_geom.pos[:,2]<290))[0]
-    anti_buffered_indices_for_mask = np.where((netx_geom.pos[:,0]<10) | (netx_geom.pos[:,0]>290) | 
-                                            (netx_geom.pos[:,1]<10) | (netx_geom.pos[:,1]>290) | 
-                                            (netx_geom.pos[:,2]<10) | (netx_geom.pos[:,2]>290))[0]
-    print(len(buffered_indices_for_mask), len(anti_buffered_indices_for_mask), 
-          len(buffered_indices_for_mask)+len(anti_buffered_indices_for_mask))
+    '''
+    We do not need to remove the buffer region since we are using the alpha complex network and not the Delaunay network
+    '''
+    # # removing 10Mpc buffer region from training to prevent edge galaxies biasing training
+    # buffered_indices_for_mask = np.where((netx_geom.pos[:,0]>10) & (netx_geom.pos[:,0]<290) & 
+    #                                    (netx_geom.pos[:,1]>10) & (netx_geom.pos[:,1]<290) & 
+    #                                    (netx_geom.pos[:,2]>10) & (netx_geom.pos[:,2]<290))[0]
+    # anti_buffered_indices_for_mask = np.where((netx_geom.pos[:,0]<10) | (netx_geom.pos[:,0]>290) | 
+    #                                         (netx_geom.pos[:,1]<10) | (netx_geom.pos[:,1]>290) | 
+    #                                         (netx_geom.pos[:,2]<10) | (netx_geom.pos[:,2]>290))[0]
+    # print(len(buffered_indices_for_mask), len(anti_buffered_indices_for_mask), 
+    #       len(buffered_indices_for_mask)+len(anti_buffered_indices_for_mask))
     
     # Now perform train/test split on the final dataset
     train_x, test_x, train_y, test_y = train_test_split(
-        features.iloc[buffered_indices_for_mask], 
-        targets.iloc[buffered_indices_for_mask], 
+        features.iloc[:], 
+        targets.iloc[:], 
         test_size=0.3, random_state=42, 
-        stratify=targets.iloc[buffered_indices_for_mask]
+        stratify=targets.iloc[:]
     )
     valid_x, test_x, valid_y, test_y = train_test_split(
         test_x, test_y, test_size=0.3, random_state=42, stratify=test_y

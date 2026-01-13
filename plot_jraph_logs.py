@@ -408,14 +408,22 @@ def main():
             print("\nClassification Report:")
             print(classification_report(test_targets, test_preds, target_names=CLASSES))
         
-        elif 'preds_raw' in data:
-            # Regression
+        elif 'preds_raw' in data or 'preds_eigenvalues' in data:
+            # Regression - handle both raw and transformed eigenvalue formats
             print("Detecting regression data in pickle...")
-            preds_raw = np.array(data['preds_raw'])
-            targets_raw = np.array(data['targets_raw'])
             
-            test_preds = preds_raw[test_mask]
-            test_targets = targets_raw[test_mask]
+            # Check for transformed eigenvalue format first
+            if 'preds_eigenvalues' in data:
+                print("Using transformed eigenvalue format (preds_eigenvalues)...")
+                preds_eig = np.array(data['preds_eigenvalues'])
+                targets_eig = np.array(data['targets_eigenvalues'])
+            else:
+                print("Using raw eigenvalue format (preds_raw)...")
+                preds_eig = np.array(data['preds_raw'])
+                targets_eig = np.array(data['targets_raw'])
+            
+            test_preds = preds_eig[test_mask]
+            test_targets = targets_eig[test_mask]
             
             plot_regression_parity(test_targets, test_preds, args.output_dir)
             plot_eigenvalue_distributions(test_targets, test_preds, args.output_dir)

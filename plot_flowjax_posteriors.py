@@ -32,6 +32,7 @@ from flowjax.flows import masked_autoregressive_flow, RationalQuadraticSpline
 from flowjax.distributions import Normal
 
 from graph_net_models import make_gnn_encoder
+from eigenvalue_transformations import samples_to_raw_eigenvalues
 
 # TARP coverage tests
 try:
@@ -50,16 +51,33 @@ def load_flowjax_model(model_path):
     
     gnn_params = model_info['gnn_params']
     config = model_info['config']
-    eigenvalue_scaler = model_info['eigenvalue_scaler']
+    target_scaler = model_info.get('target_scaler', model_info.get('eigenvalue_scaler'))  # Backward compat
     flow_filename = model_info['flow_filename']
+    use_transformed_eig = model_info.get('use_transformed_eig', False)
     
     print(f"Loading flow from: {flow_filename}")
+    print(f"Use transformed eigenvalues: {use_transformed_eig}")
     
-    return gnn_params, config, eigenvalue_scaler, flow_filename
+    return gnn_params, config, target_scaler, flow_filename, use_transformed_eig
 
 
-def load_data(data_path='/pscratch/sd/d/dkololgi/Cosmic_env_TNG_cache/processed_jraph_data_mc1e+09_v2_scaled_3.pkl'):
+def load_posteriors(posteriors_path):
+    """Load pre-computed posteriors from the training script."""
+    print(f"Loading posteriors from: {posteriors_path}")
+    with open(posteriors_path, 'rb') as f:
+        data = pickle.load(f)
+    return data
+
+
+def load_data(data_path=None, use_transformed_eig=True):
     """Load the graph data and targets."""
+    if data_path is None:
+        cache_dir = '/pscratch/sd/d/dkololgi/Cosmic_env_TNG_cache'
+        if use_transformed_eig:
+            data_path = f'{cache_dir}/processed_jraph_data_mc1e+09_v2_scaled_3_transformed_eig.pkl'
+        else:
+            data_path = f'{cache_dir}/processed_jraph_data_mc1e+09_v2_scaled_3_raw_eig.pkl'
+    
     print(f"Loading data from: {data_path}")
     with open(data_path, 'rb') as f:
         data = pickle.load(f)
@@ -67,8 +85,9 @@ def load_data(data_path='/pscratch/sd/d/dkololgi/Cosmic_env_TNG_cache/processed_
     graph = data['graph']
     targets = np.array(data['regression_targets'])
     train_mask, val_mask, test_mask = data['masks']
+    eigenvalues_raw = data.get('eigenvalues_raw')
     
-    return graph, targets, train_mask, val_mask, test_mask
+    return graph, targets, train_mask, val_mask, test_mask, eigenvalues_raw
 
 
 def create_gnn_and_flow(config, flow_filename, graph, master_key):
@@ -117,49 +136,49 @@ def sample_posterior(flow, embedding, num_samples, key):
     return np.array(samples)
 
 
-def plot_single_posterior(embedding, true_theta, idx, output_dir, 
-                          flow, key, num_samples=2000, param_names=None):
-    """Create a corner plot for a single posterior."""
-    if param_names is None:
-        param_names = [r'$\lambda_1$', r'$\lambda_2$', r'$\lambda_3$']
+def plot_single_posterior(samples_transformed, samples_raw, true_theta_transformed, true_theta_raw, 
+                          idx, output_dir, use_transformed_eig=True, num_samples=2000):
+    """Create a corner plot for a single posterior in both spaces."""
+    param_names_raw = [r'$\lambda_1$', r'$\lambda_2$', r'$\lambda_3$']
+    param_names_trans = [r'$v_1$', r'$\Delta\lambda_2$', r'$\Delta\lambda_3$'] if use_transformed_eig else param_names_raw
     
-    # Sample from posterior
-    samples_np = sample_posterior(flow, embedding, num_samples, key)
+    # Create 2 rows of corner plots: transformed space and raw eigenvalue space
+    fig, axes = plt.subplots(2, 3, figsize=(12, 8))
     
-    # Create corner plot
-    fig, axes = plt.subplots(3, 3, figsize=(10, 10))
-    
-    # Diagonal: 1D marginals
+    # Row 1: Transformed space
+    samples = samples_transformed[:num_samples] if len(samples_transformed) > num_samples else samples_transformed
+    true_theta = true_theta_transformed
     for i in range(3):
-        ax = axes[i, i]
-        ax.hist(samples_np[:, i], bins=50, density=True, alpha=0.7, color='steelblue')
+        ax = axes[0, i]
+        ax.hist(samples[:, i], bins=50, density=True, alpha=0.7, color='steelblue')
         ax.axvline(true_theta[i], color='red', linewidth=2, label='True' if i==0 else None)
-        ax.set_xlabel(param_names[i] if i == 2 else '')
-        ax.set_ylabel('Density' if i == 0 else '')
+        ax.axvline(np.mean(samples[:, i]), color='green', linewidth=2, linestyle=':', label='Mean' if i==0 else None)
+        ax.set_xlabel(param_names_trans[i])
         if i == 0:
-            ax.legend()
+            ax.set_ylabel('Transformed Space')
+            ax.legend(fontsize=8)
     
-    # Off-diagonal: 2D marginals  
+    # Row 2: Raw eigenvalue space
+    samples_r = samples_raw[:num_samples] if len(samples_raw) > num_samples else samples_raw
+    true_theta_r = true_theta_raw
     for i in range(3):
-        for j in range(3):
-            if i > j:
-                ax = axes[i, j]
-                ax.hist2d(samples_np[:, j], samples_np[:, i], bins=50, cmap='Blues')
-                ax.scatter(true_theta[j], true_theta[i], color='red', s=50, marker='x', linewidths=2)
-                ax.set_xlabel(param_names[j] if i == 2 else '')
-                ax.set_ylabel(param_names[i] if j == 0 else '')
-            elif i < j:
-                axes[i, j].axis('off')
+        ax = axes[1, i]
+        ax.hist(samples_r[:, i], bins=50, density=True, alpha=0.7, color='darkorange')
+        ax.axvline(true_theta_r[i], color='red', linewidth=2)
+        ax.axvline(np.mean(samples_r[:, i]), color='green', linewidth=2, linestyle=':')
+        ax.set_xlabel(param_names_raw[i])
+        if i == 0:
+            ax.set_ylabel('Raw Eigenvalues')
     
-    plt.suptitle(f'Flowjax Posterior for Node {idx}', fontsize=14)
+    plt.suptitle(f'Posterior for Node {idx}', fontsize=14)
     plt.tight_layout()
     
-    save_path = os.path.join(output_dir, f'flowjax_pairplot_node_{idx}.png')
+    save_path = os.path.join(output_dir, f'flowjax_dual_posterior_node_{idx}.png')
     plt.savefig(save_path, dpi=150, bbox_inches='tight')
     print(f"Saved: {save_path}")
     plt.close()
     
-    return samples_np
+    return samples
 
 
 def plot_posterior_comparison(embeddings, true_thetas, indices, output_dir,
@@ -358,20 +377,21 @@ def main(args):
     os.makedirs(args.output_dir, exist_ok=True)
     
     # Load model
-    gnn_params, config, eigenvalue_scaler, flow_filename = load_flowjax_model(args.model_path)
+    gnn_params, config, target_scaler, flow_filename, use_transformed_eig = load_flowjax_model(args.model_path)
     
     # Load data
-    graph, targets, train_mask, val_mask, test_mask = load_data()
+    graph, targets, train_mask, val_mask, test_mask, eigenvalues_raw = load_data(
+        use_transformed_eig=use_transformed_eig
+    )
     
-    # Get test targets
     test_targets = targets[test_mask]
-    
-    print(f"\nTest set: {np.sum(test_mask)} samples")
+    test_targets_raw = eigenvalues_raw[test_mask] if eigenvalues_raw is not None else None
+    n_test = int(np.sum(test_mask))
+    print(f"\nTest set: {n_test} samples")
+    print(f"Use transformed eigenvalues: {use_transformed_eig}")
     
     # Setup
     master_key = jax.random.key(42)
-    
-    # Create GNN and load flow
     gnn, flow = create_gnn_and_flow(config, flow_filename, graph, master_key)
     
     # Get embeddings for test set
@@ -386,23 +406,35 @@ def main(args):
     print("\n[1/5] Plotting training history...")
     plot_training_history(logs_path, args.output_dir)
     
-    # Plot individual posteriors
-    print("\n[2/5] Plotting individual posteriors...")
-    num_individual = min(args.num_plots, len(test_embeddings))
-    np.random.seed(42)  # For reproducibility
-    sample_indices = np.random.choice(len(test_embeddings), num_individual, replace=False)
+    # Plot individual dual-space posteriors
+    print("\n[2/5] Plotting individual dual-space posteriors...")
+    num_individual = min(args.num_plots, n_test)
+    np.random.seed(42)
+    sample_indices = np.random.choice(n_test, num_individual, replace=False)
     
     key = jax.random.key(123)
     for i, idx in enumerate(sample_indices):
         print(f"  Creating posterior plot {i+1}/{num_individual}...")
-        key, plot_key = jax.random.split(key)
+        key, sample_key = jax.random.split(key)
+        
+        # Sample from posterior (in scaled space)
+        samples_scaled = sample_posterior(flow, test_embeddings[idx], args.num_samples, sample_key)
+        
+        # Convert to raw eigenvalue space
+        samples_raw = samples_to_raw_eigenvalues(samples_scaled, target_scaler, use_transformed_eig)
+        
+        # Get unscaled transformed (for visualization)
+        samples_transformed = target_scaler.inverse_transform(samples_scaled)
+        targets_transformed = target_scaler.inverse_transform(test_targets[idx:idx+1])[0]
+        
         plot_single_posterior(
-            test_embeddings[idx],
-            test_targets[idx],
+            samples_transformed,
+            samples_raw,
+            targets_transformed,
+            test_targets_raw[idx] if test_targets_raw is not None else targets_transformed,
             idx,
             args.output_dir,
-            flow,
-            plot_key,
+            use_transformed_eig=use_transformed_eig,
             num_samples=args.num_samples
         )
     
@@ -419,18 +451,78 @@ def main(args):
         num_samples=args.num_samples
     )
     
-    # Calibration check
+    # Calibration check (using on-the-fly transformation)
     print("\n[4/5] Running SBC-style calibration check...")
+    param_names_raw = [r'$\lambda_1$', r'$\lambda_2$', r'$\lambda_3$']
+    param_names_trans = [r'$v_1$', r'$\Delta\lambda_2$', r'$\Delta\lambda_3$'] if use_transformed_eig else param_names_raw
+    
+    n_cal = min(1000, n_test)
+    np.random.seed(42)
+    cal_indices = np.random.choice(n_test, n_cal, replace=False)
+    
+    ranks_raw = []
+    ranks_trans = []
+    
     key, cal_key = jax.random.split(key)
-    plot_calibration_summary(
-        test_embeddings,
-        test_targets,
-        args.output_dir,
-        flow,
-        cal_key,
-        num_test=min(1000, len(test_embeddings)),
-        num_samples=args.num_samples
-    )
+    for i, idx in enumerate(cal_indices):
+        if (i + 1) % 200 == 0:
+            print(f"  Sampling {i+1}/{n_cal}...")
+        
+        cal_key, sample_key = jax.random.split(cal_key)
+        samples_scaled = sample_posterior(flow, test_embeddings[idx], args.num_samples, sample_key)
+        samples_raw = samples_to_raw_eigenvalues(samples_scaled, target_scaler, use_transformed_eig)
+        samples_transformed = target_scaler.inverse_transform(samples_scaled)
+        
+        if test_targets_raw is not None:
+            rank_raw = np.mean(samples_raw < test_targets_raw[idx], axis=0)
+            ranks_raw.append(rank_raw)
+        
+        targets_trans = target_scaler.inverse_transform(test_targets[idx:idx+1])[0]
+        rank_trans = np.mean(samples_transformed < targets_trans, axis=0)
+        ranks_trans.append(rank_trans)
+    
+    # Plot raw eigenvalue calibration
+    if test_targets_raw is not None:
+        ranks_raw = np.array(ranks_raw)
+        fig, axes = plt.subplots(1, 3, figsize=(12, 4))
+        for i in range(3):
+            ax = axes[i]
+            ax.hist(ranks_raw[:, i], bins=20, density=True, alpha=0.7, 
+                   color='darkorange', edgecolor='white')
+            ax.axhline(1.0, color='red', linestyle='--', linewidth=2, label='Uniform')
+            ax.set_xlabel(f'Rank for {param_names_raw[i]}')
+            ax.set_ylabel('Density' if i == 0 else '')
+            ax.set_xlim(0, 1)
+            ax.legend()
+            ax.set_title(param_names_raw[i])
+        
+        plt.suptitle(f'Calibration (Raw Eigenvalues) - {n_cal} test points', fontsize=14)
+        plt.tight_layout()
+        save_path = os.path.join(args.output_dir, 'flowjax_calibration_raw_eig.png')
+        plt.savefig(save_path, dpi=150, bbox_inches='tight')
+        print(f"Saved: {save_path}")
+        plt.close()
+    
+    # Plot transformed space calibration
+    ranks_trans = np.array(ranks_trans)
+    fig, axes = plt.subplots(1, 3, figsize=(12, 4))
+    for i in range(3):
+        ax = axes[i]
+        ax.hist(ranks_trans[:, i], bins=20, density=True, alpha=0.7, 
+               color='steelblue', edgecolor='white')
+        ax.axhline(1.0, color='red', linestyle='--', linewidth=2, label='Uniform')
+        ax.set_xlabel(f'Rank for {param_names_trans[i]}')
+        ax.set_ylabel('Density' if i == 0 else '')
+        ax.set_xlim(0, 1)
+        ax.legend()
+        ax.set_title(param_names_trans[i])
+    
+    plt.suptitle(f'Calibration (Transformed Space) - {n_cal} test points', fontsize=14)
+    plt.tight_layout()
+    save_path = os.path.join(args.output_dir, 'flowjax_calibration_transformed.png')
+    plt.savefig(save_path, dpi=150, bbox_inches='tight')
+    print(f"Saved: {save_path}")
+    plt.close()
     
     # TARP coverage
     print("\n[5/5] Running TARP coverage test...")
@@ -441,7 +533,7 @@ def main(args):
         args.output_dir,
         flow,
         tarp_key,
-        num_test=min(500, len(test_embeddings)),
+        num_test=min(500, n_test),
         num_samples=args.num_samples
     )
     
@@ -463,3 +555,5 @@ if __name__ == '__main__':
     
     args = parser.parse_args()
     main(args)
+
+

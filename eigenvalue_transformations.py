@@ -287,3 +287,46 @@ def increments_to_eigenvalues(increments):
     l3 = l2 + jnp.logaddexp(0., v3)
     
     return jnp.stack([l1, l2, l3], axis=-1)
+
+
+####################################
+# Utility for SBI/Flow outputs
+####################################
+
+def samples_to_raw_eigenvalues(samples, target_scaler, use_transformed_eig):
+    """
+    Convert samples from flow distribution to raw eigenvalues.
+    
+    This function handles the inverse transformation pipeline:
+    1. Inverse scale (StandardScaler.inverse_transform)
+    2. If transformed, convert increments to eigenvalues
+    
+    Args:
+        samples: [N, 3] or [N, K, 3] array of flow samples (scaled)
+        target_scaler: sklearn StandardScaler used during training
+        use_transformed_eig: whether targets were transformed
+    
+    Returns:
+        Raw eigenvalues [N, 3] or [N, K, 3]
+    """
+    import numpy as np
+    
+    original_shape = samples.shape
+    if len(original_shape) == 3:
+        # Reshape for scaler: [N*K, 3]
+        samples = samples.reshape(-1, 3)
+    
+    # Step 1: Inverse scale
+    samples_unscaled = target_scaler.inverse_transform(samples)
+    
+    # Step 2: If transformed, convert increments to eigenvalues
+    if use_transformed_eig:
+        raw_eig = np.array(increments_to_eigenvalues(jnp.array(samples_unscaled)))
+    else:
+        raw_eig = samples_unscaled
+    
+    # Reshape back if needed
+    if len(original_shape) == 3:
+        raw_eig = raw_eig.reshape(original_shape)
+    
+    return raw_eig

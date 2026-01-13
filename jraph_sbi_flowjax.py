@@ -22,7 +22,6 @@ os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "false"
 os.environ["XLA_PYTHON_CLIENT_ALLOCATOR"] = "platform"
 os.environ["XLA_FLAGS"] = "--xla_gpu_cuda_data_dir=/opt/nvidia/hpc_sdk/Linux_x86_64/23.9/cuda/12.2"
 
-
 import time
 import pickle
 import argparse
@@ -40,6 +39,8 @@ from flowjax.flows import masked_autoregressive_flow, RationalQuadraticSpline
 from flowjax.distributions import Normal
 
 from graph_net_models import make_gnn_encoder
+from eigenvalue_transformations import increments_to_eigenvalues, samples_to_raw_eigenvalues
+
 
 
 def main(args):
@@ -62,19 +63,34 @@ def main(args):
     # =========================================================================
     print("\n[1/6] Loading data...")
     
-    data_path = '/pscratch/sd/d/dkololgi/Cosmic_env_TNG_cache/processed_jraph_data_mc1e+09_v2_scaled_3_eigenvalues.pkl' #'/pscratch/sd/d/dkololgi/Cosmic_env_TNG_cache/processed_jraph_data_mc1e+09_v2_scaled_3.pkl'
+    use_transformed_eig = not getattr(args, 'no_transformed_eig', False)
+    
+    # Select cache path based on transformation flag
+    cache_dir = '/pscratch/sd/d/dkololgi/Cosmic_env_TNG_cache'
+    if use_transformed_eig:
+        data_path = f'{cache_dir}/processed_jraph_data_mc1e+09_v2_scaled_3_transformed_eig.pkl'
+        print("[Mode] Using transformed eigenvalues (v₁, Δλ₂, Δλ₃)")
+    else:
+        data_path = f'{cache_dir}/processed_jraph_data_mc1e+09_v2_scaled_3_raw_eig.pkl'
+        print("[Mode] Using raw eigenvalues (λ₁, λ₂, λ₃)")
+    
     print(f"Loading cached Jraph data from {data_path}...")
     with open(data_path, 'rb') as f:
         data = pickle.load(f)
     
     graph = data['graph']
-    targets = data['regression_targets']  # Scaled eigenvalues
+    targets = data['regression_targets']  # Scaled eigenvalues (or transformed eigenvalues)
     train_mask, val_mask, test_mask = data['masks']
-    eigenvalue_scaler = data['target_scaler']
+    target_scaler = data['target_scaler']
+    eigenvalues_raw = data.get('eigenvalues_raw')  # Ground truth for evaluation
+    stats = data.get('stats')  # Contains transformation stats if available
     
     print(f"Graph stats: Nodes={graph.nodes.shape[0]}, Edges={graph.edges.shape[0]}")
     print(f"Train size: {jnp.sum(train_mask)}, Val size: {jnp.sum(val_mask)}, Test size: {jnp.sum(test_mask)}")
     print(f"Targets shape: {targets.shape}")
+    if stats:
+        print(f"Scaler mean: {stats.get('scaler_mean', 'N/A')}")
+        print(f"Scaler std: {stats.get('scaler_std', 'N/A')}")
     
     # =========================================================================
     # 2. GNN Encoder Setup (Haiku)
@@ -373,7 +389,8 @@ def main(args):
         pickle.dump({
             'gnn_params': best_gnn_params,
             'config': vars(args),
-            'eigenvalue_scaler': eigenvalue_scaler,
+            'target_scaler': target_scaler,
+            'use_transformed_eig': use_transformed_eig,
             'flow_filename': flow_filename,  # Reference to flow file
         }, f)
     print(f"Model saved to {model_filename}")
@@ -424,6 +441,61 @@ def main(args):
     print(f"  NLL: {float(test_loss[0]):.4f}")
     print(f"  Mean Log Prob: {float(test_log_prob[0]):.2f}")
     
+    # =========================================================================
+    # Sample from posterior and evaluate in raw eigenvalue space
+    # =========================================================================
+    print("\nSampling from posterior and evaluating in eigenvalue space...")
+    
+    # Get embeddings for test nodes using best GNN
+    sample_rng = jax.random.key(123)
+    test_embeddings = gnn.apply(best_gnn_params, sample_rng, graph, is_training=False)
+    
+    # Reconstruct flow
+    best_flow = eqx.combine(best_flow_arrays, flow_static)
+    
+    # Sample from flow for each test node (single sample per node for point estimate)
+    test_indices_np = np.array(test_indices)
+    n_test = len(test_indices_np)
+    
+    # Get embeddings for test nodes only
+    test_embeddings_subset = test_embeddings[test_indices_np]
+    
+    # Sample one point from posterior per test node
+    sample_keys = jax.random.split(sample_rng, n_test)
+    
+    # Batch sample using vmap
+    def sample_one(key, cond):
+        return best_flow.sample(key, condition=cond)
+    
+    posterior_samples = jax.vmap(sample_one)(sample_keys, test_embeddings_subset)
+    posterior_samples_np = np.array(posterior_samples)
+    
+    # Convert samples to raw eigenvalues
+    samples_raw_eig = samples_to_raw_eigenvalues(posterior_samples_np, target_scaler, use_transformed_eig)
+    
+    # Ground truth raw eigenvalues for test set
+    test_targets_raw_eig = eigenvalues_raw[test_indices_np]
+    
+    # Compute R² in raw eigenvalue space
+    ss_res = np.sum((test_targets_raw_eig - samples_raw_eig) ** 2, axis=0)
+    ss_tot = np.sum((test_targets_raw_eig - np.mean(test_targets_raw_eig, axis=0)) ** 2, axis=0)
+    r2_raw = 1 - ss_res / (ss_tot + 1e-8)
+    
+    # Also compute metrics in scaled/transformed space
+    test_targets_scaled = np.array(targets)[test_indices_np]
+    ss_res_scaled = np.sum((test_targets_scaled - posterior_samples_np) ** 2, axis=0)
+    ss_tot_scaled = np.sum((test_targets_scaled - np.mean(test_targets_scaled, axis=0)) ** 2, axis=0)
+    r2_scaled = 1 - ss_res_scaled / (ss_tot_scaled + 1e-8)
+    
+    print(f"\n  Posterior Point Estimate Metrics:")
+    if use_transformed_eig:
+        print(f"    Transformed Space (v₁, Δλ₂, Δλ₃):")
+        print(f"      R² per param: v₁={r2_scaled[0]:.4f}, Δλ₂={r2_scaled[1]:.4f}, Δλ₃={r2_scaled[2]:.4f}")
+        print(f"      Mean R²: {np.mean(r2_scaled):.4f}")
+    print(f"    Raw Eigenvalue Space (λ₁, λ₂, λ₃):")
+    print(f"      R² per eigenvalue: λ₁={r2_raw[0]:.4f}, λ₂={r2_raw[1]:.4f}, λ₃={r2_raw[2]:.4f}")
+    print(f"      Mean R²: {np.mean(r2_raw):.4f}")
+    
     # Save results
     results_filename = os.path.join(args.output_dir, f'flowjax_sbi_results_seed_{args.seed}_{timestamp}.txt')
     with open(results_filename, 'w') as f:
@@ -431,9 +503,21 @@ def main(args):
         f.write(f"=" * 50 + "\n")
         f.write(f"Timestamp: {timestamp}\n")
         f.write(f"Seed: {args.seed}\n")
+        f.write(f"Use Transformed Eigenvalues: {use_transformed_eig}\n")
         f.write(f"\nTest NLL: {float(test_loss[0]):.4f}\n")
         f.write(f"Test Mean Log Prob: {float(test_log_prob[0]):.2f}\n")
         f.write(f"Best Val NLL: {best_val_loss:.4f}\n")
+        f.write(f"\nPosterior Point Estimate R² (Raw Eigenvalues):\n")
+        f.write(f"  λ₁: {r2_raw[0]:.4f}\n")
+        f.write(f"  λ₂: {r2_raw[1]:.4f}\n")
+        f.write(f"  λ₃: {r2_raw[2]:.4f}\n")
+        f.write(f"  Mean: {np.mean(r2_raw):.4f}\n")
+        if use_transformed_eig:
+            f.write(f"\nPosterior Point Estimate R² (Transformed Space):\n")
+            f.write(f"  v₁: {r2_scaled[0]:.4f}\n")
+            f.write(f"  Δλ₂: {r2_scaled[1]:.4f}\n")
+            f.write(f"  Δλ₃: {r2_scaled[2]:.4f}\n")
+            f.write(f"  Mean: {np.mean(r2_scaled):.4f}\n")
     print(f"Results saved to {results_filename}")
     
     print("\nDone!")
@@ -459,6 +543,10 @@ if __name__ == '__main__':
     parser.add_argument('--num_flow_layers', type=int, default=5, help='Number of flow layers')
     parser.add_argument('--num_bins', type=int, default=8, help='Spline knots')
     parser.add_argument('--flow_hidden_size', type=int, default=128, help='Flow conditioner hidden size')
+    
+    # Eigenvalue transformation
+    parser.add_argument('--no_transformed_eig', action='store_true',
+                        help='Use raw eigenvalues instead of transformed (v₁, Δλ₂, Δλ₃)')
     
     args = parser.parse_args()
     main(args)

@@ -13,7 +13,7 @@ import seaborn as sns
 import scienceplots
 import sys
 from sklearn.neighbors import radius_neighbors_graph
-from scipy.spatial import Delaunay
+from scipy.spatial import Delaunay, KDTree
 from scipy.spatial.distance import euclidean, minkowski
 
 plt.style.use(['science', 'no-latex'])  # Use dark background for better contrast
@@ -469,7 +469,127 @@ class cat():
                         G.add_edge(idx_j, idx_k, length=euclidean(self.pointss[self.tris.simplices[i][j]], self.pointss[self.tris.simplices[i][k]]))
 
             return G
+
+
+    subhalo_delaunay_network = subhalo_delauany_network
+
+    def galaxy_alpha_complex_network(self, alpha=None, xyzplot=False):
+        '''
+        Produces a network graph using Gudhi's alpha complex.
+
+        Alpha complexes are the nerve of the Voronoi diagram restricted by
+        alpha-balls. They provide a more principled topological construction
+        than raw Delaunay triangulation.
+
+        Parameters:
+        -----------
+        alpha : float, optional
+            Filtration value (in Mpc). If None, uses the full alpha complex
+            (equivalent to Delaunay). Smaller values prune long edges.
+            Note: Gudhi stores alpha^2 internally, so we compare against alpha^2.
+        '''
+        import gudhi
+
+
+
+        # Prepare points
+        if self.from_DESI == False:
+            self.points = np.vstack([self.posx, self.posy, self.posz]).T
+        else:
+            self.pointsn = np.vstack([self.posxn, self.posyn, self.poszn]).T
+            self.pointss = np.vstack([self.posxs, self.posys, self.poszs]).T
+            self.points = np.vstack([self.pointsn, self.pointss])
+            # Compute alpha^2 threshold (None means include all edges)
+            alpha_sq = alpha**2 if alpha is not None else float('inf')
+            
+        # If from DESI and alpha is None then calculate alpha as 1.5x mean galaxy sepration
+        if self.from_DESI == True and alpha is None:
+            alpha = 1.5 * 4.5 # keep it at 4.5 Mpc
+            alpha_sq = alpha**2
+
+        elif self.from_DESI == False and alpha is None:
+            # number density
+            if hasattr(self.boxsize, 'unit'):
+                boxsize_val = self.boxsize.to('Mpc').value
+            else:
+                boxsize_val = self.boxsize
+
+            self.number_density = len(self.points) / (boxsize_val**3)
+            alpha = 1.5 * (self.number_density)**(-1/3)
+            alpha_sq = alpha**2
         
+        # Create gudhi alpha complex and store simplex trees for later use
+        if self.from_DESI == False:
+            self.alpha_complex = gudhi.AlphaComplex(points=self.points)
+            self.simplex_tree = self.alpha_complex.create_simplex_tree()
+
+            print(f'Alpha complex created for {len(self.points)} points.')
+            print('Building graph...')
+
+            G = nx.Graph()
+            for i, point in enumerate(self.points):
+                G.add_node(i, pos=point)
+
+            # Extract edges from simplex tree
+            for simplex, filtration in self.simplex_tree.get_filtration():
+                if len(simplex) == 2:  # 1-simplex is an edge
+                    if filtration <= alpha_sq:
+                        u, v = simplex
+                        length = euclidean(self.points[u], self.points[v])
+                        G.add_edge(u, v, length=length, alpha_filtration=filtration)
+
+            print(f'Graph built with {G.number_of_nodes()} nodes and {G.number_of_edges()} edges.')
+            return G
+
+        else:
+            # Create separate alpha complexes for each hemisphere
+            self.alpha_complex_n = gudhi.AlphaComplex(points=self.pointsn)
+            self.simplex_tree_n = self.alpha_complex_n.create_simplex_tree()
+
+            self.alpha_complex_s = gudhi.AlphaComplex(points=self.pointss)
+            self.simplex_tree_s = self.alpha_complex_s.create_simplex_tree()
+
+            print(f'Alpha complex created for {len(self.pointsn)} points (north) and {len(self.pointss)} points (south).')
+            print('Building graph...')
+
+            G = nx.Graph()
+
+            # Add nodes for north hemisphere
+            for i, point in enumerate(self.pointsn):
+                G.add_node(i, pos=point)
+
+            # Add nodes for south hemisphere with offset
+            offset = len(self.pointsn)
+            for i, point in enumerate(self.pointss):
+                G.add_node(i + offset, pos=point)
+
+            # Extract edges from north hemisphere
+            for simplex, filtration in self.simplex_tree_n.get_filtration():
+                if len(simplex) == 2:  # 1-simplex is an edge
+                    if filtration <= alpha_sq:
+                        u, v = simplex
+                        length = euclidean(self.pointsn[u], self.pointsn[v])
+                        G.add_edge(u, v, length=length, alpha_filtration=filtration)
+
+            # Extract edges from south hemisphere with index offset
+            for simplex, filtration in self.simplex_tree_s.get_filtration():
+                if len(simplex) == 2:  # 1-simplex is an edge
+                    if filtration <= alpha_sq:
+                        u, v = simplex
+                        length = euclidean(self.pointss[u], self.pointss[v])
+                        G.add_edge(u + offset, v + offset, length=length, alpha_filtration=filtration)
+
+            print(f'Graph built with {G.number_of_nodes()} nodes and {G.number_of_edges()} edges.')
+            return G
+
+    def subhalo_knn_graphs(self, k):
+        '''Returns n_galaxies graphs of k-nearest neighbors of the subhalos.'''
+        self.points = np.vstack([self.posx, self.posy, self.posz]).T
+        boxsize = ((u.kpc*self.object['header']['BoxSize']*self.sf/self.hub).to('Mpc')).value
+        print(f'Boxsize:{boxsize} Mpc')
+        tree = KDTree(self.points, boxsize=boxsize)
+        return tree
+
     def edge_classification(self, x, y, z):
         '''Classifies the edges of the MST of the subhalos in the given object.'''
         # Classify the edges of the MST according to MiSTree
@@ -777,4 +897,4 @@ if __name__ == '__main__':
     # testcat.subhalo_MST(xyzplot=True, mode='std')
     # cweb = testcat.cweb_classify()
     # testcat.cross_plots()
-    testcat.subhalo_delauany_network(xyzplot=True)
+    # testcat.subhalo_delauany_network(xyzplot=True)

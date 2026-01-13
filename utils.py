@@ -12,7 +12,8 @@ def preprocess_features(features):
     Scale features using PowerTransformer.
     """
     scaler = PowerTransformer(method='box-cox')
-    return pd.DataFrame(scaler.fit_transform(features), index=features.index, columns=features.columns)
+    # Add epsilon to handle zero or negative values as done for DESI
+    return pd.DataFrame(scaler.fit_transform(features + 1e-6), index=features.index, columns=features.columns)
 
 def calculate_class_weights(targets):
     """

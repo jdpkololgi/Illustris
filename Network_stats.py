@@ -522,7 +522,269 @@ class network:  # Remove 'cat' inheritance
 
         return netx
 
+    def network_stats_alpha(self, alpha=None, weight='length', buffer=False, G=None):
+        '''
+        Calculate network statistics for the Alpha Complex graph.
 
+        This method uses Gudhi's alpha complex instead of scipy's Delaunay
+        triangulation. Alpha complexes provide a filtration parameter that
+        can prune long edges based on a characteristic scale.
+
+        Parameters:
+        -----------
+        alpha : float, optional
+            Filtration value in Mpc. If None, uses full alpha complex
+            (equivalent to Delaunay). Smaller values create sparser graphs.
+        weight : str, default='length'
+            Edge attribute to use for weighted metrics.
+        buffer : bool, default=False
+            If True, removes 10 Mpc buffer from simulation box edges.
+            Only applies to IllustrisTNG data.
+        G : networkx.Graph, optional
+            Pre-computed graph. If None, it is constructed using galaxy_alpha_complex_network.
+        '''
+        # Build the alpha complex graph
+        if G is None:
+            netx = self.galaxy_alpha_complex_network(alpha=alpha, xyzplot=False)
+        else:
+            netx = G
+        
+        assert isinstance(netx, nx.Graph), 'NetworkX graph not created'
+
+        print(f'Computing network statistics for alpha complex graph...')
+
+        # Basic graph metrics
+        self.degree = netx.degree(weight=weight)
+        self.clustering = nx.clustering(netx, weight=weight)
+
+        # Edge lengths dictionary
+        self.edge_lengths = {(u, v): netx[u][v]['length'] for u, v in netx.edges()}
+
+        # Neighbour list for each node
+        self.neigh_list = [netx.edges(node) for node in netx.nodes()]
+
+        # Edge length statistics per node
+        self.mean_elen = []
+        self.min_elen = []
+        self.max_elen = []
+
+        for node in range(len(netx.nodes())):
+            edges = self.neigh_list[node]
+            if len(list(edges)) == 0:
+                # Isolated node (can happen with small alpha)
+                self.mean_elen.append(0.0)
+                self.min_elen.append(0.0)
+                self.max_elen.append(0.0)
+            else:
+                lengths = [self.edge_lengths[tuple(sorted(edge))] for edge in self.neigh_list[node]]
+                self.mean_elen.append(np.mean(lengths))
+                self.min_elen.append(np.min(lengths))
+                self.max_elen.append(np.max(lengths))
+
+        # Compute tetrahedra density from alpha complex simplices
+        # For alpha complex, we extract 3-simplices (tetrahedra) from the simplex tree
+        print('Computing tetrahedra density from alpha complex...')
+
+        # Default alpha logic matching Utilities.py
+        if alpha is None and not self.from_DESI:
+             if hasattr(self.boxsize, 'unit'):
+                boxsize_val = self.boxsize.to('Mpc').value
+             else:
+                boxsize_val = self.boxsize
+             number_density = len(self.points) / (boxsize_val**3)
+             alpha = 1.5 * (number_density)**(-1/3)
+             print(f"Calculated default alpha: {alpha} Mpc")
+
+        alpha_sq = alpha**2 if alpha is not None else float('inf')
+
+        if self.from_DESI:
+            offset = len(self.pointsn)
+            self.tetra_dens = {}
+
+            def process_alpha_tetra_dens(points, simplex_tree, node_offset=0):
+                '''Extract tetrahedra from simplex tree and compute density.'''
+                # Helper Arrays for accumulation
+                n_points = len(points)
+                node_tetra_count = np.zeros(n_points)
+                node_tetra_vol = np.zeros(n_points)
+
+                count = 0
+                for simplex, filtration in simplex_tree.get_filtration():
+                    if len(simplex) == 4 and filtration <= alpha_sq:  # 3-simplex (tetrahedron)
+                        count += 1
+                        if count % 100000 == 0:
+                            print(f"Processing tetrahedra (DESI)... Count: {count}")
+                        
+                        tetra_coords = points[simplex]
+                        vol = volume_tetrahedron(tetra_coords)
+                        
+                        # Accumulate count and volume
+                        node_tetra_count[simplex] += 1
+                        node_tetra_vol[simplex] += vol
+
+                # Compute density for each node
+                print(f"Finished processing {count} tetrahedra. Now computing node densities...", flush=True)
+                
+                for i in range(n_points):
+                    global_node = i + node_offset
+                    total_volume = node_tetra_vol[i]
+                    count_t = node_tetra_count[i]
+                    
+                    if count_t == 0:
+                        self.tetra_dens[global_node] = 0.0
+                        continue
+                    
+                    deg = netx.degree(global_node) if netx.degree(global_node) > 0 else 1
+                    self.tetra_dens[global_node] = (count_t / total_volume) / deg if total_volume > 0 else 0.0
+
+            process_alpha_tetra_dens(self.pointsn, self.simplex_tree_n, node_offset=0)
+            process_alpha_tetra_dens(self.pointss, self.simplex_tree_s, node_offset=offset)
+
+        else:
+            # Single simplex tree for simulation data
+            # Helper Arrays for accumulation
+            n_points = len(self.points)
+            node_tetra_count = np.zeros(n_points)
+            node_tetra_vol = np.zeros(n_points)
+
+            count = 0
+            for simplex, filtration in self.simplex_tree.get_filtration():
+                if len(simplex) == 4 and filtration <= alpha_sq:  # 3-simplex (tetrahedron)
+                    count += 1
+                    if count % 100000 == 0:
+                         print(f"Processing tetrahedra... Count: {count}", flush=True)
+                    
+                    tetra_coords = self.points[simplex]
+                    vol = volume_tetrahedron(tetra_coords)
+                    
+                    # Accumulate count and volume directly
+                    node_tetra_count[simplex] += 1
+                    node_tetra_vol[simplex] += vol
+
+            print(f"Finished processing {count} tetrahedra. Now computing node densities...", flush=True)
+            self.tetra_dens = {}
+            total_nodes = n_points  # This should match len(netx.nodes()) usually
+            
+            for node in range(total_nodes):
+                if node % 50000 == 0:
+                    print(f"Computing density for node {node}/{total_nodes}...", flush=True)
+                
+                total_volume = node_tetra_vol[node]
+                count_t = node_tetra_count[node]
+                
+                if count_t == 0:
+                    self.tetra_dens[node] = 0.0
+                    continue
+                
+                # Retrieve degree from pre-calculated dictionary or call netx.degree(node)
+                # Using netx.degree(node) handles cases where dict(self.degree) might be mismatch
+                deg = netx.degree(node) if netx.degree(node) > 0 else 1
+                self.tetra_dens[node] = (count_t / total_volume) / deg if total_volume > 0 else 0.0
+
+        # Neighbour tetrahedra density
+        print("Computing neighbour tetrahedra density...", flush=True)
+        self.neigh_tetra_dens = {}
+        # Pre-convert netx neighbors to list to avoid repeated iter calls if optimization helps, 
+        # but netx.neighbors is efficient. Main bottleneck is likely lookup.
+        # Vectorized mean if adjacency matrix available? NetworkX is node-based.
+        
+        total_nodes = len(netx.nodes())
+        for i, node in enumerate(range(total_nodes)):
+            if i % 50000 == 0:
+                 print(f"Computing neighbour density for node {i}/{total_nodes}...", flush=True)
+            neighbors = list(netx.neighbors(node))
+            if len(neighbors) == 0:
+                self.neigh_tetra_dens[node] = 0.0
+            else:
+                self.neigh_tetra_dens[node] = np.mean([self.tetra_dens[neigh] for neigh in neighbors])
+
+        # Inertia tensor eigenvalues (shape of local neighbourhood)
+        print('Computing inertia eigenvalues...')
+        inertia_eigenvalues = {}
+        total_nodes = len(netx.nodes)
+        for i, node in enumerate(netx.nodes):
+            if i % 10000 == 0:
+                print(f"Processing node {i}/{total_nodes} for inertia eigenvalues...")
+            neighbors = list(netx.neighbors(node))
+            if len(neighbors) < 3:
+                inertia_eigenvalues[node] = [0.0, 0.0, 0.0]
+                continue
+            nbr_pos = self.points[neighbors]
+            center = nbr_pos.mean(axis=0)
+            rel_pos = nbr_pos - center
+            cov = np.dot(rel_pos.T, rel_pos) / len(neighbors)
+            try:
+                eigvals = np.linalg.eigvalsh(cov)  # sorted eigenvalues
+                eigvals[eigvals < 0] = 0 # Fix numerical precision errors
+                inertia_eigenvalues[node] = eigvals.tolist()
+            except np.linalg.LinAlgError:
+                inertia_eigenvalues[node] = [0.0, 0.0, 0.0]
+
+        I_eig1 = [inertia_eigenvalues[i][0] for i in range(len(inertia_eigenvalues))]
+        I_eig2 = [inertia_eigenvalues[i][1] for i in range(len(inertia_eigenvalues))]
+        I_eig3 = [inertia_eigenvalues[i][2] for i in range(len(inertia_eigenvalues))]
+
+        # Build output DataFrame
+        if self.from_DESI == False:
+            assert hasattr(self, 'cweb'), 'cweb attribute does not exist, please run cweb_classify first'
+
+            self.data = pd.DataFrame({
+                'Degree': list(dict(self.degree).values()),
+                'Mean E.L.': self.mean_elen,
+                'Min E.L.': self.min_elen,
+                'Max E.L.': self.max_elen,
+                'Clustering': list(self.clustering.values()),
+                'Density': np.array(list(self.tetra_dens.values())),
+                'Neigh Density': np.array(list(self.neigh_tetra_dens.values())),
+                'I_eig1': I_eig1,
+                'I_eig2': I_eig2,
+                'I_eig3': I_eig3,
+                'Target': self.cweb
+            })
+
+            print(f'Length before buffering: {len(self.data)}')
+
+            # Add coordinates for buffer filtering
+            self.data['x'] = self.points[:, 0]
+            self.data['y'] = self.points[:, 1]
+            self.data['z'] = self.points[:, 2]
+
+            self.class_weights_prebuff = compute_class_weight(
+                class_weight='balanced',
+                classes=np.unique(self.data['Target']),
+                y=self.data['Target']
+            )
+            print(f'Class weights (pre-buffer): {self.class_weights_prebuff}')
+
+            if buffer:
+                self.data = self.data[
+                    (self.data['x'] > 10) & (self.data['x'] < 290) &
+                    (self.data['y'] > 10) & (self.data['y'] < 290) &
+                    (self.data['z'] > 10) & (self.data['z'] < 290)
+                ]
+
+            self.data = self.data.drop(columns=['x', 'y', 'z'])
+            print(f'Length after buffering: {len(self.data)}')
+
+        else:
+            # DESI data - no cweb labels
+            self.data = pd.DataFrame({
+                'Degree': list(dict(self.degree).values()),
+                'Mean E.L.': self.mean_elen,
+                'Min E.L.': self.min_elen,
+                'Max E.L.': self.max_elen,
+                'Clustering': list(self.clustering.values()),
+                'Density': np.array(list(self.tetra_dens.values())),
+                'Neigh Density': np.array(list(self.neigh_tetra_dens.values())),
+                'I_eig1': I_eig1,
+                'I_eig2': I_eig2,
+                'I_eig3': I_eig3
+            })
+
+        self.data.index.name = 'Node ID'
+        print(f'Network statistics computed. Feature shape: {self.data.shape}')
+
+        return netx
 
     def pipeline(self, network_type = 'MST'):
         '''

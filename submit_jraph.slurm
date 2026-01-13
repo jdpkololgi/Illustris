@@ -3,7 +3,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --gpus-per-node=4
 #SBATCH --cpus-per-task=128
-#SBATCH --time=12:00:00
+#SBATCH --time=14:00:00
 #SBATCH --constraint=gpu
 #SBATCH --qos=regular
 #SBATCH --account=desi

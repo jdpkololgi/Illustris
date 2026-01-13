@@ -1467,3 +1467,12 @@ run_jraph_sbi_flowjax.sh
 sbi-logs/NPE_C/2025-12-21T08_27_10.128763/events.out.tfevents.1766334430.nid001032.483466.0
 sbi-logs/NPE_C/2025-12-22T07_03_51.063336/events.out.tfevents.1766415831.nid008653.167388.0
 jraph_sbi_flowjax_original.py.tmp
+local-subgraph-pipeline/train_flowjax_subgraphs.py
+jraph_eigenvalue_distributions.png
+jraph_eigenvalue_ordering.png
+jraph_regression_parity.png
+jraph_regression_training_curves.png
+jraph_residual_distributions.png
+processed_gcn_data_alpha_mc1e+09.pt
+local-subgraph-pipeline/__pycache__/subgraph_dataset.cpython-311.pyc
+local-subgraph-pipeline/__pycache__/tng_positions.cpython-311.pyc
