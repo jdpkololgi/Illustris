@@ -14,5 +14,6 @@ Shims may be removed only after one full validation cycle confirms all active wo
 - `workflows/abacus_tweb/`
 - `workflows/jraph/`
 - `workflows/sbi/`
+- `workflows/gcn_paper/`
 
 Until then, do not remove root-level wrappers.

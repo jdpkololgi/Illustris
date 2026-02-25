@@ -9,6 +9,7 @@ For pscratch organization and migration env vars, see `/global/homes/d/dkololgi/
 - `workflows/jraph/` for Jraph training, tuning, and diagnostics
 - `workflows/sbi/` for primary SBI FlowJAX path
 - `workflows/sbi/experimental/` for alternate two-stage SBI variants
+- `workflows/gcn_paper/` for the paper-critical legacy GCN workflow
 - `shared/` for reusable model/transformation/config modules
 - `legacy/` for deprecated scripts kept for reference only
 - `scripts/` for temporary compatibility wrappers during migration
@@ -25,6 +26,11 @@ For pscratch organization and migration env vars, see `/global/homes/d/dkololgi/
 - SBI FlowJAX path:
   - `workflows/sbi/jraph_sbi_flowjax.py` (canonical)
   - `workflows/sbi/submit_sbi_flowjax.slurm` (canonical)
+- GCN paper workflow (active for paper reproduction):
+  - `workflows/gcn_paper/gcn_pipeline.py` (canonical)
+  - `workflows/gcn_paper/gcn_pipeline_postprocess.py` (canonical)
+  - `workflows/gcn_paper/postprocessing.py` (canonical)
+  - `workflows/gcn_paper/submit_gcn.slurm` (canonical)
 - Utility:
   - `workflows/abacus_tweb/abacus_catalog.py` (canonical)
 
