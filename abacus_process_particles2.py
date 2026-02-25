@@ -59,12 +59,16 @@ from cactus.ext import fiesta
 
 # abacusutils read_asdf automatically decompresses rvint data
 from abacusnbody.data.read_abacus import read_asdf
+from config_paths import ABACUS_BASE as CFG_ABACUS_BASE
+from config_paths import ABACUS_SLAB_DIR, MOCKS_BASE as CFG_MOCKS_BASE
+
+# Workflow status: ACTIVE (canonical Abacus particle processing path)
 
 # =============================================================================
 # PATHS
 # =============================================================================
-ABACUS_BASE = '/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph000'
-MOCKS_BASE = '/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit'
+ABACUS_BASE = CFG_ABACUS_BASE
+MOCKS_BASE = CFG_MOCKS_BASE
 
 # Light cone path (for reference)
 LC_PATH = f'{ABACUS_BASE}/lightcones/'
@@ -1081,7 +1085,7 @@ cutsky['eig_vals'] = assign_tweb_to_galaxies(x, y, z, eig_vals)
     print("MPI size:", MPI.size)
 
     ngrid = 3414
-    save_dir = '/pscratch/sd/d/dkololgi/AbscusSummit_densities'
+    save_dir = ABACUS_SLAB_DIR
     stitch_after_mpi = True  # Set True on a high-memory node
 
     build_density_field_mpi_slabs(

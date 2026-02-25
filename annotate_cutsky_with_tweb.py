@@ -32,14 +32,14 @@ from dataclasses import dataclass
 import fitsio
 import numpy as np
 from astropy.cosmology import Planck18 as cosmo
+from config_paths import ABACUS_MOCKS_WITH_EIGS_DIR, ABACUS_TWEB_OUTPUT_DIR, CUTSKY_Z0200_PATH
+
+# Workflow status: ACTIVE (CutSky annotation with slabwise T-Web outputs)
 
 
-DEFAULT_CUTSKY = (
-    "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/"
-    "CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000.fits"
-)
-DEFAULT_TWEB_DIR = "/pscratch/sd/d/dkololgi/AbscusSummit_densities/tweb_rank_outputs"
-DEFAULT_OUTPUT_DIR = "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs"
+DEFAULT_CUTSKY = CUTSKY_Z0200_PATH
+DEFAULT_TWEB_DIR = ABACUS_TWEB_OUTPUT_DIR
+DEFAULT_OUTPUT_DIR = ABACUS_MOCKS_WITH_EIGS_DIR
 
 OBSERVER_ORIGIN = np.array([-990.0, -990.0, -990.0], dtype=np.float64)
 

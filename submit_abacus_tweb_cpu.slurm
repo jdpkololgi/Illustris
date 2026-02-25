@@ -13,6 +13,8 @@
 
 set -euo pipefail
 
+# Workflow status: ACTIVE (batch launcher for MPI T-Web run)
+
 # -----------------------------------------------------------------------------
 # Abacus T-Web MPI job for 3414^3 density field
 #
@@ -30,9 +32,9 @@ set -euo pipefail
 #   - Slab count MUST match total MPI tasks (32).
 # -----------------------------------------------------------------------------
 
-PROJECT_DIR="/global/homes/d/dkololgi/TNG/Illustris"
-SLAB_DIR="/pscratch/sd/d/dkololgi/AbscusSummit_densities"
-LOG_DIR="/pscratch/sd/d/dkololgi/logs"
+PROJECT_DIR="${TNG_ILLUSTRIS_PROJECT_DIR:-/global/homes/d/dkololgi/TNG/Illustris}"
+SLAB_DIR="${TNG_ABACUS_SLAB_DIR:-/pscratch/sd/d/dkololgi/AbscusSummit_densities}"
+LOG_DIR="${TNG_LOG_DIR:-/pscratch/sd/d/dkololgi/logs}"
 SCRIPT="${PROJECT_DIR}/abacus_cactus_tweb.py"
 
 mkdir -p "${LOG_DIR}"

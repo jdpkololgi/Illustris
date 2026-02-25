@@ -6,6 +6,9 @@ import astropy.constants as c
 from astropy.table import Table
 from astropy.coordinates import SkyCoord
 from astropy.cosmology import Planck18 as cosmo
+from config_paths import ABACUS_CARTESIAN_OUTPUT, CUTSKY_Z0200_PATH
+
+# Workflow status: ACTIVE utility (CutSky -> Cartesian coordinates)
 
 class AbacusCatalog:
     def __init__(self, PATH):
@@ -71,10 +74,8 @@ class AbacusCatalog:
         plt.show()
 
 if __name__ == "__main__":
-
-    path = '/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000.fits'
-
-    AbacusCatalog(path).save_cartesian_coords("/global/homes/d/dkololgi/TNG/Illustris/abacus_cartesian_coords.npy")
+    path = CUTSKY_Z0200_PATH
+    AbacusCatalog(path).save_cartesian_coords(ABACUS_CARTESIAN_OUTPUT)
 
 # data = Table(fitsio.read(path, columns=['RA', 'DEC', 'Z']))
 

@@ -4,14 +4,16 @@ import sys
 import numpy as np
 
 from shift import mpiutils
+from config_paths import ABACUS_SLAB_DIR, ABACUS_TWEB_OUTPUT_DIR
+
+# Workflow status: ACTIVE (Abacus slab -> MPI T-Web rank outputs)
 
 # Import the memory-optimized T-Web from our processing script
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from abacus_process_particles2 import run_tweb_memory_optimized
 
-
-SLAB_DIR = "/pscratch/sd/d/dkololgi/AbscusSummit_densities"
-OUTPUT_DIR = "/pscratch/sd/d/dkololgi/AbscusSummit_densities/tweb_rank_outputs"
+SLAB_DIR = ABACUS_SLAB_DIR
+OUTPUT_DIR = ABACUS_TWEB_OUTPUT_DIR
 
 THRESHOLD = 0.2
 RSMOOTH = 2.0
@@ -19,7 +21,7 @@ RSMOOTH = 2.0
 
 def load_local_density_from_slab_file(slab_dir, MPI):
     """
-    Load rank-local density slab written by abacus_process_particles.py.
+    Load rank-local density slab written by abacus_process_particles2.py.
     This avoids huge MPI object sends for multi-GB slabs.
     """
     rank, size = MPI.rank, MPI.size

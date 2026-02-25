@@ -45,6 +45,10 @@ Box Geometry:
 - Periodic boundary conditions
 '''
 
+# Workflow status: LEGACY
+# NOTE: This script is retained for historical reference.
+# The canonical active implementation is `abacus_process_particles2.py`.
+
 import numpy as np
 import glob
 import asdf
