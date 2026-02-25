@@ -1,3 +1,8 @@
+import sys
+if __name__ == "__main__" and any(arg in ("-h", "--help") for arg in sys.argv[1:]):
+    print("usage: Model_classes.py [--help]\n\nLegacy model class definitions (MLP/RandomForest/XGBoost).")
+    raise SystemExit(0)
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -22,11 +27,17 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score, ConfusionMatrixDisplay
 from sklearn.model_selection import RandomizedSearchCV, train_test_split
 from scipy.stats import randint
-import xgboost
+try:
+    import xgboost
+except ImportError:
+    xgboost = None
 # Tree Visualisation
 from sklearn.tree import export_graphviz
 from IPython.display import Image
-import graphviz
+try:
+    import graphviz
+except ImportError:
+    graphviz = None
 
 
 # Make tensorboard SummaryWriter optional (avoid forcing tensorflow import)
@@ -470,6 +481,8 @@ class Random_Forest:
     
 class XGB:
     def __init__(self):
+        if xgboost is None:
+            raise ImportError("xgboost is required for XGB. Install with `pip install xgboost`.")
         self.model = xgboost.XGBClassifier(n_estimators=500, max_depth=8, learning_rate=0.2, colsample_bytree=0.7, min_child_weight=1, gamma=0)
         self.all_labels = None
         self.all_preds = None

@@ -24,11 +24,19 @@ import gc
 import os
 import shutil
 import time
+import sys
+from pathlib import Path
 from dataclasses import dataclass
 
 import fitsio
 import numpy as np
 from astropy.cosmology import Planck18 as cosmo
+
+# Allow canonical workflow scripts to resolve repo-root modules after reorganization.
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 from config_paths import ABACUS_MOCKS_WITH_EIGS_DIR, ABACUS_TWEB_OUTPUT_DIR, CUTSKY_Z0200_PATH
 
 # Workflow status: ACTIVE (CutSky annotation with slabwise T-Web outputs)

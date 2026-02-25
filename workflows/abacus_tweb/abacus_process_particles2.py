@@ -48,6 +48,9 @@ Box Geometry:
 import numpy as np
 import glob
 import asdf
+import argparse
+import sys
+from pathlib import Path
 from astropy.cosmology import Planck18 as cosmo
 import astropy.units as u
 import fitsio
@@ -59,6 +62,12 @@ from cactus.ext import fiesta
 
 # abacusutils read_asdf automatically decompresses rvint data
 from abacusnbody.data.read_abacus import read_asdf
+
+# Allow canonical workflow scripts to resolve repo-root modules after reorganization.
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 from config_paths import ABACUS_BASE as CFG_ABACUS_BASE
 from config_paths import ABACUS_SLAB_DIR, MOCKS_BASE as CFG_MOCKS_BASE
 
@@ -1099,12 +1108,48 @@ def run_mpi_slab_workflow(ngrid: int = 3414, stitch_after_mpi: bool = True) -> N
     MPI.end()
 
 
-def main() -> None:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    """Parse CLI arguments for safe entrypoint behavior."""
+    parser = argparse.ArgumentParser(
+        description="AbacusSummit particle processing and MPI slab workflow for T-Web."
+    )
+    parser.add_argument(
+        "--show-workflow",
+        action="store_true",
+        help="Print the recommended workflow summary and exit (unless --run-mpi is also set).",
+    )
+    parser.add_argument(
+        "--run-mpi",
+        action="store_true",
+        help="Run the MPI slab density build + optional stitching.",
+    )
+    parser.add_argument(
+        "--ngrid",
+        type=int,
+        default=3414,
+        help="Grid size for MPI slab workflow (default: 3414).",
+    )
+    parser.add_argument(
+        "--no-stitch",
+        action="store_true",
+        help="Disable post-MPI slab stitching on rank 0.",
+    )
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> None:
+    args = parse_args(argv)
     print("=" * 70)
     print("ABACUSSUMMIT T-WEB PROCESSING")
     print("=" * 70)
-    print_recommended_workflow()
-    run_mpi_slab_workflow(ngrid=3414, stitch_after_mpi=True)
+    # Preserve legacy default behavior when no explicit mode is requested.
+    should_show = args.show_workflow or not args.run_mpi
+    should_run_mpi = args.run_mpi or (not args.show_workflow and not args.run_mpi)
+
+    if should_show:
+        print_recommended_workflow()
+    if should_run_mpi:
+        run_mpi_slab_workflow(ngrid=args.ngrid, stitch_after_mpi=not args.no_stitch)
 
 
 

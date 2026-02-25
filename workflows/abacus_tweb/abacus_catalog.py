@@ -1,11 +1,23 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import fitsio
+import sys
+from pathlib import Path
+if __name__ == "__main__" and any(arg in ("-h", "--help") for arg in sys.argv[1:]):
+    print("usage: abacus_catalog.py [--help]\n\nConvert CutSky RA/DEC/Z catalog to Cartesian coordinates.")
+    raise SystemExit(0)
+
 import astropy.units as u
 import astropy.constants as c
 from astropy.table import Table
 from astropy.coordinates import SkyCoord
 from astropy.cosmology import Planck18 as cosmo
+
+# Allow canonical workflow scripts to resolve repo-root modules after reorganization.
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 from config_paths import ABACUS_CARTESIAN_OUTPUT, CUTSKY_Z0200_PATH
 
 # Workflow status: ACTIVE utility (CutSky -> Cartesian coordinates)

@@ -1,3 +1,8 @@
+import sys
+if __name__ == "__main__" and any(arg in ("-h", "--help") for arg in sys.argv[1:]):
+    print("usage: Model.py [--help]\n\nLegacy model orchestration script (MLP/RandomForest/XGBoost workflows).")
+    raise SystemExit(0)
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt

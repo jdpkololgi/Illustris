@@ -1,3 +1,8 @@
+import sys
+if __name__ == "__main__" and any(arg in ("-h", "--help") for arg in sys.argv[1:]):
+    print("usage: postprocessing.py [--help]\n\nLegacy postprocessing and plotting script for GCN/GAT outputs.")
+    raise SystemExit(0)
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt

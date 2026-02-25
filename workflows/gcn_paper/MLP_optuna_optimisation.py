@@ -1,9 +1,19 @@
+import sys
+if __name__ == "__main__" and any(arg in ("-h", "--help") for arg in sys.argv[1:]):
+    print("usage: MLP_optuna_optimisation.py [--help]\n\nRuns the legacy Optuna-based MLP tuning workflow.")
+    raise SystemExit(0)
+
 import datetime
 import logging
 
-import optuna
-from optuna.trial import TrialState
-import optuna.visualization as ov
+try:
+    import optuna
+    from optuna.trial import TrialState
+    import optuna.visualization as ov
+except ImportError:
+    optuna = None
+    TrialState = None
+    ov = None
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -116,6 +126,8 @@ def objective(trial, train_loader, val_loader, class_weights):
     return float(accuracy)
 
 if __name__ == '__main__':
+    if optuna is None:
+        raise ImportError("optuna is required to run this script. Install with `pip install optuna`.")
     # sampler = optuna.samplers.
     train_loader, val_loader, class_weights = load_CW_data()
     study = optuna.create_study(direction='maximize', storage='sqlite:///optuna_study.db', load_if_exists=True, study_name=f'MLP_BS_{BATCHSIZE}_{LR}') # as objective function outputs accuracy, we want to maximise this

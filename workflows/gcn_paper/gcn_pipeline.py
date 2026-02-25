@@ -1,6 +1,9 @@
 from copyreg import pickle
 import os
+import sys
+from pathlib import Path
 from datetime import datetime
+import argparse
 import numpy as np
 import pandas as pd
 import torch
@@ -17,6 +20,12 @@ from torch_geometric.data import Data
 from torch_geometric.utils import from_networkx
 from torch_geometric.nn import GCNConv, GATv2Conv
 from torch.optim.lr_scheduler import ReduceLROnPlateau
+
+# Allow canonical workflow scripts to resolve repo-root modules after reorganization.
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 from Network_stats import network
 
 # Import custom modules
@@ -304,9 +313,18 @@ def main(rank, world_size, num_epochs):
     cleanup_ddp()
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="GCN paper workflow training entrypoint.")
+    parser.add_argument(
+        "--epochs",
+        type=int,
+        default=36900,
+        help="Number of training epochs (default matches legacy behavior).",
+    )
+    args = parser.parse_args()
+
     # Automatically detect number of available GPUs
     world_size = torch.cuda.device_count()
-    num_epochs = 36900 # 15000 # Set number of epochs for training
+    num_epochs = args.epochs
     print(f"Detected {world_size} GPUs. Starting distributed training...")
     
     if world_size < 2:

@@ -1,15 +1,30 @@
 import os
+import sys
+from pathlib import Path
+if __name__ == "__main__" and any(arg in ("-h", "--help") for arg in sys.argv[1:]):
+    print("usage: hyperparameter_tuning.py [--help]\n\nLegacy Optuna hyperparameter tuning script for Jraph pipeline.")
+    raise SystemExit(0)
+
 import jax
 import jax.numpy as jnp
 import jraph
 import haiku as hk
 import optax
-import optuna
-from optuna.pruners import MedianPruner
+try:
+    import optuna
+    from optuna.pruners import MedianPruner
+except ImportError:
+    optuna = None
+    MedianPruner = None
 import pickle
 import time
 
 import numpy as np
+# Allow canonical workflow scripts to resolve repo-root modules after reorganization.
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 # Import from existing pipeline
 from jraph_pipeline import load_data, calculate_class_weights
 from graph_net_models import make_graph_network
@@ -133,6 +148,8 @@ def objective(trial):
     return best_val_acc
 
 if __name__ == "__main__":
+    if optuna is None:
+        raise ImportError("optuna is required to run this script. Install with `pip install optuna`.")
     # Load Data Once
     print("Loading data...")
     # Fix Unpacking

@@ -1,3 +1,8 @@
+import sys
+if __name__ == "__main__" and any(arg in ("-h", "--help") for arg in sys.argv[1:]):
+    print("usage: Utilities.py [--help]\n\nLegacy utility module for catalog/network construction.")
+    raise SystemExit(0)
+
 import illustris_python as il
 import mistree as mist
 import numpy as np

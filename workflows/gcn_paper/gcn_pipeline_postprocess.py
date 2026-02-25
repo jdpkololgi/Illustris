@@ -1,3 +1,8 @@
+import sys
+if __name__ == "__main__" and any(arg in ("-h", "--help") for arg in sys.argv[1:]):
+    print("usage: gcn_pipeline_postprocess.py [--help]\n\nLegacy postprocessing pipeline for trained GCN/GAT models.")
+    raise SystemExit(0)
+
 import os
 import builtins
 from contextlib import contextmanager

@@ -12,11 +12,17 @@ Usage:
 """
 import os
 import sys
+from pathlib import Path
 
 # Force priority for user installed packages
 user_site = "/global/homes/d/dkololgi/.local/lib/python3.10/site-packages"
 if user_site not in sys.path:
     sys.path.insert(0, user_site)
+
+# Allow canonical workflow scripts to resolve repo-root modules after reorganization.
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "false"
 os.environ["XLA_PYTHON_CLIENT_ALLOCATOR"] = "platform"

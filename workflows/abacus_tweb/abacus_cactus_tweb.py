@@ -1,15 +1,24 @@
 import os
 import sys
+from pathlib import Path
+if __name__ == "__main__" and any(arg in ("-h", "--help") for arg in sys.argv[1:]):
+    print("usage: abacus_cactus_tweb.py [--help]\n\nRun MPI T-Web on rank-local density slabs.")
+    raise SystemExit(0)
 
 import numpy as np
 
 from shift import mpiutils
+
+# Allow canonical workflow scripts to resolve repo-root modules after reorganization.
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 from config_paths import ABACUS_SLAB_DIR, ABACUS_TWEB_OUTPUT_DIR
 
 # Workflow status: ACTIVE (Abacus slab -> MPI T-Web rank outputs)
 
 # Import the memory-optimized T-Web from our processing script
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from abacus_process_particles2 import run_tweb_memory_optimized
 
 SLAB_DIR = ABACUS_SLAB_DIR
