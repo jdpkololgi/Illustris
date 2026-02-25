@@ -22,6 +22,7 @@ import pickle
 import argparse
 import numpy as np
 import matplotlib.pyplot as plt
+from config_paths import CANONICAL_CACHE_ROOT, CANONICAL_FIGURE_ROOT
 
 # SBI/LtU-ILI imports
 import torch
@@ -70,8 +71,10 @@ def load_results(model_path):
     return model_info, posterior, embeddings_data
 
 
-def load_targets(data_path='/pscratch/sd/d/dkololgi/Cosmic_env_TNG_cache/processed_jraph_data_mc1e+09_v2_scaled_3.pkl'):
+def load_targets(data_path=None):
     """Load the original targets (eigenvalues) for comparison."""
+    if data_path is None:
+        data_path = f"{CANONICAL_CACHE_ROOT}/sbi/processed_jraph_data_mc1e+09_v2_scaled_3.pkl"
     print(f"Loading targets from: {data_path}")
     with open(data_path, 'rb') as f:
         data = pickle.load(f)
@@ -488,7 +491,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Plot SBI Posteriors')
     parser.add_argument('--model_path', type=str, required=True,
                         help='Path to the two_stage_model_*.pkl file')
-    parser.add_argument('--output_dir', type=str, default='sbi_plots',
+    parser.add_argument('--output_dir', type=str, default=f'{CANONICAL_FIGURE_ROOT}/sbi/two_stage',
                         help='Output directory for plots')
     parser.add_argument('--num_plots', type=int, default=5,
                         help='Number of individual posterior plots')

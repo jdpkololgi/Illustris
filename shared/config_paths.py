@@ -15,7 +15,7 @@ def _env(name: str, default: str) -> str:
     return os.environ.get(name, default)
 
 
-PROJECT_DIR = _env("TNG_ILLUSTRIS_PROJECT_DIR", str(Path(__file__).resolve().parent))
+PROJECT_DIR = _env("TNG_ILLUSTRIS_PROJECT_DIR", str(Path(__file__).resolve().parent.parent))
 DK_SCRATCH_ROOT = _env("DK_SCRATCH_ROOT", "/pscratch/sd/d/dkololgi")
 TNG_SCRATCH_ROOT = _env("TNG_SCRATCH_ROOT", f"{DK_SCRATCH_ROOT}/tng_illustris")
 
@@ -46,10 +46,10 @@ CUTSKY_Z0200_PATH = _env(
 
 ABACUS_CARTESIAN_OUTPUT = _env(
     "TNG_ABACUS_CARTESIAN_OUTPUT",
-    f"{PROJECT_DIR}/abacus_cartesian_coords.npy",
+    f"{TNG_SCRATCH_ROOT}/outputs/abacus/abacus_cartesian_coords.npy",
 )
 
-TNG_LOG_DIR = _env("TNG_LOG_DIR", "/pscratch/sd/d/dkololgi/logs")
+TNG_LOG_DIR = _env("TNG_LOG_DIR", f"{TNG_SCRATCH_ROOT}/logs")
 
 # Canonical pscratch layout (opt-in via env vars in current migration stage)
 CANONICAL_CACHE_ROOT = _env("TNG_CANONICAL_CACHE_ROOT", f"{TNG_SCRATCH_ROOT}/cache")

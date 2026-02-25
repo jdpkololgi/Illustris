@@ -33,6 +33,7 @@ from flowjax.distributions import Normal
 
 from graph_net_models import make_gnn_encoder
 from eigenvalue_transformations import samples_to_raw_eigenvalues
+from config_paths import CANONICAL_CACHE_ROOT, CANONICAL_FIGURE_ROOT
 
 # TARP coverage tests
 try:
@@ -72,7 +73,7 @@ def load_posteriors(posteriors_path):
 def load_data(data_path=None, use_transformed_eig=True):
     """Load the graph data and targets."""
     if data_path is None:
-        cache_dir = '/pscratch/sd/d/dkololgi/Cosmic_env_TNG_cache'
+        cache_dir = os.environ.get("TNG_SBI_CACHE_DIR", f"{CANONICAL_CACHE_ROOT}/sbi")
         if use_transformed_eig:
             data_path = f'{cache_dir}/processed_jraph_data_mc1e+09_v2_scaled_3_transformed_eig.pkl'
         else:
@@ -546,7 +547,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Plot Flowjax SBI Posteriors')
     parser.add_argument('--model_path', type=str, required=True,
                         help='Path to the flowjax_sbi_model_*.pkl file')
-    parser.add_argument('--output_dir', type=str, default='sbi_plots_flowjax',
+    parser.add_argument('--output_dir', type=str, default=f'{CANONICAL_FIGURE_ROOT}/sbi/flowjax',
                         help='Output directory for plots')
     parser.add_argument('--num_plots', type=int, default=5,
                         help='Number of individual posterior plots')

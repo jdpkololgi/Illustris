@@ -8,6 +8,7 @@ import seaborn as sns
 from sklearn.metrics import confusion_matrix, classification_report, roc_curve, auc
 from sklearn.preprocessing import label_binarize
 from itertools import cycle
+from config_paths import CANONICAL_FIGURE_ROOT
 
 # Set style
 plt.style.use('dark_background')
@@ -370,7 +371,7 @@ def main():
     parser.add_argument("--log", type=str, help="Path to training log file")
     parser.add_argument("--preds", type=str, help="Path to predictions pickle file")
     # Seed argument kept for backwards compatibility but not used in filenames
-    parser.add_argument("--output_dir", type=str, default="/pscratch/sd/d/dkololgi/TNG_Illustris_outputs/",
+    parser.add_argument("--output_dir", type=str, default=f"{CANONICAL_FIGURE_ROOT}/jraph",
                         help="Directory to save plots")
     
     args = parser.parse_args()
