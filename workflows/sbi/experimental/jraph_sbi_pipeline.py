@@ -42,6 +42,7 @@ import optax
 import distrax
 
 from graph_net_models import make_graph_network_sbi
+from shared.resource_requirements import require_gpu_slurm
 
 # Import data loading utilities from existing pipeline
 from jraph_pipeline import load_data, generate_data
@@ -171,6 +172,7 @@ def sample_posterior_in_model(params, rng, graph, net_apply, num_samples=100,
 #########################################################################
 
 def main(args):
+    require_gpu_slurm("jraph_sbi_pipeline.py", min_gpus=1)
     print("=" * 70)
     print("SBI Pipeline: GNN + Conditional Normalizing Flow")
     print("=" * 70)

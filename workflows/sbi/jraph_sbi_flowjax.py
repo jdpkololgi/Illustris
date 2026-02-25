@@ -47,6 +47,7 @@ from flowjax.distributions import Normal
 from graph_net_models import make_gnn_encoder
 from eigenvalue_transformations import increments_to_eigenvalues, samples_to_raw_eigenvalues
 from tng_pipeline_paths import DEFAULT_SBI_OUTPUT_DIR, resolve_sbi_paths
+from shared.resource_requirements import require_gpu_slurm
 
 
 def load_cached_sbi_data(data_path: str):
@@ -66,6 +67,7 @@ def load_cached_sbi_data(data_path: str):
 
 
 def main(args):
+    require_gpu_slurm("jraph_sbi_flowjax.py", min_gpus=1)
     print("=" * 70)
     print("SBI Pipeline: GNN + Flowjax (Multi-GPU)")
     print("=" * 70)

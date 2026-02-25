@@ -52,6 +52,7 @@ except ImportError:
     ILI_AVAILABLE = False
 
 from graph_net_models import make_gnn_encoder
+from shared.resource_requirements import require_gpu_slurm
 
 
 def train_gnn_encoder_stage1(args, graph, targets, train_mask, val_mask, eigenvalue_scaler):
@@ -471,6 +472,7 @@ def train_flow_stage2_ili(args, embeddings_data, targets, train_mask, val_mask, 
 
 def main(args):
     """Main two-stage training pipeline."""
+    require_gpu_slurm("jraph_sbi_two_stage.py", min_gpus=1)
     print("=" * 70)
     print("Two-Stage SBI Pipeline: Separate GNN + Flow Training")
     print("=" * 70)

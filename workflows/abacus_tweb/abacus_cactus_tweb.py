@@ -15,6 +15,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from config_paths import ABACUS_SLAB_DIR, ABACUS_TWEB_OUTPUT_DIR
+from shared.resource_requirements import require_cpu_mpi_slurm
 
 # Workflow status: ACTIVE (Abacus slab -> MPI T-Web rank outputs)
 
@@ -66,6 +67,7 @@ def estimate_peak_memory_gb(local_shape):
 
 
 def main():
+    require_cpu_mpi_slurm("abacus_cactus_tweb.py", min_tasks=2)
     MPI = mpiutils.MPI()
     rank = MPI.rank
 

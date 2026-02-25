@@ -70,6 +70,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from config_paths import ABACUS_BASE as CFG_ABACUS_BASE
 from config_paths import ABACUS_SLAB_DIR, MOCKS_BASE as CFG_MOCKS_BASE
+from shared.resource_requirements import require_cpu_mpi_slurm
 
 # Workflow status: ACTIVE (canonical Abacus particle processing path)
 
@@ -1149,6 +1150,7 @@ def main(argv: list[str] | None = None) -> None:
     if should_show:
         print_recommended_workflow()
     if should_run_mpi:
+        require_cpu_mpi_slurm("abacus_process_particles2.py", min_tasks=2)
         run_mpi_slab_workflow(ngrid=args.ngrid, stitch_after_mpi=not args.no_stitch)
 
 

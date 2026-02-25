@@ -46,9 +46,11 @@ from flowjax.flows import masked_autoregressive_flow, RationalQuadraticSpline
 from flowjax.distributions import Normal
 
 from graph_net_models import make_gnn_encoder
+from shared.resource_requirements import require_gpu_slurm
 
 
 def main(args):
+    require_gpu_slurm("jraph_sbi_flowjax_two_stage.py", min_gpus=1)
     print("=" * 70)
     print("SBI Pipeline: GNN + Flowjax (Multi-GPU)")
     print("=" * 70)

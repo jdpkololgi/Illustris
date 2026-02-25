@@ -31,6 +31,7 @@ from Network_stats import network
 # Import custom modules
 from gnn_models import SimpleGNN, SimpleGAT
 from utils import train_gcn_full, test_gcn_full, calculate_class_weights, preprocess_features
+from shared.resource_requirements import require_gpu_slurm
 
 def setup_ddp(rank, world_size):
     """Initialize the distributed process group."""
@@ -321,6 +322,7 @@ if __name__ == "__main__":
         help="Number of training epochs (default matches legacy behavior).",
     )
     args = parser.parse_args()
+    require_gpu_slurm("gcn_pipeline.py", min_gpus=1)
 
     # Automatically detect number of available GPUs
     world_size = torch.cuda.device_count()

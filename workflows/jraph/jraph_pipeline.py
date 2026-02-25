@@ -40,6 +40,7 @@ from sklearn.metrics import classification_report
 from graph_net_models import make_graph_network
 from eigenvalue_transformations import eigenvalues_to_shape_params, shape_params_to_eigenvalues, compute_shape_param_statistics, eigenvalues_to_increments, increments_to_eigenvalues
 from tng_pipeline_paths import DEFAULT_JRAPH_OUTPUT_DIR, resolve_pipeline_paths
+from shared.resource_requirements import require_gpu_slurm
 # Set up JAX to use 64-bit precision if needed, though 32 is usually fine for ML
 # jax.config.update("jax_enable_x64", True)
 
@@ -459,6 +460,7 @@ def calculate_class_weights(targets):
 # Main
 #########################################################################
 def main(args):
+    require_gpu_slurm("jraph_pipeline.py", min_gpus=1)
     print(f"JAX Devices: {jax.devices()}")
     num_devices = jax.local_device_count()
     print(f"Running on {num_devices} devices.")
