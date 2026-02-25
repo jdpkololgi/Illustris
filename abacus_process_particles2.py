@@ -1031,18 +1031,8 @@ def cutsky_to_box_coords(ra, dec, z_cosmo):
     return x, y, z
 
 
-
-
-
-# =============================================================================
-# MAIN - DEMONSTRATION
-# =============================================================================
-
-if __name__ == "__main__":
-    print("=" * 70)
-    print("ABACUSSUMMIT T-WEB PROCESSING")
-    print("=" * 70)
-
+def print_recommended_workflow() -> None:
+    """Print the recommended non-MPI workflow reference for operators."""
     print("""
 PARTICLE DATA SUMMARY:
 ======================
@@ -1071,23 +1061,20 @@ cweb, eig_vals = cactus.src.tweb.run_tweb(
 np.savez(f'{ABACUS_SLAB_DIR}/abacus_z0200_eigenvalues_512.npz', eig_vals=eig_vals)
 
 # STEP 5: Assign to CutSky mock galaxies
-cutsky = load_cutsky_mock(in_y5_only=True)
+# (Use your catalog loader, then map RA/DEC/Z_COSMO with cutsky_to_box_coords)
 x, y, z = cutsky_to_box_coords(cutsky['RA'], cutsky['DEC'], cutsky['Z_COSMO'])
 cutsky['eig_vals'] = assign_tweb_to_galaxies(x, y, z, eig_vals)
 """)
 
-    # -------------------------------------------------------------------------
-    # MPI slab density build (requires srun/mpirun)
-    # -------------------------------------------------------------------------
+
+def run_mpi_slab_workflow(ngrid: int = 3414, stitch_after_mpi: bool = True) -> None:
+    """Run MPI slab build and optional slab stitching."""
     from shift import mpiutils
 
     MPI = mpiutils.MPI()
     print("MPI size:", MPI.size)
 
-    ngrid = 3414
     save_dir = ABACUS_SLAB_DIR
-    stitch_after_mpi = True  # Set True on a high-memory node
-
     build_density_field_mpi_slabs(
         snapshot_path=SNAPSHOT_Z0200,
         ngrid=ngrid,
@@ -1102,9 +1089,7 @@ cutsky['eig_vals'] = assign_tweb_to_galaxies(x, y, z, eig_vals)
     MPI.wait()
 
     if stitch_after_mpi and MPI.rank == 0:
-        output_path = (
-            f"{save_dir}/AbacusSummit_base_c000_ph000_z0200_ngrid{ngrid}_NGP_full.npz"
-        )
+        output_path = f"{save_dir}/AbacusSummit_base_c000_ph000_z0200_ngrid{ngrid}_NGP_full.npz"
         stitch_density_slabs(
             save_dir,
             output_path,
@@ -1113,6 +1098,21 @@ cutsky['eig_vals'] = assign_tweb_to_galaxies(x, y, z, eig_vals)
         )
     MPI.end()
 
-    # density = build_density_field_streaming(SNAPSHOT_Z0200, ngrid=1707)
-    
-    # cweb = cactus.src.tweb.run_tweb(density, boxsize=2000., ngrid=1707,threshold=0.2, Rsmooth=2., boundary='periodic', usereal=True, verbose=True)
+
+def main() -> None:
+    print("=" * 70)
+    print("ABACUSSUMMIT T-WEB PROCESSING")
+    print("=" * 70)
+    print_recommended_workflow()
+    run_mpi_slab_workflow(ngrid=3414, stitch_after_mpi=True)
+
+
+
+
+
+# =============================================================================
+# MAIN - DEMONSTRATION
+# =============================================================================
+
+if __name__ == "__main__":
+    main()
