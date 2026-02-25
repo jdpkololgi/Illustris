@@ -1058,7 +1058,7 @@ RECOMMENDED WORKFLOW (like Illustris_cactus.py):
 density = build_density_field_streaming(SNAPSHOT_Z0200, ngrid=512)
 
 # STEP 2: Save density field for reuse
-np.savez('/pscratch/sd/d/dkololgi/abacus_z0200_density_512.npz', dens=density)
+np.savez(f'{ABACUS_SLAB_DIR}/abacus_z0200_density_512.npz', dens=density)
 
 # STEP 3: Run T-Web (like Illustris_cactus.py)
 import cactus
@@ -1068,7 +1068,7 @@ cweb, eig_vals = cactus.src.tweb.run_tweb(
 )
 
 # STEP 4: Save eigenvalues
-np.savez('/pscratch/sd/d/dkololgi/abacus_z0200_eigenvalues_512.npz', eig_vals=eig_vals)
+np.savez(f'{ABACUS_SLAB_DIR}/abacus_z0200_eigenvalues_512.npz', eig_vals=eig_vals)
 
 # STEP 5: Assign to CutSky mock galaxies
 cutsky = load_cutsky_mock(in_y5_only=True)

@@ -1,6 +1,7 @@
 # Active Workflow Index
 
 This file is the Phase 0 quick reference for what to run in this repository now.
+For pscratch organization and migration env vars, see `/global/homes/d/dkololgi/PSCRATCH_LAYOUT.md`.
 
 ## Active
 

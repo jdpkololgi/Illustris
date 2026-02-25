@@ -10,13 +10,10 @@ This script:
    - CWEB (uint8)
    - LAMBDA1, LAMBDA2, LAMBDA3 (float32)
 
-Default paths match the user's dataset:
-- CutSky input:
-  /global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000.fits
-- T-Web rank outputs:
-  /pscratch/sd/d/dkololgi/AbscusSummit_densities/tweb_rank_outputs
-- Output directory:
-  /pscratch/sd/d/dkololgi/abacus/mocks_with_eigs
+Default paths come from `config_paths.py` and can be overridden via env vars:
+- `TNG_CUTSKY_Z0200_PATH`
+- `TNG_ABACUS_TWEB_OUTPUT_DIR`
+- `TNG_ABACUS_MOCKS_WITH_EIGS_DIR`
 """
 
 from __future__ import annotations

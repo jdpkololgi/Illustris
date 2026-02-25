@@ -1,6 +1,8 @@
 """Centralized path configuration for TNG/Illustris workflows.
 
-Phase 1 goal: keep existing defaults unchanged while allowing env overrides.
+Phase 1.5 goal:
+- Keep legacy defaults stable.
+- Add a canonical pscratch layout that can be enabled via env vars.
 """
 
 from __future__ import annotations
@@ -14,6 +16,8 @@ def _env(name: str, default: str) -> str:
 
 
 PROJECT_DIR = _env("TNG_ILLUSTRIS_PROJECT_DIR", str(Path(__file__).resolve().parent))
+DK_SCRATCH_ROOT = _env("DK_SCRATCH_ROOT", "/pscratch/sd/d/dkololgi")
+TNG_SCRATCH_ROOT = _env("TNG_SCRATCH_ROOT", f"{DK_SCRATCH_ROOT}/tng_illustris")
 
 ABACUS_BASE = _env(
     "TNG_ABACUS_BASE",
@@ -46,3 +50,8 @@ ABACUS_CARTESIAN_OUTPUT = _env(
 )
 
 TNG_LOG_DIR = _env("TNG_LOG_DIR", "/pscratch/sd/d/dkololgi/logs")
+
+# Canonical pscratch layout (opt-in via env vars in current migration stage)
+CANONICAL_CACHE_ROOT = _env("TNG_CANONICAL_CACHE_ROOT", f"{TNG_SCRATCH_ROOT}/cache")
+CANONICAL_OUTPUT_ROOT = _env("TNG_CANONICAL_OUTPUT_ROOT", f"{TNG_SCRATCH_ROOT}/outputs")
+CANONICAL_FIGURE_ROOT = _env("TNG_CANONICAL_FIGURE_ROOT", f"{TNG_SCRATCH_ROOT}/figures")
