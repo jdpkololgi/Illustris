@@ -53,6 +53,18 @@ class SlabMeta:
     rsmooth: float
 
 
+@dataclass(frozen=True)
+class TempMemmaps:
+    slab_id: np.memmap
+    lix: np.memmap
+    iy: np.memmap
+    iz: np.memmap
+    cweb: np.memmap
+    lam1: np.memmap
+    lam2: np.memmap
+    lam3: np.memmap
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Append T-Web class/eigenvalues to a CutSky FITS catalog."
@@ -219,6 +231,142 @@ def make_augmented_chunk(
     return out
 
 
+def create_temp_memmaps(temp_dir: str, nrows: int) -> TempMemmaps:
+    """Allocate all temporary memmaps used by the three-pass pipeline."""
+    return TempMemmaps(
+        slab_id=np.memmap(
+            os.path.join(temp_dir, "slab_id.uint8"), mode="w+", dtype=np.uint8, shape=(nrows,)
+        ),
+        lix=np.memmap(
+            os.path.join(temp_dir, "lix.uint16"), mode="w+", dtype=np.uint16, shape=(nrows,)
+        ),
+        iy=np.memmap(
+            os.path.join(temp_dir, "iy.uint16"), mode="w+", dtype=np.uint16, shape=(nrows,)
+        ),
+        iz=np.memmap(
+            os.path.join(temp_dir, "iz.uint16"), mode="w+", dtype=np.uint16, shape=(nrows,)
+        ),
+        cweb=np.memmap(
+            os.path.join(temp_dir, "cweb.uint8"), mode="w+", dtype=np.uint8, shape=(nrows,)
+        ),
+        lam1=np.memmap(
+            os.path.join(temp_dir, "lambda1.float32"), mode="w+", dtype=np.float32, shape=(nrows,)
+        ),
+        lam2=np.memmap(
+            os.path.join(temp_dir, "lambda2.float32"), mode="w+", dtype=np.float32, shape=(nrows,)
+        ),
+        lam3=np.memmap(
+            os.path.join(temp_dir, "lambda3.float32"), mode="w+", dtype=np.float32, shape=(nrows,)
+        ),
+    )
+
+
+def pass1_build_lookup_indices(
+    hdu,
+    nrows: int,
+    chunk_size: int,
+    ngrid: int,
+    boxsize: float,
+    ix_to_slab: np.ndarray,
+    slab_xstart: np.ndarray,
+    mm: TempMemmaps,
+) -> None:
+    """Pass 1: compute per-row slab/local grid lookup indices."""
+    print("Pass 1/3: computing periodic grid indices for all galaxies...")
+    for start in range(0, nrows, chunk_size):
+        stop = min(start + chunk_size, nrows)
+        chunk = hdu[start:stop]
+        ra = np.asarray(chunk["RA"], dtype=np.float64)
+        dec = np.asarray(chunk["DEC"], dtype=np.float64)
+        zc = np.asarray(chunk["Z_COSMO"], dtype=np.float64)
+
+        x, y, z = sky_to_box_coords(ra, dec, zc, boxsize=boxsize)
+        ix, iy, iz = to_grid_indices(x, y, z, ngrid=ngrid, boxsize=boxsize)
+
+        slab_ids = ix_to_slab[ix]
+        if np.any(slab_ids < 0):
+            raise RuntimeError(f"Found unmapped slab ids in rows {start}:{stop}")
+
+        local_ix = ix - slab_xstart[slab_ids]
+        if np.any(local_ix < 0):
+            raise RuntimeError(f"Found negative local_ix in rows {start}:{stop}")
+
+        mm.slab_id[start:stop] = slab_ids.astype(np.uint8)
+        mm.lix[start:stop] = local_ix.astype(np.uint16)
+        mm.iy[start:stop] = iy.astype(np.uint16)
+        mm.iz[start:stop] = iz.astype(np.uint16)
+
+        if start == 0 or ((start // chunk_size) + 1) % 10 == 0 or stop == nrows:
+            print(f"  indexed rows {start:,}-{stop:,} / {nrows:,}")
+
+    mm.slab_id.flush()
+    mm.lix.flush()
+    mm.iy.flush()
+    mm.iz.flush()
+
+
+def pass2_assign_tweb_values(slabs: list[SlabMeta], mm: TempMemmaps) -> None:
+    """Pass 2: gather cweb/eigenvalues for each row by slab."""
+    print("Pass 2/3: assigning cweb/eigenvalues from slab files...")
+    for slab in slabs:
+        row_idx = np.nonzero(mm.slab_id == slab.slab_id)[0]
+        if row_idx.size == 0:
+            print(f"  slab {slab.slab_id:02d}: no rows, skipping")
+            continue
+
+        print(
+            f"  slab {slab.slab_id:02d}: rows={row_idx.size:,}, "
+            f"x=[{slab.x_start},{slab.x_end}), loading {os.path.basename(slab.path)}"
+        )
+
+        with np.load(slab.path) as d:
+            cweb_local = d["cweb"]
+            eig_local = d["eig_vals"]
+
+            li = mm.lix[row_idx].astype(np.int64)
+            yj = mm.iy[row_idx].astype(np.int64)
+            zk = mm.iz[row_idx].astype(np.int64)
+
+            mm.cweb[row_idx] = cweb_local[li, yj, zk]
+            mm.lam1[row_idx] = eig_local[0, li, yj, zk]
+            mm.lam2[row_idx] = eig_local[1, li, yj, zk]
+            mm.lam3[row_idx] = eig_local[2, li, yj, zk]
+
+        mm.cweb.flush()
+        mm.lam1.flush()
+        mm.lam2.flush()
+        mm.lam3.flush()
+        del row_idx
+        gc.collect()
+
+
+def pass3_write_augmented_fits(hdu, nrows: int, chunk_size: int, out_path: str, mm: TempMemmaps) -> None:
+    """Pass 3: write output FITS with appended T-Web columns."""
+    print(f"Pass 3/3: writing output FITS to {out_path}")
+    fout = fitsio.FITS(out_path, "rw", clobber=True)
+    first = True
+    for start in range(0, nrows, chunk_size):
+        stop = min(start + chunk_size, nrows)
+        chunk = hdu[start:stop]
+        out_chunk = make_augmented_chunk(
+            chunk=chunk,
+            cweb=mm.cweb[start:stop],
+            l1=mm.lam1[start:stop],
+            l2=mm.lam2[start:stop],
+            l3=mm.lam3[start:stop],
+        )
+        if first:
+            fout.write(out_chunk)
+            first = False
+        else:
+            fout[-1].append(out_chunk)
+
+        if start == 0 or ((start // chunk_size) + 1) % 10 == 0 or stop == nrows:
+            print(f"  wrote rows {start:,}-{stop:,} / {nrows:,}")
+
+    fout.close()
+
+
 def main() -> None:
     args = parse_args()
     t0 = time.time()
@@ -253,107 +401,25 @@ def main() -> None:
     nrows = hdu.get_nrows()
     print(f"Input rows: {nrows:,}")
 
-    # Temporary memmaps for per-row lookup indices and outputs.
-    slab_id_mm = np.memmap(os.path.join(temp_dir, "slab_id.uint8"), mode="w+", dtype=np.uint8, shape=(nrows,))
-    lix_mm = np.memmap(os.path.join(temp_dir, "lix.uint16"), mode="w+", dtype=np.uint16, shape=(nrows,))
-    iy_mm = np.memmap(os.path.join(temp_dir, "iy.uint16"), mode="w+", dtype=np.uint16, shape=(nrows,))
-    iz_mm = np.memmap(os.path.join(temp_dir, "iz.uint16"), mode="w+", dtype=np.uint16, shape=(nrows,))
-
-    cweb_mm = np.memmap(os.path.join(temp_dir, "cweb.uint8"), mode="w+", dtype=np.uint8, shape=(nrows,))
-    lam1_mm = np.memmap(os.path.join(temp_dir, "lambda1.float32"), mode="w+", dtype=np.float32, shape=(nrows,))
-    lam2_mm = np.memmap(os.path.join(temp_dir, "lambda2.float32"), mode="w+", dtype=np.float32, shape=(nrows,))
-    lam3_mm = np.memmap(os.path.join(temp_dir, "lambda3.float32"), mode="w+", dtype=np.float32, shape=(nrows,))
-
-    # Pass 1: Build per-row slab lookup indices.
-    print("Pass 1/3: computing periodic grid indices for all galaxies...")
-    for start in range(0, nrows, args.chunk_size):
-        stop = min(start + args.chunk_size, nrows)
-        chunk = hdu[start:stop]
-        ra = np.asarray(chunk["RA"], dtype=np.float64)
-        dec = np.asarray(chunk["DEC"], dtype=np.float64)
-        zc = np.asarray(chunk["Z_COSMO"], dtype=np.float64)
-
-        x, y, z = sky_to_box_coords(ra, dec, zc, boxsize=boxsize)
-        ix, iy, iz = to_grid_indices(x, y, z, ngrid=ngrid, boxsize=boxsize)
-
-        slab_ids = ix_to_slab[ix]
-        if np.any(slab_ids < 0):
-            raise RuntimeError(f"Found unmapped slab ids in rows {start}:{stop}")
-
-        local_ix = ix - slab_xstart[slab_ids]
-        if np.any(local_ix < 0):
-            raise RuntimeError(f"Found negative local_ix in rows {start}:{stop}")
-
-        slab_id_mm[start:stop] = slab_ids.astype(np.uint8)
-        lix_mm[start:stop] = local_ix.astype(np.uint16)
-        iy_mm[start:stop] = iy.astype(np.uint16)
-        iz_mm[start:stop] = iz.astype(np.uint16)
-
-        if start == 0 or ((start // args.chunk_size) + 1) % 10 == 0 or stop == nrows:
-            print(f"  indexed rows {start:,}-{stop:,} / {nrows:,}")
-
-    slab_id_mm.flush()
-    lix_mm.flush()
-    iy_mm.flush()
-    iz_mm.flush()
-
-    # Pass 2: Load each slab once and gather cweb/eigenvalues for matching rows.
-    print("Pass 2/3: assigning cweb/eigenvalues from slab files...")
-    for slab in slabs:
-        row_idx = np.nonzero(slab_id_mm == slab.slab_id)[0]
-        if row_idx.size == 0:
-            print(f"  slab {slab.slab_id:02d}: no rows, skipping")
-            continue
-
-        print(
-            f"  slab {slab.slab_id:02d}: rows={row_idx.size:,}, "
-            f"x=[{slab.x_start},{slab.x_end}), loading {os.path.basename(slab.path)}"
-        )
-
-        with np.load(slab.path) as d:
-            cweb_local = d["cweb"]
-            eig_local = d["eig_vals"]
-
-            li = lix_mm[row_idx].astype(np.int64)
-            yj = iy_mm[row_idx].astype(np.int64)
-            zk = iz_mm[row_idx].astype(np.int64)
-
-            cweb_mm[row_idx] = cweb_local[li, yj, zk]
-            lam1_mm[row_idx] = eig_local[0, li, yj, zk]
-            lam2_mm[row_idx] = eig_local[1, li, yj, zk]
-            lam3_mm[row_idx] = eig_local[2, li, yj, zk]
-
-        cweb_mm.flush()
-        lam1_mm.flush()
-        lam2_mm.flush()
-        lam3_mm.flush()
-        del row_idx
-        gc.collect()
-
-    # Pass 3: Write final FITS (same original columns + new T-Web columns).
-    print(f"Pass 3/3: writing output FITS to {out_path}")
-    fout = fitsio.FITS(out_path, "rw", clobber=True)
-    first = True
-    for start in range(0, nrows, args.chunk_size):
-        stop = min(start + args.chunk_size, nrows)
-        chunk = hdu[start:stop]
-        out_chunk = make_augmented_chunk(
-            chunk=chunk,
-            cweb=cweb_mm[start:stop],
-            l1=lam1_mm[start:stop],
-            l2=lam2_mm[start:stop],
-            l3=lam3_mm[start:stop],
-        )
-        if first:
-            fout.write(out_chunk)
-            first = False
-        else:
-            fout[-1].append(out_chunk)
-
-        if start == 0 or ((start // args.chunk_size) + 1) % 10 == 0 or stop == nrows:
-            print(f"  wrote rows {start:,}-{stop:,} / {nrows:,}")
-
-    fout.close()
+    mm = create_temp_memmaps(temp_dir=temp_dir, nrows=nrows)
+    pass1_build_lookup_indices(
+        hdu=hdu,
+        nrows=nrows,
+        chunk_size=args.chunk_size,
+        ngrid=ngrid,
+        boxsize=boxsize,
+        ix_to_slab=ix_to_slab,
+        slab_xstart=slab_xstart,
+        mm=mm,
+    )
+    pass2_assign_tweb_values(slabs=slabs, mm=mm)
+    pass3_write_augmented_fits(
+        hdu=hdu,
+        nrows=nrows,
+        chunk_size=args.chunk_size,
+        out_path=out_path,
+        mm=mm,
+    )
     fin.close()
 
     print("Done.")
