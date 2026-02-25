@@ -33,6 +33,7 @@ from sklearn.metrics import classification_report
 
 from graph_net_models import make_graph_network
 from eigenvalue_transformations import eigenvalues_to_shape_params, shape_params_to_eigenvalues, compute_shape_param_statistics, eigenvalues_to_increments, increments_to_eigenvalues
+from tng_pipeline_paths import DEFAULT_JRAPH_OUTPUT_DIR, resolve_pipeline_paths
 # Set up JAX to use 64-bit precision if needed, though 32 is usually fine for ML
 # jax.config.update("jax_enable_x64", True)
 
@@ -381,7 +382,13 @@ def generate_data(masscut, cache_path, version='v2', use_transformed_eig=True):
             
         return graph, classification_labels, regression_targets, None, target_scaler, eigenvalues_raw, masks
 
-def load_data(masscut=1e9, use_v2=True, prediction_mode='classification', use_transformed_eig=True):
+def load_data(
+    masscut=1e9,
+    use_v2=True,
+    prediction_mode='classification',
+    use_transformed_eig=True,
+    cache_dir=None,
+):
     """
     Load data from cache if available, otherwise generate it.
     Can switch between v1 and v2 stats.
@@ -396,10 +403,13 @@ def load_data(masscut=1e9, use_v2=True, prediction_mode='classification', use_tr
         For regression: graph, targets, stats, eigenvalues_raw, masks
     """
     version = 'v2' if use_v2 else 'v1'
-    cache_suffix = '_transformed_eig' if use_transformed_eig else '_raw_eig'
-    cache_dir = '/pscratch/sd/d/dkololgi/Cosmic_env_TNG_cache'
-    cache_path = f"{cache_dir}/processed_jraph_data_mc{masscut:.0e}_{version}_scaled_3{cache_suffix}.pkl"
-    pyg_cache_path = f"{cache_dir}/processed_gcn_data_mc{masscut:.0e}.pt"
+    paths = resolve_pipeline_paths(
+        masscut=masscut,
+        use_v2=use_v2,
+        use_transformed_eig=use_transformed_eig,
+        cache_dir=cache_dir,
+    )
+    cache_path = paths.cache_path
 
     if os.path.exists(cache_path):
         print(f"Loading cached Jraph data from {cache_path}...")
@@ -455,12 +465,23 @@ def main(args):
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     print(f"Job Timestamp: {timestamp}")
 
-    # 1. Load Data
+    # 1. Resolve paths and load data
     masscut = 1e9
     use_transformed_eig = not getattr(args, 'no_transformed_eig', False)
+    paths = resolve_pipeline_paths(
+        masscut=masscut,
+        use_v2=True,
+        use_transformed_eig=use_transformed_eig,
+        output_dir=args.output_dir,
+    )
+    args.output_dir = paths.output_dir
 
     graph, targets, stats, target_scaler, eigenvalues_raw, masks = load_data(
-        masscut=masscut, use_v2=True, prediction_mode=args.prediction_mode, use_transformed_eig=use_transformed_eig
+        masscut=masscut,
+        use_v2=True,
+        prediction_mode=args.prediction_mode,
+        use_transformed_eig=use_transformed_eig,
+        cache_dir=paths.cache_dir,
     )
     train_mask, val_mask, test_mask = masks
 
@@ -962,7 +983,7 @@ if __name__ == '__main__':
                         help="Prediction mode: 'classification' for cosmic web classes, 'regression' for eigenvalues")
     parser.add_argument("--no_transformed_eig", action="store_true",
                         help="Disable softplus transformed eigenvalues to train on increments instead of eigenvalues")
-    parser.add_argument("--output_dir", type=str, default="/pscratch/sd/d/dkololgi/TNG_Illustris_outputs/regression/",
+    parser.add_argument("--output_dir", type=str, default=DEFAULT_JRAPH_OUTPUT_DIR,
                         help="Directory to save models and predictions")
        
     args = parser.parse_args()

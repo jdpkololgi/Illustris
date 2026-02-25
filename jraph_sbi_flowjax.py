@@ -40,6 +40,22 @@ from flowjax.distributions import Normal
 
 from graph_net_models import make_gnn_encoder
 from eigenvalue_transformations import increments_to_eigenvalues, samples_to_raw_eigenvalues
+from tng_pipeline_paths import DEFAULT_SBI_OUTPUT_DIR, resolve_sbi_paths
+
+
+def load_cached_sbi_data(data_path: str):
+    """Load cached Jraph regression targets for SBI."""
+    print(f"Loading cached Jraph data from {data_path}...")
+    with open(data_path, 'rb') as f:
+        data = pickle.load(f)
+
+    graph = data['graph']
+    targets = data['regression_targets']
+    train_mask, val_mask, test_mask = data['masks']
+    target_scaler = data['target_scaler']
+    eigenvalues_raw = data.get('eigenvalues_raw')
+    stats = data.get('stats')
+    return graph, targets, train_mask, val_mask, test_mask, target_scaler, eigenvalues_raw, stats
 
 
 
@@ -64,26 +80,20 @@ def main(args):
     print("\n[1/6] Loading data...")
     
     use_transformed_eig = not getattr(args, 'no_transformed_eig', False)
+    paths = resolve_sbi_paths(
+        use_transformed_eig=use_transformed_eig,
+        output_dir=args.output_dir,
+    )
+    args.output_dir = paths.output_dir
     
     # Select cache path based on transformation flag
-    cache_dir = '/pscratch/sd/d/dkololgi/Cosmic_env_TNG_cache'
     if use_transformed_eig:
-        data_path = f'{cache_dir}/processed_jraph_data_mc1e+09_v2_scaled_3_transformed_eig.pkl'
         print("[Mode] Using transformed eigenvalues (v₁, Δλ₂, Δλ₃)")
     else:
-        data_path = f'{cache_dir}/processed_jraph_data_mc1e+09_v2_scaled_3_raw_eig.pkl'
         print("[Mode] Using raw eigenvalues (λ₁, λ₂, λ₃)")
-    
-    print(f"Loading cached Jraph data from {data_path}...")
-    with open(data_path, 'rb') as f:
-        data = pickle.load(f)
-    
-    graph = data['graph']
-    targets = data['regression_targets']  # Scaled eigenvalues (or transformed eigenvalues)
-    train_mask, val_mask, test_mask = data['masks']
-    target_scaler = data['target_scaler']
-    eigenvalues_raw = data.get('eigenvalues_raw')  # Ground truth for evaluation
-    stats = data.get('stats')  # Contains transformation stats if available
+    graph, targets, train_mask, val_mask, test_mask, target_scaler, eigenvalues_raw, stats = (
+        load_cached_sbi_data(paths.data_path)
+    )
     
     print(f"Graph stats: Nodes={graph.nodes.shape[0]}, Edges={graph.edges.shape[0]}")
     print(f"Train size: {jnp.sum(train_mask)}, Val size: {jnp.sum(val_mask)}, Test size: {jnp.sum(test_mask)}")
@@ -531,7 +541,7 @@ if __name__ == '__main__':
     parser.add_argument('--lr', type=float, default=1e-3, help='Peak learning rate')
     parser.add_argument('--weight_decay', type=float, default=0.08, help='Weight decay')
     parser.add_argument('--seed', type=int, default=42, help='Random seed')
-    parser.add_argument('--output_dir', type=str, default='/pscratch/sd/d/dkololgi/TNG_Illustris_outputs/sbi/', help='Output directory')
+    parser.add_argument('--output_dir', type=str, default=DEFAULT_SBI_OUTPUT_DIR, help='Output directory')
     
     # GNN Architecture
     parser.add_argument('--num_passes', type=int, default=8, help='Message passing iterations')
