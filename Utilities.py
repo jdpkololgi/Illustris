@@ -504,7 +504,8 @@ class cat():
             
         # If from DESI and alpha is None then calculate alpha as 1.5x mean galaxy sepration
         if self.from_DESI == True and alpha is None:
-            alpha = 1.5 * 4.5 # keep it at 4.5 Mpc
+            alpha = 6.906260417222935 #1.5 * 4.5 # keep it at 4.5 Mpc
+            print(f'Alpha complex alpha for DESI: {alpha}')
             alpha_sq = alpha**2
 
         elif self.from_DESI == False and alpha is None:
@@ -516,6 +517,7 @@ class cat():
 
             self.number_density = len(self.points) / (boxsize_val**3)
             alpha = 1.5 * (self.number_density)**(-1/3)
+            print(f'Alpha complex alpha: {alpha}')
             alpha_sq = alpha**2
         
         # Create gudhi alpha complex and store simplex trees for later use

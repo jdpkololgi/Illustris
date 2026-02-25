@@ -153,7 +153,8 @@ sns.set_palette(class_colors)
 data, features, targets = load_data(rank=0, distributed=False)
 class_weights = calculate_class_weights(targets)
 model = SimpleGAT(input_dim=features.shape[1], output_dim=4, num_heads=4)
-model.load_state_dict(torch.load('trained_gat_model_ddp.pth', weights_only=True))
+# model.load_state_dict(torch.load('trained_gat_model_ddp.pth', weights_only=True))
+model.load_state_dict(torch.load('trained_gat_model_ddp_2026-01-15.pth', weights_only=True))
 test_gcn_full(model, data)
 predicted_labels, true_labels, test_probs, _ = test_gcn_full(model, data)
 
@@ -169,12 +170,12 @@ ax.set_xlabel('Predicted', fontsize=FONT_SIZE)
 ax.set_ylabel('True', fontsize=FONT_SIZE)
 ax.tick_params(labelsize=FONT_SIZE)
 fig_cm.tight_layout()
-fig_cm.savefig('gatplus_confusion_matrix.png', dpi=600)
+fig_cm.savefig('gatplus_alpha_confusion_matrix.png', dpi=600)
 plt.close(fig_cm)
 
 print(cm)
 
-training_history = pd.read_pickle('training_validation_accuracies_losses.pkl')
+training_history = pd.read_pickle('training_validation_accuracies_losses_2026-01-15.pkl')
 
 # plot training history with consistent colors and font sizes
 fig, ax = plt.subplots(1, 2, figsize=(20, 6))  # larger so font sizes remain consistent
@@ -202,7 +203,7 @@ ax[1].tick_params(labelsize=FONT_SIZE)
 ax[1].legend(loc='best', fontsize=FONT_SIZE)
 
 plt.tight_layout()
-fig.savefig('training_validation_accuracies_losses.png', dpi=600)
+fig.savefig('training_validation_alpha_accuracies_losses.png', dpi=600)
 plt.close(fig)
 
 
@@ -222,7 +223,7 @@ plt.ylabel('Density', fontsize=FONT_SIZE)
 plt.legend(loc='upper left', fontsize=FONT_SIZE)
 plt.tick_params(labelsize=FONT_SIZE)
 fig_kde.tight_layout()
-fig_kde.savefig('mean_edge_length_distribution.png', dpi=600)
+fig_kde.savefig('mean_edge_length_alpha_distribution.png', dpi=600)
 plt.close(fig_kde)
 
 # Calculate mutual information
@@ -238,8 +239,100 @@ plt.xticks(rotation=45, ha='right', fontsize=FONT_SIZE)
 plt.title('Graph Metric Mutual Information with T-WEB Environments', fontsize=FONT_SIZE)
 plt.tick_params(axis='both', labelsize=FONT_SIZE)
 fig_mi.tight_layout()
-fig_mi.savefig('mutual_info_graph_metrics.png', dpi=600, transparent=True)
+fig_mi.savefig('mutual_info_graph_metrics_alpha.png', dpi=600, transparent=True)
 plt.close(fig_mi)
+
+# ── Shapley value feature importance ──────────────────────────────────────
+# Direct SHAP on the GAT is prohibitively slow because every feature-mask
+# evaluation requires a full forward pass through the 284k-node graph.
+# Instead we train a fast *surrogate* (GradientBoosting) to mimic the GAT's
+# predictions from the same input features, then use TreeExplainer for
+# exact Shapley values in seconds.  Surrogate fidelity is reported so we
+# can verify it faithfully represents the GAT's decision boundary.
+import shap
+from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.metrics import accuracy_score
+
+feature_names = list(features.columns)
+_rename = {'I_eig1': '$I_1$', 'I_eig2': '$I_2$', 'I_eig3': '$I_3$'}
+display_names = [_rename.get(n, n) for n in feature_names]
+
+# 1.  Get the GAT's predicted labels for every node
+model.eval()
+with torch.no_grad():
+    _all_logits = model(data.x, data.edge_index, data.edge_attr)
+    _gat_preds  = _all_logits.argmax(dim=1).numpy()
+
+_train_mask = data.train_mask.numpy()
+_test_mask  = data.test_mask.numpy()
+
+X_train_surr, y_train_surr = features.values[_train_mask], _gat_preds[_train_mask]
+X_test_surr,  y_test_surr  = features.values[_test_mask],  _gat_preds[_test_mask]
+
+# 2.  Train the surrogate to replicate the GAT's predictions
+#     HistGradientBoosting uses histogram binning — much faster on 200k+ samples
+print("Training surrogate HistGradientBoosting classifier …")
+surrogate = HistGradientBoostingClassifier(
+    max_iter=200, max_depth=6, learning_rate=0.1, random_state=42
+)
+surrogate.fit(X_train_surr, y_train_surr)
+
+surr_train_acc = accuracy_score(y_train_surr, surrogate.predict(X_train_surr))
+surr_test_acc  = accuracy_score(y_test_surr,  surrogate.predict(X_test_surr))
+print(f"Surrogate fidelity — train: {surr_train_acc:.3f}  test: {surr_test_acc:.3f}")
+
+# 3.  TreeExplainer — exact Shapley values, fast
+print("Computing SHAP values via TreeExplainer …")
+explainer   = shap.TreeExplainer(surrogate)
+shap_values = explainer.shap_values(X_test_surr)
+
+# Handle different SHAP return formats:
+#   - list of n_classes arrays, each (n_test, n_features)  → standard GBM
+#   - single ndarray of shape (n_test, n_features, n_classes) → HistGBM
+if isinstance(shap_values, list):
+    shap_array = np.stack(shap_values, axis=-1)       # → (n_test, n_feat, n_class)
+elif isinstance(shap_values, np.ndarray) and shap_values.ndim == 3:
+    shap_array = shap_values                          # already 3-D
+else:
+    shap_array = shap_values[:, :, np.newaxis]        # 2-D fallback
+
+print(f"SHAP array shape: {shap_array.shape}  "
+      f"(expected ({X_test_surr.shape[0]}, {X_test_surr.shape[1]}, 4))")
+
+# 4a.  Bar plot — mean |SHAP| per feature (averaged over nodes & classes)
+mean_abs = np.mean(np.abs(shap_array), axis=(0, 2))
+order    = np.argsort(mean_abs)
+
+fig_shap_bar = plt.figure(figsize=(10, 8))
+plt.barh(np.arange(len(display_names)), mean_abs[order],
+         color=custom_palette['Void'], alpha=0.8)
+plt.yticks(np.arange(len(display_names)),
+           [display_names[i] for i in order], fontsize=FONT_SIZE)
+plt.xlabel('Mean |SHAP value|', fontsize=FONT_SIZE)
+plt.title('SHAP Feature Importance for GAT Classifier', fontsize=FONT_SIZE)
+plt.tick_params(axis='both', labelsize=FONT_SIZE)
+fig_shap_bar.tight_layout()
+fig_shap_bar.savefig('shap_bar_graph_metrics_alpha.png', dpi=600, transparent=True)
+plt.close(fig_shap_bar)
+
+# 4b.  Beeswarm plot per class
+class_names_shap = ['Void', 'Wall', 'Filament', 'Cluster']
+for c_idx, c_name in enumerate(class_names_shap):
+    explanation = shap.Explanation(
+        values=shap_array[:, :, c_idx],
+        base_values=explainer.expected_value[c_idx] * np.ones(shap_array.shape[0]),
+        data=X_test_surr,
+        feature_names=display_names,
+    )
+    fig_bee = plt.figure(figsize=(10, 8))
+    shap.plots.beeswarm(explanation, max_display=len(feature_names), show=False)
+    plt.title(f'SHAP Beeswarm — {c_name}', fontsize=FONT_SIZE)
+    plt.tick_params(axis='both', labelsize=FONT_SIZE)
+    fig_bee.tight_layout()
+    fig_bee.savefig(f'shap_beeswarm_{c_name.lower()}_alpha.png', dpi=600, transparent=True)
+    plt.close(fig_bee)
+
+print("SHAP plots saved.")
 
 # UMAP visualization of learned features. 3e projections colored by true and predicted labels
 UMAP = _resolve_umap_class()
@@ -253,9 +346,9 @@ _mapping = {0: 'Void', 1: 'Wall', 2: 'Filament', 3: 'Cluster'}
 
 targets2 = np.array([_mapping[int(t)] for t in targets])    
 # test_predictions_labels_probs.pkl
-test_probs = pd.read_pickle('test_predictions_labels_probs.pkl')['probs'].detach().cpu().numpy()
+test_probs = pd.read_pickle('test_predictions_labels_probs_2026-01-15.pkl')['probs'].detach().cpu().numpy()
 # UMAP of learned features colored by true labels
-node_embeddings = pd.read_pickle('node_embeddings.pkl').detach().cpu().numpy()
+node_embeddings = pd.read_pickle('node_embeddings_2026-01-15.pkl').detach().cpu().numpy()
 z = reducer.fit_transform(node_embeddings)
 
 # UMAP of GAT embeddings colored by true labels
@@ -593,5 +686,5 @@ fig_comb.legend(combined_handles, combined_labels, ncol=len(class_labels) + 2,
                 fontsize=20, loc='upper center')
 
 plt.tight_layout(rect=[0, 0, 1, 0.93])
-plt.savefig('umap_gat_embeddings_test_predictions.pdf', dpi=600)
+plt.savefig('umap_gat_embeddings_alpha_test_predictions.pdf', dpi=600)
 plt.close(fig_comb)

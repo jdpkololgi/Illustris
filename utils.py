@@ -7,13 +7,18 @@ from torch.amp import autocast, GradScaler
 from sklearn.preprocessing import PowerTransformer
 from sklearn.utils.class_weight import compute_class_weight
 
-def preprocess_features(features):
+def preprocess_features(features, save_scaler=False):
     """
     Scale features using PowerTransformer.
     """
     scaler = PowerTransformer(method='box-cox')
     # Add epsilon to handle zero or negative values as done for DESI
-    return pd.DataFrame(scaler.fit_transform(features + 1e-6), index=features.index, columns=features.columns)
+    features_scales = scaler.fit_transform(features + 1e-6)
+
+    if save_scaler:
+        torch.save(scaler, 'features_scaler.pkl')
+        
+    return pd.DataFrame(features_scales, index=features.index, columns=features.columns)
 
 def calculate_class_weights(targets):
     """

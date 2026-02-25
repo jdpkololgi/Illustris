@@ -96,7 +96,7 @@ def generate_data(masscut, cache_path):
     targets = testcat.data.iloc[:, -1]
 
     # Scale features
-    features = preprocess_features(features)
+    features = preprocess_features(features, save_scaler=True) # Save the scaler for use in DESI inference. 'features_scaler.pkl'
 
     # Convert to PyTorch Geometric Data object
     # netx_geom = from_networkx(testcat.subhalo_delauany_network(xyzplot=False), group_edge_attrs='all')
@@ -306,7 +306,7 @@ def main(rank, world_size, num_epochs):
 if __name__ == "__main__":
     # Automatically detect number of available GPUs
     world_size = torch.cuda.device_count()
-    num_epochs = 50000 # 15000 # Set number of epochs for training
+    num_epochs = 36900 # 15000 # Set number of epochs for training
     print(f"Detected {world_size} GPUs. Starting distributed training...")
     
     if world_size < 2:
