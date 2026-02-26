@@ -1,22 +1,22 @@
-"""Compatibility wrapper for migrated module."""
-
-if __name__ == "__main__":
-    import runpy
-
-    runpy.run_module("workflows.jraph.experimental.reproduce_error", run_name="__main__")
-else:
-    from workflows.jraph.experimental.reproduce_error import *  # noqa: F401,F403
 
 import numpy as np
-import eigenvalue_transformations as et
 import pickle
 import time
+import sys
+from pathlib import Path
 import jax
 import jax.numpy as jnp
 from jax import config
 config.update("jax_enable_x64", True)
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import PowerTransformer, StandardScaler
+
+# Allow canonical workflow scripts to resolve repo-root modules after reorganization.
+REPO_ROOT = Path(__file__).resolve().parents[3]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+import eigenvalue_transformations as et
 
 
 print("Loading real data...")

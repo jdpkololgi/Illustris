@@ -37,6 +37,9 @@ For pscratch organization and migration env vars, see `/global/homes/d/dkololgi/
 ## Experimental
 
 - `workflows/sbi/experimental/jraph_sbi_two_stage.py`
+- `workflows/jraph/experimental/reproduce_error.py` (diagnostic reproduction helper)
+- `workflows/jraph/debug_eig_order.py` (eigenvalue ordering debug helper)
+- `workflows/gcn_paper/experimental/Illustris_cactus.py` (legacy density-field experiment)
 - `local-subgraph-pipeline/*`
 
 ## Legacy
@@ -44,6 +47,11 @@ For pscratch organization and migration env vars, see `/global/homes/d/dkololgi/
 - `legacy/abacus_process_particles.py` (use `workflows/abacus_tweb/abacus_process_particles2.py`)
 - `legacy/sbi/jraph_sbi_pipeline.py` (legacy SBI path; use `workflows/sbi/jraph_sbi_flowjax.py`)
 - `legacy/sbi/jraph_sbi_flowjax_two_stage.py` (retired overlap; optional two-stage path is `workflows/sbi/experimental/jraph_sbi_two_stage.py`)
+- `legacy/gcn_paper/getting_started.py` (legacy onboarding/demo script)
+
+## Shared helpers
+
+- `shared/hdf5_helper.py` (HDF5 utilities)
 
 ## Compatibility
 
