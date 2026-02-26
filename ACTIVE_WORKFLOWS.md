@@ -8,7 +8,7 @@ For pscratch organization and migration env vars, see `/global/homes/d/dkololgi/
 - `workflows/abacus_tweb/` for Abacus slab/T-Web annotation pipeline
 - `workflows/jraph/` for Jraph training, tuning, and diagnostics
 - `workflows/sbi/` for primary SBI FlowJAX path
-- `workflows/sbi/experimental/` for alternate two-stage SBI variants
+- `workflows/sbi/experimental/` for the single optional two-stage SBI variant
 - `workflows/gcn_paper/` for the paper-critical legacy GCN workflow
 - `shared/` for reusable model/transformation/config modules
 - `legacy/` for deprecated scripts kept for reference only
@@ -37,13 +37,13 @@ For pscratch organization and migration env vars, see `/global/homes/d/dkololgi/
 ## Experimental
 
 - `workflows/sbi/experimental/jraph_sbi_two_stage.py`
-- `workflows/sbi/experimental/jraph_sbi_flowjax_two_stage.py`
 - `local-subgraph-pipeline/*`
 
 ## Legacy
 
 - `legacy/abacus_process_particles.py` (use `workflows/abacus_tweb/abacus_process_particles2.py`)
-- `workflows/sbi/experimental/jraph_sbi_pipeline.py` (legacy SBI path)
+- `legacy/sbi/jraph_sbi_pipeline.py` (legacy SBI path; use `workflows/sbi/jraph_sbi_flowjax.py`)
+- `legacy/sbi/jraph_sbi_flowjax_two_stage.py` (retired overlap; optional two-stage path is `workflows/sbi/experimental/jraph_sbi_two_stage.py`)
 
 ## Compatibility
 
