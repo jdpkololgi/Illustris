@@ -4,6 +4,16 @@ Canonical location:
 `workflows/abacus_tweb/abacus_catalog.py`
 """
 
+import warnings
+
+# DEPRECATION SHIM WARNING
+warnings.warn(
+    "abacus_catalog.py is a deprecated compatibility shim. Use `workflows.abacus_tweb.abacus_catalog` directly.",
+    FutureWarning,
+    stacklevel=2,
+)
+
+
 from workflows.abacus_tweb.abacus_catalog import *  # noqa: F401,F403
 
 

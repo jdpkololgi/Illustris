@@ -13,6 +13,9 @@
 
 set -euo pipefail
 
+# DEPRECATION SHIM WARNING
+echo "DEPRECATION WARNING: submit_abacus_tweb_cpu.slurm is a compatibility shim and may be removed in a future cycle. Use workflows entrypoint `workflows/abacus_tweb/submit_abacus_tweb_cpu.slurm` instead." >&2
+
 # Compatibility wrapper for migrated SLURM entrypoint.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 exec bash "${SCRIPT_DIR}/workflows/abacus_tweb/submit_abacus_tweb_cpu.slurm" "$@"

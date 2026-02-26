@@ -1,5 +1,15 @@
 """Compatibility wrapper for migrated module."""
 
+import warnings
+
+# DEPRECATION SHIM WARNING
+warnings.warn(
+    "Illustris_cactus.py is a deprecated compatibility shim. Use `workflows.gcn_paper.experimental.Illustris_cactus` directly.",
+    FutureWarning,
+    stacklevel=2,
+)
+
+
 if __name__ == "__main__":
     import runpy
 
