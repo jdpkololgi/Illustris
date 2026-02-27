@@ -17,11 +17,24 @@ import networkx as nx
 import seaborn as sns
 import scienceplots
 import sys
+from pathlib import Path
 from sklearn.neighbors import radius_neighbors_graph
 from scipy.spatial import Delaunay, KDTree
 from scipy.spatial.distance import euclidean, minkowski
 
 plt.style.use(['science', 'no-latex'])  # Use dark background for better contrast
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from shared.graph_construction import (
+    build_alpha_complex_graph,
+    build_alpha_complex_graph_split,
+    build_delaunay_graph,
+    build_delaunay_graph_split,
+    stack_xyz_points,
+)
 
 # For black background
 custom_palette = {
@@ -328,17 +341,14 @@ class cat():
         '''Produces a network graph of subhalos using the Delauany triangulation.'''
 
         if self.from_DESI==False:
-            self.points = np.vstack([self.posx, self.posy, self.posz]).T
-            self.tri = Delaunay(self.points) # Delauany triangulation of the subhalos
-            # self.tri = [(self.points, Delaunay(self.points))] # List of tuples containing the points and the Delauany triangulation object
+            self.points = stack_xyz_points(self.posx, self.posy, self.posz)
+            _, self.tri = build_delaunay_graph(self.points)
 
         elif self.from_DESI==True:
-            self.pointsn = np.vstack([self.posxn, self.posyn, self.poszn]).T
-            self.pointss = np.vstack([self.posxs, self.posys, self.poszs]).T
+            self.pointsn = stack_xyz_points(self.posxn, self.posyn, self.poszn)
+            self.pointss = stack_xyz_points(self.posxs, self.posys, self.poszs)
             self.points = np.vstack([self.pointsn, self.pointss]) # Combine the north and south galactic hemispheres into one array
-            self.trin = Delaunay(self.pointsn) # Delauany triangulation of the subhalos in the north galactic hemisphere
-            self.tris = Delaunay(self.pointss) # Delauany triangulation of the subhalos in the south galactic hemisphere
-            # self.tri = [(self.pointsn, Delaunay(self.pointsn)), (self.pointss, Delaunay(self.pointss))] # List of tuples containing the points and the Delauany triangulation object for both hemispheres
+            _, self.trin, self.tris = build_delaunay_graph_split(self.pointsn, self.pointss)
 
         if xyzplot & (self.from_DESI==False):
             plt.style.use(['science', 'no-latex'])  # Use dark background for better contrast
@@ -433,46 +443,11 @@ class cat():
             plt.show()
 
         if self.from_DESI == False:
-            # Create a networkx graph from the Delaunay triangulation
-            G = nx.Graph()
-
-            # Add the nodes
-            for i, point in enumerate(self.points):
-                G.add_node(i, pos=point)
-                G.nodes[i]['pos'] = point
-
-            # Calculating the edge lengths from points using scipy's euclidean distance
-            for i in range(len(self.tri.simplices)): # For each simplex
-                for j in range(4): # For each point in the simplex
-                    for k in range(j+1, 4): # For each other point in the simplex
-                        G.add_edge(self.tri.simplices[i][j], self.tri.simplices[i][k], length=euclidean(self.points[self.tri.simplices[i][j]], self.points[self.tri.simplices[i][k]]))
-
+            G, self.tri = build_delaunay_graph(self.points)
             return G
         
         elif self.from_DESI == True:
-            # Create a networkx graph from the Delaunay triangulation
-            G = nx.Graph()
-
-            # Add the nodes for the north galactic hemisphere
-            for i, point in enumerate(self.pointsn):
-                G.add_node(i, pos=point)
-                G.nodes[i]['pos'] = point
-            for i, point in enumerate(self.pointss):
-                G.add_node(i + len(self.pointsn), pos=point)
-                G.nodes[i + len(self.pointsn)]['pos'] = point
-          
-            # Calculating the edge lengths from points using scipy's euclidean distance
-            for i in range(len(self.trin.simplices)):
-                for j in range(4):
-                    for k in range(j+1, 4):
-                        G.add_edge(self.trin.simplices[i][j], self.trin.simplices[i][k], length=euclidean(self.pointsn[self.trin.simplices[i][j]], self.pointsn[self.trin.simplices[i][k]]))
-            for i in range(len(self.tris.simplices)):
-                for j in range(4):
-                    for k in range(j+1, 4):
-                        idx_j = self.tris.simplices[i][j] + len(self.pointsn)
-                        idx_k = self.tris.simplices[i][k] + len(self.pointsn)
-                        G.add_edge(idx_j, idx_k, length=euclidean(self.pointss[self.tris.simplices[i][j]], self.pointss[self.tris.simplices[i][k]]))
-
+            G, self.trin, self.tris = build_delaunay_graph_split(self.pointsn, self.pointss)
             return G
 
 
@@ -493,16 +468,12 @@ class cat():
             (equivalent to Delaunay). Smaller values prune long edges.
             Note: Gudhi stores alpha^2 internally, so we compare against alpha^2.
         '''
-        import gudhi
-
-
-
         # Prepare points
         if self.from_DESI == False:
-            self.points = np.vstack([self.posx, self.posy, self.posz]).T
+            self.points = stack_xyz_points(self.posx, self.posy, self.posz)
         else:
-            self.pointsn = np.vstack([self.posxn, self.posyn, self.poszn]).T
-            self.pointss = np.vstack([self.posxs, self.posys, self.poszs]).T
+            self.pointsn = stack_xyz_points(self.posxn, self.posyn, self.poszn)
+            self.pointss = stack_xyz_points(self.posxs, self.posys, self.poszs)
             self.points = np.vstack([self.pointsn, self.pointss])
             # Compute alpha^2 threshold (None means include all edges)
             alpha_sq = alpha**2 if alpha is not None else float('inf')
@@ -525,66 +496,22 @@ class cat():
             print(f'Alpha complex alpha: {alpha}')
             alpha_sq = alpha**2
         
-        # Create gudhi alpha complex and store simplex trees for later use
         if self.from_DESI == False:
-            self.alpha_complex = gudhi.AlphaComplex(points=self.points)
-            self.simplex_tree = self.alpha_complex.create_simplex_tree()
-
             print(f'Alpha complex created for {len(self.points)} points.')
             print('Building graph...')
-
-            G = nx.Graph()
-            for i, point in enumerate(self.points):
-                G.add_node(i, pos=point)
-
-            # Extract edges from simplex tree
-            for simplex, filtration in self.simplex_tree.get_filtration():
-                if len(simplex) == 2:  # 1-simplex is an edge
-                    if filtration <= alpha_sq:
-                        u, v = simplex
-                        length = euclidean(self.points[u], self.points[v])
-                        G.add_edge(u, v, length=length, alpha_filtration=filtration)
+            G, self.simplex_tree = build_alpha_complex_graph(self.points, alpha_sq=alpha_sq)
 
             print(f'Graph built with {G.number_of_nodes()} nodes and {G.number_of_edges()} edges.')
             return G
 
         else:
-            # Create separate alpha complexes for each hemisphere
-            self.alpha_complex_n = gudhi.AlphaComplex(points=self.pointsn)
-            self.simplex_tree_n = self.alpha_complex_n.create_simplex_tree()
-
-            self.alpha_complex_s = gudhi.AlphaComplex(points=self.pointss)
-            self.simplex_tree_s = self.alpha_complex_s.create_simplex_tree()
-
             print(f'Alpha complex created for {len(self.pointsn)} points (north) and {len(self.pointss)} points (south).')
             print('Building graph...')
-
-            G = nx.Graph()
-
-            # Add nodes for north hemisphere
-            for i, point in enumerate(self.pointsn):
-                G.add_node(i, pos=point)
-
-            # Add nodes for south hemisphere with offset
-            offset = len(self.pointsn)
-            for i, point in enumerate(self.pointss):
-                G.add_node(i + offset, pos=point)
-
-            # Extract edges from north hemisphere
-            for simplex, filtration in self.simplex_tree_n.get_filtration():
-                if len(simplex) == 2:  # 1-simplex is an edge
-                    if filtration <= alpha_sq:
-                        u, v = simplex
-                        length = euclidean(self.pointsn[u], self.pointsn[v])
-                        G.add_edge(u, v, length=length, alpha_filtration=filtration)
-
-            # Extract edges from south hemisphere with index offset
-            for simplex, filtration in self.simplex_tree_s.get_filtration():
-                if len(simplex) == 2:  # 1-simplex is an edge
-                    if filtration <= alpha_sq:
-                        u, v = simplex
-                        length = euclidean(self.pointss[u], self.pointss[v])
-                        G.add_edge(u + offset, v + offset, length=length, alpha_filtration=filtration)
+            G, self.simplex_tree_n, self.simplex_tree_s = build_alpha_complex_graph_split(
+                self.pointsn,
+                self.pointss,
+                alpha_sq=alpha_sq,
+            )
 
             print(f'Graph built with {G.number_of_nodes()} nodes and {G.number_of_edges()} edges.')
             return G
