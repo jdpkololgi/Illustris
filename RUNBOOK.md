@@ -28,6 +28,72 @@ python workflows/abacus_tweb/annotate_cutsky_with_tweb.py
 python workflows/abacus_tweb/abacus_process_particles2.py --show-workflow
 ```
 
+### Abacus mock graph construction (Gudhi; CPU)
+
+This step builds graph artifacts from Abacus mock galaxies using observed
+`RA/DEC/Z` (default `Z`, not `Z_COSMO`) and writes edge/tetrahedra arrays for
+downstream feature extraction.
+
+`build_abacus_graph.py` now enforces a CPU SLURM allocation at runtime; it will
+fail fast on login/GPU allocations.
+
+Example CPU interactive allocation:
+
+```bash
+salloc --constraint=cpu --nodes=1 --ntasks=1 --time=02:00:00
+```
+
+Inspect CLI options:
+
+```bash
+python workflows/abacus_tweb/build_abacus_graph.py --help
+```
+
+Build full Delaunay-equivalent graph artifacts from mock catalog:
+
+```bash
+python workflows/abacus_tweb/build_abacus_graph.py \
+  --catalog-path "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb.fits" \
+  --mode delaunay \
+  --output-dir "/pscratch/sd/d/dkololgi/abacus" \
+  --output-prefix abacus_delaunay
+```
+
+Build alpha-pruned graph artifacts (explicit alpha_sq):
+
+```bash
+python workflows/abacus_tweb/build_abacus_graph.py \
+  --catalog-path "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb.fits" \
+  --mode alpha \
+  --alpha-sq 50.0 \
+  --output-dir "/pscratch/sd/d/dkololgi/abacus" \
+  --output-prefix abacus_alpha
+```
+
+Build alpha-pruned graph artifacts with automatic Illustris-style alpha estimate
+(`alpha = 1.5 * n^(-1/3)`, then `alpha_sq = alpha^2`):
+
+```bash
+python workflows/abacus_tweb/build_abacus_graph.py \
+  --catalog-path "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb.fits" \
+  --mode alpha \
+  --boxsize-mpc 2000.0 \
+  --output-dir "/pscratch/sd/d/dkololgi/abacus" \
+  --output-prefix abacus_alpha
+```
+
+The builder writes:
+
+- `<prefix>_edges_combined_idx.npy`
+- `<prefix>_tetrahedra_idx.npy`
+- `<prefix>_tetrahedra_volumes.npy`
+
+Memory guidance (all-points, ~23M galaxies):
+
+- Full-run Gudhi alpha/Delaunay construction is very memory heavy.
+- Plan for at least ~512 GB RAM; ~0.8-1.2 TB is safer for all-points alpha runs.
+- Login-node execution is expected to be killed by OOM.
+
 ### Jraph training baseline (GPU)
 
 Batch launch:

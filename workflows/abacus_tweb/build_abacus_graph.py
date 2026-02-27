@@ -8,6 +8,7 @@ Modes:
 from __future__ import annotations
 
 import argparse
+import glob
 import math
 import sys
 from pathlib import Path
@@ -23,7 +24,8 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from shared.config_paths import ABACUS_CARTESIAN_OUTPUT
+from shared.config_paths import ABACUS_CARTESIAN_OUTPUT, ABACUS_TWEB_OUTPUT_DIR
+from shared.resource_requirements import require_cpu_mpi_slurm
 
 
 def _tetra_volume(coords: np.ndarray) -> float:
@@ -196,6 +198,31 @@ def _default_alpha_sq_from_number_density(
     return alpha_sq
 
 
+def _infer_boxsize_from_tweb_npz(tweb_dir: str) -> float | None:
+    """
+    Infer simulation boxsize from T-Web rank files, mirroring annotate workflow metadata usage.
+    """
+    pattern = str(Path(tweb_dir) / "abacus_cactus_tweb_rank*.npz")
+    files = sorted(glob.glob(pattern))
+    if not files:
+        return None
+
+    box_set: set[float] = set()
+    for path in files:
+        with np.load(path) as d:
+            if "boxsize" not in d:
+                return None
+            box_set.add(float(d["boxsize"]))
+
+    if len(box_set) != 1:
+        raise ValueError(
+            f"Inconsistent boxsize values across T-Web files in {tweb_dir}: {sorted(box_set)}"
+        )
+    boxsize = next(iter(box_set))
+    print(f"Inferred boxsize={boxsize:.3f} Mpc from T-Web metadata in: {tweb_dir}")
+    return boxsize
+
+
 def _load_points_from_catalog(
     *,
     catalog_path: Path,
@@ -285,7 +312,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--catalog-path",
-        default=None,
+        default="/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb.fits",
         help=(
             "Optional FITS catalog path for direct RA/DEC/Z ingestion. "
             "When set, this takes precedence over --points-path."
@@ -315,13 +342,13 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--output-dir",
-        default="/pscratch/sd/d/dkololgi/abacus",
+        default="/pscratch/sd/d/dkololgi/abacus/graph_constructions",
         help="Directory to write graph artifacts.",
     )
     parser.add_argument(
         "--mode",
         choices=("delaunay", "alpha"),
-        default="delaunay",
+        default="alpha",
         help="Graph mode. delaunay == full alpha complex (alpha_sq=inf).",
     )
     parser.add_argument(
@@ -340,7 +367,15 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help=(
             "Box size in Mpc for default alpha_sq derivation. "
-            "If omitted, inferred from max coordinate span."
+            "If omitted, inferred from T-Web metadata first, then coordinate span."
+        ),
+    )
+    parser.add_argument(
+        "--tweb-dir",
+        default=ABACUS_TWEB_OUTPUT_DIR,
+        help=(
+            "Directory containing abacus_cactus_tweb_rank*.npz files. "
+            "Used for automatic boxsize inference when --boxsize-mpc is not provided."
         ),
     )
     parser.add_argument(
@@ -365,6 +400,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    require_cpu_mpi_slurm("build_abacus_graph.py", min_tasks=1)
 
     points_path = Path(args.points_path).expanduser().resolve()
     catalog_path = Path(args.catalog_path).expanduser().resolve() if args.catalog_path else None
@@ -396,7 +432,10 @@ def main() -> None:
 
     if args.mode == "alpha":
         if args.alpha_sq is None:
-            alpha_sq = _default_alpha_sq_from_number_density(points, args.boxsize_mpc)
+            inferred_boxsize = args.boxsize_mpc
+            if inferred_boxsize is None:
+                inferred_boxsize = _infer_boxsize_from_tweb_npz(args.tweb_dir)
+            alpha_sq = _default_alpha_sq_from_number_density(points, inferred_boxsize)
         else:
             if args.alpha_sq < 0:
                 raise ValueError("--alpha-sq must be non-negative.")
