@@ -22,7 +22,7 @@ set -euo pipefail
 PROJECT_DIR="${TNG_ILLUSTRIS_PROJECT_DIR:-/global/homes/d/dkololgi/TNG/Illustris}"
 LOG_DIR="${TNG_LOG_DIR:-/pscratch/sd/d/dkololgi/logs}"
 CATALOG_PATH="${ABACUS_MOCK_CATALOG_PATH:-/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb.fits}"
-OUTPUT_DIR="${ABACUS_GRAPH_OUTPUT_DIR:-/pscratch/sd/d/dkololgi/abacus}"
+OUTPUT_DIR="${ABACUS_GRAPH_OUTPUT_DIR:-/pscratch/sd/d/dkololgi/abacus/graph_constructions}"
 OUTPUT_PREFIX="${ABACUS_GRAPH_PREFIX:-abacus_alpha}"
 BOXSIZE_MPC="${ABACUS_GRAPH_BOXSIZE_MPC:-2000.0}"
 

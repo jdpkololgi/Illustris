@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import glob
+import json
 import math
 import sys
 from pathlib import Path
@@ -455,14 +456,45 @@ def main() -> None:
     edges_path = output_dir / f"{prefix}_edges_combined_idx.npy"
     tetra_idx_path = output_dir / f"{prefix}_tetrahedra_idx.npy"
     tetra_vol_path = output_dir / f"{prefix}_tetrahedra_volumes.npy"
+    points_out_path = output_dir / f"{prefix}_points.npy"
+    points_xyz_out_path = output_dir / f"{prefix}_points_xyz.npy"
+    metadata_path = output_dir / f"{prefix}_metadata.json"
 
     np.save(edges_path, edges)
     np.save(tetra_idx_path, tetrahedra)
     np.save(tetra_vol_path, tetra_volumes)
+    # Canonical points dataproduct for downstream metrics/GNN pipelines.
+    np.save(points_out_path, points.astype(np.float64))
+    np.save(points_xyz_out_path, points[:, :3].astype(np.float64))
 
     print(f"Saved edges: {edges_path} shape={edges.shape}")
     print(f"Saved tetrahedra idx: {tetra_idx_path} shape={tetrahedra.shape}")
     print(f"Saved tetrahedra volumes: {tetra_vol_path} shape={tetra_volumes.shape}")
+    print(f"Saved points: {points_out_path} shape={points.shape}")
+    print(f"Saved xyz-only points: {points_xyz_out_path} shape={points[:, :3].shape}")
+
+    metadata = {
+        "prefix": prefix,
+        "mode": args.mode,
+        "alpha_sq": None if math.isinf(alpha_sq) else float(alpha_sq),
+        "split_hemispheres": bool(args.split_hemispheres),
+        "source": "catalog" if catalog_path is not None else "points",
+        "source_path": str(catalog_path if catalog_path is not None else points_path),
+        "n_points": int(points.shape[0]),
+        "n_point_columns": int(points.shape[1]),
+        "n_edges": int(edges.shape[0]),
+        "n_tetrahedra": int(tetrahedra.shape[0]),
+        "files": {
+            "points": points_out_path.name,
+            "points_xyz": points_xyz_out_path.name,
+            "edges": edges_path.name,
+            "tetrahedra_idx": tetra_idx_path.name,
+            "tetrahedra_volumes": tetra_vol_path.name,
+        },
+    }
+    with metadata_path.open("w", encoding="utf-8") as f:
+        json.dump(metadata, f, indent=2, sort_keys=True)
+    print(f"Saved metadata: {metadata_path}")
 
     if edges.size > 0:
         print(f"Edge index range: [{edges.min()}, {edges.max()}]")

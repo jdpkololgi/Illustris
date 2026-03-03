@@ -1,401 +1,328 @@
-import numpy as np
-import scipy as sp
-import pandas as pd
+#!/usr/bin/env python3
+"""Compute Abacus graph metrics aligned with gcn_paper Network_stats methods.
+
+This script computes and saves three feature tables using the same metric set used by:
+- network_stats_delaunay
+- network_stats_delaunay2
+- network_stats_alpha
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import sys
+from pathlib import Path
+
 import networkit as nk
+import numpy as np
+import pandas as pd
 
-points = np.load("/pscratch/sd/d/dkololgi/abacus/abacus_cartesian_coords.npy").astype(np.float64)
-edges = np.load("/pscratch/sd/d/dkololgi/abacus/abacus_delaunay_edges_combined_idx.npy")
-print("shape:", edges.shape)
-print("dtype:", edges.dtype)
-print("min index:", edges.min(), "max index:", edges.max())
-# peek at the first few:
-print("first 10 edges:\n", edges[:10])
+# Allow canonical workflow scripts to resolve repo-root modules after reorganization.
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
-def edges_to_networkit(points, edges):
-    '''
-    Convert edges from numpy array to a Networkit graph.
-    '''
-    global n_nodes
-    n_nodes = edges.max() + 1  # +1 because indices are zero-based
-    print("Number of nodes:", n_nodes)
+from shared.resource_requirements import require_cpu_mpi_slurm
 
-    # Create empty graph
-    G = nk.Graph(n=n_nodes, weighted=True, directed=False)
 
-    batch_size = 500_000  # Adjust batch size as needed
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description=(
+            "Compute Abacus graph metrics matching Network_stats (alpha/delaunay/delaunay2) "
+            "from precomputed graph artifacts."
+        )
+    )
+    parser.add_argument(
+        "--points-path",
+        default=None,
+        help=(
+            "Optional explicit points path override. "
+            "By default, points are resolved from metadata.json files map."
+        ),
+    )
+    parser.add_argument(
+        "--metadata-path",
+        default=None,
+        help=(
+            "Path to graph metadata JSON manifest. Defaults to "
+            "<artifacts-dir>/<prefix>_metadata.json."
+        ),
+    )
+    parser.add_argument(
+        "--artifacts-dir",
+        default="/pscratch/sd/d/dkololgi/abacus/graph_constructions",
+        help="Directory containing graph artifact npy files.",
+    )
+    parser.add_argument(
+        "--prefix",
+        default="abacus_delaunay",
+        help="Artifact prefix (e.g. abacus_delaunay or abacus_alpha).",
+    )
+    parser.add_argument(
+        "--output-prefix",
+        default=None,
+        help="Output prefix for pkl tables. Defaults to <prefix>_graph_features.",
+    )
+    return parser.parse_args()
 
+
+def _resolve_input_files(
+    points_path: str | None,
+    metadata_path: str | None,
+    artifacts_dir: str,
+    prefix: str,
+) -> tuple[dict, Path, Path, Path, Path, Path]:
+    base = Path(artifacts_dir)
+    manifest = Path(metadata_path) if metadata_path else (base / f"{prefix}_metadata.json")
+    if not manifest.exists():
+        raise FileNotFoundError(
+            f"Metadata manifest not found: {manifest}. "
+            "Run build_abacus_graph.py to generate canonical graph artifacts."
+        )
+
+    with manifest.open("r", encoding="utf-8") as f:
+        metadata = json.load(f)
+
+    files = metadata.get("files", {})
+    points_file = Path(points_path) if points_path else (base / files.get("points", f"{prefix}_points.npy"))
+    edges_file = base / files.get("edges", f"{prefix}_edges_combined_idx.npy")
+    tetra_file = base / files.get("tetrahedra_idx", f"{prefix}_tetrahedra_idx.npy")
+    volume_file = base / files.get("tetrahedra_volumes", f"{prefix}_tetrahedra_volumes.npy")
+
+    for file_path in (points_file, edges_file, tetra_file, volume_file):
+        if not file_path.exists():
+            raise FileNotFoundError(f"Required graph artifact missing: {file_path}")
+
+    return metadata, manifest, points_file, edges_file, tetra_file, volume_file
+
+
+def load_inputs(
+    points_path: str | None,
+    metadata_path: str | None,
+    artifacts_dir: str,
+    prefix: str,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, dict, Path]:
+    metadata, manifest, points_file, edges_file, tetra_file, volume_file = _resolve_input_files(
+        points_path=points_path,
+        metadata_path=metadata_path,
+        artifacts_dir=artifacts_dir,
+        prefix=prefix,
+    )
+
+    points = np.load(points_file).astype(np.float64)
+    edges = np.load(edges_file)
+    tetrahedra = np.load(tetra_file)
+    volumes = np.load(volume_file)
+
+    expected_n_points = metadata.get("n_points")
+    if expected_n_points is not None and int(expected_n_points) != int(points.shape[0]):
+        raise ValueError(
+            f"Metadata n_points={expected_n_points} does not match points rows={points.shape[0]} "
+            f"from {points_file}"
+        )
+
+    expected_n_edges = metadata.get("n_edges")
+    if expected_n_edges is not None and int(expected_n_edges) != int(edges.shape[0]):
+        raise ValueError(
+            f"Metadata n_edges={expected_n_edges} does not match edges rows={edges.shape[0]} "
+            f"from {edges_file}"
+        )
+
+    expected_n_tets = metadata.get("n_tetrahedra")
+    if expected_n_tets is not None and int(expected_n_tets) != int(tetrahedra.shape[0]):
+        raise ValueError(
+            f"Metadata n_tetrahedra={expected_n_tets} does not match tetrahedra rows={tetrahedra.shape[0]} "
+            f"from {tetra_file}"
+        )
+
+    return points, edges, tetrahedra, volumes, metadata, manifest
+
+
+def edges_to_networkit(points: np.ndarray, edges: np.ndarray) -> nk.Graph:
+    n_nodes = int(points.shape[0])
+    graph = nk.Graph(n=n_nodes, weighted=True, directed=False)
+    batch_size = 500_000
+
+    print(f"Building Networkit graph with {n_nodes:,} nodes and {len(edges):,} edges...")
     for i in range(0, len(edges), batch_size):
-        batch = edges[i:i + batch_size]
-        
-        # Calculate Euclidean distances for the batch
+        batch = edges[i : i + batch_size]
         diffs = points[batch[:, 0], :3] - points[batch[:, 1], :3]
         dists = np.linalg.norm(diffs, axis=1)
-        # Add edges with weights to the graph
         for (u, v), w in zip(batch, dists):
-            G.addEdge(u, v, w)
-        if (i // batch_size) % 10 == 0:
-            print(f"Processed {i + len(batch):,} / {len(edges):,} edges")
-    return G
+            graph.addEdge(int(u), int(v), float(w))
+        if i == 0 or ((i // batch_size) + 1) % 10 == 0:
+            print(f"  processed {i + len(batch):,}/{len(edges):,} edges")
+    return graph
 
 
-G = edges_to_networkit(points, edges)
+def weighted_degree(graph: nk.Graph) -> np.ndarray:
+    n_nodes = graph.numberOfNodes()
+    return np.fromiter((graph.weightedDegree(v) for v in graph.iterNodes()), dtype=np.float64, count=n_nodes)
 
 
-#=========================Graph Metrics=========================
+def weighted_clustering(graph: nk.Graph) -> np.ndarray:
+    cc = nk.centrality.LocalClusteringCoefficient(graph, turbo=True)
+    cc.run()
+    return np.array(cc.scores(), dtype=np.float64)
 
-# Weighted degree
-print('Calculating weighted degrees...')
-nk_weighted_degrees = np.fromiter(
-    (G.weightedDegree(v) for v in G.iterNodes()), 
-    dtype=np.float64, 
-    count=n_nodes
-)
 
-# Weighted clustering coefficient
-print("Calculating weighted clustering coefficients...")
-cc = nk.centrality.LocalClusteringCoefficient(G, turbo=True)
-cc.run()
-clustering_scores = cc.scores()
+def edge_length_stats(graph: nk.Graph) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    n_nodes = graph.numberOfNodes()
+    min_lengths = np.zeros(n_nodes, dtype=np.float64)
+    max_lengths = np.zeros(n_nodes, dtype=np.float64)
+    mean_lengths = np.zeros(n_nodes, dtype=np.float64)
 
-nk_weighted_clustering_coeffs = np.array(clustering_scores, dtype=np.float64)
-
-# Edge length stats
-print("Calculating edge lengths...")
-def calculate_edge_metrics_adjacency(G):
-    """Use NetworkIt's internal data structures - fastest method."""
-    n_nodes = G.numberOfNodes()
-    
-    min_lengths = np.zeros(n_nodes)
-    max_lengths = np.zeros(n_nodes)
-    mean_lengths = np.zeros(n_nodes)
-    
-    print("Calculating edge metrics using adjacency iteration...")
-    
+    print("Computing edge-length stats...")
     for node in range(n_nodes):
-        if G.degree(node) > 0:  # Only process nodes with edges
-            # Get all neighbors and weights at once
-            neighbors = list(G.iterNeighbors(node))
-            weights = np.array([G.weight(node, neighbor) for neighbor in neighbors])
-            
-            min_lengths[node] = weights.min()
-            max_lengths[node] = weights.max()
-            mean_lengths[node] = weights.mean()
-        
-        if node % 1_000_000 == 0:
-            print(f"Processed {node:,} nodes...")
-    
-    return min_lengths, max_lengths, mean_lengths
-nk_min_edge_lengths, nk_max_edge_lengths, nk_mean_edge_lengths = calculate_edge_metrics_adjacency(G)
+        if graph.degree(node) > 0:
+            neighbors = list(graph.iterNeighbors(node))
+            w = np.array([graph.weight(node, nbr) for nbr in neighbors], dtype=np.float64)
+            min_lengths[node] = w.min()
+            max_lengths[node] = w.max()
+            mean_lengths[node] = w.mean()
+        if node > 0 and node % 1_000_000 == 0:
+            print(f"  processed {node:,} nodes")
+    return mean_lengths, min_lengths, max_lengths
 
-# Tetra dens and neigh tetra dens
-def calculate_tetrahedral_density_vectorized(tetrahedra, volumes, n_nodes):
-    """
-    Ultra-fast vectorized calculation of tetrahedral density.
-    """
-    print("Calculating tetrahedral density (vectorized)...")
-    
-    tetrahedral_density = np.zeros(n_nodes, dtype=np.float64)
-    
-    # Flatten tetrahedra to get all node indices
-    all_node_indices = tetrahedra.flatten()
-    
-    # Repeat volumes 4 times (one for each node in each tetrahedron)
+
+def tetra_density(
+    tetrahedra: np.ndarray,
+    volumes: np.ndarray,
+    weighted_deg: np.ndarray,
+    n_nodes: int,
+) -> np.ndarray:
+    print("Computing tetrahedral density (Network_stats-compatible)...")
+    if tetrahedra.size == 0:
+        return np.zeros(n_nodes, dtype=np.float64)
+
+    all_node_indices = tetrahedra.ravel()
     repeated_volumes = np.repeat(volumes, 4)
-    
-    # Use numpy's bincount for ultra-fast accumulation
-    np.add.at(tetrahedral_density, all_node_indices, repeated_volumes)
-    
-    return tetrahedral_density
+    node_tetra_count = np.bincount(all_node_indices, minlength=n_nodes).astype(np.float64)
+    node_tetra_volume = np.bincount(all_node_indices, weights=repeated_volumes, minlength=n_nodes).astype(np.float64)
 
-def calculate_neighbor_tetrahedral_density(G, tetrahedral_density):
-    """
-    Calculate neighbor tetrahedral density using NetworkIt's graph structure.
-    """
-    print("Calculating neighbor tetrahedral density...")
-    
-    neighbor_tetrahedral_density = np.zeros(G.numberOfNodes(), dtype=np.float64)
-    
-    for node in G.iterNodes():
-        neighbors = list(G.iterNeighbors(node))
+    deg_safe = np.where(weighted_deg > 0, weighted_deg, 1.0)
+    density = np.zeros(n_nodes, dtype=np.float64)
+    mask = node_tetra_volume > 0
+    density[mask] = (node_tetra_count[mask] / node_tetra_volume[mask]) / deg_safe[mask]
+    return density
+
+
+def neighbor_density_mean(graph: nk.Graph, density: np.ndarray) -> np.ndarray:
+    print("Computing neighbour tetrahedral density (mean)...")
+    out = np.zeros(graph.numberOfNodes(), dtype=np.float64)
+    for node in graph.iterNodes():
+        neighbors = list(graph.iterNeighbors(node))
         if neighbors:
-            # Sum densities of neighbors
-            neighbor_tetrahedral_density[node] = np.sum(tetrahedral_density[neighbors])
-        
-        if node % 1_000_000 == 0:
-            print(f"Processed {node:,} nodes...")
-    
-    return neighbor_tetrahedral_density
+            out[node] = float(np.mean(density[neighbors]))
+        if node > 0 and node % 1_000_000 == 0:
+            print(f"  processed {node:,} nodes")
+    return out
 
-# Load tetrahedra data (after running modified test_cgal.py)
-tetrahedra = np.load("/pscratch/sd/d/dkololgi/abacus/abacus_delaunay_tetrahedra_idx.npy")
-volumes = np.load("/pscratch/sd/d/dkololgi/abacus/abacus_delaunay_tetrahedra_volumes.npy")
 
-print(f"Loaded {len(tetrahedra):,} tetrahedra with volumes")
-
-# Calculate tetrahedral densities
-tetrahedral_density = calculate_tetrahedral_density_vectorized(tetrahedra, volumes, n_nodes)
-neighbor_tetrahedral_density = calculate_neighbor_tetrahedral_density(G, tetrahedral_density)
-
-print("Tetrahedral density statistics:")
-print(f"Min tetrahedral density: {tetrahedral_density.min():,.6f}")
-print(f"Max tetrahedral density: {tetrahedral_density.max():,.6f}")
-print(f"Mean tetrahedral density: {tetrahedral_density.mean():,.6f}")
-
-print("Neighbor tetrahedral density statistics:")
-print(f"Min neighbor density: {neighbor_tetrahedral_density.min():,.6f}")
-print(f"Max neighbor density: {neighbor_tetrahedral_density.max():,.6f}")
-print(f"Mean neighbor density: {neighbor_tetrahedral_density.mean():,.6f}")
-
-# Now calculating intertia eigenvalues
-
-def calculate_inertia_eigenvalues(G, points):
-    '''
-    Calculate inertia eigenvalues for the graph.
-    '''
-    print("Calculating inertia eigenvalues...")
-    inertia_eigenvalues = np.zeros((G.numberOfNodes(), 3), dtype=np.float64) # Placeholder for inertia eigenvalues
-
-    for node in G.iterNodes():
-        neighbors = list(G.iterNeighbors(node))
-        if len(neighbors) < 3:  # Need at least 3 neighbors to define a plane
-            inertia_eigenvalues[node] = [0.0, 0.0, 0.0]
-            continue       
+def inertia_eigenvalues(graph: nk.Graph, points: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    print("Computing inertia eigenvalues...")
+    n_nodes = graph.numberOfNodes()
+    eig = np.zeros((n_nodes, 3), dtype=np.float64)
+    for node in graph.iterNodes():
+        neighbors = list(graph.iterNeighbors(node))
+        if len(neighbors) < 3:
+            continue
         nbr_pos = points[neighbors, :3]
         center = nbr_pos.mean(axis=0)
-        rel_pos = nbr_pos - center
-        cov = rel_pos.T@rel_pos / len(neighbors)
-        eigvals = np.linalg.eigvalsh(cov)
-        inertia_eigenvalues[node] = eigvals
-        if node % 1_000_000 == 0:
-            print(f"Processed {node:,} nodes...")
+        rel = nbr_pos - center
+        cov = (rel.T @ rel) / len(neighbors)
+        vals = np.linalg.eigvalsh(cov)
+        vals[vals < 0] = 0.0
+        eig[node] = vals
+        if node > 0 and node % 1_000_000 == 0:
+            print(f"  processed {node:,} nodes")
+    return eig[:, 0], eig[:, 1], eig[:, 2]
 
-    return inertia_eigenvalues
 
-inertia_eigenvalues = calculate_inertia_eigenvalues(G, points)
-I_eig1 = inertia_eigenvalues[:, 0] # columns
-I_eig2 = inertia_eigenvalues[:, 1]
-I_eig3 = inertia_eigenvalues[:, 2]
+def main() -> None:
+    args = parse_args()
+    require_cpu_mpi_slurm("abacus_graph_features.py", min_tasks=1)
 
-print("Inertia eigenvalue statistics:")
-print(f"Min λ1: {I_eig1.min():,.6f}, Max λ1: {I_eig1.max():,.6f}, Mean λ1: {I_eig1.mean():,.6f}")
-print(f"Min λ2: {I_eig2.min():,.6f}, Max λ2: {I_eig2.max():,.6f}, Mean λ2: {I_eig2.mean():,.6f}")
-print(f"Min λ3: {I_eig3.min():,.6f}, Max λ3: {I_eig3.max():,.6f}, Mean λ3: {I_eig3.mean():,.6f}")
+    points, edges, tetrahedra, volumes, metadata, manifest = load_inputs(
+        points_path=args.points_path,
+        metadata_path=args.metadata_path,
+        artifacts_dir=args.artifacts_dir,
+        prefix=args.prefix,
+    )
+    n_nodes = int(points.shape[0])
+    print(f"Loaded points={points.shape}, edges={edges.shape}, tetrahedra={tetrahedra.shape}, volumes={volumes.shape}")
+    print(f"Using metadata manifest: {manifest}")
 
-data = {'Degree':nk_weighted_degrees, 'Mean E.L.':nk_mean_edge_lengths, 'Min E.L.':nk_min_edge_lengths, 'Max E.L.':nk_max_edge_lengths, 'Clustering': nk_weighted_clustering_coeffs, 'Density': tetrahedral_density, 'Neighbour Density': neighbor_tetrahedral_density, 'I_eig1': I_eig1, 'I_eig2': I_eig2, 'I_eig3': I_eig3}
- 
-# Save data
+    graph = edges_to_networkit(points, edges)
+    degree = weighted_degree(graph)
+    clustering = weighted_clustering(graph)
+    mean_el, min_el, max_el = edge_length_stats(graph)
+    density = tetra_density(tetrahedra, volumes, degree, n_nodes=n_nodes)
+    neigh_density = neighbor_density_mean(graph, density)
+    i1, i2, i3 = inertia_eigenvalues(graph, points)
 
-pd.DataFrame(data).to_pickle('/pscratch/sd/d/dkololgi/abacus/abacus_graph_features.pkl')
+    # Matches network_stats_delaunay / network_stats_alpha output schema.
+    df_delaunay_alpha = pd.DataFrame(
+        {
+            "Degree": degree,
+            "Mean E.L.": mean_el,
+            "Min E.L.": min_el,
+            "Max E.L.": max_el,
+            "Clustering": clustering,
+            "Density": density,
+            "Neigh Density": neigh_density,
+            "I_eig1": i1,
+            "I_eig2": i2,
+            "I_eig3": i3,
+        }
+    )
 
-#========================Validation Checks=========================
-print("Graph has", G.numberOfNodes(), "nodes and", G.numberOfEdges(), "edges.")
-print("First 10 edges with weights:")
-for u, v, w in G.iterEdgesWeights():
-    print(f"({u}, {v}) with weight {w}")
-    if u >= 10:  # Limit output to first 10 edges
-        break
+    # Matches network_stats_delaunay2 output schema.
+    df_delaunay2 = pd.DataFrame(
+        {
+            "Degree": degree,
+            "Clustering": clustering,
+            "Density": density,
+            "Neigh Density": neigh_density,
+            "I_eig1": i1,
+            "I_eig2": i2,
+            "I_eig3": i3,
+        }
+    )
 
-# Find minimum and maximum weights
-min_weight = np.inf
-max_weight = -np.inf
-for u, v, w in G.iterEdgesWeights():
-    if w < min_weight:
-        min_weight = w
-    if w > max_weight:
-        max_weight = w
-print(f"Minimum edge weight: {min_weight:,.6f}")
-print(f"Maximum edge weight: {max_weight:,.6f}")
+    out_prefix = args.output_prefix or f"{args.prefix}_graph_features"
+    out_dir = Path(args.artifacts_dir)
+    out_main = out_dir / f"{out_prefix}.pkl"
+    out_delaunay2 = out_dir / f"{out_prefix}_delaunay2.pkl"
+    out_meta = out_dir / f"{out_prefix}_metrics_metadata.json"
 
-def check_hemisphere_separation(G, points):
-    """Verify no edges connect different hemispheres"""
-    cross_hemisphere_edges = 0
-    total_edges = 0
-    
-    for u, v, w in G.iterEdgesWeights():
-        flag_u = points[u, 3]  # Hemisphere flag for node u
-        flag_v = points[v, 3]  # Hemisphere flag for node v
-        
-        if flag_u != flag_v:
-            cross_hemisphere_edges += 1
-            print(f"ERROR: Cross-hemisphere edge found: {u}({flag_u}) - {v}({flag_v})")
-        
-        total_edges += 1
-        if total_edges % 10_000_000 == 0:
-            print(f"Checked {total_edges:,} edges...")
-    
-    print(f"Cross-hemisphere edges: {cross_hemisphere_edges} / {total_edges}")
-    return cross_hemisphere_edges == 0
-
-def check_edge_weights(weights, points):
-    """Validate edge weight distributions make physical sense"""
-    print("Edge weight statistics:")
-    print(f"Min: {weights.min():,.6f} Mpc")
-    print(f"Max: {weights.max():,.6f} Mpc")
-    print(f"Mean: {weights.mean():,.6f} Mpc")
-    print(f"Median: {np.median(weights):,.6f} Mpc")
-    
-    # Check for unrealistic distances
-    unrealistic_short = np.sum(weights < 0.001)  # < 1 kpc
-    unrealistic_long = np.sum(weights > 1000)    # > 1 Gpc
-    
-    print(f"Unrealistically short edges (< 1 kpc): {unrealistic_short:,}")
-    print(f"Unrealistically long edges (> 1 Gpc): {unrealistic_long:,}")
-    
-    # Check for zero weights
-    zero_weights = np.sum(weights == 0)
-    print(f"Zero-weight edges: {zero_weights:,}")
-    
-    return {
-        'realistic': unrealistic_short == 0 and unrealistic_long == 0,
-        'no_zeros': zero_weights == 0
+    df_delaunay_alpha.to_pickle(out_main)
+    df_delaunay2.to_pickle(out_delaunay2)
+    out_meta_payload = {
+        "input_metadata_path": str(manifest),
+        "input_prefix": metadata.get("prefix"),
+        "input_mode": metadata.get("mode"),
+        "input_alpha_sq": metadata.get("alpha_sq"),
+        "n_points": n_nodes,
+        "n_edges": int(edges.shape[0]),
+        "n_tetrahedra": int(tetrahedra.shape[0]),
+        "node_feature_columns_delaunay_alpha": list(df_delaunay_alpha.columns),
+        "node_feature_columns_delaunay2": list(df_delaunay2.columns),
+        "outputs": {
+            "delaunay_alpha_table": str(out_main),
+            "delaunay2_table": str(out_delaunay2),
+        },
     }
+    with out_meta.open("w", encoding="utf-8") as f:
+        json.dump(out_meta_payload, f, indent=2, sort_keys=True)
 
-def check_edge_counts(G, edges):
-    """Verify edge counts match expectations"""
-    nk_edges = G.numberOfEdges()
-    numpy_edges = len(edges)
-    
-    print(f"NetworkIt graph edges: {nk_edges:,}")
-    print(f"NumPy edge array: {numpy_edges:,}")
-    print(f"Match: {nk_edges == numpy_edges}")
-    
-    return nk_edges == numpy_edges
+    print(f"Saved: {out_main}")
+    print(f"Saved: {out_delaunay2}")
+    print(f"Saved: {out_meta}")
+    print("Done.")
 
-def check_node_indices(G, points):
-    """Verify all node indices are valid"""
-    max_node = G.numberOfNodes() - 1
-    max_point = len(points) - 1
-    
-    print(f"Max node index in graph: {max_node  :,}")
-    print(f"Max point index available: {max_point:,}")
-    print(f"Match: {max_node == max_point}")
-    
-    # Check for gaps in node indices
-    actual_nodes = set(G.iterNodes())
-    expected_nodes = set(range(G.numberOfNodes()))
-    missing_nodes = expected_nodes - actual_nodes
-    
-    print(f"Missing nodes: {len(missing_nodes):,}")
-    if missing_nodes and len(missing_nodes) < 10:
-        print(f"Missing node indices: {missing_nodes}")
-    
-    return max_node == max_point and len(missing_nodes) == 0
 
-def check_delaunay_properties(G):
-    """Check basic Delaunay triangulation properties"""
-    degrees = [G.degree(v) for v in G.iterNodes()]
-    
-    print(f"Degree statistics:")
-    print(f"Min degree: {min(degrees):,}")
-    print(f"Max degree: {max(degrees):,}")
-    print(f"Mean degree: {np.mean(degrees):,.2f}")
-    
-    # Check for isolated nodes
-    isolated = sum(1 for d in degrees if d == 0)
-    print(f"Isolated nodes (degree 0): {isolated}")
-    
-    return {
-        'no_isolated': isolated == 0,
-        'reasonable_degrees': max(degrees) < 100  # Sanity check
-    }
-
-def check_coordinate_ranges(points):
-    """Verify coordinate ranges make sense"""
-    xyz = points[:, :3]  # Only spatial coordinates
-    
-    print("Coordinate ranges:")
-    for i, coord in enumerate(['X', 'Y', 'Z']):
-        print(f"{coord}: [{xyz[:, i].min():,.2f}, {xyz[:, i].max():,.2f}] Mpc")
-    
-    # Check if points are roughly spherical/cubic
-    ranges = [xyz[:, i].max() - xyz[:, i].min() for i in range(3)]
-    print(f"Coordinate ranges: {ranges}")
-    
-    # Should be similar for a cosmological box
-    range_ratio = max(ranges) / min(ranges)
-    print(f"Range ratio (should be ~1 for cubic box): {range_ratio:,.2f}")
-    
-    return range_ratio < 2.0  # Allow some variation
-
-def verify_random_edges(G, points, n_samples=10):
-    """Manually verify distances for random edges"""
-    print("Manual verification of random edges:")
-    
-    edge_count = 0
-    for u, v, w in G.iterEdgesWeights():
-        if edge_count >= n_samples:
-            break
-        
-        # Calculate distance manually
-        manual_dist = np.linalg.norm(points[u, :3] - points[v, :3])
-        diff = abs(w - manual_dist)
-        
-        print(f"Edge ({u},{v}): Graph={w:,.6f}, Manual={manual_dist:,.6f}, Diff={diff:,.8f}")
-        
-        edge_count += 1
-    
-    return True
-
-def full_validation(G, points, edges, weights):
-    """Run all validation checks"""
-    print("="*50)
-    print("DELAUNAY TRIANGULATION VALIDATION")
-    print("="*50)
-    
-    checks = {}
-    
-    # 1. Hemisphere separation
-    print("\n1. Checking hemisphere separation...")
-    checks['hemisphere'] = check_hemisphere_separation(G, points)
-    
-    # 2. Edge weights
-    print("\n2. Checking edge weights...")
-    weight_checks = check_edge_weights(weights, points)
-    checks['weights'] = weight_checks['realistic'] and weight_checks['no_zeros']
-    
-    # 3. Edge counts
-    print("\n3. Checking edge counts...")
-    checks['edge_count'] = check_edge_counts(G, edges)
-    
-    # 4. Node indices
-    print("\n4. Checking node indices...")
-    checks['node_indices'] = check_node_indices(G, points)
-    
-    # 5. Delaunay properties
-    print("\n5. Checking Delaunay properties...")
-    delaunay_checks = check_delaunay_properties(G)
-    checks['delaunay'] = delaunay_checks['no_isolated'] and delaunay_checks['reasonable_degrees']
-    
-    # 6. Coordinate ranges
-    print("\n6. Checking coordinate ranges...")
-    checks['coordinates'] = check_coordinate_ranges(points)
-    
-    # 7. Manual verification
-    print("\n7. Manual edge verification...")
-    checks['manual'] = verify_random_edges(G, points)
-    
-    # Summary
-    print("\n" + "="*50)
-    print("VALIDATION SUMMARY")
-    print("="*50)
-    for check_name, passed in checks.items():
-        status = "✓ PASS" if passed else "✗ FAIL"
-        print(f"{check_name:15}: {status}")
-    
-    all_passed = all(checks.values())
-    print(f"\nOverall: {'✓ ALL CHECKS PASSED' if all_passed else '✗ SOME CHECKS FAILED'}")
-    
-    return all_passed
-
-# Efficiently extract weights avoiding large Python list
-print("Extracting edge weights for validation...")
-weights = np.fromiter((w for u, v, w in G.iterEdgesWeights()), dtype=np.float64, count=G.numberOfEdges())
-
-# Run all checks
-validation_passed = full_validation(G, points, edges, weights)
-
-if validation_passed:
-    print("Graph construction is valid! ✓")
-    # Proceed with graph analysis
-else:
-    print("Graph construction has issues! Please investigate.")
+if __name__ == "__main__":
+    main()
