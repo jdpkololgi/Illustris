@@ -10,7 +10,9 @@ import argparse
 import json
 import os
 import pickle
+import subprocess
 import time
+from functools import partial
 from pathlib import Path
 
 import equinox as eqx
@@ -22,6 +24,7 @@ import numpy as np
 import optax
 from flowjax.distributions import Normal
 from flowjax.flows import RationalQuadraticSpline, masked_autoregressive_flow
+from jax.experimental import multihost_utils
 
 # Allow workflow script to resolve repo-root modules after reorganization.
 import sys
@@ -50,9 +53,45 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--num-flow-layers", type=int, default=5)
     parser.add_argument("--num-bins", type=int, default=8)
     parser.add_argument("--flow-hidden-size", type=int, default=128)
+    parser.add_argument(
+        "--mixed-precision",
+        choices=("none", "bf16"),
+        default="none",
+        help="Mixed-precision compute mode (bf16 keeps optimizer/master params in fp32).",
+    )
     parser.add_argument("--train-partition-limit", type=int, default=0, help="0 means all train partitions.")
     parser.add_argument("--val-partition-limit", type=int, default=8, help="Validation partitions per eval.")
     parser.add_argument("--eval-every", type=int, default=1)
+    parser.add_argument(
+        "--data-parallel",
+        action="store_true",
+        help=(
+            "Enable data parallel training with pmap. Partitions are bucketed and padded "
+            "within each multi-device step."
+        ),
+    )
+    parser.add_argument(
+        "--distributed",
+        action="store_true",
+        help="Enable multi-process JAX distributed initialization from Slurm env vars.",
+    )
+    parser.add_argument(
+        "--coordinator-address",
+        default="",
+        help="Optional coordinator host:port override for jax.distributed.initialize.",
+    )
+    parser.add_argument(
+        "--bucket-span-multiplier",
+        type=int,
+        default=8,
+        help="Number of device-groups per bucketized window used for pmap collation.",
+    )
+    parser.add_argument(
+        "--bucket-sort-key",
+        choices=("edges", "nodes", "max"),
+        default="max",
+        help="Metadata key used to bucket partitions by shape before pmap collation.",
+    )
     parser.add_argument(
         "--activation-checkpointing",
         action="store_true",
@@ -75,35 +114,257 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def load_partition(path: Path) -> tuple[jraph.GraphsTuple, jnp.ndarray, jnp.ndarray, jnp.ndarray]:
-    with np.load(path) as d:
-        x = jnp.array(d["x"], dtype=jnp.float32)
-        edge_index = d["edge_index"]
-        edge_attr = jnp.array(d["edge_attr"], dtype=jnp.float32)
-        targets = jnp.array(d["targets"])
-        core_mask_local = jnp.array(d["core_mask_local"], dtype=bool)
-        if "global_node_ids" in d:
-            global_node_ids = jnp.array(d["global_node_ids"], dtype=jnp.int64)
-        else:
-            global_node_ids = jnp.arange(x.shape[0], dtype=jnp.int64)
+def _rank_info() -> tuple[int, int, int]:
+    rank = int(os.environ.get("SLURM_PROCID", os.environ.get("RANK", "0")))
+    world = int(os.environ.get("SLURM_NTASKS", os.environ.get("WORLD_SIZE", "1")))
+    local_rank = int(os.environ.get("SLURM_LOCALID", os.environ.get("LOCAL_RANK", "0")))
+    return rank, world, local_rank
 
-    senders = jnp.array(edge_index[0], dtype=jnp.int32)
-    receivers = jnp.array(edge_index[1], dtype=jnp.int32)
+
+def _discover_coordinator() -> str:
+    override = os.environ.get("COORDINATOR_ADDRESS")
+    if override:
+        return override
+    nodelist = os.environ.get("SLURM_NODELIST")
+    if nodelist:
+        out = subprocess.check_output(["scontrol", "show", "hostnames", nodelist], text=True)
+        hosts = [x.strip() for x in out.splitlines() if x.strip()]
+        if hosts:
+            return f"{hosts[0]}:12355"
+    return "127.0.0.1:12355"
+
+
+def _infer_local_device_ids(local_rank: int) -> list[int] | None:
+    visible = os.environ.get("CUDA_VISIBLE_DEVICES", "").strip()
+    if visible:
+        ids = [x.strip() for x in visible.split(",") if x.strip()]
+        tasks_per_node_raw = os.environ.get("SLURM_NTASKS_PER_NODE", "1")
+        # SLURM can encode this as "4(x2)"; keep the leading integer.
+        tasks_per_node = int(tasks_per_node_raw.split("(")[0].split(",")[0])
+        # If Slurm narrowed visibility to one device per task, always index that as local 0.
+        if len(ids) == 1:
+            return [0]
+        # One task per node should own all visible local devices on that node.
+        if tasks_per_node == 1:
+            return list(range(len(ids)))
+        # If multiple local devices are visible and multiple tasks share the node,
+        # bind each process to its local rank device.
+        if len(ids) > 1:
+            return [int(local_rank)]
+    return None
+
+
+def _maybe_init_distributed(args: argparse.Namespace, rank: int, world: int, local_rank: int) -> None:
+    if not args.distributed and world <= 1:
+        return
+    if jax.distributed.is_initialized():
+        return
+    coordinator = args.coordinator_address or _discover_coordinator()
+    local_device_ids = _infer_local_device_ids(local_rank)
+    print(
+        f"Initializing distributed runtime: coordinator={coordinator}, "
+        f"process_id={rank}, num_processes={world}, local_rank={local_rank}, "
+        f"local_device_ids={local_device_ids}",
+        flush=True,
+    )
+    jax.distributed.initialize(
+        coordinator_address=coordinator,
+        num_processes=world,
+        process_id=rank,
+        local_device_ids=local_device_ids,
+    )
+
+
+def _load_partition_arrays(path: Path) -> dict[str, np.ndarray]:
+    with np.load(path) as d:
+        x = np.asarray(d["x"], dtype=np.float32)
+        edge_index = np.asarray(d["edge_index"], dtype=np.int32)
+        edge_attr = np.asarray(d["edge_attr"], dtype=np.float32)
+        targets = np.asarray(d["targets"])
+        core_mask_local = np.asarray(d["core_mask_local"], dtype=bool)
+        if "global_node_ids" in d:
+            global_node_ids = np.asarray(d["global_node_ids"], dtype=np.int64)
+        else:
+            global_node_ids = np.arange(x.shape[0], dtype=np.int64)
+    return {
+        "x": x,
+        "senders": edge_index[0],
+        "receivers": edge_index[1],
+        "edge_attr": edge_attr,
+        "targets": targets,
+        "core_mask": core_mask_local,
+        "global_node_ids": global_node_ids,
+        "n_nodes": np.int32(x.shape[0]),
+        "n_edges": np.int32(edge_index.shape[1]),
+    }
+
+
+def _compute_dtype_from_mode(mode: str) -> jnp.dtype:
+    if mode == "bf16":
+        return jnp.bfloat16
+    return jnp.float32
+
+
+def load_partition(path: Path, *, compute_dtype: jnp.dtype = jnp.float32) -> tuple[jraph.GraphsTuple, jnp.ndarray, jnp.ndarray, jnp.ndarray]:
+    d = _load_partition_arrays(path)
     graph = jraph.GraphsTuple(
-        nodes=x,
-        edges=edge_attr,
-        senders=senders,
-        receivers=receivers,
-        n_node=jnp.array([x.shape[0]], dtype=jnp.int32),
-        n_edge=jnp.array([senders.shape[0]], dtype=jnp.int32),
+        nodes=jnp.array(d["x"], dtype=compute_dtype),
+        edges=jnp.array(d["edge_attr"], dtype=compute_dtype),
+        senders=jnp.array(d["senders"], dtype=jnp.int32),
+        receivers=jnp.array(d["receivers"], dtype=jnp.int32),
+        n_node=jnp.array([d["n_nodes"]], dtype=jnp.int32),
+        n_edge=jnp.array([d["n_edges"]], dtype=jnp.int32),
         globals=None,
     )
-    return graph, targets, core_mask_local, global_node_ids
+    return (
+        graph,
+        jnp.array(d["targets"], dtype=jnp.float32),
+        jnp.array(d["core_mask"], dtype=bool),
+        jnp.array(d["global_node_ids"], dtype=jnp.int64),
+    )
+
+
+def _shape_key(part: dict, mode: str) -> int:
+    n_nodes = int(part.get("n_total_nodes", 0))
+    n_edges = int(part.get("n_edges", 0))
+    if mode == "nodes":
+        return n_nodes
+    if mode == "edges":
+        return n_edges
+    return max(n_nodes, n_edges)
+
+
+def _build_epoch_groups(
+    parts: list[dict],
+    *,
+    n_local_devices: int,
+    rng_seed: int,
+    bucket_span_multiplier: int,
+    bucket_sort_key: str,
+) -> list[list[dict]]:
+    if n_local_devices <= 0:
+        return []
+    rng = np.random.default_rng(rng_seed)
+    order = rng.permutation(len(parts))
+    ordered = [parts[int(i)] for i in order]
+    span = max(n_local_devices, n_local_devices * max(1, bucket_span_multiplier))
+    grouped: list[list[dict]] = []
+    for start in range(0, len(ordered), span):
+        window = ordered[start : start + span]
+        window.sort(key=lambda p: _shape_key(p, bucket_sort_key))
+        for j in range(0, len(window), n_local_devices):
+            batch = window[j : j + n_local_devices]
+            if len(batch) == n_local_devices:
+                grouped.append(batch)
+    rng.shuffle(grouped)
+    return grouped
+
+
+def _collate_padded_partition_batch(
+    base_dir: Path,
+    batch_parts: list[dict],
+    *,
+    compute_dtype: jnp.dtype,
+    pad_nodes: int | None = None,
+    pad_edges: int | None = None,
+) -> tuple[jraph.GraphsTuple, jnp.ndarray, jnp.ndarray]:
+    loaded = [_load_partition_arrays(base_dir / p["file"]) for p in batch_parts]
+    n_dev = len(loaded)
+    local_max_nodes = max(int(x["n_nodes"]) for x in loaded)
+    local_max_edges = max(int(x["n_edges"]) for x in loaded)
+    max_nodes = local_max_nodes if pad_nodes is None else max(local_max_nodes, int(pad_nodes))
+    max_edges = local_max_edges if pad_edges is None else max(local_max_edges, int(pad_edges))
+    node_feat_dim = int(loaded[0]["x"].shape[1])
+    edge_feat_dim = int(loaded[0]["edge_attr"].shape[1])
+    target_dim = int(loaded[0]["targets"].shape[1])
+
+    nodes = np.zeros((n_dev, max_nodes, node_feat_dim), dtype=np.float32)
+    targets = np.zeros((n_dev, max_nodes, target_dim), dtype=loaded[0]["targets"].dtype)
+    core_mask = np.zeros((n_dev, max_nodes), dtype=bool)
+    node_valid_mask = np.zeros((n_dev, max_nodes), dtype=bool)
+    edge_attr = np.zeros((n_dev, max_edges, edge_feat_dim), dtype=np.float32)
+    # Route padded edges to a dummy node so they do not affect real nodes.
+    dummy_idx = np.int32(max_nodes - 1)
+    senders = np.full((n_dev, max_edges), dummy_idx, dtype=np.int32)
+    receivers = np.full((n_dev, max_edges), dummy_idx, dtype=np.int32)
+    n_node = np.zeros((n_dev, 1), dtype=np.int32)
+    n_edge = np.zeros((n_dev, 1), dtype=np.int32)
+
+    for i, d in enumerate(loaded):
+        nn = int(d["n_nodes"])
+        ne = int(d["n_edges"])
+        nodes[i, :nn, :] = d["x"]
+        targets[i, :nn, :] = d["targets"]
+        core_mask[i, :nn] = d["core_mask"]
+        node_valid_mask[i, :nn] = True
+        edge_attr[i, :ne, :] = d["edge_attr"]
+        senders[i, :ne] = d["senders"]
+        receivers[i, :ne] = d["receivers"]
+        n_node[i, 0] = np.int32(nn)
+        n_edge[i, 0] = np.int32(ne)
+
+    graph = jraph.GraphsTuple(
+        nodes=jnp.array(nodes, dtype=compute_dtype),
+        edges=jnp.array(edge_attr, dtype=compute_dtype),
+        senders=jnp.array(senders),
+        receivers=jnp.array(receivers),
+        n_node=jnp.array(n_node),
+        n_edge=jnp.array(n_edge),
+        globals=None,
+    )
+    return graph, jnp.array(targets), jnp.array(core_mask & node_valid_mask, dtype=bool)
+
+
+def _part_node_edge_counts(part: dict) -> tuple[int, int]:
+    n_nodes = int(part.get("n_total_nodes", part.get("n_nodes", part.get("n_core_nodes", 0))))
+    n_edges = int(part.get("n_edges", 0))
+    return n_nodes, n_edges
+
+
+def _batch_node_edge_bounds(batch_parts: list[dict]) -> tuple[int, int]:
+    max_nodes = 0
+    max_edges = 0
+    for p in batch_parts:
+        n_nodes, n_edges = _part_node_edge_counts(p)
+        max_nodes = max(max_nodes, n_nodes)
+        max_edges = max(max_edges, n_edges)
+    return max_nodes, max_edges
+
+
+def _global_pad_shape(max_nodes: int, max_edges: int, world: int) -> tuple[int, int]:
+    if world <= 1:
+        return int(max_nodes), int(max_edges)
+    local_shape = np.array([[int(max_nodes), int(max_edges)]], dtype=np.int32)
+    all_shapes = np.asarray(multihost_utils.process_allgather(local_shape)).reshape(-1, 2)
+    return int(all_shapes[:, 0].max()), int(all_shapes[:, 1].max())
+
+
+def _truncate_for_distributed(parts: list[dict], rank: int, world: int, n_local_devices: int) -> list[dict]:
+    local = parts[rank::world]
+    if world <= 1:
+        return local
+    # Ensure every process executes exactly the same number of pmap calls.
+    local_n = np.array([len(local)], dtype=np.int32)
+    all_n = np.asarray(multihost_utils.process_allgather(local_n)).reshape(-1)
+    min_n = int(all_n.min())
+    full_groups = (min_n // max(1, n_local_devices)) * max(1, n_local_devices)
+    return local[:full_groups]
+
+
+def _take_first_replica(tree):
+    return jax.tree_util.tree_map(lambda x: x[0], tree)
 
 
 def main(args: argparse.Namespace) -> None:
+    rank, world, local_rank = _rank_info()
+    _maybe_init_distributed(args, rank, world, local_rank)
     require_gpu_slurm("jraph_sbi_flowjax_partitioned.py", min_gpus=1)
     os.makedirs(args.output_dir, exist_ok=True)
+    local_devices = jax.local_devices()
+    n_local_devices = len(local_devices)
+    if n_local_devices < 1:
+        raise RuntimeError("No local devices available after distributed initialization.")
+
     print("=" * 70, flush=True)
     print("Partitioned SBI Trainer (FlowJAX + Haiku)", flush=True)
     print("=" * 70, flush=True)
@@ -111,11 +372,13 @@ def main(args: argparse.Namespace) -> None:
     print(f"Manifest: {args.partition_manifest}", flush=True)
     print(f"SBI cache: {args.sbi_cache_path}", flush=True)
     print(
-        f"Config: epochs={args.epochs}, num_passes={args.num_passes}, "
-        f"latent={args.latent_size}, flow_layers={args.num_flow_layers}, "
-        f"activation_checkpointing={args.activation_checkpointing}",
+        f"Config: epochs={args.epochs}, num_passes={args.num_passes}, latent={args.latent_size}, "
+        f"flow_layers={args.num_flow_layers}, activation_checkpointing={args.activation_checkpointing}, "
+        f"data_parallel={args.data_parallel}, distributed={args.distributed or world > 1}, "
+        f"mixed_precision={args.mixed_precision}",
         flush=True,
     )
+    compute_dtype = _compute_dtype_from_mode(args.mixed_precision)
 
     with open(args.partition_manifest, "r", encoding="utf-8") as f:
         manifest = json.load(f)
@@ -127,10 +390,16 @@ def main(args: argparse.Namespace) -> None:
         train_parts = train_parts[: args.train_partition_limit]
     if args.val_partition_limit > 0:
         val_parts = val_parts[: args.val_partition_limit]
+    train_parts = _truncate_for_distributed(train_parts, rank, world, n_local_devices)
+    val_parts = _truncate_for_distributed(val_parts, rank, world, n_local_devices)
 
     if not train_parts:
-        raise ValueError("No train partitions found.")
-    print(f"Train partitions: {len(train_parts)}, Val partitions: {len(val_parts)}", flush=True)
+        raise ValueError("No train partitions found after rank/world assignment.")
+    print(
+        f"Rank {rank}/{world} | local_devices={n_local_devices} | "
+        f"Train partitions: {len(train_parts)}, Val partitions: {len(val_parts)}",
+        flush=True,
+    )
     print(f"Devices: {jax.devices()}", flush=True)
 
     # Read scaler/raw metadata from the monolithic cache once for output compatibility.
@@ -139,10 +408,9 @@ def main(args: argparse.Namespace) -> None:
     target_scaler = source_cache.get("target_scaler")
     stats = source_cache.get("stats")
 
-    # Initialize on first train partition
     rng = jax.random.key(args.seed)
     print("Loading first train partition for model init...", flush=True)
-    first_graph, _, _, _ = load_partition(base_dir / train_parts[0]["file"])
+    first_graph, _, _, _ = load_partition(base_dir / train_parts[0]["file"], compute_dtype=compute_dtype)
     print(
         f"First partition stats: nodes={int(first_graph.n_node[0]):,}, "
         f"edges={int(first_graph.n_edge[0]):,}",
@@ -194,28 +462,32 @@ def main(args: argparse.Namespace) -> None:
         return gnn.apply(gnn_p, step_key, graph, is_training=False)
 
     if args.activation_checkpointing:
-        # Rematerialize GNN forward activations in backward pass to lower peak VRAM.
         _gnn_forward_train = jax.checkpoint(_gnn_forward_train, prevent_cse=False)
 
-    def _loss_with_embeddings(emb, flow_arr, targets, core_mask):
+    def _local_logp_sum_count(emb, flow_arr, targets, core_mask):
         flow_model = eqx.combine(flow_arr, flow_static)
         log_probs = jax.vmap(flow_model.log_prob)(targets, condition=emb)
-        masked = log_probs * core_mask
-        n_core = jnp.maximum(jnp.sum(core_mask), 1.0)
-        nll = -jnp.sum(masked) / n_core
-        return nll, jnp.sum(masked) / n_core
+        log_probs = log_probs.astype(jnp.float32)
+        mask_f = core_mask.astype(jnp.float32)
+        logp_sum = jnp.sum(log_probs * mask_f)
+        n_core = jnp.sum(mask_f)
+        return logp_sum, n_core
 
     def train_loss_fn(gnn_p, flow_arr, graph, targets, core_mask, step_key):
         emb = _gnn_forward_train(gnn_p, step_key, graph)
-        return _loss_with_embeddings(emb, flow_arr, targets, core_mask)
+        logp_sum, n_core = _local_logp_sum_count(emb, flow_arr, targets, core_mask)
+        nll = -logp_sum / jnp.maximum(n_core, 1.0)
+        return nll, (logp_sum, n_core)
 
     def eval_loss_fn(gnn_p, flow_arr, graph, targets, core_mask, step_key):
         emb = _gnn_forward_eval(gnn_p, step_key, graph)
-        return _loss_with_embeddings(emb, flow_arr, targets, core_mask)
+        logp_sum, n_core = _local_logp_sum_count(emb, flow_arr, targets, core_mask)
+        nll = -logp_sum / jnp.maximum(n_core, 1.0)
+        return nll, (logp_sum, n_core)
 
     @jax.jit
-    def train_step(gnn_p, gnn_state, flow_arr, flow_state, graph, targets, core_mask, step_key):
-        (nll, mean_logp), grads = jax.value_and_grad(
+    def train_step_single(gnn_p, gnn_state, flow_arr, flow_state, graph, targets, core_mask, step_key):
+        (nll, (logp_sum, n_core)), grads = jax.value_and_grad(
             lambda gp, fa: train_loss_fn(gp, fa, graph, targets, core_mask, step_key),
             argnums=(0, 1),
             has_aux=True,
@@ -225,66 +497,196 @@ def main(args: argparse.Namespace) -> None:
         flow_updates, flow_state_new = optimizer.update(flow_grads, flow_state, flow_arr)
         gnn_p_new = optax.apply_updates(gnn_p, gnn_updates)
         flow_arr_new = optax.apply_updates(flow_arr, flow_updates)
-        return gnn_p_new, gnn_state_new, flow_arr_new, flow_state_new, nll, mean_logp
+        return gnn_p_new, gnn_state_new, flow_arr_new, flow_state_new, nll, logp_sum, n_core
 
     @jax.jit
-    def eval_step(gnn_p, flow_arr, graph, targets, core_mask, step_key):
+    def eval_step_single(gnn_p, flow_arr, graph, targets, core_mask, step_key):
         return eval_loss_fn(gnn_p, flow_arr, graph, targets, core_mask, step_key)
+
+    @partial(jax.pmap, axis_name="dp")
+    def train_step_dp(gnn_p, gnn_state, flow_arr, flow_state, graph, targets, core_mask, step_keys):
+        device_key = jax.random.fold_in(step_keys, jax.lax.axis_index("dp"))
+
+        def _loss_for_grad(gp, fa):
+            emb = _gnn_forward_train(gp, device_key, graph)
+            local_logp_sum, local_n_core = _local_logp_sum_count(emb, fa, targets, core_mask)
+            global_logp_sum = jax.lax.psum(local_logp_sum, axis_name="dp")
+            global_n_core = jax.lax.psum(local_n_core, axis_name="dp")
+            nll = -global_logp_sum / jnp.maximum(global_n_core, 1.0)
+            return nll, (local_logp_sum, local_n_core)
+
+        (nll, (local_logp_sum, local_n_core)), grads = jax.value_and_grad(
+            _loss_for_grad,
+            argnums=(0, 1),
+            has_aux=True,
+        )(gnn_p, flow_arr)
+        gnn_grads, flow_grads = grads
+        gnn_grads = jax.lax.pmean(gnn_grads, axis_name="dp")
+        flow_grads = jax.lax.pmean(flow_grads, axis_name="dp")
+        gnn_updates, gnn_state_new = optimizer.update(gnn_grads, gnn_state, gnn_p)
+        flow_updates, flow_state_new = optimizer.update(flow_grads, flow_state, flow_arr)
+        gnn_p_new = optax.apply_updates(gnn_p, gnn_updates)
+        flow_arr_new = optax.apply_updates(flow_arr, flow_updates)
+        global_logp_sum = jax.lax.psum(local_logp_sum, axis_name="dp")
+        global_n_core = jax.lax.psum(local_n_core, axis_name="dp")
+        global_nll = -global_logp_sum / jnp.maximum(global_n_core, 1.0)
+        return gnn_p_new, gnn_state_new, flow_arr_new, flow_state_new, global_nll
+
+    @partial(jax.pmap, axis_name="dp")
+    def eval_step_dp(gnn_p, flow_arr, graph, targets, core_mask, step_keys):
+        device_key = jax.random.fold_in(step_keys, jax.lax.axis_index("dp"))
+        emb = _gnn_forward_eval(gnn_p, device_key, graph)
+        local_logp_sum, local_n_core = _local_logp_sum_count(emb, flow_arr, targets, core_mask)
+        global_logp_sum = jax.lax.psum(local_logp_sum, axis_name="dp")
+        global_n_core = jax.lax.psum(local_n_core, axis_name="dp")
+        global_nll = -global_logp_sum / jnp.maximum(global_n_core, 1.0)
+        return global_nll
 
     best_val = float("inf")
     best = None
     history = {"train_nll": [], "val_nll": []}
 
+    if args.data_parallel:
+        rep_gnn_params = jax.device_put_replicated(gnn_params, local_devices)
+        rep_gnn_opt_state = jax.device_put_replicated(gnn_opt_state, local_devices)
+        rep_flow_arrays = jax.device_put_replicated(flow_arrays, local_devices)
+        rep_flow_opt_state = jax.device_put_replicated(flow_opt_state, local_devices)
+
     t0 = time.time()
     for epoch in range(num_epochs):
-        print(f"Epoch {epoch:04d} start", flush=True)
+        if rank == 0:
+            print(f"Epoch {epoch:04d} start", flush=True)
         rng, ep_key = jax.random.split(rng)
-        order = np.random.default_rng(args.seed + epoch).permutation(len(train_parts))
-        train_nll_epoch = []
-        n_train_steps = len(order)
-        for step_idx, i in enumerate(order):
-            p = train_parts[int(i)]
-            if step_idx % max(1, args.train_progress_every) == 0:
-                print(
-                    f"  [train] epoch={epoch:04d} step={step_idx + 1}/{n_train_steps} "
-                    f"partition={p['partition_id']}",
-                    flush=True,
-                )
-            graph, targets, core_mask, _ = load_partition(base_dir / p["file"])
-            ep_key, step_key = jax.random.split(ep_key)
-            gnn_params, gnn_opt_state, flow_arrays, flow_opt_state, nll, _ = train_step(
-                gnn_params, gnn_opt_state, flow_arrays, flow_opt_state, graph, targets, core_mask, step_key
+        train_nll_epoch: list[float] = []
+
+        if args.data_parallel:
+            train_groups = _build_epoch_groups(
+                train_parts,
+                n_local_devices=n_local_devices,
+                rng_seed=args.seed + epoch + rank * 100003,
+                bucket_span_multiplier=args.bucket_span_multiplier,
+                bucket_sort_key=args.bucket_sort_key,
             )
-            train_nll_epoch.append(float(nll))
+            n_train_steps = len(train_groups)
+            for step_idx, batch_parts in enumerate(train_groups):
+                if rank == 0 and step_idx % max(1, args.train_progress_every) == 0:
+                    pids = ",".join(p["partition_id"] for p in batch_parts[:2])
+                    print(
+                        f"  [train] epoch={epoch:04d} step={step_idx + 1}/{n_train_steps} "
+                        f"sample_partitions={pids}",
+                        flush=True,
+                    )
+                pad_nodes, pad_edges = _batch_node_edge_bounds(batch_parts)
+                if world > 1:
+                    pad_nodes, pad_edges = _global_pad_shape(pad_nodes, pad_edges, world)
+                graph_b, targets_b, core_mask_b = _collate_padded_partition_batch(
+                    base_dir,
+                    batch_parts,
+                    compute_dtype=compute_dtype,
+                    pad_nodes=pad_nodes,
+                    pad_edges=pad_edges,
+                )
+                ep_key, step_key = jax.random.split(ep_key)
+                step_key = jax.random.fold_in(step_key, rank)
+                step_keys = jax.random.split(step_key, n_local_devices)
+                rep_gnn_params, rep_gnn_opt_state, rep_flow_arrays, rep_flow_opt_state, nll_rep = train_step_dp(
+                    rep_gnn_params,
+                    rep_gnn_opt_state,
+                    rep_flow_arrays,
+                    rep_flow_opt_state,
+                    graph_b,
+                    targets_b,
+                    core_mask_b,
+                    step_keys,
+                )
+                train_nll_epoch.append(float(jax.device_get(nll_rep[0])))
+        else:
+            order = np.random.default_rng(args.seed + epoch).permutation(len(train_parts))
+            n_train_steps = len(order)
+            for step_idx, i in enumerate(order):
+                p = train_parts[int(i)]
+                if rank == 0 and step_idx % max(1, args.train_progress_every) == 0:
+                    print(
+                        f"  [train] epoch={epoch:04d} step={step_idx + 1}/{n_train_steps} "
+                        f"partition={p['partition_id']}",
+                        flush=True,
+                    )
+                graph, targets, core_mask, _ = load_partition(base_dir / p["file"], compute_dtype=compute_dtype)
+                ep_key, step_key = jax.random.split(ep_key)
+                gnn_params, gnn_opt_state, flow_arrays, flow_opt_state, nll, _, _ = train_step_single(
+                    gnn_params, gnn_opt_state, flow_arrays, flow_opt_state, graph, targets, core_mask, step_key
+                )
+                train_nll_epoch.append(float(nll))
 
         mean_train_nll = float(np.mean(train_nll_epoch)) if train_nll_epoch else float("nan")
         history["train_nll"].append((epoch, mean_train_nll))
 
         if epoch % args.eval_every == 0:
             val_losses = []
-            print(f"  [val] epoch={epoch:04d} evaluating {len(val_parts)} partitions", flush=True)
-            for p in val_parts:
-                graph, targets, core_mask, _ = load_partition(base_dir / p["file"])
-                ep_key, step_key = jax.random.split(ep_key)
-                (val_nll, _) = eval_step(gnn_params, flow_arrays, graph, targets, core_mask, step_key)
-                val_losses.append(float(val_nll))
+            if rank == 0:
+                print(f"  [val] epoch={epoch:04d} evaluating {len(val_parts)} partitions", flush=True)
+            if args.data_parallel:
+                # Deterministic eval grouping (no shuffle) for stable comparisons.
+                val_sorted = sorted(val_parts, key=lambda p: _shape_key(p, args.bucket_sort_key))
+                val_groups = [val_sorted[i : i + n_local_devices] for i in range(0, len(val_sorted), n_local_devices)]
+                val_groups = [g for g in val_groups if len(g) == n_local_devices]
+                for batch_parts in val_groups:
+                    pad_nodes, pad_edges = _batch_node_edge_bounds(batch_parts)
+                    if world > 1:
+                        pad_nodes, pad_edges = _global_pad_shape(pad_nodes, pad_edges, world)
+                    graph_b, targets_b, core_mask_b = _collate_padded_partition_batch(
+                        base_dir,
+                        batch_parts,
+                        compute_dtype=compute_dtype,
+                        pad_nodes=pad_nodes,
+                        pad_edges=pad_edges,
+                    )
+                    ep_key, step_key = jax.random.split(ep_key)
+                    step_key = jax.random.fold_in(step_key, rank)
+                    step_keys = jax.random.split(step_key, n_local_devices)
+                    val_nll_rep = eval_step_dp(rep_gnn_params, rep_flow_arrays, graph_b, targets_b, core_mask_b, step_keys)
+                    val_losses.append(float(jax.device_get(val_nll_rep[0])))
+            else:
+                for p in val_parts:
+                    graph, targets, core_mask, _ = load_partition(base_dir / p["file"], compute_dtype=compute_dtype)
+                    ep_key, step_key = jax.random.split(ep_key)
+                    val_nll, _ = eval_step_single(gnn_params, flow_arrays, graph, targets, core_mask, step_key)
+                    val_losses.append(float(val_nll))
             mean_val = float(np.mean(val_losses)) if val_losses else float("nan")
             history["val_nll"].append((epoch, mean_val))
             if mean_val < best_val:
                 best_val = mean_val
-                best = (
-                    jax.device_get(gnn_params),
-                    jax.device_get(flow_arrays),
-                )
-            print(f"Epoch {epoch:04d} | train_nll={mean_train_nll:.4f} | val_nll={mean_val:.4f}", flush=True)
+                if args.data_parallel:
+                    best = (
+                        jax.device_get(_take_first_replica(rep_gnn_params)),
+                        jax.device_get(_take_first_replica(rep_flow_arrays)),
+                    )
+                else:
+                    best = (
+                        jax.device_get(gnn_params),
+                        jax.device_get(flow_arrays),
+                    )
+            if rank == 0:
+                print(f"Epoch {epoch:04d} | train_nll={mean_train_nll:.4f} | val_nll={mean_val:.4f}", flush=True)
         else:
-            print(f"Epoch {epoch:04d} | train_nll={mean_train_nll:.4f}", flush=True)
+            if rank == 0:
+                print(f"Epoch {epoch:04d} | train_nll={mean_train_nll:.4f}", flush=True)
 
     elapsed = time.time() - t0
-    print(f"Training finished in {elapsed:.1f}s, best_val_nll={best_val:.4f}", flush=True)
+    if rank == 0:
+        print(f"Training finished in {elapsed:.1f}s, best_val_nll={best_val:.4f}", flush=True)
 
     if best is None:
-        best = (jax.device_get(gnn_params), jax.device_get(flow_arrays))
+        if args.data_parallel:
+            best = (
+                jax.device_get(_take_first_replica(rep_gnn_params)),
+                jax.device_get(_take_first_replica(rep_flow_arrays)),
+            )
+        else:
+            best = (jax.device_get(gnn_params), jax.device_get(flow_arrays))
+    if rank != 0:
+        return
+
     best_gnn, best_flow_arrays = best
     best_flow = eqx.combine(best_flow_arrays, flow_static)
     ts = time.strftime("%Y%m%d_%H%M%S")
@@ -301,6 +703,8 @@ def main(args: argparse.Namespace) -> None:
                 "target_scaler": target_scaler,
                 "stats": stats,
                 "partition_manifest": args.partition_manifest,
+                "rank": rank,
+                "world_size": world,
             },
             f,
         )
