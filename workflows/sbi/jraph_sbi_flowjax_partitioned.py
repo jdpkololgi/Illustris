@@ -7,6 +7,8 @@ partition artifacts produced by `build_abacus_partition_batches.py`.
 from __future__ import annotations
 
 import argparse
+from collections import OrderedDict
+from concurrent.futures import Future, ThreadPoolExecutor
 import json
 import os
 import pickle
@@ -14,6 +16,7 @@ import subprocess
 import time
 from functools import partial
 from pathlib import Path
+from typing import Callable
 
 import equinox as eqx
 import haiku as hk
@@ -56,7 +59,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--mixed-precision",
         choices=("none", "bf16"),
-        default="none",
+        default="bf16",
         help="Mixed-precision compute mode (bf16 keeps optimizer/master params in fp32).",
     )
     parser.add_argument("--train-partition-limit", type=int, default=0, help="0 means all train partitions.")
@@ -94,11 +97,72 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--activation-checkpointing",
-        action="store_true",
+        action=argparse.BooleanOptionalAction,
+        default=True,
         help=(
             "Enable activation rematerialization (jax.checkpoint) for the GNN forward pass "
             "during training to reduce peak memory usage."
         ),
+    )
+    parser.add_argument(
+        "--train-partitions-per-epoch",
+        type=int,
+        default=0,
+        help="If >0, sample this many train partitions per epoch (after distributed truncation).",
+    )
+    parser.add_argument(
+        "--full-val-every",
+        type=int,
+        default=25,
+        help="Run full validation every N epochs. Set <=0 to disable full validation passes.",
+    )
+    parser.add_argument(
+        "--full-val-partition-limit",
+        type=int,
+        default=0,
+        help="If >0, cap full-validation partitions to this many after split filtering.",
+    )
+    parser.add_argument(
+        "--partition-cache-size",
+        type=int,
+        default=512,
+        help="Max number of loaded partition arrays to keep in host RAM cache (0 disables).",
+    )
+    parser.add_argument(
+        "--prefetch-workers",
+        type=int,
+        default=4,
+        help="Thread workers for partition prefetching (0 disables prefetch).",
+    )
+    parser.add_argument(
+        "--prefetch-lookahead-steps",
+        type=int,
+        default=4,
+        help="How many future training/eval steps to prefetch partition arrays for.",
+    )
+    parser.add_argument(
+        "--pad-node-multiple",
+        type=int,
+        default=1024,
+        help="Round padded node count up to this multiple to reduce shape diversity (1 disables).",
+    )
+    parser.add_argument(
+        "--pad-edge-multiple",
+        type=int,
+        default=32768,
+        help="Round padded edge count up to this multiple to reduce shape diversity (1 disables).",
+    )
+    parser.add_argument(
+        "--max-partition-nodes",
+        type=int,
+        default=0,
+        help="Drop partitions with n_total_nodes above this limit (0 disables).",
+    )
+    parser.add_argument(
+        "--max-partition-edges",
+        type=int,
+        default=0,
+        help="Drop partitions with n_edges above this limit (0 disables).",
     )
     parser.add_argument(
         "--train-progress-every",
@@ -260,6 +324,34 @@ def _build_epoch_groups(
     return grouped
 
 
+class _PartitionArrayCache:
+    """Small in-process LRU cache for partition array payloads."""
+
+    def __init__(self, max_items: int):
+        self._max_items = max(0, int(max_items))
+        self._items: OrderedDict[str, dict[str, np.ndarray]] = OrderedDict()
+
+    def has(self, path: Path) -> bool:
+        return str(path) in self._items
+
+    def set(self, path: Path, value: dict[str, np.ndarray]) -> dict[str, np.ndarray]:
+        if self._max_items <= 0:
+            return value
+        key = str(path)
+        self._items[key] = value
+        self._items.move_to_end(key)
+        while len(self._items) > self._max_items:
+            self._items.popitem(last=False)
+        return value
+
+    def get(self, path: Path, loader: Callable[[Path], dict[str, np.ndarray]]) -> dict[str, np.ndarray]:
+        key = str(path)
+        if self._max_items > 0 and key in self._items:
+            self._items.move_to_end(key)
+            return self._items[key]
+        return self.set(path, loader(path))
+
+
 def _collate_padded_partition_batch(
     base_dir: Path,
     batch_parts: list[dict],
@@ -267,8 +359,9 @@ def _collate_padded_partition_batch(
     compute_dtype: jnp.dtype,
     pad_nodes: int | None = None,
     pad_edges: int | None = None,
+    array_loader: Callable[[Path], dict[str, np.ndarray]] = _load_partition_arrays,
 ) -> tuple[jraph.GraphsTuple, jnp.ndarray, jnp.ndarray]:
-    loaded = [_load_partition_arrays(base_dir / p["file"]) for p in batch_parts]
+    loaded = [array_loader(base_dir / p["file"]) for p in batch_parts]
     n_dev = len(loaded)
     local_max_nodes = max(int(x["n_nodes"]) for x in loaded)
     local_max_edges = max(int(x["n_edges"]) for x in loaded)
@@ -331,12 +424,70 @@ def _batch_node_edge_bounds(batch_parts: list[dict]) -> tuple[int, int]:
     return max_nodes, max_edges
 
 
-def _global_pad_shape(max_nodes: int, max_edges: int, world: int) -> tuple[int, int]:
+def _round_up(value: int, multiple: int) -> int:
+    m = max(1, int(multiple))
+    return int(((max(1, int(value)) + m - 1) // m) * m)
+
+
+def _global_pad_shape(
+    max_nodes: int,
+    max_edges: int,
+    world: int,
+    *,
+    node_multiple: int = 1,
+    edge_multiple: int = 1,
+) -> tuple[int, int]:
     if world <= 1:
-        return int(max_nodes), int(max_edges)
+        return _round_up(max_nodes, node_multiple), _round_up(max_edges, edge_multiple)
     local_shape = np.array([[int(max_nodes), int(max_edges)]], dtype=np.int32)
     all_shapes = np.asarray(multihost_utils.process_allgather(local_shape)).reshape(-1, 2)
-    return int(all_shapes[:, 0].max()), int(all_shapes[:, 1].max())
+    return _round_up(int(all_shapes[:, 0].max()), node_multiple), _round_up(
+        int(all_shapes[:, 1].max()), edge_multiple
+    )
+
+
+def _filter_partitions_by_size(
+    parts: list[dict],
+    *,
+    max_nodes: int,
+    max_edges: int,
+) -> tuple[list[dict], int]:
+    if max_nodes <= 0 and max_edges <= 0:
+        return parts, 0
+    kept: list[dict] = []
+    dropped = 0
+    for p in parts:
+        n_nodes, n_edges = _part_node_edge_counts(p)
+        if max_nodes > 0 and n_nodes > max_nodes:
+            dropped += 1
+            continue
+        if max_edges > 0 and n_edges > max_edges:
+            dropped += 1
+            continue
+        kept.append(p)
+    return kept, dropped
+
+
+def _schedule_prefetch(
+    *,
+    step_idx: int,
+    groups: list[list[dict]],
+    base_dir: Path,
+    lookahead_steps: int,
+    cache: _PartitionArrayCache,
+    inflight: dict[str, Future],
+    pool: ThreadPoolExecutor | None,
+) -> None:
+    if pool is None or lookahead_steps <= 0:
+        return
+    end = min(len(groups), step_idx + 1 + lookahead_steps)
+    for idx in range(step_idx + 1, end):
+        for p in groups[idx]:
+            path = base_dir / p["file"]
+            key = str(path)
+            if cache.has(path) or key in inflight:
+                continue
+            inflight[key] = pool.submit(_load_partition_arrays, path)
 
 
 def _truncate_for_distributed(parts: list[dict], rank: int, world: int, n_local_devices: int) -> list[dict]:
@@ -385,19 +536,42 @@ def main(args: argparse.Namespace) -> None:
     base_dir = Path(args.partition_manifest).resolve().parent
 
     train_parts = [p for p in manifest["partitions"] if p["split"] == "train"]
-    val_parts = [p for p in manifest["partitions"] if p["split"] == "val"]
+    val_parts_full = [p for p in manifest["partitions"] if p["split"] == "val"]
+    train_parts, dropped_train = _filter_partitions_by_size(
+        train_parts,
+        max_nodes=args.max_partition_nodes,
+        max_edges=args.max_partition_edges,
+    )
+    val_parts_full, dropped_val = _filter_partitions_by_size(
+        val_parts_full,
+        max_nodes=args.max_partition_nodes,
+        max_edges=args.max_partition_edges,
+    )
+    if rank == 0 and (dropped_train or dropped_val):
+        print(
+            f"Dropped oversized partitions: train={dropped_train}, val={dropped_val} "
+            f"(max_nodes={args.max_partition_nodes or 'off'}, max_edges={args.max_partition_edges or 'off'})",
+            flush=True,
+        )
     if args.train_partition_limit > 0:
         train_parts = train_parts[: args.train_partition_limit]
+    if args.full_val_partition_limit > 0:
+        val_parts_full = val_parts_full[: args.full_val_partition_limit]
+    val_parts_quick = val_parts_full
     if args.val_partition_limit > 0:
-        val_parts = val_parts[: args.val_partition_limit]
+        val_parts_quick = val_parts_full[: args.val_partition_limit]
     train_parts = _truncate_for_distributed(train_parts, rank, world, n_local_devices)
-    val_parts = _truncate_for_distributed(val_parts, rank, world, n_local_devices)
+    val_parts_full = _truncate_for_distributed(val_parts_full, rank, world, n_local_devices)
+    val_parts_quick = _truncate_for_distributed(val_parts_quick, rank, world, n_local_devices)
+    if args.train_partitions_per_epoch > 0:
+        train_parts = train_parts[: min(len(train_parts), args.train_partitions_per_epoch)]
 
     if not train_parts:
         raise ValueError("No train partitions found after rank/world assignment.")
     print(
         f"Rank {rank}/{world} | local_devices={n_local_devices} | "
-        f"Train partitions: {len(train_parts)}, Val partitions: {len(val_parts)}",
+        f"Train partitions: {len(train_parts)}, "
+        f"Val quick/full partitions: {len(val_parts_quick)}/{len(val_parts_full)}",
         flush=True,
     )
     print(f"Devices: {jax.devices()}", flush=True)
@@ -544,7 +718,17 @@ def main(args: argparse.Namespace) -> None:
 
     best_val = float("inf")
     best = None
-    history = {"train_nll": [], "val_nll": []}
+    history = {"train_nll": [], "val_nll": [], "val_kind": []}
+    array_cache = _PartitionArrayCache(args.partition_cache_size)
+    prefetch_pool = ThreadPoolExecutor(max_workers=max(1, args.prefetch_workers)) if args.prefetch_workers > 0 else None
+    inflight_prefetch: dict[str, Future] = {}
+
+    def _load_arrays_cached(path: Path) -> dict[str, np.ndarray]:
+        key = str(path)
+        fut = inflight_prefetch.pop(key, None)
+        if fut is not None:
+            return array_cache.set(path, fut.result())
+        return array_cache.get(path, _load_partition_arrays)
 
     if args.data_parallel:
         rep_gnn_params = jax.device_put_replicated(gnn_params, local_devices)
@@ -553,124 +737,167 @@ def main(args: argparse.Namespace) -> None:
         rep_flow_opt_state = jax.device_put_replicated(flow_opt_state, local_devices)
 
     t0 = time.time()
-    for epoch in range(num_epochs):
-        if rank == 0:
-            print(f"Epoch {epoch:04d} start", flush=True)
-        rng, ep_key = jax.random.split(rng)
-        train_nll_epoch: list[float] = []
-
-        if args.data_parallel:
-            train_groups = _build_epoch_groups(
-                train_parts,
-                n_local_devices=n_local_devices,
-                rng_seed=args.seed + epoch + rank * 100003,
-                bucket_span_multiplier=args.bucket_span_multiplier,
-                bucket_sort_key=args.bucket_sort_key,
-            )
-            n_train_steps = len(train_groups)
-            for step_idx, batch_parts in enumerate(train_groups):
-                if rank == 0 and step_idx % max(1, args.train_progress_every) == 0:
-                    pids = ",".join(p["partition_id"] for p in batch_parts[:2])
-                    print(
-                        f"  [train] epoch={epoch:04d} step={step_idx + 1}/{n_train_steps} "
-                        f"sample_partitions={pids}",
-                        flush=True,
-                    )
-                pad_nodes, pad_edges = _batch_node_edge_bounds(batch_parts)
-                if world > 1:
-                    pad_nodes, pad_edges = _global_pad_shape(pad_nodes, pad_edges, world)
-                graph_b, targets_b, core_mask_b = _collate_padded_partition_batch(
-                    base_dir,
-                    batch_parts,
-                    compute_dtype=compute_dtype,
-                    pad_nodes=pad_nodes,
-                    pad_edges=pad_edges,
-                )
-                ep_key, step_key = jax.random.split(ep_key)
-                step_key = jax.random.fold_in(step_key, rank)
-                step_keys = jax.random.split(step_key, n_local_devices)
-                rep_gnn_params, rep_gnn_opt_state, rep_flow_arrays, rep_flow_opt_state, nll_rep = train_step_dp(
-                    rep_gnn_params,
-                    rep_gnn_opt_state,
-                    rep_flow_arrays,
-                    rep_flow_opt_state,
-                    graph_b,
-                    targets_b,
-                    core_mask_b,
-                    step_keys,
-                )
-                train_nll_epoch.append(float(jax.device_get(nll_rep[0])))
-        else:
-            order = np.random.default_rng(args.seed + epoch).permutation(len(train_parts))
-            n_train_steps = len(order)
-            for step_idx, i in enumerate(order):
-                p = train_parts[int(i)]
-                if rank == 0 and step_idx % max(1, args.train_progress_every) == 0:
-                    print(
-                        f"  [train] epoch={epoch:04d} step={step_idx + 1}/{n_train_steps} "
-                        f"partition={p['partition_id']}",
-                        flush=True,
-                    )
-                graph, targets, core_mask, _ = load_partition(base_dir / p["file"], compute_dtype=compute_dtype)
-                ep_key, step_key = jax.random.split(ep_key)
-                gnn_params, gnn_opt_state, flow_arrays, flow_opt_state, nll, _, _ = train_step_single(
-                    gnn_params, gnn_opt_state, flow_arrays, flow_opt_state, graph, targets, core_mask, step_key
-                )
-                train_nll_epoch.append(float(nll))
-
-        mean_train_nll = float(np.mean(train_nll_epoch)) if train_nll_epoch else float("nan")
-        history["train_nll"].append((epoch, mean_train_nll))
-
-        if epoch % args.eval_every == 0:
-            val_losses = []
+    try:
+        for epoch in range(num_epochs):
             if rank == 0:
-                print(f"  [val] epoch={epoch:04d} evaluating {len(val_parts)} partitions", flush=True)
+                print(f"Epoch {epoch:04d} start", flush=True)
+            rng, ep_key = jax.random.split(rng)
+            train_nll_epoch: list[float] = []
+
             if args.data_parallel:
-                # Deterministic eval grouping (no shuffle) for stable comparisons.
-                val_sorted = sorted(val_parts, key=lambda p: _shape_key(p, args.bucket_sort_key))
-                val_groups = [val_sorted[i : i + n_local_devices] for i in range(0, len(val_sorted), n_local_devices)]
-                val_groups = [g for g in val_groups if len(g) == n_local_devices]
-                for batch_parts in val_groups:
+                train_groups = _build_epoch_groups(
+                    train_parts,
+                    n_local_devices=n_local_devices,
+                    rng_seed=args.seed + epoch + rank * 100003,
+                    bucket_span_multiplier=args.bucket_span_multiplier,
+                    bucket_sort_key=args.bucket_sort_key,
+                )
+                n_train_steps = len(train_groups)
+                for step_idx, batch_parts in enumerate(train_groups):
+                    _schedule_prefetch(
+                        step_idx=step_idx,
+                        groups=train_groups,
+                        base_dir=base_dir,
+                        lookahead_steps=args.prefetch_lookahead_steps,
+                        cache=array_cache,
+                        inflight=inflight_prefetch,
+                        pool=prefetch_pool,
+                    )
+                    if rank == 0 and step_idx % max(1, args.train_progress_every) == 0:
+                        pids = ",".join(p["partition_id"] for p in batch_parts[:2])
+                        print(
+                            f"  [train] epoch={epoch:04d} step={step_idx + 1}/{n_train_steps} "
+                            f"sample_partitions={pids}",
+                            flush=True,
+                        )
                     pad_nodes, pad_edges = _batch_node_edge_bounds(batch_parts)
-                    if world > 1:
-                        pad_nodes, pad_edges = _global_pad_shape(pad_nodes, pad_edges, world)
+                    pad_nodes, pad_edges = _global_pad_shape(
+                        pad_nodes,
+                        pad_edges,
+                        world,
+                        node_multiple=args.pad_node_multiple,
+                        edge_multiple=args.pad_edge_multiple,
+                    )
                     graph_b, targets_b, core_mask_b = _collate_padded_partition_batch(
                         base_dir,
                         batch_parts,
                         compute_dtype=compute_dtype,
                         pad_nodes=pad_nodes,
                         pad_edges=pad_edges,
+                        array_loader=_load_arrays_cached,
                     )
                     ep_key, step_key = jax.random.split(ep_key)
                     step_key = jax.random.fold_in(step_key, rank)
                     step_keys = jax.random.split(step_key, n_local_devices)
-                    val_nll_rep = eval_step_dp(rep_gnn_params, rep_flow_arrays, graph_b, targets_b, core_mask_b, step_keys)
-                    val_losses.append(float(jax.device_get(val_nll_rep[0])))
+                    rep_gnn_params, rep_gnn_opt_state, rep_flow_arrays, rep_flow_opt_state, nll_rep = train_step_dp(
+                        rep_gnn_params,
+                        rep_gnn_opt_state,
+                        rep_flow_arrays,
+                        rep_flow_opt_state,
+                        graph_b,
+                        targets_b,
+                        core_mask_b,
+                        step_keys,
+                    )
+                    train_nll_epoch.append(float(jax.device_get(nll_rep[0])))
             else:
-                for p in val_parts:
+                order = np.random.default_rng(args.seed + epoch).permutation(len(train_parts))
+                n_train_steps = len(order)
+                for step_idx, i in enumerate(order):
+                    p = train_parts[int(i)]
+                    if rank == 0 and step_idx % max(1, args.train_progress_every) == 0:
+                        print(
+                            f"  [train] epoch={epoch:04d} step={step_idx + 1}/{n_train_steps} "
+                            f"partition={p['partition_id']}",
+                            flush=True,
+                        )
                     graph, targets, core_mask, _ = load_partition(base_dir / p["file"], compute_dtype=compute_dtype)
                     ep_key, step_key = jax.random.split(ep_key)
-                    val_nll, _ = eval_step_single(gnn_params, flow_arrays, graph, targets, core_mask, step_key)
-                    val_losses.append(float(val_nll))
-            mean_val = float(np.mean(val_losses)) if val_losses else float("nan")
-            history["val_nll"].append((epoch, mean_val))
-            if mean_val < best_val:
-                best_val = mean_val
+                    gnn_params, gnn_opt_state, flow_arrays, flow_opt_state, nll, _, _ = train_step_single(
+                        gnn_params, gnn_opt_state, flow_arrays, flow_opt_state, graph, targets, core_mask, step_key
+                    )
+                    train_nll_epoch.append(float(nll))
+
+            mean_train_nll = float(np.mean(train_nll_epoch)) if train_nll_epoch else float("nan")
+            history["train_nll"].append((epoch, mean_train_nll))
+
+            if epoch % args.eval_every == 0:
+                do_full_val = args.full_val_every > 0 and ((epoch + 1) % args.full_val_every == 0)
+                epoch_val_parts = val_parts_full if do_full_val else val_parts_quick
+                val_losses = []
+                val_kind = "full" if do_full_val else "quick"
+                if rank == 0:
+                    print(
+                        f"  [val] epoch={epoch:04d} mode={val_kind} evaluating {len(epoch_val_parts)} partitions",
+                        flush=True,
+                    )
                 if args.data_parallel:
-                    best = (
-                        jax.device_get(_take_first_replica(rep_gnn_params)),
-                        jax.device_get(_take_first_replica(rep_flow_arrays)),
-                    )
+                    # Deterministic eval grouping (no shuffle) for stable comparisons.
+                    val_sorted = sorted(epoch_val_parts, key=lambda p: _shape_key(p, args.bucket_sort_key))
+                    val_groups = [val_sorted[i : i + n_local_devices] for i in range(0, len(val_sorted), n_local_devices)]
+                    val_groups = [g for g in val_groups if len(g) == n_local_devices]
+                    for step_idx, batch_parts in enumerate(val_groups):
+                        _schedule_prefetch(
+                            step_idx=step_idx,
+                            groups=val_groups,
+                            base_dir=base_dir,
+                            lookahead_steps=args.prefetch_lookahead_steps,
+                            cache=array_cache,
+                            inflight=inflight_prefetch,
+                            pool=prefetch_pool,
+                        )
+                        pad_nodes, pad_edges = _batch_node_edge_bounds(batch_parts)
+                        pad_nodes, pad_edges = _global_pad_shape(
+                            pad_nodes,
+                            pad_edges,
+                            world,
+                            node_multiple=args.pad_node_multiple,
+                            edge_multiple=args.pad_edge_multiple,
+                        )
+                        graph_b, targets_b, core_mask_b = _collate_padded_partition_batch(
+                            base_dir,
+                            batch_parts,
+                            compute_dtype=compute_dtype,
+                            pad_nodes=pad_nodes,
+                            pad_edges=pad_edges,
+                            array_loader=_load_arrays_cached,
+                        )
+                        ep_key, step_key = jax.random.split(ep_key)
+                        step_key = jax.random.fold_in(step_key, rank)
+                        step_keys = jax.random.split(step_key, n_local_devices)
+                        val_nll_rep = eval_step_dp(
+                            rep_gnn_params, rep_flow_arrays, graph_b, targets_b, core_mask_b, step_keys
+                        )
+                        val_losses.append(float(jax.device_get(val_nll_rep[0])))
                 else:
-                    best = (
-                        jax.device_get(gnn_params),
-                        jax.device_get(flow_arrays),
-                    )
-            if rank == 0:
-                print(f"Epoch {epoch:04d} | train_nll={mean_train_nll:.4f} | val_nll={mean_val:.4f}", flush=True)
-        else:
-            if rank == 0:
-                print(f"Epoch {epoch:04d} | train_nll={mean_train_nll:.4f}", flush=True)
+                    for p in epoch_val_parts:
+                        graph, targets, core_mask, _ = load_partition(base_dir / p["file"], compute_dtype=compute_dtype)
+                        ep_key, step_key = jax.random.split(ep_key)
+                        val_nll, _ = eval_step_single(gnn_params, flow_arrays, graph, targets, core_mask, step_key)
+                        val_losses.append(float(val_nll))
+                mean_val = float(np.mean(val_losses)) if val_losses else float("nan")
+                history["val_nll"].append((epoch, mean_val))
+                history["val_kind"].append((epoch, val_kind))
+                if mean_val < best_val:
+                    best_val = mean_val
+                    if args.data_parallel:
+                        best = (
+                            jax.device_get(_take_first_replica(rep_gnn_params)),
+                            jax.device_get(_take_first_replica(rep_flow_arrays)),
+                        )
+                    else:
+                        best = (
+                            jax.device_get(gnn_params),
+                            jax.device_get(flow_arrays),
+                        )
+                if rank == 0:
+                    print(f"Epoch {epoch:04d} | train_nll={mean_train_nll:.4f} | val_nll={mean_val:.4f}", flush=True)
+            else:
+                if rank == 0:
+                    print(f"Epoch {epoch:04d} | train_nll={mean_train_nll:.4f}", flush=True)
+    finally:
+        if prefetch_pool is not None:
+            prefetch_pool.shutdown(wait=False)
 
     elapsed = time.time() - t0
     if rank == 0:
