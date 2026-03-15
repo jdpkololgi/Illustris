@@ -4,6 +4,7 @@ if __name__ == "__main__" and any(arg in ("-h", "--help") for arg in sys.argv[1:
     raise SystemExit(0)
 
 import os
+from pathlib import Path
 import builtins
 from contextlib import contextmanager
 
@@ -62,7 +63,7 @@ def _resolve_umap_class():
                 ) from err
 
 
-def add_density_contours(ax, points, labels, palette, xlim, ylim, grid_size=200):
+def add_density_contours(ax, points, labels, palette, xlim, ylim, grid_size=200, fill=True):
     """Overlay solid KDE contours per class following Caro et al. (2024) Figure 13.
     This version draws filled contours (contourf) between the chosen level and the peak density,
     plus a stroked contour line for definition.
@@ -104,10 +105,11 @@ def add_density_contours(ax, points, labels, palette, xlim, ylim, grid_size=200)
             continue
 
         # Filled contour between the threshold level and the maximum density
-        ax.contourf(xx, yy, density, levels=[level, density_max], colors=[color], alpha=0.35, antialiased=True)
+        if fill:
+            ax.contourf(xx, yy, density, levels=[level, density_max], colors=[color], alpha=0.35, antialiased=True)
 
         # Optional: draw an outline at the threshold for clarity
-        ax.contour(xx, yy, density, levels=[level], colors=[color], linewidths=1.2, alpha=0.6)
+        ax.contour(xx, yy, density, levels=[level], colors=[color], linewidths=2, alpha=1.0)
 
 
 def compute_axis_limits(points, pad_fraction=0.05):
@@ -155,11 +157,20 @@ class_colors = [custom_palette['Void'], custom_palette['Wall'], custom_palette['
 # tell seaborn to use this palette for category plots
 sns.set_palette(class_colors)
 
-data, features, targets = load_data(rank=0, distributed=False)
+# Cache artifacts to reproduce the 2025-11-25 run.
+CACHE_ROOT = Path("/pscratch/sd/d/dkololgi/tng_illustris/cache/from_repo_root")
+# Use the non-alpha processed cache (legacy Delaunay-era artifact).
+PROCESSED_DATA_FILE = Path("/pscratch/sd/d/dkololgi/Cosmic_env_TNG_cache/processed_gcn_data_mc1e+09.pt")
+MODEL_FILE = CACHE_ROOT / "trained_gat_model_ddp_2025-11-25.pth"
+TRAINING_HISTORY_FILE = CACHE_ROOT / "training_validation_accuracies_losses_2025-11-25.pkl"
+TEST_PROBS_FILE = CACHE_ROOT / "test_predictions_labels_probs_2025-11-25.pkl"
+NODE_EMBEDDINGS_FILE = CACHE_ROOT / "node_embeddings_2025-11-25.pkl"
+
+data, features, targets = load_data(cache_path=str(PROCESSED_DATA_FILE), rank=0, distributed=False)
 class_weights = calculate_class_weights(targets)
 model = SimpleGAT(input_dim=features.shape[1], output_dim=4, num_heads=4)
 # model.load_state_dict(torch.load('trained_gat_model_ddp.pth', weights_only=True))
-model.load_state_dict(torch.load('trained_gat_model_ddp_2026-01-15.pth', weights_only=True))
+model.load_state_dict(torch.load(MODEL_FILE, weights_only=True))
 test_gcn_full(model, data)
 predicted_labels, true_labels, test_probs, _ = test_gcn_full(model, data)
 
@@ -180,7 +191,7 @@ plt.close(fig_cm)
 
 print(cm)
 
-training_history = pd.read_pickle('training_validation_accuracies_losses_2026-01-15.pkl')
+training_history = pd.read_pickle(TRAINING_HISTORY_FILE)
 
 # plot training history with consistent colors and font sizes
 fig, ax = plt.subplots(1, 2, figsize=(20, 6))  # larger so font sizes remain consistent
@@ -351,9 +362,9 @@ _mapping = {0: 'Void', 1: 'Wall', 2: 'Filament', 3: 'Cluster'}
 
 targets2 = np.array([_mapping[int(t)] for t in targets])    
 # test_predictions_labels_probs.pkl
-test_probs = pd.read_pickle('test_predictions_labels_probs_2026-01-15.pkl')['probs'].detach().cpu().numpy()
+test_probs = pd.read_pickle(TEST_PROBS_FILE)['probs'].detach().cpu().numpy()
 # UMAP of learned features colored by true labels
-node_embeddings = pd.read_pickle('node_embeddings_2026-01-15.pkl').detach().cpu().numpy()
+node_embeddings = pd.read_pickle(NODE_EMBEDDINGS_FILE).detach().cpu().numpy()
 z = reducer.fit_transform(node_embeddings)
 
 # UMAP of GAT embeddings colored by true labels
@@ -610,47 +621,39 @@ fig_entropy.tight_layout()
 plt.close(fig_entropy)
 
 pairs = [(0, 1), (0, 2), (1, 2)]
-single_color = 'r'  # neutral color for entropy row
-
 fig_comb, axes_comb = plt.subplots(2, 3, figsize=(18, 12), dpi=300)
 
-# Row 0: color by predicted class (uniform size)
-colors = np.array([custom_palette[lbl] for lbl in predicted_labels_test])
+# Row 0: class density contours only (no scatter points).
 for ax, (x, y) in zip(axes_comb[0], pairs):
     plane = z_test[:, [x, y]]
     xlim, ylim = compute_axis_limits(plane)
-    # ax.scatter(
-    #     plane[:, 0], plane[:, 1],
-    #     c=colors,
-    #     s=marker_size,
-    #     edgecolor='none',
-    #     alpha=alpha_const,
-    #     rasterized=True
-    # )
     ax.set_xlabel(f'UMAP {x+1}', fontsize=20)
     ax.set_ylabel(f'UMAP {y+1}', fontsize=20)
     ax.tick_params(labelsize=20)
     ax.set_facecolor('none')
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
-    add_density_contours(ax, plane, predicted_labels_test, custom_palette, xlim, ylim)
+    add_density_contours(ax, plane, predicted_labels_test, custom_palette, xlim, ylim, fill=True)
 
-# Row 1: single color, size encodes entropy (areas already computed) + entropy contours
+# Row 1: color by log entropy and overlay identical class-density contours.
+log_entropy = entropy + 1e-12
+entropy_norm = plt.Normalize(vmin=float(np.min(log_entropy)), vmax=float(np.max(log_entropy)))
+entropy_cmap = plt.get_cmap("cividis")
+
 for ax, (x, y) in zip(axes_comb[1], pairs):
     plane = z_test[:, [x, y]]
     xlim, ylim = compute_axis_limits(plane)
-
-    # scatter: single color, size by entropy-derived areas
     ax.scatter(
         plane[:, 0], plane[:, 1],
-        color='white',
-        s=marker_size,               # size encodes entropy (higher entropy -> larger area if you used conf, invert if needed)
-        edgecolor=edgecols_r,
-        alpha=0.3,
+        c=log_entropy,
+        cmap=entropy_cmap,
+        norm=entropy_norm,
+        s=marker_size,
+        edgecolor='none',
+        alpha=0.4,
         rasterized=True
     )
-
-
+    add_density_contours(ax, plane, predicted_labels_test, custom_palette, xlim, ylim, fill=False)
     ax.set_xlabel(f'UMAP {x+1}', fontsize=20)
     ax.set_ylabel(f'UMAP {y+1}', fontsize=20)
     ax.tick_params(labelsize=20)
@@ -674,22 +677,19 @@ class_handles = [
     for i in range(len(class_labels))
 ]
 
-entropy_handles = [
-    Line2D([0], [0], marker='o', linestyle='None',
-           markerfacecolor='white', markeredgecolor=edge_high,
-           alpha=alpha_const, markersize=legend_class_size),
-    Line2D([0], [0], marker='o', linestyle='None',
-           markerfacecolor='white', markeredgecolor=edge_low,
-           alpha=alpha_const, markersize=legend_class_size),
-]
-entropy_labels = ['Low entropy', 'High entropy']
-
-combined_handles = class_handles + entropy_handles
-combined_labels = class_labels + entropy_labels
-
-fig_comb.legend(combined_handles, combined_labels, ncol=len(class_labels) + 2,
+fig_comb.legend(class_handles, class_labels, ncol=len(class_labels),
                 fontsize=20, loc='upper center')
 
-plt.tight_layout(rect=[0, 0, 1, 0.93])
+# Dedicated color bar for log Shannon entropy in the bottom row.
+sm = plt.cm.ScalarMappable(norm=entropy_norm, cmap=entropy_cmap)
+sm.set_array([])
+# Reserve right margin and place colorbar outside panel grid.
+fig_comb.subplots_adjust(right=0.90)
+cbar_ax = fig_comb.add_axes([0.92, 0.12, 0.015, 0.34])
+cbar = fig_comb.colorbar(sm, cax=cbar_ax)
+cbar.set_label(r"Shannon Entropy ($H$)", fontsize=18)
+cbar.ax.tick_params(labelsize=16)
+
+plt.tight_layout(rect=[0, 0, 0.90, 0.93])
 plt.savefig('umap_gat_embeddings_alpha_test_predictions.pdf', dpi=600)
 plt.close(fig_comb)

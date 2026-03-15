@@ -1,7 +1,8 @@
-"""Partition-aware SBI trainer for Abacus caches.
+"""Partition-aware Jraph regression trainer for Abacus caches.
 
-This entrypoint keeps `jraph_sbi_flowjax.py` untouched and trains using
-partition artifacts produced by `build_abacus_partition_batches.py`.
+This script mirrors the partition orchestration style of
+`workflows/sbi/jraph_sbi_flowjax_partitioned.py` but trains the deterministic
+regression pipeline (MSE on eigenvalue targets) instead of a flow model.
 """
 
 from __future__ import annotations
@@ -9,27 +10,23 @@ from __future__ import annotations
 import argparse
 from collections import OrderedDict
 from concurrent.futures import Future, ThreadPoolExecutor
+from datetime import datetime
+from functools import partial
 import json
 import os
 import pickle
+from pathlib import Path
 import subprocess
 import time
-from functools import partial
-from pathlib import Path
-from typing import Callable
 
-import equinox as eqx
 import haiku as hk
 import jax
 import jax.numpy as jnp
+from jax.experimental import multihost_utils
 import jraph
 import numpy as np
 import optax
-from flowjax.distributions import Normal
-from flowjax.flows import RationalQuadraticSpline, masked_autoregressive_flow
-from jax.experimental import multihost_utils
 
-# Allow workflow script to resolve repo-root modules after reorganization.
 import sys
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -37,50 +34,62 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from shared.config_paths import CANONICAL_OUTPUT_ROOT
-from shared.graph_net_models import make_gnn_encoder
+from shared.eigenvalue_transformations import increments_to_eigenvalues
+from shared.graph_net_models import make_graph_network
 from shared.resource_requirements import require_gpu_slurm
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--partition-manifest", required=True, help="Path to partition_manifest.json")
-    parser.add_argument("--sbi-cache-path", required=True, help="Original SBI cache path (for scaler/raw eig metadata).")
-    parser.add_argument("--epochs", type=int, default=50)
     parser.add_argument(
-        "--lr-schedule-epochs",
-        type=int,
-        default=0,
+        "--source-cache-path",
+        default="",
         help=(
-            "Learning-rate schedule horizon in epochs. "
-            "If <=0, defaults to --epochs. For resumed/chained runs, set this to total planned epochs."
+            "Optional path to source cache with scaler/raw eigenvalue metadata. "
+            "Defaults to manifest['source_cache_path'] when present."
         ),
     )
+    parser.add_argument("--epochs", type=int, default=300)
     parser.add_argument("--lr", type=float, default=1e-3)
     parser.add_argument("--weight-decay", type=float, default=0.08)
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--num-passes", type=int, default=4)
+    parser.add_argument("--num-passes", type=int, default=8)
     parser.add_argument("--latent-size", type=int, default=80)
     parser.add_argument("--num-heads", type=int, default=8)
     parser.add_argument("--dropout", type=float, default=0.2)
-    parser.add_argument("--num-flow-layers", type=int, default=5)
-    parser.add_argument("--num-bins", type=int, default=8)
-    parser.add_argument("--flow-hidden-size", type=int, default=128)
-    parser.add_argument(
-        "--mixed-precision",
-        choices=("none", "bf16"),
-        default="bf16",
-        help="Mixed-precision compute mode (bf16 keeps optimizer/master params in fp32).",
-    )
-    parser.add_argument("--train-partition-limit", type=int, default=0, help="0 means all train partitions.")
-    parser.add_argument("--val-partition-limit", type=int, default=8, help="Validation partitions per eval.")
     parser.add_argument("--eval-every", type=int, default=1)
+    parser.add_argument("--train-partition-limit", type=int, default=0, help="0 means all train partitions.")
+    parser.add_argument("--val-partition-limit", type=int, default=8, help="Quick validation partitions.")
+    parser.add_argument(
+        "--max-partition-nodes",
+        type=int,
+        default=0,
+        help="Drop partitions with n_total_nodes above this limit (0 disables).",
+    )
+    parser.add_argument(
+        "--max-partition-edges",
+        type=int,
+        default=0,
+        help="Drop partitions with n_edges above this limit (0 disables).",
+    )
+    parser.add_argument("--full-val-every", type=int, default=25, help="Run full validation every N epochs.")
+    parser.add_argument(
+        "--full-val-partition-limit",
+        type=int,
+        default=0,
+        help="If >0, cap full-validation partitions.",
+    )
+    parser.add_argument(
+        "--train-partitions-per-epoch",
+        type=int,
+        default=0,
+        help="If >0, sample this many train partitions per epoch.",
+    )
     parser.add_argument(
         "--data-parallel",
         action="store_true",
-        help=(
-            "Enable data parallel training with pmap. Partitions are bucketed and padded "
-            "within each multi-device step."
-        ),
+        help="Enable local pmap data-parallel mode (one partition per device per step).",
     )
     parser.add_argument(
         "--distributed",
@@ -96,104 +105,77 @@ def parse_args() -> argparse.Namespace:
         "--bucket-span-multiplier",
         type=int,
         default=8,
-        help="Number of device-groups per bucketized window used for pmap collation.",
+        help="Window size multiplier for shape-bucketed pmap collation.",
     )
     parser.add_argument(
         "--bucket-sort-key",
         choices=("edges", "nodes", "max"),
         default="max",
-        help="Metadata key used to bucket partitions by shape before pmap collation.",
-    )
-    parser.add_argument(
-        "--activation-checkpointing",
-        action=argparse.BooleanOptionalAction,
-        default=True,
-        help=(
-            "Enable activation rematerialization (jax.checkpoint) for the GNN forward pass "
-            "during training to reduce peak memory usage."
-        ),
-    )
-    parser.add_argument(
-        "--train-partitions-per-epoch",
-        type=int,
-        default=0,
-        help="If >0, sample this many train partitions per epoch (after distributed truncation).",
-    )
-    parser.add_argument(
-        "--full-val-every",
-        type=int,
-        default=25,
-        help="Run full validation every N epochs. Set <=0 to disable full validation passes.",
-    )
-    parser.add_argument(
-        "--full-val-partition-limit",
-        type=int,
-        default=0,
-        help="If >0, cap full-validation partitions to this many after split filtering.",
-    )
-    parser.add_argument(
-        "--partition-cache-size",
-        type=int,
-        default=512,
-        help="Max number of loaded partition arrays to keep in host RAM cache (0 disables).",
-    )
-    parser.add_argument(
-        "--prefetch-workers",
-        type=int,
-        default=4,
-        help="Thread workers for partition prefetching (0 disables prefetch).",
-    )
-    parser.add_argument(
-        "--prefetch-lookahead-steps",
-        type=int,
-        default=4,
-        help="How many future training/eval steps to prefetch partition arrays for.",
+        help="Metadata key used to bucket partitions by shape.",
     )
     parser.add_argument(
         "--pad-node-multiple",
         type=int,
         default=1024,
-        help="Round padded node count up to this multiple to reduce shape diversity (1 disables).",
+        help="Round padded node count up to this multiple (1 disables).",
     )
     parser.add_argument(
         "--pad-edge-multiple",
         type=int,
         default=32768,
-        help="Round padded edge count up to this multiple to reduce shape diversity (1 disables).",
+        help="Round padded edge count up to this multiple (1 disables).",
     )
     parser.add_argument(
-        "--max-partition-nodes",
-        type=int,
-        default=0,
-        help="Drop partitions with n_total_nodes above this limit (0 disables).",
+        "--mixed-precision",
+        choices=("none", "bf16"),
+        default="bf16",
+        help="Mixed-precision compute mode (master params/optimizer remain fp32).",
     )
     parser.add_argument(
-        "--max-partition-edges",
-        type=int,
-        default=0,
-        help="Drop partitions with n_edges above this limit (0 disables).",
+        "--activation-checkpointing",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Enable activation rematerialization for training forward pass.",
     )
     parser.add_argument(
-        "--train-progress-every",
+        "--partition-cache-size",
         type=int,
-        default=1,
-        help="Print training progress every N partition steps within each epoch.",
+        default=512,
+        help="Max partition arrays in host-side LRU cache (0 disables).",
+    )
+    parser.add_argument(
+        "--prefetch-workers",
+        type=int,
+        default=4,
+        help="Thread workers for partition prefetching (0 disables).",
+    )
+    parser.add_argument(
+        "--prefetch-lookahead-steps",
+        type=int,
+        default=4,
+        help="How many future train/eval steps to prefetch.",
     )
     parser.add_argument(
         "--output-dir",
-        default=f"{CANONICAL_OUTPUT_ROOT}/sbi_partitioned",
-        help="Directory for models/logs.",
+        default=f"{CANONICAL_OUTPUT_ROOT}/jraph_partitioned_regression",
+        help="Directory for model/logs/predictions.",
     )
     parser.add_argument(
         "--resume-checkpoint",
         default="",
-        help="Optional path to a training checkpoint .pkl created by this script.",
+        help="Optional checkpoint .pkl created by this script.",
     )
     parser.add_argument(
         "--checkpoint-every-epochs",
         type=int,
         default=5,
-        help="Write periodic epoch checkpoints every N epochs (0 disables periodic saves).",
+        help="Write periodic checkpoints every N epochs (0 disables).",
+    )
+    parser.add_argument(
+        "--train-progress-every",
+        type=int,
+        default=1,
+        help="Print train progress every N partition steps.",
     )
     return parser.parse_args()
 
@@ -223,16 +205,11 @@ def _infer_local_device_ids(local_rank: int) -> list[int] | None:
     if visible:
         ids = [x.strip() for x in visible.split(",") if x.strip()]
         tasks_per_node_raw = os.environ.get("SLURM_NTASKS_PER_NODE", "1")
-        # SLURM can encode this as "4(x2)"; keep the leading integer.
         tasks_per_node = int(tasks_per_node_raw.split("(")[0].split(",")[0])
-        # If Slurm narrowed visibility to one device per task, always index that as local 0.
         if len(ids) == 1:
             return [0]
-        # One task per node should own all visible local devices on that node.
         if tasks_per_node == 1:
             return list(range(len(ids)))
-        # If multiple local devices are visible and multiple tasks share the node,
-        # bind each process to its local rank device.
         if len(ids) > 1:
             return [int(local_rank)]
     return None
@@ -259,53 +236,10 @@ def _maybe_init_distributed(args: argparse.Namespace, rank: int, world: int, loc
     )
 
 
-def _load_partition_arrays(path: Path) -> dict[str, np.ndarray]:
-    with np.load(path) as d:
-        x = np.asarray(d["x"], dtype=np.float32)
-        edge_index = np.asarray(d["edge_index"], dtype=np.int32)
-        edge_attr = np.asarray(d["edge_attr"], dtype=np.float32)
-        targets = np.asarray(d["targets"])
-        core_mask_local = np.asarray(d["core_mask_local"], dtype=bool)
-        if "global_node_ids" in d:
-            global_node_ids = np.asarray(d["global_node_ids"], dtype=np.int64)
-        else:
-            global_node_ids = np.arange(x.shape[0], dtype=np.int64)
-    return {
-        "x": x,
-        "senders": edge_index[0],
-        "receivers": edge_index[1],
-        "edge_attr": edge_attr,
-        "targets": targets,
-        "core_mask": core_mask_local,
-        "global_node_ids": global_node_ids,
-        "n_nodes": np.int32(x.shape[0]),
-        "n_edges": np.int32(edge_index.shape[1]),
-    }
-
-
 def _compute_dtype_from_mode(mode: str) -> jnp.dtype:
     if mode == "bf16":
         return jnp.bfloat16
     return jnp.float32
-
-
-def load_partition(path: Path, *, compute_dtype: jnp.dtype = jnp.float32) -> tuple[jraph.GraphsTuple, jnp.ndarray, jnp.ndarray, jnp.ndarray]:
-    d = _load_partition_arrays(path)
-    graph = jraph.GraphsTuple(
-        nodes=jnp.array(d["x"], dtype=compute_dtype),
-        edges=jnp.array(d["edge_attr"], dtype=compute_dtype),
-        senders=jnp.array(d["senders"], dtype=jnp.int32),
-        receivers=jnp.array(d["receivers"], dtype=jnp.int32),
-        n_node=jnp.array([d["n_nodes"]], dtype=jnp.int32),
-        n_edge=jnp.array([d["n_edges"]], dtype=jnp.int32),
-        globals=None,
-    )
-    return (
-        graph,
-        jnp.array(d["targets"], dtype=jnp.float32),
-        jnp.array(d["core_mask"], dtype=bool),
-        jnp.array(d["global_node_ids"], dtype=jnp.int64),
-    )
 
 
 def _shape_key(part: dict, mode: str) -> int:
@@ -345,8 +279,6 @@ def _build_epoch_groups(
 
 
 class _PartitionArrayCache:
-    """Small in-process LRU cache for partition array payloads."""
-
     def __init__(self, max_items: int):
         self._max_items = max(0, int(max_items))
         self._items: OrderedDict[str, dict[str, np.ndarray]] = OrderedDict()
@@ -364,12 +296,59 @@ class _PartitionArrayCache:
             self._items.popitem(last=False)
         return value
 
-    def get(self, path: Path, loader: Callable[[Path], dict[str, np.ndarray]]) -> dict[str, np.ndarray]:
+    def get(self, path: Path) -> dict[str, np.ndarray]:
         key = str(path)
         if self._max_items > 0 and key in self._items:
             self._items.move_to_end(key)
             return self._items[key]
-        return self.set(path, loader(path))
+        return self.set(path, _load_partition_arrays(path))
+
+
+def _load_partition_arrays(path: Path) -> dict[str, np.ndarray]:
+    with np.load(path) as d:
+        x = np.asarray(d["x"], dtype=np.float32)
+        edge_index = np.asarray(d["edge_index"], dtype=np.int32)
+        edge_attr = np.asarray(d["edge_attr"], dtype=np.float32)
+        targets = np.asarray(d["targets"], dtype=np.float32)
+        core_mask_local = np.asarray(d["core_mask_local"], dtype=bool)
+        if "global_node_ids" in d:
+            global_node_ids = np.asarray(d["global_node_ids"], dtype=np.int64)
+        else:
+            global_node_ids = np.arange(x.shape[0], dtype=np.int64)
+    return {
+        "x": x,
+        "senders": edge_index[0],
+        "receivers": edge_index[1],
+        "edge_attr": edge_attr,
+        "targets": targets,
+        "core_mask": core_mask_local,
+        "global_node_ids": global_node_ids,
+        "n_nodes": np.int32(x.shape[0]),
+        "n_edges": np.int32(edge_index.shape[1]),
+    }
+
+
+def load_partition(
+    path: Path,
+    *,
+    compute_dtype: jnp.dtype = jnp.float32,
+) -> tuple[jraph.GraphsTuple, jnp.ndarray, jnp.ndarray, jnp.ndarray]:
+    d = _load_partition_arrays(path)
+    graph = jraph.GraphsTuple(
+        nodes=jnp.array(d["x"], dtype=compute_dtype),
+        edges=jnp.array(d["edge_attr"], dtype=compute_dtype),
+        senders=jnp.array(d["senders"], dtype=jnp.int32),
+        receivers=jnp.array(d["receivers"], dtype=jnp.int32),
+        n_node=jnp.array([d["n_nodes"]], dtype=jnp.int32),
+        n_edge=jnp.array([d["n_edges"]], dtype=jnp.int32),
+        globals=None,
+    )
+    return (
+        graph,
+        jnp.array(d["targets"], dtype=jnp.float32),
+        jnp.array(d["core_mask"], dtype=bool),
+        jnp.array(d["global_node_ids"], dtype=jnp.int64),
+    )
 
 
 def _collate_padded_partition_batch(
@@ -379,9 +358,10 @@ def _collate_padded_partition_batch(
     compute_dtype: jnp.dtype,
     pad_nodes: int | None = None,
     pad_edges: int | None = None,
-    array_loader: Callable[[Path], dict[str, np.ndarray]] = _load_partition_arrays,
+    array_loader=None,
 ) -> tuple[jraph.GraphsTuple, jnp.ndarray, jnp.ndarray]:
-    loaded = [array_loader(base_dir / p["file"]) for p in batch_parts]
+    loader = _load_partition_arrays if array_loader is None else array_loader
+    loaded = [loader(base_dir / p["file"]) for p in batch_parts]
     n_dev = len(loaded)
     local_max_nodes = max(int(x["n_nodes"]) for x in loaded)
     local_max_edges = max(int(x["n_edges"]) for x in loaded)
@@ -392,11 +372,11 @@ def _collate_padded_partition_batch(
     target_dim = int(loaded[0]["targets"].shape[1])
 
     nodes = np.zeros((n_dev, max_nodes, node_feat_dim), dtype=np.float32)
-    targets = np.zeros((n_dev, max_nodes, target_dim), dtype=loaded[0]["targets"].dtype)
+    targets = np.zeros((n_dev, max_nodes, target_dim), dtype=np.float32)
     core_mask = np.zeros((n_dev, max_nodes), dtype=bool)
     node_valid_mask = np.zeros((n_dev, max_nodes), dtype=bool)
     edge_attr = np.zeros((n_dev, max_edges, edge_feat_dim), dtype=np.float32)
-    # Route padded edges to a dummy node so they do not affect real nodes.
+
     dummy_idx = np.int32(max_nodes - 1)
     senders = np.full((n_dev, max_edges), dummy_idx, dtype=np.int32)
     receivers = np.full((n_dev, max_edges), dummy_idx, dtype=np.int32)
@@ -425,7 +405,7 @@ def _collate_padded_partition_batch(
         n_edge=jnp.array(n_edge),
         globals=None,
     )
-    return graph, jnp.array(targets), jnp.array(core_mask & node_valid_mask, dtype=bool)
+    return graph, jnp.array(targets, dtype=jnp.float32), jnp.array(core_mask & node_valid_mask, dtype=bool)
 
 
 def _part_node_edge_counts(part: dict) -> tuple[int, int]:
@@ -514,7 +494,6 @@ def _truncate_for_distributed(parts: list[dict], rank: int, world: int, n_local_
     local = parts[rank::world]
     if world <= 1:
         return local
-    # Ensure every process executes exactly the same number of pmap calls.
     local_n = np.array([len(local)], dtype=np.int32)
     all_n = np.asarray(multihost_utils.process_allgather(local_n)).reshape(-1)
     min_n = int(all_n.min())
@@ -526,37 +505,65 @@ def _take_first_replica(tree):
     return jax.tree_util.tree_map(lambda x: x[0], tree)
 
 
+def _compute_regression_metrics(preds: np.ndarray, targets: np.ndarray) -> dict[str, object]:
+    mse = float(np.mean((preds - targets) ** 2))
+    mae = float(np.mean(np.abs(preds - targets)))
+    ss_res = np.sum((targets - preds) ** 2, axis=0)
+    ss_tot = np.sum((targets - np.mean(targets, axis=0)) ** 2, axis=0)
+    r2_per_dim = 1.0 - ss_res / (ss_tot + 1e-8)
+    return {
+        "mse": mse,
+        "mae": mae,
+        "r2_per_dim": r2_per_dim.tolist(),
+        "r2_mean": float(np.mean(r2_per_dim)),
+    }
+
+
+def _serialize_rng_key(rng_key: jax.Array) -> np.ndarray:
+    """Serialize typed PRNG key to plain uint32 array for checkpoints."""
+    return np.asarray(jax.random.key_data(rng_key), dtype=np.uint32)
+
+
+def _deserialize_rng_key(rng_payload) -> jax.Array:
+    """Load PRNG key from either new uint32 payload or legacy checkpoint formats."""
+    arr = jnp.asarray(rng_payload)
+    # New format: raw key data (uint32[2]) -> typed key.
+    if arr.dtype == jnp.uint32:
+        return jax.random.wrap_key_data(arr)
+    # Legacy fallback: typed key may be directly stored.
+    if getattr(arr.dtype, "name", "") == "key<fry>":
+        return arr
+    # Last-resort compatibility for older ad-hoc formats.
+    return jax.random.wrap_key_data(arr.astype(jnp.uint32))
+
+
 def main(args: argparse.Namespace) -> None:
     rank, world, local_rank = _rank_info()
     _maybe_init_distributed(args, rank, world, local_rank)
-    require_gpu_slurm("jraph_sbi_flowjax_partitioned.py", min_gpus=1)
+    require_gpu_slurm("jraph_regression_partitioned.py", min_gpus=1)
     os.makedirs(args.output_dir, exist_ok=True)
+
     local_devices = jax.local_devices()
     n_local_devices = len(local_devices)
     if n_local_devices < 1:
         raise RuntimeError("No local devices available after distributed initialization.")
-
-    print("=" * 70, flush=True)
-    print("Partitioned SBI Trainer (FlowJAX + Haiku)", flush=True)
-    print("=" * 70, flush=True)
-    print(f"Output dir: {args.output_dir}", flush=True)
-    print(f"Manifest: {args.partition_manifest}", flush=True)
-    print(f"SBI cache: {args.sbi_cache_path}", flush=True)
-    print(
-        f"Config: epochs={args.epochs}, num_passes={args.num_passes}, latent={args.latent_size}, "
-        f"flow_layers={args.num_flow_layers}, activation_checkpointing={args.activation_checkpointing}, "
-        f"data_parallel={args.data_parallel}, distributed={args.distributed or world > 1}, "
-        f"mixed_precision={args.mixed_precision}",
-        flush=True,
-    )
     compute_dtype = _compute_dtype_from_mode(args.mixed_precision)
 
     with open(args.partition_manifest, "r", encoding="utf-8") as f:
         manifest = json.load(f)
     base_dir = Path(args.partition_manifest).resolve().parent
 
+    source_cache_path = args.source_cache_path
+    if not source_cache_path:
+        source_cache_path = manifest.get("source_cache_path", "")
+    source_cache = None
+    if source_cache_path and Path(source_cache_path).exists():
+        with open(source_cache_path, "rb") as f:
+            source_cache = pickle.load(f)
+
     train_parts = [p for p in manifest["partitions"] if p["split"] == "train"]
     val_parts_full = [p for p in manifest["partitions"] if p["split"] == "val"]
+    test_parts = [p for p in manifest["partitions"] if p["split"] == "test"]
     train_parts, dropped_train = _filter_partitions_by_size(
         train_parts,
         max_nodes=args.max_partition_nodes,
@@ -567,177 +574,163 @@ def main(args: argparse.Namespace) -> None:
         max_nodes=args.max_partition_nodes,
         max_edges=args.max_partition_edges,
     )
-    if rank == 0 and (dropped_train or dropped_val):
+    test_parts, dropped_test = _filter_partitions_by_size(
+        test_parts,
+        max_nodes=args.max_partition_nodes,
+        max_edges=args.max_partition_edges,
+    )
+    if rank == 0 and (dropped_train or dropped_val or dropped_test):
         print(
-            f"Dropped oversized partitions: train={dropped_train}, val={dropped_val} "
+            f"Dropped oversized partitions: train={dropped_train}, val={dropped_val}, test={dropped_test} "
             f"(max_nodes={args.max_partition_nodes or 'off'}, max_edges={args.max_partition_edges or 'off'})",
             flush=True,
         )
+
     if args.train_partition_limit > 0:
         train_parts = train_parts[: args.train_partition_limit]
     if args.full_val_partition_limit > 0:
         val_parts_full = val_parts_full[: args.full_val_partition_limit]
-    val_parts_quick = val_parts_full
-    if args.val_partition_limit > 0:
-        val_parts_quick = val_parts_full[: args.val_partition_limit]
+    val_parts_quick = val_parts_full if args.val_partition_limit <= 0 else val_parts_full[: args.val_partition_limit]
+
     train_parts = _truncate_for_distributed(train_parts, rank, world, n_local_devices)
     val_parts_full = _truncate_for_distributed(val_parts_full, rank, world, n_local_devices)
     val_parts_quick = _truncate_for_distributed(val_parts_quick, rank, world, n_local_devices)
+    test_parts = _truncate_for_distributed(test_parts, rank, world, n_local_devices)
 
     if not train_parts:
         raise ValueError("No train partitions found after rank/world assignment.")
+
+    print("=" * 70, flush=True)
+    print("Partitioned Jraph Regression Trainer", flush=True)
+    print("=" * 70, flush=True)
+    print(f"Rank {rank}/{world} | local_devices={n_local_devices}", flush=True)
     print(
-        f"Rank {rank}/{world} | local_devices={n_local_devices} | "
-        f"Train partitions: {len(train_parts)}, "
-        f"Val quick/full partitions: {len(val_parts_quick)}/{len(val_parts_full)}",
+        f"Partitions train/val_quick/val_full/test = "
+        f"{len(train_parts)}/{len(val_parts_quick)}/{len(val_parts_full)}/{len(test_parts)}",
         flush=True,
     )
-    print(f"Devices: {jax.devices()}", flush=True)
-
-    # Read scaler/raw metadata from the monolithic cache once for output compatibility.
-    with open(args.sbi_cache_path, "rb") as f:
-        source_cache = pickle.load(f)
-    target_scaler = source_cache.get("target_scaler")
-    stats = source_cache.get("stats")
+    print(
+        f"Config: epochs={args.epochs}, lr={args.lr}, latent={args.latent_size}, "
+        f"passes={args.num_passes}, data_parallel={args.data_parallel}, "
+        f"distributed={args.distributed or world > 1}, mixed_precision={args.mixed_precision}",
+        flush=True,
+    )
 
     rng = jax.random.key(args.seed)
-    print("Loading first train partition for model init...", flush=True)
     first_graph, _, _, _ = load_partition(base_dir / train_parts[0]["file"], compute_dtype=compute_dtype)
-    print(
-        f"First partition stats: nodes={int(first_graph.n_node[0]):,}, "
-        f"edges={int(first_graph.n_edge[0]):,}",
-        flush=True,
-    )
-    gnn_fn = make_gnn_encoder(
+    net_fn = make_graph_network(
         num_passes=args.num_passes,
         latent_size=args.latent_size,
         num_heads=args.num_heads,
         dropout_rate=args.dropout,
+        output_dim=3,
     )
-    gnn = hk.transform(gnn_fn)
-    rng, gnn_init_key = jax.random.split(rng)
-    gnn_params = gnn.init(gnn_init_key, first_graph, is_training=True)
+    net = hk.transform(net_fn)
+    rng, init_key = jax.random.split(rng)
+    params = net.init(init_key, first_graph, is_training=True)
 
-    rng, flow_key = jax.random.split(rng)
-    flow = masked_autoregressive_flow(
-        flow_key,
-        base_dist=Normal(jnp.zeros(3), jnp.ones(3)),
-        cond_dim=args.latent_size,
-        flow_layers=args.num_flow_layers,
-        nn_width=args.flow_hidden_size,
-        nn_depth=2,
-        transformer=RationalQuadraticSpline(knots=args.num_bins, interval=12),
-    )
-    flow_arrays, flow_static = eqx.partition(flow, eqx.is_inexact_array)
-
-    num_epochs = args.epochs
-    schedule_epochs = args.lr_schedule_epochs if args.lr_schedule_epochs > 0 else num_epochs
-    warmup_steps = min(200, max(1, schedule_epochs // 10))
-    decay_steps = max(schedule_epochs - warmup_steps, warmup_steps + 1)
+    warmup_steps = min(200, max(1, args.epochs // 10))
     lr_schedule = optax.warmup_cosine_decay_schedule(
         init_value=0.0,
         peak_value=args.lr,
         warmup_steps=warmup_steps,
-        decay_steps=decay_steps,
+        decay_steps=max(args.epochs, warmup_steps + 1),
         end_value=1e-5,
     )
     optimizer = optax.chain(
         optax.clip_by_global_norm(1.0),
         optax.adamw(lr_schedule, weight_decay=args.weight_decay),
     )
-    gnn_opt_state = optimizer.init(gnn_params)
-    flow_opt_state = optimizer.init(flow_arrays)
+    opt_state = optimizer.init(params)
 
-    def _gnn_forward_train(gnn_p, step_key, graph):
-        return gnn.apply(gnn_p, step_key, graph, is_training=True)
+    def _forward_train(p, key, graph):
+        return net.apply(p, key, graph, is_training=True).nodes
 
-    def _gnn_forward_eval(gnn_p, step_key, graph):
-        return gnn.apply(gnn_p, step_key, graph, is_training=False)
+    def _forward_eval(p, key, graph):
+        return net.apply(p, key, graph, is_training=False).nodes
 
     if args.activation_checkpointing:
-        _gnn_forward_train = jax.checkpoint(_gnn_forward_train, prevent_cse=False)
+        _forward_train = jax.checkpoint(_forward_train, prevent_cse=False)
 
-    def _local_logp_sum_count(emb, flow_arr, targets, core_mask):
-        flow_model = eqx.combine(flow_arr, flow_static)
-        log_probs = jax.vmap(flow_model.log_prob)(targets, condition=emb)
-        log_probs = log_probs.astype(jnp.float32)
+    def _masked_sums(preds, targets, core_mask):
+        per_node_mse = jnp.mean((preds - targets) ** 2, axis=-1)
+        per_node_mae = jnp.mean(jnp.abs(preds - targets), axis=-1)
         mask_f = core_mask.astype(jnp.float32)
-        logp_sum = jnp.sum(log_probs * mask_f)
+        mse_sum = jnp.sum(per_node_mse * mask_f)
+        mae_sum = jnp.sum(per_node_mae * mask_f)
         n_core = jnp.sum(mask_f)
-        return logp_sum, n_core
+        return mse_sum, mae_sum, n_core
 
-    def train_loss_fn(gnn_p, flow_arr, graph, targets, core_mask, step_key):
-        emb = _gnn_forward_train(gnn_p, step_key, graph)
-        logp_sum, n_core = _local_logp_sum_count(emb, flow_arr, targets, core_mask)
-        nll = -logp_sum / jnp.maximum(n_core, 1.0)
-        return nll, (logp_sum, n_core)
+    def train_loss_fn(p, graph, targets, core_mask, step_key):
+        preds = _forward_train(p, step_key, graph)
+        mse_sum, mae_sum, n_core = _masked_sums(preds, targets, core_mask)
+        mse = mse_sum / jnp.maximum(n_core, 1.0)
+        return mse, (preds, mae_sum, n_core)
 
-    def eval_loss_fn(gnn_p, flow_arr, graph, targets, core_mask, step_key):
-        emb = _gnn_forward_eval(gnn_p, step_key, graph)
-        logp_sum, n_core = _local_logp_sum_count(emb, flow_arr, targets, core_mask)
-        nll = -logp_sum / jnp.maximum(n_core, 1.0)
-        return nll, (logp_sum, n_core)
-
-    @jax.jit
-    def train_step_single(gnn_p, gnn_state, flow_arr, flow_state, graph, targets, core_mask, step_key):
-        (nll, (logp_sum, n_core)), grads = jax.value_and_grad(
-            lambda gp, fa: train_loss_fn(gp, fa, graph, targets, core_mask, step_key),
-            argnums=(0, 1),
-            has_aux=True,
-        )(gnn_p, flow_arr)
-        gnn_grads, flow_grads = grads
-        gnn_updates, gnn_state_new = optimizer.update(gnn_grads, gnn_state, gnn_p)
-        flow_updates, flow_state_new = optimizer.update(flow_grads, flow_state, flow_arr)
-        gnn_p_new = optax.apply_updates(gnn_p, gnn_updates)
-        flow_arr_new = optax.apply_updates(flow_arr, flow_updates)
-        return gnn_p_new, gnn_state_new, flow_arr_new, flow_state_new, nll, logp_sum, n_core
+    def eval_loss_fn(p, graph, targets, core_mask, step_key):
+        preds = _forward_eval(p, step_key, graph)
+        mse_sum, mae_sum, n_core = _masked_sums(preds, targets, core_mask)
+        mse = mse_sum / jnp.maximum(n_core, 1.0)
+        mae = mae_sum / jnp.maximum(n_core, 1.0)
+        return mse, mae
 
     @jax.jit
-    def eval_step_single(gnn_p, flow_arr, graph, targets, core_mask, step_key):
-        return eval_loss_fn(gnn_p, flow_arr, graph, targets, core_mask, step_key)
-
-    @partial(jax.pmap, axis_name="dp")
-    def train_step_dp(gnn_p, gnn_state, flow_arr, flow_state, graph, targets, core_mask, step_keys):
-        device_key = jax.random.fold_in(step_keys, jax.lax.axis_index("dp"))
-
-        def _loss_for_grad(gp, fa):
-            emb = _gnn_forward_train(gp, device_key, graph)
-            local_logp_sum, local_n_core = _local_logp_sum_count(emb, fa, targets, core_mask)
-            global_logp_sum = jax.lax.psum(local_logp_sum, axis_name="dp")
-            global_n_core = jax.lax.psum(local_n_core, axis_name="dp")
-            nll = -global_logp_sum / jnp.maximum(global_n_core, 1.0)
-            return nll, (local_logp_sum, local_n_core)
-
-        (nll, (local_logp_sum, local_n_core)), grads = jax.value_and_grad(
-            _loss_for_grad,
-            argnums=(0, 1),
+    def train_step_single(p, o_state, graph, targets, core_mask, step_key):
+        (loss, (preds, mae_sum, n_core)), grads = jax.value_and_grad(
+            lambda p_: train_loss_fn(p_, graph, targets, core_mask, step_key),
             has_aux=True,
-        )(gnn_p, flow_arr)
-        gnn_grads, flow_grads = grads
-        gnn_grads = jax.lax.pmean(gnn_grads, axis_name="dp")
-        flow_grads = jax.lax.pmean(flow_grads, axis_name="dp")
-        gnn_updates, gnn_state_new = optimizer.update(gnn_grads, gnn_state, gnn_p)
-        flow_updates, flow_state_new = optimizer.update(flow_grads, flow_state, flow_arr)
-        gnn_p_new = optax.apply_updates(gnn_p, gnn_updates)
-        flow_arr_new = optax.apply_updates(flow_arr, flow_updates)
-        global_logp_sum = jax.lax.psum(local_logp_sum, axis_name="dp")
-        global_n_core = jax.lax.psum(local_n_core, axis_name="dp")
-        global_nll = -global_logp_sum / jnp.maximum(global_n_core, 1.0)
-        return gnn_p_new, gnn_state_new, flow_arr_new, flow_state_new, global_nll
+        )(p)
+        updates, o_state_new = optimizer.update(grads, o_state, p)
+        p_new = optax.apply_updates(p, updates)
+        mae = mae_sum / jnp.maximum(n_core, 1.0)
+        return p_new, o_state_new, loss, mae, preds
 
-    @partial(jax.pmap, axis_name="dp")
-    def eval_step_dp(gnn_p, flow_arr, graph, targets, core_mask, step_keys):
-        device_key = jax.random.fold_in(step_keys, jax.lax.axis_index("dp"))
-        emb = _gnn_forward_eval(gnn_p, device_key, graph)
-        local_logp_sum, local_n_core = _local_logp_sum_count(emb, flow_arr, targets, core_mask)
-        global_logp_sum = jax.lax.psum(local_logp_sum, axis_name="dp")
-        global_n_core = jax.lax.psum(local_n_core, axis_name="dp")
-        global_nll = -global_logp_sum / jnp.maximum(global_n_core, 1.0)
-        return global_nll
+    @jax.jit
+    def eval_step_single(p, graph, targets, core_mask, step_key):
+        preds = _forward_eval(p, step_key, graph)
+        mse_sum, mae_sum, n_core = _masked_sums(preds, targets, core_mask)
+        mse = mse_sum / jnp.maximum(n_core, 1.0)
+        mae = mae_sum / jnp.maximum(n_core, 1.0)
+        return mse, mae, preds
 
-    best_val = float("inf")
-    best = None
-    history = {"train_nll": [], "val_nll": [], "val_kind": []}
+    @partial(jax.pmap, axis_name="i")
+    def train_step_dp(p, o_state, graph, targets, core_mask, step_keys):
+        device_key = jax.random.fold_in(step_keys, jax.lax.axis_index("i"))
+
+        def _loss_fn(p_):
+            preds = _forward_train(p_, device_key, graph)
+            mse_sum, _, n_core = _masked_sums(preds, targets, core_mask)
+            global_mse_sum = jax.lax.psum(mse_sum, axis_name="i")
+            global_n_core = jax.lax.psum(n_core, axis_name="i")
+            return global_mse_sum / jnp.maximum(global_n_core, 1.0), preds
+
+        (loss, preds), grads = jax.value_and_grad(_loss_fn, has_aux=True)(p)
+        grads = jax.lax.pmean(grads, axis_name="i")
+        updates, o_state_new = optimizer.update(grads, o_state, p)
+        p_new = optax.apply_updates(p, updates)
+
+        mse_sum, mae_sum, n_core = _masked_sums(preds, targets, core_mask)
+        global_mse = jax.lax.psum(mse_sum, axis_name="i") / jnp.maximum(
+            jax.lax.psum(n_core, axis_name="i"), 1.0
+        )
+        global_mae = jax.lax.psum(mae_sum, axis_name="i") / jnp.maximum(
+            jax.lax.psum(n_core, axis_name="i"), 1.0
+        )
+        return p_new, o_state_new, global_mse, global_mae
+
+    @partial(jax.pmap, axis_name="i")
+    def eval_step_dp(p, graph, targets, core_mask, step_keys):
+        device_key = jax.random.fold_in(step_keys, jax.lax.axis_index("i"))
+        preds = _forward_eval(p, device_key, graph)
+        mse_sum, mae_sum, n_core = _masked_sums(preds, targets, core_mask)
+        global_mse = jax.lax.psum(mse_sum, axis_name="i") / jnp.maximum(
+            jax.lax.psum(n_core, axis_name="i"), 1.0
+        )
+        global_mae = jax.lax.psum(mae_sum, axis_name="i") / jnp.maximum(
+            jax.lax.psum(n_core, axis_name="i"), 1.0
+        )
+        return global_mse, global_mae
+
     array_cache = _PartitionArrayCache(args.partition_cache_size)
     prefetch_pool = ThreadPoolExecutor(max_workers=max(1, args.prefetch_workers)) if args.prefetch_workers > 0 else None
     inflight_prefetch: dict[str, Future] = {}
@@ -747,61 +740,51 @@ def main(args: argparse.Namespace) -> None:
         fut = inflight_prefetch.pop(key, None)
         if fut is not None:
             return array_cache.set(path, fut.result())
-        return array_cache.get(path, _load_partition_arrays)
+        return array_cache.get(path)
 
-    ckpt_path = Path(args.resume_checkpoint).expanduser() if args.resume_checkpoint else None
-    ckpt_latest = Path(args.output_dir) / "checkpoint_latest.pkl"
+    rep_params = None
+    rep_opt_state = None
+    if args.data_parallel:
+        rep_params = jax.device_put_replicated(params, local_devices)
+        rep_opt_state = jax.device_put_replicated(opt_state, local_devices)
+
+    history = {"train": [], "val": [], "val_kind": []}
+    best_val = float("inf")
+    best_params = None
     start_epoch = 0
-    if ckpt_path:
-        if not ckpt_path.exists():
-            raise FileNotFoundError(f"Resume checkpoint not found: {ckpt_path}")
+
+    ckpt_latest = Path(args.output_dir) / "checkpoint_latest.pkl"
+    if args.resume_checkpoint:
+        ckpt_path = Path(args.resume_checkpoint).expanduser()
         with ckpt_path.open("rb") as f:
             ckpt = pickle.load(f)
-        gnn_params = ckpt["gnn_params"]
-        gnn_opt_state = ckpt["gnn_opt_state"]
-        flow_arrays = ckpt["flow_arrays"]
-        flow_opt_state = ckpt["flow_opt_state"]
-        if "rng_key_data" in ckpt:
-            rng = jax.random.wrap_key_data(jnp.asarray(ckpt["rng_key_data"], dtype=jnp.uint32))
-        else:
-            # Backward compatibility for earlier checkpoint drafts.
-            rng = jnp.asarray(ckpt["rng"])
         start_epoch = int(ckpt.get("next_epoch", 0))
         best_val = float(ckpt.get("best_val", best_val))
-        best = ckpt.get("best", None)
         history = ckpt.get("history", history)
-        if rank == 0:
-            print(
-                f"Resumed from checkpoint: {ckpt_path} (next_epoch={start_epoch}, best_val={best_val:.4f})",
-                flush=True,
-            )
-
-    def _snapshot_unreplicated_state():
+        rng = _deserialize_rng_key(ckpt["rng"])
+        params = ckpt["params"]
+        opt_state = ckpt["opt_state"]
         if args.data_parallel:
-            gnn_p = jax.device_get(_take_first_replica(rep_gnn_params))
-            gnn_s = jax.device_get(_take_first_replica(rep_gnn_opt_state))
-            flow_a = jax.device_get(_take_first_replica(rep_flow_arrays))
-            flow_s = jax.device_get(_take_first_replica(rep_flow_opt_state))
-        else:
-            gnn_p = jax.device_get(gnn_params)
-            gnn_s = jax.device_get(gnn_opt_state)
-            flow_a = jax.device_get(flow_arrays)
-            flow_s = jax.device_get(flow_opt_state)
-        return gnn_p, gnn_s, flow_a, flow_s
+            rep_params = jax.device_put_replicated(params, local_devices)
+            rep_opt_state = jax.device_put_replicated(opt_state, local_devices)
+        if rank == 0:
+            print(f"Resumed from checkpoint {ckpt_path} at epoch {start_epoch}", flush=True)
 
-    def _save_training_checkpoint(next_epoch: int, *, tagged: bool) -> None:
+    def _snapshot_unreplicated():
+        if args.data_parallel:
+            return jax.device_get(_take_first_replica(rep_params)), jax.device_get(_take_first_replica(rep_opt_state))
+        return jax.device_get(params), jax.device_get(opt_state)
+
+    def _save_checkpoint(next_epoch: int, tagged: bool) -> None:
         if rank != 0:
             return
-        gnn_p, gnn_s, flow_a, flow_s = _snapshot_unreplicated_state()
+        p_host, opt_host = _snapshot_unreplicated()
         payload = {
             "next_epoch": int(next_epoch),
-            "rng_key_data": np.asarray(jax.random.key_data(rng)),
-            "gnn_params": gnn_p,
-            "gnn_opt_state": gnn_s,
-            "flow_arrays": flow_a,
-            "flow_opt_state": flow_s,
+            "rng": _serialize_rng_key(rng),
+            "params": p_host,
+            "opt_state": opt_host,
             "best_val": float(best_val),
-            "best": best,
             "history": history,
             "config": vars(args),
             "saved_at_unix_s": float(time.time()),
@@ -809,25 +792,17 @@ def main(args: argparse.Namespace) -> None:
         with ckpt_latest.open("wb") as f:
             pickle.dump(payload, f)
         if tagged:
-            tagged_path = Path(args.output_dir) / f"checkpoint_epoch_{int(next_epoch):05d}.pkl"
-            with tagged_path.open("wb") as f:
+            tag = Path(args.output_dir) / f"checkpoint_epoch_{int(next_epoch):05d}.pkl"
+            with tag.open("wb") as f:
                 pickle.dump(payload, f)
-            print(f"Saved checkpoint: {tagged_path}", flush=True)
-        print(f"Updated latest checkpoint: {ckpt_latest}", flush=True)
-
-    if args.data_parallel:
-        rep_gnn_params = jax.device_put_replicated(gnn_params, local_devices)
-        rep_gnn_opt_state = jax.device_put_replicated(gnn_opt_state, local_devices)
-        rep_flow_arrays = jax.device_put_replicated(flow_arrays, local_devices)
-        rep_flow_opt_state = jax.device_put_replicated(flow_opt_state, local_devices)
+            print(f"Saved checkpoint: {tag}", flush=True)
 
     t0 = time.time()
     try:
-        for epoch in range(start_epoch, start_epoch + num_epochs):
-            if rank == 0:
-                print(f"Epoch {epoch:04d} start", flush=True)
+        for epoch in range(start_epoch, start_epoch + args.epochs):
             rng, ep_key = jax.random.split(rng)
-            train_nll_epoch: list[float] = []
+            train_mse_vals: list[float] = []
+            train_mae_vals: list[float] = []
 
             if args.data_parallel:
                 epoch_train_parts = train_parts
@@ -835,6 +810,7 @@ def main(args: argparse.Namespace) -> None:
                     ep_rng = np.random.default_rng(args.seed + 7919 * (epoch + 1) + rank * 104729)
                     chosen = ep_rng.choice(len(train_parts), size=args.train_partitions_per_epoch, replace=False)
                     epoch_train_parts = [train_parts[int(i)] for i in chosen]
+
                 train_groups = _build_epoch_groups(
                     epoch_train_parts,
                     n_local_devices=n_local_devices,
@@ -854,10 +830,8 @@ def main(args: argparse.Namespace) -> None:
                         pool=prefetch_pool,
                     )
                     if rank == 0 and step_idx % max(1, args.train_progress_every) == 0:
-                        pids = ",".join(p["partition_id"] for p in batch_parts[:2])
                         print(
-                            f"  [train] epoch={epoch:04d} step={step_idx + 1}/{n_train_steps} "
-                            f"sample_partitions={pids}",
+                            f"  [train] epoch={epoch:04d} step={step_idx + 1}/{n_train_steps}",
                             flush=True,
                         )
                     pad_nodes, pad_edges = _batch_node_edge_bounds(batch_parts)
@@ -879,17 +853,16 @@ def main(args: argparse.Namespace) -> None:
                     ep_key, step_key = jax.random.split(ep_key)
                     step_key = jax.random.fold_in(step_key, rank)
                     step_keys = jax.random.split(step_key, n_local_devices)
-                    rep_gnn_params, rep_gnn_opt_state, rep_flow_arrays, rep_flow_opt_state, nll_rep = train_step_dp(
-                        rep_gnn_params,
-                        rep_gnn_opt_state,
-                        rep_flow_arrays,
-                        rep_flow_opt_state,
+                    rep_params, rep_opt_state, mse_rep, mae_rep = train_step_dp(
+                        rep_params,
+                        rep_opt_state,
                         graph_b,
                         targets_b,
                         core_mask_b,
                         step_keys,
                     )
-                    train_nll_epoch.append(float(jax.device_get(nll_rep[0])))
+                    train_mse_vals.append(float(jax.device_get(mse_rep[0])))
+                    train_mae_vals.append(float(jax.device_get(mae_rep[0])))
             else:
                 epoch_train_parts = train_parts
                 if args.train_partitions_per_epoch > 0 and args.train_partitions_per_epoch < len(train_parts):
@@ -908,26 +881,23 @@ def main(args: argparse.Namespace) -> None:
                         )
                     graph, targets, core_mask, _ = load_partition(base_dir / p["file"], compute_dtype=compute_dtype)
                     ep_key, step_key = jax.random.split(ep_key)
-                    gnn_params, gnn_opt_state, flow_arrays, flow_opt_state, nll, _, _ = train_step_single(
-                        gnn_params, gnn_opt_state, flow_arrays, flow_opt_state, graph, targets, core_mask, step_key
+                    params, opt_state, mse, mae, _ = train_step_single(
+                        params, opt_state, graph, targets, core_mask, step_key
                     )
-                    train_nll_epoch.append(float(nll))
+                    train_mse_vals.append(float(mse))
+                    train_mae_vals.append(float(mae))
 
-            mean_train_nll = float(np.mean(train_nll_epoch)) if train_nll_epoch else float("nan")
-            history["train_nll"].append((epoch, mean_train_nll))
+            mean_train_mse = float(np.mean(train_mse_vals)) if train_mse_vals else float("nan")
+            mean_train_mae = float(np.mean(train_mae_vals)) if train_mae_vals else float("nan")
+            history["train"].append((epoch, mean_train_mse, mean_train_mae))
 
             if epoch % args.eval_every == 0:
                 do_full_val = args.full_val_every > 0 and ((epoch + 1) % args.full_val_every == 0)
                 epoch_val_parts = val_parts_full if do_full_val else val_parts_quick
-                val_losses = []
                 val_kind = "full" if do_full_val else "quick"
-                if rank == 0:
-                    print(
-                        f"  [val] epoch={epoch:04d} mode={val_kind} evaluating {len(epoch_val_parts)} partitions",
-                        flush=True,
-                    )
+                val_mse_vals: list[float] = []
+                val_mae_vals: list[float] = []
                 if args.data_parallel:
-                    # Deterministic eval grouping (no shuffle) for stable comparisons.
                     val_sorted = sorted(epoch_val_parts, key=lambda p: _shape_key(p, args.bucket_sort_key))
                     val_groups = [val_sorted[i : i + n_local_devices] for i in range(0, len(val_sorted), n_local_devices)]
                     val_groups = [g for g in val_groups if len(g) == n_local_devices]
@@ -960,84 +930,180 @@ def main(args: argparse.Namespace) -> None:
                         ep_key, step_key = jax.random.split(ep_key)
                         step_key = jax.random.fold_in(step_key, rank)
                         step_keys = jax.random.split(step_key, n_local_devices)
-                        val_nll_rep = eval_step_dp(
-                            rep_gnn_params, rep_flow_arrays, graph_b, targets_b, core_mask_b, step_keys
-                        )
-                        val_losses.append(float(jax.device_get(val_nll_rep[0])))
+                        mse_rep, mae_rep = eval_step_dp(rep_params, graph_b, targets_b, core_mask_b, step_keys)
+                        val_mse_vals.append(float(jax.device_get(mse_rep[0])))
+                        val_mae_vals.append(float(jax.device_get(mae_rep[0])))
                 else:
                     for p in epoch_val_parts:
                         graph, targets, core_mask, _ = load_partition(base_dir / p["file"], compute_dtype=compute_dtype)
                         ep_key, step_key = jax.random.split(ep_key)
-                        val_nll, _ = eval_step_single(gnn_params, flow_arrays, graph, targets, core_mask, step_key)
-                        val_losses.append(float(val_nll))
-                mean_val = float(np.mean(val_losses)) if val_losses else float("nan")
-                history["val_nll"].append((epoch, mean_val))
+                        val_mse, val_mae, _ = eval_step_single(params, graph, targets, core_mask, step_key)
+                        val_mse_vals.append(float(val_mse))
+                        val_mae_vals.append(float(val_mae))
+
+                mean_val_mse = float(np.mean(val_mse_vals)) if val_mse_vals else float("nan")
+                mean_val_mae = float(np.mean(val_mae_vals)) if val_mae_vals else float("nan")
+                history["val"].append((epoch, mean_val_mse, mean_val_mae))
                 history["val_kind"].append((epoch, val_kind))
-                if mean_val < best_val:
-                    best_val = mean_val
+                if mean_val_mse < best_val:
+                    best_val = mean_val_mse
                     if args.data_parallel:
-                        best = (
-                            jax.device_get(_take_first_replica(rep_gnn_params)),
-                            jax.device_get(_take_first_replica(rep_flow_arrays)),
-                        )
+                        best_params = jax.device_get(_take_first_replica(rep_params))
                     else:
-                        best = (
-                            jax.device_get(gnn_params),
-                            jax.device_get(flow_arrays),
-                        )
+                        best_params = jax.device_get(params)
                 if rank == 0:
-                    print(f"Epoch {epoch:04d} | train_nll={mean_train_nll:.4f} | val_nll={mean_val:.4f}", flush=True)
+                    print(
+                        f"Epoch {epoch:04d} | train_mse={mean_train_mse:.6f} | train_mae={mean_train_mae:.6f} | "
+                        f"val_mse={mean_val_mse:.6f} | val_mae={mean_val_mae:.6f} ({val_kind})",
+                        flush=True,
+                    )
             else:
                 if rank == 0:
-                    print(f"Epoch {epoch:04d} | train_nll={mean_train_nll:.4f}", flush=True)
+                    print(
+                        f"Epoch {epoch:04d} | train_mse={mean_train_mse:.6f} | train_mae={mean_train_mae:.6f}",
+                        flush=True,
+                    )
+
             if args.checkpoint_every_epochs > 0 and ((epoch + 1) % args.checkpoint_every_epochs == 0):
-                _save_training_checkpoint(epoch + 1, tagged=True)
+                _save_checkpoint(epoch + 1, tagged=True)
     finally:
         if prefetch_pool is not None:
             prefetch_pool.shutdown(wait=False)
 
     elapsed = time.time() - t0
-    if rank == 0:
-        print(f"Training finished in {elapsed:.1f}s, best_val_nll={best_val:.4f}", flush=True)
-        _save_training_checkpoint(start_epoch + num_epochs, tagged=False)
-
-    if best is None:
+    if best_params is None:
         if args.data_parallel:
-            best = (
-                jax.device_get(_take_first_replica(rep_gnn_params)),
-                jax.device_get(_take_first_replica(rep_flow_arrays)),
-            )
+            best_params = jax.device_get(_take_first_replica(rep_params))
         else:
-            best = (jax.device_get(gnn_params), jax.device_get(flow_arrays))
+            best_params = jax.device_get(params)
+
+    if rank == 0:
+        print(f"Training finished in {elapsed:.1f}s | best_val_mse={best_val:.6f}", flush=True)
+        _save_checkpoint(start_epoch + args.epochs, tagged=False)
+
     if rank != 0:
         return
 
-    best_gnn, best_flow_arrays = best
-    best_flow = eqx.combine(best_flow_arrays, flow_static)
-    ts = time.strftime("%Y%m%d_%H%M%S")
-    flow_path = os.path.join(args.output_dir, f"partitioned_flow_seed_{args.seed}_{ts}.eqx")
-    model_path = os.path.join(args.output_dir, f"partitioned_model_seed_{args.seed}_{ts}.pkl")
-    logs_path = os.path.join(args.output_dir, f"partitioned_logs_seed_{args.seed}_{ts}.pkl")
-    eqx.tree_serialise_leaves(flow_path, best_flow)
+    eval_net = hk.transform(net_fn)
+
+    @jax.jit
+    def _predict(p, graph, key):
+        return eval_net.apply(p, key, graph, is_training=False).nodes
+
+    test_preds_chunks = []
+    test_targets_chunks = []
+    test_global_ids_chunks = []
+    rng, eval_base_key = jax.random.split(rng)
+    for p in test_parts:
+        graph, targets, core_mask, global_ids = load_partition(base_dir / p["file"], compute_dtype=compute_dtype)
+        eval_base_key, step_key = jax.random.split(eval_base_key)
+        preds = np.array(_predict(best_params, graph, step_key))
+        targets_np = np.array(targets)
+        core_np = np.array(core_mask)
+        gids_np = np.array(global_ids)
+        if np.any(core_np):
+            test_preds_chunks.append(preds[core_np])
+            test_targets_chunks.append(targets_np[core_np])
+            test_global_ids_chunks.append(gids_np[core_np])
+
+    if test_preds_chunks:
+        test_preds = np.concatenate(test_preds_chunks, axis=0)
+        test_targets = np.concatenate(test_targets_chunks, axis=0)
+        test_global_ids = np.concatenate(test_global_ids_chunks, axis=0)
+    else:
+        test_preds = np.zeros((0, 3), dtype=np.float32)
+        test_targets = np.zeros((0, 3), dtype=np.float32)
+        test_global_ids = np.zeros((0,), dtype=np.int64)
+
+    metrics_scaled = _compute_regression_metrics(test_preds, test_targets) if len(test_preds) > 0 else None
+    metrics_raw = None
+    preds_raw = None
+    targets_raw = None
+
+    use_transformed = False
+    scaler = None
+    eigenvalues_raw = None
+    if source_cache is not None:
+        scaler = source_cache.get("target_scaler")
+        eigenvalues_raw = source_cache.get("eigenvalues_raw")
+        use_transformed = source_cache.get("stats") is not None
+
+    if scaler is not None and len(test_preds) > 0:
+        preds_unscaled = scaler.inverse_transform(test_preds)
+        targets_unscaled = scaler.inverse_transform(test_targets)
+        if use_transformed:
+            preds_raw = np.array(increments_to_eigenvalues(jnp.array(preds_unscaled)))
+            targets_raw = np.array(increments_to_eigenvalues(jnp.array(targets_unscaled)))
+        else:
+            preds_raw = preds_unscaled
+            targets_raw = targets_unscaled
+        metrics_raw = _compute_regression_metrics(preds_raw, targets_raw)
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    model_path = os.path.join(args.output_dir, f"jraph_regression_partitioned_model_seed_{args.seed}_{timestamp}.pkl")
+    logs_path = os.path.join(args.output_dir, f"jraph_regression_partitioned_logs_seed_{args.seed}_{timestamp}.pkl")
+    preds_path = os.path.join(args.output_dir, f"jraph_regression_partitioned_test_preds_seed_{args.seed}_{timestamp}.pkl")
+    report_path = os.path.join(args.output_dir, f"jraph_regression_partitioned_report_seed_{args.seed}_{timestamp}.txt")
+
     with open(model_path, "wb") as f:
         pickle.dump(
             {
-                "gnn_params": best_gnn,
-                "flow_path": flow_path,
+                "params": best_params,
                 "config": vars(args),
-                "target_scaler": target_scaler,
-                "stats": stats,
                 "partition_manifest": args.partition_manifest,
-                "rank": rank,
-                "world_size": world,
+                "source_cache_path": source_cache_path,
+                "best_val_mse": best_val,
             },
             f,
         )
     with open(logs_path, "wb") as f:
         pickle.dump(history, f)
-    print(f"Saved flow: {flow_path}", flush=True)
+    with open(preds_path, "wb") as f:
+        pickle.dump(
+            {
+                "global_node_ids": test_global_ids,
+                "preds_scaled": test_preds,
+                "targets_scaled": test_targets,
+                "preds_raw": preds_raw,
+                "targets_raw": targets_raw,
+                "metrics_scaled": metrics_scaled,
+                "metrics_raw": metrics_raw,
+                "used_transformed_targets": use_transformed,
+            },
+            f,
+        )
+
+    with open(report_path, "w", encoding="utf-8") as f:
+        f.write("Partitioned Jraph Regression Report\n")
+        f.write("=" * 45 + "\n\n")
+        f.write(f"Train runtime (s): {elapsed:.2f}\n")
+        f.write(f"Best validation MSE: {best_val:.6f}\n")
+        f.write(f"Test core samples: {len(test_preds):,}\n\n")
+        if metrics_scaled is not None:
+            f.write("Scaled target-space metrics (test core nodes):\n")
+            f.write(f"  MSE: {metrics_scaled['mse']:.6f}\n")
+            f.write(f"  MAE: {metrics_scaled['mae']:.6f}\n")
+            f.write(
+                "  R2 per dim: "
+                + ", ".join(f"{x:.4f}" for x in metrics_scaled["r2_per_dim"])
+                + "\n"
+            )
+            f.write(f"  Mean R2: {metrics_scaled['r2_mean']:.4f}\n\n")
+        if metrics_raw is not None:
+            f.write("Raw eigenvalue-space metrics (test core nodes):\n")
+            f.write(f"  MSE: {metrics_raw['mse']:.6f}\n")
+            f.write(f"  MAE: {metrics_raw['mae']:.6f}\n")
+            f.write(
+                "  R2 per eigenvalue: "
+                + ", ".join(f"{x:.4f}" for x in metrics_raw["r2_per_dim"])
+                + "\n"
+            )
+            f.write(f"  Mean R2: {metrics_raw['r2_mean']:.4f}\n")
+
     print(f"Saved model: {model_path}", flush=True)
     print(f"Saved logs: {logs_path}", flush=True)
+    print(f"Saved predictions: {preds_path}", flush=True)
+    print(f"Saved report: {report_path}", flush=True)
 
 
 if __name__ == "__main__":
