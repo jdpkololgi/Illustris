@@ -23,12 +23,18 @@ ABACUS_BASE = _env(
     "TNG_ABACUS_BASE",
     "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph000",
 )
+
+ABACUS_BASE_LOCAL = _env(
+    "ABACUS_BASE_LOCAL",
+    f"{DK_SCRATCH_ROOT}/AbacusSummit_densities/AbacusSummit_base_c000_ph000",
+)
+
 MOCKS_BASE = _env(
     "TNG_MOCKS_BASE",
     "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit",
 )
 
-ABACUS_SLAB_DIR = _env("TNG_ABACUS_SLAB_DIR", "/pscratch/sd/d/dkololgi/AbscusSummit_densities")
+ABACUS_SLAB_DIR = _env("TNG_ABACUS_SLAB_DIR", "/pscratch/sd/d/dkololgi/AbacusSummit_densities")
 ABACUS_TWEB_OUTPUT_DIR = _env(
     "TNG_ABACUS_TWEB_OUTPUT_DIR",
     f"{ABACUS_SLAB_DIR}/tweb_rank_outputs",

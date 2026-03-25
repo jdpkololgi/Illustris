@@ -471,48 +471,80 @@ def main(args):
     # Reconstruct flow
     best_flow = eqx.combine(best_flow_arrays, flow_static)
     
-    # Sample from flow for each test node (single sample per node for point estimate)
+    # Sample from flow for each test node.
+    # We report:
+    # 1) single-sample point estimate metrics (legacy behavior)
+    # 2) posterior-mean metrics from K samples/node (more stable diagnostic)
     test_indices_np = np.array(test_indices)
     n_test = len(test_indices_np)
     
     # Get embeddings for test nodes only
     test_embeddings_subset = test_embeddings[test_indices_np]
     
-    # Sample one point from posterior per test node
-    sample_keys = jax.random.split(sample_rng, n_test)
-    
-    # Batch sample using vmap
-    def sample_one(key, cond):
-        return best_flow.sample(key, condition=cond)
-    
-    posterior_samples = jax.vmap(sample_one)(sample_keys, test_embeddings_subset)
-    posterior_samples_np = np.array(posterior_samples)
+    n_post_samples = max(1, int(args.test_posterior_samples))
+    eval_chunk_size = max(1, int(args.test_eval_chunk_size))
+    print(f"  Test posterior evaluation: samples_per_node={n_post_samples}, chunk_size={eval_chunk_size}")
+
+    point_est_chunks = []
+    mean_est_chunks = []
+    for start in range(0, n_test, eval_chunk_size):
+        end = min(start + eval_chunk_size, n_test)
+        emb_chunk = test_embeddings_subset[start:end]
+        sample_rng, chunk_key = jax.random.split(sample_rng)
+        node_keys = jax.random.split(chunk_key, end - start)
+
+        # [B, K, 3]
+        samples_chunk = jax.vmap(
+            lambda k, cond: best_flow.sample(k, (n_post_samples,), condition=cond)
+        )(node_keys, emb_chunk)
+
+        # Legacy single-sample estimate: first sample
+        point_est_chunks.append(np.asarray(samples_chunk[:, 0, :]))
+        # Posterior mean estimate
+        mean_est_chunks.append(np.asarray(jnp.mean(samples_chunk, axis=1)))
+
+    posterior_point_np = np.concatenate(point_est_chunks, axis=0)
+    posterior_mean_np = np.concatenate(mean_est_chunks, axis=0)
     
     # Convert samples to raw eigenvalues
-    samples_raw_eig = samples_to_raw_eigenvalues(posterior_samples_np, target_scaler, use_transformed_eig)
+    samples_raw_eig_point = samples_to_raw_eigenvalues(posterior_point_np, target_scaler, use_transformed_eig)
+    samples_raw_eig_mean = samples_to_raw_eigenvalues(posterior_mean_np, target_scaler, use_transformed_eig)
     
     # Ground truth raw eigenvalues for test set
     test_targets_raw_eig = eigenvalues_raw[test_indices_np]
     
     # Compute R² in raw eigenvalue space
-    ss_res = np.sum((test_targets_raw_eig - samples_raw_eig) ** 2, axis=0)
+    ss_res_point = np.sum((test_targets_raw_eig - samples_raw_eig_point) ** 2, axis=0)
+    ss_res_mean = np.sum((test_targets_raw_eig - samples_raw_eig_mean) ** 2, axis=0)
     ss_tot = np.sum((test_targets_raw_eig - np.mean(test_targets_raw_eig, axis=0)) ** 2, axis=0)
-    r2_raw = 1 - ss_res / (ss_tot + 1e-8)
+    r2_raw_point = 1 - ss_res_point / (ss_tot + 1e-8)
+    r2_raw_mean = 1 - ss_res_mean / (ss_tot + 1e-8)
     
     # Also compute metrics in scaled/transformed space
     test_targets_scaled = np.array(targets)[test_indices_np]
-    ss_res_scaled = np.sum((test_targets_scaled - posterior_samples_np) ** 2, axis=0)
+    ss_res_scaled_point = np.sum((test_targets_scaled - posterior_point_np) ** 2, axis=0)
+    ss_res_scaled_mean = np.sum((test_targets_scaled - posterior_mean_np) ** 2, axis=0)
     ss_tot_scaled = np.sum((test_targets_scaled - np.mean(test_targets_scaled, axis=0)) ** 2, axis=0)
-    r2_scaled = 1 - ss_res_scaled / (ss_tot_scaled + 1e-8)
+    r2_scaled_point = 1 - ss_res_scaled_point / (ss_tot_scaled + 1e-8)
+    r2_scaled_mean = 1 - ss_res_scaled_mean / (ss_tot_scaled + 1e-8)
     
-    print(f"\n  Posterior Point Estimate Metrics:")
+    print(f"\n  Posterior Point Estimate Metrics (single sample):")
     if use_transformed_eig:
         print(f"    Transformed Space (v₁, Δλ₂, Δλ₃):")
-        print(f"      R² per param: v₁={r2_scaled[0]:.4f}, Δλ₂={r2_scaled[1]:.4f}, Δλ₃={r2_scaled[2]:.4f}")
-        print(f"      Mean R²: {np.mean(r2_scaled):.4f}")
+        print(f"      R² per param: v₁={r2_scaled_point[0]:.4f}, Δλ₂={r2_scaled_point[1]:.4f}, Δλ₃={r2_scaled_point[2]:.4f}")
+        print(f"      Mean R²: {np.mean(r2_scaled_point):.4f}")
     print(f"    Raw Eigenvalue Space (λ₁, λ₂, λ₃):")
-    print(f"      R² per eigenvalue: λ₁={r2_raw[0]:.4f}, λ₂={r2_raw[1]:.4f}, λ₃={r2_raw[2]:.4f}")
-    print(f"      Mean R²: {np.mean(r2_raw):.4f}")
+    print(f"      R² per eigenvalue: λ₁={r2_raw_point[0]:.4f}, λ₂={r2_raw_point[1]:.4f}, λ₃={r2_raw_point[2]:.4f}")
+    print(f"      Mean R²: {np.mean(r2_raw_point):.4f}")
+
+    print(f"\n  Posterior Mean Metrics ({n_post_samples} samples/node):")
+    if use_transformed_eig:
+        print(f"    Transformed Space (v₁, Δλ₂, Δλ₃):")
+        print(f"      R² per param: v₁={r2_scaled_mean[0]:.4f}, Δλ₂={r2_scaled_mean[1]:.4f}, Δλ₃={r2_scaled_mean[2]:.4f}")
+        print(f"      Mean R²: {np.mean(r2_scaled_mean):.4f}")
+    print(f"    Raw Eigenvalue Space (λ₁, λ₂, λ₃):")
+    print(f"      R² per eigenvalue: λ₁={r2_raw_mean[0]:.4f}, λ₂={r2_raw_mean[1]:.4f}, λ₃={r2_raw_mean[2]:.4f}")
+    print(f"      Mean R²: {np.mean(r2_raw_mean):.4f}")
     
     # Save results
     results_filename = os.path.join(args.output_dir, f'flowjax_sbi_results_seed_{args.seed}_{timestamp}.txt')
@@ -525,17 +557,27 @@ def main(args):
         f.write(f"\nTest NLL: {float(test_loss[0]):.4f}\n")
         f.write(f"Test Mean Log Prob: {float(test_log_prob[0]):.2f}\n")
         f.write(f"Best Val NLL: {best_val_loss:.4f}\n")
-        f.write(f"\nPosterior Point Estimate R² (Raw Eigenvalues):\n")
-        f.write(f"  λ₁: {r2_raw[0]:.4f}\n")
-        f.write(f"  λ₂: {r2_raw[1]:.4f}\n")
-        f.write(f"  λ₃: {r2_raw[2]:.4f}\n")
-        f.write(f"  Mean: {np.mean(r2_raw):.4f}\n")
+        f.write(f"\nPosterior Point Estimate R² (single sample, Raw Eigenvalues):\n")
+        f.write(f"  λ₁: {r2_raw_point[0]:.4f}\n")
+        f.write(f"  λ₂: {r2_raw_point[1]:.4f}\n")
+        f.write(f"  λ₃: {r2_raw_point[2]:.4f}\n")
+        f.write(f"  Mean: {np.mean(r2_raw_point):.4f}\n")
+        f.write(f"\nPosterior Mean R² ({n_post_samples} samples/node, Raw Eigenvalues):\n")
+        f.write(f"  λ₁: {r2_raw_mean[0]:.4f}\n")
+        f.write(f"  λ₂: {r2_raw_mean[1]:.4f}\n")
+        f.write(f"  λ₃: {r2_raw_mean[2]:.4f}\n")
+        f.write(f"  Mean: {np.mean(r2_raw_mean):.4f}\n")
         if use_transformed_eig:
-            f.write(f"\nPosterior Point Estimate R² (Transformed Space):\n")
-            f.write(f"  v₁: {r2_scaled[0]:.4f}\n")
-            f.write(f"  Δλ₂: {r2_scaled[1]:.4f}\n")
-            f.write(f"  Δλ₃: {r2_scaled[2]:.4f}\n")
-            f.write(f"  Mean: {np.mean(r2_scaled):.4f}\n")
+            f.write(f"\nPosterior Point Estimate R² (single sample, Transformed Space):\n")
+            f.write(f"  v₁: {r2_scaled_point[0]:.4f}\n")
+            f.write(f"  Δλ₂: {r2_scaled_point[1]:.4f}\n")
+            f.write(f"  Δλ₃: {r2_scaled_point[2]:.4f}\n")
+            f.write(f"  Mean: {np.mean(r2_scaled_point):.4f}\n")
+            f.write(f"\nPosterior Mean R² ({n_post_samples} samples/node, Transformed Space):\n")
+            f.write(f"  v₁: {r2_scaled_mean[0]:.4f}\n")
+            f.write(f"  Δλ₂: {r2_scaled_mean[1]:.4f}\n")
+            f.write(f"  Δλ₃: {r2_scaled_mean[2]:.4f}\n")
+            f.write(f"  Mean: {np.mean(r2_scaled_mean):.4f}\n")
     print(f"Results saved to {results_filename}")
     
     print("\nDone!")
@@ -561,6 +603,18 @@ if __name__ == '__main__':
     parser.add_argument('--num_flow_layers', type=int, default=5, help='Number of flow layers')
     parser.add_argument('--num_bins', type=int, default=8, help='Spline knots')
     parser.add_argument('--flow_hidden_size', type=int, default=128, help='Flow conditioner hidden size')
+    parser.add_argument(
+        '--test_posterior_samples',
+        type=int,
+        default=128,
+        help='Number of posterior samples per test node for posterior-mean metrics.'
+    )
+    parser.add_argument(
+        '--test_eval_chunk_size',
+        type=int,
+        default=2048,
+        help='Chunk size (nodes) for test posterior sampling to control memory.'
+    )
     
     # Eigenvalue transformation
     parser.add_argument('--no_transformed_eig', action='store_true',

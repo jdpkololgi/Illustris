@@ -1,26 +1,28 @@
 #!/bin/bash
-#SBATCH --job-name=abacus_feat_gpu
+#SBATCH --job-name=abacus_mock_alpha_cugraph
 #SBATCH --account=desi
 #SBATCH --constraint=gpu
-#SBATCH --qos=regular
+#SBATCH --qos=shared
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --gpus-per-node=1
-#SBATCH --cpus-per-task=16
+#SBATCH --cpus-per-task=32
 #SBATCH --time=04:00:00
-#SBATCH --output=/pscratch/sd/d/dkololgi/logs/abacus_feat_gpu_%j.out
-#SBATCH --error=/pscratch/sd/d/dkololgi/logs/abacus_feat_gpu_%j.err
+#SBATCH --output=/pscratch/sd/d/dkololgi/logs/abacus_mock_alpha_cugraph_%j.out
+#SBATCH --error=/pscratch/sd/d/dkololgi/logs/abacus_mock_alpha_cugraph_%j.err
 #SBATCH --mail-type=END,FAIL
 #SBATCH --mail-user=dakshesh.kololgi.23@ucl.ac.uk
 
 set -euo pipefail
 
 # Compute Abacus graph features on GPU with cuGraph.
+# Default prefix matches build_abacus_graph run: abacus_mock_alpha_23032026
+# Override with: sbatch --export=ALL,ABACUS_GRAPH_PREFIX=other_prefix ...
 
 PROJECT_DIR="${TNG_ILLUSTRIS_PROJECT_DIR:-/global/homes/d/dkololgi/TNG/Illustris}"
 LOG_DIR="${TNG_LOG_DIR:-/pscratch/sd/d/dkololgi/logs}"
 GRAPH_DIR="${ABACUS_GRAPH_DIR:-/pscratch/sd/d/dkololgi/abacus/graph_constructions}"
-PREFIX="${ABACUS_GRAPH_PREFIX:-abacus_alpha}"
+PREFIX="${ABACUS_GRAPH_PREFIX:-abacus_mock_alpha_23032026}"
 OUTPUT_PREFIX="${ABACUS_FEATURES_CUGRAPH_OUTPUT_PREFIX:-${PREFIX}_cugraph}"
 BATCH_SIZE="${ABACUS_CUGRAPH_BATCH_SIZE:-2000000}"
 RAPIDS_ENV_PATH="${ABACUS_RAPIDS_ENV_PATH:-/pscratch/sd/d/dkololgi/conda/envs/rapids-gnn}"

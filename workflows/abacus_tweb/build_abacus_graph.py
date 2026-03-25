@@ -1,5 +1,13 @@
 """Build Abacus graph artifacts using Gudhi alpha-complex machinery.
 
+Catalog mode (``--catalog-path``):
+- Select CutSky mocks with ``IN_Y1 == 1`` OR ``IN_Y5 == 1`` (required columns).
+- Exclude objects with ``BOX_INDEX == -1`` (invalid / out-of-box) by default.
+- Convert ``RA``, ``Dec``, observed ``Z`` to comoving Cartesian ``x,y,z`` (Mpc) via
+  ``Planck18`` comoving distances, then split **Galactic** ``b > 0`` vs ``b <= 0``.
+- Build **one Gudhi ``AlphaComplex`` per hemisphere** (north/south), then merge edges
+  and tetrahedra with global indices (see ``--split-hemispheres``).
+
 Modes:
 - delaunay: equivalent to alpha complex with alpha_sq = +inf
 - alpha: use user-specified alpha_sq threshold to prune long-boundary simplices
@@ -99,6 +107,8 @@ def _build_graph_artifacts(
     all_tetrahedra: list[list[int]] = []
     all_volumes: list[float] = []
 
+    # Per-hemisphere AlphaComplex: avoids long Delaunay edges across the Galactic plane
+    # when points are comoving Cartesian from RA/Dec/Z (catalog mode).
     if split_hemispheres and points_with_flags.shape[1] >= 4:
         hemisphere_flag = points_with_flags[:, 3].astype(np.int8)
         north_mask = hemisphere_flag == 1
@@ -110,7 +120,7 @@ def _build_graph_artifacts(
         south_xyz = xyz[south_mask]
 
         print(
-            f"Building split hemispheres with Gudhi "
+            f"Building split hemispheres with Gudhi (separate AlphaComplex per hemisphere) "
             f"(north={len(north_xyz):,}, south={len(south_xyz):,})"
         )
 
@@ -231,15 +241,19 @@ def _load_points_from_catalog(
     dec_col: str,
     redshift_col: str,
     apply_y1y5_filter: bool,
+    exclude_invalid_box_index: bool,
+    box_index_col: str,
 ) -> np.ndarray:
     """
-    Load FITS mock catalog and convert RA/DEC/Z to cartesian points + hemisphere flag.
+    Load FITS mock catalog and convert RA/DEC/Z to comoving cartesian points + hemisphere flag.
 
     Uses observed redshift column by default (`Z`) to preserve RSD effects.
+    Hemisphere bit is Galactic latitude: north = b > 0.
     """
     print(f"Loading FITS catalog: {catalog_path}")
     table = fitsio.read(str(catalog_path))
     names_upper = {name.upper(): name for name in table.dtype.names}
+    n_table = len(table)
 
     def _resolve_col(name: str) -> str:
         resolved = names_upper.get(name.upper())
@@ -260,15 +274,31 @@ def _load_points_from_catalog(
             "Use --redshift-col Z for observed-space graph construction."
         )
 
-    mask = np.ones(len(table), dtype=bool)
+    mask = np.ones(n_table, dtype=bool)
     if apply_y1y5_filter:
         in_y1 = names_upper.get("IN_Y1")
         in_y5 = names_upper.get("IN_Y5")
-        if in_y1 is not None and in_y5 is not None:
-            mask &= (table[in_y1] == 1) | (table[in_y5] == 1)
-            print(f"Applied Y1/Y5 filter: kept {mask.sum():,} / {len(mask):,} rows.")
-        else:
-            print("IN_Y1/IN_Y5 columns not found; skipping Y1/Y5 filtering.")
+        if in_y1 is None or in_y5 is None:
+            raise KeyError(
+                "IN_Y1 and IN_Y5 are required when Y1/Y5 filtering is enabled "
+                f"(found IN_Y1={in_y1 is not None}, IN_Y5={in_y5 is not None}). "
+                "Use --no-apply-y1y5-filter only if you intend to use all rows."
+            )
+        mask &= (table[in_y1] == 1) | (table[in_y5] == 1)
+        print(f"Y1|Y5 selection: kept {mask.sum():,} / {n_table:,} rows.")
+
+    if exclude_invalid_box_index:
+        bi_name = names_upper.get(box_index_col.upper())
+        if bi_name is None:
+            raise KeyError(
+                f"Column `{box_index_col}` not found; required to drop BOX_INDEX=-1. "
+                "Use --no-exclude-invalid-box-index if this catalog has no box index."
+            )
+        n_before = int(mask.sum())
+        box_idx = table[bi_name]
+        mask &= box_idx != -1
+        _stage = "after Y1|Y5" if apply_y1y5_filter else "before sky coords"
+        print(f"BOX_INDEX != -1 ({_stage}): kept {int(mask.sum()):,} / {n_before:,} rows.")
 
     ra = table[ra_name][mask]
     dec = table[dec_name][mask]
@@ -292,8 +322,8 @@ def _load_points_from_catalog(
 
     points = np.vstack((x, y, z, north_flag)).T
     print(
-        f"Constructed cartesian points from RA/DEC/{z_name}: "
-        f"shape={points.shape}, north={north_flag.sum():,}, south={(north_flag == 0).sum():,}"
+        f"Comoving Cartesian (Planck18) from RA/Dec/{z_name}: shape={points.shape}, "
+        f"north={north_flag.sum():,}, south={(north_flag == 0).sum():,}"
     )
     return points
 
@@ -313,7 +343,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--catalog-path",
-        default="/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb.fits",
+        default="/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000.fits",
         help=(
             "Optional FITS catalog path for direct RA/DEC/Z ingestion. "
             "When set, this takes precedence over --points-path."
@@ -339,7 +369,19 @@ def parse_args() -> argparse.Namespace:
         "--no-apply-y1y5-filter",
         dest="apply_y1y5_filter",
         action="store_false",
-        help="Disable IN_Y1/IN_Y5 filtering.",
+        help="Disable IN_Y1/IN_Y5 filtering (not recommended for CutSky mocks).",
+    )
+    parser.add_argument(
+        "--box-index-col",
+        default="BOX_INDEX",
+        help="Column for simulation box replication index (exclude -1 = invalid).",
+    )
+    parser.add_argument(
+        "--no-exclude-invalid-box-index",
+        dest="exclude_invalid_box_index",
+        action="store_false",
+        default=True,
+        help="Keep rows with BOX_INDEX=-1 (default: exclude them).",
     )
     parser.add_argument(
         "--output-dir",
@@ -425,6 +467,8 @@ def main() -> None:
             dec_col=args.dec_col,
             redshift_col=args.redshift_col,
             apply_y1y5_filter=args.apply_y1y5_filter,
+            exclude_invalid_box_index=args.exclude_invalid_box_index,
+            box_index_col=args.box_index_col,
         )
     else:
         print(f"Loading points from: {points_path}")
@@ -484,6 +528,15 @@ def main() -> None:
         "n_point_columns": int(points.shape[1]),
         "n_edges": int(edges.shape[0]),
         "n_tetrahedra": int(tetrahedra.shape[0]),
+        "catalog_filters": (
+            {
+                "apply_y1y5_filter": bool(args.apply_y1y5_filter),
+                "exclude_invalid_box_index": bool(args.exclude_invalid_box_index),
+                "box_index_col": str(args.box_index_col),
+            }
+            if catalog_path is not None
+            else None
+        ),
         "files": {
             "points": points_out_path.name,
             "points_xyz": points_xyz_out_path.name,
