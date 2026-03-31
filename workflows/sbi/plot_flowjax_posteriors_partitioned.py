@@ -15,6 +15,9 @@ import argparse
 import json
 import os
 import pickle
+import subprocess
+import tempfile
+import time
 from pathlib import Path
 import sys
 
@@ -118,12 +121,87 @@ def _make_gnn_and_flow(config: dict, flow_path: str, graph_for_init: jraph.Graph
     return gnn, flow
 
 
-def _plot_training_history(logs_path: Path, output_dir: Path) -> None:
-    if not logs_path.exists():
-        print(f"Logs not found at {logs_path}; skipping training plot.")
-        return
-    with logs_path.open("rb") as f:
-        logs = pickle.load(f)
+def _config_to_dict(config) -> dict:
+    if isinstance(config, dict):
+        return config
+    return vars(config)
+
+
+def _load_sbi_scaler_stats_cpu(cache_path: Path) -> tuple[object, object]:
+    """Load (target_scaler, stats) from a monolithic SBI cache without touching GPU.
+
+    The cache may contain JAX arrays; unpickling them can trigger device_put on GPU.
+    We avoid that by loading in a CPU-only subprocess and writing a tiny pickle.
+    """
+    cache_path = cache_path.expanduser().resolve()
+    if not cache_path.exists():
+        raise FileNotFoundError(f"SBI cache not found: {cache_path}")
+    with tempfile.TemporaryDirectory() as td:
+        out_pkl = Path(td) / "scaler_stats.pkl"
+        code = r"""
+import os, pickle, sys
+from pathlib import Path
+
+# Force CPU backend during unpickle to avoid GPU device_put.
+os.environ.setdefault("JAX_PLATFORM_NAME", "cpu")
+os.environ.setdefault("JAX_PLATFORMS", "cpu")
+
+cache_path = Path(sys.argv[1]).expanduser().resolve()
+out_path = Path(sys.argv[2]).expanduser().resolve()
+with cache_path.open("rb") as f:
+    obj = pickle.load(f)
+payload = {
+    "target_scaler": obj.get("target_scaler"),
+    "stats": obj.get("stats"),
+}
+with out_path.open("wb") as f:
+    pickle.dump(payload, f)
+"""
+        proc = subprocess.run(
+            [sys.executable, "-c", code, str(cache_path), str(out_pkl)],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            env={**os.environ, "JAX_PLATFORM_NAME": "cpu", "JAX_PLATFORMS": "cpu"},
+        )
+        _ = proc.stdout  # keep for debugging if needed
+        with out_pkl.open("rb") as f:
+            payload = pickle.load(f)
+    return payload.get("target_scaler"), payload.get("stats")
+
+
+def _make_gnn_and_flow_from_checkpoint_arrays(
+    flow_arrays,
+    config: dict,
+    graph_for_init: jraph.GraphsTuple,
+    key: jax.Array,
+):
+    """Rebuild the trained flow from checkpoint `flow_arrays` + a fresh static template."""
+    gnn_fn = make_gnn_encoder(
+        num_passes=int(config["num_passes"]),
+        latent_size=int(config["latent_size"]),
+        num_heads=int(config["num_heads"]),
+        dropout_rate=float(config.get("dropout", 0.2)),
+    )
+    gnn = hk.transform(gnn_fn)
+    gnn_key, flow_key = jax.random.split(key)
+    _ = gnn.init(gnn_key, graph_for_init, is_training=False)
+    flow_template = masked_autoregressive_flow(
+        flow_key,
+        base_dist=Normal(jnp.zeros(3), jnp.ones(3)),
+        cond_dim=int(config["latent_size"]),
+        flow_layers=int(config.get("num_flow_layers", 5)),
+        nn_width=int(config.get("flow_hidden_size", 128)),
+        nn_depth=2,
+        transformer=RationalQuadraticSpline(knots=int(config.get("num_bins", 8)), interval=12),
+    )
+    _, flow_static = eqx.partition(flow_template, eqx.is_inexact_array)
+    flow = eqx.combine(flow_arrays, flow_static)
+    return gnn, flow
+
+
+def _plot_training_history_logs(logs: dict, output_dir: Path) -> None:
     train_hist = logs.get("train_nll", [])
     val_hist = logs.get("val_nll", [])
     if not train_hist:
@@ -147,6 +225,15 @@ def _plot_training_history(logs_path: Path, output_dir: Path) -> None:
     plt.savefig(out, dpi=150, bbox_inches="tight")
     plt.close()
     print(f"Saved: {out}")
+
+
+def _plot_training_history(logs_path: Path, output_dir: Path) -> None:
+    if not logs_path.exists():
+        print(f"Logs not found at {logs_path}; skipping training plot.")
+        return
+    with logs_path.open("rb") as f:
+        logs = pickle.load(f)
+    _plot_training_history_logs(logs, output_dir)
 
 
 def _sample_posterior(flow, embedding: np.ndarray, num_samples: int, key: jax.Array) -> np.ndarray:
@@ -531,18 +618,52 @@ def _collect_test_samples(
 
 def main(args: argparse.Namespace) -> None:
     _apply_dark_plot_theme()
-    model_path = Path(args.model_path).expanduser().resolve()
-    with model_path.open("rb") as f:
-        model_info = pickle.load(f)
+    checkpoint_path = Path(args.checkpoint_path).expanduser().resolve() if args.checkpoint_path else None
+    model_path = Path(args.model_path).expanduser().resolve() if args.model_path else None
 
-    config = model_info["config"]
-    gnn_params = model_info["gnn_params"]
-    flow_path = model_info.get("flow_path") or model_info.get("flow_filename")
-    if not flow_path:
-        raise KeyError("Model artifact missing flow_path/flow_filename.")
-    flow_path = str(flow_path)
-    target_scaler = model_info.get("target_scaler", model_info.get("eigenvalue_scaler"))
-    use_transformed_eig = bool(model_info.get("use_transformed_eig", True))
+    if checkpoint_path is not None:
+        with checkpoint_path.open("rb") as f:
+            ckpt = pickle.load(f)
+        config = _config_to_dict(ckpt["config"])
+        if args.checkpoint_weights == "best":
+            if ckpt.get("best") is not None:
+                gnn_params, flow_arrays = ckpt["best"]
+                print("Using best-validation weights from checkpoint.")
+            else:
+                gnn_params, flow_arrays = ckpt["gnn_params"], ckpt["flow_arrays"]
+                print("No best weights stored in checkpoint; using last-epoch weights.")
+        else:
+            gnn_params, flow_arrays = ckpt["gnn_params"], ckpt["flow_arrays"]
+            print("Using last-epoch weights from checkpoint.")
+        sbi_cache_path = Path(config["sbi_cache_path"]).expanduser().resolve()
+        target_scaler, stats = _load_sbi_scaler_stats_cpu(sbi_cache_path)
+        # Abacus SBI caches may not store an explicit flag; transformed-eig caches include `stats`.
+        use_transformed_eig = bool(stats is not None)
+        model_info = {
+            "gnn_params": gnn_params,
+            "config": config,
+            "target_scaler": target_scaler,
+            "stats": stats,
+            "partition_manifest": config["partition_manifest"],
+            "use_transformed_eig": use_transformed_eig,
+        }
+        flow_path = ""
+    else:
+        assert model_path is not None
+        with model_path.open("rb") as f:
+            model_info = pickle.load(f)
+
+        config = model_info["config"]
+        gnn_params = model_info["gnn_params"]
+        flow_path = model_info.get("flow_path") or model_info.get("flow_filename")
+        if not flow_path:
+            raise KeyError("Model artifact missing flow_path/flow_filename.")
+        flow_path = str(flow_path)
+        target_scaler = model_info.get("target_scaler", model_info.get("eigenvalue_scaler"))
+        use_transformed_eig = bool(model_info.get("use_transformed_eig", True))
+
+    if not isinstance(config, dict):
+        config = _config_to_dict(config)
 
     manifest_path = (
         Path(args.partition_manifest).expanduser().resolve()
@@ -555,8 +676,12 @@ def main(args: argparse.Namespace) -> None:
     print("=" * 70)
     print("FlowJAX Partitioned Posterior Visualization")
     print("=" * 70)
-    print(f"Model: {model_path}")
-    print(f"Flow : {flow_path}")
+    if checkpoint_path is not None:
+        print(f"Checkpoint: {checkpoint_path}")
+        print(f"Flow : (from checkpoint arrays + static template)")
+    else:
+        print(f"Model: {model_path}")
+        print(f"Flow : {flow_path}")
     print(f"Manifest: {manifest_path}")
     print(f"Output: {output_dir}")
 
@@ -581,7 +706,35 @@ def main(args: argparse.Namespace) -> None:
         globals=None,
     )
 
-    gnn, flow = _make_gnn_and_flow(config, flow_path, graph0, jax.random.key(args.seed))
+    init_key = jax.random.key(args.seed)
+    if checkpoint_path is not None:
+        gnn, flow = _make_gnn_and_flow_from_checkpoint_arrays(flow_arrays, config, graph0, init_key)
+    else:
+        gnn, flow = _make_gnn_and_flow(config, flow_path, graph0, init_key)
+
+    if args.export_model_dir:
+        exp_dir = Path(args.export_model_dir).expanduser().resolve()
+        exp_dir.mkdir(parents=True, exist_ok=True)
+        ts = time.strftime("%Y%m%d_%H%M%S")
+        flow_export = exp_dir / f"partitioned_flow_export_{ts}.eqx"
+        eqx.tree_serialise_leaves(flow_export, flow)
+        model_export = exp_dir / f"partitioned_model_export_{ts}.pkl"
+        with model_export.open("wb") as f:
+            pickle.dump(
+                {
+                    "gnn_params": gnn_params,
+                    "flow_path": str(flow_export),
+                    "config": config,
+                    "target_scaler": target_scaler,
+                    "stats": model_info.get("stats"),
+                    "partition_manifest": str(manifest_path),
+                    "use_transformed_eig": use_transformed_eig,
+                },
+                f,
+            )
+        print(f"Exported flow: {flow_export}")
+        print(f"Exported model: {model_export}")
+
     test_embeddings, test_targets_scaled, test_node_features, test_node_degree, test_global_ids, total_test_core = _collect_test_samples(
         model_info=model_info,
         partition_manifest_path=manifest_path,
@@ -601,8 +754,11 @@ def main(args: argparse.Namespace) -> None:
     param_names_raw = [r"$\lambda_1$", r"$\lambda_2$", r"$\lambda_3$"]
     param_names_trans = [r"$v_1$", r"$\Delta\lambda_2$", r"$\Delta\lambda_3$"] if use_transformed_eig else param_names_raw
 
-    logs_path = Path(str(model_path).replace("partitioned_model_", "partitioned_logs_"))
-    _plot_training_history(logs_path, output_dir)
+    if checkpoint_path is not None:
+        _plot_training_history_logs(ckpt.get("history", {}), output_dir)
+    else:
+        logs_path = Path(str(model_path).replace("partitioned_model_", "partitioned_logs_"))
+        _plot_training_history(logs_path, output_dir)
 
     rng = np.random.default_rng(args.seed)
     key = jax.random.key(args.seed + 123)
@@ -858,7 +1014,24 @@ def main(args: argparse.Namespace) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Partition-aware FlowJAX posterior diagnostics")
-    parser.add_argument("--model-path", required=True, help="Path to partitioned_model_seed_*.pkl")
+    src = parser.add_mutually_exclusive_group(required=True)
+    src.add_argument("--model-path", default=None, help="Path to partitioned_model_seed_*.pkl (finished training export).")
+    src.add_argument(
+        "--checkpoint-path",
+        default=None,
+        help="Path to checkpoint_latest.pkl or checkpoint_epoch_*.pkl from jraph_sbi_flowjax_partitioned.py.",
+    )
+    parser.add_argument(
+        "--checkpoint-weights",
+        choices=("best", "last"),
+        default="best",
+        help="With --checkpoint-path: use best-validation snapshot (if present) or last-epoch weights.",
+    )
+    parser.add_argument(
+        "--export-model-dir",
+        default="",
+        help="If set, write partitioned_model_export_*.pkl + partitioned_flow_export_*.eqx here (for reuse as --model-path).",
+    )
     parser.add_argument("--partition-manifest", default="", help="Optional override for partition_manifest.json")
     parser.add_argument(
         "--output-dir",

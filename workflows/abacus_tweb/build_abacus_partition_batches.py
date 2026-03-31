@@ -2,6 +2,13 @@
 
 This script consumes the monolithic cache schema expected by the existing SBI
 pipeline and emits partition artifacts for partition-aware training.
+
+Core layout modes:
+  * id_order (default): chunk each split's node list in array order (optionally
+    shuffled).
+  * metis: partition the full undirected graph with METIS (pymetis) or load a
+    precomputed assignment; group split nodes by part id before chunking. This
+    reduces cross-part edges vs. arbitrary ID slabs and typically shrinks halos.
 """
 
 from __future__ import annotations
@@ -12,9 +19,16 @@ import json
 import multiprocessing as mp
 import os
 import pickle
+import sys
 from pathlib import Path
 
 import numpy as np
+
+_ABACUS_TWEB_DIR = Path(__file__).resolve().parent
+if str(_ABACUS_TWEB_DIR) not in sys.path:
+    sys.path.insert(0, str(_ABACUS_TWEB_DIR))
+
+import graph_metis_partition  # noqa: E402
 
 
 SPLIT_CODE = {"train": 0, "val": 1, "test": 2}
@@ -26,6 +40,28 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input-cache-path", required=True, help="Path to SBI-ready monolithic cache (.pkl).")
     parser.add_argument("--output-dir", required=True, help="Directory for manifest and partition files.")
+    parser.add_argument(
+        "--core-layout",
+        choices=("id_order", "metis"),
+        default="id_order",
+        help="How to group core nodes before halo extraction (see module docstring).",
+    )
+    parser.add_argument(
+        "--metis-nparts",
+        type=int,
+        default=0,
+        help="Number of METIS parts (0 -> ~ceil(n_nodes / --core-partition-size)). Ignored if --metis-partition-npy is set and labels imply fewer parts.",
+    )
+    parser.add_argument(
+        "--metis-partition-npy",
+        default=None,
+        help="Optional path to int partition vector [n_nodes] (0..nparts-1); skips in-process pymetis.",
+    )
+    parser.add_argument(
+        "--metis-save-partition-npy",
+        default=None,
+        help="If set, save the computed METIS assignment to this .npy path (in-process run only).",
+    )
     parser.add_argument("--core-partition-size", type=int, default=250_000, help="Core nodes per partition.")
     parser.add_argument(
         "--adaptive-core-size",
@@ -413,18 +449,54 @@ def _build_fixed_task(
     return entry, log_line, (0, int(part_count), 0)
 
 
-def _build_adaptive_range_task(
+def _build_fixed_core_chunk_task(
     split: str,
-    args: argparse.Namespace,
-    start_idx: int,
-    stop_idx: int,
-    shard_id: int,
-) -> list[tuple[dict, str, tuple[int, int, int]]]:
-    split_to_ids = GLOBAL_STATE["split_to_ids"]
+    part_count: int,
+    core_ids: np.ndarray,
+    halo_hops: int,
+    edge_selection_chunk_size: int,
+    *,
+    part_tag: str | None = None,
+    sort_key: tuple[int, int, int] | None = None,
+) -> tuple[dict, str, tuple[int, int, int]]:
     senders = GLOBAL_STATE["senders"]
     receivers = GLOBAL_STATE["receivers"]
     n_nodes = int(GLOBAL_STATE["x"].shape[0])
-    core_ids_full = split_to_ids[split][start_idx:stop_idx]
+    core_ids = np.sort(np.asarray(core_ids, dtype=np.int64).ravel())
+    if core_ids.size == 0:
+        raise ValueError("_build_fixed_core_chunk_task: empty core_ids")
+    candidate = _build_partition_candidate(
+        core_ids=core_ids,
+        halo_hops=halo_hops,
+        senders=senders,
+        receivers=receivers,
+        n_nodes=n_nodes,
+        edge_selection_chunk_size=edge_selection_chunk_size,
+    )
+    tag = part_tag if part_tag is not None else f"{part_count:06d}"
+    entry, log_line, _ = _materialize_partition(
+        split=split,
+        part_tag=tag,
+        candidate=candidate,
+        oversized=False,
+    )
+    sk = sort_key if sort_key is not None else (0, int(part_count), 0)
+    return entry, log_line, sk
+
+
+def _build_adaptive_on_core_ids(
+    split: str,
+    args: argparse.Namespace,
+    core_ids_full: np.ndarray,
+    shard_id: int,
+    sort_key_start_idx: int,
+    *,
+    part_tag_prefix: str | None = None,
+) -> list[tuple[dict, str, tuple[int, int, int]]]:
+    senders = GLOBAL_STATE["senders"]
+    receivers = GLOBAL_STATE["receivers"]
+    n_nodes = int(GLOBAL_STATE["x"].shape[0])
+    core_ids_full = np.asarray(core_ids_full, dtype=np.int64).ravel()
 
     out: list[tuple[dict, str, tuple[int, int, int]]] = []
     start = 0
@@ -439,16 +511,35 @@ def _build_adaptive_range_task(
             receivers=receivers,
             n_nodes=n_nodes,
         )
+        pfx = f"{part_tag_prefix}_" if part_tag_prefix else ""
         entry, log_line, _ = _materialize_partition(
             split=split,
-            part_tag=f"s{shard_id:03d}_{part_count:06d}",
+            part_tag=f"{pfx}s{shard_id:03d}_{part_count:06d}",
             candidate=candidate,
             oversized=oversized,
         )
-        out.append((entry, log_line, (int(start_idx), int(part_count), int(candidate["n_core_nodes"]))))
+        out.append(
+            (
+                entry,
+                log_line,
+                (int(sort_key_start_idx), int(part_count), int(candidate["n_core_nodes"])),
+            )
+        )
         start += int(candidate["n_core_nodes"])
         part_count += 1
     return out
+
+
+def _build_adaptive_range_task(
+    split: str,
+    args: argparse.Namespace,
+    start_idx: int,
+    stop_idx: int,
+    shard_id: int,
+) -> list[tuple[dict, str, tuple[int, int, int]]]:
+    split_to_ids = GLOBAL_STATE["split_to_ids"]
+    core_ids_full = split_to_ids[split][start_idx:stop_idx]
+    return _build_adaptive_on_core_ids(split, args, core_ids_full, shard_id, int(start_idx))
 
 
 def _make_adaptive_shards(
@@ -514,7 +605,35 @@ def main() -> None:
         "val": np.where(val_mask)[0].astype(np.int64),
         "test": np.where(test_mask)[0].astype(np.int64),
     }
-    if args.shuffle_core_order:
+
+    part_per_node: np.ndarray | None = None
+    metis_effective_nparts: int | None = None
+    if args.core_layout == "metis":
+        if args.shuffle_core_order:
+            print("WARNING: --shuffle-core-order ignored for --core-layout metis.", flush=True)
+        nparts_req = int(args.metis_nparts)
+        if nparts_req <= 0:
+            nparts_req = graph_metis_partition.default_metis_nparts(n_nodes, args.core_partition_size)
+        pn_path = Path(args.metis_partition_npy).resolve() if args.metis_partition_npy else None
+        part_per_node, metis_effective_nparts = graph_metis_partition.load_or_compute_partition_vector(
+            senders,
+            receivers,
+            n_nodes,
+            nparts_req,
+            partition_npy=pn_path,
+        )
+        print(
+            f"METIS layout: effective_nparts={metis_effective_nparts:,} "
+            f"(requested {nparts_req:,})",
+            flush=True,
+        )
+        if args.metis_save_partition_npy:
+            graph_metis_partition.save_partition_vector(
+                Path(args.metis_save_partition_npy).expanduser().resolve(),
+                part_per_node,
+            )
+            print(f"Saved METIS partition vector: {args.metis_save_partition_npy}", flush=True)
+    elif args.shuffle_core_order:
         rng = np.random.default_rng(args.seed)
         for k in split_to_ids:
             rng.shuffle(split_to_ids[k])
@@ -545,8 +664,14 @@ def main() -> None:
         "max_core_nodes": int(args.max_core_nodes if args.max_core_nodes > 0 else args.core_partition_size),
         "target_total_nodes": int(args.target_total_nodes),
         "target_edges": int(args.target_edges),
+        "core_layout": str(args.core_layout),
         "partitions": [],
     }
+    if args.core_layout == "metis":
+        manifest.update(
+            graph_metis_partition.manifest_metis_options(args)
+            | {"metis_effective_nparts": int(metis_effective_nparts or 0)}
+        )
 
     if args.adaptive_core_size and args.target_total_nodes <= 0 and args.target_edges <= 0:
         raise ValueError(
@@ -568,6 +693,9 @@ def main() -> None:
     built: list[tuple[dict, str, tuple[int, int, int]]] = []
     splits = [k for k in ("train", "val", "test") if split_to_ids[k].size > 0]
     max_parts = args.max_partitions_per_split if args.max_partitions_per_split > 0 else None
+    use_metis = args.core_layout == "metis"
+    if use_metis and part_per_node is None:
+        raise RuntimeError("internal: METIS layout selected but partition vector is missing.")
 
     if args.adaptive_core_size:
         if workers > 1 and max_parts is not None:
@@ -577,7 +705,60 @@ def main() -> None:
             )
             workers = 1
 
-        if workers > 1:
+        if use_metis:
+            ppn = part_per_node
+            assert ppn is not None
+            if workers > 1 and max_parts is not None:
+                print(
+                    "WARNING: METIS + adaptive + --max-partitions-per-split forces sequential execution.",
+                    flush=True,
+                )
+                workers = 1
+
+            if workers > 1:
+                metis_adaptive_tasks: list[tuple[str, np.ndarray, int]] = []
+                chunk_uid = 0
+                for split in splits:
+                    for chunk in graph_metis_partition.iter_metis_core_chunks(
+                        split_to_ids[split],
+                        ppn,
+                        args.core_partition_size,
+                    ):
+                        metis_adaptive_tasks.append((split, chunk, chunk_uid))
+                        chunk_uid += 1
+                print(f"METIS adaptive tasks (chunks): {len(metis_adaptive_tasks)}", flush=True)
+                n_jobs = min(workers, max(1, len(metis_adaptive_tasks)))
+                with cf.ProcessPoolExecutor(max_workers=n_jobs, mp_context=mp_ctx) as ex:
+                    futures = [
+                        ex.submit(_build_adaptive_on_core_ids, split, args, chunk, cuid, cuid)
+                        for (split, chunk, cuid) in metis_adaptive_tasks
+                    ]
+                    for fut in cf.as_completed(futures):
+                        for entry, log_line, sort_key in fut.result():
+                            built.append((entry, log_line, sort_key))
+                            print(log_line)
+            else:
+                chunk_uid = 0
+                for split in splits:
+                    emitted = 0
+                    for chunk in graph_metis_partition.iter_metis_core_chunks(
+                        split_to_ids[split],
+                        ppn,
+                        args.core_partition_size,
+                    ):
+                        if max_parts is not None and emitted >= max_parts:
+                            break
+                        out = _build_adaptive_on_core_ids(
+                            split, args, chunk, shard_id=chunk_uid, sort_key_start_idx=chunk_uid
+                        )
+                        chunk_uid += 1
+                        for entry, log_line, sort_key in out:
+                            if max_parts is not None and emitted >= max_parts:
+                                break
+                            built.append((entry, log_line, sort_key))
+                            print(log_line)
+                            emitted += 1
+        elif workers > 1:
             adaptive_tasks = _make_adaptive_shards(split_to_ids, splits, workers)
             print(f"Adaptive shard tasks: {len(adaptive_tasks)}")
             n_jobs = min(workers, len(adaptive_tasks))
@@ -606,6 +787,60 @@ def main() -> None:
                 for entry, log_line, sort_key in out:
                     built.append((entry, log_line, sort_key))
                     print(log_line)
+    elif use_metis:
+        ppn = part_per_node
+        assert ppn is not None
+        tasks_metis: list[tuple[str, int, np.ndarray, tuple[int, int, int]]] = []
+        for split in splits:
+            part_count = 0
+            for chunk in graph_metis_partition.iter_metis_core_chunks(
+                split_to_ids[split],
+                ppn,
+                args.core_partition_size,
+            ):
+                if max_parts is not None and part_count >= max_parts:
+                    break
+                tasks_metis.append(
+                    (
+                        split,
+                        part_count,
+                        chunk,
+                        (0, part_count, 0),
+                    )
+                )
+                part_count += 1
+        if workers > 1 and tasks_metis:
+            with cf.ProcessPoolExecutor(max_workers=workers, mp_context=mp_ctx) as ex:
+                futures = [
+                    ex.submit(
+                        _build_fixed_core_chunk_task,
+                        split,
+                        pc,
+                        chunk,
+                        args.halo_hops,
+                        args.edge_selection_chunk_size,
+                        part_tag=f"{pc:06d}",
+                        sort_key=sk,
+                    )
+                    for (split, pc, chunk, sk) in tasks_metis
+                ]
+                for fut in cf.as_completed(futures):
+                    entry, log_line, sort_key = fut.result()
+                    built.append((entry, log_line, sort_key))
+                    print(log_line)
+        else:
+            for split, pc, chunk, sk in tasks_metis:
+                entry, log_line, sort_key = _build_fixed_core_chunk_task(
+                    split,
+                    pc,
+                    chunk,
+                    args.halo_hops,
+                    args.edge_selection_chunk_size,
+                    part_tag=f"{pc:06d}",
+                    sort_key=sk,
+                )
+                built.append((entry, log_line, sort_key))
+                print(log_line)
     else:
         tasks: list[tuple[str, int, int, int, int, int]] = []
         for split in splits:

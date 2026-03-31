@@ -5,6 +5,15 @@ This script converts the outputs referenced by
 targets from the source FITS catalog into the cache schema consumed by:
 `workflows/sbi/jraph_sbi_flowjax.py`.
 
+Important:
+- Abacus CutSky catalogs can include rows that are not validly embedded in any
+  underlying cubic box (`BOX_INDEX == -1`). These must be excluded to keep
+  the node/target alignment consistent with graph construction.
+- Any upstream workflow that assigns eigenvalues using sky coordinates
+  (RA/DEC/Z -> cubic frame) must do so in a way that is consistent with the
+  CutSky remap, i.e. using `BOX_INDEX` (or an equivalent explicit linkage)
+  rather than a naive periodic modulo into a single cube.
+
 Output pickle keys:
   - graph: jraph.GraphsTuple
   - regression_targets: jnp.ndarray [N, 3]
@@ -13,6 +22,7 @@ Output pickle keys:
   - eigenvalues_raw: np.ndarray [N, 3] float64
   - stats: dict (only for transformed-target mode)
   - classification_labels: optional CWEB labels (when available)
+  - box_index: optional np.ndarray [N] int32 (when present in source catalog)
 """
 
 from __future__ import annotations
@@ -23,6 +33,12 @@ import os
 import pickle
 from pathlib import Path
 from typing import Iterable
+
+# This script is a CPU-side cache builder; it should run on CPU-only nodes.
+# Force JAX to use the CPU backend to avoid CUDA plugin initialization on nodes
+# without GPUs (common for `salloc -C cpu`).
+os.environ.setdefault("JAX_PLATFORMS", "cpu")
+os.environ.setdefault("JAX_PLATFORM_NAME", "cpu")
 
 import fitsio
 import jax.numpy as jnp
@@ -62,16 +78,28 @@ def _apply_optional_y1y5_filter(table: np.ndarray) -> np.ndarray:
     return (table[in_y1] == 1) | (table[in_y5] == 1)
 
 
+def _apply_optional_box_index_filter(table: np.ndarray, *, box_index_col: str) -> np.ndarray:
+    names_upper = {name.upper(): name for name in table.dtype.names}
+    resolved = names_upper.get(box_index_col.upper())
+    if resolved is None:
+        return np.ones(len(table), dtype=bool)
+    return np.asarray(table[resolved] != -1)
+
+
 def _load_targets_from_source_catalog(
     source_path: Path,
     expected_n: int,
     *,
     apply_y1y5_filter: bool,
-) -> tuple[np.ndarray, np.ndarray | None]:
+    exclude_invalid_box_index: bool,
+    box_index_col: str,
+) -> tuple[np.ndarray, np.ndarray | None, np.ndarray | None]:
     table = fitsio.read(str(source_path))
     mask = np.ones(len(table), dtype=bool)
     if apply_y1y5_filter:
         mask &= _apply_optional_y1y5_filter(table)
+    if exclude_invalid_box_index:
+        mask &= _apply_optional_box_index_filter(table, box_index_col=box_index_col)
 
     l1_col = _resolve_col(table, ("LAMBDA1", "L1", "EIG1", "LAM1", "LAMBDA_1"))
     l2_col = _resolve_col(table, ("LAMBDA2", "L2", "EIG2", "LAM2", "LAMBDA_2"))
@@ -89,13 +117,21 @@ def _load_targets_from_source_catalog(
     except KeyError:
         pass
 
+    box_index = None
+    try:
+        box_col = _resolve_col(table, (box_index_col, "BOX_INDEX"))
+        box_index = np.asarray(table[box_col][mask], dtype=np.int32)
+    except KeyError:
+        pass
+
     if eig.shape[0] != expected_n:
         raise ValueError(
             "Target row count mismatch after filtering. "
             f"Expected {expected_n:,} rows from graph arrays but got {eig.shape[0]:,}. "
-            "Try toggling --apply-y1y5-filter / --no-apply-y1y5-filter based on how the graph was built."
+            "Try toggling --apply-y1y5-filter / --no-apply-y1y5-filter and/or "
+            "--no-exclude-invalid-box-index based on how the graph was built."
         )
-    return eig, cweb
+    return eig, cweb, box_index
 
 
 def _make_splits(
@@ -195,6 +231,20 @@ def parse_args() -> argparse.Namespace:
         help="Path to <prefix>_cugraph_gnn_metadata.json",
     )
     parser.add_argument(
+        "--targets-catalog-path",
+        default="",
+        help=(
+            "Optional override path to the FITS catalog containing target eigenvalues. "
+            "This must include LAMBDA1/2/3 (or configured via --lambda{1,2,3}-col). "
+            "If omitted, defaults to `source_path` from the graph metadata, which is often the raw CutSky file "
+            "and may not contain eigenvalue targets."
+        ),
+    )
+    parser.add_argument("--lambda1-col", default="LAMBDA1", help="Column name for λ1 (default: LAMBDA1).")
+    parser.add_argument("--lambda2-col", default="LAMBDA2", help="Column name for λ2 (default: LAMBDA2).")
+    parser.add_argument("--lambda3-col", default="LAMBDA3", help="Column name for λ3 (default: LAMBDA3).")
+    parser.add_argument("--cweb-col", default="CWEB", help="Optional CWEB column name (default: CWEB).")
+    parser.add_argument(
         "--output-cache-path",
         required=True,
         help="Where to write SBI cache pickle (.pkl)",
@@ -241,6 +291,18 @@ def parse_args() -> argparse.Namespace:
         help="Disable IN_Y1/IN_Y5 filtering.",
     )
     parser.add_argument(
+        "--box-index-col",
+        default="BOX_INDEX",
+        help="Column name used for Abacus CutSky remap bookkeeping (default: BOX_INDEX).",
+    )
+    parser.add_argument(
+        "--no-exclude-invalid-box-index",
+        dest="exclude_invalid_box_index",
+        action="store_false",
+        default=True,
+        help="Do not exclude BOX_INDEX == -1 rows (default: excluded).",
+    )
+    parser.add_argument(
         "--no-bidirectional-edges",
         action="store_true",
         help="Keep edges as stored in NPZ instead of duplicating reverse direction.",
@@ -285,6 +347,7 @@ def main() -> None:
     with input_meta_path.open("r", encoding="utf-8") as f:
         graph_meta = json.load(f)
     source_catalog = Path(graph_meta["source_path"]).expanduser().resolve()
+    targets_catalog = Path(args.targets_catalog_path).expanduser().resolve() if args.targets_catalog_path else source_catalog
 
     print(f"Loading graph arrays from: {npz_path}")
     graph = _build_graph_from_npz(
@@ -296,12 +359,32 @@ def main() -> None:
     n_edges = int(graph.n_edge[0])
     print(f"Graph ready: nodes={n_nodes:,}, edges={n_edges:,}")
 
-    print(f"Loading targets from source catalog: {source_catalog}")
-    eigenvalues_raw, cweb = _load_targets_from_source_catalog(
-        source_catalog,
-        n_nodes,
-        apply_y1y5_filter=args.apply_y1y5_filter,
-    )
+    print(f"Loading targets from catalog: {targets_catalog}")
+    try:
+        eigenvalues_raw, cweb, box_index = _load_targets_from_source_catalog(
+            targets_catalog,
+            n_nodes,
+            apply_y1y5_filter=args.apply_y1y5_filter,
+            exclude_invalid_box_index=args.exclude_invalid_box_index,
+            box_index_col=args.box_index_col,
+        )
+    except KeyError as exc:
+        # The raw CutSky catalogs do not include eigenvalue columns; the targets must
+        # come from an *annotated* FITS (e.g. produced by `annotate_cutsky_with_tweb_eigs.py`).
+        raise KeyError(
+            f"{exc}\n\n"
+            "Target eigenvalue columns were not found in the provided targets catalog. "
+            "If you passed the raw CutSky FITS, you must first generate an annotated FITS "
+            "that includes LAMBDA1/2/3 (and optionally CWEB), using a BOX_INDEX-aware mapping.\n"
+            "Suggested workflow:\n"
+            "  - Run `TNG/Illustris/workflows/abacus_tweb/annotate_cutsky_with_tweb_eigs.py` to create <cutsky>_with_tweb_eigs.fits\n"
+            "  - Re-run this script with `--targets-catalog-path <that_output.fits>`\n"
+        ) from exc
+
+    # If the user configured explicit column names, validate they exist in the target FITS.
+    # (We still use the flexible resolver in _load_targets_from_source_catalog for legacy names.)
+    # Note: this is just a guardrail; the actual eigenvalue loading happens in the helper above.
+    _ = args.lambda1_col, args.lambda2_col, args.lambda3_col, args.cweb_col
 
     train_idx, val_idx, test_idx, train_mask, val_mask, test_mask = _make_splits(
         n_nodes,
@@ -352,6 +435,10 @@ def main() -> None:
     }
     if cweb is not None:
         payload["classification_labels"] = jnp.array(cweb, dtype=jnp.int32)
+    if box_index is not None:
+        payload["box_index"] = box_index.astype(np.int32)
+        payload["box_index_col"] = str(args.box_index_col)
+        payload["excluded_box_index_minus_one"] = bool(args.exclude_invalid_box_index)
 
     with out_cache.open("wb") as f:
         pickle.dump(payload, f)

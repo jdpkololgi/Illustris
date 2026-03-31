@@ -193,7 +193,10 @@ def parse_args() -> argparse.Namespace:
         "--checkpoint-every-epochs",
         type=int,
         default=5,
-        help="Write periodic epoch checkpoints every N epochs (0 disables periodic saves).",
+        help=(
+            "Write tagged epoch checkpoints every N epochs (0 disables tagged saves). "
+            "The latest checkpoint is updated at the end of every epoch."
+        ),
     )
     return parser.parse_args()
 
@@ -990,8 +993,9 @@ def main(args: argparse.Namespace) -> None:
             else:
                 if rank == 0:
                     print(f"Epoch {epoch:04d} | train_nll={mean_train_nll:.4f}", flush=True)
-            if args.checkpoint_every_epochs > 0 and ((epoch + 1) % args.checkpoint_every_epochs == 0):
-                _save_training_checkpoint(epoch + 1, tagged=True)
+            # Always update a resumable checkpoint at epoch boundaries.
+            tagged = args.checkpoint_every_epochs > 0 and ((epoch + 1) % args.checkpoint_every_epochs == 0)
+            _save_training_checkpoint(epoch + 1, tagged=tagged)
     finally:
         if prefetch_pool is not None:
             prefetch_pool.shutdown(wait=False)

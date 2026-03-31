@@ -18,6 +18,7 @@ import pickle
 from pathlib import Path
 import subprocess
 import time
+import tempfile
 
 import haiku as hk
 import jax
@@ -198,6 +199,49 @@ def _discover_coordinator() -> str:
         if hosts:
             return f"{hosts[0]}:12355"
     return "127.0.0.1:12355"
+
+
+def _load_source_cache_scaler_stats_cpu(cache_path: str) -> tuple[object | None, dict | None]:
+    """Load (target_scaler, stats) from a monolithic cache without GPU device_put.
+
+    The Abacus caches may include JAX arrays; unpickling them can trigger device placement.
+    We avoid that by doing a CPU-only subprocess that emits a tiny pickle payload.
+    """
+    if not cache_path:
+        return None, None
+    p = Path(cache_path).expanduser().resolve()
+    if not p.exists():
+        return None, None
+    with tempfile.TemporaryDirectory() as td:
+        out_pkl = Path(td) / "scaler_stats.pkl"
+        code = r"""
+import os, pickle, sys
+from pathlib import Path
+
+os.environ.setdefault("JAX_PLATFORM_NAME", "cpu")
+os.environ.setdefault("JAX_PLATFORMS", "cpu")
+
+cache_path = Path(sys.argv[1]).expanduser().resolve()
+out_path = Path(sys.argv[2]).expanduser().resolve()
+with cache_path.open("rb") as f:
+    obj = pickle.load(f)
+payload = {"target_scaler": obj.get("target_scaler"), "stats": obj.get("stats")}
+with out_path.open("wb") as f:
+    pickle.dump(payload, f)
+"""
+        subprocess.run(
+            [sys.executable, "-c", code, str(p), str(out_pkl)],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            env={**os.environ, "JAX_PLATFORM_NAME": "cpu", "JAX_PLATFORMS": "cpu"},
+        )
+        with out_pkl.open("rb") as f:
+            payload = pickle.load(f)
+    scaler = payload.get("target_scaler")
+    stats = payload.get("stats")
+    return scaler, stats
 
 
 def _infer_local_device_ids(local_rank: int) -> list[int] | None:
@@ -556,10 +600,7 @@ def main(args: argparse.Namespace) -> None:
     source_cache_path = args.source_cache_path
     if not source_cache_path:
         source_cache_path = manifest.get("source_cache_path", "")
-    source_cache = None
-    if source_cache_path and Path(source_cache_path).exists():
-        with open(source_cache_path, "rb") as f:
-            source_cache = pickle.load(f)
+    scaler, source_stats = _load_source_cache_scaler_stats_cpu(source_cache_path)
 
     train_parts = [p for p in manifest["partitions"] if p["split"] == "train"]
     val_parts_full = [p for p in manifest["partitions"] if p["split"] == "val"]
@@ -1020,13 +1061,7 @@ def main(args: argparse.Namespace) -> None:
     preds_raw = None
     targets_raw = None
 
-    use_transformed = False
-    scaler = None
-    eigenvalues_raw = None
-    if source_cache is not None:
-        scaler = source_cache.get("target_scaler")
-        eigenvalues_raw = source_cache.get("eigenvalues_raw")
-        use_transformed = source_cache.get("stats") is not None
+    use_transformed = bool(source_stats is not None)
 
     if scaler is not None and len(test_preds) > 0:
         preds_unscaled = scaler.inverse_transform(test_preds)
