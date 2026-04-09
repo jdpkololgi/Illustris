@@ -64,6 +64,18 @@ class TempMemmaps:
     lam1: np.memmap
     lam2: np.memmap
     lam3: np.memmap
+    dlam1_dx: np.memmap
+    dlam1_dy: np.memmap
+    dlam1_dz: np.memmap
+    dlam2_dx: np.memmap
+    dlam2_dy: np.memmap
+    dlam2_dz: np.memmap
+    dlam3_dx: np.memmap
+    dlam3_dy: np.memmap
+    dlam3_dz: np.memmap
+    lap_lam1: np.memmap
+    lap_lam2: np.memmap
+    lap_lam3: np.memmap
 
 
 def parse_args() -> argparse.Namespace:
@@ -174,12 +186,37 @@ def make_augmented_chunk(
     l1: np.ndarray,
     l2: np.ndarray,
     l3: np.ndarray,
+    dlam1_dx: np.ndarray,
+    dlam1_dy: np.ndarray,
+    dlam1_dz: np.ndarray,
+    dlam2_dx: np.ndarray,
+    dlam2_dy: np.ndarray,
+    dlam2_dz: np.ndarray,
+    dlam3_dx: np.ndarray,
+    dlam3_dy: np.ndarray,
+    dlam3_dz: np.ndarray,
+    lap_lam1: np.ndarray,
+    lap_lam2: np.ndarray,
+    lap_lam3: np.ndarray,
 ) -> np.ndarray:
     new_dtype = chunk.dtype.descr + [
         ("CWEB", "u1"),
         ("LAMBDA1", "f4"),
         ("LAMBDA2", "f4"),
         ("LAMBDA3", "f4"),
+        # Dimensionless derivative targets (already multiplied by R or R^2).
+        ("DLAM1_DX", "f4"),
+        ("DLAM1_DY", "f4"),
+        ("DLAM1_DZ", "f4"),
+        ("DLAM2_DX", "f4"),
+        ("DLAM2_DY", "f4"),
+        ("DLAM2_DZ", "f4"),
+        ("DLAM3_DX", "f4"),
+        ("DLAM3_DY", "f4"),
+        ("DLAM3_DZ", "f4"),
+        ("LAP_LAM1", "f4"),
+        ("LAP_LAM2", "f4"),
+        ("LAP_LAM3", "f4"),
     ]
     out = np.empty(chunk.shape, dtype=new_dtype)
     for name in chunk.dtype.names:
@@ -188,6 +225,18 @@ def make_augmented_chunk(
     out["LAMBDA1"] = l1
     out["LAMBDA2"] = l2
     out["LAMBDA3"] = l3
+    out["DLAM1_DX"] = dlam1_dx
+    out["DLAM1_DY"] = dlam1_dy
+    out["DLAM1_DZ"] = dlam1_dz
+    out["DLAM2_DX"] = dlam2_dx
+    out["DLAM2_DY"] = dlam2_dy
+    out["DLAM2_DZ"] = dlam2_dz
+    out["DLAM3_DX"] = dlam3_dx
+    out["DLAM3_DY"] = dlam3_dy
+    out["DLAM3_DZ"] = dlam3_dz
+    out["LAP_LAM1"] = lap_lam1
+    out["LAP_LAM2"] = lap_lam2
+    out["LAP_LAM3"] = lap_lam3
     return out
 
 
@@ -203,17 +252,53 @@ def create_temp_memmaps(temp_dir: str, nrows: int) -> TempMemmaps:
         lam1=np.memmap(os.path.join(temp_dir, "lambda1.float32"), mode="w+", dtype=np.float32, shape=(nrows,)),
         lam2=np.memmap(os.path.join(temp_dir, "lambda2.float32"), mode="w+", dtype=np.float32, shape=(nrows,)),
         lam3=np.memmap(os.path.join(temp_dir, "lambda3.float32"), mode="w+", dtype=np.float32, shape=(nrows,)),
+        dlam1_dx=np.memmap(os.path.join(temp_dir, "dlam1_dx.float32"), mode="w+", dtype=np.float32, shape=(nrows,)),
+        dlam1_dy=np.memmap(os.path.join(temp_dir, "dlam1_dy.float32"), mode="w+", dtype=np.float32, shape=(nrows,)),
+        dlam1_dz=np.memmap(os.path.join(temp_dir, "dlam1_dz.float32"), mode="w+", dtype=np.float32, shape=(nrows,)),
+        dlam2_dx=np.memmap(os.path.join(temp_dir, "dlam2_dx.float32"), mode="w+", dtype=np.float32, shape=(nrows,)),
+        dlam2_dy=np.memmap(os.path.join(temp_dir, "dlam2_dy.float32"), mode="w+", dtype=np.float32, shape=(nrows,)),
+        dlam2_dz=np.memmap(os.path.join(temp_dir, "dlam2_dz.float32"), mode="w+", dtype=np.float32, shape=(nrows,)),
+        dlam3_dx=np.memmap(os.path.join(temp_dir, "dlam3_dx.float32"), mode="w+", dtype=np.float32, shape=(nrows,)),
+        dlam3_dy=np.memmap(os.path.join(temp_dir, "dlam3_dy.float32"), mode="w+", dtype=np.float32, shape=(nrows,)),
+        dlam3_dz=np.memmap(os.path.join(temp_dir, "dlam3_dz.float32"), mode="w+", dtype=np.float32, shape=(nrows,)),
+        lap_lam1=np.memmap(os.path.join(temp_dir, "lap_lam1.float32"), mode="w+", dtype=np.float32, shape=(nrows,)),
+        lap_lam2=np.memmap(os.path.join(temp_dir, "lap_lam2.float32"), mode="w+", dtype=np.float32, shape=(nrows,)),
+        lap_lam3=np.memmap(os.path.join(temp_dir, "lap_lam3.float32"), mode="w+", dtype=np.float32, shape=(nrows,)),
     )
     mm.slab_id[:] = -1
     mm.cweb[:] = 255
     mm.lam1[:] = np.nan
     mm.lam2[:] = np.nan
     mm.lam3[:] = np.nan
+    mm.dlam1_dx[:] = np.nan
+    mm.dlam1_dy[:] = np.nan
+    mm.dlam1_dz[:] = np.nan
+    mm.dlam2_dx[:] = np.nan
+    mm.dlam2_dy[:] = np.nan
+    mm.dlam2_dz[:] = np.nan
+    mm.dlam3_dx[:] = np.nan
+    mm.dlam3_dy[:] = np.nan
+    mm.dlam3_dz[:] = np.nan
+    mm.lap_lam1[:] = np.nan
+    mm.lap_lam2[:] = np.nan
+    mm.lap_lam3[:] = np.nan
     mm.slab_id.flush()
     mm.cweb.flush()
     mm.lam1.flush()
     mm.lam2.flush()
     mm.lam3.flush()
+    mm.dlam1_dx.flush()
+    mm.dlam1_dy.flush()
+    mm.dlam1_dz.flush()
+    mm.dlam2_dx.flush()
+    mm.dlam2_dy.flush()
+    mm.dlam2_dz.flush()
+    mm.dlam3_dx.flush()
+    mm.dlam3_dy.flush()
+    mm.dlam3_dz.flush()
+    mm.lap_lam1.flush()
+    mm.lap_lam2.flush()
+    mm.lap_lam3.flush()
     return mm
 
 
@@ -307,8 +392,25 @@ def pass2_map_halo_to_grid(
     print(f"  mapped rows: {mapped_rows:,} / {nrows:,}; skipped rows: {skipped_rows:,}")
 
 
-def pass3_assign_tweb_values(slabs: list[SlabMeta], mm: TempMemmaps) -> None:
+def pass3_assign_tweb_values(
+    *,
+    slabs: list[SlabMeta],
+    mm: TempMemmaps,
+    ix_to_slab: np.ndarray,
+    slab_xstart: np.ndarray,
+    ngrid: int,
+    boxsize: float,
+) -> None:
     print("Pass 3/4: assigning CWEB/eigenvalues from T-Web slabs...")
+    cell = float(boxsize) / float(ngrid)
+    inv_2h = 1.0 / (2.0 * cell)
+    inv_h2 = 1.0 / (cell * cell)
+    rsmooth = float(slabs[0].rsmooth)
+    nslabs = len(slabs)
+
+    # Slabs are reindexed 0..nslabs-1 in x_start order, so neighbor slabs are +/- 1 with wrap.
+    slabs_by_id = {s.slab_id: s for s in slabs}
+
     for s in slabs:
         row_idx = np.nonzero(mm.slab_id == s.slab_id)[0]
         if row_idx.size == 0:
@@ -319,22 +421,124 @@ def pass3_assign_tweb_values(slabs: list[SlabMeta], mm: TempMemmaps) -> None:
             f"x=[{s.x_start},{s.x_end}), file={os.path.basename(s.path)}"
         )
 
+        sid = int(s.slab_id)
+        prev_id = (sid - 1) % nslabs
+        next_id = (sid + 1) % nslabs
+
+        # Load slab arrays (current, plus neighbors for x-boundary stencils).
         with np.load(s.path) as d:
-            cweb_local = d["cweb"]
-            eig_local = d["eig_vals"]
-            li = mm.lix[row_idx].astype(np.int64)
+            cweb_local = d["cweb"]  # [nx_local, ngrid, ngrid]
+            eig_local = d["eig_vals"]  # [3, nx_local, ngrid, ngrid]
+
+            eig_prev = None
+            eig_next = None
+            if prev_id != sid:
+                with np.load(slabs_by_id[prev_id].path) as dp:
+                    eig_prev = dp["eig_vals"]
+            if next_id != sid:
+                with np.load(slabs_by_id[next_id].path) as dn:
+                    eig_next = dn["eig_vals"]
+
+            li = mm.lix[row_idx].astype(np.int64)  # local ix within slab
             yj = mm.iy[row_idx].astype(np.int64)
             zk = mm.iz[row_idx].astype(np.int64)
 
-            mm.cweb[row_idx] = cweb_local[li, yj, zk]
-            mm.lam1[row_idx] = eig_local[0, li, yj, zk]
-            mm.lam2[row_idx] = eig_local[1, li, yj, zk]
-            mm.lam3[row_idx] = eig_local[2, li, yj, zk]
+            # Periodic indexing for y/z.
+            yp = (yj + 1) % ngrid
+            ym = (yj - 1) % ngrid
+            zp = (zk + 1) % ngrid
+            zm = (zk - 1) % ngrid
+
+            # Center values.
+            cweb_c = cweb_local[li, yj, zk]
+            lam_c = eig_local[:, li, yj, zk]  # [3, N]
+
+            # X neighbors: handle slab boundary by pulling from prev/next slab edge slices.
+            lam_xm = np.empty_like(lam_c)
+            lam_xp = np.empty_like(lam_c)
+
+            m_left = li == 0
+            m_right = li == (eig_local.shape[1] - 1)
+            m_mid = (~m_left) & (~m_right)
+
+            if np.any(m_mid):
+                li_mid = li[m_mid]
+                y_mid = yj[m_mid]
+                z_mid = zk[m_mid]
+                lam_xm[:, m_mid] = eig_local[:, li_mid - 1, y_mid, z_mid]
+                lam_xp[:, m_mid] = eig_local[:, li_mid + 1, y_mid, z_mid]
+
+            if np.any(m_left):
+                if eig_prev is None:
+                    raise RuntimeError("prev slab eig_vals not loaded but needed for left boundary stencil")
+                y_l = yj[m_left]
+                z_l = zk[m_left]
+                lam_xm[:, m_left] = eig_prev[:, -1, y_l, z_l]
+                lam_xp[:, m_left] = eig_local[:, 1, y_l, z_l]
+
+            if np.any(m_right):
+                if eig_next is None:
+                    raise RuntimeError("next slab eig_vals not loaded but needed for right boundary stencil")
+                y_r = yj[m_right]
+                z_r = zk[m_right]
+                lam_xm[:, m_right] = eig_local[:, -2, y_r, z_r]
+                lam_xp[:, m_right] = eig_next[:, 0, y_r, z_r]
+
+            # Y neighbors (periodic within slab).
+            lam_ym = eig_local[:, li, ym, zk]
+            lam_yp = eig_local[:, li, yp, zk]
+
+            # Z neighbors (periodic within slab).
+            lam_zm = eig_local[:, li, yj, zm]
+            lam_zp = eig_local[:, li, yj, zp]
+
+            # Gradients (dimensionless: multiply by Rsmooth).
+            dlam_dx = (lam_xp - lam_xm) * inv_2h * rsmooth
+            dlam_dy = (lam_yp - lam_ym) * inv_2h * rsmooth
+            dlam_dz = (lam_zp - lam_zm) * inv_2h * rsmooth
+
+            # Laplacian (dimensionless: multiply by Rsmooth^2).
+            lap = (
+                (lam_xp + lam_xm + lam_yp + lam_ym + lam_zp + lam_zm - 6.0 * lam_c)
+                * inv_h2
+                * (rsmooth * rsmooth)
+            )
+
+            mm.cweb[row_idx] = cweb_c
+            mm.lam1[row_idx] = lam_c[0]
+            mm.lam2[row_idx] = lam_c[1]
+            mm.lam3[row_idx] = lam_c[2]
+
+            mm.dlam1_dx[row_idx] = dlam_dx[0]
+            mm.dlam1_dy[row_idx] = dlam_dy[0]
+            mm.dlam1_dz[row_idx] = dlam_dz[0]
+            mm.dlam2_dx[row_idx] = dlam_dx[1]
+            mm.dlam2_dy[row_idx] = dlam_dy[1]
+            mm.dlam2_dz[row_idx] = dlam_dz[1]
+            mm.dlam3_dx[row_idx] = dlam_dx[2]
+            mm.dlam3_dy[row_idx] = dlam_dy[2]
+            mm.dlam3_dz[row_idx] = dlam_dz[2]
+
+            mm.lap_lam1[row_idx] = lap[0]
+            mm.lap_lam2[row_idx] = lap[1]
+            mm.lap_lam3[row_idx] = lap[2]
 
         mm.cweb.flush()
         mm.lam1.flush()
         mm.lam2.flush()
         mm.lam3.flush()
+        mm.dlam1_dx.flush()
+        mm.dlam1_dy.flush()
+        mm.dlam1_dz.flush()
+        mm.dlam2_dx.flush()
+        mm.dlam2_dy.flush()
+        mm.dlam2_dz.flush()
+        mm.dlam3_dx.flush()
+        mm.dlam3_dy.flush()
+        mm.dlam3_dz.flush()
+        mm.lap_lam1.flush()
+        mm.lap_lam2.flush()
+        mm.lap_lam3.flush()
         del row_idx
         gc.collect()
 
@@ -352,6 +556,18 @@ def pass4_write_augmented_fits(hdu, nrows: int, chunk_size: int, out_path: str, 
             l1=mm.lam1[start:stop],
             l2=mm.lam2[start:stop],
             l3=mm.lam3[start:stop],
+            dlam1_dx=mm.dlam1_dx[start:stop],
+            dlam1_dy=mm.dlam1_dy[start:stop],
+            dlam1_dz=mm.dlam1_dz[start:stop],
+            dlam2_dx=mm.dlam2_dx[start:stop],
+            dlam2_dy=mm.dlam2_dy[start:stop],
+            dlam2_dz=mm.dlam2_dz[start:stop],
+            dlam3_dx=mm.dlam3_dx[start:stop],
+            dlam3_dy=mm.dlam3_dy[start:stop],
+            dlam3_dz=mm.dlam3_dz[start:stop],
+            lap_lam1=mm.lap_lam1[start:stop],
+            lap_lam2=mm.lap_lam2[start:stop],
+            lap_lam3=mm.lap_lam3[start:stop],
         )
         if first:
             fout.write(out_chunk)
@@ -411,7 +627,14 @@ def main() -> None:
         ngrid=ngrid,
         boxsize=boxsize,
     )
-    pass3_assign_tweb_values(slabs=slabs, mm=mm)
+    pass3_assign_tweb_values(
+        slabs=slabs,
+        mm=mm,
+        ix_to_slab=ix_to_slab,
+        slab_xstart=slab_xstart,
+        ngrid=ngrid,
+        boxsize=boxsize,
+    )
     pass4_write_augmented_fits(hdu=hdu, nrows=nrows, chunk_size=args.chunk_size, out_path=out_path, mm=mm)
     fin.close()
 

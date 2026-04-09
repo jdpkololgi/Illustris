@@ -93,7 +93,7 @@ def _load_targets_from_source_catalog(
     apply_y1y5_filter: bool,
     exclude_invalid_box_index: bool,
     box_index_col: str,
-) -> tuple[np.ndarray, np.ndarray | None, np.ndarray | None]:
+) -> tuple[np.ndarray, np.ndarray | None, np.ndarray | None, np.ndarray | None]:
     table = fitsio.read(str(source_path))
     mask = np.ones(len(table), dtype=bool)
     if apply_y1y5_filter:
@@ -131,7 +131,32 @@ def _load_targets_from_source_catalog(
             "Try toggling --apply-y1y5-filter / --no-apply-y1y5-filter and/or "
             "--no-exclude-invalid-box-index based on how the graph was built."
         )
-    return eig, cweb, box_index
+    deriv12 = _try_load_derivative_targets(table, mask)
+    return eig, cweb, box_index, deriv12
+
+
+def _try_load_derivative_targets(table: np.ndarray, mask: np.ndarray) -> np.ndarray | None:
+    """Return (N, 12) array of dimensionless derivative targets, or None if columns missing."""
+    names_upper = {name.upper(): name for name in table.dtype.names}
+    required = [
+        "DLAM1_DX",
+        "DLAM1_DY",
+        "DLAM1_DZ",
+        "DLAM2_DX",
+        "DLAM2_DY",
+        "DLAM2_DZ",
+        "DLAM3_DX",
+        "DLAM3_DY",
+        "DLAM3_DZ",
+        "LAP_LAM1",
+        "LAP_LAM2",
+        "LAP_LAM3",
+    ]
+    if any(r.upper() not in names_upper for r in required):
+        return None
+    cols = [names_upper[r] for r in required]
+    arr = np.stack([np.asarray(table[c][mask], dtype=np.float64) for c in cols], axis=-1)
+    return arr
 
 
 def _make_splits(
@@ -389,7 +414,7 @@ def main() -> None:
 
     print(f"Loading targets from catalog: {targets_catalog}")
     try:
-        eigenvalues_raw, cweb, box_index = _load_targets_from_source_catalog(
+        eigenvalues_raw, cweb, box_index, deriv12 = _load_targets_from_source_catalog(
             targets_catalog,
             n_nodes,
             apply_y1y5_filter=args.apply_y1y5_filter,
@@ -431,31 +456,64 @@ def main() -> None:
     target_scaler = StandardScaler()
     use_transformed_eig = not args.no_transformed_eig
 
+    # If derivative columns are present, build the 15-d target vector:
+    # [0]=v1=λ1, [1]=v2=λ2-λ1, [2]=v3=λ3-λ2,
+    # [3:12]=R*∂λi/∂{x,y,z}, [12:15]=R^2*∇^2λi (already dimensionless in FITS).
     stats = None
-    if use_transformed_eig:
-        transformed = np.array(eigenvalues_to_increments(jnp.array(eigenvalues_raw)))
-        target_scaler.fit(transformed[train_idx])
-        transformed_scaled = target_scaler.transform(transformed)
-        regression_targets = jnp.array(transformed_scaled, dtype=jnp.float64)
+    regression_targets_raw: np.ndarray
+    if deriv12 is not None:
+        v1 = eigenvalues_raw[:, 0]
+        v2 = eigenvalues_raw[:, 1] - eigenvalues_raw[:, 0]
+        v3 = eigenvalues_raw[:, 2] - eigenvalues_raw[:, 1]
+        regression_targets_raw = np.concatenate([np.stack([v1, v2, v3], axis=-1), deriv12], axis=-1).astype(
+            np.float64
+        )
+        if regression_targets_raw.shape[1] != 15:
+            raise RuntimeError(f"Expected 15 target dims, got {regression_targets_raw.shape}")
 
-        scaled_min = np.min(transformed_scaled[train_idx], axis=0)
-        scaled_max = np.max(transformed_scaled[train_idx], axis=0)
-        stats = {
-            "v1_min_scaled": float(scaled_min[0]),
-            "v1_max_scaled": float(scaled_max[0]),
-            "target_min": scaled_min.tolist(),
-            "target_max": scaled_max.tolist(),
-            "scaler_mean": target_scaler.mean_.tolist(),
-            "scaler_std": target_scaler.scale_.tolist(),
-        }
-    else:
-        target_scaler.fit(eigenvalues_raw[train_idx])
-        scaled = target_scaler.transform(eigenvalues_raw)
+        mu = np.mean(regression_targets_raw[train_idx], axis=0)
+        sd = np.std(regression_targets_raw[train_idx], axis=0)
+        print("Raw target stats (train split) for 15-d targets:")
+        print("  mean:", np.array2string(mu, precision=4, floatmode="fixed"))
+        print("  std :", np.array2string(sd, precision=4, floatmode="fixed"))
+
+        target_scaler.fit(regression_targets_raw[train_idx])
+        scaled = target_scaler.transform(regression_targets_raw)
         regression_targets = jnp.array(scaled, dtype=jnp.float32)
+
+        mu_s = np.mean(scaled[train_idx], axis=0)
+        sd_s = np.std(scaled[train_idx], axis=0)
+        print("Scaled target stats (train split) for 15-d targets:")
+        print("  mean:", np.array2string(mu_s, precision=4, floatmode="fixed"))
+        print("  std :", np.array2string(sd_s, precision=4, floatmode="fixed"))
+    else:
+        if use_transformed_eig:
+            transformed = np.array(eigenvalues_to_increments(jnp.array(eigenvalues_raw)))
+            regression_targets_raw = np.asarray(transformed, dtype=np.float64)
+            target_scaler.fit(transformed[train_idx])
+            transformed_scaled = target_scaler.transform(transformed)
+            regression_targets = jnp.array(transformed_scaled, dtype=jnp.float32)
+
+            scaled_min = np.min(transformed_scaled[train_idx], axis=0)
+            scaled_max = np.max(transformed_scaled[train_idx], axis=0)
+            stats = {
+                "v1_min_scaled": float(scaled_min[0]),
+                "v1_max_scaled": float(scaled_max[0]),
+                "target_min": scaled_min.tolist(),
+                "target_max": scaled_max.tolist(),
+                "scaler_mean": target_scaler.mean_.tolist(),
+                "scaler_std": target_scaler.scale_.tolist(),
+            }
+        else:
+            regression_targets_raw = np.asarray(eigenvalues_raw, dtype=np.float64)
+            target_scaler.fit(eigenvalues_raw[train_idx])
+            scaled = target_scaler.transform(eigenvalues_raw)
+            regression_targets = jnp.array(scaled, dtype=jnp.float32)
 
     payload = {
         "graph": graph,
         "regression_targets": regression_targets,
+        "regression_targets_raw": regression_targets_raw.astype(np.float64),
         "target_scaler": target_scaler,
         "eigenvalues_raw": eigenvalues_raw.astype(np.float64),
         "masks": (jnp.array(train_mask), jnp.array(val_mask), jnp.array(test_mask)),
@@ -471,7 +529,10 @@ def main() -> None:
     with out_cache.open("wb") as f:
         pickle.dump(payload, f)
 
-    mode_name = "transformed (v1, Δλ2, Δλ3)" if use_transformed_eig else "raw scaled (λ1, λ2, λ3)"
+    if deriv12 is not None:
+        mode_name = "15-d (v1,v2,v3 + R*grads + R^2*laps)"
+    else:
+        mode_name = "transformed (v1, Δλ2, Δλ3)" if use_transformed_eig else "raw scaled (λ1, λ2, λ3)"
     print(f"Target mode: {mode_name}")
     print(f"Wrote SBI cache: {out_cache}")
 

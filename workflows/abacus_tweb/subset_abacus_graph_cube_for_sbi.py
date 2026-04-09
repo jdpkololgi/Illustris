@@ -277,6 +277,19 @@ def _write_cube_targets_fits(
         "LAMBDA1",
         "LAMBDA2",
         "LAMBDA3",
+        # Optional 15-d target derivatives (already dimensionless if present).
+        "DLAM1_DX",
+        "DLAM1_DY",
+        "DLAM1_DZ",
+        "DLAM2_DX",
+        "DLAM2_DY",
+        "DLAM2_DZ",
+        "DLAM3_DX",
+        "DLAM3_DY",
+        "DLAM3_DZ",
+        "LAP_LAM1",
+        "LAP_LAM2",
+        "LAP_LAM3",
     ]
     keep_cols = [c for c in want if c in cols]
     if not all(x in keep_cols for x in ("LAMBDA1", "LAMBDA2", "LAMBDA3")):
