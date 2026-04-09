@@ -2,13 +2,26 @@ import os
 import sys
 from pathlib import Path
 
+# Avoid accidental user-site contamination (common on HPC).
+# In particular, a Python 3.10 user-site can break a Python 3.11 env (NumPy/JAX ABI mismatch).
+os.environ.setdefault("PYTHONNOUSERSITE", "1")
+_bad_user_sites = (
+    "/global/homes/d/dkololgi/.local/lib/python3.10/site-packages",
+    "/global/homes/d/dkololgi/.local/lib/python3.11/site-packages",
+    "/global/u2/d/dkololgi/.local/lib/python3.10/site-packages",
+    "/global/u2/d/dkololgi/.local/lib/python3.11/site-packages",
+)
+for _p in _bad_user_sites:
+    while _p in sys.path:
+        sys.path.remove(_p)
+
 # Force priority for user installed packages (must be FIRST to avoid NumPy version conflicts)
-user_site = "/global/homes/d/dkololgi/.local/lib/python3.10/site-packages"
-# Remove user_site if it exists anywhere in sys.path
-while user_site in sys.path:
-    sys.path.remove(user_site)
-# Insert at the very beginning
-sys.path.insert(0, user_site)
+# user_site = "/global/homes/d/dkololgi/.local/lib/python3.10/site-packages"
+# # Remove user_site if it exists anywhere in sys.path
+# while user_site in sys.path:
+#     sys.path.remove(user_site)
+# # Insert at the very beginning
+# sys.path.insert(0, user_site)
 
 # Allow canonical workflow scripts to resolve repo-root modules after reorganization.
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -18,6 +31,7 @@ if str(REPO_ROOT) not in sys.path:
 os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "false"
 os.environ["XLA_PYTHON_CLIENT_ALLOCATOR"] = "platform"
 import time
+import json
 import pickle
 from datetime import datetime
 import numpy as np
@@ -28,8 +42,6 @@ from sklearn.utils.class_weight import compute_class_weight
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import PowerTransformer, StandardScaler
 
-from Network_stats import network
-
 import jax
 import jax.numpy as jnp
 import jraph
@@ -37,9 +49,15 @@ import haiku as hk
 import optax
 from sklearn.metrics import classification_report
 
-from graph_net_models import make_graph_network
-from eigenvalue_transformations import eigenvalues_to_shape_params, shape_params_to_eigenvalues, compute_shape_param_statistics, eigenvalues_to_increments, increments_to_eigenvalues
-from tng_pipeline_paths import DEFAULT_JRAPH_OUTPUT_DIR, resolve_pipeline_paths
+from shared.graph_net_models import make_graph_network
+from shared.eigenvalue_transformations import (
+    compute_shape_param_statistics,
+    eigenvalues_to_increments,
+    eigenvalues_to_shape_params,
+    increments_to_eigenvalues,
+    shape_params_to_eigenvalues,
+)
+from shared.tng_pipeline_paths import DEFAULT_JRAPH_OUTPUT_DIR, resolve_pipeline_paths
 from shared.resource_requirements import require_gpu_slurm
 # Set up JAX to use 64-bit precision if needed, though 32 is usually fine for ML
 # jax.config.update("jax_enable_x64", True)
@@ -106,6 +124,9 @@ def preprocess_features(features):
 
 def generate_data(masscut, cache_path, version='v2', use_transformed_eig=True):
     """Generate Jraph data from scratch using Network_stats."""
+    # Only needed when generating data from scratch (not when loading a cache pickle).
+    from Network_stats import network
+
     print(f"Generating data using {version}...")
     testcat = network(masscut=masscut, from_DESI=False)
     testcat.cweb_classify(xyzplot=False)
@@ -473,24 +494,116 @@ def main(args):
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     print(f"Job Timestamp: {timestamp}")
 
+    def _checkpoint_dir() -> str:
+        d = os.path.join(args.output_dir, "checkpoints")
+        os.makedirs(d, exist_ok=True)
+        return d
+
+    def _save_checkpoint(
+        *,
+        epoch: int,
+        replicated_params,
+        replicated_opt_state,
+        current_rng,
+        tag: str,
+        best_metric: float | None = None,
+    ) -> str:
+        # Save params (and opt state) from device 0; sufficient to resume training.
+        params0 = jax.device_get(jax.tree_util.tree_map(lambda x: x[0], replicated_params))
+        opt0 = None
+        if not getattr(args, "no_save_opt_state", False):
+            opt0 = jax.device_get(jax.tree_util.tree_map(lambda x: x[0], replicated_opt_state))
+        payload = {
+            "epoch": int(epoch),
+            "timestamp": str(timestamp),
+            "prediction_mode": str(args.prediction_mode),
+            "seed": int(args.seed),
+            "params": params0,
+            "opt_state": opt0,
+            "current_rng": jax.device_get(current_rng),
+        }
+        if tag == "best" and best_metric is not None:
+            payload["best_val_metric"] = float(best_metric)
+
+        ckpt_dir = _checkpoint_dir()
+        if tag == "best":
+            # Overwrite a single best checkpoint to avoid accumulating large files.
+            out = os.path.join(
+                ckpt_dir,
+                f"ckpt_{args.prediction_mode}_seed_{args.seed}_{timestamp}_best.pkl",
+            )
+            with open(out, "wb") as f:
+                pickle.dump(payload, f)
+            # Small pointer file with epoch for quick inspection/resume.
+            pointer = {
+                "path": out,
+                "epoch": int(epoch),
+                "timestamp": str(timestamp),
+                "prediction_mode": str(args.prediction_mode),
+                "seed": int(args.seed),
+            }
+            with open(os.path.join(ckpt_dir, "best_checkpoint.json"), "w", encoding="utf-8") as f:
+                json.dump(pointer, f, indent=2, sort_keys=True)
+            return out
+
+        out = os.path.join(
+            ckpt_dir,
+            f"ckpt_{args.prediction_mode}_seed_{args.seed}_{timestamp}_{tag}_epoch_{epoch:06d}.pkl",
+        )
+        with open(out, "wb") as f:
+            pickle.dump(payload, f)
+        return out
+
+    def _load_checkpoint(path: str) -> dict:
+        ckpt_path = Path(path).expanduser().resolve()
+        if not ckpt_path.exists():
+            raise FileNotFoundError(f"Checkpoint not found: {ckpt_path}")
+        with ckpt_path.open("rb") as f:
+            obj = pickle.load(f)
+        if not isinstance(obj, dict) or "params" not in obj:
+            raise ValueError(f"Unsupported checkpoint format at {ckpt_path} (expected dict with 'params').")
+        return obj
+
     # 1. Resolve paths and load data
     masscut = 1e9
     use_transformed_eig = not getattr(args, 'no_transformed_eig', False)
-    paths = resolve_pipeline_paths(
-        masscut=masscut,
-        use_v2=True,
-        use_transformed_eig=use_transformed_eig,
-        output_dir=args.output_dir,
-    )
-    args.output_dir = paths.output_dir
 
-    graph, targets, stats, target_scaler, eigenvalues_raw, masks = load_data(
-        masscut=masscut,
-        use_v2=True,
-        prediction_mode=args.prediction_mode,
-        use_transformed_eig=use_transformed_eig,
-        cache_dir=paths.cache_dir,
-    )
+    # If a cache pickle path is provided, load it directly and skip Network_stats generation logic.
+    if getattr(args, "cache_path", ""):
+        cache_path = str(args.cache_path)
+        print(f"Loading cached Jraph data from {cache_path}...")
+        with open(cache_path, "rb") as f:
+            data = pickle.load(f)
+        if args.prediction_mode == "regression":
+            graph = data["graph"]
+            targets = data.get("regression_targets")
+            stats = data.get("stats")
+            target_scaler = data.get("target_scaler")
+            eigenvalues_raw = data.get("eigenvalues_raw")
+            masks = data["masks"]
+        else:
+            graph = data["graph"]
+            targets = data["classification_labels"]
+            stats = None
+            target_scaler = None
+            eigenvalues_raw = None
+            masks = data["masks"]
+    else:
+        paths = resolve_pipeline_paths(
+            masscut=masscut,
+            use_v2=True,
+            use_transformed_eig=use_transformed_eig,
+            output_dir=args.output_dir,
+        )
+        args.output_dir = paths.output_dir
+
+        graph, targets, stats, target_scaler, eigenvalues_raw, masks = load_data(
+            masscut=masscut,
+            use_v2=True,
+            prediction_mode=args.prediction_mode,
+            use_transformed_eig=use_transformed_eig,
+            cache_dir=paths.cache_dir,
+        )
     train_mask, val_mask, test_mask = masks
 
     # Class weights only for classification
@@ -743,12 +856,76 @@ def main(args):
     # but strictly we should shard RNGs if we want different randomness per device (dropout etc)
     # Here we fold inside 'update' with axis index, so single key is fine to start.
     
-    current_rng = jax.random.PRNGKey(0)
-    
+    # Resume support (optional)
+    start_epoch = 0
+    if getattr(args, "resume_checkpoint", ""):
+        ckpt = _load_checkpoint(str(args.resume_checkpoint))
+        # Use the original run id for checkpoint filenames when present.
+        timestamp = str(ckpt.get("timestamp", timestamp))
+        start_epoch = int(ckpt.get("epoch", -1)) + 1
+        if start_epoch < 0:
+            start_epoch = 0
+        print(f"Resuming from checkpoint: {args.resume_checkpoint}")
+        print(f"  ckpt epoch={ckpt.get('epoch')} -> start_epoch={start_epoch}")
+        # Override replicated params/opt state if available.
+        replicated_params = jax.device_put_replicated(ckpt["params"], jax.local_devices())
+        if ckpt.get("opt_state") is not None:
+            replicated_opt_state = jax.device_put_replicated(ckpt["opt_state"], jax.local_devices())
+        else:
+            print("  WARN: checkpoint has no opt_state; optimizer will continue from freshly initialized state.")
+        # RNG state
+        try:
+            current_rng = jnp.asarray(ckpt.get("current_rng"))
+        except Exception:
+            current_rng = jax.random.PRNGKey(args.seed)
+    else:
+        current_rng = jax.random.PRNGKey(0)
+
+    # When resuming, --epochs is the number of *additional* steps (not a global cap).
+    resumed = bool(getattr(args, "resume_checkpoint", ""))
+    train_end_epoch = start_epoch + args.epochs if resumed else args.epochs
+    print(
+        f"Training schedule: epochs {start_epoch}..{train_end_epoch - 1} inclusive "
+        f"({train_end_epoch - start_epoch} steps)."
+    )
+    if start_epoch >= train_end_epoch:
+        print(
+            f"Nothing to train (start_epoch={start_epoch} >= train_end_epoch={train_end_epoch}). "
+            "Increase --epochs."
+        )
+
     print("Starting training...")
     t0 = time.time()
-    
-    for epoch in range(num_epochs):
+
+    checkpoint_every = int(getattr(args, "checkpoint_every", 0) or 0)
+    best_val = float("inf")
+    if resumed:
+        if ckpt.get("best_val_metric") is not None:
+            best_val = float(ckpt["best_val_metric"])
+            print(f"  Loaded best_val_metric={best_val:.6f} from checkpoint")
+        else:
+            current_rng, eval_rng = jax.random.split(current_rng)
+            eval_step_rngs = jax.device_put_replicated(eval_rng, jax.local_devices())
+            val_loss0, val_metric0 = evaluate_fn(
+                replicated_params,
+                replicated_graph,
+                replicated_targets,
+                sharded_val_masks,
+                eval_step_rngs,
+                replicated_class_weights,
+                args.prediction_mode,
+            )
+            best_val = float(
+                val_metric0[0]
+                if args.prediction_mode != "classification"
+                else val_loss0[0]
+            )
+            print(
+                f"  Seeded best_val={best_val:.6f} from validation on resumed weights "
+                "(checkpoint has no best_val_metric; avoids overwriting best on first epoch)."
+            )
+
+    for epoch in range(start_epoch, train_end_epoch):
         current_rng, step_rng = jax.random.split(current_rng)
         # Replicate RNG
         step_rngs = jax.device_put_replicated(step_rng, jax.local_devices())
@@ -771,6 +948,33 @@ def main(args):
             else:
                 print(f"Epoch {epoch} | Train Loss: {train_loss[0]:.4f} | Train MSE: {train_metric[0]:.6f} | Val Loss: {val_loss[0]:.4f} | Val MSE: {val_metric[0]:.6f}")
 
+            # Periodic checkpoints (and best-val) for long runs / timeouts.
+            if checkpoint_every > 0 and epoch > 0 and (epoch % checkpoint_every == 0):
+                ckpt_path = _save_checkpoint(
+                    epoch=epoch,
+                    replicated_params=replicated_params,
+                    replicated_opt_state=replicated_opt_state,
+                    current_rng=current_rng,
+                    tag="periodic",
+                )
+                print(f"Checkpoint saved: {ckpt_path}")
+
+            try:
+                val_scalar = float(val_metric[0] if args.prediction_mode != "classification" else val_loss[0])
+            except Exception:
+                val_scalar = float("inf")
+            if val_scalar < best_val:
+                best_val = val_scalar
+                ckpt_path = _save_checkpoint(
+                    epoch=epoch,
+                    replicated_params=replicated_params,
+                    replicated_opt_state=replicated_opt_state,
+                    current_rng=current_rng,
+                    tag="best",
+                    best_metric=val_scalar,
+                )
+                print(f"New best checkpoint: {ckpt_path} (best_val={best_val:.6f})")
+
     print(f"Training finished in {time.time() - t0:.2f}s")
     
     # Save Model
@@ -779,7 +983,6 @@ def main(args):
     
     # Save model
     print("Saving model...")
-    import pickle
     save_filename = os.path.join(args.output_dir, f'jraph_{args.prediction_mode}_model_seed_{args.seed}_{timestamp}.pkl')
     with open(save_filename, 'wb') as f:
         pickle.dump(final_params, f)
@@ -977,7 +1180,12 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
-    parser.add_argument("--epochs", type=int, default=10000, help="Number of epochs")
+    parser.add_argument(
+        "--epochs",
+        type=int,
+        default=10000,
+        help="Epochs to train from scratch. With --resume_checkpoint, this is additional epochs after the checkpoint.",
+    )
     
     # Model Hparams
     parser.add_argument("--latent_size", type=int, default=80)
@@ -989,10 +1197,33 @@ if __name__ == '__main__':
     parser.add_argument("--prediction_mode", type=str, default="regression",
                         choices=["classification", "regression"],
                         help="Prediction mode: 'classification' for cosmic web classes, 'regression' for eigenvalues")
+    parser.add_argument(
+        "--cache_path",
+        type=str,
+        default="",
+        help="Optional explicit cache pickle path to load (skips data generation).",
+    )
     parser.add_argument("--no_transformed_eig", action="store_true",
                         help="Disable softplus transformed eigenvalues to train on increments instead of eigenvalues")
     parser.add_argument("--output_dir", type=str, default=DEFAULT_JRAPH_OUTPUT_DIR,
                         help="Directory to save models and predictions")
+    parser.add_argument(
+        "--checkpoint_every",
+        type=int,
+        default=500,
+        help="Save a training checkpoint every N epochs (0 disables).",
+    )
+    parser.add_argument(
+        "--no_save_opt_state",
+        action="store_true",
+        help="Do not save optimizer state in checkpoints (smaller checkpoints, but cannot fully resume).",
+    )
+    parser.add_argument(
+        "--resume_checkpoint",
+        type=str,
+        default="",
+        help="Optional checkpoint .pkl path to resume from (loads params/opt_state/epoch).",
+    )
        
     args = parser.parse_args()
     

@@ -150,22 +150,50 @@ def _make_splits(
     strat_base = stratify_labels if stratify_labels is not None else None
 
     # First split: train vs remainder
-    train_idx, rem_idx = train_test_split(
-        all_idx,
-        test_size=(1.0 - train_frac),
-        random_state=seed,
-        stratify=strat_base,
-    )
+    try:
+        train_idx, rem_idx = train_test_split(
+            all_idx,
+            test_size=(1.0 - train_frac),
+            random_state=seed,
+            stratify=strat_base,
+        )
+    except ValueError as exc:
+        if strat_base is None:
+            raise
+        print(
+            f"WARN: stratified train split failed ({exc}). "
+            "Falling back to unstratified split."
+        )
+        train_idx, rem_idx = train_test_split(
+            all_idx,
+            test_size=(1.0 - train_frac),
+            random_state=seed,
+            stratify=None,
+        )
 
     # Second split: val vs test from remainder
     rem_strat = stratify_labels[rem_idx] if stratify_labels is not None else None
     val_over_rem = val_frac / (val_frac + test_frac)
-    val_idx, test_idx = train_test_split(
-        rem_idx,
-        train_size=val_over_rem,
-        random_state=seed,
-        stratify=rem_strat,
-    )
+    try:
+        val_idx, test_idx = train_test_split(
+            rem_idx,
+            train_size=val_over_rem,
+            random_state=seed,
+            stratify=rem_strat,
+        )
+    except ValueError as exc:
+        if rem_strat is None:
+            raise
+        print(
+            f"WARN: stratified val/test split failed ({exc}). "
+            "Falling back to unstratified split."
+        )
+        val_idx, test_idx = train_test_split(
+            rem_idx,
+            train_size=val_over_rem,
+            random_state=seed,
+            stratify=None,
+        )
 
     train_mask = np.zeros(n_nodes, dtype=bool)
     val_mask = np.zeros(n_nodes, dtype=bool)

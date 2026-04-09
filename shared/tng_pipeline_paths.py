@@ -5,7 +5,7 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass
 
-from config_paths import CANONICAL_CACHE_ROOT, CANONICAL_OUTPUT_ROOT
+from shared.config_paths import CANONICAL_CACHE_ROOT, CANONICAL_OUTPUT_ROOT
 
 DEFAULT_JRAPH_CACHE_DIR = os.path.join(CANONICAL_CACHE_ROOT, "jraph")
 DEFAULT_JRAPH_OUTPUT_DIR = os.path.join(CANONICAL_OUTPUT_ROOT, "regression")

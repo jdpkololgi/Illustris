@@ -272,6 +272,7 @@ def pass2_map_halo_to_grid(
             subsamples=False,
             convert_units=True,
             verbose=False,
+            cleaned=False
         )
         halo_pos = np.asarray(cat.halos[halo_pos_field], dtype=np.float32)  # [Nhalo, 3]
         n_halos = halo_pos.shape[0]
