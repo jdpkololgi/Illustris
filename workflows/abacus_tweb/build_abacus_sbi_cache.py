@@ -332,6 +332,14 @@ def parse_args() -> argparse.Namespace:
         help="Use raw eigenvalues as targets instead of transformed increments.",
     )
     parser.add_argument(
+        "--three-targets-only",
+        action="store_true",
+        help=(
+            "Ignore derivative/laplacian FITS columns even if present; build the legacy 3-d "
+            "transformed-increment targets only (same as pre–15-d caches)."
+        ),
+    )
+    parser.add_argument(
         "--apply-y1y5-filter",
         action="store_true",
         default=True,
@@ -421,6 +429,9 @@ def main() -> None:
             exclude_invalid_box_index=args.exclude_invalid_box_index,
             box_index_col=args.box_index_col,
         )
+        if args.three_targets_only:
+            deriv12 = None
+            print("--three-targets-only: ignoring derivative columns; building 3-d targets only.")
     except KeyError as exc:
         # The raw CutSky catalogs do not include eigenvalue columns; the targets must
         # come from an *annotated* FITS (e.g. produced by `annotate_cutsky_with_tweb_eigs.py`).

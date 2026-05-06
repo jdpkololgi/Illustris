@@ -199,7 +199,9 @@ def make_augmented_chunk(
     lap_lam2: np.ndarray,
     lap_lam3: np.ndarray,
 ) -> np.ndarray:
-    new_dtype = chunk.dtype.descr + [
+    # If the input catalog already has any of these columns (e.g. re-annotating a cube targets FITS),
+    # drop them from the copy and rewrite them to avoid dtype duplicate-field errors.
+    augment_cols = [
         ("CWEB", "u1"),
         ("LAMBDA1", "f4"),
         ("LAMBDA2", "f4"),
@@ -218,8 +220,13 @@ def make_augmented_chunk(
         ("LAP_LAM2", "f4"),
         ("LAP_LAM3", "f4"),
     ]
+    augment_names = {c[0] for c in augment_cols}
+    base_descr = [d for d in chunk.dtype.descr if d[0] not in augment_names]
+    new_dtype = base_descr + augment_cols
     out = np.empty(chunk.shape, dtype=new_dtype)
     for name in chunk.dtype.names:
+        if name in augment_names:
+            continue
         out[name] = chunk[name]
     out["CWEB"] = cweb
     out["LAMBDA1"] = l1

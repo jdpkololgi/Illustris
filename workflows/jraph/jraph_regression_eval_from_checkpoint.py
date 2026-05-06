@@ -217,6 +217,11 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--num_passes", type=int, default=8)
     p.add_argument("--dropout", type=float, default=0.2)
     p.add_argument("--no_transformed_eig", action="store_true")
+    p.add_argument(
+        "--heteroscedastic_15d",
+        action="store_true",
+        help="If cache targets are 15-d, build network with output_dim=30 (mean+logvar) and evaluate using mean head.",
+    )
     p.add_argument("--no_plots", action="store_true")
     p.add_argument(
         "--allow_login_node",
@@ -253,8 +258,14 @@ def main() -> None:
     node_x = np.asarray(graph.nodes, dtype=np.float64)
     node_feature_names = _node_feature_names(node_x.shape[1])
 
+    targets_arr = np.asarray(targets)
+    output_dim = int(targets_arr.shape[1]) if targets_arr.ndim == 2 else 3
+    # 15-d caches store (λ1, Δλ2, Δλ3, …) in raw space before scaling — not legacy softplus increments.
     use_transformed_eig = not args.no_transformed_eig
-    output_dim = 3
+    if output_dim == 15:
+        use_transformed_eig = False
+        if args.heteroscedastic_15d:
+            output_dim = 30
 
     params, ckpt_epoch = _load_params(args.model_path.expanduser().resolve())
     meta = {
@@ -288,7 +299,12 @@ def main() -> None:
 
     rng = jax.random.PRNGKey(args.seed + 999)
     outputs = predict(params, graph, rng)
-    preds_output = np.asarray(outputs)
+    preds_output_full = np.asarray(outputs)
+    # If heteroscedastic, keep only mean head for metric/scatter comparisons.
+    if preds_output_full.ndim == 2 and preds_output_full.shape[1] == 30 and targets_arr.ndim == 2 and targets_arr.shape[1] == 15:
+        preds_output = preds_output_full[:, :15]
+    else:
+        preds_output = preds_output_full
     targets_output = np.asarray(targets)
 
     # Per-split metrics
@@ -396,17 +412,38 @@ def main() -> None:
         pickle.dump(preds_data, f)
     print(f"Wrote predictions: {preds_path}")
 
-    if not args.no_plots and use_transformed_eig and eigenvalues_raw is not None:
-        pe = preds_eigenvalues
+    if not args.no_plots and eigenvalues_raw is not None:
         te = np.asarray(eigenvalues_raw)
-        for name, m in splits.items():
-            _scatter_eigs(
-                pe[m],
-                te[m],
-                out_dir / f"eval_scatter_eigenvalues_{name}_{ts}.png",
-                title=f"Pred vs true eigenvalues ({name}) n={int(m.sum())}",
+        if use_transformed_eig:
+            pe = preds_eigenvalues
+        elif targets_arr.ndim == 2 and targets_arr.shape[1] == 15:
+            # Reconstruct λ from first three raw channels (15-d cache; mean head if heteroscedastic_15d).
+            def _eig_from_15(raw15: np.ndarray) -> np.ndarray:
+                l1 = raw15[:, 0]
+                d2 = np.maximum(raw15[:, 1], 1e-7)
+                d3 = np.maximum(raw15[:, 2], 1e-7)
+                l2 = l1 + d2
+                l3 = l2 + d3
+                return np.stack([l1, l2, l3], axis=-1)
+
+            pr = (
+                target_scaler.inverse_transform(preds_output)
+                if target_scaler is not None
+                else preds_output
             )
-        print(f"Wrote scatter plots under {out_dir}")
+            pe = _eig_from_15(np.asarray(pr, dtype=np.float64))
+        else:
+            pe = None
+
+        if pe is not None:
+            for name, m in splits.items():
+                _scatter_eigs(
+                    pe[m],
+                    te[m],
+                    out_dir / f"eval_scatter_eigenvalues_{name}_{ts}.png",
+                    title=f"Pred vs true eigenvalues ({name}) n={int(m.sum())}",
+                )
+            print(f"Wrote scatter plots under {out_dir}")
 
 
 if __name__ == "__main__":

@@ -1513,3 +1513,13 @@ training_validation_accuracies_losses_2026-01-15.pkl
 training_validation_alpha_accuracies_losses.png
 umap_gat_embeddings_alpha_test_predictions.pdf
 WORKFLOWS_AND_REFACTOR_PLAN.md
+AGENTS.md
+.cursor/rules/nersc.md
+scripts/check_quota.sh
+templates/job.sbatch
+scripts/scripts/check_quota.sh
+scripts/scripts/desi_prods.sh
+scripts/desi_prods.sh
+scripts/where_am_i.sh
+scripts/scripts/where_am_i.sh
+templates/templates/job.sbatch

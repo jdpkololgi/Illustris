@@ -37,7 +37,12 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 import networkx as nx
-import torch # Used for compatibility with existing data structures if needed
+# Optional dependency: only needed for legacy PyG conversion paths.
+# When using --cache_path (SBI cache), torch is not required.
+try:
+    import torch  # type: ignore
+except Exception:  # pragma: no cover
+    torch = None
 from sklearn.utils.class_weight import compute_class_weight
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import PowerTransformer, StandardScaler
@@ -476,12 +481,32 @@ def calculate_class_weights(targets):
         return jnp.ones(4, dtype=jnp.float32)
 
 
+def _print_class_balance(*, targets: np.ndarray, class_weights) -> None:
+    """Print class counts/fractions and class weights for transparency."""
+    y = np.asarray(targets).astype(np.int64).ravel()
+    if y.size == 0:
+        print("[Classification] Empty targets; cannot compute class balance.")
+        return
+    n_classes = int(np.max(y)) + 1
+    counts = np.bincount(y, minlength=n_classes).astype(np.int64)
+    fracs = counts / max(int(counts.sum()), 1)
+    cw = np.asarray(class_weights, dtype=np.float64).ravel()
+    if cw.size < n_classes:
+        cw2 = np.ones(n_classes, dtype=np.float64)
+        cw2[: cw.size] = cw
+        cw = cw2
+    print("\n[Classification] Class balance (all nodes):")
+    for k in range(n_classes):
+        print(f"  class {k}: n={int(counts[k])}  frac={float(fracs[k]):.6f}  weight={float(cw[k]):.6f}")
+    print("")
+
+
 
 #########################################################################
 # Main
 #########################################################################
 def main(args):
-    require_gpu_slurm("jraph_pipeline.py", min_gpus=1)
+    # require_gpu_slurm("jraph_pipeline.py", min_gpus=1)
     print(f"JAX Devices: {jax.devices()}")
     num_devices = jax.local_device_count()
     print(f"Running on {num_devices} devices.")
@@ -609,20 +634,38 @@ def main(args):
     # Class weights only for classification
     if args.prediction_mode == 'classification':
         class_weights = calculate_class_weights(np.array(targets))
+        _print_class_balance(targets=np.array(targets), class_weights=class_weights)
         output_dim = 4  # 4 cosmic web classes
         stats = None
         eigenvalue_scaler = None
     else:
         class_weights = None  # Not used in regression
-        output_dim = 3  # 3 transformed eigenvalues or raw eigenvalues
+        # Infer regression target dimensionality from cache.
+        try:
+            target_dim = int(np.array(targets).shape[1])
+        except Exception:
+            target_dim = 3
+        output_dim = target_dim
 
-        if use_transformed_eig:
-            # Using transformed eigenvalues (v₁, Δλ₂, Δλ₃) - standard scored
-            print("\n[Regression Mode] Using transformed eigenvalues (v₁, Δλ₂, Δλ₃)")
+        if target_dim == 15:
+            print(
+                "\n[Regression Mode] Using 15-d targets: (λ1, Δλ2, Δλ3, R∇λ1..3, R^2∇^2λ1..3) "
+                "as built by build_abacus_sbi_cache.py"
+            )
+            # For this mode, the cache already contains the fully assembled/scaled 15-d targets.
+            # The `--no_transformed_eig` flag is not used.
+            use_transformed_eig = False
+            if getattr(args, "heteroscedastic_15d", False):
+                output_dim = 30
+                print("[Regression Mode] Heteroscedastic 15-d head enabled (predict mean+logvar, output_dim=30).")
         else:
-            # Using raw scaled eigenvalues
-            stats = None
-            print("\n[Regression Mode] Using raw eigenvalues (λ₁, λ₂, λ₃)")
+            if use_transformed_eig:
+                # Using transformed eigenvalues (v₁, Δλ₂, Δλ₃) - standard scored
+                print("\n[Regression Mode] Using transformed eigenvalues (v₁, Δλ₂, Δλ₃)")
+            else:
+                # Using raw scaled eigenvalues
+                stats = None
+                print("\n[Regression Mode] Using raw eigenvalues (λ₁, λ₂, λ₃)")
 
     print(f"Graph stats: Nodes={graph.n_node[0]}, Edges={graph.n_edge[0]}")
     print(f"Train size: {jnp.sum(train_mask)}, Val size: {jnp.sum(val_mask)}, Test size: {jnp.sum(test_mask)}")
@@ -732,6 +775,60 @@ def main(args):
 
     # 4. Training Functions
     # Mode-aware loss function
+    loss_w15 = jnp.array(
+        [
+            1.0,
+            1.0,
+            1.0,  # eigenvalues / increments block
+            0.1,
+            0.1,
+            0.1,  # grad λ1
+            0.1,
+            0.1,
+            0.1,  # grad λ2
+            0.1,
+            0.1,
+            0.1,  # grad λ3
+            0.03,
+            0.03,
+            0.03,  # laplacians
+        ],
+        dtype=jnp.float32,
+    )
+
+    def _regression_per_node_loss(outputs: jnp.ndarray, targets: jnp.ndarray) -> jnp.ndarray:
+        """Per-node regression loss.
+
+        For 15-d targets we use a fixed per-channel weighting to prevent grads/laps from
+        dominating by count. For other target dims we use unweighted mean squared error.
+        """
+        # outputs/targets: [N, D]
+        d = outputs.shape[-1]
+        if d == 15:
+            diff2 = (outputs - targets) ** 2
+            return jnp.mean(diff2 * loss_w15, axis=-1)
+        # Default: mean squared error across target dims.
+        return jnp.mean((outputs - targets) ** 2, axis=-1)
+
+    def _regression_per_node_loss_hetero15(outputs30: jnp.ndarray, targets15: jnp.ndarray) -> jnp.ndarray:
+        """Hybrid loss for 15-d targets with heteroscedastic head.
+
+        outputs30: [N,30] where first 15 are means (scaled), last 15 are log-variances.
+        targets15: [N,15] scaled targets.
+        """
+        mu = outputs30[:, :15]
+        logvar = outputs30[:, 15:]
+        logvar = jnp.maximum(logvar, -4.0)
+        diff2 = (mu - targets15) ** 2
+
+        mse = jnp.mean(loss_w15 * diff2, axis=-1)
+        inv_var = jnp.exp(-logvar)
+        nll = 0.5 * jnp.mean(loss_w15 * (inv_var * diff2 + logvar), axis=-1)
+
+        mse_w = jnp.asarray(getattr(args, "mse_weight", 1.0), dtype=jnp.float32)
+        nll_w = jnp.asarray(getattr(args, "nll_weight", 1.0), dtype=jnp.float32)
+        return mse_w * mse + nll_w * nll
+
     def loss_fn(params, graph, targets, mask, net_apply, rng, class_weights, prediction_mode, label_smoothing=0.1):
         # Pass is_training=True for Dropout
         outputs = net_apply(params, rng, graph, is_training=True).nodes
@@ -751,9 +848,16 @@ def main(args):
             # Mask
             masked_loss = weighted_loss * mask
         else:
-            # Regression: MSE loss
-            # outputs: [N, 3], targets: [N, 3] (eigenvalues)
-            per_node_loss = jnp.mean(optax.l2_loss(outputs, targets), axis=-1)  # Mean over 3 eigenvalues
+            # Regression: MSE loss (supports 3-d legacy targets and 15-d enhanced targets).
+            # outputs: [N, D], targets: [N, D]
+            if (
+                outputs.shape[-1] == 30
+                and targets.shape[-1] == 15
+                and getattr(args, "heteroscedastic_15d", False)
+            ):
+                per_node_loss = _regression_per_node_loss_hetero15(outputs, targets)
+            else:
+                per_node_loss = _regression_per_node_loss(outputs, targets)
             masked_loss = per_node_loss * mask
         
         # Mean over masked nodes
@@ -787,11 +891,15 @@ def main(args):
             total_correct = jax.lax.psum(jnp.sum(correct), axis_name='i')
             global_metric = total_correct / jnp.maximum(total_count, 1.0)
         else:
-            # R² score for regression (approximation across devices)
-            # R² = 1 - SS_res / SS_tot
-            # For simplicity, we report MSE here; R² needs global mean
-            # We'll compute MSE as the metric
-            mse_per_node = jnp.mean(optax.l2_loss(outputs, targets), axis=-1)
+            # Regression metric: mean MSE over target dims.
+            if (
+                outputs.shape[-1] == 30
+                and targets.shape[-1] == 15
+                and getattr(args, "heteroscedastic_15d", False)
+            ):
+                mse_per_node = _regression_per_node_loss_hetero15(outputs, targets)
+            else:
+                mse_per_node = _regression_per_node_loss(outputs, targets)
             masked_mse = mse_per_node * mask
             total_mse = jax.lax.psum(jnp.sum(masked_mse), axis_name='i')
             global_metric = total_mse / jnp.maximum(total_count, 1.0)  # Mean MSE
@@ -826,8 +934,15 @@ def main(args):
             total_mask = jax.lax.psum(jnp.sum(mask), axis_name='i')
             metric = total_correct / jnp.maximum(total_mask, 1.0)
         else:
-            # Regression: MSE
-            per_node_loss = jnp.mean(optax.l2_loss(outputs, targets), axis=-1)
+            # Regression: loss (weighted for 15-d targets, unweighted otherwise)
+            if (
+                outputs.shape[-1] == 30
+                and targets.shape[-1] == 15
+                and getattr(args, "heteroscedastic_15d", False)
+            ):
+                per_node_loss = _regression_per_node_loss_hetero15(outputs, targets)
+            else:
+                per_node_loss = _regression_per_node_loss(outputs, targets)
             masked_loss = per_node_loss * mask
             
             num_masked = jnp.sum(mask)
@@ -1040,7 +1155,94 @@ def main(args):
         preds_output = np.array(outputs)  # Model outputs 
         targets_output = np.array(targets)  # Targets in same space as model outputs
 
-        if use_transformed_eig:
+        # Enhanced 15-d target mode (λ1, Δλ2, Δλ3, grads, laps)
+        if (
+            preds_output.ndim == 2
+            and (preds_output.shape[1] == 15 or preds_output.shape[1] == 30)
+            and targets_output.ndim == 2
+            and targets_output.shape[1] == 15
+        ):
+            if preds_output.shape[1] == 30:
+                preds_scaled = preds_output[:, :15]
+                preds_logvar = preds_output[:, 15:]
+            else:
+                preds_scaled = preds_output
+                preds_logvar = None
+            targets_scaled = targets_output
+
+            if target_scaler is not None:
+                preds_raw15 = target_scaler.inverse_transform(preds_scaled)
+                targets_raw15 = target_scaler.inverse_transform(targets_scaled)
+            else:
+                preds_raw15 = preds_scaled
+                targets_raw15 = targets_scaled
+
+            # Eigenvalues for physical interpretation from the first three channels.
+            # [0]=λ1, [1]=Δλ2, [2]=Δλ3 (Δs should be >=0; clip for stability).
+            p_l1 = preds_raw15[:, 0]
+            p_d2 = np.maximum(preds_raw15[:, 1], 1e-7)
+            p_d3 = np.maximum(preds_raw15[:, 2], 1e-7)
+            preds_eig = np.stack([p_l1, p_l1 + p_d2, p_l1 + p_d2 + p_d3], axis=-1)
+
+            t_l1 = targets_raw15[:, 0]
+            t_d2 = np.maximum(targets_raw15[:, 1], 1e-7)
+            t_d3 = np.maximum(targets_raw15[:, 2], 1e-7)
+            targets_eig = np.stack([t_l1, t_l1 + t_d2, t_l1 + t_d2 + t_d3], axis=-1)
+
+            test_preds15 = preds_raw15[test_mask_np]
+            test_targets15 = targets_raw15[test_mask_np]
+            test_preds_eig = preds_eig[test_mask_np]
+            test_targets_eig = targets_eig[test_mask_np]
+
+            mse_15 = float(np.mean((test_preds15 - test_targets15) ** 2))
+            mae_15 = float(np.mean(np.abs(test_preds15 - test_targets15)))
+
+            ss_res_eig = np.sum((test_targets_eig - test_preds_eig) ** 2, axis=0)
+            ss_tot_eig = np.sum((test_targets_eig - np.mean(test_targets_eig, axis=0)) ** 2, axis=0)
+            r2_eig = 1 - ss_res_eig / (ss_tot_eig + 1e-8)
+
+            print(f"\nRegression Metrics (Test Set):")
+            print(f"\n  15-d Target Space (v1, Δλ2, Δλ3, grads, laps):")
+            print(f"    MSE: {mse_15:.6f}")
+            print(f"    MAE: {mae_15:.6f}")
+            print(f"\n  Eigenvalue Space (λ₁, λ₂, λ₃) - Physical:")
+            print(f"    R² per eigenvalue: λ₁={r2_eig[0]:.4f}, λ₂={r2_eig[1]:.4f}, λ₃={r2_eig[2]:.4f}")
+            print(f"    Mean R²: {np.mean(r2_eig):.4f}")
+
+            report_filename = os.path.join(
+                args.output_dir,
+                f"jraph_{args.prediction_mode}_15d_report_seed_{args.seed}_{timestamp}.txt",
+            )
+            with open(report_filename, "w") as f:
+                f.write("15-d Regression Results\n")
+                f.write("=" * 50 + "\n\n")
+                f.write(f"MSE_15d: {mse_15:.6f}\n")
+                f.write(f"MAE_15d: {mae_15:.6f}\n")
+                f.write(
+                    f"R2_eigenvalues: "
+                    f"lambda1={r2_eig[0]:.6f} lambda2={r2_eig[1]:.6f} lambda3={r2_eig[2]:.6f}\n"
+                )
+                f.write(f"R2_eigenvalues_mean: {np.mean(r2_eig):.6f}\n")
+            print(f"Report saved to {report_filename}")
+
+            preds_filename = os.path.join(
+                args.output_dir,
+                f"jraph_{args.prediction_mode}_15d_predictions_seed_{args.seed}_{timestamp}.pkl",
+            )
+            preds_data = {
+                "preds_scaled": preds_scaled,
+                "targets_scaled": targets_scaled,
+                "preds_raw15": preds_raw15,
+                "targets_raw15": targets_raw15,
+                "preds_logvar15": preds_logvar,
+                "preds_eigenvalues": preds_eig,
+                "targets_eigenvalues": targets_eig,
+                "test_mask": test_mask,
+                "use_transformed_eig": False,
+                "target_dim": 15,
+            }
+
+        elif use_transformed_eig:
             # Model predicted transformed eigenvalues
             preds_scaled = preds_output
             targets_scaled = targets_output
@@ -1224,6 +1426,13 @@ if __name__ == '__main__':
         default="",
         help="Optional checkpoint .pkl path to resume from (loads params/opt_state/epoch).",
     )
+    parser.add_argument(
+        "--heteroscedastic_15d",
+        action="store_true",
+        help="For 15-d regression, predict mean+logvar (output_dim=30) and use hybrid (MSE+NLL) loss.",
+    )
+    parser.add_argument("--mse_weight", type=float, default=1.0, help="Hybrid loss weight for weighted MSE term.")
+    parser.add_argument("--nll_weight", type=float, default=1.0, help="Hybrid loss weight for heteroscedastic NLL term.")
        
     args = parser.parse_args()
     
