@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Export comoving box-frame halo positions for CutSky mocks (Gudhi graph input).
 
-Rows match the same FITS read order and optional IN_Y1|IN_Y5 filter used by
-`build_abacus_graph.py` when loading from catalog (so node index i aligns with
-catalog row i after masking).
+Rows match the same FITS read order and optional DESI BGS mock selection used by
+`build_abacus_graph.py` when loading from catalog (``(IN_Y1|IN_Y5)`` and
+``R_MAG_APP < 19.5``), so node index i aligns with catalog row i after masking.
 
 Outputs a float64 array of shape (N, 3) suitable for::
 
@@ -27,6 +27,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from shared.abacus_cutsky_selection import cutsky_desi_bgs_mock_mask
 from shared.config_paths import ABACUS_BASE, CUTSKY_Z0200_PATH
 
 
@@ -69,20 +70,6 @@ def parse_args() -> argparse.Namespace:
     return p.parse_args()
 
 
-def _y1y5_mask(table: np.ndarray) -> np.ndarray:
-    names_upper = {n.upper(): n for n in table.dtype.names}
-    in_y1 = names_upper.get("IN_Y1")
-    in_y5 = names_upper.get("IN_Y5")
-    if in_y1 is None and in_y5 is None:
-        return np.ones(len(table), dtype=bool)
-    mask = np.zeros(len(table), dtype=bool)
-    if in_y1 is not None:
-        mask |= table[in_y1] == 1
-    if in_y5 is not None:
-        mask |= table[in_y5] == 1
-    return mask
-
-
 def _col(names: dict[str, str], *candidates: str) -> str:
     for c in candidates:
         if c.upper() in names:
@@ -108,7 +95,7 @@ def main() -> None:
     fn_col = _col(names_upper, "FILE_NUM")
     hi_col = _col(names_upper, "HALO_INDEX")
 
-    mask = _y1y5_mask(table)
+    mask = cutsky_desi_bgs_mock_mask(table)
     if not args.apply_y1y5_filter:
         mask = np.ones(len(table), dtype=bool)
     idx_all = np.nonzero(mask)[0]

@@ -27,10 +27,17 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
 import fitsio
 import numpy as np
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from shared.abacus_cutsky_selection import R_MAG_APP_BRIGHT_LT, cutsky_desi_bgs_mock_mask
 
 
 def parse_args() -> argparse.Namespace:
@@ -243,18 +250,20 @@ def _write_cube_targets_fits(
 
     in_y1 = _resolve_col(cols, ("IN_Y1",))
     in_y5 = _resolve_col(cols, ("IN_Y5",))
+    r_mag = _resolve_col(cols, ("R_MAG_APP",))
     box_col = _resolve_col(cols, (str(graph_meta.get("catalog_filters", {}).get("box_index_col", "BOX_INDEX")), "BOX_INDEX"))
 
     # Load only the filtering columns to reproduce graph ordering.
-    tab_mask_cols = fitsio.read(str(annotated_fits), columns=[in_y1, in_y5, box_col])
-    base_mask = (tab_mask_cols[in_y1] == 1) | (tab_mask_cols[in_y5] == 1)
+    tab_mask_cols = fitsio.read(str(annotated_fits), columns=[in_y1, in_y5, r_mag, box_col])
+    base_mask = cutsky_desi_bgs_mock_mask(tab_mask_cols)
     base_mask &= tab_mask_cols[box_col] != -1
 
     expected_n = int(graph_meta.get("n_points", -1))
     n_after = int(np.count_nonzero(base_mask))
     if expected_n > 0 and n_after != expected_n:
         raise ValueError(
-            f"Annotated FITS filter count mismatch: after (Y1|Y5 & {box_col}!=-1) got {n_after:,} "
+            f"Annotated FITS filter count mismatch: after (Y1|Y5 & R_MAG_APP<{R_MAG_APP_BRIGHT_LT:g} "
+            f"& {box_col}!=-1) got {n_after:,} "
             f"but graph metadata expects n_points={expected_n:,}. "
             "This annotated FITS must match the same selection/order as the graph build."
         )

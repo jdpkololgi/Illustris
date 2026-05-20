@@ -9,6 +9,9 @@ Important:
 - Abacus CutSky catalogs can include rows that are not validly embedded in any
   underlying cubic box (`BOX_INDEX == -1`). These must be excluded to keep
   the node/target alignment consistent with graph construction.
+- When `--apply-y1y5-filter` is enabled (default), targets are loaded using the
+  same DESI BGS selection as graph construction: `(IN_Y1|IN_Y5)` and
+  `R_MAG_APP < 19.5` (requires those FITS columns).
 - Any upstream workflow that assigns eigenvalues using sky coordinates
   (RA/DEC/Z -> cubic frame) must do so in a way that is consistent with the
   CutSky remap, i.e. using `BOX_INDEX` (or an equivalent explicit linkage)
@@ -16,13 +19,16 @@ Important:
 
 Output pickle keys:
   - graph: jraph.GraphsTuple
-  - regression_targets: jnp.ndarray [N, 3]
+  - regression_targets: jnp.ndarray [N, 3] or [N, 15]
+  - regression_targets_raw: np.ndarray [N, D] unscaled assembled targets
   - masks: tuple(train_mask, val_mask, test_mask) as jnp.bool arrays
   - target_scaler: sklearn StandardScaler fitted on train split only
   - eigenvalues_raw: np.ndarray [N, 3] float64
   - stats: dict (only for transformed-target mode)
-  - classification_labels: optional CWEB labels (when available)
+  - classification_labels: discrete CWEB / lambda-threshold classes (when available)
   - box_index: optional np.ndarray [N] int32 (when present in source catalog)
+
+Targets may come from --targets-catalog-path (FITS) or --targets-npz-path (wedge truth NPZ).
 """
 
 from __future__ import annotations
@@ -54,6 +60,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from shared.abacus_cutsky_selection import cutsky_desi_bgs_mock_mask
 from shared.eigenvalue_transformations import eigenvalues_to_increments
 
 
@@ -69,21 +76,63 @@ def _resolve_col(table, candidates: Iterable[str]) -> str:
     )
 
 
-def _apply_optional_y1y5_filter(table: np.ndarray) -> np.ndarray:
-    names_upper = {name.upper(): name for name in table.dtype.names}
-    in_y1 = names_upper.get("IN_Y1")
-    in_y5 = names_upper.get("IN_Y5")
-    if in_y1 is None or in_y5 is None:
-        return np.ones(len(table), dtype=bool)
-    return (table[in_y1] == 1) | (table[in_y5] == 1)
-
-
 def _apply_optional_box_index_filter(table: np.ndarray, *, box_index_col: str) -> np.ndarray:
     names_upper = {name.upper(): name for name in table.dtype.names}
     resolved = names_upper.get(box_index_col.upper())
     if resolved is None:
         return np.ones(len(table), dtype=bool)
     return np.asarray(table[resolved] != -1)
+
+
+def _resolve_npz_key(keys: set[str], preferred: str, fallbacks: tuple[str, ...]) -> str:
+    if preferred in keys:
+        return preferred
+    for candidate in fallbacks:
+        if candidate in keys:
+            return candidate
+    raise KeyError(
+        f"None of {((preferred,) + fallbacks)} found in NPZ. Available: {sorted(keys)}"
+    )
+
+
+def _load_targets_from_npz(
+    npz_path: Path,
+    expected_n: int,
+    *,
+    lambda1_key: str,
+    lambda2_key: str,
+    lambda3_key: str,
+    cls_key: str,
+    eig_threshold: float,
+) -> tuple[np.ndarray, np.ndarray, None]:
+    """Load per-node eigenvalues and discrete cls labels from a wedge truth NPZ."""
+    with np.load(npz_path) as data:
+        keys = set(data.files)
+        l1_key = _resolve_npz_key(keys, lambda1_key, ("lambda1", "LAMBDA1", "l1"))
+        l2_key = _resolve_npz_key(keys, lambda2_key, ("lambda2", "LAMBDA2", "l2"))
+        l3_key = _resolve_npz_key(keys, lambda3_key, ("lambda3", "LAMBDA3", "l3"))
+
+        l1 = np.asarray(data[l1_key], dtype=np.float64)
+        l2 = np.asarray(data[l2_key], dtype=np.float64)
+        l3 = np.asarray(data[l3_key], dtype=np.float64)
+        eig = np.stack([l1, l2, l3], axis=-1)
+
+        try:
+            cls_resolved = _resolve_npz_key(keys, cls_key, ("cls", "CWEB", "classification"))
+            cls = np.asarray(data[cls_resolved], dtype=np.int32)
+        except KeyError:
+            cls = (
+                (l1 > eig_threshold).astype(np.int32)
+                + (l2 > eig_threshold).astype(np.int32)
+                + (l3 > eig_threshold).astype(np.int32)
+            )
+
+    if eig.shape[0] != expected_n:
+        raise ValueError(
+            f"NPZ target row count mismatch: graph has {expected_n:,} nodes but "
+            f"{npz_path} has {eig.shape[0]:,} eigenvalue rows."
+        )
+    return eig.astype(np.float64), cls.astype(np.int32), None
 
 
 def _load_targets_from_source_catalog(
@@ -97,7 +146,7 @@ def _load_targets_from_source_catalog(
     table = fitsio.read(str(source_path))
     mask = np.ones(len(table), dtype=bool)
     if apply_y1y5_filter:
-        mask &= _apply_optional_y1y5_filter(table)
+        mask &= cutsky_desi_bgs_mock_mask(table)
     if exclude_invalid_box_index:
         mask &= _apply_optional_box_index_filter(table, box_index_col=box_index_col)
 
@@ -129,7 +178,9 @@ def _load_targets_from_source_catalog(
             "Target row count mismatch after filtering. "
             f"Expected {expected_n:,} rows from graph arrays but got {eig.shape[0]:,}. "
             "Try toggling --apply-y1y5-filter / --no-apply-y1y5-filter and/or "
-            "--no-exclude-invalid-box-index based on how the graph was built."
+            "--no-exclude-invalid-box-index based on how the graph was built. "
+            "When Y1/Y5 filtering is enabled, the catalog must include IN_Y1, IN_Y5, and R_MAG_APP "
+            "and match the DESI BGS selection (R_MAG_APP < 19.5)."
         )
     deriv12 = _try_load_derivative_targets(table, mask)
     return eig, cweb, box_index, deriv12
@@ -293,6 +344,24 @@ def parse_args() -> argparse.Namespace:
             "and may not contain eigenvalue targets."
         ),
     )
+    parser.add_argument(
+        "--targets-npz-path",
+        default="",
+        help=(
+            "Optional NPZ with per-node truth aligned to graph node order "
+            "(lambda1/2/3 and optional cls). Mutually exclusive with FITS targets when set."
+        ),
+    )
+    parser.add_argument("--npz-lambda1-key", default="lambda1", help="λ1 array name in --targets-npz-path.")
+    parser.add_argument("--npz-lambda2-key", default="lambda2", help="λ2 array name in --targets-npz-path.")
+    parser.add_argument("--npz-lambda3-key", default="lambda3", help="λ3 array name in --targets-npz-path.")
+    parser.add_argument("--npz-cls-key", default="cls", help="Discrete class array name in NPZ (optional).")
+    parser.add_argument(
+        "--eig-threshold",
+        type=float,
+        default=0.2,
+        help="If NPZ has no cls array, derive classes by counting λ_i > threshold (default 0.2).",
+    )
     parser.add_argument("--lambda1-col", default="LAMBDA1", help="Column name for λ1 (default: LAMBDA1).")
     parser.add_argument("--lambda2-col", default="LAMBDA2", help="Column name for λ2 (default: LAMBDA2).")
     parser.add_argument("--lambda3-col", default="LAMBDA3", help="Column name for λ3 (default: LAMBDA3).")
@@ -343,13 +412,13 @@ def parse_args() -> argparse.Namespace:
         "--apply-y1y5-filter",
         action="store_true",
         default=True,
-        help="Apply IN_Y1/IN_Y5 filter when loading targets from source catalog (default: true).",
+        help="Apply DESI BGS mock selection (IN_Y1|IN_Y5 and R_MAG_APP<19.5) when loading targets (default: true).",
     )
     parser.add_argument(
         "--no-apply-y1y5-filter",
         dest="apply_y1y5_filter",
         action="store_false",
-        help="Disable IN_Y1/IN_Y5 filtering.",
+        help="Disable DESI BGS (Y1|Y5 & R_MAG_APP) filtering.",
     )
     parser.add_argument(
         "--box-index-col",
@@ -408,7 +477,14 @@ def main() -> None:
     with input_meta_path.open("r", encoding="utf-8") as f:
         graph_meta = json.load(f)
     source_catalog = Path(graph_meta["source_path"]).expanduser().resolve()
-    targets_catalog = Path(args.targets_catalog_path).expanduser().resolve() if args.targets_catalog_path else source_catalog
+    targets_npz = Path(args.targets_npz_path).expanduser().resolve() if args.targets_npz_path else None
+    targets_catalog = (
+        Path(args.targets_catalog_path).expanduser().resolve()
+        if args.targets_catalog_path
+        else source_catalog
+    )
+    if targets_npz is not None and args.targets_catalog_path:
+        raise ValueError("Use only one of --targets-npz-path or --targets-catalog-path.")
 
     print(f"Loading graph arrays from: {npz_path}")
     graph = _build_graph_from_npz(
@@ -420,30 +496,47 @@ def main() -> None:
     n_edges = int(graph.n_edge[0])
     print(f"Graph ready: nodes={n_nodes:,}, edges={n_edges:,}")
 
-    print(f"Loading targets from catalog: {targets_catalog}")
-    try:
-        eigenvalues_raw, cweb, box_index, deriv12 = _load_targets_from_source_catalog(
-            targets_catalog,
+    deriv12 = None
+    box_index = None
+    if targets_npz is not None:
+        print(f"Loading targets from NPZ: {targets_npz}")
+        eigenvalues_raw, cweb, box_index = _load_targets_from_npz(
+            targets_npz,
             n_nodes,
-            apply_y1y5_filter=args.apply_y1y5_filter,
-            exclude_invalid_box_index=args.exclude_invalid_box_index,
-            box_index_col=args.box_index_col,
+            lambda1_key=args.npz_lambda1_key,
+            lambda2_key=args.npz_lambda2_key,
+            lambda3_key=args.npz_lambda3_key,
+            cls_key=args.npz_cls_key,
+            eig_threshold=args.eig_threshold,
         )
         if args.three_targets_only:
-            deriv12 = None
-            print("--three-targets-only: ignoring derivative columns; building 3-d targets only.")
-    except KeyError as exc:
-        # The raw CutSky catalogs do not include eigenvalue columns; the targets must
-        # come from an *annotated* FITS (e.g. produced by `annotate_cutsky_with_tweb_eigs.py`).
-        raise KeyError(
-            f"{exc}\n\n"
-            "Target eigenvalue columns were not found in the provided targets catalog. "
-            "If you passed the raw CutSky FITS, you must first generate an annotated FITS "
-            "that includes LAMBDA1/2/3 (and optionally CWEB), using a BOX_INDEX-aware mapping.\n"
-            "Suggested workflow:\n"
-            "  - Run `TNG/Illustris/workflows/abacus_tweb/annotate_cutsky_with_tweb_eigs.py` to create <cutsky>_with_tweb_eigs.fits\n"
-            "  - Re-run this script with `--targets-catalog-path <that_output.fits>`\n"
-        ) from exc
+            print("--three-targets-only: NPZ path has no derivative columns; building 3-d targets only.")
+    else:
+        print(f"Loading targets from catalog: {targets_catalog}")
+        try:
+            eigenvalues_raw, cweb, box_index, deriv12 = _load_targets_from_source_catalog(
+                targets_catalog,
+                n_nodes,
+                apply_y1y5_filter=args.apply_y1y5_filter,
+                exclude_invalid_box_index=args.exclude_invalid_box_index,
+                box_index_col=args.box_index_col,
+            )
+            if args.three_targets_only:
+                deriv12 = None
+                print("--three-targets-only: ignoring derivative columns; building 3-d targets only.")
+        except KeyError as exc:
+            # The raw CutSky catalogs do not include eigenvalue columns; the targets must
+            # come from an *annotated* FITS (e.g. produced by `annotate_cutsky_with_tweb_eigs.py`).
+            raise KeyError(
+                f"{exc}\n\n"
+                "Target eigenvalue columns were not found in the provided targets catalog. "
+                "If you passed the raw CutSky FITS, you must first generate an annotated FITS "
+                "that includes LAMBDA1/2/3 (and optionally CWEB), using a BOX_INDEX-aware mapping.\n"
+                "Suggested workflow:\n"
+                "  - Run `TNG/Illustris/workflows/abacus_tweb/annotate_cutsky_with_tweb_eigs.py` "
+                "to create <cutsky>_with_tweb_eigs.fits\n"
+                "  - Re-run this script with `--targets-catalog-path <that_output.fits>`\n"
+            ) from exc
 
     # If the user configured explicit column names, validate they exist in the target FITS.
     # (We still use the flexible resolver in _load_targets_from_source_catalog for legacy names.)

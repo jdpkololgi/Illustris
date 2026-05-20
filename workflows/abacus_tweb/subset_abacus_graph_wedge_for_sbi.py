@@ -4,7 +4,7 @@
 Mirrors `subset_abacus_graph_cube_for_sbi.py` but selects nodes by sky coordinates
 read from the annotated CutSky FITS, rather than by Cartesian cube bounds. The
 wedge mask is computed in the **same filtered row order** used at graph build
-time (`(IN_Y1|IN_Y5) & BOX_INDEX!=-1` by default), so node indices stay aligned
+time (`(IN_Y1|IN_Y5) & R_MAG_APP<19.5 & BOX_INDEX!=-1` by default), so node indices stay aligned
 with the parent graph artifacts.
 
 Outputs (analogous to the cube subset):
@@ -26,10 +26,17 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
 import fitsio
 import numpy as np
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from shared.abacus_cutsky_selection import R_MAG_APP_BRIGHT_LT, cutsky_desi_bgs_mock_mask
 
 
 def parse_args() -> argparse.Namespace:
@@ -172,6 +179,7 @@ def _load_filtered_ra_dec_z(
     cols = _fits_cols_available(annotated_fits)
     in_y1 = _resolve_col(cols, ("IN_Y1",))
     in_y5 = _resolve_col(cols, ("IN_Y5",))
+    r_mag_col = _resolve_col(cols, ("R_MAG_APP",))
     box_index_col = str(graph_meta.get("catalog_filters", {}).get("box_index_col", "BOX_INDEX"))
     box_col = _resolve_col(cols, (box_index_col, "BOX_INDEX"))
     ra_resolved = _resolve_col(cols, (ra_col,))
@@ -179,18 +187,19 @@ def _load_filtered_ra_dec_z(
     z_resolved = _resolve_col(cols, (z_col,))
 
     # Read a minimal column set, then apply the graph-build base mask, then keep RA/DEC/Z.
-    needed = [in_y1, in_y5, box_col, ra_resolved, dec_resolved, z_resolved]
+    needed = [in_y1, in_y5, r_mag_col, box_col, ra_resolved, dec_resolved, z_resolved]
     needed = list(dict.fromkeys(needed))  # de-dupe while preserving order
     table = fitsio.read(str(annotated_fits), columns=needed)
 
-    base_mask = (table[in_y1] == 1) | (table[in_y5] == 1)
+    base_mask = cutsky_desi_bgs_mock_mask(table)
     base_mask &= table[box_col] != -1
 
     expected_n = int(graph_meta.get("n_points", -1))
     n_after = int(np.count_nonzero(base_mask))
     if expected_n > 0 and n_after != expected_n:
         raise ValueError(
-            f"Annotated FITS filter count mismatch: after (Y1|Y5 & {box_col}!=-1) got {n_after:,} "
+            f"Annotated FITS filter count mismatch: after (Y1|Y5 & R_MAG_APP<{R_MAG_APP_BRIGHT_LT:g} "
+            f"& {box_col}!=-1) got {n_after:,} "
             f"but graph metadata expects n_points={expected_n:,}. "
             "This annotated FITS must match the same selection/order as the graph build."
         )
@@ -300,17 +309,19 @@ def _write_wedge_targets_fits(
 
     in_y1 = _resolve_col(cols, ("IN_Y1",))
     in_y5 = _resolve_col(cols, ("IN_Y5",))
+    r_mag = _resolve_col(cols, ("R_MAG_APP",))
     box_col = _resolve_col(cols, (str(graph_meta.get("catalog_filters", {}).get("box_index_col", "BOX_INDEX")), "BOX_INDEX"))
 
-    tab_mask_cols = fitsio.read(str(annotated_fits), columns=[in_y1, in_y5, box_col])
-    base_mask = (tab_mask_cols[in_y1] == 1) | (tab_mask_cols[in_y5] == 1)
+    tab_mask_cols = fitsio.read(str(annotated_fits), columns=[in_y1, in_y5, r_mag, box_col])
+    base_mask = cutsky_desi_bgs_mock_mask(tab_mask_cols)
     base_mask &= tab_mask_cols[box_col] != -1
 
     expected_n = int(graph_meta.get("n_points", -1))
     n_after = int(np.count_nonzero(base_mask))
     if expected_n > 0 and n_after != expected_n:
         raise ValueError(
-            f"Annotated FITS filter count mismatch: after (Y1|Y5 & {box_col}!=-1) got {n_after:,} "
+            f"Annotated FITS filter count mismatch: after (Y1|Y5 & R_MAG_APP<{R_MAG_APP_BRIGHT_LT:g} "
+            f"& {box_col}!=-1) got {n_after:,} "
             f"but graph metadata expects n_points={expected_n:,}. "
             "This annotated FITS must match the same selection/order as the graph build."
         )

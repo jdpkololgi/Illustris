@@ -19,6 +19,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from config_paths import ABACUS_CARTESIAN_OUTPUT, CUTSKY_Z0200_PATH
+from shared.abacus_cutsky_selection import R_MAG_APP_BRIGHT_LT
 
 # Workflow status: ACTIVE utility (CutSky -> Cartesian coordinates)
 
@@ -26,8 +27,10 @@ class AbacusCatalog:
     def __init__(self, PATH):
         
         self.abcat = Table(fitsio.read(PATH))
-        self.abcat = self.abcat[(self.abcat['IN_Y1'] == 1) | (self.abcat['IN_Y5'] == 1)]
-        print(f"Raw number of Abacus entries: {len(self.abcat):,} in Y1 or Y5")
+        y1y5 = (self.abcat["IN_Y1"] == 1) | (self.abcat["IN_Y5"] == 1)
+        rmag = np.asarray(self.abcat["R_MAG_APP"], dtype=np.float64) < float(R_MAG_APP_BRIGHT_LT)
+        self.abcat = self.abcat[y1y5 & rmag]
+        print(f"Raw number of Abacus entries: {len(self.abcat):,} after DESI BGS (Y1|Y5 & R_MAG_APP<{R_MAG_APP_BRIGHT_LT:g})")
         
     def save_cartesian_coords(self, OUTPUT_PATH):
         """

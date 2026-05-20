@@ -1,7 +1,8 @@
 """Build Abacus graph artifacts using Gudhi alpha-complex machinery.
 
 Catalog mode (``--catalog-path``):
-- Select CutSky mocks with ``IN_Y1 == 1`` OR ``IN_Y5 == 1`` (required columns).
+- Select CutSky mocks with ``IN_Y1 == 1`` OR ``IN_Y5 == 1`` (required columns)
+  and ``R_MAG_APP < 19.5`` (DESI BGS bright apparent magnitude limit).
 - Exclude objects with ``BOX_INDEX == -1`` (invalid / out-of-box) by default.
 - Convert ``RA``, ``Dec``, observed ``Z`` to comoving Cartesian ``x,y,z`` (Mpc) via
   ``Planck18`` comoving distances, then split **Galactic** ``b > 0`` vs ``b <= 0``.
@@ -33,6 +34,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from shared.abacus_cutsky_selection import R_MAG_APP_BRIGHT_LT, cutsky_desi_bgs_mock_mask
 from shared.config_paths import ABACUS_CARTESIAN_OUTPUT, ABACUS_TWEB_OUTPUT_DIR
 from shared.resource_requirements import require_cpu_mpi_slurm
 
@@ -276,16 +278,11 @@ def _load_points_from_catalog(
 
     mask = np.ones(n_table, dtype=bool)
     if apply_y1y5_filter:
-        in_y1 = names_upper.get("IN_Y1")
-        in_y5 = names_upper.get("IN_Y5")
-        if in_y1 is None or in_y5 is None:
-            raise KeyError(
-                "IN_Y1 and IN_Y5 are required when Y1/Y5 filtering is enabled "
-                f"(found IN_Y1={in_y1 is not None}, IN_Y5={in_y5 is not None}). "
-                "Use --no-apply-y1y5-filter only if you intend to use all rows."
-            )
-        mask &= (table[in_y1] == 1) | (table[in_y5] == 1)
-        print(f"Y1|Y5 selection: kept {mask.sum():,} / {n_table:,} rows.")
+        mask &= cutsky_desi_bgs_mock_mask(table)
+        print(
+            f"DESI BGS selection (Y1|Y5 & R_MAG_APP<{R_MAG_APP_BRIGHT_LT:g}): "
+            f"kept {int(mask.sum()):,} / {n_table:,} rows."
+        )
 
     if exclude_invalid_box_index:
         bi_name = names_upper.get(box_index_col.upper())
@@ -297,7 +294,7 @@ def _load_points_from_catalog(
         n_before = int(mask.sum())
         box_idx = table[bi_name]
         mask &= box_idx != -1
-        _stage = "after Y1|Y5" if apply_y1y5_filter else "before sky coords"
+        _stage = "after DESI BGS mock selection" if apply_y1y5_filter else "before sky coords"
         print(f"BOX_INDEX != -1 ({_stage}): kept {int(mask.sum()):,} / {n_before:,} rows.")
 
     ra = table[ra_name][mask]
@@ -363,13 +360,16 @@ def parse_args() -> argparse.Namespace:
         "--apply-y1y5-filter",
         action="store_true",
         default=True,
-        help="Apply IN_Y1/IN_Y5 == 1 filter when those columns exist (default: true).",
+        help=(
+            "Apply DESI BGS mock selection: (IN_Y1|IN_Y5) and R_MAG_APP<19.5 "
+            "(requires IN_Y1, IN_Y5, R_MAG_APP; default: true)."
+        ),
     )
     parser.add_argument(
         "--no-apply-y1y5-filter",
         dest="apply_y1y5_filter",
         action="store_false",
-        help="Disable IN_Y1/IN_Y5 filtering (not recommended for CutSky mocks).",
+        help="Disable DESI BGS (Y1|Y5 & R_MAG_APP) filtering (not recommended for CutSky mocks).",
     )
     parser.add_argument(
         "--box-index-col",
@@ -531,6 +531,7 @@ def main() -> None:
         "catalog_filters": (
             {
                 "apply_y1y5_filter": bool(args.apply_y1y5_filter),
+                "r_mag_app_lt": float(R_MAG_APP_BRIGHT_LT) if args.apply_y1y5_filter else None,
                 "exclude_invalid_box_index": bool(args.exclude_invalid_box_index),
                 "box_index_col": str(args.box_index_col),
             }

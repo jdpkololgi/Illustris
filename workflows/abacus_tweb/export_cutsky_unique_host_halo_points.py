@@ -3,7 +3,8 @@
 
 This implements "option 2" validation:
 
-- Filter CutSky galaxies by (IN_Y1 == 1) | (IN_Y5 == 1) and BOX_INDEX != -1
+- Filter CutSky galaxies by (IN_Y1 == 1) | (IN_Y5 == 1), R_MAG_APP < 19.5 (DESI BGS bright),
+  and BOX_INDEX != -1
 - Build a *unique* set of host halos keyed by (FILE_NUM, BOX_INDEX)
 - Load halo positions (x_com or x_L2com) from the corresponding CompaSO
   halo_info_<FILE_NUM>.asdf files, indexing by BOX_INDEX
@@ -24,10 +25,17 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 import time
 from pathlib import Path
 
 import numpy as np
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from shared.abacus_cutsky_selection import R_MAG_APP_BRIGHT_LT
 
 
 def parse_args() -> argparse.Namespace:
@@ -35,7 +43,7 @@ def parse_args() -> argparse.Namespace:
     p.add_argument(
         "--cutsky",
         required=True,
-        help="CutSky FITS path (must contain FILE_NUM, BOX_INDEX, IN_Y1/IN_Y5).",
+        help="CutSky FITS path (must contain FILE_NUM, BOX_INDEX, IN_Y1/IN_Y5, R_MAG_APP).",
     )
     p.add_argument(
         "--halo-info-dir",
@@ -92,6 +100,7 @@ def _resolve_cols(names: list[str]) -> dict[str, str]:
         "BOX_INDEX": need("BOX_INDEX"),
         "IN_Y1": need("IN_Y1"),
         "IN_Y5": need("IN_Y5"),
+        "R_MAG_APP": need("R_MAG_APP"),
     }
 
 
@@ -132,7 +141,7 @@ def main() -> None:
     hdu = f[1]
     nrows = hdu.get_nrows()
     cols = _resolve_cols(hdu.get_colnames())
-    col_list = [cols["FILE_NUM"], cols["BOX_INDEX"], cols["IN_Y1"], cols["IN_Y5"]]
+    col_list = [cols["FILE_NUM"], cols["BOX_INDEX"], cols["IN_Y1"], cols["IN_Y5"], cols["R_MAG_APP"]]
 
     file_chunks: list[np.ndarray] = []
     box_chunks: list[np.ndarray] = []
@@ -144,7 +153,8 @@ def main() -> None:
         in_y1 = np.asarray(chunk[cols["IN_Y1"]]) == 1
         in_y5 = np.asarray(chunk[cols["IN_Y5"]]) == 1
         box = np.asarray(chunk[cols["BOX_INDEX"]], dtype=np.int64)
-        m = (in_y1 | in_y5) & (box != -1)
+        rmag = np.asarray(chunk[cols["R_MAG_APP"]], dtype=np.float64)
+        m = (in_y1 | in_y5) & (rmag < float(R_MAG_APP_BRIGHT_LT)) & (box != -1)
         if np.any(m):
             file_chunks.append(np.asarray(chunk[cols["FILE_NUM"]][m], dtype=np.int32))
             box_chunks.append(box[m])
@@ -215,7 +225,11 @@ def main() -> None:
         meta = {
             "cutsky": str(cutsky),
             "halo_info_dir": str(halo_dir),
-            "filters": {"IN_Y1_or_IN_Y5": True, "BOX_INDEX_not_-1": True},
+            "filters": {
+                "IN_Y1_or_IN_Y5": True,
+                "R_MAG_APP_lt": float(R_MAG_APP_BRIGHT_LT),
+                "BOX_INDEX_not_-1": True,
+            },
             "halo_key": "(FILE_NUM, BOX_INDEX)",
             "halo_pos_field": args.halo_pos_field,
             "wrap_box": bool(args.wrap_box),
