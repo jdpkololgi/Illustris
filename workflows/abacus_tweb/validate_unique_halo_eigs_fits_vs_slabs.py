@@ -5,7 +5,7 @@ This script compares two label paths for the **same unique host halos**:
 
 Path A (FITS):
   - Read the annotated CutSky FITS (contains LAMBDA1/2/3).
-  - Filter rows using (IN_Y1|IN_Y5) & (BOX_INDEX != -1).
+  - Filter rows using (IN_Y1|IN_Y5) & (R_MAG_APP < 19.5) & (BOX_INDEX != -1).
   - Map each (FILE_NUM, BOX_INDEX) halo key to the corresponding eigenvalues.
 
 Path B (slabs):
@@ -28,8 +28,15 @@ import argparse
 import json
 from dataclasses import dataclass
 from pathlib import Path
+import sys
 
 import numpy as np
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from shared.abacus_cutsky_selection import R_MAG_APP_BRIGHT_LT
 
 
 def parse_args() -> argparse.Namespace:
@@ -122,11 +129,12 @@ def load_fits_eigs_aligned_to_nodes(
     c_box = _resolve_col(colnames, ("BOX_INDEX",))
     c_y1 = _resolve_col(colnames, ("IN_Y1",))
     c_y5 = _resolve_col(colnames, ("IN_Y5",))
+    c_rmag = _resolve_col(colnames, ("R_MAG_APP",))
     c_l1 = _resolve_col(colnames, ("LAMBDA1", "L1", "EIG1", "LAM1", "LAMBDA_1"))
     c_l2 = _resolve_col(colnames, ("LAMBDA2", "L2", "EIG2", "LAM2", "LAMBDA_2"))
     c_l3 = _resolve_col(colnames, ("LAMBDA3", "L3", "EIG3", "LAM3", "LAMBDA_3"))
 
-    col_list = [c_file, c_box, c_y1, c_y5, c_l1, c_l2, c_l3]
+    col_list = [c_file, c_box, c_y1, c_y5, c_rmag, c_l1, c_l2, c_l3]
 
     filtered_rows = 0
     matched_rows = 0
@@ -141,7 +149,8 @@ def load_fits_eigs_aligned_to_nodes(
         bi = np.asarray(chunk[c_box], dtype=np.int64)
         y1 = np.asarray(chunk[c_y1]) == 1
         y5 = np.asarray(chunk[c_y5]) == 1
-        m = (y1 | y5) & (bi != -1)
+        rmag = np.asarray(chunk[c_rmag], dtype=np.float64)
+        m = (y1 | y5) & (rmag < float(R_MAG_APP_BRIGHT_LT)) & (bi != -1)
         if not np.any(m):
             continue
         filtered_rows += int(np.sum(m))

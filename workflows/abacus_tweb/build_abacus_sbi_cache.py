@@ -51,7 +51,7 @@ import jax.numpy as jnp
 import jraph
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import PowerTransformer, StandardScaler
 
 # Allow workflow script to resolve repo-root modules after reorganization.
 import sys
@@ -450,6 +450,14 @@ def parse_args() -> argparse.Namespace:
             "Intended only for tiny smoke tests; full Abacus conversion should run on compute nodes."
         ),
     )
+    parser.add_argument(
+        "--power-scale-node-features",
+        action="store_true",
+        help=(
+            "Apply sklearn PowerTransformer (box-cox) to graph node features, fit on train split only "
+            "(matches Network_stats / jraph generate_data; uses +1e-6 shift for non-positive values)."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -557,6 +565,25 @@ def main() -> None:
         f"train={train_mask.sum():,}, val={val_mask.sum():,}, test={test_mask.sum():,}"
     )
 
+    node_feature_scaler = None
+    if args.power_scale_node_features:
+        x_np = np.asarray(graph.nodes, dtype=np.float64)
+        col_min = np.min(x_np, axis=0)
+        if np.any(col_min <= 0):
+            print(
+                "Node feature min per column (before shift):",
+                np.array2string(col_min, precision=4),
+            )
+        x_pos = x_np + 1e-6
+        node_feature_scaler = PowerTransformer(method="box-cox")
+        node_feature_scaler.fit(x_pos[train_idx])
+        x_scaled = node_feature_scaler.transform(x_pos).astype(np.float32)
+        graph = graph._replace(nodes=jnp.array(x_scaled, dtype=jnp.float32))
+        mu = np.mean(x_scaled[train_idx], axis=0)
+        sd = np.std(x_scaled[train_idx], axis=0)
+        print("Power-scaled node features (train split) mean:", np.array2string(mu, precision=4))
+        print("Power-scaled node features (train split) std :", np.array2string(sd, precision=4))
+
     target_scaler = StandardScaler()
     use_transformed_eig = not args.no_transformed_eig
 
@@ -623,6 +650,9 @@ def main() -> None:
         "masks": (jnp.array(train_mask), jnp.array(val_mask), jnp.array(test_mask)),
         "stats": stats,
     }
+    if node_feature_scaler is not None:
+        payload["node_feature_scaler"] = node_feature_scaler
+        payload["node_feature_power_method"] = "box-cox"
     if cweb is not None:
         payload["classification_labels"] = jnp.array(cweb, dtype=jnp.int32)
     if box_index is not None:

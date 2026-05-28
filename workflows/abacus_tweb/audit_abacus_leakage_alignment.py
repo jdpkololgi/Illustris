@@ -5,7 +5,7 @@ This script is designed to diagnose large train/test performance gaps and
 potential leakage/mismatch issues by running a small battery of checks:
 
 1) Basic data integrity:
-   - row counts between feature parquet and target catalog after Y1/Y5 filtering
+   - row counts between feature parquet and target catalog after DESI BGS mock selection
    - finite-value checks
 2) Regression sanity:
    - Random split R2
@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
 import fitsio
@@ -31,6 +32,12 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.metrics import balanced_accuracy_score, r2_score
 from sklearn.model_selection import GroupShuffleSplit, train_test_split
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from shared.abacus_cutsky_selection import cutsky_desi_bgs_mock_mask
 
 
 DEFAULT_GNN_META = "/pscratch/sd/d/dkololgi/abacus/graph_constructions/abacus_alpha_cugraph_gnn_metadata.json"
@@ -60,20 +67,6 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--output-json", default=DEFAULT_OUTPUT)
     return p.parse_args()
-
-
-def _apply_optional_y1y5_filter(table: np.ndarray) -> np.ndarray:
-    names = {n.upper(): n for n in table.dtype.names}
-    in_y1 = names.get("IN_Y1") or names.get("Y1")
-    in_y5 = names.get("IN_Y5") or names.get("Y5")
-    if in_y1 is None and in_y5 is None:
-        return np.ones(len(table), dtype=bool)
-    mask = np.zeros(len(table), dtype=bool)
-    if in_y1 is not None:
-        mask |= np.asarray(table[in_y1]) == 1
-    if in_y5 is not None:
-        mask |= np.asarray(table[in_y5]) == 1
-    return mask
 
 
 def _load_catalog_targets(tab: np.ndarray) -> tuple[np.ndarray, np.ndarray | None]:
@@ -261,7 +254,7 @@ def main() -> None:
     feat_cols = [c.strip() for c in args.feature_columns.split(",") if c.strip()]
     x = pd.read_parquet(node_parquet, columns=feat_cols).to_numpy(dtype=np.float64)
     tab = fitsio.read(str(catalog_path))
-    mask = _apply_optional_y1y5_filter(tab)
+    mask = cutsky_desi_bgs_mock_mask(tab)
     y, cweb = _load_catalog_targets(tab)
 
     groups = _group_ids_from_table(tab)

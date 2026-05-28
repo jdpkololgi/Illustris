@@ -6,6 +6,7 @@ BOX_INDEX, this script:
 
 1) Samples rows after applying typical survey filters:
    - (IN_Y1 == 1) | (IN_Y5 == 1)
+   - R_MAG_APP < 19.5 (DESI BGS bright)
    - BOX_INDEX != -1
 2) Uses (FILE_NUM, HALO_INDEX) to fetch the host halo's box-frame x_com from
    Abacus CompaSO halo_info files.
@@ -23,10 +24,17 @@ from __future__ import annotations
 import argparse
 import math
 import os
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from shared.abacus_cutsky_selection import cutsky_desi_bgs_mock_mask
 
 
 @dataclass(frozen=True)
@@ -165,7 +173,17 @@ def sample_filtered_rows(
     hdu = f[1]
     nrows = hdu.get_nrows()
 
-    cols = ["IN_Y1", "IN_Y5", "BOX_INDEX", "FILE_NUM", "HALO_INDEX", "LAMBDA1", "LAMBDA2", "LAMBDA3"]
+    cols = [
+        "IN_Y1",
+        "IN_Y5",
+        "R_MAG_APP",
+        "BOX_INDEX",
+        "FILE_NUM",
+        "HALO_INDEX",
+        "LAMBDA1",
+        "LAMBDA2",
+        "LAMBDA3",
+    ]
     have = set(hdu.get_colnames())
     missing = [c for c in cols if c not in have]
     if missing:
@@ -177,10 +195,9 @@ def sample_filtered_rows(
     for start in range(0, nrows, chunk_size):
         stop = min(start + chunk_size, nrows)
         chunk = hdu[start:stop][cols]
-        in_y1 = np.asarray(chunk["IN_Y1"]) == 1
-        in_y5 = np.asarray(chunk["IN_Y5"]) == 1
+        mask = cutsky_desi_bgs_mock_mask(chunk)
         box = np.asarray(chunk["BOX_INDEX"], dtype=np.int64)
-        mask = (in_y1 | in_y5) & (box != -1)
+        mask &= box != -1
         if not np.any(mask):
             continue
         idx = np.nonzero(mask)[0]

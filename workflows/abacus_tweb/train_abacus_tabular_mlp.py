@@ -35,6 +35,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from shared.abacus_cutsky_selection import cutsky_desi_bgs_mock_mask
 from shared.eigenvalue_transformations import eigenvalues_to_increments
 
 
@@ -52,15 +53,6 @@ def _resolve_col(table, candidates: Iterable[str]) -> str:
         f"None of candidate columns {list(candidates)} found. "
         f"Available columns include: {table.dtype.names[:20]}..."
     )
-
-
-def _apply_optional_y1y5_filter(table: np.ndarray) -> np.ndarray:
-    names_upper = {name.upper(): name for name in table.dtype.names}
-    in_y1 = names_upper.get("IN_Y1")
-    in_y5 = names_upper.get("IN_Y5")
-    if in_y1 is None or in_y5 is None:
-        return np.ones(len(table), dtype=bool)
-    return (table[in_y1] == 1) | (table[in_y5] == 1)
 
 
 class TabularMLP(nn.Module):
@@ -97,7 +89,12 @@ def parse_args() -> argparse.Namespace:
         default="raw",
         help="Train target parameterization: raw λ or transformed (v1, Δλ2, Δλ3).",
     )
-    p.add_argument("--apply-y1y5-filter", action="store_true", default=True)
+    p.add_argument(
+        "--apply-y1y5-filter",
+        action="store_true",
+        default=True,
+        help="Apply DESI BGS mock selection (IN_Y1|IN_Y5 and R_MAG_APP<19.5) on the source FITS.",
+    )
     p.add_argument("--no-apply-y1y5-filter", dest="apply_y1y5_filter", action="store_false")
     p.add_argument("--epochs", type=int, default=40)
     p.add_argument("--batch-size", type=int, default=8192)
@@ -145,7 +142,7 @@ def main() -> None:
     tab = fitsio.read(str(source_catalog))
     mask = np.ones(len(tab), dtype=bool)
     if args.apply_y1y5_filter:
-        mask &= _apply_optional_y1y5_filter(tab)
+        mask &= cutsky_desi_bgs_mock_mask(tab)
 
     l1_col = _resolve_col(tab, ("LAMBDA1", "L1", "EIG1", "LAM1", "LAMBDA_1"))
     l2_col = _resolve_col(tab, ("LAMBDA2", "L2", "EIG2", "LAM2", "LAMBDA_2"))

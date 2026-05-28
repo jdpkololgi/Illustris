@@ -1523,3 +1523,15 @@ scripts/desi_prods.sh
 scripts/where_am_i.sh
 scripts/scripts/where_am_i.sh
 templates/templates/job.sbatch
+workflows/visualization/abacus_tweb/visualize_staged_mocks_wedge_cweb_3d.html
+workflows/jraph/submit_staged_mock_stage3_15d_regression.slurm
+workflows/abacus_tweb/visualize_staged_mock_stage3_new_wedges_3d.html
+workflows/abacus_tweb/submit_staged_mock_wedge_jraph_stack.slurm
+workflows/abacus_tweb/submit_staged_mock_stage3_full_points_export.slurm
+workflows/abacus_tweb/submit_staged_mock_stage3_full_delaunay.slurm
+workflows/abacus_tweb/run_stage3_full_export_delaunay_salloc.sh
+workflows/abacus_tweb/build_stage3_forFA_full_graph_tmux.sh
+workflows/abacus_tweb/BUILD_JRAPH_CACHES.md
+archive/shims/submit_abacus_tweb_cpu.slurm
+archive/shims/submit_tuning.slurm
+archive/shims/submit_gcn.slurm

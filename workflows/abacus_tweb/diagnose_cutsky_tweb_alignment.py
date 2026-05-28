@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import glob
 import json
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -25,6 +26,12 @@ from typing import Any
 import fitsio
 import numpy as np
 from astropy.cosmology import Planck18 as cosmo
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from shared.abacus_cutsky_selection import R_MAG_APP_BRIGHT_LT
 
 
 DEFAULT_CATALOG = (
@@ -447,6 +454,10 @@ def main() -> None:
             "sample_in_y5_fraction": float(np.mean(in_y5)),
             "sample_keep_y1y5_fraction": float(np.mean(keep)),
         }
+        if "R_MAG_APP" in s.dtype.names:
+            rmag = np.asarray(s["R_MAG_APP"], dtype=np.float64) < float(R_MAG_APP_BRIGHT_LT)
+            filter_stats["sample_r_mag_app_lt_fraction"] = float(np.mean(rmag))
+            filter_stats["sample_keep_desi_bgs_fraction"] = float(np.mean(keep & rmag))
 
     # Remove internal arrays before serializing.
     variants_out = []

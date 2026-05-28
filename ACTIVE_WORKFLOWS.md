@@ -6,6 +6,8 @@ For pscratch organization and migration env vars, see `/global/homes/d/dkololgi/
 ## Canonical Layout (Migration Target)
 
 - `workflows/abacus_tweb/` for Abacus slab/T-Web annotation pipeline
+- `workflows/visualization/abacus_tweb/` for exploratory Abacus/T-Web notebooks (see README there)
+- `archive/shims/` for deprecated root-level SLURM/shell wrappers (use `workflows/*/submit_*.slurm` instead)
 - `workflows/jraph/` for Jraph training, tuning, and diagnostics
 - `workflows/sbi/` for primary SBI FlowJAX path
 - `workflows/sbi/experimental/` for the single optional two-stage SBI variant
@@ -55,5 +57,5 @@ For pscratch organization and migration env vars, see `/global/homes/d/dkololgi/
 
 ## Compatibility
 
-- Root-level script names are temporary wrappers and remain available during migration.
+- Root-level SLURM/shell wrappers were moved to `archive/shims/` (audit 2449eac0). Call canonical paths under `workflows/`.
 - Wrapper deprecation schedule is tracked in `docs/migration/WORKFLOW_REORG.md`.

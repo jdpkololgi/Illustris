@@ -18,7 +18,8 @@ Outputs (analogous to the cube subset):
   <out-prefix>_wedge_targets.fits     (rows aligned to wedge node order)
 
 After running this script, run:
-  1) workflows/abacus_tweb/abacus_graph_features_cugraph.py on the new prefix
+  1) workflows/abacus_tweb/subset_cugraph_metrics_for_wedge.py (project full-volume
+     cuGraph NPZ onto this wedge; do **not** re-run abacus_graph_features_cugraph.py)
   2) workflows/abacus_tweb/build_abacus_sbi_cache.py with the new gnn metadata + wedge FITS
 """
 
@@ -64,6 +65,32 @@ def parse_args() -> argparse.Namespace:
         type=str,
         required=True,
         help="Prefix for wedge outputs (e.g. abacus_delaunay_wedge_ra120_280_dec16p5_23p7_z0p218_0p296).",
+    )
+    p.add_argument(
+        "--triples-fits",
+        type=Path,
+        default=None,
+        help=(
+            "Optional FITS containing explicit triple list selection. When provided, "
+            "the subgraph nodes are selected by matching (FILE_NUM, HALO_INDEX, BOX_INDEX) "
+            "against the annotated FITS in the graph-build filtered row order."
+        ),
+    )
+    p.add_argument(
+        "--no-wedge-bounds",
+        action="store_true",
+        help=(
+            "Allow omitting RA/DEC/Z wedge bounds when using --triples-fits. Bounds (if provided) "
+            "are only stored in metadata; they are not used to select nodes in triples mode."
+        ),
+    )
+    p.add_argument(
+        "--skip-base-mask-check",
+        action="store_true",
+        help=(
+            "Skip strict verification that the reproduced base-mask count matches graph_meta['n_points']. "
+            "Use only if the annotated FITS row-selection is known to be aligned but metadata differs."
+        ),
     )
     # Wedge bounds (degrees / dimensionless redshift). Wedge mode requires all six unless --targets-only.
     p.add_argument("--ra-min", type=float, default=None, help="RA lower bound (deg, [0,360)).")
@@ -164,6 +191,156 @@ def _wedge_mask(
     )
 
 
+def _cutsky_in_y1y5_mask(table: np.ndarray, *, cols_upper: dict[str, str]) -> np.ndarray:
+    """(IN_Y1 == 1) | (IN_Y5 == 1) without the BGS bright R_MAG_APP cut."""
+    in_y1 = cols_upper.get("IN_Y1")
+    in_y5 = cols_upper.get("IN_Y5")
+    if in_y1 is None or in_y5 is None:
+        raise KeyError("IN_Y1 and IN_Y5 are required for CutSky Y1|Y5 footprint selection.")
+    return (np.asarray(table[in_y1]) == 1) | (np.asarray(table[in_y5]) == 1)
+
+
+def _base_mask_from_graph_meta(
+    table: np.ndarray, *, graph_meta: dict, cols_upper: dict[str, str]
+) -> np.ndarray:
+    """Reproduce the graph-build base mask as specified in metadata.
+
+  For CutSky graphs this is typically (IN_Y1|IN_Y5) with optional R_MAG_APP < 19.5
+  (only when ``catalog_filters['r_mag_app_lt']`` is set, as in newer
+  ``build_abacus_graph.py`` outputs) and optionally BOX_INDEX != -1.
+
+  Legacy full-volume graphs (e.g. ``abacus_delaunay_split_hemis_*``) were built with
+  ``apply_y1y5_filter`` but **without** the R_MAG cut; their metadata omits
+  ``r_mag_app_lt``. Using the bright mock mask there mis-aligns node indices.
+    """
+    filters = graph_meta.get("catalog_filters") or {}
+    m = np.ones(table.shape[0], dtype=bool)
+    if bool(filters.get("apply_y1y5_filter", False)):
+        if filters.get("r_mag_app_lt") is not None:
+            m &= cutsky_desi_bgs_mock_mask(table)
+        else:
+            m &= _cutsky_in_y1y5_mask(table, cols_upper=cols_upper)
+    if bool(filters.get("exclude_invalid_box_index", False)):
+        box_index_col = str(filters.get("box_index_col", "BOX_INDEX"))
+        box_col = cols_upper.get(box_index_col.upper()) or cols_upper.get("BOX_INDEX")
+        if box_col is None:
+            raise KeyError(
+                f"exclude_invalid_box_index requested but {box_index_col} not present in FITS."
+            )
+        m &= np.asarray(table[box_col]) != -1
+    return m
+
+
+def _y1y5_filter_column_names(cols: list[str], *, graph_meta: dict) -> list[str]:
+    """Return IN_Y1/IN_Y5/(optional R_MAG_APP) column names required for the base mask."""
+    filters = graph_meta.get("catalog_filters") or {}
+    if not bool(filters.get("apply_y1y5_filter", False)):
+        return []
+    out = [
+        _resolve_col(cols, ("IN_Y1",)),
+        _resolve_col(cols, ("IN_Y5",)),
+    ]
+    if filters.get("r_mag_app_lt") is not None:
+        out.append(_resolve_col(cols, ("R_MAG_APP",)))
+    return out
+
+
+def _map_triples_to_global_ids_and_rows(
+    *,
+    annotated_fits: Path,
+    graph_meta: dict,
+    triples_fits: Path,
+    skip_base_mask_check: bool,
+    chunk_rows: int = 1_000_000,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Return (wedge_global_ids, keep_rows) aligned to triples list order.
+
+    wedge_global_ids are indices into the parent graph nodes *after* applying the base mask.
+    keep_rows are the original (pre-base-mask) FITS row indices corresponding to each selected node.
+    """
+    triples_cols = _fits_cols_available(triples_fits)
+    t_file = _resolve_col(triples_cols, ("FILE_NUM",))
+    t_halo = _resolve_col(triples_cols, ("HALO_INDEX",))
+    t_box = _resolve_col(triples_cols, ("BOX_INDEX", "BOXINDEX"))
+    triples = fitsio.read(str(triples_fits), columns=[t_file, t_halo, t_box])
+    targets_file = np.asarray(triples[t_file], dtype=np.int64)
+    targets_halo = np.asarray(triples[t_halo], dtype=np.int64)
+    targets_box = np.asarray(triples[t_box], dtype=np.int64)
+    target_tuples = list(zip(targets_file.tolist(), targets_halo.tolist(), targets_box.tolist()))
+    target_set = set(target_tuples)
+
+    cols = _fits_cols_available(annotated_fits)
+    cols_upper = {c.upper(): c for c in cols}
+    # Filtering columns needed (depending on graph_meta) + the triple key columns.
+    needed: list[str] = []
+    filters = graph_meta.get("catalog_filters") or {}
+    needed += _y1y5_filter_column_names(cols, graph_meta=graph_meta)
+    if bool(filters.get("exclude_invalid_box_index", False)):
+        box_index_col = str(filters.get("box_index_col", "BOX_INDEX"))
+        needed += [_resolve_col(cols, (box_index_col, "BOX_INDEX"))]
+
+    a_file = _resolve_col(cols, ("FILE_NUM",))
+    a_halo = _resolve_col(cols, ("HALO_INDEX",))
+    a_box = _resolve_col(cols, (str(filters.get("box_index_col", "BOX_INDEX")), "BOX_INDEX"))
+    needed += [a_file, a_halo, a_box]
+    needed = list(dict.fromkeys(needed))
+
+    expected_n = int(graph_meta.get("n_points", -1))
+    found_global: dict[tuple[int, int, int], int] = {}
+    found_row: dict[tuple[int, int, int], int] = {}
+
+    with fitsio.FITS(str(annotated_fits)) as f:
+        nrows = int(f[1].get_nrows())
+        filtered_index = 0
+        match_triples = True
+        for start in range(0, nrows, int(chunk_rows)):
+            stop = min(nrows, start + int(chunk_rows))
+            tab = f[1].read(rows=np.arange(start, stop, dtype=np.int64), columns=needed)
+            cols_upper_chunk = {name.upper(): name for name in tab.dtype.names}
+            base_mask = _base_mask_from_graph_meta(tab, graph_meta=graph_meta, cols_upper=cols_upper_chunk)
+            if not np.any(base_mask):
+                continue
+            idx = np.nonzero(base_mask)[0].astype(np.int64)
+            if match_triples:
+                file_arr = np.asarray(tab[a_file][base_mask], dtype=np.int64)
+                halo_arr = np.asarray(tab[a_halo][base_mask], dtype=np.int64)
+                box_arr = np.asarray(tab[a_box][base_mask], dtype=np.int64)
+
+                for k in range(idx.size):
+                    tup = (int(file_arr[k]), int(halo_arr[k]), int(box_arr[k]))
+                    if tup not in target_set:
+                        continue
+                    if tup in found_global:
+                        continue
+                    found_global[tup] = int(filtered_index + k)
+                    found_row[tup] = int(start + idx[k])
+                    if len(found_global) == len(target_set):
+                        match_triples = False
+                        break
+            filtered_index += int(idx.size)
+
+    if len(found_global) != len(target_set):
+        missing = [t for t in target_tuples if t not in found_global]
+        ex = ", ".join(str(x) for x in missing[:3])
+        raise KeyError(
+            f"Failed to match {len(missing):,}/{len(target_tuples):,} triples in annotated FITS. "
+            f"Examples: {ex}"
+        )
+
+    if expected_n > 0 and not skip_base_mask_check and filtered_index != expected_n:
+        raise ValueError(
+            f"Base-mask row count after catalog scan is {filtered_index:,} but "
+            f"graph metadata expects n_points={expected_n:,}. "
+            "The annotated FITS / catalog_filters do not match the parent graph build "
+            "(common cause: legacy split-hemis graphs omit catalog_filters['r_mag_app_lt'] "
+            "but newer subset code applied the R_MAG_APP<19.5 cut)."
+        )
+
+    wedge_global_ids = np.asarray([found_global[t] for t in target_tuples], dtype=np.int64)
+    keep_rows = np.asarray([found_row[t] for t in target_tuples], dtype=np.int64)
+    return wedge_global_ids, keep_rows
+
+
 def _load_filtered_ra_dec_z(
     annotated_fits: Path,
     *,
@@ -177,29 +354,27 @@ def _load_filtered_ra_dec_z(
     `filtered_rows` are the original CutSky row indices that survive the base mask.
     """
     cols = _fits_cols_available(annotated_fits)
-    in_y1 = _resolve_col(cols, ("IN_Y1",))
-    in_y5 = _resolve_col(cols, ("IN_Y5",))
-    r_mag_col = _resolve_col(cols, ("R_MAG_APP",))
-    box_index_col = str(graph_meta.get("catalog_filters", {}).get("box_index_col", "BOX_INDEX"))
-    box_col = _resolve_col(cols, (box_index_col, "BOX_INDEX"))
+    filters = graph_meta.get("catalog_filters") or {}
+    needed_filter_cols: list[str] = list(_y1y5_filter_column_names(cols, graph_meta=graph_meta))
+    if bool(filters.get("exclude_invalid_box_index", False)):
+        box_index_col = str(filters.get("box_index_col", "BOX_INDEX"))
+        needed_filter_cols += [_resolve_col(cols, (box_index_col, "BOX_INDEX"))]
     ra_resolved = _resolve_col(cols, (ra_col,))
     dec_resolved = _resolve_col(cols, (dec_col,))
     z_resolved = _resolve_col(cols, (z_col,))
 
     # Read a minimal column set, then apply the graph-build base mask, then keep RA/DEC/Z.
-    needed = [in_y1, in_y5, r_mag_col, box_col, ra_resolved, dec_resolved, z_resolved]
+    needed = needed_filter_cols + [ra_resolved, dec_resolved, z_resolved]
     needed = list(dict.fromkeys(needed))  # de-dupe while preserving order
     table = fitsio.read(str(annotated_fits), columns=needed)
 
-    base_mask = cutsky_desi_bgs_mock_mask(table)
-    base_mask &= table[box_col] != -1
-
     expected_n = int(graph_meta.get("n_points", -1))
+    cols_upper = {name.upper(): name for name in table.dtype.names}
+    base_mask = _base_mask_from_graph_meta(table, graph_meta=graph_meta, cols_upper=cols_upper)
     n_after = int(np.count_nonzero(base_mask))
     if expected_n > 0 and n_after != expected_n:
         raise ValueError(
-            f"Annotated FITS filter count mismatch: after (Y1|Y5 & R_MAG_APP<{R_MAG_APP_BRIGHT_LT:g} "
-            f"& {box_col}!=-1) got {n_after:,} "
+            f"Annotated FITS filter count mismatch: after base-mask got {n_after:,} "
             f"but graph metadata expects n_points={expected_n:,}. "
             "This annotated FITS must match the same selection/order as the graph build."
         )
@@ -303,42 +478,51 @@ def _write_wedge_targets_fits(
     annotated_fits: Path,
     graph_meta: dict,
     wedge_global_ids: np.ndarray,
+    keep_rows: np.ndarray | None,
     out_path: Path,
 ) -> None:
     cols = _fits_cols_available(annotated_fits)
+    if keep_rows is None:
+        # Recompute keep_rows from wedge_global_ids by reproducing the base mask.
+        filters = graph_meta.get("catalog_filters") or {}
+        needed: list[str] = []
+        needed += _y1y5_filter_column_names(cols, graph_meta=graph_meta)
+        if bool(filters.get("exclude_invalid_box_index", False)):
+            needed += [
+                _resolve_col(cols, (str(filters.get("box_index_col", "BOX_INDEX")), "BOX_INDEX"))
+            ]
+        needed = list(dict.fromkeys(needed))
+        if needed:
+            tab_mask_cols = fitsio.read(str(annotated_fits), columns=needed)
+            cols_upper = {name.upper(): name for name in tab_mask_cols.dtype.names}
+            base_mask = _base_mask_from_graph_meta(
+                tab_mask_cols, graph_meta=graph_meta, cols_upper=cols_upper
+            )
+        else:
+            with fitsio.FITS(str(annotated_fits)) as f:
+                nrows = int(f[1].get_nrows())
+            base_mask = np.ones(nrows, dtype=bool)
 
-    in_y1 = _resolve_col(cols, ("IN_Y1",))
-    in_y5 = _resolve_col(cols, ("IN_Y5",))
-    r_mag = _resolve_col(cols, ("R_MAG_APP",))
-    box_col = _resolve_col(cols, (str(graph_meta.get("catalog_filters", {}).get("box_index_col", "BOX_INDEX")), "BOX_INDEX"))
+        expected_n = int(graph_meta.get("n_points", -1))
+        n_after = int(np.count_nonzero(base_mask))
+        if expected_n > 0 and n_after != expected_n:
+            raise ValueError(
+                f"Annotated FITS filter count mismatch: after base-mask got {n_after:,} "
+                f"but graph metadata expects n_points={expected_n:,}. "
+                "This annotated FITS must match the same selection/order as the graph build."
+            )
 
-    tab_mask_cols = fitsio.read(str(annotated_fits), columns=[in_y1, in_y5, r_mag, box_col])
-    base_mask = cutsky_desi_bgs_mock_mask(tab_mask_cols)
-    base_mask &= tab_mask_cols[box_col] != -1
-
-    expected_n = int(graph_meta.get("n_points", -1))
-    n_after = int(np.count_nonzero(base_mask))
-    if expected_n > 0 and n_after != expected_n:
-        raise ValueError(
-            f"Annotated FITS filter count mismatch: after (Y1|Y5 & R_MAG_APP<{R_MAG_APP_BRIGHT_LT:g} "
-            f"& {box_col}!=-1) got {n_after:,} "
-            f"but graph metadata expects n_points={expected_n:,}. "
-            "This annotated FITS must match the same selection/order as the graph build."
-        )
-
-    filtered_rows = np.nonzero(base_mask)[0].astype(np.int64)
-    keep_rows = filtered_rows[wedge_global_ids.astype(np.int64)]
+        filtered_rows = np.nonzero(base_mask)[0].astype(np.int64)
+        keep_rows = filtered_rows[wedge_global_ids.astype(np.int64)]
 
     want = [
         "RA",
         "DEC",
         "Z",
         "Z_COSMO",
-        in_y1,
-        in_y5,
-        box_col,
         "FILE_NUM",
         "HALO_INDEX",
+        "BOX_INDEX",
         "CWEB",
         "LAMBDA1",
         "LAMBDA2",
@@ -387,6 +571,7 @@ def main() -> None:
             annotated_fits=args.annotated_fits.expanduser().resolve(),
             graph_meta=graph_meta,
             wedge_global_ids=wedge_global_ids,
+            keep_rows=None,
             out_path=fits_out,
         )
         print(f"Wrote wedge targets FITS: {fits_out}")
@@ -397,11 +582,12 @@ def main() -> None:
         for name in ("ra_min", "ra_max", "dec_min", "dec_max", "z_min", "z_max")
         if getattr(args, name) is None
     ]
-    if missing_bounds:
+    if missing_bounds and not (args.triples_fits is not None and args.no_wedge_bounds):
         raise SystemExit(
             "Missing required wedge bounds arguments: "
             + ", ".join(f"--{n.replace('_', '-')}" for n in missing_bounds)
-            + "\n(Provide bounds to build the wedge subgraph, or use --targets-only.)"
+            + "\n(Provide bounds to build the wedge subgraph, use --targets-only, "
+            + "or pass --triples-fits with --no-wedge-bounds.)"
         )
 
     points_path = base_dir / files.get("points", f"{graph_meta.get('prefix')}_points.npy")
@@ -415,47 +601,62 @@ def main() -> None:
             raise FileNotFoundError(f"Missing required artifact: {p}")
 
     annotated_fits = args.annotated_fits.expanduser().resolve()
-    filtered_rows, ra, dec, zz = _load_filtered_ra_dec_z(
-        annotated_fits,
-        graph_meta=graph_meta,
-        ra_col=args.ra_col,
-        dec_col=args.dec_col,
-        z_col=args.redshift_col,
-    )
-
-    n_full_graph = int(filtered_rows.size)
+    keep_rows: np.ndarray | None = None
+    if args.triples_fits is not None:
+        wedge_global_ids, keep_rows = _map_triples_to_global_ids_and_rows(
+            annotated_fits=annotated_fits,
+            graph_meta=graph_meta,
+            triples_fits=args.triples_fits.expanduser().resolve(),
+            skip_base_mask_check=bool(args.skip_base_mask_check),
+        )
+        in_wedge = None
+        n_full_graph = int(graph_meta.get("n_points", -1))
+        if n_full_graph <= 0:
+            raise ValueError("graph_meta.n_points is required for triples-fits mode.")
+    else:
+        filtered_rows, ra, dec, zz = _load_filtered_ra_dec_z(
+            annotated_fits,
+            graph_meta=graph_meta,
+            ra_col=args.ra_col,
+            dec_col=args.dec_col,
+            z_col=args.redshift_col,
+        )
+        n_full_graph = int(filtered_rows.size)
+        in_wedge = _wedge_mask(
+            ra,
+            dec,
+            zz,
+            ra_min=float(args.ra_min),
+            ra_max=float(args.ra_max),
+            dec_min=float(args.dec_min),
+            dec_max=float(args.dec_max),
+            z_min=float(args.z_min),
+            z_max=float(args.z_max),
+        )
+        wedge_global_ids = np.nonzero(in_wedge)[0].astype(np.int64)
+        if wedge_global_ids.size == 0:
+            raise ValueError("Wedge mask selected zero nodes. Check bounds and column choices.")
 
     bounds = {
-        "ra_min": float(args.ra_min),
-        "ra_max": float(args.ra_max),
-        "dec_min": float(args.dec_min),
-        "dec_max": float(args.dec_max),
-        "z_min": float(args.z_min),
-        "z_max": float(args.z_max),
+        "ra_min": None if args.ra_min is None else float(args.ra_min),
+        "ra_max": None if args.ra_max is None else float(args.ra_max),
+        "dec_min": None if args.dec_min is None else float(args.dec_min),
+        "dec_max": None if args.dec_max is None else float(args.dec_max),
+        "z_min": None if args.z_min is None else float(args.z_min),
+        "z_max": None if args.z_max is None else float(args.z_max),
         "ra_col": str(args.ra_col),
         "dec_col": str(args.dec_col),
         "redshift_col": str(args.redshift_col),
-        "ra_wrap": bool(args.ra_min > args.ra_max),
+        "ra_wrap": False if (args.ra_min is None or args.ra_max is None) else bool(args.ra_min > args.ra_max),
+        "triples_fits": None if args.triples_fits is None else str(args.triples_fits.expanduser().resolve()),
+        "selection_mode": "triples" if args.triples_fits is not None else "wedge_bounds",
     }
-
-    in_wedge = _wedge_mask(
-        ra,
-        dec,
-        zz,
-        ra_min=float(args.ra_min),
-        ra_max=float(args.ra_max),
-        dec_min=float(args.dec_min),
-        dec_max=float(args.dec_max),
-        z_min=float(args.z_min),
-        z_max=float(args.z_max),
-    )
-
-    wedge_global_ids = np.nonzero(in_wedge)[0].astype(np.int64)
-    if wedge_global_ids.size == 0:
-        raise ValueError("Wedge mask selected zero nodes. Check bounds and column choices.")
 
     global_ids_out = out_dir / f"{args.out_prefix}_global_node_ids.npy"
     np.save(global_ids_out, wedge_global_ids)
+
+    in_set = np.zeros((n_full_graph,), dtype=bool)
+    in_set[wedge_global_ids] = True
 
     new_id = np.full((n_full_graph,), -1, dtype=np.int32)
     new_id[wedge_global_ids] = np.arange(wedge_global_ids.size, dtype=np.int32)
@@ -483,7 +684,7 @@ def main() -> None:
 
     edges_wedge = _write_edges_in_mask(
         edges_path,
-        in_set=in_wedge,
+        in_set=in_set,
         new_id=new_id,
         out_path=out_edges,
         chunk=int(args.edge_chunk),
@@ -491,7 +692,7 @@ def main() -> None:
     tets_wedge, vols_wedge = _write_tets_in_mask(
         tet_path,
         vol_path,
-        in_set=in_wedge,
+        in_set=in_set,
         new_id=new_id,
         tet_out_path=out_tets,
         vol_out_path=out_vols,
@@ -503,6 +704,7 @@ def main() -> None:
         annotated_fits=annotated_fits,
         graph_meta=graph_meta,
         wedge_global_ids=wedge_global_ids,
+        keep_rows=keep_rows,
         out_path=fits_out,
     )
 
@@ -511,7 +713,7 @@ def main() -> None:
     wedge_meta.update(
         {
             "prefix": args.out_prefix,
-            "source": "wedge_subset",
+            "source": "exp1_triples_subset" if args.triples_fits is not None else "wedge_subset",
             "wedge_bounds": bounds,
             "parent_graph_metadata": str(graph_meta_path),
             "annotated_fits": str(annotated_fits),
@@ -538,7 +740,10 @@ def main() -> None:
     print(f"Wedge tetrahedra: {tets_wedge.shape[0]:,}")
     print(f"Wrote wedge graph metadata: {meta_out}")
     print(f"Wrote wedge targets FITS: {fits_out}")
-    print("Next: run abacus_graph_features_cugraph.py on the new prefix, then build_abacus_sbi_cache.py.")
+    print(
+        "Next: run subset_cugraph_metrics_for_wedge.py (full cuGraph -> wedge), "
+        "then build_abacus_sbi_cache.py."
+    )
 
 
 if __name__ == "__main__":
