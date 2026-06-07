@@ -8,7 +8,7 @@ Phase 2 targets from the refactor plan are complete for active workflows:
 
 - `workflows/abacus_tweb/abacus_process_particles2.py`
 - `workflows/abacus_tweb/abacus_cactus_tweb.py`
-- `workflows/abacus_tweb/annotate_cutsky_with_tweb.py`
+- `workflows/abacus_tweb/annotate_cutsky_with_tweb_eigs.py`
 - `workflows/jraph/jraph_pipeline.py`
 - `workflows/sbi/jraph_sbi_flowjax.py`
 
@@ -33,3 +33,5 @@ Illustris workflow-wide smoke test (`workflows/**/*.py --help`, excluding `__ini
 
 - Root-level script shims are intentionally kept during the migration window.
 - Canonical execution paths should now be preferred for all new runs and SLURM updates.
+- `annotate_cutsky_with_tweb_eigs.py` supersedes the older sky-coordinate
+  annotator by assigning T-Web eigenvalues through host-halo linkage.
