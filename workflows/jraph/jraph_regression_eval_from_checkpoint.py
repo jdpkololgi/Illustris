@@ -72,6 +72,17 @@ def _load_params(model_path: Path) -> tuple[object, int | None]:
     return obj, None
 
 
+def _eig_from_15d_linear(raw15: np.ndarray, eps: float = 1e-7) -> np.ndarray:
+    """Reconstruct (λ1, λ2, λ3) from 15-d linear increment targets (channels 0–2)."""
+    raw15 = np.asarray(raw15, dtype=np.float64)
+    l1 = raw15[:, 0]
+    d2 = np.maximum(raw15[:, 1], eps)
+    d3 = np.maximum(raw15[:, 2], eps)
+    l2 = l1 + d2
+    l3 = l2 + d3
+    return np.stack([l1, l2, l3], axis=-1)
+
+
 def _metrics_block(
     *,
     preds_output: np.ndarray,
@@ -114,6 +125,38 @@ def _metrics_block(
     else:
         preds_r = preds_output
         targets_r = targets_output
+    preds_r = np.asarray(preds_r, dtype=np.float64)
+    targets_r = np.asarray(targets_r, dtype=np.float64)
+    # 15-d caches: channels 0–2 are (λ1, Δλ2, Δλ3), not physical λ2/λ3.
+    is_15d_linear = (
+        preds_r.ndim == 2
+        and targets_r.ndim == 2
+        and preds_r.shape[1] == targets_r.shape[1]
+        and preds_r.shape[1] == 15
+    )
+    if is_15d_linear:
+        pe = _eig_from_15d_linear(preds_r)
+        if eigenvalues_raw is not None:
+            te = np.asarray(eigenvalues_raw, dtype=np.float64)
+        else:
+            te = _eig_from_15d_linear(targets_r)
+        pt = pe[mask]
+        tt = te[mask]
+        mse_shape = float(np.mean((preds_r[mask] - targets_r[mask]) ** 2))
+        mae_shape = float(np.mean(np.abs(preds_r[mask] - targets_r[mask])))
+        mse_eig = float(np.mean((pt - tt) ** 2))
+        mae_eig = float(np.mean(np.abs(pt - tt)))
+        r2_eig = _r2_per_column(tt, pt)
+        return {
+            "mse_raw_15d": mse_shape,
+            "mae_raw_15d": mae_shape,
+            "mse_eigenvalues": mse_eig,
+            "mae_eigenvalues": mae_eig,
+            "r2_lambda1": float(r2_eig[0]),
+            "r2_lambda2": float(r2_eig[1]),
+            "r2_lambda3": float(r2_eig[2]),
+            "r2_eigenvalues_mean": float(np.mean(r2_eig)),
+        }
     pr = preds_r[mask]
     tr = targets_r[mask]
     mse = float(np.mean((pr - tr) ** 2))
@@ -406,6 +449,13 @@ def main() -> None:
             "metrics_by_split": metrics_all,
             "node_feature_names": node_feature_names,
         }
+        if targets_arr.ndim == 2 and targets_arr.shape[1] == 15:
+            preds_data["preds_eigenvalues"] = _eig_from_15d_linear(np.asarray(preds_raw, dtype=np.float64))
+            preds_data["targets_eigenvalues"] = (
+                np.asarray(eigenvalues_raw, dtype=np.float64)
+                if eigenvalues_raw is not None
+                else _eig_from_15d_linear(np.asarray(targets_raw, dtype=np.float64))
+            )
 
     preds_path = out_dir / f"eval_predictions_{ts}.pkl"
     with preds_path.open("wb") as f:
@@ -417,21 +467,12 @@ def main() -> None:
         if use_transformed_eig:
             pe = preds_eigenvalues
         elif targets_arr.ndim == 2 and targets_arr.shape[1] == 15:
-            # Reconstruct λ from first three raw channels (15-d cache; mean head if heteroscedastic_15d).
-            def _eig_from_15(raw15: np.ndarray) -> np.ndarray:
-                l1 = raw15[:, 0]
-                d2 = np.maximum(raw15[:, 1], 1e-7)
-                d3 = np.maximum(raw15[:, 2], 1e-7)
-                l2 = l1 + d2
-                l3 = l2 + d3
-                return np.stack([l1, l2, l3], axis=-1)
-
             pr = (
                 target_scaler.inverse_transform(preds_output)
                 if target_scaler is not None
                 else preds_output
             )
-            pe = _eig_from_15(np.asarray(pr, dtype=np.float64))
+            pe = _eig_from_15d_linear(np.asarray(pr, dtype=np.float64))
         else:
             pe = None
 
