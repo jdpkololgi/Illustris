@@ -1,34 +1,55 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to automation agents working in this repository.
 
 ## Project Overview
 
-This repository implements machine learning pipelines for inferring **cosmic web structure** from galaxy observables in the IllustrisTNG cosmological simulation. The cosmic web is characterized by eigenvalues of the local density Hessian matrix, which classify regions into voids, walls, filaments, and clusters.
+This repository implements machine learning pipelines for inferring cosmic web
+structure from galaxy observables in IllustrisTNG and Abacus mock catalogs. The
+main targets are local density-Hessian eigenvalues and derived T-Web classes
+for voids, walls, filaments, and clusters.
 
-## Running Jobs on NERSC Perlmutter
+Start with:
 
-All pipelines run on NERSC's Perlmutter supercomputer using SLURM and the `cosmic_env` conda environment.
+- `README.md` for repository orientation.
+- `ACTIVE_WORKFLOWS.md` for the current canonical entrypoint list.
+- `RUNBOOK.md` for Perlmutter commands, path overrides, and troubleshooting.
+
+## Running Jobs On NERSC Perlmutter
+
+Production workflows generally run through SLURM with `cosmic_env`. Some Abacus
+graph-feature jobs use a RAPIDS/cuGraph environment; check the workflow SLURM
+script before assuming a single Python environment.
 
 ### JAX/Jraph Regression Pipeline
+
 ```bash
-sbatch submit_jraph.slurm
-# Or directly:
-srun python jraph_pipeline.py --prediction_mode regression --use_shape_params --epochs 10000
+sbatch workflows/jraph/submit_jraph.slurm
+python workflows/jraph/jraph_pipeline.py --prediction_mode regression --use_shape_params --epochs 10000
 ```
 
-### PyTorch Classification Pipeline
+### PyTorch GCN Paper Pipeline
+
 ```bash
-sbatch submit_gcn.slurm
-# Uses mp.spawn() for 4-GPU distributed data parallel training
+sbatch workflows/gcn_paper/submit_gcn.slurm
+python workflows/gcn_paper/gcn_pipeline.py --help
 ```
 
-### SBI (Simulation-Based Inference) Pipeline
+### TNG / Full-Graph SBI FlowJAX
+
 ```bash
-sbatch submit_sbi_flowjax.slurm
+python workflows/sbi/jraph_sbi_flowjax.py --help
+```
+
+### Abacus Partitioned SBI FlowJAX
+
+```bash
+sbatch workflows/abacus_tweb/submit_build_partitions_adaptive.slurm
+sbatch workflows/sbi/submit_sbi_partitioned_data_parallel.slurm
 ```
 
 ### Key Environment Setup
+
 ```bash
 conda activate cosmic_env
 export XLA_PYTHON_CLIENT_PREALLOCATE=false
@@ -39,60 +60,78 @@ export MASTER_PORT=29500
 
 ## Architecture
 
-### Three Main Pipeline Approaches
+### Main Pipeline Approaches
 
-1. **Classification** (`gcn_pipeline.py`) - PyTorch GCN/GAT with DDP for 4-class T-Web classification
-2. **Regression** (`jraph_pipeline.py`) - JAX/Jraph GraphNetwork predicting eigenvalues or shape parameters
-3. **SBI** (`jraph_sbi_flowjax.py`, `jraph_sbi_two_stage.py`) - GNN encoder + Flowjax normalizing flow for posterior estimation
+1. **Abacus T-Web and mock graph pipeline** (`workflows/abacus_tweb/`): builds
+   slabwise T-Web outputs, annotates DESI/Abacus CutSky mocks via host-halo
+   linkage, constructs alpha/Delaunay graph artifacts, computes graph features,
+   and builds partitioned SBI caches.
+2. **Regression** (`workflows/jraph/jraph_pipeline.py`): JAX/Jraph
+   GraphNetwork predicting eigenvalues or transformed shape/derivative targets.
+3. **SBI** (`workflows/sbi/`): GNN encoder plus FlowJAX normalizing flow for
+   posterior estimation; `jraph_sbi_flowjax_partitioned.py` is the Abacus-scale
+   path.
+4. **Classification** (`workflows/gcn_paper/gcn_pipeline.py`): PyTorch/Torch
+   Geometric GCN/GAT workflow for 4-class T-Web classification.
 
 ### Key Modules
 
 | Module | Purpose |
-|--------|---------|
-| `graph_net_models.py` | JAX GraphNetwork with multi-head attention, bounded activations |
-| `gnn_models.py` | PyTorch GCN and GAT models |
-| `eigenvalue_transformations.py` | Physics transformations: eigenvalues ↔ shape parameters (I₁, e, p) |
-| `Utilities.py` | TNG data loading, Delaunay/MST/alpha-complex graph construction |
-| `Network_stats.py` | Graph feature extraction, T-Web classification |
-| `utils.py` | PyTorch training utilities, class weighting, UMAP plotting |
+| --- | --- |
+| `shared/graph_net_models.py` | JAX GraphNetwork and encoder helpers. |
+| `shared/eigenvalue_transformations.py` | Physics target transformations for eigenvalues, invariants, and derivative targets. |
+| `shared/config_paths.py` | Environment-variable driven Perlmutter and scratch paths. |
+| `shared/tng_pipeline_paths.py` | TNG/Jraph/SBI cache and output path resolution. |
+| `shared/resource_requirements.py` | Runtime guards for CPU/GPU SLURM allocations. |
+| `shared/sbi_cache_schema.py` | Cache-schema helpers used by tests and SBI paths. |
+| `workflows/gcn_paper/gnn_models.py` | PyTorch GCN/GAT model definitions. |
+| `workflows/gcn_paper/Utilities.py` | TNG data loading and graph construction for the paper workflow. |
+| `workflows/gcn_paper/Network_stats.py` | Graph feature extraction and T-Web classification utilities. |
 
-### Physics: Shape Parameters
+### Physics Targets
 
-The pipeline supports two target representations:
-- **Raw eigenvalues** (λ₁, λ₂, λ₃): Ordered Hessian eigenvalues
-- **Shape parameters** (I₁, e, p): Rotationally invariant representation
-  - I₁ = trace (overall strength)
-  - e = ellipticity (deviation from sphericity)
-  - p = prolateness (prolate vs oblate)
+The regression/SBI stack supports multiple target representations:
 
-Use `--use_shape_params` flag for shape parameter mode (recommended for regression).
+- Raw ordered Hessian eigenvalues: `lambda1`, `lambda2`, `lambda3`.
+- Shape/invariant representations such as trace, ellipticity, and prolateness.
+- Abacus cache targets may include transformed eigenvalue increments and
+  derivative columns when available.
+
+Use `--use_shape_params` in the Jraph regression path when shape parameters are
+desired. For Abacus SBI caches, inspect `build_abacus_sbi_cache.py --help` and
+the generated cache metadata to confirm whether raw, transformed, or
+three-target-only labels were written.
 
 ### Data Flow
 
-1. Load IllustrisTNG subhalos from HDF5 files
-2. Construct graphs via Delaunay triangulation, MST, or alpha-complex
-3. Extract node features (stellar mass, velocity, gas fraction, etc.) and edge features
-4. Compute Hessian eigenvalues from smoothed density field
-5. Train GNN to predict eigenvalues/shape parameters or posterior distributions
+1. Load IllustrisTNG subhalos or Abacus/DESI CutSky mock galaxies.
+2. Assign or load T-Web Hessian eigenvalues.
+3. Construct graph topology via Delaunay, MST, alpha-complex, or partitioned
+   subgraphs depending on workflow.
+4. Extract node and edge features.
+5. Train regression, classification, or conditional density models.
 
 ### Caching
 
-Processed data is cached at `/pscratch/sd/d/dkololgi/Cosmic_env_TNG_cache/` to avoid expensive recomputation:
-- `processed_jraph_data_mc1e+09_v2_scaled_3_*.pkl` - Graph data with different representations
+Canonical cache and output roots are resolved by `shared/config_paths.py`.
+Override with `TNG_CANONICAL_CACHE_ROOT`, `TNG_CANONICAL_OUTPUT_ROOT`,
+`TNG_JRAPH_CACHE_DIR`, `TNG_SBI_CACHE_DIR`, and related variables rather than
+hard-coding new scratch paths.
 
 ## Local Subgraph Pipeline
 
-The `local-subgraph-pipeline/` directory contains an independent inductive pipeline that trains on batched ego-graphs:
-- `train_flowjax_subgraphs.py` - End-to-end training on local subgraphs
-- Enables generalization to unseen graphs (not transductive)
+The `local-subgraph-pipeline/` directory contains an independent inductive pilot
+that trains on batched ego-graphs extracted from cached TNG graph data. It is
+separate from the transductive full-graph Jraph/SBI paths.
 
-## Framework Usage
+## Testing
 
-- **JAX ecosystem** (Jraph, Haiku, Optax, Flowjax): Production pipelines for regression and SBI
-- **PyTorch** (Torch Geometric): Classification pipeline with multi-GPU DDP
-- **Flowjax/Distrax**: Normalizing flows for conditional density estimation
+For lightweight local validation, run:
 
-## SLURM Configuration
+```bash
+python -m unittest discover -s tests/phase4
+```
 
-Standard job setup: 1 node, 4 GPUs, 128 CPUs, `desi` account, `regular` QOS
-- Logs: `/pscratch/sd/d/dkololgi/logs/` or `logs/`
+These tests do not replace Perlmutter-scale scientific validation, but they are
+useful for catching broken entrypoints, cache-schema drift, and eigenvalue
+transformation regressions.
