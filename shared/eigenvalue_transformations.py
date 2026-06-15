@@ -1,7 +1,38 @@
+"""Target representations for T-Web tidal-tensor eigenvalues.
+
+CANONICAL TARGET POLICY — read before changing any target/head logic.
+
+Two independent choices; do not conflate them:
+
+1. Target *quantity*: models are trained on the tidal-tensor EIGENVALUES
+   (λ₁ ≤ λ₂ ≤ λ₃), not on shape-parameter (I₁, e, p) or invariant
+   (I₁, I₂, I₃) representations. Those have pathological distributions for ML
+   (degenerate I₂/I₃, heavy-tailed I₁, ellipticity piling up near 1) and are
+   DEPRECATED as targets — kept here for legacy caches / reference only.
+
+2. Target *parameterisation*: the eigenvalues are trained as ORDERED SOFTPLUS
+   INCREMENTS, not as three free λ's:
+
+       v₁ = λ₁                        (anchor, predicted directly)
+       v₂ = inverse_softplus(λ₂ - λ₁) (non-negative increment)
+       v₃ = inverse_softplus(λ₃ - λ₂) (non-negative increment)
+
+   Reconstruction (`increments_to_eigenvalues`) returns λ₁ ≤ λ₂ ≤ λ₃ BY
+   CONSTRUCTION. This is the inductive bias that removes ordering violations.
+   Do NOT replace the increment head with a direct 3-output (λ₁, λ₂, λ₃)
+   regressor/flow — that silently reintroduces ordering violations.
+
+The network trains and emits in increment space. Inversion to physical
+(λ₁, λ₂, λ₃) is applied ONLY at evaluation / plotting time
+(`increments_to_eigenvalues`, `samples_to_raw_eigenvalues`).
+"""
+
 import numpy as np
 import jax.numpy as jnp
 #########################################################################
 # Shape Parameter Conversion Functions
+# DEPRECATED as ML targets (pathological distributions). Legacy/reference only.
+# Canonical target = ordered softplus increments (see "Softplus ordering" below).
 #########################################################################
 
 def eigenvalues_to_shape_params(eigenvalues):
@@ -125,6 +156,7 @@ def compute_shape_param_statistics(eigenvalues, train_idx):
 
 #########################################################################
 # Hessian Invariants (I1, I2, I3)
+# DEPRECATED as ML targets (degenerate I2/I3, heavy-tailed I1). Reference only.
 #########################################################################
 
 def eigenvalues_to_invariants(eigenvalues):
@@ -234,6 +266,8 @@ def invariants_to_eigenvalues(invariants):
 
 ####################################
 # Softplus ordering for eigenvalues
+# CANONICAL TARGET PARAMETERISATION: train/predict in increment space; invert
+# to (lambda1, lambda2, lambda3) only for evaluation/plotting.
 ####################################
 
 def eigenvalues_to_increments(eigenvalues):

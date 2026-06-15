@@ -26,7 +26,7 @@ script before assuming a single Python environment.
 
 ```bash
 sbatch workflows/jraph/submit_jraph.slurm
-python workflows/jraph/jraph_pipeline.py --prediction_mode regression --use_shape_params --epochs 10000
+python workflows/jraph/jraph_pipeline.py --prediction_mode regression --epochs 10000
 ```
 
 ### PyTorch GCN Paper Pipeline
@@ -42,7 +42,14 @@ python workflows/gcn_paper/gcn_pipeline.py --help
 python workflows/sbi/jraph_sbi_flowjax.py --help
 ```
 
-### Abacus Partitioned SBI FlowJAX
+### Abacus SBI — wedge NPE (current) / partitioned FlowJAX (legacy)
+
+The current Abacus-scale SBI path is **NPE on wedge subvolumes** (one graph per
+RA/Dec/z wedge). Per `SCIENCE_LOG.md` this runs interactively today; a production
+`sbatch` submit script is still an open thread.
+
+The **partitioned / graph-partitioned FlowJAX** path below is **legacy and
+abandoned** — kept for reference only; do not start new runs from it:
 
 ```bash
 sbatch workflows/abacus_tweb/submit_build_partitions_adaptive.slurm
@@ -66,12 +73,13 @@ export MASTER_PORT=29500
 1. **Abacus T-Web and mock graph pipeline** (`workflows/abacus_tweb/`): builds
    slabwise T-Web outputs, annotates DESI/Abacus CutSky mocks via host-halo
    linkage, constructs alpha/Delaunay graph artifacts, computes graph features,
-   and builds partitioned SBI caches.
+   and builds SBI caches (wedge subvolumes are current; partitioned caches are
+   legacy).
 2. **Regression** (`workflows/jraph/jraph_pipeline.py`): JAX/Jraph
-   GraphNetwork predicting eigenvalues or transformed shape/derivative targets.
-3. **SBI** (`workflows/sbi/`): GNN encoder plus FlowJAX normalizing flow for
-   posterior estimation; `jraph_sbi_flowjax_partitioned.py` is the Abacus-scale
-   path.
+   GraphNetwork predicting eigenvalue (ordered softplus increments).
+3. **SBI** (`workflows/sbi/`): GNN encoder plus a normalizing-flow posterior
+   (NPE). The current Abacus-scale path is **NPE on wedge subvolumes**; the
+   partitioned `jraph_sbi_flowjax_partitioned.py` path is legacy/abandoned.
 4. **Classification** (`workflows/gcn_paper/gcn_pipeline.py`): PyTorch/Torch
    Geometric GCN/GAT workflow for 4-class T-Web classification.
 
@@ -80,7 +88,7 @@ export MASTER_PORT=29500
 | Module | Purpose |
 | --- | --- |
 | `shared/graph_net_models.py` | JAX GraphNetwork and encoder helpers. |
-| `shared/eigenvalue_transformations.py` | Physics target transformations for eigenvalues, invariants, and derivative targets. |
+| `shared/eigenvalue_transformations.py` | Target transforms. **Canonical = ordered softplus eigenvalue increments** (λ₁ + cumulative softplus → λ₁ ≤ λ₂ ≤ λ₃); invert to (λ₁,λ₂,λ₃) for eval only. Shape-param/invariant converters deprecated as ML targets. |
 | `shared/config_paths.py` | Environment-variable driven Perlmutter and scratch paths. |
 | `shared/tng_pipeline_paths.py` | TNG/Jraph/SBI cache and output path resolution. |
 | `shared/resource_requirements.py` | Runtime guards for CPU/GPU SLURM allocations. |
@@ -91,24 +99,34 @@ export MASTER_PORT=29500
 
 ### Physics Targets
 
-The regression/SBI stack supports multiple target representations:
+**Canonical target representation.** Models are trained on the tidal-tensor
+*eigenvalues* (λ₁ ≤ λ₂ ≤ λ₃), parameterised as **ordered softplus increments**:
+predict λ₁ directly, then λ₂ = λ₁ + softplus(·), λ₃ = λ₂ + softplus(·). This
+enforces λ₁ ≤ λ₂ ≤ λ₃ by construction and is the canonical head for both the
+regression and SBI-flow stacks. The policy and converters live in
+`shared/eigenvalue_transformations.py` (`eigenvalues_to_increments` /
+`increments_to_eigenvalues`).
 
-- Raw ordered Hessian eigenvalues: `lambda1`, `lambda2`, `lambda3`.
-- Shape/invariant representations such as trace, ellipticity, and prolateness.
-- Abacus cache targets may include transformed eigenvalue increments and
-  derivative columns when available.
+- Do **not** train a direct 3-output (λ₁, λ₂, λ₃) head — it reintroduces
+  ordering violations. Use the increment parameterisation.
+- The network trains and predicts in increment space; the inverse map to
+  physical (λ₁, λ₂, λ₃) is applied only at evaluation/plotting time, never as
+  the training target.
+- Shape-parameter (I₁, e, p) and invariant (I₁, I₂, I₃) representations are
+  **deprecated** as ML targets — their distributions are pathological. The
+  `--use_shape_params` flag and the shape/invariant converters are retained for
+  legacy caches only; do not use them for new runs.
 
-Use `--use_shape_params` in the Jraph regression path when shape parameters are
-desired. For Abacus SBI caches, inspect `build_abacus_sbi_cache.py --help` and
-the generated cache metadata to confirm whether raw, transformed, or
-three-target-only labels were written.
+For Abacus SBI caches, inspect `build_abacus_sbi_cache.py --help` and the
+generated cache metadata to confirm the target parameterisation that was
+written.
 
 ### Data Flow
 
 1. Load IllustrisTNG subhalos or Abacus/DESI CutSky mock galaxies.
 2. Assign or load T-Web Hessian eigenvalues.
-3. Construct graph topology via Delaunay, MST, alpha-complex, or partitioned
-   subgraphs depending on workflow.
+3. Construct graph topology via Delaunay, MST, alpha-complex, or wedge
+   subvolumes depending on workflow (partitioned subgraphs are legacy).
 4. Extract node and edge features.
 5. Train regression, classification, or conditional density models.
 

@@ -41,6 +41,41 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-15 — [science] Target representation: ordered increments are canonical, not "raw eigenvalues"
+- What: Cleared a doc ambiguity that conflated two independent axes. (1) Target
+  *quantity*: eigenvalues beat shape-param (I₁,e,p) and invariant (I₁,I₂,I₃)
+  reps, which are pathological for ML. (2) Target *parameterisation*: eigenvalues
+  are trained as ordered softplus increments (λ₁ anchor + two non-negative
+  increments), enforcing λ₁≤λ₂≤λ₃ by construction. The net trains/emits in
+  increment space; inversion to (λ₁,λ₂,λ₃) is presentation/eval-only.
+- Why / decision: "raw eigenvalues preferred" (true only on axis 1) could lead an
+  agent to collapse the softplus head to a direct 3-output regressor and silently
+  reintroduce ordering violations. Canonical policy now documented in code + docs.
+- Next: retire the shape-param path properly — remove `--use_shape_params` and the
+  dead `compute_shape_param_statistics` (builds `stats`, returns `None`) from
+  `jraph_pipeline.py` + `eigenvalue_transformations.py` once confirmed unused.
+- Refs: `shared/eigenvalue_transformations.py` (new module docstring + dep
+  banners), `CLAUDE.md` (Physics Targets, module table, regression cmd).
+
+### 2026-06-15 — [science] Cambridge SBI-GalEv talk: framing + reusable assets
+- What: Talk narrative = open on environment→galaxy-evolution motivation, then
+  frame the whole pipeline as amortised per-galaxy posterior inference of T-Web
+  eigenvalues with TARP calibration as the headline. Regression = validated
+  encoder/forward-model backbone; NPE + flows = frontier result. Reviewed prior
+  poster (classification-era) and FLATS deck: deck already has FlowJAX
+  posterior-comparison + TARP-coverage figures (from the retired partitioned
+  path) — reuse as visual template, regenerate from wedge-NPE.
+- Why / decision: venue is SBI-first, so calibration/posterior must lead, not
+  cartography; self-diagnosed weak spot is astro motivation, so first ~3 min
+  carry the science case. Slot Thu 25 Jun ~11:30, 15-min block (confirm 12+3 vs
+  15+5 with organisers).
+- Next: (1) NPE on one Abacus wedge + TARP plot = critical path; (2)
+  R²-vs-smoothing-scale plot; (3) polish 3-way λ hists + class-fraction bar + 3D
+  wedge render in deck palette (Eurostile, #FF006E/#3A86FF). Stretch: ξ(r_p,π)
+  forward-model check, 2nd wedge for cosmic-variance scatter. Methods-slide
+  architecture diagram drafted (draw.io).
+- Refs: FLATS deck; `workflows/jraph/`, wedge caches; visualization notebook.
+
 ### 2026-06-14 — [code] Cross-tool infra + this log
 - What: Set up `~/.claude/CLAUDE.md` as cross-repo canon (3-location map, conda
   envs, proven Perlmutter `salloc`/`srun` recipes; production = `sbatch`). Fixed
