@@ -2,38 +2,85 @@
 
 This directory contains conditional density estimation workflows for cosmic web
 targets. The models combine a graph neural network encoder with FlowJAX
-normalizing flows to estimate posteriors over eigenvalue-derived targets from
+normalizing flows to estimate posteriors over T-Web eigenvalue targets from
 galaxy graph observables.
 
 ## Which Trainer To Use
 
 | Use case | Entrypoint | Notes |
 | --- | --- | --- |
-| TNG/full-graph cache | `jraph_sbi_flowjax.py` | Loads one SBI cache in memory and trains/evaluates the baseline FlowJAX model. |
-| Abacus partition artifacts | `jraph_sbi_flowjax_partitioned.py` | Trains on `partition_manifest.json` plus partition NPZ files from `build_abacus_partition_batches.py`. This is the active Abacus-scale path. |
-| Posterior plots, full graph | `plot_flowjax_posteriors.py` | Uses saved model outputs from the full-graph path. |
-| Posterior plots, partitioned | `plot_flowjax_posteriors_partitioned.py` | Uses partitioned trainer checkpoints and cache metadata. |
-| Data-parallel benchmark | `benchmark_partition_data_parallel.py` | Measures partition collation/loading behavior. |
+| TNG/full-graph cache | `jraph_sbi_flowjax.py` | Loads one SBI cache in memory and trains/evaluates the baseline FlowJAX NPE model. |
+| Abacus wedge-subvolume cache | `jraph_sbi_flowjax.py` | Current Abacus-scale path: run one RA/Dec/z wedge graph at a time using a cache built under `workflows/abacus_tweb/`. |
+| Posterior plots, full graph/wedge | `plot_flowjax_posteriors.py` | Uses saved model outputs from the full-graph trainer. |
+| Abacus partition artifacts | `jraph_sbi_flowjax_partitioned.py` | Legacy partitioned experiment; keep for audit/debugging, not new production runs. |
+| Posterior plots, partitioned | `plot_flowjax_posteriors_partitioned.py` | Legacy diagnostics for partitioned checkpoints. |
+| Data-parallel benchmark | `benchmark_partition_data_parallel.py` | Measures legacy partition collation/loading behavior. |
 | Tensor sharding prototype | `prototype_tensor_sharding_fullgraph.py` | Experimental full-graph sharding prototype. |
 | Two-stage prototype | `experimental/jraph_sbi_two_stage.py` | Optional experimental path, not the primary Abacus run. |
 
+## Current Abacus Wedge Inputs
+
+Build wedge caches in `workflows/abacus_tweb/`:
+
+```text
+subset_abacus_graph_wedge_for_sbi.py
+  -> subset_cugraph_metrics_for_wedge.py
+  -> build_abacus_sbi_cache.py
+  -> jraph_sbi_flowjax.py
+```
+
+The full-graph trainer currently resolves its input through
+`shared/tng_pipeline_paths.py`. For a wedge run, place or symlink the desired
+cache under `TNG_SBI_CACHE_DIR` using the expected transformed-cache name:
+
+```bash
+export TNG_SBI_CACHE_DIR="/path/to/wedge_sbi_cache_dir"
+python workflows/sbi/jraph_sbi_flowjax.py --epochs 1000 --output_dir "/path/to/out"
+```
+
+By default the expected cache file is:
+
+```text
+$TNG_SBI_CACHE_DIR/processed_jraph_data_mc1e+09_v2_scaled_3_transformed_eig.pkl
+```
+
+Use `--no_transformed_eig` only for explicit raw-eigenvalue ablations; that mode
+expects the `_raw_eig.pkl` cache name instead.
+
+## Target Convention
+
+The current SBI target is the ordered softplus-increment representation from
+`shared/eigenvalue_transformations.py`: `lambda1` is the anchor and the
+`lambda2 - lambda1` and `lambda3 - lambda2` gaps are encoded as non-negative
+increments. The model trains and samples in increment space; conversion back to
+physical `(lambda1, lambda2, lambda3)` is for evaluation and plotting. Do not
+replace this with an unconstrained direct three-eigenvalue head unless the run is
+an intentional ablation.
+
 ## Launchers
+
+There is no tracked production `submit_sbi_flowjax.slurm` for the current Abacus
+wedge path. The wedge NPE workflow is run directly today inside an appropriate
+GPU allocation:
+
+```bash
+python workflows/sbi/jraph_sbi_flowjax.py --help
+```
+
+Tracked SLURM scripts in this directory are mostly legacy partition diagnostics
+or experiments:
 
 | SLURM script | Purpose |
 | --- | --- |
-| `submit_sbi_partitioned_data_parallel.slurm` | Single-node, four-GPU Abacus partitioned SBI training. |
-| `submit_sbi_partitioned_data_parallel_multinode.slurm` | Multi-node partitioned SBI training with JAX distributed initialization. |
+| `submit_sbi_partitioned_data_parallel.slurm` | Legacy single-node, four-GPU partitioned SBI training. |
+| `submit_sbi_partitioned_data_parallel_multinode.slurm` | Legacy multi-node partitioned SBI training with JAX distributed initialization. |
 | `submit_sbi_overfit_tiny.slurm` | Tiny overfit diagnostic for partitioned SBI. |
 | `submit_partition_data_parallel_benchmark.slurm` | Partition loading and data-parallel benchmark. |
 | `submit_plot_flowjax_posteriors_partitioned.slurm` | Posterior plotting for partitioned checkpoints. |
 | `submit_sbi_stageB_4node.slurm` | Stage-B multi-node experiment. |
 | `submit_tensor_sharding_prototype.slurm` | Experimental tensor-sharding prototype. |
 
-There is no tracked `submit_sbi_flowjax.slurm` in this layout. Use direct
-`python workflows/sbi/jraph_sbi_flowjax.py ...` for the full-graph trainer, or
-the partitioned launchers above for Abacus-scale training.
-
-## Partitioned Abacus Inputs
+## Legacy Partition Notes
 
 The partitioned trainer requires:
 
@@ -44,36 +91,7 @@ The partitioned trainer requires:
   raw-eigenvalue metadata.
 - `--output-dir`: model checkpoints, logs, and metrics output directory.
 
-The default single-node launcher can be overridden at submission:
-
-```bash
-sbatch --export=ALL,MANIFEST="/path/to/partition_manifest.json",SBI_CACHE="/path/to/cache.pkl",OUTPUT_DIR="/path/to/out",EPOCHS=50 workflows/sbi/submit_sbi_partitioned_data_parallel.slurm
-```
-
-## Data-Parallel Training Notes
-
-- `--data-parallel` enables `pmap` training over local devices.
-- `--distributed` enables multi-process JAX initialization for multi-node runs.
-- Partitions are bucketed and padded by node/edge shape to reduce recompilation.
-- Losses and metrics should be interpreted on partition core nodes, not halo
-  nodes.
-- Activation checkpointing is enabled by default in the SLURM launchers.
-
-## Debugging And Validation
-
-Use `ABACUS_SBI_DEBUG_STRATEGY.md` before tuning large jobs. It records:
-
-- Partition row-order and duplicate-node alignment checks.
-- Tiny-overfit and micro-overfit results.
-- Current evidence for representation/objective limitations versus simple
-  target-alignment bugs.
-
-Recommended quick checks:
-
-```bash
-python workflows/sbi/jraph_sbi_flowjax_partitioned.py --help
-python workflows/sbi/benchmark_partition_data_parallel.py --help
-```
-
-For schema details, see
-`workflows/abacus_tweb/PARTITION_ARTIFACT_SCHEMA.md`.
+Partition semantics are documented in
+`workflows/abacus_tweb/PARTITION_ARTIFACT_SCHEMA.md`. `ABACUS_SBI_DEBUG_STRATEGY.md`
+records the row-order checks and overfit diagnostics that motivated moving away
+from this path for current Abacus SBI work.

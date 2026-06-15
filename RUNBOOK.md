@@ -6,19 +6,36 @@ For a concise status index, see `ACTIVE_WORKFLOWS.md`.
 
 ## Environment Setup
 
-Most production jobs run on NERSC Perlmutter:
+Activate an environment before running repository scripts or tests. The default
+for this codebase is `cosmic_env`:
 
 ```bash
 source ~/.bashrc
 conda activate cosmic_env
 ```
 
-Some workflows need additional environment setup:
+Use `cosmic_env` for T-Web annotation, graph construction/subsetting, cache
+building, Jraph/SBI training, GCN workflows, plotting, tests, and normal
+diagnostics.
+
+Use the RAPIDS/cuGraph `rapids-gnn` environment whenever calculating graph
+metrics/features:
+
+```bash
+source ~/.bashrc
+unset PYTHONPATH PYTHONHOME LD_PRELOAD
+source /global/homes/d/dkololgi/miniforge3/bin/activate "${ABACUS_RAPIDS_ENV_PATH:-/pscratch/sd/d/dkololgi/conda/envs/rapids-gnn}"
+```
+
+This applies to `workflows/abacus_tweb/abacus_graph_features_cugraph.py`,
+`workflows/abacus_tweb/abacus_graph_features.py`, and any graph-metric
+recomputation. The cuGraph SLURM launcher uses the same
+`ABACUS_RAPIDS_ENV_PATH` default in
+`workflows/abacus_tweb/submit_abacus_graph_features_cugraph.slurm`.
+
+Other setup notes:
 
 - DESI table/catalog tools may require `desienv`.
-- The cuGraph feature job uses the RAPIDS environment configured by
-  `ABACUS_RAPIDS_ENV_PATH` in
-  `workflows/abacus_tweb/submit_abacus_graph_features_cugraph.slurm`.
 - JAX GPU jobs usually set:
 
 ```bash
@@ -153,26 +170,47 @@ The cuGraph path defaults to the RAPIDS environment at
 `/pscratch/sd/d/dkololgi/conda/envs/rapids-gnn`, overrideable with
 `ABACUS_RAPIDS_ENV_PATH`.
 
-## Abacus SBI Cache And Partitions
+## Abacus SBI Cache And Wedges
 
 The active Abacus-scale SBI chain is:
 
 ```text
 annotated CutSky FITS
   -> graph artifacts
-  -> cuGraph GNN arrays and metadata
+  -> wedge graph artifacts + wedge targets FITS
+  -> wedge cuGraph GNN arrays and metadata
   -> SBI cache pickle
-  -> partition_manifest.json + partition NPZ files
-  -> partitioned FlowJAX training
+  -> FlowJAX NPE on one wedge graph
 ```
 
-Build an SBI-ready cache:
+Build a survey-space wedge from a parent graph:
+
+```bash
+python workflows/abacus_tweb/subset_abacus_graph_wedge_for_sbi.py \
+  --graph-metadata "/pscratch/sd/d/dkololgi/abacus/graph_constructions/abacus_delaunay_metadata.json" \
+  --annotated-fits "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb.fits" \
+  --out-prefix abacus_delaunay_wedge_ra120_140_dec16p5_26p7_z0p2_0p3 \
+  --ra-min 120 --ra-max 140 --dec-min 16.5 --dec-max 26.7 --z-min 0.2 --z-max 0.3
+```
+
+Project full-graph cuGraph features onto the induced wedge:
+
+```bash
+python workflows/abacus_tweb/subset_cugraph_metrics_for_wedge.py \
+  --artifacts-dir "/pscratch/sd/d/dkololgi/abacus/graph_constructions" \
+  --full-prefix abacus_delaunay \
+  --wedge-prefix abacus_delaunay_wedge_ra120_140_dec16p5_26p7_z0p2_0p3
+```
+
+Build an SBI-ready cache from the wedge metadata and targets:
 
 ```bash
 python workflows/abacus_tweb/build_abacus_sbi_cache.py \
-  --gnn-metadata-path "/pscratch/sd/d/dkololgi/abacus/graph_constructions/abacus_alpha_cugraph_gnn_metadata.json" \
-  --targets-catalog-path "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb.fits" \
-  --output-cache-path "/pscratch/sd/d/dkololgi/abacus/SBI_cache files/abacus_alpha_sbi_cache_transformed.pkl" \
+  --gnn-metadata-path "/pscratch/sd/d/dkololgi/abacus/graph_constructions/abacus_delaunay_wedge_ra120_140_dec16p5_26p7_z0p2_0p3_cugraph_gnn_metadata.json" \
+  --targets-catalog-path "/pscratch/sd/d/dkololgi/abacus/graph_constructions/abacus_delaunay_wedge_ra120_140_dec16p5_26p7_z0p2_0p3_wedge_targets.fits" \
+  --output-cache-path "/pscratch/sd/d/dkololgi/abacus/sbi_caches/processed_jraph_data_mc1e+09_v2_scaled_3_transformed_eig.pkl" \
+  --no-apply-y1y5-filter \
+  --no-exclude-invalid-box-index \
   --three-targets-only
 ```
 
@@ -183,24 +221,20 @@ Cache constraints:
 - `--apply-y1y5-filter` is enabled by default to match graph construction.
 - `BOX_INDEX == -1` rows are excluded by default to preserve node/target
   alignment.
-- The output pickle schema includes `graph`, `regression_targets`, `masks`,
-  `target_scaler`, `eigenvalues_raw`, and optional classification labels.
+- For wedge-target FITS produced by `subset_abacus_graph_wedge_for_sbi.py`, pass
+  `--no-apply-y1y5-filter --no-exclude-invalid-box-index`. Those rows are
+  already aligned to wedge node order and the compact FITS does not carry the
+  full graph-build selection columns.
+- The default target mode is ordered softplus eigenvalue increments. Use
+  `--no-transformed-eig` only for explicit raw-eigenvalue ablations.
+- The output pickle schema includes `graph`, `regression_targets`,
+  `regression_targets_raw`, `masks`, `target_scaler`, `eigenvalues_raw`, and
+  optional classification labels.
 
-Build adaptive partition batches:
-
-```bash
-sbatch workflows/abacus_tweb/submit_build_partitions_adaptive.slurm
-```
-
-Useful overrides:
-
-```bash
-sbatch --export=ALL,INPUT_CACHE_PATH="/path/to/cache.pkl",OUTPUT_DIR="/path/to/partitions",HALO_HOPS=4,MAX_PARTITIONS_PER_SPLIT=16 workflows/abacus_tweb/submit_build_partitions_adaptive.slurm
-```
-
-Partition semantics are defined in
-`workflows/abacus_tweb/PARTITION_ARTIFACT_SCHEMA.md`: message passing runs on
-core plus halo nodes, while losses and metrics are computed on core nodes only.
+The older graph-partition path (`submit_build_partitions_adaptive.slurm`,
+`build_abacus_partition_batches.py`, and `PARTITION_ARTIFACT_SCHEMA.md`) is
+legacy. Keep it for reproducing partitioned FlowJAX diagnostics, but do not use
+it for new Abacus SBI runs.
 
 ## SBI FlowJAX Training
 
@@ -210,27 +244,28 @@ Use `workflows/sbi/jraph_sbi_flowjax.py` for the TNG/full-graph cache path:
 python workflows/sbi/jraph_sbi_flowjax.py --help
 ```
 
-Use the partitioned trainer for Abacus-scale graphs:
+Use the same trainer for current Abacus wedge-subvolume caches. The trainer
+resolves its input through `TNG_SBI_CACHE_DIR` and expects the cache filename
+shown in the cache example above:
 
 ```bash
-sbatch workflows/sbi/submit_sbi_partitioned_data_parallel.slurm
-sbatch workflows/sbi/submit_sbi_partitioned_data_parallel_multinode.slurm
+export TNG_SBI_CACHE_DIR="/pscratch/sd/d/dkololgi/abacus/sbi_caches"
+python workflows/sbi/jraph_sbi_flowjax.py --epochs 1000 --output_dir "/pscratch/sd/d/dkololgi/outputs/sbi_wedge"
+```
+
+There is not yet a tracked production `sbatch` launcher for wedge NPE. Run it
+inside an appropriate GPU allocation until one is added.
+
+Legacy partitioned FlowJAX entrypoints are still available for diagnostics:
+
+```bash
 python workflows/sbi/jraph_sbi_flowjax_partitioned.py --help
+python workflows/sbi/benchmark_partition_data_parallel.py --help
 ```
 
-Useful partitioned-trainer overrides:
-
-```bash
-sbatch --export=ALL,MANIFEST="/path/to/partition_manifest.json",SBI_CACHE="/path/to/cache.pkl",EPOCHS=50,TRAIN_PARTITION_LIMIT=0 workflows/sbi/submit_sbi_partitioned_data_parallel.slurm
-```
-
-Debugging resources:
-
-- `workflows/sbi/ABACUS_SBI_DEBUG_STRATEGY.md` records partition alignment
-  checks, tiny-overfit diagnostics, and current model-learning gaps.
-- `workflows/sbi/submit_sbi_overfit_tiny.slurm` runs a small overfit test.
-- `workflows/sbi/benchmark_partition_data_parallel.py` benchmarks partition
-  loading and data-parallel collation.
+`workflows/sbi/ABACUS_SBI_DEBUG_STRATEGY.md` records partition alignment checks,
+tiny-overfit diagnostics, and the legacy learning diagnostics that motivated the
+wedge path.
 
 ## Jraph Regression And Classification
 
@@ -256,8 +291,10 @@ python workflows/jraph/jraph_regression_eval_from_checkpoint.py --help
 python workflows/jraph/jraph_classification_eval_from_checkpoint.py --help
 ```
 
-The regression pipeline supports raw Hessian eigenvalues and transformed target
-representations from `shared/eigenvalue_transformations.py`.
+The regression pipeline trains on ordered softplus eigenvalue increments by
+default and converts back to physical eigenvalues only for evaluation/plotting.
+Raw-eigenvalue modes and shape/invariant conversions are retained for legacy
+caches and controlled ablations.
 
 ## GCN Paper Workflow
 

@@ -18,9 +18,18 @@ Start with:
 
 ## Running Jobs On NERSC Perlmutter
 
-Production workflows generally run through SLURM with `cosmic_env`. Some Abacus
-graph-feature jobs use a RAPIDS/cuGraph environment; check the workflow SLURM
-script before assuming a single Python environment.
+Production workflows generally run through SLURM. Always activate the expected
+Python environment before running tests, help commands, workflow scripts, or
+interactive diagnostics:
+
+- Use `cosmic_env` for all normal repository work: T-Web annotation, graph
+  construction/subsetting, cache building, Jraph/SBI training, GCN workflows,
+  plotting, tests, and documentation validation.
+- Use the RAPIDS/cuGraph `rapids-gnn` environment whenever calculating graph
+  metrics/features. This includes `abacus_graph_features_cugraph.py`,
+  `abacus_graph_features.py`, and any new graph-metric recomputation scripts.
+  The default path is controlled by `ABACUS_RAPIDS_ENV_PATH` and currently
+  falls back to `/pscratch/sd/d/dkololgi/conda/envs/rapids-gnn`.
 
 ### JAX/Jraph Regression Pipeline
 
@@ -58,12 +67,23 @@ sbatch workflows/sbi/submit_sbi_partitioned_data_parallel.slurm
 
 ### Key Environment Setup
 
+Default environment:
+
 ```bash
+source ~/.bashrc
 conda activate cosmic_env
 export XLA_PYTHON_CLIENT_PREALLOCATE=false
 export XLA_PYTHON_CLIENT_ALLOCATOR=platform
 export MASTER_ADDR=$(hostname)
 export MASTER_PORT=29500
+```
+
+Graph-metric environment:
+
+```bash
+source ~/.bashrc
+unset PYTHONPATH PYTHONHOME LD_PRELOAD
+source /global/homes/d/dkololgi/miniforge3/bin/activate "${ABACUS_RAPIDS_ENV_PATH:-/pscratch/sd/d/dkololgi/conda/envs/rapids-gnn}"
 ```
 
 ## Architecture
