@@ -165,6 +165,25 @@ separate from the transductive full-graph Jraph/SBI paths.
 
 ## Testing
 
+### Weekly Documentation Automation
+
+For the recurring documentation automation, validate from the intended project
+environment, not the system Python. Before running unit tests or help-entrypoint
+checks, activate `cosmic_env`:
+
+```bash
+source ~/.bashrc
+conda activate cosmic_env
+python -m unittest discover -s tests/phase4
+```
+
+If `cosmic_env` is unavailable on a Cloud runner, report validation as
+environment-blocked rather than rerunning tests under system Python and treating
+missing dependencies as code failures.
+
+Only switch to the RAPIDS/cuGraph `rapids-gnn` environment when the automation is
+calculating or recomputing graph metrics/features.
+
 For lightweight local validation, run:
 
 ```bash
