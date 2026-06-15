@@ -6,19 +6,36 @@ For a concise status index, see `ACTIVE_WORKFLOWS.md`.
 
 ## Environment Setup
 
-Most production jobs run on NERSC Perlmutter:
+Activate an environment before running repository scripts or tests. The default
+for this codebase is `cosmic_env`:
 
 ```bash
 source ~/.bashrc
 conda activate cosmic_env
 ```
 
-Some workflows need additional environment setup:
+Use `cosmic_env` for T-Web annotation, graph construction/subsetting, cache
+building, Jraph/SBI training, GCN workflows, plotting, tests, and normal
+diagnostics.
+
+Use the RAPIDS/cuGraph `rapids-gnn` environment whenever calculating graph
+metrics/features:
+
+```bash
+source ~/.bashrc
+unset PYTHONPATH PYTHONHOME LD_PRELOAD
+source /global/homes/d/dkololgi/miniforge3/bin/activate "${ABACUS_RAPIDS_ENV_PATH:-/pscratch/sd/d/dkololgi/conda/envs/rapids-gnn}"
+```
+
+This applies to `workflows/abacus_tweb/abacus_graph_features_cugraph.py`,
+`workflows/abacus_tweb/abacus_graph_features.py`, and any graph-metric
+recomputation. The cuGraph SLURM launcher uses the same
+`ABACUS_RAPIDS_ENV_PATH` default in
+`workflows/abacus_tweb/submit_abacus_graph_features_cugraph.slurm`.
+
+Other setup notes:
 
 - DESI table/catalog tools may require `desienv`.
-- The cuGraph feature job uses the RAPIDS environment configured by
-  `ABACUS_RAPIDS_ENV_PATH` in
-  `workflows/abacus_tweb/submit_abacus_graph_features_cugraph.slurm`.
 - JAX GPU jobs usually set:
 
 ```bash

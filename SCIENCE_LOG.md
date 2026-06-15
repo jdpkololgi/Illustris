@@ -41,6 +41,16 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-15 — [code] Environment policy clarified for agents
+- What: Updated agent/runbook guidance: activate `cosmic_env` for normal work and
+  `rapids-gnn` whenever calculating graph metrics/features.
+- Why / decision: Phase 4 validation on an unprepared Cloud image failed on
+  missing scientific dependencies; graph metrics also require the RAPIDS/cuGraph
+  stack rather than the default environment.
+- Next: Keep workflow launchers aligned with this policy as new graph-metric or
+  wedge-NPE scripts are added.
+- Refs: `CLAUDE.md`, `RUNBOOK.md`.
+
 ### 2026-06-15 — [code] Docs aligned to wedge-NPE Abacus path
 - What: Updated top-level and workflow docs so Abacus-scale SBI points to
   RA/Dec/z wedge subvolume caches with `jraph_sbi_flowjax.py`, while partitioned
