@@ -1,0 +1,34 @@
+# --- Generated / archived code ---
+archive/
+legacy/
+to-delete/
+Illustris-3/
+**/__pycache__/
+**/.ipynb_checkpoints/
+**/.pytest_cache/
+**/.mypy_cache/
+
+# --- Runtime logs & plot dumps ---
+logs/
+sbi-logs/
+sbi_plots_flowjax/
+sbi_plots_flowjax_*/
+sbi_plots_distrax*/
+
+# --- Large simulation snapshots in-repo ---
+TNG300-1/
+
+# --- Model weights, caches, notebooks, figures ---
+*.pkl
+*.pth
+*.pt
+*.h5
+*.hdf5
+*.npz
+*.npy
+*.fits
+*.ipynb
+*.png
+*.pdf
+*.gif
+*.svg
