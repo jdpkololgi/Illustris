@@ -1,0 +1,29 @@
+---
+description: After meaningful edits in this repo, append a [code] entry to SCIENCE_LOG.md — the only shared channel between NERSC agents and Claude Desktop.
+alwaysApply: true
+---
+
+# Keep the shared science log current
+
+This repo is half of a two-tool workflow. Science discussions happen in **Claude
+Desktop** (on the Mac); implementation happens here via **Cursor / Claude Code** on
+NERSC. The two sides cannot read each other's chats — the *only* shared channel is
+`SCIENCE_LOG.md`. A decision or result becomes shared knowledge only if it lands
+there, so treat updating it as part of finishing a task, not an optional extra.
+
+`SCIENCE_LOG.md` is at the **root of this (Illustris) repo**.
+
+When you make a **meaningful** change — code, a workflow, a decision, or a result
+worth remembering — append a dated entry to the **top** of the
+`## Log (newest first)` section, tagged `[code]`:
+
+    ### YYYY-MM-DD — [code] short title
+    - What: ...
+    - Why / decision: ...
+    - Next: ...
+    - Refs: files / commits
+
+Guidance: keep it terse; add, never rewrite earlier entries; if you're unsure the
+log is current, `git pull` first. After updating, remind the user to commit & push
+the log. Skip it only for genuinely trivial, no-op, or read-only work — when in
+doubt, log one line.
