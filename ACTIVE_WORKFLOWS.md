@@ -12,8 +12,9 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   and HTML visualizations.
 - `workflows/jraph/` for JAX/Jraph regression, tuning, checkpoint evaluation,
   diagnostics, and ensembles.
-- `workflows/sbi/` for FlowJAX SBI trainers, including the partition-aware
-  Abacus-scale path.
+- `workflows/sbi/` for FlowJAX SBI trainers. Current Abacus-scale SBI uses
+  wedge-subvolume caches with the full-graph NPE trainer; partitioned FlowJAX is
+  retained as legacy/reference.
 - `workflows/sbi/experimental/` for the optional two-stage SBI prototype.
 - `workflows/gcn_paper/` for the paper-critical PyTorch GCN workflow.
 - `shared/` for reusable model, transformation, path, resource, and cache-schema
@@ -34,18 +35,17 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   - `workflows/abacus_tweb/submit_abacus_graph_features_cugraph.slurm`
   - `workflows/abacus_tweb/abacus_graph_features.py`
   - `workflows/abacus_tweb/abacus_graph_features_cugraph.py`
-- Abacus SBI cache + partitions:
+- Abacus SBI cache + wedge subvolumes:
   - `workflows/abacus_tweb/build_abacus_sbi_cache.py`
-  - `workflows/abacus_tweb/submit_build_partitions_adaptive.slurm`
-  - `workflows/abacus_tweb/build_abacus_partition_batches.py`
-  - `workflows/abacus_tweb/PARTITION_ARTIFACT_SCHEMA.md`
+  - `workflows/abacus_tweb/subset_abacus_graph_wedge_for_sbi.py`
+  - `workflows/abacus_tweb/subset_cugraph_metrics_for_wedge.py`
+  - `workflows/abacus_tweb/build_staged_mock_wedge_truth_npz.py`
+  - `workflows/abacus_tweb/build_staged_mock_wedge_variants.py`
+  - `workflows/abacus_tweb/build_staged_mock_wedge_sbi_cache.py`
 - SBI FlowJAX:
-  - `workflows/sbi/jraph_sbi_flowjax.py` for TNG/full-graph scale.
-  - `workflows/sbi/jraph_sbi_flowjax_partitioned.py` for Abacus partition
-    artifacts.
-  - `workflows/sbi/submit_sbi_partitioned_data_parallel.slurm`
-  - `workflows/sbi/submit_sbi_partitioned_data_parallel_multinode.slurm`
-  - `workflows/sbi/plot_flowjax_posteriors_partitioned.py`
+  - `workflows/sbi/jraph_sbi_flowjax.py` for TNG/full-graph caches and Abacus
+    wedge-subvolume caches.
+  - `workflows/sbi/plot_flowjax_posteriors.py`
 - Jraph training baseline:
   - `workflows/jraph/jraph_pipeline.py`
   - `workflows/jraph/submit_jraph.slurm`
@@ -75,6 +75,15 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
 - `legacy/sbi/jraph_sbi_flowjax_two_stage.py` (retired overlap; optional
   two-stage path is `workflows/sbi/experimental/jraph_sbi_two_stage.py`)
 - `legacy/gcn_paper/getting_started.py` (legacy onboarding/demo script)
+- `workflows/abacus_tweb/build_abacus_partition_batches.py`,
+  `workflows/abacus_tweb/submit_build_partitions_adaptive.slurm`, and
+  `workflows/abacus_tweb/PARTITION_ARTIFACT_SCHEMA.md` (partitioned Abacus
+  cache artifacts; superseded by wedge subvolumes for current SBI work)
+- `workflows/sbi/jraph_sbi_flowjax_partitioned.py`,
+  `workflows/sbi/submit_sbi_partitioned_data_parallel.slurm`,
+  `workflows/sbi/submit_sbi_partitioned_data_parallel_multinode.slurm`, and
+  `workflows/sbi/plot_flowjax_posteriors_partitioned.py` (legacy partitioned
+  FlowJAX diagnostics)
 - `to-delete/workflows/abacus_tweb/annotate_cutsky_with_tweb.py` (superseded by
   host-halo linked `annotate_cutsky_with_tweb_eigs.py`)
 

@@ -22,8 +22,9 @@ for voids, walls, filaments, and clusters.
   construction, graph features, SBI cache builders, and staged-mock helpers.
 - `workflows/jraph/`: JAX/Jraph regression, tuning, checkpoint evaluation, and
   ensemble utilities for TNG-style graph training.
-- `workflows/sbi/`: FlowJAX conditional density estimation, including the
-  partition-aware Abacus trainer used for full-scale graphs.
+- `workflows/sbi/`: FlowJAX conditional density estimation for TNG/full-graph
+  caches and the current Abacus wedge-subvolume NPE path. The older
+  partitioned Abacus trainer remains for reference/debugging only.
 - `workflows/gcn_paper/`: PyTorch/Torch Geometric classification pipeline used
   for paper reproduction.
 - `shared/`: reusable model, path, resource, cache-schema, graph-construction,

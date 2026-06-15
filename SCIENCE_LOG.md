@@ -41,6 +41,17 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-15 — [code] Docs aligned to wedge-NPE Abacus path
+- What: Updated top-level and workflow docs so Abacus-scale SBI points to
+  RA/Dec/z wedge subvolume caches with `jraph_sbi_flowjax.py`, while partitioned
+  FlowJAX is marked legacy/reference.
+- Why / decision: Several public docs still described partitioned Abacus FlowJAX
+  as active, contradicting the current wedge-subvolume SBI direction.
+- Next: Add a production `sbatch` launcher for wedge NPE when the interactive
+  recipe stabilizes.
+- Refs: `README.md`, `ACTIVE_WORKFLOWS.md`, `RUNBOOK.md`,
+  `workflows/abacus_tweb/README.md`, `workflows/sbi/README.md`.
+
 ### 2026-06-15 — [science] Target representation: ordered increments are canonical, not "raw eigenvalues"
 - What: Cleared a doc ambiguity that conflated two independent axes. (1) Target
   *quantity*: eigenvalues beat shape-param (I₁,e,p) and invariant (I₁,I₂,I₃)

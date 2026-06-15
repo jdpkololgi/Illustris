@@ -13,8 +13,9 @@ Abacus particle/halo products
   -> host-halo linked CutSky FITS with CWEB/LAMBDA targets
   -> alpha or Delaunay graph artifacts
   -> graph node/edge features
-  -> SBI cache pickle
-  -> partition batches for Abacus-scale training
+  -> RA/Dec/z wedge subgraph and aligned wedge targets
+  -> wedge graph-feature metadata
+  -> SBI cache pickle for NPE training
 ```
 
 ## Entry Points
@@ -25,8 +26,9 @@ Abacus particle/halo products
 | CutSky annotation | `annotate_cutsky_with_tweb_eigs.py` |
 | Graph construction | `build_abacus_graph.py`, `submit_abacus_graph_cpu.slurm` |
 | Graph features | `abacus_graph_features.py`, `abacus_graph_features_cugraph.py`, `submit_abacus_graph_features_cpu.slurm`, `submit_abacus_graph_features_cugraph.slurm` |
-| SBI cache | `build_abacus_sbi_cache.py` |
-| Partition batches | `build_abacus_partition_batches.py`, `submit_build_partitions_adaptive.slurm`, `PARTITION_ARTIFACT_SCHEMA.md` |
+| Wedge subgraphs for SBI | `subset_abacus_graph_wedge_for_sbi.py`, `subset_cugraph_metrics_for_wedge.py` |
+| SBI cache | `build_abacus_sbi_cache.py`, `build_staged_mock_wedge_sbi_cache.py` |
+| Legacy partition batches | `build_abacus_partition_batches.py`, `submit_build_partitions_adaptive.slurm`, `PARTITION_ARTIFACT_SCHEMA.md` |
 | Validation / audits | `validate_unique_halo_eigs_fits_vs_slabs.py`, `validate_cutsky_eigs_boxindex_vs_halo_xcom.py`, `diagnose_cutsky_tweb_alignment.py`, `audit_abacus_leakage_alignment.py`, `ABACUS_TWEB_AUDIT_FINDINGS.md` |
 | Staged mocks / fiberassign | `build_staged_mock_wedge_variants.py`, `build_staged_mock_wedge_truth_npz.py`, `build_staged_mock_wedge_sbi_cache.py`, `write_fiberassign_mock_science_fits.py`, `write_stage3_postcollision_science_fits.py`, `join_cutsky_eigs_to_fiberassign_catalog.py` |
 
@@ -59,20 +61,42 @@ Feature builders consume those artifacts and write either CPU feature tables or
 cuGraph GNN arrays. The cuGraph path writes metadata consumed by
 `build_abacus_sbi_cache.py`.
 
-## SBI Cache And Partitions
+## Wedge SBI Cache
 
 `build_abacus_sbi_cache.py` produces a pickle with a `jraph.GraphsTuple`,
 regression targets, split masks, scalers, raw eigenvalues, and optional CWEB
-classification labels. The partition builder then emits
-`partition_manifest.json` plus per-partition NPZ files.
+classification labels. Current Abacus-scale SBI uses one cache per survey-space
+wedge rather than graph partitions.
 
-Partition training semantics:
+The wedge path is:
 
-- Message passing runs over core plus halo nodes.
-- Loss and metrics are computed only on core nodes.
-- Train/validation/test core nodes are kept in disjoint partition files.
+```text
+full graph artifacts + annotated CutSky FITS
+  -> subset_abacus_graph_wedge_for_sbi.py
+  -> subset_cugraph_metrics_for_wedge.py
+  -> build_abacus_sbi_cache.py
+  -> workflows/sbi/jraph_sbi_flowjax.py
+```
 
-See `PARTITION_ARTIFACT_SCHEMA.md` for the exact manifest and NPZ schema.
+Wedge constraints:
+
+- Wedge selection is in survey coordinates (`RA`, `DEC`, observed `Z`) after
+  reproducing the graph-build row mask.
+- `<prefix>_global_node_ids.npy` maps wedge-local nodes back to the full graph,
+  so cuGraph node features are copied as `x_full[global_node_ids]`.
+- Wedge edges are induced from the parent graph. Missing parent edge features
+  fail by default; `--recompute-missing-edge-lengths` is a diagnostic fallback,
+  not a production mode.
+- When the target file is the compact `<prefix>_wedge_targets.fits`, call
+  `build_abacus_sbi_cache.py` with
+  `--no-apply-y1y5-filter --no-exclude-invalid-box-index`; the rows have already
+  been filtered and ordered by the wedge builder.
+- `build_abacus_sbi_cache.py` trains on ordered softplus eigenvalue increments by
+  default. Use `--no-transformed-eig` only for explicit raw-eigenvalue ablations.
+
+`build_abacus_partition_batches.py` and `PARTITION_ARTIFACT_SCHEMA.md` document
+the older partitioned FlowJAX experiment. Keep them for audit/debugging, but do
+not start new Abacus SBI runs from partition artifacts.
 
 ## Operational Notes
 
