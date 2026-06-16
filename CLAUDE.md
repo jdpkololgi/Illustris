@@ -179,8 +179,18 @@ transformation regressions.
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
 
+**Sibling repo (cross-project):** `~/GraphWeb_DESI` — DESI BGS observed-galaxy graphs and inference (GAT + Jraph wedge). It imports trained models and shared modules from this repo (`shared/graph_net_models.py`, GAT checkpoints, Abacus-trained Jraph weights).
+
 Rules:
-- For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
+- MANDATORY: Before using Read, Grep, Glob, or Bash to explore the codebase, run graphify first.
+- For codebase questions, run `graphify query "<question>"`. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
 - If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
 - Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
-- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
+- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost); then refresh the global with `graphify global add graphify-out/graph.json --as Illustris`.
+- Only use Read/Grep/Glob directly when graphify has already oriented you and you need to modify or debug specific lines.
+- This rule applies to subagents too — include it in every subagent prompt involving code exploration.
+
+**Cross-repo questions** (Illustris ↔ GraphWeb_DESI, DESI inference dependencies, shared models/paths): use the global graph:
+- `graphify query "<question>" --graph ~/.graphify/global-graph.json`
+- `graphify path "<A>" "<B>" --graph ~/.graphify/global-graph.json`
+- `graphify explain "<concept>" --graph ~/.graphify/global-graph.json`
