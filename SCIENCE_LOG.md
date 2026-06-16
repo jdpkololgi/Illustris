@@ -41,6 +41,16 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-16 — [code] graphify global graph + cross-repo Cursor rules
+- What: Merged `Illustris` and `GraphWeb_DESI` into `~/.graphify/global-graph.json`;
+  updated `.cursor/rules/graphify.mdc` in both repos to name the sibling repo and
+  require `--graph ~/.graphify/global-graph.json` for cross-repo queries.
+- Why / decision: Per-repo `graphify query` and grep do not surface Illustris↔DESI
+  dependencies; global graph does (e.g. `graph_net_models` → Jraph wedge inference).
+- Next: After substantive code changes, `graphify update .` then
+  `graphify global add graphify-out/graph.json --as <tag>`.
+- Refs: `Illustris/.cursor/rules/graphify.mdc`, `GraphWeb_DESI/.cursor/rules/graphify.mdc`
+
 ### 2026-06-15 — [code] Environment policy clarified for agents
 - What: Updated agent/runbook guidance: activate `cosmic_env` for normal work and
   `rapids-gnn` whenever calculating graph metrics/features.
