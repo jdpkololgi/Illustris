@@ -61,3 +61,6 @@ sandbox/
 archive/
 legacy/
 to-delete/
+
+# Graphify output
+graphify-out/
