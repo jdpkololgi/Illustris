@@ -11,10 +11,18 @@ import os
 import sys
 from pathlib import Path
 
-# Force priority for user installed packages
-user_site = "/global/homes/d/dkololgi/.local/lib/python3.10/site-packages"
-if user_site not in sys.path:
-    sys.path.insert(0, user_site)
+# Avoid accidental user-site contamination (common on HPC).
+# In particular, a Python 3.10 user-site can break a Python 3.11 env (NumPy/JAX ABI mismatch).
+os.environ.setdefault("PYTHONNOUSERSITE", "1")
+_bad_user_sites = (
+    "/global/homes/d/dkololgi/.local/lib/python3.10/site-packages",
+    "/global/homes/d/dkololgi/.local/lib/python3.11/site-packages",
+    "/global/u2/d/dkololgi/.local/lib/python3.10/site-packages",
+    "/global/u2/d/dkololgi/.local/lib/python3.11/site-packages",
+)
+for _p in _bad_user_sites:
+    while _p in sys.path:
+        sys.path.remove(_p)
 
 # Allow canonical workflow scripts to resolve repo-root modules after reorganization.
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -37,9 +45,9 @@ import equinox as eqx
 from flowjax.flows import masked_autoregressive_flow, RationalQuadraticSpline
 from flowjax.distributions import Normal
 
-from graph_net_models import make_gnn_encoder
-from eigenvalue_transformations import samples_to_raw_eigenvalues
-from config_paths import CANONICAL_CACHE_ROOT, CANONICAL_FIGURE_ROOT
+from shared.graph_net_models import make_gnn_encoder
+from shared.eigenvalue_transformations import samples_to_raw_eigenvalues
+from shared.config_paths import CANONICAL_CACHE_ROOT, CANONICAL_FIGURE_ROOT
 
 # TARP coverage tests
 try:
