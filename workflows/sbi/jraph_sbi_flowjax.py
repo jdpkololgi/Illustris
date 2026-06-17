@@ -73,6 +73,67 @@ def load_cached_sbi_data(data_path: str):
     return graph, targets, train_mask, val_mask, test_mask, target_scaler, eigenvalues_raw, stats
 
 
+# =============================================================================
+# Checkpoint / resume helpers
+# -----------------------------------------------------------------------------
+# jraph_sbi_flowjax.py originally saved only the best model at the very end, so a
+# job killed mid-training (e.g. a 4 h interactive cap) lost everything. These
+# helpers write a *resumable* checkpoint (host/unreplicated arrays) atomically so
+# training can continue in a fresh allocation, mirroring the jraph regression
+# pipeline's periodic checkpointing.
+# =============================================================================
+
+def _unreplicate(tree):
+    """Pull a pmap-replicated pytree (leading device axis) back to host arrays."""
+    return jax.device_get(jax.tree_util.tree_map(lambda x: x[0], tree))
+
+
+def _serialise_rng(rng):
+    """Serialise a typed PRNG key to a plain uint32 numpy array."""
+    return np.asarray(jax.random.key_data(rng))
+
+
+def _restore_rng(rng_data, seed):
+    """Inverse of _serialise_rng; falls back to a fresh key on any incompatibility."""
+    try:
+        return jax.random.wrap_key_data(jnp.asarray(rng_data))
+    except Exception:
+        return jax.random.key(seed)
+
+
+def save_checkpoint(path, *, epoch, gnn_params, gnn_opt_state, flow_arrays,
+                    flow_opt_state, rng, best_val_loss, best_gnn_params,
+                    best_flow_arrays, logs):
+    """Atomically write a resumable training checkpoint.
+
+    All array args must already be host/unreplicated (use _unreplicate for the
+    pmap-replicated training state; best_* are already unreplicated). Writing to
+    a .tmp sibling then os.replace makes the swap atomic, so a kill mid-write
+    cannot corrupt an existing good checkpoint.
+    """
+    payload = {
+        'epoch': int(epoch),
+        'gnn_params': jax.device_get(gnn_params),
+        'gnn_opt_state': jax.device_get(gnn_opt_state),
+        'flow_arrays': jax.device_get(flow_arrays),
+        'flow_opt_state': jax.device_get(flow_opt_state),
+        'rng': _serialise_rng(rng),
+        'best_val_loss': float(best_val_loss),
+        'best_gnn_params': jax.device_get(best_gnn_params) if best_gnn_params is not None else None,
+        'best_flow_arrays': jax.device_get(best_flow_arrays) if best_flow_arrays is not None else None,
+        'logs': logs,
+    }
+    tmp = f"{path}.tmp"
+    with open(tmp, 'wb') as f:
+        pickle.dump(payload, f)
+    os.replace(tmp, path)
+
+
+def load_checkpoint(path):
+    """Load a checkpoint written by save_checkpoint (host arrays)."""
+    with open(path, 'rb') as f:
+        return pickle.load(f)
+
 
 def main(args):
     require_gpu_slurm("jraph_sbi_flowjax.py", min_gpus=1)
@@ -348,8 +409,38 @@ def main(args):
     val_log_probs = []
     
     report_every = max(1, num_epochs // 100)
-    
-    for epoch in range(num_epochs):
+
+    # ---- checkpoint / resume setup --------------------------------------
+    os.makedirs(args.output_dir, exist_ok=True)
+    ckpt_path = os.path.join(args.output_dir, f'flowjax_sbi_checkpoint_seed_{args.seed}.pkl')
+    start_epoch = 0
+    resume_path = args.resume_from or (ckpt_path if getattr(args, 'resume', False) else None)
+    if resume_path and os.path.exists(resume_path):
+        print(f"[resume] loading checkpoint: {resume_path}")
+        ck = load_checkpoint(resume_path)
+        start_epoch = int(ck['epoch']) + 1
+        replicated_gnn_params = jax.device_put_replicated(ck['gnn_params'], jax.local_devices())
+        replicated_gnn_opt_state = jax.device_put_replicated(ck['gnn_opt_state'], jax.local_devices())
+        replicated_flow_arrays = jax.device_put_replicated(ck['flow_arrays'], jax.local_devices())
+        replicated_flow_opt_state = jax.device_put_replicated(ck['flow_opt_state'], jax.local_devices())
+        current_rng = _restore_rng(ck['rng'], args.seed)
+        best_val_loss = ck['best_val_loss']
+        best_gnn_params = ck['best_gnn_params']
+        best_flow_arrays = ck['best_flow_arrays']
+        _logs = ck.get('logs') or {}
+        train_losses = _logs.get('train_losses', train_losses)
+        val_losses = _logs.get('val_losses', val_losses)
+        train_log_probs = _logs.get('train_log_probs', train_log_probs)
+        val_log_probs = _logs.get('val_log_probs', val_log_probs)
+        if start_epoch >= num_epochs:
+            print(f"[resume] checkpoint epoch {ck['epoch']} already at/after target {num_epochs}; nothing to train.")
+        else:
+            print(f"[resume] continuing from epoch {start_epoch}/{num_epochs} "
+                  f"(best Val NLL so far: {best_val_loss:.4f})")
+    elif resume_path:
+        print(f"[resume] no checkpoint at {resume_path}; starting from scratch.")
+
+    for epoch in range(start_epoch, num_epochs):
         current_rng, step_rng = jax.random.split(current_rng)
         step_rngs = jax.device_put_replicated(step_rng, jax.local_devices())
         
@@ -386,7 +477,32 @@ def main(args):
             print(f"Epoch {epoch:5d} | Train NLL: {train_loss[0]:.4f} | Val NLL: {val_loss[0]:.4f} | "
                   f"Train LogP: {train_log_prob[0]:.2f} | Val LogP: {val_log_prob[0]:.2f} | "
                   f"Time: {elapsed:.1f}s")
-    
+
+        # Periodic resumable checkpoint (atomic). Lets a fresh allocation resume
+        # with --resume if the job is killed (e.g. 4 h interactive cap).
+        if args.checkpoint_every and (
+            (epoch + 1) % args.checkpoint_every == 0 or epoch == num_epochs - 1
+        ):
+            save_checkpoint(
+                ckpt_path,
+                epoch=epoch,
+                gnn_params=_unreplicate(replicated_gnn_params),
+                gnn_opt_state=_unreplicate(replicated_gnn_opt_state),
+                flow_arrays=_unreplicate(replicated_flow_arrays),
+                flow_opt_state=_unreplicate(replicated_flow_opt_state),
+                rng=current_rng,
+                best_val_loss=best_val_loss,
+                best_gnn_params=best_gnn_params,
+                best_flow_arrays=best_flow_arrays,
+                logs={
+                    'train_losses': train_losses,
+                    'val_losses': val_losses,
+                    'train_log_probs': train_log_probs,
+                    'val_log_probs': val_log_probs,
+                },
+            )
+            print(f"[checkpoint] epoch {epoch} -> {ckpt_path}")
+
     print("-" * 70)
     print(f"Training finished in {time.time() - t0:.2f}s")
     print(f"Best validation NLL: {best_val_loss:.4f}")
@@ -600,6 +716,13 @@ if __name__ == '__main__':
     parser.add_argument('--weight_decay', type=float, default=0.08, help='Weight decay')
     parser.add_argument('--seed', type=int, default=42, help='Random seed')
     parser.add_argument('--output_dir', type=str, default=DEFAULT_SBI_OUTPUT_DIR, help='Output directory')
+    parser.add_argument('--checkpoint_every', type=int, default=250,
+                        help='Write a resumable checkpoint every N epochs (0 disables). '
+                             'Saved atomically to flowjax_sbi_checkpoint_seed_<seed>.pkl in output_dir.')
+    parser.add_argument('--resume', action='store_true',
+                        help='Resume from flowjax_sbi_checkpoint_seed_<seed>.pkl in output_dir if it exists.')
+    parser.add_argument('--resume_from', type=str, default=None,
+                        help='Explicit checkpoint path to resume from (overrides --resume lookup).')
     
     # GNN Architecture
     parser.add_argument('--num_passes', type=int, default=8, help='Message passing iterations')
