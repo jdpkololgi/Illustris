@@ -46,6 +46,30 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-17 — [science] Plot style guide finalized: true-black theme, cosmic-web class colors, IBM Plex Sans
+- What: Defined canonical matplotlib style for all GraphWeb_DESI plots: true-black
+  (#000000) background, off-white (#F2F2F2) text/ticks; confirmed FLATS-deck
+  cosmic-web class colors (Void #A1FCDD, Wall #4E84F7, Filament #EB336F, Cluster
+  #F5C144) as a categorical-only palette, kept separate from the FLATS general
+  accent colors (magenta #FF006E, blue #3A86FF, red #D62828); replaced Eurostile
+  with IBM Plex Sans as the single font everywhere (Eurostile has no usable Greek
+  glyphs, which matters for λ-notation); mathtext.fontset='dejavusans' handles
+  λ-subscripts in labels regardless of body font. Wrote PLOT_STYLE_GUIDE.md +
+  shared/plot_style.py (apply_style(), finalize_axes(), COSMIC_WEB_COLORS,
+  CLASS_ORDER, ACCENT_COLORS) in GraphWeb_DESI.
+- Why / decision: Every plot in the pipeline (regression diagnostics, NPE
+  posteriors, TARP coverage, DESI BGS results) needs one consistent visual
+  identity before Cambridge SBI-GalEv talk figures are regenerated from
+  wedge-NPE output; relying on Eurostile directly would have broken λ-notation
+  rendering.
+- Next: Download IBM Plex Sans .ttf files into GraphWeb_DESI/assets/fonts/
+  (command in PLOT_STYLE_GUIDE.md §2.3) on both Mac and NERSC; migrate existing
+  plotting scripts/notebooks (workflows/visualization/*) to
+  `from shared.plot_style import apply_style, finalize_axes`; consider mirroring
+  plot_style.py into Illustris if TNG-side plots need the same theme.
+- Refs: GraphWeb_DESI/PLOT_STYLE_GUIDE.md, GraphWeb_DESI/shared/plot_style.py,
+  FLATS deck slide 9 (legend swatches).
+
 ### 2026-06-16 — [code] graphify global graph + cross-repo Cursor rules
 - What: Merged `Illustris` and `GraphWeb_DESI` into `~/.graphify/global-graph.json`;
   updated `.cursor/rules/graphify.mdc` in both repos to name the sibling repo and
