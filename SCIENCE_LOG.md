@@ -55,10 +55,17 @@ Entry shape:
   construction), threshold at λ_th, count crossings n=Σ1[λ_k>λ_th] (n∈{0,1,2,3}
   by ordering): P(void)=mean(n=0), P(wall)=mean(n=1), P(filament)=mean(n=2),
   P(cluster)=mean(n=3). Cross-check analytically via marginal CDFs: P(λ_k>λ_th)
-  from each marginal, then P(void)=1-P(λ₁>λ_th), P(wall)=P(λ₁>λ_th)-P(λ₂>λ_th),
-  P(filament)=P(λ₂>λ_th)-P(λ₃>λ_th), P(cluster)=P(λ₃>λ_th). Sample-based and
-  analytic versions must agree to MC error — mismatch indicates an inversion or
-  sampling bug.
+  from each marginal. **NB ordering is ASCENDING λ₁≤λ₂≤λ₃ (CACTUS-native: eig1
+  smallest, eig3 largest — verified end-to-end, reproduces CWEB exactly at
+  λ_th=0.2), so the decomposition is P(void)=1-P(λ₃>λ_th),
+  P(wall)=P(λ₃>λ_th)-P(λ₂>λ_th), P(filament)=P(λ₂>λ_th)-P(λ₁>λ_th),
+  P(cluster)=P(λ₁>λ_th)** — the *smallest* eigenvalue λ₁ exceeding λ_th ⇒ cluster
+  (all exceed). (An earlier draft of this entry flipped λ₁↔λ₃, matching a
+  descending convention the codebase does not use.) Sample-based and analytic
+  versions must agree to MC error — mismatch indicates an inversion or sampling
+  bug. **λ_th must equal the CWEB-labeling threshold (Abacus = 0.2, the CACTUS
+  default), not 0.0.** Implemented in
+  `shared/eigenvalue_transformations.py::posterior_to_classprobs`.
   (2) **Reliability diagram for class probabilities** (discrete-output
   complement to TARP): on Abacus (CACTUS ground truth available), bin galaxies
   by predicted P(filament) (and other classes), plot empirical true-class

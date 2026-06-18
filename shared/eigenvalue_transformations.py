@@ -362,5 +362,91 @@ def samples_to_raw_eigenvalues(samples, target_scaler, use_transformed_eig):
     # Reshape back if needed
     if len(original_shape) == 3:
         raw_eig = raw_eig.reshape(original_shape)
-    
+
     return raw_eig
+
+
+def posterior_to_classprobs(eig_samples, lambda_th=0.2, warn_tol=1e-6):
+    """T-Web class probabilities from posterior eigenvalue samples.
+
+    Implements SCIENCE_LOG validation step (1): per galaxy, threshold posterior
+    eigenvalue samples at ``lambda_th`` and count how many of (λ₁,λ₂,λ₃) exceed
+    it. With ordering λ₁≤λ₂≤λ₃ the crossing count n∈{0,1,2,3} maps directly to
+    Void / Wall / Filament / Cluster.
+
+    Two mathematically equivalent estimates are returned and cross-checked:
+
+    * **count-based** — n = Σ_k 1[λ_k > λ_th] per sample, then the fraction of
+      samples with n = 0/1/2/3 (order-independent: valid even if a sample
+      violates ordering).
+    * **marginal-based** — from per-eigenvalue exceedance p_k = P(λ_k > λ_th).
+      This module's canonical ordering is **ascending** (λ₁≤λ₂≤λ₃, see
+      ``increments_to_eigenvalues``), so p₁≤p₂≤p₃ and the decomposition is
+      P(void)=1-p₃, P(wall)=p₃-p₂, P(filament)=p₂-p₁, P(cluster)=p₁. (Note this
+      is the mirror of the descending λ₁≥λ₂≥λ₃ convention some external notes
+      use — the count-based path is order-independent and is the ground truth.)
+
+    They agree to MC error iff every sample is ordered. A divergence above
+    ``warn_tol`` therefore flags an inversion/sampling/ordering bug (e.g. a flow
+    trained on a non-order-enforcing parameterisation emitting λ₁>λ₂ samples) and
+    is surfaced as ``consistency_max_abs_diff`` (plus a printed warning).
+
+    Args:
+        eig_samples: raw eigenvalues, shape [K, 3] (one galaxy) or [N, K, 3].
+        lambda_th: T-Web eigenvalue threshold. Default 0.2 — the CACTUS default
+            (``threshold=0.2``) used to label the Abacus CWEB column; at 0.2 this
+            decomposition reproduces the catalog CWEB exactly. MUST match the
+            threshold used to build the ground-truth labels you compare against
+            (λ_th=0.0 gives physically wrong fractions for this data).
+        warn_tol: tolerance above which the count/marginal mismatch warns.
+
+    Returns:
+        dict with keys 'void','wall','filament','cluster' (scalar for [K,3]
+        input, shape [N] for [N,K,3]), the per-eigenvalue 'p_exceed', and
+        'consistency_max_abs_diff'.
+    """
+    import numpy as np
+
+    arr = np.asarray(eig_samples)
+    single = (arr.ndim == 2)
+    if single:
+        arr = arr[None, ...]          # [1, K, 3]
+    if arr.ndim != 3 or arr.shape[-1] != 3:
+        raise ValueError(f"expected [K,3] or [N,K,3] eigenvalue samples, got {arr.shape}")
+
+    exceed = arr > lambda_th          # [N, K, 3] bool
+
+    # count-based: n exceeding per sample -> class fractions over K
+    n_cross = exceed.sum(axis=-1)     # [N, K] in {0,1,2,3}
+    K = arr.shape[1]
+    count = {
+        'void':     np.mean(n_cross == 0, axis=1),
+        'wall':     np.mean(n_cross == 1, axis=1),
+        'filament': np.mean(n_cross == 2, axis=1),
+        'cluster':  np.mean(n_cross == 3, axis=1),
+    }
+
+    # marginal-based: from per-column exceedance probabilities
+    # Ascending convention λ₁≤λ₂≤λ₃  ->  p1≤p2≤p3.
+    p = exceed.mean(axis=1)           # [N, 3] = (p1, p2, p3)
+    p1, p2, p3 = p[:, 0], p[:, 1], p[:, 2]
+    marg = {
+        'void':     1.0 - p3,
+        'wall':     p3 - p2,
+        'filament': p2 - p1,
+        'cluster':  p1,
+    }
+
+    max_diff = max(float(np.max(np.abs(count[c] - marg[c]))) for c in count)
+    if max_diff > warn_tol:
+        print(f"[posterior_to_classprobs] WARNING: count vs marginal class-prob "
+              f"mismatch {max_diff:.3e} > tol {warn_tol:.1e} — likely ordering "
+              f"violations in the samples (non-order-enforcing parameterisation?).")
+
+    out = dict(count)
+    out['p_exceed'] = p[0] if single else p
+    out['consistency_max_abs_diff'] = max_diff
+    if single:
+        for c in ('void', 'wall', 'filament', 'cluster'):
+            out[c] = float(out[c][0])
+    return out

@@ -46,8 +46,10 @@ from flowjax.flows import masked_autoregressive_flow, RationalQuadraticSpline
 from flowjax.distributions import Normal
 
 from shared.graph_net_models import make_gnn_encoder
-from shared.eigenvalue_transformations import samples_to_raw_eigenvalues
+from shared.eigenvalue_transformations import samples_to_raw_eigenvalues, posterior_to_classprobs
 from shared.config_paths import CANONICAL_CACHE_ROOT, CANONICAL_FIGURE_ROOT
+
+CLASS_ORDER = ['void', 'wall', 'filament', 'cluster']
 
 # TARP coverage tests
 try:
@@ -145,10 +147,45 @@ def create_gnn_and_flow(config, flow_filename, graph, master_key):
 
 
 def sample_posterior(flow, embedding, num_samples, key):
-    """Sample from the posterior given an embedding."""
+    """Sample from the posterior given a single embedding. Returns [num_samples, 3]."""
     # Flowjax sampling
     samples = flow.sample(key, (num_samples,), condition=embedding)
     return np.array(samples)
+
+
+def batched_sample_posterior(flow, embeddings, num_samples, key, chunk_size=512):
+    """Vectorised posterior sampling over many nodes.
+
+    Replaces the per-node Python loop (one flow.sample call per node) with a
+    chunked jax.vmap over nodes — the same pattern the training script uses for
+    test-time posterior metrics. Turns thousands of small GPU dispatches into a
+    handful of batched ones (minutes -> seconds).
+
+    Args:
+        flow: trained flowjax flow.
+        embeddings: [N, cond_dim] conditioning embeddings (one per node).
+        num_samples: posterior samples per node (K).
+        key: PRNG key.
+        chunk_size: nodes per vmapped batch (bounds peak memory).
+
+    Returns:
+        np.ndarray [N, K, 3] of scaled posterior samples.
+    """
+    embeddings = jnp.asarray(embeddings)
+    n = int(embeddings.shape[0])
+
+    def _draw(node_keys, emb_chunk):
+        return jax.vmap(
+            lambda k, c: flow.sample(k, (num_samples,), condition=c)
+        )(node_keys, emb_chunk)
+
+    out = []
+    for start in range(0, n, chunk_size):
+        end = min(start + chunk_size, n)
+        key, sub = jax.random.split(key)
+        node_keys = jax.random.split(sub, end - start)
+        out.append(np.asarray(_draw(node_keys, embeddings[start:end])))
+    return np.concatenate(out, axis=0)
 
 
 def plot_single_posterior(samples_transformed, samples_raw, true_theta_transformed, true_theta_raw, 
@@ -295,22 +332,11 @@ def plot_tarp_coverage(embeddings, true_thetas, output_dir,
     
     n_points = min(num_test, len(embeddings))
     indices = np.random.choice(len(embeddings), n_points, replace=False)
-    
-    all_samples = []
-    all_thetas = []
-    
-    for i, idx in enumerate(indices):
-        if (i + 1) % 100 == 0:
-            print(f"  Sampling {i+1}/{n_points}...")
-        
-        key, sample_key = jax.random.split(key)
-        samples = sample_posterior(flow, embeddings[idx], num_samples, sample_key)
-        all_samples.append(samples)
-        all_thetas.append(true_thetas[idx])
-    
-    all_samples = np.array(all_samples)
-    all_thetas = np.array(all_thetas)
-    
+
+    # Vectorised: one chunked vmap over all TARP points instead of a per-node loop.
+    all_samples = batched_sample_posterior(flow, embeddings[indices], num_samples, key)
+    all_thetas = np.asarray(true_thetas[indices])
+
     # TARP expects [n_samples, n_evals, n_params]
     samples_tarp = np.transpose(all_samples, (1, 0, 2))
     
@@ -344,6 +370,61 @@ def plot_tarp_coverage(embeddings, true_thetas, output_dir,
         
     except Exception as e:
         print(f"Error computing TARP coverage: {e}")
+
+
+def plot_class_probabilities(embeddings, true_thetas_raw, output_dir, flow, key,
+                             target_scaler, use_transformed_eig, lambda_th=0.0,
+                             num_test=3000, num_samples=1000):
+    """SCIENCE_LOG validation (1): T-Web class probabilities from posterior samples.
+
+    Draws posterior eigenvalue samples per galaxy, converts to raw eigenvalues,
+    and derives P(void/wall/filament/cluster) via posterior_to_classprobs (with
+    its built-in count-vs-marginal consistency check). Saves a predicted-vs-true
+    class-fraction bar chart and a per-galaxy .npz of probabilities.
+    """
+    n = min(num_test, len(embeddings))
+    idx = np.random.choice(len(embeddings), n, replace=False)
+
+    samples_scaled = batched_sample_posterior(flow, embeddings[idx], num_samples, key)
+    samples_raw = samples_to_raw_eigenvalues(samples_scaled, target_scaler, use_transformed_eig)
+    cp = posterior_to_classprobs(samples_raw, lambda_th=lambda_th)  # [n] per class
+    print(f"  class-prob count/marginal consistency: {cp['consistency_max_abs_diff']:.3e}")
+
+    pred_frac = {c: float(np.mean(cp[c])) for c in CLASS_ORDER}
+    per_galaxy = {c: np.asarray(cp[c]) for c in CLASS_ORDER}
+
+    true_frac = None
+    if true_thetas_raw is not None:
+        tcp = posterior_to_classprobs(np.asarray(true_thetas_raw[idx])[:, None, :], lambda_th=lambda_th)
+        true_frac = {c: float(np.mean(tcp[c])) for c in CLASS_ORDER}
+
+    # Bar chart: mean predicted class fraction vs (count-based) truth fraction.
+    fig, ax = plt.subplots(1, 1, figsize=(8, 5))
+    x = np.arange(len(CLASS_ORDER))
+    w = 0.38
+    ax.bar(x - (w/2 if true_frac else 0), [pred_frac[c] for c in CLASS_ORDER],
+           w if true_frac else 0.6, label='Predicted (posterior mean)', color='steelblue')
+    if true_frac is not None:
+        ax.bar(x + w/2, [true_frac[c] for c in CLASS_ORDER], w,
+               label='True (Abacus)', color='darkorange')
+    ax.set_xticks(x)
+    ax.set_xticklabels([c.capitalize() for c in CLASS_ORDER])
+    ax.set_ylabel('Class fraction')
+    ax.set_title(f'T-Web class fractions from NPE posteriors '
+                 f'(λ_th={lambda_th}, {n} galaxies, {num_samples} samp/gal)')
+    ax.legend()
+    save_path = os.path.join(output_dir, 'flowjax_class_fractions.png')
+    plt.savefig(save_path, dpi=150, bbox_inches='tight')
+    print(f"Saved: {save_path}")
+    plt.close()
+
+    npz_path = os.path.join(output_dir, 'flowjax_class_probabilities.npz')
+    np.savez(npz_path, indices=idx, lambda_th=lambda_th,
+             consistency_max_abs_diff=cp['consistency_max_abs_diff'], **per_galaxy)
+    print(f"Saved: {npz_path}")
+    if true_frac is not None:
+        print(f"  predicted fractions: { {c: round(pred_frac[c],3) for c in CLASS_ORDER} }")
+        print(f"  true      fractions: { {c: round(true_frac[c],3) for c in CLASS_ORDER} }")
 
 
 def plot_training_history(logs_path, output_dir):
@@ -475,26 +556,24 @@ def main(args):
     np.random.seed(42)
     cal_indices = np.random.choice(n_test, n_cal, replace=False)
     
-    ranks_raw = []
-    ranks_trans = []
-    
     key, cal_key = jax.random.split(key)
-    for i, idx in enumerate(cal_indices):
-        if (i + 1) % 200 == 0:
-            print(f"  Sampling {i+1}/{n_cal}...")
-        
-        cal_key, sample_key = jax.random.split(cal_key)
-        samples_scaled = sample_posterior(flow, test_embeddings[idx], args.num_samples, sample_key)
-        samples_raw = samples_to_raw_eigenvalues(samples_scaled, target_scaler, use_transformed_eig)
-        samples_transformed = target_scaler.inverse_transform(samples_scaled)
-        
-        if test_targets_raw is not None:
-            rank_raw = np.mean(samples_raw < test_targets_raw[idx], axis=0)
-            ranks_raw.append(rank_raw)
-        
-        targets_trans = target_scaler.inverse_transform(test_targets[idx:idx+1])[0]
-        rank_trans = np.mean(samples_transformed < targets_trans, axis=0)
-        ranks_trans.append(rank_trans)
+    # Vectorised: chunked vmap over all calibration nodes at once -> [n_cal, K, 3].
+    cal_embeddings = test_embeddings[cal_indices]
+    cal_samples_scaled = batched_sample_posterior(flow, cal_embeddings, args.num_samples, cal_key)
+
+    # Transformed-space samples/targets and SBC ranks (vectorised over nodes).
+    flat_scaled = cal_samples_scaled.reshape(-1, 3)
+    cal_samples_trans = target_scaler.inverse_transform(flat_scaled).reshape(cal_samples_scaled.shape)
+    cal_targets_trans = target_scaler.inverse_transform(test_targets[cal_indices])  # [n_cal, 3]
+    # rank = fraction of posterior samples below the truth, per param.
+    ranks_trans = np.mean(cal_samples_trans < cal_targets_trans[:, None, :], axis=1)  # [n_cal, 3]
+
+    if test_targets_raw is not None:
+        cal_samples_raw = samples_to_raw_eigenvalues(
+            cal_samples_scaled, target_scaler, use_transformed_eig
+        )  # [n_cal, K, 3]
+        cal_targets_raw = np.asarray(test_targets_raw[cal_indices])  # [n_cal, 3]
+        ranks_raw = np.mean(cal_samples_raw < cal_targets_raw[:, None, :], axis=1)  # [n_cal, 3]
     
     # Plot raw eigenvalue calibration
     if test_targets_raw is not None:
@@ -552,6 +631,22 @@ def main(args):
         num_samples=args.num_samples
     )
     
+    # Class probabilities (SCIENCE_LOG validation step 1)
+    print("\n[6/6] Computing T-Web class probabilities from posteriors...")
+    key, cls_key = jax.random.split(key)
+    plot_class_probabilities(
+        test_embeddings,
+        test_targets_raw,
+        args.output_dir,
+        flow,
+        cls_key,
+        target_scaler,
+        use_transformed_eig,
+        lambda_th=args.lambda_th,
+        num_test=min(3000, n_test),
+        num_samples=args.num_samples,
+    )
+
     print("\n" + "=" * 70)
     print(f"All plots saved to: {args.output_dir}")
     print("=" * 70)
@@ -567,6 +662,9 @@ if __name__ == '__main__':
                         help='Number of individual posterior plots')
     parser.add_argument('--num_samples', type=int, default=2000,
                         help='Number of posterior samples per plot')
+    parser.add_argument('--lambda_th', type=float, default=0.2,
+                        help='T-Web eigenvalue threshold for class probabilities '
+                             '(0.2 = CACTUS default; reproduces the Abacus CWEB labels)')
     
     args = parser.parse_args()
     main(args)
