@@ -46,6 +46,83 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-18 — [science] Posterior validation plan beyond TARP: class probabilities, skewer check, boundary degradation, closure tests
+- What: TARP only certifies statistical self-consistency, not physical
+  correctness on DESI where no per-galaxy truth exists. Defined four concrete,
+  implementable validation steps for wedge-NPE q(λ|X) output:
+  (1) **Class probabilities from samples.** Per galaxy, draw S posterior samples
+  in increment space, invert to physical (λ₁,λ₂,λ₃) (ordering guaranteed by
+  construction), threshold at λ_th, count crossings n=Σ1[λ_k>λ_th] (n∈{0,1,2,3}
+  by ordering): P(void)=mean(n=0), P(wall)=mean(n=1), P(filament)=mean(n=2),
+  P(cluster)=mean(n=3). Cross-check analytically via marginal CDFs: P(λ_k>λ_th)
+  from each marginal, then P(void)=1-P(λ₁>λ_th), P(wall)=P(λ₁>λ_th)-P(λ₂>λ_th),
+  P(filament)=P(λ₂>λ_th)-P(λ₃>λ_th), P(cluster)=P(λ₃>λ_th). Sample-based and
+  analytic versions must agree to MC error — mismatch indicates an inversion or
+  sampling bug.
+  (2) **Reliability diagram for class probabilities** (discrete-output
+  complement to TARP): on Abacus (CACTUS ground truth available), bin galaxies
+  by predicted P(filament) (and other classes), plot empirical true-class
+  fraction per bin vs predicted probability. Diagonal = calibrated; deviation
+  flags over/under-confidence, expected to concentrate at wall/filament
+  boundary per RASTI confusion matrix.
+  (3) **Posterior-width vs distance-to-boundary.** Compute per-galaxy posterior
+  width (e.g. mean marginal σ across λ₁,λ₂,λ₃, or posterior entropy) vs distance
+  to wedge/survey edge (RA/Dec/z footprint boundary, alpha-complex hemisphere
+  split) and vs distance to T-web class boundary (λ near λ_th). Expect
+  monotonic widening near both. On Abacus (truth known) also plot width vs
+  true prediction error to confirm widening tracks real degradation, not just
+  graph truncation artifacts; confirm DESI shows the same *shape* of
+  width-vs-edge-distance curve as Abacus.
+  (4) **Property–environment closure test (DESI-only, no truth needed).** Bin
+  real DESI BGS galaxies by inferred environment (E[trace(λ)] or dominant class
+  probability) and check recovery of known relations: quenched fraction /
+  colour / sSFR rising toward filament→cluster, morphology–density trend.
+  Recovering established astrophysical trends from inferred-only environment is
+  evidence the posteriors carry real physical information.
+  Also scoped (5) cross-check against independent structure finder (DisPerSE
+  filaments, or BORG T-web per existing on-the-horizon validation target):
+  expect bulk agreement, divergence concentrated at class boundaries as the
+  reassuring signature, not a failure mode.
+  (6) **Animated line-of-sight skewer plot.** Pick a 1D skewer through a wedge
+  (Abacus or DESI Loa) crossing void→wall→filament→cluster. At each position
+  along the skewer: render the three eigenvalue marginal posterior densities
+  (KDE over per-position-bin galaxy samples, not Gaussian — Gaussian only used
+  for the Desktop mockup) with λ_th marked, a posterior-width ribbon, and the
+  class-probability bar from (1)/(2)'s class-prob math. Animate by sweeping
+  position; render as a saved video/gif, not just an interactive widget, so it
+  drops into the talk deck. On Abacus, overlay the true CACTUS (λ₁,λ₂,λ₃) as
+  moving markers on the posterior panel — credible bands containing truth
+  through the transition, widening exactly where truth nears λ_th, is the
+  core "physically sensible" evidence this whole validation plan is for.
+- Why / decision: visualizing 3 correlated posteriors per galaxy across an
+  entire wedge does not scale; need scalar/derived functionals overlaid on
+  geometry instead of raw posterior dumps, and need validation that is
+  meaningful on DESI specifically (no per-galaxy truth there), not just on
+  Abacus. (1)+(2) give a calibration check at the class level; (3) gives a
+  boundary-physics sense-check transferable Abacus→DESI; (4) gives a truth-free
+  closure test directly on real BGS data. (6) is the figure that actually
+  conveys physicality to a human audience — the others are diagnostic plots,
+  this is the one that shows the posteriors tracking real structure.
+- Next: implement (1) as a `posterior_to_classprobs(samples, lambda_th)`
+  utility in `shared/eigenvalue_transformations.py` (sample-count path +
+  analytic-CDF path, with an assert/warning if they diverge beyond MC
+  tolerance); implement (2) reliability diagram + (3) width-vs-boundary-distance
+  + (6) skewer animation in `workflows/visualization/` using
+  `shared/plot_style.py` (COSMIC_WEB_COLORS for class bins, matplotlib
+  FuncAnimation or equivalent for (6)); run (3) and (6) on one Abacus wedge
+  first (truth overlay available), then the matching DESI Loa wedge, compare;
+  (4) needs BGS property table joined to wedge-NPE output by target ID — check
+  join keys exist in current DESI Loa wedge cache before scripting. (5)
+  BORG/DisPerSE cross-check stays "on the horizon" pending BORG catalogue
+  access — not in this sprint.
+- Refs: `shared/eigenvalue_transformations.py` (ordered softplus increment
+  policy — class-prob math must operate in this space then invert), CACTUS
+  labels (Abacus truth), DESI BGS LSS catalogues at
+  `/global/cfs/cdirs/desi` (property–environment closure), RASTI confusion
+  matrix (wall/filament boundary expectation), `PLOT_STYLE_GUIDE.md`. Desktop
+  mockup of (6) (Gaussian-approximation, interactive, not the real KDE version)
+  built this session for layout reference.
+
 ### 2026-06-17 — [science] Plot style guide finalized: true-black theme, cosmic-web class colors, IBM Plex Sans
 - What: Defined canonical matplotlib style for all GraphWeb_DESI plots: true-black
   (#000000) background, off-white (#F2F2F2) text/ticks; confirmed FLATS-deck
