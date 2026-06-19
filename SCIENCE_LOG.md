@@ -46,6 +46,41 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-19 — [code] DESI transfer: linear NPE runs on real DESI LOA wedge (conference key result)
+- What: Ran the linear-increment FlowJAX NPE on the real DESI LOA wedge (112,755
+  bright BGS galaxies, same RA120–160/Dec14.5–30.6/z0.2–0.3 footprint). New
+  scripts in `GraphWeb_DESI/workflows/sbi_inference/`:
+  `infer_desi_wedge_flowjax.py` (GPU forward) + `plot_desi_wedge_flowjax.py`
+  (themed figures). Mirrors the regression inference's preprocessing (node box-cox
+  from cache `node_feature_scaler`; edge bidirectional+log+StandardScaler via
+  `shared/abacus_gnn_parity.py`) but swaps the model for the GNN encoder + flow
+  (128 posterior samples/galaxy → λ posteriors → class probs). Reuses
+  `load_flowjax_model`/`create_gnn_and_flow`/`batched_sample_posterior`/
+  `samples_to_raw_eigenvalues`/`posterior_to_classprobs`.
+- Result: **transfer works, no collapse.** DESI NPE class fractions
+  {void .254, wall .447, fil .273, clu .027} sit right between Abacus truth
+  {.27/.41/.26/.06} and regression DESI {.246/.462/.266/.026} — wall-dominated,
+  cluster-rare. Cluster .027 matches regression (.026), both below Abacus truth
+  (.06) = the documented DESI cluster-tail transfer gap.
+- NPE-specific findings the regression can't give: (a) per-galaxy posterior WIDTH
+  sky map shows coherent structure tracking the cosmic web + survey-footprint
+  gaps; (b) width rises near the survey edge (graph-truncation) AND rises with
+  eigenvalue extremity (tail distance), NOT with class-boundary ambiguity;
+  (c) ordering-violation rate is **4.7% on DESI vs 0.8% on Abacus** — a clean
+  quantification of the domain shift (flow less certain on out-of-distribution
+  real data; count-based class fracs stay robust). Fixable later with a post-hoc
+  sort of posterior samples.
+- CRITICAL parity guard: the edge scaler MUST be fit on the **path1 fiberassign**
+  wedge npz (the model's training graph), NOT the regression wedge the old script
+  uses — both have ~100k nodes so only a constants-assert (mean≈[2.15,0], scale≈
+  [0.70,1.77]) catches a mix-up. Hard-asserted in the script.
+- Outputs: `/pscratch/.../graphweb_desi/flowjax_inference_outputs/desi_wedge_flowjax_linear/`
+  (preds npz + summary.json + 5 themed figures). TARP/SBC stay Abacus-side (no DESI
+  truth). Stretch (post-conf): property–environment closure (needs TARGETID→
+  fastspecfit join), skewer animation. See [[project-path1-wedge-npe-run]].
+- Refs: `GraphWeb_DESI/workflows/sbi_inference/{infer,plot}_desi_wedge_flowjax.py`,
+  reused DESI wedge `desi_wedge_expanded_..._from_fullgraph/`.
+
 ### 2026-06-19 — [code] Wedge NPE parameterisation study: linear increments win; mock ruled out
 - What: Ran the 3-d FlowJAX NPE on the path1 fiberassign wedge (z 0.2–0.3,
   100,935 nodes) under all three eigenvalue parameterisations, 4×A100, 7000
