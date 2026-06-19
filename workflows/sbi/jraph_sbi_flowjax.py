@@ -156,18 +156,27 @@ def main(args):
     # =========================================================================
     print("\n[1/6] Loading data...")
     
-    use_transformed_eig = not getattr(args, 'no_transformed_eig', False)
+    # Resolve the target parameterisation: explicit --increment_mode wins,
+    # else fall back to the legacy --no_transformed_eig bool.
+    if getattr(args, 'increment_mode', None):
+        increment_mode = args.increment_mode
+    else:
+        increment_mode = 'raw' if getattr(args, 'no_transformed_eig', False) else 'softplus'
+    # 'use_transformed_eig' here means "targets live in an increment space" (softplus
+    # OR linear) vs raw eigenvalues — controls the increment-space metric prints.
+    use_transformed_eig = (increment_mode != 'raw')
     paths = resolve_sbi_paths(
-        use_transformed_eig=use_transformed_eig,
+        use_transformed_eig=increment_mode,
         output_dir=args.output_dir,
     )
     args.output_dir = paths.output_dir
-    
-    # Select cache path based on transformation flag
-    if use_transformed_eig:
-        print("[Mode] Using transformed eigenvalues (v₁, Δλ₂, Δλ₃)")
-    else:
-        print("[Mode] Using raw eigenvalues (λ₁, λ₂, λ₃)")
+
+    _mode_label = {
+        'softplus': "[Mode] softplus increments (v₁, Δλ₂, Δλ₃) — ordering enforced",
+        'linear':   "[Mode] linear increments (v₁, λ₂-λ₁, λ₃-λ₂) — ordering NOT enforced",
+        'raw':      "[Mode] raw eigenvalues (λ₁, λ₂, λ₃) — ordering NOT enforced",
+    }[increment_mode]
+    print(_mode_label)
     graph, targets, train_mask, val_mask, test_mask, target_scaler, eigenvalues_raw, stats = (
         load_cached_sbi_data(paths.data_path)
     )
@@ -533,6 +542,7 @@ def main(args):
             'config': vars(args),
             'target_scaler': target_scaler,
             'use_transformed_eig': use_transformed_eig,
+            'increment_mode': increment_mode,  # 'softplus' | 'linear' | 'raw'
             'flow_filename': flow_filename,  # Reference to flow file
         }, f)
     print(f"Model saved to {model_filename}")
@@ -631,8 +641,8 @@ def main(args):
     posterior_mean_np = np.concatenate(mean_est_chunks, axis=0)
     
     # Convert samples to raw eigenvalues
-    samples_raw_eig_point = samples_to_raw_eigenvalues(posterior_point_np, target_scaler, use_transformed_eig)
-    samples_raw_eig_mean = samples_to_raw_eigenvalues(posterior_mean_np, target_scaler, use_transformed_eig)
+    samples_raw_eig_point = samples_to_raw_eigenvalues(posterior_point_np, target_scaler, increment_mode)
+    samples_raw_eig_mean = samples_to_raw_eigenvalues(posterior_mean_np, target_scaler, increment_mode)
     
     # Ground truth raw eigenvalues for test set
     test_targets_raw_eig = eigenvalues_raw[test_indices_np]
@@ -750,6 +760,12 @@ if __name__ == '__main__':
     # Eigenvalue transformation
     parser.add_argument('--no_transformed_eig', action='store_true',
                         help='Use raw eigenvalues instead of transformed (v₁, Δλ₂, Δλ₃)')
+    parser.add_argument('--increment_mode', type=str, default=None,
+                        choices=['softplus', 'linear', 'raw'],
+                        help='Target parameterisation. Overrides --no_transformed_eig. '
+                             'softplus=ordered increments (default), linear=plain increments '
+                             '(λ₂-λ₁), raw=direct eigenvalues. Cache suffix: '
+                             '_transformed_eig/_linear_eig/_raw_eig.')
     
     args = parser.parse_args()
     main(args)

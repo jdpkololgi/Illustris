@@ -71,11 +71,13 @@ def load_flowjax_model(model_path):
     target_scaler = model_info.get('target_scaler', model_info.get('eigenvalue_scaler'))  # Backward compat
     flow_filename = model_info['flow_filename']
     use_transformed_eig = model_info.get('use_transformed_eig', False)
-    
+    # Prefer the explicit 3-mode marker; fall back to the legacy bool.
+    increment_mode = model_info.get('increment_mode') or ('softplus' if use_transformed_eig else 'raw')
+
     print(f"Loading flow from: {flow_filename}")
-    print(f"Use transformed eigenvalues: {use_transformed_eig}")
-    
-    return gnn_params, config, target_scaler, flow_filename, use_transformed_eig
+    print(f"Increment mode: {increment_mode}")
+
+    return gnn_params, config, target_scaler, flow_filename, increment_mode
 
 
 def load_posteriors(posteriors_path):
@@ -86,14 +88,12 @@ def load_posteriors(posteriors_path):
     return data
 
 
-def load_data(data_path=None, use_transformed_eig=True):
-    """Load the graph data and targets."""
+def load_data(data_path=None, increment_mode='softplus'):
+    """Load the graph data and targets for the given increment mode."""
     if data_path is None:
         cache_dir = os.environ.get("TNG_SBI_CACHE_DIR", f"{CANONICAL_CACHE_ROOT}/sbi")
-        if use_transformed_eig:
-            data_path = f'{cache_dir}/processed_jraph_data_mc1e+09_v2_scaled_3_transformed_eig.pkl'
-        else:
-            data_path = f'{cache_dir}/processed_jraph_data_mc1e+09_v2_scaled_3_raw_eig.pkl'
+        suffix = {'softplus': '_transformed_eig', 'linear': '_linear_eig', 'raw': '_raw_eig'}[increment_mode]
+        data_path = f'{cache_dir}/processed_jraph_data_mc1e+09_v2_scaled_3{suffix}.pkl'
     
     print(f"Loading data from: {data_path}")
     with open(data_path, 'rb') as f:
@@ -189,10 +189,10 @@ def batched_sample_posterior(flow, embeddings, num_samples, key, chunk_size=512)
 
 
 def plot_single_posterior(samples_transformed, samples_raw, true_theta_transformed, true_theta_raw, 
-                          idx, output_dir, use_transformed_eig=True, num_samples=2000):
+                          idx, output_dir, increment_mode='softplus', num_samples=2000):
     """Create a corner plot for a single posterior in both spaces."""
     param_names_raw = [r'$\lambda_1$', r'$\lambda_2$', r'$\lambda_3$']
-    param_names_trans = [r'$v_1$', r'$\Delta\lambda_2$', r'$\Delta\lambda_3$'] if use_transformed_eig else param_names_raw
+    param_names_trans = [r'$v_1$', r'$\Delta\lambda_2$', r'$\Delta\lambda_3$'] if increment_mode != 'raw' else param_names_raw
     
     # Create 2 rows of corner plots: transformed space and raw eigenvalue space
     fig, axes = plt.subplots(2, 3, figsize=(12, 8))
@@ -373,7 +373,7 @@ def plot_tarp_coverage(embeddings, true_thetas, output_dir,
 
 
 def plot_class_probabilities(embeddings, true_thetas_raw, output_dir, flow, key,
-                             target_scaler, use_transformed_eig, lambda_th=0.0,
+                             target_scaler, increment_mode, lambda_th=0.2,
                              num_test=3000, num_samples=1000):
     """SCIENCE_LOG validation (1): T-Web class probabilities from posterior samples.
 
@@ -386,7 +386,7 @@ def plot_class_probabilities(embeddings, true_thetas_raw, output_dir, flow, key,
     idx = np.random.choice(len(embeddings), n, replace=False)
 
     samples_scaled = batched_sample_posterior(flow, embeddings[idx], num_samples, key)
-    samples_raw = samples_to_raw_eigenvalues(samples_scaled, target_scaler, use_transformed_eig)
+    samples_raw = samples_to_raw_eigenvalues(samples_scaled, target_scaler, increment_mode)
     cp = posterior_to_classprobs(samples_raw, lambda_th=lambda_th)  # [n] per class
     print(f"  class-prob count/marginal consistency: {cp['consistency_max_abs_diff']:.3e}")
 
@@ -473,18 +473,18 @@ def main(args):
     os.makedirs(args.output_dir, exist_ok=True)
     
     # Load model
-    gnn_params, config, target_scaler, flow_filename, use_transformed_eig = load_flowjax_model(args.model_path)
-    
+    gnn_params, config, target_scaler, flow_filename, increment_mode = load_flowjax_model(args.model_path)
+
     # Load data
     graph, targets, train_mask, val_mask, test_mask, eigenvalues_raw = load_data(
-        use_transformed_eig=use_transformed_eig
+        increment_mode=increment_mode
     )
     
     test_targets = targets[test_mask]
     test_targets_raw = eigenvalues_raw[test_mask] if eigenvalues_raw is not None else None
     n_test = int(np.sum(test_mask))
     print(f"\nTest set: {n_test} samples")
-    print(f"Use transformed eigenvalues: {use_transformed_eig}")
+    print(f"Increment mode: {increment_mode}")
     
     # Setup
     master_key = jax.random.key(42)
@@ -517,7 +517,7 @@ def main(args):
         samples_scaled = sample_posterior(flow, test_embeddings[idx], args.num_samples, sample_key)
         
         # Convert to raw eigenvalue space
-        samples_raw = samples_to_raw_eigenvalues(samples_scaled, target_scaler, use_transformed_eig)
+        samples_raw = samples_to_raw_eigenvalues(samples_scaled, target_scaler, increment_mode)
         
         # Get unscaled transformed (for visualization)
         samples_transformed = target_scaler.inverse_transform(samples_scaled)
@@ -530,7 +530,7 @@ def main(args):
             test_targets_raw[idx] if test_targets_raw is not None else targets_transformed,
             idx,
             args.output_dir,
-            use_transformed_eig=use_transformed_eig,
+            increment_mode=increment_mode,
             num_samples=args.num_samples
         )
     
@@ -550,7 +550,7 @@ def main(args):
     # Calibration check (using on-the-fly transformation)
     print("\n[4/5] Running SBC-style calibration check...")
     param_names_raw = [r'$\lambda_1$', r'$\lambda_2$', r'$\lambda_3$']
-    param_names_trans = [r'$v_1$', r'$\Delta\lambda_2$', r'$\Delta\lambda_3$'] if use_transformed_eig else param_names_raw
+    param_names_trans = [r'$v_1$', r'$\Delta\lambda_2$', r'$\Delta\lambda_3$'] if increment_mode != 'raw' else param_names_raw
     
     n_cal = min(1000, n_test)
     np.random.seed(42)
@@ -570,7 +570,7 @@ def main(args):
 
     if test_targets_raw is not None:
         cal_samples_raw = samples_to_raw_eigenvalues(
-            cal_samples_scaled, target_scaler, use_transformed_eig
+            cal_samples_scaled, target_scaler, increment_mode
         )  # [n_cal, K, 3]
         cal_targets_raw = np.asarray(test_targets_raw[cal_indices])  # [n_cal, 3]
         ranks_raw = np.mean(cal_samples_raw < cal_targets_raw[:, None, :], axis=1)  # [n_cal, 3]
@@ -641,7 +641,7 @@ def main(args):
         flow,
         cls_key,
         target_scaler,
-        use_transformed_eig,
+        increment_mode,
         lambda_th=args.lambda_th,
         num_test=min(3000, n_test),
         num_samples=args.num_samples,

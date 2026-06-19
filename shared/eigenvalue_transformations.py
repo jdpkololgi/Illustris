@@ -319,8 +319,51 @@ def increments_to_eigenvalues(increments):
     # softplus = log(1 + exp(x))
     l2 = l1 + jnp.logaddexp(0., v2)
     l3 = l2 + jnp.logaddexp(0., v3)
-    
+
     return jnp.stack([l1, l2, l3], axis=-1)
+
+
+def eigenvalues_to_linear_increments(eigenvalues):
+    """Convert sorted eigenvalues (λ₁≤λ₂≤λ₃) to PLAIN linear increments.
+
+    v₁ = λ₁, v₂ = λ₂ - λ₁, v₃ = λ₃ - λ₂ (no inverse-softplus). This is the
+    parameterisation used by the 15-d Abacus wedge regression cache. Unlike the
+    softplus increments it is well-conditioned (no heavy left tail for small
+    gaps), but it does NOT enforce ordering: a model is free to predict/sample a
+    negative increment, so λ₂<λ₁ is possible. Only the softplus form guarantees
+    λ₁≤λ₂≤λ₃ by construction.
+    """
+    l1 = eigenvalues[:, 0]
+    d2 = eigenvalues[:, 1] - eigenvalues[:, 0]
+    d3 = eigenvalues[:, 2] - eigenvalues[:, 1]
+    return jnp.stack([l1, d2, d3], axis=-1)
+
+
+def linear_increments_to_eigenvalues(increments):
+    """Invert eigenvalues_to_linear_increments via cumulative sum.
+
+    λ₁ = v₁, λ₂ = λ₁ + v₂, λ₃ = λ₂ + v₃. No clamping — if the increments are
+    negative the recovered eigenvalues may violate ordering (by design; see
+    eigenvalues_to_linear_increments).
+    """
+    l1 = increments[:, 0]
+    l2 = l1 + increments[:, 1]
+    l3 = l2 + increments[:, 2]
+    return jnp.stack([l1, l2, l3], axis=-1)
+
+
+def resolve_increment_mode(use_transformed_eig):
+    """Normalise a parameterisation spec to one of 'softplus' | 'linear' | 'raw'.
+
+    Accepts the legacy boolean (True→'softplus', False→'raw') or an explicit
+    string, so older call sites that pass a bool keep working unchanged.
+    """
+    if isinstance(use_transformed_eig, str):
+        mode = use_transformed_eig.lower()
+        if mode not in ('softplus', 'linear', 'raw'):
+            raise ValueError(f"unknown increment mode {use_transformed_eig!r}")
+        return mode
+    return 'softplus' if use_transformed_eig else 'raw'
 
 
 ####################################
@@ -338,25 +381,30 @@ def samples_to_raw_eigenvalues(samples, target_scaler, use_transformed_eig):
     Args:
         samples: [N, 3] or [N, K, 3] array of flow samples (scaled)
         target_scaler: sklearn StandardScaler used during training
-        use_transformed_eig: whether targets were transformed
-    
+        use_transformed_eig: parameterisation of the targets — legacy bool
+            (True→softplus increments, False→raw eigenvalues) or an explicit
+            string 'softplus' | 'linear' | 'raw'.
+
     Returns:
         Raw eigenvalues [N, 3] or [N, K, 3]
     """
     import numpy as np
-    
+
+    mode = resolve_increment_mode(use_transformed_eig)
     original_shape = samples.shape
     if len(original_shape) == 3:
         # Reshape for scaler: [N*K, 3]
         samples = samples.reshape(-1, 3)
-    
+
     # Step 1: Inverse scale
     samples_unscaled = target_scaler.inverse_transform(samples)
-    
-    # Step 2: If transformed, convert increments to eigenvalues
-    if use_transformed_eig:
+
+    # Step 2: invert the increment parameterisation back to eigenvalues
+    if mode == 'softplus':
         raw_eig = np.array(increments_to_eigenvalues(jnp.array(samples_unscaled)))
-    else:
+    elif mode == 'linear':
+        raw_eig = np.array(linear_increments_to_eigenvalues(jnp.array(samples_unscaled)))
+    else:  # 'raw'
         raw_eig = samples_unscaled
     
     # Reshape back if needed

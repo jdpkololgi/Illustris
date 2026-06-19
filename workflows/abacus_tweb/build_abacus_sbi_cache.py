@@ -61,7 +61,10 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from shared.abacus_cutsky_selection import cutsky_desi_bgs_mock_mask
-from shared.eigenvalue_transformations import eigenvalues_to_increments
+from shared.eigenvalue_transformations import (
+    eigenvalues_to_increments,
+    eigenvalues_to_linear_increments,
+)
 
 
 def _resolve_col(table, candidates: Iterable[str]) -> str:
@@ -401,6 +404,15 @@ def parse_args() -> argparse.Namespace:
         help="Use raw eigenvalues as targets instead of transformed increments.",
     )
     parser.add_argument(
+        "--linear-increments",
+        action="store_true",
+        help=(
+            "Build 3-d LINEAR increment targets (v1=λ1, v2=λ2-λ1, v3=λ3-λ2) — the same "
+            "parameterisation as the 15-d wedge regression cache. Well-conditioned (no "
+            "softplus tail) but does not enforce ordering. Only valid with --three-targets-only."
+        ),
+    )
+    parser.add_argument(
         "--three-targets-only",
         action="store_true",
         help=(
@@ -617,6 +629,23 @@ def main() -> None:
         print("Scaled target stats (train split) for 15-d targets:")
         print("  mean:", np.array2string(mu_s, precision=4, floatmode="fixed"))
         print("  std :", np.array2string(sd_s, precision=4, floatmode="fixed"))
+    elif getattr(args, "linear_increments", False):
+        # 3-d LINEAR increments (v1=λ1, v2=λ2-λ1, v3=λ3-λ2): same parameterisation
+        # as the 15-d wedge regression cache, but as a standalone 3-d SBI target.
+        linear = np.array(eigenvalues_to_linear_increments(jnp.array(eigenvalues_raw)))
+        regression_targets_raw = np.asarray(linear, dtype=np.float64)
+        target_scaler.fit(linear[train_idx])
+        linear_scaled = target_scaler.transform(linear)
+        regression_targets = jnp.array(linear_scaled, dtype=jnp.float32)
+        scaled_min = np.min(linear_scaled[train_idx], axis=0)
+        scaled_max = np.max(linear_scaled[train_idx], axis=0)
+        stats = {
+            "increment_mode": "linear",
+            "target_min": scaled_min.tolist(),
+            "target_max": scaled_max.tolist(),
+            "scaler_mean": target_scaler.mean_.tolist(),
+            "scaler_std": target_scaler.scale_.tolist(),
+        }
     else:
         if use_transformed_eig:
             transformed = np.array(eigenvalues_to_increments(jnp.array(eigenvalues_raw)))
@@ -628,6 +657,7 @@ def main() -> None:
             scaled_min = np.min(transformed_scaled[train_idx], axis=0)
             scaled_max = np.max(transformed_scaled[train_idx], axis=0)
             stats = {
+                "increment_mode": "softplus",
                 "v1_min_scaled": float(scaled_min[0]),
                 "v1_max_scaled": float(scaled_max[0]),
                 "target_min": scaled_min.tolist(),
@@ -640,6 +670,7 @@ def main() -> None:
             target_scaler.fit(eigenvalues_raw[train_idx])
             scaled = target_scaler.transform(eigenvalues_raw)
             regression_targets = jnp.array(scaled, dtype=jnp.float32)
+            stats = {"increment_mode": "raw"}
 
     payload = {
         "graph": graph,
@@ -666,7 +697,10 @@ def main() -> None:
     if deriv12 is not None:
         mode_name = "15-d (v1,v2,v3 + R*grads + R^2*laps)"
     else:
-        mode_name = "transformed (v1, Δλ2, Δλ3)" if use_transformed_eig else "raw scaled (λ1, λ2, λ3)"
+        if getattr(args, "linear_increments", False):
+            mode_name = "linear increments (v1=λ1, v2=λ2-λ1, v3=λ3-λ2)"
+        else:
+            mode_name = "transformed (v1, Δλ2, Δλ3)" if use_transformed_eig else "raw scaled (λ1, λ2, λ3)"
     print(f"Target mode: {mode_name}")
     print(f"Wrote SBI cache: {out_cache}")
 

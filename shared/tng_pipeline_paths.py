@@ -62,11 +62,16 @@ class SBIPaths:
 
 
 def resolve_sbi_paths(
-    use_transformed_eig: bool,
+    use_transformed_eig,
     output_dir: str | None = None,
     cache_dir: str | None = None,
 ) -> SBIPaths:
-    """Resolve cache and output paths for the FlowJAX SBI pipeline."""
+    """Resolve cache and output paths for the FlowJAX SBI pipeline.
+
+    ``use_transformed_eig`` accepts the legacy bool (True→softplus/transformed,
+    False→raw) or an explicit mode string 'softplus' | 'linear' | 'raw', which
+    select cache suffixes ``_transformed_eig`` / ``_linear_eig`` / ``_raw_eig``.
+    """
     resolved_cache_dir = cache_dir or os.environ.get(
         "TNG_SBI_CACHE_DIR",
         DEFAULT_SBI_CACHE_DIR,
@@ -76,7 +81,11 @@ def resolve_sbi_paths(
         DEFAULT_SBI_OUTPUT_DIR,
     )
 
-    suffix = "_transformed_eig" if use_transformed_eig else "_raw_eig"
+    if isinstance(use_transformed_eig, str):
+        _suffix_map = {"softplus": "_transformed_eig", "linear": "_linear_eig", "raw": "_raw_eig"}
+        suffix = _suffix_map[use_transformed_eig.lower()]
+    else:
+        suffix = "_transformed_eig" if use_transformed_eig else "_raw_eig"
     data_path = f"{resolved_cache_dir}/processed_jraph_data_mc1e+09_v2_scaled_3{suffix}.pkl"
     return SBIPaths(
         cache_dir=resolved_cache_dir,

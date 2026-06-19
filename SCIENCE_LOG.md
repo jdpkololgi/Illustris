@@ -46,6 +46,48 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-19 — [code] Wedge NPE parameterisation study: linear increments win; mock ruled out
+- What: Ran the 3-d FlowJAX NPE on the path1 fiberassign wedge (z 0.2–0.3,
+  100,935 nodes) under all three eigenvalue parameterisations, 4×A100, 7000
+  epochs, seed 42, identical arch/reg/split. Result (Test NLL / posterior-mean
+  R² / ordering-violation rate / TARP):
+  | param | NLL | R² | viol. | TARP |
+  |---|---|---|---|---|
+  | softplus increments | +2.25 | 0.74 | 0% | tight |
+  | **linear increments** | **+1.13** | **0.82** | **0.8%** | **tightest** |
+  | raw eigenvalues | −0.07 | 0.85 | 2.5% | over-confident |
+  Softplus's +2 NLL floor was the inverse-softplus heavy tail (init NLL 215 vs
+  ~8–10 for linear/raw). Raw gets the lowest NLL but is *over-sharpened*
+  (over-confident TARP, 2.5% out-of-order samples). **Linear increments
+  Pareto-dominate softplus** (better NLL, R², calibration; negligible 0.8%
+  violations) and are the best-calibrated overall — and match the 15-d wedge
+  regression's own parameterisation. **Headline choice = linear** for the
+  Cambridge talk (calibration-first venue). Hyperparameter tuning (dropout 0→0,
+  wd 0.08→0.01) made no difference — not the lever.
+- Mock audit cross-ref (separate session "Path1 mock generation audit"): found
+  the spectro-injection resurrects fibre-unobserved targets as sentinel z≈0.59
+  (2.08M rows, 21.8% of mock_bgs_maglim). **Our wedge is 100% clean** (Z∈[0.200,
+  0.300], 0.00% at 0.59 — verified). So mock generation is **ruled out** as the
+  NLL-floor cause; the floor is the wedge's genuine information content (sparse
+  fiber-incomplete DESI-like selection). The sentinel flaw is a **z-expansion
+  blocker**: expand in RA/Dec (or fix the injection first), never in z, until
+  the injection is corrected.
+- Code (uncommitted→committed this entry): added `--linear-increments` to
+  `build_abacus_sbi_cache.py`; `eigenvalues_to_linear_increments` /
+  `linear_increments_to_eigenvalues` / `resolve_increment_mode` and a 3-mode
+  `samples_to_raw_eigenvalues` in `shared/eigenvalue_transformations.py`;
+  `--increment_mode {softplus,linear,raw}` threaded through
+  `jraph_sbi_flowjax.py` + `resolve_sbi_paths` (suffix `_linear_eig`) + the saved
+  model + `plot_flowjax_posteriors.py`; vectorised the eval (chunked vmap, TARP +
+  SBC + class-prob); checkpoint/resume.
+- Next: (1) regenerate TARP + class-fraction figures from the linear run in the
+  plot-style-guide theme for the deck; (2) LOCK the wedge — do not expand before
+  the talk (multi-day rebuild, not needed; calibration is the headline);
+  (3) post-conf: fix sentinel injection, then RA/Dec wedge expansion for tighter
+  constraints. See [[project-path1-wedge-npe-run]], [[project-path1-sentinel-z-bug]].
+- Refs: runs `path1_wedge_flowjax_3d_{testA_reg,testB_raweig,Bcorrected_linear}`
+  under `/pscratch/.../abacus/sbi_runs/`; caches `path1_flowjax_3d{,_raweig,_lineareig}`.
+
 ### 2026-06-18 — [science] Posterior validation plan beyond TARP: class probabilities, skewer check, boundary degradation, closure tests
 - What: TARP only certifies statistical self-consistency, not physical
   correctness on DESI where no per-galaxy truth exists. Defined four concrete,
