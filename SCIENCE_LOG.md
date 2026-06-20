@@ -91,6 +91,14 @@ Entry shape:
   denser, edges 7% shorter, scaled log(edge_length) sits −0.11σ off the Abacus N(0,1)
   — the GNN sees a different graph scale even at fixed node features. Modest but the
   only lever that survives falsification.
+- **Phase-0 cheap fix (inference-time domain correction, no retrain):** re-standardising
+  DESI scaled EDGE features to training N(0,1) (`--edge-domain-adapt`) recovers ~22% of
+  the cluster gap (0.027→0.034) and moves ALL classes toward truth — clean. Adding
+  NODE-feature re-standardisation (`--node-domain-adapt`) reaches ~40% (cluster→0.040)
+  but over-corrects (void 0.21<0.27, filament 0.30>0.26). So ~40% of the deficit is
+  correctable input-domain shift; ~60% is a deeper feature→λ / connectivity residual.
+  For the talk: use the clean edge-adapt; durable fix = scale-invariant edge features +
+  retrain (Route A), graceful vs the blunt post-hoc rescale.
 - Implication: expanding RA/Dec won't fix it. Levers, in order of evidence: (a) match
   the mock **N(z)/number density** to real DESI so the graph scale matches — the
   mock HAS the knobs (`upstream_mkCat_SecondGen_amtl.py --equal_data_dens y`,
