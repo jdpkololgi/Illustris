@@ -288,6 +288,7 @@ def _build_graph_from_npz(
     *,
     make_bidirectional: bool,
     scale_edge_length_density: bool,
+    scale_invariant: bool = False,
 ) -> jraph.GraphsTuple:
     with np.load(npz_path) as data:
         x = data["x"].astype(np.float32)
@@ -309,6 +310,15 @@ def _build_graph_from_npz(
         senders = np.concatenate([orig_senders, orig_receivers], axis=0)
         receivers = np.concatenate([orig_receivers, orig_senders], axis=0)
         edge_attr = np.concatenate([edge_attr, rev_edge_attr], axis=0)
+
+    if scale_invariant:
+        # Divide edge_length by the per-graph median so a denser survey (smaller
+        # absolute lengths) yields the SAME contrast distribution -> transfers across
+        # surveys with different number density. density_contrast (col 4) is already a
+        # ratio; directions (1:4) are unit vectors -> both untouched.
+        edge_attr = edge_attr.copy()
+        med0 = np.median(edge_attr[:, 0])
+        edge_attr[:, 0] = edge_attr[:, 0] / max(float(med0), 1e-6)
 
     if scale_edge_length_density:
         edge_attr = edge_attr.copy()
@@ -463,6 +473,13 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument(
+        "--scale-invariant-features",
+        action="store_true",
+        help="Per-graph-median normalise scale-carrying node (Degree/Density/NeighDensity/"
+             "I_eig) and edge (edge_length) features into contrasts before box-cox/log, so "
+             "the model transfers across surveys of different number density (Route A fix).",
+    )
+    parser.add_argument(
         "--power-scale-node-features",
         action="store_true",
         help=(
@@ -511,6 +528,7 @@ def main() -> None:
         npz_path,
         make_bidirectional=not args.no_bidirectional_edges,
         scale_edge_length_density=not args.no_edge_v2_scaling,
+        scale_invariant=args.scale_invariant_features,
     )
     n_nodes = int(graph.n_node[0])
     n_edges = int(graph.n_edge[0])
@@ -576,6 +594,18 @@ def main() -> None:
         "Split sizes: "
         f"train={train_mask.sum():,}, val={val_mask.sum():,}, test={test_mask.sum():,}"
     )
+
+    if args.scale_invariant_features:
+        # Per-graph-median normalise the scale-carrying node features (Degree=0,
+        # Density=2, NeighDensity=3, I_eig1/2/3=4,5,6) into dimensionless contrasts;
+        # Clustering (1) is already a coefficient. Done before the box-cox so the
+        # transform is fit on contrasts and transfers to surveys of different density.
+        x_si = np.asarray(graph.nodes, dtype=np.float64)
+        for col in (0, 2, 3, 4, 5, 6):
+            med = np.median(x_si[:, col])
+            x_si[:, col] = x_si[:, col] / max(float(med), 1e-9)
+        graph = graph._replace(nodes=jnp.array(x_si, dtype=jnp.float32))
+        print("Applied per-graph-median scale-invariant normalisation to node cols [0,2,3,4,5,6].")
 
     node_feature_scaler = None
     if args.power_scale_node_features:
