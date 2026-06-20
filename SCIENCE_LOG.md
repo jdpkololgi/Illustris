@@ -64,21 +64,28 @@ Entry shape:
      0.456; both slightly transverse from wedge geometry). The earlier anisotropy
      *magnitude* excess (esp. void/wall-inferred) is transverse/generic, not RSD
      elongation. So FoG is ruled out as the differential cause.
-- Findings (what it IS): the deficit is a genuine **high-λ tail suppression** — it
-  persists at every threshold and *worsens* with λ_th (DESI/Abacus cluster ratio
-  0.65→0.45→0.30 at λ_th 0.1/0.2/0.3). Leading hypothesis: **training-coverage /
-  extrapolation** — real DESI is more strongly clustered than the path1 Abacus
-  mock, so the densest regions sit beyond the model's training range and it
-  under-predicts their collapse strength (smallest eigenvalue λ₁ doesn't clear
-  λ_th → cluster→filament). The richest single cluster IS recovered (skewer
-  P(cluster)=0.86 in a thin 0.6° beam), so the model isn't blind to clusters — the
-  bulk of moderate clusters degrade.
-- Implication: expanding the Abacus training wedge in RA/Dec helps edge/robustness
-  but will NOT fix the cluster deficit (same mock clustering statistics). The real
-  lever is mock realism (does path1 cluster as strongly as DESI?) or domain
-  adaptation of the node-feature scaling; λ_th=0.1 recovers clusters best
-  absolutely (0.065 vs truth 0.10). Frame for Cambridge as a quantified, RSD-NOT
-  systematic shared by regression+NPE.
+  3. **Not training-coverage / extrapolation.** Only ~5% of DESI dense
+     cluster-candidates (Density feature) exceed the Abacus train p99.9, ~0.01% of
+     all DESI galaxies exceed the train max — the bulk is in-distribution
+     (`training_coverage.png`). Too small to explain a halved cluster fraction.
+- Findings (what it IS): a genuine **high-λ tail suppression** — persists at every
+  threshold and *worsens* with λ_th (DESI/Abacus cluster ratio 0.65→0.45→0.30 at
+  λ_th 0.1/0.2/0.3). The richest single cluster IS recovered (skewer P(cluster)=0.86
+  in a thin 0.6° beam), so the model isn't blind to clusters — the bulk of moderate
+  clusters degrade. **Leading hypothesis after ruling out the simple cases:
+  a dense-structure SHAPE/morphology shift.** DESI's dense regions are more
+  *anisotropic/elongated* than the mock's (`fog_anisotropy.png`; void/wall-inferred
+  dense galaxies most extreme) — and crucially this elongation is NOT line-of-sight
+  (so not FoG, just genuine 3D shape). The model classifies elongated-dense as
+  *filament*; the mock's rounder/more isotropic clusters don't teach it that real
+  DESI clusters can be elongated → cluster→filament. Correlational, not proven.
+- Implication: expanding the Abacus wedge in RA/Dec helps edges/robustness but will
+  NOT fix the deficit (same mock morphology). Real levers: (a) **mock galaxy-halo
+  connection (HOD)** — match real BGS small-scale clustering + cluster
+  richness/satellite morphology so dense structures are as elongated as DESI;
+  (b) **domain adaptation / augmentation** of the model to elongated dense
+  structures; (c) pragmatic λ_th=0.1 (best absolute recovery 0.065 vs truth 0.10).
+  Frame for Cambridge as a quantified, RSD-NOT systematic shared by regression+NPE.
 - Refs: `GraphWeb_DESI/workflows/sbi_inference/{plot_eigenvalue_corner,plot_lambda_th_sweep,plot_fog_anisotropy*,plot_fog_los_alignment}.py`;
   diagnostic figures in the linear DESI run dir. See [[project-path1-sentinel-z-bug]].
 
