@@ -72,20 +72,28 @@ Entry shape:
   threshold and *worsens* with λ_th (DESI/Abacus cluster ratio 0.65→0.45→0.30 at
   λ_th 0.1/0.2/0.3). The richest single cluster IS recovered (skewer P(cluster)=0.86
   in a thin 0.6° beam), so the model isn't blind to clusters — the bulk of moderate
-  clusters degrade. **Leading hypothesis after ruling out the simple cases:
-  a dense-structure SHAPE/morphology shift.** DESI's dense regions are more
-  *anisotropic/elongated* than the mock's (`fog_anisotropy.png`; void/wall-inferred
-  dense galaxies most extreme) — and crucially this elongation is NOT line-of-sight
-  (so not FoG, just genuine 3D shape). The model classifies elongated-dense as
-  *filament*; the mock's rounder/more isotropic clusters don't teach it that real
-  DESI clusters can be elongated → cluster→filament. Correlational, not proven.
-- Implication: expanding the Abacus wedge in RA/Dec helps edges/robustness but will
-  NOT fix the deficit (same mock morphology). Real levers: (a) **mock galaxy-halo
-  connection (HOD)** — match real BGS small-scale clustering + cluster
-  richness/satellite morphology so dense structures are as elongated as DESI;
-  (b) **domain adaptation / augmentation** of the model to elongated dense
-  structures; (c) pragmatic λ_th=0.1 (best absolute recovery 0.065 vs truth 0.10).
-  Frame for Cambridge as a quantified, RSD-NOT systematic shared by regression+NPE.
+  clusters degrade.
+  4. **Not dense-structure shape either.** Oaxaca decomposition of the dense
+     inferred-cluster-rate gap (Abacus 0.156 vs DESI 0.082, `shape_misclassification.py`):
+     only **8%** is explained by DESI being more elongated; **92% is residual** —
+     at MATCHED density AND matched anisotropy, DESI dense galaxies are classified
+     as cluster ~half as often as Abacus ones. So the earlier shape hypothesis is
+     refuted too.
+- Bottom line: **every marginal node-feature explanation is falsified** (density,
+  FoG, extrapolation, shape). The deficit is a *fixed-density-fixed-shape residual*
+  → a joint / graph-level domain shift in the GNN encoder's feature→λ map (shared by
+  regression+NPE, so it lives in the encoder, not the flow). Honest open question,
+  not solved. Most concrete remaining lever to test: the **N(z) / number-density
+  mismatch** (DESI ~12% more galaxies here, different N(z)) changes the graph EDGE
+  SCALE (typical edge lengths) — which would shift GNN output even at fixed node
+  features and is consistent with a graph-level, not node-level, residual.
+- Implication: expanding RA/Dec won't fix it. Levers, in order of evidence: (a) match
+  the mock **N(z)/number density** to real DESI so the graph scale matches; (b) full
+  **domain adaptation** (align joint feature/graph distribution, not marginals);
+  (c) revisit the **HOD** (cluster richness/morphology); (d) pragmatic λ_th=0.1
+  (0.065 vs truth 0.10). Frame for Cambridge as a robust, RSD-NOT cluster systematic
+  that we have *localized* (not under-density/FoG/shape) to a graph-level transfer
+  effect — an honest, well-characterized open problem.
 - Refs: `GraphWeb_DESI/workflows/sbi_inference/{plot_eigenvalue_corner,plot_lambda_th_sweep,plot_fog_anisotropy*,plot_fog_los_alignment}.py`;
   diagnostic figures in the linear DESI run dir. See [[project-path1-sentinel-z-bug]].
 
