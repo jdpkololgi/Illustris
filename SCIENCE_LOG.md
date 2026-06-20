@@ -46,6 +46,42 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-19 — [code] DESI cluster-suppression diagnosis: not under-density, not FoG; a training-coverage shift
+- What: Characterised why the wedge NPE (and the Jraph regression) under-predict
+  **clusters** on real DESI (cluster fraction ~0.027 vs Abacus truth ~0.058 at
+  λ_th=0.2). Built a diagnostic suite under
+  `/pscratch/.../flowjax_inference_outputs/desi_wedge_flowjax_linear/`:
+  eigenvalue corner (clean distributions) + environment corner; λ_th sweep
+  (static `lambda_th_sweep.png` + animation `lambda_th_sweep_animation.html`);
+  FoG magnitude test (`fog_anisotropy.png`) and the proper LOS-direction FoG test
+  (`fog_los_alignment.png`). New scripts in `GraphWeb_DESI/workflows/sbi_inference/`.
+- Findings (what the deficit is NOT):
+  1. **Not under-density.** Real DESI cluster cores are *denser* than the mock
+     (Density p99.9 0.18 vs 0.10; ~2× more galaxies above the Abacus 99th pct).
+     Rules out fibre-incompleteness erasing cluster density.
+  2. **Not Fingers-of-God.** Recomputed local inertia *eigenvectors*: DESI major
+     axes are NOT more line-of-sight aligned than Abacus (median |cosθ| 0.421 vs
+     0.456; both slightly transverse from wedge geometry). The earlier anisotropy
+     *magnitude* excess (esp. void/wall-inferred) is transverse/generic, not RSD
+     elongation. So FoG is ruled out as the differential cause.
+- Findings (what it IS): the deficit is a genuine **high-λ tail suppression** — it
+  persists at every threshold and *worsens* with λ_th (DESI/Abacus cluster ratio
+  0.65→0.45→0.30 at λ_th 0.1/0.2/0.3). Leading hypothesis: **training-coverage /
+  extrapolation** — real DESI is more strongly clustered than the path1 Abacus
+  mock, so the densest regions sit beyond the model's training range and it
+  under-predicts their collapse strength (smallest eigenvalue λ₁ doesn't clear
+  λ_th → cluster→filament). The richest single cluster IS recovered (skewer
+  P(cluster)=0.86 in a thin 0.6° beam), so the model isn't blind to clusters — the
+  bulk of moderate clusters degrade.
+- Implication: expanding the Abacus training wedge in RA/Dec helps edge/robustness
+  but will NOT fix the cluster deficit (same mock clustering statistics). The real
+  lever is mock realism (does path1 cluster as strongly as DESI?) or domain
+  adaptation of the node-feature scaling; λ_th=0.1 recovers clusters best
+  absolutely (0.065 vs truth 0.10). Frame for Cambridge as a quantified, RSD-NOT
+  systematic shared by regression+NPE.
+- Refs: `GraphWeb_DESI/workflows/sbi_inference/{plot_eigenvalue_corner,plot_lambda_th_sweep,plot_fog_anisotropy*,plot_fog_los_alignment}.py`;
+  diagnostic figures in the linear DESI run dir. See [[project-path1-sentinel-z-bug]].
+
 ### 2026-06-19 — [code] DESI transfer: linear NPE runs on real DESI LOA wedge (conference key result)
 - What: Ran the linear-increment FlowJAX NPE on the real DESI LOA wedge (112,755
   bright BGS galaxies, same RA120–160/Dec14.5–30.6/z0.2–0.3 footprint). New
