@@ -87,13 +87,19 @@ Entry shape:
   mismatch** (DESI ~12% more galaxies here, different N(z)) changes the graph EDGE
   SCALE (typical edge lengths) — which would shift GNN output even at fixed node
   features and is consistent with a graph-level, not node-level, residual.
+- Edge-scale test (`edge_scale.png`) CONFIRMS a graph-level shift: DESI graph is 12%
+  denser, edges 7% shorter, scaled log(edge_length) sits −0.11σ off the Abacus N(0,1)
+  — the GNN sees a different graph scale even at fixed node features. Modest but the
+  only lever that survives falsification.
 - Implication: expanding RA/Dec won't fix it. Levers, in order of evidence: (a) match
-  the mock **N(z)/number density** to real DESI so the graph scale matches; (b) full
-  **domain adaptation** (align joint feature/graph distribution, not marginals);
-  (c) revisit the **HOD** (cluster richness/morphology); (d) pragmatic λ_th=0.1
-  (0.065 vs truth 0.10). Frame for Cambridge as a robust, RSD-NOT cluster systematic
-  that we have *localized* (not under-density/FoG/shape) to a graph-level transfer
-  effect — an honest, well-characterized open problem.
+  the mock **N(z)/number density** to real DESI so the graph scale matches — the
+  mock HAS the knobs (`upstream_mkCat_SecondGen_amtl.py --equal_data_dens y`,
+  `upstream_prepare_mocks_Y3_bright.py --downsampling y`), both DEFAULT OFF in path1,
+  which is why N(z) currently mismatches; (b) full **domain adaptation** (align joint
+  feature/graph distribution, not marginals); (c) revisit the **HOD**
+  (cluster richness/morphology); (d) pragmatic λ_th=0.1 (0.065 vs truth 0.10). Frame
+  for Cambridge as a robust, RSD-NOT cluster systematic *localized* (not
+  under-density/FoG/shape) to a graph-scale transfer effect — honest open problem.
 - Refs: `GraphWeb_DESI/workflows/sbi_inference/{plot_eigenvalue_corner,plot_lambda_th_sweep,plot_fog_anisotropy*,plot_fog_los_alignment}.py`;
   diagnostic figures in the linear DESI run dir. See [[project-path1-sentinel-z-bug]].
 
