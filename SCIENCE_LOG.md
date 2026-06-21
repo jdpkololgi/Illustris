@@ -58,7 +58,10 @@ Entry shape:
   baseline 0.027 → edge-domain-adapt 0.034 (22%) → full node+edge adapt 0.040 (40%)
   → **SI retrain 0.046 (56% of the gap closed — best)**. Abacus-side UNCHANGED
   (Test NLL 1.14, posterior-mean R² 0.826, ordering-viol ~0) → the scale-invariance
-  has ~zero in-domain cost, confirming the earlier prediction.
+  has ~zero in-domain cost, confirming the earlier prediction. Abacus TARP is the
+  TIGHTEST of all runs (hugs the diagonal, dev <0.02) and SBC clean — scale-invariance
+  preserved (slightly improved) calibration. So SI is the unambiguous production model:
+  best Abacus calibration + best DESI transfer, no downside.
 - Caveat (honest): not a clean across-the-board win — SI recovers clusters by
   REDISTRIBUTING: void 0.254→0.226 (truth 0.27, worse) and filament 0.273→0.295
   (truth 0.26, worse); wall 0.447→0.433 (toward 0.41, better). Total deviation from
