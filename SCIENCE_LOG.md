@@ -46,6 +46,58 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-21 — [science] Cambridge talk: narrative finalized, format confirmed, deck strategy decided
+- What: Format confirmed as **12-min talk + 3-min Q&A** (resolves the
+  12+3 vs 15+5 open question from 2026-06-15). Finalized an 11-slide
+  narrative built around the post-2026-06-15 results: brief T-web/cosmic-web
+  motivation (1 slide) → classifier→posterior pivot with RASTI 2025 as
+  single backstory slide → pipeline diagram (alpha-complex graph + GNN
+  encoder + flow) → target-parameterisation result (linear increments
+  Pareto-dominate softplus/raw — headline design choice) → TARP calibration
+  on Abacus (credibility slide) → zero-shot DESI transfer result (class
+  fractions land near truth, ordering-violation rate 0.8%→4.7% as the
+  domain-shift fingerprint) → falsification walkthrough (ruled out
+  under-density/FoG/extrapolation/shape, landed on graph-level edge-scale
+  shift) → scale-invariant-feature fix (56% of cluster gap closed, zero
+  in-domain cost, honest redistribution caveat) → truth-free validation +
+  outlook (closure tests, skewer animation if ready, CORAL as next lever)
+  → take-home. Full script with per-slide timing and visual notes written
+  to `~/Developer/Working Files/cambridge_sbi_galev_2026_script.md`.
+- Why / decision: audience (SBI-GalEv 2026, Cambridge) is SBI-fluent but not
+  T-web/DESI-fluent, so intro stays to ~3 sentences on cosmic-web physics
+  and zero time explaining NPE/flows. Decided to sell the back half (slides
+  7–9) as the differentiator for this specific room — a fully worked,
+  falsifiable sim-to-real domain-shift diagnosis on an amortised NPE — since
+  the conference's own theory stream lists domain adaptation, transfer
+  learning, and calibration/convergence testing verbatim. Classification
+  accuracy demoted to backstory only, consistent with the 2026-06-15
+  framing decision but now made concrete in slide-by-slide form.
+- Decision on deck file: do NOT edit `FLATs.key` in place. It's the
+  classification-era (RASTI 2025) poster talk — visual theme (true-black,
+  IBM Plex Sans, COSMIC_WEB_COLORS, FLATS accent palette) and several
+  layout templates (title slide, T-web explainer, pipeline-stage slide) are
+  worth inheriting, but essentially all result slides are from the retired
+  4-class/partitioned-FlowJAX path and need rebuilding, not reuse. Plan:
+  duplicate `FLATs.key` to a new file, strip outdated result slides, rebuild
+  from the script above. Noted blocker: `FLATs.key` is 199MB and timed out
+  via keynote-mcp AppleScript (`open_presentation`) — likely has heavy
+  embedded assets from earlier iterations; worth auditing/trimming embeds
+  before the new file becomes the working copy, to keep keynote-mcp
+  reliable for the rest of the week.
+- Next: (1) confirm whether the skewer animation (open thread since
+  2026-06-18) lands before Thursday — it's the strongest single visual if
+  ready, otherwise slide 10 stays closure-test text only; (2) duplicate
+  FLATs.key → new working file, audit embedded asset size; (3) build slides
+  from the script, regenerating figures already produced by the NERSC
+  pipeline (TARP, class-fraction bars, edge_scale.png, lambda_th_sweep.png,
+  fog_los_alignment.png) into the finalized PLOT_STYLE_GUIDE theme; (4)
+  dry-run with a timer — slide 8 (falsification walkthrough) is the densest
+  for its 90s budget and is the most likely cut candidate.
+- Refs: `~/Developer/Working Files/cambridge_sbi_galev_2026_script.md`,
+  `FLATs.key`, conference site (sbi-galev.github.io/2026), 2026-06-15 talk
+  framing entry, 2026-06-18 validation plan entry, 2026-06-19/20 wedge-NPE
+  + cluster-suppression + scale-invariant-fix entries.
+
 ### 2026-06-20 — [code] Route A: scale-invariant features fix — best cluster recovery (56%), no in-domain cost
 - What: Implemented `--scale-invariant-features` in `build_abacus_sbi_cache.py` +
   `GraphWeb_DESI` inference (`abacus_gnn_parity.py`, `infer_desi_wedge_flowjax.py`):
