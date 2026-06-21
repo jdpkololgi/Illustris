@@ -93,10 +93,46 @@ Entry shape:
   fog_los_alignment.png) into the finalized PLOT_STYLE_GUIDE theme; (4)
   dry-run with a timer — slide 8 (falsification walkthrough) is the densest
   for its 90s budget and is the most likely cut candidate.
+- **CONFLICTS WITH NEXT ENTRY:** this plan puts the falsification
+  walkthrough on main-deck slide 8; the next entry (independent NERSC-side
+  session) concludes it should be appendix-only. Unresolved — settle before
+  building that slide.
 - Refs: `~/Developer/Working Files/cambridge_sbi_galev_2026_script.md`,
   `FLATs.key`, conference site (sbi-galev.github.io/2026), 2026-06-15 talk
   framing entry, 2026-06-18 validation plan entry, 2026-06-19/20 wedge-NPE
   + cluster-suppression + scale-invariant-fix entries.
+
+### 2026-06-21 — [science] Cambridge SBI-GalEv talk slot confirmed: 12 min + 3 Q&A
+- What: Organisers confirmed the talk slot is 12 minutes + 3 minutes for questions
+  (resolves the open "12+3 vs 15+5" question from the 2026-06-15 framing entry).
+- Why / decision: Tighter than the 15+5 option assumed in earlier figure planning —
+  trim to the minimum figure set that carries the SBI-first narrative (calibration
+  headline, DESI transfer result, SI fix) rather than including secondary
+  diagnostics (FoG/shape/training-coverage falsification plots are appendix-only,
+  not main-deck).
+- Refs: FLATS deck; see 2026-06-15 "Cambridge SBI-GalEv talk" entry.
+
+### 2026-06-21 — [code] Plot visual identity + centralised figure output fixed
+- What: `workflows/sbi/plot_flowjax_posteriors.py` (Abacus-side TARP/calibration/
+  posterior/class-fraction plots) had zero theming — plain matplotlib defaults,
+  inconsistent with the GraphWeb_DESI true-black/IBM Plex Sans theme used on all
+  DESI-side figures. Wired in `shared.plot_style.apply_style()` +
+  `ACCENT_COLORS`/`COSMIC_WEB_COLORS` (the module was already mirrored into
+  `TNG/Illustris/shared/`, just never imported by this script). Also added
+  `scripts/sync_figures_to_canonical.sh` in both repos: rsyncs a run's finished
+  figures into the existing-but-underused `CANONICAL_FIGURE_ROOT` /
+  `GRAPHWEB_CANONICAL_FIGURE_DIR` (`/pscratch/.../{tng_illustris,graphweb_desi}/figures/`)
+  under a run-named subfolder, so figures are centralised for picking per-conference
+  without disturbing per-run experiment directories.
+- Why / decision: per-run output dirs are right for active experimentation (compare
+  testA/testB/Bcorrected/SI side by side) but meant the canonical figure roots,
+  despite already being the documented default in `plot_flowjax_posteriors.py`,
+  were being overridden by every launcher and sat empty/stale in practice.
+- Next: regenerate `path1_wedge_flowjax_3d_Bcorrected_linear_si/plots/` with the
+  fixed theme and sync both Abacus- and DESI-side SI figures into the canonical
+  dirs (in progress).
+- Refs: `shared/plot_style.py`, `scripts/sync_figures_to_canonical.sh` (both repos),
+  `workflows/sbi/plot_flowjax_posteriors.py`.
 
 ### 2026-06-20 — [code] Route A: scale-invariant features fix — best cluster recovery (56%), no in-domain cost
 - What: Implemented `--scale-invariant-features` in `build_abacus_sbi_cache.py` +

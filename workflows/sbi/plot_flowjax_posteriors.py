@@ -48,6 +48,11 @@ from flowjax.distributions import Normal
 from shared.graph_net_models import make_gnn_encoder
 from shared.eigenvalue_transformations import samples_to_raw_eigenvalues, posterior_to_classprobs
 from shared.config_paths import CANONICAL_CACHE_ROOT, CANONICAL_FIGURE_ROOT
+from shared.plot_style import apply_style, ACCENT_COLORS, COSMIC_WEB_COLORS, TEXT_COLOR
+
+# Reference/secondary gray (matches the "baseline" series convention used in
+# GraphWeb_DESI plots, e.g. "Abacus train" in plot_training_coverage.py).
+_GRAY = "#9a9a93"
 
 CLASS_ORDER = ['void', 'wall', 'filament', 'cluster']
 
@@ -202,22 +207,22 @@ def plot_single_posterior(samples_transformed, samples_raw, true_theta_transform
     true_theta = true_theta_transformed
     for i in range(3):
         ax = axes[0, i]
-        ax.hist(samples[:, i], bins=50, density=True, alpha=0.7, color='steelblue')
-        ax.axvline(true_theta[i], color='red', linewidth=2, label='True' if i==0 else None)
-        ax.axvline(np.mean(samples[:, i]), color='green', linewidth=2, linestyle=':', label='Mean' if i==0 else None)
+        ax.hist(samples[:, i], bins=50, density=True, alpha=0.7, color=ACCENT_COLORS["blue"])
+        ax.axvline(true_theta[i], color=ACCENT_COLORS["red"], linewidth=2, label='True' if i==0 else None)
+        ax.axvline(np.mean(samples[:, i]), color=_GRAY, linewidth=2, linestyle=':', label='Mean' if i==0 else None)
         ax.set_xlabel(param_names_trans[i])
         if i == 0:
             ax.set_ylabel('Transformed Space')
             ax.legend(fontsize=8)
-    
+
     # Row 2: Raw eigenvalue space
     samples_r = samples_raw[:num_samples] if len(samples_raw) > num_samples else samples_raw
     true_theta_r = true_theta_raw
     for i in range(3):
         ax = axes[1, i]
-        ax.hist(samples_r[:, i], bins=50, density=True, alpha=0.7, color='darkorange')
-        ax.axvline(true_theta_r[i], color='red', linewidth=2)
-        ax.axvline(np.mean(samples_r[:, i]), color='green', linewidth=2, linestyle=':')
+        ax.hist(samples_r[:, i], bins=50, density=True, alpha=0.7, color=ACCENT_COLORS["magenta"])
+        ax.axvline(true_theta_r[i], color=ACCENT_COLORS["red"], linewidth=2)
+        ax.axvline(np.mean(samples_r[:, i]), color=_GRAY, linewidth=2, linestyle=':')
         ax.set_xlabel(param_names_raw[i])
         if i == 0:
             ax.set_ylabel('Raw Eigenvalues')
@@ -252,13 +257,13 @@ def plot_posterior_comparison(embeddings, true_thetas, indices, output_dir,
         
         for col in range(3):
             ax = axes[row, col]
-            ax.hist(samples[:, col], bins=40, density=True, alpha=0.7, 
-                   color='steelblue', edgecolor='white')
-            ax.axvline(true_theta[col], color='red', linewidth=2, linestyle='--',
+            ax.hist(samples[:, col], bins=40, density=True, alpha=0.7,
+                   color=ACCENT_COLORS["blue"], edgecolor=TEXT_COLOR)
+            ax.axvline(true_theta[col], color=ACCENT_COLORS["red"], linewidth=2, linestyle='--',
                       label=f'True: {true_theta[col]:.2f}')
-            
+
             mean_val = samples[:, col].mean()
-            ax.axvline(mean_val, color='green', linewidth=2, linestyle=':',
+            ax.axvline(mean_val, color=_GRAY, linewidth=2, linestyle=':',
                       label=f'Mean: {mean_val:.2f}')
             
             ax.set_xlabel(param_names[col])
@@ -303,15 +308,15 @@ def plot_calibration_summary(embeddings, true_thetas, output_dir,
     
     for i in range(3):
         ax = axes[i]
-        ax.hist(ranks[:, i], bins=20, density=True, alpha=0.7, 
-               color='steelblue', edgecolor='white')
-        ax.axhline(1.0, color='red', linestyle='--', linewidth=2, label='Uniform')
+        ax.hist(ranks[:, i], bins=20, density=True, alpha=0.7,
+               color=ACCENT_COLORS["blue"], edgecolor=TEXT_COLOR)
+        ax.axhline(1.0, color=ACCENT_COLORS["red"], linestyle='--', linewidth=2, label='Uniform')
         ax.set_xlabel(f'Rank for {param_names[i]}')
         ax.set_ylabel('Density' if i == 0 else '')
         ax.set_xlim(0, 1)
         ax.legend()
         ax.set_title(param_names[i])
-    
+
     plt.suptitle(f'Flowjax Calibration Check (SBC-style) - {n_points} test points', fontsize=14)
     plt.tight_layout()
     
@@ -349,19 +354,20 @@ def plot_tarp_coverage(embeddings, true_thetas, output_dir,
         )
         
         fig, ax = plt.subplots(1, 1, figsize=(8, 8))
-        ax.plot([0, 1], [0, 1], 'k--', linewidth=2, label='Ideal (well-calibrated)')
-        ax.plot(alpha, ecp, 'b-', linewidth=2, label='TARP coverage')
-        
+        ax.plot([0, 1], [0, 1], color=ACCENT_COLORS["red"], linestyle='--', linewidth=2,
+                label='Ideal (well-calibrated)')
+        ax.plot(alpha, ecp, color=ACCENT_COLORS["blue"], linewidth=2, label='TARP coverage')
+
         ax.set_xlabel(r'Credibility Level $\alpha$', fontsize=12)
         ax.set_ylabel('Expected Coverage Probability', fontsize=12)
         ax.set_title(f'Flowjax TARP Coverage Test ({n_points} test points)', fontsize=14)
         ax.legend(loc='lower right')
         ax.set_xlim(0, 1)
         ax.set_ylim(0, 1)
-        ax.grid(True, alpha=0.3)
+        ax.grid(True, alpha=0.15)
         ax.text(0.05, 0.95, 'Above diagonal = over-confident\nBelow diagonal = under-confident',
                 transform=ax.transAxes, fontsize=10, verticalalignment='top',
-                bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
+                bbox=dict(boxstyle='round', facecolor='#1a1a1a', edgecolor=TEXT_COLOR, alpha=0.85))
         
         save_path = os.path.join(output_dir, 'flowjax_tarp_coverage.png')
         plt.savefig(save_path, dpi=150, bbox_inches='tight')
@@ -399,20 +405,29 @@ def plot_class_probabilities(embeddings, true_thetas_raw, output_dir, flow, key,
         true_frac = {c: float(np.mean(tcp[c])) for c in CLASS_ORDER}
 
     # Bar chart: mean predicted class fraction vs (count-based) truth fraction.
+    # Colour = class (COSMIC_WEB_COLORS); shade = method, matching the
+    # class_fractions_comparison.png convention in GraphWeb_DESI.
+    from matplotlib.patches import Patch
     fig, ax = plt.subplots(1, 1, figsize=(8, 5))
     x = np.arange(len(CLASS_ORDER))
     w = 0.38
+    class_colors = [COSMIC_WEB_COLORS[c] for c in CLASS_ORDER]
     ax.bar(x - (w/2 if true_frac else 0), [pred_frac[c] for c in CLASS_ORDER],
-           w if true_frac else 0.6, label='Predicted (posterior mean)', color='steelblue')
+           w if true_frac else 0.6, color=class_colors, alpha=1.0)
     if true_frac is not None:
         ax.bar(x + w/2, [true_frac[c] for c in CLASS_ORDER], w,
-               label='True (Abacus)', color='darkorange')
+               color=class_colors, alpha=0.45)
     ax.set_xticks(x)
     ax.set_xticklabels([c.capitalize() for c in CLASS_ORDER])
     ax.set_ylabel('Class fraction')
     ax.set_title(f'T-Web class fractions from NPE posteriors '
                  f'(λ_th={lambda_th}, {n} galaxies, {num_samples} samp/gal)')
-    ax.legend()
+    legend_handles = [Patch(facecolor=TEXT_COLOR, edgecolor=TEXT_COLOR, alpha=1.0,
+                             label='Predicted (posterior mean)')]
+    if true_frac is not None:
+        legend_handles.append(Patch(facecolor=TEXT_COLOR, edgecolor=TEXT_COLOR, alpha=0.45,
+                                     label='True (Abacus)'))
+    ax.legend(handles=legend_handles)
     save_path = os.path.join(output_dir, 'flowjax_class_fractions.png')
     plt.savefig(save_path, dpi=150, bbox_inches='tight')
     print(f"Saved: {save_path}")
@@ -446,18 +461,18 @@ def plot_training_history(logs_path, output_dir):
     fig, ax = plt.subplots(1, 1, figsize=(10, 5))
     
     epochs = range(len(train_losses))
-    ax.plot(epochs, train_losses, label='Train NLL', alpha=0.7)
-    
+    ax.plot(epochs, train_losses, label='Train NLL', color=ACCENT_COLORS["blue"], alpha=0.7)
+
     if val_losses:
         val_epochs = [v[0] for v in val_losses]
         val_values = [v[1] for v in val_losses]
-        ax.plot(val_epochs, val_values, label='Val NLL', linewidth=2)
-    
+        ax.plot(val_epochs, val_values, label='Val NLL', color=ACCENT_COLORS["magenta"], linewidth=2)
+
     ax.set_xlabel('Epoch')
     ax.set_ylabel('NLL Loss')
     ax.set_title('Flowjax Training History')
     ax.legend()
-    ax.grid(True, alpha=0.3)
+    ax.grid(True, alpha=0.15)
     
     save_path = os.path.join(output_dir, 'flowjax_training.png')
     plt.savefig(save_path, dpi=150, bbox_inches='tight')
@@ -469,7 +484,8 @@ def main(args):
     print("=" * 70)
     print("Flowjax SBI Posterior Visualization")
     print("=" * 70)
-    
+
+    apply_style()
     os.makedirs(args.output_dir, exist_ok=True)
     
     # Load model
@@ -581,9 +597,9 @@ def main(args):
         fig, axes = plt.subplots(1, 3, figsize=(12, 4))
         for i in range(3):
             ax = axes[i]
-            ax.hist(ranks_raw[:, i], bins=20, density=True, alpha=0.7, 
-                   color='darkorange', edgecolor='white')
-            ax.axhline(1.0, color='red', linestyle='--', linewidth=2, label='Uniform')
+            ax.hist(ranks_raw[:, i], bins=20, density=True, alpha=0.7,
+                   color=ACCENT_COLORS["magenta"], edgecolor=TEXT_COLOR)
+            ax.axhline(1.0, color=ACCENT_COLORS["red"], linestyle='--', linewidth=2, label='Uniform')
             ax.set_xlabel(f'Rank for {param_names_raw[i]}')
             ax.set_ylabel('Density' if i == 0 else '')
             ax.set_xlim(0, 1)
@@ -602,9 +618,9 @@ def main(args):
     fig, axes = plt.subplots(1, 3, figsize=(12, 4))
     for i in range(3):
         ax = axes[i]
-        ax.hist(ranks_trans[:, i], bins=20, density=True, alpha=0.7, 
-               color='steelblue', edgecolor='white')
-        ax.axhline(1.0, color='red', linestyle='--', linewidth=2, label='Uniform')
+        ax.hist(ranks_trans[:, i], bins=20, density=True, alpha=0.7,
+               color=ACCENT_COLORS["blue"], edgecolor=TEXT_COLOR)
+        ax.axhline(1.0, color=ACCENT_COLORS["red"], linestyle='--', linewidth=2, label='Uniform')
         ax.set_xlabel(f'Rank for {param_names_trans[i]}')
         ax.set_ylabel('Density' if i == 0 else '')
         ax.set_xlim(0, 1)
