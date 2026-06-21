@@ -46,6 +46,32 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-20 — [code] Route A: scale-invariant features fix — best cluster recovery (56%), no in-domain cost
+- What: Implemented `--scale-invariant-features` in `build_abacus_sbi_cache.py` +
+  `GraphWeb_DESI` inference (`abacus_gnn_parity.py`, `infer_desi_wedge_flowjax.py`):
+  per-graph-median normalise the scale-carrying node (Degree/Density/NeighDensity/
+  I_eig) and edge (edge_length) features into dimensionless **contrasts** before the
+  box-cox/log, leaving density_contrast/directions/Clustering untouched. Rebuilt the
+  linear cache (SI), retrained the linear NPE (4×A100), re-ran DESI inference with
+  matched SI normalisation.
+- Result (DESI cluster fraction, λ_th=0.2; truth 0.058):
+  baseline 0.027 → edge-domain-adapt 0.034 (22%) → full node+edge adapt 0.040 (40%)
+  → **SI retrain 0.046 (56% of the gap closed — best)**. Abacus-side UNCHANGED
+  (Test NLL 1.14, posterior-mean R² 0.826, ordering-viol ~0) → the scale-invariance
+  has ~zero in-domain cost, confirming the earlier prediction.
+- Caveat (honest): not a clean across-the-board win — SI recovers clusters by
+  REDISTRIBUTING: void 0.254→0.226 (truth 0.27, worse) and filament 0.273→0.295
+  (truth 0.26, worse); wall 0.447→0.433 (toward 0.41, better). Total deviation from
+  truth ~flat; it trades a little void/filament accuracy for much better cluster+wall.
+  Favourable for a study where clusters are the rare science-critical class.
+- Takeaway: scale-invariant features are the recommended DURABLE fix for the
+  graph-scale/N(z) transfer shift (learned, not a post-hoc hack). Closes ~56% of the
+  cluster deficit; the remaining ~44% needs Route B (mock densification at high z —
+  the mock under-produces high-z galaxies; `--equal_data_dens` downsamples the wrong
+  way). For Cambridge: present SI as the principled fix with the void/filament caveat.
+- Refs: cache `path1_flowjax_3d_lineareig_si`; run `path1_wedge_flowjax_3d_Bcorrected_linear_si`;
+  DESI `desi_wedge_flowjax_linear_si`; commits Illustris build-cache + GraphWeb parity/infer.
+
 ### 2026-06-19 — [code] DESI cluster-suppression diagnosis: not under-density, not FoG; a training-coverage shift
 - What: Characterised why the wedge NPE (and the Jraph regression) under-predict
   **clusters** on real DESI (cluster fraction ~0.027 vs Abacus truth ~0.058 at
