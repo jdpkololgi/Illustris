@@ -46,6 +46,24 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-22 — [code] Slide 6 three-way TARP done; label fixes; "STILL NEEDED" now 5/6
+- Slide 6 — `three_way_tarp.png` NEW (`TNG/Illustris/workflows/sbi/plot_tarp_threeway.py`,
+  GPU): recomputes TARP coverage for the 3 parameterisation models on their own test
+  splits and overlays them (bootstrap 1σ bands), reusing plot_flowjax_posteriors' eval
+  machinery. Result = the slide-6 message exactly: max|ECP−α| **softplus 0.012, linear
+  0.029, raw 0.082** — raw eigenvalues win NLL but are clearly OVER-confident (curve bows
+  above the diagonal); softplus/linear hug it. (One JAX gotcha: flowjax needs new-style
+  typed keys — `jax.random.key`, not `PRNGKey`.) Written to the SI folder + synced.
+- Fixes from user review of yesterday's batch: (a) class-fractions legend now consistent
+  "[domain] NPE" → `Abacus NPE` / `DESI NPE` (was "NPE DESI"); (b) recovery-bars 4th stage
+  relabelled `Per-graph norm. (production)` (dropped "SI" — the fix is per-graph
+  domain-relative normalisation, per the talk-v2 correction, not "scale-invariant").
+- STILL NEEDED now just (d) slide-3 idealised fake-data skewer (generative; matches the
+  real-skewer panel layout or reuse the 06-18 Desktop mockup) — user's call.
+- Uncommitted (await go-ahead): `plot_tarp_threeway.py` (Illustris);
+  `plot_desi_wedge_flowjax.py` + `plot_cluster_recovery_bars.py` (GraphWeb_DESI).
+- Refs: SI run dir figures + canonical `figures/desi_wedge_flowjax_linear_si/`.
+
 ### 2026-06-21 — [code] Slide-figure batch: 4 of 6 "STILL NEEDED" plots done into the SI folder
 - What: Actioned the STILL-NEEDED list from the plot→slide entry below. All new/updated
   figures are themed (`shared.plot_style`) and live in the SI run dir
