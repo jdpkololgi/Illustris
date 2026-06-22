@@ -46,6 +46,50 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-21 — [code] Property–environment closure test runs on DESI LOA wedge (slide 10)
+- What: Built the TARGETID→FastSpecFit join + closure-test plots for slide 10's
+  truth-free validation (validation item (4) from 2026-06-18). Two new scripts in
+  `GraphWeb_DESI/workflows/sbi_inference/`:
+  `build_desi_wedge_property_join.py` (recovers TARGETID from preds
+  `global_node_id` → source BGS catalog row index; de-dups the 1,252
+  hemisphere-split duplicate targets by averaging their posteriors; joins loa
+  FastSpecFit SPECPHOT by TARGETID → LOGMSTAR/SFR/Dn4000/ABSMAG g,r; writes
+  `desi_wedge_env_props.parquet` + `join_report.json`) and
+  `plot_property_environment_closure.py` (themed categorical + continuous +
+  mass-control figures).
+- Join quality: loa-vs-loa (same release — no Y1/Y3 mismatch), FastSpecFit dir
+  `/global/cfs/cdirs/desi/vac/dr2/fastspecfit/loa/v1.0/catalogs/` (already the
+  `config_paths.DESI_FASTSPEC_CATALOGS_DIR` default). **99.7% coverage**
+  (111,171/111,503 unique targets); RA/Dec cross-check 0.027″ → join verified.
+  Used the SI production run preds (`desi_wedge_flowjax_linear_si`).
+- RESULT — every known trend recovered, monotonic void→wall→filament→cluster:
+  f_quench 0.743→0.777→0.815→0.835; median (g−r)₀.₁ 0.782→0.827→0.870→0.908;
+  median log sSFR −11.51→−11.63→−11.77→−11.96. Continuous E[Σλ] (tidal-tensor
+  trace ∝ density): Spearman ρ = +0.076 (quench), +0.138 (g−r), −0.090 (sSFR),
+  all correct sign at N=111k. **Mass control: trend SURVIVES at fixed M*** —
+  within every logM* tertile f_quench rises void→cluster (high-mass tertile
+  0.855→0.882→0.906→0.924), so it is not merely the mass–environment relation
+  (median logM* itself rises only mildly, 10.60→10.71). Overall f_quench 0.78
+  (massive BGS-bright sample; the TREND is the result).
+- Caveats (carry to slide): inferred environment derives from galaxy positions
+  so a density→quenching trend is partly expected — the point is the inferred
+  T-web environment carries real physical signal AND survives mass control; loa
+  fibre incompleteness is mildly env-dependent (biases absolute fractions, not
+  the trend); quenched ≡ log sSFR < −11 (the colour panel is the independent
+  colour-cut view).
+- Figures (deck theme) synced to canonical
+  `/pscratch/.../graphweb_desi/figures/desi_wedge_flowjax_linear_si_closure/`:
+  `closure_categorical.png`, `closure_continuous_{trace,p_cluster}.png`,
+  `closure_mass_control.png`. Slide 10 now has a real figure, not text-only.
+- Next: drop the categorical (headline) + mass_control (defensible) figures into
+  slide 10; optionally rerun on the baseline `desi_wedge_flowjax_linear` preds to
+  confirm the trend is model-robust. The build script is `--run`/`--preds`-flagged
+  so any variant rejoins in ~1 min.
+- Refs: `GraphWeb_DESI/workflows/sbi_inference/{build_desi_wedge_property_join,
+  plot_property_environment_closure}.py`; run dir
+  `flowjax_inference_outputs/desi_wedge_flowjax_linear_si/`. See
+  [[project-path1-wedge-npe-run]], 2026-06-18 validation-plan entry.
+
 ### 2026-06-21 — [science] Cambridge talk v2: narrative spine + factual corrections
 - What: Reworked the talk around a single throughline question ("what cosmic-web
   environment is each galaxy in DESI, and how sure are we?") asked slide 1,
