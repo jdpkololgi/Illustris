@@ -71,6 +71,22 @@ Entry shape:
   timer dry-run once built (OPEN DECISIONS #4, still pending).
 - Refs: `cambridge_sbi_galev_2026_script.md` v2.1; `SBI-Galev-2026.key`; `Plots/` (all);
   see 06-21/06-22 [code] entries below for figure provenance.
+### 2026-06-22 — [code] Skewer HTML → GIF for Keynote (NERSC ffmpeg has no h264)
+- `render_skewer_video.py` NEW (`GraphWeb_DESI/workflows/sbi_inference/`): extracts the
+  embedded JSON payload from a skewer HTML (`var D={…}`) and re-renders the same 3 panels
+  (galaxy strip / three λ posteriors + λ_th / class-prob bar) natively with matplotlib +
+  shared.plot_style → mp4 or gif. No browser/headless-Chromium needed.
+- WHY gif not mp4: the NERSC system ffmpeg (`/usr/bin/ffmpeg`) is built WITHOUT libx264
+  (encoders present: only gif, libvpx-vp9; h264/mpeg4 decoders disabled), and
+  imageio-ffmpeg isn't installed — so no H.264. Keynote plays + loops GIFs natively, so
+  produced GIFs: `skewer_idealised.gif` (3.0 MB), `skewer_real.gif` (0.97 MB) in the SI
+  folder + canonical. The renderer auto-falls-back mp4→gif on encode failure.
+- For a true H.264 mp4: convert the gif on the Mac (its ffmpeg has libx264):
+  `ffmpeg -i x.gif -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" x.mp4`.
+- Also fixed `sync_figures_to_canonical.sh` to include *.gif/*.mp4 (were excluded → the
+  gifs weren't reaching the canonical dir).
+- Uncommitted (await go-ahead): + `render_skewer_video.py` + sync-script edit (GraphWeb).
+- Refs: SI run dir `skewer_{idealised,real}.gif`.
 
 ### 2026-06-22 — [code] Idealised skewer (slide 3) + per-figure interpretation guide; STILL NEEDED 6/6
 - Slide 3 — `skewer_idealised.html` NEW (`GraphWeb_DESI/workflows/sbi_inference/build_skewer_idealised.py`):
