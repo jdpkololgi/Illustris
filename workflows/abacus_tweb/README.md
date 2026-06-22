@@ -93,6 +93,16 @@ Wedge constraints:
   been filtered and ordered by the wedge builder.
 - `build_abacus_sbi_cache.py` trains on ordered softplus eigenvalue increments by
   default. Use `--no-transformed-eig` only for explicit raw-eigenvalue ablations.
+- For current mock-to-DESI transfer runs, build the cache with
+  `--scale-invariant-features`. This divides scale-carrying node features
+  (`Degree`, `Density`, `NeighDensity`, and `I_eig1/2/3`) and edge length by
+  their per-graph medians before later Box-Cox/log transforms. Clustering,
+  direction vectors, and density-ratio features are already dimensionless and
+  are left as-is. The intent is to preserve relative local-environment contrast
+  while removing absolute survey number-density scale.
+- Encode scale-invariant cache variants in the output path or run name. The
+  cache pickle currently stores transformed arrays and optional scalers, but not
+  a dedicated boolean recording whether `--scale-invariant-features` was used.
 
 `build_abacus_partition_batches.py` and `PARTITION_ARTIFACT_SCHEMA.md` document
 the older partitioned FlowJAX experiment. Keep them for audit/debugging, but do
