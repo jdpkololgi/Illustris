@@ -46,6 +46,60 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-21 — [science] Cambridge talk v2: narrative spine + factual corrections
+- What: Reworked the talk around a single throughline question ("what cosmic-web
+  environment is each galaxy in DESI, and how sure are we?") asked slide 1,
+  answered slide 11, with a SKEWER BOOKEND (idealised fake-data skewer early as
+  the discrete→continuous intuition pump; real DESI posterior skewer animation
+  late as the payoff). Continuous-over-discrete justified with references: λ_th
+  is arbitrary (Hahn 2007 used 0, Forero-Romero 2009 used 0.44, chosen for visual
+  agreement); magnitude is the physics (tidal-torque theory couples spin to the
+  tidal TENSOR — Codis 2015, Peebles 1969/Doroshkevich 1970); hard labels carry
+  no uncertainty; and a continuous posterior SUBSUMES the discrete picture
+  (threshold posterior samples → calibrated class probs at any λ_th with error
+  bars). Back half reframed: the sim→real calibration-survival story is the
+  differentiator for this SBI room, and the cluster-deficit / falsification work
+  is demoted from headline to ONE supporting-evidence slide ("transfer is
+  trustworthy and diagnosable"). Parameterisation slide reframed from a 3-way
+  horse race to the methods-culture point "lower NLL ≠ a better posterior — why
+  we calibration-test" (raw eigenvalues win NLL but fail TARP). Script v2 written
+  to `~/Developer/Working Files/cambridge_sbi_galev_2026_script.md` (supersedes v1).
+- Corrections logged (these override earlier notes/memory):
+  1. CORAL is NOT implemented (confirmed against 06-19/06-20 [code] entries — the
+     adopted fix is per-graph feature normalisation, not CORAL). CORAL removed
+     from the pipeline slide; appears only as a one-line future-work item.
+  2. The Abacus wedge graph is built with DELAUNAY triangulation, NOT alpha
+     complex. (Alpha complex was the recommendation for REAL survey data with
+     gaps; the training wedge uses Delaunay.) Pipeline slide + diagram corrected.
+  3. The slide-9 fix is "per-graph (domain-relative) feature normalisation"
+     (normalise scale-carrying features relative to each graph's own mean so the
+     GNN sees RELATIVE features and the mock-vs-DESI offset cancels) — NOT
+     "scale-invariant features." Reworded everywhere to avoid confusing a physics
+     audience and to describe what was actually done. (NB the 2026-06-20 [code]
+     entry's `--scale-invariant-features` flag implements exactly this per-graph
+     mean-relative normalisation; the talk wording is corrected, the code name
+     is unchanged.)
+- Emphasis added: n(z) differs mock-vs-DESI AND varies ACROSS the wedge, so the
+  graph-scale shift is spatially varying — which is the physical reason a single
+  global rescale fails and a per-graph relative normalisation is the right tool.
+- Resolves the merge-conflict flagged earlier today: falsification walkthrough
+  goes to BACKUP (aligns with the NERSC-side 12+3 entry's "appendix-only"
+  conclusion), but for a story reason (supporting evidence, not a result), not
+  merely time.
+- References verified by web search (drop-in list in the script's §REFERENCES):
+  Dressler 1980, Peng 2010, Kraljić 2018, Codis 2015, Peebles 1969/Doroshkevich
+  1970; Hahn 2007, Forero-Romero 2009; Papamakarios & Murray 2016, Greenberg 2019,
+  Cranmer/Brehmer/Louppe 2020, Papamakarios 2021; Talts 2018 (SBC), Lemos 2023 (TARP).
+- Open items for next pass: (1) CONFIRM DESI-side graph construction — if it's
+  alpha-complex while training is Delaunay, that train/inference graph mismatch is
+  a second on-story contributor to the slide-9 domain gap and should be surfaced;
+  (2) skewer animation + closure-test plot readiness by Thu drive slide 10's final
+  form; (3) timer dry-run — slides 3/5/8/9 are the ~80–90s long ones, slide 9 the
+  likely cut.
+- Refs: `~/Developer/Working Files/cambridge_sbi_galev_2026_script.md` (v2);
+  2026-06-19 (DESI transfer + cluster-deficit diagnosis), 2026-06-20 (per-graph
+  normalisation fix) [code] entries; conference site sbi-galev.github.io/2026.
+
 ### 2026-06-21 — [science] Cambridge talk: narrative finalized, format confirmed, deck strategy decided
 - What: Format confirmed as **12-min talk + 3-min Q&A** (resolves the
   12+3 vs 15+5 open question from 2026-06-15). Finalized an 11-slide
