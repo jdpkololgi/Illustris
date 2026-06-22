@@ -46,6 +46,23 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-22 — [code] Idealised skewer (slide 3) + per-figure interpretation guide; STILL NEEDED 6/6
+- Slide 3 — `skewer_idealised.html` NEW (`GraphWeb_DESI/workflows/sbi_inference/build_skewer_idealised.py`):
+  the discrete→continuous bookend. IMPORTS the real skewer's HTML template so layout + the
+  standardised style (true-black / IBM Plex Sans / COSMIC_WEB_COLORS / λ_th=0.2) are identical
+  — fixes the gap that the Desktop mockup had — but is driven by CLEAN synthetic structure:
+  one density peak the sightline crosses, λ₃/λ₂/λ₁ cross λ_th at d≈0.33/0.60/0.86 so the class
+  bar morphs void→wall→filament→cluster→…→void (peak P(cluster)=0.78). Slide 10 = the same
+  layout on real posteriors. **STILL-NEEDED list now complete (6/6).**
+- `FIGURE_GUIDE.md` written into the SI run dir: per-figure interpretation + error-bar
+  provenance + variable definitions, esp. closure — inferred env = hard_class (argmax of the
+  λ>λ_th class probs) / trace_lambda (E[Σλ] ∝ density); properties = LOGMSTAR, SFR,
+  log sSFR=log10(SFR)−LOGMSTAR, quenched≡log sSFR<−11, g−r=ABSMAG01_SDSS_G−R from loa
+  FastSpecFit; CIs = Wilson (fractions) / bootstrap 16-84 (medians) / TARP bootstrap bands /
+  SBC rank uniformity.
+- Uncommitted (await go-ahead): + `build_skewer_idealised.py` (GraphWeb).
+- Refs: SI run dir `skewer_idealised.html`, `FIGURE_GUIDE.md` (+ canonical mirror).
+
 ### 2026-06-22 — [code] Slide 6 three-way TARP done; label fixes; "STILL NEEDED" now 5/6
 - Slide 6 — `three_way_tarp.png` NEW (`TNG/Illustris/workflows/sbi/plot_tarp_threeway.py`,
   GPU): recomputes TARP coverage for the 3 parameterisation models on their own test
