@@ -71,6 +71,26 @@ Entry shape:
   timer dry-run once built (OPEN DECISIONS #4, still pending).
 - Refs: `cambridge_sbi_galev_2026_script.md` v2.1; `SBI-Galev-2026.key`; `Plots/` (all);
   see 06-21/06-22 [code] entries below for figure provenance.
+
+### 2026-06-22 — [code] Dropped three-way TARP; SBC + TARP (with error band) for production linear only
+- Decision (user): stop framing results as a parameterisation comparison. Removed
+  `three_way_tarp.png` and the band-less copied `abacus_tarp_coverage.png` /
+  `abacus_sbc_calibration.png` from the SI folder + canonical mirror.
+- NEW `TNG/Illustris/workflows/sbi/plot_calibration_linear.py` (GPU; reuses
+  plot_flowjax_posteriors' loaders): SBC + TARP for the **production linear-increment SI
+  model**. Outputs `tarp_linear.png` — TARP with a **bootstrap 1σ error band** (N=3000 test
+  points, max |ECP−α| = 0.015, i.e. at the MC noise floor √(0.25/N)≈0.009 → consistent with
+  perfect calibration) — and `sbc_linear.png` — rank histograms for λ₁/λ₂/λ₃ with the
+  expected ±2σ band (flat within band; mild λ₁-upper / λ₂-lower edge structure).
+- WHY drop the comparison: the three-way TARP's softplus(0.012) < linear(0.029) ordering sat
+  inside the 500-point MC noise floor (per-bin SE≈0.022), so it was NOT a real calibration
+  ranking — and claiming "linear best-calibrated" would be a hostage to fortune. Linear's
+  case rests on Pareto-dominance (NLL +1.13 vs +2.25, R² 0.82 vs 0.74, ordering-viol 0.8%),
+  not "tightest TARP". (Supersedes/corrects the 2026-06-19 "linear tightest TARP" note.)
+- `FIGURE_GUIDE.md` updated to the new pair; `plot_tarp_threeway.py` now unused.
+- Uncommitted (await go-ahead): + `plot_calibration_linear.py` (Illustris).
+- Refs: SI run dir `tarp_linear.png`, `sbc_linear.png`.
+
 ### 2026-06-22 — [code] Skewer HTML → GIF for Keynote (NERSC ffmpeg has no h264)
 - `render_skewer_video.py` NEW (`GraphWeb_DESI/workflows/sbi_inference/`): extracts the
   embedded JSON payload from a skewer HTML (`var D={…}`) and re-renders the same 3 panels
