@@ -46,6 +46,57 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-21 — [science] Plot→slide mapping decided; graph-construction question closed
+- What: Audited the conference folder `~/Developer/Working Files/SBI-Galev-2026/`
+  (deck .key + 17 figures/animations) and assigned heroes per slide; full mapping
+  appended to the script (§PLOT → SLIDE MAPPING v2.1). Curated, not exhaustive
+  (we deliberately do not use every plot).
+- Decisions:
+  * Slide 8 hero = `class_fractions_comparison.png`. KEY REALISATION: this is the
+    SI-corrected production run — NPE-DESI cluster fraction is already 0.05 (truth
+    0.06), all four classes land near truth. So the transfer result and the cluster
+    recovery are the SAME figure; slide 8 = "transfer works incl. rare clusters,"
+    and slide 9 becomes the under-the-hood "this didn't come for free" methods
+    slide. Reinforces the demotion of cluster-fraction from headline to support.
+    ACTION: regenerate this plot WITHOUT the "Regression DESI" bars (off-message
+    for an SBI room; clutters the legend) — keep 3 shades (Abacus truth/Abacus
+    NPE/NPE DESI).
+  * Slide 10 = `closure/closure_categorical.png` (hero: f_quench/colour/sSFR rise
+    void→cluster) + `closure_mass_control.png` (survives at fixed M*) + the real
+    skewer animation. Strongest part of the deck: validation = first science.
+  * Slide 10 animation: `skewer_posterior_animation_real.html` → record to mp4/gif
+    and embed in Keynote (no live HTML in a 12-min talk). Bookend to slide 3.
+  * Backup/Q&A only: eigenvalue_corner, closure_continuous_{trace,p_cluster},
+    posterior_width_sky_map, class_sky_map, width_vs_boundary (counterintuitive:
+    width tracks tail extremity not class ambiguity — needs 30s, keep off main deck),
+    embeddings (umap/pca/3d), lambda_th_sweep, posterior_width_3d.
+- STILL NEEDED (not in folder — sync from NERSC canonical or generate): (a) **Slide 7
+  TARP coverage plot + SBC rank histogram (Abacus)** — CRITICAL, the calibration
+  headline currently has no figure; sync from the SI run via
+  `scripts/sync_figures_to_canonical.sh`. (b) Slide 6 three-way TARP curves
+  (softplus/linear/raw) to make "raw wins NLL, fails calibration" visual (table
+  alone is acceptable fallback). (c) Slide 9 `edge_scale.png` + cluster-fraction
+  recovery-sequence bars (else slide 9 is text-only). (d) Slide 3 idealised
+  fake-data skewer — generate or reuse the 06-18 Desktop mockup; must match the
+  real-skewer panel layout for the bookend.
+- CLOSED: graph construction is **Delaunay on BOTH** the Abacus training wedge and
+  the DESI inference wedge (user-confirmed; alpha-complex was tried earlier and
+  worked worse, abandoned). => NO train/inference graph mismatch; removed that as a
+  slide-9 open question. The 2026-06-21 v2 entry's open-item (1) is hereby resolved.
+  Pipeline slide states "Delaunay" cleanly; slide-9 gap is purely the n(z)/edge-scale
+  story.
+- Closure test: confirmed done and strong per the 2026-06-21 [code] entry (99.7%
+  TARGETID→FastSpecFit join; every trend monotonic void→cluster; survives mass
+  control). Skewer animations exist; user may iterate.
+- Deck file: still a copy of the old FLATS talk inside the SBI-Galev-2026 folder;
+  it's the working base for building the new slides.
+- Next: sync the four missing-figure sets from NERSC; generate the idealised skewer;
+  regen class-fractions without the regression bars; then build slides on the FLATS
+  copy. Timer dry-run after.
+- Refs: `~/Developer/Working Files/SBI-Galev-2026/` (deck + figures);
+  `~/Developer/Working Files/cambridge_sbi_galev_2026_script.md` (§PLOT→SLIDE v2.1);
+  2026-06-21 [code] closure-test entry; 2026-06-19/06-20 [code] diagnostic/SI runs.
+
 ### 2026-06-21 — [code] Property–environment closure test runs on DESI LOA wedge (slide 10)
 - What: Built the TARGETID→FastSpecFit join + closure-test plots for slide 10's
   truth-free validation (validation item (4) from 2026-06-18). Two new scripts in
