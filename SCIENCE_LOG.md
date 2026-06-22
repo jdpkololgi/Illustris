@@ -46,6 +46,36 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-21 — [code] Slide-figure batch: 4 of 6 "STILL NEEDED" plots done into the SI folder
+- What: Actioned the STILL-NEEDED list from the plot→slide entry below. All new/updated
+  figures are themed (`shared.plot_style`) and live in the SI run dir
+  `/pscratch/.../flowjax_inference_outputs/desi_wedge_flowjax_linear_si/` (also synced to
+  canonical `figures/desi_wedge_flowjax_linear_si/`). DONE:
+  * Slide 8 — `class_fractions_comparison.png` REGENERATED without the "Regression DESI"
+    bars (added `--no-regression` + `--only-class-fractions` to `plot_desi_wedge_flowjax.py`;
+    generic bar spacing). Now 3 shades: Abacus truth / Abacus NPE / NPE DESI. Cluster group
+    reads 0.06 / 0.05 / 0.05 → on-message "transfer lands near truth incl. rare clusters".
+  * Slide 9 — `cluster_recovery_bars.png` NEW (`plot_cluster_recovery_bars.py`): reads the
+    four DESI variant summaries live → cluster fraction 0.027→0.034→0.040→0.046 vs Abacus
+    truth 0.058, annotated "60% of the gap closed". Gold bars, dashed truth line.
+  * Slide 9 — `edge_scale.png` copied in from the baseline linear run (graph-level, identical
+    across runs; already themed).
+  * Slide 7 — Abacus calibration copied in as `abacus_tarp_coverage.png` +
+    `abacus_sbc_calibration.png` (the themed 06-21 SI-run plots; provenance-renamed).
+- NOT done (need heavier work, flagged for user decision):
+  * Slide 6 three-way TARP (softplus/linear/raw overlay): the per-run npz saves only class
+    probs (no posterior samples / no true θ), and `plot_tarp_coverage` computes ecp/alpha
+    inline without saving them → a single overlay needs a GPU re-eval of all 3 models.
+    User pre-authorised the table fallback; GPU overlay on request.
+  * Slide 3 idealised fake-data skewer: generative; `build_skewer_animation.py` is the
+    real-data version (panel layout = galaxy strip + width ribbon + class strip + 3 λ
+    posterior KDEs + class-prob bar). A synthetic twin can be built to match, or reuse the
+    06-18 Desktop mockup — user's call.
+- Code: `plot_desi_wedge_flowjax.py` (2 new flags) + new `plot_cluster_recovery_bars.py`
+  are UNCOMMITTED in GraphWeb_DESI pending user go-ahead.
+- Refs: SI run dir figures; `GraphWeb_DESI/workflows/sbi_inference/{plot_desi_wedge_flowjax,
+  plot_cluster_recovery_bars}.py`; this batch maps to the plot→slide entry directly below.
+
 ### 2026-06-21 — [science] Plot→slide mapping decided; graph-construction question closed
 - What: Audited the conference folder `~/Developer/Working Files/SBI-Galev-2026/`
   (deck .key + 17 figures/animations) and assigned heroes per slide; full mapping
