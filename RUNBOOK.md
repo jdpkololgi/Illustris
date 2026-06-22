@@ -211,7 +211,8 @@ python workflows/abacus_tweb/build_abacus_sbi_cache.py \
   --output-cache-path "/pscratch/sd/d/dkololgi/abacus/sbi_caches/processed_jraph_data_mc1e+09_v2_scaled_3_transformed_eig.pkl" \
   --no-apply-y1y5-filter \
   --no-exclude-invalid-box-index \
-  --three-targets-only
+  --three-targets-only \
+  --scale-invariant-features
 ```
 
 Cache constraints:
@@ -227,6 +228,12 @@ Cache constraints:
   full graph-build selection columns.
 - The default target mode is ordered softplus eigenvalue increments. Use
   `--no-transformed-eig` only for explicit raw-eigenvalue ablations.
+- `--scale-invariant-features` is the current mock-to-DESI transfer setting for
+  Abacus wedge NPE caches. It converts scale-carrying graph observables into
+  per-graph median contrasts before later transforms, reducing sensitivity to
+  absolute survey number density while preserving relative environment.
+- Put `scale_invariant`, `si`, or an equivalent tag in the cache path/run name;
+  the current pickle schema does not record this flag separately.
 - The output pickle schema includes `graph`, `regression_targets`,
   `regression_targets_raw`, `masks`, `target_scaler`, `eigenvalues_raw`, and
   optional classification labels.
@@ -314,6 +321,23 @@ python workflows/gcn_paper/postprocessing.py --help
 
 This workflow is retained for paper reproduction and uses PyTorch/Torch
 Geometric classification utilities under `workflows/gcn_paper/`.
+
+## Figure Sync Helper
+
+Run-specific output directories remain the source of truth for checkpoints,
+logs, and plots. To collect finished figures under the canonical figure root for
+talks or paper assembly, mirror image/HTML artifacts with:
+
+```bash
+scripts/sync_figures_to_canonical.sh \
+  "/pscratch/sd/d/dkololgi/outputs/sbi_wedge/plots" \
+  "desi_wedge_flowjax_linear_si"
+```
+
+The destination is
+`${TNG_CANONICAL_FIGURE_ROOT:-/pscratch/sd/d/dkololgi/tng_illustris/figures}/<run_name>`.
+The helper copies `*.png`, `*.pdf`, `*.html`, and `*.svg` via `rsync`; it does
+not move source files or sync model checkpoints.
 
 ## Smoke Tests
 

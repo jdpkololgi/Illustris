@@ -46,6 +46,21 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-22 — [code] docs: scale-invariant Abacus cache and figure sync
+- What: Updated `workflows/abacus_tweb/README.md` and `RUNBOOK.md` to document
+  `build_abacus_sbi_cache.py --scale-invariant-features`, its per-graph median
+  contrast transform, the cache-provenance naming pitfall, and
+  `scripts/sync_figures_to_canonical.sh` usage.
+- Why / decision: Recent Route-A/production SI runs changed the recommended
+  Abacus wedge NPE cache interface, but the user-facing workflow docs only had
+  the older cache command and the science-log discussion.
+- Next: Consider adding an explicit `scale_invariant_features` metadata field to
+  the cache payload so downstream runs can audit the setting without relying on
+  path names.
+- Refs: `workflows/abacus_tweb/README.md`, `RUNBOOK.md`,
+  `workflows/abacus_tweb/build_abacus_sbi_cache.py`,
+  `scripts/sync_figures_to_canonical.sh`
+
 ### 2026-06-21 — [code] Property–environment closure test runs on DESI LOA wedge (slide 10)
 - What: Built the TARGETID→FastSpecFit join + closure-test plots for slide 10's
   truth-free validation (validation item (4) from 2026-06-18). Two new scripts in
