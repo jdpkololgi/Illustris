@@ -46,6 +46,32 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-22 — [science] Talk script finalized v2.1: all figures locked, deck-build is the only remaining task
+- What: Recovered the interrupted talk-prep thread and confirmed against `Plots/` that all
+  6 previously-"STILL NEEDED" figures (slide 3 idealised skewer, slide 6 three-way TARP,
+  slide 7 Abacus TARP+SBC, slide 9 edge_scale + cluster recovery bars) now exist, matching
+  the NERSC 06-22 "6/6 complete" entries below. Updated
+  `~/Developer/Working Files/SBI-Galev-2026/cambridge_sbi_galev_2026_script.md` to v2.1:
+  every slide's Visual line now points at a FINAL figure filename instead of a placeholder;
+  numbers reconciled to the actual figures (slide 6 max|ECP−α| softplus/linear/raw =
+  0.012/0.029/0.082; slide 9 recovery sequence 0.027→0.034→0.040→0.046 vs truth 0.058,
+  ~60% of gap closed — corrected from the earlier "56%/two-point" figure). All 4 OPEN
+  DECISIONS and the STILL-NEEDED list marked resolved/closed in the script.
+- Why / decision: with content locked, the only remaining work before Thursday is
+  mechanical — building the actual Keynote deck (`SBI-Galev-2026.key`, currently still a
+  33-slide copy of the classification-era FLATS talk) from the v2.1 script. Confirmed via
+  keynote-mcp the file is open at 33 slides; identified reuse candidates by content audit:
+  slide 1 (title layout), slide 3 "The Cosmic Web" (T-web explainer layout), slide 8
+  "Combining graphs and machine learning" (pipeline-stage layout) — consistent with the
+  06-15/06-21 plan to inherit theme + 3 layouts and rebuild everything else.
+- Next: confirm rebuild plan with Dakshesh (strip/repurpose old slides vs keep-and-renumber),
+  then build the 11 main + ~8 backup slides via keynote-mcp using the v2.1 script + `Plots/`
+  images; convert the two HTML animations (`skewer_idealised.html`,
+  `skewer_posterior_animation_real.html`) to mp4/gif for embedding (no live HTML in-talk);
+  timer dry-run once built (OPEN DECISIONS #4, still pending).
+- Refs: `cambridge_sbi_galev_2026_script.md` v2.1; `SBI-Galev-2026.key`; `Plots/` (all);
+  see 06-21/06-22 [code] entries below for figure provenance.
+
 ### 2026-06-22 — [code] Idealised skewer (slide 3) + per-figure interpretation guide; STILL NEEDED 6/6
 - Slide 3 — `skewer_idealised.html` NEW (`GraphWeb_DESI/workflows/sbi_inference/build_skewer_idealised.py`):
   the discrete→continuous bookend. IMPORTS the real skewer's HTML template so layout + the
