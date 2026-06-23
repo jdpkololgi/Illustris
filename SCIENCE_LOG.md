@@ -46,6 +46,24 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-22 — [code] Closure/embedding figure fixes: UMAP class-colour bug + mass-control bins redrawn
+- UMAP embedding plot (`GraphWeb_DESI/.../plot_desi_wedge_flowjax.py`): the DESI panel
+  coloured classes from a SEPARATE `rng.choice` draw than the embedding subsample → labels
+  misaligned with points → inferred classes looked scattered at random (while the PCA panel,
+  which shares one index, was fine). Fixed to one shared index. Regenerated UMAP now shows the
+  expected ordered cluster→filament→wall→void gradient — and the right mental model: the T-web
+  classes are thresholds (λ_th=0.2) on a *continuous* tidal-field manifold, so a smooth
+  gradient (not separated blobs) is the correct picture.
+- Mass-control closure plot (`plot_property_environment_closure.py`): replaced quantile
+  tertiles (boundary at 10.49 — sat ON the M*≈10.5 quenching transition, and the low bin
+  spanned 8.1–10.49 → poor mass control) with FIXED bins [9.8,10.4,10.6,11.0,11.6]
+  (`--mass-edges`). Edges bracket the transition (10.4/10.6, not 10.5); it's isolated in the
+  narrow [10.4,10.6) bin; and the **below-transition bin [9.8,10.4) still rises** void→cluster
+  (f_q 0.62→0.68; ≥850 clusters/bin) ⇒ intrinsic mass quenching alone cannot explain the trend
+  ⇒ environmental quenching. Ordered plasma colours for the 4 mass lines; suptitle states it.
+- Uncommitted (await go-ahead): both edited scripts (GraphWeb_DESI).
+- Refs: SI run dir `embedding_umap.png`, `closure/closure_mass_control.png`; `FIGURE_GUIDE.md` updated.
+
 ### 2026-06-22 — [science] Talk script finalized v2.1: all figures locked, deck-build is the only remaining task
 - What: Recovered the interrupted talk-prep thread and confirmed against `Plots/` that all
   6 previously-"STILL NEEDED" figures (slide 3 idealised skewer, slide 6 three-way TARP,
