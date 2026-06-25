@@ -46,6 +46,37 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-22 — [science] Correction: softplus, not linear, is best-calibrated; talk drops the comparison entirely
+- What: Re-examined `Plots/three_way_tarp.png` directly (was working from a stale table note).
+  Max|ECP−α|: softplus 0.01, linear 0.03, raw 0.08. Softplus is the best-calibrated
+  parameterisation, not linear — corrects the v2.1 script's "linear increments …
+  best-calibrated" line, which had the calibration ranking backwards (likely conflating it
+  with the ordering-violation-rate column, where linear/raw do better than softplus). This
+  matches the pre-existing SCIENCE_LOG/long-term framing ("softplus gives better TARP
+  coverage than linear despite similar NLL") — it was only the script that drifted from it.
+- Decision: production parameterisation is UNCHANGED (linear increments — chosen on
+  NLL/R²/ordering-violation grounds, and it's what every downstream DESI result in the talk
+  already uses). What changes is the TALK: the three-way parameterisation comparison is cut
+  from the main flow entirely — no slide framed as a comparison between target increments,
+  not even a one-line mention. Slide 8 ("Training results"/calibration headline) states only
+  that the production model's posteriors are calibrated on the simulator (TARP+SBC), with no
+  reference to alternative parameterisations. The 3-way comparison figure moves to backup/Q&A
+  (a reviewer in this room may ask "why this parameterisation" — worth having on hand) but
+  carries no main-deck claim now that the deck doesn't reference it.
+- Also scoped down: the "diagnosing & closing the gap" material (graph-scale/edge-length
+  diagnosis, per-graph normalisation fix, cluster-recovery sequence) is cut from the talk too
+  — no time in a 12-min slot once background/motivation was expanded to 3 slides. Talk now
+  goes straight from zero-shot transfer ("it works, aggregate near-truth") to the DESI closure
+  test (validation = first science) to take-home. The gap-diagnosis work itself is unaffected
+  (still real, still in `SCIENCE_LOG`/code), it's just not presented Thursday.
+- Next: slides 8 and 14 rewritten as standalone bullet content (Dakshesh is speaking without a
+  script, so slide text needs to carry the point on its own). Deck still has cleanup pending:
+  slide 15 is an unrelated leftover from the original 33-slide purge (delete); slides 9 and 16
+  are duplicate drafts of "Zero-shot to DESI" (merge); slide 14 (Summary) needs to move to the
+  final position.
+- Refs: `Plots/three_way_tarp.png`; `SBI-Galev-2026.key` slides 8, 14, 17;
+  `cambridge_sbi_galev_2026_script.md` (needs v3 pass to match — not yet done).
+
 ### 2026-06-22 — [science] Talk script finalized v2.1: all figures locked, deck-build is the only remaining task
 - What: Recovered the interrupted talk-prep thread and confirmed against `Plots/` that all
   6 previously-"STILL NEEDED" figures (slide 3 idealised skewer, slide 6 three-way TARP,
