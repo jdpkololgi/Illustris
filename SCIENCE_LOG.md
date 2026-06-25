@@ -46,6 +46,41 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-25 — [code] Cluster-deficit diagnosis rewritten: not coverage/FoG, it's spatial-only feature limit
+- What: ran a diagnostic battery on the SI run (`path1_wedge_flowjax_3d_Bcorrected_linear_si`
+  / `desi_wedge_flowjax_linear_si`) to localise the known cluster under-recovery
+  (clusters→filaments) and the small DESI misspecification:
+  1. **Posterior degeneracy** — none. DESI matches the in-distribution Abacus self-eval on
+     all checks: collapse-to-marginal ratio 2.4–3.8 (≫1), no width/spike collapse, moderate
+     inter-λ corr (genuine 3D posterior), embedding eff. rank ~5–6/80 (same both sides).
+  2. **Summary-space MMD misspecification** (BayesFlow/Schmitt-style, GNN embedding = summary
+     net) — DESI vs Abacus MMD²=+0.0043 vs in-dist floor ≈0 (split-half), p<0.01, 51σ, but
+     MMD distance only 0.066 on standardised 80-d → DETECTABLE but small; downstream λ
+     distributions still overlay. Don't chase it.
+  3. **Training-support coverage in SI space** — CLEAN. frac DESI > Abacus train *max* ≈0 every
+     feature; cluster-cands only ~0.7% past p99.9 in density family. **SI normalisation closed
+     the extrapolation gap** the old non-SI check flagged → coverage is NOT the cluster cause.
+  4. **Property-information ceiling** (geometry→FastSpecFit property, cross-val, closure
+     parquet) — geometry encodes ~nothing about galaxy properties: R² LOGMSTAR 0.06 / g−r 0.03 /
+     log_sSFR 0.003 / DN4000 ~0; quenched AUC 0.56. In model-cluster galaxies it's at chance
+     (AUC 0.53). Properties are nearly orthogonal to the spatial features.
+- Why / decision: combined with the earlier mild FoG/LOS result, this **rules out extrapolation
+  and FoG** and **supports the intrinsic-information-limit hypothesis**: the closure test showed
+  properties correlate with environment (survive mass control); (4) now shows that signal is
+  independent of geometry. So positions-only features are demonstrably leaving environment-
+  relevant information (galaxy properties) on the table, most so in clusters. Answers "are we
+  over-limiting with spatial-only features?" → yes, now shown not asserted.
+- Caveats: redundancy measured via the eigenvalue-optimised embedding (may understate what raw
+  geometry could predict — raw-7-feature check pending); low R² includes property scatter, only
+  the env-correlated part is usable headroom (closure sizes it); exploiting it needs properties
+  painted onto Abacus mocks (HOD/SHAM → modelling systematics) and changes the claim to
+  "positions + properties". MMD per-repeat "ratio" log line is a cosmetic /0 artifact.
+- Next: decide on a deliberate property-augmentation study — paint a minimal property
+  (luminosity / SHAM M*) onto the path1 mock, retrain, measure cluster-recall gain. Real GPU
+  retrain, not a quick check. Optional: raw-7-feature redundancy robustness check.
+- Refs: `GraphWeb_DESI/workflows/sbi_inference/{property_ceiling_ablation,desi_abacus_coverage_report,mmd_misspecification_check}.py`,
+  `TNG/Illustris/workflows/sbi/degeneracy_check_abacus.py`; FoG: `plot_fog_los_alignment.py`.
+
 ### 2026-06-22 — [code] Closure/embedding figure fixes: UMAP class-colour bug + mass-control bins redrawn
 - UMAP embedding plot (`GraphWeb_DESI/.../plot_desi_wedge_flowjax.py`): the DESI panel
   coloured classes from a SEPARATE `rng.choice` draw than the embedding subsample → labels
