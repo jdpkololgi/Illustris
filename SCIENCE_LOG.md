@@ -46,6 +46,169 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-26 — [code] DEFINITIVE (mass-anchored): clusters favour FINE smoothing; current 7 Mpc/h good
+- What: the "ideal test" — anchor 'cluster' to a SCALE-INDEPENDENT physical label
+  (halo mass) instead of the smoothing-dependent λ1>λ_th. The master cutsky
+  (`mocks_with_eigs_23032026/cutsky_..._with_tweb_eigs.fits`) carries **HALO_MASS**
+  directly (units 1e10 Msun/h; also R_MAG_ABS, G_R_REST, CEN) and is row-aligned with
+  the rs6–24 λ catalogs → no fragile CompaSO index join needed.
+  (`mass_anchored_cluster_test.py`; the earlier CompaSO-join attempt was abandoned —
+  path1 wedge_targets BOX_INDEX didn't reproduce host_halos x_com, and the master
+  catalog has mass anyway.)
+- Sanity passed: Spearman(logM, λ1@rs7)=+0.24; features(aperture density)→P(logM>13)
+  AUC=0.736 (density genuinely predicts mass).
+- Findings (identical across logM>12.5/13/13.5):
+  1. **Massive-halo recovery decreases MONOTONICALLY with smoothing — finest is best, no
+     interior optimum.** AUC(true λ1 → M>1e13): rs6 0.789 → rs7 0.770 → rs10 0.721 →
+     rs20 0.637. Model recovery (aperture density → predicted λ1 → massive) same trend
+     (rs6 0.722 → rs20 0.665).
+  2. **Anti-correlation confirmed with a physical anchor:** mass-cluster recovery falls
+     with smoothing while global R²(λ1) PEAKS at rs10. Optimising global accuracy
+     actively harms real cluster recovery — the global "optimum" is a bulk artifact.
+  3. **T-web cluster label is a real but imperfect mass finder:** purity (λ1>0.2 ∩
+     M>1e13)/(λ1>0.2) ≈ 0.54 at rs7 (~0.61 at M>3e12) — about half of T-web clusters
+     are genuine >1e13 halos; the rest are collapsed-environment outskirts. Massive halos
+     ARE recoverable from geometry (AUC ~0.72), contra the earlier units-bugged run.
+- Decision: **7 Mpc/h is a good cluster choice** (rs6 marginally better but noisier
+  globally); do NOT raise the target smoothing for accuracy — it trades away clusters.
+  Levers unchanged: soft posterior P(λ1>λ_th) + scale-matched ~10 Mpc/h *feature*
+  aperture. Mass anchor removes the circularity in the smoothing-dependent cluster def.
+- Refs: `GraphWeb_DESI/workflows/sbi_inference/mass_anchored_cluster_test.py`,
+  `plot_mass_anchored_recovery.py`; figure `tng_illustris/figures/smoothing_scale_study/
+  mass_anchored_cluster_recovery.png`. Master cutsky has HALO_MASS/R_MAG_ABS/G_R_REST/CEN
+  (useful for any future property-augmentation study, now testable on truth).
+
+### 2026-06-26 — [code] CORRECTION: global-R² smoothing optimum ≠ cluster optimum; clusters favour ≤7 Mpc/h
+- What: JDPK critique of the previous entry — clusters are compact, so larger smoothing
+  washes them out; the global R²(λ1) peak at ~10 Mpc/h could be raising bulk accuracy
+  while *erasing* clusters. Tested with CLUSTER-CONDITIONED metrics vs smoothing
+  (`cluster_recovery_vs_smoothing.py`).
+- Findings — critique CONFIRMED:
+  1. **Global R²(λ1) and cluster completeness are anti-correlated.** Global R² peaks at
+     rs10 (0.592); rank-based cluster completeness@true-rate peaks at the FINEST scale
+     (rs6–7 ≈ 0.55) and falls through rs10 (0.518) → collapses by rs16 (0.17). rs7→rs10:
+     global +0.045 but completeness −0.031.
+  2. **AUC(cluster) is a trap for rare classes** — it *rises* with smoothing (0.90→0.98)
+     because survivors become a trivially-separable extreme tail; completeness exposes
+     the real (opposite) trend. Use completeness/fate, not AUC, for rare clusters.
+  3. **Cross-scale fate:** of clusters defined at rs6, only 75% survive to rs7, **33% to
+     rs10**, ~0% by rs16 — compact clusters dissolve fast under smoothing.
+- Decision / correction: **RETRACT the "~10 Mpc/h optimum" as a target choice** — that is
+  the bulk's optimum, not the clusters'. The current **7 Mpc/h is near-optimal for
+  clusters** (was well-chosen). No single smoothing serves both bulk and clusters. The
+  cluster levers remain: soft posterior P(λ1>λ_th) (shrinkage) + scale-matched ~10 Mpc/h
+  *feature* aperture for the 7 Mpc/h *target* (feature scale ≠ target scale).
+- Caveats: "cluster" defined via λ1(s)>λ_th (smoothing-dependent); a scale-independent
+  anchor (halo mass via HALO_INDEX→CompaSO) would be the ideal further test.
+- Refs: `GraphWeb_DESI/workflows/sbi_inference/cluster_recovery_vs_smoothing.py`,
+  `plot_smoothing_scale_study.py`; figure `tng_illustris/figures/smoothing_scale_study/
+  smoothing_scale_learnability.png`.
+
+### 2026-06-26 — [code] Target smoothing scale vs λ learnability: optimum ~10 Mpc/h; aperture≈1.4×scale
+- What: JDPK follow-up — we have cutsky BGS eigenvalues at many smoothing scales (rs
+  6–24 Mpc/h, same 63.9M galaxies, only target smoothing varies). Held galaxy features
+  fixed (aperture density at 3–28 Mpc/h on a wedge footprint downsampled to BGS-like
+  ~12.6 Mpc spacing) and measured how λ1/λ2 distribution + learnability depend on the
+  target smoothing. (`smoothing_scale_investigation.py`, fitsio column reads.)
+- Findings:
+  1. **λ1 learnability is non-monotonic, peaks at ~10–11 Mpc/h** (geom R²(λ1): rs6 0.51,
+     rs7 0.55, rs9 0.59, **rs10 0.592**, rs11 0.59, rs12 0.58, rs16 0.53, rs20 0.47).
+     The current **7 Mpc/h is slightly below the learnability optimum**.
+  2. **Scale-matching quantified:** λ1 at smoothing s is best predicted by density at
+     aperture ≈ **1.3–1.5×s** (rs6→7, rs7→10, rs9–12→14, rs16–20→20). Design rule: for a
+     target smoothed at s, build density features at ~1.4×s. Explains why few-Mpc Delaunay
+     features under-serve the 7 Mpc/h target.
+  3. **λ2 is the well-behaved eigenvalue** (R²≈0.64, peaks ~7 Mpc/h); web-classification
+     difficulty is almost entirely in λ1.
+  4. **Resolution↔learnability tradeoff is steep for clusters:** cluster frac (λ1>0.2)
+     6.6%→3.2%→~0 over rs7→rs10→rs16. Can't smooth away the cluster problem without
+     erasing clusters — smoothing scale and λ_th must be tuned jointly.
+- Decision / implication: highest-value claim-preserving change = use **scale-matched
+  ~10 Mpc/h aperture-density node features for the 7 Mpc/h target** (bigger lever than
+  velocity dispersion, per the 06-26 entry). Smoothing scale + λ_th are a joint choice;
+  ~10 Mpc/h is the λ1 sweet spot if fewer clusters are acceptable. No model change yet
+  (investigation only); pre-veldisp default preserved.
+- Caveats: aperture-density proxy (not full GNN; trends robust, absolute R² conservative);
+  single footprint/realization; large-s decline partly aperture-capped at 28 Mpc/h.
+- Refs: `GraphWeb_DESI/workflows/sbi_inference/smoothing_scale_investigation.py`;
+  cutsky catalogs `mocks_with_eigs_*_rsmooth_*` (rs6–24, _15d set).
+
+### 2026-06-26 — [code] Cluster fix is FEATURE SCALE-MATCHING (+ soft posterior), NOT velocity dispersion
+- What: followed up the 06-25 diagnosis by gating a proposed kinematic feature (local
+  line-of-sight velocity dispersion / Fingers-of-God anisotropy) with cheap mock-truth
+  pre-checks BEFORE any retrain. Arc:
+  1. **Delaunay-scale veldisp — null.** σ∥/σ⊥ over Delaunay neighbours (~few Mpc) does
+     NOT separate true cluster vs filament (AUC 0.507). Also showed the first signal test
+     was circular (used the model's own geometry-derived `hard_class` as target).
+  2. **Aperture-matched veldisp — modest.** JDPK insight: T-web targets are the tidal
+     field Gaussian-smoothed at **7 Mpc/h**, so the kinematic scale must match. Sweeping
+     fixed apertures, FoGAniso signal peaks at ~7–10 Mpc/h (cluster-vs-filament AUC
+     0.51→0.61; on a balanced HistGBM proxy, cluster recall +0.02–0.04, cluster→filament
+     −0.01–0.03). Real but small.
+  3. **Eigenvalue-space reframe (JDPK) — the decisive view.** Classes are just λ_th=0.2
+     thresholds on the regressed eigenvalues, so test λ1 directly. geom→λ1 R²=0.286;
+     FoGAniso adds only +0.018; it does NOT explain geometry's λ1 residual (r≈0.03) and
+     does NOT resolve λ1 in the threshold zone.
+  4. **Why-the-limit investigation — the payoff.** (a) FEATURE-SCALE MISMATCH dominates:
+     adding **aperture density at 7 & 10 Mpc/h** lifts λ1 R² 0.286→0.366 (**+0.080, 4×
+     the kinematic gain**) — purely spatial, claim-preserving. (b) The "cluster deficit"
+     is largely **regression shrinkage**: globally λ1 ranks fine (Spearman 0.56) but a
+     point estimate predicts cluster frac 0.004 vs true 0.059 at λ_th=0.2 (**97% tail
+     miss**) → the calibrated **posterior P(λ1>λ_th)** (NPE `p_exceed`) is the honest
+     product. (c) Boundary is hard but not irreducible: feature-space λ1 noise floor
+     0.74→0.66 and zone Spearman 0.13→0.17 with better-scaled features (earlier "R²<0"
+     was a narrow-variance metric artifact).
+- Why / decision: **did NOT add velocity dispersion** — gated off; the cheap pre-checks
+  saved a ~9h retrain that would have bought ~+0.018 λ1 R² without fixing the boundary.
+  Code reverted to pre-veldisp default (no production-pipeline file touched; the precheck
+  scripts are standalone/opt-in only).
+- Methodology lessons: (i) independence-from-geometry ≠ usefulness — test new features in
+  the TARGET (eigenvalue) space, not on discrete labels; (ii) match FEATURE scale to the
+  target smoothing scale (7 Mpc/h); (iii) hard-thresholding a shrunk point estimate
+  manufactures the cluster deficit — report the posterior.
+- Next (future, when requested): (a) scale-matched spatial features — aperture density at
+  ~7–10 Mpc/h appended to the node set (biggest, claim-preserving λ1 lever); (b) report
+  & calibrate soft P(λ1>λ_th) rather than hard argmax class fractions.
+- Refs (standalone, opt-in): `GraphWeb_DESI/workflows/sbi_inference/`
+  `velocity_dispersion_precheck.py`, `velocity_dispersion_aperture_precheck.py`,
+  `velocity_dispersion_eigenvalue_precheck.py`, `threshold_limit_investigation.py`;
+  plan shelved at `~/.claude/plans/keen-twirling-prism.md`.
+
+### 2026-06-25 — [code] Cluster-deficit diagnosis rewritten: not coverage/FoG, it's spatial-only feature limit
+- What: ran a diagnostic battery on the SI run (`path1_wedge_flowjax_3d_Bcorrected_linear_si`
+  / `desi_wedge_flowjax_linear_si`) to localise the known cluster under-recovery
+  (clusters→filaments) and the small DESI misspecification:
+  1. **Posterior degeneracy** — none. DESI matches the in-distribution Abacus self-eval on
+     all checks: collapse-to-marginal ratio 2.4–3.8 (≫1), no width/spike collapse, moderate
+     inter-λ corr (genuine 3D posterior), embedding eff. rank ~5–6/80 (same both sides).
+  2. **Summary-space MMD misspecification** (BayesFlow/Schmitt-style, GNN embedding = summary
+     net) — DESI vs Abacus MMD²=+0.0043 vs in-dist floor ≈0 (split-half), p<0.01, 51σ, but
+     MMD distance only 0.066 on standardised 80-d → DETECTABLE but small; downstream λ
+     distributions still overlay. Don't chase it.
+  3. **Training-support coverage in SI space** — CLEAN. frac DESI > Abacus train *max* ≈0 every
+     feature; cluster-cands only ~0.7% past p99.9 in density family. **SI normalisation closed
+     the extrapolation gap** the old non-SI check flagged → coverage is NOT the cluster cause.
+  4. **Property-information ceiling** (geometry→FastSpecFit property, cross-val, closure
+     parquet) — geometry encodes ~nothing about galaxy properties: R² LOGMSTAR 0.06 / g−r 0.03 /
+     log_sSFR 0.003 / DN4000 ~0; quenched AUC 0.56. In model-cluster galaxies it's at chance
+     (AUC 0.53). Properties are nearly orthogonal to the spatial features.
+- Why / decision: combined with the earlier mild FoG/LOS result, this **rules out extrapolation
+  and FoG** and **supports the intrinsic-information-limit hypothesis**: the closure test showed
+  properties correlate with environment (survive mass control); (4) now shows that signal is
+  independent of geometry. So positions-only features are demonstrably leaving environment-
+  relevant information (galaxy properties) on the table, most so in clusters. Answers "are we
+  over-limiting with spatial-only features?" → yes, now shown not asserted.
+- Caveats: redundancy measured via the eigenvalue-optimised embedding (may understate what raw
+  geometry could predict — raw-7-feature check pending); low R² includes property scatter, only
+  the env-correlated part is usable headroom (closure sizes it); exploiting it needs properties
+  painted onto Abacus mocks (HOD/SHAM → modelling systematics) and changes the claim to
+  "positions + properties". MMD per-repeat "ratio" log line is a cosmetic /0 artifact.
+- Next: decide on a deliberate property-augmentation study — paint a minimal property
+  (luminosity / SHAM M*) onto the path1 mock, retrain, measure cluster-recall gain. Real GPU
+  retrain, not a quick check. Optional: raw-7-feature redundancy robustness check.
+- Refs: `GraphWeb_DESI/workflows/sbi_inference/{property_ceiling_ablation,desi_abacus_coverage_report,mmd_misspecification_check}.py`,
+  `TNG/Illustris/workflows/sbi/degeneracy_check_abacus.py`; FoG: `plot_fog_los_alignment.py`.
+
 ### 2026-06-22 — [science] Correction: softplus, not linear, is best-calibrated; talk drops the comparison entirely
 - What: Re-examined `Plots/three_way_tarp.png` directly (was working from a stale table note).
   Max|ECP−α|: softplus 0.01, linear 0.03, raw 0.08. Softplus is the best-calibrated
@@ -76,6 +239,24 @@ Entry shape:
   final position.
 - Refs: `Plots/three_way_tarp.png`; `SBI-Galev-2026.key` slides 8, 14, 17;
   `cambridge_sbi_galev_2026_script.md` (needs v3 pass to match — not yet done).
+
+### 2026-06-22 — [code] Closure/embedding figure fixes: UMAP class-colour bug + mass-control bins redrawn
+- UMAP embedding plot (`GraphWeb_DESI/.../plot_desi_wedge_flowjax.py`): the DESI panel
+  coloured classes from a SEPARATE `rng.choice` draw than the embedding subsample → labels
+  misaligned with points → inferred classes looked scattered at random (while the PCA panel,
+  which shares one index, was fine). Fixed to one shared index. Regenerated UMAP now shows the
+  expected ordered cluster→filament→wall→void gradient — and the right mental model: the T-web
+  classes are thresholds (λ_th=0.2) on a *continuous* tidal-field manifold, so a smooth
+  gradient (not separated blobs) is the correct picture.
+- Mass-control closure plot (`plot_property_environment_closure.py`): replaced quantile
+  tertiles (boundary at 10.49 — sat ON the M*≈10.5 quenching transition, and the low bin
+  spanned 8.1–10.49 → poor mass control) with FIXED bins [9.8,10.4,10.6,11.0,11.6]
+  (`--mass-edges`). Edges bracket the transition (10.4/10.6, not 10.5); it's isolated in the
+  narrow [10.4,10.6) bin; and the **below-transition bin [9.8,10.4) still rises** void→cluster
+  (f_q 0.62→0.68; ≥850 clusters/bin) ⇒ intrinsic mass quenching alone cannot explain the trend
+  ⇒ environmental quenching. Ordered plasma colours for the 4 mass lines; suptitle states it.
+- Uncommitted (await go-ahead): both edited scripts (GraphWeb_DESI).
+- Refs: SI run dir `embedding_umap.png`, `closure/closure_mass_control.png`; `FIGURE_GUIDE.md` updated.
 
 ### 2026-06-22 — [science] Talk script finalized v2.1: all figures locked, deck-build is the only remaining task
 - What: Recovered the interrupted talk-prep thread and confirmed against `Plots/` that all
