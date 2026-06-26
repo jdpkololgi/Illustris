@@ -46,6 +46,38 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-26 — [code] DEFINITIVE (mass-anchored): clusters favour FINE smoothing; current 7 Mpc/h good
+- What: the "ideal test" — anchor 'cluster' to a SCALE-INDEPENDENT physical label
+  (halo mass) instead of the smoothing-dependent λ1>λ_th. The master cutsky
+  (`mocks_with_eigs_23032026/cutsky_..._with_tweb_eigs.fits`) carries **HALO_MASS**
+  directly (units 1e10 Msun/h; also R_MAG_ABS, G_R_REST, CEN) and is row-aligned with
+  the rs6–24 λ catalogs → no fragile CompaSO index join needed.
+  (`mass_anchored_cluster_test.py`; the earlier CompaSO-join attempt was abandoned —
+  path1 wedge_targets BOX_INDEX didn't reproduce host_halos x_com, and the master
+  catalog has mass anyway.)
+- Sanity passed: Spearman(logM, λ1@rs7)=+0.24; features(aperture density)→P(logM>13)
+  AUC=0.736 (density genuinely predicts mass).
+- Findings (identical across logM>12.5/13/13.5):
+  1. **Massive-halo recovery decreases MONOTONICALLY with smoothing — finest is best, no
+     interior optimum.** AUC(true λ1 → M>1e13): rs6 0.789 → rs7 0.770 → rs10 0.721 →
+     rs20 0.637. Model recovery (aperture density → predicted λ1 → massive) same trend
+     (rs6 0.722 → rs20 0.665).
+  2. **Anti-correlation confirmed with a physical anchor:** mass-cluster recovery falls
+     with smoothing while global R²(λ1) PEAKS at rs10. Optimising global accuracy
+     actively harms real cluster recovery — the global "optimum" is a bulk artifact.
+  3. **T-web cluster label is a real but imperfect mass finder:** purity (λ1>0.2 ∩
+     M>1e13)/(λ1>0.2) ≈ 0.54 at rs7 (~0.61 at M>3e12) — about half of T-web clusters
+     are genuine >1e13 halos; the rest are collapsed-environment outskirts. Massive halos
+     ARE recoverable from geometry (AUC ~0.72), contra the earlier units-bugged run.
+- Decision: **7 Mpc/h is a good cluster choice** (rs6 marginally better but noisier
+  globally); do NOT raise the target smoothing for accuracy — it trades away clusters.
+  Levers unchanged: soft posterior P(λ1>λ_th) + scale-matched ~10 Mpc/h *feature*
+  aperture. Mass anchor removes the circularity in the smoothing-dependent cluster def.
+- Refs: `GraphWeb_DESI/workflows/sbi_inference/mass_anchored_cluster_test.py`,
+  `plot_mass_anchored_recovery.py`; figure `tng_illustris/figures/smoothing_scale_study/
+  mass_anchored_cluster_recovery.png`. Master cutsky has HALO_MASS/R_MAG_ABS/G_R_REST/CEN
+  (useful for any future property-augmentation study, now testable on truth).
+
 ### 2026-06-26 — [code] CORRECTION: global-R² smoothing optimum ≠ cluster optimum; clusters favour ≤7 Mpc/h
 - What: JDPK critique of the previous entry — clusters are compact, so larger smoothing
   washes them out; the global R²(λ1) peak at ~10 Mpc/h could be raising bulk accuracy
