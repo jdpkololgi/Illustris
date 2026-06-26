@@ -46,6 +46,35 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-26 — [code] Target smoothing scale vs λ learnability: optimum ~10 Mpc/h; aperture≈1.4×scale
+- What: JDPK follow-up — we have cutsky BGS eigenvalues at many smoothing scales (rs
+  6–24 Mpc/h, same 63.9M galaxies, only target smoothing varies). Held galaxy features
+  fixed (aperture density at 3–28 Mpc/h on a wedge footprint downsampled to BGS-like
+  ~12.6 Mpc spacing) and measured how λ1/λ2 distribution + learnability depend on the
+  target smoothing. (`smoothing_scale_investigation.py`, fitsio column reads.)
+- Findings:
+  1. **λ1 learnability is non-monotonic, peaks at ~10–11 Mpc/h** (geom R²(λ1): rs6 0.51,
+     rs7 0.55, rs9 0.59, **rs10 0.592**, rs11 0.59, rs12 0.58, rs16 0.53, rs20 0.47).
+     The current **7 Mpc/h is slightly below the learnability optimum**.
+  2. **Scale-matching quantified:** λ1 at smoothing s is best predicted by density at
+     aperture ≈ **1.3–1.5×s** (rs6→7, rs7→10, rs9–12→14, rs16–20→20). Design rule: for a
+     target smoothed at s, build density features at ~1.4×s. Explains why few-Mpc Delaunay
+     features under-serve the 7 Mpc/h target.
+  3. **λ2 is the well-behaved eigenvalue** (R²≈0.64, peaks ~7 Mpc/h); web-classification
+     difficulty is almost entirely in λ1.
+  4. **Resolution↔learnability tradeoff is steep for clusters:** cluster frac (λ1>0.2)
+     6.6%→3.2%→~0 over rs7→rs10→rs16. Can't smooth away the cluster problem without
+     erasing clusters — smoothing scale and λ_th must be tuned jointly.
+- Decision / implication: highest-value claim-preserving change = use **scale-matched
+  ~10 Mpc/h aperture-density node features for the 7 Mpc/h target** (bigger lever than
+  velocity dispersion, per the 06-26 entry). Smoothing scale + λ_th are a joint choice;
+  ~10 Mpc/h is the λ1 sweet spot if fewer clusters are acceptable. No model change yet
+  (investigation only); pre-veldisp default preserved.
+- Caveats: aperture-density proxy (not full GNN; trends robust, absolute R² conservative);
+  single footprint/realization; large-s decline partly aperture-capped at 28 Mpc/h.
+- Refs: `GraphWeb_DESI/workflows/sbi_inference/smoothing_scale_investigation.py`;
+  cutsky catalogs `mocks_with_eigs_*_rsmooth_*` (rs6–24, _15d set).
+
 ### 2026-06-26 — [code] Cluster fix is FEATURE SCALE-MATCHING (+ soft posterior), NOT velocity dispersion
 - What: followed up the 06-25 diagnosis by gating a proposed kinematic feature (local
   line-of-sight velocity dispersion / Fingers-of-God anisotropy) with cheap mock-truth
