@@ -46,6 +46,47 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-26 — [code] Cluster fix is FEATURE SCALE-MATCHING (+ soft posterior), NOT velocity dispersion
+- What: followed up the 06-25 diagnosis by gating a proposed kinematic feature (local
+  line-of-sight velocity dispersion / Fingers-of-God anisotropy) with cheap mock-truth
+  pre-checks BEFORE any retrain. Arc:
+  1. **Delaunay-scale veldisp — null.** σ∥/σ⊥ over Delaunay neighbours (~few Mpc) does
+     NOT separate true cluster vs filament (AUC 0.507). Also showed the first signal test
+     was circular (used the model's own geometry-derived `hard_class` as target).
+  2. **Aperture-matched veldisp — modest.** JDPK insight: T-web targets are the tidal
+     field Gaussian-smoothed at **7 Mpc/h**, so the kinematic scale must match. Sweeping
+     fixed apertures, FoGAniso signal peaks at ~7–10 Mpc/h (cluster-vs-filament AUC
+     0.51→0.61; on a balanced HistGBM proxy, cluster recall +0.02–0.04, cluster→filament
+     −0.01–0.03). Real but small.
+  3. **Eigenvalue-space reframe (JDPK) — the decisive view.** Classes are just λ_th=0.2
+     thresholds on the regressed eigenvalues, so test λ1 directly. geom→λ1 R²=0.286;
+     FoGAniso adds only +0.018; it does NOT explain geometry's λ1 residual (r≈0.03) and
+     does NOT resolve λ1 in the threshold zone.
+  4. **Why-the-limit investigation — the payoff.** (a) FEATURE-SCALE MISMATCH dominates:
+     adding **aperture density at 7 & 10 Mpc/h** lifts λ1 R² 0.286→0.366 (**+0.080, 4×
+     the kinematic gain**) — purely spatial, claim-preserving. (b) The "cluster deficit"
+     is largely **regression shrinkage**: globally λ1 ranks fine (Spearman 0.56) but a
+     point estimate predicts cluster frac 0.004 vs true 0.059 at λ_th=0.2 (**97% tail
+     miss**) → the calibrated **posterior P(λ1>λ_th)** (NPE `p_exceed`) is the honest
+     product. (c) Boundary is hard but not irreducible: feature-space λ1 noise floor
+     0.74→0.66 and zone Spearman 0.13→0.17 with better-scaled features (earlier "R²<0"
+     was a narrow-variance metric artifact).
+- Why / decision: **did NOT add velocity dispersion** — gated off; the cheap pre-checks
+  saved a ~9h retrain that would have bought ~+0.018 λ1 R² without fixing the boundary.
+  Code reverted to pre-veldisp default (no production-pipeline file touched; the precheck
+  scripts are standalone/opt-in only).
+- Methodology lessons: (i) independence-from-geometry ≠ usefulness — test new features in
+  the TARGET (eigenvalue) space, not on discrete labels; (ii) match FEATURE scale to the
+  target smoothing scale (7 Mpc/h); (iii) hard-thresholding a shrunk point estimate
+  manufactures the cluster deficit — report the posterior.
+- Next (future, when requested): (a) scale-matched spatial features — aperture density at
+  ~7–10 Mpc/h appended to the node set (biggest, claim-preserving λ1 lever); (b) report
+  & calibrate soft P(λ1>λ_th) rather than hard argmax class fractions.
+- Refs (standalone, opt-in): `GraphWeb_DESI/workflows/sbi_inference/`
+  `velocity_dispersion_precheck.py`, `velocity_dispersion_aperture_precheck.py`,
+  `velocity_dispersion_eigenvalue_precheck.py`, `threshold_limit_investigation.py`;
+  plan shelved at `~/.claude/plans/keen-twirling-prism.md`.
+
 ### 2026-06-25 — [code] Cluster-deficit diagnosis rewritten: not coverage/FoG, it's spatial-only feature limit
 - What: ran a diagnostic battery on the SI run (`path1_wedge_flowjax_3d_Bcorrected_linear_si`
   / `desi_wedge_flowjax_linear_si`) to localise the known cluster under-recovery
