@@ -46,6 +46,32 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-26 — [code] CORRECTION: global-R² smoothing optimum ≠ cluster optimum; clusters favour ≤7 Mpc/h
+- What: JDPK critique of the previous entry — clusters are compact, so larger smoothing
+  washes them out; the global R²(λ1) peak at ~10 Mpc/h could be raising bulk accuracy
+  while *erasing* clusters. Tested with CLUSTER-CONDITIONED metrics vs smoothing
+  (`cluster_recovery_vs_smoothing.py`).
+- Findings — critique CONFIRMED:
+  1. **Global R²(λ1) and cluster completeness are anti-correlated.** Global R² peaks at
+     rs10 (0.592); rank-based cluster completeness@true-rate peaks at the FINEST scale
+     (rs6–7 ≈ 0.55) and falls through rs10 (0.518) → collapses by rs16 (0.17). rs7→rs10:
+     global +0.045 but completeness −0.031.
+  2. **AUC(cluster) is a trap for rare classes** — it *rises* with smoothing (0.90→0.98)
+     because survivors become a trivially-separable extreme tail; completeness exposes
+     the real (opposite) trend. Use completeness/fate, not AUC, for rare clusters.
+  3. **Cross-scale fate:** of clusters defined at rs6, only 75% survive to rs7, **33% to
+     rs10**, ~0% by rs16 — compact clusters dissolve fast under smoothing.
+- Decision / correction: **RETRACT the "~10 Mpc/h optimum" as a target choice** — that is
+  the bulk's optimum, not the clusters'. The current **7 Mpc/h is near-optimal for
+  clusters** (was well-chosen). No single smoothing serves both bulk and clusters. The
+  cluster levers remain: soft posterior P(λ1>λ_th) (shrinkage) + scale-matched ~10 Mpc/h
+  *feature* aperture for the 7 Mpc/h *target* (feature scale ≠ target scale).
+- Caveats: "cluster" defined via λ1(s)>λ_th (smoothing-dependent); a scale-independent
+  anchor (halo mass via HALO_INDEX→CompaSO) would be the ideal further test.
+- Refs: `GraphWeb_DESI/workflows/sbi_inference/cluster_recovery_vs_smoothing.py`,
+  `plot_smoothing_scale_study.py`; figure `tng_illustris/figures/smoothing_scale_study/
+  smoothing_scale_learnability.png`.
+
 ### 2026-06-26 — [code] Target smoothing scale vs λ learnability: optimum ~10 Mpc/h; aperture≈1.4×scale
 - What: JDPK follow-up — we have cutsky BGS eigenvalues at many smoothing scales (rs
   6–24 Mpc/h, same 63.9M galaxies, only target smoothing varies). Held galaxy features
