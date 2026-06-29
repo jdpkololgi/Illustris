@@ -91,8 +91,32 @@ Wedge constraints:
   `build_abacus_sbi_cache.py` with
   `--no-apply-y1y5-filter --no-exclude-invalid-box-index`; the rows have already
   been filtered and ordered by the wedge builder.
-- `build_abacus_sbi_cache.py` trains on ordered softplus eigenvalue increments by
-  default. Use `--no-transformed-eig` only for explicit raw-eigenvalue ablations.
+- `build_abacus_sbi_cache.py` builds ordered softplus eigenvalue increments by
+  default. Use `--linear-increments --three-targets-only` for the explicit
+  3-d linear-increment wedge NPE cache, and save it with the `_linear_eig.pkl`
+  suffix expected by `workflows/sbi/jraph_sbi_flowjax.py --increment_mode linear`.
+  Use `--no-transformed-eig` only for explicit raw-eigenvalue ablations.
+- `--scale-invariant-features` median-normalizes the scale-carrying node
+  features (`Degree`, `Density`, `NeighDensity`, `I_eig1/2/3`) and the edge
+  length into per-graph contrasts before later scaling. This is the Route-A
+  graph-scale transfer fix; use it consistently between Abacus training caches
+  and DESI/GraphWeb inference products.
+- `--power-scale-node-features` fits a Box-Cox `PowerTransformer` on train-split
+  node features only. Apply it after any scale-invariant normalization.
+
+Example linear-increment, scale-normalized wedge cache:
+
+```bash
+python workflows/abacus_tweb/build_abacus_sbi_cache.py \
+  --gnn-metadata-path "/path/to/wedge_cugraph_gnn_metadata.json" \
+  --targets-catalog-path "/path/to/wedge_targets.fits" \
+  --output-cache-path "/path/to/processed_jraph_data_mc1e+09_v2_scaled_3_linear_eig.pkl" \
+  --no-apply-y1y5-filter \
+  --no-exclude-invalid-box-index \
+  --three-targets-only \
+  --linear-increments \
+  --scale-invariant-features
+```
 
 `build_abacus_partition_batches.py` and `PARTITION_ARTIFACT_SCHEMA.md` document
 the older partitioned FlowJAX experiment. Keep them for audit/debugging, but do

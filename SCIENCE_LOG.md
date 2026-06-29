@@ -46,6 +46,19 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-06-29 — [code] Abacus wedge NPE docs aligned with current target/cache modes
+- What: Updated existing workflow docs for `build_abacus_sbi_cache.py` and
+  `jraph_sbi_flowjax.py`: linear-increment cache suffixes, scale-invariant
+  feature normalization, FlowJAX checkpoint/resume, and posterior class-prob
+  diagnostics.
+- Why / decision: recent wedge-NPE work uses explicit linear increments and
+  Route-A graph-scale normalization, but docs still emphasized only the default
+  softplus cache path.
+- Next: keep `--increment_mode`, cache suffix, and GraphWeb_DESI inference
+  feature normalization matched for transfer runs.
+- Refs: `workflows/abacus_tweb/README.md`, `workflows/sbi/README.md`,
+  `RUNBOOK.md`, `shared/eigenvalue_transformations.py`.
+
 ### 2026-06-26 — [code] DEFINITIVE (mass-anchored): clusters favour FINE smoothing; current 7 Mpc/h good
 - What: the "ideal test" — anchor 'cluster' to a SCALE-INDEPENDENT physical label
   (halo mass) instead of the smoothing-dependent λ1>λ_th. The master cutsky
