@@ -11,7 +11,7 @@ galaxy graph observables.
 | --- | --- | --- |
 | TNG/full-graph cache | `jraph_sbi_flowjax.py` | Loads one SBI cache in memory and trains/evaluates the baseline FlowJAX NPE model. |
 | Abacus wedge-subvolume cache | `jraph_sbi_flowjax.py` | Current Abacus-scale path: run one RA/Dec/z wedge graph at a time using a cache built under `workflows/abacus_tweb/`. |
-| Posterior plots, full graph/wedge | `plot_flowjax_posteriors.py` | Uses saved model outputs from the full-graph trainer. |
+| Posterior plots, full graph/wedge | `plot_flowjax_posteriors.py` | Uses saved model outputs from the full-graph trainer; also computes posterior T-Web class probabilities. |
 | Abacus partition artifacts | `jraph_sbi_flowjax_partitioned.py` | Legacy partitioned experiment; keep for audit/debugging, not new production runs. |
 | Posterior plots, partitioned | `plot_flowjax_posteriors_partitioned.py` | Legacy diagnostics for partitioned checkpoints. |
 | Data-parallel benchmark | `benchmark_partition_data_parallel.py` | Measures legacy partition collation/loading behavior. |
@@ -31,31 +31,67 @@ subset_abacus_graph_wedge_for_sbi.py
 
 The full-graph trainer currently resolves its input through
 `shared/tng_pipeline_paths.py`. For a wedge run, place or symlink the desired
-cache under `TNG_SBI_CACHE_DIR` using the expected transformed-cache name:
+cache under `TNG_SBI_CACHE_DIR` using the filename suffix that matches the
+target mode:
 
 ```bash
 export TNG_SBI_CACHE_DIR="/path/to/wedge_sbi_cache_dir"
-python workflows/sbi/jraph_sbi_flowjax.py --epochs 1000 --output_dir "/path/to/out"
+python workflows/sbi/jraph_sbi_flowjax.py \
+  --increment_mode linear \
+  --epochs 1000 \
+  --checkpoint_every 250 \
+  --output_dir "/path/to/out"
 ```
 
-By default the expected cache file is:
+The trainer selects a cache suffix from the target parameterisation:
+
+| `jraph_sbi_flowjax.py` mode | Cache suffix | Typical cache-builder flag |
+| --- | --- | --- |
+| default / `--increment_mode softplus` | `_transformed_eig.pkl` | default transformed increments |
+| `--increment_mode linear` | `_linear_eig.pkl` | `--linear-increments --three-targets-only` |
+| `--increment_mode raw` or legacy `--no_transformed_eig` | `_raw_eig.pkl` | `--no-transformed-eig` |
+
+For example, a linear-increment wedge run expects:
 
 ```text
-$TNG_SBI_CACHE_DIR/processed_jraph_data_mc1e+09_v2_scaled_3_transformed_eig.pkl
+$TNG_SBI_CACHE_DIR/processed_jraph_data_mc1e+09_v2_scaled_3_linear_eig.pkl
 ```
-
-Use `--no_transformed_eig` only for explicit raw-eigenvalue ablations; that mode
-expects the `_raw_eig.pkl` cache name instead.
 
 ## Target Convention
 
-The current SBI target is the ordered softplus-increment representation from
-`shared/eigenvalue_transformations.py`: `lambda1` is the anchor and the
-`lambda2 - lambda1` and `lambda3 - lambda2` gaps are encoded as non-negative
-increments. The model trains and samples in increment space; conversion back to
-physical `(lambda1, lambda2, lambda3)` is for evaluation and plotting. Do not
-replace this with an unconstrained direct three-eigenvalue head unless the run is
-an intentional ablation.
+The trainer and plotting utilities use the target mode recorded in the model
+metadata, or the explicit `--increment_mode` argument during training:
+
+- `softplus`: ordered softplus increments from
+  `shared/eigenvalue_transformations.py`. This is the default and enforces
+  `lambda1 <= lambda2 <= lambda3` when samples are converted back to physical
+  eigenvalues.
+- `linear`: plain increments
+  `(v1=lambda1, v2=lambda2-lambda1, v3=lambda3-lambda2)`. This avoids the
+  inverse-softplus tail and is the current explicit Abacus wedge NPE mode used
+  for recent DESI-transfer studies, but it does not guarantee positive sampled
+  gaps.
+- `raw`: direct scaled eigenvalues. Keep this for controlled ablations.
+
+All non-raw modes train and sample in increment space. Convert samples back to
+physical `(lambda1, lambda2, lambda3)` only for evaluation, plotting, and T-Web
+class probabilities.
+
+## Checkpointing And Diagnostics
+
+`jraph_sbi_flowjax.py` writes resumable checkpoints atomically to
+`flowjax_sbi_checkpoint_seed_<seed>.pkl` in the output directory every
+`--checkpoint_every` epochs. Use `--resume` to pick up that seed-specific file
+from `--output_dir`, or `--resume_from /path/to/checkpoint.pkl` to name the
+checkpoint explicitly. When resuming, the script restores GNN parameters, flow
+arrays, optimizer state, RNG state, best-validation state, and logs.
+
+Test-set posterior diagnostics draw `--test_posterior_samples` samples per test
+node in chunks of `--test_eval_chunk_size`, then report both single-sample and
+posterior-mean metrics in raw eigenvalue space. `plot_flowjax_posteriors.py`
+reuses the saved `increment_mode` metadata, produces raw/transformed posterior
+plots, SBC/TARP-style calibration plots, and posterior T-Web class probabilities
+using `--lambda_th` (default `0.2`, matching the CACTUS/Abacus `CWEB` labels).
 
 ## Launchers
 

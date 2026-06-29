@@ -202,16 +202,20 @@ python workflows/abacus_tweb/subset_cugraph_metrics_for_wedge.py \
   --wedge-prefix abacus_delaunay_wedge_ra120_140_dec16p5_26p7_z0p2_0p3
 ```
 
-Build an SBI-ready cache from the wedge metadata and targets:
+Build an SBI-ready cache from the wedge metadata and targets. The example below
+uses the current explicit linear-increment wedge mode and writes the cache suffix
+expected by `jraph_sbi_flowjax.py --increment_mode linear`:
 
 ```bash
 python workflows/abacus_tweb/build_abacus_sbi_cache.py \
   --gnn-metadata-path "/pscratch/sd/d/dkololgi/abacus/graph_constructions/abacus_delaunay_wedge_ra120_140_dec16p5_26p7_z0p2_0p3_cugraph_gnn_metadata.json" \
   --targets-catalog-path "/pscratch/sd/d/dkololgi/abacus/graph_constructions/abacus_delaunay_wedge_ra120_140_dec16p5_26p7_z0p2_0p3_wedge_targets.fits" \
-  --output-cache-path "/pscratch/sd/d/dkololgi/abacus/sbi_caches/processed_jraph_data_mc1e+09_v2_scaled_3_transformed_eig.pkl" \
+  --output-cache-path "/pscratch/sd/d/dkololgi/abacus/sbi_caches/processed_jraph_data_mc1e+09_v2_scaled_3_linear_eig.pkl" \
   --no-apply-y1y5-filter \
   --no-exclude-invalid-box-index \
-  --three-targets-only
+  --three-targets-only \
+  --linear-increments \
+  --scale-invariant-features
 ```
 
 Cache constraints:
@@ -225,8 +229,16 @@ Cache constraints:
   `--no-apply-y1y5-filter --no-exclude-invalid-box-index`. Those rows are
   already aligned to wedge node order and the compact FITS does not carry the
   full graph-build selection columns.
-- The default target mode is ordered softplus eigenvalue increments. Use
-  `--no-transformed-eig` only for explicit raw-eigenvalue ablations.
+- Target modes are encoded by cache suffix:
+  - `_transformed_eig.pkl`: default ordered softplus increments.
+  - `_linear_eig.pkl`: explicit plain increments from
+    `--linear-increments --three-targets-only`; use this with
+    `jraph_sbi_flowjax.py --increment_mode linear`.
+  - `_raw_eig.pkl`: raw-eigenvalue ablations from `--no-transformed-eig`.
+- `--scale-invariant-features` converts scale-carrying node features and edge
+  lengths into per-graph median contrasts before later scaling. Use it
+  consistently for both Abacus training caches and DESI inference features when
+  testing the graph-scale transfer fix.
 - The output pickle schema includes `graph`, `regression_targets`,
   `regression_targets_raw`, `masks`, `target_scaler`, `eigenvalues_raw`, and
   optional classification labels.
@@ -250,11 +262,25 @@ shown in the cache example above:
 
 ```bash
 export TNG_SBI_CACHE_DIR="/pscratch/sd/d/dkololgi/abacus/sbi_caches"
-python workflows/sbi/jraph_sbi_flowjax.py --epochs 1000 --output_dir "/pscratch/sd/d/dkololgi/outputs/sbi_wedge"
+python workflows/sbi/jraph_sbi_flowjax.py \
+  --increment_mode linear \
+  --epochs 1000 \
+  --checkpoint_every 250 \
+  --output_dir "/pscratch/sd/d/dkololgi/outputs/sbi_wedge"
 ```
 
 There is not yet a tracked production `sbatch` launcher for wedge NPE. Run it
 inside an appropriate GPU allocation until one is added.
+
+Resume an interrupted wedge run with the seed-specific checkpoint in the output
+directory:
+
+```bash
+python workflows/sbi/jraph_sbi_flowjax.py \
+  --increment_mode linear \
+  --resume \
+  --output_dir "/pscratch/sd/d/dkololgi/outputs/sbi_wedge"
+```
 
 Legacy partitioned FlowJAX entrypoints are still available for diagnostics:
 
