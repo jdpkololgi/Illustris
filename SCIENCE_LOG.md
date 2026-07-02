@@ -46,6 +46,39 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-02 — [code] Method-frontier brainstorm + roadmap: triage plan, equivariant GNNs, papers
+- What: strategy session (no production runs). Reviewed the whole diagnostic arc and
+  set a forward plan. **Durable plan doc: `docs/roadmap_environmental_vac.md`** — point
+  the Desktop side there; this entry is the summary.
+- Architecture correction (propagate this — `~/.claude/CLAUDE.md` is NOT git-tracked so
+  its fix won't sync): the NPE encoder is a jraph **Attentional GraphNetwork
+  (Battaglia+2018)**, NOT GAT/GATv2. The GAT is the separate PyTorch classification
+  lineage (the RASTI paper — JDPK is author; stop citing it as a third-party sibling).
+- Method-frontier assessment (candidate upgrades, all gated): equivariant GNN encoder
+  (EGNN/SEGNN fed rᵢⱼ + LOS r̂ᵢ, output the tidal *tensor* → eigenvalue ordering free,
+  RSD anisotropy first-class); graph transformer (long-range = multi-scale); FMPE /
+  flow-matching or Simformer posterior head (replace discrete MAF); luminosity weighting
+  (claim-preserving, truth-testable on cutsky R_MAG_ABS); field-level reconstruction as
+  the classical rival we complement, not beat.
+- Key reframe (corrects the 06-26 "information-limited" claim): the measured ceiling is
+  a property of the HAND-CRAFTED features, not proven for the raw point cloud. The
+  representation ablation (below) is what settles "are we too constrained by
+  distribution-only, hand-engineered features."
+- Degraded-mock idea = supervised **domain randomization / nuisance-marginalized SBI**;
+  related to but not the same as **JEPA** (self-supervised, dual-encoder, predicts
+  masked embeddings). JEPA is the escalation if the misspecification gate fires.
+- Decision structure = **Phase 0 Triage** (cheap GO/NO-GO, parallel), gating one bundled
+  production retrain: (1) GNN-vs-GBM capacity check ½d; (2) luminosity-weighting gate
+  ½d truth-tested; (3) representation ladder rungs c/d = equivariant GNN + sparse U-Net
+  field-level, GPU, GO only if ≫ current GraphNet; (4) FMPE head swap. Phase A n(z)
+  harmonization runs in parallel (fix sentinel-z bug first). Full detail + Phase B–D +
+  publication ladder (Letter → Methods → VAC → ML4PS → conditional ICML/NeurIPS JEPA
+  paper) in the roadmap doc.
+- Next: start Phase 0 steps 1 & 2 (cheap CPU); step 1 doubles as rungs a–b of the ML4PS
+  paper. Gate step 3 (GPU equivariant run) on step 1.
+- Refs: `docs/roadmap_environmental_vac.md`; two roadmap flowcharts + a feature-type
+  schematic produced in-session (not committed — regenerable).
+
 ### 2026-06-26 — [code] DEFINITIVE (mass-anchored): clusters favour FINE smoothing; current 7 Mpc/h good
 - What: the "ideal test" — anchor 'cluster' to a SCALE-INDEPENDENT physical label
   (halo mass) instead of the smoothing-dependent λ1>λ_th. The master cutsky
