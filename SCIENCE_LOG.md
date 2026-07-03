@@ -46,6 +46,33 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-03 — [code] Roadmap v2: decision-gated, parallelized; RSD-penalty gate added; problem stated exactly
+- What: consolidated the whole brainstorm into **`docs/roadmap_environmental_vac.md` v2**
+  (canonical; supersedes v1 and the 07-02 entry's sketch). Everything is now closed /
+  gated / scheduled — no expensive step runs before its GO/NO-GO gate.
+- Key sharpenings since v1:
+  1. **Problem stated exactly**: z-space biased sparse tracers → REAL-space matter tidal
+     field (targets from full particle field, comoving Cartesian, rs7; inputs from
+     observed Z). The regression fuses interpolation + bias + statistical RSD
+     de-distortion. Exact symmetry = **SO(3) about the observer**, realized by an
+     E(3)-equivariant net fed per-node LOS r̂ᵢ (translations correctly broken). Frame
+     consistency holds ⇒ tensor/eigenvector prediction well-posed (IA-ready).
+  2. **New gate G1.5 — RSD-penalty decomposition** (mock has both Z and Z_COSMO):
+     features from real-space vs z-space positions; the R² gap upper-bounds what ANY
+     LOS-aware/equivariant machinery can recover, and splits the "information ceiling"
+     into RSD vs sparsity+bias parts. Gates the equivariant rung together with G1.
+  3. **Graph-construction critique formalized** (gate G3/b′): Delaunay's receptive
+     field is fixed in neighbour count but variable in physical scale — narrowest in
+     clusters — while the target lives at fixed 7 Mpc/h. Cheap fix under test:
+     Delaunay ∪ radius(~10 Mpc/h) union graph, same GraphNet.
+  4. Model zoo reduced to 2 axes (connectivity × symmetry); point-cloud models are
+     GNNs that build their own graph (input = positions ± luminosity, nothing else).
+  5. Timeline: P1 letter drafts now; G1/G1.5/G2 parallel CPU gates in wk 1–2 of July;
+     ML4PS (P2) ~Aug 29 from the ablation; ONE bundled retrain end of Aug; JEPA/P5
+     only if the post-retrain MMD gate fails.
+- Refs: `docs/roadmap_environmental_vac.md` (v2, canonical — read this first on the
+  Desktop side); task list mirrors the July gates.
+
 ### 2026-07-02 — [code] Method-frontier brainstorm + roadmap: triage plan, equivariant GNNs, papers
 - What: strategy session (no production runs). Reviewed the whole diagnostic arc and
   set a forward plan. **Durable plan doc: `docs/roadmap_environmental_vac.md`** — point
