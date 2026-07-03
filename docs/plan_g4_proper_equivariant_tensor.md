@@ -78,8 +78,11 @@ main Tier-B risk and the reason Tier A goes first.
 
 ## 5. Architecture (both tiers share the encoder)
 
-- **Env:** new isolated conda env `equiv_env` with e3nn (torch) or e3nn-jax + PyG; keep
-  cosmic_env pristine.
+- **Env:** e3nn 0.6.0 + opt_einsum_fx 0.1.4 installed into **cosmic_env** (2026-07-03,
+  `--no-deps`, zero churn — torch 2.9.1 / numpy 2.3.5 unchanged; PyG 2.7.0 already
+  present). Equivariance P0 gate PASSED early: `o3.Linear(4x0e+2x1o → 1x0e+1x2e)`
+  round-trip max|Δ|=0.0, and 1x0e+1x2e = the 6 symmetric-tensor components. Isolated
+  `equiv_env` remains the fallback only if a future version conflict appears.
 - **Input:** node = optional scalar (luminosity only, or none); geometry = relative
   vectors rᵢⱼ (type-1) on a **radius graph (~10 Mpc/h)** built at load time; per-node LOS
   r̂ᵢ (type-1) supplied to break isotropy → exact SO(3)-about-observer equivariance.
