@@ -1,5 +1,43 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-03 — [code] G3 interactive done@3749 (NOT trained-out); existing G4-PROPER plan AMENDED (attention required, P1a/P1b split)
+- **G3 status:** the interactive run (job 55442933) ended — 4 h `salloc` wall revoked it at
+  13:42 local. It banked to **epoch 3749/7000** (last checkpoint on disk; reached 3920
+  in-memory before dying), val NLL descending through **0.80**, still improving, **no
+  plateau, no R² eval**. Gate (posterior-mean λ₁ R² vs SI baseline 0.7750; baseline best val
+  NLL 1.1065) is computed only at end-of-training. Held resume sbatch **55441429**
+  (`--resume`, 4×A100, 12 h) is **back on JobHeldUser** pending JDPK's call: (a) eval the
+  epoch-3749 checkpoint now for a preliminary (under-trained) read, or (b) release to resume
+  to 7000 for the real gate number. I released it, then re-held it on JDPK's correction that
+  it was meant to stay held.
+- **Existing G4-PROPER plan AMENDED IN PLACE** (`docs/plan_g4_proper_equivariant_tensor.md`,
+  per the sharpened equivariant-GNN review) — NOT a new doc. The doc already had the Tier A
+  (eigenvalue-supervised, no tweb) / Tier B (tensor+eigenvector, needs tweb) split and the
+  self-contained FFT tensor-build (§3: `tidal_tensor_fullgrid.py` building
+  T_ij(k)=(k_ik_j/k²)δ_k, validated against cactus `eig_vals`; NO cactus edits) + frame
+  rotation (§4). Amendments layered on:
+  - **Attention promoted optional→REQUIRED** (§5) in every equivariant candidate (invariant
+    logits preserve equivariance exactly; = adaptive smoothing kernel for the fixed 7 Mpc/h
+    target) with pre-registered regularisation parity (attn dropout, wd/dropout 0.2/0.08,
+    early-stop on val NLL, matched params) — the smoke overfit because undisciplined.
+  - **Fixed bake-off order + SKIP list** (§5): SEGNN-with-attention first, SE(3)-Transformer/
+    Equiformer-class second, one point-cloud model as the P1a control. SKIP EGNN/PaiNN/GVP
+    (ℓ≤1), GATr (long-range wasted on compact target), MACE (many-body mismatch), PCA
+    frame-averaging (degeneracy).
+  - **P1 split into P1a/P1b** (§6): P1a = non-equivariant ~10 Mpc/h *radius-only* attentional
+    GraphNet in existing JAX/jraph (no tweb, no equivariance) — isolates the Delaunay
+    scale-mismatch lever; GO within seed noise of 0.774, ≥0.80 ⇒ deprioritise equivariance.
+    P1b (Tier A steerable) must beat BOTH 0.774 AND the P1a control beyond seed noise (≥3–5
+    seeds, matched compute/params). RPP-relaxed escape hatch (P0) if strict fails. P2 gate
+    amended to calibration/coverage ≥ eigenvalue-regression flow.
+  - **Reframe (§8):** the strongest first-principles lever is graph construction, not strict
+    SO(3) — the wedge breaks the symmetry, so equivariance is a regulariser (modest gain at
+    ~58k nodes / 3-param group, consistent with the +0.09 G1.5-ladder bound). Added
+    permanent-shelf condition + plan-changing thresholds + PyTorch-e3nn-sidecar-first staging.
+  - Correction: my first pass wrongly created a duplicate `workflows/sbi/G4_PROPER_PLAN.md`
+    with a "save-the-Hessian-in-run_tweb_memory_optimized" rebuild — DELETED; the existing
+    plan's standalone-FFT approach is the canonical one.
+
 ### 2026-06-16 — [code] graphify knowledge graph setup complete (Mac + NERSC)
 - What: Installed graphify across Mac (`~/Developer/Illustris`, `~/Developer/GraphWeb_DESI`) and NERSC (`~/TNG/Illustris`, `~/GraphWeb_DESI`). Per-repo graphs built on both machines. Global cross-repo graph built at `~/.graphify/global-graph.json` (tags: `Illustris`, `GraphWeb_DESI`) on both machines. Claude Code PreToolUse hooks (grep/Read/Glob interception) and Cursor `.cursor/rules/graphify.mdc` updated in both repos to reference global graph for cross-repo queries. `graphify-out/` gitignored; `CLAUDE.md` + `.claude/settings.json` + `.cursor/rules/graphify.mdc` travel via git.
 - Why: LLMs (Claude Code + Cursor) now consult a knowledge graph before grep/file reads, reducing token cost and surfacing cross-file dependency edges. Global graph captures the Illustris→GraphWeb_DESI model/module dependency that per-repo graphs can't see.

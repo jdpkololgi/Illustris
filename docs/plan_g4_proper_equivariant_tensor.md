@@ -87,8 +87,26 @@ main Tier-B risk and the reason Tier A goes first.
   vectors rᵢⱼ (type-1) on a **radius graph (~10 Mpc/h)** built at load time; per-node LOS
   r̂ᵢ (type-1) supplied to break isotropy → exact SO(3)-about-observer equivariance.
 - **Encoder:** steerable message passing (e3nn tensor-product convolutions), 4–6 layers,
-  invariant + ℓ=1,2 features; attention optional (invariant logits) — motivated given the
-  smoke result. Battaglia GN block with equivariance-constrained φ.
+  invariant + ℓ=1,2 features. Battaglia GN block with equivariance-constrained φ.
+- **Attention is REQUIRED, not optional** (amended 2026-07-03): invariant (ℓ=0)
+  query/key logits + steerable values preserve equivariance exactly (SE(3)-Transformer
+  construction) and act as a learnable adaptive smoothing kernel matched to the fixed
+  7 Mpc/h target (widen in voids, narrow in clusters). Mean/sum aggregation is a fixed
+  low-pass kernel; the smoke already showed mean forfeits ≈+0.05 R². Mandatory
+  regularisation parity so the comparison is not confounded: attention dropout (not just
+  feature dropout), weight-decay/dropout parity with baseline (0.2 / 0.08), early stopping
+  on **val NLL**, matched parameter count. The smoke's attention variant overfit hard
+  (train 0.073 vs val 0.253) because it was *undisciplined*, not because attention is wrong.
+- **Fixed candidate order (matched-compute bake-off):** SEGNN-style steerable MPNN with
+  invariant-logit attention **FIRST** (minimal model that carries ℓ=2 natively, emits the
+  1x0e+1x2e head, has a mature e3nn recipe); SE(3)-Transformer / Equiformer-class attentional
+  steerable model **SECOND**, only if the first clears P1b; one point-cloud model
+  (Point Transformer / DGCNN) as the **P1a graph-construction control, not a competitor**.
+  **SKIP:** plain EGNN/PaiNN/GVP (ℓ≤1, cannot emit the ℓ=2 head — already shadowed by the
+  0.603 smoke), GATr / full-attention geometric transformers (long-range capacity wasted on
+  a compact-support 7 Mpc/h target), MACE (many-body bias mismatched to scale-free galaxy
+  clustering), PCA frame-averaging (degeneracy/discontinuity; per-galaxy LOS r̂ᵢ breaks
+  symmetry more cleanly).
 - **Heads:**
   - Tier A: a single ℓ=2 (+ℓ=0 trace) output → symmetric 3×3 tensor → torch symeig →
     sorted eigenvalues; loss = eigenvalue MSE (matched to LAMBDA), + small trace-vs-δ
@@ -102,12 +120,34 @@ main Tier-B risk and the reason Tier A goes first.
 - **P0 (½ d):** stand up `equiv_env`; radius-graph builder; on the EXISTING wedge, sanity
   a tiny steerable net forward/backward; unit-test equivariance (rotate inputs+LOS →
   outputs rotate; tensor → R T Rᵀ) to machine precision. GATE: equivariance holds.
-- **P1 — Tier A smoke (1–2 d GPU):** eigenvalue-supervised steerable net, positions+LOS
-  only, radius graph. Compare λ1 R² + cluster metrics vs baseline 0.774 on the SHARED
-  test split. **GATE: ≥ ~0.75 → architecture competitive; proceed. < 0.70 → stop, log,
-  keep GraphNet.**
+  **Escape hatch (amended):** if P1b fails *strict* equivariance, re-run once with a
+  **Residual Pathway Prior** (RPP) relaxed pathway before concluding equivariance is
+  unhelpful — distinguishes "symmetry is wrong here" (survey wedge breaks SO(3)) from
+  "strict constraint too rigid."
+- **P1a — graph-construction control (RUN FIRST; cheapest; NO equivariance, NO tweb change,
+  amended):** non-equivariant ~10 Mpc/h **radius-only** attentional GraphNet in the existing
+  JAX/jraph stack (same curated features / target / seed / splits as baseline; radius-only,
+  not Delaunay∪radius, to isolate the construction axis). Tests the strongest first-principles
+  hypothesis — that the Delaunay receptive field (fixed count, density-varying scale) is
+  mismatched to the fixed 7 Mpc/h target. **GATE: within seed noise of 0.774 → graph
+  construction matters; ≥ 0.80 → construction is the lever, DEPRIORITISE equivariance and
+  invest in graph + attention.** (Relationship to G3: G3 tests Delaunay∪radius; P1a is the
+  ablation attributing any gain to the radius edges specifically — sequence it after the
+  G3 readout.)
+- **P1b — Tier A equivariance smoke (1–2 d GPU):** eigenvalue-supervised steerable net,
+  positions+LOS only, radius graph, SEGNN-with-attention. Pre-register discipline: ≥ 3–5
+  seeds, matched compute/params, regularisation parity, frozen thresholds. Compare λ1 R² +
+  cluster metrics on the SHARED test split. **GATE: λ1 R² ≥ ~0.75 AND beats the P1a control
+  beyond seed noise → architecture competitive; proceed to the SE(3)-Transformer/Equiformer
+  second test. < 0.70 or fails to beat P1a → run ONE RPP-relaxed variant (P0 escape hatch),
+  then stop/log and keep GraphNet.** Because equivariant machinery must clear a *higher* bar
+  than the Delaunay baseline (it must also beat the cheaper radius-graph control), a strict
+  win is what justifies its cost.
 - **P2 — Tier A + flow (few d):** swap point head for invariant-latent→FlowJAX; SBC/TARP;
-  compare to the production NPE. GATE: calibration ≥ baseline.
+  compare to the production NPE. **GATE (amended): calibration/coverage ≥ the current
+  eigenvalue-regression flow.** Tensor supervision is better-posed, so calibration should
+  improve; if it regresses, that is evidence the diagonalisation injects noise → revert to
+  eigenvalue regression and keep the tensor head for IA (eigenvector) science only.
 - **P3 — Tier B (only if orientation science wanted, ~1–2 wk):** build §3 tensor grid +
   §4 frame rotation (each with its eigenvalue-match validation); supervise full tensor;
   evaluate eigenvector accuracy vs box-frame truth. GATE: eigenvector error small enough
@@ -125,11 +165,34 @@ main Tier-B risk and the reason Tier A goes first.
 
 ## 8. Effort, sequencing, decision
 
-- Tier A (P0–P2): ~1 week, gated at P1. Sequence BEHIND the G3 readout (GPU contention).
+- **Framing (amended):** the strongest first-principles lever here is **graph
+  construction** (radius graph fixing the Delaunay scale mismatch), which is *separable
+  from* equivariance. Equivariance proper is only an **approximate** win — the survey
+  wedge breaks SO(3) (footprint, fibre-assignment anisotropy, radial selection), so it
+  is a useful regulariser, not a guaranteed gain; with ~58k train nodes and a 3-parameter
+  group the predicted gain is modest, consistent with the empirically-bounded ≈ +0.09 R²
+  headroom (G1.5 ladder: 0.774 → 0.86 ceiling). This is why P1a runs first and why P1b
+  must beat the P1a control, not just the Delaunay baseline.
+- Tier A (P0–P2): ~1 week, gated at P1a then P1b. Sequence BEHIND the G3 readout (GPU
+  contention).
 - Tier B (P3): ~1–2 weeks, only if Tier A passes AND IA orientations are a goal.
+- **Implementation staging:** run the P1b smoke in a PyTorch e3nn sidecar (fastest path to
+  the physics answer; e3nn 0.6.0 already in cosmic_env); port to e3nn-jax only after it
+  passes, for the P2/production flow-head integration. A negative smoke in PyTorch saves
+  the entire JAX porting cost.
 - Production adoption only if Tier A + flow ≥ baseline on λ1 R², cluster recovery, AND
   calibration. Otherwise the GraphNet stays and this becomes a P2-paper negative/idea
   result ("equivariant point-cloud vs curated-feature graph, at matched effort").
+- **Permanent-shelf condition:** if (i) P1a captures the headroom, (ii) strict *and*
+  RPP-relaxed steerable models fail to beat it beyond seed noise under matched compute,
+  and (iii) the tensor head does not improve calibration → equivariance is confirmed a
+  modest regulariser dominated by graph construction; shelve with a documented
+  negative-result ablation. A neutral result is publishable, so EV is positive as long
+  as the gates hold.
+- **Thresholds that change the plan:** P1a ≥ 0.80 → deprioritise equivariance, invest in
+  graph construction + attention. Strict steerable underperforms but RPP-relaxed reaches
+  parity → "symmetry is approximate," adopt the relaxed variant. Tensor-head calibration
+  regresses → revert to eigenvalue regression, tensor head becomes IA-only.
 
 ## 9. What this does NOT change
 
