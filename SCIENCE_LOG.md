@@ -46,6 +46,32 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-03 — [code] A3 COMPLETE: n(z)-harmonized wedge rebuilt end-to-end; nzharm SI cache ready
+- What: full GPU/CPU rebuild of the harmonized training wedge via a BUFFERED box
+  (RA 118–162, Dec 12.5–32.6, z 0.185–0.315) so boundary nodes keep real neighbours —
+  mirroring subset-from-full semantics: (1) buffered shape-match dilution (C=0.733 core;
+  148,222 of 176,349 kept; σ_v=35 km/s z-errors; sentinels excluded) → (2) gudhi
+  Delaunay (CPU-guarded script — resource guard correctly refused a GPU alloc; pipeline
+  split CPU→GPU→CPU) → (3) cuGraph 7 features (rapids) → (4) trim to exact wedge:
+  **82,650 nodes, 605,126 undirected pairs (avg degree 14.6 ✓)**, alignment=identity,
+  single hemisphere → (5) SI cache (splits 57,854/17,357/7,439) at
+  `sbi_caches/path1_flowjax_3d_lineareig_si_nzharm/`.
+- Parity verified: edge storage convention matches baseline (undirected pairs; cache
+  doubles internally: 605,126→1,210,252 like 740,623→1,481,246); no self-loops/dupes.
+- G4 record CORRECTED (JDPK probe): both smokes used the PREBUILT Delaunay edge_index +
+  curated node h0 — raw geometry entered only as edge scalars. They test message/
+  aggregation design on the same restricted graph, NOT "point cloud vs graph." The true
+  point-cloud experiment (positions+LOS only, self-built ~10 Mpc/h neighbourhoods,
+  attention EGNN, no curated features) is well-posed, ~½ day, NOT yet run — optional,
+  sequenced behind the G3 readout. Tensor-target rule reaffirmed: eigenvalues for
+  invariant nets (fixed-frame tensor INVALID there); tensor only with steerable
+  (or LOS-frame spin-2-careful) heads.
+- Phase B inputs now ready: nzharm cache (this) + union graph (G3 training, ~epoch 900+,
+  sbatch auto-release armed) + FMPE head (G6 GO, calibration tune pending) + luminosity
+  features (G2).
+- New scripts: `build_harmonized_buffered_catalog.py`, `trim_wedge_from_buffered.py`,
+  orchestrator `logs/run_a3_rebuild.sh` (CPU→GPU→CPU, tmux a3_rebuild).
+
 ### 2026-07-03 — [code] G4 part 2 (attention): helps (+0.05 λ1) but NO-GO stands; gap decomposed
 - What: JDPK hunch tested — same EGNN-lite smoke with the SINGLE change mean→4-head
   attention (invariant logits from [h_src,h_dst,egeo]; segment softmax; symmetry story
