@@ -46,6 +46,29 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-03 — [code] A3 designed+built, G3 training SUBMITTED (job 55441429), G6 deferred (no FMPE deps)
+- **A3 harmonization (design + artifacts):** shape-match the mock wedge n(z) to DESI by
+  per-shell dilution — keep fractions f_i = C·(DESI_i/mock_i), C = min ratio = 0.733;
+  the residual amplitude offset becomes UNIFORM (scale-only), exactly what SI features
+  absorb. Kept 82,693/100,935 (81.9%). z-errors injected (σ_v=35 km/s, median |dz|≈1e-4,
+  original Z kept as Z_ORIG). Artifacts: `abacus/harmonized_20260703/path1_wedge_nzharm_
+  {keepmask.npy, targets.fits, selection.json}` (`harmonize_wedge_nz.py`). Remaining A3
+  step: rebuild Delaunay graph + cuGraph features on the kept points (GPU, rapids-gnn),
+  then SI cache — commands recorded in selection.json.
+- **G3 (union graph) fully launched:** built Delaunay ∪ radius(10 Mpc/h=14.78 Mpc)
+  edges — 740,623 → 1,988,732 undirected pairs (×2.69), median edge 9.3→11.3 Mpc; new
+  edge_attr in the original convention (`build_union_graph_arrays.py`; new npz+metadata,
+  originals untouched). SI cache built with IDENTICAL splits to baseline (seed 42;
+  70,654/21,196/9,085) at `sbi_caches/path1_flowjax_3d_lineareig_si_uniongraph/`.
+  Training sbatch SUBMITTED: **job 55441429** (4×A100, 12h, regular), output
+  `sbi_runs/path1_wedge_flowjax_3d_linear_si_uniongraph`; compare vs the SI baseline on
+  the shared test split (gate: λ1 R² / cluster metrics vs 0.774).
+- **G6 (FMPE) deferred honestly:** cosmic_env has NO sbi/diffrax; flowjax 17.2.1 is
+  discrete-flows-only. Plan: next session, new ISOLATED conda env with `sbi` (keeps
+  cosmic_env pristine), train FMPE/NPSE heads on FROZEN GNN embeddings (one forward
+  pass extracts them) vs the MAF baseline — head-only comparison, ~a day.
+- Refs: scripts above; A2 n(z) JSON feeds harmonize_wedge_nz directly.
+
 ### 2026-07-03 — [code] Phase 0 gates EXECUTED: G1 GO (GNN≫GBM!), RSD penalty huge but GNN closes it, n(z) gradient, sentinel-z FIXED
 - What: ran the roadmap-v2 first wave in parallel (G1, G1.5, G2, A1, A2). All new
   standalone scripts (`gate_g1_gnn_vs_gbm.py`, `gate_g15_g2_rsd_luminosity.py`,
