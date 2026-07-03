@@ -46,6 +46,42 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-03 — [code] Phase 0 gates EXECUTED: G1 GO (GNN≫GBM!), RSD penalty huge but GNN closes it, n(z) gradient, sentinel-z FIXED
+- What: ran the roadmap-v2 first wave in parallel (G1, G1.5, G2, A1, A2). All new
+  standalone scripts (`gate_g1_gnn_vs_gbm.py`, `gate_g15_g2_rsd_luminosity.py`,
+  `measure_nz_mock_vs_desi.py` in GraphWeb_DESI/workflows/sbi_inference/); only edit =
+  sentinel-z patch (backed up, new output filenames; originals untouched).
+- **Physics verification first (JDPK request):** eigenvalue targets confirmed sampled at
+  the REAL-SPACE host-halo x_com via (FILE_NUM,HALO_INDEX) — annotate_cutsky code
+  explicitly avoids sky-coordinate inversion. So targets carry no RSD sampling offset;
+  satellites inherit their HOST's λ (note for papers).
+- **G1 (GNN vs GBM, identical features/splits): GO — and it FALSIFIES the 06-25/06-26
+  "information-limited" claim.** GNN posterior-mean λ1 R²=0.774 vs GBM 0.272 (λ2 .810
+  vs .334; λ3 .891 vs .326); cluster-slice Spearman 0.54 vs 0.04. Message passing does
+  massive implicit field interpolation/de-distortion. (Transductive eval — matches
+  deployment.)
+- **G1.5 (RSD penalty, Z vs Z_COSMO on cutsky truth): +0.60** — real-space aperture
+  features reach λ1 R²=0.86 vs 0.26 z-space (median RSD displacement 3.3 Mpc);
+  mass-completeness 0.36→0.56. **The ladder: z-space GBM 0.26 → z-space GNN 0.77 →
+  real-space bound 0.86.** The GNN already recovers most of the RSD-destroyed info;
+  bounded headroom for G4 equivariant/LOS work ≈ +0.09 (motivated, tempered).
+- **G2 (luminosity weighting): marginal GO (+0.036** z-space; +0.02 on real-space) —
+  include flux-weighted features in Phase B, low cost.
+- **A2 (n(z)): mock/DESI = 0.895 in the wedge and Z-DEPENDENT** — ratio slides
+  1.02 (z≈0.20) → 0.73 (z≈0.275) → 0.89 (z≈0.30). A radial gradient a single per-graph
+  SI median cannot absorb ⇒ per-shell harmonization (A3) confirmed as the right fix.
+  Phantoms in box = 19.1%, excluded. Outputs: `abacus/nz_comparison_20260703/`.
+- **A1 (sentinel-z): FIXED + REGENERATED + VALIDATED.** `_inject_chunk` now preserves
+  ZWARN=999999 (never injects a pass onto fibre-unobserved rows); backup
+  `inject_loa_spec_from_zall.py.bak.20260703`. New catalogs (originals untouched):
+  `BGS_BRIGHT_full_noveto_loa_spec_sentinelfix.fits` and
+  `/pscratch/.../abacus/mock_bgs_maglim_sentinelfix.fits` — 7,472,725 rows (was 9.54M),
+  ZWARN==0 = 100%, sentinel-window frac 2e-5 (was 0.217), z-median 0.1966 (= audit's
+  predicted clean value). z-expansion unblocked; A3 has its clean parent.
+- Next: A3 per-shell harmonization (now fully unblocked); G3 union-graph and G6 FMPE
+  (next sessions); G4 motivated with ~+0.09 tempered expectation; P1 letter drafting.
+- Refs: gate scripts above; logs `/pscratch/.../logs/a1_sentinelfix_*.log`.
+
 ### 2026-07-03 — [code] Roadmap v2: decision-gated, parallelized; RSD-penalty gate added; problem stated exactly
 - What: consolidated the whole brainstorm into **`docs/roadmap_environmental_vac.md` v2**
   (canonical; supersedes v1 and the 07-02 entry's sketch). Everything is now closed /
