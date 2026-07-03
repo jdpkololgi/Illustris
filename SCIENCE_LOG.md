@@ -46,6 +46,18 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-03 — [code] NAMING CORRECTION: the two "G4" runs are G4-SMOKE, not G4 (JDPK)
+- The 2026-07-03 runs titled "G4 smoke" and "G4 part 2 (attention)" are hereby renamed
+  **G4-SMOKE (graph+features held FIXED)**. They held the prebuilt Delaunay edge set AND
+  the curated 7 node features fixed, and varied only invariant edge-message aggregation
+  (mean 0.603 → attention 0.654 λ1 R² vs baseline 0.774). They test message/aggregation
+  design on the EXISTING graph+features — NOT equivariance-as-architecture and NOT
+  point-cloud input. The gate G4 as originally defined (symmetry axis) is STILL OPEN.
+- **G4-PROPER** = the real test: positions + LOS only, model builds its own ~10 Mpc/h
+  neighbourhoods, NO curated features, steerable messages → the tidal TENSOR (eigenvalues
+  + eigenvectors fall out). Requires T-web module changes to emit tensor/eigenvector
+  targets. Planned separately: `docs/plan_g4_proper_equivariant_tensor.md` (not executed).
+
 ### 2026-07-03 — [code] A3 COMPLETE: n(z)-harmonized wedge rebuilt end-to-end; nzharm SI cache ready
 - What: full GPU/CPU rebuild of the harmonized training wedge via a BUFFERED box
   (RA 118–162, Dec 12.5–32.6, z 0.185–0.315) so boundary nodes keep real neighbours —
