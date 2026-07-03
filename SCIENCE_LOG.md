@@ -46,6 +46,41 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-03 — [code] G6 GO (FMPE beats MAF), G4 smoke NO-GO (EGNN-lite < GraphNet), G3 training in tmux
+- Parallel interactive wave (tmux sessions g3_union / g6_fmpe / g4_egnn; sbatch 55441429
+  HELD as resumable fallback so no double-writer on the shared checkpoint dir).
+- **G6 (FMPE vs MAF, frozen 80-d GNN embeddings, sbi 0.26.1, CPU): GO on accuracy.**
+  Same conditioning, same train pool: λ1 R² 0.807 vs 0.772 (+0.035), λ2 .842/.829,
+  λ3 .916/.898; cluster-slice λ1 Spearman +0.77 vs +0.61 (n=71). Converged in 144
+  epochs on CPU — cheap swap. **Calibration caveat:** λ1 slightly overconfident
+  (68% central coverage 0.63; 90% → 0.84; KS p .004; other dims fine) — needs a tune
+  + a same-slice MAF rank comparison before production adoption in Phase B.
+  (`gate_g6_fmpe_frozen_head.py`; embeddings cached at
+  `sbi_runs/.../frozen_embeddings_all_nodes.npz`.)
+- **G4 smoke (EGNN-lite, scalarized observer-rotation invariants of raw geometry +
+  curated features, same Delaunay edges/splits, MSE head): NO-GO at the
+  pre-registered bar** (λ1 R² 0.603 vs baseline 0.774; needed ≥0.75; λ2 .756/.810,
+  λ3 .791/.891; cluster Spearman .45/.54) — despite the point-estimate head being
+  R²-favoured. Raw geometry does NOT trivially beat curated features + attention;
+  overfitting gap (train .15 vs val .29) says budget/regularization, not capacity.
+  **Full steerable e3nn build DEPRIORITIZED** — revisit only if G3 or P2 motivates.
+  (`gate_g4_egnn_smoke.py`; OOM on full-graph backward fixed via per-layer gradient
+  checkpointing.)
+- Conceptual note (logged for the papers): equivariance and attention are ORTHOGONAL
+  axes of the Battaglia+2018 GN framework — equivariance constrains what φ_e/φ_v may
+  compute; attention is a choice of aggregation weighting. EGNN = GN block with
+  invariant-restricted φ_e, no attention; SE(3)-Transformer/Equiformer = steerable φ +
+  invariant-logit attention. Attention is most motivated on the UNION graph (two edge
+  populations to arbitrate).
+- **G3:** training live in tmux (job 55442933, 4×A100). Union graph is ×2.7 edges →
+  ~5.2 s/epoch → ~10 h total: this 4 h window banks ~2700 epochs to checkpoint; then
+  RELEASE the held sbatch (`scontrol release 55441429`) to resume overnight.
+- Phase B bundle shape so far: n(z)-harmonized mocks (A3) + luminosity features (G2)
+  + FMPE head (G6, after calibration tune) + union graph pending G3 readout;
+  equivariant encoder out (G4 smoke).
+- Refs: `workflows/sbi/gate_g6_fmpe_frozen_head.py`, `gate_g4_egnn_smoke.py`,
+  `run_flowjax_union_interactive.sh`; logs `/pscratch/.../logs/g{4,6}_*.log`.
+
 ### 2026-07-03 — [code] A3 designed+built, G3 training SUBMITTED (job 55441429), G6 deferred (no FMPE deps)
 - **A3 harmonization (design + artifacts):** shape-match the mock wedge n(z) to DESI by
   per-shell dilution — keep fractions f_i = C·(DESI_i/mock_i), C = min ratio = 0.733;
