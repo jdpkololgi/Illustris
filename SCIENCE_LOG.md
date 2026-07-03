@@ -46,6 +46,25 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-03 — [code] G4 part 2 (attention): helps (+0.05 λ1) but NO-GO stands; gap decomposed
+- What: JDPK hunch tested — same EGNN-lite smoke with the SINGLE change mean→4-head
+  attention (invariant logits from [h_src,h_dst,egeo]; segment softmax; symmetry story
+  intact). λ1 R² 0.603→**0.654** (λ3 .791→.825; cluster Spearman .44) vs baseline
+  0.774 — still below the pre-registered 0.75 bar.
+- Attribution now clean: of the 0.17 part-1 gap, **aggregation ≈ +0.05**; remaining
+  ~0.12 points at (a) regularization/training parity (attention overfit HARDER:
+  train .073 vs val .253; baseline uses dropout .2 + wd .08 over 7000 epochs) and
+  (b) curated EDGE features (baseline edge_attr includes density_contrast; pure-geometry
+  egeo omits it) and/or the NLL/flow head's representation learning.
+- Decision: **NO-GO confirmed for the full steerable build** — closing the rest of the
+  gap = rebuilding the baseline's tuning, i.e. the very effort the gate protects.
+  Standing lesson: any future equivariant build must be ATTENTIONAL
+  (SE(3)-Transformer-class, not plain EGNN). Optional part 3 (dropout/wd parity) noted
+  but not expected to flip the decision.
+- G3: epoch 840, val NLL 3.47→2.50, healthy; auto-release watcher armed for the held
+  sbatch handoff at window end.
+- Refs: `gate_g4_egnn_smoke.py --aggregation attention`; log `logs/g4b_attn_*.log`.
+
 ### 2026-07-03 — [code] G6 GO (FMPE beats MAF), G4 smoke NO-GO (EGNN-lite < GraphNet), G3 training in tmux
 - Parallel interactive wave (tmux sessions g3_union / g6_fmpe / g4_egnn; sbatch 55441429
   HELD as resumable fallback so no double-writer on the shared checkpoint dir).

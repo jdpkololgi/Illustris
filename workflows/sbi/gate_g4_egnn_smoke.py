@@ -29,33 +29,60 @@ from torch.utils.checkpoint import checkpoint
 
 
 class EGNNLite(nn.Module):
-    def __init__(self, nfeat, negeo, width=96, layers=5):
+    """Invariant-message GN block. aggregation='mean' (part 1) or 'attention'
+    (part 2): multi-head softmax over incoming edges with INVARIANT logits from
+    [h_src, h_dst, egeo] — the single-variable change vs part 1."""
+
+    def __init__(self, nfeat, negeo, width=96, layers=5, aggregation="mean", heads=4):
         super().__init__()
+        assert width % heads == 0
+        self.aggregation, self.heads = aggregation, heads
         self.embed = nn.Linear(nfeat, width)
         self.msg = nn.ModuleList()
         self.upd = nn.ModuleList()
+        self.att = nn.ModuleList()
         for _ in range(layers):
             self.msg.append(nn.Sequential(nn.Linear(2 * width + negeo, width), nn.SiLU(),
                                           nn.Linear(width, width), nn.SiLU()))
             self.upd.append(nn.Sequential(nn.Linear(2 * width, width), nn.SiLU(),
                                           nn.Linear(width, width)))
+            self.att.append(nn.Sequential(nn.Linear(2 * width + negeo, width), nn.SiLU(),
+                                          nn.Linear(width, heads)))
         self.head = nn.Sequential(nn.Linear(width, width), nn.SiLU(), nn.Linear(width, 3))
 
-    def _layer(self, h, src, dst, egeo, msg, upd):
+    def _segment_softmax(self, logits, dst, n):
+        mx = torch.full((n, logits.shape[1]), -1e30, device=logits.device, dtype=logits.dtype)
+        mx.scatter_reduce_(0, dst[:, None].expand(-1, logits.shape[1]), logits,
+                           reduce="amax", include_self=True)
+        w = torch.exp(logits - mx[dst])
+        den = torch.zeros_like(mx).index_add_(0, dst, w)
+        return w / den[dst].clamp(min=1e-12)
+
+    def _layer(self, h, src, dst, egeo, msg, upd, att):
         n = h.shape[0]
-        m = msg(torch.cat([h[src], h[dst], egeo], dim=1))
-        agg = torch.zeros(n, m.shape[1], device=h.device, dtype=m.dtype)
-        cnt = torch.zeros(n, 1, device=h.device, dtype=m.dtype)
-        agg.index_add_(0, dst, m)
-        cnt.index_add_(0, dst, torch.ones(len(dst), 1, device=h.device, dtype=m.dtype))
-        return h + upd(torch.cat([h, agg / cnt.clamp(min=1)], dim=1))
+        pair = torch.cat([h[src], h[dst], egeo], dim=1)
+        m = msg(pair)
+        if self.aggregation == "attention":
+            alpha = self._segment_softmax(att(pair), dst, n)          # [E, H]
+            E, W = m.shape
+            mh = m.view(E, self.heads, W // self.heads) * alpha[:, :, None]
+            agg = torch.zeros(n, self.heads, W // self.heads, device=h.device, dtype=m.dtype)
+            agg.index_add_(0, dst, mh)
+            agg = agg.view(n, W)
+        else:
+            agg = torch.zeros(n, m.shape[1], device=h.device, dtype=m.dtype)
+            cnt = torch.zeros(n, 1, device=h.device, dtype=m.dtype)
+            agg.index_add_(0, dst, m)
+            cnt.index_add_(0, dst, torch.ones(len(dst), 1, device=h.device, dtype=m.dtype))
+            agg = agg / cnt.clamp(min=1)
+        return h + upd(torch.cat([h, agg], dim=1))
 
     def forward(self, h, src, dst, egeo):
         h = self.embed(h)
-        for msg, upd in zip(self.msg, self.upd):
+        for msg, upd, att in zip(self.msg, self.upd, self.att):
             # gradient checkpointing: recompute each layer's edge tensors in backward
             # instead of holding ~1.5M-edge activations for all layers (OOM otherwise)
-            h = checkpoint(self._layer, h, src, dst, egeo, msg, upd, use_reentrant=False)
+            h = checkpoint(self._layer, h, src, dst, egeo, msg, upd, att, use_reentrant=False)
         return self.head(h)
 
 
@@ -67,6 +94,8 @@ def main():
     ap.add_argument("--steps", type=int, default=3000)
     ap.add_argument("--lr", type=float, default=2e-3)
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--aggregation", choices=["mean", "attention"], default="mean")
+    ap.add_argument("--heads", type=int, default=4)
     args = ap.parse_args()
     torch.manual_seed(args.seed)
     dev = "cuda" if torch.cuda.is_available() else "cpu"
@@ -97,7 +126,9 @@ def main():
     eg = t(egeo)
     trm, vam, tem = t(train, torch.bool), t(val, torch.bool), t(test, torch.bool)
 
-    model = EGNNLite(X.shape[1], egeo.shape[1]).to(dev)
+    print(f"aggregation: {args.aggregation} (heads={args.heads})")
+    model = EGNNLite(X.shape[1], egeo.shape[1], aggregation=args.aggregation,
+                     heads=args.heads).to(dev)
     opt = torch.optim.Adam(model.parameters(), lr=args.lr)
     sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=args.steps)
     best_val, best_state, patience = np.inf, None, 0
