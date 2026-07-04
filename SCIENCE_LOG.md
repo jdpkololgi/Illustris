@@ -1,5 +1,46 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-04 — [code] G4-PROPER wave 1 LAUNCHED: 2×2 factorial {control, SEGNN} × {union, radius}; P0 at machine precision
+- **Design (JDPK-approved):** complete the factorial with 3 runs, reusing G3 as the
+  4th cell: control×union = G3 (0.8041@3749 ✓), **A** control×radius (existing GraphNet+
+  curated features+FlowJAX, ONLY edges swapped; `--epochs 3750` = exact matched budget),
+  **B** SEGNN×union, **C** SEGNN×radius (positions+LOS only, §0 purity). Interactive QOS
+  caps 2 concurrent jobs → C auto-launches via watcher when A or B frees a slot.
+- **Radius-only graph built** (`build_union_graph_arrays.py --radius-only`, +connectivity
+  diagnostics): 1,816,273 pairs @14.78 Mpc. **Void-fragmentation prediction confirmed
+  structurally:** 178 components, 110 isolated nodes, largest component 99.64% (union =
+  single component via Delaunay's triangulation guarantee); 172,459 Delaunay pairs are
+  LONGER than 14.78 Mpc (the void bridges radius-only loses). Cache
+  `path1_flowjax_3d_lineareig_si_radiusgraph` built by an edge-transplant procedure
+  **gold-validated by exactly reproducing the production union cache on all 9 fields**;
+  nodes/masks/targets byte-identical to baseline.
+- **P1b script** `workflows/sbi/gate_g4_p1b_segnn.py`: e3nn steerable MPNN (hidden
+  32x0e+16x1o+8x2e, 4 layers, 4 heads, 921k params), invariant-logit segment-softmax
+  attention, 1x0e+1x2e head → sym 3×3 → ANALYTIC eigvals → MSE on existing LAMBDA
+  (Tier A). Single GLOBAL affine target scaling (per-component would be
+  tensor-inconsistent). Regularisation parity: wd 0.08, attention dropout 0.1,
+  early-stop on val.
+- **Debugging harvest (all committed, each a real finding):** (1) 40-vs-80GB A100
+  roulette — FlowJAX needs ~43GiB/device on union/radius; P1a pinned `hbm80g`; the
+  PENDING G3 resume sbatch 55441429 still has plain gpu&a100 = OOM RISK if it lands on
+  40GB (JDPK to decide: `scontrol update JobId=55441429 Features="gpu&hbm80g"`).
+  (2) **JAX preallocates 75% of GPU when unpickling the cache's jnp arrays** under a
+  PyTorch job — the "non-PyTorch 30GB" both B OOMs; fixed `JAX_PLATFORMS=cpu`.
+  (3) cuSOLVER batched eigvalsh wants ~25GiB workspace at N~1e5×3×3 → closed-form
+  trigonometric sym-3×3 eigensolver (plan §7 mitigation; matches LAPACK to 1e-14).
+  (4) e3nn per-edge TP weights blow memory at 4M edges → edge-chunked checkpointed
+  values (chunk-equivalence 4.4e-16); nested layer+chunk checkpoints break e3nn
+  TorchScript on recompute → flat inner-only checkpointing + narrow shared logits MLP.
+  (5) **P0 precision forensics:** GPU index_add atomics (~1e-7 float64 noise) → CPU
+  test; CartesianTensor float32 change-of-basis → float64 buffer; **e3nn bakes CG
+  constants in default dtype at module creation** (.double() doesn't recast) → build
+  test model under float64 default. Result: **equivariance 5.0e-16 = machine
+  precision** (the earlier 6.6e-9 was baked-float32 noise, not architecture).
+- **Status at log time:** A RUNNING (~1.6 s/epoch, will hit 3750 + auto-eval well within
+  4h), B RUNNING (step 0: train 1.64/val 1.42), C armed. Prediction registered: union ≥
+  radius-only with the gap concentrated in voids (connectivity), radius ≥ Delaunay in
+  clusters (aperture). Anchors: Delaunay-full 0.7750, union@3749 0.8041.
+
 ### 2026-07-03 — [code] G3 readout ASSESSED: connectivity axis wins; Phase B needs union×nzharm merge; G4 bar quantified
 - Verified on disk (`..._uniongraph_EVAL3749/flowjax_sbi_results_*.txt`): λ₁ 0.8041 / λ₂
   0.8461 / λ₃ 0.8955 (mean 0.8486) vs baseline 0.7750/0.8105/0.8912 (0.8256); test NLL
