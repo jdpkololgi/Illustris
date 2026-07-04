@@ -42,7 +42,6 @@ from scipy.stats import spearmanr
 from sklearn.metrics import r2_score
 
 from e3nn import o3
-from e3nn.io import CartesianTensor
 from e3nn.nn import Gate
 
 SH_IRREPS = o3.Irreps("1x0e+1x1o+1x2e")   # edge/LOS harmonics, dim 9
@@ -109,7 +108,6 @@ class SteerableAttnLayer(nn.Module):
         head_irreps = o3.Irreps([(mul // heads, ir) for mul, ir in hidden])
         self.tps = nn.ModuleList()
         self.radials = nn.ModuleList()
-        self.att_mlps = nn.ModuleList()
         for _ in range(heads):
             tp = o3.FullyConnectedTensorProduct(
                 hidden, SH_IRREPS, head_irreps,
@@ -117,9 +115,11 @@ class SteerableAttnLayer(nn.Module):
             self.tps.append(tp)
             self.radials.append(nn.Sequential(
                 nn.Linear(n_basis, 64), nn.SiLU(), nn.Linear(64, tp.weight_numel)))
-            self.att_mlps.append(nn.Sequential(
-                nn.Linear(2 * self.n_scalar + n_basis, 64), nn.SiLU(),
-                nn.Linear(64, 1)))
+        # ONE shared logits MLP emitting all heads (narrow: the logits-path
+        # activations are stored for backward at full E and dominated memory)
+        self.att_mlp = nn.Sequential(
+            nn.Linear(2 * self.n_scalar + n_basis, 16), nn.SiLU(),
+            nn.Linear(16, heads))
         cat_irreps = (head_irreps * heads).simplify()
         # gate: scalars(silu) + gates(sigmoid) gating the l>0 channels
         gated = o3.Irreps([(mul, ir) for mul, ir in hidden if ir.l > 0])
@@ -144,14 +144,10 @@ class SteerableAttnLayer(nn.Module):
         n = h.shape[0]
         s = h[:, :self.n_scalar]                             # invariant channels
         inv = torch.cat([s[src], s[dst], rb], dim=1)         # cheap: ~70 f/edge
-        alphas = []
-        for k in range(self.heads):
-            a = segment_softmax(self.att_mlps[k](inv).squeeze(-1), dst, n)
-            if training and self.att_dropout > 0:
-                keep = (torch.rand_like(a) > self.att_dropout).to(a.dtype)
-                a = a * keep / (1.0 - self.att_dropout)
-            alphas.append(a)
-        alphas = torch.stack(alphas, dim=1)                  # [E, heads]
+        alphas = segment_softmax(self.att_mlp(inv), dst, n)  # [E, heads]
+        if training and self.att_dropout > 0:
+            keep = (torch.rand_like(alphas) > self.att_dropout).to(alphas.dtype)
+            alphas = alphas * keep / (1.0 - self.att_dropout)
 
         e = src.shape[0]
         dim = sum(self.tps[k].irreps_out.dim for k in range(self.heads))
@@ -183,11 +179,11 @@ class SEGNNTensorNet(nn.Module):
             SteerableAttnLayer(self.hidden, heads, n_basis, att_dropout)
             for _ in range(layers))
         self.head = o3.Linear(self.hidden, HEAD_OUT)
-        self.ct = CartesianTensor("ij=ji")                  # (0e+2e) <-> sym 3x3
-        # cached change-of-basis (registered so .to(device)/.double() move it)
-        self.register_buffer("rtp", self.ct.reduced_tensor_products().change_of_basis
-                             if hasattr(self.ct, "reduced_tensor_products") else
-                             torch.empty(0), persistent=False)
+        # (0e+2e) <-> symmetric 3x3 change-of-basis, held in FLOAT64:
+        # CartesianTensor.to_cartesian applies a float32 CoB internally, which
+        # slightly mixes irreps and breaks equivariance at the ~1e-8 level.
+        cob = o3.ReducedTensorProducts("ij=ji", i="1o").change_of_basis
+        self.register_buffer("cob", cob.to(torch.float64), persistent=False)
 
     def geometry(self, pos, src, dst):
         r = pos[dst] - pos[src]
@@ -197,42 +193,56 @@ class SEGNNTensorNet(nn.Module):
         rb = soft_one_hot(d, self.n_basis, self.r_max)
         return sh, rb
 
-    def forward(self, pos, los, src, dst, use_checkpoint=True):
+    def forward(self, pos, los, src, dst, use_checkpoint=True,
+                edge_chunk=500_000):
         sh, rb = self.geometry(pos, src, dst)
         h0 = o3.spherical_harmonics(SH_IRREPS, los, normalize=False,
                                     normalization="component")
         h = self.embed(h0)
         for layer in self.layers:
-            if use_checkpoint and self.training:
-                h = torch.utils.checkpoint.checkpoint(
-                    layer, h, src, dst, sh, rb, self.training,
-                    use_reentrant=False)
-            else:
-                h = layer(h, src, dst, sh, rb, self.training)
+            # NO outer per-layer checkpoint: nesting it around the inner chunk
+            # checkpoints breaks e3nn's TorchScript modules on recompute. The
+            # inner chunks alone bound the big (E x weight_numel) intermediates;
+            # the logits path is kept narrow instead.
+            h = layer(h, src, dst, sh, rb, self.training and use_checkpoint,
+                      edge_chunk=edge_chunk)
         irr = self.head(h)                                   # [N, 6] as 1x0e+1x2e
-        T = self.ct.to_cartesian(irr)                        # [N, 3, 3] symmetric
+        T = torch.einsum("nf,fij->nij", irr, self.cob.to(irr.dtype))  # sym 3x3
         return T
 
-    def eigenvalues(self, pos, los, src, dst, use_checkpoint=True):
-        T = self.forward(pos, los, src, dst, use_checkpoint)
+    def eigenvalues(self, pos, los, src, dst, use_checkpoint=True,
+                    edge_chunk=500_000):
+        T = self.forward(pos, los, src, dst, use_checkpoint, edge_chunk)
         return sym3x3_eigvals(T)                             # ascending = l1<=l2<=l3
 
 
 def p0_selftest(device):
     """Equivariance gate: rotate inputs+LOS -> tensor maps as R T R^T,
-    eigenvalues invariant. float64, tiny random graph. Abort on failure."""
+    eigenvalues invariant. float64, tiny random graph. The equivariance check
+    runs on CPU: GPU index_add atomics make summation order nondeterministic,
+    which shows up as ~1e-7 float64 noise and would mask (or fake) violations.
+    The training-path check then runs on the real device. Abort on failure."""
     torch.manual_seed(0)
     n = 256
-    pos = torch.randn(n, 3, dtype=torch.float64, device=device) * 20 + \
-        torch.tensor([80.0, 0, 0], dtype=torch.float64, device=device)
+    pos = torch.randn(n, 3, dtype=torch.float64) * 20 + \
+        torch.tensor([80.0, 0, 0], dtype=torch.float64)
     los = pos / pos.norm(dim=1, keepdim=True)
     d2 = torch.cdist(pos, pos)
     src, dst = torch.where((d2 > 0) & (d2 < 15.0))
-    model = SEGNNTensorNet(hidden="8x0e+4x1o+2x2e", layers=2, heads=2,
-                           att_dropout=0.0).to(device).double()
+    # e3nn bakes Clebsch-Gordan constants into its compiled tensor products in
+    # the DEFAULT dtype at module-creation time; .double() later does not recast
+    # them, leaving a ~1e-8 equivariance floor. Build the test model under a
+    # float64 default so the gate measures the architecture, not baked float32.
+    old_dtype = torch.get_default_dtype()
+    torch.set_default_dtype(torch.float64)
+    try:
+        model = SEGNNTensorNet(hidden="8x0e+4x1o+2x2e", layers=2, heads=2,
+                               att_dropout=0.0)        # CPU, deterministic
+    finally:
+        torch.set_default_dtype(old_dtype)
     model.eval()
     with torch.no_grad():
-        R = o3.rand_matrix(dtype=torch.float64, device=device)
+        R = o3.rand_matrix(dtype=torch.float64)               # CPU like the model
         T1 = model(pos, los, src, dst, use_checkpoint=False)
         T2 = model(pos @ R.T, los @ R.T, src, dst, use_checkpoint=False)
         dev_t = (T2 - R @ T1 @ R.T).abs().max().item()
@@ -248,6 +258,19 @@ def p0_selftest(device):
     dev_a = (sym3x3_eigvals(A) - torch.linalg.eigvalsh(A)).abs().max().item()
     print(f"[P0] analytic vs LAPACK eigvals: max|dlam| = {dev_a:.3e}")
     assert dev_a < 1e-6, "P0 analytic eigensolver FAILED — aborting"
+    # exercise the REAL training path: chunked + checkpointed forward + backward
+    # (multi-chunk forced) on the actual device — catches checkpoint-recompute
+    # failures locally instead of on the allocation
+    model = model.to(device).train()
+    pos, los = pos.to(device), los.to(device)
+    src, dst = src.to(device), dst.to(device)
+    lam = model.eigenvalues(pos, los, src, dst, edge_chunk=97)
+    ((lam - lam.detach() + lam) ** 2).mean().backward()
+    grads = [p.grad for p in model.parameters() if p.grad is not None]
+    assert grads and all(torch.isfinite(g).all() for g in grads), \
+        "P0 training-path backward FAILED — aborting"
+    print(f"[P0] training-path backward (chunked+checkpointed): OK "
+          f"({len(grads)} grad tensors, all finite)")
     print("[P0] PASSED")
 
 
