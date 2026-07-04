@@ -28,6 +28,11 @@ def main():
     ap.add_argument("--points-xyz", type=Path, required=True, help="wedge points_xyz.npy [N,3] Mpc")
     ap.add_argument("--radius-mpc", type=float, required=True, help="union radius in Mpc (comoving)")
     ap.add_argument("--out-prefix", type=Path, required=True, help="prefix for _gnn_arrays.npz + _gnn_metadata.json")
+    ap.add_argument("--radius-only", action="store_true",
+                    help="G4-PROPER P1a ablation: emit ONLY the radius(R) edges (no Delaunay "
+                         "reuse); edge_attr built in the original convention throughout. Node "
+                         "features unchanged. Stores connectivity diagnostics (isolated nodes, "
+                         "components) in the metadata — radius graphs can fragment in voids.")
     args = ap.parse_args()
 
     meta = json.loads(args.gnn_metadata_path.read_text())
@@ -43,11 +48,16 @@ def main():
     pairs = tree.query_pairs(args.radius_mpc, output_type="ndarray")  # [P,2]
     print(f"radius({args.radius_mpc:.2f} Mpc) pairs={len(pairs)}")
 
-    # drop radius pairs already present as Delaunay edges (either orientation)
-    key_del = set(map(tuple, np.sort(ei.T, axis=1)))
-    keep = np.array([tuple(p) not in key_del for p in np.sort(pairs, axis=1)], dtype=bool)
-    new = pairs[keep]
-    print(f"new (non-Delaunay) pairs={len(new)}  overlap dropped={len(pairs)-len(new)}")
+    if args.radius_only:
+        # G4-PROPER P1a: radius edges ONLY — no Delaunay reuse. Attrs for ALL pairs.
+        new = pairs
+        print(f"radius-only mode: keeping all {len(new)} radius pairs (Delaunay edges dropped)")
+    else:
+        # drop radius pairs already present as Delaunay edges (either orientation)
+        key_del = set(map(tuple, np.sort(ei.T, axis=1)))
+        keep = np.array([tuple(p) not in key_del for p in np.sort(pairs, axis=1)], dtype=bool)
+        new = pairs[keep]
+        print(f"new (non-Delaunay) pairs={len(new)}  overlap dropped={len(pairs)-len(new)}")
 
     # edge_attr for new pairs, original convention (src->dst as stored)
     vec = pos[new[:, 1]] - pos[new[:, 0]]
@@ -59,19 +69,45 @@ def main():
     contrast[m] = dens[new[:, 1]][m] / dens[new[:, 0]][m]
     ea_new = np.column_stack([length, unit[:, 0], unit[:, 1], unit[:, 2], contrast]).astype(np.float32)
 
-    ei_u = np.concatenate([ei, new.T.astype(np.int64)], axis=1)
-    ea_u = np.concatenate([ea, ea_new], axis=0)
-    med_len = np.median(ea_u[:, 0])
-    print(f"union undirected pairs={ei_u.shape[1]} (x{ei_u.shape[1]/ei.shape[1]:.2f}); "
-          f"median edge length {np.median(ea[:,0]):.2f} -> {med_len:.2f} Mpc")
+    if args.radius_only:
+        ei_u = new.T.astype(np.int64)
+        ea_u = ea_new
+        print(f"radius-only undirected pairs={ei_u.shape[1]} (delaunay was {ei.shape[1]}); "
+              f"median edge length {np.median(ea[:,0]):.2f} -> {np.median(ea_u[:,0]):.2f} Mpc")
+    else:
+        ei_u = np.concatenate([ei, new.T.astype(np.int64)], axis=1)
+        ea_u = np.concatenate([ea, ea_new], axis=0)
+        med_len = np.median(ea_u[:, 0])
+        print(f"union undirected pairs={ei_u.shape[1]} (x{ei_u.shape[1]/ei.shape[1]:.2f}); "
+              f"median edge length {np.median(ea[:,0]):.2f} -> {med_len:.2f} Mpc")
+
+    # connectivity diagnostics (cheap; decisive for the void-fragmentation prediction)
+    from scipy.sparse import coo_matrix
+    from scipy.sparse.csgraph import connected_components
+    ones = np.ones(ei_u.shape[1], dtype=np.int8)
+    adj = coo_matrix((ones, (ei_u[0], ei_u[1])), shape=(n, n))
+    n_comp, labels = connected_components(adj, directed=False)
+    deg = np.bincount(np.concatenate([ei_u[0], ei_u[1]]), minlength=n)
+    n_isolated = int((deg == 0).sum())
+    comp_sizes = np.bincount(labels)
+    print(f"connectivity: components={n_comp}, isolated nodes={n_isolated}, "
+          f"largest component={int(comp_sizes.max())}/{n} "
+          f"({100.0*comp_sizes.max()/n:.2f}%)")
 
     out_npz = Path(str(args.out_prefix) + "_gnn_arrays.npz")
     np.savez_compressed(out_npz, x=x, edge_index=ei_u, edge_attr=ea_u)
     meta_u = dict(meta)
-    meta_u["input_mode"] = f"delaunay_union_radius_{args.radius_mpc:.2f}mpc"
+    mode = "radius_only" if args.radius_only else "delaunay_union_radius"
+    meta_u["input_mode"] = f"{mode}_{args.radius_mpc:.2f}mpc"
     meta_u["n_edges"] = int(ei_u.shape[1])
     meta_u["union_radius_mpc"] = args.radius_mpc
     meta_u["union_parent_metadata"] = str(args.gnn_metadata_path)
+    meta_u["connectivity"] = {
+        "n_components": int(n_comp),
+        "n_isolated_nodes": n_isolated,
+        "largest_component_size": int(comp_sizes.max()),
+        "n_nodes": int(n),
+    }
     meta_u["outputs"] = {"gnn_arrays_npz": str(out_npz)}
     out_meta = Path(str(args.out_prefix) + "_gnn_metadata.json")
     out_meta.write_text(json.dumps(meta_u, indent=2, sort_keys=True) + "\n")
