@@ -29,6 +29,7 @@ salloc --nodes=1 --gpus-per-node=1 --cpus-per-task=32 --constraint=gpu \
       --cache /pscratch/sd/d/dkololgi/abacus/sbi_caches/path1_flowjax_3d_lineareig_si/processed_jraph_data_mc1e+09_v2_scaled_3_linear_eig.pkl \
       --points-xyz '"$GC"'/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra120_160_dec14p5_30p6_z0p2_0p3_points_xyz.npy \
       --positions-only --build-radius-mpc 14.78 \
-      --aggregation attention --heads 4 --steps 6000 --seed 42
+      --aggregation attention --heads 4 --steps 6000 --seed 42 \
+      --out-file '"$OUT"'/p1d_pointattn_results.txt
   ' 2>&1 | tee -a "$LOG"
 echo "=== G4 P1a-ii EXITED $(date) ==="

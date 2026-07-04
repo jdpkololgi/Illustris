@@ -1,5 +1,28 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-04 — [code] RUN A RESULT (P1a-i): radius-only 0.752 < union 0.804 at matched budget — COMPLEMENTARITY is the lever; unattended tmux chain armed
+- **Radius-only control @3749 epochs (posterior-mean, 128 samples, shared test split):**
+  λ₁ R² **0.7519**, λ₂ 0.7989, λ₃ 0.8757, mean 0.8088; best val NLL 1.4248.
+  Anchors: union@3749 **0.8041**/0.8461/0.8955 (val NLL 0.856); Delaunay-full@7000
+  0.7750/0.8105/0.8912 (val NLL 1.107).
+- **Readings:** (1) **JDPK's prediction CONFIRMED: union > radius-only** (+0.052 λ₁ at
+  matched budget) — Delaunay edges carry information the radius ball misses (registered
+  mechanism: 172k Delaunay pairs longer than 14.78 Mpc = void bridges; radius-only has
+  110 isolated nodes / 178 components). (2) Radius-only ≈ Delaunay-full (0.752@3749 vs
+  0.775@7000, budget-mismatched in Delaunay's favour) — the pure constructions are
+  roughly comparable; **neither alone is the lever: the UNION (complementary edge
+  populations + attention arbitration) is.** (3) P1a threshold: radius-only does NOT
+  hit ≥0.80 alone ⇒ "construction is the lever" holds in the ADD-radius form, not the
+  replace form. P1b's bar remains the union control (0.804@3749; higher at G3-7000).
+- Follow-up registered: environment-sliced eval (V/W/F/C) on A vs G3 checkpoints to
+  test the mechanism (radius deficit in voids; radius gain over Delaunay in clusters).
+- **SSH-independence (JDPK disconnecting):** all remaining wave-1 automation moved to a
+  tmux orchestrator on **login30** (`tmux attach -t g4_chain`;
+  `workflows/sbi/run_g4_chain.sh`): idempotent — skips runs whose results exist, leaves
+  live runs alone (log-freshness), (re)launches anything missing incl. B/C if the
+  Claude-owned sallocs die at disconnect. D's smoke script now writes a results file
+  (`--out-file`) for completion detection. Claude-bound D/E watchers stopped.
+
 ### 2026-07-04 — [code] Run E added (attentional DGCNN, unfixed graph); D relabelled; B throughput fixed; wave now A/B/C/D/E
 - **D relabelled (JDPK caught it):** "Point-Transformer-class" was an over-badge — a
   point-cloud network IS an attention GNN on a coordinate-derived graph, so D is

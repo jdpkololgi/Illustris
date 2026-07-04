@@ -108,6 +108,9 @@ def main():
                          "(cKDTree radius pairs) instead of reading a prebuilt "
                          "edge_index — the model consumes the catalogue purely as "
                          "a spatial point distribution.")
+    ap.add_argument("--out-file", type=Path, default=None,
+                    help="also write the R2 summary to this file (used by the "
+                         "unattended g4 chain for completion detection).")
     args = ap.parse_args()
     torch.manual_seed(args.seed)
     dev = "cuda" if torch.cuda.is_available() else "cpu"
@@ -186,12 +189,24 @@ def main():
     with torch.no_grad():
         pred = model(h, srct, dstt, eg).cpu().numpy() * sd + mu
     ti = np.where(test)[0]
+    lines = []
     print(f"\n{'':10s}  {'EGNN-lite R2':>12s}   (baseline GraphNet posterior-mean: l1 0.774, l2 0.810, l3 0.891)")
     for k, nm in enumerate(["lambda1", "lambda2", "lambda3"]):
-        print(f"{nm:10s}  {r2_score(eig[ti,k], pred[ti,k]):12.3f}")
+        r2 = r2_score(eig[ti, k], pred[ti, k])
+        print(f"{nm:10s}  {r2:12.3f}")
+        lines.append(f"{nm}: R2={r2:.4f}")
     clu = eig[ti, 0] > 0.2
-    print(f"cluster-slice lambda1 Spearman: {spearmanr(eig[ti,0][clu], pred[ti,0][clu]).statistic:+.2f} "
+    sp = spearmanr(eig[ti, 0][clu], pred[ti, 0][clu]).statistic
+    print(f"cluster-slice lambda1 Spearman: {sp:+.2f} "
           f"(baseline 0.54; n={clu.sum()})")
+    lines.append(f"cluster_slice_lambda1_spearman: {sp:+.4f} (n={int(clu.sum())})")
+    if args.out_file is not None:
+        args.out_file.parent.mkdir(parents=True, exist_ok=True)
+        hdr = (f"gate_g4_egnn_smoke aggregation={args.aggregation} "
+               f"positions_only={args.positions_only} "
+               f"build_radius_mpc={args.build_radius_mpc} seed={args.seed}")
+        args.out_file.write_text(hdr + "\n" + "\n".join(lines) + "\n")
+        print(f"summary written: {args.out_file}")
     print("\nCaveats: point-estimate MSE head (R2-favoured) vs posterior mean; invariant "
           "scalarization (not steerable). GATE: proceed to full e3nn build if lambda1 R2 "
           ">= ~0.75 here.")
