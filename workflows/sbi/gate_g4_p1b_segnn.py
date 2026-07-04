@@ -300,6 +300,9 @@ def main():
     np.random.seed(args.seed)
     dev = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"device: {dev}")
+    # A100 TF32 matmul (~8x fp32 throughput): the run is matmul-bound (radial
+    # MLPs over ~4M edges); without this we get ~30 s/step -> ~400 steps/budget
+    torch.set_float32_matmul_precision("high")
 
     p0_selftest(dev)
     if args.selftest_only:
