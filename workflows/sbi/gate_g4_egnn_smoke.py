@@ -89,25 +89,53 @@ class EGNNLite(nn.Module):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--cache", type=Path, required=True)
-    ap.add_argument("--gnn-arrays", type=Path, required=True, help="wedge gnn_arrays npz (edge pairs)")
+    ap.add_argument("--gnn-arrays", type=Path, default=None,
+                    help="wedge gnn_arrays npz (edge pairs); omit with --build-radius-mpc")
     ap.add_argument("--points-xyz", type=Path, required=True)
     ap.add_argument("--steps", type=int, default=3000)
     ap.add_argument("--lr", type=float, default=2e-3)
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--aggregation", choices=["mean", "attention"], default="mean")
     ap.add_argument("--heads", type=int, default=4)
+    ap.add_argument("--positions-only", action="store_true",
+                    help="G4-PROPER P1a-ii (point-cloud control): DROP the curated "
+                         "cache node features; nodes get [1, |pos|/median] only "
+                         "(observational scalars); all other information enters "
+                         "through the geometric edge scalars. Cache is used for "
+                         "eigenvalue targets + splits ONLY.")
+    ap.add_argument("--build-radius-mpc", type=float, default=None,
+                    help="build the neighbourhood at LOAD TIME from positions "
+                         "(cKDTree radius pairs) instead of reading a prebuilt "
+                         "edge_index — the model consumes the catalogue purely as "
+                         "a spatial point distribution.")
     args = ap.parse_args()
     torch.manual_seed(args.seed)
     dev = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"device: {dev}")
 
     cache = pickle.load(open(args.cache, "rb"))
-    X = np.asarray(cache["graph"].nodes, np.float64)         # identical inputs to baseline
     eig = np.asarray(cache["eigenvalues_raw"], np.float64)
     train, val, test = (np.asarray(m).astype(bool) for m in cache["masks"])
 
     pos = np.load(args.points_xyz).astype(np.float64)
-    ei = np.load(args.gnn_arrays)["edge_index"].astype(np.int64)
+    if args.positions_only:
+        rad = np.linalg.norm(pos, axis=1)
+        X = np.column_stack([np.ones(len(pos)), rad / np.median(rad)])
+        print("positions-only mode: node features = [1, |pos|/median] "
+              "(curated features EXCLUDED)")
+    else:
+        X = np.asarray(cache["graph"].nodes, np.float64)     # identical inputs to baseline
+
+    if args.build_radius_mpc is not None:
+        from scipy.spatial import cKDTree
+        pairs = cKDTree(pos).query_pairs(args.build_radius_mpc,
+                                         output_type="ndarray")
+        ei = pairs.T.astype(np.int64)
+        print(f"load-time radius({args.build_radius_mpc:.2f} Mpc) graph: "
+              f"{ei.shape[1]} undirected pairs (no prebuilt edge_index)")
+    else:
+        assert args.gnn_arrays is not None, "--gnn-arrays or --build-radius-mpc required"
+        ei = np.load(args.gnn_arrays)["edge_index"].astype(np.int64)
     src = np.concatenate([ei[0], ei[1]]); dst = np.concatenate([ei[1], ei[0]])  # bidirectional
     r = pos[dst] - pos[src]
     d = np.linalg.norm(r, axis=1)

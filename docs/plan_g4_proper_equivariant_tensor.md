@@ -128,9 +128,31 @@ its candidates from there; the other families are either skipped or used as a co
 
 | # | Model | Family | Gate | Rationale |
 |---|---|---|---|---|
-| 1 (control) | **Point Transformer** (or DGCNN) radius-graph, non-equivariant | (d) | **P1a** — run FIRST | Isolates *graph construction* (~10 Mpc/h radius vs offline Delaunay) from equivariance. Also the cheapest experiment. |
-| 2 (first equivariant) | **SEGNN-style steerable MPNN** + invariant-logit attention + 1x0e+1x2e tensor head | (b) | **P1b** | Minimal model that carries ℓ=2 natively, emits the tensor head, has a mature e3nn recipe, fewest confounds. PyTorch e3nn sidecar. Must beat 0.774 **and** the P1a control. |
+| 1a (control i) | **Existing attentional GraphNet + curated features**, ONLY the edge set swapped to radius (in-stack) | — | **P1a-i** — run FIRST | The report's Rec. #1: cheapest single-variable ablation of the Delaunay scale mismatch. Same model/features/seed/splits as baseline. |
+| 1b (control ii) | **Point-Transformer-class attention MPNN**, POSITIONS+LOS ONLY, neighbourhoods built at load time from the point distribution | (d) | **P1a-ii** | Fills the (positions-only, non-equivariant) cell. Note: a point-cloud model IS a GNN whose adjacency is a fixed cheap rule of the coordinates — for a fixed radius rule, "load-time" and "prebuilt" edges are IDENTICAL (verified: same 1,816,273 pairs). The genuinely different family is DGCNN's dynamic feature-space kNN — SKIPPED per §1(d) subsumption (long feature-space edges are a liability for a compact-support target). |
+| 2 (first equivariant) | **SEGNN-style steerable MPNN** + invariant-logit attention + 1x0e+1x2e tensor head | (b) | **P1b** | Minimal model that carries ℓ=2 natively, emits the tensor head, has a mature e3nn recipe, fewest confounds. PyTorch e3nn sidecar. Must beat 0.774 **and** the P1a controls. |
 | 3 (second equivariant) | **SE(3)-Transformer / Equiformer-class** attentional steerable | (b) | after P1b GO | Non-linear equivariant attention + higher capacity to chase the 0.86 real-space ceiling. Only if #2 clears P1b (or within seed noise). SE(3)-Transformer is SEGNN's attentional cousin — fold its attention into the SEGNN build rather than running it separately. |
+
+**Attribution algebra (why both controls are needed):** with G3 = GraphNet×union,
+A = GraphNet×radius (P1a-i), D = point-attention×radius positions-only (P1a-ii),
+C = SEGNN×radius, B = SEGNN×union: **D−A** = raw geometry vs curated features at
+matched graph+attention; **C−D** = equivariance alone at matched inputs+graph;
+**A−G3** = radius vs union at matched everything; **B−C** = union vs radius within
+the equivariant family. Without D, a P1b win could not be attributed to
+equivariance rather than "any attention net on raw geometry".
+
+**Supervision policy (wave 1 / Tier A):** ALL models train on the 3 sorted
+eigenvalues. The steerable candidates predict the tensor INTERNALLY
+(1x0e+1x2e → differentiable diagonalisation) — an architectural device, not a
+target. Non-equivariant models supervise eigenvalues directly and must NOT emit a
+fixed-frame 3×3 (frame-dependent for a non-equivariant net — logged rule). Tensor
+TARGETS (+ eigenvectors) are Tier B, gated behind P1b.
+
+**G3-driven amendments (2026-07-04, JDPK):** G3 (Delaunay∪radius in-stack) passed
+its gate early (λ1 R² 0.8041@epoch-3749 vs 0.7750 Delaunay-full) → (i) G3 is
+REUSED as the control×union cell; (ii) union-graph variants added to P1b
+alongside radius-only (2×2 factorial); (iii) P1a-i doubles as the
+radius-vs-union attribution ablation.
 
 Note the two orderings compose: the **P1a control (#1) runs before the equivariant #2/#3**,
 because the equivariant machinery must clear the *higher* bar of beating the radius-graph
@@ -157,10 +179,13 @@ control, not just the Delaunay baseline. Within the equivariant pool the order i
   **Residual Pathway Prior** (RPP) relaxed pathway before concluding equivariance is
   unhelpful — distinguishes "symmetry is wrong here" (survey wedge breaks SO(3)) from
   "strict constraint too rigid."
-- **P1a — graph-construction control (RUN FIRST; cheapest; NO equivariance, NO tweb change,
-  amended):** non-equivariant ~10 Mpc/h **radius-only** attentional GraphNet in the existing
-  JAX/jraph stack (same curated features / target / seed / splits as baseline; radius-only,
-  not Delaunay∪radius, to isolate the construction axis). Tests the strongest first-principles
+- **P1a — TWO controls (RUN FIRST; cheapest; NO equivariance, NO tweb change,
+  amended; see §5A attribution algebra): P1a-i** = non-equivariant ~10 Mpc/h
+  **radius-only** attentional GraphNet in the existing JAX/jraph stack (same curated
+  features / target / seed / splits as baseline; radius-only, not Delaunay∪radius, to
+  isolate the construction axis). **P1a-ii** = Point-Transformer-class attention MPNN on
+  positions+LOS only, load-time neighbourhoods (`gate_g4_egnn_smoke.py --positions-only
+  --build-radius-mpc`), filling the (positions-only, non-equivariant) cell. Tests the strongest first-principles
   hypothesis — that the Delaunay receptive field (fixed count, density-varying scale) is
   mismatched to the fixed 7 Mpc/h target. **GATE: within seed noise of 0.774 → graph
   construction matters; ≥ 0.80 → construction is the lever, DEPRIORITISE equivariance and

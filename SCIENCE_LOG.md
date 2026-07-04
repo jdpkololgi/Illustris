@@ -1,5 +1,28 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-04 — [code] Run D added (P1a-ii point-cloud control); P1a split into two controls; plan §5A/§6 reconciled
+- JDPK caught a real ambiguity: the plan's §5A table named Point Transformer/DGCNN as
+  "the" P1a control while §6 (and the source report's Rec. #1) specified the in-stack
+  GraphNet radius control — these are TWO different controls answering different
+  questions, and the launched run A implements only the latter. Fixed by splitting:
+  **P1a-i** (run A, in-stack GraphNet, single-variable edge-set ablation) and **P1a-ii**
+  (**run D, NEW**): Point-Transformer-class attention MPNN, POSITIONS+LOS ONLY, node
+  features [1, |pos|/median], neighbourhoods built at LOAD TIME from the point
+  distribution (`gate_g4_egnn_smoke.py --positions-only --build-radius-mpc 14.78`).
+  Verified: load-time radius build reproduces the prebuilt npz EXACTLY (1,816,273
+  pairs) — for a fixed rule, "no preconstructed graph" and "prebuilt" are the same
+  edges; the genuinely dynamic family (DGCNN feature-space kNN) stays SKIPPED per the
+  §1(d) subsumption argument (compact-support target).
+- **Attribution algebra now complete** (added to plan §5A): D−A = raw geometry vs
+  curated features; C−D = equivariance alone (matched inputs+graph); A−G3 = radius vs
+  union; B−C = union vs radius within equivariant. Without D, a P1b result could not
+  be attributed to equivariance vs "any attention net on raw geometry".
+- **Supervision policy recorded in plan:** ALL wave-1 models train on eigenvalues
+  (Tier A); steerable nets predict the tensor internally only; non-equivariant nets
+  must not emit a fixed-frame tensor. Tensor TARGETS = Tier B, gated.
+- Run D queued behind the QOS 2-slot cap via watcher (fires after C is training and a
+  slot frees). Sequencing: A ends → C; B ends → D.
+
 ### 2026-07-04 — [code] G4-PROPER wave 1 LAUNCHED: 2×2 factorial {control, SEGNN} × {union, radius}; P0 at machine precision
 - **Design (JDPK-approved):** complete the factorial with 3 runs, reusing G3 as the
   4th cell: control×union = G3 (0.8041@3749 ✓), **A** control×radius (existing GraphNet+
