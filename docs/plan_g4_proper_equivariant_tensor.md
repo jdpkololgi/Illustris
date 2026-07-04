@@ -97,16 +97,8 @@ main Tier-B risk and the reason Tier A goes first.
   feature dropout), weight-decay/dropout parity with baseline (0.2 / 0.08), early stopping
   on **val NLL**, matched parameter count. The smoke's attention variant overfit hard
   (train 0.073 vs val 0.253) because it was *undisciplined*, not because attention is wrong.
-- **Fixed candidate order (matched-compute bake-off):** SEGNN-style steerable MPNN with
-  invariant-logit attention **FIRST** (minimal model that carries ℓ=2 natively, emits the
-  1x0e+1x2e head, has a mature e3nn recipe); SE(3)-Transformer / Equiformer-class attentional
-  steerable model **SECOND**, only if the first clears P1b; one point-cloud model
-  (Point Transformer / DGCNN) as the **P1a graph-construction control, not a competitor**.
-  **SKIP:** plain EGNN/PaiNN/GVP (ℓ≤1, cannot emit the ℓ=2 head — already shadowed by the
-  0.603 smoke), GATr / full-attention geometric transformers (long-range capacity wasted on
-  a compact-support 7 Mpc/h target), MACE (many-body bias mismatched to scale-free galaxy
-  clustering), PCA frame-averaging (degeneracy/discontinuity; per-galaxy LOS r̂ᵢ breaks
-  symmetry more cleanly).
+  Full candidate taxonomy and the fixed execution order are in §5A (they drive the
+  P1a/P1b bake-off).
 - **Heads:**
   - Tier A: a single ℓ=2 (+ℓ=0 trace) output → symmetric 3×3 tensor → torch symeig →
     sorted eigenvalues; loss = eigenvalue MSE (matched to LAMBDA), + small trace-vs-δ
@@ -114,6 +106,47 @@ main Tier-B risk and the reason Tier A goes first.
   - **NPE integration:** to keep calibrated posteriors, use the encoder's INVARIANT
     latent to condition the existing FlowJAX flow (drop-in for the GraphNet embedding).
     Point-tensor head is the smoke; the flow head is the production path.
+
+## 5A. Candidate architectures & execution order (per the equivariant-GNN review)
+
+The gamut of equivariant/geometric GNNs organises by **which irreps ℓ the latent features
+carry** (the GWL expressivity axis, Joshi et al. 2023). Only the steerable/tensor family
+carries ℓ≥2 and can natively emit the 1x0e+1x2e tidal-tensor head, so the bake-off draws
+its candidates from there; the other families are either skipped or used as a control.
+
+**Family taxonomy (organising the gamut):**
+
+| Family | ℓ carried | Members | Role here |
+|---|---|---|---|
+| (a) Scalarised / invariant-message | ℓ≤1 | EGNN, PaiNN, GVP-GNN | **SKIP** — cannot natively emit the ℓ=2 head; shadowed by the 0.603 smoke |
+| (b) Steerable / tensor-field | ℓ≥2 | TFN, **SEGNN**, **SE(3)-Transformer**, **Equiformer**, MACE | **the candidate pool** (see order below) |
+| (c) Frame-based / canonicalisation | n/a | Frame Averaging, local frames, LEFTNet | FA **SKIP** (PCA-frame degeneracy); LOS local-frame kept only as a cheap fallback if tensor products prove too costly |
+| (d) Point-cloud, self-built graph | n/a | DGCNN, **Point Transformer**, PointNet++ | one model as the **P1a graph-construction control**, not an equivariant competitor |
+| (e) Long-range / global attention | varies | GATr, Erwin, full-attention transformers | **SKIP** — long-range capacity wasted on a compact-support 7 Mpc/h target |
+
+**Fixed execution order (matched-compute, matched-param; run in this sequence, each gated):**
+
+| # | Model | Family | Gate | Rationale |
+|---|---|---|---|---|
+| 1 (control) | **Point Transformer** (or DGCNN) radius-graph, non-equivariant | (d) | **P1a** — run FIRST | Isolates *graph construction* (~10 Mpc/h radius vs offline Delaunay) from equivariance. Also the cheapest experiment. |
+| 2 (first equivariant) | **SEGNN-style steerable MPNN** + invariant-logit attention + 1x0e+1x2e tensor head | (b) | **P1b** | Minimal model that carries ℓ=2 natively, emits the tensor head, has a mature e3nn recipe, fewest confounds. PyTorch e3nn sidecar. Must beat 0.774 **and** the P1a control. |
+| 3 (second equivariant) | **SE(3)-Transformer / Equiformer-class** attentional steerable | (b) | after P1b GO | Non-linear equivariant attention + higher capacity to chase the 0.86 real-space ceiling. Only if #2 clears P1b (or within seed noise). SE(3)-Transformer is SEGNN's attentional cousin — fold its attention into the SEGNN build rather than running it separately. |
+
+Note the two orderings compose: the **P1a control (#1) runs before the equivariant #2/#3**,
+because the equivariant machinery must clear the *higher* bar of beating the radius-graph
+control, not just the Delaunay baseline. Within the equivariant pool the order is
+**SEGNN-with-attention first, Equiformer-class second, MACE skipped** for the smoke phase.
+
+**Explicit SKIP list (with one-line justification):**
+- **Plain EGNN / PaiNN / GVP** — ℓ≤1; cannot natively emit the ℓ=2 tensor head; already
+  shadowed by the G4-SMOKE 0.603.
+- **GATr / full-attention geometric transformers** — long-range capacity wasted on a
+  compact-support (7 Mpc/h-smoothed) target that is a local functional of the field.
+- **MACE** — many-body inductive bias calibrated to fixed-coordination atomic systems,
+  mismatched to scale-free galaxy clustering; revisit only if body-order turns out to matter.
+- **Frame Averaging (PCA frames)** — degeneracy/discontinuity under repeated eigenvalues;
+  the per-galaxy LOS r̂ᵢ breaks symmetry more cleanly.
+- **PointNet++ / continuous-conv** — not equivariant; of interest only as pooling baselines.
 
 ## 6. Phased plan with validation gates
 
