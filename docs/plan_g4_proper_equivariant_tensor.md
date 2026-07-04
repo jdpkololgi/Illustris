@@ -1,8 +1,38 @@
 # Plan — G4-PROPER: equivariant point-cloud model, tensor-valued
 
-Durable plan for the real G4 test (roadmap v2 symmetry axis). NOT executed — this is
-the design to review before any build. Written 2026-07-03 (Claude Code + JDPK), after
-the G4-SMOKE naming correction. Running narrative: `SCIENCE_LOG.md`.
+Durable plan for the real G4 test (roadmap v2 symmetry axis). Written 2026-07-03
+(Claude Code + JDPK) after the G4-SMOKE naming correction. Running narrative:
+`SCIENCE_LOG.md`.
+
+## WAVE-1 RESULTS (2026-07-04) — read this first
+
+| Run | Model | Graph | Features | λ1 | λ2 | λ3 | clu ρ |
+|---|---|---|---|---|---|---|---|
+| baseline | GraphNet+NPE | Delaunay | curated | 0.775 | 0.811 | 0.891 | — |
+| G3 | GraphNet+NPE | union | curated | **0.804** | 0.846 | 0.895 | — |
+| A | GraphNet+NPE | radius | curated | 0.752 | 0.799 | 0.876 | — |
+| **D** | point-attention MPNN | radius | **positions** | **0.726** | 0.807 | 0.838 | 0.54 |
+| E | attentional DGCNN | **dynamic** | positions | 0.507 | 0.662 | 0.681 | 0.36 |
+| B | SEGNN steerable+attn | union | positions | 0.536 | 0.610 | 0.653 | 0.35 |
+| C | SEGNN steerable+attn | radius | positions | 0.423 | 0.411 | 0.513 | 0.37 |
+
+**Verdicts (preliminary — single seed; steerable capacity-confounded):**
+1. **Point-cloud works:** D (positions-only) ≈ A (curated) → raw geometry recovers ~96%
+   of the curated-feature signal (matched estimand). Point-cloud route validated.
+2. **Dynamic graph HURTS: E−D = −0.22 λ1** — the §1(d) subsumption hypothesis confirmed.
+   Useful long edges are geometry-anchored (Delaunay bridges), not feature-anchored.
+3. **Steerable SEGNN worst (0.42–0.54)** but capacity-confounded (fast 179k config) → NOT
+   a symmetry verdict yet; RPP-relaxed / matched-param needed (plan branch below).
+**Production stays G3.** Nonlocality upgrade (GPT-5.5 review): T̂ij(k)=(ki kj/k²)W_R(k)δ(k)
+— the 1/k² makes the tidal tensor a NONLOCAL inverse-Poisson operator, so the union graph
+is a discrete quadrature of it (radius = fixed aperture, Delaunay = adaptive void bridges,
+attention arbitrates). Paper framing: "correct discrete support for a nonlocal cosmological
+operator", not a failed architecture search.
+
+**WAVE 2 (in progress):** D seeds 43/44 (seed variance) + run F (attentional DGCNN + curated
+features, §5A). Deferred diagnostics: environment-sliced eval, connectivity-residuals, union
+edge-type attention attribution. NOT queued: heavy Equiformer/MACE, matched-capacity SEGNN,
+Tier B — all gated on the wave-2 + diagnostic readout.
 
 ## 0. Scope discipline (what G4-SMOKE did NOT test)
 
@@ -130,7 +160,19 @@ its candidates from there; the other families are either skipped or used as a co
 |---|---|---|---|---|
 | 1a (control i) | **Existing attentional GraphNet + curated features**, ONLY the edge set swapped to radius (in-stack) | — | **P1a-i** — run FIRST | The report's Rec. #1: cheapest single-variable ablation of the Delaunay scale mismatch. Same model/features/seed/splits as baseline. |
 | 1b (control ii) | **Positions-only attention control** (run D — attention MPNN on a load-time radius graph, POSITIONS+LOS ONLY). *Relabelled 2026-07-04: previously mis-badged "Point-Transformer-class" — a point-cloud network IS an attention GNN on a coordinate-derived graph, so D is architecturally the same object as run A; its scientific content is the FEATURE axis (D−A), not a new model family.* | (d) | **P1a-ii** | Fills the (positions-only, non-equivariant, fixed-graph) cell. For a fixed radius rule, "load-time" and "prebuilt" edges are IDENTICAL (verified: same 1,816,273 pairs). |
-| 1c (dynamic graph) | **Attentional DGCNN** (run E): dynamic kNN recomputed PER LAYER in learned feature space (layer 0 = coordinate kNN), EdgeConv max-pool REPLACED by GAT/GAPNet-style multi-head attention, positions+LOS only. All learned features derive from observer-rotation invariants, so the feature-space kNN is itself rotation-invariant (verified 1.4e-16). | (d) | after P1a-ii | The ONE candidate whose graph is genuinely not fixed. Promoted from the SKIP list (JDPK 2026-07-04): the §1(d) subsumption argument was a *prediction*, not a result, and E is the only model answering "what if we don't fix the edges at all". **E−D = learned dynamic candidates vs fixed physical candidates**, matched inputs + matched aggregation. |
+| 1c (dynamic graph) | **Attentional DGCNN** (run E): dynamic kNN recomputed PER LAYER in learned feature space (layer 0 = coordinate kNN), EdgeConv max-pool REPLACED by GAT/GAPNet-style multi-head attention, positions+LOS only. Rotation-invariant feature-space kNN (verified 1.4e-16). | (d) | after P1a-ii | The ONE candidate whose graph is genuinely not fixed. Promoted from SKIP (JDPK). **RESULT: E 0.507 < D 0.726** — dynamic graph hurt by 0.22; subsumption confirmed. |
+| 1d (dynamic + curated) | **Run F**: attentional DGCNN (dynamic feature-space kNN) but with **curated Delaunay features** as inputs instead of positions-only. `gate_g4_p1e_dgcnn_attn.py --curated-features`. | (d) | wave 2 | F vs E = feature axis for the dynamic graph; F vs A = dynamic vs radius at matched curated features. Tests whether dynamic selection helps once the model already has the field estimators. |
+
+**Dynamic-graph construction — control knobs (JDPK "how much control?", 2026-07-04):** we have
+essentially full control over the dynamic local graph, exposed in `gate_g4_p1e_dgcnn_attn.py`:
+(i) **k** (neighbour count — fixed count ⇒ density-adaptive physical scale); (ii) **which space
+per layer** (layer 0 coordinate, layers>0 feature — configurable to all-coordinate = static, or
+all-feature = pure DGCNN); (iii) **candidate-pool cap** `--knn-radius-cap` — restrict feature-kNN
+to nodes within a physical radius = "learned selection WITHIN a physical envelope", the direct fix
+for why E lost (non-local roaming); void nodes fall back to physical-kNN; (iv) distance metric;
+(v) what defines the kNN space (raw inputs seed it — positions vs curated — or a dedicated learned
+coordinate head); (vi) recompute frequency. The capped variant is the ready follow-up if F or E's
+void slice shows a dynamic-selection signal worth keeping under a locality constraint.
 | 2 (first equivariant) | **SEGNN-style steerable MPNN** + invariant-logit attention + 1x0e+1x2e tensor head | (b) | **P1b** | Minimal model that carries ℓ=2 natively, emits the tensor head, has a mature e3nn recipe, fewest confounds. PyTorch e3nn sidecar. Must beat 0.774 **and** the P1a controls. |
 | 3 (second equivariant) | **SE(3)-Transformer / Equiformer-class** attentional steerable | (b) | after P1b GO | Non-linear equivariant attention + higher capacity to chase the 0.86 real-space ceiling. Only if #2 clears P1b (or within seed noise). SE(3)-Transformer is SEGNN's attentional cousin — fold its attention into the SEGNN build rather than running it separately. |
 

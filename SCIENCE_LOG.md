@@ -1,5 +1,63 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-04 — [code] G4-PROPER WAVE 1 COMPLETE (A–E): point-attention wins, dynamic graph & steerable lose; wave 2 (D seeds + F) launched
+- **Full wave-1 board (all λ1/λ2/λ3, positions-only unless noted, point-estimate MSE except G3/A/baseline = NPE posterior mean):**
+  - baseline GraphNet+NPE, Delaunay, curated: **0.775** / 0.811 / 0.891
+  - G3 GraphNet+NPE, union, curated: **0.804** / 0.846 / 0.895  (production anchor)
+  - A GraphNet+NPE, radius, curated: **0.752** / 0.799 / 0.876
+  - **D point-attention MPNN, radius, POSITIONS-ONLY: 0.726 / 0.807 / 0.838, clu ρ 0.54**
+  - E attentional DGCNN, DYNAMIC feature-space kNN, positions: 0.507 / 0.662 / 0.681, clu 0.36
+  - B SEGNN steerable+attn, union, positions: 0.536 / 0.610 / 0.653, clu 0.35
+  - C SEGNN steerable+attn, radius, positions: 0.423 / 0.411 / 0.513, clu 0.37
+  - (all C/D/E converged: C ran full budget val-plateaued, D early-stopped @4000, E early-stopped @1925 — not truncated.)
+- **THREE headline reads:**
+  1. **Point-cloud from raw geometry works & ≈ curated features.** D (positions+LOS+radius
+     graph) λ1 0.726 vs A (same graph, curated features) 0.752 — matched estimand
+     (MSE point est ↔ NPE posterior mean both target E[λ|x]) → positions recover ~96% of
+     the curated-feature signal; the cuGraph features add ~+0.03. JDPK's point-cloud
+     instinct validated.
+  2. **Dynamic feature-space graph HURTS: E−D = −0.22 λ1** (matched inputs+attention). The
+     §1(d) subsumption hypothesis is CONFIRMED, not assumed: for a compact-support target,
+     letting edges roam in feature space imports non-local neighbours and costs ~0.22.
+     Attention did NOT rescue it (it reweights candidates, cannot attend to evicted physical
+     neighbours). Clean publishable negative for the dynamic-graph line.
+  3. **Steerable SEGNN underperformed everything** (B 0.536, C 0.423) — but CAPACITY-
+     CONFOUNDED (fast 179k config vs D's larger net; e3nn-TP-throughput-limited). B(union)
+     0.536 > C(radius) 0.423 → union>radius holds inside the steerable family too.
+- **GPT-5.5 deep-review memo — synthesis (JDPK relayed):** (a) upgrades the graph story via
+  the inverse-Laplacian: T̂ij(k)=(ki kj/k²)W_R(k)δ(k); the 1/k² makes the smoothed tidal
+  tensor genuinely NONLOCAL (real-space kernel ~anisotropic power-law, not exp-suppressed),
+  so the union graph is a **discrete quadrature of a nonlocal operator** — Delaunay bridges =
+  adaptive void connectivity, radius edges = fixed aperture, attention arbitrates. This also
+  explains E: useful long edges are GEOMETRY-anchored (Delaunay bridges help), not FEATURE-
+  anchored (DGCNN dynamic edges hurt), and softens the original review's "compact support ⇒
+  skip long-range". (b) Its pre-written decision tree lands on branch 2 (D high + B low ⇒
+  steerable IMPLEMENTATION may hurt ⇒ RPP-relaxed / hybrid, NOT immediate heavy Equiformer).
+  Convergent with our plan's RPP escape hatch. (c) New paper narrative endorsed: "discovering
+  the correct discrete support for a nonlocal cosmological operator", not a failed arch search.
+  (d) Production stays G3 (unchanged). (e) Tier-B physics constraints logged for later (trace–
+  Poisson TrT_R=δ_R; Hessian integrability ∂k Tij=∂j Tik — a free symmetric tensor field is
+  NOT automatically a Hessian field). Full memo lives with JDPK.
+- **Redo policy: NO redos** (runs internally valid). Needed instead = diagnostic layer.
+  **Wave 2 LAUNCHED now** (tmux `g4_wave2` on login node, SSH-independent):
+  **D seeds 43 & 44** (seed variance for the headline result; single-seed so far) + **run F**
+  = attentional DGCNN + CURATED Delaunay features (F vs E = feature axis for dynamic graph;
+  F vs A = dynamic vs radius at matched curated features). D-seed43 already allocated
+  (55499510).
+- **DGCNN control knobs added** (answering JDPK's "how much control over the dynamic graph"):
+  `gate_g4_p1e_dgcnn_attn.py` now takes `--curated-features` and `--knn-radius-cap` (restrict
+  feature-space kNN to a physical envelope — 'learned selection WITHIN locality', the direct
+  fix for why E lost; void nodes fall back to physical-kNN). Verified: capped kNN keeps edges
+  local, rotation-invariance holds with curated+capped (1.2e-16). F runs UNCAPPED (= E arch)
+  to isolate the feature axis; capped variant is the ready follow-up if F or E's void slice
+  motivates it.
+- **Deferred diagnostics (not yet built, next after wave 2):** environment-sliced eval
+  (V/W/F/C) across G3/A–F; connectivity-residual diagnostics; union edge-type attention-mass
+  attribution. Explicitly NOT queued: matched-capacity heavy SEGNN, Equiformer/MACE, Tier B.
+- **Standing:** G3 resume (55441429) still PENDING on plain gpu&a100 — JDPK to protect with
+  `scontrol update JobId=55441429 Features="gpu&hbm80g"` (Claude permission-blocked from the
+  queued job).
+
 ### 2026-07-04 — [code] RUN B RESULT (P1b SEGNN×union, positions-only): λ1 0.536 — MISS on gate, but capacity-confounded; chain hardened
 - **B (SEGNN steerable+attention, union graph, positions+LOS only, 179k params, 1348
   steps, point-estimate MSE):** test-set λ1 R² **0.536**, λ2 0.610, λ3 0.653;

@@ -43,15 +43,35 @@ from sklearn.metrics import r2_score
 
 
 @torch.no_grad()
-def knn_chunked(x: torch.Tensor, k: int, chunk: int = 4096) -> torch.Tensor:
-    """Row-chunked brute-force kNN (excl. self) — [N,F] -> [N,k] indices."""
+def knn_chunked(x: torch.Tensor, k: int, chunk: int = 4096,
+                pos: torch.Tensor = None, radius_cap: float = None) -> torch.Tensor:
+    """Row-chunked brute-force kNN (excl. self) — [N,F] -> [N,k] indices.
+
+    If radius_cap is set, the feature-space kNN is restricted to candidates
+    within `radius_cap` in PHYSICAL space (pos): 'learned selection within a
+    physical envelope'. This is the graph-construction knob that directly
+    addresses why run E (uncapped) lost — it keeps the adaptive candidate
+    selection but forbids the non-local roaming. (A node with < k physical
+    neighbours falls back to its nearest ones, so voids degrade gracefully.)
+    """
     n = x.shape[0]
     out = torch.empty(n, k, dtype=torch.long, device=x.device)
     for lo in range(0, n, chunk):
         hi = min(lo + chunk, n)
+        rows = torch.arange(hi - lo, device=x.device)
+        cols = torch.arange(lo, hi, device=x.device)
         d = torch.cdist(x[lo:hi], x)
-        d[torch.arange(hi - lo, device=x.device),
-          torch.arange(lo, hi, device=x.device)] = torch.inf
+        d[rows, cols] = torch.inf                        # exclude self
+        if radius_cap is not None and pos is not None:
+            ds = torch.cdist(pos[lo:hi], pos)
+            far = ds > radius_cap
+            far[rows, cols] = True
+            # keep row usable if it would otherwise be all-inf (deep void node):
+            # fall back to physical-kNN by using the spatial distance there
+            allfar = far.all(dim=1)
+            d = d.masked_fill(far, torch.inf)
+            if allfar.any():
+                d[allfar] = ds[allfar]                    # physical fallback
         out[lo:hi] = d.topk(k, largest=False).indices
     return out
 
@@ -95,9 +115,10 @@ class DynAttnLayer(nn.Module):
 
 
 class AttnDGCNN(nn.Module):
-    def __init__(self, nfeat, dim=128, layers=4, heads=4, k=20):
+    def __init__(self, nfeat, dim=128, layers=4, heads=4, k=20, radius_cap=None):
         super().__init__()
         self.k = k
+        self.radius_cap = radius_cap
         self.embed = nn.Linear(nfeat, dim)
         self.layers = nn.ModuleList(DynAttnLayer(dim, heads=heads)
                                     for _ in range(layers))
@@ -106,7 +127,8 @@ class AttnDGCNN(nn.Module):
     def forward(self, x, pos, los, idx0):
         h = self.embed(x)
         for li, layer in enumerate(self.layers):
-            idx = idx0 if li == 0 else knn_chunked(h.detach(), self.k)
+            idx = idx0 if li == 0 else knn_chunked(
+                h.detach(), self.k, pos=pos, radius_cap=self.radius_cap)
             h = layer(h, pos, los, idx)
         return self.head(h)
 
@@ -125,6 +147,14 @@ def main():
     ap.add_argument("--minutes", type=float, default=200.0)
     ap.add_argument("--lr", type=float, default=2e-3)
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--curated-features", action="store_true",
+                    help="use the curated (Delaunay/cuGraph-derived) node features "
+                         "from the cache instead of positions-only [1,|pos|/median]. "
+                         "Run F: dynamic feature-space graph WITH curated features.")
+    ap.add_argument("--knn-radius-cap", type=float, default=None,
+                    help="restrict the dynamic feature-space kNN to candidates "
+                         "within this physical radius (Mpc). None = uncapped "
+                         "(canonical DGCNN, = run E).")
     args = ap.parse_args()
     torch.manual_seed(args.seed)
     dev = "cuda" if torch.cuda.is_available() else "cpu"
@@ -136,10 +166,17 @@ def main():
     eig = np.asarray(cache["eigenvalues_raw"], np.float64)
     train, val, test = (np.asarray(m).astype(bool) for m in cache["masks"])
     pos_np = np.load(args.points_xyz).astype(np.float64)
-    rad = np.linalg.norm(pos_np, axis=1)
-    X = np.column_stack([np.ones(len(pos_np)), rad / np.median(rad)])
-    print(f"positions-only inputs; nodes={len(X)}; dynamic kNN k={args.k} "
-          f"(layer 0 = coordinate kNN, layers >0 = learned feature space)")
+    if args.curated_features:
+        X = np.asarray(cache["graph"].nodes, np.float64)   # Delaunay/cuGraph feats
+        feat_desc = f"curated Delaunay features ({X.shape[1]} cols)"
+    else:
+        rad = np.linalg.norm(pos_np, axis=1)
+        X = np.column_stack([np.ones(len(pos_np)), rad / np.median(rad)])
+        feat_desc = "positions-only [1, |pos|/median]"
+    cap_desc = ("uncapped (canonical DGCNN)" if args.knn_radius_cap is None
+                else f"physical-cap {args.knn_radius_cap:.2f} Mpc")
+    print(f"inputs: {feat_desc}; nodes={len(X)}; dynamic kNN k={args.k}, "
+          f"{cap_desc} (layer 0 = coordinate kNN, layers >0 = feature space)")
 
     mu, sd = eig[train].mean(0), eig[train].std(0)
     Y = (eig - mu) / sd
@@ -151,7 +188,8 @@ def main():
 
     idx0 = knn_chunked(pos, args.k)          # coordinate kNN, fixed -> once
     model = AttnDGCNN(X.shape[1], dim=args.dim, layers=args.layers,
-                      heads=args.heads, k=args.k).to(dev)
+                      heads=args.heads, k=args.k,
+                      radius_cap=args.knn_radius_cap).to(dev)
     n_par = sum(p.numel() for p in model.parameters())
     print(f"model: dim={args.dim}, layers={args.layers}, heads={args.heads}, "
           f"k={args.k}, params={n_par:,}")
@@ -195,10 +233,10 @@ def main():
         pred = model(x, pos, los, idx0).cpu().numpy() * sd + mu
 
     ti = np.where(test)[0]
-    lines = [f"G4-PROPER run E (attentional DGCNN, dynamic feature-space kNN, "
-             f"k={args.k})",
+    lines = [f"G4-PROPER attentional DGCNN (dynamic feature-space kNN, k={args.k})",
+             f"inputs={feat_desc}; kNN={cap_desc}",
              f"params={n_par:,}  best_val={best_val:.4f}",
-             "anchors: Delaunay baseline l1 0.774 | union control@3749 0.804", ""]
+             "anchors: Delaunay baseline l1 0.774 | union@3749 0.804 | E(pos,uncapped) 0.507", ""]
     print(f"\n{'':10s}  {'E R2':>10s}   (anchors: baseline 0.774; union@3749 0.804)")
     for kk, nm in enumerate(["lambda1", "lambda2", "lambda3"]):
         r2 = r2_score(eig[ti, kk], pred[ti, kk])
