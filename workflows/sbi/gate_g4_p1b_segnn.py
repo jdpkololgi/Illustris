@@ -49,6 +49,32 @@ SH_IRREPS = o3.Irreps("1x0e+1x1o+1x2e")   # edge/LOS harmonics, dim 9
 HEAD_OUT = o3.Irreps("1x0e+1x2e")         # trace + symmetric-traceless = 6 comps
 
 
+def sym3x3_eigvals(T: torch.Tensor, eps: float = 1e-12) -> torch.Tensor:
+    """Closed-form ascending eigenvalues of symmetric 3x3 matrices [.., 3, 3]
+    (trigonometric method). Exact, fully vectorised, differentiable, O(N) memory
+    — replaces torch.linalg.eigvalsh, whose batched cuSOLVER path requests a
+    ~25 GiB workspace at N~1e5. acos argument is eps-clamped so gradients stay
+    finite at eigenvalue degeneracies (plan §7 mitigation)."""
+    q = T.diagonal(dim1=-2, dim2=-1).mean(-1)                       # trace/3
+    p1 = T[..., 0, 1] ** 2 + T[..., 0, 2] ** 2 + T[..., 1, 2] ** 2
+    dq = T.diagonal(dim1=-2, dim2=-1) - q[..., None]
+    p2 = (dq ** 2).sum(-1) + 2.0 * p1
+    p = torch.sqrt((p2 / 6.0).clamp(min=eps))
+    B = (T - q[..., None, None] * torch.eye(3, dtype=T.dtype, device=T.device)) \
+        / p[..., None, None]
+    detB = (B[..., 0, 0] * (B[..., 1, 1] * B[..., 2, 2] - B[..., 1, 2] ** 2)
+            - B[..., 0, 1] * (B[..., 0, 1] * B[..., 2, 2]
+                              - B[..., 1, 2] * B[..., 0, 2])
+            + B[..., 0, 2] * (B[..., 0, 1] * B[..., 1, 2]
+                              - B[..., 1, 1] * B[..., 0, 2]))
+    phi = torch.acos((detB / 2.0).clamp(-1.0 + 1e-7, 1.0 - 1e-7)) / 3.0
+    two_pi_3 = 2.0943951023931953
+    lam3 = q + 2.0 * p * torch.cos(phi)
+    lam1 = q + 2.0 * p * torch.cos(phi + two_pi_3)
+    lam2 = 3.0 * q - lam1 - lam3
+    return torch.stack([lam1, lam2, lam3], dim=-1)                  # ascending
+
+
 def soft_one_hot(d: torch.Tensor, n_basis: int, r_max: float) -> torch.Tensor:
     """Gaussian radial basis on [0, r_max]; |r| beyond r_max clipped (long
     Delaunay void edges keep their true unit vector, only the basis saturates)."""
@@ -189,7 +215,7 @@ class SEGNNTensorNet(nn.Module):
 
     def eigenvalues(self, pos, los, src, dst, use_checkpoint=True):
         T = self.forward(pos, los, src, dst, use_checkpoint)
-        return torch.linalg.eigvalsh(T)                      # ascending = l1<=l2<=l3
+        return sym3x3_eigvals(T)                             # ascending = l1<=l2<=l3
 
 
 def p0_selftest(device):
@@ -216,6 +242,12 @@ def p0_selftest(device):
     print(f"[P0] equivariance: max|T(Rx) - R T(x) R^T| = {dev_t:.3e}, "
           f"max|dlam| = {dev_e:.3e}")
     assert dev_t < 1e-8 and dev_e < 1e-8, "P0 equivariance FAILED — aborting"
+    # analytic 3x3 eigensolver vs LAPACK on random symmetric matrices
+    A = torch.randn(5000, 3, 3, dtype=torch.float64, device=device)
+    A = 0.5 * (A + A.transpose(-1, -2))
+    dev_a = (sym3x3_eigvals(A) - torch.linalg.eigvalsh(A)).abs().max().item()
+    print(f"[P0] analytic vs LAPACK eigvals: max|dlam| = {dev_a:.3e}")
+    assert dev_a < 1e-6, "P0 analytic eigensolver FAILED — aborting"
     print("[P0] PASSED")
 
 
