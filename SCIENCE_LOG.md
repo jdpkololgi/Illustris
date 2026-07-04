@@ -1,5 +1,37 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-04 — [code] Run E added (attentional DGCNN, unfixed graph); D relabelled; B throughput fixed; wave now A/B/C/D/E
+- **D relabelled (JDPK caught it):** "Point-Transformer-class" was an over-badge — a
+  point-cloud network IS an attention GNN on a coordinate-derived graph, so D is
+  architecturally the same object as run A. D's honest label: **positions-only attention
+  control**; its scientific content is the FEATURE axis (D−A), not a new model family.
+- **Run E built (P1a-iii, JDPK design):** attentional DGCNN — the ONE wave-1 model whose
+  graph is genuinely NOT fixed: kNN recomputed PER LAYER in learned feature space
+  (layer 0 = coordinate kNN, k=20), EdgeConv max-pool REPLACED by GAT/GAPNet-style
+  4-head attention, positions+LOS only, eigenvalue supervision.
+  `gate_g4_p1e_dgcnn_attn.py` + runner; selftest: forward/backward finite AND full-model
+  **rotation invariance 1.4e-16** (all learned features derive from invariant scalars →
+  feature-space kNN itself rotation-invariant, dodging DGCNN's usual symmetry breakage).
+  **E−D = learned dynamic candidates vs fixed physical candidates** at matched
+  inputs+aggregation — the §1(d) subsumption claim gets TESTED, not assumed.
+- **Conceptual point logged (plan §5A):** attention fixes the WEIGHTING axis (the
+  over-smoothing-like fixed-kernel problem, JDPK's analogy — half right), but NOT the
+  CANDIDATE-SELECTION axis: attention cannot attend to an absent edge, and fixed-k
+  feature-space kNN can evict physical neighbours entirely. E mitigates via layer-0
+  coordinate kNN + per-layer geometry scalars. Prior: D ≥ E overall, but **voids are
+  where E could win** (environmental parameter sharing between feature-similar,
+  spatially distant void galaxies) — an E win in voids would revive the multi-scale
+  graph line.
+- **B throughput crisis fixed:** e3nn TP einsum kernels (not matmul — TF32 did nothing)
+  gave 30–49 s/step ⇒ ~244 steps/budget = void. Config: hidden halved
+  (16x0e+8x1o+4x2e → 179k params), 3 layers, DropEdge 0.5 (full edges for val/eval),
+  val every 50 → **9.55 s/step, T_max=1256 steps**. Matched-param discipline vs the
+  992k GraphNet is broken for the smoke (noted in results); returns in multi-seed phase.
+- **Queue chain (QOS 2-slot):** A (RUNNING, epoch ~1400/3750, on pace) + B (RUNNING,
+  fast config) → C (SEGNN radius) → D (positions-only radius) → E (DGCNN) via watchers.
+- SKIP-list updates: DGCNN → promoted to run E; PointNet(++) stays out (no/fixed-radius
+  neighbourhoods — redundant with A/D).
+
 ### 2026-07-04 — [code] Run D added (P1a-ii point-cloud control); P1a split into two controls; plan §5A/§6 reconciled
 - JDPK caught a real ambiguity: the plan's §5A table named Point Transformer/DGCNN as
   "the" P1a control while §6 (and the source report's Rec. #1) specified the in-stack
