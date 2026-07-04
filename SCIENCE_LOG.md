@@ -1,15 +1,23 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
 ### 2026-07-03 — [code] G3 interactive done@3749 (NOT trained-out); existing G4-PROPER plan AMENDED (attention required, P1a/P1b split)
-- **G3 status:** the interactive run (job 55442933) ended — 4 h `salloc` wall revoked it at
-  13:42 local. It banked to **epoch 3749/7000** (last checkpoint on disk; reached 3920
-  in-memory before dying), val NLL descending through **0.80**, still improving, **no
-  plateau, no R² eval**. Gate (posterior-mean λ₁ R² vs SI baseline 0.7750; baseline best val
-  NLL 1.1065) is computed only at end-of-training. Held resume sbatch **55441429**
-  (`--resume`, 4×A100, 12 h) is **back on JobHeldUser** pending JDPK's call: (a) eval the
-  epoch-3749 checkpoint now for a preliminary (under-trained) read, or (b) release to resume
-  to 7000 for the real gate number. I released it, then re-held it on JDPK's correction that
-  it was meant to stay held.
+- **G3 status + PRELIMINARY EVAL (GO signal):** the interactive run (job 55442933) ended —
+  4 h `salloc` wall revoked it at 13:42 local. It banked to **epoch 3749/7000** (last
+  checkpoint on disk), val NLL still descending, no plateau. Ran an eval-only read of the
+  3749 checkpoint (interactive salloc job 55454981; `--resume_from` + `--epochs 1` → empty
+  train loop → pipeline's own 128-sample posterior-mean block; outputs in
+  `..._uniongraph_EVAL3749`, kept run dir pristine). **Result (raw eigenvalues, posterior
+  mean, vs SI Delaunay baseline):** λ₁ **0.8041** vs 0.7750 (**+0.029**), λ₂ 0.8461 vs 0.8105
+  (+0.036), λ₃ 0.8955 vs 0.8912 (+0.004), mean 0.8486 vs 0.8256; best val NLL **0.8563** vs
+  1.1065, test NLL 0.8964 vs 1.1392. **The union graph BEATS the fully-trained Delaunay
+  baseline on all three λ at only 56% of training** — a floor, not the final number. **G3 is
+  a GO.** (No cluster-slice Spearman in the pipeline results txt — a separate diagnostic if
+  wanted.) NB: there is **no eval-from-checkpoint for the FlowJAX/NPE stack** — only
+  `jraph_{regression,classification}_eval_from_checkpoint.py` exist (regression/clf models);
+  the NPE eval is inline in `main()`, hence the resume+epochs=1 trick.
+- Held resume sbatch **55441429** (`--resume`, 4×A100, 12 h) remains **JobHeldUser**. Recommend
+  RELEASE to finish to 7000 for the final (≥0.804) gate number — held pending JDPK's call
+  (he corrected an earlier premature release, so not auto-releasing).
 - **Existing G4-PROPER plan AMENDED IN PLACE** (`docs/plan_g4_proper_equivariant_tensor.md`,
   per the sharpened equivariant-GNN review) — NOT a new doc. The doc already had the Tier A
   (eigenvalue-supervised, no tweb) / Tier B (tensor+eigenvector, needs tweb) split and the
