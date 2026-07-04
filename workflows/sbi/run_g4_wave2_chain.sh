@@ -16,13 +16,16 @@ MAX_FAILS=2
 declare -A FAILS
 log() { echo "[$(date '+%F %T')] $*" | tee -a "$CHAINLOG"; }
 
+# Priority order: F and G (JDPK's current interest) first, then the D seed
+# replicates. Chain runs 2 at a time under the interactive QOS cap.
 ITEMS=(
+  "F|$RUNS/g4_p1f_dgcnn_curated/p1e_dgcnn_attn_results.txt|$LOGS/g4_p1f_dgcnn_curated_*.log|bash $REPO/workflows/sbi/run_g4_p1f_dgcnn_curated_interactive.sh"
+  "G|$RUNS/g4_p1g_dunion/p1g_dunion_results.txt|$LOGS/g4_p1g_dunion_*.log|bash $REPO/workflows/sbi/run_g4_p1g_dunion_interactive.sh"
   "D43|$RUNS/g4_p1d_pointattn_radius_seed43/p1d_pointattn_results.txt|$LOGS/g4_p1d_seed43_*.log|bash $REPO/workflows/sbi/run_g4_p1d_seed_interactive.sh 43"
   "D44|$RUNS/g4_p1d_pointattn_radius_seed44/p1d_pointattn_results.txt|$LOGS/g4_p1d_seed44_*.log|bash $REPO/workflows/sbi/run_g4_p1d_seed_interactive.sh 44"
-  "F|$RUNS/g4_p1f_dgcnn_curated/p1e_dgcnn_attn_results.txt|$LOGS/g4_p1f_dgcnn_curated_*.log|bash $REPO/workflows/sbi/run_g4_p1f_dgcnn_curated_interactive.sh"
 )
 
-log "g4 wave-2 chain started on $(hostname); items: D43 D44 F"
+log "g4 wave-2 chain started on $(hostname); items: F G D43 D44"
 while true; do
   all_done=1; launched_this_pass=0
   for item in "${ITEMS[@]}"; do
