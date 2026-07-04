@@ -1,5 +1,25 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-03 — [code] G3 readout ASSESSED: connectivity axis wins; Phase B needs union×nzharm merge; G4 bar quantified
+- Verified on disk (`..._uniongraph_EVAL3749/flowjax_sbi_results_*.txt`): λ₁ 0.8041 / λ₂
+  0.8461 / λ₃ 0.8955 (mean 0.8486) vs baseline 0.7750/0.8105/0.8912 (0.8256); test NLL
+  0.8964 vs 1.1392 (~0.24 nats/galaxy sharper posteriors) — at 56% of training budget.
+- **Ladder update:** union claims +0.029 of the ~+0.085 gap between the Delaunay GraphNet
+  and the G1.5 real-space bound (0.86–0.88). Remaining headroom for EVERYTHING else
+  (equivariance, FMPE, features) ≈ 0.05–0.08. The Delaunay receptive-field scale-mismatch
+  hypothesis is now validated at production level — graph construction was the
+  first-order lever, exactly as the amended G4-PROPER reframe (§8) argues.
+- **Integration gap found:** the two data-side wins live in SEPARATE caches (nzharm =
+  Delaunay-on-harmonized; union = Delaunay∪radius on UN-harmonized). Phase B requires a
+  **union×nzharm merged cache** (union edges on harmonized points; ~20 min) — tasked.
+- G4-PROPER implications: bar formally raised to the FINAL union number; P1a
+  (radius-only) control gains importance (distinguishes radius-sufficient vs
+  union-necessary); the surviving unique payoff of Tier B is EIGENVECTORS/orientations
+  (IA science) — a capability no connectivity fix can provide, which is the honest
+  physics case for keeping the symmetry branch alive within its ~0.05 accuracy budget.
+- Held sbatch 55441429 NOT released (honoring JDPK's earlier correction) — release is
+  his call. Status figure: `docs/roadmap_status_20260703.png` (+ canonical figures dir).
+
 ### 2026-07-03 — [code] G3 interactive done@3749 (NOT trained-out); existing G4-PROPER plan AMENDED (attention required, P1a/P1b split)
 - **G3 status + PRELIMINARY EVAL (GO signal):** the interactive run (job 55442933) ended —
   4 h `salloc` wall revoked it at 13:42 local. It banked to **epoch 3749/7000** (last
