@@ -34,6 +34,8 @@ salloc --nodes=1 --gpus-per-node=1 --cpus-per-task=32 --constraint=gpu \
       --gnn-arrays '"$NPZ"' \
       --points-xyz '"$GC"'/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra120_160_dec14p5_30p6_z0p2_0p3_points_xyz.npy \
       --out-dir '"$OUT"' \
-      --minutes 200 --seed 42
+      --minutes 200 --seed 42 \
+      --hidden "16x0e+8x1o+4x2e" --layers 3 --heads 4 \
+      --edge-sample 0.5 --val-every 50
   ' 2>&1 | tee -a "$LOG"
 echo "=== G4 P1b SEGNN ($VARIANT) EXITED $(date) ==="

@@ -292,6 +292,11 @@ def main():
     ap.add_argument("--hidden", default="32x0e+16x1o+8x2e")
     ap.add_argument("--layers", type=int, default=4)
     ap.add_argument("--heads", type=int, default=4)
+    ap.add_argument("--edge-sample", type=float, default=1.0,
+                    help="fraction of edges used per TRAINING step (DropEdge-"
+                         "style stochastic message passing; val/eval always use "
+                         "the full edge set). e3nn TP throughput lever.")
+    ap.add_argument("--val-every", type=int, default=25)
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--selftest-only", action="store_true")
     args = ap.parse_args()
@@ -349,10 +354,18 @@ def main():
     budget_s = args.minutes * 60.0
     step = 0
     sched_calibrated = False
+    n_edges = src.shape[0]
+    n_keep = int(n_edges * args.edge_sample)
     while step < args.max_steps and (time.time() - t0) < budget_s:
         model.train()
         opt.zero_grad()
-        lam = model.eigenvalues(pos, los, src, dst)
+        if args.edge_sample < 1.0:
+            # DropEdge-style stochastic message passing: geometry is computed
+            # inside the model from the sampled edges; val uses full edges
+            idx = torch.randperm(n_edges, device=src.device)[:n_keep]
+            lam = model.eigenvalues(pos, los, src[idx], dst[idx])
+        else:
+            lam = model.eigenvalues(pos, los, src, dst)
         loss = ((lam[trm] - yt[trm]) ** 2).mean()
         loss.backward()
         opt.step()
@@ -366,7 +379,7 @@ def main():
                 opt, T_max=est_total, last_epoch=step)
             sched_calibrated = True
             print(f"[sched] ~{step_s:.2f}s/step -> cosine T_max={est_total}")
-        if step % 25 == 0 or step == args.max_steps - 1:
+        if step % args.val_every == 0 or step == args.max_steps - 1:
             model.eval()
             with torch.no_grad():
                 vlam = model.eigenvalues(pos, los, src, dst, use_checkpoint=False)
