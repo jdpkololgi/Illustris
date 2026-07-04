@@ -24,6 +24,10 @@ salloc --nodes=1 --gpus-per-node=1 --cpus-per-task=32 --constraint=gpu \
     unset PYTHONPATH PYTHONHOME; export PYTHONNOUSERSITE=1
     source "$(conda info --base)/etc/profile.d/conda.sh"; conda activate cosmic_env
     export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+    # the SI cache pickle contains jnp arrays -> unpickling initialises JAX,
+    # which by default PREALLOCATES ~75% of the GPU under PyTorch. Pin JAX to CPU.
+    export JAX_PLATFORMS=cpu
+    export XLA_PYTHON_CLIENT_PREALLOCATE=false XLA_PYTHON_CLIENT_ALLOCATOR=platform
     cd /global/u2/d/dkololgi/TNG/Illustris
     python -u workflows/sbi/gate_g4_p1b_segnn.py \
       --cache /pscratch/sd/d/dkololgi/abacus/sbi_caches/path1_flowjax_3d_lineareig_si/processed_jraph_data_mc1e+09_v2_scaled_3_linear_eig.pkl \
