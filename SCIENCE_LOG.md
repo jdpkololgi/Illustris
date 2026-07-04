@@ -1,5 +1,35 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-04 — [code] RUN B RESULT (P1b SEGNN×union, positions-only): λ1 0.536 — MISS on gate, but capacity-confounded; chain hardened
+- **B (SEGNN steerable+attention, union graph, positions+LOS only, 179k params, 1348
+  steps, point-estimate MSE):** test-set λ1 R² **0.536**, λ2 0.610, λ3 0.653;
+  cluster-slice λ1 Spearman **+0.35** (baseline 0.54). Clean training: train 0.234 ≈
+  val 0.218, NO overfitting (the DropEdge + attention-dropout discipline held).
+- **Verdict: clear MISS** on the P1b gate (needs λ1 ≥ 0.75 AND beats the P1a controls
+  radius 0.752 / union 0.804). **BUT heavily confounded — do NOT read as "equivariance
+  fails":** (1) this is the FAST config (179k params vs baseline ~992k; hidden halved,
+  3 layers) forced by e3nn TP throughput (~9.5 s/step even so); ~5× under-capacity.
+  (2) positions-only, so the 0.536→0.774 gap largely re-expresses the value of the
+  curated features (G1: features carry most of the recoverable signal). (3) point-
+  estimate MSE head is R²-FAVOURED vs the baseline's posterior mean, so 0.536 is if
+  anything optimistic. Net: positions-only steerable+attention at reduced capacity does
+  not reconstruct what curated cuGraph features encode — expected direction, but the
+  capacity confound must be resolved (matched-param SEGNN) before the gate is honestly
+  called or an RPP-relaxed variant is run.
+- **Clean comparisons still pending:** B−C (union vs radius WITHIN steerable, matched
+  everything else) needs C; the equivariance contrast needs the positions-only non-
+  equivariant runs D (radius) / E (dynamic). Only then does the factorial read.
+- **tmux chain hardened + restarted (login30):** the liveness check now distinguishes a
+  live run from a failed-salloc/crashed attempt (tail terminal-marker grep, not mere
+  file freshness) — was waiting 25 min on stale failed-attempt logs; now retries
+  promptly when a slot frees. Verified: on restart it correctly skipped B (results) and
+  C (live), and launched D (job 55484009). B's slot freed → D pending a node.
+- Interim conversion note (for the record): B's pooled val MSE 0.218 in globally-
+  standardised space → pooled R²(Y) 0.78 is INFLATED by between-component ordering; the
+  honest per-component decomposition predicted mean ~0.55, matching the measured
+  0.536/0.610/0.653. Global-standardised val loss is NOT comparable to the FlowJAX runs'
+  val NLL — different metric entirely.
+
 ### 2026-07-04 — [code] RUN A RESULT (P1a-i): radius-only 0.752 < union 0.804 at matched budget — COMPLEMENTARITY is the lever; unattended tmux chain armed
 - **Radius-only control @3749 epochs (posterior-mean, 128 samples, shared test split):**
   λ₁ R² **0.7519**, λ₂ 0.7989, λ₃ 0.8757, mean 0.8088; best val NLL 1.4248.

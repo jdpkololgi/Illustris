@@ -44,7 +44,14 @@ while true; do
       continue
     fi
     newest=$(ls -t $logglob 2>/dev/null | head -1 || true)
-    if [ -n "$newest" ] && [ -n "$(find "$newest" -mmin -$STALE_MIN 2>/dev/null)" ]; then
+    # "live" = newest log is fresh AND its tail shows no terminal marker. A
+    # failed salloc (QOS/error/Relinquishing) or a crash (Traceback/OOM/EXITED)
+    # is NOT live -> eligible for prompt relaunch on the next pass. A run that is
+    # merely starting up (fresh, no terminal marker yet) IS treated as live, so
+    # we never double-launch during data loading.
+    if [ -n "$newest" ] && [ -n "$(find "$newest" -mmin -$STALE_MIN 2>/dev/null)" ] \
+       && ! tail -6 "$newest" 2>/dev/null | grep -qE \
+            'salloc: error|Relinquishing|Job allocation .* revoked|EXITED|Traceback|OutOfMemory|CANCELLED'; then
       continue   # a live run is producing this item — leave it alone
     fi
     if [ "$launched_this_pass" -eq 1 ]; then continue; fi
