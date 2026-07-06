@@ -1,9 +1,9 @@
 #!/bin/bash
 # G4-PROPER wave-2 orchestrator (tmux, login-node, SSH-independent). Same
-# idempotent liveness logic as run_g4_chain.sh. Items: D seed 43, D seed 44
-# (seed variance for the headline point-attention result), F (DGCNN + curated
-# features). Runs 2 at a time under the interactive QOS cap; exits when all three
-# results exist.
+# idempotent liveness logic as run_g4_chain.sh. Items: F (DGCNN + curated
+# features), G (D-union positions-only control), and D seeds 43/44 (seed
+# variance for the headline point-attention result). Runs 2 at a time under the
+# interactive QOS cap; exits when all four results exist.
 #   tmux new-session -d -s g4_wave2 'bash ~/TNG/Illustris/workflows/sbi/run_g4_wave2_chain.sh'
 set -uo pipefail
 

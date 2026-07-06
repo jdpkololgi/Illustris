@@ -9,7 +9,9 @@
   G4 as experimental diagnostics while production stays G3 / wedge FlowJAX.
 - Next: Keep promoting or retiring G4 entries through `SCIENCE_LOG.md` and
   `workflows/sbi/README.md` as wave-2 diagnostics land.
-- Refs: `workflows/sbi/README.md`; `ACTIVE_WORKFLOWS.md`; `RUNBOOK.md`.
+- Refs: `workflows/sbi/README.md`; `ACTIVE_WORKFLOWS.md`; `RUNBOOK.md`;
+  `workflows/sbi/run_g4_wave2_chain.sh`;
+  `workflows/sbi/run_g4_p1d_pointattn_interactive.sh`.
 
 ### 2026-07-04 — [code] G4-PROPER WAVE 1 COMPLETE (A–E): point-attention wins, dynamic graph & steerable lose; wave 2 (D seeds + F) launched
 - **Full wave-1 board (all λ1/λ2/λ3, positions-only unless noted, point-estimate MSE except G3/A/baseline = NPE posterior mean):**
