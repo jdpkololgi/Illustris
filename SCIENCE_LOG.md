@@ -1,5 +1,18 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-06 — [code] Document G4 experimental SBI gates and tmux chain operations
+- What: Updated the SBI README, active workflow index, and runbook with the G4
+  diagnostic gate map (`gate_g4_egnn_smoke.py`, `gate_g4_p1b_segnn.py`,
+  `gate_g4_p1e_dgcnn_attn.py`) plus wave-1/wave-2 tmux orchestrator usage.
+- Why / decision: Recent G4 attribution scripts were source-commented and logged
+  scientifically, but not visible from the public workflow docs; docs now keep
+  G4 as experimental diagnostics while production stays G3 / wedge FlowJAX.
+- Next: Keep promoting or retiring G4 entries through `SCIENCE_LOG.md` and
+  `workflows/sbi/README.md` as wave-2 diagnostics land.
+- Refs: `workflows/sbi/README.md`; `ACTIVE_WORKFLOWS.md`; `RUNBOOK.md`;
+  `workflows/sbi/run_g4_wave2_chain.sh`;
+  `workflows/sbi/run_g4_p1d_pointattn_interactive.sh`.
+
 ### 2026-07-04 — [code] G4-PROPER WAVE 1 COMPLETE (A–E): point-attention wins, dynamic graph & steerable lose; wave 2 (D seeds + F) launched
 - **Full wave-1 board (all λ1/λ2/λ3, positions-only unless noted, point-estimate MSE except G3/A/baseline = NPE posterior mean):**
   - baseline GraphNet+NPE, Delaunay, curated: **0.775** / 0.811 / 0.891

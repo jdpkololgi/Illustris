@@ -2,10 +2,11 @@
 # G4-PROPER P1a-ii (run D) — point-cloud control: non-equivariant attention MPNN,
 # positions + LOS-derived scalars ONLY, neighbourhoods built at LOAD TIME from the
 # point distribution (cKDTree radius = 14.78 Mpc; no prebuilt graph artifact).
-# Point-Transformer-class in the sense that matters: learned attention over local
-# point neighbourhoods with no hand-crafted features. Fills the
-# (positions-only, non-equivariant) cell: D vs A isolates curated features vs raw
-# geometry; C vs D isolates equivariance at matched inputs+graph.
+# Learned attention over local point neighbourhoods with no hand-crafted
+# features. This is a point-attention control, not a distinct Point Transformer
+# claim. Fills the (positions-only, non-equivariant) cell: D vs A isolates
+# curated features vs raw geometry; C vs D isolates equivariance at matched
+# inputs+graph.
 set -euo pipefail
 
 OUT=/pscratch/sd/d/dkololgi/abacus/sbi_runs/g4_p1d_pointattn_radius

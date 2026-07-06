@@ -18,6 +18,29 @@ galaxy graph observables.
 | Tensor sharding prototype | `prototype_tensor_sharding_fullgraph.py` | Experimental full-graph sharding prototype. |
 | Two-stage prototype | `experimental/jraph_sbi_two_stage.py` | Optional experimental path, not the primary Abacus run. |
 
+## Experimental G4 Gate Scripts
+
+The G4 scripts are research diagnostics for the Abacus wedge SBI program, not
+production trainers. They test whether raw geometry, graph construction, dynamic
+candidate selection, or equivariance explains the current T-Web eigenvalue
+performance. The durable scientific plan is `docs/plan_g4_proper_equivariant_tensor.md`;
+the chronological run record is `SCIENCE_LOG.md`.
+
+| Gate / runner | Entrypoint | Purpose |
+| --- | --- | --- |
+| G4-SMOKE / P1a controls | `gate_g4_egnn_smoke.py` | Non-equivariant geometric message passing. With `--positions-only --build-radius-mpc 14.78`, this is run D: a point-attention, positions-only radius-graph control. With `--gnn-arrays`, it can also consume prebuilt edge sets such as the union graph. |
+| P1b steerable tensor test | `gate_g4_p1b_segnn.py` | SEGNN-style e3nn model with invariant-logit attention and an internal `1x0e+1x2e` symmetric-tensor head. Tier-A supervision is still on the existing sorted eigenvalues; tensor targets/eigenvectors remain a gated Tier-B idea. |
+| P1a-iii dynamic graph | `gate_g4_p1e_dgcnn_attn.py` | Attentional DGCNN that recomputes kNN in learned feature space. `--curated-features` gives run F; `--knn-radius-cap` constrains learned candidate selection to a physical envelope for capped follow-up ablations. |
+| Wave-1 tmux chain | `run_g4_chain.sh` | Login-node tmux orchestrator for B/C/D/E. It is idempotent by result-file existence and fresh-log liveness checks. |
+| Wave-2 tmux chain | `run_g4_wave2_chain.sh` | Login-node tmux orchestrator currently prioritising F/G before D seed replicates. It runs at most one new launcher per pass under the interactive QOS constraints. |
+
+Current interpretation, as of the 2026-07-04 science log: production remains the
+G3 GraphNet+NPE union-graph path. G4 scripts are for attribution and diagnostics:
+union connectivity appears to act as a discrete support for the nonlocal tidal
+operator, while uncapped feature-space dynamic graphs hurt the positions-only
+control in the first wave. Do not treat the G4 runners as a replacement for
+`jraph_sbi_flowjax.py` unless a later science-log entry promotes them.
+
 ## Current Abacus Wedge Inputs
 
 Build wedge caches in `workflows/abacus_tweb/`:

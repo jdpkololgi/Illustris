@@ -62,6 +62,11 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
 - `workflows/sbi/experimental/jraph_sbi_two_stage.py`
 - `workflows/sbi/submit_sbi_overfit_tiny.slurm`
 - `workflows/sbi/benchmark_partition_data_parallel.py`
+- `workflows/sbi/gate_g4_egnn_smoke.py`
+- `workflows/sbi/gate_g4_p1b_segnn.py`
+- `workflows/sbi/gate_g4_p1e_dgcnn_attn.py`
+- `workflows/sbi/run_g4_chain.sh`
+- `workflows/sbi/run_g4_wave2_chain.sh`
 - `workflows/jraph/experimental/reproduce_error.py`
 - `workflows/jraph/debug_eig_order.py`
 - `workflows/gcn_paper/experimental/Illustris_cactus.py`
@@ -97,3 +102,6 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
 - Root-level compatibility shims exist for some historical imports and scripts,
   but new runs and docs should use canonical `workflows/...` and `shared/...`
   paths.
+- G4 gate scripts under `workflows/sbi/` are experimental diagnostics for the
+  Abacus wedge science program. The production Abacus SBI path remains the
+  wedge-cache FlowJAX trainer unless `SCIENCE_LOG.md` records a later promotion.
