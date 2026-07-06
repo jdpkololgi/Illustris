@@ -267,6 +267,44 @@ python workflows/sbi/benchmark_partition_data_parallel.py --help
 tiny-overfit diagnostics, and the legacy learning diagnostics that motivated the
 wedge path.
 
+## G4 Experimental SBI Gates
+
+The G4 scripts in `workflows/sbi/` are attribution runs for the Abacus wedge
+program. They compare radius, union, dynamic feature-space, positions-only, and
+steerable/equivariant constructions against the current G3 union-graph anchor.
+They are not production replacements for `jraph_sbi_flowjax.py`.
+
+Run these only on Perlmutter with the same data products and scratch layout used
+by the Abacus wedge experiments. The interactive launchers request one A100 and
+activate `cosmic_env`; they also pin JAX to CPU because unpickling the cache can
+otherwise preallocate GPU memory before PyTorch starts:
+
+```bash
+export JAX_PLATFORMS=cpu
+export XLA_PYTHON_CLIENT_PREALLOCATE=false
+export XLA_PYTHON_CLIENT_ALLOCATOR=platform
+```
+
+For unattended interactive waves, start the orchestrator in tmux on a login node:
+
+```bash
+tmux new-session -d -s g4_wave2 'bash ~/TNG/Illustris/workflows/sbi/run_g4_wave2_chain.sh'
+tmux attach -t g4_wave2
+```
+
+Operational constraints:
+
+- `run_g4_chain.sh` covers the wave-1 B/C/D/E diagnostics; `run_g4_wave2_chain.sh`
+  covers the wave-2 F/G and D-seed replicate diagnostics.
+- The chains are idempotent by result-file existence and fresh-log liveness. A
+  fresh log without a terminal marker is treated as live to avoid double-launching
+  during slow data loading.
+- Fast `salloc` failures are treated as interactive-QOS slot pressure and are
+  retried on the next pass; repeated slow failures are capped per item.
+- See `workflows/sbi/README.md` for the gate-to-script map and
+  `docs/plan_g4_proper_equivariant_tensor.md` for the scientific attribution
+  algebra.
+
 ## Jraph Regression And Classification
 
 Batch launch:
