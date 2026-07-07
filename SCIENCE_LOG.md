@@ -358,7 +358,7 @@ Entry shape:
 
 ## Log (newest first)
 
-### 2026-07-07 — [code] DESI DR3 KP (Cosmic Web & Galaxy Environment) 4-min talk: script v1 written, figures all existing
+### 2026-07-07 — [code] DESI DR3 KP (Cosmic Web & Galaxy Environment) 4-min talk: script v2 written, figures all existing
 - What: Slide-by-slide script for the 4+2 min DR3 KP parallel-session talk written to
   `GraphWeb_DESI/docs/desi_dr3_cwge_4min_talk_script.md` (5 slides: title/map →
   why-posteriors → mock-trained+calibrated (class-fractions hero) →
@@ -372,6 +372,13 @@ Entry shape:
 - Refs: figures under `/pscratch/.../graphweb_desi/figures/{desi2026_spotlight,
   desi_wedge_flowjax_linear_si,desi_wedge_flowjax_linear_si_closure}/`; numbers
   reconciled to 2026-06-21/22 closure + calibration entries.
+- v2 (same day): session schedule received — talk 5 of 7, fixed title "Learning
+  the cosmic web: dynamical environment value added catalogues for DESI BGS",
+  after ASTRA VAC / DisPerSE / MTV-reconstruction / void-science talks, NO
+  per-talk Q&A (10-min consolidated + 40-min discussion). Script updated: zero
+  web setup, positioning-vs-other-VACs framing, bridge lines to Li (MTV) and
+  Rincon (voids), discussion seeds (common validation wedge; closure test as
+  shared truth-free VAC metric; uncertainty propagation as KP standard).
 
 ### 2026-07-03 — [code] NAMING CORRECTION: the two "G4" runs are G4-SMOKE, not G4 (JDPK)
 - The 2026-07-03 runs titled "G4 smoke" and "G4 part 2 (attention)" are hereby renamed
