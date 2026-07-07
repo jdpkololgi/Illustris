@@ -1,5 +1,44 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-07 — [science] Multimodal/field-level direction: "we might be throwing too much information away" + the classical floor that motivates it
+- **The idea (JDPK):** simulations give us complete 3-D density/tidal/eigenvalue FIELDS,
+  and the pipeline reduces them to 3 numbers per galaxy before any model sees them.
+  Proposals discussed: (1) train-time 3-D CNN on the sim fields latent-regularising the
+  GraphNet (absent at inference); (2) semi-/self-supervised sim+real joint training;
+  (3) tensor-valued outputs via a more physical model.
+- **Information accounting (the discipline):** at DESI inference the input is the sparse
+  redshift-space catalog, full stop — a train-only modality cannot raise the mutual
+  information, only regularise (idea 1 = Vapnik LUPI / generalized distillation; cheap
+  ablation, modest expected gain). Idea 2 is risky: latent alignment can HIDE sim→real
+  shift and silently bias NPE posteriors → truth-known sim↔sim control required first.
+- **The reframe that stuck: flip the field from INPUT to OUTPUT.** Graph → decoded δ̂
+  grid → **fixed differentiable FFT physics layer** T̂ij(k)=(ki kj/k²)W₇(k)δ̂(k) →
+  eigenvalues at galaxies. Nothing about the density→tidal map is learned — it is
+  hard-coded mathematics; gradients flow through eigvalsh+FFTs into δ̂. Eigenvalues
+  "fall out from the physics"; symmetry/trace/rotational consistency guaranteed;
+  eigenVECTORS (→ IA science) come free WITHOUT e3nn irreps or the Tier-B tensor
+  rotation crux (scalar field needs only the affine map). Composes with, does not
+  compete against, the G4 nonlocal-operator story (same 1/k² kernel).
+- **T1 classical-reconstruction baseline RUN (the "first move"):** textbook density
+  estimation + the exact tidal solve, same estimand + test split as the GraphNet.
+  Best classical (DTFE): **λ1/λ2/λ3 R²(cal) = 0.552 / 0.641 / 0.663** vs GraphNet+NPE
+  0.775/0.811/0.891 (CIC 0.546, Wiener≈CIC, extra smoothing hurts; interior-only λ1
+  0.60). **⇒ The GraphNet's +0.22/+0.17/+0.23 margin over linear reconstruction is
+  genuine learning** (RSD + bias + nonlinearity) — architecture work is chasing real
+  signal, and the biggest margin is on λ3 (collapse axis / clusters).
+- **Physics-layer validation banked:** the same FFT solve reproduces the stored cactus
+  eigenvalues voxelwise on a 512³ subbox of the 10% particle grid at
+  **R² = 0.992/0.995/0.997** — the F-tier physics layer AND the G4 Tier-B validation
+  anchor are both de-risked in one shot.
+- **Plans updated:** new canonical doc `docs/plan_field_level_multimodal.md` (test list
+  T1–T5 + F-tier phases); `plan_g4_proper_equivariant_tensor.md` (classical floor row,
+  Tier-B amendment, §10 companion pointer); `roadmap_environmental_vac.md` (G5
+  concretized→T2, NEW gates G7 field-decoder + G8 LUPI distillation, T5 prerequisite on
+  the JEPA branch, G7 columns in the release spec).
+- Refs: `workflows/abacus_tweb/classical_tidal_baseline.py`;
+  `/pscratch/sd/d/dkololgi/abacus/classical_baseline/` (scores + per-estimator
+  predictions + solver validation JSONs).
+
 ### 2026-07-04 — [code] G4-PROPER WAVE 1 COMPLETE (A–E): point-attention wins, dynamic graph & steerable lose; wave 2 (D seeds + F) launched
 - **Full wave-1 board (all λ1/λ2/λ3, positions-only unless noted, point-estimate MSE except G3/A/baseline = NPE posterior mean):**
   - baseline GraphNet+NPE, Delaunay, curated: **0.775** / 0.811 / 0.891

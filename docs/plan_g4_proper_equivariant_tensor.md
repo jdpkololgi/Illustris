@@ -34,6 +34,14 @@ features, §5A). Deferred diagnostics: environment-sliced eval, connectivity-res
 edge-type attention attribution. NOT queued: heavy Equiformer/MACE, matched-capacity SEGNN,
 Tier B — all gated on the wave-2 + diagnostic readout.
 
+**CLASSICAL FLOOR (2026-07-07, T1 of `plan_field_level_multimodal.md`):** textbook
+density reconstruction (best: DTFE) + the exact FFT tidal solve, same estimand/test
+split, train-calibrated: λ1/λ2/λ3 R² = **0.552 / 0.641 / 0.663**. Every row in the
+table above should be read against this floor, not just against 0.775: the baseline
+GraphNet's margin over LINEAR reconstruction is +0.22/+0.17/+0.23 — the learned
+headroom is real, and even the "failed" SEGNN runs (0.42–0.54) sit at/below what a
+non-learned method achieves. Add the classical row to all future result tables.
+
 ## 0. Scope discipline (what G4-SMOKE did NOT test)
 
 G4-SMOKE held the **prebuilt Delaunay graph** and the **curated 7 node features** fixed
@@ -68,6 +76,17 @@ Only if Tier A validates the architecture AND we want real-space tidal ORIENTATI
 additions in §3, plus the frame rotation in §4.
 
 Decision rule: run Tier A → if it clears the bar, then (and only then) scope Tier B.
+
+**2026-07-07 amendment — Tier B is no longer the only route to eigenvectors.** The
+graph→field→Poisson F-tier (`plan_field_level_multimodal.md` §3) obtains the full
+tensor + eigenvectors from a fixed differentiable FFT physics layer applied to a
+*predicted scalar density field* — no tensor targets, no e3nn irreps, and no §4
+box→observer tensor rotation (a scalar field needs only the already-fit affine map).
+Tier B survives as the *comparison* arm (direct tensor supervision vs physics-layer
+derivation) if F1 fires; do not start §3–4 tweb work for its own sake before the F1
+readout. Bonus already banked: the F-tier/T1 solver validation (voxelwise R² ≥ 0.992
+vs stored cactus `eig_vals` on a 512³ subbox) IS the §3 "validation anchor" — the
+standalone FFT tensor code exists in `workflows/abacus_tweb/classical_tidal_baseline.py`.
 
 ## 2. Baseline data reality (verified this session)
 
@@ -325,3 +344,13 @@ control, not just the Delaunay baseline. Within the equivariant pool the order i
 Phase B production bundle proceeds independently on the GraphNet + nzharm cache + union
 graph (G3) + FMPE (G6) + luminosity (G2). G4-PROPER is an exploratory branch that can
 only ADD to Phase B if it clears P1/P2 — it never blocks it.
+
+## 10. Companion plan (output axis / multimodal)
+
+G4-PROPER owns the **input-representation** axis (graph construction, features,
+equivariance). The **output/target-representation and multimodal** axis — classical
+floor (T1), CNN-on-counts control (T2), privileged-information distillation (T3),
+graph→field→Poisson (T4/F-tier), sim↔sim alignment control (T5) — lives in
+`plan_field_level_multimodal.md` (2026-07-07). The two compose: the F-tier reuses
+whatever encoder wins the G4 bake-off, and a P1b equivariance failure does not block
+the F-tier (scalar field target, no irreps).
