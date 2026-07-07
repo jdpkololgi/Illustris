@@ -358,6 +358,21 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-07 — [code] DESI DR3 KP (Cosmic Web & Galaxy Environment) 4-min talk: script v1 written, figures all existing
+- What: Slide-by-slide script for the 4+2 min DR3 KP parallel-session talk written to
+  `GraphWeb_DESI/docs/desi_dr3_cwge_4min_talk_script.md` (5 slides: title/map →
+  why-posteriors → mock-trained+calibrated (class-fractions hero) →
+  spotlight_cartography_closure composite hero → mass-control + take-home/VAC;
+  + 8-item Q&A prep incl. fibre incompleteness, RSD, classical DTFE floor
+  0.55/0.64/0.66 vs GNN 0.78/0.81/0.89, closure-circularity).
+- Decision: NO new figures needed — the 2026-07-06 `desi2026_spotlight` set
+  (esp. `spotlight_cartography_closure.png`) + SI-run + closure figures cover all
+  slides; environment-fluent audience ⇒ closure/mass-control promoted to payload,
+  SBI machinery compressed to one slide, calibration figures to backup.
+- Refs: figures under `/pscratch/.../graphweb_desi/figures/{desi2026_spotlight,
+  desi_wedge_flowjax_linear_si,desi_wedge_flowjax_linear_si_closure}/`; numbers
+  reconciled to 2026-06-21/22 closure + calibration entries.
+
 ### 2026-07-03 — [code] NAMING CORRECTION: the two "G4" runs are G4-SMOKE, not G4 (JDPK)
 - The 2026-07-03 runs titled "G4 smoke" and "G4 part 2 (attention)" are hereby renamed
   **G4-SMOKE (graph+features held FIXED)**. They held the prebuilt Delaunay edge set AND
