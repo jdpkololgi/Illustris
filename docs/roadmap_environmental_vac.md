@@ -80,6 +80,18 @@ G3+G4 both disappoint.
 
 ## 4. Track 3 — Production (sequential; starts when gates close)
 
+**FIELD-LEVEL UPDATE (2026-07-08) — production encoder question reopened, favourably.**
+Per `plan_field_level_multimodal.md` §7–9: the **F-tier (G7) graph→field→Poisson beat G3**
+on accuracy (λ1 0.841 vs 0.804; T2 CNN-on-counts 0.876), so Phase-B **B** should evaluate
+the F-tier as the production encoder/output (graph encoder → decoded δ̂ → fixed FFT physics
+→ eigenvalues), with the flow head retained for calibration (the F1-calibration gate
+decides). Equivariance (old G4) is deprioritised — do NOT block B on it. **UNCHANGED and
+NOT threatened by the T2 CNN result:** the calibrated-NPE core, TARP/SBC, the TARGETID VAC,
+closure tests, DESIVAST, and the published RASTI classification — a point-estimate R² on one
+dense (~2.4× DESI) wedge does not touch any of these. The sparse survey-scale regime (voids,
+n(z) range) is where a grid degrades and the graph/point-cloud encoder most plausibly wins —
+an argument FOR the graph encoder at production scale. See field-level §9.3.
+
 - **B** ONE bundled retrain: all GO winners (G2/G3/G4/G6 as applicable) + multi-scale
   aperture-density features (proven +0.08 λ1 R²) + softplus increments (best-calibrated)
   + A3-harmonized mocks. No incremental retrains.

@@ -469,8 +469,13 @@ def main():
         return
 
     # ---- patches (cached) ----
-    dev = "cuda" if torch.cuda.is_available() else "cpu"
-    print(f"device: {dev}")
+    # Fail-fast on GPU: an intermittent srun gres-binding miss once let this
+    # silently CPU-train for ~1.5 h. Force cuda and assert rather than fall back.
+    dev = "cuda"
+    assert torch.cuda.is_available(), (
+        "gate_t3 requires CUDA but torch.cuda.is_available() is False — "
+        "GPU not bound to this step; abort instead of CPU-crawling.")
+    print(f"device: {dev}  (torch.cuda.is_available()={torch.cuda.is_available()})")
     patch_path = args.out_dir / f"patches_P{args.patch}.npy"
     if patch_path.exists():
         patches = np.load(patch_path)

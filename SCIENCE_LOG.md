@@ -1,6 +1,35 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
-### 2026-07-08 — [code] Field-level tests run: T2 CNN-on-counts + T4/F1 graph→field→Poisson both beat every graph baseline; T3 re-running
+### 2026-07-08 — [science] Where the field-level results leave the three plans (and: the graph PhD work is NOT shown useless)
+- **The honest worry** (JDPK): "has a dumb CNN beating my GraphNet shown 2.5 yr of graph
+  work useless?" **No — and precisely why is worth stating.** Full argument in
+  `plan_field_level_multimodal.md` §9; summary here.
+- **Result in one line:** the field-level program is VALIDATED and the graph is VINDICATED
+  as an encoder; what changed is the FRAMING of the architectural lever — it's representation
+  *scale* + a physics-grounded *output*, not attention and not equivariance. The
+  SBI/calibration/VAC core and the published RASTI classification are untouched.
+- **Why "CNN beats graph" is not the finding:** (1) **T4/F1 is the rebuttal** — a GRAPH
+  encoder + field/physics decoder = 0.841, above every graph baseline (0.775/0.804), near
+  the CNN (0.876), with mean-agg and NO attention. The winning net IS a graph net. (2) A
+  **CNN is a GNN on a lattice**, so T2 = "fixed-scale sampling > Delaunay receptive field" —
+  a graph-CONSTRUCTION result (your G4 thesis; you'd already seen G3 union 0.804 > Delaunay
+  0.775). (3) The comparison is **confounded/unfinished**: MSE head vs NPE posterior-mean;
+  the matched *production*-GraphNet-MSE control is still TODO (the 0.704 is a weak EGNN-lite
+  smoke); raw wedge is ~2.4× DESI density (easiest for a grid). (4) The **metric isn't the
+  thesis** — the VAC deliverable is calibrated posteriors (SBI/NPE, TARGETID VAC, closure,
+  DESIVAST), which a point-estimate R² doesn't touch. (5) All on **one dense wedge**; the
+  sparse survey-scale regime (voids, n(z)) is where grids degrade and graphs win — untested.
+- **Per-plan status:** MULTIMODAL — central hypothesis CONFIRMED (F-tier passed accuracy
+  gate); next = F1-calibration (flow head) → F2 → F4. G4-PROPER — equivariance DEPRIORITISED
+  (its own P1a≥0.80 gate fired 3×); shelve SEGNN/Equiformer P1b + Tier B; F-tier supersedes
+  Tier B for eigenvectors; attention demoted to second-order. ROADMAP→VAC — evaluate the
+  F-tier (G7) as the production encoder in Phase-B (it beat G3); SBI core unchanged.
+- **Thesis framing matures** from "graphs are the architecture" to "the graph is an
+  excellent encoder for a physics-grounded field inference, and here is why" — a stronger,
+  more defensible contribution (you built the dataset, the calibrated-NPE apparatus, the DESI
+  application, AND the understanding that led to the F-tier that beats everything).
+
+### 2026-07-08 — [code] Field-level tests run: T2 CNN-on-counts + T4/F1 graph→field→Poisson both beat every graph baseline; T3 shelved
 - **T4/F1 (the centerpiece) PASSES its accuracy gate:** graph encoder (EGNNlite,
   mean-agg, NO attention) → differentiable CIC scatter → 3-D U-Net → δ̂ → fixed
   FFT physics layer → analytic 3×3 eigensolver → eigenvalues. **λ1/λ2/λ3 =

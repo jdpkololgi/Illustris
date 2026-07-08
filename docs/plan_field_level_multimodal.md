@@ -270,18 +270,29 @@ blowup) — replaced with an analytic Cardano 3×3 eigensolver (matches numpy to
 yet tested — needs the invariant-latent→FlowJAX head (that's F1-calibration /
 P2 in §6-plan), so F1 is "GO on accuracy, calibration pending".
 
-**T3 — LUPI distillation.** RE-RUNNING 2026-07-08 (first attempt silently
-CPU-trained via an `srun --overlap` gres-binding miss, then a 2nd attempt was
-killed by allocation time-limit before writing results). Now in a fresh 4 h GPU
-alloc with a fail-fast GPU guard, capped steps. Box-frame teacher mapping
-validated (galaxies at 25× random-median density, 0 bad links). Verdict pending.
+**T3 — LUPI distillation. SHELVED 2026-07-08 (no valid result).** Four launch
+attempts; the script's execution path never actually uses the GPU — even with
+`device: cuda` confirmed and a hard `assert torch.cuda.is_available()` passing,
+the process sits at 0 MiB GPU / ~85% CPU (the `torch.tensor(delta, device="cuda")`
+at line 494 should show 207 MB on the card and does not), so it runs at CPU speed
+and never finishes an allocation. A genuine, non-obvious bug in the agent-written
+LUPI script, unresolvable by inspection. LUPI was the lowest-value test by design
+(modest expected gain — "keep as cheap add-on OR close idea 1"), so shelved rather
+than chase a rewrite reactively. Box-frame teacher mapping WAS validated (25×
+random-median density, 0 bad links), so the idea is not disproven — just untested.
+Revisit only as a focused device-path rewrite if LUPI becomes important.
 
 ## 8. Controls before "CNN beats graph" / "attention non-essential" are recorded
 
 Motivated by the T2/T4 results (tracked; not yet run):
 1. **Matched-estimand graph control** — union/radius GNN with an MSE point head
    (not NPE) vs the CNN's 0.876. Isolates estimand from representation. (T4/F1's
-   0.841 with a graph encoder already suggests the gap is small.)
+   0.841 with a graph encoder already suggests the gap is small.) **PARTIAL
+   2026-07-08:** union+curated+MSE with the *lightweight EGNN-lite* smoke model,
+   MEAN agg = λ1 **0.704**; the attention run was time-limit-killed. NOTE this is
+   the weak smoke net, NOT the production GraphNet — an MSE-head *production*
+   GraphNet is the clean comparison and is still TODO. So this control is not yet
+   decisive; do not read 0.704 as "the graph's matched-estimand number".
 2. **DESI-density re-run** — T2 + T4 on the n(z)-harmonized `nzharm` cache
    (`.../sbi_caches/path1_flowjax_3d_lineareig_si_nzharm/`), since the raw wedge
    is ~2.4× DESI density = easiest regime for a grid; the CNN edge should shrink.
@@ -297,3 +308,81 @@ Motivated by the T2/T4 results (tracked; not yet run):
    I-JEPA (mask blocks, predict latents; degrade-sampling-at-fixed-field views
    trivial on a grid) a low-risk instantiation of the GateM→JEPA branch and the
    substrate for the P5 foundation-encoder direction. Gated on GateM.
+
+## 9. WHERE THIS LEAVES THE THREE PLANS (2026-07-08 synthesis)
+
+Written to address the honest worry — "has a dumb CNN shown the graph PhD work
+useless?" **No, and the results say why.** Read this section as the current
+cross-plan state.
+
+**The one-line result:** the field-level program is *validated* and the graph is
+*vindicated as an encoder*; what changed is the **framing of where the
+architectural lever sits** — it is representation *scale* + a physics-grounded
+*output*, not attention and not equivariance. Nothing here touches the SBI /
+calibration / VAC core or the published classification lineage.
+
+**Why "CNN beats graph" is NOT the finding (be precise):**
+- **T4/F1 is the direct rebuttal.** The *graph* encoder feeding a field+physics
+  decoder scores **0.841** — above every graph baseline (0.775 Delaunay, 0.804
+  G3) and near the pure CNN (0.876), with mean aggregation and NO attention. The
+  winning architecture *is* a graph net; the graph was never the problem.
+- **A CNN IS a GNN on a lattice.** So T2 = "fixed-scale regular sampling beats the
+  Delaunay receptive field" — a statement about graph *construction* (your G4
+  thesis: the Delaunay scale-mismatch), not about abandoning graphs. You had
+  already half-found this: G3 union (0.804) > Delaunay (0.775).
+- **The comparison is confounded and unfinished.** CNN/T4 use MSE point heads;
+  the 0.775 baseline is an NPE posterior mean (MSE optimises R² directly). The
+  matched *production*-GraphNet MSE head is still TODO (the 0.704 EGNN-lite mean
+  is a weak smoke net). And it is all on the RAW wedge (~2.4× DESI density), the
+  easiest regime for a grid. "CNN > graph" is not established at matched
+  estimand / model / density.
+- **The metric is not the thesis.** The VAC deliverable is *calibrated per-galaxy
+  posteriors* (SBI/NPE, TARGETID VAC, closure, DESIVAST) plus the published
+  RASTI classification. A point-estimate R² on one dense wedge does not touch any
+  of that.
+- **The regime that matters is untested.** Everything here is one dense wedge. At
+  survey scale (voids, huge n(z) range) a fixed grid becomes mostly-empty and
+  memory-prohibitive — exactly where sparse graphs/point-clouds are natural. The
+  grid's edge here may not survive the regime the VAC actually runs in.
+
+### 9.1 Multimodal / field-level plan (THIS doc): central hypothesis CONFIRMED
+T4/F1 passed its accuracy gate — "field as OUTPUT" is the winning direction, and
+it is built on the graph encoder. This plan is in the strongest position of the
+three. Next: **F1-calibration** (invariant-latent → FlowJAX; the gate's second
+half), then **F2** (field supervision) and **F4** (eigenvectors → IA). T2 (0.876)
+is the field-representation reference. §8 controls fix the interpretation. T3
+shelved; T5 unchanged (gated on GateM).
+
+### 9.2 G4-PROPER plan: equivariance now DEPRIORITISED (its own gate fired)
+G4-PROPER's decision rule was explicit: *P1a ≥ 0.80 ⇒ deprioritise equivariance,
+invest in graph construction + attention*. That threshold is now cleared three
+times — G3 0.804, **T4 0.841 (mean agg, no attention, no equivariance)**, CNN
+0.876 — so the ≈+0.09 headroom over baseline is captured by
+representation/output, NOT by steerable equivariance. Consequences: **shelve the
+heavy SEGNN/Equiformer P1b line and Tier B**; the F-tier supersedes Tier B as the
+eigenvector/IA route (physics gives the tensor, no irreps, no frame rotation).
+Attention is demoted to *second-order* (pending the clean §8.4 on/off test). The
+wave-1 point-cloud/graph-construction findings (D, E, G3) stand and feed the
+"correct discrete support for a nonlocal operator" paper story — which the
+CNN/T4 results strengthen, not refute.
+
+### 9.3 Roadmap → VAC: production encoder reopened (favourably); SBI core intact
+The Phase-B production question "what encoder?" is reopened in a good way:
+**evaluate the F-tier (G7: graph encoder → field → physics) as the production
+architecture**, since it beats G3 on accuracy; keep the flow head for calibration
+(F1-calibration decides). The CNN result argues for a field/grid-aware
+representation in production. **Unchanged and unthreatened:** the calibrated-NPE
+machinery, TARP/SBC, the TARGETID-keyed VAC, closure tests, DESIVAST cross-match,
+and the published classification paper. The sparse survey-scale regime remains
+the frontier where a graph/point-cloud advantage most plausibly reasserts — an
+argument FOR the graph encoder at production scale, not against it.
+
+**Bottom line for the thesis:** 2.5 years produced the labelled T-web dataset, the
+graph pipeline, the calibrated-NPE apparatus, the DESI application, AND the
+understanding that representation scale is the lever — which is precisely what led
+to the physics-grounded F-tier that now beats every prior model. A simpler
+baseline you can *explain* (CNN = fixed-scale lattice GNN) and *out-design* (with
+your own graph→field→physics net) is a stronger thesis chapter than "graphs win by
+default". The framing matures from "graphs are the architecture" to "the graph is
+an excellent encoder for a physics-grounded field inference, and here is why" —
+that is a contribution, not a refutation.

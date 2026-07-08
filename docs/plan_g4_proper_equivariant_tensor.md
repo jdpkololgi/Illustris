@@ -42,6 +42,22 @@ GraphNet's margin over LINEAR reconstruction is +0.22/+0.17/+0.23 — the learne
 headroom is real, and even the "failed" SEGNN runs (0.42–0.54) sit at/below what a
 non-learned method achieves. Add the classical row to all future result tables.
 
+**FIELD-LEVEL UPDATE (2026-07-08) — this plan's equivariance line is now DEPRIORITISED.**
+Results from `plan_field_level_multimodal.md` §7–9: T2 CNN-on-counts λ1 **0.876±.004**
+(3 seeds) and **T4/F1 graph→field→Poisson λ1 0.841 with MEAN aggregation, no attention,
+no equivariance** — both clearing G3's 0.804. This plan's own gate rule
+(*P1a ≥ 0.80 ⇒ deprioritise equivariance, invest in construction+attention*) is now
+triggered three times over, so the ≈+0.09 headroom is captured by **representation scale
++ physics-grounded output**, NOT steerable equivariance. Actions: (i) **shelve the heavy
+SEGNN/Equiformer P1b line and Tier B** — the F-tier gives eigenvectors/IA from physics
+with no irreps and no §4 frame rotation, superseding Tier B; (ii) **attention is demoted
+to second-order** pending the clean on/off test inside the F-tier (field-level §8.4);
+(iii) the wave-1 construction findings (D≈A point-cloud, E dynamic-hurts, G3 union>Delaunay)
+STAND and strengthen the "correct discrete support for a nonlocal operator" paper story —
+the CNN=lattice-GNN result is another datapoint that fixed-scale support is the lever. This
+plan stays open only as the graph-CONSTRUCTION/attention record; the tensor/equivariance
+ambition migrates to the F-tier. See field-level §9.2.
+
 ## 0. Scope discipline (what G4-SMOKE did NOT test)
 
 G4-SMOKE held the **prebuilt Delaunay graph** and the **curated 7 node features** fixed
