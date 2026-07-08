@@ -166,9 +166,9 @@ Ordered; each gated; costs assume Perlmutter interactive.
 | # | Test | What it isolates | Cost | Gate / decision |
 |---|---|---|---|---|
 | **T1** | Classical ceiling (§2) — CIC/Gauss/DTFE/Wiener + exact tidal solve | information already in linear reconstruction | ½ d CPU (DONE) | per §2 decision rules; floor for all tables |
-| **T2** | CNN-on-counts control: 3-D U-Net on voxelized wedge counts (+mask channel) → eigenvalues at galaxies, same splits | does GRAPH structure add anything over a dumb voxel view? (G5 concretized) | 2–3 d, 1 GPU | CNN ≈ GraphNet ⇒ graph story needs rewriting; CNN ≪ ⇒ sparse-tracer geometry matters |
-| **T3** | LUPI distillation: 3-D CNN teacher on sim δ/T patches (box-frame, sampled at halo x_com per memory gotcha), auxiliary cosine/L2 latent loss on GraphNet node embeddings, α-weighted; teacher absent at eval | privileged fields as regularizer | 2–3 d, 1 GPU (bolt-on to jraph stack) | ΔR²(λ1) > seed noise (≥3 seeds) ⇒ keep as cheap add-on; else close idea 1 |
-| **T4 = F1** | Graph→field→Poisson, eigenvalue-supervised only (§3.3 minus L_field) | output representation axis | ~1 wk, 1 GPU | λ1 R² ≥ G3 (0.804) AND calibration ≥ current flow ⇒ GO F2; else field-as-output shelved with negative result |
+| **T2** *(DONE §7)* | CNN-on-counts control: 3-D U-Net on voxelized wedge counts (+mask channel) → eigenvalues at galaxies, same splits | does GRAPH structure add anything over a dumb voxel view? (G5 concretized) | 2–3 d, 1 GPU | **RESULT: λ1 0.876±.004 > GraphNet 0.775; 4-class acc 0.882. Reads as "fixed-scale > Delaunay", not "CNN > graphs" — controls in §8** |
+| **T3** *(RE-RUNNING §7)* | LUPI distillation: 3-D CNN teacher on sim δ/T patches (box-frame, sampled at halo x_com per memory gotcha), auxiliary cosine/L2 latent loss on GraphNet node embeddings, α-weighted; teacher absent at eval | privileged fields as regularizer | 2–3 d, 1 GPU (bolt-on to jraph stack) | ΔR²(λ1) > seed noise (≥3 seeds) ⇒ keep as cheap add-on; else close idea 1 |
+| **T4 = F1** *(DONE-accuracy §7)* | Graph→field→Poisson, eigenvalue-supervised only (§3.3 minus L_field) | output representation axis | ~1 wk, 1 GPU | **RESULT: λ1 0.841 ≥ G3 0.804 → GATE PASSED on accuracy (graph encoder, no attention); calibration half pending the flow head** |
 | **F2** | + L_field on true δ via affine map (scalar, no tensor rotation) | does field supervision beat eigenvalue-only? | +2–3 d | field loss must improve λ R² or eigenvector stability, else drop |
 | **F3** | Generative δ̂ (flow/diffusion decoder head) for field-space uncertainty | posterior fields | ~2 wk, gated on F2 | TARP-style coverage in eigenvalue space ≥ NPE baseline |
 | **F4** | Eigenvector science eval: predicted vs truth tidal eigenvectors (needs truth tensor grid from `tidal_tensor_fullgrid.py` — the T1 validate-solver code is 80% of it) | IA-readiness | few d CPU + eval | median misalignment angle small enough for IA priors (quantify vs random) |
@@ -227,3 +227,73 @@ per-estimator predicted eigenvalues, solver validation JSON).
   calibrated out even classically (single linear map suffices for most of it).
 - T2 (CNN-on-counts) inherits these numbers as its floor; T4/F1's gate stays
   "beat G3 = 0.804", now known to sit ~0.25 above the classical ceiling.
+
+## 7. RESULTS 2026-07-08 — T2 (CNN-on-counts) + T4/F1 (graph→field→Poisson)
+
+Same wedge, same test split, same MSE point-estimate estimand as the G4 gates
+(so directly comparable to G4 runs, but +~few pts vs the NPE posterior-mean
+baseline — the known estimand caveat). Scripts: `workflows/sbi/gate_t2_cnn_counts.py`,
+`workflows/sbi/gate_t4_graph_field_poisson.py`. Artifacts: `/pscratch/sd/d/dkololgi/abacus/field_level_tests/`.
+
+| Model | λ1 R² | λ2 R² | λ3 R² | notes |
+|---|---|---|---|---|
+| classical DTFE (floor) | 0.552 | 0.641 | 0.663 | T1 |
+| GraphNet+NPE Delaunay (baseline) | 0.775 | 0.811 | 0.891 | NPE posterior mean |
+| G3 GraphNet+NPE union | 0.804 | 0.846 | 0.895 | production anchor |
+| **T4/F1 graph→field→Poisson** | **0.841** | **0.897** | **0.931** | MEAN agg, no attention; clears the F1 gate |
+| **T2 CNN-on-counts (3 seeds)** | **0.876 ± 0.004** | **0.905** | **0.933** | seeds 0.876/0.871/0.880 |
+
+**T2 — CNN-on-counts.** A plain 3-D U-Net on the voxelized galaxy COUNT field
+(5 Mpc cells, 1.4M params) beats the GraphNet on all three eigenvalues, tight
+across seeds. Spatially validated (viz agent): T-web **4-class accuracy 0.882**
+(void/wall/filament/cluster F1 = 0.906/0.878/0.872/0.845), predicted class
+fractions within ~0.3% of truth, confusion only between adjacent classes,
+Spearman(pred λ1, truth λ1) = 0.965 — the win is real spatial structure, not a
+metric artifact. **Framing (JDPK):** a CNN IS a GNN on a lattice graph, so this
+is not "CNN beats graphs" but "fixed-scale regular sampling + density-valued
+nodes beats the Delaunay receptive field" — the same lesson as G3
+(union > Delaunay), taken further. **Caveats gating interpretation:** MSE head
+(vs NPE), and the RAW wedge is ~2.4× DESI density (easiest regime for a grid).
+→ controls in §8.
+
+**T4/F1 — graph→field→Poisson.** GraphNet(EGNNlite, mean-agg) → differentiable
+CIC scatter → 3-D U-Net → δ̂ → fixed FFT physics layer → analytic 3×3
+eigensolver → eigenvalues. λ1 R² **0.841 clears the F1 gate** (≥ G3 0.804),
+with a graph encoder and NO attention. This is the key result for the
+"graphs vs CNN" worry: the graph encoder feeding a field/physics decoder
+nearly matches the pure CNN (0.841 vs 0.876) and beats every prior graph
+baseline — graphs are vindicated as the encoder; the win is the field-shaped,
+fixed-scale OUTPUT representation. **Engineering note:** `torch.linalg.eigvalsh`
+on CUDA tried to allocate 51 GiB for (N,3,3) matrices (the documented cuSOLVER
+blowup) — replaced with an analytic Cardano 3×3 eigensolver (matches numpy to
+7e-15, finite grads). The F1 gate's calibration half (≥ current flow) is NOT
+yet tested — needs the invariant-latent→FlowJAX head (that's F1-calibration /
+P2 in §6-plan), so F1 is "GO on accuracy, calibration pending".
+
+**T3 — LUPI distillation.** RE-RUNNING 2026-07-08 (first attempt silently
+CPU-trained via an `srun --overlap` gres-binding miss, then a 2nd attempt was
+killed by allocation time-limit before writing results). Now in a fresh 4 h GPU
+alloc with a fail-fast GPU guard, capped steps. Box-frame teacher mapping
+validated (galaxies at 25× random-median density, 0 bad links). Verdict pending.
+
+## 8. Controls before "CNN beats graph" / "attention non-essential" are recorded
+
+Motivated by the T2/T4 results (tracked; not yet run):
+1. **Matched-estimand graph control** — union/radius GNN with an MSE point head
+   (not NPE) vs the CNN's 0.876. Isolates estimand from representation. (T4/F1's
+   0.841 with a graph encoder already suggests the gap is small.)
+2. **DESI-density re-run** — T2 + T4 on the n(z)-harmonized `nzharm` cache
+   (`.../sbi_caches/path1_flowjax_3d_lineareig_si_nzharm/`), since the raw wedge
+   is ~2.4× DESI density = easiest regime for a grid; the CNN edge should shrink.
+3. **Cell-size sweep** — T2 at 3/4/5/6 Mpc scored on the cluster slice (λ1>0.2),
+   on dense AND nzharm — finer resolves peaks but adds shot noise (JDPK: 5 Mpc
+   may wash out cluster cores; target is 7 Mpc/h≈10.4 Mpc so grid ≤ target).
+4. **Clean attention test** — attention-on vs -off within the SAME T4 F-tier
+   encoder at matched estimand. G4 smoke had attention +0.05 over mean, but the
+   representation lever is bigger; hypothesis: attention was partly patching the
+   Delaunay scale-mismatch, so its value drops on a regular grid/field. Decides
+   "attention is second-order for this operator" as a defensible claim.
+5. **JEPA de-risking (broader):** T2's grid/CNN result makes a grid-native
+   I-JEPA (mask blocks, predict latents; degrade-sampling-at-fixed-field views
+   trivial on a grid) a low-risk instantiation of the GateM→JEPA branch and the
+   substrate for the P5 foundation-encoder direction. Gated on GateM.

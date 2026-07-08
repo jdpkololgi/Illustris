@@ -1,5 +1,40 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-08 — [code] Field-level tests run: T2 CNN-on-counts + T4/F1 graph→field→Poisson both beat every graph baseline; T3 re-running
+- **T4/F1 (the centerpiece) PASSES its accuracy gate:** graph encoder (EGNNlite,
+  mean-agg, NO attention) → differentiable CIC scatter → 3-D U-Net → δ̂ → fixed
+  FFT physics layer → analytic 3×3 eigensolver → eigenvalues. **λ1/λ2/λ3 =
+  0.841/0.897/0.931**, ≥ G3 (0.804). The graph encoder + field/physics decoder
+  nearly matches the pure CNN and beats every prior graph baseline ⇒ the "CNN is
+  killing my graph work" worry is answered: graphs are vindicated as the encoder;
+  the win is the fixed-scale, field-shaped OUTPUT. Calibration half of the gate
+  (≥ current flow) still pending the invariant-latent→FlowJAX head.
+- **T2 CNN-on-counts is real and robust:** 3-D U-Net on voxelized galaxy COUNTS
+  (5 Mpc, 1.4M params) → **λ1 0.876 ± 0.004** (3 seeds), beats GraphNet 0.775.
+  Spatially validated: T-web **4-class accuracy 0.882** (void/wall/filament/cluster
+  F1 0.906/0.878/0.872/0.845), class fractions within ~0.3% of truth, confusion
+  only between adjacent classes, Spearman(pred,truth λ1)=0.965. Interactive 3-D
+  viz built (artifact + PNGs) — predicted cosmic web tracks truth cleanly.
+- **Framing (JDPK):** a CNN IS a GNN on a lattice, so T2 = "fixed-scale regular
+  sampling + density-valued nodes > Delaunay receptive field" (same lesson as G3),
+  NOT "CNN > graphs". Attention looks second-order, not non-essential (needs the
+  clean within-F-tier on/off test). T2 also de-risks a grid-native JEPA (P5).
+- **Caveats gating interpretation** (NOT yet resolved → §8 controls in the plan):
+  MSE point head vs NPE posterior mean; RAW wedge is ~2.4× DESI density (easiest
+  for a grid). Controls queued: matched-estimand graph MSE head, nzharm-density
+  re-run, cell-size sweep on the cluster slice, clean attention on/off.
+- **Ops lessons (bit us):** (1) `srun --overlap` can silently fail to bind the GPU
+  for a *later* step in an allocation → T3 CPU-trained for 1.5 h invisibly; fix =
+  a fail-fast `torch.cuda.is_available()` guard on every step. (2) `torch.linalg.
+  eigvalsh` on CUDA tried to allocate 51 GiB for (N,3,3) (cuSOLVER blowup) →
+  replaced with analytic Cardano 3×3 (matches numpy 7e-15). (3) interactive-only
+  runs per JDPK — reuse idle allocations via `srun --jobid`; no sbatch.
+- **T3 (LUPI)** re-running in a fresh 4 h GPU alloc (capped steps, guarded);
+  box-frame teacher validated (25× random density). Verdict pending.
+- Refs: plan `docs/plan_field_level_multimodal.md` §7–8; scripts
+  `workflows/sbi/gate_t2_cnn_counts.py`, `gate_t4_graph_field_poisson.py`,
+  `viz_t2_wedge_clusters.py`; `/pscratch/.../abacus/field_level_tests/`.
+
 ### 2026-07-07 — [science] Multimodal/field-level direction: "we might be throwing too much information away" + the classical floor that motivates it
 - **The idea (JDPK):** simulations give us complete 3-D density/tidal/eigenvalue FIELDS,
   and the pipeline reduces them to 3 numbers per galaxy before any model sees them.
