@@ -422,6 +422,18 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-07 — [science] SCOPE CORRECTION: wedge-trained NPE must NOT be extrapolated to full BGS
+- User correction: the model is trained on the wedge subvolume (RA 120-160, z 0.20-0.30)
+  matched to an Abacus subvolume, so its posteriors + the closure/environmental relations
+  are VALID ONLY for wedge galaxies. Applying to the whole DESI DR2 BGS catalogue (lower z,
+  different n(z)/density) is out-of-distribution extrapolation — WRONG. A whole-footprint
+  VAC requires RETRAINING on footprint-spanning mocks.
+- Fix: "amortised" buys cheap inference on IN-distribution galaxies only; it does NOT license
+  generalisation off the training volume. In-wedge mock→data transfer (no retraining) remains
+  legitimate (that's the actual result). DR3-KP talk script de-overstated: throughline scoped
+  to the wedge, slide-5 deliverable + Q&A#7 + summary rewritten ("wedge demonstrator + path to
+  VAC," never "whole-catalogue VAC"). Memory `feedback-wedge-no-extrapolation` added.
+
 ### 2026-07-07 — [code] Mass-colour (M*-g/r) by-environment contours + wedge-count clarification
 - What: `workflows/sbi_inference/plot_mstar_color_environment.py` (GraphWeb_DESI) makes
   `mstar_gr_by_environment` (2x2 nested KDE contours per inferred class, reproduces the
