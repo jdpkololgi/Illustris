@@ -422,6 +422,21 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-07 — [code] DR3-KP talk: SFR-M* (SFMS) figures by inferred environment + eigenvalue-continuous version
+- What: New `workflows/sbi_inference/plot_sfms_environment.py` (GraphWeb_DESI) makes
+  three SFR-vs-M* diagrams from the SI closure-join parquet (desi_wedge_env_props,
+  N=77,459 with valid FastSpecFit sSFR): `sfms_all` (whole wedge, hexbin counts),
+  `sfms_by_environment` (2x2 hexbin by inferred hard_class), `sfms_eigen_continuous`
+  (1x3 hexbin coloured by mean posterior λ1/λ2/λ3 per cell). Blue-cloud/green-valley/
+  red-sequence via MS fit to SF pop (logSFR=0.83 logM*-8.67) + offsets (MS-0.6/-1.2).
+- Result: clean environmental-quenching signal — SF blob dominates Void, red sequence
+  dominates Cluster (Wall/Filament intermediate). Eigenvalue version: red-sequence
+  corner sits at higher mean λ (more collapsed tidal env), signal strengthening
+  λ1→λ2→λ3. Figures in `figures/desi_wedge_flowjax_linear_si/`.
+- Talk use: user DROPPED the mass-control slide; `sfms_by_environment` becomes slide 5
+  hero (script §Slide 5 updated), eigen-continuous as its backup/alt. Also confirmed
+  closure-slide text is correct (Loa=DR2; quenched=log sSFR<-11; g-r independent check).
+
 ### 2026-07-07 — [code] DESI DR3 KP (Cosmic Web & Galaxy Environment) 4-min talk: script v2 written, figures all existing
 - What: Slide-by-slide script for the 4+2 min DR3 KP parallel-session talk written to
   `GraphWeb_DESI/docs/desi_dr3_cwge_4min_talk_script.md` (5 slides: title/map →
