@@ -422,6 +422,28 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-09 — [code] CIGALE-HZ SFR/mass re-join DONE (Approach A): bimodality + closure recovered
+- Problem: FastSpecFit SFRs are unimodal (single sSFR peak -11.5) → SFR-M* not bimodal,
+  environmental distinction invisible. Colleague's CIGALE (HZ) SED masses+SFRs fix this.
+- Approach A (user-confirmed): environment inference depends only on POSITIONS, so KEEP the
+  existing parity-valid wedge + posteriors (mock n(z)-harmonized at DELTACHI2>=25) and just
+  re-join CIGALE properties by TARGETID. No re-inference, parity untouched.
+- Source: /global/cfs/cdirs/desi/users/manasvee/1_prepped_data/DESI/loa/
+  desi_loa_fsf_bgs_scnd_quality_ZallPix_cigaleHu_primaryZ_goodPhoto.fits (CIGALE HZ = Hu Zou).
+  Used SFR_CG_15/MASS_CG_15 (CG_15 vs CG_5 near-identical: corr 0.993/0.999). 90.3% match
+  (100,679/111,503). Scripts: workflows/sbi_inference/build_cigale_rejoin.py (+ plot scripts
+  now take WEDGE_PARQUET/WEDGE_FIGDIR env). Output run: desi_wedge_cigale_hz.
+- RESULT: SFR-M* now shows the CLASSIC BIMODALITY (blue cloud + red sequence + green valley);
+  environmental distinction now VISIBLE (blob balance shifts void->cluster). Closure STRONGER:
+  f_quench 0.39->0.45->0.52->0.58 (was 0.74->0.84); median log sSFR -10.2->-11.6 (1.4 dex, was
+  0.5). Figures in figures/desi_wedge_cigale_hz/{,closure/}.
+- FIX LATER (parity item flagged by user): canonical cuts (DELTACHI2>=40, FRACFLUX<0.35,
+  ZCAT_PRIMARY) differ from the DELTACHI2>=25 selection the mock was harmonized to. Mock is a
+  SIM (no spec flags) so parity = re-harmonize mock n(z) to the new-cut DESI n(z), then rebuild
+  graphs+cache+retrain+re-infer. Deferred; priority was statistical parity, preserved by A.
+- TODO for talk: regenerate spotlight_cartography_closure composite + MS-fit line refit (slope
+  came out flat 0.28); update deck numbers to CIGALE closure.
+
 ### 2026-07-07 — [science] SCOPE CORRECTION: wedge-trained NPE must NOT be extrapolated to full BGS
 - User correction: the model is trained on the wedge subvolume (RA 120-160, z 0.20-0.30)
   matched to an Abacus subvolume, so its posteriors + the closure/environmental relations
