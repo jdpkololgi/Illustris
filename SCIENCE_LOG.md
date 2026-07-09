@@ -422,6 +422,20 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-09 — [code] Continuous + fixed-mass environment plots (CIGALE): surface, heatmaps, mass-bin lines, animation
+- New `workflows/sbi_inference/plot_env_mass_continuous.py` → 4 figures in figures/desi_wedge_cigale_hz/:
+  (1) env_mass_surface_3d — 3D surface of quenched fraction over (logM*, tidal trace): steep along
+  mass, gentle-monotonic along trace. (2) env_mass_heatmaps — 2D median (g-r)/sSFR/quenched over
+  (logM*, trace) (continuous env axis). (3) env_class_by_massbin — STATIC: property vs 4 classes,
+  one line per logM* bin (STANDOUT: mass bands well-separated + clear env slope within each; SFR
+  env-effect largest at low mass). (4) env_class_mass_animation.gif — mass slider (22 frames),
+  4 environments' g-r/sSFR/SFR shift as logM* rises 10.55->11.35.
+- These operationalise the 'mass dominates, environment second-order' result for the talk. The
+  static per-mass-bin figure is the honest headline (extends closure_mass_control to all props).
+- Note: animation uses fixed full-range y-limits so the MASS shift is visible; the within-frame
+  env spread is modest (real physics). A 'residual-at-fixed-mass' variant would amplify the env
+  tilt if wanted.
+
 ### 2026-07-09 — [code] Weak env<->property signal INVESTIGATED: it's PHYSICAL (mass-dominated), not inference noise
 - User flagged: SFR-M* distribution changes less than expected with environment; sSFR/g-r vs
   inferred trace correlations weak (rho ~0.11-0.14). Comprehensive diagnostic
