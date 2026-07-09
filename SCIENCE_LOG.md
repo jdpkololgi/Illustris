@@ -422,6 +422,20 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-07 — [code] Mass-colour (M*-g/r) by-environment contours + wedge-count clarification
+- What: `workflows/sbi_inference/plot_mstar_color_environment.py` (GraphWeb_DESI) makes
+  `mstar_gr_by_environment` (2x2 nested KDE contours per inferred class, reproduces the
+  reference fig) and `mstar_gr_overlay` (4 classes overlaid, class-coloured 50/90%).
+- Result: mass-colour shows the environmental trend clearly where SFR-M* hexbins did NOT
+  (env at fixed mass is 2nd-order → hexbin panels differ mainly in count). Void is bimodal
+  (blue lobe + red lobe); blue lobe shrinks void→wall→filament→cluster to a single
+  red-sequence peak. Median (g-r) 0.782/0.827/0.870/0.908; median logM* 10.60→10.71.
+- COUNT CLARIFICATION (user asked): full DESI wedge = 111,503 galaxies (110,251 unique
+  after 1,252 hemisphere dups; 111,171 with FastSpecFit photometry/sSFR). The "~22,000"
+  is the thin 3° Dec slice (Dec 21-24° = 22,486) used by the FAN/skewer visualisations,
+  NOT the whole wedge. z-shell is 0.20-0.30. Talk slide-5 updated to prefer the
+  mass-colour contour fig + this count note.
+
 ### 2026-07-07 — [code] DR3-KP talk: SFR-M* (SFMS) figures by inferred environment + eigenvalue-continuous version
 - What: New `workflows/sbi_inference/plot_sfms_environment.py` (GraphWeb_DESI) makes
   three SFR-vs-M* diagrams from the SI closure-join parquet (desi_wedge_env_props,
