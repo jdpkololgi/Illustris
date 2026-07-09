@@ -422,6 +422,19 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-09 — [code] Talk figures updated to CIGALE: MS-fit refit + cartography/closure composite regen'd
+- Task 1 (MS line): fit_ms now uses a binned-median RIDGE fit on clearly-SF gals (log sSFR
+  >-10.5) → slope 0.35 (was flat 0.28 from naive polyfit); GV band widened to MS-0.8..-1.6
+  to bracket the CIGALE bimodal trough. SFR-M* region lines now sit correctly.
+- Task 2 (deck hero): new `figures/desi2026_spotlight/make_cartography_closure_cigale.py`
+  rebuilds `spotlight_cartography_closure.png` in figures/desi_wedge_cigale_hz/ — sky maps
+  drawn NATIVELY (Abacus CWEB truth + DESI hard_class, 0.25<z<0.30 shell, class-coloured) +
+  CIGALE closure panels. Talk script Slide 4/5 numbers updated to CIGALE: f_quench
+  0.39→0.45→0.52→0.58, median log sSFR -10.2→-11.6 (1.4 dex), (g-r) 0.78→0.91, rho_s
+  +0.11/+0.14/-0.14, N~100k with CIGALE (90% of 111k).
+- Minor: composite subtitle sits a touch high (above sky titles) — reposition in Keynote if
+  needed. Deferred still: canonical-cut + mock n(z) re-harmonization (parity).
+
 ### 2026-07-09 — [code] CIGALE-HZ SFR/mass re-join DONE (Approach A): bimodality + closure recovered
 - Problem: FastSpecFit SFRs are unimodal (single sSFR peak -11.5) → SFR-M* not bimodal,
   environmental distinction invisible. Colleague's CIGALE (HZ) SED masses+SFRs fix this.
