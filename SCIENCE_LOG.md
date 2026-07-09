@@ -443,6 +443,13 @@ Entry shape:
   web setup, positioning-vs-other-VACs framing, bridge lines to Li (MTV) and
   Rincon (voids), discussion seeds (common validation wedge; closure test as
   shared truth-free VAC metric; uncertainty propagation as KP standard).
+- v3 addendum: deck review vs ASTRA slides (one idea/visual per slide; drop both
+  videos) appended to the script; NEW fan ("pie-slice") figures built in the
+  cmlamman polar style — `figures/desi2026_spotlight/fan/` on scratch:
+  `fan_{desi_inferred,abacus_truth}_dec{2,3,4}` + recommended `_dec3_crop`
+  variants (theta=RA 120–160°, r=z 0.20–0.30, Dec 21–24° slice, rorigin 0.12,
+  class-styled points, script `make_fan_figure.py` + README). These replace the
+  wedge video and the slide-30 sky map as the deck's hero pair.
 
 ### 2026-07-03 — [code] NAMING CORRECTION: the two "G4" runs are G4-SMOKE, not G4 (JDPK)
 - The 2026-07-03 runs titled "G4 smoke" and "G4 part 2 (attention)" are hereby renamed
