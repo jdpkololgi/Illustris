@@ -422,6 +422,27 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-09 — [code] Weak env<->property signal INVESTIGATED: it's PHYSICAL (mass-dominated), not inference noise
+- User flagged: SFR-M* distribution changes less than expected with environment; sSFR/g-r vs
+  inferred trace correlations weak (rho ~0.11-0.14). Comprehensive diagnostic
+  (workflows/sbi_inference/investigate_env_property_signal.py) → verdict: PHYSICAL.
+- Evidence: (1) inferred trace vs INDEPENDENT n(z)-controlled kNN density contrast rho=+0.75
+  → model recovers real local density well. (2) Independent density gives ~SAME weak property
+  correlations (log sSFR: -0.164 vs inferred -0.136; g-r +0.167 vs +0.138) → weakness is NOT a
+  GNN artifact, any density-from-positions is weakly correlated with properties. (3) Model
+  accurate on mock: predicted vs TRUE trace R^2=0.88, Spearman=0.97 (attenuation ~3%). (4) NOT
+  uncertainty-dominated: posterior width/spread = 0.17-0.33. (5) MASS DOMINATES: property-mass
+  rho 0.52-0.72, i.e. 4-5x stronger than environment. (6) At FIXED mass, env rho ~0.1 (real,
+  strongest in high-mass tertile: sSFR -0.144). (7) Effect size in TAILS is large: densest vs
+  sparsest decile Δmedian log sSFR = -1.5 to -1.7 dex, Δ(g-r) +0.16.
+- Reconciles by-eye: bulk per-galaxy correlation weak (mass-scattered) BUT population trend
+  across density is clear and tails differ strongly; by-class f_q 0.39->0.58 is consistent.
+  This is the expected result (Peng+2010: environmental quenching real but subdominant to mass).
+- Figure: figures/desi_wedge_cigale_hz/env_signal_diagnosis.png (trace-vs-density validation +
+  |rho| bars mass vs density vs inferred). Talk implication: frame environment as a genuine
+  SECOND-ORDER modulation on top of mass; lead with by-class trend + tail effect + mass-control,
+  don't oversell the continuous rho.
+
 ### 2026-07-09 — [code] Talk figures updated to CIGALE: MS-fit refit + cartography/closure composite regen'd
 - Task 1 (MS line): fit_ms now uses a binned-median RIDGE fit on clearly-SF gals (log sSFR
   >-10.5) → slope 0.35 (was flat 0.28 from naive polyfit); GV band widened to MS-0.8..-1.6
