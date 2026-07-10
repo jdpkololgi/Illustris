@@ -22,6 +22,14 @@
 - **Verdict:** FMPE is the accuracy winner and the right direction, but the posterior-
   estimator DECISION is not final until MAF SBC/coverage is measured on the same eval set
   (symmetric). Next (cheap, CPU): add MAF SBC+coverage to the script and re-run. See plan §10.
+- **RESOLVED (symmetric rerun, same day):** MAF SBC KS-uniform p = 0.009/0.006/0.017,
+  λ1 coverage 0.610@68% / 0.837@90% — vs FMPE 0.000/0.003/0.001, 0.594 / 0.829.
+  **BOTH under-cover near-identically** (~60% @ nominal 68%); MAF marginally better but
+  trivially so. ⇒ Case (c): the under-coverage is a property of the frozen-encoder / raw
+  over-dense wedge / default flow training, **NOT of MAF-vs-FMPE**. So FMPE's accuracy win
+  stands with calibration COMPARABLE to MAF → G6 gate effectively **GO** (adopt FMPE). The
+  calibration deficit is a SEPARATE workstream: SBC-aware training / posterior tempering,
+  and the P2 nzharm (DESI-density) re-run. `field_level_tests/P3/g6_result.txt`.
 
 ### 2026-07-08 — [science] Where the field-level results leave the three plans (and: the graph PhD work is NOT shown useless)
 - **The honest worry** (JDPK): "has a dumb CNN beating my GraphNet shown 2.5 yr of graph

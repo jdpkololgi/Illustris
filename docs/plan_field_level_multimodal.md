@@ -423,10 +423,14 @@ wins all; cluster λ1 Spearman +0.68→+0.70). **Accuracy gate MET.** FMPE calib
 (this run only): SBC KS-uniform p 0.000/0.003/0.001, λ1 coverage 59.4%@68% / 82.9%@90% →
 under-covers. **CAVEAT: MAF SBC/coverage NOT computed here** — so FMPE is imperfectly
 calibrated in absolute terms but we can't yet say worse-than-MAF; plus FMPE was quick-
-trained (144 epochs, sbi defaults, 1 seed) on the raw over-dense wedge. **Decision NOT
-final** until the symmetric MAF SBC/coverage rerun (in progress). Prior stands: FMPE is the
-right direction. Scripts: `gate_g6_fmpe_frozen_head.py`, `generate_maf_selfeval.py`;
-result `field_level_tests/P3/g6_result.txt`.
+trained (144 epochs, sbi defaults, 1 seed) on the raw over-dense wedge. **RESOLVED (symmetric rerun):** MAF calibration SBC KS-uniform p 0.009/0.006/0.017,
+λ1 coverage 0.610@68% / 0.837@90% — vs FMPE 0.000/0.003/0.001, 0.594/0.829. **BOTH
+under-cover near-identically**; the deficit is the frozen-encoder / over-dense wedge /
+default flow training, NOT the estimator. ⇒ FMPE wins accuracy with calibration COMPARABLE
+to MAF → **G6 gate GO: adopt FMPE** as the production posterior head. Calibration is a
+SEPARATE fix (SBC-aware training / tempering + the P2 nzharm re-run). Scripts:
+`gate_g6_fmpe_frozen_head.py`, `generate_maf_selfeval.py`; result
+`field_level_tests/P3/g6_result.txt`.
 
 **P1 STATUS (launched 2026-07-08, tmux `p1work`):** CNN done (0.876±.004). Running:
 F-tier seeds 43/44 (+ the seed-42 0.841 already in hand) and the same-framework
