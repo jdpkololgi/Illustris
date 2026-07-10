@@ -78,6 +78,56 @@ G3+G4 both disappoint.
    silently bias NPE posteriors; the closure-test machinery is the validator. See
    `plan_field_level_multimodal.md` T5.
 
+## 3b. Track 2b — S-TRACK: full-z-range selection function (ADDED 2026-07-09)
+
+**The problem (previously implicit, now explicit):** the VAC must cover BGS z≈0.05–0.6,
+where the magnitude limit drives a **~165× density falloff** (measured, A2 full-range
+JSON: n̄ at z 0.15–0.25 vs 0.45–0.55). Training so far = ONE shell (z 0.2–0.3). SI
+per-graph medians absorb a *uniform* scale (validated at 0.73×), NOT two decades — and
+even perfectly rescaled features cannot fix *calibration*: an amortized NPE trained at
+one density is overconfident at sparser densities. Posterior width MUST grow with z.
+NEW measurement: mock/DESI ratio degrades with z (0.91 → 0.54 → **0.28** at z 0.45–0.55)
+⇒ full-range shape-match-by-dilution would cost 72% of training data — dilution alone
+CANNOT extend A3 to the full range.
+
+**Design decision (default): ONE amortized model, conditioned on the selection —
+"amortize over the sampling intensity."** The maglim+fiberassign mock already forward-
+models the selection; we train across the full range and expose the sampling intensity
+to the model as **ñ(zᵢ)** = smooth fit to each dataset's OWN n(z) (DR2 spline at
+inference; mock spline in training):
+- node feature, **by-name EXCLUDED from SI normalization** (like Clustering — it is the
+  covariate; the median would erase it), and
+- appended to the **FMPE conditioning vector** (heteroscedastic amortization — the
+  mechanism by which posteriors widen at high z; FMPE = confirmed production head).
+Conditioning on **ñ, not z**: density regimes overlap mock↔DESI even where z-profiles
+diverge (the 0.28 problem dissolves — mock high-z shells teach the density regime DESI
+occupies slightly deeper). Precedent: radial selection functions are explicit inputs in
+all field-level reconstruction (Wiener/BORG/ELUCID); conditioning amortized NPE on a
+nuisance is standard SBI practice. Per-shell models remain the PRE-REGISTERED FALLBACK
+(cons: K× training, seam discontinuities at shell boundaries in a public VAC, no
+statistical sharing exactly where data is scarcest — high z).
+
+| Gate | Experiment | Cost | GO criterion / decides |
+|---|---|---|---|
+| **S0** | Full-range selection atlas: DR2-vs-sentinelfix n(z) 0.05–0.6 full footprint; smooth ñ(z) splines (both datasets); per-shell graph stats (Delaunay edge length, degree@10 Mpc/h, union edge counts, **voxel occupancy** for the U-Net/F-tier) | ½ d CPU | quantifies per-shell OOD for EACH winner architecture; produces the ñ(z) conditioning functions |
+| **S1** | Cutsky-truth **shell-transfer matrix** (GBM/aperture harness): train-shell-i → test-shell-j R²(λ1) grid + pooled+ñ-conditioned row + per-shell diagonal | 1 d CPU | pooled-conditioned ≥ per-shell − 0.02 on every shell ⇒ single-model default confirmed cheaply BEFORE any retrain |
+| **S2** | Training-data extension: multi-shell buffered wedges from the **sentinelfix parent** (A1 unblocked z-expansion) with LIGHT per-shell gradient trimming only (no global dilution); optional dilution-ladder augmentation (±20% around ñ) for between-shell robustness | ~1 d | full-range caches for Phase B |
+| **S3** | Winner-specific conditioning: GraphNet → ñ node feature (SI-excluded) + FMPE conditioning; **F-tier/U-Net → ñ(z)·V_voxel expected-counts input channel** (net can form Poisson contrast; prevents grid OOD); union graph unchanged (fixed comoving radius correct; Delaunay guarantees connectivity at any density) | in Phase B build | implementation spec |
+| **S4** | Production showdown at matched compute: pooled-conditioned vs 2 shell-models (low/high z) | part of Phase B eval | conditioned within ΔR² 0.02 AND per-shell-calibrated ⇒ ONE model ships; else shells + overlap-blend seam protocol (posterior mixture over Δz≈0.02) |
+| **S5** | Per-shell validation battery folded into Phase D: SBC/TARP **per shell**, GateM MMD per shell, closure per shell, and the **width-monotonicity sanity check** (posterior width must grow toward high z — the physically required signature that conditioning worked) | Phase D | conditional calibration, not just marginal |
+
+**S-track is ALSO the encoder arbiter:** T2's U-Net 0.876 and F-tier's 0.841 were
+measured on a DENSE wedge (~2.4× DESI); grids degrade with sparsity while
+Delaunay∪radius adapts — so the G3-vs-F-tier-vs-U-Net production decision MUST be made
+on S2's full-range data (S0's voxel-occupancy stats will preview it). Do not crown an
+encoder on the dense wedge.
+
+**Known systematic (documented, not blocking):** single-snapshot (z=0.2) cutsky labels
+carry no growth evolution across 0.05–0.6; the VAC inherits a "z=0.2-epoch tidal field"
+convention, with sim-to-real mismatch growing with |z−0.2|. Mitigation: document; optional
+post-hoc D(z)/D(0.2) rescaling of λ; long-term = multi-snapshot lightcone labels. S5's
+per-shell GateM partially detects it.
+
 ## 4. Track 3 — Production (sequential; starts when gates close)
 
 **FIELD-LEVEL UPDATE (2026-07-08) — production encoder question reopened, favourably.**

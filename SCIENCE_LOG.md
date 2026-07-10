@@ -95,6 +95,44 @@
   `workflows/sbi/gate_t2_cnn_counts.py`, `gate_t4_graph_field_poisson.py`,
   `viz_t2_wedge_clusters.py`; `/pscratch/.../abacus/field_level_tests/`.
 
+### 2026-07-09 — [code] S-TRACK added: full-z-range selection function (the maglim/sparsity problem, now explicit); FMPE confirmed production head
+- **Trigger (JDPK):** the VAC must span BGS z≈0.05–0.6; the magnitude limit drives a
+  **measured ~165× density falloff** (A2 full-range JSON, n̄ z0.15–0.25 vs 0.45–0.55) while
+  all training so far used one shell (z0.2–0.3). Audit: the ñ(z)-conditioning idea was
+  NEVER formally logged — the roadmap handled n(z) only on the sim-to-real axis (A2/A3,
+  within-shell). Now explicit as **Track 2b / S-track** in `roadmap_environmental_vac.md`.
+- **Why neither existing mechanism suffices:** SI per-graph medians absorb a UNIFORM
+  scale (validated at 0.73×), not two decades — and rescaled features cannot fix
+  CALIBRATION: an amortized NPE trained at one density is overconfident at sparser ones;
+  posterior width must grow with z.
+- **NEW measurement that shaped the design:** mock/DESI count ratio degrades with z:
+  0.91 (z0.05–0.15) → 0.95 → 0.77 → 0.54 → **0.28 (z0.45–0.55)**. Full-range
+  shape-match-by-dilution (A3 recipe) would set C=0.28 ⇒ discard 72% of training data —
+  dilution CANNOT extend to the full range.
+- **Design decision (default): ONE amortized model conditioned on sampling intensity
+  ñ(zᵢ)** — smooth spline of each dataset's OWN n(z) (DR2 at inference, mock in training):
+  node feature EXCLUDED from SI by name (it IS the covariate) + appended to the FMPE
+  conditioning vector (heteroscedastic amortization → posteriors widen at high z).
+  **Conditioning on ñ, not z**, dissolves the 0.28 problem: density regimes overlap
+  mock↔DESI even where z-profiles diverge. Per-shell models = pre-registered fallback
+  (seams in a public VAC, K× cost, no statistical sharing where data is scarcest).
+- **Gates S0–S5** (roadmap §3b): S0 selection atlas + per-shell graph/voxel stats;
+  S1 cheap cutsky-truth shell-transfer matrix (pooled-conditioned vs per-shell BEFORE any
+  retrain); S2 multi-shell buffered wedges from the sentinelfix parent (A1 unblocked
+  z-expansion); S3 winner-specific conditioning (GraphNet ñ-feature; U-Net/F-tier
+  expected-counts channel ñ·V_voxel); S4 production showdown; S5 per-shell SBC/TARP +
+  GateM + width-monotonicity-with-z sanity.
+- **S-track is also the encoder arbiter:** T2 U-Net 0.876 / F-tier 0.841 were measured on
+  a ~2.4×-dense wedge; grids degrade with sparsity, Delaunay∪radius adapts — the
+  G3-vs-F-tier-vs-U-Net decision must be made on S2 full-range data, not the dense wedge.
+- **Phase B REDEFINED:** the bundled retrain becomes FULL-RANGE + ñ-conditioned (S2/S3
+  fold in; house rule "one bundled retrain" is exactly why this must be decided now).
+- **FMPE head CONFIRMED for production (JDPK, task-3 calibration tune complete: FMPE won
+  on accuracy AND calibration)** — the S3 conditioning spec targets the FMPE vector.
+- Known systematic (documented): single-snapshot z=0.2 labels carry no growth evolution
+  across 0.05–0.6 → VAC inherits a "z=0.2-epoch tidal field" convention; optional
+  post-hoc D(z)/D(0.2) rescaling; long-term multi-snapshot lightcone.
+
 ### 2026-07-07 — [science] Multimodal/field-level direction: "we might be throwing too much information away" + the classical floor that motivates it
 - **The idea (JDPK):** simulations give us complete 3-D density/tidal/eigenvalue FIELDS,
   and the pipeline reduces them to 3 numbers per galaxy before any model sees them.
