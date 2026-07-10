@@ -386,3 +386,39 @@ your own graph→field→physics net) is a stronger thesis chapter than "graphs 
 default". The framing matures from "graphs are the architecture" to "the graph is
 an excellent encoder for a physics-grounded field inference, and here is why" —
 that is a contribution, not a refutation.
+
+## 10. Experiment plan — F-tier vs G3 GraphNet vs 3-D U-Net (2026-07-08)
+
+Removes the two confounds in the earlier runs (MSE-vs-NPE estimand; raw
+~2.4×-DESI-density wedge that favours grids) and adds calibration. Formalises §8.
+
+**Posterior estimator decision:** the tests were MSE point-estimates, so they do
+not directly rank estimators — but the strong latent (F-tier 0.841) + the hard
+λ1-tail/cluster regime point to **running G6 now: MAF-NPE vs FMPE on the frozen
+best-encoder latent, judged by SBC/TARP + cluster-tail coverage** (not NLL). Prior
+= **FMPE**, but it is an empirical gate. Forward: the F-tier makes a **generative
+δ̂ field posterior (F3, flow-matching/diffusion → physics)** the natural estimator
+(BORG-adjacent, spatially coherent) — gated behind F1-calibration + F2.
+
+| Phase | Experiment | Models | Head | Data | Metrics | Decides |
+|---|---|---|---|---|---|---|
+| **P1** | matched-estimand accuracy | G3-GraphNet · F-tier · CNN | all **MSE**, ≥3 seeds | raw wedge | λ1/2/3 R², λ1>0.2 slice, 4-class | is the CNN 0.876 edge real at matched estimand? |
+| **P2** | DESI-density re-run | G3 · F-tier · CNN | MSE | **nzharm** | as P1, Δ vs P1 | does the grid edge shrink at survey sparsity? |
+| **P3** | calibrated head + G6 | G3 · F-tier (CNN opt) | **MAF vs FMPE** on frozen latent | raw+nzharm | **SBC/TARP**, tail coverage, NLL, width | posterior estimator + best-calibrated model = **production choice** (= F-tier F1-calibration gate) |
+| **P4** | CNN cell-size sweep | CNN | MSE | raw+nzharm | λ1>0.2 slice vs cell 3/4/5/6 Mpc | finer cores vs shot noise |
+| **P5** | F-tier field-level | F-tier | **generative δ̂ (F3)** + eigvec (F4) | raw | field TARP, eigvec misalignment | field posteriors + IA — gated on P3 GO |
+
+**Implementation:** G3-GraphNet MSE control = `jraph_pipeline.py --prediction_mode
+regression` on the UNION cache (the *production* GraphNet, not the EGNN-lite smoke);
+F-tier = `gate_t4_graph_field_poisson.py`; CNN = `gate_t2_cnn_counts.py` (already 3
+seeds: 0.876/0.905/0.933); estimator bake-off = `gate_g6_fmpe_frozen_head.py`.
+Caches: raw `..._sbi_cache_3d_lineareig_si.pkl`; nzharm `path1_flowjax_3d_lineareig_si_nzharm/`.
+Order: **P1 first** (cheap, resolves the graph-vs-CNN worry) → P2 → P3 (production
+decision) → P4 → P5 (on P3 GO). All GPU via tmux + salloc interactive + CUDA assert.
+
+**P1 STATUS (launched 2026-07-08, tmux `p1work`):** CNN done (0.876±.004). Running:
+F-tier seeds 43/44 (+ the seed-42 0.841 already in hand) and the same-framework
+graph control (EGNN-lite on union+curated, MSE, mean & attention, seeds 42–44) to
+complete the matched-estimand torch-framework table. The *production*-GraphNet MSE
+number (jraph regression on the union cache) is P1b — set up separately as the
+strongest graph datapoint.
