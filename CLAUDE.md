@@ -12,6 +12,7 @@ for voids, walls, filaments, and clusters.
 Start with:
 
 - `SCIENCE_LOG.md` for current scientific direction, open threads, and recent decisions — read this first before doing anything substantive.
+- `CONTEXT.md` for durable programme context and current framing. If it conflicts with `SCIENCE_LOG.md`, follow the science log.
 - `README.md` for repository orientation.
 - `ACTIVE_WORKFLOWS.md` for the current canonical entrypoint list.
 - `RUNBOOK.md` for Perlmutter commands, path overrides, and troubleshooting.
