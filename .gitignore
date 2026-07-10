@@ -67,3 +67,6 @@ graphify-out/
 
 # Machine-local fonts (one-time IBM Plex install per PLOT_STYLE_GUIDE.md §2.3)
 assets/fonts/
+
+# Local-only daily briefing todo log (personal admin, high churn — not shared science state)
+DAILY_TODOS.md
