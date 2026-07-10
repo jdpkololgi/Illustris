@@ -1,5 +1,20 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-10 — [code] P2 DESI-density (nzharm) accuracy: field/grid edge PRESERVED, not a dense-wedge artifact
+- **Setup:** re-ran CNN (gate_t2) + F-tier (gate_t4), MSE heads, on the n(z)-harmonized
+  nzharm cache (82,650 gal, DESI-density-matched, verified row-aligned to
+  `path1_wedge_nzharm_final_points_xyz.npy`). GPU tmux. `field_level_tests/P2/`.
+- **Result (λ1 R²):** CNN **0.864 ± .004** (raw 0.876, Δ−0.012); F-tier **0.838 ± .0001**
+  (raw 0.840, Δ−0.002). Ranking CNN ≳ F-tier ≫ graph baseline PRESERVED. **The
+  field/grid-representation advantage is NOT a dense-wedge artifact** — it survives the
+  DESI-density correction essentially intact.
+- **Caveats (honest):** (1) this nzharm is only ~18% sparser than the raw wedge (100,935→
+  82,650), so it is a *robustness* check, NOT an extreme-sparsity stress test — the truly
+  sparse regime (voids, full BGS n(z) tails) where a fixed grid could finally degrade is
+  STILL untested. (2) MSE point-estimate accuracy only; **calibration at nzharm was NOT
+  measured** (needs a flow trained at nzharm) — the P3 under-coverage was on the raw wedge,
+  so whether density changes it remains open. See plan §10.
+
 ### 2026-07-10 — [code] P3/G6 posterior estimator: FMPE beats MAF on accuracy; calibration comparison INCOMPLETE (caveat)
 - **Setup:** frozen union GraphNet encoder (80-d embeddings), identical splits/targets;
   MAF (existing) vs a fresh sbi-package FMPE (flow-matching) head. Same conditioning ⇒

@@ -403,7 +403,7 @@ best-encoder latent, judged by SBC/TARP + cluster-tail coverage** (not NLL). Pri
 | Phase | Experiment | Models | Head | Data | Metrics | Decides |
 |---|---|---|---|---|---|---|
 | **P1** | matched-estimand accuracy | G3-GraphNet · F-tier · CNN | all **MSE**, ≥3 seeds | raw wedge | λ1/2/3 R², λ1>0.2 slice, 4-class | is the CNN 0.876 edge real at matched estimand? |
-| **P2** | DESI-density re-run | G3 · F-tier · CNN | MSE | **nzharm** | as P1, Δ vs P1 | does the grid edge shrink at survey sparsity? |
+| **P2** *(DONE, accuracy)* | DESI-density re-run | F-tier · CNN | MSE | **nzharm** | as P1, Δ vs P1 | **RESULT: edge PRESERVED.** CNN λ1 0.864±.004 (raw 0.876, Δ−0.012); F-tier 0.838±.0001 (raw 0.840, Δ−0.002). Ranking held; NOT a dense-wedge artifact. Caveats: nzharm only ~18% sparser than raw (robustness, not extreme sparsity); calibration@nzharm NOT measured. |
 | **P3** | calibrated head + G6 | G3 · F-tier (CNN opt) | **MAF vs FMPE** on frozen latent | raw+nzharm | **SBC/TARP**, tail coverage, NLL, width | posterior estimator + best-calibrated model = **production choice** (= F-tier F1-calibration gate) |
 | **P4** | CNN cell-size sweep | CNN | MSE | raw+nzharm | λ1>0.2 slice vs cell 3/4/5/6 Mpc | finer cores vs shot noise |
 | **P5** | F-tier field-level | F-tier | **generative δ̂ (F3)** + eigvec (F4) | raw | field TARP, eigvec misalignment | field posteriors + IA — gated on P3 GO |
