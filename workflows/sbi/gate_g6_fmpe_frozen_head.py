@@ -113,17 +113,29 @@ def main():
         print(f"cluster-slice lambda1 Spearman: MAF {spearmanr(truth[clu,0], maf_mean[clu,0]).statistic:+.2f}"
               f"  FMPE {spearmanr(truth[clu,0], mean_f[clu,0]).statistic:+.2f}  (n={clu.sum()})")
 
-    # calibration: SBC ranks (in scaled-target space) + central coverage on raw lambda1
-    ranks = (S < theta[idx][:, None, :]).mean(axis=1)                 # [n_eval,3]
-    print("\ncalibration (FMPE): KS-uniform p per dim:",
-          [f"{kstest(ranks[:,k], 'uniform').pvalue:.3f}" for k in range(3)])
-    for q in (0.68, 0.90):
-        lo_q = np.quantile(lam[:, :, 0], (1-q)/2, axis=1)
-        hi_q = np.quantile(lam[:, :, 0], 1-(1-q)/2, axis=1)
-        cov = np.mean((truth[:, 0] >= lo_q) & (truth[:, 0] <= hi_q))
-        print(f"  lambda1 central {int(q*100)}% coverage: {cov:.3f}")
+    # calibration: SBC ranks (scaled-target space) + central coverage on raw lambda1.
+    # Report BOTH FMPE and MAF (symmetric) so the estimator comparison is like-for-like.
+    def _calib(S_scaled, lam_raw, tag):
+        ranks = (S_scaled < theta[idx][:, None, :]).mean(axis=1)      # [n_eval,3]
+        ks = [f"{kstest(ranks[:, k], 'uniform').pvalue:.3f}" for k in range(3)]
+        print(f"\ncalibration ({tag}): SBC KS-uniform p per dim: {ks}")
+        for q in (0.68, 0.90):
+            lo_q = np.quantile(lam_raw[:, :, 0], (1 - q) / 2, axis=1)
+            hi_q = np.quantile(lam_raw[:, :, 0], 1 - (1 - q) / 2, axis=1)
+            cov = np.mean((truth[:, 0] >= lo_q) & (truth[:, 0] <= hi_q))
+            print(f"  {tag} lambda1 central {int(q*100)}% coverage: {cov:.3f} (nominal {q:.2f})")
 
-    print("\nGATE G6: GO if FMPE R2 >= MAF R2 - 0.01 AND calibration comparable/better.")
+    _calib(S, lam, "FMPE")
+    if "samples_scaled" in d:
+        S_maf = d["samples_scaled"][rows].astype(np.float64)          # [n_eval, n_s, 3] scaled
+        lam_maf = to_raw_lambda(S_maf, scaler)
+        _calib(S_maf, lam_maf, "MAF")
+    else:
+        print("\n(MAF calibration skipped: self-eval npz has no 'samples_scaled' — "
+              "regenerate with the updated generate_maf_selfeval.py)")
+
+    print("\nGATE G6: GO if FMPE R2 >= MAF R2 - 0.01 AND FMPE calibration comparable/"
+          "better than MAF (KS-uniform closer to uniform, coverage closer to nominal).")
 
 
 if __name__ == "__main__":

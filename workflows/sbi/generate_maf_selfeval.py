@@ -64,8 +64,12 @@ def main():
           [f"{r2_score(eig_raw[te, k], lambda_mean[te, k]):.4f}" for k in range(3)])
 
     args.out_npz.parent.mkdir(parents=True, exist_ok=True)
-    np.savez_compressed(args.out_npz, node_index=node_index, lambda_mean=lambda_mean)
-    print(f"wrote {args.out_npz}  (node_index {node_index.shape}, lambda_mean {lambda_mean.shape})")
+    # also save the scaled samples so gate_g6 can compute MAF SBC ranks + coverage
+    # symmetric to FMPE (float32 to bound file size).
+    np.savez_compressed(args.out_npz, node_index=node_index, lambda_mean=lambda_mean,
+                        samples_scaled=S.astype(np.float32))
+    print(f"wrote {args.out_npz}  (node_index {node_index.shape}, lambda_mean "
+          f"{lambda_mean.shape}, samples_scaled {S.shape})")
 
 
 if __name__ == "__main__":
