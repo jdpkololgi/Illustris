@@ -113,8 +113,14 @@ def main():
                          "unattended g4 chain for completion detection).")
     args = ap.parse_args()
     torch.manual_seed(args.seed)
-    dev = "cuda" if torch.cuda.is_available() else "cpu"
-    print(f"device: {dev}")
+    # Fail-fast on GPU: an intermittent srun gres-binding miss can let a guard
+    # subprocess see cuda=True while THIS process's own check returns False,
+    # silently CPU-crawling for the full run. Force cuda and assert.
+    dev = "cuda"
+    assert torch.cuda.is_available(), (
+        "gate_g4_egnn_smoke requires CUDA but torch.cuda.is_available() is "
+        "False in this process — GPU not bound; abort instead of CPU-crawling.")
+    print(f"device: {dev}  (torch.cuda.is_available()={torch.cuda.is_available()})")
 
     cache = pickle.load(open(args.cache, "rb"))
     eig = np.asarray(cache["eigenvalues_raw"], np.float64)

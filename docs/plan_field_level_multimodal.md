@@ -416,6 +416,18 @@ Caches: raw `..._sbi_cache_3d_lineareig_si.pkl`; nzharm `path1_flowjax_3d_linear
 Order: **P1 first** (cheap, resolves the graph-vs-CNN worry) → P2 → P3 (production
 decision) → P4 → P5 (on P3 GO). All GPU via tmux + salloc interactive + CUDA assert.
 
+**P3 RESULT (2026-07-10) — FMPE > MAF on accuracy; calibration comparison INCOMPLETE.**
+Frozen union GraphNet encoder, identical splits, MAF vs FMPE head (CPU-only). Posterior-
+mean R² (n_eval=1500): MAF 0.819/0.881/0.916 vs **FMPE 0.850/0.896/0.928** (+0.031 λ1,
+wins all; cluster λ1 Spearman +0.68→+0.70). **Accuracy gate MET.** FMPE calibration
+(this run only): SBC KS-uniform p 0.000/0.003/0.001, λ1 coverage 59.4%@68% / 82.9%@90% →
+under-covers. **CAVEAT: MAF SBC/coverage NOT computed here** — so FMPE is imperfectly
+calibrated in absolute terms but we can't yet say worse-than-MAF; plus FMPE was quick-
+trained (144 epochs, sbi defaults, 1 seed) on the raw over-dense wedge. **Decision NOT
+final** until the symmetric MAF SBC/coverage rerun (in progress). Prior stands: FMPE is the
+right direction. Scripts: `gate_g6_fmpe_frozen_head.py`, `generate_maf_selfeval.py`;
+result `field_level_tests/P3/g6_result.txt`.
+
 **P1 STATUS (launched 2026-07-08, tmux `p1work`):** CNN done (0.876±.004). Running:
 F-tier seeds 43/44 (+ the seed-42 0.841 already in hand) and the same-framework
 graph control (EGNN-lite on union+curated, MSE, mean & attention, seeds 42–44) to

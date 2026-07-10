@@ -1,5 +1,28 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-10 — [code] P3/G6 posterior estimator: FMPE beats MAF on accuracy; calibration comparison INCOMPLETE (caveat)
+- **Setup:** frozen union GraphNet encoder (80-d embeddings), identical splits/targets;
+  MAF (existing) vs a fresh sbi-package FMPE (flow-matching) head. Same conditioning ⇒
+  any difference is the density estimator. Fully CPU. Script:
+  `gate_g6_fmpe_frozen_head.py` + new `generate_maf_selfeval.py`. Results:
+  `/pscratch/.../field_level_tests/P3/g6_result.txt`.
+- **Accuracy (posterior-mean R², n_eval=1500, frozen emb):** MAF 0.819/0.881/0.916 vs
+  **FMPE 0.850/0.896/0.928** — FMPE wins every eigenvalue (+0.031 λ1), cluster-slice λ1
+  Spearman MAF +0.68 vs **FMPE +0.70**. The gate's accuracy half (FMPE ≥ MAF−0.01) is
+  clearly met. Confirms the prior: FMPE is the better estimator on this conditioning.
+- **Calibration (FMPE only, this run):** SBC KS-uniform p = 0.000/0.003/0.001 (rejects
+  uniformity); λ1 central coverage 59.4% @ nominal 68%, 82.9% @ 90% → **under-covers /
+  over-confident**. The gate's calibration half is NOT cleanly met as measured.
+- **CAVEATS (do not over-read the calibration failure):** (1) **MAF's own SBC/coverage
+  was NOT computed** in this run — the script only prints FMPE calibration, so we can only
+  say FMPE is imperfectly calibrated in ABSOLUTE terms, NOT that it is worse than MAF (MAF
+  may under-cover similarly). The symmetric comparison is the missing piece. (2) FMPE was
+  quick-trained (144 epochs, sbi defaults, single seed) — under-coverage often = under-
+  training/default HPs, not a fundamental limit. (3) raw over-dense wedge.
+- **Verdict:** FMPE is the accuracy winner and the right direction, but the posterior-
+  estimator DECISION is not final until MAF SBC/coverage is measured on the same eval set
+  (symmetric). Next (cheap, CPU): add MAF SBC+coverage to the script and re-run. See plan §10.
+
 ### 2026-07-08 — [science] Where the field-level results leave the three plans (and: the graph PhD work is NOT shown useless)
 - **The honest worry** (JDPK): "has a dumb CNN beating my GraphNet shown 2.5 yr of graph
   work useless?" **No — and precisely why is worth stating.** Full argument in
