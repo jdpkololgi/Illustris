@@ -1,5 +1,25 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-11 — [science] Why F3 is miscalibrated: it's the DENSITY ESTIMATOR (δ̂ posterior wrong SHAPE ← density is non-Gaussian)
+- **Decisive diagnostic** (on saved F3 posterior samples, no retrain): the physics gives
+  tr T = δ̂ exactly, so the F3 posterior over the TRACE (λ1+λ2+λ3) IS its δ̂ posterior, and it's
+  ordering-invariant. **The trace fails SBC** (KS-p≈0, cov68 0.724, cov90 0.899, mean-rank 0.510)
+  — same signature as the eigenvalues. Since the trace carries no ordering artifact, the
+  miscalibration lives in **δ̂ itself → the density estimator.**
+- **Ordering pushforward EXONERATED:** λ1 SBC fails equally for near-degenerate and separated
+  galaxies (KS≈0 both); Spearman(|rank−0.5|, gap21)=+0.013 (≈0). If ordering distorted the ranks
+  it would concentrate at small gaps — it doesn't.
+- **WHY:** signature = coverage OK, SBC fails = wrong distributional SHAPE. The density field is
+  intrinsically non-Gaussian (δ≥−1 in voids, long upper tail ≈ **lognormal**, Coles & Jones 1991),
+  but F3's decoder is a Gaussian-latent FiLM field → roughly SYMMETRIC δ̂ samples. The energy
+  score matches the marginal WIDTH (good coverage) but not the SKEW (fails SBC); the wrong δ̂ shape
+  propagates deterministically through the physics into every eigenvalue + the trace identically.
+  (Global-FiLM "uniform uncertainty" only partly true — per-galaxy 68%-width CV≈0.76 — so it's the
+  SHAPE not the spatial structure.)
+- **FIX direction:** model **log(1+δ̂)** (≈Gaussian; the standard lognormal move) instead of δ̂,
+  or a normalizing-flow / diffusion field decoder able to represent a skewed bounded posterior.
+- Refs: `field_level_tests/Pf3/f3_film_samples.npz` (analysis), `gate_f3_generative_ftier.py`.
+
 ### 2026-07-11 — [code] F-tier v2 NEGATIVE: encoder-side upgrades don't move F-tier; bottleneck is the field+physics factorization
 - **v2 (raw wedge):** A = union graph + attention encoder + 9 edge features + TSC + U-Net =
   λ1 **0.8414** (0.900/0.932); B = A + survey-mask + FNO(16M) = **0.8389** (0.896/0.929).
