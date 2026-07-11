@@ -1,5 +1,25 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-10 — [code] Calibration branches: G3+FMPE+tempering ships λ1; F-tier needs F3 (encoder-embedding flow fails)
+- **Branch (b) G3+FMPE + posterior tempering (val-calibrated, held-out test, union model):**
+  a single scale τ≈1.15 brings **λ1 to nominal coverage (0.689@68, 0.897@90) AND passes SBC
+  (KS-p 0.507)** with post-mean R² unchanged (0.839); TARP max|ECP−α|≈0.04. τ68≈τ90 ⇒ λ1
+  miscal was pure SCALE. **BUT λ2/λ3 keep residual SHAPE miscal (SBC still 0.00) that
+  tempering can't fix.** ⇒ **VAC headline P(λ1>λ_th) is SHIPPABLE now with G3+FMPE+tempering**;
+  the 4-class (λ2/λ3) columns need SBC-aware training first. `field_level_tests/Pb_tempering/`.
+- **Branch (a) F-tier encoder-embedding → flow @ nzharm: NEGATIVE (informative).** Conditioning
+  FMPE/MAF on the F-tier EGNN encoder embedding h_i collapses accuracy to **λ1 0.407** (vs the
+  F-tier's own 0.838); the "good" coverage (0.664@68) is trivial (wide uninformative posterior).
+  **Reason:** F-tier's eigenvalue info lives in the δ̂ field AFTER the U-Net+physics (nonlocal,
+  mixes neighbours), NOT in the per-node encoder embedding — so the h_i-flow shortcut (which
+  works for G3) throws away the nonlocality the physics layer exploits. This VINDICATES the
+  F-tier design and means a calibrated F-tier posterior needs the **generative-δ̂ route (F3)**,
+  not the encoder-embedding trick. `field_level_tests/Pa_ftier_calib/`.
+- **Production decision:** ship **G3 GraphNet + FMPE + scalar tempering** for the calibrated
+  λ1 headline; F-tier stays the point-estimate accuracy/physics/eigenvector leader pending F3;
+  λ2/λ3 calibration (4-class) = SBC-aware training, a follow-on. Scripts: `gate_pa_ftier_flow_calib.py`,
+  `gate_t4 --save-embeddings`, Pb tempering driver.
+
 ### 2026-07-10 — [code] P2 DESI-density (nzharm) accuracy: field/grid edge PRESERVED, not a dense-wedge artifact
 - **Setup:** re-ran CNN (gate_t2) + F-tier (gate_t4), MSE heads, on the n(z)-harmonized
   nzharm cache (82,650 gal, DESI-density-matched, verified row-aligned to

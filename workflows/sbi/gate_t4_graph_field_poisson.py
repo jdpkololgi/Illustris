@@ -255,6 +255,9 @@ def main():
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--smoke", action="store_true", help="few steps, assert shapes+backward")
     ap.add_argument("--out-file", type=Path, default=None)
+    ap.add_argument("--save-embeddings", type=Path, default=None,
+                    help="opt-in: after training, dump the encoder's per-node invariant "
+                         "latent h_i (shape [N,width]) + masks/eig to an npz for a flow head.")
     args = ap.parse_args()
 
     torch.manual_seed(args.seed)
@@ -350,6 +353,16 @@ def main():
     with torch.no_grad():
         pred, _ = model(h, srct, dstt, eg, counts_ch)
         pred = pred.cpu().numpy()
+    if args.save_embeddings is not None:
+        with torch.no_grad():
+            emb = model.enc(h, srct, dstt, eg).detach().cpu().numpy()  # (N, width) invariant h_i
+        args.save_embeddings.parent.mkdir(parents=True, exist_ok=True)
+        np.savez_compressed(args.save_embeddings, emb=emb.astype(np.float32),
+                            train=train, val=val, test=test,
+                            eig_raw=eig.astype(np.float64), pred_eigs=pred.astype(np.float64),
+                            seed=args.seed, width=args.width)
+        print(f"embeddings saved: {emb.shape} -> {args.save_embeddings}")
+
     ti = np.where(test)[0]
     lines, scores = [], {}
     print(f"\n{'':10s} {'F1 R2':>8s}  (GraphNet 0.775/0.811/0.891; G3 0.804; classical DTFE 0.552/0.641/0.663)")
