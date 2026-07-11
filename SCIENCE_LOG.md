@@ -1,5 +1,25 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-11 — [code] F-tier v2 NEGATIVE: encoder-side upgrades don't move F-tier; bottleneck is the field+physics factorization
+- **v2 (raw wedge):** A = union graph + attention encoder + 9 edge features + TSC + U-Net =
+  λ1 **0.8414** (0.900/0.932); B = A + survey-mask + FNO(16M) = **0.8389** (0.896/0.929).
+  vs v1 0.840 → FLAT (within seed noise). The 16M FNO (B) is slightly WORSE than the 416k
+  U-Net (A) with a mild train<val overfit gap.
+- **Finding:** every architecturally-sound upgrade (union, attention, edge feats, TSC, FNO,
+  mask) left F-tier at ~0.84. Bottleneck is NOT the encoder/graph/features/decoder — it is the
+  field-decode + FIXED-physics factorization. **Coherent with branch (a)** (flow on the F-tier
+  encoder embedding h_i collapsed to 0.407): both say the info lives in the POST-physics field,
+  not the per-node encoder. A fancier encoder can't help.
+- **~0.035 gap to the CNN (0.876) = "price of physics":** routing everything through one scalar
+  field + the exact linear operator caps accuracy (the free CNN absorbs RSD/bias/discreteness
+  residuals the exact map cannot); in exchange F-tier gives guaranteed-valid tensors, free
+  ordering, and EIGENVECTORS.
+- **Implications:** to raise F-tier accuracy work the FIELD side (finer cells — F-tier ran at
+  6 Mpc vs CNN 5; learnable smoothing W_R; physics+residual hybrid), NOT the encoder (keep it
+  simple). Production picture unchanged: CNN = point-estimate leader (0.876); G3+FMPE+tempering =
+  shippable calibrated λ1; F-tier = physics/eigenvector product at ~0.84. Refs: `gate_ftier_v2.py`,
+  `field_level_tests/Pv2/`, plan §12.
+
 ### 2026-07-10 — [code] Calibration branches: G3+FMPE+tempering ships λ1; F-tier needs F3 (encoder-embedding flow fails)
 - **Branch (b) G3+FMPE + posterior tempering (val-calibrated, held-out test, union model):**
   a single scale τ≈1.15 brings **λ1 to nominal coverage (0.689@68, 0.897@90) AND passes SBC
