@@ -502,3 +502,12 @@ theorem; no softplus-increment trick needed). The δ̂ field stays GLOBAL over t
 **Runs (2 salloc):** A = union+attn+edge+TSC+U-Net. B = A + survey-mask channel + FNO decoder.
 Script: `gate_ftier_v2.py` (imports validated PhysicsLayer/eigvalsh3x3/UNet3D from gate_t4).
 Baseline to beat: F-tier v1 nzharm 0.838 (and toward CNN 0.864). On nzharm cache + points.
+
+**§12 RESULT (2026-07-10) — v2 upgrades are FLAT (negative, informative):** A (union+attn+edge+
+TSC+U-Net) λ1 **0.8414**; B (+mask+FNO 16M) **0.8389** — vs v1 0.840, within seed noise. FNO(B)
+slightly worse than U-Net(A) with mild overfit. ⇒ F-tier's bottleneck is the field-decode+fixed-
+physics factorization, NOT the encoder (coherent with branch-(a): info is in the post-physics
+field, not h_i). The ~0.035 gap to the CNN is the "price of physics" (exactness can't absorb
+RSD/bias/discreteness residuals). To improve F-tier: work the FIELD side (finer cells vs the 6 Mpc
+used here / learnable smoothing W_R / physics+residual hybrid), keep the encoder simple. F-tier's
+production role = physics/eigenvector product at ~0.84, not the accuracy leader.
