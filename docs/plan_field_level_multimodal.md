@@ -466,3 +466,39 @@ Two branches run (subagents), both CPU/GPU tmux+salloc:
 3. **F-tier: point-estimate accuracy/physics/eigenvector leader (0.838), NOT a
    calibrated posterior yet** — pursue F3 (generative δ̂) to make it one; branch
    (a) proved the encoder-embedding shortcut discards the field information.
+
+## 12. F-tier v2 spec (2026-07-10) — upgrade the deliberately-lightweight v1 components
+
+v1 (`gate_t4_graph_field_poisson.py`) was a CONCEPT test (radius graph, EGNN-lite mean-agg,
+4 hand-built edge scalars, CIC, U-Net) and hit λ1 0.838 nzharm. JDPK-identified upgrades, each
+motivated:
+
+| # | v1 | v2 | Why (ref) |
+|---|---|---|---|
+| graph | radius(10) | **union (Delaunay∪radius)** | best near/far balance; G3 0.804>0.775; 1/k² is nonlocal (vdWeygaert&Schaap 2009) |
+| encoder | EGNN-lite, **mean** agg | **attention aggregation** (invariant-logit) | mean can't count / less expressive (Xu+2019 GIN, arXiv:1810.00826); equivariance not the lever |
+| features | 7 node, 4 geo edge | + **union edge_attr (5-d, point-cloud geometry only)**, standardized | free signal; leakage-audited (no tidal-field-derived feats) |
+| scatter | CIC (1st) | **TSC (2nd order)** | matches the Abacus truth density deposit (TSC); less aliasing (Hockney&Eastwood 1988; Sefusatti+2016) |
+| mask | none (padding+counts) | **apodized survey-mask channel** (variant B) | boundary/window handling (see below) |
+| decoder | 3-D U-Net | U-Net (A) / **FNO** (B) | FNO spectral, resolution-invariant, pairs with the FFT physics layer (Li+2020 arXiv:2010.08895) |
+
+**Survey-mask channel mechanism:** the wedge is a finite, irregularly-bounded region padded into a
+cubic grid; outside it the scattered field/counts are exactly zero. The FFT physics layer is periodic
+and acts on the whole grid, so the SHARP wedge boundary rings (Gibbs) — and the tidal tensor is a 2nd
+derivative, which amplifies boundary discontinuities. The mask channel is an APODIZED indicator field
+(1 inside the wedge, smoothly→0 across the boundary over ~6 Mpc via a Gaussian-smoothed hard mask on
+RA∈[120,160], Dec∈[14.5,30.6], r∈[r(z=0.2),r(z=0.3)]). Fed as an extra U-Net/FNO input channel it (a)
+tells the decoder the survey geometry so it doesn't hallucinate structure in the empty padding, and
+(b) lets it taper/extrapolate near edges. It is the ML analogue of the LSS survey WINDOW function
+W(x) (observed = true × window; FKP 1994); apodization (smooth taper vs hard 0/1) suppresses spectral
+ringing (Harris 1978, windows). Same apodized mask used in the T1 classical baseline
+(`classical_tidal_baseline.py::WedgeGrid.survey_mask`).
+
+**Kept from v1 (validated, unchanged):** the FFT physics layer T_ij(k)=(k_i k_j/k²)W₇δ̂ and the
+analytic Cardano `eigvalsh3x3` (ordering + eigenvectors free from the symmetric tensor — spectral
+theorem; no softplus-increment trick needed). The δ̂ field stays GLOBAL over the full padded wedge
+(transductive; mask gates loss/eval only, not a spatial input except the new survey-mask channel).
+
+**Runs (2 salloc):** A = union+attn+edge+TSC+U-Net. B = A + survey-mask channel + FNO decoder.
+Script: `gate_ftier_v2.py` (imports validated PhysicsLayer/eigvalsh3x3/UNet3D from gate_t4).
+Baseline to beat: F-tier v1 nzharm 0.838 (and toward CNN 0.864). On nzharm cache + points.
