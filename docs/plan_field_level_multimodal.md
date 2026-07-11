@@ -438,3 +438,31 @@ graph control (EGNN-lite on union+curated, MSE, mean & attention, seeds 42–44)
 complete the matched-estimand torch-framework table. The *production*-GraphNet MSE
 number (jraph regression on the union cache) is P1b — set up separately as the
 strongest graph datapoint.
+
+## 11. Calibration outcome & production decision (2026-07-10)
+
+Two branches run (subagents), both CPU/GPU tmux+salloc:
+
+- **(b) G3 GraphNet + FMPE + posterior tempering** — a single scale τ≈1.15
+  (calibrated on val, evaluated on held-out test) brings **λ1 to nominal coverage
+  (0.689@68, 0.897@90) and passes SBC (KS-p 0.507)**, post-mean R² unchanged
+  (0.839), TARP max|ECP−α|≈0.04. τ68≈τ90 ⇒ λ1 miscal is pure SCALE. **λ2/λ3 keep
+  residual SHAPE miscal (SBC still 0.00)** — tempering can't fix that.
+  `field_level_tests/Pb_tempering/`, `workflows/sbi/pb_temper_fmpe.py`.
+- **(a) F-tier encoder-embedding → flow @ nzharm — NEGATIVE (informative).**
+  Conditioning FMPE/MAF on the F-tier EGNN embedding h_i collapses accuracy to
+  λ1 **0.407** (vs F-tier 0.838); its "good" coverage is trivial (wide,
+  uninformative). F-tier's eigenvalue info lives in the δ̂ field AFTER the
+  U-Net+physics (nonlocal), NOT in h_i ⇒ the G3-style embedding-flow shortcut
+  does NOT transfer. **A calibrated F-tier posterior needs the generative-δ̂
+  route (F3).** `field_level_tests/Pa_ftier_calib/`, `gate_pa_ftier_flow_calib.py`
+  + `gate_t4 --save-embeddings`.
+
+**DECISION for the production VAC:**
+1. **Headline P(λ1>λ_th): ship G3 GraphNet + FMPE + scalar tempering (τ≈1.15)** —
+   calibrated now (coverage + SBC).
+2. **4-class web probabilities (λ2/λ3): need SBC-aware training** (not just
+   tempering) before those columns are trustworthy — a follow-on.
+3. **F-tier: point-estimate accuracy/physics/eigenvector leader (0.838), NOT a
+   calibrated posterior yet** — pursue F3 (generative δ̂) to make it one; branch
+   (a) proved the encoder-embedding shortcut discards the field information.
