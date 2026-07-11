@@ -1,5 +1,25 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-11 — [code] CONFIRMED: F-tier miscalibration was the ENERGY-SCORE OBJECTIVE, not the summary — MLE flow (FMPE) rescues it
+- **Decisive test:** trained an amortized MLE flow head on the SAME F-tier physics point estimate
+  (cond = predicted eigenvalues, λ1 R²=0.842) as conditioning, targets = scaled eigenvalues.
+  FMPE (continuous flow) and MAF (autoregressive NPE), `flow_ftier_head.py`, n_eval=1500 test.
+- **FMPE result:** SBC KS-p λ1/λ2/λ3/trace = **0.043 / 0.088 / 0.047 / 0.065** — OFF the 0.000 floor;
+  cov68 ≈0.63–0.66, cov90 ≈0.85–0.88 (mild UNDER-coverage, intervals ~5% too narrow);
+  pmean R² 0.858/0.913/0.937 (accuracy KEPT). **MAF result:** λ1 R²≈**0** (collapsed), SBC still
+  **0.000** — FMPE is the right flow, MAF is not.
+- **Interpretation:** the energy score is a strictly-proper JOINT scoring rule → calibrates the joint,
+  NOT the per-eigenvalue MARGINALS that SBC tests. Swapping to maximum likelihood (FMPE) fixes the
+  marginals. This confirms lever (ii) from the log-density falsification entry below; the F-tier
+  physics summary DOES carry enough per-galaxy info for a calibrated posterior.
+- **Remaining flaw is benign:** ~5% under-coverage → posterior-tempering τ≈1.1 (val-calibrated,
+  inference-time, same machinery as the G3 VAC head) closes it without retraining.
+- **Verdict:** calibrated F-tier posteriors are now DEMONSTRATED (FMPE-MLE + light tempering), not
+  hopeless — but this is a research/eigenvector-product path; the VAC headline stays G3+FMPE+tempering.
+- Artifact (phone-viewable): claude.ai/code/artifact/f12f95d8-29f1-485c-93bb-f12177eff104
+- Refs: `field_level_tests/Pflow/flow_result.txt`, `flow_samples.npz`, `ftier_cond.npz`,
+  `workflows/sbi/flow_ftier_head.py`.
+
 ### 2026-07-11 — [science] Why F3 is miscalibrated: it's the DENSITY ESTIMATOR (δ̂ posterior wrong SHAPE ← density is non-Gaussian)
 - **Decisive diagnostic** (on saved F3 posterior samples, no retrain): the physics gives
   tr T = δ̂ exactly, so the F3 posterior over the TRACE (λ1+λ2+λ3) IS its δ̂ posterior, and it's

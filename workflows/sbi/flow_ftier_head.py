@@ -31,6 +31,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--cond-npz", type=Path, required=True)
     ap.add_argument("--k-eval", type=int, default=128)
+    ap.add_argument("--n-eval", type=int, default=1500, help="subsample test galaxies for calibration eval (FMPE ODE sampling is slow)")
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--out-file", type=Path, required=True)
     ap.add_argument("--samples-npz", type=Path, default=None)
@@ -54,8 +55,10 @@ def main():
     th = torch.tensor(theta[pool], dtype=torch.float32); xx = torch.tensor(x[pool], dtype=torch.float32)
 
     ti = np.where(te)[0]
-    Xte = torch.tensor(x[te], dtype=torch.float32)
-    truth = eig[te]
+    if args.n_eval and args.n_eval < len(ti):
+        ti = np.sort(rng.choice(ti, args.n_eval, replace=False))
+    Xte = torch.tensor(x[ti], dtype=torch.float32)
+    truth = eig[ti]
     results = {}
     for name, Trainer in [("FMPE", FMPE), ("MAF", NPE)]:
         print(f"\n=== {name} (MLE) ===")
