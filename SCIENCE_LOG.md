@@ -19,6 +19,18 @@
 - **FIX direction:** model **log(1+δ̂)** (≈Gaussian; the standard lognormal move) instead of δ̂,
   or a normalizing-flow / diffusion field decoder able to represent a skewed bounded posterior.
 - Refs: `field_level_tests/Pf3/f3_film_samples.npz` (analysis), `gate_f3_generative_ftier.py`.
+- **UPDATE (log-density test, FALSIFIED the shape hypothesis):** ran F3 with `--log-density`
+  (decoder emits u=log(1+δ̂), δ̂=exp(u)−1). SBC KS-p STILL 0.000 for all eigenvalues AND the trace;
+  it changed the spread (base over-dispersed std/RMSE=1.65 → log-density 0.73) but NOT the SBC. So
+  the density *parameterization* is NOT the lever. Rank histograms (both) pile at CENTER (0.22–0.25
+  in [.4,.6] vs 0.20 uniform) — truth near the posterior median too often, unfixed by re-scaling.
+  ⇒ redirect: the miscalibration is (i) the **low-dim global FiLM latent** (16-d → too restrictive
+  a posterior family) and/or (ii) the **energy score is a JOINT scoring rule** — it calibrates the
+  joint, not the per-eigenvalue MARGINALS that SBC tests. Remaining levers = richer/**spatial**
+  latent + a **likelihood-based** (flow/diffusion) decoder, both real builds with uncertain payoff.
+  **PRACTICAL:** calibrated F-tier posteriors are HARD; do NOT chase for the VAC. Ship G3+FMPE+
+  tempering (calibrated λ1); keep F-tier for point-estimate eigenvector/field products. F3 = research
+  thread. Refs: `field_level_tests/Pf3/f3_logdens*`.
 
 ### 2026-07-11 — [code] F-tier v2 NEGATIVE: encoder-side upgrades don't move F-tier; bottleneck is the field+physics factorization
 - **v2 (raw wedge):** A = union graph + attention encoder + 9 edge features + TSC + U-Net =
