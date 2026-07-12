@@ -511,3 +511,15 @@ field, not h_i). The ~0.035 gap to the CNN is the "price of physics" (exactness 
 RSD/bias/discreteness residuals). To improve F-tier: work the FIELD side (finer cells vs the 6 Mpc
 used here / learnable smoothing W_R / physics+residual hybrid), keep the encoder simple. F-tier's
 production role = physics/eigenvector product at ~0.84, not the accuracy leader.
+
+**§12 CELL SWEEP + F3 (2026-07-11):** cell sweep — cell5 0.8432 vs cell6 0.8414 (+0.002 negligible);
+cell4 DIVERGED (loss spike, FFT-physics gradient instability at finer grids). => F-tier is
+CEILING-limited, NOT grid-limited; resolution can't close the ~0.035 gap to the CNN.
+F3 generative (energy-score, latent δ̂, M=8 samples through physics): pmean λ1 0.784 (< point 0.84
+< G3+FMPE 0.850), λ1 coverage 0.722@68 / 0.896@90 (reasonable, > G3+FMPE pre-temper), SBC KS-p 0.000
+(fails, shape miscal). => the PRINCIPLED generative route works (where branch-(a) encoder-embedding
+failed) but underperforms G3+FMPE as a per-galaxy eigenvalue posterior.
+**DECISIVE VERDICT:** F-tier is a special-purpose instrument — NOT the accuracy champion (CNN 0.876)
+nor the best calibrated per-galaxy posterior (G3+FMPE+tempering). Its ONLY irreplaceable value is
+physically-consistent EIGENVECTORS (IA science) + the reconstructed δ̂ field product. Ship CNN /
+G3+FMPE for the VAC headline; build F-tier/F3 only if eigenvector/IA orientations are a science goal.

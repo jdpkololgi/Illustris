@@ -244,6 +244,8 @@ def main():
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--smoke", action="store_true")
     ap.add_argument("--out-file", type=Path, default=None)
+    ap.add_argument("--save-cond", type=Path, default=None,
+                    help="save per-galaxy predicted eigenvalues as conditioning for a flow head")
     args = ap.parse_args()
     torch.manual_seed(args.seed); np.random.seed(args.seed)
     dev = "cuda"
@@ -333,6 +335,15 @@ def main():
     model.load_state_dict(best_state); model.eval()
     with torch.no_grad():
         pred, _ = model(h, srct, dstt, eg, counts_ch); pred = pred.cpu().numpy()
+    if args.save_cond is not None:
+        # per-galaxy F-tier physics point estimate (predicted eigenvalues) as conditioning
+        # for a downstream normalizing-flow posterior head (MLE-calibrated marginals).
+        args.save_cond.parent.mkdir(parents=True, exist_ok=True)
+        np.savez_compressed(args.save_cond, cond=pred.astype(np.float32),
+                            eig=eig.astype(np.float32),
+                            train=train, val=val, test=test,
+                            mu=mu.astype(np.float32), sd=sd.astype(np.float32))
+        print(f"conditioning saved: cond{pred.shape} -> {args.save_cond}")
     ti = np.where(test)[0]; lines = []
     print(f"\n{'':10s} {'v2 R2':>8s}  (v1 raw 0.840/0.897/0.930; CNN 0.876; G3 0.804)")
     for k, nm in enumerate(["lambda1", "lambda2", "lambda3"]):

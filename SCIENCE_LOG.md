@@ -1,5 +1,57 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-11 — [code] CONFIRMED: F-tier miscalibration was the ENERGY-SCORE OBJECTIVE, not the summary — MLE flow (FMPE) rescues it
+- **Decisive test:** trained an amortized MLE flow head on the SAME F-tier physics point estimate
+  (cond = predicted eigenvalues, λ1 R²=0.842) as conditioning, targets = scaled eigenvalues.
+  FMPE (continuous flow) and MAF (autoregressive NPE), `flow_ftier_head.py`, n_eval=1500 test.
+- **FMPE result:** SBC KS-p λ1/λ2/λ3/trace = **0.043 / 0.088 / 0.047 / 0.065** — OFF the 0.000 floor;
+  cov68 ≈0.63–0.66, cov90 ≈0.85–0.88 (mild UNDER-coverage, intervals ~5% too narrow);
+  pmean R² 0.858/0.913/0.937 (accuracy KEPT). **MAF result:** λ1 R²≈**0** (collapsed), SBC still
+  **0.000** — FMPE is the right flow, MAF is not.
+- **Interpretation:** the energy score is a strictly-proper JOINT scoring rule → calibrates the joint,
+  NOT the per-eigenvalue MARGINALS that SBC tests. Swapping to maximum likelihood (FMPE) fixes the
+  marginals. This confirms lever (ii) from the log-density falsification entry below; the F-tier
+  physics summary DOES carry enough per-galaxy info for a calibrated posterior.
+- **Remaining flaw is benign:** ~5% under-coverage → posterior-tempering τ≈1.1 (val-calibrated,
+  inference-time, same machinery as the G3 VAC head) closes it without retraining.
+- **Verdict:** calibrated F-tier posteriors are now DEMONSTRATED (FMPE-MLE + light tempering), not
+  hopeless — but this is a research/eigenvector-product path; the VAC headline stays G3+FMPE+tempering.
+- Artifact (phone-viewable): claude.ai/code/artifact/f12f95d8-29f1-485c-93bb-f12177eff104
+- Refs: `field_level_tests/Pflow/flow_result.txt`, `flow_samples.npz`, `ftier_cond.npz`,
+  `workflows/sbi/flow_ftier_head.py`.
+
+### 2026-07-11 — [science] Why F3 is miscalibrated: it's the DENSITY ESTIMATOR (δ̂ posterior wrong SHAPE ← density is non-Gaussian)
+- **Decisive diagnostic** (on saved F3 posterior samples, no retrain): the physics gives
+  tr T = δ̂ exactly, so the F3 posterior over the TRACE (λ1+λ2+λ3) IS its δ̂ posterior, and it's
+  ordering-invariant. **The trace fails SBC** (KS-p≈0, cov68 0.724, cov90 0.899, mean-rank 0.510)
+  — same signature as the eigenvalues. Since the trace carries no ordering artifact, the
+  miscalibration lives in **δ̂ itself → the density estimator.**
+- **Ordering pushforward EXONERATED:** λ1 SBC fails equally for near-degenerate and separated
+  galaxies (KS≈0 both); Spearman(|rank−0.5|, gap21)=+0.013 (≈0). If ordering distorted the ranks
+  it would concentrate at small gaps — it doesn't.
+- **WHY:** signature = coverage OK, SBC fails = wrong distributional SHAPE. The density field is
+  intrinsically non-Gaussian (δ≥−1 in voids, long upper tail ≈ **lognormal**, Coles & Jones 1991),
+  but F3's decoder is a Gaussian-latent FiLM field → roughly SYMMETRIC δ̂ samples. The energy
+  score matches the marginal WIDTH (good coverage) but not the SKEW (fails SBC); the wrong δ̂ shape
+  propagates deterministically through the physics into every eigenvalue + the trace identically.
+  (Global-FiLM "uniform uncertainty" only partly true — per-galaxy 68%-width CV≈0.76 — so it's the
+  SHAPE not the spatial structure.)
+- **FIX direction:** model **log(1+δ̂)** (≈Gaussian; the standard lognormal move) instead of δ̂,
+  or a normalizing-flow / diffusion field decoder able to represent a skewed bounded posterior.
+- Refs: `field_level_tests/Pf3/f3_film_samples.npz` (analysis), `gate_f3_generative_ftier.py`.
+- **UPDATE (log-density test, FALSIFIED the shape hypothesis):** ran F3 with `--log-density`
+  (decoder emits u=log(1+δ̂), δ̂=exp(u)−1). SBC KS-p STILL 0.000 for all eigenvalues AND the trace;
+  it changed the spread (base over-dispersed std/RMSE=1.65 → log-density 0.73) but NOT the SBC. So
+  the density *parameterization* is NOT the lever. Rank histograms (both) pile at CENTER (0.22–0.25
+  in [.4,.6] vs 0.20 uniform) — truth near the posterior median too often, unfixed by re-scaling.
+  ⇒ redirect: the miscalibration is (i) the **low-dim global FiLM latent** (16-d → too restrictive
+  a posterior family) and/or (ii) the **energy score is a JOINT scoring rule** — it calibrates the
+  joint, not the per-eigenvalue MARGINALS that SBC tests. Remaining levers = richer/**spatial**
+  latent + a **likelihood-based** (flow/diffusion) decoder, both real builds with uncertain payoff.
+  **PRACTICAL:** calibrated F-tier posteriors are HARD; do NOT chase for the VAC. Ship G3+FMPE+
+  tempering (calibrated λ1); keep F-tier for point-estimate eigenvector/field products. F3 = research
+  thread. Refs: `field_level_tests/Pf3/f3_logdens*`.
+
 ### 2026-07-11 — [code] F-tier v2 NEGATIVE: encoder-side upgrades don't move F-tier; bottleneck is the field+physics factorization
 - **v2 (raw wedge):** A = union graph + attention encoder + 9 edge features + TSC + U-Net =
   λ1 **0.8414** (0.900/0.932); B = A + survey-mask + FNO(16M) = **0.8389** (0.896/0.929).
