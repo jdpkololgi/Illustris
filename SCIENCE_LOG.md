@@ -753,6 +753,33 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-13 — [code] Phase B OOM → pivot to TILED training (user-approved); density-mismatch hypothesis REFUTED
+
+First Phase-B launch OOM'd: `RESOURCE_EXHAUSTED 267.85 GiB on one 80GB GPU`. Root cause: the
+trainer computes the GNN forward on the FULL graph every step and REPLICATES the graph per
+device (data-parallel shards only the loss mask, not the graph) — so 4 GPUs don't help, and the
+pooled 20.9M-edge graph needs ~267GB. Per-shell edges: shell0 11.15M(~142GB), shell1 7.34M(94GB),
+shell2 1.94M(25GB), shell3 0.41M, shell4 0.04M. Even single low-z shells exceed one GPU. Since
+DESI is DENSER than the mock, this is fundamental to full-range/full-footprint work (→ Phase C
+tiling), not an artifact.
+
+IMPORTANT null result: I hypothesized the low-z density was a mock-vs-DESI mismatch (would explain
+shell-0's S1(b) collapse). **S0 atlas REFUTES it** — mock median union-degree ≈ DESI, mock slightly
+SPARSER at every shell (shell0 mock 102 vs DESI 125; shell4 mock 1 vs DESI 3). So "NO dilution" +
+SI is sound, no rebuild warranted; shell-0's failure is genuine density-OOD of the OLD wedge model.
+(Checked before reversing the roadmap decision — glad I did.) Also confirmed `BOX_INDEX==-1` is
+valid data (central box, 100% finite eigenvalues), shell-0 usable.
+
+DECISION (user-approved, AskUserQuestion): **tile the dense low-z shells, pool the rest.** Split
+z<0.25 shells into buffered RA sub-volume tiles aligned to the holdout boundaries {145,150}; shells
+2-4 stay whole. ~10-12 disjoint tiles each ≤4M edges (fits one 80GB GPU). Build by SLICING the
+existing union graphs (induced subgraph on core+buffer nodes) — NO cuGraph/Delaunay rebuild.
+Per-shell ANGULAR buffer (union radius 14.78 Mpc ≈ 3.9° at z=0.05). Trainer: keep pmap, iterate
+tiles in the epoch loop (one compile cached per tile shape). ñ-conditioning + halo-disjoint spatial
+holdout preserved. RA-tiling aligns naturally with the holdout (tiles fall into one region).
+
+
+
 ### 2026-07-13 — [code] S3 pooled ñ-conditioned cache BUILT (all gates pass); Phase B launched
 
 `s3_build_pooled_conditioned_cache.py` → one disjoint-union cache of the 5 S2 shells,
