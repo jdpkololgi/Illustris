@@ -166,6 +166,16 @@ an argument FOR the graph encoder at production scale. See field-level §9.3.
    contiguous RA block (e.g. RA 150–160) across ALL shells from training entirely;
    random transductive splits are optimistic for new sky. **Tempering fitted on a val
    region, assessed on a DISJOINT test region — never tuned on the final test shell.**
+   **PRE-REGISTERED GEOMETRY (2026-07-13, evidence-based):** train RA<145 · val/tempering
+   145–150 · test RA≥150, identical across all 5 shells, + a 15 Mpc graph gutter (drop
+   boundary nodes from mask sets, keep as passive neighbours). Why within-cone is honest
+   HERE (JDPK raised separate-cone): measured the wedge footprint — **zero halo replication**
+   (301,989 valid-box galaxies, all UNIQUE (FILE_NUM,BOX_INDEX,HALO_INDEX), mean 1.00/halo)
+   and **0 halos straddle RA=147.5** → the split is halo-disjoint, no replication leak. The
+   145–150 val buffer gives 70 Mpc (z=0.2)→170 Mpc (z=0.5) transverse train↔test separation,
+   past the LSS correlation length. A separate cone of THIS phase adds nothing but plumbing
+   (one Abacus phase cannot test cosmic variance); the **independent-phase (ph001) test is the
+   v1.1 cosmic-variance check** (eigenvalues not yet computed off ph000).
 2. **Symmetric scope guard:** S1(b) proved the DENSE low-z end fails like the sparse
    end (GraphNet zero-shot −1.09; CNN best-case 0.002 at z0.05–0.15). If S4/S5 cannot
    validate z<0.15 or z>0.45, those rows ship OOD-FLAGGED or outside the validated
