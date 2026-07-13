@@ -1,5 +1,35 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-13 — [science] Codex external review ADOPTED (triaged): v1 contract fixed to calibrated-λ1-only; spatial holdout mandated; tiling = correlated mixture
+- External (Codex) review of the roadmap assessed: strongest external review to date; its
+  grid-at-sparsity prediction was independently confirmed by S1(b) before it saw them.
+  Triage (full adoptions in roadmap §4/§4b):
+  1. **v1 contract corrected (pre-schema-freeze):** calibrated science columns = λ1 only
+     — mean/std/quantiles + **P(λ1>λ_th) ≡ knot/three-axis-collapse probability**
+     (ordering λ1≤λ2≤λ3 makes them identical — sharpened language adopted). λ2/λ3 and
+     4-class ship only as EXPERIMENTAL until SBC-aware v1.1. Was previously (wrongly)
+     "4 class probs (headline)".
+  2. **Spatial holdout mandated** — random transductive splits are optimistic; Phase-B
+     split design (TOMORROW) gets a contiguous held-out RA block across all shells;
+     tempering fit on val region, assessed on a disjoint region.
+  3. **Symmetric scope guard** (dense low-z now guarded like sparse high-z — S1(b)
+     evidence), **reliability+Brier gate for P(λ1>0.2)** per shell + mass-anchored,
+     width-vs-|error| and conditional-coverage diagnostics, **prior-dominated flag**
+     (calibrated-but-uninformative rows must say so).
+  4. **ñ spline discipline:** freeze prescription, two-bandwidth sensitivity test —
+     "smooth expected sampling intensity", not measured density (don't condition away
+     real radial modes). Randoms-grounded selection = v1.1.
+  5. **Tiling:** centrality-weighted posterior MIXTURE (never products, never averaged
+     variances); buffered-tile+trim; mask-hole edge flags; idempotent shards+manifests;
+     golden-wedge canary before scale-out; DAILY incremental CFS backups start now.
+  6. Already-converged items (no change): G3+FMPE+tempering default w/ challenger rule;
+     TARGET_EPOCH=0.2 first-class; F-tier protected as v1.1/research. Deferred to v1.1:
+     completeness FEATURES (v1 = flags), randoms-based selection, multi-snapshot labels.
+- Net effect on the Jul 21 deliverable (unchanged in spirit, sharpened in wording):
+  "a frozen, internally validated GraphWeb-BGS VAC v1 CANDIDATE, pending DESI
+  collaboration review", whose success criterion is: every unflagged row has a
+  posterior whose calibration, information content and domain support we can defend.
+
 ### 2026-07-13 — [code] S1(b)/S2.5 VERDICT: grid's BEST case collapses at BOTH range extremes; conditioned GraphNet confirmed as the full-range production path
 - **Design (a-fortiori):** GraphNet evaluated ZERO-SHOT (worst case, leak-guarded via
   FILE_NUM/BOX_INDEX exclusion of training-wedge galaxies) vs CNN trained WITHIN each

@@ -150,11 +150,45 @@ an argument FOR the graph encoder at production scale. See field-level §9.3.
   publication process here.**
 - **D** Validation: SBC/TARP; mass-anchored massive-halo recovery; n(z)-perturbation
   stability; full-footprint property closure; DESIVAST void cross-match.
-- **E** Release: **GraphWeb-BGS** — per-galaxy TARGETID-keyed calibrated posteriors:
-  P(λ1>λ_th) + 4 class probs (headline), λ means/stds, posterior width, OOD/MMD flag,
-  model+trainset version. (If G7 fired: tensor/eigenvector columns → IA use case, plus
-  optional wedge δ̂ density maps as a field-level product; G4 Tier B is the fallback
-  route to the same columns.)
+- **E** Release: **GraphWeb-BGS** — per-galaxy TARGETID-keyed posteriors. **v1 CONTRACT
+  (amended 2026-07-13, Codex review §1):** the CALIBRATED science columns are λ1 only —
+  posterior mean/std/quantiles for λ1 and **P(λ1>λ_th) = the three-axis-collapse (knot)
+  probability** (ordering λ1≤λ2≤λ3 makes these identical) — plus width/information
+  diagnostics, selection/boundary/OOD flags, and full provenance. λ2/λ3 and 4-class
+  columns may be written for continuity but are badged **EXPERIMENTAL/UNVALIDATED**
+  until the SBC-aware v1.1 work lands. Do NOT present 4-class as calibrated science.
+  (If G7 fired: tensor/eigenvector columns → IA use case, point-estimate-badged.)
+
+## 4b. VAC v1 hardening (Codex review adoptions, 2026-07-13)
+
+1. **Spatial holdout (MANDATORY, affects the Phase-B split design):** hold out a
+   contiguous RA block (e.g. RA 150–160) across ALL shells from training entirely;
+   random transductive splits are optimistic for new sky. **Tempering fitted on a val
+   region, assessed on a DISJOINT test region — never tuned on the final test shell.**
+2. **Symmetric scope guard:** S1(b) proved the DENSE low-z end fails like the sparse
+   end (GraphNet zero-shot −1.09; CNN best-case 0.002 at z0.05–0.15). If S4/S5 cannot
+   validate z<0.15 or z>0.45, those rows ship OOD-FLAGGED or outside the validated
+   range — symmetric, pre-registered.
+3. **S5 battery additions:** reliability diagram + Brier score for P(λ1>0.2), global
+   AND per shell AND mass-anchored slice (it IS the product); width-vs-realized-|error|
+   + conditional coverage vs ñ, degree, boundary distance; **prior-dominated /
+   low-information flag** (posterior var ÷ unconditional var) — calibrated-but-
+   uninformative rows must say so.
+4. **ñ spline discipline:** freeze the bandwidth/knot prescription BEFORE inference;
+   run a two-bandwidth (smoother/rougher) sensitivity check; the claim is "conditioning
+   on a smooth expected sampling intensity", NOT on the measured galaxy density (real
+   radial modes must not be absorbed). Randoms-grounded selection = v1.1.
+5. **Tile aggregation (scale-out):** overlapping-tile predictions are CORRELATED views
+   — aggregate as a **centrality-weighted posterior mixture** (μ=Σwμ_t;
+   Var=Σw(σ_t²+μ_t²)−μ²; P=ΣwP_t), or select the most-interior tile. NEVER multiply
+   posteriors; never average variances. Buffered tiles, trim after inference; flag
+   Delaunay edges bridging mask holes + extreme edge lengths; atomic idempotent
+   per-tile outputs + completion manifests; resumable chains.
+6. **Schema:** multi-bit OOD reasons (z-range, ñ-support, degree/edge-length, boundary,
+   completeness, MMD, prior-dominated, tile-inconsistency) + provenance (checkpoint
+   hash, repo SHAs, cache+spline hashes, TARGET_EPOCH=0.2, smoothing, λ_th, ordering).
+7. **Ops:** golden-wedge canary end-to-end BEFORE scale-out; incremental CFS backups
+   DAILY from now (not just Jul 21); checksum manifests for FITS + checkpoints.
 
 ## 5. Track 4 — Papers (interleaved; timeliness targets)
 
