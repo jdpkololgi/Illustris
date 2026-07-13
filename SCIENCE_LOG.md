@@ -1,5 +1,17 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-13 — [code] documented S0 and F-tier/F3 operational entrypoints
+- What: Updated the workflow index, runbook, Abacus README, SBI README, and root
+  README to expose the S0 selection atlas plus field-level/F-tier diagnostic
+  scripts (`gate_t4`, `gate_ftier_v2`, `gate_f3`, `flow_ftier_head`).
+- Why / decision: Recent code added S-track and F-tier/F3 calibration tooling
+  faster than operational docs; docs now distinguish research diagnostics from
+  the current shippable G3+FMPE+tempering lambda1 VAC path and record GPU/JAX
+  memory constraints.
+- Next: Keep S1/S2/S3 full-redshift docs synchronized as those scripts land.
+- Refs: `README.md`, `ACTIVE_WORKFLOWS.md`, `RUNBOOK.md`,
+  `workflows/abacus_tweb/README.md`, `workflows/sbi/README.md`.
+
 ### 2026-07-12 — [code] S0 COMPLETE: selection atlas run — union-graph degree collapses to ~3 and 5-Mpc voxel occupancy to 0.1% at z 0.45–0.55
 - Ran `s0_selection_atlas.py` (new, CPU): DR2 vs sentinelfix n(z) 0.03–0.62 in the wedge
   box; smooth ñ(z) splines for BOTH datasets saved (the S3 conditioning functions);

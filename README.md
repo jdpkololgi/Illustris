@@ -7,12 +7,19 @@ for voids, walls, filaments, and clusters.
 
 ## Where To Start
 
+- `SCIENCE_LOG.md` is the live research record and newest-first source of
+  recent decisions/results.
+- `CONTEXT.md` summarizes durable scientific framing and current production
+  anchors.
 - `ACTIVE_WORKFLOWS.md` is the current index of supported entrypoints.
 - `RUNBOOK.md` has NERSC Perlmutter launch commands, environment notes, and
   common operational pitfalls.
 - `workflows/abacus_tweb/README.md` explains the Abacus CutSky to T-Web to graph
   cache chain.
 - `workflows/sbi/README.md` explains the FlowJAX SBI trainers and launchers.
+- `docs/roadmap_environmental_vac.md` and
+  `docs/plan_field_level_multimodal.md` track the current VAC and field-level
+  research gates.
 - `workflows/gcn_paper/README.md` covers the paper-critical PyTorch GCN path.
 - `local-subgraph-pipeline/README.md` covers the independent ego-graph pilot.
 

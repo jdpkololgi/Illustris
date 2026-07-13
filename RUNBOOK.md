@@ -170,6 +170,31 @@ The cuGraph path defaults to the RAPIDS environment at
 `/pscratch/sd/d/dkololgi/conda/envs/rapids-gnn`, overrideable with
 `ABACUS_RAPIDS_ENV_PATH`.
 
+## S-Track Selection Diagnostics
+
+Run the S0 selection atlas before full-redshift-range S-track builds or
+production-encoder comparisons:
+
+```bash
+python workflows/abacus_tweb/s0_selection_atlas.py \
+  --ra 120 160 \
+  --dec 14.5 30.6 \
+  --zmin 0.03 \
+  --zmax 0.62 \
+  --out-dir "/pscratch/sd/d/dkololgi/abacus/s0_selection_atlas"
+```
+
+Outputs:
+
+- `s0_atlas.json` with DESI/mock counts, smooth per-dataset `n~(z)` conditioning
+  grids, mock/DESI ratios, and per-shell graph/grid structural statistics.
+- `s0_selection_atlas.png` for a quick visual check of the selection functions.
+
+Use the atlas to decide whether a downstream run is testing the dense training
+wedge, the n(z)-harmonized wedge, or the truly sparse high-redshift BGS regime.
+The high-z regime is the important stress test for fixed-grid CNN/F-tier inputs
+and union-graph degree collapse.
+
 ## Abacus SBI Cache And Wedges
 
 The active Abacus-scale SBI chain is:
@@ -255,6 +280,41 @@ python workflows/sbi/jraph_sbi_flowjax.py --epochs 1000 --output_dir "/pscratch/
 
 There is not yet a tracked production `sbatch` launcher for wedge NPE. Run it
 inside an appropriate GPU allocation until one is added.
+
+## Field-Level / F-Tier Diagnostics
+
+The field-level gates live in `workflows/sbi/` and are research diagnostics, not
+the default production FlowJAX trainer. They test whether a graph encoder can
+decode a density grid and then use the fixed FFT tidal operator to produce
+ordered eigenvalues and, eventually, tensor/eigenvector products.
+
+Common direct help checks:
+
+```bash
+python workflows/sbi/gate_t4_graph_field_poisson.py --help
+python workflows/sbi/gate_ftier_v2.py --help
+python workflows/sbi/gate_f3_generative_ftier.py --help
+python workflows/sbi/flow_ftier_head.py --help
+```
+
+Operational constraints:
+
+- `gate_t4_graph_field_poisson.py` requires a bound CUDA device, including for
+  `--smoke`.
+- `gate_ftier_v2.py` and `gate_f3_generative_ftier.py` require CUDA for real
+  runs; their `--smoke` modes may run on CPU if CUDA is unavailable.
+- `flow_ftier_head.py` is CPU-only by default and reads the `.npz` produced by
+  `gate_ftier_v2.py --save-cond`.
+- For GPU jobs that unpickle JAX/Jraph cache objects before starting PyTorch,
+  set:
+
+```bash
+export XLA_PYTHON_CLIENT_PREALLOCATE=false
+export XLA_PYTHON_CLIENT_ALLOCATOR=platform
+```
+
+This prevents JAX from preallocating most of the GPU and causing misleading
+PyTorch out-of-memory failures.
 
 Legacy partitioned FlowJAX entrypoints are still available for diagnostics:
 
