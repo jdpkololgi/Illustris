@@ -166,6 +166,9 @@ def main(args):
                      use_transformed_eig=(args.increment_mode != "raw"), increment_mode=args.increment_mode,
                      flow_filename=flow_file, tiles_dir=str(args.tiles_dir)), open(model_file, "wb"))
     print(f"\nSaved flow -> {flow_file}\nSaved model -> {model_file}\nbest val NLL {best_val:.4f}")
+    # completion marker: only written when the loop reached args.epochs (multi-window driver stops on it)
+    with open(os.path.join(args.output_dir, "TRAINING_COMPLETE"), "w") as _f:
+        _f.write(f"{args.epochs} {model_file}\n")
 
 
 if __name__ == "__main__":

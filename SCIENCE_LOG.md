@@ -753,6 +753,34 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-13 — [code] FIRST full-range held-out result: approach VALIDATED (calibrated everywhere), R² undertrained, shell-0 prior-dominated
+
+Tiled ñ-conditioned model (500 epochs) evaluated on the HELD-OUT test region (RA≥150, never
+trained), per shell:
+
+| z | n_test | R²λ1 | R²λ2 | R²λ3 | cluSp | cov68 | cov90 |
+|---|---|---|---|---|---|---|---|
+| 0.05-0.15 | 17225 | **-0.010** | -0.014 | -0.018 | -0.00 | 0.669 | 0.881 |
+| 0.15-0.25 | 28696 | 0.465 | 0.685 | 0.651 | 0.23 | 0.661 | 0.884 |
+| 0.25-0.35 | 18130 | 0.259 | 0.461 | 0.522 | 0.24 | 0.615 | 0.847 |
+| 0.35-0.45 | 5149 | 0.387 | 0.470 | 0.470 | 0.24 | 0.728 | 0.921 |
+| 0.45-0.55 | 869 | 0.307 | 0.394 | 0.442 | 0.20 | 0.628 | 0.876 |
+| ALL | 70069 | 0.303 | 0.450 | 0.459 | 0.21 | 0.655 | 0.877 |
+
+WINS: (1) calibration EXCELLENT at every shell (cov68 0.61-0.73 nom 0.68; cov90 0.85-0.92 nom
+0.90), incl shell-0. (2) positive skill z0.15-0.55 on unseen sky — huge turnaround vs S1(b)
+zero-shot (shell0 -1.09; CNN 0.002@z0.05). ñ-conditioning + tiling + spatial holdout GENERALIZES.
+
+CAVEATS: (1) shell-0 (z0.05-0.15) R²λ1≈0, cluSp≈0 = PRIOR-DOMINATED (calibrated only because it
+reverts to prior) → Codex low-info flag; strong low-z scope-guard candidate. (2) overall R²λ1=0.30
+« specialist wedge model's ~0.80 at z0.2-0.3 → UNDERTRAINED (val NLL still descending at ep499).
+
+NEXT: training resumed to 4000 epochs (auto-looping 4h hbm80g windows, persistent JAX compile
+cache, TRAINING_COMPLETE marker; checkpoint every 25 + --resume). Re-eval expected to lift R².
+Then diagnose shell-0 (fixable vs scope-guard). eval_tiled_heldout.py + heldout_eval.json saved.
+
+
+
 ### 2026-07-13 — [code] Phase B OOM → pivot to TILED training (user-approved); density-mismatch hypothesis REFUTED
 
 First Phase-B launch OOM'd: `RESOURCE_EXHAUSTED 267.85 GiB on one 80GB GPU`. Root cause: the
