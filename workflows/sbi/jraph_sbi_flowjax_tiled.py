@@ -11,8 +11,21 @@ Model/flow/optimizer/save-format IDENTICAL to jraph_sbi_flowjax.py so downstream
 Consumes <tiles-dir>/{manifest.json, shared_scalers.pkl, tile_###.pkl}.
 """
 from __future__ import annotations
-import argparse, json, os, pickle, time
+import argparse, json, os, sys, pickle, time
 from pathlib import Path
+
+# repo-root on path (match jraph_sbi_flowjax.py): scrub user-site, then insert REPO_ROOT
+_bad = ("/global/homes/d/dkololgi/.local/lib/python3.10/site-packages",
+        "/global/homes/d/dkololgi/.local/lib/python3.11/site-packages",
+        "/global/u2/d/dkololgi/.local/lib/python3.10/site-packages",
+        "/global/u2/d/dkololgi/.local/lib/python3.11/site-packages")
+for _p in _bad:
+    while _p in sys.path:
+        sys.path.remove(_p)
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 import numpy as np
 import jax, jax.numpy as jnp
 import haiku as hk
