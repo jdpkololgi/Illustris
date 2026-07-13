@@ -1,5 +1,23 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-12 — [code] S0 COMPLETE: selection atlas run — union-graph degree collapses to ~3 and 5-Mpc voxel occupancy to 0.1% at z 0.45–0.55
+- Ran `s0_selection_atlas.py` (new, CPU): DR2 vs sentinelfix n(z) 0.03–0.62 in the wedge
+  box; smooth ñ(z) splines for BOTH datasets saved (the S3 conditioning functions);
+  per-shell structural stats. Outputs `abacus/s0_selection_atlas/{s0_atlas.json,png}`.
+- **DESI structural facts across the VAC range:** median degree within the 10 Mpc/h
+  union radius 125→54→23→9→**3**→1 (z 0.05→0.6); frac(deg=0) hits **10.5%** at z
+  0.45–0.55 and 27.8% beyond 0.55 — radius edges effectively vanish; Delaunay becomes
+  the ONLY connectivity (vindicates the union design; the model must handle deg~3).
+  **5-Mpc voxel occupancy 7.1%→0.1%** — the grid input becomes 99.9% empty at high z:
+  P2's "grid edge preserved" (occ~5%, nzharm) says NOTHING about this regime. The
+  G3-vs-CNN-vs-F-tier production-encoder decision MUST include an S2 sparsity stress.
+- Mock mirrors DESI at low z; at 0.45–0.55 mock deg0=42% vs DESI 10.5% (the 0.28 count
+  ratio) — handled by conditioning on ñ (density regimes overlap at shifted z), NOT by
+  dilution. Sentinel window re-verified 2e-5. Data-quality flag for S1: DESI medNN at
+  0.45–0.55 is 0.9 Mpc (< low-z) — close-pair excess at high z, check duplicates/fibre
+  pairs before the transfer matrix.
+- Next: S1 shell-transfer matrix (unblocked — splines exist).
+
 ### 2026-07-11 — [code] CONFIRMED: F-tier miscalibration was the ENERGY-SCORE OBJECTIVE, not the summary — MLE flow (FMPE) rescues it
 - **Decisive test:** trained an amortized MLE flow head on the SAME F-tier physics point estimate
   (cond = predicted eigenvalues, λ1 R²=0.842) as conditioning, targets = scaled eigenvalues.
