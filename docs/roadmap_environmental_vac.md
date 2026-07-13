@@ -52,6 +52,7 @@ symmetry (hand-crafted invariants / raw-geometry / equivariant). Current cell =
 | **G5 (d)** | Field-level baselines, SUPERSEDED/CONCRETIZED 2026-07-07 by `plan_field_level_multimodal.md`: **T1** classical ceiling (DONE — see §1 decisions) + **T2** CNN-on-counts control (3-D U-Net on voxelized wedge counts, same splits) | T2: 2–3 d GPU | T2 ≈ GraphNet ⇒ graph story needs rewriting; T2 ≪ GraphNet ⇒ sparse-tracer geometry matters | bounds graph-representation loss with a concrete floor already in hand |
 | **G6** | FMPE head swap (flow-matching vs MAF; same conditioning) | few days GPU | SBC/TARP + NLL improve | posterior-head modernization; independent of encoder gates |
 | **G7 (NEW)** | **Graph→field→Poisson (F-tier)**: GraphNet encoder → scatter → 3-D U-Net → δ̂ grid → fixed differentiable FFT tidal layer → eigenvalues (T4/F1 of the field plan). Eigenvalues fall out of physics; eigenvectors/IA product for free; classical-baseline solver already validated (voxel R² ≥ 0.992 vs cactus) | ~1 wk GPU | λ1 R² ≥ G3 (0.804) AND calibration ≥ current flow | output-representation axis; replaces G4 Tier B as the default eigenvector route |
+| **G7 config FROZEN (2026-07-13)** | F-tier point-estimate config = **v2 variant A** (`gate_ftier_v2.py` scatter=tsc, decoder=unet), consuming the **shared `path1_wedge_union_r10hmpc_gnn_arrays.npz` union graph = the G3 production connectivity** (v1 rolled its own radius graph — dropped). Numbers: λ1 **0.841** (v1 0.840), λ2 0.900, λ3 0.932, clu-Sp +0.57 — tiny gain, but one preprocessing lineage shared with the calibrated λ1 product. v2_B (fno+survey-mask, 0.839) → the survey-mask is a **Phase-C full-footprint deployment toggle** (real boundaries), NOT part of the frozen accuracy config. F-tier remains the **point-estimate/eigenvector (IA) product, badged** — NOT the v1 calibrated headline (that stays G3+FMPE-λ1). | — | — | firms the encoder-consistent field branch for the Phase-B parallel retrain |
 | **G8 (NEW, cheap)** | **LUPI distillation** (T3): 3-D CNN teacher on sim δ/T patches latent-regularizes the GraphNet; teacher absent at inference | 2–3 d GPU bolt-on | ΔR²(λ1) > seed noise (≥3 seeds) | privileged sim fields as regularizer — the honest version of "multimodal training, unimodal inference" |
 
 Deferred (not gated yet): multi-scale *target* heads (fine-scale cluster head) — only
@@ -212,9 +213,12 @@ SIMULTANEOUS allocations wherever possible.
   builds from sentinelfix parent, union edges, NO dilution — ñ-conditioning replaces it)
   in tmux · S1(b) winner zero-shot on the shell caches (2 parallel GPU tmux) = S2.5.
 - **Jul 14–15:** S3 conditioning build (ñ node feature SI-excluded + FMPE vector;
-  expected-counts channel for the field branch) · **Phase B**: full-range ñ-conditioned
-  G3+FMPE retrain (hbm80g) with F-tier point-estimate retrain in parallel · S4 readout
-  + tempering re-fit on val.
+  ñ·V_voxel expected-counts channel for the field branch) · **spatial holdout baked into
+  the pooled cache**: three RA-disjoint regions applied identically across all 5 shells —
+  **train RA<145 · val/tempering 145–150 · test RA≥150** (test never trained; τ fit on val,
+  assessed on disjoint test) · **Phase B**: full-range ñ-conditioned G3+FMPE retrain (hbm80g)
+  with **F-tier v2_A** (tsc+unet, shared union-graph arrays = G3) point-estimate retrain in
+  parallel · S4 readout + tempering re-fit on the val slab.
 - **Jul 16–17:** **Phase C**: DR2 full-range inference — tile the BGS footprint via
   salloc/tmux chains (fallback scope if churn is slow: north Galactic cap first, rest
   post-shutdown) · GateM + S5 per-shell battery (SBC/TARP, MMD, width-vs-z).

@@ -753,6 +753,31 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-13 — [code] F-tier config FROZEN = v2_A; S3 plan set (ñ-conditioning + spatial holdout)
+
+**F-tier decision (JDPK call, evidence-confirmed).** Firmed the field branch on **v2
+variant A** (`gate_ftier_v2.py` scatter=tsc, decoder=unet) over v1. Concrete reason it's
+"more consistent with previous models": v2 consumes the **shared union-graph arrays
+(`path1_wedge_union_r10hmpc_gnn_arrays.npz`) = the G3 production connectivity**, whereas v1
+built its own radius-10 graph. Point-estimate numbers (path1 wedge): v2_A λ1 **0.841** /
+λ2 0.900 / λ3 0.932 / clu-Sp +0.57 vs v1 0.840/0.897/0.930/0.56 — tiny gain, but the field
+product and the calibrated λ1 product now share ONE preprocessing lineage. v2_B (fno +
+survey-mask, 0.839) → survey-mask kept as a **Phase-C full-footprint deployment toggle**
+(real boundaries), not part of the frozen accuracy config. F-tier stays the **point-estimate
+/ eigenvector (IA) product, badged** — NOT the v1 calibrated headline (G3+FMPE-λ1).
+
+**S3 plan (starting now).** One pooled, ñ-conditioned, spatially-split training cache feeds
+Phase B (G3+FMPE and F-tier-v2_A in parallel): (A) freeze the S0 mock ñ(z) spline to a
+versioned JSON; (B) `log ñ(z)` GraphNet node feature EXCLUDED-by-name from SI per-graph-median
+norm + appended to the FMPE conditioning vector; (C) ñ·V_voxel expected-counts channel for the
+v2 U-Net; (D) **spatial holdout** replacing random split — three RA-disjoint regions applied
+across all 5 shells: **train RA<145 · val/tempering 145–150 · test RA≥150** (test never
+trained; τ fit on val, assessed on disjoint test, per Codex #1); (E) pool the 5 S2 union-graph
+caches; (F) pre-Phase-B sanity gate (ñ SI-untouched, regions disjoint/non-empty per shell,
+zero train↔test leakage, feature-count metadata survives a dry-run forward).
+
+
+
 ### 2026-07-09 — [code] Continuous + fixed-mass environment plots (CIGALE): surface, heatmaps, mass-bin lines, animation
 - New `workflows/sbi_inference/plot_env_mass_continuous.py` → 4 figures in figures/desi_wedge_cigale_hz/:
   (1) env_mass_surface_3d — 3D surface of quenched fraction over (logM*, tidal trace): steep along
