@@ -47,7 +47,7 @@ def main():
     x = (cond - cond[tr].mean(0)) / cond[tr].std(0)           # standardized conditioning
     print(f"N={len(eig)}  cond dim={x.shape[1]}  train={tr.sum()} test={te.sum()}")
 
-    from sbi.inference import FMPE, NPE
+    from sbi.inference import FMPE, NPE, NPSE
     from sbi.utils import BoxUniform
     lo = theta.min(0) - 0.2 * np.ptp(theta, 0); hi = theta.max(0) + 0.2 * np.ptp(theta, 0)
     prior = BoxUniform(low=torch.tensor(lo, dtype=torch.float32), high=torch.tensor(hi, dtype=torch.float32))
@@ -60,7 +60,7 @@ def main():
     Xte = torch.tensor(x[ti], dtype=torch.float32)
     truth = eig[ti]
     results = {}
-    for name, Trainer in [("FMPE", FMPE), ("MAF", NPE)]:
+    for name, Trainer in [("NPSE", NPSE), ("FMPE", FMPE), ("MAF", NPE)]:
         print(f"\n=== {name} (MLE) ===")
         tr_ = Trainer(prior=prior)
         tr_.append_simulations(th, xx)
@@ -82,9 +82,11 @@ def main():
             calib(lam[:, :, k], truth[:, k], nm)
         calib(lam.sum(2), truth.sum(1), "trace(=delta)")
         results[name] = lam
-        if name == "FMPE" and args.samples_npz:
+        if name in ("FMPE", "NPSE") and args.samples_npz:
             args.samples_npz.parent.mkdir(parents=True, exist_ok=True)
-            np.savez_compressed(args.samples_npz, samples_test=np.transpose(lam, (1, 0, 2)),
+            out = args.samples_npz if name == "FMPE" else args.samples_npz.with_name(
+                args.samples_npz.stem + "_npse" + args.samples_npz.suffix)
+            np.savez_compressed(out, samples_test=np.transpose(lam, (1, 0, 2)),
                                 truth_test=truth, test_index=ti)
 
     args.out_file.parent.mkdir(parents=True, exist_ok=True)

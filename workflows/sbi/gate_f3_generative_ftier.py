@@ -119,6 +119,53 @@ class FiLMUNet3D(nn.Module):
         return self.out(d0)[0, 0]                             # (D,H,W)
 
 
+# ---------------------------------------------------------------- diffusion field decoder
+class DiffusionFieldDecoder(nn.Module):
+    """Diffusion-STYLE iterative denoising field decoder.
+
+    Replaces the 16-d GLOBAL FiLM latent with a HIGH-DIMENSIONAL, SPATIALLY-STRUCTURED
+    latent: start from a Gaussian noise field on the full grid and refine it over T
+    reverse steps with a conditional denoiser (the validated UNet3D) that sees the
+    scattered graph-feature conditioning c, the current field, and a step embedding.
+    Fresh noise is re-injected between steps (diffusion sampling structure), so each
+    call is a distinct stochastic delta_hat field. x0-prediction (cold-diffusion style)
+    is used for stability across few steps; the sampler is fully differentiable so the
+    energy-score gradient flows through all T denoiser passes + the physics layer.
+
+    WHY end-to-end (not denoising score matching): F-tier has NO ground-truth density
+    field to train on (it is supervised only on eigenvalues), so standard DSM is not
+    applicable. We therefore train this generator end-to-end via the SAME energy score
+    as the FiLM F3. That makes this a clean ABLATION: it swaps the low-dim global latent
+    (lever i) for a rich spatial one while holding the objective fixed (lever ii). If
+    calibration improves, the FiLM latent was the bottleneck; if not, the joint
+    energy-score objective is. (Cold-diffusion: Bansal et al. 2022, arXiv:2208.09392;
+    x0-prediction: Ho et al. 2020 / Karras et al. 2022.)
+    """
+
+    def __init__(self, c_in, T=4, base=16, sigma_max=1.0, sigma_min=0.1):
+        super().__init__()
+        self.T = T
+        # denoiser input channels: conditioning (c_in) + current field (1) + step channel (1)
+        self.net = UNet3D(c_in=c_in + 2, base=base)
+        sig = torch.exp(torch.linspace(np.log(sigma_max), np.log(sigma_min), T + 1))
+        self.register_buffer("sigmas", sig)                       # (T+1,)
+
+    def forward(self, cond, gen=None):                            # cond:(C,D,H,W) -> (D,H,W)
+        C, D, H, W = cond.shape
+        dev, dt = cond.device, cond.dtype
+        x = self.sigmas[0] * torch.randn(1, 1, D, H, W, device=dev, dtype=dt, generator=gen)
+        cb = cond[None]                                           # (1,C,D,H,W)
+        for i in range(self.T):
+            tch = torch.full((1, 1, D, H, W), i / max(self.T - 1, 1), device=dev, dtype=dt)
+            x0 = checkpoint(self.net, torch.cat([cb, x, tch], 1), use_reentrant=False)  # (1,1,D,H,W)
+            if i < self.T - 1:
+                x = x0 + self.sigmas[i + 1] * torch.randn(
+                    1, 1, D, H, W, device=dev, dtype=dt, generator=gen)
+            else:
+                x = x0
+        return x[0, 0]                                            # (D,H,W)
+
+
 # ---------------------------------------------------------------- generative F-tier model
 class GenerativeFTier(nn.Module):
     """Config-A F-tier with a stochastic FiLM field decoder. The encoder+scatter
@@ -126,7 +173,7 @@ class GenerativeFTier(nn.Module):
     gather+eig are re-run per latent z."""
 
     def __init__(self, nfeat, negeo, geom, phys, mask_ch, zdim=16, width=64,
-                 unet_base=16, z_mode="film", log_density=False):
+                 unet_base=16, z_mode="film", log_density=False, diff_steps=4):
         super().__init__()
         self.enc = EGNNAttnEncoder(nfeat, negeo, width=width)
         self.z_mode = z_mode
@@ -135,6 +182,8 @@ class GenerativeFTier(nn.Module):
         base_c = width + 1 + (1 if mask_ch is not None else 0)     # latents + counts (+ mask)
         if z_mode == "film":
             self.dec = FiLMUNet3D(base_c, zdim, base=unet_base)
+        elif z_mode == "diffusion":  # rich spatial latent via iterative denoising
+            self.dec = DiffusionFieldDecoder(base_c, T=diff_steps, base=unet_base)
         else:  # concat: broadcast z as extra input channels into the validated UNet3D
             self.dec = UNet3D(c_in=base_c + zdim, base=unet_base)
         self.geom, self.phys, self.mask_ch = geom, phys, mask_ch
@@ -154,6 +203,8 @@ class GenerativeFTier(nn.Module):
         """One latent z -> delta_hat -> tidal tensor -> ascending eigenvalues (N,3)."""
         if self.z_mode == "film":
             raw = self.dec(x_base[None], z)
+        elif self.z_mode == "diffusion":
+            raw = self.dec(x_base)                                # stochastic per call (z unused)
         else:
             D, H, W = self.geom.shape
             zc = z.view(self.zdim, 1, 1, 1).expand(self.zdim, D, H, W)
@@ -195,8 +246,10 @@ def main():
     ap.add_argument("--gnn-arrays", type=Path, required=True)
     ap.add_argument("--scatter", choices=["cic", "tsc"], default="tsc")
     ap.add_argument("--survey-mask", action="store_true")
-    ap.add_argument("--z-mode", choices=["film", "concat"], default="film")
+    ap.add_argument("--z-mode", choices=["film", "concat", "diffusion"], default="film")
     ap.add_argument("--zdim", type=int, default=16)
+    ap.add_argument("--diff-steps", type=int, default=4,
+                    help="reverse denoising steps for --z-mode diffusion (backprop cost scales with this)")
     ap.add_argument("--m-train", type=int, default=8, help="energy-score samples per step")
     ap.add_argument("--k-eval", type=int, default=128, help="posterior samples per galaxy at eval")
     ap.add_argument("--cell-mpc", type=float, default=6.0)
@@ -275,7 +328,7 @@ def main():
 
     model = GenerativeFTier(X.shape[1], egeo.shape[1], geom, phys, mask_ch,
                             zdim=args.zdim, width=args.width, z_mode=args.z_mode,
-                            log_density=args.log_density).to(dev)
+                            log_density=args.log_density, diff_steps=args.diff_steps).to(dev)
     model.geom_counts = counts_ch                                # attach for input_grid
     print(f"params: {sum(p.numel() for p in model.parameters())/1e3:.0f}k", flush=True)
 

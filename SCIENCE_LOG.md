@@ -19,6 +19,39 @@
 - Artifact (phone-viewable): claude.ai/code/artifact/f12f95d8-29f1-485c-93bb-f12177eff104
 - Refs: `field_level_tests/Pflow/flow_result.txt`, `flow_samples.npz`, `ftier_cond.npz`,
   `workflows/sbi/flow_ftier_head.py`.
+- **RECONCILE (2nd run + NPSE diffusion head):** re-ran with NPSE (score-based/diffusion posterior)
+  added. Across BOTH runs the per-dim SBC KS-p is NOISY (flow training stochastic; KS on 1500 pts
+  near 0.05 is jittery) and the first run's clean-looking FMPE (0.043/0.088/0.047) was partly luck;
+  2nd run: NPSE SBC 0.000/0.018/0.194, FMPE 0.013/0.000/0.191, MAF 0.000/0.176/0.015, all R²≈0.85.
+  **Reproducible signal = uniform ~5% UNDER-coverage** (cov68 0.62–0.66 vs 0.68; cov90 0.85–0.88 vs
+  0.90), IDENTICAL across NPSE/FMPE/MAF ⇒ NOT a flow-family issue, the 3-d F-tier summary is slightly
+  overconfident. **NPSE (diffusion posterior) does NOT beat FMPE** — same band. Corrected takeaway:
+  MLE flows lift OFF the energy-score 0.000 floor and keep accuracy, but aren't cleanly calibrated
+  as-is; the lever is **posterior tempering τ≈1.1–1.15** (val-calibrated), not the density estimator.
+  Ref: `Pflow/flow_result_npse.txt`.
+
+### 2026-07-11 — [code] Diffusion FIELD decoder: NEGATIVE — rich spatial latent under energy score is UNSTABLE and worse than FiLM ⇒ confirms objective (ii), not latent (i)
+- Built a diffusion-style iterative denoising FIELD decoder (`gate_f3_generative_ftier.py --z-mode
+  diffusion`): replaces the 16-d GLOBAL FiLM latent with a high-dim SPATIAL latent — start from a
+  Gaussian noise grid, refine over T=4 reverse steps with a conditional UNet3D denoiser (x0-pred,
+  cold-diffusion style), fully differentiable so the energy-score gradient flows through all T passes
+  + FFT physics. No DSM (F-tier has no ground-truth density field), so trained end-to-end via the
+  SAME energy score → clean ABLATION of latent expressivity (i) holding objective (ii) fixed.
+- **Result (M=4, T=4, cell 8, K=128):** pmean R² **−0.63 / −0.31 / −0.20** (WORSE than the mean;
+  FiLM F3 got ~0.84), SBC 0.000 all, cov68 **0.40** / cov90 0.78, cluster Spearman −0.018.
+- **Training pathology:** lam1-spread thrashed 0.074→0.0005(collapse)→0.42(explode)→0.06; train/val
+  ES diverged (0.89 vs 1.53); early stop 1650. The FFT-physics gradient instability (cell-sweep cell4
+  divergence) amplified by backprop through 4 diffusion steps. Deeper/expressive generator under the
+  energy score = optimization pathology, not better calibration.
+- **Verdict:** swapping low-dim latent (i)→rich spatial latent (ii-held) does NOT fix marginals and
+  degrades everything ⇒ **the bottleneck is the ENERGY-SCORE OBJECTIVE, not latent dimensionality.**
+  Agrees with NPSE (diffusion posterior head ≈ FMPE; tempering is the lever). BOTH diffusion routes
+  (posterior head + field decoder) point the same way. **Calibrated F-tier posterior = MLE flow head
+  (FMPE) + tempering τ≈1.1; do NOT pursue generative-field decoders for calibration.** Not worth LR
+  tuning — objective-limited, per NPSE. Refs: `Pf3/f3_diffusion.txt`, `f3_diffusion_samples.npz`.
+- Infra lesson: GPU drivers loading the cache pickle MUST export `XLA_PYTHON_CLIENT_PREALLOCATE=false`
+  + `XLA_PYTHON_CLIENT_ALLOCATOR=platform` — the unpickle pulls in JAX which else grabs ~30 GB (75%)
+  and starves PyTorch → phantom OOM independent of model size (cost 3 allocations before caught).
 
 ### 2026-07-11 — [science] Why F3 is miscalibrated: it's the DENSITY ESTIMATOR (δ̂ posterior wrong SHAPE ← density is non-Gaussian)
 - **Decisive diagnostic** (on saved F3 posterior samples, no retrain): the physics gives
