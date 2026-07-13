@@ -753,6 +753,35 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-13 — [code] S3 pooled ñ-conditioned cache BUILT (all gates pass); Phase B launched
+
+`s3_build_pooled_conditioned_cache.py` → one disjoint-union cache of the 5 S2 shells,
+**304,604 nodes / 20.9M edges**, 8-d node features (`log_ntilde_std` last). Method: invert
+each shell's per-shell box-cox → recover SI-only features → **one pooled box-cox** on the
+pooled-train split (per-shell box-cox pre-removes the density signal ñ must explain) →
+append ñ (frozen mock spline, fixed standardization) as the untransformed final column.
+Spatial holdout **train RA<145 / val 145–150 / test RA≥150**, halo-disjoint (each
+(FILE_NUM,BOX_INDEX,HALO_INDEX) group assigned wholesale by centroid RA; 39 nodes
+reassigned), + 15 Mpc transverse graph gutter (35,808 passive), + cross-shell dedup by
+TARGETID (204 buffer copies passive). Active: **train 177,509 / val 21,030 / test 70,069**.
+SANITY GATE all PASS: ñ untransformed ✓, every shell fills all 3 regions ✓ (even z0.45–0.55:
+1920/329/869), **train/test halo-disjoint 0 shared halos** ✓, active nodes TARGETID-unique ✓.
+
+Data findings from the build: (i) `BOX_INDEX==-1` is VALID data (shell-0 is 99.9% of it —
+the central box; 100% finite eigenvalues), so shell-0's S1(b) failure is genuine density-OOD,
+NOT corrupt data. (ii) zero halo replication within the footprint → the RA split is honestly
+halo-disjoint (separate-cone would only add cosmic-variance robustness → v1.1 ph001 test).
+
+Conditioning decision (get-results-first): ship **ñ-as-node-feature** for the first Phase-B
+run — the encoder ingests 8-d nodes with zero model code changes; ñ reaches the flow via the
+80-d embedding. Explicit skip-concat (cond_dim→81) held as the iterate-later refinement if
+diagnostics show ñ dilution (avoids desync risk across 4 train/inference touch points).
+
+**Phase B launched** (job 55859173, 4×A100 hbm80g, salloc+tmux, checkpointed+resumable):
+`jraph_sbi_flowjax.py --increment_mode linear` on the pooled cache via TNG_SBI_CACHE_DIR.
+
+
+
 ### 2026-07-13 — [code] F-tier config FROZEN = v2_A; S3 plan set (ñ-conditioning + spatial holdout)
 
 **F-tier decision (JDPK call, evidence-confirmed).** Firmed the field branch on **v2
