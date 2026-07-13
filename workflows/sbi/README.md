@@ -17,6 +17,7 @@ galaxy graph observables.
 | Data-parallel benchmark | `benchmark_partition_data_parallel.py` | Measures legacy partition collation/loading behavior. |
 | Tensor sharding prototype | `prototype_tensor_sharding_fullgraph.py` | Experimental full-graph sharding prototype. |
 | Two-stage prototype | `experimental/jraph_sbi_two_stage.py` | Optional experimental path, not the primary Abacus run. |
+| Field-level/F-tier gates | `gate_t4_graph_field_poisson.py`, `gate_ftier_v2.py`, `gate_f3_generative_ftier.py`, `flow_ftier_head.py` | Research diagnostics for graph-to-field-to-Poisson point estimates and posterior calibration; not the current production VAC trainer. |
 
 ## Current Abacus Wedge Inputs
 
@@ -46,6 +47,51 @@ $TNG_SBI_CACHE_DIR/processed_jraph_data_mc1e+09_v2_scaled_3_transformed_eig.pkl
 
 Use `--no_transformed_eig` only for explicit raw-eigenvalue ablations; that mode
 expects the `_raw_eig.pkl` cache name instead.
+
+## Field-Level And F-Tier Diagnostics
+
+The field-level scripts test the graph -> density grid -> fixed FFT tidal
+operator -> eigenvalue route described in `docs/plan_field_level_multimodal.md`.
+They are useful for reproducing current F-tier and calibration gates, but the
+current shippable calibrated VAC headline remains G3 + FMPE + validation-set
+tempering for `P(lambda1 > lambda_th)`.
+
+| Script | Purpose | Runtime constraints |
+| --- | --- | --- |
+| `gate_t2_cnn_counts.py` | CNN-on-voxel-counts point-estimate control. | PyTorch GPU for real runs. |
+| `gate_t4_graph_field_poisson.py` | Original F1 graph -> field -> Poisson gate using CIC scatter, a 3-D U-Net, and the fixed FFT physics layer. | Requires CUDA; `--smoke` is a short GPU-bound shape/backward check, not a CPU fallback. |
+| `gate_ftier_v2.py` | Upgraded F-tier point-estimate gate: union graph, attention aggregation, edge attributes, TSC scatter, optional survey mask, and U-Net/FNO decoder. | Requires CUDA unless `--smoke`; `--save-cond` writes conditioning arrays for `flow_ftier_head.py`. |
+| `gate_f3_generative_ftier.py` | Stochastic F-tier posterior experiment trained with the energy score; supports FiLM/concat/diffusion latent modes and `--log-density` ablations. | Requires CUDA unless `--smoke`; use for research diagnostics, not production calibration. |
+| `flow_ftier_head.py` | CPU-only MLE posterior head on saved F-tier physics point estimates; compares NPSE, FMPE, and MAF and reports R2, SBC, coverage, and trace diagnostics. | Reads `gate_ftier_v2.py --save-cond` output; FMPE/NPSE sampling can be slow, so `--n-eval` defaults to a test subsample. |
+
+Minimal v2-to-flow reproduction pattern:
+
+```bash
+python workflows/sbi/gate_ftier_v2.py \
+  --cache "/path/to/processed_jraph_data_mc1e+09_v2_scaled_3_transformed_eig.pkl" \
+  --points-xyz "/path/to/path1_wedge_points_xyz.npy" \
+  --gnn-arrays "/path/to/union_graph_gnn_arrays.npz" \
+  --scatter tsc \
+  --decoder unet \
+  --out-file "/path/to/ftier_v2.txt" \
+  --save-cond "/path/to/ftier_cond.npz"
+
+python workflows/sbi/flow_ftier_head.py \
+  --cond-npz "/path/to/ftier_cond.npz" \
+  --out-file "/path/to/flow_result.txt" \
+  --samples-npz "/path/to/flow_samples.npz"
+```
+
+When running these scripts on a GPU process that unpickles JAX/Jraph cache
+objects, set:
+
+```bash
+export XLA_PYTHON_CLIENT_PREALLOCATE=false
+export XLA_PYTHON_CLIENT_ALLOCATOR=platform
+```
+
+Without those variables, importing or unpickling JAX-backed cache objects can
+reserve a large fraction of GPU memory before PyTorch training starts.
 
 ## Target Convention
 

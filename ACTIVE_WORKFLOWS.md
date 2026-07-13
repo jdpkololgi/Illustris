@@ -12,9 +12,10 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   and HTML visualizations.
 - `workflows/jraph/` for JAX/Jraph regression, tuning, checkpoint evaluation,
   diagnostics, and ensembles.
-- `workflows/sbi/` for FlowJAX SBI trainers. Current Abacus-scale SBI uses
-  wedge-subvolume caches with the full-graph NPE trainer; partitioned FlowJAX is
-  retained as legacy/reference.
+- `workflows/sbi/` for FlowJAX SBI trainers plus the current field-level/F-tier
+  diagnostic gates. Current Abacus-scale SBI uses wedge-subvolume caches with
+  the full-graph NPE trainer; partitioned FlowJAX is retained as
+  legacy/reference.
 - `workflows/sbi/experimental/` for the optional two-stage SBI prototype.
 - `workflows/gcn_paper/` for the paper-critical PyTorch GCN workflow.
 - `shared/` for reusable model, transformation, path, resource, and cache-schema
@@ -36,6 +37,7 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   - `workflows/abacus_tweb/abacus_graph_features.py`
   - `workflows/abacus_tweb/abacus_graph_features_cugraph.py`
 - Abacus SBI cache + wedge subvolumes:
+  - `workflows/abacus_tweb/s0_selection_atlas.py`
   - `workflows/abacus_tweb/build_abacus_sbi_cache.py`
   - `workflows/abacus_tweb/subset_abacus_graph_wedge_for_sbi.py`
   - `workflows/abacus_tweb/subset_cugraph_metrics_for_wedge.py`
@@ -60,6 +62,12 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
 ## Experimental And Diagnostic
 
 - `workflows/sbi/experimental/jraph_sbi_two_stage.py`
+- `workflows/sbi/gate_t2_cnn_counts.py`
+- `workflows/sbi/gate_t4_graph_field_poisson.py`
+- `workflows/sbi/gate_ftier_v2.py`
+- `workflows/sbi/gate_f3_generative_ftier.py`
+- `workflows/sbi/flow_ftier_head.py`
+- `workflows/sbi/gate_g6_fmpe_frozen_head.py`
 - `workflows/sbi/submit_sbi_overfit_tiny.slurm`
 - `workflows/sbi/benchmark_partition_data_parallel.py`
 - `workflows/jraph/experimental/reproduce_error.py`
@@ -92,6 +100,10 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
 - Abacus label quality depends on host-halo linkage, not naive sky-coordinate
   inversion. Start label-alignment debugging with
   `workflows/abacus_tweb/ABACUS_TWEB_AUDIT_FINDINGS.md`.
+- The S-track selection atlas shows the high-redshift BGS regime is sparse:
+  radius-10 Mpc/h union degrees and 5-Mpc voxel occupancy collapse by
+  z roughly 0.45--0.55. Do not choose between G3, CNN, and F-tier production
+  encoders using only the dense/nzharm wedge; include the S2 sparsity stress.
 - Partitioned SBI alignment checks and current learning diagnostics are tracked
   in `workflows/sbi/ABACUS_SBI_DEBUG_STRATEGY.md`.
 - Root-level compatibility shims exist for some historical imports and scripts,

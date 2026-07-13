@@ -26,6 +26,7 @@ Abacus particle/halo products
 | CutSky annotation | `annotate_cutsky_with_tweb_eigs.py` |
 | Graph construction | `build_abacus_graph.py`, `submit_abacus_graph_cpu.slurm` |
 | Graph features | `abacus_graph_features.py`, `abacus_graph_features_cugraph.py`, `submit_abacus_graph_features_cpu.slurm`, `submit_abacus_graph_features_cugraph.slurm` |
+| Selection-function diagnostics | `s0_selection_atlas.py` |
 | Wedge subgraphs for SBI | `subset_abacus_graph_wedge_for_sbi.py`, `subset_cugraph_metrics_for_wedge.py` |
 | SBI cache | `build_abacus_sbi_cache.py`, `build_staged_mock_wedge_sbi_cache.py` |
 | Legacy partition batches | `build_abacus_partition_batches.py`, `submit_build_partitions_adaptive.slurm`, `PARTITION_ARTIFACT_SCHEMA.md` |
@@ -60,6 +61,33 @@ Abacus particle/halo products
 Feature builders consume those artifacts and write either CPU feature tables or
 cuGraph GNN arrays. The cuGraph path writes metadata consumed by
 `build_abacus_sbi_cache.py`.
+
+## S-Track Selection Atlas
+
+`s0_selection_atlas.py` is the S0 diagnostic for the full BGS redshift range.
+It compares DESI DR2 and the sentinelfix mock inside the same RA/Dec wedge,
+fits smooth per-dataset `n~(z)` conditioning curves, and records broad-shell
+structural stress tests for both graph and grid encoders:
+
+- mock/DESI count ratio versus redshift;
+- mean spacing and nearest-neighbour distance;
+- radius-10 Mpc/h union-graph degree statistics;
+- 5 and 6 Mpc voxel occupancy for CNN/F-tier grid inputs.
+
+Typical CPU run:
+
+```bash
+python workflows/abacus_tweb/s0_selection_atlas.py \
+  --ra 120 160 \
+  --dec 14.5 30.6 \
+  --zmin 0.03 \
+  --zmax 0.62 \
+  --out-dir "/pscratch/sd/d/dkololgi/abacus/s0_selection_atlas"
+```
+
+The script writes `s0_atlas.json` plus `s0_selection_atlas.png`. The spline
+arrays in the JSON are the S3 `n~(z)` conditioning inputs; do not substitute raw
+redshift for this covariate unless running an explicit ablation.
 
 ## Wedge SBI Cache
 
