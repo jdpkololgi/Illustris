@@ -110,7 +110,7 @@ statistical sharing exactly where data is scarcest — high z).
 | Gate | Experiment | Cost | GO criterion / decides |
 |---|---|---|---|
 | **S0** | Full-range selection atlas: DR2-vs-sentinelfix n(z) 0.05–0.6 full footprint; smooth ñ(z) splines (both datasets); per-shell graph stats (Delaunay edge length, degree@10 Mpc/h, union edge counts, **voxel occupancy** for the U-Net/F-tier) | ½ d CPU | quantifies per-shell OOD for EACH winner architecture; produces the ñ(z) conditioning functions |
-| **S1** | Cutsky-truth **shell-transfer matrix** (GBM/aperture harness): train-shell-i → test-shell-j R²(λ1) grid + pooled+ñ-conditioned row + per-shell diagonal | 1 d CPU | pooled-conditioned ≥ per-shell − 0.02 on every shell ⇒ single-model default confirmed cheaply BEFORE any retrain |
+| **S1** | Cutsky-truth **shell-transfer matrix**, TWO TIERS (amended 2026-07-12): **(a)** GBM/aperture harness — train-shell-i → test-shell-j R²(λ1) grid + pooled±ñ rows + per-shell diagonal, cutsky downsampled per shell to the DESI ñ(z) spline (DESI-realistic), north wedge box only; **(b)** WINNER zero-shot — existing trained G3-GraphNet and CNN/F-tier evaluated per-shell on S2 caches, two SIMULTANEOUS tmux GPU sessions (hbm80g) = the S2.5 encoder-at-sparsity readout at production fidelity | (a) ½–1 d CPU; (b) ~½ d GPU after S2 | pooled+ñ ≥ per-shell − 0.02 on every shell ⇒ single-model default confirmed BEFORE the retrain; (b) decides the production encoder under real sparsity |
 | **S2** | Training-data extension: multi-shell buffered wedges from the **sentinelfix parent** (A1 unblocked z-expansion) with LIGHT per-shell gradient trimming only (no global dilution); optional dilution-ladder augmentation (±20% around ñ) for between-shell robustness | ~1 d | full-range caches for Phase B |
 | **S3** | Winner-specific conditioning: GraphNet → ñ node feature (SI-excluded) + FMPE conditioning; **F-tier/U-Net → ñ(z)·V_voxel expected-counts input channel** (net can form Poisson contrast; prevents grid OOD); union graph unchanged (fixed comoving radius correct; Delaunay guarantees connectivity at any density) | in Phase B build | implementation spec |
 | **S4** | Production showdown at matched compute: pooled-conditioned vs 2 shell-models (low/high z) | part of Phase B eval | conditioned within ΔR² 0.02 AND per-shell-calibrated ⇒ ONE model ships; else shells + overlap-blend seam protocol (posterior mixture over Δz≈0.02) |
@@ -166,14 +166,38 @@ an argument FOR the graph encoder at production scale. See field-level §9.3.
 | **P4 VAC** | MNRAS / ApJS + DESI review | GraphWeb-BGS + closure + DESIVAST | after C/D |
 | **P5 ML main-track** | ICML/NeurIPS (conditional) | nuisance-invariant JEPA pretraining for amortized SBI, benchmarked beyond cosmology | ONLY if GateM fires |
 
-## 6. Timeline (aggressive but honest)
+## 6. Timeline — DEADLINE-COMPRESSED (rewritten 2026-07-12)
 
-- **Jul wk 1–2:** G1 + G1.5 + G2 (parallel CPU) · A1 + A2 (parallel) · P1 drafting.
-- **Jul wk 3–4:** G3 (b′) · G6 · A3 cache rebuild · P1 submitted.
-- **Aug:** G4 (if gated GO) · assemble P2 → ML4PS (~Aug 29) · Phase B bundled retrain.
-- **Sep–Oct:** GateM check · Phase C scale-out · P3 drafting · DESI process starts.
-- **Nov–Dec:** Phase D validation · VAC assembly · P4 drafting (DESI review into 2027).
-- JEPA/P5 branch: only on GateM failure; 3–6 mo, runs alongside C/D.
+**HARD CONSTRAINT: NERSC shutdown Jul 22 – Aug 3.** The production VAC must be BUILT,
+INTERNALLY VALIDATED, FROZEN and BACKED UP (scratch→CFS) by **Jul 21**. Operational
+constraints in force: **sbatch unusable → everything via salloc+tmux chains**; use
+**hbm80g** GPU nodes when memory-bound (40-vs-80GB roulette); test the two winners in
+SIMULTANEOUS allocations wherever possible.
+
+- **Jul 12–13:** S1(a) proxy matrix (CPU) · S2 shell-cache chain (5 shells, buffered
+  builds from sentinelfix parent, union edges, NO dilution — ñ-conditioning replaces it)
+  in tmux · S1(b) winner zero-shot on the shell caches (2 parallel GPU tmux) = S2.5.
+- **Jul 14–15:** S3 conditioning build (ñ node feature SI-excluded + FMPE vector;
+  expected-counts channel for the field branch) · **Phase B**: full-range ñ-conditioned
+  G3+FMPE retrain (hbm80g) with F-tier point-estimate retrain in parallel · S4 readout
+  + tempering re-fit on val.
+- **Jul 16–17:** **Phase C**: DR2 full-range inference — tile the BGS footprint via
+  salloc/tmux chains (fallback scope if churn is slow: north Galactic cap first, rest
+  post-shutdown) · GateM + S5 per-shell battery (SBC/TARP, MMD, width-vs-z).
+- **Jul 18–20:** **Phase D**: mass-anchored, full-range closure, DESIVAST cross-match ·
+  VAC v1 assembly (TARGETID-keyed FITS + docs + versioning).
+- **Jul 21:** FREEZE + full backup to CFS (scratch is purge-prone and the shutdown is an
+  outage) + push all repos. Buffer day for slippage.
+- **Post-shutdown (Aug 3+):** DESI collaboration review process (human-paced; explicitly
+  NOT achievable by Jul 22), P2 ML4PS (~Aug 29) from banked results, P3/P4 drafting,
+  λ2/λ3 SBC-aware training for the 4-class columns (v1.1), JEPA/P5 only if GateM fails.
+
+**VAC v1 scope guard (pre-registered):** if S1/S5 show the z≳0.45 regime (median union
+degree ~3, deg0 10.5%, mock deg0 42%) cannot be validated in time, v1 ships z 0.05–0.45
+with the 0.45–0.6 rows included but OOD-FLAGGED (posterior width + flag columns), and
+v1.1 extends after the shutdown. Better a clean validated range than a rushed full one.
+Dropped for v1 under the deadline: G3-to-7000 paper number (sbatch hostage; non-blocking),
+G4/G8 exploratory branches, P1 letter drafting (post-shutdown).
 
 ## 7. Standing methodology rules (learned this cycle, non-negotiable)
 
