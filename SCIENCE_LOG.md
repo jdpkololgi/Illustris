@@ -1,5 +1,42 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-13 — [code] S1(b)/S2.5 VERDICT: grid's BEST case collapses at BOTH range extremes; conditioned GraphNet confirmed as the full-range production path
+- **Design (a-fortiori):** GraphNet evaluated ZERO-SHOT (worst case, leak-guarded via
+  FILE_NUM/BOX_INDEX exclusion of training-wedge galaxies) vs CNN trained WITHIN each
+  shell (best case). Two simultaneous hbm80g tmux sessions on the S2 caches.
+- **Results (λ1 R²):**
+  | shell | CNN within-shell (BEST) | GraphNet zero-shot (WORST) |
+  | 0.05–0.15 | **0.002** (clu ρ 0.09) | −1.09 |
+  | 0.15–0.25 | 0.902 (ρ 0.74) | 0.480 |
+  | 0.25–0.35 | 0.847 (ρ 0.66) | 0.448 |
+  | 0.35–0.45 | 0.722 (ρ 0.60) | 0.147 |
+  | 0.45–0.55 | **0.429** (ρ 0.25) | −0.61 |
+- **Three decisions fall out:**
+  1. **Grid ≠ full-range encoder:** even trained in-shell, the CNN collapses at the
+     sparse end (0.43, cluster ρ 0.25 at z0.45–0.55) AND the dense low-z shell (0.002 —
+     possibly partly a small-volume/padding artifact of gate_t2 defaults at low-z
+     geometry; diagnostic queued, non-blocking). It is a MID-RANGE specialist
+     (0.85–0.90 at z0.15–0.35 — its 0.902 at z0.15–0.25 is the best single-shell number
+     recorded). A CNN-everywhere VAC is dead; a hybrid would resurrect the seam problem.
+  2. **Unconditioned GraphNet OOD profile quantified at production fidelity:** fails in
+     BOTH density directions (−1.09 dense / −0.61 sparse; coverage 0.16–0.38 vs nominal
+     0.68 = wildly overconfident off-domain) — this also RESOLVES the S1(a) shell-0
+     anomaly: real, not proxy (per-graph SI medians shift ~3× at the dense end too).
+     Caveat: zero-shot shell-1/2 numbers (0.48) carry a graph-change + z-error confound
+     vs the in-domain 0.80; the cross-shell SHAPE is the signal.
+  3. **Phase-B primary confirmed: ONE full-range ñ-conditioned GraphNet + FMPE** (per
+     S1(a): pooled+ñ beats per-shell). CNN stays a mid-range point-estimate reference;
+     F-tier eigenvector columns computed where valid (mid-range) for the VAC extras.
+- Jul 12–13 slot of the compressed schedule COMPLETE ON TIME: S0 ✅ S1(a) ✅ S2 (5 caches)
+  ✅ S1(b) ✅. Next per roadmap §6: **S3 conditioning build (Jul 14)** — ñ node feature
+  (SI-excluded, metadata-driven) + FMPE conditioning vector + pooled 5-shell training
+  cache — then the Phase-B full-range retrain (Jul 14–15, hbm80g, salloc/tmux).
+- Ops: S2 phase-2 cupy failure traced to unset CONDA_PREFIX — rapids-gnn MUST be
+  activated via `source miniforge3/bin/activate <env>` (repo CLAUDE.md pattern), not the
+  bare env python. Baked into the launcher.
+- Refs: `gate_s1b_graphnet_zeroshot.py`, S1b CNN runs `field_level_tests/S1b/t2_shell_*`,
+  logs `s1b_{graphnet,cnn}_*.log`, caches `sbi_caches/s2_shell_*_si_union/`.
+
 ### 2026-07-13 — [code] S1(a) VERDICT: ñ-conditioning BEATS per-shell models; S2 five-shell cache chain launched; **DEADLINE: NERSC shutdown Jul 22–Aug 3 — VAC v1 frozen by Jul 21**
 - **DEADLINE (JDPK):** NERSC down Jul 22–Aug 3. The VAC must be built, internally
   validated, FROZEN and BACKED UP (scratch→CFS) by **Jul 21**. Roadmap §6 rewritten with
