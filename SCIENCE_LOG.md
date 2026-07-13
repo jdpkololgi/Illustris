@@ -753,6 +753,37 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-13 — [code] SHELL-0 FAILURE SOLVED: corrupt LABELS (out-of-box), not a model/physics problem
+
+Comprehensive investigation (user: "understand why", no deadline pressure). Verdict: z<0.15 λ1
+is unpredictable because the **ground-truth T-Web labels there are scrambled** — a data-provenance
+artifact, definitively NOT model/feature/training inadequacy.
+
+Evidence chain:
+- diagnose_shell0.py: shell-0 λ1 variance is INTACT (std 0.181, comparable to all shells) — so it's
+  not low-variance. Yet R²(λ1|position)=0.008, R²(λ1|density)=0.002, Spearman(density,λ1)≈0. Every
+  other shell: Spearman≈0.5, R²(pos)≈0.35-0.45. Sharp break, not a gradient.
+- Astrostat framing (skill): R²(pos)=0 with intact marginal P(λ1) ⇒ MI(position,label)=0 ⇒ closure-
+  test failure isolated to a subpopulation (right values, wrong galaxies).
+- diagnose_shell0_boxindex.py: **BOX_INDEX==-1 is 100% at z<0.15 and 0% at z≥0.15** — a hard pipeline
+  switch at z=0.15. R²(λ1|pos): BOX==-1 → 0.001; BOX≥0 → 0.35/0.26 at z0.15-0.35. **Permutation null:
+  shell-0 observed R²=0.004 == shuffled-label R²=-0.002** → labels ≡ random.
+- Provenance: build_abacus_graph.py: BOX_INDEX==-1 = "invalid/out-of-box", excluded by default.
+  annotate_cutsky_with_tweb_eigs.py assigns eigs via (FILE_NUM,HALO_INDEX)→halo box-frame position→
+  voxel. ABACUS_TWEB_AUDIT_FINDINGS.md ALREADY documented "MI between graph metrics and eigenvalues
+  near zero" as a "label-domain mismatch" for the OLD sky-modulo method. The "_halo_xcom" catalog
+  fixed z≥0.15 (in-box), but z<0.15 galaxies are out-of-box (observer origin [-990,-990,-990]; nearest
+  galaxies sit outside [0,2000] box) → their voxel lookup wraps/clamps wrong → finite-but-scrambled λ.
+
+CONSEQUENCE: (1) low-z scope guard is now AIRTIGHT (not a guess) — no model can predict random labels;
+z<0.15 must be OOD-flagged/excluded in v1. (2) z≥0.15 labels are valid; the full-range model is sound
+there. (3) SALVAGE (optional, upstream): z<0.15 galaxies have VALID HALO_INDEX (min 2065), so a correct
+halo-x_com + PERIODIC-WRAP re-annotation may recover them — a data-regeneration fix, not a model fix.
+Feasibility test = re-annotate a z<0.15 sample via the halo-linkage method (validate_cutsky_eigs_*),
+check if R²(pos) recovers.
+
+
+
 ### 2026-07-13 — [code] FIRST full-range held-out result: approach VALIDATED (calibrated everywhere), R² undertrained, shell-0 prior-dominated
 
 Tiled ñ-conditioned model (500 epochs) evaluated on the HELD-OUT test region (RA≥150, never
