@@ -1,5 +1,42 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-13 — [code] S1(a) VERDICT: ñ-conditioning BEATS per-shell models; S2 five-shell cache chain launched; **DEADLINE: NERSC shutdown Jul 22–Aug 3 — VAC v1 frozen by Jul 21**
+- **DEADLINE (JDPK):** NERSC down Jul 22–Aug 3. The VAC must be built, internally
+  validated, FROZEN and BACKED UP (scratch→CFS) by **Jul 21**. Roadmap §6 rewritten with
+  the compressed Jul 12–21 schedule + a pre-registered **v1 scope guard** (if z≳0.45
+  can't be validated in time, ship 0.05–0.45 + OOD-flagged high-z rows; v1.1 after).
+  Operating constraints: sbatch unusable → ALL runs via salloc+tmux chains; hbm80g for
+  memory-bound GPU work; the two winners tested in simultaneous allocations. Honest
+  flag: DESI collaboration review is human-paced and NOT achievable by Jul 22 — the
+  deliverable is a frozen validated v1 candidate.
+- **S1(a) shell-transfer matrix RUN** (`gate_s1_shell_transfer.py`; north wedge box only
+  per JDPK volume concern; cutsky per-shell downsampled to the DESI ñ(z) spline →
+  DESI-realistic 380k sample; aperture-feature GBM proxy):
+  - **Off-diagonal transfer is CATASTROPHIC** (R² down to −86): unconditioned models are
+    worthless off their training density. The S-track is mandatory, quantified.
+  - **pooled+ñ ≥ per-shell diagonal on shells 1–4**, often by a lot (z0.15–0.25:
+    **0.319 vs 0.173**; z0.25–0.35: 0.187 vs 0.167; z0.35–0.45: 0.065 vs 0.052;
+    z0.45–0.55: 0.002 vs −0.045). Statistical sharing + conditioning wins. GATE 4/5 PASS
+    ⇒ **single conditioned model confirmed** (formally: per-shell fallback only if the
+    winner-tier contradicts).
+  - **Shell-0 anomaly (z0.05–0.15):** BOTH options fail with proxy features (diag −0.016,
+    pooled+ñ −0.108) — not a shells-win; a proxy/data anomaly to diagnose (S1 follow-up).
+  - **Shell-4 = proxy floor** (everything ≈0 at median degree ~3): aperture counts carry
+    ~nothing at that sparsity; whether the Delaunay-adaptive GraphNet does better is
+    exactly S1(b)/S2.5 — and it feeds the v1 scope guard.
+  Output: `abacus/s1_shell_transfer/s1_result.json`.
+- **S2 LAUNCHED** (tmux `s2_shells`, 3-phase CPU→GPU→CPU chain, all 5 shells
+  z0.05–0.55): buffered extract from the graph-ready parent (sentinel window excluded;
+  σ_v=35 km/s z-errors, Z_ORIG kept; **NO dilution** — ñ-conditioning replaces it per
+  S1a) → gudhi Delaunay → cuGraph features → trim → **union edges** →
+  SI cache per shell (`sbi_caches/s2_shell_*_si_union/`). New:
+  `s2_extract_shell_catalog.py`, `logs/run_s2_shells.sh`.
+- **NEXT (Jul 13):** S1(b) winner zero-shot on the shell caches — existing G3-GraphNet
+  and CNN/F-tier, two SIMULTANEOUS GPU tmux sessions = S2.5 encoder-at-sparsity at
+  production fidelity; then S3 conditioning build + Phase B full-range retrain (Jul 14–15
+  per compressed roadmap §6).
+- Roadmap §3b S1 row + §6 timeline updated in the same commit.
+
 ### 2026-07-12 — [code] S0 COMPLETE: selection atlas run — union-graph degree collapses to ~3 and 5-Mpc voxel occupancy to 0.1% at z 0.45–0.55
 - Ran `s0_selection_atlas.py` (new, CPU): DR2 vs sentinelfix n(z) 0.03–0.62 in the wedge
   box; smooth ñ(z) splines for BOTH datasets saved (the S3 conditioning functions);
