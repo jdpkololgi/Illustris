@@ -753,6 +753,24 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-14 — [code] Remediation P1+P2+P3 done: valid cache built, trainer fixed, PARITY PASSES (tiling is safe)
+
+P1 valid cache: s3b_tiled_valid_v2 built — shell-0 (z<0.15 corrupt) DROPPED, BOX_INDEX>=0 mandatory on
+active, all hard gates PASS. 4 shells / 10 tiles, active train/val/test 129113/18629/52848. Node-proportional
+sampling under the fixed trainer → shell1/2/3/4 = 54/32/13/1.5% of updates (was tile-count-distorted).
+P2 trainer: corrected (node-proportional sampling, global-step LR schedule, best-NLL/best-λ1 ckpts, run lock,
+deterministic resume). Committed 267c002.
+P3 PARITY test (z0.25-0.35, full shell vs RA-tiled, buffers 17/30/50 Mpc): mean|Δλ1|=0.012 INDEPENDENT of
+buffer and FLAT with distance-to-cut (0.015 near vs 0.012 far); embedding cosine dist ≈ 0.000. => tiling does
+NOT truncate the 8-pass receptive field (attention concentrates influence <~17 Mpc). MEMO CONCERN #5 REFUTED.
+17 Mpc buffer sufficient; tiling was never the accuracy problem. R0 UNBLOCKED (valid cache + fixed trainer +
+confirmed buffer). Residual 0.012 |Δλ1| is posterior-sampling RNG noise, not truncation.
+
+NEXT: P4 R0 — corrected union baseline (fixed trainer on s3b_tiled_valid_v2, total_updates=4000, warmup=400,
+node-proportional). First run allowed to judge the encoder. Then P5 aperture/luminosity GBM gates -> R1.
+
+
+
 ### 2026-07-14 — [code] CORRECTION: Phase-B run is INVALID for a model verdict — 3 confirmed training bugs; conclusions WITHDRAWN
 
 External implementation-memo review (Claude Desktop) caught real defects in the tiled Phase-B run; all
