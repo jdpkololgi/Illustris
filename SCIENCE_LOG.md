@@ -753,6 +753,23 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-14 — [code] FMPE+tempering DONE (GPU): calibration improved, accuracy flat — confirms encoder is the ceiling
+
+FMPE head on frozen tiled encoder + posterior tempering (τ=1.18 fit on VAL, assessed on disjoint TEST),
+per shell (z≥0.15): R²(λ1) FMPE ALL=0.333 ≈ MAF 0.340 → **FMPE did NOT improve accuracy** on this tiled
+full-range setup (contrast: G6 dense-wedge found FMPE>MAF). Tempering lifted λ1 coverage from MAF's
+under-covering cov68=0.653 → 0.723 (cov90 0.876→0.907) — slightly OVER now; a single global τ over-inflates
+some shells (per-shell/per-ñ τ would tighten). **SBC KS p≈0 at every shell** — scalar tempering fixes WIDTH
+not SHAPE; shape miscalibration remains open. (Execution note: sbi FMPE CPU sampling is batch-capped to 12
+nodes → hangs; MUST sample on GPU — fixed fmpe_temper_tiled.py with device=cuda, ran in ~9 min.)
+
+CONCLUSION: v1 calibrated stack = tiled ñ-conditioned encoder (MAF-trained) + FMPE head + tempering, R²(λ1)
+≈0.42 (z≥0.15), coverage ~nominal. FMPE confirms accuracy is set by the ENCODER, not the head — so the
+per-galaxy-accuracy priority (JDPK) needs encoder/graph/feature upgrades: k-NN one-graph, then F-tier.
+Result: fmpe_temper_heldout.json.
+
+
+
 ### 2026-07-14 — [code] Validation plots: regression-to-mean visible; 62% 4-class agreement (per-galaxy accuracy limited)
 
 Held-out (RA≥150, z≥0.15, 52,844 gal) validation of the best-val MAF model. Pred-vs-true eigenvalue

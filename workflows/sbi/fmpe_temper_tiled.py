@@ -95,20 +95,22 @@ def main():
     from sbi.inference import FMPE
     from sbi.utils import BoxUniform
     torch.manual_seed(0)
+    dev = "cuda" if torch.cuda.is_available() else "cpu"
+    print(f"FMPE device: {dev}")
     tr = region == 0; va = region == 1; te = region == 2
     tri = np.where(tr)[0]
     if len(tri) > args.max_train:
         tri = rng.permutation(tri)[: args.max_train]
     lo = theta.min(0) - 0.2 * np.ptp(theta, 0); hi = theta.max(0) + 0.2 * np.ptp(theta, 0)
-    prior = BoxUniform(low=torch.tensor(lo), high=torch.tensor(hi))
-    trainer = FMPE(prior=prior)
+    prior = BoxUniform(low=torch.tensor(lo).to(dev), high=torch.tensor(hi).to(dev))
+    trainer = FMPE(prior=prior, device=dev)
     trainer.append_simulations(torch.tensor(theta[tri]), torch.tensor(emb[tri]))
     print(f"training FMPE on {len(tri)} train-region nodes...")
     est = trainer.train(training_batch_size=1024)
     post = trainer.build_posterior(est)
 
     def sample(idx):
-        X = torch.tensor(emb[idx])
+        X = torch.tensor(emb[idx]).to(dev)
         S = post.sample_batched((args.n_samples,), x=X, show_progress_bars=False)
         return np.transpose(np.asarray(S.detach().cpu()), (1, 0, 2))   # [n, n_samples, 3]
 
