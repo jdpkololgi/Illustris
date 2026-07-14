@@ -753,6 +753,33 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-14 — [code] Phase-B first pass DONE: best-val GNN beats GBM decisively; complexity justified
+
+Stopped the 4000-epoch run (overfitting: val NLL rose 3.10→3.23 after ~epoch 800). Finalized the
+BEST-VAL model from checkpoint (NLL 3.101) → flowjax_sbi_model_seed_42_20260714_000602.pkl. Held-out
+(RA≥150, never-trained) per-shell eval, GNN vs the node-only GBM baseline:
+
+| z | GNN λ1 | GBM λ1 | GNN λ2 | GBM λ2 | GNN λ3 | GBM λ3 | cov68/90 |
+|---|---|---|---|---|---|---|---|
+| 0.05-0.15 | -0.010 | -0.001 | -0.014 | -0.005 | -0.018 | -0.004 | 0.67/0.88 |
+| 0.15-0.25 | 0.472 | 0.262 | 0.682 | 0.369 | 0.666 | 0.202 | 0.65/0.88 |
+| 0.25-0.35 | 0.360 | 0.332 | 0.561 | 0.480 | 0.608 | 0.450 | 0.63/0.86 |
+| 0.35-0.45 | 0.390 | 0.344 | 0.446 | 0.438 | 0.460 | 0.392 | 0.73/0.92 |
+| 0.45-0.55 | 0.326 | 0.223 | 0.396 | 0.305 | 0.432 | 0.340 | 0.63/0.86 |
+| ALL | 0.340 | 0.252 | 0.483 | 0.352 | 0.493 | 0.288 | 0.65/0.88 |
+
+VERDICT: GNN earns its complexity. Beats GBM at every live shell on all 3 eigenvalues; gap WIDENS on
+λ2/λ3 (edge unit-vectors + message passing capture anisotropy the node-only tree can't). Early-stop
+helped (λ1 0.340 vs overfit 0.303). Shell-0 dead for both (corrupt out-of-shell labels, verified).
+Calibration good everywhere. Honest-eval note: old wedge "0.80@z0.2-0.3" was TRANSDUCTIVE; this 0.34-0.42
+is SPATIAL holdout (deployment-honest) — much of the "gap" is eval rigor, not regression. z≥0.15 R²λ1≈0.42.
+v1 product = calibrated λ1 posterior on z 0.15-0.55; z<0.15 OOD-flagged (corrupt labels).
+
+NEXT (open): FMPE head + tempering on frozen embeddings (calibration headline); F-tier v2_A full-range
+(tiled) point-estimate branch; then validation battery. GBM retained as transparent floor/cross-check.
+
+
+
 ### 2026-07-13 — [code] Shell-0 mechanism VERIFIED vs AbacusSummit/DESI docs (corrected: snapshot-shell stitching, not "outside box")
 
 Verified the z<0.15 conclusion against AbacusSummit readthedocs + web/literature (user request).
