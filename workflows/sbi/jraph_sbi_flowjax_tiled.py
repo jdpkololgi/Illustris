@@ -140,7 +140,7 @@ def main(args):
             vidx = np.where(t["val_np"])[0]
             if len(vidx) > args.l1_val_cap:
                 vidx = rng.permutation(vidx)[: args.l1_val_cap]
-            S = batched_sample_posterior(fl, emb[vidx], args.l1_val_samples, jax.random.PRNGKey(3))
+            S = batched_sample_posterior(fl, emb[vidx], args.l1_val_samples, jax.random.key(3))
             lam = np.stack([samples_to_raw_eigenvalues(S[i], target_scaler, inc) for i in range(len(vidx))], 0)
             per[t["shell"]][0].append(lam.mean(1)[:, 0]); per[t["shell"]][1].append(t["eig_raw"][vidx][:, 0])
         pr, tr = [], []
