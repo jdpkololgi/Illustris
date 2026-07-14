@@ -76,12 +76,21 @@ def main():
     ap.add_argument("--gutter-mpc", type=float, default=15.0)
     ap.add_argument("--max-edges", type=int, default=4_000_000)
     ap.add_argument("--buffer-mpc", type=float, default=17.0)  # >= union radius, for connectivity
+    ap.add_argument("--min-zlo", type=float, default=0.15,
+                    help="drop shells with core z_lo < this. z<0.15 has CORRUPT out-of-shell labels "
+                         "(BOX_INDEX==-1, permutation-null random) — MUST be excluded from the valid cache.")
+    ap.add_argument("--min-train-nodes", type=int, default=300,
+                    help="HARD FAIL if any train tile has fewer active train nodes than this.")
     ap.add_argument("--out-dir", type=Path,
-                    default=Path("/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3b_tiled_ntilde_uniongraph"))
+                    default=Path("/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3b_tiled_valid_v2"))
     args = ap.parse_args()
     sp = json.loads(Path(args.ntilde_spline).read_text())
     args.out_dir.mkdir(parents=True, exist_ok=True)
     BOUNDS = [args.ra_train_hi, args.ra_test_lo]
+    global SHELLS
+    dropped = [s for s in SHELLS if CORE_Z[s][0] < args.min_zlo]
+    SHELLS = [s for s in SHELLS if CORE_Z[s][0] >= args.min_zlo]
+    print(f"VALID shells (core z_lo >= {args.min_zlo}): {SHELLS}   DROPPED (corrupt labels): {dropped}")
 
     # ---- load shells, invert box-cox, define tiles ----------------------------------
     shell_data = {}
@@ -167,7 +176,8 @@ def main():
         gut = args.gutter_mpc * deg_per_mpc(lz)
         in_gutter = (np.abs(lra - args.ra_train_hi) < gut) | (np.abs(lra - args.ra_test_lo) < gut)
         is_core_shell = np.array([core_shell[int(t)] == tag for t in ltid])
-        active = lcore & ~in_gutter & is_core_shell
+        valid_box = d["box_index"][keep_idx] >= 0   # BOX_INDEX==-1 = out-of-box (scrambled labels) -> never active
+        active = lcore & ~in_gutter & is_core_shell & valid_box
         reg = d["node_region"][keep_idx]        # global halo-disjoint region (not per-node RA)
         train_m = active & (reg == 0); val_m = active & (reg == 1); test_m = active & (reg == 2)
         blob = dict(tag=tag, c_lo=c_lo, c_hi=c_hi, keep_idx=keep_idx, se=se, re=re, ea=ea,
@@ -186,6 +196,10 @@ def main():
     # ---- PASS 2: transform + write tiles ---------------------------------------------
     manifest = {"tiles": [], "n_tiles": len(tiles), "ntilde_spline_path": str(args.ntilde_spline),
                 "node_feature_names": NODE_FEATURE_NAMES, "ntilde_feature_index": 7,
+                "label_provenance": {"valid_shells": SHELLS, "dropped_shells": dropped, "min_zlo": args.min_zlo,
+                                     "box_index_valid_required": True, "label_valid": True,
+                                     "note": "z<min_zlo dropped (out-of-shell corrupt labels); active nodes require "
+                                             "BOX_INDEX>=0. Do NOT publish inferred science below z=min_zlo."},
                 "spatial_split": {"ra_train_hi": args.ra_train_hi, "ra_test_lo": args.ra_test_lo,
                                   "gutter_mpc": args.gutter_mpc, "buffer_mpc": args.buffer_mpc,
                                   "max_edges": args.max_edges, "halo_disjoint": True}}
@@ -246,7 +260,34 @@ def main():
         rows = [t for t in manifest["tiles"] if t["shell"] == tag]
         tr, va, te = (sum(t[k] for t in rows) for k in ("train", "val", "test"))
         print(f"    shell {tag}: {len(rows)} tiles, train/val/test={tr}/{va}/{te}")
-    print(f"\nSaved {len(tiles)} tiles + manifest + shared_scalers to {args.out_dir}")
+
+    # ---- MANDATORY HARD GATES (raise; never ship an invalid cache) -------------------
+    fails = []
+    act_masks = [b["train_m"] | b["val_m"] | b["test_m"] for b in tile_blobs]
+    for b, act in zip(tile_blobs, act_masks):
+        if int((b["box_index"][act] < 0).sum()):
+            fails.append(f"shell {b['tag']}: {(b['box_index'][act]<0).sum()} active nodes with BOX_INDEX<0")
+        if not np.isfinite(b["eig_raw"][act]).all() or not np.isfinite(b["tgt_raw"][act]).all():
+            fails.append(f"shell {b['tag']}: non-finite eigenvalues/increments on active nodes")
+    if leak:
+        fails.append(f"{len(leak)} train/test shared halos")
+    act_tids = np.concatenate([b["tid"][act] for b, act in zip(tile_blobs, act_masks)])
+    _, cnt = np.unique(act_tids, return_counts=True)
+    if cnt.max() > 1:
+        fails.append(f"{int((cnt>1).sum())} duplicate active TARGETIDs")
+    for tag in SHELLS:
+        rows = [t for t in manifest["tiles"] if t["shell"] == tag]
+        for k in ("train", "val", "test"):
+            if sum(t[k] for t in rows) == 0:
+                fails.append(f"shell {tag} has zero {k} nodes")
+    for t in manifest["tiles"]:
+        if 0 < t["train"] < args.min_train_nodes:
+            fails.append(f"{t['file']} ({t['shell']}) has {t['train']} train nodes (< {args.min_train_nodes})")
+    if fails:
+        raise SystemExit("MANDATORY CACHE GATES FAILED (invalid cache NOT usable):\n  - " + "\n  - ".join(fails))
+    print("[PASS] mandatory gates: valid-box, finite labels, halo-disjoint, unique active TID, "
+          "region coverage, min train nodes")
+    print(f"\nSaved {len(tiles)} VALID tiles + manifest + shared_scalers to {args.out_dir}")
 
 
 if __name__ == "__main__":
