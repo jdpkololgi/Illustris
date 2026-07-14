@@ -45,36 +45,40 @@ def main():
 
     shell_cache = {}
     def load_shell(tag):
+        # map each galaxy's eigenvalue triplet -> shell row (tile eig came from this FITS, so exact)
         if tag not in shell_cache:
             t = fitsio.read(S2 / f"shell_{tag}_final_wedge_targets.fits",
-                            columns=["RA", "DEC", "Z", "LAMBDA1"])
+                            columns=["RA", "DEC", "Z", "LAMBDA1", "LAMBDA2", "LAMBDA3"])
+            L = np.round(np.stack([t["LAMBDA1"], t["LAMBDA2"], t["LAMBDA3"]], 1).astype(np.float64), 5)
+            keys = {tuple(L[i]): i for i in range(len(L))}
             shell_cache[tag] = (t["RA"].astype(np.float64), t["DEC"].astype(np.float64),
-                                t["Z"].astype(np.float64), t["LAMBDA1"].astype(np.float64))
+                                t["Z"].astype(np.float64), keys)
         return shell_cache[tag]
 
     P, T, RA, DEC, Z, SH = [], [], [], [], [], []
+    n_unmatched = 0
     for tinfo in manifest["tiles"]:
         if tinfo["test"] == 0:
             continue
-        tag = tinfo["shell"]; c_lo, c_hi = tinfo["ra_core"]
+        tag = tinfo["shell"]
         p = pickle.load(open(tiles_dir / tinfo["file"], "rb"))
         graph = p["graph"]; eig_raw = np.asarray(p["eigenvalues_raw"])
         test_mask = np.asarray(p["masks"][2]).astype(bool)
-        # reconstruct keep_idx (== tile node order) from manifest geometry
-        ra_s, dec_s, z_s, l1_s = load_shell(tag)
-        buf = buffer_mpc * deg_per_mpc(CORE_ZLO[tag])
-        keep_idx = np.where((ra_s >= c_lo - buf) & (ra_s < c_hi + buf))[0]
-        assert len(keep_idx) == eig_raw.shape[0], f"{tinfo['file']}: {len(keep_idx)} != {eig_raw.shape[0]}"
-        assert np.allclose(l1_s[keep_idx], eig_raw[:, 0], atol=1e-4), f"{tinfo['file']}: eig misalign"
+        ra_s, dec_s, z_s, keys = load_shell(tag)
+        ti = np.where(test_mask)[0]
+        # match each test node to its shell row by eigenvalue triplet
+        te = np.round(eig_raw[ti], 5)
+        gi = np.array([keys.get(tuple(te[j]), -1) for j in range(len(ti))])
+        ok = gi >= 0; n_unmatched += int((~ok).sum())
+        ti, gi = ti[ok], gi[ok]
 
         gnn, flow = create_gnn_and_flow(config, flow_filename, graph, jax.random.key(42))
         emb = np.asarray(gnn.apply(gnn_params, jax.random.key(0), graph, is_training=False))
-        ti = np.where(test_mask)[0]
         S = batched_sample_posterior(flow, emb[ti], args.n_samples, jax.random.key(7))
         lam = np.stack([samples_to_raw_eigenvalues(S[i], target_scaler, inc) for i in range(len(ti))], 0)
-        gi = keep_idx[ti]                       # global shell rows for the test nodes
         P.append(lam.mean(1)); T.append(eig_raw[ti])
         RA.append(ra_s[gi]); DEC.append(dec_s[gi]); Z.append(z_s[gi]); SH.append(np.array([tag] * len(ti)))
+    print(f"unmatched test nodes (dropped): {n_unmatched}")
 
     pred = np.concatenate(P); true = np.concatenate(T)
     np.savez_compressed(args.out_npz, pred=pred, true=true,
