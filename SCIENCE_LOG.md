@@ -753,6 +753,38 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-14 — [code] CORRECTION: Phase-B run is INVALID for a model verdict — 3 confirmed training bugs; conclusions WITHDRAWN
+
+External implementation-memo review (Claude Desktop) caught real defects in the tiled Phase-B run; all
+verified against code/manifest. The R²(λ1)=0.418 is NOT an encoder or information ceiling.
+
+CONFIRMED BUGS:
+1. Tile-count optimizer weighting: jraph_sbi_flowjax_tiled.py does ONE update per tile, not per scientific
+   sample. shell-0 (CORRUPT z<0.15) = 11/21 tiles = 52% of updates (only 27% of nodes); valid shell-2
+   (0.25-0.35) = 23% of nodes but 4.8% of updates. Corrupt shell dominated; valid shells starved.
+2. Corrupt z<0.15 labels were IN the training set (48,406 train nodes of random labels) — should have been
+   excluded once the label corruption was found.
+3. LR schedule ~20x too fast: warmup_cosine_decay decay_steps set in EPOCH units but the schedule advances
+   per optim.update (~21/epoch) → LR hits the 1e-5 floor by ~epoch 171, not 4000. Effective training truncated.
+Also flagged (not yet quantified): finalize/eval race + lingering auto-loop windows; 17 Mpc tile buffer <
+8-message-pass receptive field; aperture-density + luminosity features omitted from the bundled cache.
+
+WITHDRAWN: "accuracy is encoder-limited", "undertraining ruled out", "0.42 is the model's real accuracy",
+and the FMPE-implies-encoder-ceiling framing (FMPE only shows head-swap on the SAME embedding doesn't help
+— it does NOT establish an encoder ceiling). Posterior described as COVERAGE-TEMPERED, SBC-FAILING (not
+"calibrated"). Run frozen: phaseB_tiled_ntilde/{PIPELINE_SMOKE_ONLY_INVALID_FOR_MODEL_VERDICT.txt,
+RUNCARD_invalid.json}; artifacts preserved, not overwritten.
+
+REMEDIATION (memo, 10 phases): P1 valid z0.15-0.55 cache (drop shell-0, BOX_INDEX≥0 mandatory, refit scalers
+on valid data, hard assertions, versioned path); P2 per-scientific-sample optimizer + global-step schedule +
+separate best-NLL/best-λ1 checkpoints + read-only finalize + run locks; P3 tile/full receptive-field parity
+gate; P4 R0 corrected union baseline (first run allowed to judge the encoder); P5 aperture/luminosity GBM
+gates → R1; P6 ñ conditioning ablation + specialist controls; P7 kNN vs bounded-hybrid topology showdown;
+P8 auxiliary point-regression head; P9 full-range F-tier gate; P10 VAC release gates + golden canary.
+Do NOT publish z<0.15 science (null + NO_VALID_TRAINING_LABELS flag). Do NOT pre-register R²=0.8.
+
+
+
 ### 2026-07-14 — [code] === GraphWeb-BGS v1 CONSOLIDATED STATE (session handoff) ===
 
 **WHAT EXISTS (v1 calibrated baseline, full-range ñ-conditioned):**
