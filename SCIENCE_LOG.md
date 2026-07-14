@@ -753,6 +753,50 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-14 — [code] === GraphWeb-BGS v1 CONSOLIDATED STATE (session handoff) ===
+
+**WHAT EXISTS (v1 calibrated baseline, full-range ñ-conditioned):**
+- Model: tiled ñ-conditioned Attentional-GraphNetwork encoder (MAF-trained, best-val early-stopped
+  ~epoch 800, NLL 3.101) + FMPE head + posterior tempering (τ=1.18).
+  `phaseB_tiled_ntilde/sbi_output/flowjax_sbi_model_seed_42_20260714_000602.pkl`.
+- Data: 21 disjoint RA-tiles over z0.15-0.55 (union Delaunay∪radius graph, sliced to fit GPU),
+  8-d node feats [7 geometric SI-normed + log_ñ(z)], edge feats [len, unit-vec(3), contrast].
+  `sbi_caches/s3b_tiled_ntilde_uniongraph/`. Frozen ñ spline: `conditioning/ntilde_spline_v1_frozen.json`.
+- Splits: halo-disjoint SPATIAL holdout — train RA<145 / val 145-150 / test RA≥150 + 15 Mpc gutter.
+
+**HEADLINE RESULTS (held-out RA≥150, honest new-sky generalization):**
+- R²(λ1)=0.340 ALL / 0.418 (z≥0.15); λ2=0.608, λ3=0.629. Calibrated after tempering: cov68~0.72,
+  cov90~0.91 (slightly over; global τ; per-shell τ would tighten). SBC KS p≈0 → SHAPE still miscalibrated.
+- T-web 4-class (λ_th=0.2, z≥0.15): 62% agreement (random 25%). Class fractions true/pred: void .255/.176,
+  sheet .412/.462, filament .271/.307, knot .063/.055. Plots: phaseB_tiled_ntilde/plots/{pred_vs_true_eigs,
+  fan_true_vs_pred}.png. Visible REGRESSION-TO-MEAN: extremes (void, knot) blur toward middle.
+
+**KEY FINDINGS:**
+1. z<0.15 UNUSABLE — corrupt labels. 100% BOX_INDEX==-1 (out-of-shell for the z=0.2 snapshot cutsky);
+   permutation-null test: labels ≡ random. Verified vs AbacusSummit/DESI docs (observer at box corner
+   (-990,-990,-990); snapshot-shell stitching; sharp z=0.15 edge). Scope-guard AIRTIGHT. Salvage = upstream
+   re-annotation w/ correct low-z snapshot (real project). FLAG TO DESI MOCK TEAM.
+2. ACCURACY is ENCODER-limited: FMPE R²=0.333 ≈ MAF 0.340 (head swap does nothing); undertraining ruled out
+   (early-stopped); shell-0 fails for GNN AND GBM AND position-oracle. 0.8 is above the info ceiling of sparse
+   BGS positions (dense-wedge transductive ceilings: DTFE 0.552, GraphNet 0.775, F-tier 0.841).
+3. GNN > GBM at every live shell (λ1 0.340 vs 0.252; wider on λ2/λ3) → graph/edge-anisotropy complexity JUSTIFIED.
+4. JDPK requirement: per-galaxy environment needs accurate MEANS → 0.42/62% is a REAL limitation at the
+   void↔sheet / filament↔knot boundaries (the interesting extremes). ACCURACY is now the priority axis.
+
+**METHODOLOGY DECISIONS:** F-tier config firmed = v2_A (tsc+unet, shared G3 union-graph). ñ(z) is a SMOOTH
+per-galaxy feature (not shell-quantized); one amortized model. Shells/tiles are a MEMORY device only
+(union graph unbounded degree ~180 at low z → whole-wedge OOM 267GB). sbi FMPE MUST sample on GPU (CPU
+batch-caps to 12 → hangs).
+
+**OPEN / NEXT (priority = accuracy, JDPK):**
+- (a) k-NN one-graph rebuild: bounded degree k≈12 → one continuous graph z0.15-0.55 fits 1×hbm80g, no
+  shell/tile edge-cutting (JDPK instinct, correct). (b) F-tier v2_A full-range (tiled) — the 0.84 accuracy
+  branch. (c) richer features (reconstructed density field, velocities). Measure all on the SAME held-out fan.
+- Deferred: validation battery (SBC-aware shape fix, TARP), λ2/λ3 4-class calibration, low-z salvage.
+- DEADLINE: NERSC shutdown Jul 22–Aug 3. All keepers on CFS (graphweb_vac_v1_backup).
+
+
+
 ### 2026-07-14 — [code] FMPE+tempering DONE (GPU): calibration improved, accuracy flat — confirms encoder is the ceiling
 
 FMPE head on frozen tiled encoder + posterior tempering (τ=1.18 fit on VAL, assessed on disjoint TEST),
