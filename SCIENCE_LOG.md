@@ -753,6 +753,23 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-14 — [code] Validation plots: regression-to-mean visible; 62% 4-class agreement (per-galaxy accuracy limited)
+
+Held-out (RA≥150, z≥0.15, 52,844 gal) validation of the best-val MAF model. Pred-vs-true eigenvalue
+hexbins: R²(λ1)=0.418 with a clear regression-to-mean tilt (flatter than 1:1 — voids pulled up, collapse
+regions pulled down); λ2=0.608, λ3=0.629 tighter. Cosmic-web fan (λ_th=0.2, DEC 18-28° slice): large-scale
+pattern recovered but SMOOTHED — voids under-populated (pred 0.176 vs true 0.255), sheet over (0.462 vs 0.412),
+filament 0.307 vs 0.271, knot 0.055 vs 0.063. **4-class agreement 62.2%** (random=25%). knot POPULATION
+fraction well-recovered (P(λ1>0.2) 5.5% vs 6.3%) but per-galaxy assignment scatters. Plots:
+phaseB_tiled_ntilde/plots/{pred_vs_true_eigs.png, fan_true_vs_pred.png}.
+
+INTERPRETATION: regression-to-mean is the honest Bayesian posterior-mean behavior under limited info, NOT a
+bug — sharper per-galaxy env needs MORE INFORMATION (F-tier / k-NN one-graph / density-field features), not a
+different estimator. For per-galaxy environment (JDPK requirement) this 62%/0.42 is a real limitation at the
+void↔sheet and filament↔knot boundaries (the interesting extremes). Accuracy is now the priority axis.
+
+
+
 ### 2026-07-14 — [code] ACCURACY now a first-class concern (posterior MEANS carry the per-galaxy environment)
 
 Clarified science requirement (JDPK): the VAC is per-galaxy environmental info, so posterior MEANS
