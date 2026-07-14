@@ -753,6 +753,28 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-14 — [code] ACCURACY now a first-class concern (posterior MEANS carry the per-galaxy environment)
+
+Clarified science requirement (JDPK): the VAC is per-galaxy environmental info, so posterior MEANS
+(point estimates) are essential — each galaxy's environment is the deliverable, not just population
+statistics. => the held-out R²(λ1)≈0.34 (ALL) / ≈0.42 (z≥0.15) is a SIGNIFICANT concern, not something
+the calibrated-posterior framing excuses.
+
+Honest ceiling context (all dense-wedge, transductive): DTFE 0.552, GraphNet 0.775, F-tier 0.841.
+Our number is lower because (a) SPATIAL holdout (honest new-sky, not transductive) and (b) full-range
+incl sparse high-z. DESI transfer is HARDER than the mock holdout. R²=0.8 on sparse BGS positions is
+almost certainly above the information ceiling of galaxy positions alone. Real accuracy levers (FMPE is
+NOT one — it's calibration): (1) F-tier v2_A (0.84 branch, the accuracy play); (2) one continuous k-NN
+graph over z0.15-0.55 (bounded degree → fits one GPU, no shell/tile edge-cutting; JDPK's instinct,
+correct) + smooth ñ(z) per galaxy; (3) richer features (reconstructed density field, velocities).
+
+Validation plots being produced (dump_predictions_positions.py + plot_validation.py): pred-vs-true
+eigenvalue hexbins + cosmic-web fan (wedge) plots true-vs-predicted at λ_th=0.2, on the held-out test
+region. FMPE+tempering running (calibration; won't move R²). NEXT priority (per JDPK): raise accuracy —
+k-NN one-graph rebuild then F-tier, measured on the same spatial holdout.
+
+
+
 ### 2026-07-14 — [code] Phase-B first pass DONE: best-val GNN beats GBM decisively; complexity justified
 
 Stopped the 4000-epoch run (overfitting: val NLL rose 3.10→3.23 after ~epoch 800). Finalized the
