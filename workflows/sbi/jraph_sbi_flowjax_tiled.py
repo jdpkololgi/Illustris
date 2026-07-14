@@ -76,12 +76,21 @@ def main(args):
     manifest, shared, tiles = load_tiles(args.tiles_dir)
     target_scaler = shared["target_scaler"]; inc = args.increment_mode
     train_tiles = np.array([i for i in range(len(tiles)) if tiles[i]["n_train"] > 0])
-    p_train = np.array([tiles[i]["n_train"] for i in train_tiles], float)
+    # shell-temperature tile sampling: p(shell s) ∝ N_s^tau, tiles within a shell ∝ their N.
+    #   tau=1 node-proportional (R0); tau=0.5 sqrt-balanced; tau=0 uniform-over-shells.
+    shell_N = defaultdict(float)
+    for i in train_tiles:
+        shell_N[tiles[i]["shell"]] += tiles[i]["n_train"]
+    tau = args.sampling_temperature
+    p_train = np.array([tiles[i]["n_train"] * shell_N[tiles[i]["shell"]] ** (tau - 1.0)
+                        for i in train_tiles], float)
     p_train /= p_train.sum()
-    print(f"loaded {len(tiles)} tiles ({len(train_tiles)} with train nodes); totals {manifest['totals']}")
-    print("  per-tile train-node sampling prob (node-proportional):")
+    shell_p = defaultdict(float)
     for i, pr in zip(train_tiles, p_train):
-        print(f"    tile {i:2d} shell {tiles[i]['shell']} n_train={tiles[i]['n_train']:6d} p={pr:.4f}")
+        shell_p[tiles[i]["shell"]] += pr
+    print(f"loaded {len(tiles)} tiles ({len(train_tiles)} with train nodes); totals {manifest['totals']}")
+    print(f"  sampling temperature tau={tau}: per-SHELL update share -> " +
+          "  ".join(f"{s}:{shell_p[s]:.3f}" for s in sorted(shell_p)))
 
     gnn = hk.transform(make_gnn_encoder(num_passes=args.num_passes, latent_size=args.latent_size,
                                         num_heads=args.num_heads, dropout_rate=args.dropout))
@@ -242,6 +251,8 @@ if __name__ == "__main__":
     ap.add_argument("--increment_mode", type=str, default="linear")
     ap.add_argument("--total-updates", dest="total_updates", type=int, default=4000)
     ap.add_argument("--warmup-updates", dest="warmup_updates", type=int, default=400)
+    ap.add_argument("--sampling-temperature", dest="sampling_temperature", type=float, default=1.0,
+                    help="shell sampling p(s)∝N_s^tau: 1=node-proportional (R0), 0.5=sqrt-balanced, 0=uniform-shell")
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--val-every", dest="val_every", type=int, default=50)
     ap.add_argument("--l1-every", dest="l1_every", type=int, default=400)

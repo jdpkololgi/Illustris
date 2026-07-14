@@ -753,6 +753,30 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-14 — [code] ACCURACY SPRINT plan adopted (supersedes prior next-levers); starting Workstream A (sampling)
+
+New execution memo (Claude Desktop) governs the post-R0 accuracy sprint over z0.15-0.55. Key corrections
+to my prior next-levers: (1) **GBM DEMOTED from gate to diagnostic** — GBM 0.27 vs GraphNet 0.77 shows GBM
+is NOT a surrogate for spatial-model-extractable info; feed aperture/luminosity features DIRECTLY to the
+GraphNet, no GBM veto. (2) **Workstream A (redshift optimization imbalance) is TOP priority** — R0's high-z
+shell (0.45-0.55) got only ~60 updates (1.5% of 4000) under node-proportional sampling, so its 0.34 is NOT
+a clean ceiling. (3) **PROTECT the RA≥150 test region** — open ONLY for the frozen finalist; select on val
+(145-150) macro-shell λ1 R² + blocked spatial CV inside train. I have been evaluating test too freely.
+
+Workstreams: A sampling-policy ablation (√N-balanced, uniform) + high-z specialist; B R1 enriched GraphNet
+(aperture density @7/10/14 Mpc/h + luminosity + degree/NN-scale, ñ kept distinct from physical density);
+C matched full-range 3-D U-Net (first-class challenger, LOS channels for RSD, expected-count/mask channels);
+D full-range F-tier v2_A (nonlocal-FFT tile convergence test); E graph-field residual hybrid (η=η_field+
+r_θ, out-of-fold field features to avoid leakage); F aux ordered-increment point head if plateau; G more sim
+coverage (phases/snapshots/high-z volume). Point-estimate gates FIRST; FMPE+calibration only on the winner.
+Metrics: pooled + MACRO-shell + worst-shell λ1 R², ρ², void/knot recall, block-bootstrap (not per-galaxy).
+
+STARTED: Workstream A1 — added --sampling-temperature to the tiled trainer (tau: 1=node-prop, 0.5=sqrt,
+0=uniform-shell). Launching A1b (tau=0.5) + A1c (tau=0) in parallel, selection on VAL macro-shell λ1 R²
+(no test eval). Do NOT pre-register R²=0.8. VAC v1: z0.15-0.55; z<0.15 null + NO_VALID_TRAINING_LABELS.
+
+
+
 ### 2026-07-14 — [code] NEXT LEVERS after R0 (post-remediation accuracy roadmap)
 
 R0 corrected baseline established: held-out R²(λ1)=0.514 ALL (0.56/0.49/0.42/0.34 over z0.15-0.55),
