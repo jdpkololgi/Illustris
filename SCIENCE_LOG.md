@@ -753,6 +753,28 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-13 — [code] Shell-0 mechanism VERIFIED vs AbacusSummit/DESI docs (corrected: snapshot-shell stitching, not "outside box")
+
+Verified the z<0.15 conclusion against AbacusSummit readthedocs + web/literature (user request).
+CONFIRMED externally: box = 2000 Mpc/h; light-cone observer at **(-990,-990,-990)**, 10 Mpc/h
+INSIDE a box corner (matches the audit-doc origin exactly); cutsky = replicate+patch 2 h⁻¹Gpc
+boxes from DIFFERENT snapshots → sky coords → trim to footprint+radial selection, STITCHING
+redshift shells; a box-provenance flag exists (AbacusSummit "origin" 0/1/2 valid, higher=invalid;
+DESI/local BOX_INDEX==-1 = out-of-box).
+
+CORRECTED my earlier phrasing: NOT "observer outside the box → low-z out-of-box" (observer is
+10 Mpc/h INSIDE the corner). Real mechanism = SNAPSHOT-SHELL STITCHING: my file is the z=0.200
+snapshot cutsky; its assigned redshift shell has a lower edge near z≈0.15; galaxies below it are
+OUT-OF-SHELL for the z=0.2 snapshot → BOX_INDEX==-1 → they don't validly map to the z=0.2 T-Web
+box (which is the only box we ran CACTUS on) → scrambled labels. Sharp z=0.15 break = shell edge.
+
+CORE CONCLUSION UNCHANGED & doc-independent: z<0.15 labels are permutation-null-random (R²=0 ==
+shuffled). HONEST GAP: the exact z=0.15 shell-edge number is my empirical finding, not explicitly
+in public docs (DESI SecondGenMocks stitching config is internal). Worth flagging to the DESI mock
+team. Salvage would need the CORRECT low-z snapshot's T-Web (e.g. z=0.1), not just re-wrapping z=0.2.
+
+
+
 ### 2026-07-13 — [code] SHELL-0 FAILURE SOLVED: corrupt LABELS (out-of-box), not a model/physics problem
 
 Comprehensive investigation (user: "understand why", no deadline pressure). Verdict: z<0.15 λ1
