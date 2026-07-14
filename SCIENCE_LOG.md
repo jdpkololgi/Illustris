@@ -753,6 +753,44 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-14 — [code] NEXT LEVERS after R0 (post-remediation accuracy roadmap)
+
+R0 corrected baseline established: held-out R²(λ1)=0.514 ALL (0.56/0.49/0.42/0.34 over z0.15-0.55),
+λ2=0.666, λ3=0.713, best-val NLL 2.78 (full table: prior entry). Encoder-ceiling refuted; 0.51 is the
+valid starting point. Levers to raise per-galaxy accuracy, in priority order (all measured on the SAME
+spatial holdout, RA<145 train / 145-150 val / RA≥150 test, valid cache s3b_tiled_valid_v2):
+
+1. **P5 — FEATURE ENRICHMENT → R1 (highest value, do first).** The R0 bundle is only 7 geometric + ñ.
+   Add, gating each family with a CHEAP GBM on the corrected valid split (include iff ≥+0.02 R²λ1 without
+   support mismatch): fixed-aperture density/counts @7 & ~10 (& optionally 14) Mpc/h; luminosity-weighted
+   versions (a quantity forward-modelled consistently in Abacus AND observed in DESI); local observed
+   sampling diagnostics (radius degree, NN scale) kept DISTINCT from ñ. ñ = expected sampling intensity
+   (covariate); physical density = signal — do NOT conflate. Then R1 = GNN with accepted bundle, else identical.
+2. **P6 — CONDITIONING + SPECIALIST CONTROLS.** ñ ablation: node-feature-only (current) vs + direct concat
+   to the posterior conditioning vector vs + FiLM/skip at each message-pass block (tests message-passing
+   dilution). Matched specialist controls on 0.15-0.25 and 0.45-0.55; if a specialist strongly beats the
+   pooled conditioned model → negative transfer → conditional modulation / mixture-of-experts (NOT K models).
+3. **P7 — TOPOLOGY SHOWDOWN (matched params + updates).** corrected buffered Delaunay∪radius (R0) vs pure
+   coordinate kNN(k=12) vs preferred BOUNDED-HYBRID (Delaunay + ≤k_r nearest radius neighbours within
+   14.78 Mpc + edge-type flags + max-edge-length rule/flag). Adopt iff macro-shell R²λ1 +≥0.02 AND no shell
+   degrades >0.03 AND reproducible in GraphWeb_DESI AND tile/full canary passes. No dynamic feature-space kNN.
+4. **P8 — ACCURACY-FOCUSED OBJECTIVE (if R1 plateaus).** auxiliary ORDERED-increment point head:
+   L = L_NPE + β·L_point (MSE/Huber in increment space; never an unordered 3-eig head). Compare NPE-only vs
+   deterministic-pretrain→NPE vs joint; β on val only; save posterior + point checkpoints separately.
+5. **P9 — FULL-RANGE F-TIER GATE.** valid split, exclude z<0.15, ñ·V_voxel expected-count channel, per-shell
+   eval + realistic high-z sparsity + tile-size/overlap CONVERGENCE test (FFT tidal solve is nonlocal). Do
+   NOT promote on the dense-wedge 0.84. If accurate-but-miscalibrated → physics+residual hybrid
+   (η = η_physics + r_θ(X, η_physics)); keep physics tensor/eigenvectors separately badged.
+6. **CALIBRATION last.** FMPE head + tempering (per-shell/per-ñ τ, not one global) ONLY after the winning
+   encoder+features are frozen. SBC-aware (scalar coverage is insufficient); flag prior-dominated rows.
+
+DO NOT pre-register R²=0.8 (above the sparse-tracer information ceiling: DTFE 0.55 / GraphNet 0.78 / F-tier
+0.84 are all dense-wedge transductive). Strongest long-term generalization = additional independently-phased
+Abacus cutskies + multi-snapshot T-Web labels (cosmic variance + TARGET_EPOCH), not indefinite encoder growth.
+VAC v1: z 0.15-0.55 only; z<0.15 = null + NO_VALID_TRAINING_LABELS flag. DEADLINE: NERSC down Jul 22-Aug 3.
+
+
+
 ### 2026-07-14 — [code] R0 CORRECTED BASELINE: held-out R²(λ1) 0.42→0.51 — memo diagnosis CONFIRMED, "encoder ceiling" was a training artifact
 
 R0 (fixed trainer: node-proportional sampling + global-step LR schedule, valid cache s3b_tiled_valid_v2,
