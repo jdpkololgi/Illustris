@@ -753,6 +753,34 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-14 — [code] R0 CORRECTED BASELINE: held-out R²(λ1) 0.42→0.51 — memo diagnosis CONFIRMED, "encoder ceiling" was a training artifact
+
+R0 (fixed trainer: node-proportional sampling + global-step LR schedule, valid cache s3b_tiled_valid_v2,
+total_updates=4000). Held-out TEST region (RA≥150, unseen sky), R0 vs the INVALID run:
+
+| z | R0 R²λ1 | invalid | Δ | R0 λ2 | R0 λ3 | cov68 | cov90 |
+|---|---|---|---|---|---|---|---|
+| 0.15-0.25 | 0.559 | 0.472 | +0.087 | 0.709 | 0.721 | 0.51 | 0.74 |
+| 0.25-0.35 | 0.488 | 0.360 | +0.128 | 0.645 | 0.718 | 0.55 | 0.78 |
+| 0.35-0.45 | 0.419 | 0.390 | +0.029 | 0.547 | 0.592 | 0.62 | 0.85 |
+| 0.45-0.55 | 0.344 | 0.326 | +0.018 | 0.424 | 0.472 | 0.63 | 0.87 |
+| ALL | 0.514 | 0.418 | +0.096 | 0.666 | 0.713 | 0.54 | 0.76 |
+
+VERDICT: fixing the optimizer bugs lifted honest held-out R²(λ1) 0.42→0.51 (+0.10). The "0.42 encoder
+ceiling / accuracy is encoder-limited" conclusion is REFUTED — it was a training artifact (52% updates on
+corrupt labels + LR dead by ~ep171 + tile-count starvation). The shell that gained MOST (0.25-0.35, +0.13)
+is exactly the one starved by tile-count weighting (23% nodes → 4.8% updates in the invalid run) — precise
+confirmation of the diagnosis. λ2/λ3 strong (0.67/0.71). Best val NLL 2.78 (vs invalid 3.10); val pooled λ1
+R² 0.51. High-z 0.45-0.55 stays weak (0.34, shot-noise-limited). Coverage UNDER-nominal (MAF, no tempering)
+— calibration is a later step. Models: R0_valid_corrected/sbi_output/flowjax_sbi_model_seed_42_bestL1_*.pkl.
+Op-note: session teardown orphaned 2 identical deterministic training windows; killed duplicate (redundant,
+not divergent). 0.51 is a valid encoder baseline — NOT 0.8 (memo: above sparse-tracer info ceiling).
+
+NEXT (memo): P5 aperture/luminosity GBM gates on the valid split → R1 (feature-enriched); then P6 ñ ablation +
+specialist controls; tempering for calibration once the encoder is chosen.
+
+
+
 ### 2026-07-14 — [code] Remediation P1+P2+P3 done: valid cache built, trainer fixed, PARITY PASSES (tiling is safe)
 
 P1 valid cache: s3b_tiled_valid_v2 built — shell-0 (z<0.15 corrupt) DROPPED, BOX_INDEX>=0 mandatory on
