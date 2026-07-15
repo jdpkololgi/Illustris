@@ -86,6 +86,13 @@ def parse_args() -> argparse.Namespace:
     )
     p.add_argument("--interior-margin-mpc", type=float, default=25.0)
     p.add_argument("--out-dir", type=Path, default=DEFAULT_OUT)
+    # wedge overrides (defaults = the RA120-160 training wedge; added for the RA200-240 transfer wedge)
+    p.add_argument("--wedge-prefix", type=str, default=None,
+                   help="Override WEDGE_PREFIX (points_xyz/wedge_targets under WEDGE_DIR).")
+    p.add_argument("--cache-path", type=Path, default=None,
+                   help="Override CACHE_PATH (supplies the scoring masks; eigenvalue row-alignment is verified).")
+    p.add_argument("--ra-min", type=float, default=None, help="Override wedge RA_MIN (deg).")
+    p.add_argument("--ra-max", type=float, default=None, help="Override wedge RA_MAX (deg).")
     # validate-solver options (grid units: cells of the 2048^3 box, 0.9766 Mpc/h)
     p.add_argument("--val-origin", type=int, nargs=3, default=(512, 512, 512))
     p.add_argument("--val-size", type=int, default=512)
@@ -481,6 +488,15 @@ def run_validate_solver(args) -> None:
 
 def main() -> None:
     args = parse_args()
+    global WEDGE_PREFIX, CACHE_PATH, RA_MIN, RA_MAX
+    if args.wedge_prefix is not None:
+        WEDGE_PREFIX = args.wedge_prefix
+    if args.cache_path is not None:
+        CACHE_PATH = args.cache_path
+    if args.ra_min is not None:
+        RA_MIN = args.ra_min
+    if args.ra_max is not None:
+        RA_MAX = args.ra_max
     if args.mode == "wedge":
         run_wedge(args)
     else:
