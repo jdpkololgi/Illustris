@@ -753,6 +753,30 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-14 — [code] Workstream A DONE: high-z is DATA-limited (not starved); adopt τ=0.5 √N sampling
+
+Sampling-policy ablation (VAL selection, no test peek), best val λ1 R²:
+| policy | val NLL | macro | per-shell 0.15/0.25/0.35/0.45 |
+|---|---|---|---|
+| R0 τ=1 node-prop | 2.78 | 0.452 | 0.52/0.52/0.51/0.26 |
+| A1b τ=0.5 √N | 2.72 | 0.456 | 0.55/0.50/0.50/0.29 |
+| A1c τ=0 uniform | 2.78 | 0.408 | 0.54/0.48/0.49/0.13 |
+
+KEY: high-z 0.45-0.55 is DATA-limited, NOT update-starved. Uniform gave it 25% of updates (≈1000 steps on
+1920 galaxies) → OVERFIT → 0.26→0.13 (worse, noisy). Memo Q#1 answered: NO, high-z wasn't starved; it's the
+sparse-tracer info limit + tiny n. → high-z fix = Workstream G (more sim volume), not sampling. GATE A:
+adopt τ=0.5 √N-balanced (safe: better NLL 2.72, high-z +0.03, no shell degraded; macro +0.004 below the
+strict +0.02 bar but strictly ≥ node-prop). Specialist (A3) largely pre-answered by the uniform diagnostic
+(more high-z exposure hurt → not negative transfer, not starvation) — deferred as optional confirmation.
+
+NEXT: Workstream B — construct aperture-density (@7/10/14 Mpc/h counts + selection-aware contrast
+log[(N+ε)/(ñ·V+ε)]) + luminosity-weighted + degree/NN-scale node channels (physical density kept DISTINCT
+from ñ), rebuild a versioned feature-enriched valid cache (scalers refit on valid train), then R1 GraphNet
+with τ=0.5 — fed DIRECTLY (no GBM veto). Then C (3-D U-Net) and D (F-tier) as matched challengers. Point
+gates on VAL; RA≥150 test opened only for the frozen finalist.
+
+
+
 ### 2026-07-14 — [code] ACCURACY SPRINT plan adopted (supersedes prior next-levers); starting Workstream A (sampling)
 
 New execution memo (Claude Desktop) governs the post-R0 accuracy sprint over z0.15-0.55. Key corrections
