@@ -646,7 +646,16 @@ def main(args):
     
     # Ground truth raw eigenvalues for test set
     test_targets_raw_eig = eigenvalues_raw[test_indices_np]
-    
+
+    # Persist per-node predictions so parity/validation plots don't need a re-sampling run
+    np.savez_compressed(
+        os.path.join(args.output_dir, f"posterior_pred_eigs_seed_{args.seed}.npz"),
+        test_indices=test_indices_np,
+        pred_mean=samples_raw_eig_mean.astype(np.float32),
+        pred_point=samples_raw_eig_point.astype(np.float32),
+        true_raw=test_targets_raw_eig.astype(np.float32),
+    )
+
     # Compute R² in raw eigenvalue space
     ss_res_point = np.sum((test_targets_raw_eig - samples_raw_eig_point) ** 2, axis=0)
     ss_res_mean = np.sum((test_targets_raw_eig - samples_raw_eig_mean) ** 2, axis=0)
