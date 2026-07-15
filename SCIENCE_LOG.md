@@ -753,6 +753,55 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-15 — [ops] HOME QUOTA HIT 100% — log truncated & recovered; ~18 GB freed; catalogs moved to pscratch
+
+INCIDENT: home hit 40.01/40.00 GiB (100%). A SCIENCE_LOG write (open(p,"w") truncates BEFORE writing)
+failed mid-write -> SCIENCE_LOG.md truncated to 131072 B; a git commit also failed silently earlier.
+RECOVERED fully from git HEAD (6931269) — no content lost. LESSON: write the log ATOMICALLY (tmp +
+os.replace), never open(...,"w") in place; and a failed `git commit` must be treated as a hard error.
+FREED (user-approved): .codex/logs_2.sqlite-wal.bak-20260713-0150 (12.5 GB stale WAL backup),
+.cache/vscode-cpptools (4.9 GB regenerable C++ IntelliSense). Home 100% -> 56.6%. NOTE the LIVE
+.codex/logs_2.sqlite-wal is still ~10 GB (Codex DB not checkpointing) — left alone (active data), but
+it will re-fill home; worth a Codex-side checkpoint/vacuum.
+MOVED: GraphWeb_DESI/data/loa-combined-lowz{,-zflags,-fastspec-phot}.fits (~1 GB) -> pscratch
+/pscratch/sd/d/dkololgi/graphweb_desi/catalogs/ (byte-verified). Paths updated: config_paths now has
+GRAPHWEB_CATALOG_DIR/_PATH/_ZFLAGS_PATH/_FASTSPEC_PATH (env-overridable, resolve to real files — the OLD
+default {REPO_ROOT}/loa-combined-lowz.fits was ALREADY STALE/broken); GraphWeb_DESI/CLAUDE.md documents
+the pscratch location + the z0.01-0.06 caveat; TNG Network_stats.py hardcode fixed (+ missing `import os`
+that would have been a runtime NameError); load_catalog.py --out-dir now defaults to the pscratch dir.
+to-delete/ + docs/archive/ refs intentionally left.
+
+### 2026-07-15 — [code] Workstream B1/B3 aperture features BUILT — selection-aware contrast beats raw counts; high-z is empty
+
+compute_aperture_features.py -> aperture_features_v1/ (4 valid shells, 7 channels: logN_ap7/10/14,
+contrast_ap7/10/14 = log[(N+eps)/(ntilde*V+eps)], log_dNN). Diagnostic Spearman vs lambda1 (NOT a gate):
+
+| z | median N<10.4Mpc | logN_ap7 | contrast_ap7 | log_dNN |
+|---|---|---|---|---|
+| 0.15-0.25 | 21 | +0.549 | **+0.605** | -0.199 |
+| 0.25-0.35 | 8 | +0.533 | **+0.594** | -0.237 |
+| 0.35-0.45 | 2 | +0.492 | **+0.559** | -0.326 |
+| 0.45-0.55 | **0** | +0.347 | **+0.429** | -0.332 |
+
+FINDINGS: (1) the SELECTION-AWARE CONTRAST beats raw counts at EVERY shell — memo's "supply expected
+counts as a separate covariate, don't divide away the signal" validated. (2) These carry info the model
+currently LACKS: the existing 7 node features are SI-normalized (per-shell median), which divides out
+exactly this observed-vs-expected contrast -> R1 restores it; not redundant. (3) **median z0.45-0.55
+galaxy has ZERO neighbours within 10.4 Mpc** — independent confirmation of Workstream A: that shell is
+not under-trained, it is UNSAMPLED. Only Workstream G (more high-z volume) fixes it.
+
+LUMINOSITY (Workstream B2): join validated 100% (Abacus CutSky key FILE_NUM/HALO_INDEX/BOX_INDEX unique).
+Column signal vs lambda1: R_MAG_APP -0.016 (USELESS — mag-limit-selected band), R_MAG_ABS -0.141,
+G_R_OBS +0.130, G_R_REST +0.109; HALO_MASS/CEN EXCLUDED (unobservable in DESI). CHOSEN (JDPK): M_ABS +
+G_R_OBS. k-corr: training needs NONE (mock R_MAG_ABS is forward-modelled). DESI inference uses LSS
+`add_ke` (Smith+2017 GAMA via DESI_ke/smith_kcorr + TMR e-corr + DESI dm) -> ABSMAG_RP1; our LSS
+checkout LACKS DESI_ke -> use LSSCODE=/global/common/software/desi/users/ioannis. desi_environment.sh is
+NOT `set -u` clean (DESI_ROOT unbound) -> drivers must `set +u`. PARITY GATE PENDING: ABSMAG_RP1 is k+E
+corrected and the Abacus convention may differ -> support comparison must pass before the luminosity
+channel ships; fallback = G_R_OBS only (~92% of signal, no k-corr dependency).
+
+
+
 ### 2026-07-14 — [code] Workstream A DONE: high-z is DATA-limited (not starved); adopt τ=0.5 √N sampling
 
 Sampling-policy ablation (VAL selection, no test peek), best val λ1 R²:

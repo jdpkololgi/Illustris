@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
@@ -131,7 +132,13 @@ class network:  # Remove 'cat' inheritance
         self.from_DESI = from_DESI
         if from_DESI:
             # Initialize from DESI data
-            self._utils = cat(path=r'/global/homes/d/dkololgi/GraphWeb_DESI/loa-combined-lowz.fits', 
+            # Catalog moved off the home quota to pscratch (2026-07-15); the old repo-root path was
+            # already stale. Override with $GRAPHWEB_CATALOG_PATH if needed.
+            _desi_cat = os.environ.get(
+                "GRAPHWEB_CATALOG_PATH",
+                "/pscratch/sd/d/dkololgi/graphweb_desi/catalogs/loa-combined-lowz.fits",
+            )
+            self._utils = cat(path=_desi_cat,
                             masscut=masscut, from_DESI=self.from_DESI)
         else:
             # Initialize from TNG300-1 data
