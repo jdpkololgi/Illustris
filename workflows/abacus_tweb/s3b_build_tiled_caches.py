@@ -33,8 +33,15 @@ SHELLS = ["0p05_0p15", "0p15_0p25", "0p25_0p35", "0p35_0p45", "0p45_0p55"]
 CORE_Z = {"0p05_0p15": (0.05, 0.15), "0p15_0p25": (0.15, 0.25), "0p25_0p35": (0.25, 0.35),
           "0p35_0p45": (0.35, 0.45), "0p45_0p55": (0.45, 0.55)}
 SHELL_ZLO = {t: CORE_Z[t][0] for t in SHELLS}
-NODE_FEATURE_NAMES = ["Degree", "Clustering", "Density", "NeighDensity",
-                      "I_eig1", "I_eig2", "I_eig3", "log_ntilde_std"]
+GEOM_FEATURE_NAMES = ["Degree", "Clustering", "Density", "NeighDensity",
+                      "I_eig1", "I_eig2", "I_eig3"]          # SI-normalised + pooled box-cox
+APERTURE_FEATURE_NAMES = ["logN_ap7", "logN_ap10", "logN_ap14",
+                          "contrast_ap7", "contrast_ap10", "contrast_ap14", "log_dNN"]
+# Aperture channels are appended AFTER box-cox and standardised on the pooled-train split:
+#  * the contrast log[(N+e)/(ntilde*V+e)] can be NEGATIVE -> box-cox (needs >0) is inapplicable
+#  * they must NOT be SI (per-shell-median) normalised — that is exactly what divides the
+#    observed-vs-expected density signal away (the reason R0 lacked this information).
+NODE_FEATURE_NAMES = GEOM_FEATURE_NAMES + APERTURE_FEATURE_NAMES + ["log_ntilde_std"]
 UNION_R_MPC = 14.78
 CACHE_TMPL = "sbi_caches/s2_shell_{tag}_si_union/processed_jraph_data_mc1e+09_v2_scaled_3_linear_eig.pkl"
 TARGETS_TMPL = "s2_shells/shell_{tag}_final_wedge_targets.fits"
@@ -81,8 +88,12 @@ def main():
                          "(BOX_INDEX==-1, permutation-null random) — MUST be excluded from the valid cache.")
     ap.add_argument("--min-train-nodes", type=int, default=300,
                     help="HARD FAIL if any train tile has fewer active train nodes than this.")
+    ap.add_argument("--aperture-dir", type=Path,
+                    default=Path("/pscratch/sd/d/dkololgi/abacus/aperture_features_v1"),
+                    help="dir with aperture_<shell>.npz (Workstream B1/B3 channels). "
+                         "Pass '' / a missing dir to build the R0-style geometry-only cache.")
     ap.add_argument("--out-dir", type=Path,
-                    default=Path("/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3b_tiled_valid_v2"))
+                    default=Path("/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3b_tiled_valid_v3_aper"))
     args = ap.parse_args()
     sp = json.loads(Path(args.ntilde_spline).read_text())
     args.out_dir.mkdir(parents=True, exist_ok=True)
@@ -93,6 +104,8 @@ def main():
     print(f"VALID shells (core z_lo >= {args.min_zlo}): {SHELLS}   DROPPED (corrupt labels): {dropped}")
 
     # ---- load shells, invert box-cox, define tiles ----------------------------------
+    use_aper = bool(str(args.aperture_dir)) and Path(args.aperture_dir).is_dir()
+    print(f"aperture channels: {'ON -> ' + str(args.aperture_dir) if use_aper else 'OFF (geometry-only)'}")
     shell_data = {}
     for tag in SHELLS:
         c = pickle.load(open(args.root / CACHE_TMPL.format(tag=tag), "rb"))
@@ -100,7 +113,17 @@ def main():
         x_si = c["node_feature_scaler"].inverse_transform(np.asarray(g.nodes, np.float64)) - 1e-6
         tg = fitsio.read(args.root / TARGETS_TMPL.format(tag=tag),
                          columns=["TARGETID", "RA", "Z", "FILE_NUM", "BOX_INDEX", "HALO_INDEX"])
+        if use_aper:
+            apz = np.load(Path(args.aperture_dir) / f"aperture_{tag}.npz")
+            aper = apz["X"].astype(np.float64)
+            assert aper.shape[0] == x_si.shape[0], \
+                f"{tag}: aperture rows {aper.shape[0]} != nodes {x_si.shape[0]}"
+            assert list(apz["names"]) == APERTURE_FEATURE_NAMES, f"{tag}: aperture column-name mismatch"
+            assert np.isfinite(aper).all(), f"{tag}: non-finite aperture features"
+        else:
+            aper = np.zeros((x_si.shape[0], 0))
         shell_data[tag] = dict(
+            aper=aper,
             x_si=x_si, se=np.asarray(g.senders, np.int64), re=np.asarray(g.receivers, np.int64),
             ea=np.asarray(g.edges, np.float64), n_edge=int(np.asarray(g.n_edge)[0]),
             tid=tg["TARGETID"].astype(np.int64), ra=tg["RA"].astype(np.float64),
@@ -161,7 +184,7 @@ def main():
 
     # ---- PASS 1: assemble tile node arrays, masks; collect pooled-train for scalers ---
     tile_blobs = []
-    train_x_list, train_tgt_list = [], []
+    train_x_list, train_tgt_list, train_ap_list = [], [], []
     for ti, (tag, c_lo, c_hi) in enumerate(tiles):
         d = shell_data[tag]; ra = d["ra"]; z = d["z"]
         buf_deg = args.buffer_mpc * deg_per_mpc(SHELL_ZLO[tag])  # angular buffer at shell's near edge
@@ -181,21 +204,29 @@ def main():
         reg = d["node_region"][keep_idx]        # global halo-disjoint region (not per-node RA)
         train_m = active & (reg == 0); val_m = active & (reg == 1); test_m = active & (reg == 2)
         blob = dict(tag=tag, c_lo=c_lo, c_hi=c_hi, keep_idx=keep_idx, se=se, re=re, ea=ea,
-                    x_si=d["x_si"][keep_idx], z=lz, ra=lra, tid=ltid,
+                    x_si=d["x_si"][keep_idx], aper=d["aper"][keep_idx], z=lz, ra=lra, tid=ltid,
                     halo=d["halo"][keep_idx], tgt_raw=d["tgt_raw"][keep_idx],
                     eig_raw=d["eig_raw"][keep_idx], box_index=d["box_index"][keep_idx],
                     train_m=train_m, val_m=val_m, test_m=test_m, active=active)
         tile_blobs.append(blob)
         train_x_list.append(blob["x_si"][train_m]); train_tgt_list.append(blob["tgt_raw"][train_m])
+        train_ap_list.append(blob["aper"][train_m])
 
     train_x = np.concatenate(train_x_list, 0); train_tgt = np.concatenate(train_tgt_list, 0)
     bc = PowerTransformer(method="box-cox").fit(train_x + 1e-6)
     ts = StandardScaler().fit(train_tgt)
+    ap_scaler = None
+    if use_aper:
+        train_ap = np.concatenate(train_ap_list, 0)
+        ap_scaler = StandardScaler().fit(train_ap)     # fixed standardisation on VALID TRAIN only
+        print(f"aperture scaler fit on {len(train_ap)} train nodes; "
+              f"means {np.round(ap_scaler.mean_, 3)}")
     print(f"pooled scalers fit on {len(train_x)} train-core nodes across {len(tiles)} tiles")
 
     # ---- PASS 2: transform + write tiles ---------------------------------------------
     manifest = {"tiles": [], "n_tiles": len(tiles), "ntilde_spline_path": str(args.ntilde_spline),
-                "node_feature_names": NODE_FEATURE_NAMES, "ntilde_feature_index": 7,
+                "node_feature_names": NODE_FEATURE_NAMES, "ntilde_feature_index": len(NODE_FEATURE_NAMES) - 1,
+                "aperture_enabled": use_aper, "aperture_feature_names": (APERTURE_FEATURE_NAMES if use_aper else []),
                 "label_provenance": {"valid_shells": SHELLS, "dropped_shells": dropped, "min_zlo": args.min_zlo,
                                      "box_index_valid_required": True, "label_valid": True,
                                      "note": "z<min_zlo dropped (out-of-shell corrupt labels); active nodes require "
@@ -208,7 +239,13 @@ def main():
     for ti, b in enumerate(tile_blobs):
         x_bc = bc.transform(b["x_si"] + 1e-6)
         ntf = ntilde_feature(b["z"], sp)[:, None]
-        x_final = np.concatenate([x_bc, ntf], 1).astype(np.float32)
+        parts = [x_bc]
+        if use_aper:
+            parts.append(ap_scaler.transform(b["aper"]))   # standardised, NOT box-cox'd / NOT SI'd
+        parts.append(ntf)
+        x_final = np.concatenate(parts, 1).astype(np.float32)
+        assert x_final.shape[1] == len(NODE_FEATURE_NAMES), \
+            f"node feats {x_final.shape[1]} != names {len(NODE_FEATURE_NAMES)}"
         tgt_scaled = ts.transform(b["tgt_raw"]).astype(np.float32)
         n = x_final.shape[0]
         graph = jraph.GraphsTuple(
@@ -237,7 +274,10 @@ def main():
     pickle.dump(dict(node_feature_scaler=bc, node_feature_power_method="box-cox",
                      target_scaler=ts, stats={"increment_mode": "linear",
                          "scaler_mean": ts.mean_.tolist(), "scaler_std": ts.scale_.tolist()},
-                     node_feature_names=NODE_FEATURE_NAMES, ntilde_feature_index=7,
+                     node_feature_names=NODE_FEATURE_NAMES,
+                     ntilde_feature_index=len(NODE_FEATURE_NAMES) - 1,
+                     aperture_scaler=ap_scaler, aperture_enabled=use_aper,
+                     aperture_feature_names=(APERTURE_FEATURE_NAMES if use_aper else []),
                      ntilde_spline_path=str(args.ntilde_spline)),
                 open(args.out_dir / "shared_scalers.pkl", "wb"))
     manifest["totals"] = tot
