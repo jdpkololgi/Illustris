@@ -1,5 +1,37 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-15 — [code] DTFE ON THE TRANSFER WEDGE: classical beats the deployed GNN on EVERY eigenvalue (0.53 vs 0.42 λ1) — head-to-head now exact, verdict clean
+
+Ran the no-ML classical baseline (density reconstruction + exact FFT tidal solve) on the SAME
+RA200-240 wedge, scored on the SAME 95,220-node test mask, against the SAME truth as the GNN
+transfer eval. classical_tidal_baseline.py gained CLI overrides (63b7ecc, defaults unchanged); its
+row-alignment guard verified the pairing. "cal" = 2-param affine (slope+offset) per eigenvalue fit
+on the 1000-node dummy-train mask — a far weaker correction than the GNN's 3,749 epochs of
+amplitude learning, so the comparison is fair-to-generous toward the GNN. 7 min on a CPU node.
+
+| λ1 / λ2 / λ3 R² | GNN transfer (posterior mean, 128) | DTFE (cal) | CIC (cal) |
+|---|---|---|---|
+| λ1 | 0.421 | **0.534** (interior 0.549) | **0.551** |
+| λ2 | 0.498 | **0.604** | 0.574 |
+| λ3 | 0.524 | **0.634** | 0.622 |
+
+**VERDICT — now with zero caveats: the deployed dense-wedge GNN loses to textbook no-ML
+reconstruction on every eigenvalue, on identical galaxies/test mask/truth.** Even plain CIC
+gridding beats it. The classical floor is also STABLE across sky patches (training wedge λ1 0.552
+→ transfer wedge 0.534; ±0.02 = cosmic variance), so ~0.53-0.55 is a reliable deployment bar.
+λ1 Spearman: DTFE 0.761 / CIC 0.774 — the classical ranking skill transfers untouched, because a
+fixed physics operator has nothing to overfit.
+
+**Programme implication:** the bar any deployable model must clear is the classical ~0.53-0.55, not
+0. The current honest ranking at deployment: classical 0.53 > full-range spatial-holdout GraphNet
+~0.51 (different data regime, roughly at par) > deployed dense-wedge anchor 0.42. The GNN's leaky
++0.22 "advantage over classical" (0.775 vs 0.552) was entirely split artifact; whether ANY GNN
+beats classical on a fair inductive test is now the programme's central open question — and the
+first model that does so by +0.05 with transferred calibration is the one that ships to DESI.
+
+Refs: classical_baseline/ra200_240_transfer/classical_baseline_scores.json (+ pred_eigs_{dtfe,cic}.npy);
+logs/dtfe_transfer.log; commits 63b7ecc (CLI), 998c38a (transfer verdict).
+
 ### 2026-07-15 — [code] TRANSFER TEST (deployment rehearsal): anchor model on a disjoint wedge = λ1 R² **0.42** — BELOW the DTFE classical floor (0.552); posteriors catastrophically miscalibrated OOD (NLL 0.90→6.53)
 
 **Design (JDPK-requested):** the production union GraphNet (anchor 0.8041/0.8461/0.8955, transductively
