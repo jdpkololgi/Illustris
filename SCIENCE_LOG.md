@@ -1,5 +1,57 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-15 — [code] TRANSFER TEST (deployment rehearsal): anchor model on a disjoint wedge = λ1 R² **0.42** — BELOW the DTFE classical floor (0.552); posteriors catastrophically miscalibrated OOD (NLL 0.90→6.53)
+
+**Design (JDPK-requested):** the production union GraphNet (anchor 0.8041/0.8461/0.8955, transductively
+trained on RA120-160, random split; preserved ckpt @3749) applied PURE-INDUCTIVELY to a disjoint
+near-twin wedge RA200-240 (same DEC 14.5-30.6, z0.2-0.3; 97,220 vs 100,935 galaxies, 100% valid box),
+built through the IDENTICAL pipeline (same full-sky path1_fiberassign Delaunay+cuGraph artifacts, same
+subset tools, union 14.78 Mpc). Transform policy = deployment-correct: own-graph SI medians + TRAINING
+PowerTransformer/target_scaler/edge_scaler. **GOLD GATE PASSED at float precision** (recipe reproduces
+the production cache: nodes 2.4e-7, edges/senders/receivers 0.0, targets 9.5e-7) — the pipeline
+replication is PROVEN, so the number is real. Scored on 95,220 nodes. This is exactly the DESI
+deployment path, run where truth is known.
+
+**Result (posterior-mean, 128 samples/node, raw eigenvalues):**
+| | λ1 | λ2 | λ3 | test NLL |
+|---|---|---|---|---|
+| anchor (random split, SAME wedge) | 0.8041 | 0.8461 | 0.8955 | 0.896 |
+| **TRANSFER (disjoint wedge)** | **0.4207** | **0.4983** | **0.5241** | **6.53** |
+| DTFE classical floor (no ML, honest) | 0.552 | 0.641 | 0.663 | — |
+| full-range spatial holdout (R0, prod sparsity) | 0.514 | — | — | — |
+
+**Four readings:**
+1. **The deployed dense-wedge GNN LOSES to textbook no-ML reconstruction on every eigenvalue**
+   (0.42<0.552, 0.50<0.641, 0.52<0.663). The "GNN ≫ classical" headline is not merely unverified —
+   at deployment it is currently FALSE for this model. (Caveat: DTFE was scored on the training
+   wedge; it trains nothing so it transfers trivially, but for the exact head-to-head run
+   classical_tidal_baseline on RA200-240 — cheap CPU job, registered as next step.)
+2. **The spatial holdout was an honest deployment proxy.** Transfer 0.42 sits in the same regime as
+   the spatial-holdout numbers (~0.46-0.51), vs the leaky 0.80. Interpolation-vs-extrapolation
+   explains ~half the headline R². The full-range production protocol (spatial holdout) was
+   measuring the right thing all along.
+3. **Calibration does NOT transfer: test NLL 0.896→6.53.** OOD the posteriors are wildly
+   overconfident — FMPE tempering calibrated on a random split is calibrated for interpolation, not
+   deployment. ALL calibration work must move to spatial-holdout/inductive data.
+4. **Only λ1 carries transferable signal.** In increment space Δλ2/Δλ3 R² = +0.04/-0.09 (≤0!) — raw
+   λ2/λ3 R² is largely λ1+ordering, not independent skill. Matches the v1-contract decision
+   (calibrated-λ1-only) — now with direct deployment evidence.
+
+**Verdict:** the transductively-trained dense-wedge anchor is an interpolation machine: 0.80 → 0.42
+when asked to extrapolate, below the classical floor, with broken calibration. This CONFIRMS
+JDPK's concern quantitatively — for THIS model class. The constructive corollary: the full-range
+production model was already selected under a spatial holdout, so its ~0.5 is deployment-honest;
+nothing about today changes ITS validity — today establishes that 0.5-not-0.8 is the real current
+ceiling and that the fix is training-protocol + data (fewer passes, regularisation, patch/inductive
+training, cross-phase volume), not evaluation optimism.
+
+NEXT (registered): (1) DTFE on RA200-240 for the exact classical head-to-head; (2) num_passes
+ablation (8→3/4) on the spatial split; (3) T-web CLASS accuracy on holdout (the VAC product metric);
+(4) Workstream G scoping (25 phases exist; per-phase density fields are the gate).
+Refs: run sbi_runs/path1_TRANSFER_ra200_240_eval/flowjax_sbi_results_seed_42_20260715_093644.txt;
+cache sbi_caches/path1_TRANSFER_ra200_240_uniongraph; builder commit 9a37c67; logs transfer_A.log,
+transfer_BC.log.
+
 ### 2026-07-15 — [code] LEAKAGE AUDIT: the dense-wedge 0.775-0.876 family is RANDOM-SPLIT INTERPOLATION; DTFE 0.552 never leaked ⇒ the "GNN ≫ classical" thesis is UNVERIFIED
 
 **Audit STOPPED early by JDPK at epoch 2701/3750 — the training curve had already answered the
