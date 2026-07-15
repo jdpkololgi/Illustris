@@ -1,5 +1,133 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-15 — [code] LEAKAGE AUDIT: the dense-wedge 0.775-0.876 family is RANDOM-SPLIT INTERPOLATION; DTFE 0.552 never leaked ⇒ the "GNN ≫ classical" thesis is UNVERIFIED
+
+**Audit STOPPED early by JDPK at epoch 2701/3750 — the training curve had already answered the
+qualitative question.** Retrained the dense-wedge union GraphNet with ONE variable changed vs the
+0.8041/0.8461/0.8955 anchor: masks random → spatial (train RA<145 / val 145-150 / test RA>=150, global
+halo-centroid, 15 Mpc gutter; commit dcfe1fb). Identical graph, features, targets, trainer, seed 42,
+budget.
+
+| | anchor (RANDOM split) | audit (SPATIAL split) |
+|---|---|---|
+| best val NLL | **0.856** | **3.298** |
+| end train NLL | — | 0.58 |
+| end val NLL | — | 7.5 and RISING |
+| posterior-mean R²(λ1) | 0.8041 | **NOT OBTAINED** (see below) |
+
+**The honest R² was NOT recovered:** the trainer keeps `best_state` in memory and restores it only at
+the end; killing the run lost it. The on-disk checkpoint is the periodic one (epoch ~2750 = fully
+overfitted), NOT best-val. Getting the number needs a ~400-epoch rerun with early stopping (~25 min) —
+val bottomed near epoch 300. **RECOMMENDED, see CRUX below.**
+
+**MECHANISM (why a random split leaks even though labels never leak).** No label leaked and the split
+was already halo-disjoint — which is why this survived so long. The leak is spatial autocorrelation:
+- T-web labels are smoothed at **rs7 = 7 Mpc/h = 10.4 Mpc**.
+- Dense wedge: 100,935 galaxies in ~6.9e7 Mpc³ ⇒ mean separation **8.8 Mpc**; at 70% train a test
+  galaxy's **nearest TRAIN galaxy is ~9.9 Mpc = ONE smoothing length**.
+- The encoder runs **8 message-passing steps** ⇒ a test node's receptive field overlaps almost
+  entirely with several train nodes'.
+⇒ the model is handed **near-duplicate (input,label) pairs** and tested on copies of them. Random CV on
+non-independent samples measures training error. Random split = INTERPOLATION into an already-sampled
+field; spatial split = EXTRAPOLATION to unseen structure = the DESI task.
+
+**CAPACITY ARITHMETIC (why the dense wedge is worse than full range).** Independent ~10.4 Mpc
+structures = V / (4/3 π R³ = 4712 Mpc³):
+- dense wedge V≈6.9e7 Mpc³ ⇒ **~15k independent patches** (RA<145 train slab ≈ 9k)
+- full range V≈5.5e8 Mpc³ ⇒ **~117k independent patches**
+Against a model of order 1e5-1e6 params with a ~70-80 Mpc receptive field. The 8× difference in
+independent structures is very likely WHY the full-range model generalises (0.46-0.51) and the
+dense-wedge spatial audit collapses. Full range is also SPARSER (mean sep 13.6 vs 8.8 Mpc).
+
+**★ THE CRUX — DTFE NEVER LEAKED.** `classical_tidal_baseline.py` is **"no ML"**: density
+reconstruction + exact FFT tidal solve, using the masks only to SCORE, never to fit. **It cannot leak
+⇒ its λ1 = 0.552 is an HONEST number, valid on any subset including a spatial holdout.** The
+GraphNet's 0.775 is not. **The programme's headline claim ("GNN 0.775 ≫ classical 0.552, headroom
+real") compares a LEAKY number against an HONEST one and is therefore UNVERIFIED.** The open question
+is now binary:
+  honest-GraphNet ≈ 0.65-0.75 ⇒ the graph adds real skill; restate numbers, paper stands.
+  honest-GraphNet ≈ 0.55     ⇒ **the GNN adds NOTHING over textbook DTFE** and the thesis was a split
+                               artifact.
+This must be settled before any further architecture work. ~25 GPU-min.
+
+**REFRAME (against the panic reading): the model DOES generalise to unseen sim regions.** EVERY
+production number since R0 is already a spatial holdout at production sparsity: R0 held-out
+**R²(λ1)=0.514**, A1_sqrt **0.456 macro**, C **0.461**. That IS "train one RA/Dec patch, predict a
+different unseen patch at the same z". Nothing regressed this week — the 0.8-era numbers were
+answering an easier question. Correct statement: **we never had 0.775 in a deployable sense**, not "we
+lost accuracy". Caveat: even our spatial holdout is WITHIN one realisation (same cosmology, phase,
+large-scale modes) ⇒ by CAMELS-era standards **0.51 is still an optimistic bound for DESI**.
+
+**VALIDATION DESIGN — three flaws found (JDPK's question).** Val labels never entered a gradient (that
+part is sound), and selecting on val while sealing RA>=150 for a frozen finalist is the correct guard
+against val-optimism. But:
+1. **val and test are NOT exchangeable** (the serious one): val is a thin 5° strip ADJACENT to train
+   (~57 Mpc core after gutters); test is a block 6.4° (~90-110 Mpc) away. If the model memorises,
+   distance from train matters ⇒ val is a systematically OPTIMISTIC proxy for test and early stopping
+   stops too late. Fix: val and test blocks at MATCHED geometry/distance from train. (Silver lining:
+   the val↔test gap is itself a memorisation diagnostic.)
+2. **one fold, no error bars** — a single cut gives a point estimate with no variance; block CV
+   normally reports the spread over K blocks. This is partly why C's +0.005 is a tie.
+3. **transductive** — the encoder saw val/test FEATURES (defensible: features are observables and DESI
+   inference has them too, but softer than deployment on a freshly built graph).
+
+**RECEPTIVE FIELD / OVERSMOOTHING (JDPK: "we should not be using 8 layers").** AGREED, and the geometry
+is quantitative: union graph = 3.98M edges / 100,935 nodes ⇒ **mean degree ~39**, edges to the 14.78
+Mpc union radius. At ~8-10 Mpc/hop, **8 passes ⇒ ~70-80 Mpc receptive field vs 10.4 Mpc physics ≈ 7×
+too wide** — capacity that can only be spent memorising WHERE in the wedge a node sits. The tidal
+tensor is nonlocal but its Gaussian window suppresses r >> R, so ~2-3R ⇒ **3-4 hops (~30 Mpc)** is the
+physical range, which is also standard GNN practice (2-4 layers; Li+2018 depth/oversmoothing).
+**ACTION: --num_passes ablation (2/3/4/6/8) on the spatial holdout** (~25 min each, 2 at a time). If 3
+hops ≥ 8 hops, that is simultaneously a generalisation win, less memorisation, and a cheaper model.
+
+**★ WORKSTREAM G IS UNBLOCKED — 25 INDEPENDENT PHASES EXIST.** AbacusSummit CutSky BGS v0.1 z0.200 has
+**ph000–ph024** (same cosmology c000, different initial phases ⇒ genuinely independent large-scale
+structure). Train on ph000, test on ph001+ = the CAMELS/Quijote protocol and the only test resembling
+DESI. **BLOCKER TO SCOPE:** T-web labels need each phase's DENSITY FIELD, and no particles/density grid
+was found beyond ph000 ⇒ `abacus_cactus_tweb_fullgrid_mpi.py` (2048³) would have to run per phase.
+That cost decides whether G is days or weeks — SCOPE IT FIRST.
+**NOT a substitute:** `hod_sample_1..10` exist for ph000 but share the SAME underlying density field —
+the tidal target is IDENTICAL across them; they give galaxy-population variance only, NOT independent
+structure.
+
+**INDUCTIVE OPTIONS (ranked).** (1) cross-phase (above) — the real test; (2) **ego-graph/subgraph
+inductive training — WE ALREADY HAVE IT**: `local-subgraph-pipeline/` (subgraph_dataset.py,
+train_flowjax_subgraphs.py, eval_local_subgraph.py). This is the architecturally correct framing: the
+map local-configuration → tidal eigenvalues IS local and translation-invariant, so train on patches,
+test on unseen patches — and patches become the unit of data, fixing the effective-sample-size problem;
+(3) **fresh-graph inductive eval** (minutes): rebuild a graph from ONLY RA>=150 galaxies and predict —
+quantifies the transductive discount; (4) multi-block spatial CV with matched val/test geometry
+(fixes flaws 1+2); (5) cross-shell (S1 did this — density shift, not structure novelty).
+
+**HOW THE FIELD HANDLES THIS:** spatial/blocked CV with buffer >= correlation length (Roberts+2017,
+Ecography — canonical: random CV is optimistically biased under autocorrelation); scaffold/temporal
+splits in molecular ML (MoleculeNet Wu+2018; **OGB Hu+2020 exists precisely because random graph splits
+are unrealistically easy**); homology/temporal splits in protein ML (CASP, AlphaFold); **cosmology =
+many realisations, not one box** (CAMELS Villaescusa-Navarro+2021, Quijote+2020 — train on some sims,
+test on HELD-OUT sims; CAMELS explicitly measures cross-simulator transfer where models routinely
+fail); inductive GNN training (GraphSAGE Hamilton+2017).
+
+**RETIRE / RE-READ (all random-split, all interpolation):** GraphNet 0.775 (Delaunay@7000), 0.8041
+(union@3749), 0.752 (radius-only), T2 CNN 0.876, F-tier 0.841, and S1(b)'s per-shell CNN
+0.902/0.847/0.722/0.429. **KEEP: DTFE 0.552 (no fitting ⇒ honest).** Verify any split with
+`workflows/sbi/check_s2_cache_split.py`.
+
+**ORDER:** (1) num_passes ablation on the spatial split; (2) fresh-graph inductive eval at RA>=150;
+(3) honest dense-wedge R² vs DTFE 0.552 (~25 min) — the go/no-go for the graph thesis; (4) scope G's
+density-field cost; (5) **measure T-web CLASS accuracy (void/wall/filament/knot) on the spatial
+holdout** — nobody has: the VAC ships calibrated CLASSES, not λ1 point estimates, and at R²(λ1)≈0.5
+with honest calibration class accuracy could still be 65-80%. That is the actual product metric and
+the VAC may be in better shape than R² suggests.
+
+GIT: dcfe1fb (+ this entry) are LOCAL-ONLY — I cannot push (no credentials). **Push with plain
+`git push`, NOT `git push origin refactor_codebase_Illustris`** — the local branch
+`refactor_codebase_Illustris` tracks `origin/refactor_codebase` (no `origin/refactor_codebase_Illustris`
+exists), so the explicit form would create a DIVERGENT remote branch. Also note a stale local
+`refactor_codebase` branch at 9df2b51 (188 behind) — a checkout footgun; left untouched.
+Refs: /pscratch/sd/d/dkololgi/logs/leakaudit.log; cache
+sbi_caches/path1_flowjax_3d_lineareig_si_uniongraph_SPATIAL (train 57,197 RA<=144.27 / val 9,232 /
+test 25,519 RA>=150.72, halo-disjoint, gates PASS); commit dcfe1fb.
+
 ### 2026-07-15 — [code] WORKSTREAM C VERDICT: pooled U-Net TIES the GraphNet (0.461 vs 0.456) — and S1(b)'s CNN numbers were a RANDOM-SPLIT artifact
 
 **GATE FAILED (no pivot): C macro 0.461 vs GraphNet A1_sqrt 0.456 = +0.005, far below the +0.02 bar.**
