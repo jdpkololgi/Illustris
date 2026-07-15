@@ -1,5 +1,66 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-15 — [code] R1 VERDICT: aperture channel does NOT pay (same peak, worse NLL, 2× overfit); kcorr GATE PASSES
+
+**kcorr parity gate — PASSED.** DESI ABSMAG_RP1 (official LSS add_ke: Smith+2017 GAMA k-corr + TMR
+e-corr + DESI dm) vs Abacus R_MAG_ABS, z0.15-0.55, 400k DESI rows vs 410,210 Abacus wedge galaxies:
+
+| quantity | mean | std | p5/p50/p95 |
+|---|---|---|---|
+| DESI ABSMAG_RP1 (k+e) | -20.761 | 0.840 | -22.189/-20.729/-19.420 |
+| Abacus R_MAG_ABS | -20.727 | 0.777 | -22.038/-20.709/-19.469 |
+| DESI G_R_OBS | 1.186 | 0.358 | 0.600/1.179/1.794 |
+| Abacus G_R_OBS | 1.133 | 0.350 | 0.550/1.146/1.705 |
+
+M_abs median offset (Abacus-DESI) = **+0.021 mag**; width ratio 0.925; G_R_OBS offset -0.033.
+=> the k+e convention risk did NOT materialise; the luminosity channel (M_ABS + G_R_OBS) is
+train/inference safe — no G_R_OBS-only fallback needed. CAVEATS: Abacus M_abs is 7.5% narrower (mild
+covariate shift; mock luminosity scatter tighter than reality), and the DESI side is the full
+BGS_BRIGHT footprint vs the Abacus wedge (both r<19.5-limited so marginals are comparable, but it is
+not footprint-matched).
+Two fixes were required to get a number at all: eb153fc (shim pkg_resources — setuptools>=81 removed
+it, but DESI_ke/smith_kcorr still imports it as dead code, only call site findfile.py:104 commented
+out) and 260c07e (z-cut + subsample BEFORE add_ke: its single-threaded rest_gmr solve ran 15%/36min
+over 8.7M rows => ~4h against a 1h wall, so it could never finish and the retry loop restarted from
+zero; add_ke is row-independent, so subsetting first is exactly equivalent for rows kept).
+
+**R1 — GATE FAILED.** R1 (v3_aper, 15-d) vs A1_sqrt (v2, 8-d): identical trainer, seed 42, 4000
+updates, warmup 400, tau=0.5. ONE variable = the 7 aperture/NN channels.
+
+| metric | A1_sqrt 8-d | R1 15-d | delta |
+|---|---|---|---|
+| best val NLL | **2.7150** | 2.7743 | -0.059 WORSE |
+| best val pooled λ1 R² | 0.5162 | 0.5169 | +0.0007 (noise) |
+| best val macro λ1 R² | 0.456 | 0.464 | +0.008 (below the +0.02 bar) |
+| final pooled / macro | 0.497 / 0.446 | 0.482 / 0.421 | worse + unstable |
+| end train->val NLL | 1.69 -> 3.22 (gap 1.53) | 1.19 -> 4.34 (**gap 3.15**) | 2x worse overfit |
+
+VERDICT: the aperture channel bought **capacity, not generalisable information**. R1 drives train NLL
+LOWER (1.19 vs 1.69) while val NLL goes HIGHER (4.34 vs 3.22) — textbook memorisation. Its macro peak
+(0.464) is a transient spike that decays to 0.421, whereas A1_sqrt converges stably
+(0.451/0.448/0.446). The +0.008 macro is a max-over-10-noisy-evals difference between two single-seed
+runs => not a real gain, and below the memo's +0.02 bar. **A1_sqrt (8-d) remains the incumbent; do NOT
+ship 15-d.** NOTE: the bestL1 checkpoint selects on POOLED (trainer line 210), not macro — so the
+headline "best val λ1 R² 0.5169" is pooled and must not be read as a macro gate pass.
+
+WHY IT MATTERS: this CONVERGES with Workstream A's result (high-z is DATA-limited, not update-starved).
+Two independent lines now say the binding constraint is **data volume + regularisation, not feature
+richness**: only 10 tiles / 129,113 train nodes / one tile per update. Adding channels to this encoder
+is a dead lever. => **Workstream G (more sim coverage) is the priority**, with regularisation
+(dropout / weight decay / early stop) as the cheap companion test. This also reframes the R²(λ1)→0.8
+target: it will not be reached by feature engineering on this cache.
+
+CAUTION for any revisit: the aperture channels were deliberately NOT SI-normalised (to preserve the
+absolute scale that SI division removes). That also hands the model absolute tile/shell scale — a
+plausible memorisation handle. A fair retest = SI-normalised aperture + regularisation, not more
+channels.
+
+NEXT: (a) 8-d incumbent stands; (b) Workstream G / C (3-D U-Net) / D (F-tier v2_A) per the sprint memo;
+(c) full-catalogue ABSMAG is a separate ~4h run (needs >=4h alloc or a parallelised rest_gmr), and only
+if the luminosity channel actually ships.
+Refs: logs R1.log / A1_sqrt.log / kcorr4.log; cache s3b_tiled_valid_v3_aper (15-d, all gates PASS);
+artifact bgs_absmag_rp1_gate_sub.fits (400k, seed 42); commits d678191, eb153fc, 260c07e.
+
 ### 2026-07-13 — [science] Codex external review ADOPTED (triaged): v1 contract fixed to calibrated-λ1-only; spatial holdout mandated; tiling = correlated mixture
 - External (Codex) review of the roadmap assessed: strongest external review to date; its
   grid-at-sparsity prediction was independently confirmed by S1(b) before it saw them.
