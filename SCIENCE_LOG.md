@@ -1,5 +1,55 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-15 — [code] U-NET TRANSFER: the 0.876 champion collapses HARDER than GraphNet (0.353 λ1) — failure is PROTOCOL, not architecture; deployment ranking DTFE > GraphNet > U-Net
+
+**ML-baseline transfer (JDPK-requested):** the T2 3-D U-Net — the highest-R² model in the programme
+(λ1 0.876, random split, dense wedge) — applied pure-inductively to the disjoint RA200-240 wedge,
+scored on the SAME 95,220-galaxy test mask as the GraphNet transfer and DTFE. gate_t2 never saved
+weights, so gate_t2_transfer.py (ab40b60) first REPLICATED T2 exactly (recovered config; hard gate:
+home λ1 must land in the 3-seed band) — home test 0.871/0.902/0.930 ✓ (band 0.871-0.880). Frozen
+weights then predicted the new wedge with own-wedge channels (in-mask standardisation = SI analogue).
+
+**Result (same wedge, same test mask, same truth for all rows):**
+| deployment R² | λ1 | λ2 | λ3 | home (leaky) λ1 | collapse |
+|---|---|---|---|---|---|
+| DTFE (cal, no ML) | **0.534** | **0.604** | **0.634** | 0.552* | ~none |
+| GraphNet transfer | 0.421 | 0.498 | 0.524 | 0.804 | −48% |
+| U-Net transfer | 0.353 | 0.425 | 0.484 | 0.871 | **−59%** |
+(*training-wedge value; stable ±0.02 across wedges.) U-Net interior-only (25 Mpc): 0.385/0.474/0.526
+— edge effects are NOT the explanation.
+
+**READING — the leaky ranking INVERTS at deployment.** Home order U-Net (0.876) > GraphNet (0.804) >
+DTFE (0.552); deployed order DTFE (0.534) > GraphNet (0.421) > U-Net (0.353). The model with the
+higher random-split score fell HARDER — exactly the interpolation-machine signature: the more
+effectively a model exploits neighbourhood duplication between train and test, the more its leaky
+score flatters it and the less transferable structure it has actually learned. **The failure is the
+TRAINING PROTOCOL (transductive, random-split, single volume), not the encoder family** — both
+architecture families (message-passing graph AND Cartesian CNN) collapse below the no-ML floor.
+Random-split R² is hereby WORTHLESS as a model-selection signal in this programme: it ranked the
+three methods exactly backwards relative to deployment.
+
+**Parity plots** (transfer_plots/parity_graphnet_vs_unet_ra200_240.png; 2×3 hexbin, GraphNet/U-Net ×
+λ1/2/3, DTFE reference, λ_th=0.2 guides): both models show the same failure morphology — strong
+regression to the mean (flattened ridge vs the 1:1 line), and a plume of high-true-λ (knot) galaxies
+predicted low; the U-Net cloud is visibly more diffuse. Consistent with models that learned local
+texture + amplitude priors of the training volume rather than the tidal operator.
+
+**GraphNet eval re-run reproduced exactly** (0.4207/0.4983/0.5241, NLL 6.5274) — deterministic ✓ —
+and the trainer now dumps posterior_pred_eigs_seed_<s>.npz at final eval (no more re-sampling runs
+for plots).
+
+**2-LAYER TRANSDUCTIVE RETRAIN LAUNCHED** (JDPK: shrink the receptive field; num_passes 8→2 ≈
+70-80 → ~20 Mpc vs 10.4 Mpc physics). Same cache/seed/budget as the 8-pass anchor; out
+sbi_runs/path1_wedge_union_2passes_transductive. EARLY SIGNAL @epoch ~260: train 3.09 / val 3.02 —
+val ≤ train, NO memorisation gap yet (the 8-pass anchor's val had long since decoupled). Next after
+it lands: same transfer test → does a physical receptive field close the 0.80→0.42 gap?
+
+NEXT (standing): 2-layer transfer test; T-web CLASS accuracy on holdout; Workstream G scoping
+(cross-phase = the protocol fix the field uses); calibration only on inductive data.
+Refs: field_level_tests/T2_transfer/ (t2_model_seed42.pt now SAVED, scores json, pred npz);
+transfer_plots/parity_graphnet_vs_unet_ra200_240.png; logs unet_transfer.log, g2layer.log;
+commit ab40b60.
+
 ### 2026-07-15 — [code] DTFE ON THE TRANSFER WEDGE: classical beats the deployed GNN on EVERY eigenvalue (0.53 vs 0.42 λ1) — head-to-head now exact, verdict clean
 
 Ran the no-ML classical baseline (density reconstruction + exact FFT tidal solve) on the SAME
