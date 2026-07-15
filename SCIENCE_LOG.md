@@ -1,5 +1,70 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-15 — [code] WORKSTREAM C VERDICT: pooled U-Net TIES the GraphNet (0.461 vs 0.456) — and S1(b)'s CNN numbers were a RANDOM-SPLIT artifact
+
+**GATE FAILED (no pivot): C macro 0.461 vs GraphNet A1_sqrt 0.456 = +0.005, far below the +0.02 bar.**
+Pooled, selection-aware full-range 3-D U-Net, on a cache PROVEN identical to the GraphNet's
+(129,113/18,629/52,848 — s3c match gate). VAL only; RA>=150 stayed sealed.
+
+| shell | C U-Net (pooled) | GraphNet A1_sqrt | S1(b) CNN in-shell (LEAKY, see below) |
+|---|---|---|---|
+| 0p15_0p25 | **0.570** | 0.530 | 0.902 |
+| 0p25_0p35 | **0.545** | 0.490 | 0.847 |
+| 0p35_0p45 | **0.502** | 0.500 | 0.722 |
+| 0p45_0p55 | 0.226 | **0.290** | 0.429 |
+| **MACRO** | **0.461** | 0.456 | 0.725 |
+| pooled | **0.549** | 0.516 | — |
+λ2 val pooled 0.630 / macro 0.533; λ3 val pooled 0.679 / macro 0.539; cluster-slice λ1 Spearman +0.454.
+
+**CORRECTION — S1(b)'s CNN was scored on a RANDOM split, not the spatial holdout.** gate_t2 trains on
+`cache["masks"]`, and the s2 shell caches carry a random 70/21/9 node split: train/val/test RA ranges
+overlap **100%** (all 120-160 deg; means 140.24/140.25/140.07). They ARE halo-disjoint (0 shared halos),
+so the crude leak was guarded — but NOT spatially disjoint. The tidal field is smooth on ~10 Mpc, so a
+random split leaves a test galaxy's neighbours in train and a field model can interpolate the label
+field instead of learning physics. This is exactly what the 07-13 Codex review meant by "spatial
+holdout mandated". => S1(b)'s 0.902/0.847/0.722/0.429 are NOT comparable to any spatial-holdout number,
+and my earlier reading ("in-range the grid loses in ZERO shells; macro 0.725 vs 0.456") was WRONG — it
+set a leaky CNN against a strict-holdout GraphNet. Matched honestly, 0.725 -> 0.461. The prior "grid is
+dead / mid-range specialist" verdict SURVIVES, and for a cleaner reason than the corrupt shell: on an
+honest matched split the grid merely TIES.
+
+**But C is not a wash — it is a genuine near-tie with a different error profile:** it BEATS the GraphNet
+in 3 of 4 shells (+0.040/+0.055/+0.002) and on pooled (+0.033), and loses only at high-z (0.226 vs
+0.290) — which is precisely what drags its macro back to a tie. Grid vs graph is a high-z story, not a
+mid-range story.
+
+**THIRD independent line for data-limitation.** C overfits hard and fast: train MSE 0.16 -> 0.07 while
+val 0.38 -> 0.46; best macro at step 350; EARLY STOPPED at step 750 of a 4000 budget. It is
+data-limited, not compute-limited. Together with (1) Workstream A (high-z is data-limited, uniform
+sampling made it worse 0.26->0.13) and (2) R1 (aperture channels bought capacity, not information;
+2x overfit gap), three independent methods now say the binding constraint is **data volume**, not
+architecture and not features. Two very different encoders (message-passing graph, Cartesian CNN)
+converge to macro ~0.46 on the same 129k training nodes. That is the signature of an information/data
+ceiling, not an encoder ceiling. => **Workstream G (more sim coverage) is THE lever.** R²(λ1)=0.8 is
+not reachable by swapping encoders on this cache.
+
+CAVEATS: (a) C inherited T2's hyperparameters (tuned on the dense wedge) — a tuned C might gain, though
+the overfitting signature caps the headroom; (b) C's high-z 0.226 on 3,118 galaxies is noisy;
+(c) single seed each side, and the shell-level trajectories are noisy, so +0.005 macro is a tie in the
+strict sense (well inside run-to-run scatter).
+
+INFRA: s3c_build_cnn_fullrange_cache.py mirrors s3b bit-for-bit and PROVES the match with a mandatory
+gate (raises on mismatch) — PASSED exactly. gate_c_unet_fullrange.py = T2 + pooled full range +
+explicit expected-count channel + LOS unit-vector channels (a Cartesian CNN cannot otherwise know the
+RSD axis; it varies across the wedge) + VAL macro-shell gating (T2 scored pooled-on-TEST, which hides
+high-z AND would breach the sealed region; test now refused without --unseal-test). Grid 334x317x194 =
+20.54M cells @5 Mpc, 7 channels, 1.44M params, peak 41.1 GB (WOULD OOM ON A 40GB CARD -> hbm80g is
+required, not optional). Axis-order guard grid_sample vs map_coordinates corr = 1.0000.
+
+NEXT: (a) incumbent GraphNet (8-d, tau=0.5) still stands — C does not displace it; (b) Workstream G
+(more sim coverage) is now the priority on three independent lines; (c) D (F-tier v2_A) is worth far
+less than it looked — its 0.841 was measured on the same dense-wedge/random-split footing and must be
+re-read with this correction before anyone quotes it; (d) if grid vs graph is revisited, the question
+is specifically high-z, and an ensemble/hybrid of C (mid-range) + GraphNet (high-z) is the only place
+the two differ enough to matter.
+Refs: /pscratch/sd/d/dkololgi/logs/C_full.log, C_smoke.log; scores
+/pscratch/sd/d/dkololgi/abacus/C_unet_fullrange/scores.json; cache s3c_cnn_fullrange; commit 3651218.
+
 ### 2026-07-15 — [code] R1 VERDICT: aperture channel does NOT pay (same peak, worse NLL, 2× overfit); kcorr GATE PASSES
 
 **kcorr parity gate — PASSED.** DESI ABSMAG_RP1 (official LSS add_ke: Smith+2017 GAMA k-corr + TMR
