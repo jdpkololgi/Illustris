@@ -56,6 +56,48 @@ Refs: classical_baseline/fullrange_holdout/ (scores json + pred_eigs_{dtfe,cic}.
 dtfe_fullrange_pershell.py; logs/dtfe_fullrange.log; cache s3c_cnn_fullrange (matched to production
 split). DTFE run: cell 4 Mpc, 51.9M cells, rsmooth 10.4 Mpc, 47s.
 
+### 2026-07-16 — [code] 2-LAYER TRANSDUCTIVE GRAPHNET (num_passes 8→2): transfer λ1 0.369 — receptive-field hypothesis FAILS; and my "no train/val gap" diagnostic was INVALID
+
+Shrinking the receptive field (JDPK's lever: 8→2 message passes, ~70-80 → ~20 Mpc vs 10.4 Mpc physics)
+did NOT close the deployment gap. Retrained transductively on the original random-split union cache
+(same seed/epochs/budget as the 8-pass anchor, ONLY num_passes=2), then the SAME RA200-240 transfer
+test (same cache, same 95,220-node test mask) as the 8-pass and U-Net.
+
+| λ1 R² (same test mask) | home (leaky) | transfer | drop | transfer NLL |
+|---|---|---|---|---|
+| GraphNet 8-pass | 0.804 | 0.421 | −48% | 6.53 |
+| **GraphNet 2-pass** | 0.628 | **0.369** | −41% | 4.26 |
+| U-Net (T2) | 0.871 | 0.353 | −59% | — |
+| DTFE (no ML) | — | 0.534 | — | — |
+Home 2-pass full: λ1/λ2/λ3 = 0.628/0.754/0.826 (vs 8-pass 0.804/0.846/0.896); best val NLL 2.089.
+
+**Two findings, the second more important than the first:**
+
+1. **Receptive field was NOT the binding constraint.** 2-pass transfers to 0.369 — WORSE than 8-pass
+   (0.421) and well below DTFE (0.534). The smaller field bought proportionally less collapse (−41% vs
+   −48%) and much less calibration blowup (transfer NLL 4.26 vs 6.53) — directionally consistent with
+   the oversmoothing/leakage argument — but nowhere near enough. FOUR models now (8-pass, 2-pass,
+   U-Net, +the leak-audit) all land below the classical floor at deployment. Encoder family AND depth
+   are both ruled out; the common factor is the single-volume training data → Workstream G.
+
+2. **★ A METHOD CORRECTION: "no train/val gap" is NOT a leakage/generalisation diagnostic on a random
+   split.** I read the 2-pass run's flat curve (val ≤ train from epoch 333→3749, finishing 2.07 vs
+   2.09) as evidence it wasn't leaking and might transfer — and said so. The transfer test refuted it.
+   WHY the diagnostic is invalid: on a RANDOM split, train and val nodes are BOTH randomly interleaved
+   through the same volume → both live in the INTERPOLATION regime. A train/val gap only opens when a
+   model memorises SPECIFIC nodes; it does NOT open for the interpolation-vs-extrapolation failure that
+   kills deployment. The 2-pass model was HONESTLY INTERPOLATING (no memorisation), and interpolation
+   skill simply does not extrapolate. So a healthy train/val curve on a random split says nothing about
+   deployment. The ONLY valid generalisation probe here is a spatial-holdout or a disjoint-wedge
+   transfer test — never the train/val gap.
+
+CONSEQUENCE: the 2-pass model is NOT a keeper; the 8-pass anchor is not displaced by it either (both
+are dead-on-transfer random-split models). This does not touch the production full-range model, which
+was trained UNDER the spatial holdout and is the one that actually beats classical (see the DTFE
+full-range entry above). The receptive-field lever is closed; data (Workstream G) is the open one.
+Refs: sbi_runs/path1_wedge_union_2passes_transductive (home), path1_TRANSFER_ra200_240_2passes
+(transfer); logs g2layer.log, g2layer_transfer.log.
+
 ### 2026-07-15 — [code] U-NET TRANSFER: the 0.876 champion collapses HARDER than GraphNet (0.353 λ1) — failure is PROTOCOL, not architecture; deployment ranking DTFE > GraphNet > U-Net
 
 **ML-baseline transfer (JDPK-requested):** the T2 3-D U-Net — the highest-R² model in the programme
