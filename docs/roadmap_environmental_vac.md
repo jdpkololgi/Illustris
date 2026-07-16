@@ -1,5 +1,13 @@
 # Roadmap v2 — DESI BGS cosmic-web environment VAC + papers
 
+> **Active implementation plan, 2026-07-16:** The authoritative protocol-first
+> plan for encoder comparison, global graph/field construction, spatial patch
+> training, blind simulation validation, and VAC readiness is
+> `docs/plan_generalisable_graphweb_vac.md`. GraphNet, 3-D U-Net, F-tier,
+> classical reconstruction, and validated hybrids remain active candidates.
+> Where older dense-wedge performance or encoder-specific production framing
+> below conflicts with that plan or `SCIENCE_LOG.md`, follow the newer evidence.
+
 Canonical decision-gated plan. Written 2026-07-03 (Claude Code brainstorm with JDPK),
 superseding v1 (2026-07-02). Running narrative: `SCIENCE_LOG.md`. Every avenue below
 is either **closed** (decision recorded), **gated** (explicit GO/NO-GO experiment), or
