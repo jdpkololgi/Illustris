@@ -14,7 +14,7 @@
 set -euo pipefail
 source ~/.bashrc
 conda activate cosmic_env
-unset PYTHONPATH PYTHONHOME LD_PRELOAD
+unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD
 export PYTHONNOUSERSITE=1
 export XLA_PYTHON_CLIENT_PREALLOCATE=false
 export XLA_PYTHON_CLIENT_ALLOCATOR=platform

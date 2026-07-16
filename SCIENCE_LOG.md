@@ -22,6 +22,13 @@ Implemented and tested:
 - `tests/phase4/test_p0_evidence.py`: affine-calibration, web-class, reliability, and
   spatial-block tests.
 
+Execution guardrail discovered during verification: the NERSC login shell can
+inject DESI Python 3.13 `site-packages` into the Python 3.11 `cosmic_env`, causing
+NumPy C-extension import failure. With `PYTHONPATH`, `PYTHONHOME`, and
+`PYTHONUSERBASE` removed, all four P0 unit tests pass. The P0 SLURM entry point now
+enforces that clean-environment contract after conda activation; direct use of the
+environment without the guard is not a valid runtime test.
+
 The point-estimator dry run is frozen at
 `/pscratch/sd/d/dkololgi/abacus/p0_evidence_freeze/evidence_point_dryrun.json`.
 It unsealed the already-frozen U-Net on the test rows only after implementation of
