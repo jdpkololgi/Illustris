@@ -1,5 +1,61 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-16 — [code] DTFE ON THE FULL-RANGE SPATIAL HOLDOUT: the production GraphNet BEATS classical on macro-λ1 (0.45 vs 0.34) — FIRST clean GNN>classical win, and it's the deployment-honest split. VAC substantially rescued.
+
+Ran the no-ML classical baseline (DTFE + FFT tidal solve) on the FULL-RANGE spatial holdout (z0.15-0.55),
+scored on the SAME s3c test mask (RA>=150, 52,848 nodes) the production GraphNet uses. Matched
+comparison, both on TEST, cal (train-fit affine):
+
+| λ1 R² (test) | pooled | macro | per-shell 0p15/0p25/0p35/0p45 |
+|---|---|---|---|
+| **GraphNet (R0, production, spatial holdout)** | 0.514 | **0.453** | 0.56 / 0.49 / 0.42 / **0.34** |
+| DTFE (full-range, same split) | 0.553 | 0.342 | 0.567 / 0.605 / 0.418 / **-0.223** |
+| CIC (full-range) | 0.539 | 0.155 | 0.563 / 0.613 / 0.443 / -0.998 |
+DTFE λ2/λ3 macro 0.472 / 0.515; pooled 0.674 / 0.711.
+
+**HEADLINE: on macro-shell λ1 (equal weight to every redshift — the honest VAC metric) the production
+GraphNet BEATS DTFE, 0.453 vs 0.342 (+0.111).** This is the FIRST clean GNN>classical result in the
+whole programme, and unlike every dense-wedge model it is on the DEPLOYMENT-HONEST split (train RA<145
+/ test RA>=150). The distinction is the training protocol: the dense-wedge champions (GraphNet 0.804,
+U-Net 0.876) were transductive random-split -> pure interpolation -> collapsed below DTFE at transfer
+(0.42, 0.35). The production model was TRAINED under the spatial holdout, so it learned to
+extrapolate. Same architecture family, opposite deployment outcome -> the fix was always protocol.
+
+**WHERE the win lives: the sparse high-z shell.** Shell-by-shell the GNN and DTFE tie at low/mid z
+(0.56~0.57, 0.49<0.61 DTFE ahead, 0.42~0.42); the entire macro advantage is 0p45_0p55, where sparse
+tracers make DTFE FAIL (-0.223, CIC -0.998) but the GNN still returns 0.34. This is exactly the
+DESI-like sparse regime the VAC targets, and exactly where a learned prior beats a density estimator
+that has no galaxies to estimate density from. The GNN's value proposition is now concrete and
+physically located, not a headline R2.
+
+**HONEST CAVEATS / a wrong prediction of mine corrected:** (1) I predicted DTFE would drop well below
+0.46 POOLED at "production sparsity" -- WRONG: pooled 0.553 ~ dense-wedge 0.534 (no sparsity tax on
+pooled). Reason: the full range is NOT uniformly sparse -- pooled is dominated by the abundant dense
+low-z shell (28.7k of 52.8k test nodes in 0p15_0p25), where DTFE has ample tracers. The sparsity tax
+is real but shows up in the MACRO / high-z shell, not pooled. (2) => WHICH METRIC you quote decides
+the story: pooled says DTFE ~ GNN (0.55 vs 0.51, DTFE slightly ahead, low-z-weighted); macro says GNN
+> DTFE (0.45 vs 0.34, sparse-regime-weighted). Macro is the defensible VAC metric (equal weight to
+environments across z); the VAC should report macro and state this explicitly. (3) Single seed;
+high-z macro term rests on 869 test galaxies (noisy); R0 per-shell taken from the 2026-07-14 log, not
+recomputed here.
+
+**PROGRAMME STATE FLIP.** Deployment ranking is now REGIME-DEPENDENT, not a flat "classical wins":
+  - dense wedge / random split: all ML loses to DTFE (interpolation artifact; retire those numbers).
+  - full-range spatial holdout (the actual VAC regime): GNN macro 0.45 > DTFE 0.34, driven by high-z.
+The VAC has a defensible, correctly-scoped claim: a calibrated-λ1 GraphNet that beats classical
+reconstruction in the sparse regime where classical fails, trained and evaluated under a spatial
+holdout. It is NOT R2=0.8 and never honestly was; it IS a real improvement over the no-ML floor where
+it counts.
+
+NEXT: (1) tighten the comparison -- DTFE on VAL too + recompute R0/A1 TEST macro directly (remove the
+log-quote caveat); (2) T-web CLASS accuracy (void/wall/filament/knot) on the holdout -- the actual VAC
+product metric, still never measured; (3) Workstream G (cross-phase) to push high-z, the one shell
+carrying the GNN's advantage and the noisiest; (4) calibration on the holdout (the transfer NLL blowups
+show random-split calibration does not deploy).
+Refs: classical_baseline/fullrange_holdout/ (scores json + pred_eigs_{dtfe,cic}.npy);
+dtfe_fullrange_pershell.py; logs/dtfe_fullrange.log; cache s3c_cnn_fullrange (matched to production
+split). DTFE run: cell 4 Mpc, 51.9M cells, rsmooth 10.4 Mpc, 47s.
+
 ### 2026-07-15 — [code] U-NET TRANSFER: the 0.876 champion collapses HARDER than GraphNet (0.353 λ1) — failure is PROTOCOL, not architecture; deployment ranking DTFE > GraphNet > U-Net
 
 **ML-baseline transfer (JDPK-requested):** the T2 3-D U-Net — the highest-R² model in the programme
