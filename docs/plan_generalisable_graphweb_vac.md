@@ -154,12 +154,20 @@ must not start until the corresponding parity or convergence gate passes.
 
 Tasks:
 
-1. Recompute R0/A1 GraphNet validation and test metrics from frozen predictions.
-2. Recompute the full-range U-Net on the identical scored rows.
-3. Run DTFE/CIC on validation and test, with raw and source-calibrated predictions.
-4. Add four-class metrics and P(λ1 > 0.2) Brier/reliability metrics.
-5. Produce spatial-block uncertainties.
-6. Inventory, for every phase/catalogue:
+- [ ] Recompute R0/A1 GraphNet validation and test metrics from frozen predictions.
+  Frozen-checkpoint posterior export is the remaining active P0 computation.
+- [x] Recompute the full-range U-Net on the identical scored rows.
+  Artifact: `/pscratch/sd/d/dkololgi/abacus/p0_evidence_freeze/evidence_point_dryrun.json`.
+- [x] Run DTFE/CIC on validation and test, with raw and source-calibrated predictions.
+  The evidence artifact records raw and frozen training-affine results separately;
+  target-domain oracle calibration is excluded from deployment comparisons.
+- [ ] Add four-class metrics and P(λ1 > 0.2) Brier/reliability metrics.
+  Completed for deterministic U-Net/DTFE/CIC decisions; posterior probability
+  diagnostics await the frozen R0/A1 export.
+- [ ] Produce spatial-block uncertainties.
+  Completed for deterministic U-Net/DTFE/CIC using comoving spatial blocks;
+  R0/A1 uncertainty awaits the frozen posterior export.
+- [x] Inventory, for every phase/catalogue:
    - galaxy catalogue and target paths;
    - coordinate and unit conventions;
    - target epoch and smoothing metadata;
@@ -167,7 +175,19 @@ Tasks:
    - density grids/particles required for new T-web labels;
    - HOD and observer identifiers;
    - valid BOX_INDEX, halo, and TARGETID mappings.
-7. Freeze a machine-readable evidence JSON and asset inventory.
+  Artifact: `docs/evidence/p0/asset_inventory.json`.
+- [ ] Freeze a machine-readable evidence JSON and asset inventory.
+  The versioned asset inventory is frozen; the final evidence JSON awaits the
+  R0/A1 posterior export.
+
+P0 implementation and runtime artifacts:
+
+- evaluator: `workflows/abacus_tweb/p0_evidence.py`;
+- frozen GraphNet exporter: `workflows/abacus_tweb/p0_export_graphnet_predictions.py`;
+- inventory builder: `workflows/abacus_tweb/p0_inventory_assets.py`;
+- batch entry point: `workflows/abacus_tweb/submit_p0_evidence.slurm`;
+- tests: `tests/phase4/test_p0_evidence.py`;
+- runtime directory: `/pscratch/sd/d/dkololgi/abacus/p0_evidence_freeze/`.
 
 **Gate:** all methods must align to the same target rows and target convention. Any
 remaining target or row-alignment disagreement blocks graph and field generation.

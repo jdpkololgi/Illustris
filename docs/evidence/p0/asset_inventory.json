@@ -1,0 +1,1681 @@
+{
+  "assets": {
+    "canonical_row_index": [
+      {
+        "exists": true,
+        "fingerprint": "02ed8fd5ba2de18df0d63147a5f73f56e10b7175173fd14b48458f5d56213817",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-15T11:14:14+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3c_cnn_fullrange/cnn_fullrange_cache.pkl",
+        "size_bytes": 16056761
+      },
+      {
+        "exists": true,
+        "fingerprint": "0e8645faeda485fe6cbc896bd1aa392c3da914425f10bbddbfd2e7654fd931da",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-15T11:14:14+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3c_cnn_fullrange/cnn_fullrange_points.npy",
+        "size_bytes": 5278424
+      }
+    ],
+    "classical_predictions": [
+      {
+        "exists": true,
+        "fingerprint": "5d7d2bce490156f30ad73fa27bc301e910c926db409322a139a2916e4046a934",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-16T09:10:12+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/classical_baseline/fullrange_holdout/classical_baseline_scores.json",
+        "size_bytes": 2339
+      },
+      {
+        "exists": true,
+        "fingerprint": "d6f1c8c93a5936b15a57923adbfd9f4f531e2ee4fc06dd56fd781db5bd066366",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-16T09:09:54+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/classical_baseline/fullrange_holdout/pred_eigs_cic.npy",
+        "size_bytes": 2639276
+      },
+      {
+        "exists": true,
+        "fingerprint": "1d64502da953d942d2941e18cbb43c05d9c2e255c8e122ce202652d41522f007",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-16T09:10:12+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/classical_baseline/fullrange_holdout/pred_eigs_dtfe.npy",
+        "size_bytes": 2639276
+      }
+    ],
+    "density_and_tweb": [
+      {
+        "exists": true,
+        "fingerprint": "a9a5550ebd7c39ab61d736e99fc5ed60c424e9d3cbff39291332db1884cd8b16",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-03-19T15:21:04+00:00",
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/density_fields/AbacusSummit_base_c000_ph000_z0.200_ngrid_2048_10pc_density_field.npy",
+        "size_bytes": 34359738496
+      },
+      {
+        "exists": true,
+        "fingerprint": null,
+        "fingerprint_mode": "directory_stat_only",
+        "kind": "directory",
+        "mtime_utc": "2026-04-24T10:57:00+00:00",
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7",
+        "size_bytes": 16384
+      }
+    ],
+    "existing_graph_artifacts": [
+      {
+        "exists": true,
+        "fingerprint": "02b3ca7f57cb71a000c16c492025314b837baac4f113279bda170d315e6a135c",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-06-05T13:39:09+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra120_160_dec14p5_30p6_z0p2_0p3_cugraph_gnn_arrays.npz",
+        "size_bytes": 18348905
+      },
+      {
+        "exists": true,
+        "fingerprint": "755163f8ab0d9f988bb55f120f9c9c79c8abfc9607bbdad86a7417a7fd84ab00",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-06-05T14:36:32+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra120_160_dec14p5_30p6_z0p2_0p3_cugraph_gnn_metadata.json",
+        "size_bytes": 1549
+      },
+      {
+        "exists": true,
+        "fingerprint": "4d6a27417d27b06032847c06153db243cdf276826519f1d72d869a05e1b6e0cf",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-06-05T13:38:18+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra120_160_dec14p5_30p6_z0p2_0p3_edges_combined_idx.npy",
+        "size_bytes": 5925112
+      },
+      {
+        "exists": true,
+        "fingerprint": "15696b2d805daf9215234164f421c4cc296552e1a6f0368ba32d9f1b96f9ef54",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-06-05T13:38:11+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra120_160_dec14p5_30p6_z0p2_0p3_global_node_ids.npy",
+        "size_bytes": 807608
+      },
+      {
+        "exists": true,
+        "fingerprint": "0c569af85cf90d41bc5e4f834dd8fd1012e24102e67f7844b24dd5b55b410dfd",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-06-05T14:36:32+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra120_160_dec14p5_30p6_z0p2_0p3_metadata.json",
+        "size_bytes": 2086
+      },
+      {
+        "exists": true,
+        "fingerprint": "be4aa3780d9e7ad13297e6eec1fa371910fee61caeae4d278902f10f73da6514",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-06-05T13:38:16+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra120_160_dec14p5_30p6_z0p2_0p3_points.npy",
+        "size_bytes": 3230048
+      },
+      {
+        "exists": true,
+        "fingerprint": "a5ee2fc3268b923a631e55d9da2d6b9eea9e9bfa4097102f0a1b178deed405fc",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-06-05T13:38:16+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra120_160_dec14p5_30p6_z0p2_0p3_points_xyz.npy",
+        "size_bytes": 2422568
+      },
+      {
+        "exists": true,
+        "fingerprint": "ffac6fbf5fe374ae7f505d4ff910cbf2412c3112b2524081ff955659d1cec4d1",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-06-05T13:38:24+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra120_160_dec14p5_30p6_z0p2_0p3_tetrahedra_idx.npy",
+        "size_bytes": 9988656
+      },
+      {
+        "exists": true,
+        "fingerprint": "a1d7fbed2d59837d72932095746323885cbbd4d337705114664d698b9557b075",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-06-05T13:38:24+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra120_160_dec14p5_30p6_z0p2_0p3_tetrahedra_volumes.npy",
+        "size_bytes": 4994392
+      },
+      {
+        "exists": true,
+        "fingerprint": "5fe43a04ca28305c87e37ce90f7e942fc2a10a462839ce214d40113926ab9363",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-06-05T13:38:25+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra120_160_dec14p5_30p6_z0p2_0p3_wedge_targets.fits",
+        "size_bytes": 9397440
+      },
+      {
+        "exists": true,
+        "fingerprint": "e0cc2deb904956abc1953f6b57b496906d0e994a497e0d833ee0f837be59fab3",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-15T16:16:57+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra200_240_dec14p5_30p6_z0p2_0p3_cugraph_gnn_arrays.npz",
+        "size_bytes": 17620702
+      },
+      {
+        "exists": true,
+        "fingerprint": "ee81f4fc99cc46c3709203e4cff0d6de8d5789aa8a276389caa87284470e2f5f",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-15T16:16:59+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra200_240_dec14p5_30p6_z0p2_0p3_cugraph_gnn_metadata.json",
+        "size_bytes": 1547
+      },
+      {
+        "exists": true,
+        "fingerprint": "797152691a66d4efced7d01c19a0cbffbcf6b01e490edf746d0aa684697668e9",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-15T16:16:20+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra200_240_dec14p5_30p6_z0p2_0p3_edges_combined_idx.npy",
+        "size_bytes": 5684896
+      },
+      {
+        "exists": true,
+        "fingerprint": "334fbad152f734ae71e0c6c92922c05caf8d5e02c116dca8456ad41f60eed315",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-15T16:13:13+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra200_240_dec14p5_30p6_z0p2_0p3_global_node_ids.npy",
+        "size_bytes": 777888
+      },
+      {
+        "exists": true,
+        "fingerprint": "f62b828fd5c283318785f3470b022f2a43ad313a80cec735fd75e94da4a0ec05",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-15T16:16:37+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra200_240_dec14p5_30p6_z0p2_0p3_metadata.json",
+        "size_bytes": 2084
+      },
+      {
+        "exists": true,
+        "fingerprint": "23b5d47a5310be50f8d25ab0f8241533fcb261053d91b0042515591586ba521c",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-15T16:16:15+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra200_240_dec14p5_30p6_z0p2_0p3_points.npy",
+        "size_bytes": 3111168
+      },
+      {
+        "exists": true,
+        "fingerprint": "de56da9312b44e22d97ebd79916b6b47371568f258d942f97a4aa38c0f26d695",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-15T16:16:15+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra200_240_dec14p5_30p6_z0p2_0p3_points_xyz.npy",
+        "size_bytes": 2333408
+      },
+      {
+        "exists": true,
+        "fingerprint": "a48a4fd262bf384fec4efb3ba0e555953fe62ad50d594775260ae21a041b8881",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-15T16:16:37+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra200_240_dec14p5_30p6_z0p2_0p3_tetrahedra_idx.npy",
+        "size_bytes": 9561392
+      },
+      {
+        "exists": true,
+        "fingerprint": "5fa778b7fb370c03a4b37d69b5e6b96d59baac31bab16355369ab28291ff8903",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-15T16:16:37+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra200_240_dec14p5_30p6_z0p2_0p3_tetrahedra_volumes.npy",
+        "size_bytes": 4780760
+      },
+      {
+        "exists": true,
+        "fingerprint": "6cdd6763490ed04fd33e9a04991b782a7f18c93358e7bad7534dff7ca64c5d1e",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-15T16:16:37+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra200_240_dec14p5_30p6_z0p2_0p3_wedge_targets.fits",
+        "size_bytes": 9051840
+      },
+      {
+        "exists": true,
+        "fingerprint": "c44b9b3305aeb11953a3a1c5b685925348dde9b47292515f9dc07f9dfc204135",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-15T16:26:21+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_wedge_ra200_240_union_r10hmpc_gnn_arrays.npz",
+        "size_bytes": 42826270
+      },
+      {
+        "exists": true,
+        "fingerprint": "543a81349a2549786cdf288b556db4a9b22f17103a0e2e98cfbea7a5925290b8",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-15T16:26:21+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_wedge_ra200_240_union_r10hmpc_gnn_metadata.json",
+        "size_bytes": 1893
+      },
+      {
+        "exists": true,
+        "fingerprint": "0bde892888df3c7803aca733b75dbf888c0ccd0db3300e15f738b7f27a11e808",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-04T11:53:26+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_wedge_radius_r10hmpc_gnn_arrays.npz",
+        "size_bytes": 41281202
+      },
+      {
+        "exists": true,
+        "fingerprint": "47a8532495d7119ac34e9e5575a0d9937de0fe25b0f7c2c0c0b66d0ceefc7c83",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-04T11:53:26+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_wedge_radius_r10hmpc_gnn_metadata.json",
+        "size_bytes": 1881
+      },
+      {
+        "exists": true,
+        "fingerprint": "fd2ee34d557e17c476cfc9c0be5a95d762cfbd886ebb7c0b95c3c085687dadce",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-03T15:06:46+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_wedge_union_r10hmpc_gnn_arrays.npz",
+        "size_bytes": 45114376
+      },
+      {
+        "exists": true,
+        "fingerprint": "e94282fb3780befe205bf00cd98728094c46ed51ad266a4b74153deb3a183f4a",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-03T15:06:46+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/path1_wedge_union_r10hmpc_gnn_metadata.json",
+        "size_bytes": 1751
+      },
+      {
+        "exists": true,
+        "fingerprint": "0e8645faeda485fe6cbc896bd1aa392c3da914425f10bbddbfd2e7654fd931da",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-15T11:14:14+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/s3c_fullrange_z0p15_0p55_points_xyz.npy",
+        "size_bytes": 5278424
+      },
+      {
+        "exists": true,
+        "fingerprint": "10ff8b9f295d596504c86092bbc6c069a6c421daf8a8040e83d0f31c10a01697",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-16T09:00:53+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/wedges/path1_fiberassign/s3c_fullrange_z0p15_0p55_wedge_targets.fits",
+        "size_bytes": 8804160
+      }
+    ],
+    "frozen_models": [
+      {
+        "exists": true,
+        "fingerprint": "d4e83da0433d12267003b335df2aef9f1bfe6184d2a747831986a39c6c1d4675",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-15T00:43:30+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/A1_sqrt/sbi_output/flowjax_sbi_model_seed_42_bestL1_20260714_174330.pkl",
+        "size_bytes": 2750280
+      },
+      {
+        "exists": true,
+        "fingerprint": "c655c812641fb3c718ff32e58e0bdb4908dbdfe59e1b4acdbee8d761bad74223",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-14T18:06:45+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/R0_valid_corrected/sbi_output/flowjax_sbi_model_seed_42_bestL1_20260714_110645.pkl",
+        "size_bytes": 2750270
+      },
+      {
+        "exists": true,
+        "fingerprint": "90061b62ffba31d1296a3f967d635bb6534bbaf1506eac5ef22525c8194684c8",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-14T18:11:48+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/R0_valid_corrected/sbi_output/flowjax_sbi_model_seed_42_bestL1_20260714_111148.pkl",
+        "size_bytes": 2750270
+      },
+      {
+        "exists": true,
+        "fingerprint": "d382ea387f15bde9e202f84f6c63bc9e4fece77047533266016fd36d316e0464",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-15T11:33:30+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/C_unet_fullrange/scores.pred_eigs.npy",
+        "size_bytes": 2639276
+      }
+    ],
+    "full_range_shell_catalogues": [
+      {
+        "exists": true,
+        "fingerprint": "b77ceaffe49afce6d5869aaaf6265049ee863c4c6681b73d90245bc66b828905",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-13T09:20:40+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/s2_shells/shell_0p05_0p15_catalog.fits",
+        "size_bytes": 21778560
+      },
+      {
+        "exists": true,
+        "fingerprint": "795e2884d49abeb6fed903cea214628c00332d81f7525fb515532efdd516ead6",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-13T09:27:43+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/s2_shells/shell_0p05_0p15_final_wedge_targets.fits",
+        "size_bytes": 12098880
+      },
+      {
+        "exists": true,
+        "fingerprint": "b4687dba2c22561a276ef56f436adc12acb58f04359bc504e62b661e588dcfa9",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-13T09:21:15+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/s2_shells/shell_0p15_0p25_catalog.fits",
+        "size_bytes": 29880000
+      },
+      {
+        "exists": true,
+        "fingerprint": "4592c1f90849d11187c9e48ab47230c5f330f1d14cf5c86fe32ed8d8075f1ae6",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-13T09:28:08+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/s2_shells/shell_0p15_0p25_final_wedge_targets.fits",
+        "size_bytes": 17150400
+      },
+      {
+        "exists": true,
+        "fingerprint": "9e035f3c3d3dd210a3517ac74967818b7eec9caa065f115010000032d059efd6",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-13T09:22:01+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/s2_shells/shell_0p25_0p35_catalog.fits",
+        "size_bytes": 18432000
+      },
+      {
+        "exists": true,
+        "fingerprint": "cf8fcace32dd38bd80a7435f9a9eb926f51902482c3cf934a1d1d612ae904aa9",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-13T09:28:24+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/s2_shells/shell_0p25_0p35_final_wedge_targets.fits",
+        "size_bytes": 10264320
+      },
+      {
+        "exists": true,
+        "fingerprint": "ec01842522594880f543777bc233c31fc2f0207ec9082d2640c42da4871d1f28",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-13T09:22:30+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/s2_shells/shell_0p35_0p45_catalog.fits",
+        "size_bytes": 6465600
+      },
+      {
+        "exists": true,
+        "fingerprint": "7c5fd9c589d100833c33709bddd46af2a252ebbed094fbc70e36d3baf1e86b00",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-13T09:28:32+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/s2_shells/shell_0p35_0p45_final_wedge_targets.fits",
+        "size_bytes": 3617280
+      },
+      {
+        "exists": true,
+        "fingerprint": "86ddaa11421802a5ac490c1a4d821b4193b77ca8300e07191d85a03aa37f9620",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-13T09:22:43+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/s2_shells/shell_0p45_0p55_catalog.fits",
+        "size_bytes": 987840
+      },
+      {
+        "exists": true,
+        "fingerprint": "5adedb6b778840ad4fc2585a6a0c03452f52a48c2364df23371b4efa455b565c",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-13T09:28:38+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/s2_shells/shell_0p45_0p55_final_wedge_targets.fits",
+        "size_bytes": 478080
+      }
+    ],
+    "halo_and_particle_sources": [
+      {
+        "exists": true,
+        "fingerprint": null,
+        "fingerprint_mode": "directory_stat_only",
+        "kind": "directory",
+        "mtime_utc": "2020-09-14T11:16:14.221540+00:00",
+        "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph000/halos/z0.200",
+        "size_bytes": 4096
+      },
+      {
+        "exists": true,
+        "fingerprint": null,
+        "fingerprint_mode": "directory_stat_only",
+        "kind": "directory",
+        "mtime_utc": "2020-04-25T00:01:40.244993+00:00",
+        "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph000/halos/z0.200/halo_info",
+        "size_bytes": 16384
+      }
+    ],
+    "labelled_mock_catalogues": [
+      {
+        "exists": true,
+        "fingerprint": "cae1ee88283884d95dc0cfb2ac4a47571fe611dc963c2fb0d3af6a4082d0ddf1",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-02-24T15:36:49+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb.fits",
+        "size_bytes": 7476050880
+      },
+      {
+        "exists": true,
+        "fingerprint": "78f6ad6e3cf3b5fc3e6249a7dd7be86378c9c88272bea9f274c49995c766bafc",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-03-17T16:58:10+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs.fits",
+        "size_bytes": 7476050880
+      },
+      {
+        "exists": true,
+        "fingerprint": "78980c4af56345a3e3bba85dd2eca443bdfbb19f6227a63c9473184e0925934d",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-03-19T18:29:57+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_ng2048_rs4_v2.fits",
+        "size_bytes": 7476050880
+      },
+      {
+        "exists": true,
+        "fingerprint": "b221931a5edab5f66ab6ffbae059dadb26f23e63358d130c7725ca15875373ac",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-03-17T20:36:01+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_ng512_rs16.fits",
+        "size_bytes": 7476050880
+      },
+      {
+        "exists": true,
+        "fingerprint": "8b20c415008565e703c9754a518b7dead5808a226d6c077eeb6d822f55c07f91",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-03-17T20:54:20+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_ng512_rs24.fits",
+        "size_bytes": 7476050880
+      },
+      {
+        "exists": true,
+        "fingerprint": "c6e5b19569156d887ee7a5ba4129d51e4aba5fd51af539e52e581c04e8257bdf",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-03-17T19:46:27+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_ng512_rs4.fits",
+        "size_bytes": 7476050880
+      },
+      {
+        "exists": true,
+        "fingerprint": "e1fd88b907bcec1edd1994d5025cc4f5a89db23c15fb8bc7110780ae6af6b33c",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-03-17T19:51:14+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_ng512_rs8.fits",
+        "size_bytes": 7476050880
+      },
+      {
+        "exists": true,
+        "fingerprint": "ecf8559ffed780473e835e13c005c1dbbcf0e08dd6a3fa6856219da995133344",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-03-17T17:52:55+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_x_L2com.fits",
+        "size_bytes": 7476050880
+      },
+      {
+        "exists": true,
+        "fingerprint": "52a3dba9fe29fff8a19cb7f8a2a433d285fc29511649e9026251161a136ff684",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-06-05T11:31:42+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_05062026_rsmooth_7/mock_bgs_maglim_path1_fiberassign_graph_ready_with_tweb_eigs_rs7_ngrid2048_thr0p2_halo_xcom.fits",
+        "size_bytes": 1287673920
+      },
+      {
+        "exists": true,
+        "fingerprint": "2583db432fb4a331e1f9541230c42079bc9e442bc4cb3ebf4630d718d393c69e",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-07T15:29:40+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_07042026_rsmooth_12/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs12_ngrid2048_thr0p2.fits",
+        "size_bytes": 7476050880
+      },
+      {
+        "exists": true,
+        "fingerprint": "2e3fa928decc2bfdebaef6f22cd912dc05713dd3957e4d5bf610cea365b0fbf1",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-13T15:39:13+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_07042026_rsmooth_12/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs12_ngrid2048_thr0p2_15d.fits",
+        "size_bytes": 10543147200
+      },
+      {
+        "exists": true,
+        "fingerprint": "c840b00971b91c151fa9676f3eb816b62d12ce59ed288aa7db2fda1f8429a3ef",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-09T18:22:16+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_07042026_rsmooth_16/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs16_ngrid2048_thr0p2.fits",
+        "size_bytes": 10543147200
+      },
+      {
+        "exists": true,
+        "fingerprint": "c840b00971b91c151fa9676f3eb816b62d12ce59ed288aa7db2fda1f8429a3ef",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-10T16:21:10+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_07042026_rsmooth_16/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs16_ngrid2048_thr0p2_15d.fits",
+        "size_bytes": 10543147200
+      },
+      {
+        "exists": true,
+        "fingerprint": "9db2cfa6c62faf3923b0c1d770dd74279f5bbfcf72739d6325396729efa40435",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-09T11:15:19+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_07042026_rsmooth_20/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs20_ngrid2048_thr0p2.fits",
+        "size_bytes": 7476050880
+      },
+      {
+        "exists": true,
+        "fingerprint": "673e4a81dfa9ad2c5cabf5162612f5f2e498646fef822d84132ae2d6b9173b2e",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-13T14:04:38+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_07042026_rsmooth_20/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs20_ngrid2048_thr0p2_15d.fits",
+        "size_bytes": 10543147200
+      },
+      {
+        "exists": true,
+        "fingerprint": "6de004a2b15b53a6642edb44ead3aac58ff83db93237510f6f9e35f01948b6fa",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-09T11:21:46+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_07042026_rsmooth_24/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs24_ngrid2048_thr0p2.fits",
+        "size_bytes": 7476050880
+      },
+      {
+        "exists": true,
+        "fingerprint": "5b4213f6522c3b580f197df6057d53bf9d0b89bf9f22a06b6137b6b50fc524c7",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-07T15:06:44+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_07042026_rsmooth_8/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs8_ngrid2048_thr0p2.fits",
+        "size_bytes": 7476050880
+      },
+      {
+        "exists": true,
+        "fingerprint": "9f27404748cacc5843949b6c4571695478a435102d0acffae2a2260e05769089",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-13T16:00:13+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_07042026_rsmooth_8/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs8_ngrid2048_thr0p2_15d.fits",
+        "size_bytes": 10543147200
+      },
+      {
+        "exists": true,
+        "fingerprint": "ae296cc7f6b4f93b3018506c7f7a182c7082ad6d69f9a5f3a77cb94e71513b2f",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-27T12:53:58+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_20260427_rsmooth_10/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs10_ngrid2048_thr0p2_15d.fits",
+        "size_bytes": 10543147200
+      },
+      {
+        "exists": true,
+        "fingerprint": "10f0ae15f10a73fe433be602ed35634e24f10b9df4ea8635506cb16e302b6cfe",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-27T13:10:33+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_20260427_rsmooth_11/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs11_ngrid2048_thr0p2_15d.fits",
+        "size_bytes": 10543147200
+      },
+      {
+        "exists": true,
+        "fingerprint": "fa1e292c466d7834837daf4b8550c5013ccd97a60d77e468c521e85f3dda4669",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-27T12:05:12+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_20260427_rsmooth_6/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs6_ngrid2048_thr0p2_15d.fits",
+        "size_bytes": 10543147200
+      },
+      {
+        "exists": true,
+        "fingerprint": "a2eb5be78365c3afc8818df4a442d4b148ca1c7538d0be7a3500b2f2f91c883e",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-27T12:21:27+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_20260427_rsmooth_7/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs7_ngrid2048_thr0p2_15d.fits",
+        "size_bytes": 10543147200
+      },
+      {
+        "exists": true,
+        "fingerprint": "c51a645b98c43e3f6e36d5f946b5c662551386a09ee7d115a338b64c61962bc0",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-27T12:37:47+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_20260427_rsmooth_9/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs9_ngrid2048_thr0p2_15d.fits",
+        "size_bytes": 10543147200
+      },
+      {
+        "exists": true,
+        "fingerprint": "78f6ad6e3cf3b5fc3e6249a7dd7be86378c9c88272bea9f274c49995c766bafc",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-03-25T15:55:22+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_23032026/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs.fits",
+        "size_bytes": 7476050880
+      },
+      {
+        "exists": true,
+        "fingerprint": "ae296cc7f6b4f93b3018506c7f7a182c7082ad6d69f9a5f3a77cb94e71513b2f",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-24T14:22:48+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_24042026_rsmooth_10/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs10_ngrid2048_thr0p2.fits",
+        "size_bytes": 10543147200
+      },
+      {
+        "exists": true,
+        "fingerprint": "10f0ae15f10a73fe433be602ed35634e24f10b9df4ea8635506cb16e302b6cfe",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-24T14:35:12+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_24042026_rsmooth_11/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs11_ngrid2048_thr0p2.fits",
+        "size_bytes": 10543147200
+      },
+      {
+        "exists": true,
+        "fingerprint": "fa1e292c466d7834837daf4b8550c5013ccd97a60d77e468c521e85f3dda4669",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-24T13:46:35+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_24042026_rsmooth_6/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs6_ngrid2048_thr0p2.fits",
+        "size_bytes": 10543147200
+      },
+      {
+        "exists": true,
+        "fingerprint": "a2eb5be78365c3afc8818df4a442d4b148ca1c7538d0be7a3500b2f2f91c883e",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-24T13:58:21+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_24042026_rsmooth_7/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs7_ngrid2048_thr0p2.fits",
+        "size_bytes": 10543147200
+      },
+      {
+        "exists": true,
+        "fingerprint": "4a29633387f5adda77dabe4ef8d2d9bffe2579ca798f26b39cc387aa996a3970",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-05-28T13:12:35+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_24042026_rsmooth_7/stage3_postcollision_dedup_science_with_tweb_eigs_rs7_ngrid2048_thr0p2_halo_xcom.fits",
+        "size_bytes": 753120000
+      },
+      {
+        "exists": true,
+        "fingerprint": "be593bc342c48a173e07c81798aad97535475624a4ede8c3d0f8c0c813647161",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-05-21T08:36:28+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_24042026_rsmooth_7/staged_mock_stage3_postcollision_full_with_tweb_eigs_rs7_ngrid2048_thr0p2.fits",
+        "size_bytes": 753120000
+      },
+      {
+        "exists": true,
+        "fingerprint": "0ea4cd6e47d17b048e415b6b5dd19603dcd1f6af97a09ca5d04b1b78d4d10ba1",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-05-19T14:53:37+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_24042026_rsmooth_7/staged_mock_stage3_postcollision_rs7_with_tweb_eigs_rs7_ngrid2048_thr0p2.fits",
+        "size_bytes": 4432320
+      },
+      {
+        "exists": true,
+        "fingerprint": "c51a645b98c43e3f6e36d5f946b5c662551386a09ee7d115a338b64c61962bc0",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-24T14:10:24+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_24042026_rsmooth_9/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs9_ngrid2048_thr0p2.fits",
+        "size_bytes": 10543147200
+      },
+      {
+        "exists": true,
+        "fingerprint": "a2eb5be78365c3afc8818df4a442d4b148ca1c7538d0be7a3500b2f2f91c883e",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-29T13:59:22+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_29042026_rsmooth_7/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs7_ngrid2048_thr0p2.fits",
+        "size_bytes": 10543147200
+      },
+      {
+        "exists": true,
+        "fingerprint": "fa1e292c466d7834837daf4b8550c5013ccd97a60d77e468c521e85f3dda4669",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2026-04-28T14:42:03+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_XXXXXX_rsmooth_6/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs6_ngrid2048_thr0p2.fits",
+        "size_bytes": 10543147200
+      }
+    ],
+    "source_cutsky_catalogues": [
+      {
+        "exists": true,
+        "fingerprint": "81c3dcb0d3af9e94908fb55d66c3f133b1fa530907bda15630c817690d29d2f5",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:12:34+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000.fits",
+        "size_bytes": 6645378240
+      },
+      {
+        "exists": true,
+        "fingerprint": "32171cb02ab8d8e3dbeaae3a203be1f797d78d91a34f70cdac3f90ba6d6e356d",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T19:07:40+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_1.fits",
+        "size_bytes": 6621154560
+      },
+      {
+        "exists": true,
+        "fingerprint": "983e64869ec1f76871d6fbffb864adbad1e766e712343ec6a406c3f640bc9c8f",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T19:41:08+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_10.fits",
+        "size_bytes": 6631649280
+      },
+      {
+        "exists": true,
+        "fingerprint": "29e4e8b170ea6c8d9d59c7818212fb06765bdae2a77c3078b3caa7cc59a168b1",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T19:10:48+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_2.fits",
+        "size_bytes": 6651077760
+      },
+      {
+        "exists": true,
+        "fingerprint": "0051bdb3a47aca0a04ed948cb164a3e0fdfb424f6ab3ef9bc57f3b5b37337b55",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T19:13:54+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_3.fits",
+        "size_bytes": 6657526080
+      },
+      {
+        "exists": true,
+        "fingerprint": "275c1539071d56fec08d40c58182cc23fbc79ed20a743ba2ef64ea9f7c5af69d",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T19:17:16+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_4.fits",
+        "size_bytes": 6618000960
+      },
+      {
+        "exists": true,
+        "fingerprint": "fe5c251fefbd4afdbc944e1d26e2a42b2082950c67276dfc3371b7af726d2f5d",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T19:20:23+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_5.fits",
+        "size_bytes": 6653119680
+      },
+      {
+        "exists": true,
+        "fingerprint": "894dfa2ad6e776dd4c95b5550039e5e53e3f00e200b31891db10dd06ceb08804",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T19:23:31+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_6.fits",
+        "size_bytes": 6620941440
+      },
+      {
+        "exists": true,
+        "fingerprint": "4211bc5e21e4a2d08520553337f3bf02f5b7da054b32cc9e518b5aee7aae0058",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T19:26:36+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_7.fits",
+        "size_bytes": 6670877760
+      },
+      {
+        "exists": true,
+        "fingerprint": "6cbb9be8a332e3067c42dc98435aeeb51cb6e6f7d50ebb27ad4ad58cf1f7a229",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T19:29:40+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_8.fits",
+        "size_bytes": 6600749760
+      },
+      {
+        "exists": true,
+        "fingerprint": "3f79038ebaf1aba6b53b0969b52fca3d1ec1b5ea13af6e8711a504f592a14a8a",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T19:32:46+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_9.fits",
+        "size_bytes": 6619993920
+      },
+      {
+        "exists": true,
+        "fingerprint": "1c793108b03dcdd0b8a225d578eb1403dce1c28e602f8de8701d4bdf89a24177",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:15:43+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph001.fits",
+        "size_bytes": 6657753600
+      },
+      {
+        "exists": true,
+        "fingerprint": "c166520a4ed51ee6d8fa088eddd340a7784406deb1cc00bedec7bf0eb15ca5dd",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:18:47+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph002.fits",
+        "size_bytes": 6647120640
+      },
+      {
+        "exists": true,
+        "fingerprint": "ed89e02f74fbc9dbebfb088b7927be622f99e17f1f9b8a16c31f4bfd49051859",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:22:02+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph003.fits",
+        "size_bytes": 6636481920
+      },
+      {
+        "exists": true,
+        "fingerprint": "400676ccaf27f139a5c0112521ad5b50e83c42271ee6089a52e30b96fa7fb515",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:25:04+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph004.fits",
+        "size_bytes": 6654746880
+      },
+      {
+        "exists": true,
+        "fingerprint": "be34044827aa5a8032b6c3fc4bfe35c6837facc4b67ab41669d7e3195010b55c",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:28:03+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph005.fits",
+        "size_bytes": 6662888640
+      },
+      {
+        "exists": true,
+        "fingerprint": "4b43a498259c4f30573524bd4457bedb037a1f420e00170d3f9fe987ada71811",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:31:56+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph006.fits",
+        "size_bytes": 8968233600
+      },
+      {
+        "exists": true,
+        "fingerprint": "ca419b1476e8b6977584ea5563e99fd269972e723b40c563ba44be46c84b1c67",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-19T15:04:53+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph006_wdens.fits",
+        "size_bytes": 9993170880
+      },
+      {
+        "exists": true,
+        "fingerprint": "bb438747632f61c96389b212f150e7d14cb754586a40bfe5c103698597c3d968",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:35:07+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph007.fits",
+        "size_bytes": 6686519040
+      },
+      {
+        "exists": true,
+        "fingerprint": "d4dd8293b4c21d6454dfaac8a8a877771815560f016fe130242ba12a6129160d",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:38:09+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph008.fits",
+        "size_bytes": 6669751680
+      },
+      {
+        "exists": true,
+        "fingerprint": "eb19ebaaf84c519bd280998820232278a3f7692880cfc92365bbd98efd9c9f8f",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:41:12+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph009.fits",
+        "size_bytes": 6648520320
+      },
+      {
+        "exists": true,
+        "fingerprint": "ec3808b07383f73f0a1220c1e50a8ad323f55e92108ea2f9c12eb018b56cf1b3",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:44:34+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph010.fits",
+        "size_bytes": 6691907520
+      },
+      {
+        "exists": true,
+        "fingerprint": "99011eb8fe8d632a8865e4c1502d768cc42e7fb4f3caa431394c79e98ad094a1",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:47:48+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph011.fits",
+        "size_bytes": 6655386240
+      },
+      {
+        "exists": true,
+        "fingerprint": "a2b657a20253e195525347d106544fe3837f4bf396080c5102406bb599b3974f",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:51:15+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph012.fits",
+        "size_bytes": 6690899520
+      },
+      {
+        "exists": true,
+        "fingerprint": "8a2d470feeba66e1dc9a2ca168db5ec06792508b62b5d973097166e135a6e152",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:54:16+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph013.fits",
+        "size_bytes": 6642380160
+      },
+      {
+        "exists": true,
+        "fingerprint": "dde53bfab72d33ad3f014b1baefb8056edfd57407c39755d59da983f4fef7e81",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:57:20+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph014.fits",
+        "size_bytes": 6669633600
+      },
+      {
+        "exists": true,
+        "fingerprint": "b8cc18db0cb167de841a95f8dbb8b716795cb832c20385ee97ee38577b7e0e62",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T18:00:23+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph015.fits",
+        "size_bytes": 6663110400
+      },
+      {
+        "exists": true,
+        "fingerprint": "b3ba0555a9b8a830901236a0a90ba2894fc36e815ebca5a4b7d465b32c1c57c4",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T18:03:37+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph016.fits",
+        "size_bytes": 6661707840
+      },
+      {
+        "exists": true,
+        "fingerprint": "6d5394f400260e5b687b9cdf5b0e73208bdbe79e0bdbb08895135ce8a6af27e2",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T18:06:53+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph017.fits",
+        "size_bytes": 6666105600
+      },
+      {
+        "exists": true,
+        "fingerprint": "2c13c5def2d36674eec54fbf93451d7da9d39d2645f849c030fca8022c9e25e9",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:45:11+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph018.fits",
+        "size_bytes": 6673078080
+      },
+      {
+        "exists": true,
+        "fingerprint": "40a817aa53c9bd5722eb0687115afcae8157bfe5423a1edae4a92410a5f48f9b",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:48:32+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph019.fits",
+        "size_bytes": 6654450240
+      },
+      {
+        "exists": true,
+        "fingerprint": "e17d7a1fadd2da9a7e83a1a342f11a1d150d2d8e181277dd83eaeb7f7fb93dcf",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:51:59+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph020.fits",
+        "size_bytes": 6682697280
+      },
+      {
+        "exists": true,
+        "fingerprint": "9db8085b759fb0e4c85d084a06ffdbd4e10c0aa0e6e019fd28479b5f8cb43df0",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:55:08+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph021.fits",
+        "size_bytes": 6647022720
+      },
+      {
+        "exists": true,
+        "fingerprint": "decb435497f22374d3880980a9da7d0c3bf1bf4cb20aaa654cb11d292e9dfb3f",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T17:58:36+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph022.fits",
+        "size_bytes": 6674883840
+      },
+      {
+        "exists": true,
+        "fingerprint": "0891fc08003ce9c3afaafb9d8b88f0f81090c9fafba16c90d1e348b7d484e2e9",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T18:02:12+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph023.fits",
+        "size_bytes": 6654467520
+      },
+      {
+        "exists": true,
+        "fingerprint": "2ac9a54044be9379c85261538e15e877f44418d47a21437265ef063676f8d837",
+        "fingerprint_mode": "sha256_head_tail_plus_size",
+        "kind": "file",
+        "mtime_utc": "2024-02-01T18:05:20+00:00",
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph024.fits",
+        "size_bytes": 6669158400
+      }
+    ],
+    "tiled_graph_cache": [
+      {
+        "exists": true,
+        "fingerprint": "1dd46f87202c092199ad3f564b8882ed585b2f7a7a17c2ed0ff477a7e5b83419",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-14T15:48:38+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3b_tiled_valid_v2/manifest.json",
+        "size_bytes": 2936
+      },
+      {
+        "exists": true,
+        "fingerprint": "afbc7a7d62e2d10e3545320a5f564c3b0a642955899f5b8df3f367f378d8da9f",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-14T15:48:36+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3b_tiled_valid_v2/tile_000.pkl",
+        "size_bytes": 40049378
+      },
+      {
+        "exists": true,
+        "fingerprint": "988f584e45010cc7d2b2fe5210473ae10952461e63074a98115a28589a159383",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-14T15:48:37+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3b_tiled_valid_v2/tile_001.pkl",
+        "size_bytes": 53102886
+      },
+      {
+        "exists": true,
+        "fingerprint": "6baf6f05ef47129aa2637bf603a0dd61f53c8444679fa79ca62bd2eddaeb468e",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-14T15:48:37+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3b_tiled_valid_v2/tile_002.pkl",
+        "size_bytes": 48204775
+      },
+      {
+        "exists": true,
+        "fingerprint": "89589dbd48e2f3ea41c8df11a89593d48bb9e151282c264b654632ca1b37b655",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-14T15:48:37+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3b_tiled_valid_v2/tile_003.pkl",
+        "size_bytes": 42868656
+      },
+      {
+        "exists": true,
+        "fingerprint": "c55ad0d1c45395c14de96cfc6c3c96b55e482cf70e2eff0444fd7c5618ce3b07",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-14T15:48:37+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3b_tiled_valid_v2/tile_004.pkl",
+        "size_bytes": 41568720
+      },
+      {
+        "exists": true,
+        "fingerprint": "53105d8998ed96d4921ae507c1b73133d873cfb4557a3d1ed219821f6954c5f6",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-14T15:48:37+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3b_tiled_valid_v2/tile_005.pkl",
+        "size_bytes": 42774043
+      },
+      {
+        "exists": true,
+        "fingerprint": "66d0e3e543fcfdf32ae30ffcbccb187c0106e50b947aed064fe1eda39b604724",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-14T15:48:37+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3b_tiled_valid_v2/tile_006.pkl",
+        "size_bytes": 35077211
+      },
+      {
+        "exists": true,
+        "fingerprint": "47b75be4f18cb3ff74ce5d912bd36919dcb3eed796d5507827933ea4d20dd203",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-14T15:48:37+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3b_tiled_valid_v2/tile_007.pkl",
+        "size_bytes": 61529111
+      },
+      {
+        "exists": true,
+        "fingerprint": "845f8269ba8e54ac56ab35e6863159b376a201e8da7d329af5950b35a0608c05",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-14T15:48:37+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3b_tiled_valid_v2/tile_008.pkl",
+        "size_bytes": 13849308
+      },
+      {
+        "exists": true,
+        "fingerprint": "199b717b192abf1b882059c812755f5910a281ebb7e68c59589b9211be36f3e9",
+        "fingerprint_mode": "sha256_full",
+        "kind": "file",
+        "mtime_utc": "2026-07-14T15:48:38+00:00",
+        "path": "/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3b_tiled_valid_v2/tile_009.pkl",
+        "size_bytes": 1544985
+      }
+    ]
+  },
+  "canonical_catalogue": {
+    "finite_targets": true,
+    "n_rows": 219929,
+    "points_shape": [
+      219929,
+      3
+    ],
+    "provenance": {
+      "built_by": "s3c_build_cnn_fullrange_cache.py",
+      "dropped_shells": [
+        "0p05_0p15"
+      ],
+      "gutter_mpc": 15.0,
+      "matched_to": "/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3b_tiled_valid_v3_aper",
+      "ra_test_lo": 150.0,
+      "ra_train_hi": 145.0,
+      "shells": [
+        "0p15_0p25",
+        "0p25_0p35",
+        "0p35_0p45",
+        "0p45_0p55"
+      ],
+      "z_is_observed_rsd": true
+    },
+    "shell_counts": {
+      "0p15_0p25": 119853,
+      "0p25_0p35": 71620,
+      "0p35_0p45": 25190,
+      "0p45_0p55": 3266
+    },
+    "split_counts": {
+      "test": 52848,
+      "train": 129113,
+      "validation": 18629
+    },
+    "target_shape": [
+      219929,
+      3
+    ],
+    "targetid_unique": true
+  },
+  "created_utc": "2026-07-16T15:53:04.955005+00:00",
+  "discovered_phases": [
+    "ph000",
+    "ph001",
+    "ph002",
+    "ph003",
+    "ph004",
+    "ph005",
+    "ph006",
+    "ph007",
+    "ph008",
+    "ph009",
+    "ph010",
+    "ph011",
+    "ph012",
+    "ph013",
+    "ph014",
+    "ph015",
+    "ph016",
+    "ph017",
+    "ph018",
+    "ph019",
+    "ph020",
+    "ph021",
+    "ph022",
+    "ph023",
+    "ph024"
+  ],
+  "gate": {
+    "blocking_findings": [
+      "no labelled independent phase discovered"
+    ],
+    "inventory_complete": true,
+    "multi_phase_blind_test_ready": false,
+    "p0_current_phase_assets_ready": true
+  },
+  "mapping_contract": {
+    "current_cache_limitation": "tile_v2 does not persist TARGETID/RA/halo per node; P1 must",
+    "galaxy_id": "TARGETID",
+    "host_halo": [
+      "FILE_NUM",
+      "BOX_INDEX",
+      "HALO_INDEX"
+    ],
+    "invalid_label_rule": "BOX_INDEX<0 excluded from every active mask"
+  },
+  "phase_inventory": {
+    "ph000": {
+      "canonical_graph_ready": true,
+      "density_field_ready": true,
+      "hod_ids": [
+        "1",
+        "10",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "default"
+      ],
+      "labelled_tweb_catalogues": [
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_ng2048_rs4_v2.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_ng512_rs16.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_ng512_rs24.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_ng512_rs4.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_ng512_rs8.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_x_L2com.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_07042026_rsmooth_12/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs12_ngrid2048_thr0p2.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_07042026_rsmooth_12/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs12_ngrid2048_thr0p2_15d.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_07042026_rsmooth_16/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs16_ngrid2048_thr0p2.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_07042026_rsmooth_16/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs16_ngrid2048_thr0p2_15d.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_07042026_rsmooth_20/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs20_ngrid2048_thr0p2.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_07042026_rsmooth_20/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs20_ngrid2048_thr0p2_15d.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_07042026_rsmooth_24/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs24_ngrid2048_thr0p2.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_07042026_rsmooth_8/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs8_ngrid2048_thr0p2.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_07042026_rsmooth_8/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs8_ngrid2048_thr0p2_15d.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_20260427_rsmooth_10/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs10_ngrid2048_thr0p2_15d.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_20260427_rsmooth_11/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs11_ngrid2048_thr0p2_15d.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_20260427_rsmooth_6/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs6_ngrid2048_thr0p2_15d.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_20260427_rsmooth_7/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs7_ngrid2048_thr0p2_15d.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_20260427_rsmooth_9/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs9_ngrid2048_thr0p2_15d.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_23032026/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_24042026_rsmooth_10/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs10_ngrid2048_thr0p2.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_24042026_rsmooth_11/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs11_ngrid2048_thr0p2.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_24042026_rsmooth_6/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs6_ngrid2048_thr0p2.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_24042026_rsmooth_7/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs7_ngrid2048_thr0p2.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_24042026_rsmooth_9/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs9_ngrid2048_thr0p2.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_29042026_rsmooth_7/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs7_ngrid2048_thr0p2.fits",
+        "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_XXXXXX_rsmooth_6/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs6_ngrid2048_thr0p2.fits"
+      ],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000.fits",
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_1.fits",
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_10.fits",
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_2.fits",
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_3.fits",
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_4.fits",
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_5.fits",
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_6.fits",
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_7.fits",
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_8.fits",
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_hod_sample_9.fits"
+      ],
+      "tweb_grid_ready": true
+    },
+    "ph001": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph001.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph002": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph002.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph003": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph003.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph004": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph004.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph005": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph005.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph006": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph006.fits",
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph006_wdens.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph007": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph007.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph008": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph008.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph009": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph009.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph010": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph010.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph011": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph011.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph012": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph012.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph013": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph013.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph014": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph014.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph015": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph015.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph016": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph016.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph017": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph017.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph018": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph018.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph019": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph019.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph020": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph020.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph021": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph021.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph022": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph022.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph023": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph023.fits"
+      ],
+      "tweb_grid_ready": false
+    },
+    "ph024": {
+      "canonical_graph_ready": false,
+      "density_field_ready": false,
+      "hod_ids": [
+        "default"
+      ],
+      "labelled_tweb_catalogues": [],
+      "source_cutsky_catalogues": [
+        "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph024.fits"
+      ],
+      "tweb_grid_ready": false
+    }
+  },
+  "readiness": {
+    "active_targets_finite": true,
+    "canonical_cache_exists": true,
+    "canonical_points_exist": true,
+    "canonical_points_shape_matches": true,
+    "independent_phase_labelled_catalogue_exists": false,
+    "ph000_density_exists": true,
+    "ph000_tweb_exists": true,
+    "targetids_unique": true,
+    "tiled_manifest_exists": true
+  },
+  "schema_version": 1,
+  "scientific_convention": {
+    "eigenvalue_order": "lambda1<=lambda2<=lambda3",
+    "hod_catalogue_family": "SecondGenMocks CutSky BGS v0.1",
+    "input_coordinates": {
+      "DEC": "degrees",
+      "RA": "degrees",
+      "XYZ": "observer-frame comoving Mpc using Planck18 in s3c",
+      "Z": "observed redshift with RSD"
+    },
+    "observer_id": "default CutSky observer; not encoded separately in current filenames",
+    "simulation": "AbacusSummit_base_c000_ph000",
+    "smoothing_mpc_h": 7.0,
+    "target_coordinates": "real-space periodic Abacus box, host-halo index joined to CutSky",
+    "target_epoch_z": 0.2,
+    "threshold": 0.2
+  }
+}

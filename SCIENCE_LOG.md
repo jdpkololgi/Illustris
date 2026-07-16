@@ -1,5 +1,61 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-16 — [code] P0 evidence contract implemented; matched U-Net/classical evidence and simulation-asset inventory frozen
+
+Began P0 of `docs/plan_generalisable_graphweb_vac.md` as a reproducible evidence
+freeze, not as a new model-selection exercise. Implemented one canonical evaluator
+which hard-aligns every method to the `s3c_cnn_fullrange` row index and split:
+219,929 rows total, with 129,113 train, 18,629 validation, and 52,848 test
+rows. The target contract is the ordered real-space T-Web eigenvalue triplet at
+simulation epoch z=0.2 and Rsmooth=7 Mpc/h (10.4 comoving Mpc); the inputs are the
+observed redshift-space BGS-like catalogue. Any truth or row mismatch is fatal.
+
+Implemented and tested:
+
+- `workflows/abacus_tweb/p0_evidence.py`: matched regression, four-class, knot-event
+  reliability/Brier, and 100 Mpc comoving spatial-block bootstrap metrics;
+- `workflows/abacus_tweb/p0_export_graphnet_predictions.py`: export of frozen R0/A1
+  posterior means and class probabilities onto the canonical row index;
+- `workflows/abacus_tweb/p0_inventory_assets.py`: phase/HOD/observer/label/graph/model
+  inventory with release-gate findings;
+- `workflows/abacus_tweb/submit_p0_evidence.slurm`: frozen GPU evidence entry point;
+- `tests/phase4/test_p0_evidence.py`: affine-calibration, web-class, reliability, and
+  spatial-block tests.
+
+The point-estimator dry run is frozen at
+`/pscratch/sd/d/dkololgi/abacus/p0_evidence_freeze/evidence_point_dryrun.json`.
+It unsealed the already-frozen U-Net on the test rows only after implementation of
+the evidence contract; no model or threshold was tuned on this result:
+
+| lambda1 R2 | validation pooled / macro | test pooled / macro |
+|---|---:|---:|
+| U-Net | 0.549 / 0.461 | 0.552 / 0.438 |
+| DTFE raw | 0.354 / -0.065 | 0.287 / -0.226 |
+| DTFE, affine fitted on train only | 0.546 / 0.368 | 0.553 / 0.342 |
+| CIC, affine fitted on train only | 0.537 / 0.339 | 0.539 / 0.155 |
+
+This is not an encoder victory. U-Net and train-calibrated DTFE are at pooled
+parity, and both summaries conceal severe last-shell weakness. The evidence
+strengthens the corrected interpretation already in this log: architecture swaps
+alone have not supplied transferable inference; canonical global representations,
+proper patch/core/context training, spatial validation, and blind independent-phase
+tests remain the central programme. Deterministic threshold scores are explicitly
+labelled as decisions, not posterior probabilities; posterior Brier/reliability
+claims await the frozen R0/A1 export.
+
+The versioned inventory is `docs/evidence/p0/asset_inventory.json` (runtime copy:
+`/pscratch/sd/d/dkololgi/abacus/p0_evidence_freeze/asset_inventory.json`). It finds
+source catalogues for Abacus phases ph000--ph024, but only ph000 currently has the
+required T-Web-labelled catalogue and canonical GraphWeb caches/checkpoints. Thus
+the current-phase P0 assets are ready, while the independent-phase blind test is
+correctly flagged NOT READY until identical label products are generated. Different
+observer views of ph000 must not be mislabelled as independent cosmic realizations.
+
+P0 remains ACTIVE. Pending work is deliberately narrow: run the frozen R0 and A1
+posterior export, add their matched class/probability/block-uncertainty results to
+the final machine-readable evidence JSON, then mark only the actually satisfied P0
+items complete.
+
 ### 2026-07-16 — [code] DTFE ON THE FULL-RANGE SPATIAL HOLDOUT: NOT a GNN "win" — classical ties/beats the GNN wherever it is DEFINED; the macro gap is only DTFE's mechanical collapse in the sparse shell. Real lesson: our encoders don't GENERALISE → need patch-based graph training/validation.
 
 [FRAMING CORRECTED per JDPK — the earlier headline of this entry called this a "clean GNN>classical
