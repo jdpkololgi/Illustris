@@ -1,5 +1,65 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-17 — [code+science] P0 COMPLETE: canonical matched evidence frozen; no encoder generalisation win
+
+P0 of `docs/plan_generalisable_graphweb_vac.md` completed in NERSC interactive
+allocation 56033600 on one 80 GB A100. The final evaluator hard-matched all seven
+methods to the same 219,929-row `s3c_cnn_fullrange` catalogue, target convention,
+and spatial split. All runtime checksums pass and
+`/pscratch/sd/d/dkololgi/abacus/p0_evidence_freeze/P0_COMPLETE` was written only
+after both GraphNet exports, evaluation, inventory refresh, and checksums succeeded.
+
+Final matched lambda1 evidence:
+
+| method | validation pooled / macro R2 | test pooled / macro R2 | test 95% spatial-block R2 interval |
+|---|---:|---:|---:|
+| R0 GraphNet posterior mean | 0.531 / 0.463 | 0.504 / 0.440 | [0.441, 0.553] |
+| A1 sqrt-balanced GraphNet | 0.536 / 0.468 | 0.475 / 0.430 | [0.397, 0.532] |
+| U-Net | 0.549 / 0.461 | 0.552 / 0.438 | [0.514, 0.582] |
+| DTFE, affine fitted on train only | 0.546 / 0.368 | 0.553 / 0.342 | [0.520, 0.581] |
+| CIC, affine fitted on train only | 0.537 / 0.339 | 0.539 / 0.155 | [0.502, 0.569] |
+
+Test lambda1 R2 by shell:
+
+| method | 0.15-0.25 | 0.25-0.35 | 0.35-0.45 | 0.45-0.55 |
+|---|---:|---:|---:|---:|
+| R0 | 0.575 | 0.450 | 0.397 | 0.338 |
+| A1 sqrt | 0.565 | 0.385 | 0.432 | 0.337 |
+| U-Net | 0.597 | 0.543 | 0.426 | 0.186 |
+| DTFE train-affine | 0.567 | 0.605 | 0.418 | -0.223 |
+| CIC train-affine | 0.563 | 0.613 | 0.443 | -0.998 |
+
+The conclusion is deliberately NOT that GraphNet wins. U-Net and train-calibrated
+DTFE lead pooled point accuracy, while R0 retains usable performance in the final
+sparse shell where the classical estimators collapse. The 100 Mpc spatial-block
+intervals for R0, U-Net, and DTFE overlap substantially. A1 shell balancing does
+not improve the frozen test result. These facts reinforce the protocol-first
+programme: train on canonical global representations through many core/context
+patches, select on spatially blocked patches, and evaluate blindly on independent
+simulation phases.
+
+Four-class test accuracy is 0.676 for R0, 0.653 for A1, 0.666 for U-Net, and 0.681
+for train-affine DTFE; balanced accuracy is 0.629, 0.620, 0.621, and 0.609
+respectively. R0's posterior knot event has test Brier 0.0403 and Brier skill
+0.316 relative to climatology. Deterministic U-Net/DTFE/CIC threshold decisions
+remain explicitly badged as decisions, not posterior probabilities, so their Brier
+scores are not interpreted as calibrated posterior evidence.
+
+Versioned artifacts:
+- `docs/evidence/p0/evidence_freeze.json`;
+- `docs/evidence/p0/asset_inventory.json`;
+- runtime exports and checksums under
+  `/pscratch/sd/d/dkololgi/abacus/p0_evidence_freeze/`;
+- evaluator/exporter/inventory under `workflows/abacus_tweb/p0_*.py`;
+- interactive runner `workflows/abacus_tweb/run_p0_evidence.sh`;
+- reusable allocation skill `~/.codex/skills/nersc-interactive-allocation/`.
+
+The inventory still finds source phases ph000-ph024 but T-Web-labelled GraphWeb
+assets only for ph000. P0 therefore clears canonical evidence and current-phase
+preprocessing work, but it does not waive the independent-phase P10 gate. Different
+observer views of ph000 remain same-phase tests, not blind universes.
+
+
 ### 2026-07-16 — [code] P0 evidence contract implemented; matched U-Net/classical evidence and simulation-asset inventory frozen
 
 Began P0 of `docs/plan_generalisable_graphweb_vac.md` as a reproducible evidence

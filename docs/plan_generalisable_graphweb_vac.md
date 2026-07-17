@@ -148,25 +148,22 @@ must not start until the corresponding parity or convergence gate passes.
 
 ### P0 — Freeze evidence and inventory assets
 
-**Status:** ACTIVE
-**Duration:** 0.5–1 day CPU
-**Blocks:** all later scientific comparisons
+**Status:** COMPLETE (2026-07-17)
+**Runtime:** one 80 GB A100 interactive allocation plus CPU evidence evaluation
+**Blocks:** cleared for P1–P4; independent-phase work remains gated separately in P10
 
 Tasks:
 
-- [ ] Recompute R0/A1 GraphNet validation and test metrics from frozen predictions.
-  Frozen-checkpoint posterior export is the remaining active P0 computation.
+- [x] Recompute R0/A1 GraphNet validation and test metrics from frozen predictions.
+  Artifacts: `/pscratch/sd/d/dkololgi/abacus/p0_evidence_freeze/{R0,A1_sqrt}_canonical_predictions.npz`.
 - [x] Recompute the full-range U-Net on the identical scored rows.
   Artifact: `/pscratch/sd/d/dkololgi/abacus/p0_evidence_freeze/evidence_point_dryrun.json`.
 - [x] Run DTFE/CIC on validation and test, with raw and source-calibrated predictions.
   The evidence artifact records raw and frozen training-affine results separately;
   target-domain oracle calibration is excluded from deployment comparisons.
-- [ ] Add four-class metrics and P(λ1 > 0.2) Brier/reliability metrics.
-  Completed for deterministic U-Net/DTFE/CIC decisions; posterior probability
-  diagnostics await the frozen R0/A1 export.
-- [ ] Produce spatial-block uncertainties.
-  Completed for deterministic U-Net/DTFE/CIC using comoving spatial blocks;
-  R0/A1 uncertainty awaits the frozen posterior export.
+- [x] Add four-class metrics and P(λ1 > 0.2) Brier/reliability metrics.
+  Posterior probabilities and deterministic point decisions are explicitly distinguished.
+- [x] Produce 100 Mpc comoving spatial-block bootstrap uncertainties for every method.
 - [x] Inventory, for every phase/catalogue:
    - galaxy catalogue and target paths;
    - coordinate and unit conventions;
@@ -176,21 +173,25 @@ Tasks:
    - HOD and observer identifiers;
    - valid BOX_INDEX, halo, and TARGETID mappings.
   Artifact: `docs/evidence/p0/asset_inventory.json`.
-- [ ] Freeze a machine-readable evidence JSON and asset inventory.
-  The versioned asset inventory is frozen; the final evidence JSON awaits the
-  R0/A1 posterior export.
+- [x] Freeze a machine-readable evidence JSON and asset inventory.
+  Artifacts: `docs/evidence/p0/evidence_freeze.json` and
+  `docs/evidence/p0/asset_inventory.json`; checksummed runtime copies are under
+  `/pscratch/sd/d/dkololgi/abacus/p0_evidence_freeze/`.
 
 P0 implementation and runtime artifacts:
 
 - evaluator: `workflows/abacus_tweb/p0_evidence.py`;
 - frozen GraphNet exporter: `workflows/abacus_tweb/p0_export_graphnet_predictions.py`;
 - inventory builder: `workflows/abacus_tweb/p0_inventory_assets.py`;
-- batch entry point: `workflows/abacus_tweb/submit_p0_evidence.slurm`;
+- interactive entry point: `workflows/abacus_tweb/run_p0_evidence.sh`;
+- reusable allocation skill: `~/.codex/skills/nersc-interactive-allocation/`;
 - tests: `tests/phase4/test_p0_evidence.py`;
 - runtime directory: `/pscratch/sd/d/dkololgi/abacus/p0_evidence_freeze/`.
 
-**Gate:** all methods must align to the same target rows and target convention. Any
-remaining target or row-alignment disagreement blocks graph and field generation.
+**Gate: PASS.** All seven methods align to the same 219,929 canonical rows and target
+convention; calibration is fitted on training rows only; test is evaluation-only;
+posterior and deterministic probabilities are distinguished; uncertainty resamples
+spatial blocks rather than individual galaxies.
 
 ### P1 — Canonical catalogue and target alignment
 
