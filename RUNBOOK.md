@@ -170,6 +170,36 @@ The cuGraph path defaults to the RAPIDS environment at
 `/pscratch/sd/d/dkololgi/conda/envs/rapids-gnn`, overrideable with
 `ABACUS_RAPIDS_ENV_PATH`.
 
+## Generalisable GraphWeb Canonical Fields (P3a)
+
+Run development/preprocessing inside a reusable CPU `salloc`; do not use `sbatch`
+for this one-off development build. Use the absolute `cosmic_env` Python after
+clearing inherited Python variables.
+
+```bash
+unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD
+export PYTHONNOUSERSITE=1
+PY=/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python
+
+$PY workflows/abacus_tweb/p3a_audit_units.py \
+  --out /pscratch/sd/d/dkololgi/abacus/p3_full_footprint/unit_audit.json
+$PY workflows/abacus_tweb/p3a_canary_parity.py
+$PY workflows/abacus_tweb/p3a_build_canonical_fields.py --probe-only
+$PY workflows/abacus_tweb/p3a_build_canonical_fields.py
+$PY workflows/abacus_tweb/p3a_postbuild_validate.py
+```
+
+The unit audit is mandatory. Observer-frame graph/U-Net coordinates and lattice
+lengths are comoving Mpc. The historical matched cell is 5 Mpc (3.383 Mpc/h for
+Planck18), not 5 Mpc/h. The T-Web target smoothing remains 7 Mpc/h.
+
+Authoritative products are under
+`/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/`. NGC and SGC use separate
+HDF5 lattices. A valid run has passing `unit_audit.json`, `field_manifest.json`,
+`validation_report.json`, `postbuild_validation.json`, and `FIELD_COMPLETE`.
+Consumers must load the checksummed manifest/schema contract; they must not infer
+units or channel order from an unaccompanied HDF5 file.
+
 ## Abacus SBI Cache And Wedges
 
 The active Abacus-scale SBI chain is:

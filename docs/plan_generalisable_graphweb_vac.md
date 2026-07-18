@@ -453,15 +453,14 @@ loose marker. Only graph validation may write `GRAPH_COMPLETE`.
 
 ### P3 — Canonical full-volume count and response fields
 
-**Status:** ACTIVE — authoritative P1b is complete; build fields over full NGC+SGC context
+**Status:** P3a COMPLETE — canonical NGC+SGC fields and `FIELD_COMPLETE` frozen; P3b response upgrades deferred
 **Duration:** 0.5–1.5 days for the first configuration
 **Resources:** CPU preprocessing; HBM80 GPU for model execution
 
-**Readiness:** GO for P3 implementation. P1b is the only hard input dependency and
-has passed. P2b supplies shared row identity/provenance, but field deposition does not
-wait on graph topology. This is not yet `FIELD_COMPLETE`: the existing U-Net field
-code is wedge-specific and must not be run unchanged over a full-cap bounding cuboid.
-
+**Completion:** P3a passed all in-build and independent readback gates. P4 patch
+manifest construction and P6 U-Net/F-tier adapters are unblocked. P3b remains a
+post-protocol observation-model upgrade because the staged parent has no explicit
+random-catalogue exposure, per-object completeness, or luminosity fields.
 Use one fixed observer-frame Cartesian lattice definition per cap. NGC and SGC must
 never be enclosed in one enormous dense cuboid or joined through empty sky. A
 chunked/sparse-on-disk representation is acceptable, but every chunk must be indexed
@@ -514,14 +513,19 @@ Progress checklist:
   targets or supervised split ownership.
 - [x] Implement an idempotent, cap-separated full-field builder over P1b global IDs.
 - [x] Run a P1a canary against the established U-Net field implementation.
-- [ ] Build NGC and SGC fields over the complete P1b context.
-- [ ] Verify CIC conservation globally, by cap/shell, and across chunk boundaries.
-- [ ] Verify finite channels, axis/interpolation parity, no cross-cap mixing, and
+- [x] Build NGC and SGC fields over the complete P1b context.
+- [x] Verify CIC conservation globally, by cap/shell, and across chunk boundaries.
+- [x] Verify finite channels, axis/interpolation parity, no cross-cap mixing, and
   stable overlapping reads.
-- [ ] Produce the exposure/occupancy/expected-count/support atlas by cap and shell.
-- [ ] Write `field_manifest.json`, validation report, channel hashes, and
+- [x] Produce the exposure/occupancy/expected-count/support atlas by cap and shell.
+- [x] Write `field_manifest.json`, validation report, channel hashes, and
   `FIELD_COMPLETE`; track compact evidence under `docs/evidence/p3/`.
-- [ ] Inventory candidate random/completeness products for P3b without blocking P3a.
+- [x] Inventory candidate random/completeness products for P3b without blocking P3a.
+
+P3a artifact root: `/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/`.
+Authoritative products: `ngc_fields.h5`, `sgc_fields.h5`, `field_manifest.json`,
+`validation_report.json`, `postbuild_validation.json`, `support_atlas.json`,
+`unit_audit.json`, and `FIELD_COMPLETE`. Compact copies live in `docs/evidence/p3/`.
 
 Do not independently standardize or redefine fields inside patches. Fit learned channel
 transforms on training cores after P4 and freeze them.

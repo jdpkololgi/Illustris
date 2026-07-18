@@ -35,6 +35,11 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   - `workflows/abacus_tweb/submit_abacus_graph_features_cugraph.slurm`
   - `workflows/abacus_tweb/abacus_graph_features.py`
   - `workflows/abacus_tweb/abacus_graph_features_cugraph.py`
+- Generalisable-GraphWeb canonical fields:
+  - `workflows/abacus_tweb/p3a_audit_units.py`
+  - `workflows/abacus_tweb/p3a_canary_parity.py`
+  - `workflows/abacus_tweb/p3a_build_canonical_fields.py`
+  - `workflows/abacus_tweb/p3a_postbuild_validate.py`
 - Abacus SBI cache + wedge subvolumes:
   - `workflows/abacus_tweb/build_abacus_sbi_cache.py`
   - `workflows/abacus_tweb/subset_abacus_graph_wedge_for_sbi.py`

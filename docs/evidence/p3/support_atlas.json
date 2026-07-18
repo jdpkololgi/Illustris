@@ -1,0 +1,54 @@
+{
+  "NGC": {
+    "0.15_0.25": {
+      "expected_count_sum": 2074133.9259351357,
+      "input_galaxies": 1953246,
+      "occupied_voxels": 4075157,
+      "support_voxels": 7176623
+    },
+    "0.25_0.35": {
+      "expected_count_sum": 1216046.705591656,
+      "input_galaxies": 1180268,
+      "occupied_voxels": 4382742,
+      "support_voxels": 14112639
+    },
+    "0.35_0.45": {
+      "expected_count_sum": 425250.9936631584,
+      "input_galaxies": 406751,
+      "occupied_voxels": 2315959,
+      "support_voxels": 22258108
+    },
+    "0.45_0.55": {
+      "expected_count_sum": 55462.624123124486,
+      "input_galaxies": 51127,
+      "occupied_voxels": 377065,
+      "support_voxels": 30967248
+    }
+  },
+  "SGC": {
+    "0.15_0.25": {
+      "expected_count_sum": 925432.8081116078,
+      "input_galaxies": 816153,
+      "occupied_voxels": 1769578,
+      "support_voxels": 3216332
+    },
+    "0.25_0.35": {
+      "expected_count_sum": 558482.4198564054,
+      "input_galaxies": 491811,
+      "occupied_voxels": 1878265,
+      "support_voxels": 6478859
+    },
+    "0.35_0.45": {
+      "expected_count_sum": 192772.58401674303,
+      "input_galaxies": 165519,
+      "occupied_voxels": 959372,
+      "support_voxels": 10075396
+    },
+    "0.45_0.55": {
+      "expected_count_sum": 24978.193250602566,
+      "input_galaxies": 21226,
+      "occupied_voxels": 157628,
+      "support_voxels": 13924800
+    }
+  }
+}

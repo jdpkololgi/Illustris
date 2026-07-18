@@ -1,0 +1,370 @@
+{
+  "angular_support": {
+    "maximum_count_supported": 775,
+    "median_count_supported": 33.0,
+    "minimum_count_supported": 1,
+    "minimum_parent_rows_per_pixel": 1,
+    "nest": false,
+    "npix": 786432,
+    "nside": 256,
+    "parent_rows": 9538254,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/angular_support_nside256.npz",
+    "sha256": "4d7515d2333b8c50b9937b9f47f7302f0d0bce1311e6992a1b045268c889cf8a",
+    "supported_area_deg2": 14457.252685584954,
+    "supported_pixels": 275608
+  },
+  "canonical_index": "/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/canonical_index.npz",
+  "canonical_index_sha256": "a653d2871399d0064a5560420751ec01d63535cb8ac7d1e1af760ec5e2f342bc",
+  "catalogue_id": "ph000_path1_full_ngc_sgc_v1",
+  "channel_order": [
+    "counts",
+    "exposure_binary",
+    "exposure_apodized",
+    "expected_counts",
+    "log_count_ratio",
+    "ntilde_mpc3",
+    "los_x",
+    "los_y",
+    "los_z"
+  ],
+  "components": {
+    "NGC": {
+      "allocated_chunks": 673,
+      "apodization_overlap_max_abs": 0.0,
+      "cap_id": 1,
+      "cap_name": "NGC",
+      "chunk_shape": [
+        64,
+        64,
+        64
+      ],
+      "context_galaxies": 4518132,
+      "counts_outside_binary": 7170.259660825072,
+      "counts_outside_binary_fraction": 0.00158699649774724,
+      "counts_readback_sum": 4518132.0002931915,
+      "counts_sum": 4518132.00029322,
+      "dataset_dtypes": {
+        "counts": "float32",
+        "expected_counts": "float32",
+        "exposure_apodized": "float32",
+        "exposure_binary": "uint8",
+        "log_count_ratio": "float32",
+        "los_x": "float32",
+        "los_y": "float32",
+        "los_z": "float32",
+        "ntilde_mpc3": "float32"
+      },
+      "dataset_shapes": {
+        "counts": [
+          539,
+          823,
+          528
+        ],
+        "expected_counts": [
+          539,
+          823,
+          528
+        ],
+        "exposure_apodized": [
+          539,
+          823,
+          528
+        ],
+        "exposure_binary": [
+          539,
+          823,
+          528
+        ],
+        "log_count_ratio": [
+          539,
+          823,
+          528
+        ],
+        "los_x": [
+          539,
+          823,
+          528
+        ],
+        "los_y": [
+          539,
+          823,
+          528
+        ],
+        "los_z": [
+          539,
+          823,
+          528
+        ],
+        "ntilde_mpc3": [
+          539,
+          823,
+          528
+        ]
+      },
+      "deposition_by_shell": {
+        "0.15_0.25": {
+          "deposited_weight": 1953245.9999999998,
+          "input_points": 1953246,
+          "lost_weight": 0.0
+        },
+        "0.25_0.35": {
+          "deposited_weight": 1180268.0000000002,
+          "input_points": 1180268,
+          "lost_weight": 0.0
+        },
+        "0.35_0.45": {
+          "deposited_weight": 406751.00000000006,
+          "input_points": 406751,
+          "lost_weight": 0.0
+        },
+        "0.45_0.55": {
+          "deposited_weight": 51127.0,
+          "input_points": 51127,
+          "lost_weight": 0.0
+        },
+        "context_buffer": {
+          "deposited_weight": 926740.0,
+          "input_points": 926740,
+          "lost_weight": 0.0
+        }
+      },
+      "elapsed_seconds": 49.135223388671875,
+      "file": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/ngc_fields.h5",
+      "file_bytes": 1664392607,
+      "file_sha256": "dfdf07126c38d9d5acb8ef44a598214f1a9a4dfb1f433bbd1032ec9524b2d81a",
+      "gates": {
+        "all_fields_finite": true,
+        "apodization_chunk_stable": true,
+        "cic_conserved": true,
+        "counts_outside_binary_below_2pct": true,
+        "dataset_shapes_match": true,
+        "hdf5_counts_conserved": true
+      },
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          -2277.7230222783965,
+          -2205.238309722041,
+          -412.8210045448139
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          539,
+          823,
+          528
+        ],
+        "voxel_count": 234219216
+      },
+      "support_atlas": {
+        "0.15_0.25": {
+          "expected_count_sum": 2074133.9259351357,
+          "input_galaxies": 1953246,
+          "occupied_voxels": 4075157,
+          "support_voxels": 7176623
+        },
+        "0.25_0.35": {
+          "expected_count_sum": 1216046.705591656,
+          "input_galaxies": 1180268,
+          "occupied_voxels": 4382742,
+          "support_voxels": 14112639
+        },
+        "0.35_0.45": {
+          "expected_count_sum": 425250.9936631584,
+          "input_galaxies": 406751,
+          "occupied_voxels": 2315959,
+          "support_voxels": 22258108
+        },
+        "0.45_0.55": {
+          "expected_count_sum": 55462.624123124486,
+          "input_galaxies": 51127,
+          "occupied_voxels": 377065,
+          "support_voxels": 30967248
+        }
+      }
+    },
+    "SGC": {
+      "allocated_chunks": 364,
+      "apodization_overlap_max_abs": 0.0,
+      "cap_id": 0,
+      "cap_name": "SGC",
+      "chunk_shape": [
+        64,
+        64,
+        64
+      ],
+      "context_galaxies": 1879793,
+      "counts_outside_binary": 5239.925915429931,
+      "counts_outside_binary_fraction": 0.002787501557650513,
+      "counts_readback_sum": 1879792.9999531487,
+      "counts_sum": 1879792.999953148,
+      "dataset_dtypes": {
+        "counts": "float32",
+        "expected_counts": "float32",
+        "exposure_apodized": "float32",
+        "exposure_binary": "uint8",
+        "log_count_ratio": "float32",
+        "los_x": "float32",
+        "los_y": "float32",
+        "los_z": "float32",
+        "ntilde_mpc3": "float32"
+      },
+      "dataset_shapes": {
+        "counts": [
+          445,
+          764,
+          386
+        ],
+        "expected_counts": [
+          445,
+          764,
+          386
+        ],
+        "exposure_apodized": [
+          445,
+          764,
+          386
+        ],
+        "exposure_binary": [
+          445,
+          764,
+          386
+        ],
+        "log_count_ratio": [
+          445,
+          764,
+          386
+        ],
+        "los_x": [
+          445,
+          764,
+          386
+        ],
+        "los_y": [
+          445,
+          764,
+          386
+        ],
+        "los_z": [
+          445,
+          764,
+          386
+        ],
+        "ntilde_mpc3": [
+          445,
+          764,
+          386
+        ]
+      },
+      "deposition_by_shell": {
+        "0.15_0.25": {
+          "deposited_weight": 816153.0,
+          "input_points": 816153,
+          "lost_weight": 0.0
+        },
+        "0.25_0.35": {
+          "deposited_weight": 491810.99999999994,
+          "input_points": 491811,
+          "lost_weight": 0.0
+        },
+        "0.35_0.45": {
+          "deposited_weight": 165519.00000000003,
+          "input_points": 165519,
+          "lost_weight": 0.0
+        },
+        "0.45_0.55": {
+          "deposited_weight": 21226.0,
+          "input_points": 21226,
+          "lost_weight": 0.0
+        },
+        "context_buffer": {
+          "deposited_weight": 385084.0,
+          "input_points": 385084,
+          "lost_weight": 0.0
+        }
+      },
+      "elapsed_seconds": 26.03289771080017,
+      "file": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/sgc_fields.h5",
+      "file_bytes": 820480978,
+      "file_sha256": "fc0d0cf3fc7be6b74441dc8988e17de7dfcb76e9f700c48b8a101c8bbe77040d",
+      "gates": {
+        "all_fields_finite": true,
+        "apodization_chunk_stable": true,
+        "cic_conserved": true,
+        "counts_outside_binary_below_2pct": true,
+        "dataset_shapes_match": true,
+        "hdf5_counts_conserved": true
+      },
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          70.64531755701772,
+          -1689.5756619407848,
+          -726.8134567450163
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          445,
+          764,
+          386
+        ],
+        "voxel_count": 131232280
+      },
+      "support_atlas": {
+        "0.15_0.25": {
+          "expected_count_sum": 925432.8081116078,
+          "input_galaxies": 816153,
+          "occupied_voxels": 1769578,
+          "support_voxels": 3216332
+        },
+        "0.25_0.35": {
+          "expected_count_sum": 558482.4198564054,
+          "input_galaxies": 491811,
+          "occupied_voxels": 1878265,
+          "support_voxels": 6478859
+        },
+        "0.35_0.45": {
+          "expected_count_sum": 192772.58401674303,
+          "input_galaxies": 165519,
+          "occupied_voxels": 959372,
+          "support_voxels": 10075396
+        },
+        "0.45_0.55": {
+          "expected_count_sum": 24978.193250602566,
+          "input_galaxies": 21226,
+          "occupied_voxels": 157628,
+          "support_voxels": 13924800
+        }
+      }
+    }
+  },
+  "elapsed_seconds": 78.34361219406128,
+  "frozen_schema": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/p3_field_schema_v1.json",
+  "frozen_schema_sha256": "3c1c6a460e2aa6a42eec767f12ccd3ed5fa1d9ebf082f6c0381aea1a9dd31b37",
+  "gates": {
+    "component_gates_pass": true,
+    "p1_context_count_match": true,
+    "split_free_channels": true,
+    "target_free_channels": true,
+    "two_caps_present": true,
+    "unit_audit_pass": true,
+    "zero_cross_cap_storage": true
+  },
+  "git_sha": "2afa5f53901727b0621950a198e206780bc94c87",
+  "ntilde_spline": "/pscratch/sd/d/dkololgi/abacus/conditioning/ntilde_spline_v1_frozen.json",
+  "ntilde_spline_sha256": "a7189cfaca7b1409483c3fdd3f5fe1d17ee688c94e458a0d29c502aa926815a0",
+  "p1_manifest": "/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/manifest.json",
+  "p1_manifest_sha256": "7a0a98d13b65715f36b45454f892133e34d50233a6ae6adb66eeb6175e5e075b",
+  "p3a_limitations": [
+    "angular exposure is inferred from parent galaxy occupancy, not randoms",
+    "no per-object completeness channel",
+    "no luminosity-weighted count channel"
+  ],
+  "points": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_points.npy",
+  "schema_version": "1.0",
+  "stage": "P3a canonical full-cap fields",
+  "storage_probe": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/storage_probe.json",
+  "support_atlas": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/support_atlas.json",
+  "unit_audit": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/unit_audit.json",
+  "unit_audit_sha256": "56a95c963683f8609855a2cce86e2d6d4134ffd583041addfffc8c315b38ff12",
+  "validation_report": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/validation_report.json"
+}

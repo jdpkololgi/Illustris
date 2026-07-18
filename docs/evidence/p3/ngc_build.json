@@ -1,0 +1,154 @@
+{
+  "allocated_chunks": 673,
+  "apodization_overlap_max_abs": 0.0,
+  "cap_id": 1,
+  "cap_name": "NGC",
+  "chunk_shape": [
+    64,
+    64,
+    64
+  ],
+  "context_galaxies": 4518132,
+  "counts_outside_binary": 7170.259660825072,
+  "counts_outside_binary_fraction": 0.00158699649774724,
+  "counts_readback_sum": 4518132.0002931915,
+  "counts_sum": 4518132.00029322,
+  "dataset_dtypes": {
+    "counts": "float32",
+    "expected_counts": "float32",
+    "exposure_apodized": "float32",
+    "exposure_binary": "uint8",
+    "log_count_ratio": "float32",
+    "los_x": "float32",
+    "los_y": "float32",
+    "los_z": "float32",
+    "ntilde_mpc3": "float32"
+  },
+  "dataset_shapes": {
+    "counts": [
+      539,
+      823,
+      528
+    ],
+    "expected_counts": [
+      539,
+      823,
+      528
+    ],
+    "exposure_apodized": [
+      539,
+      823,
+      528
+    ],
+    "exposure_binary": [
+      539,
+      823,
+      528
+    ],
+    "log_count_ratio": [
+      539,
+      823,
+      528
+    ],
+    "los_x": [
+      539,
+      823,
+      528
+    ],
+    "los_y": [
+      539,
+      823,
+      528
+    ],
+    "los_z": [
+      539,
+      823,
+      528
+    ],
+    "ntilde_mpc3": [
+      539,
+      823,
+      528
+    ]
+  },
+  "deposition_by_shell": {
+    "0.15_0.25": {
+      "deposited_weight": 1953245.9999999998,
+      "input_points": 1953246,
+      "lost_weight": 0.0
+    },
+    "0.25_0.35": {
+      "deposited_weight": 1180268.0000000002,
+      "input_points": 1180268,
+      "lost_weight": 0.0
+    },
+    "0.35_0.45": {
+      "deposited_weight": 406751.00000000006,
+      "input_points": 406751,
+      "lost_weight": 0.0
+    },
+    "0.45_0.55": {
+      "deposited_weight": 51127.0,
+      "input_points": 51127,
+      "lost_weight": 0.0
+    },
+    "context_buffer": {
+      "deposited_weight": 926740.0,
+      "input_points": 926740,
+      "lost_weight": 0.0
+    }
+  },
+  "elapsed_seconds": 49.135223388671875,
+  "file": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/ngc_fields.h5",
+  "file_bytes": 1664392607,
+  "file_sha256": "dfdf07126c38d9d5acb8ef44a598214f1a9a4dfb1f433bbd1032ec9524b2d81a",
+  "gates": {
+    "all_fields_finite": true,
+    "apodization_chunk_stable": true,
+    "cic_conserved": true,
+    "counts_outside_binary_below_2pct": true,
+    "dataset_shapes_match": true,
+    "hdf5_counts_conserved": true
+  },
+  "grid": {
+    "cell_mpc": 5.0,
+    "origin_mpc": [
+      -2277.7230222783965,
+      -2205.238309722041,
+      -412.8210045448139
+    ],
+    "padding_mpc": 40.0,
+    "shape": [
+      539,
+      823,
+      528
+    ],
+    "voxel_count": 234219216
+  },
+  "support_atlas": {
+    "0.15_0.25": {
+      "expected_count_sum": 2074133.9259351357,
+      "input_galaxies": 1953246,
+      "occupied_voxels": 4075157,
+      "support_voxels": 7176623
+    },
+    "0.25_0.35": {
+      "expected_count_sum": 1216046.705591656,
+      "input_galaxies": 1180268,
+      "occupied_voxels": 4382742,
+      "support_voxels": 14112639
+    },
+    "0.35_0.45": {
+      "expected_count_sum": 425250.9936631584,
+      "input_galaxies": 406751,
+      "occupied_voxels": 2315959,
+      "support_voxels": 22258108
+    },
+    "0.45_0.55": {
+      "expected_count_sum": 55462.624123124486,
+      "input_galaxies": 51127,
+      "occupied_voxels": 377065,
+      "support_voxels": 30967248
+    }
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "components": {
+    "NGC": {
+      "file": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/ngc_fields.h5",
+      "gates": {
+        "binary_exposure_is_binary": true,
+        "cap_attribute": true,
+        "cell_attribute": true,
+        "checksum_match": true,
+        "contrast_relation": true,
+        "coordinate_unit_bound_by_schema": true,
+        "counts_nonnegative": true,
+        "dataset_chunks_match": true,
+        "dataset_dtypes_match_schema": true,
+        "dataset_shapes_match": true,
+        "expected_count_relation": true,
+        "los_unit_norm": true,
+        "overlap_reads_exact": true,
+        "sample_fields_finite": true
+      },
+      "metrics": {
+        "attrs": {
+          "cap_name": "NGC",
+          "cell_mpc": 5.0,
+          "coordinate_units": "sidecar_only"
+        },
+        "contrast_relation_max_abs": 7.448580724433995e-09,
+        "counts_min": 0.0,
+        "expected_count_relation_max_abs": 7.275760343598142e-12,
+        "exposure_binary_values": [
+          0,
+          1
+        ],
+        "file_bytes": 1664392607,
+        "file_sha256": "dfdf07126c38d9d5acb8ef44a598214f1a9a4dfb1f433bbd1032ec9524b2d81a",
+        "los_norm_max_abs_from_one": 3.3030166379788284e-08,
+        "overlap_read_max_abs": 0.0
+      },
+      "pass": true
+    },
+    "SGC": {
+      "file": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/sgc_fields.h5",
+      "gates": {
+        "binary_exposure_is_binary": true,
+        "cap_attribute": true,
+        "cell_attribute": true,
+        "checksum_match": true,
+        "contrast_relation": true,
+        "coordinate_unit_bound_by_schema": true,
+        "counts_nonnegative": true,
+        "dataset_chunks_match": true,
+        "dataset_dtypes_match_schema": true,
+        "dataset_shapes_match": true,
+        "expected_count_relation": true,
+        "los_unit_norm": true,
+        "overlap_reads_exact": true,
+        "sample_fields_finite": true
+      },
+      "metrics": {
+        "attrs": {
+          "cap_name": "SGC",
+          "cell_mpc": 5.0,
+          "coordinate_units": "sidecar_only"
+        },
+        "contrast_relation_max_abs": 1.191397887012613e-07,
+        "counts_min": 0.0,
+        "expected_count_relation_max_abs": 9.193754299530177e-10,
+        "exposure_binary_values": [
+          0,
+          1
+        ],
+        "file_bytes": 820480978,
+        "file_sha256": "fc0d0cf3fc7be6b74441dc8988e17de7dfcb76e9f700c48b8a101c8bbe77040d",
+        "los_norm_max_abs_from_one": 3.851509333685499e-08,
+        "overlap_read_max_abs": 0.0
+      },
+      "pass": true
+    }
+  },
+  "field_complete": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/FIELD_COMPLETE",
+  "gates": {
+    "both_caps_validated": true,
+    "component_readback_pass": true,
+    "frozen_schema_checksum_match": true,
+    "manifest_gates_pass": true,
+    "marker_binds_manifest": true,
+    "unit_audit_pass": true
+  },
+  "manifest": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/field_manifest.json",
+  "manifest_sha256": "3f0fc7ba8e42c3004b9cc6969de76a44ce217f0a736dc2dd473ef2176371ca0d",
+  "pass": true,
+  "schema_version": 1,
+  "unit_audit": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/unit_audit.json",
+  "unit_audit_sha256": "56a95c963683f8609855a2cce86e2d6d4134ffd583041addfffc8c315b38ff12"
+}

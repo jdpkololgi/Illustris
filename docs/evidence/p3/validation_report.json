@@ -1,0 +1,41 @@
+{
+  "components": {
+    "NGC": {
+      "apodization_overlap_max_abs": 0.0,
+      "counts_outside_binary_fraction": 0.00158699649774724,
+      "counts_readback_sum": 4518132.0002931915,
+      "counts_sum": 4518132.00029322,
+      "gates": {
+        "all_fields_finite": true,
+        "apodization_chunk_stable": true,
+        "cic_conserved": true,
+        "counts_outside_binary_below_2pct": true,
+        "dataset_shapes_match": true,
+        "hdf5_counts_conserved": true
+      }
+    },
+    "SGC": {
+      "apodization_overlap_max_abs": 0.0,
+      "counts_outside_binary_fraction": 0.002787501557650513,
+      "counts_readback_sum": 1879792.9999531487,
+      "counts_sum": 1879792.999953148,
+      "gates": {
+        "all_fields_finite": true,
+        "apodization_chunk_stable": true,
+        "cic_conserved": true,
+        "counts_outside_binary_below_2pct": true,
+        "dataset_shapes_match": true,
+        "hdf5_counts_conserved": true
+      }
+    }
+  },
+  "gates": {
+    "component_gates_pass": true,
+    "p1_context_count_match": true,
+    "split_free_channels": true,
+    "target_free_channels": true,
+    "two_caps_present": true,
+    "unit_audit_pass": true,
+    "zero_cross_cap_storage": true
+  }
+}

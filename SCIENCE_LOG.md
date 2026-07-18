@@ -1,5 +1,63 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-18 — [science/code] P3a COMPLETE: canonical 5-Mpc NGC+SGC fields pass unit, conservation, chunk, and independent readback gates
+
+P3a is complete for `ph000_path1_full_ngc_sgc_v1`. The canonical observer-frame
+field products were constructed once per Galactic cap from every P1b context galaxy;
+NGC and SGC are never enclosed in one lattice and cannot mix through empty sky.
+The build used source commit `2afa5f53901727b0621950a198e206780bc94c87` and
+wrote `FIELD_COMPLETE` only after all component and global gates passed.
+
+Frozen grids (observer-frame comoving Mpc; Planck18):
+
+- NGC: `539 x 823 x 528`, 4,518,132 context galaxies, 1.55 GiB compressed;
+- SGC: `445 x 764 x 386`, 1,879,793 context galaxies, 0.76 GiB compressed;
+- cell = 5 Mpc = 3.383 Mpc/h; padding = 40 Mpc = 27.064 Mpc/h;
+- raw canonical channels: CIC counts, binary/apodized exposure, expected counts,
+  log count ratio, ntilde in Mpc^-3, and three LOS components.
+
+CIC deposition is lossless by cap and reporting shell. Float32 HDF5 readback sums
+are 4,518,132.000293 (NGC) and 1,879,792.999953 (SGC). Every field is finite;
+all dataset shapes/dtypes/chunks match the schema; the fixed-halo apodization
+recomputation agrees exactly; and only 0.159% / 0.279% of deposited weight lies
+outside the occupancy-derived binary support (well below the registered 2% gate).
+
+An independent post-build reader then verified:
+
+- SHA-256 equality for both HDF5 files and binding of `FIELD_COMPLETE` to the
+  manifest hash;
+- exact equality for overlapping HDF5 reads;
+- expected-count identity `mu = ntilde * (5 Mpc)^3 * exposure` to better than
+  `1e-9` in sampled supported blocks;
+- reconstructed log-count contrast to better than `1.2e-7`;
+- LOS unit norms to better than `3.9e-8`;
+- nonnegative counts, binary support values, and frozen-schema/unit-audit hashes.
+
+The HDF5 datasets carry the explicit `cell_mpc` attribute; the full coordinate-unit
+contract is bound through the checksummed frozen schema and passing unit audit. P4/P6
+consumers must open fields through the manifest/schema contract rather than treating a
+bare HDF5 file as self-describing.
+
+Authoritative root:
+`/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/`
+
+Key products: `ngc_fields.h5` (SHA-256
+`dfdf07126c38d9d5acb8ef44a598214f1a9a4dfb1f433bbd1032ec9524b2d81a`),
+`sgc_fields.h5` (SHA-256
+`fc0d0cf3fc7be6b74441dc8988e17de7dfcb76e9f700c48b8a101c8bbe77040d`),
+`field_manifest.json`, `validation_report.json`, `postbuild_validation.json`,
+`support_atlas.json`, `unit_audit.json`, and `FIELD_COMPLETE`. Compact evidence is
+tracked under `docs/evidence/p3/`.
+
+Scope guard: the P3a exposure is a target-free, split-free HEALPix occupancy support
+derived from the parent observed galaxies. The current staged parent has no explicit
+random-catalogue exposure, per-object completeness, or luminosity field. Those remain
+P3b observation-model upgrades and are not silently approximated here.
+
+**Interpretation:** P3a completes the canonical field substrate and unblocks P4 patch
+manifests plus P6 U-Net/F-tier adapters. It is not evidence that any encoder generalises;
+that controlling claim still requires blocked patch training and blind simulation tests.
+
 ### 2026-07-18 — [science/code] P3 UNIT GATE: observer lattices are comoving Mpc; 5 Mpc/h is not the historical U-Net cell
 
 P3 was paused before the full-cap build because the plan said “5 versus 6 Mpc/h,”

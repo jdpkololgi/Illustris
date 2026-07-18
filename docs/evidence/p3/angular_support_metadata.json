@@ -1,0 +1,14 @@
+{
+  "maximum_count_supported": 775,
+  "median_count_supported": 33.0,
+  "minimum_count_supported": 1,
+  "minimum_parent_rows_per_pixel": 1,
+  "nest": false,
+  "npix": 786432,
+  "nside": 256,
+  "parent_rows": 9538254,
+  "path": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/angular_support_nside256.npz",
+  "sha256": "4d7515d2333b8c50b9937b9f47f7302f0d0bce1311e6992a1b045268c889cf8a",
+  "supported_area_deg2": 14457.252685584954,
+  "supported_pixels": 275608
+}
