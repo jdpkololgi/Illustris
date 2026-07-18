@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "frozen_utc": "2026-07-18",
+  "authority": "docs/plan_generalisable_graphweb_vac.md P8.1/P8.3; SCIENCE_LOG 2026-07-18 reprioritisation",
+  "target": {
+    "name": "linear_eigenvalue_increments",
+    "definition": {"v1": "lambda1", "v2": "lambda2 - lambda1", "v3": "lambda3 - lambda2"},
+    "inverse": "cumulative sum; do NOT silently sort predictions",
+    "ordering_violation_rate": "mandatory reported metric",
+    "scaler_policy": "StandardScaler fit on TRAINING-CORE targets only, frozen, applied elsewhere unchanged",
+    "closed_alternatives": {
+      "shape_params_and_invariants": "CLOSED - pathological (deprecated)",
+      "raw_softplus_linear_comparison": "CLOSED - June 19/22 wedge NPE study",
+      "fifteen_component_derivative_target": "DEFERRED - off shutdown critical path",
+      "log_gaps": "ONE bounded post-baseline ablation on the leading encoder only"
+    }
+  },
+  "primary_metric": {
+    "name": "mean_spatial_fold_equal_shell_macro_R2_lambda1",
+    "per_fold": "R2(lambda1) over ALL authoritative validation-core galaxies, per reporting shell; equal-weight mean over the four shells",
+    "summary": "mean over blocked folds, reported with fold scatter and spatial-block interval",
+    "forbidden": ["per-patch R2 averaging", "pooled R2 as primary", "checkpointing on any test/blind data"],
+    "checkpoint_rule": "complete-validation-fold macro R2(lambda1)",
+    "pooled_R2": "tertiary",
+    "shells": ["0p15_0p25", "0p25_0p35", "0p35_0p45", "0p45_0p55"],
+    "shell_weight_objective": "w_i = N_s^-0.5; patch sampling proportional to sum of core w_i"
+  },
+  "mandatory_safeguards": ["worst-shell and per-shell R2 all eigenvalues", "Spearman", "MAE", "bias", "slope",
+    "predicted/true variance", "balanced 4-class accuracy", "macro-F1", "confusion", "void/knot recall",
+    "ordering-violation rate", "source-to-transfer gap", "residual spatial correlation",
+    "vs tracer density/degree/completeness/boundary distance", "runtime/memory/patch-failure rate"],
+  "promotion_gate": "mean gain >= 0.03 primary score vs matched frozen baseline; smaller gains provisional unless uncertainty clearly supports them; no shell degradation erasing the gain"
+}

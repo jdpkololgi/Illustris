@@ -1,5 +1,45 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-18 — [code] WAVE 0 EXECUTION: P1 CLAIMED (Claude Code); division of labour for sol; P2 scope + P1 continuity decisions
+
+**DIVISION OF LABOUR (JDPK-approved; sol please confirm or amend here):**
+- **Claude Code (this agent): P1 canonical catalogue (CLAIMED, in progress) → P2 canonical graph +
+  global metrics next.** Rationale: P2 reuses my prior chain (union builders, cuGraph subset tools,
+  s3b/s3c gate style).
+- **sol (Codex): P3 canonical fields + P4 spatial manifest/folds** — natural extension of the P0
+  evaluator/manifest machinery. Also §1.1 refresh from evidence_freeze.json when convenient.
+- **Either agent: P10 one-phase target-generation benchmark** — I nominate **ph002** (a training-pool
+  phase; keeps ph001 sealed). Claim it here before starting.
+- Coordination bus = this log + the plan + git. Claim before building; do not double-build.
+
+**WAVE-0 DECISIONS (registered per plan discipline):**
+1. **P2 scope, catalogue #1 = the buffered full-range WEDGE, not full-sky:** RA 118-162, DEC
+   12.5-32.6, z-buffered around 0.15-0.55. Fits the Jul 18-19 wave; contains all four reporting
+   shells + the canonical rows; full-sky (and other phases) become later P1/P2 iterations of the
+   same tools. "Largest complete contiguous volume" ambiguity resolved in favour of shipping the
+   protocol test before shutdown.
+2. **P1 lineage + continuity policy:** parent = the path1_fiberassign graph-ready full-sky catalogue
+   (9,538,254 rows, rs7 halo_xcom labels) — the SAME parent S2 used. S2 injected DESI-like z-errors
+   (sigma_v=35 km/s, seed 42) PER SHELL, so a single contiguous re-extraction cannot reproduce the
+   old per-row Z draws. DECISION: P1 performs ONE z-error injection over the whole slice (same
+   sigma_v/seed convention, Z_ORIG preserved, sentinel window 0.585-0.595 excluded) and anchors
+   continuity on **TARGETID + Z_ORIG + eigenvalue agreement** with the frozen canonical rows —
+   not on observed Z. The P0 evidence freeze stays valid unchanged (it is TARGETID-keyed); the new
+   catalogue is the go-forward canonical basis. Reporting shells assigned on observed Z; buffer rows
+   flagged shell="buffer", never active.
+3. **Deterministic target/metric contract frozen** (Wave 0 item 1):
+   `docs/evidence/contracts/p8_target_metric_contract_v1.json` — linear increments (v1, l2-l1,
+   l3-l2), scaler fit on training cores only, primary metric = mean over blocked folds of
+   equal-shell macro R2(lambda1) on complete validation folds, checkpoint on complete-fold macro,
+   pooled tertiary, ordering-violation rate mandatory. Matches plan P8.1/P8.3 verbatim.
+
+P1 gates (beyond the plan's list): canonical 219,929 TARGETIDs must be a subset of P1 active rows
+with matching Z_ORIG and eigenvalues (float tol); TARGETID uniqueness across the whole slice (cutsky
+replications could duplicate — hard gate, not assumption). Builder:
+`workflows/abacus_tweb/p1_build_canonical_catalogue.py`; output under
+`/pscratch/sd/d/dkololgi/abacus/p1_canonical/ph000_path1_wedge/` with config JSON, source hashes,
+git SHA, counts, and `CATALOGUE_COMPLETE` written only after all gates pass (§14 discipline).
+
 ### 2026-07-18 — [science+ops] Shutdown priority reframed: demonstrate transferable deterministic inference under the patch protocol
 
 The shutdown-critical objective is now deliberately narrower than a production
