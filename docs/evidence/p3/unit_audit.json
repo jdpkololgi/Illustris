@@ -1,0 +1,75 @@
+{
+  "decision": "Store observer-frame P3 lattices in comoving Mpc and retain the historical 5 Mpc cell for the first matched model comparison. Express every physical scale in both Mpc and Mpc/h. A literal 5 Mpc/h cell is a separate coarser resolution ablation, not the historical U-Net representation.",
+  "gates": {
+    "graph_points_match_planck18_mpc": true,
+    "graph_points_reject_h_scaled_interpretation": true,
+    "historical_grid_shape_reproduced": true,
+    "historical_scores_explicitly_use_5_mpc": true,
+    "historical_unet_points_match_planck18_mpc": true,
+    "historical_unet_points_reject_h_scaled_interpretation": true,
+    "literal_5_mpc_h_is_distinct_resolution": true,
+    "union_radius_is_approximately_10_mpc_h": true
+  },
+  "graph_points": {
+    "interpreted_as_mpc": {
+      "max_abs_component": 0.0,
+      "max_abs_radius": 0.0,
+      "median_abs_component": 0.0,
+      "median_radius_ratio": 1.0
+    },
+    "interpreted_as_mpc_h": {
+      "max_abs_component": 724.3392958254447,
+      "max_abs_radius": 724.4082525612907,
+      "median_abs_component": 138.88388205646356,
+      "median_radius_ratio": 1.4779781259237363
+    },
+    "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_points.npy",
+    "sample_size": 8192
+  },
+  "historical_unet": {
+    "cache": "/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3c_cnn_fullrange/cnn_fullrange_cache.pkl",
+    "interpreted_as_mpc": {
+      "max_abs_radius": 2.409422563687258e-06,
+      "median_radius_ratio": 0.9999999983895751
+    },
+    "interpreted_as_mpc_h": {
+      "max_abs_radius": 682.604191242717,
+      "median_radius_ratio": 1.4779781235435636
+    },
+    "points": "/pscratch/sd/d/dkololgi/abacus/sbi_caches/s3c_cnn_fullrange/cnn_fullrange_points.npy",
+    "resolution": {
+      "historical_cell_mpc": 5.0,
+      "historical_cell_mpc_h": 3.383,
+      "historical_grid_shape": [
+        334,
+        317,
+        194
+      ],
+      "historical_padding_mpc": 40.0,
+      "historical_padding_mpc_h": 27.064,
+      "historical_points_grid_shape_at_historical_cell": [
+        334,
+        317,
+        194
+      ],
+      "historical_points_grid_shape_at_literal_5_mpc_h": [
+        226,
+        214,
+        131
+      ],
+      "literal_5_mpc_h_cell_in_mpc": 7.389890629618682,
+      "literal_5_mpc_h_is_historical_cell": false
+    },
+    "sample_size": 8192,
+    "scores": "/pscratch/sd/d/dkololgi/abacus/C_unet_fullrange/scores.json"
+  },
+  "pass": true,
+  "physical_scales": {
+    "planck18_h": 0.6766,
+    "target_smoothing_mpc": 10.345846881466155,
+    "target_smoothing_mpc_h": 7.0,
+    "union_radius_mpc": 14.78,
+    "union_radius_mpc_h": 10.000148
+  },
+  "schema_version": 1
+}

@@ -1,5 +1,49 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-18 — [science/code] P3 UNIT GATE: observer lattices are comoving Mpc; 5 Mpc/h is not the historical U-Net cell
+
+P3 was paused before the full-cap build because the plan said “5 versus 6 Mpc/h,”
+while the established U-Net scripts named their grid argument `cell_mpc`. A dedicated
+unit audit now resolves this with two independent data-level checks rather than trusting
+variable names.
+
+1. On 8,192 sampled P1b rows, the canonical graph XYZ values equal the Planck18
+   observer-frame Cartesian coordinates calculated from `(RA, DEC, Z)` in comoving Mpc
+   exactly (maximum component and radial error 0). Interpreting the same coordinates as
+   Mpc/h is rejected by a maximum 724 Mpc discrepancy.
+2. On 8,192 historical full-range U-Net rows, `||XYZ||` matches the Planck18 comoving
+   distance in Mpc to `2.41e-6` Mpc. The h-scaled interpretation is rejected by a
+   maximum 683 Mpc discrepancy. The saved model configuration explicitly used
+   `cell_mpc=5.0`, `pad_mpc=40.0`, and the audited code reproduces its
+   `334 x 317 x 194` grid shape.
+
+**Frozen convention:** P3 stores observer-frame Cartesian coordinates and lattice
+lengths in comoving Mpc. The first matched protocol experiment retains the historical
+5 Mpc cell, which is 3.383 Mpc/h for Planck18 (`h=0.6766`). A literal 5 Mpc/h cell is
+7.390 Mpc and would be a different, substantially coarser resolution ablation. This
+does not change the physical target convention: T-Web smoothing remains 7 Mpc/h
+(10.346 Mpc), and the 14.78 Mpc graph radius remains 10.000 Mpc/h.
+
+The passing audit is now a hard `FIELD_COMPLETE` dependency. The P3 schema records
+both unit systems explicitly and the builder refuses a failing audit or inconsistent
+cell conversion. The cap-separated storage probe gives 12.06 GB of raw channels at
+5 Mpc versus 6.98 GB at 6 Mpc, so the matched 5 Mpc representation remains feasible.
+
+Pre-build artifacts/tests:
+
+- `/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/unit_audit.json` — PASS;
+- `/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/p1a_canary_parity.json` — PASS,
+  including exact CIC, fractional-index, LOS, expected-count, and contrast parity;
+- `/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/storage_probe.json`;
+- `docs/evidence/p3/p3_field_schema_v1.json`;
+- `workflows/abacus_tweb/p3a_audit_units.py`;
+- `workflows/abacus_tweb/p3a_build_canonical_fields.py`;
+- `workflows/abacus_tweb/p3a_canary_parity.py`;
+- `tests/phase4/test_p3_field_utils.py` — four tests pass.
+
+Status: P3 implementation/canary gates pass; NGC+SGC field construction and full
+validation are next. This is not yet `FIELD_COMPLETE`.
+
 ### 2026-07-18 — [science/code] P3 READINESS: GO for full-cap field implementation; plan now tracks every work package with granular checklists
 
 The plan had inconsistent progress semantics: P0/P0S used checkboxes, while P1 onward

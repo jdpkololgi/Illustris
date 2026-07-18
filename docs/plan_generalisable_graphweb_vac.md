@@ -499,14 +499,21 @@ Progress checklist:
 - [x] Confirm wedge U-Net helpers are references for deposition, LOS, interpolation,
   and channel semantics—not a full-cap builder.
 - [x] Audit the parent FITS schema and record the absent response/luminosity channels.
-- [ ] Freeze `p3_field_schema_v1.json`: cell size, units, axis order, per-cap
+- [x] Resolve the unit convention independently: P1b graph points and historical
+  U-Net points are observer-frame comoving Mpc, while the T-Web target smoothing is
+  7 Mpc/h. The historical 5 Mpc cell is 3.383 Mpc/h for Planck18; literal 5 Mpc/h
+  would be a distinct 7.390 Mpc cell. Unit evidence:
+  `/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/unit_audit.json`.
+- [x] Freeze `p3_field_schema_v1.json`: cell size, units, axis order, per-cap
   origins, context padding, chunks, deposition kernel, dtype, channels, and hashes.
-- [ ] Estimate per-cap storage at 5 and 6 Mpc/h and choose once using fidelity,
-  patch memory, and total storage.
-- [ ] Freeze P3a exposure support and radial selection sources; prove they use no
+- [x] Make the passing `unit_audit.json` a hard `FIELD_COMPLETE` dependency.
+- [x] Estimate per-cap storage at 5 and 6 comoving Mpc (3.383 and 4.060
+  Mpc/h under Planck18); select 5 Mpc using historical parity and the 12.06-GB
+  raw-channel estimate across both caps.
+- [x] Freeze P3a exposure support and radial selection sources; prove they use no
   targets or supervised split ownership.
-- [ ] Implement an idempotent, cap-separated full-field builder over P1b global IDs.
-- [ ] Run a P1a canary against the established U-Net field implementation.
+- [x] Implement an idempotent, cap-separated full-field builder over P1b global IDs.
+- [x] Run a P1a canary against the established U-Net field implementation.
 - [ ] Build NGC and SGC fields over the complete P1b context.
 - [ ] Verify CIC conservation globally, by cap/shell, and across chunk boundaries.
 - [ ] Verify finite channels, axis/interpolation parity, no cross-cap mixing, and

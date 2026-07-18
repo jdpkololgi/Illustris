@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0",
+  "stage": "P3a",
+  "catalogue_id": "ph000_path1_full_ngc_sgc_v1",
+  "coordinate_frame": {
+    "name": "observer-frame Cartesian comoving",
+    "units": "Mpc",
+    "cosmology": "astropy Planck18",
+    "planck18_h": 0.6766,
+    "conversion": "L[Mpc/h] = h * L[Mpc]; L[Mpc] = L[Mpc/h] / h",
+    "unit_audit": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/unit_audit.json",
+    "unit_decision": "graph and historical U-Net observer coordinates are comoving Mpc; T-Web smoothing remains Mpc/h",
+    "axis_order": ["x", "y", "z"],
+    "array_index_order": ["ix", "iy", "iz"],
+    "cell_center": "origin + (index + 0.5) * cell_mpc",
+    "caps": {
+      "0": "SGC",
+      "1": "NGC"
+    },
+    "cross_cap_storage": "forbidden; one immutable lattice and HDF5 file per cap"
+  },
+  "grid": {
+    "cell_mpc": 5.0,
+    "cell_mpc_h": 3.383,
+    "padding_mpc": 40.0,
+    "padding_mpc_h": 27.064,
+    "chunk_shape": [64, 64, 64],
+    "dtype_default": "float32",
+    "compression": "lzf",
+    "shuffle": true,
+    "candidate_cell_mpc_audited": [5.0, 6.0],
+    "candidate_cell_mpc_h_equivalent": [3.383, 4.0596],
+    "literal_5_mpc_h_cell_mpc": 7.389890629618682,
+    "selection_reason": "5 comoving Mpc (3.383 Mpc/h for Planck18) exactly matches the established U-Net representation and is feasible after cap separation and chunking; literal 5 Mpc/h is a distinct coarser ablation"
+  },
+  "deposition": {
+    "kernel": "CIC",
+    "galaxies": "all P1b context rows",
+    "normalisation": "mass conserving; no per-patch deposition",
+    "outside_lattice_policy": "error"
+  },
+  "angular_support": {
+    "method": "HEALPix occupancy from all parent observed galaxy positions",
+    "nside": 256,
+    "nest": false,
+    "minimum_parent_rows_per_pixel": 1,
+    "target_columns_used": false,
+    "split_ownership_used": false,
+    "status": "P3a approximation; replace with a versioned random/exposure field in P3b"
+  },
+  "radial_support": {
+    "z_context": [0.1, 0.6],
+    "sentinel_excluded": [0.585, 0.595],
+    "cosmology": "astropy Planck18"
+  },
+  "apodization": {
+    "sigma_mpc": 6.0,
+    "truncate_sigma": 4.0,
+    "method": "Cartesian Gaussian over analytic binary support with a fixed halo per output chunk"
+  },
+  "selection": {
+    "ntilde_path": "/pscratch/sd/d/dkololgi/abacus/conditioning/ntilde_spline_v1_frozen.json",
+    "interpolation": "linear in z with endpoint clipping and ntilde_floor",
+    "expected_counts": "ntilde(z) * cell_mpc^3 * exposure_apodized",
+    "target_columns_used": false,
+    "split_ownership_used": false
+  },
+  "contrast": {
+    "name": "log_count_ratio",
+    "definition": "log((counts + epsilon) / (expected_counts + epsilon)) where exposure_apodized > minimum_exposure; zero otherwise",
+    "epsilon": 0.001,
+    "minimum_exposure": 0.0001
+  },
+  "datasets": {
+    "counts": {"dtype": "float32", "units": "CIC galaxy count"},
+    "exposure_binary": {"dtype": "uint8", "units": "indicator"},
+    "exposure_apodized": {"dtype": "float32", "units": "fraction"},
+    "expected_counts": {"dtype": "float32", "units": "expected galaxies per voxel"},
+    "log_count_ratio": {"dtype": "float32", "units": "dimensionless"},
+    "ntilde_mpc3": {"dtype": "float32", "units": "Mpc^-3"},
+    "los_x": {"dtype": "float32", "units": "dimensionless"},
+    "los_y": {"dtype": "float32", "units": "dimensionless"},
+    "los_z": {"dtype": "float32", "units": "dimensionless"}
+  },
+  "normalization": {
+    "stored_fields": "raw canonical channels only",
+    "train_fitted_transforms": "forbidden before P4 fold ownership; fit on training cores and store separately"
+  },
+  "unit_validation": {
+    "required_artifact": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/unit_audit.json",
+    "graph_sample_rows": 8192,
+    "historical_unet_sample_rows": 8192,
+    "required_result": "pass=true",
+    "matched_resolution": "5 Mpc = 3.383 Mpc/h",
+    "target_smoothing": "7 Mpc/h = 10.345846881466155 Mpc"
+  },
+  "p3b_deferred_channels": [
+    "random-catalogue exposure",
+    "fibre/completeness probability",
+    "luminosity-weighted counts"
+  ],
+  "completion_contract": {
+    "marker": "FIELD_COMPLETE",
+    "required_unit_gate": "unit_audit.json pass=true",
+    "authoritative_writer": "p3a_build_canonical_fields.py after every validation gate passes"
+  }
+}

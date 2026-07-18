@@ -1,0 +1,38 @@
+{
+  "catalogue": "/pscratch/sd/d/dkololgi/abacus/p1_canonical/ph000_path1_wedge/canonical_catalogue.fits",
+  "gates": {
+    "cic_conserved": true,
+    "cic_exact": true,
+    "contrast_exact": true,
+    "expected_count_exact": true,
+    "fractional_index_exact": true,
+    "interpolation_axis_corr": true,
+    "los_exact": true
+  },
+  "grid": {
+    "cell_mpc": 5.0,
+    "origin_mpc": [
+      -2023.9530965401386,
+      73.4141459932187,
+      54.290242448236
+    ],
+    "padding_mpc": 40.0,
+    "shape": [
+      378,
+      352,
+      226
+    ],
+    "voxel_count": 30070656
+  },
+  "metrics": {
+    "contrast_max_abs": 4.76837158203125e-07,
+    "counts_max_abs": 0.0,
+    "counts_sum_abs": 3.218802157789469e-05,
+    "expected_counts_max_abs": 1.1920928955078125e-07,
+    "fractional_index_max_abs": 0.0,
+    "interpolation_corr": 0.999999999939584,
+    "los_max_abs": 0.0
+  },
+  "pass": true,
+  "rows": 374537
+}

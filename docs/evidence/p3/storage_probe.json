@@ -1,0 +1,83 @@
+{
+  "candidates": {
+    "5.0": {
+      "NGC": {
+        "cell_mpc": 5.0,
+        "context_galaxies": 4518132,
+        "origin_mpc": [
+          -2277.7230222783965,
+          -2205.238309722041,
+          -412.8210045448139
+        ],
+        "padding_mpc": 40.0,
+        "raw_all_channels_gb": 7.729234128,
+        "shape": [
+          539,
+          823,
+          528
+        ],
+        "voxel_count": 234219216
+      },
+      "SGC": {
+        "cell_mpc": 5.0,
+        "context_galaxies": 1879793,
+        "origin_mpc": [
+          70.64531755701772,
+          -1689.5756619407848,
+          -726.8134567450163
+        ],
+        "padding_mpc": 40.0,
+        "raw_all_channels_gb": 4.33066524,
+        "shape": [
+          445,
+          764,
+          386
+        ],
+        "voxel_count": 131232280
+      },
+      "both_caps_raw_all_channels_gb": 12.059899368
+    },
+    "6.0": {
+      "NGC": {
+        "cell_mpc": 6.0,
+        "context_galaxies": 4518132,
+        "origin_mpc": [
+          -2277.7230222783965,
+          -2205.238309722041,
+          -412.8210045448139
+        ],
+        "padding_mpc": 40.0,
+        "raw_all_channels_gb": 4.47236328,
+        "shape": [
+          449,
+          686,
+          440
+        ],
+        "voxel_count": 135526160
+      },
+      "SGC": {
+        "cell_mpc": 6.0,
+        "context_galaxies": 1879793,
+        "origin_mpc": [
+          70.64531755701772,
+          -1689.5756619407848,
+          -726.8134567450163
+        ],
+        "padding_mpc": 40.0,
+        "raw_all_channels_gb": 2.511210702,
+        "shape": [
+          371,
+          637,
+          322
+        ],
+        "voxel_count": 76097294
+      },
+      "both_caps_raw_all_channels_gb": 6.983573981999999
+    }
+  },
+  "canonical_index": "/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/canonical_index.npz",
+  "points": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_points.npy",
+  "schema": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/p3_field_schema_v1.json",
+  "schema_sha256": "3c1c6a460e2aa6a42eec767f12ccd3ed5fa1d9ebf082f6c0381aea1a9dd31b37",
+  "selected_cell_mpc": 5.0
+}
