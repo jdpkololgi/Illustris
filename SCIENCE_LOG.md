@@ -1,5 +1,83 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-18 — [science+ops] Shutdown priority reframed: demonstrate transferable deterministic inference under the patch protocol
+
+The shutdown-critical objective is now deliberately narrower than a production
+posterior or a fully nuisance-marginalised VAC:
+
+> **Demonstrate transferable deterministic inference under the new patch
+> protocol.**
+
+The protocol—not GraphNet, U-Net, or F-tier—is the primary hypothesis. Each learned
+candidate must train on canonical global representations viewed through many
+core/context patches, select checkpoints using spatially blocked validation, and
+transfer to fresh regions/graphs. Independent Abacus phases remain the strongest
+test, but posterior fitting and HOD marginalisation must not delay the deterministic
+protocol gate.
+
+**Primary selection metric.** The controlling metric is spatial-fold macro
+`R²(lambda1)`, not pooled galaxy-level `R²` and not the best score from any one
+patch. For every blocked fold, compute `R²(lambda1)` on all authoritative validation
+core galaxies separately in each eligible reporting shell, average the shell values
+with equal weight, then summarize across folds with the fold distribution and a
+spatial-block uncertainty interval. Mandatory safeguards are the worst-shell and
+per-shell `R²`, Spearman correlation, MAE, bias, slope, balanced four-class accuracy,
+and the source-to-transfer gap. Pooled `R²` is tertiary because the dense low-z shell
+otherwise dominates the decision. Early stopping and architecture selection must not
+use the sealed test or blind phase.
+
+**Target-parameterisation audit.** This programme has already tested substantially
+more than raw eigenvalues versus ordinary increments:
+
+- shape parameters `(I1,e,p)` and invariants `(I1,I2,I3)` were found pathological
+  as ML targets and remain deprecated;
+- the June 19 matched wedge NPE study tested softplus increments, linear increments,
+  and raw eigenvalues. Linear increments gave the practical NLL/point-accuracy
+  compromise used by the downstream wedge models; the June 22 correction established
+  that softplus, not linear, had the best TARP curve;
+- the deterministic 15-component target was also implemented and run:
+  `(lambda1, Delta12, Delta23, R grad lambda1..3, R^2 laplacian lambda1..3)`, with
+  block weights `1.0 / 0.1 / 0.03` for eigenvalue, gradient, and Laplacian blocks.
+  Representative old-protocol results include lambda1 `R²=0.819` for the weighted
+  wedge and `0.806/0.768/0.592` for the cutsky-BGS/intersection/stage3-unique variants.
+  These are useful historical evidence but were not spatially independent transfer
+  tests and do not justify reopening the 15-d target on the shutdown critical path;
+- the July `R1 15-d` failure refers to **15 input features**, not the 15-component
+  derivative target. These two experiments must not be conflated.
+
+No literal `log(lambda2-lambda1), log(lambda3-lambda2)` run was found in the ledger.
+The existing inverse-softplus increment transform already behaves approximately as a
+log transform for small gaps, so log gaps are not a wholly new target family. Register
+one bounded deterministic ablation only: after a linear-increment patch baseline passes
+parity, compare literal log gaps on the same leading encoder, folds, seed, update budget,
+and training-core scaler. Adopt only for a reproducible gain in spatial-fold macro
+`R²(lambda1)` with no meaningful worst-shell, ordering, or class degradation. Do not
+launch a broad target sweep before the patch protocol works.
+
+**HOD and posterior scope.** The existing staged LSS mock catalogues are sufficient
+for the first protocol test. Extra HOD samples from the same phase are population
+variations, not new cosmic structures, and are not required before shutdown. HOD
+marginalisation remains a later robustness/uncertainty branch, after spatial transfer
+and at least one fresh-phase test. Likewise, deterministic ordered-eigenvalue heads are
+sufficient to decide whether the protocol generalises. FMPE/NPE, SBC/TARP, posterior
+probabilities, and calibration remain downstream of a frozen deterministic winner and
+are required only for posterior columns ultimately claimed by the VAC.
+
+**Scratch and environment preservation.** No files are moved in this step, but the
+plan now assigns storage tiers. Perlmutter scratch is active, rebuildable workspace—not
+the source of truth; files not accessed for eight weeks are purge-eligible and scratch
+is not backed up. Code, schemas, manifests, hashes, decisions, and compact evidence
+belong in Git/home. Irreplaceable reusable products and selected checkpoints belong in
+CFS; large archival bundles belong in HPSS. A migration manifest must inventory the
+untracked upstream staged-mock scripts currently under
+`/pscratch/sd/d/dkololgi/abacus/SecondGen_Mocks/ph000/` before they are copied into a
+versioned repository location. Reproducibility records must cover both
+`/pscratch/sd/d/dkololgi/conda/envs/cosmic_env` and
+`/pscratch/sd/d/dkololgi/conda/envs/rapids-gnn`, including conda history/explicit
+specifications, package inventories, CUDA/module metadata, environment variables, and
+smoke tests. `rapids-gnn` remains mandatory for large global node/edge graph-metric
+construction.
+
 ### 2026-07-17 — [code+science] P0 COMPLETE: canonical matched evidence frozen; no encoder generalisation win
 
 P0 of `docs/plan_generalisable_graphweb_vac.md` completed in NERSC interactive
