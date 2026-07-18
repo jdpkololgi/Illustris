@@ -1,5 +1,44 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-18 — [code] P1 + P2 COMPLETE (first-pass gates): canonical catalogue + canonical union graph frozen — **sol: P3/P4 are unblocked, over to you**
+
+**P1 CANONICAL CATALOGUE — COMPLETE.** ph000_path1_wedge_v1: one contiguous extraction from the
+path1_fiberassign parent (sha 1ff0ac13...), RA 118-162 / DEC 12.5-32.6 / Z_ORIG [0.10,0.60) minus
+sentinel, single z-error pass (35 km/s, seed 42). **374,537 rows = 301,912 active + 72,554 buffer**;
+shells 164,222 / 98,584 / 34,645 / 4,532. Gates first-pass, including canonical continuity: all
+219,929 frozen TARGETIDs present with **exact** eigenvalue agreement (max|dlam|=0.0); 99.96% remain
+active under the fresh z-draw (rest crossed shell edges; recorded in manifest). Active set is ~37%
+larger than the old canonical basis because P1 correctly drops RA-gutter filtering — split boundaries
+now belong to P4. Artifacts: /pscratch/sd/d/dkololgi/abacus/p1_canonical/ph000_path1_wedge/
+(canonical_catalogue.fits + manifest.json + CATALOGUE_COMPLETE). Commits 074b3e4, 96ee03b.
+
+**P2 CANONICAL GRAPH — COMPLETE.** Gold-validated chain reused end-to-end on the P1 rows (no
+refiltering: --catalog-path + both no-filter flags): Delaunay (gudhi) -> cuGraph global metrics
+(rapids-gnn, production invocation) -> union 14.78 Mpc -> new validator (b97bb43).
+**374,537 nodes | Delaunay 2,849,717 pairs | radius 9,882,220 | union 10,601,479 undirected pairs
+(x3.72) | 1 component | 0 isolated | 7 node features (R0/A1 Delaunay-metric convention, recorded).**
+Edge-type provenance saved (delaunay-only 719,259 / radius-only 7,751,762 / both 2,130,458 — raises
+if any pair is neither). Node flags saved (survey-boundary<15 Mpc, extreme-degree, buffer). Position
+alignment vs P1 verified. GRAPH_COMPLETE written by the validator only.
+Artifacts: /pscratch/sd/d/dkololgi/abacus/p2_canonical/ph000_path1_wedge/ (arrays + parquet +
+edge_provenance.npz + node_flags.npz + p2_manifest.json). NOTE for consumers: the union npz stores
+UNDIRECTED pairs (10.6M); bidirectional doubling happens downstream as before (=21.2M directed at
+message-passing time). One cosmetic wart: p2_manifest's "union_directed_edges" field actually holds
+the undirected pair count.
+
+**HANDOFF -> sol (per the logged division of labour):**
+- **P3 canonical fields** on the P1 catalogue (counts / expected counts / contrast / mask / ntilde /
+  LOS channels; conserve totals; no per-patch standardisation). Use ALL 374,537 rows for field
+  deposition (buffer included); only active rows ever carry loss.
+- **P4 manifest/folds**: fixed-comoving cores (evaluate L_core 32/64/96 Mpc/h), 5 super-block folds,
+  matched val/test geometry, support flags. Graph K-hop support can use the union topology +
+  edge_provenance just frozen. The P1 D_BOUNDARY_MPC column and P2 node_flags are ready inputs.
+- P5 (GraphNet patch adapter) is mine once P4 lands; P6 is sol's or mine depending on timing — claim
+  here first. P10 ph002 benchmark still unclaimed.
+
+Wave-1 exit criteria (plan section 12) are now half met: CATALOGUE_COMPLETE + GRAPH_COMPLETE done;
+FIELD_COMPLETE + P4 manifest remain. On current pace the Jul 19 adapter/parity wave is reachable.
+
 ### 2026-07-18 — [code] WAVE 0 EXECUTION: P1 CLAIMED (Claude Code); division of labour for sol; P2 scope + P1 continuity decisions
 
 **DIVISION OF LABOUR (JDPK-approved; sol please confirm or amend here):**

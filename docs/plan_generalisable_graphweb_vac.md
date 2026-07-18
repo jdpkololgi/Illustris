@@ -277,7 +277,7 @@ Official policy references:
 
 ### P1 — Canonical catalogue and target alignment
 
-**Status:** ACTIVE; P0 passed
+**Status:** COMPLETE (2026-07-18) — ph000_path1_wedge_v1, 374,537 rows, gates first-pass; see SCIENCE_LOG
 **Duration:** 0.5–1 day CPU/high-memory
 **Output:** one immutable raw catalogue per required phase/observer; HOD variants optional later
 
@@ -307,7 +307,7 @@ Required checks:
 
 ### P2 — Canonical full-volume graph and global graph metrics
 
-**Status:** GATED ON P1
+**Status:** COMPLETE (2026-07-18) — 374,537 nodes, union 10.6M pairs, GRAPH_COMPLETE; see SCIENCE_LOG
 **Duration:** 1–3 days for the first catalogue; later catalogues pipeline in parallel
 **Resources:** CPU/high-memory graph construction, then rapids-gnn GPU features
 
