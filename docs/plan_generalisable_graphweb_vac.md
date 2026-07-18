@@ -277,9 +277,26 @@ Official policy references:
 
 ### P1 — Canonical catalogue and target alignment
 
-**Status:** COMPLETE (2026-07-18) — ph000_path1_wedge_v1, 374,537 rows, gates first-pass; see SCIENCE_LOG
+**Status:** COMPLETE — P1a wedge canary plus authoritative P1b full NGC+SGC index
 **Duration:** 0.5–1 day CPU/high-memory
 **Output:** one immutable raw catalogue per required phase/observer; HOD variants optional later
+
+Scope is explicit:
+
+- **P1a canary:** `ph000_path1_wedge_v1`, 374,537 rows, is retained for loader,
+  parity, and resource smoke tests.
+- **P1b authoritative development catalogue:** the full usable ph000 BGS footprint
+  over both NGC and SGC, with the production redshift core and context buffers.
+- NGC and SGC are stored in one row-indexed catalogue with an explicit component/cap
+  identifier. They are not cropped to one rectangular RA/Dec fan.
+- Preserve the stable parent row index so existing global graph and feature products
+  can be fancy-indexed without changing identity or ordering.
+
+P1b artifacts:
+
+- `/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/canonical_index.npz`;
+- `/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/manifest.json`;
+- `/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/CATALOGUE_COMPLETE`.
 
 Store:
 
@@ -304,10 +321,13 @@ Required checks:
 - exact catalogue/target alignment;
 - consistent units and cosmology;
 - no train/validation/test filtering at this stage.
+- exact alignment between canonical rows and the existing full-footprint graph parent;
+- explicit NGC/SGC counts and component labels;
+- no duplicated underlying halo/TARGETID may cross supervised folds later in P4.
 
 ### P2 — Canonical full-volume graph and global graph metrics
 
-**Status:** COMPLETE (2026-07-18) — 374,537 nodes, union 10.6M pairs, GRAPH_COMPLETE; see SCIENCE_LOG
+**Status:** COMPLETE — P2a wedge canary plus authoritative P2b full NGC+SGC union representation
 **Duration:** 1–3 days for the first catalogue; later catalogues pipeline in parallel
 **Resources:** CPU/high-memory graph construction, then rapids-gnn GPU features
 
@@ -315,6 +335,34 @@ For every catalogue, construct the graph and graph metrics over the largest comp
 contiguous input volume available **before** defining training patches. Do not build
 separate redshift-shell graphs and concatenate them. Do not rebuild graphs inside
 patches.
+
+For the current ph000 path1 catalogue, "largest complete contiguous input volume"
+means the full usable **NGC plus SGC survey footprint**, not the RA 118–162 canary.
+Because the footprint has two disconnected sky caps, "global" means one canonical
+row-indexed graph object containing two components:
+
+1. construct or retain NGC topology within NGC;
+2. construct or retain SGC topology within SGC;
+3. map both through stable parent/global indices;
+4. concatenate them without any NGC–SGC edge;
+5. compute or copy graph metrics from these full-cap components before patching.
+
+The existing path1 full-footprint Delaunay and cuGraph products should be promoted
+after exact provenance and row-alignment checks rather than recomputed gratuitously.
+The completed 374,537-node union graph is **P2a**, a canary for the construction and
+validation chain; it does not satisfy authoritative P2b by itself.
+
+P2b reuses the exact 9,538,254-node parent Delaunay graph and global cuGraph
+metrics. Within the 6,397,925-node context support it adds 141,819,389
+non-Delaunay radius pairs, stored by cap. The resulting union has 190,563,017
+undirected context pairs and zero cross-cap edges.
+
+Artifacts: `/pscratch/sd/d/dkololgi/abacus/p2b_full_footprint/`
+(`p2b_union_manifest.json`, `ngc_radius_only_*.npy`,
+`sgc_radius_only_*.npy`, and `UNION_COMPLETE`).
+
+Compact audit and provenance copies are tracked under
+`docs/evidence/p1b_p2b/`.
 
 Graph build sequence:
 
@@ -349,6 +397,12 @@ Graph gates:
 - repeated builds are deterministic;
 - global feature values survive serialization;
 - graph and feature hashes are written.
+- exactly two expected cap components before any legitimate within-cap fragmentation,
+  with zero cross-cap edges;
+- NGC and SGC node/edge counts are recorded separately;
+- any fancy-index projection preserves parent node features and edge attributes exactly;
+- P2a wedge/full-parent parity is retained as a regression test, not used as the
+  scientific training volume.
 
 Per-catalogue development chain:
 
@@ -369,7 +423,7 @@ loose marker. Only graph validation may write `GRAPH_COMPLETE`.
 
 ### P3 — Canonical full-volume count and response fields
 
-**Status:** GATED ON P1; runs in parallel with P2
+**Status:** ACTIVE — authoritative P1b is complete; build fields over full NGC+SGC context
 **Duration:** 0.5–1.5 days for the first configuration
 **Resources:** CPU preprocessing; HBM80 GPU for model execution
 
@@ -398,7 +452,7 @@ Field gates:
 
 ### P4 — Shared fixed-comoving spatial manifest
 
-**Status:** GATED ON P1; finalized after P2/P3 support atlases
+**Status:** ACTIVE — P1b/P2b complete; finalize authoritative folds after P3 support
 **Duration:** 0.5–1 day CPU
 
 Use observer-frame Cartesian positions to define fixed-comoving cores. Positions are

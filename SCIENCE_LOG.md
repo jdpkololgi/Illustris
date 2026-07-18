@@ -1,5 +1,68 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-18 — [science/code] P1/P2 SCOPE CORRECTION: wedge products are canaries; authoritative patch training uses the full NGC+SGC footprint
+
+The phrase "largest complete contiguous volume" in the generalisable-VAC plan was ambiguous. The
+2026-07-18 Wave-0 implementation resolved it operationally to RA 118–162 / Dec 12.5–32.6 with
+redshift buffers. That was a reasonable deadline canary, but it is **not** the intended canonical
+volume for the new patch-training experiment.
+
+**Controlling decision:** construct the catalogue, canonical graph, and globally derived graph
+products over the full usable ph000 BGS footprint. NGC and SGC are two disconnected components in
+one catalogue/graph object: build or retain topology separately within each Galactic cap, map both
+through stable parent/global indices, and concatenate without any cross-cap edges. Fixed-comoving
+P4 cores and folds are then defined across both caps. Patches are views of this canonical two-cap
+representation; graph metrics are never recomputed inside patches.
+
+The existing path1 parent already has the expensive full-footprint Delaunay products:
+
+- 9,538,254 graph-aligned catalogue rows;
+- 67,546,704 undirected Delaunay pairs;
+- separate north/south Gudhi complexes merged by global indexing;
+- global cuGraph node and edge metrics in the established seven-node/five-edge convention.
+
+These artifacts must be audited for exact row/selection/target alignment and then reused wherever
+their contract matches. Missing full-footprint products, including the production union-radius
+topology or its validated patch-extraction equivalent, should be built once at the parent level.
+
+**Status correction:**
+
+- `ph000_path1_wedge_v1` P1 and its 374,537-node P2 graph are **P1a/P2a CANARY COMPLETE**;
+- authoritative **P1b full NGC+SGC is COMPLETE**;
+- authoritative **P2b full NGC+SGC is COMPLETE**: promoted full Delaunay + cuGraph products plus
+  a canonical per-cap fixed-radius augmentation;
+- P3/P4 may use the wedge for engineering smoke/parity tests only. The scientific P4 manifest and
+  deterministic P8 training folds must be generated from P1b/P2b across NGC+SGC.
+
+This larger footprint is central to the present objective: patch training needs many spatially
+separated structures and optimization units. The wedge can validate code, but it cannot establish
+that the protocol generalises. Same-phase blocked folds remain development evidence; P10 still
+requires a fresh independently constructed simulation phase for the production-transfer claim.
+
+**P1b result:** `ph000_path1_full_ngc_sgc_v1` retains the immutable 9,538,254-row parent
+catalogue as the canonical row order and adds a compact 32 MB index/manifest. It contains
+6,649,091 NGC and 2,889,163 SGC rows; 6,397,925 context rows in the usable redshift support and
+5,086,101 active labelled rows over 0.15 < z < 0.55. Shell counts are 2,769,399 / 1,672,079 /
+572,270 / 72,353. The parent observed Z is retained without a second measurement-error draw so
+catalogue geometry, the existing full graph, and global metrics remain exactly aligned.
+
+Artifacts:
+
+- `/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/canonical_index.npz`;
+- `/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/manifest.json`;
+- `/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/full_footprint_audit.json`.
+
+**P2b result:** the promoted parent graph passes exact row, coordinate, component, edge-index,
+and finite-feature gates. It has zero cross-cap pairs. Within the authoritative context volume
+there are 48,743,628 Delaunay pairs and 178,333,745 radius pairs; 36,514,356 overlap, leaving
+141,819,389 radius-only additions and 190,563,017 union pairs. Radius-only pairs and their five
+edge attributes are stored separately by cap, preserving global parent IDs and avoiding a copy
+of the Delaunay layer. P4 patch extraction must fancy-index the parent Delaunay arrays and append
+the corresponding per-cap radius-only rows.
+
+Artifacts: `/pscratch/sd/d/dkololgi/abacus/p2b_full_footprint/`
+(`p2b_union_manifest.json`, per-cap pair/attribute arrays, `UNION_COMPLETE`).
+
 ### 2026-07-18 — [code] P1 + P2 COMPLETE (first-pass gates): canonical catalogue + canonical union graph frozen — **sol: P3/P4 are unblocked, over to you**
 
 **P1 CANONICAL CATALOGUE — COMPLETE.** ph000_path1_wedge_v1: one contiguous extraction from the

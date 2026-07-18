@@ -1,0 +1,97 @@
+{
+  "alignment": {
+    "cap_sample_exact": true,
+    "gnn_edge_index_exact": true,
+    "max_abs_xyz_mpc": 0.0,
+    "metadata_source_exact": true,
+    "sample_size": 4096,
+    "targetid_unique": true
+  },
+  "counts": {
+    "NGC_delaunay_pairs": 47283788,
+    "NGC_rows": 6649091,
+    "SGC_delaunay_pairs": 20262916,
+    "SGC_rows": 2889163,
+    "active_NGC": 3591392,
+    "active_SGC": 1494709,
+    "active_rows": 5086101,
+    "buffer_rows": 6397925,
+    "cross_cap_pairs": 0,
+    "delaunay_pairs": 67546704,
+    "invalid_target_rows_in_core": 0,
+    "parent_rows": 9538254,
+    "sentinel_rows": 2064935
+  },
+  "features": {
+    "edge_columns": [
+      "edge_length",
+      "x_dir",
+      "y_dir",
+      "z_dir",
+      "density_contrast"
+    ],
+    "edge_features_finite": true,
+    "node_columns": [
+      "Degree",
+      "Clustering",
+      "Density",
+      "Neigh Density",
+      "I_eig1",
+      "I_eig2",
+      "I_eig3"
+    ],
+    "node_features_finite": true,
+    "shapes": {
+      "edge_attr": [
+        67546704,
+        5
+      ],
+      "edge_index": [
+        2,
+        67546704
+      ],
+      "x": [
+        9538254,
+        7
+      ]
+    }
+  },
+  "gates": {
+    "both_caps_have_active_rows": true,
+    "cap_alignment": true,
+    "coordinate_alignment": true,
+    "features_finite": true,
+    "gnn_edge_index_exact": true,
+    "row_alignment": true,
+    "targetid_unique": true,
+    "zero_cross_cap_edges": true
+  },
+  "gnn_metadata": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_cugraph_gnn_metadata.json",
+  "graph_metadata": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_metadata.json",
+  "parent": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_05062026_rsmooth_7/mock_bgs_maglim_path1_fiberassign_graph_ready_with_tweb_eigs_rs7_ngrid2048_thr0p2_halo_xcom.fits",
+  "pass": true,
+  "schema_version": 1,
+  "scope": "P1b/P2b full ph000 path1 NGC+SGC audit",
+  "shell_counts": {
+    "0.15_0.25": {
+      "NGC": 1953246,
+      "SGC": 816153,
+      "all": 2769399
+    },
+    "0.25_0.35": {
+      "NGC": 1180268,
+      "SGC": 491811,
+      "all": 1672079
+    },
+    "0.35_0.45": {
+      "NGC": 406751,
+      "SGC": 165519,
+      "all": 572270
+    },
+    "0.45_0.55": {
+      "NGC": 51127,
+      "SGC": 21226,
+      "all": 72353
+    }
+  }
+}

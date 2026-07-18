@@ -1,0 +1,55 @@
+{
+  "assembly_contract": {
+    "cross_cap_pairs": 0,
+    "edge_attr_columns": [
+      "edge_length",
+      "x_dir",
+      "y_dir",
+      "z_dir",
+      "density_contrast"
+    ],
+    "patch_edges": "fancy-index parent Delaunay edges and attributes, then append matching per-cap radius-only pairs and attributes; never join NGC to SGC"
+  },
+  "canonical_index": "/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/canonical_index.npz",
+  "components": {
+    "NGC": {
+      "context_nodes": 4518132,
+      "edge_attr": "/pscratch/sd/d/dkololgi/abacus/p2b_full_footprint/ngc_radius_only_edge_attr.npy",
+      "edge_attr_sha256": "564b83ac333d0ef782b4d4b8a759cefa72138dc896767de353ea90db61bcb35d",
+      "overlap_with_delaunay": 25897603,
+      "pairs": "/pscratch/sd/d/dkololgi/abacus/p2b_full_footprint/ngc_radius_only_pairs.npy",
+      "pairs_sha256": "e83d738e2be8e77cce9dafc2561e47e031b96aedc2c41e043dea35c4b24cc8cb",
+      "radius_only_pairs": 101627029,
+      "radius_pairs_all": 127524632
+    },
+    "SGC": {
+      "context_nodes": 1879793,
+      "edge_attr": "/pscratch/sd/d/dkololgi/abacus/p2b_full_footprint/sgc_radius_only_edge_attr.npy",
+      "edge_attr_sha256": "e7bb547d612fbbcbd049b76ca895b3899a601ba05795ff4bab53406c269e2a12",
+      "overlap_with_delaunay": 10616753,
+      "pairs": "/pscratch/sd/d/dkololgi/abacus/p2b_full_footprint/sgc_radius_only_pairs.npy",
+      "pairs_sha256": "bf9d95c86fcf874fda117eff502817bf806774d848f1266355164de5987e2daa",
+      "radius_only_pairs": 40192360,
+      "radius_pairs_all": 50809113
+    }
+  },
+  "counts": {
+    "NGC_delaunay_pairs_context": 34427914,
+    "SGC_delaunay_pairs_context": 14315714,
+    "context_nodes": 6397925,
+    "delaunay_pairs_all_parent_rows": 67546704,
+    "delaunay_pairs_context": 48743628,
+    "parent_nodes": 9538254,
+    "radius_delaunay_overlap": 36514356,
+    "radius_only_pairs": 141819389,
+    "radius_pairs_all_context": 178333745,
+    "union_pairs_context": 190563017
+  },
+  "elapsed_seconds": 99.11554384231567,
+  "parent_gnn_metadata": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_cugraph_gnn_metadata.json",
+  "parent_graph_metadata": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_metadata.json",
+  "radius_mpc": 14.78,
+  "representation": "existing full-footprint Delaunay graph/attributes plus per-cap radius-only pairs/attributes, all indexed by parent graph node ID",
+  "schema_version": 1,
+  "stage": "P2b radius augmentation"
+}

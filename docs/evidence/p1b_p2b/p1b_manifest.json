@@ -1,0 +1,85 @@
+{
+  "audit": "/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/full_footprint_audit.json",
+  "catalogue_id": "ph000_path1_full_ngc_sgc_v1",
+  "counts": {
+    "NGC": 6649091,
+    "SGC": 2889163,
+    "active": 5086101,
+    "by_shell": {
+      "0.15_0.25": {
+        "NGC": 1953246,
+        "SGC": 816153,
+        "all": 2769399
+      },
+      "0.25_0.35": {
+        "NGC": 1180268,
+        "SGC": 491811,
+        "all": 1672079
+      },
+      "0.35_0.45": {
+        "NGC": 406751,
+        "SGC": 165519,
+        "all": 572270
+      },
+      "0.45_0.55": {
+        "NGC": 51127,
+        "SGC": 21226,
+        "all": 72353
+      }
+    },
+    "context": 6397925,
+    "total": 9538254,
+    "valid_target": 7153084
+  },
+  "git_sha": "e34a6db2c872475ad76857469e07fe6860128757",
+  "index": "/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/canonical_index.npz",
+  "index_sha256": "a653d2871399d0064a5560420751ec01d63535cb8ac7d1e1af760ec5e2f342bc",
+  "mapping_contract": {
+    "galaxy_id": "TARGETID",
+    "graph_node_id": "PARENT_NODE_ID == parent FITS row == full graph row",
+    "halo_group": [
+      "FILE_NUM",
+      "BOX_INDEX",
+      "HALO_INDEX"
+    ],
+    "p4_rule": "no repeated TARGETID or underlying halo group may cross supervised folds"
+  },
+  "no_split_filtering": true,
+  "no_train_fitted_normalisation": true,
+  "observer": "path1_fiberassign",
+  "parent": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_05062026_rsmooth_7/mock_bgs_maglim_path1_fiberassign_graph_ready_with_tweb_eigs_rs7_ngrid2048_thr0p2_halo_xcom.fits",
+  "parent_rows_are_canonical_rows": true,
+  "parent_sha256": "1ff0ac1310134a5fdb7f18a433239bc232b28c4d1da5f85fdfd117ac4cb41189",
+  "phase": "ph000",
+  "points": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_points.npy",
+  "redshift_policy": {
+    "additional_measurement_error": "none; do not perturb after graph construction",
+    "geometry": "parent observed Z used by the pre-existing full graph",
+    "reason": "preserve exact catalogue/graph/metric alignment"
+  },
+  "schema_version": "1.0",
+  "scope": {
+    "components": {
+      "0": "SGC",
+      "1": "NGC"
+    },
+    "footprint": "full usable path1 BGS NGC+SGC",
+    "sentinel_excluded_from_context": [
+      0.585,
+      0.595
+    ],
+    "z_context": [
+      0.1,
+      0.6
+    ],
+    "z_core": [
+      0.15,
+      0.55
+    ]
+  },
+  "stage": "P1b",
+  "target_convention": {
+    "epoch": "z=0.2 snapshot",
+    "labels": "tidal eigenvalues ascending, rs7=7 Mpc/h Gaussian, ngrid2048, halo_xcom"
+  }
+}
