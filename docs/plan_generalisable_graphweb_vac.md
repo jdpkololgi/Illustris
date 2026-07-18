@@ -298,6 +298,20 @@ P1b artifacts:
 - `/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/manifest.json`;
 - `/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/CATALOGUE_COMPLETE`.
 
+Progress checklist:
+
+- [x] Freeze the catalogue ID, phase, observer, target convention, redshift core,
+  and context range in `manifest.json`.
+- [x] Retain the 9,538,254-row parent FITS ordering as the canonical global node ID.
+- [x] Build `canonical_index.npz` with parent ID, TARGETID, cap, shell,
+  active/context masks, and target-validity mask.
+- [x] Verify exact parent-FITS, XYZ, graph-row, and target alignment.
+- [x] Verify unique TARGETIDs, finite active targets, and zero active
+  `BOX_INDEX < 0` rows.
+- [x] Record NGC/SGC, per-shell, halo-grouping, and source-hash provenance.
+- [x] Write `CATALOGUE_COMPLETE` and track the compact P1b manifest under
+  `docs/evidence/p1b_p2b/`.
+
 Store:
 
 - catalogue, phase, and observer identifiers; record HOD identifiers when present, but do
@@ -364,6 +378,22 @@ Artifacts: `/pscratch/sd/d/dkololgi/abacus/p2b_full_footprint/`
 Compact audit and provenance copies are tracked under
 `docs/evidence/p1b_p2b/`.
 
+Progress checklist:
+
+- [x] Audit the existing 9,538,254-node full-footprint Delaunay graph against P1b.
+- [x] Verify exact global node-feature and edge-index alignment with parent rows.
+- [x] Verify the two-cap construction and zero NGC-SGC edges.
+- [x] Retain global node metrics and Delaunay edge attributes without patch-level
+  recomputation.
+- [x] Define the authoritative 6,397,925-node context support from P1b.
+- [x] Build fixed-radius pairs independently within NGC and SGC context.
+- [x] Remove Delaunay overlaps and retain 141,819,389 radius-only additions.
+- [x] Verify the 190,563,017-pair context-union arithmetic and edge provenance.
+- [x] Store parent Delaunay plus per-cap radius-only arrays under stable global IDs.
+- [x] Pass bounds, finite-feature, count, determinism, and cross-cap gates.
+- [x] Write `UNION_COMPLETE` and track compact P2b evidence under
+  `docs/evidence/p1b_p2b/`.
+
 Graph build sequence:
 
 1. Select the maximal parent catalogue providing context around the scored volume.
@@ -427,6 +457,16 @@ loose marker. Only graph validation may write `GRAPH_COMPLETE`.
 **Duration:** 0.5–1.5 days for the first configuration
 **Resources:** CPU preprocessing; HBM80 GPU for model execution
 
+**Readiness:** GO for P3 implementation. P1b is the only hard input dependency and
+has passed. P2b supplies shared row identity/provenance, but field deposition does not
+wait on graph topology. This is not yet `FIELD_COMPLETE`: the existing U-Net field
+code is wedge-specific and must not be run unchanged over a full-cap bounding cuboid.
+
+Use one fixed observer-frame Cartesian lattice definition per cap. NGC and SGC must
+never be enclosed in one enormous dense cuboid or joined through empty sky. A
+chunked/sparse-on-disk representation is acceptable, but every chunk must be indexed
+in the immutable cap lattice so overlapping patch reads return identical voxels.
+
 Construct global voxel products once per catalogue, then extract U-Net/F-tier patch
 views. Initial channels are:
 
@@ -437,6 +477,44 @@ views. Initial channels are:
 - mask/exposure;
 - smooth ntilde(z);
 - LOS unit-vector channels required by the established U-Net configuration.
+
+The shutdown-critical **P3a protocol baseline** is deliberately narrower:
+
+- CIC galaxy counts from every P1b context galaxy, deposited once in its cap lattice;
+- binary and apodized footprint/exposure support;
+- smooth radial expected counts from the frozen selection prescription times exposure;
+- stabilized count contrast;
+- smooth ntilde(z);
+- LOS unit-vector channels.
+
+The authoritative parent FITS has no explicit random-catalogue exposure,
+per-object completeness, or luminosity columns. Luminosity-weighted counts and
+higher-fidelity random/completeness fields are therefore **P3b upgrades**, not
+requirements for the deterministic patch-protocol gate. P3a must record the exact
+exposure approximation and must not claim a production-complete observation model.
+
+Progress checklist:
+
+- [x] Confirm P1b catalogue/index/XYZ alignment, context mask, cap counts, and hashes.
+- [x] Confirm wedge U-Net helpers are references for deposition, LOS, interpolation,
+  and channel semantics—not a full-cap builder.
+- [x] Audit the parent FITS schema and record the absent response/luminosity channels.
+- [ ] Freeze `p3_field_schema_v1.json`: cell size, units, axis order, per-cap
+  origins, context padding, chunks, deposition kernel, dtype, channels, and hashes.
+- [ ] Estimate per-cap storage at 5 and 6 Mpc/h and choose once using fidelity,
+  patch memory, and total storage.
+- [ ] Freeze P3a exposure support and radial selection sources; prove they use no
+  targets or supervised split ownership.
+- [ ] Implement an idempotent, cap-separated full-field builder over P1b global IDs.
+- [ ] Run a P1a canary against the established U-Net field implementation.
+- [ ] Build NGC and SGC fields over the complete P1b context.
+- [ ] Verify CIC conservation globally, by cap/shell, and across chunk boundaries.
+- [ ] Verify finite channels, axis/interpolation parity, no cross-cap mixing, and
+  stable overlapping reads.
+- [ ] Produce the exposure/occupancy/expected-count/support atlas by cap and shell.
+- [ ] Write `field_manifest.json`, validation report, channel hashes, and
+  `FIELD_COMPLETE`; track compact evidence under `docs/evidence/p3/`.
+- [ ] Inventory candidate random/completeness products for P3b without blocking P3a.
 
 Do not independently standardize or redefine fields inside patches. Fit learned channel
 transforms on training cores after P4 and freeze them.
@@ -498,6 +576,23 @@ architecture-specific; target and core ownership are not.
 Every eligible galaxy belongs to exactly one core in a fixed manifest and may appear
 as context in many patches. Patch boundaries do not remove galaxies.
 
+Progress checklist:
+
+- [ ] Freeze the candidate core-size resource probe over both NGC and SGC.
+- [ ] Build fixed-comoving cap core cells independently of split ownership.
+- [ ] Group cores into spatial super-blocks before assigning folds.
+- [ ] Group repeated `(FILE_NUM, BOX_INDEX, HALO_INDEX)` halos and TARGETIDs so
+  no underlying object crosses supervised folds.
+- [ ] Assign five blocked folds with both caps and all reporting shells represented.
+- [ ] Match validation/development-test volume and distance from training support.
+- [ ] Assign every eligible active galaxy to exactly one authoritative core.
+- [ ] Attach P2b graph-support distances and K-step dependency flags.
+- [ ] Attach P3 convolutional/exposure support after `FIELD_COMPLETE`.
+- [ ] Reserve FFT support fields without blocking GraphNet/U-Net.
+- [ ] Write immutable manifest, hashes, support atlas, and completion marker.
+- [ ] Test unique core ownership, fold isolation, shell/cap coverage, and deterministic
+  rebuilds.
+
 ---
 
 ## 5. Architecture adapters and parity gates
@@ -537,6 +632,17 @@ The existing local-subgraph-pipeline is scaffolding only. Its single-centre targ
 hard caps, traversal-order truncation, small validation batch, and integrated FlowJAX
 training are not production-safe.
 
+Progress checklist:
+
+- [ ] Implement P2b parent-Delaunay plus radius-only patch assembly by global ID.
+- [ ] Implement exact reverse dependency traversal for K message-passing steps.
+- [ ] Separate authoritative core loss nodes from context-only nodes.
+- [ ] Preserve canonical node/edge features without patch recomputation.
+- [ ] Implement size buckets and padding masks with no node/edge truncation.
+- [ ] Pass full-graph versus patch embedding/prediction parity on P1a.
+- [ ] Pass subdivision, patch-order, and core-boundary parity tests.
+- [ ] Write adapter schema, parity report, tests, and `GRAPH_PATCH_READY`.
+
 ### P6 — U-Net patch adapter
 
 **Status:** GATED ON P3/P4
@@ -558,6 +664,16 @@ U-Net parity requires:
 - no independent patch normalization;
 - no boundary-distance trend after the retained trim;
 - identical galaxy-to-grid interpolation.
+
+Progress checklist:
+
+- [ ] Implement cap-lattice field patch reads from the immutable P3 schema.
+- [ ] Separate output core, convolutional context, and unsupported survey boundary.
+- [ ] Fit channel normalization on training cores only and freeze it per fold.
+- [ ] Sample predictions only at shared P4 authoritative core galaxies.
+- [ ] Pass global-field versus patch-view channel and interpolation parity.
+- [ ] Pass context-growth, subdivision, and boundary-distance convergence tests.
+- [ ] Write adapter schema, parity report, tests, and `UNET_PATCH_READY`.
 
 ### P7 — F-tier graph/field/FFT adapter
 
@@ -583,6 +699,15 @@ Run convergence over graph context, field-tile size, FFT padding/apodization, ov
 central trim, and distance from tile/survey boundaries. Require stable density, tensor
 components, eigenvalues, and eigenvectors. Record trace consistency and
 eigengap-dependent orientation reliability.
+
+Progress checklist:
+
+- [ ] Compose the passing P5 graph view and P6 canonical field frame.
+- [ ] Verify graph-to-field scatter conservation and overlap parity.
+- [ ] Freeze FFT padding, apodization, overlap, and central-trim candidates.
+- [ ] Run convergence for density, tensor components, and eigenvalues.
+- [ ] Verify trace/Hessian consistency and eigengap-conditioned orientations.
+- [ ] Write adapter schema, convergence report, tests, and `FTIER_PATCH_READY`.
 
 ---
 
@@ -732,6 +857,19 @@ Rank candidates by primary score, fold/seed stability, worst-shell behaviour,
 source-to-transfer gap, physical output value, and deployment feasibility. Use pooled
 R² only after those criteria.
 
+Progress checklist:
+
+- [ ] Freeze the linear-increment target/scaler and complete-fold macro-R2 evaluator.
+- [ ] Freeze shared P4 folds and classical comparison rows before training.
+- [ ] Run one-seed/two-fold plumbing screens for every parity-passing encoder.
+- [ ] Reject incomplete core coverage, boundary trends, or subdivision-dependent
+  scientific weighting.
+- [ ] Promote passing candidates to one seed across all five folds.
+- [ ] Repeat near-leaders or uniquely physical candidates across three seeds.
+- [ ] Run log-gap only on the stable leader if the baseline passes and time remains.
+- [ ] Freeze out-of-fold predictions, mandatory metrics, checkpoints, and configs.
+- [ ] Record GO/NO-GO per encoder without calling same-phase folds a production pass.
+
 ---
 
 ## 7. Complementarity and hybrid models
@@ -755,6 +893,14 @@ Candidates:
 
 Never train a second stage on in-sample base predictions. Keep physical tensor outputs
 and residual-corrected catalogue eigenvalues separately named where necessary.
+
+Progress checklist:
+
+- [ ] Align spatially out-of-fold residuals for P8 finalists and classical methods.
+- [ ] Measure complementarity by fold, shell, class, density, mass, and boundary.
+- [ ] Pre-register one hybrid only if errors are demonstrably complementary.
+- [ ] Train with out-of-fold base predictions and preserve output provenance.
+- [ ] Retain only for blind/fresh-region improvement.
 
 ---
 
@@ -811,6 +957,17 @@ Blind protocol:
 6. Open the evaluator once.
 7. Do not tune on ph001.
 
+Progress checklist:
+
+- [ ] Audit density/particle and staged-LSS availability for ph001-ph006.
+- [ ] Benchmark one 2048-cubed target-generation run and record cost/storage.
+- [ ] Validate target convention and annotation parity against ph000.
+- [ ] Freeze phase roles and a signed blind-evaluation manifest.
+- [ ] Build fresh P1-P4 products for training/validation phases.
+- [ ] Train and freeze finalists without reading ph001 truth metrics.
+- [ ] Build ph001 graph/field products and save predictions before opening truth.
+- [ ] Evaluate ph001 once and record the production-transfer decision.
+
 ---
 
 ## 9. JEPA gate
@@ -848,6 +1005,14 @@ Adopt JEPA only for consistent fresh-graph or blind-phase deterministic improvem
 targeting at least +0.03 spatial-fold macro R²(λ1) or a comparably clear balanced-class
 gain.
 
+Progress checklist:
+
+- [ ] Reopen only if P8/P10 establish a specific representation-data bottleneck.
+- [ ] Freeze random-init, masked-reconstruction, and JEPA matched controls.
+- [ ] Implement leakage-safe spatial masks and feature-support guards.
+- [ ] Compare on identical folds, compute, seeds, and independent phase tests.
+- [ ] Adopt only for reproducible deterministic transfer gain.
+
 ---
 
 ## 10. Posterior inference and VAC production
@@ -870,6 +1035,14 @@ Require SBC, TARP, coverage, conditional coverage, knot-probability reliability,
 skill, width-versus-error, posterior contraction, and prior-dominated flags. Scalar
 tempering that repairs average coverage while leaving shape failure is insufficient.
 
+Progress checklist:
+
+- [ ] Reopen only after a deterministic representation passes P10.
+- [ ] Generate leakage-safe out-of-fold conditioning summaries.
+- [ ] Fit on training phases and tune on ph006 only.
+- [ ] Pass marginal, multivariate, conditional, tail, and information gates.
+- [ ] Evaluate once on ph001 and freeze calibrated posterior artifacts.
+
 ### P13 — DESI canary and scale-out
 
 **Status:** GATED ON P10 AND A FROZEN DETERMINISTIC WINNER; P12 ONLY FOR POSTERIOR COLUMNS
@@ -889,6 +1062,16 @@ multiply overlapping posteriors.
 Required flags include redshift support, graph/field support, boundary, mask hole,
 extreme edge, completeness, OOD, and overlap disagreement. Add prior-domination and
 posterior-information flags only when P12 posterior columns exist.
+
+Progress checklist:
+
+- [ ] Reproduce frozen representation and schemas in GraphWeb_DESI.
+- [ ] Pass a truth-known golden mock canary end to end.
+- [ ] Run one DESI canary and audit support, systematics, boundaries, and throughput.
+- [ ] Freeze deterministic de-duplication and quality-bit semantics.
+- [ ] Scale idempotent shards only after canary and P10 gates pass.
+- [ ] Assemble, checksum, document, and collaboration-review the deterministic VAC.
+- [ ] Add posterior columns only if P12 separately passes.
 
 ---
 
@@ -928,9 +1111,10 @@ A posterior uncertainty layer may be added later only if P12 validates it.
 P0 is complete. The remaining critical path is:
 
 ```text
-P1 canonical catalogue
-  -> P2 graph/metrics + P3 fields
-  -> P4 shared patch manifest
+P1b canonical full NGC+SGC catalogue [COMPLETE]
+  + P2b graph/metrics [COMPLETE]
+  -> P3a canonical fields + P4 geometry/fold draft [NOW]
+  -> P4 final shared patch/support manifest
   -> P5/P6 parity [P7 joins when ready]
   -> P8 deterministic blocked-fold transfer
   -> frozen protocol bundle
@@ -977,10 +1161,10 @@ full DESI VAC.
 
 ### Wave 1 — July 18–19: canonical representations and patches
 
-Run P2 and P3 in parallel after P1:
+P1b and P2b are complete. Run P3a and the geometry-only part of P4 in parallel;
+finalize P4 support fields after P3 validation:
 
-- P2: global Delaunay/radius/union topology, then global node/edge metrics in
-  `rapids-gnn`;
+- P2: **complete** for the authoritative full NGC+SGC catalogue;
 - P3: canonical count/response fields in `cosmic_env`;
 - P4 draft: fixed-comoving cores and five super-block folds from catalogue geometry;
 - P4 final: attach graph, convolutional, and FFT support after P2/P3 validation.

@@ -1,5 +1,35 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-18 — [science/code] P3 READINESS: GO for full-cap field implementation; plan now tracks every work package with granular checklists
+
+The plan had inconsistent progress semantics: P0/P0S used checkboxes, while P1 onward
+mixed completed implementation, design requirements, and future gates in prose. This
+made completed P1b/P2b work harder to audit and made P3 readiness ambiguous. The live
+plan now has explicit checked completion items for P1/P2 and unchecked execution/gate
+items for P3-P13. A work-package status is no longer inferred merely from narrative.
+
+**P3 readiness verdict: GO to implement P3a now.** Authoritative P1b is complete and
+provides exact parent-row/XYZ alignment for 6,397,925 context galaxies across NGC and
+SGC. P2b is also complete and fixes shared global identity/provenance, although count
+field deposition itself depends only on P1b.
+
+This is not yet a `FIELD_COMPLETE` verdict. The existing pooled U-Net builder is tied
+to a rectangular wedge. The full-cap implementation must use separate immutable NGC
+and SGC Cartesian lattice frames with chunked storage; it must not allocate one dense
+bounding cuboid around both caps or recompute/standardize fields independently inside
+patches.
+
+The shutdown-critical P3a channel contract is counts, footprint/exposure support,
+smooth radial expected counts, stabilized contrast, ntilde(z), and LOS unit vectors.
+The authoritative graph-ready FITS schema has no explicit random-catalogue exposure,
+per-object completeness, or luminosity fields. Those are therefore recorded as P3b
+observation-model upgrades rather than blockers for deterministic patch-protocol
+testing. P3a must document its exposure approximation and must not be described as the
+final DESI observation model.
+
+Next: freeze the P3 schema and 5-versus-6 Mpc/h storage/resource estimate, implement a
+P1a parity canary, then build/audit both full caps before writing `FIELD_COMPLETE`.
+
 ### 2026-07-18 — [science/code] P1/P2 SCOPE CORRECTION: wedge products are canaries; authoritative patch training uses the full NGC+SGC footprint
 
 The phrase "largest complete contiguous volume" in the generalisable-VAC plan was ambiguous. The
