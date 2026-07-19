@@ -1,5 +1,59 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-19 — [science/code] P6 full-cap selection refit passes; inherited P7 blocker closed
+
+The wedge-derived P3 `ntilde` channels are now superseded at model-read time by a
+versioned P6 overlay; the immutable P3 HDF5 products were not modified. For each of
+the five P4 spatial rotations, separate NGC and SGC radial number-density curves are
+fit from only two label-free quantities in that rotation's three training folds:
+observed mock-galaxy redshifts and the apodized P3 effective exposure volume.
+Validation/development galaxies and all tidal labels are excluded from fitting.
+
+The primary estimator is a weighted cubic least-squares spline in log number density
+with fixed 0.05 redshift knot spacing. The maximum training-shell expected/observed
+error across 5 rotations x 2 caps x 4 reporting shells is 0.5687%. The deliberately
+unfitted validation/development ratios range from approximately 0.87 to 1.12, exposing
+real spatial/sample variance rather than forcing artificial closure. Pre-registered
+0.04/0.06 knot-spacing variants differ from the primary curve by at most 8.85% over
+0.15 <= z < 0.55; this is retained as a selection-model systematic.
+
+Each rotation also has one frozen channel normalizer fitted on supported voxels whose
+P4 cores belong to its training folds, pooled across NGC and SGC. No patch-local,
+validation-fold, development-fold, or blind-catalogue normalization is allowed. The
+P6 adapter now regenerates `ntilde_mpc3`, `expected_counts`, and
+`log_count_ratio` lazily from the selected rotation while leaving all other
+canonical channels untouched.
+
+All overlay gates pass on representative cores from every cap/fold/rotation stratum:
+4- versus 8-voxel patch overlap is exactly invariant; the expected-count identity
+agrees within 5.96e-8; the contrast identity agrees within 4.77e-7; legacy P3
+selection channels are demonstrably replaced; and frozen-normalized patches are
+finite. Unit tests also cover unsupported voxels and prove the overlay ignores stale
+selection arrays in the immutable P3 file.
+
+P7 was rerun using rotation 0's passed overlay. Authoritative graph/field identity,
+TSC conservation and overlap, fixed-FFT trace consistency, and finite ordered
+eigensystems all continue to pass. Thus the P6 selection blocker inherited by F-tier
+is closed. This does **not** write `UNET_PATCH_READY` or `FTIER_PATCH_READY`:
+P6 still requires trained U-Net context/subdivision/boundary convergence, while P7
+still requires trained decoder plus nonlocal FFT tile/padding/apodization/trim and
+eigengap-conditioned orientation convergence.
+
+Runtime artifacts:
+
+- `/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/fullcap_selection_v1/selection_manifest.json`
+- `fold_radial_histograms.npz`
+- `selection_overlay_validation.json`
+- `SELECTION_REFIT_COMPLETE`
+- `SELECTION_CHANNELS_READY`
+- refreshed P7 `/pscratch/sd/d/dkololgi/abacus/p7_ftier_patch_adapter/initial_composition_report.json`
+
+Implementation is in
+`workflows/abacus_tweb/p6_refit_fullcap_selection.py`,
+`p6_validate_selection_overlay.py`, `p6_field_patch_utils.py`, and the updated
+`p7_validate_initial_composition.py`. Compact evidence is tracked under
+`docs/evidence/p6/` and `docs/evidence/p7/`.
+
 ### 2026-07-19 — [science/code] P7 STARTED: graph-field composition, conservative scatter, and fixed tidal-operator gates pass
 
 P7 now composes the real P5 graph view with the P6 canonical field frame. On one SGC

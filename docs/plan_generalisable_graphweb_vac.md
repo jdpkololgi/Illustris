@@ -763,8 +763,8 @@ Progress checklist:
 
 ### P6 — U-Net patch adapter
 
-**Status:** ACTIVE/PARTIAL — structural adapter and parity pass; U-PATCH model gate open
-**Duration:** remaining normalization, selection-channel, and model-convergence work
+**Status:** ACTIVE/PARTIAL — full-cap selection overlay and normalization pass; trained U-PATCH convergence remains
+**Duration:** remaining trained-model context, subdivision, and boundary-convergence work
 
 Extract field patches from canonical voxel products. Each has:
 
@@ -788,12 +788,29 @@ galaxy order and coordinates, and interpolation parity across 4- and 8-voxel con
 views. The structural readiness markers are `FIELD_PATCH_INDEX_READY` and
 `FIELD_PATCH_PARITY_READY`. Compact evidence is tracked under `docs/evidence/p6/`.
 
-P3's frozen `ntilde` spline remains wedge-derived. The full-cap audit finds
-expected/input count ratios of 1.03–1.08 in NGC and 1.13–1.18 in SGC across reporting
-shells. Therefore the field arrays are structurally usable, but selection-dependent
-channels are not yet production-ready. Refit or validate cap-aware expected-count
-channels from the full training-footprint observation model before U-PATCH training;
-do not let a target-catalogue fit leak into validation or blind phases.
+P3 remains immutable and retains its wedge-derived `ntilde` channels for provenance.
+P6 now supplies a versioned full-cap selection overlay instead of rewriting those
+arrays. For each of the five P4 rotations it fits separate NGC and SGC curves using
+only label-free observed galaxy redshifts and apodized effective exposure volume in
+that rotation's three training folds. Validation and development folds never determine
+the curve. The corresponding channel normalizer is fitted once per rotation on
+supported training-core voxels, pooled over both caps, and is then frozen.
+
+All selection gates pass. The maximum training-shell expected/observed error over
+five rotations, two caps, and four reporting shells is 0.57%. Validation/development
+ratios range from approximately 0.87 to 1.12 and are retained as spatial-variation
+diagnostics rather than fitted away. Fixed knot-spacing sensitivity reaches 8.85%
+and is recorded as a selection-model systematic. Patch overlays are exactly invariant
+between 4- and 8-voxel views; expected-count and contrast identities agree to
+6e-8 and 4.8e-7. Runtime products are under
+`/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/fullcap_selection_v1/`;
+the operative markers are `SELECTION_REFIT_COMPLETE` and
+`SELECTION_CHANNELS_READY`, with tracked validation evidence in
+`docs/evidence/p6/`.
+
+This closes the selection and normalization blockers. It does not yet establish
+trained U-Net context or boundary convergence, so `UNET_PATCH_READY` remains
+deliberately unwritten.
 
 U-Net parity requires:
 
@@ -807,16 +824,18 @@ Progress checklist:
 
 - [x] Implement cap-lattice field patch reads from the immutable P3 schema.
 - [x] Separate output core, convolutional context, and unsupported survey boundary.
-- [ ] Fit channel normalization on training cores only and freeze it per rotation.
+- [x] Fit channel normalization on supported training-core voxels only, pool both
+  caps within each rotation, and freeze it for validation/development application.
 - [x] Sample predictions at the shared P4 authoritative core galaxies.
 - [x] Pass global-field versus patch-view channel and interpolation parity.
-- [ ] Refit/validate full-cap expected-count channels, including the SGC mismatch.
+- [x] Refit separate full-cap NGC/SGC expected-count channels from each rotation's
+  training folds only; pass shell closure and patch-overlay parity.
 - [ ] Pass trained-model context-growth, subdivision, and boundary-distance convergence.
 - [ ] Freeze the full schema and write `UNET_PATCH_READY`.
 
 ### P7 — F-tier graph/field/FFT adapter
 
-**Status:** ACTIVE/PARTIAL — composition, scatter, and fixed-operator unit gates pass
+**Status:** ACTIVE/PARTIAL — selection-aware composition, scatter, and fixed-operator gates pass
 **Duration:** remaining trained-decoder and nonlocal convergence work
 
 F-tier uses:
@@ -840,15 +859,19 @@ trace consistency at approximately 3e-15. Runtime evidence is under
 `/pscratch/sd/d/dkololgi/abacus/p7_ftier_patch_adapter/`, with compact copies under
 `docs/evidence/p7/` and the marker `FTIER_COMPOSITION_READY`.
 
-This is not `FTIER_PATCH_READY`. F-tier inherits the unresolved P6 selection-channel
-gate, and its nonlocal tidal operator requires explicit convergence over field-tile
-size, FFT padding/apodization, overlap, central trim, and survey-boundary distance.
-A passing pointwise FFT unit test cannot freeze those production choices.
+This is not `FTIER_PATCH_READY`. The P6 selection blocker is resolved: the real
+NGC/SGC composition suite has been rerun with rotation 0's passed full-cap overlay,
+and the P7 report binds the selection-manifest and readiness-marker hashes. F-tier's
+nonlocal tidal operator still requires explicit convergence over field-tile size,
+FFT padding/apodization, overlap, central trim, and survey-boundary distance. A
+passing pointwise FFT unit test cannot freeze those production choices.
 
 Progress checklist:
 
 - [x] Compose the passing P5 graph view and P6 canonical field frame.
 - [x] Verify graph-to-field scatter conservation and overlap parity.
+- [x] Consume the passed P6 full-cap selection overlay and frozen per-rotation
+  normalization contract without modifying P3.
 - [ ] Freeze FFT padding, apodization, overlap, and central-trim candidates.
 - [ ] Run trained-model convergence for density, tensor components, and eigenvalues.
 - [ ] Verify eigengap-conditioned orientation stability under tile convergence.

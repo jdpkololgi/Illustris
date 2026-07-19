@@ -1,10 +1,11 @@
 {
   "cell_units": "observer-frame comoving Mpc",
-  "elapsed_seconds": 2.592193841934204,
+  "elapsed_seconds": 2.5575907230377197,
   "ftier_patch_ready": false,
   "gates": {
     "finite_ordered_eigensystems": true,
     "fixed_fft_trace_consistency": true,
+    "fullcap_selection_overlay_ready": true,
     "p5_p6_authoritative_identity": true,
     "tsc_overlap_parity": true,
     "tsc_scatter_conservation": true
@@ -15,7 +16,6 @@
   "p6_manifest_sha256": "5056f62ef2341ca7b3da676c7ed68cdeb14036904bc4d71cc80b7b65a1c1866c",
   "pass": true,
   "pending": [
-    "selection-channel refit inherited from P6",
     "trained graph encoder plus field-decoder context convergence",
     "FFT tile-size, padding, apodization, overlap, and central-trim convergence",
     "eigenvector convergence conditioned on eigengap and survey-boundary distance"
@@ -41,26 +41,26 @@
         {
           "apodization_width_voxels": 0,
           "finite_eigenvectors": true,
-          "lambda1_mean": -0.49710425362345606,
-          "lambda1_std": 0.33232812137373474,
+          "lambda1_mean": -0.5003405630853492,
+          "lambda1_std": 0.3325131040974246,
           "ordered_eigenvalues": true,
-          "trace_max_abs_error": 3.6637359812630166e-15
+          "trace_max_abs_error": 3.1086244689504383e-15
         },
         {
           "apodization_width_voxels": 4,
           "finite_eigenvectors": true,
-          "lambda1_mean": -0.49462191545227663,
-          "lambda1_std": 0.3420971958147777,
+          "lambda1_mean": -0.48887930911466904,
+          "lambda1_std": 0.3415751192251643,
           "ordered_eigenvalues": true,
-          "trace_max_abs_error": 3.3306690738754696e-15
+          "trace_max_abs_error": 3.1086244689504383e-15
         },
         {
           "apodization_width_voxels": 8,
           "finite_eigenvectors": true,
-          "lambda1_mean": -0.4800584318520623,
-          "lambda1_std": 0.3490938113632566,
+          "lambda1_mean": -0.4686459716594725,
+          "lambda1_std": 0.3470221181832753,
           "ordered_eigenvalues": true,
-          "trace_max_abs_error": 3.552713678800501e-15
+          "trace_max_abs_error": 2.6645352591003757e-15
         }
       ],
       "scatter_conservation_max_abs": 0.00021165655925869942,
@@ -87,26 +87,26 @@
         {
           "apodization_width_voxels": 0,
           "finite_eigenvectors": true,
-          "lambda1_mean": -0.5007447858469566,
-          "lambda1_std": 0.3353591396463062,
+          "lambda1_mean": -0.5069529680268116,
+          "lambda1_std": 0.34129393201547725,
           "ordered_eigenvalues": true,
-          "trace_max_abs_error": 3.552713678800501e-15
+          "trace_max_abs_error": 3.1086244689504383e-15
         },
         {
           "apodization_width_voxels": 4,
           "finite_eigenvectors": true,
-          "lambda1_mean": -0.45347883805327505,
-          "lambda1_std": 0.3232625212177171,
+          "lambda1_mean": -0.4515220889740591,
+          "lambda1_std": 0.32271000744343054,
           "ordered_eigenvalues": true,
           "trace_max_abs_error": 2.6645352591003757e-15
         },
         {
           "apodization_width_voxels": 8,
           "finite_eigenvectors": true,
-          "lambda1_mean": -0.4248827680682312,
-          "lambda1_std": 0.32672457407053074,
+          "lambda1_mean": -0.4166910266301397,
+          "lambda1_std": 0.32390048523772574,
           "ordered_eigenvalues": true,
-          "trace_max_abs_error": 2.3314683517128287e-15
+          "trace_max_abs_error": 2.220446049250313e-15
         }
       ],
       "scatter_conservation_max_abs": 0.0004331367090344429,
@@ -116,5 +116,10 @@
   ],
   "rsmooth_mpc": 10.345846881466155,
   "schema_version": 1,
+  "selection_channels_ready": "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/fullcap_selection_v1/SELECTION_CHANNELS_READY",
+  "selection_channels_ready_sha256": "8a51a25595d7009b7b1b91e8ac7e4e39da4322234f54056d40cbbe9f77fefecf",
+  "selection_manifest": "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/fullcap_selection_v1/selection_manifest.json",
+  "selection_manifest_sha256": "4f31078f5b61c808610bb48a6c8cc8f1ad9a597778e3fa71e7adae8eb950c977",
+  "selection_rotation": 0,
   "stage": "P7 initial graph-field-FFT composition"
 }

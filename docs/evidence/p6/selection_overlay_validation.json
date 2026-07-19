@@ -1,0 +1,833 @@
+{
+  "elapsed_seconds": 4.78993821144104,
+  "gates": {
+    "all_rotations_caps_folds_represented": true,
+    "contrast_identity": true,
+    "expected_count_identity": true,
+    "frozen_normalization_finite": true,
+    "halo_invariant_to_float32_tolerance": true,
+    "overlay_changes_legacy_selection_channels": true,
+    "selection_manifest_passed": true
+  },
+  "git_sha": "469ab2943d28c64fed8dec09f102d1d4ccf5901b",
+  "halos_voxels": {
+    "large": 8,
+    "small": 4
+  },
+  "inputs": {
+    "adapter_manifest_sha256": "5056f62ef2341ca7b3da676c7ed68cdeb14036904bc4d71cc80b7b65a1c1866c",
+    "adapter_root": "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter",
+    "selection_manifest": "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/fullcap_selection_v1/selection_manifest.json",
+    "selection_manifest_sha256": "4f31078f5b61c808610bb48a6c8cc8f1ad9a597778e3fa71e7adae8eb950c977"
+  },
+  "maximum_contrast_identity_error": 4.76837158203125e-07,
+  "maximum_expected_identity_error": 5.960464477539063e-08,
+  "maximum_legacy_expected_mean_abs_difference": 0.0762857124209404,
+  "maximum_overlap_difference": 0.0,
+  "pass": true,
+  "rows": [
+    {
+      "authoritative_galaxies": 3283,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 454,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 0,
+      "legacy_expected_mean_abs_difference": 0.06198706850409508,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 0
+    },
+    {
+      "authoritative_galaxies": 4542,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 63,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 1,
+      "legacy_expected_mean_abs_difference": 0.059326622635126114,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 0
+    },
+    {
+      "authoritative_galaxies": 3880,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 444,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 2,
+      "legacy_expected_mean_abs_difference": 0.04986387491226196,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 0
+    },
+    {
+      "authoritative_galaxies": 3477,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 625,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 3,
+      "legacy_expected_mean_abs_difference": 0.054083120077848434,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 0
+    },
+    {
+      "authoritative_galaxies": 4081,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 376,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 4,
+      "legacy_expected_mean_abs_difference": 0.039309367537498474,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 0
+    },
+    {
+      "authoritative_galaxies": 4048,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 17152,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 0,
+      "legacy_expected_mean_abs_difference": 0.04249121621251106,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 0
+    },
+    {
+      "authoritative_galaxies": 3892,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 13621,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 1,
+      "legacy_expected_mean_abs_difference": 0.04411238804459572,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 0
+    },
+    {
+      "authoritative_galaxies": 3644,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 14290,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 2,
+      "legacy_expected_mean_abs_difference": 0.03446872532367706,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 0
+    },
+    {
+      "authoritative_galaxies": 5112,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 15906,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 3,
+      "legacy_expected_mean_abs_difference": 0.048746414482593536,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 0
+    },
+    {
+      "authoritative_galaxies": 4093,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 15814,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 4,
+      "legacy_expected_mean_abs_difference": 0.0466582328081131,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 0
+    },
+    {
+      "authoritative_galaxies": 3283,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 454,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 0,
+      "legacy_expected_mean_abs_difference": 0.0762857124209404,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 1
+    },
+    {
+      "authoritative_galaxies": 4542,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 63,
+      "expected_identity_max_abs": 5.960464477539063e-08,
+      "fold": 1,
+      "legacy_expected_mean_abs_difference": 0.07260259985923767,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 1
+    },
+    {
+      "authoritative_galaxies": 3880,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 444,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 2,
+      "legacy_expected_mean_abs_difference": 0.06168817728757858,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 1
+    },
+    {
+      "authoritative_galaxies": 3477,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 625,
+      "expected_identity_max_abs": 5.960464477539063e-08,
+      "fold": 3,
+      "legacy_expected_mean_abs_difference": 0.06739980727434158,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 1
+    },
+    {
+      "authoritative_galaxies": 4081,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 376,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 4,
+      "legacy_expected_mean_abs_difference": 0.05041710287332535,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 1
+    },
+    {
+      "authoritative_galaxies": 4048,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 17152,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 0,
+      "legacy_expected_mean_abs_difference": 0.029782069846987724,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 1
+    },
+    {
+      "authoritative_galaxies": 3892,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 13621,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 1,
+      "legacy_expected_mean_abs_difference": 0.03830155357718468,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 1
+    },
+    {
+      "authoritative_galaxies": 3644,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 14290,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 2,
+      "legacy_expected_mean_abs_difference": 0.02609204314649105,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 1
+    },
+    {
+      "authoritative_galaxies": 5112,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 15906,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 3,
+      "legacy_expected_mean_abs_difference": 0.043233077973127365,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 1
+    },
+    {
+      "authoritative_galaxies": 4093,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 15814,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 4,
+      "legacy_expected_mean_abs_difference": 0.04307062551379204,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 1
+    },
+    {
+      "authoritative_galaxies": 3283,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 454,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 0,
+      "legacy_expected_mean_abs_difference": 0.049083299934864044,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 2
+    },
+    {
+      "authoritative_galaxies": 4542,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 63,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 1,
+      "legacy_expected_mean_abs_difference": 0.049810536205768585,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 2
+    },
+    {
+      "authoritative_galaxies": 3880,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 444,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 2,
+      "legacy_expected_mean_abs_difference": 0.04631893336772919,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 2
+    },
+    {
+      "authoritative_galaxies": 3477,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 625,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 3,
+      "legacy_expected_mean_abs_difference": 0.04864301159977913,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 2
+    },
+    {
+      "authoritative_galaxies": 4081,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 376,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 4,
+      "legacy_expected_mean_abs_difference": 0.031131301075220108,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 2
+    },
+    {
+      "authoritative_galaxies": 4048,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 17152,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 0,
+      "legacy_expected_mean_abs_difference": 0.027126651257276535,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 2
+    },
+    {
+      "authoritative_galaxies": 3892,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 13621,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 1,
+      "legacy_expected_mean_abs_difference": 0.03791521489620209,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 2
+    },
+    {
+      "authoritative_galaxies": 3644,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 14290,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 2,
+      "legacy_expected_mean_abs_difference": 0.024697454646229744,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 2
+    },
+    {
+      "authoritative_galaxies": 5112,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 15906,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 3,
+      "legacy_expected_mean_abs_difference": 0.042968351393938065,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 2
+    },
+    {
+      "authoritative_galaxies": 4093,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 15814,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 4,
+      "legacy_expected_mean_abs_difference": 0.04306371137499809,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 2
+    },
+    {
+      "authoritative_galaxies": 3283,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 454,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 0,
+      "legacy_expected_mean_abs_difference": 0.05231228470802307,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 3
+    },
+    {
+      "authoritative_galaxies": 4542,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 63,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 1,
+      "legacy_expected_mean_abs_difference": 0.0549631230533123,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 3
+    },
+    {
+      "authoritative_galaxies": 3880,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 444,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 2,
+      "legacy_expected_mean_abs_difference": 0.05437401682138443,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 3
+    },
+    {
+      "authoritative_galaxies": 3477,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 625,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 3,
+      "legacy_expected_mean_abs_difference": 0.055957138538360596,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 3
+    },
+    {
+      "authoritative_galaxies": 4081,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 376,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 4,
+      "legacy_expected_mean_abs_difference": 0.03515196964144707,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 3
+    },
+    {
+      "authoritative_galaxies": 4048,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 17152,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 0,
+      "legacy_expected_mean_abs_difference": 0.030141469091176987,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 3
+    },
+    {
+      "authoritative_galaxies": 3892,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 13621,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 1,
+      "legacy_expected_mean_abs_difference": 0.04000281170010567,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 3
+    },
+    {
+      "authoritative_galaxies": 3644,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 14290,
+      "expected_identity_max_abs": 5.960464477539063e-08,
+      "fold": 2,
+      "legacy_expected_mean_abs_difference": 0.02736532874405384,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 3
+    },
+    {
+      "authoritative_galaxies": 5112,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 15906,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 3,
+      "legacy_expected_mean_abs_difference": 0.04552781209349632,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 3
+    },
+    {
+      "authoritative_galaxies": 4093,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 15814,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 4,
+      "legacy_expected_mean_abs_difference": 0.045278605073690414,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 3
+    },
+    {
+      "authoritative_galaxies": 3283,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 454,
+      "expected_identity_max_abs": 5.960464477539063e-08,
+      "fold": 0,
+      "legacy_expected_mean_abs_difference": 0.055522117763757706,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 4
+    },
+    {
+      "authoritative_galaxies": 4542,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 63,
+      "expected_identity_max_abs": 5.960464477539063e-08,
+      "fold": 1,
+      "legacy_expected_mean_abs_difference": 0.05191945284605026,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 4
+    },
+    {
+      "authoritative_galaxies": 3880,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 444,
+      "expected_identity_max_abs": 5.960464477539063e-08,
+      "fold": 2,
+      "legacy_expected_mean_abs_difference": 0.04412204772233963,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 4
+    },
+    {
+      "authoritative_galaxies": 3477,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 625,
+      "expected_identity_max_abs": 5.960464477539063e-08,
+      "fold": 3,
+      "legacy_expected_mean_abs_difference": 0.049369752407073975,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 4
+    },
+    {
+      "authoritative_galaxies": 4081,
+      "cap": "SGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 376,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 4,
+      "legacy_expected_mean_abs_difference": 0.038489844650030136,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 4
+    },
+    {
+      "authoritative_galaxies": 4048,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 17152,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 0,
+      "legacy_expected_mean_abs_difference": 0.03251275420188904,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 4
+    },
+    {
+      "authoritative_galaxies": 3892,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 13621,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 1,
+      "legacy_expected_mean_abs_difference": 0.04077708348631859,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 4
+    },
+    {
+      "authoritative_galaxies": 3644,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 14290,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 2,
+      "legacy_expected_mean_abs_difference": 0.028165489435195923,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 4
+    },
+    {
+      "authoritative_galaxies": 5112,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 15906,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 3,
+      "legacy_expected_mean_abs_difference": 0.04581064730882645,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 4
+    },
+    {
+      "authoritative_galaxies": 4093,
+      "cap": "NGC",
+      "contrast_identity_max_abs": 4.76837158203125e-07,
+      "core_id": 15814,
+      "expected_identity_max_abs": 2.9802322387695312e-08,
+      "fold": 4,
+      "legacy_expected_mean_abs_difference": 0.045338910073041916,
+      "normalized_finite": true,
+      "overlap_max_abs": {
+        "expected_counts": 0.0,
+        "log_count_ratio": 0.0,
+        "ntilde_mpc3": 0.0
+      },
+      "rotation": 4
+    }
+  ],
+  "schema_version": "p6-selection-overlay-validation-v1",
+  "stage": "P6_SELECTION_OVERLAY_VALIDATION",
+  "status": "complete"
+}
