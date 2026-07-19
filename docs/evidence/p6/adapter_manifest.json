@@ -1,0 +1,131 @@
+{
+  "axis_order": "ix,iy,iz",
+  "caps": {
+    "NGC": {
+      "cap_id": 1,
+      "cell_mpc": 5.0,
+      "field_path": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/ngc_fields.h5",
+      "field_sha256": "dfdf07126c38d9d5acb8ef44a598214f1a9a4dfb1f433bbd1032ec9524b2d81a",
+      "origin_mpc": [
+        -2277.7230222783965,
+        -2205.238309722041,
+        -412.8210045448139
+      ],
+      "selection_expected_to_input_by_shell": {
+        "0.15_0.25": 1.0618907838209501,
+        "0.25_0.35": 1.0303140520556824,
+        "0.35_0.45": 1.0454823556995763,
+        "0.45_0.55": 1.0848010664252643
+      },
+      "shape": [
+        539,
+        823,
+        528
+      ]
+    },
+    "SGC": {
+      "cap_id": 0,
+      "cell_mpc": 5.0,
+      "field_path": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/sgc_fields.h5",
+      "field_sha256": "fc0d0cf3fc7be6b74441dc8988e17de7dfcb76e9f700c48b8a101c8bbe77040d",
+      "origin_mpc": [
+        70.64531755701772,
+        -1689.5756619407848,
+        -726.8134567450163
+      ],
+      "selection_expected_to_input_by_shell": {
+        "0.15_0.25": 1.1338962279273712,
+        "0.25_0.35": 1.135563092034146,
+        "0.35_0.45": 1.164655320638374,
+        "0.45_0.55": 1.1767734500425218
+      },
+      "shape": [
+        445,
+        764,
+        386
+      ]
+    }
+  },
+  "channel_order": [
+    "counts",
+    "exposure_binary",
+    "exposure_apodized",
+    "expected_counts",
+    "log_count_ratio",
+    "ntilde_mpc3",
+    "los_x",
+    "los_y",
+    "los_z"
+  ],
+  "elapsed_seconds": 3.940197467803955,
+  "gates": {
+    "all_authoritative_rows_indexed": true,
+    "cap_identity_matches_core": true,
+    "core_ids_in_range": true,
+    "fractional_indices_finite": true,
+    "p3_unit_audit_passed": true,
+    "two_cap_fields_present": true
+  },
+  "git_sha": "560abf29b73d0a18bd9868cf8418382261c4bedc",
+  "n_authoritative": 5026863,
+  "n_cores": 18765,
+  "normalization_contract": {
+    "application": "frozen per rotation; never patch local",
+    "counts": "log1p then zscore",
+    "expected_counts": "log1p then zscore",
+    "exposure_apodized": "identity",
+    "exposure_binary": "identity",
+    "fit_population": "training-fold output-core voxels only",
+    "log_count_ratio": "zscore",
+    "los_x": "identity",
+    "los_y": "identity",
+    "los_z": "identity",
+    "ntilde_mpc3": "log then zscore"
+  },
+  "p3_manifest": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/field_manifest.json",
+  "p3_manifest_sha256": "3f0fc7ba8e42c3004b9cc6969de76a44ce217f0a736dc2dd473ef2176371ca0d",
+  "p4_active_assignment": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/active_assignment.npz",
+  "p4_active_assignment_sha256": "c95a683184a9bd7edc218036e05a0f4b077224cddc525ef54e489e273459f08f",
+  "p4_cores": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/cores.npz",
+  "p4_cores_sha256": "430e1ee7c3426c1f97468caaee77c217680dcb8e0ef993949d8f7a0e6568571b",
+  "pass": true,
+  "points": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_points.npy",
+  "schema_version": 1,
+  "selection_channel_status": {
+    "failures_over_5pct": [
+      {
+        "cap": "SGC",
+        "expected_to_input_ratio": 1.1338962279273712,
+        "shell": "0.15_0.25"
+      },
+      {
+        "cap": "SGC",
+        "expected_to_input_ratio": 1.135563092034146,
+        "shell": "0.25_0.35"
+      },
+      {
+        "cap": "SGC",
+        "expected_to_input_ratio": 1.164655320638374,
+        "shell": "0.35_0.45"
+      },
+      {
+        "cap": "SGC",
+        "expected_to_input_ratio": 1.1767734500425218,
+        "shell": "0.45_0.55"
+      },
+      {
+        "cap": "NGC",
+        "expected_to_input_ratio": 1.0618907838209501,
+        "shell": "0.15_0.25"
+      },
+      {
+        "cap": "NGC",
+        "expected_to_input_ratio": 1.0848010664252643,
+        "shell": "0.45_0.55"
+      }
+    ],
+    "ready_for_u_patch_training": false,
+    "reason": "P3 radial spline was frozen on a wedge and must be refit or validated per cap before expected-count channels are production inputs"
+  },
+  "stage": "P6 canonical field-patch index"
+}

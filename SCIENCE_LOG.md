@@ -1,5 +1,37 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-19 — [science/code] P6 STARTED: canonical field-patch views pass structural parity; selection-channel refit is a hard U-PATCH gate
+
+P6 now has an immutable field-patch adapter over the P3 NGC/SGC HDF5 lattices and
+the P4 authoritative core manifest. The index covers all 5,026,863 authoritative
+galaxies and 18,765 cores. Across the maximum-occupancy authoritative core in every
+cap/fold stratum, canonical field channels are copied exactly, galaxy parent-ID order
+and global/local coordinates agree exactly, and trilinear sampling is identical for
+4- and 8-voxel context views. No patch-local normalization is performed.
+
+The parity run exposed an important geometry distinction rather than a data loss. P4
+owns physical galaxy cores, whereas P3 stores rounded voxel slices. A few percent of
+authoritative galaxies in sampled cores can lie just outside the nominal voxel-core
+slice, but every one has a valid interpolation stencil in the context view. P6 now
+keeps P4 ownership authoritative and treats the voxel core as dense-output and
+normalization bookkeeping; it does not discard valid core targets to force lattice
+coincidence.
+
+The field adapter is structurally sound, but `UNET_PATCH_READY` is deliberately not
+written. The P3 expected-count channels still use the wedge-frozen `ntilde` spline.
+The full-cap audit finds expected/input ratios of 1.03–1.08 in NGC and 1.13–1.18 in
+SGC across the four reporting shells. Cap-aware expected-count channels must be
+refit or independently validated from the training-footprint observation model before
+U-PATCH training. Per-rotation channel normalizers and trained-model context/boundary
+convergence also remain open.
+
+Runtime artifacts:
+`/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/adapter_manifest.json`,
+`structural_parity_report.json`, `FIELD_PATCH_INDEX_READY`, and
+`FIELD_PATCH_PARITY_READY`. Code is in
+`workflows/abacus_tweb/p6_{field_patch_utils,build_field_patch_adapter,validate_field_patch_adapter}.py`;
+tracked evidence is under `docs/evidence/p6/`.
+
 ### 2026-07-19 — [science/code] P5 AUDIT RESOLVED: authoritative primary mask, frozen G-PATCH control, production A100 parity
 
 Claude's audit identified genuine pre-registration gaps, not a failed adapter. They

@@ -1,0 +1,359 @@
+{
+  "adapter_manifest": "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/adapter_manifest.json",
+  "adapter_manifest_sha256": "5056f62ef2341ca7b3da676c7ed68cdeb14036904bc4d71cc80b7b65a1c1866c",
+  "cell_mpc": {
+    "NGC": 5.0,
+    "SGC": 5.0
+  },
+  "elapsed_seconds": 1.2201497554779053,
+  "gates": {
+    "authoritative_coordinates_inside_context": true,
+    "both_caps_all_folds_represented": true,
+    "canonical_channel_identity": true,
+    "galaxy_order_parity": true,
+    "global_to_local_coordinate_parity": true,
+    "interpolation_invariant_to_context_growth": true
+  },
+  "halo_large_voxels": 8,
+  "halo_small_voxels": 4,
+  "model_level_pending": [
+    "fit and freeze per-rotation normalization on all training-core voxels",
+    "refit or validate cap-specific selection channels",
+    "run frozen U-Net prediction convergence versus context and boundary"
+  ],
+  "pass": true,
+  "records": [
+    {
+      "all_authoritative_have_context_interpolation_support": true,
+      "authoritative_galaxies": 3283,
+      "available_halo_high": [
+        4,
+        4,
+        4
+      ],
+      "available_halo_low": [
+        4,
+        4,
+        4
+      ],
+      "cap": "SGC",
+      "channel_identity": true,
+      "context_growth_interpolation_max_abs": 0.0,
+      "context_shape_large": [
+        36,
+        36,
+        36
+      ],
+      "context_shape_small": [
+        28,
+        28,
+        28
+      ],
+      "coordinate_reexpression_max_abs": 0.0,
+      "core_id": 454,
+      "fold": 0,
+      "galaxy_order_max_abs": 0.0,
+      "nominal_voxel_core_fraction": 0.9719768504416693,
+      "unsupported_context_fraction": 0.005876457725947522
+    },
+    {
+      "all_authoritative_have_context_interpolation_support": true,
+      "authoritative_galaxies": 4542,
+      "available_halo_high": [
+        4,
+        4,
+        4
+      ],
+      "available_halo_low": [
+        4,
+        4,
+        4
+      ],
+      "cap": "SGC",
+      "channel_identity": true,
+      "context_growth_interpolation_max_abs": 0.0,
+      "context_shape_large": [
+        36,
+        35,
+        36
+      ],
+      "context_shape_small": [
+        28,
+        27,
+        28
+      ],
+      "coordinate_reexpression_max_abs": 0.0,
+      "core_id": 63,
+      "fold": 1,
+      "galaxy_order_max_abs": 0.0,
+      "nominal_voxel_core_fraction": 0.9812857771906649,
+      "unsupported_context_fraction": 0.034486016628873774
+    },
+    {
+      "all_authoritative_have_context_interpolation_support": true,
+      "authoritative_galaxies": 3880,
+      "available_halo_high": [
+        4,
+        4,
+        4
+      ],
+      "available_halo_low": [
+        4,
+        4,
+        4
+      ],
+      "cap": "SGC",
+      "channel_identity": true,
+      "context_growth_interpolation_max_abs": 0.0,
+      "context_shape_large": [
+        36,
+        36,
+        36
+      ],
+      "context_shape_small": [
+        28,
+        28,
+        28
+      ],
+      "coordinate_reexpression_max_abs": 0.0,
+      "core_id": 444,
+      "fold": 2,
+      "galaxy_order_max_abs": 0.0,
+      "nominal_voxel_core_fraction": 0.9868556701030928,
+      "unsupported_context_fraction": 0.0
+    },
+    {
+      "all_authoritative_have_context_interpolation_support": true,
+      "authoritative_galaxies": 3477,
+      "available_halo_high": [
+        4,
+        4,
+        4
+      ],
+      "available_halo_low": [
+        4,
+        4,
+        4
+      ],
+      "cap": "SGC",
+      "channel_identity": true,
+      "context_growth_interpolation_max_abs": 0.0,
+      "context_shape_large": [
+        36,
+        36,
+        36
+      ],
+      "context_shape_small": [
+        28,
+        28,
+        28
+      ],
+      "coordinate_reexpression_max_abs": 0.0,
+      "core_id": 625,
+      "fold": 3,
+      "galaxy_order_max_abs": 0.0,
+      "nominal_voxel_core_fraction": 0.9919470808167961,
+      "unsupported_context_fraction": 0.009748542274052478
+    },
+    {
+      "all_authoritative_have_context_interpolation_support": true,
+      "authoritative_galaxies": 4081,
+      "available_halo_high": [
+        4,
+        4,
+        4
+      ],
+      "available_halo_low": [
+        4,
+        4,
+        4
+      ],
+      "cap": "SGC",
+      "channel_identity": true,
+      "context_growth_interpolation_max_abs": 0.0,
+      "context_shape_large": [
+        36,
+        35,
+        36
+      ],
+      "context_shape_small": [
+        28,
+        27,
+        28
+      ],
+      "coordinate_reexpression_max_abs": 0.0,
+      "core_id": 376,
+      "fold": 4,
+      "galaxy_order_max_abs": 0.0,
+      "nominal_voxel_core_fraction": 0.9745160499877481,
+      "unsupported_context_fraction": 0.0030706727135298563
+    },
+    {
+      "all_authoritative_have_context_interpolation_support": true,
+      "authoritative_galaxies": 4048,
+      "available_halo_high": [
+        4,
+        4,
+        4
+      ],
+      "available_halo_low": [
+        4,
+        4,
+        4
+      ],
+      "cap": "NGC",
+      "channel_identity": true,
+      "context_growth_interpolation_max_abs": 0.0,
+      "context_shape_large": [
+        36,
+        36,
+        36
+      ],
+      "context_shape_small": [
+        28,
+        28,
+        28
+      ],
+      "coordinate_reexpression_max_abs": 0.0,
+      "core_id": 17152,
+      "fold": 0,
+      "galaxy_order_max_abs": 0.0,
+      "nominal_voxel_core_fraction": 0.9883893280632411,
+      "unsupported_context_fraction": 0.00022776967930029153
+    },
+    {
+      "all_authoritative_have_context_interpolation_support": true,
+      "authoritative_galaxies": 3892,
+      "available_halo_high": [
+        4,
+        4,
+        4
+      ],
+      "available_halo_low": [
+        4,
+        4,
+        4
+      ],
+      "cap": "NGC",
+      "channel_identity": true,
+      "context_growth_interpolation_max_abs": 0.0,
+      "context_shape_large": [
+        36,
+        36,
+        36
+      ],
+      "context_shape_small": [
+        28,
+        28,
+        28
+      ],
+      "coordinate_reexpression_max_abs": 0.0,
+      "core_id": 13621,
+      "fold": 1,
+      "galaxy_order_max_abs": 0.0,
+      "nominal_voxel_core_fraction": 0.9848406988694759,
+      "unsupported_context_fraction": 0.0
+    },
+    {
+      "all_authoritative_have_context_interpolation_support": true,
+      "authoritative_galaxies": 3644,
+      "available_halo_high": [
+        4,
+        4,
+        4
+      ],
+      "available_halo_low": [
+        4,
+        4,
+        4
+      ],
+      "cap": "NGC",
+      "channel_identity": true,
+      "context_growth_interpolation_max_abs": 0.0,
+      "context_shape_large": [
+        36,
+        36,
+        36
+      ],
+      "context_shape_small": [
+        28,
+        28,
+        28
+      ],
+      "coordinate_reexpression_max_abs": 0.0,
+      "core_id": 14290,
+      "fold": 2,
+      "galaxy_order_max_abs": 0.0,
+      "nominal_voxel_core_fraction": 0.997530186608123,
+      "unsupported_context_fraction": 0.24681122448979592
+    },
+    {
+      "all_authoritative_have_context_interpolation_support": true,
+      "authoritative_galaxies": 5112,
+      "available_halo_high": [
+        4,
+        4,
+        4
+      ],
+      "available_halo_low": [
+        4,
+        4,
+        4
+      ],
+      "cap": "NGC",
+      "channel_identity": true,
+      "context_growth_interpolation_max_abs": 0.0,
+      "context_shape_large": [
+        36,
+        36,
+        36
+      ],
+      "context_shape_small": [
+        28,
+        28,
+        28
+      ],
+      "coordinate_reexpression_max_abs": 0.0,
+      "core_id": 15906,
+      "fold": 3,
+      "galaxy_order_max_abs": 0.0,
+      "nominal_voxel_core_fraction": 0.9927621283255086,
+      "unsupported_context_fraction": 0.004874271137026239
+    },
+    {
+      "all_authoritative_have_context_interpolation_support": true,
+      "authoritative_galaxies": 4093,
+      "available_halo_high": [
+        4,
+        4,
+        4
+      ],
+      "available_halo_low": [
+        4,
+        4,
+        4
+      ],
+      "cap": "NGC",
+      "channel_identity": true,
+      "context_growth_interpolation_max_abs": 0.0,
+      "context_shape_large": [
+        36,
+        35,
+        36
+      ],
+      "context_shape_small": [
+        28,
+        27,
+        28
+      ],
+      "coordinate_reexpression_max_abs": 0.0,
+      "core_id": 15814,
+      "fold": 4,
+      "galaxy_order_max_abs": 0.0,
+      "nominal_voxel_core_fraction": 0.9643293427803568,
+      "unsupported_context_fraction": 0.005716175359032502
+    }
+  ],
+  "schema_version": 1,
+  "stage": "P6 structural field-patch parity"
+}

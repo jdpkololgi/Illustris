@@ -763,17 +763,37 @@ Progress checklist:
 
 ### P6 — U-Net patch adapter
 
-**Status:** READY — P3a/P4 complete
-**Duration:** 1–2 implementation days plus parity runs
+**Status:** ACTIVE/PARTIAL — structural adapter and parity pass; U-PATCH model gate open
+**Duration:** remaining normalization, selection-channel, and model-convergence work
 
 Extract field patches from canonical voxel products. Each has:
 
-- an output core containing authoritative galaxies;
+- a P4 physical core that owns authoritative evaluation galaxies;
+- a nominal voxel core for dense output and normalization bookkeeping;
 - a field-context halo covering the convolutional receptive field;
 - frozen global channel definitions;
 - training-core-fitted normalization applied elsewhere unchanged.
 
-Sample predictions at the same core galaxies used by graph and classical models.
+P4 physical galaxy ownership is authoritative. Because rounded P3 lattice bounds do
+not coincide exactly with physical P4 core faces, a small fraction of authoritative
+galaxies lies just outside the nominal voxel-core slice. They remain legitimate core
+targets if their interpolation stencil is inside the extracted context. Never drop
+them merely to force voxel-core equality.
+
+The structural adapter is implemented at
+`/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/`. Its
+`adapter_manifest.json` indexes 5,026,863 authoritative galaxies across 18,765 cores.
+`structural_parity_report.json` passes exact canonical-channel identity, identical
+galaxy order and coordinates, and interpolation parity across 4- and 8-voxel context
+views. The structural readiness markers are `FIELD_PATCH_INDEX_READY` and
+`FIELD_PATCH_PARITY_READY`. Compact evidence is tracked under `docs/evidence/p6/`.
+
+P3's frozen `ntilde` spline remains wedge-derived. The full-cap audit finds
+expected/input count ratios of 1.03–1.08 in NGC and 1.13–1.18 in SGC across reporting
+shells. Therefore the field arrays are structurally usable, but selection-dependent
+channels are not yet production-ready. Refit or validate cap-aware expected-count
+channels from the full training-footprint observation model before U-PATCH training;
+do not let a target-catalogue fit leak into validation or blind phases.
 
 U-Net parity requires:
 
@@ -785,13 +805,14 @@ U-Net parity requires:
 
 Progress checklist:
 
-- [ ] Implement cap-lattice field patch reads from the immutable P3 schema.
-- [ ] Separate output core, convolutional context, and unsupported survey boundary.
-- [ ] Fit channel normalization on training cores only and freeze it per fold.
-- [ ] Sample predictions only at shared P4 authoritative core galaxies.
-- [ ] Pass global-field versus patch-view channel and interpolation parity.
-- [ ] Pass context-growth, subdivision, and boundary-distance convergence tests.
-- [ ] Write adapter schema, parity report, tests, and `UNET_PATCH_READY`.
+- [x] Implement cap-lattice field patch reads from the immutable P3 schema.
+- [x] Separate output core, convolutional context, and unsupported survey boundary.
+- [ ] Fit channel normalization on training cores only and freeze it per rotation.
+- [x] Sample predictions at the shared P4 authoritative core galaxies.
+- [x] Pass global-field versus patch-view channel and interpolation parity.
+- [ ] Refit/validate full-cap expected-count channels, including the SGC mismatch.
+- [ ] Pass trained-model context-growth, subdivision, and boundary-distance convergence.
+- [ ] Freeze the full schema and write `UNET_PATCH_READY`.
 
 ### P7 — F-tier graph/field/FFT adapter
 

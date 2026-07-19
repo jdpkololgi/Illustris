@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "stage": "P6 canonical field-patch structural adapter",
+  "status": "structural_parity_passed_model_readiness_pending",
+  "authoritative_contract": {
+    "galaxy_owner": "P4 physical core",
+    "nominal_voxel_core": "dense output and normalization bookkeeping only",
+    "scored_galaxies": "all P4 authoritative core galaxies with a valid context interpolation stencil",
+    "forbidden": "dropping authoritative galaxies solely because rounded voxel-core bounds differ from the physical core"
+  },
+  "channel_order": [
+    "counts",
+    "exposure_binary",
+    "exposure_apodized",
+    "expected_counts",
+    "log_count_ratio",
+    "ntilde_mpc3",
+    "los_x",
+    "los_y",
+    "los_z"
+  ],
+  "normalization_contract": {
+    "fit_population": "training-fold output-core voxels for each P4 rotation",
+    "application": "frozen per rotation and applied unchanged; never fit per patch",
+    "counts": "log1p then zscore",
+    "expected_counts": "log1p then zscore",
+    "log_count_ratio": "zscore",
+    "ntilde_mpc3": "log then zscore",
+    "exposure_and_los": "identity"
+  },
+  "selection_channel_gate": {
+    "ready_for_u_patch_training": false,
+    "reason": "wedge-frozen ntilde spline is mismatched to the full caps, especially SGC",
+    "required_action": "refit or independently validate cap-aware expected-count channels from the training-footprint observation model"
+  },
+  "parity_gates_passed": [
+    "canonical channel identity",
+    "authoritative coordinate support",
+    "galaxy order parity",
+    "global-to-local coordinate parity",
+    "interpolation invariance to context growth"
+  ],
+  "pending_model_gates": [
+    "per-rotation normalization fit and freeze",
+    "cap-aware selection-channel validation",
+    "trained U-Net context-growth and boundary-distance convergence",
+    "UNET_PATCH_READY"
+  ]
+}
