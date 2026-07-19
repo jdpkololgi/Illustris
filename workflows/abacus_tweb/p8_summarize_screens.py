@@ -123,6 +123,8 @@ def main() -> None:
         "status": "UNDETERMINED",
         "reason": "all learned screens and strong matched classical rows are not complete",
     }
+    adequacy_path = args.p8_root / "training_adequacy.json"
+    adequacy = json.loads(adequacy_path.read_text()) if adequacy_path.exists() else None
     # CIC alone is explicitly not strong enough to certify a learned victory.  It
     # is allowed to expose a failure, but exact DTFE/another validated strong row
     # is required before declaring the adoption gate passed.
@@ -158,6 +160,35 @@ def main() -> None:
                     "requires the per-shell table and strong-classical gate"
                 ),
             }
+    if (
+        classical is not None
+        and len(resolved_learned) == 3
+        and comparisons
+        and all(row["macro_only_apparent_win"] for row in comparisons.values())
+    ):
+        gate = {
+            "status": "PENDING_CONVERGENCE_AND_STRONG_CLASSICAL",
+            "reason": (
+                "every runnable learned candidate trails matched CIC over the first "
+                "three tracer-supported shells, while its four-shell macro advantage "
+                "is created by CIC collapse in shell 4"
+            ),
+            "exact_dtfe_status": (
+                "required before the learned adoption gate can close"
+            ),
+            "no_macro_only_win": True,
+        }
+    if adequacy is not None and adequacy["status"] != "PASS":
+        gate = {
+            "status": "INCONCLUSIVE_OPTIMIZATION_AUDIT_REQUIRED",
+            "reason": adequacy["reason"],
+            "short_screen_result": (
+                "no five-fold promotion is justified, but the short screens cannot "
+                "support a scientific learned-model NO-GO"
+            ),
+            "no_macro_only_win": True,
+            "training_adequacy": str(adequacy_path),
+        }
     payload = {
         "schema_version": 1,
         "stage": "P8 one-seed two-rotation screen summary",
@@ -173,6 +204,7 @@ def main() -> None:
             "establish a learned win when a classical method collapses only in shell 4."
         ),
         "comparisons_to_cic": comparisons,
+        "training_adequacy": adequacy,
         "learned_adoption_gate": gate,
         "p10_required_for_production_transfer": True,
     }

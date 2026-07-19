@@ -1,0 +1,351 @@
+{
+  "comparisons_to_cic": {
+    "G-PATCH": {
+      "first_three_shell_delta_vs_cic": -0.07249941052727238,
+      "four_shell_delta_vs_cic": 0.21099917337604243,
+      "interpretation": "not a classical win: positive four-shell delta is driven by CIC collapse in shell 4",
+      "macro_only_apparent_win": true
+    },
+    "U-PATCH": {
+      "first_three_shell_delta_vs_cic": -0.09775029158855247,
+      "four_shell_delta_vs_cic": 0.1779003162246636,
+      "interpretation": "not a classical win: positive four-shell delta is driven by CIC collapse in shell 4",
+      "macro_only_apparent_win": true
+    }
+  },
+  "first_three_shell_diagnostic_leader": "CLASSICAL-CIC",
+  "four_shell_macro_leader": "G-PATCH",
+  "learned_adoption_gate": {
+    "no_macro_only_win": true,
+    "reason": "No run completed one exposure of all eligible training cores and each run evaluated validation only once, so convergence and early stopping were not measured.",
+    "short_screen_result": "no five-fold promotion is justified, but the short screens cannot support a scientific learned-model NO-GO",
+    "status": "INCONCLUSIVE_OPTIMIZATION_AUDIT_REQUIRED",
+    "training_adequacy": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/training_adequacy.json"
+  },
+  "models": [
+    {
+      "complete": true,
+      "first_three_shell_diagnostic_by_rotation": [
+        0.5217390066535118,
+        0.5192432318385874
+      ],
+      "first_three_shell_diagnostic_mean": 0.5204911192460496,
+      "four_shell_primary_by_rotation": [
+        0.20049075752715556,
+        0.169444441651033
+      ],
+      "four_shell_primary_mean": 0.18496759958909428,
+      "model": "CLASSICAL-CIC",
+      "per_shell": {
+        "0p15_0p25": {
+          "by_rotation": [
+            0.5585386179432714,
+            0.55002391694537
+          ],
+          "mean_r2_lambda1": 0.5542812674443207
+        },
+        "0p25_0p35": {
+          "by_rotation": [
+            0.5650616130946517,
+            0.5768491051947144
+          ],
+          "mean_r2_lambda1": 0.5709553591446831
+        },
+        "0p35_0p45": {
+          "by_rotation": [
+            0.44161678892261247,
+            0.4308566733756779
+          ],
+          "mean_r2_lambda1": 0.4362367311491452
+        },
+        "0p45_0p55": {
+          "by_rotation": [
+            -0.7632539898519133,
+            -0.8799519289116304
+          ],
+          "mean_r2_lambda1": -0.8216029593817719
+        }
+      },
+      "reports": [
+        "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/classical/rotation_0/cic_report.json",
+        "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/classical/rotation_2/cic_report.json"
+      ],
+      "rotations": [
+        0,
+        2
+      ],
+      "seed": null,
+      "worst_mean_shell_r2_lambda1": -0.8216029593817719
+    },
+    {
+      "complete": true,
+      "contextual_source_to_transfer_gap": 0.40803322703486333,
+      "first_three_shell_diagnostic_by_rotation": [
+        0.445494266425093,
+        0.4504891510124615
+      ],
+      "first_three_shell_diagnostic_mean": 0.44799170871877725,
+      "four_shell_primary_by_rotation": [
+        0.4002045416067114,
+        0.39172900432356206
+      ],
+      "four_shell_primary_mean": 0.3959667729651367,
+      "historical_home_wedge_anchor_r2_lambda1": 0.804,
+      "model": "G-PATCH",
+      "per_shell": {
+        "0p15_0p25": {
+          "by_rotation": [
+            0.47424057793440955,
+            0.4731317527767209
+          ],
+          "mean_r2_lambda1": 0.47368616535556524
+        },
+        "0p25_0p35": {
+          "by_rotation": [
+            0.45915865238151754,
+            0.46988835317645195
+          ],
+          "mean_r2_lambda1": 0.46452350277898474
+        },
+        "0p35_0p45": {
+          "by_rotation": [
+            0.40308356895935205,
+            0.4084473470842117
+          ],
+          "mean_r2_lambda1": 0.4057654580217819
+        },
+        "0p45_0p55": {
+          "by_rotation": [
+            0.2643353671515666,
+            0.21544856425686365
+          ],
+          "mean_r2_lambda1": 0.23989196570421512
+        }
+      },
+      "reports": [
+        "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/g_patch/rotation_0/seed_42/best_validation_report.json",
+        "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/g_patch/rotation_2/seed_42/best_validation_report.json"
+      ],
+      "rotations": [
+        0,
+        2
+      ],
+      "seed": 42,
+      "source_gap_warning": "context only: historical dense-wedge random-node score is not a matched fold",
+      "worst_mean_shell_r2_lambda1": 0.23989196570421512
+    },
+    {
+      "complete": true,
+      "contextual_source_to_transfer_gap": 0.5131320841862421,
+      "first_three_shell_diagnostic_by_rotation": [
+        0.4185515832924733,
+        0.42693007202252103
+      ],
+      "first_three_shell_diagnostic_mean": 0.42274082765749715,
+      "four_shell_primary_by_rotation": [
+        0.368544159322558,
+        0.35719167230495774
+      ],
+      "four_shell_primary_mean": 0.3628679158137579,
+      "historical_home_wedge_anchor_r2_lambda1": 0.876,
+      "model": "U-PATCH",
+      "per_shell": {
+        "0p15_0p25": {
+          "by_rotation": [
+            0.43432868248235224,
+            0.4432646740176357
+          ],
+          "mean_r2_lambda1": 0.43879667824999397
+        },
+        "0p25_0p35": {
+          "by_rotation": [
+            0.4366883779297184,
+            0.4423331587770649
+          ],
+          "mean_r2_lambda1": 0.43951076835339165
+        },
+        "0p35_0p45": {
+          "by_rotation": [
+            0.38463768946534915,
+            0.39519238327286244
+          ],
+          "mean_r2_lambda1": 0.3899150363691058
+        },
+        "0p45_0p55": {
+          "by_rotation": [
+            0.21852188741281242,
+            0.1479764731522678
+          ],
+          "mean_r2_lambda1": 0.18324918028254011
+        }
+      },
+      "reports": [
+        "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/u_patch/rotation_0/seed_42/best_validation_report.json",
+        "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/u_patch/rotation_2/seed_42/best_validation_report.json"
+      ],
+      "rotations": [
+        0,
+        2
+      ],
+      "seed": 42,
+      "source_gap_warning": "context only: historical dense-wedge random-node score is not a matched fold",
+      "worst_mean_shell_r2_lambda1": 0.18324918028254011
+    },
+    {
+      "complete": false,
+      "model": "F-PATCH",
+      "reason": "NO_GO_FROZEN_V2_A_RESOURCE_INFEASIBLE",
+      "resource_preflight": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/f_patch/resource_preflight.json",
+      "screen_not_run": true,
+      "status": "preflight_no_go"
+    }
+  ],
+  "p10_required_for_production_transfer": true,
+  "rotations": [
+    0,
+    2
+  ],
+  "schema_version": 1,
+  "scientific_interpretation": "The four-shell macro remains the registered primary, but it cannot by itself establish a learned win when a classical method collapses only in shell 4.",
+  "seed": 42,
+  "stage": "P8 one-seed two-rotation screen summary",
+  "training_adequacy": {
+    "minimum_unique_core_fraction": 0.1507100763211284,
+    "minimum_validation_checkpoints": 1,
+    "reason": "No run completed one exposure of all eligible training cores and each run evaluated validation only once, so convergence and early stopping were not measured.",
+    "required_recovery": {
+      "convergence": "at least three validation points and a registered plateau rule",
+      "sampling": "complete exposure-aware patch epochs",
+      "validation": "complete blocked validation at every epoch decision"
+    },
+    "runs": [
+      {
+        "draws_by_dominant_shell": [
+          828,
+          680,
+          371,
+          121
+        ],
+        "eligible_cores_by_dominant_shell": [
+          1190,
+          2071,
+          3245,
+          3845
+        ],
+        "eligible_training_cores": 10351,
+        "maximum_core_repeats": 6,
+        "model": "G-PATCH",
+        "rotation": 0,
+        "sampled_weight_mass_fraction": 0.40075329133984133,
+        "screen_summary": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/g_patch/rotation_0/seed_42/screen_summary.json",
+        "seed": 42,
+        "steps": 2000,
+        "unique_core_fraction": 0.1507100763211284,
+        "unique_cores_seen_by_dominant_shell": [
+          541,
+          556,
+          345,
+          118
+        ],
+        "unique_training_cores_seen": 1560,
+        "validation_checkpoints": 1
+      },
+      {
+        "draws_by_dominant_shell": [
+          834,
+          687,
+          376,
+          103
+        ],
+        "eligible_cores_by_dominant_shell": [
+          1174,
+          2062,
+          3178,
+          3848
+        ],
+        "eligible_training_cores": 10262,
+        "maximum_core_repeats": 5,
+        "model": "G-PATCH",
+        "rotation": 2,
+        "sampled_weight_mass_fraction": 0.40863630148975794,
+        "screen_summary": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/g_patch/rotation_2/seed_42/screen_summary.json",
+        "seed": 42,
+        "steps": 2000,
+        "unique_core_fraction": 0.15143246930422918,
+        "unique_cores_seen_by_dominant_shell": [
+          542,
+          561,
+          348,
+          103
+        ],
+        "unique_training_cores_seen": 1554,
+        "validation_checkpoints": 1
+      },
+      {
+        "draws_by_dominant_shell": [
+          828,
+          680,
+          371,
+          121
+        ],
+        "eligible_cores_by_dominant_shell": [
+          1190,
+          2071,
+          3245,
+          3845
+        ],
+        "eligible_training_cores": 10351,
+        "maximum_core_repeats": 6,
+        "model": "U-PATCH",
+        "rotation": 0,
+        "sampled_weight_mass_fraction": 0.40075329133984133,
+        "screen_summary": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/u_patch/rotation_0/seed_42/screen_summary.json",
+        "seed": 42,
+        "steps": 2000,
+        "unique_core_fraction": 0.1507100763211284,
+        "unique_cores_seen_by_dominant_shell": [
+          541,
+          556,
+          345,
+          118
+        ],
+        "unique_training_cores_seen": 1560,
+        "validation_checkpoints": 1
+      },
+      {
+        "draws_by_dominant_shell": [
+          834,
+          687,
+          376,
+          103
+        ],
+        "eligible_cores_by_dominant_shell": [
+          1174,
+          2062,
+          3178,
+          3848
+        ],
+        "eligible_training_cores": 10262,
+        "maximum_core_repeats": 5,
+        "model": "U-PATCH",
+        "rotation": 2,
+        "sampled_weight_mass_fraction": 0.40863630148975794,
+        "screen_summary": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/u_patch/rotation_2/seed_42/screen_summary.json",
+        "seed": 42,
+        "steps": 2000,
+        "unique_core_fraction": 0.15143246930422918,
+        "unique_cores_seen_by_dominant_shell": [
+          542,
+          561,
+          348,
+          103
+        ],
+        "unique_training_cores_seen": 1554,
+        "validation_checkpoints": 1
+      }
+    ],
+    "schema_version": 1,
+    "stage": "P8 short-screen optimization adequacy audit",
+    "status": "INADEQUATE_FOR_SCIENTIFIC_MODEL_GATE"
+  }
+}

@@ -952,8 +952,9 @@ Progress checklist:
 
 ### P8 — Matched spatial target-generalisation training
 
-**Status:** READY FOR ONE-SEED SCREENING — P5, P6, and P7 adapter gates pass
-**Duration:** 2–4 GPU days for one-seed screening; three-seed finalists later
+**Status:** SHORT TWO-ROTATION SMOKE COMPLETE — SCIENTIFIC GATE OPEN;
+OPTIMIZATION RECOVERY REQUIRED (2026-07-19)
+**Duration:** recovery estimate follows the exposure audit; three-seed finalists later
 
 G-PATCH, U-PATCH, and F-PATCH may now enter the matched deterministic protocol.
 Readiness is adapter-specific, not an accuracy claim. Each final trained checkpoint
@@ -978,6 +979,50 @@ The P8 scientific question is:
 > representation does so most reliably?
 
 P10 asks the stricter fresh-graph question on independent simulation phases.
+
+#### P8 short-screen result and adequacy correction
+
+The pre-registered rotations 0 and 2 are complete for the runnable learned models.
+All values below are provisional means across two short validation screens for lambda1.
+
+| Candidate | Four-shell macro R2 | First-three-shell diagnostic R2 | Worst/final-shell R2 | Decision |
+|---|---:|---:|---:|---|
+| CLASSICAL-CIC | 0.185 | **0.520** | -0.822 | reference; mechanically collapses in shell 4 |
+| G-PATCH | **0.396** | 0.448 | **0.240** | provisional learned leader |
+| U-PATCH | 0.363 | 0.423 | 0.183 | provisional short-screen result |
+| F-PATCH v2_A | -- | -- | -- | resource NO-GO before training |
+
+The four-shell macro advantage of G-PATCH and U-PATCH is not a win over classical
+reconstruction: both learned models trail CIC in every one of the first three shells,
+and their positive macro delta is created by CIC failing in the sparsest shell. These
+numbers therefore emphasize the need for a generalisable encoder; they do not establish
+that either learned model beats classical reconstruction.
+
+The post-run optimization audit invalidates a scientific stop decision from these jobs.
+Each job ran 2,000 randomly sampled patch steps but had 10,262--10,351 eligible training
+cores. Exact replay of the frozen sampler finds only 1,554--1,560 unique cores were seen
+(15.07--15.14%), representing 40.08--40.86% of the weighted sampling mass. The sparse
+high-redshift shell saw only 103--121 unique cores out of 3,845--3,848 eligible cores.
+Each run performed one complete-fold validation, at its terminal step; no learning curve,
+plateau, or early-stopping decision exists. The jobs lasted approximately 6.6--13.3
+minutes each, far below the registered 2--4 GPU-day screen envelope.
+
+Consequently, the existing outputs are frozen as plumbing and optimization smoke evidence.
+They justify no automatic five-fold promotion, but they cannot support a scientific
+learned-model NO-GO. P8 remains open until the exposure-aware recovery below is complete.
+F-PATCH v2_A remains a resource NO-GO for that exact configuration only.
+
+The exact full-cap piecewise-linear DTFE row remains useful for characterising the
+production reference and is required before the adoption gate closes. The independently
+frozen P0 exact-DTFE evidence remains a contextual approximately 0.55 pooled deployment
+bar, not a matched P8 result.
+
+There is also a support mismatch that must be isolated. The learned estimators receive
+finite patch context, whereas CLASSICAL-CIC reconstructs the full-cap field and applies a
+global FFT tidal solve. Because the traceless tidal shear is nonlocal, an apparent
+learned deficit may combine encoder error with missing long-wavelength information. This
+does not weaken the classical adoption bar; it motivates a matched classical-anchored
+residual test and an explicit global-versus-local tidal-support diagnostic.
 
 #### P8.1 Target contract
 
@@ -1124,18 +1169,85 @@ Rank candidates by primary score, fold/seed stability, worst-shell behaviour,
 source-to-transfer gap, physical output value, and deployment feasibility. Use pooled
 R² only after those criteria.
 
+#### P8.5 Exposure-aware recovery and support matching
+
+Complete this recovery before interpreting G-PATCH or U-PATCH scientifically:
+
+1. Replace step-based replacement sampling with complete exposure-aware patch epochs.
+   Every eligible training core must be visited once per epoch in a seeded weighted
+   permutation. Preserve the frozen square-root shell objective through explicit core
+   loss weights; patch subdivision must not change the scientific objective.
+2. Train for a minimum of five complete patch epochs and a maximum of twenty. Evaluate
+   the complete blocked validation fold after every epoch. Early stopping is permitted
+   only after epoch 5, with patience 3 and a registered minimum improvement of 0.005 in
+   complete-fold macro-R². If the curve is still improving at epoch 20, record
+   `NOT_CONVERGED` rather than selecting the terminal checkpoint.
+3. Persist, by epoch and shell: eligible cores, unique cores seen, weighted exposure,
+   repeats, loss numerator/denominator, validation metrics, wall time, and peak memory.
+   A scientific run must have 100% eligible-core exposure in each completed epoch.
+4. Rerun rotations 0 and 2 for the existing G-PATCH and U-PATCH controls before changing
+   architecture, target parameterization, or loss. The short-screen checkpoints remain
+   immutable and separately named.
+5. Run a truth-field support diagnostic independent of ML. Starting from the true density
+   field, compare central-core tidal tensors/eigenvalues obtained from the full field with
+   solves using physical context radii of 60, 120, 180, 240, and 360 Mpc/h. Report trace
+   and traceless-shear convergence separately by shell and boundary distance. This measures
+   how much of the target is unrecoverable from the context offered to each patch model.
+6. Build a support-matched physics-residual control. Supply every learned residual branch
+   with the frozen, globally reconstructed train-calibrated CIC/DTFE tensor or eigenvalues;
+   zero-initialize the residual so checkpoint zero reproduces the classical baseline
+   exactly. The learned branch then has to add transferable information rather than relearn
+   the nonlocal gravitational operator from finite context.
+7. Complete the exact full-cap piecewise-linear DTFE row using the identical catalogue,
+   split, target, calibration policy, and authoritative galaxies.
+8. Close P8 only after converged G/U controls, the support diagnostic, the classical-
+   residual control, and matched CIC/DTFE rows are available. Promote to five folds only
+   if the converged result clears the registered gain/uncertainty rule. Record a learned
+   NO-GO only if all converged learned and residual candidates fail the matched classical
+   gate across folds rather than because of one shell's classical collapse.
+9. Keep log-gap, JEPA, FMPE/NPE, HOD marginalisation, and broad architecture searches gated
+   until this deterministic recovery answers whether optimization exposure and global
+   physical support explain the short-screen deficit.
+
+The recovery is deliberately architecture-neutral. GraphNet, U-Net, a simplified
+F-tier/U-Physics model, or a classical-residual hybrid may win; the scientific product is
+the transferable estimator and validated protocol, not loyalty to a model family.
+
 Progress checklist:
 
-- [ ] Freeze the linear-increment target/scaler and complete-fold macro-R2 evaluator.
-- [ ] Freeze shared P4 folds and classical comparison rows before training.
-- [ ] Run one-seed/two-fold plumbing screens for every parity-passing encoder.
-- [ ] Reject incomplete core coverage, boundary trends, or subdivision-dependent
-  scientific weighting.
-- [ ] Promote passing candidates to one seed across all five folds.
-- [ ] Repeat near-leaders or uniquely physical candidates across three seeds.
-- [ ] Run log-gap only on the stable leader if the baseline passes and time remains.
-- [ ] Freeze out-of-fold predictions, mandatory metrics, checkpoints, and configs.
-- [ ] Record GO/NO-GO per encoder without calling same-phase folds a production pass.
+- [x] Freeze the linear-increment target/scaler and complete-fold macro-R2 evaluator.
+- [x] Freeze rotations 0/2, the P4 fold roles, authoritative cores, and train-only
+  transformations before opening validation scores.
+- [x] Run the matched full-cap CIC plus fixed FFT tidal reconstruction with affine
+  calibration fitted on the registered training folds only.
+- [x] Run G-PATCH seed 42 on rotations 0 and 2 with the exact four-dependency-hop
+  P5 adapter and score every authoritative validation core.
+- [x] Run U-PATCH seed 42 on rotations 0 and 2 with patch-safe per-voxel channel
+  normalization and score every authoritative validation core.
+- [x] Resolve F-PATCH v2_A before training as `NO_GO_FROZEN_V2_A_RESOURCE_INFEASIBLE`;
+  the representative low-z view requires at least 91.6 GiB before autograd, decoder,
+  FFT fields, or five-hop graph context.
+- [x] Audit short-screen core coverage, fold-boundary dependence, graph degree/density,
+  four-hop isolation as a diagnostic, residual spatial correlation, runtime, and memory.
+- [x] Apply the no-macro-only-win interpretation: G-PATCH and U-PATCH trail CIC in all three
+  tracer-supported shells, so neither clears the classical adoption gate.
+- [x] Freeze the 2,000-step outputs as short-screen evidence; do not promote them to five
+  folds or describe them as converged science runs.
+- [x] Reproduce the historical samplers and record that only 15.07--15.14% of eligible
+  training cores and one validation checkpoint were used.
+- [ ] Implement complete exposure-aware patch epochs and per-epoch full-fold validation.
+- [ ] Rerun rotations 0 and 2 for G-PATCH and U-PATCH to the registered convergence rule.
+- [ ] Run the true-field context-growth diagnostic, separating trace from traceless shear.
+- [ ] Complete matched full-cap exact DTFE and global classical-plus-local-residual controls.
+- [ ] Reapply the classical adoption and five-fold promotion gates to converged results.
+- [ ] Spend three seeds only on candidates that pass the recovered two-rotation gate.
+- [x] Keep log-gap, FMPE/NPE, JEPA, HOD, and broad architecture branches gated while the
+  deterministic recovery remains open.
+- [x] Freeze validation predictions, reports, diagnostics, configs, and the machine-readable
+  screen decision under `docs/evidence/p8/` and the runtime root.
+- [x] Record G-PATCH and U-PATCH as `INCONCLUSIVE_OPTIMIZATION_AUDIT_REQUIRED`, F-PATCH
+  v2_A as resource NO-GO, and CIC/DTFE-style reconstruction as the reference direction.
+- [ ] Close P8 only after the recovered scientific gate is actually complete.
 
 ---
 

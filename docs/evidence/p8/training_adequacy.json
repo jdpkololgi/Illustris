@@ -1,0 +1,139 @@
+{
+  "minimum_unique_core_fraction": 0.1507100763211284,
+  "minimum_validation_checkpoints": 1,
+  "reason": "No run completed one exposure of all eligible training cores and each run evaluated validation only once, so convergence and early stopping were not measured.",
+  "required_recovery": {
+    "convergence": "at least three validation points and a registered plateau rule",
+    "sampling": "complete exposure-aware patch epochs",
+    "validation": "complete blocked validation at every epoch decision"
+  },
+  "runs": [
+    {
+      "draws_by_dominant_shell": [
+        828,
+        680,
+        371,
+        121
+      ],
+      "eligible_cores_by_dominant_shell": [
+        1190,
+        2071,
+        3245,
+        3845
+      ],
+      "eligible_training_cores": 10351,
+      "maximum_core_repeats": 6,
+      "model": "G-PATCH",
+      "rotation": 0,
+      "sampled_weight_mass_fraction": 0.40075329133984133,
+      "screen_summary": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/g_patch/rotation_0/seed_42/screen_summary.json",
+      "seed": 42,
+      "steps": 2000,
+      "unique_core_fraction": 0.1507100763211284,
+      "unique_cores_seen_by_dominant_shell": [
+        541,
+        556,
+        345,
+        118
+      ],
+      "unique_training_cores_seen": 1560,
+      "validation_checkpoints": 1
+    },
+    {
+      "draws_by_dominant_shell": [
+        834,
+        687,
+        376,
+        103
+      ],
+      "eligible_cores_by_dominant_shell": [
+        1174,
+        2062,
+        3178,
+        3848
+      ],
+      "eligible_training_cores": 10262,
+      "maximum_core_repeats": 5,
+      "model": "G-PATCH",
+      "rotation": 2,
+      "sampled_weight_mass_fraction": 0.40863630148975794,
+      "screen_summary": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/g_patch/rotation_2/seed_42/screen_summary.json",
+      "seed": 42,
+      "steps": 2000,
+      "unique_core_fraction": 0.15143246930422918,
+      "unique_cores_seen_by_dominant_shell": [
+        542,
+        561,
+        348,
+        103
+      ],
+      "unique_training_cores_seen": 1554,
+      "validation_checkpoints": 1
+    },
+    {
+      "draws_by_dominant_shell": [
+        828,
+        680,
+        371,
+        121
+      ],
+      "eligible_cores_by_dominant_shell": [
+        1190,
+        2071,
+        3245,
+        3845
+      ],
+      "eligible_training_cores": 10351,
+      "maximum_core_repeats": 6,
+      "model": "U-PATCH",
+      "rotation": 0,
+      "sampled_weight_mass_fraction": 0.40075329133984133,
+      "screen_summary": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/u_patch/rotation_0/seed_42/screen_summary.json",
+      "seed": 42,
+      "steps": 2000,
+      "unique_core_fraction": 0.1507100763211284,
+      "unique_cores_seen_by_dominant_shell": [
+        541,
+        556,
+        345,
+        118
+      ],
+      "unique_training_cores_seen": 1560,
+      "validation_checkpoints": 1
+    },
+    {
+      "draws_by_dominant_shell": [
+        834,
+        687,
+        376,
+        103
+      ],
+      "eligible_cores_by_dominant_shell": [
+        1174,
+        2062,
+        3178,
+        3848
+      ],
+      "eligible_training_cores": 10262,
+      "maximum_core_repeats": 5,
+      "model": "U-PATCH",
+      "rotation": 2,
+      "sampled_weight_mass_fraction": 0.40863630148975794,
+      "screen_summary": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/u_patch/rotation_2/seed_42/screen_summary.json",
+      "seed": 42,
+      "steps": 2000,
+      "unique_core_fraction": 0.15143246930422918,
+      "unique_cores_seen_by_dominant_shell": [
+        542,
+        561,
+        348,
+        103
+      ],
+      "unique_training_cores_seen": 1554,
+      "validation_checkpoints": 1
+    }
+  ],
+  "schema_version": 1,
+  "stage": "P8 short-screen optimization adequacy audit",
+  "status": "INADEQUATE_FOR_SCIENTIFIC_MODEL_GATE"
+}

@@ -1,5 +1,86 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-19 — [science/code] P8 CORRECTION: short screens frozen; optimization audit reopens the scientific gate
+
+The rotation-0/2 P8 jobs completed and remain useful plumbing/transfer smoke tests, but
+they are not converged training experiments and cannot support the previously drafted
+learned-model NO-GO. The corrected machine-readable gate is
+`INCONCLUSIVE_OPTIMIZATION_AUDIT_REQUIRED`.
+
+Mean lambda1 results across the two screens are:
+
+| Candidate | Four-shell macro R2 | First-three-shell diagnostic R2 | Final-shell R2 |
+|---|---:|---:|---:|
+| full-cap CIC + train-fold affine | 0.185 | **0.520** | -0.822 |
+| G-PATCH | **0.396** | 0.448 | **0.240** |
+| U-PATCH | 0.363 | 0.423 | 0.183 |
+
+The learned macro advantage is explicitly **not** interpreted as a classical-method win.
+G-PATCH and U-PATCH trail CIC in each of the first three shells; the sign of the
+four-shell macro difference is reversed only by CIC's catastrophic final-shell collapse.
+The result highlights the need for a genuinely generalisable encoder and a strong matched
+classical adoption gate. It does not establish learned superiority.
+
+A post-run audit reproduced the exact seeded patch sampler. Each G/U job performed only
+2,000 replacement-sampled optimization steps despite having 10,262--10,351 eligible
+training cores. Rotation 0 exposed 1,560 unique cores (15.07%; 40.08% of weighted mass)
+and rotation 2 exposed 1,554 (15.14%; 40.86%). The sparse shell saw only 118 and 103
+unique cores, respectively, out of 3,845--3,848 eligible cores. Each job evaluated the
+complete validation fold only once, at step 2,000. There is therefore no learning curve,
+plateau, or executed early-stopping rule. G/U wall times were approximately 6.6--13.3
+minutes per job, not the registered 2--4 GPU-day screen envelope.
+
+The existing predictions, reports, and checkpoints are frozen as short-screen evidence.
+They justify no automatic five-fold promotion, but they do not justify calling either
+encoder scientifically rejected. F-PATCH v2_A remains a resource NO-GO for that frozen
+configuration because its representative forward activation floor is 91.6 GiB before
+autograd, optimizer, U-Net decoder, FFT arrays, or full graph context; this does not reject
+the field-to-physics concept or a simplified implementation.
+
+A second mismatch is now explicit. G-PATCH and U-PATCH receive finite patch context,
+whereas CIC uses the whole cap followed by a global FFT tidal solve. The trace of the
+tidal tensor is local density, but its traceless shear retains nonlocal external modes.
+P8 recovery therefore adds a true-field context-growth experiment and a zero-initialized
+classical-plus-local-learned residual control. These tests do not weaken the classical
+bar; they determine whether finite support, rather than encoder capacity alone, explains
+part of the deficit.
+
+The immediate recovery contract is:
+
+1. implement complete exposure-aware patch epochs, with every eligible core visited once
+   per epoch and the frozen square-root shell objective applied through core loss weights;
+2. train 5--20 complete epochs, validate the full blocked fold after each epoch, and allow
+   early stopping only after epoch 5 with patience 3 and minimum macro-R2 delta 0.005;
+3. rerun rotations 0/2 for unchanged G-PATCH and U-PATCH controls before architecture or
+   target changes;
+4. compare full-field tidal truth with 60/120/180/240/360 Mpc/h context solves, reporting
+   trace and traceless-shear convergence separately;
+5. implement the exact matched full-cap DTFE row and zero-initialized global
+   CIC/DTFE-plus-local-residual controls;
+6. reapply the classical adoption and five-fold promotion rules only to converged results;
+7. keep log-gap, JEPA, FMPE/NPE, HOD marginalisation, and broad architecture work gated.
+
+A targeted primary-literature check supports this correction. Published transferable
+field-learning results generally train on many complete realizations and multiple full
+epochs, not a fraction of one phase's patches. DarkAI used 30 independent COLA
+realizations split 15/5/10 and tested separate high-resolution simulations
+(arXiv:2305.11431). A DESI-like extension trained for roughly 1,300 selected epochs, but
+its 12 mock samples came from rotations/translations of one stacked Jiutian simulation,
+so it is not a fresh-phase proof (arXiv:2501.12621). A 2026 field-level BAO study uses
+1,000 independent random-phase mocks and explicitly learns a CNN correction around a
+traditional global reconstruction, closely motivating the registered residual control
+(arXiv:2603.15732). These tasks and Fourier metrics are not directly comparable to our
+per-galaxy lambda1 R2, so no literature number licenses either optimism or a NO-GO.
+
+Artifacts:
+
+- runtime audit: `/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/training_adequacy.json`;
+- corrected runtime summary: `/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/screen_summary.json`;
+- tracked evidence: `docs/evidence/p8/training_adequacy.json` and `screen_summary.json`;
+- audit code: `workflows/abacus_tweb/p8_audit_training_adequacy.py`;
+- decision logic: `workflows/abacus_tweb/p8_summarize_screens.py`;
+- recovery specification: P8.5 in `docs/plan_generalisable_graphweb_vac.md`.
+
 ### 2026-07-19 — [science/code] P8 STARTED: deterministic patch-generalisation showdown and classical adoption gate frozen
 
 P8 has begun under the completed P4–P7 representation and adapter contracts. The
