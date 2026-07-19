@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 import time
 
@@ -186,6 +187,9 @@ def main() -> None:
     report = {
         "schema_version": 1,
         "stage": "P7 initial graph-field-FFT composition",
+        "git_sha": subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], text=True
+        ).strip(),
         "p5_manifest": str(p5_manifest),
         "p5_manifest_sha256": sha256(p5_manifest),
         "p6_manifest": str(p6_manifest),
