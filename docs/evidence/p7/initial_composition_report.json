@@ -1,6 +1,6 @@
 {
   "cell_units": "observer-frame comoving Mpc",
-  "elapsed_seconds": 2.5575907230377197,
+  "elapsed_seconds": 2.6185944080352783,
   "ftier_patch_ready": false,
   "gates": {
     "finite_ordered_eigensystems": true,
@@ -10,6 +10,7 @@
     "tsc_overlap_parity": true,
     "tsc_scatter_conservation": true
   },
+  "git_sha": "863e2881c384387584931048150c989f407222a3",
   "p5_manifest": "/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter/adapter_manifest.json",
   "p5_manifest_sha256": "d1b64dec344b74414b35edbd0b4adff81bf897a9cf2c01b306630cbb7d7be4e3",
   "p6_manifest": "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/adapter_manifest.json",
