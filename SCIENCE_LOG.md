@@ -1,5 +1,44 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-20 — [code] VERIFIED: the fig2/5/6 slab is genuinely held out — labels never trained on, and metrics HOLD on the provably-untouched interior
+
+JDPK asked for confirmation that the plotted volume was unseen. Checked directly against the frozen
+rotation-0 role files and the P4 support arrays.
+
+**Identity:** super-block 467, cap NGC, **fold 1 = the VALIDATION fold for rotation 0** (train folds
+{2,3,4}). 64 cores, 126,239 active galaxies; the plotted slab is 14,438 of them, ALL fold 1.
+**Zero of the 10,351 frozen training cores lie inside SB467**; 62 validation cores do.
+
+**Labels: definitively unseen (100%).** Training loss is computed only on authoritative core rows of
+the TRAINING folds, so these galaxies contributed exactly zero gradient. That is by construction, and
+now verified against the frozen core-id lists rather than assumed.
+
+**Context/features — the honest nuance:** patches carry K-hop context, so a validation galaxy near a
+fold boundary CAN appear as a context node (features only, never labels) inside a training patch.
+For this slab: **50.9% are >=5 graph hops from ANY other-fold node**, hence provably outside the
+4-hop dependency context of every training patch — they never entered a training computation in any
+form. The remaining 49.1% are within 4 hops of *some* other-fold node (an upper bound: 'other fold'
+includes the dev-test fold 0, which is not training either). Median physical distance to a fold
+boundary is 58 Mpc = 5.6 smoothing lengths; 89.4% exceed one smoothing length.
+
+**Decisive check — metrics on the provably-untouched interior (n=7,348) vs the full slab:**
+
+| model | lam1 slab | lam1 deep | lam2 deep | lam3 deep |
+|---|---:|---:|---:|---:|
+| G-PATCH | 0.595 | **0.632** | 0.726 | 0.613 |
+| U-PATCH | 0.524 | **0.587** | 0.674 | 0.488 |
+| CIC (train-affine) | 0.658 | **0.665** | 0.694 | 0.694 |
+
+Performance does not degrade on the deep interior — it *improves* for both learned models (+0.037
+G, +0.063 U), while CIC is nearly flat (+0.007). So the visual quality in fig2/5/6 is NOT an artifact
+of context bleed near fold boundaries. The learned gain on the interior is consistent with the P4
+boundary-margin design (interior galaxies have complete graph support; boundary galaxies have context
+clipped by the survey/fold edge), and it is the same direction as fig4's flat boundary-error trend.
+
+This strengthens the reading of the visuals: two encoders trained on ~15% of the training cores, with
+no convergence, reconstruct recognisable cosmic-web morphology in a volume whose labels they have
+never seen — and do so BEST where they are furthest from anything they touched.
+
 ### 2026-07-20 — [code] P8 loss curves DO NOT EXIST for the frozen screens; trainers instrumented so recovery reruns produce them
 
 Asked for G/U loss curves; there are none to plot. Each run's `history` has exactly ONE entry
