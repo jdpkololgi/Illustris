@@ -1,5 +1,21 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-20 — [code] P8 visuals part 2 (λ2/λ3 + T-web classes) + U-PATCH saturation fingerprint: NOT a clamp — under-dispersion
+
+fig5/fig6 added (commit above; figures/p8_smoke_eval/). Class maps at λ_th=0.2, validation
+super-block 467: TRUE occupancy 38/41/18/3% (void/wall/filament/knot) vs G-PATCH 22/54/23/1%
+(acc 65%), U-PATCH 14/58/27/0% (58%), CIC 18/63/19/0% (68%). Amplitude compression becomes
+class-occupancy bias — every method floods the modal wall class and starves voids+knots; G-PATCH
+keeps the best knot recall (20% at 75% precision; CIC 11%, U-PATCH 7%). λ2: G 0.690 ~ CIC 0.688 >
+U 0.612 (slab); λ3: CIC 0.715 > G 0.616 > U 0.480.
+
+U-PATCH "clipping" REDIAGNOSED: scaled-increment-space fingerprint shows zero pileup at the bounds
+and non-constant extremes (v1 in [-0.76,+3.49] vs G [-2.12,+4.41]) — no clamp, no bounded
+activation. It is severe under-dispersion, most visible as the missing low-λ1 tail. Cheap
+discriminator vs convergence (registered): overfit-one-patch probe (train on a single patch a few
+hundred steps; if its predictions expand past the current range, it is convergence; if pinned,
+structural) + head-code diff vs G-PATCH. Run before the converged rerun.
+
 ### 2026-07-20 — [code] P8 SHORT-SCREEN EVALUATION FIGURES + programme integrity review (Claude Code); two new model pathologies surfaced
 
 Figures (workflows/abacus_tweb/plot_p8_smoke_eval.py, commit 9f75a41;
