@@ -1,5 +1,47 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-18 — [code] P1b/P2b/P3a EVALUATED + overview figures produced; wedge demotion to canary ACCEPTED; one deployment-realism flag registered (z-error policy)
+
+**Independent evaluation of the authoritative products (Claude Code):** manifests, hashes, and counts
+verified directly; internally consistent throughout.
+
+- **P1b** ph000_path1_full_ngc_sgc_v1: parent rows ARE canonical rows (PARENT_NODE_ID = FITS row =
+  graph row) — 9,538,254 total; context 6,397,925 (NGC 4,518,132 / SGC 1,879,793 within z[0.10,0.60));
+  **active 5,086,101** over z[0.15,0.55); shells 2.77M / 1.67M / 572k / 72k. vs the wedge canary this
+  is **x17 active galaxies and x16 in the weakest 0.45-0.55 shell** — the data ceiling that three
+  independent transfer tests identified is now directly attacked within ph000.
+- **P2b**: promote-don't-recompute was the right resolution of the "largest contiguous volume"
+  ambiguity — the existing full-sky Delaunay + cuGraph metrics are reused exactly, and only per-cap
+  radius pairs were added (141.8M) -> **190,563,017 union context pairs, 0 cross-cap edges, built in
+  99 seconds.** Neither my wedge-first reading nor a rebuild-everything reading was right: promotion
+  made full-footprint essentially free.
+- **P3a**: per-cap 5 Mpc observer-frame lattices (NGC 539x823x528, SGC 445x764x386), 8 channels,
+  lossless CIC by cap and shell, expected-count identity to 1e-9, independent post-build readback,
+  and the unit gate correctly caught the Mpc vs Mpc/h cell-size distinction.
+- **Wedge P1a/P2a**: demotion to canary/regression-test accepted — that is now their correct role.
+
+**FLAG (deployment realism, registered for P8 baselines + P13 golden mock):** P1b's redshift policy is
+"parent observed Z, NO additional measurement error" (chosen to preserve exact catalogue/graph/metric
+alignment — correct for the protocol gate). But the FROZEN canonical evidence (P0) was built from the
+S2 shells WITH sigma_v=35 km/s z-errors, and DESI data will have them too. Consequences to keep
+explicit: (1) P8 comparisons vs the frozen baseline straddle a z-error difference — small (35 km/s ~
+0.5 Mpc at these z, well under the 10.4 Mpc smoothing) but should be stated when quoting gains;
+(2) models trained on error-free z see slightly sharper small-scale structure than DESI provides —
+the P13 golden mock MUST include z-errors, and a z-error augmentation is a candidate nuisance view
+for P11 JEPA. Not a blocker; a bookkeeping obligation.
+
+**Overview figures produced** (workflows/abacus_tweb/plot_p1b_p2b_overview.py):
+/pscratch/sd/d/dkololgi/abacus/figures/p1b_p2b_overview/
+  fig1_footprint_and_data.png — NGC+SGC sky map with all three historical wedges overlaid; N(z)
+    context vs active; per-shell counts (xN vs canary); canary->authoritative scale-up bars.
+  fig2_pipeline_status.png — P0-P13 DAG with live statuses + Jul16->DESI timeline incl. shutdown.
+  fig3_patch_protocol.png — the generalised-model protocol: core/context anatomy, blocked 5-fold
+    scheme, matched candidates + pass rules, with the transfer-test motivation stated.
+
+STATE: P0 ✓ P0S active | P1 ✓ P2 ✓ P3 ✓ | P4 ACTIVE (folds; the critical path item) -> P5/P6 parity
+(Jul 19) -> P8 two-fold screen (Jul 20) -> Jul 21 freeze. P10 ph002 cost benchmark still unclaimed
+and must land before the freeze.
+
 ### 2026-07-18 — [science/code] P3a COMPLETE: canonical 5-Mpc NGC+SGC fields pass unit, conservation, chunk, and independent readback gates
 
 P3a is complete for `ph000_path1_full_ngc_sgc_v1`. The canonical observer-frame
