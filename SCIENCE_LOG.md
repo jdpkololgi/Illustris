@@ -1,5 +1,33 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-18 — [code] P4 EVALUATED + pedagogical patch figures (real arrays): core/context/super-block/fold and model-agnosticism illustrated
+
+Independent read of the P4 artifacts (all gates PASS, internally consistent):
+17,202 occupied 64 Mpc/h cores (94.59 Mpc) grouped into 533 super-blocks (256 Mpc/h = 378 Mpc) across
+5 blocked folds; 5,026,863 supervised galaxies; fold active max/min = 1.0102, max cap-shell deviation
+2.4%; rotations 3 train / 1 val / 1 dev-test. Anti-leakage machinery is real and per-node:
+graph_support_active carries min_hops_to_other_fold + safe_2pass (62%) / safe_4pass (29%) flags;
+only 3.9% of the 190.6M union pairs cross a fold (context-only, no loss); 59,238 periodic box-images
+(2885-4188 Mpc apart) retained context-only; repeated halo hosts never cross folds; distance-to-fold-
+boundary median 46 Mpc >> the 10.4 Mpc smoothing.
+
+Figures (workflows/abacus_tweb/plot_p4_patches.py, commit 9e03521;
+/pscratch/sd/d/dkololgi/abacus/figures/p4_patches/):
+- figA_manifest_anatomy — NGC cores coloured by fold (contiguous colour patches = blocked, not
+  salt-and-pepper) + one super-block zoom (4x4x4 core tiling) + the core/context/super-block/fold
+  definitions + real fold-balance bars.
+- figB_model_agnostic — ONE real core (id 12281, NGC, 97 authoritative galaxies) rendered three ways:
+  GraphNet (core + K-hop union-graph context), U-Net (same region as a 5 Mpc voxel field), F-tier/
+  classical (FFT-tile / DTFE sampled at the SAME core). Drives home the key property: the manifest
+  owns the cores + target (linear increments) + fold + train-core scaler; each architecture only
+  supplies its own context representation.
+- figC_boundary_safety — hops-to-other-fold, physical margin, and the random-split-vs-blocked-fold
+  leakage contrast with the measured collapse numbers (0.80->0.42, 0.87->0.35).
+
+These are communication artifacts, not a gate. STATE: P0-P4 COMPLETE; critical path now P5 GraphNet
+patch adapter + parity (mine) and P6 U-Net adapter, both unblocked by P4. P10 ph002 cost benchmark
+still unclaimed and must land before the Jul 21 freeze.
+
 ### 2026-07-18 — [science/code] P4 COMPLETE: deterministic 64-Mpc/h cores, five balanced folds, exact graph/field support
 
 P4 is complete and `PATCH_MANIFEST_COMPLETE` has been written after an independent
