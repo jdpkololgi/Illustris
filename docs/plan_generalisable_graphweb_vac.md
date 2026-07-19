@@ -660,6 +660,25 @@ four-hop context. A receiver-only model would instead use one hop per pass. P5 u
 exact incident-edge traversal over the canonical union graph and stores both
 `model_passes` and `dependency_hops`; it never assumes they are equal.
 
+The primary loss and metric mask is frozen as every P4 authoritative core galaxy.
+The architecture-specific hop-isolated mask is stored separately as
+`strict_support_mask` and is a diagnostic, not the primary gate. Four-hop
+strictness retains only 106 of 62,243 galaxies at z=0.45-0.55 and would make the
+mandatory macro-shell metric undefined. Report robustness on three nested samples:
+
+1. every authoritative core galaxy (primary);
+2. architecture-independent physical margins beyond 10.4 and 20.8 Mpc from a fold
+   boundary;
+3. architecture-specific hop-isolated subsets, always with their retained fractions.
+
+This same-catalogue P8 experiment is **spatial target generalization with a globally
+observed representation**. No validation/test label enters training, but label-free
+galaxies from the complete catalogue may enter global graph construction and model
+context, as they will for DESI. Reserve **fresh-graph inductive generalization** for
+P10, where each independent phase receives its own separately constructed graph and
+the frozen training transformations. Do not use the word `inductive` without naming
+which of these two settings is meant.
+
 Do not add raw RA, Dec, absolute Cartesian, or patch-relative coordinates as GraphNet
 node features during the protocol gate. Keep established graph features so the first
 experiment changes protocol rather than feature semantics.
@@ -694,12 +713,37 @@ Completed evidence:
 - The full-footprint smoke suite samples a strict four-hop core from every NGC/SGC
   x fold stratum, verifies canonical-feature identity, exact masks, non-truncating
   subdivisions, and unique core ownership.
-- Runtime readiness marker: `GRAPH_PATCH_READY`.
+- Runtime readiness markers: `GRAPH_PATCH_READY` and
+  `GRAPH_PATCH_PROD_GPU_READY`.
 - Versioned schema and compact runtime evidence:
   `docs/evidence/p5/p5_graph_patch_schema_v1.json`,
+  `docs/evidence/p5/p5_graph_patch_schema_v2.json`,
   `docs/evidence/p5/adapter_manifest.json`,
-  `docs/evidence/p5/parity_report.json`, and
-  `docs/evidence/p5/GRAPH_PATCH_READY`.
+  `docs/evidence/p5/parity_report.json`,
+  `docs/evidence/p5/parity_report_prod_gpu.json`,
+  `docs/evidence/p5/GRAPH_PATCH_READY`, and
+  `docs/evidence/p5/GRAPH_PATCH_PROD_GPU_READY`.
+- Production-shape A100 parity used latent size 80, eight attention heads, 100,935
+  full-graph nodes, 1,988,732 canonical undirected pairs, and a 5,737-node /
+  194,584-directed-edge patch. Patch order is exactly invariant; maximum embedding
+  and prediction differences are 1.54e-3 and 7.38e-4. These are 2.1e-4 and 5.7e-4
+  relative to the corresponding output scales and pass the pre-registered 2e-3
+  GPU tolerance.
+
+The first G-PATCH protocol control is pre-registered as the existing two-pass
+receiver-normalized attention GraphNetwork with the R0/A1 eight-feature schema and
+four exact dependency hops. This isolates the patch-training protocol from an
+architecture change. A receiver-only two-pass model is a separately named optional
+challenger, never a post-hoc substitute. The historical two-layer disconnected-wedge
+transfer failure motivates this retraining but does not answer the new protocol test.
+Eight-pass attention is out of scope under the present P4 support because it requires
+16 exact dependency hops.
+
+Feature transformations are never fitted per patch. For each development rotation,
+fit node SI medians per cap and Box-Cox parameters from authoritative training-fold
+nodes; fit edge transforms from training-fold internal edges. Freeze and apply those
+objects unchanged to validation/test patches. Blind phases and DESI must use frozen
+training-ensemble transformations, not target-catalogue refits.
 
 Progress checklist:
 
@@ -711,6 +755,11 @@ Progress checklist:
 - [x] Pass full-graph versus patch embedding/prediction parity on P1a.
 - [x] Pass subdivision, patch-order, and core-boundary parity tests.
 - [x] Write adapter schema, parity report, tests, and `GRAPH_PATCH_READY`.
+- [x] Separate the authoritative primary loss mask from strict-hop diagnostics.
+- [x] Pre-register physical-margin and hop-isolated robustness subsets.
+- [x] Freeze the two-pass attention G-PATCH protocol control before P8.
+- [x] Pass a production-shape GPU parity point and write
+  `GRAPH_PATCH_PROD_GPU_READY`.
 
 ### P6 — U-Net patch adapter
 

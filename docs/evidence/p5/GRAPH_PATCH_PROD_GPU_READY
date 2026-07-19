@@ -1,0 +1,6 @@
+adapter_manifest_sha256=d1b64dec344b74414b35edbd0b4adff81bf897a9cf2c01b306630cbb7d7be4e3
+parity_report_sha256=e58334da35de4cc7b82a0f75816f288bf622a901ca78ebae185a68a03d1d98cd
+model_passes=2
+dependency_hops=4
+latent_size=80
+num_heads=8

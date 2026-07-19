@@ -31,7 +31,9 @@ class GraphPatch:
     senders: np.ndarray
     receivers: np.ndarray
     authoritative_core_mask: np.ndarray
+    strict_support_mask: np.ndarray
     loss_mask: np.ndarray
+    loss_policy: str
 
     @property
     def n_node(self) -> int:
@@ -157,6 +159,8 @@ def assemble_patch(
     fold: int,
     core_parent_ids: np.ndarray,
     loss_parent_ids: np.ndarray,
+    strict_parent_ids: np.ndarray | None = None,
+    loss_policy: str = "explicit",
     num_passes: int,
     dependency_hops: int,
     node_features: np.ndarray,
@@ -168,10 +172,15 @@ def assemble_patch(
     """Assemble an exact, untruncated view by immutable global node ID."""
     core_parent_ids = np.unique(np.asarray(core_parent_ids, dtype=np.int64))
     loss_parent_ids = np.unique(np.asarray(loss_parent_ids, dtype=np.int64))
+    if strict_parent_ids is None:
+        strict_parent_ids = loss_parent_ids
+    strict_parent_ids = np.unique(np.asarray(strict_parent_ids, dtype=np.int64))
     if not len(core_parent_ids):
         raise ValueError("cannot build a patch without authoritative core nodes")
     if np.setdiff1d(loss_parent_ids, core_parent_ids).size:
         raise ValueError("loss nodes must be a subset of authoritative core nodes")
+    if np.setdiff1d(strict_parent_ids, core_parent_ids).size:
+        raise ValueError("strict-support nodes must be a subset of authoritative core nodes")
 
     dependency_hops = int(dependency_hops)
     nodes = reverse_k_hop_from_incident_csr(
@@ -187,6 +196,7 @@ def assemble_patch(
     )
     canonical_edge_ids = np.concatenate([edge_ids, edge_ids]).astype(np.int64)
     core_mask = np.isin(nodes, core_parent_ids, assume_unique=True)
+    strict_mask = np.isin(nodes, strict_parent_ids, assume_unique=True)
     loss_mask = np.isin(nodes, loss_parent_ids, assume_unique=True)
     return GraphPatch(
         core_id=int(core_id),
@@ -200,7 +210,9 @@ def assemble_patch(
         senders=senders,
         receivers=receivers,
         authoritative_core_mask=core_mask,
+        strict_support_mask=strict_mask,
         loss_mask=loss_mask,
+        loss_policy=str(loss_policy),
     )
 
 
@@ -234,6 +246,7 @@ def pad_patch(
     node_mask = np.zeros(bucket_nodes, dtype=bool)
     edge_mask = np.zeros(bucket_edges, dtype=bool)
     core_mask = np.zeros(bucket_nodes, dtype=bool)
+    strict_mask = np.zeros(bucket_nodes, dtype=bool)
     loss_mask = np.zeros(bucket_nodes, dtype=bool)
     nodes[:patch.n_node] = patch.node_features
     edges[:patch.n_edge] = patch.edge_features
@@ -244,12 +257,14 @@ def pad_patch(
     node_mask[:patch.n_node] = True
     edge_mask[:patch.n_edge] = True
     core_mask[:patch.n_node] = patch.authoritative_core_mask
+    strict_mask[:patch.n_node] = patch.strict_support_mask
     loss_mask[:patch.n_node] = patch.loss_mask
     return {
         "nodes": nodes, "edges": edges, "senders": senders,
         "receivers": receivers, "parent_node_id": parent,
         "union_edge_id": union_edge, "node_mask": node_mask,
         "edge_mask": edge_mask, "authoritative_core_mask": core_mask,
+        "strict_support_mask": strict_mask,
         "loss_mask": loss_mask,
         "n_node": np.asarray([patch.n_node, bucket_nodes - patch.n_node], dtype=np.int32),
         "n_edge": np.asarray([patch.n_edge, bucket_edges - patch.n_edge], dtype=np.int32),
@@ -290,6 +305,7 @@ class CanonicalGraphPatchAdapter:
         num_passes: int,
         core_parent_ids: np.ndarray | None = None,
         dependency_hops_per_pass: int = 2,
+        loss_policy: str = "authoritative",
     ) -> GraphPatch:
         start, stop = int(self.core_offsets[core_id]), int(self.core_offsets[core_id + 1])
         parent = np.asarray(self.core_parent[start:stop], dtype=np.int64)
@@ -308,10 +324,19 @@ class CanonicalGraphPatchAdapter:
                 raise ValueError("subdivision contains non-authoritative core IDs")
             all_core = selected
         safe_lookup_ids = parent[eligible & safe]
-        loss_ids = np.intersect1d(all_core, safe_lookup_ids, assume_unique=False)
+        strict_ids = np.intersect1d(all_core, safe_lookup_ids, assume_unique=False)
+        if loss_policy == "authoritative":
+            loss_ids = all_core
+        elif loss_policy == "strict_hop":
+            loss_ids = strict_ids
+        else:
+            raise ValueError(
+                "loss_policy must be 'authoritative' (primary) or 'strict_hop' (diagnostic)"
+            )
         return assemble_patch(
             core_id=core_id, fold=int(self.core_fold[core_id]),
             core_parent_ids=all_core, loss_parent_ids=loss_ids,
+            strict_parent_ids=strict_ids, loss_policy=loss_policy,
             num_passes=num_passes, dependency_hops=dependency_hops, node_features=self.node_features,
             union_pairs=self.union_pairs, union_edge_features=self.union_edge_features,
             offsets=self.offsets, incident_edge_id=self.incident_edge_id,
@@ -324,6 +349,7 @@ class CanonicalGraphPatchAdapter:
         max_nodes: int,
         max_edges: int,
         dependency_hops_per_pass: int = 2,
+        loss_policy: str = "authoritative",
     ) -> list[GraphPatch]:
         """Recursively subdivide core loss ownership; never truncate context."""
         core, _ = self.core_nodes(core_id)
@@ -334,6 +360,7 @@ class CanonicalGraphPatchAdapter:
             patch = self.extract(
                 core_id, num_passes, selected,
                 dependency_hops_per_pass=dependency_hops_per_pass,
+                loss_policy=loss_policy,
             )
             if (
                 (patch.n_node <= max_nodes and patch.n_edge <= max_edges)

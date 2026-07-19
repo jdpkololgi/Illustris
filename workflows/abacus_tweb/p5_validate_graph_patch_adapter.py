@@ -60,6 +60,8 @@ def jraph_embeddings(
     pairs: np.ndarray,
     edge_attr: np.ndarray,
     num_passes: int,
+    latent_size: int,
+    num_heads: int,
     params=None,
     edge_stats=None,
 ):
@@ -90,7 +92,7 @@ def jraph_embeddings(
     )
     transformed = hk.transform(
         lambda value: make_gnn_encoder(
-            num_passes=num_passes, latent_size=8, num_heads=2, dropout_rate=0.0
+            num_passes=num_passes, latent_size=latent_size, num_heads=num_heads, dropout_rate=0.0
         )(value, is_training=False)
     )
     if params is None:
@@ -125,13 +127,13 @@ def p1a_parity(args: argparse.Namespace) -> dict:
     core = np.sort(ranked[take]).astype(np.int64)
 
     full_embedding, params, backend, device, edge_stats = jraph_embeddings(
-        x, pairs, edge_attr, args.num_passes
+        x, pairs, edge_attr, args.num_passes,
+        latent_size=args.latent_size, num_heads=args.num_heads,
     )
-    full_prediction = full_embedding @ np.asarray(
-        [[0.7, -0.2, 0.1], [0.1, 0.4, -0.3], [-0.2, 0.2, 0.6],
-         [0.3, -0.5, 0.2], [0.2, 0.1, -0.4], [-0.1, 0.3, 0.5],
-         [0.4, 0.2, 0.1], [-0.3, 0.1, 0.2]], dtype=np.float32
-    )
+    decoder = np.sin(
+        np.arange(args.latent_size * 3, dtype=np.float32).reshape(args.latent_size, 3) + 1
+    ) / np.sqrt(np.float32(args.latent_size))
+    full_prediction = full_embedding @ decoder
     patch = assemble_patch(
         core_id=-1, fold=-1, core_parent_ids=core, loss_parent_ids=core,
         num_passes=args.num_passes, dependency_hops=2 * args.num_passes,
@@ -144,13 +146,10 @@ def p1a_parity(args: argparse.Namespace) -> dict:
     patch_attr = patch.edge_features[:patch.n_edge // 2]
     patch_embedding, _, _, _, _ = jraph_embeddings(
         patch.node_features, patch_pairs, patch_attr, args.num_passes,
+        latent_size=args.latent_size, num_heads=args.num_heads,
         params=params, edge_stats=edge_stats
     )
-    patch_prediction = patch_embedding @ np.asarray(
-        [[0.7, -0.2, 0.1], [0.1, 0.4, -0.3], [-0.2, 0.2, 0.6],
-         [0.3, -0.5, 0.2], [0.2, 0.1, -0.4], [-0.1, 0.3, 0.5],
-         [0.4, 0.2, 0.1], [-0.3, 0.1, 0.2]], dtype=np.float32
-    )
+    patch_prediction = patch_embedding @ decoder
     local = np.searchsorted(patch.parent_node_id, core)
     emb_abs = np.abs(full_embedding[core] - patch_embedding[local])
     pred_abs = np.abs(full_prediction[core] - patch_prediction[local])
@@ -166,7 +165,7 @@ def p1a_parity(args: argparse.Namespace) -> dict:
         sub = assemble_patch(
             core_id=-1, fold=-1, core_parent_ids=half, loss_parent_ids=half,
             num_passes=args.num_passes, dependency_hops=2 * args.num_passes,
-        node_features=x, union_pairs=pairs,
+            node_features=x, union_pairs=pairs,
             union_edge_features=edge_attr, offsets=offsets, incident_edge_id=incident,
         )
         sub_pairs = np.column_stack([
@@ -174,7 +173,9 @@ def p1a_parity(args: argparse.Namespace) -> dict:
         ])
         sub_emb, _, _, _, _ = jraph_embeddings(
             sub.node_features, sub_pairs, sub.edge_features[:sub.n_edge // 2],
-            args.num_passes, params=params, edge_stats=edge_stats
+            args.num_passes,
+            latent_size=args.latent_size, num_heads=args.num_heads,
+            params=params, edge_stats=edge_stats,
         )
         subdivision.append((sub, sub_emb))
     forward = core_prediction_map([v[0] for v in subdivision], [v[1] for v in subdivision])
@@ -186,26 +187,35 @@ def p1a_parity(args: argparse.Namespace) -> dict:
     for parent in core:
         subdivision_abs.append(np.max(np.abs(forward[int(parent)] - full_embedding[parent])))
         order_abs.append(np.max(np.abs(forward[int(parent)] - reverse[int(parent)])))
-
+    embedding_scale = float(np.max(np.abs(full_embedding[core])))
+    prediction_scale = float(np.max(np.abs(full_prediction[core])))
+    boundary_span_effect = abs(slope) * float(np.ptp(boundary_proxy))
+    atol = float(args.parity_atol)
     gates = {
-        "embedding_max_abs_below_5e-5": float(emb_abs.max()) < 5e-5,
-        "prediction_max_abs_below_5e-5": float(pred_abs.max()) < 5e-5,
-        "subdivision_max_abs_below_5e-5": float(max(subdivision_abs)) < 5e-5,
+        "embedding_within_registered_atol": float(emb_abs.max()) < atol,
+        "prediction_within_registered_atol": float(pred_abs.max()) < atol,
+        "subdivision_within_registered_atol": float(max(subdivision_abs)) < atol,
         "patch_order_exact": float(max(order_abs)) == 0.0,
-        "no_boundary_error_trend": abs(slope) < 1e-6,
+        "boundary_span_effect_within_atol": boundary_span_effect < atol,
     }
     return {
         "source": "P1a RA120-160 canonical union wedge",
         "backend": backend, "device": device,
         "num_passes": args.num_passes, "dependency_hops": 2 * args.num_passes,
         "dependency_reason": "Jraph GraphNetwork aggregates sent edges whose attention is receiver-normalized",
-        "latent_size": 8,
+        "latent_size": args.latent_size,
+        "num_heads": args.num_heads,
         "full_nodes": len(x), "full_undirected_pairs": len(pairs),
         "core_nodes": len(core), "core_half_width_mpc": core_half_width_mpc,
         "core_boundary_distance_min_mpc": float(boundary_proxy.min()),
         "core_boundary_distance_max_mpc": float(boundary_proxy.max()),
         "patch_nodes": patch.n_node,
         "patch_directed_edges": patch.n_edge,
+        "registered_absolute_tolerance": atol,
+        "embedding_reference_max_abs": embedding_scale,
+        "embedding_max_abs_fraction_of_reference": float(emb_abs.max()) / max(embedding_scale, 1e-12),
+        "prediction_reference_max_abs": prediction_scale,
+        "prediction_max_abs_fraction_of_reference": float(pred_abs.max()) / max(prediction_scale, 1e-12),
         "embedding_max_abs": float(emb_abs.max()),
         "embedding_mean_abs": float(emb_abs.mean()),
         "prediction_max_abs": float(pred_abs.max()),
@@ -213,6 +223,7 @@ def p1a_parity(args: argparse.Namespace) -> dict:
         "subdivision_max_abs": float(max(subdivision_abs)),
         "patch_order_max_abs": float(max(order_abs)),
         "boundary_proxy_error_slope": slope,
+        "boundary_proxy_span_effect": boundary_span_effect,
         "gates": gates, "pass": all(gates.values()),
     }
 
@@ -267,6 +278,8 @@ def full_adapter_smoke(args: argparse.Namespace) -> dict:
             and int(padded["edge_mask"].sum()) == patch.n_edge
             and int(padded["authoritative_core_mask"].sum())
             == int(patch.authoritative_core_mask.sum())
+            and int(padded["strict_support_mask"].sum())
+            == int(patch.strict_support_mask.sum())
             and int(padded["loss_mask"].sum()) == int(patch.loss_mask.sum())
         )
         records.append({
@@ -275,7 +288,9 @@ def full_adapter_smoke(args: argparse.Namespace) -> dict:
             "nodes": patch.n_node, "directed_edges": patch.n_edge,
             "model_passes": patch.num_passes, "dependency_hops": patch.dependency_hops,
             "authoritative_core_nodes": int(patch.authoritative_core_mask.sum()),
-            "strict_loss_nodes": int(patch.loss_mask.sum()),
+            "strict_support_nodes": int(patch.strict_support_mask.sum()),
+            "primary_loss_nodes": int(patch.loss_mask.sum()),
+            "loss_policy": patch.loss_policy,
             "bucket_nodes": int(len(padded["nodes"])),
             "bucket_edges": int(len(padded["edges"])),
             "canonical_feature_identity": feature_identity,
@@ -303,7 +318,10 @@ def full_adapter_smoke(args: argparse.Namespace) -> dict:
             row["canonical_feature_identity"] for row in records),
         "all_padding_masks_are_exact": all(row["padding_masks_valid"] for row in records),
         "every_sample_has_core_nodes": all(row["authoritative_core_nodes"] > 0 for row in records),
-        "every_sample_has_strict_loss_nodes": all(row["strict_loss_nodes"] > 0 for row in records),
+        "every_sample_has_strict_support_nodes": all(
+            row["strict_support_nodes"] > 0 for row in records),
+        "primary_loss_equals_authoritative_core": all(
+            row["primary_loss_nodes"] == row["authoritative_core_nodes"] for row in records),
         "both_caps_all_folds_represented": {
             (row["cap"], row["fold"]) for row in records
         } == {(cap, fold) for cap in (0, 1) for fold in range(5)},
@@ -333,6 +351,11 @@ def parse_args() -> argparse.Namespace:
         "path1_fiberassign_mock_bgs_maglim_rs7_wedge_ra120_160_dec14p5_30p6_z0p2_0p3_points.npy"))
     ap.add_argument("--num-passes", type=int, default=2)
     ap.add_argument("--p1a-core-nodes", type=int, default=16)
+    ap.add_argument("--latent-size", type=int, default=8)
+    ap.add_argument("--num-heads", type=int, default=2)
+    ap.add_argument("--parity-atol", type=float, default=5e-5)
+    ap.add_argument("--report-name", default="parity_report.json")
+    ap.add_argument("--marker-name", default="GRAPH_PATCH_READY")
     ap.add_argument("--smoke-cores", type=int, default=12)
     return ap.parse_args()
 
@@ -349,25 +372,31 @@ def main() -> None:
         "full_adapter_smoke_passes": bool(smoke["pass"]),
     }
     report = {
-        "schema_version": 1,
+        "schema_version": 2,
         "stage": "P5 GraphNet patch adapter parity",
         "adapter_manifest": str(adapter_manifest),
         "adapter_manifest_sha256": sha256(adapter_manifest),
         "p1a": p1a, "full_p2b_p4_smoke": smoke,
+        "registered_mask_contract": {
+            "primary_loss": "all authoritative core nodes",
+            "strict_hop": "diagnostic only",
+        },
         "gates": gates, "pass": all(gates.values()),
         "elapsed_seconds": time.time() - started,
     }
-    report_path = args.adapter_root / "parity_report.json"
+    report_path = args.adapter_root / args.report_name
     report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     print(json.dumps(report, indent=2, sort_keys=True), flush=True)
     if not report["pass"]:
         raise RuntimeError(f"P5 parity failed: {gates}")
-    marker = args.adapter_root / "GRAPH_PATCH_READY"
+    marker = args.adapter_root / args.marker_name
     marker.write_text(
         f"adapter_manifest_sha256={sha256(adapter_manifest)}\n"
         f"parity_report_sha256={sha256(report_path)}\n"
         f"model_passes={args.num_passes}\n"
         f"dependency_hops={2 * args.num_passes}\n"
+        f"latent_size={args.latent_size}\n"
+        f"num_heads={args.num_heads}\n"
     )
 
 

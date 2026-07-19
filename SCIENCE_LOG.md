@@ -1,5 +1,43 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-19 — [science/code] P5 AUDIT RESOLVED: authoritative primary mask, frozen G-PATCH control, production A100 parity
+
+Claude's audit identified genuine pre-registration gaps, not a failed adapter. They
+are now resolved before P8. The primary loss and metric mask is **all P4 authoritative
+core galaxies**. Four-hop isolation is retained as an architecture-specific robustness
+diagnostic only: it keeps just 106/62,243 galaxies at z=0.45-0.55 and cannot define
+the mandatory four-shell macro-R². The shared robustness ladder is now (1) all
+authoritative cores, (2) physical fold-boundary margins beyond 10.4 and 20.8 Mpc,
+and (3) hop-isolated subsets with their retained fractions.
+
+This needs precise naming. P8 is **spatial target generalization with a globally
+observed representation**: validation/test labels are excluded, but the globally
+observed, label-free point process may enter graph construction and context. That is
+deployment-relevant for DESI, but it is not fresh-graph induction. P10 independent
+phases separately construct each graph and remain the decisive fresh-catalogue test.
+
+The architecture fork is frozen. G-PATCH first retrains the existing two-pass
+receiver-normalized attention GraphNetwork, with the R0/A1 eight-feature schema and
+four exact dependency hops, so the protocol is the only central change. Receiver-only
+message passing is a separately named optional challenger after this control; it
+cannot replace the control after results are seen. The historical two-layer
+disconnected-wedge transfer failure motivates the experiment but does not answer it.
+
+Patch-local feature fitting is forbidden. For each rotation, node SI medians are fit
+per cap on authoritative training-fold nodes, Box-Cox on training cores, and edge
+transforms on training-fold internal edges; all are then frozen. Blind phases and DESI
+receive the training-ensemble transforms unchanged.
+
+The production-shape GPU parity point also passes on one A100: latent 80, eight heads,
+100,935 full-graph nodes, and a 5,737-node / 194,584-directed-edge patch. Patch-order
+difference is exactly zero; maximum embedding and prediction differences are 1.54e-3
+and 7.38e-4, respectively, both within the pre-registered 2e-3 float32 GPU tolerance
+and small relative to output scale. Runtime evidence is in
+`/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter/parity_report_prod_gpu.json`;
+tracked evidence and the revised mask/scaling contract are in `docs/evidence/p5/`.
+`GRAPH_PATCH_PROD_GPU_READY` is written.
+
+
 ### 2026-07-19 — [code] P5 INTEGRITY AUDIT (adversarial, Claude Code): parity is SOUND; four pre-registration holes found — H1 (strict-hop mask starves/undefines the sparsest shell) is CRITICAL and must be decided BEFORE P8
 
 **Verified sound (independently reproduced, not just re-read):**

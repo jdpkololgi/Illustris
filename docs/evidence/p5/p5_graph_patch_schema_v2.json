@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "stage": "P5 canonical GraphNet patch adapter",
+  "primary_mask_contract": {
+    "authoritative_core_mask": "all unique P4 core-owned supervised rows",
+    "loss_mask": "all authoritative core rows for the primary P8 objective",
+    "strict_support_mask": "architecture-specific hop-isolated diagnostic subset only",
+    "physical_margin_robustness_mpc": [10.4, 20.8],
+    "reason": "strict four-hop supervision retains only 106 of 62243 high-redshift galaxies and cannot define the mandatory four-shell primary metric"
+  },
+  "evaluation_scope": {
+    "same_catalogue_blocked_folds": "spatial target generalization with a globally observed representation; cross-fold label use is forbidden but label-free graph context is available",
+    "fresh_graph_induction": "reserved for P10 independent-phase catalogues constructed separately"
+  },
+  "graphnet_control": {
+    "name": "G-PATCH protocol control",
+    "architecture": "existing two-pass receiver-normalized attention GraphNetwork",
+    "dependency_hops": 4,
+    "purpose": "isolate the patch training protocol from architecture changes",
+    "receiver_only_status": "separately named optional challenger after the control; never a post-hoc replacement"
+  },
+  "feature_transform_contract": {
+    "forbidden": "per-patch medians, Box-Cox fits, or standardization",
+    "si_medians": "fit per cap on authoritative training-fold nodes for each rotation and freeze",
+    "box_cox": "fit on authoritative training-core nodes only and freeze",
+    "edge_transform": "fit edge median/log standardization on training-fold internal edges only and freeze",
+    "blind_application": "apply training-ensemble transforms unchanged to validation, blind phases, and DESI"
+  },
+  "canonical_arrays": {
+    "node_features.npy": "P2b parent graph node features copied unchanged",
+    "union_pairs.npy": "canonical full-cap union pairs",
+    "union_edge_features.npy": "canonical edge attributes",
+    "incident_offsets.npy": "incident-edge CSR offsets",
+    "incident_edge_id.npy": "canonical pair IDs at both endpoints"
+  },
+  "patch_arrays": {
+    "parent_node_id": "sorted immutable global parent node IDs",
+    "authoritative_core_mask": "primary supervised and scored core rows",
+    "strict_support_mask": "hop-isolated diagnostic rows",
+    "loss_mask": "caller-selected policy recorded as loss_policy",
+    "loss_policy": "authoritative or strict_hop",
+    "node_edge_masks": "real-versus-padding masks; padding never truncates"
+  },
+  "dependency_contract": {
+    "model_passes": "nominal encoder iterations",
+    "dependency_hops": "literal graph hops required for complete-graph parity",
+    "current_attention_graphnet": "dependency_hops = 2 * model_passes",
+    "registered_strict_support_hops": [2, 4]
+  },
+  "production_gpu_parity": {
+    "backend": "A100 GPU",
+    "latent_size": 80,
+    "num_heads": 8,
+    "core_nodes": 256,
+    "patch_nodes": 5737,
+    "absolute_tolerance": 0.002,
+    "embedding_max_abs": 0.0015333890914916992,
+    "embedding_max_fraction_of_reference": 0.00020829948851245242,
+    "prediction_max_abs": 0.0007377117872238159,
+    "prediction_max_fraction_of_reference": 0.0005708705580558072,
+    "patch_order_max_abs": 0.0,
+    "interpretation": "GPU float32 reduction partition tolerance, not bitwise equality"
+  }
+}

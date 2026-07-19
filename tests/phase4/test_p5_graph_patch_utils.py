@@ -65,6 +65,25 @@ class P5GraphPatchUtilsTests(unittest.TestCase):
         self.assertEqual(int(patch.authoritative_core_mask.sum()), 1)
         self.assertEqual(int(patch.loss_mask.sum()), 1)
 
+    def test_primary_loss_and_strict_support_are_independent_masks(self):
+        patch = MOD.assemble_patch(
+            core_id=7, fold=2, core_parent_ids=np.asarray([1, 2]),
+            loss_parent_ids=np.asarray([1, 2]),
+            strict_parent_ids=np.asarray([2]),
+            loss_policy="authoritative",
+            num_passes=1, dependency_hops=1,
+            node_features=self.x, union_pairs=self.pairs,
+            union_edge_features=self.edge, offsets=self.offsets,
+            incident_edge_id=self.incident,
+        )
+        self.assertEqual(int(patch.authoritative_core_mask.sum()), 2)
+        self.assertEqual(int(patch.loss_mask.sum()), 2)
+        self.assertEqual(int(patch.strict_support_mask.sum()), 1)
+        self.assertEqual(patch.loss_policy, "authoritative")
+        padded = MOD.pad_patch(patch)
+        self.assertEqual(int(padded["strict_support_mask"].sum()), 1)
+        self.assertEqual(int(padded["loss_mask"].sum()), 2)
+
     def test_padding_masks_and_dummy_edges_do_not_touch_real_nodes(self):
         patch = MOD.assemble_patch(
             core_id=1, fold=0, core_parent_ids=np.asarray([0]),
