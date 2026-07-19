@@ -298,8 +298,14 @@ def run_p6(adapter, cores, model, normalization, tmu, tsd, device):
             "retained_boundary_spearman": rho,
             "boundary_pass": boundary_pass, "passes": passed,
         }
-        if selected is None and passed:
+
+    # Freeze the smallest context on a stable convergence tail. A single
+    # passing point followed by a larger failing context is not convergence.
+    ordered_halos = list(aggregate)
+    for index, halo in enumerate(ordered_halos):
+        if all(summary[str(larger)]["passes"] for larger in ordered_halos[index:]):
             selected = halo
+            break
 
     child_got, child_ref = [], []
     if selected is not None:
