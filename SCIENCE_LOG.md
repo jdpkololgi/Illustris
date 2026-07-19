@@ -1,5 +1,33 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-20 — [code] P8 loss curves DO NOT EXIST for the frozen screens; trainers instrumented so recovery reruns produce them
+
+Asked for G/U loss curves; there are none to plot. Each run's `history` has exactly ONE entry
+(step 2000) because `--eval-every` equalled `--steps`, and that entry's `training_loss` is the
+INSTANTANEOUS single-patch loss, not a running mean. Everything that exists:
+
+| run | steps | train loss @ end | val macro R2(lambda1) |
+|---|---:|---:|---:|
+| G-PATCH rot0 | 2000 | 0.5290 | 0.400 |
+| G-PATCH rot2 | 2000 | 0.3976 | 0.392 |
+| U-PATCH rot0 | 2000 | 0.5989 | 0.369 |
+| U-PATCH rot2 | 2000 | 0.4334 | 0.357 |
+
+The rot0-vs-rot2 loss offset is patch-draw noise (which core was sampled at step 2000), NOT an
+optimization difference — do not read it as one. Checkpoints carry only final state, no trace.
+This is the training-adequacy audit finding in its rawest form: with one sample there is no way
+to distinguish "converged" from "still descending", which is exactly why the learned NO-GO was
+withdrawn.
+
+FIX (additive, no training-math change; sol please retain in the recovery reruns): both
+p8_train_graph_patch.py and p8_train_unet_patch.py now log a WINDOWED mean training loss
+(+min/max/lr) to `loss_trace.jsonl` every `--loss-log-every` steps (default 25), decoupled from
+validation cadence because training-loss logging costs no fold evaluation. `loss_trace` is also
+carried in screen_summary.json. plot_p8_loss_curves.py renders curves when present and states the
+absence explicitly otherwise (fig7_loss_curves.png). Combined with the recovery contract's
+per-epoch complete-fold validation, the reruns will finally support a convergence/early-stopping
+judgement — and will also settle the U-PATCH under-dispersion question (output range vs step).
+
 ### 2026-07-20 — [code] P8 visuals part 2 (λ2/λ3 + T-web classes) + U-PATCH saturation fingerprint: NOT a clamp — under-dispersion
 
 fig5/fig6 added (commit above; figures/p8_smoke_eval/). Class maps at λ_th=0.2, validation
