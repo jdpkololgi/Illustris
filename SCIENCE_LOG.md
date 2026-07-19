@@ -1,5 +1,30 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-19 — [science/code] P5 PREFLIGHT: current attention GraphNetwork has two graph-hop dependencies per nominal pass
+
+The first actual P1a full-graph-versus-patch embedding parity test exposed an
+important receptive-field correction. With the current Jraph
+`GraphNetwork`, a two-pass encoder supplied with only two-hop graph context
+does **not** reproduce the full graph (maximum embedding difference 0.0121;
+maximum fixed-decoder prediction difference 0.0113). Supplying four-hop
+context makes the same full-graph, patch, subdivided-patch, and reordered-patch
+outputs exactly equal in this deterministic test (all reported differences 0).
+
+This is expected from the implementation: Jraph updates nodes from both
+received and sent edge aggregates, while attention is normalized over edges
+incoming to each receiver. A sent edge from the core to a neighbour therefore
+depends on every other edge entering that neighbour. One nominal pass can
+depend on nodes two graph hops away; the current two-pass attention GraphNet
+requires four-hop context.
+
+The frozen P4 arrays named `safe_2pass` and `safe_4pass` are mathematically
+valid but must now be interpreted literally as **two-hop** and **four-hop**
+support masks, not architecture-independent pass counts. Thus the current
+two-pass attention GraphNet has the four-hop strict scoring fraction (29.30%
+overall and effectively zero at z=0.45–0.55), whereas a receiver-only
+message-passing variant with one-hop dependency per pass can use the two-hop
+mask (62.08%). P5 now records model passes and dependency hops separately.
+
 ### 2026-07-18 — [code] P4 EVALUATED + pedagogical patch figures (real arrays): core/context/super-block/fold and model-agnosticism illustrated
 
 Independent read of the P4 artifacts (all gates PASS, internally consistent):
