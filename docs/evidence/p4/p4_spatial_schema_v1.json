@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "catalogue_id": "ph000_path1_full_ngc_sgc_v1",
+  "coordinate_frame": {
+    "description": "observer-centred Cartesian comoving coordinates",
+    "indexing_units": "Mpc",
+    "scientific_length_units": "Mpc/h",
+    "cosmology": "Planck18",
+    "h": 0.6766,
+    "conversion": "L_Mpc = L_Mpc_h / h"
+  },
+  "core_size_probe": {
+    "candidate_mpc_h": [32.0, 64.0, 96.0],
+    "default_mpc_h": 64.0,
+    "minimum_high_z_active_per_occupied_core": 5,
+    "reporting_shell_high_z": 3,
+    "graph_radius_mpc": 14.78,
+    "message_pass_candidates": [2, 4],
+    "field_cell_mpc": 5.0,
+    "field_context_mpc": 40.0
+  },
+  "core_lattice": {
+    "anchor": "per-cap P3 grid origin_mpc",
+    "bounds": "half-open [minimum, maximum)",
+    "empty_core_policy": "omit from authoritative manifest",
+    "ownership": "every eligible active galaxy has exactly one geometric core"
+  },
+  "super_blocks": {
+    "cores_per_axis": 4,
+    "fold_count": 5,
+    "fold_unit": "host-linked connected components of spatial super-blocks"
+  },
+  "split_contract": {
+    "rotations": "three folds train, one validation, one development-test",
+    "blind_test": "independent Abacus phase; RA 200-240 is development evidence",
+    "no_targetid_crossing": true,
+    "no_host_key_crossing": ["FILE_NUM", "BOX_INDEX", "HALO_INDEX"]
+  },
+  "architecture_contract": {
+    "shared": "authoritative core galaxies, targets, folds, core bounds",
+    "graph": "canonical P2b graph view with architecture-specific exact K-hop context",
+    "unet": "canonical P3 field view with architecture-specific convolutional context",
+    "ftier": "shared core plus graph, field, and nonlocal FFT support annotations"
+  }
+}

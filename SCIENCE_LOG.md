@@ -1,5 +1,34 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-18 — [science/code] P4 CORE-SIZE PROBE PASS: freeze 64 Mpc/h cores with explicit Mpc indexing
+
+P4 evaluated exact scientific core sizes 32, 64, and 96 Mpc/h over the full P1b
+NGC+SGC active catalogue. The indexing lengths are 47.2953, 94.5906, and 141.8859
+observer-frame comoving Mpc at the independently audited Planck18 `h=0.6766`.
+They are not relabelled as Mpc and are not rounded to the 5-Mpc P3 lattice.
+
+The occupancy/resource trade-off supports the registered 64-Mpc/h default:
+
+- 32 Mpc/h fragments the high-z shell into 28,260 occupied cores with median only
+  two high-z labels; conservative four-pass context is 27,114 nodes at p95.
+- 64 Mpc/h gives 7,520 high-z occupied cores with median six labels (p95 29),
+  while conservative graph context is 42,078 nodes and about 1.25M union pairs at
+  p95. A P3 field patch with 40-Mpc context is only 35^3 voxels.
+- 96 Mpc/h improves high-z occupancy to median 16 but raises conservative context
+  to 127,726 nodes and about 3.80M union pairs at p95. That extra physical size is
+  unnecessary because sparse cores can be batched or gradient-accumulated.
+
+The graph figures intentionally overestimate context by including complete adjacent
+core cells and using the global mean union degree. They are a P4 selection probe, not
+an 80-GB GPU guarantee. P5 must measure exact K-hop context and may losslessly
+subdivide oversized computational batches without changing authoritative 64-Mpc/h
+core ownership.
+
+Artifacts: `docs/evidence/p4/p4_spatial_schema_v1.json`,
+`docs/evidence/p4/core_size_probe.json`, runtime root
+`/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/`, and executable
+`workflows/abacus_tweb/p4_probe_core_sizes.py`.
+
 ### 2026-07-18 — [science/code] P3a CATALOGUE–FIELD–TARGET CLOSURE PASS; P4 may proceed
 
 The completed P3 fields were checked against the exact P1b catalogue and attached

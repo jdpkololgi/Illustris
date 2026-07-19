@@ -594,7 +594,11 @@ as context in many patches. Patch boundaries do not remove galaxies.
 
 Progress checklist:
 
-- [ ] Freeze the candidate core-size resource probe over both NGC and SGC.
+- [x] Freeze the candidate core-size resource probe over both NGC and SGC.
+  The selected scientific core is exactly 64 Mpc/h = 94.5906 Mpc at Planck18
+  `h=0.6766`; it is not rounded to P3 voxel edges. Runtime evidence:
+  `/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/core_size_probe.json`;
+  tracked evidence: `docs/evidence/p4/core_size_probe.json`.
 - [ ] Build fixed-comoving cap core cells independently of split ownership.
 - [ ] Group cores into spatial super-blocks before assigning folds.
 - [ ] Group repeated `(FILE_NUM, BOX_INDEX, HALO_INDEX)` halos and TARGETIDs so
