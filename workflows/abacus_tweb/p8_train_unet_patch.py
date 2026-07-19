@@ -175,6 +175,8 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--steps", type=int, default=4000)
     parser.add_argument("--eval-every", type=int, default=500)
+    parser.add_argument("--loss-log-every", type=int, default=25,
+                        help="steps between windowed training-loss records (no validation cost)")
     parser.add_argument("--patience", type=int, default=5)
     parser.add_argument("--lr", type=float, default=2e-3)
     parser.add_argument("--base", type=int, default=24)
@@ -220,6 +222,8 @@ def main() -> None:
     best_step = -1
     stale = 0
     history = []
+    loss_trace: list[dict] = []
+    loss_window: list[float] = []
     shell_exposure = np.zeros(4, dtype=np.int64)
     started = time.time()
     maximum_memory = 0
@@ -249,6 +253,23 @@ def main() -> None:
                 parent_shell[parent], minlength=4
             )[:4]
             maximum_memory = max(maximum_memory, int(torch.cuda.max_memory_allocated()))
+
+            # Training-curve logging, decoupled from --eval-every (no validation cost).
+            # The short screens stored one instantaneous single-patch loss and so had no
+            # learning curve; a windowed mean reflects optimization, not patch draw.
+            loss_window.append(float(loss.detach().cpu()))
+            if step % args.loss_log_every == 0 or step == args.steps:
+                loss_trace.append({
+                    "step": step,
+                    "training_loss_window_mean": float(np.mean(loss_window)),
+                    "training_loss_window_min": float(np.min(loss_window)),
+                    "training_loss_window_max": float(np.max(loss_window)),
+                    "window": len(loss_window),
+                    "learning_rate": float(scheduler.get_last_lr()[0]),
+                })
+                with open(output / "loss_trace.jsonl", "a") as handle:
+                    handle.write(json.dumps(loss_trace[-1]) + "\n")
+                loss_window.clear()
 
             if step % args.eval_every == 0 or step == args.steps:
                 val_parent, val_scaled, failures = predict_fold(
@@ -316,6 +337,7 @@ def main() -> None:
         "best_primary_macro_r2_lambda1": best_score,
         "steps_run": step,
         "history": history,
+        "loss_trace": loss_trace,
         "architecture": {
             "base": args.base,
             "latent_channels": args.latent_channels,

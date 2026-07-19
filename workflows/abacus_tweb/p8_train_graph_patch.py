@@ -253,6 +253,8 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--steps", type=int, default=2000)
     parser.add_argument("--eval-every", type=int, default=2000)
+    parser.add_argument("--loss-log-every", type=int, default=25,
+                        help="steps between windowed training-loss records (no validation cost)")
     parser.add_argument("--patience", type=int, default=1)
     parser.add_argument("--lr", type=float, default=2e-3)
     parser.add_argument("--latent-size", type=int, default=80)
@@ -303,6 +305,8 @@ def main() -> None:
     best_score, best_step, stale = -np.inf, -1, 0
     best_state = None
     history = []
+    loss_trace: list[dict] = []
+    loss_window: list[float] = []
     shell_exposure = np.zeros(4, dtype=np.int64)
     maximum_nodes = maximum_edges = maximum_memory = 0
     started = time.time()
@@ -338,6 +342,24 @@ def main() -> None:
         scheduler.step()
         shell_exposure += np.bincount(parent_shell[parent], minlength=4)[:4]
         maximum_memory = max(maximum_memory, int(torch.cuda.max_memory_allocated()))
+
+        # Training-curve logging. Costs no validation work, so it is decoupled from
+        # --eval-every: the short screens recorded a single instantaneous single-patch
+        # loss and therefore had no learning curve at all. A windowed mean is logged so
+        # the curve reflects optimization rather than which patch was drawn.
+        loss_window.append(float(loss.detach().cpu()))
+        if step % args.loss_log_every == 0 or step == args.steps:
+            loss_trace.append({
+                "step": step,
+                "training_loss_window_mean": float(np.mean(loss_window)),
+                "training_loss_window_min": float(np.min(loss_window)),
+                "training_loss_window_max": float(np.max(loss_window)),
+                "window": len(loss_window),
+                "learning_rate": float(scheduler.get_last_lr()[0]),
+            })
+            with open(output / "loss_trace.jsonl", "a") as handle:
+                handle.write(json.dumps(loss_trace[-1]) + "\n")
+            loss_window.clear()
 
         if step % args.eval_every == 0 or step == args.steps:
             # Persist before the expensive exact complete-fold graph assembly.
@@ -428,6 +450,7 @@ def main() -> None:
         "best_primary_macro_r2_lambda1": best_score,
         "steps_run": step,
         "history": history,
+        "loss_trace": loss_trace,
         "architecture": {
             "lineage": "two-pass receiver-normalized attentional GraphNetwork",
             "implementation": "PyTorch faithful Jraph GraphNetwork form",
