@@ -1104,6 +1104,18 @@ baseline on the spatial-fold primary score, and no shell whose degradation erase
 gain. A mean gain of at least 0.03 is the promotion target; smaller gains remain
 provisional unless uncertainty clearly supports them.
 
+The matched classical row is a hard scientific adoption baseline, not merely a
+diagnostic floor. Define learned-model failure unambiguously as the best matched,
+train-calibrated classical estimator exceeding every learned candidate on the primary
+spatial-fold score, especially if the excess is reproduced across folds and is not
+confined to one pathological shell. Conversely, classical methods failing to exceed a
+learned candidate is necessary but not sufficient for production promotion: P10 blind
+fresh-phase transfer must still pass. If no learned candidate at least ties the best
+classical row within the spatial-block uncertainty, record a P8 learned-model NO-GO,
+promote the classical reconstruction to the production reference, and do not rescue a
+learned branch using pooled R-squared or the collapse of one classical high-redshift
+shell.
+
 A **production-transfer pass** additionally requires P10: a frozen fresh-graph test on
 an independent phase. P8 same-phase blocked folds alone establish promising spatial
 transfer, not universal simulation-to-DESI validity.

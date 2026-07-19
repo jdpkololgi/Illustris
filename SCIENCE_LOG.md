@@ -1,5 +1,29 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-19 — [science/code] P8 STARTED: deterministic patch-generalisation showdown and classical adoption gate frozen
+
+P8 has begun under the completed P4–P7 representation and adapter contracts. The
+controlling question is now deliberately narrower than posterior inference or HOD
+marginalisation: can deterministic GraphNet, 3-D U-Net, or F-tier inference learn a
+mapping that transfers across the registered spatial folds when trained on canonical
+core/context patches?
+
+The classical comparison has been strengthened from a diagnostic row to a hard
+scientific adoption gate. Learned-model failure means that the best matched,
+train-calibrated DTFE/CIC-style estimator exceeds every learned candidate on the
+equal-shell spatial-fold lambda1 R-squared score. A macro advantage caused only by a
+classical collapse in the sparsest shell is not an encoder win; per-shell behaviour and
+spatial-block uncertainty remain mandatory. If no learned candidate at least ties the
+best classical result within uncertainty, the learned VAC branch receives a NO-GO
+and the classical estimator becomes the production reference rather than weakening
+the metric.
+
+The one-seed screen will use the already frozen linear-increment targets, all
+authoritative validation cores, training-only transformations, and complete-fold
+checkpointing. Posterior heads, HOD variation, JEPA, log-gap targets, and hybrids stay
+gated until this deterministic transfer question has an answer.
+
+
 ### 2026-07-19 — [science/code] P6/P7 adapter convergence complete: patch-safe U-Net normalization and nonlocal FFT geometry frozen
 
 The remaining P6 and P7 deployment gates were run on an interactive A100 allocation
