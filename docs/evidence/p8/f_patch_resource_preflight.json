@@ -1,0 +1,301 @@
+{
+  "decision": "NO_GO_FROZEN_V2_A_RESOURCE_INFEASIBLE",
+  "frozen_architecture": {
+    "encoder": "five-layer EGNNAttnEncoder",
+    "fft_apodization_voxels": 20,
+    "fft_padding_voxels": 20,
+    "field_halo_voxels": 72,
+    "heads": 4,
+    "width": 64
+  },
+  "inputs": {
+    "assignment": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/active_assignment.npz",
+    "assignment_sha256": "c95a683184a9bd7edc218036e05a0f4b077224cddc525ef54e489e273459f08f",
+    "p5_adapter": "/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter/adapter_manifest.json",
+    "p5_adapter_sha256": "d1b64dec344b74414b35edbd0b4adff81bf897a9cf2c01b306630cbb7d7be4e3",
+    "p6_adapter": "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/adapter_manifest.json",
+    "p6_adapter_sha256": "5056f62ef2341ca7b3da676c7ed68cdeb14036904bc4d71cc80b7b65a1c1866c",
+    "selection": "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/fullcap_selection_v1/selection_manifest.json",
+    "selection_sha256": "4f31078f5b61c808610bb48a6c8cc8f1ad9a597778e3fa71e7adae8eb950c977"
+  },
+  "records": [
+    {
+      "authoritative_nodes": 880,
+      "cap": 0,
+      "context_lower_mpc": [
+        430.64531755701773,
+        30.424338059215188,
+        -246.8134567450163
+      ],
+      "context_upper_mpc": [
+        1310.6453175570177,
+        870.4243380592152,
+        593.1865432549837
+      ],
+      "core_id": 1201,
+      "directed_edges_before_encoder_halo": 35865284,
+      "field_shape": [
+        176,
+        168,
+        168
+      ],
+      "field_voxels": 4967424,
+      "galaxies_in_required_field_context": 645886,
+      "induced_undirected_edges_before_encoder_halo": 17932642,
+      "lower_bound_omits": [
+        "five-hop graph context beyond the field box",
+        "autograd saved tensors and gradients",
+        "optimizer state",
+        "U-Net decoder activations",
+        "FFT padding and tensor fields"
+      ],
+      "minimum_forward_activation_bytes": 48675460496,
+      "minimum_forward_activation_gib": 45.33255518972874,
+      "shell": 0
+    },
+    {
+      "authoritative_nodes": 270,
+      "cap": 0,
+      "context_lower_mpc": [
+        350.64531755701773,
+        310.4243380592152,
+        -726.8134567450163
+      ],
+      "context_upper_mpc": [
+        1190.6453175570177,
+        1150.4243380592152,
+        113.18654325498369
+      ],
+      "core_id": 942,
+      "directed_edges_before_encoder_halo": 16252668,
+      "field_shape": [
+        168,
+        168,
+        168
+      ],
+      "field_voxels": 4741632,
+      "galaxies_in_required_field_context": 321614,
+      "induced_undirected_edges_before_encoder_halo": 8126334,
+      "lower_bound_omits": [
+        "five-hop graph context beyond the field box",
+        "autograd saved tensors and gradients",
+        "optimizer state",
+        "U-Net decoder activations",
+        "FFT padding and tensor fields"
+      ],
+      "minimum_forward_activation_bytes": 22722635120,
+      "minimum_forward_activation_gib": 21.162103042006493,
+      "shell": 1
+    },
+    {
+      "authoritative_nodes": 49,
+      "cap": 0,
+      "context_lower_mpc": [
+        630.6453175570177,
+        -1329.5756619407848,
+        -646.8134567450163
+      ],
+      "context_upper_mpc": [
+        1510.6453175570177,
+        -449.5756619407848,
+        233.1865432549837
+      ],
+      "core_id": 1696,
+      "directed_edges_before_encoder_halo": 4813042,
+      "field_shape": [
+        176,
+        176,
+        176
+      ],
+      "field_voxels": 5451776,
+      "galaxies_in_required_field_context": 156911,
+      "induced_undirected_edges_before_encoder_halo": 2406521,
+      "lower_bound_omits": [
+        "five-hop graph context beyond the field box",
+        "autograd saved tensors and gradients",
+        "optimizer state",
+        "U-Net decoder activations",
+        "FFT padding and tensor fields"
+      ],
+      "minimum_forward_activation_bytes": 7813401352,
+      "minimum_forward_activation_gib": 7.276797063648701,
+      "shell": 2
+    },
+    {
+      "authoritative_nodes": 5,
+      "cap": 0,
+      "context_lower_mpc": [
+        350.64531755701773,
+        1430.4243380592152,
+        -646.8134567450163
+      ],
+      "context_upper_mpc": [
+        1190.6453175570177,
+        2130.424338059215,
+        233.1865432549837
+      ],
+      "core_id": 1029,
+      "directed_edges_before_encoder_halo": 80080,
+      "field_shape": [
+        168,
+        140,
+        176
+      ],
+      "field_voxels": 4139520,
+      "galaxies_in_required_field_context": 42380,
+      "induced_undirected_edges_before_encoder_halo": 40040,
+      "lower_bound_omits": [
+        "five-hop graph context beyond the field box",
+        "autograd saved tensors and gradients",
+        "optimizer state",
+        "U-Net decoder activations",
+        "FFT padding and tensor fields"
+      ],
+      "minimum_forward_activation_bytes": 1209067840,
+      "minimum_forward_activation_gib": 1.1260321736335754,
+      "shell": 3
+    },
+    {
+      "authoritative_nodes": 1218,
+      "cap": 1,
+      "context_lower_mpc": [
+        -957.7230222783965,
+        -1085.2383097220409,
+        -52.82100454481389
+      ],
+      "context_upper_mpc": [
+        -117.72302227839646,
+        -205.23830972204087,
+        827.1789954551862
+      ],
+      "core_id": 14930,
+      "directed_edges_before_encoder_halo": 73474888,
+      "field_shape": [
+        168,
+        176,
+        176
+      ],
+      "field_voxels": 5203968,
+      "galaxies_in_required_field_context": 1194572,
+      "induced_undirected_edges_before_encoder_halo": 36737444,
+      "lower_bound_omits": [
+        "five-hop graph context beyond the field box",
+        "autograd saved tensors and gradients",
+        "optimizer state",
+        "U-Net decoder activations",
+        "FFT padding and tensor fields"
+      ],
+      "minimum_forward_activation_bytes": 98372610592,
+      "minimum_forward_activation_gib": 91.61663296818733,
+      "shell": 0
+    },
+    {
+      "authoritative_nodes": 345,
+      "cap": 1,
+      "context_lower_mpc": [
+        -757.7230222783965,
+        -1445.2383097220409,
+        267.1789954551861
+      ],
+      "context_upper_mpc": [
+        82.27697772160354,
+        -605.2383097220409,
+        1107.1789954551862
+      ],
+      "core_id": 16241,
+      "directed_edges_before_encoder_halo": 13372672,
+      "field_shape": [
+        168,
+        168,
+        168
+      ],
+      "field_voxels": 4741632,
+      "galaxies_in_required_field_context": 377273,
+      "induced_undirected_edges_before_encoder_halo": 6686336,
+      "lower_bound_omits": [
+        "five-hop graph context beyond the field box",
+        "autograd saved tensors and gradients",
+        "optimizer state",
+        "U-Net decoder activations",
+        "FFT padding and tensor fields"
+      ],
+      "minimum_forward_activation_bytes": 18946809088,
+      "minimum_forward_activation_gib": 17.645591020584106,
+      "shell": 1
+    },
+    {
+      "authoritative_nodes": 67,
+      "cap": 1,
+      "context_lower_mpc": [
+        -1797.7230222783965,
+        -685.2383097220409,
+        347.1789954551861
+      ],
+      "context_upper_mpc": [
+        -957.7230222783965,
+        154.76169027795913,
+        1187.1789954551862
+      ],
+      "core_id": 8736,
+      "directed_edges_before_encoder_halo": 1966584,
+      "field_shape": [
+        168,
+        168,
+        168
+      ],
+      "field_voxels": 4741632,
+      "galaxies_in_required_field_context": 99523,
+      "induced_undirected_edges_before_encoder_halo": 983292,
+      "lower_bound_omits": [
+        "five-hop graph context beyond the field box",
+        "autograd saved tensors and gradients",
+        "optimizer state",
+        "U-Net decoder activations",
+        "FFT padding and tensor fields"
+      ],
+      "minimum_forward_activation_bytes": 3865293280,
+      "minimum_forward_activation_gib": 3.5998348891735077,
+      "shell": 2
+    },
+    {
+      "authoritative_nodes": 6,
+      "cap": 1,
+      "context_lower_mpc": [
+        -1597.7230222783965,
+        994.7616902779591,
+        347.1789954551861
+      ],
+      "context_upper_mpc": [
+        -757.7230222783965,
+        1874.7616902779591,
+        1187.1789954551862
+      ],
+      "core_id": 10347,
+      "directed_edges_before_encoder_halo": 250480,
+      "field_shape": [
+        168,
+        176,
+        168
+      ],
+      "field_voxels": 4967424,
+      "galaxies_in_required_field_context": 84771,
+      "induced_undirected_edges_before_encoder_halo": 125240,
+      "lower_bound_omits": [
+        "five-hop graph context beyond the field box",
+        "autograd saved tensors and gradients",
+        "optimizer state",
+        "U-Net decoder activations",
+        "FFT padding and tensor fields"
+      ],
+      "minimum_forward_activation_bytes": 1662732992,
+      "minimum_forward_activation_gib": 1.5485407710075378,
+      "shell": 3
+    }
+  ],
+  "registered_forward_activation_limit_gib": 60.0,
+  "rotation": 0,
+  "schema_version": 1,
+  "scientific_note": "This is a deployment-feasibility no-go, not evidence that the field-to-physics factorisation lacks predictive value. A redesigned U-Physics or multiresolution graph-field model is a separately named future candidate.",
+  "screen_feasible_without_redesign": false,
+  "stage": "P8 F-PATCH v2_A full-cap resource preflight"
+}

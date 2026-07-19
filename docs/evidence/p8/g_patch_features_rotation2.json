@@ -1,0 +1,98 @@
+{
+  "development_test_fold": 2,
+  "edge": {
+    "0": {
+      "directed_fit_edges": 37613964,
+      "edge_length_si_median": 11.441490173339844,
+      "log_density_contrast_mean": 1.4024231187872098e-18,
+      "log_density_contrast_std": 2.1559734195354894,
+      "log_length_mean": -0.10165016843753495,
+      "log_length_std": 0.5131959313677832,
+      "temporary_exact_median_array": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/g_patch_features/rotation_2/edge_length_training_cap0.npy",
+      "training_internal_undirected_edges": 18806982
+    },
+    "1": {
+      "directed_fit_edges": 96843202,
+      "edge_length_si_median": 11.399273872375488,
+      "log_density_contrast_mean": 2.206982529518573e-19,
+      "log_density_contrast_std": 2.170010287843778,
+      "log_length_mean": -0.10508469522039653,
+      "log_length_std": 0.5086509395793328,
+      "temporary_exact_median_array": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/g_patch_features/rotation_2/edge_length_training_cap1.npy",
+      "training_internal_undirected_edges": 48421601
+    }
+  },
+  "elapsed_seconds": 79.84421920776367,
+  "gates": {
+    "eight_node_features": true,
+    "features_finite": true,
+    "training_internal_edge_fit": true,
+    "training_only_node_fit": true
+  },
+  "inputs": {
+    "assignment": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/active_assignment.npz",
+    "assignment_sha256": "c95a683184a9bd7edc218036e05a0f4b077224cddc525ef54e489e273459f08f",
+    "p5_adapter": "/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter/adapter_manifest.json",
+    "p5_adapter_sha256": "d1b64dec344b74414b35edbd0b4adff81bf897a9cf2c01b306630cbb7d7be4e3",
+    "selection": "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/fullcap_selection_v1/selection_manifest.json",
+    "selection_sha256": "4f31078f5b61c808610bb48a6c8cc8f1ad9a597778e3fa71e7adae8eb950c977"
+  },
+  "node": {
+    "boxcox_epsilon": 1e-06,
+    "boxcox_scope": "pooled authoritative training-fold nodes after cap SI",
+    "ntilde_log_mean": -6.788718229160078,
+    "ntilde_log_std": 1.0531783985295384,
+    "ntilde_scope": "rotation/cap frozen curve evaluated at nodes; zscore on training nodes",
+    "power_transformer": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/g_patch_features/rotation_2/node_power_transformer.pkl",
+    "power_transformer_sha256": "f08351e6b3b9a20a7fe23f74d75f9f6da42523ade89ff118e93b24d956efb74b",
+    "raw_columns": [
+      "Degree",
+      "Clustering",
+      "Density",
+      "Neigh Density",
+      "I_eig1",
+      "I_eig2",
+      "I_eig3"
+    ],
+    "si_columns": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "si_median_scope": "per cap, authoritative training-fold nodes only",
+    "si_medians": {
+      "0": {
+        "0": 143.0654296875,
+        "2": 0.0001178366073872894,
+        "3": 0.00024335054331459105,
+        "4": 16.606765747070312,
+        "5": 31.870635986328125,
+        "6": 55.00257873535156
+      },
+      "1": {
+        "0": 139.06033325195312,
+        "2": 0.00013297665282152593,
+        "3": 0.00027672224678099155,
+        "4": 15.681036949157715,
+        "5": 29.996810913085938,
+        "6": 51.74728012084961
+      }
+    },
+    "transformed_path": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/g_patch_features/rotation_2/node_features_8d.npy",
+    "transformed_sha256": "138f86d9e0d76ca2cad97915ade446e03f5f441cb5a96e35cf91888510d06044"
+  },
+  "pass": true,
+  "rotation": 2,
+  "schema_version": 1,
+  "stage": "P8 G-PATCH frozen training-only feature transform",
+  "train_folds": [
+    0,
+    1,
+    4
+  ],
+  "training_authoritative_nodes": 3011870,
+  "validation_fold": 3
+}

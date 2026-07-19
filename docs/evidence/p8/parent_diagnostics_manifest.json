@@ -1,0 +1,28 @@
+{
+  "output": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/parent_exposure_apodized.npy",
+  "output_sha256": "eba8aa5668125e2f0ee6e37b3b2cf8878cebb400c2f4538abc5937225e83c0ad",
+  "p6_adapter": "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/adapter_manifest.json",
+  "p6_adapter_sha256": "5056f62ef2341ca7b3da676c7ed68cdeb14036904bc4d71cc80b7b65a1c1866c",
+  "points": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_points.npy",
+  "points_sha256": "32a1cbf11e90f9684c244b15bd35a59acc7905eb8a5d79fb464d1c9169671fde",
+  "records": [
+    {
+      "cap": "SGC",
+      "maximum": 1.0,
+      "mean": 0.6492917537689209,
+      "minimum": 0.0,
+      "parent_nodes": 2889163,
+      "sampling": "nearest canonical P3 voxel centre"
+    },
+    {
+      "cap": "NGC",
+      "maximum": 1.0,
+      "mean": 0.6785016059875488,
+      "minimum": 0.0,
+      "parent_nodes": 6649091,
+      "sampling": "nearest canonical P3 voxel centre"
+    }
+  ],
+  "schema_version": 1,
+  "stage": "P8 parent observational covariate cache"
+}
