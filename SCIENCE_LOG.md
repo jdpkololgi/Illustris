@@ -1,5 +1,70 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-18 — [science/code] P4 COMPLETE: deterministic 64-Mpc/h cores, five balanced folds, exact graph/field support
+
+P4 is complete and `PATCH_MANIFEST_COMPLETE` has been written after an independent
+readback and deterministic rebuild. The shared protocol is now a model-neutral data
+contract for GraphNet, 3-D U-Net, F-tier, classical, and hybrid candidates—not a
+GraphNet-specific tiling scheme.
+
+**Frozen geometry and units.** Scientific cores are exactly 64 Mpc/h = 94.590600 Mpc
+at Planck18 `h=0.6766`; super-blocks are four cores per axis, 256 Mpc/h = 378.362400
+Mpc. Observer-frame Mpc coordinates remain indexing metadata. Core bounds are not
+rounded to the 5-Mpc P3 voxel grid; each core stores the exact intersecting voxel
+range separately.
+
+**Periodic-image leakage guard.** The full-sky mock contains 59,238 repeated adjacent
+host-key pairs (59,236 repeated groups). Their spatial separations are 2.885–4.188 Gpc,
+median 2.960 Gpc: these are periodic box images, not multiple nearby galaxies in one
+halo. For each repeated `(FILE_NUM, BOX_INDEX, HALO_INDEX)` key, one stable
+TARGETID-ranked occurrence is authoritative; 59,238 other images remain context-only.
+This leaves 5,026,863 supervised rows from the 5,086,101 P1b active rows and prevents
+identical halo targets crossing folds without collapsing the sky into one giant fold.
+Independent simulation phases are still mandatory because removing exact duplicate
+halos does not make different views of ph000 independent universes.
+
+**Five-fold balance.** There are 18,765 context-occupied 64-Mpc/h cores grouped into
+533 spatial super-blocks. Each fold contains both caps and every reporting shell.
+Authoritative rows per fold are 1,003,656 / 999,683 / 1,005,092 / 1,009,901 /
+1,008,531 (max/min 1.010). The maximum relative deviation in any cap/shell cell is
+2.42%; occupied super-block max/min is below 1.18; median conservative distance to a
+fold boundary differs by less than 15% across folds. Five registered rotations use
+three train, one validation, and one development-test fold.
+
+**Exact P2b union support.** All 190,563,017 context union pairs were streamed from
+the global parent Delaunay plus radius-only products, with zero cross-cap pairs.
+Exact hop distance to another fold gives:
+
+- two-pass safe: 3,120,670 authoritative rows (62.08%); fold fractions 59.4–63.2%;
+- four-pass safe: 1,472,761 rows (29.30%); fold fractions 26.3–30.9%;
+- at z=0.45–0.55, two-pass safety is 14.79% SGC / 19.65% NGC, whereas four-pass
+  safety is 0.024% / 0.224%.
+
+This is a decisive protocol result: a four-pass GraphNet has essentially no strictly
+isolated high-z evaluation set under these folds. Do not enlarge or weaken the folds
+merely to rescue it. Shallow GraphNet variants remain testable, while U-Net/F-tier
+use their own recorded support and all candidates are compared on pre-declared shared
+or intersection scoring masks. Global graph-metric construction remains explicitly
+label-free and representation-level transductive; blind fresh-graph phase tests remain
+the deployment gate.
+
+**P3 field/exposure support.** Every P1 active coordinate lies inside its canonical
+cap grid. P3 occupancy exposure supports 99.95% of authoritative rows; 91.14% have at
+least 20 Mpc and 77.04% at least 40 Mpc to the nearest unsupported voxel. These are
+quality/context flags, not permission to normalize or re-voxelize patches. P6 must
+still pass context-growth and interpolation parity. FFT status is explicitly reserved
+for P7 and does not block P5/P6.
+
+All final gates pass: unique ownership, exact counts, no supervised host crossing,
+cap/shell coverage, fold geometry matching, artifact checksums, P2/P3 identity,
+semantic deterministic rebuild, and completion-marker binding. Runtime root:
+`/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/`; compact evidence:
+`docs/evidence/p4/`; validator: `workflows/abacus_tweb/p4_finalize_validate.py`.
+
+**State:** P4 COMPLETE. P5 GraphNet and P6 U-Net adapters are now READY in parallel.
+The primary objective remains deterministic transfer under the patch protocol; FMPE,
+posterior calibration, HOD marginalisation, and JEPA remain downstream gates.
+
 ### 2026-07-18 — [science/code] P4 CORE-SIZE PROBE PASS: freeze 64 Mpc/h cores with explicit Mpc indexing
 
 P4 evaluated exact scientific core sizes 32, 64, and 96 Mpc/h over the full P1b

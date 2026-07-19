@@ -36,6 +36,11 @@
     "no_targetid_crossing": true,
     "no_host_key_crossing": ["FILE_NUM", "BOX_INDEX", "HALO_INDEX"]
   },
+  "supervised_eligibility": {
+    "periodic_image_policy": "retain exactly one deterministic TARGETID-ranked occurrence per repeated host key; other approximately box-length-separated images remain context-only",
+    "minimum_periodic_image_separation_mpc": 1000.0,
+    "reason": "identical simulation halos repeated through the full-sky tiling must not place identical targets in different spatial folds"
+  },
   "architecture_contract": {
     "shared": "authoritative core galaxies, targets, folds, core bounds",
     "graph": "canonical P2b graph view with architecture-specific exact K-hop context",

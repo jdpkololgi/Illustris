@@ -514,7 +514,7 @@
       "scientific_core_mpc_h": 96.0
     }
   },
-  "elapsed_seconds": 75.93562579154968,
+  "elapsed_seconds": 75.38892483711243,
   "gates": {
     "all_active_rows_represented_each_candidate": true,
     "both_caps_present_for_every_candidate": true,
@@ -546,7 +546,7 @@
     "reason": "registered plan default; median high-z occupancy exceeds the frozen minimum whereas 32 Mpc/h fragments the labels. High-z cores will be batched or gradient-accumulated rather than changing their physical size. The 96 Mpc/h candidate raises conservative graph context substantially. P5 exact K-hop GPU canary may require lossless subdivision but must not change the authoritative scientific core ownership."
   },
   "schema": "/global/u2/d/dkololgi/TNG/Illustris/docs/evidence/p4/p4_spatial_schema_v1.json",
-  "schema_sha256": "c517370cd38d88760bec22faf6256284d16799d253defdf83d4d6afdc46c5ecf",
+  "schema_sha256": "5a48e4362a68ddca8f1a0a0ded3668b634d53238a6ac67d8ccd63bd9ecec6fa0",
   "schema_version": 1,
   "stage": "P4 core-size resource probe",
   "unit_contract": {

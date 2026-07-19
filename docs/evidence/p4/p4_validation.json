@@ -1,0 +1,262 @@
+{
+  "counts": {
+    "active_occupied_cores": 17202,
+    "active_rows": 5026863,
+    "context_occupied_cores": 18765,
+    "context_rows": 6397925,
+    "eligible_repeated_host_pairs_linking_superblocks": 0,
+    "host_components": 533,
+    "p1_active_rows": 5086101,
+    "periodic_duplicate_images_context_only": 59238,
+    "repeated_host_groups": 59236,
+    "super_blocks": 533
+  },
+  "determinism_rebuild": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest_determinism/spatial_manifest.json",
+  "determinism_rebuild_sha256": "72d3684f498f8c0067e5607e766c300be981045ef581414fbee3faea214380e4",
+  "field_support": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/field_support_manifest.json",
+  "field_support_sha256": "a3f2d6ded3f32ac0e6edf5173fddde251b81e4ca635f033722fefdac2cd6735b",
+  "field_support_summary": {
+    "eligible_convolution_20mpc_safe_fraction": 0.9114222925908265,
+    "eligible_convolution_40mpc_safe_fraction": 0.7704128797621896,
+    "eligible_rows": 5026863,
+    "eligible_supported_fraction": 0.9994921285899377,
+    "p1_active_rows": 5086101
+  },
+  "fold_distance": {
+    "0": {
+      "distance_mpc_quantiles": [
+        0.00010017188469646499,
+        7.92464542388916,
+        46.90104675292969,
+        120.95402908325195,
+        337.6390380859375
+      ],
+      "eligible_rows": 1003656
+    },
+    "1": {
+      "distance_mpc_quantiles": [
+        3.7807432818226516e-05,
+        7.871255111694337,
+        46.08634567260742,
+        120.62973327636722,
+        378.3501892089844
+      ],
+      "eligible_rows": 999683
+    },
+    "2": {
+      "distance_mpc_quantiles": [
+        0.00012472461094148457,
+        7.18996057510376,
+        42.507917404174805,
+        110.4061897277832,
+        355.89483642578125
+      ],
+      "eligible_rows": 1005092
+    },
+    "3": {
+      "distance_mpc_quantiles": [
+        1.397292271576589e-05,
+        8.245348930358887,
+        48.62281036376953,
+        126.54884338378906,
+        378.04730224609375
+      ],
+      "eligible_rows": 1009901
+    },
+    "4": {
+      "distance_mpc_quantiles": [
+        0.00018015358364209533,
+        8.30264949798584,
+        48.54369354248047,
+        123.07528686523438,
+        189.1800994873047
+      ],
+      "eligible_rows": 1008531
+    }
+  },
+  "folds": {
+    "0": {
+      "active_rows": 1003656,
+      "by_cap_shell": {
+        "NGC": [
+          390633,
+          233739,
+          76859,
+          9098
+        ],
+        "SGC": [
+          161382,
+          99348,
+          29242,
+          3355
+        ]
+      },
+      "super_blocks": 107
+    },
+    "1": {
+      "active_rows": 999683,
+      "by_cap_shell": {
+        "NGC": [
+          387170,
+          233983,
+          78138,
+          9100
+        ],
+        "SGC": [
+          161884,
+          96779,
+          29273,
+          3356
+        ]
+      },
+      "super_blocks": 114
+    },
+    "2": {
+      "active_rows": 1005092,
+      "by_cap_shell": {
+        "NGC": [
+          390429,
+          235584,
+          76762,
+          9106
+        ],
+        "SGC": [
+          163460,
+          97107,
+          29287,
+          3357
+        ]
+      },
+      "super_blocks": 113
+    },
+    "3": {
+      "active_rows": 1009901,
+      "by_cap_shell": {
+        "NGC": [
+          393329,
+          238345,
+          77932,
+          9072
+        ],
+        "SGC": [
+          162209,
+          96378,
+          29282,
+          3354
+        ]
+      },
+      "super_blocks": 102
+    },
+    "4": {
+      "active_rows": 1008531,
+      "by_cap_shell": {
+        "NGC": [
+          391623,
+          233861,
+          77001,
+          9090
+        ],
+        "SGC": [
+          167158,
+          97196,
+          29247,
+          3355
+        ]
+      },
+      "super_blocks": 97
+    }
+  },
+  "gates": {
+    "active_parent_ids_unique": true,
+    "all_fold_cap_shell_cells_nonempty": true,
+    "context_parent_ids_unique": true,
+    "core_ids_dense_unique": true,
+    "deterministic_semantic_rebuild": true,
+    "eligible_count_matches_geometry": true,
+    "fft_status_explicitly_reserved": true,
+    "field_artifact_hashes_match": true,
+    "field_support_pass": true,
+    "fold_distance_medians_matched_below_25pct": true,
+    "fold_occupied_superblock_ratio_below_1p25": true,
+    "geometry_artifact_hashes_match": true,
+    "geometry_pass": true,
+    "graph_artifact_hashes_match": true,
+    "graph_support_pass": true,
+    "superblock_ids_dense_unique": true
+  },
+  "geometry": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/spatial_manifest.json",
+  "geometry_sha256": "ab6900b4f2d47ba8feda73a66631114be9557c76ed7c13c5e6aed70e563393a5",
+  "graph_support": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/graph_support_manifest.json",
+  "graph_support_sha256": "8055e3eee3d54119af16760c7a088209cde52013257affababfe577ae0855ab0",
+  "graph_support_summary": {
+    "2": {
+      "eligible_safe_fraction": 0.6207986969209226,
+      "eligible_safe_fraction_by_cap_shell": {
+        "cap0_shell0": 0.6830263217549961,
+        "cap0_shell1": 0.6501865211746726,
+        "cap0_shell2": 0.4262938133409872,
+        "cap0_shell3": 0.14794063300947727,
+        "cap1_shell0": 0.649033066009142,
+        "cap1_shell1": 0.6159231041452575,
+        "cap1_shell2": 0.46868567231802055,
+        "cap1_shell3": 0.1965424712972331
+      },
+      "eligible_safe_fraction_by_fold": [
+        0.6235901543955299,
+        0.6216460618015911,
+        0.5941794383001755,
+        0.6321174055674764,
+        0.6323752071081603
+      ],
+      "eligible_safe_rows": 3120670
+    },
+    "4": {
+      "eligible_safe_fraction": 0.29297814561486957,
+      "eligible_safe_fraction_by_cap_shell": {
+        "cap0_shell0": 0.362901041915566,
+        "cap0_shell1": 0.3150338531823635,
+        "cap0_shell2": 0.08145232384115464,
+        "cap0_shell3": 0.00023842164868570067,
+        "cap1_shell0": 0.33077682389370383,
+        "cap1_shell1": 0.2722541326672973,
+        "cap1_shell2": 0.11665097803936983,
+        "cap1_shell3": 0.002243434654467074
+      },
+      "eligible_safe_fraction_by_fold": [
+        0.29863020795969936,
+        0.29191553722530045,
+        0.26269237044967025,
+        0.3024326146820332,
+        0.3091218812312165
+      ],
+      "eligible_safe_rows": 1472761
+    }
+  },
+  "pass": true,
+  "periodic_image_audit": {
+    "adjacent_repeated_host_pairs": 59238,
+    "distance_mpc_max": 4187.792115488806,
+    "distance_mpc_median": 2959.652700388475,
+    "distance_mpc_min": 2885.38093674911,
+    "policy": "retain exactly one deterministic TARGETID-ranked occurrence per repeated host key; other approximately box-length-separated images remain context-only"
+  },
+  "schema_version": 1,
+  "semantic_determinism": {
+    "artifact_sha256": true,
+    "counts": true,
+    "fold_balance": true,
+    "folds": true,
+    "periodic_image_audit": true,
+    "rotations_sha256": true,
+    "unit_contract": true
+  },
+  "stage": "P4 independent final validation",
+  "unit_contract": {
+    "core_mpc": 94.59060005911913,
+    "core_mpc_h": 64.0,
+    "h": 0.6766,
+    "indexing_coordinates": "observer-frame comoving Mpc",
+    "superblock_mpc": 378.3624002364765,
+    "superblock_mpc_h": 256.0
+  }
+}

@@ -546,7 +546,7 @@ Field gates:
 
 ### P4 — Shared fixed-comoving spatial manifest
 
-**Status:** ACTIVE — P1b/P2b complete; finalize authoritative folds after P3 support
+**Status:** COMPLETE — immutable 64-Mpc/h five-fold manifest plus P2/P3 support atlas
 **Duration:** 0.5–1 day CPU
 
 Use observer-frame Cartesian positions to define fixed-comoving cores. Positions are
@@ -599,19 +599,37 @@ Progress checklist:
   `h=0.6766`; it is not rounded to P3 voxel edges. Runtime evidence:
   `/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/core_size_probe.json`;
   tracked evidence: `docs/evidence/p4/core_size_probe.json`.
-- [ ] Build fixed-comoving cap core cells independently of split ownership.
-- [ ] Group cores into spatial super-blocks before assigning folds.
-- [ ] Group repeated `(FILE_NUM, BOX_INDEX, HALO_INDEX)` halos and TARGETIDs so
-  no underlying object crosses supervised folds.
-- [ ] Assign five blocked folds with both caps and all reporting shells represented.
-- [ ] Match validation/development-test volume and distance from training support.
-- [ ] Assign every eligible active galaxy to exactly one authoritative core.
-- [ ] Attach P2b graph-support distances and K-step dependency flags.
-- [ ] Attach P3 convolutional/exposure support after `FIELD_COMPLETE`.
-- [ ] Reserve FFT support fields without blocking GraphNet/U-Net.
-- [ ] Write immutable manifest, hashes, support atlas, and completion marker.
-- [ ] Test unique core ownership, fold isolation, shell/cap coverage, and deterministic
+- [x] Build fixed-comoving cap core cells independently of split ownership.
+- [x] Group cores into spatial super-blocks before assigning folds.
+- [x] Group repeated `(FILE_NUM, BOX_INDEX, HALO_INDEX)` halos and TARGETIDs so
+  no underlying object crosses supervised folds. The full-sky parent contains 59,238
+  periodically repeated images separated by 2.89–4.19 Gpc; retain one deterministic
+  occurrence for supervision and keep the others context-only.
+- [x] Assign five blocked folds with both caps and all reporting shells represented.
+- [x] Match validation/development-test volume and distance from training support.
+- [x] Assign every eligible active galaxy to exactly one authoritative core.
+- [x] Attach P2b graph-support distances and exact 2/4-step union-graph dependency flags.
+- [x] Attach P3 convolutional/exposure support after `FIELD_COMPLETE`.
+- [x] Reserve FFT support fields without blocking GraphNet/U-Net.
+- [x] Write immutable manifest, hashes, support atlas, and completion marker.
+- [x] Test unique core ownership, fold isolation, shell/cap coverage, and deterministic
   rebuilds.
+
+P4 artifact root: `/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/`.
+Authoritative products: `spatial_manifest.json`, `cores.npz`, `super_blocks.npz`,
+`context_assignment.npz`, `active_assignment.npz`, `rotations.json`,
+`graph_support_{context,active}.npz`, `graph_support_manifest.json`,
+`field_support.npz`, `core_field_support.npz`, `field_support_manifest.json`,
+`p4_validation.json`, and `PATCH_MANIFEST_COMPLETE`. Compact evidence is tracked
+under `docs/evidence/p4/`.
+
+The 5,026,863 authoritative rows are balanced to 1.010 max/min active count across
+folds and to 2.42% maximum relative deviation in any cap/shell cell. Exact union-graph
+split safety is architecture-dependent: 62.08% are safe for two passes, but only
+29.30% for four. At z=0.45–0.55 the four-pass safe fraction is effectively zero, so
+deep GraphNet candidates fail the strict full-range protocol unless their support is
+changed and re-gated. P3 exposure supports 99.95% of authoritative rows; 91.14% and
+77.04% have at least 20 and 40 Mpc of convolutional support.
 
 ---
 
@@ -619,7 +637,7 @@ Progress checklist:
 
 ### P5 — GraphNet patch adapter
 
-**Status:** GATED ON P2/P4
+**Status:** READY — P2b/P4 complete
 **Duration:** 1–2 implementation days plus parity runs
 
 Patches are views of the canonical graph:
@@ -665,7 +683,7 @@ Progress checklist:
 
 ### P6 — U-Net patch adapter
 
-**Status:** GATED ON P3/P4
+**Status:** READY — P3a/P4 complete
 **Duration:** 1–2 implementation days plus parity runs
 
 Extract field patches from canonical voxel products. Each has:

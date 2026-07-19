@@ -1,0 +1,183 @@
+{
+  "artifact_sha256": {
+    "active_assignment": "c95a683184a9bd7edc218036e05a0f4b077224cddc525ef54e489e273459f08f",
+    "context_assignment": "f5ef5e83e97ebe6a1818a257a9c1bfb4b799a520834c6e336a843c97fd7d66a7",
+    "cores": "430e1ee7c3426c1f97468caaee77c217680dcb8e0ef993949d8f7a0e6568571b",
+    "super_blocks": "2b9abb61a86f1b8d07d0003ca6387d74b90a6fd2d8b9cec1de70864edb1557c9"
+  },
+  "artifacts": {
+    "active_assignment": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/active_assignment.npz",
+    "context_assignment": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/context_assignment.npz",
+    "cores": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/cores.npz",
+    "super_blocks": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/super_blocks.npz"
+  },
+  "catalogue_id": "ph000_path1_full_ngc_sgc_v1",
+  "counts": {
+    "active_occupied_cores": 17202,
+    "active_rows": 5026863,
+    "context_occupied_cores": 18765,
+    "context_rows": 6397925,
+    "eligible_repeated_host_pairs_linking_superblocks": 0,
+    "host_components": 533,
+    "p1_active_rows": 5086101,
+    "periodic_duplicate_images_context_only": 59238,
+    "repeated_host_groups": 59236,
+    "super_blocks": 533
+  },
+  "elapsed_seconds": 31.84374213218689,
+  "fold_balance": {
+    "active_max_min_ratio": 1.010221240133122,
+    "max_cap_shell_relative_deviation": 0.024135729628853537
+  },
+  "folds": {
+    "0": {
+      "active_rows": 1003656,
+      "by_cap_shell": {
+        "NGC": [
+          390633,
+          233739,
+          76859,
+          9098
+        ],
+        "SGC": [
+          161382,
+          99348,
+          29242,
+          3355
+        ]
+      },
+      "super_blocks": 107
+    },
+    "1": {
+      "active_rows": 999683,
+      "by_cap_shell": {
+        "NGC": [
+          387170,
+          233983,
+          78138,
+          9100
+        ],
+        "SGC": [
+          161884,
+          96779,
+          29273,
+          3356
+        ]
+      },
+      "super_blocks": 114
+    },
+    "2": {
+      "active_rows": 1005092,
+      "by_cap_shell": {
+        "NGC": [
+          390429,
+          235584,
+          76762,
+          9106
+        ],
+        "SGC": [
+          163460,
+          97107,
+          29287,
+          3357
+        ]
+      },
+      "super_blocks": 113
+    },
+    "3": {
+      "active_rows": 1009901,
+      "by_cap_shell": {
+        "NGC": [
+          393329,
+          238345,
+          77932,
+          9072
+        ],
+        "SGC": [
+          162209,
+          96378,
+          29282,
+          3354
+        ]
+      },
+      "super_blocks": 102
+    },
+    "4": {
+      "active_rows": 1008531,
+      "by_cap_shell": {
+        "NGC": [
+          391623,
+          233861,
+          77001,
+          9090
+        ],
+        "SGC": [
+          167158,
+          97196,
+          29247,
+          3355
+        ]
+      },
+      "super_blocks": 97
+    }
+  },
+  "gates": {
+    "cap_shell_relative_deviation_below_10pct": true,
+    "core_active_counts_close": true,
+    "core_context_counts_close": true,
+    "core_p1_active_counts_close": true,
+    "core_units_exact": true,
+    "every_context_row_has_one_core": true,
+    "every_eligible_active_row_has_one_core": true,
+    "every_fold_has_both_caps_all_shells": true,
+    "every_p1_active_row_has_one_core": true,
+    "five_nonempty_folds": true,
+    "fold_active_count_max_min_below_1p05": true,
+    "one_supervised_occurrence_per_host": true,
+    "periodic_duplicates_are_box_length_separated": true,
+    "repeated_hosts_do_not_cross_folds": true,
+    "rotations_are_3_1_1": true,
+    "targetids_unique": true,
+    "voxel_ranges_positive": true
+  },
+  "inputs": {
+    "canonical_index": "/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/canonical_index.npz",
+    "core_size_probe": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/core_size_probe.json",
+    "core_size_probe_sha256": "a9198a8f286927037563016d9870f7cfa431b02a6a301971a123b2285028c93e",
+    "p1_manifest": "/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/manifest.json",
+    "p1_manifest_sha256": "7a0a98d13b65715f36b45454f892133e34d50233a6ae6adb66eeb6175e5e075b",
+    "p2_manifest": "/pscratch/sd/d/dkololgi/abacus/p2b_full_footprint/p2b_union_manifest.json",
+    "p2_manifest_sha256": "e5e3ee8b59c88a2a82dd4d1d2807421ecba858c63abdb31caa525008c461ee2e",
+    "p3_manifest": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/field_manifest.json",
+    "p3_manifest_sha256": "3f0fc7ba8e42c3004b9cc6969de76a44ce217f0a736dc2dd473ef2176371ca0d",
+    "points": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_points.npy",
+    "schema": "/global/u2/d/dkololgi/TNG/Illustris/docs/evidence/p4/p4_spatial_schema_v1.json",
+    "schema_sha256": "5a48e4362a68ddca8f1a0a0ded3668b634d53238a6ac67d8ccd63bd9ecec6fa0"
+  },
+  "pass": true,
+  "periodic_image_audit": {
+    "adjacent_repeated_host_pairs": 59238,
+    "distance_mpc_max": 4187.792115488806,
+    "distance_mpc_median": 2959.652700388475,
+    "distance_mpc_min": 2885.38093674911,
+    "policy": "retain exactly one deterministic TARGETID-ranked occurrence per repeated host key; other approximately box-length-separated images remain context-only"
+  },
+  "rotations": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/rotations.json",
+  "rotations_sha256": "0ef521a7d45101aa759790b593d1e81e4c3b644e069b4cc790097382661fc4fb",
+  "schema_version": 1,
+  "stage": "P4 shared fixed-comoving spatial manifest geometry",
+  "support_status": {
+    "exact_p2b_union_khop": "reserved=-1; P5 reverse dependency traversal pending",
+    "fft": "reserved=0; P7 convergence pending and non-blocking for GraphNet/U-Net",
+    "p3_field_distance": "reserved=NaN; P4 support attachment pending",
+    "radius_physical_split_flags": "attached for 2 and 4 passes"
+  },
+  "unit_contract": {
+    "core_mpc": 94.59060005911913,
+    "core_mpc_h": 64.0,
+    "h": 0.6766,
+    "indexing_coordinates": "observer-frame comoving Mpc",
+    "superblock_mpc": 378.3624002364765,
+    "superblock_mpc_h": 256.0
+  }
+}

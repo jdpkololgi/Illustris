@@ -1,0 +1,99 @@
+{
+  "artifact_sha256": {
+    "active": "bf3a997dafe4ace7f6d1366a125425ffd59fb4f5da4847fb03d780bf3114611a",
+    "context": "3c19f9df9fd9c3b78c2c1683cc8a833b0a464c3a4e4d8a1feb3c698da2eb7658"
+  },
+  "artifacts": {
+    "active": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/graph_support_active.npz",
+    "context": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/graph_support_context.npz"
+  },
+  "counts": {
+    "context_nodes": 6397925,
+    "cross_cap_pairs": 0,
+    "cross_fold_pairs": 7435367,
+    "new_context_nodes_by_hop": {
+      "1": 1165851,
+      "2": 1246847,
+      "3": 1126276,
+      "4": 924654
+    },
+    "parent_nodes": 9538254,
+    "union_context_pairs": 190563017
+  },
+  "edge_inputs": {
+    "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_edges_combined_idx.npy": {
+      "pairs": 67546704,
+      "sha256": "c1853cbf35f217645842c88397e0b6bfe27b2a61dd251ad5c5c3b867fd73f717"
+    },
+    "/pscratch/sd/d/dkololgi/abacus/p2b_full_footprint/ngc_radius_only_pairs.npy": {
+      "pairs": 101627029,
+      "sha256": "e83d738e2be8e77cce9dafc2561e47e031b96aedc2c41e043dea35c4b24cc8cb"
+    },
+    "/pscratch/sd/d/dkololgi/abacus/p2b_full_footprint/sgc_radius_only_pairs.npy": {
+      "pairs": 40192360,
+      "sha256": "bf9d95c86fcf874fda117eff502817bf806774d848f1266355164de5987e2daa"
+    }
+  },
+  "elapsed_seconds": 23.6228506565094,
+  "gates": {
+    "all_cap_shell_strata_have_safe_2pass_rows": true,
+    "all_folds_have_safe_2pass_rows": true,
+    "cross_fold_boundary_exists": true,
+    "hop_values_bounded": true,
+    "no_cross_cap_union_edges": true,
+    "p2_identity_matches_geometry": true,
+    "union_context_pair_count_matches": true
+  },
+  "interpretation": "safe_Kpass means a K-step union-graph message-passing path cannot reach a node owned by another fold. Global graph-metric construction remains a separately declared, label-free representation-level transductive choice.",
+  "p2_manifest": "/pscratch/sd/d/dkololgi/abacus/p2b_full_footprint/p2b_union_manifest.json",
+  "p2_manifest_sha256": "e5e3ee8b59c88a2a82dd4d1d2807421ecba858c63abdb31caa525008c461ee2e",
+  "p4_geometry_manifest": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/spatial_manifest.json",
+  "p4_geometry_manifest_sha256": "ab6900b4f2d47ba8feda73a66631114be9557c76ed7c13c5e6aed70e563393a5",
+  "pass": true,
+  "schema_version": 1,
+  "stage": "P4 exact P2b union-graph split support",
+  "support": {
+    "2": {
+      "eligible_safe_fraction": 0.6207986969209226,
+      "eligible_safe_fraction_by_cap_shell": {
+        "cap0_shell0": 0.6830263217549961,
+        "cap0_shell1": 0.6501865211746726,
+        "cap0_shell2": 0.4262938133409872,
+        "cap0_shell3": 0.14794063300947727,
+        "cap1_shell0": 0.649033066009142,
+        "cap1_shell1": 0.6159231041452575,
+        "cap1_shell2": 0.46868567231802055,
+        "cap1_shell3": 0.1965424712972331
+      },
+      "eligible_safe_fraction_by_fold": [
+        0.6235901543955299,
+        0.6216460618015911,
+        0.5941794383001755,
+        0.6321174055674764,
+        0.6323752071081603
+      ],
+      "eligible_safe_rows": 3120670
+    },
+    "4": {
+      "eligible_safe_fraction": 0.29297814561486957,
+      "eligible_safe_fraction_by_cap_shell": {
+        "cap0_shell0": 0.362901041915566,
+        "cap0_shell1": 0.3150338531823635,
+        "cap0_shell2": 0.08145232384115464,
+        "cap0_shell3": 0.00023842164868570067,
+        "cap1_shell0": 0.33077682389370383,
+        "cap1_shell1": 0.2722541326672973,
+        "cap1_shell2": 0.11665097803936983,
+        "cap1_shell3": 0.002243434654467074
+      },
+      "eligible_safe_fraction_by_fold": [
+        0.29863020795969936,
+        0.29191553722530045,
+        0.26269237044967025,
+        0.3024326146820332,
+        0.3091218812312165
+      ],
+      "eligible_safe_rows": 1472761
+    }
+  }
+}

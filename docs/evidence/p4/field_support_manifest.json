@@ -1,0 +1,64 @@
+{
+  "artifact_sha256": {
+    "core_field_support": "61e667a898b32e0019b5e57d296dff5a24cf642c85938e67d1e5fdc3636a90df",
+    "galaxy_field_support": "840743ce03f31985a1407829a150cca6dc22ac5f3958e45bab75afed52950319"
+  },
+  "artifacts": {
+    "core_field_support": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/core_field_support.npz",
+    "galaxy_field_support": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/field_support.npz"
+  },
+  "caps": {
+    "NGC": {
+      "active_rows": 3591392,
+      "coordinates_in_grid": 3591392,
+      "distance_mpc_supported_quantiles": [
+        5.0,
+        25.0,
+        101.61200714111328,
+        237.5920867919922,
+        553.2178344726562
+      ],
+      "eligible_supported_fraction": 0.99960767838277,
+      "supported_active_fraction": 0.9996104574493678,
+      "supported_active_rows": 3589993
+    },
+    "SGC": {
+      "active_rows": 1494709,
+      "coordinates_in_grid": 1494709,
+      "distance_mpc_supported_quantiles": [
+        5.0,
+        15.81138801574707,
+        65.0,
+        157.8765411376953,
+        380.5588073730469
+      ],
+      "eligible_supported_fraction": 0.9992114645953742,
+      "supported_active_fraction": 0.9992212531001018,
+      "supported_active_rows": 1493545
+    }
+  },
+  "elapsed_seconds": 49.4882972240448,
+  "gates": {
+    "all_active_coordinates_in_grid": true,
+    "both_caps_above_98pct_supported": true,
+    "core_ids_match": true,
+    "p3_identity_matches_geometry": true,
+    "support_distances_finite_for_supported": true,
+    "unsupported_rows_have_zero_or_nan_distance": true
+  },
+  "global": {
+    "eligible_convolution_20mpc_safe_fraction": 0.9114222925908265,
+    "eligible_convolution_40mpc_safe_fraction": 0.7704128797621896,
+    "eligible_rows": 5026863,
+    "eligible_supported_fraction": 0.9994921285899377,
+    "p1_active_rows": 5086101
+  },
+  "interpretation": "Distance is to the nearest unsupported voxel in the target-free P3a occupancy exposure. It is a support/quality flag, not a learned input normalization and not a substitute for P6 context-growth parity.",
+  "p3_manifest": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/field_manifest.json",
+  "p3_manifest_sha256": "3f0fc7ba8e42c3004b9cc6969de76a44ce217f0a736dc2dd473ef2176371ca0d",
+  "p4_geometry_manifest": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/spatial_manifest.json",
+  "p4_geometry_manifest_sha256": "ab6900b4f2d47ba8feda73a66631114be9557c76ed7c13c5e6aed70e563393a5",
+  "pass": true,
+  "schema_version": 1,
+  "stage": "P4 P3 field/exposure support attachment"
+}
