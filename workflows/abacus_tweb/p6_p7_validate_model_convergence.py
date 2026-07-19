@@ -49,6 +49,9 @@ P7_GATES = {
     "large_gap_median_angle_deg": 5.0,
     "large_gap_p95_angle_deg": 15.0,
     "trace_max_abs_error": 2.0e-10,
+    "boundary_abs_spearman": 0.20,
+    "boundary_trivial_eigenvalue_nrmse": 0.02,
+    "support_distance_mpc": 2.0 * RSMOOTH_MPC,
 }
 
 
@@ -392,7 +395,8 @@ def run_p7(adapter, cores, model, normalization, tmu, tsd, device):
     data = {
         cfg["name"]: {"density": [], "density_ref": [], "tensor": [],
                       "tensor_ref": [], "eig": [], "eig_ref": [],
-                      "vec": [], "vec_ref": [], "trace": []}
+                      "vec": [], "vec_ref": [], "trace": [],
+                      "distance": [], "eigenvalue_error": []}
         for cfg in P7_CONFIGS[:-1]
     }
     for meta in cores:
@@ -414,6 +418,7 @@ def run_p7(adapter, cores, model, normalization, tmu, tsd, device):
                 ),
                 "tensor": tensor, "eig": eig, "vec": vec,
                 "trace": p7.trace_max_abs_error(components, smoothed),
+                "support_distance_mpc": support_distance(patch),
             }
         ref = results[reference["name"]]
         for cfg in P7_CONFIGS[:-1]:
@@ -422,6 +427,10 @@ def run_p7(adapter, cores, model, normalization, tmu, tsd, device):
                 store[name].append(got[name])
                 store[name + "_ref"].append(ref[name])
             store["trace"].append(got["trace"])
+            store["distance"].append(ref["support_distance_mpc"])
+            store["eigenvalue_error"].append(np.sqrt(np.mean(
+                (got["eig"] - ref["eig"]) ** 2, axis=1
+            )))
 
     summary, selected = {}, None
     for cfg in P7_CONFIGS[:-1]:
@@ -436,6 +445,23 @@ def run_p7(adapter, cores, model, normalization, tmu, tsd, device):
         median = max(v["large_gap_median_angle_deg"] for v in orient.values())
         p95 = max(v["large_gap_p95_angle_deg"] for v in orient.values())
         trace = max(store["trace"])
+        distance = np.concatenate(store["distance"])
+        point_error = np.concatenate(store["eigenvalue_error"])
+        retained = distance >= P7_GATES["support_distance_mpc"]
+        rho = (
+            rank_corr(distance[retained], point_error[retained])
+            if retained.sum() >= 50 else None
+        )
+        boundary_pass = (
+            eig["nrmse"] <= P7_GATES["boundary_trivial_eigenvalue_nrmse"]
+            or (rho is not None and abs(rho) <= P7_GATES["boundary_abs_spearman"])
+        )
+        scale = eig["reference_std"]
+        near = ~retained
+        near_mean = float(np.mean(point_error[near]) / scale) if near.any() else None
+        retained_mean = (
+            float(np.mean(point_error[retained]) / scale) if retained.any() else None
+        )
         passed = (
             density["nrmse"] <= P7_GATES["density_nrmse"]
             and tensor["nrmse"] <= P7_GATES["tensor_nrmse"]
@@ -444,6 +470,7 @@ def run_p7(adapter, cores, model, normalization, tmu, tsd, device):
             and median <= P7_GATES["large_gap_median_angle_deg"]
             and p95 <= P7_GATES["large_gap_p95_angle_deg"]
             and trace <= P7_GATES["trace_max_abs_error"]
+            and boundary_pass
         )
         summary[cfg["name"]] = {
             "config": cfg, "density": density, "tensor": tensor,
@@ -451,6 +478,12 @@ def run_p7(adapter, cores, model, normalization, tmu, tsd, device):
             "worst_large_gap_median_angle_deg": median,
             "worst_large_gap_p95_angle_deg": p95,
             "trace_max_abs_error": trace, "passes": passed,
+            "retained_boundary_n": int(retained.sum()),
+            "near_boundary_n": int(near.sum()),
+            "retained_boundary_spearman": rho,
+            "near_boundary_mean_error_over_std": near_mean,
+            "retained_mean_error_over_std": retained_mean,
+            "boundary_pass": boundary_pass,
         }
         if selected is None and passed and cfg.get("eligible", False):
             selected = cfg
