@@ -1,5 +1,54 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-20 — [code] P8 SHORT-SCREEN EVALUATION FIGURES + programme integrity review (Claude Code); two new model pathologies surfaced
+
+Figures (workflows/abacus_tweb/plot_p8_smoke_eval.py, commit 9f75a41;
+/pscratch/sd/d/dkololgi/abacus/figures/p8_smoke_eval/; every panel banners NOT CONVERGED):
+- fig1_roles_rotation0 — train/val/dev-test core geometry, both caps (counts verified: 10,351 /
+  3,446 / 3,405 occupied cores = 60/20/20; galaxies 3.02M / 1.00M / sealed).
+- fig2_visual_predictions — validation super-block 467 (NGC, 40 Mpc slab, 14,438 galaxies): TRUE λ1
+  vs G-PATCH (slab R² 0.595) / U-PATCH (0.524) / CIC-affine (0.658). All three recover the web
+  MORPHOLOGY; all three visibly compress CONTRAST (deep voids and knots washed toward the mean).
+- fig3_parity_and_shells — parity per model + per-shell R² for both rotations.
+- fig4_diagnostics — boundary-trend, amplitude-ratio, rotation-consistency.
+
+**NEW FINDINGS from the figures (not in the P8 reports):**
+1. **U-PATCH output SATURATION**: predictions hard-clipped to ~[-0.30, +0.57] (flat hexbin edges).
+   Under a 2,000-step screen this is plausibly an under-trained output scaling, but if structural it
+   caps knot recovery permanently. CHECK BEFORE the converged rerun.
+2. **Amplitude compression is the dominant learned-model error mode already**: pred/true std ≈ 0.6
+   in all shells, declining with z (regression to the mean); CIC instead OVERSHOOTS at high-z
+   (ratio >1.3 — noise amplification where tracers vanish, the flip side of its -0.76 R²).
+3. **No fold-boundary artifact**: median |error| vs distance-to-fold-boundary is FLAT for all three
+   methods across 2-400 Mpc — the blocked protocol introduces no edge pathology. (Protocol integrity
+   evidence, worth keeping as a standing check.)
+4. **Rotation stability is excellent**: per-shell R² for rot0 vs rot2 sits on the diagonal for all
+   models including CIC's high-z collapse — the metric is reproducible across disjoint geography.
+
+**INTEGRITY REVIEW (state of the whole programme):** The P8 self-correction (short screens frozen as
+smoke, gate reopened as INCONCLUSIVE with a machine-readable adequacy audit) is the system working as
+designed — three weeks ago this same result would have been logged as a verdict. The blocked-fold
+protocol is now EVIDENCED, not just designed (flat boundary trend, rotation consistency). The
+classical adoption gate is hard and honestly framed (macro-only wins rejected). Registered caveats
+stand: context-size mismatch vs global-FFT classical (recovery item 4), z-error realism gap, P10
+cross-phase still the only route to a blind claim.
+
+**GENERALISABILITY — recommended order:**
+1. Execute P8.5 recovery as written (full exposure epochs, per-epoch complete-fold validation, early
+   stopping) — G-PATCH at 0.396 macro with 15% core exposure and zero convergence is a floor, not a
+   ceiling.
+2. Fix/clear the U-PATCH saturation first (cheap; a poisoned rerun wastes a GPU-day).
+3. Context-growth experiment (60->360 Mpc/h; trace vs traceless separately) — decides how much of
+   CIC's supported-shell edge is CONTEXT, not encoder.
+4. **Classical+local-residual hybrid is the highest-prior candidate** (zero-initialised residual
+   around CIC/DTFE): classical carries nonlocal modes, the network learns only the local sparse-
+   tracer correction; where classical fails (high-z) the residual learns, where it works the residual
+   ~0. Matches the strongest published pattern (field-level BAO CNN-around-reconstruction).
+5. Amplitude calibration diagnostics as standing reports (variance ratio per shell) — MSE point heads
+   regress to the mean by construction; do not mistake it for missing signal.
+6. The data axis remains the blind-claim path: P10 ph002 benchmark (STILL UNCLAIMED) then multi-phase
+   training — the literature's transferable results all rest on many independent realizations.
+
 ### 2026-07-19 — [science/code] P8 CORRECTION: short screens frozen; optimization audit reopens the scientific gate
 
 The rotation-0/2 P8 jobs completed and remain useful plumbing/transfer smoke tests, but
