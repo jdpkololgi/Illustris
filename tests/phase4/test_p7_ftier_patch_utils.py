@@ -65,6 +65,16 @@ class P7FTierPatchUtilsTests(unittest.TestCase):
         np.testing.assert_allclose(
             identity, np.broadcast_to(np.eye(3), identity.shape), atol=2e-12)
 
+    def test_padded_fft_crops_back_and_preserves_trace(self):
+        rng = np.random.default_rng(21)
+        delta = rng.normal(size=(12, 14, 16))
+        components, smoothed = MOD.fft_tidal_components(
+            delta, cell_mpc=5.0, rsmooth_mpc=10.4,
+            apodization_width_voxels=3, padding_voxels=4,
+        )
+        self.assertEqual(components["xx"].shape, delta.shape)
+        self.assertLess(MOD.trace_max_abs_error(components, smoothed), 2e-12)
+
     def test_constant_field_has_zero_tidal_components(self):
         components, smoothed = MOD.fft_tidal_components(
             np.ones((12, 12, 12)), cell_mpc=5.0, rsmooth_mpc=10.4

@@ -110,16 +110,25 @@ def fft_tidal_components(
     cell_mpc: float,
     rsmooth_mpc: float,
     apodization_width_voxels: int = 0,
+    padding_voxels: int = 0,
 ) -> tuple[dict[str, np.ndarray], np.ndarray]:
     """Apply T_ij(k)=(k_i k_j/k^2) W_R(k) delta(k)."""
     delta = np.asarray(delta, dtype=np.float64)
     if delta.ndim != 3 or min(delta.shape) < 2:
         raise ValueError("delta must be a three-dimensional field")
+    padding = int(padding_voxels)
+    if padding < 0:
+        raise ValueError("padding_voxels must be non-negative")
     window = cosine_apodization(delta.shape, apodization_width_voxels)
     input_field = delta * window
-    kx = np.fft.fftfreq(delta.shape[0], d=cell_mpc) * 2.0 * np.pi
-    ky = np.fft.fftfreq(delta.shape[1], d=cell_mpc) * 2.0 * np.pi
-    kz = np.fft.rfftfreq(delta.shape[2], d=cell_mpc) * 2.0 * np.pi
+    original_shape = delta.shape
+    if padding:
+        input_field = np.pad(
+            input_field, ((padding, padding),) * 3, mode="constant"
+        )
+    kx = np.fft.fftfreq(input_field.shape[0], d=cell_mpc) * 2.0 * np.pi
+    ky = np.fft.fftfreq(input_field.shape[1], d=cell_mpc) * 2.0 * np.pi
+    kz = np.fft.rfftfreq(input_field.shape[2], d=cell_mpc) * 2.0 * np.pi
     KX, KY, KZ = np.meshgrid(kx, ky, kz, indexing="ij")
     k2 = KX**2 + KY**2 + KZ**2
     smooth = np.exp(-0.5 * k2 * rsmooth_mpc**2)
@@ -132,11 +141,17 @@ def fft_tidal_components(
     components = {}
     for left, right in ("xx", "xy", "xz", "yy", "yz", "zz"):
         components[left + right] = np.fft.irfftn(
-            axes[left] * axes[right] * kernel * dk, s=delta.shape, axes=(0, 1, 2)
+            axes[left] * axes[right] * kernel * dk, s=input_field.shape, axes=(0, 1, 2)
         ).real
     smoothed = np.fft.irfftn(
-        smooth * dk, s=delta.shape, axes=(0, 1, 2)).real
+        smooth * dk, s=input_field.shape, axes=(0, 1, 2)).real
     smoothed -= smoothed.mean()
+    if padding:
+        crop = tuple(slice(padding, padding + size) for size in original_shape)
+        components = {
+            name: values[crop] for name, values in components.items()
+        }
+        smoothed = smoothed[crop]
     return components, smoothed
 
 

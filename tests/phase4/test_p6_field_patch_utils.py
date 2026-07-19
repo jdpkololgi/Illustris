@@ -83,6 +83,39 @@ class P6FieldPatchUtilsTests(unittest.TestCase):
             )
             np.testing.assert_allclose(MOD.sample_patch(patch), direct)
 
+    def test_arbitrary_bounds_are_phase_locked_to_global_lattice(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            field_path = root / "sgc.h5"
+            shape = (24, 24, 24)
+            base = np.arange(np.prod(shape), dtype=np.float32).reshape(shape)
+            with h5py.File(field_path, "w") as handle:
+                handle.create_dataset("counts", data=base)
+            manifest = {
+                "channel_order": ["counts"],
+                "caps": {
+                    "SGC": {"field_path": str(field_path)},
+                    "NGC": {"field_path": str(field_path)},
+                },
+            }
+            (root / "adapter_manifest.json").write_text(json.dumps(manifest))
+            np.save(root / "core_voxel_start.npy", np.asarray([[5, 7, 9]], dtype=np.int32))
+            np.save(root / "core_voxel_stop.npy", np.asarray([[13, 15, 17]], dtype=np.int32))
+            np.save(root / "core_fold.npy", np.asarray([2], dtype=np.int8))
+            np.save(root / "core_cap.npy", np.asarray([0], dtype=np.int8))
+            np.save(root / "core_active_offsets.npy", np.asarray([0, 0], dtype=np.int64))
+            np.save(root / "core_active_parent.npy", np.empty(0, dtype=np.int64))
+            np.save(root / "core_active_frac_index.npy", np.empty((0, 3), dtype=np.float32))
+            with MOD.CanonicalFieldPatchAdapter(root) as adapter:
+                patch = adapter.extract(0, 2, alignment_voxels=4)
+                child = adapter.extract_bounds(
+                    cap=0, core_start=[5, 7, 9], core_stop=[9, 15, 17],
+                    context_halo_voxels=2, alignment_voxels=4,
+                )
+            np.testing.assert_array_equal(patch.context_start % 4, 0)
+            np.testing.assert_array_equal(child.context_start % 4, 0)
+            np.testing.assert_array_equal(child.core_values[0], base[5:9, 7:15, 9:17])
+
     def test_frozen_normalization_never_refits_patch(self):
         values = np.asarray([
             [[[0.0, 1.0]]],

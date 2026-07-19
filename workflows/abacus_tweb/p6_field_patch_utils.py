@@ -270,9 +270,45 @@ class CanonicalFieldPatchAdapter:
         core_id: int,
         context_halo_voxels: int | Iterable[int],
         channel_names: Iterable[str] | None = None,
+        *,
+        alignment_voxels: int = 1,
     ) -> FieldPatch:
         core_id = int(core_id)
         cap = int(self.core_cap[core_id])
+        parent, frac_global = self.authoritative(core_id)
+        return self.extract_bounds(
+            cap=cap,
+            core_start=np.asarray(self.core_start[core_id], dtype=np.int64),
+            core_stop=np.asarray(self.core_stop[core_id], dtype=np.int64),
+            context_halo_voxels=context_halo_voxels,
+            channel_names=channel_names,
+            alignment_voxels=alignment_voxels,
+            core_id=core_id,
+            fold=int(self.core_fold[core_id]),
+            authoritative_parent_id=parent,
+            authoritative_frac_index_global=frac_global,
+        )
+
+    def extract_bounds(
+        self,
+        *,
+        cap: int,
+        core_start: Iterable[int],
+        core_stop: Iterable[int],
+        context_halo_voxels: int | Iterable[int],
+        channel_names: Iterable[str] | None = None,
+        alignment_voxels: int = 1,
+        core_id: int = -1,
+        fold: int = -1,
+        authoritative_parent_id: np.ndarray | None = None,
+        authoritative_frac_index_global: np.ndarray | None = None,
+    ) -> FieldPatch:
+        """Extract arbitrary bounds without rebuilding canonical fields.
+
+        alignment_voxels phase-locks the context frame to the global P3 lattice.
+        This makes subdivision tests of strided CNNs scientifically meaningful.
+        """
+        cap = int(cap)
         handle = self._handle(cap)
         names = self.channel_names if channel_names is None else tuple(channel_names)
         unknown = set(names).difference(set(handle.keys()) | SELECTION_CHANNELS)
@@ -287,12 +323,21 @@ class CanonicalFieldPatchAdapter:
         ).copy()
         if np.any(halo < 0):
             raise ValueError("context halo must be non-negative")
-        start = np.asarray(self.core_start[core_id], dtype=np.int64)
-        stop = np.asarray(self.core_stop[core_id], dtype=np.int64)
+        start = np.asarray(core_start, dtype=np.int64)
+        stop = np.asarray(core_stop, dtype=np.int64)
+        if start.shape != (3,) or stop.shape != (3,) or np.any(stop <= start):
+            raise ValueError("core_start/core_stop must be increasing length-3 bounds")
         reference_name = sorted(load_names)[0]
         shape = np.asarray(handle[reference_name].shape, dtype=np.int64)
         requested_start = start - halo
         requested_stop = stop + halo
+        alignment = int(alignment_voxels)
+        if alignment < 1:
+            raise ValueError("alignment_voxels must be positive")
+        requested_start = (requested_start // alignment) * alignment
+        requested_stop = (
+            (requested_stop + alignment - 1) // alignment
+        ) * alignment
         context_start = np.maximum(requested_start, 0)
         context_stop = np.minimum(requested_stop, shape)
         selection = tuple(
@@ -336,7 +381,18 @@ class CanonicalFieldPatchAdapter:
                 )
             )
         values = np.stack([channel_values[name] for name in names], axis=0)
-        parent, frac_global = self.authoritative(core_id)
+        parent = (
+            np.empty(0, dtype=np.int64)
+            if authoritative_parent_id is None
+            else np.asarray(authoritative_parent_id, dtype=np.int64)
+        )
+        frac_global = (
+            np.empty((0, 3), dtype=np.float64)
+            if authoritative_frac_index_global is None
+            else np.asarray(authoritative_frac_index_global, dtype=np.float64)
+        )
+        if frac_global.shape != (len(parent), 3):
+            raise ValueError("authoritative IDs and fractional indices are misaligned")
         frac_local = frac_global - context_start[None, :]
         local_start = start - context_start
         local_stop = stop - context_start
@@ -346,7 +402,7 @@ class CanonicalFieldPatchAdapter:
         )
         return FieldPatch(
             core_id=core_id,
-            fold=int(self.core_fold[core_id]),
+            fold=int(fold),
             cap=cap,
             channel_names=names,
             values=values,
