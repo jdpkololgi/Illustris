@@ -1,0 +1,204 @@
+{
+  "classical_gate": {
+    "expected_artifact": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/classical/classical_summary.json",
+    "historical_p0_is_adoption_eligible": false,
+    "historical_p0_methods": [
+      "A1_sqrt",
+      "CIC_raw",
+      "CIC_train_affine",
+      "DTFE_raw",
+      "DTFE_train_affine",
+      "R0",
+      "UNet"
+    ],
+    "historical_p0_reason": "different 219929-row wedge split, retained for context only",
+    "matched_fullcap_rows_required_before_model_ranking": true,
+    "role": "hard learned-model adoption baseline"
+  },
+  "elapsed_seconds": 8.424835443496704,
+  "gates": {
+    "all_authoritative_targets_finite": true,
+    "all_authoritative_targets_ordered": true,
+    "all_rotations_have_four_training_shells": true,
+    "canonical_fits_alignment": true,
+    "five_rotations_frozen": true,
+    "screen_rotations_frozen_before_training": true
+  },
+  "inputs": {
+    "assignment": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/active_assignment.npz",
+    "assignment_sha256": "c95a683184a9bd7edc218036e05a0f4b077224cddc525ef54e489e273459f08f",
+    "canonical_index": "/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/canonical_index.npz",
+    "canonical_index_sha256": "a653d2871399d0064a5560420751ec01d63535cb8ac7d1e1af760ec5e2f342bc",
+    "contract": "docs/evidence/contracts/p8_target_metric_contract_v1.json",
+    "contract_sha256": "30aeded6cb32148e30534184be02d90be7d5548dd339e722699e3014424290a1",
+    "cores": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/cores.npz",
+    "cores_sha256": "430e1ee7c3426c1f97468caaee77c217680dcb8e0ef993949d8f7a0e6568571b",
+    "rotations": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/rotations.json",
+    "rotations_sha256": "0ef521a7d45101aa759790b593d1e81e4c3b644e069b4cc790097382661fc4fb",
+    "targets": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_05062026_rsmooth_7/mock_bgs_maglim_path1_fiberassign_graph_ready_with_tweb_eigs_rs7_ngrid2048_thr0p2_halo_xcom.fits",
+    "targets_sha256": "1ff0ac1310134a5fdb7f18a433239bc232b28c4d1da5f85fdfd117ac4cb41189"
+  },
+  "parent_arrays": {
+    "parent_eigenvalues": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/parent_eigenvalues.npy",
+    "parent_eigenvalues_sha256": "0948136b495d7e28c31fa855eeccbd4efc3df442e70409f5f06d92d9fa5f7681",
+    "parent_redshift": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/parent_redshift.npy",
+    "parent_redshift_sha256": "35ee3664a35b58c0f7795260a35bd97162959156806045fad7003af1e570cb58",
+    "parent_rows": 9538254,
+    "parent_targetid": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/parent_targetid.npy",
+    "parent_targetid_sha256": "d6cde55c85912b41ff6cfb9a120147779beee8c5a07be57550db2fe6af32b9d6"
+  },
+  "pass": true,
+  "primary_metric": "mean spatial-fold equal-shell macro R2(lambda1)",
+  "rotations": {
+    "0": {
+      "development_authoritative_rows": 1003656,
+      "development_test_fold": 0,
+      "loss": "weighted mean over authoritative core rows only",
+      "patch_sampling": "probability proportional to sum of N_s^-0.5 core weights",
+      "roles_sha256": "8ebfe434ea6b6d5341a1640af0ea69c20790605c2ceed9331a1101d04fb8d501",
+      "rotation": 0,
+      "target_scaler": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/rotation_0/target_scaler.json",
+      "target_scaler_sha256": "ae4b653df52f173610484319698346e2b9405fcd25ab1c1936ca71ebc33b57b9",
+      "train_authoritative_rows": 3023524,
+      "train_folds": [
+        2,
+        3,
+        4
+      ],
+      "training_cores": 10351,
+      "training_shell_counts": {
+        "0p15_0p25": 1668208,
+        "0p25_0p35": 998471,
+        "0p35_0p45": 319511,
+        "0p45_0p55": 37334
+      },
+      "validation_authoritative_rows": 999683,
+      "validation_cores": 3446,
+      "validation_fold": 1
+    },
+    "1": {
+      "development_authoritative_rows": 999683,
+      "development_test_fold": 1,
+      "loss": "weighted mean over authoritative core rows only",
+      "patch_sampling": "probability proportional to sum of N_s^-0.5 core weights",
+      "roles_sha256": "8cc623868fb766a7a09c11d98d597aea7561cfac887c346412c74041e8f2fc2a",
+      "rotation": 1,
+      "target_scaler": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/rotation_1/target_scaler.json",
+      "target_scaler_sha256": "436ee0f4ed55ba8b98db7efee4503c9871de60200723325f2011eef9f06f6e37",
+      "train_authoritative_rows": 3022088,
+      "train_folds": [
+        0,
+        3,
+        4
+      ],
+      "training_cores": 10340,
+      "training_shell_counts": {
+        "0p15_0p25": 1666334,
+        "0p25_0p35": 998867,
+        "0p35_0p45": 319563,
+        "0p45_0p55": 37324
+      },
+      "validation_authoritative_rows": 1005092,
+      "validation_cores": 3416,
+      "validation_fold": 2
+    },
+    "2": {
+      "development_authoritative_rows": 1005092,
+      "development_test_fold": 2,
+      "loss": "weighted mean over authoritative core rows only",
+      "patch_sampling": "probability proportional to sum of N_s^-0.5 core weights",
+      "roles_sha256": "2aec34638be9e8ebacb5f934edfdca7bc68e783036a6c0d7c5d18a9a97c98445",
+      "rotation": 2,
+      "target_scaler": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/rotation_2/target_scaler.json",
+      "target_scaler_sha256": "efb4780719ed5fa8078ff4bc12deb48570c5907169a4e2d0914a630eada44829",
+      "train_authoritative_rows": 3011870,
+      "train_folds": [
+        0,
+        1,
+        4
+      ],
+      "training_cores": 10262,
+      "training_shell_counts": {
+        "0p15_0p25": 1659850,
+        "0p25_0p35": 994906,
+        "0p35_0p45": 319760,
+        "0p45_0p55": 37354
+      },
+      "validation_authoritative_rows": 1009901,
+      "validation_cores": 3524,
+      "validation_fold": 3
+    },
+    "3": {
+      "development_authoritative_rows": 1009901,
+      "development_test_fold": 3,
+      "loss": "weighted mean over authoritative core rows only",
+      "patch_sampling": "probability proportional to sum of N_s^-0.5 core weights",
+      "roles_sha256": "78a08e3f6d93bec8f2d4462d05f159dd9ce393e0ad9457acd56a973fd8451be8",
+      "rotation": 3,
+      "target_scaler": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/rotation_3/target_scaler.json",
+      "target_scaler_sha256": "931fa15e1d27dbb5924e969ffd6d29d5424e836386f269517d5a2926aa5311fc",
+      "train_authoritative_rows": 3008431,
+      "train_folds": [
+        0,
+        1,
+        2
+      ],
+      "training_cores": 10267,
+      "training_shell_counts": {
+        "0p15_0p25": 1654958,
+        "0p25_0p35": 996540,
+        "0p35_0p45": 319561,
+        "0p45_0p55": 37372
+      },
+      "validation_authoritative_rows": 1008531,
+      "validation_cores": 3411,
+      "validation_fold": 4
+    },
+    "4": {
+      "development_authoritative_rows": 1008531,
+      "development_test_fold": 4,
+      "loss": "weighted mean over authoritative core rows only",
+      "patch_sampling": "probability proportional to sum of N_s^-0.5 core weights",
+      "roles_sha256": "723ed214821d72a0e0449cbf6f3dcbca506171de6a3f804b8622e7467deed16f",
+      "rotation": 4,
+      "target_scaler": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/rotation_4/target_scaler.json",
+      "target_scaler_sha256": "45a1f5a6bc434c8f62184dea35b2c96483b3fd02293c20421fbad69062498ffa",
+      "train_authoritative_rows": 3014676,
+      "train_folds": [
+        1,
+        2,
+        3
+      ],
+      "training_cores": 10386,
+      "training_shell_counts": {
+        "0p15_0p25": 1658481,
+        "0p25_0p35": 998176,
+        "0p35_0p45": 320674,
+        "0p45_0p55": 37345
+      },
+      "validation_authoritative_rows": 1003656,
+      "validation_cores": 3405,
+      "validation_fold": 0
+    }
+  },
+  "schema_version": 1,
+  "screen_rotation_reason": "pre-registered non-adjacent validation folds 1 and 3; both contain both caps and all four shells",
+  "screen_rotations": [
+    0,
+    2
+  ],
+  "stage": "P8 deterministic target and rotation freeze",
+  "status": "P8_TARGETS_READY",
+  "target": {
+    "definition": [
+      "lambda1",
+      "lambda2-lambda1",
+      "lambda3-lambda2"
+    ],
+    "epoch": "z=0.2 snapshot",
+    "inverse": "cumulative sum; no post-hoc sorting",
+    "representation": "linear increments",
+    "smoothing": "7 Mpc/h Gaussian",
+    "truth_ordering_verified": true
+  }
+}
