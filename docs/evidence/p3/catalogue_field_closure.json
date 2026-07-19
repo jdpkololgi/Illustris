@@ -1,0 +1,150 @@
+{
+  "caps": {
+    "NGC": {
+      "by_shell": {
+        "0.15_0.25": {
+          "lambda_spearman": {
+            "lambda1": 0.45343438439351225,
+            "lambda2": 0.5345820653101844,
+            "lambda3": 0.5094178521602029
+          },
+          "n": 100000,
+          "shuffled_trace_spearman": -0.002792254783401051,
+          "trace_spearman": 0.5789003269395514
+        },
+        "0.25_0.35": {
+          "lambda_spearman": {
+            "lambda1": 0.393985659166711,
+            "lambda2": 0.45013800388623726,
+            "lambda3": 0.42408853714121486
+          },
+          "n": 100000,
+          "shuffled_trace_spearman": -0.0016897965616798941,
+          "trace_spearman": 0.4866112624807862
+        },
+        "0.35_0.45": {
+          "lambda_spearman": {
+            "lambda1": 0.3025184816790049,
+            "lambda2": 0.3222888890832525,
+            "lambda3": 0.29694776191956007
+          },
+          "n": 100000,
+          "shuffled_trace_spearman": -0.00435222840381638,
+          "trace_spearman": 0.3495038199339453
+        },
+        "0.45_0.55": {
+          "lambda_spearman": {
+            "lambda1": 0.20137856076042482,
+            "lambda2": 0.2197515923372211,
+            "lambda3": 0.2103884951479577
+          },
+          "n": 51127,
+          "shuffled_trace_spearman": -0.0019586099534526814,
+          "trace_spearman": 0.23300819731096806
+        }
+      },
+      "cic_lost_weight": 0.0,
+      "cic_max_abs_difference": 1.9073486328125e-06,
+      "cic_mean_abs_difference": 5.168348626131413e-12,
+      "cic_voxels_above_5e-5": 0,
+      "cic_voxels_compared": 234219216,
+      "context_rows_redeposited": 4518132,
+      "pooled_shuffle_separation": 0.25459112885192015,
+      "pooled_shuffled_trace_spearman": 0.212392466714313,
+      "pooled_trace_spearman": 0.46698359556623315,
+      "sample_interpolation_valid": 351127,
+      "sample_rows": 351127
+    },
+    "SGC": {
+      "by_shell": {
+        "0.15_0.25": {
+          "lambda_spearman": {
+            "lambda1": 0.45548033705050467,
+            "lambda2": 0.5373713327464137,
+            "lambda3": 0.51238986626093
+          },
+          "n": 100000,
+          "shuffled_trace_spearman": 0.0008124474763630531,
+          "trace_spearman": 0.5803826260845678
+        },
+        "0.25_0.35": {
+          "lambda_spearman": {
+            "lambda1": 0.37216335997496025,
+            "lambda2": 0.42509596470939737,
+            "lambda3": 0.3926035866310757
+          },
+          "n": 100000,
+          "shuffled_trace_spearman": 0.0006377717917894619,
+          "trace_spearman": 0.4572496647747483
+        },
+        "0.35_0.45": {
+          "lambda_spearman": {
+            "lambda1": 0.28492231965030723,
+            "lambda2": 0.3108831139405018,
+            "lambda3": 0.28106669941651824
+          },
+          "n": 100000,
+          "shuffled_trace_spearman": 0.0005030646494151806,
+          "trace_spearman": 0.33230766712521864
+        },
+        "0.45_0.55": {
+          "lambda_spearman": {
+            "lambda1": 0.20211804062820266,
+            "lambda2": 0.22882154552058756,
+            "lambda3": 0.2208580601459476
+          },
+          "n": 21226,
+          "shuffled_trace_spearman": -0.001730672401029032,
+          "trace_spearman": 0.24013773081412346
+        }
+      },
+      "cic_lost_weight": 0.0,
+      "cic_max_abs_difference": 2.86102294921875e-06,
+      "cic_mean_abs_difference": 6.305069545188159e-12,
+      "cic_voxels_above_5e-5": 0,
+      "cic_voxels_compared": 131232280,
+      "context_rows_redeposited": 1879793,
+      "pooled_shuffle_separation": 0.2863226457580481,
+      "pooled_shuffled_trace_spearman": 0.1500576767559275,
+      "pooled_trace_spearman": 0.4363803225139756,
+      "sample_interpolation_valid": 321226,
+      "sample_rows": 321226
+    }
+  },
+  "elapsed_seconds": 14.713080167770386,
+  "gates": {
+    "all_sample_coordinates_interpolate": true,
+    "canonical_lengths_match": true,
+    "cweb_matches_thresholded_eigenvalues": true,
+    "host_labels_identical_for_repeated_host_keys": true,
+    "independent_cic_redeposit_matches": true,
+    "trace_beats_shuffle_in_every_cap_shell": true,
+    "trace_beats_within_shell_shuffle_in_both_caps": true,
+    "trace_spatial_coherence_in_both_caps": true
+  },
+  "host_target_consistency": {
+    "active_rows": 5086101,
+    "cweb_mismatch_rows": 0,
+    "cweb_threshold": 0.2,
+    "max_abs_dlambda_within_repeated_host": 0.0,
+    "repeated_host_adjacent_pairs": 59238
+  },
+  "inputs": {
+    "canonical_index": "/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/canonical_index.npz",
+    "canonical_index_sha256": "a653d2871399d0064a5560420751ec01d63535cb8ac7d1e1af760ec5e2f342bc",
+    "catalogue": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_05062026_rsmooth_7/mock_bgs_maglim_path1_fiberassign_graph_ready_with_tweb_eigs_rs7_ngrid2048_thr0p2_halo_xcom.fits",
+    "field_manifest": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/field_manifest.json",
+    "field_manifest_sha256": "3f0fc7ba8e42c3004b9cc6969de76a44ce217f0a736dc2dd473ef2176371ca0d",
+    "points": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_points.npy",
+    "points_sha256": "32a1cbf11e90f9684c244b15bd35a59acc7905eb8a5d79fb464d1c9169671fde"
+  },
+  "interpretation": "CIC equality is an exact coordinate/deposition closure. Host-key equality and CWEB consistency are target-table closures. Count-field/T-Web correlation relative to shuffling is a spatial-coherence diagnostic, not a claim that biased galaxy counts equal the smoothed matter density.",
+  "pass": true,
+  "repo": "/global/u2/d/dkololgi/TNG/Illustris",
+  "sample": {
+    "per_cap_shell_max": 100000,
+    "seed": 20260718
+  },
+  "schema_version": 1,
+  "stage": "P3a catalogue-field-target closure"
+}

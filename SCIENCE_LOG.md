@@ -1,5 +1,47 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-18 — [science/code] P3a CATALOGUE–FIELD–TARGET CLOSURE PASS; P4 may proceed
+
+The completed P3 fields were checked against the exact P1b catalogue and attached
+T-Web targets before starting P4. This was designed to catch the historical failure
+mode where a plausible marginal eigenvalue distribution was attached to the wrong
+galaxies or spatial coordinates.
+
+Three independent closures pass:
+
+1. **Catalogue coordinates -> P3 CIC field:** all 6,397,925 context galaxies were
+   independently redeposited, cap by cap, onto the frozen 5-Mpc P3 lattices. Across
+   all 365,451,496 NGC+SGC voxels the maximum absolute difference from the stored
+   count field is `2.86e-6`, no voxel differs by more than `5e-5`, and no CIC weight
+   is lost. This is an exact coordinate/cap/deposition alignment test.
+2. **Host keys -> attached targets:** among the 5,086,101 active rows, 59,238
+   adjacent pairs with repeated `(FILE_NUM, BOX_INDEX, HALO_INDEX)` keys have exactly
+   identical eigenvalues (`max |Delta lambda| = 0`). Every CWEB label equals the
+   number of attached eigenvalues above the frozen threshold 0.2 (zero mismatches).
+3. **Spatial field -> T-Web labels:** the P3 selection-aware log-count contrast was
+   trilinearly sampled at 672,353 deterministic active galaxy positions. Spearman
+   correlation with the T-Web trace is positive in every cap and shell: NGC
+   `0.579, 0.487, 0.350, 0.233`; SGC `0.580, 0.457, 0.332, 0.240` from low to high
+   redshift. Within-cap/shell shuffled-label controls lie between `-0.0044` and
+   `+0.0008`. Individual-eigenvalue correlations are also positive in every stratum.
+
+The declining correlation with redshift is physically expected from falling tracer
+density; it is not evidence of row scrambling. The correlation test is deliberately
+not interpreted as galaxy counts equalling the smoothed matter density: it is a
+spatial-coherence/null test, while the independent CIC equality is the exact field
+alignment test.
+
+Artifacts:
+
+- runtime report: `/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/catalogue_field_closure.json`;
+- tracked report: `docs/evidence/p3/catalogue_field_closure.json`;
+- executable audit: `workflows/abacus_tweb/p3a_catalogue_field_closure.py`.
+
+**Decision:** P3 is closed with the additional catalogue/target alignment evidence.
+P4 is ready. The P4 implementation must preserve the audited observer-frame Mpc
+coordinates while defining the scientific core-size candidates in Mpc/h with an
+explicit Planck18 conversion; no silent `64 Mpc`/`64 Mpc/h` substitution is allowed.
+
 ### 2026-07-18 — [code] P1b/P2b/P3a EVALUATED + overview figures produced; wedge demotion to canary ACCEPTED; one deployment-realism flag registered (z-error policy)
 
 **Independent evaluation of the authoritative products (Claude Code):** manifests, hashes, and counts

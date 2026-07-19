@@ -520,6 +520,11 @@ Progress checklist:
 - [x] Produce the exposure/occupancy/expected-count/support atlas by cap and shell.
 - [x] Write `field_manifest.json`, validation report, channel hashes, and
   `FIELD_COMPLETE`; track compact evidence under `docs/evidence/p3/`.
+- [x] Close the catalogue/field/target chain with independent CIC redeposition,
+  repeated-host target equality, CWEB/eigenvalue consistency, and cap/shell
+  count-contrast versus T-Web-trace correlations against shuffled controls.
+  Runtime evidence: `/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/catalogue_field_closure.json`;
+  tracked evidence: `docs/evidence/p3/catalogue_field_closure.json`.
 - [x] Inventory candidate random/completeness products for P3b without blocking P3a.
 
 P3a artifact root: `/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/`.
