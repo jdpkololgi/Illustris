@@ -816,8 +816,8 @@ Progress checklist:
 
 ### P7 — F-tier graph/field/FFT adapter
 
-**Status:** GATED ON P2/P3/P4
-**Duration:** 2–3 implementation/convergence days
+**Status:** ACTIVE/PARTIAL — composition, scatter, and fixed-operator unit gates pass
+**Duration:** remaining trained-decoder and nonlocal convergence work
 
 F-tier uses:
 
@@ -831,28 +831,34 @@ canonical graph view
   -> tensor and eigenvalues
 ~~~
 
-It inherits GraphNet graph parity and U-Net field requirements. The tidal operator is
-nonlocal, so K-hop graph context alone is insufficient.
+The initial composition gate is implemented in
+`workflows/abacus_tweb/p7_ftier_patch_utils.py` and
+`workflows/abacus_tweb/p7_validate_initial_composition.py`. On real NGC and SGC
+cores it verifies exact authoritative-ID composition, conservative TSC scatter,
+small/large-halo overlap parity, finite ordered eigensystems, and fixed-operator
+trace consistency at approximately 3e-15. Runtime evidence is under
+`/pscratch/sd/d/dkololgi/abacus/p7_ftier_patch_adapter/`, with compact copies under
+`docs/evidence/p7/` and the marker `FTIER_COMPOSITION_READY`.
 
-Run convergence over graph context, field-tile size, FFT padding/apodization, overlap,
-central trim, and distance from tile/survey boundaries. Require stable density, tensor
-components, eigenvalues, and eigenvectors. Record trace consistency and
-eigengap-dependent orientation reliability.
+This is not `FTIER_PATCH_READY`. F-tier inherits the unresolved P6 selection-channel
+gate, and its nonlocal tidal operator requires explicit convergence over field-tile
+size, FFT padding/apodization, overlap, central trim, and survey-boundary distance.
+A passing pointwise FFT unit test cannot freeze those production choices.
 
 Progress checklist:
 
-- [ ] Compose the passing P5 graph view and P6 canonical field frame.
-- [ ] Verify graph-to-field scatter conservation and overlap parity.
+- [x] Compose the passing P5 graph view and P6 canonical field frame.
+- [x] Verify graph-to-field scatter conservation and overlap parity.
 - [ ] Freeze FFT padding, apodization, overlap, and central-trim candidates.
-- [ ] Run convergence for density, tensor components, and eigenvalues.
-- [ ] Verify trace/Hessian consistency and eigengap-conditioned orientations.
-- [ ] Write adapter schema, convergence report, tests, and `FTIER_PATCH_READY`.
+- [ ] Run trained-model convergence for density, tensor components, and eigenvalues.
+- [ ] Verify eigengap-conditioned orientation stability under tile convergence.
+- [ ] Write the full adapter schema, convergence report, and `FTIER_PATCH_READY`.
 
 ---
 
 ## 6. Protocol-first deterministic model showdown
 
-### P8 — Matched spatially inductive training
+### P8 — Matched spatial target-generalisation training
 
 **Status:** GATED PER CANDIDATE ON ITS OWN PARITY/CONVERGENCE GATE
 **Duration:** 2–4 GPU days for one-seed screening; three-seed finalists later
@@ -868,11 +874,13 @@ valid GraphNet/U-Net protocol comparison.
 | F-PATCH | F-tier | graph-to-field-to-fixed physics | density, tensor, eigenvalues |
 | CLASSICAL | DTFE/CIC | global reconstruction | density, tensor, eigenvalues |
 
-The scientific question is:
+The P8 scientific question is:
 
-> Can a model trained on many canonical core/context patches learn a mapping that
-> transfers to unseen spatial structures and fresh catalogue graphs, and which
+> Can a model trained on many canonical core/context patches transfer labels to
+> unseen spatial structures in the same globally observed catalogue, and which
 > representation does so most reliably?
+
+P10 asks the stricter fresh-graph question on independent simulation phases.
 
 #### P8.1 Target contract
 
@@ -934,12 +942,19 @@ independent of patch subdivision. Log actual optimization exposure by shell and 
 
 Architecture controls:
 
-- Start GraphNet with the R0/A1 eight-feature schema, not the failed aperture bundle.
-- Start U-Net with the established selection-aware configuration.
-- Start F-tier with the established v2_A concept under the new patch/FFT protocol.
-- Do not rerun two-pass GraphNet.
-- If exact eight-pass graph context is infeasible, compare matched four-pass full-graph
-  and patch training to isolate protocol.
+- The required G-PATCH protocol control is the existing two-pass
+  receiver-normalized attention GraphNetwork, R0/A1 eight-feature schema, and four
+  exact dependency hops. Retrain it under P4/P5; do not treat the historical
+  disconnected-wedge transfer run as a substitute.
+- A two-pass receiver-only GraphNet is an optional, separately named challenger after
+  the control. Choosing it after observing control results is forbidden.
+- Do not run the eight-pass attention model under the present manifest: it needs 16
+  exact dependency hops and has inadequate valid support.
+- U-PATCH and F-PATCH are first-class candidates, not GraphNet auxiliaries. Start
+  U-Net with the established selection-aware configuration after the P6 selection
+  refit; start F-tier with v2_A only after its nonlocal convergence gate.
+- Keep architecture-specific safe fractions visible alongside accuracy; never change
+  P4 fold geometry to rescue a preferred encoder.
 
 #### P8.3 Controlling metric and checkpoint rule
 
@@ -968,7 +983,11 @@ Mandatory safeguards:
 - ordering-violation rate for unconstrained increments;
 - source-to-transfer gap and residual spatial correlation;
 - performance versus tracer density, graph degree, completeness, and boundary distance;
-- runtime, memory, and patch-failure rate.
+- runtime, memory, and patch-failure rate;
+- primary metrics on every authoritative core galaxy;
+- the same metrics beyond physical fold-boundary margins of 10.4 and 20.8 Mpc;
+- architecture-specific hop-isolated diagnostics with retained fractions, never used
+  to replace or veto the primary metric.
 
 Brier skill and probability reliability are P12 posterior metrics. A deterministic
 threshold decision must not be relabelled as a calibrated probability.

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "stage": "P7 initial graph-field-FFT composition",
+  "status": "composition_passed_full_model_convergence_pending",
+  "composition_contract": {
+    "graph": "P5 canonical global-graph view with authoritative primary mask",
+    "field": "P6 canonical P3 lattice frame",
+    "scatter": "CIC or TSC with complete stencils; no silent boundary renormalization",
+    "operator": "T_ij(k) = k_i k_j / k^2 times Gaussian W_R times delta(k)",
+    "coordinate_units": "observer-frame comoving Mpc",
+    "rsmooth_mpc": 10.345846881466155,
+    "rsmooth_origin": "P3 frozen 7 Mpc/h target convention at Planck18 h=0.6766"
+  },
+  "gates_passed": [
+    "P5/P6 authoritative parent-ID identity",
+    "TSC scatter conservation",
+    "scatter overlap parity",
+    "fixed FFT trace consistency",
+    "finite ordered eigensystems"
+  ],
+  "not_frozen": [
+    "FFT tile size",
+    "padding",
+    "apodization",
+    "overlap",
+    "central trim",
+    "trained graph encoder and field decoder"
+  ],
+  "pending_production_gates": [
+    "P6 cap-aware selection-channel refit",
+    "trained density and tensor convergence",
+    "boundary-distance convergence",
+    "eigengap-conditioned eigenvector stability",
+    "FTIER_PATCH_READY"
+  ]
+}

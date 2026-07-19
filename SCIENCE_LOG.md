@@ -1,5 +1,32 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-19 — [science/code] P7 STARTED: graph-field composition, conservative scatter, and fixed tidal-operator gates pass
+
+P7 now composes the real P5 graph view with the P6 canonical field frame. On one SGC
+and one NGC core, authoritative parent IDs agree exactly between adapters; TSC scatter
+conserves both test latent channels to better than 4.4e-4 in absolute summed weight;
+and the common global-voxel overlap is exactly invariant when field context grows.
+The tested graph views contain 21,168/27,126 nodes and 1.44M/2.64M directed edges.
+
+The fixed FFT tidal operator produces finite ordered eigensystems and trace consistency
+at 3.7e-15 or better for apodization candidates 0, 4, and 8 voxels. The smoothing
+conversion is now explicitly bound to the frozen P3 observer-frame contract:
+7 Mpc/h = 10.345846881466155 Mpc at Planck18 h=0.6766. This avoids silently mixing
+the Abacus c000 value of h used by older classical scripts with the coordinate system
+of the canonical P3 lattice.
+
+This is an initial composition gate, not an F-tier production pass.
+`FTIER_COMPOSITION_READY` is written, while `FTIER_PATCH_READY` remains false.
+Before F-PATCH training, P7 still needs the P6 selection-channel refit, trained
+graph-encoder/field-decoder context convergence, FFT tile-size/padding/apodization/
+overlap/trim convergence, and eigengap-conditioned orientation stability.
+
+Runtime artifacts are under
+`/pscratch/sd/d/dkololgi/abacus/p7_ftier_patch_adapter/`; code is in
+`workflows/abacus_tweb/p7_ftier_patch_utils.py` and
+`p7_validate_initial_composition.py`; tracked evidence and schema are under
+`docs/evidence/p7/`.
+
 ### 2026-07-19 — [science/code] P6 STARTED: canonical field-patch views pass structural parity; selection-channel refit is a hard U-PATCH gate
 
 P6 now has an immutable field-patch adapter over the P3 NGC/SGC HDF5 lattices and

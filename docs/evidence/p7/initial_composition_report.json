@@ -1,0 +1,120 @@
+{
+  "cell_units": "observer-frame comoving Mpc",
+  "elapsed_seconds": 2.592193841934204,
+  "ftier_patch_ready": false,
+  "gates": {
+    "finite_ordered_eigensystems": true,
+    "fixed_fft_trace_consistency": true,
+    "p5_p6_authoritative_identity": true,
+    "tsc_overlap_parity": true,
+    "tsc_scatter_conservation": true
+  },
+  "p5_manifest": "/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter/adapter_manifest.json",
+  "p5_manifest_sha256": "d1b64dec344b74414b35edbd0b4adff81bf897a9cf2c01b306630cbb7d7be4e3",
+  "p6_manifest": "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/adapter_manifest.json",
+  "p6_manifest_sha256": "5056f62ef2341ca7b3da676c7ed68cdeb14036904bc4d71cc80b7b65a1c1866c",
+  "pass": true,
+  "pending": [
+    "selection-channel refit inherited from P6",
+    "trained graph encoder plus field-decoder context convergence",
+    "FFT tile-size, padding, apodization, overlap, and central-trim convergence",
+    "eigenvector convergence conditioned on eigengap and survey-boundary distance"
+  ],
+  "records": [
+    {
+      "authoritative_identity": true,
+      "cap": "SGC",
+      "core_id": 454,
+      "field_shape_large": [
+        44,
+        44,
+        44
+      ],
+      "field_shape_small": [
+        36,
+        36,
+        36
+      ],
+      "graph_directed_edges": 1437290,
+      "graph_nodes": 21168,
+      "physics_candidates": [
+        {
+          "apodization_width_voxels": 0,
+          "finite_eigenvectors": true,
+          "lambda1_mean": -0.49710425362345606,
+          "lambda1_std": 0.33232812137373474,
+          "ordered_eigenvalues": true,
+          "trace_max_abs_error": 3.6637359812630166e-15
+        },
+        {
+          "apodization_width_voxels": 4,
+          "finite_eigenvectors": true,
+          "lambda1_mean": -0.49462191545227663,
+          "lambda1_std": 0.3420971958147777,
+          "ordered_eigenvalues": true,
+          "trace_max_abs_error": 3.3306690738754696e-15
+        },
+        {
+          "apodization_width_voxels": 8,
+          "finite_eigenvectors": true,
+          "lambda1_mean": -0.4800584318520623,
+          "lambda1_std": 0.3490938113632566,
+          "ordered_eigenvalues": true,
+          "trace_max_abs_error": 3.552713678800501e-15
+        }
+      ],
+      "scatter_conservation_max_abs": 0.00021165655925869942,
+      "scatter_nodes": 15278,
+      "scatter_overlap_max_abs": 0.0
+    },
+    {
+      "authoritative_identity": true,
+      "cap": "NGC",
+      "core_id": 17152,
+      "field_shape_large": [
+        44,
+        44,
+        44
+      ],
+      "field_shape_small": [
+        36,
+        36,
+        36
+      ],
+      "graph_directed_edges": 2641676,
+      "graph_nodes": 27126,
+      "physics_candidates": [
+        {
+          "apodization_width_voxels": 0,
+          "finite_eigenvectors": true,
+          "lambda1_mean": -0.5007447858469566,
+          "lambda1_std": 0.3353591396463062,
+          "ordered_eigenvalues": true,
+          "trace_max_abs_error": 3.552713678800501e-15
+        },
+        {
+          "apodization_width_voxels": 4,
+          "finite_eigenvectors": true,
+          "lambda1_mean": -0.45347883805327505,
+          "lambda1_std": 0.3232625212177171,
+          "ordered_eigenvalues": true,
+          "trace_max_abs_error": 2.6645352591003757e-15
+        },
+        {
+          "apodization_width_voxels": 8,
+          "finite_eigenvectors": true,
+          "lambda1_mean": -0.4248827680682312,
+          "lambda1_std": 0.32672457407053074,
+          "ordered_eigenvalues": true,
+          "trace_max_abs_error": 2.3314683517128287e-15
+        }
+      ],
+      "scatter_conservation_max_abs": 0.0004331367090344429,
+      "scatter_nodes": 21356,
+      "scatter_overlap_max_abs": 0.0
+    }
+  ],
+  "rsmooth_mpc": 10.345846881466155,
+  "schema_version": 1,
+  "stage": "P7 initial graph-field-FFT composition"
+}
