@@ -625,11 +625,16 @@ under `docs/evidence/p4/`.
 
 The 5,026,863 authoritative rows are balanced to 1.010 max/min active count across
 folds and to 2.42% maximum relative deviation in any cap/shell cell. Exact union-graph
-split safety is architecture-dependent: 62.08% are safe for two passes, but only
-29.30% for four. At z=0.45–0.55 the four-pass safe fraction is effectively zero, so
-deep GraphNet candidates fail the strict full-range protocol unless their support is
-changed and re-gated. P3 exposure supports 99.95% of authoritative rows; 91.14% and
-77.04% have at least 20 and 40 Mpc of convolutional support.
+split safety is architecture-dependent: 62.08% are safe within two literal graph hops,
+but only 29.30% within four. P5 established that the current attention
+`GraphNetwork` has two graph-hop dependencies per nominal model pass, so its
+two-pass strict subset is the four-hop mask (29.30%), not the two-hop mask. At
+z=0.45–0.55 that four-hop fraction is effectively zero. A receiver-only two-pass
+variant with one-hop dependence per pass may use the 62.08% two-hop mask; deeper or
+different candidates require their computational dependencies to be derived, audited,
+and re-gated rather than inferred from the layer count. P3 exposure supports 99.95%
+of authoritative rows; 91.14% and 77.04% have at least 20 and 40 Mpc of
+convolutional support.
 
 ---
 
@@ -637,8 +642,8 @@ changed and re-gated. P3 exposure supports 99.95% of authoritative rows; 91.14% 
 
 ### P5 — GraphNet patch adapter
 
-**Status:** READY — P2b/P4 complete
-**Duration:** 1–2 implementation days plus parity runs
+**Status:** COMPLETE (2026-07-19)
+**Duration:** completed in one reusable interactive CPU allocation
 
 Patches are views of the canonical graph:
 
@@ -647,8 +652,13 @@ Patches are views of the canonical graph:
 - outside nodes are absent;
 - global node/edge features and connectivity are copied unchanged.
 
-For K message passes include every node capable of influencing a core node through K
-computational steps. Use reverse dependency traversal for directed edges.
+Model passes and graph dependency hops are separate quantities. For every candidate,
+derive its computational dependency before assigning a P4 strict-support mask. The
+current receiver-normalized attention `GraphNetwork` aggregates both sent and
+received edges, so one nominal pass reaches two graph hops and two passes require
+four-hop context. A receiver-only model would instead use one hop per pass. P5 uses
+exact incident-edge traversal over the canonical union graph and stores both
+`model_passes` and `dependency_hops`; it never assumes they are equal.
 
 Do not add raw RA, Dec, absolute Cartesian, or patch-relative coordinates as GraphNet
 node features during the protocol gate. Keep established graph features so the first
@@ -670,16 +680,37 @@ The existing local-subgraph-pipeline is scaffolding only. Its single-centre targ
 hard caps, traversal-order truncation, small validation batch, and integrated FlowJAX
 training are not production-safe.
 
+Completed evidence:
+
+- Canonical adapter index:
+  `/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter/`.
+- Construction manifest: `adapter_manifest.json`; 9,538,254 parent nodes,
+  190,563,017 undirected union pairs, 381,126,034 directed messages, 18,765 P4
+  cores, and all construction gates pass.
+- Parity report: `parity_report.json`; the actual shared two-pass attention
+  architecture on the 100,935-node P1a graph matches full-graph embeddings and a
+  fixed decoder exactly for four-hop patches (maximum embedding and prediction
+  difference 0; subdivision difference below 2.4e-7).
+- The full-footprint smoke suite samples a strict four-hop core from every NGC/SGC
+  x fold stratum, verifies canonical-feature identity, exact masks, non-truncating
+  subdivisions, and unique core ownership.
+- Runtime readiness marker: `GRAPH_PATCH_READY`.
+- Versioned schema and compact runtime evidence:
+  `docs/evidence/p5/p5_graph_patch_schema_v1.json`,
+  `docs/evidence/p5/adapter_manifest.json`,
+  `docs/evidence/p5/parity_report.json`, and
+  `docs/evidence/p5/GRAPH_PATCH_READY`.
+
 Progress checklist:
 
-- [ ] Implement P2b parent-Delaunay plus radius-only patch assembly by global ID.
-- [ ] Implement exact reverse dependency traversal for K message-passing steps.
-- [ ] Separate authoritative core loss nodes from context-only nodes.
-- [ ] Preserve canonical node/edge features without patch recomputation.
-- [ ] Implement size buckets and padding masks with no node/edge truncation.
-- [ ] Pass full-graph versus patch embedding/prediction parity on P1a.
-- [ ] Pass subdivision, patch-order, and core-boundary parity tests.
-- [ ] Write adapter schema, parity report, tests, and `GRAPH_PATCH_READY`.
+- [x] Implement P2b parent-Delaunay plus radius-only patch assembly by global ID.
+- [x] Implement exact incident-edge dependency traversal for the required graph hops.
+- [x] Separate authoritative core loss nodes from context-only nodes.
+- [x] Preserve canonical node/edge features without patch recomputation.
+- [x] Implement size buckets and padding masks with no node/edge truncation.
+- [x] Pass full-graph versus patch embedding/prediction parity on P1a.
+- [x] Pass subdivision, patch-order, and core-boundary parity tests.
+- [x] Write adapter schema, parity report, tests, and `GRAPH_PATCH_READY`.
 
 ### P6 — U-Net patch adapter
 

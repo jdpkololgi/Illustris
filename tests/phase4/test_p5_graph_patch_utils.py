@@ -54,7 +54,7 @@ class P5GraphPatchUtilsTests(unittest.TestCase):
     def test_exact_two_hop_context_and_canonical_features(self):
         patch = MOD.assemble_patch(
             core_id=7, fold=2, core_parent_ids=np.asarray([2]),
-            loss_parent_ids=np.asarray([2]), num_passes=2,
+            loss_parent_ids=np.asarray([2]), num_passes=2, dependency_hops=2,
             node_features=self.x, union_pairs=self.pairs,
             union_edge_features=self.edge, offsets=self.offsets,
             incident_edge_id=self.incident,
@@ -68,7 +68,7 @@ class P5GraphPatchUtilsTests(unittest.TestCase):
     def test_padding_masks_and_dummy_edges_do_not_touch_real_nodes(self):
         patch = MOD.assemble_patch(
             core_id=1, fold=0, core_parent_ids=np.asarray([0]),
-            loss_parent_ids=np.asarray([0]), num_passes=1,
+            loss_parent_ids=np.asarray([0]), num_passes=1, dependency_hops=1,
             node_features=self.x, union_pairs=self.pairs,
             union_edge_features=self.edge, offsets=self.offsets,
             incident_edge_id=self.incident,
@@ -82,7 +82,7 @@ class P5GraphPatchUtilsTests(unittest.TestCase):
     def test_bucket_refuses_truncation(self):
         patch = MOD.assemble_patch(
             core_id=1, fold=0, core_parent_ids=np.asarray([0]),
-            loss_parent_ids=np.asarray([0]), num_passes=1,
+            loss_parent_ids=np.asarray([0]), num_passes=1, dependency_hops=1,
             node_features=self.x, union_pairs=self.pairs,
             union_edge_features=self.edge, offsets=self.offsets,
             incident_edge_id=self.incident,
@@ -94,7 +94,7 @@ class P5GraphPatchUtilsTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             MOD.assemble_patch(
                 core_id=1, fold=0, core_parent_ids=np.asarray([0]),
-                loss_parent_ids=np.asarray([1]), num_passes=1,
+                loss_parent_ids=np.asarray([1]), num_passes=1, dependency_hops=1,
                 node_features=self.x, union_pairs=self.pairs,
                 union_edge_features=self.edge, offsets=self.offsets,
                 incident_edge_id=self.incident,

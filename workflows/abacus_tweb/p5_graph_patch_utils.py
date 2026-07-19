@@ -158,7 +158,7 @@ def assemble_patch(
     core_parent_ids: np.ndarray,
     loss_parent_ids: np.ndarray,
     num_passes: int,
-    dependency_hops: int | None = None,
+    dependency_hops: int,
     node_features: np.ndarray,
     union_pairs: np.ndarray,
     union_edge_features: np.ndarray,
@@ -173,7 +173,7 @@ def assemble_patch(
     if np.setdiff1d(loss_parent_ids, core_parent_ids).size:
         raise ValueError("loss nodes must be a subset of authoritative core nodes")
 
-    dependency_hops = num_passes if dependency_hops is None else int(dependency_hops)
+    dependency_hops = int(dependency_hops)
     nodes = reverse_k_hop_from_incident_csr(
         core_parent_ids, offsets, incident_edge_id, union_pairs, dependency_hops
     )
@@ -276,6 +276,7 @@ class CanonicalGraphPatchAdapter:
         self.core_safe2hop = np.load(self.root / "core_active_safe2hop.npy", mmap_mode="r")
         self.core_safe4hop = np.load(self.root / "core_active_safe4hop.npy", mmap_mode="r")
         self.core_fold = np.load(self.root / "core_fold.npy", mmap_mode="r")
+        self.core_cap = np.load(self.root / "core_cap.npy", mmap_mode="r")
 
     def core_nodes(self, core_id: int) -> tuple[np.ndarray, np.ndarray]:
         start, stop = int(self.core_offsets[core_id]), int(self.core_offsets[core_id + 1])

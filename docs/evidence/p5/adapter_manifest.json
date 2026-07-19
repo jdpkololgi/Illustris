@@ -1,0 +1,121 @@
+{
+  "artifacts": {
+    "core_active_eligible.npy": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter/core_active_eligible.npy",
+      "sha256": "afa85393eab78d24188b7fb982969795bf117df1e4234fff4c99a825455fede4"
+    },
+    "core_active_offsets.npy": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter/core_active_offsets.npy",
+      "sha256": "13988290503cad3f795f277e7f7de76f97711f449dbd249843f3ba74515848bd"
+    },
+    "core_active_parent.npy": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter/core_active_parent.npy",
+      "sha256": "f9fdb64dadfe79a501d29d4cd8fe0f4ff69d6f45d6ad60780180c440fe858110"
+    },
+    "core_active_safe2hop.npy": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter/core_active_safe2hop.npy",
+      "sha256": "391926fb445b19aca9dd58f39fce8fabbf53d65962d44aa29c8d8ebd36271801"
+    },
+    "core_active_safe4hop.npy": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter/core_active_safe4hop.npy",
+      "sha256": "49d21add04393e3f8bd4924b307c6addc56839fd2763602b8da78a11e7d5ab82"
+    },
+    "core_cap.npy": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter/core_cap.npy",
+      "sha256": "df76436091e6ae86b783b13cc5521b80982448b00fcfa353c5d8e80984797202"
+    },
+    "core_fold.npy": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter/core_fold.npy",
+      "sha256": "16f31030a52a9632b2403cd2bb91d43f3860f332558bc932103e39ce94089143"
+    },
+    "incident_edge_id.npy": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter/incident_edge_id.npy",
+      "sha256": "175d1f36340b54ef679fd9e550726a4e1a87ed0fdaa06357a06fdd948ecf203b"
+    },
+    "incident_offsets.npy": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter/incident_offsets.npy",
+      "sha256": "42495066dd8bc2f474a562aafffd56d9b74691d73d767a53201f5f9559bc6cd9"
+    },
+    "node_features.npy": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter/node_features.npy",
+      "sha256": "cefd0401f492b25ac2b956ca1c84b331a92d6cd439019f5dadd694a2282805d1"
+    },
+    "union_edge_features.npy": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter/union_edge_features.npy",
+      "sha256": "76c42f77d72e60542393a06638c37369fd4c340ddb86e62d4ad889c9f365dd74"
+    },
+    "union_pairs.npy": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter/union_pairs.npy",
+      "sha256": "dcf75f4f980c66eaa70f0dcfcaee7b384e9236e733fea12c608aaa23631bb5bc"
+    }
+  },
+  "counts": {
+    "context_nodes": 6397925,
+    "delaunay_context_pairs": 48743628,
+    "directed_messages_per_full_graph": 381126034,
+    "p4_active_rows": 5086101,
+    "p4_cores": 18765,
+    "parent_nodes": 9538254,
+    "union_pairs": 190563017
+  },
+  "edge_direction_contract": "canonical u->v attributes followed by v->u with direction negated and density contrast inverted, identical to build_abacus_sbi_cache.py",
+  "edge_feature_columns": [
+    "edge_length",
+    "x_dir",
+    "y_dir",
+    "z_dir",
+    "density_contrast"
+  ],
+  "elapsed_seconds": 178.06508350372314,
+  "gates": {
+    "active_lookup_complete": true,
+    "csr_offsets_complete": true,
+    "incident_count_is_twice_edges": true,
+    "no_graph_metrics_recomputed": true,
+    "p2_identity_matches_p4": true,
+    "p4_passes": true,
+    "parent_node_count_matches": true,
+    "union_attr_count_matches": true,
+    "union_pair_count_matches": true
+  },
+  "inputs": {
+    "active_assignment": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/active_assignment.npz",
+    "canonical_index": "/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/canonical_index.npz",
+    "canonical_index_sha256": "a653d2871399d0064a5560420751ec01d63535cb8ac7d1e1af760ec5e2f342bc",
+    "gnn_arrays": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_cugraph_gnn_arrays.npz",
+    "gnn_arrays_sha256": "cf2aa8dd89677a8c6f491ce0011f7c9b502b2eb1514ef363d4d3ee93c86bd007",
+    "graph_support": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/graph_support_active.npz",
+    "p2_manifest": "/pscratch/sd/d/dkololgi/abacus/p2b_full_footprint/p2b_union_manifest.json",
+    "p2_manifest_sha256": "e5e3ee8b59c88a2a82dd4d1d2807421ecba858c63abdb31caa525008c461ee2e",
+    "p4_manifest": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/spatial_manifest.json",
+    "p4_manifest_sha256": "ab6900b4f2d47ba8feda73a66631114be9557c76ed7c13c5e6aed70e563393a5"
+  },
+  "node_feature_columns": [
+    "Degree",
+    "Clustering",
+    "Density",
+    "Neigh Density",
+    "I_eig1",
+    "I_eig2",
+    "I_eig3"
+  ],
+  "p4_support_semantics": "source keys safe_2pass and safe_4pass are literal 2-hop and 4-hop masks; model-pass mapping is architecture-specific",
+  "pass": true,
+  "representation": "immutable P1b node features plus P2b parent-Delaunay/context and radius-only pairs copied into one canonical table; incident CSR enables exact lazy K-hop views",
+  "schema_version": 1,
+  "source_edge_offsets_half_open": {
+    "delaunay_context": [
+      0,
+      48743628
+    ],
+    "radius_ngc": [
+      48743628,
+      150370657
+    ],
+    "radius_sgc": [
+      150370657,
+      190563017
+    ]
+  },
+  "stage": "P5 canonical GraphNet patch adapter index"
+}

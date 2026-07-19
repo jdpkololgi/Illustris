@@ -7,8 +7,13 @@ import hashlib
 import json
 import time
 from pathlib import Path
+import sys
 
 import numpy as np
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from p5_build_graph_patch_adapter import add_degrees, fill_incident
 from p5_graph_patch_utils import (
@@ -109,8 +114,15 @@ def p1a_parity(args: argparse.Namespace) -> dict:
     if len(xyz) != len(x):
         raise RuntimeError("P1a point/GNN rows do not align")
     centre = np.median(xyz, axis=0)
-    distance = np.linalg.norm(xyz - centre, axis=1)
-    core = np.argsort(distance, kind="stable")[:args.p1a_core_nodes].astype(np.int64)
+    core_half_width_mpc = 32.0
+    offset = np.abs(xyz - centre)
+    candidate = np.flatnonzero(np.all(offset < core_half_width_mpc, axis=1))
+    if len(candidate) < args.p1a_core_nodes:
+        candidate = np.argsort(np.linalg.norm(xyz - centre, axis=1), kind="stable")
+    core_boundary_all = core_half_width_mpc - np.max(offset, axis=1)
+    ranked = candidate[np.argsort(core_boundary_all[candidate], kind="stable")]
+    take = np.linspace(0, len(ranked) - 1, args.p1a_core_nodes, dtype=int)
+    core = np.sort(ranked[take]).astype(np.int64)
 
     full_embedding, params, backend, device, edge_stats = jraph_embeddings(
         x, pairs, edge_attr, args.num_passes
@@ -142,7 +154,7 @@ def p1a_parity(args: argparse.Namespace) -> dict:
     local = np.searchsorted(patch.parent_node_id, core)
     emb_abs = np.abs(full_embedding[core] - patch_embedding[local])
     pred_abs = np.abs(full_prediction[core] - patch_prediction[local])
-    boundary_proxy = distance[core]
+    boundary_proxy = core_boundary_all[core]
     per_node = np.max(emb_abs, axis=1)
     slope = float(np.polyfit(boundary_proxy, per_node, 1)[0]) if len(core) > 2 else 0.0
 
@@ -189,7 +201,10 @@ def p1a_parity(args: argparse.Namespace) -> dict:
         "dependency_reason": "Jraph GraphNetwork aggregates sent edges whose attention is receiver-normalized",
         "latent_size": 8,
         "full_nodes": len(x), "full_undirected_pairs": len(pairs),
-        "core_nodes": len(core), "patch_nodes": patch.n_node,
+        "core_nodes": len(core), "core_half_width_mpc": core_half_width_mpc,
+        "core_boundary_distance_min_mpc": float(boundary_proxy.min()),
+        "core_boundary_distance_max_mpc": float(boundary_proxy.max()),
+        "patch_nodes": patch.n_node,
         "patch_directed_edges": patch.n_edge,
         "embedding_max_abs": float(emb_abs.max()),
         "embedding_mean_abs": float(emb_abs.mean()),
@@ -207,17 +222,29 @@ def full_adapter_smoke(args: argparse.Namespace) -> dict:
     manifest = json.loads((args.adapter_root / "adapter_manifest.json").read_text())
     if not manifest.get("pass"):
         raise RuntimeError("passing adapter build manifest required")
-    nonempty = []
-    for core_id in range(len(adapter.core_offsets) - 1):
+    safe_count = np.zeros(len(adapter.core_offsets) - 1, dtype=np.int64)
+    for core_id in range(len(safe_count)):
         start = int(adapter.core_offsets[core_id])
         stop = int(adapter.core_offsets[core_id + 1])
-        if np.any(adapter.core_eligible[start:stop]):
-            nonempty.append(core_id)
-    nonempty = np.asarray(nonempty, dtype=np.int64)
-    # Deterministic coverage of the complete core-ID range rather than a dense
-    # low-z-only prefix.
-    positions = np.linspace(0, len(nonempty) - 1, args.smoke_cores, dtype=int)
-    sample = nonempty[positions]
+        eligible = np.asarray(adapter.core_eligible[start:stop], dtype=bool)
+        safe = np.asarray(adapter.core_safe4hop[start:stop], dtype=bool)
+        safe_count[core_id] = int(np.sum(eligible & safe))
+    safe_core = np.flatnonzero(safe_count > 0)
+    chosen = []
+    for cap in (0, 1):
+        for fold in range(5):
+            candidates = safe_core[
+                (adapter.core_cap[safe_core] == cap)
+                & (adapter.core_fold[safe_core] == fold)
+            ]
+            if not len(candidates):
+                raise RuntimeError(f"no strict four-hop core for cap={cap} fold={fold}")
+            chosen.append(int(candidates[np.argmax(safe_count[candidates])]))
+    if args.smoke_cores > len(chosen):
+        remaining = np.setdiff1d(safe_core, np.asarray(chosen, dtype=np.int64))
+        positions = np.linspace(0, len(remaining) - 1, args.smoke_cores - len(chosen), dtype=int)
+        chosen.extend(remaining[positions].tolist())
+    sample = np.asarray(chosen, dtype=np.int64)
     records = []
     largest = None
     for core_id in sample:
@@ -244,6 +271,7 @@ def full_adapter_smoke(args: argparse.Namespace) -> dict:
         )
         records.append({
             "core_id": int(core_id), "fold": patch.fold,
+            "cap": int(adapter.core_cap[core_id]),
             "nodes": patch.n_node, "directed_edges": patch.n_edge,
             "model_passes": patch.num_passes, "dependency_hops": patch.dependency_hops,
             "authoritative_core_nodes": int(patch.authoritative_core_mask.sum()),
@@ -275,11 +303,15 @@ def full_adapter_smoke(args: argparse.Namespace) -> dict:
             row["canonical_feature_identity"] for row in records),
         "all_padding_masks_are_exact": all(row["padding_masks_valid"] for row in records),
         "every_sample_has_core_nodes": all(row["authoritative_core_nodes"] > 0 for row in records),
+        "every_sample_has_strict_loss_nodes": all(row["strict_loss_nodes"] > 0 for row in records),
+        "both_caps_all_folds_represented": {
+            (row["cap"], row["fold"]) for row in records
+        } == {(cap, fold) for cap in (0, 1) for fold in range(5)},
         "subdivision_preserves_unique_core_ownership": bool(subdivision_unique),
         "subdivision_never_truncates": all(part.n_node > 0 and part.n_edge > 0 for part in split),
     }
     return {
-        "sample_policy": "evenly spaced occupied core IDs",
+        "sample_policy": "maximum strict-four-hop core in every cap-fold stratum plus deterministic fill",
         "sample_count": len(records), "records": records,
         "largest_sample_core": largest.core_id,
         "largest_sample_nodes": largest.n_node,
@@ -334,7 +366,8 @@ def main() -> None:
     marker.write_text(
         f"adapter_manifest_sha256={sha256(adapter_manifest)}\n"
         f"parity_report_sha256={sha256(report_path)}\n"
-        f"num_passes={args.num_passes}\n"
+        f"model_passes={args.num_passes}\n"
+        f"dependency_hops={2 * args.num_passes}\n"
     )
 
 

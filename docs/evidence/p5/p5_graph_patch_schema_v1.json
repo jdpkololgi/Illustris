@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "stage": "P5 canonical GraphNet patch adapter",
+  "canonical_arrays": {
+    "node_features.npy": {
+      "dtype": "float32",
+      "shape": ["parent_nodes", 7],
+      "meaning": "P2b parent graph node features copied unchanged"
+    },
+    "union_pairs.npy": {
+      "dtype": "int32",
+      "shape": ["union_pairs", 2],
+      "meaning": "context-only parent Delaunay pairs followed by NGC and SGC radius-only pairs"
+    },
+    "union_edge_features.npy": {
+      "dtype": "float32",
+      "shape": ["union_pairs", 5],
+      "meaning": "canonical u-to-v edge attributes copied unchanged"
+    },
+    "incident_offsets.npy": {
+      "dtype": "int64",
+      "shape": ["parent_nodes_plus_one"],
+      "meaning": "CSR offsets into incident_edge_id"
+    },
+    "incident_edge_id.npy": {
+      "dtype": "int32",
+      "shape": ["two_times_union_pairs"],
+      "meaning": "each canonical pair occurs once at each endpoint"
+    }
+  },
+  "patch_arrays": {
+    "parent_node_id": "sorted immutable global parent node IDs",
+    "node_features": "exact node_features[parent_node_id]",
+    "union_edge_id": "canonical edge IDs, originals then reverse copies",
+    "edge_features": "canonical attributes followed by reversed direction and inverse density contrast",
+    "senders_receivers": "patch-local directed indices",
+    "authoritative_core_mask": "unique P4 core-owned supervised rows",
+    "loss_mask": "authoritative rows satisfying the architecture-specific strict dependency-hop mask",
+    "node_edge_masks": "real-versus-padding masks; padding never truncates"
+  },
+  "dependency_contract": {
+    "model_passes": "nominal encoder iterations",
+    "dependency_hops": "literal graph hops needed to reproduce the complete-graph core result",
+    "current_attention_graphnet": "dependency_hops = 2 * model_passes because sent edges are aggregated while attention is receiver-normalized",
+    "receiver_only_variant": "dependency_hops = model_passes",
+    "registered_strict_support": [2, 4]
+  },
+  "subdivision_contract": "split authoritative core ownership recursively and regenerate complete dependency context for each subdivision; never cap or truncate nodes or edges",
+  "units": {
+    "node_coordinates": "not model features",
+    "edge_length": "observer-frame comoving Mpc, inherited unchanged from P2b",
+    "core_size": "64 Mpc/h = 94.590600059 Mpc at h=0.6766"
+  }
+}

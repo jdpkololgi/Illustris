@@ -103,6 +103,10 @@ def main() -> None:
     args = parse_args()
     started = time.time()
     args.out_dir.mkdir(parents=True, exist_ok=True)
+    for stale in ("GRAPH_PATCH_READY", "parity_report.json"):
+        stale_path = args.out_dir / stale
+        if stale_path.exists():
+            stale_path.unlink()
     p2 = json.loads(args.p2_manifest.read_text())
     p4 = json.loads(args.p4_manifest.read_text())
     if not p4.get("pass"):
@@ -231,6 +235,7 @@ def main() -> None:
         "core_active_safe2hop.npy": np.asarray(support["safe_2pass"], dtype=bool)[order],
         "core_active_safe4hop.npy": np.asarray(support["safe_4pass"], dtype=bool)[order],
         "core_fold.npy": np.asarray(cores["fold"], dtype=np.uint8),
+        "core_cap.npy": np.asarray(cores["cap"], dtype=np.uint8),
     }
     for name, array in compact.items():
         np.save(args.out_dir / name, array, allow_pickle=False)

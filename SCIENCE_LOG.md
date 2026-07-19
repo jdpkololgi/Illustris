@@ -1,5 +1,50 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-19 — [science/code] P5 COMPLETE: canonical global-graph patches reproduce full-graph computation
+
+P5 is complete and `GRAPH_PATCH_READY` has been written. The adapter is an
+immutable view layer over the P1b/P2b canonical graph: graph metrics and union
+connectivity are computed globally once, then exact core-plus-context patches are
+extracted by global parent ID. No graph or graph metric is reconstructed per patch,
+and no node or edge is capped or traversal-order truncated.
+
+The full-footprint index contains 9,538,254 parent nodes, 48,743,628 context
+Delaunay pairs, 190,563,017 union pairs, and 381,126,034 directed messages. It
+indexes all 18,765 P4 cores through an incident-edge CSR and keeps authoritative core
+ownership, strict loss masks, padding masks, canonical edge direction, and the seven
+frozen graph metrics distinct. All nine construction gates pass.
+
+The decisive parity test used the actual shared Jraph attention encoder code on the
+canonical P1a graph (100,935 nodes and 1,988,732 undirected pairs). With two model
+passes and the required four graph-hop dependency context, patch embeddings and a
+fixed deterministic decoder agree exactly with full-graph results: maximum embedding
+difference 0, maximum prediction difference 0, patch-order difference 0, boundary
+error slope 0, and recursive-subdivision difference 2.38e-7. Randomly
+initialized shared weights were used deliberately: this is an arithmetic
+representation/parity gate, not an accuracy claim about a fitted model.
+
+The production-scale smoke suite samples at least one strict four-hop core from every
+NGC/SGC x fold stratum. All 12 samples preserve exact canonical features, exact
+padding masks, non-empty strict loss masks, non-truncating subdivision, and unique
+authoritative ownership. The largest sample has 24,212 nodes and 2,047,016 directed
+edges; its exact recursive subdivision produces 61 subpatches without dropping a
+core node.
+
+The main scientific correction remains the P5 preflight result: the current
+receiver-normalized attention `GraphNetwork` has two graph-hop dependencies per
+nominal pass because its node update aggregates both sent and received edges. The
+current two-pass model therefore uses the P4 four-hop support mask (29.30% overall,
+effectively zero in the sparsest shell), while a receiver-only two-pass candidate can
+use the two-hop mask (62.08%). Model passes and dependency hops are now separate
+schema fields and must be derived for every future architecture.
+
+Runtime artifacts are under
+`/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter/`; compact immutable
+evidence and the adapter schema are tracked under `docs/evidence/p5/`. P5 proves
+that global-graph patch training can be implemented without changing graph inputs or
+core predictions. It does **not** demonstrate that GraphNet generalizes: deterministic
+blocked-fold training and blind-simulation testing remain the scientific objective.
+
 ### 2026-07-19 — [science/code] P5 PREFLIGHT: current attention GraphNetwork has two graph-hop dependencies per nominal pass
 
 The first actual P1a full-graph-versus-patch embedding parity test exposed an
