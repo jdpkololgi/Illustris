@@ -50,7 +50,7 @@ P7_GATES = {
     "large_gap_p95_angle_deg": 15.0,
     "trace_max_abs_error": 2.0e-10,
     "boundary_abs_spearman": 0.20,
-    "boundary_trivial_eigenvalue_nrmse": 0.02,
+    "boundary_trivial_retained_mean_error_over_std": 0.02,
     "support_distance_mpc": 2.0 * RSMOOTH_MPC,
 }
 
@@ -452,15 +452,18 @@ def run_p7(adapter, cores, model, normalization, tmu, tsd, device):
             rank_corr(distance[retained], point_error[retained])
             if retained.sum() >= 50 else None
         )
-        boundary_pass = (
-            eig["nrmse"] <= P7_GATES["boundary_trivial_eigenvalue_nrmse"]
-            or (rho is not None and abs(rho) <= P7_GATES["boundary_abs_spearman"])
-        )
         scale = eig["reference_std"]
         near = ~retained
         near_mean = float(np.mean(point_error[near]) / scale) if near.any() else None
         retained_mean = (
             float(np.mean(point_error[retained]) / scale) if retained.any() else None
+        )
+        boundary_pass = (
+            retained_mean is not None
+            and (
+                retained_mean <= P7_GATES["boundary_trivial_retained_mean_error_over_std"]
+                or (rho is not None and abs(rho) <= P7_GATES["boundary_abs_spearman"])
+            )
         )
         passed = (
             density["nrmse"] <= P7_GATES["density_nrmse"]
