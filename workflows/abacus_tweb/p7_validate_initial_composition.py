@@ -36,6 +36,10 @@ def parse_args() -> argparse.Namespace:
         "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter"))
     ap.add_argument("--output-root", type=Path, default=Path(
         "/pscratch/sd/d/dkololgi/abacus/p7_ftier_patch_adapter"))
+    ap.add_argument("--selection-manifest", type=Path, default=Path(
+        "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/"
+        "fullcap_selection_v1/selection_manifest.json"))
+    ap.add_argument("--rotation", type=int, default=0)
     ap.add_argument("--core-id", type=int, action="append")
     ap.add_argument("--halo-small", type=int, default=8)
     ap.add_argument("--halo-large", type=int, default=12)
@@ -76,8 +80,17 @@ def main() -> None:
         mmap_mode="r",
     )
     records = []
+    selection_ready = args.selection_manifest.parent / "SELECTION_CHANNELS_READY"
+    if not selection_ready.exists():
+        raise FileNotFoundError(
+            f"selection overlay has not passed P6 validation: {selection_ready}"
+        )
     graph_adapter = CanonicalGraphPatchAdapter(args.p5_root)
-    with CanonicalFieldPatchAdapter(args.p6_root) as field_adapter:
+    with CanonicalFieldPatchAdapter(
+        args.p6_root,
+        selection_manifest=args.selection_manifest,
+        rotation=args.rotation,
+    ) as field_adapter:
         for core_id in cores:
             graph = graph_adapter.extract(core_id, 2, loss_policy="authoritative")
             small = field_adapter.extract(core_id, args.halo_small)
@@ -166,6 +179,7 @@ def main() -> None:
         "finite_ordered_eigensystems": all(
             candidate["ordered_eigenvalues"] and candidate["finite_eigenvectors"]
             for row in records for candidate in row["physics_candidates"]),
+        "fullcap_selection_overlay_ready": selection_ready.exists(),
     }
     p5_manifest = args.p5_root / "adapter_manifest.json"
     p6_manifest = args.p6_root / "adapter_manifest.json"
@@ -176,6 +190,11 @@ def main() -> None:
         "p5_manifest_sha256": sha256(p5_manifest),
         "p6_manifest": str(p6_manifest),
         "p6_manifest_sha256": sha256(p6_manifest),
+        "selection_manifest": str(args.selection_manifest),
+        "selection_manifest_sha256": sha256(args.selection_manifest),
+        "selection_rotation": args.rotation,
+        "selection_channels_ready": str(selection_ready),
+        "selection_channels_ready_sha256": sha256(selection_ready),
         "cell_units": "observer-frame comoving Mpc",
         "rsmooth_mpc": args.rsmooth_mpc,
         "records": records,
@@ -183,7 +202,6 @@ def main() -> None:
         "pass": all(gates.values()),
         "ftier_patch_ready": False,
         "pending": [
-            "selection-channel refit inherited from P6",
             "trained graph encoder plus field-decoder context convergence",
             "FFT tile-size, padding, apodization, overlap, and central-trim convergence",
             "eigenvector convergence conditioned on eigengap and survey-boundary distance",

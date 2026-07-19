@@ -16,6 +16,8 @@ import numpy as np
 
 
 CAP_NAME = {0: "SGC", 1: "NGC"}
+SELECTION_CHANNELS = {"expected_counts", "log_count_ratio", "ntilde_mpc3"}
+SELECTION_DEPENDENCIES = {"counts", "exposure_apodized"}
 
 
 @dataclass(frozen=True)
@@ -129,10 +131,86 @@ def apply_frozen_normalization(
     return output
 
 
+def derive_selection_channels(
+    counts: np.ndarray,
+    exposure: np.ndarray,
+    redshift: np.ndarray,
+    *,
+    cell_mpc: float,
+    grid_z: np.ndarray,
+    ntilde: np.ndarray,
+    epsilon: float = 1.0e-3,
+    minimum_exposure: float = 1.0e-4,
+) -> dict[str, np.ndarray]:
+    """Derive the selection-dependent P3 channels from a frozen curve."""
+    counts = np.asarray(counts, dtype=np.float32)
+    exposure = np.asarray(exposure, dtype=np.float32)
+    redshift = np.asarray(redshift, dtype=np.float64)
+    grid_z = np.asarray(grid_z, dtype=np.float64)
+    ntilde = np.asarray(ntilde, dtype=np.float64)
+    if counts.shape != exposure.shape or counts.shape != redshift.shape:
+        raise ValueError("counts, exposure, and redshift must have identical shapes")
+    if grid_z.ndim != 1 or ntilde.shape != grid_z.shape or len(grid_z) < 2:
+        raise ValueError("selection grid_z and ntilde must be aligned 1-D arrays")
+    if np.any(np.diff(grid_z) <= 0) or not np.all(np.isfinite(ntilde)):
+        raise ValueError("selection curve must be finite on a strictly increasing grid")
+    curve = np.interp(np.clip(redshift, grid_z[0], grid_z[-1]), grid_z, ntilde)
+    curve = np.maximum(curve, np.finfo(np.float32).tiny)
+    supported = exposure > float(minimum_exposure)
+    curve = np.where(supported, curve, 0.0)
+    expected = (
+        curve * float(cell_mpc) ** 3 * exposure.astype(np.float64)
+    ).astype(np.float32)
+    contrast = np.zeros_like(expected, dtype=np.float32)
+    contrast[supported] = np.log(
+        (counts[supported].astype(np.float64) + float(epsilon))
+        / (expected[supported].astype(np.float64) + float(epsilon))
+    ).astype(np.float32)
+    return {
+        "ntilde_mpc3": curve.astype(np.float32),
+        "expected_counts": expected,
+        "log_count_ratio": contrast,
+    }
+
+
+def patch_redshift(
+    *,
+    origin_mpc: np.ndarray,
+    cell_mpc: float,
+    context_start: np.ndarray,
+    shape: tuple[int, int, int],
+    radius_grid_mpc: np.ndarray,
+    redshift_grid: np.ndarray,
+) -> np.ndarray:
+    """Observer-frame redshift at every cell centre in one field-patch view."""
+    axes = [
+        float(origin_mpc[axis])
+        + (
+            np.arange(int(shape[axis]), dtype=np.float64)
+            + int(context_start[axis])
+            + 0.5
+        )
+        * float(cell_mpc)
+        for axis in range(3)
+    ]
+    radius = np.sqrt(
+        axes[0][:, None, None] ** 2
+        + axes[1][None, :, None] ** 2
+        + axes[2][None, None, :] ** 2
+    )
+    return np.interp(radius, radius_grid_mpc, redshift_grid)
+
+
 class CanonicalFieldPatchAdapter:
     """Lazy cap-lattice reader backed by P3 and a compact P6 core index."""
 
-    def __init__(self, root: Path | str):
+    def __init__(
+        self,
+        root: Path | str,
+        *,
+        selection_manifest: Path | str | None = None,
+        rotation: int | None = None,
+    ):
         self.root = Path(root)
         self.manifest = json.loads((self.root / "adapter_manifest.json").read_text())
         self.channel_names = tuple(self.manifest["channel_order"])
@@ -144,6 +222,22 @@ class CanonicalFieldPatchAdapter:
         self.core_parent = np.load(self.root / "core_active_parent.npy", mmap_mode="r")
         self.core_frac = np.load(self.root / "core_active_frac_index.npy", mmap_mode="r")
         self._handles: dict[int, h5py.File] = {}
+        if (selection_manifest is None) != (rotation is None):
+            raise ValueError("selection_manifest and rotation must be supplied together")
+        self.selection_manifest_path = (
+            None if selection_manifest is None else Path(selection_manifest)
+        )
+        self.selection_manifest = (
+            None
+            if self.selection_manifest_path is None
+            else json.loads(self.selection_manifest_path.read_text())
+        )
+        self.selection_rotation = None if rotation is None else int(rotation)
+        self.selection = (
+            None
+            if self.selection_manifest is None
+            else self.selection_manifest["rotations"][str(self.selection_rotation)]
+        )
 
     def close(self) -> None:
         for handle in self._handles.values():
@@ -181,9 +275,13 @@ class CanonicalFieldPatchAdapter:
         cap = int(self.core_cap[core_id])
         handle = self._handle(cap)
         names = self.channel_names if channel_names is None else tuple(channel_names)
-        unknown = set(names).difference(handle.keys())
+        unknown = set(names).difference(set(handle.keys()) | SELECTION_CHANNELS)
         if unknown:
             raise KeyError(f"unknown P3 channels: {sorted(unknown)}")
+        load_names = set(names)
+        if self.selection is not None and set(names).intersection(SELECTION_CHANNELS):
+            load_names.difference_update(SELECTION_CHANNELS)
+            load_names.update(SELECTION_DEPENDENCIES)
         halo = np.broadcast_to(
             np.asarray(context_halo_voxels, dtype=np.int64), (3,)
         ).copy()
@@ -191,7 +289,8 @@ class CanonicalFieldPatchAdapter:
             raise ValueError("context halo must be non-negative")
         start = np.asarray(self.core_start[core_id], dtype=np.int64)
         stop = np.asarray(self.core_stop[core_id], dtype=np.int64)
-        shape = np.asarray(handle[names[0]].shape, dtype=np.int64)
+        reference_name = sorted(load_names)[0]
+        shape = np.asarray(handle[reference_name].shape, dtype=np.int64)
         requested_start = start - halo
         requested_stop = stop + halo
         context_start = np.maximum(requested_start, 0)
@@ -200,10 +299,43 @@ class CanonicalFieldPatchAdapter:
             slice(int(left), int(right))
             for left, right in zip(context_start, context_stop)
         )
-        values = np.stack(
-            [np.asarray(handle[name][selection], dtype=np.float32) for name in names],
-            axis=0,
-        )
+        channel_values = {
+            name: np.asarray(handle[name][selection], dtype=np.float32)
+            for name in sorted(load_names)
+        }
+        if self.selection is not None and set(names).intersection(SELECTION_CHANNELS):
+            cap_name = CAP_NAME[cap]
+            cap_grid = self.manifest["caps"][cap_name]
+            curve = self.selection["caps"][cap_name]
+            redshift = patch_redshift(
+                origin_mpc=np.asarray(cap_grid["origin_mpc"], dtype=np.float64),
+                cell_mpc=float(cap_grid["cell_mpc"]),
+                context_start=context_start,
+                shape=tuple(int(v) for v in context_stop - context_start),
+                radius_grid_mpc=np.asarray(
+                    self.selection_manifest["cosmology"]["radius_grid_mpc"],
+                    dtype=np.float64,
+                ),
+                redshift_grid=np.asarray(
+                    self.selection_manifest["cosmology"]["redshift_grid"],
+                    dtype=np.float64,
+                ),
+            )
+            channel_values.update(
+                derive_selection_channels(
+                    channel_values["counts"],
+                    channel_values["exposure_apodized"],
+                    redshift,
+                    cell_mpc=float(cap_grid["cell_mpc"]),
+                    grid_z=np.asarray(curve["grid_z"], dtype=np.float64),
+                    ntilde=np.asarray(curve["ntilde"], dtype=np.float64),
+                    epsilon=float(self.selection_manifest["contrast"]["epsilon"]),
+                    minimum_exposure=float(
+                        self.selection_manifest["contrast"]["minimum_exposure"]
+                    ),
+                )
+            )
+        values = np.stack([channel_values[name] for name in names], axis=0)
         parent, frac_global = self.authoritative(core_id)
         frac_local = frac_global - context_start[None, :]
         local_start = start - context_start

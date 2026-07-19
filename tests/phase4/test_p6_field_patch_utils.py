@@ -112,5 +112,96 @@ class P6FieldPatchUtilsTests(unittest.TestCase):
         np.testing.assert_array_equal(got[1], values[1])
 
 
+    def test_selection_channel_derivation_is_algebraically_exact(self):
+        counts = np.asarray([0.0, 2.0, 4.0], dtype=np.float32)
+        exposure = np.asarray([1.0, 0.5, 0.0], dtype=np.float32)
+        redshift = np.asarray([0.2, 0.3, 0.4])
+        got = MOD.derive_selection_channels(
+            counts,
+            exposure,
+            redshift,
+            cell_mpc=2.0,
+            grid_z=np.asarray([0.1, 0.5]),
+            ntilde=np.asarray([0.01, 0.01]),
+        )
+        np.testing.assert_allclose(got["expected_counts"], [0.08, 0.04, 0.0])
+        np.testing.assert_allclose(got["ntilde_mpc3"], [0.01, 0.01, 0.0])
+        np.testing.assert_allclose(
+            got["log_count_ratio"][:2],
+            np.log((counts[:2] + 1.0e-3) / (np.asarray([0.08, 0.04]) + 1.0e-3)),
+        )
+        self.assertEqual(float(got["log_count_ratio"][2]), 0.0)
+
+    def test_selection_overlay_replaces_legacy_p3_channels(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            field_path = root / "sgc.h5"
+            shape = (4, 4, 4)
+            counts = np.ones(shape, dtype=np.float32)
+            exposure = np.ones(shape, dtype=np.float32)
+            with h5py.File(field_path, "w") as handle:
+                handle.create_dataset("counts", data=counts)
+                handle.create_dataset("exposure_apodized", data=exposure)
+                handle.create_dataset(
+                    "expected_counts", data=np.full(shape, -99.0, dtype=np.float32)
+                )
+                handle.create_dataset(
+                    "ntilde_mpc3", data=np.full(shape, -99.0, dtype=np.float32)
+                )
+                handle.create_dataset(
+                    "log_count_ratio", data=np.full(shape, -99.0, dtype=np.float32)
+                )
+            manifest = {
+                "channel_order": [
+                    "counts", "expected_counts", "log_count_ratio", "ntilde_mpc3"
+                ],
+                "caps": {
+                    name: {
+                        "field_path": str(field_path),
+                        "origin_mpc": [0.0, 0.0, 0.0],
+                        "cell_mpc": 1.0,
+                    }
+                    for name in ("SGC", "NGC")
+                },
+            }
+            (root / "adapter_manifest.json").write_text(json.dumps(manifest))
+            np.save(root / "core_voxel_start.npy", np.asarray([[1, 1, 1]], dtype=np.int32))
+            np.save(root / "core_voxel_stop.npy", np.asarray([[3, 3, 3]], dtype=np.int32))
+            np.save(root / "core_fold.npy", np.asarray([2], dtype=np.int8))
+            np.save(root / "core_cap.npy", np.asarray([0], dtype=np.int8))
+            np.save(root / "core_active_offsets.npy", np.asarray([0, 0], dtype=np.int64))
+            np.save(root / "core_active_parent.npy", np.empty(0, dtype=np.int64))
+            np.save(root / "core_active_frac_index.npy", np.empty((0, 3), dtype=np.float32))
+            selection = {
+                "contrast": {"epsilon": 1.0e-3, "minimum_exposure": 1.0e-4},
+                "cosmology": {
+                    "radius_grid_mpc": [0.0, 100.0],
+                    "redshift_grid": [0.0, 1.0],
+                },
+                "rotations": {
+                    "0": {
+                        "caps": {
+                            name: {"grid_z": [0.0, 1.0], "ntilde": [0.02, 0.02]}
+                            for name in ("SGC", "NGC")
+                        }
+                    }
+                },
+            }
+            selection_path = root / "selection.json"
+            selection_path.write_text(json.dumps(selection))
+            with MOD.CanonicalFieldPatchAdapter(
+                root, selection_manifest=selection_path, rotation=0
+            ) as adapter:
+                patch = adapter.extract(0, 1)
+            expected_index = patch.channel_names.index("expected_counts")
+            ntilde_index = patch.channel_names.index("ntilde_mpc3")
+            contrast_index = patch.channel_names.index("log_count_ratio")
+            np.testing.assert_allclose(patch.values[expected_index], 0.02)
+            np.testing.assert_allclose(patch.values[ntilde_index], 0.02)
+            np.testing.assert_allclose(
+                patch.values[contrast_index], np.log(1.001 / 0.021)
+            )
+
+
 if __name__ == "__main__":
     unittest.main()
