@@ -763,8 +763,8 @@ Progress checklist:
 
 ### P6 — U-Net patch adapter
 
-**Status:** ACTIVE/PARTIAL — full-cap selection overlay and normalization pass; trained U-PATCH convergence remains
-**Duration:** remaining trained-model context, subdivision, and boundary-convergence work
+**Status:** COMPLETE (2026-07-19) — adapter-ready; final U-PATCH checkpoint must repeat the release gate
+**Duration:** complete
 
 Extract field patches from canonical voxel products. Each has:
 
@@ -808,9 +808,35 @@ the operative markers are `SELECTION_REFIT_COMPLETE` and
 `SELECTION_CHANNELS_READY`, with tracked validation evidence in
 `docs/evidence/p6/`.
 
-This closes the selection and normalization blockers. It does not yet establish
-trained U-Net context or boundary convergence, so `UNET_PATCH_READY` remains
-deliberately unwritten.
+The trained structural convergence suite then exposed a previously hidden patch
+dependency in the historical T2 U-Net: PyTorch `GroupNorm` computes statistics over
+all spatial positions in a patch, so otherwise identical core predictions changed
+with patch size even when convolutional context was ample. The failing result is a
+real architectural warning, not a reason to relax the gates. U-PATCH must use
+patch-safe normalization: the adopted canary uses per-voxel channel LayerNorm with
+the historical affine weights retained. Spatial `GroupNorm`, spatial `InstanceNorm`,
+and patch-local input normalization are forbidden for production patch training.
+
+With patch-safe normalization and an 8-voxel global-lattice phase lock for strided
+pooling, the smallest stable context-growth tail begins at 24 voxels (120 Mpc) against
+an 80-voxel reference. "Stable tail" means that the selected halo and every larger
+non-reference halo pass; an isolated passing point is not convergence. At 24 voxels,
+pooled galaxy-prediction NRMSE is 0.00155, latent-core NRMSE is 0.00387, and the
+worst-core prediction NRMSE is 0.00301. Parent-versus-two-child subdivision gives
+prediction NRMSE 0.00166 and p95 absolute error / reference standard deviation
+0.00355. The retained boundary correlation is formally 0.203, but the pre-registered
+trivial-effect branch passes because prediction NRMSE is below 0.002.
+
+The suite is label-free: it never loads tidal targets or uses R-squared to select
+patch geometry. It spans both caps and all four redshift shells. The historical
+trained checkpoint is only a structural canary for learned filters and activations;
+the final U-PATCH model must be trained from scratch with patch-safe normalization
+and must repeat this suite before release.
+
+Runtime evidence is under
+`/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/trained_convergence_v1/`.
+Tracked evidence is `docs/evidence/p6/p6_field_patch_schema_v2.json`,
+`trained_convergence_report.json`, and `UNET_PATCH_READY`.
 
 U-Net parity requires:
 
@@ -830,13 +856,13 @@ Progress checklist:
 - [x] Pass global-field versus patch-view channel and interpolation parity.
 - [x] Refit separate full-cap NGC/SGC expected-count channels from each rotation's
   training folds only; pass shell closure and patch-overlay parity.
-- [ ] Pass trained-model context-growth, subdivision, and boundary-distance convergence.
-- [ ] Freeze the full schema and write `UNET_PATCH_READY`.
+- [x] Pass trained-model context-growth, subdivision, and boundary-distance convergence.
+- [x] Freeze the full schema and write `UNET_PATCH_READY`.
 
 ### P7 — F-tier graph/field/FFT adapter
 
-**Status:** ACTIVE/PARTIAL — selection-aware composition, scatter, and fixed-operator gates pass
-**Duration:** remaining trained-decoder and nonlocal convergence work
+**Status:** COMPLETE (2026-07-19) — adapter-ready; final F-PATCH checkpoint must repeat the release gate
+**Duration:** complete
 
 F-tier uses:
 
@@ -859,12 +885,51 @@ trace consistency at approximately 3e-15. Runtime evidence is under
 `/pscratch/sd/d/dkololgi/abacus/p7_ftier_patch_adapter/`, with compact copies under
 `docs/evidence/p7/` and the marker `FTIER_COMPOSITION_READY`.
 
-This is not `FTIER_PATCH_READY`. The P6 selection blocker is resolved: the real
-NGC/SGC composition suite has been rerun with rotation 0's passed full-cap overlay,
-and the P7 report binds the selection-manifest and readiness-marker hashes. F-tier's
-nonlocal tidal operator still requires explicit convergence over field-tile size,
-FFT padding/apodization, overlap, central trim, and survey-boundary distance. A
-passing pointwise FFT unit test cannot freeze those production choices.
+The P6 selection blocker is resolved: the real NGC/SGC composition suite uses the
+passed full-cap overlay and binds its manifest hashes. P5 separately establishes
+exact graph-context parity for arbitrary encoder weights. Because no historical
+full-range F-tier checkpoint exists, the P7 convergence suite uses the patch-safe
+trained T2 latent field as a learned-spectrum structural canary, then applies the
+fixed nonlocal tidal operator. It loads no tidal targets and spans NGC/SGC plus the
+lowest and highest redshift shells.
+
+The first coupled 64-voxel-halo configuration failed despite converged learned density:
+tensor NRMSE was 0.0553 and eigenvalue NRMSE was 0.0502. The limiting operation was
+therefore the nonlocal FFT, not the local decoder. Frozen one-factor controls confirm
+that both padding and apodization are causal: at fixed 80-voxel context, reducing
+padding from 24 to 16 voxels gives tensor/eigenvalue NRMSE 0.0982/0.1078, while
+reducing apodization from 20 to 16 voxels gives 0.0339/0.0370.
+
+The smallest passing eligible configuration is frozen as:
+
+- learned-field context halo: 72 voxels = 360 Mpc;
+- FFT zero padding: 20 voxels = 100 Mpc;
+- cosine apodization: 20 voxels = 100 Mpc;
+- authoritative output: the shared P4 physical core;
+- reference: 80-voxel halo, 24-voxel padding, 20-voxel apodization.
+
+Relative to that reference, tensor NRMSE is 0.02272, eigenvalue NRMSE is 0.01770,
+and eigenvalue p95 absolute error / reference standard deviation is 0.04097. Trace
+consistency is 1.9e-15. Orientation changes show the expected eigengap dependence;
+for the large-gap half of each axis, the worst median and p95 changes are 0.744 and
+1.817 degrees. Near-degenerate axes remain intrinsically unreliable and must be
+reported with an eigengap quality measure.
+
+The physical survey-support audit uses a retained trim of 2 smoothing lengths =
+20.69 Mpc. It retains 8,869 galaxies and identifies 463 nearer-boundary galaxies.
+A residual rank trend remains beyond the trim (Spearman = -0.342), but the retained
+mean eigenvalue change is only 0.0158 of the reference standard deviation and passes
+the pre-registered 0.02 trivial-effect branch; the near-boundary value rises to
+0.0253. This is not described as zero boundary dependence. Near-support rows require
+an explicit boundary-quality flag, and the final checkpoint must reproduce the audit.
+
+Runtime evidence is under
+`/pscratch/sd/d/dkololgi/abacus/p7_ftier_patch_adapter/trained_convergence_v1/`.
+Tracked evidence is `docs/evidence/p7/p7_ftier_patch_schema_v2.json`,
+`trained_convergence_report.json`, and `FTIER_PATCH_READY`. This marker certifies the
+adapter geometry and numerical operator. It does not certify F-tier inference
+accuracy: the final F-PATCH checkpoint must repeat the complete decoder/FFT suite
+before any tensor or eigenvector product is released.
 
 Progress checklist:
 
@@ -872,10 +937,14 @@ Progress checklist:
 - [x] Verify graph-to-field scatter conservation and overlap parity.
 - [x] Consume the passed P6 full-cap selection overlay and frozen per-rotation
   normalization contract without modifying P3.
-- [ ] Freeze FFT padding, apodization, overlap, and central-trim candidates.
-- [ ] Run trained-model convergence for density, tensor components, and eigenvalues.
-- [ ] Verify eigengap-conditioned orientation stability under tile convergence.
-- [ ] Write the full adapter schema, convergence report, and `FTIER_PATCH_READY`.
+- [x] Freeze FFT padding, apodization, overlap, and central-trim candidates.
+- [x] Run learned-field convergence for density, tensor components, and eigenvalues.
+- [x] Verify eigengap-conditioned orientation stability under tile convergence.
+- [x] Quantify residual error versus physical survey-support distance after a
+  2-smoothing-length trim and freeze the near-boundary quality-flag requirement.
+- [x] Write the full adapter schema, convergence report, and `FTIER_PATCH_READY`.
+- [ ] Repeat the complete convergence suite with the final trained F-PATCH checkpoint
+  before releasing tensor/eigenvector columns (release gate, not adapter blocker).
 
 ---
 
@@ -883,12 +952,17 @@ Progress checklist:
 
 ### P8 — Matched spatial target-generalisation training
 
-**Status:** GATED PER CANDIDATE ON ITS OWN PARITY/CONVERGENCE GATE
+**Status:** READY FOR ONE-SEED SCREENING — P5, P6, and P7 adapter gates pass
 **Duration:** 2–4 GPU days for one-seed screening; three-seed finalists later
 
-P8 may start with G-PATCH as soon as P5 passes and with U-PATCH as soon as P6 passes.
-F-PATCH joins only after P7. Do not let the slower F-tier convergence work block a
-valid GraphNet/U-Net protocol comparison.
+G-PATCH, U-PATCH, and F-PATCH may now enter the matched deterministic protocol.
+Readiness is adapter-specific, not an accuracy claim. Each final trained checkpoint
+must repeat its own parity/convergence gate before it becomes release-eligible.
+
+U-PATCH and the field decoder inside F-PATCH must use patch-safe normalization.
+Per-voxel channel normalization or an equally local/frozen alternative is allowed;
+normalization whose statistics include the patch spatial dimensions is prohibited.
+This choice is frozen before training and may not be changed after validation results.
 
 | ID | Candidate | Representation | Output |
 |---|---|---|---|

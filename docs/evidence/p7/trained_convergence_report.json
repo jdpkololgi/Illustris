@@ -1,0 +1,1051 @@
+{
+  "canary_role": "trained U-Net latent stresses learned-field spectra plus nonlocal FFT; P5 separately proves graph context for arbitrary weights; the final F-PATCH checkpoint must repeat this gate",
+  "checkpoint": "/pscratch/sd/d/dkololgi/abacus/field_level_tests/T2_transfer/t2_model_seed42.pt",
+  "checkpoint_home_test_r2": [
+    0.8713012151277306,
+    0.9023727151936869,
+    0.9301097057350494
+  ],
+  "checkpoint_sha256": "0313fd0a39230801ddbb7d7a9b84d42f6da0321204180e80fc518d19f297bfcf",
+  "configs": [
+    {
+      "apodization": 8,
+      "eligible": true,
+      "halo": 32,
+      "name": "h32_p8_a8",
+      "padding": 8
+    },
+    {
+      "apodization": 12,
+      "eligible": true,
+      "halo": 48,
+      "name": "h48_p12_a12",
+      "padding": 12
+    },
+    {
+      "apodization": 16,
+      "eligible": true,
+      "halo": 64,
+      "name": "h64_p16_a16",
+      "padding": 16
+    },
+    {
+      "apodization": 20,
+      "eligible": true,
+      "halo": 72,
+      "name": "h72_p20_a20",
+      "padding": 20
+    },
+    {
+      "apodization": 20,
+      "eligible": false,
+      "halo": 80,
+      "name": "h80_p16_a20_padding_control",
+      "padding": 16
+    },
+    {
+      "apodization": 16,
+      "eligible": false,
+      "halo": 80,
+      "name": "h80_p24_a16_apod_control",
+      "padding": 24
+    },
+    {
+      "apodization": 20,
+      "eligible": false,
+      "halo": 80,
+      "name": "h80_p24_a20_reference",
+      "padding": 24
+    }
+  ],
+  "created_utc": "2026-07-19T19:34:53Z",
+  "cuda_peak_bytes": 5242841088,
+  "device": "cuda",
+  "final_u_patch_must_train_with_patch_safe_normalization": true,
+  "gates": {
+    "boundary_abs_spearman": 0.2,
+    "boundary_trivial_retained_mean_error_over_std": 0.02,
+    "density_nrmse": 0.02,
+    "eigenvalue_nrmse": 0.03,
+    "eigenvalue_p95": 0.08,
+    "large_gap_median_angle_deg": 5.0,
+    "large_gap_p95_angle_deg": 15.0,
+    "support_distance_mpc": 20.69169376293231,
+    "tensor_nrmse": 0.03,
+    "trace_max_abs_error": 2e-10
+  },
+  "git_sha_at_execution": "b959df6e241e49db31333bec898895c9183d4da7",
+  "passes": true,
+  "reference_config": {
+    "apodization": 20,
+    "eligible": false,
+    "halo": 80,
+    "name": "h80_p24_a20_reference",
+    "padding": 24
+  },
+  "replaced_groupnorm_modules": [
+    "unet.enc0.1",
+    "unet.enc0.4",
+    "unet.enc1.1",
+    "unet.enc1.4",
+    "unet.enc2.1",
+    "unet.enc2.4",
+    "unet.bott.1",
+    "unet.bott.4",
+    "unet.dec2.1",
+    "unet.dec2.4",
+    "unet.dec1.1",
+    "unet.dec1.4",
+    "unet.dec0.1",
+    "unet.dec0.4"
+  ],
+  "representative_cores": [
+    {
+      "cap": 0,
+      "centre_redshift": 0.1847643421373501,
+      "core_id": 376,
+      "lattice_margin_voxels": 94,
+      "n_authoritative": 4081,
+      "shell": 0
+    },
+    {
+      "cap": 0,
+      "centre_redshift": 0.4604065754688411,
+      "core_id": 3267,
+      "lattice_margin_voxels": 94,
+      "n_authoritative": 52,
+      "shell": 3
+    },
+    {
+      "cap": 1,
+      "centre_redshift": 0.16886119104931074,
+      "core_id": 15906,
+      "lattice_margin_voxels": 132,
+      "n_authoritative": 5112,
+      "shell": 0
+    },
+    {
+      "cap": 1,
+      "centre_redshift": 0.4505656357899525,
+      "core_id": 15944,
+      "lattice_margin_voxels": 111,
+      "n_authoritative": 87,
+      "shell": 3
+    }
+  ],
+  "rotation": 0,
+  "selected_config": {
+    "apodization": 20,
+    "eligible": true,
+    "halo": 72,
+    "name": "h72_p20_a20",
+    "padding": 20
+  },
+  "selection_manifest": "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/fullcap_selection_v1/selection_manifest.json",
+  "selection_manifest_sha256": "4f31078f5b61c808610bb48a6c8cc8f1ad9a597778e3fa71e7adae8eb950c977",
+  "spatial_normalization_policy": "per_voxel_channel_layer_norm",
+  "summary": {
+    "h32_p8_a8": {
+      "boundary_pass": true,
+      "config": {
+        "apodization": 8,
+        "eligible": true,
+        "halo": 32,
+        "name": "h32_p8_a8",
+        "padding": 8
+      },
+      "density": {
+        "max_abs_over_std": 0.009143496711883404,
+        "n": 9332,
+        "nrmse": 0.000823864883122409,
+        "p95_abs_over_std": 0.0018479185119477594,
+        "reference_std": 0.28888723002800965,
+        "rmse": 0.00023800404400258263
+      },
+      "eigenvalues": {
+        "max_abs_over_std": 0.4140298883159975,
+        "n": 27996,
+        "nrmse": 0.15119882044013525,
+        "p95_abs_over_std": 0.25319202888137177,
+        "reference_std": 0.2044944747458566,
+        "rmse": 0.030919323368098543
+      },
+      "near_boundary_mean_error_over_std": 0.18947288644370816,
+      "near_boundary_n": 463,
+      "orientation": {
+        "axis_0": {
+          "bins": [
+            {
+              "gap_high": 0.13654764796103466,
+              "gap_low": 0.002251822228645329,
+              "median_angle_deg": 11.376676935566238,
+              "n": 2333,
+              "p95_angle_deg": 54.905060512839974
+            },
+            {
+              "gap_high": 0.19825659676992724,
+              "gap_low": 0.13654764796103466,
+              "median_angle_deg": 6.5386272701505295,
+              "n": 2333,
+              "p95_angle_deg": 18.915370607438767
+            },
+            {
+              "gap_high": 0.256393431669909,
+              "gap_low": 0.19825659676992724,
+              "median_angle_deg": 4.670499100752773,
+              "n": 2333,
+              "p95_angle_deg": 12.936805119307301
+            },
+            {
+              "gap_high": 0.6407664272047748,
+              "gap_low": 0.256393431669909,
+              "median_angle_deg": 4.2279338189074345,
+              "n": 2333,
+              "p95_angle_deg": 9.840080226457882
+            }
+          ],
+          "large_gap_median_angle_deg": 4.398885555879772,
+          "large_gap_n": 4666,
+          "large_gap_p95_angle_deg": 11.292571675384783
+        },
+        "axis_1": {
+          "bins": [
+            {
+              "gap_high": 0.09990648811680837,
+              "gap_low": 0.001509206965041865,
+              "median_angle_deg": 17.755479341095754,
+              "n": 2333,
+              "p95_angle_deg": 69.32920431525153
+            },
+            {
+              "gap_high": 0.1447614697330045,
+              "gap_low": 0.09990648811680837,
+              "median_angle_deg": 12.76502949022057,
+              "n": 2333,
+              "p95_angle_deg": 29.26584225923721
+            },
+            {
+              "gap_high": 0.18499707503760926,
+              "gap_low": 0.1447614697330045,
+              "median_angle_deg": 9.718794118737362,
+              "n": 2333,
+              "p95_angle_deg": 19.91689560872639
+            },
+            {
+              "gap_high": 0.3789685475286819,
+              "gap_low": 0.18499707503760926,
+              "median_angle_deg": 7.466185265636571,
+              "n": 2333,
+              "p95_angle_deg": 14.973316210436094
+            }
+          ],
+          "large_gap_median_angle_deg": 8.581698552901102,
+          "large_gap_n": 4666,
+          "large_gap_p95_angle_deg": 18.202271352995417
+        },
+        "axis_2": {
+          "bins": [
+            {
+              "gap_high": 0.14587824443359607,
+              "gap_low": 0.001509206965041865,
+              "median_angle_deg": 15.142583918794852,
+              "n": 2333,
+              "p95_angle_deg": 54.90459714639864
+            },
+            {
+              "gap_high": 0.20647467666982644,
+              "gap_low": 0.14587824443359607,
+              "median_angle_deg": 8.894293188866467,
+              "n": 2333,
+              "p95_angle_deg": 18.1776436040184
+            },
+            {
+              "gap_high": 0.29144412515004325,
+              "gap_low": 0.20647467666982644,
+              "median_angle_deg": 6.405840892437504,
+              "n": 2333,
+              "p95_angle_deg": 12.353252666288487
+            },
+            {
+              "gap_high": 0.6401658526931914,
+              "gap_low": 0.29144412515004325,
+              "median_angle_deg": 5.746915715789268,
+              "n": 2333,
+              "p95_angle_deg": 9.143744796273099
+            }
+          ],
+          "large_gap_median_angle_deg": 5.941326582347418,
+          "large_gap_n": 4666,
+          "large_gap_p95_angle_deg": 11.239123204829205
+        }
+      },
+      "passes": false,
+      "retained_boundary_n": 8869,
+      "retained_boundary_spearman": -0.08593397247602608,
+      "retained_mean_error_over_std": 0.13973439742269814,
+      "tensor": {
+        "max_abs_over_std": 0.585491076250192,
+        "n": 83988,
+        "nrmse": 0.2125982721660072,
+        "p95_abs_over_std": 0.40930495504087355,
+        "reference_std": 0.1296142988478433,
+        "rmse": 0.02755577598305999
+      },
+      "trace_max_abs_error": 1.6653345369377348e-15,
+      "worst_large_gap_median_angle_deg": 8.581698552901102,
+      "worst_large_gap_p95_angle_deg": 18.202271352995417
+    },
+    "h48_p12_a12": {
+      "boundary_pass": true,
+      "config": {
+        "apodization": 12,
+        "eligible": true,
+        "halo": 48,
+        "name": "h48_p12_a12",
+        "padding": 12
+      },
+      "density": {
+        "max_abs_over_std": 0.00013782507003200006,
+        "n": 9332,
+        "nrmse": 2.040725615788775e-05,
+        "p95_abs_over_std": 4.312191562378445e-05,
+        "reference_std": 0.28888723002800965,
+        "rmse": 5.895395703924235e-06
+      },
+      "eigenvalues": {
+        "max_abs_over_std": 0.28832573632670255,
+        "n": 27996,
+        "nrmse": 0.08430232611661337,
+        "p95_abs_over_std": 0.1378721861668027,
+        "reference_std": 0.2044944747458566,
+        "rmse": 0.01723935989907076
+      },
+      "near_boundary_mean_error_over_std": 0.10552639428208653,
+      "near_boundary_n": 463,
+      "orientation": {
+        "axis_0": {
+          "bins": [
+            {
+              "gap_high": 0.13654764796103466,
+              "gap_low": 0.002251822228645329,
+              "median_angle_deg": 5.860901986196474,
+              "n": 2333,
+              "p95_angle_deg": 25.057615285713997
+            },
+            {
+              "gap_high": 0.19825659676992724,
+              "gap_low": 0.13654764796103466,
+              "median_angle_deg": 3.347979494597914,
+              "n": 2333,
+              "p95_angle_deg": 8.842558006844113
+            },
+            {
+              "gap_high": 0.256393431669909,
+              "gap_low": 0.19825659676992724,
+              "median_angle_deg": 2.605953023864686,
+              "n": 2333,
+              "p95_angle_deg": 6.149108944593824
+            },
+            {
+              "gap_high": 0.6407664272047748,
+              "gap_low": 0.256393431669909,
+              "median_angle_deg": 2.18856040546805,
+              "n": 2333,
+              "p95_angle_deg": 4.764072719832276
+            }
+          ],
+          "large_gap_median_angle_deg": 2.350574753169595,
+          "large_gap_n": 4666,
+          "large_gap_p95_angle_deg": 5.611760761882741
+        },
+        "axis_1": {
+          "bins": [
+            {
+              "gap_high": 0.09990648811680837,
+              "gap_low": 0.001509206965041865,
+              "median_angle_deg": 8.951106115795714,
+              "n": 2333,
+              "p95_angle_deg": 43.06095514769952
+            },
+            {
+              "gap_high": 0.1447614697330045,
+              "gap_low": 0.09990648811680837,
+              "median_angle_deg": 6.519136766142578,
+              "n": 2333,
+              "p95_angle_deg": 13.112621233256986
+            },
+            {
+              "gap_high": 0.18499707503760926,
+              "gap_low": 0.1447614697330045,
+              "median_angle_deg": 5.049469873024076,
+              "n": 2333,
+              "p95_angle_deg": 9.700018839145056
+            },
+            {
+              "gap_high": 0.3789685475286819,
+              "gap_low": 0.18499707503760926,
+              "median_angle_deg": 3.8447899445012155,
+              "n": 2333,
+              "p95_angle_deg": 7.507819149712776
+            }
+          ],
+          "large_gap_median_angle_deg": 4.215017768993057,
+          "large_gap_n": 4666,
+          "large_gap_p95_angle_deg": 8.95878551357901
+        },
+        "axis_2": {
+          "bins": [
+            {
+              "gap_high": 0.14587824443359607,
+              "gap_low": 0.001509206965041865,
+              "median_angle_deg": 7.637122795403386,
+              "n": 2333,
+              "p95_angle_deg": 27.051710131073904
+            },
+            {
+              "gap_high": 0.20647467666982644,
+              "gap_low": 0.14587824443359607,
+              "median_angle_deg": 4.422106277168299,
+              "n": 2333,
+              "p95_angle_deg": 8.489509990354211
+            },
+            {
+              "gap_high": 0.29144412515004325,
+              "gap_low": 0.20647467666982644,
+              "median_angle_deg": 3.205909072827513,
+              "n": 2333,
+              "p95_angle_deg": 6.038205808849488
+            },
+            {
+              "gap_high": 0.6401658526931914,
+              "gap_low": 0.29144412515004325,
+              "median_angle_deg": 2.7984432862942112,
+              "n": 2333,
+              "p95_angle_deg": 4.34484237162864
+            }
+          ],
+          "large_gap_median_angle_deg": 2.92800340171269,
+          "large_gap_n": 4666,
+          "large_gap_p95_angle_deg": 5.480318730879397
+        }
+      },
+      "passes": false,
+      "retained_boundary_n": 8869,
+      "retained_boundary_spearman": -0.1498759208592145,
+      "retained_mean_error_over_std": 0.07873358611299858,
+      "tensor": {
+        "max_abs_over_std": 0.40966142398088196,
+        "n": 83988,
+        "nrmse": 0.11204567931995182,
+        "p95_abs_over_std": 0.2324360461695855,
+        "reference_std": 0.1296142988478433,
+        "rmse": 0.014522722163985853
+      },
+      "trace_max_abs_error": 1.6653345369377348e-15,
+      "worst_large_gap_median_angle_deg": 4.215017768993057,
+      "worst_large_gap_p95_angle_deg": 8.95878551357901
+    },
+    "h64_p16_a16": {
+      "boundary_pass": false,
+      "config": {
+        "apodization": 16,
+        "eligible": true,
+        "halo": 64,
+        "name": "h64_p16_a16",
+        "padding": 16
+      },
+      "density": {
+        "max_abs_over_std": 0.00014215789408989228,
+        "n": 9332,
+        "nrmse": 2.010225049130874e-05,
+        "p95_abs_over_std": 4.242298983825535e-05,
+        "reference_std": 0.28888723002800965,
+        "rmse": 5.807283461763378e-06
+      },
+      "eigenvalues": {
+        "max_abs_over_std": 0.18320138402843605,
+        "n": 27996,
+        "nrmse": 0.0502304206413174,
+        "p95_abs_over_std": 0.07456116578546622,
+        "reference_std": 0.2044944747458566,
+        "rmse": 0.010271843485309635
+      },
+      "near_boundary_mean_error_over_std": 0.053009541057738835,
+      "near_boundary_n": 463,
+      "orientation": {
+        "axis_0": {
+          "bins": [
+            {
+              "gap_high": 0.13654764796103466,
+              "gap_low": 0.002251822228645329,
+              "median_angle_deg": 2.2918862572398564,
+              "n": 2333,
+              "p95_angle_deg": 8.92999661968418
+            },
+            {
+              "gap_high": 0.19825659676992724,
+              "gap_low": 0.13654764796103466,
+              "median_angle_deg": 1.1367609197264739,
+              "n": 2333,
+              "p95_angle_deg": 3.147653811035397
+            },
+            {
+              "gap_high": 0.256393431669909,
+              "gap_low": 0.19825659676992724,
+              "median_angle_deg": 0.8516978767418042,
+              "n": 2333,
+              "p95_angle_deg": 2.2190518599485496
+            },
+            {
+              "gap_high": 0.6407664272047748,
+              "gap_low": 0.256393431669909,
+              "median_angle_deg": 0.7027524329956285,
+              "n": 2333,
+              "p95_angle_deg": 1.564982417382343
+            }
+          ],
+          "large_gap_median_angle_deg": 0.7443380833176039,
+          "large_gap_n": 4666,
+          "large_gap_p95_angle_deg": 1.9983818964148345
+        },
+        "axis_1": {
+          "bins": [
+            {
+              "gap_high": 0.09990648811680837,
+              "gap_low": 0.001509206965041865,
+              "median_angle_deg": 3.414651483683668,
+              "n": 2333,
+              "p95_angle_deg": 14.103567522413359
+            },
+            {
+              "gap_high": 0.1447614697330045,
+              "gap_low": 0.09990648811680837,
+              "median_angle_deg": 2.3519764727728365,
+              "n": 2333,
+              "p95_angle_deg": 5.040519056213457
+            },
+            {
+              "gap_high": 0.18499707503760926,
+              "gap_low": 0.1447614697330045,
+              "median_angle_deg": 1.831109617608935,
+              "n": 2333,
+              "p95_angle_deg": 3.7091333300438625
+            },
+            {
+              "gap_high": 0.3789685475286819,
+              "gap_low": 0.18499707503760926,
+              "median_angle_deg": 1.3240207958973145,
+              "n": 2333,
+              "p95_angle_deg": 2.962225427945479
+            }
+          ],
+          "large_gap_median_angle_deg": 1.4800845743338293,
+          "large_gap_n": 4666,
+          "large_gap_p95_angle_deg": 3.4178303630342812
+        },
+        "axis_2": {
+          "bins": [
+            {
+              "gap_high": 0.14587824443359607,
+              "gap_low": 0.001509206965041865,
+              "median_angle_deg": 2.9327347896814766,
+              "n": 2333,
+              "p95_angle_deg": 9.593363234771127
+            },
+            {
+              "gap_high": 0.20647467666982644,
+              "gap_low": 0.14587824443359607,
+              "median_angle_deg": 1.6415051844673831,
+              "n": 2333,
+              "p95_angle_deg": 3.466051318600224
+            },
+            {
+              "gap_high": 0.29144412515004325,
+              "gap_low": 0.20647467666982644,
+              "median_angle_deg": 1.1483881684968764,
+              "n": 2333,
+              "p95_angle_deg": 2.450576728113642
+            },
+            {
+              "gap_high": 0.6401658526931914,
+              "gap_low": 0.29144412515004325,
+              "median_angle_deg": 1.0601354962835805,
+              "n": 2333,
+              "p95_angle_deg": 1.7543941275297175
+            }
+          ],
+          "large_gap_median_angle_deg": 1.0758574828536331,
+          "large_gap_n": 4666,
+          "large_gap_p95_angle_deg": 2.2160097367259284
+        }
+      },
+      "passes": false,
+      "retained_boundary_n": 8869,
+      "retained_boundary_spearman": 0.26488095889230145,
+      "retained_mean_error_over_std": 0.04850410736794662,
+      "tensor": {
+        "max_abs_over_std": 0.2593104636747007,
+        "n": 83988,
+        "nrmse": 0.05526044616096959,
+        "p95_abs_over_std": 0.11060908170024254,
+        "reference_std": 0.1296142988478433,
+        "rmse": 0.007162543983173068
+      },
+      "trace_max_abs_error": 1.6653345369377348e-15,
+      "worst_large_gap_median_angle_deg": 1.4800845743338293,
+      "worst_large_gap_p95_angle_deg": 3.4178303630342812
+    },
+    "h72_p20_a20": {
+      "boundary_pass": true,
+      "config": {
+        "apodization": 20,
+        "eligible": true,
+        "halo": 72,
+        "name": "h72_p20_a20",
+        "padding": 20
+      },
+      "density": {
+        "max_abs_over_std": 0.00017732340363117821,
+        "n": 9332,
+        "nrmse": 2.0374847784241692e-05,
+        "p95_abs_over_std": 4.3586146772844325e-05,
+        "reference_std": 0.28888723002800965,
+        "rmse": 5.8860333386319125e-06
+      },
+      "eigenvalues": {
+        "max_abs_over_std": 0.06095917052035655,
+        "n": 27996,
+        "nrmse": 0.01770224407534432,
+        "p95_abs_over_std": 0.04096831311114863,
+        "reference_std": 0.2044944747458566,
+        "rmse": 0.003620011104010489
+      },
+      "near_boundary_mean_error_over_std": 0.025326710783577035,
+      "near_boundary_n": 463,
+      "orientation": {
+        "axis_0": {
+          "bins": [
+            {
+              "gap_high": 0.13654764796103466,
+              "gap_low": 0.002251822228645329,
+              "median_angle_deg": 1.1591878137069747,
+              "n": 2333,
+              "p95_angle_deg": 4.516770773375067
+            },
+            {
+              "gap_high": 0.19825659676992724,
+              "gap_low": 0.13654764796103466,
+              "median_angle_deg": 0.5724105311374006,
+              "n": 2333,
+              "p95_angle_deg": 1.5072119248499682
+            },
+            {
+              "gap_high": 0.256393431669909,
+              "gap_low": 0.19825659676992724,
+              "median_angle_deg": 0.4003783848638003,
+              "n": 2333,
+              "p95_angle_deg": 1.0567853637778326
+            },
+            {
+              "gap_high": 0.6407664272047748,
+              "gap_low": 0.256393431669909,
+              "median_angle_deg": 0.2862912373389206,
+              "n": 2333,
+              "p95_angle_deg": 0.717544125082396
+            }
+          ],
+          "large_gap_median_angle_deg": 0.3417774803446527,
+          "large_gap_n": 4666,
+          "large_gap_p95_angle_deg": 0.9376120166774241
+        },
+        "axis_1": {
+          "bins": [
+            {
+              "gap_high": 0.09990648811680837,
+              "gap_low": 0.001509206965041865,
+              "median_angle_deg": 1.7254118088183248,
+              "n": 2333,
+              "p95_angle_deg": 6.976203325529443
+            },
+            {
+              "gap_high": 0.1447614697330045,
+              "gap_low": 0.09990648811680837,
+              "median_angle_deg": 1.1697789300767205,
+              "n": 2333,
+              "p95_angle_deg": 2.7399602205687024
+            },
+            {
+              "gap_high": 0.18499707503760926,
+              "gap_low": 0.1447614697330045,
+              "median_angle_deg": 0.9115956796547213,
+              "n": 2333,
+              "p95_angle_deg": 2.013055629685029
+            },
+            {
+              "gap_high": 0.3789685475286819,
+              "gap_low": 0.18499707503760926,
+              "median_angle_deg": 0.6486089475897024,
+              "n": 2333,
+              "p95_angle_deg": 1.5312294092723213
+            }
+          ],
+          "large_gap_median_angle_deg": 0.7443359255194786,
+          "large_gap_n": 4666,
+          "large_gap_p95_angle_deg": 1.8169979365410498
+        },
+        "axis_2": {
+          "bins": [
+            {
+              "gap_high": 0.14587824443359607,
+              "gap_low": 0.001509206965041865,
+              "median_angle_deg": 1.525547873863916,
+              "n": 2333,
+              "p95_angle_deg": 5.198044492805003
+            },
+            {
+              "gap_high": 0.20647467666982644,
+              "gap_low": 0.14587824443359607,
+              "median_angle_deg": 0.8210323525771519,
+              "n": 2333,
+              "p95_angle_deg": 1.9628093126436847
+            },
+            {
+              "gap_high": 0.29144412515004325,
+              "gap_low": 0.20647467666982644,
+              "median_angle_deg": 0.5520530392915259,
+              "n": 2333,
+              "p95_angle_deg": 1.3703549927074863
+            },
+            {
+              "gap_high": 0.6401658526931914,
+              "gap_low": 0.29144412515004325,
+              "median_angle_deg": 0.5594293153224953,
+              "n": 2333,
+              "p95_angle_deg": 0.9683706013695539
+            }
+          ],
+          "large_gap_median_angle_deg": 0.5568903547363946,
+          "large_gap_n": 4666,
+          "large_gap_p95_angle_deg": 1.2508907810857033
+        }
+      },
+      "passes": true,
+      "retained_boundary_n": 8869,
+      "retained_boundary_spearman": -0.34155516340854025,
+      "retained_mean_error_over_std": 0.015788706759667377,
+      "tensor": {
+        "max_abs_over_std": 0.08074089823755973,
+        "n": 83988,
+        "nrmse": 0.022715699268882453,
+        "p95_abs_over_std": 0.04606869536547627,
+        "reference_std": 0.1296142988478433,
+        "rmse": 0.0029442794335746664
+      },
+      "trace_max_abs_error": 1.887379141862766e-15,
+      "worst_large_gap_median_angle_deg": 0.7443359255194786,
+      "worst_large_gap_p95_angle_deg": 1.8169979365410498
+    },
+    "h80_p16_a20_padding_control": {
+      "boundary_pass": false,
+      "config": {
+        "apodization": 20,
+        "eligible": false,
+        "halo": 80,
+        "name": "h80_p16_a20_padding_control",
+        "padding": 16
+      },
+      "density": {
+        "max_abs_over_std": 0.0,
+        "n": 9332,
+        "nrmse": 0.0,
+        "p95_abs_over_std": 0.0,
+        "reference_std": 0.28888723002800965,
+        "rmse": 0.0
+      },
+      "eigenvalues": {
+        "max_abs_over_std": 0.17717190121985543,
+        "n": 27996,
+        "nrmse": 0.10775255707924691,
+        "p95_abs_over_std": 0.11681883258784051,
+        "reference_std": 0.2044944747458566,
+        "rmse": 0.022034802562443532
+      },
+      "near_boundary_mean_error_over_std": 0.10054871442128857,
+      "near_boundary_n": 463,
+      "orientation": {
+        "axis_0": {
+          "bins": [
+            {
+              "gap_high": 0.13654764796103466,
+              "gap_low": 0.002251822228645329,
+              "median_angle_deg": 0.33119534176720355,
+              "n": 2333,
+              "p95_angle_deg": 1.1725603853167625
+            },
+            {
+              "gap_high": 0.19825659676992724,
+              "gap_low": 0.13654764796103466,
+              "median_angle_deg": 0.21804701020724232,
+              "n": 2333,
+              "p95_angle_deg": 0.4222507917506733
+            },
+            {
+              "gap_high": 0.256393431669909,
+              "gap_low": 0.19825659676992724,
+              "median_angle_deg": 0.172678455363999,
+              "n": 2333,
+              "p95_angle_deg": 0.2976004132777488
+            },
+            {
+              "gap_high": 0.6407664272047748,
+              "gap_low": 0.256393431669909,
+              "median_angle_deg": 0.1349397066413734,
+              "n": 2333,
+              "p95_angle_deg": 0.2308908707886121
+            }
+          ],
+          "large_gap_median_angle_deg": 0.149095176588478,
+          "large_gap_n": 4666,
+          "large_gap_p95_angle_deg": 0.2734793605173227
+        },
+        "axis_1": {
+          "bins": [
+            {
+              "gap_high": 0.09990648811680837,
+              "gap_low": 0.001509206965041865,
+              "median_angle_deg": 0.378294514585756,
+              "n": 2333,
+              "p95_angle_deg": 1.6249580458448367
+            },
+            {
+              "gap_high": 0.1447614697330045,
+              "gap_low": 0.09990648811680837,
+              "median_angle_deg": 0.2600942357673591,
+              "n": 2333,
+              "p95_angle_deg": 0.5778393019786429
+            },
+            {
+              "gap_high": 0.18499707503760926,
+              "gap_low": 0.1447614697330045,
+              "median_angle_deg": 0.22417136599276952,
+              "n": 2333,
+              "p95_angle_deg": 0.4079415436692022
+            },
+            {
+              "gap_high": 0.3789685475286819,
+              "gap_low": 0.18499707503760926,
+              "median_angle_deg": 0.18042949515178341,
+              "n": 2333,
+              "p95_angle_deg": 0.3193883694917074
+            }
+          ],
+          "large_gap_median_angle_deg": 0.19979822067060132,
+          "large_gap_n": 4666,
+          "large_gap_p95_angle_deg": 0.3679093041428333
+        },
+        "axis_2": {
+          "bins": [
+            {
+              "gap_high": 0.14587824443359607,
+              "gap_low": 0.001509206965041865,
+              "median_angle_deg": 0.21839703135791888,
+              "n": 2333,
+              "p95_angle_deg": 0.9822198504828317
+            },
+            {
+              "gap_high": 0.20647467666982644,
+              "gap_low": 0.14587824443359607,
+              "median_angle_deg": 0.14430940119939265,
+              "n": 2333,
+              "p95_angle_deg": 0.28238808025108597
+            },
+            {
+              "gap_high": 0.29144412515004325,
+              "gap_low": 0.20647467666982644,
+              "median_angle_deg": 0.12324194906150279,
+              "n": 2333,
+              "p95_angle_deg": 0.2432102987431122
+            },
+            {
+              "gap_high": 0.6401658526931914,
+              "gap_low": 0.29144412515004325,
+              "median_angle_deg": 0.08024071431329538,
+              "n": 2333,
+              "p95_angle_deg": 0.17987225579028804
+            }
+          ],
+          "large_gap_median_angle_deg": 0.10525850304301321,
+          "large_gap_n": 4666,
+          "large_gap_p95_angle_deg": 0.21125146576724801
+        }
+      },
+      "passes": false,
+      "retained_boundary_n": 8869,
+      "retained_boundary_spearman": 0.3921657942476389,
+      "retained_mean_error_over_std": 0.107676257801754,
+      "tensor": {
+        "max_abs_over_std": 0.28071906751110587,
+        "n": 83988,
+        "nrmse": 0.09822194834385277,
+        "p95_abs_over_std": 0.18351305172237842,
+        "reference_std": 0.1296142988478433,
+        "rmse": 0.01273096896605756
+      },
+      "trace_max_abs_error": 1.7763568394002505e-15,
+      "worst_large_gap_median_angle_deg": 0.19979822067060132,
+      "worst_large_gap_p95_angle_deg": 0.3679093041428333
+    },
+    "h80_p24_a16_apod_control": {
+      "boundary_pass": false,
+      "config": {
+        "apodization": 16,
+        "eligible": false,
+        "halo": 80,
+        "name": "h80_p24_a16_apod_control",
+        "padding": 24
+      },
+      "density": {
+        "max_abs_over_std": 0.0,
+        "n": 9332,
+        "nrmse": 0.0,
+        "p95_abs_over_std": 0.0,
+        "reference_std": 0.28888723002800965,
+        "rmse": 0.0
+      },
+      "eigenvalues": {
+        "max_abs_over_std": 0.057137119564504235,
+        "n": 27996,
+        "nrmse": 0.03702923638218921,
+        "p95_abs_over_std": 0.042704049958730776,
+        "reference_std": 0.2044944747458566,
+        "rmse": 0.0075722742442159464
+      },
+      "near_boundary_mean_error_over_std": 0.036013373281177145,
+      "near_boundary_n": 463,
+      "orientation": {
+        "axis_0": {
+          "bins": [
+            {
+              "gap_high": 0.13654764796103466,
+              "gap_low": 0.002251822228645329,
+              "median_angle_deg": 0.22498674148021275,
+              "n": 2333,
+              "p95_angle_deg": 0.9012711051469714
+            },
+            {
+              "gap_high": 0.19825659676992724,
+              "gap_low": 0.13654764796103466,
+              "median_angle_deg": 0.12156710652926504,
+              "n": 2333,
+              "p95_angle_deg": 0.29457320130275816
+            },
+            {
+              "gap_high": 0.256393431669909,
+              "gap_low": 0.19825659676992724,
+              "median_angle_deg": 0.08933364977158556,
+              "n": 2333,
+              "p95_angle_deg": 0.21227615902974775
+            },
+            {
+              "gap_high": 0.6407664272047748,
+              "gap_low": 0.256393431669909,
+              "median_angle_deg": 0.06668242773458813,
+              "n": 2333,
+              "p95_angle_deg": 0.13942307224241998
+            }
+          ],
+          "large_gap_median_angle_deg": 0.07600736257353166,
+          "large_gap_n": 4666,
+          "large_gap_p95_angle_deg": 0.1931003486772895
+        },
+        "axis_1": {
+          "bins": [
+            {
+              "gap_high": 0.09990648811680837,
+              "gap_low": 0.001509206965041865,
+              "median_angle_deg": 0.3534439854322414,
+              "n": 2333,
+              "p95_angle_deg": 1.5326966533870323
+            },
+            {
+              "gap_high": 0.1447614697330045,
+              "gap_low": 0.09990648811680837,
+              "median_angle_deg": 0.24559192774026242,
+              "n": 2333,
+              "p95_angle_deg": 0.6397842313368536
+            },
+            {
+              "gap_high": 0.18499707503760926,
+              "gap_low": 0.1447614697330045,
+              "median_angle_deg": 0.20953577319238906,
+              "n": 2333,
+              "p95_angle_deg": 0.4767695673732477
+            },
+            {
+              "gap_high": 0.3789685475286819,
+              "gap_low": 0.18499707503760926,
+              "median_angle_deg": 0.1501236928680262,
+              "n": 2333,
+              "p95_angle_deg": 0.35632486158570753
+            }
+          ],
+          "large_gap_median_angle_deg": 0.1703695408720806,
+          "large_gap_n": 4666,
+          "large_gap_p95_angle_deg": 0.4300745943130998
+        },
+        "axis_2": {
+          "bins": [
+            {
+              "gap_high": 0.14587824443359607,
+              "gap_low": 0.001509206965041865,
+              "median_angle_deg": 0.32726426843508855,
+              "n": 2333,
+              "p95_angle_deg": 1.200787502280238
+            },
+            {
+              "gap_high": 0.20647467666982644,
+              "gap_low": 0.14587824443359607,
+              "median_angle_deg": 0.16859759259947302,
+              "n": 2333,
+              "p95_angle_deg": 0.47310697704581595
+            },
+            {
+              "gap_high": 0.29144412515004325,
+              "gap_low": 0.20647467666982644,
+              "median_angle_deg": 0.11554889836806495,
+              "n": 2333,
+              "p95_angle_deg": 0.3448193158186511
+            },
+            {
+              "gap_high": 0.6401658526931914,
+              "gap_low": 0.29144412515004325,
+              "median_angle_deg": 0.12606183244401398,
+              "n": 2333,
+              "p95_angle_deg": 0.23700012611506066
+            }
+          ],
+          "large_gap_median_angle_deg": 0.12380537210472689,
+          "large_gap_n": 4666,
+          "large_gap_p95_angle_deg": 0.3166951339823694
+        }
+      },
+      "passes": false,
+      "retained_boundary_n": 8869,
+      "retained_boundary_spearman": 0.4937809998737992,
+      "retained_mean_error_over_std": 0.037040633144114384,
+      "tensor": {
+        "max_abs_over_std": 0.09058400683310552,
+        "n": 83988,
+        "nrmse": 0.03391956042658371,
+        "p95_abs_over_std": 0.0669772801379626,
+        "reference_std": 0.1296142988478433,
+        "rmse": 0.0043964600419187
+      },
+      "trace_max_abs_error": 1.7763568394002505e-15,
+      "worst_large_gap_median_angle_deg": 0.1703695408720806,
+      "worst_large_gap_p95_angle_deg": 0.4300745943130998
+    }
+  },
+  "target_labels_loaded": false,
+  "wall_seconds_total": 87.79613971710205
+}

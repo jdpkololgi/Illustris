@@ -1,0 +1,49 @@
+{
+  "schema": "graphweb.p6.field_patch.v2",
+  "status": "UNET_PATCH_READY",
+  "canonical_field_root": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint",
+  "adapter_root": "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter",
+  "selection_overlay": "fullcap_selection_v1/selection_manifest.json",
+  "trained_convergence": {
+    "report": "trained_convergence_v1/trained_convergence_report.json",
+    "checkpoint_role": "frozen trained T2 structural canary; no target labels or accuracy selection",
+    "cell_mpc": 5.0,
+    "pooling_phase_alignment_voxels": 8,
+    "selection_rule": "smallest passing halo for which every larger non-reference halo also passes",
+    "selected_context_halo_voxels": 24,
+    "selected_context_halo_mpc": 120.0,
+    "reference_context_halo_voxels": 80,
+    "normalization": "per_voxel_channel_layer_norm",
+    "forbidden_normalization": [
+      "GroupNorm over spatial axes",
+      "InstanceNorm over spatial axes",
+      "patch-local input normalization"
+    ],
+    "gates": {
+      "prediction_nrmse_max": 0.02,
+      "latent_nrmse_max": 0.02,
+      "prediction_p95_abs_over_std_max": 0.08,
+      "worst_core_prediction_nrmse_max": 0.04,
+      "subdivision_prediction_nrmse_max": 0.02,
+      "subdivision_prediction_p95_abs_over_std_max": 0.08,
+      "retained_boundary_abs_spearman_max": 0.2
+    },
+    "observed_selected_metrics": {
+      "prediction_nrmse": 0.0015452162842985553,
+      "latent_nrmse": 0.0038684244327465245,
+      "worst_core_prediction_nrmse": 0.0030053714125749336,
+      "subdivision_prediction_nrmse": 0.0016580455350663568,
+      "subdivision_prediction_p95_abs_over_std": 0.0035531335476765504,
+      "retained_boundary_spearman": 0.20321847693404368,
+      "boundary_pass_reason": "prediction NRMSE is below the pre-registered trivial-effect threshold of 0.002"
+    }
+  },
+  "core_contract": {
+    "ownership": "P4 authoritative physical core galaxies",
+    "context": "immutable P3 cap-lattice view",
+    "subdivision": "global-lattice phase locked",
+    "normalizer_fit": "rotation training cores only; pooled NGC and SGC",
+    "targets_loaded_for_readiness": false
+  },
+  "release_rule": "The final U-PATCH checkpoint must use patch-safe normalization and rerun this suite."
+}

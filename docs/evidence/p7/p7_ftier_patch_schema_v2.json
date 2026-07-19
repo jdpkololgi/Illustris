@@ -1,0 +1,56 @@
+{
+  "schema": "graphweb.p7.ftier_patch.v2",
+  "status": "FTIER_PATCH_READY",
+  "composition_root": "/pscratch/sd/d/dkololgi/abacus/p7_ftier_patch_adapter",
+  "trained_convergence": {
+    "report": "trained_convergence_v1/trained_convergence_report.json",
+    "canary_role": "trained learned-field spectrum plus nonlocal FFT; P5 separately proves graph context for arbitrary weights",
+    "cell_mpc": 5.0,
+    "rsmooth_mpc": 10.345846881466155,
+    "selected": {
+      "field_context_halo_voxels": 72,
+      "field_context_halo_mpc": 360.0,
+      "fft_zero_padding_voxels": 20,
+      "fft_zero_padding_mpc": 100.0,
+      "cosine_apodization_width_voxels": 20,
+      "cosine_apodization_width_mpc": 100.0,
+      "central_output": "P4 authoritative core"
+    },
+    "reference": {
+      "field_context_halo_voxels": 80,
+      "fft_zero_padding_voxels": 24,
+      "cosine_apodization_width_voxels": 20
+    },
+    "gates": {
+      "density_nrmse_max": 0.02,
+      "tensor_nrmse_max": 0.03,
+      "eigenvalue_nrmse_max": 0.03,
+      "eigenvalue_p95_abs_over_std_max": 0.08,
+      "large_eigengap_median_angle_deg_max": 5.0,
+      "large_eigengap_p95_angle_deg_max": 15.0,
+      "trace_max_abs_error": 2e-10,
+      "retained_support_distance_mpc": 20.69169376293231,
+      "boundary_abs_spearman_max": 0.2,
+      "boundary_trivial_retained_mean_error_over_std_max": 0.02
+    },
+    "observed_selected_metrics": {
+      "tensor_nrmse": 0.022715699268882453,
+      "eigenvalue_nrmse": 0.01770224407534432,
+      "eigenvalue_p95_abs_over_std": 0.04096831311114863,
+      "worst_large_eigengap_median_angle_deg": 0.7443359255194786,
+      "worst_large_eigengap_p95_angle_deg": 1.8169979365410498,
+      "retained_boundary_n": 8869,
+      "near_boundary_n": 463,
+      "retained_boundary_spearman": -0.34155516340854025,
+      "retained_mean_error_over_std": 0.015788706759667377,
+      "near_boundary_mean_error_over_std": 0.025326710783577035,
+      "boundary_pass_reason": "retained mean error is below the pre-registered 0.02 trivial-effect threshold; retain a near-boundary quality flag"
+    }
+  },
+  "orientation_policy": "Report orientation reliability conditional on the relevant eigengap; nearly degenerate axes are not a model failure.",
+  "resource_probe": {
+    "suite_peak_cuda_bytes": 5242841088,
+    "suite_wall_seconds": 75.01375532150269
+  },
+  "release_rule": "The final F-PATCH checkpoint must repeat the complete decoder and FFT convergence suite before tensor/eigenvector release."
+}

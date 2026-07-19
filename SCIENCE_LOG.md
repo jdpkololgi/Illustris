@@ -1,5 +1,84 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-19 — [science/code] P6/P7 adapter convergence complete: patch-safe U-Net normalization and nonlocal FFT geometry frozen
+
+The remaining P6 and P7 deployment gates were run on an interactive A100 allocation
+without loading tidal targets. Patch geometry was selected entirely from structural
+agreement with larger-context references; no R-squared score or target label was used.
+The suite covers both Galactic caps and all four redshift shells for P6, and both caps
+plus the lowest/highest shells for the more expensive P7 FFT tests.
+
+The first trained P6 canary exposed a critical hidden dependency. The historical T2
+U-Net uses PyTorch `GroupNorm`, whose statistics include every spatial position in the
+current patch. Core predictions therefore changed with patch extent even after
+convolutional context had converged. This is incompatible with a decomposition-invariant
+VAC. Thresholds were not relaxed. The structural canary was converted to per-voxel
+channel LayerNorm while retaining its learned affine weights, and the P8 contract now
+forbids spatial GroupNorm, spatial InstanceNorm, and patch-local input normalization.
+The final U-PATCH model must train from scratch with patch-safe normalization.
+
+The P6 selection rule was strengthened after audit: freeze the smallest halo whose
+entire larger-context tail also passes, not the first isolated passing point. The
+selected field halo is 24 voxels = 120 Mpc, compared with an 80-voxel reference, with
+an 8-voxel global-lattice phase lock for strided pooling. At the selected halo:
+
+- pooled galaxy-prediction NRMSE = 0.001545;
+- latent-core NRMSE = 0.003868;
+- worst-core prediction NRMSE = 0.003005;
+- parent-versus-child subdivision NRMSE = 0.001658;
+- subdivision p95 absolute error / reference standard deviation = 0.003553.
+
+The retained boundary Spearman coefficient is 0.203, but the pre-registered
+trivial-effect branch passes because prediction NRMSE is below 0.002. P6 is therefore
+adapter-complete and `UNET_PATCH_READY` is written. The final trained checkpoint must
+repeat the suite before release.
+
+P7 then propagated the patch-safe learned latent field through the fixed FFT tidal
+operator. P5 already proves exact graph-context parity independently of encoder
+weights; no historical full-range F-tier checkpoint exists, so this is a learned-field
+spectral/numerical canary rather than an F-tier accuracy claim. A 64-voxel field halo
+failed despite converged learned density: tensor/eigenvalue NRMSE = 0.0553/0.0502.
+One-factor controls at fixed 80-voxel context show that both nonlocal choices matter:
+16 rather than 24 padding voxels gives 0.0982/0.1078, and 16 rather than 20 apodization
+voxels gives 0.0339/0.0370.
+
+The frozen P7 adapter configuration is a 72-voxel = 360 Mpc learned-field halo,
+20-voxel = 100 Mpc zero padding, and 20-voxel = 100 Mpc cosine apodization, scored on
+the P4 authoritative core. The reference is halo 80 / padding 24 / apodization 20.
+The selected configuration gives tensor NRMSE 0.02272, eigenvalue NRMSE 0.01770,
+eigenvalue p95/reference-standard-deviation 0.04097, and trace error 1.9e-15. For the
+large-eigengap half of every principal axis, the worst median/p95 orientation changes
+are 0.744/1.817 degrees. Small-gap axes degrade as expected and require an eigengap
+quality field in any orientation product.
+
+The survey-support boundary audit retains galaxies beyond 2 smoothing lengths =
+20.69 Mpc. There are 8,869 retained and 463 near-boundary galaxies. A residual trend
+remains within the retained sample (Spearman = -0.342), but its mean eigenvalue change
+is 0.0158 of the reference standard deviation and passes the pre-registered 0.02
+trivial-effect branch; the near-boundary mean is 0.0253. This is recorded as a small
+but non-zero boundary dependence, so near-support rows require a quality flag.
+
+`FTIER_PATCH_READY` now certifies the graph/field/FFT adapter and frozen numerical
+geometry. It does not certify final F-tier science performance. The final trained
+F-PATCH checkpoint must rerun the complete decoder/FFT/eigenvector convergence suite
+before tensor or eigenvector release.
+
+Runtime artifacts:
+
+- `/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/trained_convergence_v1/trained_convergence_report.json`
+- `/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/trained_convergence_v1/UNET_PATCH_READY`
+- `/pscratch/sd/d/dkololgi/abacus/p7_ftier_patch_adapter/trained_convergence_v1/trained_convergence_report.json`
+- `/pscratch/sd/d/dkololgi/abacus/p7_ftier_patch_adapter/trained_convergence_v1/FTIER_PATCH_READY`
+
+The executable gate is
+`workflows/abacus_tweb/p6_p7_validate_model_convergence.py`; patch extraction gained
+global-lattice alignment, and the tidal operator gained explicit zero padding. The
+implementation commits are `5351048`, `7ff551b`, `b554fdc`, and `b959df6`; the
+authoritative reports bind to `b959df6`. Compact schemas, reports, and markers are
+tracked under
+`docs/evidence/p6/` and `docs/evidence/p7/`.
+
+
 ### 2026-07-19 — [science/code] P6 full-cap selection refit passes; inherited P7 blocker closed
 
 The wedge-derived P3 `ntilde` channels are now superseded at model-read time by a
