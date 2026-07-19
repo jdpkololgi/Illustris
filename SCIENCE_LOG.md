@@ -1,5 +1,63 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-19 — [code] P5 INTEGRITY AUDIT (adversarial, Claude Code): parity is SOUND; four pre-registration holes found — H1 (strict-hop mask starves/undefines the sparsest shell) is CRITICAL and must be decided BEFORE P8
+
+**Verified sound (independently reproduced, not just re-read):**
+1. **Parity is real and exact.** Embedding/prediction/patch-order diffs = 0.0; subdivision 2.38e-7
+   (float32 resummation, gate 5e-5); boundary-error slope 0. Crucially the P1a parity runs through the
+   SAME incident-CSR/assemble_patch code as the production adapter (p5_validate imports from
+   p5_build) — the assembly path is what was tested, not a bespoke twin.
+2. **The 2-hops-per-pass preflight discovery is correct and important.** Receiver-normalised attention
+   + sent-edge aggregation doubles dependency depth; exact parity with 4-hop context (and failure at
+   2-hop, 1.2e-2) is the proof. Caught before training — this would otherwise have produced silent
+   context truncation and unexplained boundary artifacts in every patch model.
+3. **Exact parity with finite context also PROVES no global-block dependency** in the encoder config.
+4. **Feature identity**: my independent 4-row fancy-index check across the full 9.5M range = 0.0.
+5. **Strict-mask fractions reproduce exactly** from graph_support_active.npz: safe-2hop 62.08%,
+   safe-4hop 29.30%; per shell 4-hop = 34.0/28.5/10.7/**0.17%** — the high-z shell keeps
+   **106 of 62,243** galaxies. (First check with P4's radius-physical flags gave 40%/43% — those are
+   the older approximate flags; the exact union-hop arrays are the operative ones. Both now stated.)
+
+**HOLES (all pre-registration decisions, none code defects; loss_mask is caller-supplied so nothing
+is irreversibly baked):**
+
+- **H1 — CRITICAL: the strict-hop mask collides with the primary metric AND the data-limitation
+  diagnosis.** The P5 schema declares loss = authoritative ∩ strict-hop; plan P8.3 mandates scoring
+  ALL authoritative validation cores in all four shells. Under the current attention architecture
+  (4-hop), strict TRAINING loss leaves the sparsest shell essentially UNSUPERVISED (0.17%) — the one
+  shell three independent lines showed is data-limited — and strict SCORING makes macro R² undefined
+  there. Their own smoke record (core 18730: 137 core nodes, 2 strict) shows the mask starving
+  exactly where data starves. **Root cause: hop-strictness is pathologically conservative in sparse
+  regions because hops there are physically LONG** — median hops-to-other-fold at high-z is 2, yet
+  **87.8% of high-z galaxies are >10.4 Mpc (one smoothing length) from any fold boundary** (76.6% at
+  >2 lengths). Labels correlate over the smoothing length, not over graph hops.
+  **RECOMMENDATION (register before P8):** (a) TRAIN loss on ALL authoritative cores — cross-fold
+  context is feature exposure, not label leakage; (b) PRIMARY scoring on all authoritative val cores
+  per plan P8.3; (c) leakage-sensitive robustness cut = PHYSICAL margin (>10.4 / >20.8 Mpc), which is
+  architecture-independent and retains the high-z shell; keep hop-strict subsets as a reported
+  diagnostic, not the gate.
+- **H2 — architecture fork must be pre-registered.** Attention (2 passes = 4 hops, 29% strict) vs
+  receiver-only (per-pass hops, 62% strict) is now a real design fork. Whichever is THE P8 G-PATCH
+  must be fixed before training; switching after seeing results would be post-hoc. Note the
+  receiver-only variant is also an architecture change vs the R0 lineage — attribution of any gain
+  needs the plan's matched-control language.
+- **H3 — feature-scaling contract is incomplete.** The frozen contract covers the TARGET scaler only.
+  The historical 8-feature pipeline = per-graph SI medians + box-cox + ntilde; "per-graph" has no
+  defined meaning in the patch world (per-patch medians would break parity/patch-size invariance;
+  parity used a neutral standardisation). Register: SI medians per CAP computed on TRAINING-FOLD
+  nodes only, frozen, applied everywhere (deployment-consistent); box-cox fit on training cores.
+- **H4 — minor:** ntilde_spline_v1 was frozen on wedge data; verify/refit for full NGC+SGC (SGC
+  selection may differ) on training folds only.
+- **H5 — minor, cheap:** parity ran at latent 8 / 2-pass / 16 cores on CPU. Add one production-shape
+  GPU parity point (real ~20k-node patch, latent 80, XLA GPU kernels) vs the P1a full-graph
+  reference; expect small float diffs — measure rather than assume.
+
+VERDICT: P5's engineering integrity is high — the parity gate does what it claims, and the preflight
+correction is the kind of catch that saves the programme weeks. The audit findings are all
+protocol-decision gaps upstream of P8, with H1 the one that would quietly reproduce the old failure
+mode (an under-supervised, unscoreable sparse shell) if trained as-schema'd. Decide H1-H3 in the
+plan before any P8 run starts.
+
 ### 2026-07-19 — [science/code] P5 COMPLETE: canonical global-graph patches reproduce full-graph computation
 
 P5 is complete and `GRAPH_PATCH_READY` has been written. The adapter is an
