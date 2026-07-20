@@ -12,6 +12,7 @@ import argparse
 import copy
 import json
 from pathlib import Path
+import subprocess
 import sys
 import time
 
@@ -63,6 +64,17 @@ def torch_load(path: Path, device: str) -> dict:
         return torch.load(path, map_location=device)
 
 
+def git_revision() -> str:
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=REPO_ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return result.stdout.strip()
+
+
 def validation_losses(
     predicted_scaled: np.ndarray,
     parent_node_id: np.ndarray,
@@ -105,6 +117,7 @@ def checkpoint_payload(
 ) -> dict:
     payload = {
         "schema_version": 1,
+        "git_revision": args.git_revision,
         "model": args.model,
         "rotation": args.rotation,
         "seed": args.seed,
@@ -179,6 +192,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    args.git_revision = git_revision()
     if args.device.startswith("cuda") and not torch.cuda.is_available():
         raise RuntimeError("P8 recovery training requires a CUDA interactive allocation")
     torch.manual_seed(args.seed)
@@ -278,6 +292,11 @@ def main() -> None:
                 raise RuntimeError(
                     f"resume {field} mismatch: {state[field]} != {expected}"
                 )
+        if state.get("git_revision") not in (None, args.git_revision):
+            raise RuntimeError(
+                "resume code revision mismatch: "
+                f"{state['git_revision']} != {args.git_revision}"
+            )
         model.load_state_dict(state["model_state"])
         optimizer.load_state_dict(state["optimizer_state"])
         scheduler.load_state_dict(state["scheduler_state"])
@@ -312,6 +331,7 @@ def main() -> None:
     run_manifest = {
         "schema_version": 1,
         "stage": "P8 exposure-aware recovery",
+        "git_revision": args.git_revision,
         "model": args.model,
         "rotation": args.rotation,
         "seed": args.seed,
@@ -323,6 +343,10 @@ def main() -> None:
         "patience": args.patience,
         "min_delta": args.min_delta,
         "mean_core_weight": mean_core_weight,
+        "sampler": (
+            "deterministic probability-proportional-to-core-weight permutation; "
+            "without replacement; 100% eligible cores per completed epoch"
+        ),
         "objective": "complete-core epoch; sum(w_i mse_i)/mean(training core weight)",
         "canary": args.canary,
         "resume": args.resume,
