@@ -1,5 +1,24 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-20 — [science/code] U-PATCH one-core overfit probe passes: short-screen tail compression is not structural
+
+The pre-registered U-PATCH capacity diagnostic was run on rotation-0 training core
+15211 (204 authoritative shell-3 galaxies). With the frozen patch geometry,
+selection channels, normalization, interpolation head, and architecture, 500 updates
+on this one core reduced scaled-increment MSE from 1.16995 to 0.001726 (ratio 0.00148).
+The final eigenvalue R2 values are 0.99913/0.99776/0.99765. Most decisively, the true
+lambda1 range `[-0.4650, 0.8457]` is recovered as `[-0.4643, 0.8450]`.
+
+This is a capacity/optimization diagnostic, not transfer evidence. It rules out a hard
+output clamp and shows that the registered U-PATCH can represent the missing tails when
+given sufficient exposure. The short-screen under-dispersion is therefore consistent
+with inadequate optimization and data exposure, although only complete-epoch blocked
+validation can show whether the expanded range generalises rather than memorises.
+
+Artifacts:
+`/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/probes/unet_rotation_0/core_15211_seed_42/`
+(`probe_summary.json`, `loss_trace.jsonl`, final predictions, and `PROBE_COMPLETE`).
+
 ### 2026-07-20 — [code] P8 recovery trainer frozen; rotations clarified; interactive GPU canaries next
 
 The P8 recovery implementation now exists separately from the immutable 2,000-step smoke

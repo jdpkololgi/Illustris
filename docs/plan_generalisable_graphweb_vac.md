@@ -1258,9 +1258,11 @@ Progress checklist:
 - [x] Unit-test complete/no-repeat epoch exposure, weighted subdivision invariance,
   partial-epoch accumulation/resume validation, and the epoch-5/patience-3/min-delta
   rule in `tests/phase4/test_p8_epoch_training.py`.
-- [ ] Run the registered U-PATCH one-core overfit diagnostic with
+- [x] Run the registered U-PATCH one-core overfit diagnostic with
   `workflows/abacus_tweb/p8_probe_unet_overfit.py` and determine whether its output
-  range expands under deliberate memorisation.
+  range expands under deliberate memorisation. Core 15211 (204 shell-3 galaxies)
+  reaches scaled MSE 0.00173, lambda1 R2 0.9991, and recovers the full truth range;
+  artifacts are under `/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/probes/`.
 - [ ] Run one complete rotation-0 canary epoch for G-PATCH and U-PATCH; verify 100%
   unique core coverage, all-shell weighted loss accounting, full-fold validation,
   allocation-interruption resume, and persistent loss curves.
