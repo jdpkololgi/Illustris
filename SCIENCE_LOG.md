@@ -1,5 +1,42 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-20 — [code] LIVE recovery-run evaluation (Claude Code): the first defensible generalisation signal — with its scope stated precisely
+
+Read the in-flight rotation-0 recovery histories directly (fig8_recovery_learning_curves.png,
+figures/p8_smoke_eval/). Numbers at time of writing:
+
+- **G-PATCH** epochs 1-4 macro: 0.3215 -> 0.3260 -> 0.3654 -> **0.4006** (still rising; already at
+  the short-screen best). Per-shell @4: **0.427 / 0.440 / 0.414 / 0.321** — near-FLAT across shells,
+  sparse shell rising with the rest.
+- **U-PATCH** epochs 1-6 macro: 0.094 -> **-0.150** -> 0.056 -> 0.190 -> 0.286 -> **0.355** (epoch-2
+  instability, shell-1 R² -0.82, then steep recovery ~+0.07/epoch). Sparse shell stable 0.26-0.30
+  from epoch 1.
+
+**Why this IS a generalisation signal (four grounds):**
+1. The right metric is rising with exposure: blocked-fold validation (disjoint super-blocks, verified
+   hold-out incl. deep-interior check) climbs as training exposure grows. Not the interpolation
+   signature.
+2. The causal shape is right: windowed TRAIN loss is roughly flat/noisy while VAL climbs strongly —
+   gains come from broader exposure (each epoch = all 10,351 cores once), not from grinding loss on a
+   memorised subset. This is the OPPOSITE of the leak-audit signature (train down, val up).
+3. G's per-shell profile is flat — no density-regime trade-off. Contrast CIC (0.56/0.57/0.44/-0.82)
+   and every dense-wedge model. Rising-tide learning is what "learned the local map" looks like.
+4. Independent supports: U overfit probe (tails recoverable, R²=0.999, exact range match) closed the
+   structural question; canary accounting (10,351/10,351 cores, zero repeats, all rows) closed the
+   exposure question.
+
+**Why it is NOT yet the claim we need:** (a) not converged, no early stop reached, single seed,
+rotation 0 only; (b) SAME-PHASE spatial transfer — shared long-wavelength modes; P10 fresh-phase
+remains the only blind gate; (c) the classical adoption gate is NOT met: CIC first-three-shell 0.520
+vs G epoch-4 0.427 — G must close ~0.09 in supported shells (or the registered context-growth /
+residual-hybrid tests must show the gap is context, not encoder); the sparse shell (G 0.321 vs CIC
+-0.82) already favours learned decisively; (d) U's epoch-2 instability flags LR/normalisation
+sensitivity — recovered, but a second seed should confirm it is benign.
+
+WATCH: whether G plateaus above the frozen baselines with first-three approaching CIC; early-stop
+rules activate from epoch 5 (patience 3, min delta 0.005). Curves + per-shell now plottable at any
+moment from epoch_history.jsonl / loss_trace.jsonl (fig8 script).
+
 ### 2026-07-20 — [code] U-PATCH rotation-0 epoch canary passes; scientific 20-epoch-schedule run launched
 
 The exposure-aware U-PATCH canary completed on interactive allocation 56202186. It
