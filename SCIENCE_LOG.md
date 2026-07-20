@@ -1,5 +1,22 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-20 — [code] U-PATCH rotation-0 epoch canary passes; scientific 20-epoch-schedule run launched
+
+The exposure-aware U-PATCH canary completed on interactive allocation 56202186. It
+visited exactly 10,351/10,351 eligible training cores once, with zero repeats, and
+accounted for all 3,023,524 authoritative rows: 1,668,208 / 998,471 / 319,511 / 37,334
+across the four shells. Weighted loss numerators/denominators, 415 windowed trace
+records, full-fold validation predictions, report, atomic checkpoint, and
+`CANARY_COMPLETE` are present under
+`/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/canary_v1/unet/rotation_0/seed_42/`.
+
+The canary macro-R2(lambda1) is 0.1646 (shells 0.106/0.222/0.098/0.233). This is not
+interpreted as a model score: the canary intentionally uses a one-epoch cosine schedule
+that reaches zero learning rate and exists to validate exposure/accounting/validation
+plumbing. The scientific U-PATCH rotation-0 run has now started under `recovery_v1`
+with a 20-epoch schedule, minimum 5 epochs, patience 3, and min delta 0.005. It is
+checkpoint-resumable across interactive allocation expiry.
+
 ### 2026-07-20 — [science/code] U-PATCH one-core overfit probe passes: short-screen tail compression is not structural
 
 The pre-registered U-PATCH capacity diagnostic was run on rotation-0 training core
