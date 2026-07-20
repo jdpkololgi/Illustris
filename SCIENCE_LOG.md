@@ -1,5 +1,34 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-20 — [code] Recovery VISUALS + both registered bars crossed by U-PATCH (runs STILL IN FLIGHT, G ep14 / U ep18 of 20)
+
+Figures fig10 (lambda1 short-screen vs recovery), fig11 (lambda2/3), fig12 (T-web classes) from the
+saved best checkpoints (plot_p8_recovery_visuals.py). Runs were NOT complete when plotted — jobs
+56224585/86 still running; these are best-so-far checkpoints.
+
+**Best checkpoints:** G-PATCH epoch 14 macro **0.4668** (first-three 0.5078); U-PATCH epoch 18 macro
+**0.4871** (first-three **0.5395**), still rising.
+
+**Both registered bars are now crossed by U-PATCH:**
+- promotion gate (frozen R0 0.440 + 0.03 = 0.470): U 0.4871 **PASS** (G 0.4668, marginal fail);
+- classical adoption (no macro-only win): U first-three **0.5395 > CIC 0.520**, i.e. it leads in the
+  tracer-SUPPORTED shells, while also holding the sparse shell (0.330 vs CIC -0.76). This is a
+  genuine win by the plan's own rule, not a macro artifact.
+
+**Visual/class evidence (slab, same SB467 as before):**
+- lambda1 slab R2: G 0.595 -> **0.633**; U 0.524 -> **0.712** (U now exceeds CIC's 0.658).
+- Class occupancy vs TRUE 38/41/18/3%: U-PATCH recovery **30/48/19/3%** (acc 73%) — the knot fraction
+  is now CORRECT (3% vs 3%), where every short-screen model had 0-1%. G recovery 26/51/19/3% (68%).
+  CIC remains 18/63/19/0% (68%).
+- **Knot recall transformed**: U 58% at 62% precision and G 59% at 58% (short screens: 7% and 20%;
+  CIC 11%). Void recall U 69%/89%. The amplitude-compression -> class-occupancy bias identified in
+  fig6 is substantially repaired by exposure alone, with no loss/target change.
+
+Caveats unchanged and binding: mid-flight, single seed, rotation 0 only, same phase (ph000). Nothing
+is promoted until runs finish, early stopping resolves, seeds/rotations replicate, and P10 fresh-phase
+blind testing is done. But this is the first time in the programme that a learned model has beaten the
+classical estimator where classical is well-supported.
+
 ### 2026-07-20 — [code] Recovery curves plotted (runs still IN FLIGHT): U-PATCH overtakes G-PATCH, passes frozen R0, and reaches the classical supported-shell bar
 
 fig9_recovery_curves.png (workflows/abacus_tweb/plot_p8_recovery_curves.py; reads live histories).
