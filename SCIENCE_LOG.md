@@ -1,5 +1,40 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-20 — [code] CORRECTION (JDPK challenge upheld in part): "every model before P4 lacked this property" was FALSE — R0 already showed val-improves-on-unseen under the July-14 spatial holdout; comparator numbers untangled
+
+JDPK challenged the previous entry's closing framing as too strong. Adjudication:
+
+**WRONG in my framing:** R0/A1 (July 14) were TRAINED under a spatial holdout and reached held-out
+macro 0.440 / pooled 0.504 (P0-frozen). The property "validation improves on unseen volumes" was
+therefore NOT new at P8 — it existed in the R0 lineage. The correct narrower claim: the blocked-patch
+protocol is the first to show this on the FULL NGC+SGC manifold with matched candidates, exposure
+accounting, and verified fold geometry — an upgrade in rigour and scope, not the first appearance of
+generalisation.
+
+**COMPARATOR NUMBERS (to prevent the next apples-to-oranges):**
+- Frozen-transfer tests (dense wedge -> RA200-240): GraphNet 0.421 POOLED on a SINGLE z0.2-0.3 shell.
+  The like-for-like G-PATCH numbers are its z0.15-0.25/0.25-0.35 shells: 0.440/0.440 at epoch 5 —
+  at/above par ALREADY, on blocked validation, not a friendly dense wedge.
+- R0 frozen baseline: macro 0.440 (four shells, old gutter-filtered wedge rows). G-PATCH rotation-0
+  is at 0.4059 after 5 epochs, still climbing, on a different and in several ways harder scoring set
+  (full caps, no gutter filtering, all-authoritative). Behind by ~0.03 TODAY, mid-flight; the plan's
+  promotion gate (+0.03 over the matched frozen baseline) is the arbiter and has NOT been met.
+- Classical: G leads the registered primary metric (macro 0.406 vs CIC 0.185) but TRAILS the
+  supported shells (0.43-0.44 vs 0.52-0.57); per the plan's own no-macro-only-win rule this does NOT
+  count as beating classical. JDPK's "not even beaten the classical method yet" is correct in the
+  sense the plan says matters.
+
+**On R²=0.8 as a reference point:** that number was the random-split artifact and should not creep
+back as an implicit bar. All honest evidence (DTFE floor ~0.55, three independent data-limitation
+lines, best honest pooled ~0.55) says ~0.5-0.55 is the current within-phase ceiling at BGS sparsity.
+The registered bars are: (1) +0.03 over the frozen R0 baseline on matched scoring, (2) beat/tie the
+best classical without macro-only wins, (3) fresh-phase blind (P10). If the science requires
+0.8-grade per-galaxy precision, the route on the evidence is data volume (phases/footprint) and a
+calibrated posterior product — not encoder iteration on ph000.
+
+Latest live: G epoch 5 macro 0.4059 (0.440/0.440/0.407/0.337); U epoch 6 macro 0.3553
+(0.365/0.400/0.355/0.301).
+
 ### 2026-07-20 — [code] LIVE recovery-run evaluation (Claude Code): the first defensible generalisation signal — with its scope stated precisely
 
 Read the in-flight rotation-0 recovery histories directly (fig8_recovery_learning_curves.png,
