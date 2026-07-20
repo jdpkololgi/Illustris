@@ -2526,6 +2526,22 @@ Entry shape:
 
 ## Log (newest first)
 
+### 2026-07-20 — [code] P8 operational documentation now distinguishes frozen screens from P8.5 recovery
+- What: Indexed the P8 deterministic spatial-transfer entrypoints and added a
+  runbook covering stage order, CUDA/runtime requirements, frozen-screen
+  reproduction, audits, target representation, artifacts, and scientific
+  interpretation.
+- Why / decision: The code had advanced through two-rotation screens and
+  adequacy auditing while the active-workflow and operational docs still
+  stopped at P3a. Current G/U trainers retain replacement sampling; loss-trace
+  logging is not the specified exposure-aware P8.5 recovery, so docs now warn
+  against treating those runs as converged science.
+- Next: Implement complete exposure-aware epochs and per-epoch full-fold
+  validation before publishing P8.5 recovery launch commands.
+- Refs: `ACTIVE_WORKFLOWS.md`, `RUNBOOK.md`,
+  `workflows/abacus_tweb/README.md`,
+  `docs/plan_generalisable_graphweb_vac.md` section P8.
+
 ### 2026-07-15 — [ops] HOME QUOTA HIT 100% — log truncated & recovered; ~18 GB freed; catalogs moved to pscratch
 
 INCIDENT: home hit 40.01/40.00 GiB (100%). A SCIENCE_LOG write (open(p,"w") truncates BEFORE writing)

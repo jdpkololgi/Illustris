@@ -28,6 +28,7 @@ Abacus particle/halo products
 | Graph features | `abacus_graph_features.py`, `abacus_graph_features_cugraph.py`, `submit_abacus_graph_features_cpu.slurm`, `submit_abacus_graph_features_cugraph.slurm` |
 | Wedge subgraphs for SBI | `subset_abacus_graph_wedge_for_sbi.py`, `subset_cugraph_metrics_for_wedge.py` |
 | SBI cache | `build_abacus_sbi_cache.py`, `build_staged_mock_wedge_sbi_cache.py` |
+| P8 deterministic spatial-transfer screen | `p8_prepare_deterministic.py`, `p8_train_graph_patch.py`, `p8_train_unet_patch.py`, `p8_audit_training_adequacy.py`, `p8_summarize_screens.py` |
 | Legacy partition batches | `build_abacus_partition_batches.py`, `submit_build_partitions_adaptive.slurm`, `PARTITION_ARTIFACT_SCHEMA.md` |
 | Validation / audits | `validate_unique_halo_eigs_fits_vs_slabs.py`, `validate_cutsky_eigs_boxindex_vs_halo_xcom.py`, `diagnose_cutsky_tweb_alignment.py`, `audit_abacus_leakage_alignment.py`, `ABACUS_TWEB_AUDIT_FINDINGS.md` |
 | Staged mocks / fiberassign | `build_staged_mock_wedge_variants.py`, `build_staged_mock_wedge_truth_npz.py`, `build_staged_mock_wedge_sbi_cache.py`, `write_fiberassign_mock_science_fits.py`, `write_stage3_postcollision_science_fits.py`, `join_cutsky_eigs_to_fiberassign_catalog.py` |
@@ -46,6 +47,11 @@ Abacus particle/halo products
   plane in CutSky geometry.
 - `build_abacus_sbi_cache.py` repeats the Y1/Y5 and invalid `BOX_INDEX` filters
   by default so graph rows and target rows stay aligned.
+- P8 deterministic patch models use the frozen **linear-increment** target
+  `(lambda1, lambda2-lambda1, lambda3-lambda2)`, not the wedge SBI
+  ordered-softplus target. The current P8 trainers reproduce replacement-sampled
+  short screens; the exposure-aware P8.5 recovery remains unimplemented. See
+  the P8 section of `RUNBOOK.md` before launching them.
 
 ## Graph Artifacts
 
