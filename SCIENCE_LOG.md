@@ -1,5 +1,33 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-20 — [code] Recovery curves plotted (runs still IN FLIGHT): U-PATCH overtakes G-PATCH, passes frozen R0, and reaches the classical supported-shell bar
+
+fig9_recovery_curves.png (workflows/abacus_tweb/plot_p8_recovery_curves.py; reads live histories).
+NOTE: jobs 56224585/86 were still RUNNING when plotted — G at epoch 10, U at epoch 12 of 20.
+
+| | best macro | at epoch | shells (best epoch) | first-three mean |
+|---|---:|---:|---|---:|
+| G-PATCH | 0.4396 | 9 | 0.494/0.480/0.443/0.341 | 0.472 |
+| U-PATCH | **0.4686** | 12 (still rising) | 0.561/0.525/0.454/0.334 | **0.513** |
+| frozen R0 (spatial holdout) | 0.440 | — | — | — |
+| CIC train-affine | 0.185 | — | 0.56/0.57/0.44/-0.76 | 0.520 |
+
+**Three developments:**
+1. **U-PATCH has overtaken G-PATCH** and is still climbing (+0.019 at epoch 12), reversing every
+   earlier ordering. G-PATCH is oscillating in 0.40-0.44 since epoch 6 (0.426/0.405/0.402/0.440/0.407)
+   — plateau-with-noise, its epoch-9 best likely near its ceiling for this configuration.
+2. **U-PATCH has passed the frozen R0 baseline** (0.4686 vs 0.440) on a harder scoring set — the first
+   time a patch-trained model exceeds the previous spatial-holdout number. The plan's promotion gate
+   (+0.03 over frozen baseline) sits at 0.470: U is 0.001 away, mid-flight.
+3. **The classical supported-shell bar is essentially reached**: U first-three 0.513 vs CIC 0.520
+   (per shell 0.561 vs 0.56, 0.525 vs 0.57, 0.454 vs 0.44 — U leads shells 1 and 3). With the sparse
+   shell at 0.334 vs CIC -0.76, a converged U-PATCH would satisfy the no-macro-only-win rule rather
+   than exploiting it. NOT yet claimable: still rising, single seed, one rotation, same phase.
+
+Caveat retained: training loss (left panel) is flat/noisy throughout for both models while validation
+climbs — gains come from exposure breadth, and the loss curve is NOT a useful convergence signal here;
+the epoch-wise validation curve and patience rule are the arbiters.
+
 ### 2026-07-20 — [science/code] P8 rotation-0 continuation: fixed receptive field, encouraging but not promoted; resume to the registered stop
 
 The first exposure-aware interactive allocations ended before either model reached a registered
