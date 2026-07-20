@@ -1,5 +1,36 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-20 — [code] P8 recovery trainer frozen; rotations clarified; interactive GPU canaries next
+
+The P8 recovery implementation now exists separately from the immutable 2,000-step smoke
+trainers. `workflows/abacus_tweb/p8_train_patch_recovery.py` supports both G-PATCH and
+U-PATCH and defines a scientific epoch as one visit to every eligible P4 training core.
+The order is a deterministic `W_p`-weighted permutation without replacement; explicit
+row weights make the arithmetic mean of patch objectives equal the globally row-weighted
+MSE, independent of how memory patches are subdivided. The learning-rate schedule counts
+real patch updates rather than nominal epochs.
+
+The recovery contract now persists atomic mid-epoch checkpoints containing model,
+optimizer, scheduler, cursor, exact loss numerators/denominators, shell exposure, history,
+and CPU/CUDA random-number states. A disconnected interactive allocation can therefore
+resume the same dropout sequence as well as the same data order. Windowed training loss is
+written every 25 patches; the complete validation fold is evaluated after every completed
+epoch. Scientific runs use 5--20 epochs, no stopping before epoch 5, patience 3, and a
+minimum macro-R2 improvement of 0.005. Outputs are isolated under
+`/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/`; smoke checkpoints are never overwritten.
+
+Rotations are fold-role rotations, not physical sky rotations. Rotation 0 trains folds
+`{2,3,4}`, validates fold 1, and seals fold 0 as development test. Rotation 2 trains
+`{0,1,4}`, validates fold 3, and seals fold 2. This changes the held-out geography but is
+not a fresh-phase test; P10 remains the blind generalisation gate.
+
+The common epoch/resume/objective tests pass (7/7; 14/14 with the existing P8 common and
+patch-model tests). `workflows/abacus_tweb/p8_probe_unet_overfit.py` adds the pre-registered
+single-core U-PATCH capacity diagnostic. The next execution step uses two reusable
+interactive A100 allocations only: U-PATCH probe then rotation-0 canary on one, and the
+rotation-0 G-PATCH canary on the other. Long rotation-0/2 recovery runs start only after
+100% core coverage, loss accounting, validation, and resume are verified.
+
 ### 2026-07-20 — [code] VERIFIED: the fig2/5/6 slab is genuinely held out — labels never trained on, and metrics HOLD on the provably-untouched interior
 
 JDPK asked for confirmation that the plotted volume was unseen. Checked directly against the frozen

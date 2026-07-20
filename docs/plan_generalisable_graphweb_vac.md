@@ -1078,9 +1078,13 @@ run raw/softplus/15-d/shape/invariant sweeps before the deterministic protocol g
 - persist atomic best checkpoints and the predictions used to choose them;
 - sealed development-test and blind phases.
 
-For shell s, use `w_i = N_s^(-1/2)`. For patch p, sample proportional to
-`W_p = sum_core w_i` and optimize the weighted core mean. The expected objective is
-independent of patch subdivision. Log actual optimization exposure by shell and patch.
+For shell s, use `w_i = N_s^(-1/2)`. For patch p, define
+`W_p = sum_core w_i`. In the exposure-aware recovery, construct a seeded
+probability-proportional-to-`W_p`, without-replacement order and visit every eligible
+core exactly once. Optimize `sum_core(w_i loss_i) / mean_p(W_p)` at each patch step,
+so the arithmetic mean over one complete epoch is exactly the global row-weighted
+objective. The objective is therefore independent of patch subdivision. Log actual
+optimization exposure by shell and patch.
 
 Architecture controls:
 
@@ -1135,6 +1139,18 @@ Brier skill and probability reliability are P12 posterior metrics. A determinist
 threshold decision must not be relabelled as a calibrated probability.
 
 #### P8.4 Screening and success levels
+
+The two registered development rotations are fold-role rotations, not coordinate or
+data-augmentation rotations:
+
+- rotation 0: train folds `{2,3,4}`, validate fold `1`, keep fold `0` sealed as the
+  development-test fold;
+- rotation 2: train folds `{0,1,4}`, validate fold `3`, keep fold `2` sealed as the
+  development-test fold.
+
+Fold 4 is common training geography; the other roles move to test transfer across a
+different part of the canonical full-cap catalogue. Neither rotation is an
+independent-phase test; that remains P10.
 
 1. Run one seed on two blocked folds for plumbing and obvious failure.
 2. Run one seed across all five folds for candidates that pass.
@@ -1235,7 +1251,19 @@ Progress checklist:
   folds or describe them as converged science runs.
 - [x] Reproduce the historical samplers and record that only 15.07--15.14% of eligible
   training cores and one validation checkpoint were used.
-- [ ] Implement complete exposure-aware patch epochs and per-epoch full-fold validation.
+- [x] Implement complete exposure-aware patch epochs, globally row-weighted patch
+  objectives, per-epoch full-fold validation, atomic mid-epoch checkpoints, exact
+  dropout-RNG resume, windowed loss traces, and registered early stopping in
+  `workflows/abacus_tweb/{p8_epoch_training.py,p8_train_patch_recovery.py}`.
+- [x] Unit-test complete/no-repeat epoch exposure, weighted subdivision invariance,
+  partial-epoch accumulation/resume validation, and the epoch-5/patience-3/min-delta
+  rule in `tests/phase4/test_p8_epoch_training.py`.
+- [ ] Run the registered U-PATCH one-core overfit diagnostic with
+  `workflows/abacus_tweb/p8_probe_unet_overfit.py` and determine whether its output
+  range expands under deliberate memorisation.
+- [ ] Run one complete rotation-0 canary epoch for G-PATCH and U-PATCH; verify 100%
+  unique core coverage, all-shell weighted loss accounting, full-fold validation,
+  allocation-interruption resume, and persistent loss curves.
 - [ ] Rerun rotations 0 and 2 for G-PATCH and U-PATCH to the registered convergence rule.
 - [ ] Run the true-field context-growth diagnostic, separating trace from traceless shear.
 - [ ] Complete matched full-cap exact DTFE and global classical-plus-local-residual controls.
