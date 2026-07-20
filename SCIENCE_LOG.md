@@ -1,5 +1,54 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-20 — [science/code] P8 rotation-0 continuation: fixed receptive field, encouraging but not promoted; resume to the registered stop
+
+The first exposure-aware interactive allocations ended before either model reached a registered
+stopping condition. Both models achieved their best validation score at their final completed
+epoch, so allocation expiry is not evidence of convergence:
+
+- **G-PATCH epoch 9:** macro-shell R2(lambda1) **0.4396**, shells
+  **0.494/0.480/0.443/0.341**, pooled **0.486**, training weighted MSE **0.7041**.
+- **U-PATCH epoch 11:** macro-shell R2(lambda1) **0.4498**, shells
+  **0.548/0.511/0.446/0.295**, pooled **0.523**, training weighted MSE **0.6907**.
+
+The G-PATCH computational receptive field does **not** grow with epoch. The frozen two-pass
+attention model has two dependency hops per pass, hence every prediction has the same exact
+four-hop graph support at epoch 1 and epoch 20. Epochs update shared weights; there is no
+persistent node state or cross-epoch message propagation. The physical radius of four hops varies
+with graph sparsity, and the precomputed local graph metrics add fixed feature-construction
+support, but neither grows during training.
+
+This rules out the simple fear that later epochs let G-PATCH propagate across and learn the whole
+cap in a forward pass. It does **not** establish fresh-volume generalisation: shared weights may
+still learn `ph000`-specific local motifs, long-mode statistics, HOD/observer response, or other
+compressible same-realisation structure. The validation fold is label-held-out but uses the
+globally observed `ph000` representation. The recovered-checkpoint boundary results are stable
+(macro R2 0.4396 all, 0.4387 beyond 10.4 Mpc/h, 0.4380 beyond 20.8 Mpc/h), and the earlier exact
+four-hop-untouched slab improved rather than degraded, so boundary/context bleed is not a credible
+explanation for the complete signal. Rotation 2 and especially the independently constructed P10
+phase remain mandatory.
+
+No encoder is promoted. G-PATCH ties the frozen R0 macro rather than clearing the registered
++0.03 gate; U-PATCH is only +0.01. On the non-collapsed first three shells, G-PATCH **0.472** and
+U-PATCH **0.501** still trail CIC **0.520**. A macro-only advantage caused by CIC's catastrophic
+last-shell failure is useful sparse-regime evidence, not a claim that ML has beaten classical
+reconstruction.
+
+**Decision:** resume both rotation-0 runs unchanged until the pre-registered 20-epoch maximum or
+early stop (minimum epoch 5, patience 3, minimum macro-R2 improvement 0.005). Atomic checkpoint,
+optimizer, scheduler, epoch order, cursor, loss accumulators and RNG state are retained. Exact
+checkpoint-revision worktrees are used because only `SCIENCE_LOG.md` changed between those commits;
+the resume guard is not weakened.
+
+- G-PATCH allocation **56224585**, node `nid008225`, exact revision
+  `d7bab4edca77ef907de3f7dcf2d7920edd40dd0b`, log
+  `/pscratch/sd/d/dkololgi/logs/p8_recovery_graph_rotation0_resume_56224585.log`.
+- U-PATCH allocation **56224586**, node `nid008412`, exact revision
+  `a2a944c3be1f952696f3868da0563bbd1fd362e4`, log
+  `/pscratch/sd/d/dkololgi/logs/p8_recovery_unet_rotation0_resume_retry_56224586.log`.
+- Run artifacts remain under
+  `/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/recovery_v1/{graph,unet}/rotation_0/seed_42/`.
+
 ### 2026-07-20 — [code] CORRECTION (JDPK challenge upheld in part): "every model before P4 lacked this property" was FALSE — R0 already showed val-improves-on-unseen under the July-14 spatial holdout; comparator numbers untangled
 
 JDPK challenged the previous entry's closing framing as too strong. Adjudication:
