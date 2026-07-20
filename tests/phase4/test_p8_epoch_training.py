@@ -1,4 +1,7 @@
+import json
 import unittest
+from pathlib import Path
+import tempfile
 
 import numpy as np
 
@@ -7,6 +10,8 @@ from workflows.abacus_tweb.p8_epoch_training import (
     epoch_order,
     improved,
     patch_objective,
+    reconcile_loss_trace,
+    rewrite_jsonl,
     should_stop,
     validate_resume_order,
 )
@@ -81,6 +86,25 @@ class P8EpochTrainingTests(unittest.TestCase):
         self.assertFalse(improved(0.5049, 0.5, 0.005))
         self.assertFalse(should_stop(epoch=4, stale_epochs=4, min_epochs=5, patience=3))
         self.assertTrue(should_stop(epoch=5, stale_epochs=3, min_epochs=5, patience=3))
+
+    def test_resume_reconciles_abandoned_and_duplicate_loss_rows(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "loss.jsonl"
+            rewrite_jsonl(
+                path,
+                [
+                    {"global_step": 25, "loss": 1.0},
+                    {"global_step": 50, "loss": 0.9},
+                    {"global_step": 50, "loss": 0.8},
+                    {"global_step": 75, "loss": 0.7},
+                ],
+            )
+            self.assertEqual(
+                reconcile_loss_trace(path, maximum_global_step=50), 2
+            )
+            rows = [json.loads(row) for row in path.read_text().splitlines()]
+            self.assertEqual([row["global_step"] for row in rows], [25, 50])
+            self.assertEqual(rows[-1]["loss"], 0.8)
 
 
 if __name__ == "__main__":

@@ -1253,7 +1253,7 @@ Progress checklist:
   training cores and one validation checkpoint were used.
 - [x] Implement complete exposure-aware patch epochs, globally row-weighted patch
   objectives, per-epoch full-fold validation, atomic mid-epoch checkpoints, exact
-  dropout-RNG resume, windowed loss traces, and registered early stopping in
+  dropout-RNG resume, checkpoint-reconciled windowed loss traces, and registered early stopping in
   `workflows/abacus_tweb/{p8_epoch_training.py,p8_train_patch_recovery.py}`.
 - [x] Unit-test complete/no-repeat epoch exposure, weighted subdivision invariance,
   partial-epoch accumulation/resume validation, and the epoch-5/patience-3/min-delta

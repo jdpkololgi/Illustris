@@ -33,7 +33,9 @@ The recovery contract now persists atomic mid-epoch checkpoints containing model
 optimizer, scheduler, cursor, exact loss numerators/denominators, shell exposure, history,
 and CPU/CUDA random-number states. A disconnected interactive allocation can therefore
 resume the same dropout sequence as well as the same data order. Windowed training loss is
-written every 25 patches; the complete validation fold is evaluated after every completed
+written every 25 patches. A deliberate step interruption exposed and fixed the remaining
+logging edge case: resume now removes post-checkpoint abandoned loss rows and de-duplicates
+replayed steps before appending. The complete validation fold is evaluated after every completed
 epoch. Scientific runs use 5--20 epochs, no stopping before epoch 5, patience 3, and a
 minimum macro-R2 improvement of 0.005. Outputs are isolated under
 `/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/`; smoke checkpoints are never overwritten.

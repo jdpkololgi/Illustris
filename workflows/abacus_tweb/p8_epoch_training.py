@@ -135,6 +135,43 @@ def append_jsonl(path: Path, row: dict) -> None:
         handle.flush()
 
 
+def reconcile_loss_trace(path: Path, *, maximum_global_step: int) -> int:
+    """Roll a trace back to a checkpoint and remove replay duplicates.
+
+    Loss windows may be flushed more frequently than model checkpoints.  After
+    an allocation dies, rows newer than the checkpoint describe abandoned
+    updates.  Retaining only the last row for each saved step also repairs a
+    trace if a recovery was itself interrupted before reconciliation existed.
+    Returns the number of retained records.
+    """
+    if not path.exists():
+        return 0
+    retained: dict[int, dict] = {}
+    for raw in path.read_text().splitlines():
+        if not raw.strip():
+            continue
+        row = json.loads(raw)
+        step = int(row["global_step"])
+        if step <= int(maximum_global_step):
+            retained[step] = row
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    with temporary.open("w", encoding="utf-8") as handle:
+        for step in sorted(retained):
+            handle.write(json.dumps(retained[step], sort_keys=True) + "\n")
+    temporary.replace(path)
+    return len(retained)
+
+
+def rewrite_jsonl(path: Path, rows: Iterable[dict]) -> None:
+    """Atomically make a JSONL file agree with checkpoint-owned records."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    with temporary.open("w", encoding="utf-8") as handle:
+        for row in rows:
+            handle.write(json.dumps(row, sort_keys=True) + "\n")
+    temporary.replace(path)
+
+
 def validate_resume_order(
     order: np.ndarray,
     expected_cores: np.ndarray,

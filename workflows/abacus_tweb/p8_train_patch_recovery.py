@@ -39,6 +39,8 @@ from workflows.abacus_tweb.p8_epoch_training import (
     epoch_order,
     improved,
     patch_objective,
+    reconcile_loss_trace,
+    rewrite_jsonl,
     should_stop,
     validate_resume_order,
 )
@@ -294,6 +296,10 @@ def main() -> None:
         early_best_score = float(state["early_best_score"])
         stale_epochs = int(state["stale_epochs"])
         maximum_memory = int(state["maximum_memory"])
+        reconcile_loss_trace(
+            output / "loss_trace.jsonl", maximum_global_step=global_step
+        )
+        rewrite_jsonl(output / "epoch_history.jsonl", history)
         torch.set_rng_state(state["torch_rng_state"].cpu())
         if "cuda_rng_state_all" in state and torch.cuda.is_available():
             torch.cuda.set_rng_state_all(
