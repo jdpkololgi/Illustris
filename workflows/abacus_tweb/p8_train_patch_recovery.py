@@ -297,6 +297,32 @@ def main() -> None:
                 "resume code revision mismatch: "
                 f"{state['git_revision']} != {args.git_revision}"
             )
+        frozen_resume_fields = (
+            "epochs",
+            "min_epochs",
+            "patience",
+            "min_delta",
+            "lr",
+            "latent_size",
+            "heads",
+            "dropout",
+            "unet_base",
+            "unet_latent_channels",
+            "canary",
+            "run_name",
+            "p8_root",
+            "assignment",
+            "p5_root",
+            "unet_adapter",
+            "selection",
+        )
+        checkpoint_arguments = state["arguments"]
+        for field in frozen_resume_fields:
+            if checkpoint_arguments[field] != getattr(args, field):
+                raise RuntimeError(
+                    f"resume argument {field} mismatch: "
+                    f"{checkpoint_arguments[field]} != {getattr(args, field)}"
+                )
         model.load_state_dict(state["model_state"])
         optimizer.load_state_dict(state["optimizer_state"])
         scheduler.load_state_dict(state["scheduler_state"])
