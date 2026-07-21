@@ -1,5 +1,19 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-21 — [code] $PSCRATCH → HPSS tape backup (ahead of NERSC downtime / scratch purge)
+- What: Archiving ~2.7 TB of irreplaceable derived data from `/pscratch/sd/d/dkololgi`
+  (3.2 TB total) to HPSS tape at `/home/d/dkololgi/pscratch_backup_20260721/`. One
+  `htar` archive per directory, CRC-verified (`htar -Kv`), idempotent/resumable.
+  Submitted on the `xfer` QOS (job 56234004, `--account=desi`). Self-test on `logs/`
+  passed (299 files, 0 verify errors).
+- Why / decision: pscratch is purge-prone and a downtime was flagged; HPSS is the only
+  durable on-site target (CFS `desi` is 93% full, $HOME is 40 GB). Excluded the 385 GB
+  public `AbacusSummit_base_c000_ph000` (still on CFS `/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit`)
+  and ~50 GB regenerable caches (`conda`, `.cache`, `.local`, `.cursor-server`, `jax_cache`).
+- Next: confirm job 56234004 finishes with 0 FAIL in `~/hpss_backup/logs_20260721/manifest.tsv`;
+  spot-check restore with `htar -xvf`. Re-run the script to resume if any archive failed.
+- Refs: `~/hpss_backup/hpss_backup.sh`, `~/hpss_backup/submit_hpss_backup.slurm`
+
 ### 2026-07-20 — [code] Recovery VISUALS + both registered bars crossed by U-PATCH (runs STILL IN FLIGHT, G ep14 / U ep18 of 20)
 
 Figures fig10 (lambda1 short-screen vs recovery), fig11 (lambda2/3), fig12 (T-web classes) from the
