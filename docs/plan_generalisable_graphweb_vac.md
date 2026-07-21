@@ -955,8 +955,8 @@ Progress checklist:
 
 ### P8 — Matched spatial target-generalisation training
 
-**Status:** ROTATION-0 EXPOSURE-AWARE RECOVERY COMPLETE; ROTATION-2 RECOVERY
-IN FLIGHT; LONG-HORIZON CONVERGENCE EXTENSION PRE-REGISTERED (2026-07-21)
+**Status:** TWO-ROTATION EXPOSURE-AWARE RECOVERY COMPLETE; ROTATION-0
+LONG-HORIZON CONVERGENCE EXTENSION IN FLIGHT (2026-07-21)
 **Duration:** recovery estimate follows the exposure audit; three-seed finalists later
 
 G-PATCH, U-PATCH, and F-PATCH may now enter the matched deterministic protocol.
@@ -1317,7 +1317,8 @@ Progress checklist:
 - [x] Complete the registered rotation-0 `recovery_v1` runs: G-PATCH stopped by the
   frozen patience/min-delta rule at epoch 15 (best macro R2 0.4682), while U-PATCH hit
   the 20-epoch cap still improving (best macro R2 0.4943).
-- [ ] Complete the unchanged rotation-2 `recovery_v1` runs for G-PATCH and U-PATCH.
+- [x] Complete the unchanged rotation-2 `recovery_v1` runs for G-PATCH and U-PATCH:
+  G-PATCH macro R2 0.4708 at epoch 16; U-PATCH 0.5128 at epoch 20.
 - [x] Implement and unit-test the guarded warm-start/fresh-optimizer extension contract
   in `workflows/abacus_tweb/{p8_train_patch_recovery.py,p8_epoch_training.py}` and
   `tests/phase4/test_p8_epoch_training.py`; the CLI enforces the registered run name,

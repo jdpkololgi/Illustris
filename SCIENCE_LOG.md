@@ -1,5 +1,33 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-21 — [code] Frozen P8 long-horizon extensions launched on rotation 0
+
+The pre-registered `convergence_extension_v1` is now running for G-PATCH and
+U-PATCH on two independent interactive 80-GB A100 allocations. The completed
+`recovery_v1` parents remain immutable. Both extensions use a fresh AdamW
+optimizer (`lr=2e-4`, weight decay `1e-4`, gradient clipping 5), a fresh cosine
+schedule over exactly 20 complete-exposure epochs, complete-fold validation
+after every epoch, and no early stopping. All architecture, fold, target,
+scaler, patch, row-weighting, and seed contracts are unchanged.
+
+- G-PATCH: allocation `56285194`, node `nid008253`, parent epoch 15 / score
+  0.4681934, parent SHA-256
+  `14124c039fd8582abdea27fc74865e422d29c27dca6d33c7a6bb05b0557f1971`, log
+  `/pscratch/sd/d/dkololgi/logs/p8_convergence_extension_graph_rot0_56285194.log`.
+- U-PATCH: allocation `56285193`, node `nid008244`, parent epoch 20 / score
+  0.4942791, parent SHA-256
+  `21a174f14de060463da04f1c59e8fa8c36ec8e10f7104f42efe3a231342dbd5e`, log
+  `/pscratch/sd/d/dkololgi/logs/p8_convergence_extension_unet_rot0_56285193.log`.
+- Artifacts:
+  `/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/convergence_extension_v1/{graph,unet}/rotation_0/seed_42/`.
+
+The guarded manifests passed the warm-start provenance checks and both loss
+traces are advancing. The four-hour interactive limit is shorter than the full
+20-epoch runtime; atomic mid-epoch checkpoints make subsequent allocation
+renewal an exact resume rather than a new experiment. Rotation 2 receives the
+identical extension only if the frozen P8.6 trigger is met: improvement of at
+least 0.005 over the parent, or continued improvement at the extension cap.
+
 ### 2026-07-21 — [science/code] P8 RECOVERY COMPLETE (2 rotations x 2 encoders): U-PATCH primary score **0.5035** passes BOTH registered bars; G-PATCH fails both — but ALL FOUR runs peaked on their FINAL epoch
 
 All four exposure-aware recovery runs have finished; no jobs remain. Every figure regenerated from
@@ -25,12 +53,13 @@ the ordering U > G is not fold noise. Per-shell replication is on-diagonal for t
 shells (fig15). The sparse shell carries the real scatter (U 0.315-0.341, G 0.327-0.346, ~0.02-0.03),
 so sparse-shell numbers must be quoted with that uncertainty.
 
-**CRITICAL CAVEAT — none of the four runs converged.** Every run's best epoch is its LAST
-(G 15/16, U 20/20); U hit the 20-epoch cap while still gaining. Early stopping never triggered. These
-are therefore LOWER BOUNDS, and the "epochs to convergence" question remains open. A longer-budget
-rerun (30-40 epochs) is the single highest-value next experiment and should precede seeds, hybrids,
-or architecture work: the current U-vs-G ordering could still change if G plateaus later, and U's true
-ceiling is unmeasured.
+**CRITICAL CAVEAT — U is cap-limited; G's slow-convergence question remains open.** Every run's best
+epoch is its last (G 15/16, U 20/20), but the termination mechanisms differ. Both G runs triggered
+the registered patience/minimum-delta early stop; both U runs reached the 20-epoch cap while their
+validation loss and macro R2 continued improving. U's ceiling is therefore demonstrably unmeasured.
+G is closer to a primary-metric plateau, but the aggressive three-epoch/0.005 rule does not exclude
+slower improvement. The pre-registered low-rate `convergence_extension_v1`, rather than an ad hoc
+30--40 epoch relabelling of the primary runs, is the highest-value next experiment.
 
 **Reading:** under the patch protocol, on two disjoint geographies, a learned model now beats the
 classical estimator where classical is well-supported AND where it fails. That is the result P8 was
