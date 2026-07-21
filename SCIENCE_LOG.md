@@ -1,5 +1,44 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-21 — [code] P8 recovery rotation-0 FINAL: U-PATCH 0.4943 (hit the 20-epoch CAP still improving), G-PATCH 0.4682; both registered bars passed; figures regenerated
+
+Both rotation-0 recovery runs have finished. Figures regenerated from the final best checkpoints
+(fig9 curves, fig10 lambda1 before/after, fig11 lambda2/3, fig12 T-web classes). Note the fig titles
+still read "IN FLIGHT" — they were generated before the RECOVERY_COMPLETE marker convention;
+the underlying data are the final best checkpoints.
+
+| final (rotation 0, val fold 1) | epochs | best ep | macro R2(l1) | first-three | worst shell |
+|---|---:|---:|---:|---:|---:|
+| U-PATCH | 20/20 | **20** | **0.4943** | **0.5455** | 0.3406 |
+| G-PATCH | 15 | **15** | 0.4682 | 0.5091 | 0.3455 |
+| frozen R0 | — | — | 0.440 | — | — |
+| CIC train-affine | — | — | 0.185 | 0.520 | -0.76 |
+
+**Both models peaked on their LAST epoch — neither converged.** U-PATCH hit the 20-epoch cap while
+still gaining (+0.006, +0.001 over the final two epochs, no patience trigger); G-PATCH's best is also
+its last (epoch 15 of a 20 budget — the run ended early for reasons that should be checked in its
+manifest, not by early stopping on the registered rule). CONSEQUENCE: these are LOWER BOUNDS, and the
+"epochs to convergence" question is unresolved. A longer-budget rerun (30-40 epochs) is the cheapest
+next experiment and should precede any architecture work.
+
+**Registered bars (rotation 0, single seed):** promotion gate 0.470 — U 0.4943 PASS, G 0.4682 fail by
+0.002. Classical adoption: U first-three 0.5455 > CIC 0.520 while holding the sparse shell 0.341 vs
+-0.76 — a supported-shell win, not a macro artifact. G first-three 0.5091 < 0.520, so G does NOT clear
+the classical bar.
+
+**Class metrics at lambda_th=0.2 (slab, fig12), TRUE 38/41/18/3%:**
+- U-PATCH 31/49/18/3%, accuracy **73%**, knot recall 56% (64% prec), void recall 70% (88% prec);
+- G-PATCH 26/51/19/4%, accuracy 68%, knot recall **64%** (51% prec) — G now OVER-predicts knots
+  (579 vs 461 true), the opposite of its short-screen deficit;
+- CIC 18/63/19/0%, accuracy 68%, knot recall 11%.
+Slab lambda1 R2: U 0.711, CIC 0.658, G 0.624. lambda2/lambda3 (fig11): U leads both.
+
+INTERPRETATION: U-PATCH is the current leader on every registered criterion and its curve had not
+flattened. G-PATCH plateaus lower and does not clear the classical bar. Still binding: single seed,
+rotation 0 only, same phase (ph000); rotation-2 replication, seeds, and P10 fresh-phase remain
+required before any promotion. Two new interactive jobs (56262951/2) started as these finished —
+presumably rotation 2; that is the right next step.
+
 ### 2026-07-21 — [code] $PSCRATCH → HPSS tape backup (ahead of NERSC downtime / scratch purge)
 - What: Archiving ~2.7 TB of irreplaceable derived data from `/pscratch/sd/d/dkololgi`
   (3.2 TB total) to HPSS tape at `/home/d/dkololgi/pscratch_backup_20260721/`. One
