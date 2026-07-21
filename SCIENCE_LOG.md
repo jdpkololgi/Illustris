@@ -1,5 +1,37 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-21 — [code] Rotation-2 recovery resumed after allocation expiry; F-tier remains untested under P8
+
+The first rotation-2 interactive allocations ended before the registered scientific
+stopping rule: G-PATCH completed 10 epochs and was interrupted midway through epoch 11;
+U-PATCH completed 13 epochs and was interrupted midway through epoch 14. Neither wrote
+a completion marker or `recovery_summary.json`, and both best checkpoints were their
+last completed epochs. Best-so-far macro R2(lambda1) is 0.4494 for G and 0.4884 for U;
+these are lower bounds, not final rotation-2 results.
+
+Both checkpoints are now resumed unchanged from the exact original revision
+`19f68bd8da13a958e62302671bebf77713c6847e`:
+
+- G-PATCH: allocation **56267894**, node `nid008373`, log
+  `/pscratch/sd/d/dkololgi/logs/p8_recovery_graph_rotation2_resume_56267894.log`;
+- U-PATCH: allocation **56267895**, node `nid008392`, log
+  `/pscratch/sd/d/dkololgi/logs/p8_recovery_unet_rotation2_resume_56267895.log`;
+- exact worktree: `/global/u2/d/dkololgi/TNG/Illustris_p8_resume_19f68b/`;
+- artifacts remain under
+  `/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/recovery_v1/{graph,unet}/rotation_2/seed_42/`.
+
+Resume reconciliation passed and both loss traces are advancing inside their saved
+partial epochs. No training argument, optimizer/scheduler state, epoch permutation,
+RNG state, fold, target, or metric changed.
+
+Clarification on F-tier: no matched full-range trained F-tier model has entered P8.
+The frozen v2_A candidate was declared `NO_GO_FROZEN_V2_A_RESOURCE_INFEASIBLE` at
+preflight because a representative view required at least 91.6 GiB before autograd,
+decoder, FFT fields, or complete graph context. Earlier dense-wedge F-tier accuracy is
+not transfer evidence. A simplified F-tier/U-Physics architecture remains scientifically
+untested and gated behind completion of the deterministic G/U recovery and resource-safe
+adapter design.
+
 ### 2026-07-21 — [code] Recovery PARITY plots (fig13/fig14): pooled lambda1 U 0.572 > G 0.528 ~ CIC 0.527; CIC's sparse-shell failure mode diagnosed as noise amplification
 
 Parity for the final recovery checkpoints over the COMPLETE rotation-0 validation fold (999,683
