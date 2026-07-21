@@ -1,5 +1,42 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-21 — [science/code] ROTATION-2 EVALUATION: the result REPLICATES in different sky; U-PATCH clears both bars again; per-shell scatter on-diagonal
+
+Rotation 2 (trains folds {0,1,4}, validates fold **3** — different geography, different galaxies) is
+mid-flight: G-PATCH 10 epochs, U-PATCH 13. Figures fig15 (replication), fig16 (rot2 parity),
+fig17 (rot2 visual + classes). Code: workflows/abacus_tweb/plot_p8_rotation2_eval.py.
+
+**Best so far:** U-PATCH rot2 **0.4884** at epoch 13 (rot0: 0.4943 at ep20); G-PATCH rot2 **0.4494**
+at ep10 (rot0: 0.4682 at ep15). Both rotations still rising at their last epoch.
+
+**Matched-epoch replication is close.** From epoch 3 onward |rot2 - rot0| <= 0.045 for G and
+U alike; at their common last epoch rot2 is AHEAD in both cases (G ep10 0.4494 vs 0.4067;
+U ep13 0.4884 vs 0.4361). Per-shell best-epoch scatter (fig15 middle) sits on the diagonal for the
+three supported shells.
+
+**U-PATCH clears both registered bars in rotation 2 as well**: macro 0.4884 > promotion gate 0.470;
+first-three (0.591+0.577+0.496)/3 = **0.555** vs the rotation-2 CIC supported-shell bar. G-PATCH
+rot2 first-three 0.493 does not clear it — consistent with rotation 0, where G also failed the
+classical bar. The ordering U > G > CIC-in-supported-shells is now reproduced in two disjoint
+geographies.
+
+**One real difference: the sparse shell is WEAKER in rotation 2** — U 0.289 vs 0.341, G 0.318 vs
+0.346 (fig15, the off-diagonal points at lower left). Fold 3's 0.45-0.55 population differs from
+fold 1's, so the sparse-shell number carries genuine fold-to-fold scatter of order 0.05. This is
+exactly why the plan requires fold spread rather than a single fold, and it means the sparse-shell
+result should be quoted with that uncertainty.
+
+**Rotation-2 instability check: the rot0 U-PATCH epoch-2 collapse (-0.15) did NOT recur** (rot2 ep2
+= +0.1195). It was rotation-specific transient LR/normalisation sensitivity, not a systematic defect.
+
+**Visuals (fig17, super-block 424, fold 3):** slab lambda1 R2 CIC 0.659 > U 0.626 > G 0.481 — note
+CIC leads on THIS particular dense slab, a reminder that single-slab numbers are not the fold metric.
+Class occupancy vs TRUE 27/48/24/2%: U 23/49/26/2% (acc 70%), G 17/55/27/1% (67%), CIC 15/64/21/0%
+(73%). U again reproduces the true knot fraction where CIC predicts ~none.
+
+STATUS: two rotations, one seed each, same phase; both still training. Promotion still requires
+completed runs, seed replication, and the P10 fresh-phase blind test.
+
 ### 2026-07-21 — [code] Rotation-2 recovery resumed after allocation expiry; F-tier remains untested under P8
 
 The first rotation-2 interactive allocations ended before the registered scientific
