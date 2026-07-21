@@ -1,5 +1,46 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-21 — [science/code] P9 EARLY VERDICT: a CIC-residual/hybrid is NOT worth building; U+G ensembling is the only combination that helps (+0.012)
+
+Ran the P9 complementarity audit early using the frozen rotation-0 predictions (all three methods on
+the same 999,683 validation rows). Blend weights are fit on one spatially disjoint half of the
+validation super-blocks and evaluated on the other (both directions) — fitting and scoring on the
+same rows would manufacture the gain. Code: workflows/abacus_tweb/p9_residual_complementarity_audit.py.
+
+**Residual correlations (lambda1):** U vs CIC **0.821**, G vs CIC 0.756, U vs G 0.883 overall; in the
+sparse shell U-vs-CIC drops to 0.545 while U-vs-G stays 0.950. The learned models and CIC make
+*largely the same errors* wherever CIC works.
+
+**Out-of-sample blends (macro / per-shell):**
+| combination | macro | shells | gain vs best member |
+|---|---:|---|---:|
+| CIC | 0.2005 | 0.559/0.565/0.442/-0.763 | — |
+| G-PATCH | 0.4682 | 0.545/0.520/0.462/0.346 | — |
+| U-PATCH | **0.4943** | 0.604/0.555/0.478/0.341 | — |
+| U+CIC | 0.4748 | 0.629/0.589/0.505/**0.176** | **-0.020** |
+| G+CIC | 0.4449 | 0.621/0.585/0.498/0.076 | -0.023 |
+| **U+G** | **0.5059** | 0.614/0.565/0.490/0.354 | **+0.012** |
+| U+G+CIC | 0.4892 | 0.636/0.592/0.511/0.218 | -0.005 |
+
+**Verdict — CIC-residual: NO-GO for the current critical path.** Adding CIC *improves the three
+supported shells* (U 0.604/0.555/0.478 -> 0.629/0.589/0.505, i.e. +0.025/+0.034/+0.027) but *destroys*
+the sparse shell (0.341 -> 0.176), for a net macro LOSS of 0.020 under the registered equal-shell
+metric. The mechanism is clear: a single global blend cannot both exploit CIC where it is informative
+and ignore it where it is actively harmful (R2 = -0.76). This reverses my own earlier advocacy of the
+residual hybrid as "highest-prior candidate" — that argument was made when learned models TRAILED CIC
+in the supported shells; U-PATCH now leads there, removing the original motivation.
+
+**Caveat that keeps the idea alive in a narrower form:** the +0.025-0.034 supported-shell gains are
+real and show CIC still carries nonlocal information the finite-context patch models lack. A
+SHELL-AWARE or gated hybrid (weights conditioned on tracer density / ntilde, or a residual applied
+only where CIC support is adequate) could capture that without the sparse-shell damage. That is a
+strictly larger design space than the registered zero-init residual and should only be attempted
+after (a) convergence-limited reruns and (b) the registered context-growth test, which addresses the
+same nonlocal-information gap more directly and more cheaply.
+
+**Actionable now: U+G ensembling gains +0.012 macro** with no new training — both models already
+exist. Cheap, but below the 0.03 promotion bar on its own; log as a candidate, not a result.
+
 ### 2026-07-21 — [code] P8 G-PATCH stop explained exactly; blind rotation-2 recovery launched; long-horizon extension pre-registered
 
 The rotation-0 G-PATCH run did stop through the registered early-stopping code. The
