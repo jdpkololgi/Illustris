@@ -1,0 +1,27 @@
+{
+  "input_fits": "/pscratch/sd/d/dkololgi/abacus/SecondGen_Mocks/ph000/stage_3/path1_fiberassign_20260604_083322/mock_bgs_maglim.fits",
+  "output_fits": "/pscratch/sd/d/dkololgi/abacus/SecondGen_Mocks/ph000/stage_3/path1_fiberassign_20260604_083322/mock_bgs_maglim_graph_ready.fits",
+  "n_rows_total": 9538254,
+  "n_rows_out": 9538254,
+  "output_columns": [
+    "TARGETID",
+    "RA",
+    "DEC",
+    "Z",
+    "FILE_NUM",
+    "HALO_INDEX",
+    "BOX_INDEX",
+    "BGS_TARGET",
+    "ZWARN",
+    "DELTACHI2",
+    "SPECTYPE"
+  ],
+  "node_key": "TARGETID",
+  "dedupe_halo_triple": false,
+  "filters": {
+    "ZWARN": "<= 0"
+  },
+  "graph_build_hint": "build_abacus_graph.py --catalog-path <output> --no-apply-y1y5-filter --no-exclude-invalid-box-index",
+  "training_labels_hint": "join_cutsky_eigs_to_fiberassign_catalog.py (triple join from annotated CutSky)",
+  "elapsed_sec": 27.11
+}

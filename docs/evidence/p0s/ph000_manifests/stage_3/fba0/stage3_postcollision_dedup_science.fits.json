@@ -1,0 +1,28 @@
+{
+  "input_fits": "/pscratch/sd/d/dkololgi/abacus/SecondGen_Mocks/ph000/stage_3/fba0/datcomb_brightwdup.fits",
+  "output_fits": "/pscratch/sd/d/dkololgi/abacus/SecondGen_Mocks/ph000/stage_3/fba0/stage3_postcollision_dedup_science.fits",
+  "n_rows_total": 26450046,
+  "n_rows_collision_eq0": 26450046,
+  "n_rows_box_index_valid": 18021074,
+  "n_rows_box_index_invalid_skipped": 8428972,
+  "n_dedup_skip": 11174614,
+  "n_rows_out": 6846460,
+  "output_columns": [
+    "FILE_NUM",
+    "HALO_INDEX",
+    "BOX_INDEX",
+    "RA",
+    "DEC",
+    "Z",
+    "COLLISION",
+    "Z_COSMO",
+    "RSDZ",
+    "TARGETID"
+  ],
+  "filters": {
+    "COLLISION": "== 0",
+    "BOX_INDEX": "!= -1",
+    "dedupe_halo_triple": true
+  },
+  "elapsed_sec": 37.37
+}

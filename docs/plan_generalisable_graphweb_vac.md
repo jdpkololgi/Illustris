@@ -208,7 +208,10 @@ spatial blocks rather than individual galaxies.
 
 ### P0S — Preservation manifest before scratch migration
 
-**Status:** ACTIVE IN PARALLEL; documentation only until the user approves copies
+**Status:** NEAR-COMPLETE (2026-07-21) — env specs exported, scratch-only `ph000` source
+preserved to git (0 checksum mismatches), HPSS bulk archive verified (99 archives, 0 fail);
+only reviewed CFS copies remain. Authoritative record: `docs/evidence/p0s/MIGRATION_MANIFEST.md`.
+Original planning checklist retained below for reference.
 **Duration:** 0.5 day CPU/login-node metadata work
 **Blocks:** does not block P1–P8, but must complete before the shutdown freeze
 

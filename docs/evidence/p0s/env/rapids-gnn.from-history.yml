@@ -1,0 +1,10 @@
+name: rapids-gnn
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - cuda-version=12
+  - cugraph
+  - nx-cugraph
+  - cudf
+prefix: /pscratch/sd/d/dkololgi/conda/envs/rapids-gnn

@@ -1,0 +1,31 @@
+name: cosmic_env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - astropy
+  - matplotlib
+  - networkx
+  - numpy
+  - pandas
+  - scikit-learn
+  - scipy
+  - seaborn
+  - dm-haiku
+  - equinox
+  - flax
+  - jax
+  - jraph
+  - optax
+  - pytorch
+  - scienceplots
+  - distrax
+  - ipykernel
+  - nbconvert
+  - numba
+  - gudhi
+  - pyzmq
+  - umap-learn
+  - nodejs
+  - shap
+prefix: /pscratch/sd/d/dkololgi/conda/envs/cosmic_env

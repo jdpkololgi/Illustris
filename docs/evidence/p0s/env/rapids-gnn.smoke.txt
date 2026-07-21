@@ -1,0 +1,13 @@
+{
+  "python": "3.11.14",
+  "note": "graph-metric env; full cuGraph ops require a GPU node",
+  "numpy": "2.2.6",
+  "cudf": "26.02.01",
+  "cugraph": "26.02.00",
+  "cupy": "14.0.1",
+  "cuml": "IMPORT-FAILED-ON-LOGIN (ModuleNotFoundError)",
+  "rmm": "26.02.00",
+  "scipy": "1.17.1",
+  "networkx": "3.6.1",
+  "pandas": "2.3.3"
+}

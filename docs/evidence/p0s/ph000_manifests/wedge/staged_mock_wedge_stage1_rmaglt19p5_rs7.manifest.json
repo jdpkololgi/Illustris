@@ -1,0 +1,26 @@
+{
+  "wedge": {
+    "ra_min": 120.0,
+    "ra_max": 140.0,
+    "dec_min": 16.5,
+    "dec_max": 26.7,
+    "z_min": 0.25,
+    "z_max": 0.3
+  },
+  "redshift_col": "Z",
+  "eig_threshold": 0.2,
+  "cosmology": "Planck18",
+  "stage": "staged_mock_wedge_stage1_rmaglt19p5_rs7.npz",
+  "n_rows_wedge_and_stage_mask": 18350,
+  "n_join_ok": 18350,
+  "n_join_miss": 0,
+  "join_miss_rate": 0.0,
+  "n_dedup_skip": 0,
+  "class_fractions": {
+    "0": 0.28746594005449594,
+    "1": 0.38697547683923705,
+    "2": 0.24534059945504086,
+    "3": 0.08021798365122616
+  },
+  "source_fits": "/pscratch/sd/d/dkololgi/abacus/SecondGen_Mocks/ph000/stage_1/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_subset_ALL_rmaglt19.5.fits"
+}

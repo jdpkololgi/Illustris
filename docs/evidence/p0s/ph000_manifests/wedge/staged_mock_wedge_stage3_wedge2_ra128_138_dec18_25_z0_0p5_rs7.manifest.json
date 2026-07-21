@@ -1,0 +1,43 @@
+{
+  "product": "staged_mock_wedge_stage3_wedge2_ra128_138_dec18_25_z0_0p5_rs7.npz",
+  "n_gal": 47593,
+  "wedge": {
+    "ra_min": 128.0,
+    "ra_max": 138.0,
+    "dec_min": 18.0,
+    "dec_max": 25.0,
+    "z_min": 0.0,
+    "z_max": 0.5
+  },
+  "bounds": {
+    "ra_min": 128.0,
+    "ra_max": 138.0,
+    "dec_min": 18.0,
+    "dec_max": 25.0,
+    "z_min": 0.0,
+    "z_max": 0.5
+  },
+  "filters": {
+    "stage": "stage3_datcomb_brightwdup",
+    "COLLISION": "== 0",
+    "dedupe_halo_triple": true,
+    "eig_join": "annotated_cutsky (FILE_NUM, HALO_INDEX, BOX_INDEX)"
+  },
+  "redshift_col": "Z",
+  "eig_threshold": 0.2,
+  "class_fractions": {
+    "0": 0.2497005862206627,
+    "1": 0.38268232723299644,
+    "2": 0.2812388376441914,
+    "3": 0.08637824890214947
+  },
+  "stage": "staged_mock_wedge_stage3_wedge2_ra128_138_dec18_25_z0_0p5_rs7.npz",
+  "n_rows_wedge_and_stage_mask": 138200,
+  "n_join_ok": 47593,
+  "n_join_miss": 0,
+  "join_miss_rate": 0.0,
+  "n_dedup_skip": 90607,
+  "annotated_fits": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_24042026_rsmooth_7/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs7_ngrid2048_thr0p2.fits",
+  "stage3_fits": "/pscratch/sd/d/dkololgi/abacus/SecondGen_Mocks/ph000/stage_3/fba0/datcomb_brightwdup.fits",
+  "gnn_metadata_note": "Next step: subset mock graph to this wedge and write <prefix>_cugraph_gnn_metadata.json aligned to staged_mock_wedge_stage3_wedge2_ra128_138_dec18_25_z0_0p5_rs7.npz row order (or wedge_targets.fits stable sort by TARGETID / halo triple)."
+}

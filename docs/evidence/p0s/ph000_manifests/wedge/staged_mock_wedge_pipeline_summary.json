@@ -1,0 +1,70 @@
+{
+  "outputs": {
+    "/pscratch/sd/d/dkololgi/abacus/SecondGen_Mocks/ph000/wedge/staged_mock_wedge_truth_annotated_rs7.npz": {
+      "stage": "annotated_wedge_truth",
+      "wedge": {
+        "ra_min": 120.0,
+        "ra_max": 140.0,
+        "dec_min": 16.5,
+        "dec_max": 26.7,
+        "z_min": 0.25,
+        "z_max": 0.3
+      },
+      "redshift_col": "Z",
+      "eig_threshold": 0.2,
+      "cosmology": "Planck18",
+      "class_fractions": {
+        "0": 0.3162669667346508,
+        "1": 0.38026584147971026,
+        "2": 0.22734838361816348,
+        "3": 0.07611880816747545
+      },
+      "n_gal": 42657,
+      "annotated_fits": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_24042026_rsmooth_7/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs7_ngrid2048_thr0p2.fits"
+    },
+    "/pscratch/sd/d/dkololgi/abacus/SecondGen_Mocks/ph000/wedge/staged_mock_wedge_stage1_rmaglt19p5_rs7.npz": {
+      "stage": "staged_mock_wedge_stage1_rmaglt19p5_rs7.npz",
+      "n_rows_wedge_and_stage_mask": 18350,
+      "n_join_ok": 18350,
+      "n_join_miss": 0,
+      "join_miss_rate": 0.0,
+      "n_dedup_skip": 0,
+      "class_fractions": {
+        "0": 0.28746594005449594,
+        "1": 0.38697547683923705,
+        "2": 0.24534059945504086,
+        "3": 0.08021798365122616
+      }
+    },
+    "/pscratch/sd/d/dkololgi/abacus/SecondGen_Mocks/ph000/wedge/staged_mock_wedge_forFA_rs7.npz": {
+      "stage": "staged_mock_wedge_forFA_rs7.npz",
+      "n_rows_wedge_and_stage_mask": 18324,
+      "n_join_ok": 18324,
+      "n_join_miss": 0,
+      "join_miss_rate": 0.0,
+      "n_dedup_skip": 0,
+      "class_fractions": {
+        "0": 0.2867277886924252,
+        "1": 0.38725169177035584,
+        "2": 0.24568871425452957,
+        "3": 0.08033180528268936
+      }
+    },
+    "/pscratch/sd/d/dkololgi/abacus/SecondGen_Mocks/ph000/wedge/staged_mock_wedge_stage3_postcollision_rs7.npz": {
+      "stage": "staged_mock_wedge_stage3_postcollision_rs7.npz",
+      "n_rows_wedge_and_stage_mask": 50076,
+      "n_join_ok": 17957,
+      "n_join_miss": 0,
+      "join_miss_rate": 0.0,
+      "n_dedup_skip": 32119,
+      "class_fractions": {
+        "0": 0.28473575764325887,
+        "1": 0.38814946817397117,
+        "2": 0.24631063095171798,
+        "3": 0.08080414323105196
+      }
+    }
+  },
+  "needed_triples": 18350,
+  "lookup_size": 18350
+}
