@@ -1,5 +1,43 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-21 — [science/code] P8 RECOVERY COMPLETE (2 rotations x 2 encoders): U-PATCH primary score **0.5035** passes BOTH registered bars; G-PATCH fails both — but ALL FOUR runs peaked on their FINAL epoch
+
+All four exposure-aware recovery runs have finished; no jobs remain. Every figure regenerated from
+final checkpoints (fig9-fig17).
+
+**Primary score = mean over blocked folds of macro R2(lambda1) (plan P8.3):**
+| model | rot0 | rot2 | **MEAN** | fold spread | first-three mean | per-shell mean |
+|---|---:|---:|---:|---:|---:|---|
+| G-PATCH | 0.4682 | 0.4708 | **0.4695** | 0.0026 | 0.5140 | 0.546/0.529/0.467/0.336 |
+| U-PATCH | 0.4943 | 0.5128 | **0.5035** | 0.0185 | **0.5621** | 0.611/0.578/0.498/0.328 |
+(epochs run: G 15/16, U 20/20 — cap reached.)
+
+**Registered gates, applied to the two-fold means:**
+- promotion (frozen R0 0.440 + 0.03 = 0.470): **U PASS** (+0.0635); **G FAIL** (+0.0295, i.e. 0.4695
+  — short of the bar by 0.0005, effectively a tie with the bar and not a pass);
+- classical adoption, no-macro-only-win (CIC first-three 0.520): **U PASS** (0.5621, +0.042);
+  **G FAIL** (0.5140, -0.006). G leads CIC on the macro metric only because CIC collapses in the
+  sparse shell — precisely the artifact the rule exists to reject.
+- U also holds the sparse shell (0.315-0.341) where CIC is -0.76.
+
+**Fold stability:** G spread 0.0026, U spread 0.0185 — both far below the 0.03 promotion delta, so
+the ordering U > G is not fold noise. Per-shell replication is on-diagonal for the three supported
+shells (fig15). The sparse shell carries the real scatter (U 0.315-0.341, G 0.327-0.346, ~0.02-0.03),
+so sparse-shell numbers must be quoted with that uncertainty.
+
+**CRITICAL CAVEAT — none of the four runs converged.** Every run's best epoch is its LAST
+(G 15/16, U 20/20); U hit the 20-epoch cap while still gaining. Early stopping never triggered. These
+are therefore LOWER BOUNDS, and the "epochs to convergence" question remains open. A longer-budget
+rerun (30-40 epochs) is the single highest-value next experiment and should precede seeds, hybrids,
+or architecture work: the current U-vs-G ordering could still change if G plateaus later, and U's true
+ceiling is unmeasured.
+
+**Reading:** under the patch protocol, on two disjoint geographies, a learned model now beats the
+classical estimator where classical is well-supported AND where it fails. That is the result P8 was
+designed to obtain or exclude. It remains SAME-PHASE evidence: single seed per rotation, ph000 only.
+P10 fresh-phase blind testing is still the production gate, and 3-seed replication is still required
+by P8.4 before any finalist freeze.
+
 ### 2026-07-21 — [science/code] ROTATION-2 EVALUATION: the result REPLICATES in different sky; U-PATCH clears both bars again; per-shell scatter on-diagonal
 
 Rotation 2 (trains folds {0,1,4}, validates fold **3** — different geography, different galaxies) is
