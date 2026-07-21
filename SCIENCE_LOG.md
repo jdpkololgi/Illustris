@@ -1,5 +1,47 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-21 — [code] P8 G-PATCH stop explained exactly; blind rotation-2 recovery launched; long-horizon extension pre-registered
+
+The rotation-0 G-PATCH run did stop through the registered early-stopping code. The
+rule tracks only improvements of at least 0.005 in complete-fold macro R2, separately
+from the absolute-best checkpoint:
+
+| epoch | macro R2(lambda1) | early-stop reading |
+|---:|---:|---|
+| 12 | 0.4663 | qualifying best; patience reset |
+| 13 | 0.4617 | stale 1 |
+| 14 | 0.4668 | absolute best, but only +0.0005 versus epoch 12; stale 2 |
+| 15 | 0.4682 | new absolute best, but only +0.0019 versus epoch 12; stale 3 -> stop |
+
+Thus epoch 15 was correctly saved as the best checkpoint even though it did not clear
+the 0.005 threshold used to reset patience. This was faithful execution of the frozen
+rule, but the combination of a noisy GNN validation curve, patience 3, and minimum delta
+0.005 is too aggressive to establish that the model itself had converged. The preceding
+log statement that it ended early for a reason other than the registered rule was wrong.
+U-PATCH independently reached the epoch-20 cap with its best checkpoint at epoch 20, so
+the long-horizon optimization question is open for both architectures.
+
+The primary `recovery_v1` artifacts remain immutable. The next blind same-phase
+replication has begun unchanged:
+
+- G-PATCH rotation 2: interactive allocation **56262951**, node `nid008489`, log
+  `/pscratch/sd/d/dkololgi/logs/p8_recovery_graph_rotation2_retry_56262951.log`;
+- U-PATCH rotation 2: interactive allocation **56262952**, node `nid008556`, log
+  `/pscratch/sd/d/dkololgi/logs/p8_recovery_unet_rotation2_retry_56262952.log`;
+- artifacts:
+  `/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/recovery_v1/{graph,unet}/rotation_2/seed_42/`.
+
+The first launch inherited DESI's Python-3.13 `PYTHONPATH` and failed at NumPy import,
+before parsing arguments or creating scientific state. The same allocations were reused
+with `PYTHONPATH`, `PYTHONHOME`, and `CONDA_PREFIX` removed; a NumPy/Torch/CUDA smoke test
+passed and both corrected runs began writing loss traces and checkpoints.
+
+Before opening rotation-2 results, the roadmap now pre-registers a separately named
+`convergence_extension_v1`: low-rate warm-starting from immutable best checkpoints,
+20 additional complete-exposure epochs, no early stopping, complete-fold validation
+after every epoch, and unchanged architecture/data/metric contracts. The extension is
+an optimization diagnostic; it does not replace matched classical controls or P10.
+
 ### 2026-07-21 — [code] P8 recovery rotation-0 FINAL: U-PATCH 0.4943 (hit the 20-epoch CAP still improving), G-PATCH 0.4682; both registered bars passed; figures regenerated
 
 Both rotation-0 recovery runs have finished. Figures regenerated from the final best checkpoints

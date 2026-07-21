@@ -952,8 +952,8 @@ Progress checklist:
 
 ### P8 — Matched spatial target-generalisation training
 
-**Status:** SHORT TWO-ROTATION SMOKE COMPLETE — SCIENTIFIC GATE OPEN;
-OPTIMIZATION RECOVERY REQUIRED (2026-07-19)
+**Status:** ROTATION-0 EXPOSURE-AWARE RECOVERY COMPLETE; ROTATION-2 RECOVERY
+IN FLIGHT; LONG-HORIZON CONVERGENCE EXTENSION PRE-REGISTERED (2026-07-21)
 **Duration:** recovery estimate follows the exposure audit; three-seed finalists later
 
 G-PATCH, U-PATCH, and F-PATCH may now enter the matched deterministic protocol.
@@ -1225,6 +1225,51 @@ Complete this recovery before interpreting G-PATCH or U-PATCH scientifically:
    until this deterministic recovery answers whether optimization exposure and global
    physical support explain the short-screen deficit.
 
+#### P8.6 Registered long-horizon convergence extension
+
+The original recovery rule remains the immutable primary experiment. In rotation 0,
+G-PATCH stopped at epoch 15 because the early-stopping comparator requires a gain of
+at least 0.005 over the last qualifying score: epoch 12 scored 0.4663, while epochs
+13--15 scored 0.4617, 0.4668, and 0.4682. Epoch 15 was the absolute best checkpoint,
+but its gain of 0.0019 over epoch 12 did not reset patience; three consecutive stale
+epochs therefore triggered the registered stop. This is correct execution of the
+frozen rule, not evidence that the GNN had reached an optimization plateau. U-PATCH
+reached the epoch-20 cap with its best score at epoch 20 and is also not demonstrably
+converged.
+
+To test the specific long-convergence hypothesis without rewriting the original result:
+
+1. Complete the unchanged `recovery_v1` rotation-2 runs before using any longer-budget
+   result for model selection. Never delete, resume with altered arguments, or relabel
+   the original rotation-0/2 artifacts.
+2. Name the continuation `convergence_extension_v1`. For each eligible parent run,
+   initialize from its immutable `best_checkpoint.pt`; record its path, SHA-256,
+   parent epoch, parent score, Git revision, and complete argument contract.
+3. Reset the optimizer and scheduler explicitly. Use AdamW with learning rate `2e-4`,
+   weight decay `1e-4`, gradient clipping at 5, and a cosine schedule over exactly 20
+   additional complete-exposure epochs. This is a declared low-rate fine-tuning phase,
+   not an in-place resume of the original optimizer trajectory.
+4. Disable early stopping inside this 20-epoch extension. Validate the full fold after
+   every epoch and retain every loss/validation curve. A noisy three-epoch window must
+   not terminate the test that was created to measure slow convergence.
+5. Preserve every other contract: model architecture, seed, folds, authoritative cores,
+   global graph/field products, patch adapters, target/scaler, row-weighted objective,
+   100% core exposure, and complete-fold primary metric. Continue deterministic epoch
+   numbering from the parent epoch so the weighted patch permutations do not replay the
+   parent's first epochs.
+6. Run the rotation-0 G-PATCH and U-PATCH extensions first as development experiments.
+   Apply the identical frozen extension to rotation 2 if either architecture improves
+   its parent score by at least 0.005, or remains still improving at the extension cap.
+   The architecture comparison uses the better of the immutable parent and extension
+   checkpoints; fine-tuning is never allowed to erase a stronger parent result.
+7. If the best extension score improves by less than 0.005 and the final five epochs
+   contain no new best checkpoint, close the slow-convergence hypothesis for that
+   architecture. If the best lies in the final three epochs, record
+   `NOT_CONVERGED_EXTENSION_CAP`; do not call the terminal value converged.
+8. Treat this as optimization diagnosis within `ph000`. It cannot replace rotation-2
+   replication, the matched exact DTFE/global-residual controls, or P10 fresh-phase
+   validation.
+
 The recovery is deliberately architecture-neutral. GraphNet, U-Net, a simplified
 F-tier/U-Physics model, or a classical-residual hybrid may win; the scientific product is
 the transferable estimator and validated protocol, not loyalty to a model family.
@@ -1266,7 +1311,12 @@ Progress checklist:
 - [ ] Run one complete rotation-0 canary epoch for G-PATCH and U-PATCH; verify 100%
   unique core coverage, all-shell weighted loss accounting, full-fold validation,
   allocation-interruption resume, and persistent loss curves.
-- [ ] Rerun rotations 0 and 2 for G-PATCH and U-PATCH to the registered convergence rule.
+- [x] Complete the registered rotation-0 `recovery_v1` runs: G-PATCH stopped by the
+  frozen patience/min-delta rule at epoch 15 (best macro R2 0.4682), while U-PATCH hit
+  the 20-epoch cap still improving (best macro R2 0.4943).
+- [ ] Complete the unchanged rotation-2 `recovery_v1` runs for G-PATCH and U-PATCH.
+- [ ] Run the pre-registered `convergence_extension_v1` long-horizon test without
+  modifying or overwriting the primary recovery artifacts.
 - [ ] Run the true-field context-growth diagnostic, separating trace from traceless shear.
 - [ ] Complete matched full-cap exact DTFE and global classical-plus-local-residual controls.
 - [ ] Reapply the classical adoption and five-fold promotion gates to converged results.
