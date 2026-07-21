@@ -128,6 +128,35 @@ def should_stop(*, epoch: int, stale_epochs: int, min_epochs: int, patience: int
     return epoch >= min_epochs and stale_epochs >= patience
 
 
+def validate_warm_start_contract(
+    state: dict,
+    *,
+    model: str,
+    rotation: int,
+    seed: int,
+) -> None:
+    """Reject a best-checkpoint that belongs to a different experiment.
+
+    A convergence extension is a new optimizer trajectory, not an in-place
+    resume.  It may reuse only the frozen model weights and their provenance;
+    the model family, fold-role rotation, and seed must still match exactly.
+    """
+    for field, expected in (
+        ("model", model),
+        ("rotation", int(rotation)),
+        ("seed", int(seed)),
+    ):
+        if state.get(field) != expected:
+            raise ValueError(
+                f"warm-start {field} mismatch: {state.get(field)} != {expected}"
+            )
+    if "state_dict" not in state:
+        raise ValueError("warm-start checkpoint has no state_dict")
+    for field in ("epoch", "score"):
+        if field not in state:
+            raise ValueError(f"warm-start checkpoint has no {field}")
+
+
 def append_jsonl(path: Path, row: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a", encoding="utf-8") as handle:

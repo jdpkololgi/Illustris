@@ -44,6 +44,7 @@ from workflows.abacus_tweb.p8_epoch_training import (
     rewrite_jsonl,
     should_stop,
     validate_resume_order,
+    validate_warm_start_contract,
 )
 
 
@@ -73,6 +74,14 @@ def git_revision() -> str:
         text=True,
     )
     return result.stdout.strip()
+
+
+def jsonable_arguments(arguments: dict) -> dict:
+    """Convert checkpoint arguments into stable JSON provenance."""
+    return {
+        key: str(value) if isinstance(value, Path) else value
+        for key, value in arguments.items()
+    }
 
 
 def validation_losses(
@@ -169,6 +178,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--run-name", default="control_v1")
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--warm-start-checkpoint", type=Path)
+    parser.add_argument("--epoch-seed-offset", type=int, default=0)
+    parser.add_argument("--disable-early-stopping", action="store_true")
     parser.add_argument("--canary", action="store_true")
     parser.add_argument("--p8-root", type=Path, default=P8_ROOT)
     parser.add_argument("--output-root", type=Path, default=OUTPUT_ROOT)
@@ -181,6 +193,29 @@ def parse_args() -> argparse.Namespace:
         parser.error("epochs and min-epochs must be positive")
     if args.min_epochs > args.epochs:
         parser.error("min-epochs cannot exceed epochs")
+    if args.epoch_seed_offset < 0:
+        parser.error("epoch-seed-offset must be non-negative")
+    if (
+        args.warm_start_checkpoint is not None
+        and not args.warm_start_checkpoint.is_file()
+    ):
+        parser.error(f"warm-start checkpoint not found: {args.warm_start_checkpoint}")
+    if args.warm_start_checkpoint is None and args.epoch_seed_offset != 0:
+        parser.error("epoch-seed-offset requires warm-start-checkpoint")
+    if args.warm_start_checkpoint is not None:
+        if args.run_name != "convergence_extension_v1":
+            parser.error(
+                "the pre-registered warm start requires "
+                "--run-name convergence_extension_v1"
+            )
+        if args.epochs != 20 or not np.isclose(args.lr, 2e-4):
+            parser.error(
+                "the convergence extension requires --epochs 20 --lr 2e-4"
+            )
+        if not args.disable_early_stopping:
+            parser.error(
+                "the convergence extension requires --disable-early-stopping"
+            )
     if args.patience <= 0 or args.loss_log_every <= 0 or args.checkpoint_every <= 0:
         parser.error("patience and logging/checkpoint intervals must be positive")
     if not args.canary and args.min_epochs < 5:
@@ -262,6 +297,53 @@ def main() -> None:
             rotation=args.rotation,
         )
 
+    warm_start = None
+    if args.warm_start_checkpoint is not None:
+        parent_best = torch_load(args.warm_start_checkpoint, args.device)
+        validate_warm_start_contract(
+            parent_best,
+            model=args.model,
+            rotation=args.rotation,
+            seed=args.seed,
+        )
+        if args.epoch_seed_offset != int(parent_best["epoch"]):
+            raise RuntimeError(
+                "epoch-seed-offset must equal the parent best epoch: "
+                f"{args.epoch_seed_offset} != {parent_best['epoch']}"
+            )
+        model.load_state_dict(parent_best["state_dict"])
+        parent_directory = args.warm_start_checkpoint.parent
+        parent_manifest_path = parent_directory / "run_manifest.json"
+        parent_recovery_path = parent_directory / "recovery_checkpoint.pt"
+        if not parent_manifest_path.is_file() or not parent_recovery_path.is_file():
+            raise RuntimeError(
+                "warm-start provenance requires sibling run_manifest.json and "
+                "recovery_checkpoint.pt"
+            )
+        parent_manifest = json.loads(parent_manifest_path.read_text())
+        parent_recovery = torch_load(parent_recovery_path, "cpu")
+        for field in ("model", "rotation", "seed"):
+            if parent_recovery.get(field) != getattr(args, field):
+                raise RuntimeError(
+                    f"parent recovery {field} mismatch: "
+                    f"{parent_recovery.get(field)} != {getattr(args, field)}"
+                )
+        warm_start = {
+            "checkpoint": str(args.warm_start_checkpoint),
+            "checkpoint_sha256": sha256(args.warm_start_checkpoint),
+            "parent_recovery_checkpoint": str(parent_recovery_path),
+            "parent_recovery_checkpoint_sha256": sha256(parent_recovery_path),
+            "parent_run_manifest": str(parent_manifest_path),
+            "parent_run_manifest_sha256": sha256(parent_manifest_path),
+            "parent_git_revision": parent_manifest["git_revision"],
+            "parent_epoch": int(parent_best["epoch"]),
+            "parent_global_step": int(parent_best["global_step"]),
+            "parent_score": float(parent_best["score"]),
+            "parent_arguments": jsonable_arguments(parent_recovery["arguments"]),
+            "optimizer_policy": "fresh AdamW and fresh cosine scheduler",
+        }
+        del parent_best, parent_recovery
+
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
     total_updates = args.epochs * len(training_core)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
@@ -310,6 +392,9 @@ def main() -> None:
             "unet_latent_channels",
             "canary",
             "run_name",
+            "warm_start_checkpoint",
+            "epoch_seed_offset",
+            "disable_early_stopping",
             "p8_root",
             "assignment",
             "p5_root",
@@ -376,6 +461,8 @@ def main() -> None:
         "objective": "complete-core epoch; sum(w_i mse_i)/mean(training core weight)",
         "canary": args.canary,
         "resume": args.resume,
+        "warm_start": warm_start,
+        "arguments": jsonable_arguments(vars(args)),
         "assignment": str(args.assignment),
         "assignment_sha256": sha256(args.assignment),
     }
@@ -400,7 +487,7 @@ def main() -> None:
                 order = epoch_order(
                     training_core,
                     seed=args.seed,
-                    epoch=epoch,
+                    epoch=args.epoch_seed_offset + epoch,
                     core_weight=training_core_weight,
                 )
                 cursor0 = 0
@@ -485,6 +572,7 @@ def main() -> None:
                 ):
                     row = {
                         "epoch": epoch,
+                        "effective_epoch": args.epoch_seed_offset + epoch,
                         "cursor": cursor + 1,
                         "global_step": global_step,
                         "training_weighted_mse_window": (
@@ -588,6 +676,7 @@ def main() -> None:
             )
             epoch_row = {
                 "epoch": epoch,
+                "effective_epoch": args.epoch_seed_offset + epoch,
                 "global_step": global_step,
                 "training_weighted_mse": accumulator.mean,
                 "training_loss_numerator": accumulator.weighted_numerator,
@@ -623,11 +712,13 @@ def main() -> None:
                         "rotation": args.rotation,
                         "seed": args.seed,
                         "epoch": epoch,
+                        "effective_epoch": args.epoch_seed_offset + epoch,
                         "global_step": global_step,
                         "score": score,
                         "scaler": scaler,
                         "normalization": normalization,
                         "feature_manifest": feature_manifest,
+                        "warm_start": warm_start,
                     },
                     output / "best_checkpoint.pt",
                 )
@@ -646,7 +737,7 @@ def main() -> None:
                 epoch_order(
                     training_core,
                     seed=args.seed,
-                    epoch=next_epoch,
+                    epoch=args.epoch_seed_offset + next_epoch,
                     core_weight=training_core_weight,
                 )
                 if next_epoch <= args.epochs else order
@@ -677,11 +768,15 @@ def main() -> None:
                 ),
                 checkpoint_path,
             )
-            if not args.canary and should_stop(
-                epoch=epoch,
-                stale_epochs=stale_epochs,
-                min_epochs=args.min_epochs,
-                patience=args.patience,
+            if (
+                not args.canary
+                and not args.disable_early_stopping
+                and should_stop(
+                    epoch=epoch,
+                    stale_epochs=stale_epochs,
+                    min_epochs=args.min_epochs,
+                    patience=args.patience,
+                )
             ):
                 stopped_early = True
                 break
@@ -690,10 +785,22 @@ def main() -> None:
             adapter.close()
 
     final_epoch = history[-1]["epoch"] if history else start_epoch - 1
+    extension_delta = (
+        float(best_score - warm_start["parent_score"])
+        if warm_start is not None and np.isfinite(best_score)
+        else None
+    )
     if args.canary:
         status = "CANARY_COMPLETE"
     elif stopped_early:
         status = "CONVERGED_EARLY_STOP"
+    elif warm_start is not None and args.disable_early_stopping:
+        if best_epoch >= final_epoch - 2:
+            status = "NOT_CONVERGED_EXTENSION_CAP"
+        elif extension_delta is not None and extension_delta < args.min_delta:
+            status = "EXTENSION_COMPLETE_NO_MATERIAL_GAIN"
+        else:
+            status = "EXTENSION_COMPLETE"
     else:
         status = "NOT_CONVERGED_MAX_EPOCHS"
     final = {
@@ -703,6 +810,7 @@ def main() -> None:
         "global_steps": int(global_step),
         "best_epoch": int(best_epoch),
         "best_primary_macro_r2_lambda1": float(best_score),
+        "extension_delta_from_parent": extension_delta,
         "history": history,
         "maximum_cuda_memory_bytes": int(maximum_memory),
         "elapsed_seconds": time.time() - started,

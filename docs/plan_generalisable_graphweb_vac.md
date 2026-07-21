@@ -1315,6 +1315,11 @@ Progress checklist:
   frozen patience/min-delta rule at epoch 15 (best macro R2 0.4682), while U-PATCH hit
   the 20-epoch cap still improving (best macro R2 0.4943).
 - [ ] Complete the unchanged rotation-2 `recovery_v1` runs for G-PATCH and U-PATCH.
+- [x] Implement and unit-test the guarded warm-start/fresh-optimizer extension contract
+  in `workflows/abacus_tweb/{p8_train_patch_recovery.py,p8_epoch_training.py}` and
+  `tests/phase4/test_p8_epoch_training.py`; the CLI enforces the registered run name,
+  20-epoch budget, `2e-4` learning rate, disabled early stopping, matching
+  model/rotation/seed, parent-best epoch offset, and complete checkpoint provenance.
 - [ ] Run the pre-registered `convergence_extension_v1` long-horizon test without
   modifying or overwriting the primary recovery artifacts.
 - [ ] Run the true-field context-growth diagnostic, separating trace from traceless shear.

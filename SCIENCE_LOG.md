@@ -42,6 +42,18 @@ Before opening rotation-2 results, the roadmap now pre-registers a separately na
 after every epoch, and unchanged architecture/data/metric contracts. The extension is
 an optimization diagnostic; it does not replace matched classical controls or P10.
 
+Implementation is now guarded in
+`workflows/abacus_tweb/{p8_train_patch_recovery.py,p8_epoch_training.py}`. The CLI
+rejects a mismatched run name, model, rotation, seed, parent-best epoch offset, learning
+rate, epoch budget, or enabled early stopping; it resets AdamW/cosine state, records the
+parent best/recovery/manifest paths and SHA-256 hashes, and labels a best score in the
+final three extension epochs `NOT_CONVERGED_EXTENSION_CAP`. Nine epoch-contract unit
+tests pass, Python compilation passes, and the actual rotation-0 GraphNet/U-Net best
+checkpoints both load into production-shaped models. Because the in-flight rotation-2
+runs were started at revision `19f68bd8da13a958e62302671bebf77713c6847e`, an exact
+detached resume worktree is retained at
+`/global/u2/d/dkololgi/TNG/Illustris_p8_resume_19f68b/`.
+
 ### 2026-07-21 — [code] P8 recovery rotation-0 FINAL: U-PATCH 0.4943 (hit the 20-epoch CAP still improving), G-PATCH 0.4682; both registered bars passed; figures regenerated
 
 Both rotation-0 recovery runs have finished. Figures regenerated from the final best checkpoints

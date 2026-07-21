@@ -14,6 +14,7 @@ from workflows.abacus_tweb.p8_epoch_training import (
     rewrite_jsonl,
     should_stop,
     validate_resume_order,
+    validate_warm_start_contract,
 )
 
 
@@ -86,6 +87,36 @@ class P8EpochTrainingTests(unittest.TestCase):
         self.assertFalse(improved(0.5049, 0.5, 0.005))
         self.assertFalse(should_stop(epoch=4, stale_epochs=4, min_epochs=5, patience=3))
         self.assertTrue(should_stop(epoch=5, stale_epochs=3, min_epochs=5, patience=3))
+
+    def test_warm_start_contract_requires_matching_best_checkpoint(self):
+        valid = {
+            "model": "graph",
+            "rotation": 0,
+            "seed": 42,
+            "state_dict": {"weight": np.ones(1)},
+            "epoch": 15,
+            "score": 0.4682,
+        }
+        validate_warm_start_contract(
+            valid, model="graph", rotation=0, seed=42
+        )
+        for field, value in (
+            ("model", "unet"),
+            ("rotation", 2),
+            ("seed", 43),
+        ):
+            broken = dict(valid)
+            broken[field] = value
+            with self.assertRaises(ValueError):
+                validate_warm_start_contract(
+                    broken, model="graph", rotation=0, seed=42
+                )
+        without_weights = dict(valid)
+        without_weights.pop("state_dict")
+        with self.assertRaises(ValueError):
+            validate_warm_start_contract(
+                without_weights, model="graph", rotation=0, seed=42
+            )
 
     def test_resume_reconciles_abandoned_and_duplicate_loss_rows(self):
         with tempfile.TemporaryDirectory() as directory:
