@@ -1,5 +1,56 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-21 — [code] Recovery PARITY plots (fig13/fig14): pooled lambda1 U 0.572 > G 0.528 ~ CIC 0.527; CIC's sparse-shell failure mode diagnosed as noise amplification
+
+Parity for the final recovery checkpoints over the COMPLETE rotation-0 validation fold (999,683
+authoritative cores) — previously only the short screens had parity plots.
+Code: workflows/abacus_tweb/plot_p8_recovery_parity.py.
+
+**Pooled (fig13), R2 / slope / amplitude ratio sigma_p/sigma_t:**
+| | lambda1 | lambda2 | lambda3 |
+|---|---|---|---|
+| G-PATCH | 0.528 / 0.61 / 0.82 | 0.652 / 0.70 / 0.86 | 0.705 / 0.70 / 0.84 |
+| U-PATCH | **0.572** / 0.57 / 0.75 | **0.658** / 0.66 / 0.81 | **0.727** / 0.73 / 0.85 |
+| CIC | 0.527 / 0.52 / 0.72 | 0.571 / 0.56 / 0.74 | 0.586 / 0.58 / 0.75 |
+U-PATCH leads all three eigenvalues on pooled R2 as well as on the registered macro metric; the
+learned/classical gap WIDENS with eigenvalue index (lambda3: 0.727 vs 0.586).
+
+**Amplitude ratios behave as theory predicts.** For a conditional-mean estimator sigma_p/sigma_t ~=
+sqrt(R2): U lambda1 sqrt(0.572)=0.756 vs measured 0.75; G sqrt(0.528)=0.727 vs 0.82 (G is slightly
+UNDER-shrunk, consistent with its knot over-prediction, 579 vs 461 true). So the compression seen in
+the field maps is honest shrinkage, not a pathology — the residual fix is calibration (P12), not loss
+engineering.
+
+**fig14 diagnoses CIC's sparse-shell collapse precisely.** In 0.45-0.55 CIC has slope 0.52 but
+sigma_p/sigma_t = **1.33** and R2 = -0.763: it produces a WIDE, essentially uncorrelated prediction
+cloud with a visible horizontal stripe of near-constant values — noise amplification where tracers
+vanish. The learned models do the opposite: sigma_p/sigma_t ~ 0.59-0.60, i.e. they shrink toward the
+mean but stay correlated (R2 0.34). This is the mechanistic explanation of the macro-metric gap and
+independently justifies the plan's rule that a macro win driven by classical collapse is not an
+encoder win — while also showing the learned behaviour is the SAFER failure mode for a VAC.
+
+**Per-shell trend (both learned models):** R2 and amplitude ratio decline monotonically with
+decreasing tracer density (U: 0.604/0.555/0.478/0.341 with ratios 0.76/0.75/0.70/0.59) — the
+signature of sampling-information limitation, matching the three independent data-limitation lines.
+
+### 2026-07-21 — [code] P0S near-complete: env specs + scratch-only ph000 source preserved to git
+- What: Executed the safe, no-move parts of P0S. (1) Exported reproducibility records for both
+  envs → `docs/evidence/p0s/env/` (`cosmic_env` py3.11.15: jax 0.7.2/torch 2.9.1/gudhi 3.11.0;
+  `rapids-gnn` py3.11.14: cudf/cugraph 26.02); from-history+full YAML, explicit spec, conda/pip
+  lists, import smoke tests, CUDA/module metadata. (2) Inventoried + checksummed 42 scratch-only
+  source files under `abacus/SecondGen_Mocks/ph000/`; overlap check showed NONE existed in either
+  repo. Copied them into version control (0 checksum mismatches): 27 code/docs →
+  `workflows/abacus_tweb/secondgen_mocks/ph000/`, 15 JSON manifests → `docs/evidence/p0s/ph000_manifests/`.
+  (3) Wrote `docs/evidence/p0s/MIGRATION_MANIFEST.md` (classified manifest + dry-run move table).
+- Why / decision: pscratch is purge-eligible before the downtime; these scripts + env definitions
+  are irreplaceable and were only on scratch (now also inside HPSS tarballs, but tape ≠ versioned
+  source). No pscratch files modified — read/copy only, per user constraint.
+- Next: P0S remainder = reviewed **CFS** copies of irreplaceable catalogues/checkpoints
+  (`abacus/p1b_full_footprint/`, scalers, best checkpoints). Blocked on CFS target + space — `desi`
+  project is 93% full. Awaiting user go-ahead.
+- Refs: `docs/evidence/p0s/` (MIGRATION_MANIFEST.md, env/, ph000_manifests/, ph000_source_inventory.raw.tsv),
+  `workflows/abacus_tweb/secondgen_mocks/ph000/`, plan P0S status line.
+
 ### 2026-07-21 — [science/code] P9 EARLY VERDICT: a CIC-residual/hybrid is NOT worth building; U+G ensembling is the only combination that helps (+0.012)
 
 Ran the P9 complementarity audit early using the frozen rotation-0 predictions (all three methods on
