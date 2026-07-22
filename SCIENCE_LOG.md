@@ -1,5 +1,34 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-22 — [code] Exact checkpoint resume launched for both rotation-0 P8 convergence extensions
+
+The first `convergence_extension_v1` interactive allocations ended at the
+four-hour wall rather than at the registered 20-epoch cap. G-PATCH had written
+11 complete extension epochs and checkpointed epoch 12 at cursor 139
+(`global_step=114000`); U-PATCH had written 13 complete extension epochs and
+checkpointed partway through epoch 14. Both retained full model, optimizer,
+cosine-scheduler, RNG, sampler-order, and partial-epoch accumulator state.
+
+Two new interactive 80-GB A100 allocations now continue those exact states:
+
+- G-PATCH: allocation `56305444`, node `nid008381`, four-hour limit; output
+  `/pscratch/sd/d/dkololgi/logs/p8_convergence_extension_graph_rot0_resume_56305444.out`
+  and stderr alongside it with suffix `.err`.
+- U-PATCH: allocation `56305445`, node `nid008304`, four-hour limit; output
+  `/pscratch/sd/d/dkololgi/logs/p8_convergence_extension_unet_rot0_resume_56305445.out`
+  and stderr alongside it with suffix `.err`.
+
+Both steps use `--resume` against the existing artifact directories under
+`/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/convergence_extension_v1/`.
+The checkpoint code revision is frozen at
+`03c2397658934e24cbcbbda3bff8d8f234e1df10`; execution therefore uses a
+detached shared-home worktree at that exact revision rather than weakening the
+resume guard. No architecture, split, target, scaler, objective, learning-rate,
+schedule, seed, or extension-length contract changed. The existing best scores
+remain G-PATCH `0.4879539` and U-PATCH `0.5036065` until a later complete-fold
+validation improves them. P8 remains in progress until both reach the
+registered 20 complete extension epochs and their final artifacts are audited.
+
 ### 2026-07-21 — [code] Frozen P8 long-horizon extensions launched on rotation 0
 
 The pre-registered `convergence_extension_v1` is now running for G-PATCH and
