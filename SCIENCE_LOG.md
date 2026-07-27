@@ -1,5 +1,24 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-07-27 — [code] Docs: P8 recovery / convergence extension / P9 operational notes
+
+Updated `ACTIVE_WORKFLOWS.md`, `RUNBOOK.md`, and `workflows/abacus_tweb/README.md`
+so the exposure-aware recovery trainer, guarded `convergence_extension_v1`
+warm-start contract, recovery plotters, and P9 residual-blend diagnostic are
+discoverable from the canonical index/runbook (prior draft PR #12 only covered
+frozen short screens and never merged). Distinguishes short-screen vs
+`recovery_v1` vs extension run classes; records linear-increment vs softplus
+target split, resume Git-revision freeze, and DESI `PYTHONPATH` pitfall.
+
+- What: documentation-only sync for P8/P9 entrypoints and constraints
+- Why / decision: recovery + extension landed after the last docs automation;
+  operators still had no runbook beyond `SCIENCE_LOG.md` / plan checklists
+- Next: keep numbers in the science log; refresh runbook status when extension
+  audits close or P10 opens
+- Refs: `ACTIVE_WORKFLOWS.md`, `RUNBOOK.md`, `workflows/abacus_tweb/README.md`;
+  codepaths `p8_train_patch_recovery.py`, `p8_epoch_training.py`,
+  `p9_residual_complementarity_audit.py`
+
 ### 2026-07-22 — [code] Exact checkpoint resume launched for both rotation-0 P8 convergence extensions
 
 The first `convergence_extension_v1` interactive allocations ended at the
