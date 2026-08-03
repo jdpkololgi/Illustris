@@ -40,6 +40,29 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   - `workflows/abacus_tweb/p3a_canary_parity.py`
   - `workflows/abacus_tweb/p3a_build_canonical_fields.py`
   - `workflows/abacus_tweb/p3a_postbuild_validate.py`
+- Generalisable-GraphWeb P8 spatial-transfer screen and recovery:
+  - Short screens (immutable): `p8_prepare_deterministic.py`,
+    `p8_prepare_graph_features.py`, `p8_classical_fullcap.py`,
+    `p8_train_graph_patch.py`, `p8_train_unet_patch.py`,
+    `p8_audit_training_adequacy.py`, `p8_summarize_screens.py`
+  - Exposure-aware recovery / extension: `p8_epoch_training.py`,
+    `p8_train_patch_recovery.py`, `p8_audit_recovery_run.py`
+  - Evidence plots: `plot_p8_recovery_curves.py`,
+    `plot_p8_recovery_parity.py`, `plot_p8_recovery_visuals.py`,
+    `plot_p8_rotation2_eval.py`
+  - P9 residual complementarity diagnostic:
+    `p9_residual_complementarity_audit.py`
+  - Current status: two-rotation `recovery_v1` complete (U-PATCH mean
+    0.5035 clears both registered bars; G-PATCH fails the classical
+    supported-shell bar). Primary artifacts are immutable.
+    `convergence_extension_v1` on rotation 0 is the in-flight
+    long-horizon diagnostic (mid-epoch `--resume` under a frozen Git
+    SHA). Same-phase evidence only — P10 remains the production-transfer
+    gate. See `RUNBOOK.md` and `docs/plan_generalisable_graphweb_vac.md`
+    §P8/P9.
+- Second-gen staged mocks (ph000 helpers):
+  - `workflows/abacus_tweb/secondgen_mocks/ph000/README.md`
+  - Preservation evidence: `docs/evidence/p0s/`
 - Abacus SBI cache + wedge subvolumes:
   - `workflows/abacus_tweb/build_abacus_sbi_cache.py`
   - `workflows/abacus_tweb/subset_abacus_graph_wedge_for_sbi.py`
@@ -99,6 +122,10 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   `workflows/abacus_tweb/ABACUS_TWEB_AUDIT_FINDINGS.md`.
 - Partitioned SBI alignment checks and current learning diagnostics are tracked
   in `workflows/sbi/ABACUS_SBI_DEBUG_STRATEGY.md`.
+- P8 recovery `--resume` freezes the checkpoint Git revision and CLI contract:
+  resume from a detached worktree at that SHA with identical arguments rather
+  than weakening the guard. Clear inherited DESI `PYTHONPATH`/`PYTHONHOME`
+  before launching interactive recovery jobs.
 - Root-level compatibility shims exist for some historical imports and scripts,
   but new runs and docs should use canonical `workflows/...` and `shared/...`
   paths.
