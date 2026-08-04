@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import subprocess
 import time
 from pathlib import Path
 import sys
@@ -330,10 +331,15 @@ def main() -> None:
     np.save(output / "anchor_box_position_mpc_h.npy", box_positions)
     np.save(output / "full_tensor_ngrid1024.npy", full_tensor.astype(np.float32))
     np.save(output / "local_tensor_by_radius.npy", local_tensors)
+    git_revision = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, check=True,
+        capture_output=True, text=True,
+    ).stdout.strip()
     report = {
         "schema_version": 1,
         "stage": "P8 true-field physical-context convergence",
         "status": "TRUE_FIELD_CONTEXT_COMPLETE",
+        "git_revision": git_revision,
         "reference": {
             "description": "full periodic matched-resolution true matter field",
             "boxsize_mpc_h": BOXSIZE_MPC_H, "ngrid": int(density.shape[0]),
@@ -360,7 +366,10 @@ def main() -> None:
             "density_sha256": downsample_manifest["source_sha256"],
             "downsampled_density": str(downsample_path),
             "downsample_manifest": str(output / "downsample_manifest.json"),
-            "catalogue": str(args.catalogue), "assignment": str(args.assignment),
+            "catalogue": str(args.catalogue),
+            "catalogue_sha256": sha256(args.catalogue),
+            "assignment": str(args.assignment),
+            "assignment_sha256": sha256(args.assignment),
         },
         "elapsed_seconds": time.time() - started,
     }

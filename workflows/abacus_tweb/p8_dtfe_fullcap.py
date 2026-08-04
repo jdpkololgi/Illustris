@@ -16,6 +16,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import subprocess
 import time
 from pathlib import Path
 import sys
@@ -379,6 +380,10 @@ def main() -> None:
     adapter = json.loads((args.field_adapter / "adapter_manifest.json").read_text())
     points = np.load(args.points, mmap_mode="r")
     tets = np.load(args.tets, mmap_mode="r")
+    git_revision = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, check=True,
+        capture_output=True, text=True,
+    ).stdout.strip()
     if args.mode in ("preflight", "all"):
         report = {
             CAP_NAME[cap]: preflight_aabb_visits(
@@ -417,10 +422,17 @@ def main() -> None:
             )
         build_report = {
             "schema_version": 1, "estimator": "exact_piecewise_linear_dtfe",
+            "git_revision": git_revision,
             "vertex_density": "4/sum incident tetrahedron volumes",
             "rasterization": "barycentric interpolation in immutable global Delaunay tetrahedra",
             "caps": cap_reports,
-            "inputs": {"points": str(args.points), "tets": str(args.tets), "volumes": str(args.volumes)},
+            "inputs": {
+                "points": str(args.points), "points_sha256": sha256(args.points),
+                "tets": str(args.tets), "tets_sha256": sha256(args.tets),
+                "volumes": str(args.volumes), "volumes_sha256": sha256(args.volumes),
+                "field_adapter": str(args.field_adapter / "adapter_manifest.json"),
+                "field_adapter_sha256": sha256(args.field_adapter / "adapter_manifest.json"),
+            },
         }
         atomic_json(args.output_root / "dtfe_build_report.json", build_report)
         if min(v["supported_coverage"] for v in cap_reports.values()) < 0.99:
@@ -435,6 +447,7 @@ def main() -> None:
         summary = {
             "schema_version": 1, "stage": "P8 matched exact full-cap DTFE",
             "estimator": "exact_piecewise_linear_dtfe",
+            "git_revision": git_revision,
             "screen_rotations": list(args.screen_rotations),
             "primary_score_by_rotation": scores, "primary_score_mean": float(np.mean(scores)),
             "calibration": "three scalar affine maps fit on registered training folds only",
