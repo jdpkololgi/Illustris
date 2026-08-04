@@ -1,5 +1,29 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-04 — [code] Frozen rotation-2 G-PATCH and U-PATCH convergence extensions launched interactively
+
+The pre-registered rotation-2 `convergence_extension_v1` runs are active on
+two independent interactive 80-GB A100 allocations after CUDA/environment
+smoke tests passed. No `sbatch` jobs were used.
+
+- G-PATCH: allocation `56320768`, node `nid008589`, four-hour limit;
+  parent epoch 16 / macro R2(lambda1) `0.47083495`; output
+  `/pscratch/sd/d/dkololgi/logs/p8_convergence_extension_graph_rot2_56320768.out`
+  and matching `.err`.
+- U-PATCH: allocation `56320772`, node `nid008292`, three-hour limit;
+  parent epoch 20 / macro R2(lambda1) `0.51278075`; output
+  `/pscratch/sd/d/dkololgi/logs/p8_convergence_extension_unet_rot2_56320772.out`
+  and matching `.err`.
+- Artifacts:
+  `/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/convergence_extension_v1/{graph,unet}/rotation_2/seed_42/`.
+
+Both guarded run manifests record revision
+`c92356a2bf1b5d721bc09f003e7b6d82e87cf537`, the immutable
+`recovery_v1` parent paths and hashes, fresh AdamW/cosine state, exactly 20
+complete-exposure epochs at `2e-4`, disabled early stopping, and unchanged
+fold/target/scaler/model contracts. Atomic mid-epoch checkpoints remain the
+recovery mechanism if either interactive wall expires.
+
 ### 2026-08-04 — [science/code] Rotation-0 P8 convergence extensions COMPLETE: U-PATCH remains the leader; both schedules are practically saturated, rotation 2 remains required
 
 The exact-resume `convergence_extension_v1` runs launched before the NERSC
