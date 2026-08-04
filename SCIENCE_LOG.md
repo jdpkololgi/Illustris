@@ -1,5 +1,35 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-04 — [result] P8 rotation-2 extensions and true-field context gate complete
+
+The frozen rotation-2 `convergence_extension_v1` runs completed all 20 epochs
+with immutable revision `c92356a` and exact checkpoint resumes:
+
+- G-PATCH improves macro-shell `R2_lambda1 = 0.4708 -> 0.4825`; its best
+  effective epoch is 36, pooled `R2 = 0.5523`, first-three-shell macro
+  `R2 = 0.5331`, and sparse-shell `R2 = 0.3305`.
+- U-PATCH improves macro-shell `R2_lambda1 = 0.5128 -> 0.5197`; its best
+  effective epoch is 39, pooled `R2 = 0.6055`, first-three-shell macro
+  `R2 = 0.5860`, and sparse-shell `R2 = 0.3210`.
+
+U-PATCH therefore retains the transferable accuracy lead on both registered
+rotations and, importantly, on the three classically supported shells; this
+is not a macro-only win caused by collapse of the final shell.
+
+The true-density context-growth diagnostic also completed (`177 s`, marker
+`TRUE_FIELD_CONTEXT_COMPLETE`). Against the matched full-periodic 1024-grid
+reference, overall eigenvalue RMSE falls from `9.27%` of reference scatter at
+`60 Mpc/h` context to `4.66/2.34/1.41/0.88%` at
+`120/180/240/360 Mpc/h`. Missing external context is measurable and converges
+smoothly; it must remain an explicit field-model deployment control.
+
+The exact full-cap DTFE preflight completed but is a red engineering gate.
+The naive tetrahedron-AABB raster has an upper bound of approximately
+`77.5e9` voxel--tetrahedron visits; extreme boundary tetrahedra have AABBs
+covering approximately `18e6` voxels. The exact NGC+SGC build was correctly
+not launched. Replace the tet-centric AABB enumeration with accelerated
+voxel point location before continuing this baseline.
+
 ### 2026-08-04 — [code] P8 true-field context and exact full-cap DTFE runtime workflows implemented
 
 The two remaining non-neural P8 controls now have explicit, tested runtime

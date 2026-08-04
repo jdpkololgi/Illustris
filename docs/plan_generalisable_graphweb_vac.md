@@ -1324,23 +1324,31 @@ Progress checklist:
   `tests/phase4/test_p8_epoch_training.py`; the CLI enforces the registered run name,
   20-epoch budget, `2e-4` learning rate, disabled early stopping, matching
   model/rotation/seed, parent-best epoch offset, and complete checkpoint provenance.
-- [ ] Complete the pre-registered `convergence_extension_v1` long-horizon test
+- [x] Complete the pre-registered `convergence_extension_v1` long-horizon test
   without modifying or overwriting the primary recovery artifacts. Rotation 0
-  is complete: G-PATCH improves `0.4682 -> 0.4910` and U-PATCH
-  `0.4943 -> 0.5070`; the final-five-epoch gains are only approximately 0.0013
-  and 0.0008 with exhausted cosine schedules. The frozen trigger fired for
-  both models. The identical rotation-2 extensions are active under
+  improves G-PATCH `0.4682 -> 0.4910` and U-PATCH `0.4943 -> 0.5070`.
+  Rotation 2 improves G-PATCH `0.4708 -> 0.4825` and U-PATCH
+  `0.5128 -> 0.5197`. Both 20-epoch extensions exhausted their cosine
+  schedules. Artifacts are under
   `/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/convergence_extension_v1/`
   using the immutable `c92356a` training revision and exact-resume checkpoints.
-- [ ] Run the true-field context-growth diagnostic, separating trace from
-  traceless shear. The tested implementation is
-  `workflows/abacus_tweb/p8_true_field_context.py`; runtime evidence belongs
+- [x] Run the true-field context-growth diagnostic, separating trace from
+  traceless shear. The implementation is
+  `workflows/abacus_tweb/p8_true_field_context.py`; runtime evidence is
   under `/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/true_field_context_v1/`
-  and completion requires `TRUE_FIELD_CONTEXT_COMPLETE`.
+  with marker `TRUE_FIELD_CONTEXT_COMPLETE`. The matched 1024-grid experiment
+  uses true-density radii 60/120/180/240/360 Mpc/h. Overall eigenvalue RMSE
+  falls from 9.27% to 0.88% of the full-periodic reference scatter between
+  60 and 360 Mpc/h.
 - [ ] Complete matched full-cap exact DTFE and global classical-plus-local-residual
   controls. Exact `4/Vstar` plus tetrahedral barycentric rasterisation is
-  implemented in `workflows/abacus_tweb/p8_dtfe_fullcap.py`; its preflight,
-  cap fields, and matched rotation reports belong under
+  implemented in `workflows/abacus_tweb/p8_dtfe_fullcap.py`. The completed
+  full-cap preflight is a red engineering gate: the tet-centric AABB kernel has
+  an upper bound of approximately 77.5 billion voxel--tetrahedron visits, and
+  individual boundary tetrahedra span AABBs of approximately 18 million voxels.
+  A spatially accelerated voxel point-location/rasterisation method must replace
+  the naive AABB enumeration before the exact NGC+SGC build can be authorized.
+  Evidence remains under
   `/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/classical/dtfe_fullcap_v1/`.
 - [ ] Reapply the classical adoption and five-fold promotion gates to converged results.
 - [ ] Spend three seeds only on candidates that pass the recovered two-rotation gate.
