@@ -1329,9 +1329,19 @@ Progress checklist:
   is complete: G-PATCH improves `0.4682 -> 0.4910` and U-PATCH
   `0.4943 -> 0.5070`; the final-five-epoch gains are only approximately 0.0013
   and 0.0008 with exhausted cosine schedules. The frozen trigger fired for
-  both models, so the identical rotation-2 extensions remain required.
-- [ ] Run the true-field context-growth diagnostic, separating trace from traceless shear.
-- [ ] Complete matched full-cap exact DTFE and global classical-plus-local-residual controls.
+  both models. The identical rotation-2 extensions are active under
+  `/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/convergence_extension_v1/`
+  using the immutable `c92356a` training revision and exact-resume checkpoints.
+- [ ] Run the true-field context-growth diagnostic, separating trace from
+  traceless shear. The tested implementation is
+  `workflows/abacus_tweb/p8_true_field_context.py`; runtime evidence belongs
+  under `/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/true_field_context_v1/`
+  and completion requires `TRUE_FIELD_CONTEXT_COMPLETE`.
+- [ ] Complete matched full-cap exact DTFE and global classical-plus-local-residual
+  controls. Exact `4/Vstar` plus tetrahedral barycentric rasterisation is
+  implemented in `workflows/abacus_tweb/p8_dtfe_fullcap.py`; its preflight,
+  cap fields, and matched rotation reports belong under
+  `/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/classical/dtfe_fullcap_v1/`.
 - [ ] Reapply the classical adoption and five-fold promotion gates to converged results.
 - [ ] Spend three seeds only on candidates that pass the recovered two-rotation gate.
 - [x] Keep log-gap, FMPE/NPE, JEPA, HOD, and broad architecture branches gated while the

@@ -1,5 +1,29 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-04 — [code] P8 true-field context and exact full-cap DTFE runtime workflows implemented
+
+The two remaining non-neural P8 controls now have explicit, tested runtime
+implementations rather than prose-only gates.
+
+- `workflows/abacus_tweb/p8_true_field_context.py` block-averages the true
+  2048^3 Abacus density to a tractable 1024^3 field, computes a full periodic
+  matched-resolution tensor reference, and compares finite true-field context
+  radii of 60/120/180/240/360 Mpc/h. It reports trace, centered traceless-shear
+  eigenvalues, shear amplitude, and eigenvalues overall, by shell, and by
+  conservative fold-boundary-distance bin. The canonical 2048^3 labels are a
+  separately reported resolution floor, not the finite-context reference.
+- `workflows/abacus_tweb/p8_dtfe_fullcap.py` computes standard 3-D DTFE vertex
+  densities `4 / sum(V_tet)`, then barycentrically rasterizes the immutable
+  global NGC+SGC tetrahedra. It includes an AABB-workload preflight and only
+  calls the estimator DTFE after the exact piecewise-linear field is built.
+  Its evaluation uses the same P3 grids, frozen rotation-specific selection,
+  P4 authoritative rows, fixed tidal operator, and training-only affine policy
+  as the matched CIC row.
+
+Four numerical unit tests pass: periodic cube extraction, taper geometry,
+Fourier trace consistency, and exact linear-field barycentric interpolation.
+Runtime markers remain deliberately absent until the full-data runs complete.
+
 ### 2026-08-04 — [code] Frozen rotation-2 G-PATCH and U-PATCH convergence extensions launched interactively
 
 The pre-registered rotation-2 `convergence_extension_v1` runs are active on
