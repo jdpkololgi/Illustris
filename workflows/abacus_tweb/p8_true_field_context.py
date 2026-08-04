@@ -228,20 +228,22 @@ def main() -> None:
     ngrid = source.shape[0]
     factor = int(args.downsample_factor)
     downsample_path = output / f"density_blockmean_ngrid{ngrid // factor}.npy"
-    if not downsample_path.exists():
+    downsample_manifest_path = output / "downsample_manifest.json"
+    if not (downsample_path.exists() and downsample_manifest_path.exists()):
+        # A partial file without its manifest is never trusted after a wall-time exit.
         destination = np.lib.format.open_memmap(
             downsample_path, mode="w+", dtype=np.float32,
             shape=(ngrid // factor,) * 3,
         )
         density_mean = downsample_mean(source, destination, factor, args.downsample_slab)
         del destination
-        atomic_json(output / "downsample_manifest.json", {
+        atomic_json(downsample_manifest_path, {
             "source": str(args.density), "source_sha256": sha256(args.density),
             "factor": factor, "method": "exact non-overlapping block mean",
             "shape": [ngrid // factor] * 3, "global_density_mean": density_mean,
             "output": str(downsample_path), "output_sha256": sha256(downsample_path),
         })
-    downsample_manifest = json.loads((output / "downsample_manifest.json").read_text())
+    downsample_manifest = json.loads(downsample_manifest_path.read_text())
     density_mean = float(downsample_manifest["global_density_mean"])
     density = np.load(downsample_path, mmap_mode="r")
     assignment = np.load(args.assignment, mmap_mode="r")
@@ -263,14 +265,27 @@ def main() -> None:
     ).astype(np.float64)
     cell = BOXSIZE_MPC_H / density.shape[0]
     full_indices = np.floor(box_positions / cell).astype(np.int64) % density.shape[0]
-    full_field = torch.from_numpy(
-        np.asarray(density, dtype=np.float32) / density_mean - 1.0
-    ).to(args.device)
-    full_tensor = tensor_at_indices(
-        full_field, full_indices, cell_mpc_h=cell, rsmooth_mpc_h=RSMOOTH_MPC_H
-    )
+    full_tensor_path = output / "full_tensor_ngrid1024.npy"
+    full_tensor_manifest_path = output / "full_tensor_manifest.json"
+    if full_tensor_path.exists() and full_tensor_manifest_path.exists():
+        full_tensor = np.load(full_tensor_path)
+        if full_tensor.shape != (len(full_indices), 3, 3):
+            raise RuntimeError(f"invalid cached full tensor shape: {full_tensor.shape}")
+    else:
+        full_field = torch.from_numpy(
+            np.asarray(density, dtype=np.float32) / density_mean - 1.0
+        ).to(args.device)
+        full_tensor = tensor_at_indices(
+            full_field, full_indices, cell_mpc_h=cell, rsmooth_mpc_h=RSMOOTH_MPC_H
+        )
+        np.save(full_tensor_path, full_tensor.astype(np.float32))
+        atomic_json(full_tensor_manifest_path, {
+            "downsample_sha256": downsample_manifest["output_sha256"],
+            "cell_mpc_h": cell, "smoothing_mpc_h": RSMOOTH_MPC_H,
+            "anchor_parent_node_id": parent.tolist(),
+        })
+        del full_field
     full_reference = tensor_invariants(full_tensor)
-    del full_field
     torch.cuda.empty_cache()
     canonical_eigenvalues = np.column_stack([
         columns["LAMBDA1"], columns["LAMBDA2"], columns["LAMBDA3"]
@@ -290,21 +305,31 @@ def main() -> None:
         half_width = int(math.ceil(float(radius) / cell))
         apodization = int(math.ceil(args.apodization_mpc_h / cell))
         padding = int(math.ceil(args.padding_mpc_h / cell))
-        tensors = []
-        for centre in full_indices:
-            cube = periodic_cube(density, centre, half_width)
-            values = torch.from_numpy(cube / density_mean - 1.0).to(args.device)
-            values *= cosine_taper(tuple(values.shape), apodization, args.device)
-            if padding:
-                values = torch.nn.functional.pad(values[None, None], (padding,) * 6)[0, 0]
-            local_centre = np.asarray([[half_width + padding] * 3], dtype=np.int64)
-            tensor = tensor_at_indices(
-                values, local_centre, cell_mpc_h=cell, rsmooth_mpc_h=RSMOOTH_MPC_H
-            )[0]
-            tensors.append(tensor)
-            del values
-            torch.cuda.empty_cache()
-        tensors = np.asarray(tensors)
+        radius_tag = f"{float(radius):g}".replace(".", "p")
+        radius_tensor_path = output / f"local_tensor_radius_{radius_tag}_mpch.npy"
+        if radius_tensor_path.exists():
+            tensors = np.load(radius_tensor_path)
+            if tensors.shape != (len(full_indices), 3, 3):
+                raise RuntimeError(
+                    f"invalid cached radius tensor shape at {radius}: {tensors.shape}"
+                )
+        else:
+            tensors = []
+            for centre in full_indices:
+                cube = periodic_cube(density, centre, half_width)
+                values = torch.from_numpy(cube / density_mean - 1.0).to(args.device)
+                values *= cosine_taper(tuple(values.shape), apodization, args.device)
+                if padding:
+                    values = torch.nn.functional.pad(values[None, None], (padding,) * 6)[0, 0]
+                local_centre = np.asarray([[half_width + padding] * 3], dtype=np.int64)
+                tensor = tensor_at_indices(
+                    values, local_centre, cell_mpc_h=cell, rsmooth_mpc_h=RSMOOTH_MPC_H
+                )[0]
+                tensors.append(tensor)
+                del values
+                torch.cuda.empty_cache()
+            tensors = np.asarray(tensors)
+            np.save(radius_tensor_path, tensors.astype(np.float32))
         local_tensors.append(tensors)
         local = tensor_invariants(tensors)
         overall = summarize_errors(local, full_reference)
@@ -324,12 +349,16 @@ def main() -> None:
             "radius_mpc_h": float(radius), "half_width_voxels": half_width,
             "cube_side_voxels": 2 * half_width + 1,
             "apodization_voxels": apodization, "padding_voxels": padding,
+            "tensor_path": str(radius_tensor_path),
             "overall": overall, "by_shell": by_shell, "by_boundary_bin": by_boundary,
         }
+        atomic_json(
+            output / f"context_radius_{radius_tag}_report.json",
+            radii_report[str(float(radius))],
+        )
     local_tensors = np.asarray(local_tensors, dtype=np.float32)
     np.save(output / "anchor_parent_node_id.npy", parent)
     np.save(output / "anchor_box_position_mpc_h.npy", box_positions)
-    np.save(output / "full_tensor_ngrid1024.npy", full_tensor.astype(np.float32))
     np.save(output / "local_tensor_by_radius.npy", local_tensors)
     git_revision = subprocess.run(
         ["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, check=True,
@@ -365,7 +394,7 @@ def main() -> None:
             "density": str(args.density),
             "density_sha256": downsample_manifest["source_sha256"],
             "downsampled_density": str(downsample_path),
-            "downsample_manifest": str(output / "downsample_manifest.json"),
+            "downsample_manifest": str(downsample_manifest_path),
             "catalogue": str(args.catalogue),
             "catalogue_sha256": sha256(args.catalogue),
             "assignment": str(args.assignment),
