@@ -956,7 +956,7 @@ Progress checklist:
 ### P8 — Matched spatial target-generalisation training
 
 **Status:** TWO-ROTATION EXPOSURE-AWARE RECOVERY COMPLETE; ROTATION-0
-LONG-HORIZON CONVERGENCE EXTENSION IN FLIGHT (2026-07-21)
+LONG-HORIZON EXTENSION COMPLETE; ROTATION-2 EXTENSION REQUIRED (2026-08-04)
 **Duration:** recovery estimate follows the exposure audit; three-seed finalists later
 
 G-PATCH, U-PATCH, and F-PATCH may now enter the matched deterministic protocol.
@@ -1324,8 +1324,12 @@ Progress checklist:
   `tests/phase4/test_p8_epoch_training.py`; the CLI enforces the registered run name,
   20-epoch budget, `2e-4` learning rate, disabled early stopping, matching
   model/rotation/seed, parent-best epoch offset, and complete checkpoint provenance.
-- [ ] Run the pre-registered `convergence_extension_v1` long-horizon test without
-  modifying or overwriting the primary recovery artifacts.
+- [ ] Complete the pre-registered `convergence_extension_v1` long-horizon test
+  without modifying or overwriting the primary recovery artifacts. Rotation 0
+  is complete: G-PATCH improves `0.4682 -> 0.4910` and U-PATCH
+  `0.4943 -> 0.5070`; the final-five-epoch gains are only approximately 0.0013
+  and 0.0008 with exhausted cosine schedules. The frozen trigger fired for
+  both models, so the identical rotation-2 extensions remain required.
 - [ ] Run the true-field context-growth diagnostic, separating trace from traceless shear.
 - [ ] Complete matched full-cap exact DTFE and global classical-plus-local-residual controls.
 - [ ] Reapply the classical adoption and five-fold promotion gates to converged results.

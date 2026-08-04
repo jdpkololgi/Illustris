@@ -1,5 +1,44 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-04 — [science/code] Rotation-0 P8 convergence extensions COMPLETE: U-PATCH remains the leader; both schedules are practically saturated, rotation 2 remains required
+
+The exact-resume `convergence_extension_v1` runs launched before the NERSC
+shutdown both completed their registered 20 additional complete-exposure epochs.
+Each completion retained 100% unique-core exposure per epoch, the frozen
+rotation-0 folds, target/scaler, architecture, row-weighted objective, seed 42,
+fresh AdamW optimizer at `2e-4`, cosine schedule, and immutable `recovery_v1`
+parent checkpoint.
+
+| rotation-0 model | parent macro R2(lambda1) | extension best | gain | effective epoch | pooled R2(lambda1) | first-three macro | final shell |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| G-PATCH | 0.4682 | **0.4910** | +0.0228 | 35 | 0.5598 | 0.5360 | **0.3560** |
+| U-PATCH | 0.4943 | **0.5070** | +0.0127 | 39 | **0.5879** | **0.5609** | 0.3453 |
+
+The corresponding per-shell lambda1 results are G-PATCH
+`0.5876/0.5444/0.4759/0.3560` and U-PATCH
+`0.6223/0.5708/0.4896/0.3453`. U-PATCH remains the strongest overall
+deterministic encoder; G-PATCH gained more from slow training and retains a
+small sparse-shell advantage. Pooled U-PATCH lambda2/lambda3 R2 is
+`0.6582/0.7333`, and its pooled lambda1 Spearman coefficient is `0.7921`.
+
+Both immutable run summaries correctly say `NOT_CONVERGED_EXTENSION_CAP`
+because their best checkpoint lies in the final three extension epochs. That
+formal marker is retained. Numerically, however, the last-five-epoch primary
+score changes are only approximately `+0.0013` for G and `+0.0008` for U, and
+the cosine learning rates reach zero. Thus rotation 0 is operationally
+saturated under the registered schedule; no further rotation-0 continuation is
+justified. The pre-registered trigger for applying the identical extension to
+rotation 2 fired for both models because each improved its parent by more than
+0.005.
+
+This is not yet a production or classical-method victory. It is one
+same-phase, one-seed rotation. The exact matched full-cap DTFE row, true-field
+trace/shear context-growth diagnostic, rotation-2 extension, seed/fold
+replication, and P10 fresh-phase blind test remain binding. Runtime artifacts:
+
+- `/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/convergence_extension_v1/graph/rotation_0/seed_42/`;
+- `/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/convergence_extension_v1/unet/rotation_0/seed_42/`.
+
 ### 2026-07-22 — [code] Exact checkpoint resume launched for both rotation-0 P8 convergence extensions
 
 The first `convergence_extension_v1` interactive allocations ended at the
