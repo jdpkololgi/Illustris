@@ -413,13 +413,19 @@ def main() -> None:
         for cap in (0, 1):
             name = CAP_NAME[cap]
             row = adapter["caps"][name]
-            cap_reports[name] = rasterize_cap(
-                points=points, tets=tets, vertex_density=vertex_density, cap=cap,
-                field_path=Path(row["field_path"]),
-                origin=np.asarray(row["origin_mpc"], dtype=np.float64),
-                shape=tuple(row["shape"]), cell_mpc=float(row["cell_mpc"]),
-                output=args.output_root / f"dtfe_density_{name}.npy", threads=args.threads,
-            )
+            cap_output = args.output_root / f"dtfe_density_{name}.npy"
+            cap_report_path = args.output_root / f"dtfe_density_{name}_report.json"
+            if cap_output.exists() and cap_report_path.exists():
+                cap_reports[name] = json.loads(cap_report_path.read_text())
+            else:
+                cap_reports[name] = rasterize_cap(
+                    points=points, tets=tets, vertex_density=vertex_density, cap=cap,
+                    field_path=Path(row["field_path"]),
+                    origin=np.asarray(row["origin_mpc"], dtype=np.float64),
+                    shape=tuple(row["shape"]), cell_mpc=float(row["cell_mpc"]),
+                    output=cap_output, threads=args.threads,
+                )
+                atomic_json(cap_report_path, cap_reports[name])
         build_report = {
             "schema_version": 1, "estimator": "exact_piecewise_linear_dtfe",
             "git_revision": git_revision,
