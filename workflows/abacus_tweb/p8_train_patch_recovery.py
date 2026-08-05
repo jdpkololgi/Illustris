@@ -178,6 +178,15 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dropout", type=float, default=0.1)
     parser.add_argument("--unet-base", type=int, default=24)
     parser.add_argument("--unet-latent-channels", type=int, default=32)
+    parser.add_argument(
+        "--lambda1-max-sigma",
+        type=float,
+        default=1.0,
+        help=(
+            "maximum absolute lambda1 correction in training-sigma units; "
+            "used only by unet_cic_residual"
+        ),
+    )
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--run-name", default="control_v1")
     parser.add_argument("--resume", action="store_true")
@@ -228,8 +237,12 @@ def parse_args() -> argparse.Namespace:
             parser.error("unet_cic_residual requires an existing --backbone-checkpoint")
         if args.warm_start_checkpoint is not None:
             parser.error("the first residual screen cannot use --warm-start-checkpoint")
+        if not np.isfinite(args.lambda1_max_sigma) or args.lambda1_max_sigma <= 0:
+            parser.error("unet_cic_residual requires --lambda1-max-sigma > 0")
     elif args.backbone_checkpoint is not None:
         parser.error("--backbone-checkpoint is exclusive to unet_cic_residual")
+    elif not np.isclose(args.lambda1_max_sigma, 1.0):
+        parser.error("--lambda1-max-sigma is exclusive to unet_cic_residual")
     if args.patience <= 0 or args.loss_log_every <= 0 or args.checkpoint_every <= 0:
         parser.error("patience and logging/checkpoint intervals must be positive")
     if not args.canary and args.min_epochs < 5:
@@ -323,6 +336,7 @@ def main() -> None:
             scaler,
             base=args.unet_base,
             latent_channels=args.unet_latent_channels,
+            lambda1_max_sigma=args.lambda1_max_sigma,
         ).to(args.device)
         backbone_start = residual_impl.load_unet_backbone(
             model, args.backbone_checkpoint, args.device
@@ -461,6 +475,7 @@ def main() -> None:
             "dropout",
             "unet_base",
             "unet_latent_channels",
+            "lambda1_max_sigma",
             "canary",
             "run_name",
             "warm_start_checkpoint",
@@ -752,6 +767,7 @@ def main() -> None:
                     "residual_parameterization": (
                         "additive lambda1 plus multiplicative positive eigengaps"
                     ),
+                    "lambda1_max_sigma": float(args.lambda1_max_sigma),
                 }
             val_eigen = increments_to_eigenvalues(
                 unscale_increments(val_scaled, scaler)

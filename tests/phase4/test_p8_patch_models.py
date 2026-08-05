@@ -71,6 +71,20 @@ class P8PatchModelTests(unittest.TestCase):
             scaled.numpy(), physical_to_scaled(cic_np, scaler), rtol=1e-6, atol=1e-6
         )
 
+    def test_u_cic_lambda1_bound_is_configurable(self):
+        scaler = {"mean": [-0.1, 0.2, 0.25], "std": [0.3, 0.1, 0.12]}
+        model = UCICResidual(
+            scaler, base=4, latent_channels=8, head_width=16, lambda1_max_sigma=3.0
+        )
+        values = torch.randn(1, 3, 8, 8, 8)
+        points = torch.zeros(1, 1, 1, 1, 3)
+        cic = torch.tensor([[-0.4, 0.1, 0.3]])
+        with torch.no_grad():
+            model.head[-1].bias[0] = 100.0
+            _, predicted, correction = model(values, points, cic)
+        self.assertAlmostEqual(float(correction[0, 0]), 3.0, places=6)
+        self.assertAlmostEqual(float(predicted[0, 0] - cic[0, 0]), 0.9, places=6)
+
 
 if __name__ == "__main__":
     unittest.main()

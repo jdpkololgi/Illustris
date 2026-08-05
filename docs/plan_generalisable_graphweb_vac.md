@@ -955,8 +955,8 @@ Progress checklist:
 
 ### P8 — Matched spatial target-generalisation training
 
-**Status:** TWO-ROTATION EXPOSURE-AWARE RECOVERY COMPLETE; ROTATION-0
-LONG-HORIZON EXTENSION COMPLETE; ROTATION-2 EXTENSION REQUIRED (2026-08-04)
+**Status:** TWO-ROTATION EXPOSURE-AWARE RECOVERY AND LONG-HORIZON EXTENSIONS
+COMPLETE; MATCHED CORRECTIVE CONTROL IN PROGRESS (2026-08-05)
 **Duration:** recovery estimate follows the exposure audit; three-seed finalists later
 
 G-PATCH, U-PATCH, and F-PATCH may now enter the matched deterministic protocol.
@@ -1333,6 +1333,34 @@ resumable cap/slab outputs, explicit unresolved-voxel coverage, and a synthetic 
 test against SciPy Delaunay. It must not fall back to a vertex splat while retaining the
 DTFE label.
 
+##### P8.7a Residual-bound feasibility correction
+
+The original `U-CIC-RESID-v1` hard `+/-1 sigma_train(lambda1)` correction is a
+registered feasibility NO-GO, not a completed accuracy screen. A machine-readable audit
+at
+`/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/classical/residual_bound_feasibility.json`
+shows that the absolute train-fold CIC residual has a 99th percentile of `2.602` and
+`2.553 sigma` in rotations 0 and 2. More decisively, even an oracle validation correction
+subject to the one-sigma bound can reach only `R2_lambda1 = 0.281/0.196` in the sparse
+shell, below the standalone U-PATCH scores `0.345/0.321` and therefore below the existing
+no-degradation gate. No amount of optimization can make v1 eligible for adoption.
+
+Freeze the three completed v1 epochs as `STOP_FEASIBILITY_NO_GO`; do not resume or
+reinterpret them. Register `U-CIC-RESID-v2` before opening any further scores:
+
+1. Preserve every v1 input, fold, seed, backbone checkpoint, optimizer, schedule,
+   objective, logging, checkpoint, and evaluation contract.
+2. Change only `lambda1_max_sigma: 1 -> 3`, using the ceiling of the largest
+   rotation-level train-fold 99th percentile. This choice uses no validation score.
+3. Retain zero-initialized exact CIC parity and the `exp(1.5 tanh(r))` positive eigengap
+   corrections.
+4. Use the separately named artifact root `u_cic_resid_v2`; never resume v1 weights or
+   optimizer state.
+5. Run the original 20 complete-exposure epochs with no within-run early stopping and
+   reapply the unchanged supported-shell, sparse-shell, `+0.03`, uncertainty, and P10
+   gates. The wider bound makes the registered question feasible; it does not weaken
+   the adoption rule.
+
 The recovery is deliberately architecture-neutral. GraphNet, U-Net, a simplified
 F-tier/U-Physics model, or a classical-residual hybrid may win; the scientific product is
 the transferable estimator and validated protocol, not loyalty to a model family.
@@ -1407,18 +1435,30 @@ Progress checklist:
     progressively through K=1/8/32/128 nearby vertex stars, and performs exact
     barycentric containment/interpolation. The synthetic test explicitly includes
     cases where the nearest site is not a vertex of the containing tetrahedron.
-  - [ ] Run the resumable exact NGC+SGC DTFE field build and require at least 99%
-    finite coverage of supported voxels without approximate substitution.
-  - [ ] Evaluate exact DTFE on rotations 0 and 2 under the frozen training-only affine
-    and authoritative-row contract.
+  - [x] Run the resumable exact NGC+SGC DTFE field build without approximate
+    substitution. Exact Delaunay neighbour walking classifies every K-locator miss with
+    zero singular/max-step failures; finite apodized-support coverage is `97.071%` NGC
+    and `94.874%` SGC, with every remaining voxel proven outside the catalogue convex
+    hull. The registered 99% finite-coverage gate therefore fails as a survey-geometry
+    result rather than a numerical-locator failure.
+  - [x] Evaluate exact DTFE on rotations 0 and 2 under the frozen training-only affine
+    and authoritative-row contract. Macro `R2_lambda1 = -0.150/-0.185`; the first-three
+    shell diagnostics are `0.125/0.104`. This exact full-cap DTFE is a negative matched
+    control under the mask/selection geometry and does not replace CIC as the supported-
+    shell classical anchor.
   - [x] Implement and unit-test `U-CIC-RESID-v1` with a keyed active-fold CIC anchor,
     frozen U-PATCH backbone provenance, zero-residual parity gate, bounded lambda1
     correction, and positive multiplicative eigengap corrections in
     `workflows/abacus_tweb/p8_train_unet_cic_residual.py` and
     `p8_train_patch_recovery.py`.
-  - [ ] Regenerate the rotation-0/2 keyed CIC anchors with the frozen classical code.
-  - [ ] Run the rotation-0/2 one-seed U-CIC residual screens and compare exactly matched
-    rows to CIC and standalone U-PATCH.
+  - [x] Regenerate the rotation-0/2 keyed CIC anchors with the frozen classical code.
+  - [x] Audit and freeze `U-CIC-RESID-v1` as `STOP_FEASIBILITY_NO_GO`: its one-sigma
+    lambda1 correction cannot satisfy the sparse-shell adoption gate even with an oracle
+    correction. Three completed epochs are retained as execution evidence, not accuracy
+    evidence.
+  - [ ] Run the separately registered rotation-0/2 `U-CIC-RESID-v2` screens with the
+    train-only-selected three-sigma bound and compare exactly matched rows to CIC and
+    standalone U-PATCH.
   Evidence remains under
   `/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/classical/dtfe_fullcap_v1/`
   and `/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/u_cic_resid_v1/`.

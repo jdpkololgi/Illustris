@@ -1,5 +1,40 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-05 — [science/code/result] Exact full-cap DTFE closed; one-sigma corrective gate proven infeasible before further training
+
+The two P8 classical products are now complete on rotations 0 and 2. Frozen CIC
+anchors were regenerated for `4,023,207/4,021,771` active rows. The accelerated
+exact-DTFE path constructed the full `58,007,741`-tetrahedron opposite-face
+adjacency and retried every approximate-locator miss with an exact Delaunay walk.
+There are zero singular or maximum-step unresolved voxels. Finite coverage of the
+P3 apodized support is `97.071%` NGC and `94.874%` SGC; all remaining voxels are
+outside the observed catalogue convex hull rather than locator failures.
+
+The exact full-cap DTFE result is poor: train-affine macro `R2_lambda1` is
+`-0.1499/-0.1847` and the first-three-shell diagnostic is `0.1247/0.1044` for
+rotations 0/2. Boundary-distance cuts do not rescue it. This is a negative matched
+control under the complex full-cap mask/selection geometry, not evidence that the
+point locator is approximate. CIC remains the relevant supported-shell classical
+anchor. Artifacts are under
+`/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/classical/dtfe_fullcap_v1/`.
+
+The live `U-CIC-RESID-v1` runs passed zero-parity and completed three exact epochs,
+but a new feasibility audit proved their hard one-sigma lambda1 correction can never
+pass the registered sparse-shell gate. The train-fold 99th-percentile absolute CIC
+residual is `2.602/2.553 sigma`. Even an oracle validation correction restricted to
+one sigma reaches only sparse-shell `R2 = 0.281/0.196`, below standalone U-PATCH
+`0.345/0.321` and its allowed 0.01 degradation. Spending the remaining 17 epochs
+would therefore be scientifically empty. V1 is frozen as `STOP_FEASIBILITY_NO_GO`;
+its partial results are not an accuracy decision.
+
+`workflows/abacus_tweb/p8_audit_residual_bound.py` records the audit at
+`/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/classical/residual_bound_feasibility.json`.
+It selects a common three-sigma bound from training folds only. A separately named
+`U-CIC-RESID-v2` is registered in P8.7a with every other contract unchanged. The
+training CLI now records and resume-checks `--lambda1-max-sigma`; targeted patch and
+epoch tests pass. V2 must still complete both 20-epoch rotations and beat standalone
+U-PATCH without a sparse-shell regression before any corrective branch is promoted.
+
 ### 2026-08-05 — [science/code] P8 exact-DTFE acceleration and first trained U+CIC corrective model implemented
 
 The two remaining P8 controls now have executable, pre-registered implementations;
