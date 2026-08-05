@@ -1,5 +1,25 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-05 — [runtime] U-CIC-RESID-v2 migrated to disconnect-safe tmux with exact-resume supervisors
+
+The separately registered three-sigma `U-CIC-RESID-v2` screens are active in
+login-node tmux sessions rather than Codex-owned allocation PTYs:
+
+- rotation 0: `p8_ucic_v2_rot0`, allocation `56371700`, node `nid008676`;
+- rotation 2: `p8_ucic_v2_rot2`, allocation `56371701`, node `nid008432`.
+
+Both resumed exact epoch-4 checkpoints and have completed epoch 6 with 100% unique-core
+exposure. Current best macro `R2_lambda1` is `0.5185` for rotation 0 and `0.5124`
+for rotation 2; these are interim optimization values, not model-selection results.
+Two sleeping tmux supervisors, `p8_ucic_v2_rot{0,2}_supervisor`, request at most one
+replacement interactive allocation per rotation if the current four-hour wall expires
+before epoch 20. Future resumes execute from the detached worktree
+`/global/homes/d/dkololgi/p8_ucic_b9f9fde_worktree` at immutable revision
+`b9f9fded745463f078c7ae00ef3058f8e9529d9b`, so later documentation commits cannot
+violate the checkpoint revision guard. Artifacts are under
+`/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/u_cic_resid_v2/`; scheduler/training
+logs are `/pscratch/sd/d/dkololgi/logs/p8_u_cic_resid_v2_rot{0,2}_*tmux.*`.
+
 ### 2026-08-05 — [science/code/result] Exact full-cap DTFE closed; one-sigma corrective gate proven infeasible before further training
 
 The two P8 classical products are now complete on rotations 0 and 2. Frozen CIC
