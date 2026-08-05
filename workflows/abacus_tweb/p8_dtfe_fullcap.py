@@ -630,6 +630,98 @@ def rasterize_cap(
     return report
 
 
+def diagnose_missing_cap(
+    *,
+    points: np.ndarray,
+    tets: np.ndarray,
+    vertex_density: np.ndarray,
+    incident_offsets: np.ndarray,
+    incident_tetrahedron: np.ndarray,
+    cap: int,
+    field_path: Path,
+    density_path: Path,
+    origin: np.ndarray,
+    cell_mpc: float,
+    device: str,
+    threads: int,
+    tree_workers: int,
+    retry_neighbors: tuple[int, ...],
+    samples_per_plane: int,
+    epsilon: float,
+) -> dict:
+    """Test whether unresolved supported voxels need wider search or lie outside hull."""
+    from numba import cuda
+
+    rng = np.random.default_rng(90817 + cap)
+    density = np.load(density_path, mmap_mode="r")
+    sampled_index = []
+    missing_total = 0
+    with h5py.File(field_path, "r") as handle:
+        for ix in range(density.shape[0]):
+            exposure = np.asarray(handle["exposure_apodized"][ix], dtype=np.float32) > 0
+            missing = np.argwhere(exposure & ~np.isfinite(density[ix]))
+            missing_total += int(len(missing))
+            if len(missing):
+                take = min(int(samples_per_plane), len(missing))
+                chosen = rng.choice(len(missing), size=take, replace=False)
+                rows = np.column_stack((np.full(take, ix), missing[chosen]))
+                sampled_index.append(rows)
+    index = np.concatenate(sampled_index).astype(np.float64)
+    queries = origin[None, :] + (index + 0.5) * cell_mpc
+
+    cap_point_id = np.flatnonzero(np.asarray(points[:, 3], dtype=np.int8) == cap)
+    cap_xyz = np.asarray(points[cap_point_id, :3], dtype=np.float64)
+    tree = cKDTree(cap_xyz, leafsize=32, compact_nodes=True, balanced_tree=True)
+    d_points = cuda.to_device(np.ascontiguousarray(points[:, :3], dtype=np.float64))
+    d_tets = cuda.to_device(np.ascontiguousarray(tets, dtype=np.int32))
+    d_density = cuda.to_device(np.ascontiguousarray(vertex_density, dtype=np.float32))
+    d_offsets = cuda.to_device(np.ascontiguousarray(incident_offsets, dtype=np.int64))
+    d_incident = cuda.to_device(np.ascontiguousarray(incident_tetrahedron, dtype=np.int32))
+    kernel = _incident_locator_kernel()
+    containing = np.full(len(queries), -1, dtype=np.int32)
+    stages = []
+    started = time.time()
+    for requested_k in retry_neighbors:
+        missing = containing < 0
+        if not np.any(missing):
+            break
+        k = min(int(requested_k), len(cap_point_id))
+        _, local = tree.query(queries[missing], k=k, workers=tree_workers)
+        _, retry = _locate_chunk_gpu(
+            kernel=kernel,
+            d_points=d_points,
+            d_tets=d_tets,
+            d_density=d_density,
+            d_offsets=d_offsets,
+            d_incident=d_incident,
+            queries=queries[missing],
+            nearest_vertex=cap_point_id[np.asarray(local, dtype=np.int64)],
+            epsilon=epsilon,
+            threads=threads,
+        )
+        found = int(np.sum(retry >= 0))
+        stages.append({"k": int(k), "queries": int(missing.sum()), "found": found})
+        containing[missing] = retry
+    report = {
+        "cap": int(cap),
+        "cap_name": CAP_NAME[cap],
+        "missing_supported_voxels": missing_total,
+        "sampled_missing_voxels": int(len(queries)),
+        "samples_per_grid_x_plane": int(samples_per_plane),
+        "retry_stages": stages,
+        "still_unresolved": int(np.sum(containing < 0)),
+        "still_unresolved_fraction": float(np.mean(containing < 0)),
+        "interpretation": (
+            "voxels still unresolved after wide incident-star searches are "
+            "consistent with lying outside the catalogue Delaunay convex hull"
+        ),
+        "elapsed_seconds": time.time() - started,
+    }
+    del d_points, d_tets, d_density, d_offsets, d_incident, tree, cap_xyz
+    torch.cuda.empty_cache()
+    return report
+
+
 def _load_dtfe_delta(
     *,
     density_path: Path,
@@ -737,7 +829,10 @@ def evaluate_rotation(rotation: int, args, adapter: dict, selection: dict) -> di
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--mode", choices=("preflight", "build", "evaluate", "all"), default="all")
+    parser.add_argument(
+        "--mode", choices=("preflight", "build", "diagnose", "evaluate", "all"),
+        default="all",
+    )
     parser.add_argument("--p8-root", type=Path, default=P8_ROOT)
     parser.add_argument("--output-root", type=Path, default=P8_ROOT / "classical/dtfe_fullcap_v1")
     parser.add_argument("--points", type=Path, default=POINTS)
@@ -758,6 +853,8 @@ def main() -> None:
     parser.add_argument("--fallback-neighbors", type=int, nargs="+", default=(8, 32, 128),
                         help="progressive K-nearest incident-star retries after K=1 misses")
     parser.add_argument("--barycentric-epsilon", type=float, default=1.0e-8)
+    parser.add_argument("--diagnostic-neighbors", type=int, nargs="+", default=(256, 1024))
+    parser.add_argument("--diagnostic-samples-per-plane", type=int, default=20)
     parser.add_argument("--slab", type=int, default=8)
     parser.add_argument("--padding-voxels", type=int, default=20)
     parser.add_argument("--rsmooth-mpc", type=float, default=RSMOOTH_MPC)
@@ -770,6 +867,40 @@ def main() -> None:
         ["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, check=True,
         capture_output=True, text=True,
     ).stdout.strip()
+    if args.mode == "diagnose":
+        if not torch.cuda.is_available():
+            raise RuntimeError("DTFE missing-voxel diagnostic requires a CUDA allocation")
+        vertex_density = np.load(args.output_root / "vertex_density.npy", mmap_mode="r")
+        incident_offsets = np.load(args.output_root / "incident_offsets.npy", mmap_mode="r")
+        incident_tetrahedron = np.load(
+            args.output_root / "incident_tetrahedron_id.npy", mmap_mode="r"
+        )
+        reports = {}
+        for cap in (0, 1):
+            name = CAP_NAME[cap]
+            row = adapter["caps"][name]
+            reports[name] = diagnose_missing_cap(
+                points=points,
+                tets=tets,
+                vertex_density=vertex_density,
+                incident_offsets=incident_offsets,
+                incident_tetrahedron=incident_tetrahedron,
+                cap=cap,
+                field_path=Path(row["field_path"]),
+                density_path=args.output_root / f"dtfe_density_{name}.npy",
+                origin=np.asarray(row["origin_mpc"], dtype=np.float64),
+                cell_mpc=float(row["cell_mpc"]),
+                device=args.device,
+                threads=args.threads,
+                tree_workers=args.tree_workers,
+                retry_neighbors=tuple(args.diagnostic_neighbors),
+                samples_per_plane=args.diagnostic_samples_per_plane,
+                epsilon=args.barycentric_epsilon,
+            )
+        report = {"schema_version": 1, "git_revision": git_revision, "caps": reports}
+        atomic_json(args.output_root / "missing_voxel_diagnostic.json", report)
+        print(json.dumps(report, indent=2), flush=True)
+        return
     if args.mode in ("preflight", "all"):
         report = {
             CAP_NAME[cap]: preflight_aabb_visits(
