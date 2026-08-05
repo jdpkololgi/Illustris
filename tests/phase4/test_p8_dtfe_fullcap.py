@@ -4,9 +4,17 @@ import numpy as np
 from scipy.spatial import Delaunay, cKDTree
 
 from workflows.abacus_tweb.p8_dtfe_fullcap import (
+    _incident_locator_kernel,
+    _locate_chunk_gpu,
     barycentric_interpolate,
     locate_points_incident_cpu,
 )
+
+try:
+    from numba import cuda
+    CUDA_AVAILABLE = cuda.is_available()
+except Exception:
+    CUDA_AVAILABLE = False
 
 
 class P8ExactDTFETests(unittest.TestCase):
@@ -58,6 +66,36 @@ class P8ExactDTFETests(unittest.TestCase):
         expected = 1.7 + 0.4 * queries[:, 0] - 2.1 * queries[:, 1] + 0.9 * queries[:, 2]
         self.assertTrue(np.all(containing >= 0))
         np.testing.assert_allclose(located, expected, rtol=1e-11, atol=1e-11)
+
+    @unittest.skipUnless(CUDA_AVAILABLE, "CUDA locator parity requires a GPU allocation")
+    def test_cuda_incident_locator_matches_linear_field(self):
+        points = np.asarray([
+            [0.0, 0.0, 0.0],
+            [1.0, 0.0, 0.0],
+            [0.0, 1.0, 0.0],
+            [0.0, 0.0, 1.0],
+        ], dtype=np.float64)
+        tets = np.asarray([[0, 1, 2, 3]], dtype=np.int32)
+        density = (2.0 + 3.0 * points[:, 0] - points[:, 1] + 4.0 * points[:, 2]).astype(np.float32)
+        offsets = np.arange(5, dtype=np.int64)
+        incident = np.zeros(4, dtype=np.int32)
+        queries = np.asarray([[0.2, 0.3, 0.1], [0.1, 0.1, 0.6]], dtype=np.float64)
+        nearest = np.asarray([[0], [3]], dtype=np.int32)
+        values, containing = _locate_chunk_gpu(
+            kernel=_incident_locator_kernel(),
+            d_points=cuda.to_device(points),
+            d_tets=cuda.to_device(tets),
+            d_density=cuda.to_device(density),
+            d_offsets=cuda.to_device(offsets),
+            d_incident=cuda.to_device(incident),
+            queries=queries,
+            nearest_vertex=nearest,
+            epsilon=1.0e-10,
+            threads=32,
+        )
+        expected = 2.0 + 3.0 * queries[:, 0] - queries[:, 1] + 4.0 * queries[:, 2]
+        np.testing.assert_allclose(values, expected, rtol=2e-6, atol=2e-6)
+        np.testing.assert_array_equal(containing, np.zeros(2, dtype=np.int32))
 
 
 if __name__ == "__main__":
