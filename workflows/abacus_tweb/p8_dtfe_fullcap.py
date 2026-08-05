@@ -157,6 +157,97 @@ def build_incident_csr(
     )
 
 
+def tetrahedron_neighbors_numpy(tets: np.ndarray) -> np.ndarray:
+    """Reference opposite-face adjacency for tests and small meshes."""
+    tets = np.asarray(tets, dtype=np.int64)
+    neighbors = np.full(tets.shape, -1, dtype=np.int64)
+    owner: dict[tuple[int, int, int], tuple[int, int]] = {}
+    for tet_id, tet in enumerate(tets):
+        for local in range(4):
+            face = tuple(sorted(np.delete(tet, local).tolist()))
+            if face in owner:
+                other_tet, other_local = owner.pop(face)
+                neighbors[tet_id, local] = other_tet
+                neighbors[other_tet, other_local] = tet_id
+            else:
+                owner[face] = (tet_id, local)
+    return neighbors
+
+
+def build_tetrahedron_neighbors(
+    tets: np.ndarray,
+    *,
+    output_root: Path,
+    device: str,
+    comparison_chunk: int = 10_000_000,
+) -> tuple[np.ndarray, dict]:
+    """Build exact opposite-face tetrahedron adjacency using a GPU lexicographic sort."""
+    path = output_root / "tetrahedron_neighbors.npy"
+    manifest_path = output_root / "tetrahedron_neighbors_manifest.json"
+    if path.exists() and manifest_path.exists():
+        neighbors = np.load(path, mmap_mode="r")
+        manifest = json.loads(manifest_path.read_text())
+        if tuple(neighbors.shape) != tuple(tets.shape):
+            raise RuntimeError("stored tetrahedron adjacency has the wrong shape")
+        return neighbors, manifest
+
+    started = time.time()
+    tet = torch.from_numpy(np.asarray(tets, dtype=np.int32)).to(device)
+    n_tets = len(tets)
+    faces = torch.empty((n_tets, 4, 3), dtype=torch.int32, device=device)
+    faces[:, 0] = tet[:, [1, 2, 3]]
+    faces[:, 1] = tet[:, [0, 2, 3]]
+    faces[:, 2] = tet[:, [0, 1, 3]]
+    faces[:, 3] = tet[:, [0, 1, 2]]
+    faces = torch.sort(faces, dim=2).values.reshape(-1, 3)
+    owner = torch.arange(n_tets, dtype=torch.int32, device=device).repeat_interleave(4)
+    local = torch.arange(4, dtype=torch.int8, device=device).repeat(n_tets)
+    order = torch.arange(len(faces), dtype=torch.int64, device=device)
+    for column in (2, 1, 0):
+        ranked = torch.argsort(faces[order, column], stable=True)
+        order = order[ranked]
+        del ranked
+
+    neighbors = torch.full((n_tets, 4), -1, dtype=torch.int32, device=device)
+    matched_pairs = 0
+    for left in range(0, len(faces) - 1, comparison_chunk):
+        right = min(left + comparison_chunk, len(faces) - 1)
+        index_a = order[left:right]
+        index_b = order[left + 1:right + 1]
+        same = torch.all(faces[index_a] == faces[index_b], dim=1)
+        index_a = index_a[same]
+        index_b = index_b[same]
+        if len(index_a):
+            owner_a, owner_b = owner[index_a].long(), owner[index_b].long()
+            local_a, local_b = local[index_a].long(), local[index_b].long()
+            neighbors[owner_a, local_a] = owner_b.to(torch.int32)
+            neighbors[owner_b, local_b] = owner_a.to(torch.int32)
+            matched_pairs += int(len(index_a))
+        del index_a, index_b, same
+    neighbor_count = int(torch.sum(neighbors >= 0).item())
+    if neighbor_count != 2 * matched_pairs:
+        raise RuntimeError(
+            "non-manifold or duplicate Delaunay faces violate the adjacency contract: "
+            f"entries={neighbor_count}, matched_pairs={matched_pairs}"
+        )
+    host = neighbors.cpu().numpy()
+    np.save(path, host)
+    manifest = {
+        "schema_version": 1,
+        "method": "GPU lexicographic sort of four opposite faces per tetrahedron",
+        "tetrahedra_shape": list(tets.shape),
+        "matched_internal_faces": matched_pairs,
+        "boundary_faces": int(tets.size - neighbor_count),
+        "neighbor_entries": neighbor_count,
+        "symmetric_entry_count": int(2 * matched_pairs),
+        "elapsed_seconds": time.time() - started,
+    }
+    atomic_json(manifest_path, manifest)
+    del tet, faces, owner, local, order, neighbors, host
+    torch.cuda.empty_cache()
+    return np.load(path, mmap_mode="r"), manifest
+
+
 def locate_points_incident_cpu(
     points: np.ndarray,
     tets: np.ndarray,
@@ -204,6 +295,43 @@ def locate_points_incident_cpu(
             if containing[row] >= 0:
                 break
     return values, containing
+
+
+def walk_points_cpu(
+    points: np.ndarray,
+    tets: np.ndarray,
+    neighbors: np.ndarray,
+    vertex_density: np.ndarray,
+    queries: np.ndarray,
+    seed_tetrahedron: np.ndarray,
+    *,
+    epsilon: float = 1.0e-9,
+    max_steps: int = 10_000,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Exact CPU reference for Delaunay neighbour walking."""
+    values = np.full(len(queries), np.nan, dtype=np.float64)
+    containing = np.full(len(queries), -1, dtype=np.int64)
+    steps = np.zeros(len(queries), dtype=np.int32)
+    for row, query in enumerate(np.asarray(queries, dtype=np.float64)):
+        tet_id = int(seed_tetrahedron[row])
+        for step in range(max_steps):
+            ids = np.asarray(tets[tet_id], dtype=np.int64)
+            vertices = np.asarray(points[ids], dtype=np.float64)
+            try:
+                w123 = np.linalg.solve((vertices[1:] - vertices[0]).T, query - vertices[0])
+            except np.linalg.LinAlgError:
+                break
+            weights = np.r_[1.0 - w123.sum(), w123]
+            steps[row] = step + 1
+            if np.min(weights) >= -epsilon:
+                values[row] = float(weights @ np.asarray(vertex_density[ids]))
+                containing[row] = tet_id
+                break
+            next_tet = int(neighbors[tet_id, int(np.argmin(weights))])
+            if next_tet < 0:
+                break
+            tet_id = next_tet
+    return values, containing, steps
 
 
 def preflight_aabb_visits(
@@ -418,6 +546,105 @@ def _incident_locator_kernel():
                     containing[row] = tet_id
                     return
     return kernel
+
+
+def _tetrahedron_walk_kernel():
+    """Compile exact containing-tetrahedron neighbour walking lazily."""
+    from numba import cuda
+
+    @cuda.jit
+    def kernel(
+        points, tets, neighbors, vertex_density, queries, seed_tetrahedron,
+        epsilon, max_steps, output, containing, steps, status,
+    ):
+        row = cuda.grid(1)
+        if row >= queries.shape[0]:
+            return
+        qx, qy, qz = queries[row, 0], queries[row, 1], queries[row, 2]
+        tet_id = seed_tetrahedron[row]
+        for step in range(max_steps):
+            i0 = tets[tet_id, 0]
+            i1 = tets[tet_id, 1]
+            i2 = tets[tet_id, 2]
+            i3 = tets[tet_id, 3]
+            x0, y0, z0 = points[i0, 0], points[i0, 1], points[i0, 2]
+            ax, ay, az = points[i1, 0] - x0, points[i1, 1] - y0, points[i1, 2] - z0
+            bx, by, bz = points[i2, 0] - x0, points[i2, 1] - y0, points[i2, 2] - z0
+            cx, cy, cz = points[i3, 0] - x0, points[i3, 1] - y0, points[i3, 2] - z0
+            px, py, pz = qx - x0, qy - y0, qz - z0
+            bcx, bcy, bcz = by * cz - bz * cy, bz * cx - bx * cz, bx * cy - by * cx
+            determinant = ax * bcx + ay * bcy + az * bcz
+            if abs(determinant) < 1.0e-24:
+                status[row] = -3
+                return
+            inverse = 1.0 / determinant
+            w1 = (px * bcx + py * bcy + pz * bcz) * inverse
+            pcx, pcy, pcz = py * cz - pz * cy, pz * cx - px * cz, px * cy - py * cx
+            w2 = (ax * pcx + ay * pcy + az * pcz) * inverse
+            bpx, bpy, bpz = by * pz - bz * py, bz * px - bx * pz, bx * py - by * px
+            w3 = (ax * bpx + ay * bpy + az * bpz) * inverse
+            w0 = 1.0 - w1 - w2 - w3
+            steps[row] = step + 1
+            minimum = w0
+            face = 0
+            if w1 < minimum:
+                minimum, face = w1, 1
+            if w2 < minimum:
+                minimum, face = w2, 2
+            if w3 < minimum:
+                minimum, face = w3, 3
+            if minimum >= -epsilon:
+                output[row] = (
+                    w0 * vertex_density[i0] + w1 * vertex_density[i1]
+                    + w2 * vertex_density[i2] + w3 * vertex_density[i3]
+                )
+                containing[row] = tet_id
+                status[row] = 1
+                return
+            next_tet = neighbors[tet_id, face]
+            if next_tet < 0:
+                status[row] = -1
+                return
+            tet_id = next_tet
+        status[row] = -2
+    return kernel
+
+
+def _walk_chunk_gpu(
+    *,
+    kernel,
+    d_points,
+    d_tets,
+    d_neighbors,
+    d_density,
+    queries: np.ndarray,
+    seed_tetrahedron: np.ndarray,
+    epsilon: float,
+    max_steps: int,
+    threads: int,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    from numba import cuda
+
+    d_queries = cuda.to_device(np.ascontiguousarray(queries, dtype=np.float64))
+    d_seed = cuda.to_device(np.ascontiguousarray(seed_tetrahedron, dtype=np.int32))
+    d_values = cuda.to_device(np.full(len(queries), np.nan, dtype=np.float32))
+    d_containing = cuda.to_device(np.full(len(queries), -1, dtype=np.int32))
+    d_steps = cuda.to_device(np.zeros(len(queries), dtype=np.int32))
+    d_status = cuda.to_device(np.zeros(len(queries), dtype=np.int8))
+    blocks = (len(queries) + threads - 1) // threads
+    kernel[blocks, threads](
+        d_points, d_tets, d_neighbors, d_density, d_queries, d_seed,
+        epsilon, max_steps, d_values, d_containing, d_steps, d_status,
+    )
+    cuda.synchronize()
+    result = (
+        d_values.copy_to_host(),
+        d_containing.copy_to_host(),
+        d_steps.copy_to_host(),
+        d_status.copy_to_host(),
+    )
+    del d_queries, d_seed, d_values, d_containing, d_steps, d_status
+    return result
 
 
 def _locate_chunk_gpu(
@@ -722,6 +949,117 @@ def diagnose_missing_cap(
     return report
 
 
+def retry_missing_cap_with_walk(
+    *,
+    points: np.ndarray,
+    tets: np.ndarray,
+    neighbors: np.ndarray,
+    vertex_density: np.ndarray,
+    incident_offsets: np.ndarray,
+    incident_tetrahedron: np.ndarray,
+    cap: int,
+    field_path: Path,
+    density_path: Path,
+    origin: np.ndarray,
+    cell_mpc: float,
+    threads: int,
+    raster_slab: int,
+    tree_workers: int,
+    epsilon: float,
+    max_steps: int,
+) -> dict:
+    """Fill K-locator misses by exact neighbour walking; retain true hull exteriors as NaN."""
+    from numba import cuda
+
+    field = np.lib.format.open_memmap(density_path, mode="r+")
+    cap_point_id = np.flatnonzero(np.asarray(points[:, 3], dtype=np.int8) == cap)
+    cap_xyz = np.asarray(points[cap_point_id, :3], dtype=np.float64)
+    tree = cKDTree(cap_xyz, leafsize=32, compact_nodes=True, balanced_tree=True)
+    d_points = cuda.to_device(np.ascontiguousarray(points[:, :3], dtype=np.float64))
+    d_tets = cuda.to_device(np.ascontiguousarray(tets, dtype=np.int32))
+    d_neighbors = cuda.to_device(np.ascontiguousarray(neighbors, dtype=np.int32))
+    d_density = cuda.to_device(np.ascontiguousarray(vertex_density, dtype=np.float32))
+    kernel = _tetrahedron_walk_kernel()
+    totals = {"queried": 0, "found": 0, "outside_hull": 0, "max_steps": 0, "singular": 0}
+    step_parts = []
+    started = time.time()
+    with h5py.File(field_path, "r") as handle:
+        for left in range(0, field.shape[0], raster_slab):
+            right = min(left + raster_slab, field.shape[0])
+            exposure = np.asarray(handle["exposure_apodized"][left:right], dtype=np.float32) > 0
+            slab = np.asarray(field[left:right], dtype=np.float32)
+            local_index = np.argwhere(exposure & ~np.isfinite(slab))
+            if not len(local_index):
+                continue
+            global_index = local_index.astype(np.float64)
+            global_index[:, 0] += left
+            queries = origin[None, :] + (global_index + 0.5) * cell_mpc
+            _, nearest_local = tree.query(queries, k=1, workers=tree_workers)
+            nearest_global = cap_point_id[np.asarray(nearest_local, dtype=np.int64)]
+            seed = np.asarray(
+                incident_tetrahedron[
+                    np.asarray(incident_offsets[nearest_global], dtype=np.int64)
+                ],
+                dtype=np.int32,
+            )
+            values, containing, steps, status = _walk_chunk_gpu(
+                kernel=kernel,
+                d_points=d_points,
+                d_tets=d_tets,
+                d_neighbors=d_neighbors,
+                d_density=d_density,
+                queries=queries,
+                seed_tetrahedron=seed,
+                epsilon=epsilon,
+                max_steps=max_steps,
+                threads=threads,
+            )
+            found = containing >= 0
+            slab[tuple(local_index[found].T)] = values[found]
+            field[left:right] = slab
+            field.flush()
+            totals["queried"] += int(len(queries))
+            totals["found"] += int(found.sum())
+            totals["outside_hull"] += int(np.sum(status == -1))
+            totals["max_steps"] += int(np.sum(status == -2))
+            totals["singular"] += int(np.sum(status == -3))
+            if np.any(found):
+                step_parts.append(steps[found])
+            print(json.dumps({
+                "dtfe_walk_retry": {
+                    "cap": CAP_NAME[cap], "left": left, "right": right,
+                    "queried": int(len(queries)), "found": int(found.sum()),
+                    "outside_hull": int(np.sum(status == -1)),
+                }
+            }), flush=True)
+    all_steps = np.concatenate(step_parts) if step_parts else np.zeros(0, dtype=np.int32)
+    finite_supported = 0
+    supported_total = 0
+    with h5py.File(field_path, "r") as handle:
+        for left in range(0, field.shape[0], raster_slab):
+            right = min(left + raster_slab, field.shape[0])
+            exposure = np.asarray(handle["exposure_apodized"][left:right], dtype=np.float32) > 0
+            finite_supported += int(np.sum(exposure & np.isfinite(field[left:right])))
+            supported_total += int(exposure.sum())
+    report = {
+        "schema_version": 1,
+        "method": "exact Delaunay opposite-face neighbour walk",
+        "cap": int(cap),
+        "cap_name": CAP_NAME[cap],
+        **totals,
+        "walk_steps_median": float(np.median(all_steps)) if len(all_steps) else None,
+        "walk_steps_p99": float(np.quantile(all_steps, 0.99)) if len(all_steps) else None,
+        "walk_steps_maximum": int(all_steps.max(initial=0)),
+        "finite_supported_voxels": finite_supported,
+        "supported_voxels": supported_total,
+        "supported_coverage": float(finite_supported / max(supported_total, 1)),
+        "elapsed_seconds": time.time() - started,
+    }
+    del d_points, d_tets, d_neighbors, d_density, tree, cap_xyz, field
+    torch.cuda.empty_cache()
+    return report
+
+
 def _load_dtfe_delta(
     *,
     density_path: Path,
@@ -830,7 +1168,8 @@ def evaluate_rotation(rotation: int, args, adapter: dict, selection: dict) -> di
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--mode", choices=("preflight", "build", "diagnose", "evaluate", "all"),
+        "--mode",
+        choices=("preflight", "build", "diagnose", "walk-retry", "evaluate", "all"),
         default="all",
     )
     parser.add_argument("--p8-root", type=Path, default=P8_ROOT)
@@ -855,6 +1194,7 @@ def main() -> None:
     parser.add_argument("--barycentric-epsilon", type=float, default=1.0e-8)
     parser.add_argument("--diagnostic-neighbors", type=int, nargs="+", default=(256, 1024))
     parser.add_argument("--diagnostic-samples-per-plane", type=int, default=20)
+    parser.add_argument("--walk-max-steps", type=int, default=10_000)
     parser.add_argument("--slab", type=int, default=8)
     parser.add_argument("--padding-voxels", type=int, default=20)
     parser.add_argument("--rsmooth-mpc", type=float, default=RSMOOTH_MPC)
@@ -899,6 +1239,54 @@ def main() -> None:
             )
         report = {"schema_version": 1, "git_revision": git_revision, "caps": reports}
         atomic_json(args.output_root / "missing_voxel_diagnostic.json", report)
+        print(json.dumps(report, indent=2), flush=True)
+        return
+    if args.mode == "walk-retry":
+        if not torch.cuda.is_available():
+            raise RuntimeError("DTFE neighbour-walk retry requires a CUDA allocation")
+        vertex_density = np.load(args.output_root / "vertex_density.npy", mmap_mode="r")
+        incident_offsets = np.load(args.output_root / "incident_offsets.npy", mmap_mode="r")
+        incident_tetrahedron = np.load(
+            args.output_root / "incident_tetrahedron_id.npy", mmap_mode="r"
+        )
+        neighbors, neighbor_manifest = build_tetrahedron_neighbors(
+            tets, output_root=args.output_root, device=args.device
+        )
+        reports = {}
+        for cap in (0, 1):
+            name = CAP_NAME[cap]
+            row = adapter["caps"][name]
+            reports[name] = retry_missing_cap_with_walk(
+                points=points,
+                tets=tets,
+                neighbors=neighbors,
+                vertex_density=vertex_density,
+                incident_offsets=incident_offsets,
+                incident_tetrahedron=incident_tetrahedron,
+                cap=cap,
+                field_path=Path(row["field_path"]),
+                density_path=args.output_root / f"dtfe_density_{name}.npy",
+                origin=np.asarray(row["origin_mpc"], dtype=np.float64),
+                cell_mpc=float(row["cell_mpc"]),
+                threads=args.threads,
+                raster_slab=args.raster_slab,
+                tree_workers=args.tree_workers,
+                epsilon=args.barycentric_epsilon,
+                max_steps=args.walk_max_steps,
+            )
+        report = {
+            "schema_version": 1,
+            "git_revision": git_revision,
+            "tetrahedron_neighbors": neighbor_manifest,
+            "caps": reports,
+        }
+        atomic_json(args.output_root / "walk_retry_report.json", report)
+        if any(row["max_steps"] or row["singular"] for row in reports.values()):
+            raise RuntimeError("DTFE neighbour walk retained non-hull unresolved voxels")
+        (args.output_root / "DTFE_FIELD_READY").write_text(
+            "exact piecewise-linear DTFE inside each catalogue convex hull; "
+            "NaN outside hull\n"
+        )
         print(json.dumps(report, indent=2), flush=True)
         return
     if args.mode in ("preflight", "all"):

@@ -6,8 +6,12 @@ from scipy.spatial import Delaunay, cKDTree
 from workflows.abacus_tweb.p8_dtfe_fullcap import (
     _incident_locator_kernel,
     _locate_chunk_gpu,
+    _tetrahedron_walk_kernel,
+    _walk_chunk_gpu,
     barycentric_interpolate,
     locate_points_incident_cpu,
+    tetrahedron_neighbors_numpy,
+    walk_points_cpu,
 )
 
 try:
@@ -67,6 +71,29 @@ class P8ExactDTFETests(unittest.TestCase):
         self.assertTrue(np.all(containing >= 0))
         np.testing.assert_allclose(located, expected, rtol=1e-11, atol=1e-11)
 
+    def test_neighbor_walk_crosses_shared_face_and_stops_at_hull(self):
+        points = np.asarray([
+            [0.0, 0.0, 0.0],
+            [1.0, 0.0, 0.0],
+            [0.0, 1.0, 0.0],
+            [0.0, 0.0, 1.0],
+            [0.0, 0.0, -1.0],
+        ])
+        tets = np.asarray([[0, 1, 2, 3], [0, 2, 1, 4]], dtype=np.int32)
+        neighbors = tetrahedron_neighbors_numpy(tets)
+        self.assertEqual(neighbors[0, 3], 1)
+        self.assertEqual(neighbors[1, 3], 0)
+        density = 1.0 + points[:, 0] + 2.0 * points[:, 1] - points[:, 2]
+        queries = np.asarray([[0.2, 0.2, -0.2], [2.0, 2.0, 2.0]])
+        values, containing, steps = walk_points_cpu(
+            points, tets, neighbors, density, queries, np.asarray([0, 0])
+        )
+        self.assertEqual(containing[0], 1)
+        self.assertGreaterEqual(steps[0], 2)
+        self.assertAlmostEqual(values[0], 1.0 + 0.2 + 0.4 + 0.2)
+        self.assertEqual(containing[1], -1)
+        self.assertTrue(np.isnan(values[1]))
+
     @unittest.skipUnless(CUDA_AVAILABLE, "CUDA locator parity requires a GPU allocation")
     def test_cuda_incident_locator_matches_linear_field(self):
         points = np.asarray([
@@ -96,6 +123,31 @@ class P8ExactDTFETests(unittest.TestCase):
         expected = 2.0 + 3.0 * queries[:, 0] - queries[:, 1] + 4.0 * queries[:, 2]
         np.testing.assert_allclose(values, expected, rtol=2e-6, atol=2e-6)
         np.testing.assert_array_equal(containing, np.zeros(2, dtype=np.int32))
+
+        walk_points = np.vstack((points, np.asarray([[0.0, 0.0, -1.0]])))
+        walk_tets = np.asarray([[0, 1, 2, 3], [0, 2, 1, 4]], dtype=np.int32)
+        walk_neighbors = tetrahedron_neighbors_numpy(walk_tets).astype(np.int32)
+        walk_density = (
+            2.0 + 3.0 * walk_points[:, 0] - walk_points[:, 1]
+            + 4.0 * walk_points[:, 2]
+        ).astype(np.float32)
+        walk_queries = np.asarray([[0.2, 0.2, -0.2], [2.0, 2.0, 2.0]])
+        values, containing, steps, status = _walk_chunk_gpu(
+            kernel=_tetrahedron_walk_kernel(),
+            d_points=cuda.to_device(walk_points),
+            d_tets=cuda.to_device(walk_tets),
+            d_neighbors=cuda.to_device(walk_neighbors),
+            d_density=cuda.to_device(walk_density),
+            queries=walk_queries,
+            seed_tetrahedron=np.asarray([0, 0], dtype=np.int32),
+            epsilon=1.0e-10,
+            max_steps=100,
+            threads=32,
+        )
+        self.assertEqual(containing[0], 1)
+        self.assertEqual(status[0], 1)
+        self.assertEqual(status[1], -1)
+        self.assertGreaterEqual(steps[0], 2)
 
 
 if __name__ == "__main__":
