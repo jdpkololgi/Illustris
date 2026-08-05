@@ -277,6 +277,14 @@ def run_rotation(rotation: int, args, manifests: dict) -> dict:
     )
     output = args.p8_root / "classical" / f"rotation_{rotation}"
     output.mkdir(parents=True, exist_ok=True)
+    # The validation-only files remain the immutable comparison row.  The keyed
+    # active-fold files are the frozen classical anchor for a later learned
+    # residual; they contain no test-fold rows and retain the same training-only
+    # affine map used by the comparison.
+    np.save(output / "active_parent_node_id.npy", parent)
+    np.save(output / "active_is_training.npy", train)
+    np.save(output / "active_is_validation.npy", validation)
+    np.save(output / "cic_train_affine_active_eigenvalues.npy", calibrated.astype(np.float32))
     np.save(output / "validation_parent_node_id.npy", validation_parent)
     np.save(output / "cic_raw_eigenvalues.npy", validation_raw)
     np.save(output / "cic_train_affine_eigenvalues.npy", validation_calibrated)
@@ -296,6 +304,13 @@ def run_rotation(rotation: int, args, manifests: dict) -> dict:
             "points": str(args.points),
             "selection_manifest": str(args.selection),
             "selection_manifest_sha256": sha256(args.selection),
+        },
+        "residual_anchor": {
+            "parent_node_id": str(output / "active_parent_node_id.npy"),
+            "train_affine_eigenvalues": str(
+                output / "cic_train_affine_active_eigenvalues.npy"
+            ),
+            "scope": "registered training plus validation folds only",
         },
         "dtfe_status": (
             "not claimed: exact piecewise-linear full-cap point location is not yet "

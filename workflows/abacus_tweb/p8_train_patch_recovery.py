@@ -24,6 +24,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from workflows.abacus_tweb import p8_train_graph_patch as graph_impl
+from workflows.abacus_tweb import p8_train_unet_cic_residual as residual_impl
 from workflows.abacus_tweb import p8_train_unet_patch as unet_impl
 from workflows.abacus_tweb.p8_deterministic_common import (
     atomic_json,
@@ -159,7 +160,9 @@ def checkpoint_payload(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--model", choices=("graph", "unet"), required=True)
+    parser.add_argument(
+        "--model", choices=("graph", "unet", "unet_cic_residual"), required=True
+    )
     parser.add_argument("--rotation", type=int, choices=range(5), required=True)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--epochs", type=int, default=20)
@@ -179,6 +182,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--run-name", default="control_v1")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--warm-start-checkpoint", type=Path)
+    parser.add_argument(
+        "--backbone-checkpoint", type=Path,
+        help="frozen U-PATCH best checkpoint used only to initialize U-CIC-RESID-v1",
+    )
     parser.add_argument("--epoch-seed-offset", type=int, default=0)
     parser.add_argument("--disable-early-stopping", action="store_true")
     parser.add_argument("--canary", action="store_true")
@@ -216,6 +223,13 @@ def parse_args() -> argparse.Namespace:
             parser.error(
                 "the convergence extension requires --disable-early-stopping"
             )
+    if args.model == "unet_cic_residual":
+        if args.backbone_checkpoint is None or not args.backbone_checkpoint.is_file():
+            parser.error("unet_cic_residual requires an existing --backbone-checkpoint")
+        if args.warm_start_checkpoint is not None:
+            parser.error("the first residual screen cannot use --warm-start-checkpoint")
+    elif args.backbone_checkpoint is not None:
+        parser.error("--backbone-checkpoint is exclusive to unet_cic_residual")
     if args.patience <= 0 or args.loss_log_every <= 0 or args.checkpoint_every <= 0:
         parser.error("patience and logging/checkpoint intervals must be positive")
     if not args.canary and args.min_epochs < 5:
@@ -269,6 +283,9 @@ def main() -> None:
     normalization = None
     edge_spec = None
     adapter = None
+    cic_by_parent = None
+    cic_anchor = None
+    backbone_start = None
     if args.model == "graph":
         feature_dir = args.p8_root / "g_patch_features" / f"rotation_{args.rotation}"
         feature_manifest = json.loads((feature_dir / "feature_manifest.json").read_text())
@@ -284,13 +301,39 @@ def main() -> None:
             feature_dir / "node_features_8d.npy", mmap_mode="r"
         )
         edge_spec = feature_manifest["edge"]
-    else:
+    elif args.model == "unet":
         selection_manifest = json.loads(args.selection.read_text())
         normalization = selection_manifest["rotations"][str(args.rotation)]["normalization"]
         model = unet_impl.UPatch(
             base=args.unet_base,
             latent_channels=args.unet_latent_channels,
         ).to(args.device)
+        adapter = unet_impl.CanonicalFieldPatchAdapter(
+            args.unet_adapter,
+            selection_manifest=args.selection,
+            rotation=args.rotation,
+        )
+    else:
+        selection_manifest = json.loads(args.selection.read_text())
+        normalization = selection_manifest["rotations"][str(args.rotation)]["normalization"]
+        cic_by_parent, cic_anchor = residual_impl.load_cic_anchor(
+            args.p8_root, args.rotation, len(truth)
+        )
+        model = residual_impl.UCICResidual(
+            scaler,
+            base=args.unet_base,
+            latent_channels=args.unet_latent_channels,
+        ).to(args.device)
+        backbone_start = residual_impl.load_unet_backbone(
+            model, args.backbone_checkpoint, args.device
+        )
+        if backbone_start["model"] != "unet":
+            raise RuntimeError("residual backbone is not a U-PATCH checkpoint")
+        if int(backbone_start["rotation"]) != args.rotation:
+            raise RuntimeError("residual backbone rotation mismatch")
+        if int(backbone_start["seed"]) != args.seed:
+            raise RuntimeError("residual backbone seed mismatch")
+        backbone_start["checkpoint_sha256"] = sha256(args.backbone_checkpoint)
         adapter = unet_impl.CanonicalFieldPatchAdapter(
             args.unet_adapter,
             selection_manifest=args.selection,
@@ -344,6 +387,34 @@ def main() -> None:
         }
         del parent_best, parent_recovery
 
+    zero_residual_parity = None
+    if args.model == "unet_cic_residual":
+        parity_patch = adapter.extract(
+            int(training_core[0]),
+            unet_impl.HALO_VOXELS,
+            unet_impl.CHANNELS,
+            alignment_voxels=unet_impl.ALIGNMENT_VOXELS,
+        )
+        parity_parent = parity_patch.authoritative_parent_id
+        parity_cic = np.asarray(cic_by_parent[parity_parent], dtype=np.float32)
+        if not np.all(np.isfinite(parity_cic)):
+            raise RuntimeError("checkpoint-zero parity core has missing CIC anchors")
+        parity_values, parity_points = unet_impl.model_inputs(
+            parity_patch, normalization, args.device
+        )
+        zero_residual_parity = residual_impl.checkpoint_zero_parity(
+            model,
+            parity_values,
+            parity_points,
+            torch.from_numpy(parity_cic).to(args.device),
+        )
+        zero_residual_parity["core_id"] = int(training_core[0])
+        zero_residual_parity["rows"] = int(len(parity_parent))
+        atomic_json(output / "checkpoint_zero_parity.json", zero_residual_parity)
+        if not zero_residual_parity["pass"]:
+            raise RuntimeError(f"U-CIC residual null-model parity failed: {zero_residual_parity}")
+        del parity_patch, parity_values, parity_points
+
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
     total_updates = args.epochs * len(training_core)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
@@ -393,6 +464,7 @@ def main() -> None:
             "canary",
             "run_name",
             "warm_start_checkpoint",
+            "backbone_checkpoint",
             "epoch_seed_offset",
             "disable_early_stopping",
             "p8_root",
@@ -403,10 +475,10 @@ def main() -> None:
         )
         checkpoint_arguments = state["arguments"]
         for field in frozen_resume_fields:
-            if checkpoint_arguments[field] != getattr(args, field):
+            if checkpoint_arguments.get(field) != getattr(args, field):
                 raise RuntimeError(
                     f"resume argument {field} mismatch: "
-                    f"{checkpoint_arguments[field]} != {getattr(args, field)}"
+                    f"{checkpoint_arguments.get(field)} != {getattr(args, field)}"
                 )
         model.load_state_dict(state["model_state"])
         optimizer.load_state_dict(state["optimizer_state"])
@@ -462,6 +534,9 @@ def main() -> None:
         "canary": args.canary,
         "resume": args.resume,
         "warm_start": warm_start,
+        "cic_anchor": cic_anchor,
+        "backbone_start": backbone_start,
+        "checkpoint_zero_parity": zero_residual_parity,
         "arguments": jsonable_arguments(vars(args)),
         "assignment": str(args.assignment),
         "assignment_sha256": sha256(args.assignment),
@@ -513,7 +588,7 @@ def main() -> None:
                     )
                     parent = patch.parent_node_id[patch.loss_mask]
                     prediction = model(*tensors)[patch.loss_mask]
-                else:
+                elif args.model == "unet":
                     patch = adapter.extract(
                         core_id,
                         unet_impl.HALO_VOXELS,
@@ -525,6 +600,23 @@ def main() -> None:
                         patch, normalization, args.device
                     )
                     prediction = model(values, points)
+                else:
+                    patch = adapter.extract(
+                        core_id,
+                        unet_impl.HALO_VOXELS,
+                        unet_impl.CHANNELS,
+                        alignment_voxels=unet_impl.ALIGNMENT_VOXELS,
+                    )
+                    parent = patch.authoritative_parent_id
+                    cic_np = np.asarray(cic_by_parent[parent], dtype=np.float32)
+                    if not np.all(np.isfinite(cic_np)):
+                        raise RuntimeError(f"core {core_id} has missing CIC anchor rows")
+                    values, points = unet_impl.model_inputs(
+                        patch, normalization, args.device
+                    )
+                    prediction, _, _ = model(
+                        values, points, torch.from_numpy(cic_np).to(args.device)
+                    )
 
                 weight_np = np.asarray(parent_weight[parent], dtype=np.float32)
                 actual_weight = float(np.sum(weight_np, dtype=np.float64))
@@ -637,7 +729,7 @@ def main() -> None:
                     "maximum_patch_nodes": int(val_nodes),
                     "maximum_patch_directed_edges": int(val_edges),
                 }
-            else:
+            elif args.model == "unet":
                 val_parent, val_scaled, failures = unet_impl.predict_fold(
                     model,
                     adapter,
@@ -646,6 +738,21 @@ def main() -> None:
                     args.device,
                 )
                 validation_runtime = {}
+            else:
+                val_parent, val_scaled, failures = residual_impl.predict_fold(
+                    model,
+                    adapter,
+                    validation_core,
+                    normalization,
+                    cic_by_parent,
+                    args.device,
+                )
+                validation_runtime = {
+                    "classical_anchor": "train-affine full-cap CIC",
+                    "residual_parameterization": (
+                        "additive lambda1 plus multiplicative positive eigengaps"
+                    ),
+                }
             val_eigen = increments_to_eigenvalues(
                 unscale_increments(val_scaled, scaler)
             ).astype(np.float32)
@@ -719,6 +826,9 @@ def main() -> None:
                         "normalization": normalization,
                         "feature_manifest": feature_manifest,
                         "warm_start": warm_start,
+                        "cic_anchor": cic_anchor,
+                        "backbone_start": backbone_start,
+                        "checkpoint_zero_parity": zero_residual_parity,
                     },
                     output / "best_checkpoint.pt",
                 )
@@ -781,7 +891,7 @@ def main() -> None:
                 stopped_early = True
                 break
     finally:
-        if args.model == "unet" and adapter is not None:
+        if args.model in ("unet", "unet_cic_residual") and adapter is not None:
             adapter.close()
 
     final_epoch = history[-1]["epoch"] if history else start_epoch - 1

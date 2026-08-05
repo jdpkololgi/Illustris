@@ -5,6 +5,11 @@ import torch
 
 from workflows.abacus_tweb.p8_classical_fullcap import _grid_coords
 from workflows.abacus_tweb.p8_train_unet_patch import ChannelLayerNorm3d, UPatch, grid_coordinates
+from workflows.abacus_tweb.p8_train_unet_cic_residual import (
+    UCICResidual,
+    checkpoint_zero_parity,
+    physical_to_scaled,
+)
 
 
 class P8PatchModelTests(unittest.TestCase):
@@ -35,6 +40,36 @@ class P8PatchModelTests(unittest.TestCase):
             )[0, 0, 0, 0].numpy()
             expected = np.array([field[0, 0, 0, 2, 4], field[0, 0, 4, 3, 0]])
             np.testing.assert_allclose(sampled, expected)
+
+    def test_u_cic_residual_zero_is_exact_and_always_ordered(self):
+        scaler = {"mean": [-0.1, 0.2, 0.25], "std": [0.3, 0.1, 0.12]}
+        model = UCICResidual(scaler, base=4, latent_channels=8, head_width=16)
+        values = torch.randn(1, 3, 8, 8, 8)
+        points = torch.tensor([[[[[-0.5, 0.0, 0.5], [0.1, -0.2, 0.3]]]]])
+        cic = torch.tensor([[-0.4, 0.1, 0.3], [0.2, 0.25, 0.9]])
+        parity = checkpoint_zero_parity(model, values, points, cic)
+        self.assertTrue(parity["pass"])
+        self.assertLessEqual(parity["maximum_absolute_eigenvalue_difference"], 2.0e-6)
+
+        with torch.no_grad():
+            model.head[-1].bias[:] = torch.tensor([1.0, -5.0, 5.0])
+        scaled, predicted, correction = model(values, points, cic)
+        self.assertTrue(torch.all(predicted[:, 1] > predicted[:, 0]))
+        self.assertTrue(torch.all(predicted[:, 2] > predicted[:, 1]))
+        self.assertEqual(tuple(scaled.shape), (2, 3))
+        self.assertEqual(tuple(correction.shape), (2, 3))
+
+    def test_u_cic_scaled_null_matches_common_increment_contract(self):
+        scaler = {"mean": [-0.1, 0.2, 0.25], "std": [0.3, 0.1, 0.12]}
+        model = UCICResidual(scaler, base=4, latent_channels=8, head_width=16)
+        values = torch.randn(1, 3, 8, 8, 8)
+        points = torch.zeros(1, 1, 1, 2, 3)
+        cic_np = np.asarray([[-0.4, 0.1, 0.3], [0.2, 0.25, 0.9]], dtype=np.float32)
+        with torch.no_grad():
+            scaled, _, _ = model(values, points, torch.from_numpy(cic_np))
+        np.testing.assert_allclose(
+            scaled.numpy(), physical_to_scaled(cic_np, scaler), rtol=1e-6, atol=1e-6
+        )
 
 
 if __name__ == "__main__":

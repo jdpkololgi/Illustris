@@ -1,5 +1,37 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-05 — [science/code] P8 exact-DTFE acceleration and first trained U+CIC corrective model implemented
+
+The two remaining P8 controls now have executable, pre-registered implementations;
+neither runtime gate is being claimed complete before full-cap canaries and runs.
+
+The exact-DTFE build no longer uses the failed tetrahedron-AABB raster as its production
+path. `workflows/abacus_tweb/p8_dtfe_fullcap.py` now constructs a reusable
+vertex-to-incident-tetrahedron CSR and performs voxel-centric containing-tetrahedron
+search followed by exact barycentric interpolation. A synthetic SciPy-Delaunay test
+caught an important false assumption before launch: the single nearest site is not
+always a vertex of the containing tetrahedron. The frozen locator therefore uses a
+progressive K=1/8/32/128 incident-star search only for unresolved voxels, reports every
+miss, checkpoints every grid-x slab, and never substitutes a vertex splat. The full-cap
+NGC+SGC build and rotation-0/2 evaluation remain outstanding.
+
+`U-CIC-RESID-v1` is the first genuinely trained classical-plus-learned correction in
+this programme. The earlier P9 U+CIC result was a cross-fitted constant linear blend and
+must not be described as residual training. The new model receives the globally
+reconstructed, train-fold-affine CIC eigenvalues and the established local U-PATCH field
+view. Its backbone starts from the corresponding converged U-PATCH checkpoint; its new
+head is zero-initialized so checkpoint zero reproduces CIC to `2e-6`. Corrections are
+bounded to one training sigma for lambda1 and multiplicative positive eigengap factors
+`exp(1.5 tanh(r))`, preserving ordering while testing whether local learned structure
+adds information beyond the nonlocal classical solve. The classical workflow now saves
+parent-keyed active training+validation anchors without exposing a test fold.
+
+Seven targeted DTFE/U-PATCH/residual tests pass. The wider phase-4 suite passes all
+relevant tests; its sole failure is the pre-existing entrypoint-help subprocess importing
+a contaminated user-site NumPy, not a failure in these P8 implementations. The frozen
+execution contract and adoption rules are recorded in P8.7 of
+`docs/plan_generalisable_graphweb_vac.md`.
+
 ### 2026-08-04 — [result] P8 rotation-2 extensions and true-field context gate complete
 
 The frozen rotation-2 `convergence_extension_v1` runs completed all 20 epochs

@@ -1273,6 +1273,66 @@ To test the specific long-convergence hypothesis without rewriting the original 
    replication, the matched exact DTFE/global-residual controls, or P10 fresh-phase
    validation.
 
+#### P8.7 Registered classical-anchored corrective model
+
+The earlier P9 constant linear blends are complementarity diagnostics. They are **not**
+trained corrective models and do not close P8.5 item 6. Register one primary corrective
+model before opening any GraphNet/F-tier/hybrid sweep:
+
+```text
+U-CIC-RESID-v1:
+  global full-cap counts -> CIC contrast -> fixed FFT tidal solve
+                         -> train-fold affine eigenvalues
+  local P3 fields       -> frozen-contract U-PATCH backbone -> bounded correction
+  output                = corrected ordered eigenvalues
+```
+
+1. Re-run the frozen full-cap CIC workflow for rotations 0 and 2 and retain a
+   `parent_node_id`-keyed classical prediction for every registered training and
+   validation authoritative row. The affine response is fitted on training folds only;
+   no test-fold truth enters the anchor.
+2. Initialize the local field backbone from the corresponding converged
+   `convergence_extension_v1` U-PATCH best checkpoint. Replace its point head with a new
+   zero-initialized residual head and record the parent checkpoint path and SHA-256.
+3. At checkpoint zero, require numerical reproduction of the CIC eigenvalues on a real
+   patch. Abort if the maximum absolute difference exceeds `2e-6` or if any eigengap is
+   non-positive.
+4. Parameterize the correction as an additive bounded lambda1 shift and multiplicative
+   positive eigengap shifts:
+
+   ```text
+   lambda1_hat = lambda1_CIC + sigma_train(lambda1) tanh(r1)
+   gap12_hat   = gap12_CIC exp(1.5 tanh(r2))
+   gap23_hat   = gap23_CIC exp(1.5 tanh(r3))
+   ```
+
+   This preserves ordering and prevents the residual from silently replacing the global
+   baseline with an unconstrained second estimator. A `1e-6` gap floor is permitted only
+   if the manifest reports how many anchor rows it affects.
+5. Preserve the existing 64 Mpc/h core, 120 Mpc/h U-PATCH halo, selection-aware P3
+   channels, P4 rotations, authoritative rows, target scaler, square-root shell weights,
+   complete-exposure epoch sampler, complete-fold validation, and atomic resume contract.
+6. Run seed 42 on rotations 0 and 2 for 20 complete-exposure epochs at learning rate
+   `2e-4`, with a cosine schedule, no within-run early stopping, and full validation after
+   every epoch. If the best checkpoint lies in the final three epochs, register a later
+   extension rather than silently extending this screen.
+7. Compare exactly matched rows against both components: train-affine CIC and standalone
+   U-PATCH. Report the four-shell primary score, first-three-shell diagnostic, each shell,
+   pooled metrics, class metrics, boundary dependence, and spatial-block intervals.
+8. Adopt the corrective model only if it improves the supported-shell mean over U-PATCH
+   without degrading the sparse shell by more than 0.01. The ordinary P8 `+0.03`
+   promotion target remains decisive; smaller gains are provisional and require spatial
+   uncertainty plus P10 replication.
+9. Do not launch G-CIC, F-CIC, learned tensor residuals, or density-residual branches
+   unless U-CIC-RESID-v1 demonstrates a reproducible gain or its residual diagnostics
+   identify a specific representation failure worth testing.
+
+The exact DTFE build may proceed in parallel. Its accelerated implementation must use
+voxel-centric containing-tetrahedron point location, exact barycentric interpolation,
+resumable cap/slab outputs, explicit unresolved-voxel coverage, and a synthetic parity
+test against SciPy Delaunay. It must not fall back to a vertex splat while retaining the
+DTFE label.
+
 The recovery is deliberately architecture-neutral. GraphNet, U-Net, a simplified
 F-tier/U-Physics model, or a classical-residual hybrid may win; the scientific product is
 the transferable estimator and validated protocol, not loyalty to a model family.
@@ -1341,15 +1401,27 @@ Progress checklist:
   falls from 9.27% to 0.88% of the full-periodic reference scatter between
   60 and 360 Mpc/h.
 - [ ] Complete matched full-cap exact DTFE and global classical-plus-local-residual
-  controls. Exact `4/Vstar` plus tetrahedral barycentric rasterisation is
-  implemented in `workflows/abacus_tweb/p8_dtfe_fullcap.py`. The completed
-  full-cap preflight is a red engineering gate: the tet-centric AABB kernel has
-  an upper bound of approximately 77.5 billion voxel--tetrahedron visits, and
-  individual boundary tetrahedra span AABBs of approximately 18 million voxels.
-  A spatially accelerated voxel point-location/rasterisation method must replace
-  the naive AABB enumeration before the exact NGC+SGC build can be authorized.
+  controls.
+  - [x] Implement and unit-test the accelerated exact-DTFE locator. The production
+    path now builds a vertex-to-incident-tetrahedron CSR once, queries grid voxels
+    progressively through K=1/8/32/128 nearby vertex stars, and performs exact
+    barycentric containment/interpolation. The synthetic test explicitly includes
+    cases where the nearest site is not a vertex of the containing tetrahedron.
+  - [ ] Run the resumable exact NGC+SGC DTFE field build and require at least 99%
+    finite coverage of supported voxels without approximate substitution.
+  - [ ] Evaluate exact DTFE on rotations 0 and 2 under the frozen training-only affine
+    and authoritative-row contract.
+  - [x] Implement and unit-test `U-CIC-RESID-v1` with a keyed active-fold CIC anchor,
+    frozen U-PATCH backbone provenance, zero-residual parity gate, bounded lambda1
+    correction, and positive multiplicative eigengap corrections in
+    `workflows/abacus_tweb/p8_train_unet_cic_residual.py` and
+    `p8_train_patch_recovery.py`.
+  - [ ] Regenerate the rotation-0/2 keyed CIC anchors with the frozen classical code.
+  - [ ] Run the rotation-0/2 one-seed U-CIC residual screens and compare exactly matched
+    rows to CIC and standalone U-PATCH.
   Evidence remains under
-  `/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/classical/dtfe_fullcap_v1/`.
+  `/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/classical/dtfe_fullcap_v1/`
+  and `/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/u_cic_resid_v1/`.
 - [ ] Reapply the classical adoption and five-fold promotion gates to converged results.
 - [ ] Spend three seeds only on candidates that pass the recovered two-rotation gate.
 - [x] Keep log-gap, FMPE/NPE, JEPA, HOD, and broad architecture branches gated while the

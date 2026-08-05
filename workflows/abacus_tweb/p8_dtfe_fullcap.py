@@ -24,6 +24,7 @@ import sys
 import h5py
 import numpy as np
 import torch
+from scipy.spatial import cKDTree
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
@@ -88,6 +89,121 @@ def compute_vertex_density(
     del star, density, valid
     torch.cuda.empty_cache()
     return result
+
+
+def build_incident_csr(
+    tets: np.ndarray,
+    n_points: int,
+    *,
+    output_root: Path,
+    device: str,
+) -> tuple[np.ndarray, np.ndarray, dict]:
+    """Build vertex -> incident-tetrahedron CSR once using a GPU integer sort.
+
+    The former tetrahedron-centric raster visited every voxel in every tetrahedron
+    AABB.  Full-cap boundary tetrahedra make that workload pathological.  The
+    accelerated locator instead starts from nearby Delaunay vertices and tests
+    only tetrahedra incident on those vertices.  This CSR is the immutable
+    acceleration structure for that exact search.
+    """
+    offsets_path = output_root / "incident_offsets.npy"
+    tetra_path = output_root / "incident_tetrahedron_id.npy"
+    manifest_path = output_root / "incident_csr_manifest.json"
+    if offsets_path.exists() and tetra_path.exists() and manifest_path.exists():
+        offsets = np.load(offsets_path, mmap_mode="r")
+        incident = np.load(tetra_path, mmap_mode="r")
+        manifest = json.loads(manifest_path.read_text())
+        if (
+            tuple(manifest["tetrahedra_shape"]) != tuple(tets.shape)
+            or int(manifest["n_points"]) != int(n_points)
+            or int(offsets[-1]) != int(tets.size)
+            or len(incident) != int(tets.size)
+        ):
+            raise RuntimeError("stored incident CSR does not match the current tetrahedra")
+        return offsets, incident, manifest
+
+    started = time.time()
+    flat = np.asarray(tets, dtype=np.int32).reshape(-1)
+    counts = np.bincount(flat, minlength=n_points)
+    offsets = np.empty(n_points + 1, dtype=np.int64)
+    offsets[0] = 0
+    np.cumsum(counts, dtype=np.int64, out=offsets[1:])
+    del counts
+
+    flat_gpu = torch.from_numpy(flat).to(device)
+    order = torch.argsort(flat_gpu, stable=False)
+    incident = (order // 4).to(torch.int32).cpu().numpy()
+    del flat_gpu, order
+    torch.cuda.empty_cache()
+    if len(incident) != int(tets.size) or int(offsets[-1]) != len(incident):
+        raise RuntimeError("incident CSR construction failed its cardinality check")
+    np.save(offsets_path, offsets)
+    np.save(tetra_path, incident)
+    manifest = {
+        "schema_version": 1,
+        "method": "GPU sort of flattened immutable tetrahedron vertices",
+        "n_points": int(n_points),
+        "tetrahedra_shape": list(tets.shape),
+        "incidences": int(len(incident)),
+        "mean_tetrahedra_per_vertex": float(len(incident) / n_points),
+        "maximum_tetrahedra_per_vertex": int(np.diff(offsets).max(initial=0)),
+        "elapsed_seconds": time.time() - started,
+    }
+    atomic_json(manifest_path, manifest)
+    return (
+        np.load(offsets_path, mmap_mode="r"),
+        np.load(tetra_path, mmap_mode="r"),
+        manifest,
+    )
+
+
+def locate_points_incident_cpu(
+    points: np.ndarray,
+    tets: np.ndarray,
+    vertex_density: np.ndarray,
+    queries: np.ndarray,
+    nearest_vertex: np.ndarray,
+    offsets: np.ndarray,
+    incident_tetrahedron: np.ndarray,
+    *,
+    epsilon: float = 1.0e-9,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Small exact CPU reference for unit/parity tests.
+
+    ``nearest_vertex`` may have shape ``(N,)`` or ``(N,K)``.  The production
+    kernel uses K=1 and retries only unresolved points with a wider K-neighbour
+    search.  The interpolation itself is exact piecewise-linear DTFE.
+    """
+    nearest = np.asarray(nearest_vertex, dtype=np.int64)
+    if nearest.ndim == 1:
+        nearest = nearest[:, None]
+    values = np.full(len(queries), np.nan, dtype=np.float64)
+    containing = np.full(len(queries), -1, dtype=np.int64)
+    xyz = np.asarray(points, dtype=np.float64)
+    for row, query in enumerate(np.asarray(queries, dtype=np.float64)):
+        seen: set[int] = set()
+        for vertex in nearest[row]:
+            for at in range(int(offsets[vertex]), int(offsets[vertex + 1])):
+                tet_id = int(incident_tetrahedron[at])
+                if tet_id in seen:
+                    continue
+                seen.add(tet_id)
+                ids = np.asarray(tets[tet_id], dtype=np.int64)
+                vertices = xyz[ids]
+                try:
+                    weights123 = np.linalg.solve(
+                        (vertices[1:] - vertices[0]).T, query - vertices[0]
+                    )
+                except np.linalg.LinAlgError:
+                    continue
+                weights = np.r_[1.0 - weights123.sum(), weights123]
+                if np.min(weights) >= -epsilon and np.max(weights) <= 1.0 + epsilon:
+                    values[row] = float(weights @ np.asarray(vertex_density[ids]))
+                    containing[row] = tet_id
+                    break
+            if containing[row] >= 0:
+                break
+    return values, containing
 
 
 def preflight_aabb_visits(
@@ -251,6 +367,269 @@ def rasterize_cap(
     return report
 
 
+def _incident_locator_kernel():
+    """Compile the voxel-centric exact point locator lazily."""
+    from numba import cuda
+
+    @cuda.jit
+    def kernel(
+        points, tets, vertex_density, offsets, incident, queries,
+        nearest_vertex, epsilon, output, containing,
+    ):
+        row = cuda.grid(1)
+        if row >= queries.shape[0]:
+            return
+        qx, qy, qz = queries[row, 0], queries[row, 1], queries[row, 2]
+        for seed_column in range(nearest_vertex.shape[1]):
+            seed = nearest_vertex[row, seed_column]
+            for at in range(offsets[seed], offsets[seed + 1]):
+                tet_id = incident[at]
+                i0 = tets[tet_id, 0]
+                i1 = tets[tet_id, 1]
+                i2 = tets[tet_id, 2]
+                i3 = tets[tet_id, 3]
+                x0, y0, z0 = points[i0, 0], points[i0, 1], points[i0, 2]
+                ax, ay, az = points[i1, 0] - x0, points[i1, 1] - y0, points[i1, 2] - z0
+                bx, by, bz = points[i2, 0] - x0, points[i2, 1] - y0, points[i2, 2] - z0
+                cx, cy, cz = points[i3, 0] - x0, points[i3, 1] - y0, points[i3, 2] - z0
+                px, py, pz = qx - x0, qy - y0, qz - z0
+
+                bcx, bcy, bcz = by * cz - bz * cy, bz * cx - bx * cz, bx * cy - by * cx
+                determinant = ax * bcx + ay * bcy + az * bcz
+                if abs(determinant) < 1.0e-24:
+                    continue
+                inverse = 1.0 / determinant
+                w1 = (px * bcx + py * bcy + pz * bcz) * inverse
+                pcx, pcy, pcz = py * cz - pz * cy, pz * cx - px * cz, px * cy - py * cx
+                w2 = (ax * pcx + ay * pcy + az * pcz) * inverse
+                bpx, bpy, bpz = by * pz - bz * py, bz * px - bx * pz, bx * py - by * px
+                w3 = (ax * bpx + ay * bpy + az * bpz) * inverse
+                w0 = 1.0 - w1 - w2 - w3
+                if (
+                    w0 >= -epsilon and w1 >= -epsilon
+                    and w2 >= -epsilon and w3 >= -epsilon
+                    and w0 <= 1.0 + epsilon and w1 <= 1.0 + epsilon
+                    and w2 <= 1.0 + epsilon and w3 <= 1.0 + epsilon
+                ):
+                    output[row] = (
+                        w0 * vertex_density[i0] + w1 * vertex_density[i1]
+                        + w2 * vertex_density[i2] + w3 * vertex_density[i3]
+                    )
+                    containing[row] = tet_id
+                    return
+    return kernel
+
+
+def _locate_chunk_gpu(
+    *,
+    kernel,
+    d_points,
+    d_tets,
+    d_density,
+    d_offsets,
+    d_incident,
+    queries: np.ndarray,
+    nearest_vertex: np.ndarray,
+    epsilon: float,
+    threads: int,
+) -> tuple[np.ndarray, np.ndarray]:
+    from numba import cuda
+
+    nearest = np.asarray(nearest_vertex, dtype=np.int32)
+    if nearest.ndim == 1:
+        nearest = nearest[:, None]
+    d_queries = cuda.to_device(np.ascontiguousarray(queries, dtype=np.float64))
+    d_nearest = cuda.to_device(np.ascontiguousarray(nearest))
+    d_values = cuda.to_device(np.full(len(queries), np.nan, dtype=np.float32))
+    d_containing = cuda.to_device(np.full(len(queries), -1, dtype=np.int32))
+    blocks = (len(queries) + threads - 1) // threads
+    kernel[blocks, threads](
+        d_points, d_tets, d_density, d_offsets, d_incident,
+        d_queries, d_nearest, epsilon, d_values, d_containing,
+    )
+    cuda.synchronize()
+    values = d_values.copy_to_host()
+    containing = d_containing.copy_to_host()
+    del d_queries, d_nearest, d_values, d_containing
+    return values, containing
+
+
+# This second definition intentionally replaces the legacy AABB implementation
+# above while retaining it as an auditable record of the failed preflight.
+def rasterize_cap(
+    *,
+    points: np.ndarray,
+    tets: np.ndarray,
+    vertex_density: np.ndarray,
+    incident_offsets: np.ndarray,
+    incident_tetrahedron: np.ndarray,
+    cap: int,
+    field_path: Path,
+    origin: np.ndarray,
+    shape: tuple[int, int, int],
+    cell_mpc: float,
+    output: Path,
+    threads: int,
+    raster_slab: int,
+    tree_workers: int,
+    fallback_neighbors: tuple[int, ...],
+    epsilon: float,
+) -> dict:
+    """Rasterize exact DTFE values with nearest-vertex incident-tet search.
+
+    The nearest input site is usually a vertex of the containing simplex but is
+    not guaranteed to be one for an arbitrary Delaunay simplex.  We therefore
+    test incident stars progressively (K=1, then the registered wider K values)
+    in exact barycentric coordinates.  Unresolved voxels are counted explicitly;
+    no approximate density is substituted.
+    """
+    from numba import cuda
+
+    output.parent.mkdir(parents=True, exist_ok=True)
+    progress_path = output.with_suffix(".progress.json")
+    if output.exists():
+        field = np.lib.format.open_memmap(output, mode="r+")
+        if tuple(field.shape) != tuple(shape):
+            raise RuntimeError(f"existing DTFE field has wrong shape: {field.shape} != {shape}")
+    else:
+        field = np.lib.format.open_memmap(output, mode="w+", dtype=np.float32, shape=shape)
+        field.fill(np.nan)
+        field.flush()
+    if progress_path.exists():
+        progress = json.loads(progress_path.read_text())
+        if progress.get("method") != "nearest_vertex_incident_tetrahedra":
+            raise RuntimeError("existing DTFE progress uses an incompatible locator")
+    else:
+        progress = {
+            "schema_version": 1,
+            "method": "nearest_vertex_incident_tetrahedra",
+            "cap": int(cap),
+            "shape": list(shape),
+            "completed_x": 0,
+            "slabs": [],
+        }
+
+    cap_point_id = np.flatnonzero(np.asarray(points[:, 3], dtype=np.int8) == cap)
+    cap_xyz = np.asarray(points[cap_point_id, :3], dtype=np.float64)
+    tree_started = time.time()
+    tree = cKDTree(cap_xyz, leafsize=32, compact_nodes=True, balanced_tree=True)
+    tree_seconds = time.time() - tree_started
+
+    d_points = cuda.to_device(np.ascontiguousarray(points[:, :3], dtype=np.float64))
+    d_tets = cuda.to_device(np.ascontiguousarray(tets, dtype=np.int32))
+    d_density = cuda.to_device(np.ascontiguousarray(vertex_density, dtype=np.float32))
+    d_offsets = cuda.to_device(np.ascontiguousarray(incident_offsets, dtype=np.int64))
+    d_incident = cuda.to_device(np.ascontiguousarray(incident_tetrahedron, dtype=np.int32))
+    kernel = _incident_locator_kernel()
+    started = time.time()
+    completed_x = int(progress["completed_x"])
+
+    with h5py.File(field_path, "r") as handle:
+        for left in range(completed_x, shape[0], raster_slab):
+            right = min(left + raster_slab, shape[0])
+            slab_started = time.time()
+            supported = np.asarray(
+                handle["exposure_apodized"][left:right], dtype=np.float32
+            ) > 0.0
+            local_index = np.argwhere(supported)
+            slab_values = np.full(supported.shape, np.nan, dtype=np.float32)
+            primary_found = 0
+            fallback_found: list[dict] = []
+            if len(local_index):
+                global_index = local_index.astype(np.float64)
+                global_index[:, 0] += left
+                queries = origin[None, :] + (global_index + 0.5) * cell_mpc
+                _, nearest_local = tree.query(queries, k=1, workers=tree_workers)
+                nearest_global = cap_point_id[np.asarray(nearest_local, dtype=np.int64)]
+                values, containing = _locate_chunk_gpu(
+                    kernel=kernel,
+                    d_points=d_points,
+                    d_tets=d_tets,
+                    d_density=d_density,
+                    d_offsets=d_offsets,
+                    d_incident=d_incident,
+                    queries=queries,
+                    nearest_vertex=nearest_global,
+                    epsilon=epsilon,
+                    threads=threads,
+                )
+                primary_found = int(np.sum(containing >= 0))
+                missing = containing < 0
+                for requested_k in fallback_neighbors:
+                    if not np.any(missing):
+                        break
+                    k = min(int(requested_k), len(cap_point_id))
+                    _, fallback_local = tree.query(
+                        queries[missing], k=k, workers=tree_workers
+                    )
+                    fallback_global = cap_point_id[np.asarray(fallback_local, dtype=np.int64)]
+                    retry_values, retry_containing = _locate_chunk_gpu(
+                        kernel=kernel,
+                        d_points=d_points,
+                        d_tets=d_tets,
+                        d_density=d_density,
+                        d_offsets=d_offsets,
+                        d_incident=d_incident,
+                        queries=queries[missing],
+                        nearest_vertex=fallback_global,
+                        epsilon=epsilon,
+                        threads=threads,
+                    )
+                    found_now = int(np.sum(retry_containing >= 0))
+                    fallback_found.append(
+                        {"k": int(k), "queries": int(missing.sum()), "found": found_now}
+                    )
+                    values[missing] = retry_values
+                    containing[missing] = retry_containing
+                    missing = containing < 0
+                slab_values[tuple(local_index.T)] = values
+            field[left:right] = slab_values
+            field.flush()
+            finite = np.isfinite(slab_values) & supported
+            slab_report = {
+                "left": int(left),
+                "right": int(right),
+                "supported_voxels": int(supported.sum()),
+                "primary_found": primary_found,
+                "fallback_stages": fallback_found,
+                "finite_supported_voxels": int(finite.sum()),
+                "elapsed_seconds": time.time() - slab_started,
+            }
+            progress["slabs"].append(slab_report)
+            progress["completed_x"] = int(right)
+            atomic_json(progress_path, progress)
+            print(json.dumps({"dtfe_slab": slab_report}), flush=True)
+
+    supported_voxels = int(sum(row["supported_voxels"] for row in progress["slabs"]))
+    finite_supported = int(sum(row["finite_supported_voxels"] for row in progress["slabs"]))
+    finite_values = np.asarray(field[np.isfinite(field)], dtype=np.float32)
+    report = {
+        "cap": int(cap),
+        "cap_name": CAP_NAME[cap],
+        "shape": list(shape),
+        "field_path": str(field_path),
+        "output": str(output),
+        "locator": "nearest vertex -> exact incident-tetrahedron barycentric test",
+        "fallback_neighbors": [int(value) for value in fallback_neighbors],
+        "barycentric_epsilon": float(epsilon),
+        "cap_points": int(len(cap_point_id)),
+        "tree_build_seconds": tree_seconds,
+        "supported_voxels": supported_voxels,
+        "finite_supported_voxels": finite_supported,
+        "supported_coverage": float(finite_supported / max(supported_voxels, 1)),
+        "finite_density_min": float(finite_values.min(initial=np.inf)),
+        "finite_density_max": float(finite_values.max(initial=-np.inf)),
+        "elapsed_seconds": time.time() - started,
+        "progress": str(progress_path),
+    }
+    del (
+        d_points, d_tets, d_density, d_offsets, d_incident,
+        field, cap_xyz, cap_point_id, tree, finite_values,
+    )
+    torch.cuda.empty_cache()
+    return report
+
+
 def _load_dtfe_delta(
     *,
     density_path: Path,
@@ -372,6 +751,13 @@ def main() -> None:
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--chunk", type=int, default=1_000_000)
     parser.add_argument("--threads", type=int, default=128)
+    parser.add_argument("--raster-slab", type=int, default=2,
+                        help="number of grid-x planes per resumable locator chunk")
+    parser.add_argument("--tree-workers", type=int, default=-1,
+                        help="cKDTree workers; -1 uses all CPUs in the allocation")
+    parser.add_argument("--fallback-neighbors", type=int, nargs="+", default=(8, 32, 128),
+                        help="progressive K-nearest incident-star retries after K=1 misses")
+    parser.add_argument("--barycentric-epsilon", type=float, default=1.0e-8)
     parser.add_argument("--slab", type=int, default=8)
     parser.add_argument("--padding-voxels", type=int, default=20)
     parser.add_argument("--rsmooth-mpc", type=float, default=RSMOOTH_MPC)
@@ -409,6 +795,12 @@ def main() -> None:
                 tets, volumes, len(points), device=args.device, chunk=args.chunk
             )
             np.save(vertex_path, vertex_density)
+        incident_offsets, incident_tetrahedron, incident_manifest = build_incident_csr(
+            tets,
+            len(points),
+            output_root=args.output_root,
+            device=args.device,
+        )
         cap_reports = {}
         for cap in (0, 1):
             name = CAP_NAME[cap]
@@ -420,17 +812,27 @@ def main() -> None:
             else:
                 cap_reports[name] = rasterize_cap(
                     points=points, tets=tets, vertex_density=vertex_density, cap=cap,
+                    incident_offsets=incident_offsets,
+                    incident_tetrahedron=incident_tetrahedron,
                     field_path=Path(row["field_path"]),
                     origin=np.asarray(row["origin_mpc"], dtype=np.float64),
                     shape=tuple(row["shape"]), cell_mpc=float(row["cell_mpc"]),
                     output=cap_output, threads=args.threads,
+                    raster_slab=args.raster_slab,
+                    tree_workers=args.tree_workers,
+                    fallback_neighbors=tuple(args.fallback_neighbors),
+                    epsilon=args.barycentric_epsilon,
                 )
                 atomic_json(cap_report_path, cap_reports[name])
         build_report = {
             "schema_version": 1, "estimator": "exact_piecewise_linear_dtfe",
             "git_revision": git_revision,
             "vertex_density": "4/sum incident tetrahedron volumes",
-            "rasterization": "barycentric interpolation in immutable global Delaunay tetrahedra",
+            "rasterization": (
+                "voxel-centric nearest-vertex incident-tetrahedron point location; "
+                "barycentric interpolation in immutable global Delaunay tetrahedra"
+            ),
+            "incident_csr": incident_manifest,
             "caps": cap_reports,
             "inputs": {
                 "points": str(args.points), "points_sha256": sha256(args.points),
