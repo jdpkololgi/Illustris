@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-08-06T23:24:50.707873Z",
+  "decision": "CONDITIONAL_GO_BUILD_RESPONSE_COMPLETE_FAINT",
+  "multitracer_training_ready": false,
+  "runtime_audit": "/pscratch/sd/d/dkololgi/abacus/p8_multitracer_feasibility_v1/feasibility_audit.json",
+  "runtime_audit_sha256": "84543ded4245c1927abbbcba468240872906142280cc480e1a3fdeefed7ee7ba",
+  "runtime_marker": "/pscratch/sd/d/dkololgi/abacus/p8_multitracer_feasibility_v1/F0_FEASIBILITY_COMPLETE",
+  "audit_revision": "6267c082012d999c99b74fdfe246f5de895c0b15",
+  "counts": {
+    "forfa_targets": {
+      "rows_unique": 18107125,
+      "bright_unique": 10547983,
+      "faint_unique": 7559142,
+      "faint_unique_by_shell": {
+        "0p15_0p25": 1981059,
+        "0p25_0p35": 2453886,
+        "0p35_0p45": 1642202,
+        "0p45_0p55": 553830
+      }
+    },
+    "fiberassign_assigned_crossmatch": {
+      "rows": 21877689,
+      "unique_targetids": 15571025,
+      "matched_unique_targetids": 11916632,
+      "bright_unique": 8314754,
+      "faint_unique": 3601878,
+      "unmatched_unique_targetids": 3654393
+    },
+    "spectroscopic_join": {
+      "rows": 41509976,
+      "rows_unique": 17031047,
+      "bright_unique": 9920755,
+      "faint_unique": 7110292,
+      "faint_unique_by_shell": {
+        "0p15_0p25": 486410,
+        "0p25_0p35": 610140,
+        "0p35_0p45": 424267,
+        "0p45_0p55": 150919
+      }
+    },
+    "graphweb_bright_final": {
+      "rows_unique": 9538254,
+      "bright_unique": 9538254,
+      "faint_unique": 0
+    }
+  },
+  "selection_trace": {
+    "upstream": "The current script applies r<19.5 for Bright and 19.5<=r<=20.175 for Faint, retains 0.695 of Faint at random, and promotes 0.2 of retained Faint.",
+    "lss": "run_path1_mkcat.sh invokes the LSS builder with --tracer BGS_BRIGHT.",
+    "spectroscopy": "The available LOA injection calibrates BGS_BRIGHT marginal success only.",
+    "graphweb": "The final exporter uses its default Bright-bit cut."
+  },
+  "blockers": [
+    "The current CutSky columns do not include the r-fiber, z, and W1 photometry required to reproduce the final BGS_FAINT fiber-magnitude/color selection.",
+    "The 0.695 Faint retention was drawn without an explicit RNG seed; the existing forFA0 realization is fixed on disk but cannot be regenerated bit-for-bit from code alone.",
+    "No Faint-specific spectroscopic-success response has been fitted.",
+    "Repeated assignment and spectroscopic rows require a frozen unique-TARGETID observation policy before field or graph construction."
+  ]
+}

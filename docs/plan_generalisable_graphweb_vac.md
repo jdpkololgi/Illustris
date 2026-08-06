@@ -1361,6 +1361,346 @@ reinterpret them. Register `U-CIC-RESID-v2` before opening any further scores:
    gates. The wider bound makes the registered question feasible; it does not weaken
    the adoption rule.
 
+##### P8.7b U-CIC-RESID-v2 final closeout
+
+**Status:** COMPLETE — `NO_GO_SPARSE_SHELL_REGRESSION` (2026-08-06)
+
+Both registered 20-epoch screens completed. The result is not a marginal promotion:
+
+| Rotation | Model | macro R2(lambda1) | first-three-shell macro | sparse-shell R2 |
+|---|---|---:|---:|---:|
+| 0 | U-PATCH-BRIGHT | 0.5070 | 0.5609 | 0.3453 |
+| 0 | U-CIC-RESID-v2 | 0.5220 | 0.5933 | 0.3082 |
+| 2 | U-PATCH-BRIGHT | 0.5197 | 0.5860 | 0.3210 |
+| 2 | U-CIC-RESID-v2 | 0.5208 | 0.6033 | 0.2734 |
+
+The corrective model gains only `+0.0150/+0.0011` in the registered macro score,
+below the `+0.03` promotion target. More importantly, it loses
+`-0.0371/-0.0476` in the sparse shell, far beyond the permitted `-0.01`.
+Supported-shell gains cannot compensate for worsening the shell that motivated the
+correction. Freeze all U-CIC variants and do not open G-CIC/F-CIC branches.
+
+The machine-readable decision is
+`docs/evidence/p8/ucic_v2_closeout.json`. Preserve standalone U-PATCH as
+`U-PATCH-BRIGHT_REFERENCE`: the current leading learned Bright-only candidate under
+the two-rotation P8 screen, not yet a production-approved VAC model. Five-fold/seed
+replication and P10 fresh-phase transfer remain mandatory before production promotion.
+
+#### P8.8 BGS_FAINT multitracer information gate
+
+**Status:** F0 COMPLETE; CONDITIONAL GO FOR CATALOGUE CONSTRUCTION; TRAINING NOT READY
+
+The current plateau and the sparse-shell behaviour motivate a data-information test
+before another encoder sweep. This branch asks whether an additional observed tracer
+improves inference of the same Bright-galaxy targets. It does not change the target,
+P4 folds, metric, smoothing scale, or authoritative evaluation rows.
+
+##### P8.8.1 F0 feasibility audit — completed evidence
+
+The executable audit is
+`workflows/abacus_tweb/p8_multitracer_feasibility.py`; seven unit tests are in
+`tests/phase4/test_p8_multitracer_feasibility.py`. Runtime evidence is
+`/pscratch/sd/d/dkololgi/abacus/p8_multitracer_feasibility_v1/feasibility_audit.json`
+with marker `F0_FEASIBILITY_COMPLETE`; the tracked digest and summary are in
+`docs/evidence/p8/multitracer_f0_summary.json`.
+
+The current staged construction is:
+
+```text
+SecondGen CutSky BGS
+  -> upstream_prepare_mocks_Y3_bright.py
+       Bright: R_MAG_APP < 19.5
+       Faint proxy: 19.5 <= R_MAG_APP <= 20.175
+       retain 69.5% of Faint with np.random.uniform
+       promote 20% of retained Faint to high priority
+  -> forFA0.fits (Bright + Faint proxy)
+  -> multipass fibre assignment (both target types present)
+  -> run_path1_mkcat.sh --tracer BGS_BRIGHT
+       BGS_BRIGHT full LSS catalogue only
+  -> Bright-only LOA spectroscopic injection
+  -> build_mock_bgs_maglim_catalog.py default Bright-bit cut
+  -> 9,538,254-row GraphWeb Bright parent
+```
+
+The exact audited unique-target counts are:
+
+| Product | Bright unique | Faint unique | Interpretation |
+|---|---:|---:|---|
+| `forFA0.fits` | 10,547,983 | 7,559,142 | pre-FA target population |
+| assigned-only TARGETID crossmatch | 8,314,754 | 3,601,878 | matched unique targets; 3,654,393 assigned IDs require separate provenance resolution |
+| spectroscopic join | 9,920,755 | 7,110,292 | repeated-row product de-duplicated by TARGETID |
+| final GraphWeb catalogue | 9,538,254 | 0 | Bright-only cut confirmed |
+
+The upstream Faint population contains `553,830` unique targets in
+`0.45 <= z < 0.55`; the spectroscopic-join product contains `150,919` unique Faint
+IDs in that shell. This is enough to make an information-content experiment
+worthwhile. It is not evidence that those rows already form a production-valid Faint
+catalogue.
+
+Three limitations are blocking:
+
+1. The CutSky input exposes `R_MAG_APP` and `G_R` colours but not the `r_fiber`, `z`,
+   and `W1` photometry used by the final DESI BGS_FAINT fibre-magnitude/colour
+   selection. The current 0.695 random retention is a density proxy, not the final
+   selection.
+2. The current random Faint retention has no explicit RNG seed. The on-disk `forFA0`
+   target IDs are now a fixed realization, but rerunning the source script is not
+   bitwise reproducible. Never silently redraw this population.
+3. `inject_loa_spec_from_zall.py` calibrates marginal spectroscopic success using
+   `BRIGHT_BITS` only. The current Faint rows therefore lack a separately validated
+   redshift-success response.
+
+The official target-selection contract is more specific than the mock proxy:
+BGS_FAINT uses `19.5 < r < 20.175` plus an `r_fiber` and
+`(z-W1)-1.2(g-r)+1.2` selection to retain high redshift efficiency. Twenty per cent
+of Faint targets receive high fibre priority; the rest receive lower priority. This
+is why simply removing `--bright-only` from the final exporter is not acceptable.
+
+##### P8.8.2 Frozen scientific question and labels
+
+The first multitracer experiment is context-only:
+
+```text
+input context = observed BGS_BRIGHT + observed BGS_FAINT-proxy
+supervised/evaluated rows = the unchanged 9,538,254 Bright parent
+target = unchanged ordered R=7 Mpc/h tidal eigenvalues
+metric/folds = unchanged P4/P8 contract
+```
+
+Faint galaxies must not contribute labels in the first screen. This cleanly separates
+additional tracer information from additional supervision. A later Faint-supervised
+experiment is allowed only after context-only performance and Faint truth linkage pass.
+
+##### P8.8.3 MT1 — construct response-explicit multitracer catalogues
+
+Build three separately named products; never let an oracle product become a production
+input by path aliasing.
+
+1. `BF_ORACLE_ASSIGNED_v1` — information upper bound.
+   - Start from the immutable `forFA0` TARGETID/BGS_TARGET realization.
+   - Join the existing multipass fibre-assignment records by TARGETID.
+   - Retain one row per assigned target with simulated RSD redshift and truth linkage.
+   - Do not impose redshift failure.
+   - Mark every row and manifest `ORACLE_REDSHIFT`; this product may answer whether
+     Faint tracers contain useful information, but can never support a DESI claim.
+2. `BF_PROXY_RESPONSE_v1` — development-realistic proxy.
+   - Preserve the same fixed Faint target IDs and actual multipass assignment outcome.
+   - Fit separate Bright and Faint spectroscopic-success models from DESI zcatalog
+     target bits. At minimum retain tracer type, apparent magnitude, cap, and available
+     exposure/completeness covariates; do not recycle the Bright marginal draw for Faint.
+   - If the mock lacks a response covariate used by DESI, marginalize or bin over that
+     covariate and record the loss of fidelity. Never synthesize it from the tidal truth.
+   - Use a frozen RNG seed and save the selected TARGETID vector plus checksum.
+3. `BF_FINAL_SELECTION_v1` — production-realism target, deferred if necessary.
+   - Requires a richer photometric mock containing the final BGS_FAINT selection
+     observables, or a validated emulation/reweighting against DESI target catalogues.
+   - Reproduce final target bits, priority split, fibre assignment, redshift success,
+     angular mask, and separate Bright/Faint expected-count fields.
+   - P10/P13 production claims must use this level or explicitly scope the released VAC
+     to the proxy observation model.
+
+Every MT1 product must contain:
+
+- unique `TARGETID` and `TRACER_TYPE={BRIGHT,FAINT}`;
+- `RA`, `DEC`, RSD `Z`, `Z_COSMO`, and magnitude/response covariates actually used;
+- `FILE_NUM`, `BOX_INDEX`, `HALO_INDEX` with valid-link flags;
+- target-bit, assignment, redshift-success, cap, shell, and completeness fields;
+- original stage/path, row index, selection version, RNG seed, code SHA, and hashes;
+- a de-duplication record.
+
+De-duplication is deterministic: group by TARGETID; prefer an assigned successful
+observation, then the highest available redshift-quality statistic, then the smallest
+`TILELOCID`, then the earliest source row. Abort if repeated rows disagree in immutable
+truth linkage or sky position beyond numerical tolerance. Resolve the 3,654,393
+assigned unique IDs not found in `forFA0` before stamping `MT1_COMPLETE`; they may be
+alternate-MTL bookkeeping rather than new physical targets and must not be silently
+treated as galaxies.
+
+MT1 gates:
+
+- exact TARGETID uniqueness;
+- zero Bright/Faint bit ambiguity unless documented by the mask definition;
+- shell/cap counts and assignment fractions by tracer;
+- redshift-success rates by tracer, `R_MAG_APP`, shell, and cap;
+- 100% coordinate/unit parity with the Bright parent for shared TARGETIDs;
+- valid truth-link fractions and catalogue-to-density correlation checks by tracer;
+- no Faint row in the frozen Bright authoritative target set;
+- explicit `ORACLE`, `PROXY`, or `FINAL_SELECTION` scope in the manifest.
+
+##### P8.8.4 MT2 — preflight information and canonical field products
+
+Before training, quantify whether the extra tracer changes the sparse observation
+problem:
+
+- number density, mean separation, and occupied-voxel fraction per shell and cap;
+- counts-in-cells and Bright-Faint cross-correlation;
+- fraction of previously empty 5 Mpc/h voxels filled by Faint context;
+- distance from every Bright target to the nearest Bright and nearest Faint tracer;
+- expected shot-noise reduction relative to Bright-only;
+- mask/boundary coverage and overlap with existing P4 authoritative cores.
+
+Build P3-compatible fields on the unchanged grid and patch geometry. Keep tracer
+channels separate:
+
+```text
+N_B, mu_B, stabilized_delta_B,
+N_F, mu_F, stabilized_delta_F,
+support mask, boundary distance, LOS channels
+```
+
+Do not use `N_B + N_F` as the only count channel: Bright and Faint have different bias,
+selection, and response. Fit `mu_B` and `mu_F` separately using the frozen full-cap
+selection procedure; do not fit per patch. Store immutable observed fields and derive
+contrasts on demand. Re-run P6 patch/context/subdivision parity for the enlarged input.
+
+##### P8.8.5 MT3 — matched classical information controls
+
+Run classical controls before neural training:
+
+1. Bright-only CIC/TSC using the frozen P8 implementation.
+2. Bright+Faint combined-count CIC/TSC.
+3. Bias-aware two-tracer linear field estimate with tracer responses fitted on training
+   folds only.
+4. Density-matched thinning: randomly thin Bright+Faint to the Bright-only number
+   density, preserving shell/cap selection, with three frozen seeds.
+5. Faint-position null: retain Faint shell/cap counts but randomize positions within
+   allowed support, destroying cosmic-web information while preserving selection.
+
+These controls distinguish:
+
+- more measurements of the same field;
+- a useful second tracer population;
+- a generic number-density gain;
+- an apparent gain caused only by changing the radial selection function.
+
+Classical affine or bias-response parameters must be fitted on training folds and
+frozen before validation. Evaluate the identical Bright authoritative rows.
+
+##### P8.8.6 MT4 — primary U-PATCH context-only screen
+
+U-PATCH is the first neural gate because it already leads the Bright-only P8 screen
+and accepts separate count/response channels without rebuilding a 17M-node graph.
+
+Run the following matched models:
+
+| ID | Input | Purpose |
+|---|---|---|
+| `U-B-v1` | frozen Bright channels | exact control rerun under the new data loader |
+| `U-BF-ORACLE-v1` | Bright + oracle-assigned Faint channels | upper bound on information gain |
+| `U-BF-PROXY-v1` | Bright + response-matched Faint channels | actionable development candidate |
+| `U-BF-THIN-v1` | density-matched thinned multitracer channels | density-versus-population control |
+| `U-BF-NULL-v1` | randomized Faint positions | selection/shortcut null |
+
+Use the existing U-PATCH depth, grid, 64 Mpc/h core, 120 Mpc/h halo, target scaler,
+loss, epoch sampler, rotations 0/2, seed 42, 20-epoch cosine schedule, resume contract,
+and complete-fold logging. Change only the registered input channels. Train the primary
+comparison from scratch. A zero-initialized extra-channel warm start may be run as an
+optimization diagnostic but cannot replace the from-scratch comparison.
+
+Open MT4 in stages:
+
+1. One-core overfit for `U-BF-PROXY-v1`.
+2. One complete rotation-0 epoch with exact exposure/resume/parity checks.
+3. Rotation 0 for 20 epochs.
+4. Launch rotation 2 only if rotation 0 shows either `+0.02` macro or `+0.03` sparse-
+   shell improvement without a `>0.01` supported-shell loss.
+5. Extend only if the best checkpoint is in the final three epochs and learning rate
+   has not already reached zero; never infer convergence solely from the last epoch.
+
+Adoption requires, on both rotations:
+
+- primary macro `R2_lambda1` improvement of at least `+0.03` over `U-B-v1`;
+- sparse-shell improvement of at least `+0.03`;
+- no individual first-three-shell degradation worse than `0.01`;
+- Faint-position null consistent with the Bright-only control;
+- retained improvement over the matched two-tracer classical estimator or a clearly
+  stated conclusion that the gain is informational rather than ML-specific;
+- no new boundary/context trend and complete P8 safeguards.
+
+##### P8.8.7 MT5 — conditional G-PATCH union-graph screen
+
+Do not build a full Bright+Faint graph merely because Faint rows exist. Open MT5 only
+if MT4 or the two-tracer classical control shows a meaningful sparse-shell gain.
+
+If opened:
+
+1. Construct one canonical global graph per catalogue over Bright+Faint nodes, with NGC
+   and SGC as disconnected components.
+2. Compute graph metrics globally in `rapids-gnn`; never recompute metrics per patch.
+3. Add tracer identity, tracer-specific expected number density/completeness, and
+   available magnitude/response covariates as node features.
+4. Reuse P4 physical cores and fold roles. Bright nodes are authoritative supervised
+   targets; Faint nodes are context-only.
+5. Extract patch views of the canonical union graph with complete dependency-hop
+   context and repeat P5 parity/support audits.
+6. Compare `G-B`, union-metric-only, and full union-message-passing variants to isolate
+   whether the gain comes from handcrafted geometry or learned Faint messages.
+
+The same MT4 adoption gates apply. A union graph that helps only same-patch metrics or
+only the macro through the sparse shell is not promoted.
+
+##### P8.8.8 MT6/MT7 — optional F-tier and production validation
+
+F-tier/U-Physics is not the first multitracer experiment. Reopen it only if MT2/MT4
+demonstrate additional field information and the resource estimate fits the patch
+contract. Its first test should use the separate Bright/Faint fields and fixed tidal
+operator, not the previously infeasible v2_A graph scatter.
+
+Any winning multitracer estimator must then pass:
+
+- all five P4 folds and three seeds;
+- P10 frozen independent-phase transfer with the same selection/response recipe;
+- response perturbations and Bright/Faint ablations;
+- DESI support checks for target density, assignment, redshift success, counts-in-cells,
+  graph/field statistics, and mask dependence;
+- the ordinary quality/OOD, tiling, provenance, and golden-wedge gates.
+
+Posterior estimation, HOD marginalization, JEPA, and Faint supervision remain gated
+until deterministic context-only transfer passes.
+
+##### P8.8.9 Decision tree and stop rules
+
+```text
+F0 audit says no upstream Faint
+  -> stop; acquire/regenerate richer mocks
+
+Oracle Faint adds <0.02 sparse-shell R2
+  -> stop multitracer ML; BGS_FAINT is not the missing information at this scale
+
+Oracle helps, response-matched proxy does not
+  -> observation-response modelling is the blocker; do not tune the encoder
+
+Proxy helps U-PATCH and classical equally
+  -> scientific result: tracer density was limiting; adopt the simpler best estimator
+
+Proxy helps U-PATCH beyond matched classical controls
+  -> open G-PATCH union graph and optional U-Physics/F-tier challengers
+
+Same-phase gain fails P10
+  -> no production promotion; expand simulation/selection diversity
+```
+
+No model is “rescued” by pooled R2, a target-wedge calibration, or a change to P4
+geography. `U-PATCH-BRIGHT_REFERENCE` remains frozen throughout so every gain has a
+stable baseline.
+
+##### P8.8.10 Work-package schedule
+
+| Package | Dependency | Compute | Estimated effort | Completion marker |
+|---|---|---|---|---|
+| MT0/F0 audit | existing stages | 1 CPU interactive | complete | `F0_FEASIBILITY_COMPLETE` |
+| MT1 oracle/proxy catalogues | F0 | 1 CPU interactive, resumable | 0.5–1 day | `MT1_MULTITRACER_CATALOGUE_COMPLETE` |
+| MT2 field/information preflight | MT1 | 1 CPU interactive | 0.5 day | `MT2_MULTITRACER_FIELD_COMPLETE` |
+| MT3 classical controls | MT2 | 1 CPU interactive | 0.5 day | `MT3_MULTITRACER_CLASSICAL_COMPLETE` |
+| MT4 U-PATCH screens | MT2/MT3 | up to 2 interactive A100s, exact resume | 1–3 days | `MT4_UPATCH_MULTITRACER_DECISION` |
+| MT5 union graph/G-PATCH | MT4 gain | CPU + `rapids-gnn`, then A100 | 1–3 days | `MT5_GPATCH_MULTITRACER_DECISION` |
+| MT6 F-tier/U-Physics | MT4 gain and resource pass | A100 | optional | `MT6_FIELD_PHYSICS_DECISION` |
+| MT7 seeds/P10 | winning deterministic model | CPU/GPU | mandatory for production | `MULTITRACER_TRANSFER_COMPLETE` |
+
+Keep at most two interactive allocations active; reserve batch submission for true
+production. Each runtime package must be checkpoint-resumable and write its manifest,
+logs, metric history, marker, and checksum before the next package opens.
+
 The recovery is deliberately architecture-neutral. GraphNet, U-Net, a simplified
 F-tier/U-Physics model, or a classical-residual hybrid may win; the scientific product is
 the transferable estimator and validated protocol, not loyalty to a model family.
@@ -1456,14 +1796,18 @@ Progress checklist:
     lambda1 correction cannot satisfy the sparse-shell adoption gate even with an oracle
     correction. Three completed epochs are retained as execution evidence, not accuracy
     evidence.
-  - [ ] Run the separately registered rotation-0/2 `U-CIC-RESID-v2` screens with the
+  - [x] Run the separately registered rotation-0/2 `U-CIC-RESID-v2` screens with the
     train-only-selected three-sigma bound and compare exactly matched rows to CIC and
-    standalone U-PATCH.
+    standalone U-PATCH. Freeze the branch as `NO_GO_SPARSE_SHELL_REGRESSION`.
   Evidence remains under
   `/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/classical/dtfe_fullcap_v1/`
   and `/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/u_cic_resid_v1/`.
 - [ ] Reapply the classical adoption and five-fold promotion gates to converged results.
 - [ ] Spend three seeds only on candidates that pass the recovered two-rotation gate.
+- [x] Freeze standalone U-PATCH as `U-PATCH-BRIGHT_REFERENCE`, the current two-rotation
+  learned candidate; do not call it production-approved before five-fold/seed and P10.
+- [x] Complete the BGS_FAINT F0 feasibility audit and register the conditional
+  response-complete catalogue build in P8.8.
 - [x] Keep log-gap, FMPE/NPE, JEPA, HOD, and broad architecture branches gated while the
   deterministic recovery remains open.
 - [x] Freeze validation predictions, reports, diagnostics, configs, and the machine-readable

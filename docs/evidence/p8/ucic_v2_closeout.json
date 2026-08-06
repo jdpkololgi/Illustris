@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-08-06T23:24:50.707873Z",
+  "decision": "NO_GO_SPARSE_SHELL_REGRESSION",
+  "candidate": "U-CIC-RESID-v2",
+  "reference": "U-PATCH-BRIGHT",
+  "registered_rules": {
+    "promotion_delta_macro_r2": 0.03,
+    "maximum_sparse_shell_degradation": 0.01,
+    "selection_scope": "ph000 P4 rotations 0 and 2, seed 42"
+  },
+  "rotations": {
+    "0": {
+      "reference": {
+        "macro_r2_lambda1": 0.5070046680843436,
+        "first_three_macro_r2_lambda1": 0.5608930253062123,
+        "sparse_shell_r2_lambda1": 0.34533959641873735,
+        "summary": "/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/convergence_extension_v1/unet/rotation_0/seed_42/recovery_summary.json"
+      },
+      "candidate": {
+        "best_epoch": 20,
+        "macro_r2_lambda1": 0.5220231126140213,
+        "first_three_macro_r2_lambda1": 0.5932999477198405,
+        "sparse_shell_r2_lambda1": 0.30819260729656384,
+        "summary": "/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/u_cic_resid_v2/unet_cic_residual/rotation_0/seed_42/recovery_summary.json"
+      },
+      "delta_candidate_minus_reference": {
+        "macro_r2_lambda1": 0.01501844452967771,
+        "first_three_macro_r2_lambda1": 0.03240692241362819,
+        "sparse_shell_r2_lambda1": -0.03714698912217351
+      }
+    },
+    "2": {
+      "reference": {
+        "macro_r2_lambda1": 0.5197376839763646,
+        "first_three_macro_r2_lambda1": 0.5859711740585677,
+        "sparse_shell_r2_lambda1": 0.32103721372975513,
+        "summary": "/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/convergence_extension_v1/unet/rotation_2/seed_42/recovery_summary.json"
+      },
+      "candidate": {
+        "best_epoch": 17,
+        "macro_r2_lambda1": 0.52082242894236,
+        "first_three_macro_r2_lambda1": 0.6032955064729294,
+        "sparse_shell_r2_lambda1": 0.2734031963506516,
+        "summary": "/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/u_cic_resid_v2/unet_cic_residual/rotation_2/seed_42/recovery_summary.json"
+      },
+      "delta_candidate_minus_reference": {
+        "macro_r2_lambda1": 0.0010847449659954211,
+        "first_three_macro_r2_lambda1": 0.01732433241436171,
+        "sparse_shell_r2_lambda1": -0.047634017379103555
+      }
+    }
+  },
+  "reason": [
+    "Neither rotation reaches the registered +0.03 macro promotion delta.",
+    "Both rotations violate the maximum 0.01 sparse-shell degradation by a wide margin.",
+    "The supported-shell gain is therefore not a survey-wide improvement and does not justify another corrective branch."
+  ],
+  "action": "Freeze all U-CIC variants; retain the artifacts as negative evidence and preserve standalone U-PATCH-BRIGHT as the learned reference."
+}

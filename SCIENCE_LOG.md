@@ -1,5 +1,74 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-06 — [result/code/plan] U-CIC closed as sparse-shell NO-GO; U-PATCH-BRIGHT frozen; BGS_FAINT F0 audit complete
+
+The two registered `U-CIC-RESID-v2` runs completed their 20-epoch contracts. The
+corrective model improves the first-three-shell mean over standalone U-PATCH by
+`+0.0324/+0.0173` in rotations 0/2, but gains only `+0.0150/+0.0011` in the
+four-shell primary macro and degrades the sparse shell by `-0.0371/-0.0476`.
+Both rotations violate the registered maximum `0.01` sparse-shell degradation and
+neither reaches the `+0.03` promotion target. Freeze the entire U-CIC branch as
+`NO_GO_SPARSE_SHELL_REGRESSION`; do not open G-CIC or F-CIC variants. The exact
+machine-readable comparison is `docs/evidence/p8/ucic_v2_closeout.json`.
+
+Standalone U-PATCH is now frozen as `U-PATCH-BRIGHT_REFERENCE`: the leading learned
+Bright-only candidate in the completed two-rotation screen, not a production-approved
+VAC model. Its five-fold/three-seed replication and P10 fresh-phase transfer remain
+unopened gates.
+
+The new chunked audit
+`workflows/abacus_tweb/p8_multitracer_feasibility.py` was run on a CPU interactive
+allocation at revision `6267c08`. It follows target bits and TARGETIDs through eight
+current ph000 staged products, checks exact uniqueness and truth-link support, and
+restores target class in the assigned-only product through a label-free TARGETID join
+because that product drops `BGS_TARGET`. Seven unit tests pass.
+
+The principal unique-target counts are:
+
+| Stage | Bright unique | Faint unique | Meaning |
+|---|---:|---:|---|
+| `forFA0.fits` | 10,547,983 | 7,559,142 | pre-fibre target population |
+| assigned-only crossmatch | 8,314,754 | 3,601,878 | matched unique assigned IDs |
+| spectroscopic join | 9,920,755 | 7,110,292 | repeated rows de-duplicated by TARGETID |
+| final GraphWeb parent | 9,538,254 | 0 | Bright-only enforcement confirmed |
+
+The fixed upstream Faint realization contains `553,830` unique targets at
+`0.45 <= z < 0.55`; the spectroscopic-join table contains `150,919` unique Faint
+IDs in that shell. There is therefore enough potential additional sampling to justify
+an information-content experiment.
+
+The F0 verdict is nevertheless
+`CONDITIONAL_GO_BUILD_RESPONSE_COMPLETE_FAINT`, not training readiness:
+
+1. `upstream_prepare_mocks_Y3_bright.py` defines the current Faint proxy only by
+   `19.5 <= R_MAG_APP <= 20.175`, retains 69.5% through unseeded random draws, and
+   promotes 20% of the retained targets. The immutable on-disk IDs are usable, but the
+   selection cannot be regenerated bit-for-bit.
+2. The current CutSky table lacks the `r_fiber`, `z`, and `W1` photometry required by
+   the final DESI BGS_FAINT fibre-magnitude/colour selection. The proxy is not a final
+   selection emulator.
+3. `run_path1_mkcat.sh` explicitly invokes `--tracer BGS_BRIGHT`, the LOA injection is
+   calibrated on Bright bits only, and the final GraphWeb exporter defaults to the
+   Bright-bit cut.
+4. The assigned crossmatch leaves 3,654,393 unique assignment IDs unmatched to
+   `forFA0`; this alternate-MTL/bookkeeping population must be resolved before a unique
+   multitracer parent is frozen.
+
+Runtime evidence is
+`/pscratch/sd/d/dkololgi/abacus/p8_multitracer_feasibility_v1/feasibility_audit.json`
+(SHA-256 `84543ded4245c1927abbbcba468240872906142280cc480e1a3fdeefed7ee7ba`)
+with marker `F0_FEASIBILITY_COMPLETE`; the tracked digest is
+`docs/evidence/p8/multitracer_f0_summary.json`.
+
+P8.8 of `docs/plan_generalisable_graphweb_vac.md` now registers the next work in
+strict order: response-explicit oracle/proxy catalogue construction; separate
+Bright/Faint fields and information preflight; matched two-tracer classical controls;
+then a context-only U-PATCH screen. Bright authoritative targets, P4 folds, target
+labels, smoothing, and the primary macro metric remain unchanged. The global
+Bright+Faint graph, G-PATCH, F-tier, Faint supervision, posterior estimation, JEPA,
+and HOD marginalization remain gated until the cheap U-PATCH information test shows a
+reproducible gain.
+
 ### 2026-08-05 — [runtime] U-CIC-RESID-v2 migrated to disconnect-safe tmux with exact-resume supervisors
 
 The separately registered three-sigma `U-CIC-RESID-v2` screens are active in
