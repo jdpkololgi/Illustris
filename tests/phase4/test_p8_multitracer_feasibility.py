@@ -7,6 +7,7 @@ from workflows.abacus_tweb.p8_multitracer_feasibility import (
     feasibility_decision,
     shell_counts,
     summarize_chunk,
+    unique_target_class_counts,
 )
 
 
@@ -54,19 +55,70 @@ class P8MultitracerFeasibilityTests(unittest.TestCase):
         self.assertEqual(got["good_spectrum_rows"], {"all": 2, "bright": 1, "faint": 1})
         self.assertEqual(got["valid_truth_link_rows"], {"all": 3, "bright": 1, "faint": 2})
 
+    def test_unique_target_counts_or_bits_across_repeated_rows(self):
+        got = unique_target_class_counts(
+            targetid=np.asarray([10, 10, 11, 12]),
+            target_bits=np.asarray([1, 8, 2, 0]),
+            bright_mask=2,
+            faint_mask=1 | 8,
+            z=np.asarray([0.2, 0.2, 0.3, 0.4]),
+        )
+        self.assertEqual(got["unique_rows"], 3)
+        self.assertEqual(got["duplicate_rows"], 1)
+        self.assertEqual(got["bright_unique"], 1)
+        self.assertEqual(got["faint_unique"], 1)
+        self.assertEqual(got["shell_unique"]["faint"]["0p15_0p25"], 1)
+
     def test_decision_is_conditional_even_when_faint_rows_survive(self):
         columns = ["TARGETID", "BGS_TARGET", "RA", "DEC", "Z"]
         stages = {
-            "forfa_targets": {"summary": {"faint_rows": 100}},
-            "fiberassign_input": {"summary": {"faint_rows": 100}},
-            "fiberassign_assigned": {"summary": {"faint_rows": 70}, "columns": columns},
-            "spectroscopic_join": {"summary": {"faint_rows": 50}, "columns": columns},
-            "graphweb_bright_final": {"summary": {"faint_rows": 0}},
+            "forfa_targets": {"summary": {"faint_rows": 100}, "read_columns": columns},
+            "fiberassign_input": {"summary": {"faint_rows": 100}, "read_columns": columns},
+            "fiberassign_assigned": {
+                "summary": {"faint_rows": 70}, "columns": columns, "read_columns": columns
+            },
+            "spectroscopic_join": {
+                "summary": {"faint_rows": 50}, "columns": columns, "read_columns": columns
+            },
+            "graphweb_bright_final": {
+                "summary": {"faint_rows": 0}, "read_columns": columns
+            },
         }
         got = feasibility_decision(stages)
         self.assertEqual(got["verdict"], "CONDITIONAL_GO_BUILD_RESPONSE_COMPLETE_FAINT")
         self.assertFalse(got["multitracer_training_ready"])
         self.assertTrue(got["upstream_faint_exists"])
+
+    def test_decision_uses_crossmatch_if_assigned_bits_were_dropped(self):
+        stages = {
+            "forfa_targets": {
+                "summary": {"faint_rows": 100},
+                "read_columns": ["BGS_TARGET"],
+            },
+            "fiberassign_input": {
+                "summary": {"faint_rows": 100},
+                "read_columns": ["BGS_TARGET"],
+            },
+            "fiberassign_assigned": {
+                "summary": {"faint_rows": 0},
+                "read_columns": ["TARGETID"],
+                "target_class_crossmatch": {"performed": True, "faint_rows": 40},
+            },
+            "spectroscopic_join": {
+                "summary": {"faint_rows": 30},
+                "read_columns": ["BGS_TARGET"],
+            },
+            "graphweb_bright_final": {
+                "summary": {"faint_rows": 0},
+                "read_columns": ["BGS_TARGET"],
+            },
+        }
+        got = feasibility_decision(stages)
+        self.assertTrue(got["assigned_faint_exists"])
+        self.assertNotIn(
+            "no assigned BGS_FAINT rows were found in the current assigned product",
+            got["blocking_findings"],
+        )
 
     def test_decision_rejects_absent_upstream_faint(self):
         stages = {

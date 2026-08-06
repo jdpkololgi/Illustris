@@ -111,6 +111,46 @@ def shell_counts(z: np.ndarray, mask: np.ndarray) -> dict[str, int]:
     }
 
 
+def unique_target_class_counts(
+    targetid: np.ndarray,
+    target_bits: np.ndarray,
+    bright_mask: int,
+    faint_mask: int,
+    z: np.ndarray | None = None,
+) -> dict[str, object]:
+    """Count unique targets, OR-ing target bits across repeated observations."""
+    targetid = np.asarray(targetid, dtype=np.int64)
+    target_bits = np.asarray(target_bits, dtype=np.int64)
+    if targetid.shape != target_bits.shape:
+        raise ValueError("TARGETID and target bits must have matching shapes")
+    order = np.argsort(targetid)
+    ordered_id = targetid[order]
+    ordered_bits = target_bits[order]
+    starts = np.r_[0, np.flatnonzero(ordered_id[1:] != ordered_id[:-1]) + 1]
+    unique_id = ordered_id[starts]
+    unique_bits = np.bitwise_or.reduceat(ordered_bits, starts)
+    bright, faint = classify_targets(unique_bits, bright_mask, faint_mask)
+    out: dict[str, object] = {
+        "unique_rows": int(unique_id.size),
+        "duplicate_rows": int(targetid.size - unique_id.size),
+        "bright_unique": int(np.count_nonzero(bright)),
+        "faint_unique": int(np.count_nonzero(faint)),
+        "bright_and_faint_unique": int(np.count_nonzero(bright & faint)),
+        "neither_unique": int(np.count_nonzero(~(bright | faint))),
+    }
+    if z is not None:
+        z = np.asarray(z, dtype=np.float64)
+        if z.shape != targetid.shape:
+            raise ValueError("TARGETID and redshift must have matching shapes")
+        unique_z = z[order][starts]
+        out["shell_unique"] = {
+            "all": shell_counts(unique_z, np.ones(unique_z.size, dtype=bool)),
+            "bright": shell_counts(unique_z, bright),
+            "faint": shell_counts(unique_z, faint),
+        }
+    return out
+
+
 def summarize_chunk(
     tab: np.ndarray, bright_mask: int, faint_mask: int
 ) -> dict[str, object]:
@@ -213,6 +253,12 @@ def audit_fits(
         nrows = int(hdu.get_nrows())
         summary: dict[str, object] = {}
         targetids: list[np.ndarray] = []
+        targetbits: list[np.ndarray] = []
+        targetz: list[np.ndarray] = []
+        z_name = next(
+            (name for name in ("Z", "Z_NOT4CLUS", "Z_COSMO") if name in read_columns),
+            None,
+        )
         for start in range(0, nrows, chunk_rows):
             stop = min(start + chunk_rows, nrows)
             rows = np.arange(start, stop, dtype=np.int64)
@@ -220,6 +266,10 @@ def audit_fits(
             _merge_counts(summary, summarize_chunk(tab, bright_mask, faint_mask))
             if exact_targetid_uniqueness and "TARGETID" in read_columns:
                 targetids.append(np.asarray(tab["TARGETID"], dtype=np.int64))
+                if "BGS_TARGET" in read_columns:
+                    targetbits.append(np.asarray(tab["BGS_TARGET"], dtype=np.int64))
+                    if z_name is not None:
+                        targetz.append(np.asarray(tab[z_name], dtype=np.float64))
 
     result: dict[str, object] = {
         "path": str(path),
@@ -234,12 +284,24 @@ def audit_fits(
     }
     if targetids:
         values = np.concatenate(targetids)
-        unique = np.unique(values).size
-        result["targetid_uniqueness"] = {
-            "checked_exactly": True,
-            "unique_rows": int(unique),
-            "duplicate_rows": int(values.size - unique),
-        }
+        if targetbits:
+            result["targetid_uniqueness"] = {
+                "checked_exactly": True,
+                **unique_target_class_counts(
+                    values,
+                    np.concatenate(targetbits),
+                    bright_mask,
+                    faint_mask,
+                    np.concatenate(targetz) if targetz else None,
+                ),
+            }
+        else:
+            unique = np.unique(values).size
+            result["targetid_uniqueness"] = {
+                "checked_exactly": True,
+                "unique_rows": int(unique),
+                "duplicate_rows": int(values.size - unique),
+            }
     else:
         result["targetid_uniqueness"] = {
             "checked_exactly": False,
@@ -248,12 +310,115 @@ def audit_fits(
     return result
 
 
+def crossmatch_target_classes(
+    reference_path: Path,
+    stage_path: Path,
+    bright_mask: int,
+    faint_mask: int,
+    chunk_rows: int,
+) -> dict[str, object]:
+    """Recover target classes for a stage that dropped BGS_TARGET.
+
+    Fibre-assignment products can contain repeated TARGETIDs and omit the target-bit
+    column.  The canonical pre-FA target table is unique in TARGETID, so its bits can
+    be joined without using any truth label or model output.
+    """
+    if not reference_path.exists() or not stage_path.exists():
+        return {"performed": False, "reason": "reference or stage file absent"}
+
+    with fitsio.FITS(str(reference_path), "r") as f:
+        hdu = f[1]
+        columns = set(hdu.get_colnames())
+        if not {"TARGETID", "BGS_TARGET"}.issubset(columns):
+            return {"performed": False, "reason": "reference lacks TARGETID/BGS_TARGET"}
+        ref = hdu.read(columns=["TARGETID", "BGS_TARGET"])
+    ref_id = np.asarray(ref["TARGETID"], dtype=np.int64)
+    ref_bits = np.asarray(ref["BGS_TARGET"], dtype=np.int64)
+    order = np.argsort(ref_id)
+    ref_id = ref_id[order]
+    ref_bits = ref_bits[order]
+    if ref_id.size > 1 and np.any(ref_id[1:] == ref_id[:-1]):
+        raise ValueError(f"Reference TARGETID is not unique: {reference_path}")
+
+    totals = {
+        "rows": 0,
+        "matched_rows": 0,
+        "unmatched_rows": 0,
+        "bright_rows": 0,
+        "faint_rows": 0,
+        "bright_and_faint_rows": 0,
+        "neither_rows": 0,
+    }
+    stage_targetids: list[np.ndarray] = []
+    with fitsio.FITS(str(stage_path), "r") as f:
+        hdu = f[1]
+        if "TARGETID" not in hdu.get_colnames():
+            return {"performed": False, "reason": "stage lacks TARGETID"}
+        nrows = int(hdu.get_nrows())
+        for start in range(0, nrows, chunk_rows):
+            stop = min(start + chunk_rows, nrows)
+            tab = hdu.read(
+                rows=np.arange(start, stop, dtype=np.int64), columns=["TARGETID"]
+            )
+            targetid = np.asarray(tab["TARGETID"], dtype=np.int64)
+            stage_targetids.append(targetid)
+            index = np.searchsorted(ref_id, targetid)
+            matched = index < ref_id.size
+            matched[matched] &= ref_id[index[matched]] == targetid[matched]
+            bits = np.zeros(targetid.size, dtype=np.int64)
+            bits[matched] = ref_bits[index[matched]]
+            bright, faint = classify_targets(bits, bright_mask, faint_mask)
+            totals["rows"] += int(targetid.size)
+            totals["matched_rows"] += int(np.count_nonzero(matched))
+            totals["unmatched_rows"] += int(np.count_nonzero(~matched))
+            totals["bright_rows"] += int(np.count_nonzero(matched & bright))
+            totals["faint_rows"] += int(np.count_nonzero(matched & faint))
+            totals["bright_and_faint_rows"] += int(np.count_nonzero(matched & bright & faint))
+            totals["neither_rows"] += int(np.count_nonzero(matched & ~(bright | faint)))
+    unique_stage_id = np.unique(np.concatenate(stage_targetids))
+    unique_index = np.searchsorted(ref_id, unique_stage_id)
+    unique_matched = unique_index < ref_id.size
+    unique_matched[unique_matched] &= (
+        ref_id[unique_index[unique_matched]] == unique_stage_id[unique_matched]
+    )
+    unique_bits = np.zeros(unique_stage_id.size, dtype=np.int64)
+    unique_bits[unique_matched] = ref_bits[unique_index[unique_matched]]
+    unique_bright, unique_faint = classify_targets(unique_bits, bright_mask, faint_mask)
+    return {
+        "performed": True,
+        "reference_path": str(reference_path),
+        "counting_unit": "stage rows; repeated TARGETIDs are retained",
+        **totals,
+        "match_fraction": (
+            float(totals["matched_rows"] / totals["rows"]) if totals["rows"] else None
+        ),
+        "unique_targetids": int(unique_stage_id.size),
+        "matched_unique_targetids": int(np.count_nonzero(unique_matched)),
+        "unmatched_unique_targetids": int(np.count_nonzero(~unique_matched)),
+        "bright_unique": int(np.count_nonzero(unique_matched & unique_bright)),
+        "faint_unique": int(np.count_nonzero(unique_matched & unique_faint)),
+    }
+
+
 def feasibility_decision(stages: dict[str, dict[str, object]]) -> dict[str, object]:
     def faint_rows(name: str) -> int:
-        summary = stages.get(name, {}).get("summary", {})
-        return int(summary.get("faint_rows", 0)) if isinstance(summary, dict) else 0
+        stage = stages.get(name, {})
+        summary = stage.get("summary", {})
+        if isinstance(summary, dict) and "faint_rows" in summary:
+            # A zero from a file that lacks BGS_TARGET is not a classification.
+            if "BGS_TARGET" in stage.get("read_columns", []):
+                return int(summary["faint_rows"])
+        joined = stage.get("target_class_crossmatch", {})
+        if isinstance(joined, dict) and joined.get("performed"):
+            return int(joined.get("faint_rows", 0))
+        return 0
 
     upstream_faint = faint_rows("forfa_targets") > 0 and faint_rows("fiberassign_input") > 0
+    assigned_stage = stages.get("fiberassign_assigned", {})
+    assigned_classified = (
+        "BGS_TARGET" in assigned_stage.get("read_columns", [])
+        or bool(assigned_stage.get("target_class_crossmatch", {}).get("performed", False))
+    )
     assigned_faint = faint_rows("fiberassign_assigned") > 0
     joined_faint = faint_rows("spectroscopic_join") > 0
     final_faint = faint_rows("graphweb_bright_final") > 0
@@ -268,8 +433,10 @@ def feasibility_decision(stages: dict[str, dict[str, object]]) -> dict[str, obje
     blockers = []
     if not upstream_faint:
         blockers.append("BGS_FAINT is absent before fibre assignment")
-    if not assigned_faint:
+    if assigned_classified and not assigned_faint:
         blockers.append("no assigned BGS_FAINT rows were found in the current assigned product")
+    elif not assigned_classified:
+        blockers.append("the assigned product could not be target-classified")
     if not joined_faint:
         blockers.append("no BGS_FAINT rows were found in the current spectroscopic-join product")
     if final_faint:
@@ -346,6 +513,19 @@ def main() -> None:
             faint_mask=faint_mask,
             chunk_rows=args.chunk_rows,
             exact_targetid_uniqueness=not args.skip_targetid_uniqueness,
+        )
+
+    # The assigned-only table drops BGS_TARGET. Restore the class with a label-free
+    # TARGETID join to the immutable pre-fibre-assignment target table.
+    assigned = stage_results.get("fiberassign_assigned", {})
+    if assigned.get("exists") and "BGS_TARGET" not in assigned.get("read_columns", []):
+        print("crossmatching target classes for fiberassign_assigned", flush=True)
+        assigned["target_class_crossmatch"] = crossmatch_target_classes(
+            stage_paths["forfa_targets"],
+            stage_paths["fiberassign_assigned"],
+            bright_mask=bright_mask,
+            faint_mask=faint_mask,
+            chunk_rows=args.chunk_rows,
         )
 
     payload = {
