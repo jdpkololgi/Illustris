@@ -99,6 +99,34 @@ on the observed galaxy catalogue and survey response.
 - Provisional input range: 0.15 < z < 0.55.
 - T-web threshold: lambda_th = 0.2.
 
+The fixed 7-Mpc/h target is frozen. The existing smoothing study closes replacing it
+with a coarser target merely because bulk lambda1 R² peaks near 10 Mpc/h: cluster
+completeness and mass-anchored massive-halo recovery both worsen with additional
+smoothing, while 7 Mpc/h preserves compact collapsed structure. This closes
+**target-scale retuning**, not the use of multiscale input features or auxiliary
+supervision.
+
+NEXUS+ is not another value of the T-web smoothing parameter. It combines
+scale-normalized density-Hessian morphology signatures across a bank of log-Gaussian
+smoothing scales and can return web significance and a locally dominant scale. Those
+quantities are not the fixed-scale gravitational-potential Hessian eigenvalues or
+tensor required by the VAC. Therefore:
+
+- do not replace the 7-Mpc/h primary target with NEXUS+;
+- use true-matter NEXUS+ first as an evaluation-only residual stratifier by morphology,
+  signature strength, and dominant scale;
+- open one auxiliary-head comparison only if that diagnostic exposes a reproducible
+  morphology- or scale-dependent failure after P10;
+- never use a true-matter NEXUS+ field as a production input; an observed-galaxy
+  NEXUS+ feature would require its own mask, RSD, sparsity, and random-response closure.
+
+The bounded auxiliary comparison, if opened, is current U-PATCH versus multiscale
+T-web heads at 6/7/10 Mpc/h versus NEXUS+ signature/scale heads, all retaining only
+the 7-Mpc/h eigenvalue or tensor output for production. Promotion requires fresh-phase
+gain with no rare-knot, supported-shell, or boundary regression. The primary NEXUS
+literature establishes multiscale simulation-field segmentation; it does not establish
+per-galaxy recovery of this project's target under DESI observation operators.
+
 The **pre-shutdown deliverable is deterministic**, spatially transferable inference of
 the three eigenvalues and derived threshold classes. It is acceptable—and preferable
 under the time constraint—to select the training protocol with point-estimate R² and
@@ -546,6 +574,73 @@ Field gates:
 - zero exposure is distinguished from a physical void;
 - channel metadata and hashes are stored;
 - U-Net and F-tier use the same base fields where applicable.
+
+#### P3b — Random-reference and deployable-response upgrade
+
+**Status:** DEFERRED; does not modify the frozen P3a/P8 controls
+
+A random catalogue is a high-density, unclustered Monte Carlo sampling of the survey
+selection measure. It is not a set of negative galaxies, an estimate of the missing
+matter, or an independent universe.
+
+For each observation view `s`, deposit data and matched randoms on the same immutable
+cap lattice with the same coordinate convention and kernel. The preferred project
+construction is
+
+~~~text
+G_s(v)       = weighted observed galaxy count in voxel v
+p_s(v)       = R_s(v) / R_base(v), after a manifest-frozen support regularisation
+mu_s(v)      = ntilde_s(z_v) * V_voxel * p_s(v)
+contrast_s(v)= log((G_s(v) + epsilon) / (mu_s(v) + epsilon))
+~~~
+
+Here `R_base` represents geometrically available support and `R_s` represents support
+after the view's footprint, targeting, fibre, and redshift-success response. Reusing
+the same base-random IDs across views is preferred because paired differences then do
+not contain avoidable random-catalogue Monte Carlo noise. If an audited 3-D random
+catalogue already samples the complete angular and radial selection, the equivalent
+form is `mu_s(v) = alpha_s * R_s(v)`, where `alpha_s` is fitted only over a
+manifest-frozen catalogue/tracer/cap normalisation domain—never independently inside
+each patch.
+
+Do not blindly use a clustering-random redshift histogram as `ntilde(z)`: random
+redshifts may have been sampled from or inherited from the data and can absorb radial
+large-scale structure. Retain the separately frozen smooth `ntilde(z)` unless the
+random-redshift provenance and intended measure are audited. Ordinary footprint
+randoms also do not by themselves encode density-dependent fibre collisions or
+redshift failures; use matched assignment probabilities, PIP/completeness products,
+or quality maps for those effects.
+
+Minimum architecture contract:
+
+- U-PATCH receives `G_s`, `mu_s` or its logarithm, stabilized contrast,
+  random-derived exposure/support, completeness, boundary distance, and LOS as voxel
+  channels. The first drop-in P3b arm should change only the P3a
+  occupancy-derived exposure/reference field while preserving the frozen three-channel
+  backbone; additional channels are a separately named challenger.
+- G-PATCH keeps galaxies as message-passing nodes and interpolates the response fields
+  at each galaxy. The first arm appends expected intensity, completeness/support, and
+  boundary distance; it may add `d_ij / ell_s`, with
+  `ell_s proportional to mu_s^(-1/3)`, alongside—not instead of—the physical edge
+  length. Millions of random nodes are a later ASTRA-style ablation.
+- F-PATCH may use response channels while reconstructing density, but only the
+  reconstructed physical density contrast enters the fixed FFT tidal operator.
+
+P3b gates:
+
+- every stage/view has a matching response product or a documented factorization from
+  common base randoms and stage-specific probabilities;
+- random-only stabilized contrast is consistent with zero after the frozen
+  normalization;
+- results are stable across random seeds/densities, with random Monte Carlo noise
+  subdominant to galaxy sampling noise;
+- response fields use no targets, phase/split ownership, true matter, or local
+  patch-wise renormalization;
+- data, random, response, and topology hashes are view-specific;
+- mock and DESI response columns have one deployable schema and units;
+- raw counts, expected counts, and information support remain separate—randoms correct
+  the expected selection baseline but do not recreate lost galaxies or remove shot
+  noise.
 
 ### P4 — Shared fixed-comoving spatial manifest
 
@@ -1914,6 +2009,74 @@ Progress checklist:
 - [ ] Build ph001 graph/field products and save predictions before opening truth.
 - [ ] Evaluate ph001 once and record the production-transfer decision.
 
+#### P10.1 — Controlled observation-operator training
+
+**Status:** GATED ON P8 CLOSURE AND CURRENT-PATH1 INTERMEDIATE-VIEW LINEAGE AUDIT
+
+The catalogue identifiers required to pair and group examples are not automatically
+valid conditioning variables. Use this role contract:
+
+| Variable class | Examples | Permitted use |
+| --- | --- | --- |
+| Grouping/provenance only | phase, observer ID, HOD ID/seed, stage ID, degradation seed, core ID, TARGETID, halo linkage, source hashes | Pairing, outer splits, hierarchical sampling, leakage audit, and stratified metrics; never production inputs |
+| Deployable physical/response | continuous redshift or `log ntilde(z)`, LOS, random-derived expected intensity, exposure, completeness, fibre-assignment probability, redshift quality/error, mask distance, effective support | Concatenate as node/voxel channels; broadcast legitimate patch summaries or concatenate them before the output head |
+| Unknown simulation nuisances | HOD and velocity-bias parameters, unobserved failure-recipe parameters | Vary during training and later marginalize; do not reveal their true values to the estimator |
+| Privileged truth | `Z_COSMO`, true peculiar velocity, halo mass/linkage, matter density, T-web/NEXUS+ truth | Target construction, train-only auxiliary labels, and evaluation where declared; never a DESI production input |
+
+Observer ID must not substitute for geometry: supply the actual LOS and response fields.
+Stage ID must not substitute for the physical degradation: supply the quantities that
+will exist for DESI. Prefer continuous redshift/selection variables over a shell
+one-hot. Phase, observer, HOD, and stage remain outside the model call:
+
+~~~text
+sample.meta = phase, observer, HOD, stage, seeds, latent core, provenance
+sample.x    = graph or field rebuilt for this observation view
+sample.cond = deployable local response channels
+sample.y    = shared ordered-eigenvalue increments or tensor target
+prediction  = model(sample.x, sample.cond)
+~~~
+
+Begin conditional modelling by direct concatenation. Fit every response transform on
+training phases/cores only and freeze it. Introduce FiLM or a separate conditioning
+network only if a registered diagnostic shows that direct conditioning is ignored. In
+P12 the same contract becomes `q(theta | encoder_output, response)`.
+
+Sample in the order `phase -> latent spatial core -> observation view`. Keep every
+stage, observer, HOD, and degradation realization of a latent core in the same outer
+phase/spatial split, give the latent core one scientific weight, and rebuild topology,
+topology-derived features, fields, and random-response products independently for every
+view. Because distinct observers can revisit the same periodic-box structure, the first
+P10 test should either use one observer or prove cross-observer grouping by base-box
+identity.
+
+Only three observation-training arms are mandatory:
+
+| Arm | Training contract | Identifies |
+| --- | --- | --- |
+| A | Multi-phase, final-Path1-view supervised baseline | Transfer with deployment-like inputs |
+| B | A phase-balanced mixture: final view plus one balanced auxiliary degradation view per latent core | Benefit of observation diversity |
+| C | B plus continuous, DESI-available response conditioning | Benefit of modelling known survey response |
+
+Select on the final production-like ph006 view, while reporting every stage, worst
+stage/effect, and at least one held-out degradation recipe. A curriculum is only an
+order-controlled replay ablation using the identical Arm-C examples and optimizer
+updates. Paired consistency is optional. Cross-stage JEPA remains P11 and opens only if
+Arms A–C identify a representation bottleneck.
+
+Minimal decision order:
+
+1. finish P8 unchanged;
+2. audit/re-export a current-Path1-compatible degradation ladder and matched randoms;
+3. run the P3b drop-in response-field checks;
+4. run P10 Arms A–C across independent phases;
+5. test curriculum or paired consistency only for a remaining observation-transfer
+   failure;
+6. open P11 JEPA only for a diagnosed representation bottleneck;
+7. open the bounded NEXUS+ auxiliary branch only for a diagnosed multiscale-morphology
+   residual;
+8. fit P12 uncertainty after the deterministic representation and response schema are
+   frozen.
+
 ---
 
 ## 9. JEPA gate
@@ -2255,6 +2418,7 @@ dry-run manifest.
 - F-tier: graph and FFT context must converge.
 - Initial range: 0.15 < z < 0.55.
 - Smoothing: 7 Mpc/h.
+- NEXUS+: evaluation/auxiliary branch only; it does not reopen the primary target.
 - Threshold: lambda_th = 0.2.
 - Target epoch: z = 0.2.
 - Controlling objective: transferable deterministic inference under the patch protocol.
