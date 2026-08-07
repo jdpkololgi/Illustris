@@ -196,6 +196,18 @@ def grid_spec(component: dict) -> GridSpec:
     )
 
 
+def complete_cic_support(xyz: np.ndarray, spec: GridSpec) -> np.ndarray:
+    """Return points whose complete eight-cell CIC stencil lies on the grid."""
+    xyz = np.asarray(xyz, dtype=np.float64)
+    if xyz.ndim != 2 or xyz.shape[1] != 3:
+        raise ValueError("xyz must have shape (N, 3)")
+    origin = np.asarray(spec.origin, dtype=np.float64)
+    shape = np.asarray(spec.shape, dtype=np.int64)
+    fractional = (xyz - origin) / spec.cell_mpc - 0.5
+    lower = np.floor(fractional).astype(np.int64)
+    return np.all((lower >= 0) & ((lower + 1) < shape), axis=1)
+
+
 def build_cap(
     *,
     cap_id: int,
@@ -207,8 +219,12 @@ def build_cap(
     output: Path,
 ) -> dict:
     spec = grid_spec(p3_component)
+    input_rows = int(len(faint_points))
+    field_supported = complete_cic_support(faint_points[:, :3], spec)
+    excluded_rows = int(np.count_nonzero(~field_supported))
+    field_points = faint_points[field_supported]
     counts = np.zeros(spec.shape, dtype=np.float32)
-    counts, deposition = cic_deposit(faint_points[:, :3], spec, out=counts)
+    counts, deposition = cic_deposit(field_points[:, :3], spec, out=counts)
     path = output / f"{cap_name.lower()}_faint_overlay.h5"
     temporary = path.with_suffix(".partial.h5")
     if temporary.exists():
@@ -264,8 +280,11 @@ def build_cap(
     deposited = float(np.sum(counts, dtype=np.float64))
     gates = {
         "shape_matches_p3": tuple(counts.shape) == spec.shape,
-        "cic_conserved": abs(deposited - len(faint_points)) <= max(1.0e-3, len(faint_points) * 2.0e-6),
+        "cic_conserved": abs(deposited - len(field_points)) <= max(1.0e-3, len(field_points) * 2.0e-6),
         "no_cic_loss": float(deposition["lost_weight"]) <= 1.0e-6,
+        "grid_edge_exclusion_below_5e5": (
+            excluded_rows / max(input_rows, 1) <= 5.0e-5
+        ),
         "finite_counts": bool(np.all(np.isfinite(counts))),
         "nonempty_exposure": False,
         "exposure_bounded": False,
@@ -286,7 +305,10 @@ def build_cap(
         "file": str(path),
         "file_sha256": sha256(path),
         "grid": spec.as_dict(),
-        "faint_context_rows": int(len(faint_points)),
+        "faint_context_rows": input_rows,
+        "faint_field_rows": int(len(field_points)),
+        "grid_edge_excluded_rows": excluded_rows,
+        "grid_edge_excluded_fraction": excluded_rows / max(input_rows, 1),
         "counts_sum": deposited,
         "deposition": deposition,
         "effective_exposure_sum": total,

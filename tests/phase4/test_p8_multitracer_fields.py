@@ -5,9 +5,11 @@ import unittest
 import healpy as hp
 import numpy as np
 
+from workflows.abacus_tweb.p3a_build_canonical_fields import GridSpec
 from workflows.abacus_tweb.p8_build_multitracer_fields import (
     context_redshift,
     estimate_angular_response,
+    complete_cic_support,
 )
 
 
@@ -29,6 +31,25 @@ class MultitracerFieldTests(unittest.TestCase):
             estimate_angular_response(
                 np.array([1]), np.array([1, 1]), nside=1, prior_targets=2.0
             )
+
+    def test_complete_cic_support_identifies_grid_edge_points(self) -> None:
+        spec = GridSpec(
+            origin=(0.0, 0.0, 0.0),
+            shape=(4, 4, 4),
+            cell_mpc=1.0,
+            padding_mpc=0.0,
+        )
+        points = np.array(
+            [
+                [1.0, 1.0, 1.0],
+                [3.4, 3.4, 3.4],
+                [3.5, 3.5, 3.5],
+                [-0.1, 1.0, 1.0],
+            ]
+        )
+        np.testing.assert_array_equal(
+            complete_cic_support(points, spec), [True, True, False, False]
+        )
 
     def test_context_contract_excludes_sentinel(self) -> None:
         redshift = np.array([0.099, 0.10, 0.30, 0.586, 0.595, 0.599, 0.60])
