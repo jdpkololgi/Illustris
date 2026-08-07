@@ -432,26 +432,30 @@ def repair_proxy_from_oracle(args: argparse.Namespace) -> dict:
     """Repair only the Proxy response without rereading the full staged mock."""
     oracle_manifest_path = args.output_root / "bf_oracle_assigned_v1/manifest.json"
     proxy_manifest_path = args.output_root / "bf_proxy_response_v1/manifest.json"
-    if not oracle_manifest_path.exists() or not proxy_manifest_path.exists():
-        raise FileNotFoundError(
-            "Proxy repair requires the passed Oracle and previous Proxy manifests"
-        )
+    archive_path = args.output_root / "invalidated_proxy_capmapped_manifest.json"
+    if not oracle_manifest_path.exists():
+        raise FileNotFoundError("Proxy repair requires the passed Oracle manifest")
     oracle_manifest = json.loads(oracle_manifest_path.read_text())
-    old_proxy_manifest = json.loads(proxy_manifest_path.read_text())
+    if proxy_manifest_path.exists():
+        old_proxy_manifest = json.loads(proxy_manifest_path.read_text())
+        archived = {
+            "invalidated_utc": datetime.now(timezone.utc).isoformat(),
+            "reason": (
+                "LOA north/south response was incorrectly mapped by Galactic cap; "
+                "the calibration itself remains valid"
+            ),
+            "manifest_sha256": sha256(proxy_manifest_path),
+            "manifest": old_proxy_manifest,
+        }
+        atomic_json(archive_path, archived)
+    elif archive_path.exists():
+        archived = json.loads(archive_path.read_text())
+        old_proxy_manifest = archived["manifest"]
+    else:
+        raise FileNotFoundError("Proxy repair requires a live or archived Proxy manifest")
     if not oracle_manifest.get("pass"):
         raise RuntimeError("Oracle catalogue has not passed its frozen gates")
     calibration = old_proxy_manifest["response"]["calibration"]
-    archive_path = args.output_root / "invalidated_proxy_capmapped_manifest.json"
-    archived = {
-        "invalidated_utc": datetime.now(timezone.utc).isoformat(),
-        "reason": (
-            "LOA north/south response was incorrectly mapped by Galactic cap; "
-            "the calibration itself remains valid"
-        ),
-        "manifest_sha256": sha256(proxy_manifest_path),
-        "manifest": old_proxy_manifest,
-    }
-    atomic_json(archive_path, archived)
 
     oracle_catalogue = Path(oracle_manifest["catalogue"])
     with fitsio.FITS(str(oracle_catalogue), "r") as handle:
