@@ -49,7 +49,7 @@ else
 fi
 
 while [[ ! -f "$root/MT_TARGETBIT_CPU_PIPELINE_READY_FOR_RAPIDS" ]]; do
-  cpu_job="$(sed -n 's/^job_id=//p' "$root/MT_FIELDS_SELECTION_READY")"
+  cpu_job="$(sed -n 's/^job_id=//p' "$root/MT_TARGETBIT_PROXY_PRODUCTS_READY")"
   if [[ -n "$cpu_job" ]] && ! squeue -h -j "$cpu_job" | grep -q .; then
     echo "CPU allocation $cpu_job ended before the global graph completed" >&2
     exit 1

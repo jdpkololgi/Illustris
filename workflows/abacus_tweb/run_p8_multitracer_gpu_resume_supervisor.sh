@@ -5,7 +5,7 @@ set -euo pipefail
 root="/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1"
 worker="/global/homes/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/run_p8_multitracer_gpu_worker.sh"
 
-while [[ ! -f "$root/MT_TARGETBIT_CPU_PIPELINE_READY_FOR_RAPIDS" ]]; do
+while [[ ! -f "$root/MT_TARGETBIT_PROXY_PRODUCTS_READY" ]]; do
   sleep 30
 done
 
