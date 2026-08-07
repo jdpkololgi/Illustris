@@ -257,12 +257,25 @@ def load_fields(
     return {**tensors, "training": training}, sums
 
 
+def ordered_affine_eigenvalues(values: np.ndarray) -> np.ndarray:
+    """Restore the ascending eigenvalue convention after affine calibration.
+
+    The three training-fold affine maps are fitted independently and can cross for a
+    tiny fraction of nearly degenerate tensors. Sorting is label-free, preserves the
+    calibrated spectrum, and prevents a scoring-only calibration from violating the
+    catalogue's mathematical ordering contract.
+    """
+    values = np.asarray(values)
+    return np.sort(values, axis=1)
+
+
 def evaluate_estimator(
     *, name: str, raw: np.ndarray, parent: np.ndarray, train: np.ndarray,
     validation: np.ndarray, truth: np.ndarray, assignment, validation_fold: int,
     output: Path, runtime: dict, extra: dict,
 ) -> dict:
     calibrated, affine = fit_affine_on_training(raw, np.asarray(truth[parent]), train)
+    calibrated = ordered_affine_eigenvalues(calibrated)
     validation_parent = parent[validation]
     raw_report = evaluate_complete_fold(
         parent_node_id=validation_parent, predicted_eigenvalues=raw[validation],
@@ -283,6 +296,7 @@ def evaluate_estimator(
     report = {
         "schema_version": "p8-mt3a-estimator-v1", "estimator": name,
         "affine": affine, "raw": raw_report, "train_affine": calibrated_report,
+        "affine_postprocess": "ascending_sort_to_restore_eigenvalue_order",
         "runtime": runtime, **extra,
     }
     atomic_json(estimator_dir / "report.json", report)

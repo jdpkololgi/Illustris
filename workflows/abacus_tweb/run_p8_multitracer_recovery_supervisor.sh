@@ -63,7 +63,7 @@ for ATTEMPT in $(seq 1 "$MAX_ATTEMPTS"); do
   salloc \
     --nodes=1 --ntasks=1 --cpus-per-task=32 \
     --constraint="gpu&hbm80g" --gpus=1 \
-    --qos=interactive --time=04:00:00 --account=desi_g \
+    --qos=interactive --time=04:00:00 --account=desi_g --immediate=600 \
     srun --nodes=1 --ntasks=1 --cpus-per-task=32 --gpus=1 --cpu-bind=cores \
     "$PY" -u -m workflows.abacus_tweb.p8_train_patch_recovery \
       --model "$MODEL" --rotation "$ROTATION" --seed 42 \

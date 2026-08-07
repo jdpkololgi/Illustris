@@ -10,6 +10,7 @@ from workflows.abacus_tweb.p8_multitracer_classical import (
     combined_count_contrast,
     fit_relative_bias,
     fold_block,
+    ordered_affine_eigenvalues,
 )
 
 
@@ -52,6 +53,16 @@ class MultitracerClassicalTests(unittest.TestCase):
             cell_mpc=1.0, base_mpc=np.zeros(3), core_mpc=1.0, lookup=lookup,
         )
         np.testing.assert_array_equal(result, lookup)
+
+    def test_affine_postprocess_restores_order_without_changing_spectrum(self) -> None:
+        crossed = np.asarray(((0.2, 0.1, 0.3), (1.0, -1.0, 0.0)))
+        ordered = ordered_affine_eigenvalues(crossed)
+        np.testing.assert_array_equal(
+            ordered, np.asarray(((0.1, 0.2, 0.3), (-1.0, 0.0, 1.0)))
+        )
+        np.testing.assert_array_equal(
+            np.sort(crossed, axis=1), np.sort(ordered, axis=1)
+        )
 
 
 if __name__ == "__main__":
