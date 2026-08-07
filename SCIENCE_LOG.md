@@ -53,6 +53,40 @@ No MT1/MT2/MT5 completion marker or model accuracy is claimed in this entry. The
 precomputation is opened in parallel by explicit user instruction to compare both leading
 representations; the registered promotion and stop rules remain unchanged.
 
+Runtime checkpoint after launch:
+
+- Both MT1 catalogue gates passed. `BF_ORACLE_ASSIGNED_v1` contains 9,538,254
+  unchanged Bright rows plus 3,352,713 Faint rows; `BF_PROXY_RESPONSE_v1` contains
+  the same Bright prefix plus 3,237,149 Faint rows after the deterministic LOA
+  north/south response draw. In the key `0.45 <= z < 0.55` shell the Proxy adds
+  253,664 Faint tracers to 72,353 Bright tracers. This is a strong information-density
+  intervention, not yet evidence of improved tidal inference.
+- Both field and independent-selection gates passed. The Proxy Faint training-fold
+  radial fits close to 0.592% in the worst registered shell; 99.36% of its Faint
+  context lies in defined P4 cores. The remainder stays outside the benchmark rather
+  than being reassigned.
+- The first field build correctly failed the zero-loss CIC gate because the frozen
+  Bright P3 grids do not contain a complete stencil for 4 Oracle NGC and 21 Oracle
+  SGC edge tracers. The audited lost-weight fractions were only `1.36e-6` and
+  `2.23e-5`. Expanding the canonical grids for these points would change the frozen
+  benchmark. The field branch now excludes only incomplete CIC stencils, records each
+  exclusion, and again conserves deposited counts exactly; the graph branch retains
+  those galaxies. Five field/selection tests pass.
+- The first supervisor handoff exposed two orchestration defects before training:
+  Python file execution lost the repository import root inside `srun`, and Perlmutter
+  rejects simultaneous `--exclusive --overlap`. Stages now use `python -m` and valid
+  exclusive job steps. The replacement GPU allocation is `56447933`; the Proxy
+  U-PATCH canary has completed 100 optimization steps and is evaluating the complete
+  validation fold. No score is interpreted from this canary.
+
+The additional fixes are commits `9595fd6`, `8689a73`, `a6ebdfb`, and `6bd2621`.
+Passed catalogue manifests are under
+`/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/catalogues/`; passed field and
+selection manifests are under the sibling `fields/` and `selection/` directories.
+The frozen-grid audit is `fields/grid_support_audit.json`. The global Proxy Delaunay
+graph remains in progress on CPU allocation `56446724`; no graph or model-completion
+marker has been stamped.
+
 ### 2026-08-06 — [result/code/plan] U-CIC closed as sparse-shell NO-GO; U-PATCH-BRIGHT frozen; BGS_FAINT F0 audit complete
 
 The two registered `U-CIC-RESID-v2` runs completed their 20-epoch contracts. The

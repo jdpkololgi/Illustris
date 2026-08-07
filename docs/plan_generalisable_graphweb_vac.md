@@ -1492,12 +1492,16 @@ Implementation checklist (2026-08-07):
 - [x] Implement response-explicit Oracle and Proxy catalogue builders, with immutable
   truth/sky columns joined from unique `inputs/targ.fits` rows rather than repeated
   alternate-tile spectroscopic rows.
-- [ ] Stamp and audit the Oracle and Proxy catalogue products under
+- [x] Stamp and audit the Oracle and Proxy catalogue products under
   `/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/catalogues/`.
 - [x] Implement tracer-separated Faint CIC/response overlays and independent Faint
   full-cap radial selection/normalization fits; preserve frozen Bright P3/P6 products.
-- [ ] Stamp the field and selection manifests under
+- [x] Stamp the field and selection manifests under
   `/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/fields/` and `selection/`.
+  The exact incomplete-stencil exclusions and lost-weight audit are stored in
+  `fields/grid_support_audit.json`; the voxel branch excludes only 4 NGC and 21 SGC
+  Oracle edge rows (and the corresponding Proxy rows), while the graph branch retains
+  them.
 - [x] Implement the response-aware global Bright+Faint graph, P5-compatible adapter,
   and ten-feature GraphNet contract with globally computed graph metrics.
 - [ ] Stamp the Proxy graph, cuGraph metrics, adapter, and feature transform under
