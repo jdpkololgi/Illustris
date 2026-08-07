@@ -7,7 +7,7 @@ root="/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1"
 logs="/pscratch/sd/d/dkololgi/logs"
 python="/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python"
 product="bf_proxy_response_v1"
-graph_dir="$root/graph/$product/global"
+graph_dir="$root/graph/${product}_targetbit/global"
 
 cd "$repo"
 unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD
@@ -22,6 +22,17 @@ for required in \
     exit 1
   fi
 done
+
+"$python" -c '
+import json
+from pathlib import Path
+path = Path("/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/catalogues/bf_proxy_response_v1/manifest.json")
+manifest = json.loads(path.read_text())
+audit = manifest["response"]["application_audit"]
+assert manifest["pass"]
+assert "target-selection bits" in audit["mapping"]
+assert audit["ambiguous_rows"] == 0
+'
 
 mkdir -p "$graph_dir"
 srun --exact --exclusive --nodes=1 --ntasks=1 --cpus-per-task=256 \
@@ -46,4 +57,5 @@ for required in \
   fi
 done
 
-printf 'job_id=%s\n' "$SLURM_JOB_ID" > "$root/MT_CPU_PIPELINE_READY_FOR_RAPIDS"
+printf 'job_id=%s\ncommit=%s\n' \
+  "$SLURM_JOB_ID" "$(git rev-parse HEAD)" > "$root/MT_TARGETBIT_CPU_PIPELINE_READY_FOR_RAPIDS"
