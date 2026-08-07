@@ -70,5 +70,6 @@ srun --exact --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 \
   --product "$product" --graph-product "${product}_photsys_marginal" \
   2>&1 | tee "$logs/p8_multitracer_graph_validation_${SLURM_JOB_ID}.log"
 
-printf 'job_id=%s\ncommit=%s\n' \
-  "$SLURM_JOB_ID" "$(git rev-parse HEAD)" > "$root/MT_PHOTSYS_MARGINAL_CPU_PIPELINE_READY_FOR_RAPIDS"
+printf 'validation=PASS\nvalidation_path=%s\ngraph_job_id=%s\ncommit=%s\n' \
+  "$graph_dir/global_graph_validation.json" "$SLURM_JOB_ID" "$(git rev-parse HEAD)" \
+  > "$root/MT_PHOTSYS_MARGINAL_CPU_PIPELINE_READY_FOR_RAPIDS"

@@ -12,6 +12,8 @@ graph_product="${product}_photsys_marginal"
 graph_dir="$root/graph/${graph_product}/global"
 radius_dir="$root/graph/${graph_product}/radius"
 adapter_dir="$root/graph/${graph_product}/adapter"
+handoff="$root/MT_PHOTSYS_MARGINAL_CPU_PIPELINE_READY_FOR_RAPIDS"
+validation="$graph_dir/global_graph_validation.json"
 
 cd "$repo"
 unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD
@@ -48,7 +50,7 @@ else
   u_proxy_pid=$!
 fi
 
-while [[ ! -f "$root/MT_PHOTSYS_MARGINAL_CPU_PIPELINE_READY_FOR_RAPIDS" ]]; do
+while [[ ! -f "$handoff" ]]; do
   cpu_job="$(sed -n 's/^job_id=//p' "$root/MT_PHOTSYS_MARGINAL_PROXY_PRODUCTS_READY")"
   if [[ -n "$cpu_job" ]] && ! squeue -h -j "$cpu_job" | grep -q .; then
     echo "CPU allocation $cpu_job ended before the global graph completed" >&2
@@ -56,6 +58,17 @@ while [[ ! -f "$root/MT_PHOTSYS_MARGINAL_CPU_PIPELINE_READY_FOR_RAPIDS" ]]; do
   fi
   sleep 30
 done
+
+if ! grep -qx 'validation=PASS' "$handoff"; then
+  echo "graph handoff lacks validation=PASS: $handoff" >&2
+  exit 1
+fi
+"$cosmic" -c '
+import json, sys
+report = json.load(open(sys.argv[1]))
+assert report["pass"] is True
+assert all(report["gates"].values())
+' "$validation"
 
 srun --exact --exclusive --nodes=1 --ntasks=1 --cpus-per-task=32 \
   --gpus-per-task=1 --cpu-bind=cores \
