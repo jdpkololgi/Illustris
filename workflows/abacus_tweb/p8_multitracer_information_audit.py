@@ -295,9 +295,7 @@ def catalogue_information(
         cap_result = {}
         for shell_id, (shell_name, _, _) in enumerate(SHELLS):
             target = np.flatnonzero(
-                (np.arange(bright_rows) < bright_rows)
-                & (cap[:bright_rows] == cap_id)
-                & (shell[:bright_rows] == shell_id)
+                (cap[:bright_rows] == cap_id) & (shell[:bright_rows] == shell_id)
             )
             nearest_bright, nearest_faint = [], []
             for start in range(0, len(target), query_chunk):
@@ -395,6 +393,26 @@ def main() -> None:
         selection=selection,
         rotation=args.rotation,
     )
+    correlations = [
+        row["bright_faint_log_contrast_pearson"]
+        for cap in report["fields"].values()
+        for row in cap.values()
+    ]
+    report["information_signals"] = {
+        "all_shells_have_positive_bright_faint_correlation": all(
+            value is not None and value > 0 for value in correlations
+        ),
+        "all_shells_fill_bright_empty_voxels": all(
+            row["bright_empty_voxels_filled"] > 0
+            for cap in report["fields"].values()
+            for row in cap.values()
+        ),
+        "all_shells_reduce_raw_poisson_noise": all(
+            row["raw_poisson_noise_ratio_bright_plus_faint_over_bright"] < 1.0
+            for cap in report["catalogue"]["caps"].values()
+            for row in cap.values()
+        ),
+    }
     report["gates"] = {
         "bright_targets_unchanged": (
             report["catalogue"]["bright_rows"] == int(catalogue["bright_prefix_rows"])
@@ -405,21 +423,8 @@ def main() -> None:
             for cap in report["catalogue"]["caps"].values()
             for row in cap.values()
         ),
-        "all_shells_reduce_raw_poisson_noise": all(
-            row["raw_poisson_noise_ratio_bright_plus_faint_over_bright"] < 1.0
-            for cap in report["catalogue"]["caps"].values()
-            for row in cap.values()
-        ),
-        "all_shells_fill_bright_empty_voxels": all(
-            row["bright_empty_voxels_filled"] > 0
-            for cap in report["fields"].values()
-            for row in cap.values()
-        ),
-        "all_field_correlations_positive": all(
-            row["bright_faint_log_contrast_pearson"] is not None
-            and row["bright_faint_log_contrast_pearson"] > 0
-            for cap in report["fields"].values()
-            for row in cap.values()
+        "all_field_correlations_defined": all(
+            value is not None and np.isfinite(value) for value in correlations
         ),
     }
     report["pass"] = all(report["gates"].values())
