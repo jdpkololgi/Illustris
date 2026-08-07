@@ -54,13 +54,21 @@ srun --exact --exclusive --nodes=1 --ntasks=1 --cpus-per-task=256 \
 
 for required in \
   "$graph_dir/bf_proxy_delaunay_metadata.json" \
-  "$graph_dir/bf_proxy_delaunay_ngc_pairs.npy" \
-  "$graph_dir/bf_proxy_delaunay_sgc_pairs.npy"; do
+  "$graph_dir/bf_proxy_delaunay_edges_combined_idx.npy" \
+  "$graph_dir/bf_proxy_delaunay_tetrahedra_idx.npy" \
+  "$graph_dir/bf_proxy_delaunay_tetrahedra_volumes.npy" \
+  "$graph_dir/bf_proxy_delaunay_points.npy" \
+  "$graph_dir/bf_proxy_delaunay_points_xyz.npy"; do
   if [[ ! -f "$required" ]]; then
     echo "global graph command returned without artifact: $required" >&2
     exit 1
   fi
 done
+
+srun --exact --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 \
+  "$python" -u -m workflows.abacus_tweb.p8_validate_multitracer_global_graph \
+  --product "$product" --graph-product "${product}_photsys_marginal" \
+  2>&1 | tee "$logs/p8_multitracer_graph_validation_${SLURM_JOB_ID}.log"
 
 printf 'job_id=%s\ncommit=%s\n' \
   "$SLURM_JOB_ID" "$(git rev-parse HEAD)" > "$root/MT_PHOTSYS_MARGINAL_CPU_PIPELINE_READY_FOR_RAPIDS"
