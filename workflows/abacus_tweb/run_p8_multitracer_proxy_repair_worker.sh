@@ -54,8 +54,10 @@ selection = json.loads(
 )
 audit = catalogue["response"]["application_audit"]
 assert catalogue["pass"] and field["pass"] and selection["pass"]
-assert "target-selection bits" in audit["mapping"]
+assert catalogue["response"]["calibration_basis"] == "DESI LOA PHOTSYS"
 assert audit["ambiguous_rows"] == 0
+assert audit["overall_fallback_rows"] == catalogue["counts"]["FAINT"]["rows"]
+assert "mock has no PHOTSYS" in audit["mapping"]
 assert Path(root / "catalogues" / product / "CATALOGUE_COMPLETE").exists()
 assert Path(root / "fields" / product / "FIELD_OVERLAY_COMPLETE").exists()
 assert Path(root / "selection" / product / "MULTITRACER_SELECTION_COMPLETE").exists()
@@ -63,4 +65,4 @@ print(json.dumps({"catalogue_rows": catalogue["total_rows"], "audit": audit}, in
 '
 
 printf 'job_id=%s\ncommit=%s\n' \
-  "$job_id" "$(git rev-parse HEAD)" > "$root/MT_TARGETBIT_PROXY_PRODUCTS_READY"
+  "$job_id" "$(git rev-parse HEAD)" > "$root/MT_PHOTSYS_MARGINAL_PROXY_PRODUCTS_READY"

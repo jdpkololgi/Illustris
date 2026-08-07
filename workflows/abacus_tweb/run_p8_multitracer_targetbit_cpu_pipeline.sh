@@ -10,5 +10,4 @@ fi
 repo="/global/homes/d/dkololgi/TNG/Illustris"
 cd "$repo"
 
-bash workflows/abacus_tweb/run_p8_multitracer_proxy_repair_worker.sh "$SLURM_JOB_ID"
-bash workflows/abacus_tweb/run_p8_multitracer_graph_cpu_worker.sh
+exec bash workflows/abacus_tweb/run_p8_multitracer_cpu_targetbit_worker.sh

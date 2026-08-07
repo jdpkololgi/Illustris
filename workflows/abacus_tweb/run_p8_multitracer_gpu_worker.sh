@@ -8,10 +8,10 @@ logs="/pscratch/sd/d/dkololgi/logs"
 cosmic="/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python"
 rapids="/pscratch/sd/d/dkololgi/conda/envs/rapids-gnn/bin/python"
 product="bf_proxy_response_v1"
-graph_product="${product}_targetbit"
-graph_dir="$root/graph/${product}_targetbit/global"
-radius_dir="$root/graph/${product}_targetbit/radius"
-adapter_dir="$root/graph/${product}_targetbit/adapter"
+graph_product="${product}_photsys_marginal"
+graph_dir="$root/graph/${graph_product}/global"
+radius_dir="$root/graph/${graph_product}/radius"
+adapter_dir="$root/graph/${graph_product}/adapter"
 
 cd "$repo"
 unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD
@@ -31,7 +31,7 @@ run_u() {
 u_oracle_pid=""
 u_proxy_pid=""
 oracle_u_marker="$root/models/u_patch/bf_oracle_assigned_v1/rotation_0/seed_42/canary_steps100/MULTITRACER_U_PATCH_SCREEN_COMPLETE"
-proxy_run="canary_targetbit_response_steps100"
+proxy_run="canary_photsys_marginal_steps100"
 proxy_u_marker="$root/models/u_patch/bf_proxy_response_v1/rotation_0/seed_42/$proxy_run/MULTITRACER_U_PATCH_SCREEN_COMPLETE"
 if [[ -f "$oracle_u_marker" ]]; then
   echo "Reusing passed Oracle U-PATCH canary: $oracle_u_marker"
@@ -48,8 +48,8 @@ else
   u_proxy_pid=$!
 fi
 
-while [[ ! -f "$root/MT_TARGETBIT_CPU_PIPELINE_READY_FOR_RAPIDS" ]]; do
-  cpu_job="$(sed -n 's/^job_id=//p' "$root/MT_TARGETBIT_PROXY_PRODUCTS_READY")"
+while [[ ! -f "$root/MT_PHOTSYS_MARGINAL_CPU_PIPELINE_READY_FOR_RAPIDS" ]]; do
+  cpu_job="$(sed -n 's/^job_id=//p' "$root/MT_PHOTSYS_MARGINAL_PROXY_PRODUCTS_READY")"
   if [[ -n "$cpu_job" ]] && ! squeue -h -j "$cpu_job" | grep -q .; then
     echo "CPU allocation $cpu_job ended before the global graph completed" >&2
     exit 1
@@ -122,4 +122,4 @@ if (( u_oracle_status != 0 || u_proxy_status != 0 || g_proxy_status != 0 )); the
 fi
 
 printf 'allocation=%s\ncommit=%s\n' \
-  "$SLURM_JOB_ID" "$(git rev-parse HEAD)" > "$root/MT_TARGETBIT_MODEL_CANARIES_COMPLETE"
+  "$SLURM_JOB_ID" "$(git rev-parse HEAD)" > "$root/MT_PHOTSYS_MARGINAL_MODEL_CANARIES_COMPLETE"

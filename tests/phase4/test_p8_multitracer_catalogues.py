@@ -48,6 +48,20 @@ class MultitracerCatalogueTests(unittest.TestCase):
         self.assertEqual(audit["south_rows"], 1)
         self.assertEqual(audit["overall_fallback_rows"], 1)
         self.assertIn("never Galactic cap", audit["mapping"])
+        self.assertIn("PHOTSYS-marginal", audit["mapping"])
+
+    def test_response_falls_back_to_photsys_marginal_rate(self):
+        calibration = {
+            "all": {"pass_probability": 0.8},
+            "north": {"pass_probability": 0.9},
+            "south": {"pass_probability": 0.7},
+        }
+        probability, audit = faint_response_probability(
+            np.asarray([1, 1, 1], dtype=np.int64), calibration
+        )
+        np.testing.assert_allclose(probability, [0.8, 0.8, 0.8])
+        self.assertEqual(audit["overall_fallback_rows"], 3)
+        self.assertIn("mock has no PHOTSYS", audit["mapping"])
 
     def test_response_rejects_ambiguous_regional_bits(self):
         calibration = {

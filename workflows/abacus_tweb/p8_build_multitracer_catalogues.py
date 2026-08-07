@@ -195,11 +195,23 @@ def faint_response_probability(
     )
     probability[north] = calibration["north"]["pass_probability"]
     probability[south] = calibration["south"]["pass_probability"]
+    regional_rows = int(np.count_nonzero(north | south))
+    fallback_rows = int(np.count_nonzero(fallback))
+    if regional_rows == 0:
+        mapping = (
+            "overall BGS_FAINT rate marginalized over DESI PHOTSYS; mock has "
+            "no PHOTSYS or regional target-selection bits"
+        )
+    else:
+        mapping = (
+            "BGS_FAINT_NORTH/SOUTH target-selection bits where available; "
+            "overall PHOTSYS-marginal rate otherwise; never Galactic cap"
+        )
     audit = {
-        "mapping": "BGS_FAINT_NORTH/SOUTH target-selection bits; never Galactic cap",
+        "mapping": mapping,
         "north_rows": int(np.count_nonzero(north)),
         "south_rows": int(np.count_nonzero(south)),
-        "overall_fallback_rows": int(np.count_nonzero(fallback)),
+        "overall_fallback_rows": fallback_rows,
         "ambiguous_rows": int(np.count_nonzero(ambiguous)),
     }
     return probability, audit
@@ -236,7 +248,7 @@ def calibrate_faint_response(zall: Path, chunk_rows: int) -> dict:
             rows = np.arange(start, stop, dtype=np.int64)
             table = hdu.read(
                 rows=rows,
-                columns=["BGS_TARGET", "ZWARN", "DELTACHI2", "SPECTYPE"],
+                columns=["BGS_TARGET", "ZWARN", "DELTACHI2", "SPECTYPE", "PHOTSYS"],
             )
             target = np.asarray(table["BGS_TARGET"], dtype=np.int64)
             faint = (target & FAINT_BITS) != 0
@@ -248,10 +260,13 @@ def calibrate_faint_response(zall: Path, chunk_rows: int) -> dict:
                 & (np.asarray(table["DELTACHI2"], dtype=np.float64) >= DELTACHI2_MIN)
                 & (spectype == "GALAXY")
             )
+            photsys = np.char.upper(
+                np.char.strip(np.asarray(table["PHOTSYS"]).astype("U1"))
+            )
             masks = {
                 "all": faint,
-                "north": faint & ((target & FAINT_NORTH_BITS) != 0),
-                "south": faint & ((target & FAINT_SOUTH_BITS) != 0),
+                "north": faint & (photsys == "N"),
+                "south": faint & (photsys == "S"),
             }
             for name, selected in masks.items():
                 counts[name][0] += int(np.count_nonzero(selected))
@@ -267,6 +282,7 @@ def calibrate_faint_response(zall: Path, chunk_rows: int) -> dict:
             "passing_rows": passed,
             "pass_probability": probability,
             "fallback_to_overall": total < 100,
+            "calibration_basis": "DESI LOA PHOTSYS",
         }
     return output
 
@@ -308,9 +324,13 @@ def _read_faint_candidates(path: Path, target_input: Path) -> tuple[np.ndarray, 
     )
     observed_id = np.asarray(assignment["TARGETID"][assignment_observed], dtype=np.int64)
     observed_source_row = assignment_source_row[assignment_observed]
+    observed_response_bits = np.asarray(
+        assignment["BGS_TARGET"][assignment_observed], dtype=np.int64
+    )
     observed_order = np.argsort(observed_id)
     observed_id = observed_id[observed_order]
     observed_source_row = observed_source_row[observed_order]
+    observed_response_bits = observed_response_bits[observed_order]
 
     truth_columns = [
         "TARGETID", "BGS_TARGET", "R_MAG_APP", "RA", "DEC", "Z_COSMO",
@@ -340,11 +360,22 @@ def _read_faint_candidates(path: Path, target_input: Path) -> tuple[np.ndarray, 
     )
     unique = table[target_order[position[matched]]]
     unique_source = observed_source_row[matched]
+    unique_response_bits = observed_response_bits[matched]
     finite = np.isfinite(np.asarray(unique["RSDZ"], dtype=np.float64)) & (
         np.asarray(unique["RSDZ"], dtype=np.float64) > 0
     )
     unique = unique[finite]
     unique_source = unique_source[finite]
+    unique_response_bits = unique_response_bits[finite]
+    unique["BGS_TARGET"] = unique_response_bits
+    _, response_audit = faint_response_probability(
+        unique_response_bits,
+        {
+            "all": {"pass_probability": 0.0},
+            "north": {"pass_probability": 0.0},
+            "south": {"pass_probability": 0.0},
+        },
+    )
     audit = {
         "spectroscopic_join_rows": int(len(assignment_target)),
         "faint_repeated_assignment_rows": int(np.count_nonzero(assignment_faint)),
@@ -360,6 +391,7 @@ def _read_faint_candidates(path: Path, target_input: Path) -> tuple[np.ndarray, 
             "assignment state only: TARGETID; prefer fibre-observed, then smallest "
             "TILELOCID, then earliest source row; immutable values come from target input"
         ),
+        "response_target_bits": response_audit,
     }
     return rfn.append_fields(
         unique, "SOURCE_ROW", unique_source, usemask=False
@@ -455,7 +487,7 @@ def repair_proxy_from_oracle(args: argparse.Namespace) -> dict:
         raise FileNotFoundError("Proxy repair requires a live or archived Proxy manifest")
     if not oracle_manifest.get("pass"):
         raise RuntimeError("Oracle catalogue has not passed its frozen gates")
-    calibration = old_proxy_manifest["response"]["calibration"]
+    calibration = calibrate_faint_response(args.zall, args.chunk_rows)
 
     oracle_catalogue = Path(oracle_manifest["catalogue"])
     with fitsio.FITS(str(oracle_catalogue), "r") as handle:
@@ -466,6 +498,10 @@ def repair_proxy_from_oracle(args: argparse.Namespace) -> dict:
     probability, response_audit = faint_response_probability(
         faint_source["BGS_TARGET"], calibration
     )
+    if response_audit["overall_fallback_rows"]:
+        raise RuntimeError(
+            "Oracle lacks assignment-time regional response bits; run the full rebuild"
+        )
     keep_proxy = (
         deterministic_uniform(faint_source["TARGETID"], args.seed) < probability
     )
@@ -490,9 +526,10 @@ def repair_proxy_from_oracle(args: argparse.Namespace) -> dict:
         response={
             "fibre_assignment": "ZWARN != 999999 in the staged spectroscopic join",
             "redshift_success": (
-                "deterministic LOA BGS_FAINT marginal draw by target-selection "
-                "NORTH/SOUTH bit"
+                "deterministic LOA BGS_FAINT draw calibrated by DESI PHOTSYS "
+                "and applied using assignment-time NORTH/SOUTH target-selection bits"
             ),
+            "calibration_basis": "DESI LOA PHOTSYS",
             "seed": args.seed,
             "calibration": calibration,
             "application_audit": response_audit,
@@ -683,7 +720,7 @@ def write_product(
 def main() -> None:
     args = parse_args()
     if args.repair_proxy_from_oracle:
-        for path in (args.bright_points, args.output_root):
+        for path in (args.bright_points, args.output_root, args.zall):
             if not path.exists():
                 raise FileNotFoundError(path)
         summary = repair_proxy_from_oracle(args)
@@ -714,6 +751,10 @@ def main() -> None:
     probability, response_audit = faint_response_probability(
         faint_source["BGS_TARGET"], calibration
     )
+    if response_audit["overall_fallback_rows"]:
+        raise RuntimeError(
+            "observed Faint rows lack assignment-time regional target-selection bits"
+        )
     keep_proxy = deterministic_uniform(faint_source["TARGETID"], args.seed) < probability
     inputs = {
         "spectroscopic_join": str(args.spectroscopic_join),
@@ -757,10 +798,14 @@ def main() -> None:
         inputs=inputs,
         response={
             "fibre_assignment": "ZWARN != 999999 in the staged spectroscopic join",
-            "redshift_success": "deterministic LOA BGS_FAINT marginal draw by target north/south bit",
+            "redshift_success": (
+                "deterministic LOA BGS_FAINT draw calibrated by DESI PHOTSYS "
+                "and applied using assignment-time NORTH/SOUTH target-selection bits"
+            ),
             "seed": args.seed,
             "calibration": calibration,
             "application_audit": response_audit,
+            "calibration_basis": "DESI LOA PHOTSYS",
             "magnitude_conditioning": (
                 "unavailable in zall-pix zcatalog; marginalized over the DESI Faint population"
             ),

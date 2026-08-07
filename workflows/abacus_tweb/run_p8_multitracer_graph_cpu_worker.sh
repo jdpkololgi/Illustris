@@ -7,7 +7,7 @@ root="/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1"
 logs="/pscratch/sd/d/dkololgi/logs"
 python="/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python"
 product="bf_proxy_response_v1"
-graph_dir="$root/graph/${product}_targetbit/global"
+graph_dir="$root/graph/${product}_photsys_marginal/global"
 
 cd "$repo"
 unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD
@@ -30,8 +30,10 @@ path = Path("/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/catalogues/bf_prox
 manifest = json.loads(path.read_text())
 audit = manifest["response"]["application_audit"]
 assert manifest["pass"]
-assert "target-selection bits" in audit["mapping"]
+assert manifest["response"]["calibration_basis"] == "DESI LOA PHOTSYS"
 assert audit["ambiguous_rows"] == 0
+assert audit["overall_fallback_rows"] == manifest["counts"]["FAINT"]["rows"]
+assert "mock has no PHOTSYS" in audit["mapping"]
 '
 
 mkdir -p "$graph_dir"
@@ -58,4 +60,4 @@ for required in \
 done
 
 printf 'job_id=%s\ncommit=%s\n' \
-  "$SLURM_JOB_ID" "$(git rev-parse HEAD)" > "$root/MT_TARGETBIT_CPU_PIPELINE_READY_FOR_RAPIDS"
+  "$SLURM_JOB_ID" "$(git rev-parse HEAD)" > "$root/MT_PHOTSYS_MARGINAL_CPU_PIPELINE_READY_FOR_RAPIDS"
