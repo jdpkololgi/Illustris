@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Runs inside a four-GPU interactive allocation; all compute is launched with srun.
+# Runs inside a one-A100 interactive allocation; all compute is launched with srun.
 set -euo pipefail
 
 repo="/global/homes/d/dkololgi/TNG/Illustris"
@@ -73,7 +73,7 @@ srun --exact --exclusive --nodes=1 --ntasks=1 --cpus-per-task=32 \
   2>&1 | tee "$logs/p8_mt_cugraph_${SLURM_JOB_ID}.log"
 
 mkdir -p "$radius_dir"
-srun --exact --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=cores \
+srun --exact --exclusive --nodes=1 --ntasks=1 --cpus-per-task=32 --cpu-bind=cores \
   env -u PYTHONPATH -u PYTHONHOME -u PYTHONUSERBASE -u LD_PRELOAD \
   "$cosmic" -u -m workflows.abacus_tweb.p2b_build_full_radius_union \
   --graph-dir "$graph_dir" --prefix bf_proxy_delaunay \
@@ -82,7 +82,7 @@ srun --exact --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=core
   2>&1 | tee "$logs/p8_mt_radius_union_${SLURM_JOB_ID}.log"
 
 mkdir -p "$adapter_dir"
-srun --exact --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=cores \
+srun --exact --exclusive --nodes=1 --ntasks=1 --cpus-per-task=32 --cpu-bind=cores \
   env -u PYTHONPATH -u PYTHONHOME -u PYTHONUSERBASE -u LD_PRELOAD \
   "$cosmic" -u -m workflows.abacus_tweb.p8_build_multitracer_graph_adapter \
   --graph-dir "$graph_dir" --prefix bf_proxy_delaunay \
@@ -91,7 +91,7 @@ srun --exact --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=core
   --out-dir "$adapter_dir" \
   2>&1 | tee "$logs/p8_mt_graph_adapter_${SLURM_JOB_ID}.log"
 
-srun --exact --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=cores \
+srun --exact --exclusive --nodes=1 --ntasks=1 --cpus-per-task=32 --cpu-bind=cores \
   env -u PYTHONPATH -u PYTHONHOME -u PYTHONUSERBASE -u LD_PRELOAD \
   "$cosmic" -u -m workflows.abacus_tweb.p8_prepare_multitracer_graph_features \
   --product "$product" --rotation 0 \
