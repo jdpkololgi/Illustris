@@ -43,17 +43,32 @@ G-PATCH input                            = global Bright+Faint graph with tracer
 Faint loss or released prediction        = forbidden in this screen
 ```
 
-The corrected CPU pipeline is running in tmux `p8_mt_cpu_photsys` on interactive
-allocation `56449637`; it repairs the Proxy catalogue, rebuilds its fields and
-selection fits, validates the PHOTSYS-marginal manifest, then constructs the global
-Delaunay graph. `p8_mt_gpu_photsys` waits for the passed Proxy-product marker before
-requesting exactly one `desi_g` A100 allocation. It will run a separately named Proxy
-U-PATCH technical canary while the graph builds, then cuGraph metrics, radius-union
-adapter, feature preparation, and the Proxy G-PATCH technical canary. No canary score
-is interpreted as a model-selection result and no MT4/MT5 scientific gate is claimed.
+The corrected Proxy catalogue, field overlay, and train-fold-only selection fits now
+pass. The catalogue contains `9,538,254` unchanged Bright targets and `3,233,026`
+Faint context rows. The four Faint shell counts are
+`826,122/1,038,124/719,172/253,299`; the last is compared with only `72,353` Bright
+targets and therefore constitutes a substantial information-density intervention.
+The final application audit correctly records all `3,352,713` Oracle Faint candidates
+before the deterministic response draw, rather than confusing that input count with
+the selected Proxy row count.
+
+The initial allocation exited only because its already-loaded shell retained the old
+response-population assertion after the data products had passed. Idempotent resume
+validation prevented a second 48 GB zcatalog scan. The live disconnect-safe jobs are:
+
+- tmux `p8_mt_cpu_photsys`, CPU allocation `56452732`: global disconnected NGC+SGC
+  Delaunay construction over `12,771,280` Bright+Faint nodes;
+- tmux `p8_mt_gpu_photsys`, one-A100 allocation `56452729`: the separately named
+  PHOTSYS-marginal Proxy U-PATCH 100-step technical canary and complete-fold
+  evaluation, followed after the graph gate by cuGraph metrics, radius-union adapter,
+  feature preparation, and the Proxy G-PATCH technical canary.
+
+No canary score is interpreted as a model-selection result and no MT4/MT5 scientific
+gate is claimed. Full training remains behind MT2 information diagnostics and MT3
+matched classical controls.
 
 The response and orchestration corrections are commits `2a2acc0`, `449dcbc`,
-`4ef48fc`, and `89463c2`.
+`4ef48fc`, `89463c2`, `7acc7e2`, `71da78a`, `99bd150`, and `1c80820`.
 
 ### 2026-08-07 — [science/code/runtime] Bright-target/Faint-context multitracer implementation launched
 
