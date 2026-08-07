@@ -36,6 +36,18 @@ srun --jobid="$job_id" --overlap --nodes=1 --ntasks=1 --cpus-per-task=128 \
   2>&1 | tee "$logs/p8_multitracer_selection_${job_id}.log"
 
 printf 'job_id=%s\n' "$job_id" > "$root/MT_FIELDS_SELECTION_READY"
+for product in bf_oracle_assigned_v1 bf_proxy_response_v1; do
+  field_marker="$root/fields/$product/FIELD_OVERLAY_COMPLETE"
+  selection_marker="$root/selection/$product/MULTITRACER_SELECTION_COMPLETE"
+  if [[ ! -f "$field_marker" ]]; then
+    echo "missing passed field marker: $field_marker" >&2
+    exit 1
+  fi
+  if [[ ! -f "$selection_marker" ]]; then
+    echo "missing passed selection marker: $selection_marker" >&2
+    exit 1
+  fi
+done
 
 graph_dir="$root/graph/bf_proxy_response_v1/global"
 mkdir -p "$graph_dir"

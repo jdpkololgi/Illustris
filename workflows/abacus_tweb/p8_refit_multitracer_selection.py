@@ -367,6 +367,9 @@ def main() -> None:
         "all_pass": all(manifest["pass"] for manifest in result.values()),
     }
     atomic_json(args.root / "selection" / "selection_build_summary.json", summary)
+    if not summary["all_pass"]:
+        failed = [name for name, manifest in result.items() if not manifest["pass"]]
+        raise RuntimeError(f"multitracer selection gates failed: {failed}")
     print(json.dumps(summary, indent=2, sort_keys=True))
 
 
