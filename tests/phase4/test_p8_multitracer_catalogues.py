@@ -6,8 +6,12 @@ import numpy as np
 
 from workflows.abacus_tweb.p8_build_multitracer_catalogues import (
     deterministic_uniform,
+    faint_response_probability,
     sky_to_points,
     _make_faint_rows,
+    FAINT_NORTH_BITS,
+    FAINT_SOUTH_BITS,
+    CATALOGUE_DTYPE,
 )
 
 
@@ -30,6 +34,44 @@ class MultitracerCatalogueTests(unittest.TestCase):
         self.assertTrue(np.all(np.isfinite(points)))
         self.assertTrue(set(np.unique(points[:, 3])).issubset({0.0, 1.0}))
         self.assertGreater(np.linalg.norm(points[1, :3]), np.linalg.norm(points[0, :3]))
+
+    def test_response_uses_target_bits_with_explicit_fallback(self):
+        calibration = {
+            "all": {"pass_probability": 0.8},
+            "north": {"pass_probability": 0.9},
+            "south": {"pass_probability": 0.7},
+        }
+        target = np.asarray([FAINT_NORTH_BITS, FAINT_SOUTH_BITS, 0], dtype=np.int64)
+        probability, audit = faint_response_probability(target, calibration)
+        np.testing.assert_allclose(probability, [0.9, 0.7, 0.8])
+        self.assertEqual(audit["north_rows"], 1)
+        self.assertEqual(audit["south_rows"], 1)
+        self.assertEqual(audit["overall_fallback_rows"], 1)
+        self.assertIn("never Galactic cap", audit["mapping"])
+
+    def test_response_rejects_ambiguous_regional_bits(self):
+        calibration = {
+            "all": {"pass_probability": 0.8},
+            "north": {"pass_probability": 0.9},
+            "south": {"pass_probability": 0.7},
+        }
+        with self.assertRaisesRegex(RuntimeError, "both NORTH and SOUTH"):
+            faint_response_probability(
+                np.asarray([FAINT_NORTH_BITS | FAINT_SOUTH_BITS]), calibration
+            )
+
+    def test_prepared_faint_rows_can_be_filtered_for_proxy_repair(self):
+        source = np.zeros(3, dtype=CATALOGUE_DTYPE)
+        source["TARGETID"] = [1, 2, 3]
+        source["TRACER_TYPE"] = 1
+        source["ASSIGNED"] = 1
+        source["SPEC_SUCCESS"] = 1
+        source["CONTEXT"] = [1, 0, 1]
+        source["BRIGHT_PARENT_ID"] = -1
+        output = _make_faint_rows(source, np.asarray([True, False, True]))
+        np.testing.assert_array_equal(output["TARGETID"], [1, 3])
+        np.testing.assert_array_equal(output["CONTEXT"], [1, 1])
+        np.testing.assert_array_equal(output["BRIGHT_PARENT_ID"], -1)
 
     def test_faint_rows_are_context_only(self):
         dtype = np.dtype(

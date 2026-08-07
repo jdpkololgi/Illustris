@@ -140,6 +140,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--seed", type=int, default=824731)
     parser.add_argument("--chunk-rows", type=int, default=2_000_000)
+    parser.add_argument(
+        "--repair-proxy-from-oracle",
+        action="store_true",
+        help=(
+            "Rebuild only BF_PROXY_RESPONSE_v1 from the passed Oracle catalogue, "
+            "applying the response by BGS target-selection bit."
+        ),
+    )
     parser.add_argument("--force", action="store_true")
     return parser.parse_args()
 
@@ -161,6 +169,40 @@ def deterministic_uniform(targetid: np.ndarray, seed: int) -> np.ndarray:
     value = (value ^ (value >> np.uint64(27))) * np.uint64(0x94D049BB133111EB)
     value ^= value >> np.uint64(31)
     return ((value >> np.uint64(11)).astype(np.float64) * (1.0 / 2.0**53))
+
+
+def faint_response_probability(
+    target_bits: np.ndarray, calibration: dict
+) -> tuple[np.ndarray, dict]:
+    """Map calibrated response by BGS imaging/target-selection bit.
+
+    ``BGS_FAINT_NORTH`` and ``BGS_FAINT_SOUTH`` describe the target-selection
+    system. They must not be inferred from Galactic NGC/SGC membership. Rows
+    carrying neither regional bit use the explicitly recorded overall rate;
+    carrying both is an invalid target definition and is a hard failure.
+    """
+    target = np.asarray(target_bits, dtype=np.int64)
+    north = (target & FAINT_NORTH_BITS) != 0
+    south = (target & FAINT_SOUTH_BITS) != 0
+    ambiguous = north & south
+    if np.any(ambiguous):
+        raise RuntimeError(
+            f"{int(np.count_nonzero(ambiguous))} Faint rows carry both NORTH and SOUTH bits"
+        )
+    fallback = ~(north | south)
+    probability = np.full(
+        len(target), calibration["all"]["pass_probability"], dtype=np.float64
+    )
+    probability[north] = calibration["north"]["pass_probability"]
+    probability[south] = calibration["south"]["pass_probability"]
+    audit = {
+        "mapping": "BGS_FAINT_NORTH/SOUTH target-selection bits; never Galactic cap",
+        "north_rows": int(np.count_nonzero(north)),
+        "south_rows": int(np.count_nonzero(south)),
+        "overall_fallback_rows": int(np.count_nonzero(fallback)),
+        "ambiguous_rows": int(np.count_nonzero(ambiguous)),
+    }
+    return probability, audit
 
 
 def sky_to_points(ra: np.ndarray, dec: np.ndarray, redshift: np.ndarray) -> np.ndarray:
@@ -359,6 +401,13 @@ def _read_bright(parent: Path, bright_index: Path) -> tuple[np.ndarray, np.ndarr
 
 def _make_faint_rows(source: np.ndarray, keep: np.ndarray) -> np.ndarray:
     source = source[keep]
+    if source.dtype == CATALOGUE_DTYPE:
+        output = np.array(source, copy=True)
+        output["TRACER_TYPE"] = 1
+        output["ASSIGNED"] = 1
+        output["SPEC_SUCCESS"] = 1
+        output["BRIGHT_PARENT_ID"] = -1
+        return output
     output = np.empty(len(source), dtype=CATALOGUE_DTYPE)
     for name in (
         "TARGETID", "RA", "DEC", "Z_COSMO", "R_MAG_APP", "FILE_NUM",
@@ -377,6 +426,97 @@ def _make_faint_rows(source: np.ndarray, keep: np.ndarray) -> np.ndarray:
     ).astype(np.uint8)
     output["BRIGHT_PARENT_ID"] = -1
     return output
+
+
+def repair_proxy_from_oracle(args: argparse.Namespace) -> dict:
+    """Repair only the Proxy response without rereading the full staged mock."""
+    oracle_manifest_path = args.output_root / "bf_oracle_assigned_v1/manifest.json"
+    proxy_manifest_path = args.output_root / "bf_proxy_response_v1/manifest.json"
+    if not oracle_manifest_path.exists() or not proxy_manifest_path.exists():
+        raise FileNotFoundError(
+            "Proxy repair requires the passed Oracle and previous Proxy manifests"
+        )
+    oracle_manifest = json.loads(oracle_manifest_path.read_text())
+    old_proxy_manifest = json.loads(proxy_manifest_path.read_text())
+    if not oracle_manifest.get("pass"):
+        raise RuntimeError("Oracle catalogue has not passed its frozen gates")
+    calibration = old_proxy_manifest["response"]["calibration"]
+    archive_path = args.output_root / "invalidated_proxy_capmapped_manifest.json"
+    archived = {
+        "invalidated_utc": datetime.now(timezone.utc).isoformat(),
+        "reason": (
+            "LOA north/south response was incorrectly mapped by Galactic cap; "
+            "the calibration itself remains valid"
+        ),
+        "manifest_sha256": sha256(proxy_manifest_path),
+        "manifest": old_proxy_manifest,
+    }
+    atomic_json(archive_path, archived)
+
+    oracle_catalogue = Path(oracle_manifest["catalogue"])
+    with fitsio.FITS(str(oracle_catalogue), "r") as handle:
+        rows = handle[1].read()
+    bright_rows = int(oracle_manifest["bright_prefix_rows"])
+    bright = np.asarray(rows[:bright_rows], dtype=CATALOGUE_DTYPE)
+    faint_source = np.asarray(rows[bright_rows:], dtype=CATALOGUE_DTYPE)
+    probability, response_audit = faint_response_probability(
+        faint_source["BGS_TARGET"], calibration
+    )
+    keep_proxy = (
+        deterministic_uniform(faint_source["TARGETID"], args.seed) < probability
+    )
+    inputs = dict(oracle_manifest["inputs"])
+    inputs.update(
+        {
+            "repair_source_oracle_manifest": str(oracle_manifest_path),
+            "repair_source_oracle_manifest_sha256": sha256(oracle_manifest_path),
+            "invalidated_proxy_manifest": str(archive_path),
+            "invalidated_proxy_manifest_sha256": sha256(archive_path),
+        }
+    )
+    proxy = write_product(
+        name="BF_PROXY_RESPONSE_v1",
+        scope="DEVELOPMENT_PROXY_RESPONSE",
+        bright=bright,
+        bright_points_path=args.bright_points,
+        faint_source=faint_source,
+        faint_keep=keep_proxy,
+        output_root=args.output_root,
+        inputs=inputs,
+        response={
+            "fibre_assignment": "ZWARN != 999999 in the staged spectroscopic join",
+            "redshift_success": (
+                "deterministic LOA BGS_FAINT marginal draw by target-selection "
+                "NORTH/SOUTH bit"
+            ),
+            "seed": args.seed,
+            "calibration": calibration,
+            "application_audit": response_audit,
+            "magnitude_conditioning": (
+                "unavailable in zall-pix zcatalog; marginalized over the DESI Faint population"
+            ),
+            "final_selection_photometry": (
+                "not available in current CutSky; this remains a proxy, not final BGS_FAINT"
+            ),
+            "production_eligible": False,
+        },
+        force=True,
+    )
+    summary_path = args.output_root / "catalogue_build_summary.json"
+    summary = json.loads(summary_path.read_text()) if summary_path.exists() else {}
+    summary.update(
+        {
+            "oracle": str(oracle_manifest_path),
+            "oracle_rows": int(oracle_manifest["total_rows"]),
+            "proxy": str(args.output_root / "bf_proxy_response_v1/manifest.json"),
+            "proxy_rows": int(proxy["total_rows"]),
+            "faint_response_calibration": calibration,
+            "proxy_response_application_audit": response_audit,
+            "proxy_repaired_from_oracle": True,
+        }
+    )
+    atomic_json(summary_path, summary)
+    return summary
 
 
 def write_product(
@@ -538,6 +678,13 @@ def write_product(
 
 def main() -> None:
     args = parse_args()
+    if args.repair_proxy_from_oracle:
+        for path in (args.bright_points, args.output_root):
+            if not path.exists():
+                raise FileNotFoundError(path)
+        summary = repair_proxy_from_oracle(args)
+        print(json.dumps(summary, indent=2, sort_keys=True))
+        return
     for path in (
         args.spectroscopic_join,
         args.target_input,
@@ -559,13 +706,9 @@ def main() -> None:
         raise RuntimeError(
             f"{unmatched} observed BGS_FAINT TARGETIDs do not match inputs/targ.fits"
         )
-    faint_points = sky_to_points(faint_source["RA"], faint_source["DEC"], faint_source["RSDZ"])
-    cap = np.asarray(faint_points[:, 3], dtype=np.uint8)
     calibration = calibrate_faint_response(args.zall, args.chunk_rows)
-    probability = np.where(
-        cap == 1,
-        calibration["north"]["pass_probability"],
-        calibration["south"]["pass_probability"],
+    probability, response_audit = faint_response_probability(
+        faint_source["BGS_TARGET"], calibration
     )
     keep_proxy = deterministic_uniform(faint_source["TARGETID"], args.seed) < probability
     inputs = {
@@ -613,6 +756,7 @@ def main() -> None:
             "redshift_success": "deterministic LOA BGS_FAINT marginal draw by target north/south bit",
             "seed": args.seed,
             "calibration": calibration,
+            "application_audit": response_audit,
             "magnitude_conditioning": (
                 "unavailable in zall-pix zcatalog; marginalized over the DESI Faint population"
             ),
