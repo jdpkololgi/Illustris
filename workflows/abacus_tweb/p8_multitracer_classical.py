@@ -25,12 +25,17 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+import sys
 import time
 
 import h5py
 import numpy as np
 import torch
 import torch.nn.functional as F
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from workflows.abacus_tweb.p6_refit_fullcap_selection import build_cap_lookup
 from workflows.abacus_tweb.p8_classical_fullcap import (
