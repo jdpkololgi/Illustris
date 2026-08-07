@@ -26,12 +26,24 @@ run_u() {
     --run-name canary_steps100 --steps 100 --eval-every 100 --loss-log-every 10
 }
 
-{ run_u bf_oracle_assigned_v1 2>&1 \
-    | tee "$logs/p8_mt_u_oracle_rot0_canary_${SLURM_JOB_ID}.log"; } &
-u_oracle_pid=$!
-{ run_u bf_proxy_response_v1 2>&1 \
-    | tee "$logs/p8_mt_u_proxy_rot0_canary_${SLURM_JOB_ID}.log"; } &
-u_proxy_pid=$!
+u_oracle_pid=""
+u_proxy_pid=""
+oracle_u_marker="$root/models/u_patch/bf_oracle_assigned_v1/rotation_0/seed_42/canary_steps100/MULTITRACER_U_PATCH_SCREEN_COMPLETE"
+proxy_u_marker="$root/models/u_patch/bf_proxy_response_v1/rotation_0/seed_42/canary_steps100/MULTITRACER_U_PATCH_SCREEN_COMPLETE"
+if [[ -f "$oracle_u_marker" ]]; then
+  echo "Reusing passed Oracle U-PATCH canary: $oracle_u_marker"
+else
+  { run_u bf_oracle_assigned_v1 2>&1 \
+      | tee "$logs/p8_mt_u_oracle_rot0_canary_${SLURM_JOB_ID}.log"; } &
+  u_oracle_pid=$!
+fi
+if [[ -f "$proxy_u_marker" ]]; then
+  echo "Reusing passed Proxy U-PATCH canary: $proxy_u_marker"
+else
+  { run_u bf_proxy_response_v1 2>&1 \
+      | tee "$logs/p8_mt_u_proxy_rot0_canary_${SLURM_JOB_ID}.log"; } &
+  u_proxy_pid=$!
+fi
 
 while [[ ! -f "$root/MT_CPU_PIPELINE_READY_FOR_RAPIDS" ]]; do
   cpu_job="$(sed -n 's/^job_id=//p' "$root/MT_FIELDS_SELECTION_READY")"
@@ -92,8 +104,10 @@ srun --exact --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=core
 g_proxy_pid=$!
 
 set +e
-wait "$u_oracle_pid"; u_oracle_status=$?
-wait "$u_proxy_pid"; u_proxy_status=$?
+u_oracle_status=0
+u_proxy_status=0
+if [[ -n "$u_oracle_pid" ]]; then wait "$u_oracle_pid"; u_oracle_status=$?; fi
+if [[ -n "$u_proxy_pid" ]]; then wait "$u_proxy_pid"; u_proxy_status=$?; fi
 wait "$g_proxy_pid"; g_proxy_status=$?
 set -e
 if (( u_oracle_status != 0 || u_proxy_status != 0 || g_proxy_status != 0 )); then
