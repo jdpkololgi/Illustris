@@ -204,6 +204,7 @@ def predict_fold(model, adapter, core_ids, device):
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--product", choices=("bf_oracle_assigned_v1", "bf_proxy_response_v1"), required=True)
+    parser.add_argument("--run-name", default="screen")
     parser.add_argument("--rotation", type=int, default=0)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--steps", type=int, default=500)
@@ -223,7 +224,8 @@ def main() -> None:
     rng = np.random.default_rng(args.seed)
 
     output = (
-        MT / "models/u_patch" / args.product / f"rotation_{args.rotation}" / f"seed_{args.seed}"
+        MT / "models/u_patch" / args.product / f"rotation_{args.rotation}"
+        / f"seed_{args.seed}" / args.run_name
     )
     output.mkdir(parents=True, exist_ok=True)
     truth = np.load(args.p8_root / "parent_eigenvalues.npy", mmap_mode="r")

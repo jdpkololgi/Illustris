@@ -37,6 +37,7 @@ ASSIGNMENT = Path("/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/active_ass
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--product", default="bf_proxy_response_v1")
+    parser.add_argument("--run-name", default="screen")
     parser.add_argument("--rotation", type=int, default=0)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--steps", type=int, default=500)
@@ -61,6 +62,7 @@ def main() -> None:
     output = (
         args.root / "models/g_patch" / args.product
         / f"rotation_{args.rotation}" / f"seed_{args.seed}"
+        / args.run_name
     )
     output.mkdir(parents=True, exist_ok=True)
     adapter_root = args.root / "graph" / args.product / "adapter"
