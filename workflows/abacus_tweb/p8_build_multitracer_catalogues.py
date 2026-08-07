@@ -127,6 +127,12 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=DEFAULT_STAGE3 / "loa-v1/mock0/datcomb_bright_tarspecwdup_zdone.fits",
     )
+    parser.add_argument(
+        "--target-input",
+        type=Path,
+        default=DEFAULT_STAGE3 / "inputs/targ.fits",
+        help="Immutable unique target table supplying Faint truth/sky columns.",
+    )
     parser.add_argument("--bright-parent", type=Path, default=DEFAULT_BRIGHT_PARENT)
     parser.add_argument("--bright-points", type=Path, default=DEFAULT_BRIGHT_POINTS)
     parser.add_argument("--bright-index", type=Path, default=DEFAULT_BRIGHT_INDEX)
@@ -223,87 +229,98 @@ def calibrate_faint_response(zall: Path, chunk_rows: int) -> dict:
     return output
 
 
-def _read_faint_candidates(path: Path) -> tuple[np.ndarray, dict]:
-    columns = [
-        "TARGETID",
-        "BGS_TARGET",
-        "R_MAG_APP",
-        "RA",
-        "DEC",
-        "Z_COSMO",
-        "RSDZ",
-        "ZWARN",
-        "FILE_NUM",
-        "BOX_INDEX",
-        "HALO_INDEX",
-        "TILELOCID",
-    ]
+def _read_faint_candidates(path: Path, target_input: Path) -> tuple[np.ndarray, dict]:
+    """Join assignment state onto immutable unique Faint target rows.
+
+    The repeated spectroscopic join is not a truth table: alternate-tile rows can
+    carry fill values in immutable columns. It is used only to establish whether
+    a TARGETID was fibre observed.
+    """
+    assignment_columns = ["TARGETID", "BGS_TARGET", "ZWARN", "TILELOCID"]
     with fitsio.FITS(str(path), "r") as handle:
         hdu = handle[1]
-        missing = set(columns).difference(_column_names(hdu))
+        missing = set(assignment_columns).difference(_column_names(hdu))
         if missing:
             raise KeyError(f"spectroscopic join lacks required columns: {sorted(missing)}")
-        table = hdu.read(columns=columns)
+        assignment = hdu.read(columns=assignment_columns)
+    assignment_target = np.asarray(assignment["BGS_TARGET"], dtype=np.int64)
+    assignment_faint = (assignment_target & FAINT_BITS) != 0
+    assignment_bright = (assignment_target & BRIGHT_BITS) != 0
+    if np.any(assignment_faint & assignment_bright):
+        raise RuntimeError("spectroscopic join contains ambiguous Bright/Faint rows")
+    assignment_source_row = np.flatnonzero(assignment_faint).astype(np.int64)
+    assignment = assignment[assignment_faint]
+    observed = np.asarray(assignment["ZWARN"], dtype=np.int64) != SENTINEL_ZWARN
+    tileloc = np.asarray(assignment["TILELOCID"], dtype=np.int64)
+    order = np.lexsort(
+        (assignment_source_row, tileloc, ~observed, assignment["TARGETID"])
+    )
+    assignment = assignment[order]
+    assignment_source_row = assignment_source_row[order]
+    assignment_targetid = np.asarray(assignment["TARGETID"], dtype=np.int64)
+    first = np.r_[True, assignment_targetid[1:] != assignment_targetid[:-1]]
+    assignment = assignment[first]
+    assignment_source_row = assignment_source_row[first]
+    assignment_observed = (
+        np.asarray(assignment["ZWARN"], dtype=np.int64) != SENTINEL_ZWARN
+    )
+    observed_id = np.asarray(assignment["TARGETID"][assignment_observed], dtype=np.int64)
+    observed_source_row = assignment_source_row[assignment_observed]
+    observed_order = np.argsort(observed_id)
+    observed_id = observed_id[observed_order]
+    observed_source_row = observed_source_row[observed_order]
+
+    truth_columns = [
+        "TARGETID", "BGS_TARGET", "R_MAG_APP", "RA", "DEC", "Z_COSMO",
+        "RSDZ", "ZWARN", "FILE_NUM", "BOX_INDEX", "HALO_INDEX",
+    ]
+    with fitsio.FITS(str(target_input), "r") as handle:
+        hdu = handle[1]
+        missing = set(truth_columns).difference(_column_names(hdu))
+        if missing:
+            raise KeyError(f"target input lacks required columns: {sorted(missing)}")
+        table = hdu.read(columns=truth_columns)
     target = np.asarray(table["BGS_TARGET"], dtype=np.int64)
     faint = (target & FAINT_BITS) != 0
     bright = (target & BRIGHT_BITS) != 0
-    ambiguous = faint & bright
-    if np.any(ambiguous):
-        raise RuntimeError(f"{int(np.count_nonzero(ambiguous))} rows have both tracer classes")
-    source_row = np.flatnonzero(faint).astype(np.int64)
+    if np.any(faint & bright):
+        raise RuntimeError("target input contains ambiguous Bright/Faint rows")
     table = table[faint]
-    observed = np.asarray(table["ZWARN"], dtype=np.int64) != SENTINEL_ZWARN
-    tileloc = np.asarray(table["TILELOCID"], dtype=np.int64)
-    order = np.lexsort((source_row, tileloc, ~observed, table["TARGETID"]))
-    ordered = table[order]
-    ordered_source = source_row[order]
-    targetid = np.asarray(ordered["TARGETID"], dtype=np.int64)
-
-    duplicate = targetid[1:] == targetid[:-1]
-    if np.any(duplicate):
-        immutable_checks = {
-            "RA": 1.0e-9,
-            "DEC": 1.0e-9,
-            "Z_COSMO": 1.0e-9,
-            "RSDZ": 1.0e-9,
-        }
-        for name, tolerance in immutable_checks.items():
-            difference = np.abs(
-                np.asarray(ordered[name][1:], dtype=np.float64)
-                - np.asarray(ordered[name][:-1], dtype=np.float64)
-            )
-            if np.any(duplicate & (difference > tolerance)):
-                maximum = float(np.max(difference[duplicate]))
-                raise RuntimeError(
-                    f"repeated TARGETID disagrees in {name}; max difference={maximum}"
-                )
-        for name in ("FILE_NUM", "BOX_INDEX", "HALO_INDEX", "BGS_TARGET"):
-            mismatch = np.asarray(ordered[name][1:]) != np.asarray(ordered[name][:-1])
-            if np.any(duplicate & mismatch):
-                raise RuntimeError(f"repeated TARGETID disagrees in immutable {name}")
-    first = np.r_[True, targetid[1:] != targetid[:-1]]
-    unique = ordered[first]
-    unique_source = ordered_source[first]
-    observed_unique = np.asarray(unique["ZWARN"], dtype=np.int64) != SENTINEL_ZWARN
-    finite = (
-        np.isfinite(np.asarray(unique["RSDZ"], dtype=np.float64))
-        & (np.asarray(unique["RSDZ"], dtype=np.float64) > 0)
+    targetid = np.asarray(table["TARGETID"], dtype=np.int64)
+    if len(np.unique(targetid)) != len(targetid):
+        raise RuntimeError("Faint target input TARGETID is not unique")
+    target_order = np.argsort(targetid)
+    targetid_sorted = targetid[target_order]
+    position = np.searchsorted(targetid_sorted, observed_id)
+    matched = (
+        (position < len(targetid_sorted))
+        & (targetid_sorted[np.minimum(position, len(targetid_sorted) - 1)] == observed_id)
     )
-    eligible = observed_unique & finite
+    unique = table[target_order[position[matched]]]
+    unique_source = observed_source_row[matched]
+    finite = np.isfinite(np.asarray(unique["RSDZ"], dtype=np.float64)) & (
+        np.asarray(unique["RSDZ"], dtype=np.float64) > 0
+    )
+    unique = unique[finite]
+    unique_source = unique_source[finite]
     audit = {
-        "source_rows": int(len(target)),
-        "faint_repeated_rows": int(len(table)),
-        "faint_unique_rows": int(len(unique)),
-        "duplicate_rows_removed": int(len(table) - len(unique)),
-        "fibre_observed_unique": int(np.count_nonzero(observed_unique)),
-        "finite_positive_rsdz_unique": int(np.count_nonzero(finite)),
-        "eligible_oracle_unique": int(np.count_nonzero(eligible)),
+        "spectroscopic_join_rows": int(len(assignment_target)),
+        "faint_repeated_assignment_rows": int(np.count_nonzero(assignment_faint)),
+        "faint_unique_assignment_ids": int(len(assignment)),
+        "fibre_observed_unique_assignment_ids": int(len(observed_id)),
+        "target_input_rows": int(len(target)),
+        "faint_unique_target_rows": int(len(table)),
+        "observed_ids_matched_to_target_input": int(np.count_nonzero(matched)),
+        "observed_ids_unmatched_to_target_input": int(np.count_nonzero(~matched)),
+        "finite_positive_rsdz_matched": int(len(unique)),
+        "eligible_oracle_unique": int(len(unique)),
         "deduplication": (
-            "TARGETID; prefer fibre-observed, then smallest TILELOCID, then earliest source row"
+            "assignment state only: TARGETID; prefer fibre-observed, then smallest "
+            "TILELOCID, then earliest source row; immutable values come from target input"
         ),
     }
     return rfn.append_fields(
-        unique[eligible], "SOURCE_ROW", unique_source[eligible], usemask=False
+        unique, "SOURCE_ROW", unique_source, usemask=False
     ), audit
 
 
@@ -523,6 +540,7 @@ def main() -> None:
     args = parse_args()
     for path in (
         args.spectroscopic_join,
+        args.target_input,
         args.bright_parent,
         args.bright_points,
         args.bright_index,
@@ -533,7 +551,14 @@ def main() -> None:
     args.output_root.mkdir(parents=True, exist_ok=True)
 
     bright, _ = _read_bright(args.bright_parent, args.bright_index)
-    faint_source, dedup_audit = _read_faint_candidates(args.spectroscopic_join)
+    faint_source, dedup_audit = _read_faint_candidates(
+        args.spectroscopic_join, args.target_input
+    )
+    unmatched = dedup_audit["observed_ids_unmatched_to_target_input"]
+    if unmatched:
+        raise RuntimeError(
+            f"{unmatched} observed BGS_FAINT TARGETIDs do not match inputs/targ.fits"
+        )
     faint_points = sky_to_points(faint_source["RA"], faint_source["DEC"], faint_source["RSDZ"])
     cap = np.asarray(faint_points[:, 3], dtype=np.uint8)
     calibration = calibrate_faint_response(args.zall, args.chunk_rows)
@@ -546,6 +571,8 @@ def main() -> None:
     inputs = {
         "spectroscopic_join": str(args.spectroscopic_join),
         "spectroscopic_join_sha256": sha256(args.spectroscopic_join),
+        "target_input": str(args.target_input),
+        "target_input_sha256": sha256(args.target_input),
         "bright_parent": str(args.bright_parent),
         "bright_parent_sha256": sha256(args.bright_parent),
         "bright_points": str(args.bright_points),
