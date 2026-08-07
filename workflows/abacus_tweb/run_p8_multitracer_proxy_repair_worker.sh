@@ -21,7 +21,7 @@ export PYTHONNOUSERSITE=1
 run_stage() {
   local name="$1"
   shift
-  srun --jobid="$job_id" --exact --exclusive --nodes=1 --ntasks=1 \
+  srun --jobid="$job_id" --overlap --exact --nodes=1 --ntasks=1 \
     --cpus-per-task=32 env -u PYTHONPATH -u PYTHONHOME -u PYTHONUSERBASE \
     -u LD_PRELOAD "$@" 2>&1 | tee "$logs/p8_mt_proxy_${name}_${job_id}.log"
 }
