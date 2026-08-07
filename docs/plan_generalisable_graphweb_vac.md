@@ -1483,7 +1483,7 @@ replication and P10 fresh-phase transfer remain mandatory before production prom
 
 #### P8.8 BGS_FAINT multitracer information gate
 
-**Status:** IMPLEMENTATION ACTIVE; MT1 RUNNING; MT2 AND USER-AUTHORIZED MT5 PRECOMPUTE QUEUED; NO MODEL PROMOTED
+**Status:** MT1--MT3 COMPLETE; MT4 ROTATION 0 RUNNING; MT5 TECHNICALLY READY BUT FULL TRAINING GATED; NO MODEL PROMOTED
 
 Implementation checklist (2026-08-07):
 
@@ -1504,8 +1504,14 @@ Implementation checklist (2026-08-07):
   them.
 - [x] Implement the response-aware global Bright+Faint graph, P5-compatible adapter,
   and ten-feature GraphNet contract with globally computed graph metrics.
-- [ ] Stamp the Proxy graph, cuGraph metrics, adapter, and feature transform under
-  `/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/graph/`.
+- [x] Stamp the PHOTSYS-marginal Proxy graph, cuGraph metrics, adapter, and feature
+  transform under
+  `/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/graph/bf_proxy_response_v1_photsys_marginal/`.
+  The disconnected NGC+SGC product contains `12,771,280` nodes, `92,674,381`
+  Delaunay edges, `79,902,716` tetrahedra, and `299,551,997` union pairs. The
+  production-shape adapter is exact on CPU to `4.77e-7`; GPU prediction/subdivision
+  differences of `5.66e-4/1.13e-3` are retained as an amber round-off diagnostic,
+  not relabelled as exact parity.
 - [x] Implement the six-channel U-PATCH and ten-node-feature G-PATCH canary entrypoints,
   both with Bright-only target/loss ownership.
 - [x] Complete the Oracle U-PATCH canary under
@@ -1513,16 +1519,43 @@ Implementation checklist (2026-08-07):
 - [x] Complete the PHOTSYS-marginal Proxy U-PATCH canary under
   `models/u_patch/bf_proxy_response_v1/rotation_0/seed_42/canary_photsys_marginal_steps100/`;
   it covers all 999,683 Bright validation targets and is a technical diagnostic only.
-- [ ] Complete the Proxy G-PATCH canary after the global graph, cuGraph metrics,
-  radius-union adapter, and ten-feature transform pass; this remains a loader and
-  optimization diagnostic, not a promotion run.
-- [ ] Complete MT2 information diagnostics and MT3 matched classical controls before
-  interpreting any neural gain or opening a full training screen.
+- [x] Complete the PHOTSYS-marginal Proxy G-PATCH canary under
+  `models/g_patch/bf_proxy_response_v1/rotation_0/seed_42/canary_photsys_marginal_steps100/`;
+  its macro `R2_lambda1=0.27045` is a loader/optimization diagnostic, not a promotion result.
+- [x] Complete MT2 information diagnostics and MT3 matched classical controls. The
+  tracked summary is `docs/evidence/p8/multitracer_mt3_summary.json`; the information
+  audit is `/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/diagnostics/bf_proxy_response_v1/information_audit.json`.
+
+Completed preflight interpretation (2026-08-07):
+
+- MT2 raises high-redshift occupied-voxel fractions from `1.18% -> 4.87%` in NGC
+  and `1.08% -> 4.33%` in SGC and reduces mean separation from `42.30 -> 25.56`
+  and `43.45 -> 26.47 Mpc`; this proves more measurements, not better inference.
+- Combined Bright+Faint CIC reaches macro `R2_lambda1=0.4591/0.4470` on rotations
+  0/2, but the angularly scrambled-Faint null already reaches `0.4449/0.4325`.
+  The genuine-position increment is only `+0.0143/+0.0145`.
+- Density-matched mixed controls average only `0.1024/0.1082`; per tracer, the
+  Bright population remains more informative. Any neural Proxy gain must therefore
+  survive a matched `U-BF-NULL-v1` run before being attributed to extra structure.
+- A representative one-core U-PATCH overfit reduces the loss-window mean from
+  `0.37727` to `1.0148e-4`. The interrupted-and-resumed epoch canary visits all
+  `10,351/10,351` eligible cores exactly once, with zero repeats, all shells, and
+  complete validation; its tracked summary is
+  `docs/evidence/p8/multitracer_mt4_canary_rot0_summary.json`.
+- The first MT3 evaluation correctly withheld completion after tiny affine-induced
+  eigenvalue crossings. Commit `4556317` restores order after train-fitted affine
+  calibration; all eight gates then pass without using validation truth.
+
+This evidence opens the primary MT4 U-PATCH screen. It does not open rotation 2,
+full G-PATCH training, model adoption, or a claim that Faint traces additional cosmic
+structure.
 
 The active entrypoints are `workflows/abacus_tweb/p8_build_multitracer_catalogues.py`,
 `p8_build_multitracer_fields.py`, `p8_refit_multitracer_selection.py`,
 `p8_build_multitracer_graph_adapter.py`, `p8_prepare_multitracer_graph_features.py`,
-`p8_train_multitracer_unet_patch.py`, and `p8_train_multitracer_graph_patch.py`.
+`p8_build_multitracer_control_fields.py`, `p8_evaluate_multitracer_controls.py`,
+`p8_train_multitracer_unet_patch.py`, `p8_train_multitracer_graph_patch.py`,
+`p8_train_patch_recovery.py`, and `run_p8_multitracer_recovery_supervisor.sh`.
 
 The current plateau and the sparse-shell behaviour motivate a data-information test
 before another encoder sweep. This branch asks whether an additional observed tracer
@@ -1733,13 +1766,19 @@ optimization diagnostic but cannot replace the from-scratch comparison.
 
 Open MT4 in stages:
 
-1. One-core overfit for `U-BF-PROXY-v1`.
-2. One complete rotation-0 epoch with exact exposure/resume/parity checks.
-3. Rotation 0 for 20 epochs.
-4. Launch rotation 2 only if rotation 0 shows either `+0.02` macro or `+0.03` sparse-
-   shell improvement without a `>0.01` supported-shell loss.
-5. Extend only if the best checkpoint is in the final three epochs and learning rate
-   has not already reached zero; never infer convergence solely from the last epoch.
+- [x] One-core overfit for `U-BF-PROXY-v1`; the representative-core optimization
+  gate passes by more than 99.97% loss-window reduction.
+- [x] One complete rotation-0 epoch with exact exposure/resume/parity checks; all
+  `10,351` cores are visited exactly once and complete-fold validation passes.
+- [ ] Run rotation 0 for 20 epochs from immutable commit `4556317`. **RUNNING** in
+  tmux `p8_mt4_unet`, allocation `56471082`; outputs are under
+  `/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/models/recovery/mt4_proxy_v1/unet_multitracer/rotation_0/seed_42/`.
+- [ ] Launch rotation 2 only if rotation 0 improves either macro R2 by `>=0.02` or
+  sparse-shell R2 by `>=0.03`, with no first-three-shell loss worse than `0.01`.
+- [ ] If the Proxy screen passes, run the matched `U-BF-NULL-v1` neural control before
+  adoption or any claim that Faint positions add recoverable cosmic structure.
+- [ ] Extend only if the best checkpoint is in the final three epochs and learning
+  rate has not already reached zero; never infer convergence solely from the last epoch.
 
 Adoption requires, on both rotations:
 

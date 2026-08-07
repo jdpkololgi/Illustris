@@ -1,5 +1,66 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-07 — [science/code/runtime] MT2/MT3 close; exact-resume MT4 rotation-0 training launched
+
+The BGS_BRIGHT-target/BGS_FAINT-context branch has crossed its last pre-training
+gates. The frozen scientific contract is unchanged: only the original `9,538,254`
+Bright galaxies own targets, loss, validation, or future catalogue rows; the
+`3,233,026` PHOTSYS-marginal Proxy Faint galaxies are observation context only.
+
+MT2 confirms that the intervention is large in sampling terms. In the highest
+redshift shell, occupied-voxel fraction rises from `1.18% -> 4.87%` in NGC and
+`1.08% -> 4.33%` in SGC; mean tracer separation falls from `42.30 -> 25.56` and
+`43.45 -> 26.47 Mpc`, respectively. The approximate Poisson shot-noise ratio is
+`0.22`. This establishes a real increase in measurements, not improved tidal
+inference by itself. The audit is
+`/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/diagnostics/bf_proxy_response_v1/information_audit.json`.
+
+The complete MT3 control suite now passes on rotations 0/2. Combined Bright+Faint
+CIC reaches macro `R2_lambda1 = 0.4591/0.4470`, compared with frozen Bright-only
+CIC `0.2005/0.1694`. That large difference is **not** evidence that Faint positions
+recover comparable extra cosmic-web information: Bright plus angularly scrambled
+Faint reaches `0.4449/0.4325`. The genuine-position increment over the matched null
+is only `+0.0143/+0.0145`. Density-matched mixed catalogues score only
+`0.1024/0.1082` on average, and the simple bias-aware estimator fails badly in the
+sparse shell. The correct interpretation is that the classical gain is dominated by
+extra-sampling shrinkage/selection regularization; transferable Faint structural
+information remains unproven. Consequently, any neural Proxy gain must be compared
+with `U-BF-NULL-v1`, not only with `U-B-v1`.
+
+The first MT3 pass correctly withheld its marker because independent training-fold
+affine maps crossed for `3--6e-6` of nearly degenerate spectra. Commit `4556317`
+restores ascending order after affine calibration without changing the spectrum or
+reading validation labels. Eight targeted tests pass. The corrected run stamps
+`classical/mt3_complete/MT3_MULTITRACER_CLASSICAL_COMPLETE`; durable evidence is
+`docs/evidence/p8/multitracer_mt3_summary.json`.
+
+MT4 preflight also passes:
+
+- repeated training on representative core `9009` reduced the loss-window mean from
+  `0.37727` to `1.0148e-4` over 200 updates, demonstrating that the six-channel
+  representation and optimizer can deliberately fit one patch;
+- the epoch-aware canary was deliberately interrupted after an atomic checkpoint and
+  resumed from the same immutable revision; its loss trace is strictly increasing with
+  no duplicate cursors;
+- it visited all `10,351/10,351` eligible training cores exactly once, with zero
+  repeats, represented every shell, and evaluated the complete validation fold;
+- the one-epoch macro `R2_lambda1=0.3994` and sparse-shell `R2=0.3552` are plumbing
+  diagnostics, not model-selection results.
+
+The canary summary is `docs/evidence/p8/multitracer_mt4_canary_rot0_summary.json`.
+The frozen 20-epoch `U-BF-PROXY-v1` rotation-0 screen is now active in tmux
+`p8_mt4_unet`, interactive allocation `56471082` on `nid008268`, from detached
+worktree `/global/u2/d/dkololgi/TNG/Illustris_mt4_4556317`. Runtime outputs are under
+`/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/models/recovery/mt4_proxy_v1/`;
+the exact-resume supervisor log is
+`/pscratch/sd/d/dkololgi/logs/p8_mt4_proxy_v1_unet_multitracer_rot0_supervisor.log`.
+
+No model is promoted. Rotation 2 remains closed until rotation 0 improves either
+macro R2 by `>=0.02` or sparse-shell R2 by `>=0.03` without a supported-shell loss
+worse than `0.01`. Full G-PATCH training remains closed. If the Proxy screen passes,
+the matched neural Faint-position null becomes mandatory before adoption or a claim
+that Faint traces additional cosmic structure.
+
 ### 2026-08-07 — [science/code/runtime] Faint response corrected to explicit PHOTSYS-marginal Proxy
 
 A response-provenance audit invalidated the first `BF_PROXY_RESPONSE_v1` branch before

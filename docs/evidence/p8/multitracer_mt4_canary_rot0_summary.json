@@ -1,0 +1,168 @@
+{
+  "arguments": {
+    "assignment": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/active_assignment.npz",
+    "backbone_checkpoint": null,
+    "canary": true,
+    "checkpoint_every": 250,
+    "device": "cuda",
+    "disable_early_stopping": false,
+    "dropout": 0.1,
+    "epoch_seed_offset": 0,
+    "epochs": 1,
+    "git_revision": "eb09c88e373f3115dcc2629e65014038d948a06b",
+    "heads": 8,
+    "lambda1_max_sigma": 1.0,
+    "latent_size": 80,
+    "loss_log_every": 25,
+    "lr": 0.002,
+    "min_delta": 0.005,
+    "min_epochs": 1,
+    "model": "unet_multitracer",
+    "multitracer_graph_product": "bf_proxy_response_v1_photsys_marginal",
+    "multitracer_product": "bf_proxy_response_v1",
+    "multitracer_root": "/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1",
+    "output_root": "/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/models/recovery",
+    "p5_root": "/pscratch/sd/d/dkololgi/abacus/p5_graph_patch_adapter",
+    "p8_root": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1",
+    "patience": 3,
+    "resume": true,
+    "rotation": 0,
+    "run_name": "mt4_proxy_canary_v1",
+    "seed": 42,
+    "selection": "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/fullcap_selection_v1/selection_manifest.json",
+    "unet_adapter": "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter",
+    "unet_base": 24,
+    "unet_latent_channels": 32,
+    "validation_group_cores": 8,
+    "warm_start_checkpoint": null
+  },
+  "assignment": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/active_assignment.npz",
+  "assignment_sha256": "c95a683184a9bd7edc218036e05a0f4b077224cddc525ef54e489e273459f08f",
+  "backbone_start": null,
+  "best_epoch": 1,
+  "best_primary_macro_r2_lambda1": 0.39937448936168185,
+  "canary": true,
+  "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/models/recovery/mt4_proxy_canary_v1/unet_multitracer/rotation_0/seed_42/recovery_checkpoint.pt",
+  "checkpoint_zero_parity": null,
+  "cic_anchor": null,
+  "elapsed_seconds": 1730.263095855713,
+  "eligible_training_cores": 10351,
+  "epochs": 1,
+  "epochs_completed": 1,
+  "extension_delta_from_parent": null,
+  "git_revision": "eb09c88e373f3115dcc2629e65014038d948a06b",
+  "global_steps": 10351,
+  "history": [
+    {
+      "effective_epoch": 1,
+      "elapsed_seconds": 1730.178305864334,
+      "eligible_cores": 10351,
+      "epoch": 1,
+      "global_step": 10351,
+      "learning_rate": 0.0,
+      "per_shell_lambda1_r2": {
+        "0p15_0p25": 0.43530286834583154,
+        "0p25_0p35": 0.4559382519480335,
+        "0p35_0p45": 0.3511060469021722,
+        "0p45_0p55": 0.3551507902506902
+      },
+      "primary_macro_r2_lambda1": 0.39937448936168185,
+      "repeat_cores": 0,
+      "training_loss_numerator": 2447.119976051745,
+      "training_loss_numerator_by_shell": [
+        987.3069550583677,
+        780.2264467632585,
+        475.32209381852226,
+        204.2644810788588
+      ],
+      "training_rows_by_shell": [
+        1668208,
+        998471,
+        319511,
+        37334
+      ],
+      "training_weight_denominator": 3049.2995516370283,
+      "training_weight_denominator_by_shell": [
+        1291.5912062060088,
+        999.2352610093076,
+        565.253072472522,
+        193.2200906565413
+      ],
+      "training_weighted_mse": 0.8025187209757727,
+      "training_weighted_mse_by_shell": [
+        0.7644113325597327,
+        0.7808235729943791,
+        0.8409013890705186,
+        1.057159637927867
+      ],
+      "unique_core_fraction": 1.0,
+      "unique_cores_seen": 10351,
+      "validation": {
+        "all_rows_scaled_mse": 0.7875913335235616,
+        "per_shell_scaled_mse": {
+          "0": 0.7562702517132207,
+          "1": 0.7807479711868341,
+          "2": 0.9409465458570085,
+          "3": 1.0275120748183502
+        }
+      }
+    }
+  ],
+  "maximum_cuda_memory_bytes": 1565092864,
+  "mean_core_weight": 0.29458985138025584,
+  "min_delta": 0.005,
+  "min_epochs": 1,
+  "model": "unet_multitracer",
+  "multitracer_inputs": {
+    "channels": [
+      "bright_counts",
+      "bright_density_proxy",
+      "bright_exposure",
+      "faint_counts",
+      "faint_density_proxy",
+      "faint_exposure"
+    ],
+    "field_manifest": "/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/fields/bf_proxy_response_v1/manifest.json",
+    "field_manifest_sha256": "df16f50438034f565aeeb0d5d024aa50d2b145da9f3a2df02da6b900cd8a9aaa",
+    "product": "bf_proxy_response_v1",
+    "selection_manifest": "/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/selection/bf_proxy_response_v1/multitracer_selection_manifest.json",
+    "selection_manifest_sha256": "4780ea9c61734c2c66a284422ff99c0e0bcccb7786f4dbd86e0bb5e4cb2feea6",
+    "supervision": "frozen BGS_BRIGHT targets only; BGS_FAINT context-only"
+  },
+  "objective": "complete-core epoch; sum(w_i mse_i)/mean(training core weight)",
+  "patience": 3,
+  "resume": true,
+  "roles": {
+    "development_authoritative_rows": 1003656,
+    "development_test_fold": 0,
+    "loss": "weighted mean over authoritative core rows only",
+    "patch_sampling": "probability proportional to sum of N_s^-0.5 core weights",
+    "rotation": 0,
+    "target_scaler": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/rotation_0/target_scaler.json",
+    "target_scaler_sha256": "ae4b653df52f173610484319698346e2b9405fcd25ab1c1936ca71ebc33b57b9",
+    "train_authoritative_rows": 3023524,
+    "train_folds": [
+      2,
+      3,
+      4
+    ],
+    "training_cores": 10351,
+    "training_shell_counts": {
+      "0p15_0p25": 1668208,
+      "0p25_0p35": 998471,
+      "0p35_0p45": 319511,
+      "0p45_0p55": 37334
+    },
+    "validation_authoritative_rows": 999683,
+    "validation_cores": 3446,
+    "validation_fold": 1
+  },
+  "rotation": 0,
+  "sampler": "deterministic probability-proportional-to-core-weight permutation; without replacement; 100% eligible cores per completed epoch",
+  "schema_version": 1,
+  "seed": 42,
+  "stage": "MT4/MT5 multitracer exposure-aware recovery",
+  "status": "CANARY_COMPLETE",
+  "validation_cores": 3446,
+  "warm_start": null
+}

@@ -1,0 +1,195 @@
+{
+  "bright_only_cic_reference": {
+    "path": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/classical/classical_summary.json",
+    "primary_score_by_rotation": [
+      0.20049075752715556,
+      0.169444441651033
+    ],
+    "sha256": "af730f7f645873c85f15fd9e0ed8ca4255a86892d2ed5efc2cd8488a2d8d5475"
+  },
+  "created_utc": "2026-08-07T22:23:50.880730+00:00",
+  "diagnostics": {
+    "faint_position_null_minus_bright_cic_by_rotation": [
+      0.24439874521708044,
+      0.26307466415150627
+    ],
+    "full_combined_cic_minus_bright_cic_by_rotation": [
+      0.2586574186325496,
+      0.2775450286312545
+    ],
+    "full_combined_cic_minus_thin_mean_by_rotation": [
+      0.3567767484825846,
+      0.3387781590074762
+    ],
+    "interpretation_contract": {
+      "full_minus_thin": "increment attributable to extra sampling density beyond a density-matched mixed population",
+      "null_minus_bright": "shortcut/selection diagnostic; must not reproduce the real-Faint gain",
+      "thin_minus_bright": "population-mix effect at fixed total tracer count"
+    },
+    "thin_score_mean_by_rotation": [
+      0.10237142767712056,
+      0.10821131127481132
+    ],
+    "thin_score_std_by_rotation": [
+      0.016755162355878185,
+      0.0023436918290552573
+    ]
+  },
+  "estimators": {
+    "bias_aware_tsc": {
+      "first_three_score_by_rotation": [
+        0.5641471654878183,
+        0.5648636702173319
+      ],
+      "primary_score_by_rotation": [
+        0.29450477351813176,
+        0.2861122336545168
+      ],
+      "primary_score_mean": 0.2903085035863243
+    },
+    "bright_tsc": {
+      "first_three_score_by_rotation": [
+        0.522014067797352,
+        0.519544686228066
+      ],
+      "primary_score_by_rotation": [
+        0.2104851916799313,
+        0.18006794699342232
+      ],
+      "primary_score_mean": 0.1952765693366768
+    },
+    "combined_tsc": {
+      "first_three_score_by_rotation": [
+        0.5719713736358613,
+        0.5727115858695687
+      ],
+      "primary_score_by_rotation": [
+        0.4616640177742089,
+        0.45041566846675024
+      ],
+      "primary_score_mean": 0.45603984312047957
+    },
+    "faint_position_null_cic": {
+      "first_three_score_by_rotation": [
+        0.557624846823732,
+        0.5547620287281249
+      ],
+      "primary_score_by_rotation": [
+        0.444889502744236,
+        0.43251910580253927
+      ],
+      "primary_score_mean": 0.43870430427338764
+    },
+    "thin_seed17_cic": {
+      "first_three_score_by_rotation": [
+        0.4943102249268696,
+        0.49620236134630796
+      ],
+      "primary_score_by_rotation": [
+        0.08304854195343148,
+        0.11091488339945532
+      ],
+      "primary_score_mean": 0.0969817126764434
+    },
+    "thin_seed2718_cic": {
+      "first_three_score_by_rotation": [
+        0.4966892818500572,
+        0.4935259062684514
+      ],
+      "primary_score_by_rotation": [
+        0.1128725318122038,
+        0.10675505170045729
+      ],
+      "primary_score_mean": 0.10981379175633055
+    },
+    "thin_seed42_cic": {
+      "first_three_score_by_rotation": [
+        0.4949068254722347,
+        0.4940369499525901
+      ],
+      "primary_score_by_rotation": [
+        0.1111932092657264,
+        0.10696399872452134
+      ],
+      "primary_score_mean": 0.10907860399512387
+    }
+  },
+  "full_multitracer_cic_reference": {
+    "path": "/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/classical/mt3a_cic/summary.json",
+    "primary_score_by_rotation": [
+      0.45914817615970516,
+      0.4469894702822875
+    ],
+    "sha256": "1dc16ffd4d49e800414da2903b8790f41a79b4fd856ba0e9c3e688408f6b36c3"
+  },
+  "gates": {
+    "all_estimators_complete_bright_fold": true,
+    "all_estimators_finite": true,
+    "faint_labels_never_used": true,
+    "field_controls_passed": true,
+    "three_density_matched_seeds": true,
+    "training_only_affine_and_bias_fit": true,
+    "two_registered_rotations": true,
+    "zero_ordering_violations": true
+  },
+  "input_records": {
+    "assignment": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/active_assignment.npz",
+      "sha256": "c95a683184a9bd7edc218036e05a0f4b077224cddc525ef54e489e273459f08f"
+    },
+    "bright_selection": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/fullcap_selection_v1/selection_manifest.json",
+      "sha256": "4f31078f5b61c808610bb48a6c8cc8f1ad9a597778e3fa71e7adae8eb950c977"
+    },
+    "control_fields": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/classical/control_fields/bf_proxy_response_v1/manifest.json",
+      "sha256": "c03c1abd10b188e76890d681b545b3d41dc1261293ec537aa3fe50e4eb9002f4"
+    },
+    "cores": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/cores.npz",
+      "sha256": "430e1ee7c3426c1f97468caaee77c217680dcb8e0ef993949d8f7a0e6568571b"
+    },
+    "mt3a_summary": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/classical/mt3a_cic/summary.json",
+      "sha256": "1dc16ffd4d49e800414da2903b8790f41a79b4fd856ba0e9c3e688408f6b36c3"
+    },
+    "mt_fields": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/fields/bf_proxy_response_v1/manifest.json",
+      "sha256": "df16f50438034f565aeeb0d5d024aa50d2b145da9f3a2df02da6b900cd8a9aaa"
+    },
+    "mt_selection": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/selection/bf_proxy_response_v1/multitracer_selection_manifest.json",
+      "sha256": "4780ea9c61734c2c66a284422ff99c0e0bcccb7786f4dbd86e0bb5e4cb2feea6"
+    },
+    "p3_manifest": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/field_manifest.json",
+      "sha256": "3f0fc7ba8e42c3004b9cc6969de76a44ce217f0a736dc2dd473ef2176371ca0d"
+    },
+    "p4_manifest": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/spatial_manifest.json",
+      "sha256": "ab6900b4f2d47ba8feda73a66631114be9557c76ed7c13c5e6aed70e563393a5"
+    },
+    "points": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_points.npy",
+      "sha256": "32a1cbf11e90f9684c244b15bd35a59acc7905eb8a5d79fb464d1c9169671fde"
+    },
+    "rotations": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/rotations.json",
+      "sha256": "0ef521a7d45101aa759790b593d1e81e4c3b644e069b4cc790097382661fc4fb"
+    }
+  },
+  "neural_training_unlocked": true,
+  "pass": true,
+  "product": "bf_proxy_response_v1",
+  "rotation_reports": [
+    "/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/classical/mt3b_controls/rotation_0/rotation_report.json",
+    "/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/classical/mt3b_controls/rotation_2/rotation_report.json"
+  ],
+  "schema_version": "p8-mt3-complete-summary-v1",
+  "screen_rotations": [
+    0,
+    2
+  ],
+  "stage": "MT3 matched classical information controls",
+  "status": "complete"
+}
