@@ -18,7 +18,7 @@ export PYTHONNOUSERSITE=1
 
 run_u() {
   local product_name="$1"
-  srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=24 \
+  srun --exclusive --nodes=1 --ntasks=1 --cpus-per-task=24 \
     --gpus-per-task=1 --cpu-bind=cores \
     env -u PYTHONPATH -u PYTHONHOME -u PYTHONUSERBASE -u LD_PRELOAD \
     "$cosmic" -u -m workflows.abacus_tweb.p8_train_multitracer_unet_patch \
@@ -42,12 +42,12 @@ while [[ ! -f "$root/MT_CPU_PIPELINE_READY_FOR_RAPIDS" ]]; do
   sleep 30
 done
 
-srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=32 \
+srun --exclusive --nodes=1 --ntasks=1 --cpus-per-task=32 \
   --gpus-per-task=1 --cpu-bind=cores \
   env -u PYTHONPATH -u PYTHONHOME -u PYTHONUSERBASE -u LD_PRELOAD \
   "$rapids" -c 'import cupy, cudf, cugraph; print(cupy.cuda.runtime.getDeviceCount())'
 
-srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=32 \
+srun --exclusive --nodes=1 --ntasks=1 --cpus-per-task=32 \
   --gpus-per-task=1 --cpu-bind=cores \
   env -u PYTHONPATH -u PYTHONHOME -u PYTHONUSERBASE -u LD_PRELOAD \
   "$rapids" -u -m workflows.abacus_tweb.abacus_graph_features_cugraph \
@@ -58,7 +58,7 @@ srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=32 \
   2>&1 | tee "$logs/p8_mt_cugraph_${SLURM_JOB_ID}.log"
 
 mkdir -p "$radius_dir"
-srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=cores \
+srun --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=cores \
   env -u PYTHONPATH -u PYTHONHOME -u PYTHONUSERBASE -u LD_PRELOAD \
   "$cosmic" -u -m workflows.abacus_tweb.p2b_build_full_radius_union \
   --graph-dir "$graph_dir" --prefix bf_proxy_delaunay \
@@ -67,7 +67,7 @@ srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=co
   2>&1 | tee "$logs/p8_mt_radius_union_${SLURM_JOB_ID}.log"
 
 mkdir -p "$adapter_dir"
-srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=cores \
+srun --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=cores \
   env -u PYTHONPATH -u PYTHONHOME -u PYTHONUSERBASE -u LD_PRELOAD \
   "$cosmic" -u -m workflows.abacus_tweb.p8_build_multitracer_graph_adapter \
   --graph-dir "$graph_dir" --prefix bf_proxy_delaunay \
@@ -76,13 +76,13 @@ srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=co
   --out-dir "$adapter_dir" \
   2>&1 | tee "$logs/p8_mt_graph_adapter_${SLURM_JOB_ID}.log"
 
-srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=cores \
+srun --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=cores \
   env -u PYTHONPATH -u PYTHONHOME -u PYTHONUSERBASE -u LD_PRELOAD \
   "$cosmic" -u -m workflows.abacus_tweb.p8_prepare_multitracer_graph_features \
   --product "$product" --rotation 0 \
   2>&1 | tee "$logs/p8_mt_graph_features_rot0_${SLURM_JOB_ID}.log"
 
-{ srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=24 \
+{ srun --exclusive --nodes=1 --ntasks=1 --cpus-per-task=24 \
     --gpus-per-task=1 --cpu-bind=cores \
     env -u PYTHONPATH -u PYTHONHOME -u PYTHONUSERBASE -u LD_PRELOAD \
     "$cosmic" -u -m workflows.abacus_tweb.p8_train_multitracer_graph_patch \
