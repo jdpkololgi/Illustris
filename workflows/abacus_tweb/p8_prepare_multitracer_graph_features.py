@@ -33,6 +33,10 @@ P4 = Path("/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest")
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--product", default="bf_proxy_response_v1")
+    parser.add_argument(
+        "--graph-product",
+        help="Graph artifact directory name; defaults to --product.",
+    )
     parser.add_argument("--rotation", type=int, required=True)
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--p4-root", type=Path, default=P4)
@@ -99,10 +103,11 @@ def main() -> None:
     args = parse_args()
     started = time.time()
     product = args.product
+    graph_product = args.graph_product or product
     catalogue_manifest_path = args.root / "catalogues" / product / "manifest.json"
     field_manifest_path = args.root / "fields" / product / "manifest.json"
     selection_path = args.root / "selection" / product / "multitracer_selection_manifest.json"
-    adapter_root = args.root / "graph" / product / "adapter"
+    adapter_root = args.root / "graph" / graph_product / "adapter"
     catalogue = json.loads(catalogue_manifest_path.read_text())
     fields = json.loads(field_manifest_path.read_text())
     selection = json.loads(selection_path.read_text())
@@ -200,6 +205,7 @@ def main() -> None:
     manifest = {
         "schema_version": "p8-multitracer-graph-features-v1",
         "product": product,
+        "graph_product": graph_product,
         "rotation": args.rotation,
         "train_folds": list(train_folds),
         "validation_fold": validation_fold,

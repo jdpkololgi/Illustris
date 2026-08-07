@@ -8,6 +8,7 @@ logs="/pscratch/sd/d/dkololgi/logs"
 cosmic="/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python"
 rapids="/pscratch/sd/d/dkololgi/conda/envs/rapids-gnn/bin/python"
 product="bf_proxy_response_v1"
+graph_product="${product}_targetbit"
 graph_dir="$root/graph/${product}_targetbit/global"
 radius_dir="$root/graph/${product}_targetbit/radius"
 adapter_dir="$root/graph/${product}_targetbit/adapter"
@@ -94,6 +95,7 @@ srun --exact --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=core
   env -u PYTHONPATH -u PYTHONHOME -u PYTHONUSERBASE -u LD_PRELOAD \
   "$cosmic" -u -m workflows.abacus_tweb.p8_prepare_multitracer_graph_features \
   --product "$product" --rotation 0 \
+  --graph-product "$graph_product" \
   2>&1 | tee "$logs/p8_mt_graph_features_rot0_${SLURM_JOB_ID}.log"
 
 { srun --exact --exclusive --nodes=1 --ntasks=1 --cpus-per-task=24 \
@@ -101,6 +103,7 @@ srun --exact --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=core
     env -u PYTHONPATH -u PYTHONHOME -u PYTHONUSERBASE -u LD_PRELOAD \
     "$cosmic" -u -m workflows.abacus_tweb.p8_train_multitracer_graph_patch \
     --product "$product" --rotation 0 --seed 42 \
+    --graph-product "$graph_product" \
     --run-name "$proxy_run" --steps 100 --eval-every 100 --loss-log-every 10 \
     2>&1 | tee "$logs/p8_mt_g_proxy_rot0_canary_${SLURM_JOB_ID}.log"; } &
 g_proxy_pid=$!

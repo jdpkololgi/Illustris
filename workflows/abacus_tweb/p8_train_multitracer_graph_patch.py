@@ -37,6 +37,10 @@ ASSIGNMENT = Path("/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/active_ass
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--product", default="bf_proxy_response_v1")
+    parser.add_argument(
+        "--graph-product",
+        help="Graph artifact directory name; defaults to --product.",
+    )
     parser.add_argument("--run-name", default="screen")
     parser.add_argument("--rotation", type=int, default=0)
     parser.add_argument("--seed", type=int, default=42)
@@ -65,7 +69,8 @@ def main() -> None:
         / args.run_name
     )
     output.mkdir(parents=True, exist_ok=True)
-    adapter_root = args.root / "graph" / args.product / "adapter"
+    graph_product = args.graph_product or args.product
+    adapter_root = args.root / "graph" / graph_product / "adapter"
     feature_dir = (
         args.root / "models/g_patch_features" / args.product
         / f"rotation_{args.rotation}"
@@ -189,6 +194,7 @@ def main() -> None:
         "schema_version": "p8-multitracer-g-patch-v1",
         "model": "G-PATCH-BRIGHT_TARGET-FAINT_CONTEXT",
         "product": args.product,
+        "graph_product": graph_product,
         "rotation": args.rotation,
         "seed": args.seed,
         "steps": args.steps,
