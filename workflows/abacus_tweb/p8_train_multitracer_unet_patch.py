@@ -80,11 +80,14 @@ def zscore(values: np.ndarray, spec: dict) -> np.ndarray:
 
 
 class MultitracerFieldAdapter:
-    def __init__(self, *, product: str, rotation: int):
+    def __init__(self, *, product: str, rotation: int, root: Path = MT):
+        self.root = Path(root)
         self.product = product
         self.rotation = int(rotation)
-        self.selection_path = MT / "selection" / product / "multitracer_selection_manifest.json"
-        self.field_path = MT / "fields" / product / "manifest.json"
+        self.selection_path = (
+            self.root / "selection" / product / "multitracer_selection_manifest.json"
+        )
+        self.field_path = self.root / "fields" / product / "manifest.json"
         self.selection = json.loads(self.selection_path.read_text())
         self.fields = json.loads(self.field_path.read_text())
         bright_selection_path = Path(
@@ -210,6 +213,11 @@ def main() -> None:
     parser.add_argument("--steps", type=int, default=500)
     parser.add_argument("--eval-every", type=int, default=500)
     parser.add_argument("--loss-log-every", type=int, default=25)
+    parser.add_argument(
+        "--fixed-core-id",
+        type=int,
+        help="repeat one registered training core for the MT4 one-core overfit gate",
+    )
     parser.add_argument("--lr", type=float, default=2.0e-3)
     parser.add_argument("--base", type=int, default=24)
     parser.add_argument("--latent-channels", type=int, default=32)
@@ -236,6 +244,8 @@ def main() -> None:
     training_core = np.load(rotation_dir / "training_core_id.npy")
     training_weight = np.load(rotation_dir / "training_core_weight.npy").astype(np.float64)
     training_probability = training_weight / training_weight.sum()
+    if args.fixed_core_id is not None and args.fixed_core_id not in set(training_core.tolist()):
+        raise RuntimeError("fixed-core-id is not an eligible training core")
     validation_core = np.load(rotation_dir / "validation_core_id.npy")
     row_weight = np.load(rotation_dir / "active_training_weight.npy", mmap_mode="r")
     active_parent = np.asarray(assignment["parent_node_id"], dtype=np.int64)
@@ -251,7 +261,11 @@ def main() -> None:
     started = time.time()
     with MultitracerFieldAdapter(product=args.product, rotation=args.rotation) as adapter:
         for step in range(1, args.steps + 1):
-            core_id = int(rng.choice(training_core, p=training_probability))
+            core_id = (
+                int(args.fixed_core_id)
+                if args.fixed_core_id is not None
+                else int(rng.choice(training_core, p=training_probability))
+            )
             bright, values, points = model_inputs(adapter, adapter.extract(core_id), args.device)
             parent = bright.authoritative_parent_id
             weight = torch.from_numpy(parent_weight[parent]).to(args.device)
@@ -330,6 +344,7 @@ def main() -> None:
             "faint_counts", "faint_density_proxy", "faint_exposure",
         ],
         "supervision_contract": "BGS_BRIGHT only; Faint context is never scored",
+        "fixed_core_id": args.fixed_core_id,
         "selection_manifest": str(
             MT / "selection" / args.product / "multitracer_selection_manifest.json"
         ),

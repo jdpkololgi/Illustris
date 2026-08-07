@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Epoch-aware, resumable P8 recovery trainer for G-PATCH and U-PATCH.
+"""Epoch-aware, resumable P8/MT4 recovery trainer for graph and field encoders.
 
 This is deliberately separate from the frozen 2,000-step smoke trainers.  A
 recovery epoch visits every eligible P4 training core exactly once.  Patch
@@ -24,6 +24,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from workflows.abacus_tweb import p8_train_graph_patch as graph_impl
+from workflows.abacus_tweb import p8_train_multitracer_unet_patch as mt_unet_impl
 from workflows.abacus_tweb import p8_train_unet_cic_residual as residual_impl
 from workflows.abacus_tweb import p8_train_unet_patch as unet_impl
 from workflows.abacus_tweb.p8_deterministic_common import (
@@ -161,7 +162,12 @@ def checkpoint_payload(
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--model", choices=("graph", "unet", "unet_cic_residual"), required=True
+        "--model",
+        choices=(
+            "graph", "unet", "unet_cic_residual",
+            "graph_multitracer", "unet_multitracer",
+        ),
+        required=True,
     )
     parser.add_argument("--rotation", type=int, choices=range(5), required=True)
     parser.add_argument("--seed", type=int, default=42)
@@ -204,6 +210,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--p5-root", type=Path, default=graph_impl.P5_ROOT)
     parser.add_argument("--unet-adapter", type=Path, default=unet_impl.ADAPTER)
     parser.add_argument("--selection", type=Path, default=unet_impl.SELECTION)
+    parser.add_argument("--multitracer-root", type=Path, default=mt_unet_impl.MT)
+    parser.add_argument("--multitracer-product", default="bf_proxy_response_v1")
+    parser.add_argument(
+        "--multitracer-graph-product",
+        default="bf_proxy_response_v1_photsys_marginal",
+    )
     args = parser.parse_args()
     if args.epochs <= 0 or args.min_epochs <= 0:
         parser.error("epochs and min-epochs must be positive")
@@ -296,6 +308,7 @@ def main() -> None:
     normalization = None
     edge_spec = None
     adapter = None
+    multitracer_inputs = None
     cic_by_parent = None
     cic_anchor = None
     backbone_start = None
@@ -314,6 +327,39 @@ def main() -> None:
             feature_dir / "node_features_8d.npy", mmap_mode="r"
         )
         edge_spec = feature_manifest["edge"]
+    elif args.model == "graph_multitracer":
+        feature_dir = (
+            args.multitracer_root / "models/g_patch_features"
+            / args.multitracer_product / f"rotation_{args.rotation}"
+        )
+        feature_manifest_path = feature_dir / "feature_manifest.json"
+        feature_manifest = json.loads(feature_manifest_path.read_text())
+        if not feature_manifest["pass"]:
+            raise RuntimeError("multitracer G-PATCH feature transform did not pass")
+        model = graph_impl.GraphPatchNet(
+            node_features=10,
+            edge_features=5,
+            latent_size=args.latent_size,
+            heads=args.heads,
+            dropout=args.dropout,
+        ).to(args.device)
+        adapter_root = (
+            args.multitracer_root / "graph" / args.multitracer_graph_product / "adapter"
+        )
+        adapter = graph_impl.CanonicalGraphPatchAdapter(adapter_root)
+        adapter.node_features = np.load(
+            feature_dir / "node_features_10d.npy", mmap_mode="r"
+        )
+        edge_spec = feature_manifest["edge"]
+        multitracer_inputs = {
+            "product": args.multitracer_product,
+            "graph_product": args.multitracer_graph_product,
+            "feature_manifest": str(feature_manifest_path),
+            "feature_manifest_sha256": sha256(feature_manifest_path),
+            "adapter_manifest": str(adapter_root / "manifest.json"),
+            "adapter_manifest_sha256": sha256(adapter_root / "manifest.json"),
+            "supervision": "frozen BGS_BRIGHT targets only; BGS_FAINT context-only",
+        }
     elif args.model == "unet":
         selection_manifest = json.loads(args.selection.read_text())
         normalization = selection_manifest["rotations"][str(args.rotation)]["normalization"]
@@ -326,6 +372,28 @@ def main() -> None:
             selection_manifest=args.selection,
             rotation=args.rotation,
         )
+    elif args.model == "unet_multitracer":
+        model = mt_unet_impl.MultitracerUPatch(
+            base=args.unet_base,
+            latent_channels=args.unet_latent_channels,
+        ).to(args.device)
+        adapter = mt_unet_impl.MultitracerFieldAdapter(
+            product=args.multitracer_product,
+            rotation=args.rotation,
+            root=args.multitracer_root,
+        )
+        multitracer_inputs = {
+            "product": args.multitracer_product,
+            "field_manifest": str(adapter.field_path),
+            "field_manifest_sha256": sha256(adapter.field_path),
+            "selection_manifest": str(adapter.selection_path),
+            "selection_manifest_sha256": sha256(adapter.selection_path),
+            "channels": [
+                "bright_counts", "bright_density_proxy", "bright_exposure",
+                "faint_counts", "faint_density_proxy", "faint_exposure",
+            ],
+            "supervision": "frozen BGS_BRIGHT targets only; BGS_FAINT context-only",
+        }
     else:
         selection_manifest = json.loads(args.selection.read_text())
         normalization = selection_manifest["rotations"][str(args.rotation)]["normalization"]
@@ -487,6 +555,9 @@ def main() -> None:
             "p5_root",
             "unet_adapter",
             "selection",
+            "multitracer_root",
+            "multitracer_product",
+            "multitracer_graph_product",
         )
         checkpoint_arguments = state["arguments"]
         for field in frozen_resume_fields:
@@ -528,7 +599,11 @@ def main() -> None:
 
     run_manifest = {
         "schema_version": 1,
-        "stage": "P8 exposure-aware recovery",
+        "stage": (
+            "MT4/MT5 multitracer exposure-aware recovery"
+            if args.model in ("graph_multitracer", "unet_multitracer")
+            else "P8 exposure-aware recovery"
+        ),
         "git_revision": args.git_revision,
         "model": args.model,
         "rotation": args.rotation,
@@ -552,6 +627,7 @@ def main() -> None:
         "cic_anchor": cic_anchor,
         "backbone_start": backbone_start,
         "checkpoint_zero_parity": zero_residual_parity,
+        "multitracer_inputs": multitracer_inputs,
         "arguments": jsonable_arguments(vars(args)),
         "assignment": str(args.assignment),
         "assignment_sha256": sha256(args.assignment),
@@ -588,7 +664,7 @@ def main() -> None:
 
             for cursor in range(cursor0, len(order)):
                 core_id = int(order[cursor])
-                if args.model == "graph":
+                if args.model in ("graph", "graph_multitracer"):
                     patch = adapter.extract(
                         core_id,
                         graph_impl.NUM_PASSES,
@@ -614,6 +690,12 @@ def main() -> None:
                     values, points = unet_impl.model_inputs(
                         patch, normalization, args.device
                     )
+                    prediction = model(values, points)
+                elif args.model == "unet_multitracer":
+                    patch, values, points = mt_unet_impl.model_inputs(
+                        adapter, adapter.extract(core_id), args.device
+                    )
+                    parent = patch.authoritative_parent_id
                     prediction = model(values, points)
                 else:
                     patch = adapter.extract(
@@ -729,7 +811,7 @@ def main() -> None:
                     f"epoch {epoch} incomplete: {accumulator.patches}/{len(training_core)} cores"
                 )
 
-            if args.model == "graph":
+            if args.model in ("graph", "graph_multitracer"):
                 val_parent, val_scaled, failures, val_nodes, val_edges = (
                     graph_impl.predict_fold(
                         model,
@@ -753,6 +835,18 @@ def main() -> None:
                     args.device,
                 )
                 validation_runtime = {}
+            elif args.model == "unet_multitracer":
+                val_parent, val_scaled = mt_unet_impl.predict_fold(
+                    model,
+                    adapter,
+                    validation_core,
+                    args.device,
+                )
+                failures = 0
+                validation_runtime = {
+                    "channels": multitracer_inputs["channels"],
+                    "supervision": multitracer_inputs["supervision"],
+                }
             else:
                 val_parent, val_scaled, failures = residual_impl.predict_fold(
                     model,
@@ -907,7 +1001,7 @@ def main() -> None:
                 stopped_early = True
                 break
     finally:
-        if args.model in ("unet", "unet_cic_residual") and adapter is not None:
+        if args.model in ("unet", "unet_cic_residual", "unet_multitracer") and adapter is not None:
             adapter.close()
 
     final_epoch = history[-1]["epoch"] if history else start_epoch - 1
