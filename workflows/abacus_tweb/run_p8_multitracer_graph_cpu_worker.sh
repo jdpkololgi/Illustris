@@ -26,13 +26,16 @@ done
 "$python" -c '
 import json
 from pathlib import Path
-path = Path("/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/catalogues/bf_proxy_response_v1/manifest.json")
-manifest = json.loads(path.read_text())
+root = Path("/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/catalogues")
+manifest = json.loads((root / "bf_proxy_response_v1" / "manifest.json").read_text())
+oracle = json.loads((root / "bf_oracle_assigned_v1" / "manifest.json").read_text())
 audit = manifest["response"]["application_audit"]
 assert manifest["pass"]
 assert manifest["response"]["calibration_basis"] == "DESI LOA PHOTSYS"
 assert audit["ambiguous_rows"] == 0
-assert audit["overall_fallback_rows"] == manifest["counts"]["FAINT"]["rows"]
+assert audit["overall_fallback_rows"] == oracle["counts"]["FAINT"]["rows"]
+assert manifest["counts"]["FAINT"]["rows"] <= audit["overall_fallback_rows"]
+assert audit["north_rows"] + audit["south_rows"] == 0
 assert "mock has no PHOTSYS" in audit["mapping"]
 '
 
