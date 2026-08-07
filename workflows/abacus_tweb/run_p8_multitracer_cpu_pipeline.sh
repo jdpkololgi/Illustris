@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# Resume-safe interactive CPU pipeline for P8 Bright+Faint products.
+set -euo pipefail
+
+if [[ $# -ne 1 ]]; then
+  echo "usage: $0 SLURM_JOB_ID" >&2
+  exit 2
+fi
+
+job_id="$1"
+repo="/global/homes/d/dkololgi/TNG/Illustris"
+root="/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1"
+logs="/pscratch/sd/d/dkololgi/logs"
+python="/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python"
+oracle_marker="$root/catalogues/bf_oracle_assigned_v1/CATALOGUE_COMPLETE"
+proxy_marker="$root/catalogues/bf_proxy_response_v1/CATALOGUE_COMPLETE"
+
+cd "$repo"
+unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD
+export PYTHONNOUSERSITE=1
+
+while [[ ! -f "$oracle_marker" || ! -f "$proxy_marker" ]]; do
+  if ! squeue -h -j "$job_id" | grep -q .; then
+    echo "allocation $job_id ended before catalogue completion" >&2
+    exit 1
+  fi
+  sleep 30
+done
+
+srun --jobid="$job_id" --overlap --nodes=1 --ntasks=1 --cpus-per-task=128 \
+  "$python" workflows/abacus_tweb/p8_build_multitracer_fields.py --force \
+  2>&1 | tee "$logs/p8_multitracer_fields_${job_id}.log"
+
+srun --jobid="$job_id" --overlap --nodes=1 --ntasks=1 --cpus-per-task=128 \
+  "$python" workflows/abacus_tweb/p8_refit_multitracer_selection.py --force \
+  2>&1 | tee "$logs/p8_multitracer_selection_${job_id}.log"
+
+graph_dir="$root/graph/bf_proxy_response_v1/global"
+mkdir -p "$graph_dir"
+srun --jobid="$job_id" --overlap --nodes=1 --ntasks=1 --cpus-per-task=256 \
+  "$python" workflows/abacus_tweb/build_abacus_graph.py \
+  --points-path "$root/catalogues/bf_proxy_response_v1/points.npy" \
+  --catalog-path "" \
+  --no-apply-y1y5-filter \
+  --no-exclude-invalid-box-index \
+  --mode delaunay \
+  --split-hemispheres \
+  --output-dir "$graph_dir" \
+  --output-prefix bf_proxy_delaunay \
+  2>&1 | tee "$logs/p8_multitracer_delaunay_${job_id}.log"
+
+printf 'job_id=%s\n' "$job_id" > "$root/MT_CPU_PIPELINE_READY_FOR_RAPIDS"
