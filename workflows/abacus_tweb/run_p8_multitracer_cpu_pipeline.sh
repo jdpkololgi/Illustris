@@ -35,6 +35,8 @@ srun --jobid="$job_id" --overlap --nodes=1 --ntasks=1 --cpus-per-task=128 \
   "$python" workflows/abacus_tweb/p8_refit_multitracer_selection.py --force \
   2>&1 | tee "$logs/p8_multitracer_selection_${job_id}.log"
 
+printf 'job_id=%s\n' "$job_id" > "$root/MT_FIELDS_SELECTION_READY"
+
 graph_dir="$root/graph/bf_proxy_response_v1/global"
 mkdir -p "$graph_dir"
 srun --jobid="$job_id" --overlap --nodes=1 --ntasks=1 --cpus-per-task=256 \
