@@ -14,9 +14,10 @@ if [[ -z "${SLURM_JOB_ID:-}" ]]; then
   exit 2
 fi
 
-bash workflows/abacus_tweb/run_p8_multitracer_targetbit_products_worker.sh
+bash workflows/abacus_tweb/run_p8_multitracer_proxy_repair_worker.sh \
+  "$SLURM_JOB_ID"
 
-if [[ ! -f "$root/MT_TARGETBIT_PROXY_PRODUCTS_READY" ]]; then
+if [[ ! -f "$root/MT_PHOTSYS_MARGINAL_PROXY_PRODUCTS_READY" ]]; then
   echo "corrected Proxy products did not pass their gate" >&2
   exit 1
 fi
