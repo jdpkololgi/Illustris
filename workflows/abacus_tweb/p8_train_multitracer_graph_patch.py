@@ -6,10 +6,15 @@ import argparse
 import copy
 import json
 from pathlib import Path
+import sys
 import time
 
 import numpy as np
 import torch
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from workflows.abacus_tweb.p5_graph_patch_utils import CanonicalGraphPatchAdapter
 from workflows.abacus_tweb.p8_deterministic_common import (
