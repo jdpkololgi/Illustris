@@ -1,5 +1,53 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-07 — [science/code/runtime] Faint response corrected to explicit PHOTSYS-marginal Proxy
+
+A response-provenance audit invalidated the first `BF_PROXY_RESPONSE_v1` branch before
+its graph completed. The DESI LOA North/South redshift-success rates are defined by
+imaging `PHOTSYS`; they must not be applied using Galactic NGC/SGC membership. The
+staged mock retains neither per-object `PHOTSYS` nor regional Faint target-selection
+bits, so mapping the rates by either Galactic cap or an inferred survey location would
+create false precision.
+
+The frozen development Proxy therefore uses the DESI LOA **overall BGS_FAINT success
+rate marginalized over PHOTSYS**, with a deterministic TARGETID-keyed draw. This does
+not merge tracer responses: Bright and Faint still retain independent count, contrast,
+radial-selection, and angular-response channels. It only acknowledges that the finer
+North/South response covariate is absent from this mock. The Oracle remains the
+assignment-observed, no-redshift-failure information upper bound. Both remain
+ineligible for a final production claim until a richer Faint photometric/PHOTSYS mock
+or validated DESI-target reweighting is available.
+
+The invalid cap-mapped Proxy catalogue, its fields, and its 100-step U-PATCH canary are
+preserved as invalidation evidence but cannot satisfy any current completion marker.
+The interrupted cap-mapped Delaunay graph produced no completion marker. The corrected
+branch uses separately versioned `*_photsys_marginal` graph artifacts and canary names.
+Seven catalogue tests now cover order-independent response draws, explicit
+PHOTSYS-marginal fallback, rejection of ambiguous regional bits, coordinate units, and
+the Bright-target/Faint-context contract.
+
+The first information experiment remains:
+
+```text
+supervised/evaluated/output population = unchanged BGS_BRIGHT parent only
+additional observation/context          = BGS_FAINT
+U-PATCH input                            = separate Bright/Faint count, contrast, exposure
+G-PATCH input                            = global Bright+Faint graph with tracer identity
+Faint loss or released prediction        = forbidden in this screen
+```
+
+The corrected CPU pipeline is running in tmux `p8_mt_cpu_photsys` on interactive
+allocation `56449637`; it repairs the Proxy catalogue, rebuilds its fields and
+selection fits, validates the PHOTSYS-marginal manifest, then constructs the global
+Delaunay graph. `p8_mt_gpu_photsys` waits for the passed Proxy-product marker before
+requesting exactly one `desi_g` A100 allocation. It will run a separately named Proxy
+U-PATCH technical canary while the graph builds, then cuGraph metrics, radius-union
+adapter, feature preparation, and the Proxy G-PATCH technical canary. No canary score
+is interpreted as a model-selection result and no MT4/MT5 scientific gate is claimed.
+
+The response and orchestration corrections are commits `2a2acc0`, `449dcbc`,
+`4ef48fc`, and `89463c2`.
+
 ### 2026-08-07 — [science/code/runtime] Bright-target/Faint-context multitracer implementation launched
 
 The first BGS_FAINT information experiment is now frozen at the correct causal
