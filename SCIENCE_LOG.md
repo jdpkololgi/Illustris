@@ -1,5 +1,58 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-07 — [science/code/runtime] Bright-target/Faint-context multitracer implementation launched
+
+The first BGS_FAINT information experiment is now frozen at the correct causal
+boundary: the unchanged 9,538,254-row BGS_BRIGHT parent is the only supervised,
+evaluated, and eventual output population. BGS_FAINT is an additional observation of
+the latent density field and is context-only. It receives no eigenvalue loss and no
+Faint prediction may be reported from this screen. This isolates the information gain
+from more tracers from the separate question of gaining more labelled rows.
+
+Two response-explicit products are being built from the immutable stage-3 target IDs:
+
+- `BF_ORACLE_ASSIGNED_v1`: fibre-observed Faint rows without spectroscopic failure,
+  explicitly an information upper bound and never production eligible;
+- `BF_PROXY_RESPONSE_v1`: the same assignment realization followed by an independent,
+  deterministic LOA BGS_FAINT success draw by north/south target bit. The frozen Bright
+  parent is copied exactly and is never redrawn.
+
+The first runtime attempt exposed that repeated alternate-tile rows in
+`datcomb_bright_tarspecwdup_zdone.fits` disagree in nominal immutable columns, including
+`Z_COSMO`. This is not treated as truth ambiguity: that table now supplies observation
+state only, and observed TARGETIDs are joined back to unique `inputs/targ.fits` rows for
+sky, RSD redshift, magnitude, and simulation linkage. A hard gate requires zero observed
+Faint IDs unmatched to the unique target input before either catalogue is stamped.
+
+Tracer selection remains separate throughout. The field branch preserves the frozen
+Bright P3 fields and adds Faint-only CIC counts plus a regularized HEALPix
+selected/target angular-response exposure on the exact same NGC/SGC grids. Independent
+per-cap, per-rotation Faint radial curves and normalizers are fitted from P4 training
+folds only. U-PATCH therefore receives six explicit channels: Bright count, contrast,
+exposure and Faint count, contrast, exposure; it never receives one merged count field.
+The graph branch builds one global response-aware Bright+Faint graph, computes all graph
+metrics globally in `rapids-gnn`, adds tracer identity and tracer-specific response
+features, and reuses the frozen Bright P4 cores as loss ownership.
+
+Implementation is tracked by commits `8a31768`, `3f02836`, `ef44626`, `3419844`,
+`d4c2994`, `4934c07`, `06bb9dd`, `cc84832`, and `2bac74d`. Targeted catalogue,
+field/selection, graph-adapter, and model-loader tests pass. Runtime products are rooted
+at `/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/`; logs are under
+`/pscratch/sd/d/dkololgi/logs/p8_multitracer_*` and `p8_mt_*`.
+
+All long work is disconnect-safe and uses interactive allocations only:
+
+- CPU allocation `56446724`, shell `p8_mt_cpu_alloc`;
+- dependency supervisor `p8_mt_cpu_pipeline`, which stops on failed catalogue, field,
+  selection, or global-graph gates;
+- GPU supervisor `p8_mt_gpu_supervisor`, which waits for the field/selection marker
+  before requesting the second allocation, then runs Oracle/Proxy U-PATCH canaries,
+  response-aware cuGraph metrics, the union adapter, and a Proxy G-PATCH canary.
+
+No MT1/MT2/MT5 completion marker or model accuracy is claimed in this entry. The graph
+precomputation is opened in parallel by explicit user instruction to compare both leading
+representations; the registered promotion and stop rules remain unchanged.
+
 ### 2026-08-06 — [result/code/plan] U-CIC closed as sparse-shell NO-GO; U-PATCH-BRIGHT frozen; BGS_FAINT F0 audit complete
 
 The two registered `U-CIC-RESID-v2` runs completed their 20-epoch contracts. The

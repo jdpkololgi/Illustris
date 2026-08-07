@@ -1483,7 +1483,36 @@ replication and P10 fresh-phase transfer remain mandatory before production prom
 
 #### P8.8 BGS_FAINT multitracer information gate
 
-**Status:** F0 COMPLETE; CONDITIONAL GO FOR CATALOGUE CONSTRUCTION; TRAINING NOT READY
+**Status:** IMPLEMENTATION ACTIVE; MT1 RUNNING; MT2 AND USER-AUTHORIZED MT5 PRECOMPUTE QUEUED; NO MODEL PROMOTED
+
+Implementation checklist (2026-08-07):
+
+- [x] Freeze the causal contract: BGS_BRIGHT alone owns supervision, evaluation, and
+  catalogue output; BGS_FAINT is context-only in the first information screen.
+- [x] Implement response-explicit Oracle and Proxy catalogue builders, with immutable
+  truth/sky columns joined from unique `inputs/targ.fits` rows rather than repeated
+  alternate-tile spectroscopic rows.
+- [ ] Stamp and audit the Oracle and Proxy catalogue products under
+  `/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/catalogues/`.
+- [x] Implement tracer-separated Faint CIC/response overlays and independent Faint
+  full-cap radial selection/normalization fits; preserve frozen Bright P3/P6 products.
+- [ ] Stamp the field and selection manifests under
+  `/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/fields/` and `selection/`.
+- [x] Implement the response-aware global Bright+Faint graph, P5-compatible adapter,
+  and ten-feature GraphNet contract with globally computed graph metrics.
+- [ ] Stamp the Proxy graph, cuGraph metrics, adapter, and feature transform under
+  `/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/graph/`.
+- [x] Implement the six-channel U-PATCH and ten-node-feature G-PATCH canary entrypoints,
+  both with Bright-only target/loss ownership.
+- [ ] Complete Oracle/Proxy U-PATCH canaries and the Proxy G-PATCH canary; these are
+  loader, optimization, and information diagnostics, not promotion runs.
+- [ ] Complete MT2 information diagnostics and MT3 matched classical controls before
+  interpreting any neural gain or opening a full training screen.
+
+The active entrypoints are `workflows/abacus_tweb/p8_build_multitracer_catalogues.py`,
+`p8_build_multitracer_fields.py`, `p8_refit_multitracer_selection.py`,
+`p8_build_multitracer_graph_adapter.py`, `p8_prepare_multitracer_graph_features.py`,
+`p8_train_multitracer_unet_patch.py`, and `p8_train_multitracer_graph_patch.py`.
 
 The current plateau and the sparse-shell behaviour motivate a data-information test
 before another encoder sweep. This branch asks whether an additional observed tracer
@@ -1714,8 +1743,14 @@ Adoption requires, on both rotations:
 
 ##### P8.8.7 MT5 — conditional G-PATCH union-graph screen
 
-Do not build a full Bright+Faint graph merely because Faint rows exist. Open MT5 only
-if MT4 or the two-tracer classical control shows a meaningful sparse-shell gain.
+The original compute-saving rule was to open MT5 only after MT4 or a classical control
+showed a meaningful sparse-shell gain. By explicit user instruction, the expensive
+Proxy graph/metric construction and one short G-PATCH canary may now proceed in parallel
+with the U-PATCH preflight so that both leading representations are technically ready.
+This is an infrastructure and diagnostic screen only: it does not promote G-PATCH,
+does not authorize a full G-PATCH training sweep, and does not weaken the requirement
+that MT2/MT3 establish whether any gain is informational and whether learning adds value
+beyond matched classical reconstruction.
 
 If opened:
 
@@ -1785,10 +1820,10 @@ stable baseline.
 |---|---|---|---|---|
 | MT0/F0 audit | existing stages | 1 CPU interactive | complete | `F0_FEASIBILITY_COMPLETE` |
 | MT1 oracle/proxy catalogues | F0 | 1 CPU interactive, resumable | 0.5–1 day | `MT1_MULTITRACER_CATALOGUE_COMPLETE` |
-| MT2 field/information preflight | MT1 | 1 CPU interactive | 0.5 day | `MT2_MULTITRACER_FIELD_COMPLETE` |
+| MT2 field/information preflight | MT1 | 1 CPU interactive | 0.5 day | `MT2_MULTITRACER_FIELD_COMPLETE` plus information audit |
 | MT3 classical controls | MT2 | 1 CPU interactive | 0.5 day | `MT3_MULTITRACER_CLASSICAL_COMPLETE` |
 | MT4 U-PATCH screens | MT2/MT3 | up to 2 interactive A100s, exact resume | 1–3 days | `MT4_UPATCH_MULTITRACER_DECISION` |
-| MT5 union graph/G-PATCH | MT4 gain | CPU + `rapids-gnn`, then A100 | 1–3 days | `MT5_GPATCH_MULTITRACER_DECISION` |
+| MT5 union graph/G-PATCH | MT1 for authorized precompute; MT2/MT3/MT4 gain for full training | CPU + `rapids-gnn`, then A100 | 1–3 days | `MT5_GPATCH_MULTITRACER_DECISION` |
 | MT6 F-tier/U-Physics | MT4 gain and resource pass | A100 | optional | `MT6_FIELD_PHYSICS_DECISION` |
 | MT7 seeds/P10 | winning deterministic model | CPU/GPU | mandatory for production | `MULTITRACER_TRANSFER_COMPLETE` |
 
