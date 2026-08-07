@@ -1508,8 +1508,14 @@ Implementation checklist (2026-08-07):
   `/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/graph/`.
 - [x] Implement the six-channel U-PATCH and ten-node-feature G-PATCH canary entrypoints,
   both with Bright-only target/loss ownership.
-- [ ] Complete Oracle/Proxy U-PATCH canaries and the Proxy G-PATCH canary; these are
-  loader, optimization, and information diagnostics, not promotion runs.
+- [x] Complete the Oracle U-PATCH canary under
+  `models/u_patch/bf_oracle_assigned_v1/rotation_0/seed_42/canary_steps100/`.
+- [x] Complete the PHOTSYS-marginal Proxy U-PATCH canary under
+  `models/u_patch/bf_proxy_response_v1/rotation_0/seed_42/canary_photsys_marginal_steps100/`;
+  it covers all 999,683 Bright validation targets and is a technical diagnostic only.
+- [ ] Complete the Proxy G-PATCH canary after the global graph, cuGraph metrics,
+  radius-union adapter, and ten-feature transform pass; this remains a loader and
+  optimization diagnostic, not a promotion run.
 - [ ] Complete MT2 information diagnostics and MT3 matched classical controls before
   interpreting any neural gain or opening a full training screen.
 

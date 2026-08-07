@@ -59,9 +59,13 @@ validation prevented a second 48 GB zcatalog scan. The live disconnect-safe jobs
 - tmux `p8_mt_cpu_photsys`, CPU allocation `56452732`: global disconnected NGC+SGC
   Delaunay construction over `12,771,280` Bright+Faint nodes;
 - tmux `p8_mt_gpu_photsys`, one-A100 allocation `56452729`: the separately named
-  PHOTSYS-marginal Proxy U-PATCH 100-step technical canary and complete-fold
-  evaluation, followed after the graph gate by cuGraph metrics, radius-union adapter,
+  PHOTSYS-marginal Proxy U-PATCH 100-step technical canary has completed and the
+  worker now waits for the graph gate before cuGraph metrics, radius-union adapter,
   feature preparation, and the Proxy G-PATCH technical canary.
+
+The Proxy U-PATCH canary covers all `999,683` Bright validation targets with zero
+ordering violations. Its macro `R2_lambda1=0.23615` is a 100-update loader/optimization
+diagnostic, not a comparison with the registered 20-epoch Bright reference.
 
 No canary score is interpreted as a model-selection result and no MT4/MT5 scientific
 gate is claimed. Full training remains behind MT2 information diagnostics and MT3
