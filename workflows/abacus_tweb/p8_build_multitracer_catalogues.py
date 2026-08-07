@@ -145,7 +145,8 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help=(
             "Rebuild only BF_PROXY_RESPONSE_v1 from the passed Oracle catalogue, "
-            "applying the response by BGS target-selection bit."
+            "using regional response only when the mock carries it and otherwise "
+            "the explicit DESI-PHOTSYS-marginal Faint rate."
         ),
     )
     parser.add_argument("--force", action="store_true")
@@ -174,12 +175,13 @@ def deterministic_uniform(targetid: np.ndarray, seed: int) -> np.ndarray:
 def faint_response_probability(
     target_bits: np.ndarray, calibration: dict
 ) -> tuple[np.ndarray, dict]:
-    """Map calibrated response by BGS imaging/target-selection bit.
+    """Map the PHOTSYS-calibrated Faint response without inventing covariates.
 
-    ``BGS_FAINT_NORTH`` and ``BGS_FAINT_SOUTH`` describe the target-selection
-    system. They must not be inferred from Galactic NGC/SGC membership. Rows
-    carrying neither regional bit use the explicitly recorded overall rate;
-    carrying both is an invalid target definition and is a hard failure.
+    Regional rates may be used only when regional target-selection information
+    is present. They must never be inferred from Galactic NGC/SGC membership.
+    When the staged mock carries neither PHOTSYS nor regional bits, every row
+    uses the explicitly recorded PHOTSYS-marginal rate. Carrying both regional
+    bits remains an invalid target definition and is a hard failure.
     """
     target = np.asarray(target_bits, dtype=np.int64)
     north = (target & FAINT_NORTH_BITS) != 0
@@ -498,10 +500,6 @@ def repair_proxy_from_oracle(args: argparse.Namespace) -> dict:
     probability, response_audit = faint_response_probability(
         faint_source["BGS_TARGET"], calibration
     )
-    if response_audit["overall_fallback_rows"]:
-        raise RuntimeError(
-            "Oracle lacks assignment-time regional response bits; run the full rebuild"
-        )
     keep_proxy = (
         deterministic_uniform(faint_source["TARGETID"], args.seed) < probability
     )
@@ -526,8 +524,9 @@ def repair_proxy_from_oracle(args: argparse.Namespace) -> dict:
         response={
             "fibre_assignment": "ZWARN != 999999 in the staged spectroscopic join",
             "redshift_success": (
-                "deterministic LOA BGS_FAINT draw calibrated by DESI PHOTSYS "
-                "and applied using assignment-time NORTH/SOUTH target-selection bits"
+                "deterministic LOA BGS_FAINT draw calibrated by DESI PHOTSYS; "
+                "overall PHOTSYS-marginal rate used because the staged mock "
+                "does not retain PHOTSYS or regional target-selection bits"
             ),
             "calibration_basis": "DESI LOA PHOTSYS",
             "seed": args.seed,
@@ -751,10 +750,6 @@ def main() -> None:
     probability, response_audit = faint_response_probability(
         faint_source["BGS_TARGET"], calibration
     )
-    if response_audit["overall_fallback_rows"]:
-        raise RuntimeError(
-            "observed Faint rows lack assignment-time regional target-selection bits"
-        )
     keep_proxy = deterministic_uniform(faint_source["TARGETID"], args.seed) < probability
     inputs = {
         "spectroscopic_join": str(args.spectroscopic_join),
@@ -799,8 +794,9 @@ def main() -> None:
         response={
             "fibre_assignment": "ZWARN != 999999 in the staged spectroscopic join",
             "redshift_success": (
-                "deterministic LOA BGS_FAINT draw calibrated by DESI PHOTSYS "
-                "and applied using assignment-time NORTH/SOUTH target-selection bits"
+                "deterministic LOA BGS_FAINT draw calibrated by DESI PHOTSYS; "
+                "overall PHOTSYS-marginal rate used because the staged mock "
+                "does not retain PHOTSYS or regional target-selection bits"
             ),
             "seed": args.seed,
             "calibration": calibration,
