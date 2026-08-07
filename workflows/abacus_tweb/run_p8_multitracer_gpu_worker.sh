@@ -21,7 +21,7 @@ run_u() {
   srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=24 \
     --gpus-per-task=1 --cpu-bind=cores \
     env -u PYTHONPATH -u PYTHONHOME -u PYTHONUSERBASE -u LD_PRELOAD \
-    "$cosmic" -u workflows/abacus_tweb/p8_train_multitracer_unet_patch.py \
+    "$cosmic" -u -m workflows.abacus_tweb.p8_train_multitracer_unet_patch \
     --product "$product_name" --rotation 0 --seed 42 \
     --run-name canary_steps100 --steps 100 --eval-every 100 --loss-log-every 10
 }
@@ -50,7 +50,7 @@ srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=32 \
 srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=32 \
   --gpus-per-task=1 --cpu-bind=cores \
   env -u PYTHONPATH -u PYTHONHOME -u PYTHONUSERBASE -u LD_PRELOAD \
-  "$rapids" -u workflows/abacus_tweb/abacus_graph_features_cugraph.py \
+  "$rapids" -u -m workflows.abacus_tweb.abacus_graph_features_cugraph \
   --metadata-path "$graph_dir/bf_proxy_delaunay_metadata.json" \
   --points-path "$root/catalogues/$product/points.npy" \
   --artifacts-dir "$graph_dir" --prefix bf_proxy_delaunay \
@@ -60,7 +60,7 @@ srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=32 \
 mkdir -p "$radius_dir"
 srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=cores \
   env -u PYTHONPATH -u PYTHONHOME -u PYTHONUSERBASE -u LD_PRELOAD \
-  "$cosmic" -u workflows/abacus_tweb/p2b_build_full_radius_union.py \
+  "$cosmic" -u -m workflows.abacus_tweb.p2b_build_full_radius_union \
   --graph-dir "$graph_dir" --prefix bf_proxy_delaunay \
   --canonical-index "$root/catalogues/$product/catalogue_index.npz" \
   --out-dir "$radius_dir" --radius-mpc 14.78 \
@@ -69,7 +69,7 @@ srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=co
 mkdir -p "$adapter_dir"
 srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=cores \
   env -u PYTHONPATH -u PYTHONHOME -u PYTHONUSERBASE -u LD_PRELOAD \
-  "$cosmic" -u workflows/abacus_tweb/p8_build_multitracer_graph_adapter.py \
+  "$cosmic" -u -m workflows.abacus_tweb.p8_build_multitracer_graph_adapter \
   --graph-dir "$graph_dir" --prefix bf_proxy_delaunay \
   --catalogue-index "$root/catalogues/$product/catalogue_index.npz" \
   --p2-manifest "$radius_dir/p2b_union_manifest.json" \
@@ -78,14 +78,14 @@ srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=co
 
 srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=64 --cpu-bind=cores \
   env -u PYTHONPATH -u PYTHONHOME -u PYTHONUSERBASE -u LD_PRELOAD \
-  "$cosmic" -u workflows/abacus_tweb/p8_prepare_multitracer_graph_features.py \
+  "$cosmic" -u -m workflows.abacus_tweb.p8_prepare_multitracer_graph_features \
   --product "$product" --rotation 0 \
   2>&1 | tee "$logs/p8_mt_graph_features_rot0_${SLURM_JOB_ID}.log"
 
 { srun --overlap --exclusive --nodes=1 --ntasks=1 --cpus-per-task=24 \
     --gpus-per-task=1 --cpu-bind=cores \
     env -u PYTHONPATH -u PYTHONHOME -u PYTHONUSERBASE -u LD_PRELOAD \
-    "$cosmic" -u workflows/abacus_tweb/p8_train_multitracer_graph_patch.py \
+    "$cosmic" -u -m workflows.abacus_tweb.p8_train_multitracer_graph_patch \
     --product "$product" --rotation 0 --seed 42 \
     --run-name canary_steps100 --steps 100 --eval-every 100 --loss-log-every 10 \
     2>&1 | tee "$logs/p8_mt_g_proxy_rot0_canary_${SLURM_JOB_ID}.log"; } &
