@@ -291,6 +291,7 @@ def evaluate_estimator(
 
 def run_rotation(rotation: int, args, manifests: dict) -> dict:
     started = time.time()
+    print(f"[MT3a] rotation={rotation} loading benchmark ownership", flush=True)
     assignment = np.load(args.assignment, mmap_mode="r")
     truth = np.load(args.p8_root / "parent_eigenvalues.npy", mmap_mode="r")
     points = np.load(args.points, mmap_mode="r")
@@ -321,6 +322,10 @@ def run_rotation(rotation: int, args, manifests: dict) -> dict:
     for cap in (0, 1):
         selected = cap_id == cap
         cap_name = CAP_NAME[cap]
+        print(
+            f"[MT3a] rotation={rotation} cap={cap_name} loading response-matched fields",
+            flush=True,
+        )
         grid = manifests["p3"]["components"][cap_name]["grid"]
         shape = tuple(int(value) for value in grid["shape"])
         origin = np.asarray(grid["origin_mpc"], dtype=np.float64)
@@ -355,6 +360,12 @@ def run_rotation(rotation: int, args, manifests: dict) -> dict:
         bias = fit_relative_bias(
             smooth_b, smooth_f, fields["training"] & valid_b & valid_f
         )
+        print(
+            f"[MT3a] rotation={rotation} cap={cap_name} "
+            f"q_F_over_B={bias['relative_bias_faint_over_bright']:.6f} "
+            f"corr={bias['correlation']:.6f}",
+            flush=True,
+        )
         del smooth_b, smooth_f
         bias_delta, valid_bias = bias_aware_contrast(
             delta_b, fields["expected_b"], valid_b,
@@ -363,6 +374,10 @@ def run_rotation(rotation: int, args, manifests: dict) -> dict:
         )
         fft_reports = {}
         for estimator, delta in (("combined_cic", combined), ("bias_aware_cic", bias_delta)):
+            print(
+                f"[MT3a] rotation={rotation} cap={cap_name} estimator={estimator} FFT",
+                flush=True,
+            )
             prediction, fft = _sample_tidal_eigenvalues(
                 delta, positions=positions[selected], origin=origin,
                 cell_mpc=cell_mpc, padding_voxels=args.padding_voxels,
@@ -416,6 +431,10 @@ def run_rotation(rotation: int, args, manifests: dict) -> dict:
         "inputs": manifests["input_records"], "runtime": runtime,
     }
     atomic_json(output / "rotation_report.json", rotation_report)
+    print(
+        f"[MT3a] rotation={rotation} complete elapsed={runtime['elapsed_seconds']:.1f}s",
+        flush=True,
+    )
     return rotation_report
 
 
@@ -486,9 +505,18 @@ def main() -> None:
             for rotation in args.screen_rotations
         ],
     }
+    bright_reference_by_rotation = dict(
+        zip(
+            bright_summary["screen_rotations"],
+            bright_summary["primary_score_by_rotation"],
+        )
+    )
     for estimator in ("combined_cic", "bias_aware_cic"):
         scores = [row["estimators"][estimator]["primary_macro_r2_lambda1"] for row in reports]
-        reference = np.asarray(bright_summary["primary_score_by_rotation"], dtype=np.float64)
+        reference = np.asarray(
+            [bright_reference_by_rotation[rotation] for rotation in args.screen_rotations],
+            dtype=np.float64,
+        )
         summary["estimators"][estimator] = {
             "primary_score_by_rotation": scores,
             "primary_score_mean": float(np.mean(scores)),

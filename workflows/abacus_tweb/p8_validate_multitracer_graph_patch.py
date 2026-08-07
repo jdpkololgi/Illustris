@@ -48,7 +48,7 @@ DEFAULT_P1A_POINTS = Path(
 
 
 def sample_cores(adapter: CanonicalGraphPatchAdapter) -> np.ndarray:
-    """Select the largest non-empty core in every cap/fold stratum."""
+    """Select a representative lower-quartile core in every cap/fold stratum."""
     counts = np.diff(np.asarray(adapter.core_offsets, dtype=np.int64))
     chosen = []
     for cap in (0, 1):
@@ -60,7 +60,8 @@ def sample_cores(adapter: CanonicalGraphPatchAdapter) -> np.ndarray:
             )
             if not len(candidate):
                 raise RuntimeError(f"no non-empty authoritative core for cap={cap} fold={fold}")
-            chosen.append(int(candidate[np.argmax(counts[candidate])]))
+            target = np.quantile(counts[candidate], 0.25)
+            chosen.append(int(candidate[np.argmin(np.abs(counts[candidate] - target))]))
     return np.asarray(chosen, dtype=np.int64)
 
 
@@ -139,7 +140,7 @@ def adapter_smoke(root: Path, num_passes: int) -> dict:
         "strict_hop_not_used_for_primary_loss": manifest["supervision_contract"]["strict_hop_masks"].startswith("disabled"),
     }
     return {
-        "sample_policy": "largest non-empty authoritative core in every cap-fold stratum",
+        "sample_policy": "core nearest the authoritative-count lower quartile in every cap-fold stratum",
         "records": records, "largest_sample_core": int(largest.core_id),
         "largest_sample_nodes": largest.n_node,
         "largest_sample_directed_edges": largest.n_edge,
@@ -157,6 +158,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--latent-size", type=int, default=80)
     parser.add_argument("--num-heads", type=int, default=8)
     parser.add_argument("--parity-atol", type=float, default=5.0e-5)
+    parser.add_argument("--report-name", default="multitracer_parity_report.json")
+    parser.add_argument(
+        "--marker-name", default="MULTITRACER_GRAPH_PATCH_PARITY_READY"
+    )
     return parser.parse_args()
 
 
@@ -185,10 +190,10 @@ def main() -> None:
         "gates": gates, "pass": all(gates.values()),
         "elapsed_seconds": time.time() - started,
     }
-    report_path = args.adapter_root / "multitracer_parity_report.json"
+    report_path = args.adapter_root / args.report_name
     report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     print(json.dumps(report, indent=2, sort_keys=True), flush=True)
-    marker = args.adapter_root / "MULTITRACER_GRAPH_PATCH_PARITY_READY"
+    marker = args.adapter_root / args.marker_name
     if not report["pass"]:
         if marker.exists():
             marker.unlink()
