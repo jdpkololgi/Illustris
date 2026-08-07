@@ -1,0 +1,34 @@
+{
+  "schema_version": "p8-faint-response-covariate-audit-v1",
+  "generated_utc": "2026-08-07T15:44:08Z",
+  "assignment_input": {
+    "path": "/pscratch/sd/d/dkololgi/abacus/SecondGen_Mocks/ph000/stage_3/path1_fiberassign_20260604_083322/loa-v1/mock0/datcomb_bright_tarspecwdup_zdone.fits",
+    "sha256": "2210f4609bb2309259e82460fbd17ac22d01b0af1dc4a49bfc058217d37689fd"
+  },
+  "desi_response_input": {
+    "path": "/global/cfs/cdirs/desi/public/dr2/spectro/redux/loa/zcatalog/v1/zall-pix-loa.fits",
+    "sha256": "eb09baef09a311ba4b1b4f4af635d47e61ba56fad60bf675331877ffbd832a26"
+  },
+  "assignment_audit": {
+    "deduplication": "faint rows; observed ZWARN != 999999 preferred; then smallest TILELOCID and source row per TARGETID",
+    "unique_observed_faint": 3352713,
+    "bgs_faint_north_bit": 256,
+    "bgs_faint_south_bit": 65536,
+    "north_rows": 0,
+    "south_rows": 0,
+    "both_rows": 0,
+    "neither_rows": 3352713
+  },
+  "desi_faint_redshift_success": {
+    "overall": 0.9642835440576552,
+    "north_photsys": 0.9663883994126284,
+    "south_photsys": 0.9633531370101576
+  },
+  "decision": {
+    "proxy_application": "Use the overall DESI BGS_FAINT redshift-success rate marginalized over PHOTSYS for every staged-mock Faint row.",
+    "forbidden_mapping": "Never infer imaging PHOTSYS from Galactic NGC/SGC cap.",
+    "tracer_contract": "Bright and Faint retain separate response, radial-selection, count, contrast, and exposure channels.",
+    "scope": "Development proxy only; not production eligible without a richer mock or validated reweighting."
+  },
+  "pass": true
+}

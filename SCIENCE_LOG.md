@@ -9,6 +9,13 @@ staged mock retains neither per-object `PHOTSYS` nor regional Faint target-selec
 bits, so mapping the rates by either Galactic cap or an inferred survey location would
 create false precision.
 
+A direct de-duplicated assignment-table audit makes that limitation quantitative:
+all `3,352,713` unique observed Faint targets carry neither `BGS_FAINT_NORTH` nor
+`BGS_FAINT_SOUTH`; both regional counts and the ambiguous-both count are zero. The
+DESI overall/North/South Faint success rates are `0.964284/0.966388/0.963353`, so the
+Proxy applies the overall rate rather than guessing the absent covariate. The tracked
+audit is `docs/evidence/p8/faint_response_covariate_audit.json`.
+
 The frozen development Proxy therefore uses the DESI LOA **overall BGS_FAINT success
 rate marginalized over PHOTSYS**, with a deterministic TARGETID-keyed draw. This does
 not merge tracer responses: Bright and Faint still retain independent count, contrast,
