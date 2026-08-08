@@ -1,5 +1,74 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-07 — [science] PROGRESS ASSESSMENT (Claude Code): generalisation ladder now +0.06 over the frozen baseline and CONVERGED; my P9 CIC-residual NO-GO was WRONG in scope; MT4's headline is uninterpretable until the neural null runs
+
+Reviewed SCIENCE_LOG + both plans and pulled every completed run's numbers directly. Assessment of
+where generalisability stands, with three corrections/flags.
+
+**1. The ladder (two-fold mean primary score = mean over rotations of macro R2(lambda1)):**
+| model | rot0 | rot2 | MEAN | first-three | sparse shell |
+|---|---:|---:|---:|---:|---:|
+| G-PATCH base | 0.4682 | 0.4708 | 0.4695 | 0.514 | 0.336 |
+| G-PATCH extension | 0.4910 | 0.4825 | 0.4867 | 0.535 | 0.343 |
+| U-PATCH base | 0.4943 | 0.5128 | 0.5035 | 0.562 | 0.328 |
+| U-PATCH extension | 0.5070 | 0.5197 | **0.5134** | 0.573 | 0.333 |
+| U-CIC-residual v2 | 0.5220 | 0.5208 | **0.5214** | **0.598** | 0.291 |
+| frozen R0 baseline | — | — | 0.440 | — | — |
+| CIC | — | — | 0.185 | 0.520 | -0.76 |
+Best honest same-phase result is now **+0.081 over the frozen spatial-holdout baseline** and passes
+both registered bars. The programme has moved from "no encoder generalises" (three weeks ago) to a
+converged, fold-replicated model that beats classical BOTH where classical works and where it fails.
+
+**2. CONVERGENCE IS NOW ANSWERED (it was the open question).** In the extension runs U-PATCH peaks at
+epoch **19 of 20** in BOTH rotations, with the last six epochs flat (rot0 0.5058->0.5070; rot2
+0.5166->0.5197) — the first genuine plateau in the programme; the earlier "peaked on last epoch"
+lower-bound caveat is discharged for U-PATCH. U-CIC-residual rot2 peaks at ep17. G-PATCH extension
+still rises at ep20 (0.4910) — G remains budget-limited and its ceiling is still unmeasured, so
+"G < U" is established at equal budget but not at G's own convergence.
+
+**3. CORRECTION — my 2026-07-21 P9 verdict "a CIC-residual/hybrid is NOT worth building" was WRONG in
+scope.** U-CIC-residual v2 scores 0.5214, the best non-multitracer result. What I tested was a GLOBAL
+LINEAR BLEND of frozen predictions, which cannot vary its trust in CIC by location; a TRAINED residual
+conditions on local context and can. My underlying mechanism was right and is visible in the numbers:
+the residual gains entirely in the supported shells (first-three 0.598 vs U-PATCH 0.573) and LOSES the
+sparse shell (0.291 vs 0.333, and 0.273 in rot2 — its worst-shell is the weakest of any learned
+model). So the correct statement is: CIC residuals help where CIC is informative and hurt where it is
+not, exactly as the blend analysis predicted — but a learned gate recovers the net. My error was
+generalising a blend-specific null into an architecture-level NO-GO. The registered "shell-aware /
+gated hybrid" caveat in that same entry is what actually got vindicated.
+
+**4. FLAG — MT4's headline number must not be quoted yet.** U-BF-PROXY rot0 reaches macro **0.6074**
+with sparse shell **0.4845** (vs U-PATCH 0.4943 / 0.341): +0.113 macro and +0.144 sparse, by far the
+largest single gain recorded. But MT3 already established that the CLASSICAL Faint gain was dominated
+by extra-sampling shrinkage, not structural information — genuine-position increment over the
+angularly scrambled null was only +0.014. **The neural null `U-BF-NULL-v1` has NOT been run**
+(`p8_multitracer_v1/models/recovery/` contains only mt4_proxy_v1 and its canary; the only null
+artifacts are classical `faint_position_null_cic`). Until the scrambled-Faint neural control exists,
+0.6074 cannot be attributed to Faint structural information rather than to sampling density/selection
+regularisation. The plan already mandates this comparison — it is now the single highest-priority run.
+
+**5. On the two integrated side-discussions:**
+- **Density-first (P8.9 U-DENSITY-PHYS-v1)** — correctly scoped and worth doing. It is the one
+  matched DarkAI-style control the programme lacks, and the log's distinction between P6 (patch
+  parity), P7 (FFT numerics), and the true-field context curve (missing-physics floor) is exactly
+  right: none of them measures learned long-mode accuracy. Two risks worth pre-registering: (a) the
+  density objective optimises bulk MSE while our product lives in the tails — the plan's rare-knot
+  reporting requirement covers this, keep it; (b) with U-CIC-residual already at 0.5214, a
+  density-first model that merely matches CIC-quality density will not beat it, so the informative
+  comparison is r(k)/transfer vs CIC's density, not just downstream R2.
+- **Degradation ladder (P10.1)** — the response-explicit design is a genuine improvement on my
+  earlier framing. Two points I would emphasise: it manufactures observation diversity, NOT new
+  structures (the plan says this — it must survive contact with any later claim), and the held-out
+  RECIPE (not just seed) is the load-bearing part. Given MT4's result, the ladder's tracer-density
+  axis is now the most scientifically interesting rung, because it directly probes whether the gains
+  are sampling-driven — the same question the MT4 null asks.
+
+**RECOMMENDED ORDER:** (i) U-BF-NULL neural control — decides whether the biggest number in the
+programme is real; (ii) G-PATCH longer budget to measure its actual ceiling (fairness of the U>G
+claim); (iii) P8.9 density-first; (iv) 3-seed replication of the current leader; then freeze and
+P10 fresh-phase. Everything above remains SAME-PHASE (ph000): no fresh-phase generalisation claim
+exists yet, and none of these results changes that.
+
 ### 2026-08-07 — [science/plan] Density-first baseline, learned-context closure, paired degradation, and `ph000` freeze boundary registered
 
 The methodology review closes four planning ambiguities without claiming a new model
