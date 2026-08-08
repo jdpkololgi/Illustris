@@ -1050,8 +1050,8 @@ Progress checklist:
 
 ### P8 — Matched spatial target-generalisation training
 
-**Status:** TWO-ROTATION EXPOSURE-AWARE RECOVERY AND LONG-HORIZON EXTENSIONS
-COMPLETE; MATCHED CORRECTIVE CONTROL IN PROGRESS (2026-08-05)
+**Status:** TWO-ROTATION RECOVERY/EXTENSIONS COMPLETE; U-CIC CLOSED; MT4 ROTATION 0
+ACTIVE; P8.9 REGISTERED (2026-08-07)
 **Duration:** recovery estimate follows the exposure audit; three-seed finalists later
 
 G-PATCH, U-PATCH, and F-PATCH may now enter the matched deterministic protocol.
@@ -1884,6 +1884,100 @@ The recovery is deliberately architecture-neutral. GraphNet, U-Net, a simplified
 F-tier/U-Physics model, or a classical-residual hybrid may win; the scientific product is
 the transferable estimator and validated protocol, not loyalty to a model family.
 
+#### P8.9 — Bounded density-first baseline and learned long-mode closure
+
+**Status:** REGISTERED; OPEN AFTER THE MT4 ROTATION-0 DECISION AND RELEASE OF ITS
+TRAINING ALLOCATION; MT4 NEED NOT PASS
+
+The current evidence does not yet contain a matched DarkAI-style learned-density
+baseline under the P4/P8 protocol. Keep the distinctions explicit:
+
+- T1/CIC/DTFE reconstruct density classically and then apply the fixed tidal solve;
+- historical T4/F1 produced an internal learned density field but trained it through
+  the downstream eigenvalue loss;
+- the planned F2 density-supervision experiment was never completed;
+- P6 established numerical stability of an existing U-Net at a 120-Mpc field halo,
+  not an accuracy gain from a larger effective receptive field;
+- P7 showed that a learned field followed by a finite FFT solve required a 360-Mpc
+  halo for numerical convergence, but did not train a P8 F-PATCH accuracy model;
+- the completed true-field 60/120/180/240/360-Mpc diagnostic measures missing tidal
+  support with perfect density, not what a learned reconstruction recovers.
+
+Register one primary baseline, `U-DENSITY-PHYS-v1`, before any new graph-field,
+density-residual, cell-size, or loss sweep:
+
+```text
+frozen Bright P3/P6 count, contrast, exposure, mask, and LOS fields
+  -> patch-trained, patch-safe U-Net
+  -> predicted R=7 Mpc/h smoothed matter contrast on core voxels
+  -> deterministic overlap stitching on the complete NGC/SGC cap lattices
+  -> one global fixed FFT tidal solve per cap
+  -> tensor/eigenvalues sampled at the frozen Bright authoritative galaxies
+```
+
+The target field is
+
+```text
+delta_R7(k) = W_7(k) delta_m(k)
+T_ij(k)     = (k_i k_j / k^2) delta_R7(k), with T_ij(k=0) = 0.
+```
+
+Do not apply `W_7` a second time in the tidal layer. Generate `delta_R7` at the frozen
+target epoch on the canonical observer-frame cap lattices, verify its trace/eigenvalue
+closure against the existing CACTUS labels, and store its construction manifest and
+hashes. The matter field is privileged supervision only and can never enter a DESI
+model input.
+
+Freeze the D0 training and inference contract:
+
+1. Use Bright-only inputs first so the output-representation question is matched to
+   `U-PATCH-BRIGHT_REFERENCE`. A later multitracer density row requires an MT4 gain and
+   is separately named; it is not part of D0.
+2. Reuse the P4 rotations, authoritative rows, 64-Mpc cores, P6 train-only response
+   transforms, complete-exposure sampler, seed 42, patch-safe normalization, atomic
+   resume, and complete-fold evaluation. Context voxels never own density loss.
+3. Train the declared baseline with one training-fold-standardized voxelwise MSE on
+   `delta_R7`. It has no eigenvalue/tensor target or direct point head. This deliberately
+   measures the conventional density objective rather than silently turning D0 into
+   another direct-eigenvalue model.
+4. Infer overlapping density cores, require order- and subdivision-invariant stitching,
+   and report overlap disagreement before applying the P7-compatible global
+   padding/apodization and fixed tidal solve.
+5. Report both the raw physical eigenvalues and any train-fold-only affine diagnostic as
+   separate rows. Never use validation labels to rescale the reconstructed field or
+   silently substitute the affine row for the raw physical product.
+
+Density MSE is an optimization loss, not the adoption metric. Report:
+
+- field cross-correlation `r(k)`, transfer function, power ratio, mean/variance, and
+  one-point PDF/tail recovery overall and by shell/cap/support distance;
+- trace closure, tensor/eigenvalue error, ordering, and eigengap-conditioned orientation;
+- the complete P8 per-galaxy macro, per-shell, pooled, class, knot/void, boundary, and
+  spatial-block metrics on the identical authoritative rows;
+- high-density and rare-knot failures explicitly, even if bulk field MSE is strong.
+
+Use the stitched predicted field to run the missing learned long-mode diagnostic without
+retraining: compare the global predicted-field tidal solve with matched
+60/120/180/240/360-Mpc context solves, reporting trace and traceless shear separately
+and comparing the curve with the completed true-field floor. Merely enlarging an input
+halo beyond a fixed convolutional receptive field is not a context experiment and does
+not satisfy this gate.
+
+Run rotation 0 once. Continue to rotation 2 only if D0 is within `0.03` macro
+`R2_lambda1` of the matched U-PATCH reference, improves a registered shell without a
+supported-shell degradation worse than `0.01`, or yields a pre-declared tensor/
+eigenvector benefit sufficient to justify retaining a secondary field product. If D0
+has credible field `r(k)` but specifically fails downstream shear, tails, or eigenvalue
+metrics, register at most one `U-DENSITY-PHYS-AUX-v1` run with the same architecture and
+one fixed downstream tensor/eigenvalue auxiliary loss. Otherwise close density-objective
+misalignment without a loss sweep. Do not open G-density, F-density, density-residual,
+or generative-field branches from a failed D0.
+
+Required artifacts are a target-field manifest, D0 config, stitched-field parity report,
+field/downstream metric bundle, learned-context report, exact predictions, checksums, and
+`DENSITY_FIRST_BASELINE_DECISION`. This bounded baseline may inform model choice but does
+not delay P10 phase/cost benchmarking or replace independent-phase validation.
+
 Progress checklist:
 
 - [x] Freeze the linear-increment target/scaler and complete-fold macro-R2 evaluator.
@@ -2043,6 +2137,38 @@ Reserve:
 - ph006: phase-level validation and calibration;
 - ph001: sealed blind phase.
 
+#### P10.0 — `ph000` development boundary
+
+It is reasonable to defer the expensive multi-phase training campaign until the
+remaining representation and observation questions have been reduced to one or two
+finalists. It is not acceptable to optimize `ph000` without a terminal boundary and
+then describe the result as more generalisable. Repeated decisions against the same
+blocked folds create adaptive benchmark overfitting even when the supervised rows are
+spatially disjoint.
+
+The remaining authorized `ph000` model-development decisions are therefore bounded to:
+
+1. finish the active MT4 Proxy/null decision and any already-triggered registered
+   rotation;
+2. run P8.9 `U-DENSITY-PHYS-v1` and only its explicitly gated D1 auxiliary;
+3. implement and canary the P10.1 final/degraded-view loaders and response channels;
+4. use `ph000` only for technical or optimization screens of Arms A--C, never as their
+   production-transfer decision;
+5. open one paired-view P11 experiment only after the independent-phase Arms A--C
+   diagnose a representation bottleneck.
+
+No additional `ph000` architecture, loss, feature, context, cell-size, residual, or
+posterior sweep opens from a null result. When the authorized decisions close, freeze
+the surviving encoder(s), D0 field contract if retained, degradation recipes, response
+schema, target/metric code, transformations, compute budgets, and acceptance rules in a
+signed manifest. Later model selection occurs on ph006; ph001 remains a one-open blind
+test and may not be used to tune this list.
+
+P10 infrastructure is not deferred. Audit phase assets and benchmark one complete
+target-generation chain in parallel with the remaining `ph000` work. This separates the
+scientific choice to delay expensive multi-phase training from an avoidable late data,
+runtime, or storage blocker.
+
 HOD seeds from one phase are population/observation variations, not independent cosmic
 structures. The existing staged LSS catalogues are sufficient for the deterministic
 protocol gate. Do not generate new HOD samples before shutdown. Add HOD-family
@@ -2095,7 +2221,8 @@ Progress checklist:
 
 #### P10.1 — Controlled observation-operator training
 
-**Status:** GATED ON P8 CLOSURE AND CURRENT-PATH1 INTERMEDIATE-VIEW LINEAGE AUDIT
+**Status:** SCIENTIFIC TRAINING GATED ON P8 CLOSURE; LINEAGE AUDIT AND TECHNICAL
+CANARIES AUTHORIZED
 
 The catalogue identifiers required to pair and group examples are not automatically
 valid conditioning variables. Use this role contract:
@@ -2133,6 +2260,21 @@ view. Because distinct observers can revisit the same periodic-box structure, th
 P10 test should either use one observer or prove cross-observer grouping by base-box
 identity.
 
+Freeze a response-explicit degradation ladder before model training. It must include a
+high-fidelity dense observed-galaxy view, the final Path1-like deployment view, and
+intermediate views that vary magnitude selection, redshift-dependent tracer density,
+angular completeness/masks, fibre assignment, redshift success/error, and tracer
+composition where the current mock supports them. Uniform random thinning is a named
+information control, not a substitute for the survey observation operator. Every view
+must save its selected IDs, random seed, response fields, topology/field manifests, and
+source hashes. Hold out at least one degradation recipe, not only a seed, from training.
+
+The dense view is privileged training context, not a DESI input. Before it can become a
+teacher in P11, its supervised model must transfer to unseen spatial blocks and ph006;
+otherwise latent alignment would distill a phase- or geography-specific representation.
+Multiple degradation views do not create new cosmic structures and cannot replace the
+phase split.
+
 Only three observation-training arms are mandatory:
 
 | Arm | Training contract | Identifies |
@@ -2144,8 +2286,10 @@ Only three observation-training arms are mandatory:
 Select on the final production-like ph006 view, while reporting every stage, worst
 stage/effect, and at least one held-out degradation recipe. A curriculum is only an
 order-controlled replay ablation using the identical Arm-C examples and optimizer
-updates. Paired consistency is optional. Cross-stage JEPA remains P11 and opens only if
-Arms A–C identify a representation bottleneck.
+updates. After any dense-to-sparse warm-up, retain balanced replay of dense,
+intermediate, and final views; a one-way curriculum that forgets earlier views is not an
+admissible comparison. Paired consistency is optional. Cross-stage JEPA remains P11 and
+opens only if Arms A–C identify a representation bottleneck.
 
 Minimal decision order:
 
@@ -2167,7 +2311,7 @@ Minimal decision order:
 
 ### P11 — Representation pretraining
 
-**Status:** DEFERRED UNTIL P8 DETERMINISTIC GATE; OPTIONAL THEREAFTER
+**Status:** DEFERRED; OPTIONAL ONLY IF P10 ARMS A--C DIAGNOSE A REPRESENTATION BOTTLENECK
 **Duration:** 2–5 GPU days for bounded controls
 
 JEPA is not GraphNet-only. Apply it to whichever graph, grid, or F-tier encoders remain
@@ -2191,6 +2335,63 @@ varied magnitude selection, fibre assignment, completeness, and redshift errors.
 HOD/velocity-bias variation is a later nuisance-robustness extension, not a prerequisite
 for the bounded JEPA test.
 
+#### P11.1 — Paired dense/degraded teacher--student gate
+
+**Status:** OPTIONAL; GATED ON P10 ARMS A--C AND A TRANSFERRING DENSE TEACHER
+
+The historical T3 LUPI attempt is not evidence against this branch: it used a
+true-density CNN teacher, never completed a valid GPU run, and was shelved without a
+scientific result. The first P11 test instead uses the same observed-galaxy modality at
+different known response levels so it isolates observation robustness rather than
+distilling a teacher that directly sees the answer field.
+
+Open `PAIRED-DEGRADE-JEPA-v1` only if:
+
+1. the dense-view teacher transfers under the frozen outer spatial/phase split and has
+   clear headroom over the final-view student;
+2. P10 Arm C still shows a reproducible final-view or held-out-recipe deficit consistent
+   with a representation bottleneck rather than missing information alone; and
+3. all views of a latent core have valid pairing/provenance and remain in one outer
+   split with one total scientific weight.
+
+Use the leading frozen encoder family; U-PATCH is the default while it remains the
+deterministic leader. The teacher is frozen or EMA-updated and receives the dense view.
+The deployable student receives the degraded view plus only DESI-available response
+channels. The teacher, degradation label, phase, observer, HOD, and true failure-recipe
+parameters are absent at inference.
+
+Use the bounded objective
+
+```text
+L = L_target(student prediction, shared target)
+    + alpha L_align(P(z_student), stopgrad(z_teacher))
+    + beta L_spread(z_student)
+```
+
+where `P` predicts only teacher components recoverable from the degraded observation.
+Align corresponding local/core and multiscale latents, with masks for unsupported
+locations; do not force exact equality of one pooled embedding. Exact alignment is
+physically wrong when sparsity has removed information and can create hallucination,
+excessive shrinkage, or overconfident downstream posteriors. `L_spread` must prevent
+collapse, and alpha/beta plus the aligned layers are frozen before validation scores.
+
+Compare at identical outer splits, seeds, examples, optimizer updates, and compute:
+
+1. Arm C supervised response-conditioned initialization with no alignment;
+2. masked reconstruction/denoising on the same views;
+3. paired latent prediction with the objective above;
+4. an order-only dense-to-sparse curriculum using the identical view multiset and
+   balanced replay.
+
+Evaluate the student alone on the production-like ph006 view, every registered severity,
+the held-out degradation recipe, and later ph001. Report primary/worst-shell metrics,
+stage-wise transfer, response dependence, embedding collapse/spread, and deterministic
+calibration diagnostics. A gain on `ph000`, the dense teacher, or an intermediate stage
+does not promote the branch. Adoption requires the existing fresh-phase `+0.03` target
+or comparably clear balanced-class gain, no supported-shell degradation worse than
+`0.01`, and no deterioration on the held-out recipe. Posterior uncertainty remains P12;
+alignment must never be presented as calibrated uncertainty.
+
 Do not pretrain on DESI until truth-known sim-to-sim controls pass. DESI pretraining is
 transductive domain adaptation, not zero-shot generalisation.
 
@@ -2203,6 +2404,9 @@ Progress checklist:
 - [ ] Reopen only if P8/P10 establish a specific representation-data bottleneck.
 - [ ] Freeze random-init, masked-reconstruction, and JEPA matched controls.
 - [ ] Implement leakage-safe spatial masks and feature-support guards.
+- [ ] Validate the dense teacher on unseen spatial blocks and ph006 before distillation.
+- [ ] Keep all paired views in one outer split with one latent-core scientific weight.
+- [ ] Freeze the degradation ladder, held-out recipe, alignment layers, and loss weights.
 - [ ] Compare on identical folds, compute, seeds, and independent phase tests.
 - [ ] Adopt only for reproducible deterministic transfer gain.
 

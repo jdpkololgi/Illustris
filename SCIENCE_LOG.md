@@ -1,5 +1,64 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-07 — [science/plan] Density-first baseline, learned-context closure, paired degradation, and `ph000` freeze boundary registered
+
+The methodology review closes four planning ambiguities without claiming a new model
+result. First, full multi-phase training may wait until the remaining `ph000`
+representation questions select one or two finalists, but `ph000` development is no
+longer open-ended. The authorized remainder is MT4, one bounded density-first baseline,
+technical observation-view canaries, and only a diagnosed paired-view representation
+test. Phase asset auditing and one complete target-generation cost benchmark proceed in
+parallel. After those decisions, freeze the representation/response/metric contract,
+train on ph002--ph005, select on ph006, and open ph001 once. Multi-phase evaluation is
+an unbiased transfer test, not an experiment expected to raise the score.
+
+Second, the programme has diagnosed but not run the decisive learned-context accuracy
+experiment. P6's 120-Mpc result is patch-extraction/model-parity convergence; P7's
+360-Mpc result is learned-field/FFT numerical convergence; and the completed true-field
+60/120/180/240/360-Mpc curve measures the missing-physics floor. None compares trained
+eigenvalue accuracy as longer learned modes enter. Merely enlarging a halo beyond a
+fixed convolutional receptive field cannot answer that question.
+
+P8.9 therefore registers `U-DENSITY-PHYS-v1`: the frozen Bright P3/P6 fields feed a
+patch-safe U-Net trained only on the true `R=7 Mpc/h` smoothed matter contrast. Its
+overlapping core predictions are stitched into complete cap fields, followed by one
+global fixed FFT tidal solve and evaluation at the identical Bright authoritative
+galaxies. This is the missing density-supervised DarkAI-style baseline. Historical
+T4/F1 produced an internal density field but was eigenvalue-supervised; F2 density
+supervision never ran. Density MSE is the declared optimization loss, while downstream
+P8 eigenvalue/class metrics, field `r(k)`/transfer/power/tails, and a learned-field
+60--360-Mpc context curve decide the result. Rotation 0 is mandatory; rotation 2 and at
+most one downstream-auxiliary loss are gated. No density architecture or loss sweep is
+opened by a null result.
+
+Third, P10.1 now freezes a response-explicit degradation ladder and the information
+accounting for paired views. Dense, intermediate, and final Path1-like observations of
+one latent core remain in the same outer split and share one scientific weight; they do
+not become new cosmic structures. The first mandatory comparison remains supervised
+Arms A--C: final view, balanced observation diversity, then explicit deployable response
+conditioning. A curriculum is only an order ablation over the same examples and updates,
+with balanced replay after any dense-to-sparse warm-up. At least one degradation recipe,
+not only a random seed, is held out.
+
+Finally, P11.1 registers one optional paired dense/degraded teacher--student experiment
+only if Arms A--C leave a representation bottleneck and the ideal dense teacher itself
+transfers to unseen spatial blocks and ph006. The student receives degraded inputs plus
+DESI-available response channels; the teacher is absent at inference. Alignment uses a
+predictor, stop-gradient teacher, local/multiscale masks, and a spread regularizer rather
+than forcing exact equality of a pooled embedding whose dense-view information may be
+unrecoverable. The older T3 LUPI launch is explicitly recorded as untested, not negative
+evidence. Promotion still requires fresh-phase improvement, a held-out degradation
+recipe, and no supported- or sparse-shell regression; latent alignment is not posterior
+calibration.
+
+Current state remains unchanged: MT4 rotation 0 is active; `U-PATCH-BRIGHT_REFERENCE`
+is frozen; U-CIC/G-CIC/F-CIC remain closed; the density-first baseline is registered but
+not started; P10 infrastructure benchmarking is active; paired JEPA is gated. No model
+is promoted and no empirical score is introduced by this plan amendment.
+
+Refs: `docs/plan_generalisable_graphweb_vac.md` P8.9, P10.0, P10.1, and P11.1;
+`docs/plan_field_level_multimodal.md` T3/F1/F2 history.
+
 ### 2026-08-07 — [science/code/runtime] MT2/MT3 close; exact-resume MT4 rotation-0 training launched
 
 The BGS_BRIGHT-target/BGS_FAINT-context branch has crossed its last pre-training
