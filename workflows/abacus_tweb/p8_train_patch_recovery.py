@@ -213,6 +213,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--multitracer-root", type=Path, default=mt_unet_impl.MT)
     parser.add_argument("--multitracer-product", default="bf_proxy_response_v1")
     parser.add_argument(
+        "--multitracer-faint-control-manifest", type=Path,
+        help="optional frozen control-field manifest overriding only FAINT counts",
+    )
+    parser.add_argument(
+        "--multitracer-faint-control-product",
+    )
+    parser.add_argument(
         "--multitracer-graph-product",
         default="bf_proxy_response_v1_photsys_marginal",
     )
@@ -261,6 +268,22 @@ def parse_args() -> argparse.Namespace:
         parser.error("scientific recovery runs require --min-epochs >= 5")
     if args.canary and args.epochs != 1:
         parser.error("a canary must use exactly one complete epoch")
+    control_pair = (
+        args.multitracer_faint_control_manifest is not None,
+        args.multitracer_faint_control_product is not None,
+    )
+    if control_pair[0] != control_pair[1]:
+        parser.error(
+            "multitracer-faint-control-manifest and "
+            "multitracer-faint-control-product must be supplied together"
+        )
+    if any(control_pair) and args.model != "unet_multitracer":
+        parser.error("FAINT count controls are exclusive to unet_multitracer")
+    if (
+        args.multitracer_faint_control_manifest is not None
+        and not args.multitracer_faint_control_manifest.is_file()
+    ):
+        parser.error("multitracer FAINT control manifest was not found")
     return args
 
 
@@ -381,6 +404,8 @@ def main() -> None:
             product=args.multitracer_product,
             rotation=args.rotation,
             root=args.multitracer_root,
+            faint_control_manifest=args.multitracer_faint_control_manifest,
+            faint_control_product=args.multitracer_faint_control_product,
         )
         multitracer_inputs = {
             "product": args.multitracer_product,
@@ -394,6 +419,20 @@ def main() -> None:
             ],
             "supervision": "frozen BGS_BRIGHT targets only; BGS_FAINT context-only",
         }
+        if adapter.faint_control is not None:
+            multitracer_inputs["faint_count_override"] = {
+                "manifest": str(adapter.faint_control_manifest_path),
+                "manifest_sha256": sha256(adapter.faint_control_manifest_path),
+                "product": adapter.faint_control_product,
+                "component_files": {
+                    cap: component["file"]
+                    for cap, component in adapter.faint_control["components"].items()
+                },
+                "contract": (
+                    "only FAINT count positions are replaced; real FAINT exposure, "
+                    "selection curve and frozen rotation normalization are retained"
+                ),
+            }
     else:
         selection_manifest = json.loads(args.selection.read_text())
         normalization = selection_manifest["rotations"][str(args.rotation)]["normalization"]
@@ -557,6 +596,8 @@ def main() -> None:
             "selection",
             "multitracer_root",
             "multitracer_product",
+            "multitracer_faint_control_manifest",
+            "multitracer_faint_control_product",
             "multitracer_graph_product",
         )
         checkpoint_arguments = state["arguments"]

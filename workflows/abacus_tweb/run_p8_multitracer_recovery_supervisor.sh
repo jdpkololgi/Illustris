@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Resume one frozen MT4/MT5 recovery run across interactive allocation walls.
-# Usage: run_p8_multitracer_recovery_supervisor.sh unet_multitracer 0 [run_name]
+# Usage: run_p8_multitracer_recovery_supervisor.sh \
+#   unet_multitracer 0 [run_name] [faint_control_product]
 
 set -eo pipefail
 unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD
@@ -10,6 +11,7 @@ set -u
 MODEL=${1:?model required}
 ROTATION=${2:?rotation required}
 RUN_NAME=${3:-mt4_proxy_v1}
+FAINT_CONTROL_PRODUCT=${4:-}
 case "$MODEL" in
   unet_multitracer|graph_multitracer) ;;
   *) echo "unsupported multi-tracer model: $MODEL" >&2; exit 2 ;;
@@ -18,6 +20,18 @@ esac
 REPO=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
 PY=/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python
 ROOT=/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1
+CONTROL_ARGS=()
+if [[ -n "$FAINT_CONTROL_PRODUCT" ]]; then
+  if [[ "$MODEL" != "unet_multitracer" ]]; then
+    echo "FAINT control product is exclusive to unet_multitracer" >&2
+    exit 2
+  fi
+  CONTROL_MANIFEST=$ROOT/classical/control_fields/bf_proxy_response_v1/manifest.json
+  CONTROL_ARGS=(
+    --multitracer-faint-control-manifest "$CONTROL_MANIFEST"
+    --multitracer-faint-control-product "$FAINT_CONTROL_PRODUCT"
+  )
+fi
 OUT_ROOT=$ROOT/models/recovery
 OUT=$OUT_ROOT/$RUN_NAME/$MODEL/rotation_$ROTATION/seed_42
 LOG=/pscratch/sd/d/dkololgi/logs/p8_${RUN_NAME}_${MODEL}_rot${ROTATION}_supervisor.log
@@ -30,6 +44,7 @@ mkdir -p "$(dirname "$LOG")" "$OUT"
   echo "repo=$REPO"
   echo "expected_revision=$EXPECTED_REVISION"
   echo "model=$MODEL rotation=$ROTATION run_name=$RUN_NAME"
+  echo "faint_control_product=${FAINT_CONTROL_PRODUCT:-none}"
 } >> "$LOG"
 
 for ATTEMPT in $(seq 1 "$MAX_ATTEMPTS"); do
@@ -71,6 +86,7 @@ for ATTEMPT in $(seq 1 "$MAX_ATTEMPTS"); do
       --lr 0.002 --disable-early-stopping \
       --loss-log-every 25 --checkpoint-every 250 \
       --run-name "$RUN_NAME" --output-root "$OUT_ROOT" \
+      "${CONTROL_ARGS[@]}" \
       "${RESUME[@]}" >> "$LOG" 2>&1
   STATUS=$?
   set -e

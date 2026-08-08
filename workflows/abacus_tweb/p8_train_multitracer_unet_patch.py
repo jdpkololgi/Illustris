@@ -85,7 +85,15 @@ def zscore(values: np.ndarray, spec: dict) -> np.ndarray:
 
 
 class MultitracerFieldAdapter:
-    def __init__(self, *, product: str, rotation: int, root: Path = MT):
+    def __init__(
+        self,
+        *,
+        product: str,
+        rotation: int,
+        root: Path = MT,
+        faint_control_manifest: Path | None = None,
+        faint_control_product: str | None = None,
+    ):
         self.root = Path(root)
         self.product = product
         self.rotation = int(rotation)
@@ -95,6 +103,47 @@ class MultitracerFieldAdapter:
         self.field_path = self.root / "fields" / product / "manifest.json"
         self.selection = json.loads(self.selection_path.read_text())
         self.fields = json.loads(self.field_path.read_text())
+        if (faint_control_manifest is None) != (faint_control_product is None):
+            raise ValueError(
+                "faint_control_manifest and faint_control_product must be supplied together"
+            )
+        self.faint_control_manifest_path = (
+            None if faint_control_manifest is None else Path(faint_control_manifest)
+        )
+        self.faint_control_product = faint_control_product
+        self.faint_control = None
+        if self.faint_control_manifest_path is not None:
+            control_manifest = json.loads(
+                self.faint_control_manifest_path.read_text()
+            )
+            if not control_manifest.get("pass", False):
+                raise RuntimeError("FAINT control-field manifest did not pass")
+            try:
+                control = control_manifest["products"][faint_control_product]
+            except KeyError as exc:
+                raise RuntimeError(
+                    f"FAINT control product not found: {faint_control_product}"
+                ) from exc
+            if not control.get("pass", False):
+                raise RuntimeError("FAINT control product did not pass")
+            if control.get("scheme") != "cic":
+                raise RuntimeError("FAINT neural control must use CIC deposition")
+            if control.get("labels_read") is not False:
+                raise RuntimeError("FAINT control must prove labels_read=false")
+            for cap_name in ("NGC", "SGC"):
+                component = control["components"][cap_name]
+                if "faint_counts" not in component.get("datasets", []):
+                    raise RuntimeError(
+                        f"FAINT control component lacks faint_counts: {cap_name}"
+                    )
+                real_grid = self.fields["components"][cap_name]["grid"]
+                control_grid = component["grid"]
+                for key in ("shape", "origin_mpc", "cell_mpc"):
+                    if not np.allclose(real_grid[key], control_grid[key], rtol=0, atol=0):
+                        raise RuntimeError(
+                            f"FAINT control grid mismatch for {cap_name} {key}"
+                        )
+            self.faint_control = control
         bright_selection_path = Path(
             self.selection["tracers"]["BGS_BRIGHT"]["selection_manifest"]
         )
@@ -110,6 +159,7 @@ class MultitracerFieldAdapter:
             P6, selection_manifest=bright_selection_path, rotation=rotation
         )
         self.handles: dict[int, h5py.File] = {}
+        self.count_handles: dict[int, h5py.File] = {}
         self.radius_grid, self.redshift_grid = radius_to_redshift_grid(0.10, 0.60)
         self.core_cap = self.base.core_cap
 
@@ -118,6 +168,9 @@ class MultitracerFieldAdapter:
         for handle in self.handles.values():
             handle.close()
         self.handles.clear()
+        for handle in self.count_handles.values():
+            handle.close()
+        self.count_handles.clear()
 
     def __enter__(self):
         return self
@@ -131,6 +184,14 @@ class MultitracerFieldAdapter:
             self.handles[cap] = h5py.File(path, "r")
         return self.handles[cap]
 
+    def _count_handle(self, cap: int) -> h5py.File:
+        if self.faint_control is None:
+            return self._handle(cap)
+        if cap not in self.count_handles:
+            path = self.faint_control["components"][CAP_NAME[cap]]["file"]
+            self.count_handles[cap] = h5py.File(path, "r")
+        return self.count_handles[cap]
+
     def extract(self, core_id: int):
         bright = self.base.extract(
             core_id, HALO_VOXELS, CHANNELS, alignment_voxels=ALIGNMENT_VOXELS
@@ -140,7 +201,11 @@ class MultitracerFieldAdapter:
             for start, stop in zip(bright.context_start, bright.context_stop)
         )
         handle = self._handle(bright.cap)
-        faint_counts = np.asarray(handle["counts"][selection], dtype=np.float32)
+        count_handle = self._count_handle(bright.cap)
+        count_dataset = "counts" if self.faint_control is None else "faint_counts"
+        faint_counts = np.asarray(
+            count_handle[count_dataset][selection], dtype=np.float32
+        )
         faint_exposure = np.asarray(
             handle["exposure_apodized"][selection], dtype=np.float32
         )
