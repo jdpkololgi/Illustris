@@ -1,5 +1,60 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-08 — [science/runtime] Proxy rotation 2 replicates the sparse-shell gain; neural Null rotation 0 establishes real Faint spatial information; Null rotation 2 launched
+
+The two active MT4 runs completed cleanly through three exact-resume interactive
+allocations each at frozen revision `6b80744`. Every epoch had complete unique-core
+coverage, zero repeats, and complete validation; ordering violations remain zero and
+the boundary-error Spearman coefficients are negligible.
+
+Best-checkpoint results against the converged Bright-only U-PATCH reference are:
+
+| run | rot0 macro | rot2 macro | rot0 sparse | rot2 sparse |
+|---|---:|---:|---:|---:|
+| Bright U-PATCH extension | 0.50700 | 0.51974 | 0.34534 | 0.32104 |
+| `U-BF-PROXY-v1` | **0.60737** | **0.53941** | **0.48452** | **0.43016** |
+| `U-BF-NULL-v1` | 0.47533 | running | 0.36952 | running |
+
+The Proxy two-rotation mean is `0.57339`, a `+0.06002` gain over the Bright mean
+`0.51337`. Crucially, its sparse-shell gain replicates strongly: `+0.13918` on
+rotation 0 and `+0.10913` on rotation 2. This is the clearest evidence yet that the
+current Bright-only problem is tracer-information limited.
+
+The matched rotation-0 causal contrast is much larger than the classical control had
+suggested. Proxy minus scrambled-Faint Null is `+0.13204` in macro R2, with positive
+per-shell contrasts `+0.15057/+0.13145/+0.13114/+0.11500`. The Null itself is
+`-0.03168` below Bright-only in macro R2: uncorrelated Faint context hurts the supported
+shells and gives only `+0.02418` in the sparse shell. Therefore the large neural Proxy
+gain on rotation 0 is not explained by extra occupancy, the retained radial selection,
+or a generic six-channel regularization shortcut. The network is using the actual
+spatial relationship between Faint tracers and the Bright-target tidal field.
+
+This is a positive information result, not yet a model-adoption result. Proxy rotation
+2 improves macro R2 over Bright by only `+0.01967`, below the registered `+0.03` gate,
+and its second supported shell changes by `-0.01522`, exceeding the allowed `-0.01`
+degradation. The Proxy fold spread is `0.06795`, so the absolute gain is geography
+dependent even though the sparse-shell gain is robust. Fresh-phase promotion remains
+closed.
+
+Both completed runs carry the mechanical `NOT_CONVERGED_MAX_EPOCHS` marker because
+their best score is epoch 20. Their cosine schedules have already reached learning rate
+zero, however, so they fail the pre-registered extension condition. No unregistered
+warm restart or extra epochs were launched.
+
+The large rotation-0 Proxy--Null contrast and Proxy fold spread trigger the registered
+geographic replication of the causal control. `U-BF-NULL-v1` rotation 2 is active from
+the same detached worktree and immutable contract:
+
+- tmux: `p8_mt4_null_rot2`;
+- allocation: `56514867` on `nid008340`;
+- output:
+  `/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/models/recovery/mt4_faint_null_v1/unet_multitracer/rotation_2/seed_42/`.
+
+The next MT4 decision is frozen: finish Null rotation 2, compute the two-fold causal
+contrast and shell safeguards, then either close MT4 as a demonstrated multitracer
+information gain with an unpromoted current encoder, or open the already registered
+seed/fresh-phase steps. MT5/F-tier/posterior work does not pre-empt this decision.
+
 ### 2026-08-07 — [code] All-model parity figures (fig18/19/20): pooled lambda1 ladder verified on identical rows; MT4 is the only model that does not degrade toward the sparse shell
 
 Parity for every completed P8 model on the SAME rotation-0 validation fold (999,683 Bright
