@@ -1,5 +1,41 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-07 — [code] All-model parity figures (fig18/19/20): pooled lambda1 ladder verified on identical rows; MT4 is the only model that does not degrade toward the sparse shell
+
+Parity for every completed P8 model on the SAME rotation-0 validation fold (999,683 Bright
+authoritative cores; parent_node_id-verified for all six learned models plus CIC).
+Code: workflows/abacus_tweb/plot_all_models_parity.py.
+
+**Pooled lambda1 (R2 / slope / amplitude ratio):**
+| model | R2 | slope | sigma_p/sigma_t |
+|---|---:|---:|---:|
+| CIC (train-affine) | 0.527 | 0.52 | 0.72 |
+| G-PATCH base | 0.528 | 0.61 | 0.82 |
+| G-PATCH extension | 0.560 | 0.58 | 0.78 |
+| U-PATCH base | 0.572 | 0.57 | 0.75 |
+| U-PATCH extension | 0.588 | 0.59 | 0.77 |
+| U-CIC-residual v2 | 0.617 | 0.62 | 0.79 |
+| MT4 multitracer* | **0.674** | 0.67 | 0.82 |
+Pooled ordering matches the registered macro ladder exactly — the ranking is not a macro artifact.
+
+**The per-shell panel (fig20 left) is the important one.** Every Bright-only model declines steeply
+toward the sparse shell (0.55-0.65 -> 0.29-0.35, a drop of ~0.25-0.30) while CIC falls off a cliff
+(-0.76). MT4 declines only from 0.708 to 0.485 — a drop of 0.22 but from a much higher start, and it
+is the first model whose sparse-shell R2 exceeds every other model's SUPPORTED-shell floor. That is
+exactly what adding tracers should look like IF the gain is information; it is also exactly what
+denser sampling alone would look like. The neural null remains mandatory before interpretation.
+
+**Amplitude ratios (fig20 middle) separate the two failure modes cleanly.** All learned models sit
+below 1 and decline with sparsity (0.86->0.59), i.e. honest conditional-mean shrinkage tracking
+sqrt(R2). CIC alone crosses 1 and reaches **1.33** in the sparse shell — noise amplification. MT4
+holds the highest ratios of any learned model (0.83->0.71), i.e. it is the least shrunk, consistent
+with genuinely more information rather than better regularisation — a useful discriminator to re-check
+after the null runs.
+
+**U-CIC-residual detail:** its parity cloud is visibly tighter than U-PATCH at high true-lambda1 but
+its sparse-shell point is the lowest of the learned models (0.31 vs 0.33-0.35), reproducing the
+supported-gain/sparse-loss trade identified in the P9 audit.
+
 ### 2026-08-08 — [science/code/runtime] U-BF Proxy replication and matched neural Faint-position null launched from one frozen contract
 
 The decisive MT4 comparison is now running. Commit `6b80744` adds an optional,
