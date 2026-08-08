@@ -1483,9 +1483,10 @@ replication and P10 fresh-phase transfer remain mandatory before production prom
 
 #### P8.8 BGS_FAINT multitracer information gate
 
-**Status:** MT1--MT3 COMPLETE; MT4 ROTATION 0 RUNNING; MT5 TECHNICALLY READY BUT FULL TRAINING GATED; NO MODEL PROMOTED
+**Status:** MT1--MT3 COMPLETE; MT4 PROXY ROTATION 0 COMPLETE; PROXY ROTATION 2
+AND NULL ROTATION 0 RUNNING; MT5 TECHNICALLY READY BUT FULL TRAINING GATED; NO MODEL PROMOTED
 
-Implementation checklist (2026-08-07):
+Implementation checklist (updated 2026-08-08):
 
 - [x] Freeze the causal contract: BGS_BRIGHT alone owns supervision, evaluation, and
   catalogue output; BGS_FAINT is context-only in the first information screen.
@@ -1526,6 +1527,14 @@ Implementation checklist (2026-08-07):
   tracked summary is `docs/evidence/p8/multitracer_mt3_summary.json`; the information
   audit is `/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/diagnostics/bf_proxy_response_v1/information_audit.json`.
 
+- [x] Implement the neural Faint-position null at commit `6b80744`. The loader changes
+  only Faint counts/derived density while retaining real Proxy exposure, selection,
+  normalization and every Bright input/target. The full-cap smoke test proves exact
+  identity of the retained channels and is executable as
+  `workflows/abacus_tweb/p8_smoke_multitracer_null.py`.
+- [ ] Complete the active Proxy rotation-2 replication and Null rotation-0 causal
+  control; immutable manifests and checkpoint-resuming supervisors are live.
+
 Completed preflight interpretation (2026-08-07):
 
 - MT2 raises high-redshift occupied-voxel fractions from `1.18% -> 4.87%` in NGC
@@ -1545,8 +1554,12 @@ Completed preflight interpretation (2026-08-07):
 - The first MT3 evaluation correctly withheld completion after tiny affine-induced
   eigenvalue crossings. Commit `4556317` restores order after train-fitted affine
   calibration; all eight gates then pass without using validation truth.
+- `U-BF-PROXY-v1` rotation 0 completes at epoch 20 with macro
+  `R2_lambda1=0.60737` and shell scores `0.70792/0.65667/0.58036/0.48452`.
+  This passes the registered replication trigger but remains causally uninterpretable
+  until the matched neural Faint-position null completes.
 
-This evidence opens the primary MT4 U-PATCH screen. It does not open rotation 2,
+This evidence opens Proxy rotation 2 and the matched Null rotation 0. It does not open
 full G-PATCH training, model adoption, or a claim that Faint traces additional cosmic
 structure.
 
@@ -1555,7 +1568,8 @@ The active entrypoints are `workflows/abacus_tweb/p8_build_multitracer_catalogue
 `p8_build_multitracer_graph_adapter.py`, `p8_prepare_multitracer_graph_features.py`,
 `p8_build_multitracer_control_fields.py`, `p8_evaluate_multitracer_controls.py`,
 `p8_train_multitracer_unet_patch.py`, `p8_train_multitracer_graph_patch.py`,
-`p8_train_patch_recovery.py`, and `run_p8_multitracer_recovery_supervisor.sh`.
+`p8_train_patch_recovery.py`, `p8_smoke_multitracer_null.py`, and
+`run_p8_multitracer_recovery_supervisor.sh`.
 
 The current plateau and the sparse-shell behaviour motivate a data-information test
 before another encoder sweep. This branch asks whether an additional observed tracer
@@ -1770,13 +1784,23 @@ Open MT4 in stages:
   gate passes by more than 99.97% loss-window reduction.
 - [x] One complete rotation-0 epoch with exact exposure/resume/parity checks; all
   `10,351` cores are visited exactly once and complete-fold validation passes.
-- [ ] Run rotation 0 for 20 epochs from immutable commit `4556317`. **RUNNING** in
-  tmux `p8_mt4_unet`, allocation `56471082`; outputs are under
+- [x] Run rotation 0 for 20 epochs from immutable commit `4556317`. Best epoch is
+  the final epoch, with macro `R2_lambda1=0.60737` and shell scores
+  `0.70792/0.65667/0.58036/0.48452`; outputs are under
   `/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/models/recovery/mt4_proxy_v1/unet_multitracer/rotation_0/seed_42/`.
-- [ ] Launch rotation 2 only if rotation 0 improves either macro R2 by `>=0.02` or
-  sparse-shell R2 by `>=0.03`, with no first-three-shell loss worse than `0.01`.
-- [ ] If the Proxy screen passes, run the matched `U-BF-NULL-v1` neural control before
-  adoption or any claim that Faint positions add recoverable cosmic structure.
+- [x] Rotation 0 passes the replication trigger. Rotation 2 was launched from frozen
+  commit `6b80744` in tmux `p8_mt4_proxy_rot2`, allocation `56495027`; outputs are
+  under
+  `/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/models/recovery/mt4_proxy_v1/unet_multitracer/rotation_2/seed_42/`.
+- [ ] Complete the active 20-epoch Proxy rotation-2 run and evaluate the same macro,
+  per-shell, worst-shell, threshold-tail and safeguard metrics.
+- [x] The Proxy screen passes the trigger for the matched `U-BF-NULL-v1` neural
+  control. Null rotation 0 was launched from the same frozen commit in tmux
+  `p8_mt4_null_rot0`, allocation `56495031`; outputs are under
+  `/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/models/recovery/mt4_faint_null_v1/unet_multitracer/rotation_0/seed_42/`.
+- [ ] Complete Null rotation 0 before adoption or any claim that Faint positions add
+  recoverable cosmic structure. Open Null rotation 2 only if the rotation-0 causal
+  contrast is material enough to require geographic replication.
 - [ ] Extend only if the best checkpoint is in the final three epochs and learning
   rate has not already reached zero; never infer convergence solely from the last epoch.
 

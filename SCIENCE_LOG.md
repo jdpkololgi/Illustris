@@ -1,5 +1,46 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-08 — [science/code/runtime] U-BF Proxy replication and matched neural Faint-position null launched from one frozen contract
+
+The decisive MT4 comparison is now running. Commit `6b80744` adds an optional,
+provenance-checked Faint-count override to the existing six-channel U-PATCH loader.
+The null changes only the Faint count grid and the density proxy derived from it. It
+retains the real Proxy Faint exposure field, full-cap Faint selection curve, frozen
+rotation-specific normalization, all Bright channels, Bright-only targets/loss/evaluation,
+patches, optimizer, seed, and 20-epoch schedule. The override refuses control products
+that did not pass, read labels, are not CIC, lack `faint_counts`, or do not exactly match
+the canonical NGC/SGC grids.
+
+A live full-cap rotation-0 extraction smoke test passed on core `11`: Bright fields,
+authoritative parent IDs, Faint exposure, and sample coordinates were identical between
+Proxy and Null; the Faint count and derived-density L1 changes were `14807.94` and
+`232151.38` over the `[64,72,80]` context. Five targeted unit tests pass. The executable
+smoke test is `workflows/abacus_tweb/p8_smoke_multitracer_null.py`.
+
+Two persistent interactive-allocation supervisors were then launched from detached
+worktree `/global/u2/d/dkololgi/TNG/Illustris_mt4_6b80744` at exact revision
+`6b8074438d5916699b8f24b11367b5286275f516`:
+
+- `U-BF-PROXY-v1`, rotation 2: tmux `p8_mt4_proxy_rot2`, allocation `56495027`,
+  node `nid008197`, output
+  `/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/models/recovery/mt4_proxy_v1/unet_multitracer/rotation_2/seed_42/`;
+- `U-BF-NULL-v1`, rotation 0: tmux `p8_mt4_null_rot0`, allocation `56495031`,
+  node `nid008397`, output
+  `/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/models/recovery/mt4_faint_null_v1/unet_multitracer/rotation_0/seed_42/`.
+
+Both immutable run manifests exist and record the same code revision. The Proxy manifest
+records no override. The Null manifest records the frozen control manifest SHA256
+`c03c1abd10b188e76890d681b545b3d41dc1261293ec537aa3fe50e4eb9002f4`, product
+`faint_position_null_cic`, and the exact NGC/SGC component paths. Both runs have written
+their first atomic recovery checkpoints. The supervisors enforce
+the global two-allocation ceiling and exact checkpoint resume across four-hour walls.
+
+No new scientific score is claimed by this launch. Proxy rotation 0 remains a large but
+causally ambiguous result (`macro R2_lambda1=0.60737`, sparse shell `0.48452`). Proxy
+rotation 2 tests geographic replication; Null rotation 0 determines how much of the
+rotation-0 gain survives destruction of Faint angular structure. The Faint structural-
+information claim remains closed until the Null comparison completes.
+
 ### 2026-08-07 — [science] PROGRESS ASSESSMENT (Claude Code): generalisation ladder now +0.06 over the frozen baseline and CONVERGED; my P9 CIC-residual NO-GO was WRONG in scope; MT4's headline is uninterpretable until the neural null runs
 
 Reviewed SCIENCE_LOG + both plans and pulled every completed run's numbers directly. Assessment of
