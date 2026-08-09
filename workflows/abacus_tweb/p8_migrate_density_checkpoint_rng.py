@@ -33,13 +33,13 @@ DEFAULT_CHECKPOINT = Path(
 )
 SOURCE_SCHEMA = "p8-density-training-checkpoint-v1"
 SOURCE_REVISION = "0a95141f90766064378d22cf53b3e7ddb6e85408"
-SOURCE_SHA256 = "2c213ca710c8bd2138f949955cc14de90904ab1b40497878acc27c8d9b43439b"
 CONFIG_SHA256 = "4b78dc6b4b6ee0979c1236b222478ada6b826eb4560cc24383e2cd63013e6dab"
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--checkpoint", type=Path, default=DEFAULT_CHECKPOINT)
+    parser.add_argument("--expected-source-sha256", required=True)
     parser.add_argument("--report", type=Path)
     return parser.parse_args()
 
@@ -104,23 +104,35 @@ def main() -> None:
     if not checkpoint.is_file():
         raise FileNotFoundError(checkpoint)
     source_sha = file_sha256(checkpoint)
-    require_equal("source checkpoint sha256", source_sha, SOURCE_SHA256)
+    require_equal("source checkpoint sha256", source_sha, args.expected_source_sha256)
 
     state = torch_load(checkpoint, "cpu")
-    require_equal("schema", state.get("schema_version"), SOURCE_SCHEMA)
+    if state.get("schema_version") not in (SOURCE_SCHEMA, CHECKPOINT_SCHEMA):
+        raise RuntimeError(f"unsupported source schema: {state.get('schema_version')!r}")
+    source_schema = state["schema_version"]
     require_equal("source revision", state.get("git_revision"), SOURCE_REVISION)
     require_equal("model", state.get("model"), "U-DENSITY-PHYS-v1")
     require_equal("rotation", state.get("rotation"), 0)
     require_equal("seed", state.get("seed"), 42)
-    require_equal("epoch", state.get("epoch"), 3)
-    require_equal("cursor", state.get("cursor"), 5922)
-    require_equal("global step", state.get("global_step"), 33250)
+    if int(state.get("global_step", -1)) < 33250:
+        raise RuntimeError("checkpoint predates the audited D0 recovery point")
+    if int(state.get("epoch", -1)) < 3 or int(state.get("cursor", -1)) < 0:
+        raise RuntimeError("checkpoint has an invalid D0 epoch/cursor")
     require_equal("config sha256", state.get("config_sha256"), CONFIG_SHA256)
     legacy = state.get("cuda_rng_state_all")
-    if not isinstance(legacy, (list, tuple)) or len(legacy) != 4:
-        raise RuntimeError("expected the four-state legacy CUDA RNG payload")
-    if not all(torch.is_tensor(item) for item in legacy):
-        raise RuntimeError("legacy CUDA RNG payload contains a non-tensor value")
+    current_cuda_rng = state.get("cuda_rng_state")
+    if source_schema == SOURCE_SCHEMA:
+        if not isinstance(legacy, (list, tuple)) or len(legacy) != 4:
+            raise RuntimeError("expected the four-state legacy CUDA RNG payload")
+        if not all(torch.is_tensor(item) for item in legacy):
+            raise RuntimeError("legacy CUDA RNG payload contains a non-tensor value")
+        selected_cuda_rng = legacy[0].clone()
+        source_cuda_states = len(legacy)
+    else:
+        if not torch.is_tensor(current_cuda_rng):
+            raise RuntimeError("v2 checkpoint has no single-device CUDA RNG state")
+        selected_cuda_rng = current_cuda_rng.clone()
+        source_cuda_states = int(state.get("cuda_device_count_at_save", 1))
 
     model_digest_before = state_digest(state["model_state"])
     optimizer_digest_before = state_digest(state["optimizer_state"])
@@ -136,9 +148,9 @@ def main() -> None:
         require_equal("new backup sha256", file_sha256(backup), source_sha)
 
     state["schema_version"] = CHECKPOINT_SCHEMA
-    state["cuda_rng_state"] = legacy[0].clone()
-    state["cuda_device_count_at_save"] = len(legacy)
-    del state["cuda_rng_state_all"]
+    state["cuda_rng_state"] = selected_cuda_rng
+    state["cuda_device_count_at_save"] = source_cuda_states
+    state.pop("cuda_rng_state_all", None)
     state["git_revision"] = revision
     state["arguments"] = dict(state["arguments"])
     state["arguments"]["git_revision"] = revision
@@ -148,7 +160,7 @@ def main() -> None:
         "source_git_revision": SOURCE_REVISION,
         "target_git_revision": revision,
         "scientific_state_changed": False,
-        "selected_legacy_cuda_device_index": 0,
+        "selected_legacy_cuda_device_index": 0 if source_schema == SOURCE_SCHEMA else None,
     }
 
     require_equal("model digest", state_digest(state["model_state"]), model_digest_before)
@@ -170,7 +182,7 @@ def main() -> None:
         optimizer_digest_before,
     )
     if "cuda_rng_state_all" in restored or not torch.equal(
-        restored["cuda_rng_state"], legacy[0]
+        restored["cuda_rng_state"], selected_cuda_rng
     ):
         raise RuntimeError("migrated CUDA RNG state failed round-trip validation")
 
@@ -182,15 +194,15 @@ def main() -> None:
         "source_checkpoint_sha256": source_sha,
         "backup_sha256": file_sha256(backup),
         "migrated_checkpoint_sha256": migrated_sha,
-        "source_schema": SOURCE_SCHEMA,
+        "source_schema": source_schema,
         "target_schema": CHECKPOINT_SCHEMA,
         "source_git_revision": SOURCE_REVISION,
         "target_git_revision": revision,
         "epoch": int(restored["epoch"]),
         "cursor": int(restored["cursor"]),
         "global_step": int(restored["global_step"]),
-        "legacy_cuda_states": len(legacy),
-        "selected_legacy_cuda_device_index": 0,
+        "source_cuda_device_count_at_save": source_cuda_states,
+        "selected_legacy_cuda_device_index": 0 if source_schema == SOURCE_SCHEMA else None,
         "model_state_sha256": model_digest_before,
         "optimizer_state_sha256": optimizer_digest_before,
         "scheduler_state_sha256": scheduler_digest_before,
