@@ -1,0 +1,94 @@
+{
+  "schema_version": "p8-mt4-upatch-closeout-digest-v1",
+  "created_utc": "2026-08-09T10:59:10.856927+00:00",
+  "scope": "ph000 P4 rotations 0 and 2, seed 42; BGS_BRIGHT targets with BGS_FAINT context only",
+  "runtime_decision": {
+    "path": "/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/models/recovery/mt4_closeout/decision.json",
+    "sha256": "4e840cde75606eefa0e5819e91fbb6c97f187c12a712e7fd24c6744cce88b0c3"
+  },
+  "macro_r2_lambda1": {
+    "bright": {
+      "rotation_0": 0.5070046680843436,
+      "rotation_2": 0.5197376839763646,
+      "mean": 0.5133711760303541
+    },
+    "proxy": {
+      "rotation_0": 0.607366555767259,
+      "rotation_2": 0.5394120886081961,
+      "mean": 0.5733893221877275,
+      "fold_spread": 0.06795446715906284
+    },
+    "scrambled_faint_null": {
+      "rotation_0": 0.47532550086424286,
+      "rotation_2": 0.5187404546673272
+    }
+  },
+  "proxy_minus_bright": {
+    "macro_by_rotation": [
+      0.10036188768291532,
+      0.019674404631831566
+    ],
+    "macro_mean": 0.06001814615737344,
+    "sparse_shell_by_rotation": [
+      0.1391826906268261,
+      0.10912577760632536
+    ]
+  },
+  "proxy_minus_scrambled_faint_null": {
+    "macro_by_rotation": [
+      0.1320410549030161,
+      0.020671633940868905
+    ],
+    "macro_mean": 0.0763563444219425,
+    "per_shell_by_rotation": {
+      "rotation_0": [
+        0.15057209535161842,
+        0.13145030216138187,
+        0.13113820014218303,
+        0.11500362195688141
+      ],
+      "rotation_2": [
+        0.009676858306323144,
+        0.014399632524345618,
+        0.019530045967585563,
+        0.03907999896522163
+      ],
+      "two_rotation_mean": [
+        0.08012447682897078,
+        0.07292496734286374,
+        0.0753341230548843,
+        0.07704181046105152
+      ]
+    }
+  },
+  "null_minus_bright_rotation_2": {
+    "macro_r2_lambda1": -0.0009972293090373396,
+    "per_shell_r2_lambda1": [
+      -0.019276320281196302,
+      -0.029615365942135652,
+      -0.025143009653921355,
+      0.07004577864110373
+    ]
+  },
+  "registered_gates": {
+    "rotation_0": {
+      "macro_gain_at_least_0p03": true,
+      "sparse_gain_at_least_0p03": true,
+      "no_supported_shell_degradation_below_minus_0p01": true
+    },
+    "rotation_2": {
+      "macro_gain_at_least_0p03": false,
+      "sparse_gain_at_least_0p03": true,
+      "no_supported_shell_degradation_below_minus_0p01": false
+    },
+    "proxy_minus_null_positive_in_every_shell_and_rotation": true,
+    "extension_allowed": false,
+    "extension_reason": "Proxy and Null cosine schedules have reached zero learning rate"
+  },
+  "decision": {
+    "multitracer_information": "PASS_SAME_PHASE_TWO_ROTATIONS",
+    "current_encoder_adoption": "NO_GO_FOLD_INSTABILITY_AND_ROTATION_2_SAFEGUARDS",
+    "fresh_phase_or_production_claim": "NOT_TESTED",
+    "next_registered_model": "U-DENSITY-PHYS-v1"
+  }
+}

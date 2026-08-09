@@ -1,5 +1,46 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-09 — [science/code] MT4 closed: BGS_FAINT contains replicated spatial information, but the current multitracer U-PATCH is not promoted
+
+The matched `U-BF-NULL-v1` rotation-2 run completed cleanly through exact-resume
+interactive allocations at frozen revision `6b80744`. It reaches macro
+`R2_lambda1=0.518740` with shell scores
+`0.603295/0.578805/0.501779/0.391083`. Every epoch has complete unique-core exposure,
+zero repeats and complete-fold validation; the final cosine learning rate is zero.
+
+This second null resolves the MT4 interpretation. On rotation 2 the scrambled-Faint
+null is only `-0.000997` below Bright-only in macro R2, while the real Proxy exceeds
+the null by `+0.020672` macro and by
+`+0.009677/+0.014400/+0.019530/+0.039080` in the four shells. Together with rotation
+0 (`+0.132041` macro; positive in all shells), Proxy minus Null is positive in every
+shell on both registered geographies. The two-rotation mean contrast is `+0.076356`
+macro and `+0.080124/+0.072925/+0.075334/+0.077042` by shell.
+
+The correct conclusion has two parts:
+
+1. **Information PASS within `ph000`:** real BGS_FAINT positions contain recoverable
+   tidal information beyond matched occupancy, exposure, radial selection and the
+   six-channel optimization shortcut. The Bright-only inverse problem is at least
+   partly tracer-information limited.
+2. **Current encoder NO-GO:** Proxy improves over Bright by `+0.100362/+0.019674`
+   macro on rotations 0/2. Rotation 2 fails the registered `+0.03` macro gate and
+   degrades the `0.25 <= z < 0.35` shell by `-0.015216`; Proxy fold spread is
+   `0.067954`. This model is not promoted, and no fresh-phase or DESI claim is made.
+
+No extension was launched: both Proxy and Null schedules already terminate at zero
+learning rate. The executable closeout is
+`workflows/abacus_tweb/p8_close_multitracer_mt4.py`; the tracked digest is
+`docs/evidence/p8/multitracer_mt4_decision.json`. Runtime evidence and the completion
+marker are under
+`/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/models/recovery/mt4_closeout/`
+(decision SHA256 `4e840cde75606eefa0e5819e91fbb6c97f187c12a712e7fd24c6744cce88b0c3`).
+
+The MT4 information result would permit a field/physics challenger scientifically, but
+the pre-registered `ph000` boundary in P10.0 prevents a new architecture sweep. The
+next model experiment is the already registered P8.9 `U-DENSITY-PHYS-v1`; MT5 full
+G-PATCH, F-tier expansion, seeds, posterior estimation and HOD marginalisation remain
+closed pending the bounded density-first decision and independent-phase programme.
+
 ### 2026-08-08 — [science/runtime] Proxy rotation 2 replicates the sparse-shell gain; neural Null rotation 0 establishes real Faint spatial information; Null rotation 2 launched
 
 The two active MT4 runs completed cleanly through three exact-resume interactive

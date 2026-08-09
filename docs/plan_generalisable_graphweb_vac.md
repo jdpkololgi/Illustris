@@ -1050,8 +1050,8 @@ Progress checklist:
 
 ### P8 — Matched spatial target-generalisation training
 
-**Status:** TWO-ROTATION RECOVERY/EXTENSIONS COMPLETE; U-CIC CLOSED; MT4 ROTATION 0
-ACTIVE; P8.9 REGISTERED (2026-08-07)
+**Status:** TWO-ROTATION RECOVERY/EXTENSIONS COMPLETE; U-CIC CLOSED; MT4 COMPLETE
+WITH INFORMATION PASS / ENCODER NO-GO; P8.9 NEXT (2026-08-09)
 **Duration:** recovery estimate follows the exposure audit; three-seed finalists later
 
 G-PATCH, U-PATCH, and F-PATCH may now enter the matched deterministic protocol.
@@ -1533,8 +1533,9 @@ Implementation checklist (updated 2026-08-08):
   identity of the retained channels and is executable as
   `workflows/abacus_tweb/p8_smoke_multitracer_null.py`.
 - [x] Complete Proxy rotation 2 and Null rotation 0 from immutable commit `6b80744`.
-- [ ] Complete the active Null rotation-2 causal replication; its immutable manifest
-  and checkpoint-resuming supervisor are live.
+- [x] Complete the Null rotation-2 causal replication and freeze the MT4 decision in
+  `docs/evidence/p8/multitracer_mt4_decision.json` and runtime marker
+  `models/recovery/mt4_closeout/MT4_UPATCH_MULTITRACER_DECISION`.
 
 Completed preflight interpretation (2026-08-07):
 
@@ -1571,14 +1572,24 @@ Completed preflight interpretation (2026-08-07):
   (`+0.15057/+0.13145/+0.13114/+0.11500`). The real Faint positions therefore
   carry recoverable tidal information for this encoder on rotation 0; the large Proxy
   result is not a generic extra-occupancy or radial-selection shortcut.
-- Proxy fold spread is `0.06795`, so model adoption remains closed despite the robust
-  sparse-shell gain. Null rotation 2 is required to replicate the causal contrast.
+- `U-BF-NULL-v1` rotation 2 reaches macro `R2_lambda1=0.51874`, only `-0.00100`
+  from Bright-only. Proxy minus Null remains positive in every shell
+  (`+0.00968/+0.01440/+0.01953/+0.03908`) and is `+0.02067` macro.
+- Across the two rotations, Proxy minus Null averages `+0.07636` macro and
+  `+0.08012/+0.07292/+0.07533/+0.07704` by shell. The sign therefore replicates,
+  establishing additional Faint spatial information within `ph000`, while the effect
+  size remains strongly geography dependent.
+- Proxy fold spread is `0.06795`. Rotation 2 still misses the macro gate and degrades
+  a supported shell by more than `0.01`, so current-encoder adoption is a NO-GO.
 - Proxy rotation 2 and Null rotation 0 both finish at the epoch cap with learning rate
   zero. The mechanical `NOT_CONVERGED_MAX_EPOCHS` markers do not authorize extension:
   the registered rule explicitly requires non-zero remaining learning rate.
 
-The interim scientific result is a demonstrated rotation-0 multitracer information gain,
-not a production encoder promotion. Complete the second Null fold before freezing MT4.
+The frozen scientific result is a same-phase, two-rotation multitracer information PASS,
+not a production encoder promotion. No fresh-phase or DESI generalisation claim follows.
+The MT4 information trigger technically opens field/physics challengers, but P10.0 keeps
+new `ph000` architecture sweeps closed: P8.9 `U-DENSITY-PHYS-v1` is the next registered
+model experiment.
 
 This evidence opens Proxy rotation 2 and the matched Null rotation 0. It does not open
 full G-PATCH training, model adoption, or a claim that Faint traces additional cosmic
@@ -1826,9 +1837,16 @@ Open MT4 in stages:
   Null rotation 2 was launched in tmux `p8_mt4_null_rot2`, allocation `56514867`,
   from immutable commit `6b80744`; outputs are under
   `/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/models/recovery/mt4_faint_null_v1/unet_multitracer/rotation_2/seed_42/`.
-- [ ] Complete Null rotation 2 and freeze the two-fold causal contrast.
-- [ ] Extend only if the best checkpoint is in the final three epochs and learning
-  rate has not already reached zero; never infer convergence solely from the last epoch.
+- [x] Complete Null rotation 2 and freeze the two-fold matched-control contrast. It
+  reaches macro `0.51874`; Proxy exceeds it by `+0.02067` macro and in every shell.
+- [x] Apply the extension rule. All Proxy and Null schedules end at learning rate zero,
+  so no extension is authorized despite best epochs at the cap.
+
+MT4 closeout: `PASS_SAME_PHASE_TWO_ROTATIONS` for additional Faint spatial information;
+`NO_GO_FOLD_INSTABILITY_AND_ROTATION_2_SAFEGUARDS` for the current Proxy U-PATCH encoder.
+The full machine-readable record is
+`/pscratch/sd/d/dkololgi/abacus/p8_multitracer_v1/models/recovery/mt4_closeout/decision.json`
+(SHA256 `4e840cde75606eefa0e5819e91fbb6c97f187c12a712e7fd24c6744cce88b0c3`).
 
 Adoption requires, on both rotations:
 
