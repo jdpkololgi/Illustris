@@ -1,0 +1,9 @@
+{
+  "fit_scope": "delta_R7 in exact nominal owners on rotation training folds only",
+  "maximum": 10.186233520507812,
+  "mean": 0.0038390869437204224,
+  "minimum": -0.8411803841590881,
+  "n": 65869177,
+  "std": 0.4660722382993167,
+  "transform": "(delta_R7 - mean) / std"
+}

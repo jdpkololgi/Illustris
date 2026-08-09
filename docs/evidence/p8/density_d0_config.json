@@ -1,0 +1,130 @@
+{
+  "architecture": {
+    "alignment_voxels": 8,
+    "base_channels": 24,
+    "context_halo_mpc": 120.0,
+    "context_halo_voxels": 24,
+    "family": "P8 UNet3D",
+    "normalization": "per-voxel ChannelLayerNorm3d",
+    "output_channels": 1
+  },
+  "artifacts": {
+    "density_units": "/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/training_contract/rotation_0/density_units.npy",
+    "density_units_sha256": "3ae6c65858a462280b23aeefc968b68a6e3aaaca77991561a99c7195b061972b",
+    "target_scaler": "/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/training_contract/rotation_0/target_scaler.json",
+    "target_scaler_sha256": "e9c3d7ffdc4b260975348d62ab80ac8c34ea118aa4b53502b4d688a6f3e0e57d"
+  },
+  "canary_unit": {
+    "cap": 0,
+    "fold": 2,
+    "nominal_core_id": 288,
+    "output_core_id": 555,
+    "shell": 0,
+    "supported_voxels": 6859,
+    "unit_weight": 2.6436318441239215
+  },
+  "counts": {
+    "units_development": 4485,
+    "units_total": 22751,
+    "units_train": 13664,
+    "units_validation": 4602,
+    "voxels_development_by_shell": [
+      2113849,
+      4347361,
+      6605471,
+      8563432
+    ],
+    "voxels_train_by_shell": [
+      6731621,
+      13020795,
+      20426433,
+      25690328
+    ],
+    "voxels_validation_by_shell": [
+      2209009,
+      4311024,
+      6902505,
+      8506819
+    ]
+  },
+  "created_utc": "2026-08-09T13:08:25.278686+00:00",
+  "elapsed_seconds": 74.59080743789673,
+  "gates": {
+    "all_three_roles_have_all_four_shells": true,
+    "all_units_have_positive_voxel_count_and_weight": true,
+    "inference_only_rows_own_no_loss": true,
+    "only_nominal_p4_cores_own_loss": true,
+    "privileged_target_absent_from_inputs": true,
+    "target_scaler_is_training_fold_only": true
+  },
+  "git_sha": "c7020103a6cb0ebb11a08c328ea8ef4bbb0a9848",
+  "inputs": {
+    "channel_mapping": "identical to U-PATCH-BRIGHT_REFERENCE",
+    "channels": [
+      "counts",
+      "derived density proxy",
+      "exposure_apodized"
+    ],
+    "privileged_target_is_input": false,
+    "selection_normalization": "P6 rotation-specific train-fold-only normalization",
+    "z_cosmo_is_input": false
+  },
+  "inputs_provenance": {
+    "output_cores": "/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/field_output_tiling/field_output_cores.npz",
+    "output_cores_sha256": "a7e8d0dc42455d5d07b1a4d0f622c4946de8f4341419772fb67a2539ebc64b4e",
+    "roles": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/rotation_0/roles.json",
+    "roles_sha256": "8ebfe434ea6b6d5341a1640af0ea69c20790605c2ceed9331a1101d04fb8d501",
+    "target_manifest": "/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/targets/target_manifest.json",
+    "target_manifest_sha256": "0755a462b41bdff3864369545d584dd41b34a09bec20570dd1916e01ff7124de"
+  },
+  "model": "U-DENSITY-PHYS-v1",
+  "objective": {
+    "direct_eigenvalue_or_tensor_loss": false,
+    "epoch": "every positive (nominal exact-owner core, shell) unit exactly once",
+    "loss": "training-fold-standardized voxelwise MSE",
+    "ownership": "exact half-open output core AND science support AND shell",
+    "shell_weight": "N_shell^-0.5, matching the P8 galaxy-row convention",
+    "target": "R=7 Mpc/h smoothed matter contrast delta_R7"
+  },
+  "optimization": {
+    "checkpoint_every_updates": 250,
+    "checkpoint_selection": "maximum complete-validation macro-shell R2(delta_R7)",
+    "early_stopping": false,
+    "epochs": 20,
+    "gradient_clip": 5.0,
+    "learning_rate": 0.002,
+    "loss_log_every_updates": 25,
+    "optimizer": "AdamW",
+    "scheduler": "cosine to zero over exactly 20 complete epochs",
+    "weight_decay": 0.0001
+  },
+  "pass": true,
+  "roles": {
+    "development_authoritative_rows": 1003656,
+    "development_test_fold": 0,
+    "loss": "weighted mean over authoritative core rows only",
+    "patch_sampling": "probability proportional to sum of N_s^-0.5 core weights",
+    "rotation": 0,
+    "target_scaler": "/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/rotation_0/target_scaler.json",
+    "target_scaler_sha256": "ae4b653df52f173610484319698346e2b9405fcd25ab1c1936ca71ebc33b57b9",
+    "train_authoritative_rows": 3023524,
+    "train_folds": [
+      2,
+      3,
+      4
+    ],
+    "training_cores": 10351,
+    "training_shell_counts": {
+      "0p15_0p25": 1668208,
+      "0p25_0p35": 998471,
+      "0p35_0p45": 319511,
+      "0p45_0p55": 37334
+    },
+    "validation_authoritative_rows": 999683,
+    "validation_cores": 3446,
+    "validation_fold": 1
+  },
+  "rotation": 0,
+  "schema_version": "p8-density-training-contract-v1",
+  "seed": 42
+}

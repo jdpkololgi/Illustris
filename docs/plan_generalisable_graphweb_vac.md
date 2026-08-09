@@ -2157,6 +2157,21 @@ P8.9 granular execution checklist:
   supported rotation-0 training unit; its final five-record mean standardized density
   MSE must be `<=0.25` times the mean over steps 1--10. The overfit checkpoint is never
   a scientific warm start.
+  - [x] Build/hash the exact-owner unit manifest and rotation-0 train-only target
+    scaler. There are 13,664/4,602/4,485 train/validation/development units; the scaler
+    uses 65,869,177 training voxels with `mean=0.00383909`, `std=0.46607224`.
+    Evidence: runtime `p8_density_phys_v1/training_contract/rotation_0/` and tracked
+    `docs/evidence/p8/density_d0_{config,target_scaler}.json`.
+  - [x] Pass the one-core overfit gate. Standardized density MSE contracts from
+    `1.181697` to `0.027542` by the registered window means, ratio `0.023307 <= 0.25`,
+    on 6,859 exact-owner voxels. Evidence: runtime
+    `p8_density_phys_v1/overfit_probe/rotation_0/seed_42/overfit_report.json` and tracked
+    `docs/evidence/p8/density_d0_overfit_report.json`.
+  - [ ] Pass an interrupted/resumed trajectory test with identical next-step model,
+    optimizer, scheduler, epoch order/cursor, loss trace, and RNG state.
+  - [ ] Pass one complete-epoch canary with 100% unique training-unit exposure, zero
+    repeats, all four shell voxel counts exact, persistent loss logging, and complete
+    validation-unit field metrics.
 - [ ] Train rotation 0 with complete-exposure density epochs and persistent loss/field
   validation curves; no direct eigenvalue/tensor loss is allowed in D0.
 - [ ] Stitch overlapping density cores in an order- and subdivision-invariant manner;

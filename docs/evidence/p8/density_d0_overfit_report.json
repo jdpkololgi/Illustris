@@ -1,0 +1,172 @@
+{
+  "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/overfit_probe/rotation_0/seed_42/overfit_checkpoint.pt",
+  "checkpoint_sha256": "13f1a122b9346f98032d4ddd683c928d702e940817bdf416e10abdaf4d09ad42",
+  "config": "/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/training_contract/rotation_0/d0_config.json",
+  "config_sha256": "4b78dc6b4b6ee0979c1236b222478ada6b826eb4560cc24383e2cd63013e6dab",
+  "created_utc": "2026-08-09T13:13:27.649153+00:00",
+  "elapsed_seconds": 8.52997612953186,
+  "extraction": {
+    "cap": 0,
+    "context_shape": [
+      72,
+      72,
+      72
+    ],
+    "core_shape": [
+      19,
+      19,
+      19
+    ],
+    "fold": 2,
+    "nominal_core_id": 288,
+    "output_core_id": 555,
+    "shell": 0,
+    "supported_voxels": 6859
+  },
+  "final_to_initial_ratio": 0.023306982738790425,
+  "final_window_mean_mse": 0.027541784197092058,
+  "gates": {
+    "loss_contracts_by_required_factor": true,
+    "loss_finite": true,
+    "privileged_target_is_input": false
+  },
+  "git_sha": "392e1bd5cd0fb2165ec1a143ac87a987e2eb5a4b",
+  "history": [
+    {
+      "standardized_density_mse": 1.775631308555603,
+      "step": 1
+    },
+    {
+      "standardized_density_mse": 1.0977282524108887,
+      "step": 2
+    },
+    {
+      "standardized_density_mse": 2.945805788040161,
+      "step": 3
+    },
+    {
+      "standardized_density_mse": 0.843489944934845,
+      "step": 4
+    },
+    {
+      "standardized_density_mse": 1.82780921459198,
+      "step": 5
+    },
+    {
+      "standardized_density_mse": 0.9227197170257568,
+      "step": 6
+    },
+    {
+      "standardized_density_mse": 0.6436094641685486,
+      "step": 7
+    },
+    {
+      "standardized_density_mse": 0.6403455138206482,
+      "step": 8
+    },
+    {
+      "standardized_density_mse": 0.5529946684837341,
+      "step": 9
+    },
+    {
+      "standardized_density_mse": 0.566832959651947,
+      "step": 10
+    },
+    {
+      "standardized_density_mse": 0.40383318066596985,
+      "step": 20
+    },
+    {
+      "standardized_density_mse": 0.2782248556613922,
+      "step": 30
+    },
+    {
+      "standardized_density_mse": 0.20310191810131073,
+      "step": 40
+    },
+    {
+      "standardized_density_mse": 0.15431417524814606,
+      "step": 50
+    },
+    {
+      "standardized_density_mse": 0.12023548036813736,
+      "step": 60
+    },
+    {
+      "standardized_density_mse": 0.09597419202327728,
+      "step": 70
+    },
+    {
+      "standardized_density_mse": 0.07999014854431152,
+      "step": 80
+    },
+    {
+      "standardized_density_mse": 0.07200484722852707,
+      "step": 90
+    },
+    {
+      "standardized_density_mse": 0.05462392047047615,
+      "step": 100
+    },
+    {
+      "standardized_density_mse": 0.04563900828361511,
+      "step": 110
+    },
+    {
+      "standardized_density_mse": 0.0524812713265419,
+      "step": 120
+    },
+    {
+      "standardized_density_mse": 0.07983925193548203,
+      "step": 130
+    },
+    {
+      "standardized_density_mse": 0.049455780535936356,
+      "step": 140
+    },
+    {
+      "standardized_density_mse": 0.03860936313867569,
+      "step": 150
+    },
+    {
+      "standardized_density_mse": 0.03554663434624672,
+      "step": 160
+    },
+    {
+      "standardized_density_mse": 0.030218858271837234,
+      "step": 170
+    },
+    {
+      "standardized_density_mse": 0.026719285175204277,
+      "step": 180
+    },
+    {
+      "standardized_density_mse": 0.023686377331614494,
+      "step": 190
+    },
+    {
+      "standardized_density_mse": 0.021537765860557556,
+      "step": 200
+    }
+  ],
+  "initial_window_mean_mse": 1.1816966831684113,
+  "learning_rate": 0.002,
+  "pass": true,
+  "rotation": 0,
+  "schema_version": "p8-density-overfit-v1",
+  "seed": 42,
+  "stage": "P8.9 U-DENSITY-PHYS-v1 one-core overfit",
+  "steps": 200,
+  "threshold": {
+    "maximum_final_to_initial": 0.25
+  },
+  "unit": {
+    "cap": 0,
+    "fold": 2,
+    "nominal_core_id": 288,
+    "output_core_id": 555,
+    "shell": 0,
+    "supported_voxels": 6859,
+    "unit_weight": 2.6436318441239215
+  }
+}

@@ -1,5 +1,30 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-09 — [science/code/runtime] D0 unit/scaler contract and one-core overfit gates pass
+
+The rotation-0 D0 contract builder completed on interactive allocation `56532166` at
+revision `c702010`. It freezes 13,664 training core-shell units, 4,602 validation
+units, and 4,485 development units. Exact training ownership contains
+`6,731,621/13,020,795/20,426,433/25,690,328` voxels in shells 0--3, respectively;
+all roles contain every shell and no inference-only core owns loss. The scaler used by
+all later D0 runs is fitted on exactly 65,869,177 rotation-0 training voxels:
+`mean=0.00383909`, `std=0.46607224`, range `[-0.841180,10.186234]`.
+
+The pre-registered one-core probe then ran at revision `392e1bd` on the largest
+supported training unit: SGC fold 2, shell 0, exact `19^3` core with 6,859 loss voxels
+and a `72^3` contextual input. Its standardized density MSE contracts from a steps
+1--10 mean of `1.181697` to a final five-record mean of `0.027542`; the ratio is
+`0.023307`, passing the frozen `<=0.25` gate by more than an order of magnitude. The
+200-update run took 8.53 seconds and has no stderr.
+
+This closes target scaling, exact owner extraction, target cropping, mask/shell
+selection, scalar U-Net output, and basic optimization. It is not evidence of spatial
+generalisation and its checkpoint is forbidden as a scientific warm start. The next
+gates remain an interrupted/resumed trajectory parity test and a one-complete-epoch
+exposure/validation canary. Runtime artifacts are under
+`p8_density_phys_v1/{training_contract,overfit_probe}`; tracked evidence is
+`docs/evidence/p8/density_d0_{config,target_scaler,overfit_report}.json`.
+
 ### 2026-08-09 — [science/code] U-DENSITY-PHYS-v1 D0 optimization contract frozen
 
 The passing physical ceiling authorizes exactly the bounded D0 density experiment, not
