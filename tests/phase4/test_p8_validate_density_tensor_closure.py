@@ -24,6 +24,7 @@ class DensityTensorClosureTests(unittest.TestCase):
         origin = np.array([400.0, -2.5, -2.5])
         window = radial_cosine_window((400, 1, 1), origin, 5.0, 100.0, "cpu")
         values = window[:, 0, 0].numpy()
+        self.assertEqual(window.dtype, torch.float32)
         self.assertEqual(float(values[0]), 0.0)
         self.assertGreater(float(values.max()), 0.999)
         self.assertEqual(float(values[-1]), 0.0)

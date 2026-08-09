@@ -124,7 +124,11 @@ def radial_cosine_window(
     """Return a 0-to-1 taper over the frozen z=0.15--0.55 radial support."""
     axes = [
         torch.as_tensor(
-            origin_mpc[a] + (np.arange(shape[a], dtype=np.float32) + 0.5) * cell_mpc,
+            np.asarray(
+                origin_mpc[a] + (np.arange(shape[a], dtype=np.float32) + 0.5) * cell_mpc,
+                dtype=np.float32,
+            ),
+            dtype=torch.float32,
             device=device,
         )
         for a in range(3)
