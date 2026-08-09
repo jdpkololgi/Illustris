@@ -2141,6 +2141,18 @@ P8.9 granular execution checklist:
 - [ ] Freeze train-fold-only target scaling, D0 architecture/config, optimizer budget,
   logging, resume, and one-core overfit/canary tests; verify that no privileged target
   or `Z_COSMO` channel enters the model inputs.
+  Pre-runtime contract: Bright U-PATCH's three-channel observation-only mapping;
+  base-24 `UNet3D`; one scalar output; 24-voxel/120-Mpc context; 8-voxel alignment;
+  seed 42. One training unit is a positive `(exact nominal owner core, shell)` pair;
+  every supported owned training voxel appears exactly once per complete epoch and
+  inference-only owners have no loss. Standardize `delta_R7` once on rotation-0
+  training-fold voxels and use voxelwise MSE with `N_shell^-0.5` weights. Freeze 20
+  complete AdamW epochs (`lr=0.002`, weight decay `1e-4`, clip 5) with a cosine schedule
+  ending at zero and no early stopping. Save atomically every 250 updates and log every
+  25. Select the field checkpoint by complete-validation macro-shell `R2(delta_R7)`;
+  downstream eigenvalue adoption remains separate. Required preflight order is target/
+  unit manifest, one-core overfit, exact resume, then one complete-epoch exposure
+  canary. No direct eigenvalue/tensor target or loss is permitted in D0.
 - [ ] Train rotation 0 with complete-exposure density epochs and persistent loss/field
   validation curves; no direct eigenvalue/tensor loss is allowed in D0.
 - [ ] Stitch overlapping density cores in an order- and subdivision-invariant manner;

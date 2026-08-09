@@ -1,5 +1,37 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-09 — [science/code] U-DENSITY-PHYS-v1 D0 optimization contract frozen
+
+The passing physical ceiling authorizes exactly the bounded D0 density experiment, not
+a new architecture sweep. D0 reuses the Bright-only U-PATCH input mapping and U-Net:
+train-fold-normalized counts, the derived count/expected-count density proxy, and P3
+apodized exposure feed a base-24 `UNet3D` with per-voxel channel normalization and one
+scalar output. The privileged `delta_R7`, `Z_COSMO`, halo linkage, and eigenvalues are
+targets/evaluation data only and can never enter the input tensor.
+
+Density ownership is now defined at the voxel rather than galaxy level. Each training
+unit is one positive `(exact nominal owner core, redshift shell)` intersection. Across a
+complete epoch every supported owned voxel appears exactly once; inference-only owner
+cores never own loss. The voxel loss is MSE after one rotation-0 training-fold-only
+target standardization. Shell weights are `N_shell^-0.5`, matching the registered P8
+galaxy-row convention without adding an auxiliary target.
+
+The frozen architecture/context is base 24, one output channel, 24-voxel/120-Mpc halo,
+8-voxel alignment, seed 42. The scientific budget is 20 complete epochs of AdamW at
+`lr=0.002`, weight decay `1e-4`, gradient clipping 5, and one cosine schedule ending at
+zero. There is no early stopping in this first trajectory: the previous P8 experience
+showed that capped runs can still be improving, and the fixed schedule makes the
+convergence diagnosis explicit. Checkpoints are atomic every 250 updates and training
+loss is logged every 25. The field checkpoint statistic is complete-validation
+macro-shell `R2(delta_R7)`; downstream eigenvalue adoption remains a separate stitched
+global-FFT decision.
+
+Before the 20-epoch run, the executable sequence is: build/hash the unit and scaler
+manifest; pass a one-core overfit probe; pass exact checkpoint/resume and one-complete-
+epoch exposure canaries; only then launch rotation 0. The preparation executable is
+`workflows/abacus_tweb/p8_prepare_density_training.py`; seven focused D0/tensor tests
+currently pass.
+
 ### 2026-08-09 — [science/code/runtime] P8.9 global tensor closure passes with large field-to-physics headroom
 
 The pre-registered one-global-FFT-per-cap closure completed on interactive 80-GB GPU
