@@ -1,5 +1,54 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-09 — [science/code/runtime] P8.9 global tensor closure passes with large field-to-physics headroom
+
+The pre-registered one-global-FFT-per-cap closure completed on interactive 80-GB GPU
+allocation `56532166` at revision `8e93626`. It used the corrected privileged
+`delta_R7` target, 24-voxel/120-Mpc zero padding, no second Gaussian smoothing, and
+retained only tensors sampled at the fixed 16,000 authoritative galaxies. Peak CUDA
+memory was 10.54 GiB NGC and 6.14 GiB SGC; the final run took 17.39 seconds.
+
+All frozen gates pass. The maximum tensor-trace versus transformed-input RMSE over
+every cap, window, and coordinate row is `2.997e-7`, far below `2e-4`. Oracle
+`Z_COSMO` macro-shell `R2_lambda1` is:
+
+| exact input/window | macro | shell 0 / 1 / 2 / 3 |
+|---|---:|---|
+| full rectangle | **0.98648** | 0.99446 / 0.99141 / 0.98443 / 0.97560 |
+| P7 box taper | 0.98648 | 0.99444 / 0.99139 / 0.98443 / 0.97565 |
+| hard DESI science support | **0.97230** | 0.94776 / 0.98904 / 0.98325 / 0.96915 |
+| apodized production window | **0.92325** | 0.83536 / 0.97819 / 0.97753 / 0.90190 |
+
+The full-rectangle and box-taper rows are indistinguishable: rectangular FFT edge
+handling is not the limiting effect on this sample. Removing all matter outside the
+hard science support costs only `0.01418` macro R2. The larger apodized-window loss is
+localized chiefly to the first and last radial shells and is the registered cost of
+the conservative 100-Mpc radial taper, not a failure of the tidal projector.
+
+At deployable observed-`Z` positions, the apodized-window macro remains `0.69971`, with
+shells `0.63450/0.75368/0.68478/0.72589`; overall R2 is
+`0.71893/0.80888/0.80654` for the three eigenvalues. The corresponding full-rectangle
+observed-`Z` row is `0.75384` macro and
+`0.77003/0.86718/0.90118` overall. This difference quantifies the combined RSD
+localization and conservative-window floor; neither row is a learned-model score.
+
+The shear is also retained: hard-support oracle traceless-shear R2 is
+`0.96692/0.93599/0.96378`; the apodized oracle row is
+`0.81866/0.88097/0.79359`. Window-induced orientation changes have the expected
+eigengap dependence. For the smallest-gap quartile, median axis angles are
+`1.74/3.37/2.04 deg` and p90 `18.29/29.28/17.09 deg`; for the largest-gap quartile,
+medians fall to `0.61/0.85/0.62 deg`.
+
+This is a decisive **GO for the bounded D0 density-learning experiment**. It proves
+that the field-to-physics factorization has far more headroom than the current
+`R2~0.5` learned estimators; it does not prove that a U-Net can reconstruct the true
+density accurately enough. D0 must now earn that information under the unchanged P4
+patch protocol and observation-only inputs. The runtime report/predictions are under
+`p8_density_phys_v1/tensor_closure/`; tracked evidence is
+`docs/evidence/p8/density_tensor_closure.json`. Two preceding attempts exited before
+opening scores due to a script-path import and a float64 radial-window promotion;
+commits `d71133c` and `8e93626` fix and test those runtime defects.
+
 ### 2026-08-09 — [science/code] P8.9 global tensor-closure contract frozen before runtime
 
 The corrected scalar target/trace gate does not by itself establish that a density

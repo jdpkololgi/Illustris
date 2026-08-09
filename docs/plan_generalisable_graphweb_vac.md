@@ -1954,7 +1954,7 @@ the transferable estimator and validated protocol, not loyalty to a model family
 
 #### P8.9 — Bounded density-first baseline and learned long-mode closure
 
-**Status:** D0 CORRECTED TARGET + OWNERSHIP + TRACE PASSED; TENSOR CLOSURE NEXT
+**Status:** D0 TARGET + TRACE + TENSOR CLOSURE PASSED; TRAINING CONTRACT NEXT
 (2026-08-09)
 
 The current evidence does not yet contain a matched DarkAI-style learned-density
@@ -2110,7 +2110,7 @@ P8.9 granular execution checklist:
   `R2=1.000000/0.991444/0.870115`, respectively. The oracle and deployable rows remain
   separate. Evidence: runtime `p8_density_phys_v1/target_closure/trace_closure.json`
   and tracked `docs/evidence/p8/density_target_trace_closure.json`.
-- [ ] Validate the separate one-global-FFT-per-cap tensor/eigenvalue closure before
+- [x] Validate the separate one-global-FFT-per-cap tensor/eigenvalue closure before
   training. Report full-rectangle and survey-windowed solves, trace versus traceless
   shear, oracle `Z_COSMO` versus observed-`Z` sampling, and missing-external-tide
   sensitivity. Do not double-smooth the already `R=7 Mpc/h` target.
@@ -2128,6 +2128,16 @@ P8.9 granular execution checklist:
   shell, traceless-shear, box-taper sensitivity, and eigengap-conditioned window
   orientation rows are mandatory diagnostics. A failed gate blocks D0 until the
   field-output/context contract is revised; do not retune thresholds after inspection.
+  Runtime PASS: trace-identity RMSE `2.997e-7`; full-rectangle `Z_COSMO` macro-shell
+  `R2_lambda1=0.98648`; hard-support `0.97230`; apodized-window `0.92325` with worst
+  shell `0.83536`. The apodized observed-`Z` macro is `0.69971`, with all shells
+  `0.63450--0.75368`. Full rectangle versus P7 box taper is numerically immaterial,
+  while the conservative radial taper owns most of the window loss. Hard-support
+  traceless-shear R2 is `0.96692/0.93599/0.96378`; window-orientation disagreement
+  decreases with privileged eigengap as expected. Evidence: runtime
+  `p8_density_phys_v1/tensor_closure/{tensor_closure.json,sampled_tensors.npz}` and
+  tracked `docs/evidence/p8/density_tensor_closure.json`. This authorizes the bounded
+  D0 training contract; it is not a learned-model result.
 - [ ] Freeze train-fold-only target scaling, D0 architecture/config, optimizer budget,
   logging, resume, and one-core overfit/canary tests; verify that no privileged target
   or `Z_COSMO` channel enters the model inputs.
