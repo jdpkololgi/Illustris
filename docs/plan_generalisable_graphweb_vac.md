@@ -1954,7 +1954,7 @@ the transferable estimator and validated protocol, not loyalty to a model family
 
 #### P8.9 — Bounded density-first baseline and learned long-mode closure
 
-**Status:** D0 CONTRACT + OVERFIT + RESUME PASSED; COMPLETE-EPOCH CANARY NEXT
+**Status:** ALL D0 PREFLIGHTS PASSED; ROTATION-0 SCIENTIFIC TRAINING NEXT
 (2026-08-09)
 
 The current evidence does not yet contain a matched DarkAI-style learned-density
@@ -2138,7 +2138,7 @@ P8.9 granular execution checklist:
   `p8_density_phys_v1/tensor_closure/{tensor_closure.json,sampled_tensors.npz}` and
   tracked `docs/evidence/p8/density_tensor_closure.json`. This authorizes the bounded
   D0 training contract; it is not a learned-model result.
-- [ ] Freeze train-fold-only target scaling, D0 architecture/config, optimizer budget,
+- [x] Freeze train-fold-only target scaling, D0 architecture/config, optimizer budget,
   logging, resume, and one-core overfit/canary tests; verify that no privileged target
   or `Z_COSMO` channel enters the model inputs.
   Pre-runtime contract: Bright U-PATCH's three-channel observation-only mapping;
@@ -2174,9 +2174,15 @@ P8.9 granular execution checklist:
     and CUDA RNG are identical. Runtime evidence:
     `p8_density_phys_v1/resume_parity/rotation_0/seed_42/`; tracked report:
     `docs/evidence/p8/density_d0_resume_parity.json`.
-  - [ ] Pass one complete-epoch canary with 100% unique training-unit exposure, zero
+  - [x] Pass one complete-epoch canary with 100% unique training-unit exposure, zero
     repeats, all four shell voxel counts exact, persistent loss logging, and complete
-    validation-unit field metrics.
+    validation-unit field metrics. The canary sees 13,664/13,664 units and all 65.87M
+    owned voxels once, validates all 4,602 units, and reaches macro-shell
+    `R2(delta_R7)=0.63158` after one epoch (`0.72340/0.71081/0.68496/0.40716` by shell;
+    overall `0.58375`). This is a pipeline/learnability gate, not a converged or
+    eigenvalue result. Runtime evidence:
+    `p8_density_phys_v1/d0_runs/rotation_0/seed_42/canary_v1/`; tracked reports:
+    `docs/evidence/p8/density_d0_canary_{summary,manifest}.json`.
 - [ ] Train rotation 0 with complete-exposure density epochs and persistent loss/field
   validation curves; no direct eigenvalue/tensor loss is allowed in D0.
 - [ ] Stitch overlapping density cores in an order- and subdivision-invariant manner;

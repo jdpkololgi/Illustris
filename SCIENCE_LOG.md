@@ -1,5 +1,34 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-09 — [science/code/runtime] D0 complete-epoch canary passes and authorizes scientific training
+
+The U-DENSITY-PHYS-v1 canary completed on interactive allocation `56532166` under the
+frozen rotation-0/seed-42 contract. It visited all 13,664 training `(exact owner core,
+shell)` units exactly once, with zero repeats and exact shell voxel exposure of
+`6,731,621/13,020,795/20,426,433/25,690,328`. Persistent loss logging and 250-update
+atomic checkpoints both functioned. It then evaluated all 4,602 validation units; no
+sampled validation was used. Peak CUDA allocation was 1.46 GB and the complete training
+and validation run took 1,432 seconds.
+
+After this single epoch, the privileged density-field validation result is overall
+`R2(delta_R7)=0.58375` and four-shell macro `0.63158`. Shell values are
+`0.72340/0.71081/0.68496/0.40716`; overall Pearson is `0.76502` and shell Pearson is
+`0.86063/0.84382/0.83209/0.63948`. The complete-epoch training weighted MSE is
+`0.44750`.
+
+This is the first positive learned-field result under exact ownership and complete
+spatial-fold validation. It shows that Bright-only P8 inputs contain a learnable,
+transferable signal for the smoothed matter field, including nonzero signal in the
+sparsest shell. It is not a converged result and it is not yet a tidal-eigenvalue result:
+the registered 20-epoch trajectory, stitched supported-volume inference, and one global
+FFT per cap remain necessary before comparison with U-PATCH, G-PATCH, or classical
+eigenvalue baselines.
+
+Runtime artifacts are under
+`p8_density_phys_v1/d0_runs/rotation_0/seed_42/canary_v1/`; tracked evidence is
+`docs/evidence/p8/density_d0_canary_{summary,manifest}.json`. All D0 pre-scientific
+gates have now passed, so the frozen rotation-0 scientific run is authorized.
+
 ### 2026-08-09 — [code/runtime] D0 interrupted/resumed trajectory is exactly reproducible
 
 The frozen U-DENSITY-PHYS-v1 resume preflight passed on interactive allocation
