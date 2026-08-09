@@ -1,8 +1,12 @@
 import unittest
 
 import numpy as np
+import torch
 
-from workflows.abacus_tweb.p8_train_density_patch import RegressionAccumulator
+from workflows.abacus_tweb.p8_train_density_patch import (
+    RegressionAccumulator,
+    checkpoint_cuda_rng_state,
+)
 
 
 class DensityTrainerTests(unittest.TestCase):
@@ -34,6 +38,27 @@ class DensityTrainerTests(unittest.TestCase):
         self.assertAlmostEqual(report["r2"], 1.0)
         self.assertAlmostEqual(report["pearson"], 1.0)
         self.assertAlmostEqual(report["rmse"], 0.0)
+
+    def test_checkpoint_cuda_rng_state_prefers_v2_state(self):
+        current = torch.tensor([1, 2, 3], dtype=torch.uint8)
+        legacy = torch.tensor([4, 5, 6], dtype=torch.uint8)
+        selected = checkpoint_cuda_rng_state({
+            "cuda_rng_state": current,
+            "cuda_rng_state_all": [legacy],
+        })
+        self.assertTrue(torch.equal(selected, current))
+
+    def test_checkpoint_cuda_rng_state_accepts_legacy_multigpu_state(self):
+        gpu0 = torch.tensor([1, 2, 3], dtype=torch.uint8)
+        gpu1 = torch.tensor([4, 5, 6], dtype=torch.uint8)
+        selected = checkpoint_cuda_rng_state({"cuda_rng_state_all": [gpu0, gpu1]})
+        self.assertTrue(torch.equal(selected, gpu0))
+
+    def test_checkpoint_cuda_rng_state_rejects_missing_state(self):
+        with self.assertRaises(KeyError):
+            checkpoint_cuda_rng_state({})
+        with self.assertRaises(KeyError):
+            checkpoint_cuda_rng_state({"cuda_rng_state_all": []})
 
 
 if __name__ == "__main__":

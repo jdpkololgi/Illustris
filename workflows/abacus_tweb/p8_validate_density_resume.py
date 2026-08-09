@@ -27,7 +27,10 @@ from workflows.abacus_tweb.p8_epoch_training import (
     patch_objective,
     validate_resume_order,
 )
-from workflows.abacus_tweb.p8_train_density_patch import checkpoint_payload
+from workflows.abacus_tweb.p8_train_density_patch import (
+    checkpoint_payload,
+    restore_cuda_rng_state,
+)
 from workflows.abacus_tweb.p8_train_patch_recovery import atomic_torch_save, torch_load
 from workflows.abacus_tweb.p8_train_unet_patch import UNet3D
 
@@ -133,14 +136,14 @@ def main() -> None:
         base = UNet3D(in_channels=3, latent_channels=1, base=24).to(args.device)
         initial_state = copy.deepcopy(base.state_dict())
         initial_cpu_rng = torch.get_rng_state().clone()
-        initial_cuda_rng = [state.clone() for state in torch.cuda.get_rng_state_all()]
+        initial_cuda_rng = torch.cuda.get_rng_state().clone()
         del base
 
         continuous, continuous_optimizer, continuous_scheduler = new_trajectory(
             initial_state, args.device, config
         )
         torch.set_rng_state(initial_cpu_rng)
-        torch.cuda.set_rng_state_all(initial_cuda_rng)
+        torch.cuda.set_rng_state(initial_cuda_rng)
         continuous_loss = []
         for index in chosen:
             loss, _, _ = train_step(
@@ -150,13 +153,13 @@ def main() -> None:
             )
             continuous_loss.append(loss)
         continuous_cpu_rng = torch.get_rng_state().clone()
-        continuous_cuda_rng = [state.clone() for state in torch.cuda.get_rng_state_all()]
+        continuous_cuda_rng = torch.cuda.get_rng_state().clone()
 
         resumed, resumed_optimizer, resumed_scheduler = new_trajectory(
             initial_state, args.device, config
         )
         torch.set_rng_state(initial_cpu_rng)
-        torch.cuda.set_rng_state_all(initial_cuda_rng)
+        torch.cuda.set_rng_state(initial_cuda_rng)
         resumed_loss = []
         accumulator = EpochLossAccumulator()
         shell_numerator = np.zeros(4, dtype=np.float64)
@@ -204,7 +207,7 @@ def main() -> None:
         resumed_optimizer.load_state_dict(restored_state["optimizer_state"])
         resumed_scheduler.load_state_dict(restored_state["scheduler_state"])
         torch.set_rng_state(restored_state["torch_rng_state"].cpu())
-        torch.cuda.set_rng_state_all([state.cpu() for state in restored_state["cuda_rng_state_all"]])
+        restore_cuda_rng_state(restored_state, args.device)
         for index in chosen[args.split_after :]:
             loss, _, _ = train_step(
                 resumed, resumed_optimizer, resumed_scheduler, adapter,
@@ -222,11 +225,8 @@ def main() -> None:
         scheduler_equal = continuous_scheduler.state_dict() == resumed_scheduler.state_dict()
         loss_max_abs = float(np.max(np.abs(np.asarray(continuous_loss) - np.asarray(resumed_loss))))
         cpu_rng_equal = bool(torch.equal(continuous_cpu_rng, torch.get_rng_state()))
-        current_cuda_rng = torch.cuda.get_rng_state_all()
-        cuda_rng_equal = all(
-            torch.equal(left, right)
-            for left, right in zip(continuous_cuda_rng, current_cuda_rng)
-        )
+        current_cuda_rng = torch.cuda.get_rng_state()
+        cuda_rng_equal = bool(torch.equal(continuous_cuda_rng, current_cuda_rng))
 
     threshold = 1e-7
     passed = bool(

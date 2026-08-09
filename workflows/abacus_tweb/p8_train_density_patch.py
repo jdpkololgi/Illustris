@@ -39,6 +39,7 @@ from workflows.abacus_tweb.p8_train_unet_patch import UNet3D
 
 ROOT = Path("/pscratch/sd/d/dkololgi/abacus")
 OUTPUT_ROOT = ROOT / "p8_density_phys_v1/d0_runs"
+CHECKPOINT_SCHEMA = "p8-density-training-checkpoint-v2"
 
 
 @dataclass
@@ -113,13 +114,34 @@ def git_revision() -> str:
     return subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
 
 
+def checkpoint_cuda_rng_state(state: dict) -> torch.Tensor:
+    """Return the RNG state for the single CUDA device used by D0.
+
+    Version-one checkpoints captured every GPU visible to the allocation even
+    though D0 trained on the default device only.  Selecting element zero keeps
+    those checkpoints resumable when a later srun exposes just one GPU.
+    """
+    current = state.get("cuda_rng_state")
+    if torch.is_tensor(current):
+        return current
+    legacy = state.get("cuda_rng_state_all")
+    if isinstance(legacy, (list, tuple)) and legacy and torch.is_tensor(legacy[0]):
+        return legacy[0]
+    raise KeyError("checkpoint has no usable CUDA RNG state")
+
+
+def restore_cuda_rng_state(state: dict, device: str) -> None:
+    if torch.cuda.is_available():
+        torch.cuda.set_rng_state(checkpoint_cuda_rng_state(state).cpu(), device=device)
+
+
 def checkpoint_payload(
     *, model, optimizer, scheduler, epoch, cursor, order, global_step,
     accumulator, shell_numerator, shell_denominator, history, best_score,
     best_epoch, maximum_memory, arguments, config_sha256,
 ) -> dict:
     payload = {
-        "schema_version": "p8-density-training-checkpoint-v1",
+        "schema_version": CHECKPOINT_SCHEMA,
         "git_revision": arguments["git_revision"],
         "model": "U-DENSITY-PHYS-v1",
         "rotation": int(arguments["rotation"]),
@@ -143,7 +165,8 @@ def checkpoint_payload(
         "torch_rng_state": torch.get_rng_state(),
     }
     if torch.cuda.is_available():
-        payload["cuda_rng_state_all"] = torch.cuda.get_rng_state_all()
+        payload["cuda_rng_state"] = torch.cuda.get_rng_state()
+        payload["cuda_device_count_at_save"] = int(torch.cuda.device_count())
     return payload
 
 
@@ -284,8 +307,7 @@ def main() -> None:
             reconcile_loss_trace(output / "loss_trace.jsonl", maximum_global_step=global_step)
             rewrite_jsonl(output / "epoch_history.jsonl", history)
             torch.set_rng_state(state["torch_rng_state"].cpu())
-            if "cuda_rng_state_all" in state:
-                torch.cuda.set_rng_state_all([value.cpu() for value in state["cuda_rng_state_all"]])
+            restore_cuda_rng_state(state, args.device)
         else:
             (output / "loss_trace.jsonl").write_text("")
             (output / "epoch_history.jsonl").write_text("")
