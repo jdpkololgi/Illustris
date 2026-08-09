@@ -1954,7 +1954,7 @@ the transferable estimator and validated protocol, not loyalty to a model family
 
 #### P8.9 — Bounded density-first baseline and learned long-mode closure
 
-**Status:** D0 TARGET + TRACE + TENSOR CLOSURE PASSED; TRAINING CONTRACT NEXT
+**Status:** D0 CONTRACT + OVERFIT + RESUME PASSED; COMPLETE-EPOCH CANARY NEXT
 (2026-08-09)
 
 The current evidence does not yet contain a matched DarkAI-style learned-density
@@ -2167,8 +2167,13 @@ P8.9 granular execution checklist:
     on 6,859 exact-owner voxels. Evidence: runtime
     `p8_density_phys_v1/overfit_probe/rotation_0/seed_42/overfit_report.json` and tracked
     `docs/evidence/p8/density_d0_overfit_report.json`.
-  - [ ] Pass an interrupted/resumed trajectory test with identical next-step model,
-    optimizer, scheduler, epoch order/cursor, loss trace, and RNG state.
+  - [x] Pass an interrupted/resumed trajectory test with identical next-step model,
+    optimizer, scheduler, epoch order/cursor, loss trace, and RNG state. The continuous
+    and update-2-resumed four-step trajectories agree exactly: model, optimizer, and
+    loss-trace maximum absolute differences are `0.0`; scheduler, order/cursor, CPU RNG,
+    and CUDA RNG are identical. Runtime evidence:
+    `p8_density_phys_v1/resume_parity/rotation_0/seed_42/`; tracked report:
+    `docs/evidence/p8/density_d0_resume_parity.json`.
   - [ ] Pass one complete-epoch canary with 100% unique training-unit exposure, zero
     repeats, all four shell voxel counts exact, persistent loss logging, and complete
     validation-unit field metrics.

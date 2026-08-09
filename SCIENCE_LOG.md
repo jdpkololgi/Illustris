@@ -1,5 +1,25 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-09 — [code/runtime] D0 interrupted/resumed trajectory is exactly reproducible
+
+The frozen U-DENSITY-PHYS-v1 resume preflight passed on interactive allocation
+`56532166`. A continuous four-update trajectory and a trajectory interrupted after
+update two, atomically checkpointed, reconstructed, and resumed used the same real P8.9
+exact-owner patches. Their four loss values agree exactly. Maximum absolute differences
+in the final model and optimizer state are both `0.0`; scheduler state, full epoch order,
+cursor, CPU RNG, and CUDA RNG also agree exactly.
+
+PyTorch reports that CUDA `MaxPool3D` backward has no formally deterministic
+implementation. The validator therefore allows that kernel while retaining a strict
+`1e-7` numerical replay gate; this execution was nevertheless bitwise identical. This
+tests checkpoint ownership and replay, not cross-device bitwise reproducibility.
+
+Runtime evidence is
+`p8_density_phys_v1/resume_parity/rotation_0/seed_42/{resume_parity.json,interrupted_checkpoint.pt,D0_RESUME_PARITY_PASS}`;
+the compact tracked report is `docs/evidence/p8/density_d0_resume_parity.json`. The only
+remaining pre-scientific D0 gate is one complete epoch with exact exposure and complete
+validation.
+
 ### 2026-08-09 — [science/code/runtime] D0 unit/scaler contract and one-core overfit gates pass
 
 The rotation-0 D0 contract builder completed on interactive allocation `56532166` at
