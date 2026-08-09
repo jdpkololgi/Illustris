@@ -1,5 +1,37 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-09 — [science/code/runtime] Corrected P8.9 targets, exact ownership, and trace closure pass; global tensor closure remains blocking
+
+The unit-corrected target rebuild completed on CPU allocation `56531803` at frozen
+revision `9500924`. It now evaluates
+`(observer_xyz_Mpc * h - 1000 Mpc/h) modulo 2000 Mpc/h`, while radial support uses
+Planck18 comoving distances in the native P3 Mpc frame. All cap target voxels are
+finite and no second `R=7 Mpc/h` smoothing is applied.
+
+Correct science support contains 115,089,625 voxels—78,099,094 NGC and 36,990,531
+SGC. Exact nominal P4 owners leave 5,660,978 supported voxels without an output owner.
+The corrected complete tiling adds 3,145 inference-only cores (1,788 NGC, 1,357 SGC),
+retains every nominal core/fold/authoritative row, assigns no loss or metric to those
+new cores, and reaches exactly 100% supported-volume coverage. This replaces the
+superseded 37.1-million-voxel/890-core result.
+
+Independent trace closure then rejoined the immutable target table and sampled the
+corrected P3 fields for 16,000 authoritative galaxies balanced across both caps and all
+four shells. The registered gates pass:
+
+- direct host-`x_com` slab trace: `R2=1.000000`, `RMSE=3.19e-8`;
+- supported `Z_COSMO` cap trace: `R2=0.991444`, `RMSE=0.072685`;
+- supported observed-`Z` cap trace: `R2=0.870115`, `RMSE=0.283456`.
+
+The `Z_COSMO` row validates corrected target construction and 5-Mpc trilinear
+interpolation; it is an oracle, not a DESI score. The observed-`Z` degradation is the
+expected RSD/localization penalty and remains visible. This pass does **not** authorize
+D0 training yet: the one-global-FFT-per-cap tensor/eigenvalue closure, including the
+survey window and missing external shear, is still a separate blocking gate.
+
+Runtime evidence is under `p8_density_phys_v1/{targets,field_output_tiling,target_closure}`;
+tracked manifests are `docs/evidence/p8/density_target_manifest.json`,
+`field_output_tiling_manifest.json`, and `density_target_trace_closure.json`.
 ### 2026-08-09 — [correction/code] P8.9 target artifacts superseded before training: observer Mpc was not converted to periodic Mpc/h
 
 The mandatory closure review caught a unit defect before any model training. P3/P4 are

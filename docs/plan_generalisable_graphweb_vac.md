@@ -1954,7 +1954,7 @@ the transferable estimator and validated protocol, not loyalty to a model family
 
 #### P8.9 — Bounded density-first baseline and learned long-mode closure
 
-**Status:** D0 TARGET UNIT CORRECTION FROZEN; CORRECTED REBUILD NEXT
+**Status:** D0 CORRECTED TARGET + OWNERSHIP + TRACE PASSED; TENSOR CLOSURE NEXT
 (2026-08-09)
 
 The current evidence does not yet contain a matched DarkAI-style learned-density
@@ -2085,30 +2085,35 @@ P8.9 granular execution checklist:
   `Z_COSMO + (-1000,-1000,-1000) Mpc/h` for privileged target construction. Evidence:
   `/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/preflight/coordinate_alignment.json`
   and `docs/evidence/p8/density_target_alignment.json`.
-- [ ] Build cap-aligned `delta_R7` targets from the frozen T-web slabs using the exact
+- [x] Build cap-aligned `delta_R7` targets from the frozen T-web slabs using the exact
   P3 grid origin, cell size, shape, units, chunking, and observer mapping; do not smooth
   a second time. Evidence: runtime `p8_density_phys_v1/targets/target_manifest.json`
   and tracked `docs/evidence/p8/density_target_manifest.json`.
-  **Superseded:** the first runtime artifact mixed observer Mpc with periodic Mpc/h;
-  rebuild with `observer_xyz_Mpc * h` before this item can pass.
-- [ ] Freeze the density-loss support as exact cell-centre ownership by a nominal P4
+  The corrected mapping is `(observer_xyz_Mpc * h - 1000 Mpc/h) modulo 2000 Mpc/h`;
+  the earlier mixed-unit artifact is retained only as superseded audit history.
+- [x] Freeze the density-loss support as exact cell-centre ownership by a nominal P4
   core intersected with the P6 supported-voxel contract; quantify cap/shell coverage
   and prove that unsupported rectangular bounding-box volume never contributes loss.
-  Context/intersection ranges are not loss ownership masks.
-  **Superseded:** the first support mask compared P3 Mpc radii with Mpc/h shell bounds;
-  rebuild with Planck18 comoving distances in Mpc.
-- [ ] Audit whether the P4 core tiling covers every supported output voxel needed for a
+  Context/intersection ranges are not loss ownership masks. The corrected radial
+  support uses Planck18 comoving distances in the native P3 Mpc frame and contains
+  115,089,625 voxels (78,099,094 NGC; 36,990,531 SGC).
+- [x] Audit whether the P4 core tiling covers every supported output voxel needed for a
   complete-cap FFT. Register deterministic handling of any uncovered supported voxel;
-  zero fill or silent classical substitution is forbidden. Exact nominal ownership left
-  1,186,910 supported voxels uncovered; 890 inference-only owner cores close coverage
-  to 100% without changing folds or supervised rows. Evidence: runtime
+  zero fill or silent classical substitution is forbidden. Exact nominal ownership
+  leaves 5,660,978 supported voxels uncovered; 3,145 inference-only owner cores
+  (1,788 NGC; 1,357 SGC) close coverage to exactly 100% without changing folds,
+  supervised rows, or metrics. Evidence: runtime
   `p8_density_phys_v1/field_output_tiling/field_output_tiling_manifest.json` and tracked
   `docs/evidence/p8/field_output_tiling_manifest.json`.
-  The 890-core/100% result is provisional because it must be regenerated against the
-  corrected support mask.
-- [ ] Validate target closure by sampling the constructed trace/tensor at the same
-  authoritative galaxies. Report host-`x_com`, `Z_COSMO` oracle, and observed-`Z`
-  deployment rows separately and preserve the coordinate-preflight expectations.
+- [x] Validate scalar trace closure at the same 16,000 authoritative galaxies.
+  Host-`x_com`, supported `Z_COSMO`, and supported observed-`Z` rows give
+  `R2=1.000000/0.991444/0.870115`, respectively. The oracle and deployable rows remain
+  separate. Evidence: runtime `p8_density_phys_v1/target_closure/trace_closure.json`
+  and tracked `docs/evidence/p8/density_target_trace_closure.json`.
+- [ ] Validate the separate one-global-FFT-per-cap tensor/eigenvalue closure before
+  training. Report full-rectangle and survey-windowed solves, trace versus traceless
+  shear, oracle `Z_COSMO` versus observed-`Z` sampling, and missing-external-tide
+  sensitivity. Do not double-smooth the already `R=7 Mpc/h` target.
 - [ ] Freeze train-fold-only target scaling, D0 architecture/config, optimizer budget,
   logging, resume, and one-core overfit/canary tests; verify that no privileged target
   or `Z_COSMO` channel enters the model inputs.

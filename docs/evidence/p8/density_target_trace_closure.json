@@ -1,0 +1,117 @@
+{
+  "created_utc": "2026-08-09T12:34:12.565640+00:00",
+  "elapsed_seconds": 176.52138328552246,
+  "gates": {
+    "host_xcom_direct_trace_reproduces_labels": true,
+    "observed_z_is_diagnostic_not_oracle_gate": true,
+    "z_cosmo_supported_cap_trace_r2_at_least_minimum": true
+  },
+  "git_sha": "9500924ea919875c1f5d243d329e5157976fecc1",
+  "inputs": {
+    "assignment": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/active_assignment.npz",
+    "assignment_sha256": "c95a683184a9bd7edc218036e05a0f4b077224cddc525ef54e489e273459f08f",
+    "catalogue": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_05062026_rsmooth_7/mock_bgs_maglim_path1_fiberassign_graph_ready_with_tweb_eigs_rs7_ngrid2048_thr0p2_halo_xcom.fits",
+    "catalogue_sha256": "1ff0ac1310134a5fdb7f18a433239bc232b28c4d1da5f85fdfd117ac4cb41189",
+    "target_input": "/pscratch/sd/d/dkololgi/abacus/SecondGen_Mocks/ph000/stage_3/path1_fiberassign_20260604_083322/inputs/targ.fits",
+    "target_manifest": "/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/targets/target_manifest.json",
+    "target_manifest_sha256": "0755a462b41bdff3864369545d584dd41b34a09bec20570dd1916e01ff7124de",
+    "tweb_dir": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7"
+  },
+  "interpretation": "PASS validates target trace construction and P3 interpolation only. The global cap FFT tensor must pass separately before D0 training. Z_COSMO is an oracle row and may never be quoted as deployable DESI performance.",
+  "pass": true,
+  "rows": {
+    "host_xcom_direct_slab": {
+      "bias": 2.1930327420704997e-10,
+      "mae": 1.760441591613926e-08,
+      "max_abs": 3.5762786865234375e-07,
+      "n": 16000,
+      "pearson": 0.9999999999999976,
+      "r2": 0.9999999999999983,
+      "rmse": 3.190053977055976e-08
+    },
+    "z_cosmo_cap_trace_all": {
+      "bias": -0.024521454030503265,
+      "mae": 0.04510691310077254,
+      "max_abs": 1.913604736328125,
+      "n": 16000,
+      "pearson": 0.9968108366993016,
+      "r2": 0.9914586987542714,
+      "rmse": 0.07268453053976341
+    },
+    "z_cosmo_cap_trace_supported": {
+      "bias": -0.02450409353885312,
+      "mae": 0.04511703990031157,
+      "max_abs": 1.913604736328125,
+      "n": 15973,
+      "pearson": 0.9968032163543129,
+      "r2": 0.9914442113286543,
+      "rmse": 0.07268479971270592
+    },
+    "z_observed_cap_trace_all": {
+      "bias": -0.009487182739212481,
+      "mae": 0.11474825300239046,
+      "max_abs": 10.51818835735321,
+      "n": 16000,
+      "pearson": 0.9329474712483069,
+      "r2": 0.8701477250532451,
+      "rmse": 0.28340320107920475
+    },
+    "z_observed_cap_trace_supported": {
+      "bias": -0.0094994583387577,
+      "mae": 0.11478189574078264,
+      "max_abs": 10.51818835735321,
+      "n": 15994,
+      "pearson": 0.9329299886005924,
+      "r2": 0.870114740328807,
+      "rmse": 0.2834556453025355
+    }
+  },
+  "sample": {
+    "cap_counts": {
+      "0": 8000,
+      "1": 8000
+    },
+    "n": 16000,
+    "per_cap_shell": 2000,
+    "seed": 20260809,
+    "shell_counts": {
+      "0": 4000,
+      "1": 4000,
+      "2": 4000,
+      "3": 4000
+    }
+  },
+  "sampling": {
+    "interpolation": "trilinear on P3 cell-centre lattice with border padding",
+    "z_cosmo": {
+      "NGC": {
+        "inside_grid": 8000,
+        "n": 8000,
+        "science_supported_nearest_cell": 7989
+      },
+      "SGC": {
+        "inside_grid": 8000,
+        "n": 8000,
+        "science_supported_nearest_cell": 7984
+      }
+    },
+    "z_observed": {
+      "NGC": {
+        "inside_grid": 8000,
+        "n": 8000,
+        "science_supported_nearest_cell": 7998
+      },
+      "SGC": {
+        "inside_grid": 8000,
+        "n": 8000,
+        "science_supported_nearest_cell": 7996
+      }
+    }
+  },
+  "schema_version": "p8-density-target-trace-closure-v1",
+  "stage": "P8.9 corrected target trace closure",
+  "thresholds": {
+    "minimum_host_r2": 0.999,
+    "minimum_oracle_r2": 0.95
+  }
+}
