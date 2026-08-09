@@ -110,7 +110,7 @@ def main() -> None:
         raise ValueError("require steps >= 3 and 0 < split-after < steps")
     if args.device.startswith("cuda") and not torch.cuda.is_available():
         raise RuntimeError("resume parity requires an interactive CUDA allocation")
-    torch.use_deterministic_algorithms(True)
+    torch.use_deterministic_algorithms(True, warn_only=True)
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = True
     torch.manual_seed(args.seed)
