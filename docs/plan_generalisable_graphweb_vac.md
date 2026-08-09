@@ -1954,8 +1954,8 @@ the transferable estimator and validated protocol, not loyalty to a model family
 
 #### P8.9 — Bounded density-first baseline and learned long-mode closure
 
-**Status:** REGISTERED; OPEN AFTER THE MT4 ROTATION-0 DECISION AND RELEASE OF ITS
-TRAINING ALLOCATION; MT4 NEED NOT PASS
+**Status:** D0 COORDINATE GATE PASSED; TARGET-FIELD/SUPPORT CONSTRUCTION NEXT
+(2026-08-09)
 
 The current evidence does not yet contain a matched DarkAI-style learned-density
 baseline under the P4/P8 protocol. Keep the distinctions explicit:
@@ -1995,6 +1995,25 @@ target epoch on the canonical observer-frame cap lattices, verify its trace/eige
 closure against the existing CACTUS labels, and store its construction manifest and
 hashes. The matter field is privileged supervision only and can never enter a DESI
 model input.
+
+The observer-frame coordinate preflight is complete. On 16,000 authoritative galaxies,
+host-halo `x_com` reproduces the frozen slab labels exactly, while the unique passing
+simple sky mapping is `Z_COSMO` with observer origin
+`(-1000,-1000,-1000) Mpc/h` (minimum eigenvalue `R2=0.987379`). This mapping is frozen
+for target generation. The corresponding observed/RSD-`Z` row is materially worse,
+especially for lambda1 (`R2=0.764040`). Consequently, density-first evaluation must
+keep two non-interchangeable rows:
+
+1. **real-space oracle sampling:** sample the reconstructed tensor at simulation
+   `Z_COSMO` positions; this diagnoses the field/physics estimator but is not deployable;
+2. **VAC-deployable sampling:** sample at observed `Z`, the coordinate available for
+   DESI; this is the per-galaxy production row and includes the RSD/localization penalty.
+
+Never use `Z_COSMO`, host positions, velocities, or halo linkage as model inputs. Never
+quote the oracle row as DESI performance. If the real-space field passes but the
+observed-`Z` row does not, the outcome is an RSD/localization blocker for a per-galaxy
+physical-field VAC, not permission to hide the discrepancy with validation-fitted
+rescaling.
 
 Freeze the D0 training and inference contract:
 
@@ -2045,6 +2064,42 @@ Required artifacts are a target-field manifest, D0 config, stitched-field parity
 field/downstream metric bundle, learned-context report, exact predictions, checksums, and
 `DENSITY_FIRST_BASELINE_DECISION`. This bounded baseline may inform model choice but does
 not delay P10 phase/cost benchmarking or replace independent-phase validation.
+
+P8.9 granular execution checklist:
+
+- [x] Implement and unit-test the target-coordinate preflight; verify immutable
+  TARGETID joins, host-`x_com` label closure, coordinate units, observer origin, and
+  observed-versus-cosmological redshift variants.
+- [x] Pass the 16,000-row balanced runtime gate and freeze
+  `Z_COSMO + (-1000,-1000,-1000) Mpc/h` for privileged target construction. Evidence:
+  `/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/preflight/coordinate_alignment.json`
+  and `docs/evidence/p8/density_target_alignment.json`.
+- [ ] Build cap-aligned `delta_R7` targets from the frozen T-web slabs using the exact
+  P3 grid origin, cell size, shape, units, chunking, and observer mapping; do not smooth
+  a second time.
+- [ ] Freeze the density-loss support mask as nominal core intersected with the P6
+  supported-voxel contract; quantify cap/shell coverage and prove that unsupported
+  rectangular bounding-box volume never contributes loss.
+- [ ] Audit whether the P4 core tiling covers every supported output voxel needed for a
+  complete-cap FFT. Register deterministic handling of any uncovered supported voxel;
+  zero fill or silent classical substitution is forbidden.
+- [ ] Validate target closure by sampling the constructed trace/tensor at the same
+  authoritative galaxies. Report host-`x_com`, `Z_COSMO` oracle, and observed-`Z`
+  deployment rows separately and preserve the coordinate-preflight expectations.
+- [ ] Freeze train-fold-only target scaling, D0 architecture/config, optimizer budget,
+  logging, resume, and one-core overfit/canary tests; verify that no privileged target
+  or `Z_COSMO` channel enters the model inputs.
+- [ ] Train rotation 0 with complete-exposure density epochs and persistent loss/field
+  validation curves; no direct eigenvalue/tensor loss is allowed in D0.
+- [ ] Stitch overlapping density cores in an order- and subdivision-invariant manner;
+  report overlap disagreement and supported-volume coverage before the one global FFT
+  solve per cap.
+- [ ] Evaluate field spectra/PDF/tails, trace/tensor/eigenvalue/orientation metrics,
+  learned long-mode convergence, and the full P8 per-galaxy suite for both oracle and
+  deployable sampling rows.
+- [ ] Apply the registered rotation-2 continuation rule and write
+  `DENSITY_FIRST_BASELINE_DECISION`; open at most the single pre-registered D1 auxiliary
+  if its exact trigger is met.
 
 Progress checklist:
 

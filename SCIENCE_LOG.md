@@ -1,5 +1,41 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-09 — [science/code/runtime] P8.9 density-target coordinate gate passes; RSD-to-real-space localization is now an explicit VAC gate
+
+Before constructing a privileged `delta_R7` target on the 365-million-voxel P3 cap
+lattices, the new executable preflight
+`workflows/abacus_tweb/p8_density_target_alignment.py` rejoined `Z_COSMO` for 16,000
+authoritative Bright galaxies balanced over both caps and four shells, then sampled the
+frozen `ngrid=2048`, `R=7 Mpc/h` T-web slabs under six sky-coordinate hypotheses and an
+independent host-halo `x_com` reference.
+
+The coordinate contract is unambiguous:
+
+- `(FILE_NUM, HALO_INDEX) -> x_com` reproduces all three frozen eigenvalues exactly
+  (`R2=1.0`, zero residual), closing label/slab lineage;
+- the correct observer-to-periodic mapping is `Z_COSMO` with origin
+  `(-1000,-1000,-1000) Mpc/h`; its minimum eigenvalue R2 is `0.987379` and mean R2 is
+  `0.991028`;
+- changing the origin to `-990` or `0 Mpc/h` destroys alignment, so the origin is not a
+  harmless convention;
+- using deployable observed/RSD `Z` at the correct origin gives
+  `R2(lambda1/lambda2/lambda3)=0.764040/0.865638/0.900256` before any learned error.
+
+The coordinate gate therefore **passes** and authorizes canonical observer-frame
+`delta_R7` target construction. It does not authorize training yet. The observed-Z
+result isolates a real production issue: a physically valid real-space density/tidal
+field can be excellent while per-galaxy sampling at redshift-space positions is worse.
+P8.9 must report both an oracle `Z_COSMO` row and a deployable observed-`Z` row, and may
+not present the oracle row as a DESI VAC score. The next implementation gate is the
+target-field/support/stitching contract; only after its trace/eigenvalue closure passes
+may `U-DENSITY-PHYS-v1` train.
+
+Runtime evidence is
+`/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/preflight/coordinate_alignment.json`;
+the tracked copy is `docs/evidence/p8/density_target_alignment.json`. The persistent
+interactive run completed in 919.46 seconds at frozen revision `67dc94d`, exit status
+zero, without using a production batch submission.
+
 ### 2026-08-09 — [science/code] MT4 closed: BGS_FAINT contains replicated spatial information, but the current multitracer U-PATCH is not promoted
 
 The matched `U-BF-NULL-v1` rotation-2 run completed cleanly through exact-resume
