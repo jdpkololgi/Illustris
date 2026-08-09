@@ -2153,6 +2153,10 @@ P8.9 granular execution checklist:
   downstream eigenvalue adoption remains separate. Required preflight order is target/
   unit manifest, one-core overfit, exact resume, then one complete-epoch exposure
   canary. No direct eigenvalue/tensor target or loss is permitted in D0.
+  Freeze the overfit probe at 200 AdamW updates with `lr=0.002` on the largest
+  supported rotation-0 training unit; its final five-record mean standardized density
+  MSE must be `<=0.25` times the mean over steps 1--10. The overfit checkpoint is never
+  a scientific warm start.
 - [ ] Train rotation 0 with complete-exposure density epochs and persistent loss/field
   validation curves; no direct eigenvalue/tensor loss is allowed in D0.
 - [ ] Stitch overlapping density cores in an order- and subdivision-invariant manner;

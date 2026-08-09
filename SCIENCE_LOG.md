@@ -32,6 +32,11 @@ epoch exposure canaries; only then launch rotation 0. The preparation executable
 `workflows/abacus_tweb/p8_prepare_density_training.py`; seven focused D0/tensor tests
 currently pass.
 
+The overfit probe is frozen at 200 AdamW updates with the scientific `lr=0.002` on the
+largest supported rotation-0 training unit. Its mean standardized density MSE over the
+last five logged records must be no more than 0.25 times the mean of steps 1--10. It is
+an optimization/plumbing gate only and its checkpoint cannot initialize D0.
+
 ### 2026-08-09 — [science/code/runtime] P8.9 global tensor closure passes with large field-to-physics headroom
 
 The pre-registered one-global-FFT-per-cap closure completed on interactive 80-GB GPU
