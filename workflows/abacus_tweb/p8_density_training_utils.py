@@ -92,10 +92,17 @@ class DensityUnitAdapter:
             )
         return self.units[int(selected[0])]
 
-    def extract(self, unit: np.void, device: str) -> tuple[object, torch.Tensor, torch.Tensor, torch.Tensor, dict]:
-        row = int(unit["output_core_id"])
-        if bool(self.cores["inference_only"][row]) or not bool(self.cores["owns_density_loss"][row]):
-            raise RuntimeError("density training unit points to a non-loss output owner")
+    def extract_output_core(
+        self,
+        output_core_id: int,
+        device: str,
+        *,
+        context_halo_voxels: int = HALO_VOXELS,
+    ) -> tuple[object, torch.Tensor, dict]:
+        """Extract observation-only inputs for any nominal or inference-only owner."""
+        row = int(output_core_id)
+        if row < 0 or row >= len(self.cores["output_core_id"]):
+            raise IndexError(f"output_core_id outside frozen tiling: {row}")
         cap = int(self.cores["cap"][row])
         start = np.asarray(self.cores["voxel_start"][row], dtype=np.int64)
         stop = np.asarray(self.cores["voxel_stop"][row], dtype=np.int64)
@@ -103,15 +110,35 @@ class DensityUnitAdapter:
             cap=cap,
             core_start=start,
             core_stop=stop,
-            context_halo_voxels=HALO_VOXELS,
+            context_halo_voxels=int(context_halo_voxels),
             channel_names=CHANNELS,
             alignment_voxels=ALIGNMENT_VOXELS,
-            core_id=int(unit["nominal_core_id"]),
-            fold=int(unit["fold"]),
+            core_id=int(self.cores["nominal_core_id"][row]),
+            fold=int(self.cores["fold"][row]),
             authoritative_parent_id=np.empty(0, dtype=np.int64),
             authoritative_frac_index_global=np.empty((0, 3), dtype=np.float64),
         )
         values, _ = model_inputs(patch, self.normalization, device)
+        diagnostics = {
+            "output_core_id": row,
+            "nominal_core_id": int(self.cores["nominal_core_id"][row]),
+            "cap": cap,
+            "fold": int(self.cores["fold"][row]),
+            "inference_only": bool(self.cores["inference_only"][row]),
+            "context_halo_voxels": int(context_halo_voxels),
+            "context_shape": list(values.shape[2:]),
+            "core_shape": (stop - start).astype(int).tolist(),
+        }
+        return patch, values, diagnostics
+
+    def extract(self, unit: np.void, device: str) -> tuple[object, torch.Tensor, torch.Tensor, torch.Tensor, dict]:
+        row = int(unit["output_core_id"])
+        if bool(self.cores["inference_only"][row]) or not bool(self.cores["owns_density_loss"][row]):
+            raise RuntimeError("density training unit points to a non-loss output owner")
+        patch, values, diagnostics = self.extract_output_core(row, device)
+        cap = int(self.cores["cap"][row])
+        start = np.asarray(self.cores["voxel_start"][row], dtype=np.int64)
+        stop = np.asarray(self.cores["voxel_stop"][row], dtype=np.int64)
         selection = tuple(slice(int(start[a]), int(stop[a])) for a in range(3))
         handle = self.target_handle(cap)
         target = np.asarray(handle["delta_r7"][selection], dtype=np.float32)
@@ -131,16 +158,10 @@ class DensityUnitAdapter:
             (target - np.float32(self.scaler["mean"]))
             / np.float32(self.scaler["std"])
         )
-        diagnostics = {
-            "output_core_id": row,
-            "nominal_core_id": int(unit["nominal_core_id"]),
-            "cap": cap,
-            "fold": int(unit["fold"]),
+        diagnostics.update({
             "shell": int(unit["shell"]),
             "supported_voxels": int(mask.sum()),
-            "context_shape": list(values.shape[2:]),
-            "core_shape": list(target.shape),
-        }
+        })
         return (
             patch,
             values,
