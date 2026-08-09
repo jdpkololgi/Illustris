@@ -1,20 +1,23 @@
 import unittest
 
+from astropy.cosmology import Planck18
 import numpy as np
 
 from workflows.abacus_tweb.p8_build_density_targets import (
     build_core_coverage,
     periodic_axis_indices,
+    shell_distance_bounds,
     trace_from_eigen_slab,
 )
 
 
 class DensityTargetBuilderTests(unittest.TestCase):
-    def test_periodic_axis_indices_use_voxel_centres_and_wrap(self):
+    def test_periodic_axis_indices_convert_observer_mpc_to_mpc_h_and_wrap(self):
         got = periodic_axis_indices(
-            origin_mpc_h=0.0,
+            origin_mpc=0.0,
             size=5,
-            output_cell_mpc_h=1.0,
+            output_cell_mpc=2.0,
+            coordinate_h=0.5,
             observer_origin_mpc_h=-2.0,
             boxsize_mpc_h=4.0,
             ngrid=4,
@@ -33,6 +36,15 @@ class DensityTargetBuilderTests(unittest.TestCase):
         got = trace_from_eigen_slab(eig, x, y, z)
         expected = 2.5 * base[np.ix_(x, y, z)]
         np.testing.assert_allclose(got, expected)
+
+    def test_shell_distance_bounds_match_observer_mpc_not_mpc_h(self):
+        bounds = shell_distance_bounds()
+        self.assertAlmostEqual(
+            bounds[0][0], float(Planck18.comoving_distance(0.15).value), places=10
+        )
+        self.assertNotAlmostEqual(
+            bounds[0][0], float(Planck18.comoving_distance(0.15).value * Planck18.h)
+        )
 
     def test_core_coverage_clips_and_unions(self):
         got = build_core_coverage(

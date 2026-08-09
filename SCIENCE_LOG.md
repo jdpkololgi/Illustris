@@ -1,5 +1,28 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-09 — [correction/code] P8.9 target artifacts superseded before training: observer Mpc was not converted to periodic Mpc/h
+
+The mandatory closure review caught a unit defect before any model training. P3/P4 are
+unambiguously indexed in observer-frame comoving Mpc: the field cell is 5 Mpc and the
+64 Mpc/h P4 core is 94.5906 Mpc at Planck18 `h=0.6766`. The periodic T-web cube and
+observer origin are in Mpc/h. The first target builder incorrectly evaluated
+`observer_xyz_Mpc + origin_Mpc/h`; the correct mapping, already used by the passing
+galaxy-level coordinate preflight, is
+
+`periodic_xyz_Mpc/h = (observer_xyz_Mpc * h + origin_Mpc/h) modulo 2000 Mpc/h`.
+
+The same audit found that radial science support had compared a P3 radius in Mpc with
+shell limits in Mpc/h. Both conversions are now fixed and guarded by unit tests. The
+previous target HDF5 files, target manifest, support counts, and derived output-tiling
+manifest are therefore **superseded** and may not be used for training or science.
+Their commit history is retained as an auditable negative result; tracked evidence will
+be replaced only after the corrected rebuild and independent closure.
+
+This is precisely why P8.9 placed target closure before model training. Nine focused
+tests now pass, including explicit Mpc-to-Mpc/h periodic mapping and Mpc shell-bound
+checks. The corrected target and exact-owner tiling must be rebuilt under the new source
+revision. `U-DENSITY-PHYS-v1` remains blocked.
+
 ### 2026-08-09 — [science/code/runtime] P8.9 target fields are ready; exact owner tiling closes the supported-volume gap
 
 The cap-aligned privileged `delta_R7` fields have been built successfully from the

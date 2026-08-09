@@ -73,16 +73,18 @@ def git_sha() -> str:
 
 
 def periodic_axis_indices(
-    origin_mpc_h: float,
+    origin_mpc: float,
     size: int,
-    output_cell_mpc_h: float,
+    output_cell_mpc: float,
+    coordinate_h: float,
     observer_origin_mpc_h: float,
     boxsize_mpc_h: float,
     ngrid: int,
 ) -> np.ndarray:
-    """Map output voxel centres to nearest-left periodic source-grid cells."""
-    centres = origin_mpc_h + (np.arange(size, dtype=np.float64) + 0.5) * output_cell_mpc_h
-    periodic = np.mod(centres + observer_origin_mpc_h, boxsize_mpc_h)
+    """Map observer-Mpc voxel centres to periodic Mpc/h source-grid cells."""
+    centres_mpc = origin_mpc + (np.arange(size, dtype=np.float64) + 0.5) * output_cell_mpc
+    centres_mpc_h = centres_mpc * float(coordinate_h)
+    periodic = np.mod(centres_mpc_h + observer_origin_mpc_h, boxsize_mpc_h)
     indices = np.floor(periodic / (boxsize_mpc_h / float(ngrid))).astype(np.int64)
     return np.clip(indices, 0, ngrid - 1)
 
@@ -150,8 +152,8 @@ def radius_squared(
 def shell_distance_bounds() -> tuple[tuple[float, float], ...]:
     return tuple(
         (
-            float(Planck18.comoving_distance(low).value * Planck18.h),
-            float(Planck18.comoving_distance(high).value * Planck18.h),
+            float(Planck18.comoving_distance(low).value),
+            float(Planck18.comoving_distance(high).value),
         )
         for low, high in SHELLS
     )
@@ -209,6 +211,7 @@ def write_cap(
     core_coverage: np.ndarray,
     component: dict,
     observer_origin: float,
+    coordinate_h: float,
     source_ngrid: int,
     source_boxsize: float,
     args: argparse.Namespace,
@@ -241,10 +244,14 @@ def write_cap(
         handle.attrs["target_epoch"] = 0.2
         handle.attrs["smoothing_mpc_h"] = 7.0
         handle.attrs["sampling"] = "floor source cell at P3 voxel centre"
-        handle.attrs["origin_mpc_h"] = np.asarray(grid["origin_mpc"], dtype=np.float64)
-        handle.attrs["cell_mpc_h"] = float(grid["cell_mpc"])
+        handle.attrs["origin_mpc"] = np.asarray(grid["origin_mpc"], dtype=np.float64)
+        handle.attrs["cell_mpc"] = float(grid["cell_mpc"])
+        handle.attrs["observer_coordinate_h"] = float(coordinate_h)
         handle.attrs["observer_origin_mpc_h"] = np.asarray(
             [observer_origin] * 3, dtype=np.float64
+        )
+        handle.attrs["periodic_mapping"] = (
+            "(observer_xyz_mpc * h + origin_mpc_h) modulo box"
         )
         handle.attrs["source_ngrid"] = int(source_ngrid)
         handle.attrs["source_boxsize_mpc_h"] = float(source_boxsize)
@@ -268,6 +275,7 @@ def main() -> None:
     p3 = json.loads(args.p3_manifest.read_text())
     p6_selection = json.loads(args.p6_selection.read_text())
     minimum_exposure = float(p6_selection["contrast"]["minimum_exposure"])
+    coordinate_h = float(Planck18.h)
     slabs = discover_slabs(args.tweb_dir)
     ix_to_slab, slab_xstart, ngrid, boxsize = build_slab_maps(slabs)
     del ix_to_slab, slab_xstart
@@ -286,7 +294,8 @@ def main() -> None:
         cell = float(grid["cell_mpc"])
         source_index = tuple(
             periodic_axis_indices(
-                origin[axis], shape[axis], cell, float(args.observer_origin_mpc_h),
+                origin[axis], shape[axis], cell, coordinate_h,
+                float(args.observer_origin_mpc_h),
                 boxsize, ngrid,
             )
             for axis in range(3)
@@ -345,8 +354,8 @@ def main() -> None:
         with h5py.File(component["file"], "r") as source:
             exposure = np.asarray(source["exposure_apodized"], dtype=np.float32)
         r2 = radius_squared(state["origin"], shape, state["cell"])
-        r_min = float(Planck18.comoving_distance(args.z_min).value * Planck18.h)
-        r_max = float(Planck18.comoving_distance(args.z_max).value * Planck18.h)
+        r_min = float(Planck18.comoving_distance(args.z_min).value)
+        r_max = float(Planck18.comoving_distance(args.z_max).value)
         science_support = (
             (exposure > minimum_exposure)
             & (r2 >= r_min**2)
@@ -357,7 +366,8 @@ def main() -> None:
         write_cap(
             output_path, delta_r7=delta, science_support=science_support,
             core_coverage=coverage, component=component,
-            observer_origin=float(args.observer_origin_mpc_h), source_ngrid=ngrid,
+            observer_origin=float(args.observer_origin_mpc_h), coordinate_h=coordinate_h,
+            source_ngrid=ngrid,
             source_boxsize=boxsize, args=args,
         )
         cap_reports[cap_name] = {
@@ -415,9 +425,14 @@ def main() -> None:
             "smoothing_mpc_h": 7.0,
             "double_smoothing_applied": False,
             "observer_origin_mpc_h": [float(args.observer_origin_mpc_h)] * 3,
-            "coordinate_mapping": "P3 voxel centre + observer origin, periodic modulo",
+            "observer_coordinate_units": "Mpc",
+            "observer_coordinate_h": coordinate_h,
+            "coordinate_mapping": (
+                "(P3 voxel centre in Mpc * h + observer origin in Mpc/h) modulo box"
+            ),
             "source_sampling": "floor to ngrid=2048 source cell",
             "science_redshift_range": [float(args.z_min), float(args.z_max)],
+            "science_support_coordinate_units": "observer-frame Mpc",
             "minimum_exposure_apodized": minimum_exposure,
             "density_loss_support": "science_support AND nominal P4 core coverage",
             "privileged_target_is_model_input": False,
@@ -442,7 +457,9 @@ def main() -> None:
             "target_fields_ready authorizes target-closure testing. "
             "stitching_support_ready is independently required before complete-cap "
             "prediction and the global FFT. A support failure must not be repaired "
-            "by silent zero fill or classical substitution."
+            "by silent zero fill or classical substitution. The target builder's "
+            "intersecting P4 coverage is diagnostic; exact density-loss/output "
+            "ownership is frozen separately by p8_build_field_output_tiling.py."
         ),
         "elapsed_seconds": time.time() - started,
     }

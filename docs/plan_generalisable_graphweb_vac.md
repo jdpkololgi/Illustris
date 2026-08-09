@@ -1954,7 +1954,7 @@ the transferable estimator and validated protocol, not loyalty to a model family
 
 #### P8.9 — Bounded density-first baseline and learned long-mode closure
 
-**Status:** D0 TARGET FIELD + EXACT OUTPUT OWNERSHIP PASSED; TARGET CLOSURE NEXT
+**Status:** D0 TARGET UNIT CORRECTION FROZEN; CORRECTED REBUILD NEXT
 (2026-08-09)
 
 The current evidence does not yet contain a matched DarkAI-style learned-density
@@ -2085,21 +2085,27 @@ P8.9 granular execution checklist:
   `Z_COSMO + (-1000,-1000,-1000) Mpc/h` for privileged target construction. Evidence:
   `/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/preflight/coordinate_alignment.json`
   and `docs/evidence/p8/density_target_alignment.json`.
-- [x] Build cap-aligned `delta_R7` targets from the frozen T-web slabs using the exact
+- [ ] Build cap-aligned `delta_R7` targets from the frozen T-web slabs using the exact
   P3 grid origin, cell size, shape, units, chunking, and observer mapping; do not smooth
   a second time. Evidence: runtime `p8_density_phys_v1/targets/target_manifest.json`
   and tracked `docs/evidence/p8/density_target_manifest.json`.
-- [x] Freeze the density-loss support as exact cell-centre ownership by a nominal P4
+  **Superseded:** the first runtime artifact mixed observer Mpc with periodic Mpc/h;
+  rebuild with `observer_xyz_Mpc * h` before this item can pass.
+- [ ] Freeze the density-loss support as exact cell-centre ownership by a nominal P4
   core intersected with the P6 supported-voxel contract; quantify cap/shell coverage
   and prove that unsupported rectangular bounding-box volume never contributes loss.
   Context/intersection ranges are not loss ownership masks.
-- [x] Audit whether the P4 core tiling covers every supported output voxel needed for a
+  **Superseded:** the first support mask compared P3 Mpc radii with Mpc/h shell bounds;
+  rebuild with Planck18 comoving distances in Mpc.
+- [ ] Audit whether the P4 core tiling covers every supported output voxel needed for a
   complete-cap FFT. Register deterministic handling of any uncovered supported voxel;
   zero fill or silent classical substitution is forbidden. Exact nominal ownership left
   1,186,910 supported voxels uncovered; 890 inference-only owner cores close coverage
   to 100% without changing folds or supervised rows. Evidence: runtime
   `p8_density_phys_v1/field_output_tiling/field_output_tiling_manifest.json` and tracked
   `docs/evidence/p8/field_output_tiling_manifest.json`.
+  The 890-core/100% result is provisional because it must be regenerated against the
+  corrected support mask.
 - [ ] Validate target closure by sampling the constructed trace/tensor at the same
   authoritative galaxies. Report host-`x_com`, `Z_COSMO` oracle, and observed-`Z`
   deployment rows separately and preserve the coordinate-preflight expectations.
