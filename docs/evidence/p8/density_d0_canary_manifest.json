@@ -1,0 +1,32 @@
+{
+  "arguments": {
+    "canary": true,
+    "checkpoint_every": 250,
+    "contract_root": "/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/training_contract",
+    "device": "cuda",
+    "git_revision": "c1c567326630c68d1b2959430c652dd272547ec5",
+    "loss_log_every": 25,
+    "output_root": "/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/d0_runs",
+    "rotation": 0,
+    "run_name": "canary_v1",
+    "seed": 42
+  },
+  "config": "/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/training_contract/rotation_0/d0_config.json",
+  "config_sha256": "4b78dc6b4b6ee0979c1236b222478ada6b826eb4560cc24383e2cd63013e6dab",
+  "direct_eigenvalue_or_tensor_loss": false,
+  "epoch_sampler": "deterministic weighted without-replacement; every unit once",
+  "expected_training_voxels_by_shell": [
+    6731621,
+    13020795,
+    20426433,
+    25690328
+  ],
+  "git_revision": "c1c567326630c68d1b2959430c652dd272547ec5",
+  "maximum_epochs_this_invocation": 1,
+  "model": "U-DENSITY-PHYS-v1",
+  "resume": false,
+  "schema_version": "p8-density-training-run-v1",
+  "scientific_epochs": 20,
+  "train_units": 13664,
+  "validation_units": 4602
+}

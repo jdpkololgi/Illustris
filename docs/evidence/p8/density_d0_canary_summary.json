@@ -1,0 +1,100 @@
+{
+  "best_epoch": 1,
+  "best_macro_shell_r2_delta_r7": 0.6315828574569138,
+  "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/d0_runs/rotation_0/seed_42/canary_v1/training_checkpoint.pt",
+  "elapsed_seconds": 1432.2283883094788,
+  "epochs_completed": 1,
+  "history": [
+    {
+      "elapsed_seconds": 1432.170180797577,
+      "epoch": 1,
+      "global_step": 13664,
+      "learning_rate": 0.001987688340595137,
+      "maximum_cuda_memory_bytes": 1459239936,
+      "repeat_units": 0,
+      "training_units": 13664,
+      "training_voxels_by_shell": [
+        6731621,
+        13020795,
+        20426433,
+        25690328
+      ],
+      "training_weighted_mse": 0.44749532159974453,
+      "unique_unit_fraction": 1.0,
+      "unique_units_seen": 13664,
+      "validation": {
+        "by_shell": {
+          "0": {
+            "bias": 0.011515856855252509,
+            "mae": 0.16447859212506497,
+            "n": 2209009,
+            "pearson": 0.8606328564131511,
+            "prediction_mean": 0.007864614260886986,
+            "prediction_std": 0.33867042489897514,
+            "r2": 0.7233996335472871,
+            "rmse": 0.24348849879675896,
+            "truth_mean": -0.0036512425943655224,
+            "truth_std": 0.4629691753686134
+          },
+          "1": {
+            "bias": 0.0028601800585390576,
+            "mae": 0.1664163831004426,
+            "n": 4311024,
+            "pearson": 0.8438188651080919,
+            "prediction_mean": -0.006902240968270567,
+            "prediction_std": 0.3747848553680783,
+            "r2": 0.7108117310751749,
+            "rmse": 0.24898651965493604,
+            "truth_mean": -0.009762421026809624,
+            "truth_std": 0.4630048058181595
+          },
+          "2": {
+            "bias": 0.03853129586961385,
+            "mae": 0.1848222943299655,
+            "n": 6902505,
+            "pearson": 0.832090851870477,
+            "prediction_mean": 0.03160947677340761,
+            "prediction_std": 0.3966229500386984,
+            "r2": 0.6849625955080872,
+            "rmse": 0.26042790717700404,
+            "truth_mean": -0.006921819096206241,
+            "truth_std": 0.46398769218186225
+          },
+          "3": {
+            "bias": 0.011089421712352627,
+            "mae": 0.2663688384745001,
+            "n": 8506819,
+            "pearson": 0.6394781219802275,
+            "prediction_mean": 0.0280099748208186,
+            "prediction_std": 0.31862512971213813,
+            "r2": 0.40715746969710576,
+            "rmse": 0.36374171674693123,
+            "truth_mean": 0.016920553108465974,
+            "truth_std": 0.47241473602630596
+          }
+        },
+        "macro_shell_pearson_delta_r7": 0.7940051738429867,
+        "macro_shell_r2_delta_r7": 0.6315828574569138,
+        "overall": {
+          "bias": 0.01815224687302918,
+          "mae": 0.21078812382495615,
+          "n": 21929357,
+          "pearson": 0.7650222373530932,
+          "prediction_mean": 0.020250371895852725,
+          "prediction_std": 0.35817426900384225,
+          "r2": 0.5837460293215313,
+          "rmse": 0.30138372284902737,
+          "truth_mean": 0.0020981250228235427,
+          "truth_std": 0.46713305380204045
+        },
+        "units": 4602
+      }
+    }
+  ],
+  "model": "U-DENSITY-PHYS-v1",
+  "rotation": 0,
+  "run_name": "canary_v1",
+  "schema_version": "p8-density-training-summary-v1",
+  "seed": 42,
+  "status": "D0_CANARY_COMPLETE"
+}
