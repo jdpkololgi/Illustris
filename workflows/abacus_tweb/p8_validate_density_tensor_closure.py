@@ -14,6 +14,7 @@ import json
 import math
 from pathlib import Path
 import subprocess
+import sys
 import time
 
 from astropy.cosmology import Planck18
@@ -21,6 +22,10 @@ import h5py
 import numpy as np
 import torch
 import torch.nn.functional as F
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from workflows.abacus_tweb.p8_density_target_alignment import (
     CATALOGUE,
