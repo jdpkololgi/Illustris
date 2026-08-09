@@ -1,0 +1,37 @@
+{
+  "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/resume_parity/rotation_0/seed_42/interrupted_checkpoint.pt",
+  "continuous_loss": [
+    0.8483908176422119,
+    1.6153935194015503,
+    3.625145673751831,
+    1.6656988859176636
+  ],
+  "cpu_rng_equal": true,
+  "cuda_rng_equal": true,
+  "cursor_equal": true,
+  "elapsed_seconds": 3.932532787322998,
+  "epoch_order_equal": true,
+  "loss_trace_max_abs": 0.0,
+  "model_state_max_abs": 0.0,
+  "optimizer_state_max_abs": 0.0,
+  "pass": true,
+  "resumed_loss": [
+    0.8483908176422119,
+    1.6153935194015503,
+    3.625145673751831,
+    1.6656988859176636
+  ],
+  "rotation": 0,
+  "scheduler_state_equal": true,
+  "schema_version": "p8-density-resume-parity-v1",
+  "seed": 42,
+  "split_after": 2,
+  "steps": 4,
+  "tolerance": 1e-07,
+  "unit_indices": [
+    374,
+    3957,
+    6587,
+    11996
+  ]
+}
