@@ -8,9 +8,18 @@ from workflows.abacus_tweb.p8_evaluate_stitched_density import (
     spectra_report,
     spectral_sums,
 )
+from workflows.abacus_tweb.p8_infer_stitched_density import convergence_metrics
 
 
 class DensityFieldEvaluationTests(unittest.TestCase):
+    def test_patch_convergence_metrics_are_scale_normalized(self):
+        reference = np.linspace(-2.0, 2.0, 101)
+        candidate = reference + 1e-3
+        report = convergence_metrics(candidate, reference)
+        self.assertAlmostEqual(report["rmse"], 1e-3)
+        self.assertAlmostEqual(report["p95_abs_over_std"], 1e-3 / reference.std())
+        self.assertAlmostEqual(report["max_abs"], 1e-3)
+
     def test_distribution_accumulator_reports_perfect_field_and_tails(self):
         truth = np.array([-0.9, -0.6, 0.0, 1.5, 3.5, 7.0])
         accumulator = DistributionAccumulator()

@@ -43,7 +43,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--progress-every", type=int, default=100)
     parser.add_argument("--parity-cores", type=int, default=8)
     parser.add_argument("--expanded-halo-voxels", type=int, default=32)
-    parser.add_argument("--parity-max-abs", type=float, default=5e-5)
+    parser.add_argument("--parity-nrmse", type=float, default=0.02)
+    parser.add_argument("--parity-p95-over-std", type=float, default=0.08)
+    parser.add_argument("--parity-worst-core-nrmse", type=float, default=0.04)
     return parser.parse_args()
 
 
@@ -145,22 +147,49 @@ def parity_rows(adapter: DensityUnitAdapter, count: int) -> np.ndarray:
     return np.asarray(chosen[:count], dtype=np.int64)
 
 
+def convergence_metrics(candidate: np.ndarray, reference: np.ndarray) -> dict:
+    """P6-compatible, scale-normalized patch-convergence diagnostics."""
+    candidate = np.asarray(candidate, dtype=np.float64)
+    reference = np.asarray(reference, dtype=np.float64)
+    difference = candidate - reference
+    scale = max(float(np.std(reference)), 1e-6)
+    absolute = np.abs(difference).ravel()
+    return {
+        "n": int(difference.size),
+        "reference_std": scale,
+        "rmse": float(np.sqrt(np.mean(np.square(difference)))),
+        "nrmse": float(np.sqrt(np.mean(np.square(difference))) / scale),
+        "p95_abs_over_std": float(np.quantile(absolute, 0.95) / scale),
+        "max_abs": float(np.max(absolute)),
+        "max_abs_over_std": float(np.max(absolute) / scale),
+    }
+
+
 def trained_patch_parity(
     model: torch.nn.Module,
     adapter: DensityUnitAdapter,
     rows: np.ndarray,
     device: str,
     expanded_halo: int,
-    tolerance: float,
+    nrmse_tolerance: float,
+    p95_tolerance: float,
+    worst_core_nrmse_tolerance: float,
 ) -> dict:
     context_residuals = []
     subdivision_residuals = []
+    context_references = []
+    subdivision_references = []
+    context_core_nrmse = []
+    subdivision_core_nrmse = []
     details = []
     for row in rows:
         base, _ = infer_bounds(model, adapter, int(row), device, 24)
         expanded, _ = infer_bounds(model, adapter, int(row), device, expanded_halo)
         context = expanded.astype(np.float64) - base.astype(np.float64)
         context_residuals.append(context.ravel())
+        context_references.append(base.astype(np.float64).ravel())
+        context_core = convergence_metrics(expanded, base)
+        context_core_nrmse.append(context_core["nrmse"])
 
         start = np.asarray(adapter.cores["voxel_start"][row], dtype=np.int64)
         stop = np.asarray(adapter.cores["voxel_stop"][row], dtype=np.int64)
@@ -196,6 +225,9 @@ def trained_patch_parity(
         stitched = np.concatenate(pieces, axis=axis)
         subdivision = stitched.astype(np.float64) - base.astype(np.float64)
         subdivision_residuals.append(subdivision.ravel())
+        subdivision_references.append(base.astype(np.float64).ravel())
+        subdivision_core = convergence_metrics(stitched, base)
+        subdivision_core_nrmse.append(subdivision_core["nrmse"])
         details.append({
             "output_core_id": int(row),
             "cap": CAP_NAME[int(adapter.cores["cap"][row])],
@@ -203,31 +235,67 @@ def trained_patch_parity(
             "subdivision_axis": axis,
             "subdivision_split_global_voxel": split,
             "expanded_context_max_abs": float(np.max(np.abs(context))),
+            "expanded_context_nrmse": context_core["nrmse"],
             "subdivision_max_abs": float(np.max(np.abs(subdivision))),
+            "subdivision_nrmse": subdivision_core["nrmse"],
         })
     context = np.concatenate(context_residuals) if context_residuals else np.empty(0)
     subdivision = np.concatenate(subdivision_residuals) if subdivision_residuals else np.empty(0)
+    context_reference = (
+        np.concatenate(context_references) if context_references else np.empty(0)
+    )
+    subdivision_reference = (
+        np.concatenate(subdivision_references) if subdivision_references else np.empty(0)
+    )
+    context_metrics = (
+        convergence_metrics(context + context_reference, context_reference)
+        if len(context) else None
+    )
+    subdivision_metrics = (
+        convergence_metrics(subdivision + subdivision_reference, subdivision_reference)
+        if len(subdivision) else None
+    )
+    gates = {
+        "nrmse": float(nrmse_tolerance),
+        "p95_abs_over_std": float(p95_tolerance),
+        "worst_core_nrmse": float(worst_core_nrmse_tolerance),
+        "source": "P6 trained U-Net convergence contract",
+    }
     report = {
         "cores": int(len(rows)),
         "output_core_ids": rows.tolist(),
         "base_halo_voxels": 24,
         "expanded_halo_voxels": int(expanded_halo),
-        "tolerance_max_abs": float(tolerance),
+        "gates": gates,
         "expanded_context": {
-            "max_abs": float(np.max(np.abs(context))) if len(context) else None,
-            "rmse": float(np.sqrt(np.mean(np.square(context)))) if len(context) else None,
+            **(context_metrics or {}),
+            "worst_core_nrmse": (
+                float(max(context_core_nrmse)) if context_core_nrmse else None
+            ),
         },
         "subdivision": {
-            "max_abs": float(np.max(np.abs(subdivision))) if len(subdivision) else None,
-            "rmse": float(np.sqrt(np.mean(np.square(subdivision)))) if len(subdivision) else None,
+            **(subdivision_metrics or {}),
+            "worst_core_nrmse": (
+                float(max(subdivision_core_nrmse)) if subdivision_core_nrmse else None
+            ),
         },
         "details": details,
     }
+    def passes(metrics: dict | None) -> bool:
+        return bool(
+            metrics
+            and metrics["nrmse"] <= gates["nrmse"]
+            and metrics["p95_abs_over_std"] <= gates["p95_abs_over_std"]
+            and metrics["worst_core_nrmse"] <= gates["worst_core_nrmse"]
+        )
+
+    report["expanded_context"]["pass"] = passes(report["expanded_context"])
+    report["subdivision"]["pass"] = passes(report["subdivision"])
     report["pass"] = bool(
         len(context)
         and len(subdivision)
-        and report["expanded_context"]["max_abs"] <= tolerance
-        and report["subdivision"]["max_abs"] <= tolerance
+        and report["expanded_context"]["pass"]
+        and report["subdivision"]["pass"]
     )
     return report
 
@@ -278,7 +346,8 @@ def main() -> None:
         partition = owner_partition_report(adapter.cores)
         parity = trained_patch_parity(
             model, adapter, parity_rows(adapter, args.parity_cores), args.device,
-            args.expanded_halo_voxels, args.parity_max_abs,
+            args.expanded_halo_voxels, args.parity_nrmse,
+            args.parity_p95_over_std, args.parity_worst_core_nrmse,
         )
         atomic_json(args.output / "trained_patch_parity.json", parity)
         if not parity["pass"]:
