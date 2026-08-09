@@ -2114,6 +2114,20 @@ P8.9 granular execution checklist:
   training. Report full-rectangle and survey-windowed solves, trace versus traceless
   shear, oracle `Z_COSMO` versus observed-`Z` sampling, and missing-external-tide
   sensitivity. Do not double-smooth the already `R=7 Mpc/h` target.
+  The pre-runtime frozen rows are: rectangle plus 24-voxel padding; rectangle plus the
+  P7 20-voxel cosine box taper and 24-voxel padding; hard science support; and science
+  support times P3 apodized exposure times a 100-Mpc radial cosine taper. The latter
+  two also use 24-voxel padding. Required gates on the balanced 16,000-row sample are:
+  - tensor-trace versus transformed-input RMSE `<= 2e-4` for every cap, coordinate,
+    and window row;
+  - rectangle-raw `Z_COSMO` macro-shell `R2_lambda1 >= 0.90`;
+  - apodized-science-window `Z_COSMO` macro-shell `R2_lambda1 >= 0.50` and worst-shell
+    `R2_lambda1 >= 0.0`.
+  These are target/operator and physical-floor gates, not model scores. `Z_COSMO` is
+  privileged and may never be quoted as deployable DESI accuracy. Observed-`Z`, cap,
+  shell, traceless-shear, box-taper sensitivity, and eigengap-conditioned window
+  orientation rows are mandatory diagnostics. A failed gate blocks D0 until the
+  field-output/context contract is revised; do not retune thresholds after inspection.
 - [ ] Freeze train-fold-only target scaling, D0 architecture/config, optimizer budget,
   logging, resume, and one-core overfit/canary tests; verify that no privileged target
   or `Z_COSMO` channel enters the model inputs.

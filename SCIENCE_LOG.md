@@ -1,5 +1,37 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-09 — [science/code] P8.9 global tensor-closure contract frozen before runtime
+
+The corrected scalar target/trace gate does not by itself establish that a density
+field confined to the DESI support produces accurate tidal shear. The next blocking
+preflight is therefore frozen before opening any tensor/eigenvalue result. It applies
+exactly one unsmoothed projector `T_ij(k)=k_i k_j/k^2 delta_R7(k)` separately to the
+NGC and SGC cap rectangles; the target already carries `R=7 Mpc/h` smoothing, so a
+second Gaussian is forbidden.
+
+Four rows separate effects that must not be conflated:
+
+- full rectangular privileged density with 24-voxel zero padding;
+- the same rectangle with the P7 20-voxel cosine box taper;
+- the exact hard science-support window;
+- the registered production candidate: science support times P3 apodized exposure
+  times a 100-Mpc radial cosine taper, with 24-voxel padding.
+
+Every row is sampled at both oracle `Z_COSMO` and deployable observed-`Z` positions.
+The report separates trace, traceless-shear eigenvalues, the three ordered eigenvalues,
+four redshift shells, both caps, and window-induced orientation changes conditional on
+the privileged eigengap. The algebraic trace identity must have RMSE no larger than
+`2e-4`. On the balanced 16,000-galaxy oracle sample, the full rectangle must reach
+macro-shell `R2_lambda1 >= 0.90`; the apodized science window must reach macro-shell
+`R2_lambda1 >= 0.50` with no shell below zero. These are implementation/physical-floor
+gates, not DESI performance claims and not model-promotion scores.
+
+Failure blocks D0 training until the output/context/window contract is revised; the
+thresholds may not be weakened after inspection. The executable is
+`workflows/abacus_tweb/p8_validate_density_tensor_closure.py`; four CPU tests cover the
+window symmetries, radial taper, unsmoothed trace identity, and eigengap-conditioned
+orientation diagnostic.
+
 ### 2026-08-09 — [science/code/runtime] Corrected P8.9 targets, exact ownership, and trace closure pass; global tensor closure remains blocking
 
 The unit-corrected target rebuild completed on CPU allocation `56531803` at frozen
