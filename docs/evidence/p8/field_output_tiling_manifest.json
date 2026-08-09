@@ -1,0 +1,139 @@
+{
+  "artifact": {
+    "field_output_cores": "/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/field_output_tiling/field_output_cores.npz",
+    "field_output_cores_sha256": "4437c9510b9cf12b884105ee28fd833c5cc8d97f251e21915da30c2cd352effb",
+    "inference_only_rows": 890,
+    "rows": 19655
+  },
+  "components": {
+    "NGC": {
+      "candidate_owner_cores": 35728,
+      "cap_id": 1,
+      "coverage_fraction_after_extension": 1.0,
+      "exact_owner_coverage_fraction_before_extension": 0.9718687857924981,
+      "exact_owner_uncovered_voxels_before_extension": 704813,
+      "inference_only_cores": 507,
+      "legacy_intersection_uncovered_voxels": 671421,
+      "nominal_p4_cores": 12718,
+      "output_cores": 13225,
+      "owner_cores_with_science_support": 4935,
+      "science_supported_voxels": 25054482,
+      "shape": [
+        539,
+        823,
+        528
+      ],
+      "uncovered_supported_field_summary": {
+        "counts": {
+          "all_finite": true,
+          "positive_voxels": 210,
+          "sum": 21.678430327992828,
+          "voxels": 704813
+        },
+        "expected_counts": {
+          "all_finite": true,
+          "positive_voxels": 704813,
+          "sum": 191720.81537154643,
+          "voxels": 704813
+        },
+        "exposure_apodized": {
+          "all_finite": true,
+          "positive_voxels": 704813,
+          "sum": 449573.0419894573,
+          "voxels": 704813
+        }
+      },
+      "uncovered_supported_target_summary": {
+        "all_finite": true,
+        "positive_voxels": 278260,
+        "sum": -3422.2979151587933,
+        "voxels": 704813
+      },
+      "uncovered_voxels_after_extension": 0
+    },
+    "SGC": {
+      "candidate_owner_cores": 20664,
+      "cap_id": 0,
+      "coverage_fraction_after_extension": 1.0,
+      "exact_owner_coverage_fraction_before_extension": 0.9598803543333232,
+      "exact_owner_uncovered_voxels_before_extension": 482097,
+      "inference_only_cores": 383,
+      "legacy_intersection_uncovered_voxels": 457227,
+      "nominal_p4_cores": 6047,
+      "output_cores": 6430,
+      "owner_cores_with_science_support": 2611,
+      "science_supported_voxels": 12016482,
+      "shape": [
+        445,
+        764,
+        386
+      ],
+      "uncovered_supported_field_summary": {
+        "counts": {
+          "all_finite": true,
+          "positive_voxels": 222,
+          "sum": 35.23961847983304,
+          "voxels": 482097
+        },
+        "expected_counts": {
+          "all_finite": true,
+          "positive_voxels": 482097,
+          "sum": 40842.05961421311,
+          "voxels": 482097
+        },
+        "exposure_apodized": {
+          "all_finite": true,
+          "positive_voxels": 482097,
+          "sum": 278113.2596881373,
+          "voxels": 482097
+        }
+      },
+      "uncovered_supported_target_summary": {
+        "all_finite": true,
+        "positive_voxels": 184848,
+        "sum": -9188.035991784185,
+        "voxels": 482097
+      },
+      "uncovered_voxels_after_extension": 0
+    }
+  },
+  "contract": {
+    "classical_field_substitution": false,
+    "core_mpc": 94.59060005911913,
+    "core_mpc_h": 64.0,
+    "inference_only_fold_sentinel": 255,
+    "inference_only_rows_contribute_loss_or_metrics": false,
+    "nominal_p4_folds_changed": false,
+    "uncovered_supported_voxels_zero_filled": false,
+    "unsupported_voxels_for_final_fft": "explicitly windowed to zero; never model supervised",
+    "voxel_owner": "P3 cell centre in one half-open P4 64 Mpc/h lattice core"
+  },
+  "created_utc": "2026-08-09T12:09:04.698604+00:00",
+  "elapsed_seconds": 19.883917570114136,
+  "gates": {
+    "all_supported_voxels_have_output_owner": true,
+    "inference_only_rows_have_no_loss_or_metric_ownership": true,
+    "no_silent_supported_zero_fill": true,
+    "nominal_p4_rows_and_folds_unchanged": true,
+    "unique_cell_centre_owner_partition": true
+  },
+  "git_sha": "4e0e0570ee853de8c3d5a01c65f9071b33400c8c",
+  "global": {
+    "coverage_fraction_after_extension": 1.0,
+    "exact_owner_uncovered_voxels_before_extension": 1186910,
+    "science_supported_voxels": 37070964,
+    "uncovered_voxels_after_extension": 0
+  },
+  "inputs": {
+    "p3_manifest": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/field_manifest.json",
+    "p3_manifest_sha256": "3f0fc7ba8e42c3004b9cc6969de76a44ce217f0a736dc2dd473ef2176371ca0d",
+    "p4_cores": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/cores.npz",
+    "p4_cores_sha256": "430e1ee7c3426c1f97468caaee77c217680dcb8e0ef993949d8f7a0e6568571b",
+    "p4_manifest": "/pscratch/sd/d/dkololgi/abacus/p4_spatial_manifest/spatial_manifest.json",
+    "p4_manifest_sha256": "ab6900b4f2d47ba8feda73a66631114be9557c76ed7c13c5e6aed70e563393a5",
+    "target_manifest": "/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/targets/target_manifest.json",
+    "target_manifest_sha256": "7c41200b0bcf2775479700509cf0d431dc35d4bafb7ddc8c4588044f8ab8c1a4"
+  },
+  "pass": true,
+  "stage": "P8.9 exact density-loss ownership and complete field-output tiling"
+}

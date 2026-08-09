@@ -1954,7 +1954,7 @@ the transferable estimator and validated protocol, not loyalty to a model family
 
 #### P8.9 — Bounded density-first baseline and learned long-mode closure
 
-**Status:** D0 COORDINATE GATE PASSED; TARGET-FIELD/SUPPORT CONSTRUCTION NEXT
+**Status:** D0 TARGET FIELD + EXACT OUTPUT OWNERSHIP PASSED; TARGET CLOSURE NEXT
 (2026-08-09)
 
 The current evidence does not yet contain a matched DarkAI-style learned-density
@@ -2023,12 +2023,23 @@ Freeze the D0 training and inference contract:
 2. Reuse the P4 rotations, authoritative rows, 64-Mpc cores, P6 train-only response
    transforms, complete-exposure sampler, seed 42, patch-safe normalization, atomic
    resume, and complete-fold evaluation. Context voxels never own density loss.
+   For voxelwise loss and stitching, ownership is defined by the P3 cell centre in
+   exactly one half-open P4 lattice core. The older intersecting voxel ranges remain
+   valid for context extraction but are not density-loss owners. Retain every nominal
+   P4 core and add inference-only owner cores wherever supported voxels have no
+   galaxy-occupied P4 core. Such rows use fold sentinel 255 and can never contribute
+   loss, labels, evaluation, or model selection; they exist only to write the complete
+   supported field after the model is frozen. This does not modify any P4 fold or
+   authoritative galaxy. Unsupported rectangular volume is explicitly windowed for the
+   final solve; supported voxels may never be zero-filled or replaced by a classical
+   estimate.
 3. Train the declared baseline with one training-fold-standardized voxelwise MSE on
    `delta_R7`. It has no eigenvalue/tensor target or direct point head. This deliberately
    measures the conventional density objective rather than silently turning D0 into
    another direct-eigenvalue model.
-4. Infer overlapping density cores, require order- and subdivision-invariant stitching,
-   and report overlap disagreement before applying the P7-compatible global
+4. Infer contextual patches and stitch their uniquely owned density cores. Require
+   order- and subdivision-invariant stitching, and measure disagreement under shifted
+   or enlarged-context views before applying the P7-compatible global
    padding/apodization and fixed tidal solve.
 5. Report both the raw physical eigenvalues and any train-fold-only affine diagnostic as
    separate rows. Never use validation labels to rescale the reconstructed field or
@@ -2074,15 +2085,21 @@ P8.9 granular execution checklist:
   `Z_COSMO + (-1000,-1000,-1000) Mpc/h` for privileged target construction. Evidence:
   `/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/preflight/coordinate_alignment.json`
   and `docs/evidence/p8/density_target_alignment.json`.
-- [ ] Build cap-aligned `delta_R7` targets from the frozen T-web slabs using the exact
+- [x] Build cap-aligned `delta_R7` targets from the frozen T-web slabs using the exact
   P3 grid origin, cell size, shape, units, chunking, and observer mapping; do not smooth
-  a second time.
-- [ ] Freeze the density-loss support mask as nominal core intersected with the P6
-  supported-voxel contract; quantify cap/shell coverage and prove that unsupported
-  rectangular bounding-box volume never contributes loss.
-- [ ] Audit whether the P4 core tiling covers every supported output voxel needed for a
+  a second time. Evidence: runtime `p8_density_phys_v1/targets/target_manifest.json`
+  and tracked `docs/evidence/p8/density_target_manifest.json`.
+- [x] Freeze the density-loss support as exact cell-centre ownership by a nominal P4
+  core intersected with the P6 supported-voxel contract; quantify cap/shell coverage
+  and prove that unsupported rectangular bounding-box volume never contributes loss.
+  Context/intersection ranges are not loss ownership masks.
+- [x] Audit whether the P4 core tiling covers every supported output voxel needed for a
   complete-cap FFT. Register deterministic handling of any uncovered supported voxel;
-  zero fill or silent classical substitution is forbidden.
+  zero fill or silent classical substitution is forbidden. Exact nominal ownership left
+  1,186,910 supported voxels uncovered; 890 inference-only owner cores close coverage
+  to 100% without changing folds or supervised rows. Evidence: runtime
+  `p8_density_phys_v1/field_output_tiling/field_output_tiling_manifest.json` and tracked
+  `docs/evidence/p8/field_output_tiling_manifest.json`.
 - [ ] Validate target closure by sampling the constructed trace/tensor at the same
   authoritative galaxies. Report host-`x_com`, `Z_COSMO` oracle, and observed-`Z`
   deployment rows separately and preserve the coordinate-preflight expectations.

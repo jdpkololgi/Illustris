@@ -1,0 +1,1094 @@
+{
+  "components": {
+    "NGC": {
+      "cap_id": 1,
+      "file": "/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/targets/ngc_delta_r7.h5",
+      "file_bytes": 960234401,
+      "file_sha256": "ed366cb58c03ec9be809967b77aa36bfc6e14e22f2edf4c535d8d18d0f0c9fa1",
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          -2277.7230222783965,
+          -2205.238309722041,
+          -412.8210045448139
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          539,
+          823,
+          528
+        ],
+        "voxel_count": 234219216
+      },
+      "source_field": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/ngc_fields.h5",
+      "support": {
+        "core_covered_voxels": 87498074,
+        "covered_science_voxels": 24383061,
+        "science_coverage_fraction": 0.9732015613014869,
+        "science_supported_voxels": 25054482,
+        "shells": {
+          "0": {
+            "coverage_fraction": 0.8810899011743992,
+            "covered_science_voxels": 2378059,
+            "science_supported_voxels": 2698997,
+            "uncovered_science_voxels": 320938,
+            "z_high": 0.25,
+            "z_low": 0.15
+          },
+          "1": {
+            "coverage_fraction": 0.967691185743934,
+            "covered_science_voxels": 4648263,
+            "science_supported_voxels": 4803457,
+            "uncovered_science_voxels": 155194,
+            "z_high": 0.35,
+            "z_low": 0.25
+          },
+          "2": {
+            "coverage_fraction": 0.9845986106696861,
+            "covered_science_voxels": 7289400,
+            "science_supported_voxels": 7403423,
+            "uncovered_science_voxels": 114023,
+            "z_high": 0.45,
+            "z_low": 0.35
+          },
+          "3": {
+            "coverage_fraction": 0.9919923969846102,
+            "covered_science_voxels": 10067339,
+            "science_supported_voxels": 10148605,
+            "uncovered_science_voxels": 81266,
+            "z_high": 0.55,
+            "z_low": 0.45
+          }
+        },
+        "uncovered_science_voxels": 671421
+      },
+      "target": {
+        "all_finite": true,
+        "maximum": 10.862701416015625,
+        "mean": -0.0009318322145455423,
+        "minimum": -0.8607360124588013,
+        "std": 0.46572533317043596
+      }
+    },
+    "SGC": {
+      "cap_id": 0,
+      "file": "/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/targets/sgc_delta_r7.h5",
+      "file_bytes": 540224619,
+      "file_sha256": "798b2e9225b52f3315ad388c3d8fe6903781a0565dc722f14d72a2a4cdbb6a76",
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          70.64531755701772,
+          -1689.5756619407848,
+          -726.8134567450163
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          445,
+          764,
+          386
+        ],
+        "voxel_count": 131232280
+      },
+      "source_field": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/sgc_fields.h5",
+      "support": {
+        "core_covered_voxels": 41763779,
+        "covered_science_voxels": 11559255,
+        "science_coverage_fraction": 0.9619500116589864,
+        "science_supported_voxels": 12016482,
+        "shells": {
+          "0": {
+            "coverage_fraction": 0.9753291367677479,
+            "covered_science_voxels": 1160352,
+            "science_supported_voxels": 1189703,
+            "uncovered_science_voxels": 29351,
+            "z_high": 0.25,
+            "z_low": 0.15
+          },
+          "1": {
+            "coverage_fraction": 0.9631695472260857,
+            "covered_science_voxels": 2225671,
+            "science_supported_voxels": 2310778,
+            "uncovered_science_voxels": 85107,
+            "z_high": 0.35,
+            "z_low": 0.25
+          },
+          "2": {
+            "coverage_fraction": 0.9560685368106583,
+            "covered_science_voxels": 3446694,
+            "science_supported_voxels": 3605070,
+            "uncovered_science_voxels": 158376,
+            "z_high": 0.45,
+            "z_low": 0.35
+          },
+          "3": {
+            "coverage_fraction": 0.9624525370036761,
+            "covered_science_voxels": 4726538,
+            "science_supported_voxels": 4910931,
+            "uncovered_science_voxels": 184393,
+            "z_high": 0.55,
+            "z_low": 0.45
+          }
+        },
+        "uncovered_science_voxels": 457227
+      },
+      "target": {
+        "all_finite": true,
+        "maximum": 10.350546836853027,
+        "mean": 0.00019607581729652707,
+        "minimum": -0.8604850769042969,
+        "std": 0.4664020957028337
+      }
+    }
+  },
+  "contract": {
+    "coordinate_mapping": "P3 voxel centre + observer origin, periodic modulo",
+    "density_loss_support": "science_support AND nominal P4 core coverage",
+    "double_smoothing_applied": false,
+    "minimum_exposure_apodized": 0.0001,
+    "observer_origin_mpc_h": [
+      -1000.0,
+      -1000.0,
+      -1000.0
+    ],
+    "privileged_target_is_model_input": false,
+    "science_redshift_range": [
+      0.15,
+      0.55
+    ],
+    "smoothing_mpc_h": 7.0,
+    "source_sampling": "floor to ngrid=2048 source cell",
+    "target": "delta_R7 = lambda1 + lambda2 + lambda3",
+    "target_epoch": 0.2
+  },
+  "created_utc": "2026-08-09T11:56:47.083727+00:00",
+  "elapsed_seconds": 241.28391981124878,
+  "gates": {
+    "all_supported_voxels_have_core_coverage": false,
+    "all_target_voxels_finite": true,
+    "all_target_x_planes_written_once_or_more": true,
+    "coordinate_preflight_passed": true
+  },
+  "git_sha": "4e0e0570ee853de8c3d5a01c65f9071b33400c8c",
+  "global_support": {
+    "coverage_fraction": 0.9695543930284629,
+    "covered_science_voxels": 35942316,
+    "science_supported_voxels": 37070964,
+    "uncovered_science_voxels": 1128648
+  },
+  "inputs": {
+    "alignment": "/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/preflight/coordinate_alignment.json",
+    "alignment_sha256": "8a580ce5f05a94720680b4c1bf60e44f17cce7ff824a81c62fc1330d0d45b237",
+    "p3_manifest": "/pscratch/sd/d/dkololgi/abacus/p3_full_footprint/field_manifest.json",
+    "p3_manifest_sha256": "3f0fc7ba8e42c3004b9cc6969de76a44ce217f0a736dc2dd473ef2176371ca0d",
+    "p6_root": "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter",
+    "p6_selection": "/pscratch/sd/d/dkololgi/abacus/p6_unet_patch_adapter/fullcap_selection_v1/selection_manifest.json",
+    "p6_selection_sha256": "4f31078f5b61c808610bb48a6c8cc8f1ad9a597778e3fa71e7adae8eb950c977",
+    "tweb_dir": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7",
+    "tweb_slab_manifest_sha256": "1595f52941ec8a5bb34161d2b140f5100bb564dc38fb41c6798346459a9a22cf",
+    "tweb_slabs": [
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0000.npz",
+        "sha256": "7ace3ceb3320f4fef778ca13f3921e587a134f0b88f2ed152bf729d5ee5d9891",
+        "x_end": 16,
+        "x_start": 0
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0001.npz",
+        "sha256": "22997305e39897a9be0bc54bd6aa762b158b6246780398cc29e432c42bd7f7b9",
+        "x_end": 32,
+        "x_start": 16
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0002.npz",
+        "sha256": "700cef42288f8f3db0dba78dc8f666482cf9c64424e5a65f3b1f1347d380fadd",
+        "x_end": 48,
+        "x_start": 32
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0003.npz",
+        "sha256": "207eb82fe60004a778cd00ab1f47cda8b10e760e3105e51d7dd181a2d237e8c4",
+        "x_end": 64,
+        "x_start": 48
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0004.npz",
+        "sha256": "79dd3ef4e5081ec0789d4a78f1c3af448a0fd9538c3d0cd4a0a9c5d96354e4c9",
+        "x_end": 80,
+        "x_start": 64
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0005.npz",
+        "sha256": "338cc2218898b322489256bdf2c36a7ffaf9f0f7c20b172ff3cd244be7860c4c",
+        "x_end": 96,
+        "x_start": 80
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0006.npz",
+        "sha256": "0db7331adb37001c02642445e430d00598633949e8dcc87369720a2df4f5c24d",
+        "x_end": 112,
+        "x_start": 96
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0007.npz",
+        "sha256": "407af721ef21a18e8001bba0f820d86c953ae27815e3359553fdc8906850b55d",
+        "x_end": 128,
+        "x_start": 112
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0008.npz",
+        "sha256": "c1563a1a01fe15f54f3d3ba53f65cd42e6e563a051190770a08d93b481297113",
+        "x_end": 144,
+        "x_start": 128
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0009.npz",
+        "sha256": "1e2d71b7c149fb1cfb454214f66ed8bf3da9c5bceedd4b53fa99dbba4877c3bd",
+        "x_end": 160,
+        "x_start": 144
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0010.npz",
+        "sha256": "185528803ab7f56d4a4af857ffe65999233ff5582525d2228e26049bbc92e79c",
+        "x_end": 176,
+        "x_start": 160
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0011.npz",
+        "sha256": "6d6e8775c0eda3fae44cbf49c4680e6f22a50cdf59a9965e2ea27edab1d4e711",
+        "x_end": 192,
+        "x_start": 176
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0012.npz",
+        "sha256": "85a14e575e467f109b487f5f403f2594a0c3893569175d8b59daa5c8d0b6136b",
+        "x_end": 208,
+        "x_start": 192
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0013.npz",
+        "sha256": "d74c6dacb70d12ee21f123ef7d7a2630eab18b5126a7eede8aef46c8b8da6688",
+        "x_end": 224,
+        "x_start": 208
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0014.npz",
+        "sha256": "0890645b47875c64fd9094ee88cbf9ceba4704cdb5e87146fa351c6816234d67",
+        "x_end": 240,
+        "x_start": 224
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0015.npz",
+        "sha256": "2a6f3bcb73841f9f0c949e9e298b92357bc031a404c9f2331e71fa90f3428392",
+        "x_end": 256,
+        "x_start": 240
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0016.npz",
+        "sha256": "851304e766fbf7d71a0aa81371972b0699a8c50ca237b2911eaccc3583b4d0bf",
+        "x_end": 272,
+        "x_start": 256
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0017.npz",
+        "sha256": "a819429f7f75bd98b2051e05892e3f11e906019af73e79989b7c02cf9e3a974c",
+        "x_end": 288,
+        "x_start": 272
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0018.npz",
+        "sha256": "74cc10d08e826cd330f6e75b25fe7fb12a52955edeaf5dfbfd55fcf9d276c581",
+        "x_end": 304,
+        "x_start": 288
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0019.npz",
+        "sha256": "530a3060f69cdc70aed7bd069f65f795d016b90dce52d6086aaff8103a7bd96b",
+        "x_end": 320,
+        "x_start": 304
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0020.npz",
+        "sha256": "25cafb402c312283d51dbfb4e5743cb821eddb33c0fa71ca6340e461320737e8",
+        "x_end": 336,
+        "x_start": 320
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0021.npz",
+        "sha256": "1e38fc35302a475008586b774db1db30a92ed7d8cd64309c6f8ce94f2856ad6f",
+        "x_end": 352,
+        "x_start": 336
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0022.npz",
+        "sha256": "4a892139e4c2213d3feffe055c47aac8108ef32a4d27a55d5b27704768f613ab",
+        "x_end": 368,
+        "x_start": 352
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0023.npz",
+        "sha256": "72fdbe190ee96de303109ec49502febf4d3123399cf3ba58b1a9f151e1c5bc39",
+        "x_end": 384,
+        "x_start": 368
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0024.npz",
+        "sha256": "d8fd5ffd4fd7887d4259444bd6467460ec7af51345b0bda280bf4a2c7b4023d7",
+        "x_end": 400,
+        "x_start": 384
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0025.npz",
+        "sha256": "41252f0f3fdc335f5f13fd929afd03bd4170a26ff73dabd8fa9833dc43d6f8ab",
+        "x_end": 416,
+        "x_start": 400
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0026.npz",
+        "sha256": "53d5a2e4994e5040e4178dc982994ea64dcc2c8ed27f81f4da027622c1178d9d",
+        "x_end": 432,
+        "x_start": 416
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0027.npz",
+        "sha256": "367a9bab7a008246226f5744e14139114c98a0a397ca39fb58bc96c376f3efd9",
+        "x_end": 448,
+        "x_start": 432
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0028.npz",
+        "sha256": "5a1f09898bf664298f8f9a8f0168f2ea20353b07a4864b3b345a7e4ec1a265e7",
+        "x_end": 464,
+        "x_start": 448
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0029.npz",
+        "sha256": "8ad7cf625af7de67fe5fc1ece1033cf530d9c360850f00022871a2171d08cdf6",
+        "x_end": 480,
+        "x_start": 464
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0030.npz",
+        "sha256": "d964dd09550f52915a41ece17880dfe6dbdee60975040b86c8b4117ed90db45b",
+        "x_end": 496,
+        "x_start": 480
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0031.npz",
+        "sha256": "ec7f297fd17d295a41a9bde98450d0ec14d4731607ce3323ed27c3e2d5181a0c",
+        "x_end": 512,
+        "x_start": 496
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0032.npz",
+        "sha256": "f0f4726b110678f81a61d39c5e18f7d01ab7739910f4afea82d2ccfc4f4c9e64",
+        "x_end": 528,
+        "x_start": 512
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0033.npz",
+        "sha256": "1945ee0b5193aa5036c4abb155c0f7b106289356f98f359a198e8e78b9b51e1f",
+        "x_end": 544,
+        "x_start": 528
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0034.npz",
+        "sha256": "a7d340e4810199bee691a4f1bc823af7f78184277f9973d02cde06db049db8e4",
+        "x_end": 560,
+        "x_start": 544
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0035.npz",
+        "sha256": "2c3e920c28eaef53226acdf39b145f46f54008d431776ea47ad0304cee4184e1",
+        "x_end": 576,
+        "x_start": 560
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0036.npz",
+        "sha256": "49c756f2df2528a6c3c356c0747af8170c421128ed2a6d3dd33c6a7a2e8693c6",
+        "x_end": 592,
+        "x_start": 576
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0037.npz",
+        "sha256": "d78eccc8aaca85db2337e0a575691d46c151f7713776c1990186ba8fd83a4b43",
+        "x_end": 608,
+        "x_start": 592
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0038.npz",
+        "sha256": "848b37a1faa0f7867fb69607893f5f86bdc96921dc38b4811910000e2cb93af7",
+        "x_end": 624,
+        "x_start": 608
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0039.npz",
+        "sha256": "572f61391603ceba6891551394ccc3e0a40b064be9eb8014483f4d76b5177bee",
+        "x_end": 640,
+        "x_start": 624
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0040.npz",
+        "sha256": "5ebea23bb8397474b64092e2e3d7b965a9e84f2270062b3add80f065ab4433bd",
+        "x_end": 656,
+        "x_start": 640
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0041.npz",
+        "sha256": "ccfc2260f90fea5f90fc60f8deabd0727acf97f48968f670a5449955b201798c",
+        "x_end": 672,
+        "x_start": 656
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0042.npz",
+        "sha256": "cde4cf5cd41f181fcf27eec36f842ee6a7d5942a1c4b30717aaf8758e1775e37",
+        "x_end": 688,
+        "x_start": 672
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0043.npz",
+        "sha256": "813a68461fc88b65677356b0fc6ba90bc81825eaedfafd045bfa905893c5b5d9",
+        "x_end": 704,
+        "x_start": 688
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0044.npz",
+        "sha256": "e16968ed422bc6bc08591ba90428422652f530d7201328aa8b781f08925309eb",
+        "x_end": 720,
+        "x_start": 704
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0045.npz",
+        "sha256": "661aeaae693f146c4b4b71eb7c8eb29e98069788e21841ac4d32cbf9c54faf47",
+        "x_end": 736,
+        "x_start": 720
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0046.npz",
+        "sha256": "998c285602f0bac9e536bca1f82ada909fe5dd33b64ccbe81624251668180178",
+        "x_end": 752,
+        "x_start": 736
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0047.npz",
+        "sha256": "a195b6df67da370fa196adbd34db3214c03b0037d6ea78802d6166e05dd732f8",
+        "x_end": 768,
+        "x_start": 752
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0048.npz",
+        "sha256": "f7477f6de9acb7d7f50ede65c09847c8173f67d141417866b15e58b892bd78f3",
+        "x_end": 784,
+        "x_start": 768
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0049.npz",
+        "sha256": "fe7a9d6cfbe1ac16aef0185b35032c0d557446ed3da716cd202fee2f4d546df0",
+        "x_end": 800,
+        "x_start": 784
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0050.npz",
+        "sha256": "e8e88d769149c582415a27e8e0cbfd5edf325181d837edc1362a056f464cb7e5",
+        "x_end": 816,
+        "x_start": 800
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0051.npz",
+        "sha256": "0d72c826ae37e21827a6318ef2c030795174c5459a191e7d73c1b2d199e9cf7d",
+        "x_end": 832,
+        "x_start": 816
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0052.npz",
+        "sha256": "5c6c69b35e0da9eee12571d5327e3baebbff5aed3f41d8f91719256270b13a95",
+        "x_end": 848,
+        "x_start": 832
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0053.npz",
+        "sha256": "400da6bd0f3b3b566e7e797d1d7a51d27851e1e337ff81d622ef2ef93ebca692",
+        "x_end": 864,
+        "x_start": 848
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0054.npz",
+        "sha256": "80e27ef41a8da8f0ad1bf559dae1ea84b5ca2f53c63f43216d9195ecd4be5530",
+        "x_end": 880,
+        "x_start": 864
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0055.npz",
+        "sha256": "4167ec33c9fcaf540621b3beede2bc6a0e756b18a80e4c9bf8dd93466a38a0db",
+        "x_end": 896,
+        "x_start": 880
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0056.npz",
+        "sha256": "097d5b7cf56cf6ae210046a071e3a92581ae75762992fa96257c78be8fdae795",
+        "x_end": 912,
+        "x_start": 896
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0057.npz",
+        "sha256": "cf668097dc2f763639be18e2b212c957c5a5d27445da7133125e7ee237519b4a",
+        "x_end": 928,
+        "x_start": 912
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0058.npz",
+        "sha256": "f85bc39e54c20e093216359fcc43219f5a3884bd6f02c3369186c8a7a4cce9c4",
+        "x_end": 944,
+        "x_start": 928
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0059.npz",
+        "sha256": "41b7a76181b936dfb45d382f1bafab0c41952a8dd586dbf62f9fa72564a6781c",
+        "x_end": 960,
+        "x_start": 944
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0060.npz",
+        "sha256": "c4fc24463ef091fe3b0f081d201247b4e6dedc3b7233a85cc1a9aa591cd4a91e",
+        "x_end": 976,
+        "x_start": 960
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0061.npz",
+        "sha256": "eadc6ded2ef6b5dbb2b03a3c8a220f1dbc640e6842c62cfcfd1ef5d7414ea891",
+        "x_end": 992,
+        "x_start": 976
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0062.npz",
+        "sha256": "7eb408c1c444bd5b0cfab9414fe32d8b57ca8824f7ac0ac85208c3a0f5e03835",
+        "x_end": 1008,
+        "x_start": 992
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0063.npz",
+        "sha256": "02e48861d5ba165dc01b668fe320926eaef707629ad59a08237a4749cce908ee",
+        "x_end": 1024,
+        "x_start": 1008
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0064.npz",
+        "sha256": "1873e5b21b15e5385e2ce25ba032c0039ccc0e947fc56bcd2643c6fc43377130",
+        "x_end": 1040,
+        "x_start": 1024
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0065.npz",
+        "sha256": "9274b255463a97d5ab01abff5a83b22fa221734f9d4d6abef804e77ec86343b0",
+        "x_end": 1056,
+        "x_start": 1040
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0066.npz",
+        "sha256": "a9aa580c11d7d8ecc2c4d0f8c8bb01a6cbbd2cfc3ead51b8be33a51a1b5e4203",
+        "x_end": 1072,
+        "x_start": 1056
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0067.npz",
+        "sha256": "7c9f6cb13670a73793faaa3dfc2cff9a89884c8840633122893e3e040b7a51a5",
+        "x_end": 1088,
+        "x_start": 1072
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0068.npz",
+        "sha256": "a161d9eb3cd8a1c712bfa58ec6f15d7028c7cc0c7ab825e602b049892abe8f7d",
+        "x_end": 1104,
+        "x_start": 1088
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0069.npz",
+        "sha256": "fb445a4274fc5108f4836b58c1631cb383a9d299101176483b6f3566af37decd",
+        "x_end": 1120,
+        "x_start": 1104
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0070.npz",
+        "sha256": "6b6b5307ca1f1ba6fc2142b0212592658d8582a45743d8e1bac8626537201f24",
+        "x_end": 1136,
+        "x_start": 1120
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0071.npz",
+        "sha256": "e7612b7bfa5ac775bffac5e33f0eb0fc21691e3d38adf3a4e86a12d485a821e6",
+        "x_end": 1152,
+        "x_start": 1136
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0072.npz",
+        "sha256": "b2c9b3cc1ef02e273c5e4384565022539e4bc720e876b098505184d35af1916b",
+        "x_end": 1168,
+        "x_start": 1152
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0073.npz",
+        "sha256": "c6d7ac7a26553a7260a047201a751328a8617a6b86715ee49311db38ce828d16",
+        "x_end": 1184,
+        "x_start": 1168
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0074.npz",
+        "sha256": "cdd36c4713b68ee468de298055ede17c2100de0a82a73bd6b748c965fb8bf718",
+        "x_end": 1200,
+        "x_start": 1184
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0075.npz",
+        "sha256": "9e74e4c1e9a2237f92f48075808ea68be73364fb5d8f0bc9b67f018f170f69fd",
+        "x_end": 1216,
+        "x_start": 1200
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0076.npz",
+        "sha256": "afe01287b6134f47ae6fdadac86d40d95d43c59570b4f2dcd992db4ec9104e70",
+        "x_end": 1232,
+        "x_start": 1216
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0077.npz",
+        "sha256": "f1d050c9adeacbe3870c8616e2312ede76d7153d4f55c676de74f801ecbc0f62",
+        "x_end": 1248,
+        "x_start": 1232
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0078.npz",
+        "sha256": "c1ce71dc1bf31485e799dcbfe6520ead025c7b6a1d1d6bd4af754fadde29461c",
+        "x_end": 1264,
+        "x_start": 1248
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0079.npz",
+        "sha256": "28ef5bac806a2bc06b272039de59935e25708698515c8ca764e2ddafae325ef8",
+        "x_end": 1280,
+        "x_start": 1264
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0080.npz",
+        "sha256": "7ffba4231f5f8ba818201a872215b20e9de0e7f8c29aa4a51a74a2e25c76a03d",
+        "x_end": 1296,
+        "x_start": 1280
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0081.npz",
+        "sha256": "05b3f93aa0ba323efb789c59e169a8c58fe8c0c282e10521dd81d77317d251c7",
+        "x_end": 1312,
+        "x_start": 1296
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0082.npz",
+        "sha256": "39120f850c6ce7a016bc29149301899e9e595105abeda00d843bae72fbe38a99",
+        "x_end": 1328,
+        "x_start": 1312
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0083.npz",
+        "sha256": "f7238fa9fb5cdde7432228f8d56a8b6ce6297374738394851004d6bcd9cb597d",
+        "x_end": 1344,
+        "x_start": 1328
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0084.npz",
+        "sha256": "3c08cdadd5036d864b86b8b410375e6bd0a8e3c7c86b78de9f800408acf16355",
+        "x_end": 1360,
+        "x_start": 1344
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0085.npz",
+        "sha256": "7cce66084afebc3fa0e51e8d8b18faccd9df9e0e006ccfd86248db7c4da97546",
+        "x_end": 1376,
+        "x_start": 1360
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0086.npz",
+        "sha256": "31961e1309bf7c31e1b433e331d5092e5dd2e4b3f7d35d970621b46a06636246",
+        "x_end": 1392,
+        "x_start": 1376
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0087.npz",
+        "sha256": "d1314cc98b90b073695b206481273db995e5d9a82d9cbc1e96190451ab0e0b94",
+        "x_end": 1408,
+        "x_start": 1392
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0088.npz",
+        "sha256": "c63ad05d2068200fe22de09d61a5bd05bcd349f0100c2431c5899aa06ce40674",
+        "x_end": 1424,
+        "x_start": 1408
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0089.npz",
+        "sha256": "c1c092e3ca55c208c6ac94646b764f2b73d1a1e49ebc35f36291630620a144ea",
+        "x_end": 1440,
+        "x_start": 1424
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0090.npz",
+        "sha256": "4039f55fc74d78985c51117c035eadba3a97a4c9090ad1c609afefa8f1318ad3",
+        "x_end": 1456,
+        "x_start": 1440
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0091.npz",
+        "sha256": "4f796d798fcab9eb81e2a1fbfdb8de240c48c5c91b32d0b98047b31fd9e0990b",
+        "x_end": 1472,
+        "x_start": 1456
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0092.npz",
+        "sha256": "59dc292692f3e72b90338dc205a105fa3e54feb9eb5fd144365315db20974261",
+        "x_end": 1488,
+        "x_start": 1472
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0093.npz",
+        "sha256": "a5023853186e4049115ac4c4f1a3e47f0ae2423b73316476704b25106100d1ad",
+        "x_end": 1504,
+        "x_start": 1488
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0094.npz",
+        "sha256": "0a7bb86a4117a6c3ae9b7c0fd479fc581ee08e6fb3c27753087733301a00ad3f",
+        "x_end": 1520,
+        "x_start": 1504
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0095.npz",
+        "sha256": "335a70af1acbd31b63be42ea9e8a7645c3ac7b4ea8d05354bf1ed312b63dcc05",
+        "x_end": 1536,
+        "x_start": 1520
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0096.npz",
+        "sha256": "83aab2149c93602e4bae3165cf3155c18e2c448a6a7fb7aee87b47415ea0cc62",
+        "x_end": 1552,
+        "x_start": 1536
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0097.npz",
+        "sha256": "6352217255f2da537301f40ff6a456a3eada7a0c01a382e09c200fdacb3aa46f",
+        "x_end": 1568,
+        "x_start": 1552
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0098.npz",
+        "sha256": "e5d45bf106cf088616023684404449500876417b9b8ec2495e73c38e631c41c0",
+        "x_end": 1584,
+        "x_start": 1568
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0099.npz",
+        "sha256": "d25e1cbcedd418560292c7651cb3893ea334d8b540c285c1e971ad5601adc8df",
+        "x_end": 1600,
+        "x_start": 1584
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0100.npz",
+        "sha256": "4078099dccb286717f61cedd7d2a3481bd66abfba653484d93c0c984a1182503",
+        "x_end": 1616,
+        "x_start": 1600
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0101.npz",
+        "sha256": "a3210f788280ca547217ebae4a92b7cca73a79772447a0a8926eb9662fd25eb3",
+        "x_end": 1632,
+        "x_start": 1616
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0102.npz",
+        "sha256": "1859c8c10877588d6b2106266037d33b886d52e531b4cc06a8a489f8449268d9",
+        "x_end": 1648,
+        "x_start": 1632
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0103.npz",
+        "sha256": "4dfa36601ca257770d2bcaab19888c86c4605cc15e9b2237ede5947d604e8034",
+        "x_end": 1664,
+        "x_start": 1648
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0104.npz",
+        "sha256": "4c12a41d5c2438b97f4cb0b396a72aad9c02dc041bd201dc858c7f4a4a3e43b3",
+        "x_end": 1680,
+        "x_start": 1664
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0105.npz",
+        "sha256": "6975e21dffeda21e1954c5fe2daea4c641e0da3685268c2f87bd49e113571b35",
+        "x_end": 1696,
+        "x_start": 1680
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0106.npz",
+        "sha256": "c991574000a83fd0cb4101ff7081249b4a16c9f9fa3962bf3e2fb8b9cf17c328",
+        "x_end": 1712,
+        "x_start": 1696
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0107.npz",
+        "sha256": "026afb14199079b2e18bc8702eb7e036b6128db6ec79ecf3ab9e58d23fd461dd",
+        "x_end": 1728,
+        "x_start": 1712
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0108.npz",
+        "sha256": "acd58544faf02856e97d96649865814539f0535124d15f5284827dffb1efe676",
+        "x_end": 1744,
+        "x_start": 1728
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0109.npz",
+        "sha256": "b0b1e42764dd1bee85f73eb1a2259f8f9bbbe380eba28d0f1dd0eb47f89cc01a",
+        "x_end": 1760,
+        "x_start": 1744
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0110.npz",
+        "sha256": "86febc2df1f9615c4591a039017b442f64c5c243b39d26c00820331423304dac",
+        "x_end": 1776,
+        "x_start": 1760
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0111.npz",
+        "sha256": "7a152500befb6b404d27723a4ee1d73978b036253f6531088e06cffde1da843e",
+        "x_end": 1792,
+        "x_start": 1776
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0112.npz",
+        "sha256": "94dbb282ca1870f1a48c55ce2cbea41796a99208627d5a708448b6e6cabd8c3c",
+        "x_end": 1808,
+        "x_start": 1792
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0113.npz",
+        "sha256": "29c3568c131641f4d22d3dcc05b34a48f662797fe76f63f6ccc79063f07ebe90",
+        "x_end": 1824,
+        "x_start": 1808
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0114.npz",
+        "sha256": "9ef9287061d02304957ea0e2fe1251fb560e256274548d172f18e1fc78126db0",
+        "x_end": 1840,
+        "x_start": 1824
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0115.npz",
+        "sha256": "0019ade327795f4afd3487de8eba950b9a600253fc9591d605eab6049769fe6d",
+        "x_end": 1856,
+        "x_start": 1840
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0116.npz",
+        "sha256": "3041d911df0f35bf69ff0cd036b37d0eb19c9b3edef848547c38ed6c423a6dae",
+        "x_end": 1872,
+        "x_start": 1856
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0117.npz",
+        "sha256": "39b6cd1bfe67c3584da396f4968720a6fb4291caf295c1093f7fa4316fee9de7",
+        "x_end": 1888,
+        "x_start": 1872
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0118.npz",
+        "sha256": "416803744b66e464080be2b95fc2ccb00394ed0590b4a1ca0edea4a20dd18d84",
+        "x_end": 1904,
+        "x_start": 1888
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0119.npz",
+        "sha256": "95d993728d8427918c1a6120810ca040df05b6f52f4604493cf78375ba19cc92",
+        "x_end": 1920,
+        "x_start": 1904
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0120.npz",
+        "sha256": "056d481a0a68bb99222a29b507ff8eec5c88462bcaed0a572c3bf5aa38c8e58a",
+        "x_end": 1936,
+        "x_start": 1920
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0121.npz",
+        "sha256": "e468bd0c377b5fd4621d5feca60395bf978a101e54af308945b77ba690c773b0",
+        "x_end": 1952,
+        "x_start": 1936
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0122.npz",
+        "sha256": "12cb130431307fb6204352fef904a0fb2a3dd073c16716c10adec1932f32f4ca",
+        "x_end": 1968,
+        "x_start": 1952
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0123.npz",
+        "sha256": "1b7f152a35e05e63c56c025cb82816308754bdcb4cf70796564208ec5d2eb3c1",
+        "x_end": 1984,
+        "x_start": 1968
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0124.npz",
+        "sha256": "106b78fb7410013447f35ddcfb7b468946182c232552eb3524a962617ef01da7",
+        "x_end": 2000,
+        "x_start": 1984
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0125.npz",
+        "sha256": "a476c605bd99a0eda272ff560bd8af9d0ae869dbc9cfe4175a7f5782ceefed62",
+        "x_end": 2016,
+        "x_start": 2000
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0126.npz",
+        "sha256": "96cdbd4bca4fba7ea5403f3168383b1805e8168549c02650fb5cac4b829d8081",
+        "x_end": 2032,
+        "x_start": 2016
+      },
+      {
+        "bytes": 872417262,
+        "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0127.npz",
+        "sha256": "6737ac79ece8f70f5d71e359c4b46505244cfda46ecc41915a628c6a1230930e",
+        "x_end": 2048,
+        "x_start": 2032
+      }
+    ]
+  },
+  "interpretation": "target_fields_ready authorizes target-closure testing. stitching_support_ready is independently required before complete-cap prediction and the global FFT. A support failure must not be repaired by silent zero fill or classical substitution.",
+  "pass": false,
+  "schema_version": "p8-density-target-field-v1",
+  "stage": "P8.9 D0 privileged target and support construction",
+  "stitching_support_ready": false,
+  "target_fields_ready": true
+}

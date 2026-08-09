@@ -1,5 +1,45 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-09 — [science/code/runtime] P8.9 target fields are ready; exact owner tiling closes the supported-volume gap
+
+The cap-aligned privileged `delta_R7` fields have been built successfully from the
+already-smoothed `ngrid=2048`, `R=7 Mpc/h` T-web slab traces on the immutable P3
+NGC/SGC lattices. All target voxels are finite, every output x-plane was written, and
+no second smoothing was applied. Runtime products are
+`/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/targets/ngc_delta_r7.h5`,
+`sgc_delta_r7.h5`, and `target_manifest.json`; the tracked manifest is
+`docs/evidence/p8/density_target_manifest.json`.
+
+The first coverage audit correctly failed rather than silently zero-filling: the
+galaxy-occupied P4 cores covered only `35,942,316 / 37,070,964 = 96.955%` of P6
+science-supported voxels under the old intersecting-range diagnostic. A deeper audit
+found that those stored P4 voxel ranges intentionally include every cell intersecting a
+physical core, so adjacent ranges can share boundary cells. P8.9 now freezes the exact
+voxelwise rule instead: each P3 cell centre belongs to exactly one half-open core on the
+unchanged 64 Mpc/h P4 lattice.
+
+Under exact ownership, nominal P4 cores cover `35,884,054 / 37,070,964 = 96.798%` of
+supported voxels. The missing `1,186,910` voxels are not safe to discard: only 432 have
+positive deposited Bright counts, but all have nonzero expected counts and apodized
+exposure. They are predominantly empty-tracer, observationally supported locations—the
+kind of underdense field support a global tidal solve must retain.
+
+`p8_build_field_output_tiling.py` therefore adds 890 **inference-only** owner cores
+(507 NGC, 383 SGC). They have fold sentinel 255, never own density loss, labels,
+galaxy metrics, or model selection, and do not alter any P4 core/fold/authoritative row.
+They only ensure that the frozen model can write every supported voxel before the one
+global FFT per cap. Coverage after extension is exactly 100%; uncovered supported
+voxels are never zero-filled and no classical field is substituted. Unsupported
+rectangular volume remains explicitly windowed outside the loss and final solve.
+
+Runtime evidence is under
+`/pscratch/sd/d/dkololgi/abacus/p8_density_phys_v1/field_output_tiling/`; the tracked
+manifest is `docs/evidence/p8/field_output_tiling_manifest.json`. The passing allocation
+was `56531687`; a preceding launcher attempt exited before computation because the
+cleared Python environment required module-mode invocation. The next blocking gate is
+trace/tensor closure at authoritative host, `Z_COSMO`, and observed-`Z` locations.
+`U-DENSITY-PHYS-v1` is still not authorized to train until that closure passes.
+
 ### 2026-08-09 — [science/code/runtime] P8.9 density-target coordinate gate passes; RSD-to-real-space localization is now an explicit VAC gate
 
 Before constructing a privileged `delta_R7` target on the 365-million-voxel P3 cap
