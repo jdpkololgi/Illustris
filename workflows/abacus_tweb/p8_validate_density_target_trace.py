@@ -83,12 +83,27 @@ def scalar_score(prediction: np.ndarray, truth: np.ndarray) -> dict:
     valid = np.isfinite(prediction) & np.isfinite(truth)
     prediction = prediction[valid]
     truth = truth[valid]
+    if len(truth) == 0:
+        raise ValueError("scalar score requires at least one finite prediction/truth pair")
     residual = prediction - truth
     denominator = float(np.sum((truth - np.mean(truth)) ** 2))
+    prediction_denominator = float(
+        np.sum((prediction - np.mean(prediction)) ** 2)
+    )
+    r2 = (
+        1.0 - float(np.sum(residual**2)) / denominator
+        if denominator > 0.0
+        else None
+    )
+    pearson = (
+        float(np.corrcoef(prediction, truth)[0, 1])
+        if denominator > 0.0 and prediction_denominator > 0.0
+        else None
+    )
     return {
         "n": int(len(truth)),
-        "r2": 1.0 - float(np.sum(residual**2)) / denominator,
-        "pearson": float(np.corrcoef(prediction, truth)[0, 1]),
+        "r2": r2,
+        "pearson": pearson,
         "mae": float(np.mean(np.abs(residual))),
         "rmse": float(np.sqrt(np.mean(residual**2))),
         "bias": float(np.mean(residual)),

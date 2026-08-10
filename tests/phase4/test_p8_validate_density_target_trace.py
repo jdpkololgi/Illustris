@@ -24,6 +24,13 @@ class DensityTargetTraceClosureTests(unittest.TestCase):
         self.assertEqual(score["r2"], 1.0)
         self.assertEqual(score["rmse"], 0.0)
 
+    def test_scalar_score_reports_undefined_r2_for_one_sample(self):
+        score = scalar_score(np.array([1.25]), np.array([1.0]))
+        self.assertEqual(score["n"], 1)
+        self.assertIsNone(score["r2"])
+        self.assertIsNone(score["pearson"])
+        self.assertAlmostEqual(score["rmse"], 0.25)
+
 
 if __name__ == "__main__":
     unittest.main()
