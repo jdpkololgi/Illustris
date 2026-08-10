@@ -51,7 +51,7 @@ class DarkAILikeDensityRescoreTests(unittest.TestCase):
             [-3, -2, -1], [-2, -1, 1], [-1, -0.5, 2], [1, 2, 3],
         ])
         report = class_recall_from_components(
-            prediction, truth, threshold=0.0, chunk=2, device="cpu"
+            prediction, truth, threshold=0.0, chunk=2
         )
         self.assertEqual(report["class_order"], ["void", "sheet", "filament", "knot"])
         self.assertEqual(report["confusion_true_rows_predicted_columns"][2][1], 1)

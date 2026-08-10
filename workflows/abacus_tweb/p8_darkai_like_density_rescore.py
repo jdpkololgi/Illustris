@@ -68,9 +68,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--k-min-h-mpc", type=float, default=0.002)
     parser.add_argument("--k-max-h-mpc", type=float, default=1.0)
     parser.add_argument("--padding-voxels", type=int, default=24)
-    # CUDA's batched symmetric eigensolver uses a large workspace per matrix;
-    # 500k 3x3 matrices requests roughly 126 GiB on current cuSOLVER/PyTorch.
-    parser.add_argument("--eig-chunk", type=int, default=100_000)
+    parser.add_argument("--eig-chunk", type=int, default=500_000)
     parser.add_argument("--device", default="cuda")
     return parser.parse_args()
 
@@ -177,10 +175,9 @@ def selected_tidal_components(
     }
 
 
-def six_to_tensor(components: torch.Tensor) -> torch.Tensor:
-    tensor = torch.empty(
-        (len(components), 3, 3), dtype=components.dtype, device=components.device
-    )
+def six_to_tensor(components: np.ndarray) -> np.ndarray:
+    components = np.asarray(components, dtype=np.float32)
+    tensor = np.empty((len(components), 3, 3), dtype=np.float32)
     for column, (left, right) in enumerate(COMPONENTS):
         tensor[:, left, right] = components[:, column]
         tensor[:, right, left] = components[:, column]
@@ -193,20 +190,19 @@ def class_recall_from_components(
     *,
     threshold: float,
     chunk: int,
-    device: str,
 ) -> dict:
     if prediction.shape != truth.shape or prediction.ndim != 2 or prediction.shape[1] != 6:
         raise ValueError("prediction and truth components must both have shape (N,6)")
     confusion = np.zeros((4, 4), dtype=np.int64)
     for left in range(0, len(truth), int(chunk)):
         right = min(left + int(chunk), len(truth))
-        p = torch.from_numpy(prediction[left:right]).to(device)
-        t = torch.from_numpy(truth[left:right]).to(device)
-        p_class = torch.sum(torch.linalg.eigvalsh(six_to_tensor(p)) > threshold, dim=1)
-        t_class = torch.sum(torch.linalg.eigvalsh(six_to_tensor(t)) > threshold, dim=1)
-        encoded = (4 * t_class + p_class).long()
-        confusion += torch.bincount(encoded, minlength=16).reshape(4, 4).cpu().numpy()
-        del p, t, p_class, t_class, encoded
+        # NumPy is deliberate here.  PyTorch/cuSOLVER's batched 3x3 path requests
+        # extreme workspace at large batch size and can return an internal error at
+        # smaller batches on A100.  The CPU LAPACK path is stable and fast for 3x3.
+        p_class = np.sum(np.linalg.eigvalsh(six_to_tensor(prediction[left:right])) > threshold, axis=1)
+        t_class = np.sum(np.linalg.eigvalsh(six_to_tensor(truth[left:right])) > threshold, axis=1)
+        encoded = 4 * t_class + p_class
+        confusion += np.bincount(encoded, minlength=16).reshape(4, 4)
     support = confusion.sum(axis=1)
     recall = np.divide(
         np.diag(confusion), support,
@@ -338,11 +334,11 @@ def main() -> None:
     classes = {
         "darkai_sign_threshold": class_recall_from_components(
             predicted_components, truth_components, threshold=0.0,
-            chunk=args.eig_chunk, device=args.device,
+            chunk=args.eig_chunk,
         ),
         "graphweb_threshold_0p2_secondary": class_recall_from_components(
             predicted_components, truth_components, threshold=0.2,
-            chunk=args.eig_chunk, device=args.device,
+            chunk=args.eig_chunk,
         ),
     }
     del predicted_components, truth_components
