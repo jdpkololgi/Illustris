@@ -1,5 +1,26 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-10 — [code] Docs: P8 recovery status, MT4 closeout, and P8.9 density-target ops
+
+Synced operational docs so P8 recovery/extension, closed MT4 multitracer, and the
+active P8.9 density-target pipeline are discoverable from the canonical index and
+runbook (prior draft docs PRs #12–#14 never merged into `refactor_codebase`).
+Updated extension status to completed `NOT_CONVERGED_EXTENSION_CAP`, recorded the
+MT4 information-PASS / encoder NO-GO decision, and documented the P8.9 coordinate
+gate, observer-Mpc→periodic-Mpc/h mapping, superseded first target/tiling products,
+exact-owner inference-only cores, and the hard block on `U-DENSITY-PHYS-v1`
+training until corrected rebuild + trace/tensor closure.
+
+- What: documentation-only sync for P8 / P8.8 / P8.9 entrypoints and pitfalls
+- Why / decision: recent density-target unit correction and MT4 closeout were only
+  in `SCIENCE_LOG.md` / plan checklists; operators still lacked runbook commands
+- Next: refresh when corrected P8.9 targets/tiling close and a density trainer
+  lands; still-open docs draft PR #11 covers S0 / F-tier diagnostics
+- Refs: `ACTIVE_WORKFLOWS.md`, `RUNBOOK.md`, `workflows/abacus_tweb/README.md`,
+  `README.md`; codepaths `p8_train_patch_recovery.py`,
+  `p8_close_multitracer_mt4.py`, `p8_density_target_alignment.py`,
+  `p8_build_density_targets.py`, `p8_build_field_output_tiling.py`
+
 ### 2026-08-09 — [correction/code] P8.9 target artifacts superseded before training: observer Mpc was not converted to periodic Mpc/h
 
 The mandatory closure review caught a unit defect before any model training. P3/P4 are

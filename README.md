@@ -11,7 +11,10 @@ for voids, walls, filaments, and clusters.
 - `RUNBOOK.md` has NERSC Perlmutter launch commands, environment notes, and
   common operational pitfalls.
 - `workflows/abacus_tweb/README.md` explains the Abacus CutSky to T-Web to graph
-  cache chain.
+  cache chain (including P8 recovery, P8.8 multitracer, and P8.9 density-target
+  entrypoints).
+- `workflows/abacus_tweb/secondgen_mocks/ph000/README.md` covers second-gen
+  staged-mock / fiberassign helpers for ph000.
 - `workflows/sbi/README.md` explains the FlowJAX SBI trainers and launchers.
 - `workflows/gcn_paper/README.md` covers the paper-critical PyTorch GCN path.
 - `local-subgraph-pipeline/README.md` covers the independent ego-graph pilot.
