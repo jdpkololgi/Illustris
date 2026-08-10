@@ -11,9 +11,11 @@ from __future__ import annotations
 import argparse
 import copy
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
 import time
 
 import numpy as np
@@ -55,9 +57,24 @@ OUTPUT_ROOT = Path("/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1")
 
 
 def atomic_torch_save(payload: dict, path: Path) -> None:
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    torch.save(payload, temporary)
-    temporary.replace(path)
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary_path = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as temporary:
+            temporary_path = Path(temporary.name)
+        torch.save(payload, temporary_path)
+        with temporary_path.open("rb") as handle:
+            os.fsync(handle.fileno())
+        os.replace(temporary_path, path)
+    finally:
+        if temporary_path is not None and temporary_path.exists():
+            temporary_path.unlink()
 
 
 def torch_load(path: Path, device: str) -> dict:

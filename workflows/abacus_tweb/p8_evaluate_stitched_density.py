@@ -27,6 +27,7 @@ from workflows.abacus_tweb.p8_density_target_alignment import (
     read_rows,
 )
 from workflows.abacus_tweb.p8_deterministic_common import (
+    acquire_run_lock,
     atomic_json,
     authoritative_mask,
     evaluate_complete_fold,
@@ -359,6 +360,10 @@ def main() -> None:
         raise RuntimeError("P8.9 global field/tidal evaluation requires an interactive GPU")
     started = time.time()
     args.output.mkdir(parents=True, exist_ok=True)
+    run_lock = acquire_run_lock(
+        args.output / ".evaluation.lock",
+        purpose="P8.9 stitched field and global tidal evaluation",
+    )
     stitched_manifest = json.loads((args.stitched / "stitched_field_manifest.json").read_text())
     target_manifest = json.loads(args.target_manifest.read_text())
     if stitched_manifest.get("double_smoothing_applied") is not False:
@@ -529,6 +534,7 @@ def main() -> None:
         "raw physical and train-fold-only affine rows complete\n"
     )
     print(json.dumps(report, indent=2, sort_keys=True))
+    run_lock.close()
 
 
 if __name__ == "__main__":

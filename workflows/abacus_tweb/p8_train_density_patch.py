@@ -23,7 +23,11 @@ from workflows.abacus_tweb.p8_density_training_utils import (
     TRAINING_CONTRACT,
     extract_core_prediction,
 )
-from workflows.abacus_tweb.p8_deterministic_common import atomic_json, sha256
+from workflows.abacus_tweb.p8_deterministic_common import (
+    acquire_run_lock,
+    atomic_json,
+    sha256,
+)
 from workflows.abacus_tweb.p8_epoch_training import (
     EpochLossAccumulator,
     append_jsonl,
@@ -229,6 +233,12 @@ def main() -> None:
     if output.exists() and any(output.iterdir()) and not args.resume:
         raise RuntimeError(f"non-empty D0 output requires --resume: {output}")
     output.mkdir(parents=True, exist_ok=True)
+    # Keep this handle alive until main returns.  This closes the duplicate
+    # allocation/tmux writer race that was observed during the scientific run.
+    run_lock = acquire_run_lock(
+        output / ".training.lock",
+        purpose=f"U-DENSITY-PHYS-v1 rotation={args.rotation} seed={args.seed}",
+    )
     arguments = {
         "rotation": args.rotation,
         "seed": args.seed,
@@ -477,6 +487,8 @@ def main() -> None:
             f"rotation={args.rotation} seed={args.seed} best={best_score:.8f}\n"
         )
         print(json.dumps(summary, indent=2, sort_keys=True), flush=True)
+
+    run_lock.close()
 
 
 if __name__ == "__main__":

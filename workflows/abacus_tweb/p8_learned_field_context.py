@@ -22,7 +22,12 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from workflows.abacus_tweb.p8_density_target_alignment import CATALOGUE, read_rows
-from workflows.abacus_tweb.p8_deterministic_common import atomic_json, authoritative_mask, sha256
+from workflows.abacus_tweb.p8_deterministic_common import (
+    acquire_run_lock,
+    atomic_json,
+    authoritative_mask,
+    sha256,
+)
 from workflows.abacus_tweb.p8_evaluate_stitched_density import (
     STITCHED,
     TARGET_MANIFEST,
@@ -151,6 +156,10 @@ def main() -> None:
         raise RuntimeError("learned-field context diagnostic requires an interactive GPU")
     started = time.time()
     args.output.mkdir(parents=True, exist_ok=True)
+    run_lock = acquire_run_lock(
+        args.output / ".context.lock",
+        purpose="P8.9 learned finite-context diagnostic",
+    )
     target_manifest = json.loads(args.target_manifest.read_text())
     config = json.loads((ROOT / "p8_density_phys_v1/training_contract/rotation_0/d0_config.json").read_text())
     validation_fold = int(config["roles"]["validation_fold"])
@@ -286,6 +295,14 @@ def main() -> None:
             "radii": true_context.get("radii") if true_context else None,
         },
         "caps": cap_reports,
+        "inputs": {
+            "stitched_manifest": str(args.stitched / "stitched_field_manifest.json"),
+            "stitched_manifest_sha256": sha256(
+                args.stitched / "stitched_field_manifest.json"
+            ),
+            "target_manifest": str(args.target_manifest),
+            "target_manifest_sha256": sha256(args.target_manifest),
+        },
         "tensor_artifact": str(args.output / "learned_context_tensors.npz"),
         "elapsed_seconds": float(time.time() - started),
     }
@@ -294,6 +311,7 @@ def main() -> None:
         f"anchors={len(parent)} radii={len(radii_mpc)}\n"
     )
     print(json.dumps(report, indent=2, sort_keys=True))
+    run_lock.close()
 
 
 if __name__ == "__main__":

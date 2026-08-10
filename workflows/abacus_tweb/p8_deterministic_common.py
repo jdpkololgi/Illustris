@@ -9,7 +9,12 @@ from __future__ import annotations
 
 import hashlib
 import json
+import fcntl
+import os
 from pathlib import Path
+import socket
+import tempfile
+from datetime import datetime, timezone
 
 import numpy as np
 from scipy.stats import spearmanr
@@ -24,6 +29,38 @@ from sklearn.metrics import (
 SHELL_NAMES = ("0p15_0p25", "0p25_0p35", "0p35_0p45", "0p45_0p55")
 LAMBDA_NAMES = ("lambda1", "lambda2", "lambda3")
 LAMBDA_THRESHOLD = 0.2
+
+
+def acquire_run_lock(path: Path, *, purpose: str):
+    """Acquire a non-blocking process-lifetime lock for one mutable run.
+
+    The returned handle must remain live for the duration of the run.  Kernel
+    ownership makes the lock safe across tmux sessions, allocations, and
+    compute nodes sharing the same filesystem; a crashed process releases it.
+    """
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    handle = path.open("a+", encoding="utf-8")
+    try:
+        fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError as error:
+        handle.seek(0)
+        owner = handle.read().strip() or "unknown owner"
+        handle.close()
+        raise RuntimeError(f"run already has an active owner: {path}: {owner}") from error
+    owner = {
+        "schema_version": "p8-run-lock-v1",
+        "purpose": str(purpose),
+        "pid": int(os.getpid()),
+        "host": socket.gethostname(),
+        "acquired_utc": datetime.now(timezone.utc).isoformat(),
+    }
+    handle.seek(0)
+    handle.truncate()
+    handle.write(json.dumps(owner, sort_keys=True) + "\n")
+    handle.flush()
+    os.fsync(handle.fileno())
+    return handle
 
 
 def sha256(path: Path, chunk: int = 16 * 1024 * 1024) -> str:
@@ -325,6 +362,21 @@ def fit_affine_on_training(
 def atomic_json(path: Path, payload: dict) -> None:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
-    temporary.replace(path)
+    temporary_path = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as temporary:
+            temporary_path = Path(temporary.name)
+            temporary.write(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+            temporary.flush()
+            os.fsync(temporary.fileno())
+        os.replace(temporary_path, path)
+    finally:
+        if temporary_path is not None and temporary_path.exists():
+            temporary_path.unlink()

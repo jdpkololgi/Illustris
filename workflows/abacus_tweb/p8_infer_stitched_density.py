@@ -23,7 +23,11 @@ from workflows.abacus_tweb.p8_density_training_utils import (
     DensityUnitAdapter,
     extract_core_prediction,
 )
-from workflows.abacus_tweb.p8_deterministic_common import atomic_json, sha256
+from workflows.abacus_tweb.p8_deterministic_common import (
+    acquire_run_lock,
+    atomic_json,
+    sha256,
+)
 from workflows.abacus_tweb.p8_train_patch_recovery import torch_load
 from workflows.abacus_tweb.p8_train_unet_patch import UNet3D
 
@@ -330,6 +334,10 @@ def main() -> None:
         raise RuntimeError("stitched density inference requires an interactive CUDA allocation")
     started = time.time()
     args.output.mkdir(parents=True, exist_ok=True)
+    run_lock = acquire_run_lock(
+        args.output / ".stitch.lock",
+        purpose="P8.9 epoch-16 full-cap density stitching",
+    )
     checkpoint_sha = sha256(args.checkpoint)
     checkpoint = torch_load(args.checkpoint, args.device)
     for field, expected in (("model", "U-DENSITY-PHYS-v1"), ("rotation", 0), ("seed", 42)):
@@ -418,6 +426,7 @@ def main() -> None:
         f"checkpoint={checkpoint_sha} epoch={checkpoint['epoch']}\n"
     )
     print(json.dumps(manifest, indent=2, sort_keys=True))
+    run_lock.close()
 
 
 if __name__ == "__main__":

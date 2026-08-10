@@ -1,4 +1,6 @@
 import unittest
+from pathlib import Path
+import tempfile
 
 import numpy as np
 import torch
@@ -7,9 +9,30 @@ from workflows.abacus_tweb.p8_train_density_patch import (
     RegressionAccumulator,
     checkpoint_cuda_rng_state,
 )
+from workflows.abacus_tweb.p8_deterministic_common import acquire_run_lock
+from workflows.abacus_tweb.p8_train_patch_recovery import atomic_torch_save
 
 
 class DensityTrainerTests(unittest.TestCase):
+    def test_run_lock_rejects_second_owner_and_releases_on_close(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "run.lock"
+            first = acquire_run_lock(path, purpose="first")
+            with self.assertRaises(RuntimeError):
+                acquire_run_lock(path, purpose="second")
+            first.close()
+            second = acquire_run_lock(path, purpose="second")
+            second.close()
+
+    def test_atomic_torch_save_uses_replaceable_unique_temporary(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "checkpoint.pt"
+            atomic_torch_save({"value": torch.tensor([1, 2])}, path)
+            atomic_torch_save({"value": torch.tensor([3, 4])}, path)
+            loaded = torch.load(path, map_location="cpu", weights_only=False)
+            self.assertTrue(torch.equal(loaded["value"], torch.tensor([3, 4])))
+            self.assertEqual(list(Path(directory).glob("*.tmp")), [])
+
     def test_regression_accumulator_matches_direct_metrics(self):
         truth = np.array([-2.0, -0.5, 1.0, 3.0, 4.5])
         prediction = np.array([-1.5, -0.2, 0.7, 2.8, 4.1])
