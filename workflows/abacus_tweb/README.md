@@ -28,6 +28,9 @@ Abacus particle/halo products
 | Graph features | `abacus_graph_features.py`, `abacus_graph_features_cugraph.py`, `submit_abacus_graph_features_cpu.slurm`, `submit_abacus_graph_features_cugraph.slurm` |
 | Wedge subgraphs for SBI | `subset_abacus_graph_wedge_for_sbi.py`, `subset_cugraph_metrics_for_wedge.py` |
 | SBI cache | `build_abacus_sbi_cache.py`, `build_staged_mock_wedge_sbi_cache.py` |
+| P8 spatial-transfer screen + recovery | `p8_prepare_deterministic.py`, `p8_classical_fullcap.py`, `p8_train_{graph,unet}_patch.py` (short screens); `p8_epoch_training.py`, `p8_train_patch_recovery.py`, `p8_audit_recovery_run.py` (exposure-aware recovery / extension); `p9_residual_complementarity_audit.py` (hybrid diagnostic) |
+| P8.8 multitracer (BGS_FAINT) | `p8_build_multitracer_catalogues.py`, `p8_build_multitracer_fields.py`, `p8_train_multitracer_unet_patch.py`, `p8_smoke_multitracer_null.py`, `p8_close_multitracer_mt4.py`, `run_p8_multitracer_*.sh` |
+| P8.9 density-first targets | `p8_density_target_alignment.py`, `p8_build_density_targets.py`, `p8_build_field_output_tiling.py`, matching `run_p8_*` supervisors |
 | Legacy partition batches | `build_abacus_partition_batches.py`, `submit_build_partitions_adaptive.slurm`, `PARTITION_ARTIFACT_SCHEMA.md` |
 | Validation / audits | `validate_unique_halo_eigs_fits_vs_slabs.py`, `validate_cutsky_eigs_boxindex_vs_halo_xcom.py`, `diagnose_cutsky_tweb_alignment.py`, `audit_abacus_leakage_alignment.py`, `ABACUS_TWEB_AUDIT_FINDINGS.md` |
 | Staged mocks / fiberassign | `build_staged_mock_wedge_variants.py`, `build_staged_mock_wedge_truth_npz.py`, `build_staged_mock_wedge_sbi_cache.py`, `write_fiberassign_mock_science_fits.py`, `write_stage3_postcollision_science_fits.py`, `join_cutsky_eigs_to_fiberassign_catalog.py` |
@@ -46,6 +49,18 @@ Abacus particle/halo products
   plane in CutSky geometry.
 - `build_abacus_sbi_cache.py` repeats the Y1/Y5 and invalid `BOX_INDEX` filters
   by default so graph rows and target rows stay aligned.
+- P8 deterministic patch models use the frozen **linear-increment** target
+  `(λ₁, λ₂−λ₁, λ₃−λ₂)`, not ordered softplus. Softplus remains canonical for
+  wedge NPE caches. Short screens (`p8_train_*_patch.py`) are immutable smoke
+  evidence; scientific recovery uses `p8_train_patch_recovery.py` under a
+  separate output root. See `RUNBOOK.md` §P8 and
+  `docs/evidence/contracts/p8_target_metric_contract_v1.json`.
+- P8.9 density targets are observer-frame privileged fields: map P3 centres with
+  `(observer_xyz_Mpc * h + origin_Mpc/h) modulo box`, sample the R=7 slab trace
+  without a second smooth, and own voxels by exact half-open P4 cores. First
+  runtime target/tiling products are superseded pending unit-corrected rebuild;
+  `U-DENSITY-PHYS-v1` training is blocked until that rebuild and trace/tensor
+  closure pass. See `RUNBOOK.md` §P8.9.
 
 ## Graph Artifacts
 
