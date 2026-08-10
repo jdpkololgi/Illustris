@@ -68,7 +68,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--k-min-h-mpc", type=float, default=0.002)
     parser.add_argument("--k-max-h-mpc", type=float, default=1.0)
     parser.add_argument("--padding-voxels", type=int, default=24)
-    parser.add_argument("--eig-chunk", type=int, default=500_000)
+    # CUDA's batched symmetric eigensolver uses a large workspace per matrix;
+    # 500k 3x3 matrices requests roughly 126 GiB on current cuSOLVER/PyTorch.
+    parser.add_argument("--eig-chunk", type=int, default=100_000)
     parser.add_argument("--device", default="cuda")
     return parser.parse_args()
 
