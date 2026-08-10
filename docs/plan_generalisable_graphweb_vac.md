@@ -1050,9 +1050,10 @@ Progress checklist:
 
 ### P8 — Matched spatial target-generalisation training
 
-**Status:** TWO-ROTATION RECOVERY/EXTENSIONS COMPLETE; U-CIC CLOSED; MT4 COMPLETE
-WITH INFORMATION PASS / ENCODER NO-GO; P8.9 NEXT (2026-08-09)
-**Duration:** recovery estimate follows the exposure audit; three-seed finalists later
+**Status:** COMPLETE — `ph000` DETERMINISTIC DEVELOPMENT FROZEN; U-PATCH-BRIGHT
+REFERENCE AND CIC HANDED TO P10; D0 RETAINED AS ROTATION-0 SECONDARY FIELD/TENSOR
+EVIDENCE ONLY (2026-08-10)
+**Duration:** complete; independent-phase replication belongs to P10
 
 G-PATCH, U-PATCH, and F-PATCH may now enter the matched deterministic protocol.
 Readiness is adapter-specific, not an accuracy claim. Each final trained checkpoint
@@ -1483,8 +1484,8 @@ replication and P10 fresh-phase transfer remain mandatory before production prom
 
 #### P8.8 BGS_FAINT multitracer information gate
 
-**Status:** MT1--MT3 COMPLETE; MT4 PROXY ROTATIONS 0/2 AND NULL ROTATION 0 COMPLETE;
-NULL ROTATION 2 RUNNING; MT5 TECHNICALLY READY BUT FULL TRAINING GATED; NO MODEL PROMOTED
+**Status:** COMPLETE — SAME-PHASE INFORMATION PASS; CURRENT PROXY ENCODER NO-GO;
+MT5 TECHNICALLY READY BUT FULL TRAINING CLOSED ON `ph000`; NO MODEL PROMOTED
 
 Implementation checklist (updated 2026-08-08):
 
@@ -1954,8 +1955,9 @@ the transferable estimator and validated protocol, not loyalty to a model family
 
 #### P8.9 — Bounded density-first baseline and learned long-mode closure
 
-**Status:** ROTATION-0 D0 DOWNSTREAM COMPLETE; NO PRIMARY POINT PROMOTION;
-ROTATION-2 GO FOR SECONDARY TENSOR/CLASS BENEFIT; D1 TRIGGER MET (2026-08-10)
+**Status:** COMPLETE — ROTATION-0 D0 AND DARKAI-LIKE RESCORE COMPLETE; NO PRIMARY
+POINT PROMOTION; ROTATION-2 AND D1 CLOSED WITHOUT RUN UNDER THE TERMINAL `ph000`
+FREEZE (2026-08-10)
 
 The current evidence does not yet contain a matched DarkAI-style learned-density
 baseline under the P4/P8 protocol. Keep the distinctions explicit:
@@ -2214,14 +2216,28 @@ P8.9 granular execution checklist:
   auxiliary before training; no loss sweep is authorized. Runtime decision:
   `p8_density_phys_v1/d0_decision/rotation_0/seed_42/`; tracked evidence:
   `docs/evidence/p8/density_first_rotation0_closeout.json`.
-- [ ] Run the unchanged D0 contract on rotation 2/seed 42 and repeat the complete
-  stitch, global-FFT, oracle/deployable, tensor/orientation, learned-context, and matched
-  U-PATCH comparison. This is replication of the retained secondary field/tensor
-  candidate, not permission to reopen D0 hyperparameters or promote the affine row.
-- [ ] Before any D1 runtime, amend this section with exactly one frozen auxiliary
-  target, coefficient, normalization, adoption rule, and stop rule. Run only that
-  pre-registered `U-DENSITY-PHYS-AUX-v1` contract; do not choose among auxiliary losses
-  after viewing downstream scores.
+- [x] Rescore the frozen D0 field without retraining on the DarkAI-like diagnostic
+  subset: NGC science support, cell-centre `0.15<z<0.4`, equal weight per 5-Mpc grid
+  cell, separate selected-volume mean subtraction, no random/window deconvolution,
+  and sign-threshold grid classes. The selected 33,192,463 cells give mode-weighted
+  `P_cross/P_true=0.85516` and `r(k)=0.93689` over
+  `0.02<=k<0.08 h/Mpc`, compared with `0.76037/0.88319` over
+  `0.08<=k<0.20` and `0.46789/0.64592` over `0.20<=k<0.40`.
+  Sign-threshold void/sheet/filament/knot recall is
+  `0.68605/0.76551/0.76407/0.61941` (balanced accuracy `0.70876`). The subset and
+  volume weighting recover some of the apparent external-method gap, but leave clear
+  amplitude suppression and do not reverse the primary D0 point-estimator NO-GO.
+  Exact spectra and confusion matrices are in
+  `docs/evidence/p8/density_d0_darkai_like_rescore.json` and runtime
+  `p8_density_phys_v1/d0_darkai_like_rescore/rotation_0/seed_42/`.
+- [x] Close the previously opened D0 rotation-2 secondary replication as
+  `NOT_RUN_SUPERSEDED_BY_PH000_FREEZE`. This is not a failed replication: the new
+  diagnostic established that D0 remains scientifically interesting but does not earn
+  further same-phase optimization before the independent-phase gate.
+- [x] Close D1 as `NOT_RUN_SUPERSEDED_BY_PH000_FREEZE`. Do not tune a downstream
+  auxiliary loss on repeatedly inspected `ph000` folds after the density objective
+  failed primary adoption. A density/tensor auxiliary may be reconsidered only from a
+  fresh-phase residual diagnosis, with a newly frozen contract.
 
 Progress checklist:
 
@@ -2257,9 +2273,10 @@ Progress checklist:
   range expands under deliberate memorisation. Core 15211 (204 shell-3 galaxies)
   reaches scaled MSE 0.00173, lambda1 R2 0.9991, and recovers the full truth range;
   artifacts are under `/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/probes/`.
-- [ ] Run one complete rotation-0 canary epoch for G-PATCH and U-PATCH; verify 100%
-  unique core coverage, all-shell weighted loss accounting, full-fold validation,
-  allocation-interruption resume, and persistent loss curves.
+- [x] Close the historical one-epoch canary line as superseded by the completed
+  exposure-aware recovery and long-horizon runs: complete/no-repeat epoch exposure,
+  full-fold validation, atomic resume, loss accounting, and persistent curves were
+  exercised in the shipping trainers before the two-rotation science decisions.
 - [x] Complete the registered rotation-0 `recovery_v1` runs: G-PATCH stopped by the
   frozen patience/min-delta rule at epoch 15 (best macro R2 0.4682), while U-PATCH hit
   the 20-epoch cap still improving (best macro R2 0.4943).
@@ -2286,7 +2303,7 @@ Progress checklist:
   uses true-density radii 60/120/180/240/360 Mpc/h. Overall eigenvalue RMSE
   falls from 9.27% to 0.88% of the full-periodic reference scatter between
   60 and 360 Mpc/h.
-- [ ] Complete matched full-cap exact DTFE and global classical-plus-local-residual
+- [x] Complete matched full-cap exact DTFE and global classical-plus-local-residual
   controls.
   - [x] Implement and unit-test the accelerated exact-DTFE locator. The production
     path now builds a vertex-to-incident-tetrahedron CSR once, queries grid voxels
@@ -2320,8 +2337,13 @@ Progress checklist:
   Evidence remains under
   `/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1/classical/dtfe_fullcap_v1/`
   and `/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/u_cic_resid_v1/`.
-- [ ] Reapply the classical adoption and five-fold promotion gates to converged results.
-- [ ] Spend three seeds only on candidates that pass the recovered two-rotation gate.
+- [x] Reapply the classical adoption and promotion gates. U-PATCH-BRIGHT is the frozen
+  learned handoff; G-PATCH is the non-promoted runner-up; U-CIC is a sparse-shell
+  NO-GO; D0 is not a primary point estimator; F-PATCH v2_A is a resource NO-GO.
+- [x] Close five-fold/three-seed expansion as
+  `NOT_RUN_DEFERRED_TO_P10_INDEPENDENT_PHASES`. Spend the replication budget on
+  independent cosmic phases rather than adaptively optimizing the already inspected
+  `ph000` folds.
 - [x] Freeze standalone U-PATCH as `U-PATCH-BRIGHT_REFERENCE`, the current two-rotation
   learned candidate; do not call it production-approved before five-fold/seed and P10.
 - [x] Complete the BGS_FAINT F0 feasibility audit and register the conditional
@@ -2330,9 +2352,13 @@ Progress checklist:
   deterministic recovery remains open.
 - [x] Freeze validation predictions, reports, diagnostics, configs, and the machine-readable
   screen decision under `docs/evidence/p8/` and the runtime root.
-- [x] Record G-PATCH and U-PATCH as `INCONCLUSIVE_OPTIMIZATION_AUDIT_REQUIRED`, F-PATCH
-  v2_A as resource NO-GO, and CIC/DTFE-style reconstruction as the reference direction.
-- [ ] Close P8 only after the recovered scientific gate is actually complete.
+- [x] Supersede the short-screen `INCONCLUSIVE_OPTIMIZATION_AUDIT_REQUIRED` state with
+  the completed recovery/extension decisions; retain F-PATCH v2_A as resource NO-GO
+  and CIC as the classical handoff.
+- [x] Close P8 with runtime marker
+  `/pscratch/sd/d/dkololgi/abacus/p8_closeout_v1/P8_COMPLETE` and tracked decision
+  `docs/evidence/p8/p8_final_decision.json`. This freezes `ph000` development; it does
+  not authorize a production VAC. P10 fresh-phase transfer remains blocking.
 
 ---
 
@@ -2340,7 +2366,7 @@ Progress checklist:
 
 ### P9 — Residual correlation audit
 
-**Status:** GATED ON P8
+**Status:** DEFERRED TO P10 OUT-OF-PHASE RESIDUALS; NO NEW `ph000` HYBRID AUTHORIZED
 **Duration:** 0.5 day analysis before hybrid training
 
 Measure out-of-fold residual correlations between GraphNet, U-Net, F-tier, DTFE, and
@@ -2372,7 +2398,7 @@ Progress checklist:
 
 ### P10 — Multi-phase target generation and training
 
-**Status:** ACTIVE IN PARALLEL WITH P5–P9 FOR PHASE/COST BENCHMARKING
+**Status:** ACTIVE — P8 HANDOFF FROZEN; PHASE/COST BENCHMARKING AND ASSET AUDIT NEXT
 **Duration:** scope after one-phase benchmark; likely days to weeks
 
 Reserve:
@@ -2391,15 +2417,15 @@ then describe the result as more generalisable. Repeated decisions against the s
 blocked folds create adaptive benchmark overfitting even when the supervised rows are
 spatially disjoint.
 
-The remaining authorized `ph000` model-development decisions are therefore bounded to:
+P8 closed the `ph000` model-development boundary on 2026-08-10. D0 rotation 2 and D1
+were explicitly stopped without execution after the DarkAI-like diagnostic; they are
+not failed experiments. The remaining authorized `ph000` activity is therefore bounded
+to P10 technical readiness rather than model selection:
 
-1. finish the active MT4 Proxy/null decision and any already-triggered registered
-   rotation;
-2. run P8.9 `U-DENSITY-PHYS-v1` and only its explicitly gated D1 auxiliary;
-3. implement and canary the P10.1 final/degraded-view loaders and response channels;
-4. use `ph000` only for technical or optimization screens of Arms A--C, never as their
+1. implement and canary the P10.1 final/degraded-view loaders and response channels;
+2. use `ph000` only for technical or optimization screens of Arms A--C, never as their
    production-transfer decision;
-5. open one paired-view P11 experiment only after the independent-phase Arms A--C
+3. open one paired-view P11 experiment only after the independent-phase Arms A--C
    diagnose a representation bottleneck.
 
 No additional `ph000` architecture, loss, feature, context, cell-size, residual, or
@@ -2466,8 +2492,8 @@ Progress checklist:
 
 #### P10.1 — Controlled observation-operator training
 
-**Status:** SCIENTIFIC TRAINING GATED ON P8 CLOSURE; LINEAGE AUDIT AND TECHNICAL
-CANARIES AUTHORIZED
+**Status:** P8 GATE PASSED; LINEAGE AUDIT, PHASE ASSETS, RESPONSE EXPORTS, AND
+TECHNICAL CANARIES NEXT; SCIENTIFIC MODEL SELECTION OCCURS ON INDEPENDENT PHASES
 
 The catalogue identifiers required to pair and group examples are not automatically
 valid conditioning variables. Use this role contract:

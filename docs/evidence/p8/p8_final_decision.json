@@ -1,0 +1,122 @@
+{
+  "closed_without_run": {
+    "density_d0_rotation2": {
+      "reason": "D0 failed primary point adoption; the DarkAI-like rescore showed only partial protocol recovery. Replicating a secondary-only ph000 branch has lower value than independent-phase validation.",
+      "status": "NOT_RUN_SUPERSEDED_BY_PH000_FREEZE"
+    },
+    "density_d1_auxiliary": {
+      "reason": "Do not tune a downstream loss on repeatedly inspected ph000 folds after the density objective failed primary adoption.",
+      "status": "NOT_RUN_SUPERSEDED_BY_PH000_FREEZE"
+    },
+    "five_fold_three_seed_expansion": {
+      "reason": "Spend replication compute on phase-level transfer rather than further adaptive optimization of ph000.",
+      "status": "NOT_RUN_DEFERRED_TO_P10_INDEPENDENT_PHASES"
+    }
+  },
+  "created_utc": "2026-08-10T23:34:34.792193+00:00",
+  "darkai_like_diagnostic": {
+    "interpretation": "NGC/z<0.4/equal-volume scoring improves the D0 bulk-field summary, but leaves substantial amplitude suppression and does not close the gap to the external DarkAI headline.",
+    "mode_weighted_spectra": {
+      "k_0p002_to_0p1": {
+        "bins": 18,
+        "modes": 164598,
+        "p_cross_over_p_true": 0.8574386191843948,
+        "r_k": 0.9311415839065504
+      },
+      "k_0p02_to_0p08": {
+        "bins": 7,
+        "modes": 87214,
+        "p_cross_over_p_true": 0.8551638426211666,
+        "r_k": 0.9368934313692688
+      },
+      "k_0p08_to_0p2": {
+        "bins": 4,
+        "modes": 973084,
+        "p_cross_over_p_true": 0.7603705040191806,
+        "r_k": 0.8831921192169281
+      },
+      "k_0p2_to_0p4": {
+        "bins": 4,
+        "modes": 11688128,
+        "p_cross_over_p_true": 0.46789251550562866,
+        "r_k": 0.6459156151172949
+      }
+    },
+    "selected_equal_volume_cells": 33192463,
+    "sign_threshold_balanced_accuracy": 0.7087594468358992,
+    "sign_threshold_exact_accuracy": 0.7485466203577601,
+    "sign_threshold_recall": {
+      "filament": 0.7640702460109863,
+      "knot": 0.6194073117387533,
+      "sheet": 0.765509013270311,
+      "void": 0.6860512163235463
+    }
+  },
+  "evidence": {
+    "density_darkai_like_rescore": {
+      "path": "docs/evidence/p8/density_d0_darkai_like_rescore.json",
+      "sha256": "4b9c822720760677bd6dcbe661ca37013e7d6144786f2459fc040e8472c27160"
+    },
+    "density_rotation0_closeout": {
+      "path": "docs/evidence/p8/density_first_rotation0_closeout.json",
+      "sha256": "12917b9376da09b078b3ce53ab6978ba8a1de345aab6981c9c41d66019d962a3"
+    },
+    "multitracer_closeout": {
+      "path": "docs/evidence/p8/multitracer_mt4_decision.json",
+      "sha256": "67d96a2fe8a827ace0731699087dd6dd111179389bc53eaa86f01c22237dfffe"
+    },
+    "u_cic_closeout": {
+      "path": "docs/evidence/p8/ucic_v2_closeout.json",
+      "sha256": "6a4593bd83bb6444275ecf9aaf4f95cb8a26d114ab38111c2e6dee99977ede9a"
+    },
+    "u_patch_rotation0": {
+      "path": "docs/evidence/p8/u_patch_rotation0_diagnostics.json",
+      "sha256": "5c08118a79b4669bdfbd68d34bd58ea5fdda0d2422defe4b2f8638f7f76de6b7"
+    },
+    "u_patch_rotation2": {
+      "path": "docs/evidence/p8/u_patch_rotation2_diagnostics.json",
+      "sha256": "78edb3e042831d87c9e7577910f9011372ab5fd0336d46bc1e2eee74fe9ce59a"
+    }
+  },
+  "frozen_reference_metrics": {
+    "density_d0_rotation0_raw_deployable": {
+      "first_three_shell_r2_lambda1": 0.5334486799096568,
+      "macro_r2_lambda1": 0.4723441939580104,
+      "per_shell_r2_lambda1": [
+        0.5304689366791544,
+        0.577983356957382,
+        0.49189374609243386,
+        0.2890307361030712
+      ]
+    },
+    "u_patch_bright_first_three_shell_r2_lambda1": {
+      "rotation_0": 0.5608930253062123,
+      "rotation_2": 0.586
+    },
+    "u_patch_bright_macro_r2_lambda1": {
+      "rotation_0": 0.5070046680843436,
+      "rotation_2": 0.5197376839763646
+    }
+  },
+  "git_revision": "ad6781c9ee2fce24c0bfcbd39eacb5c5d939939a",
+  "next_gate": {
+    "action": "Build/audit independent-phase products, train the frozen U-PATCH reference with the registered response contract, retain CIC as the classical anchor, select on ph006, and open ph001 once.",
+    "posterior_estimation": "DEFERRED_TO_P12_AFTER_DETERMINISTIC_TRANSFER",
+    "stage": "P10"
+  },
+  "schema_version": "p8-final-closeout-v1",
+  "scientific_decision": {
+    "classical_handoff": "CLASSICAL-CIC",
+    "density_primary_point_estimator": "NO_PROMOTION_ROTATION0_RAW_PHYSICAL_BELOW_U_PATCH",
+    "density_rotation0_field_tensor": "RETAIN_EXPERIMENTAL_SECONDARY_EVIDENCE",
+    "deterministic_learned_handoff": "U-PATCH-BRIGHT_REFERENCE",
+    "f_patch_v2_a": "NO_GO_FROZEN_RESOURCE_INFEASIBLE",
+    "graphnet": "RUNNER_UP_NOT_PROMOTED",
+    "multitracer_encoder": "NO_GO_FOLD_INSTABILITY_AND_ROTATION_2_SAFEGUARDS",
+    "multitracer_information": "PASS_SAME_PHASE_TWO_ROTATIONS",
+    "production_vac": "NOT_AUTHORIZED_P10_FRESH_PHASE_REMAINS_BLOCKING",
+    "u_cic_residual": "NO_GO_SPARSE_SHELL_REGRESSION"
+  },
+  "scope": "ph000 blocked-patch deterministic development; no independent-phase or production-DESI claim",
+  "status": "P8_COMPLETE_PH000_DETERMINISTIC_DEVELOPMENT_FROZEN"
+}

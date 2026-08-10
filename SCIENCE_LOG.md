@@ -1,5 +1,66 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-10 — [science/code/runtime] P8 COMPLETE: DarkAI-like D0 rescore narrows the protocol gap; `ph000` development freezes
+
+The requested no-retraining diagnostic has completed on the frozen
+`U-DENSITY-PHYS-v1` rotation-0 field. It selects NGC science-support grid-cell centres
+with `0.15<z<0.4`, gives every 5-Mpc cell equal volume weight, subtracts the prediction
+and truth means separately inside that subset, and performs no random/window
+deconvolution. It reports the requested quantities with the exact definitions
+`P_cross/P_true = Re(F_pred F_true*)/|F_true|^2` and
+`r(k)=P_cross/sqrt(P_pred P_true)`.
+
+The mask contains 33,192,463 cells. Mode-weighted results are:
+
+| k range [h/Mpc] | modes | P_cross/P_true | r(k) |
+| --- | ---: | ---: | ---: |
+| 0.002--0.100 | 164,598 | 0.85744 | 0.93114 |
+| 0.020--0.080 | 87,214 | 0.85516 | 0.93689 |
+| 0.080--0.200 | 973,084 | 0.76037 | 0.88319 |
+| 0.200--0.400 | 11,688,128 | 0.46789 | 0.64592 |
+
+The DarkAI-like sign-threshold grid classification has exact cell accuracy `0.74855`
+and balanced accuracy `0.70876`. True-row recall for void/sheet/filament/knot is
+`0.68605/0.76551/0.76407/0.61941`. Under the native GraphWeb threshold 0.2, exact and
+balanced accuracy are `0.80213/0.66565`, with recalls
+`0.91245/0.71111/0.59250/0.44653`.
+
+This is a real protocol effect, but not a reversal of the scientific conclusion. On the
+older full supported volume D0 had `r=0.89543` and cross-transfer `0.79543` over
+`0.02<=k<0.08`; the DarkAI-like subset raises these to `0.93689/0.85516`. NGC,
+`z<0.4`, and equal-volume scoring therefore explain part of the apparent external-method
+gap. They do not explain most of it: large-scale amplitudes remain suppressed by about
+14.5%, correlation falls with k, and the rare knot class remains materially incomplete.
+The diagnostic strengthens the statement that D0 recovers coherent web morphology more
+faithfully than its per-galaxy lambda1 R2 suggests, but does not promote it over direct
+U-PATCH for the primary point catalogue.
+
+P8 now closes under a terminal `ph000` freeze. The frozen handoff is:
+
+- `U-PATCH-BRIGHT_REFERENCE` as the deterministic learned candidate;
+- CIC as the required classical anchor;
+- G-PATCH as a non-promoted runner-up;
+- U-CIC residual v2 as `NO_GO_SPARSE_SHELL_REGRESSION`;
+- MT4 as `PASS_SAME_PHASE_TWO_ROTATIONS` for Faint spatial information but
+  `NO_GO_FOLD_INSTABILITY_AND_ROTATION_2_SAFEGUARDS` for the current Proxy encoder;
+- D0 rotation 0 retained as experimental secondary field/tensor evidence, not the
+  primary point estimator;
+- F-PATCH v2_A retained as a frozen resource NO-GO for that configuration.
+
+D0 rotation 2 and D1 are explicitly `NOT_RUN_SUPERSEDED_BY_PH000_FREEZE`. This does not
+convert them into negative results. The new diagnostic showed insufficient primary gain
+to justify more tuning on repeatedly inspected `ph000` folds; independent phases now
+have higher scientific value. Five-fold/three-seed `ph000` expansion is likewise
+deferred in favour of P10 phase-level replication. No model is production-approved:
+ph006 selection and the one-open ph001 blind test remain blocking.
+
+Exact tracked evidence is
+`docs/evidence/p8/density_d0_darkai_like_rescore.json` and
+`docs/evidence/p8/p8_final_decision.json`. Runtime outputs are under
+`p8_density_phys_v1/d0_darkai_like_rescore/rotation_0/seed_42/`; the terminal marker is
+`p8_closeout_v1/P8_COMPLETE`. Implementation commits are `4f23fa6`, `8f0ad82`,
+`c7f5822`, and `ad6781c`.
+
 ### 2026-08-10 — [science/code/runtime] P8.9 rotation-0 density-first downstream closes: no point promotion, physical-field branch retained
 
 The complete `U-DENSITY-PHYS-v1` rotation-0/seed-42 chain is now finished. The
