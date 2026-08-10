@@ -1954,8 +1954,8 @@ the transferable estimator and validated protocol, not loyalty to a model family
 
 #### P8.9 — Bounded density-first baseline and learned long-mode closure
 
-**Status:** ALL D0 PREFLIGHTS PASSED; ROTATION-0 SCIENTIFIC TRAINING NEXT
-(2026-08-09)
+**Status:** ROTATION-0 D0 DOWNSTREAM COMPLETE; NO PRIMARY POINT PROMOTION;
+ROTATION-2 GO FOR SECONDARY TENSOR/CLASS BENEFIT; D1 TRIGGER MET (2026-08-10)
 
 The current evidence does not yet contain a matched DarkAI-style learned-density
 baseline under the P4/P8 protocol. Keep the distinctions explicit:
@@ -2183,17 +2183,45 @@ P8.9 granular execution checklist:
     eigenvalue result. Runtime evidence:
     `p8_density_phys_v1/d0_runs/rotation_0/seed_42/canary_v1/`; tracked reports:
     `docs/evidence/p8/density_d0_canary_{summary,manifest}.json`.
-- [ ] Train rotation 0 with complete-exposure density epochs and persistent loss/field
-  validation curves; no direct eigenvalue/tensor loss is allowed in D0.
-- [ ] Stitch overlapping density cores in an order- and subdivision-invariant manner;
+- [x] Train rotation 0 with complete-exposure density epochs and persistent loss/field
+  validation curves; no direct eigenvalue/tensor loss is allowed in D0. All 20 frozen
+  epochs completed and epoch 16 was selected at complete-validation macro-shell
+  `R2(delta_R7)=0.69678`. Runtime:
+  `p8_density_phys_v1/d0_runs/rotation_0/seed_42/scientific_v1/`.
+- [x] Stitch overlapping density cores in an order- and subdivision-invariant manner;
   report overlap disagreement and supported-volume coverage before the one global FFT
-  solve per cap.
-- [ ] Evaluate field spectra/PDF/tails, trace/tensor/eigenvalue/orientation metrics,
+  solve per cap. All 21,910 cores give 100% NGC/SGC supported coverage. Expanded-
+  context and subdivision NRMSE are `3.44e-4` and `1.96e-7`; both pass the frozen P6
+  tolerances. Runtime:
+  `p8_density_phys_v1/d0_stitched/rotation_0/seed_42/`.
+- [x] Evaluate field spectra/PDF/tails, trace/tensor/eigenvalue/orientation metrics,
   learned long-mode convergence, and the full P8 per-galaxy suite for both oracle and
-  deployable sampling rows.
-- [ ] Apply the registered rotation-2 continuation rule and write
+  deployable sampling rows. The stitched field has overall/macro-shell
+  `R2(delta_R7)=0.62005/0.67563`; deployable raw lambda1 macro is `0.47234`, versus
+  `0.50700` for matched U-PATCH. Tensor-component R2 spans `0.82490--0.86567`, and raw
+  web-class behavior improves despite the lower point R2. The learned-context curve
+  converges by approximately 240--360 Mpc but leaves an eigenvalue error plateau near
+  11.4% of reference scatter. Runtime:
+  `p8_density_phys_v1/d0_evaluation/rotation_0/seed_42/` and
+  `p8_density_phys_v1/d0_learned_context/rotation_0/seed_42/`.
+- [x] Apply the registered rotation-2 continuation rule and write
   `DENSITY_FIRST_BASELINE_DECISION`; open at most the single pre-registered D1 auxiliary
-  if its exact trigger is met.
+  if its exact trigger is met. D0 fails both the within-0.03 point gate (`-0.03466`) and
+  supported-shell gate, so it is not promoted as the primary point estimator. It
+  continues to rotation 2 only as a secondary field/tensor candidate because it passes
+  the pre-declared tensor/eigenvector-benefit route and improves raw balanced accuracy,
+  void recall, and knot recall. The D1 trigger is met: register exactly one fixed
+  auxiliary before training; no loss sweep is authorized. Runtime decision:
+  `p8_density_phys_v1/d0_decision/rotation_0/seed_42/`; tracked evidence:
+  `docs/evidence/p8/density_first_rotation0_closeout.json`.
+- [ ] Run the unchanged D0 contract on rotation 2/seed 42 and repeat the complete
+  stitch, global-FFT, oracle/deployable, tensor/orientation, learned-context, and matched
+  U-PATCH comparison. This is replication of the retained secondary field/tensor
+  candidate, not permission to reopen D0 hyperparameters or promote the affine row.
+- [ ] Before any D1 runtime, amend this section with exactly one frozen auxiliary
+  target, coefficient, normalization, adoption rule, and stop rule. Run only that
+  pre-registered `U-DENSITY-PHYS-AUX-v1` contract; do not choose among auxiliary losses
+  after viewing downstream scores.
 
 Progress checklist:
 

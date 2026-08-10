@@ -1,5 +1,79 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-10 — [science/code/runtime] P8.9 rotation-0 density-first downstream closes: no point promotion, physical-field branch retained
+
+The complete `U-DENSITY-PHYS-v1` rotation-0/seed-42 chain is now finished. The
+20-epoch density run selected epoch 16 by complete-validation macro-shell
+`R2(delta_R7)=0.69678`. Inference from that frozen checkpoint was stitched over all
+21,910 nominal plus inference-only output cores, with exactly 100% supported-voxel
+coverage in both NGC (78,099,094 voxels) and SGC (36,990,531 voxels). Trained-model
+patch parity passes comfortably: expanded-context NRMSE is `3.44e-4` (worst core
+`6.95e-4`) and subdivision NRMSE is `1.96e-7`. The production decomposition is
+therefore not responsible for the scientific score.
+
+The stitched learned field retains substantial transferable information but is
+amplitude- and tail-suppressed. Its supported-volume overall and four-shell macro
+scores are `R2(delta_R7)=0.62005/0.67563`, with shell values
+`0.76840/0.76765/0.72722/0.43924`. The prediction/truth standard-deviation ratio is
+`0.79747`. Mode-weighted cross-correlation is `r=0.89543` over
+`0.02<=k<0.08 h/Mpc` and `0.80604` over `0.08<=k<0.20 h/Mpc`, while the corresponding
+cross-transfer values are `0.79543/0.64448`. Only 18.6% of the true `delta_R7>3`
+voxel count is recovered and no `delta_R7>6` voxels are produced. This is credible
+field recovery, not faithful one-point-tail recovery.
+
+After one global fixed FFT solve per cap, the primary VAC-deployable observed-`Z`
+raw-physical lambda1 row gives macro/first-three/pooled `R2` of
+`0.47234/0.53345/0.54196`, with shells
+`0.53047/0.57798/0.49189/0.28903`. The matched direct `U-PATCH` rotation-0 reference
+is macro `0.50700`, so D0 is lower by `0.03466`: it narrowly fails the registered
+within-0.03 point-estimator continuation gate and also fails the no-supported-shell-
+loss gate. A train-fold-only affine diagnostic reaches macro `0.51154`, but is not a
+physical product and degrades raw class behavior; it may never replace the raw row.
+The privileged `Z_COSMO` oracle is materially higher (raw macro `0.58049`), confirming
+that RSD/localization remains a distinct per-galaxy deployment penalty.
+
+The field route nevertheless supplies pre-declared product information that the direct
+eigenvalue U-Net does not. All six windowed tensor components have `R2=0.82490--0.86567`.
+For the largest eigengap quartile the three median orientation disagreements are
+`7.69/10.17/6.61 deg`; the smallest-gap quartile is correctly less stable at
+`12.56/22.74/12.67 deg`. On raw deployable predictions, balanced accuracy, macro F1,
+void recall, and knot recall are `0.66380/0.66318/0.81290/0.50482`, compared with the
+direct U-PATCH reference `0.63306/0.65464/0.67984/0.42385`. These tensor and raw-class
+benefits satisfy the pre-declared secondary-product continuation route, not the primary
+point-estimator gate.
+
+The learned-context diagnostic also closes. Across 24 anchors, eigenvalue
+RMSE/reference-std falls from `0.13753` at 60 Mpc to approximately `0.114` by
+240--360 Mpc; traceless-shear error falls from `0.10132` to `0.05406`. Thus additional
+long-mode context is important through roughly 240 Mpc, especially for shear, but the
+remaining eigenvalue plateau is learned-field/model error rather than a tiling artifact
+that can be removed merely by enlarging patches.
+
+The registered decision is therefore:
+
+- **no rotation-0 promotion** of D0 as the primary lambda point estimator;
+- **retain as a secondary physical field/tensor candidate and run rotation 2**, owing
+  to the unique tensor and raw-class benefit;
+- the D1 trigger is met because the field/spectra are credible while tails and
+  downstream eigenvalues are misaligned; register exactly one fixed auxiliary loss
+  before training and do not open a loss sweep;
+- no production VAC claim: independent-phase P10 remains blocking.
+
+The repaired downstream launcher uses OS-backed nonblocking run/stage locks,
+same-filesystem unique atomic writes, hash-validated stage reuse, and a restart-safe
+stitch/evaluate/context orchestrator. The original context stage exposed and then
+fixed a one-sample/constant-target `R2` denominator bug; scalar closure now reports
+RMSE/bias with undefined correlations represented as null. Ten focused downstream and
+closeout tests pass. Code commits are `b8b9ec8`, `e0c9cfd`, and `98a2648`.
+
+Primary runtime evidence:
+`p8_density_phys_v1/d0_stitched/rotation_0/seed_42/`,
+`p8_density_phys_v1/d0_evaluation/rotation_0/seed_42/field_downstream_metrics.json`,
+`p8_density_phys_v1/d0_learned_context/rotation_0/seed_42/learned_context_report.json`,
+`p8_density_phys_v1/d0_downstream/rotation_0/seed_42/downstream_run_manifest.json`, and
+`p8_density_phys_v1/d0_decision/rotation_0/seed_42/`. The compact tracked decision is
+`docs/evidence/p8/density_first_rotation0_closeout.json`.
+
 ### 2026-08-09 — [science/code/runtime] D0 complete-epoch canary passes and authorizes scientific training
 
 The U-DENSITY-PHYS-v1 canary completed on interactive allocation `56532166` under the
