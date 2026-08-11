@@ -2551,8 +2551,14 @@ Progress checklist:
   input contract against online ph006:
   `workflows/abacus_tweb/p10_build_density_field.py` and
   `docs/evidence/p10/ph006_density_input_preflight.json`.
-- [ ] Run the ph002 reduced-grid/four-slab technical A+B TSC canary and require
-  particle-count conservation before the production-resolution benchmark.
+- [x] Run the ph002 reduced-grid/four-slab technical A+B TSC canary and require
+  particle-count conservation before the production-resolution benchmark. The
+  authoritative 1024-cubed canary deposited 962,897,612 particles from one slab
+  in each of field-A, halo-A, field-B, and halo-B with relative count error
+  `3.6559e-7`, 101.45 seconds build time, and 20.49 GB peak RSS. Artifacts:
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/density/canary/AbacusSummit_base_c000_ph002_z0.200_ngrid1024_ab10_tsc_counts_1perdir.{npy,manifest.json}`;
+  runtime logs:
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/logs/ph002_density_canary1024_56669668.{out,err}`.
 - [ ] Benchmark one 2048-cubed target-generation run and record cost/storage.
 - [ ] Validate target convention and annotation parity against ph000.
 - [ ] Freeze phase roles and a signed blind-evaluation manifest.

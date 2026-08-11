@@ -53,6 +53,23 @@ the result record is
 gate is a reduced-grid/four-slab A+B TSC canary with count conservation, followed by
 the full 2048-cubed cost benchmark if it passes.
 
+**Density-canary update:** the phase-explicit A+B builder has passed its first real
+ph002 deposition test. One slab from each of field-A, halo-A, field-B, and halo-B
+provided 962,897,612 particles. The authoritative 1024-cubed float32 TSC canary
+deposited 962,897,259.972 counts, a relative conservation error of `3.6559e-7`, below
+the frozen `2e-6` gate. Build time was 101.45 seconds; the wrapped process used
+113.65 seconds wall time and 20.49 GB peak RSS. The 4.1-GB grid and manifest are under
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/density/canary/`.
+
+The deliberately coarser 256- and 512-cubed probes produced conservation errors of
+`2.2667e-5` and `2.3499e-6`. Their nearly billion-particle occupancy creates visible
+float32 accumulation loss; the approximately order-of-magnitude improvement with
+each grid refinement, followed by the 1024-cubed pass, identifies a canary-resolution
+effect rather than missing slabs or inconsistent coordinate units. The production
+2048-cubed grid is less occupied still. No tolerance was relaxed and failed probes
+wrote no density artifact. The complete 136-slab 2048-cubed benchmark is now
+technically unblocked.
+
 ### 2026-08-10 — [science/code/runtime] P8 COMPLETE: DarkAI-like D0 rescore narrows the protocol gap; `ph000` development freezes
 
 The requested no-retraining diagnostic has completed on the frozen
