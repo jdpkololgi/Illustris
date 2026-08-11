@@ -2398,7 +2398,8 @@ Progress checklist:
 
 ### P10 — Multi-phase target generation and training
 
-**Status:** ACTIVE — P8 HANDOFF FROZEN; PHASE/COST BENCHMARKING AND ASSET AUDIT NEXT
+**Status:** ACTIVE — P8 HANDOFF FROZEN; UNIFORM A+B PARTICLE CONTRACT VERIFIED;
+REGISTRY, STAGING PREFLIGHT, AND ONE-PHASE BENCHMARK NEXT
 **Duration:** scope after one-phase benchmark; likely days to weeks
 
 Reserve:
@@ -2448,24 +2449,66 @@ population robustness or nuisance marginalisation.
 
 Preliminary phase work:
 
-1. Audit particle/density-field availability.
-2. Benchmark one 2048^3 target-generation run.
-3. Validate its convention against ph000.
-4. Record wall time, node-hours, storage, and failures.
-5. Launch phase chains only after the benchmark passes.
+1. Freeze a versioned phase registry for ph001--ph006, with phase roles, source
+   paths, observation products, output roots, and target conventions.
+2. Use one scientifically uniform particle sample in every phase:
+   `field_rv_A + field_rv_B` and `halo_rv_A + halo_rv_B`, i.e. the documented
+   3% A subsample plus 7% B subsample for 10% total. A phase may not silently fall
+   back to A-only or a full particle snapshot.
+3. Treat storage location as an operational difference, not a scientific one:
+   A is online on CFS for every phase; B is restored from the per-phase HPSS halo
+   tar archives for ph001--ph005; ph006 B is already online on CFS. The existing
+   restored ph000 A+B products remain the convention reference.
+4. Verify every B source before target generation: exactly 34 field ASDF slabs,
+   exactly 34 halo ASDF slabs, both checksum manifests, expected archive/member
+   sizes, POSIX checksums after restore, ASDF readability, simulation phase, and
+   redshift 0.2 metadata.
+5. Restore and process one phase at a time. Before restore, prove scratch free
+   space exceeds the registered archive payload plus working headroom. Write an
+   atomic `B_STAGE_COMPLETE` marker only after verification. Never make cleanup
+   implicit; remove a verified staged B payload only after its compact truth
+   products, manifests, and checksums exist and after explicit review.
+6. Benchmark one complete 2048-cubed target-generation run on ph002. Record restore,
+   density, T-web, annotation, wall time, node-hours, peak scratch, output size, and
+   failures. Validate its convention against ph000 before launching the remaining
+   phase chains.
+
+The authoritative target contract is:
+
+| Quantity | Frozen value |
+| --- | --- |
+| simulation/cosmology | AbacusSummit base c000 |
+| target epoch | z=0.2 |
+| particle sampling | `field_rv_A+B` and `halo_rv_A+B`, 10% total |
+| box/grid | 2000 Mpc/h, 2048 cubed |
+| assignment | TSC |
+| tidal smoothing | Gaussian R=7 Mpc/h |
+| eigenvalue order | lambda1 <= lambda2 <= lambda3 |
+| web threshold | 0.2 |
+
+The registry and preflight artifacts are part of the scientific contract. Phase and
+storage-source identifiers are provenance only and may never enter model features.
 
 Per-phase chain:
 
 ~~~text
-density/particles
+phase registry + source preflight
+  -> verified A + staged/verified B
+  -> 10% density field
   -> CACTUS/T-web grid
-  -> halo/galaxy target annotation
+  -> compact halo/galaxy truth annotation
   -> P1 canonical catalogue
-  -> P2 graph and metrics
-  -> P3 canonical fields
-  -> P4 manifest adapter
+  -> representation products required by each finalist
+       -> P2 graph/metrics for G-PATCH
+       -> P3 fields for U-PATCH/D0
+  -> shared P4 patch/evaluation manifest
   -> PHASE_COMPLETE manifest
 ~~~
+
+P2 and P3 are parallel representation branches, not universal serial prerequisites.
+Build both for the current U-PATCH/G-PATCH comparison; a future finalist may consume
+only one. All model families must nevertheless share the same phase, spatial examples,
+authoritative target rows, folds, and evaluation contract.
 
 Blind protocol:
 
@@ -2481,7 +2524,28 @@ Blind protocol:
 
 Progress checklist:
 
-- [ ] Audit density/particle and staged-LSS availability for ph001-ph006.
+- [x] Verify that the 7% B particle products exist for every required phase and
+  register a uniform 10% A+B target contract. ph001--ph005 B is in HPSS; ph006 B is
+  online on CFS.
+- [x] Freeze and validate the versioned ph001--ph006 phase registry:
+  `configs/p10_phase_registry_v1.json`.
+- [x] Implement and test exact HPSS listing/payload preflight, POSIX checksum
+  verification, ASDF phase/redshift checks, atomic completion markers, idempotent
+  reuse, scratch-headroom enforcement, and the no-implicit-cleanup guard:
+  `workflows/abacus_tweb/p10_{phase_assets,stage_particle_b}.py`.
+- [x] Export a tracked particle, CutSky, forFA, potential-assignment,
+  fibre-assignment, and LSS source-readiness inventory for ph001--ph006:
+  `docs/evidence/p10/asset_inventory.json`. All six source gates pass.
+- [x] Record the exact ph002 restore preflight (34 field-B slabs, 34 halo-B slabs,
+  two checksum manifests, 168,059,673,012-byte payload):
+  `docs/evidence/p10/ph002_b_restore_preflight.json`.
+- [ ] Complete the ph002 restore and post-restore verification and write
+  `B_STAGE_COMPLETE.json`. Runtime session: `p10_ph002_restore`; log:
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/logs/ph002_b_stage.log`.
+- [x] Implement the phase-explicit streaming A+B TSC density builder and verify its
+  input contract against online ph006:
+  `workflows/abacus_tweb/p10_build_density_field.py` and
+  `docs/evidence/p10/ph006_density_input_preflight.json`.
 - [ ] Benchmark one 2048-cubed target-generation run and record cost/storage.
 - [ ] Validate target convention and annotation parity against ph000.
 - [ ] Freeze phase roles and a signed blind-evaluation manifest.

@@ -1,0 +1,30 @@
+{
+  "created_utc": "2026-08-11T15:09:05.486657+00:00",
+  "mode": "list",
+  "phase": "ph002",
+  "result": {
+    "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph002/Abacus_AbacusSummit_base_c000_ph002_halos.tar",
+    "checksum_manifest_count": 2,
+    "command": [
+      "htar",
+      "-tvf",
+      "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph002/Abacus_AbacusSummit_base_c000_ph002_halos.tar",
+      "./halos/z0.200/field_rv_B",
+      "./halos/z0.200/halo_rv_B"
+    ],
+    "errors": [],
+    "field_asdf_count": 34,
+    "halo_asdf_count": 34,
+    "kind": "hpss",
+    "listing_entry_count": 72,
+    "members": [
+      "./halos/z0.200/field_rv_B",
+      "./halos/z0.200/halo_rv_B"
+    ],
+    "payload_bytes": 168059673012,
+    "ready": true,
+    "returncode": 0,
+    "stderr": ""
+  },
+  "schema_version": "p10-b-stage-result-v1"
+}

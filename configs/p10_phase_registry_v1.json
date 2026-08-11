@@ -1,0 +1,126 @@
+{
+  "schema_version": "p10-phase-registry-v1",
+  "registry_id": "graphweb-p10-abacus-c000-z0p2-v1",
+  "phase_key_pattern": "ph%03d",
+  "convention_reference": {
+    "phase": "ph000",
+    "restored_snapshot_root": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/AbacusSummit_base_c000_ph000/halos/z0.200"
+  },
+  "target_contract": {
+    "simulation_family": "AbacusSummit",
+    "simulation_name_pattern": "AbacusSummit_base_c000_{phase}",
+    "cosmology": "c000",
+    "redshift": 0.2,
+    "box_size_mpc_h": 2000.0,
+    "grid_size": 2048,
+    "mass_assignment": "TSC",
+    "particle_subsamples": {
+      "A_fraction": 0.03,
+      "B_fraction": 0.07,
+      "total_fraction": 0.1,
+      "required_directories": [
+        "field_rv_A",
+        "halo_rv_A",
+        "field_rv_B",
+        "halo_rv_B"
+      ]
+    },
+    "tidal_smoothing_mpc_h": 7.0,
+    "eigenvalue_order": "lambda1<=lambda2<=lambda3",
+    "web_threshold": 0.2,
+    "coordinate_units": "Mpc/h",
+    "phase_is_model_input": false
+  },
+  "staging_contract": {
+    "expected_field_a_slabs": 34,
+    "expected_halo_a_slabs": 34,
+    "expected_field_b_slabs": 34,
+    "expected_halo_b_slabs": 34,
+    "checksum_filename": "checksums.crc32",
+    "checksum_algorithm": "POSIX cksum",
+    "headroom_gib": 32,
+    "completion_marker": "B_STAGE_COMPLETE.json",
+    "serial_phase_processing": true,
+    "implicit_cleanup_allowed": false
+  },
+  "path_templates": {
+    "cutsky": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_{phase}.fits",
+    "snapshot_root": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_{phase}/halos/z0.200",
+    "forfa": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA{mock}_nomask.fits",
+    "pota": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock{mock}/pota-BRIGHT.fits",
+    "fiberassign": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl{mock}/fba{mock}/datcomb_brightwdup.fits",
+    "lss": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl{mock}/kibo-v1/mock{mock}/LSScats",
+    "phase_output": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/{phase}"
+  },
+  "required_observation_assets": [
+    "cutsky",
+    "forfa",
+    "pota",
+    "fiberassign",
+    "lss"
+  ],
+  "phases": {
+    "ph001": {
+      "mock": 1,
+      "role": "sealed_blind",
+      "truth_access": "sealed_until_predictions_frozen",
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph001/Abacus_AbacusSummit_base_c000_ph001_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      }
+    },
+    "ph002": {
+      "mock": 2,
+      "role": "training_and_target_benchmark",
+      "truth_access": "development",
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph002/Abacus_AbacusSummit_base_c000_ph002_halos.tar",
+        "members": ["./halos/z0.200/field_rv_B", "./halos/z0.200/halo_rv_B"]
+      }
+    },
+    "ph003": {
+      "mock": 3,
+      "role": "training",
+      "truth_access": "development",
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph003/Abacus_AbacusSummit_base_c000_ph003_halos.tar",
+        "members": ["./halos/z0.200/field_rv_B", "./halos/z0.200/halo_rv_B"]
+      }
+    },
+    "ph004": {
+      "mock": 4,
+      "role": "training",
+      "truth_access": "development",
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph004/Abacus_AbacusSummit_base_c000_ph004_halos.tar",
+        "members": ["./halos/z0.200/field_rv_B", "./halos/z0.200/halo_rv_B"]
+      }
+    },
+    "ph005": {
+      "mock": 5,
+      "role": "training",
+      "truth_access": "development",
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph005/Abacus_AbacusSummit_base_c000_ph005_halos.tar",
+        "members": ["./halos/z0.200/field_rv_B", "./halos/z0.200/halo_rv_B"]
+      }
+    },
+    "ph006": {
+      "mock": 6,
+      "role": "validation_and_selection",
+      "truth_access": "selection",
+      "particle_b": {
+        "kind": "cfs",
+        "root": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph006/halos/z0.200"
+      }
+    }
+  }
+}

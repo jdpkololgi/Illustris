@@ -1,5 +1,46 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-11 — [science/code/runtime] P10 begins: uniform 10% A+B particle contract and all-phase source gate pass
+
+The earlier particle-availability statement was too broad. The 7% B snapshot
+subsample is available for every required independent phase: ph001--ph005 store
+`field_rv_B` and `halo_rv_B` inside their per-phase HPSS halo archives, while
+ph006 has the same products online on CFS. P10 therefore freezes one scientifically
+uniform truth contract for ph001--ph006: 3% A plus 7% B, using both field and halo
+particles, for 10% total. Full snapshots and A-only fallbacks are forbidden. Storage
+location is provenance only and phase identity is not a model input.
+
+The versioned phase registry is
+`configs/p10_phase_registry_v1.json`. It keeps ph002--ph005 as training phases,
+ph006 as validation/model selection, and ph001 sealed blind. A real read-only audit
+passes all six source gates. Every phase has the required 34 A-field and 34 A-halo
+slabs, CutSky catalogue with halo/box linkage, forFA catalogue, potential assignments,
+fibre-assignment output, and Kibo LSS catalogues. Every B source has 34 field slabs,
+34 halo slabs, and two checksum manifests. Registered B payloads are
+168.037/168.060/168.068/168.066/168.048/168.109 GB for ph001--ph006 respectively.
+The tracked evidence is `docs/evidence/p10/asset_inventory.json`.
+
+The first reusable P10 implementation is now in place:
+
+- `p10_phase_assets.py` validates the registry, source paths, FITS schemas, and
+  exact HPSS members;
+- `p10_stage_particle_b.py` provides idempotent listing/restore, scratch-headroom
+  enforcement, POSIX checksum verification, ASDF readability and phase/redshift
+  checks, and an atomic `B_STAGE_COMPLETE.json` marker; it deliberately has no
+  delete operation;
+- `p10_build_density_field.py` replaces the hard-coded ph000/A-path assumptions
+  of the legacy helper with a phase-explicit streaming A+B TSC builder.
+
+Eleven focused tests pass. The online ph006 density-input preflight additionally
+verified all four 34-slab directories and first/last ASDF headers against c000/ph006,
+z=0.2, BoxSize=2000 Mpc/h, A=3%, and B=7%. Exact evidence is under
+`docs/evidence/p10/`.
+
+The ph002 benchmark chain has begun with a persistent HPSS restore in tmux session
+`p10_ph002_restore`. Its dry run proves a 168,059,673,012-byte B payload.
+No density/T-web benchmark or independent-phase model result exists yet; those remain
+the next gates, and ph001 truth remains unopened.
+
 ### 2026-08-10 — [science/code/runtime] P8 COMPLETE: DarkAI-like D0 rescore narrows the protocol gap; `ph000` development freezes
 
 The requested no-retraining diagnostic has completed on the frozen
