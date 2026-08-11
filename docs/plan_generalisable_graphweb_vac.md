@@ -2539,13 +2539,20 @@ Progress checklist:
 - [x] Record the exact ph002 restore preflight (34 field-B slabs, 34 halo-B slabs,
   two checksum manifests, 168,059,673,012-byte payload):
   `docs/evidence/p10/ph002_b_restore_preflight.json`.
-- [ ] Complete the ph002 restore and post-restore verification and write
-  `B_STAGE_COMPLETE.json`. Runtime session: `p10_ph002_restore`; log:
+- [x] Complete the ph002 restore and post-restore verification. All 34 field-B
+  and 34 halo-B ASDF slabs are readable, both checksum manifests pass, and the
+  atomic marker is
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/particle_b/AbacusSummit_base_c000_ph002/B_STAGE_COMPLETE.json`.
+  The machine-readable result is
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002_b_stage_result.json`; the
+  restore log is
   `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/logs/ph002_b_stage.log`.
 - [x] Implement the phase-explicit streaming A+B TSC density builder and verify its
   input contract against online ph006:
   `workflows/abacus_tweb/p10_build_density_field.py` and
   `docs/evidence/p10/ph006_density_input_preflight.json`.
+- [ ] Run the ph002 reduced-grid/four-slab technical A+B TSC canary and require
+  particle-count conservation before the production-resolution benchmark.
 - [ ] Benchmark one 2048-cubed target-generation run and record cost/storage.
 - [ ] Validate target convention and annotation parity against ph000.
 - [ ] Freeze phase roles and a signed blind-evaluation manifest.

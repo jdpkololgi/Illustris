@@ -41,6 +41,18 @@ The ph002 benchmark chain has begun with a persistent HPSS restore in tmux sessi
 No density/T-web benchmark or independent-phase model result exists yet; those remain
 the next gates, and ph001 truth remains unopened.
 
+**Runtime update:** the ph002 restore and post-restore verification completed
+successfully. HTAR extracted 70 archive members in 8604.942 seconds of wall time
+(reported 720.465 MB/s average). The staging verifier then confirmed 34 field-B plus
+34 halo-B ASDF slabs, exact POSIX checksums for both manifests, readable headers for
+all 68 slabs, `SimName=AbacusSummit_base_c000_ph002`, and `z=0.2`. The verified
+payload is 168,059,673,012 bytes. The atomic gate is
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/particle_b/AbacusSummit_base_c000_ph002/B_STAGE_COMPLETE.json`;
+the result record is
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002_b_stage_result.json`. The next
+gate is a reduced-grid/four-slab A+B TSC canary with count conservation, followed by
+the full 2048-cubed cost benchmark if it passes.
+
 ### 2026-08-10 — [science/code/runtime] P8 COMPLETE: DarkAI-like D0 rescore narrows the protocol gap; `ph000` development freezes
 
 The requested no-retraining diagnostic has completed on the frozen
