@@ -12,6 +12,7 @@ import argparse
 import datetime as dt
 import hashlib
 import json
+import math
 import os
 import subprocess
 import sys
@@ -32,6 +33,9 @@ from p10_phase_assets import DEFAULT_REGISTRY, load_registry, sha256_file  # noq
 
 class TWebBuildError(RuntimeError):
     """The P10 density input or T-web output contract failed."""
+
+
+MPI_PICKLE_COUNT_LIMIT = 2**31 - 1
 
 
 def utc_now() -> str:
@@ -55,6 +59,37 @@ def balanced_slice(ngrid: int, rank: int, size: int) -> tuple[int, int]:
         return start, start + base + 1
     start = rank * base + remainder
     return start, start + base
+
+
+def max_fft_transpose_message_bytes(ngrid: int, mpi_size: int) -> int:
+    """Conservative largest complex128 message in ``shift``'s slab transpose.
+
+    ``shift.cart.mpi_fft`` redistributes a three-dimensional complex slab with
+    Python-object ``MPI.send``.  A sender/receiver pair can exchange up to
+    ``ceil(N/P) x ceil(N/P) x N`` complex128 values.  mpi4py's pickled-object
+    path uses a signed 32-bit count on the installed stack, so a message at or
+    above 2 GiB fails with ``MPI_ERR_ARG`` before any T-web outputs are written.
+    """
+    if ngrid <= 0 or mpi_size <= 0:
+        raise ValueError("ngrid and mpi_size must be positive")
+    slab = math.ceil(ngrid / mpi_size)
+    return slab * slab * ngrid * np.dtype(np.complex128).itemsize
+
+
+def validate_mpi_layout(ngrid: int, mpi_size: int) -> dict[str, int]:
+    message_bytes = max_fft_transpose_message_bytes(ngrid, mpi_size)
+    if message_bytes >= MPI_PICKLE_COUNT_LIMIT:
+        raise TWebBuildError(
+            "unsafe MPI layout for shift FFT transpose: "
+            f"ngrid={ngrid}, ranks={mpi_size}, worst_message_bytes={message_bytes} "
+            f">= mpi_count_limit={MPI_PICKLE_COUNT_LIMIT}; use more MPI ranks "
+            "(16 ranks is the registered 2048-cubed production layout)"
+        )
+    return {
+        "mpi_size": mpi_size,
+        "worst_fft_transpose_message_bytes": message_bytes,
+        "mpi_pickle_count_limit": MPI_PICKLE_COUNT_LIMIT,
+    }
 
 
 def default_density_paths(registry: dict[str, Any], phase: str) -> tuple[Path, Path]:
@@ -238,6 +273,7 @@ def main() -> int:
     boxsize = float(target["box_size_mpc_h"])
     threshold = float(target["web_threshold"])
     rsmooth = float(target["tidal_smoothing_mpc_h"])
+    mpi_layout = validate_mpi_layout(ngrid, size)
 
     existing = sorted(output_dir.glob("abacus_cactus_tweb_rank*.npz")) if output_dir.exists() else []
     if existing:
@@ -302,6 +338,7 @@ def main() -> int:
             "git_sha": git_sha,
             "slurm_job_id": os.environ.get("SLURM_JOB_ID"),
             "mpi_size": size,
+            "mpi_layout": mpi_layout,
             "density": density_report,
             "target_contract": target,
             "outputs": outputs,
