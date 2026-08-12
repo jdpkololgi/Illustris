@@ -2398,8 +2398,8 @@ Progress checklist:
 
 ### P10 — Multi-phase target generation and training
 
-**Status:** ACTIVE — P8 HANDOFF FROZEN; PH002 TARGET/OBSERVATION TRUTH CHAIN
-COMPLETE; PH002 P1 AND PH006 DENSITY ACTIVE; PH003--PH005 B RESTORE QUEUED
+**Status:** ACTIVE — P8 HANDOFF FROZEN; PH002 TARGET/OBSERVATION/P1 COMPLETE;
+PH002 P2 GRAPH AND PH006 DENSITY ACTIVE; PH003--PH005 B RESTORE QUEUED
 **Duration:** scope after one-phase benchmark; likely days to weeks
 
 Reserve:
@@ -2591,10 +2591,17 @@ Progress checklist:
   complete labels and exact RA/DEC linkage; it completed in 51.25 seconds.
   Artifacts:
   `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/observed/ph002_bgs_bright_full_observed_with_tweb.fits{,.complete.json}`.
-- [ ] Build and validate ph002 P1 canonical indexing. The phase-generic builder
+- [x] Build and validate ph002 P1 canonical indexing. The phase-generic builder
   freezes the successful-redshift FITS rows, identity node IDs, Galactic-cap labels,
   shell/active/context masks, and Planck18 Cartesian points in Mpc:
-  `workflows/abacus_tweb/p10_build_phase_index.py`. Real build allocation: `56763306`.
+  `workflows/abacus_tweb/p10_build_phase_index.py`. The result has `7,370,124`
+  parent rows, `6,256,475` context rows, `4,988,277` active targets and shell counts
+  `2,714,747 / 1,649,261 / 553,052 / 71,217`. The `2,379,758` rows with invalid
+  BOX_INDEX remain context-only. Artifacts:
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p1_canonical/{canonical_index.npz,points.npy,CATALOGUE_COMPLETE.json}`.
+- [ ] Build and validate the fresh ph002 P2 graph/metric branch. The disconnected-cap
+  Delaunay construction from the exact P1 points is active in allocation `56763306`;
+  log: `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/logs/ph002_p2_graph_56763306.out`.
 - [ ] Finish sequential B restores for ph003, ph004, and ph005. The persistent
   supervisor is tmux session `p10_stage_training_phases`; ph003 is currently
   inside HTAR extraction and ph004/ph005 are queued. ph006 B is already online.

@@ -60,7 +60,17 @@ It treats that successful-redshift FITS table as the immutable canonical row tab
 then writes only stable row IDs, Galactic cap, shell/active/context masks and Planck18
 observer-frame Cartesian points in Mpc. P2 graph construction and P3 fields must consume
 the same point/mask identity. Twenty-four focused P10 tests pass. The real ph002 P1
-build is the next action in interactive allocation 56763306.
+build completed in 20.87 seconds with 1.69 GB peak RSS. It freezes 7,370,124 parent
+rows, 6,256,475 context rows and 4,988,277 active targets; shell counts are
+2,714,747 / 1,649,261 / 553,052 / 71,217. NGC/SGC contain 5,218,760 / 2,151,364
+parent rows. The 2,379,758 `BOX_INDEX<0` rows remain context-only and never enter
+loss or evaluation. Artifacts and the atomic gate are under
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p1_canonical/`.
+
+The phase-generic points input was then enabled in the established graph builder.
+A fresh ph002 Delaunay construction is active in allocation 56763306, separately
+triangulating the two Galactic caps from the exact P1 points. No phase feature is
+exposed to the graph.
 
 The ph002 convention audit now passes against ph000: both record c000, z=0.2,
 2000 Mpc/h, 2048-cubed, R=7 Mpc/h and threshold 0.2, while a 100,000-row ph000
@@ -70,13 +80,13 @@ particles. Density, T-web and annotation required 47.23, 7.65 and 5.81 minutes,
 respectively; the B restore required 2.39 hours of wall time.
 
 This closes ph002's target/observation truth chain, not the complete model-ready phase.
-Fresh P1 canonical indexing, P2 graph/metrics, P3 fields and P4 shared patches are
-still required. In parallel, the persistent tmux
+P2 graph/metrics, P3 fields and P4 shared patches are still required. In parallel,
+the persistent tmux
 supervisor is restoring ph003
 B from HPSS with ph004/ph005 queued, and the full ph006 2048-cubed density build has
 started in interactive allocation 56762868 from its already-online A+B particles.
 ph001 truth remains sealed and untouched. Relevant commits: `a5b513d`, `a54f4d7`,
-`8795bb3`, `781181a`, and `eb8a268`; the P1 builder is the next commit.
+`8795bb3`, `781181a`, `eb8a268`, `6de923c`, `a4e227f`, and `6d09a57`.
 
 ### 2026-08-11 — [science/code/runtime] P10 begins: uniform 10% A+B particle contract and all-phase source gate pass
 
