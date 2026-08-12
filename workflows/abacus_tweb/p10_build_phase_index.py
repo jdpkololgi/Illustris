@@ -160,9 +160,12 @@ def main() -> int:
     finite = np.isfinite(eigenvalues).all(axis=1)
     ordered = (eigenvalues[:, 0] <= eigenvalues[:, 1]) & (eigenvalues[:, 1] <= eigenvalues[:, 2])
     class_expected = np.sum(eigenvalues > 0.2, axis=1).astype(np.int8)
-    valid_target = finite & ordered & (np.asarray(table["BOX_INDEX"]) >= 0)
-    if not np.all(valid_target):
-        raise PhaseIndexError(f"{int((~valid_target).sum())} observed rows lack valid ordered truth")
+    box_valid = np.asarray(table["BOX_INDEX"]) >= 0
+    valid_target = finite & ordered & box_valid
+    if not np.all(finite & ordered):
+        raise PhaseIndexError(
+            f"{int((~(finite & ordered)).sum())} observed rows lack finite ordered truth"
+        )
     if not np.array_equal(class_expected, np.asarray(table["CWEB"], dtype=np.int8)):
         raise PhaseIndexError("CWEB disagrees with thresholded eigenvalues")
 
@@ -236,8 +239,14 @@ def main() -> int:
             "SGC": int(np.count_nonzero(cap == 0)),
             "active": int(np.count_nonzero(active)),
             "context": int(np.count_nonzero(context)),
+            "valid_target": int(np.count_nonzero(valid_target)),
+            "context_only_invalid_box_index": int(np.count_nonzero(~box_valid)),
             "by_shell": by_shell,
         },
+        "box_index_policy": (
+            "BOX_INDEX<0 rows retain observed geometry as context but never become "
+            "authoritative supervised/evaluation rows, matching the frozen ph000 P1b contract"
+        ),
         "target_contract": registry["target_contract"],
         "no_train_fitted_normalisation": True,
         "no_split_filtering": True,
