@@ -49,8 +49,18 @@ full final-view source is the unsuffixed `BGS_BRIGHT_full_HPmapcut.dat.fits`, wi
 9,214,624 rows, 7,370,124 finite positive `ZWARN==0` redshifts, and 4,988,277 such
 rows in `0.15<=z<0.55`. `p10_build_observed_truth.py` now selects this source and
 names the output `*_bgs_bright_full_observed_with_tweb.fits`; regression tests forbid
-reintroducing mock-number suffix inference. The corrected full join remains pending
-while the active node builds ph006 density.
+reintroducing mock-number suffix inference. The corrected join completed in 51.25
+seconds with 3.13 GB peak RSS. Its 7,370,124 TARGETIDs are unique, every label is
+complete, and maximum RA/DEC linkage discrepancies are zero. The 1.40-GB FITS product
+and atomic record are
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/observed/ph002_bgs_bright_full_observed_with_tweb.fits{,.complete.json}`.
+
+A representation-neutral, phase-generic P1 builder is now implemented and tested.
+It treats that successful-redshift FITS table as the immutable canonical row table,
+then writes only stable row IDs, Galactic cap, shell/active/context masks and Planck18
+observer-frame Cartesian points in Mpc. P2 graph construction and P3 fields must consume
+the same point/mask identity. Twenty-four focused P10 tests pass. The real ph002 P1
+build is the next action in interactive allocation 56763306.
 
 The ph002 convention audit now passes against ph000: both record c000, z=0.2,
 2000 Mpc/h, 2048-cubed, R=7 Mpc/h and threshold 0.2, while a 100,000-row ph000
@@ -59,14 +69,14 @@ The complete ph002 benchmark occupies about 142 GiB plus 157 GiB for the staged 
 particles. Density, T-web and annotation required 47.23, 7.65 and 5.81 minutes,
 respectively; the B restore required 2.39 hours of wall time.
 
-This closes ph002's target-truth chain, not the complete model-ready phase. The
-corrected full observed join plus fresh P1 canonical indexing, P2 graph/metrics, P3
-fields and P4 shared patches are still required. In parallel, the persistent tmux
+This closes ph002's target/observation truth chain, not the complete model-ready phase.
+Fresh P1 canonical indexing, P2 graph/metrics, P3 fields and P4 shared patches are
+still required. In parallel, the persistent tmux
 supervisor is restoring ph003
 B from HPSS with ph004/ph005 queued, and the full ph006 2048-cubed density build has
 started in interactive allocation 56762868 from its already-online A+B particles.
 ph001 truth remains sealed and untouched. Relevant commits: `a5b513d`, `a54f4d7`,
-`8795bb3`, and `781181a`; the full-view correction is the next commit.
+`8795bb3`, `781181a`, and `eb8a268`; the P1 builder is the next commit.
 
 ### 2026-08-11 — [science/code/runtime] P10 begins: uniform 10% A+B particle contract and all-phase source gate pass
 

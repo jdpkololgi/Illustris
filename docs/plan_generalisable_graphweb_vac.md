@@ -2398,8 +2398,8 @@ Progress checklist:
 
 ### P10 — Multi-phase target generation and training
 
-**Status:** ACTIVE — P8 HANDOFF FROZEN; PH002 TARGET-TRUTH CHAIN COMPLETE;
-FULL OBSERVED JOIN CORRECTED/QUEUED; PH006 DENSITY ACTIVE; PH003--PH005 B RESTORE QUEUED
+**Status:** ACTIVE — P8 HANDOFF FROZEN; PH002 TARGET/OBSERVATION TRUTH CHAIN
+COMPLETE; PH002 P1 AND PH006 DENSITY ACTIVE; PH003--PH005 B RESTORE QUEUED
 **Duration:** scope after one-phase benchmark; likely days to weeks
 
 Reserve:
@@ -2580,15 +2580,21 @@ Progress checklist:
   Product and audit:
   `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/annotated_parent/ph002_bgs_bright_parent_with_tweb_eigs_rs7_ngrid2048_thr0p2_15d.fits` and
   `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/logs/ph002_annotated_parent_audit_56762868.out`.
-- [ ] Join the annotated parent truth to the frozen **full** final LSS observation
+- [x] Join the annotated parent truth to the frozen **full** final LSS observation
   view by TARGETID and prove row, redshift, linkage, and label completeness
   contracts. A pre-P1 lineage audit caught that `BGS_BRIGHT-02` is a restricted
   tracer product, not the mock-2 spelling: its 1,427,814-row joined output is
   deprecated and forbidden as a training input. The correct unsuffixed
   `BGS_BRIGHT_full_HPmapcut.dat.fits` source contains `9,214,624` rows,
   `7,370,124` successful redshifts, and `4,988,277` successful rows in
-  `0.15<=z<0.55`. The corrected default output is
-  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/observed/ph002_bgs_bright_full_observed_with_tweb.fits`.
+  `0.15<=z<0.55`. The corrected 7,370,124-row join has unique TARGETIDs,
+  complete labels and exact RA/DEC linkage; it completed in 51.25 seconds.
+  Artifacts:
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/observed/ph002_bgs_bright_full_observed_with_tweb.fits{,.complete.json}`.
+- [ ] Build and validate ph002 P1 canonical indexing. The phase-generic builder
+  freezes the successful-redshift FITS rows, identity node IDs, Galactic-cap labels,
+  shell/active/context masks, and Planck18 Cartesian points in Mpc:
+  `workflows/abacus_tweb/p10_build_phase_index.py`. Real build allocation: `56763306`.
 - [ ] Finish sequential B restores for ph003, ph004, and ph005. The persistent
   supervisor is tmux session `p10_stage_training_phases`; ph003 is currently
   inside HTAR extraction and ph004/ph005 are queued. ph006 B is already online.
