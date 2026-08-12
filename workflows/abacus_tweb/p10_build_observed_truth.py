@@ -22,7 +22,7 @@ for import_root in (REPO_ROOT, WORKFLOW_DIR):
     if str(import_root) not in sys.path:
         sys.path.insert(0, str(import_root))
 
-from p10_phase_assets import DEFAULT_REGISTRY, expand_phase, load_registry, sha256_file  # noqa: E402
+from p10_phase_assets import DEFAULT_REGISTRY, load_registry, sha256_file  # noqa: E402
 
 
 LABEL_COLUMNS = (
@@ -64,15 +64,18 @@ def default_annotated_parent(registry: dict[str, Any], phase: str) -> Path:
 
 
 def default_lss(registry: dict[str, Any], phase: str) -> Path:
-    cfg = registry["phases"][phase]
-    root = Path(expand_phase(registry, phase)["assets"]["lss"])
-    mock = int(cfg["mock"])
-    return root / f"BGS_BRIGHT-{mock:02d}_full_HPmapcut.dat.fits"
+    mock = int(registry["phases"][phase]["mock"])
+    root = Path(registry["path_templates"]["lss"].format(mock=mock, phase=phase))
+    # The enclosing mock{N}/LSScats directory already selects the mock/phase.
+    # Names such as BGS_BRIGHT-02 are restricted tracer products and must not be
+    # inferred from the mock number.  The unsuffixed BGS_BRIGHT file is the full
+    # final-view Bright catalogue used by the production observation contract.
+    return root / "BGS_BRIGHT_full_HPmapcut.dat.fits"
 
 
 def default_output(registry: dict[str, Any], phase: str) -> Path:
     root = Path(registry["path_templates"]["phase_output"].format(phase=phase))
-    return root / "catalogues/observed" / f"{phase}_bgs_bright_observed_with_tweb.fits"
+    return root / "catalogues/observed" / f"{phase}_bgs_bright_full_observed_with_tweb.fits"
 
 
 def observed_success_mask(table: np.ndarray) -> np.ndarray:

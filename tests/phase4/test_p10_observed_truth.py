@@ -1,8 +1,13 @@
 import unittest
+from pathlib import Path
 
 import numpy as np
 
-from workflows.abacus_tweb.p10_build_observed_truth import observed_success_mask
+from workflows.abacus_tweb.p10_build_observed_truth import (
+    default_lss,
+    default_output,
+    observed_success_mask,
+)
 
 
 class P10ObservedTruthTests(unittest.TestCase):
@@ -12,6 +17,31 @@ class P10ObservedTruthTests(unittest.TestCase):
             dtype=[("Z_not4clus", "f8"), ("ZWARN", "i8")],
         )
         self.assertEqual(observed_success_mask(table).tolist(), [True, False, False, False])
+
+    def test_default_lss_uses_full_bright_not_mock_number_suffix(self):
+        registry = {
+            "path_templates": {
+                "lss": "/data/mock{mock}/LSScats",
+                "phase_output": "/scratch/{phase}",
+            },
+            "phases": {"ph002": {"mock": 2}},
+        }
+        self.assertEqual(
+            default_lss(registry, "ph002"),
+            Path("/data/mock2/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits"),
+        )
+        self.assertNotIn("BGS_BRIGHT-02", str(default_lss(registry, "ph002")))
+
+    def test_default_output_names_full_observation_contract(self):
+        registry = {
+            "path_templates": {"phase_output": "/scratch/{phase}"},
+            "phases": {"ph002": {"mock": 2}},
+        }
+        self.assertEqual(
+            default_output(registry, "ph002"),
+            Path("/scratch/ph002/catalogues/observed/"
+                 "ph002_bgs_bright_full_observed_with_tweb.fits"),
+        )
 
 
 if __name__ == "__main__":
