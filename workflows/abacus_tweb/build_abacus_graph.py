@@ -346,6 +346,14 @@ def parse_args() -> argparse.Namespace:
             "When set, this takes precedence over --points-path."
         ),
     )
+    parser.add_argument(
+        "--use-points-path",
+        action="store_true",
+        help=(
+            "Consume --points-path even though the legacy CLI has a non-empty "
+            "--catalog-path default. Required by phase-generic P10/P1 products."
+        ),
+    )
     parser.add_argument("--ra-col", default="RA", help="RA column name in FITS catalog.")
     parser.add_argument("--dec-col", default="DEC", help="DEC column name in FITS catalog.")
     parser.add_argument(
@@ -446,7 +454,10 @@ def main() -> None:
     require_cpu_mpi_slurm("build_abacus_graph.py", min_tasks=1)
 
     points_path = Path(args.points_path).expanduser().resolve()
-    catalog_path = Path(args.catalog_path).expanduser().resolve() if args.catalog_path else None
+    catalog_path = (
+        None if args.use_points_path
+        else Path(args.catalog_path).expanduser().resolve() if args.catalog_path else None
+    )
     output_dir = Path(args.output_dir).expanduser().resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
 
