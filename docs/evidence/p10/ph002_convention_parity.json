@@ -1,0 +1,44 @@
+{
+  "schema_version": "p10-convention-parity-v1",
+  "created_utc": "2026-08-12T14:29:11Z",
+  "reference_phase": "ph000",
+  "candidate_phase": "ph002",
+  "reference_tweb_directory": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7",
+  "candidate_tweb_directory": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7",
+  "target_metadata": {
+    "ngrid": 2048,
+    "boxsize_mpc_h": 2000.0,
+    "redshift": 0.2,
+    "smoothing_mpc_h": 7.0,
+    "web_threshold": 0.2,
+    "metadata_equal": true
+  },
+  "reference_annotation": {
+    "path": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_20260427_rsmooth_7/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000_with_tweb_eigs_rs7_ngrid2048_thr0p2_15d.fits",
+    "rows": 63897781,
+    "audited_rows": 100000,
+    "finite": true,
+    "ordered": true,
+    "class_consistent": true,
+    "sample_mean_eigenvalues": [
+      -0.14013387262821198,
+      0.15304872393608093,
+      0.4201790690422058
+    ]
+  },
+  "candidate_annotation": {
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/annotated_parent/ph002_bgs_bright_parent_with_tweb_eigs_rs7_ngrid2048_thr0p2_15d.fits",
+    "rows": 10619510,
+    "audited_rows": 10619510,
+    "finite": true,
+    "ordered": true,
+    "class_consistent": true,
+    "mean_eigenvalues": [
+      -0.1399565457822442,
+      0.15560874439475078,
+      0.42242880085804335
+    ]
+  },
+  "verified": true,
+  "interpretation": "Target metadata, eigenvalue ordering, and threshold-class semantics match the ph000 convention. Field equality is neither expected nor tested across independent phases."
+}

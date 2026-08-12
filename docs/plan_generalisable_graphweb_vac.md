@@ -2398,8 +2398,8 @@ Progress checklist:
 
 ### P10 — Multi-phase target generation and training
 
-**Status:** ACTIVE — P8 HANDOFF FROZEN; UNIFORM A+B PARTICLE CONTRACT VERIFIED;
-REGISTRY, STAGING PREFLIGHT, AND ONE-PHASE BENCHMARK NEXT
+**Status:** ACTIVE — P8 HANDOFF FROZEN; PH002 TARGET/OBSERVATION TRUTH CHAIN
+COMPLETE; PH006 DENSITY ACTIVE; PH003--PH005 B RESTORE QUEUED
 **Duration:** scope after one-phase benchmark; likely days to weeks
 
 Reserve:
@@ -2559,8 +2559,48 @@ Progress checklist:
   `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/density/canary/AbacusSummit_base_c000_ph002_z0.200_ngrid1024_ab10_tsc_counts_1perdir.{npy,manifest.json}`;
   runtime logs:
   `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/logs/ph002_density_canary1024_56669668.{out,err}`.
-- [ ] Benchmark one 2048-cubed target-generation run and record cost/storage.
-- [ ] Validate target convention and annotation parity against ph000.
+- [x] Build the complete ph002 2048-cubed, 136-slab 10% A+B TSC density field.
+  It contains `33,022,530,364` particles, has relative count error
+  `9.4491e-8`, required 2833.80 seconds, and is stored at
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/density/AbacusSummit_base_c000_ph002_z0.200_ngrid2048_ab10_tsc_counts.{npy,manifest.json}`.
+- [x] Implement and run the phase-generic T-web MPI stage. An eight-rank launch
+  failed cleanly before output because its largest complex transpose message was
+  exactly 2 GiB; `p10_run_tweb.py` now preflights that MPI limit. The registered
+  16-rank/four-node layout completed in 7m39s and wrote 16 contiguous rank products
+  totaling 111,669,184,864 bytes. Atomic gate:
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json`.
+- [x] Reconstruct the compact ph002 BRIGHT parent catalogue with halo linkage by
+  exact matching to the frozen public forFA BRIGHT rows. All `10,619,510` rows
+  pass TARGETID and RA/DEC/true-z/RSD-z/magnitude parity with zero maximum
+  discrepancy. Artifacts:
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/bright_parent/ph002_bgs_bright_parent_linkage.fits{,.complete.json}`.
+- [x] Complete and validate compact ph002 T-web annotation on the BRIGHT parent.
+  All `10,619,510` rows map, none are skipped, and every row has finite ordered
+  eigenvalues and threshold-consistent CWEB class. Runtime was 5.81 minutes.
+  Product and audit:
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/annotated_parent/ph002_bgs_bright_parent_with_tweb_eigs_rs7_ngrid2048_thr0p2_15d.fits` and
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/logs/ph002_annotated_parent_audit_56762868.out`.
+- [x] Join the annotated parent truth to the frozen final LSS observation view by
+  TARGETID and prove row, redshift, linkage, and label completeness contracts.
+  The output has `1,427,814` successful-redshift rows (`1,342,848` in
+  `0.15<=z<0.55`), unique TARGETIDs, complete labels, and zero maximum RA/DEC
+  discrepancy. Artifacts:
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/observed/ph002_bgs_bright_observed_with_tweb.fits{,.complete.json}`.
+- [ ] Finish sequential B restores for ph003, ph004, and ph005. The persistent
+  supervisor is tmux session `p10_stage_training_phases`; ph003 is currently
+  inside HTAR extraction and ph004/ph005 are queued. ph006 B is already online.
+- [x] Benchmark one 2048-cubed target-generation run and record cost/storage.
+  The ph002 phase directory occupies about 142 GiB and the staged B particles
+  another 157 GiB. Density, T-web and annotation required 47.23, 7.65 and
+  5.81 minutes respectively; B restoration required 2.39 hours. The failed
+  eight-rank T-web attempt is retained as MPI-layout evidence and wrote no product.
+- [x] Validate target convention and annotation parity against ph000. Both phases
+  record c000, z=0.2, 2000 Mpc/h, 2048-cubed, R=7 Mpc/h and threshold 0.2;
+  finite/order/class checks pass on all ph002 rows and a 100,000-row ph000 sample.
+  Tracked evidence: `docs/evidence/p10/ph002_convention_parity.json`.
+- [ ] Complete the ph006 validation-phase truth chain. Its full 2048-cubed density
+  build started in interactive allocation `56762868`; runtime log:
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/logs/ph006_density_56762868.out`.
 - [ ] Freeze phase roles and a signed blind-evaluation manifest.
 - [ ] Build fresh P1-P4 products for training/validation phases.
 - [ ] Train and freeze finalists without reading ph001 truth metrics.

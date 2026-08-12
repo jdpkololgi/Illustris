@@ -1,5 +1,68 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-12 — [science/code/runtime] P10 ph002 truth/observation chain complete; ph006 density begins
+
+The ph002 production density and T-web truth products now exist and pass their
+frozen contracts. The complete 136-slab 10% A+B TSC build produced a
+`2048^3` float32 count grid from `33,022,530,364` particles. It deposited
+`33,022,527,243.663353` counts, for relative conservation error
+`9.4491e-8`, in 2833.80 seconds. The 34.36-GB grid and manifest are
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/density/AbacusSummit_base_c000_ph002_z0.200_ngrid2048_ab10_tsc_counts.{npy,manifest.json}`.
+
+The first T-web launch used eight MPI ranks and exposed a precise infrastructure
+limit rather than a scientific failure: `shift`'s Python-object FFT transpose
+formed a `256 x 256 x 2048` complex128 message, exactly 2 GiB, which the
+installed mpi4py stack rejected with `MPI_ERR_ARG`. No rank products were written.
+`p10_run_tweb.py` now rejects unsafe layouts before the FFT and records the
+worst transpose-message size. The clean 16-rank retry on four CPU nodes completed
+in 7m39s, with about 52.7 GB peak RSS per rank. Sixteen contiguous outputs cover
+`x=[0,2048)`, total 111,669,184,864 bytes, and carry the frozen c000/ph002,
+z=0.2, 2000 Mpc/h, 2048-cubed, R=7 Mpc/h, threshold-0.2 contract. The atomic
+gate is
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json`.
+
+The public `forFA2_nomask.fits` deliberately omits halo linkage. A phase-generic
+compact-parent builder now exact-matches the authoritative BRIGHT
+`(RA, DEC, RSDZ)` keys back to CutSky rather than replaying a software-version-
+dependent tile radius. This decision was forced by a useful failed gate: the
+current `desimodel` footprint selected 10,824,544 rows, not the frozen forFA
+count 10,619,510. The exact-key product recovers all 10,619,510 BRIGHT parents,
+has sequential TARGETIDs, unique matching keys, and zero maximum discrepancy in
+RA, DEC, true/RSD redshift, and apparent r magnitude. The 594.7-MB parent and
+atomic parity record are
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/bright_parent/ph002_bgs_bright_parent_linkage.fits{,.complete.json}`.
+
+The compact parent-to-T-web annotation subsequently completed in 5.81 minutes.
+All 10,619,510 rows mapped to host-halo voxels with zero skipped rows; every row
+has finite ordered eigenvalues and a class consistent with the frozen threshold.
+The audited product is
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/annotated_parent/ph002_bgs_bright_parent_with_tweb_eigs_rs7_ngrid2048_thr0p2_15d.fits`.
+Its mean `(lambda1,lambda2,lambda3)` is
+`(-0.1399565,0.1556087,0.4224288)`.
+
+The phase-generic observed-truth join is also complete. It takes the frozen final
+Kibo LSS view, selects finite positive `Z_not4clus` with `ZWARN==0`, and joins by
+TARGETID to the annotated parent. The output contains 1,427,814 successful rows,
+of which 1,342,848 lie in `0.15<=z<0.55`; TARGETIDs are unique, labels complete,
+and maximum RA/DEC join discrepancies are zero. The FITS product and atomic record
+are
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/observed/ph002_bgs_bright_observed_with_tweb.fits{,.complete.json}`.
+
+The ph002 convention audit now passes against ph000: both record c000, z=0.2,
+2000 Mpc/h, 2048-cubed, R=7 Mpc/h and threshold 0.2, while a 100,000-row ph000
+annotation sample passes finite-value, eigenvalue-order and CWEB consistency checks.
+The complete ph002 benchmark occupies about 142 GiB plus 157 GiB for the staged B
+particles. Density, T-web and annotation required 47.23, 7.65 and 5.81 minutes,
+respectively; the B restore required 2.39 hours of wall time.
+
+This closes ph002's target/observation truth chain, not the complete model-ready
+phase. Fresh P1 canonical indexing, P2 graph/metrics, P3 fields and P4 shared patches
+are still required. In parallel, the persistent tmux supervisor is restoring ph003
+B from HPSS with ph004/ph005 queued, and the full ph006 2048-cubed density build has
+started in interactive allocation 56762868 from its already-online A+B particles.
+ph001 truth remains sealed and untouched. Relevant commits: `a5b513d`, `a54f4d7`,
+`8795bb3`, and `781181a`.
+
 ### 2026-08-11 — [science/code/runtime] P10 begins: uniform 10% A+B particle contract and all-phase source gate pass
 
 The earlier particle-availability statement was too broad. The 7% B snapshot
