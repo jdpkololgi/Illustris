@@ -4,10 +4,11 @@
 The public ``forFA{mock}_nomask.fits`` products deliberately omit the CutSky
 ``(FILE_NUM, HALO_INDEX, BOX_INDEX)`` columns needed for T-web truth.  Their
 TARGETIDs are, however, assigned sequentially *after* the deterministic
-BRIGHT magnitude and DESI bright-tile footprint selection.  This command
-replays that exact selection on the registered CutSky catalogue, retains the
-linkage columns, and proves row-for-row identity against the public forFA
-BRIGHT block before writing an atomic completion manifest.
+BRIGHT magnitude and DESI bright-tile footprint selection.  The exact tile
+radius is software-release dependent, so this command makes the frozen public
+forFA rows authoritative and exact-matches their ``(RA, DEC, RSDZ)`` keys back
+to the registered CutSky catalogue.  It retains the linkage columns and proves
+row-for-row identity before writing an atomic completion manifest.
 """
 
 from __future__ import annotations
@@ -19,7 +20,7 @@ import os
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 import fitsio
 import numpy as np
@@ -41,6 +42,7 @@ from p10_phase_assets import (  # noqa: E402
 
 BRIGHT_BIT = 2
 DEFAULT_R_LIMIT = 19.5
+KEY_DTYPE = np.dtype([("RA", "f8"), ("DEC", "f8"), ("Z", "f4")])
 CUTSKY_COLUMNS = (
     "RA",
     "DEC",
@@ -72,7 +74,7 @@ def default_output(registry: dict[str, Any], phase: str) -> Path:
     return root / "catalogues/bright_parent" / f"{phase}_bgs_bright_parent_linkage.fits"
 
 
-def compact_parent_block(selected: np.ndarray, target_start: int) -> np.ndarray:
+def compact_parent_block(selected: np.ndarray, targetids: np.ndarray) -> np.ndarray:
     dtype = [
         ("TARGETID", "i8"),
         ("RA", "f8"),
@@ -86,30 +88,55 @@ def compact_parent_block(selected: np.ndarray, target_start: int) -> np.ndarray:
         ("BOX_INDEX", "i4"),
     ]
     block = np.empty(len(selected), dtype=dtype)
-    block["TARGETID"] = np.arange(target_start, target_start + len(selected), dtype=np.int64)
+    block["TARGETID"] = np.asarray(targetids, dtype=np.int64)
     for column in ("RA", "DEC", "Z", "Z_COSMO", "R_MAG_APP", "FILE_NUM", "HALO_INDEX", "BOX_INDEX"):
         block[column] = selected[column]
     block["BGS_TARGET"] = BRIGHT_BIT
     return block
 
 
-def select_bright_chunk(
+def make_keys(ra: np.ndarray, dec: np.ndarray, z: np.ndarray) -> np.ndarray:
+    keys = np.empty(len(ra), dtype=KEY_DTYPE)
+    keys["RA"] = ra
+    keys["DEC"] = dec
+    keys["Z"] = z
+    return keys
+
+
+def build_forfa_key_index(path: Path, n_bright: int, chunk_size: int) -> tuple[np.ndarray, np.ndarray]:
+    keys = np.empty(n_bright, dtype=KEY_DTYPE)
+    targetids = np.empty(n_bright, dtype=np.int64)
+    with fitsio.FITS(path) as fits:
+        hdu = fits[1]
+        for start in range(0, n_bright, chunk_size):
+            stop = min(start + chunk_size, n_bright)
+            data = hdu[start:stop][["TARGETID", "RA", "DEC", "RSDZ"]]
+            keys[start:stop] = make_keys(data["RA"], data["DEC"], data["RSDZ"])
+            targetids[start:stop] = data["TARGETID"]
+    order = np.argsort(keys, order=("RA", "DEC", "Z"), kind="stable")
+    keys = keys[order]
+    targetids = targetids[order]
+    if np.any(keys[1:] == keys[:-1]):
+        raise BrightParentError("forFA BRIGHT (RA, DEC, RSDZ) keys are not unique")
+    return keys, targetids
+
+
+def match_bright_chunk(
     table: np.ndarray,
     *,
     r_limit: float,
-    footprint_selector: Callable[[np.ndarray, np.ndarray], np.ndarray],
-) -> np.ndarray:
-    bright = np.asarray(table["R_MAG_APP"] < r_limit)
-    indices = np.flatnonzero(bright)
+    sorted_keys: np.ndarray,
+    sorted_targetids: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray]:
+    indices = np.flatnonzero(np.asarray(table["R_MAG_APP"] < r_limit))
     if not len(indices):
-        return table[:0]
-    inside = np.asarray(
-        footprint_selector(table["RA"][indices], table["DEC"][indices]),
-        dtype=bool,
-    )
-    if inside.shape != (len(indices),):
-        raise BrightParentError("footprint selector returned an invalid shape")
-    return table[indices[inside]]
+        return table[:0], np.empty(0, dtype=np.int64)
+    candidates = make_keys(table["RA"][indices], table["DEC"][indices], table["Z"][indices])
+    positions = np.searchsorted(sorted_keys, candidates)
+    within = positions < len(sorted_keys)
+    matched = np.zeros(len(indices), dtype=bool)
+    matched[within] = sorted_keys[positions[within]] == candidates[within]
+    return table[indices[matched]], sorted_targetids[positions[matched]]
 
 
 def scan_forfa_bright_contract(path: Path, chunk_size: int) -> dict[str, int]:
@@ -193,12 +220,10 @@ def main() -> int:
     if output.exists() or marker.exists():
         raise BrightParentError(f"refusing to overwrite existing parent artifact: {output} / {marker}")
 
-    from astropy.table import Table
-    from desimodel.footprint import is_point_in_desi
-
-    tiles_path = Path("/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/tiles-BRIGHT.fits")
-    tiles = Table.read(tiles_path)
     contract = scan_forfa_bright_contract(forfa, args.chunk_size)
+    sorted_keys, sorted_targetids = build_forfa_key_index(
+        forfa, contract["bright_rows"], args.chunk_size
+    )
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = output.with_name(f".{output.name}.{os.getpid()}.tmp")
     writer = fitsio.FITS(temporary, "rw", clobber=True)
@@ -212,13 +237,19 @@ def main() -> int:
             for start in range(0, source_rows, args.chunk_size):
                 stop = min(start + args.chunk_size, source_rows)
                 chunk = hdu[start:stop][list(CUTSKY_COLUMNS)]
-                selected = select_bright_chunk(
+                selected, targetids = match_bright_chunk(
                     chunk,
                     r_limit=args.r_limit,
-                    footprint_selector=lambda ra, dec: is_point_in_desi(tiles, ra, dec),
+                    sorted_keys=sorted_keys,
+                    sorted_targetids=sorted_targetids,
                 )
                 if len(selected):
-                    block = compact_parent_block(selected, next_targetid)
+                    expected = np.arange(next_targetid, next_targetid + len(selected), dtype=np.int64)
+                    if not np.array_equal(targetids, expected):
+                        raise BrightParentError(
+                            f"CutSky/forFA order mismatch near TARGETID={next_targetid}"
+                        )
+                    block = compact_parent_block(selected, targetids)
                     if first:
                         writer.write(block, extname="PARENT")
                         first = False
@@ -255,7 +286,11 @@ def main() -> int:
         "git_sha": git_sha,
         "registry": str(args.registry.resolve()),
         "registry_sha256": sha256_file(args.registry),
-        "selection": {"r_mag_app_lt": args.r_limit, "footprint": str(tiles_path)},
+        "selection": {
+            "r_mag_app_lt": args.r_limit,
+            "linkage": "exact public-forFA BRIGHT (RA, DEC, RSDZ) key match",
+            "key_unique": True,
+        },
         "cutsky": {"path": str(cutsky), "rows": source_rows},
         "forfa": {"path": str(forfa), **contract},
         "output": {
