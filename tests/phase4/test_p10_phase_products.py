@@ -8,9 +8,25 @@ import numpy as np
 from workflows.abacus_tweb.p10_build_blind_observed_geometry import output_dtype
 from workflows.abacus_tweb.p10_build_phase_graph import concatenate_npy
 from workflows.abacus_tweb.p10_build_phase_index import write_compatibility_manifest
+from workflows.abacus_tweb.p10_validate_phase_products import atomic_json, phase_paths
 
 
 class P10PhaseProductTests(unittest.TestCase):
+    def test_phase_paths_include_frozen_truth_products(self):
+        registry = {"path_templates": {"phase_output": "/tmp/p10/{phase}"}}
+        paths = phase_paths(registry, "ph004")
+        self.assertEqual(
+            paths["density"].name,
+            "AbacusSummit_base_c000_ph004_z0.200_ngrid2048_ab10_tsc_counts.manifest.json",
+        )
+        self.assertEqual(paths["tweb"].name, "TWEB_COMPLETE.json")
+
+    def test_atomic_json_serializes_numpy_gate_scalars(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "marker.json"
+            atomic_json(output, {"pass": np.bool_(True), "count": np.int64(7)})
+            self.assertEqual(json.loads(output.read_text()), {"pass": True, "count": 7})
+
     def test_blind_observed_dtype_has_linkage_but_no_truth(self):
         names = set(output_dtype().names)
         self.assertTrue({"TARGETID", "RA", "DEC", "Z", "FILE_NUM", "HALO_INDEX", "BOX_INDEX"} <= names)

@@ -2600,7 +2600,7 @@ Progress checklist:
   `2,714,747 / 1,649,261 / 553,052 / 71,217`. The `2,379,758` rows with invalid
   BOX_INDEX remain context-only. Artifacts:
   `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p1_canonical/{canonical_index.npz,points.npy,CATALOGUE_COMPLETE.json}`.
-- [ ] Build and validate the fresh ph002 P2 graph/metric branch.
+- [x] Build and validate the fresh ph002 P2 graph/metric branch.
   - [x] Run the first disconnected-cap Delaunay construction from the exact P1 points.
     Allocation `56763306` processed more than 148 million NGC and 61 million SGC
     simplices but ended without an atomic marker or saved output. The output directory
@@ -2610,9 +2610,9 @@ Progress checklist:
     builder so a completed cap survives interruption of the second cap.
     Implemented in `workflows/abacus_tweb/p10_build_phase_graph.py`; NGC/SGC outputs
     retain immutable P1 parent-row IDs and are hash-gated before merge.
-  - [ ] Rerun/finish NGC+SGC graph construction, validate disconnected-cap identity and
+  - [x] Rerun/finish NGC+SGC graph construction, validate disconnected-cap identity and
     exact P1 row mapping, and write the atomic graph marker.
-  - [ ] Compute and validate the frozen global node/edge metrics in `rapids-gnn`, then
+  - [x] Compute and validate the frozen global node/edge metrics in `rapids-gnn`, then
     write the P2 metric marker.
 - [x] Finish sequential B restores for ph003, ph004, and ph005. The persistent
   supervisor completed cleanly at 2026-08-12T22:05:00Z. All three phases have verified
@@ -2653,8 +2653,8 @@ Progress checklist:
   forbidden; the terminal marker is `BLIND_INPUT_COMPLETE.json`. Truth unsealing and
   scored evaluation remain downstream of frozen predictions.
 - [ ] Complete the automated ph001--ph005 campaign.
-  - [x] Launch concurrent ph003--ph005 production density builds in interactive
-    allocation `56857414`; completion remains gated on their density manifests.
+  - [x] Complete concurrent ph003--ph005 production density builds in interactive
+    allocation `56857414`; every phase has a conserved 2048-cubed density manifest.
   - [ ] Complete ph003--ph005 T-web/observed/P1 chains.
   - [ ] Complete two cap checkpoints, merged graph, RAPIDS metrics and radius union for
     every ph001--ph005 catalogue.
@@ -2662,11 +2662,11 @@ Progress checklist:
     catalogue.
   - [ ] Write passing `PHASE_COMPLETE.json` for ph002--ph005 and
     `BLIND_INPUT_COMPLETE.json` for ph001.
-- [ ] Complete ph002 model representations and shared examples.
+- [x] Complete ph002 model representations and shared examples.
   - [x] Complete target truth, full observed truth and P1 canonical indexing.
-  - [ ] Complete P2 graph and global graph metrics for G-PATCH.
-  - [ ] Complete P3 observational fields for U-PATCH/D0.
-  - [ ] Complete the shared P4 patch/evaluation manifest and `PHASE_COMPLETE`.
+  - [x] Complete P2 graph and global graph metrics for G-PATCH.
+  - [x] Complete P3 observational fields for U-PATCH/D0.
+  - [x] Complete the shared P4 patch/evaluation manifest and `PHASE_COMPLETE`.
 - [ ] Complete ph003 training-phase products.
   - [x] Stage and verify 10% A+B particle inputs.
   - [ ] Build density, T-web, parent linkage/annotation and full observed truth.

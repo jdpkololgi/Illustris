@@ -40,13 +40,17 @@ def utc_now() -> str:
 def atomic_json(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(f".{path.name}.{os.getpid()}.tmp")
-    temporary.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+    temporary.write_text(json.dumps(
+        payload, indent=2, sort_keys=True,
+        default=lambda value: value.item() if isinstance(value, np.generic) else str(value),
+    ) + "\n")
     os.replace(temporary, path)
 
 
 def phase_paths(registry: dict[str, Any], phase: str) -> dict[str, Path]:
     root = Path(registry["path_templates"]["phase_output"].format(phase=phase))
     prefix = f"{phase}_bgs_bright_full_delaunay"
+    density_prefix = f"AbacusSummit_base_c000_{phase}_z0.200_ngrid2048_ab10_tsc_counts"
     return {
         "root": root, "p1": root / "p1_canonical", "p2": root / "p2_graph",
         "p2_union": root / "p2_union", "p3": root / "p3_fields", "p4": root / "p4_patches",
@@ -55,6 +59,8 @@ def phase_paths(registry: dict[str, Any], phase: str) -> dict[str, Path]:
         "gnn_meta": root / f"p2_graph/{prefix}_cugraph_gnn_metadata.json",
         "union": root / "p2_union/p2b_union_manifest.json",
         "p2_complete": root / "p2_graph/P2_COMPLETE.json",
+        "density": root / f"targets/density/{density_prefix}.manifest.json",
+        "tweb": root / "targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
     }
 
 
@@ -164,10 +170,14 @@ def validate_phase(registry: dict[str, Any], phase: str) -> dict[str, Any]:
         "p4_validation": paths["p4"] / "p4_validation.json",
         "schemas": paths["root"] / "contracts/SCHEMAS_COMPLETE.json",
     }
+    blind = cfg["role"] == "sealed_blind"
+    if not blind:
+        required.update({"density": paths["density"], "tweb": paths["tweb"]})
     missing = {name: str(path) for name, path in required.items() if not path.is_file()}
     if missing:
         raise ProductValidationError(f"phase is incomplete: {missing}")
     p1 = json.loads(required["p1_marker"].read_text())
+    p1_manifest = json.loads(required["p1_manifest"].read_text())
     p2 = json.loads(required["p2"].read_text())
     p3 = json.loads(required["p3_manifest"].read_text())
     p4 = json.loads(required["p4_validation"].read_text())
@@ -186,14 +196,49 @@ def validate_phase(registry: dict[str, Any], phase: str) -> dict[str, Any]:
             invariant_without_catalogue_id(phase_p4_schema) == invariant_without_catalogue_id(base_p4)),
         "p2_pass": bool(p2["pass"]), "p3_pass": all(p3["gates"].values()),
         "p4_pass": bool(p4["pass"]),
-        "catalogue_identity_consistent": len({p1["catalogue_id"], p2["catalogue_id"],
+        "catalogue_identity_consistent": len({p1_manifest["catalogue_id"], p2["catalogue_id"],
                                                 p3["catalogue_id"]}) == 1,
     }
-    blind = cfg["role"] == "sealed_blind"
     blind_gates = {
-        "truth_not_embedded_in_p1": (not p1["target_truth_present"]) if blind else p1["target_truth_present"],
-        "blind_input_marker_only": blind,
+        "truth_not_embedded_in_p1": not bool(p1_manifest["target_truth_present"]),
+        "density_product_absent": not paths["density"].exists(),
+        "tweb_product_absent": not paths["tweb"].exists(),
     }
+    truth_gates: dict[str, bool] | None = None
+    truth_diagnostics: dict[str, Any] | None = None
+    if not blind:
+        density = json.loads(paths["density"].read_text())
+        tweb = json.loads(paths["tweb"].read_text())
+        build = density["build"]
+        truth_gates = {
+            "truth_embedded_in_p1": bool(p1_manifest["target_truth_present"]),
+            "density_phase_matches": density["phase"] == phase,
+            "density_contract_matches_registry": density["target_contract"] == registry["target_contract"],
+            "density_grid_frozen": (
+                int(build["ngrid"]) == int(registry["target_contract"]["grid_size"])
+                and np.isclose(float(build["boxsize_mpc_h"]),
+                               float(registry["target_contract"]["box_size_mpc_h"]))
+                and build["dtype"] == "float32"
+            ),
+            "density_uses_all_136_a_plus_b_slabs": int(build["processed_file_count"]) == 136,
+            "density_count_conserved": float(build["relative_count_error"]) <= 2.0e-6,
+            "tweb_phase_matches": tweb["phase"] == phase,
+            "tweb_contract_matches_registry": tweb["target_contract"] == registry["target_contract"],
+            "tweb_density_verified": bool(tweb["density"]["verified"]),
+            "tweb_rank_layout_complete": (
+                int(tweb["mpi_size"]) == 16
+                and int(tweb["outputs"]["rank_count"]) == 16
+                and tweb["outputs"]["x_coverage"] == [0, 2048]
+                and bool(tweb["outputs"]["verified"])
+            ),
+        }
+        truth_diagnostics = {
+            "particle_count": int(build["particle_count"]),
+            "deposited_count": float(build["deposited_count"]),
+            "relative_count_error": float(build["relative_count_error"]),
+            "density_wall_seconds": float(build["wall_seconds"]),
+            "tweb_total_bytes": int(tweb["outputs"]["total_bytes"]),
+        }
     ph000_p1 = json.loads(Path("/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/manifest.json").read_text())
     count_ratio = p1["counts"]["context"] / ph000_p1["counts"]["context"]
     graph_mean_degree = 2.0 * p2["counts"]["union_context_pairs"] / p1["counts"]["context"]
@@ -207,7 +252,9 @@ def validate_phase(registry: dict[str, Any], phase: str) -> dict[str, Any]:
     gates = {**exact_physics, "context_count_plausible_vs_ph000": 0.5 < count_ratio < 1.5,
              "union_mean_degree_positive": np.isfinite(graph_mean_degree) and graph_mean_degree > 0}
     if blind:
-        gates["sealed_truth_contract"] = blind_gates["truth_not_embedded_in_p1"]
+        gates.update({f"sealed_{key}": value for key, value in blind_gates.items()})
+    else:
+        gates.update(truth_gates or {})
     payload = {
         "schema_version": "p10-phase-input-complete-v1" if blind else "p10-phase-complete-v1",
         "created_utc": utc_now(), "phase": phase, "role": cfg["role"],
@@ -215,6 +262,7 @@ def validate_phase(registry: dict[str, Any], phase: str) -> dict[str, Any]:
         "artifacts": {name: str(path.resolve()) for name, path in required.items()},
         "artifact_sha256": {name: sha256_file(path) for name, path in required.items()},
         "exact_physics_gates": exact_physics, "blind_gates": blind_gates if blind else None,
+        "truth_gates": truth_gates, "truth_diagnostics": truth_diagnostics,
         "statistical_diagnostics": diagnostics, "gates": gates, "pass": all(gates.values()),
     }
     if not payload["pass"]:
@@ -234,7 +282,10 @@ def main() -> None:
     if args.phase not in registry["phases"]:
         raise ProductValidationError(f"unregistered phase: {args.phase}")
     payload = validate_p2(registry, args.phase) if args.stage == "p2" else validate_phase(registry, args.phase)
-    print(json.dumps(payload, indent=2, sort_keys=True))
+    print(json.dumps(
+        payload, indent=2, sort_keys=True,
+        default=lambda value: value.item() if isinstance(value, np.generic) else str(value),
+    ))
 
 
 if __name__ == "__main__":

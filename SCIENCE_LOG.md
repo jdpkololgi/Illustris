@@ -1,5 +1,40 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-13 — [science/code/runtime] ph002 P1--P4 closes; ph001 blind graph branch passes
+
+The first complete independent-phase model-input contract now exists. ph002 has a
+passing atomic
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/PHASE_COMPLETE.json` covering
+truth, P1, P2, P3 and P4. This is a data-readiness milestone, not a model-transfer
+result and not permission to inspect ph001 truth.
+
+The terminal validation independently requires the registered c000, z=0.2,
+2000-Mpc/h, 2048-cubed, TSC, 10% A+B and R=7-Mpc/h target convention. ph002 used all
+136 A+B slabs and conserved 33,022,530,364 deposited particles to relative error
+`9.4491e-8`; the T-web marker has 16 contiguous rank outputs covering x=[0,2048).
+P1 uses Planck18 observer-frame Mpc coordinates. P2 contains 7,370,124 canonical
+nodes, finite frozen node/edge metrics, a 14.78-Mpc radius union and zero NGC--SGC
+edges. P3 and P4 schemas differ from the tracked ph000 contracts only in
+`catalogue_id`. The P4 semantic rebuild and all five-fold/cap/shell gates pass.
+ph002 has 6,256,475 context galaxies, 97.79% of ph000's context count, and union
+mean degree 59.48; these are recorded as statistical diagnostics rather than falsely
+required to equal another cosmic realization.
+
+The sealed ph001 representation has also passed P2 without target access: 7,328,081
+nodes, 55,863,964 Delaunay edges, 182,621,426 context union pairs, exact P1 row
+identity, finite metrics and zero cross-cap edges. Its observed FITS has no CWEB or
+eigenvalue columns. P4 is running; only a truth-free `BLIND_INPUT_COMPLETE.json` may
+close that phase.
+
+Two final-gate defects were caught before promotion. The RAPIDS stage required an
+explicit `CONDA_PREFIX`/PATH when invoked outside shell activation, and JSON reporting
+needed to convert NumPy scalar gates. More importantly, phase completion initially
+looked for `catalogue_id` and `target_truth_present` in the P1 atomic marker rather
+than the P1 compatibility manifest where they are defined. The corrected validator
+now also requires density conservation, all 136 particle slabs, frozen T-web layout,
+and complete absence of density/T-web target products for blind ph001. Thirteen
+focused tests pass.
+
 ### 2026-08-13 — [science/code/runtime] P10 automated P1--P4 campaign begins with sealed-blind separation
 
 The ph001--ph005 build campaign is now active under the explicit objective of creating

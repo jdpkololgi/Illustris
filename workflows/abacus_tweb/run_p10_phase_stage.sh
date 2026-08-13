@@ -89,6 +89,8 @@ run_p2_post() {
   "$cosmic" -u workflows/abacus_tweb/p10_build_phase_graph.py \
     --registry "$registry" --phase "$phase" --stage merge
   if [[ ! -s "$phase_root/p2_graph/${prefix}_cugraph_gnn_metadata.json" ]]; then
+    CONDA_PREFIX=/pscratch/sd/d/dkololgi/conda/envs/rapids-gnn \
+    PATH=/pscratch/sd/d/dkololgi/conda/envs/rapids-gnn/bin:"$PATH" \
     "$rapids" -u workflows/abacus_tweb/abacus_graph_features_cugraph.py \
       --artifacts-dir "$phase_root/p2_graph" --prefix "$prefix" \
       --output-dir "$phase_root/p2_graph" --output-prefix "${prefix}_cugraph"
