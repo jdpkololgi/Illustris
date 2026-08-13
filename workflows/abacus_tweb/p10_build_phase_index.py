@@ -104,11 +104,13 @@ def shell_and_masks(redshift: np.ndarray, valid_target: np.ndarray) -> tuple[np.
 
 
 def classes_from_stored_eigenvalues(eigenvalues: np.ndarray, threshold: float = 0.2) -> np.ndarray:
-    """Classify using the precision in which catalogue eigenvalues are stored.
+    """Reconstruct the strict-threshold class at catalogue storage precision.
 
-    The T-web labels and observed-truth gate use float32 eigenvalues. Upcasting an
-    exactly stored float32(0.2) to float64 before comparing with decimal 0.2 would
-    spuriously turn an equality into a strict exceedance.
+    Upcasting an exactly stored float32(0.2) to float64 before comparing with
+    decimal 0.2 would spuriously turn an equality into a strict exceedance. The
+    native CACTUS class may still differ at this exact boundary because it was
+    computed before the float32 catalogue cast; ``stored_class_consistency``
+    handles and records that irrecoverable ambiguity.
     """
     stored = np.asarray(eigenvalues)
     stored_threshold = np.asarray(threshold, dtype=stored.dtype)

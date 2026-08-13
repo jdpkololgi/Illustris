@@ -133,9 +133,10 @@ def host_consistency(table: np.ndarray, active: np.ndarray) -> dict:
     file_num = np.asarray(table["FILE_NUM"][ids], dtype=np.int64)
     box = np.asarray(table["BOX_INDEX"][ids], dtype=np.int64)
     halo = np.asarray(table["HALO_INDEX"][ids], dtype=np.int64)
-    # CWEB was generated from the stored float32 eigenvalues. Preserve that
-    # representation for the exact threshold-class closure; upcasting first
-    # makes a value equal to float32(0.2) compare greater than float64(0.2).
+    # CACTUS generated CWEB from its native eigenvalues before catalogue
+    # float32 storage. Preserve the stored representation when reconstructing
+    # classes, but treat a disagreement at exactly float32(0.2) as an explicit
+    # quantization ambiguity rather than inventing precision that was discarded.
     lam_native = np.column_stack(
         [table[f"LAMBDA{i}"][ids] for i in (1, 2, 3)]
     ).astype(np.float32, copy=False)

@@ -8,6 +8,7 @@ from pathlib import Path
 
 
 PHASES = tuple(f"ph{i:03d}" for i in range(0, 7))
+TRAINING_PHASES = ("ph002", "ph003", "ph004", "ph005")
 
 
 def record(root: Path, phase: str) -> dict:
@@ -59,14 +60,41 @@ def record(root: Path, phase: str) -> dict:
             "paths": {name: str(path) for name, path in checks.items()}}
 
 
+def readiness(root: Path, records: dict[str, dict]) -> dict:
+    loader_marker = root / "training_contract/TRAINING_LOADER_READY.json"
+    training_products = all(
+        records[phase]["status"]["phase_complete"] for phase in TRAINING_PHASES
+    )
+    validation_products = bool(records["ph006"]["status"]["phase_complete"])
+    blind_inputs = bool(records["ph001"]["status"]["phase_complete"])
+    reference_normalized = bool(records["ph000"]["status"]["phase_complete"])
+    product_gate = training_products and validation_products
+    loader_ready = loader_marker.is_file() and loader_marker.stat().st_size > 0
+    return {
+        "training_phase_products_complete": training_products,
+        "validation_phase_products_complete": validation_products,
+        "sealed_blind_inputs_complete": blind_inputs,
+        "ph000_reference_normalized": reference_normalized,
+        "p1_p4_products_ready": product_gate,
+        "phase_balanced_loader_canary_complete": loader_ready,
+        "ready_to_launch_deterministic_training": product_gate and loader_ready,
+        "loader_marker": str(loader_marker),
+        "interpretation": (
+            "P1-P4 product readiness and model-loader readiness are separate gates; "
+            "ph000 is reference-only and ph001 remains sealed"
+        ),
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path,
                         default=Path("/pscratch/sd/d/dkololgi/abacus/p10_multiphase"))
     parser.add_argument("--json", type=Path)
     args = parser.parse_args()
-    payload = {"schema_version": "p10-multiphase-status-v2",
-               "phases": {phase: record(args.root, phase) for phase in PHASES}}
+    records = {phase: record(args.root, phase) for phase in PHASES}
+    payload = {"schema_version": "p10-multiphase-status-v3",
+               "phases": records, "readiness": readiness(args.root, records)}
     text = json.dumps(payload, indent=2, sort_keys=True) + "\n"
     if args.json:
         args.json.parent.mkdir(parents=True, exist_ok=True)
