@@ -31,6 +31,7 @@ for import_root in (REPO_ROOT, WORKFLOW_DIR):
         sys.path.insert(0, str(import_root))
 
 from p10_phase_assets import DEFAULT_REGISTRY, load_registry, sha256_file  # noqa: E402
+from p10_target_contract import stored_class_consistency  # noqa: E402
 
 
 SHELLS = ((0.15, 0.25), (0.25, 0.35), (0.35, 0.45), (0.45, 0.55))
@@ -257,14 +258,18 @@ def main() -> int:
         finite = np.isfinite(eigenvalues).all(axis=1)
         ordered = ((eigenvalues[:, 0] <= eigenvalues[:, 1])
                    & (eigenvalues[:, 1] <= eigenvalues[:, 2]))
-        class_expected = classes_from_stored_eigenvalues(stored_eigenvalues)
+        class_check = stored_class_consistency(stored_eigenvalues, table["CWEB"])
         valid_target &= finite & ordered
         if not np.all(finite & ordered):
             raise PhaseIndexError(
                 f"{int((~(finite & ordered)).sum())} observed rows lack finite ordered truth"
             )
-        if not np.array_equal(class_expected, np.asarray(table["CWEB"], dtype=np.int8)):
-            raise PhaseIndexError("CWEB disagrees with thresholded eigenvalues")
+        nonboundary = int(class_check["nonboundary_mismatch"].sum())
+        if nonboundary:
+            raise PhaseIndexError(
+                f"{nonboundary} CWEB classes disagree with eigenvalues away from the "
+                "float32 threshold boundary"
+            )
 
     z = np.asarray(table["Z"], dtype=np.float64)
     points = cartesian_points(table["RA"], table["DEC"], z)

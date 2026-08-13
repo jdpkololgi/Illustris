@@ -19,9 +19,10 @@ from p10_phase_assets import DEFAULT_REGISTRY, load_registry, sha256_file
 from p10_validate_phase_products import phase_paths
 
 
-PHASES = ("ph001", "ph002", "ph003", "ph004", "ph005")
-PH000_P1 = Path("/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/manifest.json")
-PH000_UNION = Path("/pscratch/sd/d/dkololgi/abacus/p2b_full_footprint/p2b_union_manifest.json")
+PHASES = ("ph001", "ph002", "ph003", "ph004", "ph005", "ph006")
+PH000_ROOT = Path("/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000")
+PH000_P1 = PH000_ROOT / "p1_canonical/manifest.json"
+PH000_UNION = PH000_ROOT / "p2_union/p2b_union_manifest.json"
 PH000_CONVENTION = Path("docs/evidence/p10/ph002_convention_parity.json")
 
 
@@ -106,6 +107,14 @@ def main() -> None:
                 "pass": bool(closure["pass"]),
                 "cweb_mismatch_rows": int(
                     closure["host_target_consistency"]["cweb_mismatch_rows"]),
+                "cweb_threshold_quantization_ambiguity_rows": int(
+                    closure["host_target_consistency"].get(
+                        "cweb_threshold_quantization_ambiguity_rows", 0)),
+                "cweb_nonboundary_mismatch_rows": int(
+                    closure["host_target_consistency"].get(
+                        "cweb_nonboundary_mismatch_rows",
+                        closure["host_target_consistency"]["cweb_mismatch_rows"],
+                    )),
                 "caps": {
                     cap: {
                         "trace_spearman": float(report["pooled_trace_spearman"]),
@@ -202,7 +211,7 @@ def main() -> None:
         "training_phase_catalogue_field_target_closure_pass": all(
             records[phase]["catalogue_field_target_closure"] is not None
             and records[phase]["catalogue_field_target_closure"]["pass"]
-            and records[phase]["catalogue_field_target_closure"]["cweb_mismatch_rows"] == 0
+            and records[phase]["catalogue_field_target_closure"]["cweb_nonboundary_mismatch_rows"] == 0
             for phase in args.phases if phase != "ph001"
         ),
         "uniform_particle_count": len(set(particle_counts)) == 1,

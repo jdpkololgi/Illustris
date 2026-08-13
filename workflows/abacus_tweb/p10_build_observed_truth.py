@@ -23,6 +23,7 @@ for import_root in (REPO_ROOT, WORKFLOW_DIR):
         sys.path.insert(0, str(import_root))
 
 from p10_phase_assets import DEFAULT_REGISTRY, load_registry, sha256_file  # noqa: E402
+from p10_target_contract import stored_class_consistency  # noqa: E402
 
 
 LABEL_COLUMNS = (
@@ -111,7 +112,11 @@ def output_dtype() -> np.dtype:
 def join_successful_chunk(lss: np.ndarray, parent: np.ndarray) -> tuple[np.ndarray, dict[str, float]]:
     selected = lss[observed_success_mask(lss)]
     if not len(selected):
-        return np.empty(0, dtype=output_dtype()), {"max_ra_diff": 0.0, "max_dec_diff": 0.0}
+        return np.empty(0, dtype=output_dtype()), {
+            "max_ra_diff": 0.0,
+            "max_dec_diff": 0.0,
+            "cweb_threshold_quantization_ambiguity_rows": 0,
+        }
     targetids = np.asarray(selected["TARGETID"], dtype=np.int64)
     if np.any(targetids <= 0) or np.any(targetids > len(parent)):
         raise ObservedTruthError("LSS TARGETID lies outside the annotated parent range")
@@ -140,14 +145,23 @@ def join_successful_chunk(lss: np.ndarray, parent: np.ndarray) -> tuple[np.ndarr
     out["HAS_LABEL"] = finite & ordered
     if not np.all(out["HAS_LABEL"]):
         raise ObservedTruthError("successful observed rows have missing or unordered T-web truth")
-    cweb = (
-        (out["LAMBDA1"] > 0.2).astype(np.int8)
-        + (out["LAMBDA2"] > 0.2).astype(np.int8)
-        + (out["LAMBDA3"] > 0.2).astype(np.int8)
+    eigenvalues = np.column_stack(
+        (out["LAMBDA1"], out["LAMBDA2"], out["LAMBDA3"])
     )
-    if not np.array_equal(out["CWEB"], cweb):
-        raise ObservedTruthError("CWEB class disagrees with thresholded ordered eigenvalues")
-    return out, {"max_ra_diff": ra_diff, "max_dec_diff": dec_diff}
+    class_check = stored_class_consistency(eigenvalues, out["CWEB"])
+    nonboundary = int(class_check["nonboundary_mismatch"].sum())
+    if nonboundary:
+        raise ObservedTruthError(
+            f"{nonboundary} CWEB classes disagree with eigenvalues away from the "
+            "float32 threshold boundary"
+        )
+    return out, {
+        "max_ra_diff": ra_diff,
+        "max_dec_diff": dec_diff,
+        "cweb_threshold_quantization_ambiguity_rows": int(
+            class_check["boundary_ambiguous"].sum()
+        ),
+    }
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -193,6 +207,7 @@ def main() -> int:
     output_rows = 0
     seen_ids: list[np.ndarray] = []
     maxima = {"max_ra_diff": 0.0, "max_dec_diff": 0.0}
+    diagnostic_totals = {"cweb_threshold_quantization_ambiguity_rows": 0}
     try:
         with fitsio.FITS(lss_path) as fits:
             hdu = fits[1]
@@ -206,6 +221,8 @@ def main() -> int:
                 lss = hdu[start:stop][list(LSS_COLUMNS)]
                 block, diagnostics = join_successful_chunk(lss, parent)
                 maxima = {key: max(maxima[key], diagnostics[key]) for key in maxima}
+                for key in diagnostic_totals:
+                    diagnostic_totals[key] += int(diagnostics[key])
                 if len(block):
                     if first:
                         writer.write(block, extname="OBSERVED")
@@ -250,7 +267,13 @@ def main() -> int:
             "all_successful": output_rows,
             "z_0p15_0p55": int(np.count_nonzero((z >= 0.15) & (z < 0.55))),
         },
-        "join": {"targetid_unique": True, "label_complete": True, **maxima},
+        "join": {
+            "targetid_unique": True,
+            "label_complete": True,
+            "cweb_nonboundary_mismatch_rows": 0,
+            **maxima,
+            **diagnostic_totals,
+        },
     }
     atomic_write_json(marker, payload)
     print(json.dumps(payload, indent=2, sort_keys=True))

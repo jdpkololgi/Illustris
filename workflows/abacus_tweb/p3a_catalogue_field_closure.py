@@ -30,6 +30,8 @@ import h5py
 import numpy as np
 from scipy.stats import spearmanr
 
+from p10_target_contract import stored_class_consistency
+
 
 CAPS = ((0, "SGC"), (1, "NGC"))
 SHELL_NAMES = ("0.15_0.25", "0.25_0.35", "0.35_0.45", "0.45_0.55")
@@ -147,14 +149,18 @@ def host_consistency(table: np.ndarray, active: np.ndarray) -> dict:
     delta = np.abs(lam[order][1:] - lam[order][:-1])
     repeated_pairs = int(same.sum())
     max_delta = float(np.max(delta[same])) if repeated_pairs else 0.0
-    cweb_expected = np.sum(lam_native > np.float32(0.2), axis=1).astype(np.int16)
-    cweb_mismatch = int(np.sum(cweb_expected != np.asarray(table["CWEB"][ids], dtype=np.int16)))
+    class_check = stored_class_consistency(lam_native, table["CWEB"][ids])
+    cweb_mismatch = int(class_check["mismatch"].sum())
+    cweb_boundary = int(class_check["boundary_ambiguous"].sum())
+    cweb_nonboundary = int(class_check["nonboundary_mismatch"].sum())
     return {
         "active_rows": int(len(ids)),
         "repeated_host_adjacent_pairs": repeated_pairs,
         "max_abs_dlambda_within_repeated_host": max_delta,
         "cweb_threshold": 0.2,
         "cweb_mismatch_rows": cweb_mismatch,
+        "cweb_threshold_quantization_ambiguity_rows": cweb_boundary,
+        "cweb_nonboundary_mismatch_rows": cweb_nonboundary,
     }
 
 
@@ -279,7 +285,9 @@ def main() -> None:
         "canonical_lengths_match": len(points) == len(table) == len(cap),
         "host_labels_identical_for_repeated_host_keys": (
             host["max_abs_dlambda_within_repeated_host"] <= 1.0e-7),
-        "cweb_matches_thresholded_eigenvalues": host["cweb_mismatch_rows"] == 0,
+        "cweb_matches_thresholded_eigenvalues_away_from_quantization_boundary": (
+            host["cweb_nonboundary_mismatch_rows"] == 0
+        ),
         "independent_cic_redeposit_matches": all(
             v["cic_lost_weight"] <= 1.0e-8
             and v["cic_max_abs_difference"] <= 5.0e-5

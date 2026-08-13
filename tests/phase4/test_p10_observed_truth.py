@@ -8,6 +8,7 @@ from workflows.abacus_tweb.p10_build_observed_truth import (
     default_output,
     observed_success_mask,
 )
+from workflows.abacus_tweb.p10_target_contract import stored_class_consistency
 
 
 class P10ObservedTruthTests(unittest.TestCase):
@@ -42,6 +43,16 @@ class P10ObservedTruthTests(unittest.TestCase):
             Path("/scratch/ph002/catalogues/observed/"
                  "ph002_bgs_bright_full_observed_with_tweb.fits"),
         )
+
+    def test_native_class_mismatch_is_allowed_only_at_float32_threshold(self):
+        at_threshold = np.float32(0.2)
+        eigenvalues = np.asarray(
+            [[at_threshold, 0.6, 0.9], [0.1, 0.6, 0.9]], dtype=np.float32
+        )
+        result = stored_class_consistency(eigenvalues, np.asarray([3, 3]))
+        self.assertEqual(result["mismatch"].tolist(), [True, True])
+        self.assertEqual(result["boundary_ambiguous"].tolist(), [True, False])
+        self.assertEqual(result["nonboundary_mismatch"].tolist(), [False, True])
 
 
 if __name__ == "__main__":
