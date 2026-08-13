@@ -2,7 +2,7 @@
 set -euo pipefail
 
 if [[ $# -lt 2 ]]; then
-  echo "usage: $0 PHASE {p1|graph-cap|p2-post|p3-p4} [CAP]" >&2
+  echo "usage: $0 PHASE {p1|graph-cap|p2-post|p3|p3-p4} [CAP]" >&2
   exit 2
 fi
 phase=$1
@@ -103,12 +103,10 @@ run_p2_post() {
     --registry "$registry" --phase "$phase" --stage p2
 }
 
-run_p3_p4() {
-  [[ -s "$phase_root/p2_graph/P2_COMPLETE.json" ]] || { echo "P2 incomplete" >&2; exit 2; }
+run_p3() {
   "$cosmic" -u workflows/abacus_tweb/p10_materialize_phase_schemas.py \
     --phase "$phase" --phase-root "$phase_root"
   p3_schema="$phase_root/contracts/p3_schema_v1.json"
-  p4_schema="$phase_root/contracts/p4_schema_v1.json"
   if [[ ! -s "$phase_root/p3_fields/FIELD_COMPLETE" ]]; then
     "$cosmic" -u workflows/abacus_tweb/p3a_build_canonical_fields.py \
       --points "$phase_root/p1_canonical/points.npy" \
@@ -119,6 +117,12 @@ run_p3_p4() {
       --unit-audit /pscratch/sd/d/dkololgi/abacus/p3_full_footprint/unit_audit.json \
       --out-dir "$phase_root/p3_fields"
   fi
+}
+
+run_p3_p4() {
+  [[ -s "$phase_root/p2_graph/P2_COMPLETE.json" ]] || { echo "P2 incomplete" >&2; exit 2; }
+  run_p3
+  p4_schema="$phase_root/contracts/p4_schema_v1.json"
   if [[ ! -s "$phase_root/p4_patches/PATCH_MANIFEST_COMPLETE" ]]; then
     mkdir -p "$phase_root/p4_patches" "$phase_root/p4_rebuild"
     "$cosmic" -u workflows/abacus_tweb/p4_probe_core_sizes.py \
@@ -174,6 +178,7 @@ case "$stage" in
   p1) run_p1 ;;
   graph-cap) run_graph_cap ;;
   p2-post) run_p2_post ;;
+  p3) run_p3 ;;
   p3-p4) run_p3_p4 ;;
   *) echo "unknown stage: $stage" >&2; exit 2 ;;
 esac

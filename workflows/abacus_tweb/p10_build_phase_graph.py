@@ -74,10 +74,16 @@ def build_cap(phase: str, cap_name: str, points_path: Path, index_path: Path, ou
     cap_id = CAPS[cap_name]
     cap_dir = out_dir / "caps" / cap_name.lower()
     marker = cap_dir / "CAP_GRAPH_COMPLETE.json"
+    paths = {
+        "edges": cap_dir / "edges_global_idx.npy",
+        "tetrahedra": cap_dir / "tetrahedra_global_idx.npy",
+        "volumes": cap_dir / "tetrahedra_volumes.npy",
+    }
     if marker.is_file():
         print(json.dumps(validate_cap_artifacts(marker), indent=2, sort_keys=True))
         return
-    if cap_dir.exists() and any(cap_dir.iterdir()):
+    complete_arrays = all(path.is_file() and path.stat().st_size > 0 for path in paths.values())
+    if cap_dir.exists() and any(cap_dir.iterdir()) and not complete_arrays:
         raise PhaseGraphError(f"ambiguous partial cap directory: {cap_dir}")
     cap_dir.mkdir(parents=True, exist_ok=True)
     points = np.load(points_path, mmap_mode="r")
@@ -86,23 +92,25 @@ def build_cap(phase: str, cap_name: str, points_path: Path, index_path: Path, ou
     parent = np.flatnonzero(cap == cap_id).astype(np.int64)
     if points.shape != (len(cap), 4) or not len(parent):
         raise PhaseGraphError("P1 points/index/cap mismatch")
-    local_points = np.asarray(points[parent], dtype=np.float64)
-    print(f"[{phase}/{cap_name}] Delaunay rows={len(parent):,}", flush=True)
-    edges, tetrahedra, volumes = _build_graph_artifacts(
-        local_points, alpha_sq=math.inf, split_hemispheres=False,
-    )
-    global_edges = parent[edges].astype(np.int32, copy=False)
-    global_tetra = parent[tetrahedra].astype(np.int32, copy=False)
+    if complete_arrays:
+        print(f"[{phase}/{cap_name}] recovering completed arrays without marker", flush=True)
+        global_edges = np.load(paths["edges"], mmap_mode="r")
+        global_tetra = np.load(paths["tetrahedra"], mmap_mode="r")
+        volumes = np.load(paths["volumes"], mmap_mode="r")
+    else:
+        local_points = np.asarray(points[parent], dtype=np.float64)
+        print(f"[{phase}/{cap_name}] Delaunay rows={len(parent):,}", flush=True)
+        edges, tetrahedra, volumes = _build_graph_artifacts(
+            local_points, alpha_sq=math.inf, split_hemispheres=False,
+        )
+        global_edges = parent[edges].astype(np.int32, copy=False)
+        global_tetra = parent[tetrahedra].astype(np.int32, copy=False)
     if len(global_edges) and np.any(cap[global_edges] != cap_id):
         raise PhaseGraphError("cap graph produced cross-cap edge")
-    paths = {
-        "edges": cap_dir / "edges_global_idx.npy",
-        "tetrahedra": cap_dir / "tetrahedra_global_idx.npy",
-        "volumes": cap_dir / "tetrahedra_volumes.npy",
-    }
-    atomic_npy(paths["edges"], global_edges)
-    atomic_npy(paths["tetrahedra"], global_tetra)
-    atomic_npy(paths["volumes"], volumes)
+    if not complete_arrays:
+        atomic_npy(paths["edges"], global_edges)
+        atomic_npy(paths["tetrahedra"], global_tetra)
+        atomic_npy(paths["volumes"], volumes)
     git_sha = subprocess.run(
         ["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, check=True,
         capture_output=True, text=True,
@@ -123,7 +131,8 @@ def build_cap(phase: str, cap_name: str, points_path: Path, index_path: Path, ou
                   "volume_alignment": len(volumes) == len(global_tetra),
                   "finite_positive_volumes": bool(np.isfinite(volumes).all() and np.all(volumes > 0)),
                   "endpoint_bounds": bool(len(global_edges) == 0 or global_edges.max() < len(cap)),
-                  "cross_cap_edges": False},
+                  "no_cross_cap_edges": bool(
+                      len(global_edges) == 0 or np.all(cap[global_edges] == cap_id))},
     }
     payload["pass"] = all(payload["gates"].values())
     if not payload["pass"]:

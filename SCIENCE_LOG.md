@@ -30,6 +30,14 @@ supports `p1`, per-cap `graph-cap`, GPU `p2-post`, and `p3-p4` stages. Eleven fo
 tests pass, including truth-column exclusion in the ph001 observed dtype, cap-array
 concatenation with preserved global IDs, and blind compatibility-manifest propagation.
 
+The first new cap completion exposed and fixed a completion-logic defect before any
+merged graph was promoted. ph002 SGC produced finite, positive-volume arrays with valid
+endpoints and zero cross-cap edges, but the dictionary stored the measured condition as
+`cross_cap_edges: false` and then applied `all(values)`. The gate is now the positive
+predicate `no_cross_cap_edges: true`. Completed arrays can be revalidated to recover a
+missing marker, so the 61-million-simplex SGC calculation is not repeated. This was a
+bookkeeping failure, not a graph or physics failure.
+
 Interactive allocation `56857414` is presently building the ph003, ph004 and ph005
 2048-cubed 10% A+B TSC density fields concurrently, one phase per node. This is an active
 run, not a completion claim; target, P1--P4 and final phase markers will be logged only
