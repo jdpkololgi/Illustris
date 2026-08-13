@@ -13,9 +13,11 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import hashlib
+import io
 import json
 import os
 import shutil
+import zipfile
 from pathlib import Path
 from typing import Iterable
 
@@ -145,14 +147,33 @@ def graph_sources() -> Iterable[tuple[Path, Path]]:
 
 
 def validate_tweb_rank(path: Path, rank: int, previous_end: int) -> tuple[int, dict]:
-    with np.load(path) as data:
-        start, end = int(data["x_start"]), int(data["x_end"])
-        ngrid = int(data["ngrid"])
-        boxsize = float(data["boxsize"])
-        threshold = float(data["threshold"])
-        rsmooth = float(data["Rsmooth"])
-        eig_shape = list(data["eig_vals"].shape)
-        cweb_shape = list(data["cweb"].shape)
+    # Do not materialize the large eig_vals/cweb members merely to inspect
+    # their shapes.  The ph000 reference is sharded into 128 archives, so a
+    # naive np.load(...)["eig_vals"] validation would re-read roughly 100 GiB
+    # and briefly allocate an 800 MiB array for every rank.  Read only the NPY
+    # headers for large members and deserialize the six scalar members.
+    with zipfile.ZipFile(path) as archive:
+        def scalar(name: str):
+            return np.load(io.BytesIO(archive.read(f"{name}.npy")), allow_pickle=False).item()
+
+        def shape(name: str) -> list[int]:
+            with archive.open(f"{name}.npy") as stream:
+                version = np.lib.format.read_magic(stream)
+                if version == (1, 0):
+                    array_shape, _, _ = np.lib.format.read_array_header_1_0(stream)
+                elif version in {(2, 0), (3, 0)}:
+                    array_shape, _, _ = np.lib.format._read_array_header(stream, version)
+                else:
+                    raise RuntimeError(f"unsupported NPY version {version} in {path}:{name}")
+            return list(array_shape)
+
+        start, end = int(scalar("x_start")), int(scalar("x_end"))
+        ngrid = int(scalar("ngrid"))
+        boxsize = float(scalar("boxsize"))
+        threshold = float(scalar("threshold"))
+        rsmooth = float(scalar("Rsmooth"))
+        eig_shape = shape("eig_vals")
+        cweb_shape = shape("cweb")
     expected = [end - start, 2048, 2048]
     gates = {
         "filename_rank": path.name == f"abacus_cactus_tweb_rank{rank:04d}.npz",
