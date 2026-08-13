@@ -9,9 +9,23 @@ from workflows.abacus_tweb.p10_build_blind_observed_geometry import output_dtype
 from workflows.abacus_tweb.p10_build_phase_graph import concatenate_npy
 from workflows.abacus_tweb.p10_build_phase_index import write_compatibility_manifest
 from workflows.abacus_tweb.p10_validate_phase_products import atomic_json, phase_paths
+from workflows.abacus_tweb.p10_multiphase_status import record
 
 
 class P10PhaseProductTests(unittest.TestCase):
+    def test_normalized_status_keeps_scientific_roles_separate(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            reference = record(root, "ph000")
+            training = record(root, "ph003")
+            selection = record(root, "ph006")
+            self.assertEqual(reference["role"], "development_reference")
+            self.assertFalse(reference["eligible_for_training"])
+            self.assertEqual(reference["status"]["p2_ngc"], "legacy_global_graph")
+            self.assertTrue(training["eligible_for_training"])
+            self.assertEqual(selection["role"], "validation_and_selection")
+            self.assertFalse(selection["eligible_for_training"])
+
     def test_phase_paths_include_frozen_truth_products(self):
         registry = {"path_templates": {"phase_output": "/tmp/p10/{phase}"}}
         paths = phase_paths(registry, "ph004")

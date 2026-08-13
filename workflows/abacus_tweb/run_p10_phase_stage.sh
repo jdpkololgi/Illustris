@@ -8,7 +8,7 @@ fi
 phase=$1
 stage=$2
 cap=${3:-}
-case "$phase" in ph001|ph002|ph003|ph004|ph005) ;; *) echo "unsupported phase: $phase" >&2; exit 2;; esac
+case "$phase" in ph001|ph002|ph003|ph004|ph005|ph006) ;; *) echo "unsupported phase: $phase" >&2; exit 2;; esac
 
 repo=/global/homes/d/dkololgi/TNG/Illustris
 root=/pscratch/sd/d/dkololgi/abacus/p10_multiphase

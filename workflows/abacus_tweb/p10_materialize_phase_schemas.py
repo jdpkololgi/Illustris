@@ -38,7 +38,7 @@ def main() -> None:
     parser.add_argument("--p4-base", type=Path,
                         default=repo / "docs/evidence/p4/p4_spatial_schema_v1.json")
     args = parser.parse_args()
-    if args.phase not in {f"ph{i:03d}" for i in range(1, 7)}:
+    if args.phase not in {f"ph{i:03d}" for i in range(0, 7)}:
         raise RuntimeError(f"unsupported phase: {args.phase}")
     phase_root = args.phase_root or Path(
         f"/pscratch/sd/d/dkololgi/abacus/p10_multiphase/{args.phase}"
