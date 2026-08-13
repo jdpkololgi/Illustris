@@ -2648,9 +2648,12 @@ Progress checklist:
   only `catalogue_id` to differ from the tracked ph000 P3/P4 schemas; and
   `p10_validate_phase_products.py` separates exact physics gates from cosmic-variance
   diagnostics.
-- [x] Implement sealed ph001 P1--P4 input construction without target access. The
+- [x] Implement and complete sealed ph001 P1--P4 input construction without target
+  access. The
   blind observed FITS dtype has no CWEB/eigenvalue columns; density/T-web products are
-  forbidden; the terminal marker is `BLIND_INPUT_COMPLETE.json`. Truth unsealing and
+  forbidden; all representation and P4 gates pass and the terminal marker is
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/BLIND_INPUT_COMPLETE.json`.
+  Truth unsealing and
   scored evaluation remain downstream of frozen predictions.
 - [ ] Complete the automated ph001--ph005 campaign.
   - [x] Complete concurrent ph003--ph005 production density builds in interactive

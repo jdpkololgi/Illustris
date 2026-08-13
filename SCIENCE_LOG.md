@@ -23,8 +23,9 @@ required to equal another cosmic realization.
 The sealed ph001 representation has also passed P2 without target access: 7,328,081
 nodes, 55,863,964 Delaunay edges, 182,621,426 context union pairs, exact P1 row
 identity, finite metrics and zero cross-cap edges. Its observed FITS has no CWEB or
-eigenvalue columns. P4 is running; only a truth-free `BLIND_INPUT_COMPLETE.json` may
-close that phase.
+eigenvalue columns. P4 now passes deterministic rebuild, graph/field support and
+fold-balance validation, and the phase is closed only by the truth-free
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/BLIND_INPUT_COMPLETE.json`.
 
 Two final-gate defects were caught before promotion. The RAPIDS stage required an
 explicit `CONDA_PREFIX`/PATH when invoked outside shell activation, and JSON reporting
