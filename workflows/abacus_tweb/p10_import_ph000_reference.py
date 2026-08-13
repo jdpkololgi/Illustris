@@ -80,7 +80,12 @@ def sha256(path: Path) -> str:
 def atomic_json(path: Path, payload: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(f".{path.name}.{os.getpid()}.tmp")
-    temporary.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+    temporary.write_text(json.dumps(
+        payload,
+        indent=2,
+        sort_keys=True,
+        default=lambda value: value.item() if isinstance(value, np.generic) else str(value),
+    ) + "\n")
     os.replace(temporary, path)
 
 

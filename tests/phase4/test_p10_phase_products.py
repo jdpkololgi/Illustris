@@ -10,6 +10,7 @@ from workflows.abacus_tweb.p10_build_phase_graph import concatenate_npy
 from workflows.abacus_tweb.p10_build_phase_index import write_compatibility_manifest
 from workflows.abacus_tweb.p10_validate_phase_products import atomic_json, phase_paths
 from workflows.abacus_tweb.p10_multiphase_status import record
+from workflows.abacus_tweb.p10_import_ph000_reference import atomic_json as reference_atomic_json
 
 
 class P10PhaseProductTests(unittest.TestCase):
@@ -43,6 +44,12 @@ class P10PhaseProductTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary) / "marker.json"
             atomic_json(output, {"pass": np.bool_(True), "count": np.int64(7)})
+            self.assertEqual(json.loads(output.read_text()), {"pass": True, "count": 7})
+
+    def test_reference_import_json_serializes_numpy_gate_scalars(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "marker.json"
+            reference_atomic_json(output, {"pass": np.bool_(True), "count": np.int64(7)})
             self.assertEqual(json.loads(output.read_text()), {"pass": True, "count": 7})
 
     def test_blind_observed_dtype_has_linkage_but_no_truth(self):
