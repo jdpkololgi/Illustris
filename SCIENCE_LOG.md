@@ -1,5 +1,70 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-13 — [science/code/runtime] P10 phase products close through ph006; ph000 normalized; loader gate remains
+
+The P10 phase-product matrix is now complete. ph006 is no longer missing T-web:
+its passing atomic target marker is
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json`.
+Sixteen rank products cover x=[0,2048), total 111,669,184,864 bytes, and bind the
+same c000, z=0.2, 2000-Mpc/h, 2048-cubed, 10% A+B TSC, R=7-Mpc/h and
+threshold-0.2 contract used by the training phases. The earlier table that described
+ph006 T-web as absent was a transient build-status snapshot and is now stale.
+
+ph006 now has a passing terminal
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/PHASE_COMPLETE.json`.
+Its P1 catalogue contains 7,330,186 successful-redshift rows, 6,248,640 context
+rows and 4,968,208 authoritative active targets, with shell counts
+2,704,647 / 1,635,574 / 556,883 / 71,104. Its separately constructed NGC and
+SGC graph components contain 55,873,345 Delaunay edges and zero cross-cap edges;
+the 14.78-Mpc radius union has 187,094,689 context pairs and mean degree 59.88.
+P3 and P4 pass the same nine-channel, Planck18 observer-Mpc, 64-Mpc/h core and
+256-Mpc/h super-block contracts as the other phases. Catalogue--field--target
+closure passes: cap trace Spearman correlations are 0.462/0.455, shuffle
+separations are 0.257/0.294, and CIC maximum discrepancies are 2.86e-6.
+
+One ph006 row records a precision-boundary diagnostic rather than a physics or
+lineage failure. CACTUS computes CWEB from its native eigenvalues before the
+catalogue writer casts eigenvalues to float32. An eigenvalue infinitesimally above
+0.2 can therefore be stored as exactly `float32(0.2)`, making the original strict
+class inequality unrecoverable from the stored value. ph006 has exactly one such
+row and zero disagreements away from the float32 threshold. This corrects the
+over-broad wording in the preceding log entry: CWEB was not generated from the
+stored float32 columns. The shared P10 gate now explicitly counts threshold
+quantization ambiguities while continuing to reject every non-boundary mismatch.
+
+The frozen ph000 development products have also been copied into the same P10
+directory contract rather than remaining scattered across legacy scratch roots:
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000`. The passing
+`REFERENCE_PHASE_COMPLETE.json` binds 193 files and 162,057,995,430 bytes by
+source, destination and checksum. The tree contains normalized `targets/`,
+`catalogues/`, `p1_canonical/`, `p2_graph/`, `p2_union/`, `p3_fields/`,
+`p4_patches/`, `p4_rebuild/` and `contracts/` products. ph000 remains a frozen
+development/convention reference and is explicitly ineligible for the training
+mixture. Its historical canonical graph is already NGC--SGC disconnected but
+predates cap-checkpoint markers; this is recorded as a validated legacy-global-graph
+provenance difference rather than fabricating cap-level build records. Scratch had
+about 15 PiB free during the copy; the roughly 151-GiB reference duplication is not
+a storage constraint.
+
+The final cross-phase report is
+`docs/evidence/p10/multiphase_p1_p4_complete_with_ph006_20260813.json`. Every
+registered physics, unit, schema, row-identity, target-closure, graph-disconnection,
+field, patch, density-conservation and T-web-layout gate passes. Roles remain:
+ph002--ph005 training, ph006 validation/selection, ph001 sealed blind, and ph000
+development reference.
+
+This completes the **P1--P4 data-product gate**, not the training-launch gate.
+The existing P8 model entry points are still single-phase. Before multi-phase
+deterministic training starts, one phase-balanced adapter/loader must sample
+ph002--ph005 without exposing phase as a feature, fit all feature/target transforms
+on the training mixture only, apply them frozen to ph006, prove row/target identity
+for both U-PATCH and G-PATCH, and pass resume/coverage/loss-accounting canaries. The
+missing atomic gate is
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/TRAINING_LOADER_READY.json`.
+`p10_multiphase_status.py` therefore correctly reports `p1_p4_products_ready=true`
+but `ready_to_launch_deterministic_training=false` until that software contract is
+implemented and tested.
+
 ### 2026-08-13 — [science/code/runtime] ph001--ph005 P1--P4 campaign complete; training-pool inputs pass cross-phase physics closure
 
 The requested automated ph001--ph005 campaign is complete. ph002--ph005 now each

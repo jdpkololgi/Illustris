@@ -1,7 +1,44 @@
 {
   "phases": {
+    "ph000": {
+      "blind": false,
+      "eligible_for_training": false,
+      "paths": {
+        "density": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/targets/density/AbacusSummit_base_c000_ph000_z0.200_ngrid2048_ab10_tsc_counts.manifest.json",
+        "observed": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/catalogues/observed/ph000_bgs_bright_full_observed_with_tweb.fits.complete.json",
+        "p1": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p1_canonical/CATALOGUE_COMPLETE.json",
+        "p1_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p1_canonical/manifest.json",
+        "p2": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p2_graph/P2_COMPLETE.json",
+        "p2_graph": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p2_graph/GRAPH_COMPLETE.json",
+        "p2_metrics": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p2_graph/ph000_bgs_bright_full_delaunay_cugraph_gnn_metadata.json",
+        "p2_ngc": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p2_graph/caps/ngc/CAP_GRAPH_COMPLETE.json",
+        "p2_sgc": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p2_graph/caps/sgc/CAP_GRAPH_COMPLETE.json",
+        "p3": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3_fields/FIELD_COMPLETE",
+        "p4": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "phase_complete": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/REFERENCE_PHASE_COMPLETE.json",
+        "tweb": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json"
+      },
+      "phase": "ph000",
+      "role": "development_reference",
+      "status": {
+        "density": true,
+        "observed": true,
+        "p1": true,
+        "p1_manifest": true,
+        "p2": true,
+        "p2_graph": true,
+        "p2_metrics": true,
+        "p2_ngc": "legacy_global_graph",
+        "p2_sgc": "legacy_global_graph",
+        "p3": true,
+        "p4": true,
+        "phase_complete": true,
+        "tweb": true
+      }
+    },
     "ph001": {
       "blind": true,
+      "eligible_for_training": false,
       "paths": {
         "density": "/forbidden/blind-density",
         "observed": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/catalogues/blind_observed/ph001_bgs_bright_full_observed_geometry.fits.complete.json",
@@ -18,6 +55,7 @@
         "tweb": "/forbidden/blind-tweb"
       },
       "phase": "ph001",
+      "role": "sealed_blind",
       "status": {
         "density": "forbidden",
         "observed": true,
@@ -36,6 +74,7 @@
     },
     "ph002": {
       "blind": false,
+      "eligible_for_training": true,
       "paths": {
         "density": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/density/AbacusSummit_base_c000_ph002_z0.200_ngrid2048_ab10_tsc_counts.manifest.json",
         "observed": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/observed/ph002_bgs_bright_full_observed_with_tweb.fits.complete.json",
@@ -52,6 +91,7 @@
         "tweb": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json"
       },
       "phase": "ph002",
+      "role": "training",
       "status": {
         "density": true,
         "observed": true,
@@ -70,6 +110,7 @@
     },
     "ph003": {
       "blind": false,
+      "eligible_for_training": true,
       "paths": {
         "density": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/density/AbacusSummit_base_c000_ph003_z0.200_ngrid2048_ab10_tsc_counts.manifest.json",
         "observed": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/catalogues/observed/ph003_bgs_bright_full_observed_with_tweb.fits.complete.json",
@@ -86,6 +127,7 @@
         "tweb": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json"
       },
       "phase": "ph003",
+      "role": "training",
       "status": {
         "density": true,
         "observed": true,
@@ -104,6 +146,7 @@
     },
     "ph004": {
       "blind": false,
+      "eligible_for_training": true,
       "paths": {
         "density": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/density/AbacusSummit_base_c000_ph004_z0.200_ngrid2048_ab10_tsc_counts.manifest.json",
         "observed": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/catalogues/observed/ph004_bgs_bright_full_observed_with_tweb.fits.complete.json",
@@ -120,6 +163,7 @@
         "tweb": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json"
       },
       "phase": "ph004",
+      "role": "training",
       "status": {
         "density": true,
         "observed": true,
@@ -138,6 +182,7 @@
     },
     "ph005": {
       "blind": false,
+      "eligible_for_training": true,
       "paths": {
         "density": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/density/AbacusSummit_base_c000_ph005_z0.200_ngrid2048_ab10_tsc_counts.manifest.json",
         "observed": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/catalogues/observed/ph005_bgs_bright_full_observed_with_tweb.fits.complete.json",
@@ -154,6 +199,43 @@
         "tweb": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json"
       },
       "phase": "ph005",
+      "role": "training",
+      "status": {
+        "density": true,
+        "observed": true,
+        "p1": true,
+        "p1_manifest": true,
+        "p2": true,
+        "p2_graph": true,
+        "p2_metrics": true,
+        "p2_ngc": true,
+        "p2_sgc": true,
+        "p3": true,
+        "p4": true,
+        "phase_complete": true,
+        "tweb": true
+      }
+    },
+    "ph006": {
+      "blind": false,
+      "eligible_for_training": false,
+      "paths": {
+        "density": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/targets/density/AbacusSummit_base_c000_ph006_z0.200_ngrid2048_ab10_tsc_counts.manifest.json",
+        "observed": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/catalogues/observed/ph006_bgs_bright_full_observed_with_tweb.fits.complete.json",
+        "p1": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p1_canonical/CATALOGUE_COMPLETE.json",
+        "p1_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p1_canonical/manifest.json",
+        "p2": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p2_graph/P2_COMPLETE.json",
+        "p2_graph": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p2_graph/GRAPH_COMPLETE.json",
+        "p2_metrics": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p2_graph/ph006_bgs_bright_full_delaunay_cugraph_gnn_metadata.json",
+        "p2_ngc": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p2_graph/caps/ngc/CAP_GRAPH_COMPLETE.json",
+        "p2_sgc": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p2_graph/caps/sgc/CAP_GRAPH_COMPLETE.json",
+        "p3": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p3_fields/FIELD_COMPLETE",
+        "p4": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "phase_complete": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/PHASE_COMPLETE.json",
+        "tweb": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json"
+      },
+      "phase": "ph006",
+      "role": "validation_and_selection",
       "status": {
         "density": true,
         "observed": true,
@@ -171,5 +253,16 @@
       }
     }
   },
-  "schema_version": "p10-multiphase-status-v1"
+  "readiness": {
+    "interpretation": "P1-P4 product readiness and model-loader readiness are separate gates; ph000 is reference-only and ph001 remains sealed",
+    "loader_marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/TRAINING_LOADER_READY.json",
+    "p1_p4_products_ready": true,
+    "ph000_reference_normalized": true,
+    "phase_balanced_loader_canary_complete": false,
+    "ready_to_launch_deterministic_training": false,
+    "sealed_blind_inputs_complete": true,
+    "training_phase_products_complete": true,
+    "validation_phase_products_complete": true
+  },
+  "schema_version": "p10-multiphase-status-v3"
 }

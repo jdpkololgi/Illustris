@@ -2398,9 +2398,9 @@ Progress checklist:
 
 ### P10 — Multi-phase target generation and training
 
-**Status:** ACTIVE — AUTOMATED PH001--PH005 P1--P4 BUILD CAMPAIGN RUNNING;
-CAP-CHECKPOINTED P2 AND SEALED-BLIND PH001 INPUT CONTRACT IMPLEMENTED;
-NOT READY FOR MULTI-PHASE TRAINING UNTIL ATOMIC PHASE MARKERS PASS
+**Status:** P1--P4 PRODUCT MATRIX COMPLETE FOR PH001--PH006; PH000 NORMALIZED AS
+REFERENCE; DETERMINISTIC TRAINING LAUNCH BLOCKED ONLY ON THE PHASE-BALANCED
+ADAPTER/LOADER AND TRAIN-ONLY-TRANSFORM CANARY
 **Duration:** scope after one-phase benchmark; likely days to weeks
 
 Reserve:
@@ -2628,17 +2628,37 @@ Progress checklist:
   record c000, z=0.2, 2000 Mpc/h, 2048-cubed, R=7 Mpc/h and threshold 0.2;
   finite/order/class checks pass on all ph002 rows and a 100,000-row ph000 sample.
   Tracked evidence: `docs/evidence/p10/ph002_convention_parity.json`.
-- [ ] Complete the ph006 validation-phase truth chain.
+- [x] Normalize the frozen ph000 development/reference products under the same P10
+  phase-tree interface without admitting ph000 to the training mixture. The passing
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/REFERENCE_PHASE_COMPLETE.json`
+  binds 193 copied files totaling `162,057,995,430` bytes, preserves historical
+  manifests byte-exactly, and exposes normalized target, catalogue, P1, P2, P3, P4
+  and schema paths. The historical graph is already cap-disconnected but predates
+  cap-checkpoint markers; record it as `legacy_global_graph`, not as missing or as
+  newly cap-built. Tracked evidence:
+  `docs/evidence/p10/ph000_reference_import_20260813.json`.
+- [x] Complete the ph006 validation-phase truth chain.
   - [x] Build and validate the full 2048-cubed 10% A+B density field. It processes
     `33,022,530,364` particles with relative count error `9.4672e-8` in 2696.58
     seconds; the wrapped process exits zero after 45m05s with 54,538,056 KiB peak RSS.
     Runtime log:
     `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/logs/ph006_density_56762868.out`.
-  - [ ] Run and validate the ph006 T-web solve.
-  - [ ] Build/validate parent linkage, annotation and the full observed-truth join.
-  - [ ] Build/validate ph006 P1 canonical indexing.
-  - [ ] Build/validate ph006 P2 graph/metrics and P3 fields as parallel branches.
-  - [ ] Build/validate the shared ph006 P4 validation manifest and `PHASE_COMPLETE`.
+  - [x] Run and validate the ph006 T-web solve. Sixteen contiguous rank files cover
+    x=[0,2048) and total `111,669,184,864` bytes. Atomic marker:
+    `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json`.
+  - [x] Build/validate parent linkage, annotation and the full observed-truth join.
+    The observed product has `7,330,186` rows, complete labels, exact positional
+    linkage, one explicitly recorded float32-threshold ambiguity and zero CWEB
+    disagreements away from the threshold.
+  - [x] Build/validate ph006 P1 canonical indexing: `6,248,640` context rows,
+    `4,968,208` authoritative active targets and all four nonempty redshift shells.
+  - [x] Build/validate ph006 P2 graph/metrics and P3 fields as parallel branches.
+    P2 has `55,873,345` Delaunay edges, zero cross-cap edges and `187,094,689`
+    context-union pairs; P3 passes all frozen nine-channel field gates.
+  - [x] Build/validate the shared ph006 P4 validation manifest and
+    `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/PHASE_COMPLETE.json`.
+    Geometry, graph support, field support, deterministic rebuild and the stronger
+    catalogue--field--target closure all pass.
 - [x] Audit live per-phase readiness after the ph002/ph006 launches. Exact evidence:
   `docs/evidence/p10/multiphase_readiness_20260813.json`. No Slurm job was active at
   audit time; no phase currently carries `PHASE_COMPLETE`.
@@ -2694,11 +2714,23 @@ Progress checklist:
   - [x] Build the shared P4 patch/evaluation manifest and `PHASE_COMPLETE`.
 - [ ] Satisfy the deterministic training-readiness gate.
   - [x] U-PATCH training pool: P1+P3+P4 complete for ph002--ph005.
-  - [ ] U-PATCH validation: build matching ph006 P1+P3+P4 products.
+  - [x] U-PATCH validation: build matching ph006 P1+P3+P4 products.
   - [x] G-PATCH training pool: P1+P2 graph/metrics+P4 complete for ph002--ph005.
-  - [ ] G-PATCH validation: build matching ph006 P1+P2 graph/metrics+P4 products.
-  - [ ] Verify phase-balanced sampling, train-only transforms/scalers, row identity,
-    target convention and loader canaries across every contributing phase.
+  - [x] G-PATCH validation: build matching ph006 P1+P2 graph/metrics+P4 products.
+  - [ ] Implement a phase-balanced training sampler over ph002--ph005. Phase may
+    determine grouping and provenance but must never enter the model features; no
+    single phase or dense shell may dominate an epoch accidentally.
+  - [ ] Fit graph-feature, field-channel and target transforms on the ph002--ph005
+    training mixture only; serialize them once and apply them unchanged to ph006.
+  - [ ] Prove row identity, target convention, patch/core ownership, complete-epoch
+    coverage, resume parity, weighted-loss accounting and deterministic validation
+    for both U-PATCH and G-PATCH across every contributing phase.
+  - [ ] Write the passing atomic loader marker only after those canaries:
+    `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/TRAINING_LOADER_READY.json`.
+- [x] Run the terminal P1--P4 cross-phase physics/representation audit through
+  ph006. All exact gates pass; evidence:
+  `docs/evidence/p10/multiphase_p1_p4_complete_with_ph006_20260813.json`. The
+  machine-readable live matrix is `docs/evidence/p10/multiphase_live_status.json`.
 - [ ] Freeze phase roles and a signed blind-evaluation manifest.
 - [ ] Train and freeze finalists without reading ph001 truth metrics.
 - [ ] Build ph001 graph/field products and save predictions before opening truth.

@@ -1,0 +1,600 @@
+{
+  "created_utc": "2026-08-13T15:16:37.465288+00:00",
+  "gates": {
+    "all_136_particle_slabs_processed": true,
+    "all_caps_disconnected": true,
+    "all_density_counts_conserved_below_1e_6": true,
+    "all_exact_physics_gates_pass": true,
+    "all_p3_gates_pass": true,
+    "all_p4_gates_pass": true,
+    "all_shells_nonempty": true,
+    "all_terminal_markers_pass": true,
+    "all_tweb_layouts_have_16_ranks": true,
+    "context_counts_plausible_vs_ph000": true,
+    "graph_degrees_finite_positive": true,
+    "graph_degrees_plausible_vs_ph000": true,
+    "observer_frame_is_planck18_mpc": true,
+    "one_field_channel_contract_all_phases": true,
+    "one_patch_unit_contract_all_phases": true,
+    "one_target_contract_all_phases": true,
+    "ph000_target_convention_parity_previously_verified": true,
+    "phase_not_exposed_as_model_input": true,
+    "sealed_phase_has_no_truth": true,
+    "target_contract_matches_registry": true,
+    "training_phase_catalogue_field_target_closure_pass": true,
+    "training_phases_have_truth": true,
+    "uniform_particle_count": true,
+    "uniform_tweb_layout_size": true
+  },
+  "interpretation": "exact physics, units, representation schemas and sealed-blind rules are gates; counts and graph degree are diagnostics because independent phases contain cosmic variance",
+  "pass": true,
+  "phases": {
+    "ph001": {
+      "catalogue_field_target_closure": null,
+      "catalogue_id": "ph001_bgs_bright_full_ngc_sgc_v1",
+      "counts": {
+        "active": 4987000,
+        "context": 6247537,
+        "context_ratio_to_ph000": 0.9764942539964129,
+        "parent": 7328081,
+        "shell_active": {
+          "0.15_0.25": 2696511,
+          "0.25_0.35": 1655967,
+          "0.35_0.45": 564410,
+          "0.45_0.55": 70112
+        }
+      },
+      "exact_physics_gates": {
+        "catalogue_identity_consistent": true,
+        "coordinate_cosmology_planck18": true,
+        "coordinate_units_mpc": true,
+        "p2_pass": true,
+        "p3_pass": true,
+        "p3_schema_only_catalogue_id_differs": true,
+        "p4_pass": true,
+        "p4_schema_only_catalogue_id_differs": true,
+        "target_contract_matches_registry": true
+      },
+      "graph": {
+        "cross_cap_edges": 0,
+        "delaunay_edges": 55863964,
+        "mean_degree_ratio_to_ph000": 0.9813940431652326,
+        "union_context_pairs": 182621426,
+        "union_mean_degree": 58.46189498357513
+      },
+      "observer_geometry": {
+        "cap": {
+          "0": "SGC (Galactic b<=0)",
+          "1": "NGC (Galactic b>0)"
+        },
+        "coordinates": "observer-frame ICRS Cartesian from RA, DEC and observed Z",
+        "cosmology": "Astropy Planck18",
+        "units": "Mpc"
+      },
+      "p3_channel_order": [
+        "counts",
+        "exposure_binary",
+        "exposure_apodized",
+        "expected_counts",
+        "log_count_ratio",
+        "ntilde_mpc3",
+        "los_x",
+        "los_y",
+        "los_z"
+      ],
+      "p3_pass": true,
+      "p4_pass": true,
+      "p4_unit_contract": {
+        "core_mpc": 94.59060005911913,
+        "core_mpc_h": 64.0,
+        "h": 0.6766,
+        "indexing_coordinates": "observer-frame comoving Mpc",
+        "superblock_mpc": 378.3624002364765,
+        "superblock_mpc_h": 256.0
+      },
+      "role": "sealed_blind",
+      "target_truth_present": false,
+      "terminal_marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/BLIND_INPUT_COMPLETE.json",
+      "terminal_pass": true,
+      "terminal_sha256": "2b6b1bd7021b66159a946be8842292aa19b2856e3b6012071503f40e6ad16b9c",
+      "truth": null
+    },
+    "ph002": {
+      "catalogue_field_target_closure": {
+        "caps": {
+          "NGC": {
+            "cic_max_abs_difference": 1.9073486328125e-06,
+            "shuffle_separation": 0.25762578874978553,
+            "trace_spearman": 0.45780801780782177
+          },
+          "SGC": {
+            "cic_max_abs_difference": 3.814697265625e-06,
+            "shuffle_separation": 0.2889425473784931,
+            "trace_spearman": 0.44104955166345816
+          }
+        },
+        "cweb_mismatch_rows": 0,
+        "cweb_nonboundary_mismatch_rows": 0,
+        "cweb_threshold_quantization_ambiguity_rows": 0,
+        "pass": true
+      },
+      "catalogue_id": "ph002_bgs_bright_full_ngc_sgc_v1",
+      "counts": {
+        "active": 4988277,
+        "context": 6256475,
+        "context_ratio_to_ph000": 0.9778912694350121,
+        "parent": 7370124,
+        "shell_active": {
+          "0.15_0.25": 2714747,
+          "0.25_0.35": 1649261,
+          "0.35_0.45": 553052,
+          "0.45_0.55": 71217
+        }
+      },
+      "exact_physics_gates": {
+        "catalogue_identity_consistent": true,
+        "coordinate_cosmology_planck18": true,
+        "coordinate_units_mpc": true,
+        "p2_pass": true,
+        "p3_pass": true,
+        "p3_schema_only_catalogue_id_differs": true,
+        "p4_pass": true,
+        "p4_schema_only_catalogue_id_differs": true,
+        "target_contract_matches_registry": true
+      },
+      "graph": {
+        "cross_cap_edges": 0,
+        "delaunay_edges": 56182511,
+        "mean_degree_ratio_to_ph000": 0.9984313134331417,
+        "union_context_pairs": 186057586,
+        "union_mean_degree": 59.476809545311056
+      },
+      "observer_geometry": {
+        "cap": {
+          "0": "SGC (Galactic b<=0)",
+          "1": "NGC (Galactic b>0)"
+        },
+        "coordinates": "observer-frame ICRS Cartesian from RA, DEC and observed Z",
+        "cosmology": "Astropy Planck18",
+        "units": "Mpc"
+      },
+      "p3_channel_order": [
+        "counts",
+        "exposure_binary",
+        "exposure_apodized",
+        "expected_counts",
+        "log_count_ratio",
+        "ntilde_mpc3",
+        "los_x",
+        "los_y",
+        "los_z"
+      ],
+      "p3_pass": true,
+      "p4_pass": true,
+      "p4_unit_contract": {
+        "core_mpc": 94.59060005911913,
+        "core_mpc_h": 64.0,
+        "h": 0.6766,
+        "indexing_coordinates": "observer-frame comoving Mpc",
+        "superblock_mpc": 378.3624002364765,
+        "superblock_mpc_h": 256.0
+      },
+      "role": "training_and_target_benchmark",
+      "target_truth_present": true,
+      "terminal_marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/PHASE_COMPLETE.json",
+      "terminal_pass": true,
+      "terminal_sha256": "a651178627b6e39f75a81b938d1e358d6cfeaf99ce470c288a02425aa2e86553",
+      "truth": {
+        "particle_count": 33022530364,
+        "processed_file_count": 136,
+        "relative_count_error": 9.449114324792544e-08,
+        "tweb_rank_count": 16,
+        "tweb_total_bytes": 111669184864,
+        "tweb_x_coverage": [
+          0,
+          2048
+        ]
+      }
+    },
+    "ph003": {
+      "catalogue_field_target_closure": {
+        "caps": {
+          "NGC": {
+            "cic_max_abs_difference": 2.86102294921875e-06,
+            "shuffle_separation": 0.25814665355268807,
+            "trace_spearman": 0.4621536201100138
+          },
+          "SGC": {
+            "cic_max_abs_difference": 3.814697265625e-06,
+            "shuffle_separation": 0.2943716143367299,
+            "trace_spearman": 0.45731030482114987
+          }
+        },
+        "cweb_mismatch_rows": 0,
+        "cweb_nonboundary_mismatch_rows": 0,
+        "cweb_threshold_quantization_ambiguity_rows": 0,
+        "pass": true
+      },
+      "catalogue_id": "ph003_bgs_bright_full_ngc_sgc_v1",
+      "counts": {
+        "active": 4957837,
+        "context": 6205524,
+        "context_ratio_to_ph000": 0.9699275937120239,
+        "parent": 7283290,
+        "shell_active": {
+          "0.15_0.25": 2667875,
+          "0.25_0.35": 1659682,
+          "0.35_0.45": 560987,
+          "0.45_0.55": 69293
+        }
+      },
+      "exact_physics_gates": {
+        "catalogue_identity_consistent": true,
+        "coordinate_cosmology_planck18": true,
+        "coordinate_units_mpc": true,
+        "p2_pass": true,
+        "p3_pass": true,
+        "p3_schema_only_catalogue_id_differs": true,
+        "p4_pass": true,
+        "p4_schema_only_catalogue_id_differs": true,
+        "target_contract_matches_registry": true
+      },
+      "graph": {
+        "cross_cap_edges": 0,
+        "delaunay_edges": 55521898,
+        "mean_degree_ratio_to_ph000": 0.9838128397065614,
+        "union_context_pairs": 181840418,
+        "union_mean_degree": 58.60598331422133
+      },
+      "observer_geometry": {
+        "cap": {
+          "0": "SGC (Galactic b<=0)",
+          "1": "NGC (Galactic b>0)"
+        },
+        "coordinates": "observer-frame ICRS Cartesian from RA, DEC and observed Z",
+        "cosmology": "Astropy Planck18",
+        "units": "Mpc"
+      },
+      "p3_channel_order": [
+        "counts",
+        "exposure_binary",
+        "exposure_apodized",
+        "expected_counts",
+        "log_count_ratio",
+        "ntilde_mpc3",
+        "los_x",
+        "los_y",
+        "los_z"
+      ],
+      "p3_pass": true,
+      "p4_pass": true,
+      "p4_unit_contract": {
+        "core_mpc": 94.59060005911913,
+        "core_mpc_h": 64.0,
+        "h": 0.6766,
+        "indexing_coordinates": "observer-frame comoving Mpc",
+        "superblock_mpc": 378.3624002364765,
+        "superblock_mpc_h": 256.0
+      },
+      "role": "training",
+      "target_truth_present": true,
+      "terminal_marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/PHASE_COMPLETE.json",
+      "terminal_pass": true,
+      "terminal_sha256": "971c1ea59e7f20239b29ac00a817b446ea3e8e69f8752439ace97e6711ac6972",
+      "truth": {
+        "particle_count": 33022530364,
+        "processed_file_count": 136,
+        "relative_count_error": 9.458178792649476e-08,
+        "tweb_rank_count": 16,
+        "tweb_total_bytes": 111669184864,
+        "tweb_x_coverage": [
+          0,
+          2048
+        ]
+      }
+    },
+    "ph004": {
+      "catalogue_field_target_closure": {
+        "caps": {
+          "NGC": {
+            "cic_max_abs_difference": 1.9073486328125e-06,
+            "shuffle_separation": 0.25649440817815516,
+            "trace_spearman": 0.4705243852280741
+          },
+          "SGC": {
+            "cic_max_abs_difference": 3.814697265625e-06,
+            "shuffle_separation": 0.29081689557188606,
+            "trace_spearman": 0.4512260440833433
+          }
+        },
+        "cweb_mismatch_rows": 0,
+        "cweb_nonboundary_mismatch_rows": 0,
+        "cweb_threshold_quantization_ambiguity_rows": 0,
+        "pass": true
+      },
+      "catalogue_id": "ph004_bgs_bright_full_ngc_sgc_v1",
+      "counts": {
+        "active": 4927398,
+        "context": 6224750,
+        "context_ratio_to_ph000": 0.9729326305012953,
+        "parent": 7303843,
+        "shell_active": {
+          "0.15_0.25": 2640449,
+          "0.25_0.35": 1655915,
+          "0.35_0.45": 559703,
+          "0.45_0.55": 71331
+        }
+      },
+      "exact_physics_gates": {
+        "catalogue_identity_consistent": true,
+        "coordinate_cosmology_planck18": true,
+        "coordinate_units_mpc": true,
+        "p2_pass": true,
+        "p3_pass": true,
+        "p3_schema_only_catalogue_id_differs": true,
+        "p4_pass": true,
+        "p4_schema_only_catalogue_id_differs": true,
+        "target_contract_matches_registry": true
+      },
+      "graph": {
+        "cross_cap_edges": 0,
+        "delaunay_edges": 55677667,
+        "mean_degree_ratio_to_ph000": 1.001718441426894,
+        "union_context_pairs": 185723585,
+        "union_mean_degree": 59.67262460339773
+      },
+      "observer_geometry": {
+        "cap": {
+          "0": "SGC (Galactic b<=0)",
+          "1": "NGC (Galactic b>0)"
+        },
+        "coordinates": "observer-frame ICRS Cartesian from RA, DEC and observed Z",
+        "cosmology": "Astropy Planck18",
+        "units": "Mpc"
+      },
+      "p3_channel_order": [
+        "counts",
+        "exposure_binary",
+        "exposure_apodized",
+        "expected_counts",
+        "log_count_ratio",
+        "ntilde_mpc3",
+        "los_x",
+        "los_y",
+        "los_z"
+      ],
+      "p3_pass": true,
+      "p4_pass": true,
+      "p4_unit_contract": {
+        "core_mpc": 94.59060005911913,
+        "core_mpc_h": 64.0,
+        "h": 0.6766,
+        "indexing_coordinates": "observer-frame comoving Mpc",
+        "superblock_mpc": 378.3624002364765,
+        "superblock_mpc_h": 256.0
+      },
+      "role": "training",
+      "target_truth_present": true,
+      "terminal_marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/PHASE_COMPLETE.json",
+      "terminal_pass": true,
+      "terminal_sha256": "9c251f1bb0491e123bcba89bfc38bea5f79fd00cd367e8840c3044e6bf7684de",
+      "truth": {
+        "particle_count": 33022530364,
+        "processed_file_count": 136,
+        "relative_count_error": 9.463910392402542e-08,
+        "tweb_rank_count": 16,
+        "tweb_total_bytes": 111669184864,
+        "tweb_x_coverage": [
+          0,
+          2048
+        ]
+      }
+    },
+    "ph005": {
+      "catalogue_field_target_closure": {
+        "caps": {
+          "NGC": {
+            "cic_max_abs_difference": 2.86102294921875e-06,
+            "shuffle_separation": 0.2590579894701235,
+            "trace_spearman": 0.46281310585901525
+          },
+          "SGC": {
+            "cic_max_abs_difference": 1.9073486328125e-06,
+            "shuffle_separation": 0.2965208800111669,
+            "trace_spearman": 0.44346988567031936
+          }
+        },
+        "cweb_mismatch_rows": 0,
+        "cweb_nonboundary_mismatch_rows": 0,
+        "cweb_threshold_quantization_ambiguity_rows": 0,
+        "pass": true
+      },
+      "catalogue_id": "ph005_bgs_bright_full_ngc_sgc_v1",
+      "counts": {
+        "active": 4999807,
+        "context": 6276100,
+        "context_ratio_to_ph000": 0.980958670193852,
+        "parent": 7387646,
+        "shell_active": {
+          "0.15_0.25": 2732835,
+          "0.25_0.35": 1634882,
+          "0.35_0.45": 561846,
+          "0.45_0.55": 70244
+        }
+      },
+      "exact_physics_gates": {
+        "catalogue_identity_consistent": true,
+        "coordinate_cosmology_planck18": true,
+        "coordinate_units_mpc": true,
+        "p2_pass": true,
+        "p3_pass": true,
+        "p3_schema_only_catalogue_id_differs": true,
+        "p4_pass": true,
+        "p4_schema_only_catalogue_id_differs": true,
+        "target_contract_matches_registry": true
+      },
+      "graph": {
+        "cross_cap_edges": 0,
+        "delaunay_edges": 56313153,
+        "mean_degree_ratio_to_ph000": 1.0126640078100744,
+        "union_context_pairs": 189301783,
+        "union_mean_degree": 60.32465480154873
+      },
+      "observer_geometry": {
+        "cap": {
+          "0": "SGC (Galactic b<=0)",
+          "1": "NGC (Galactic b>0)"
+        },
+        "coordinates": "observer-frame ICRS Cartesian from RA, DEC and observed Z",
+        "cosmology": "Astropy Planck18",
+        "units": "Mpc"
+      },
+      "p3_channel_order": [
+        "counts",
+        "exposure_binary",
+        "exposure_apodized",
+        "expected_counts",
+        "log_count_ratio",
+        "ntilde_mpc3",
+        "los_x",
+        "los_y",
+        "los_z"
+      ],
+      "p3_pass": true,
+      "p4_pass": true,
+      "p4_unit_contract": {
+        "core_mpc": 94.59060005911913,
+        "core_mpc_h": 64.0,
+        "h": 0.6766,
+        "indexing_coordinates": "observer-frame comoving Mpc",
+        "superblock_mpc": 378.3624002364765,
+        "superblock_mpc_h": 256.0
+      },
+      "role": "training",
+      "target_truth_present": true,
+      "terminal_marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/PHASE_COMPLETE.json",
+      "terminal_pass": true,
+      "terminal_sha256": "842d3fbad09f53d3f0cdb6e71471e66e4f4c77dc8224d703eb8b5f6f7977999a",
+      "truth": {
+        "particle_count": 33022530364,
+        "processed_file_count": 136,
+        "relative_count_error": 9.493277279038729e-08,
+        "tweb_rank_count": 16,
+        "tweb_total_bytes": 111669184864,
+        "tweb_x_coverage": [
+          0,
+          2048
+        ]
+      }
+    },
+    "ph006": {
+      "catalogue_field_target_closure": {
+        "caps": {
+          "NGC": {
+            "cic_max_abs_difference": 2.86102294921875e-06,
+            "shuffle_separation": 0.2567989525121036,
+            "trace_spearman": 0.46177124130007324
+          },
+          "SGC": {
+            "cic_max_abs_difference": 2.86102294921875e-06,
+            "shuffle_separation": 0.2940409965847127,
+            "trace_spearman": 0.45492735128412565
+          }
+        },
+        "cweb_mismatch_rows": 1,
+        "cweb_nonboundary_mismatch_rows": 0,
+        "cweb_threshold_quantization_ambiguity_rows": 1,
+        "pass": true
+      },
+      "catalogue_id": "ph006_bgs_bright_full_ngc_sgc_v1",
+      "counts": {
+        "active": 4968208,
+        "context": 6248640,
+        "context_ratio_to_ph000": 0.9766666536416103,
+        "parent": 7330186,
+        "shell_active": {
+          "0.15_0.25": 2704647,
+          "0.25_0.35": 1635574,
+          "0.35_0.45": 556883,
+          "0.45_0.55": 71104
+        }
+      },
+      "exact_physics_gates": {
+        "catalogue_identity_consistent": true,
+        "coordinate_cosmology_planck18": true,
+        "coordinate_units_mpc": true,
+        "p2_pass": true,
+        "p3_pass": true,
+        "p3_schema_only_catalogue_id_differs": true,
+        "p4_pass": true,
+        "p4_schema_only_catalogue_id_differs": true,
+        "target_contract_matches_registry": true
+      },
+      "graph": {
+        "cross_cap_edges": 0,
+        "delaunay_edges": 55873345,
+        "mean_degree_ratio_to_ph000": 1.0052555504046083,
+        "union_context_pairs": 187094689,
+        "union_mean_degree": 59.8833310928458
+      },
+      "observer_geometry": {
+        "cap": {
+          "0": "SGC (Galactic b<=0)",
+          "1": "NGC (Galactic b>0)"
+        },
+        "coordinates": "observer-frame ICRS Cartesian from RA, DEC and observed Z",
+        "cosmology": "Astropy Planck18",
+        "units": "Mpc"
+      },
+      "p3_channel_order": [
+        "counts",
+        "exposure_binary",
+        "exposure_apodized",
+        "expected_counts",
+        "log_count_ratio",
+        "ntilde_mpc3",
+        "los_x",
+        "los_y",
+        "los_z"
+      ],
+      "p3_pass": true,
+      "p4_pass": true,
+      "p4_unit_contract": {
+        "core_mpc": 94.59060005911913,
+        "core_mpc_h": 64.0,
+        "h": 0.6766,
+        "indexing_coordinates": "observer-frame comoving Mpc",
+        "superblock_mpc": 378.3624002364765,
+        "superblock_mpc_h": 256.0
+      },
+      "role": "validation_and_selection",
+      "target_truth_present": true,
+      "terminal_marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/PHASE_COMPLETE.json",
+      "terminal_pass": true,
+      "terminal_sha256": "5e0483a135b7e6f8f1e1f54f9edb4e356c20d7b3542c2241d465592b04a12d04",
+      "truth": {
+        "particle_count": 33022530364,
+        "processed_file_count": 136,
+        "relative_count_error": 9.467213433754095e-08,
+        "tweb_rank_count": 16,
+        "tweb_total_bytes": 111669184864,
+        "tweb_x_coverage": [
+          0,
+          2048
+        ]
+      }
+    }
+  },
+  "reference": {
+    "context_count": 6397925,
+    "p1": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p1_canonical/manifest.json",
+    "p1_sha256": "7a0a98d13b65715f36b45454f892133e34d50233a6ae6adb66eeb6175e5e075b",
+    "phase": "ph000",
+    "target_convention_parity": "docs/evidence/p10/ph002_convention_parity.json",
+    "target_convention_parity_sha256": "94f661bb6e0148aaa7a5c303e05577c2a4492a2b525f5a28b788f02d0210faa6",
+    "union": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p2_union/p2b_union_manifest.json",
+    "union_mean_degree": 59.57025660663418,
+    "union_sha256": "e5e3ee8b59c88a2a82dd4d1d2807421ecba858c63abdb31caa525008c461ee2e"
+  },
+  "schema_version": "p10-multiphase-consistency-v1"
+}
