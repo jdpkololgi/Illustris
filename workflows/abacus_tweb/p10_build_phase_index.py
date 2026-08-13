@@ -102,6 +102,18 @@ def shell_and_masks(redshift: np.ndarray, valid_target: np.ndarray) -> tuple[np.
     return shell, active, context
 
 
+def classes_from_stored_eigenvalues(eigenvalues: np.ndarray, threshold: float = 0.2) -> np.ndarray:
+    """Classify using the precision in which catalogue eigenvalues are stored.
+
+    The T-web labels and observed-truth gate use float32 eigenvalues. Upcasting an
+    exactly stored float32(0.2) to float64 before comparing with decimal 0.2 would
+    spuriously turn an equality into a strict exceedance.
+    """
+    stored = np.asarray(eigenvalues)
+    stored_threshold = np.asarray(threshold, dtype=stored.dtype)
+    return np.sum(stored > stored_threshold, axis=1).astype(np.int8)
+
+
 def atomic_save_npy(path: Path, array: np.ndarray) -> None:
     temporary = path.with_name(f".{path.name}.{os.getpid()}.tmp")
     with temporary.open("wb") as handle:
@@ -238,13 +250,14 @@ def main() -> int:
     box_valid = np.asarray(table["BOX_INDEX"]) >= 0
     valid_target = box_valid.copy()
     if not is_blind:
-        eigenvalues = np.column_stack(
+        stored_eigenvalues = np.column_stack(
             (table["LAMBDA1"], table["LAMBDA2"], table["LAMBDA3"])
-        ).astype(np.float64)
+        )
+        eigenvalues = stored_eigenvalues.astype(np.float64)
         finite = np.isfinite(eigenvalues).all(axis=1)
         ordered = ((eigenvalues[:, 0] <= eigenvalues[:, 1])
                    & (eigenvalues[:, 1] <= eigenvalues[:, 2]))
-        class_expected = np.sum(eigenvalues > 0.2, axis=1).astype(np.int8)
+        class_expected = classes_from_stored_eigenvalues(stored_eigenvalues)
         valid_target &= finite & ordered
         if not np.all(finite & ordered):
             raise PhaseIndexError(

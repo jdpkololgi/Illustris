@@ -4,10 +4,23 @@ import numpy as np
 from astropy.coordinates import SkyCoord
 import astropy.units as u
 
-from workflows.abacus_tweb.p10_build_phase_index import cartesian_points, shell_and_masks
+from workflows.abacus_tweb.p10_build_phase_index import (
+    cartesian_points,
+    classes_from_stored_eigenvalues,
+    shell_and_masks,
+)
 
 
 class P10PhaseIndexTests(unittest.TestCase):
+    def test_class_threshold_uses_stored_float32_precision(self):
+        at_threshold = np.float32(0.2)
+        values = np.asarray(
+            [[at_threshold, np.nextafter(at_threshold, np.float32(np.inf)), 0.5]],
+            dtype=np.float32,
+        )
+        self.assertEqual(classes_from_stored_eigenvalues(values).tolist(), [2])
+        self.assertEqual(int(np.sum(values.astype(np.float64) > 0.2)), 3)
+
     def test_galactic_cap_matches_astropy(self):
         ra = np.asarray([0.0, 45.0, 120.0, 210.0, 359.0])
         dec = np.asarray([-40.0, 0.0, 25.0, 60.0, -5.0])
