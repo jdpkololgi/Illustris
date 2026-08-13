@@ -1,0 +1,110 @@
+{
+  "schema_version": "p10-multiphase-readiness-audit-v1",
+  "created_utc": "2026-08-13T10:29:25Z",
+  "git_revision_at_audit": "b80730be2fee370256fab2406361267ca40f8431",
+  "conclusion": "NOT_READY_FOR_MULTIPHASE_TRAINING",
+  "phase_roles": {
+    "ph002": "training",
+    "ph003": "training",
+    "ph004": "training",
+    "ph005": "training",
+    "ph006": "validation_and_selection",
+    "ph001": "sealed_blind"
+  },
+  "live_queue": {
+    "checked_utc": "2026-08-13T10:29:25Z",
+    "active_jobs": []
+  },
+  "phases": {
+    "ph002": {
+      "particle_b_stage_complete": true,
+      "particle_b_verified_bytes": 168059673012,
+      "density_2048_complete": true,
+      "density_particle_count": 33022530364,
+      "density_deposited_count": 33022527243.663353,
+      "density_relative_count_error": 9.449114324792544e-08,
+      "tweb_complete": true,
+      "bright_parent_linkage_complete": true,
+      "parent_annotation_complete": true,
+      "full_observed_truth_complete": true,
+      "p1_canonical_complete": true,
+      "p2_graph_complete": false,
+      "p2_metrics_complete": false,
+      "p3_fields_complete": false,
+      "p4_patches_complete": false,
+      "phase_complete": false,
+      "p2_attempt": {
+        "allocation": "56763306",
+        "log": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/logs/ph002_p2_graph_56763306.out",
+        "output_directory": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p2_graph",
+        "output_file_count": 0,
+        "last_observed_progress": "NGC passed 148000000 simplices; SGC passed 61000000 simplices",
+        "terminal_cause": "unknown",
+        "interpretation": "INCOMPLETE_NO_ATOMIC_ARTIFACT"
+      }
+    },
+    "ph003": {
+      "particle_b_stage_complete": true,
+      "particle_b_stage_created_utc": "2026-08-12T16:22:56.517548+00:00",
+      "particle_b_verified_bytes": 168068368057,
+      "density_2048_complete": false,
+      "tweb_complete": false,
+      "p1_canonical_complete": false,
+      "p2_graph_and_metrics_complete": false,
+      "p3_fields_complete": false,
+      "p4_patches_complete": false,
+      "phase_complete": false
+    },
+    "ph004": {
+      "particle_b_stage_complete": true,
+      "particle_b_stage_created_utc": "2026-08-12T18:57:11.485733+00:00",
+      "particle_b_verified_bytes": 168066274916,
+      "density_2048_complete": false,
+      "tweb_complete": false,
+      "p1_canonical_complete": false,
+      "p2_graph_and_metrics_complete": false,
+      "p3_fields_complete": false,
+      "p4_patches_complete": false,
+      "phase_complete": false
+    },
+    "ph005": {
+      "particle_b_stage_complete": true,
+      "particle_b_stage_created_utc": "2026-08-12T22:05:00.444207+00:00",
+      "particle_b_verified_bytes": 168047687099,
+      "density_2048_complete": false,
+      "tweb_complete": false,
+      "p1_canonical_complete": false,
+      "p2_graph_and_metrics_complete": false,
+      "p3_fields_complete": false,
+      "p4_patches_complete": false,
+      "phase_complete": false
+    },
+    "ph006": {
+      "particle_inputs_verified_online": true,
+      "density_2048_complete": true,
+      "density_particle_count": 33022530364,
+      "density_deposited_count": 33022527237.68657,
+      "density_relative_count_error": 9.467213433754095e-08,
+      "density_build_seconds": 2696.5830980150495,
+      "density_process_peak_rss_kib": 54538056,
+      "tweb_complete": false,
+      "p1_canonical_complete": false,
+      "p2_graph_and_metrics_complete": false,
+      "p3_fields_complete": false,
+      "p4_patches_complete": false,
+      "phase_complete": false
+    },
+    "ph001": {
+      "sealed_blind": true,
+      "truth_opened": false,
+      "products_built": false
+    }
+  },
+  "training_readiness": {
+    "u_patch": false,
+    "g_patch": false,
+    "reason": "No training phase has both its required representation and shared P4 manifest; ph003-ph005 do not yet have target truth or P1 products, and ph006 lacks the validation truth/representation chain.",
+    "u_patch_requires": "P1, P3, and P4 complete for ph002-ph005 plus matching ph006 validation products",
+    "g_patch_requires": "P1, P2 graph/metrics, and P4 complete for ph002-ph005 plus matching ph006 validation products"
+  }
+}

@@ -1,5 +1,58 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-13 — [science/code/runtime] Multi-phase readiness audit: particle staging closes, model inputs do not
+
+The first atomic-marker audit after the ph002/ph006 launches gives a clear answer:
+**P10 is not yet ready for multi-phase training.** The expensive particle-availability
+risk is now largely closed, but target and representation products are not. The exact
+machine-readable status is
+`docs/evidence/p10/multiphase_readiness_20260813.json`.
+
+All three remaining training-phase B restores completed and passed their registered
+post-restore checks. ph003, ph004 and ph005 wrote verified `B_STAGE_COMPLETE.json`
+markers at 2026-08-12 16:22, 18:57 and 22:05 UTC, with payloads of
+168,068,368,057 / 168,066,274,916 / 168,047,687,099 bytes. Together with the already
+verified ph002 restore and online ph006 A+B inputs, every non-blind training/validation
+phase now has the frozen 10% particle source available. The persistent staging
+supervisor ended cleanly with `all training-phase B restores complete`.
+
+ph006's full 2048-cubed density build also completed successfully. It processed
+33,022,530,364 particles, deposited 33,022,527,237.68657 counts, and passed the strict
+conservation gate with relative error `9.4672e-8`. The builder took 2696.58 seconds;
+the wrapped process ended with status zero after 45m05s and 54,538,056 KiB peak RSS.
+The grid and manifest are
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/targets/density/AbacusSummit_base_c000_ph006_z0.200_ngrid2048_ab10_tsc_counts.{npy,manifest.json}`.
+This is one completed target stage, not a completed validation phase: ph006 still needs
+T-web, catalogue linkage/annotation, the full observed join, P1, P2/P3 and P4.
+
+The ph002 P2 graph launch did **not** complete. Its log records more than 148 million
+NGC and 61 million SGC simplices, but stops without a traceback, completion record or
+saved graph. Allocation 56763306 no longer exists, the registered `p2_graph/` directory
+contains zero files, and no atomic graph marker exists. The precise terminal cause is
+therefore unknown; scientifically and operationally the result is unambiguously
+`INCOMPLETE_NO_ATOMIC_ARTIFACT`. Before rerunning this large step, the phase-generic P2
+builder should save cap-level checkpoints so a completed NGC construction cannot be
+lost while SGC is still running. RAPIDS graph metrics remain downstream of that rerun.
+
+The phase matrix is consequently:
+
+| Phase | Role | A+B particles | density/T-web/truth | P1 | P2 graph/metrics | P3 fields | P4 | Ready |
+|---|---|---|---|---|---|---|---|---|
+| ph002 | train | verified | complete | complete | incomplete, no artifact | missing | missing | no |
+| ph003 | train | verified | not started | missing | missing | missing | missing | no |
+| ph004 | train | verified | not started | missing | missing | missing | missing | no |
+| ph005 | train | verified | not started | missing | missing | missing | missing | no |
+| ph006 | validation/selection | verified online | density only | missing | missing | missing | missing | no |
+| ph001 | sealed blind | unopened | unopened | unopened | unopened | unopened | unopened | deliberately no |
+
+No Slurm jobs were active at the audit time. U-PATCH multi-phase training requires
+P1+P3+P4 for ph002--ph005 and the matching ph006 validation products; G-PATCH requires
+P1+P2 graph/metrics+P4 over the same phases. Neither branch satisfies its data contract
+today. The next production sequence is to make P2 cap-checkpointed and finish ph002,
+then run the target/observed/P1 chains for ph003--ph005 and ph006, construct P2 and P3
+as parallel branches, and freeze one shared P4/evaluation manifest per phase. ph001
+truth remains sealed and untouched.
+
 ### 2026-08-12 — [science/code/runtime] P10 ph002 target-truth chain complete; ph006 density begins
 
 The ph002 production density and T-web truth products now exist and pass their

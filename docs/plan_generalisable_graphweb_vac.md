@@ -2398,8 +2398,9 @@ Progress checklist:
 
 ### P10 — Multi-phase target generation and training
 
-**Status:** ACTIVE — P8 HANDOFF FROZEN; PH002 TARGET/OBSERVATION/P1 COMPLETE;
-PH002 P2 GRAPH AND PH006 DENSITY ACTIVE; PH003--PH005 B RESTORE QUEUED
+**Status:** ACTIVE — PARTICLE STAGING COMPLETE; NOT READY FOR MULTI-PHASE TRAINING;
+PH002 TARGET/OBSERVATION/P1 COMPLETE BUT P2 INCOMPLETE; PH006 DENSITY COMPLETE;
+PH003--PH005 TARGET/REPRESENTATION CHAINS NOT STARTED
 **Duration:** scope after one-phase benchmark; likely days to weeks
 
 Reserve:
@@ -2599,12 +2600,23 @@ Progress checklist:
   `2,714,747 / 1,649,261 / 553,052 / 71,217`. The `2,379,758` rows with invalid
   BOX_INDEX remain context-only. Artifacts:
   `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p1_canonical/{canonical_index.npz,points.npy,CATALOGUE_COMPLETE.json}`.
-- [ ] Build and validate the fresh ph002 P2 graph/metric branch. The disconnected-cap
-  Delaunay construction from the exact P1 points is active in allocation `56763306`;
-  log: `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/logs/ph002_p2_graph_56763306.out`.
-- [ ] Finish sequential B restores for ph003, ph004, and ph005. The persistent
-  supervisor is tmux session `p10_stage_training_phases`; ph003 is currently
-  inside HTAR extraction and ph004/ph005 are queued. ph006 B is already online.
+- [ ] Build and validate the fresh ph002 P2 graph/metric branch.
+  - [x] Run the first disconnected-cap Delaunay construction from the exact P1 points.
+    Allocation `56763306` processed more than 148 million NGC and 61 million SGC
+    simplices but ended without an atomic marker or saved output. The output directory
+    is empty; treat this only as `INCOMPLETE_NO_ATOMIC_ARTIFACT`, not a graph product.
+    Log: `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/logs/ph002_p2_graph_56763306.out`.
+  - [ ] Add cap-level checkpoint/resume and atomic validation to the phase-generic P2
+    builder so a completed cap survives interruption of the second cap.
+  - [ ] Rerun/finish NGC+SGC graph construction, validate disconnected-cap identity and
+    exact P1 row mapping, and write the atomic graph marker.
+  - [ ] Compute and validate the frozen global node/edge metrics in `rapids-gnn`, then
+    write the P2 metric marker.
+- [x] Finish sequential B restores for ph003, ph004, and ph005. The persistent
+  supervisor completed cleanly at 2026-08-12T22:05:00Z. All three phases have verified
+  34+34 B slabs, both checksum manifests, readable phase/redshift headers, and atomic
+  `B_STAGE_COMPLETE.json` markers. Verified payloads are 168,068,368,057 /
+  168,066,274,916 / 168,047,687,099 bytes. ph006 B remains verified online on CFS.
 - [x] Benchmark one 2048-cubed target-generation run and record cost/storage.
   The ph002 phase directory occupies about 142 GiB and the staged B particles
   another 157 GiB. Density, T-web and annotation required 47.23, 7.65 and
@@ -2614,11 +2626,51 @@ Progress checklist:
   record c000, z=0.2, 2000 Mpc/h, 2048-cubed, R=7 Mpc/h and threshold 0.2;
   finite/order/class checks pass on all ph002 rows and a 100,000-row ph000 sample.
   Tracked evidence: `docs/evidence/p10/ph002_convention_parity.json`.
-- [ ] Complete the ph006 validation-phase truth chain. Its full 2048-cubed density
-  build started in interactive allocation `56762868`; runtime log:
-  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/logs/ph006_density_56762868.out`.
+- [ ] Complete the ph006 validation-phase truth chain.
+  - [x] Build and validate the full 2048-cubed 10% A+B density field. It processes
+    `33,022,530,364` particles with relative count error `9.4672e-8` in 2696.58
+    seconds; the wrapped process exits zero after 45m05s with 54,538,056 KiB peak RSS.
+    Runtime log:
+    `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/logs/ph006_density_56762868.out`.
+  - [ ] Run and validate the ph006 T-web solve.
+  - [ ] Build/validate parent linkage, annotation and the full observed-truth join.
+  - [ ] Build/validate ph006 P1 canonical indexing.
+  - [ ] Build/validate ph006 P2 graph/metrics and P3 fields as parallel branches.
+  - [ ] Build/validate the shared ph006 P4 validation manifest and `PHASE_COMPLETE`.
+- [x] Audit live per-phase readiness after the ph002/ph006 launches. Exact evidence:
+  `docs/evidence/p10/multiphase_readiness_20260813.json`. No Slurm job was active at
+  audit time; no phase currently carries `PHASE_COMPLETE`.
+- [ ] Complete ph002 model representations and shared examples.
+  - [x] Complete target truth, full observed truth and P1 canonical indexing.
+  - [ ] Complete P2 graph and global graph metrics for G-PATCH.
+  - [ ] Complete P3 observational fields for U-PATCH/D0.
+  - [ ] Complete the shared P4 patch/evaluation manifest and `PHASE_COMPLETE`.
+- [ ] Complete ph003 training-phase products.
+  - [x] Stage and verify 10% A+B particle inputs.
+  - [ ] Build density, T-web, parent linkage/annotation and full observed truth.
+  - [ ] Build P1 canonical indexing.
+  - [ ] Build P2 graph/metrics and P3 fields as parallel representation branches.
+  - [ ] Build the shared P4 patch/evaluation manifest and `PHASE_COMPLETE`.
+- [ ] Complete ph004 training-phase products.
+  - [x] Stage and verify 10% A+B particle inputs.
+  - [ ] Build density, T-web, parent linkage/annotation and full observed truth.
+  - [ ] Build P1 canonical indexing.
+  - [ ] Build P2 graph/metrics and P3 fields as parallel representation branches.
+  - [ ] Build the shared P4 patch/evaluation manifest and `PHASE_COMPLETE`.
+- [ ] Complete ph005 training-phase products.
+  - [x] Stage and verify 10% A+B particle inputs.
+  - [ ] Build density, T-web, parent linkage/annotation and full observed truth.
+  - [ ] Build P1 canonical indexing.
+  - [ ] Build P2 graph/metrics and P3 fields as parallel representation branches.
+  - [ ] Build the shared P4 patch/evaluation manifest and `PHASE_COMPLETE`.
+- [ ] Satisfy the deterministic training-readiness gate.
+  - [ ] U-PATCH: P1+P3+P4 complete for ph002--ph005 and matching ph006 validation
+    products.
+  - [ ] G-PATCH: P1+P2 graph/metrics+P4 complete for ph002--ph005 and matching ph006
+    validation products.
+  - [ ] Verify phase-balanced sampling, train-only transforms/scalers, row identity,
+    target convention and loader canaries across every contributing phase.
 - [ ] Freeze phase roles and a signed blind-evaluation manifest.
-- [ ] Build fresh P1-P4 products for training/validation phases.
 - [ ] Train and freeze finalists without reading ph001 truth metrics.
 - [ ] Build ph001 graph/field products and save predictions before opening truth.
 - [ ] Evaluate ph001 once and record the production-transfer decision.
