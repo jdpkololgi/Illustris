@@ -1,5 +1,60 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-13 — [science/code/runtime] ph001--ph005 P1--P4 campaign complete; training-pool inputs pass cross-phase physics closure
+
+The requested automated ph001--ph005 campaign is complete. ph002--ph005 now each
+carry a passing truth-bearing `PHASE_COMPLETE.json`; sealed ph001 carries a passing
+truth-free `BLIND_INPUT_COMPLETE.json`. The machine-readable cross-phase report is
+`docs/evidence/p10/multiphase_p1_p4_completion_20260813.json`, and every registered
+gate passes. This closes the P1--P4 **training-pool input build**. It does not yet
+close deterministic multi-phase model selection: the matching ph006 validation
+P1--P4 products remain required before training and selection can follow the frozen
+train/validation phase roles.
+
+The exact physical contract is common across all phases: AbacusSummit c000 at z=0.2,
+2000 Mpc/h, a 2048-cubed TSC field from the same 10% A+B particle definition,
+R=7 Mpc/h Gaussian tidal smoothing, ascending eigenvalues and threshold 0.2. Phase is
+not an input feature. Each truth-bearing phase processed all 136 A+B slabs and exactly
+33,022,530,364 particles; relative deposition errors are `9.4491e-8`, `9.4582e-8`,
+`9.4639e-8`, and `9.4933e-8` for ph002--ph005. Every T-web product has 16 contiguous
+ranks covering x=[0,2048) and the same 111,669,184,864-byte layout. The previously
+tracked ph002/ph000 convention audit binds this contract to the ph000 products used for
+P8; equality of field realizations is correctly not expected.
+
+P1 context counts for ph001--ph005 are 6,247,537 / 6,256,475 / 6,205,524 /
+6,224,750 / 6,276,100, or 96.99--98.10% of ph000. P2 has zero NGC--SGC edges in
+every phase. Union mean degrees are 58.46 / 59.48 / 58.61 / 59.67 / 60.32 versus
+59.57 for ph000; these small differences are cosmic-realization diagnostics, not
+contract failures. P3 uses the same nine canonical channels and Planck18 observer-frame
+Mpc coordinates in every phase. P4 uses identical 64-Mpc/h cores, 256-Mpc/h
+super-blocks, fold roles and support rules.
+
+A stronger catalogue--field--target closure was made terminal for ph002--ph005. It
+independently redeposits the P1 coordinates into P3, verifies repeated host keys have
+identical tidal labels, checks native-float32 CWEB threshold semantics, and compares the
+sampled galaxy contrast with the T-web trace against within-shell shuffles. CIC maximum
+absolute differences are only `1.91e-6`--`3.81e-6`; all CWEB mismatches are zero; and
+cap-level trace Spearman correlations are 0.441--0.471 with shuffle separations
+0.256--0.297. This is positive spatial/lineage closure, not a model-performance claim.
+
+Two useful pre-promotion failures were preserved. First, one ph003 row lies exactly at
+the float32 representation of the 0.2 threshold. Upcasting before comparison created a
+spurious one-row class mismatch; the exact CWEB gates now compare the stored float32
+eigenvalues with `float32(0.2)`, matching how CWEB was generated. Second, ph003's frozen
+fold allocator passed count, cap/shell and occupied-superblock balance but missed the
+registered boundary-distance gate (median ratio 1.260 > 1.25). A deterministic,
+label-free fallback removes only the redundant global context-count penalty while
+retaining cap/shell and core-count objectives. It passed every unchanged gate with
+boundary-distance ratio 1.066, active-count ratio 1.017 and maximum cap/shell deviation
+9.06%. ph004 and ph005 passed the original allocator. No tidal label selected a fold or
+weakened a threshold.
+
+Canonical phase roots are
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph00{1,2,3,4,5}`. Within each root,
+P1 is `p1_canonical/`, P2 is `p2_graph/` plus `p2_union/`, P3 is `p3_fields/`, and
+P4 is `p4_patches/`. The cross-phase evidence records exact terminal paths, hashes,
+counts, graph diagnostics, closure statistics, field channels and patch units.
+
 ### 2026-08-13 — [science/code/runtime] ph002 P1--P4 closes; ph001 blind graph branch passes
 
 The first complete independent-phase model-input contract now exists. ph002 has a

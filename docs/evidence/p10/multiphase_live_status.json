@@ -1,0 +1,175 @@
+{
+  "phases": {
+    "ph001": {
+      "blind": true,
+      "paths": {
+        "density": "/forbidden/blind-density",
+        "observed": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/catalogues/blind_observed/ph001_bgs_bright_full_observed_geometry.fits.complete.json",
+        "p1": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/p1_canonical/CATALOGUE_COMPLETE.json",
+        "p1_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/p1_canonical/manifest.json",
+        "p2": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/p2_graph/P2_COMPLETE.json",
+        "p2_graph": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/p2_graph/GRAPH_COMPLETE.json",
+        "p2_metrics": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/p2_graph/ph001_bgs_bright_full_delaunay_cugraph_gnn_metadata.json",
+        "p2_ngc": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/p2_graph/caps/ngc/CAP_GRAPH_COMPLETE.json",
+        "p2_sgc": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/p2_graph/caps/sgc/CAP_GRAPH_COMPLETE.json",
+        "p3": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/p3_fields/FIELD_COMPLETE",
+        "p4": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "phase_complete": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/BLIND_INPUT_COMPLETE.json",
+        "tweb": "/forbidden/blind-tweb"
+      },
+      "phase": "ph001",
+      "status": {
+        "density": "forbidden",
+        "observed": true,
+        "p1": true,
+        "p1_manifest": true,
+        "p2": true,
+        "p2_graph": true,
+        "p2_metrics": true,
+        "p2_ngc": true,
+        "p2_sgc": true,
+        "p3": true,
+        "p4": true,
+        "phase_complete": true,
+        "tweb": "forbidden"
+      }
+    },
+    "ph002": {
+      "blind": false,
+      "paths": {
+        "density": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/density/AbacusSummit_base_c000_ph002_z0.200_ngrid2048_ab10_tsc_counts.manifest.json",
+        "observed": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/observed/ph002_bgs_bright_full_observed_with_tweb.fits.complete.json",
+        "p1": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p1_canonical/CATALOGUE_COMPLETE.json",
+        "p1_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p1_canonical/manifest.json",
+        "p2": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p2_graph/P2_COMPLETE.json",
+        "p2_graph": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p2_graph/GRAPH_COMPLETE.json",
+        "p2_metrics": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p2_graph/ph002_bgs_bright_full_delaunay_cugraph_gnn_metadata.json",
+        "p2_ngc": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p2_graph/caps/ngc/CAP_GRAPH_COMPLETE.json",
+        "p2_sgc": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p2_graph/caps/sgc/CAP_GRAPH_COMPLETE.json",
+        "p3": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3_fields/FIELD_COMPLETE",
+        "p4": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "phase_complete": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/PHASE_COMPLETE.json",
+        "tweb": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json"
+      },
+      "phase": "ph002",
+      "status": {
+        "density": true,
+        "observed": true,
+        "p1": true,
+        "p1_manifest": true,
+        "p2": true,
+        "p2_graph": true,
+        "p2_metrics": true,
+        "p2_ngc": true,
+        "p2_sgc": true,
+        "p3": true,
+        "p4": true,
+        "phase_complete": true,
+        "tweb": true
+      }
+    },
+    "ph003": {
+      "blind": false,
+      "paths": {
+        "density": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/density/AbacusSummit_base_c000_ph003_z0.200_ngrid2048_ab10_tsc_counts.manifest.json",
+        "observed": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/catalogues/observed/ph003_bgs_bright_full_observed_with_tweb.fits.complete.json",
+        "p1": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p1_canonical/CATALOGUE_COMPLETE.json",
+        "p1_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p1_canonical/manifest.json",
+        "p2": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p2_graph/P2_COMPLETE.json",
+        "p2_graph": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p2_graph/GRAPH_COMPLETE.json",
+        "p2_metrics": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p2_graph/ph003_bgs_bright_full_delaunay_cugraph_gnn_metadata.json",
+        "p2_ngc": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p2_graph/caps/ngc/CAP_GRAPH_COMPLETE.json",
+        "p2_sgc": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p2_graph/caps/sgc/CAP_GRAPH_COMPLETE.json",
+        "p3": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p3_fields/FIELD_COMPLETE",
+        "p4": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "phase_complete": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/PHASE_COMPLETE.json",
+        "tweb": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json"
+      },
+      "phase": "ph003",
+      "status": {
+        "density": true,
+        "observed": true,
+        "p1": true,
+        "p1_manifest": true,
+        "p2": true,
+        "p2_graph": true,
+        "p2_metrics": true,
+        "p2_ngc": true,
+        "p2_sgc": true,
+        "p3": true,
+        "p4": true,
+        "phase_complete": true,
+        "tweb": true
+      }
+    },
+    "ph004": {
+      "blind": false,
+      "paths": {
+        "density": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/density/AbacusSummit_base_c000_ph004_z0.200_ngrid2048_ab10_tsc_counts.manifest.json",
+        "observed": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/catalogues/observed/ph004_bgs_bright_full_observed_with_tweb.fits.complete.json",
+        "p1": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p1_canonical/CATALOGUE_COMPLETE.json",
+        "p1_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p1_canonical/manifest.json",
+        "p2": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p2_graph/P2_COMPLETE.json",
+        "p2_graph": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p2_graph/GRAPH_COMPLETE.json",
+        "p2_metrics": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p2_graph/ph004_bgs_bright_full_delaunay_cugraph_gnn_metadata.json",
+        "p2_ngc": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p2_graph/caps/ngc/CAP_GRAPH_COMPLETE.json",
+        "p2_sgc": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p2_graph/caps/sgc/CAP_GRAPH_COMPLETE.json",
+        "p3": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p3_fields/FIELD_COMPLETE",
+        "p4": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "phase_complete": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/PHASE_COMPLETE.json",
+        "tweb": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json"
+      },
+      "phase": "ph004",
+      "status": {
+        "density": true,
+        "observed": true,
+        "p1": true,
+        "p1_manifest": true,
+        "p2": true,
+        "p2_graph": true,
+        "p2_metrics": true,
+        "p2_ngc": true,
+        "p2_sgc": true,
+        "p3": true,
+        "p4": true,
+        "phase_complete": true,
+        "tweb": true
+      }
+    },
+    "ph005": {
+      "blind": false,
+      "paths": {
+        "density": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/density/AbacusSummit_base_c000_ph005_z0.200_ngrid2048_ab10_tsc_counts.manifest.json",
+        "observed": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/catalogues/observed/ph005_bgs_bright_full_observed_with_tweb.fits.complete.json",
+        "p1": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p1_canonical/CATALOGUE_COMPLETE.json",
+        "p1_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p1_canonical/manifest.json",
+        "p2": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p2_graph/P2_COMPLETE.json",
+        "p2_graph": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p2_graph/GRAPH_COMPLETE.json",
+        "p2_metrics": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p2_graph/ph005_bgs_bright_full_delaunay_cugraph_gnn_metadata.json",
+        "p2_ngc": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p2_graph/caps/ngc/CAP_GRAPH_COMPLETE.json",
+        "p2_sgc": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p2_graph/caps/sgc/CAP_GRAPH_COMPLETE.json",
+        "p3": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3_fields/FIELD_COMPLETE",
+        "p4": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "phase_complete": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/PHASE_COMPLETE.json",
+        "tweb": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json"
+      },
+      "phase": "ph005",
+      "status": {
+        "density": true,
+        "observed": true,
+        "p1": true,
+        "p1_manifest": true,
+        "p2": true,
+        "p2_graph": true,
+        "p2_metrics": true,
+        "p2_ngc": true,
+        "p2_sgc": true,
+        "p3": true,
+        "p4": true,
+        "phase_complete": true,
+        "tweb": true
+      }
+    }
+  },
+  "schema_version": "p10-multiphase-status-v1"
+}

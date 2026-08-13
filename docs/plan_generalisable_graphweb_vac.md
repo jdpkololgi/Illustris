@@ -2655,44 +2655,48 @@ Progress checklist:
   `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/BLIND_INPUT_COMPLETE.json`.
   Truth unsealing and
   scored evaluation remain downstream of frozen predictions.
-- [ ] Complete the automated ph001--ph005 campaign.
+- [x] Complete the automated ph001--ph005 campaign.
   - [x] Complete concurrent ph003--ph005 production density builds in interactive
     allocation `56857414`; every phase has a conserved 2048-cubed density manifest.
-  - [ ] Complete ph003--ph005 T-web/observed/P1 chains.
-  - [ ] Complete two cap checkpoints, merged graph, RAPIDS metrics and radius union for
+  - [x] Complete ph003--ph005 T-web/observed/P1 chains.
+  - [x] Complete two cap checkpoints, merged graph, RAPIDS metrics and radius union for
     every ph001--ph005 catalogue.
-  - [ ] Complete P3 fields and shared P4 geometry/support for every ph001--ph005
+  - [x] Complete P3 fields and shared P4 geometry/support for every ph001--ph005
     catalogue.
-  - [ ] Write passing `PHASE_COMPLETE.json` for ph002--ph005 and
+  - [x] Write passing `PHASE_COMPLETE.json` for ph002--ph005 and
     `BLIND_INPUT_COMPLETE.json` for ph001.
+  - [x] Run the cross-phase physics/representation audit, including the stronger
+    catalogue--field--target closure for ph002--ph005. Evidence:
+    `docs/evidence/p10/multiphase_p1_p4_completion_20260813.json`; live product matrix:
+    `docs/evidence/p10/multiphase_live_status.json`.
 - [x] Complete ph002 model representations and shared examples.
   - [x] Complete target truth, full observed truth and P1 canonical indexing.
   - [x] Complete P2 graph and global graph metrics for G-PATCH.
   - [x] Complete P3 observational fields for U-PATCH/D0.
   - [x] Complete the shared P4 patch/evaluation manifest and `PHASE_COMPLETE`.
-- [ ] Complete ph003 training-phase products.
+- [x] Complete ph003 training-phase products.
   - [x] Stage and verify 10% A+B particle inputs.
-  - [ ] Build density, T-web, parent linkage/annotation and full observed truth.
-  - [ ] Build P1 canonical indexing.
-  - [ ] Build P2 graph/metrics and P3 fields as parallel representation branches.
-  - [ ] Build the shared P4 patch/evaluation manifest and `PHASE_COMPLETE`.
-- [ ] Complete ph004 training-phase products.
+  - [x] Build density, T-web, parent linkage/annotation and full observed truth.
+  - [x] Build P1 canonical indexing.
+  - [x] Build P2 graph/metrics and P3 fields as parallel representation branches.
+  - [x] Build the shared P4 patch/evaluation manifest and `PHASE_COMPLETE`.
+- [x] Complete ph004 training-phase products.
   - [x] Stage and verify 10% A+B particle inputs.
-  - [ ] Build density, T-web, parent linkage/annotation and full observed truth.
-  - [ ] Build P1 canonical indexing.
-  - [ ] Build P2 graph/metrics and P3 fields as parallel representation branches.
-  - [ ] Build the shared P4 patch/evaluation manifest and `PHASE_COMPLETE`.
-- [ ] Complete ph005 training-phase products.
+  - [x] Build density, T-web, parent linkage/annotation and full observed truth.
+  - [x] Build P1 canonical indexing.
+  - [x] Build P2 graph/metrics and P3 fields as parallel representation branches.
+  - [x] Build the shared P4 patch/evaluation manifest and `PHASE_COMPLETE`.
+- [x] Complete ph005 training-phase products.
   - [x] Stage and verify 10% A+B particle inputs.
-  - [ ] Build density, T-web, parent linkage/annotation and full observed truth.
-  - [ ] Build P1 canonical indexing.
-  - [ ] Build P2 graph/metrics and P3 fields as parallel representation branches.
-  - [ ] Build the shared P4 patch/evaluation manifest and `PHASE_COMPLETE`.
+  - [x] Build density, T-web, parent linkage/annotation and full observed truth.
+  - [x] Build P1 canonical indexing.
+  - [x] Build P2 graph/metrics and P3 fields as parallel representation branches.
+  - [x] Build the shared P4 patch/evaluation manifest and `PHASE_COMPLETE`.
 - [ ] Satisfy the deterministic training-readiness gate.
-  - [ ] U-PATCH: P1+P3+P4 complete for ph002--ph005 and matching ph006 validation
-    products.
-  - [ ] G-PATCH: P1+P2 graph/metrics+P4 complete for ph002--ph005 and matching ph006
-    validation products.
+  - [x] U-PATCH training pool: P1+P3+P4 complete for ph002--ph005.
+  - [ ] U-PATCH validation: build matching ph006 P1+P3+P4 products.
+  - [x] G-PATCH training pool: P1+P2 graph/metrics+P4 complete for ph002--ph005.
+  - [ ] G-PATCH validation: build matching ph006 P1+P2 graph/metrics+P4 products.
   - [ ] Verify phase-balanced sampling, train-only transforms/scalers, row identity,
     target convention and loader canaries across every contributing phase.
 - [ ] Freeze phase roles and a signed blind-evaluation manifest.
