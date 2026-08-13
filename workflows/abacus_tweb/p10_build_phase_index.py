@@ -61,6 +61,11 @@ def default_observed(registry: dict[str, Any], phase: str) -> Path:
     return root / "catalogues/observed" / f"{phase}_bgs_bright_full_observed_with_tweb.fits"
 
 
+def default_blind_observed(registry: dict[str, Any], phase: str) -> Path:
+    root = Path(registry["path_templates"]["phase_output"].format(phase=phase))
+    return root / "catalogues/blind_observed" / f"{phase}_bgs_bright_full_observed_geometry.fits"
+
+
 def default_output_dir(registry: dict[str, Any], phase: str) -> Path:
     root = Path(registry["path_templates"]["phase_output"].format(phase=phase))
     return root / "p1_canonical"
@@ -123,7 +128,69 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--phase", required=True)
     parser.add_argument("--observed", type=Path)
     parser.add_argument("--out-dir", type=Path)
+    parser.add_argument(
+        "--blind-geometry-only", action="store_true",
+        help=("Build a sealed-phase input/index contract without reading tidal labels. "
+              "This is accepted only for the registered sealed-blind phase."),
+    )
+    parser.add_argument(
+        "--reuse-validated", action="store_true",
+        help="Validate an existing complete P1 product and add the compatibility manifest.",
+    )
     return parser
+
+
+def write_compatibility_manifest(
+    *, marker: Path, manifest: Path, index_path: Path, points_path: Path,
+) -> dict[str, Any]:
+    payload = json.loads(marker.read_text())
+    index = np.load(index_path)
+    points = np.load(points_path, mmap_mode="r")
+    n = int(payload["counts"]["total"])
+    if points.shape != (n, 4) or len(index["parent_node_id"]) != n:
+        raise PhaseIndexError("existing P1 points/index rows do not match completion marker")
+    if not np.array_equal(index["parent_node_id"], np.arange(n, dtype=np.int64)):
+        raise PhaseIndexError("existing P1 parent-node IDs are not row identities")
+    if sha256_file(index_path) != payload["artifacts"]["canonical_index_sha256"]:
+        raise PhaseIndexError("existing P1 canonical-index hash differs from marker")
+    if sha256_file(points_path) != payload["artifacts"]["points_sha256"]:
+        raise PhaseIndexError("existing P1 points hash differs from marker")
+    catalogue_id = payload.get("catalogue_id", f"{payload['phase']}_bgs_bright_full_ngc_sgc_v1")
+    legacy = {
+        "schema_version": "1.1",
+        "stage": "P10/P1 phase-generic canonical catalogue",
+        "catalogue_id": catalogue_id,
+        "phase": payload["phase"],
+        "role": payload["role"],
+        "parent": payload["canonical_parent"]["path"],
+        "parent_sha256": payload["canonical_parent"]["sha256"],
+        "parent_rows_are_canonical_rows": True,
+        "points": str(points_path.resolve()),
+        "index": str(index_path.resolve()),
+        "index_sha256": sha256_file(index_path),
+        "counts": payload["counts"],
+        "mapping_contract": {
+            "galaxy_id": "TARGETID",
+            "graph_node_id": "PARENT_NODE_ID == parent FITS row == full graph row",
+            "halo_group": ["FILE_NUM", "BOX_INDEX", "HALO_INDEX"],
+            "p4_rule": "no repeated TARGETID or underlying halo group may cross supervised folds",
+        },
+        "scope": {
+            "footprint": "full successful-redshift BGS BRIGHT NGC+SGC",
+            "components": {"0": "SGC", "1": "NGC"},
+            "z_context": list(CONTEXT_RANGE), "z_core": [0.15, 0.55],
+            "sentinel_excluded_from_context": list(SENTINEL),
+        },
+        "target_truth_present": bool(payload.get("target_truth_present", True)),
+        "blind_contract": payload.get("blind_contract"),
+        "target_convention": payload.get("target_contract"),
+        "no_train_fitted_normalisation": True,
+        "no_split_filtering": True,
+        "source_completion_marker": str(marker.resolve()),
+        "source_completion_marker_sha256": sha256_file(marker),
+    }
+    atomic_json(manifest, legacy)
+    return legacy
 
 
 def main() -> int:
@@ -132,21 +199,35 @@ def main() -> int:
     if args.phase not in registry["phases"]:
         raise PhaseIndexError(f"unregistered phase: {args.phase}")
     cfg = registry["phases"][args.phase]
-    if cfg["role"] == "sealed_blind":
-        raise PhaseIndexError("refusing to build a truth-bearing ph001 P1 product before unsealing")
-    observed = args.observed or default_observed(registry, args.phase)
+    is_blind = cfg["role"] == "sealed_blind"
+    if is_blind != bool(args.blind_geometry_only):
+        raise PhaseIndexError(
+            "sealed ph001 requires --blind-geometry-only; development phases forbid it"
+        )
+    observed = args.observed or (
+        default_blind_observed(registry, args.phase) if is_blind
+        else default_observed(registry, args.phase)
+    )
     out_dir = args.out_dir or default_output_dir(registry, args.phase)
     out_dir.mkdir(parents=True, exist_ok=True)
     marker = out_dir / "CATALOGUE_COMPLETE.json"
+    manifest = out_dir / "manifest.json"
     index_path = out_dir / "canonical_index.npz"
     points_path = out_dir / "points.npy"
-    if marker.exists() or index_path.exists() or points_path.exists():
+    if args.reuse_validated:
+        if not (marker.is_file() and index_path.is_file() and points_path.is_file()):
+            raise PhaseIndexError("--reuse-validated requires all existing P1 artifacts")
+        legacy = write_compatibility_manifest(
+            marker=marker, manifest=manifest, index_path=index_path, points_path=points_path,
+        )
+        print(json.dumps(legacy, indent=2, sort_keys=True))
+        return 0
+    if marker.exists() or manifest.exists() or index_path.exists() or points_path.exists():
         raise PhaseIndexError(f"refusing to overwrite P1 artifacts in {out_dir}")
 
-    required = [
-        "TARGETID", "RA", "DEC", "Z", "BOX_INDEX",
-        "LAMBDA1", "LAMBDA2", "LAMBDA3", "CWEB",
-    ]
+    required = ["TARGETID", "RA", "DEC", "Z", "BOX_INDEX"]
+    if not is_blind:
+        required += ["LAMBDA1", "LAMBDA2", "LAMBDA3", "CWEB"]
     table = fitsio.read(observed, columns=required)
     n = len(table)
     if not n:
@@ -154,20 +235,23 @@ def main() -> int:
     targetid = np.asarray(table["TARGETID"], dtype=np.int64)
     if len(np.unique(targetid)) != n:
         raise PhaseIndexError("TARGETID is not unique")
-    eigenvalues = np.column_stack(
-        (table["LAMBDA1"], table["LAMBDA2"], table["LAMBDA3"])
-    ).astype(np.float64)
-    finite = np.isfinite(eigenvalues).all(axis=1)
-    ordered = (eigenvalues[:, 0] <= eigenvalues[:, 1]) & (eigenvalues[:, 1] <= eigenvalues[:, 2])
-    class_expected = np.sum(eigenvalues > 0.2, axis=1).astype(np.int8)
     box_valid = np.asarray(table["BOX_INDEX"]) >= 0
-    valid_target = finite & ordered & box_valid
-    if not np.all(finite & ordered):
-        raise PhaseIndexError(
-            f"{int((~(finite & ordered)).sum())} observed rows lack finite ordered truth"
-        )
-    if not np.array_equal(class_expected, np.asarray(table["CWEB"], dtype=np.int8)):
-        raise PhaseIndexError("CWEB disagrees with thresholded eigenvalues")
+    valid_target = box_valid.copy()
+    if not is_blind:
+        eigenvalues = np.column_stack(
+            (table["LAMBDA1"], table["LAMBDA2"], table["LAMBDA3"])
+        ).astype(np.float64)
+        finite = np.isfinite(eigenvalues).all(axis=1)
+        ordered = ((eigenvalues[:, 0] <= eigenvalues[:, 1])
+                   & (eigenvalues[:, 1] <= eigenvalues[:, 2]))
+        class_expected = np.sum(eigenvalues > 0.2, axis=1).astype(np.int8)
+        valid_target &= finite & ordered
+        if not np.all(finite & ordered):
+            raise PhaseIndexError(
+                f"{int((~(finite & ordered)).sum())} observed rows lack finite ordered truth"
+            )
+        if not np.array_equal(class_expected, np.asarray(table["CWEB"], dtype=np.int8)):
+            raise PhaseIndexError("CWEB disagrees with thresholded eigenvalues")
 
     z = np.asarray(table["Z"], dtype=np.float64)
     points = cartesian_points(table["RA"], table["DEC"], z)
@@ -206,6 +290,7 @@ def main() -> int:
         "schema_version": "p10-p1-canonical-v1",
         "created_utc": utc_now(),
         "phase": args.phase,
+        "catalogue_id": f"{args.phase}_bgs_bright_full_ngc_sgc_v1",
         "role": cfg["role"],
         "git_sha": git_sha,
         "registry": str(args.registry.resolve()),
@@ -248,11 +333,21 @@ def main() -> int:
             "authoritative supervised/evaluation rows, matching the frozen ph000 P1b contract"
         ),
         "target_contract": registry["target_contract"],
+        "target_truth_present": not is_blind,
+        "blind_contract": ({
+            "sealed": True,
+            "truth_columns_read": [],
+            "valid_target_is_geometry_linkage_only": True,
+            "unsealing_required_before_scored_evaluation": True,
+        } if is_blind else None),
         "no_train_fitted_normalisation": True,
         "no_split_filtering": True,
         "pass": True,
     }
     atomic_json(marker, payload)
+    write_compatibility_manifest(
+        marker=marker, manifest=manifest, index_path=index_path, points_path=points_path,
+    )
     print(json.dumps(payload, indent=2, sort_keys=True))
     return 0
 

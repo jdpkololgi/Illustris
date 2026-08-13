@@ -74,6 +74,11 @@ def default_output(registry: dict[str, Any], phase: str) -> Path:
     return root / "catalogues/bright_parent" / f"{phase}_bgs_bright_parent_linkage.fits"
 
 
+def default_blind_output(registry: dict[str, Any], phase: str) -> Path:
+    root = Path(registry["path_templates"]["phase_output"].format(phase=phase))
+    return root / "catalogues/blind_parent" / f"{phase}_bgs_bright_parent_linkage.fits"
+
+
 def compact_parent_block(selected: np.ndarray, targetids: np.ndarray) -> np.ndarray:
     dtype = [
         ("TARGETID", "i8"),
@@ -201,6 +206,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--output", type=Path)
     parser.add_argument("--chunk-size", type=int, default=1_000_000)
     parser.add_argument("--r-limit", type=float, default=DEFAULT_R_LIMIT)
+    parser.add_argument(
+        "--blind-geometry-only", action="store_true",
+        help=("Permit the sealed phase to build only geometry and host-linkage metadata; "
+              "no T-web products or target columns are read or written."),
+    )
     return parser
 
 
@@ -210,12 +220,18 @@ def main() -> int:
     if args.phase not in registry["phases"]:
         raise BrightParentError(f"unregistered phase: {args.phase}")
     phase_cfg = registry["phases"][args.phase]
-    if phase_cfg["role"] == "sealed_blind":
-        raise BrightParentError("refusing to construct a ph001 truth-linkage product before unsealing")
+    is_blind = phase_cfg["role"] == "sealed_blind"
+    if is_blind != bool(args.blind_geometry_only):
+        raise BrightParentError(
+            "sealed ph001 requires --blind-geometry-only; development phases forbid it"
+        )
     assets = expand_phase(registry, args.phase)["assets"]
     cutsky = Path(assets["cutsky"])
     forfa = Path(assets["forfa"])
-    output = args.output or default_output(registry, args.phase)
+    output = args.output or (
+        default_blind_output(registry, args.phase) if is_blind
+        else default_output(registry, args.phase)
+    )
     marker = output.with_suffix(output.suffix + ".complete.json")
     if output.exists() or marker.exists():
         raise BrightParentError(f"refusing to overwrite existing parent artifact: {output} / {marker}")
@@ -300,6 +316,13 @@ def main() -> int:
             "sha256": sha256_file(output),
         },
         "parity": parity,
+        "target_truth_present": False,
+        "blind_contract": ({
+            "sealed": True,
+            "tweb_files_read": [],
+            "target_columns_written": [],
+            "host_linkage_use": "P4 duplicate control and deferred truth join only",
+        } if is_blind else None),
     }
     atomic_write_json(marker, payload)
     print(json.dumps(payload, indent=2, sort_keys=True))

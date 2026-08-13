@@ -1,5 +1,40 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-13 — [science/code/runtime] P10 automated P1--P4 campaign begins with sealed-blind separation
+
+The ph001--ph005 build campaign is now active under the explicit objective of creating
+complete, physically matched P1--P4 inputs before multi-phase training. The execution
+contract separates ph002--ph005 truth-bearing training products from ph001 blind input
+products. ph001 may receive observed geometry, host keys for duplicate control, a fresh
+global graph/metrics, observational fields and P4 patches, but no density/T-web target is
+opened and no target column is written. Its terminal marker is therefore
+`BLIND_INPUT_COMPLETE.json`, not a truth-bearing `PHASE_COMPLETE.json`.
+
+The failed first ph002 P2 attempt motivated an operational change rather than a physics
+change. `p10_build_phase_graph.py` constructs NGC and SGC as separate atomic Delaunay
+work units, maps every local simplex back to immutable P1 row IDs, hashes each cap, and
+merges only two passing cap markers. A completed cap now survives allocation expiry.
+Global graph metrics are still computed once on the merged per-catalogue graph; patches
+remain views of that canonical graph and never recompute Delaunay topology or metrics.
+
+Phase-specific P3/P4 schemas are also materialized from the tracked ph000 templates with
+exactly one permitted difference: `catalogue_id`. Planck18 observer-frame Mpc geometry,
+5-Mpc field cells, the 14.78-Mpc radius graph, 64-Mpc/h physical cores, response channels
+and five-fold rules remain frozen. `p10_validate_phase_products.py` distinguishes these
+exact physical gates from expected statistical differences in galaxy counts and graph
+degree caused by cosmic variance.
+
+The reusable stage driver is
+`workflows/abacus_tweb/run_p10_phase_stage.sh`; it skips validated atomic products and
+supports `p1`, per-cap `graph-cap`, GPU `p2-post`, and `p3-p4` stages. Eleven focused P10
+tests pass, including truth-column exclusion in the ph001 observed dtype, cap-array
+concatenation with preserved global IDs, and blind compatibility-manifest propagation.
+
+Interactive allocation `56857414` is presently building the ph003, ph004 and ph005
+2048-cubed 10% A+B TSC density fields concurrently, one phase per node. This is an active
+run, not a completion claim; target, P1--P4 and final phase markers will be logged only
+after their atomic gates exist and validate.
+
 ### 2026-08-13 — [science/code/runtime] Multi-phase readiness audit: particle staging closes, model inputs do not
 
 The first atomic-marker audit after the ph002/ph006 launches gives a clear answer:

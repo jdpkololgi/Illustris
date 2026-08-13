@@ -2398,9 +2398,9 @@ Progress checklist:
 
 ### P10 — Multi-phase target generation and training
 
-**Status:** ACTIVE — PARTICLE STAGING COMPLETE; NOT READY FOR MULTI-PHASE TRAINING;
-PH002 TARGET/OBSERVATION/P1 COMPLETE BUT P2 INCOMPLETE; PH006 DENSITY COMPLETE;
-PH003--PH005 TARGET/REPRESENTATION CHAINS NOT STARTED
+**Status:** ACTIVE — AUTOMATED PH001--PH005 P1--P4 BUILD CAMPAIGN RUNNING;
+CAP-CHECKPOINTED P2 AND SEALED-BLIND PH001 INPUT CONTRACT IMPLEMENTED;
+NOT READY FOR MULTI-PHASE TRAINING UNTIL ATOMIC PHASE MARKERS PASS
 **Duration:** scope after one-phase benchmark; likely days to weeks
 
 Reserve:
@@ -2606,8 +2606,10 @@ Progress checklist:
     simplices but ended without an atomic marker or saved output. The output directory
     is empty; treat this only as `INCOMPLETE_NO_ATOMIC_ARTIFACT`, not a graph product.
     Log: `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/logs/ph002_p2_graph_56763306.out`.
-  - [ ] Add cap-level checkpoint/resume and atomic validation to the phase-generic P2
+  - [x] Add cap-level checkpoint/resume and atomic validation to the phase-generic P2
     builder so a completed cap survives interruption of the second cap.
+    Implemented in `workflows/abacus_tweb/p10_build_phase_graph.py`; NGC/SGC outputs
+    retain immutable P1 parent-row IDs and are hash-gated before merge.
   - [ ] Rerun/finish NGC+SGC graph construction, validate disconnected-cap identity and
     exact P1 row mapping, and write the atomic graph marker.
   - [ ] Compute and validate the frozen global node/edge metrics in `rapids-gnn`, then
@@ -2640,6 +2642,26 @@ Progress checklist:
 - [x] Audit live per-phase readiness after the ph002/ph006 launches. Exact evidence:
   `docs/evidence/p10/multiphase_readiness_20260813.json`. No Slurm job was active at
   audit time; no phase currently carries `PHASE_COMPLETE`.
+- [x] Implement the resumable phase-stage orchestration and cross-phase validation
+  contract. `run_p10_phase_stage.sh` skips passing atomic artifacts and exposes P1,
+  cap-graph, P2-post and P3/P4 work units; `p10_materialize_phase_schemas.py` permits
+  only `catalogue_id` to differ from the tracked ph000 P3/P4 schemas; and
+  `p10_validate_phase_products.py` separates exact physics gates from cosmic-variance
+  diagnostics.
+- [x] Implement sealed ph001 P1--P4 input construction without target access. The
+  blind observed FITS dtype has no CWEB/eigenvalue columns; density/T-web products are
+  forbidden; the terminal marker is `BLIND_INPUT_COMPLETE.json`. Truth unsealing and
+  scored evaluation remain downstream of frozen predictions.
+- [ ] Complete the automated ph001--ph005 campaign.
+  - [x] Launch concurrent ph003--ph005 production density builds in interactive
+    allocation `56857414`; completion remains gated on their density manifests.
+  - [ ] Complete ph003--ph005 T-web/observed/P1 chains.
+  - [ ] Complete two cap checkpoints, merged graph, RAPIDS metrics and radius union for
+    every ph001--ph005 catalogue.
+  - [ ] Complete P3 fields and shared P4 geometry/support for every ph001--ph005
+    catalogue.
+  - [ ] Write passing `PHASE_COMPLETE.json` for ph002--ph005 and
+    `BLIND_INPUT_COMPLETE.json` for ph001.
 - [ ] Complete ph002 model representations and shared examples.
   - [x] Complete target truth, full observed truth and P1 canonical indexing.
   - [ ] Complete P2 graph and global graph metrics for G-PATCH.
