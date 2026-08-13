@@ -15,6 +15,7 @@ from workflows.abacus_tweb.p3a_build_canonical_fields import (
     fractional_index,
     log_count_ratio,
 )
+from workflows.abacus_tweb.p3a_catalogue_field_closure import host_consistency
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -59,6 +60,20 @@ class P3FieldUtilityTest(unittest.TestCase):
         result = log_count_ratio(counts, expected, exposure, 1e-3, 1e-4)
         self.assertEqual(float(result[0]), 0.0)
         self.assertTrue(np.isfinite(result).all())
+
+    def test_cweb_closure_uses_native_float32_threshold(self) -> None:
+        dtype = np.dtype([
+            ("FILE_NUM", "i4"), ("BOX_INDEX", "i4"), ("HALO_INDEX", "i8"),
+            ("LAMBDA1", "f4"), ("LAMBDA2", "f4"), ("LAMBDA3", "f4"),
+            ("CWEB", "i1"),
+        ])
+        table = np.zeros(1, dtype=dtype)
+        table["LAMBDA1"] = np.float32(0.2)
+        table["LAMBDA2"] = np.float32(0.2)
+        table["LAMBDA3"] = np.float32(0.2)
+        table["CWEB"] = 0
+        report = host_consistency(table, np.ones(1, dtype=bool))
+        self.assertEqual(report["cweb_mismatch_rows"], 0)
 
     def test_apodization_is_chunk_halo_stable(self) -> None:
         spec = GridSpec(origin=(600.0, -40.0, -40.0), shape=(16, 16, 16),

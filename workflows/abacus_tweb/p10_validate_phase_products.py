@@ -59,6 +59,7 @@ def phase_paths(registry: dict[str, Any], phase: str) -> dict[str, Path]:
         "gnn_meta": root / f"p2_graph/{prefix}_cugraph_gnn_metadata.json",
         "union": root / "p2_union/p2b_union_manifest.json",
         "p2_complete": root / "p2_graph/P2_COMPLETE.json",
+        "catalogue_field_target_closure": root / "p3_fields/catalogue_field_target_closure.json",
         "density": root / f"targets/density/{density_prefix}.manifest.json",
         "tweb": root / "targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
     }
@@ -172,7 +173,10 @@ def validate_phase(registry: dict[str, Any], phase: str) -> dict[str, Any]:
     }
     blind = cfg["role"] == "sealed_blind"
     if not blind:
-        required.update({"density": paths["density"], "tweb": paths["tweb"]})
+        required.update({
+            "density": paths["density"], "tweb": paths["tweb"],
+            "catalogue_field_target_closure": paths["catalogue_field_target_closure"],
+        })
     missing = {name: str(path) for name, path in required.items() if not path.is_file()}
     if missing:
         raise ProductValidationError(f"phase is incomplete: {missing}")
@@ -209,6 +213,7 @@ def validate_phase(registry: dict[str, Any], phase: str) -> dict[str, Any]:
     if not blind:
         density = json.loads(paths["density"].read_text())
         tweb = json.loads(paths["tweb"].read_text())
+        closure = json.loads(paths["catalogue_field_target_closure"].read_text())
         build = density["build"]
         truth_gates = {
             "truth_embedded_in_p1": bool(p1_manifest["target_truth_present"]),
@@ -230,6 +235,10 @@ def validate_phase(registry: dict[str, Any], phase: str) -> dict[str, Any]:
                 and int(tweb["outputs"]["rank_count"]) == 16
                 and tweb["outputs"]["x_coverage"] == [0, 2048]
                 and bool(tweb["outputs"]["verified"])
+            ),
+            "catalogue_field_target_closure_pass": bool(closure["pass"]),
+            "catalogue_field_target_closure_all_gates_pass": all(
+                bool(value) for value in closure["gates"].values()
             ),
         }
         truth_diagnostics = {

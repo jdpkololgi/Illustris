@@ -131,7 +131,13 @@ def host_consistency(table: np.ndarray, active: np.ndarray) -> dict:
     file_num = np.asarray(table["FILE_NUM"][ids], dtype=np.int64)
     box = np.asarray(table["BOX_INDEX"][ids], dtype=np.int64)
     halo = np.asarray(table["HALO_INDEX"][ids], dtype=np.int64)
-    lam = np.column_stack([table[f"LAMBDA{i}"][ids] for i in (1, 2, 3)]).astype(np.float64)
+    # CWEB was generated from the stored float32 eigenvalues. Preserve that
+    # representation for the exact threshold-class closure; upcasting first
+    # makes a value equal to float32(0.2) compare greater than float64(0.2).
+    lam_native = np.column_stack(
+        [table[f"LAMBDA{i}"][ids] for i in (1, 2, 3)]
+    ).astype(np.float32, copy=False)
+    lam = lam_native.astype(np.float64)
     order = np.lexsort((halo, box, file_num))
     same = (
         (file_num[order][1:] == file_num[order][:-1])
@@ -141,7 +147,7 @@ def host_consistency(table: np.ndarray, active: np.ndarray) -> dict:
     delta = np.abs(lam[order][1:] - lam[order][:-1])
     repeated_pairs = int(same.sum())
     max_delta = float(np.max(delta[same])) if repeated_pairs else 0.0
-    cweb_expected = np.sum(lam > 0.2, axis=1).astype(np.int16)
+    cweb_expected = np.sum(lam_native > np.float32(0.2), axis=1).astype(np.int16)
     cweb_mismatch = int(np.sum(cweb_expected != np.asarray(table["CWEB"][ids], dtype=np.int16)))
     return {
         "active_rows": int(len(ids)),

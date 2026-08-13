@@ -172,6 +172,14 @@ run_p3_p4() {
       --out "$phase_root/p4_patches/p4_validation.json" \
       --marker "$phase_root/p4_patches/PATCH_MANIFEST_COMPLETE"
   fi
+  if [[ "$phase" != ph001 && ! -s "$phase_root/p3_fields/catalogue_field_target_closure.json" ]]; then
+    "$cosmic" -u workflows/abacus_tweb/p3a_catalogue_field_closure.py \
+      --points "$phase_root/p1_canonical/points.npy" \
+      --index "$phase_root/p1_canonical/canonical_index.npz" \
+      --catalogue "$phase_root/catalogues/observed/${phase}_bgs_bright_full_observed_with_tweb.fits" \
+      --field-manifest "$phase_root/p3_fields/field_manifest.json" \
+      --out "$phase_root/p3_fields/catalogue_field_target_closure.json"
+  fi
   "$cosmic" -u workflows/abacus_tweb/p10_validate_phase_products.py \
     --registry "$registry" --phase "$phase" --stage phase
 }

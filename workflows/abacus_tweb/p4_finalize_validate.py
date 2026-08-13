@@ -59,7 +59,7 @@ def main() -> None:
         "unit_contract": geometry["unit_contract"] == rebuild["unit_contract"],
         "counts": geometry["counts"] == rebuild["counts"],
         "folds": geometry["folds"] == rebuild["folds"],
-        "fold_assignment": geometry["fold_assignment"] == rebuild["fold_assignment"],
+        "fold_assignment": geometry.get("fold_assignment") == rebuild.get("fold_assignment"),
         "fold_balance": geometry["fold_balance"] == rebuild["fold_balance"],
         "periodic_image_audit": geometry["periodic_image_audit"] == rebuild["periodic_image_audit"],
         "rotations_sha256": geometry["rotations_sha256"] == rebuild["rotations_sha256"],

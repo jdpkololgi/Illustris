@@ -20,6 +20,10 @@ class P10PhaseProductTests(unittest.TestCase):
             "AbacusSummit_base_c000_ph004_z0.200_ngrid2048_ab10_tsc_counts.manifest.json",
         )
         self.assertEqual(paths["tweb"].name, "TWEB_COMPLETE.json")
+        self.assertEqual(
+            paths["catalogue_field_target_closure"].name,
+            "catalogue_field_target_closure.json",
+        )
 
     def test_atomic_json_serializes_numpy_gate_scalars(self):
         with tempfile.TemporaryDirectory() as temporary:
