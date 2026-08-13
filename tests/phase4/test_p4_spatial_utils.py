@@ -55,6 +55,28 @@ class P4SpatialUtilsTests(unittest.TestCase):
         np.testing.assert_array_equal(left, right)
         self.assertEqual(set(left.tolist()), set(range(5)))
 
+    def test_registered_balance_weights_change_only_the_geometry_objective(self):
+        group_counts = np.ones((10, 2, 4), dtype=np.int64)
+        group_context = np.arange(1, 11, dtype=np.int64)
+        group_cores = np.ones(10, dtype=np.int64)
+        frozen = BUILD.greedy_balanced_folds(
+            group_counts, group_context, group_cores,
+            context_weight=0.05, core_weight=0.05,
+        )
+        fallback = BUILD.greedy_balanced_folds(
+            group_counts, group_context, group_cores,
+            context_weight=0.0, core_weight=0.05,
+        )
+        self.assertEqual(set(frozen.tolist()), set(range(5)))
+        self.assertEqual(set(fallback.tolist()), set(range(5)))
+        np.testing.assert_array_equal(
+            fallback,
+            BUILD.greedy_balanced_folds(
+                group_counts, group_context, group_cores,
+                context_weight=0.0, core_weight=0.05,
+            ),
+        )
+
     def test_grouped_support_quantiles(self):
         group = np.array([1, 0, 1, 0], dtype=np.int32)
         value = np.array([10.0, 1.0, 20.0, 3.0], dtype=np.float32)

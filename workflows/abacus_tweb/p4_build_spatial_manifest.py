@@ -85,7 +85,8 @@ class DisjointSet:
 
 
 def greedy_balanced_folds(group_counts: np.ndarray, group_context: np.ndarray,
-                          group_cores: np.ndarray) -> np.ndarray:
+                          group_cores: np.ndarray, *, context_weight: float = 0.05,
+                          core_weight: float = 0.05) -> np.ndarray:
     """Deterministic multi-objective LPT assignment of spatial groups to folds."""
     n = len(group_counts)
     total = group_counts.sum(axis=0).astype(np.float64)
@@ -108,8 +109,8 @@ def greedy_balanced_folds(group_counts: np.ndarray, group_context: np.ndarray,
             context[fold] += group_context[group]
             cores[fold] += group_cores[group]
             score = float(np.sum(((counts - target) / target) ** 2))
-            score += 0.05 * float(np.sum(((context - target_context) / target_context) ** 2))
-            score += 0.05 * float(np.sum(((cores - target_cores) / target_cores) ** 2))
+            score += context_weight * float(np.sum(((context - target_context) / target_context) ** 2))
+            score += core_weight * float(np.sum(((cores - target_cores) / target_cores) ** 2))
             scores.append((score, float(fold_context[fold]), fold))
         chosen = min(scores)[2]
         result[group] = chosen
@@ -367,25 +368,91 @@ def main() -> None:
         super_component, weights=super_context, minlength=n_component).astype(np.int64)
     component_cores = np.bincount(
         super_component, weights=super_core_count, minlength=n_component).astype(np.int64)
-    component_fold = greedy_balanced_folds(component_counts, component_context, component_cores)
-    super_fold = component_fold[super_component]
-    core_fold = super_fold[core_super]
-    active_fold = core_fold[active_core]
+    active_xyz = np.asarray(points[active_ids, :3], dtype=np.float64)
+    fold_candidates = (
+        ("frozen_lpt_v1", 0.05, 0.05),
+        # Geometry-only fallback activated only if the frozen LPT result fails a
+        # registered fold balance gate. It removes a redundant context-count
+        # penalty while retaining cap/shell and core-count balancing.
+        ("boundary_balance_fallback_v1", 0.0, 0.05),
+    )
+    fold_candidate_audit = []
+    selected = None
+    for candidate_name, context_weight, core_weight in fold_candidates:
+        candidate_component_fold = greedy_balanced_folds(
+            component_counts, component_context, component_cores,
+            context_weight=context_weight, core_weight=core_weight,
+        )
+        candidate_super_fold = candidate_component_fold[super_component]
+        candidate_core_fold = candidate_super_fold[core_super]
+        candidate_active_fold = candidate_core_fold[active_core]
+        candidate_lower, candidate_upper = same_fold_run_bounds(
+            super_index, super_cap, candidate_super_fold, cap_origins, super_mpc)
+        candidate_distance = np.min(
+            np.minimum(active_xyz - candidate_lower[active_super],
+                       candidate_upper[active_super] - active_xyz), axis=1)
+        if np.any(candidate_distance < -1.0e-5):
+            raise RuntimeError("active point lies outside assigned same-fold run")
+        candidate_distance = np.maximum(candidate_distance, 0.0).astype(np.float32)
+        candidate_info = fold_summary(
+            candidate_active_fold, cap, shell, active_ids, candidate_super_fold)
+        candidate_counts = np.asarray(
+            [candidate_info[str(i)]["active_rows"] for i in range(FOLD_COUNT)])
+        candidate_dimensions = np.asarray([
+            [[candidate_info[str(f)]["by_cap_shell"][name][s] for s in range(4)]
+              for _, name in CAPS] for f in range(FOLD_COUNT)
+        ])
+        dimension_mean = candidate_dimensions.mean(axis=0)
+        candidate_dimension_deviation = float(np.max(
+            np.abs(candidate_dimensions - dimension_mean) / np.maximum(dimension_mean, 1.0)))
+        candidate_super_counts = np.asarray(
+            [np.sum(candidate_super_fold == fold) for fold in range(FOLD_COUNT)])
+        candidate_medians = np.asarray([
+            np.median(candidate_distance[candidate_active_fold == fold])
+            for fold in range(FOLD_COUNT)
+        ])
+        candidate_gates = {
+            "five_nonempty_folds": set(np.unique(candidate_active_fold).tolist()) == set(range(FOLD_COUNT)),
+            "fold_active_count_max_min_below_1p05": (
+                float(candidate_counts.max() / candidate_counts.min()) < 1.05),
+            "cap_shell_relative_deviation_below_10pct": candidate_dimension_deviation < 0.10,
+            "fold_occupied_superblock_ratio_below_1p25": (
+                float(candidate_super_counts.max() / candidate_super_counts.min()) < 1.25),
+            "fold_distance_medians_matched_below_25pct": (
+                float(candidate_medians.max() / candidate_medians.min()) < 1.25),
+        }
+        fold_candidate_audit.append({
+            "name": candidate_name,
+            "context_weight": context_weight,
+            "core_weight": core_weight,
+            "distance_mpc_medians": [float(value) for value in candidate_medians],
+            "distance_median_ratio": float(candidate_medians.max() / candidate_medians.min()),
+            "active_count_ratio": float(candidate_counts.max() / candidate_counts.min()),
+            "occupied_superblock_ratio": float(
+                candidate_super_counts.max() / candidate_super_counts.min()),
+            "cap_shell_max_relative_deviation": candidate_dimension_deviation,
+            "gates": candidate_gates,
+            "pass": all(candidate_gates.values()),
+        })
+        if all(candidate_gates.values()):
+            selected = (
+                candidate_name, candidate_component_fold, candidate_super_fold,
+                candidate_core_fold, candidate_active_fold, candidate_lower,
+                candidate_upper, candidate_distance, candidate_info,
+                candidate_counts, candidate_dimensions, candidate_dimension_deviation,
+            )
+            break
+    if selected is None:
+        raise RuntimeError(f"no deterministic fold candidate passed: {fold_candidate_audit}")
+    (fold_candidate_name, component_fold, super_fold, core_fold, active_fold,
+     run_lower, run_upper, active_fold_distance, fold_info, fold_counts,
+     dimension_counts, max_dimension_relative_deviation) = selected
 
     # Exact no-host-crossing readback after host-linked super-block assignment.
     host_fold_mismatch = int(np.sum(active_fold[order][1:][same] != active_fold[order][:-1][same]))
     if len(np.unique(targetid)) != len(targetid):
         raise RuntimeError("TARGETID uniqueness failed before P4")
 
-    run_lower, run_upper = same_fold_run_bounds(
-        super_index, super_cap, super_fold, cap_origins, super_mpc)
-    active_xyz = np.asarray(points[active_ids, :3], dtype=np.float64)
-    active_fold_distance = np.min(
-        np.minimum(active_xyz - run_lower[active_super], run_upper[active_super] - active_xyz),
-        axis=1).astype(np.float32)
-    if np.any(active_fold_distance < -1.0e-5):
-        raise RuntimeError("active point lies outside assigned same-fold run")
-    active_fold_distance = np.maximum(active_fold_distance, 0.0)
     radius = float(schema["core_size_probe"]["graph_radius_mpc"])
 
     # P3 voxel ranges intersecting each exact core. Bounds are not silently snapped.
@@ -409,16 +476,6 @@ def main() -> None:
         cap_origins[int(c)] + row * super_mpc for c, row in zip(super_cap, super_index)
     ]).astype(np.float64)
     super_upper = super_lower + super_mpc
-    fold_info = fold_summary(active_fold, cap, shell, active_ids, super_fold)
-    fold_counts = np.asarray([fold_info[str(i)]["active_rows"] for i in range(FOLD_COUNT)])
-    dimension_counts = np.asarray([
-        [[fold_info[str(f)]["by_cap_shell"][name][s] for s in range(4)]
-          for _, name in CAPS] for f in range(FOLD_COUNT)
-    ])
-    dimension_mean = dimension_counts.mean(axis=0)
-    max_dimension_relative_deviation = float(np.max(
-        np.abs(dimension_counts - dimension_mean) / np.maximum(dimension_mean, 1.0)))
-
     core_path = args.out_dir / "cores.npz"
     super_path = args.out_dir / "super_blocks.npz"
     context_path = args.out_dir / "context_assignment.npz"
@@ -523,6 +580,14 @@ def main() -> None:
             "distance_mpc_max": float(np.max(repeated_distances)) if len(repeated_distances) else None,
             "policy": schema["supervised_eligibility"]["periodic_image_policy"]},
         "folds": fold_info,
+        "fold_assignment": {
+            "selected": fold_candidate_name,
+            "selection_policy": (
+                "use frozen LPT when all registered balance gates pass; otherwise use the "
+                "first deterministic geometry-only fallback that passes every same gate"
+            ),
+            "candidates": fold_candidate_audit,
+        },
         "fold_balance": {"active_max_min_ratio": float(fold_counts.max() / fold_counts.min()),
                          "max_cap_shell_relative_deviation": max_dimension_relative_deviation},
         "rotations": str(rotations_path),
