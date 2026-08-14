@@ -42,6 +42,9 @@ python/illustris_python/
 *.gif
 *.html
 
+# Durable supervisor-briefing evidence figures
+!docs/figures/briefing_graphweb_vac_20260813/*.png
+
 # Run logs & generated output / plot directories
 *.log
 logs/
@@ -70,3 +73,6 @@ assets/fonts/
 
 # Local-only daily briefing todo log (personal admin, high churn — not shared science state)
 DAILY_TODOS.md
+docs/exports/GraphWeb-DESI-supervisor-briefing-Obsidian.zip
+docs/briefing_graphweb_vac_supervisor_meeting_20260813.md
+docs/figures/
