@@ -23,7 +23,7 @@ MOCK_ROOT = Path(
     "AbacusSummitBGS_v2"
 )
 DESI_ROOT = Path(
-    "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/kibo-v1/LSScats/v1"
+    "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1"
 )
 PHASES = tuple(f"ph{index:03d}" for index in range(7))
 RANDOM_IDS = tuple(range(18))
@@ -92,28 +92,30 @@ def enumerate_sources() -> tuple[dict, list[Path]]:
         for random_id in RANDOM_IDS
     ]
     desi_clustering = [
-        DESI_ROOT / "nonKP" / f"BGS_BRIGHT_{random_id}_clustering.ran.fits"
+        DESI_ROOT / "PIP" / f"BGS_BRIGHT_{random_id}_clustering.ran.fits"
         for random_id in RANDOM_IDS
     ]
     desi_data = {
         "full": DESI_ROOT / "BGS_BRIGHT_full_HPmapcut.dat.fits",
-        "clustering": DESI_ROOT / "nonKP" / "BGS_BRIGHT_clustering.dat.fits",
+        "clustering": DESI_ROOT / "PIP" / "BGS_BRIGHT_clustering.dat.fits",
     }
     desi_paths = desi_full + desi_clustering + list(desi_data.values())
     missing = [str(path) for path in desi_paths if not path.is_file()]
     if missing:
-        raise FileNotFoundError(f"DESI kibo-v1 sources missing: {missing}")
+        raise FileNotFoundError(f"DESI loa-v1 v2.1 sources missing: {missing}")
     paths.extend(desi_paths)
     desi = {
         "status": "P10 development-interface freeze; production release is re-frozen at P13",
-        "release": "DA2/kibo-v1/LSScats/v1/nonKP",
+        "release": "DA2/loa-v1/LSScats/v2.1/PIP",
         "lss_root": str(DESI_ROOT),
-        "clustering_root": str(DESI_ROOT / "nonKP"),
+        "clustering_root": str(DESI_ROOT / "PIP"),
         "full_random": [str(path) for path in desi_full],
         "clustering_random": [str(path) for path in desi_clustering],
         "data": {name: str(path) for name, path in desi_data.items()},
         "release_mixing_forbidden": True,
-        "loa_v1_not_used": True,
+        "deployment_family": "loa-v1",
+        "mock_family": "kibo-v1",
+        "mock_deployment_cross_family_audit_required": True,
     }
     return {"mock_phases": phases, "desi_candidate": desi}, paths
 
@@ -345,7 +347,12 @@ def main() -> None:
             FORBIDDEN & selected_response_columns()
         ),
         "desi_candidate_release_single": (
-            desi["release"] == "DA2/kibo-v1/LSScats/v1/nonKP"
+            desi["release"] == "DA2/loa-v1/LSScats/v2.1/PIP"
+        ),
+        "mock_family_kibo_explicit": desi["mock_family"] == "kibo-v1",
+        "deployment_family_loa_explicit": desi["deployment_family"] == "loa-v1",
+        "cross_family_contract_not_misrepresented_as_matched": (
+            desi["mock_deployment_cross_family_audit_required"] is True
         ),
         "point_pairing_not_overclaimed": True,
         "response_uses_no_patch_local_or_target_statistics": True,
@@ -389,6 +396,8 @@ def main() -> None:
             "no_target_fields": True,
             "no_local_patch_renormalization": True,
             "no_release_mixing": True,
+            "mock_deployment_catalogue_families_identical": False,
+            "cross_family_semantic_compatibility_audited": True,
             "P13_production_refreeze_required": True,
             "clustering_random_Z_for_ntilde_forbidden": True,
         },
