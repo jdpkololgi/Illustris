@@ -32,6 +32,10 @@ class P10PhaseRegistryTests(unittest.TestCase):
         cls.registry = load_registry(DEFAULT_REGISTRY)
 
     def test_roles_and_uniform_particle_contract_are_frozen(self):
+        self.assertEqual(
+            self.registry["phases"]["ph000"]["role"],
+            "training_development_reference",
+        )
         self.assertEqual(self.registry["phases"]["ph001"]["role"], "sealed_blind")
         self.assertEqual(
             self.registry["phases"]["ph006"]["role"], "validation_and_selection"
@@ -41,6 +45,10 @@ class P10PhaseRegistryTests(unittest.TestCase):
         self.assertEqual(samples["B_fraction"], 0.07)
         self.assertEqual(samples["total_fraction"], 0.1)
         self.assertFalse(self.registry["target_contract"]["phase_is_model_input"])
+        self.assertEqual(
+            self.registry["model_phase_contract"]["training"],
+            ["ph000", "ph002", "ph003", "ph004", "ph005"],
+        )
 
     def test_registry_rejects_nonuniform_total(self):
         broken = copy.deepcopy(self.registry)
@@ -58,6 +66,10 @@ class P10PhaseRegistryTests(unittest.TestCase):
             )
         )
         self.assertEqual(ph002["particle_b"]["kind"], "hpss")
+        self.assertEqual(
+            expand_phase(self.registry, "ph000")["particle_b"]["kind"],
+            "restored_reference",
+        )
         self.assertEqual(expand_phase(self.registry, "ph006")["particle_b"]["kind"], "cfs")
 
 

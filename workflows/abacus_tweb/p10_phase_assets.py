@@ -20,7 +20,7 @@ from typing import Any, Iterable
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_REGISTRY = REPO_ROOT / "configs/p10_phase_registry_v1.json"
-EXPECTED_PHASES = tuple(f"ph{i:03d}" for i in range(1, 7))
+EXPECTED_PHASES = tuple(f"ph{i:03d}" for i in range(7))
 ASDF_RE = re.compile(r"(field|halo)_rv_B_\d{3}\.asdf$")
 FITS_REQUIRED_COLUMNS = {
     "cutsky": {
@@ -100,7 +100,9 @@ def validate_registry(registry: dict[str, Any]) -> None:
         kind = source.get("kind")
         if phase == "ph006" and kind != "cfs":
             raise RegistryError("ph006 B must use the verified online CFS source")
-        if phase != "ph006" and kind != "hpss":
+        if phase == "ph000" and kind != "restored_reference":
+            raise RegistryError("ph000 B must use the frozen restored reference source")
+        if phase not in {"ph000", "ph006"} and kind != "hpss":
             raise RegistryError(f"{phase} B must use its registered HPSS source")
         if kind == "hpss":
             members = source.get("members", [])
