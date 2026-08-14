@@ -291,8 +291,13 @@ def shared_selection_fit(root: Path, contract: Path) -> dict:
         files = phase_files(root, phase)
         p3 = json.loads(files["p3_manifest"].read_text())
         cores = np.load(files["cores"])
+        widths = np.asarray(cores["upper_mpc"] - cores["lower_mpc"], dtype=np.float64)
+        core_mpc = float(np.median(widths))
+        core_width_error = float(np.max(np.abs(widths - core_mpc)))
+        if core_width_error > 1.0e-6:
+            raise RuntimeError(f"{phase} inconsistent P4 core widths: {core_width_error}")
         lookups = {
-            name: build_cap_lookup(cores, cap, 64.0)
+            name: build_cap_lookup(cores, cap, core_mpc)
             for cap, name in CAP_NAME.items()
         }
         counts, count_audit = histogram_counts(
@@ -303,7 +308,7 @@ def shared_selection_fit(root: Path, contract: Path) -> dict:
         volume, volume_audit = histogram_effective_volume(
             p3=p3,
             lookups=lookups,
-            core_mpc=64.0,
+            core_mpc=core_mpc,
             edges=edges,
             radius_grid_mpc=radius_grid,
             redshift_grid=redshift_grid,
@@ -314,6 +319,8 @@ def shared_selection_fit(root: Path, contract: Path) -> dict:
             "counts": count_audit,
             "volume": volume_audit,
             "p3_manifest_sha256": sha256(files["p3_manifest"]),
+            "core_mpc": core_mpc,
+            "core_width_error_mpc": core_width_error,
         }
     caps = {}
     for cap, name in CAP_NAME.items():
