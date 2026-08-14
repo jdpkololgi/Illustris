@@ -1,5 +1,73 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-14 — [science] PATHWAY ASSESSMENT (Claude Code): JDPK's "protocol > encoder" framing is QUANTITATIVELY confirmed; P12/SBI is now the binding constraint on the VAC product, not accuracy
+
+Reviewed the P8 closeout, P10 readiness, and the plan's P10-P13 contracts. Assessment below;
+no new runs, no promotion.
+
+**1. The framing is confirmed by our own numbers.** Measured spread in same-phase ph000 macro
+R2(lambda1), separated by which axis was varied:
+
+| axis varied | spread | evidence |
+|---|---:|---|
+| ENCODER/architecture (4 families, matched protocol) | **0.052** | G 0.4695, D0 0.4723, U 0.5035, U-CICres 0.5214 |
+| TRAINING METHODOLOGY (exposure+budget, same encoder) | **0.150** | U 0.363 (2k-step screen) -> 0.5134 (epochs+budget); G +0.091 |
+| DATA/INFORMATION (add Faint tracers) | **0.113** | U 0.4943 -> MT4 0.6074 (rot0; null still required) |
+| EVALUATION honesty (leaky -> spatial -> patch) | 0.082 | 0.421 transfer -> 0.440 R0 -> 0.5035 patch |
+
+Training methodology moved the score ~3x more than the entire architecture family space, and the
+data axis ~2x more. Four encoder families (attention graph, 3-D U-Net, density-first physics, and
+classical-residual hybrid) all land within 0.052 of each other under the same protocol — that is the
+signature of a task limited by information and optimization, not by inductive bias. The programme
+should stop treating encoder choice as a primary lever; the plan's P8 closeout already does this
+implicitly by freezing ph000 rather than opening more architecture sweeps, and that was correct.
+
+**2. What P8's closeout actually established (and its honest limits).** U-PATCH-BRIGHT_REFERENCE is
+the frozen deterministic candidate; CIC is the anchor; G-PATCH is a non-promoted runner-up;
+U-CIC-residual is NO_GO on sparse-shell regression (matching the P9 audit mechanism); MT4 is
+PASS for Faint spatial information but NO_GO for the current Proxy encoder; D0 is retained as
+secondary field evidence. The D0 DarkAI-like rescore is a genuinely useful piece of self-scepticism:
+it showed r(k)=0.937 and P_cross/P_true=0.855 at 0.02-0.08 h/Mpc under external-style scoring, i.e.
+part of the apparent gap to published field results is a SCORING-CONVENTION difference, not method
+quality — while honestly retaining that ~14.5% amplitude suppression and knot incompleteness remain.
+That is the correct way to handle a favourable-looking diagnostic.
+
+**3. P10 readiness is the strongest infrastructure state the programme has had.** 84,446 training
+cores per deterministic epoch across five phases with balanced phase prefixes and reproducible
+resume; transforms fit on the five training phases only and frozen for ph006/ph001; 40/40 P10 tests;
+signed `sealed_inputs_ready_predictions_not_written_truth_not_opened` for ph001 with 12 blind-isolation
+gates. The 64 Mpc/h vs 94.5906 Mpc unit catch is exactly the class of bug that silently degrades a
+model input, and it was caught by a gate rather than by a confusing result.
+
+**4. THE BINDING CONSTRAINT IS NOW P12, NOT ACCURACY.** The deterministic ladder has plateaued near
+macro 0.50-0.52 (U converged at ep19/20 both rotations), while the VAC product is per-galaxy
+ENVIRONMENT with uncertainty. The class evidence already shows why a point estimator cannot deliver
+that product: conditional-mean shrinkage (sigma_p/sigma_t ~ sqrt(R2) ~ 0.6-0.8) systematically
+under-populates extreme classes, and thresholding it gave 26-31% predicted voids vs 38% true and
+knot recall 56-64% at 51-64% precision. A calibrated posterior converts this from a bias into a
+quantified uncertainty: P(lambda1>0.2) per galaxy is the deliverable that the shrunk point estimate
+cannot be. The plan's P12 contract is well-specified (SBC/TARP/conditional coverage, response
+conditioning, H_fid estimand explicitly NOT called HOD-marginalised, stratified by density/mask/
+recipe) — the honesty framing is right. One historical note that must be carried forward: ALL prior
+FMPE/tempering calibration was fitted under the leaky random-split regime and its coverage claims are
+void; P12 must be refit from scratch on the P10 protocol, and the earlier TARP results should not be
+cited as evidence that the flow calibrates.
+
+**5. RECOMMENDED NEXT STEPS (pathway to the VAC):**
+(i) **Run P10 Arm-A deterministic training now** — it is ready, and it is the first true
+    generalisation evidence in the programme's history; everything before it is same-phase.
+(ii) **Select on ph006, then immediately begin P12 on the ph006 selection artifacts** rather than
+     treating P12 as a post-hoc add-on. The posterior is the product; scheduling it after a long
+     deterministic tail risks it being rushed.
+(iii) **Keep the MT4 neural null on the critical path** — if Faint context survives its null under
+      multi-phase training, it is the single largest remaining lever (+0.11) and it is a DATA lever,
+      consistent with (1).
+(iv) **Do not reopen encoder sweeps.** Given a 0.052 architecture spread, further encoder work has
+     poor expected value against P12 calibration, response conditioning (Arms B/C), and phases.
+(v) **Report the VAC product in class/posterior terms, not R2.** Our own figures show morphology and
+    class recovery are better than the per-galaxy R2 implies; the release framing should follow the
+    calibrated-probability contract, with R2 as a secondary diagnostic.
+
 ### 2026-08-14 — [science/code/data] P10 deterministic multi-phase training ready; ph001 sealed; Loa deployment frozen
 
 The five pre-training work packages are complete. Freshly initialized deterministic
