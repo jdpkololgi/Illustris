@@ -64,7 +64,7 @@ def readiness(root: Path, records: dict[str, dict]) -> dict:
     contract_root = root / "training_contract"
     loader_marker = contract_root / "TRAINING_LOADER_READY.json"
     response_marker = contract_root / "P10_RESPONSE_SOURCES_READY.json"
-    blind_marker = contract_root / "P10_BLIND_PROTOCOL_FROZEN.json"
+    blind_marker = contract_root / "P10_BLIND_EVALUATION_FROZEN.json"
     training_products = all(
         records[phase]["status"]["phase_complete"] for phase in TRAINING_PHASES
     )

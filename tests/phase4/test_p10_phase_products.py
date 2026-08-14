@@ -43,7 +43,7 @@ class P10PhaseProductTests(unittest.TestCase):
             second = readiness(root, records)
             self.assertFalse(second["ready_to_launch_deterministic_training"])
             (marker.parent / "P10_RESPONSE_SOURCES_READY.json").write_text("{}\n")
-            (marker.parent / "P10_BLIND_PROTOCOL_FROZEN.json").write_text("{}\n")
+            (marker.parent / "P10_BLIND_EVALUATION_FROZEN.json").write_text("{}\n")
             third = readiness(root, records)
             self.assertTrue(third["ready_to_launch_deterministic_training"])
 
