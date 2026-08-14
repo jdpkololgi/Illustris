@@ -20,8 +20,8 @@ class P10PhaseProductTests(unittest.TestCase):
             reference = record(root, "ph000")
             training = record(root, "ph003")
             selection = record(root, "ph006")
-            self.assertEqual(reference["role"], "development_reference")
-            self.assertFalse(reference["eligible_for_training"])
+            self.assertEqual(reference["role"], "training_development_reference")
+            self.assertTrue(reference["eligible_for_training"])
             self.assertEqual(reference["status"]["p2_ngc"], "legacy_global_graph")
             self.assertTrue(training["eligible_for_training"])
             self.assertEqual(selection["role"], "validation_and_selection")
@@ -41,7 +41,11 @@ class P10PhaseProductTests(unittest.TestCase):
             marker.parent.mkdir(parents=True)
             marker.write_text("{}\n")
             second = readiness(root, records)
-            self.assertTrue(second["ready_to_launch_deterministic_training"])
+            self.assertFalse(second["ready_to_launch_deterministic_training"])
+            (marker.parent / "P10_RESPONSE_SOURCES_READY.json").write_text("{}\n")
+            (marker.parent / "P10_BLIND_PROTOCOL_FROZEN.json").write_text("{}\n")
+            third = readiness(root, records)
+            self.assertTrue(third["ready_to_launch_deterministic_training"])
 
     def test_phase_paths_include_frozen_truth_products(self):
         registry = {"path_templates": {"phase_output": "/tmp/p10/{phase}"}}

@@ -59,7 +59,27 @@
     "fiberassign",
     "lss"
   ],
+  "model_phase_contract": {
+    "training": ["ph000", "ph002", "ph003", "ph004", "ph005"],
+    "validation_and_selection": ["ph006"],
+    "sealed_blind_test": ["ph001"],
+    "fresh_initialization_required": true,
+    "phase_balanced_sampling": true,
+    "phase_is_model_input": false,
+    "ph000_scores_are_independent_generalisation_evidence": false
+  },
+  "response_source_registry": "configs/p10_response_sources_v1.json",
   "phases": {
+    "ph000": {
+      "mock": 0,
+      "role": "training_development_reference",
+      "truth_access": "development",
+      "historical_score_use": "reference_only",
+      "particle_b": {
+        "kind": "restored_reference",
+        "root": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/AbacusSummit_base_c000_ph000/halos/z0.200"
+      }
+    },
     "ph001": {
       "mock": 1,
       "role": "sealed_blind",

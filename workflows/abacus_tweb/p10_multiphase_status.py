@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 PHASES = tuple(f"ph{i:03d}" for i in range(0, 7))
-TRAINING_PHASES = ("ph002", "ph003", "ph004", "ph005")
+TRAINING_PHASES = ("ph000", "ph002", "ph003", "ph004", "ph005")
 
 
 def record(root: Path, phase: str) -> dict:
@@ -49,19 +49,22 @@ def record(root: Path, phase: str) -> dict:
         status["p2_ngc"] = "legacy_global_graph"
         status["p2_sgc"] = "legacy_global_graph"
     role = (
-        "development_reference" if reference else
+        "training_development_reference" if reference else
         "sealed_blind" if blind else
         "validation_and_selection" if phase == "ph006" else
         "training"
     )
     return {"phase": phase, "role": role, "blind": blind,
-            "eligible_for_training": phase in {"ph002", "ph003", "ph004", "ph005"},
+            "eligible_for_training": phase in set(TRAINING_PHASES),
             "status": status,
             "paths": {name: str(path) for name, path in checks.items()}}
 
 
 def readiness(root: Path, records: dict[str, dict]) -> dict:
-    loader_marker = root / "training_contract/TRAINING_LOADER_READY.json"
+    contract_root = root / "training_contract"
+    loader_marker = contract_root / "TRAINING_LOADER_READY.json"
+    response_marker = contract_root / "P10_RESPONSE_SOURCES_READY.json"
+    blind_marker = contract_root / "P10_BLIND_PROTOCOL_FROZEN.json"
     training_products = all(
         records[phase]["status"]["phase_complete"] for phase in TRAINING_PHASES
     )
@@ -70,6 +73,8 @@ def readiness(root: Path, records: dict[str, dict]) -> dict:
     reference_normalized = bool(records["ph000"]["status"]["phase_complete"])
     product_gate = training_products and validation_products
     loader_ready = loader_marker.is_file() and loader_marker.stat().st_size > 0
+    response_ready = response_marker.is_file() and response_marker.stat().st_size > 0
+    blind_frozen = blind_marker.is_file() and blind_marker.stat().st_size > 0
     return {
         "training_phase_products_complete": training_products,
         "validation_phase_products_complete": validation_products,
@@ -77,11 +82,17 @@ def readiness(root: Path, records: dict[str, dict]) -> dict:
         "ph000_reference_normalized": reference_normalized,
         "p1_p4_products_ready": product_gate,
         "phase_balanced_loader_canary_complete": loader_ready,
-        "ready_to_launch_deterministic_training": product_gate and loader_ready,
+        "response_source_contract_complete": response_ready,
+        "blind_evaluation_protocol_frozen": blind_frozen,
+        "ready_to_launch_deterministic_training": (
+            product_gate and loader_ready and response_ready and blind_frozen
+        ),
         "loader_marker": str(loader_marker),
+        "response_marker": str(response_marker),
+        "blind_marker": str(blind_marker),
         "interpretation": (
-            "P1-P4 product readiness and model-loader readiness are separate gates; "
-            "ph000 is reference-only and ph001 remains sealed"
+            "P1-P4, loader, response-source and blind-protocol gates are distinct; "
+            "ph000 is training-eligible but its scores are reference-only; ph001 remains sealed"
         ),
     }
 
@@ -93,7 +104,7 @@ def main() -> None:
     parser.add_argument("--json", type=Path)
     args = parser.parse_args()
     records = {phase: record(args.root, phase) for phase in PHASES}
-    payload = {"schema_version": "p10-multiphase-status-v3",
+    payload = {"schema_version": "p10-multiphase-status-v4",
                "phases": records, "readiness": readiness(args.root, records)}
     text = json.dumps(payload, indent=2, sort_keys=True) + "\n"
     if args.json:
