@@ -1,0 +1,114 @@
+{
+  "allowed_before_truth_open": [
+    "run frozen ph006-selected U-PATCH/G-PATCH finalists on ph001 inputs",
+    "run frozen classical baselines with ph006-selected hyperparameters",
+    "save per-galaxy predictions, runtime manifests, and complete hashes",
+    "verify prediction row identity and completeness without truth"
+  ],
+  "contract_sha256": "bac0a23b64e7a573ade4a5258b3aec95832324783055d39a11841c9d1f11a0bd",
+  "created_utc": "2026-08-14T16:04:11.408251+00:00",
+  "forbidden_before_predictions_frozen": [
+    "read or construct ph001 density/T-web/eigenvalue truth",
+    "compute ph001 target metrics or diagnostic plots",
+    "change architecture, features, transforms, hyperparameters, or selection",
+    "select a checkpoint using ph001"
+  ],
+  "frozen_code_commit": "fd7a835fdd952b7c6559efe7cfbf3af94a0db4d4",
+  "gates": {
+    "all_frozen_input_manifests_present": true,
+    "blind_input_marker_pass": true,
+    "density_product_absent": true,
+    "loader_marker_pass": true,
+    "one_open_only": true,
+    "p1_blind_contract_sealed": true,
+    "p1_target_truth_absent": true,
+    "ph001_not_response_fit_source": true,
+    "ph001_not_transform_fit_source": true,
+    "ph001_role_sealed": true,
+    "response_source_marker_pass": true,
+    "tweb_product_absent": true
+  },
+  "input_artifacts": {
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/p1_canonical/manifest.json": {
+      "bytes": 3165,
+      "sha256": "9c24d46b49b1774ecd3d818745d1d2fc4b533cfeb384a984643848388fe0dc8e"
+    },
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph001/field/adapter_manifest.json": {
+      "bytes": 4010,
+      "sha256": "0eecd0767630ca86e0eb0d601c1ff48ac8203ad0a25e098fb8058723a2683ec8"
+    },
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph001/graph/adapter_manifest.json": {
+      "bytes": 5719,
+      "sha256": "d4196daae5a05ec2e8e859ba6cbdde0dbb831cc951b67dafa83876743224a4e1"
+    },
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/transforms/field/field_transform.json": {
+      "bytes": 5204,
+      "sha256": "4669aa537b9e9a62e3c34745099ce77b66edb9efdb98370667498dafe5c318f5"
+    },
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/transforms/field/selection_manifest.json": {
+      "bytes": 982294,
+      "sha256": "b010391138a3cb36f90c41506c85755e2154bdfee7e7ebe7e9f9a1d51662a526"
+    },
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/transforms/graph/ph001/node_features_8d.npy": {
+      "bytes": 234498720,
+      "sha256": "da4426c757f168f0b9bbd3fda928743cb56772681bbe61641046e0689d608c69"
+    },
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/transforms/target_scaler.json": {
+      "bytes": 1913,
+      "sha256": "c918ab3d58c3ec1dbb568ef450b3eabc76db7a94a41b822e7cedbfaf364eae9f"
+    }
+  },
+  "metric_contract": {
+    "classical_adoption_rule": "a learned-model macro win is rejected if it trails the best frozen classical estimator in the first three tracer-supported shells",
+    "no_post_open_tuning": true,
+    "posterior_calibration_in_scope": false,
+    "primary": "equal-shell macro R2(lambda1) on all authoritative ph001 rows",
+    "required_reports": [
+      "pooled and per-shell R2/Spearman/MAE/bias for all eigenvalues",
+      "first-three-shell mean R2(lambda1)",
+      "sparse-shell R2(lambda1)",
+      "web-class balanced accuracy/confusion matrix/void and knot recall",
+      "spatial-block confidence intervals",
+      "boundary/support stratification"
+    ]
+  },
+  "open_count": 0,
+  "opening_procedure": [
+    "write P10_BLIND_PREDICTIONS_FROZEN.json with all prediction hashes",
+    "verify every finalist and classical method covers the same authoritative rows",
+    "copy this sealed manifest and predictions marker into tracked evidence",
+    "open ph001 truth once using the frozen evaluator",
+    "write P10_BLIND_OPENED.json and never resume tuning"
+  ],
+  "pass": true,
+  "phase": "ph001",
+  "prediction_root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001",
+  "roles": {
+    "sealed_blind_test": "ph001",
+    "training": [
+      "ph000",
+      "ph002",
+      "ph003",
+      "ph004",
+      "ph005"
+    ],
+    "validation_and_selection": "ph006"
+  },
+  "schema_version": "p10-blind-evaluation-v1",
+  "state": "sealed_inputs_ready_predictions_not_written_truth_not_opened",
+  "status": "P10_BLIND_EVALUATION_FROZEN",
+  "upstream_markers": {
+    "blind_input": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/BLIND_INPUT_COMPLETE.json",
+      "sha256": "2b6b1bd7021b66159a946be8842292aa19b2856e3b6012071503f40e6ad16b9c"
+    },
+    "response_sources": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/P10_RESPONSE_SOURCES_READY.json",
+      "sha256": "9861db0f80030f19a8402db30320901854de6362bf0ab5e685c02557fa4557ae"
+    },
+    "training_loader": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/TRAINING_LOADER_READY.json",
+      "sha256": "460fa2dc7938994aa1110677ad609f6761deee274767375cb474fec1c4d6cad6"
+    }
+  }
+}

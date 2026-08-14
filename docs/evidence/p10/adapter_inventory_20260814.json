@@ -1,0 +1,48 @@
+{
+  "pass": true,
+  "phases": {
+    "ph000": {
+      "field_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph000/field/adapter_manifest.json",
+      "field_manifest_sha256": "6fb32a01c1cf7d1e2255b9dd331eba9f2e386fb529b44b8d1e7276e5ce14760e",
+      "graph_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph000/graph/adapter_manifest.json",
+      "graph_manifest_sha256": "ede3703cfbb4abbd3a0b9ccf9da9561216ed01f52164207dc3918f7f9d0e1e9f"
+    },
+    "ph001": {
+      "field_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph001/field/adapter_manifest.json",
+      "field_manifest_sha256": "0eecd0767630ca86e0eb0d601c1ff48ac8203ad0a25e098fb8058723a2683ec8",
+      "graph_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph001/graph/adapter_manifest.json",
+      "graph_manifest_sha256": "d4196daae5a05ec2e8e859ba6cbdde0dbb831cc951b67dafa83876743224a4e1"
+    },
+    "ph002": {
+      "field_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph002/field/adapter_manifest.json",
+      "field_manifest_sha256": "b63feb02e6d57f9380d3ea637ca8c4beb973b832f4569aa6c965ac211dc985d8",
+      "graph_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph002/graph/adapter_manifest.json",
+      "graph_manifest_sha256": "0dae613c5b793a5ef583ccf6e13698a49a96f1753b54568d50293e575437e342"
+    },
+    "ph003": {
+      "field_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph003/field/adapter_manifest.json",
+      "field_manifest_sha256": "f5036a1f0a435c756b8cf3cf72da1aa9bd08998354c3fca544225d7e2e8336c1",
+      "graph_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph003/graph/adapter_manifest.json",
+      "graph_manifest_sha256": "a617f52ccc9ca0ef6cb6bc3ba0655b46eab094cf27f782789edcba499f9ff50a"
+    },
+    "ph004": {
+      "field_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph004/field/adapter_manifest.json",
+      "field_manifest_sha256": "ea4b05e6c8c955d81e0c4791a01e571128ad5c0b643a0e114b4e64fadfe8d360",
+      "graph_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph004/graph/adapter_manifest.json",
+      "graph_manifest_sha256": "d02387cd7447b24da9db539e9f66bfb3eee8b290eb4550afc5d8e283a8bdca79"
+    },
+    "ph005": {
+      "field_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph005/field/adapter_manifest.json",
+      "field_manifest_sha256": "d4e3ec8d9c954cba3dc697347f17e2651aded489abe3dda92bd9a9b12015d4de",
+      "graph_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph005/graph/adapter_manifest.json",
+      "graph_manifest_sha256": "62d7ea8087ac5408e145101a481f66a17705648b0ab18478d08d8a211989b57b"
+    },
+    "ph006": {
+      "field_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph006/field/adapter_manifest.json",
+      "field_manifest_sha256": "ecc3e72a46f8a29ef1c6996e165779e646c778871fd9c80957e3cbab4cf3917a",
+      "graph_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph006/graph/adapter_manifest.json",
+      "graph_manifest_sha256": "afb3336c23c700870d41636a99cc7d67d40f0d98bfcb25726bceb3b2907421c0"
+    }
+  },
+  "schema_version": "p10-adapter-inventory-v1"
+}

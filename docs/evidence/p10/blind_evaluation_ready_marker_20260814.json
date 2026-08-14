@@ -1,0 +1,27 @@
+{
+  "contract": "/global/u2/d/dkololgi/TNG/Illustris/configs/p10_blind_evaluation_v1.json",
+  "contract_canonical_sha256": "bac0a23b64e7a573ade4a5258b3aec95832324783055d39a11841c9d1f11a0bd",
+  "contract_file_sha256": "0aceb0581fd7fdac4008c42b3e26ec1b662f67085e6b0cbd6d8790143073ded0",
+  "created_utc": "2026-08-14T16:04:11.408251+00:00",
+  "evidence": "/global/u2/d/dkololgi/TNG/Illustris/docs/evidence/p10/blind_evaluation_frozen_20260814.json",
+  "evidence_sha256": "0aceb0581fd7fdac4008c42b3e26ec1b662f67085e6b0cbd6d8790143073ded0",
+  "gates": {
+    "all_frozen_input_manifests_present": true,
+    "blind_input_marker_pass": true,
+    "density_product_absent": true,
+    "loader_marker_pass": true,
+    "one_open_only": true,
+    "p1_blind_contract_sealed": true,
+    "p1_target_truth_absent": true,
+    "ph001_not_response_fit_source": true,
+    "ph001_not_transform_fit_source": true,
+    "ph001_role_sealed": true,
+    "response_source_marker_pass": true,
+    "tweb_product_absent": true
+  },
+  "pass": true,
+  "phase": "ph001",
+  "schema_version": "p10-blind-evaluation-frozen-marker-v1",
+  "state": "sealed_inputs_ready_predictions_not_written_truth_not_opened",
+  "status": "P10_BLIND_EVALUATION_FROZEN"
+}

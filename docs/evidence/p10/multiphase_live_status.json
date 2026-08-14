@@ -2,7 +2,7 @@
   "phases": {
     "ph000": {
       "blind": false,
-      "eligible_for_training": false,
+      "eligible_for_training": true,
       "paths": {
         "density": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/targets/density/AbacusSummit_base_c000_ph000_z0.200_ngrid2048_ab10_tsc_counts.manifest.json",
         "observed": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/catalogues/observed/ph000_bgs_bright_full_observed_with_tweb.fits.complete.json",
@@ -19,7 +19,7 @@
         "tweb": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json"
       },
       "phase": "ph000",
-      "role": "development_reference",
+      "role": "training_development_reference",
       "status": {
         "density": true,
         "observed": true,
@@ -254,15 +254,19 @@
     }
   },
   "readiness": {
-    "interpretation": "P1-P4 product readiness and model-loader readiness are separate gates; ph000 is reference-only and ph001 remains sealed",
+    "blind_evaluation_protocol_frozen": true,
+    "blind_marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/P10_BLIND_EVALUATION_FROZEN.json",
+    "interpretation": "P1-P4, loader, response-source and blind-protocol gates are distinct; ph000 is training-eligible but its scores are reference-only; ph001 remains sealed",
     "loader_marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/TRAINING_LOADER_READY.json",
     "p1_p4_products_ready": true,
     "ph000_reference_normalized": true,
-    "phase_balanced_loader_canary_complete": false,
-    "ready_to_launch_deterministic_training": false,
+    "phase_balanced_loader_canary_complete": true,
+    "ready_to_launch_deterministic_training": true,
+    "response_marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/P10_RESPONSE_SOURCES_READY.json",
+    "response_source_contract_complete": true,
     "sealed_blind_inputs_complete": true,
     "training_phase_products_complete": true,
     "validation_phase_products_complete": true
   },
-  "schema_version": "p10-multiphase-status-v3"
+  "schema_version": "p10-multiphase-status-v4"
 }

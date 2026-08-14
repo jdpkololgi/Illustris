@@ -1,0 +1,49 @@
+{
+  "application_phases": [
+    "ph006",
+    "ph001"
+  ],
+  "field_pass": true,
+  "fit_phases": [
+    "ph000",
+    "ph002",
+    "ph003",
+    "ph004",
+    "ph005"
+  ],
+  "graph_pass": true,
+  "pass": true,
+  "phase_records": {
+    "ph000": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/phases/ph000/phase_contract.json",
+      "sha256": "d622305bb6f0b25d4e97b03b8a0c83a3dcfc0afc8a050305bef282a325e800e8"
+    },
+    "ph001": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/phases/ph001/phase_contract.json",
+      "sha256": "148ad575945e3dd3e86bbe63b1c2157b3fc5589069ba9a3df93ede58066de6f4"
+    },
+    "ph002": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/phases/ph002/phase_contract.json",
+      "sha256": "0c17e374aab532ae02f3c7322616423ca333105719d650f63c17d79964a0698b"
+    },
+    "ph003": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/phases/ph003/phase_contract.json",
+      "sha256": "cae255390bdf52110f4f51e8f9114909c4c5dfdc53c4ce36ecee0d96e57082d4"
+    },
+    "ph004": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/phases/ph004/phase_contract.json",
+      "sha256": "45c9f78cc792b8055e3b75396e88bab008c156f45fe2c51c69a436af83d1947f"
+    },
+    "ph005": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/phases/ph005/phase_contract.json",
+      "sha256": "2042cafe22f7ba7bfacc63ccbdc0ae7d42fff9487b90096a2a468887197d9b96"
+    },
+    "ph006": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/phases/ph006/phase_contract.json",
+      "sha256": "a96d891ac2326b7eb56e3f2fe6d36fbb04aee8defeb52e548c44a408d0db8e1a"
+    }
+  },
+  "schema_version": "p10-transform-freeze-v1",
+  "selection_pass": true,
+  "target_pass": true
+}

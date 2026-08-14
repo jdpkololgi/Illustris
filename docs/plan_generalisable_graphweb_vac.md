@@ -484,7 +484,9 @@ loose marker. Only graph validation may write `GRAPH_COMPLETE`.
 
 ### P3 — Canonical full-volume count and response fields
 
-**Status:** P3a COMPLETE — canonical NGC+SGC fields and `FIELD_COMPLETE` frozen; P3b response upgrades deferred
+**Status:** P3a COMPLETE — canonical NGC+SGC fields and `FIELD_COMPLETE` frozen;
+P3b source audit required before the P10 training interface is frozen and P3b exports
+required before Arm C
 **Duration:** 0.5–1.5 days for the first configuration
 **Resources:** CPU preprocessing; HBM80 GPU for model execution
 
@@ -577,11 +579,45 @@ Field gates:
 
 #### P3b — Random-reference and deployable-response upgrade
 
-**Status:** DEFERRED; does not modify the frozen P3a/P8 controls
+**Status:** SOURCE CONTRACT FROZEN FOR ARM A; full response-field exports remain gated on the frozen P10
+view ladder and do not modify the frozen P3a/P8 controls
 
 A random catalogue is a high-density, unclustered Monte Carlo sampling of the survey
 selection measure. It is not a set of negative galaxies, an estimate of the missing
 matter, or an independent universe.
+
+The response contract separates geometrical support from conditional completeness:
+
+~~~text
+M(v)   in {0,1}  = footprint/imaging-veto support, including holes
+C_s(v) in [0,1]  = probability of surviving assignment and redshift-success stage s
+p_s(v)           = M(v) * C_s(v), with separately registered factors where available
+~~~
+
+This distinction is mandatory at footprint edges and holes. A low observed count in a
+supported voxel can be physical; a voxel with `M=0` contains no survey information.
+For G-PATCH, remove any graph edge whose sampled physical segment crosses `M=0`; do not
+allow a Delaunay or radius edge to bridge a masked hole or cap boundary. Boundary
+distance is measured to the nearest `M=0` support cell and is both a candidate feature
+and a required stratification variable.
+
+**Source-availability audit (2026-08-13).** The upstream DA2 SecondGen BGS LSS tree
+already contains 18 candidate final-view files
+`BGS_BRIGHT_{0..17}_full_HPmapcut.ran.fits` for every `ph000`--`ph006`, under
+`altmtl{phase}/kibo-v1/mock{phase}/LSScats`. Matching DESI-data names also exist under
+the DA2 `kibo-v1` and `loa-v1` LSS releases. The inspected full randoms carry angular,
+tile, hardware, imaging-veto and `FRAC_TLOBS_TILES` columns but no redshift; the
+clustering randoms add `Z`, weights and `TARGETID_DATA`. Therefore the project should
+**register and audit these products, not generate new final-view randoms by default**,
+and should not use the clustering-random `Z` distribution until its data-linkage and
+radial-selection provenance are accepted. This layout agrees with the
+[DESI mock LSS data model](https://desidatamodel.readthedocs.io/en/latest/DESI_ROOT/survey/catalogs/RELEASE/mocks/AbacusSummit/OBSCON/VERSION/altmtlX/mockX/LSScats/index.html),
+which defines 18 random realizations and distinguishes full from clustering products.
+The P10 deployment source is frozen to the superseding Loa DR2 family, exactly
+`DA2/loa-v1/LSScats/v2.1/PIP`; the official SecondGen mock products remain
+Kibo-derived. This cross-family contract is explicit and must not be described as a
+matched release. P13 may tighten the exact version only within the Loa family, never
+silently fall back to Kibo or infer a release from a filename.
 
 For each observation view `s`, deposit data and matched randoms on the same immutable
 cap lattice with the same coordinate convention and kernel. The preferred project
@@ -611,6 +647,45 @@ randoms also do not by themselves encode density-dependent fibre collisions or
 redshift failures; use matched assignment probabilities, PIP/completeness products,
 or quality maps for those effects.
 
+The existing final-view randoms need not imply a separately materialized catalogue for
+every intermediate view. Prefer one audited base angular random set plus a
+manifest-frozen factorization of `M`, fibre-assignment probability and redshift-success
+probability. Materialize a stage-specific random only when the upstream product has a
+meaningful persistent random identity and stage response. This follows DESI's use of a
+matched random catalogue as an unclustered sampling of observability
+([Ross et al.](https://arxiv.org/abs/2405.16593)); alternate-MTL/PIP products are the
+appropriate precedent for density-dependent fibre assignment
+([Lasker et al.](https://arxiv.org/abs/2404.03006)). ASTRA's merged galaxy+random
+Delaunay construction is a useful alternative representation, especially for
+underdense regions, but it is not the default encoder input
+([Forero-Romero et al.](https://academic.oup.com/rasti/article/doi/10.1093/rasti/rzaf032/8221862)).
+
+Source and implementation checklist:
+
+- [x] Extend the tracked P10 phase registry to record all 18 full and clustering random
+  paths, sizes, schemas and content hashes for ph000--ph006.
+- [x] Freeze the candidate DESI-data LSS release/version and record the homologous full
+  random, clustering random, completeness/PIP and quality products; do not silently mix
+  `kibo-v1`, `loa-v1` or future public DR products.
+- [x] Prove which identifiers, if any, persist across base and stage-specific randoms;
+  otherwise build paired response fields from one base catalogue rather than claiming
+  point-level pairing.
+- [x] Audit the provenance and intended measure of `Z`, `TARGETID_DATA`, `WEIGHT*`,
+  `FRAC_TLOBS_TILES`, `COMP_TILE`, `FRACZ_TILELOCID`, `GOODHARDLOC`, `NTILE`, `MASKBITS`
+  and imaging-map cuts before assigning each to `M`, `C_s`, `ntilde_s` or diagnostics.
+- [x] Write the atomic
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/P10_RESPONSE_SOURCES_READY.json`
+  binding the accepted mock and DESI sources, schema crosswalk and the rule that no
+  target or local patch statistic enters the response.
+  The passing audit enumerates and content-hashes all 18 full and 18 clustering
+  randoms for every mock phase plus the exact Loa deployment products, freezes the
+  semantic crosswalk, and explicitly declines unsupported point pairing. Tracked
+  registry and evidence: `configs/p10_response_sources_v1.json`,
+  `docs/evidence/p10/response_sources_20260814.json`, and
+  `docs/evidence/p10/response_sources_ready_marker_20260814.json`. This is a source
+  gate only: `response_fields_complete=false`, so Arms B/C remain gated.
+- [ ] Build a small random-only and boundary-crossing canary before full P3b export.
+
 Minimum architecture contract:
 
 - U-PATCH receives `G_s`, `mu_s` or its logarithm, stabilized contrast,
@@ -638,6 +713,7 @@ P3b gates:
   patch-wise renormalization;
 - data, random, response, and topology hashes are view-specific;
 - mock and DESI response columns have one deployable schema and units;
+- graph components remain cap-disconnected and no retained edge crosses an `M=0` hole;
 - raw counts, expected counts, and information support remain separate—randoms correct
   the expected selection baseline but do not recreate lost galaxies or remove shot
   noise.
@@ -2398,15 +2474,14 @@ Progress checklist:
 
 ### P10 — Multi-phase target generation and training
 
-**Status:** P1--P4 PRODUCT MATRIX COMPLETE FOR PH001--PH006; PH000 NORMALIZED AS
-REFERENCE; DETERMINISTIC TRAINING LAUNCH BLOCKED ONLY ON THE PHASE-BALANCED
-ADAPTER/LOADER AND TRAIN-ONLY-TRANSFORM CANARY
+**Status:** DETERMINISTIC ARM-A TRAINING READY FOR PH000+PH002--PH005; PH006
+FROZEN FOR VALIDATION/SELECTION; PH001 SEALED FOR ONE-OPEN BLIND EVALUATION; ARMS B/C
+REMAIN GATED ON RESPONSE-FIELD AND VIEW-LADDER EXPORTS
 **Duration:** scope after one-phase benchmark; likely days to weeks
 
 Reserve:
 
-- ph000: development and blocked protocol work;
-- ph002–ph005: additional training phases;
+- ph000, ph002–ph005: five phase-balanced training phases;
 - ph006: phase-level validation and calibration;
 - ph001: sealed blind phase.
 
@@ -2419,23 +2494,28 @@ then describe the result as more generalisable. Repeated decisions against the s
 blocked folds create adaptive benchmark overfitting even when the supervised rows are
 spatially disjoint.
 
-P8 closed the `ph000` model-development boundary on 2026-08-10. D0 rotation 2 and D1
-were explicitly stopped without execution after the DarkAI-like diagnostic; they are
-not failed experiments. The remaining authorized `ph000` activity is therefore bounded
-to P10 technical readiness rather than model selection:
+P8 closed `ph000` as an independent development/evaluation benchmark on 2026-08-10.
+D0 rotation 2 and D1 were explicitly stopped without execution after the DarkAI-like
+diagnostic; they are not failed experiments. This does **not** make `ph000` invalid as
+training data. The final multi-phase models are initialized from scratch, and training
+data are allowed to have influenced the historical architecture choice. The independent
+generalisation evidence comes from ph006 model selection and the one-open ph001 test,
+not from any subsequent score on ph000. The remaining authorized `ph000` activity is:
 
 1. implement and canary the P10.1 final/degraded-view loaders and response channels;
-2. use `ph000` only for technical or optimization screens of Arms A--C, never as their
-   production-transfer decision;
+2. include `ph000` with equal phase-level sampling weight in Arms A--C, while retaining
+   its development-contaminated provenance and never treating its training-set score as
+   production-transfer evidence;
 3. open one paired-view P11 experiment only after the independent-phase Arms A--C
    diagnose a representation bottleneck.
 
-No additional `ph000` architecture, loss, feature, context, cell-size, residual, or
-posterior sweep opens from a null result. When the authorized decisions close, freeze
-the surviving encoder(s), D0 field contract if retained, degradation recipes, response
-schema, target/metric code, transformations, compute budgets, and acceptance rules in a
-signed manifest. Later model selection occurs on ph006; ph001 remains a one-open blind
-test and may not be used to tune this list.
+No additional **ph000-only** architecture, loss, feature, context, cell-size, residual,
+or posterior sweep opens from a null result, and no old ph000 checkpoint initializes the
+production run. When the authorized decisions close, freeze the surviving encoder(s),
+D0 field contract if retained, degradation recipes, response schema, target/metric code,
+transformations, compute budgets, and acceptance rules in a signed manifest. Model
+selection occurs on ph006; ph001 remains a one-open blind test and may not be used to
+tune this list.
 
 P10 infrastructure is not deferred. Audit phase assets and benchmark one complete
 target-generation chain in parallel with the remaining `ph000` work. This separates the
@@ -2629,7 +2709,9 @@ Progress checklist:
   finite/order/class checks pass on all ph002 rows and a 100,000-row ph000 sample.
   Tracked evidence: `docs/evidence/p10/ph002_convention_parity.json`.
 - [x] Normalize the frozen ph000 development/reference products under the same P10
-  phase-tree interface without admitting ph000 to the training mixture. The passing
+  phase-tree interface. These products are now eligible as the fifth training phase for
+  models initialized from scratch; the historical `reference` provenance and marker
+  name remain unchanged. The passing
   `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/REFERENCE_PHASE_COMPLETE.json`
   binds 193 copied files totaling `162,057,995,430` bytes, preserves historical
   manifests byte-exactly, and exposes normalized target, catalogue, P1, P2, P3, P4
@@ -2712,34 +2794,55 @@ Progress checklist:
   - [x] Build P1 canonical indexing.
   - [x] Build P2 graph/metrics and P3 fields as parallel representation branches.
   - [x] Build the shared P4 patch/evaluation manifest and `PHASE_COMPLETE`.
-- [ ] Satisfy the deterministic training-readiness gate.
-  - [x] U-PATCH training pool: P1+P3+P4 complete for ph002--ph005.
+- [x] Satisfy the deterministic training-readiness gate.
+  - [x] U-PATCH training pool: P1+P3+P4 complete for ph000 and ph002--ph005.
   - [x] U-PATCH validation: build matching ph006 P1+P3+P4 products.
-  - [x] G-PATCH training pool: P1+P2 graph/metrics+P4 complete for ph002--ph005.
+  - [x] G-PATCH training pool: P1+P2 graph/metrics+P4 complete for ph000 and
+    ph002--ph005.
   - [x] G-PATCH validation: build matching ph006 P1+P2 graph/metrics+P4 products.
-  - [ ] Implement a phase-balanced training sampler over ph002--ph005. Phase may
+  - [x] Implement a phase-balanced training sampler over ph000 and ph002--ph005. Phase may
     determine grouping and provenance but must never enter the model features; no
     single phase or dense shell may dominate an epoch accidentally.
-  - [ ] Fit graph-feature, field-channel and target transforms on the ph002--ph005
-    training mixture only; serialize them once and apply them unchanged to ph006.
-  - [ ] Prove row identity, target convention, patch/core ownership, complete-epoch
+  - [x] Fit graph-feature, field-channel and target transforms on the five-phase
+    ph000+ph002--ph005 training mixture only; serialize them once and apply them
+    unchanged to ph006.
+  - [x] Prove row identity, target convention, patch/core ownership, complete-epoch
     coverage, resume parity, weighted-loss accounting and deterministic validation
     for both U-PATCH and G-PATCH across every contributing phase.
-  - [ ] Write the passing atomic loader marker only after those canaries:
+  - [x] Write the passing atomic loader marker only after those canaries:
     `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/TRAINING_LOADER_READY.json`.
+  - [x] Complete the cheap response-source/schema audit in P3b and write
+    `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/P10_RESPONSE_SOURCES_READY.json`
+    before any new multi-phase GPU training. This freezes the future Arm-C interface
+    and avoids discovering after Arm A that the mock and DESI response fields are not
+    homologous; it does not require full P3b field export before Arm A.
+  - [x] Freeze adapter inventory and shared transforms. The field, graph, selection,
+    and target transforms are fit only on ph000+ph002--ph005 and applied unchanged to
+    ph006 and sealed ph001. Evidence: `docs/evidence/p10/adapter_inventory_20260814.json`
+    and `docs/evidence/p10/transforms_frozen_20260814.json`.
+  - [x] Pass the registered real extraction/epoch canary: 84,446 training cores exactly
+    once per epoch, 16,796 deterministic ph006 validation cores, balanced phase prefix,
+    resume parity, exact weighted-loss reconstruction, row/target alignment, and
+    deterministic graph/field extraction for every visible phase. Evidence:
+    `docs/evidence/p10/training_loader_ready_20260814.json`.
 - [x] Run the terminal P1--P4 cross-phase physics/representation audit through
   ph006. All exact gates pass; evidence:
   `docs/evidence/p10/multiphase_p1_p4_complete_with_ph006_20260813.json`. The
   machine-readable live matrix is `docs/evidence/p10/multiphase_live_status.json`.
-- [ ] Freeze phase roles and a signed blind-evaluation manifest.
+- [x] Freeze phase roles and a signed blind-evaluation manifest. The one-open ph001
+  contract is `configs/p10_blind_evaluation_v1.json`; tracked evidence and marker copies
+  are `docs/evidence/p10/blind_evaluation_frozen_20260814.json` and
+  `docs/evidence/p10/blind_evaluation_ready_marker_20260814.json`.
 - [ ] Train and freeze finalists without reading ph001 truth metrics.
-- [ ] Build ph001 graph/field products and save predictions before opening truth.
+- [x] Build the truth-free ph001 graph/field products under the sealed blind-input
+  contract.
+- [ ] Save ph001 predictions before opening truth.
 - [ ] Evaluate ph001 once and record the production-transfer decision.
 
 #### P10.1 — Controlled observation-operator training
 
-**Status:** P8 GATE PASSED; LINEAGE AUDIT, PHASE ASSETS, RESPONSE EXPORTS, AND
-TECHNICAL CANARIES NEXT; SCIENTIFIC MODEL SELECTION OCCURS ON INDEPENDENT PHASES
+**Status:** ARM-A DETERMINISTIC TRAINING READY; ARMS B/C AWAIT THE FROZEN VIEW
+LADDER AND P3B RESPONSE-FIELD EXPORTS; SCIENTIFIC MODEL SELECTION OCCURS ON PH006
 
 The catalogue identifiers required to pair and group examples are not automatically
 valid conditioning variables. Use this role contract:
@@ -2748,7 +2851,8 @@ valid conditioning variables. Use this role contract:
 | --- | --- | --- |
 | Grouping/provenance only | phase, observer ID, HOD ID/seed, stage ID, degradation seed, core ID, TARGETID, halo linkage, source hashes | Pairing, outer splits, hierarchical sampling, leakage audit, and stratified metrics; never production inputs |
 | Deployable physical/response | continuous redshift or `log ntilde(z)`, LOS, random-derived expected intensity, exposure, completeness, fibre-assignment probability, redshift quality/error, mask distance, effective support | Concatenate as node/voxel channels; broadcast legitimate patch summaries or concatenate them before the output head |
-| Unknown simulation nuisances | HOD and velocity-bias parameters, unobserved failure-recipe parameters | Vary during training and later marginalize; do not reveal their true values to the estimator |
+| Baseline-fixed simulation nuisance | fiducial BGS galaxy--halo prescription `H_fid` and its stochastic seed | The first released posterior is explicitly conditional on `H_fid`; HOD ID/seed remain provenance, never production inputs |
+| Optional unknown simulation nuisances | alternative HOD/velocity-bias and unobserved failure-recipe parameters | Open only as later robustness interventions; vary and marginalize only if a registered stress test shows material sensitivity |
 | Privileged truth | `Z_COSMO`, true peculiar velocity, halo mass/linkage, matter density, T-web/NEXUS+ truth | Target construction, train-only auxiliary labels, and evaluation where declared; never a DESI production input |
 
 Observer ID must not substitute for geometry: supply the actual LOS and response fields.
@@ -2770,21 +2874,54 @@ network only if a registered diagnostic shows that direct conditioning is ignore
 P12 the same contract becomes `q(theta | encoder_output, response)`.
 
 Sample in the order `phase -> latent spatial core -> observation view`. Keep every
-stage, observer, HOD, and degradation realization of a latent core in the same outer
+stage, observer, and degradation realization of a latent core in the same outer
 phase/spatial split, give the latent core one scientific weight, and rebuild topology,
 topology-derived features, fields, and random-response products independently for every
 view. Because distinct observers can revisit the same periodic-box structure, the first
 P10 test should either use one observer or prove cross-observer grouping by base-box
 identity.
 
-Freeze a response-explicit degradation ladder before model training. It must include a
-high-fidelity dense observed-galaxy view, the final Path1-like deployment view, and
-intermediate views that vary magnitude selection, redshift-dependent tracer density,
-angular completeness/masks, fibre assignment, redshift success/error, and tracer
-composition where the current mock supports them. Uniform random thinning is a named
-information control, not a substitute for the survey observation operator. Every view
-must save its selected IDs, random seed, response fields, topology/field manifests, and
-source hashes. Hold out at least one degradation recipe, not only a seed, from training.
+The baseline mock ensemble uses its existing BGS galaxy--halo prescription. The target
+of the first SBI model is therefore
+`p(lambda | x_s, response_s, H_fid)`, not a posterior marginalized over the unknown
+DESI HOD. This is a valid conditional estimand and avoids putting new HOD lightcones,
+fibre assignment and LSS processing on the critical path. DESI has studied 11 BGS HOD
+models (`BGS_0` best fit plus ten posterior samples) controlled by 17 luminosity-dependent
+meta-parameters, but only 11 `z=0.2` cubic mocks from one AbacusSummit realization were
+available in that analysis; they are not drop-in replacements for the present
+ph000--ph006 phase-indexed cut-sky products
+([Findlay et al.](https://arxiv.org/html/2411.12023v4)). Locate them
+only for the post-P12 held-out-HOD stress test defined below.
+
+Freeze a response-explicit **forward-observation ladder** before Arms B/C. An observation
+view is a different survey operator applied to the same latent galaxy population, not a
+new universe. The minimum useful ladder is deliberately small:
+
+| View | Catalogue state | Purpose and response requirement |
+| --- | --- | --- |
+| `V_dense` | Targetable BGS selection inside the accepted imaging footprint, before assignment/redshift losses | Privileged information ceiling; same `M`, explicit target-selection and `ntilde(z)` contract |
+| `V_assign` | `V_dense` after the audited fibre-assignment/collision operator | Isolates assignment loss; matched `C_fibre`/PIP or alternate-MTL response |
+| `V_final` | Final Path1-like successful-redshift and HP-map-cut selection | Deployment view; `M`, `C_fibre`, `C_z`, quality/error and final source hashes |
+
+Add another view only if it isolates a named effect with an audited deployable response.
+Uniform random thinning is a named information control, not a substitute for the survey
+observation operator. Every view must save selected IDs, random seed, response fields,
+topology/field manifests and source hashes. Hold out at least one response recipe—not
+only a seed—from training.
+
+Survey effects are not all treated as extra network features. Freeze this accounting
+table with the view ladder:
+
+| Effect/selection | Applied to mocks | Seen by encoder/SBI | External precedent and project reason |
+| --- | --- | --- | --- |
+| Footprint, imaging vetoes and holes | Apply the same angular support and HP-map cuts; derive binary `M` from full randoms | `M`/expected intensity and mask distance; U-PATCH zero-support cells are distinct from voids; G-PATCH also vetoes edges crossing `M=0` | DESI full randoms represent reachable angular support; ASTRA uses matched random points directly. Our field-first treatment is cheaper and preserves the established encoders. |
+| Flux/magnitude/target selection and radial density | Apply the BGS selection in each registered view | Smooth training-fitted `ntilde(z)` or `log mu`; never infer the radial baseline independently per patch | DESI random/catalogue analyses match angular and radial selection. We retain an independently smoothed radial baseline because clustering-random redshifts can be data-linked. |
+| Fibre assignment and collisions | Use the real Path1/alternate-MTL assignment lineage where available; random thinning is only a control | `C_fibre` or PIP/completeness response plus rebuilt graph/fields | DESI uses alternate assignment histories/PIP or completeness weighting. Lost neighbours are missing information, so conditioning cannot recreate them but should prevent false certainty. |
+| Redshift success and final quality cuts | Apply the calibrated success/failure and final selection | `C_z`, quality/error summaries; SBI width and coverage must respond to them | DESI LSS catalogues explicitly correct varying redshift success and completeness. We need calibrated uncertainty, not merely an average correction. |
+| Redshift error | Perturb observed redshift with the audited BGS error model | LOS and redshift-error scale; rebuild positions/topology per view | This changes radial geometry, so a weight alone is insufficient. |
+| RSD | Present in the observed mock coordinates by construction | LOS is a physical channel; real-space positions/velocities remain privileged truth | RSD is signal+nuisance in the observed field, not a removable survey mask. |
+| Sampling density/shot noise | Arises from every selection; add matched thinning severity controls | Raw counts remain separate from `mu`; posterior contraction/width is tested versus density | Randoms set the expected selection baseline but do not reconstruct missing galaxies. |
+| Fiducial HOD/velocity bias | Keep the existing mock prescription fixed for baseline training | No HOD ID input; label inference as conditional on `H_fid` | Published DESI HOD ensembles show a useful later stress test, but their BGS suite is one-realization cubic data rather than production cut sky. |
 
 The dense view is privileged training context, not a DESI input. Before it can become a
 teacher in P11, its supervised model must transfer to unseen spatial blocks and ph006;
@@ -2800,8 +2937,29 @@ Only three observation-training arms are mandatory:
 | B | A phase-balanced mixture: final view plus one balanced auxiliary degradation view per latent core | Benefit of observation diversity |
 | C | B plus continuous, DESI-available response conditioning | Benefit of modelling known survey response |
 
+Arm C contains a **bounded, ordered feature/structure ablation**, not an unrestricted
+power-set search:
+
+| Test | Change from preceding test | Required interpretation |
+| --- | --- | --- |
+| `R0` | Frozen P3a/P8 channels on `V_final` | Arm-A reference |
+| `R1` | Replace only the occupancy-derived support/expected-count approximation with random-derived `M` and `mu`, preserving the frozen tensor width wherever possible | Isolates the random-reference correction |
+| `R2` | `R1` plus audited continuous `C_fibre` and `C_z` (separate channels when identifiable; product plus flags otherwise) | Isolates explicit completeness conditioning |
+| `R3` | `R2` plus mask-boundary distance; retain the already-established LOS channels | Tests whether the model can identify reduced context near holes/footprint edges |
+| `G-topology` | For G-PATCH finalists only, compare the same `R2/R3` node features with versus without the mandatory `M=0` edge-crossing veto | Isolates structural boundary leakage; the unsafe result is diagnostic and cannot ship |
+| `G-random-node` | For a still-competitive G-PATCH only, merge a bounded random-node sample in the ASTRA style | Optional alternative representation, not a production prerequisite |
+
+Run `R0 -> R1 -> R2 -> R3` first for the leading U-PATCH family. Repeat only the
+representation-specific minimum for another encoder that remains competitive. Keep
+architecture, target rows, phase/core sampler, optimizer-update budget and seeds fixed.
+Do not run all subsets of all response channels. A promoted `R3` must also pass a
+leave-one-block-out diagnostic for `M/mu`, completeness and boundary distance to detect
+shortcut dependence; this diagnostic is not a second architecture search.
+
 Select on the final production-like ph006 view, while reporting every stage, worst
-stage/effect, and at least one held-out degradation recipe. A curriculum is only an
+stage/effect, bins of mask distance/completeness, and at least one held-out degradation
+recipe. Boundary residuals and posterior coverage must be reported separately for
+footprint edges, holes and well-supported interiors. A curriculum is only an
 order-controlled replay ablation using the identical Arm-C examples and optimizer
 updates. After any dense-to-sparse warm-up, retain balanced replay of dense,
 intermediate, and final views; a one-way curriculum that forgets earlier views is not an
@@ -2810,10 +2968,15 @@ opens only if Arms A–C identify a representation bottleneck.
 
 Minimal decision order:
 
-1. finish P8 unchanged;
-2. audit/re-export a current-Path1-compatible degradation ladder and matched randoms;
-3. run the P3b drop-in response-field checks;
-4. run P10 Arms A–C across independent phases;
+1. [complete 2026-08-14] implement and pass the phase-balanced loader/transform
+   contract;
+2. [complete 2026-08-14] register and audit the existing ph000--ph006 plus Loa
+   random/response sources and write `P10_RESPONSE_SOURCES_READY.json`;
+3. run freshly initialized Arm A now using the frozen final-view R0 contract; in
+   parallel, freeze the three-view forward-observation ladder, build the P3b `R1`
+   random-only/boundary canary and response exports, and write
+   `P10_VIEW_LADDER_READY.json` before Arms B/C;
+4. run P10 Arms B/C and ordered `R1--R3` ablations across independent phases;
 5. test curriculum or paired consistency only for a remaining observation-transfer
    failure;
 6. open P11 JEPA only for a diagnosed representation bottleneck;
@@ -2923,7 +3086,8 @@ Progress checklist:
 - [ ] Implement leakage-safe spatial masks and feature-support guards.
 - [ ] Validate the dense teacher on unseen spatial blocks and ph006 before distillation.
 - [ ] Keep all paired views in one outer split with one latent-core scientific weight.
-- [ ] Freeze the degradation ladder, held-out recipe, alignment layers, and loss weights.
+- [ ] Freeze the forward-observation ladder, held-out response recipe, alignment layers,
+  and loss weights.
 - [ ] Compare on identical folds, compute, seeds, and independent phase tests.
 - [ ] Adopt only for reproducible deterministic transfer gain.
 
@@ -2945,8 +3109,26 @@ deterministic canary do not require FMPE/NPE.
 4. Tune on ph006.
 5. Evaluate once on ph001.
 
+The baseline posterior contract is
+
+~~~text
+q(lambda_g | encoder(x_s), response_s, H_fid)
+~~~
+
+where ordered tidal eigenvalues are the current coordinates of environmental
+information and `H_fid` is the fixed BGS galaxy--halo prescription used by the training
+mocks. Do not describe this as HOD-marginalized. After in-domain P12 calibration passes,
+run one held-out-HOD intervention if the published 11-model BGS cubic suite can be
+located and joined to truth without changing the estimand. Compare the HOD-induced
+shift in posterior location and coverage with the calibrated posterior width. If it is
+small, release a conditional-robustness statement; if it is comparable to the width or
+causes coverage failure, open a separate HOD-augmentation/marginalization project. This
+stress test is not a prerequisite for the first conditional VAC.
+
 Require SBC, TARP, coverage, conditional coverage, knot-probability reliability, Brier
-skill, width-versus-error, posterior contraction, and prior-dominated flags. Scalar
+skill, width-versus-error, posterior contraction, and prior-dominated flags. Condition
+or stratify the diagnostics by phase, redshift, sampling density, `M`, `C_fibre`, `C_z`,
+mask distance, hole versus footprint edge and held-out response recipe. Scalar
 tempering that repairs average coverage while leaving shape failure is insufficient.
 
 Progress checklist:
@@ -2955,6 +3137,8 @@ Progress checklist:
 - [ ] Generate leakage-safe out-of-fold conditioning summaries.
 - [ ] Fit on training phases and tune on ph006 only.
 - [ ] Pass marginal, multivariate, conditional, tail, and information gates.
+- [ ] Record the `H_fid` conditional estimand and run the optional held-out-HOD stress
+  test only after baseline calibration.
 - [ ] Evaluate once on ph001 and freeze calibrated posterior artifacts.
 
 ### P13 — DESI canary and scale-out
@@ -2968,6 +3152,15 @@ Reproduce the winning representation exactly:
 - F-tier: canonical graph/fields plus converged FFT overlap and trim.
 - Hybrid: all components with out-of-fold-compatible fusion semantics.
 
+Before the canary, retain the frozen superseding Loa DR2 family and freeze a source
+manifest for its full randoms, clustering randoms, completeness/PIP, imaging/HP-map and redshift-quality
+products. The mock-to-DESI schema crosswalk must reproduce `M`, `mu`, completeness,
+mask distance and any quality/error channels without substituting a different catalogue
+release. The P10 source contract is `DA2/loa-v1/LSScats/v2.1/PIP`; P13 may freeze a
+newer exact Loa version after an explicit compatibility audit, but Kibo is superseded
+and is not an admissible deployment fallback. The available SecondGen mocks remain
+Kibo-derived, so the Kibo-to-Loa response crosswalk must remain visible in provenance.
+
 Run a golden mock and one DESI canary before full scale-out. Every eligible galaxy is
 authoritative core exactly once. Overlapping contexts are not independent evidence.
 Use the pre-registered deterministic de-duplication rule; if P12 is added, never
@@ -2980,6 +3173,8 @@ posterior-information flags only when P12 posterior columns exist.
 Progress checklist:
 
 - [ ] Reproduce frozen representation and schemas in GraphWeb_DESI.
+- [ ] Freeze and hash the exact DESI data/random/response release and pass the
+  mock-to-DESI response-schema crosswalk.
 - [ ] Pass a truth-known golden mock canary end to end.
 - [ ] Run one DESI canary and audit support, systematics, boundaries, and throughput.
 - [ ] Freeze deterministic de-duplication and quality-bit semantics.
