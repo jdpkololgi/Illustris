@@ -173,8 +173,8 @@ P0 evidence freeze + asset inventory
                                         +--> P10 multi-phase training + blind deterministic test
                                                   |
                                                   +--> P13 deterministic DESI canary
-                                                  +--> P11 JEPA gate [optional]
-                                                  +--> P12 posterior calibration [optional]
+                                                  +--> P11 JEPA gate [optional, parallel]
+                                                  +--> P12 posterior calibration [production VAC gate]
                                                             |
                                                             +--> P13 posterior VAC columns
 ~~~
@@ -2506,8 +2506,9 @@ not from any subsequent score on ph000. The remaining authorized `ph000` activit
 2. include `ph000` with equal phase-level sampling weight in Arms A--C, while retaining
    its development-contaminated provenance and never treating its training-set score as
    production-transfer evidence;
-3. open one paired-view P11 experiment only after the independent-phase Arms A--C
-   diagnose a representation bottleneck.
+3. open one paired-view P11 experiment only after the view ladder is frozen and its
+   dense teacher transfers; run it as a non-blocking parallel challenger rather than a
+   prerequisite for P12.
 
 No additional **ph000-only** architecture, loss, feature, context, cell-size, residual,
 or posterior sweep opens from a null result, and no old ph000 checkpoint initializes the
@@ -2963,8 +2964,9 @@ footprint edges, holes and well-supported interiors. A curriculum is only an
 order-controlled replay ablation using the identical Arm-C examples and optimizer
 updates. After any dense-to-sparse warm-up, retain balanced replay of dense,
 intermediate, and final views; a one-way curriculum that forgets earlier views is not an
-admissible comparison. Paired consistency is optional. Cross-stage JEPA remains P11 and
-opens only if Arms A–C identify a representation bottleneck.
+admissible comparison. Paired consistency is optional. Cross-stage JEPA remains P11: it
+may open as a bounded parallel experiment once the paired view ladder and a transferring
+dense teacher are frozen, but it cannot delay Arm A, response work, or P12.
 
 Minimal decision order:
 
@@ -2976,14 +2978,16 @@ Minimal decision order:
    parallel, freeze the three-view forward-observation ladder, build the P3b `R1`
    random-only/boundary canary and response exports, and write
    `P10_VIEW_LADDER_READY.json` before Arms B/C;
-4. run P10 Arms B/C and ordered `R1--R3` ablations across independent phases;
-5. test curriculum or paired consistency only for a remaining observation-transfer
+4. select the deterministic representation on ph006 and begin the P12 baseline
+   immediately from the frozen selection artifacts;
+5. run P10 Arms B/C and ordered `R1--R3` ablations across independent phases;
+6. in parallel with P12, open one bounded paired-view P11 JEPA comparison once the
+   view ladder and a transferring dense teacher are frozen; do not require Arm C to
+   first label the problem ``representation-limited'';
+7. test curriculum or paired consistency only for a remaining observation-transfer
    failure;
-6. open P11 JEPA only for a diagnosed representation bottleneck;
-7. open the bounded NEXUS+ auxiliary branch only for a diagnosed multiscale-morphology
-   residual;
-8. fit P12 uncertainty after the deterministic representation and response schema are
-   frozen.
+8. open the bounded NEXUS+ auxiliary branch only for a diagnosed multiscale-morphology
+   residual.
 
 ---
 
@@ -2991,11 +2995,25 @@ Minimal decision order:
 
 ### P11 — Representation pretraining
 
-**Status:** DEFERRED; OPTIONAL ONLY IF P10 ARMS A--C DIAGNOSE A REPRESENTATION BOTTLENECK
+**Status:** BOUNDED AND NON-BLOCKING; OPEN AFTER THE PAIRED VIEW LADDER IS FROZEN
 **Duration:** 2–5 GPU days for bounded controls
 
 JEPA is not GraphNet-only. Apply it to whichever graph, grid, or F-tier encoders remain
-competitive.
+competitive. It is a parallel summary-learning challenger, not part of the critical
+path to Arm A or P12. It need not wait for Arm C to prove that the failure is purely a
+representation bottleneck, because paired dense/degraded pretraining can still improve
+how efficiently the final-view encoder uses information that survives the observation
+operator. It cannot recreate information that was removed:
+
+```text
+I(environment; student representation)
+    <= I(environment; final observed view)
+    <= I(environment; dense observed view).
+```
+
+Any gain must therefore be interpreted as better extraction or regularization of
+surviving signal, never recovery of absent tracers or a substitute for posterior
+uncertainty.
 
 Use matched controls:
 
@@ -3017,7 +3035,7 @@ for the bounded JEPA test.
 
 #### P11.1 — Paired dense/degraded teacher--student gate
 
-**Status:** OPTIONAL; GATED ON P10 ARMS A--C AND A TRANSFERRING DENSE TEACHER
+**Status:** OPTIONAL; GATED ON A FROZEN VIEW LADDER AND A TRANSFERRING DENSE TEACHER
 
 The historical T3 LUPI attempt is not evidence against this branch: it used a
 true-density CNN teacher, never completed a valid GPU run, and was shelved without a
@@ -3029,10 +3047,15 @@ Open `PAIRED-DEGRADE-JEPA-v1` only if:
 
 1. the dense-view teacher transfers under the frozen outer spatial/phase split and has
    clear headroom over the final-view student;
-2. P10 Arm C still shows a reproducible final-view or held-out-recipe deficit consistent
-   with a representation bottleneck rather than missing information alone; and
-3. all views of a latent core have valid pairing/provenance and remain in one outer
+2. `V_dense`, `V_assign`, and `V_final` are correctly paired views of the same latent
+   core under a frozen observation/response contract; and
+3. all views of a latent core remain in one outer
    split with one total scientific weight.
+
+The final-view deficit may contain both representation loss and irreducible information
+loss; that ambiguity does not block the bounded experiment. It does constrain the
+claim: failure is unsurprising, and success must be demonstrated on the deployable
+student alone rather than inferred from teacher quality.
 
 Use the leading frozen encoder family; U-PATCH is the default while it remains the
 deterministic leader. The teacher is frozen or EMA-updated and receives the dense view.
@@ -3070,7 +3093,9 @@ calibration diagnostics. A gain on `ph000`, the dense teacher, or an intermediat
 does not promote the branch. Adoption requires the existing fresh-phase `+0.03` target
 or comparably clear balanced-class gain, no supported-shell degradation worse than
 `0.01`, and no deterioration on the held-out recipe. Posterior uncertainty remains P12;
-alignment must never be presented as calibrated uncertainty.
+JEPA supplies an encoder/summary, not a posterior, and alignment must never be presented
+as calibrated uncertainty. Begin P12 after ph006 deterministic selection even if this
+P11 experiment is still running.
 
 Do not pretrain on DESI until truth-known sim-to-sim controls pass. DESI pretraining is
 transductive domain adaptation, not zero-shot generalisation.
@@ -3081,7 +3106,8 @@ gain.
 
 Progress checklist:
 
-- [ ] Reopen only if P8/P10 establish a specific representation-data bottleneck.
+- [ ] Open only after the paired view ladder is frozen and the dense teacher transfers
+  to ph006 with measurable headroom; do not delay Arm A or P12.
 - [ ] Freeze random-init, masked-reconstruction, and JEPA matched controls.
 - [ ] Implement leakage-safe spatial masks and feature-support guards.
 - [ ] Validate the dense teacher on unseen spatial blocks and ph006 before distillation.
@@ -3097,11 +3123,13 @@ Progress checklist:
 
 ### P12 — Posterior calibration
 
-**Status:** DEFERRED; GATED ON A FROZEN DETERMINISTIC WINNER/HYBRID
+**Status:** START AFTER PH006 DETERMINISTIC SELECTION; P11 MAY RUN IN PARALLEL
 
-P12 is not on the pre-shutdown critical path. Run it only if the intended VAC claims
-posterior uncertainty or class probabilities. Deterministic protocol selection and a
-deterministic canary do not require FMPE/NPE.
+P12 is the binding gate for the intended posterior/class-probability VAC. Begin it from
+scratch immediately after deterministic model selection on ph006 rather than waiting
+for optional P11 or a long deterministic research tail. Deterministic protocol
+selection and a deterministic canary do not require FMPE/NPE, but the production VAC
+claim does.
 
 1. Generate spatially out-of-fold embeddings or base predictions.
 2. Fit FMPE/NPE on training phases.
@@ -3363,8 +3391,8 @@ probabilities.
 | P8 showdown | adapter gates | 2–4 GPU d + seeds | blocked-fold ranking |
 | P9 hybrids | P8 | 1–3 GPU d if justified | complementarity decision |
 | P10 phases | benchmark | days–weeks | blind phase report |
-| P11 JEPA | after P8/P10 if justified | 2–5 GPU d | optional JEPA decision |
-| P12 posterior | after frozen deterministic winner | 2–5 GPU d | optional calibration report |
+| P11 JEPA | after frozen view ladder + transferring teacher; parallel | 2–5 GPU d | optional JEPA decision |
+| P12 posterior | immediately after ph006 deterministic selection | 2–5 GPU d | production calibration report |
 | P13 DESI deterministic | P10 + frozen winner | deployment dependent | golden canary + point VAC shards |
 | P13 posterior columns | P10/P12 | deployment dependent | calibrated posterior VAC shards |
 
