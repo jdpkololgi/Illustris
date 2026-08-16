@@ -342,6 +342,98 @@ def evaluate_complete_fold(
     }
 
 
+def evaluate_complete_phase(
+    *,
+    parent_node_id: np.ndarray,
+    predicted_eigenvalues: np.ndarray,
+    truth_by_parent: np.ndarray,
+    assignment,
+    phase: str,
+    runtime: dict | None = None,
+) -> dict:
+    """Evaluate exactly all authoritative rows in one independent phase.
+
+    P10 uses an entire Abacus phase for model selection rather than one internal
+    spatial fold.  This contract deliberately rejects subsets and duplicates so
+    an apparently favourable partial ph006 score cannot enter model selection.
+    """
+    parent = np.asarray(parent_node_id, dtype=np.int64)
+    prediction = np.asarray(predicted_eigenvalues, dtype=np.float64)
+    if prediction.shape != (len(parent), 3):
+        raise ValueError("predictions must align with parent_node_id and have three columns")
+    if len(np.unique(parent)) != len(parent):
+        raise RuntimeError("duplicate parent predictions are forbidden")
+
+    auth = authoritative_mask(assignment)
+    required_rows = np.flatnonzero(auth)
+    required_parent = np.asarray(
+        assignment["parent_node_id"][required_rows], dtype=np.int64
+    )
+    order = np.argsort(parent)
+    sorted_parent = parent[order]
+    lookup = np.searchsorted(sorted_parent, required_parent)
+    if np.any(lookup == len(sorted_parent)) or not np.array_equal(
+        sorted_parent[np.minimum(lookup, len(sorted_parent) - 1)], required_parent
+    ):
+        present = np.isin(required_parent, parent)
+        raise RuntimeError(
+            f"incomplete {phase} authoritative coverage: "
+            f"{present.sum()}/{len(required_parent)}"
+        )
+    if len(parent) != len(required_parent) or not np.array_equal(
+        np.sort(parent), np.sort(required_parent)
+    ):
+        raise RuntimeError(
+            f"prediction artifact must contain exactly complete {phase} authoritative rows"
+        )
+
+    aligned_prediction = prediction[order][lookup]
+    truth = np.asarray(truth_by_parent[required_parent], dtype=np.float64)
+    shell = np.asarray(assignment["shell"][required_rows], dtype=np.int8)
+    superblock = np.asarray(
+        assignment["superblock_id"][required_rows], dtype=np.int32
+    )
+    distance = np.asarray(
+        assignment["distance_to_conservative_fold_boundary_mpc"][required_rows],
+        dtype=np.float64,
+    )
+    if not np.all(np.isfinite(truth)) or not np.all(np.isfinite(aligned_prediction)):
+        raise RuntimeError("non-finite truth or prediction in authoritative phase rows")
+
+    per_shell = {}
+    for shell_id, name in enumerate(SHELL_NAMES):
+        selected = shell == shell_id
+        if selected.sum() < 3:
+            raise RuntimeError(f"validation shell {name} has only {selected.sum()} rows")
+        per_shell[name] = _one_shell_metrics(
+            truth[selected], aligned_prediction[selected]
+        )
+    macro = float(
+        np.mean([per_shell[name]["lambda1"]["r2"] for name in SHELL_NAMES])
+    )
+    tracer_supported_macro = float(
+        np.mean([per_shell[name]["lambda1"]["r2"] for name in SHELL_NAMES[:3]])
+    )
+    return {
+        "validation_phase": str(phase),
+        "n_authoritative": int(len(required_parent)),
+        "complete_phase_coverage": True,
+        "primary_macro_r2_lambda1": macro,
+        "diagnostic_first_three_shell_macro_r2_lambda1": tracer_supported_macro,
+        "pooled": _one_shell_metrics(truth, aligned_prediction),
+        "per_shell": per_shell,
+        "worst_shell_r2_lambda1": float(
+            min(per_shell[name]["lambda1"]["r2"] for name in SHELL_NAMES)
+        ),
+        "ordering_violation_rate": ordered_violation_rate(aligned_prediction),
+        "spatial_block_interval": spatial_block_interval(
+            truth, aligned_prediction, shell, superblock
+        ),
+        "boundary": _boundary_summary(truth, aligned_prediction, shell, distance),
+        "runtime": {} if runtime is None else runtime,
+    }
+
+
 def fit_affine_on_training(
     raw_prediction: np.ndarray,
     truth: np.ndarray,
