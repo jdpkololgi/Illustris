@@ -1,5 +1,56 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-16 — [science/code/run] P10 Arm A launched from scratch; P11 JEPA opened only as a bounded parallel challenger
+
+The roadmap now reflects the final paired-view JEPA discussion. P11 no longer requires
+P10 Arm C to first diagnose a purely representation-limited failure. One bounded
+`PAIRED-DEGRADE-JEPA-v1` experiment may open after the `V_dense/V_assign/V_final`
+pairing contract is frozen and a dense-view teacher transfers to ph006 with measurable
+headroom. It remains non-blocking: it may run beside P12, cannot delay Arm A or P12,
+cannot reconstruct information removed by the final observation operator, and supplies
+an encoder/summary rather than a calibrated posterior. The deployable final-view student
+alone must earn the existing fresh-phase/held-out-response adoption gates. P12 now starts
+immediately after ph006 deterministic selection because posterior calibration is the
+binding production-VAC requirement. Plan commit: `c1854aa`.
+
+Deterministic Arm A is now running for both the frozen U-PATCH leader and matched
+G-PATCH control. The new trainer consumes the passed
+`TRAINING_LOADER_READY.json` contract and enforces:
+
+- scratch initialization; no historical ph000 weights;
+- ph000+ph002+ph003+ph004+ph005 training, with phase never entering model inputs;
+- every one of 84,446 cores exactly once per epoch, phase-balanced prefixes and the
+  equal mean of within-phase square-root-shell-weighted row MSEs;
+- 20 complete epochs and identical optimizer-update budgets, with early stopping
+  disabled for this first comparison;
+- exact all-authoritative-row ph006 evaluation after every completed epoch;
+- ph001 absent from the visible loader and truth path;
+- atomic patch-cursor, optimizer, scheduler and RNG checkpoints, allowing exact
+  continuation across bounded interactive allocations;
+- windowed loss JSONL every 25 updates and epoch-level loss/metric JSONL.
+
+All 42 P10 unit tests pass. Two-update GPU canaries passed for both models before the
+scientific runs began. The first canary attempt exposed a `/global/homes` versus
+`/global/u2` provenance-path alias and failed before any scientific update; the path is
+now canonicalized and regression-tested. Implementation commits are `7f52b34`,
+`59a5c25`, and `42c1feb`.
+
+Live launch provenance:
+
+- tmux supervisors: `p10_arm_a_unet`, `p10_arm_a_graph`;
+- interactive allocations only, no batch jobs: U `57094869` on `nid001125`, G
+  `57094871` on `nid001036`;
+- canary markers:
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/arm_a_training/arm_a_gpu_canary_v2/{unet,graph}/seed_42/TECHNICAL_CANARY_COMPLETE.json`;
+- scientific outputs:
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/arm_a_training/arm_a_r0_v1/{unet,graph}/seed_42/`;
+- supervisor/scientific logs:
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/arm_a_training/launcher_logs/`.
+
+At this launch record U had reached epoch-1 cursor 1,025 and written its first atomic
+scientific checkpoint; G had reached cursor 150. These are only proof that optimization
+is active, not a performance result. No epoch or ph006 validation metric exists yet.
+
 ### 2026-08-14 — [science] PATHWAY ASSESSMENT (Claude Code): JDPK's "protocol > encoder" framing is QUANTITATIVELY confirmed; P12/SBI is now the binding constraint on the VAC product, not accuracy
 
 Reviewed the P8 closeout, P10 readiness, and the plan's P10-P13 contracts. Assessment below;

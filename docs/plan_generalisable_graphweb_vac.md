@@ -2474,7 +2474,7 @@ Progress checklist:
 
 ### P10 — Multi-phase target generation and training
 
-**Status:** DETERMINISTIC ARM-A TRAINING READY FOR PH000+PH002--PH005; PH006
+**Status:** DETERMINISTIC ARM-A TRAINING IN PROGRESS FOR PH000+PH002--PH005; PH006
 FROZEN FOR VALIDATION/SELECTION; PH001 SEALED FOR ONE-OPEN BLIND EVALUATION; ARMS B/C
 REMAIN GATED ON RESPONSE-FIELD AND VIEW-LADDER EXPORTS
 **Duration:** scope after one-phase benchmark; likely days to weeks
@@ -2834,7 +2834,10 @@ Progress checklist:
   contract is `configs/p10_blind_evaluation_v1.json`; tracked evidence and marker copies
   are `docs/evidence/p10/blind_evaluation_frozen_20260814.json` and
   `docs/evidence/p10/blind_evaluation_ready_marker_20260814.json`.
-- [ ] Train and freeze finalists without reading ph001 truth metrics.
+- [ ] Train and freeze finalists without reading ph001 truth metrics. U-PATCH and the
+  matched G-PATCH control launched from scratch on 2026-08-16 after passing two-update
+  GPU canaries; full 20-epoch, equal-update trajectories remain in progress under
+  checkpoint-resumable interactive supervisors.
 - [x] Build the truth-free ph001 graph/field products under the sealed blind-input
   contract.
 - [ ] Save ph001 predictions before opening truth.
@@ -2842,7 +2845,7 @@ Progress checklist:
 
 #### P10.1 — Controlled observation-operator training
 
-**Status:** ARM-A DETERMINISTIC TRAINING READY; ARMS B/C AWAIT THE FROZEN VIEW
+**Status:** ARM-A DETERMINISTIC TRAINING IN PROGRESS; ARMS B/C AWAIT THE FROZEN VIEW
 LADDER AND P3B RESPONSE-FIELD EXPORTS; SCIENTIFIC MODEL SELECTION OCCURS ON PH006
 
 The catalogue identifiers required to pair and group examples are not automatically
@@ -2974,7 +2977,8 @@ Minimal decision order:
    contract;
 2. [complete 2026-08-14] register and audit the existing ph000--ph006 plus Loa
    random/response sources and write `P10_RESPONSE_SOURCES_READY.json`;
-3. run freshly initialized Arm A now using the frozen final-view R0 contract; in
+3. [launched 2026-08-16; in progress] run freshly initialized Arm A using the frozen
+   final-view R0 contract; in
    parallel, freeze the three-view forward-observation ladder, build the P3b `R1`
    random-only/boundary canary and response exports, and write
    `P10_VIEW_LADDER_READY.json` before Arms B/C;
