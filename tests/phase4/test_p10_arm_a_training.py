@@ -3,7 +3,7 @@ import unittest
 import numpy as np
 
 from workflows.abacus_tweb.p8_deterministic_common import evaluate_complete_phase
-from workflows.abacus_tweb.p10_train_arm_a import frozen_arguments
+from workflows.abacus_tweb.p10_train_arm_a import frozen_arguments, source_contract
 
 
 class P10ArmATrainingTests(unittest.TestCase):
@@ -67,6 +67,11 @@ class P10ArmATrainingTests(unittest.TestCase):
         second.max_runtime_seconds = 3000.0
         second.checkpoint_every = 100
         self.assertEqual(frozen_arguments(first), frozen_arguments(second))
+
+    def test_source_contract_canonicalizes_home_and_u2_aliases(self):
+        contract = source_contract()
+        self.assertIn("workflows/abacus_tweb/p10_train_arm_a.py", contract)
+        self.assertTrue(all(len(digest) == 64 for digest in contract.values()))
 
 
 if __name__ == "__main__":

@@ -98,7 +98,7 @@ def jsonable_arguments(args: argparse.Namespace) -> dict:
 
 def source_contract() -> dict[str, str]:
     paths = (
-        Path(__file__),
+        Path(__file__).resolve(),
         REPO_ROOT / "workflows/abacus_tweb/p10_training_contract.py",
         REPO_ROOT / "workflows/abacus_tweb/p8_train_graph_patch.py",
         REPO_ROOT / "workflows/abacus_tweb/p8_train_unet_patch.py",
