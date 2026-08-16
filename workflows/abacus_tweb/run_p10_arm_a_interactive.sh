@@ -21,6 +21,12 @@ LOG_DIR=${ROOT}/launcher_logs
 SUPERVISOR_LOG=${LOG_DIR}/${MODEL}_supervisor.log
 SCIENTIFIC_LOG=${LOG_DIR}/${MODEL}_scientific.log
 CANARY_LOG=${LOG_DIR}/${MODEL}_canary.log
+VALIDATION_GROUP_CORES=8
+if [[ "${MODEL}" == "graph" ]]; then
+  # The ph000 G-PATCH peak was 30.8 GiB with groups of eight.  Groups of four
+  # retain exact row coverage while leaving safe headroom on a 40-GiB A100.
+  VALIDATION_GROUP_CORES=4
+fi
 mkdir -p "${LOG_DIR}"
 
 echo "$(date -u +%FT%TZ) supervisor_start model=${MODEL} pid=$$" >> "${SUPERVISOR_LOG}"
@@ -30,7 +36,7 @@ while [[ ! -f "${RUN_DIR}/ARM_A_TRAINING_COMPLETE.json" ]]; do
   echo "$(date -u +%FT%TZ) allocation_request model=${MODEL} attempt=${attempt}" >> "${SUPERVISOR_LOG}"
   set +e
   salloc --nodes=1 --ntasks=1 --cpus-per-task=32 \
-    --constraint="gpu&hbm80g" --gpus=1 --qos=interactive \
+    --constraint=gpu --gpus=1 --qos=interactive \
     --time=02:00:00 --account=desi_g --immediate=600 \
     --job-name="p10A_${MODEL}" \
     srun --nodes=1 --ntasks=1 --cpus-per-task=32 --gpus=1 \
@@ -52,6 +58,7 @@ while [[ ! -f "${RUN_DIR}/ARM_A_TRAINING_COMPLETE.json" ]]; do
           --model '${MODEL}' --seed 42 \
           --epochs 20 --min-epochs 10 --patience 5 --min-delta 0.002 \
           --disable-early-stopping --lr 0.002 \
+          --validation-group-cores '${VALIDATION_GROUP_CORES}' \
           --loss-log-every 25 --checkpoint-every 250 \
           --max-runtime-seconds 6600 --validation-reserve-seconds 1200 \
           --run-name '${RUN_NAME}' --output-root '${ROOT}' \
