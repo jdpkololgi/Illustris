@@ -1,5 +1,34 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-16 — [code/run] P10 Arm-A allocation chaining verified; U epoch 4 active; G resumed unchanged on 80-GB A100 after one large-patch OOM
+
+The two-hour interactive-allocation supervisors are behaving as designed. U-PATCH
+returned the registered continuation code `75` at each runtime boundary, wrote an
+atomic patch-cursor/optimizer/scheduler/RNG checkpoint, and acquired a fresh allocation.
+This is exact continuation of one run, not repeated scratch initialization. At this
+audit U had completed three full 84,446-core epochs and was at epoch-4 cursor 65,787
+(`global_step=319,125`). Its all-authoritative-row ph006 macro-shell
+`R2(lambda1)` progressed `0.2618 -> 0.3847 -> 0.3976`; these are early optimization
+diagnostics, not a converged result or promotion decision. The per-shell epoch-3 values
+were `0.4978 / 0.4596 / 0.4160 / 0.2170`, so the sparse fourth shell remains the
+limiting and currently noisy term.
+
+G-PATCH exposed a separate hardware-envelope issue during epoch 1. After 550 completed
+updates, one unusually large canonical graph patch exhausted a 40-GB A100 (38.83 GiB
+allocated by PyTorch). The supervisor correctly stopped on exit code 1 rather than
+hiding the failure or silently skipping the core. The last atomic checkpoint is at
+cursor/global-step 500; no epoch or ph006 metric exists yet. The launcher now requests
+an 80-GB A100 for G-PATCH only and resumes the same checkpoint with the frozen model,
+data, sampler, objective, optimizer and update budget unchanged. U remains on a standard
+GPU constraint. Live allocations at the resume record were U `57126513` and G
+`57128583`; both tmux supervisors were present and the two-allocation limit was obeyed.
+G subsequently advanced through cursor 625, beyond the patch that had failed on the
+40-GB device, confirming that the 80-GB continuation is live.
+
+This is an operational memory fix, not an architecture or scientific-contract change.
+The retained G scientific log intentionally contains the original OOM traceback for
+provenance.
+
 ### 2026-08-16 — [science/code/run] P10 Arm A launched from scratch; P11 JEPA opened only as a bounded parallel challenger
 
 The roadmap now reflects the final paired-view JEPA discussion. P11 no longer requires

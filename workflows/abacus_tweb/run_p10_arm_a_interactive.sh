@@ -22,10 +22,14 @@ SUPERVISOR_LOG=${LOG_DIR}/${MODEL}_supervisor.log
 SCIENTIFIC_LOG=${LOG_DIR}/${MODEL}_scientific.log
 CANARY_LOG=${LOG_DIR}/${MODEL}_canary.log
 VALIDATION_GROUP_CORES=8
+GPU_CONSTRAINT=gpu
 if [[ "${MODEL}" == "graph" ]]; then
   # The ph000 G-PATCH peak was 30.8 GiB with groups of eight.  Groups of four
-  # retain exact row coverage while leaving safe headroom on a 40-GiB A100.
+  # retain exact row coverage.  Multi-phase training nevertheless encountered
+  # a larger individual training patch that exceeded a 40-GiB A100, so resume
+  # the unchanged scientific run on an 80-GiB A100.
   VALIDATION_GROUP_CORES=4
+  GPU_CONSTRAINT='gpu&hbm80g'
 fi
 mkdir -p "${LOG_DIR}"
 
@@ -36,7 +40,7 @@ while [[ ! -f "${RUN_DIR}/ARM_A_TRAINING_COMPLETE.json" ]]; do
   echo "$(date -u +%FT%TZ) allocation_request model=${MODEL} attempt=${attempt}" >> "${SUPERVISOR_LOG}"
   set +e
   salloc --nodes=1 --ntasks=1 --cpus-per-task=32 \
-    --constraint=gpu --gpus=1 --qos=interactive \
+    --constraint="${GPU_CONSTRAINT}" --gpus=1 --qos=interactive \
     --time=02:00:00 --account=desi_g --immediate=600 \
     --job-name="p10A_${MODEL}" \
     srun --nodes=1 --ntasks=1 --cpus-per-task=32 --gpus=1 \
