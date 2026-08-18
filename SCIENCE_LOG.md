@@ -67,6 +67,19 @@ independent-phase deterministic reference, not yet a production VAC. Matched cla
 performance, response Arms B/C, posterior calibration, and the one-open ph001 test are
 still blocking.
 
+Runtime launch update: commit `ee74594` froze the above code, plan and tracked U
+completion evidence. Persistent tmux supervisor `p10_next_gates_4gpu` obtained one
+four-A100-80GB interactive allocation (`57216431`). GPU 0/1 started paired fresh-seed-42
+G schedule canaries at LR `2e-4` and `5e-4`; GPU 2/3 completed the six phase-local CIC
+raw solves in parallel and then moved into the calibration/source-audit stage. Early G
+telemetry already confirms that clipping was not a hypothetical concern: over each
+canary's first 125 updates, 40--52% of patch gradients exceeded the frozen norm-5
+threshold, with window-maximum pre-clip norms of about 19--35. These are optimization
+diagnostics, not validation results. Once CIC finalization returns, the same two released
+GPUs automatically begin the six exact-DTFE phase rasters and their matched ph006 row.
+All branches are checkpoint/resume safe across four-hour interactive allocations;
+ph001 is not referenced by the launcher.
+
 ### 2026-08-16 — [code/run] P10 Arm-A allocation chaining verified; U epoch 4 active; G resumed unchanged on 80-GB A100 after one large-patch OOM
 
 The two-hour interactive-allocation supervisors are behaving as designed. U-PATCH

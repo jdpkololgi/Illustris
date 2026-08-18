@@ -2848,15 +2848,19 @@ Progress checklist:
     The original run is frozen after epoch 6 as diagnostic evidence: its LR remained
     `1.59e-3` after 506,676 updates because the epoch-scaled schedule was stretched by
     the five-phase epoch, validation oscillated, and prediction variance collapsed.
-    Run the pre-registered lower-LR/update-horizon canaries with pre-clip gradient and
-    clipping-frequency telemetry; do not resume or reinterpret the original run.
+    Paired LR `2e-4` and `5e-4` fresh canaries launched together on 2026-08-18 with an
+    explicit 400,000-update cosine horizon, pre-clip gradient telemetry and unchanged
+    phase/patch objective; do not resume or reinterpret the original run.
   - [ ] Complete matched ph006 CIC and exact-DTFE rows with affine calibration fitted
     only on ph000+ph002--ph005 under the frozen phase/shell weights. CIC consumes the
     immutable P3 counts/expected-counts. DTFE must build a separate exact
     piecewise-linear density raster for every visible phase, convert it with that
     phase's expected-count response, and then apply the same fixed R=7 Mpc/h tensor
     solve. The expensive DTFE branch is resumable and may finish after CIC, but the
-    older single-phase/P8 DTFE number is not a substitute for this matched row.
+    older single-phase/P8 DTFE number is not a substitute for this matched row. The six
+    CIC raw phase solves completed on 2026-08-18; training-only affine finalization was
+    running at the time of this plan update, after which the same two GPU workers switch
+    automatically to the resumable six-phase exact-DTFE branch.
   - [ ] Run the paired multi-phase BGS_FAINT information test only after its source
     audit and phase-matched view builder pass. Keep supervision and released targets on
     BGS_BRIGHT. Compare BRIGHT-only against (a) real BRIGHT+FAINT context and (b) a
@@ -2864,7 +2868,9 @@ Progress checklist:
     counts/response. Apply the same ph000+ph002--ph005 training and ph006 selection
     roles. A Proxy-minus-Null gain, not Proxy-minus-Bright alone, identifies additional
     spatial information; the Proxy remains non-production until the final Loa Faint
-    selection/photometry contract exists.
+    selection/photometry contract exists. The six-visible-phase official-source audit
+    is launched after CIC finalization; source feasibility is not itself a completed
+    Proxy/Null view or a training result.
 - [x] Build the truth-free ph001 graph/field products under the sealed blind-input
   contract.
 - [ ] Save ph001 predictions before opening truth.
