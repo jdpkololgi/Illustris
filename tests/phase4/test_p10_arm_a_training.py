@@ -61,12 +61,16 @@ class P10ArmATrainingTests(unittest.TestCase):
         first.loss_log_every = 25
         first.max_runtime_seconds = 6600.0
         first.validation_reserve_seconds = 1200.0
+        first.scheduler_total_updates = 400_000
+        first.gradient_clip = 5.0
         second = Arguments()
         second.__dict__.update(first.__dict__)
         second.auto_resume = True
         second.max_runtime_seconds = 3000.0
         second.checkpoint_every = 100
         self.assertEqual(frozen_arguments(first), frozen_arguments(second))
+        self.assertEqual(frozen_arguments(first)["scheduler_total_updates"], 400_000)
+        self.assertEqual(frozen_arguments(first)["gradient_clip"], 5.0)
 
     def test_source_contract_canonicalizes_home_and_u2_aliases(self):
         contract = source_contract()

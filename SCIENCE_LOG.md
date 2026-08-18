@@ -1,5 +1,72 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-18 — [science/code] P10 U-PATCH Arm A closes at epoch 20; G comparison is optimization-invalid; next gates use four GPUs as independent workers
+
+The five-phase U-PATCH Arm-A trajectory is complete. It visited every one of the
+84,446 canonical training cores in each of 20 epochs (1,688,920 optimizer updates),
+selected only on all authoritative ph006 rows, and never opened ph001. Epoch 20 is the
+frozen checkpoint:
+
+- four-shell macro `R2(lambda1)=0.573104`;
+- first-three-shell macro `0.634637`;
+- per-shell `0.691903 / 0.641587 / 0.570422 / 0.388504`;
+- all-row scaled validation MSE `0.354620`;
+- equal-phase training objective `0.364937`;
+- cosine learning rate exactly `0`.
+
+This is enough training for the registered Arm-A experiment. Epochs 18--20 improve the
+primary score by only `0.001495`, below the registered `0.002` material-improvement
+scale, while the schedule has reached zero. Appending epochs to the same run would make
+no optimizer update. This does not prove that U-PATCH has reached its architecture or
+information ceiling; any low-LR restart, seed replication, richer response view or
+multitracer model is a separately named experiment. The current checkpoint is frozen
+as the deterministic P10/P12 reference.
+
+The original G-PATCH trajectory is **not** a valid representation comparison. It is
+frozen after six epochs as a diagnostic: training objective improved
+`0.74885 -> 0.69972` by epoch 4 then worsened to `0.70700`; ph006 macro oscillated
+`0.31263 / 0.28145 / 0.31458 / 0.25923 / 0.29673 / 0.27356`; and predictions were
+severely variance-compressed. No row, feature, target, dropout, checkpoint or
+phase-marginal alignment bug was found. The leading testable cause is the schedule:
+one five-phase epoch contains 84,446 updates, 8.16 times the old P8 epoch, so epoch 6
+still used LR `1.59e-3` after 506,676 updates. The trainer now supports an explicit
+update-based cosine horizon and records pre-clip gradient-norm means/maxima plus the
+fraction of steps clipped. Separately named `2e-4` and `5e-4` G canaries will test this
+without modifying or resuming the frozen run.
+
+Four GPUs will be used concurrently, but not as unvalidated data-parallel training. A
+P10 optimizer step is one variable-size canonical patch. Averaging four patch gradients
+would change effective batch size, phase/row weighting, update count and exact resume
+semantics. The safe current use of one four-GPU 80-GB interactive node is therefore
+four independent one-GPU tasks: two G schedule canaries and two phase-parallel CIC
+workers. This uses the hardware without changing the estimator. Genuine DDP remains a
+separate parity-and-scaling implementation if later needed.
+
+The next-gate implementation is now tracked:
+
+1. `p10_classical_fullcap.py` reconstructs each visible phase independently from its
+   immutable P3 counts/expected-counts, applies the fixed R=7 Mpc/h tensor solve, and
+   fits the CIC affine response only on ph000+ph002--ph005 with frozen phase/shell
+   weights before ph006 scoring. A matched exact-DTFE branch builds independent
+   phase-local Delaunay rasters and uses the same training-phase-only response fit before
+   ph006 evaluation. It is expected to be the longer branch, but is no longer represented
+   by the older ph000/P8 score.
+2. `p10_multitracer_source_audit.py` verifies the official phase-matched targetable and
+   fibre-assigned Faint sources for ph000/ph002--ph006 without truth access. The next
+   science product keeps Bright supervision and compares real Faint context with a
+   cap+redshift-stratified angular-scramble Faint null; Proxy-minus-Null is the
+   additional-spatial-information estimand.
+3. P12 preparation is open because U passed ph006 deterministic selection. The
+   all-five-phase checkpoint may summarize ph006, but its own training-phase latents
+   are in-sample. Posterior training therefore requires five leave-one-phase-out U
+   encoders and the exact exportable 32-dimensional per-galaxy latent used by the point
+   head. ph001 remains sealed until every deterministic/posterior decision is frozen.
+
+The production interpretation remains conservative: U-PATCH is now a credible
+independent-phase deterministic reference, not yet a production VAC. Matched classical
+performance, response Arms B/C, posterior calibration, and the one-open ph001 test are
+still blocking.
+
 ### 2026-08-16 — [code/run] P10 Arm-A allocation chaining verified; U epoch 4 active; G resumed unchanged on 80-GB A100 after one large-patch OOM
 
 The two-hour interactive-allocation supervisors are behaving as designed. U-PATCH

@@ -271,6 +271,15 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--min-delta", type=float, default=0.002)
     parser.add_argument("--disable-early-stopping", action="store_true")
     parser.add_argument("--lr", type=float, default=2e-3)
+    parser.add_argument(
+        "--scheduler-total-updates",
+        type=int,
+        help=(
+            "optional update-based cosine horizon; the Arm-A default remains "
+            "epochs * cores_per_epoch"
+        ),
+    )
+    parser.add_argument("--gradient-clip", type=float, default=5.0)
     parser.add_argument("--latent-size", type=int, default=80)
     parser.add_argument("--heads", type=int, default=8)
     parser.add_argument("--dropout", type=float, default=0.1)
@@ -304,6 +313,10 @@ def parse_args() -> argparse.Namespace:
         parser.error("validation-reserve-seconds must be non-negative")
     if args.stop_after_updates is not None and args.stop_after_updates <= 0:
         parser.error("stop-after-updates must be positive")
+    if args.scheduler_total_updates is not None and args.scheduler_total_updates <= 0:
+        parser.error("scheduler-total-updates must be positive")
+    if args.gradient_clip <= 0:
+        parser.error("gradient-clip must be positive")
     return args
 
 
@@ -365,8 +378,20 @@ def main() -> None:
         ).to(args.device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
     epoch_length = len(loader.training_epoch(seed=args.seed, epoch=1))
+    scheduler_total_updates = (
+        args.epochs * epoch_length
+        if args.scheduler_total_updates is None
+        else int(args.scheduler_total_updates)
+    )
+    if (
+        args.stop_after_updates is not None
+        and scheduler_total_updates < args.stop_after_updates
+    ):
+        raise RuntimeError(
+            "scheduler-total-updates cannot end before the requested technical stop"
+        )
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
-        optimizer, T_max=args.epochs * epoch_length
+        optimizer, T_max=scheduler_total_updates
     )
 
     history: list[dict] = []
@@ -441,6 +466,7 @@ def main() -> None:
         "blind_truth_accessed": False,
         "phase_is_model_input": False,
         "training_cores_per_epoch": epoch_length,
+        "scheduler_total_updates": scheduler_total_updates,
         "validation_cores": int(len(validation_core)),
         "sampler": loader.manifest["epoch"],
         "objective": loader.manifest["objective"],
@@ -466,6 +492,8 @@ def main() -> None:
 
     started = time.monotonic()
     loss_window_objective: list[float] = []
+    loss_window_gradient_norm: list[float] = []
+    loss_window_gradient_clipped: list[bool] = []
     loss_window_phase = {phase: EpochLossAccumulator() for phase in phases}
 
     def save_checkpoint(refs: tuple[PatchRef, ...], checkpoint_cursor: int) -> None:
@@ -580,7 +608,12 @@ def main() -> None:
                     phase_objective_scale=ref.phase_objective_scale,
                 )
                 loss.backward()
-                torch.nn.utils.clip_grad_norm_(model.parameters(), 5.0)
+                gradient_norm = float(
+                    torch.nn.utils.clip_grad_norm_(
+                        model.parameters(), float(args.gradient_clip)
+                    ).detach().cpu()
+                )
+                gradient_clipped = gradient_norm > float(args.gradient_clip)
                 optimizer.step()
                 scheduler.step()
                 global_step += 1
@@ -592,6 +625,8 @@ def main() -> None:
                 objective_sum += objective_value
                 objective_steps += 1
                 loss_window_objective.append(objective_value)
+                loss_window_gradient_norm.append(gradient_norm)
+                loss_window_gradient_clipped.append(gradient_clipped)
                 phase_index = phases.index(phase)
                 shells = phase_state.parent_shell[parent]
                 for shell in range(4):
@@ -627,9 +662,21 @@ def main() -> None:
                             for phase_name, accumulator in loss_window_phase.items()
                         },
                         "learning_rate": float(scheduler.get_last_lr()[0]),
+                        "preclip_gradient_norm_window_mean": float(
+                            np.mean(loss_window_gradient_norm)
+                        ),
+                        "preclip_gradient_norm_window_max": float(
+                            np.max(loss_window_gradient_norm)
+                        ),
+                        "gradient_clip_threshold": float(args.gradient_clip),
+                        "gradient_clipped_fraction_window": float(
+                            np.mean(loss_window_gradient_clipped)
+                        ),
                     }
                     append_jsonl(output / "loss_trace.jsonl", row)
                     loss_window_objective.clear()
+                    loss_window_gradient_norm.clear()
+                    loss_window_gradient_clipped.clear()
                     loss_window_phase = {
                         phase_name: EpochLossAccumulator() for phase_name in phases
                     }

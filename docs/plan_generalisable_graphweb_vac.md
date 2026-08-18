@@ -2474,9 +2474,10 @@ Progress checklist:
 
 ### P10 — Multi-phase target generation and training
 
-**Status:** DETERMINISTIC ARM-A TRAINING IN PROGRESS FOR PH000+PH002--PH005; PH006
-FROZEN FOR VALIDATION/SELECTION; PH001 SEALED FOR ONE-OPEN BLIND EVALUATION; ARMS B/C
-REMAIN GATED ON RESPONSE-FIELD AND VIEW-LADDER EXPORTS
+**Status:** U-PATCH ARM-A COMPLETE AND FROZEN AT EPOCH 20; G-PATCH ARM-A IS AN
+OPTIMIZATION-INVALID DIAGNOSTIC AND HAS A SEPARATELY NAMED UPDATE-SCHEDULE CANARY;
+PH006 REMAINS VALIDATION/SELECTION; PH001 REMAINS SEALED; CLASSICAL, MULTITRACER,
+OUT-OF-FOLD P12, AND ARMS B/C GATES ARE ACTIVE
 **Duration:** scope after one-phase benchmark; likely days to weeks
 
 Reserve:
@@ -2834,10 +2835,36 @@ Progress checklist:
   contract is `configs/p10_blind_evaluation_v1.json`; tracked evidence and marker copies
   are `docs/evidence/p10/blind_evaluation_frozen_20260814.json` and
   `docs/evidence/p10/blind_evaluation_ready_marker_20260814.json`.
-- [ ] Train and freeze finalists without reading ph001 truth metrics. U-PATCH and the
-  matched G-PATCH control launched from scratch on 2026-08-16 after passing two-update
-  GPU canaries; full 20-epoch, equal-update trajectories remain in progress under
-  checkpoint-resumable interactive supervisors.
+- [ ] Train and freeze finalists without reading ph001 truth metrics.
+  - [x] Complete the freshly initialized five-phase U-PATCH Arm-A trajectory. All
+    20 registered epochs and 1,688,920 optimizer updates completed; epoch 20 is the
+    frozen ph006 selection checkpoint with four-shell macro `R2(lambda1)=0.57310`,
+    first-three-shell macro `0.63464`, per-shell
+    `0.69190/0.64159/0.57042/0.38850`, and cosine learning rate exactly zero.
+    Epoch 18--20 improved only `0.00149`, below the registered `0.002` material-gain
+    scale. Do not append epochs to the exhausted schedule; a new seed or low-LR
+    experiment must be separately named and is not on the critical path.
+  - [ ] Resolve the G-PATCH optimization control before comparing representations.
+    The original run is frozen after epoch 6 as diagnostic evidence: its LR remained
+    `1.59e-3` after 506,676 updates because the epoch-scaled schedule was stretched by
+    the five-phase epoch, validation oscillated, and prediction variance collapsed.
+    Run the pre-registered lower-LR/update-horizon canaries with pre-clip gradient and
+    clipping-frequency telemetry; do not resume or reinterpret the original run.
+  - [ ] Complete matched ph006 CIC and exact-DTFE rows with affine calibration fitted
+    only on ph000+ph002--ph005 under the frozen phase/shell weights. CIC consumes the
+    immutable P3 counts/expected-counts. DTFE must build a separate exact
+    piecewise-linear density raster for every visible phase, convert it with that
+    phase's expected-count response, and then apply the same fixed R=7 Mpc/h tensor
+    solve. The expensive DTFE branch is resumable and may finish after CIC, but the
+    older single-phase/P8 DTFE number is not a substitute for this matched row.
+  - [ ] Run the paired multi-phase BGS_FAINT information test only after its source
+    audit and phase-matched view builder pass. Keep supervision and released targets on
+    BGS_BRIGHT. Compare BRIGHT-only against (a) real BRIGHT+FAINT context and (b) a
+    cap- and redshift-stratified angular-scramble FAINT null with identical tracer
+    counts/response. Apply the same ph000+ph002--ph005 training and ph006 selection
+    roles. A Proxy-minus-Null gain, not Proxy-minus-Bright alone, identifies additional
+    spatial information; the Proxy remains non-production until the final Loa Faint
+    selection/photometry contract exists.
 - [x] Build the truth-free ph001 graph/field products under the sealed blind-input
   contract.
 - [ ] Save ph001 predictions before opening truth.
@@ -2845,8 +2872,9 @@ Progress checklist:
 
 #### P10.1 — Controlled observation-operator training
 
-**Status:** ARM-A DETERMINISTIC TRAINING IN PROGRESS; ARMS B/C AWAIT THE FROZEN VIEW
-LADDER AND P3B RESPONSE-FIELD EXPORTS; SCIENTIFIC MODEL SELECTION OCCURS ON PH006
+**Status:** U-PATCH ARM-A SELECTED ON PH006; G-PATCH OPTIMIZATION CONTROL AND MATCHED
+CLASSICAL ROW IN PROGRESS; ARMS B/C AWAIT THE FROZEN VIEW LADDER AND P3B
+RESPONSE-FIELD EXPORTS
 
 The catalogue identifiers required to pair and group examples are not automatically
 valid conditioning variables. Use this role contract:
@@ -2977,8 +3005,8 @@ Minimal decision order:
    contract;
 2. [complete 2026-08-14] register and audit the existing ph000--ph006 plus Loa
    random/response sources and write `P10_RESPONSE_SOURCES_READY.json`;
-3. [launched 2026-08-16; in progress] run freshly initialized Arm A using the frozen
-   final-view R0 contract; in
+3. [U-PATCH complete 2026-08-18; G-PATCH corrective canary in progress] run freshly
+   initialized Arm A using the frozen final-view R0 contract; in
    parallel, freeze the three-view forward-observation ladder, build the P3b `R1`
    random-only/boundary canary and response exports, and write
    `P10_VIEW_LADDER_READY.json` before Arms B/C;
@@ -2992,6 +3020,19 @@ Minimal decision order:
    failure;
 8. open the bounded NEXUS+ auxiliary branch only for a diagnosed multiscale-morphology
    residual.
+
+Four-GPU execution policy for these gates:
+
+- retain one variable-size canonical patch per optimizer step for U-PATCH/G-PATCH;
+  do not introduce four-GPU DDP merely to accelerate the current comparison, because
+  averaging four patch gradients changes effective batch size, row weighting,
+  optimizer-update semantics and the exact resume contract;
+- request one four-GPU 80-GB interactive node when four independent tasks are ready,
+  and allocate one GPU per task (for example two G schedule canaries plus two
+  phase-parallel classical workers);
+- treat genuine multi-GPU training as a separately validated future implementation
+  requiring matched one-GPU gradient/update parity and measured scaling. Resource
+  occupancy alone is not permission to alter the scientific estimator.
 
 ---
 
@@ -3165,13 +3206,30 @@ tempering that repairs average coverage while leaving shape failure is insuffici
 
 Progress checklist:
 
-- [ ] Reopen only after a deterministic representation passes P10.
+- [x] Reopen after the five-phase U-PATCH representation passed ph006 deterministic
+  selection at epoch 20. This opens P12 preparation; it does not unseal ph001.
 - [ ] Generate leakage-safe out-of-fold conditioning summaries.
 - [ ] Fit on training phases and tune on ph006 only.
 - [ ] Pass marginal, multivariate, conditional, tail, and information gates.
 - [ ] Record the `H_fid` conditional estimand and run the optional held-out-HOD stress
   test only after baseline calibration.
 - [ ] Evaluate once on ph001 and freeze calibrated posterior artifacts.
+
+Out-of-fold summary contract:
+
+1. The all-five-phase epoch-20 U-PATCH checkpoint supplies ph006 selection summaries
+   and the later frozen ph001 inference summary only. Its embeddings on its own five
+   training phases are in-sample and must not train the posterior head.
+2. Train five phase-cross-fitted U-PATCH encoders from scratch, each omitting one of
+   ph000/ph002/ph003/ph004/ph005. Serialize the exact 32-dimensional per-galaxy latent
+   consumed by the deterministic point head, the deterministic base prediction, and
+   deployable response covariates only for the omitted phase.
+3. Concatenate the five omitted-phase artifacts to form the P12 training population.
+   Fit FMPE/NPE on those summaries, tune architecture/calibration only on ph006, and
+   never condition on phase ID.
+4. Freeze parent-row identity, checkpoint/source hashes, response schema and the
+   no-ph001-access marker for every shard. A cheaper in-sample latent extraction is a
+   technical diagnostic only and cannot support posterior coverage claims.
 
 ### P13 — DESI canary and scale-out
 

@@ -110,12 +110,17 @@ class UPatch(nn.Module):
             nn.Linear(head_width, 3),
         )
 
-    def forward(self, values: torch.Tensor, points: torch.Tensor) -> torch.Tensor:
+    def sample_latent(
+        self, values: torch.Tensor, points: torch.Tensor
+    ) -> torch.Tensor:
+        """Return the exact per-galaxy U-Net summary consumed by the point head."""
         latent = self.unet(values)
-        sampled = F.grid_sample(
+        return F.grid_sample(
             latent, points, mode="bilinear", align_corners=True, padding_mode="border"
         )[0, :, 0, 0].T
-        return self.head(sampled)
+
+    def forward(self, values: torch.Tensor, points: torch.Tensor) -> torch.Tensor:
+        return self.head(self.sample_latent(values, points))
 
 
 def grid_coordinates(frac: np.ndarray, shape: tuple[int, int, int], device: str) -> torch.Tensor:

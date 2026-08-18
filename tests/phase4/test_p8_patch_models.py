@@ -28,6 +28,18 @@ class P8PatchModelTests(unittest.TestCase):
         forbidden = (torch.nn.GroupNorm, torch.nn.InstanceNorm3d, torch.nn.BatchNorm3d)
         self.assertFalse(any(isinstance(module, forbidden) for module in model.modules()))
 
+    def test_unet_forward_uses_exportable_per_galaxy_latent(self):
+        torch.manual_seed(8)
+        model = UPatch(base=4, latent_channels=8, head_width=16).eval()
+        values = torch.randn(1, 3, 8, 8, 8)
+        points = torch.tensor([[[[[-0.5, 0.0, 0.5], [0.1, -0.2, 0.3]]]]])
+        with torch.no_grad():
+            latent = model.sample_latent(values, points)
+            direct = model(values, points)
+            reconstructed = model.head(latent)
+        self.assertEqual(tuple(latent.shape), (2, 8))
+        torch.testing.assert_close(direct, reconstructed)
+
     def test_grid_coordinate_conventions_agree(self):
         frac = np.array([[0.0, 2.0, 4.0], [4.0, 3.0, 0.0]], dtype=np.float64)
         shape = (5, 4, 5)
