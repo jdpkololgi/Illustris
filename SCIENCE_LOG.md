@@ -94,6 +94,21 @@ deployable response covariates. Raw latents require a truth-free common-ph006 al
 and fold-identifiability test, followed by a held-out likelihood/calibration gain; they
 must not enter merely because they are higher-dimensional.
 
+The full multitracer data gate is now closed. All six visible phase products pass with
+`6,804,198--6,850,218` context-limited assigned FAINT rows per phase. Proxy and Null
+use identical Bright targets, P3 grids, exposure and train-only FAINT selection curves;
+the Null preserves every tracer radius and permutes angular directions only within cap
+and `Delta-z=0.01`. Deposited tracer counts are conserved. Tracked evidence:
+`docs/evidence/p10/p10_multitracer_views_ready_20260820.json`.
+
+Persistent tmux supervisor `p10_mt_p12_4gpu` obtained four-A100-80GB interactive job
+`57292623`. All four initial two-update canaries passed: real-FAINT Proxy, angular Null,
+P12 `omit_ph000`, and P12 `omit_ph002`. All four scientific runs now have live loss
+traces. The workers are checkpoint-resumable and will chain ph003/ph004/ph005 cross-fit
+training plus ph006 summary export in later allocations. The four GPUs run independent
+one-patch-per-update tasks; this is hardware concurrency, not an unvalidated change to
+the optimizer batch semantics. ph001 remains sealed.
+
 ### 2026-08-18 — [science/code] P10 U-PATCH Arm A closes at epoch 20; G comparison is optimization-invalid; next gates use four GPUs as independent workers
 
 The five-phase U-PATCH Arm-A trajectory is complete. It visited every one of the

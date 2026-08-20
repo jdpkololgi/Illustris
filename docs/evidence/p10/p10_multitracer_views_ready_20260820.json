@@ -1,0 +1,35 @@
+{
+  "bright_supervision_only": true,
+  "created_utc": "2026-08-20T12:50:57.000405+00:00",
+  "pass": true,
+  "phase_records": {
+    "ph000": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/multitracer/v1/phases/ph000/PHASE_MULTITRACER_VIEWS_READY.json",
+    "ph002": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/multitracer/v1/phases/ph002/PHASE_MULTITRACER_VIEWS_READY.json",
+    "ph003": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/multitracer/v1/phases/ph003/PHASE_MULTITRACER_VIEWS_READY.json",
+    "ph004": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/multitracer/v1/phases/ph004/PHASE_MULTITRACER_VIEWS_READY.json",
+    "ph005": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/multitracer/v1/phases/ph005/PHASE_MULTITRACER_VIEWS_READY.json",
+    "ph006": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/multitracer/v1/phases/ph006/PHASE_MULTITRACER_VIEWS_READY.json"
+  },
+  "proxy_minus_null_is_spatial_information_estimand": true,
+  "schema_version": "p10-multitracer-views-ready-v1",
+  "sealed_phase": "ph001",
+  "sealed_phase_opened": false,
+  "selection_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/multitracer/v1/selection_manifest.json",
+  "selection_manifest_sha256": "35b7c4f2320e783490e64d4726954ec5e5a44885e865505a9a4a426f67ea02c8",
+  "training_phases": [
+    "ph000",
+    "ph002",
+    "ph003",
+    "ph004",
+    "ph005"
+  ],
+  "validation_phase": "ph006",
+  "visible_phases": [
+    "ph000",
+    "ph002",
+    "ph003",
+    "ph004",
+    "ph005",
+    "ph006"
+  ]
+}

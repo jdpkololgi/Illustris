@@ -2901,11 +2901,18 @@ Progress checklist:
     - [x] Implement the matched six-channel U-PATCH adapter and trainer. The Proxy and
       Null must share architecture, initialization seed, phase weights, optimizer,
       patch manifest, Bright targets and validation contract.
-    - [ ] Freeze the six-phase source-audit and view-ready markers, including hashes,
+    - [x] Freeze the six-phase source-audit and view-ready markers, including hashes,
       assignment/truth join counts, per-cap/per-shell counts and Null invariants.
+      The context-limited assigned FAINT rows are `6,804,198--6,850,218` per phase;
+      each Proxy and Null conserves its deposited tracer counts, the Null preserves
+      every radius and permutes directions within cap and `Delta-z=0.01`, and the
+      shared FAINT selection/normalization is fitted on the five training phases only.
+      Evidence: `docs/evidence/p10/p10_multitracer_views_ready_20260820.json`.
     - [ ] Train Proxy and Null from scratch on ph000+ph002--ph005, select on ph006,
       and report Proxy-minus-Null with spatial-block uncertainty. Do not promote from
-      Proxy-minus-Bright alone.
+      Proxy-minus-Bright alone. Four-GPU interactive job `57292623` launched both
+      matched seed-42 runs after their distinct two-update technical canaries passed;
+      scientific loss traces are active and checkpoint-resumable.
 - [x] Build the truth-free ph001 graph/field products under the sealed blind-input
   contract.
 - [ ] Save ph001 predictions before opening truth.
@@ -3261,7 +3268,9 @@ Progress checklist:
     epoch. Evidence: `docs/evidence/p10/p12_crossfit_contracts_ready_20260820.json`.
   - [ ] Train five fresh omitted-phase encoders and export the exact 32-dimensional
     latent, base prediction, truth and deployable response covariates for each omitted
-    phase. Export ph006 only from the frozen all-five-phase epoch-20 checkpoint.
+    phase. Export ph006 only from the frozen all-five-phase epoch-20 checkpoint. Job
+    `57292623` launched `omit_ph000` and `omit_ph002` after passed two-update canaries;
+    the persistent queue follows with ph003/ph004/ph005 and ph006 export.
 - [ ] Fit on training phases and tune on ph006 only.
 - [ ] Pass marginal, multivariate, conditional, tail, and information gates.
 - [ ] Record the `H_fid` conditional estimand and run the optional held-out-HOD stress
