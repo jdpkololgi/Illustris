@@ -288,6 +288,16 @@ def main() -> None:
     parser.add_argument("--output-root", type=Path, default=OUTPUT)
     parser.add_argument("--omitted-phases", nargs="+", choices=TRAINING_PHASES, default=list(TRAINING_PHASES))
     args = parser.parse_args()
+    ready = args.output_root / "P12_CROSSFIT_CONTRACTS_READY.json"
+    if ready.exists():
+        existing = json.loads(ready.read_text())
+        if (
+            existing.get("pass") is True
+            and existing.get("sealed_phase_opened") is False
+            and existing.get("omitted_phases") == list(args.omitted_phases)
+        ):
+            print(json.dumps(existing, indent=2), flush=True)
+            return
     contracts = {
         phase: build_contract(root=args.output_root, omitted=phase)
         for phase in args.omitted_phases
