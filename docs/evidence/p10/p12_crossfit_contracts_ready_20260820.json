@@ -1,0 +1,181 @@
+{
+  "contracts": {
+    "ph000": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 67244,
+        "training_epoch_sha256": "ed3c691daebc84a67285e2217d82d3ca110e64368fd49f8680e0b4c89a81a723",
+        "validation_core_unique": true,
+        "validation_cores": 17202
+      },
+      "created_utc": "2026-08-20T12:17:12.464197+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "marker_sha256": "fb56da775ee8fbb1ee5ffa191c2febac831e256dc6da7ae24c9b2d3e5c304bd6",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph000",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "sealed_blind_test": "ph001",
+        "training": [
+          "ph002",
+          "ph003",
+          "ph004",
+          "ph005"
+        ],
+        "validation_and_selection": "ph000"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph000",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    },
+    "ph002": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 67678,
+        "training_epoch_sha256": "9de45050da35ed093d68d843b7cdbbde120bd310c2a695cf94dc409b2ec5fc12",
+        "validation_core_unique": true,
+        "validation_cores": 16768
+      },
+      "created_utc": "2026-08-20T12:18:14.307182+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "marker_sha256": "ea3dd579e021a49ea163421424c454afc5692c14242a3badcabe87fea737cd58",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph002",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "sealed_blind_test": "ph001",
+        "training": [
+          "ph000",
+          "ph003",
+          "ph004",
+          "ph005"
+        ],
+        "validation_and_selection": "ph002"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph002",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    },
+    "ph003": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 67556,
+        "training_epoch_sha256": "995d93424ce50713e7df9d61d70d56f542b5ad25a0ad2aa219de0f130f06fb09",
+        "validation_core_unique": true,
+        "validation_cores": 16890
+      },
+      "created_utc": "2026-08-20T12:19:16.441327+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "marker_sha256": "f93dcc2742b084cff1fa0afcf241486d979f96c2372b4a36c65173c8d00f9964",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph003",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "sealed_blind_test": "ph001",
+        "training": [
+          "ph000",
+          "ph002",
+          "ph004",
+          "ph005"
+        ],
+        "validation_and_selection": "ph003"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph003",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    },
+    "ph004": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 67653,
+        "training_epoch_sha256": "1e93f482ff8152598cf009d90b212360f715cf69346706e8026e72f527e4df70",
+        "validation_core_unique": true,
+        "validation_cores": 16793
+      },
+      "created_utc": "2026-08-20T12:20:17.967868+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "marker_sha256": "2324b4be24533fa322132ff8318c0c0c8226585cbfc4d6e81f7688258fe7cc91",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph004",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "sealed_blind_test": "ph001",
+        "training": [
+          "ph000",
+          "ph002",
+          "ph003",
+          "ph005"
+        ],
+        "validation_and_selection": "ph004"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph004",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    },
+    "ph005": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 67653,
+        "training_epoch_sha256": "fd68211a19178650cf54a9698b366c50f3904f2719375fba54437a3d6e83d4ef",
+        "validation_core_unique": true,
+        "validation_cores": 16793
+      },
+      "created_utc": "2026-08-20T12:21:15.555846+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "marker_sha256": "b9dbac708ae16975749c4ef1acaef0c975862c64c2be0f9ab7aa4e524891659b",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph005",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "sealed_blind_test": "ph001",
+        "training": [
+          "ph000",
+          "ph002",
+          "ph003",
+          "ph004"
+        ],
+        "validation_and_selection": "ph005"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph005",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    }
+  },
+  "created_utc": "2026-08-20T12:21:15.823989+00:00",
+  "omitted_phases": [
+    "ph000",
+    "ph002",
+    "ph003",
+    "ph004",
+    "ph005"
+  ],
+  "pass": true,
+  "schema_version": "p12-crossfit-contract-set-v1",
+  "sealed_phase": "ph001",
+  "sealed_phase_opened": false
+}

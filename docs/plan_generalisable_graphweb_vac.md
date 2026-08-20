@@ -3253,9 +3253,12 @@ Progress checklist:
   - [x] Implement the leave-one-phase-out contract builder and guarded latent exporter.
     The exporter refuses ph001 and refuses any phase listed in the source checkpoint's
     training phases; its validation phase must be exactly the exported phase.
-  - [ ] Materialize and validate five immutable contracts omitting, in turn,
+  - [x] Materialize and validate five immutable contracts omitting, in turn,
     ph000/ph002/ph003/ph004/ph005. Each contract recomputes train-only selection and
-    target/count transformations from the remaining four phases.
+    target/count transformations from the remaining four phases. The five contracts
+    contain `67,244--67,678` complete training cores and `16,768--17,202` unique
+    omitted-phase validation cores, and every omitted phase is absent from its training
+    epoch. Evidence: `docs/evidence/p10/p12_crossfit_contracts_ready_20260820.json`.
   - [ ] Train five fresh omitted-phase encoders and export the exact 32-dimensional
     latent, base prediction, truth and deployable response covariates for each omitted
     phase. Export ph006 only from the frozen all-five-phase epoch-20 checkpoint.

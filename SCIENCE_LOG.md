@@ -78,6 +78,14 @@ TARGETID-level bitwise-OR deduplication is part of the frozen contract. ph001 wa
 opened. Tracked evidence:
 `docs/evidence/p10/multitracer_source_audit_20260820.json`.
 
+All five P12 leave-one-phase-out data contracts also pass. Each independently refits
+selection and target/count transformations from four phases, exposes the omitted phase
+only as validation, and produces a complete deterministic epoch of `67,244--67,678`
+training cores plus `16,768--17,202` unique omitted-phase validation cores. The marker
+asserts for every contract that its omitted phase is absent from training; ph001 remains
+sealed. This completes contract materialization, not encoder training or posterior
+calibration. Evidence: `docs/evidence/p10/p12_crossfit_contracts_ready_20260820.json`.
+
 ### 2026-08-18 — [science/code] P10 U-PATCH Arm A closes at epoch 20; G comparison is optimization-invalid; next gates use four GPUs as independent workers
 
 The five-phase U-PATCH Arm-A trajectory is complete. It visited every one of the
