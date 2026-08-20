@@ -1,5 +1,61 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-20 — [science/code] P10 decision gates close: U beats matched classical and corrected G; tail shrinkage is conditionally calibrated
+
+The four post-Arm-A decision rows are now complete without opening ph001. The important
+result is not a macro-only win. On all authoritative ph006 targets:
+
+| estimator | four-shell macro R2(lambda1) | first-three-shell macro | shell R2(lambda1) |
+| --- | ---: | ---: | --- |
+| U-PATCH epoch 20 | **0.57310** | **0.63464** | **0.69190 / 0.64159 / 0.57042 / 0.38850** |
+| corrected G-PATCH, LR 2e-4 | 0.46986 | 0.51260 | 0.53897 / 0.51258 / 0.48625 / 0.34164 |
+| train-affine CIC | 0.31139 | 0.51877 | 0.51582 / 0.54325 / 0.49725 / -0.31074 |
+| train-affine exact DTFE | 0.01607 | 0.05337 | 0.02077 / 0.05823 / 0.08111 / -0.09583 |
+
+The corrected G schedule confirms that the original multi-phase G collapse was largely
+an optimization defect, not evidence that its graph rows were misaligned: the `2e-4`
+canary recovered macro `0.46986`, while `5e-4` reached `0.45504`. Both used three full
+84,446-core epochs and an explicit 400,000-update cosine horizon. G is nevertheless
+materially below U under the matched ph006 contract and is frozen as a non-selected
+control; no further GraphNet variant sweep is opened.
+
+The matched classical result is stronger than the earlier same-phase framing. U beats
+CIC in each of the first three shells where CIC remains informative, by
+`+0.1761/+0.0983/+0.0732`, as well as retaining a positive sparse-shell score. Thus its
+overall lead is not manufactured by CIC's last-shell collapse. Exact DTFE has useful
+raw rank information in places but its train-phase response fit transfers poorly under
+the full cap/selection contract; its very low calibrated R2 is retained as a negative
+result rather than silently replaced by a target-fitted affine score. Tracked copies:
+`docs/evidence/p10/{cic,dtfe}_ph006_complete_20260820.json` and
+`docs/evidence/p10/arm_a_g_schedule_*_20260820.json`.
+
+A new prediction-conditioned calibration diagnostic resolves the apparent conflict in
+the predicted-versus-true plots. The familiar regression of prediction on truth has
+slopes below one because an MSE model estimates `E[lambda|observations]` and extreme
+truths with ambiguous observations regress toward the population mean. The appropriate
+point-calibration question reverses the conditioning: is
+`E[truth|prediction]=prediction`? On ph006, its pooled slopes are
+`0.9995/0.9942/1.0013` for lambda1--lambda3, and normalized weighted mean absolute
+calibration errors are only `0.0066/0.0075/0.0104`. Shell four remains the weakest but
+still has truth-on-prediction slopes `0.970/0.968/0.975`. No affine debiasing is
+warranted. The missing tail width is instead a posterior problem: P12 must model the
+conditional distribution around this calibrated mean. Evidence and reusable code:
+`docs/evidence/p10/prediction_conditioned_calibration.json` and
+`workflows/visualization/plot_p10_prediction_calibration.py`.
+
+The active ordering is now deliberately gated. First finish the phase-matched
+BRIGHT-target/FAINT-context Proxy-versus-angular-Null views and train them under the
+same five-phase/ph006 protocol. In parallel, implement the five leave-one-phase-out
+U-PATCH conditioning-summary contract needed for P12; all-five-phase training latents
+are forbidden as posterior-training rows. Then build the paired
+`V_dense/V_assign/V_final` view ladder and test whether a dense observed-galaxy teacher
+has measurable ph006 headroom. JEPA opens only if that teacher gate passes. One bounded
+tail-aware auxiliary loss remains an optional diagnostic after these data and posterior
+gates; it may not replace the calibrated conditional-mean baseline or redefine the
+primary metric. Four GPUs should be occupied by independent frozen-contract tasks until
+true data-parallel parity is established; changing patch-batch/update semantics merely
+to use hardware remains forbidden.
+
 ### 2026-08-18 — [science/code] P10 U-PATCH Arm A closes at epoch 20; G comparison is optimization-invalid; next gates use four GPUs as independent workers
 
 The five-phase U-PATCH Arm-A trajectory is complete. It visited every one of the

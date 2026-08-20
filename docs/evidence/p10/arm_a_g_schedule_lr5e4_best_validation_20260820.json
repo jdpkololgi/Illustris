@@ -1,0 +1,362 @@
+{
+  "boundary": {
+    "abs_error_vs_distance_spearman": -0.0023704930370417395,
+    "beyond_10.4_mpc": {
+      "macro_r2_lambda1": 0.4559136484759065,
+      "n": 4263128
+    },
+    "beyond_20.8_mpc": {
+      "macro_r2_lambda1": 0.4571660002022396,
+      "n": 3678146
+    }
+  },
+  "complete_phase_coverage": true,
+  "diagnostic_first_three_shell_macro_r2_lambda1": 0.4927166972804007,
+  "n_authoritative": 4908831,
+  "ordering_violation_rate": 0.0,
+  "per_shell": {
+    "0p15_0p25": {
+      "classification": {
+        "balanced_accuracy": 0.5856437049228315,
+        "confusion_matrix_true_rows": [
+          [
+            319291,
+            390442,
+            5952,
+            10
+          ],
+          [
+            53343,
+            816632,
+            263020,
+            1770
+          ],
+          [
+            2490,
+            148481,
+            508287,
+            47105
+          ],
+          [
+            206,
+            6886,
+            73068,
+            67523
+          ]
+        ],
+        "knot_recall": 0.45721579328697276,
+        "macro_f1": 0.6009346043892346,
+        "void_recall": 0.4461271910520543
+      },
+      "lambda1": {
+        "bias": 0.015040849580625102,
+        "mae": 0.09724432420343658,
+        "prediction_to_truth_variance": 0.5932049748007303,
+        "prediction_variance": 0.024242209178111943,
+        "r2": 0.5178064117787633,
+        "slope_prediction_on_truth": 0.5582735737550016,
+        "spearman": 0.7108265420586084,
+        "truth_variance": 0.04086649675562043
+      },
+      "lambda2": {
+        "bias": 0.02685345976401507,
+        "mae": 0.10645266232329831,
+        "prediction_to_truth_variance": 0.699411291947503,
+        "prediction_variance": 0.0462515839141514,
+        "r2": 0.6568934746545274,
+        "slope_prediction_on_truth": 0.6836046429423464,
+        "spearman": 0.8200644236667287,
+        "truth_variance": 0.0661293068136838
+      },
+      "lambda3": {
+        "bias": 0.03025142724106411,
+        "mae": 0.1287536354260131,
+        "prediction_to_truth_variance": 0.6381824854114057,
+        "prediction_variance": 0.0678646893830569,
+        "r2": 0.7081630865810684,
+        "slope_prediction_on_truth": 0.677475700906791,
+        "spearman": 0.8513289441046988,
+        "truth_variance": 0.1063405701886472
+      },
+      "n": 2704506
+    },
+    "0p25_0p35": {
+      "classification": {
+        "balanced_accuracy": 0.5448367886166581,
+        "confusion_matrix_true_rows": [
+          [
+            122075,
+            251100,
+            5970,
+            7
+          ],
+          [
+            16249,
+            464952,
+            209037,
+            1180
+          ],
+          [
+            876,
+            77485,
+            348031,
+            31275
+          ],
+          [
+            124,
+            4599,
+            51303,
+            41321
+          ]
+        ],
+        "knot_recall": 0.4244712215065693,
+        "macro_f1": 0.5568522444936898,
+        "void_recall": 0.3219684981221252
+      },
+      "lambda1": {
+        "bias": 0.022315680161845066,
+        "mae": 0.09953569098590094,
+        "prediction_to_truth_variance": 0.5612436894891251,
+        "prediction_variance": 0.023027408003164915,
+        "r2": 0.48844632269107024,
+        "slope_prediction_on_truth": 0.5309137201585112,
+        "spearman": 0.7131989940700101,
+        "truth_variance": 0.041029250634649864
+      },
+      "lambda2": {
+        "bias": 0.03989375507533563,
+        "mae": 0.11502041785272221,
+        "prediction_to_truth_variance": 0.6295006399695027,
+        "prediction_variance": 0.04126280673524776,
+        "r2": 0.6087634308055027,
+        "slope_prediction_on_truth": 0.6312719951862569,
+        "spearman": 0.813616056306756,
+        "truth_variance": 0.06554847464054495
+      },
+      "lambda3": {
+        "bias": 0.046222489106934946,
+        "mae": 0.13851964254798105,
+        "prediction_to_truth_variance": 0.5867615351682914,
+        "prediction_variance": 0.059033065405235126,
+        "r2": 0.6551984987768165,
+        "slope_prediction_on_truth": 0.631598022880973,
+        "spearman": 0.8388718289431984,
+        "truth_variance": 0.10060827417445421
+      },
+      "n": 1625584
+    },
+    "0p35_0p45": {
+      "classification": {
+        "balanced_accuracy": 0.5226495090600582,
+        "confusion_matrix_true_rows": [
+          [
+            21389,
+            61250,
+            2158,
+            0
+          ],
+          [
+            3774,
+            135980,
+            73026,
+            475
+          ],
+          [
+            243,
+            29144,
+            134705,
+            13972
+          ],
+          [
+            21,
+            1926,
+            21125,
+            18441
+          ]
+        ],
+        "knot_recall": 0.4442222918122034,
+        "macro_f1": 0.5395781276435572,
+        "void_recall": 0.2522376970883404
+      },
+      "lambda1": {
+        "bias": 0.014451756200746346,
+        "mae": 0.10664893277551225,
+        "prediction_to_truth_variance": 0.5424583033547263,
+        "prediction_variance": 0.024515738317354412,
+        "r2": 0.4718973573713684,
+        "slope_prediction_on_truth": 0.5094884722480839,
+        "spearman": 0.7058528346974121,
+        "truth_variance": 0.04519377464727089
+      },
+      "lambda2": {
+        "bias": 0.03198900181656594,
+        "mae": 0.12388322540219293,
+        "prediction_to_truth_variance": 0.6051825424059353,
+        "prediction_variance": 0.04220984399258761,
+        "r2": 0.571768054488476,
+        "slope_prediction_on_truth": 0.5958110400645379,
+        "spearman": 0.7903793183586317,
+        "truth_variance": 0.06974729281644533
+      },
+      "lambda3": {
+        "bias": 0.03505749723355124,
+        "mae": 0.14629537686476116,
+        "prediction_to_truth_variance": 0.5712582986474096,
+        "prediction_variance": 0.05888404551340067,
+        "r2": 0.6142969338163675,
+        "slope_prediction_on_truth": 0.5987392693612713,
+        "spearman": 0.8158372095958702,
+        "truth_variance": 0.10307779449825535
+      },
+      "n": 517629
+    },
+    "0p45_0p55": {
+      "classification": {
+        "balanced_accuracy": 0.42574239588499,
+        "confusion_matrix_true_rows": [
+          [
+            349,
+            3441,
+            631,
+            4
+          ],
+          [
+            149,
+            9953,
+            9307,
+            139
+          ],
+          [
+            16,
+            4468,
+            20005,
+            2523
+          ],
+          [
+            3,
+            477,
+            5856,
+            3791
+          ]
+        ],
+        "knot_recall": 0.3743458082354103,
+        "macro_f1": 0.4402052110439509,
+        "void_recall": 0.07887005649717514
+      },
+      "lambda1": {
+        "bias": -0.005661333315640419,
+        "mae": 0.14514158709703393,
+        "prediction_to_truth_variance": 0.36994776341692776,
+        "prediction_variance": 0.02373039116873964,
+        "r2": 0.34202057085458215,
+        "slope_prediction_on_truth": 0.35623399620123186,
+        "spearman": 0.5919802004715057,
+        "truth_variance": 0.06414524837117533
+      },
+      "lambda2": {
+        "bias": -0.0025622805291435143,
+        "mae": 0.16351293147122553,
+        "prediction_to_truth_variance": 0.47429483759796814,
+        "prediction_variance": 0.04542231686977402,
+        "r2": 0.4549287575596377,
+        "slope_prediction_on_truth": 0.46464607455257095,
+        "spearman": 0.6828336382691358,
+        "truth_variance": 0.09576810302176607
+      },
+      "lambda3": {
+        "bias": -0.007358286613831555,
+        "mae": 0.1882876478909731,
+        "prediction_to_truth_variance": 0.4763794388765161,
+        "prediction_variance": 0.06615205019232837,
+        "r2": 0.5149512398802718,
+        "slope_prediction_on_truth": 0.49586029380677876,
+        "spearman": 0.7209442075223823,
+        "truth_variance": 0.13886420108378325
+      },
+      "n": 61112
+    }
+  },
+  "pooled": {
+    "classification": {
+      "balanced_accuracy": 0.5661764515674462,
+      "confusion_matrix_true_rows": [
+        [
+          463104,
+          706233,
+          14711,
+          21
+        ],
+        [
+          73515,
+          1427517,
+          554390,
+          3564
+        ],
+        [
+          3625,
+          259578,
+          1011028,
+          94875
+        ],
+        [
+          354,
+          13888,
+          151352,
+          131076
+        ]
+      ],
+      "knot_recall": 0.4418242491657397,
+      "macro_f1": 0.5816586066978668,
+      "void_recall": 0.39111234227059405
+    },
+    "lambda1": {
+      "bias": 0.01713009742339093,
+      "mae": 0.09959111610566626,
+      "prediction_to_truth_variance": 0.5768661715409258,
+      "prediction_variance": 0.024325581683592033,
+      "r2": 0.505569319503631,
+      "slope_prediction_on_truth": 0.5446971226800387,
+      "spearman": 0.7154940671094748,
+      "truth_variance": 0.042168500916969186
+    },
+    "lambda2": {
+      "bias": 0.03134714597763336,
+      "mae": 0.11183831084301232,
+      "prediction_to_truth_variance": 0.6657848056677225,
+      "prediction_variance": 0.04488541473723357,
+      "r2": 0.6322529099473847,
+      "slope_prediction_on_truth": 0.6563066277445513,
+      "spearman": 0.8166180733963906,
+      "truth_variance": 0.06741730113864272
+    },
+    "lambda3": {
+      "bias": 0.03557889909805216,
+      "mae": 0.13457861118303416,
+      "prediction_to_truth_variance": 0.6146836077151736,
+      "prediction_variance": 0.06476102297129789,
+      "r2": 0.6809240761672065,
+      "slope_prediction_on_truth": 0.6538113304281487,
+      "spearman": 0.8444530340814828,
+      "truth_variance": 0.10535667806730621
+    },
+    "n": 4908831
+  },
+  "primary_macro_r2_lambda1": 0.455042665673946,
+  "runtime": {
+    "epoch": 3,
+    "global_step": 253338,
+    "maximum_cuda_memory_bytes": 45276058112,
+    "maximum_patch_directed_edges": 8551158,
+    "maximum_patch_nodes": 100247,
+    "patch_failures": 0
+  },
+  "spatial_block_interval": {
+    "blocks": 474,
+    "draws": 400,
+    "p16": 0.45190372910128507,
+    "p50": 0.45517456805118617,
+    "p84": 0.4582203497050096
+  },
+  "validation_phase": "ph006",
+  "worst_shell_r2_lambda1": 0.34202057085458215
+}

@@ -2474,10 +2474,10 @@ Progress checklist:
 
 ### P10 — Multi-phase target generation and training
 
-**Status:** U-PATCH ARM-A COMPLETE AND FROZEN AT EPOCH 20; G-PATCH ARM-A IS AN
-OPTIMIZATION-INVALID DIAGNOSTIC AND HAS A SEPARATELY NAMED UPDATE-SCHEDULE CANARY;
-PH006 REMAINS VALIDATION/SELECTION; PH001 REMAINS SEALED; CLASSICAL, MULTITRACER,
-OUT-OF-FOLD P12, AND ARMS B/C GATES ARE ACTIVE
+**Status:** U-PATCH ARM-A COMPLETE AND FROZEN AT EPOCH 20; THE CORRECTED G-PATCH
+SCHEDULE CONTROL AND MATCHED CIC/DTFE ROWS ARE COMPLETE; U-PATCH REMAINS THE
+PH006-SELECTED DETERMINISTIC LEADER; PH001 REMAINS SEALED; MULTITRACER, OUT-OF-FOLD
+P12, DENSE-TEACHER/VIEW-LADDER, AND ARMS B/C GATES ARE ACTIVE
 **Duration:** scope after one-phase benchmark; likely days to weeks
 
 Reserve:
@@ -2844,23 +2844,37 @@ Progress checklist:
     Epoch 18--20 improved only `0.00149`, below the registered `0.002` material-gain
     scale. Do not append epochs to the exhausted schedule; a new seed or low-LR
     experiment must be separately named and is not on the critical path.
-  - [ ] Resolve the G-PATCH optimization control before comparing representations.
+    A prediction-conditioned calibration audit also passes: on ph006 the pooled
+    `E[truth|prediction]` slopes are `0.9995/0.9942/1.0013` for lambda1--lambda3
+    and normalized weighted mean absolute calibration errors are
+    `0.0066/0.0075/0.0104`. Thus the sub-unity `prediction|truth` slopes diagnose
+    conditional-mean shrinkage rather than an affine point-calibration defect. Evidence:
+    `docs/evidence/p10/prediction_conditioned_calibration.json`.
+  - [x] Resolve the G-PATCH optimization control before comparing representations.
     The original run is frozen after epoch 6 as diagnostic evidence: its LR remained
     `1.59e-3` after 506,676 updates because the epoch-scaled schedule was stretched by
     the five-phase epoch, validation oscillated, and prediction variance collapsed.
-    Paired LR `2e-4` and `5e-4` fresh canaries launched together on 2026-08-18 with an
+    Paired LR `2e-4` and `5e-4` fresh canaries completed three exact epochs with an
     explicit 400,000-update cosine horizon, pre-clip gradient telemetry and unchanged
-    phase/patch objective; do not resume or reinterpret the original run.
-  - [ ] Complete matched ph006 CIC and exact-DTFE rows with affine calibration fitted
+    phase/patch objective. The `2e-4` canary is better: macro `R2(lambda1)=0.46986`,
+    first-three-shell macro `0.51260`, and per-shell
+    `0.53897/0.51258/0.48625/0.34164`, versus `0.45504` for `5e-4`. This repairs the
+    optimization-invalid collapse but does not catch U-PATCH (`0.57310`); freeze G as a
+    non-selected control rather than extending an architecture branch.
+  - [x] Complete matched ph006 CIC and exact-DTFE rows with affine calibration fitted
     only on ph000+ph002--ph005 under the frozen phase/shell weights. CIC consumes the
     immutable P3 counts/expected-counts. DTFE must build a separate exact
     piecewise-linear density raster for every visible phase, convert it with that
     phase's expected-count response, and then apply the same fixed R=7 Mpc/h tensor
     solve. The expensive DTFE branch is resumable and may finish after CIC, but the
-    older single-phase/P8 DTFE number is not a substitute for this matched row. The six
-    CIC raw phase solves completed on 2026-08-18; training-only affine finalization was
-    running at the time of this plan update, after which the same two GPU workers switch
-    automatically to the resumable six-phase exact-DTFE branch.
+    older single-phase/P8 DTFE number is not a substitute for this matched row. The
+    train-affine CIC row has macro `0.31139`, first-three-shell macro `0.51877`, and
+    shells `0.51582/0.54325/0.49725/-0.31074`. Exact DTFE has macro `0.01607`,
+    first-three `0.05337`, and shells `0.02077/0.05823/0.08111/-0.09583`. Under this
+    fully matched independent-phase contract U-PATCH therefore beats both classical
+    estimators overall and in every one of the first three supported shells; this is
+    not a macro-only win caused by classical sparse-shell collapse. Evidence:
+    `docs/evidence/p10/{cic,dtfe}_ph006_complete_20260820.json`.
   - [ ] Run the paired multi-phase BGS_FAINT information test only after its source
     audit and phase-matched view builder pass. Keep supervision and released targets on
     BGS_BRIGHT. Compare BRIGHT-only against (a) real BRIGHT+FAINT context and (b) a
@@ -2879,8 +2893,8 @@ Progress checklist:
 #### P10.1 — Controlled observation-operator training
 
 **Status:** U-PATCH ARM-A SELECTED ON PH006; G-PATCH OPTIMIZATION CONTROL AND MATCHED
-CLASSICAL ROW IN PROGRESS; ARMS B/C AWAIT THE FROZEN VIEW LADDER AND P3B
-RESPONSE-FIELD EXPORTS
+CLASSICAL ROWS COMPLETE; ARMS B/C AWAIT THE FROZEN VIEW LADDER AND P3B RESPONSE-FIELD
+EXPORTS; MULTITRACER AND P12 PREPARATION ARE ACTIVE
 
 The catalogue identifiers required to pair and group examples are not automatically
 valid conditioning variables. Use this role contract:
@@ -3011,7 +3025,7 @@ Minimal decision order:
    contract;
 2. [complete 2026-08-14] register and audit the existing ph000--ph006 plus Loa
    random/response sources and write `P10_RESPONSE_SOURCES_READY.json`;
-3. [U-PATCH complete 2026-08-18; G-PATCH corrective canary in progress] run freshly
+3. [complete 2026-08-20] run freshly
    initialized Arm A using the frozen final-view R0 contract; in
    parallel, freeze the three-view forward-observation ladder, build the P3b `R1`
    random-only/boundary canary and response exports, and write

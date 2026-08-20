@@ -1,0 +1,422 @@
+{
+  "arguments": {
+    "auto_resume": true,
+    "checkpoint_every": 250,
+    "contract_root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract",
+    "device": "cuda",
+    "disable_early_stopping": true,
+    "dropout": 0.1,
+    "epochs": 3,
+    "gradient_clip": 5.0,
+    "heads": 8,
+    "latent_size": 80,
+    "loss_log_every": 25,
+    "lr": 0.0005,
+    "max_runtime_seconds": 12600.0,
+    "min_delta": 0.002,
+    "min_epochs": 1,
+    "model": "graph",
+    "output_root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/arm_a_training",
+    "patience": 5,
+    "run_name": "g_schedule_canary_lr5e4_v1",
+    "scheduler_total_updates": 400000,
+    "seed": 42,
+    "stop_after_updates": null,
+    "unet_base": 24,
+    "unet_latent_channels": 32,
+    "validation_group_cores": 4,
+    "validation_reserve_seconds": 1200.0
+  },
+  "best_epoch": 3,
+  "best_primary_macro_r2_lambda1": 0.455042665673946,
+  "blind_truth_accessed": false,
+  "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/arm_a_training/g_schedule_canary_lr5e4_v1/graph/seed_42/arm_a_checkpoint.pt",
+  "completed_utc": "2026-08-18T23:43:18.587879+00:00",
+  "created_utc": "2026-08-18T21:19:09.798508+00:00",
+  "epochs_completed": 3,
+  "field_transform_sha256": "4669aa537b9e9a62e3c34745099ce77b66edb9efdb98370667498dafe5c318f5",
+  "fresh_initialization": true,
+  "frozen_arguments": {
+    "contract_root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract",
+    "disable_early_stopping": true,
+    "dropout": 0.1,
+    "epochs": 3,
+    "gradient_clip": 5.0,
+    "heads": 8,
+    "latent_size": 80,
+    "lr": 0.0005,
+    "min_delta": 0.002,
+    "min_epochs": 1,
+    "model": "graph",
+    "output_root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/arm_a_training",
+    "patience": 5,
+    "run_name": "g_schedule_canary_lr5e4_v1",
+    "scheduler_total_updates": 400000,
+    "seed": 42,
+    "stop_after_updates": null,
+    "unet_base": 24,
+    "unet_latent_channels": 32,
+    "validation_group_cores": 4
+  },
+  "git_revision_at_launch": "37bef3a1c972948863d0e632bc07f8beb32092fd",
+  "global_steps": 253338,
+  "graph_transform_sha256": "014df217f6db62b68f5781b1fed2e19f33133a88bc8664d616ea54b17d89028e",
+  "history": [
+    {
+      "complete_epoch_coverage": true,
+      "diagnostic_first_three_shell_macro_r2_lambda1": 0.3899616375891684,
+      "epoch": 1,
+      "epoch_sha256": "6148d95c1e14127835e599bec4f34afae030907e31e2fc7fa9e3f6c7ecea3bb2",
+      "equal_phase_optimizer_objective_mean": 0.7262833870125475,
+      "global_step": 84446,
+      "invocation_elapsed_seconds": 11241.800081470981,
+      "learning_rate": 0.0004470008079560105,
+      "per_shell_lambda1_r2": {
+        "0p15_0p25": 0.4133199606001011,
+        "0p25_0p35": 0.3690254461512875,
+        "0p35_0p45": 0.38753950601611653,
+        "0p45_0p55": 0.3069458368854855
+      },
+      "phase_patches": {
+        "ph000": 17202,
+        "ph002": 16768,
+        "ph003": 16890,
+        "ph004": 16793,
+        "ph005": 16793
+      },
+      "phase_shell_rows": {
+        "ph000": [
+          2769277,
+          1662320,
+          533023,
+          62243
+        ],
+        "ph002": [
+          2714622,
+          1639282,
+          514882,
+          61176
+        ],
+        "ph003": [
+          2667734,
+          1649580,
+          521793,
+          59499
+        ],
+        "ph004": [
+          2640316,
+          1645990,
+          521504,
+          61281
+        ],
+        "ph005": [
+          2732699,
+          1625376,
+          523601,
+          60359
+        ]
+      },
+      "phase_shell_weighted_mse": {
+        "ph000": [
+          0.6931506908496281,
+          0.6892912986268186,
+          0.7530075324901427,
+          0.9949799637263231
+        ],
+        "ph002": [
+          0.7015334400265779,
+          0.7202531961092001,
+          0.7445454474902103,
+          0.9957738416358305
+        ],
+        "ph003": [
+          0.6799213729495086,
+          0.7054312033494241,
+          0.783902588732618,
+          0.9951169440493209
+        ],
+        "ph004": [
+          0.6672500251535876,
+          0.6843882269933215,
+          0.7609029110274176,
+          1.0007125490235718
+        ],
+        "ph005": [
+          0.7120885250928828,
+          0.6948022293180525,
+          0.7720589465122472,
+          1.001592095813604
+        ]
+      },
+      "phase_weighted_mse": {
+        "ph000": 0.7221429787849891,
+        "ph002": 0.7343134989549559,
+        "ph003": 0.7274911309832248,
+        "ph004": 0.711651048169214,
+        "ph005": 0.7358183744400234
+      },
+      "primary_macro_r2_lambda1": 0.3692076874132477,
+      "repeat_cores": 0,
+      "unique_cores_seen": 84446,
+      "validation": {
+        "all_rows_scaled_mse": 0.793358898629487,
+        "per_shell_scaled_mse": {
+          "0": 0.7806479419726281,
+          "1": 0.7966505746161994,
+          "2": 0.8181704727464267,
+          "3": 1.058164050292882
+        }
+      },
+      "worst_shell_r2_lambda1": 0.3069458368854855
+    },
+    {
+      "complete_epoch_coverage": true,
+      "diagnostic_first_three_shell_macro_r2_lambda1": 0.4631439837523493,
+      "epoch": 2,
+      "epoch_sha256": "332b648b0e3cda9d4d78cc1c64e4ef7a3736ca5f451a6c9129f26428aec8391d",
+      "equal_phase_optimizer_objective_mean": 0.6748369315008635,
+      "global_step": 168892,
+      "invocation_elapsed_seconds": 9983.087318949169,
+      "learning_rate": 0.00031047454668256536,
+      "per_shell_lambda1_r2": {
+        "0p15_0p25": 0.47685786400518737,
+        "0p25_0p35": 0.4598115521056867,
+        "0p35_0p45": 0.4527625351461738,
+        "0p45_0p55": 0.32267246368916125
+      },
+      "phase_patches": {
+        "ph000": 17202,
+        "ph002": 16768,
+        "ph003": 16890,
+        "ph004": 16793,
+        "ph005": 16793
+      },
+      "phase_shell_rows": {
+        "ph000": [
+          2769277,
+          1662320,
+          533023,
+          62243
+        ],
+        "ph002": [
+          2714622,
+          1639282,
+          514882,
+          61176
+        ],
+        "ph003": [
+          2667734,
+          1649580,
+          521793,
+          59499
+        ],
+        "ph004": [
+          2640316,
+          1645990,
+          521504,
+          61281
+        ],
+        "ph005": [
+          2732699,
+          1625376,
+          523601,
+          60359
+        ]
+      },
+      "phase_shell_weighted_mse": {
+        "ph000": [
+          0.6277471014621425,
+          0.6386035904534231,
+          0.7104450958500516,
+          0.964546587202702
+        ],
+        "ph002": [
+          0.6433999124253539,
+          0.672059449533462,
+          0.702894232408365,
+          0.97000195302559
+        ],
+        "ph003": [
+          0.6181581229175358,
+          0.654719422181546,
+          0.7411057758485431,
+          0.9723712256026245
+        ],
+        "ph004": [
+          0.6085160720457576,
+          0.6333573023297498,
+          0.7189922820806522,
+          0.9724426094811847
+        ],
+        "ph005": [
+          0.6546419935692993,
+          0.6459777086130086,
+          0.728558703275586,
+          0.9748199294340895
+        ]
+      },
+      "phase_weighted_mse": {
+        "ph000": 0.6680218536291844,
+        "ph002": 0.6845434018354059,
+        "ph003": 0.6753602805632409,
+        "ph004": 0.6605437937989224,
+        "ph005": 0.685715413735678
+      },
+      "primary_macro_r2_lambda1": 0.42802610373655225,
+      "repeat_cores": 0,
+      "unique_cores_seen": 84446,
+      "validation": {
+        "all_rows_scaled_mse": 0.7309875680612319,
+        "per_shell_scaled_mse": {
+          "0": 0.7267826103896163,
+          "1": 0.7226436417045687,
+          "2": 0.7450313526120648,
+          "3": 1.020073447789219
+        }
+      },
+      "worst_shell_r2_lambda1": 0.32267246368916125
+    },
+    {
+      "complete_epoch_coverage": true,
+      "diagnostic_first_three_shell_macro_r2_lambda1": 0.4927166972804007,
+      "epoch": 3,
+      "epoch_sha256": "bc8e74c89096167b37db69a96fd5daf7dd21ac7dc6ffaa32e85b54fefa20df47",
+      "equal_phase_optimizer_objective_mean": 0.6521741465076519,
+      "global_step": 253338,
+      "invocation_elapsed_seconds": 8648.585327492096,
+      "learning_rate": 0.00014830746850190004,
+      "per_shell_lambda1_r2": {
+        "0p15_0p25": 0.5178064117787633,
+        "0p25_0p35": 0.48844632269107024,
+        "0p35_0p45": 0.4718973573713684,
+        "0p45_0p55": 0.34202057085458215
+      },
+      "phase_patches": {
+        "ph000": 17202,
+        "ph002": 16768,
+        "ph003": 16890,
+        "ph004": 16793,
+        "ph005": 16793
+      },
+      "phase_shell_rows": {
+        "ph000": [
+          2769277,
+          1662320,
+          533023,
+          62243
+        ],
+        "ph002": [
+          2714622,
+          1639282,
+          514882,
+          61176
+        ],
+        "ph003": [
+          2667734,
+          1649580,
+          521793,
+          59499
+        ],
+        "ph004": [
+          2640316,
+          1645990,
+          521504,
+          61281
+        ],
+        "ph005": [
+          2732699,
+          1625376,
+          523601,
+          60359
+        ]
+      },
+      "phase_shell_weighted_mse": {
+        "ph000": [
+          0.6029741751578256,
+          0.6176269589897218,
+          0.6903009768534426,
+          0.9503491353889548
+        ],
+        "ph002": [
+          0.6164013178205002,
+          0.6503467945212772,
+          0.685131597388364,
+          0.9532848386290655
+        ],
+        "ph003": [
+          0.5967087847358097,
+          0.6315925253675733,
+          0.7190152170772993,
+          0.958325714560034
+        ],
+        "ph004": [
+          0.5825126377250044,
+          0.6104737584207811,
+          0.6995114161855115,
+          0.9567528570915341
+        ],
+        "ph005": [
+          0.6271265373988946,
+          0.6239193893840735,
+          0.7079296274586099,
+          0.9599444595337139
+        ]
+      },
+      "phase_weighted_mse": {
+        "ph000": 0.6460235186817351,
+        "ph002": 0.6616390127226082,
+        "ph003": 0.6537019261724196,
+        "ph004": 0.6374458244680878,
+        "ph005": 0.6620605345497517
+      },
+      "primary_macro_r2_lambda1": 0.455042665673946,
+      "repeat_cores": 0,
+      "unique_cores_seen": 84446,
+      "validation": {
+        "all_rows_scaled_mse": 0.6764275559084072,
+        "per_shell_scaled_mse": {
+          "0": 0.6678166436899509,
+          "1": 0.6683569620610414,
+          "2": 0.7093956287979706,
+          "3": 0.9929359566695182
+        }
+      },
+      "worst_shell_r2_lambda1": 0.34202057085458215
+    }
+  ],
+  "maximum_cuda_memory_bytes": 45276058112,
+  "model": "graph",
+  "objective": "equal mean over phases of within-phase sqrt-shell-weighted authoritative-row MSE",
+  "phase_is_model_input": false,
+  "sampler": "every eligible core exactly once; weighted within-phase order; shuffled phase round-robin; deterministic seed+epoch",
+  "scheduler_total_updates": 400000,
+  "schema_version": "p10-arm-a-run-v1",
+  "sealed_blind_phase": "ph001",
+  "seed": 42,
+  "source_contract": {
+    "workflows/abacus_tweb/p10_train_arm_a.py": "9b34955c88a6b510d24e5c032a666c6224313229a5347264786f2f4d634819ca",
+    "workflows/abacus_tweb/p10_training_contract.py": "e091a08dfc5beae62a27504fda5c2777d74f47c36632a18d3190867c78dd5b2e",
+    "workflows/abacus_tweb/p8_deterministic_common.py": "c7636ce698b69041bcf5d090a709780eb68ad267ea8ad57948f076d94c589cd2",
+    "workflows/abacus_tweb/p8_epoch_training.py": "7a555d68ae982a9653743e0e62ff6fc17814dba3cf0a7fac5f51ce63bfb33729",
+    "workflows/abacus_tweb/p8_train_graph_patch.py": "0f25d6cf8758e7f1075dd38ce3f14cb896e895e1cf6c4c782671e3d97535f0fd",
+    "workflows/abacus_tweb/p8_train_unet_patch.py": "baef42892ed9ef90a6f1366078940ffdf8d507c4f20c14e8e7504327a4070d6f"
+  },
+  "stage": "P10 deterministic multi-phase Arm A final-view R0",
+  "status": "NOT_CONVERGED_MAX_EPOCHS",
+  "target_scaler": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/transforms/target_scaler.json",
+  "target_scaler_sha256": "c918ab3d58c3ec1dbb568ef450b3eabc76db7a94a41b822e7cedbfaf364eae9f",
+  "training_cores_per_epoch": 84446,
+  "training_phases": [
+    "ph000",
+    "ph002",
+    "ph003",
+    "ph004",
+    "ph005"
+  ],
+  "training_ready_marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/TRAINING_LOADER_READY.json",
+  "training_ready_marker_sha256": "460fa2dc7938994aa1110677ad609f6761deee274767375cb474fec1c4d6cad6",
+  "validation_and_selection_phase": "ph006",
+  "validation_cores": 16796,
+  "view": "V_final R0 frozen P3a/P8 input contract",
+  "warm_start": null
+}
