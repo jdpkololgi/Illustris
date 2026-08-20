@@ -70,6 +70,14 @@ contract materialization remain running prerequisites. Once their immutable mark
 exist, one four-A100 node will run four independent one-GPU frozen-contract workers;
 this fills the node without changing the one-variable-patch optimizer semantics.
 
+The six-visible-phase source audit now passes. It finds `7,151,478--7,205,427`
+unique assigned FAINT targets per phase; every assigned FAINT TARGETID matches its
+phase-correct forFA row and all matched `RSDZ` values are finite and positive. The raw
+assignment products contain roughly 28.7--29.1 million duplicate rows per phase, so
+TARGETID-level bitwise-OR deduplication is part of the frozen contract. ph001 was not
+opened. Tracked evidence:
+`docs/evidence/p10/multitracer_source_audit_20260820.json`.
+
 ### 2026-08-18 — [science/code] P10 U-PATCH Arm A closes at epoch 20; G comparison is optimization-invalid; next gates use four GPUs as independent workers
 
 The five-phase U-PATCH Arm-A trajectory is complete. It visited every one of the

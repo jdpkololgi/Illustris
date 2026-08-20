@@ -2889,6 +2889,11 @@ Progress checklist:
       registry rather than filesystem discovery. In particular, ph000 explicitly
       records the historical `fba0_bkp` path; this is provenance, not a silent
       fallback.
+    - [x] Audit ph000/ph002--ph006 without opening ph001. Every phase contains
+      `7.15--7.21` million unique assigned FAINT targets, every assigned FAINT
+      TARGETID matches phase-correct forFA truth, and every matched `RSDZ` is finite
+      and positive. Evidence:
+      `docs/evidence/p10/multitracer_source_audit_20260820.json`.
     - [x] Implement one phase-generic builder that preserves BGS_BRIGHT supervision,
       writes separate FAINT count/expected-count/contrast channels on the immutable
       P3 grids, and creates the angular-scramble Null within cap and narrow-redshift
