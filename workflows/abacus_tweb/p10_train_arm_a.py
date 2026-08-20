@@ -33,6 +33,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from workflows.abacus_tweb import p8_train_graph_patch as graph_impl
 from workflows.abacus_tweb import p8_train_unet_patch as unet_impl
+from workflows.abacus_tweb import p10_multitracer_training as multitracer_impl
 from workflows.abacus_tweb.p8_deterministic_common import (
     SHELL_NAMES,
     acquire_run_lock,
@@ -102,6 +103,7 @@ def source_contract() -> dict[str, str]:
         REPO_ROOT / "workflows/abacus_tweb/p10_training_contract.py",
         REPO_ROOT / "workflows/abacus_tweb/p8_train_graph_patch.py",
         REPO_ROOT / "workflows/abacus_tweb/p8_train_unet_patch.py",
+        REPO_ROOT / "workflows/abacus_tweb/p10_multitracer_training.py",
         REPO_ROOT / "workflows/abacus_tweb/p8_deterministic_common.py",
         REPO_ROOT / "workflows/abacus_tweb/p8_epoch_training.py",
     )
@@ -263,7 +265,9 @@ def checkpoint_payload(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--model", choices=("unet", "graph"), required=True)
+    parser.add_argument(
+        "--model", choices=("unet", "graph", "unet_multitracer"), required=True
+    )
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--epochs", type=int, default=20)
     parser.add_argument("--min-epochs", type=int, default=10)
@@ -285,6 +289,16 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dropout", type=float, default=0.1)
     parser.add_argument("--unet-base", type=int, default=24)
     parser.add_argument("--unet-latent-channels", type=int, default=32)
+    parser.add_argument(
+        "--multitracer-root",
+        type=Path,
+        default=Path("/pscratch/sd/d/dkololgi/abacus/p10_multiphase/multitracer/v1"),
+    )
+    parser.add_argument(
+        "--multitracer-view",
+        choices=("proxy", "null"),
+        help="required only for the unet_multitracer model",
+    )
     parser.add_argument("--validation-group-cores", type=int, default=8)
     parser.add_argument("--loss-log-every", type=int, default=25)
     parser.add_argument("--checkpoint-every", type=int, default=250)
@@ -317,6 +331,10 @@ def parse_args() -> argparse.Namespace:
         parser.error("scheduler-total-updates must be positive")
     if args.gradient_clip <= 0:
         parser.error("gradient-clip must be positive")
+    if args.model == "unet_multitracer" and args.multitracer_view is None:
+        parser.error("unet_multitracer requires --multitracer-view")
+    if args.model != "unet_multitracer" and args.multitracer_view is not None:
+        parser.error("--multitracer-view is exclusive to unet_multitracer")
     return args
 
 
@@ -347,10 +365,13 @@ def main() -> None:
     scaler = loader.target_scaler
     sources = source_contract()
     graph_transform_path = args.contract_root / "transforms/graph/graph_transform.json"
-    graph_transform = json.loads(graph_transform_path.read_text())
-    if not graph_transform.get("pass"):
-        raise RuntimeError("frozen graph transform does not pass")
-    edge_spec = graph_transform["edge"]
+    graph_transform = None
+    edge_spec = None
+    if args.model == "graph":
+        graph_transform = json.loads(graph_transform_path.read_text())
+        if not graph_transform.get("pass"):
+            raise RuntimeError("frozen graph transform does not pass")
+        edge_spec = graph_transform["edge"]
     normalization = loader.field_normalization
 
     runtime = {
@@ -367,6 +388,11 @@ def main() -> None:
 
     if args.model == "unet":
         model = unet_impl.UPatch(
+            base=args.unet_base,
+            latent_channels=args.unet_latent_channels,
+        ).to(args.device)
+    elif args.model == "unet_multitracer":
+        model = multitracer_impl.P10MultitracerUPatch(
             base=args.unet_base,
             latent_channels=args.unet_latent_channels,
         ).to(args.device)
@@ -471,6 +497,10 @@ def main() -> None:
         "sampler": loader.manifest["epoch"],
         "objective": loader.manifest["objective"],
         "view": "V_final R0 frozen P3a/P8 input contract",
+        "multitracer_view": args.multitracer_view,
+        "multitracer_root": (
+            str(args.multitracer_root) if args.model == "unet_multitracer" else None
+        ),
         "arguments": jsonable_arguments(args),
         "frozen_arguments": frozen_arguments(args),
         "git_revision_at_launch": git_revision(),
@@ -483,7 +513,9 @@ def main() -> None:
         "target_scaler_sha256": sha256(
             args.contract_root / "transforms/target_scaler.json"
         ),
-        "graph_transform_sha256": sha256(graph_transform_path),
+        "graph_transform_sha256": (
+            sha256(graph_transform_path) if args.model == "graph" else None
+        ),
         "field_transform_sha256": sha256(
             args.contract_root / "transforms/field/field_transform.json"
         ),
@@ -495,6 +527,17 @@ def main() -> None:
     loss_window_gradient_norm: list[float] = []
     loss_window_gradient_clipped: list[bool] = []
     loss_window_phase = {phase: EpochLossAccumulator() for phase in phases}
+    multitracer_adapters = {}
+    if args.model == "unet_multitracer":
+        multitracer_adapters = {
+            phase: multitracer_impl.P10MultitracerFieldAdapter(
+                loader=loader,
+                phase=phase,
+                root=args.multitracer_root,
+                view=args.multitracer_view,
+            )
+            for phase in phases + (validation_phase,)
+        }
 
     def save_checkpoint(refs: tuple[PatchRef, ...], checkpoint_cursor: int) -> None:
         atomic_torch_save(
@@ -572,7 +615,7 @@ def main() -> None:
                     )
                     parent = patch.parent_node_id[patch.loss_mask]
                     prediction = model(*tensors)[patch.loss_mask]
-                else:
+                elif args.model == "unet":
                     adapter = loader.field_adapter(phase)
                     patch = adapter.extract(
                         ref.core_id,
@@ -584,6 +627,13 @@ def main() -> None:
                     values, points = unet_impl.model_inputs(
                         patch, normalization, args.device
                     )
+                    prediction = model(values, points)
+                else:
+                    adapter = multitracer_adapters[phase]
+                    patch, values, points = multitracer_impl.model_inputs(
+                        adapter, adapter.extract(ref.core_id), args.device
+                    )
+                    parent = patch.authoritative_parent_id
                     prediction = model(values, points)
 
                 weight_np = np.asarray(
@@ -727,7 +777,7 @@ def main() -> None:
                     "maximum_patch_nodes": int(val_nodes),
                     "maximum_patch_directed_edges": int(val_edges),
                 }
-            else:
+            elif args.model == "unet":
                 val_parent, val_scaled, failures = unet_impl.predict_fold(
                     model,
                     loader.field_adapter(validation_phase),
@@ -736,6 +786,14 @@ def main() -> None:
                     args.device,
                 )
                 validation_details = {}
+            else:
+                val_parent, val_scaled, failures = multitracer_impl.predict_phase(
+                    model,
+                    multitracer_adapters[validation_phase],
+                    validation_core,
+                    args.device,
+                )
+                validation_details = {"multitracer_view": args.multitracer_view}
             val_eigen = increments_to_eigenvalues(
                 unscale_increments(val_scaled, scaler)
             ).astype(np.float32)
@@ -841,7 +899,11 @@ def main() -> None:
                         "global_step": global_step,
                         "score": score,
                         "scaler": scaler,
-                        "normalization": normalization if args.model == "unet" else None,
+                        "normalization": (
+                            normalization
+                            if args.model in ("unet", "unet_multitracer")
+                            else None
+                        ),
                         "graph_transform": graph_transform if args.model == "graph" else None,
                         "source_contract": sources,
                         "training_phases": list(phases),
@@ -911,6 +973,8 @@ def main() -> None:
             paused.unlink()
         print(json.dumps(final, indent=2), flush=True)
     finally:
+        for adapter in multitracer_adapters.values():
+            adapter.close()
         for adapter in loader._field.values():
             adapter.close()
         lock_handle.close()

@@ -2885,6 +2885,22 @@ Progress checklist:
     selection/photometry contract exists. The six-visible-phase official-source audit
     is launched after CIC finalization; source feasibility is not itself a completed
     Proxy/Null view or a training result.
+    - [x] Resolve every official assigned-FAINT source through the frozen phase
+      registry rather than filesystem discovery. In particular, ph000 explicitly
+      records the historical `fba0_bkp` path; this is provenance, not a silent
+      fallback.
+    - [x] Implement one phase-generic builder that preserves BGS_BRIGHT supervision,
+      writes separate FAINT count/expected-count/contrast channels on the immutable
+      P3 grids, and creates the angular-scramble Null within cap and narrow-redshift
+      strata while holding the radial distribution and tracer count fixed.
+    - [x] Implement the matched six-channel U-PATCH adapter and trainer. The Proxy and
+      Null must share architecture, initialization seed, phase weights, optimizer,
+      patch manifest, Bright targets and validation contract.
+    - [ ] Freeze the six-phase source-audit and view-ready markers, including hashes,
+      assignment/truth join counts, per-cap/per-shell counts and Null invariants.
+    - [ ] Train Proxy and Null from scratch on ph000+ph002--ph005, select on ph006,
+      and report Proxy-minus-Null with spatial-block uncertainty. Do not promote from
+      Proxy-minus-Bright alone.
 - [x] Build the truth-free ph001 graph/field products under the sealed blind-input
   contract.
 - [ ] Save ph001 predictions before opening truth.
@@ -3229,6 +3245,15 @@ Progress checklist:
 - [x] Reopen after the five-phase U-PATCH representation passed ph006 deterministic
   selection at epoch 20. This opens P12 preparation; it does not unseal ph001.
 - [ ] Generate leakage-safe out-of-fold conditioning summaries.
+  - [x] Implement the leave-one-phase-out contract builder and guarded latent exporter.
+    The exporter refuses ph001 and refuses any phase listed in the source checkpoint's
+    training phases; its validation phase must be exactly the exported phase.
+  - [ ] Materialize and validate five immutable contracts omitting, in turn,
+    ph000/ph002/ph003/ph004/ph005. Each contract recomputes train-only selection and
+    target/count transformations from the remaining four phases.
+  - [ ] Train five fresh omitted-phase encoders and export the exact 32-dimensional
+    latent, base prediction, truth and deployable response covariates for each omitted
+    phase. Export ph006 only from the frozen all-five-phase epoch-20 checkpoint.
 - [ ] Fit on training phases and tune on ph006 only.
 - [ ] Pass marginal, multivariate, conditional, tail, and information gates.
 - [ ] Record the `H_fid` conditional estimand and run the optional held-out-HOD stress

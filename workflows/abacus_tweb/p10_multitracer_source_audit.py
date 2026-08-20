@@ -29,6 +29,7 @@ from workflows.abacus_tweb.p8_deterministic_common import atomic_json, sha256
 
 VISIBLE = ("ph000", "ph002", "ph003", "ph004", "ph005", "ph006")
 MOCK = {phase: int(phase[-3:]) for phase in VISIBLE}
+REGISTRY = REPO_ROOT / "configs/p10_phase_registry_v1.json"
 ROOT = Path("/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2")
 OUTPUT = Path(
     "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/multitracer/source_audit_v1.json"
@@ -44,12 +45,30 @@ FAINT_BITS = int(
 )
 
 
-def paths_for_phase(phase: str) -> tuple[Path, Path]:
-    mock = MOCK[phase]
-    return (
-        ROOT / f"forFA{mock}_nomask.fits",
-        ROOT / f"altmtl{mock}/fba{mock}/datcomb_brightwdup.fits",
+def resolve_observation_path(registry: dict, phase: str, asset: str) -> tuple[Path, str]:
+    """Resolve an observation asset with explicit, registry-owned overrides only."""
+    if phase not in registry["phases"]:
+        raise KeyError(f"phase {phase!r} is not registered")
+    phase_row = registry["phases"][phase]
+    overrides = phase_row.get("observation_path_overrides", {})
+    if asset in overrides:
+        return Path(overrides[asset]), "phase_override"
+    if asset not in registry["path_templates"]:
+        raise KeyError(f"asset {asset!r} has no template or phase override")
+    path = registry["path_templates"][asset].format(
+        phase=phase,
+        mock=int(phase_row["mock"]),
     )
+    return Path(path), "registry_template"
+
+
+def paths_for_phase(registry: dict, phase: str) -> tuple[Path, Path, dict]:
+    forfa, forfa_policy = resolve_observation_path(registry, phase, "forfa")
+    assigned, assigned_policy = resolve_observation_path(registry, phase, "fiberassign")
+    return forfa, assigned, {
+        "forfa": forfa_policy,
+        "assigned": assigned_policy,
+    }
 
 
 def _read(path: Path, columns: tuple[str, ...]) -> np.ndarray:
@@ -72,8 +91,8 @@ def target_counts(targetid: np.ndarray, bits: np.ndarray) -> dict:
     }
 
 
-def audit_phase(phase: str) -> dict:
-    forfa_path, assigned_path = paths_for_phase(phase)
+def audit_phase(registry: dict, phase: str) -> dict:
+    forfa_path, assigned_path, path_resolution = paths_for_phase(registry, phase)
     if not forfa_path.exists() or not assigned_path.exists():
         raise FileNotFoundError(f"missing {phase} source: {forfa_path}, {assigned_path}")
     forfa = _read(forfa_path, ("TARGETID", "BGS_TARGET", "RSDZ", "TRUEZ"))
@@ -97,6 +116,7 @@ def audit_phase(phase: str) -> dict:
         "forfa_sha256": sha256(forfa_path),
         "assigned": str(assigned_path),
         "assigned_sha256": sha256(assigned_path),
+        "path_resolution": path_resolution,
         "targetable_unique": int(len(targetable["targetid"])),
         "targetable_bright_unique": int(targetable["bright"].sum()),
         "targetable_faint_unique": int(targetable["faint"].sum()),
@@ -126,6 +146,7 @@ def audit_phase(phase: str) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=OUTPUT)
+    parser.add_argument("--registry", type=Path, default=REGISTRY)
     args = parser.parse_args()
     if args.output.exists():
         existing = json.loads(args.output.read_text())
@@ -136,11 +157,14 @@ def main() -> None:
         ):
             print(json.dumps(existing, indent=2), flush=True)
             return
-    phases = {phase: audit_phase(phase) for phase in VISIBLE}
+    registry = json.loads(args.registry.read_text())
+    phases = {phase: audit_phase(registry, phase) for phase in VISIBLE}
     result = {
         "schema_version": "p10-multitracer-source-audit-v1",
         "created_utc": datetime.now(timezone.utc).isoformat(),
         "visible_phases": list(VISIBLE),
+        "registry": str(args.registry),
+        "registry_sha256": sha256(args.registry),
         "sealed_phase_opened": False,
         "scope": "source feasibility only; no T-web truth and no model input written",
         "phases": phases,

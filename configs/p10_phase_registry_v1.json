@@ -75,6 +75,9 @@
       "role": "training_development_reference",
       "truth_access": "development",
       "historical_score_use": "reference_only",
+      "observation_path_overrides": {
+        "fiberassign": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/fba0_bkp/datcomb_brightwdup.fits"
+      },
       "particle_b": {
         "kind": "restored_reference",
         "root": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/AbacusSummit_base_c000_ph000/halos/z0.200"

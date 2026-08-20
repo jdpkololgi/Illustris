@@ -56,6 +56,20 @@ primary metric. Four GPUs should be occupied by independent frozen-contract task
 true data-parallel parity is established; changing patch-batch/update semantics merely
 to use hardware remains forbidden.
 
+Implementation of those next gates has begun, but no Proxy/Null or P12 science result
+is claimed yet. The phase registry now resolves official observation sources explicitly,
+including ph000's historical `fba0_bkp` fibre-assignment product. A single builder
+constructs matched real-FAINT Proxy and angular-scramble Null field channels while
+leaving Bright targets unchanged, and a six-channel U-PATCH adapter consumes the three
+Bright plus three Faint observational channels. For P12, a leave-one-phase-out contract
+builder and guarded 32-dimensional latent exporter enforce that an exported training
+row can never come from an encoder trained on its phase. Twelve focused unit tests pass,
+including source-override resolution, Null geometry, Bright-target identity, and the
+omitted-phase export refusal. The full source audit, view construction and cross-fit
+contract materialization remain running prerequisites. Once their immutable markers
+exist, one four-A100 node will run four independent one-GPU frozen-contract workers;
+this fills the node without changing the one-variable-patch optimizer semantics.
+
 ### 2026-08-18 — [science/code] P10 U-PATCH Arm A closes at epoch 20; G comparison is optimization-invalid; next gates use four GPUs as independent workers
 
 The five-phase U-PATCH Arm-A trajectory is complete. It visited every one of the
