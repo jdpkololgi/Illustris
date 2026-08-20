@@ -86,6 +86,14 @@ asserts for every contract that its omitted phase is absent from training; ph001
 sealed. This completes contract materialization, not encoder training or posterior
 calibration. Evidence: `docs/evidence/p10/p12_crossfit_contracts_ready_20260820.json`.
 
+One P12 guardrail is added before training begins. The out-of-fold base predictions are
+in a shared physical coordinate system, but independently trained encoders need not
+give their raw 32-dimensional latent axes a common orientation. The exporter retains
+both. The first posterior baseline will therefore condition on base prediction plus
+deployable response covariates. Raw latents require a truth-free common-ph006 alignment
+and fold-identifiability test, followed by a held-out likelihood/calibration gain; they
+must not enter merely because they are higher-dimensional.
+
 ### 2026-08-18 — [science/code] P10 U-PATCH Arm A closes at epoch 20; G comparison is optimization-invalid; next gates use four GPUs as independent workers
 
 The five-phase U-PATCH Arm-A trajectory is complete. It visited every one of the

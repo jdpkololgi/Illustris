@@ -3277,10 +3277,17 @@ Out-of-fold summary contract:
    ph000/ph002/ph003/ph004/ph005. Serialize the exact 32-dimensional per-galaxy latent
    consumed by the deterministic point head, the deterministic base prediction, and
    deployable response covariates only for the omitted phase.
-3. Concatenate the five omitted-phase artifacts to form the P12 training population.
+3. Treat the three-dimensional base prediction plus deployable response covariates as
+   the coordinate-aligned P12 baseline. Independently trained fold encoders do not
+   guarantee a common basis for their raw 32-dimensional latents, even with the same
+   seed. Before concatenating raw latents, use a truth-free common ph006 anchor to test
+   cross-encoder alignment and fold identifiability; admit aligned latents only if they
+   improve held-out ph006 likelihood/calibration over the base-prediction baseline
+   without making the omitted fold recoverable.
+4. Concatenate the five omitted-phase artifacts to form the P12 training population.
    Fit FMPE/NPE on those summaries, tune architecture/calibration only on ph006, and
    never condition on phase ID.
-4. Freeze parent-row identity, checkpoint/source hashes, response schema and the
+5. Freeze parent-row identity, checkpoint/source hashes, response schema and the
    no-ph001-access marker for every shard. A cheaper in-sample latent extraction is a
    technical diagnostic only and cannot support posterior coverage claims.
 
