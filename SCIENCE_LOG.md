@@ -1,5 +1,35 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-21 — [code/run] Proxy/Null and P12 cross-fit queue is healthy; results remain preliminary
+
+The persistent four-A100 interactive chain is on allocation attempt 7 of 24, current
+job `57357340`. All four independent one-GPU workers are active and their loss traces
+are advancing; this is not a stalled tmux shell or a repeated initialization. At the
+audit, the real-FAINT Proxy and angular-Null runs had each completed five full
+84,446-core epochs and were roughly 47,000 cores into epoch 6. The `omit_ph000` and
+`omit_ph002` P12 encoders had each completed eleven full epochs and were roughly
+20,000--21,000 cores into epoch 12. Current gradient windows are finite and below the
+norm-5 clipping threshold. ph001 remains unopened.
+
+The best **interim** ph006 rows are:
+
+| run | completed best epoch | macro R2(lambda1) | first-three macro | shell R2(lambda1) |
+| --- | ---: | ---: | ---: | --- |
+| real-FAINT Proxy | 5 | 0.57687 | 0.58239 | 0.57825 / 0.58168 / 0.58724 / 0.56030 |
+| angular-Null | 4 | 0.58666 | 0.62192 | 0.65462 / 0.62801 / 0.58312 / 0.48091 |
+| P12 omit-ph000 encoder | 11 | 0.52796 | 0.58382 | 0.62533 / 0.59309 / 0.53305 / 0.36039 |
+| P12 omit-ph002 encoder | 11 | 0.54136 | 0.59635 | 0.64222 / 0.59316 / 0.55368 / 0.37639 |
+
+These numbers are not decision rows. Proxy and Null are early in a 20-epoch cosine
+schedule, their current ranking is shell-dependent, and Proxy-minus-Null must be
+computed from the frozen best checkpoints with paired spatial-core uncertainty after
+both schedules finish. In particular, the Null currently has the larger macro score,
+whereas Proxy has the stronger sparse-shell score; neither observation licenses a
+multitracer conclusion yet. The cross-fit scores are encoder diagnostics rather than
+posterior results. Once the first two omitted-phase encoders finish, the queue trains
+ph003/ph004/ph005, exports ph006 from the frozen all-five-phase U checkpoint, and only
+then materializes the leakage-safe P12 conditioning population.
+
 ### 2026-08-20 — [science/code] P10 decision gates close: U beats matched classical and corrected G; tail shrinkage is conditionally calibrated
 
 The four post-Arm-A decision rows are now complete without opening ph001. The important
