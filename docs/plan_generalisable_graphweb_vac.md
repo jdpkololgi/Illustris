@@ -763,9 +763,13 @@ Validation and promotion gates:
   width, target rows, architecture, loss, patch geometry or optimizer-update budget.
   Frozen loader:
   `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random/TRAINING_LOADER_READY.json`.
-- [ ] Run a 1,000-patch throughput canary before full training. Use four-GPU DDP only
+- [x] Run a 1,000-patch throughput canary before full training. Use four-GPU DDP only
   after a measured speedup of at least `2.5x`; otherwise keep independent one-GPU
-  scientific tasks.
+  scientific tasks. The one-A100 canary passed at `9.174 patches/s` (`1,000` updates
+  in `109.005 s`) with report
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/response_training/p3br_r1_canary_1000_v1/R1_THROUGHPUT_CANARY.json`.
+  No DDP path is promoted; the four GPUs remain assigned to independent scientific
+  tasks.
 - [ ] Compare R1 with frozen R0 plus matched CIC/DTFE on ph006. Report pooled,
   four-shell macro, first-three macro, every shell, slopes, variance ratios, Spearman,
   response quantiles and boundary distance.

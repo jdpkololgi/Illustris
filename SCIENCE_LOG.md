@@ -105,9 +105,20 @@ Compact hash-verified evidence is tracked under `docs/evidence/p3br/`; principal
 SHA-256 values are `4698aa04...d50d32d` for `evidence_manifest.json`,
 `d06f7520...0c53d6` for `pipeline_complete.json`, `70c58f08...36adc` for
 `r1_training_loader.json`, and `1841e2d2...490aa4` for
-`r1_field_transform.json`. The next open gate is the exact 1,000-update one-A100 R1
-throughput canary, followed by the frozen R1 run and matched response-aware classical
-comparison; P12 continues independently.
+`r1_field_transform.json`. The next open gate is the frozen R1 run and matched
+response-aware classical comparison; P12 continues independently.
+
+The exact throughput gate passed on the otherwise idle fourth A100 in allocation
+`57424410`: 1,000 canonical patch updates completed in `109.005 s`
+(`9.174 patches/s`) with finite loss logging and a resumable checkpoint. The report is
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/response_training/p3br_r1_canary_1000_v1/R1_THROUGHPUT_CANARY.json`;
+checkpoint SHA-256 is
+`b062db85bbb50eee3faf09237c51c8dcf1ae1e414897663647281a5bc0e1bd11`, loss-trace
+SHA-256 is `9bc8138998c30acc6e636af5a6293993f0cc185c4c8a323a9f6b561bce8790a2`,
+and `ph001_opened=false`. At this measured rate one 84,446-core epoch is about `2.56 h`
+on one A100, so R1 must span checkpointed interactive allocations; this does not
+justify an unbenchmarked DDP rewrite. The full frozen R1 seed-42 run was launched on
+the same freed GPU immediately after the canary.
 
 The epoch-15 terminal contract is protected by
 `workflows/sbi/watch_p10_multitracer_epoch15.sh` in tmux session
