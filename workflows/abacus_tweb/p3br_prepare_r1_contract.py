@@ -124,10 +124,9 @@ def fit_field_normalization(output: Path, adapters: dict, base: Path) -> dict:
         accum = defaultdict(lambda: [0, 0.0, 0.0])
         for cap in ("NGC", "SGC"):
             with h5py.File(adapter["caps"][cap]["field_path"], "r") as handle:
-                exposure_ds = handle["exposure_apodized"]
-                for slices in exposure_ds.iter_chunks():
-                    exposure = np.asarray(exposure_ds[slices], dtype=np.float32)
-                    supported = exposure > np.float32(1.0e-4)
+                support_ds = handle["support_random"]
+                for slices in support_ds.iter_chunks():
+                    supported = np.asarray(support_ds[slices], dtype=bool)
                     if not supported.any():
                         continue
                     for channel in ("counts", "log_count_ratio"):
@@ -164,7 +163,10 @@ def fit_field_normalization(output: Path, adapters: dict, base: Path) -> dict:
     manifest = {
         "schema_version": "p3br-r1-field-transform-v1",
         "fit_phases": list(TRAINING_PHASES),
-        "fit_policy": "equal phase mixture of exact random-supported voxel moments",
+        "fit_policy": (
+            "equal phase mixture of exact binary-random-supported voxel moments; "
+            "the apodization halo outside M=1 is excluded"
+        ),
         "counts_normalization_policy": (
             "copied exactly from frozen R0 because the BRIGHT count field is unchanged; "
             "only the response-derived log-ratio scaler is refit on training phases"
