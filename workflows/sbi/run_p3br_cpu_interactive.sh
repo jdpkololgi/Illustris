@@ -18,7 +18,7 @@ while [[ ! -f "${MARKER}" ]]; do
   attempt=$((attempt + 1))
   echo "$(date -u +%FT%TZ) allocation_request attempt=${attempt}" >> "${LOG_ROOT}/cpu_supervisor.log"
   set +e
-  salloc --nodes=1 --ntasks=1 --cpus-per-task=64 --qos=interactive \
+  salloc --nodes=1 --ntasks=1 --cpus-per-task=64 --constraint=cpu --qos=interactive \
     --time=02:00:00 --account=desi --immediate=600 --job-name=p3brcpu bash -lc "
       unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD LD_LIBRARY_PATH
       export PYTHONNOUSERSITE=1
