@@ -1,0 +1,169 @@
+{
+  "angular_map": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3b_random_response_v1/angular/randoms_n18.npz",
+  "angular_map_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3b_random_response_v1/angular/randoms_n18.json",
+  "angular_map_manifest_sha256": "b8334d797a94a805331bd751621f322ba059b6da1f16a122eeb238ea2443c75a",
+  "angular_map_sha256": "3df1c665b35b44fbc169ddbcf9bc4050dfba755b9c3ae6cc80a44b6226efcc00",
+  "channel_order": [
+    "counts",
+    "support_random",
+    "angular_response",
+    "exposure_apodized_random",
+    "expected_counts_random",
+    "log_count_ratio_random",
+    "distance_to_support_boundary",
+    "ntilde_mpc3",
+    "los_x",
+    "los_y",
+    "los_z"
+  ],
+  "components": {
+    "NGC": {
+      "channel_units": {
+        "angular_response": "mean-one within cap/PHOTSYS",
+        "counts": "CIC galaxy count (P3a virtual dataset)",
+        "distance_to_support_boundary": "Mpc",
+        "expected_counts_random": "expected galaxies per voxel",
+        "exposure_apodized_random": "fraction",
+        "log_count_ratio_random": "dimensionless",
+        "support_random": "indicator"
+      },
+      "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3b_random_response_v1/NGC/response_overlay.h5",
+      "file_sha256": "b4456f59c3d779b05d97ef63f418f8fd47d09ac7ceaa2d0daa6ae881bf9b7634",
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          -2289.9174039970753,
+          -2151.4550472456185,
+          -380.73899500758773
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          538,
+          821,
+          515
+        ],
+        "voxel_count": 227474470
+      },
+      "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3b_random_response_v1/NGC/qa.json",
+      "support_atlas": {
+        "0.15_0.25": {
+          "expected_count_sum": 1881353.8085344846,
+          "input_galaxies": 1935242.3158100091,
+          "support_voxels": 6806824
+        },
+        "0.25_0.35": {
+          "expected_count_sum": 1157542.6557003714,
+          "input_galaxies": 1161784.8599063808,
+          "support_voxels": 13621459
+        },
+        "0.35_0.45": {
+          "expected_count_sum": 395262.70596011647,
+          "input_galaxies": 392291.5567566093,
+          "support_voxels": 21592993
+        },
+        "0.45_0.55": {
+          "expected_count_sum": 50950.69668385003,
+          "input_galaxies": 50561.077756841376,
+          "support_voxels": 30064328
+        }
+      }
+    },
+    "SGC": {
+      "channel_units": {
+        "angular_response": "mean-one within cap/PHOTSYS",
+        "counts": "CIC galaxy count (P3a virtual dataset)",
+        "distance_to_support_boundary": "Mpc",
+        "expected_counts_random": "expected galaxies per voxel",
+        "exposure_apodized_random": "fraction",
+        "log_count_ratio_random": "dimensionless",
+        "support_random": "indicator"
+      },
+      "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3b_random_response_v1/SGC/response_overlay.h5",
+      "file_sha256": "d8bcea7f712a9f4610d9e5694dc83efec631236003f6dafd8c8de6f0361d1f72",
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          69.24737124477603,
+          -1656.3455302958455,
+          -723.5721531845493
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          444,
+          765,
+          391
+        ],
+        "voxel_count": 132807060
+      },
+      "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3b_random_response_v1/SGC/qa.json",
+      "support_atlas": {
+        "0.15_0.25": {
+          "expected_count_sum": 775364.0617413073,
+          "input_galaxies": 779506.0613569899,
+          "support_voxels": 3018776
+        },
+        "0.25_0.35": {
+          "expected_count_sum": 479632.3129961033,
+          "input_galaxies": 487520.1784032438,
+          "support_voxels": 6041196
+        },
+        "0.35_0.45": {
+          "expected_count_sum": 162094.3470882514,
+          "input_galaxies": 160759.0658690224,
+          "support_voxels": 9576197
+        },
+        "0.45_0.55": {
+          "expected_count_sum": 21454.024378818416,
+          "input_galaxies": 20661.051258443127,
+          "support_voxels": 13332809
+        }
+      }
+    }
+  },
+  "creation_commit": "d6c12bae8129bdb39067b56b9d9d34445a46ab59",
+  "deployment_contract": "Loa DR2; not claimed pointwise Kibo-Loa matched",
+  "gates": {
+    "component_gates_pass": true,
+    "p3a_grid_parent_index_parity": true,
+    "unit_audit_pass": true
+  },
+  "mock_provenance": "official mock full randoms are Kibo-derived",
+  "p3a_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3_fields/field_manifest.json",
+  "p3a_manifest_sha256": "ff6f5862904e7515414b70bd35d2d58076816b11841934cc99c648472417634f",
+  "pass": true,
+  "ph001_opened": false,
+  "phase": "ph002",
+  "points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p1_canonical/points.npy",
+  "random_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+  ],
+  "random_realisation_count": 18,
+  "response_scope": {
+    "C_fibre": "not supplied by full randoms; deferred to audited assignment products",
+    "C_z": "not supplied by full randoms; deferred to audited redshift-success products",
+    "M": "registered full HPmapcut random support and angular targetability"
+  },
+  "schema_version": "p3br-response-overlay-manifest-v1",
+  "selection_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/transforms/field/selection_manifest.json",
+  "selection_manifest_sha256": "b010391138a3cb36f90c41506c85755e2154bdfee7e7ebe7e9f9a1d51662a526",
+  "source_registry": "/global/u2/d/dkololgi/TNG/Illustris/configs/p10_response_sources_v1.json",
+  "source_registry_sha256": "11d7fd79b89e7dc065a27db4cfccd940de5e88be67b92f26fd6703271cf89d71",
+  "stage": "P3b-R"
+}

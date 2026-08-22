@@ -696,9 +696,11 @@ dependency.
 
 Phase ownership and source contract:
 
-- [ ] Build training products for ph000/ph002/ph003/ph004/ph005 and a validation
+- [x] Build training products for ph000/ph002/ph003/ph004/ph005 and a validation
   product for ph006. Do not open ph001 until the deterministic response, P12 and
-  evaluation decisions are frozen.
+  evaluation decisions are frozen. Products pass under each phase's
+  `p3b_random_response_v1/`; tracked manifests and QA are in
+  `docs/evidence/p3br/`. ph001 was not opened.
 - [x] Use only the registered
   `BGS_BRIGHT_{0..17}_full_HPmapcut.ran.fits` angular randoms. Preserve the explicit
   Kibo-derived mock versus Loa deployment provenance; do not describe it as pointwise
@@ -730,32 +732,37 @@ Immutable output contract:
         qa.json
 ~~~
 
-- [ ] Match P3a exactly: HEALPix `nside=256` RING, **5 comoving Mpc** cells
+- [x] Match P3a exactly: HEALPix `nside=256` RING, **5 comoving Mpc** cells
   (`3.383 Mpc/h` at the registered Planck18 `h=0.6766`), cap origins, shapes and
   chunks. Store overlays rather than duplicate counts or LOS fields. Do not silently
   reinterpret the established P3a lattice as a literal `5 Mpc/h` grid.
-- [ ] Export `support_random`, `angular_response`, `exposure_apodized_random`,
+- [x] Export `support_random`, `angular_response`, `exposure_apodized_random`,
   `expected_counts_random`, `log_count_ratio_random`,
   `distance_to_support_boundary` and audit-only raw random counts.
-- [ ] Define `angular_response` with mean one in each registered cap/PHOTSYS domain;
+- [x] Define `angular_response` with mean one in each registered cap/PHOTSYS domain;
   define expected counts as
   `ntilde_BRIGHT(z) * V_voxel * angular_response * exposure_apodized_random`.
-- [ ] Freeze grid, channel units, normalization, selected random IDs, source hashes,
+- [x] Freeze grid, channel units, normalization, selected random IDs, source hashes,
   `ntilde` hash, code commit and `sealed_phase_opened=false` in every manifest.
 
 Validation and promotion gates:
 
-- [ ] Require exact P3a grid/parent parity, finite arrays, non-negative expected
+- [x] Require exact P3a grid/parent parity, finite arrays, non-negative expected
   counts, no support outside the random mask, retained internal holes and identical
-  ph000--ph006 schemas.
-- [ ] Require a deterministic Poisson random-only canary to have mean standardized
+  ph000--ph006 schemas. All twelve cap products pass; binary support is sampled
+  directly from the random map and never smoothed or filled.
+- [x] Require a deterministic Poisson random-only canary to have mean standardized
   **count residual** `(G-mu)/sqrt(mu)` consistent with zero, and verify cap/shell
   expected-count closure under the frozen ensemble tolerance. Record, but do not gate
   on, the mean log-count ratio: its expectation is negative at low `mu` by Jensen's
-  inequality and is not mathematically expected to be exactly zero.
-- [ ] Build a co-chunked three-channel adapter
+  inequality and is not mathematically expected to be exactly zero. The twelve
+  standardized means span `[-9.30e-4,+1.05e-3]`; observed/expected shell totals span
+  `[0.9494,1.0526]`.
+- [x] Build a co-chunked three-channel adapter
   `[BRIGHT counts, random exposure, random log-count-ratio]`; do not change network
   width, target rows, architecture, loss, patch geometry or optimizer-update budget.
+  Frozen loader:
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random/TRAINING_LOADER_READY.json`.
 - [ ] Run a 1,000-patch throughput canary before full training. Use four-GPU DDP only
   after a measured speedup of at least `2.5x`; otherwise keep independent one-GPU
   scientific tasks.
@@ -788,7 +795,10 @@ Implementation status (the scientific product gates above remain authoritative):
   `workflows/abacus_tweb/p3br_evaluate_r1.py`.
 - [x] Implement tracked compact-evidence export with runtime-to-repository hash
   verification at `workflows/abacus_tweb/p3br_export_evidence.py`. Runtime products
-  are not marked complete until the visible-phase manifests and QA below pass.
+  are not marked complete until the visible-phase manifests and QA below pass. The
+  visible-phase products now pass; tracked evidence is in `docs/evidence/p3br/` and
+  the runtime completion marker is
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/P3BR_PIPELINE_COMPLETE.json`.
 
 Minimum architecture contract:
 

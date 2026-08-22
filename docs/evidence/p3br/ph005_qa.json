@@ -1,0 +1,150 @@
+{
+  "caps": {
+    "NGC": {
+      "base_p3a_file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3_fields/ngc_fields.h5",
+      "base_p3a_file_sha256": "c0ebd607837f33eab65b01ca319206ac68de7fc356045b1e53f90d9e9eb60c9d",
+      "cap": "NGC",
+      "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3b_random_response_v1/NGC/response_overlay.h5",
+      "file_bytes": 1458020641,
+      "file_sha256": "62a1dc553454609f0d204531f75cb8790bf14037d64b0726489b55f67e07d902",
+      "gates": {
+        "all_arrays_finite": true,
+        "canonical_response_names_are_hardlink_aliases": true,
+        "cap_shell_closure_within_25pct": true,
+        "expected_counts_nonnegative": true,
+        "exposure_constrained_0_1": true,
+        "grid_shape_parity": true,
+        "immutable_p3a_channels_are_virtual_identity_views": true,
+        "no_support_outside_random_map": true,
+        "poisson_count_residual_consistent_zero": true
+      },
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          -2258.913490862589,
+          -2187.7668059653925,
+          -395.9449921130429
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          529,
+          825,
+          522
+        ],
+        "voxel_count": 227813850
+      },
+      "observed_expected_ratio": {
+        "0.15_0.25": 1.0217087590076068,
+        "0.25_0.35": 1.0068840701015722,
+        "0.35_0.45": 1.005053480575777,
+        "0.45_0.55": 0.9739355230642925
+      },
+      "pass": true,
+      "phase": "ph005",
+      "poisson_validation": {
+        "log_count_ratio_mean": -0.2937617846949596,
+        "note": "The Poisson count residual must have zero mean. The log-count ratio is reported but is not zero-mean because log is concave (Jensen bias).",
+        "sample_size": 1000000,
+        "standardized_count_residual_mean": -0.0009297080983549652
+      },
+      "schema_version": "p3br-cap-qa-v1",
+      "shell_totals": {
+        "0.15_0.25": {
+          "expected": 1881505.965527066,
+          "observed": 1922351.1251040678,
+          "supported": 6806843
+        },
+        "0.25_0.35": {
+          "expected": 1157615.7319164784,
+          "observed": 1165584.8397656742,
+          "supported": 13621625
+        },
+        "0.35_0.45": {
+          "expected": 395256.8108267451,
+          "observed": 397254.23344270163,
+          "supported": 21593009
+        },
+        "0.45_0.55": {
+          "expected": 50951.61333146751,
+          "observed": 49623.58618095239,
+          "supported": 30062384
+        }
+      }
+    },
+    "SGC": {
+      "base_p3a_file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3_fields/sgc_fields.h5",
+      "base_p3a_file_sha256": "5bbfcd4c14cc09e52b971253a29cfd49fc367d844f65cd13bdeea11a7a6e107c",
+      "cap": "SGC",
+      "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3b_random_response_v1/SGC/response_overlay.h5",
+      "file_bytes": 697722675,
+      "file_sha256": "4d11bdf78a6f74ad6a59e853cb8c948517bf80556bd6edf4abc641ffe89ed7e0",
+      "gates": {
+        "all_arrays_finite": true,
+        "canonical_response_names_are_hardlink_aliases": true,
+        "cap_shell_closure_within_25pct": true,
+        "expected_counts_nonnegative": true,
+        "exposure_constrained_0_1": true,
+        "grid_shape_parity": true,
+        "immutable_p3a_channels_are_virtual_identity_views": true,
+        "no_support_outside_random_map": true,
+        "poisson_count_residual_consistent_zero": true
+      },
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          72.19100745682474,
+          -1685.908223854389,
+          -718.4431492624069
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          443,
+          765,
+          388
+        ],
+        "voxel_count": 131491260
+      },
+      "observed_expected_ratio": {
+        "0.15_0.25": 1.0452706383707204,
+        "0.25_0.35": 0.978662075646323,
+        "0.35_0.45": 1.0154389114199374,
+        "0.45_0.55": 0.9617687238776602
+      },
+      "pass": true,
+      "phase": "ph005",
+      "poisson_validation": {
+        "log_count_ratio_mean": -3.69698835549549,
+        "note": "The Poisson count residual must have zero mean. The log-count ratio is reported but is not zero-mean because log is concave (Jensen bias).",
+        "sample_size": 1000000,
+        "standardized_count_residual_mean": 1.9713139746703518e-06
+      },
+      "schema_version": "p3br-cap-qa-v1",
+      "shell_totals": {
+        "0.15_0.25": {
+          "expected": 775250.1720872393,
+          "observed": 810346.2422746395,
+          "supported": 3018459
+        },
+        "0.25_0.35": {
+          "expected": 479620.2263117605,
+          "observed": 469386.1262042267,
+          "supported": 6040825
+        },
+        "0.35_0.45": {
+          "expected": 162099.23689025888,
+          "observed": 164601.87264984704,
+          "supported": 9576341
+        },
+        "0.45_0.55": {
+          "expected": 21454.398888428437,
+          "observed": 20634.16984048611,
+          "supported": 13333552
+        }
+      }
+    }
+  },
+  "pass": true,
+  "ph001_opened": false,
+  "phase": "ph005",
+  "schema_version": "p3br-qa-v1"
+}

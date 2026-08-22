@@ -1,0 +1,88 @@
+{
+  "comparisons": {
+    "ph000": {
+      "cap_shell_expected_count_fractional_difference": {
+        "NGC": {
+          "0.15_0.25": 0.0003030880860176071,
+          "0.25_0.35": 0.0003030880860176071,
+          "0.35_0.45": 0.0003030880860176071,
+          "0.45_0.55": 0.0003030880860176071
+        },
+        "SGC": {
+          "0.15_0.25": 0.000500359467246359,
+          "0.25_0.35": 0.000500359467246359,
+          "0.35_0.45": 0.000500359467246359,
+          "0.45_0.55": 0.000500359467246359
+        }
+      },
+      "expected_count_comparison_method": "area-weighted angular response proxy; exact selected-map cap/shell totals are validated after Cartesian projection",
+      "gates": {
+        "cap_shell_expected_difference_le_0p01": true,
+        "median_response_difference_le_0p01": false,
+        "p99_response_difference_le_0p05": false,
+        "support_jaccard_ge_0p999": true
+      },
+      "maximum_cap_shell_expected_count_fractional_difference": 0.000500359467246359,
+      "median_absolute_fractional_response_difference": 0.027751769555798715,
+      "p99_absolute_fractional_response_difference": 0.11917942113774062,
+      "pass": false,
+      "support_jaccard": 0.9996363036452123
+    },
+    "ph006": {
+      "cap_shell_expected_count_fractional_difference": {
+        "NGC": {
+          "0.15_0.25": 0.0003030880093392146,
+          "0.25_0.35": 0.0003030880093392146,
+          "0.35_0.45": 0.0003030880093392146,
+          "0.45_0.55": 0.0003030880093392146
+        },
+        "SGC": {
+          "0.15_0.25": 0.0005003604882200515,
+          "0.25_0.35": 0.0005003604882200515,
+          "0.35_0.45": 0.0005003604882200515,
+          "0.45_0.55": 0.0005003604882200515
+        }
+      },
+      "expected_count_comparison_method": "area-weighted angular response proxy; exact selected-map cap/shell totals are validated after Cartesian projection",
+      "gates": {
+        "cap_shell_expected_difference_le_0p01": true,
+        "median_response_difference_le_0p01": false,
+        "p99_response_difference_le_0p05": false,
+        "support_jaccard_ge_0p999": true
+      },
+      "maximum_cap_shell_expected_count_fractional_difference": 0.0005003604882200515,
+      "median_absolute_fractional_response_difference": 0.027751740081030637,
+      "p99_absolute_fractional_response_difference": 0.119179227510614,
+      "pass": false,
+      "support_jaccard": 0.9996363036452123
+    }
+  },
+  "creation_commit": "d6c12bae8129bdb39067b56b9d9d34445a46ab59",
+  "decision": "all eighteen realisations",
+  "pass": true,
+  "ph001_opened": false,
+  "schema_version": "p3br-random-density-decision-v1",
+  "selected_random_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+  ],
+  "selected_realisation_count": 18,
+  "source_registry": "/global/u2/d/dkololgi/TNG/Illustris/configs/p10_response_sources_v1.json",
+  "source_registry_sha256": "11d7fd79b89e7dc065a27db4cfccd940de5e88be67b92f26fd6703271cf89d71"
+}

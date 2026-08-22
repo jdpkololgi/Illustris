@@ -1,0 +1,69 @@
+{
+  "created_utc": "2026-08-22T21:05:48.190336+00:00",
+  "decision": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/P3BR_RANDOM_DENSITY_DECISION.json",
+  "decision_sha256": "46d2892b2f32f12af6789e2463181cf4763787a4dcd1e334838be2a15846bbb5",
+  "pass": true,
+  "ph001_opened": false,
+  "ph001_product_built": false,
+  "products": {
+    "ph000": {
+      "manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3b_random_response_v1/manifest.json",
+      "manifest_sha256": "0ed592560a73ce64055ad148335050d62fb7739972cb07cd602df7c9baa62f0e",
+      "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3b_random_response_v1/qa.json",
+      "qa_sha256": "853518eec80d32d8fc76ee820abcc2b9c72efe3edb8afc9998a21885154108c7"
+    },
+    "ph002": {
+      "manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3b_random_response_v1/manifest.json",
+      "manifest_sha256": "9a09ab07d5dc8c3b8ff8a0720a50c06069656f6314086b011303850b39f9b75a",
+      "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3b_random_response_v1/qa.json",
+      "qa_sha256": "19cc71eea4e3fd4fdd563a0987eae2cdea61171b933078f761122a2094e78c6c"
+    },
+    "ph003": {
+      "manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p3b_random_response_v1/manifest.json",
+      "manifest_sha256": "d0e67b2abce5842ae4142faeb307a7f5512e38e40f9614b72ba6e6239d9059d1",
+      "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p3b_random_response_v1/qa.json",
+      "qa_sha256": "d4f79aa95b447c61d892543e87303b27effab47865383b3002c1cadac824d0ab"
+    },
+    "ph004": {
+      "manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p3b_random_response_v1/manifest.json",
+      "manifest_sha256": "2e0e2a3b0bf713ce078d88335e00b13d6e89a6db711b9bf3a2150f02fa60cf49",
+      "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p3b_random_response_v1/qa.json",
+      "qa_sha256": "134ba1fda39242c973bf304d053f43bc58bdd48c44560f6e19297a18db77b184"
+    },
+    "ph005": {
+      "manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3b_random_response_v1/manifest.json",
+      "manifest_sha256": "b2980f1bd98df2ff1ceec9b1c53f03a01d026a69b03a149627d53b6705f03260",
+      "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3b_random_response_v1/qa.json",
+      "qa_sha256": "da9a9d4ef3f28c1c93993b9f4a9051a46fa9bbb5a5adfda250fbf7bb7c621a95"
+    },
+    "ph006": {
+      "manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p3b_random_response_v1/manifest.json",
+      "manifest_sha256": "be1daa00ab5415c0c854741765773288f142c28dcf7f2004e30273153aacdc08",
+      "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p3b_random_response_v1/qa.json",
+      "qa_sha256": "6c874204999a666429f12dd97683319dc05f51f9bb714419a3c3be294119d0e5"
+    }
+  },
+  "r1_training_contract": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random/TRAINING_LOADER_READY.json",
+  "r1_training_contract_sha256": "70c58f0806c70e41364113165527003da4e80513cecbe6c62c879dd25ba36adc",
+  "schema_version": "p3br-pipeline-complete-v1",
+  "selected_random_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+  ]
+}

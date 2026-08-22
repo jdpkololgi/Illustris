@@ -1,0 +1,31 @@
+{
+  "pass": true,
+  "ph001_product_built": false,
+  "phases": {
+    "ph000": {
+      "field_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random/adapters/ph000/field/adapter_manifest.json",
+      "field_manifest_sha256": "90354f55151cd70b5994d83d20269ead598fcce63233d87d049530c34c065e12"
+    },
+    "ph002": {
+      "field_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random/adapters/ph002/field/adapter_manifest.json",
+      "field_manifest_sha256": "20869ce98680b9fdef2aa43aa211128f7b5cc0167196192f5c19a8209f927611"
+    },
+    "ph003": {
+      "field_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random/adapters/ph003/field/adapter_manifest.json",
+      "field_manifest_sha256": "ad585c0443d5c59899ec0163d9e7bf0f7983ea3d1672a35e6894c461e0989cd7"
+    },
+    "ph004": {
+      "field_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random/adapters/ph004/field/adapter_manifest.json",
+      "field_manifest_sha256": "be3d82bcf788aee3c6d987d1823602b8f0080f7f098ebb9866a623096538121d"
+    },
+    "ph005": {
+      "field_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random/adapters/ph005/field/adapter_manifest.json",
+      "field_manifest_sha256": "529f42b78dfa115586519cb910c8d0e8aaaf44908c9786267ae8a7fb79747745"
+    },
+    "ph006": {
+      "field_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random/adapters/ph006/field/adapter_manifest.json",
+      "field_manifest_sha256": "09c08a010fb5319955de31edd168476076529b604f16af31fb67934894d70b31"
+    }
+  },
+  "schema_version": "p3br-r1-adapter-inventory-v1"
+}

@@ -1,0 +1,109 @@
+{
+  "channels": [
+    "counts",
+    "exposure_apodized",
+    "log_count_ratio"
+  ],
+  "counts_normalization_policy": "copied exactly from frozen R0 because the BRIGHT count field is unchanged; only the response-derived log-ratio scaler is refit on training phases",
+  "fit_phases": [
+    "ph000",
+    "ph002",
+    "ph003",
+    "ph004",
+    "ph005"
+  ],
+  "fit_policy": "equal phase mixture of exact binary-random-supported voxel moments; the apodization halo outside M=1 is excluded",
+  "no_patch_local_statistics": true,
+  "normalization": {
+    "channels": {
+      "counts": {
+        "mean": 0.029727205015425466,
+        "policy": "zscore",
+        "std": 0.13079970091490717
+      },
+      "exposure_apodized": {
+        "policy": "identity"
+      },
+      "log_count_ratio": {
+        "mean": -1.5675397819145154,
+        "policy": "zscore",
+        "std": 1.7878966023051317
+      }
+    }
+  },
+  "pass": true,
+  "per_phase_diagnostics": {
+    "ph000": {
+      "counts": {
+        "count": 126944128,
+        "mean": 0.03416003832815854,
+        "second_moment": 0.02067842342936332,
+        "std": 0.13968362542109958
+      },
+      "log_count_ratio": {
+        "count": 126944128,
+        "mean": -1.5647648739167908,
+        "second_moment": 5.642357377607543,
+        "std": 1.7871396887103461
+      }
+    },
+    "ph002": {
+      "counts": {
+        "count": 126911059,
+        "mean": 0.034152731359664255,
+        "second_moment": 0.02075420217863599,
+        "std": 0.1399563972075253
+      },
+      "log_count_ratio": {
+        "count": 126911059,
+        "mean": -1.5678881277539638,
+        "second_moment": 5.65296184984663,
+        "std": 1.787369203241121
+      }
+    },
+    "ph003": {
+      "counts": {
+        "count": 126931915,
+        "mean": 0.03394599083882403,
+        "second_moment": 0.02051585650634819,
+        "std": 0.1391528879050617
+      },
+      "log_count_ratio": {
+        "count": 126931915,
+        "mean": -1.5687933189428271,
+        "second_moment": 5.6593250045626515,
+        "std": 1.7883546983199392
+      }
+    },
+    "ph004": {
+      "counts": {
+        "count": 126947541,
+        "mean": 0.03398765775036179,
+        "second_moment": 0.020609874830453775,
+        "std": 0.13948015611942097
+      },
+      "log_count_ratio": {
+        "count": 126947541,
+        "mean": -1.5685309312466496,
+        "second_moment": 5.661455412389915,
+        "std": 1.789180295585784
+      }
+    },
+    "ph005": {
+      "counts": {
+        "count": 126928939,
+        "mean": 0.034191117448435324,
+        "second_moment": 0.020858031461031257,
+        "std": 0.1403174933807562
+      },
+      "log_count_ratio": {
+        "count": 126928939,
+        "mean": -1.567721657712346,
+        "second_moment": 5.6526764976874615,
+        "std": 1.787435397889142
+      }
+    }
+  },
+  "ph001_opened": false,
+  "schema_version": "p3br-r1-field-transform-v1"
+}

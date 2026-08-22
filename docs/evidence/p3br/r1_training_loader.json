@@ -1,0 +1,210 @@
+{
+  "adapter_inventory": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapter_inventory.json",
+  "adapter_inventory_sha256": "18d2a737e76214c0fdeff2a7d18a7831a464a8b79499a91ea7ef2306f72e012a",
+  "adapters": {
+    "ph000": {
+      "pass": true,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random/adapters/ph000/field/adapter_manifest.json",
+      "sha256": "90354f55151cd70b5994d83d20269ead598fcce63233d87d049530c34c065e12"
+    },
+    "ph002": {
+      "pass": true,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random/adapters/ph002/field/adapter_manifest.json",
+      "sha256": "20869ce98680b9fdef2aa43aa211128f7b5cc0167196192f5c19a8209f927611"
+    },
+    "ph003": {
+      "pass": true,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random/adapters/ph003/field/adapter_manifest.json",
+      "sha256": "ad585c0443d5c59899ec0163d9e7bf0f7983ea3d1672a35e6894c461e0989cd7"
+    },
+    "ph004": {
+      "pass": true,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random/adapters/ph004/field/adapter_manifest.json",
+      "sha256": "be3d82bcf788aee3c6d987d1823602b8f0080f7f098ebb9866a623096538121d"
+    },
+    "ph005": {
+      "pass": true,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random/adapters/ph005/field/adapter_manifest.json",
+      "sha256": "529f42b78dfa115586519cb910c8d0e8aaaf44908c9786267ae8a7fb79747745"
+    },
+    "ph006": {
+      "pass": true,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random/adapters/ph006/field/adapter_manifest.json",
+      "sha256": "09c08a010fb5319955de31edd168476076529b604f16af31fb67934894d70b31"
+    }
+  },
+  "base_contract": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract",
+  "base_contract_marker_sha256": "460fa2dc7938994aa1110677ad609f6761deee274767375cb474fec1c4d6cad6",
+  "canary": {
+    "epoch": {
+      "cores": 84446,
+      "epoch": 0,
+      "phase_core_counts": {
+        "ph000": 17202,
+        "ph002": 16768,
+        "ph003": 16890,
+        "ph004": 16793,
+        "ph005": 16793
+      },
+      "resume_cursor": 12345,
+      "seed": 42,
+      "sha256": "f5ab307b7401dd71c8befbe310436f535869192b6863b607519131010311cf5e"
+    },
+    "extraction": {
+      "ph000": {
+        "core_id": 9529,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          72,
+          80
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 65158,
+        "graph_nodes": 4232,
+        "target_rows_align": true
+      },
+      "ph002": {
+        "core_id": 9290,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          72,
+          72
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 33470,
+        "graph_nodes": 2412,
+        "target_rows_align": true
+      },
+      "ph003": {
+        "core_id": 9415,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          72,
+          80
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 15084,
+        "graph_nodes": 1144,
+        "target_rows_align": true
+      },
+      "ph004": {
+        "core_id": 9354,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          72,
+          72
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 21896,
+        "graph_nodes": 1631,
+        "target_rows_align": true
+      },
+      "ph005": {
+        "core_id": 9339,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          80,
+          72
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 62956,
+        "graph_nodes": 4087,
+        "target_rows_align": true
+      },
+      "ph006": {
+        "core_id": 9300,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          72,
+          72,
+          72
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 21124,
+        "graph_nodes": 1577,
+        "target_rows_align": true
+      }
+    },
+    "gates": {
+      "all_adapters_pass": true,
+      "all_phase_contracts_pass": true,
+      "complete_deterministic_validation_order": true,
+      "complete_epoch_coverage": true,
+      "epoch_order_deterministic": true,
+      "field_extraction_deterministic_all_phases": true,
+      "graph_extraction_deterministic_all_phases": true,
+      "ph001_truth_absent": true,
+      "phase_prefix_balanced": true,
+      "resume_parity": true,
+      "target_alignment_all_visible_phases": true,
+      "weighted_loss_accounting": true
+    },
+    "loss_accounting": {
+      "direct_equal_phase_loss": 0.5051268938176714,
+      "reconstructed_epoch_mean": 0.505126893817675
+    },
+    "pass": true,
+    "validation_cores": 16796
+  },
+  "created_utc": "2026-08-14T16:04:10.773414+00:00",
+  "elapsed_seconds": 3.087719202041626,
+  "epoch": "every eligible core exactly once; weighted within-phase order; shuffled phase round-robin; deterministic seed+epoch",
+  "field_channels": [
+    "counts",
+    "exposure_apodized",
+    "log_count_ratio"
+  ],
+  "field_transform": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random/transforms/field/field_transform.json",
+  "field_transform_sha256": "1841e2d2f8a76f6e649d149803f377fd4ae6e0e713eb30fd2d775e957c490aa4",
+  "fresh_model_initialization_required": true,
+  "gates": {
+    "all_adapters_pass": true,
+    "all_phase_contracts_pass": true,
+    "complete_deterministic_validation_order": true,
+    "complete_epoch_coverage": true,
+    "epoch_order_deterministic": true,
+    "field_extraction_deterministic_all_phases": true,
+    "graph_extraction_deterministic_all_phases": true,
+    "ph001_truth_absent": true,
+    "phase_prefix_balanced": true,
+    "resume_parity": true,
+    "target_alignment_all_visible_phases": true,
+    "weighted_loss_accounting": true
+  },
+  "objective": "equal mean over phases of within-phase sqrt-shell-weighted authoritative-row MSE",
+  "pass": true,
+  "ph001_opened": false,
+  "ph001_product_built": false,
+  "phase_is_model_input": false,
+  "registry": "/global/u2/d/dkololgi/TNG/Illustris/configs/p10_phase_registry_v1.json",
+  "registry_sha256": "33a7de0ce29569d3d080126d50cde8eca24b32374babb2635fea0ecd4bb6066a",
+  "roles": {
+    "sealed_blind_test": "ph001",
+    "training": [
+      "ph000",
+      "ph002",
+      "ph003",
+      "ph004",
+      "ph005"
+    ],
+    "validation_and_selection": "ph006"
+  },
+  "schema_version": "p3br-r1-training-loader-ready-v1",
+  "stage": "P10 deterministic multi-phase loader and transform readiness",
+  "status": "TRAINING_LOADER_READY",
+  "transform_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/TRANSFORMS_FROZEN.json",
+  "transform_manifest_sha256": "0a10d00ef1920881ab824b694fcd08d86a9aceb744d7cbfa71a14804ebedd369",
+  "validation": "all authoritative ph006 cores in frozen core-id order",
+  "view": "R1 BRIGHT counts plus random-derived response, capacity matched to R0"
+}

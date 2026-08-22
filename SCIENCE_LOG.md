@@ -80,6 +80,35 @@ the corrected ph000/ph006 18-random map hashes are respectively
 `ph001_opened=false`. ph002--ph005 all-18 scans are now active concurrently in CPU
 allocation `57425308`, with atomic progress checkpoints after every random file.
 
+P3b-R subsequently completed across ph000/ph002--ph006 after a restart-safe handoff
+from CPU allocation `57425308` to `57428530`; ph001 remained sealed. Every phase now
+has the frozen pair
+`p3b_random_response_v1/{NGC,SGC}/response_overlay.h5` plus `manifest.json` and
+`qa.json`. All twelve cap products pass exact P3a grid identity, virtual-dataset
+identity for unchanged counts/LOS channels, finite/non-negative response arrays,
+binary support containment, exposure bounds, the Poisson count-residual gate, and
+cap/shell observed-versus-expected closure. Across all phases/caps the one-million-draw
+Poisson standardized-residual means lie within `[-9.30e-4,+1.05e-3]`; the observed to
+expected shell-total ratios lie within `[0.9494,1.0526]`. Random support is sampled
+directly into the binary channel and is never smoothed or filled; only the separate
+apodized exposure channel is distance transformed.
+
+The frozen capacity-matched R1 loader is
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random/TRAINING_LOADER_READY.json`
+and passes all six-phase deterministic extraction, target alignment, epoch coverage,
+resume and weighted-loss gates. The three channels are exactly
+`[counts, exposure_apodized, log_count_ratio]`; counts retain R0 normalization and the
+new log-ratio transform is fitted only where the training-phase random support is one.
+The pipeline marker is
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/P3BR_PIPELINE_COMPLETE.json`.
+Compact hash-verified evidence is tracked under `docs/evidence/p3br/`; principal
+SHA-256 values are `4698aa04...d50d32d` for `evidence_manifest.json`,
+`d06f7520...0c53d6` for `pipeline_complete.json`, `70c58f08...36adc` for
+`r1_training_loader.json`, and `1841e2d2...490aa4` for
+`r1_field_transform.json`. The next open gate is the exact 1,000-update one-A100 R1
+throughput canary, followed by the frozen R1 run and matched response-aware classical
+comparison; P12 continues independently.
+
 The epoch-15 terminal contract is protected by
 `workflows/sbi/watch_p10_multitracer_epoch15.sh` in tmux session
 `p10_epoch15_guard`. The finalizer now writes both the explicit
@@ -104,7 +133,7 @@ ph006 decision are implemented in
 parent coverage and reports response-quartile and random-boundary-distance performance,
 not only pooled/macro scores. Compact runtime evidence will be copied with exact hash
 parity by `workflows/abacus_tweb/p3br_export_evidence.py` only after all visible-phase
-QA passes. Fifteen focused P3b-R/R1 unit tests pass; runtime product and science gates
+QA passes. Sixteen focused P3b-R/R1 unit tests pass; runtime product and science gates
 remain open rather than being inferred from code completion.
 
 ### 2026-08-22 — [science/code/run] Two P12 cross-fits finish; multitracer signal is shell-dependent and not yet causal
