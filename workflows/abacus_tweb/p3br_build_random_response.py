@@ -595,6 +595,17 @@ def build_overlay(root: Path, selection_path: Path, phase: str, decision_path: P
                     print(json.dumps({"phase": phase, "cap": cap_name, "chunk": chunk_index}), flush=True)
             out.flush()
         partial.replace(final_path)
+        with h5py.File(final_path, "r") as check:
+            virtual_identity = all(check[name].is_virtual for name in ("counts", "los_x", "los_y", "los_z"))
+            canonical_aliases = all(
+                check[left].id == check[right].id
+                for left, right in (
+                    ("support_random", "exposure_binary"),
+                    ("exposure_apodized_random", "exposure_apodized"),
+                    ("expected_counts_random", "expected_counts"),
+                    ("log_count_ratio_random", "log_count_ratio"),
+                )
+            )
         mu = np.concatenate(poisson_mu) if poisson_mu else np.empty(0, dtype=np.float64)
         rng = np.random.default_rng(240822 + cap_id)
         draw = rng.poisson(mu) if len(mu) else np.empty(0)
@@ -606,6 +617,8 @@ def build_overlay(root: Path, selection_path: Path, phase: str, decision_path: P
         }
         gates = {
             "grid_shape_parity": tuple(spec.shape) == tuple(component["grid"]["shape"]),
+            "immutable_p3a_channels_are_virtual_identity_views": bool(virtual_identity),
+            "canonical_response_names_are_hardlink_aliases": bool(canonical_aliases),
             "all_arrays_finite": bool(all_finite),
             "expected_counts_nonnegative": bool(min_expected >= 0.0),
             "no_support_outside_random_map": supported_outside_map == 0,

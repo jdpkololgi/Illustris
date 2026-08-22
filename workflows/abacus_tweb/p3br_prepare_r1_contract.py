@@ -55,8 +55,17 @@ def build_field_adapter(base: Path, output: Path, root: Path, phase: str) -> dic
     source = base / "adapters" / phase / "field"
     destination = output / "adapters" / phase / "field"
     destination.mkdir(parents=True, exist_ok=True)
+    geometry_arrays = {}
     for path in source.glob("*.npy"):
         relative_symlink(path, destination / path.name)
+        linked = destination / path.name
+        geometry_arrays[path.name] = {
+            "source": str(path),
+            "source_sha256": sha256(path),
+            "linked": str(linked),
+            "linked_sha256": sha256(linked),
+            "exact_identity": linked.resolve() == path.resolve() and sha256(linked) == sha256(path),
+        }
     overlay_manifest_path = root / phase / "p3b_random_response_v1/manifest.json"
     overlay = load(overlay_manifest_path)
     if not overlay.get("pass") or overlay.get("ph001_opened"):
@@ -88,8 +97,15 @@ def build_field_adapter(base: Path, output: Path, root: Path, phase: str) -> dic
             "failures_over_5pct": [],
         },
         "response_overlay_only": True,
+        "geometry_arrays": geometry_arrays,
+        "p3a_parent_core_index_parity": all(
+            row["exact_identity"] for row in geometry_arrays.values()
+        ),
         "ph001_opened": False,
-        "pass": bool(old["pass"] and overlay["pass"]),
+        "pass": bool(
+            old["pass"] and overlay["pass"]
+            and all(row["exact_identity"] for row in geometry_arrays.values())
+        ),
     }
     path = destination / "adapter_manifest.json"
     atomic_json(path, manifest)
