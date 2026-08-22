@@ -15,11 +15,15 @@ R1_CANARY=${REPO}/workflows/abacus_tweb/p3br_run_r1_throughput_canary.py
 R1_TRAIN=${REPO}/workflows/abacus_tweb/p10_train_random_response.py
 BASE_TRAIN=${REPO}/workflows/abacus_tweb/p10_train_arm_a.py
 EXPORT=${REPO}/workflows/sbi/p12_export_unet_summaries.py
+CLASSICAL=${REPO}/workflows/abacus_tweb/p10_classical_fullcap.py
 R1_CONTRACT=${ROOT}/training_contract_r1_random
 R1_RUN_ROOT=${ROOT}/response_training
 XFIT_ROOT=${ROOT}/p12_crossfit_contracts
 P12_RUN_ROOT=${ROOT}/p12_and_multitracer_training
 SUMMARY_ROOT=${ROOT}/p12_oof_summaries
+CIC_ROOT=${ROOT}/classical/cic_random_response_v1
+DTFE_ROOT=${ROOT}/classical/dtfe_random_response_v1
+DTFE_BUILD=${ROOT}/classical/dtfe_build_v1
 LOG_ROOT=${ROOT}/p3br_r1_p12_logs
 mkdir -p "${R1_RUN_ROOT}" "${SUMMARY_ROOT}" "${LOG_ROOT}"
 
@@ -70,12 +74,34 @@ export_ph006() {
     --phase ph006 --output-root "${SUMMARY_ROOT}" --device cuda
 }
 
-worker1() { run_xfit ph003; }
-worker2() { run_xfit ph004; }
-worker3() { run_xfit ph005 && export_ph006; }
-export REPO PY ROOT R1_CANARY R1_TRAIN BASE_TRAIN EXPORT R1_CONTRACT R1_RUN_ROOT
-export XFIT_ROOT P12_RUN_ROOT SUMMARY_ROOT LOG_ROOT
-export -f run_r1 run_xfit export_ph006 worker1 worker2 worker3
+run_classical_group() {
+  local estimator=$1
+  shift
+  local output="${CIC_ROOT}"
+  [[ "${estimator}" == dtfe ]] && output="${DTFE_ROOT}"
+  local phase
+  for phase in "$@"; do
+    "${PY}" "${CLASSICAL}" raw --phase "${phase}" --estimator "${estimator}" \
+      --contract-root "${R1_CONTRACT}" --output-root "${output}" \
+      --dtfe-build-root "${DTFE_BUILD}"
+  done
+}
+
+worker1() {
+  run_xfit ph003 && run_classical_group cic ph000 ph005 \
+    && run_classical_group dtfe ph000 ph005
+}
+worker2() {
+  run_xfit ph004 && run_classical_group cic ph002 ph006 \
+    && run_classical_group dtfe ph002 ph006
+}
+worker3() {
+  run_xfit ph005 && export_ph006 && run_classical_group cic ph003 ph004 \
+    && run_classical_group dtfe ph003 ph004
+}
+export REPO PY ROOT R1_CANARY R1_TRAIN BASE_TRAIN EXPORT CLASSICAL R1_CONTRACT R1_RUN_ROOT
+export XFIT_ROOT P12_RUN_ROOT SUMMARY_ROOT CIC_ROOT DTFE_ROOT DTFE_BUILD LOG_ROOT
+export -f run_r1 run_xfit export_ph006 run_classical_group worker1 worker2 worker3
 
 all_terminal() {
   [[ -f "${R1_RUN_ROOT}/p3br_r1_v1/unet/seed_42/ARM_A_TRAINING_COMPLETE.json" ]] &&
@@ -84,7 +110,9 @@ all_terminal() {
   [[ -f "${SUMMARY_ROOT}/ph003/OOF_SUMMARY_COMPLETE.json" ]] &&
   [[ -f "${SUMMARY_ROOT}/ph004/OOF_SUMMARY_COMPLETE.json" ]] &&
   [[ -f "${SUMMARY_ROOT}/ph005/OOF_SUMMARY_COMPLETE.json" ]] &&
-  [[ -f "${SUMMARY_ROOT}/ph006/OOF_SUMMARY_COMPLETE.json" ]]
+  [[ -f "${SUMMARY_ROOT}/ph006/OOF_SUMMARY_COMPLETE.json" ]] &&
+  [[ -f "${CIC_ROOT}/P10_CIC_PH006_COMPLETE.json" ]] &&
+  [[ -f "${DTFE_ROOT}/P10_DTFE_PH006_COMPLETE.json" ]]
 }
 
 echo "$(date -u +%FT%TZ) supervisor_start pid=$$" >> "${LOG_ROOT}/supervisor.log"
@@ -116,7 +144,19 @@ while ! all_terminal; do
           >> '${LOG_ROOT}/worker_'\${worker}'.log' 2>&1 & pids[\${worker}]=\$!
       done
       code=0
-      for pid in \${pids[@]}; do wait \${pid} || code=\$?; done
+      for worker in 1 2 3; do wait \${pids[\${worker}]} || code=\$?; done
+      if [[ \${code} -eq 0 ]]; then
+        for estimator in cic dtfe; do
+          output='${CIC_ROOT}'
+          [[ \${estimator} == dtfe ]] && output='${DTFE_ROOT}'
+          srun --exclusive --nodes=1 --ntasks=1 --cpus-per-task=16 --gpus=1 \
+            --cpu-bind=cores --export=ALL '${PY}' '${CLASSICAL}' finalize \
+            --estimator \${estimator} --contract-root '${R1_CONTRACT}' \
+            --output-root \${output} --dtfe-build-root '${DTFE_BUILD}' \
+            >> '${LOG_ROOT}/classical_'\${estimator}'_finalize.log' 2>&1 || code=\$?
+        done
+      fi
+      wait \${pids[0]} || code=\$?
       [[ \${code} -eq 0 || \${code} -eq 75 ]]
     "
   code=$?
