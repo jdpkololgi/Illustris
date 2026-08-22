@@ -19,6 +19,8 @@ mkdir -p "${RUN_ROOT}" "${SUMMARY_ROOT}" "${LOG_ROOT}"
 train_mt() {
   local view=$1
   local name="p10_bf_${view}_v1"
+  local frozen="${RUN_ROOT}/${name}/unet_multitracer/seed_42/EPOCH15_FROZEN.json"
+  [[ -f "${frozen}" ]] && return 0
   local canary="p10_bf_${view}_canary_v1"
   local canary_marker="${RUN_ROOT}/${canary}/unet_multitracer/seed_42/TECHNICAL_CANARY_COMPLETE.json"
   if [[ ! -f "${canary_marker}" ]]; then
@@ -82,8 +84,8 @@ export REPO PY ROOT TRAIN EXPORT MT_ROOT XFIT_ROOT RUN_ROOT SUMMARY_ROOT LOG_ROO
 export -f train_mt train_xfit export_ph006 worker0 worker1 worker2 worker3
 
 all_terminal() {
-  [[ -f "${RUN_ROOT}/p10_bf_proxy_v1/unet_multitracer/seed_42/ARM_A_TRAINING_COMPLETE.json" ]] &&
-  [[ -f "${RUN_ROOT}/p10_bf_null_v1/unet_multitracer/seed_42/ARM_A_TRAINING_COMPLETE.json" ]] &&
+  [[ -f "${RUN_ROOT}/p10_bf_proxy_v1/unet_multitracer/seed_42/EPOCH15_FROZEN.json" ]] &&
+  [[ -f "${RUN_ROOT}/p10_bf_null_v1/unet_multitracer/seed_42/EPOCH15_FROZEN.json" ]] &&
   [[ -f "${SUMMARY_ROOT}/ph000/OOF_SUMMARY_COMPLETE.json" ]] &&
   [[ -f "${SUMMARY_ROOT}/ph002/OOF_SUMMARY_COMPLETE.json" ]] &&
   [[ -f "${SUMMARY_ROOT}/ph003/OOF_SUMMARY_COMPLETE.json" ]] &&
