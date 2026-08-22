@@ -224,6 +224,18 @@ def save_map(path: Path, result: dict, metadata: dict) -> None:
     atomic_json(path.with_suffix(".json"), metadata)
 
 
+def save_progress(path: Path, counts: np.ndarray, metadata: dict) -> None:
+    """Atomically retain exact accumulated counts between CPU allocations."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(".tmp.npz")
+    np.savez_compressed(temporary, raw_counts_by_domain=np.asarray(counts, dtype=np.int64))
+    temporary.replace(path)
+    payload = dict(metadata)
+    payload["path"] = str(path)
+    payload["sha256"] = sha256(path)
+    atomic_json(path.with_suffix(".json"), payload)
+
+
 def build_maps(root: Path, registry_path: Path, phase: str,
                snapshots: tuple[int, ...]) -> dict:
     if phase not in PHASES:
@@ -236,7 +248,9 @@ def build_maps(root: Path, registry_path: Path, phase: str,
     existing = angular_dir / f"randoms_n{maximum}.npz"
     if existing.is_file() and existing.with_suffix(".json").is_file():
         return load_json(existing.with_suffix(".json"))
-    resume_count = max(
+    progress_path = angular_dir / "randoms_progress.npz"
+    progress_meta_path = progress_path.with_suffix(".json")
+    snapshot_count = max(
         (
             count for count in snapshots
             if count < maximum
@@ -245,8 +259,20 @@ def build_maps(root: Path, registry_path: Path, phase: str,
         ),
         default=0,
     )
+    progress_count = 0
+    if progress_path.is_file() and progress_meta_path.is_file():
+        progress_meta = load_json(progress_meta_path)
+        progress_count = int(progress_meta["random_realisation_count"])
+        if progress_meta["random_ids"] != list(range(progress_count)):
+            raise RuntimeError(f"non-canonical random-map progress identity: {progress_path}")
+        if progress_meta["source_registry_sha256"] != sha256(registry_path):
+            raise RuntimeError(f"random-map progress registry mismatch: {progress_path}")
+    resume_count = max(snapshot_count, progress_count)
     if resume_count:
-        resume_path = angular_dir / f"randoms_n{resume_count}.npz"
+        resume_path = (
+            progress_path if progress_count == resume_count
+            else angular_dir / f"randoms_n{resume_count}.npz"
+        )
         resume_meta = load_json(resume_path.with_suffix(".json"))
         if resume_meta["random_ids"] != list(range(resume_count)):
             raise RuntimeError(f"non-canonical random-map resume identity: {resume_path}")
@@ -278,6 +304,26 @@ def build_maps(root: Path, registry_path: Path, phase: str,
             }
             save_map(map_path, result, metadata)
             print(json.dumps({"phase": phase, "snapshot": position, **result["metadata"]}), flush=True)
+        if position < maximum:
+            save_progress(
+                progress_path,
+                counts,
+                {
+                    "schema_version": "p3br-angular-random-progress-v1",
+                    "phase": phase,
+                    "random_realisation_count": position,
+                    "random_ids": list(range(position)),
+                    "sources": audits.copy(),
+                    "source_registry": str(registry_path),
+                    "source_registry_sha256": sha256(registry_path),
+                    "blind_truth_opened": False,
+                    "creation_commit": git_sha(REPO_ROOT),
+                },
+            )
+    if progress_path.exists():
+        progress_path.unlink()
+    if progress_meta_path.exists():
+        progress_meta_path.unlink()
     return load_json((angular_dir / f"randoms_n{maximum}.json"))
 
 
@@ -462,7 +508,23 @@ def build_overlay(root: Path, selection_path: Path, phase: str, decision_path: P
             continue
         partial = final_path.with_suffix(".partial.h5")
         if partial.exists():
-            raise RuntimeError(f"ambiguous partial overlay: {partial}")
+            # A partial is wholly owned by this builder and has no completion
+            # marker.  Validate its identity before discarding only that
+            # interrupted cap attempt; completed cap HDF5 files are immutable.
+            with h5py.File(partial, "r") as interrupted:
+                identity = (
+                    interrupted.attrs.get("schema_version") == "p3br-response-overlay-v1"
+                    and interrupted.attrs.get("phase") == phase
+                    and interrupted.attrs.get("cap") == cap_name
+                )
+            if not identity:
+                raise RuntimeError(f"ambiguous partial overlay: {partial}")
+            partial.unlink()
+            print(json.dumps({
+                "phase": phase,
+                "cap": cap_name,
+                "action": "restart validated interrupted partial overlay",
+            }), flush=True)
         component = p3_manifest["components"][cap_name]
         base_path = Path(root) / phase / "p3_fields" / f"{cap_name.lower()}_fields.h5"
         spec = grid_from_component(component)

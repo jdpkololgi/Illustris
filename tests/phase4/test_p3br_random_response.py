@@ -1,3 +1,6 @@
+import json
+from pathlib import Path
+import tempfile
 import unittest
 
 import healpy as hp
@@ -7,10 +10,23 @@ from workflows.abacus_tweb.p3br_build_random_response import (
     angular_boundary_distance,
     compare_random_maps,
     normalized_map,
+    save_progress,
 )
 
 
 class RandomResponseTest(unittest.TestCase):
+    def test_progress_checkpoint_is_atomic_and_exact(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "progress.npz"
+            counts = np.arange(32, dtype=np.int64).reshape(4, 8)
+            save_progress(path, counts, {"random_ids": [0, 1]})
+            np.testing.assert_array_equal(
+                np.load(path)["raw_counts_by_domain"], counts
+            )
+            metadata = json.loads(path.with_suffix(".json").read_text())
+            self.assertEqual(metadata["random_ids"], [0, 1])
+            self.assertEqual(len(metadata["sha256"]), 64)
+
     def test_healpy_lonlat_contract(self):
         pix = hp.ang2pix(2, np.array([0.0, 180.0]), np.array([0.0, 45.0]), lonlat=True)
         self.assertEqual(pix.shape, (2,))
