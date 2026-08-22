@@ -3297,12 +3297,20 @@ Progress checklist:
       exposed that `len(NpzFile)` counts archive fields rather than galaxy rows.
       Commit `ad0925b` indexes by the length of `parent_node_id` and validates bounds
       and uniqueness; the bug did not affect encoder training or saved predictions.
-    - [ ] Run the corrected ph000/ph002 exports and stamp their
-      `OOF_SUMMARY_COMPLETE.json` markers.
+    - [x] Run the corrected ph000/ph002 exports and stamp their
+      `OOF_SUMMARY_COMPLETE.json` markers. The production-scale shards contain
+      `5,026,863` and `4,929,962` parent-keyed rows respectively and pass their hash,
+      parent-set and no-ph001 guards.
     - [ ] Train and export the `omit_ph003`, `omit_ph004`, and `omit_ph005` encoders.
+      The `omit_ph005` encoder has completed three epochs, reaching macro `0.41474`,
+      and is active in epoch 4; ph003/ph004 remain queued behind Proxy/Null.
     - [ ] Export ph006 summaries from the frozen all-five-phase epoch-20 U-PATCH
       checkpoint and concatenate the five leakage-safe training shards only after all
       parent sets, hashes and response schemas pass.
+      - [x] Export and validate the ph006 tuning shard: `4,908,831` parent-keyed rows,
+        with latent/base/truth/response hashes and `sealed_phase_opened=false`.
+      - [ ] Concatenate only after the remaining ph003/ph004/ph005 omitted-phase
+        shards pass the same contract.
 - [ ] Fit on training phases and tune on ph006 only.
 - [ ] Pass marginal, multivariate, conditional, tail, and information gates.
 - [ ] Record the `H_fid` conditional estimand and run the optional held-out-HOD stress

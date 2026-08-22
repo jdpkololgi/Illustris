@@ -2,6 +2,26 @@
 
 ### 2026-08-22 — [science/code/run] Two P12 cross-fits finish; multitracer signal is shell-dependent and not yet causal
 
+Later 2026-08-22 update: the corrected exporter has now passed on the production-scale
+artifacts. `OOF_SUMMARY_COMPLETE.json` exists for ph000 (`5,026,863` rows), ph002
+(`4,929,962` rows), and ph006 (`4,908,831` rows), with exact parent-keyed latent,
+base-prediction, truth and response arrays plus hashes. This closes the exporter bug in
+practice as well as in its unit test. The `omit_ph005` cross-fit has started, completed
+three epochs, and improved monotonically to macro `0.41474`; it is active in epoch 4.
+The ph003/ph004 cross-fits remain queued behind Proxy/Null on workers 0/1.
+
+Proxy and Null have each completed epoch 12 and the full epoch-13 training traversal;
+epoch-13 ph006 validation is in progress on job `57415926`. Their matched epoch-12 rows
+are Proxy macro `0.67679`, first-three `0.70687`, shells
+`0.73305/0.71650/0.67107/0.58655`, and Null macro `0.66467`, first-three `0.70767`,
+shells `0.74665/0.71969/0.65666/0.53568`. Thus Proxy-minus-Null at the same epoch is
+`+0.01212` macro but `-0.00079` over the first three shells; per-shell it is
+`-0.01360/-0.00319/+0.01441/+0.05087`. This strengthens the narrower interpretation:
+real FAINT positions are providing repeatable additional information in the sparsest
+shell, while a general all-shell causal gain is not yet established. Both schedules
+must still finish and be compared using frozen best checkpoints and paired spatial
+blocks.
+
 The persistent four-A100 interactive chain remains healthy on job `57404937` and
 ph001 remains unopened. The real-FAINT Proxy and angular-Null models have each
 completed 11/20 full 84,446-core epochs and are active in epoch 12. Their current
