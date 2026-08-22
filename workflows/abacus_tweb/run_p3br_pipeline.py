@@ -46,6 +46,7 @@ def main() -> None:
     args = parser.parse_args()
     builder = REPO_ROOT / "workflows/abacus_tweb/p3br_build_random_response.py"
     preparer = REPO_ROOT / "workflows/abacus_tweb/p3br_prepare_r1_contract.py"
+    exporter = REPO_ROOT / "workflows/abacus_tweb/p3br_export_evidence.py"
     logs = args.root / "p3br_logs"
     parallel([
         ([args.python, str(builder), "maps", "--root", str(args.root), "--phase", phase],
@@ -114,6 +115,10 @@ def main() -> None:
         "pass": True,
     }
     atomic_json(args.root / "training_contract/P3BR_PIPELINE_COMPLETE.json", marker)
+    run(
+        [args.python, str(exporter), "--root", str(args.root)],
+        logs / "tracked_evidence.log",
+    )
     print(json.dumps(marker, indent=2, sort_keys=True))
 
 
