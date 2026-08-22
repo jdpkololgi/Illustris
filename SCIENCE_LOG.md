@@ -72,6 +72,25 @@ The epoch-15 terminal contract is protected by
 silently resuming the bounded FAINT diagnostic into epoch 16. P12 remains independent
 and checkpoint-resumable.
 
+The implementation is now restart-safe at allocation boundaries. Each random file
+updates an atomic accumulated-count checkpoint, a validated builder-owned partial cap
+overlay may restart without touching any completed HDF5, and
+`workflows/sbi/run_p3br_cpu_interactive.sh` can loop bounded two-hour CPU allocations.
+The exact 1,000-patch one-A100 canary and independent-task four-GPU production
+supervisor are
+`workflows/abacus_tweb/p3br_run_r1_throughput_canary.py` and
+`workflows/sbi/run_p3br_r1_p12_4gpu_interactive.sh`. No DDP rewrite is being adopted:
+one variable-size canonical patch remains one optimizer update, while the other GPUs
+continue independent P12 cross-fits. Matched response-aware CIC/DTFE and the final
+ph006 decision are implemented in
+`workflows/sbi/run_p3br_classical_4gpu_interactive.sh` and
+`workflows/abacus_tweb/p3br_evaluate_r1.py`. The evaluator enforces exact authoritative
+parent coverage and reports response-quartile and random-boundary-distance performance,
+not only pooled/macro scores. Compact runtime evidence will be copied with exact hash
+parity by `workflows/abacus_tweb/p3br_export_evidence.py` only after all visible-phase
+QA passes. Fifteen focused P3b-R/R1 unit tests pass; runtime product and science gates
+remain open rather than being inferred from code completion.
+
 ### 2026-08-22 — [science/code/run] Two P12 cross-fits finish; multitracer signal is shell-dependent and not yet causal
 
 Later 2026-08-22 update: the corrected exporter has now passed on the production-scale

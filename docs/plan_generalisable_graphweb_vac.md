@@ -763,6 +763,29 @@ Validation and promotion gates:
   gain at least `+0.02`; below `+0.01`, retain random response for posterior/deployment
   safety without claiming deterministic accuracy gain.
 
+Implementation status (the scientific product gates above remain authoritative):
+
+- [x] Implement and unit-test the streamed HEALPix builder, 1/4/18 convergence
+  decision, cap-disconnected HDF5 overlays and exact-resume CPU orchestrator:
+  `workflows/abacus_tweb/p3br_build_random_response.py`,
+  `workflows/abacus_tweb/run_p3br_pipeline.py`, and
+  `workflows/sbi/run_p3br_cpu_interactive.sh`.
+- [x] Implement the capacity-matched stored-channel R1 adapter, frozen-normalization
+  preparer, unchanged-width trainer wrapper and exact 1,000-update throughput gate:
+  `workflows/abacus_tweb/p3br_prepare_r1_contract.py`,
+  `workflows/abacus_tweb/p3br_training_contract.py`,
+  `workflows/abacus_tweb/p10_train_random_response.py`, and
+  `workflows/abacus_tweb/p3br_run_r1_throughput_canary.py`.
+- [x] Implement independent one-GPU scheduling rather than unmeasured DDP, matched
+  random-response CIC/DTFE scheduling, exact ph006 R0/R1/classical scoring, response
+  quantiles, random-boundary bins and the registered promotion rule:
+  `workflows/sbi/run_p3br_r1_p12_4gpu_interactive.sh`,
+  `workflows/sbi/run_p3br_classical_4gpu_interactive.sh`, and
+  `workflows/abacus_tweb/p3br_evaluate_r1.py`.
+- [x] Implement tracked compact-evidence export with runtime-to-repository hash
+  verification at `workflows/abacus_tweb/p3br_export_evidence.py`. Runtime products
+  are not marked complete until the visible-phase manifests and QA below pass.
+
 Minimum architecture contract:
 
 - U-PATCH receives `G_s`, `mu_s` or its logarithm, stabilized contrast,
