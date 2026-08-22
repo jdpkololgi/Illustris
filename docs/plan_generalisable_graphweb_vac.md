@@ -2916,6 +2916,18 @@ Progress checklist:
       canaries, completed five full epochs, and were active in epoch 6. Interim
       validation rows are explicitly non-decisional; paired evaluation waits for both
       20-epoch schedules and frozen best checkpoints.
+      - [x] Reach 11 complete epochs for both matched models and verify complete
+        84,446-core coverage, finite losses and checkpoint resume. On 2026-08-22 both
+        were active in epoch 12 on job `57404937`.
+      - [x] Record the interim causal contrast without promoting it. Proxy has best
+        macro `0.66394` at epoch 10 and Null has best macro `0.65497` at epoch 11.
+        At matched epoch 10 Proxy-minus-Null is `+0.02208` macro, but the overall
+        contrast reverses at epoch 11. Proxy retains a fourth-shell advantage of
+        `+0.06555/+0.05188` at epochs 10/11. This motivates completion and paired
+        spatial uncertainty; it is not yet a production multitracer decision.
+      - [ ] Complete both 20-epoch cosine schedules, freeze each best checkpoint and
+        compute paired spatial-block confidence intervals for Proxy-minus-Null overall,
+        in the first three shells, and in every individual shell.
 - [x] Build the truth-free ph001 graph/field products under the sealed blind-input
   contract.
 - [ ] Save ph001 predictions before opening truth.
@@ -3275,6 +3287,22 @@ Progress checklist:
     persistent four-GPU chain launched `omit_ph000` and `omit_ph002` after passed
     two-update canaries; both had completed eleven epochs and were active in epoch 12
     at the 2026-08-21 audit. The queue follows with ph003/ph004/ph005 and ph006 export.
+    - [x] Complete the `omit_ph000` encoder at epoch 20: omitted-phase macro
+      `0.56469`, first-three `0.62942`, shells
+      `0.68091/0.63844/0.56891/0.37049`.
+    - [x] Complete the `omit_ph002` encoder at epoch 20: omitted-phase macro
+      `0.56844`, first-three `0.62796`, shells
+      `0.68732/0.62367/0.57288/0.38987`.
+    - [x] Fix and unit-test the P12 assignment-row lookup after the first full exports
+      exposed that `len(NpzFile)` counts archive fields rather than galaxy rows.
+      Commit `ad0925b` indexes by the length of `parent_node_id` and validates bounds
+      and uniqueness; the bug did not affect encoder training or saved predictions.
+    - [ ] Run the corrected ph000/ph002 exports and stamp their
+      `OOF_SUMMARY_COMPLETE.json` markers.
+    - [ ] Train and export the `omit_ph003`, `omit_ph004`, and `omit_ph005` encoders.
+    - [ ] Export ph006 summaries from the frozen all-five-phase epoch-20 U-PATCH
+      checkpoint and concatenate the five leakage-safe training shards only after all
+      parent sets, hashes and response schemas pass.
 - [ ] Fit on training phases and tune on ph006 only.
 - [ ] Pass marginal, multivariate, conditional, tail, and information gates.
 - [ ] Record the `H_fid` conditional estimand and run the optional held-out-HOD stress

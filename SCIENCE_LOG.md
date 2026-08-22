@@ -1,5 +1,45 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-22 — [science/code/run] Two P12 cross-fits finish; multitracer signal is shell-dependent and not yet causal
+
+The persistent four-A100 interactive chain remains healthy on job `57404937` and
+ph001 remains unopened. The real-FAINT Proxy and angular-Null models have each
+completed 11/20 full 84,446-core epochs and are active in epoch 12. Their current
+best ph006 rows are:
+
+| run | best epoch | macro R2(lambda1) | first-three macro | shell R2(lambda1) |
+| --- | ---: | ---: | ---: | --- |
+| real-FAINT Proxy | 10 | 0.66394 | 0.69707 | 0.72403 / 0.70754 / 0.65966 / 0.56452 |
+| angular-Null | 11 | 0.65497 | 0.69724 | 0.73240 / 0.70874 / 0.65057 / 0.52819 |
+| Bright-only reference | 20 | 0.57310 | 0.63464 | 0.69190 / 0.64159 / 0.57042 / 0.38850 |
+
+Both six-channel models currently exceed Bright-only, so Proxy-minus-Bright is not
+evidence that real FAINT positions supplied the gain. At the matched epoch 10,
+Proxy-minus-Null is `+0.02208` macro and `+0.00760` over the first three shells, with
+per-shell differences `-0.00528/+0.00459/+0.02348/+0.06555`. At epoch 11 the overall
+contrast reverses to `-0.00945` macro, while Proxy retains a `+0.05188` advantage in
+the sparse fourth shell. The persistent high-redshift contrast is interesting, but
+the causal multitracer result remains open until both cosine schedules reach epoch 20
+and the frozen best checkpoints are compared with paired spatial-block uncertainty.
+The non-monotonic macro scores despite improving train/global losses are another reason
+not to stop at the current interim ranking.
+
+The first two leave-one-phase-out P12 encoders are complete at epoch 20. The encoder
+omitting ph000 scores macro `0.56469`, first-three `0.62942`, and shells
+`0.68091/0.63844/0.56891/0.37049` on ph000. The encoder omitting ph002 scores macro
+`0.56844`, first-three `0.62796`, and shells
+`0.68732/0.62367/0.57288/0.38987` on ph002. Their similar performance across distinct
+omitted phases is positive evidence that phase-cross-fitted deterministic summaries
+remain informative; these are encoder gates, not posterior calibration results.
+
+Summary export then exposed an implementation-only bug: `len(NpzFile)` returned the
+15 arrays in the P4 archive rather than its roughly five million assignment rows.
+Commit `ad0925b` now derives row indices from `parent_node_id`, validates bounds and
+uniqueness, and adds a regression test reproducing the 15-field trap. Five focused
+exporter tests pass. No checkpoint, prediction, target or training metric was affected.
+The ph000/ph002 summary markers remain incomplete until the corrected full export runs;
+ph003/ph004/ph005 cross-fit training follows in the existing queue.
+
 ### 2026-08-21 — [code/run] Proxy/Null and P12 cross-fit queue is healthy; results remain preliminary
 
 The persistent four-A100 interactive chain is on allocation attempt 7 of 24, current
