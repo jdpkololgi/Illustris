@@ -20,6 +20,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import sys
 import time
 from pathlib import Path
 
@@ -29,6 +30,10 @@ import healpy as hp
 import numpy as np
 from scipy.ndimage import gaussian_filter
 from scipy.spatial import cKDTree
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from workflows.abacus_tweb.p3a_build_canonical_fields import (
     GridSpec,
@@ -40,7 +45,6 @@ from workflows.abacus_tweb.p3a_build_canonical_fields import (
 from workflows.abacus_tweb.p10_training_contract import atomic_json
 
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_ROOT = Path("/pscratch/sd/d/dkololgi/abacus/p10_multiphase")
 DEFAULT_REGISTRY = REPO_ROOT / "configs/p10_response_sources_v1.json"
 DEFAULT_SELECTION = DEFAULT_ROOT / "training_contract/transforms/field/selection_manifest.json"
