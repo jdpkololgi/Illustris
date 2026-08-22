@@ -64,6 +64,22 @@ It also caught and corrected a Healpy longitude/latitude argument error before a
 product was promoted. The ph000/ph006 1/4/18 convergence scans are active and write
 resumable snapshots under each phase's `p3b_random_response_v1/angular/` directory.
 
+The registered 4-versus-18 convergence decision is now complete and selects **all 18
+random realizations** for every visible phase. ph000 and ph006 independently give
+support-mask Jaccard `0.999636`, but median absolute fractional angular-response
+differences `0.027752/0.027752` and 99th-percentile differences
+`0.119179/0.119179`; the latter two fail the registered `0.01/0.05` gates. The
+area-weighted cap/shell expected-count proxies differ by at most `0.000501`, well
+inside their `0.01` gate, so the decision is driven specifically by unresolved
+pixel-scale random shot noise rather than cap normalization. The atomic decision is
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/P3BR_RANDOM_DENSITY_DECISION.json`
+(SHA-256 `2f0204b3cdc64d9f23408672cdc34da20033844e8bb747b7c6f12f40575bc6e7`);
+the corrected ph000/ph006 18-random map hashes are respectively
+`a42c26a1a21bcb665de5ac9f63cb967f10b08978d2fb5b9ef2f11de0cb971cde` and
+`b3d45d06447d2978ad4dd60ec534e0d3ee85b2c6ba1545b827a2b9e0f6d53dc4`.
+`ph001_opened=false`. ph002--ph005 all-18 scans are now active concurrently in CPU
+allocation `57425308`, with atomic progress checkpoints after every random file.
+
 The epoch-15 terminal contract is protected by
 `workflows/sbi/watch_p10_multitracer_epoch15.sh` in tmux session
 `p10_epoch15_guard`. The finalizer now writes both the explicit

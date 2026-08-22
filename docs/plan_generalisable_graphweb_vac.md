@@ -699,21 +699,25 @@ Phase ownership and source contract:
 - [ ] Build training products for ph000/ph002/ph003/ph004/ph005 and a validation
   product for ph006. Do not open ph001 until the deterministic response, P12 and
   evaluation decisions are frozen.
-- [ ] Use only the registered
+- [x] Use only the registered
   `BGS_BRIGHT_{0..17}_full_HPmapcut.ran.fits` angular randoms. Preserve the explicit
   Kibo-derived mock versus Loa deployment provenance; do not describe it as pointwise
   matched.
-- [ ] Keep the frozen BRIGHT `ntilde(z)` contract. Do not infer radial selection from
+- [x] Keep the frozen BRIGHT `ntilde(z)` contract. Do not infer radial selection from
   clustering-random `Z` or `TARGETID_DATA`.
 
 Random-density convergence:
 
-- [ ] On ph000 and ph006 compare random IDs `{0}`, `{0,1,2,3}`, and `{0..17}`.
-- [ ] Adopt fixed IDs `0..3` for every phase only when 4-versus-18 has support Jaccard
+- [x] On ph000 and ph006 compare random IDs `{0}`, `{0,1,2,3}`, and `{0..17}`.
+- [x] Adopt fixed IDs `0..3` for every phase only when 4-versus-18 has support Jaccard
   at least `0.999`, median absolute fractional response difference at most `0.01`,
   99th-percentile difference at most `0.05`, and cap/shell expected-count differences
-  at most `0.01`. Otherwise use all 18 everywhere.
-- [ ] Record selected IDs, source hashes and the convergence decision atomically.
+  at most `0.01`. Otherwise use all 18 everywhere. The ph000/ph006 comparison fails
+  the pixel-amplitude gates (`median=0.027752`, `p99=0.119179`) and therefore freezes
+  IDs `0..17` for every phase.
+- [x] Record selected IDs, source hashes and the convergence decision atomically at
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/P3BR_RANDOM_DENSITY_DECISION.json`
+  (SHA-256 `2f0204b3cdc64d9f23408672cdc34da20033844e8bb747b7c6f12f40575bc6e7`).
 
 Immutable output contract:
 
