@@ -41,6 +41,18 @@ class RandomResponseTest(unittest.TestCase):
             selected = (result["domain"] == domain) & result["support"]
             self.assertAlmostEqual(float(result["angular_response"][selected].mean()), 1.0, 6)
 
+    def test_overlap_is_normalized_after_unique_domain_assignment(self):
+        counts = np.zeros((4, 48), dtype=np.int64)
+        counts[0, :10] = 2
+        counts[1, 5:15] = 7
+        counts[2, 20:30] = np.arange(1, 11)
+        result = normalized_map(counts)
+        for domain in np.unique(result["domain"][result["support"]]):
+            selected = result["support"] & (result["domain"] == domain)
+            self.assertAlmostEqual(
+                float(result["angular_response"][selected].mean()), 1.0, 6
+            )
+
     def test_empty_cap_photsys_intersection_is_valid(self):
         counts = np.zeros((4, 48), dtype=np.int64)
         counts[1, :5] = 3

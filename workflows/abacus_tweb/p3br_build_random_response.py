@@ -58,6 +58,7 @@ SNAPSHOT_COUNTS = (1, 4, 18)
 CHUNK_ROWS = 2_000_000
 MINIMUM_EXPOSURE = 1.0e-4
 CONTRAST_EPSILON = 1.0e-3
+ANGULAR_NORMALIZATION_POLICY = "mean-one-after-unique-cap-PHOTSYS-domain-assignment-v1"
 
 
 def load_json(path: Path) -> dict:
@@ -170,7 +171,10 @@ def normalized_map(domain_counts: np.ndarray) -> dict[str, np.ndarray | dict]:
     response_by_domain = np.zeros_like(domain_counts, dtype=np.float32)
     domain_metadata: dict[str, dict] = {}
     for domain in range(4):
-        selected = support_by_domain[domain]
+        # Resolve the rare PHOTSYS overlap first, then normalize on the final
+        # uniquely owned domain.  This makes the published response exactly
+        # mean one in every cap/PHOTSYS region rather than approximately so.
+        selected = support & (winner == domain)
         cap = domain // 2
         phot = "S" if domain % 2 else "N"
         if not selected.any():
@@ -198,6 +202,7 @@ def normalized_map(domain_counts: np.ndarray) -> dict[str, np.ndarray | dict]:
         "domain": winner,
         "angular_response": response,
         "metadata": {
+            "angular_normalization_policy": ANGULAR_NORMALIZATION_POLICY,
             "domains": domain_metadata,
             "supported_pixels": int(support.sum()),
             "supported_area_deg2": float(support.sum() * hp.nside2pixarea(NSIDE, degrees=True)),
@@ -236,6 +241,20 @@ def save_progress(path: Path, counts: np.ndarray, metadata: dict) -> None:
     atomic_json(path.with_suffix(".json"), payload)
 
 
+def refresh_map_normalization(path: Path) -> dict:
+    """Upgrade a raw-count snapshot to the current exact normalization contract."""
+    metadata_path = path.with_suffix(".json")
+    metadata = load_json(metadata_path)
+    if metadata.get("angular_normalization_policy") == ANGULAR_NORMALIZATION_POLICY:
+        return metadata
+    arrays = load_map(path)
+    result = normalized_map(arrays["raw_counts_by_domain"])
+    metadata = dict(metadata)
+    metadata["normalization_revision_commit"] = git_sha(REPO_ROOT)
+    save_map(path, result, metadata)
+    return load_json(metadata_path)
+
+
 def build_maps(root: Path, registry_path: Path, phase: str,
                snapshots: tuple[int, ...]) -> dict:
     if phase not in PHASES:
@@ -247,7 +266,11 @@ def build_maps(root: Path, registry_path: Path, phase: str,
     angular_dir = phase_output(root, phase) / "angular"
     existing = angular_dir / f"randoms_n{maximum}.npz"
     if existing.is_file() and existing.with_suffix(".json").is_file():
-        return load_json(existing.with_suffix(".json"))
+        for count in snapshots:
+            snapshot = angular_dir / f"randoms_n{count}.npz"
+            if snapshot.is_file() and snapshot.with_suffix(".json").is_file():
+                refresh_map_normalization(snapshot)
+        return refresh_map_normalization(existing)
     progress_path = angular_dir / "randoms_progress.npz"
     progress_meta_path = progress_path.with_suffix(".json")
     snapshot_count = max(
