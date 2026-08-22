@@ -163,7 +163,9 @@ while ! all_terminal; do
   set -e
   echo "$(date -u +%FT%TZ) allocation_exit attempt=${attempt} code=${code}" >> "${LOG_ROOT}/supervisor.log"
   all_terminal && break
-  if [[ ${attempt} -ge 24 ]]; then
+  # Bridge transient scheduler cleanup or allocation pressure without turning
+  # this into an unbounded allocation requester.
+  if [[ ${attempt} -ge 96 ]]; then
     echo "$(date -u +%FT%TZ) bounded_retry_exhausted" >> "${LOG_ROOT}/supervisor.log"
     exit 1
   fi
