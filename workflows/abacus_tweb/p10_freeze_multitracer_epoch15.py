@@ -63,6 +63,13 @@ def freeze_run(run_root: Path, view: str) -> dict[str, Any]:
         payload = json.loads(marker.read_text())
         if not payload.get("pass"):
             raise RuntimeError(f"existing marker is not passing: {marker}")
+        terminal = output / "ARM_A_TRAINING_COMPLETE.json"
+        if not terminal.exists():
+            atomic_json(terminal, {
+                **payload,
+                "status": "FROZEN_REGISTERED_EPOCH15",
+                "terminal_marker_semantics": "bounded diagnostic, not a 20-epoch completion",
+            })
         return payload
 
     history_path = output / "epoch_history.jsonl"
@@ -111,6 +118,14 @@ def freeze_run(run_root: Path, view: str) -> dict[str, Any]:
         "pass": True,
     }
     atomic_json(marker, payload)
+    # The legacy trainer and any already-running supervisor know only this
+    # terminal filename.  Publishing the scientifically explicit freeze payload
+    # here prevents a later invocation from resuming into epoch 16.
+    atomic_json(output / "ARM_A_TRAINING_COMPLETE.json", {
+        **payload,
+        "status": "FROZEN_REGISTERED_EPOCH15",
+        "terminal_marker_semantics": "bounded diagnostic, not a 20-epoch completion",
+    })
     return payload
 
 
