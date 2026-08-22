@@ -121,6 +121,18 @@ on one A100, so R1 must span checkpointed interactive allocations; this does not
 justify an unbenchmarked DDP rewrite. The full frozen R1 seed-42 run was launched on
 the same freed GPU immediately after the canary.
 
+Long-run resource use is now persistent without another node allocation. Tmux session
+`p3br_r1_sidecar` runs
+`workflows/sbi/run_p3br_r1_sidecar_existing_gpu.sh`, which attaches R1 only to an
+unused fourth GPU of a running legacy `p10mtp12` allocation and resumes after each
+allocation rollover. Tmux session `p3br_transition` runs
+`workflows/sbi/run_p3br_transition_after_legacy.sh`; it consumes no compute while
+waiting for both epoch-15 FAINT freeze markers and all six P12 OOF summaries, then
+waits for the old allocation to disappear before handing control to the integrated
+R1/P12/classical supervisor. Thus crossfits cannot be duplicated, the two-allocation
+limit is preserved, and matched CIC/DTFE work will begin automatically after the
+legacy programme closes.
+
 The epoch-15 terminal contract is protected by
 `workflows/sbi/watch_p10_multitracer_epoch15.sh` in tmux session
 `p10_epoch15_guard`. The finalizer now writes both the explicit

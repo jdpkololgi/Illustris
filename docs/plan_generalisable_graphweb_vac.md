@@ -797,7 +797,10 @@ Implementation status (the scientific product gates above remain authoritative):
   quantiles, random-boundary bins and the registered promotion rule:
   `workflows/sbi/run_p3br_r1_p12_4gpu_interactive.sh`,
   `workflows/sbi/run_p3br_classical_4gpu_interactive.sh`, and
-  `workflows/abacus_tweb/p3br_evaluate_r1.py`.
+  `workflows/abacus_tweb/p3br_evaluate_r1.py`. While the legacy FAINT/P12 allocation
+  remains active, `workflows/sbi/run_p3br_r1_sidecar_existing_gpu.sh` reuses only its
+  idle fourth GPU. `workflows/sbi/run_p3br_transition_after_legacy.sh` then performs
+  the non-overlapping handoff to the integrated supervisor automatically.
 - [x] Implement tracked compact-evidence export with runtime-to-repository hash
   verification at `workflows/abacus_tweb/p3br_export_evidence.py`. Runtime products
   are not marked complete until the visible-phase manifests and QA below pass. The
