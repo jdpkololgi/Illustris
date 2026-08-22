@@ -422,7 +422,7 @@ def build_overlay(root: Path, selection_path: Path, phase: str, decision_path: P
     angular_meta = load_json(angular_meta_path)
     support = np.asarray(angular["support"], dtype=bool)
     response = np.asarray(angular["angular_response"], dtype=np.float32)
-    boundary_angle = angular_boundary_distance(support)
+    domain = np.asarray(angular["domain"], dtype=np.int8)
     selection = load_json(selection_path)
     _SELECTION_CONTEXT = selection
     p3_manifest_path = Path(root) / phase / "p3_fields/field_manifest.json"
@@ -431,6 +431,8 @@ def build_overlay(root: Path, selection_path: Path, phase: str, decision_path: P
     cap_records = {}
     phase_qa = {"schema_version": "p3br-qa-v1", "phase": phase, "caps": {}, "ph001_opened": False}
     for cap_id, cap_name in CAPS:
+        cap_support = support & ((domain // 2) == cap_id)
+        boundary_angle = angular_boundary_distance(cap_support)
         final_dir = output_root / cap_name
         final_dir.mkdir(parents=True, exist_ok=True)
         final_path = final_dir / "response_overlay.h5"
@@ -502,7 +504,7 @@ def build_overlay(root: Path, selection_path: Path, phase: str, decision_path: P
                     (redshift_ext >= z_context[0]) & (redshift_ext < z_context[1])
                     & ~((redshift_ext >= sentinel[0]) & (redshift_ext < sentinel[1]))
                 )
-                binary_ext = radial_ext & support[pix_ext]
+                binary_ext = radial_ext & cap_support[pix_ext]
                 apod_ext = gaussian_filter(
                     binary_ext.astype(np.float32), sigma=sigma_vox, mode="constant",
                     cval=0.0, truncate=truncate,
@@ -553,7 +555,7 @@ def build_overlay(root: Path, selection_path: Path, phase: str, decision_path: P
                     "ntilde_mpc3": ntilde,
                 }
                 all_finite &= all(np.isfinite(value).all() for value in values.values())
-                supported_outside_map += int(np.sum(binary & ~support[pix]))
+                supported_outside_map += int(np.sum(binary & ~cap_support[pix]))
                 max_exposure = max(max_exposure, float(apod.max(initial=0.0)))
                 positive = expected[expected > 0]
                 if len(positive):
