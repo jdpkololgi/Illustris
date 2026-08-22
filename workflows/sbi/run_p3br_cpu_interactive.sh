@@ -30,7 +30,11 @@ while [[ ! -f "${MARKER}" ]]; do
   set -e
   echo "$(date -u +%FT%TZ) allocation_exit attempt=${attempt} code=${code}" >> "${LOG_ROOT}/cpu_supervisor.log"
   [[ -f "${MARKER}" ]] && break
-  if [[ ${attempt} -ge 12 ]]; then
+  # NERSC rejects a third interactive request immediately while the user's
+  # two allowed allocations are live; it does not necessarily hold the salloc
+  # request until one exits.  Keep retrying long enough to bridge an allocation
+  # boundary while retaining a finite supervisor contract.
+  if [[ ${attempt} -ge 96 ]]; then
     echo "$(date -u +%FT%TZ) bounded_retry_exhausted" >> "${LOG_ROOT}/cpu_supervisor.log"
     exit 1
   fi
