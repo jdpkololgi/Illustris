@@ -41,6 +41,37 @@ audit and has been corrected. The Poisson canary is also registered on the mean
 standardized count residual, not on the log-count ratio: even a perfect Poisson draw
 has a negative mean log ratio at low expected occupancy because `log` is concave.
 
+Later implementation update: the tracked P3b-R builder, tests, resumable pipeline and
+capacity-matched R1 loader/trainer are now present at
+`workflows/abacus_tweb/p3br_build_random_response.py`,
+`workflows/abacus_tweb/run_p3br_pipeline.py`,
+`workflows/abacus_tweb/p3br_prepare_r1_contract.py`,
+`workflows/abacus_tweb/p3br_training_contract.py`, and
+`workflows/abacus_tweb/p10_train_random_response.py`. The R1 HDF5 view uses virtual
+datasets for unchanged P3a counts/LOS fields, so the response overlay does not
+duplicate multi-gigabyte immutable fields. Counts keep the exact R0 normalization;
+only the new response-derived log-ratio is refit on the five training phases.
+
+The first real ph000 random canary passed on CPU allocation `57425308`: registered
+random ID 0 contributed `30,923,488` accepted rows, no `GOODHARDLOC` rejection,
+`266,418` supported nside-256 pixels (`13,975.18 deg2`), and output
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3b_random_response_v1/angular/randoms_n1.npz`
+with SHA-256
+`8ac84b021c80ebd2bc342dd01e944375022af8fd05c5ea5d18f2b27413dd5d94`.
+The canary found that SGC x PHOTSYS-N is a genuinely empty domain while NGC spans
+both PHOTSYS regions; empty physical domain intersections are now handled explicitly.
+It also caught and corrected a Healpy longitude/latitude argument error before any
+product was promoted. The ph000/ph006 1/4/18 convergence scans are active and write
+resumable snapshots under each phase's `p3b_random_response_v1/angular/` directory.
+
+The epoch-15 terminal contract is protected by
+`workflows/sbi/watch_p10_multitracer_epoch15.sh` in tmux session
+`p10_epoch15_guard`. The finalizer now writes both the explicit
+`EPOCH15_FROZEN.json` and a legacy-safe `ARM_A_TRAINING_COMPLETE.json` whose status is
+`FROZEN_REGISTERED_EPOCH15`; this prevents any already-launched supervisor from
+silently resuming the bounded FAINT diagnostic into epoch 16. P12 remains independent
+and checkpoint-resumable.
+
 ### 2026-08-22 — [science/code/run] Two P12 cross-fits finish; multitracer signal is shell-dependent and not yet causal
 
 Later 2026-08-22 update: the corrected exporter has now passed on the production-scale
