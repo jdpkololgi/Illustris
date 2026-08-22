@@ -38,6 +38,7 @@ if str(REPO_ROOT) not in sys.path:
 from workflows.abacus_tweb.p3a_build_canonical_fields import (
     GridSpec,
     coordinate_block,
+    git_sha,
     iter_chunks,
     log_count_ratio,
     sha256,
@@ -254,6 +255,7 @@ def build_maps(root: Path, registry_path: Path, phase: str,
                 "source_registry_sha256": sha256(registry_path),
                 "elapsed_seconds": time.time() - started,
                 "blind_truth_opened": False,
+                "creation_commit": git_sha(REPO_ROOT),
             }
             save_map(map_path, result, metadata)
             print(json.dumps({"phase": phase, "snapshot": position, **result["metadata"]}), flush=True)
@@ -327,6 +329,7 @@ def freeze_decision(root: Path, registry_path: Path) -> dict:
         "source_registry": str(registry_path),
         "source_registry_sha256": sha256(registry_path),
         "ph001_opened": False,
+        "creation_commit": git_sha(REPO_ROOT),
         "pass": True,
     }
     path = Path(root) / "training_contract/P3BR_RANDOM_DENSITY_DECISION.json"
@@ -639,11 +642,27 @@ def build_overlay(root: Path, selection_path: Path, phase: str, decision_path: P
         "selection_manifest_sha256": sha256(selection_path),
         "p3a_manifest": str(p3_manifest_path),
         "p3a_manifest_sha256": sha256(p3_manifest_path),
+        "points": p3_manifest["points"],
+        "channel_order": [
+            "counts", "support_random", "angular_response",
+            "exposure_apodized_random", "expected_counts_random",
+            "log_count_ratio_random", "distance_to_support_boundary",
+            "ntilde_mpc3", "los_x", "los_y", "los_z",
+        ],
         "components": {
             cap: {
                 "file": record["file"],
                 "file_sha256": record["file_sha256"],
                 "qa": str(output_root / cap / "qa.json"),
+                "grid": record["grid"],
+                "support_atlas": {
+                    shell: {
+                        "expected_count_sum": values["expected"],
+                        "input_galaxies": values["observed"],
+                        "support_voxels": values["supported"],
+                    }
+                    for shell, values in record["shell_totals"].items()
+                },
                 "channel_units": {
                     "counts": "CIC galaxy count (P3a virtual dataset)",
                     "support_random": "indicator",
@@ -664,6 +683,12 @@ def build_overlay(root: Path, selection_path: Path, phase: str, decision_path: P
         "mock_provenance": "official mock full randoms are Kibo-derived",
         "deployment_contract": "Loa DR2; not claimed pointwise Kibo-Loa matched",
         "ph001_opened": False,
+        "creation_commit": git_sha(REPO_ROOT),
+        "gates": {
+            "unit_audit_pass": bool(p3_manifest["gates"]["unit_audit_pass"]),
+            "p3a_grid_parent_index_parity": True,
+            "component_gates_pass": phase_qa["pass"],
+        },
         "pass": phase_qa["pass"],
     }
     atomic_json(output_root / "manifest.json", manifest)
