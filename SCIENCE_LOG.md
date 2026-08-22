@@ -34,6 +34,13 @@ FAINT run is authorized before P3b-R, the matched R0/R1/classical comparison and
 baseline P12 calibration path. Artifact paths and hashes will be appended when each
 P3b-R gate closes.
 
+Implementation note: the overlay inherits the audited P3a cell size exactly: **5
+comoving Mpc**, or `3.383 Mpc/h` for the registered Planck18 cosmology. The earlier
+shorthand `5 Mpc/h` in the P3b-R checklist was inconsistent with the completed P3 unit
+audit and has been corrected. The Poisson canary is also registered on the mean
+standardized count residual, not on the log-count ratio: even a perfect Poisson draw
+has a negative mean log ratio at low expected occupancy because `log` is concave.
+
 ### 2026-08-22 — [science/code/run] Two P12 cross-fits finish; multitracer signal is shell-dependent and not yet causal
 
 Later 2026-08-22 update: the corrected exporter has now passed on the production-scale

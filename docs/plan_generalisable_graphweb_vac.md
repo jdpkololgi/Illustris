@@ -726,8 +726,10 @@ Immutable output contract:
         qa.json
 ~~~
 
-- [ ] Match P3a exactly: HEALPix `nside=256` RING, `5 Mpc/h` cells, cap origins,
-  shapes and chunks. Store overlays rather than duplicate counts or LOS fields.
+- [ ] Match P3a exactly: HEALPix `nside=256` RING, **5 comoving Mpc** cells
+  (`3.383 Mpc/h` at the registered Planck18 `h=0.6766`), cap origins, shapes and
+  chunks. Store overlays rather than duplicate counts or LOS fields. Do not silently
+  reinterpret the established P3a lattice as a literal `5 Mpc/h` grid.
 - [ ] Export `support_random`, `angular_response`, `exposure_apodized_random`,
   `expected_counts_random`, `log_count_ratio_random`,
   `distance_to_support_boundary` and audit-only raw random counts.
@@ -742,9 +744,11 @@ Validation and promotion gates:
 - [ ] Require exact P3a grid/parent parity, finite arrays, non-negative expected
   counts, no support outside the random mask, retained internal holes and identical
   ph000--ph006 schemas.
-- [ ] Require a deterministic Poisson random-only canary to have mean stabilized
-  contrast consistent with zero, and verify cap/shell expected-count closure under the
-  frozen ensemble tolerance.
+- [ ] Require a deterministic Poisson random-only canary to have mean standardized
+  **count residual** `(G-mu)/sqrt(mu)` consistent with zero, and verify cap/shell
+  expected-count closure under the frozen ensemble tolerance. Record, but do not gate
+  on, the mean log-count ratio: its expectation is negative at low `mu` by Jensen's
+  inequality and is not mathematically expected to be exactly zero.
 - [ ] Build a co-chunked three-channel adapter
   `[BRIGHT counts, random exposure, random log-count-ratio]`; do not change network
   width, target rows, architecture, loss, patch geometry or optimizer-update budget.
@@ -778,8 +782,9 @@ P3b gates:
 
 - every stage/view has a matching response product or a documented factorization from
   common base randoms and stage-specific probabilities;
-- random-only stabilized contrast is consistent with zero after the frozen
-  normalization;
+- random-only standardized count residual is consistent with zero; the known
+  low-count Jensen bias of the log-count ratio is recorded rather than mislabeled as
+  response error;
 - results are stable across random seeds/densities, with random Monte Carlo noise
   subdominant to galaxy sampling noise;
 - response fields use no targets, phase/split ownership, true matter, or local
