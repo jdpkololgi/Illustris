@@ -236,10 +236,29 @@ def build_maps(root: Path, registry_path: Path, phase: str,
     existing = angular_dir / f"randoms_n{maximum}.npz"
     if existing.is_file() and existing.with_suffix(".json").is_file():
         return load_json(existing.with_suffix(".json"))
-    counts = np.zeros((4, hp.nside2npix(NSIDE)), dtype=np.int64)
-    audits = []
+    resume_count = max(
+        (
+            count for count in snapshots
+            if count < maximum
+            and (angular_dir / f"randoms_n{count}.npz").is_file()
+            and (angular_dir / f"randoms_n{count}.json").is_file()
+        ),
+        default=0,
+    )
+    if resume_count:
+        resume_path = angular_dir / f"randoms_n{resume_count}.npz"
+        resume_meta = load_json(resume_path.with_suffix(".json"))
+        if resume_meta["random_ids"] != list(range(resume_count)):
+            raise RuntimeError(f"non-canonical random-map resume identity: {resume_path}")
+        if resume_meta["source_registry_sha256"] != sha256(registry_path):
+            raise RuntimeError(f"random-map resume registry mismatch: {resume_path}")
+        counts = np.asarray(load_map(resume_path)["raw_counts_by_domain"], dtype=np.int64)
+        audits = list(resume_meta["sources"])
+    else:
+        counts = np.zeros((4, hp.nside2npix(NSIDE)), dtype=np.int64)
+        audits = []
     started = time.time()
-    for position, record in enumerate(sources, start=1):
+    for position, record in enumerate(sources[resume_count:], start=resume_count + 1):
         audits.append(add_random_file(counts, record))
         if position in snapshots:
             result = normalized_map(counts.copy())

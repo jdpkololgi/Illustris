@@ -59,10 +59,11 @@ def main() -> None:
     decision_path = args.root / "training_contract/P3BR_RANDOM_DENSITY_DECISION.json"
     decision = json.loads(decision_path.read_text())
     n_random = int(decision["selected_realisation_count"])
+    selected_snapshots = "1,4,18" if n_random == 18 else "1,4"
     parallel([
         ([
             args.python, str(builder), "maps", "--root", str(args.root),
-            "--phase", phase, "--snapshots", str(n_random),
+            "--phase", phase, "--snapshots", selected_snapshots,
         ], logs / f"{phase}_selected_maps.log")
         for phase in PHASES if phase not in CANARY
     ], args.map_workers)
