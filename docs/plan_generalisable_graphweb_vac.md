@@ -579,8 +579,9 @@ Field gates:
 
 #### P3b — Random-reference and deployable-response upgrade
 
-**Status:** SOURCE CONTRACT FROZEN FOR ARM A; full response-field exports remain gated on the frozen P10
-view ladder and do not modify the frozen P3a/P8 controls
+**Status:** P3B-R IS THE ACTIVE PRODUCTION-RESPONSE GATE; SOURCE CONTRACT FROZEN;
+RANDOM-RESPONSE EXPORTS AND R1 TRAINING PENDING; P3A IS THE OCCUPANCY-DERIVED R0
+BASELINE, NOT THE FINAL OBSERVATION OPERATOR
 
 A random catalogue is a high-density, unclustered Monte Carlo sampling of the survey
 selection measure. It is not a set of negative galaxies, an estimate of the missing
@@ -685,6 +686,78 @@ Source and implementation checklist:
   `docs/evidence/p10/response_sources_ready_marker_20260814.json`. This is a source
   gate only: `response_fields_complete=false`, so Arms B/C remain gated.
 - [ ] Build a small random-only and boundary-crossing canary before full P3b export.
+
+##### P3b-R — Random-derived response products
+
+**Priority:** immediate, before any new FAINT or JEPA run. Randoms are the canonical
+unclustered response reference for BRIGHT-only production inference. BGS_FAINT remains
+an optional tracer-information experiment rather than a response proxy or production
+dependency.
+
+Phase ownership and source contract:
+
+- [ ] Build training products for ph000/ph002/ph003/ph004/ph005 and a validation
+  product for ph006. Do not open ph001 until the deterministic response, P12 and
+  evaluation decisions are frozen.
+- [ ] Use only the registered
+  `BGS_BRIGHT_{0..17}_full_HPmapcut.ran.fits` angular randoms. Preserve the explicit
+  Kibo-derived mock versus Loa deployment provenance; do not describe it as pointwise
+  matched.
+- [ ] Keep the frozen BRIGHT `ntilde(z)` contract. Do not infer radial selection from
+  clustering-random `Z` or `TARGETID_DATA`.
+
+Random-density convergence:
+
+- [ ] On ph000 and ph006 compare random IDs `{0}`, `{0,1,2,3}`, and `{0..17}`.
+- [ ] Adopt fixed IDs `0..3` for every phase only when 4-versus-18 has support Jaccard
+  at least `0.999`, median absolute fractional response difference at most `0.01`,
+  99th-percentile difference at most `0.05`, and cap/shell expected-count differences
+  at most `0.01`. Otherwise use all 18 everywhere.
+- [ ] Record selected IDs, source hashes and the convergence decision atomically.
+
+Immutable output contract:
+
+~~~text
+/pscratch/sd/d/dkololgi/abacus/p10_multiphase/phXXX/
+    p3b_random_response_v1/
+        NGC/response_overlay.h5
+        SGC/response_overlay.h5
+        manifest.json
+        qa.json
+~~~
+
+- [ ] Match P3a exactly: HEALPix `nside=256` RING, `5 Mpc/h` cells, cap origins,
+  shapes and chunks. Store overlays rather than duplicate counts or LOS fields.
+- [ ] Export `support_random`, `angular_response`, `exposure_apodized_random`,
+  `expected_counts_random`, `log_count_ratio_random`,
+  `distance_to_support_boundary` and audit-only raw random counts.
+- [ ] Define `angular_response` with mean one in each registered cap/PHOTSYS domain;
+  define expected counts as
+  `ntilde_BRIGHT(z) * V_voxel * angular_response * exposure_apodized_random`.
+- [ ] Freeze grid, channel units, normalization, selected random IDs, source hashes,
+  `ntilde` hash, code commit and `sealed_phase_opened=false` in every manifest.
+
+Validation and promotion gates:
+
+- [ ] Require exact P3a grid/parent parity, finite arrays, non-negative expected
+  counts, no support outside the random mask, retained internal holes and identical
+  ph000--ph006 schemas.
+- [ ] Require a deterministic Poisson random-only canary to have mean stabilized
+  contrast consistent with zero, and verify cap/shell expected-count closure under the
+  frozen ensemble tolerance.
+- [ ] Build a co-chunked three-channel adapter
+  `[BRIGHT counts, random exposure, random log-count-ratio]`; do not change network
+  width, target rows, architecture, loss, patch geometry or optimizer-update budget.
+- [ ] Run a 1,000-patch throughput canary before full training. Use four-GPU DDP only
+  after a measured speedup of at least `2.5x`; otherwise keep independent one-GPU
+  scientific tasks.
+- [ ] Compare R1 with frozen R0 plus matched CIC/DTFE on ph006. Report pooled,
+  four-shell macro, first-three macro, every shell, slopes, variance ratios, Spearman,
+  response quantiles and boundary distance.
+- [ ] Promote immediately for macro gain at least `+0.03` with no supported-shell loss
+  worse than `0.01`; for gain `+0.01--+0.03`, require a second positive seed and mean
+  gain at least `+0.02`; below `+0.01`, retain random response for posterior/deployment
+  safety without claiming deterministic accuracy gain.
 
 Minimum architecture contract:
 
@@ -2908,7 +2981,8 @@ Progress checklist:
       every radius and permutes directions within cap and `Delta-z=0.01`, and the
       shared FAINT selection/normalization is fitted on the five training phases only.
       Evidence: `docs/evidence/p10/p10_multitracer_views_ready_20260820.json`.
-    - [ ] Train Proxy and Null from scratch on ph000+ph002--ph005, select on ph006,
+    - [ ] Freeze Proxy and Null after complete epoch 15 on ph000+ph002--ph005, select
+      on ph006,
       and report Proxy-minus-Null with spatial-block uncertainty. Do not promote from
       Proxy-minus-Bright alone. The four-GPU interactive chain launched as job
       `57292623`; at the 2026-08-21 audit it was healthy on attempt 7/24, job
@@ -2925,9 +2999,14 @@ Progress checklist:
         contrast reverses at epoch 11. Proxy retains a fourth-shell advantage of
         `+0.06555/+0.05188` at epochs 10/11. This motivates completion and paired
         spatial uncertainty; it is not yet a production multitracer decision.
-      - [ ] Complete both 20-epoch cosine schedules, freeze each best checkpoint and
+      - [ ] Complete both through epoch 15, freeze each best checkpoint and
         compute paired spatial-block confidence intervals for Proxy-minus-Null overall,
         in the first three shells, and in every individual shell.
+      - [x] Reframe the pair as a bounded information-content diagnostic. At matched
+        epoch 13 Proxy-minus-Null is `+0.02463` macro, `+0.01150` first-three, and
+        `+0.00050/+0.00986/+0.02415/+0.06400` by shell. This is preliminary spatial
+        information evidence, not a clean response estimate; no further FAINT run is
+        authorized before P3b-R/R1 and baseline P12.
 - [x] Build the truth-free ph001 graph/field products under the sealed blind-input
   contract.
 - [ ] Save ph001 predictions before opening truth.
@@ -3068,20 +3147,21 @@ Minimal decision order:
    contract;
 2. [complete 2026-08-14] register and audit the existing ph000--ph006 plus Loa
    random/response sources and write `P10_RESPONSE_SOURCES_READY.json`;
-3. [complete 2026-08-20] run freshly
-   initialized Arm A using the frozen final-view R0 contract; in
-   parallel, freeze the three-view forward-observation ladder, build the P3b `R1`
-   random-only/boundary canary and response exports, and write
-   `P10_VIEW_LADDER_READY.json` before Arms B/C;
-4. select the deterministic representation on ph006 and begin the P12 baseline
-   immediately from the frozen selection artifacts;
-5. run P10 Arms B/C and ordered `R1--R3` ablations across independent phases;
-6. in parallel with P12, open one bounded paired-view P11 JEPA comparison once the
+3. [complete 2026-08-20] run freshly initialized Arm A using the frozen final-view R0
+   contract and select U-PATCH on ph006;
+4. [active 2026-08-22] freeze the FAINT Proxy/Null diagnostic at epoch 15, build and
+   validate P3b-R, then run the capacity-matched BRIGHT-only R1 and matched classical
+   response rows; do not wait for FAINT or JEPA before continuing P12;
+5. continue the P12 baseline from frozen R0 artifacts in parallel; if R1 is promoted,
+   regenerate response-conditioned cross-fits under a separately frozen contract;
+6. freeze the three-view forward-observation ladder and run ordered `R2--R3` only after
+   R1; write `P10_VIEW_LADDER_READY.json` before Arms B/C;
+7. in parallel with P12, open one bounded paired-view P11 JEPA comparison once the
    view ladder and a transferring dense teacher are frozen; do not require Arm C to
    first label the problem ``representation-limited'';
-7. test curriculum or paired consistency only for a remaining observation-transfer
+8. test curriculum or paired consistency only for a remaining observation-transfer
    failure;
-8. open the bounded NEXUS+ auxiliary branch only for a diagnosed multiscale-morphology
+9. open the bounded NEXUS+ auxiliary branch only for a diagnosed multiscale-morphology
    residual.
 
 Four-GPU execution policy for these gates:
@@ -3103,7 +3183,8 @@ Four-GPU execution policy for these gates:
 
 ### P11 — Representation pretraining
 
-**Status:** BOUNDED AND NON-BLOCKING; OPEN AFTER THE PAIRED VIEW LADDER IS FROZEN
+**Status:** BOUNDED AND NON-BLOCKING; RANDOM-RESPONSE VIEWS ARE MANDATORY; OPEN ONLY
+AFTER P3B-R/R1 AND THE PAIRED VIEW LADDER ARE FROZEN
 **Duration:** 2–5 GPU days for bounded controls
 
 JEPA is not GraphNet-only. Apply it to whichever graph, grid, or F-tier encoders remain
@@ -3127,7 +3208,9 @@ Use matched controls:
 
 1. random initialization;
 2. masked reconstruction/denoising;
-3. JEPA latent prediction.
+3. JEPA latent prediction;
+4. response-only prediction;
+5. dense-teacher/final-view-student alignment.
 
 For Graph-JEPA, prevent globally computed graph metrics leaking hidden targets: remove
 target nodes/edges and exclude a feature-support guard. Target location may enter the
@@ -3135,6 +3218,15 @@ JEPA predictor but not production GraphNet node features.
 
 For grid JEPA, mask 3-D blocks built from counts, expected counts, mask/exposure, and
 luminosity channels. Reuse the U-Net encoder before considering a new transformer.
+
+Every P11 view carries its own deployable response tuple
+`{N_s, M_s, C_s, mu_s, distance_to_boundary}`. Reuse the same base angular-random IDs
+for `V_dense/V_assign/V_final`, then apply the audited stage response factors so paired
+differences are not random-catalogue Monte Carlo noise. Mask JEPA targets only inside
+common `M=1` support; never reconstruct `M=0` as a void. Condition the student and
+predictor on response, but include a response-only control and stratify alignment by
+response strength so trivial footprint reconstruction cannot masquerade as a cosmic
+representation gain.
 
 The preferred first variant uses paired observed views of the same latent field with
 varied magnitude selection, fibre assignment, completeness, and redshift errors.

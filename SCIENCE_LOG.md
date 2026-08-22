@@ -1,5 +1,39 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-22 — [science] Random catalogues become the production response reference; FAINT freezes at epoch 15
+
+The production spine is narrowed to
+`P3b-R random response -> response-conditioned U-PATCH -> P12 -> P13`. The
+BGS_FAINT Proxy/Null pair will complete epoch 15 and then freeze as a bounded
+information-content diagnostic; it is no longer allowed to delay the BRIGHT-only
+response or posterior path. P11 JEPA remains optional and non-blocking.
+
+The current matched epoch-13 rows are Proxy macro `0.68854`, first-three `0.71973`,
+shells `0.74849/0.73056/0.68013/0.59498`, and Null macro `0.66392`, first-three
+`0.70823`, shells `0.74800/0.72070/0.65598/0.53098`. Proxy-minus-Null is therefore
+`+0.02463` macro and `+0.01150` over the first three shells, with per-shell differences
+`+0.00050/+0.00986/+0.02415/+0.06400`. This is preliminary evidence that real FAINT
+positions carry recoverable spatial information, strongest in the sparse shell. It is
+not a clean estimate of the observation-response contribution: both six-channel models
+also change input width, shot noise, sampling regularisation and selection information
+relative to the three-channel BRIGHT baseline.
+
+The principled response-only comparison is now BRIGHT plus random-derived response,
+not scrambled FAINT. Full random catalogues define the unclustered angular support and
+targetability measure `M`/`p_angular`; they do not by themselves encode the complete
+density-dependent fibre-assignment or redshift-success factors `C_fibre` and `C_z`.
+Clustering-random `Z` remains forbidden as a replacement for the separately frozen
+smooth `ntilde(z)` because it is data-linked through `TARGETID_DATA`. The first `R1`
+arm will preserve the exact three-channel U-PATCH width and replace only the
+occupancy-derived exposure/reference with random-derived support and expected counts.
+
+Implementation is staged in `P3b-R` of the generalisable-VAC plan. Products will be
+built for ph000 and ph002--ph006; ph001 remains sealed. The existing four-GPU
+interactive chain continues P12 cross-fits while Proxy/Null finish epoch 15. No new
+FAINT run is authorized before P3b-R, the matched R0/R1/classical comparison and the
+baseline P12 calibration path. Artifact paths and hashes will be appended when each
+P3b-R gate closes.
+
 ### 2026-08-22 — [science/code/run] Two P12 cross-fits finish; multitracer signal is shell-dependent and not yet causal
 
 Later 2026-08-22 update: the corrected exporter has now passed on the production-scale
