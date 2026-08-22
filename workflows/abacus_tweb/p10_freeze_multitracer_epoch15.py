@@ -124,7 +124,11 @@ def main() -> None:
             "p12_and_multitracer_training"
         ),
     )
+    parser.add_argument("--view", choices=tuple(RUN_NAMES))
     args = parser.parse_args()
+    if args.view is not None:
+        print(json.dumps(freeze_run(args.run_root, args.view), indent=2, sort_keys=True))
+        return
     runs = {view: freeze_run(args.run_root, view) for view in RUN_NAMES}
     aggregate = {
         "schema_version": "p10-bf-epoch15-pair-freeze-v1",

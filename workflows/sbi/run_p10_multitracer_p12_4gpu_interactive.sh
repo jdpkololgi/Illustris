@@ -9,6 +9,7 @@ PY=/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python
 ROOT=/pscratch/sd/d/dkololgi/abacus/p10_multiphase
 TRAIN=${REPO}/workflows/abacus_tweb/p10_train_arm_a.py
 EXPORT=${REPO}/workflows/sbi/p12_export_unet_summaries.py
+FREEZE_MT=${REPO}/workflows/abacus_tweb/p10_freeze_multitracer_epoch15.py
 MT_ROOT=${ROOT}/multitracer/v1
 XFIT_ROOT=${ROOT}/p12_crossfit_contracts
 RUN_ROOT=${ROOT}/p12_and_multitracer_training
@@ -35,7 +36,28 @@ train_mt() {
     --disable-early-stopping --lr 0.002 --loss-log-every 25 \
     --checkpoint-every 250 --max-runtime-seconds 12600 \
     --validation-reserve-seconds 1200 --run-name "${name}" \
-    --output-root "${RUN_ROOT}" --auto-resume
+    --output-root "${RUN_ROOT}" --auto-resume &
+  local trainer_pid=$!
+  local history="${RUN_ROOT}/${name}/unet_multitracer/seed_42/epoch_history.jsonl"
+  while kill -0 "${trainer_pid}" 2>/dev/null; do
+    if [[ -f "${history}" ]] && grep -q '"epoch": 15' "${history}"; then
+      # The row precedes atomic best/cursor checkpoint writes by only seconds.
+      # Stop after those writes and before an epoch-16 validation can be emitted.
+      sleep 30
+      kill -TERM "${trainer_pid}" 2>/dev/null || true
+      wait "${trainer_pid}" 2>/dev/null || true
+      "${PY}" "${FREEZE_MT}" --run-root "${RUN_ROOT}" --view "${view}"
+      return $?
+    fi
+    sleep 15
+  done
+  local code=0
+  wait "${trainer_pid}" || code=$?
+  if [[ -f "${history}" ]] && grep -q '"epoch": 15' "${history}"; then
+    "${PY}" "${FREEZE_MT}" --run-root "${RUN_ROOT}" --view "${view}"
+    return $?
+  fi
+  return "${code}"
 }
 
 train_xfit() {
@@ -80,7 +102,7 @@ worker0() { train_mt proxy && train_xfit ph003; }
 worker1() { train_mt null && train_xfit ph004; }
 worker2() { train_xfit ph000 && train_xfit ph005; }
 worker3() { train_xfit ph002 && export_ph006; }
-export REPO PY ROOT TRAIN EXPORT MT_ROOT XFIT_ROOT RUN_ROOT SUMMARY_ROOT LOG_ROOT
+export REPO PY ROOT TRAIN EXPORT FREEZE_MT MT_ROOT XFIT_ROOT RUN_ROOT SUMMARY_ROOT LOG_ROOT
 export -f train_mt train_xfit export_ph006 worker0 worker1 worker2 worker3
 
 all_terminal() {
