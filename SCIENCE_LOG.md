@@ -111,7 +111,8 @@ response-aware classical comparison; P12 continues independently.
 The exact throughput gate passed on the otherwise idle fourth A100 in allocation
 `57424410`: 1,000 canonical patch updates completed in `109.005 s`
 (`9.174 patches/s`) with finite loss logging and a resumable checkpoint. The report is
-`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/response_training/p3br_r1_canary_1000_v1/R1_THROUGHPUT_CANARY.json`;
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/response_training/p3br_r1_canary_1000_v1/unet/seed_42/THROUGHPUT_CANARY_REPORT.json`
+(SHA-256 `2ccaf66107d71cc1cff4ab44e45516345dda59b62b8c416a54999abe512a949e`);
 checkpoint SHA-256 is
 `b062db85bbb50eee3faf09237c51c8dcf1ae1e414897663647281a5bc0e1bd11`, loss-trace
 SHA-256 is `9bc8138998c30acc6e636af5a6293993f0cc185c4c8a323a9f6b561bce8790a2`,

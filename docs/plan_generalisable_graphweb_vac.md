@@ -767,7 +767,8 @@ Validation and promotion gates:
   after a measured speedup of at least `2.5x`; otherwise keep independent one-GPU
   scientific tasks. The one-A100 canary passed at `9.174 patches/s` (`1,000` updates
   in `109.005 s`) with report
-  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/response_training/p3br_r1_canary_1000_v1/R1_THROUGHPUT_CANARY.json`.
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/response_training/p3br_r1_canary_1000_v1/unet/seed_42/THROUGHPUT_CANARY_REPORT.json`
+  (SHA-256 `2ccaf66107d71cc1cff4ab44e45516345dda59b62b8c416a54999abe512a949e`).
   No DDP path is promoted; the four GPUs remain assigned to independent scientific
   tasks.
 - [ ] Compare R1 with frozen R0 plus matched CIC/DTFE on ph006. Report pooled,
