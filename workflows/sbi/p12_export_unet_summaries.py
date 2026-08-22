@@ -59,6 +59,25 @@ def ntilde_at_rows(selection: dict, cap: np.ndarray, redshift: np.ndarray) -> np
     return result
 
 
+def parent_to_assignment_index(assignment, n_parent: int) -> np.ndarray:
+    """Map canonical parent IDs to rows in a P4 assignment archive.
+
+    ``assignment`` is normally an ``NpzFile``.  Its ``len`` is the number of
+    arrays in the archive, not the number of assignment rows, so row indices
+    must be derived from ``parent_node_id`` itself.
+    """
+    parent = np.asarray(assignment["parent_node_id"], dtype=np.int64)
+    if parent.ndim != 1:
+        raise RuntimeError("assignment parent_node_id must be one-dimensional")
+    if np.any(parent < 0) or np.any(parent >= n_parent):
+        raise RuntimeError("assignment parent_node_id lies outside the parent catalogue")
+    if len(np.unique(parent)) != parent.size:
+        raise RuntimeError("assignment parent_node_id must be unique")
+    result = np.full(n_parent, -1, dtype=np.int64)
+    result[parent] = np.arange(parent.size, dtype=np.int64)
+    return result
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--contract-root", type=Path, required=True)
@@ -134,8 +153,7 @@ def main() -> None:
     np.save(truth_path, truth, allow_pickle=False)
     parent_redshift = np.load(phase_root / "parent_redshift.npy", mmap_mode="r")
     redshift = np.asarray(parent_redshift[found_parent], dtype=np.float32)
-    parent_to_assignment = np.full(len(truth_by_parent), -1, dtype=np.int64)
-    parent_to_assignment[np.asarray(assignment["parent_node_id"], dtype=np.int64)] = np.arange(len(assignment))
+    parent_to_assignment = parent_to_assignment_index(assignment, len(truth_by_parent))
     row = parent_to_assignment[found_parent]
     if np.any(row < 0):
         raise RuntimeError("exported parent lacks P4 assignment")

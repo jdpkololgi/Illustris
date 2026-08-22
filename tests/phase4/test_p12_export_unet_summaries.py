@@ -5,6 +5,7 @@ import torch
 
 from workflows.sbi.p12_export_unet_summaries import (
     ntilde_at_rows,
+    parent_to_assignment_index,
     validate_oof_checkpoint,
 )
 
@@ -39,6 +40,24 @@ class P12ExportUnetSummaryTests(unittest.TestCase):
             np.asarray([0.35, 0.35]),
         )
         np.testing.assert_allclose(result, [1.5, 4.0])
+
+    def test_parent_index_uses_assignment_rows_not_archive_fields(self):
+        class AssignmentArchive(dict):
+            def __len__(self):
+                return 15
+
+        assignment = AssignmentArchive(
+            parent_node_id=np.asarray([3, 0, 2], dtype=np.int64)
+        )
+        np.testing.assert_array_equal(
+            parent_to_assignment_index(assignment, 5),
+            np.asarray([1, -1, 2, 0, -1], dtype=np.int64),
+        )
+
+    def test_parent_index_rejects_duplicates(self):
+        assignment = {"parent_node_id": np.asarray([1, 1], dtype=np.int64)}
+        with self.assertRaises(RuntimeError):
+            parent_to_assignment_index(assignment, 3)
 
 
 if __name__ == "__main__":
