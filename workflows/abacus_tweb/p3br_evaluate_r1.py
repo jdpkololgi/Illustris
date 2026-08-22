@@ -129,28 +129,36 @@ def subset_metrics(truth: np.ndarray, prediction: np.ndarray,
     return {"n": n, "metrics": _one_shell_metrics(truth[selected], prediction[selected])}
 
 
-def stratified_metrics(truth: np.ndarray, predictions: dict[str, np.ndarray],
-                       response: dict[str, np.ndarray]) -> dict:
-    expected = np.asarray(response["expected_counts_random"], dtype=np.float64)
-    distance = np.asarray(response["distance_to_support_boundary"], dtype=np.float64)
-    support = np.asarray(response["support_random"], dtype=bool)
-    positive = support & (expected > 0) & np.isfinite(expected)
-    quantiles = np.quantile(expected[positive], [0.0, 0.25, 0.5, 0.75, 1.0])
-    # Make the last bin inclusive while keeping the first three half-open.
-    response_bins = {}
+def quantile_bins(values: np.ndarray, eligible: np.ndarray, truth: np.ndarray,
+                  predictions: dict[str, np.ndarray]) -> dict:
+    edges = np.quantile(values[eligible], [0.0, 0.25, 0.5, 0.75, 1.0])
+    result = {}
     for index in range(4):
-        selected = positive & (expected >= quantiles[index])
-        selected &= (
-            expected <= quantiles[index + 1]
-            if index == 3 else expected < quantiles[index + 1]
-        )
-        response_bins[f"q{index + 1}"] = {
-            "range_expected_counts": [float(quantiles[index]), float(quantiles[index + 1])],
+        selected = eligible & (values >= edges[index])
+        selected &= values <= edges[index + 1] if index == 3 else values < edges[index + 1]
+        result[f"q{index + 1}"] = {
+            "range_expected_counts": [float(edges[index]), float(edges[index + 1])],
             "models": {
                 name: subset_metrics(truth, prediction, selected)
                 for name, prediction in predictions.items()
             },
         }
+    return result
+
+
+def stratified_metrics(truth: np.ndarray, predictions: dict[str, np.ndarray],
+                       response: dict[str, np.ndarray], shell: np.ndarray) -> dict:
+    expected = np.asarray(response["expected_counts_random"], dtype=np.float64)
+    distance = np.asarray(response["distance_to_support_boundary"], dtype=np.float64)
+    support = np.asarray(response["support_random"], dtype=bool)
+    positive = support & (expected > 0) & np.isfinite(expected)
+    response_bins = quantile_bins(expected, positive, truth, predictions)
+    response_bins_by_shell = {
+        name: quantile_bins(
+            expected, positive & (np.asarray(shell) == shell_id), truth, predictions
+        )
+        for shell_id, name in enumerate(SHELL_NAMES)
+    }
     boundary_edges = (0.0, 10.4, 20.8, 40.0, np.inf)
     boundary_bins = {}
     for index, (left, right) in enumerate(zip(boundary_edges[:-1], boundary_edges[1:])):
@@ -166,6 +174,7 @@ def stratified_metrics(truth: np.ndarray, predictions: dict[str, np.ndarray],
         "supported_fraction": float(support.mean()),
         "positive_expected_fraction": float(positive.mean()),
         "response_quantiles": response_bins,
+        "response_quantiles_within_shell": response_bins_by_shell,
         "distance_to_random_support_boundary": boundary_bins,
     }
 
@@ -202,6 +211,7 @@ def main() -> None:
     points = np.load(points_path, mmap_mode="r")
     rows = np.flatnonzero(authoritative_mask(assignment))
     required_parent = np.asarray(assignment["parent_node_id"][rows], dtype=np.int64)
+    shell = np.asarray(assignment["shell"][rows], dtype=np.int8)
     truth = np.asarray(truth_by_parent[required_parent], dtype=np.float64)
 
     artifacts = {
@@ -250,13 +260,15 @@ def main() -> None:
         "created_utc": datetime.now(timezone.utc).isoformat(),
         "estimand": "complete authoritative ph006 ordered tidal eigenvalues",
         "models": reports,
-        "stratified": stratified_metrics(truth, predictions, response),
+        "stratified": stratified_metrics(truth, predictions, response, shell),
         "decision": promotion_decision(reports["R0"], reports["R1"]),
         "provenance": provenance,
         "assignment": str(assignment_path),
         "assignment_sha256": sha256(assignment_path),
         "truth": str(truth_path),
         "truth_sha256": sha256(truth_path),
+        "points": str(points_path),
+        "points_sha256": sha256(points_path),
         "r1_contract": str(args.r1_contract),
         "r1_contract_marker_sha256": sha256(
             args.r1_contract / "TRAINING_LOADER_READY.json"
