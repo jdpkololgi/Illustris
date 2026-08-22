@@ -170,12 +170,19 @@ def normalized_map(domain_counts: np.ndarray) -> dict[str, np.ndarray | dict]:
     domain_metadata: dict[str, dict] = {}
     for domain in range(4):
         selected = support_by_domain[domain]
-        if not selected.any():
-            raise RuntimeError(f"random map has empty domain {domain}")
-        mean = float(np.mean(domain_counts[domain, selected], dtype=np.float64))
-        response_by_domain[domain, selected] = domain_counts[domain, selected] / mean
         cap = domain // 2
         phot = "S" if domain % 2 else "N"
+        if not selected.any():
+            domain_metadata[f"cap{cap}_PHOTSYS{phot}"] = {
+                "supported_pixels": 0,
+                "mean_raw_count": None,
+                "raw_count_sum": 0,
+                "response_mean": None,
+                "status": "empty physical cap/PHOTSYS intersection",
+            }
+            continue
+        mean = float(np.mean(domain_counts[domain, selected], dtype=np.float64))
+        response_by_domain[domain, selected] = domain_counts[domain, selected] / mean
         domain_metadata[f"cap{cap}_PHOTSYS{phot}"] = {
             "supported_pixels": int(selected.sum()),
             "mean_raw_count": mean,

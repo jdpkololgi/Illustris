@@ -25,6 +25,14 @@ class RandomResponseTest(unittest.TestCase):
             selected = (result["domain"] == domain) & result["support"]
             self.assertAlmostEqual(float(result["angular_response"][selected].mean()), 1.0, 6)
 
+    def test_empty_cap_photsys_intersection_is_valid(self):
+        counts = np.zeros((4, 48), dtype=np.int64)
+        counts[1, :5] = 3
+        counts[2, 10:15] = 7
+        result = normalized_map(counts)
+        self.assertEqual(int(result["support"].sum()), 10)
+        self.assertIsNone(result["metadata"]["domains"]["cap0_PHOTSYSN"]["response_mean"])
+
     def test_registered_convergence_gate(self):
         support = np.zeros(64, dtype=np.uint8)
         support[:32] = 1
