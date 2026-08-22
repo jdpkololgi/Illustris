@@ -141,7 +141,9 @@ def add_random_file(counts: np.ndarray, record: dict, *, nside: int = NSIDE,
             continue
         ra = np.asarray(block["RA"][good], dtype=np.float64)
         dec = np.asarray(block["DEC"][good], dtype=np.float64)
-        pix = hp.ang2pix(nside, 90.0 - dec, ra, lonlat=True, nest=False)
+        # With lonlat=True healpy expects (longitude, latitude) in degrees,
+        # rather than the usual (theta, phi) radians convention.
+        pix = hp.ang2pix(nside, ra, dec, lonlat=True, nest=False)
         cap = galactic_cap(ra, dec)
         phot = photsys_code(block["PHOTSYS"][good])
         domain = cap.astype(np.int64) * 2 + phot.astype(np.int64)

@@ -11,6 +11,10 @@ from workflows.abacus_tweb.p3br_build_random_response import (
 
 
 class RandomResponseTest(unittest.TestCase):
+    def test_healpy_lonlat_contract(self):
+        pix = hp.ang2pix(2, np.array([0.0, 180.0]), np.array([0.0, 45.0]), lonlat=True)
+        self.assertEqual(pix.shape, (2,))
+
     def test_domain_normalization_and_support(self):
         counts = np.zeros((4, 48), dtype=np.int64)
         for domain in range(4):
