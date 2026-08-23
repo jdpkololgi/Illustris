@@ -5,6 +5,7 @@
 set -uo pipefail
 
 REPO=/global/homes/d/dkololgi/TNG/Illustris
+SCRIPT=${REPO}/workflows/sbi/run_p3br_classical_4gpu_interactive.sh
 PY=/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python
 ROOT=/pscratch/sd/d/dkololgi/abacus/p10_multiphase
 CLASSICAL=${REPO}/workflows/abacus_tweb/p10_classical_fullcap.py
@@ -27,6 +28,14 @@ run_raw() {
       --dtfe-build-root "${DTFE_BUILD}"
   done
 }
+
+if [[ "${1:-}" == "--worker" ]]; then
+  shift
+  estimator=$1
+  shift
+  run_raw "${estimator}" "$@"
+  exit $?
+fi
 
 export PY CLASSICAL CONTRACT DTFE_BUILD CIC_ROOT DTFE_ROOT
 export -f run_raw
@@ -60,8 +69,8 @@ while ! all_terminal; do
       for estimator in cic dtfe; do
         for worker in 0 1 2 3; do
           srun --exclusive --nodes=1 --ntasks=1 --cpus-per-task=16 --gpus=1 \
-            --cpu-bind=cores --export=ALL bash -lc \
-            "run_raw \${estimator} \${groups[\${worker}]}" \
+            --cpu-bind=cores --export=ALL '${SCRIPT}' --worker \
+            \${estimator} \${groups[\${worker}]} \
             >> '${LOG_ROOT}/'\${estimator}'_worker_'\${worker}'.log' 2>&1 &
           pids[\${worker}]=\$!
         done
