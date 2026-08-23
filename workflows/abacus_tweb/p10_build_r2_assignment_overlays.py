@@ -133,6 +133,8 @@ def build_component(root: Path, angular_root: Path, phase: str, cap: str) -> dic
     angular_report = load_json(angular_report_path)
     if not angular_report.get("pass") or angular_report.get("blind_phase_opened"):
         raise RuntimeError(f"{phase}: angular assignment policy is not freezeable")
+    if angular_report["output"]["sha256"] != sha256(angular_path):
+        raise RuntimeError(f"{phase}: angular assignment artifact changed after freeze")
     with np.load(angular_path) as archive:
         maps = {name: np.asarray(archive[name]) for name in archive.files}
     if maps["support"].size != hp.nside2npix(NSIDE):
@@ -316,6 +318,8 @@ def aggregate(root: Path, phases: tuple[str, ...]) -> dict:
             "components": records[phase],
             "model_channels": list(R2_MODEL_CHANNELS),
             "stored_response_channels": list(R2_STORED_CHANNELS),
+            "builder_source": str(Path(__file__).resolve()),
+            "builder_source_sha256": sha256(Path(__file__).resolve()),
             "creation_commit": git_sha(REPO_ROOT),
             "pass": True,
         }
@@ -330,6 +334,8 @@ def aggregate(root: Path, phases: tuple[str, ...]) -> dict:
         "phases": list(phases),
         "blind_phase_opened": False,
         "model_channels": list(R2_MODEL_CHANNELS),
+        "builder_source": str(Path(__file__).resolve()),
+        "builder_source_sha256": sha256(Path(__file__).resolve()),
         "phase_records": records,
         "loader_ready": False,
         "throughput_canary_pass": False,
