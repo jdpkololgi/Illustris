@@ -160,6 +160,22 @@ parity by `workflows/abacus_tweb/p3br_export_evidence.py` only after all visible
 QA passes. Sixteen focused P3b-R/R1 unit tests pass; runtime product and science gates
 remain open rather than being inferred from code completion.
 
+Second-node capacity was used to pull the matched response-aware classical gate
+forward without changing the frozen R1 update contract. Interactive job `57436149`
+on `nid008444` runs four independent one-A100 phase workers from persistent tmux
+session `p3br_classical_second_node`; the original `p10mtp12` allocation
+`57430396` continues R1, FAINT freeze and P12 work independently. The first
+allocation attempt exposed a nested-shell quoting defect before any science process
+started. Commit `2171876` replaces the fragile function-string invocation with the
+tracked launcher's explicit `--worker` mode. The corrected run has already written
+all six ph000/ph002--ph006 `CIC_RAW_COMPLETE.json` markers with complete
+authoritative coverage and `blind_phase_opened=false`; pooled CIC finalization is
+active and DTFE follows automatically using the six pre-existing
+`DTFE_FIELD_READY` rasters. This acceleration shortens the overall R0/R1/classical
+critical path but does not claim to accelerate the single-GPU R1 epoch itself: a
+four-GPU DDP rewrite remains unadopted until a matched benchmark demonstrates the
+registered `>=2.5x` wall-clock gain.
+
 ### 2026-08-22 — [science/code/run] Two P12 cross-fits finish; multitracer signal is shell-dependent and not yet causal
 
 Later 2026-08-22 update: the corrected exporter has now passed on the production-scale
