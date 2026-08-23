@@ -3256,8 +3256,9 @@ not duplicated.
   throughput canary (`11.236 patches s^-1`). Technical marker:
   `training_contract_r3_random_field/P10_R3_RF_TECHNICAL_READY.json`.
 - [x] Launch R2 and R3-RF concurrently as independent one-GPU tasks on interactive
-  allocation `57475703`. Run roots are `response_training/p10_r2_assignment_v1/` and
-  `response_training/p10_r3_rf_v1/`; both use seed 42, the frozen 84,446-patch epoch,
+  allocation `57475703`. Use all four GPUs without DDP: seed 42 and independent seed 43
+  for each arm. Run roots are `response_training/p10_r2_assignment_v1/` and
+  `response_training/p10_r3_rf_v1/`; all four tasks use the frozen 84,446-patch epoch,
   20-epoch cosine schedule, checkpoint every 250 updates and automatic resume.
 - [ ] Compare R0, R1, R2, R3-RF, FAINT Null and real FAINT at matched optimizer updates
   and frozen ph006 scoring. Report the full epoch histories as well as best checkpoints.

@@ -35,11 +35,14 @@ The 1,000-update one-A100 canary passes at `11.236 patches s^-1`. Key artifacts 
 - canary report: `response_training/p10_r3_rf_canary_1000_v1/unet/seed_42/THROUGHPUT_CANARY_REPORT.json`,
   SHA-256 `4ad020b092007f0323a97fabcad9dbb4f90e195c4bd24ddd16ce298a5b205fa9`.
 
-Full R2 and R3-RF seed-42 runs are now concurrent on interactive allocation `57475703`
-as independent one-GPU tasks. At the first recorded status they had reached respectively
-`5,125` and `600` updates of the frozen `84,446`-patch epoch; both checkpoint every
-250 updates and resume automatically. Run roots are
-`response_training/p10_r2_assignment_v1/` and `response_training/p10_r3_rf_v1/`.
+Full R2 and R3-RF runs are now concurrent on interactive allocation `57475703` as
+independent one-GPU tasks. GPUs 0/1 run seed 42; GPUs 2/3 run independent seed 43
+replicas, preserving single-patch optimizer semantics while using the full node. At the
+first seed-42 status R2/R3-RF had reached `5,125/600` updates; seed-43 replicas were
+then launched and independently reached `575/600` updates. All use the frozen
+`84,446`-patch epoch, checkpoint every 250 updates and resume automatically. Run roots
+are `response_training/p10_r2_assignment_v1/` and
+`response_training/p10_r3_rf_v1/`.
 
 The density-matched stochastic random-count arm is deferred. It becomes the next
 diagnostic only if high-S/N R3-RF fails to approach FAINT Null, in which case it will
