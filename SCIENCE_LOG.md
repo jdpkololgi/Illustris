@@ -1,6 +1,33 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
 
+### 2026-08-23 — [run/diagnosis/fix] Response allocation ownership failure corrected; all four checkpoints resume
+
+Allocation `57475703` did not time out or fail scientifically. Slurm accounting shows
+`COMPLETED 0:0` after only `01:07:00` of its four-hour request because the owning
+non-persistent interactive shell closed. Its four training steps were consequently
+cancelled with signal 15. This is an orchestration defect: the previous detached child
+steps did not outlive their allocation owner. Empty redirected logs are explained by
+buffered Python output at cancellation, not by failure to train.
+
+All checkpoints are intact. The last pre-restart loss rows were R2 seed 42/43 at
+`23,600/16,100` updates and R3-RF seed 42/43 at `20,050/16,825`, all within epoch 1
+of 84,446. No validation epoch or ph006 science result had yet been produced.
+
+Commit `300acba` adds
+`workflows/sbi/run_p10_response_ladder_interactive.sh`: a login-node tmux supervisor
+that owns one four-GPU interactive `salloc` at a time, launches four explicit one-GPU
+`srun` workers, resumes atomically checkpointed runs, and requests the next allocation
+only when terminal markers are absent. It never uses `sbatch` and never exceeds the
+two-allocation policy.
+
+The supervisor is live in tmux session `p10_response_ladder`. Allocation `57489518`
+on `nid008201` is running all four workers. Fresh rows at `23,750/16,250` for R2 and
+`20,250/17,000` for R3-RF prove exact resume rather than restart. ph001 remains sealed.
+Logs are under
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/response_training/logs/p10_response_ladder_supervisor/`.
+
+
 ### 2026-08-23 — [science/decision/code/run] R3-RF is technically ready; R2 and R3-RF launch concurrently
 
 The response programme is reordered after the matched training histories showed that
