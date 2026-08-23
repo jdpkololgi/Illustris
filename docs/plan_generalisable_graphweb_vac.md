@@ -3248,11 +3248,17 @@ not duplicated.
 
 - [x] Define the zero-copy R3-RF adapter and six-channel U-PATCH input contract.
 - [x] Add focused tests for channel order, transforms, finite values and model width.
-- [ ] Freeze ph000/ph002--ph006 product manifests, source hashes, all-18 random IDs,
+- [x] Freeze ph000/ph002--ph006 product manifests, source hashes, all-18 random IDs,
   training-only normalization and aggregate loader contract; keep ph001 sealed.
-- [ ] Pass an all-phase/cap loader smoke and a 1,000-patch one-GPU throughput canary.
-- [ ] Launch R2 and R3-RF concurrently as independent one-GPU tasks on the spare
-  interactive node after their technical canaries pass.
+  Products: `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r3_random_field_v1/`;
+  loader: `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r3_random_field/`.
+- [x] Pass the all-phase/cap six-channel loader smoke and the 1,000-patch one-GPU
+  throughput canary (`11.236 patches s^-1`). Technical marker:
+  `training_contract_r3_random_field/P10_R3_RF_TECHNICAL_READY.json`.
+- [x] Launch R2 and R3-RF concurrently as independent one-GPU tasks on interactive
+  allocation `57475703`. Run roots are `response_training/p10_r2_assignment_v1/` and
+  `response_training/p10_r3_rf_v1/`; both use seed 42, the frozen 84,446-patch epoch,
+  20-epoch cosine schedule, checkpoint every 250 updates and automatic resume.
 - [ ] Compare R0, R1, R2, R3-RF, FAINT Null and real FAINT at matched optimizer updates
   and frozen ph006 scoring. Report the full epoch histories as well as best checkpoints.
 - [ ] Promote R3-RF as the deterministic response representation only if its gain is

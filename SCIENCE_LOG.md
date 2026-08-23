@@ -1,5 +1,51 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+
+### 2026-08-23 — [science/decision/code/run] R3-RF is technically ready; R2 and R3-RF launch concurrently
+
+The response programme is reordered after the matched training histories showed that
+waiting for R1 to converge would not answer the more important representation question.
+The large six-channel BRIGHT+FAINT/FAINT-Null result may reflect a richer spatial
+description of survey response that the three-channel R1 contract compresses away.
+R2 and R3-RF are therefore frozen as a response-detail ladder while R1 continues:
+R1 supplies compressed random support/expected-count correction, R2 adds audited
+assignment-completeness summaries, and priority R3-RF exposes the high-S/N
+voxel-resolved random field directly.
+
+R3-RF uses no FAINT galaxies and no clustering-random redshift. It reuses the all-18
+P3b-R overlays and gives the six-channel U-PATCH two explicit blocks: unchanged BRIGHT
+`[counts, log_count_ratio, exposure_apodized]` and random response
+`[expected_counts_random, angular_response, support_random]`. The expected intensity
+uses training-phase-only `log1p` z-scoring, angular response is centred on one and
+clipped at the frozen limits, and support is binary. This is an empirical observation-
+operator field, not a second tracer and not a substitute for `C_fibre` or `C_z`.
+
+All ph000/ph002--ph006 product and real-loader checks pass. Every sampled cap/phase
+patch has exact six-channel order, finite non-negative intensity, binary support, zero
+response outside support and non-empty authoritative targets. ph001 remains sealed.
+The 1,000-update one-A100 canary passes at `11.236 patches s^-1`. Key artifacts are:
+
+- products: `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r3_random_field_v1/R3_RANDOM_FIELD_PRODUCTS_READY.json`,
+  SHA-256 `de428c979bc9ebcdaa8d5066fbc244085a9435a3c29052fff3d0444d988dc36b`;
+- loader: `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r3_random_field/TRAINING_LOADER_READY.json`,
+  SHA-256 `a3e160a949247582b6ce9dce88e38b099445eb3dee4784cb93762f3b8e24c7c5`;
+- loader smoke: `training_contract_r3_random_field/R3_RF_LOADER_SMOKE.json`,
+  SHA-256 `44c093e6c73db24be2b54b2a6c7d0ae69f8ce9dc0708545ab1e63d95410faf0c`;
+- technical marker: `training_contract_r3_random_field/P10_R3_RF_TECHNICAL_READY.json`;
+- canary report: `response_training/p10_r3_rf_canary_1000_v1/unet/seed_42/THROUGHPUT_CANARY_REPORT.json`,
+  SHA-256 `4ad020b092007f0323a97fabcad9dbb4f90e195c4bd24ddd16ce298a5b205fa9`.
+
+Full R2 and R3-RF seed-42 runs are now concurrent on interactive allocation `57475703`
+as independent one-GPU tasks. At the first recorded status they had reached respectively
+`5,125` and `600` updates of the frozen `84,446`-patch epoch; both checkpoint every
+250 updates and resume automatically. Run roots are
+`response_training/p10_r2_assignment_v1/` and `response_training/p10_r3_rf_v1/`.
+
+The density-matched stochastic random-count arm is deferred. It becomes the next
+diagnostic only if high-S/N R3-RF fails to approach FAINT Null, in which case it will
+test whether the residual gain requires count-like sampling noise. The previous
+boundary-distance arm is renamed R4 and deferred until this ladder is resolved.
+
 ### 2026-08-23 — [science/code/run] R2 response conditioning is technically ready; full science training remains ordered after R1
 
 The spare second allocation was used to close the R2 engineering and response-definition
