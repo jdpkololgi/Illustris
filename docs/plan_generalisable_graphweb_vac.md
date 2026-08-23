@@ -3169,14 +3169,18 @@ power-set search:
 | `R0` | Frozen P3a/P8 channels on `V_final` | Arm-A reference |
 | `R1` | Replace only the occupancy-derived support/expected-count approximation with random-derived `M` and `mu`, preserving the frozen tensor width wherever possible | Isolates the random-reference correction |
 | `R2` | `R1` plus audited continuous `C_fibre` and `C_z` (separate channels when identifiable; product plus flags otherwise) | Isolates explicit completeness conditioning |
-| `R3` | `R2` plus mask-boundary distance; retain the already-established LOS channels | Tests whether the model can identify reduced context near holes/footprint edges |
-| `G-topology` | For G-PATCH finalists only, compare the same `R2/R3` node features with versus without the mandatory `M=0` edge-crossing veto | Isolates structural boundary leakage; the unsafe result is diagnostic and cannot ship |
+| `R3-RF` | Replace the compressed random-response summaries with a high-S/N voxel-resolved random-field triplet, paired with the unchanged BRIGHT triplet in the same six-channel U-PATCH interface used by BRIGHT+FAINT | Tests whether the large BRIGHT+FAINT gain is recoverable from an uncompressed empirical response field rather than an additional tracer |
+| `R4` | `R2` plus mask-boundary distance; retain the already-established LOS channels | Tests whether the model can identify reduced context near holes/footprint edges; deferred until the response-compression question is answered |
+| `G-topology` | For G-PATCH finalists only, compare the same `R2/R4` node features with versus without the mandatory `M=0` edge-crossing veto | Isolates structural boundary leakage; the unsafe result is diagnostic and cannot ship |
 | `G-random-node` | For a still-competitive G-PATCH only, merge a bounded random-node sample in the ASTRA style | Optional alternative representation, not a production prerequisite |
 
-Run `R0 -> R1 -> R2 -> R3` first for the leading U-PATCH family. Repeat only the
+Run the registered response ladder `R0/R1 -> R2 -> R3-RF` for the leading U-PATCH
+family. R2 and R3-RF may run concurrently once their separate technical canaries pass:
+their purpose is a pre-registered representation ladder, not post-hoc selection based
+on the unfinished R1 curve. Repeat only the
 representation-specific minimum for another encoder that remains competitive. Keep
 architecture, target rows, phase/core sampler, optimizer-update budget and seeds fixed.
-Do not run all subsets of all response channels. A promoted `R3` must also pass a
+Do not run all subsets of all response channels. A promoted `R4` must also pass a
 leave-one-block-out diagnostic for `M/mu`, completeness and boundary distance to detect
 shortcut dependence; this diagnostic is not a second architecture search.
 
@@ -3216,8 +3220,50 @@ shortcut dependence; this diagnostic is not a second architecture search.
 - [x] Pass a balanced 1,000-patch one-A100 canary at `6.260 patches s^-1`, versus
   `9.174 patches s^-1` for R1; record the `31.8%` throughput cost in scheduling.
 - [x] Keep ph001 sealed throughout response construction and the technical canary.
-- [ ] Launch full R2 only after the final R0/R1 decision and
-  `P10_VIEW_LADDER_READY.json`; R2 is technically ready, not scientifically authorized.
+- [x] Authorize full R2 on 2026-08-23 without waiting for R1 convergence. The purpose is
+  now explicitly frozen as the middle row of the response-compression ladder. It must
+  retain the same targets, sampler, optimizer-update budget and ph006 evaluator as
+  R1/R3-RF and cannot be reconfigured after seeing either result.
+
+#### R3-RF high-S/N random-field arm (priority 2026-08-23)
+
+R3-RF is the immediate production-priority test. It does **not** add BGS_FAINT and it
+does not use clustering-random `Z`. It reuses the frozen all-18 full-random P3b-R
+response overlays on the exact P3a geometry. This is a high-S/N, voxel-resolved
+empirical response field; it must not be described as a galaxy tracer or as a complete
+fibre/redshift-response model.
+
+The six input channels are arranged as two explicit three-channel blocks:
+
+1. unchanged BRIGHT block: normalized `counts`, BRIGHT `log_count_ratio`, and frozen
+   BRIGHT `exposure_apodized`;
+2. random-response block: normalized `expected_counts_random`, clipped
+   `angular_response`, and binary `support_random`.
+
+This is deliberately capacity-matched to the existing BRIGHT+FAINT U-PATCH input width.
+`expected_counts_random` receives a training-phase-only `log1p` plus z-score transform;
+`angular_response` is centred on unity and clipped only at the frozen contract limits;
+`support_random` is identity transformed. Immutable BRIGHT and P3b-R arrays are linked,
+not duplicated.
+
+- [x] Define the zero-copy R3-RF adapter and six-channel U-PATCH input contract.
+- [x] Add focused tests for channel order, transforms, finite values and model width.
+- [ ] Freeze ph000/ph002--ph006 product manifests, source hashes, all-18 random IDs,
+  training-only normalization and aggregate loader contract; keep ph001 sealed.
+- [ ] Pass an all-phase/cap loader smoke and a 1,000-patch one-GPU throughput canary.
+- [ ] Launch R2 and R3-RF concurrently as independent one-GPU tasks on the spare
+  interactive node after their technical canaries pass.
+- [ ] Compare R0, R1, R2, R3-RF, FAINT Null and real FAINT at matched optimizer updates
+  and frozen ph006 scoring. Report the full epoch histories as well as best checkpoints.
+- [ ] Promote R3-RF as the deterministic response representation only if its gain is
+  reproducible and its response/boundary diagnostics do not reveal a shortcut. A null
+  result retains random response for posterior conditioning and closes the hypothesis
+  that response compression explains the BRIGHT+FAINT gap.
+
+A density-matched stochastic random-count arm is deliberately deferred. It becomes the
+next diagnostic only if the high-S/N R3-RF field fails to approach the FAINT Null result;
+that later arm would test whether FAINT Null gains arise from count-like sampling noise
+rather than from the underlying response field.
 
 Select on the final production-like ph006 view, while reporting every stage, worst
 stage/effect, bins of mask distance/completeness, and at least one held-out degradation
@@ -3238,15 +3284,18 @@ Minimal decision order:
    random/response sources and write `P10_RESPONSE_SOURCES_READY.json`;
 3. [complete 2026-08-20] run freshly initialized Arm A using the frozen final-view R0
    contract and select U-PATCH on ph006;
-4. [active 2026-08-22] freeze the FAINT Proxy/Null diagnostic at epoch 15, build and
-   validate P3b-R, then run the capacity-matched BRIGHT-only R1 and matched classical
-   response rows; do not wait for FAINT or JEPA before continuing P12;
+4. [active 2026-08-23] freeze the FAINT Proxy/Null diagnostic at epoch 15 and retain it
+   only as the matched six-channel comparator. Run the response-representation ladder:
+   R1 compressed random reference, R2 audited completeness summaries, and priority
+   R3-RF high-S/N voxel-resolved random response; do not wait for FAINT or JEPA before
+   continuing P12;
 5. continue the P12 baseline from frozen R0 artifacts in parallel; if R1 is promoted,
    regenerate response-conditioned cross-fits under a separately frozen contract;
-6. [technical preflight complete 2026-08-23] the R2 missing-response policy, all-phase
-   overlays, loader smoke and 1,000-patch GPU canary pass without opening ph001. Freeze
-   the final R0/R1 result and write `P10_VIEW_LADDER_READY.json` before full R2; proceed
-   to R3 only if the ordered response ladder justifies it;
+6. [full R2 authorized 2026-08-23] the R2 missing-response policy, all-phase overlays,
+   loader smoke and 1,000-patch GPU canary pass without opening ph001. Run it concurrently
+   with R3-RF under frozen contracts; the matched sequence, rather than waiting for R1
+   convergence, provides the test of increasing response detail. Defer boundary-distance
+   R4 until this response-compression ladder is resolved;
 7. in parallel with P12, open one bounded paired-view P11 JEPA comparison once the
    view ladder and a transferring dense teacher are frozen; do not require Arm C to
    first label the problem ``representation-limited'';
