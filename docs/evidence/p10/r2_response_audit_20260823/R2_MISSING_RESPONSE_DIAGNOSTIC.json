@@ -1,0 +1,63 @@
+{
+  "blind_phase_opened": false,
+  "created_utc": "2026-08-23T14:31:02.219019+00:00",
+  "cross_phase": {
+    "ph000_only": 311,
+    "ph006_only": 294,
+    "uncovered_intersection": 3731,
+    "uncovered_jaccard": 0.8604704797047971,
+    "uncovered_union": 4336
+  },
+  "decision_diagnostics": {
+    "boundary_localized_if_both_within_8_ge_0p99": true,
+    "fixed_geometry_if_jaccard_ge_0p99": false,
+    "neutral_fill_not_automatically_authorized": true
+  },
+  "maximum_boundary_rings": 32,
+  "nside": 256,
+  "ordering": "RING",
+  "phases": {
+    "ph000": {
+      "boundary_ring_counts": {
+        "beyond_32": 0,
+        "ring_0": 2203,
+        "ring_1": 915,
+        "rings_17_32": 0,
+        "rings_2_4": 854,
+        "rings_5_8": 68,
+        "rings_9_16": 2
+      },
+      "fraction_beyond_32_rings": 0.0,
+      "fraction_within_4_rings": 0.9826818406729342,
+      "fraction_within_8_rings": 0.9995051954477981,
+      "uncovered_pixels": 4042
+    },
+    "ph006": {
+      "boundary_ring_counts": {
+        "beyond_32": 0,
+        "ring_0": 2200,
+        "ring_1": 908,
+        "rings_17_32": 0,
+        "rings_2_4": 847,
+        "rings_5_8": 65,
+        "rings_9_16": 5
+      },
+      "fraction_beyond_32_rings": 0.0,
+      "fraction_within_4_rings": 0.9826086956521739,
+      "fraction_within_8_rings": 0.9987577639751553,
+      "uncovered_pixels": 4025
+    }
+  },
+  "schema_version": "p10-r2-missing-response-diagnostic-v1",
+  "sources": {
+    "ph000": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_assignment_canary_v1/ph000/assignment_angular_canary.npz",
+      "sha256": "8a3bf2cb3a3494e41fb6a3da371bd5733128eb34cefe3f7a45b529f67b77fc4e"
+    },
+    "ph006": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_assignment_canary_v1/ph006/assignment_angular_canary.npz",
+      "sha256": "cdcb07d9276722fff5070235c69ea120b666282c8c51c74e21e1477319ce5d71"
+    }
+  },
+  "support_pixels": 266706
+}

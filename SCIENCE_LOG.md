@@ -1,5 +1,56 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-23 — [science/code/run] R2 response conditioning is technically ready; full science training remains ordered after R1
+
+The spare second allocation was used to close the R2 engineering and response-definition
+gates without disturbing the active R1/P12 node. CPU allocation `57473387` built and
+validated the response products; GPU allocation `57473825` ran the bounded throughput
+canary. Both were released after completion. No full R2 science run was launched,
+because doing so before the final R0/R1 decision and paired-view freeze would weaken the
+registered `R0 -> R1 -> R2` attribution. ph001 remained sealed.
+
+The missing target-derived assignment values are not a fixed angular hole pattern.
+Across ph000/ph002--ph006, raw assignment response covers
+`0.98477--0.98491` of random-supported pixels. In ph000/ph006,
+`0.9826--0.9827` of missing pixels lie within four nside-256 neighbour rings of the
+support boundary and `0.9988--0.9995` within eight, while the missing-pixel Jaccard
+between phases is only `0.86047`. The frozen conservative policy is therefore:
+inside random support, an undefined response receives the physically neutral
+no-competition value one plus `C_fibre_defined=0`; outside support it is zero. No
+neighbour smoothing or galaxy-density imputation is allowed.
+
+All 12 phase/cap overlays now pass finite-value, range, cap-ownership, neutral-defined
+and zero-copy R1-view checks. The R2 model input is exactly six channels: the three R1
+channels plus `FRACZ_TILELOCID`, `FRAC_TLOBS_TILES` and
+`C_fibre_defined`. Constant mock `C_z=1` remains stored with
+`C_z_informative=false` but is intentionally omitted from the model input. The
+all-phase loader smoke passes.
+
+The one-A100 canary completed exactly 1,000 finite, phase-balanced updates in
+`159.75 s`, or `6.260 patches s^-1`. The matched R1 canary achieved
+`9.174 patches s^-1`, so the six-channel R2 input is `31.8%` slower. At the
+registered 84,446-patch epoch this implies about 3.75 hours of update time before
+validation and checkpoint overhead. This cost is acceptable but must be scheduled
+explicitly.
+
+Live aggregate markers are:
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_assignment_response_v1/R2_ASSIGNMENT_OVERLAYS_READY.json`
+(SHA-256 `6301e764f5d240fb0f5e2735115b6e3316bbf48850a89fae08d19b003631cfe6`),
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r2_assignment/R2_LOADER_SMOKE.json`
+(SHA-256 `bdfb1f06006c1d5067213cd0df8752a93e74678f2c1a9800bacb16721fbfc75b`), and
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r2_assignment/P10_R2_TECHNICAL_READY.json`.
+The canary report is
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/response_training/p10_r2_canary_1000_v1/unet/seed_42/THROUGHPUT_CANARY_REPORT.json`
+(SHA-256 `ddaf361bec054639bb92931e1e340c34af91f247934435754936c4bd0e2b978c`).
+Compact evidence is tracked under
+`docs/evidence/p10/r2_response_audit_20260823/`.
+
+The resulting state is deliberately asymmetric: `technical_ready=true` and
+`science_run_authorized=false`. Once R1 is frozen and
+`P10_VIEW_LADDER_READY.json` exists, the full R2 run can start without further data,
+loader or throughput work.
+
+
 ### 2026-08-23 — [science/code/run] R2 source semantics pass, but the spatial assignment map is not yet freezeable
 
 The spare interactive capacity was used for the R2 prerequisite rather than launching

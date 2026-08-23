@@ -1,0 +1,35 @@
+{
+  "artifacts": {
+    "assignment_policy": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_assignment_response_v1/R2_ASSIGNMENT_POLICY_READY.json",
+      "sha256": "539c784c6c97493b18233eb5059caf35dc0e733b6cd3ad03467bb10d622055d9"
+    },
+    "loader": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r2_assignment/TRAINING_LOADER_READY.json",
+      "sha256": "bad48e6cfe9c765f013a015caee031458586799c12d3cccdd9ddc012cfddd98a"
+    },
+    "loader_smoke": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r2_assignment/R2_LOADER_SMOKE.json",
+      "sha256": "bdfb1f06006c1d5067213cd0df8752a93e74678f2c1a9800bacb16721fbfc75b"
+    },
+    "overlays": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_assignment_response_v1/R2_ASSIGNMENT_OVERLAYS_READY.json",
+      "sha256": "6301e764f5d240fb0f5e2735115b6e3316bbf48850a89fae08d19b003631cfe6"
+    },
+    "throughput": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/response_training/p10_r2_canary_1000_v1/unet/seed_42/THROUGHPUT_CANARY_REPORT.json",
+      "sha256": "ddaf361bec054639bb92931e1e340c34af91f247934435754936c4bd0e2b978c"
+    }
+  },
+  "created_utc": "2026-08-23T14:55:09.212681+00:00",
+  "pass": true,
+  "patch_updates_per_second": 6.259928446325593,
+  "ph001_opened": false,
+  "schema_version": "p10-r2-technical-ready-v1",
+  "science_blockers": [
+    "freeze the final R0/R1 deterministic decision",
+    "write P10_VIEW_LADDER_READY.json under the registered paired-view contract"
+  ],
+  "science_run_authorized": false,
+  "technical_ready": true
+}

@@ -1,0 +1,326 @@
+{
+  "blind_phase_opened": false,
+  "loader_ready": false,
+  "model_channels": [
+    "counts",
+    "exposure_apodized",
+    "log_count_ratio",
+    "c_fibre_tileloc",
+    "c_fibre_tiles",
+    "c_fibre_defined"
+  ],
+  "pass": true,
+  "phase_records": {
+    "ph000": {
+      "NGC": {
+        "defined_fraction": 0.9879093526566886,
+        "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3c_assignment_response_v1/NGC/response_overlay.h5",
+        "file_sha256": "024a7ed769def44442e93a9b1c8a98a2f130faaec4c5ab6377538b7a84826081",
+        "grid": {
+          "cell_mpc": 5.0,
+          "origin_mpc": [
+            -2277.7230222783965,
+            -2205.238309722041,
+            -412.8210045448139
+          ],
+          "padding_mpc": 40.0,
+          "shape": [
+            539,
+            823,
+            528
+          ],
+          "voxel_count": 234219216
+        },
+        "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3c_assignment_response_v1/NGC/qa.json",
+        "qa_sha256": "63d3102c53afb18c9866448d5eae9bc22d68b74f73bf5ed58ba2f6666b6c8442"
+      },
+      "SGC": {
+        "defined_fraction": 0.9782967288971501,
+        "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3c_assignment_response_v1/SGC/response_overlay.h5",
+        "file_sha256": "1e3daf3579c17ec1a0a2ecec1d6652f2f63d5177c5f19f9490422ba493431915",
+        "grid": {
+          "cell_mpc": 5.0,
+          "origin_mpc": [
+            70.64531755701772,
+            -1689.5756619407848,
+            -726.8134567450163
+          ],
+          "padding_mpc": 40.0,
+          "shape": [
+            445,
+            764,
+            386
+          ],
+          "voxel_count": 131232280
+        },
+        "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3c_assignment_response_v1/SGC/qa.json",
+        "qa_sha256": "38bca5178121abfb667279b0d39bea8c24ae948acea7809e4a7d3a254af5c844"
+      },
+      "manifest": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3c_assignment_response_v1/manifest.json",
+        "sha256": "b84bd4c351d12b492e038b765894c697a24f8810155e213973903c4d91f75417"
+      }
+    },
+    "ph002": {
+      "NGC": {
+        "defined_fraction": 0.9881149361910356,
+        "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3c_assignment_response_v1/NGC/response_overlay.h5",
+        "file_sha256": "0379e97f248c0a7fd8c9ebdf2be4803ee81d479eb9dbc466b5bb6f6093ad693c",
+        "grid": {
+          "cell_mpc": 5.0,
+          "origin_mpc": [
+            -2289.9174039970753,
+            -2151.4550472456185,
+            -380.73899500758773
+          ],
+          "padding_mpc": 40.0,
+          "shape": [
+            538,
+            821,
+            515
+          ],
+          "voxel_count": 227474470
+        },
+        "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3c_assignment_response_v1/NGC/qa.json",
+        "qa_sha256": "cbb59a7082377ef22b6aac7e5e710806eb02b9a18429f9530c56228584250c57"
+      },
+      "SGC": {
+        "defined_fraction": 0.9780556096475259,
+        "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3c_assignment_response_v1/SGC/response_overlay.h5",
+        "file_sha256": "986a26f15602212b0aa6ab174a6a2ba12352243e1698cec78bfcb207c8b14439",
+        "grid": {
+          "cell_mpc": 5.0,
+          "origin_mpc": [
+            69.24737124477603,
+            -1656.3455302958455,
+            -723.5721531845493
+          ],
+          "padding_mpc": 40.0,
+          "shape": [
+            444,
+            765,
+            391
+          ],
+          "voxel_count": 132807060
+        },
+        "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3c_assignment_response_v1/SGC/qa.json",
+        "qa_sha256": "c226c4ee2f2481267ef4d97bcef2503d61ec3695bad2966294938c3203f45046"
+      },
+      "manifest": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3c_assignment_response_v1/manifest.json",
+        "sha256": "956e4f9fe198e0cb85aff9235557b695200e1636870ccb2e77705278926d82df"
+      }
+    },
+    "ph003": {
+      "NGC": {
+        "defined_fraction": 0.988158882106335,
+        "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p3c_assignment_response_v1/NGC/response_overlay.h5",
+        "file_sha256": "501ff17206ee6b9383712f09f2a4cae6494b1a940152c15335dc5cb60f1c521f",
+        "grid": {
+          "cell_mpc": 5.0,
+          "origin_mpc": [
+            -2259.92423560969,
+            -2166.624370150686,
+            -402.5800973491054
+          ],
+          "padding_mpc": 40.0,
+          "shape": [
+            538,
+            809,
+            529
+          ],
+          "voxel_count": 230243018
+        },
+        "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p3c_assignment_response_v1/NGC/qa.json",
+        "qa_sha256": "e4522b250b7bf03579a4ed28ff6066fc1e55e603a012a938c391443b0b913f5c"
+      },
+      "SGC": {
+        "defined_fraction": 0.9780073447938173,
+        "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p3c_assignment_response_v1/SGC/response_overlay.h5",
+        "file_sha256": "769545df595d1f066208b050f96057f7c2c8960488b5b03e0266ae9b6f4a7e41",
+        "grid": {
+          "cell_mpc": 5.0,
+          "origin_mpc": [
+            68.89362986585388,
+            -1714.6697673382837,
+            -716.7869348626247
+          ],
+          "padding_mpc": 40.0,
+          "shape": [
+            442,
+            780,
+            385
+          ],
+          "voxel_count": 132732600
+        },
+        "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p3c_assignment_response_v1/SGC/qa.json",
+        "qa_sha256": "6c40c34f53826bc547333882f75b372240086e29fe476397f491ce31d311d43d"
+      },
+      "manifest": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p3c_assignment_response_v1/manifest.json",
+        "sha256": "174beb5119e274212b1e3283af12ed4f120f5e09ffffa3751e44e06aa3d026f3"
+      }
+    },
+    "ph004": {
+      "NGC": {
+        "defined_fraction": 0.9881291662368034,
+        "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p3c_assignment_response_v1/NGC/response_overlay.h5",
+        "file_sha256": "9a43ae46f11d63192123b3d3d37ecbf31516bf38b51743492799c6d2f4e4f7de",
+        "grid": {
+          "cell_mpc": 5.0,
+          "origin_mpc": [
+            -2296.4609539282174,
+            -2153.154703775186,
+            -387.1646155376302
+          ],
+          "padding_mpc": 40.0,
+          "shape": [
+            537,
+            815,
+            519
+          ],
+          "voxel_count": 227142945
+        },
+        "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p3c_assignment_response_v1/NGC/qa.json",
+        "qa_sha256": "5011ba0e5a475d548f0167a45f9e9525fcaafc94f8db93b0c43723a606be0242"
+      },
+      "SGC": {
+        "defined_fraction": 0.9778973460395963,
+        "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p3c_assignment_response_v1/SGC/response_overlay.h5",
+        "file_sha256": "fe73da8236f7f595deb1a65600c90b408bc634c1e05ec1ec7673417343ca55ea",
+        "grid": {
+          "cell_mpc": 5.0,
+          "origin_mpc": [
+            70.27979349710202,
+            -1726.5906942620913,
+            -717.4315089507376
+          ],
+          "padding_mpc": 40.0,
+          "shape": [
+            440,
+            781,
+            393
+          ],
+          "voxel_count": 135050520
+        },
+        "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p3c_assignment_response_v1/SGC/qa.json",
+        "qa_sha256": "7ee67144c5c967cb71c89ce0244f16339c559a346e41ee0325f055478a966fe8"
+      },
+      "manifest": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p3c_assignment_response_v1/manifest.json",
+        "sha256": "4f933f9b1e8d4f0bb16bfe521079bb64c92d979f83c777578a2a11883ee984de"
+      }
+    },
+    "ph005": {
+      "NGC": {
+        "defined_fraction": 0.9880898564733378,
+        "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3c_assignment_response_v1/NGC/response_overlay.h5",
+        "file_sha256": "1899892ef77a2c478abcf48fd64c2a943f01834770500984b37ba7782c23975a",
+        "grid": {
+          "cell_mpc": 5.0,
+          "origin_mpc": [
+            -2258.913490862589,
+            -2187.7668059653925,
+            -395.9449921130429
+          ],
+          "padding_mpc": 40.0,
+          "shape": [
+            529,
+            825,
+            522
+          ],
+          "voxel_count": 227813850
+        },
+        "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3c_assignment_response_v1/NGC/qa.json",
+        "qa_sha256": "eab9c92a6470a694349c71d7bfec8aab8700ee9bdeb5a05aa68b9b03efbc7965"
+      },
+      "SGC": {
+        "defined_fraction": 0.977850422418538,
+        "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3c_assignment_response_v1/SGC/response_overlay.h5",
+        "file_sha256": "b9703dc6662ffbf28f328700b71465a29b30fa8102e8c77f94e0ad69949264b1",
+        "grid": {
+          "cell_mpc": 5.0,
+          "origin_mpc": [
+            72.19100745682474,
+            -1685.908223854389,
+            -718.4431492624069
+          ],
+          "padding_mpc": 40.0,
+          "shape": [
+            443,
+            765,
+            388
+          ],
+          "voxel_count": 131491260
+        },
+        "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3c_assignment_response_v1/SGC/qa.json",
+        "qa_sha256": "08f61a3a43f02da23e323d69377b2ed2ff2dc4610abaa2990422c3551daa4e04"
+      },
+      "manifest": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3c_assignment_response_v1/manifest.json",
+        "sha256": "1b24a48aff57d87fff566d5d0acf3263897012ea101ab59eb11a5231aa302335"
+      }
+    },
+    "ph006": {
+      "NGC": {
+        "defined_fraction": 0.9882637132228471,
+        "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p3c_assignment_response_v1/NGC/response_overlay.h5",
+        "file_sha256": "a6f8e80abd68c5a492c38ef7b1f95ce15ed3676cb6872fc201c754794017a757",
+        "grid": {
+          "cell_mpc": 5.0,
+          "origin_mpc": [
+            -2303.375772555768,
+            -2135.412300587079,
+            -389.8286893560029
+          ],
+          "padding_mpc": 40.0,
+          "shape": [
+            536,
+            803,
+            525
+          ],
+          "voxel_count": 225964200
+        },
+        "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p3c_assignment_response_v1/NGC/qa.json",
+        "qa_sha256": "55eeada8e4928fa3673af6b17f44df332d3ff49ba6df140796bbded319049479"
+      },
+      "SGC": {
+        "defined_fraction": 0.9783669310321502,
+        "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p3c_assignment_response_v1/SGC/response_overlay.h5",
+        "file_sha256": "65540838dcdc35377ce4109467f216ecaf0de3fa684af2487412710012b1911e",
+        "grid": {
+          "cell_mpc": 5.0,
+          "origin_mpc": [
+            69.83013353411494,
+            -1702.1258448612832,
+            -703.8851605877938
+          ],
+          "padding_mpc": 40.0,
+          "shape": [
+            437,
+            765,
+            379
+          ],
+          "voxel_count": 126701595
+        },
+        "qa": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p3c_assignment_response_v1/SGC/qa.json",
+        "qa_sha256": "e00c5d70ea82bb89128642cb1ec05cb33e86b17883e8bfd9e4c7e08a54cf1172"
+      },
+      "manifest": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p3c_assignment_response_v1/manifest.json",
+        "sha256": "c28a28b155cd66619d0a63de850884b3562fb3471f373cec5dc2e013cd12ff41"
+      }
+    }
+  },
+  "phases": [
+    "ph000",
+    "ph002",
+    "ph003",
+    "ph004",
+    "ph005",
+    "ph006"
+  ],
+  "schema_version": "p10-r2-assignment-overlays-ready-v1",
+  "throughput_canary_pass": false,
+  "view_ladder_marker_written": false
+}

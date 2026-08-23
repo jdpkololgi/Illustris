@@ -1,0 +1,20 @@
+{
+  "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/response_training/p10_r2_canary_1000_v1/unet/seed_42/arm_a_checkpoint.pt",
+  "checkpoint_sha256": "a19cc1bb599998b9d6710bd493da76d06fd40ab58114e85bfdded23fc2dbc77d",
+  "created_utc": "2026-08-23T14:53:51.607264+00:00",
+  "device_contract": "one Perlmutter A100; no DDP",
+  "loss_trace": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/response_training/p10_r2_canary_1000_v1/unet/seed_42/loss_trace.jsonl",
+  "loss_trace_sha256": "f5c41894435671814c99a828ead2d29ff64e00021525557c2072b45ed7716f88",
+  "model": "R2 assignment-response U-PATCH",
+  "pass": true,
+  "patch_updates": 1000,
+  "patch_updates_per_second": 6.259928446325593,
+  "ph001_opened": false,
+  "schema_version": "p10-r2-throughput-canary-v1",
+  "started_utc": "2026-08-23T14:51:11.860313+00:00",
+  "technical_marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/response_training/p10_r2_canary_1000_v1/unet/seed_42/TECHNICAL_CANARY_COMPLETE.json",
+  "technical_marker_sha256": "173debf81eb1738009577e8a8e7272f3a42d46c247b296d7d440700bcc2dc2a8",
+  "training_loader": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r2_assignment/TRAINING_LOADER_READY.json",
+  "training_loader_sha256": "bad48e6cfe9c765f013a015caee031458586799c12d3cccdd9ddc012cfddd98a",
+  "wall_seconds": 159.74623489298392
+}

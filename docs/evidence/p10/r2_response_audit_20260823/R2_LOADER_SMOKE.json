@@ -1,0 +1,130 @@
+{
+  "contract": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r2_assignment/TRAINING_LOADER_READY.json",
+  "contract_sha256": "bad48e6cfe9c765f013a015caee031458586799c12d3cccdd9ddc012cfddd98a",
+  "created_utc": "2026-08-23T14:49:12.700515+00:00",
+  "pass": true,
+  "ph001_opened": false,
+  "phases": {
+    "ph000": {
+      "authoritative_rows": 1816,
+      "core_id": 811,
+      "defined_response_voxels": 319967,
+      "gates": {
+        "authoritative_rows_nonzero": true,
+        "channel_order_exact": true,
+        "response_range": true,
+        "undefined_response_neutral_on_support": true,
+        "values_finite": true
+      },
+      "pass": true,
+      "shape": [
+        7,
+        72,
+        72,
+        72
+      ],
+      "supported_voxels": 321337
+    },
+    "ph002": {
+      "authoritative_rows": 3079,
+      "core_id": 607,
+      "defined_response_voxels": 385577,
+      "gates": {
+        "authoritative_rows_nonzero": true,
+        "channel_order_exact": true,
+        "response_range": true,
+        "undefined_response_neutral_on_support": true,
+        "values_finite": true
+      },
+      "pass": true,
+      "shape": [
+        7,
+        72,
+        72,
+        80
+      ],
+      "supported_voxels": 386956
+    },
+    "ph003": {
+      "authoritative_rows": 409,
+      "core_id": 1213,
+      "defined_response_voxels": 259394,
+      "gates": {
+        "authoritative_rows_nonzero": true,
+        "channel_order_exact": true,
+        "response_range": true,
+        "undefined_response_neutral_on_support": true,
+        "values_finite": true
+      },
+      "pass": true,
+      "shape": [
+        7,
+        80,
+        72,
+        72
+      ],
+      "supported_voxels": 285211
+    },
+    "ph004": {
+      "authoritative_rows": 1129,
+      "core_id": 17695,
+      "defined_response_voxels": 192132,
+      "gates": {
+        "authoritative_rows_nonzero": true,
+        "channel_order_exact": true,
+        "response_range": true,
+        "undefined_response_neutral_on_support": true,
+        "values_finite": true
+      },
+      "pass": true,
+      "shape": [
+        7,
+        72,
+        72,
+        72
+      ],
+      "supported_voxels": 198642
+    },
+    "ph005": {
+      "authoritative_rows": 246,
+      "core_id": 16148,
+      "defined_response_voxels": 216902,
+      "gates": {
+        "authoritative_rows_nonzero": true,
+        "channel_order_exact": true,
+        "response_range": true,
+        "undefined_response_neutral_on_support": true,
+        "values_finite": true
+      },
+      "pass": true,
+      "shape": [
+        7,
+        72,
+        72,
+        72
+      ],
+      "supported_voxels": 222536
+    },
+    "ph006": {
+      "authoritative_rows": 6,
+      "core_id": 4,
+      "defined_response_voxels": 73024,
+      "gates": {
+        "authoritative_rows_nonzero": true,
+        "channel_order_exact": true,
+        "response_range": true,
+        "undefined_response_neutral_on_support": true,
+        "values_finite": true
+      },
+      "pass": true,
+      "shape": [
+        7,
+        48,
+        80,
+        72
+      ],
+      "supported_voxels": 76329
+    }
+  },
+  "schema_version": "p10-r2-loader-smoke-v1"
+}

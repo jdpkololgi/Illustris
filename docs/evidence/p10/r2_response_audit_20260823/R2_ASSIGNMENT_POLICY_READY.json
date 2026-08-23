@@ -1,0 +1,59 @@
+{
+  "blind_phase_opened": false,
+  "channels": [
+    "support",
+    "domain",
+    "target_count",
+    "c_fibre_defined",
+    "c_fibre_tileloc",
+    "c_fibre_tiles",
+    "c_fibre_product",
+    "c_z",
+    "c_z_informative"
+  ],
+  "created_utc": "2026-08-23T14:36:25.877606+00:00",
+  "pass": true,
+  "phase_reports": {
+    "ph000": {
+      "pass": true,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_assignment_response_v1/ph000/assignment_response_angular.json",
+      "sha256": "8fb21fefe519bf7fb313e30d23e4a36040145ced2dc44bcc13a6056ae2784fc9"
+    },
+    "ph002": {
+      "pass": true,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_assignment_response_v1/ph002/assignment_response_angular.json",
+      "sha256": "c67b57dec00b46a92bec3fd4f260713838506d11fe7c9e94151d61420defd196"
+    },
+    "ph003": {
+      "pass": true,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_assignment_response_v1/ph003/assignment_response_angular.json",
+      "sha256": "e962cf150cb7d8e34f303aeef74f43853e80b8c6db999409f7e88cbb5a64d7bb"
+    },
+    "ph004": {
+      "pass": true,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_assignment_response_v1/ph004/assignment_response_angular.json",
+      "sha256": "d3345d99053bb4283d57b1a270032803abe049c522787c478b6d88ad9a8d6019"
+    },
+    "ph005": {
+      "pass": true,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_assignment_response_v1/ph005/assignment_response_angular.json",
+      "sha256": "78ede4ece3fa440b7dbce33b14b8abb5f4dd81e06f0ec3cbc0dce44ba84c3f04"
+    },
+    "ph006": {
+      "pass": true,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_assignment_response_v1/ph006/assignment_response_angular.json",
+      "sha256": "41357ecc7f96cbce6a72faef10024ad0b3816e44acd710d84e1d9061b8451d53"
+    }
+  },
+  "phases": [
+    "ph000",
+    "ph002",
+    "ph003",
+    "ph004",
+    "ph005",
+    "ph006"
+  ],
+  "schema_version": "p10-r2-assignment-response-v1",
+  "three_dimensional_overlays_ready": false,
+  "view_ladder_marker_written": false
+}
