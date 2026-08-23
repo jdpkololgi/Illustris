@@ -1,5 +1,59 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-23 — [science/code/run] R2 source semantics pass, but the spatial assignment map is not yet freezeable
+
+The spare interactive capacity was used for the R2 prerequisite rather than launching
+an incorrectly labelled R2 training run. GPU allocation `57472981` on `nid001212`
+ran the visible-phase catalogue/view audit and ph000/ph006 angular-map canary; it was
+released after the bounded work completed. The existing R1/P12 allocation continued
+unchanged and ph001 remained sealed.
+
+The nested `V_dense -> V_assign -> V_final` source audit passes for
+ph000/ph002--ph006. Assignment fractions are `0.79983--0.80330`, final-view fractions
+are `0.79793--0.80128`, and every registered row-identity, unique-TARGETID,
+probability-range and nesting gate passes. A scientific naming error is now corrected:
+`FRACZ_TILELOCID` is local **fibre-assignment completeness**, not redshift success.
+Against `LOCATION_ASSIGNED` its ten-bin calibration error is only
+`1.33e-5--4.43e-5` across phases. `FRAC_TLOBS_TILES` is a supplementary
+TILES-group completeness term; the two quantities should remain separate even if their
+product is retained as a total-completeness diagnostic.
+
+There is no continuous mock `C_z` signal to learn. Every assigned object passes
+`ZWARN==0` with a finite positive mock redshift and all clustering
+`WEIGHT_ZFAIL` values are exactly one in every visible phase. The fiducial mock
+contract is therefore `C_z=1`, `C_z_informative=false`. This must not be presented as
+training sensitivity to the non-constant Loa `mod_success_rate`; such sensitivity
+requires an explicitly simulated/degraded response view and belongs in later P11/P12
+closure.
+
+The first spatial canary correctly prevents premature R2 promotion. Averaging
+target-level assignment response at nside 256 covers only `0.9848447` of ph000 and
+`0.9849085` of ph006 random-supported pixels. There are respectively `4,042` and
+`4,025` supported pixels with no eligible target, so the registered `0.999` coverage
+gate fails. These pixels cannot be smoothed from neighbouring galaxy density. The next
+decision is to test a physically neutral no-competition value with an explicit
+`C_fibre_defined` flag, stratified by support-boundary distance, or identify a
+response-defined full-random source. `P10_VIEW_LADDER_READY.json` was deliberately not
+written and no R2 GPU training was launched.
+
+Live products are
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_response_audit_v1/` and
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_assignment_canary_v1/`.
+Aggregate SHA-256 values are
+`d4b47c986f217f48c03b99669841cbbe2e45ef94dcb9020dccfd62178ea48b8e` and
+`f2c1facffc680c1e71c14149a10d4251aab1addb026f81f96254cee4538bc4c9`.
+Compact copies are tracked under
+`docs/evidence/p10/r2_response_audit_20260823/`. Reusable code is
+`workflows/abacus_tweb/p10_audit_r2_response_ladder.py`,
+`workflows/abacus_tweb/p10_build_r2_assignment_angular_canary.py`, and
+`workflows/sbi/run_p10_r2_response_audit_interactive.sh`; three focused unit tests
+pass.
+
+R1 continues independently. Its completed epoch-7 row is macro
+`R2(lambda1)=0.48240`, first-three `0.53565`, and shells
+`0.58304/0.54592/0.47800/0.32265`; this is below its epoch-6 best `0.51623` and
+remains an interim oscillation, not a frozen R0/R1 decision.
+
 ### 2026-08-22 — [science] Random catalogues become the production response reference; FAINT freezes at epoch 15
 
 The production spine is narrowed to

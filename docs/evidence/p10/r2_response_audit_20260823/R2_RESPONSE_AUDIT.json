@@ -1,0 +1,56 @@
+{
+  "blind_phase_opened": false,
+  "created_utc": "2026-08-23T14:20:13.178424+00:00",
+  "phase_reports": {
+    "ph000": {
+      "pass": true,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_response_audit_v1/ph000/response_audit.json",
+      "sha256": "9876014ae99daf659d4438438d230af2660ede4c5bfd8ee2032e424c71a457ab"
+    },
+    "ph002": {
+      "pass": true,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_response_audit_v1/ph002/response_audit.json",
+      "sha256": "3b143036b341d65d96cf6a6fd470d28e8d123b3a4dc5c8a631c65b4586454d61"
+    },
+    "ph003": {
+      "pass": true,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_response_audit_v1/ph003/response_audit.json",
+      "sha256": "69aa5ad487a3435f34358e76c7ebad13a3accee266e1b158892ef622d342b159"
+    },
+    "ph004": {
+      "pass": true,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_response_audit_v1/ph004/response_audit.json",
+      "sha256": "0192b5aad82f3986483d032a148d96f850e85e2c851030b8a5d435915a97f402"
+    },
+    "ph005": {
+      "pass": true,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_response_audit_v1/ph005/response_audit.json",
+      "sha256": "21b8f4e5de016c135fd7de9f4fff340a8dd200dae36f8e26256dd21df9b6f6c3"
+    },
+    "ph006": {
+      "pass": true,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_response_audit_v1/ph006/response_audit.json",
+      "sha256": "75401245dba401c9543cc36bbea9639f6e8d4538997e528b1b644c5e87b878ca"
+    }
+  },
+  "phases": [
+    "ph000",
+    "ph002",
+    "ph003",
+    "ph004",
+    "ph005",
+    "ph006"
+  ],
+  "schema_version": "p10-r2-response-audit-v1",
+  "source_registry": {
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/configs/p10_response_sources_v1.json",
+    "sha256": "11d7fd79b89e7dc065a27db4cfccd940de5e88be67b92f26fd6703271cf89d71"
+  },
+  "summary": {
+    "continuous_mock_C_z_available": false,
+    "interpretation": "The audit can validate nested catalogue views and assignment response. R2 remains blocked unless a mock-to-Loa compatible continuous C_z is identified or the plan explicitly freezes C_z=1 as the mock contract.",
+    "r2_training_ready": false,
+    "source_and_nesting_audit_pass": true,
+    "view_ladder_marker_written": false
+  }
+}

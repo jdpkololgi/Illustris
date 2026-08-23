@@ -3180,6 +3180,44 @@ Do not run all subsets of all response channels. A promoted `R3` must also pass 
 leave-one-block-out diagnostic for `M/mu`, completeness and boundary distance to detect
 shortcut dependence; this diagnostic is not a second architecture search.
 
+#### R2 response-semantics preflight (2026-08-23)
+
+- [x] Audit the nested `V_dense -> V_assign -> V_final` catalogue views for
+  ph000/ph002--ph006 without opening ph001. All six phase reports pass registered row
+  identity, target uniqueness, probability-range and view-nesting checks. The assigned
+  fraction is `0.79983--0.80330` and the final-view fraction is
+  `0.79793--0.80128` across phases.
+- [x] Correct the response interpretation. `FRACZ_TILELOCID` is the local fibre-
+  assignment completeness quantity, not a redshift-success probability; its ten-bin
+  calibration error against `LOCATION_ASSIGNED` is only
+  `1.33e-5--4.43e-5`. `FRAC_TLOBS_TILES` is a supplementary TILES-group
+  completeness term. Their product approximates total assignment completeness but is
+  not to be relabelled as an individual Bernoulli probability without the saved
+  component channels.
+- [x] Establish the mock redshift-success contract. Every assigned object in every
+  visible phase satisfies the registered mock success definition and every clustering
+  `WEIGHT_ZFAIL` is exactly one. The mocks therefore contain no continuous learnable
+  `C_z` variation homologous to Loa `mod_success_rate`. For the fiducial mock ladder,
+  store `C_z=1` with `C_z_informative=false`; do not imply that a model trained on this
+  constant can respond to Loa redshift-success variation. That capability requires an
+  explicitly degraded/simulated view in P11/P12 closure.
+- [ ] Close the spatial response-definition gap before writing
+  `P10_VIEW_LADDER_READY.json`. The ph000/ph006 nside-256 canary finds target-derived
+  assignment response on only `0.9848447/0.9849085` of random-supported pixels
+  (`4,042/4,025` supported pixels have no eligible target), failing the registered
+  `0.999` coverage gate. Do not smooth across these pixels or infer a value from nearby
+  galaxy density. Register and test a neutral no-competition value plus an explicit
+  `C_fibre_defined` flag, or obtain a response-defined full-random source; stratify the
+  decision by footprint-boundary distance before building three-dimensional overlays.
+- [ ] Build hash-frozen ph000/ph002--ph006 R2 assignment overlays only after that
+  missing-response policy passes ph000/ph006. Preserve separate
+  `FRACZ_TILELOCID`, `FRAC_TLOBS_TILES`, `C_z=1`, and identifiability/defined flags;
+  then prepare the R2 loader, run the 1,000-patch throughput gate and launch training.
+- [ ] Keep ph001 sealed and do not launch an R2-labelled GPU run from the current
+  source audit alone. Evidence:
+  `docs/evidence/p10/r2_response_audit_20260823/` and live products under
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/{r2_response_audit_v1,r2_assignment_canary_v1}`.
+
 Select on the final production-like ph006 view, while reporting every stage, worst
 stage/effect, bins of mask distance/completeness, and at least one held-out degradation
 recipe. Boundary residuals and posterior coverage must be reported separately for
@@ -3204,8 +3242,11 @@ Minimal decision order:
    response rows; do not wait for FAINT or JEPA before continuing P12;
 5. continue the P12 baseline from frozen R0 artifacts in parallel; if R1 is promoted,
    regenerate response-conditioned cross-fits under a separately frozen contract;
-6. freeze the three-view forward-observation ladder and run ordered `R2--R3` only after
-   R1; write `P10_VIEW_LADDER_READY.json` before Arms B/C;
+6. [active 2026-08-23] freeze the three-view forward-observation ladder and run ordered
+   `R2--R3` only after R1. The source/nesting and response-semantics audits pass, but the
+   target-derived assignment map covers only about `98.49%` of random-supported pixels;
+   close the missing-response policy and write `P10_VIEW_LADDER_READY.json` before Arms
+   B/C or any R2-labelled GPU run;
 7. in parallel with P12, open one bounded paired-view P11 JEPA comparison once the
    view ladder and a transferring dense teacher are frozen; do not require Arm C to
    first label the problem ``representation-limited'';

@@ -1,0 +1,23 @@
+{
+  "blind_phase_opened": false,
+  "created_utc": "2026-08-23T14:21:54.411146+00:00",
+  "pass": false,
+  "phases": [
+    "ph000",
+    "ph006"
+  ],
+  "reports": {
+    "ph000": {
+      "pass": false,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_assignment_canary_v1/ph000/assignment_angular_canary.json",
+      "sha256": "2319796057dad272f67110ad22b41d0d0a34abdb1551f12da9ae683078beea48"
+    },
+    "ph006": {
+      "pass": false,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/r2_assignment_canary_v1/ph006/assignment_angular_canary.json",
+      "sha256": "7a69de7c14eeecfdaa648c74fa73177188070695877dba180248020016336c85"
+    }
+  },
+  "schema_version": "p10-r2-assignment-angular-canary-v1",
+  "view_ladder_marker_written": false
+}
