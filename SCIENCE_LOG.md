@@ -1,6 +1,58 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
 
+### 2026-08-25 — [science/decision] U-PATCH target contract and strict FAINT/random controls
+
+The production U-PATCH is a per-galaxy estimator, not a voxelwise three-eigenvalue
+segmenter. Its 3-D U-Net maps the canonical input patch to a latent voxel field; the
+latent field is trilinearly sampled at every authoritative BRIGHT-galaxy coordinate,
+and a point head returns three scaled linear eigenvalue increments for that galaxy.
+The increments are converted to the ordered physical eigenvalues only for evaluation.
+Consequently the 5-comoving-Mpc input lattice need not equal the physical
+`R=7 Mpc/h` T-web smoothing scale. The frozen requirement is instead exact parity of
+the coordinate frame, grid origin/cell size, galaxy fractional voxel index and target
+row, together with enough patch context to infer the smoothed target. Any future
+voxelwise tensor/eigenvalue decoder must define a separate truth-grid and interpolation
+contract before it can be compared with this per-galaxy U-PATCH.
+
+The interpretation that BRIGHT+FAINT primarily wins through improved survey-response
+modelling is weakened by the response ladder. At matched epoch 10 the two-seed mean
+macro `R2(lambda1)` is `0.54478` for R2 and `0.53474` for high-S/N R3-RF, versus
+`0.66394` for real FAINT and `0.64185` for the existing FAINT Null. R3-RF is a
+deterministic all-18 random-response expectation, not a sparse tracer field, so this is
+not yet a point-process-matched comparison.
+
+The old FAINT Null is also not structure-free. It preserves every real FAINT angular
+direction and radius and only permutes their pairing within cap and `Delta-z=0.01`.
+It therefore preserves the complete projected FAINT clustering pattern in every narrow
+redshift stratum and can retain coarse same-phase cosmic information. Proxy-minus-Null
+cannot be interpreted as the full value of FAINT or as a clean response-only contrast.
+
+Two bounded controls are authorized without opening ph001:
+
+1. `R3-RF-DM-v1`: sample an unclustered angular point process from the frozen all-18
+   random response, match the assigned-FAINT count and exact redshift/radius multiset
+   within each cap and `Delta-z=0.01`, deposit it with the identical CIC/grid contract,
+   and expose the identical FAINT-style six-channel U-PATCH interface. This diagnostic
+   contains the FAINT one-point selection and sparse-count texture but no same-phase
+   angular cosmic structure. At least two catalogue-realisation seeds are required
+   before treating a gain as reproducible.
+2. `U-BF-XPHASE-NULL-v1`: pair each phase's immutable BRIGHT inputs and labels with a
+   deranged donor phase's real FAINT triplet. It preserves realistic FAINT clustering,
+   shot noise, selection and channel semantics while breaking the shared potential
+   field. Grid origin/shape/cell identity must pass before the zero-copy donor view is
+   allowed.
+
+The primary decomposition is: `R3-RF-DM - R3-RF` tests sparse point-process texture;
+`old FAINT Null - cross-phase Null` diagnoses same-phase structure retained by the old
+Null; and `real FAINT - cross-phase Null` tests genuine additional tracer information.
+If a fixed stochastic-random field helps, a refreshed-realisation/ensemble control is
+mandatory before production because an arbitrary Monte Carlo field cannot be allowed
+to create false posterior sharpness. BGS_FAINT becomes a production dependency only
+after a reproducible independent-phase gain over both strict nulls and calibrated
+posterior improvement under separate BRIGHT/FAINT response contracts.
+
+
 ### 2026-08-23 — [run/diagnosis/fix] Response allocation ownership failure corrected; all four checkpoints resume
 
 Allocation `57475703` did not time out or fail scientifically. Slurm accounting shows

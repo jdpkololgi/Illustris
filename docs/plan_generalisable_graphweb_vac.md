@@ -3276,6 +3276,90 @@ next diagnostic only if the high-S/N R3-RF field fails to approach the FAINT Nul
 that later arm would test whether FAINT Null gains arise from count-like sampling noise
 rather than from the underlying response field.
 
+#### R3-RF-DM and cross-phase FAINT controls (authorized 2026-08-25)
+
+The high-S/N R3-RF result activates the previously deferred density-matched arm, but
+the causal question is refined because the existing FAINT Null is not fully
+structure-free. It preserves the real FAINT angular-direction multiset inside every
+cap and `Delta-z=0.01` stratum; only the radius--direction pairing is permuted. The
+projected angular clustering and some coarse three-dimensional structure can therefore
+survive. The next controls must separate four distinct ingredients: deterministic
+response, sparse point-process texture, realistic but independent tracer clustering,
+and correct same-phase tracer information.
+
+**U-PATCH output/target contract.** The canonical U-PATCH does not predict three
+eigenvalues at every output voxel. The U-Net produces a latent field on the exact P3
+lattice, `grid_sample` evaluates that field at authoritative BRIGHT-galaxy fractional
+voxel coordinates, and a point head predicts three scaled linear eigenvalue increments
+per galaxy. The 5-comoving-Mpc numerical lattice and the `R=7 Mpc/h` truth smoothing
+scale are intentionally distinct. Required parity is:
+
+- exact grid origin, cell size, axis order and cap ownership;
+- exact parent/authoritative-galaxy fractional index and interpolation convention;
+- exact target row and ordered-increment scaler;
+- sufficient context relative to the U-Net receptive field and physical smoothing;
+- no claim of voxelwise eigenvalue supervision unless a separate truth-grid contract
+  is constructed and validated.
+
+**`R3-RF-DM-v1` sparse response-only triplet.** For each visible phase, sample angular
+directions from the frozen all-18 random angular response and restrict them to the
+existing FAINT support. Within each cap and `Delta-z=0.01` stratum, match the exact
+assigned-FAINT count and randomly pair the sampled directions with the exact FAINT
+redshift/radius multiset. Deposit with the same CIC operator on the immutable P3 grid.
+The second triplet must be processed exactly like FAINT:
+`[sparse counts, sparse log-count-ratio, FAINT exposure]`, using the frozen
+training-phase FAINT selection curve and count normalization. This is a diagnostic
+one-point-selection match, not a deployable native random catalogue and not an
+additional physical tracer.
+
+**`U-BF-XPHASE-NULL-v1` independent-structure control.** Define a fixed donor
+derangement over `ph000/ph002--ph005`; pair ph006 with a registered training-phase
+donor. A target phase uses its own BRIGHT input, ownership, targets and weights but the
+donor phase's complete real-FAINT triplet. This preserves realistic clustered texture,
+shot noise, radial selection and network interface while removing correlation with the
+target potential. The control is zero-copy only if donor/recipient cap grids are
+exactly identical; otherwise it must be rebuilt in common survey coordinates rather
+than silently reindexed.
+
+- [x] Register the per-galaxy U-PATCH output and grid/target-alignment contract.
+- [x] Register the R3-RF-DM and cross-phase scientific estimands and production guards.
+- [ ] Prove exact grid geometry and patch-index parity across every visible phase/cap.
+- [ ] Build two deterministic R3-RF-DM catalogue-realisation seeds without reading
+  tidal labels or ph001; preserve exact cap/fine-redshift counts and redshift multisets.
+- [ ] Export CIC count overlays and multitracer-compatible shadow contracts with exact
+  FAINT selection/normalization identity and immutable BRIGHT links.
+- [ ] Export the cross-phase donor contract, fixed derangement and inverse/second
+  derangement diagnostic; prove no phase donates to itself.
+- [ ] Add focused tests for count conservation, support containment, radial-multiset
+  identity, angular independence, channel order, grid parity and sealed-phase access.
+- [ ] Pass all-phase/cap extraction smokes and a 1,000-patch one-A100 throughput canary
+  for each control before full training.
+- [ ] Train the primary R3-RF-DM realization and cross-phase Null with the frozen
+  six-channel U-PATCH, seed, phase/core sampler, optimizer-update schedule and ph006
+  evaluator. Extend the second random realization only after the first reaches the
+  registered epoch-10 diagnostic or earlier technical failure.
+- [ ] Compare matched epoch 10 and epoch 15 histories for R0/R1/R2/R3-RF/R3-RF-DM,
+  cross-phase Null, old FAINT Null and real FAINT. Report two-seed/random-realisation
+  sensitivity, every shell, slopes, variance ratios and response/boundary strata.
+- [ ] If a fixed sparse-random field helps, run refreshed-realisation training and
+  multi-realisation inference before any posterior use; arbitrary random noise may not
+  create narrower production posteriors.
+
+Interpretation is frozen as follows:
+
+| Contrast | Question |
+| --- | --- |
+| `R3-RF-DM - R3-RF` | Does sparse point-process texture help beyond the high-S/N response? |
+| `old FAINT Null - cross-phase Null` | How much same-phase structure survives the old pairing null? |
+| `real FAINT - cross-phase Null` | How much information comes from a correctly colocated second tracer? |
+| `real FAINT - R3-RF-DM` | Does physical FAINT information beat a point-process- and selection-matched response null? |
+
+BGS_FAINT remains context-only and non-production during this gate. Promote it only if
+real FAINT produces a reproducible independent-phase improvement over both strict nulls,
+with separate tracer response/HOD contracts and posterior coverage maintained. A gain
+from an independent random or cross-phase field is an optimization/regularization
+diagnosis, not new cosmological information.
+
 Select on the final production-like ph006 view, while reporting every stage, worst
 stage/effect, bins of mask distance/completeness, and at least one held-out degradation
 recipe. Boundary residuals and posterior coverage must be reported separately for
