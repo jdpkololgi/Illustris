@@ -3323,17 +3323,25 @@ than silently reindexed.
 
 - [x] Register the per-galaxy U-PATCH output and grid/target-alignment contract.
 - [x] Register the R3-RF-DM and cross-phase scientific estimands and production guards.
-- [ ] Prove exact grid geometry and patch-index parity across every visible phase/cap.
-- [ ] Build two deterministic R3-RF-DM catalogue-realisation seeds without reading
+- [x] Audit grid geometry and patch-index parity across every visible phase/cap. The
+  phase grids are not byte-identical, so zero-copy donor reindexing is vetoed and every
+  donor catalogue is deposited on the recipient P3 grid.
+- [x] Build two deterministic R3-RF-DM catalogue-realisation seeds without reading
   tidal labels or ph001; preserve exact cap/fine-redshift counts and redshift multisets.
-- [ ] Export CIC count overlays and multitracer-compatible shadow contracts with exact
+  Products: `multitracer/strict_controls/r3_rf_dm_seed{1701,2718}_v1/`.
+- [x] Export CIC count overlays and multitracer-compatible shadow contracts with exact
   FAINT selection/normalization identity and immutable BRIGHT links.
-- [ ] Export the cross-phase donor contract, fixed derangement and inverse/second
-  derangement diagnostic; prove no phase donates to itself.
-- [ ] Add focused tests for count conservation, support containment, radial-multiset
-  identity, angular independence, channel order, grid parity and sealed-phase access.
-- [ ] Pass all-phase/cap extraction smokes and a 1,000-patch one-A100 throughput canary
-  for each control before full training.
+- [x] Export the cross-phase donor contract, fixed forward derangement and reverse
+  diagnostic; prove no phase donates to itself. Products:
+  `multitracer/strict_controls/bf_xphase_{forward,reverse}_v1/`.
+- [x] Add focused tests and product gates for count conservation, support containment,
+  radial-multiset identity, angular independence by construction, channel order, grid
+  ownership and sealed-phase access.
+- [x] Pass all-phase extraction smokes for all four product roots. Every
+  `STRICT_CONTROL_LOADER_SMOKE.json` records six phases, the identical selection hash,
+  `sealed_phase_opened=false` and `targets_opened_by_validator=false`.
+- [ ] Pass a 1,000-update one-A100 throughput canary for the primary R3-RF-DM and
+  cross-phase controls before full training (interactive job `57583442` queued).
 - [ ] Train the primary R3-RF-DM realization and cross-phase Null with the frozen
   six-channel U-PATCH, seed, phase/core sampler, optimizer-update schedule and ph006
   evaluator. Extend the second random realization only after the first reaches the

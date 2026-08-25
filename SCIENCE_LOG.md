@@ -1,6 +1,51 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
 
+### 2026-08-25 — [code/data/run] Strict sparse-random and cross-phase controls ready; GPU gate queued
+
+The registered R3-RF-DM and cross-phase-FAINT groundwork is complete for every
+visible phase (`ph000`, `ph002--ph006`) without opening ph001 or tidal targets. Commit
+`5a17118` implements the input-only catalogue/field builder and focused tests; commit
+`dd11a73` adds the all-phase HDF5/loader validator and persistent CPU-to-GPU interactive
+supervisor; commit `6899daa` corrects a smoke-test-only tensor-axis assertion caught by
+the first validation attempt. The model/product path itself was not changed by that
+assertion fix.
+
+Four frozen roots now pass six-phase U-PATCH extraction smokes:
+
+- `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/multitracer/strict_controls/r3_rf_dm_seed1701_v1/`;
+- `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/multitracer/strict_controls/r3_rf_dm_seed2718_v1/`;
+- `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/multitracer/strict_controls/bf_xphase_forward_v1/`;
+- `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/multitracer/strict_controls/bf_xphase_reverse_v1/`.
+
+Each root contains `P10_MULTITRACER_VIEWS_READY.json`, phase-local component manifests,
+and `STRICT_CONTROL_LOADER_SMOKE.json`. All four validation markers report `pass=true`,
+six visible phases, `sealed_phase_opened=false`, `targets_opened_by_validator=false`,
+and the unchanged FAINT selection SHA-256
+`35b7c4f2320e783490e64d4726954ec5e5a44885e865505a9a4a426f67ea02c8`.
+Twenty-four phase/control products were constructed in CPU allocation `57583312`; the
+corrected validation retry completed in `57583374`.
+
+The geometry audit found that donor and recipient phase grids are not byte-identical.
+Cross-phase products therefore do not use unsafe zero-copy reindexing: donor FAINT
+points are CIC-deposited afresh on each recipient's immutable P3 grid, while BRIGHT
+inputs, exposure/selection, ownership and targets remain recipient-local. The
+density-matched random views preserve the exact recipient FAINT cap/redshift multiset
+and count but sample angular directions from the all-18 random response. This is needed
+because the registered full randoms are a deliberately dense Monte Carlo description
+of angular support/targetability, not a galaxy tracer: their clustering-random `Z` is
+linked to data through `TARGETID_DATA` and is not an independent radial selection draw.
+R3-RF-DM is consequently a strict diagnostic synthetic point process, not a proposed
+native random-catalogue input for the VAC.
+
+The persistent tmux session `p10_strict_controls` has released the CPU node and requested
+four-GPU interactive job `57583442`. It will first run 1,000-update canaries and then
+train R3-RF-DM seed 1701 and forward cross-phase Null with matched U-PATCH model seeds
+42/43 to epoch 15. Seed 2718 and the reverse donor map are built and frozen but are not
+promoted to full training until the primary epoch-10 comparison warrants them. ph001
+remains sealed.
+
+
 ### 2026-08-25 — [science/decision] U-PATCH target contract and strict FAINT/random controls
 
 The production U-PATCH is a per-galaxy estimator, not a voxelwise three-eigenvalue
