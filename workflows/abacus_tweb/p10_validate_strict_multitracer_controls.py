@@ -112,7 +112,7 @@ def validate(root: Path) -> dict:
             )
             if tuple(values.shape[:2]) != (1, 6):
                 raise RuntimeError(f"{phase}: U-PATCH input is not six-channel")
-            if points.shape[1] != len(bright.authoritative_parent_id):
+            if points.shape[-2] != len(bright.authoritative_parent_id):
                 raise RuntimeError(f"{phase}: authoritative point/parent mismatch")
             if not bool(values.isfinite().all()) or not bool(points.isfinite().all()):
                 raise RuntimeError(f"{phase}: non-finite loader smoke tensor")
@@ -120,7 +120,7 @@ def validate(root: Path) -> dict:
                 "core_id": core_id,
                 "cap": int(bright.cap),
                 "input_shape": list(values.shape),
-                "authoritative_points": int(points.shape[1]),
+                "authoritative_points": int(points.shape[-2]),
                 "pass": True,
             }
         finally:
