@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 from datetime import datetime, timezone
+from functools import lru_cache
 import json
 import os
 from pathlib import Path
@@ -29,7 +30,6 @@ import sys
 import h5py
 import healpy as hp
 import numpy as np
-from astropy.cosmology import Planck18
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
@@ -78,6 +78,15 @@ def git_revision() -> str:
 
 def load(path: Path) -> dict:
     return json.loads(Path(path).read_text())
+
+
+@lru_cache(maxsize=1)
+def distance_lookup() -> tuple[np.ndarray, np.ndarray]:
+    cosmology = load(BASE / "selection_manifest.json")["cosmology"]
+    return (
+        np.asarray(cosmology["redshift_grid"], dtype=np.float64),
+        np.asarray(cosmology["radius_grid_mpc"], dtype=np.float64),
+    )
 
 
 def grid_spec(component: dict) -> GridSpec:
@@ -131,7 +140,11 @@ def subpixel_angles(
 def cartesian_from_radec_z(
     ra: np.ndarray, dec: np.ndarray, redshift: np.ndarray
 ) -> np.ndarray:
-    distance = Planck18.comoving_distance(np.asarray(redshift, dtype=np.float64)).value
+    redshift = np.asarray(redshift, dtype=np.float64)
+    distance_redshift, distance_mpc = distance_lookup()
+    if np.any((redshift < distance_redshift[0]) | (redshift > distance_redshift[-1])):
+        raise ValueError("redshift lies outside the frozen distance lookup")
+    distance = np.interp(redshift, distance_redshift, distance_mpc)
     ra_rad = np.deg2rad(np.asarray(ra, dtype=np.float64))
     dec_rad = np.deg2rad(np.asarray(dec, dtype=np.float64))
     cos_dec = np.cos(dec_rad)

@@ -3,9 +3,11 @@ import unittest
 import healpy as hp
 import numpy as np
 import torch
+from astropy.cosmology import Planck18
 
 from workflows.abacus_tweb.p10_build_strict_multitracer_controls import (
     DONOR_MAPS,
+    cartesian_from_radec_z,
     fine_stratum,
     subpixel_angles,
     validate_donor_map,
@@ -28,6 +30,13 @@ class StrictMultitracerControlTest(unittest.TestCase):
         ra, dec = subpixel_angles(parent, np.random.default_rng(42))
         recovered = hp.ang2pix(256, ra, dec, nest=False, lonlat=True)
         np.testing.assert_array_equal(recovered, parent)
+
+    def test_distance_lookup_matches_frozen_cosmology(self):
+        redshift = np.array([0.10003, 0.25127, 0.59991])
+        xyz = cartesian_from_radec_z(np.zeros(3), np.zeros(3), redshift)
+        expected = Planck18.comoving_distance(redshift).value
+        np.testing.assert_allclose(xyz[:, 0], expected, rtol=0.0, atol=2.0e-5)
+        np.testing.assert_array_equal(xyz[:, 1:], 0.0)
 
     def test_u_patch_is_pointwise_not_three_channel_voxel_output(self):
         model = P10MultitracerUPatch(base=2, latent_channels=4, head_width=8)
