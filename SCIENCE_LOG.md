@@ -38,12 +38,15 @@ linked to data through `TARGETID_DATA` and is not an independent radial selectio
 R3-RF-DM is consequently a strict diagnostic synthetic point process, not a proposed
 native random-catalogue input for the VAC.
 
-The persistent tmux session `p10_strict_controls` has released the CPU node and requested
-four-GPU interactive job `57583442`. It will first run 1,000-update canaries and then
-train R3-RF-DM seed 1701 and forward cross-phase Null with matched U-PATCH model seeds
-42/43 to epoch 15. Seed 2718 and the reverse donor map are built and frozen but are not
-promoted to full training until the primary epoch-10 comparison warrants them. ph001
-remains sealed.
+The persistent tmux session `p10_strict_controls` released the CPU node and acquired
+four-GPU interactive job `57583442` on `nid008600`. All four 1,000-update canaries pass
+with finite logged objectives/gradients and atomic checkpoints. Fresh scientific runs
+are now active for R3-RF-DM seed 1701 and forward cross-phase Null with matched U-PATCH
+model seeds 42/43, targeting epoch 15. Outputs are under
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/strict_control_training/` and worker logs
+under `strict_control_logs/`. Seed 2718 and the reverse donor map are built and frozen
+but are not promoted to full training until the primary epoch-10 comparison warrants
+them. ph001 remains sealed.
 
 
 ### 2026-08-25 — [science/decision] U-PATCH target contract and strict FAINT/random controls

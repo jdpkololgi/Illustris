@@ -3340,8 +3340,9 @@ than silently reindexed.
 - [x] Pass all-phase extraction smokes for all four product roots. Every
   `STRICT_CONTROL_LOADER_SMOKE.json` records six phases, the identical selection hash,
   `sealed_phase_opened=false` and `targets_opened_by_validator=false`.
-- [ ] Pass a 1,000-update one-A100 throughput canary for the primary R3-RF-DM and
-  cross-phase controls before full training (interactive job `57583442` queued).
+- [x] Pass a 1,000-update one-A100 throughput canary for the primary R3-RF-DM and
+  cross-phase controls. All four seed/control canaries passed in interactive job
+  `57583442` before the scientific runs began.
 - [ ] Train the primary R3-RF-DM realization and cross-phase Null with the frozen
   six-channel U-PATCH, seed, phase/core sampler, optimizer-update schedule and ph006
   evaluator. Extend the second random realization only after the first reaches the
