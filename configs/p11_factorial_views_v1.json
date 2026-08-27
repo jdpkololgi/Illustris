@@ -1,0 +1,79 @@
+{
+  "schema_version": "p11-factorial-view-contract-v1",
+  "contract_id": "p11-factorial-observation-tracer-v1",
+  "phase_split": {
+    "training": ["ph000", "ph002", "ph003", "ph004", "ph005"],
+    "validation_and_selection": ["ph006"],
+    "sealed_blind_test": ["ph001"]
+  },
+  "observation_stage_axis": {
+    "V_dense": {
+      "definition": "targetable BGS rows inside accepted imaging support before fibre assignment",
+      "source": "phase-matched forFA nominal catalogue",
+      "teacher_only": true
+    },
+    "V_assign": {
+      "definition": "V_dense after the realized phase-matched fibre-assignment operator",
+      "source": "phase-matched alternate-MTL datcomb catalogue joined to forFA by TARGETID",
+      "teacher_only": true
+    },
+    "V_final": {
+      "definition": "successful-redshift/final-quality/HP-map-cut deployment view",
+      "source": "canonical P1/P3 BRIGHT product plus frozen response overlays",
+      "teacher_only": false
+    }
+  },
+  "tracer_axis": {
+    "bright_only": {
+      "production_default": true,
+      "channels": ["BGS_BRIGHT"],
+      "supervision": "BGS_BRIGHT authoritative galaxies"
+    },
+    "bright_plus_faint_context": {
+      "production_default": false,
+      "channels": ["BGS_BRIGHT", "BGS_FAINT"],
+      "supervision": "BGS_BRIGHT authoritative galaxies only",
+      "requirement": "separate tracer channels and separate response/selection contracts"
+    }
+  },
+  "stochastic_response_axis": {
+    "native_nested_views": {
+      "role": "primary paired observation ladder",
+      "seeds": []
+    },
+    "iid_fibre_thinning": {
+      "role": "training augmentation",
+      "probability": "audited FRACZ_TILELOCID with C_fibre_defined policy",
+      "seeds": [1701, 2718],
+      "grouping": "independent TARGETID draws"
+    },
+    "tileloc_correlated_thinning": {
+      "role": "held_out_degradation_recipe",
+      "probability": "audited FRAC_TLOBS_TILES and FRACZ_TILELOCID",
+      "seed": 314159,
+      "grouping": "one shared draw per TILELOCID before target-level residual thinning"
+    }
+  },
+  "redshift_success_policy": {
+    "fiducial_mock_C_z": 1.0,
+    "informative_in_current_mocks": false,
+    "loa_perturbation": "deferred until a separately audited Loa redshift-success model is registered; never relabel C_fibre as C_z"
+  },
+  "pairing": {
+    "same_latent_core": true,
+    "all_views_in_one_outer_split": true,
+    "total_scientific_weight_per_latent_core": 1.0,
+    "view_weight_rule": "divide the core weight by the number of sampled views",
+    "common_random_support": true,
+    "mask_targets_only_where_M_equals_1": true
+  },
+  "jepa_controls": [
+    "random_initialization",
+    "masked_reconstruction",
+    "latent_prediction",
+    "response_only_predictor",
+    "dense_teacher_final_student",
+    "order_only_curriculum_with_balanced_replay"
+  ],
+  "production_rule": "JEPA may replace the P12-A summary only after the deployable final-view student improves ph006 and the held-out degradation recipe; it never replaces posterior calibration"
+}

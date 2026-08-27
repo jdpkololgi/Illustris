@@ -135,14 +135,14 @@ while ! all_terminal; do
       unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD LD_LIBRARY_PATH
       export PYTHONNOUSERSITE=1
       cd '${REPO}'
-      for worker in 0 1 2 3; do
-        srun --exclusive --nodes=1 --ntasks=1 --cpus-per-task=16 --gpus=1 \
-          --cpu-bind=cores --export=ALL bash -lc \"worker\${worker}\" \
-          >> '${LOG_ROOT}/worker_'\${worker}'.log' 2>&1 &
-        pids[\${worker}]=\$!
-      done
-      code=0
-      for pid in \${pids[@]}; do wait \${pid} || code=\$?; done
+      # Launch all four independent one-GPU workers as tasks in one Slurm step.
+      # Four simultaneous --exclusive one-task steps can each request the whole
+      # node under StepMgr, leaving every step pending inside an allocated node.
+      # A single four-task step gives Slurm an unambiguous GPU/CPU packing.
+      srun --nodes=1 --ntasks=4 --cpus-per-task=16 --gpus-per-task=1 \
+        --gpu-bind=single:1 --cpu-bind=cores --export=ALL \
+        bash -lc 'worker\${SLURM_PROCID} >> "${LOG_ROOT}/worker_\${SLURM_PROCID}.log" 2>&1'
+      code=\$?
       [[ \${code} -eq 0 || \${code} -eq 75 ]]
     "
   code=$?

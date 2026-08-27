@@ -3431,6 +3431,46 @@ Four-GPU execution policy for these gates:
 AFTER P3B-R/R1 AND THE PAIRED VIEW LADDER ARE FROZEN
 **Duration:** 2–5 GPU days for bounded controls
 
+#### P11.0 — Frozen factorial-view contract
+
+The next representation experiment is a factorial rather than an undifferentiated
+``more data'' run. Keep three axes separate:
+
+1. observation stage: `V_dense -> V_assign -> V_final`;
+2. tracer information: BRIGHT-only versus BRIGHT+FAINT context with separate channels;
+3. response realization: native nested views, registered stochastic training
+   degradations, and one held-out degradation recipe.
+
+The frozen machine-readable definition is
+`configs/p11_factorial_views_v1.json`. Every view of one latent core remains in the
+same outer split and the total scientific weight of that core is one, divided among
+the views sampled in an optimizer step. BRIGHT-only remains the production default;
+FAINT is a separately testable information axis, not an implicit response channel.
+The current mocks have `C_z=1` and do not license a learned redshift-success response.
+
+Progress:
+
+- [x] Freeze the observation-stage, tracer and stochastic-response axes, including
+  `tileloc_correlated_thinning` as the held-out degradation recipe.
+- [x] Freeze the visible-phase source manifest without reading ph001 or large data on
+  the login node. Artifact:
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p11_factorial_views_v1/FACTORIAL_VIEW_SOURCES_READY.json`.
+- [ ] Materialize missing `V_dense` BRIGHT/FAINT and `V_assign` BRIGHT count fields on
+  the exact canonical P3 lattices in a CPU allocation. Reuse the immutable final-view
+  P3/P3b-R products. The existing FAINT overlay is assignment-stage context and is
+  not silently relabelled as a final Loa catalogue; under the audited mock `C_z=1`,
+  the final FAINT view is an explicit identity reference to the supported assignment
+  field. Builder: `workflows/abacus_tweb/p11_build_factorial_view_counts.py`.
+- [x] Install a bounded persistent CPU supervisor for the heavy count build. It waits
+  for `P12A_COMPLETE.json` and an allocation slot before running, so optional P11
+  preparation cannot delay P12 or exceed the two-allocation policy. Artifact:
+  `workflows/abacus_tweb/run_p11_factorial_view_counts_interactive.sh`.
+- [ ] Validate nesting, TARGETID identity, count conservation, common random support,
+  per-view response tuples, and one-total-weight ownership before writing
+  `FACTORIAL_VIEW_PRODUCTS_READY.json`.
+- [ ] Validate a supervised dense-view teacher on ph006; close P11 cheaply if it has
+  no material headroom over the final-view student.
+
 JEPA is not GraphNet-only. Apply it to whichever graph, grid, or F-tier encoders remain
 competitive. It is a parallel summary-learning challenger, not part of the critical
 path to Arm A or P12. It need not wait for Arm C to prove that the failure is purely a
@@ -3602,6 +3642,56 @@ skill, width-versus-error, posterior contraction, and prior-dominated flags. Con
 or stratify the diagnostics by phase, redshift, sampling density, `M`, `C_fibre`, `C_z`,
 mask distance, hole versus footprint edge and held-out response recipe. Scalar
 tempering that repairs average coverage while leaving shape failure is insufficient.
+
+#### P12-A — Coordinate-aligned baseline posterior
+
+Complete this before using independently trained raw fold latents. Fit
+
+~~~text
+q_A(lambda_g | lambda_hat_OOF,g, redshift, ntilde(z), cap,
+                    field_support_distance, H_fid)
+~~~
+
+with the three physical OOF U-PATCH base predictions as the coordinate-aligned summary
+and ordered softplus coordinates as the posterior target. Artificial fold-boundary
+distance, fold ID, superblock ID and phase ID are not conditioning features. Fold and
+superblock are retained only to keep ph006 width calibration (folds 0--1) spatially
+disjoint from its selection report (folds 2--4). The first result must report proper
+log score, SBC, TARP, marginal and shell-conditional coverage, width-versus-error,
+knot reliability/Brier, posterior contraction and posterior-mean accuracy. A
+technical completion marker is distinct from a calibration-pass marker.
+
+Implementation status:
+
+- [x] Implement and unit-test the phase/shell sampling, ordered target transform,
+  deployable response feature contract, FMPE fit, disjoint ph006 calibration/evaluation
+  and posterior diagnostics in
+  `workflows/sbi/p12_prepare_base_response_dataset.py` and
+  `workflows/sbi/p12_train_base_response_fmpe.py`.
+- [ ] Finish and export the remaining omit-ph003/ph004/ph005 encoders; the persistent
+  `p12a_completion` supervisor is running corrected four-task interactive job
+  `57654542` on 2026-08-27 while strict controls continue independently. The initial
+  job `57653839` was relinquished after a Slurm step-packing audit found that only
+  three of four independent steps could start; no science result was lost.
+- [ ] Materialize `P12A_DATASET_READY.json` only after all five OOF marker/hash and
+  parent-set gates pass.
+- [ ] Fit/evaluate FMPE on ph006 and write `P12A_COMPLETE.json`; write the separate
+  `P12A_CALIBRATION_PASS.json` only if all registered calibration gates pass.
+- [x] Install the persistent `p12a_posterior` supervisor. It waits for all OOF exports
+  and a free allocation slot, enforces the two-allocation limit, then performs a GPU
+  canary and the full dataset/fit/evaluation chain using
+  `workflows/sbi/run_p12a_posterior_interactive.sh`.
+
+Execution order after the current strict controls is frozen:
+
+1. complete P12-A now rather than waiting for P11;
+2. finish the factorial view products and dense-teacher headroom gate;
+3. run matched supervised, masked-reconstruction, JEPA and curriculum controls;
+4. condition the same P12 head on the winning summary and compare proper posterior
+   scores;
+5. run end-to-end JEPA-initialized FMPE only after the frozen-summary challenger wins;
+6. stress-test one held-out HOD only after in-domain calibration, and open ph001 once
+   all choices are frozen.
 
 Progress checklist:
 
