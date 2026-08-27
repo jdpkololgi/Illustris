@@ -77,6 +77,14 @@ Artifacts/code:
 - `tests/phase4/test_p12_base_response.py`.
 
 
+### 2026-08-25 — [code] Project progress / validity audit
+
+- What: Wrote timestamped validity audit separating established vs preliminary vs gated claims; companion Canvas; verified live jobs 57582458/57583442 and epoch-10 R2/R3-RF means.
+- Why / decision: Posterior samples ≈ per-galaxy amortized ordered-eigenvalue posteriors under H_fid when calibrated — **not** jointly coherent tidal fields. P12 incomplete; P13 gated; G3 wedge demonstrator only. U-PATCH ph006 R2(λ₁)=0.573 established.
+- Next: Finish strict controls; complete P12 OOF+calibration; freeze ph001 predictions before one-open.
+- Refs: `docs/project_progress_validity_audit_20260825.md`; canvas `graphweb-validity-audit.canvas.tsx`
+
+
 ### 2026-08-25 — [code/data/run] Strict sparse-random and cross-phase controls ready; GPU gate queued
 
 The registered R3-RF-DM and cross-phase-FAINT groundwork is complete for every
