@@ -1,6 +1,82 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
 
+### 2026-08-27 — [science/code/run] P12-A is the immediate posterior baseline; factorial JEPA sources frozen
+
+The execution order is frozen as: finish the already-bounded strict FAINT controls;
+complete the coordinate-aligned P12-A posterior now; build the factorial observation
+views and test whether a dense-view teacher has ph006 headroom; only then spend GPU
+time on matched supervised, masked-reconstruction, JEPA and curriculum controls. Any
+winning summary is fed to the same posterior head and judged by log score, SBC/TARP,
+conditional coverage, interval width and tail/class reliability. End-to-end
+JEPA-initialized FMPE, held-out HOD stress tests and the one-open ph001 evaluation remain
+later gates. JEPA is a deployable-summary challenger, not uncertainty estimation and
+not recovery of information removed by the observation operator.
+
+P12-A is defined as
+`q(lambda | three-dimensional OOF U-PATCH base prediction, deployable response, H_fid)`.
+The conditioning variables are the physical base eigenvalue prediction, redshift,
+`ntilde(z)`, cap and physical field-support distance. Phase, fold, superblock and the
+artificial fold-boundary distance are excluded as features. Fold/superblock identity is
+retained only to separate ph006 folds 0--1 for width calibration from folds 2--4 for
+selection reporting. Posterior targets use ordered softplus coordinates. The new
+preparation/evaluation code reports physical-space log score, SBC, TARP, marginal and
+shell-conditional coverage, width--error association, posterior contraction and knot
+reliability/Brier; `P12A_COMPLETE.json` is intentionally distinct from the stricter
+`P12A_CALIBRATION_PASS.json`. Eleven focused P11/P12 tests pass.
+
+OOF status at restart was unchanged: ph000/ph002/ph006 exports are complete;
+omit-ph003 and omit-ph004 are at epoch 9, and omit-ph005 at epoch 16. Persistent tmux
+session `p12a_completion` requested four-GPU interactive job `57653839` to resume the
+three exact checkpoints and export their omitted phases. It is the second permitted
+allocation; strict-control job `57651100` remains allocation one. ph001 remains sealed.
+
+The first P12 allocation exposed an orchestration inefficiency: three independent
+one-GPU steps launched while the fourth remained queued inside the already granted
+node. This was Slurm step packing, not a model/data failure. The launcher now uses one
+four-task step with one bound GPU per task. The idle allocation was relinquished and
+replacement job `57654542` has all four tasks running. A second persistent tmux
+session, `p12a_posterior`, waits for all six summary markers and for the crossfit job to
+release its slot; it cannot request a third submitted allocation. It then runs the
+P12-A dataset build, a small FMPE canary, the full fit, and ph006 calibration/evaluation
+on an interactive GPU node. The chain is implemented in
+`workflows/sbi/run_p12a_posterior_interactive.sh` and writes logs below
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_logs/`.
+
+The P11 design now keeps three causal axes separate: observation stage
+`V_dense/V_assign/V_final`, BRIGHT-only versus BRIGHT+FAINT context, and stochastic
+response realization. `tileloc_correlated_thinning` is frozen as the held-out
+degradation recipe; all views of one latent core remain in one outer split with total
+weight one. BRIGHT-only is the production default. The manifest-only, login-safe source
+audit passes for ph000/ph002--ph006 and records that the heavy products still missing
+are dense BRIGHT/FAINT count fields and assigned BRIGHT counts. No large FITS/HDF5 work
+was run on the login node.
+
+The source audit was tightened after implementation review: the extant FAINT overlay
+is an assignment-stage field, not an independently validated final Loa FAINT
+catalogue. `V_final` therefore references it only under the explicit current-mock
+`C_z=1` identity contract. The heavy builder now constructs targetable and assigned
+BRIGHT/FAINT count fields on the exact P3 lattices, applies the common random-derived
+support, and requires `V_final Bright <= V_assign Bright <= V_dense Bright` plus the
+corresponding assigned/dense FAINT nesting voxel by voxel. It reads no labels or
+ph001. Persistent tmux session `p11_factorial_products` waits for P12-A to complete
+before requesting a CPU allocation, so the factorial preparation cannot displace the
+production posterior work.
+
+Artifacts/code:
+
+- `configs/p11_factorial_views_v1.json`;
+- `workflows/abacus_tweb/p11_prepare_factorial_view_sources.py`;
+- `workflows/abacus_tweb/p11_build_factorial_view_counts.py`;
+- `workflows/abacus_tweb/run_p11_factorial_view_counts_interactive.sh`;
+- `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p11_factorial_views_v1/FACTORIAL_VIEW_SOURCES_READY.json`;
+- `workflows/sbi/p12_prepare_base_response_dataset.py`;
+- `workflows/sbi/p12_train_base_response_fmpe.py`;
+- `workflows/sbi/run_p12a_posterior_interactive.sh`;
+- `tests/phase4/test_p11_factorial_view_contract.py`;
+- `tests/phase4/test_p12_base_response.py`.
+
+
 ### 2026-08-25 — [code/data/run] Strict sparse-random and cross-phase controls ready; GPU gate queued
 
 The registered R3-RF-DM and cross-phase-FAINT groundwork is complete for every
