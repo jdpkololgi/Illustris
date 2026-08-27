@@ -17,6 +17,11 @@ VALIDATOR=${REPO}/workflows/abacus_tweb/p10_validate_strict_multitracer_controls
 TRAINER=${REPO}/workflows/abacus_tweb/p10_train_arm_a.py
 SCRIPT=${REPO}/workflows/sbi/run_p10_strict_multitracer_controls_interactive.sh
 PHASES=(ph000 ph002 ph003 ph004 ph005 ph006)
+# Optional external science gate.  This does not change trainer arguments,
+# optimizer state, or the frozen 15-epoch cosine schedule; it only prevents the
+# interactive supervisor from requesting another allocation after every worker
+# has written the requested complete-epoch validation row.
+GATE_EPOCH=${P10_STRICT_GATE_EPOCH:-0}
 mkdir -p "${PRODUCT_ROOT}" "${TRAIN_ROOT}" "${LOG_ROOT}"
 
 clean_environment() {
@@ -115,6 +120,12 @@ run_gpu_worker() {
   cd "${REPO}"
   local complete=${TRAIN_ROOT}/${run_name}/unet_multitracer/seed_${seed}/ARM_A_TRAINING_COMPLETE.json
   [[ -f "${complete}" ]] && return 0
+  if (( GATE_EPOCH > 0 )); then
+    local history=${TRAIN_ROOT}/${run_name}/unet_multitracer/seed_${seed}/epoch_history.jsonl
+    if [[ -f "${history}" ]] && (( $(wc -l < "${history}") >= GATE_EPOCH )); then
+      return 0
+    fi
+  fi
 
   canary=${run_name}_canary1000
   local canary_marker=${TRAIN_ROOT}/${canary}/unet_multitracer/seed_${seed}/TECHNICAL_CANARY_COMPLETE.json
@@ -139,7 +150,15 @@ gpu_terminal() {
   for arm in dm xphase; do
     [[ "${arm}" == dm ]] && run_name=p10_r3_rf_dm_seed1701_v1 || run_name=p10_bf_xphase_forward_v1
     for seed in 42 43; do
-      [[ -f "${TRAIN_ROOT}/${run_name}/unet_multitracer/seed_${seed}/ARM_A_TRAINING_COMPLETE.json" ]] || return 1
+      local run_dir=${TRAIN_ROOT}/${run_name}/unet_multitracer/seed_${seed}
+      if [[ -f "${run_dir}/ARM_A_TRAINING_COMPLETE.json" ]]; then
+        continue
+      fi
+      if (( GATE_EPOCH > 0 )) && [[ -f "${run_dir}/epoch_history.jsonl" ]] &&
+        (( $(wc -l < "${run_dir}/epoch_history.jsonl") >= GATE_EPOCH )); then
+        continue
+      fi
+      return 1
     done
   done
 }
@@ -152,6 +171,7 @@ esac
 
 SUPERVISOR_LOG=${LOG_ROOT}/supervisor.log
 echo "$(date -u +%FT%TZ) supervisor_start pid=$$ host=$(hostname)" >> "${SUPERVISOR_LOG}"
+echo "$(date -u +%FT%TZ) supervisor_gate_epoch=${GATE_EPOCH}" >> "${SUPERVISOR_LOG}"
 
 attempt=0
 while ! cpu_terminal; do
