@@ -3264,6 +3264,13 @@ not duplicated.
   `response_training/p10_r2_assignment_v1/` and `response_training/p10_r3_rf_v1/`;
   every task retains the frozen 84,446-patch epoch, 20-epoch cosine schedule,
   checkpoint every 250 updates and automatic resume.
+- [x] Reach the registered matched epoch-15 response-ladder comparison with two seeds
+  per arm. R2 has macro `0.58143/0.57839` (mean `0.57991`) and R3-RF
+  `0.57513/0.56738` (mean `0.57126`), versus matched epoch-15 R0 `0.56003`.
+  The gains are modest and reproducible (`+0.01988/+0.01123` in the two-seed means),
+  occur mainly in the first three shells, and do not recover the BRIGHT+FAINT result.
+  The configured 20-epoch terminal markers remain open; the two-seed means are already
+  approximately flat from epoch 14 to 15, so completing them is subordinate to P12-A.
 - [ ] Compare R0, R1, R2, R3-RF, FAINT Null and real FAINT at matched optimizer updates
   and frozen ph006 scoring. Report the full epoch histories as well as best checkpoints.
 - [ ] Promote R3-RF as the deterministic response representation only if its gain is
@@ -3343,6 +3350,11 @@ than silently reindexed.
 - [x] Pass a 1,000-update one-A100 throughput canary for the primary R3-RF-DM and
   cross-phase controls. All four seed/control canaries passed in interactive job
   `57583442` before the scientific runs began.
+- [x] Complete the matched epoch-5 diagnostic for both strict controls and both model
+  seeds. The two-seed macro means are `0.49388` for R3-RF-DM and `0.50295` for
+  cross-phase FAINT, versus epoch-5 R0 `0.44071`. Their sparse-shell means are
+  `0.35347/0.34859` versus R0 `0.35273`: the early gain is supported-shell
+  optimization/representation, not added sparse-shell cosmological information.
 - [ ] Train the primary R3-RF-DM realization and cross-phase Null with the frozen
   six-channel U-PATCH, seed, phase/core sampler, optimizer-update schedule and ph006
   evaluator. Extend the second random realization only after the first reaches the
@@ -3668,11 +3680,13 @@ Implementation status:
   and posterior diagnostics in
   `workflows/sbi/p12_prepare_base_response_dataset.py` and
   `workflows/sbi/p12_train_base_response_fmpe.py`.
-- [ ] Finish and export the remaining omit-ph003/ph004/ph005 encoders; the persistent
-  `p12a_completion` supervisor is running corrected four-task interactive job
-  `57654542` on 2026-08-27 while strict controls continue independently. The initial
-  job `57653839` was relinquished after a Slurm step-packing audit found that only
-  three of four independent steps could start; no science result was lost.
+- [ ] Finish and export the remaining omit-ph003/ph004/ph005 encoders. Job `57654542`
+  ended at its four-hour limit on 2026-08-27; subsequent bounded allocation requests
+  were not granted and the supervisor exited without data loss. Checkpoints are at
+  epochs `10/10/17`. Persistent session `p12a_completion` was restored on 2026-08-28;
+  replacement request `57669956` is pending with NERSC reason `PartitionDown`.
+  Strict controls resume independently in `p10_strict_controls_e15` within the
+  two-allocation limit.
 - [ ] Materialize `P12A_DATASET_READY.json` only after all five OOF marker/hash and
   parent-set gates pass.
 - [ ] Fit/evaluate FMPE on ph006 and write `P12A_COMPLETE.json`; write the separate
@@ -3728,8 +3742,12 @@ Progress checklist:
       `5,026,863` and `4,929,962` parent-keyed rows respectively and pass their hash,
       parent-set and no-ph001 guards.
     - [ ] Train and export the `omit_ph003`, `omit_ph004`, and `omit_ph005` encoders.
-      The `omit_ph005` encoder has completed three epochs, reaching macro `0.41474`,
-      and is active in epoch 4; ph003/ph004 remain queued behind Proxy/Null.
+      Their latest complete epochs are `10/10/17`, with macro
+      `0.53157/0.54368/0.56569`, first-three
+      `0.59372/0.60449/0.62406`, and sparse-shell
+      `0.34514/0.36127/0.39058`. All are checkpoint-resumable; no OOF marker is
+      written until the corresponding epoch-20 training and parent/hash export gates
+      pass.
     - [ ] Export ph006 summaries from the frozen all-five-phase epoch-20 U-PATCH
       checkpoint and concatenate the five leakage-safe training shards only after all
       parent sets, hashes and response schemas pass.

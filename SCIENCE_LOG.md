@@ -1,6 +1,55 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
 
+### 2026-08-28 — [science/code/run] Response ladder reaches epoch-15 comparison; P12 crossfits require restart
+
+The deterministic U-PATCH response ladder now has a matched epoch-15 comparison, but
+the strict causal controls and P12 are not complete.  At epoch 15, the frozen
+BRIGHT-only R0 reference is macro `R2(lambda1)=0.56003`.  The two-seed means are
+`0.57991` for R2 assignment response (`0.58143/0.57839`) and `0.57126` for the
+high-S/N R3-RF random field (`0.57513/0.56738`).  Their gains over matched-age R0 are
+therefore only `+0.01988` and `+0.01123`.  R2 improves the first-three-shell macro
+from `0.62042` to `0.64591`, but changes the sparse shell only from `0.37886` to
+`0.38189`; R3-RF similarly reaches `0.63525/0.37928`.  The compressed R1 arm remains
+at epoch 10 and is slightly below matched R0 (`0.52301` versus `0.52943`).  R2/R3-RF
+two-seed means have effectively levelled between epochs 14 and 15, although their
+configured 20-epoch schedules have not written terminal markers.
+
+The BRIGHT+FAINT contrast is much larger: the registered epoch-15 real-FAINT Proxy
+reaches `0.69363` and the old within-phase FAINT Null `0.67597`, compared with
+`0.56003` for R0.  This gap is not explained by either compressed or voxel-resolved
+random response.  It also cannot yet be attributed cleanly to extra physical tracer
+information because the old Null preserves same-phase angular structure.  The strict
+controls are only at epoch 5.  At that matched age, the two-seed means are `0.49388`
+for density-matched sparse randoms and `0.50295` for cross-phase FAINT, versus
+`0.44071` for R0.  Their early gains occur almost entirely in the first three shells;
+the sparse-shell scores remain approximately unchanged.  Thus an unrelated or
+synthetic second point-process field can improve optimization/representation without
+adding information about the target potential.  This is evidence against interpreting
+the FAINT Null as a response-only control, not evidence that real FAINT is useless.
+Epoch-10 and epoch-15 strict comparisons remain mandatory before any production
+BRIGHT+FAINT decision.
+
+P12-A has not produced a posterior result.  The four-GPU crossfit allocation
+`57654542` ended at its time limit on 2026-08-27.  Subsequent ten-minute allocation
+requests 3--24 were not granted and the bounded completion supervisor exited.  The
+checkpoint state is intact: ph000/ph002/ph006 OOF exports pass, omit-ph003 and
+omit-ph004 have completed epoch 10, and omit-ph005 epoch 17; the three remaining OOF
+markers, `P12A_DATASET_READY.json`, `P12A_COMPLETE.json`, and
+`P12A_CALIBRATION_PASS.json` are absent.  On 2026-08-28 persistent supervisors were
+restored as `p12a_completion` and `p10_strict_controls_e15`.  Replacement P12 request
+`57669956` is pending with NERSC reason `PartitionDown`; no scientific failure or
+posterior diagnostic has occurred.  The already-running P12-A posterior watcher
+continues to wait for all six OOF markers.  ph001 remains sealed.
+
+The production ordering is unchanged: prioritize P12-A completion and calibration;
+finish the strict epoch-10/15 controls in the spare allocation; keep the first VAC
+BRIGHT-only and response-conditioned; treat R2 as the strongest deterministic
+response challenger; and promote BGS_FAINT only if it beats both strict nulls after
+convergence and improves the same calibrated posterior contract.  P11 remains a
+non-blocking summary-learning challenger after this observation ladder is frozen.
+
+
 ### 2026-08-27 — [science/code/run] P12-A is the immediate posterior baseline; factorial JEPA sources frozen
 
 The execution order is frozen as: finish the already-bounded strict FAINT controls;
