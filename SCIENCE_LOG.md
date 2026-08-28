@@ -24,6 +24,16 @@ the allocation-aware epoch-10 to epoch-15 handoff. At this restart snapshot the 
 controls have five completed epochs; the response-ladder and BRIGHT+FAINT histories
 remain unchanged from the preceding entry.
 
+The first post-recovery live audit found the four strict workers active: cross-phase
+FAINT seeds 42/43 have both written epoch 6 (`0.51355/0.50899`), R3-RF-DM seed 42 has
+written epoch 6 (`0.49983`), and seed 43 is completing the same epoch. The P12 workers
+are respectively computing omit-ph003 epoch 10, omit-ph004 epoch 11, and omit-ph005
+epoch 18; their last atomic history rows remain epochs `9/10/17` until validation and
+checkpoint writes finish. Two allocation-free P12 posterior watchers had survived
+different login hosts. The older duplicate was terminated without touching a Slurm
+job, and `run_p12a_posterior_interactive.sh` now acquires a lifetime `flock` so future
+reconnects cannot race to submit the same posterior fit. ph001 remains sealed.
+
 
 ### 2026-08-28 — [science/code/run] Response ladder reaches epoch-15 comparison; P12 crossfits require restart
 

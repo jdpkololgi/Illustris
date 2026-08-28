@@ -18,6 +18,16 @@ PREP=${REPO}/workflows/sbi/p12_prepare_base_response_dataset.py
 TRAIN=${REPO}/workflows/sbi/p12_train_base_response_fmpe.py
 mkdir -p "${LOG_ROOT}"
 
+# A reconnect must not create two allocation watchers for the same posterior.
+# Keep the lock descriptor open for the lifetime of this supervisor; flock
+# releases it automatically if the shell exits or its tmux session is killed.
+LOCK_PATH=${LOG_ROOT}/supervisor.lock
+exec 9>"${LOCK_PATH}"
+if ! flock -n 9; then
+  echo "$(date -u +%FT%TZ) duplicate_supervisor_refused pid=$$" >> "${LOG_ROOT}/supervisor.log"
+  exit 0
+fi
+
 all_summaries_ready() {
   local phase
   for phase in ph000 ph002 ph003 ph004 ph005 ph006; do
