@@ -40,6 +40,20 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   - `workflows/abacus_tweb/p3a_canary_parity.py`
   - `workflows/abacus_tweb/p3a_build_canonical_fields.py`
   - `workflows/abacus_tweb/p3a_postbuild_validate.py`
+- Generalisable-GraphWeb P8 deterministic spatial-transfer screen and audit:
+  - `workflows/abacus_tweb/p8_prepare_deterministic.py`
+  - `workflows/abacus_tweb/p8_prepare_graph_features.py`
+  - `workflows/abacus_tweb/p8_classical_fullcap.py`
+  - `workflows/abacus_tweb/p8_train_graph_patch.py`
+  - `workflows/abacus_tweb/p8_train_unet_patch.py`
+  - `workflows/abacus_tweb/p8_audit_training_adequacy.py`
+  - `workflows/abacus_tweb/p8_summarize_screens.py`
+  - Current status: rotations 0/2 are frozen optimization-smoke evidence; the
+    learned-model gate is `INCONCLUSIVE_OPTIMIZATION_AUDIT_REQUIRED`.
+    Exposure-aware P8.5 recovery is specified but not implemented in the
+    current replacement-sampling trainers. See `RUNBOOK.md` before launching
+    them, `docs/plan_generalisable_graphweb_vac.md` section P8 for the protocol,
+    and `docs/evidence/p8/` for machine-readable evidence.
 - Abacus SBI cache + wedge subvolumes:
   - `workflows/abacus_tweb/build_abacus_sbi_cache.py`
   - `workflows/abacus_tweb/subset_abacus_graph_wedge_for_sbi.py`

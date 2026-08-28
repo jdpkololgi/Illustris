@@ -200,6 +200,115 @@ HDF5 lattices. A valid run has passing `unit_audit.json`, `field_manifest.json`,
 Consumers must load the checksummed manifest/schema contract; they must not infer
 units or channel order from an unaccompanied HDF5 file.
 
+## P8 Deterministic Spatial-Transfer Screens
+
+P8 compares finite-context graph and field patch encoders against matched
+full-cap classical reconstruction on blocked sky folds. The controlling metric
+is the equal-weight four-shell macro R² for lambda1 over every authoritative
+validation-core galaxy. The first-three-shell score is diagnostic: a four-shell
+macro lead caused only by classical failure in the sparsest shell is not a
+learned-model adoption win.
+
+Current status is **optimization smoke only**. Rotations 0 and 2 used
+replacement-sampled patches, reached only about 15% of eligible training cores,
+and performed one complete-fold validation each. Their gate is
+`INCONCLUSIVE_OPTIMIZATION_AUDIT_REQUIRED`. The P8.5 exposure-aware epoch
+protocol in `docs/plan_generalisable_graphweb_vac.md` is not implemented by the
+current trainers; `--loss-log-every` adds a useful loss trace but does not make
+a run P8.5-compliant.
+
+Use `cosmic_env` in an interactive CUDA allocation. There is no P8 SLURM submit
+script, and G-PATCH, U-PATCH, and the full-cap CIC FFT path reject an unavailable
+CUDA device. The runtime root defaults to:
+
+```bash
+export P8_ROOT=/pscratch/sd/d/dkololgi/abacus/p8_deterministic_v1
+```
+
+The verified stage order is:
+
+```text
+P4 blocked-fold assignment + P5 graph adapter + P6 field adapter
+  -> p8_prepare_deterministic.py
+  -> p8_prepare_parent_diagnostics.py
+  -> p8_prepare_graph_features.py (rotation 0 and 2)
+  -> p8_classical_fullcap.py
+  -> p8_train_graph_patch.py / p8_train_unet_patch.py
+  -> p8_audit_predictions.py
+  -> p8_audit_training_adequacy.py
+  -> p8_summarize_screens.py
+```
+
+Preparation and baseline examples:
+
+```bash
+python workflows/abacus_tweb/p8_prepare_deterministic.py \
+  --output-root "$P8_ROOT"
+python workflows/abacus_tweb/p8_prepare_parent_diagnostics.py \
+  --p8-root "$P8_ROOT"
+python workflows/abacus_tweb/p8_prepare_graph_features.py \
+  --rotation 0 --p8-root "$P8_ROOT"
+python workflows/abacus_tweb/p8_prepare_graph_features.py \
+  --rotation 2 --p8-root "$P8_ROOT"
+python workflows/abacus_tweb/p8_classical_fullcap.py \
+  --screen-rotations 0 2 --p8-root "$P8_ROOT"
+```
+
+The following launches reproduce the frozen short-screen schedule; they are not
+converged recovery runs:
+
+```bash
+python workflows/abacus_tweb/p8_train_graph_patch.py \
+  --rotation 0 --steps 2000 --eval-every 2000 --patience 1 \
+  --loss-log-every 25 --p8-root "$P8_ROOT"
+python workflows/abacus_tweb/p8_train_unet_patch.py \
+  --rotation 0 --steps 2000 --eval-every 2000 --patience 1 \
+  --loss-log-every 25 --p8-root "$P8_ROOT"
+```
+
+Repeat explicitly for rotation 2. Do not rely on model defaults when making a
+matched comparison: U-PATCH defaults to 4000 steps, validation every 500 steps,
+and patience 5, whereas G-PATCH defaults to 2000/2000/1.
+
+Audit existing artifacts and rebuild the programme-level gate with:
+
+```bash
+python workflows/abacus_tweb/p8_audit_training_adequacy.py \
+  --p8-root "$P8_ROOT" --rotations 0 2
+python workflows/abacus_tweb/p8_summarize_screens.py \
+  --p8-root "$P8_ROOT" --rotations 0 2
+```
+
+Operational and scientific constraints:
+
+- P8 trains on **linear increments**
+  `(lambda1, lambda2-lambda1, lambda3-lambda2)` with a cumulative-sum inverse
+  and no post-hoc sorting. This frozen deterministic contract is different from
+  the ordered-softplus target used by the wedge NPE workflow; see
+  `docs/evidence/contracts/p8_target_metric_contract_v1.json`.
+- Most scripts accept `--p8-root`, but several upstream P4/P5/P6 inputs still
+  default to project-specific scratch paths. Inspect each script's `--help` and
+  pass its path options when reproducing the workflow elsewhere.
+- G-PATCH writes `pre_evaluation_checkpoint.pt` before expensive complete-fold
+  assembly. If an allocation ends during that evaluation, resume it with
+  `p8_eval_graph_checkpoint.py`; do not restart training merely to recover the
+  validation report.
+- Run `p8_audit_predictions.py` separately for each model and rotation when
+  regenerating diagnostics. Run the full-cap classical row before summarizing;
+  CIC alone still cannot close the registered strong-classical gate, which
+  requires exact DTFE or another validated strong baseline.
+- `plot_p8_smoke_eval.py`, `plot_p8_smoke_eval2.py`, and
+  `plot_p8_loss_curves.py` are evidence-figure scripts with fixed scratch
+  locations, not portable CLI entrypoints. Frozen runs predate loss tracing, so
+  they contain only one instantaneous loss and cannot yield a learning curve.
+- Same-phase blocked folds establish spatial-transfer evidence only. P10
+  cross-phase testing remains required for a production-transfer claim.
+
+Authoritative status and interpretation are in the newest P8 entries of
+`SCIENCE_LOG.md`; the protocol is in
+`docs/plan_generalisable_graphweb_vac.md`; machine-readable reports are under
+`docs/evidence/p8/`.
+
 ## Abacus SBI Cache And Wedges
 
 The active Abacus-scale SBI chain is:
