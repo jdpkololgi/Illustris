@@ -3358,7 +3358,10 @@ than silently reindexed.
 - [ ] Train the primary R3-RF-DM realization and cross-phase Null with the frozen
   six-channel U-PATCH, seed, phase/core sampler, optimizer-update schedule and ph006
   evaluator. Extend the second random realization only after the first reaches the
-  registered epoch-10 diagnostic or earlier technical failure.
+  registered epoch-10 diagnostic or earlier technical failure. Recovered job
+  `57670700` is running the four primary trajectories to epoch 10; persistent handoff
+  `workflows/sbi/wait_then_run_p10_strict_epoch15.sh` then resumes the same checkpoints
+  to epoch 15 without exceeding the two-allocation limit.
 - [ ] Compare matched epoch 10 and epoch 15 histories for R0/R1/R2/R3-RF/R3-RF-DM,
   cross-phase Null, old FAINT Null and real FAINT. Report two-seed/random-realisation
   sensitivity, every shell, slopes, variance ratios and response/boundary strata.
@@ -3684,9 +3687,9 @@ Implementation status:
   ended at its four-hour limit on 2026-08-27; subsequent bounded allocation requests
   were not granted and the supervisor exited without data loss. Checkpoints are at
   epochs `10/10/17`. Persistent session `p12a_completion` was restored on 2026-08-28;
-  replacement request `57669956` is pending with NERSC reason `PartitionDown`.
-  Strict controls resume independently in `p10_strict_controls_e15` within the
-  two-allocation limit.
+  after NERSC recovery job `57672005` is running on `nid008261`. Strict controls run
+  independently as job `57670700` and exactly one later epoch-15 continuation, within
+  the two-allocation limit.
 - [ ] Materialize `P12A_DATASET_READY.json` only after all five OOF marker/hash and
   parent-set gates pass.
 - [ ] Fit/evaluate FMPE on ph006 and write `P12A_COMPLETE.json`; write the separate

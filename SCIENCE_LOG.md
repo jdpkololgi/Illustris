@@ -1,6 +1,30 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
 
+### 2026-08-28 — [run/code] NERSC recovery: strict controls running and P12 chain resumed
+
+After NERSC compute and `/pscratch` recovered, the frozen completion programme was
+resumed without opening ph001 or changing any scientific contract. Strict-control job
+`57670700` is running on `nid008196` with four independent one-GPU workers. It was
+recovered from the earlier supervisor with the registered epoch-10 gate. Persistent
+session `p10_strict_controls_e15` now waits for that allocation to release and then
+resumes the same R3-RF-DM and cross-phase-FAINT checkpoints, seeds 42/43, to the full
+epoch-15 terminal markers while enforcing the two-submitted-job limit.
+
+P12 crossfit job `57672005` is running on `nid008261` as the second interactive node.
+Session `p12a_completion` resumes omit-ph003/ph004/ph005 from their
+atomic checkpoints and exports the missing OOF summaries. Session `p12a_posterior`
+remains allocation-free until all six summaries exist; it then builds P12-A, runs the
+FMPE canary and full fit, and evaluates/calibrates on the disjoint ph006 contract.
+
+`workflows/abacus_tweb/report_p10_u_patch_epoch_table.py` now reconstructs the matched
+per-epoch macro `R2(lambda1)` table directly from saved histories, averaging the
+registered two-seed arms. `workflows/sbi/wait_then_run_p10_strict_epoch15.sh` implements
+the allocation-aware epoch-10 to epoch-15 handoff. At this restart snapshot the strict
+controls have five completed epochs; the response-ladder and BRIGHT+FAINT histories
+remain unchanged from the preceding entry.
+
+
 ### 2026-08-28 — [science/code/run] Response ladder reaches epoch-15 comparison; P12 crossfits require restart
 
 The deterministic U-PATCH response ladder now has a matched epoch-15 comparison, but
