@@ -33,6 +33,10 @@ checkpoint writes finish. Two allocation-free P12 posterior watchers had survive
 different login hosts. The older duplicate was terminated without touching a Slurm
 job, and `run_p12a_posterior_interactive.sh` now acquires a lifetime `flock` so future
 reconnects cannot race to submit the same posterior fit. ph001 remains sealed.
+The epoch-15 handoff additionally requires all four atomic histories to reach epoch 10,
+not merely the disappearance of one Slurm job; this prevents the gate-10 supervisor
+and terminal continuation from racing if another allocation is needed.
+
 
 
 ### 2026-08-28 — [science/code/run] Response ladder reaches epoch-15 comparison; P12 crossfits require restart
