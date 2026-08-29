@@ -138,6 +138,29 @@ def sample_posterior(
     return np.concatenate(parts, axis=0)
 
 
+def paired_posterior_log_prob(
+    posterior: Any, theta: torch.Tensor, context: torch.Tensor
+) -> torch.Tensor:
+    """Evaluate paired q(theta_i | x_i) across SBI posterior API versions."""
+    if hasattr(posterior, "log_prob_batched"):
+        return posterior.log_prob_batched(
+            theta, x=context, norm_posterior=False, track_gradients=False
+        )
+    potential = getattr(posterior, "potential_fn", None)
+    if potential is None or not hasattr(potential, "set_x"):
+        raise AttributeError("posterior has no paired batched log-probability path")
+    potential.set_x(context, x_is_iid=False)
+    flow = getattr(potential, "flow", None)
+    if flow is None:
+        raise AttributeError("vector-field potential did not build a conditional flow")
+    value = flow.log_prob(theta.unsqueeze(0)).reshape(-1)
+    prior = getattr(potential, "prior", None)
+    if prior is not None:
+        in_support = torch.isfinite(prior.log_prob(theta))
+        value = torch.where(in_support, value, torch.full_like(value, float("-inf")))
+    return value
+
+
 def physical_log_score(
     posterior: Any,
     theta_scaled: np.ndarray,
@@ -154,10 +177,13 @@ def physical_log_score(
         stop = min(start + chunk, len(theta_scaled))
         y = torch.as_tensor(theta_scaled[start:stop], dtype=torch.float32, device=device)
         x = torch.as_tensor(context_scaled[start:stop], dtype=torch.float32, device=device)
-        log_prob = posterior.log_prob_batched(
-            y, x=x, norm_posterior=False, track_gradients=False
-        )
-        values.append(np.asarray(log_prob.detach().cpu(), dtype=np.float64))
+        log_prob = paired_posterior_log_prob(posterior, y, x)
+        array = np.asarray(log_prob.detach().cpu(), dtype=np.float64).reshape(-1)
+        if len(array) != stop - start:
+            raise RuntimeError(
+                f"paired posterior log-probability shape mismatch: {tuple(log_prob.shape)}"
+            )
+        values.append(array)
     log_q_y = np.concatenate(values)
     gaps = np.maximum(np.diff(truth_eigenvalues, axis=1), 1.0e-12)
     log_jacobian = (
@@ -322,7 +348,7 @@ def report_samples(
                 ).tolist(),
             }
         )
-    result["by_field_support_distance_quantile"] = support_rows
+    result["by_random_support_boundary_distance_quantile"] = support_rows
     return result
 
 
@@ -341,7 +367,13 @@ def main() -> None:
     parser.add_argument("--evaluation-rows", type=int, default=50_000)
     parser.add_argument("--score-rows", type=int, default=10_000)
     parser.add_argument("--sample-chunk", type=int, default=2048)
+    parser.add_argument("--dataloader-workers", type=int, default=0)
     args = parser.parse_args()
+    if args.dataloader_workers != 0:
+        raise ValueError(
+            "FMPE stores the training TensorDataset on CUDA; --dataloader-workers "
+            "must remain zero to prevent forked CUDA initialization"
+        )
     terminal = args.output_root / "P12A_COMPLETE.json"
     if terminal.exists():
         existing = json.loads(terminal.read_text())
@@ -405,7 +437,10 @@ def main() -> None:
         max_num_epochs=args.max_epochs,
         clip_max_norm=5.0,
         show_train_summary=True,
-        dataloader_kwargs={"num_workers": 4, "pin_memory": True},
+        dataloader_kwargs={
+            "num_workers": args.dataloader_workers,
+            "pin_memory": False,
+        },
     )
     posterior = inference.build_posterior(estimator)
     output = args.output_root

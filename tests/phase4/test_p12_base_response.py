@@ -1,12 +1,18 @@
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
+import h5py
 import numpy as np
+import torch
 
 from workflows.sbi.p12_prepare_base_response_dataset import (
+    sample_random_support_distance,
     softplus_coordinates,
     stratified_indices,
 )
 from workflows.sbi.p12_train_base_response_fmpe import (
+    paired_posterior_log_prob,
     theta_to_eigenvalues,
     weighted_coverage,
     weighted_r2,
@@ -46,6 +52,64 @@ class P12BaseResponseTests(unittest.TestCase):
         )
         coverage = weighted_coverage(samples, np.column_stack((truth,) * 3), weight, 0.68)
         np.testing.assert_allclose(coverage, 1.0)
+
+    def test_paired_log_prob_uses_non_iid_vector_field_potential(self):
+        class Flow:
+            def __init__(self, context):
+                self.context = context
+
+            def log_prob(self, theta):
+                return theta[..., 0] + self.context[:, 0]
+
+        class Prior:
+            def log_prob(self, theta):
+                return torch.zeros(len(theta), dtype=theta.dtype)
+
+        class Potential:
+            def __init__(self):
+                self.x_is_iid = None
+                self.prior = Prior()
+
+            def set_x(self, context, x_is_iid):
+                self.x_is_iid = x_is_iid
+                self.flow = Flow(context)
+
+        posterior = type("Posterior", (), {"potential_fn": Potential()})()
+        theta = torch.asarray([[1.0, 0.0], [2.0, 0.0]])
+        context = torch.asarray([[3.0], [4.0]])
+        value = paired_posterior_log_prob(posterior, theta, context)
+        torch.testing.assert_close(value, torch.asarray([4.0, 6.0]))
+        self.assertFalse(posterior.potential_fn.x_is_iid)
+
+    def test_random_support_distance_samples_disconnected_caps(self):
+        with TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            manifest = {"caps": {}}
+            for cap_name, value in (("SGC", 3.0), ("NGC", 7.0)):
+                path = root / f"{cap_name}.h5"
+                with h5py.File(path, "w") as handle:
+                    handle.create_dataset("counts", data=np.zeros((2, 2, 2)))
+                    handle.create_dataset(
+                        "distance_to_support_boundary",
+                        data=np.full((2, 2, 2), value, dtype=np.float32),
+                    )
+                    handle.create_dataset(
+                        "support_random",
+                        data=np.ones((2, 2, 2), dtype=np.uint8),
+                    )
+                manifest["caps"][cap_name] = {
+                    "field_path": str(path),
+                    "origin_mpc": [0.0, 0.0, 0.0],
+                    "cell_mpc": 1.0,
+                }
+            points = np.asarray(
+                [[0.2, 0.2, 0.2, 0.0], [1.2, 1.2, 1.2, 1.0]], dtype=np.float32
+            )
+            distance, support = sample_random_support_distance(
+                manifest, points, np.asarray([0, 1], dtype=np.int64)
+            )
+            np.testing.assert_allclose(distance, [3.0, 7.0])
+            np.testing.assert_array_equal(support, [True, True])
 
 
 if __name__ == "__main__":
