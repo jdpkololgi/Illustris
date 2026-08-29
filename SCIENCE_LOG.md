@@ -1,6 +1,67 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
 
+### 2026-08-29 - [science/code/run] P12 dataset contract repaired; FMPE canary passes and full fit starts
+
+All five leave-one-phase-out U-PATCH encoders and all six guarded OOF summaries
+(`ph000`, `ph002--ph006`) are complete. The first full P12-A dataset build then
+failed correctly on `ph000 invalid field-support distance`. Audit established that
+`active_assignment.npz[field_support_distance_mpc]` is an intentionally unfilled NaN
+placeholder in every visible phase, not a corrupted ph000 product. The deployable
+physical covariate already exists in the canonical P3b-R random-response overlays as
+`distance_to_support_boundary` with `support_random`.
+
+P12-A now samples those P3b-R channels at each OOF parent position, explicitly excludes
+`M=0` rows from the posterior target/calibration population before shell-stratified
+sampling, and records the excluded denominator. It never imputes unsupported area or
+treats it as a void. Provenance-keyed parent caches make the expensive phase/cap HDF5
+sampling a one-time operation; six phases are prepared in parallel. The 25k/5k
+six-phase canary at
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_contract_canary_v2/`
+passes with `sealed_phase_opened=false`. Supported OOF fractions are `0.96885` for
+legacy ph000 and `0.99411--0.99417` for ph002--ph006. The larger ph000 exclusion is
+retained as an explicit domain audit, not silently harmonized.
+
+The full response-conditioned dataset is now ready at
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/`: two million
+OOF training rows and 600,000 ph006 selection rows, conditioned on three physical base
+eigenvalue predictions, redshift, `ntilde(z)`, cap and
+`log1p_random_support_boundary_distance_mpc`. Phase, fold, superblock and artificial
+fold-boundary distance remain excluded as features. Fold/superblock are retained only
+for disjoint ph006 calibration and selection reporting.
+
+Two runtime defects were caught before the science fit: CUDA-resident FMPE tensors
+cannot be consumed by forked DataLoader workers, and this SBI version exposes paired
+FMPE density through its vector-field probability flow rather than
+`log_prob_batched`. The loader is now frozen to zero workers and paired
+`q(theta_i|x_i)` scoring uses the one-sample-by-batch continuous flow with a focused
+unit test. The official 50k/20k FMPE canary is technically complete: GPU training,
+posterior sampling, physical-space log score, TARP/SBC/coverage diagnostics, disjoint
+ph006 superblocks, checkpoint and `P12A_COMPLETE.json` export all work. Its calibration
+gate is intentionally not promoted because the smoke fit uses only three epochs and
+1,000 evaluation rows. The full P12-A fit is active in job `57716132` on one otherwise
+idle GPU; ph001 remains sealed.
+
+Random-response work is now an informative bounded ladder rather than the critical
+path. R1 reached epoch 15 with macro `R2(lambda1)=0.56790` and is resuming toward its
+frozen epoch-20 cap. At epoch 13 the strict density-matched random control is
+`0.55458/0.57513` across seeds (mean `0.56485`), while cross-phase FAINT is
+`0.57722/0.57782` (mean `0.57752`). Both continue to epoch 15. These values remain far
+below the old same-phase BRIGHT+FAINT Proxy/Null results, so the hypothesis that random
+response alone explains the FAINT gain is not supported; final strict-control markers
+are still required before closing that diagnosis.
+
+P11 degraded factorial views are ready at the source-contract level but not ready for
+JEPA training. `FACTORIAL_VIEW_SOURCES_READY.json`, the frozen view config and builders
+exist; the dense BRIGHT/FAINT and assigned BRIGHT count products, nesting/identity QA,
+`FACTORIAL_VIEW_PRODUCTS_READY.json`, and the supervised dense-teacher ph006 headroom
+gate remain outstanding. They can proceed as a separate, non-blocking branch after the
+full P12 marker releases an allocation. JEPA opens only if the dense teacher transfers
+with measurable headroom; it remains a representation challenger, not posterior
+uncertainty or recovery of information removed by selection.
+
+
+
 ### 2026-08-28 — [run/code] NERSC recovery: strict controls running and P12 chain resumed
 
 After NERSC compute and `/pscratch` recovered, the frozen completion programme was

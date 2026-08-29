@@ -3442,8 +3442,8 @@ Four-GPU execution policy for these gates:
 
 ### P11 — Representation pretraining
 
-**Status:** BOUNDED AND NON-BLOCKING; RANDOM-RESPONSE VIEWS ARE MANDATORY; OPEN ONLY
-AFTER P3B-R/R1 AND THE PAIRED VIEW LADDER ARE FROZEN
+**Status:** SOURCE CONTRACT FROZEN; COUNT PRODUCTS AND DENSE-TEACHER GATE PENDING;
+BOUNDED AND NON-BLOCKING; RANDOM-RESPONSE VIEWS ARE MANDATORY
 **Duration:** 2–5 GPU days for bounded controls
 
 #### P11.0 — Frozen factorial-view contract
@@ -3664,7 +3664,7 @@ Complete this before using independently trained raw fold latents. Fit
 
 ~~~text
 q_A(lambda_g | lambda_hat_OOF,g, redshift, ntilde(z), cap,
-                    field_support_distance, H_fid)
+                    random_support_boundary_distance, H_fid)
 ~~~
 
 with the three physical OOF U-PATCH base predictions as the coordinate-aligned summary
@@ -3683,15 +3683,19 @@ Implementation status:
   and posterior diagnostics in
   `workflows/sbi/p12_prepare_base_response_dataset.py` and
   `workflows/sbi/p12_train_base_response_fmpe.py`.
-- [ ] Finish and export the remaining omit-ph003/ph004/ph005 encoders. Job `57654542`
-  ended at its four-hour limit on 2026-08-27; subsequent bounded allocation requests
-  were not granted and the supervisor exited without data loss. Checkpoints are at
-  epochs `10/10/17`. Persistent session `p12a_completion` was restored on 2026-08-28;
-  after NERSC recovery job `57672005` is running on `nid008261`. Strict controls run
-  independently as job `57670700` and exactly one later epoch-15 continuation, within
-  the two-allocation limit.
-- [ ] Materialize `P12A_DATASET_READY.json` only after all five OOF marker/hash and
-  parent-set gates pass.
+- [x] Complete all five leave-one-phase-out encoders and export the six guarded OOF
+  summaries (`ph000`, `ph002--ph006`). Every `OOF_SUMMARY_COMPLETE.json` passes its
+  parent/hash, omitted-phase and sealed-ph001 gates.
+- [x] Correct the P12 response covariate after the full builder exposed that P4
+  `field_support_distance_mpc` is an intentionally unfilled NaN placeholder. P12 now
+  samples `distance_to_support_boundary` and `support_random` from the canonical P3b-R
+  overlays, excludes `M=0` rows before shell stratification, and caches the parent-level
+  response under `p12a_random_support_parent_cache_v2/`. The six-phase 25k/5k canary is
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_contract_canary_v2/`.
+- [x] Materialize the full two-million-row training and 600k-row ph006 selection
+  dataset with `P12A_DATASET_READY.json` after all OOF, parent, random-support and
+  finiteness gates pass:
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/`.
 - [ ] Fit/evaluate FMPE on ph006 and write `P12A_COMPLETE.json`; write the separate
   `P12A_CALIBRATION_PASS.json` only if all registered calibration gates pass.
 - [x] Install the persistent `p12a_posterior` supervisor. It waits for all OOF exports
@@ -3714,7 +3718,7 @@ Progress checklist:
 
 - [x] Reopen after the five-phase U-PATCH representation passed ph006 deterministic
   selection at epoch 20. This opens P12 preparation; it does not unseal ph001.
-- [ ] Generate leakage-safe out-of-fold conditioning summaries.
+- [x] Generate leakage-safe out-of-fold conditioning summaries.
   - [x] Implement the leave-one-phase-out contract builder and guarded latent exporter.
     The exporter refuses ph001 and refuses any phase listed in the source checkpoint's
     training phases; its validation phase must be exactly the exported phase.
@@ -3724,7 +3728,7 @@ Progress checklist:
     contain `67,244--67,678` complete training cores and `16,768--17,202` unique
     omitted-phase validation cores, and every omitted phase is absent from its training
     epoch. Evidence: `docs/evidence/p10/p12_crossfit_contracts_ready_20260820.json`.
-  - [ ] Train five fresh omitted-phase encoders and export the exact 32-dimensional
+  - [x] Train five fresh omitted-phase encoders and export the exact 32-dimensional
     latent, base prediction, truth and deployable response covariates for each omitted
     phase. Export ph006 only from the frozen all-five-phase epoch-20 checkpoint. The
     persistent four-GPU chain launched `omit_ph000` and `omit_ph002` after passed
@@ -3744,20 +3748,15 @@ Progress checklist:
       `OOF_SUMMARY_COMPLETE.json` markers. The production-scale shards contain
       `5,026,863` and `4,929,962` parent-keyed rows respectively and pass their hash,
       parent-set and no-ph001 guards.
-    - [ ] Train and export the `omit_ph003`, `omit_ph004`, and `omit_ph005` encoders.
-      Their latest complete epochs are `10/10/17`, with macro
-      `0.53157/0.54368/0.56569`, first-three
-      `0.59372/0.60449/0.62406`, and sparse-shell
-      `0.34514/0.36127/0.39058`. All are checkpoint-resumable; no OOF marker is
-      written until the corresponding epoch-20 training and parent/hash export gates
-      pass.
-    - [ ] Export ph006 summaries from the frozen all-five-phase epoch-20 U-PATCH
-      checkpoint and concatenate the five leakage-safe training shards only after all
+    - [x] Train and export the `omit_ph003`, `omit_ph004`, and `omit_ph005`
+      encoders; their complete parent-keyed OOF markers now pass beside ph000/ph002.
+    - [x] Export ph006 summaries from the frozen all-five-phase epoch-20 U-PATCH
+      checkpoint and concatenate only the five leakage-safe training shards after all
       parent sets, hashes and response schemas pass.
       - [x] Export and validate the ph006 tuning shard: `4,908,831` parent-keyed rows,
         with latent/base/truth/response hashes and `sealed_phase_opened=false`.
-      - [ ] Concatenate only after the remaining ph003/ph004/ph005 omitted-phase
-        shards pass the same contract.
+      - [x] Concatenate after all remaining omitted-phase shards pass, producing
+        the frozen `P12A_DATASET_READY.json` v2 response-conditioned dataset.
 - [ ] Fit on training phases and tune on ph006 only.
 - [ ] Pass marginal, multivariate, conditional, tail, and information gates.
 - [ ] Record the `H_fid` conditional estimand and run the optional held-out-HOD stress
