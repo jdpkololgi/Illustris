@@ -1,5 +1,65 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-30 - [science/run] P12-A affine recalibration rejected by proper-score and crossfit gates
+
+The preregistered correction canary completed without opening ph001. Its purpose was
+not to make the rank histograms look flatter, but to test whether the sparse-shell
+lambda2/lambda3 residual identified by the full audit was a stable location/scale
+defect that could be corrected without degrading the posterior density.
+
+The evaluation separated five questions:
+
+1. **Does the correction replicate across calibration folds?** No. Fitting fold 0 and
+   evaluating fold 1 changed the aggregate rank-plus-coverage score from `0.09660` to
+   `0.09776`; fitting fold 1 and evaluating fold 0 changed it from `0.09755` to
+   `0.13775`. Lower is better, so neither direction improved. The maximum crossfit
+   offset disagreement was `0.11545` scaled target units and the maximum scale
+   disagreement was `0.13523`, failing the frozen `0.05/0.10` stability gates. This
+   is evidence that the small calibration residual is not a spatial-fold-stable
+   scalar affine defect.
+
+2. **Does the fold-0+1 correction improve a proper posterior score on untouched
+   selection folds 2--4?** No. The mean physical log score fell from `3.448858` to
+   `3.446206`; corrected-minus-base was `-0.002653`, with a 254-spatial-block 95%
+   interval `[-0.005009,-0.000334]`. Because the interval is entirely below zero,
+   the corrected density assigns systematically less probability to the truth. This
+   is the decisive rejection, even though some marginal diagnostics improve.
+
+3. **What symptom did the correction improve?** Sparse-shell 68% coverage changed
+   from `0.68928/0.65771/0.66333` to `0.70335/0.67115/0.68428`. Thus lambda2 and
+   lambda3 moved toward nominal coverage, while lambda1 became overcovered. The
+   correction is therefore capable of treating the visible high-redshift symptom,
+   but it trades that gain against other coordinates and regimes.
+
+4. **Did point accuracy or TARP expose a hidden failure?** No. Posterior-mean R2 was
+   essentially unchanged (`0.66181/0.74788/0.79960` before and
+   `0.66188/0.74769/0.79934` after), and corrected TARP still passed. These are
+   necessary but insufficient checks: an affine map can preserve the mean and TARP
+   while worsening the density's proper score and conditional rank structure.
+
+5. **Scientific decision.** Reject the affine correction and retain the uncorrected
+   P12-A posterior. Its global physical-eigenvalue calibration remains practically
+   close to nominal, with a small, explicitly reported sparse-shell conditional
+   limitation. Do not write `P12A_CALIBRATION_PASS.json`, do not tune a more flexible
+   map on the selection folds, and do not describe the posterior as exactly
+   calibrated in the sparsest shell. A future challenger must earn adoption through
+   crossfit replication and out-of-fit proper-score improvement, not rank flattening.
+
+The likely interpretation is that the sparse-shell residual combines limited tracer
+information, conditional-mean/tail structure and spatial cosmic covariance. A single
+per-shell location/scale map conflates those effects; its unstable fold estimates are
+consistent with fitting realization-specific moments rather than a portable response
+correction. This is why apparent coverage repair did not translate into a better
+posterior density.
+
+Authoritative report:
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/affine_calibration_canary_v1/P12A_AFFINE_CALIBRATION_CANARY.json`
+(SHA-256 `f7be68b8b0780a771e6797e64ebe1b17e9117c02e5dfef76a3817fa7374674f2`).
+Repository evidence: `docs/evidence/p12/P12A_AFFINE_CALIBRATION_CANARY.json`.
+Diagnostic plot:
+`docs/figures/p12_calibration_audit_20260830/p12a_affine_rank_comparison.png`
+(SHA-256 `17fdad01b8adcd40f66033fc5836c32774581ed27284392a8a0be2a9127c7126`).
+
 ### 2026-08-30 - [science/code] Sparse-shell affine correction canary preregistered
 
 The full audit supports testing one small correction, but not presuming it should be

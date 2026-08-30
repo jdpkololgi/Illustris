@@ -82,3 +82,4 @@ docs/figures/*
 !docs/figures/p12_calibration_audit_20260830/
 docs/figures/p12_calibration_audit_20260830/*
 !docs/figures/p12_calibration_audit_20260830/p12a_rank_histograms.png
+!docs/figures/p12_calibration_audit_20260830/p12a_affine_rank_comparison.png

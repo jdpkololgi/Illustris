@@ -3716,10 +3716,12 @@ Implementation status:
   `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/P12A_COMPLETE.json`.
   The two-million-row fit converged after 143 epochs; evaluation uses 20k disjoint
   calibration rows and 50k selection rows, and ph001 remained sealed.
-- [ ] Write `P12A_CALIBRATION_PASS.json` only after the remaining SBC-shape failure is
-  repaired. Marginal coverage, shell-conditional coverage, TARP and posterior-mean
-  accuracy pass, but the full-sample rank tests reject uniformity for all three
-  eigenvalues; scalar temperature `tau=1.03045` is insufficient.
+- [ ] Write `P12A_CALIBRATION_PASS.json` only after a frozen production acceptance
+  contract is satisfied. The corrected audit shows that global physical-eigenvalue
+  calibration is practically close to nominal, but the sparsest shell retains a
+  lambda2/lambda3 conditional residual. Neither scalar temperature nor the tested
+  affine map is an acceptable repair. Keep the pass marker absent rather than
+  weakening the gate after seeing ph006.
   Correction programme:
   - [x] Preregister and unit-test randomized finite-rank diagnostics in both
     ordered-softplus and physical-eigenvalue coordinates, with matched SBC/TARP
@@ -3735,18 +3737,25 @@ Implementation status:
     spatial TARP passes. The bounded residual is a sparse-shell lambda2/lambda3
     high-location/undercoverage tendency, while other shells are nominal or mildly
     overcovered.
-  - [ ] Run the bounded per-shell/per-coordinate location-scale canary in
+  - [x] Run the bounded per-shell/per-coordinate location-scale canary in
     ordered-softplus space with
     `workflows/sbi/p12_affine_calibration_canary.py`. Fit ph006 fold 0 and test 1,
     reverse the roles, then fit folds 0+1 only if parameters are stable. Promotion
     additionally requires spatial proper-log-score improvement, preserved R2/TARP,
     no material shell degradation and improved sparse-shell lambda2/lambda3 coverage.
-  - [ ] If it is non-affine or response-dependent, retain P12-A as a baseline and
-    test a conditional calibration map or richer P12-B summary; do not hide it with
-    scalar tempering.
-  - [ ] Freeze the correction and evaluate exactly once on folds 2--4 using physical
+    The correction was rejected: both crossfit scores worsened, parameter stability
+    failed and the folds-2--4 physical log-score delta was `-0.002653` with spatial
+    95% interval `[-0.005009,-0.000334]`.
+  - [x] Freeze the candidate map and evaluate exactly once on folds 2--4 using physical
     SBC/TARP, coverage, proper score, tail/class reliability and posterior-mean
-    preservation before considering the calibration-pass marker.
+    preservation. It improved sparse lambda2/lambda3 coverage but worsened other
+    diagnostics; no corrected posterior was promoted. Evidence:
+    `docs/evidence/p12/P12A_AFFINE_CALIBRATION_CANARY.json`.
+  - [ ] Retain uncorrected P12-A as the baseline and encode the sparse-shell limitation
+    in the release/quality contract. Do not open a flexible conditional map merely to
+    flatten ph006 ranks. A conditional recalibrator or richer P12-B summary is a new
+    challenger and must improve crossfit and spatial proper score on data not used to
+    fit it before it can replace P12-A.
 - [x] Install the persistent `p12a_posterior` supervisor. It waits for all OOF exports
   and a free allocation slot, enforces the two-allocation limit, then performs a GPU
   canary and the full dataset/fit/evaluation chain using

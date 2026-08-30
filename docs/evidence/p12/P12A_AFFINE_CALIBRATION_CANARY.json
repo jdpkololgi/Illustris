@@ -1,0 +1,3762 @@
+{
+  "calibration_folds": [
+    0,
+    1
+  ],
+  "calibration_phase": "ph006",
+  "correction": "per-shell posterior-centre offset plus scale times centred draws",
+  "created_utc": "2026-08-30T03:31:21.687659+00:00",
+  "crossfits": [
+    {
+      "corrected": {
+        "by_shell": {
+          "0": {
+            "intervals": {
+              "base_r2": [
+                0.6900171295498749,
+                0.8038273435522065,
+                0.8496037087486902
+              ],
+              "coverage68": [
+                0.6829148202855736,
+                0.7026095519448547,
+                0.6861152141802068
+              ],
+              "coverage90": [
+                0.8973412112259971,
+                0.913343180699163,
+                0.9010339734121122
+              ],
+              "posterior_mean_r2": [
+                0.6900516671766795,
+                0.8044432613335738,
+                0.8497369338378203
+              ]
+            },
+            "rank": {
+              "components": {
+                "lambda1": {
+                  "centre_mass_excess_over_uniform": -0.0013277381658554077,
+                  "cramer_von_mises": 1.7219188901726834,
+                  "decile_mass": [
+                    0.08763866126537323,
+                    0.09354645013809204,
+                    0.09748931974172592,
+                    0.09305838495492935,
+                    0.10462913662195206,
+                    0.09404312819242477,
+                    0.10807574540376663,
+                    0.10019778460264206,
+                    0.1110299751162529,
+                    0.11029142141342163
+                  ],
+                  "edge_mass_excess_over_uniform": -0.002069920301437378,
+                  "interpretation_flags": [
+                    "posterior_location_low_relative_to_truth"
+                  ],
+                  "unweighted_ks_distance": 0.03121296320081679,
+                  "unweighted_ks_p": 0.0007146282977883989,
+                  "weighted_ks_distance": 0.031212963200815014,
+                  "weighted_mean_rank": 0.5188869636994963
+                },
+                "lambda2": {
+                  "centre_mass_excess_over_uniform": 0.0053192973136901855,
+                  "cramer_von_mises": 1.7290748500017972,
+                  "decile_mass": [
+                    0.1038862094283104,
+                    0.1068408265709877,
+                    0.10561387985944748,
+                    0.10561387985944748,
+                    0.09108889847993851,
+                    0.11423040181398392,
+                    0.10192108899354935,
+                    0.1021672710776329,
+                    0.09822829812765121,
+                    0.07040925323963165
+                  ],
+                  "edge_mass_excess_over_uniform": -0.02570454776287079,
+                  "interpretation_flags": [
+                    "posterior_location_high_relative_to_truth",
+                    "asymmetric_tail_or_location_error"
+                  ],
+                  "unweighted_ks_distance": 0.034966844451904566,
+                  "unweighted_ks_p": 9.464444300267455e-05,
+                  "weighted_ks_distance": 0.03496684445198128,
+                  "weighted_mean_rank": 0.4818714360161735
+                },
+                "lambda3": {
+                  "centre_mass_excess_over_uniform": 0.008027344942092896,
+                  "cramer_von_mises": 3.8542586853777236,
+                  "decile_mass": [
+                    0.1174258217215538,
+                    0.10561051964759827,
+                    0.10758337378501892,
+                    0.10561387985944748,
+                    0.10265965014696121,
+                    0.10536769777536392,
+                    0.09748973697423935,
+                    0.08641135692596436,
+                    0.0977359190583229,
+                    0.07410204410552979
+                  ],
+                  "edge_mass_excess_over_uniform": -0.008472129702568054,
+                  "interpretation_flags": [
+                    "posterior_location_high_relative_to_truth",
+                    "asymmetric_tail_or_location_error"
+                  ],
+                  "unweighted_ks_distance": 0.04608972773304343,
+                  "unweighted_ks_p": 6.161733897609705e-08,
+                  "weighted_ks_distance": 0.04608972773307041,
+                  "weighted_mean_rank": 0.47102225343367027
+                }
+              },
+              "effective_weighted_rows": 4061.9999999999995,
+              "rows": 4062
+            },
+            "rows": 4062
+          },
+          "1": {
+            "intervals": {
+              "base_r2": [
+                0.6237569639045285,
+                0.7255514714416014,
+                0.7822155281246849
+              ],
+              "coverage68": [
+                0.6559731133516652,
+                0.6480293308890925,
+                0.6630003055300947
+              ],
+              "coverage90": [
+                0.8900091659028414,
+                0.8845096241979835,
+                0.8900091659028414
+              ],
+              "posterior_mean_r2": [
+                0.6209515639748444,
+                0.7236248106530228,
+                0.7797278540226756
+              ]
+            },
+            "rank": {
+              "components": {
+                "lambda1": {
+                  "centre_mass_excess_over_uniform": -0.0038370639085769653,
+                  "cramer_von_mises": 2.1231037383641973,
+                  "decile_mass": [
+                    0.08890991657972336,
+                    0.09104841947555542,
+                    0.0989922359585762,
+                    0.09471889585256577,
+                    0.0931926742196083,
+                    0.10297026485204697,
+                    0.09349179267883301,
+                    0.10784623771905899,
+                    0.10784623771905899,
+                    0.1209833174943924
+                  ],
+                  "edge_mass_excess_over_uniform": 0.009893223643302917,
+                  "interpretation_flags": [
+                    "posterior_location_low_relative_to_truth",
+                    "asymmetric_tail_or_location_error"
+                  ],
+                  "unweighted_ks_distance": 0.04032334211684374,
+                  "unweighted_ks_p": 4.629455923714438e-05,
+                  "weighted_ks_distance": 0.0403233421168262,
+                  "weighted_mean_rank": 0.5230747143625021
+                },
+                "lambda2": {
+                  "centre_mass_excess_over_uniform": -0.020642295479774475,
+                  "cramer_von_mises": 5.431515925615211,
+                  "decile_mass": [
+                    0.09104864299297333,
+                    0.08890970051288605,
+                    0.09074287861585617,
+                    0.0855519101023674,
+                    0.08677612990140915,
+                    0.09258157014846802,
+                    0.10816050320863724,
+                    0.10692969709634781,
+                    0.12067780643701553,
+                    0.1286211460828781
+                  ],
+                  "edge_mass_excess_over_uniform": 0.0196697860956192,
+                  "interpretation_flags": [
+                    "posterior_location_low_relative_to_truth",
+                    "asymmetric_tail_or_location_error"
+                  ],
+                  "unweighted_ks_distance": 0.06461109880538918,
+                  "unweighted_ks_p": 2.5360244466789366e-12,
+                  "weighted_ks_distance": 0.06461109880537774,
+                  "weighted_mean_rank": 0.5357222097057365
+                },
+                "lambda3": {
+                  "centre_mass_excess_over_uniform": 0.0010517388582229614,
+                  "cramer_von_mises": 8.658217509636424,
+                  "decile_mass": [
+                    0.07485546916723251,
+                    0.08707651495933533,
+                    0.08615990728139877,
+                    0.08555056899785995,
+                    0.09594262391328812,
+                    0.10510911047458649,
+                    0.10052277892827988,
+                    0.11365099251270294,
+                    0.11731715500354767,
+                    0.13381488621234894
+                  ],
+                  "edge_mass_excess_over_uniform": 0.008670344948768616,
+                  "interpretation_flags": [
+                    "posterior_location_low_relative_to_truth",
+                    "asymmetric_tail_or_location_error"
+                  ],
+                  "unweighted_ks_distance": 0.07110862004726404,
+                  "unweighted_ks_p": 7.767704644708652e-15,
+                  "weighted_ks_distance": 0.07110862004725926,
+                  "weighted_mean_rank": 0.5473193668807772
+                }
+              },
+              "effective_weighted_rows": 3273.0,
+              "rows": 3273
+            },
+            "rows": 3273
+          },
+          "2": {
+            "intervals": {
+              "base_r2": [
+                0.5267981076263515,
+                0.6451868134657239,
+                0.6793960319314332
+              ],
+              "coverage68": [
+                0.633085896076352,
+                0.6500530222693531,
+                0.6436903499469777
+              ],
+              "coverage90": [
+                0.8552492046659597,
+                0.8785790031813362,
+                0.8785790031813362
+              ],
+              "posterior_mean_r2": [
+                0.5305538931900196,
+                0.643714676369934,
+                0.6765443454438036
+              ]
+            },
+            "rank": {
+              "components": {
+                "lambda1": {
+                  "centre_mass_excess_over_uniform": -0.015482500195503235,
+                  "cramer_von_mises": 0.5067935667434121,
+                  "decile_mass": [
+                    0.1267232894897461,
+                    0.08377517759799957,
+                    0.09597029536962509,
+                    0.10074230283498764,
+                    0.09437965601682663,
+                    0.09013784676790237,
+                    0.08854717761278152,
+                    0.09650051593780518,
+                    0.0986214131116867,
+                    0.1246023178100586
+                  ],
+                  "edge_mass_excess_over_uniform": 0.05132560431957245,
+                  "interpretation_flags": [
+                    "posterior_too_narrow_or_heavy_truth_tails"
+                  ],
+                  "unweighted_ks_distance": 0.02986153814027903,
+                  "unweighted_ks_p": 0.06783957616655101,
+                  "weighted_ks_distance": 0.02986153814027126,
+                  "weighted_mean_rank": 0.50213793711088
+                },
+                "lambda2": {
+                  "centre_mass_excess_over_uniform": 0.0009544044733047485,
+                  "cramer_von_mises": 2.255314315127122,
+                  "decile_mass": [
+                    0.09597036987543106,
+                    0.08695651590824127,
+                    0.09066806733608246,
+                    0.08218450844287872,
+                    0.09278896450996399,
+                    0.108165442943573,
+                    0.09915163367986679,
+                    0.10445386171340942,
+                    0.11028631031513214,
+                    0.12937432527542114
+                  ],
+                  "edge_mass_excess_over_uniform": 0.025344684720039368,
+                  "interpretation_flags": [
+                    "posterior_location_low_relative_to_truth",
+                    "asymmetric_tail_or_location_error"
+                  ],
+                  "unweighted_ks_distance": 0.05471950208962173,
+                  "unweighted_ks_p": 2.3848918292309116e-05,
+                  "weighted_ks_distance": 0.054719502089633054,
+                  "weighted_mean_rank": 0.5302085239023423
+                },
+                "lambda3": {
+                  "centre_mass_excess_over_uniform": -0.002757146954536438,
+                  "cramer_von_mises": 4.343978433367667,
+                  "decile_mass": [
+                    0.0917285904288292,
+                    0.08218451589345932,
+                    0.07688228040933609,
+                    0.08960762619972229,
+                    0.09703074395656586,
+                    0.10021210461854935,
+                    0.09915163367986679,
+                    0.10816542059183121,
+                    0.12301164865493774,
+                    0.13202543556690216
+                  ],
+                  "edge_mass_excess_over_uniform": 0.023754015564918518,
+                  "interpretation_flags": [
+                    "posterior_location_low_relative_to_truth",
+                    "asymmetric_tail_or_location_error"
+                  ],
+                  "unweighted_ks_distance": 0.07138289214233895,
+                  "unweighted_ks_p": 8.405672243452822e-09,
+                  "weighted_ks_distance": 0.07138289214234517,
+                  "weighted_mean_rank": 0.5428858194999369
+                }
+              },
+              "effective_weighted_rows": 1886.0,
+              "rows": 1886
+            },
+            "rows": 1886
+          },
+          "3": {
+            "intervals": {
+              "base_r2": [
+                0.38183863977967525,
+                0.46506929106959716,
+                0.5164880744268077
+              ],
+              "coverage68": [
+                0.6952526799387443,
+                0.6967840735068913,
+                0.6921898928024502
+              ],
+              "coverage90": [
+                0.8989280245022971,
+                0.8958652373660031,
+                0.877488514548239
+              ],
+              "posterior_mean_r2": [
+                0.3800624135941567,
+                0.464468774148051,
+                0.5116401167780037
+              ]
+            },
+            "rank": {
+              "components": {
+                "lambda1": {
+                  "centre_mass_excess_over_uniform": -0.022358804941177368,
+                  "cramer_von_mises": 0.13246799119073766,
+                  "decile_mass": [
+                    0.10260406136512756,
+                    0.09954149276018143,
+                    0.09035313129425049,
+                    0.13935822248458862,
+                    0.09494668990373611,
+                    0.08269450813531876,
+                    0.08269450813531876,
+                    0.13016727566719055,
+                    0.08728864789009094,
+                    0.09035146236419678
+                  ],
+                  "edge_mass_excess_over_uniform": -0.007044479250907898,
+                  "interpretation_flags": [
+                    "no_large_shape_signature_at_heuristic_scale"
+                  ],
+                  "unweighted_ks_distance": 0.034087034472385036,
+                  "unweighted_ks_p": 0.42452410990204337,
+                  "weighted_ks_distance": 0.034087034472386424,
+                  "weighted_mean_rank": 0.4912254226493921
+                },
+                "lambda2": {
+                  "centre_mass_excess_over_uniform": 0.03277255594730377,
+                  "cramer_von_mises": 0.7722155203597112,
+                  "decile_mass": [
+                    0.07963303476572037,
+                    0.08882152289152145,
+                    0.07044481486082077,
+                    0.10413581877946854,
+                    0.11638709157705307,
+                    0.11638547480106354,
+                    0.10260244458913803,
+                    0.11025933921337128,
+                    0.10566519945859909,
+                    0.10566525906324387
+                  ],
+                  "edge_mass_excess_over_uniform": -0.014701709151268005,
+                  "interpretation_flags": [
+                    "posterior_location_low_relative_to_truth",
+                    "posterior_too_wide_or_overconcentrated_truth_centre"
+                  ],
+                  "unweighted_ks_distance": 0.06715807130359946,
+                  "unweighted_ks_p": 0.0052689772622024,
+                  "weighted_ks_distance": 0.0671580713035991,
+                  "weighted_mean_rank": 0.5291534399394024
+                },
+                "lambda3": {
+                  "centre_mass_excess_over_uniform": -0.014701440930366516,
+                  "cramer_von_mises": 0.0794866088695761,
+                  "decile_mass": [
+                    0.08882144838571548,
+                    0.09188438206911087,
+                    0.11179286241531372,
+                    0.11485567688941956,
+                    0.09647853672504425,
+                    0.08882002532482147,
+                    0.09647691994905472,
+                    0.11025933921337128,
+                    0.0796317458152771,
+                    0.12097905576229095
+                  ],
+                  "edge_mass_excess_over_uniform": 0.009800508618354797,
+                  "interpretation_flags": [
+                    "asymmetric_tail_or_location_error"
+                  ],
+                  "unweighted_ks_distance": 0.02570586095908242,
+                  "unweighted_ks_p": 0.7711839962560165,
+                  "weighted_ks_distance": 0.025705860959082588,
+                  "weighted_mean_rank": 0.5071321922480578
+                }
+              },
+              "effective_weighted_rows": 653.0,
+              "rows": 653
+            },
+            "rows": 653
+          }
+        },
+        "calibration_score_rank_plus_coverage": 0.09776427647454544,
+        "global_rank": {
+          "components": {
+            "lambda1": {
+              "centre_mass_excess_over_uniform": -0.004019349813461304,
+              "cramer_von_mises": 2.861875947034218,
+              "decile_mass": [
+                0.09255131334066391,
+                0.09171009063720703,
+                0.09773454815149307,
+                0.09506332874298096,
+                0.0995107889175415,
+                0.09646986424922943,
+                0.10067212581634521,
+                0.10275933891534805,
+                0.10829361528158188,
+                0.11523497849702835
+              ],
+              "edge_mass_excess_over_uniform": 0.007786288857460022,
+              "interpretation_flags": [
+                "posterior_location_low_relative_to_truth"
+              ],
+              "unweighted_ks_distance": 0.028037746174422007,
+              "unweighted_ks_p": 3.5465658208496213e-07,
+              "weighted_ks_distance": 0.029365007831985146,
+              "weighted_mean_rank": 0.5181001450555076
+            },
+            "lambda2": {
+              "centre_mass_excess_over_uniform": -0.0035805553197860718,
+              "cramer_von_mises": 2.0347016664555135,
+              "decile_mass": [
+                0.09836477041244507,
+                0.09837158024311066,
+                0.09849221259355545,
+                0.09624790400266647,
+                0.09014254063367844,
+                0.10627689957618713,
+                0.10372278839349747,
+                0.10412518680095673,
+                0.10724186152219772,
+                0.09701424092054367
+              ],
+              "edge_mass_excess_over_uniform": -0.004620984196662903,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.027549829169426998,
+              "unweighted_ks_p": 6.062273666339799e-07,
+              "weighted_ks_distance": 0.01971366647131001,
+              "weighted_mean_rank": 0.5059693384996842
+            },
+            "lambda3": {
+              "centre_mass_excess_over_uniform": 0.004173800349235535,
+              "cramer_von_mises": 1.9369291635413413,
+              "decile_mass": [
+                0.0998615249991417,
+                0.09660492092370987,
+                0.0970349982380867,
+                0.09720303118228912,
+                0.09968556463718414,
+                0.10448824614286423,
+                0.09867390990257263,
+                0.09829788655042648,
+                0.1068979799747467,
+                0.10125194489955902
+              ],
+              "edge_mass_excess_over_uniform": 0.0011134594678878784,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.022244106598347857,
+              "unweighted_ks_p": 0.0001123541048939153,
+              "weighted_ks_distance": 0.013654041297514574,
+              "weighted_mean_rank": 0.5051321777978758
+            }
+          },
+          "effective_weighted_rows": 8837.840114142857,
+          "rows": 9874
+        },
+        "intervals": {
+          "base_r2": [
+            0.6463504694371904,
+            0.7557329220037482,
+            0.8053675628131057
+          ],
+          "coverage68": [
+            0.6685134404034406,
+            0.6783439043353471,
+            0.6737362997566089
+          ],
+          "coverage90": [
+            0.890266647235598,
+            0.899567589291739,
+            0.894540558103531
+          ],
+          "posterior_mean_r2": [
+            0.6458432990327989,
+            0.7552111042384615,
+            0.8042435782910454
+          ]
+        }
+      },
+      "fit": {
+        "0": {
+          "offset_scaled_theta": [
+            0.0007452071579523779,
+            0.04120657415355833,
+            0.007509972058784396
+          ],
+          "posterior_variance_mean": [
+            0.26913191400413716,
+            0.43009333096543184,
+            0.4036238041367413
+          ],
+          "residual_second_moment": [
+            0.27019394853481565,
+            0.4297909100337881,
+            0.4011902392248352
+          ],
+          "rows": 4307,
+          "scale_scaled_theta": [
+            1.0019711316293682,
+            0.999648362238465,
+            0.9969807972745155
+          ]
+        },
+        "1": {
+          "offset_scaled_theta": [
+            -0.014876372255918147,
+            0.0019299953287916225,
+            -0.029904419716257565
+          ],
+          "posterior_variance_mean": [
+            0.3231473336337128,
+            0.4648449830581076,
+            0.4379930044043696
+          ],
+          "residual_second_moment": [
+            0.30438074433722906,
+            0.42717196441179867,
+            0.4410878124321839
+          ],
+          "rows": 3269,
+          "scale_scaled_theta": [
+            0.9705285129654719,
+            0.9586217908500301,
+            1.0035267234145013
+          ]
+        },
+        "2": {
+          "offset_scaled_theta": [
+            -0.00964606317269791,
+            -0.040847738357179204,
+            -0.0292416973558967
+          ],
+          "posterior_variance_mean": [
+            0.4092451691462282,
+            0.5327302990852718,
+            0.5109513525308137
+          ],
+          "residual_second_moment": [
+            0.3429584931340312,
+            0.5059253593129511,
+            0.48340813950510664
+          ],
+          "rows": 1880,
+          "scale_scaled_theta": [
+            0.9154381354791935,
+            0.9745172374023039,
+            0.9726737662597693
+          ]
+        },
+        "3": {
+          "offset_scaled_theta": [
+            0.04207908991680958,
+            -0.1059854850687327,
+            0.04633502712207854
+          ],
+          "posterior_variance_mean": [
+            0.8176018240782671,
+            0.6909866818152148,
+            0.7203363624355936
+          ],
+          "residual_second_moment": [
+            0.9683746767129997,
+            0.7515170380802781,
+            0.7359411268914507
+          ],
+          "rows": 670,
+          "scale_scaled_theta": [
+            1.0883054051669045,
+            1.0428805724892436,
+            1.0107735471337114
+          ]
+        }
+      },
+      "fit_fold": 0,
+      "held_fold": 1,
+      "uncorrected": {
+        "by_shell": {
+          "0": {
+            "intervals": {
+              "base_r2": [
+                0.6900171295498749,
+                0.8038273435522065,
+                0.8496037087486902
+              ],
+              "coverage68": [
+                0.6824224519940916,
+                0.6994091580502215,
+                0.6930083702609552
+              ],
+              "coverage90": [
+                0.8968488429345151,
+                0.9162973904480551,
+                0.9094042343673068
+              ],
+              "posterior_mean_r2": [
+                0.6900107901725036,
+                0.8058147104043393,
+                0.850699867684194
+              ]
+            },
+            "rank": {
+              "components": {
+                "lambda1": {
+                  "centre_mass_excess_over_uniform": -0.002066299319267273,
+                  "cramer_von_mises": 1.843223481166086,
+                  "decile_mass": [
+                    0.08763866126537323,
+                    0.09231557697057724,
+                    0.09798163175582886,
+                    0.0933045744895935,
+                    0.10413676500320435,
+                    0.09379694610834122,
+                    0.10782955586910248,
+                    0.10044397413730621,
+                    0.11176853626966476,
+                    0.11078379303216934
+                  ],
+                  "edge_mass_excess_over_uniform": -0.0015775412321090698,
+                  "interpretation_flags": [
+                    "posterior_location_low_relative_to_truth"
+                  ],
+                  "unweighted_ks_distance": 0.032147902774368076,
+                  "unweighted_ks_p": 0.000441287195727823,
+                  "weighted_ks_distance": 0.03214790277436519,
+                  "weighted_mean_rank": 0.5195583313795971
+                },
+                "lambda2": {
+                  "centre_mass_excess_over_uniform": -0.00231248140335083,
+                  "cramer_von_mises": 1.337287908437675,
+                  "decile_mass": [
+                    0.08911570906639099,
+                    0.08985382318496704,
+                    0.10019726306200027,
+                    0.09798210859298706,
+                    0.09478168934583664,
+                    0.10290583223104477,
+                    0.11373802274465561,
+                    0.11250709742307663,
+                    0.10979904979467392,
+                    0.08911940455436707
+                  ],
+                  "edge_mass_excess_over_uniform": -0.021764889359474182,
+                  "interpretation_flags": [
+                    "no_large_shape_signature_at_heuristic_scale"
+                  ],
+                  "unweighted_ks_distance": 0.03416256090655889,
+                  "unweighted_ks_p": 0.000148795193075739,
+                  "weighted_ks_distance": 0.03416256090655856,
+                  "weighted_mean_rank": 0.5128277726425197
+                },
+                "lambda3": {
+                  "centre_mass_excess_over_uniform": 0.009504452347755432,
+                  "cramer_von_mises": 0.2941166824075565,
+                  "decile_mass": [
+                    0.09625478833913803,
+                    0.09305409342050552,
+                    0.09576638787984848,
+                    0.10512150824069977,
+                    0.09822829812765121,
+                    0.11127616465091705,
+                    0.10462913662195206,
+                    0.1021672710776329,
+                    0.10487532615661621,
+                    0.08862703293561935
+                  ],
+                  "edge_mass_excess_over_uniform": -0.015118181705474854,
+                  "interpretation_flags": [
+                    "no_large_shape_signature_at_heuristic_scale"
+                  ],
+                  "unweighted_ks_distance": 0.015968448653498668,
+                  "unweighted_ks_p": 0.2488290345422105,
+                  "weighted_ks_distance": 0.01596844865349989,
+                  "weighted_mean_rank": 0.5021835035692396
+                }
+              },
+              "effective_weighted_rows": 4061.9999999999995,
+              "rows": 4062
+            },
+            "rows": 4062
+          },
+          "1": {
+            "intervals": {
+              "base_r2": [
+                0.6237569639045285,
+                0.7255514714416014,
+                0.7822155281246849
+              ],
+              "coverage68": [
+                0.6706385578979529,
+                0.6639168958142377,
+                0.6727772685609532
+              ],
+              "coverage90": [
+                0.897952948365414,
+                0.8930644668499848,
+                0.8955087076076994
+              ],
+              "posterior_mean_r2": [
+                0.6220909758632602,
+                0.7249593543506141,
+                0.7823826425549696
+              ]
+            },
+            "rank": {
+              "components": {
+                "lambda1": {
+                  "centre_mass_excess_over_uniform": -0.004448160529136658,
+                  "cramer_von_mises": 0.5228007298271454,
+                  "decile_mass": [
+                    0.09135416895151138,
+                    0.09410373866558075,
+                    0.10235308110713959,
+                    0.10235816985368729,
+                    0.09349822252988815,
+                    0.10205361247062683,
+                    0.09654504060745239,
+                    0.1054021343588829,
+                    0.10295802354812622,
+                    0.10937380790710449
+                  ],
+                  "edge_mass_excess_over_uniform": 0.0007279664278030396,
+                  "interpretation_flags": [
+                    "no_large_shape_signature_at_heuristic_scale"
+                  ],
+                  "unweighted_ks_distance": 0.022800452817401506,
+                  "unweighted_ks_p": 0.0655291617945093,
+                  "weighted_ks_distance": 0.022800452817383632,
+                  "weighted_mean_rank": 0.5116849335997011
+                },
+                "lambda2": {
+                  "centre_mass_excess_over_uniform": -0.0081147700548172,
+                  "cramer_von_mises": 2.2034417154535078,
+                  "decile_mass": [
+                    0.09227076917886734,
+                    0.09257607907056808,
+                    0.0931871309876442,
+                    0.0907466933131218,
+                    0.09441487491130829,
+                    0.09747036546468735,
+                    0.10571341961622238,
+                    0.10570764541625977,
+                    0.11487305164337158,
+                    0.11303997039794922
+                  ],
+                  "edge_mass_excess_over_uniform": 0.005310729146003723,
+                  "interpretation_flags": [
+                    "posterior_location_low_relative_to_truth"
+                  ],
+                  "unweighted_ks_distance": 0.04333147330232323,
+                  "unweighted_ks_p": 8.886893206914452e-06,
+                  "weighted_ks_distance": 0.04333147330231368,
+                  "weighted_mean_rank": 0.5228089474959974
+                },
+                "lambda3": {
+                  "centre_mass_excess_over_uniform": 0.005329415202140808,
+                  "cramer_von_mises": 1.7606916142503237,
+                  "decile_mass": [
+                    0.09043757617473602,
+                    0.08952076733112335,
+                    0.09563138335943222,
+                    0.09227430075407028,
+                    0.10663685947656631,
+                    0.09869256615638733,
+                    0.09532447159290314,
+                    0.1038745641708374,
+                    0.11426202207803726,
+                    0.11334548145532608
+                  ],
+                  "edge_mass_excess_over_uniform": 0.0037830621004104614,
+                  "interpretation_flags": [
+                    "posterior_location_low_relative_to_truth"
+                  ],
+                  "unweighted_ks_distance": 0.03353101517290491,
+                  "unweighted_ks_p": 0.00124277125689128,
+                  "weighted_ks_distance": 0.03353101517288537,
+                  "weighted_mean_rank": 0.5212885601562564
+                }
+              },
+              "effective_weighted_rows": 3273.0,
+              "rows": 3273
+            },
+            "rows": 3273
+          },
+          "2": {
+            "intervals": {
+              "base_r2": [
+                0.5267981076263515,
+                0.6451868134657239,
+                0.6793960319314332
+              ],
+              "coverage68": [
+                0.6622481442205727,
+                0.672322375397667,
+                0.6691410392364793
+              ],
+              "coverage90": [
+                0.8817603393425238,
+                0.887592788971368,
+                0.8849416755037116
+              ],
+              "posterior_mean_r2": [
+                0.5307067046555192,
+                0.6461004502467845,
+                0.679366866315135
+              ]
+            },
+            "rank": {
+              "components": {
+                "lambda1": {
+                  "centre_mass_excess_over_uniform": 0.004665955901145935,
+                  "cramer_von_mises": 0.06852886337648094,
+                  "decile_mass": [
+                    0.10710504651069641,
+                    0.09172852337360382,
+                    0.09703074395656586,
+                    0.10975608229637146,
+                    0.09915166348218918,
+                    0.10551430284976959,
+                    0.0890774056315422,
+                    0.10074230283498764,
+                    0.08854717761278152,
+                    0.11134675145149231
+                  ],
+                  "edge_mass_excess_over_uniform": 0.018451794981956482,
+                  "interpretation_flags": [
+                    "no_large_shape_signature_at_heuristic_scale"
+                  ],
+                  "unweighted_ks_distance": 0.012639074254002514,
+                  "unweighted_ks_p": 0.92011337467711,
+                  "weighted_ks_distance": 0.012639074253993465,
+                  "weighted_mean_rank": 0.49929664630285364
+                },
+                "lambda2": {
+                  "centre_mass_excess_over_uniform": 0.017391309142112732,
+                  "cramer_von_mises": 0.08791527661392413,
+                  "decile_mass": [
+                    0.10339348763227463,
+                    0.09490986168384552,
+                    0.10816542059183121,
+                    0.0795333981513977,
+                    0.10392366349697113,
+                    0.11346764117479324,
+                    0.08748673647642136,
+                    0.10922586172819138,
+                    0.09650051593780518,
+                    0.10339341312646866
+                  ],
+                  "edge_mass_excess_over_uniform": 0.006786897778511047,
+                  "interpretation_flags": [
+                    "no_large_shape_signature_at_heuristic_scale"
+                  ],
+                  "unweighted_ks_distance": 0.01811224539370132,
+                  "unweighted_ks_p": 0.5598642979268555,
+                  "weighted_ks_distance": 0.018112245393707538,
+                  "weighted_mean_rank": 0.5037893771784571
+                },
+                "lambda3": {
+                  "centre_mass_excess_over_uniform": -0.0006362646818161011,
+                  "cramer_von_mises": 0.13510813736020802,
+                  "decile_mass": [
+                    0.10763527452945709,
+                    0.09119830280542374,
+                    0.09331918507814407,
+                    0.09544007480144501,
+                    0.10763522237539291,
+                    0.09172851592302322,
+                    0.10445386171340942,
+                    0.09915163367986679,
+                    0.10392363369464874,
+                    0.10551430284976959
+                  ],
+                  "edge_mass_excess_over_uniform": 0.013149574398994446,
+                  "interpretation_flags": [
+                    "no_large_shape_signature_at_heuristic_scale"
+                  ],
+                  "unweighted_ks_distance": 0.014878211571807243,
+                  "unweighted_ks_p": 0.7921362194747684,
+                  "weighted_ks_distance": 0.014878211571813793,
+                  "weighted_mean_rank": 0.5060554969633021
+                }
+              },
+              "effective_weighted_rows": 1886.0,
+              "rows": 1886
+            },
+            "rows": 1886
+          },
+          "3": {
+            "intervals": {
+              "base_r2": [
+                0.38183863977967525,
+                0.46506929106959716,
+                0.5164880744268077
+              ],
+              "coverage68": [
+                0.6600306278713629,
+                0.663093415007657,
+                0.669218989280245
+              ],
+              "coverage90": [
+                0.877488514548239,
+                0.8713629402756509,
+                0.8698315467075038
+              ],
+              "posterior_mean_r2": [
+                0.3810630634150499,
+                0.4670134561238105,
+                0.5109436886029384
+              ]
+            },
+            "rank": {
+              "components": {
+                "lambda1": {
+                  "centre_mass_excess_over_uniform": -0.025421306490898132,
+                  "cramer_von_mises": 0.13651279813237965,
+                  "decile_mass": [
+                    0.11026106774806976,
+                    0.0980101227760315,
+                    0.08422749489545822,
+                    0.12557554244995117,
+                    0.09647832810878754,
+                    0.07810036838054657,
+                    0.07044346630573273,
+                    0.11638486385345459,
+                    0.11332210153341293,
+                    0.10719664394855499
+                  ],
+                  "edge_mass_excess_over_uniform": 0.017457708716392517,
+                  "interpretation_flags": [
+                    "no_large_shape_signature_at_heuristic_scale"
+                  ],
+                  "unweighted_ks_distance": 0.04145739283837868,
+                  "unweighted_ks_p": 0.20590873063885107,
+                  "weighted_ks_distance": 0.04145739283837602,
+                  "weighted_mean_rank": 0.5030526766786289
+                },
+                "lambda2": {
+                  "centre_mass_excess_over_uniform": 0.0036754459142684937,
+                  "cramer_von_mises": 0.10036377039763773,
+                  "decile_mass": [
+                    0.10107266157865524,
+                    0.09188444167375565,
+                    0.07657045125961304,
+                    0.12098131328821182,
+                    0.09954158961772919,
+                    0.10413385182619095,
+                    0.09647691994905472,
+                    0.10413382202386856,
+                    0.09647691994905472,
+                    0.10872802138328552
+                  ],
+                  "edge_mass_excess_over_uniform": 0.009800687432289124,
+                  "interpretation_flags": [
+                    "no_large_shape_signature_at_heuristic_scale"
+                  ],
+                  "unweighted_ks_distance": 0.03169910252577007,
+                  "unweighted_ks_p": 0.5175989193105668,
+                  "weighted_ks_distance": 0.03169910252576963,
+                  "weighted_mean_rank": 0.5080930469115718
+                },
+                "lambda3": {
+                  "centre_mass_excess_over_uniform": -0.02082715928554535,
+                  "cramer_von_mises": 0.13254315464925936,
+                  "decile_mass": [
+                    0.10107266157865524,
+                    0.09801007807254791,
+                    0.11791849881410599,
+                    0.1010729968547821,
+                    0.09035281091928482,
+                    0.08882002532482147,
+                    0.090351402759552,
+                    0.10719658434391022,
+                    0.08116312325000763,
+                    0.12404181808233261
+                  ],
+                  "edge_mass_excess_over_uniform": 0.025114476680755615,
+                  "interpretation_flags": [
+                    "no_large_shape_signature_at_heuristic_scale"
+                  ],
+                  "unweighted_ks_distance": 0.034985569266175076,
+                  "unweighted_ks_p": 0.3920738240336872,
+                  "weighted_ks_distance": 0.034985569266176075,
+                  "weighted_mean_rank": 0.5006901896748389
+                }
+              },
+              "effective_weighted_rows": 653.0,
+              "rows": 653
+            },
+            "rows": 653
+          }
+        },
+        "calibration_score_rank_plus_coverage": 0.09659774287695982,
+        "global_rank": {
+          "components": {
+            "lambda1": {
+              "centre_mass_excess_over_uniform": -0.002452462911605835,
+              "cramer_von_mises": 1.6528473296519999,
+              "decile_mass": [
+                0.09132285416126251,
+                0.09293020516633987,
+                0.09917119890451431,
+                0.0985836386680603,
+                0.09989198297262192,
+                0.09765555709600449,
+                0.10146871954202652,
+                0.10235318541526794,
+                0.10627738386392593,
+                0.1103452816605568
+              ],
+              "edge_mass_excess_over_uniform": 0.0016681402921676636,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.020031209999123223,
+              "unweighted_ks_p": 0.0007140129351269105,
+              "weighted_ks_distance": 0.022995850873430146,
+              "weighted_mean_rank": 0.5144612181996515
+            },
+            "lambda2": {
+              "centre_mass_excess_over_uniform": -0.0020460933446884155,
+              "cramer_von_mises": 2.711202030221861,
+              "decile_mass": [
+                0.09190152585506439,
+                0.09135503321886063,
+                0.09839601069688797,
+                0.09381143003702164,
+                0.0957164317369461,
+                0.10223747044801712,
+                0.1079154908657074,
+                0.10973712801933289,
+                0.10989195108413696,
+                0.0990375354886055
+              ],
+              "edge_mass_excess_over_uniform": -0.00906093418598175,
+              "interpretation_flags": [
+                "posterior_location_low_relative_to_truth"
+              ],
+              "unweighted_ks_distance": 0.02977599298699074,
+              "unweighted_ks_p": 4.865382257859669e-08,
+              "weighted_ks_distance": 0.03320905144409103,
+              "weighted_mean_rank": 0.5151421524239079
+            },
+            "lambda3": {
+              "centre_mass_excess_over_uniform": 0.0065685659646987915,
+              "cramer_von_mises": 1.0778407934258205,
+              "decile_mass": [
+                0.09560134261846542,
+                0.09172383695840836,
+                0.09573929756879807,
+                0.09966639429330826,
+                0.10198737680912018,
+                0.10458119213581085,
+                0.10127653181552887,
+                0.10247284919023514,
+                0.10764316469430923,
+                0.09930801391601562
+              ],
+              "edge_mass_excess_over_uniform": -0.005090638995170593,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.0165856515669055,
+              "unweighted_ks_p": 0.008647575902610963,
+              "weighted_ks_distance": 0.018179797513504015,
+              "weighted_mean_rank": 0.5090366876723701
+            }
+          },
+          "effective_weighted_rows": 8837.840114142857,
+          "rows": 9874
+        },
+        "intervals": {
+          "base_r2": [
+            0.6463504694371904,
+            0.7557329220037482,
+            0.8053675628131057
+          ],
+          "coverage68": [
+            0.675938301531742,
+            0.6839830709691775,
+            0.6832497534698103
+          ],
+          "coverage90": [
+            0.8953120968214086,
+            0.9047184092256744,
+            0.901512207734423
+          ],
+          "posterior_mean_r2": [
+            0.6462393626188736,
+            0.7566888549107949,
+            0.8059256064133046
+          ]
+        }
+      }
+    },
+    {
+      "corrected": {
+        "by_shell": {
+          "0": {
+            "intervals": {
+              "base_r2": [
+                0.681693034035817,
+                0.7535234035479814,
+                0.801421382532868
+              ],
+              "coverage68": [
+                0.6412816345484096,
+                0.6503366612491294,
+                0.6582307870907824
+              ],
+              "coverage90": [
+                0.87160436498723,
+                0.8720687253308568,
+                0.8827490132342698
+              ],
+              "posterior_mean_r2": [
+                0.6822191577310718,
+                0.7550341230949188,
+                0.8019339741909762
+              ]
+            },
+            "rank": {
+              "components": {
+                "lambda1": {
+                  "centre_mass_excess_over_uniform": -0.020058944821357727,
+                  "cramer_von_mises": 2.7992959773854063,
+                  "decile_mass": [
+                    0.13164152204990387,
+                    0.102854423224926,
+                    0.10239226371049881,
+                    0.101695716381073,
+                    0.09008661657571793,
+                    0.08985443413257599,
+                    0.08637170493602753,
+                    0.09147971123456955,
+                    0.10750027000904083,
+                    0.0961233451962471
+                  ],
+                  "edge_mass_excess_over_uniform": 0.02776487171649933,
+                  "interpretation_flags": [
+                    "posterior_location_high_relative_to_truth",
+                    "asymmetric_tail_or_location_error"
+                  ],
+                  "unweighted_ks_distance": 0.043428522553540294,
+                  "unweighted_ks_p": 1.6988946937085464e-07,
+                  "weighted_ks_distance": 0.0434285225535363,
+                  "weighted_mean_rank": 0.4797217611135592
+                },
+                "lambda2": {
+                  "centre_mass_excess_over_uniform": -0.020523324608802795,
+                  "cramer_von_mises": 2.149688727582742,
+                  "decile_mass": [
+                    0.10447748005390167,
+                    0.09611988812685013,
+                    0.0924084335565567,
+                    0.09171189367771149,
+                    0.08544297516345978,
+                    0.09403371065855026,
+                    0.10239226371049881,
+                    0.10123135149478912,
+                    0.11121518164873123,
+                    0.1209668219089508
+                  ],
+                  "edge_mass_excess_over_uniform": 0.02544429898262024,
+                  "interpretation_flags": [
+                    "posterior_location_low_relative_to_truth"
+                  ],
+                  "unweighted_ks_distance": 0.03675382560545004,
+                  "unweighted_ks_p": 1.720298509436221e-05,
+                  "weighted_ks_distance": 0.0367538256054486,
+                  "weighted_mean_rank": 0.5164902576937459
+                },
+                "lambda3": {
+                  "centre_mass_excess_over_uniform": -0.007056757807731628,
+                  "cramer_von_mises": 5.406228404082313,
+                  "decile_mass": [
+                    0.09263674169778824,
+                    0.08056344091892242,
+                    0.09658742696046829,
+                    0.08730043470859528,
+                    0.09890953451395035,
+                    0.09403371065855026,
+                    0.10099916905164719,
+                    0.1072680875658989,
+                    0.1128404513001442,
+                    0.12886101007461548
+                  ],
+                  "edge_mass_excess_over_uniform": 0.02149774134159088,
+                  "interpretation_flags": [
+                    "posterior_location_low_relative_to_truth",
+                    "asymmetric_tail_or_location_error"
+                  ],
+                  "unweighted_ks_distance": 0.05310233894562133,
+                  "unweighted_ks_p": 5.3757684793692255e-11,
+                  "weighted_ks_distance": 0.053102338945621996,
+                  "weighted_mean_rank": 0.5319130156700538
+                }
+              },
+              "effective_weighted_rows": 4306.999999999999,
+              "rows": 4307
+            },
+            "rows": 4307
+          },
+          "1": {
+            "intervals": {
+              "base_r2": [
+                0.6347681533755651,
+                0.7419974134518779,
+                0.7921027900581172
+              ],
+              "coverage68": [
+                0.6769654328540838,
+                0.6760477210156011,
+                0.6833894157234628
+              ],
+              "coverage90": [
+                0.9036402569593148,
+                0.9011930253900275,
+                0.9024166411746711
+              ],
+              "posterior_mean_r2": [
+                0.6316496740979534,
+                0.7379915428842572,
+                0.7881047116891899
+              ]
+            },
+            "rank": {
+              "components": {
+                "lambda1": {
+                  "centre_mass_excess_over_uniform": 0.003742799162864685,
+                  "cramer_von_mises": 1.7469119774331547,
+                  "decile_mass": [
+                    0.11134979873895645,
+                    0.10951414704322815,
+                    0.1070682629942894,
+                    0.0978955551981926,
+                    0.10279033333063126,
+                    0.10095246136188507,
+                    0.0975780263543129,
+                    0.09604859352111816,
+                    0.0926838368177414,
+                    0.08411899209022522
+                  ],
+                  "edge_mass_excess_over_uniform": -0.0045312196016311646,
+                  "interpretation_flags": [
+                    "posterior_location_high_relative_to_truth"
+                  ],
+                  "unweighted_ks_distance": 0.03317160681963971,
+                  "unweighted_ks_p": 0.0014672442821277419,
+                  "weighted_ks_distance": 0.033171606819655586,
+                  "weighted_mean_rank": 0.4782974232665909
+                },
+                "lambda2": {
+                  "centre_mass_excess_over_uniform": -0.013695433735847473,
+                  "cramer_von_mises": 4.023233861496617,
+                  "decile_mass": [
+                    0.11807972192764282,
+                    0.11532635241746902,
+                    0.11165785789489746,
+                    0.10309625416994095,
+                    0.09697778522968292,
+                    0.08932678401470184,
+                    0.10400166362524033,
+                    0.09421326965093613,
+                    0.08962496370077133,
+                    0.07769536226987839
+                  ],
+                  "edge_mass_excess_over_uniform": -0.004224911332130432,
+                  "interpretation_flags": [
+                    "posterior_location_high_relative_to_truth",
+                    "asymmetric_tail_or_location_error"
+                  ],
+                  "unweighted_ks_distance": 0.05453550641354149,
+                  "unweighted_ks_p": 6.84602935512563e-09,
+                  "weighted_ks_distance": 0.05453550641355326,
+                  "weighted_mean_rank": 0.4674087674457328
+                },
+                "lambda3": {
+                  "centre_mass_excess_over_uniform": -0.0008478462696075439,
+                  "cramer_von_mises": 4.6094809286632525,
+                  "decile_mass": [
+                    0.12175058573484421,
+                    0.11318501085042953,
+                    0.1122697964310646,
+                    0.09820147603750229,
+                    0.09728370606899261,
+                    0.10186845064163208,
+                    0.10033101588487625,
+                    0.09880157560110092,
+                    0.08258955180644989,
+                    0.07371882349252701
+                  ],
+                  "edge_mass_excess_over_uniform": -0.004530593752861023,
+                  "interpretation_flags": [
+                    "posterior_location_high_relative_to_truth",
+                    "asymmetric_tail_or_location_error"
+                  ],
+                  "unweighted_ks_distance": 0.053089248070256,
+                  "unweighted_ks_p": 1.8982924686672575e-08,
+                  "weighted_ks_distance": 0.05308924807025761,
+                  "weighted_mean_rank": 0.4646921187565697
+                }
+              },
+              "effective_weighted_rows": 3269.0,
+              "rows": 3269
+            },
+            "rows": 3269
+          },
+          "2": {
+            "intervals": {
+              "base_r2": [
+                0.5953729090683322,
+                0.6655074437535686,
+                0.7094803008888946
+              ],
+              "coverage68": [
+                0.7164893617021276,
+                0.698404255319149,
+                0.700531914893617
+              ],
+              "coverage90": [
+                0.923936170212766,
+                0.9186170212765957,
+                0.9127659574468086
+              ],
+              "posterior_mean_r2": [
+                0.597941719529672,
+                0.6667795217544403,
+                0.7126456751721051
+              ]
+            },
+            "rank": {
+              "components": {
+                "lambda1": {
+                  "centre_mass_excess_over_uniform": -0.0026595741510391235,
+                  "cramer_von_mises": 0.3260167782627308,
+                  "decile_mass": [
+                    0.07712772488594055,
+                    0.0973404198884964,
+                    0.11223403364419937,
+                    0.11648935079574585,
+                    0.09893618524074554,
+                    0.09840424358844757,
+                    0.09361700713634491,
+                    0.12074466794729233,
+                    0.10159572958946228,
+                    0.0835106298327446
+                  ],
+                  "edge_mass_excess_over_uniform": -0.03936164081096649,
+                  "interpretation_flags": [
+                    "no_large_shape_signature_at_heuristic_scale"
+                  ],
+                  "unweighted_ks_distance": 0.02808947972719207,
+                  "unweighted_ks_p": 0.1010043931132707,
+                  "weighted_ks_distance": 0.028089479727191932,
+                  "weighted_mean_rank": 0.5025273233009571
+                },
+                "lambda2": {
+                  "centre_mass_excess_over_uniform": -0.00797872245311737,
+                  "cramer_von_mises": 1.117573910114164,
+                  "decile_mass": [
+                    0.1069149598479271,
+                    0.10638297349214554,
+                    0.1148936077952385,
+                    0.09893615543842316,
+                    0.10212767869234085,
+                    0.08989360928535461,
+                    0.11542551964521408,
+                    0.09787233173847198,
+                    0.09255318343639374,
+                    0.07499998807907104
+                  ],
+                  "edge_mass_excess_over_uniform": -0.018085047602653503,
+                  "interpretation_flags": [
+                    "posterior_location_high_relative_to_truth",
+                    "asymmetric_tail_or_location_error"
+                  ],
+                  "unweighted_ks_distance": 0.03867797553559327,
+                  "unweighted_ks_p": 0.007021619490318825,
+                  "weighted_ks_distance": 0.03867797553560348,
+                  "weighted_mean_rank": 0.47835875281798973
+                },
+                "lambda3": {
+                  "centre_mass_excess_over_uniform": 0.0031914860010147095,
+                  "cramer_von_mises": 1.8057191316613335,
+                  "decile_mass": [
+                    0.1031915545463562,
+                    0.11914892494678497,
+                    0.11329785734415054,
+                    0.10159572958946228,
+                    0.09308512508869171,
+                    0.11010637134313583,
+                    0.104255311191082,
+                    0.09095743298530579,
+                    0.08670211583375931,
+                    0.07765956223011017
+                  ],
+                  "edge_mass_excess_over_uniform": -0.01914888620376587,
+                  "interpretation_flags": [
+                    "posterior_location_high_relative_to_truth"
+                  ],
+                  "unweighted_ks_distance": 0.04675276569497644,
+                  "unweighted_ks_p": 0.0005210041278555719,
+                  "weighted_ks_distance": 0.046752765694986986,
+                  "weighted_mean_rank": 0.4725627875827265
+                }
+              },
+              "effective_weighted_rows": 1880.0,
+              "rows": 1880
+            },
+            "rows": 1880
+          },
+          "3": {
+            "intervals": {
+              "base_r2": [
+                0.39765497370751723,
+                0.5554727874530612,
+                0.6286317219643701
+              ],
+              "coverage68": [
+                0.6626865671641791,
+                0.6328358208955224,
+                0.682089552238806
+              ],
+              "coverage90": [
+                0.8746268656716418,
+                0.8940298507462686,
+                0.8985074626865671
+              ],
+              "posterior_mean_r2": [
+                0.3771871562015904,
+                0.5256932426031126,
+                0.6028827902509535
+              ]
+            },
+            "rank": {
+              "components": {
+                "lambda1": {
+                  "centre_mass_excess_over_uniform": -0.008955419063568115,
+                  "cramer_von_mises": 0.09937289850943908,
+                  "decile_mass": [
+                    0.11641869693994522,
+                    0.08656804263591766,
+                    0.10447869449853897,
+                    0.09403081983327866,
+                    0.08955293893814087,
+                    0.10149164497852325,
+                    0.08507388085126877,
+                    0.10596921294927597,
+                    0.10596921294927597,
+                    0.11044684797525406
+                  ],
+                  "edge_mass_excess_over_uniform": 0.02686554193496704,
+                  "interpretation_flags": [
+                    "no_large_shape_signature_at_heuristic_scale"
+                  ],
+                  "unweighted_ks_distance": 0.030666355605574735,
+                  "unweighted_ks_p": 0.5439396107385187,
+                  "weighted_ks_distance": 0.030666355605578843,
+                  "weighted_mean_rank": 0.505375753042044
+                },
+                "lambda2": {
+                  "centre_mass_excess_over_uniform": -0.02089652419090271,
+                  "cramer_von_mises": 0.7324650834463402,
+                  "decile_mass": [
+                    0.13432931900024414,
+                    0.10298614203929901,
+                    0.10895635187625885,
+                    0.10298614203929901,
+                    0.09402959793806076,
+                    0.08507388085126877,
+                    0.09999912232160568,
+                    0.08208882808685303,
+                    0.10746174305677414,
+                    0.0820888876914978
+                  ],
+                  "edge_mass_excess_over_uniform": 0.016418203711509705,
+                  "interpretation_flags": [
+                    "posterior_location_high_relative_to_truth",
+                    "asymmetric_tail_or_location_error"
+                  ],
+                  "unweighted_ks_distance": 0.058160169139552076,
+                  "unweighted_ks_p": 0.02064547280571241,
+                  "weighted_ks_distance": 0.05816016913955302,
+                  "weighted_mean_rank": 0.4711440740442518
+                },
+                "lambda3": {
+                  "centre_mass_excess_over_uniform": -0.011941269040107727,
+                  "cramer_von_mises": 0.3731848753971201,
+                  "decile_mass": [
+                    0.09253796935081482,
+                    0.11044877767562866,
+                    0.1298520863056183,
+                    0.11044890433549881,
+                    0.09402970969676971,
+                    0.0940290242433548,
+                    0.08656640350818634,
+                    0.09104397147893906,
+                    0.09999912232160568,
+                    0.09104403108358383
+                  ],
+                  "edge_mass_excess_over_uniform": -0.01641799509525299,
+                  "interpretation_flags": [
+                    "posterior_location_high_relative_to_truth"
+                  ],
+                  "unweighted_ks_distance": 0.04984058645425099,
+                  "unweighted_ks_p": 0.06928356246723899,
+                  "weighted_ks_distance": 0.0498405864542526,
+                  "weighted_mean_rank": 0.4823085469598978
+                }
+              },
+              "effective_weighted_rows": 670.0000000000001,
+              "rows": 670
+            },
+            "rows": 670
+          }
+        },
+        "calibration_score_rank_plus_coverage": 0.1377514953210382,
+        "global_rank": {
+          "components": {
+            "lambda1": {
+              "centre_mass_excess_over_uniform": -0.010313823819160461,
+              "cramer_von_mises": 2.712249795773604,
+              "decile_mass": [
+                0.1190352737903595,
+                0.10423316806554794,
+                0.10498695075511932,
+                0.10191801935434341,
+                0.09515779465436935,
+                0.09452837705612183,
+                0.09077811986207962,
+                0.09626010805368423,
+                0.10203418135643005,
+                0.09106800705194473
+              ],
+              "edge_mass_excess_over_uniform": 0.010103270411491394,
+              "interpretation_flags": [
+                "posterior_location_high_relative_to_truth"
+              ],
+              "unweighted_ks_distance": 0.026877660599867237,
+              "unweighted_ks_p": 8.680440710714062e-07,
+              "weighted_ks_distance": 0.03201294993548248,
+              "weighted_mean_rank": 0.4820077434438317
+            },
+            "lambda2": {
+              "centre_mass_excess_over_uniform": -0.016983255743980408,
+              "cramer_von_mises": 1.36939320091338,
+              "decile_mass": [
+                0.10956373065710068,
+                0.103570856153965,
+                0.1012907549738884,
+                0.09633743017911911,
+                0.09108215570449829,
+                0.09193458408117294,
+                0.1042635589838028,
+                0.09833025187253952,
+                0.10215471684932709,
+                0.10147196054458618
+              ],
+              "edge_mass_excess_over_uniform": 0.011035695672035217,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.02363862021788532,
+              "unweighted_ks_p": 2.3932510902907417e-05,
+              "weighted_ks_distance": 0.01800962387000915,
+              "weighted_mean_rank": 0.49582950873565296
+            },
+            "lambda3": {
+              "centre_mass_excess_over_uniform": -0.004021152853965759,
+              "cramer_von_mises": 0.2584295662307343,
+              "decile_mass": [
+                0.10326027125120163,
+                0.09569777548313141,
+                0.10390979796648026,
+                0.09267295897006989,
+                0.09768979251384735,
+                0.09828905016183853,
+                0.10093419998884201,
+                0.10255888104438782,
+                0.10003935545682907,
+                0.10494791716337204
+              ],
+              "edge_mass_excess_over_uniform": 0.00820818543434143,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.013928652757306148,
+              "unweighted_ks_p": 0.03895816853927636,
+              "weighted_ks_distance": 0.010774200150220903,
+              "weighted_mean_rank": 0.5030233336383443
+            }
+          },
+          "effective_weighted_rows": 9072.600240529806,
+          "rows": 10126
+        },
+        "intervals": {
+          "base_r2": [
+            0.6553006409113059,
+            0.7389240645174002,
+            0.7870689286540691
+          ],
+          "coverage68": [
+            0.6611870216466419,
+            0.6636023489658448,
+            0.6712418612457518
+          ],
+          "coverage90": [
+            0.887654271587628,
+            0.886800555624453,
+            0.892559219564355
+          ],
+          "posterior_mean_r2": [
+            0.6543998925159118,
+            0.7379155531111709,
+            0.7857872838686271
+          ]
+        }
+      },
+      "fit": {
+        "0": {
+          "offset_scaled_theta": [
+            0.024959790678612728,
+            -0.011630632648575731,
+            -0.02313544098731851
+          ],
+          "posterior_variance_mean": [
+            0.290134959636372,
+            0.4072913444569619,
+            0.3890446673360764
+          ],
+          "residual_second_moment": [
+            0.2772736997523627,
+            0.37341807835853214,
+            0.39192839745006197
+          ],
+          "rows": 4062,
+          "scale_scaled_theta": [
+            0.9775845014714182,
+            0.9575138828534612,
+            1.0036993259060611
+          ]
+        },
+        "1": {
+          "offset_scaled_theta": [
+            0.02803328356051466,
+            0.01691658329926316,
+            -0.011889290395060474
+          ],
+          "posterior_variance_mean": [
+            0.3276649296895777,
+            0.4672555306241645,
+            0.42972008298977066
+          ],
+          "residual_second_moment": [
+            0.34925015440842333,
+            0.46257282566824864,
+            0.4542534907534454
+          ],
+          "rows": 3273,
+          "scale_scaled_theta": [
+            1.032412663553228,
+            0.9949765214116515,
+            1.0281496007720192
+          ]
+        },
+        "2": {
+          "offset_scaled_theta": [
+            0.003166740785827963,
+            0.008888982553783415,
+            -0.012843365488148017
+          ],
+          "posterior_variance_mean": [
+            0.4288065015078391,
+            0.5245401313090423,
+            0.5184695478100061
+          ],
+          "residual_second_moment": [
+            0.4733623538961009,
+            0.5433025583045985,
+            0.5608411199603914
+          ],
+          "rows": 1886,
+          "scale_scaled_theta": [
+            1.0506696257162425,
+            1.0177275116381126,
+            1.040059768361716
+          ]
+        },
+        "3": {
+          "offset_scaled_theta": [
+            0.006163457464415647,
+            0.00946312647989637,
+            -0.024294297632106256
+          ],
+          "posterior_variance_mean": [
+            0.7972792742873761,
+            0.6851510007519097,
+            0.7147297708060187
+          ],
+          "residual_second_moment": [
+            0.7743334356229015,
+            0.7258671799697894,
+            0.842027966411383
+          ],
+          "rows": 653,
+          "scale_scaled_theta": [
+            0.9855048568930534,
+            1.029284497965339,
+            1.0854062597015341
+          ]
+        }
+      },
+      "fit_fold": 1,
+      "held_fold": 0,
+      "uncorrected": {
+        "by_shell": {
+          "0": {
+            "intervals": {
+              "base_r2": [
+                0.681693034035817,
+                0.7535234035479814,
+                0.801421382532868
+              ],
+              "coverage68": [
+                0.6526584629672626,
+                0.6689110749941954,
+                0.672161597399582
+              ],
+              "coverage90": [
+                0.8813559322033898,
+                0.8869282563269096,
+                0.889250058045043
+              ],
+              "posterior_mean_r2": [
+                0.6829066267784749,
+                0.7547217333084304,
+                0.8029226735210002
+              ]
+            },
+            "rank": {
+              "components": {
+                "lambda1": {
+                  "centre_mass_excess_over_uniform": -0.011700406670570374,
+                  "cramer_von_mises": 0.39163799096738466,
+                  "decile_mass": [
+                    0.11260347068309784,
+                    0.09356626123189926,
+                    0.09310498088598251,
+                    0.10517844557762146,
+                    0.09264061599969864,
+                    0.09565898776054382,
+                    0.08939006924629211,
+                    0.10053480416536331,
+                    0.1128404513001442,
+                    0.10448189824819565
+                  ],
+                  "edge_mass_excess_over_uniform": 0.017085358500480652,
+                  "interpretation_flags": [
+                    "no_large_shape_signature_at_heuristic_scale"
+                  ],
+                  "unweighted_ks_distance": 0.022219578539957374,
+                  "unweighted_ks_p": 0.028022911573631237,
+                  "weighted_ks_distance": 0.022219578539929064,
+                  "weighted_mean_rank": 0.5030407065177269
+                },
+                "lambda2": {
+                  "centre_mass_excess_over_uniform": -0.013790041208267212,
+                  "cramer_von_mises": 3.807525696227348,
+                  "decile_mass": [
+                    0.09031502902507782,
+                    0.08799292147159576,
+                    0.08892565220594406,
+                    0.10123135149478912,
+                    0.08915788680315018,
+                    0.09705207496881485,
+                    0.1091255396604538,
+                    0.10680372267961502,
+                    0.11237608641386032,
+                    0.11701972782611847
+                  ],
+                  "edge_mass_excess_over_uniform": 0.00733475387096405,
+                  "interpretation_flags": [
+                    "posterior_location_low_relative_to_truth"
+                  ],
+                  "unweighted_ks_distance": 0.047412991358369516,
+                  "unweighted_ks_p": 7.4774871943652e-09,
+                  "weighted_ks_distance": 0.04741299135837773,
+                  "weighted_mean_rank": 0.5266717881910413
+                },
+                "lambda3": {
+                  "centre_mass_excess_over_uniform": -0.007056757807731628,
+                  "cramer_von_mises": 3.9835441348050282,
+                  "decile_mass": [
+                    0.09054719656705856,
+                    0.0842781811952591,
+                    0.09658750146627426,
+                    0.0905509814620018,
+                    0.09821298718452454,
+                    0.09473025798797607,
+                    0.1072680875658989,
+                    0.10680372267961502,
+                    0.11144736409187317,
+                    0.11957373470067978
+                  ],
+                  "edge_mass_excess_over_uniform": 0.010120928287506104,
+                  "interpretation_flags": [
+                    "posterior_location_low_relative_to_truth"
+                  ],
+                  "unweighted_ks_distance": 0.04549227518093535,
+                  "unweighted_ks_p": 3.4872548633492565e-08,
+                  "weighted_ks_distance": 0.04549227518093568,
+                  "weighted_mean_rank": 0.5277618333389197
+                }
+              },
+              "effective_weighted_rows": 4306.999999999999,
+              "rows": 4307
+            },
+            "rows": 4307
+          },
+          "1": {
+            "intervals": {
+              "base_r2": [
+                0.6347681533755651,
+                0.7419974134518779,
+                0.7921027900581172
+              ],
+              "coverage68": [
+                0.6668706026307739,
+                0.6864484551850719,
+                0.6888956867543591
+              ],
+              "coverage90": [
+                0.899663505659223,
+                0.9091465279902111,
+                0.9094524319363719
+              ],
+              "posterior_mean_r2": [
+                0.6335982687501976,
+                0.7401030794276278,
+                0.7897496872279005
+              ]
+            },
+            "rank": {
+              "components": {
+                "lambda1": {
+                  "centre_mass_excess_over_uniform": 0.0009918063879013062,
+                  "cramer_von_mises": 0.041687579597551774,
+                  "decile_mass": [
+                    0.10370216518640518,
+                    0.10125470161437988,
+                    0.0981956422328949,
+                    0.09269474446773529,
+                    0.09973109513521194,
+                    0.1012607142329216,
+                    0.09972080588340759,
+                    0.10400166362524033,
+                    0.10186044871807098,
+                    0.0975780263543129
+                  ],
+                  "edge_mass_excess_over_uniform": 0.0012801885604858398,
+                  "interpretation_flags": [
+                    "no_large_shape_signature_at_heuristic_scale"
+                  ],
+                  "unweighted_ks_distance": 0.010073169654612107,
+                  "unweighted_ks_p": 0.8910282960374851,
+                  "weighted_ks_distance": 0.01007316965461158,
+                  "weighted_mean_rank": 0.499458462910669
+                },
+                "lambda2": {
+                  "centre_mass_excess_over_uniform": -0.007268130779266357,
+                  "cramer_von_mises": 0.08532742223516548,
+                  "decile_mass": [
+                    0.09758405387401581,
+                    0.097889743745327,
+                    0.10706689953804016,
+                    0.10370795428752899,
+                    0.1046258732676506,
+                    0.08810599893331528,
+                    0.10247353464365005,
+                    0.10522521287202835,
+                    0.10155456513166428,
+                    0.09176617115736008
+                  ],
+                  "edge_mass_excess_over_uniform": -0.01064978539943695,
+                  "interpretation_flags": [
+                    "no_large_shape_signature_at_heuristic_scale"
+                  ],
+                  "unweighted_ks_distance": 0.012984804146078888,
+                  "unweighted_ks_p": 0.6350825084654169,
+                  "weighted_ks_distance": 0.012984804146090212,
+                  "weighted_mean_rank": 0.4979073312475762
+                },
+                "lambda3": {
+                  "centre_mass_excess_over_uniform": -0.003291115164756775,
+                  "cramer_von_mises": 0.6499709025023058,
+                  "decile_mass": [
+                    0.10859665274620056,
+                    0.10339604318141937,
+                    0.1113506630063057,
+                    0.08780007064342499,
+                    0.10523772239685059,
+                    0.09147115796804428,
+                    0.1125667616724968,
+                    0.09910746663808823,
+                    0.09451915323734283,
+                    0.08595431596040726
+                  ],
+                  "edge_mass_excess_over_uniform": -0.005449041724205017,
+                  "interpretation_flags": [
+                    "no_large_shape_signature_at_heuristic_scale"
+                  ],
+                  "unweighted_ks_distance": 0.026640827895064445,
+                  "unweighted_ks_p": 0.01896287211337896,
+                  "weighted_ks_distance": 0.026640827895065278,
+                  "weighted_mean_rank": 0.4869736135952605
+                }
+              },
+              "effective_weighted_rows": 3269.0,
+              "rows": 3269
+            },
+            "rows": 3269
+          },
+          "2": {
+            "intervals": {
+              "base_r2": [
+                0.5953729090683322,
+                0.6655074437535686,
+                0.7094803008888946
+              ],
+              "coverage68": [
+                0.6936170212765957,
+                0.6893617021276596,
+                0.6851063829787234
+              ],
+              "coverage90": [
+                0.9127659574468086,
+                0.9117021276595745,
+                0.901595744680851
+              ],
+              "posterior_mean_r2": [
+                0.5980250569368226,
+                0.6688816135268636,
+                0.7142424173113667
+              ]
+            },
+            "rank": {
+              "components": {
+                "lambda1": {
+                  "centre_mass_excess_over_uniform": -0.012234047055244446,
+                  "cramer_von_mises": 0.12721194787113904,
+                  "decile_mass": [
+                    0.08829794079065323,
+                    0.09999999403953552,
+                    0.10904254019260406,
+                    0.1111702024936676,
+                    0.0936170369386673,
+                    0.09414892643690109,
+                    0.08776594698429108,
+                    0.11968083679676056,
+                    0.10478722304105759,
+                    0.09148935228586197
+                  ],
+                  "edge_mass_excess_over_uniform": -0.02021270990371704,
+                  "interpretation_flags": [
+                    "no_large_shape_signature_at_heuristic_scale"
+                  ],
+                  "unweighted_ks_distance": 0.017378298575623896,
+                  "unweighted_ks_p": 0.6148734558354003,
+                  "weighted_ks_distance": 0.017378298575614903,
+                  "weighted_mean_rank": 0.5026278998013096
+                },
+                "lambda2": {
+                  "centre_mass_excess_over_uniform": -0.012234047055244446,
+                  "cramer_von_mises": 0.572313194179819,
+                  "decile_mass": [
+                    0.10957453399896622,
+                    0.10106382519006729,
+                    0.11276594549417496,
+                    0.10053190588951111,
+                    0.09468086808919907,
+                    0.09308509528636932,
+                    0.11276594549417496,
+                    0.09468083828687668,
+                    0.09414892643690109,
+                    0.08670211583375931
+                  ],
+                  "edge_mass_excess_over_uniform": -0.003723353147506714,
+                  "interpretation_flags": [
+                    "posterior_location_high_relative_to_truth"
+                  ],
+                  "unweighted_ks_distance": 0.03400125868553061,
+                  "unweighted_ks_p": 0.025298397750238566,
+                  "weighted_ks_distance": 0.034001258685531055,
+                  "weighted_mean_rank": 0.48439852719483023
+                },
+                "lambda3": {
+                  "centre_mass_excess_over_uniform": 0.0021276623010635376,
+                  "cramer_von_mises": 1.3859030183015817,
+                  "decile_mass": [
+                    0.11063836514949799,
+                    0.11595743894577026,
+                    0.11063828319311142,
+                    0.0973404124379158,
+                    0.09255320578813553,
+                    0.10957445949316025,
+                    0.09787233173847198,
+                    0.09255318343639374,
+                    0.0904255211353302,
+                    0.08244679868221283
+                  ],
+                  "edge_mass_excess_over_uniform": -0.006914839148521423,
+                  "interpretation_flags": [
+                    "posterior_location_high_relative_to_truth"
+                  ],
+                  "unweighted_ks_distance": 0.041233469568498715,
+                  "unweighted_ks_p": 0.003251091739276705,
+                  "weighted_ks_distance": 0.041233469568499326,
+                  "weighted_mean_rank": 0.47534160223164196
+                }
+              },
+              "effective_weighted_rows": 1880.0,
+              "rows": 1880
+            },
+            "rows": 1880
+          },
+          "3": {
+            "intervals": {
+              "base_r2": [
+                0.39765497370751723,
+                0.5554727874530612,
+                0.6286317219643701
+              ],
+              "coverage68": [
+                0.6656716417910448,
+                0.6373134328358209,
+                0.664179104477612
+              ],
+              "coverage90": [
+                0.8776119402985074,
+                0.8970149253731343,
+                0.8925373134328358
+              ],
+              "posterior_mean_r2": [
+                0.3768783929316266,
+                0.526822501344272,
+                0.6022783285454238
+              ]
+            },
+            "rank": {
+              "components": {
+                "lambda1": {
+                  "centre_mass_excess_over_uniform": -0.007462754845619202,
+                  "cramer_von_mises": 0.10661211353808969,
+                  "decile_mass": [
+                    0.10895597189664841,
+                    0.08507546037435532,
+                    0.10298614203929901,
+                    0.09701593220233917,
+                    0.09701570123434067,
+                    0.09552154690027237,
+                    0.09104397147893906,
+                    0.10596921294927597,
+                    0.10596921294927597,
+                    0.11044684797525406
+                  ],
+                  "edge_mass_excess_over_uniform": 0.019402816891670227,
+                  "interpretation_flags": [
+                    "no_large_shape_signature_at_heuristic_scale"
+                  ],
+                  "unweighted_ks_distance": 0.03157991645629188,
+                  "unweighted_ks_p": 0.5059828068376429,
+                  "weighted_ks_distance": 0.0315799164562961,
+                  "weighted_mean_rank": 0.5085499405838672
+                },
+                "lambda2": {
+                  "centre_mass_excess_over_uniform": -0.020896360278129578,
+                  "cramer_von_mises": 0.4349633341186062,
+                  "decile_mass": [
+                    0.12985165417194366,
+                    0.10447869449853897,
+                    0.10000103712081909,
+                    0.10597124695777893,
+                    0.08955219388008118,
+                    0.08955144882202148,
+                    0.09253650158643723,
+                    0.09253650158643723,
+                    0.10596921294927597,
+                    0.08955150842666626
+                  ],
+                  "edge_mass_excess_over_uniform": 0.019403159618377686,
+                  "interpretation_flags": [
+                    "posterior_location_high_relative_to_truth",
+                    "asymmetric_tail_or_location_error"
+                  ],
+                  "unweighted_ks_distance": 0.04710425603332752,
+                  "unweighted_ks_p": 0.09905513564476698,
+                  "weighted_ks_distance": 0.04710425603332846,
+                  "weighted_mean_rank": 0.47917118992682717
+                },
+                "lambda3": {
+                  "centre_mass_excess_over_uniform": -0.017911195755004883,
+                  "cramer_von_mises": 0.22065493624698554,
+                  "decile_mass": [
+                    0.09552305936813354,
+                    0.11194134503602982,
+                    0.12388187646865845,
+                    0.10298614203929901,
+                    0.09402988106012344,
+                    0.08805892616510391,
+                    0.08805892616510391,
+                    0.09253650158643723,
+                    0.10149164497852325,
+                    0.10149170458316803
+                  ],
+                  "edge_mass_excess_over_uniform": -0.002985239028930664,
+                  "interpretation_flags": [
+                    "no_large_shape_signature_at_heuristic_scale"
+                  ],
+                  "unweighted_ks_distance": 0.04106879728670876,
+                  "unweighted_ks_p": 0.20281072238159703,
+                  "weighted_ks_distance": 0.04106879728671031,
+                  "weighted_mean_rank": 0.4888809481120319
+                }
+              },
+              "effective_weighted_rows": 670.0000000000001,
+              "rows": 670
+            },
+            "rows": 670
+          }
+        },
+        "calibration_score_rank_plus_coverage": 0.09754642325438712,
+        "global_rank": {
+          "components": {
+            "lambda1": {
+              "centre_mass_excess_over_uniform": -0.007574602961540222,
+              "cramer_von_mises": 0.3200180368988092,
+              "decile_mass": [
+                0.1070697158575058,
+                0.09664978086948395,
+                0.09658322483301163,
+                0.1016266942024231,
+                0.0951077789068222,
+                0.09731762856245041,
+                0.09260793775320053,
+                0.10376180708408356,
+                0.10832981020212173,
+                0.1009456217288971
+              ],
+              "edge_mass_excess_over_uniform": 0.008015334606170654,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.015257517635595463,
+              "unweighted_ks_p": 0.017744742413279765,
+              "weighted_ks_distance": 0.015267157704147438,
+              "weighted_mean_rank": 0.5018986124414726
+            },
+            "lambda2": {
+              "centre_mass_excess_over_uniform": -0.011603757739067078,
+              "cramer_von_mises": 0.6654949289003064,
+              "decile_mass": [
+                0.09524194896221161,
+                0.09282626211643219,
+                0.09751946479082108,
+                0.10202302038669586,
+                0.09479169547557831,
+                0.09360454231500626,
+                0.1071179211139679,
+                0.10481272637844086,
+                0.10684356093406677,
+                0.10521885007619858
+              ],
+              "edge_mass_excess_over_uniform": 0.0004607886075973511,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.016892775355241918,
+              "unweighted_ks_p": 0.006111490198269069,
+              "weighted_ks_distance": 0.024769126224203908,
+              "weighted_mean_rank": 0.5121790223451054
+            },
+            "lambda3": {
+              "centre_mass_excess_over_uniform": -0.005010828375816345,
+              "cramer_von_mises": 0.13982171762510354,
+              "decile_mass": [
+                0.09863400459289551,
+                0.09424111247062683,
+                0.10325025767087936,
+                0.09053034335374832,
+                0.09984447807073593,
+                0.09514469653367996,
+                0.10774786025285721,
+                0.10258951783180237,
+                0.10357802361249924,
+                0.10443971306085587
+              ],
+              "edge_mass_excess_over_uniform": 0.0030737072229385376,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.01049168070248907,
+              "unweighted_ks_p": 0.2134570726797559,
+              "weighted_ks_distance": 0.019370816731428264,
+              "weighted_mean_rank": 0.5083785028934001
+            }
+          },
+          "effective_weighted_rows": 9072.600240529806,
+          "rows": 10126
+        },
+        "intervals": {
+          "base_r2": [
+            0.6553006409113059,
+            0.7389240645174002,
+            0.7870689286540691
+          ],
+          "coverage68": [
+            0.6618114485140454,
+            0.676396261850231,
+            0.6788953624891814
+          ],
+          "coverage90": [
+            0.8906163753526734,
+            0.896941887641339,
+            0.8971993415579226
+          ],
+          "posterior_mean_r2": [
+            0.6553879243445927,
+            0.7386606564587556,
+            0.7869997489547866
+          ]
+        }
+      }
+    }
+  ],
+  "full_calibration_fit": {
+    "0": {
+      "offset_scaled_theta": [
+        0.012498061532539777,
+        0.015561367554171455,
+        -0.007364166762253976
+      ],
+      "posterior_variance_mean": [
+        0.27932600784547157,
+        0.4190260984170508,
+        0.39654763569555235
+      ],
+      "residual_second_moment": [
+        0.2737766562199147,
+        0.4031269876471659,
+        0.3969294712991119
+      ],
+      "rows": 8369,
+      "scale_scaled_theta": [
+        0.9900166993832505,
+        0.9808450395476264,
+        1.000481334013969
+      ]
+    },
+    "1": {
+      "offset_scaled_theta": [
+        0.006591573859518146,
+        0.009427870967335415,
+        -0.020891347526059173
+      ],
+      "posterior_variance_mean": [
+        0.32540751276713575,
+        0.46605099378628106,
+        0.43385401452512945
+      ],
+      "residual_second_moment": [
+        0.32728947617853765,
+        0.4449393671155594,
+        0.4477558127540399
+      ],
+      "rows": 6542,
+      "scale_scaled_theta": [
+        1.0028875335366654,
+        0.9770880395918998,
+        1.015894960800562
+      ]
+    },
+    "2": {
+      "offset_scaled_theta": [
+        -0.003229454498831795,
+        -0.01593975757171047,
+        -0.02102946849169753
+      ],
+      "posterior_variance_mean": [
+        0.4190414179072477,
+        0.5286286908999374,
+        0.5147164391735511
+      ],
+      "residual_second_moment": [
+        0.4083053452650485,
+        0.5252621673111346,
+        0.5222535390868168
+      ],
+      "rows": 3766,
+      "scale_scaled_theta": [
+        0.9871066039247511,
+        0.9968107098313783,
+        1.0072949955524173
+      ]
+    },
+    "3": {
+      "offset_scaled_theta": [
+        0.02435202416366286,
+        -0.049002912626363325,
+        0.011474143475455202
+      ],
+      "posterior_variance_mean": [
+        0.8075711173409624,
+        0.688106334321384,
+        0.7175690878066354
+      ],
+      "residual_second_moment": [
+        0.8729231607261966,
+        0.7421884493405817,
+        0.7895498802224815
+      ],
+      "rows": 1323,
+      "scale_scaled_theta": [
+        1.0396750434640505,
+        1.0385545618425942,
+        1.0489575791700914
+      ]
+    }
+  },
+  "gates": {
+    "corrected_tarp_pass": true,
+    "crossfit_calibration_score_improves_both_directions": false,
+    "global_rank_distance_no_degradation_gt_0p002": false,
+    "no_shell_coverage_error_degradation_gt_0p01": false,
+    "parameter_offset_stable_0p05": false,
+    "parameter_scale_stable_0p10": false,
+    "posterior_mean_r2_degradation_le_0p002": true,
+    "promote_affine_correction": false,
+    "selection_log_score_improves_spatial_95ci": false,
+    "sparse_lambda2_lambda3_coverage_error_improves": true
+  },
+  "parameter_stability": {
+    "max_abs_offset_difference_scaled_theta": 0.11544861154862908,
+    "max_abs_scale_difference": 0.13523149023704895,
+    "offset_difference_by_shell": [
+      [
+        0.02421458352066035,
+        0.05283720680213406,
+        0.030645413046102903
+      ],
+      [
+        0.04290965581643281,
+        0.014986587970471536,
+        0.01801512932119709
+      ],
+      [
+        0.012812803958525873,
+        0.04973672091096262,
+        0.016398331867748684
+      ],
+      [
+        0.03591563245239393,
+        0.11544861154862908,
+        0.07062932475418479
+      ]
+    ],
+    "pass_offset_0p05": false,
+    "pass_scale_0p10": false,
+    "scale_difference_by_shell": [
+      [
+        0.024386630157950062,
+        0.04213447938500381,
+        0.0067185286315456505
+      ],
+      [
+        0.06188415058775609,
+        0.03635473056162142,
+        0.02462287735751789
+      ],
+      [
+        0.13523149023704895,
+        0.0432102742358087,
+        0.06738600210194678
+      ],
+      [
+        0.1028005482738511,
+        0.013596074523904544,
+        0.07463271256782278
+      ]
+    ]
+  },
+  "promote_affine_correction": false,
+  "provenance": {
+    "audit_report": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/calibration_audit_v1/P12A_CALIBRATION_AUDIT.json",
+    "audit_report_sha256": "ea602b92eadc997fdf1aaf201902f4973981e8e7cae6007bc6ecfb07f17cab3b",
+    "calibration_samples": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/affine_calibration_canary_v1/calibration_samples_scaled.npy",
+    "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/fmpe_estimator.pt",
+    "checkpoint_sha256": "0474ce3f0b3a6c97de7fe225eaceee9f0b2b0ea76ea5d417e545eeeacf437880",
+    "dataset_marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/P12A_DATASET_READY.json",
+    "dataset_marker_sha256": "7c93cb8a1e4f409aac49050c61e036e9b917ac42db0df8c97990ce59187fa7f9",
+    "evaluation_samples": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/calibration_audit_v1/evaluation_samples_scaled.npy"
+  },
+  "purpose": "bounded correction challenger; not production unless every gate passes",
+  "schema_version": "p12a-affine-calibration-canary-v1",
+  "sealed_phase": "ph001",
+  "sealed_phase_opened": false,
+  "selection_corrected": {
+    "by_shell": {
+      "0": {
+        "intervals": {
+          "base_r2": [
+            0.6915110841425316,
+            0.7719571287863909,
+            0.8282300545126382
+          ],
+          "coverage68": [
+            0.6756173129283636,
+            0.6819547460332364,
+            0.6804055957187118
+          ],
+          "coverage90": [
+            0.8992582856069853,
+            0.8961130410290113,
+            0.8964885926204113
+          ],
+          "posterior_mean_r2": [
+            0.6906482635791829,
+            0.7721302418024152,
+            0.8276258714549446
+          ]
+        },
+        "rank": {
+          "components": {
+            "lambda1": {
+              "centre_mass_excess_over_uniform": 0.0002593696117401123,
+              "cramer_von_mises": 0.645691481151264,
+              "decile_mass": [
+                0.10095925629138947,
+                0.10298006981611252,
+                0.10279223322868347,
+                0.09988080710172653,
+                0.10326182097196579,
+                0.09699755162000656,
+                0.09821168333292007,
+                0.09802398830652237,
+                0.0982586070895195,
+                0.09863399714231491
+              ],
+              "edge_mass_excess_over_uniform": -0.00040675699710845947,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.010450516647836583,
+              "unweighted_ks_p": 0.018933777542493403,
+              "weighted_ks_distance": 0.010450516647746433,
+              "weighted_mean_rank": 0.49544040193648803
+            },
+            "lambda2": {
+              "centre_mass_excess_over_uniform": 0.006354719400405884,
+              "cramer_von_mises": 4.088025486097127,
+              "decile_mass": [
+                0.10790912061929703,
+                0.10598541796207428,
+                0.09804942458868027,
+                0.10110172629356384,
+                0.10321485996246338,
+                0.10313986241817474,
+                0.09760166704654694,
+                0.1018248200416565,
+                0.09150156378746033,
+                0.0896715372800827
+              ],
+              "edge_mass_excess_over_uniform": -0.0024193376302719116,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.01958126369574098,
+              "unweighted_ks_p": 1.5864342246053668e-07,
+              "weighted_ks_distance": 0.019581263695715334,
+              "weighted_mean_rank": 0.487009270035503
+            },
+            "lambda3": {
+              "centre_mass_excess_over_uniform": 0.0021717101335525513,
+              "cramer_von_mises": 6.910335216323122,
+              "decile_mass": [
+                0.10969354212284088,
+                0.10495232790708542,
+                0.10335573554039001,
+                0.10424795001745224,
+                0.10157131403684616,
+                0.10060039907693863,
+                0.09943170100450516,
+                0.09422314912080765,
+                0.09530240297317505,
+                0.0866214856505394
+              ],
+              "edge_mass_excess_over_uniform": -0.003684982657432556,
+              "interpretation_flags": [
+                "posterior_location_high_relative_to_truth"
+              ],
+              "unweighted_ks_distance": 0.025482812789653808,
+              "unweighted_ks_p": 1.8918442326599536e-12,
+              "weighted_ks_distance": 0.025482812789624276,
+              "weighted_mean_rank": 0.4831739847396511
+            }
+          },
+          "effective_weighted_rows": 21302.000000000004,
+          "rows": 21302
+        },
+        "rows": 21302
+      },
+      "1": {
+        "intervals": {
+          "base_r2": [
+            0.6413779541452214,
+            0.740682113690309,
+            0.7842837441771414
+          ],
+          "coverage68": [
+            0.6810496333555542,
+            0.6774134900915096,
+            0.6916550512090176
+          ],
+          "coverage90": [
+            0.8966123265256651,
+            0.89891521725956,
+            0.9061875037876492
+          ],
+          "posterior_mean_r2": [
+            0.6413092606266303,
+            0.7392697249368566,
+            0.7828191940831368
+          ]
+        },
+        "rank": {
+          "components": {
+            "lambda1": {
+              "centre_mass_excess_over_uniform": 0.0020566433668136597,
+              "cramer_von_mises": 0.5496505651530142,
+              "decile_mass": [
+                0.10149150341749191,
+                0.1018487960100174,
+                0.10408823192119598,
+                0.10027123987674713,
+                0.10088909417390823,
+                0.10116754472255707,
+                0.0958939790725708,
+                0.09831860661506653,
+                0.09819737821817398,
+                0.09783362597227097
+              ],
+              "edge_mass_excess_over_uniform": -0.0006748735904693604,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.010215914118622882,
+              "unweighted_ks_p": 0.06341978282902605,
+              "weighted_ks_distance": 0.010215914118707259,
+              "weighted_mean_rank": 0.49510630033470576
+            },
+            "lambda2": {
+              "centre_mass_excess_over_uniform": 0.0033262819051742554,
+              "cramer_von_mises": 0.12076919043259504,
+              "decile_mass": [
+                0.10427882522344589,
+                0.09639564901590347,
+                0.10221003741025925,
+                0.09790835529565811,
+                0.10094642639160156,
+                0.10237985849380493,
+                0.09559090435504913,
+                0.09989461302757263,
+                0.10456202179193497,
+                0.09583330899477005
+              ],
+              "edge_mass_excess_over_uniform": 0.00011213123798370361,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.006744554976988559,
+              "unweighted_ks_p": 0.43887296537800513,
+              "weighted_ks_distance": 0.00674455497712978,
+              "weighted_mean_rank": 0.49802528366795124
+            },
+            "lambda3": {
+              "centre_mass_excess_over_uniform": 0.006894126534461975,
+              "cramer_von_mises": 1.5376406361342096,
+              "decile_mass": [
+                0.08876674622297287,
+                0.09791216999292374,
+                0.10081654042005539,
+                0.09548488259315491,
+                0.10402935743331909,
+                0.10286477953195572,
+                0.11056297272443771,
+                0.0999552309513092,
+                0.10274355113506317,
+                0.0968637764453888
+              ],
+              "edge_mass_excess_over_uniform": -0.014369472861289978,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.017070258368900026,
+              "unweighted_ks_p": 0.0001316580100412671,
+              "weighted_ks_distance": 0.017070258368857227,
+              "weighted_mean_rank": 0.5067532609821821
+            }
+          },
+          "effective_weighted_rows": 16501.0,
+          "rows": 16501
+        },
+        "rows": 16501
+      },
+      "2": {
+        "intervals": {
+          "base_r2": [
+            0.5881193554782929,
+            0.6699190195962563,
+            0.721945767619267
+          ],
+          "coverage68": [
+            0.6701489219826628,
+            0.6727050455656812,
+            0.6711491442542787
+          ],
+          "coverage90": [
+            0.8943098466325851,
+            0.8923094020893532,
+            0.8928650811291398
+          ],
+          "posterior_mean_r2": [
+            0.5871224457623709,
+            0.6693387972725826,
+            0.7207715287030516
+          ]
+        },
+        "rank": {
+          "components": {
+            "lambda1": {
+              "centre_mass_excess_over_uniform": -0.0013659149408340454,
+              "cramer_von_mises": 0.4363603339842533,
+              "decile_mass": [
+                0.09679568558931351,
+                0.10024075210094452,
+                0.0973513275384903,
+                0.0994630828499794,
+                0.09981723874807358,
+                0.09881684184074402,
+                0.09892799705266953,
+                0.09848136454820633,
+                0.10555283725261688,
+                0.10455286502838135
+              ],
+              "edge_mass_excess_over_uniform": 0.001348540186882019,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.012973122297866846,
+              "unweighted_ks_p": 0.09590361629728517,
+              "weighted_ks_distance": 0.012973122297986084,
+              "weighted_mean_rank": 0.5060859517609548
+            },
+            "lambda2": {
+              "centre_mass_excess_over_uniform": 0.0010778456926345825,
+              "cramer_von_mises": 0.9690108669786496,
+              "decile_mass": [
+                0.09768474102020264,
+                0.09523983299732208,
+                0.10057414323091507,
+                0.09135022014379501,
+                0.09803711622953415,
+                0.10304073244333267,
+                0.10137341171503067,
+                0.10326074808835983,
+                0.10599727183580399,
+                0.10344178229570389
+              ],
+              "edge_mass_excess_over_uniform": 0.001126512885093689,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.018094975440613004,
+              "unweighted_ks_p": 0.00545295701285921,
+              "weighted_ks_distance": 0.018094975440667627,
+              "weighted_mean_rank": 0.5087144880302182
+            },
+            "lambda3": {
+              "centre_mass_excess_over_uniform": -0.008703842759132385,
+              "cramer_von_mises": 2.2213994291045025,
+              "decile_mass": [
+                0.09501758217811584,
+                0.09557322412729263,
+                0.09079456329345703,
+                0.10324130207300186,
+                0.09681436419487,
+                0.09448179602622986,
+                0.10103994607925415,
+                0.10893162339925766,
+                0.10499729961156845,
+                0.10910829901695251
+              ],
+              "edge_mass_excess_over_uniform": 0.004125878214836121,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.025911064345584767,
+              "unweighted_ks_p": 1.1107964407709657e-05,
+              "weighted_ks_distance": 0.025911064345660484,
+              "weighted_mean_rank": 0.5139674668769179
+            }
+          },
+          "effective_weighted_rows": 8998.0,
+          "rows": 8998
+        },
+        "rows": 8998
+      },
+      "3": {
+        "intervals": {
+          "base_r2": [
+            0.4065276942645014,
+            0.47840437242142886,
+            0.5532497356710729
+          ],
+          "coverage68": [
+            0.7033447952485151,
+            0.671147233510472,
+            0.684276336355111
+          ],
+          "coverage90": [
+            0.9052829009065333,
+            0.9002813379180994,
+            0.8959049703032198
+          ],
+          "posterior_mean_r2": [
+            0.40424464300043395,
+            0.47905393220093195,
+            0.5496224553803546
+          ]
+        },
+        "rank": {
+          "components": {
+            "lambda1": {
+              "centre_mass_excess_over_uniform": 0.012884765863418579,
+              "cramer_von_mises": 0.28694023334863783,
+              "decile_mass": [
+                0.09221360087394714,
+                0.09971406310796738,
+                0.0972132608294487,
+                0.10721589624881744,
+                0.11222540587186813,
+                0.10065936297178268,
+                0.10409803688526154,
+                0.09940893948078156,
+                0.10034675896167755,
+                0.08690466731786728
+              ],
+              "edge_mass_excess_over_uniform": -0.02088172733783722,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.019372804011118627,
+              "unweighted_ks_p": 0.17875813149324782,
+              "weighted_ks_distance": 0.019372804011152267,
+              "weighted_mean_rank": 0.496594858346455
+            },
+            "lambda2": {
+              "centre_mass_excess_over_uniform": -0.007746860384941101,
+              "cramer_von_mises": 0.16647919770251868,
+              "decile_mass": [
+                0.10534223169088364,
+                0.10409007966518402,
+                0.10565298050642014,
+                0.0984644889831543,
+                0.08971813321113586,
+                0.10253500938415527,
+                0.09909633547067642,
+                0.09628286957740784,
+                0.10190979391336441,
+                0.0969080850481987
+              ],
+              "edge_mass_excess_over_uniform": 0.0022503137588500977,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.01896417032364106,
+              "unweighted_ks_p": 0.19760964178137086,
+              "weighted_ks_distance": 0.018964170323634122,
+              "weighted_mean_rank": 0.4939763657248842
+            },
+            "lambda3": {
+              "centre_mass_excess_over_uniform": 0.008821293711662292,
+              "cramer_von_mises": 0.3836528295892344,
+              "decile_mass": [
+                0.10815547406673431,
+                0.09815100580453873,
+                0.10283973813056946,
+                0.09877663850784302,
+                0.10409803688526154,
+                0.1047232523560524,
+                0.09847111999988556,
+                0.09722068905830383,
+                0.09534505009651184,
+                0.09221898764371872
+              ],
+              "edge_mass_excess_over_uniform": 0.00037445127964019775,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.02061351120564725,
+              "unweighted_ks_p": 0.13008632634570383,
+              "weighted_ks_distance": 0.020613511205645252,
+              "weighted_mean_rank": 0.4900441133300736
+            }
+          },
+          "effective_weighted_rows": 3199.0000000000005,
+          "rows": 3199
+        },
+        "rows": 3199
+      }
+    },
+    "calibration_score_rank_plus_coverage": 0.04317854471341653,
+    "global_rank": {
+      "components": {
+        "lambda1": {
+          "centre_mass_excess_over_uniform": 0.0007662028074264526,
+          "cramer_von_mises": 0.5596327584672592,
+          "decile_mass": [
+            0.10058441758155823,
+            0.10227440297603607,
+            0.10260341316461563,
+            0.1000320166349411,
+            0.1021907776594162,
+            0.0985754206776619,
+            0.09760520607233047,
+            0.09822122007608414,
+            0.09904814511537552,
+            0.09886497259140015
+          ],
+          "edge_mass_excess_over_uniform": -0.0005506128072738647,
+          "interpretation_flags": [
+            "no_large_shape_signature_at_heuristic_scale"
+          ],
+          "unweighted_ks_distance": 0.006658223660423013,
+          "unweighted_ks_p": 0.023647215946367747,
+          "weighted_ks_distance": 0.008079105528268626,
+          "weighted_mean_rank": 0.4964329271568919
+        },
+        "lambda2": {
+          "centre_mass_excess_over_uniform": 0.004554077982902527,
+          "cramer_von_mises": 1.3594822885201616,
+          "decile_mass": [
+            0.10560715198516846,
+            0.10166680067777634,
+            0.0997936949133873,
+            0.09898100048303604,
+            0.10172223299741745,
+            0.10283185541629791,
+            0.09735827147960663,
+            0.10129774361848831,
+            0.0974893867969513,
+            0.09325186163187027
+          ],
+          "edge_mass_excess_over_uniform": -0.0011409968137741089,
+          "interpretation_flags": [
+            "no_large_shape_signature_at_heuristic_scale"
+          ],
+          "unweighted_ks_distance": 0.007497490045844879,
+          "unweighted_ks_p": 0.0072039041310140535,
+          "weighted_ks_distance": 0.010801569930542154,
+          "weighted_mean_rank": 0.4929782237410677
+        },
+        "lambda3": {
+          "centre_mass_excess_over_uniform": 0.0026415735483169556,
+          "cramer_von_mises": 0.7286379052361247,
+          "decile_mass": [
+            0.10120031237602234,
+            0.10155884921550751,
+            0.10122691094875336,
+            0.10113499313592911,
+            0.10189715027809143,
+            0.10074443370103836,
+            0.10330520570278168,
+            0.09770098328590393,
+            0.09880486130714417,
+            0.09242629259824753
+          ],
+          "edge_mass_excess_over_uniform": -0.006373390555381775,
+          "interpretation_flags": [
+            "no_large_shape_signature_at_heuristic_scale"
+          ],
+          "unweighted_ks_distance": 0.00799358295935304,
+          "unweighted_ks_p": 0.0033393431335434084,
+          "weighted_ks_distance": 0.011615381449657902,
+          "weighted_mean_rank": 0.49424698349009444
+        }
+      },
+      "effective_weighted_rows": 44936.71237771332,
+      "rows": 50000
+    },
+    "intervals": {
+      "base_r2": [
+        0.6625102651857104,
+        0.7481135279106923,
+        0.8003192960527794
+      ],
+      "coverage68": [
+        0.6772099714629519,
+        0.6793639945029194,
+        0.683245776657797
+      ],
+      "coverage90": [
+        0.8979479468744028,
+        0.8967073253739757,
+        0.8993340506385994
+      ],
+      "posterior_mean_r2": [
+        0.6618790993169593,
+        0.7476919738716201,
+        0.7993392199309308
+      ]
+    }
+  },
+  "selection_corrected_spatial_bootstrap": {
+    "bootstrap_repeats": 1000,
+    "components": {
+      "lambda1": {
+        "decile_mass_95ci": [
+          [
+            0.09630586095788815,
+            0.1006039337511835,
+            0.10490659587083574
+          ],
+          [
+            0.09938880278480036,
+            0.10227267629549613,
+            0.1051629869037166
+          ],
+          [
+            0.09954184044524185,
+            0.10256371361517769,
+            0.10573521793115179
+          ],
+          [
+            0.09712024586806042,
+            0.10008032911077841,
+            0.10327735127153649
+          ],
+          [
+            0.0996432539846057,
+            0.10226509056180857,
+            0.10468171322228348
+          ],
+          [
+            0.09588683802753718,
+            0.09859180535567325,
+            0.10165430475262105
+          ],
+          [
+            0.09426198018197057,
+            0.0974501555393527,
+            0.10070862201789571
+          ],
+          [
+            0.09527151647294975,
+            0.09815598127139097,
+            0.1009327270455335
+          ],
+          [
+            0.09545551041444603,
+            0.09902541208828378,
+            0.10249406493560183
+          ],
+          [
+            0.09475658193494402,
+            0.09887140568163785,
+            0.1031594594487608
+          ]
+        ],
+        "mean_rank_95ci": [
+          0.4918177085920243,
+          0.4963412592635117,
+          0.5010141655959618
+        ],
+        "uniform_deciles_outside_pointwise_95ci": []
+      },
+      "lambda2": {
+        "decile_mass_95ci": [
+          [
+            0.10037865923727202,
+            0.10571517159752924,
+            0.11088218049594901
+          ],
+          [
+            0.09772524945520154,
+            0.10160817229323091,
+            0.10541078315707784
+          ],
+          [
+            0.09666692453373046,
+            0.09976047444413019,
+            0.1025600822232262
+          ],
+          [
+            0.09488326038660697,
+            0.09898107948035748,
+            0.10342911243844806
+          ],
+          [
+            0.09875204247008836,
+            0.10171207725428295,
+            0.10478657034986963
+          ],
+          [
+            0.09975804857313002,
+            0.10279608642672886,
+            0.10581602046678672
+          ],
+          [
+            0.09381150370738997,
+            0.0973618190173896,
+            0.10113182341012704
+          ],
+          [
+            0.0982381524772603,
+            0.10125680840726256,
+            0.10436566635702975
+          ],
+          [
+            0.09354703198596669,
+            0.09736885094452022,
+            0.10170415709933531
+          ],
+          [
+            0.08739433785039406,
+            0.09309748904682966,
+            0.09989994810300284
+          ]
+        ],
+        "mean_rank_95ci": [
+          0.4859284635861137,
+          0.49292998681587763,
+          0.5004154590947273
+        ],
+        "uniform_deciles_outside_pointwise_95ci": [
+          0,
+          9
+        ]
+      },
+      "lambda3": {
+        "decile_mass_95ci": [
+          [
+            0.09557512183224208,
+            0.10119646369432085,
+            0.10726112179249511
+          ],
+          [
+            0.09646881842576407,
+            0.10157889955252444,
+            0.10686503613953065
+          ],
+          [
+            0.09760442329534162,
+            0.10122808259852753,
+            0.10452358186076059
+          ],
+          [
+            0.09723609949212231,
+            0.10117742219888573,
+            0.10465715611593936
+          ],
+          [
+            0.09876114940462286,
+            0.10189182723495634,
+            0.1048308679716314
+          ],
+          [
+            0.0974057521290137,
+            0.10069407237358619,
+            0.10402826147002409
+          ],
+          [
+            0.09989558156214913,
+            0.1032259887491283,
+            0.10651708695462597
+          ],
+          [
+            0.09385094391968066,
+            0.0977630228715469,
+            0.10141346748093583
+          ],
+          [
+            0.09414143976516444,
+            0.09883199023865427,
+            0.1036677957102847
+          ],
+          [
+            0.08662705719294521,
+            0.09227125105239731,
+            0.09900606165500937
+          ]
+        ],
+        "mean_rank_95ci": [
+          0.48500059727493283,
+          0.49443458653962563,
+          0.5038791167985616
+        ],
+        "uniform_deciles_outside_pointwise_95ci": [
+          9
+        ]
+      }
+    },
+    "coverage68_95ci": [
+      [
+        0.6693536690935025,
+        0.6773047467933446,
+        0.6845755628504875
+      ],
+      [
+        0.6704540869851363,
+        0.6794019498906485,
+        0.6870693797470079
+      ],
+      [
+        0.6742112988835236,
+        0.6829938500006263,
+        0.6919388667623347
+      ]
+    ],
+    "coverage90_95ci": [
+      [
+        0.8936241996140156,
+        0.8978722881485306,
+        0.9025019641142393
+      ],
+      [
+        0.8922304982271102,
+        0.8965919714807193,
+        0.9007439761974175
+      ],
+      [
+        0.8949509105272543,
+        0.8992077363190187,
+        0.9037132315274878
+      ]
+    ],
+    "interpretation": "cluster bootstrap over cap+superblock preserves within-block spatial dependence; pointwise decile intervals are diagnostic, not a multiple-testing-corrected SBC hypothesis test",
+    "rows_per_block_quantiles": [
+      1.0,
+      10.25,
+      59.5,
+      250.5,
+      1656.0
+    ],
+    "spatial_blocks": 254
+  },
+  "selection_corrected_tarp": {
+    "available": true,
+    "bootstrap_max_abs_quantiles": [
+      0.006595000000000975,
+      0.010200000000000264,
+      0.01669999999999983
+    ],
+    "bootstrap_repeats": 100,
+    "bootstrap_rows": 10000,
+    "bootstrap_scheme": "cap+superblock cluster resampling",
+    "full_max_abs_ecp_minus_alpha": 0.008980000000001542,
+    "pass_0p05": true,
+    "rows": 50000,
+    "spatial_blocks": 254
+  },
+  "selection_folds": [
+    2,
+    3,
+    4
+  ],
+  "selection_log_score": {
+    "base_mean_physical_log_score": 3.4488583221526814,
+    "bootstrap_repeats": 1000,
+    "corrected_mean_physical_log_score": 3.446205586975929,
+    "finite": true,
+    "mean": -0.0026527351767516843,
+    "mean_95ci": [
+      -0.005009403318893238,
+      -0.002633432764919206,
+      -0.00033438261061499296
+    ],
+    "spatial_blocks": 254
+  },
+  "selection_uncorrected": {
+    "by_shell": {
+      "0": {
+        "intervals": {
+          "base_r2": [
+            0.6915110841425316,
+            0.7719571287863909,
+            0.8282300545126382
+          ],
+          "coverage68": [
+            0.6807811473101117,
+            0.6935029574687823,
+            0.6896066097080087
+          ],
+          "coverage90": [
+            0.9024504741338841,
+            0.9047507276312083,
+            0.9030607454699089
+          ],
+          "posterior_mean_r2": [
+            0.6905609434015633,
+            0.7725692780660427,
+            0.8279374531609038
+          ]
+        },
+        "rank": {
+          "components": {
+            "lambda1": {
+              "centre_mass_excess_over_uniform": 0.0020547062158584595,
+              "cramer_von_mises": 1.3213243402723374,
+              "decile_mass": [
+                0.09076925367116928,
+                0.09931730479001999,
+                0.09884771704673767,
+                0.10110172629356384,
+                0.1021348163485527,
+                0.09991990029811859,
+                0.10098019242286682,
+                0.1018248200416565,
+                0.1022002100944519,
+                0.1029040664434433
+              ],
+              "edge_mass_excess_over_uniform": -0.006326690316200256,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.011928154418161196,
+              "unweighted_ks_p": 0.004623201878295985,
+              "weighted_ks_distance": 0.01192815441816003,
+              "weighted_mean_rank": 0.5071987172837917
+            },
+            "lambda2": {
+              "centre_mass_excess_over_uniform": 0.009239718317985535,
+              "cramer_von_mises": 2.4210813212295563,
+              "decile_mass": [
+                0.09029966592788696,
+                0.09729808568954468,
+                0.09654674679040909,
+                0.09823725372552872,
+                0.1040601134300232,
+                0.10517960041761398,
+                0.10553180426359177,
+                0.10637643188238144,
+                0.10079249739646912,
+                0.09567779302597046
+              ],
+              "edge_mass_excess_over_uniform": -0.014022544026374817,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.01952241099446933,
+              "unweighted_ks_p": 1.7499562190936485e-07,
+              "weighted_ks_distance": 0.019522410994526895,
+              "weighted_mean_rank": 0.5074026182335051
+            },
+            "lambda3": {
+              "centre_mass_excess_over_uniform": 0.007067546248435974,
+              "cramer_von_mises": 0.783103864983839,
+              "decile_mass": [
+                0.09842349588871002,
+                0.09814333915710449,
+                0.10222873091697693,
+                0.10208785533905029,
+                0.10190001875162125,
+                0.10516753792762756,
+                0.10243482887744904,
+                0.09957247227430344,
+                0.09947862476110458,
+                0.0905630886554718
+              ],
+              "edge_mass_excess_over_uniform": -0.011013418436050415,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.011362305104205994,
+              "unweighted_ks_p": 0.008108932661705304,
+              "weighted_ks_distance": 0.011362305104260617,
+              "weighted_mean_rank": 0.4965491668190319
+            }
+          },
+          "effective_weighted_rows": 21302.000000000004,
+          "rows": 21302
+        },
+        "rows": 21302
+      },
+      "1": {
+        "intervals": {
+          "base_r2": [
+            0.6413779541452214,
+            0.740682113690309,
+            0.7842837441771414
+          ],
+          "coverage68": [
+            0.6808072238046179,
+            0.6851705957214714,
+            0.6933519180655718
+          ],
+          "coverage90": [
+            0.8961881098115265,
+            0.9050360584207018,
+            0.9064905157263197
+          ],
+          "posterior_mean_r2": [
+            0.6412080149678079,
+            0.7391809826290971,
+            0.78306491377179
+          ]
+        },
+        "rank": {
+          "components": {
+            "lambda1": {
+              "centre_mass_excess_over_uniform": 0.0002349764108657837,
+              "cramer_von_mises": 0.024877411756875346,
+              "decile_mass": [
+                0.09840120375156403,
+                0.10009215027093887,
+                0.1016041710972786,
+                0.10087711364030838,
+                0.09888558089733124,
+                0.10134939104318619,
+                0.09643951803445816,
+                0.10098569840192795,
+                0.10044015198945999,
+                0.1009250208735466
+              ],
+              "edge_mass_excess_over_uniform": -0.0006737858057022095,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.002889252040623791,
+              "unweighted_ks_p": 0.9990770032156463,
+              "weighted_ks_distance": 0.002889252040618462,
+              "weighted_mean_rank": 0.500599144822954
+            },
+            "lambda2": {
+              "centre_mass_excess_over_uniform": 0.0077437907457351685,
+              "cramer_von_mises": 1.431385927014744,
+              "decile_mass": [
+                0.09446258842945099,
+                0.09300395101308823,
+                0.10008949786424637,
+                0.09760542213916779,
+                0.10233315825462341,
+                0.10541064292192459,
+                0.09983399510383606,
+                0.10250108689069748,
+                0.10783526301383972,
+                0.09692438691854477
+              ],
+              "edge_mass_excess_over_uniform": -0.008613035082817078,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.015571445639118053,
+              "unweighted_ks_p": 0.0006624600953531978,
+              "weighted_ks_distance": 0.015571445639071646,
+              "weighted_mean_rank": 0.5073460017814377
+            },
+            "lambda3": {
+              "centre_mass_excess_over_uniform": 0.005623176693916321,
+              "cramer_von_mises": 1.1976276505225345,
+              "decile_mass": [
+                0.08991803973913193,
+                0.09851789474487305,
+                0.09948363155126572,
+                0.0991806834936142,
+                0.1026371568441391,
+                0.10298601537942886,
+                0.1103811264038086,
+                0.09947030246257782,
+                0.10171308368444443,
+                0.0957120731472969
+              ],
+              "edge_mass_excess_over_uniform": -0.014369890093803406,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.014471316663881795,
+              "unweighted_ks_p": 0.0019734429710495482,
+              "weighted_ks_distance": 0.014471316663843714,
+              "weighted_mean_rank": 0.5051654311702256
+            }
+          },
+          "effective_weighted_rows": 16501.0,
+          "rows": 16501
+        },
+        "rows": 16501
+      },
+      "2": {
+        "intervals": {
+          "base_r2": [
+            0.5881193554782929,
+            0.6699190195962563,
+            0.721945767619267
+          ],
+          "coverage68": [
+            0.6755945765725717,
+            0.6744832184929984,
+            0.6683707490553457
+          ],
+          "coverage90": [
+            0.8979773282951767,
+            0.8927539453211825,
+            0.8920871304734386
+          ],
+          "posterior_mean_r2": [
+            0.5871911388185034,
+            0.6692129457884437,
+            0.7208699895656709
+          ]
+        },
+        "rank": {
+          "components": {
+            "lambda1": {
+              "centre_mass_excess_over_uniform": 0.0014129579067230225,
+              "cramer_von_mises": 0.21382210574158467,
+              "decile_mass": [
+                0.09412852674722672,
+                0.1021299883723259,
+                0.09835150837898254,
+                0.10068583488464355,
+                0.10126225650310516,
+                0.1001507043838501,
+                0.098594531416893,
+                0.09792418777942657,
+                0.10588616132736206,
+                0.10088629275560379
+              ],
+              "edge_mass_excess_over_uniform": -0.004985183477401733,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.008951841366284352,
+              "unweighted_ks_p": 0.46394822842476,
+              "weighted_ks_distance": 0.008951841366382052,
+              "weighted_mean_rank": 0.5044338627327237
+            },
+            "lambda2": {
+              "centre_mass_excess_over_uniform": 0.003191426396369934,
+              "cramer_von_mises": 0.05389805371985809,
+              "decile_mass": [
+                0.10335245728492737,
+                0.09890717267990112,
+                0.10157433152198792,
+                0.09446309506893158,
+                0.09937261790037155,
+                0.10381881892681122,
+                0.09892799705266953,
+                0.10081084817647934,
+                0.10088629275560379,
+                0.09788636863231659
+              ],
+              "edge_mass_excess_over_uniform": 0.0012388229370117188,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.00693307778667962,
+              "unweighted_ks_p": 0.7773060696008334,
+              "weighted_ks_distance": 0.006933077786680619,
+              "weighted_mean_rank": 0.49875732622644736
+            },
+            "lambda3": {
+              "centre_mass_excess_over_uniform": -0.007924064993858337,
+              "cramer_von_mises": 0.17598105170477765,
+              "decile_mass": [
+                0.10568622499704361,
+                0.10135206580162048,
+                0.09746246039867401,
+                0.1040225699543953,
+                0.09548219293355942,
+                0.09659373760223389,
+                0.1002618595957756,
+                0.09892182052135468,
+                0.10099740326404572,
+                0.0992196649312973
+              ],
+              "edge_mass_excess_over_uniform": 0.00490589439868927,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.009243239053847246,
+              "unweighted_ks_p": 0.4230250591578758,
+              "weighted_ks_distance": 0.009243239053848024,
+              "weighted_mean_rank": 0.4973243921975544
+            }
+          },
+          "effective_weighted_rows": 8998.0,
+          "rows": 8998
+        },
+        "rows": 8998
+      },
+      "3": {
+        "intervals": {
+          "base_r2": [
+            0.4065276942645014,
+            0.47840437242142886,
+            0.5532497356710729
+          ],
+          "coverage68": [
+            0.6892778993435449,
+            0.657705532979056,
+            0.6633322913410441
+          ],
+          "coverage90": [
+            0.8943419818693341,
+            0.8909034073147859,
+            0.8837136605189122
+          ],
+          "posterior_mean_r2": [
+            0.4043011266207952,
+            0.47859045846820114,
+            0.5496563589025801
+          ]
+        },
+        "rank": {
+          "components": {
+            "lambda1": {
+              "centre_mass_excess_over_uniform": 0.010695740580558777,
+              "cramer_von_mises": 0.18036403421728725,
+              "decile_mass": [
+                0.09627725183963776,
+                0.09627557545900345,
+                0.09158676862716675,
+                0.10190198570489883,
+                0.11128679662942886,
+                0.09940893948078156,
+                0.0978459045290947,
+                0.10222239792346954,
+                0.10659889131784439,
+                0.09659548103809357
+              ],
+              "edge_mass_excess_over_uniform": -0.0071272701025009155,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.020240485493091098,
+              "unweighted_ks_p": 0.14343293330470608,
+              "weighted_ks_distance": 0.02024048549309898,
+              "weighted_mean_rank": 0.5046901025352153
+            },
+            "lambda2": {
+              "centre_mass_excess_over_uniform": -0.015249431133270264,
+              "cramer_von_mises": 0.7625865707731199,
+              "decile_mass": [
+                0.11534488201141357,
+                0.1069033294916153,
+                0.10502781718969345,
+                0.09784020483493805,
+                0.08784248679876328,
+                0.0969080850481987,
+                0.09847111999988556,
+                0.09190637618303299,
+                0.10034675896167755,
+                0.09940893948078156
+              ],
+              "edge_mass_excess_over_uniform": 0.01475381851196289,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.03260029348941934,
+              "unweighted_ks_p": 0.0021779133947095702,
+              "weighted_ks_distance": 0.03260029348941251,
+              "weighted_mean_rank": 0.48724180503431735
+            },
+            "lambda3": {
+              "centre_mass_excess_over_uniform": -0.0005569010972976685,
+              "cramer_von_mises": 0.4157117226541447,
+              "decile_mass": [
+                0.11784554272890091,
+                0.09815100580453873,
+                0.09752582758665085,
+                0.09846436977386475,
+                0.09847111999988556,
+                0.10097197443246841,
+                0.09440723061561584,
+                0.09503244608640671,
+                0.09815850853919983,
+                0.10097197443246841
+              ],
+              "edge_mass_excess_over_uniform": 0.018817514181137085,
+              "interpretation_flags": [
+                "no_large_shape_signature_at_heuristic_scale"
+              ],
+              "unweighted_ks_distance": 0.02162834503929731,
+              "unweighted_ks_p": 0.0988267219943808,
+              "weighted_ks_distance": 0.0216283450392922,
+              "weighted_mean_rank": 0.49059618643771497
+            }
+          },
+          "effective_weighted_rows": 3199.0000000000005,
+          "rows": 3199
+        },
+        "rows": 3199
+      }
+    },
+    "calibration_score_rank_plus_coverage": 0.05465151430058329,
+    "global_rank": {
+      "components": {
+        "lambda1": {
+          "centre_mass_excess_over_uniform": 0.0014033615589141846,
+          "cramer_von_mises": 1.124127558192656,
+          "decile_mass": [
+            0.09370362758636475,
+            0.0998138040304184,
+            0.09962903708219528,
+            0.10097098350524902,
+            0.10103923827409744,
+            0.10036412626504898,
+            0.0992005467414856,
+            0.10118939727544785,
+            0.1020868718624115,
+            0.10200236737728119
+          ],
+          "edge_mass_excess_over_uniform": -0.004294008016586304,
+          "interpretation_flags": [
+            "no_large_shape_signature_at_heuristic_scale"
+          ],
+          "unweighted_ks_distance": 0.007054705496149949,
+          "unweighted_ks_p": 0.013725828785400736,
+          "weighted_ks_distance": 0.0074883855138104805,
+          "weighted_mean_rank": 0.5046910904880211
+        },
+        "lambda2": {
+          "centre_mass_excess_over_uniform": 0.007726773619651794,
+          "cramer_von_mises": 2.106332844242805,
+          "decile_mass": [
+            0.09331692010164261,
+            0.09614340960979462,
+            0.09835148602724075,
+            0.09761523455381393,
+            0.1027643233537674,
+            0.10496246069669724,
+            0.10288888961076736,
+            0.10437794029712677,
+            0.10317732393741608,
+            0.09640201926231384
+          ],
+          "edge_mass_excess_over_uniform": -0.010281071066856384,
+          "interpretation_flags": [
+            "no_large_shape_signature_at_heuristic_scale"
+          ],
+          "unweighted_ks_distance": 0.012192789351580635,
+          "unweighted_ks_p": 6.932896025765562e-07,
+          "weighted_ks_distance": 0.015756921668896695,
+          "weighted_mean_rank": 0.5062472487826367
+        },
+        "lambda3": {
+          "centre_mass_excess_over_uniform": 0.004875868558883667,
+          "cramer_von_mises": 0.5715404094614862,
+          "decile_mass": [
+            0.0965665802359581,
+            0.09858602285385132,
+            0.10077598690986633,
+            0.10124866664409637,
+            0.10140742361545563,
+            0.10346844792366028,
+            0.10477104038000107,
+            0.0994516983628273,
+            0.10039974004030228,
+            0.09332440048456192
+          ],
+          "edge_mass_excess_over_uniform": -0.01010902225971222,
+          "interpretation_flags": [
+            "no_large_shape_signature_at_heuristic_scale"
+          ],
+          "unweighted_ks_distance": 0.006737233774126605,
+          "unweighted_ks_p": 0.02127118653467553,
+          "weighted_ks_distance": 0.007879330664680051,
+          "weighted_mean_rank": 0.49941769996878493
+        }
+      },
+      "effective_weighted_rows": 44936.71237771332,
+      "rows": 50000
+    },
+    "intervals": {
+      "base_r2": [
+        0.6625102651857104,
+        0.7481135279106923,
+        0.8003192960527794
+      ],
+      "coverage68": [
+        0.6803654156177109,
+        0.6883402161450329,
+        0.6883502659698632
+      ],
+      "coverage90": [
+        0.8998101331958844,
+        0.9034450552187209,
+        0.9028360566977528
+      ],
+      "posterior_mean_r2": [
+        0.6618074973383101,
+        0.7478768026225133,
+        0.7996008093584106
+      ]
+    }
+  },
+  "target_coordinates": "scaled ordered-softplus lambda1/gap12/gap23"
+}
