@@ -3735,8 +3735,12 @@ Implementation status:
     spatial TARP passes. The bounded residual is a sparse-shell lambda2/lambda3
     high-location/undercoverage tendency, while other shells are nominal or mildly
     overcovered.
-  - [ ] If the defect is affine, fit per-coordinate location/scale correction on
-    ph006 folds 0--1 only, checking fold-0-to-1 and fold-1-to-0 stability.
+  - [ ] Run the bounded per-shell/per-coordinate location-scale canary in
+    ordered-softplus space with
+    `workflows/sbi/p12_affine_calibration_canary.py`. Fit ph006 fold 0 and test 1,
+    reverse the roles, then fit folds 0+1 only if parameters are stable. Promotion
+    additionally requires spatial proper-log-score improvement, preserved R2/TARP,
+    no material shell degradation and improved sparse-shell lambda2/lambda3 coverage.
   - [ ] If it is non-affine or response-dependent, retain P12-A as a baseline and
     test a conditional calibration map or richer P12-B summary; do not hide it with
     scalar tempering.

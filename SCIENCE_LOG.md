@@ -1,5 +1,38 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-30 - [science/code] Sparse-shell affine correction canary preregistered
+
+The full audit supports testing one small correction, but not presuming it should be
+adopted. `workflows/sbi/p12_affine_calibration_canary.py` implements a per-shell,
+per-coordinate map in the scaled ordered-softplus space:
+
+`theta_corrected = posterior_centre + offset_shell +`
+`                  scale_shell * (theta_sample - posterior_centre)`.
+
+Working in lambda1 plus positive eigengap coordinates preserves ordered physical
+eigenvalues after inversion. The offset tests a conditional location residual; the
+scale tests whether posterior variance matches posterior-mean squared error in each
+redshift shell. This is deliberately less flexible than a quantile map, so it cannot
+silently erase skew or tail structure.
+
+Fitting and selection are separated. Fit fold 0 and test fold 1, reverse the roles,
+then require maximum cross-fit offset disagreement <=0.05 scaled units and scale
+disagreement <=0.10. Only after that is one map fitted to folds 0+1 and evaluated on
+the already registered folds 2--4. The correction is rejected unless all of the
+following hold:
+
+- the aggregate rank-plus-coverage score improves in both cross-fit directions;
+- spatial-superblock 95% confidence for the proper log-score difference is above zero;
+- posterior-mean R2 loses no more than 0.002 per eigenvalue;
+- global rank distance does not worsen by more than 0.002;
+- no shell's 68% coverage error worsens by more than 0.01;
+- sparse-shell lambda2/lambda3 coverage error improves;
+- corrected TARP remains below the 0.05 gate.
+
+If any gate fails, the uncorrected P12-A posterior remains the preferred model and
+the sparse-shell residual becomes an explicit quality/calibration flag. A correction
+is not scientifically better merely because its histogram looks flatter. Three
+focused correction tests plus the five diagnostic tests pass. ph001 remains sealed.
 ### 2026-08-30 - [science/run] P12-A full calibration audit: small shape residuals, not global posterior collapse
 
 The preregistered audit completed on the frozen 50,000-row ph006 fold-2--4
