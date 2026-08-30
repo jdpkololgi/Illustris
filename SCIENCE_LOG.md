@@ -1,5 +1,54 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-30 - [science/run] P12-A full calibration audit: small shape residuals, not global posterior collapse
+
+The preregistered audit completed on the frozen 50,000-row ph006 fold-2--4
+selection set with 512 draws per galaxy. The principal correction is to the
+*interpretation of the evaluation*: the original KS test treated spatially correlated
+galaxies as 50,000 independent realizations and ranked two softplus eigengaps while
+describing them as physical eigenvalues. The audit now reports randomized finite ranks
+for both coordinate systems and resamples the 254 cap+superblock spatial clusters.
+
+The untempered physical-eigenvalue posterior is close to calibrated globally:
+
+- weighted mean ranks are `0.50469/0.50625/0.49942`;
+- weighted KS distances are only `0.00749/0.01561/0.00785`; the very small ordinary
+  lambda2 p-value (`8.36e-7`) therefore describes a detectable percent-level shape
+  residual, not a large scientific bias;
+- 68% coverage is `0.68037/0.68834/0.68835` and 90% coverage is
+  `0.89981/0.90345/0.90284`;
+- posterior-mean R2 `0.66181/0.74788/0.79960` preserves the deterministic base
+  `0.66251/0.74811/0.80032`;
+- matched-row TARP max deviation is `0.00770`; its spatial-block bootstrap
+  5/50/95% range is `0.00689/0.01160/0.01611`.
+
+The 254-block bootstrap mean-rank intervals contain 0.5 for all three physical
+eigenvalues. It nevertheless finds a few pointwise rank-decile departures, so the
+posterior is not being declared mathematically exact. Fold-2/3/4 coverage and rank
+directions are mutually compatible; there is no single-fold failure.
+
+The scientifically meaningful residual is conditional. In the sparsest shell,
+lambda2/lambda3 68% coverage is `0.65771/0.66333`; spatial-block 95% intervals are
+`[0.64296,0.67235]` and `[0.64691,0.68001]`. Their mean ranks
+`0.48725/0.49061` and excess first-decile mass indicate a small high-location and
+undercoverage tendency in the sparse regime. Other shells are near nominal or mildly
+overcovered, which partly cancels this in pooled coverage. This is compatible with
+the known loss of tracer information at high redshift; it is not evidence that the
+posterior machinery failed globally.
+
+The next correction is therefore bounded: fit a per-shell, per-softplus-coordinate
+location/scale map on ph006 folds 0--1 only; require fold-0-to-1 and fold-1-to-0
+stability; then apply the frozen map once to folds 2--4. Promote it only if physical
+rank/coverage and proper log score improve without posterior-mean R2 loss. Otherwise
+retain the uncorrected P12-A posterior and report its sparse-shell calibration flag
+instead of overfitting away a small spatially covariant residual.
+
+Authoritative audit:
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/calibration_audit_v1/P12A_CALIBRATION_AUDIT.json`
+(SHA-256 `ea602b92eadc997fdf1aaf201902f4973981e8e7cae6007bc6ecfb07f17cab3b`).
+Repository evidence copy: `docs/evidence/p12/P12A_CALIBRATION_AUDIT.json`.
+Durable rank plot:
+`docs/figures/p12_calibration_audit_20260830/p12a_rank_histograms.png`.
 ### 2026-08-30 - [code/run] P12 calibration audit canary passes; full sampling made resumable
 
 The preregistered P12 audit canary stopped twice before scientific evaluation and

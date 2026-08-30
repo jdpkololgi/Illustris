@@ -11,6 +11,7 @@ from workflows.sbi.p12_calibration_diagnostics import (
     randomized_pit,
     rank_summary,
     sample_posterior_resumable,
+    spatial_block_bootstrap,
 )
 
 
@@ -89,5 +90,26 @@ class P12CalibrationDiagnosticsTests(unittest.TestCase):
                 )
                 np.testing.assert_allclose(first, second)
 
+    def test_spatial_block_bootstrap_retains_uniform_decile_shape(self):
+        blocks, rows_per_block = 20, 100
+        groups = np.repeat(np.arange(blocks), rows_per_block)
+        within = np.tile(
+            np.repeat((np.arange(10) + 0.5) / 10.0, 10), blocks
+        )
+        ranks = np.column_stack((within, within, within))
+        samples = np.zeros((len(ranks), 8, 3), dtype=np.float32)
+        truth = np.zeros((len(ranks), 3), dtype=np.float32)
+        result = spatial_block_bootstrap(
+            ranks,
+            samples,
+            truth,
+            np.ones(len(ranks)),
+            groups,
+            repeats=100,
+            seed=11,
+        )
+        self.assertEqual(result["spatial_blocks"], blocks)
+        for row in result["components"].values():
+            self.assertEqual(row["uniform_deciles_outside_pointwise_95ci"], [])
 if __name__ == "__main__":
     unittest.main()

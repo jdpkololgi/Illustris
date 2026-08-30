@@ -3725,10 +3725,16 @@ Implementation status:
     ordered-softplus and physical-eigenvalue coordinates, with matched SBC/TARP
     budgets and conditional response/shell audits:
     `workflows/sbi/p12_calibration_diagnostics.py`.
-  - [ ] Run the frozen 512-draw audit on the existing checkpoint; cache samples,
-    row indices, plots, and a provenance-complete JSON report.
-  - [ ] Classify the defect as location, width, skew/tail, conditional response
-    mismatch, or a combination before choosing any correction.
+  - [x] Run the frozen 512-draw audit on the existing checkpoint; cache samples,
+    row indices, plots, and a provenance-complete JSON report. The 50k-row report is
+    `fmpe_seed42/calibration_audit_v1/P12A_CALIBRATION_AUDIT.json`; ph001 stayed
+    sealed. It adds randomized ranks, physical-eigenvalue ranks, fold strata and a
+    254-superblock spatial bootstrap.
+  - [x] Classify the defect before choosing a correction. Global physical rank
+    distances are only `0.0075/0.0156/0.0078`, global coverage is near nominal and
+    spatial TARP passes. The bounded residual is a sparse-shell lambda2/lambda3
+    high-location/undercoverage tendency, while other shells are nominal or mildly
+    overcovered.
   - [ ] If the defect is affine, fit per-coordinate location/scale correction on
     ph006 folds 0--1 only, checking fold-0-to-1 and fold-1-to-0 stability.
   - [ ] If it is non-affine or response-dependent, retain P12-A as a baseline and

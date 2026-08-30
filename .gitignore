@@ -76,3 +76,9 @@ DAILY_TODOS.md
 docs/exports/GraphWeb-DESI-supervisor-briefing-Obsidian.zip
 docs/briefing_graphweb_vac_supervisor_meeting_20260813.md
 docs/figures/
+# Durable P12 calibration evidence
+!docs/figures/
+docs/figures/*
+!docs/figures/p12_calibration_audit_20260830/
+docs/figures/p12_calibration_audit_20260830/*
+!docs/figures/p12_calibration_audit_20260830/p12a_rank_histograms.png

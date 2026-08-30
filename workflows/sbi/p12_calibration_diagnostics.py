@@ -180,9 +180,11 @@ def conditional_report(
     weight = np.asarray(validation["natural_weight"])[index]
     shell = np.asarray(validation["shell"])[index]
     cap = np.asarray(validation["cap"])[index]
+    fold = np.asarray(validation["fold"])[index]
     variables = {
         "shell": [(str(value), shell == value) for value in range(4)],
         "cap": [(str(value), cap == value) for value in (0, 1)],
+        "fold": [(str(value), fold == value) for value in (2, 3, 4)],
         "redshift_quartile": quantile_groups(context[:, 3]),
         "ntilde_quartile": quantile_groups(context[:, 4]),
         "support_boundary_distance_quartile": quantile_groups(context[:, 6]),
@@ -210,9 +212,100 @@ def conditional_report(
     return result
 
 
+def spatial_block_bootstrap(
+    ranks: np.ndarray,
+    eigen_samples: np.ndarray,
+    truth: np.ndarray,
+    weight: np.ndarray,
+    groups: np.ndarray,
+    repeats: int,
+    seed: int,
+) -> dict[str, Any]:
+    """Cluster bootstrap calibration summaries over spatial superblocks."""
+    unique, inverse = np.unique(groups, return_inverse=True)
+    blocks = len(unique)
+    if blocks < 10:
+        raise RuntimeError("too few spatial blocks for calibration bootstrap")
+    block_weight = np.bincount(inverse, weights=weight, minlength=blocks)
+    rank_numerator = np.column_stack(
+        [np.bincount(inverse, weights=weight * ranks[:, i], minlength=blocks)
+         for i in range(3)]
+    )
+    rank_bin_numerator = np.empty((blocks, 3, 10), dtype=np.float64)
+    rank_bins = np.minimum((ranks * 10).astype(np.int64), 9)
+    for component in range(3):
+        for ibin in range(10):
+            rank_bin_numerator[:, component, ibin] = np.bincount(
+                inverse,
+                weights=weight * (rank_bins[:, component] == ibin),
+                minlength=blocks,
+            )
+    coverage_numerator = np.empty((blocks, 2, 3), dtype=np.float64)
+    for level, probability in enumerate((0.68, 0.90)):
+        lo = np.quantile(eigen_samples, (1.0 - probability) / 2.0, axis=1)
+        hi = np.quantile(eigen_samples, 1.0 - (1.0 - probability) / 2.0, axis=1)
+        inside = (truth >= lo) & (truth <= hi)
+        for component in range(3):
+            coverage_numerator[:, level, component] = np.bincount(
+                inverse,
+                weights=weight * inside[:, component],
+                minlength=blocks,
+            )
+    rng = np.random.default_rng(seed)
+    mean_rank = np.empty((repeats, 3), dtype=np.float64)
+    decile = np.empty((repeats, 3, 10), dtype=np.float64)
+    coverage = np.empty((repeats, 2, 3), dtype=np.float64)
+    probability = np.full(blocks, 1.0 / blocks)
+    for repeat in range(repeats):
+        multiplicity = rng.multinomial(blocks, probability)
+        denominator = float(multiplicity @ block_weight)
+        mean_rank[repeat] = multiplicity @ rank_numerator / denominator
+        decile[repeat] = np.tensordot(
+            multiplicity, rank_bin_numerator, axes=(0, 0)
+        ) / denominator
+        coverage[repeat] = np.tensordot(
+            multiplicity, coverage_numerator, axes=(0, 0)
+        ) / denominator
+    quantiles = [0.025, 0.5, 0.975]
+    components = {}
+    for component, name in enumerate(EIGEN_NAMES):
+        decile_ci = np.quantile(decile[:, component], quantiles, axis=0).T
+        components[name] = {
+            "mean_rank_95ci": np.quantile(
+                mean_rank[:, component], quantiles
+            ).tolist(),
+            "decile_mass_95ci": decile_ci.tolist(),
+            "uniform_deciles_outside_pointwise_95ci": [
+                int(index)
+                for index, (lo, _, hi) in enumerate(decile_ci)
+                if not lo <= 0.1 <= hi
+            ],
+        }
+    return {
+        "spatial_blocks": int(blocks),
+        "rows_per_block_quantiles": np.quantile(
+            np.bincount(inverse), [0.0, 0.25, 0.5, 0.75, 1.0]
+        ).tolist(),
+        "bootstrap_repeats": int(repeats),
+        "components": components,
+        "coverage68_95ci": np.quantile(
+            coverage[:, 0], quantiles, axis=0
+        ).T.tolist(),
+        "coverage90_95ci": np.quantile(
+            coverage[:, 1], quantiles, axis=0
+        ).T.tolist(),
+        "interpretation": (
+            "cluster bootstrap over cap+superblock preserves within-block spatial "
+            "dependence; pointwise decile intervals are diagnostic, not a "
+            "multiple-testing-corrected SBC hypothesis test"
+        ),
+    }
+
+
 def tarp_diagnostic(
     samples: np.ndarray,
     truth: np.ndarray,
+    groups: np.ndarray,
     seed: int,
     bootstrap_repeats: int,
     bootstrap_rows: int,
@@ -226,10 +319,18 @@ def tarp_diagnostic(
         )
         full = float(np.max(np.abs(ecp - alpha)))
         rng = np.random.default_rng(seed + 91)
+        unique = np.unique(groups)
+        block_indices = {value: np.flatnonzero(groups == value) for value in unique}
+        spatial_blocks = len(unique)
         maxima = []
         size = min(bootstrap_rows, len(truth))
         for repeat in range(bootstrap_repeats):
-            chosen = rng.choice(len(truth), size=size, replace=True)
+            selected = rng.choice(unique, size=spatial_blocks, replace=True)
+            chosen = np.concatenate([block_indices[value] for value in selected])
+            if len(chosen) > size:
+                chosen = rng.choice(chosen, size=size, replace=False)
+            elif len(chosen) < size:
+                chosen = rng.choice(chosen, size=size, replace=True)
             b_ecp, b_alpha = tarp.get_tarp_coverage(
                 posterior[:, chosen],
                 truth[chosen],
@@ -243,6 +344,8 @@ def tarp_diagnostic(
             "rows": int(len(truth)),
             "full_max_abs_ecp_minus_alpha": full,
             "bootstrap_rows": int(size),
+            "bootstrap_scheme": "cap+superblock cluster resampling",
+            "spatial_blocks": int(spatial_blocks),
             "bootstrap_repeats": int(bootstrap_repeats),
             "bootstrap_max_abs_quantiles": np.quantile(
                 maxima, [0.05, 0.5, 0.95]
@@ -370,6 +473,7 @@ def main() -> None:
     parser.add_argument("--sample-chunk", type=int, default=2048)
     parser.add_argument("--bootstrap-repeats", type=int, default=100)
     parser.add_argument("--bootstrap-rows", type=int, default=10_000)
+    parser.add_argument("--spatial-bootstrap-repeats", type=int, default=1_000)
     args = parser.parse_args()
 
     if not torch.cuda.is_available():
@@ -434,6 +538,35 @@ def main() -> None:
     theta_ranks = randomized_pit(theta_samples, truth_theta, args.seed + 1)
     eigen_ranks = randomized_pit(eigen_samples, truth_eigen, args.seed + 2)
 
+    evaluation_cap = np.asarray(validation["cap"])[evaluation_index].astype(np.int64)
+    evaluation_superblock = np.asarray(
+        validation["superblock_id"]
+    )[evaluation_index].astype(np.int64)
+    spatial_group = (evaluation_cap << 32) + evaluation_superblock
+    evaluation_shell = np.asarray(validation["shell"])[evaluation_index]
+    spatial_bootstrap = {
+        "global": spatial_block_bootstrap(
+            eigen_ranks,
+            eigen_samples,
+            truth_eigen,
+            weight,
+            spatial_group,
+            args.spatial_bootstrap_repeats,
+            args.seed + 300,
+        ),
+        "by_shell": {},
+    }
+    for shell_value in range(4):
+        chosen = evaluation_shell == shell_value
+        spatial_bootstrap["by_shell"][str(shell_value)] = spatial_block_bootstrap(
+            eigen_ranks[chosen],
+            eigen_samples[chosen],
+            truth_eigen[chosen],
+            weight[chosen],
+            spatial_group[chosen],
+            args.spatial_bootstrap_repeats,
+            args.seed + 301 + shell_value,
+        )
     report = {
         "schema_version": "p12a-calibration-audit-v1",
         "created_utc": utc_now(),
@@ -458,9 +591,11 @@ def main() -> None:
         "conditional": conditional_report(
             theta_ranks, eigen_ranks, eigen_samples, validation, evaluation_index
         ),
+        "spatial_block_bootstrap": spatial_bootstrap,
         "tarp_matched_rows_and_draws": tarp_diagnostic(
             np.asarray(samples_scaled),
             theta_truth_scaled[evaluation_index],
+            spatial_group,
             args.seed,
             args.bootstrap_repeats,
             args.bootstrap_rows,
