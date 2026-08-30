@@ -1,5 +1,28 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-30 - [code/run] P12 calibration audit canary passes; full sampling made resumable
+
+The preregistered P12 audit canary stopped twice before scientific evaluation and
+exposed two loader-only device defects: reconstructing the saved FMPE left first the
+box-prior support and then the restored vector-field estimator on CPU while posterior
+candidates were on CUDA. The audit loader now places both objects explicitly on the
+requested device. These failures do not diagnose the fitted posterior; no posterior
+sample or calibration result was accepted from either failed run.
+
+The unchanged 512-row/64-draw canary then completed the full chain: exact frozen
+ph006 fold selection, checkpoint reconstruction, posterior sampling, ordered physical
+eigenvalue conversion, randomized ranks, matched-row TARP, plots and provenance
+export. TARP max deviation was `0.03661` on this small smoke sample and ph001 remained
+sealed. This is an engineering pass only; 512 rows are intentionally insufficient for
+the scientific calibration claim.
+
+Full posterior sampling is now an NPY memmap with an atomically updated completed-row
+counter after every chunk. A time-limited interactive allocation can therefore resume
+without discarding or silently accepting partial draws. The resumability contract has
+a focused unit test. Canary marker:
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/calibration_audit_canary_v1/P12A_CALIBRATION_AUDIT.json`
+(SHA-256 `0ac523b39fdd25f9a10e074b1ce9cf0d0c1b26e8f134eb300e42834cf9e8d899`).
+
 ### 2026-08-29 - [science/code] P12-A calibration correction programme preregistered
 
 The full P12-A fit is a technical success but not yet a posterior-VAC calibration

@@ -261,6 +261,7 @@ def build_posterior(checkpoint: dict[str, Any], device: str) -> Any:
     prior = BoxUniform(
         low=torch.as_tensor(checkpoint["prior_low"], device=device),
         high=torch.as_tensor(checkpoint["prior_high"], device=device),
+        device=device,
     )
     builder = posterior_flow_nn(
         model="mlp",
@@ -273,9 +274,55 @@ def build_posterior(checkpoint: dict[str, Any], device: str) -> Any:
     dummy_context = torch.zeros((2, len(checkpoint["context_mean"])), device=device)
     estimator = builder(dummy_theta, dummy_context)
     estimator.load_state_dict(checkpoint["state_dict"])
+    estimator.to(device)
     estimator.eval()
     inference = FMPE(prior=prior, density_estimator=builder, device=device)
     return inference.build_posterior(estimator)
+
+
+def sample_posterior_resumable(
+    posterior: Any,
+    context: np.ndarray,
+    n_samples: int,
+    chunk: int,
+    device: str,
+    sample_path: Path,
+    progress_path: Path,
+) -> np.ndarray:
+    """Sample into an NPY memmap and atomically checkpoint completed rows."""
+    expected = (len(context), n_samples, 3)
+    if sample_path.exists() or progress_path.exists():
+        if not sample_path.exists() or not progress_path.exists():
+            raise RuntimeError("incomplete sampling cache/progress pair")
+        progress = json.loads(progress_path.read_text())
+        samples = np.lib.format.open_memmap(sample_path, mode="r+")
+        if tuple(samples.shape) != expected:
+            raise RuntimeError("cached posterior samples have the wrong shape")
+        if progress.get("expected_shape") != list(expected):
+            raise RuntimeError("sampling progress shape mismatch")
+        completed = int(progress.get("completed_rows", 0))
+    else:
+        samples = np.lib.format.open_memmap(
+            sample_path, mode="w+", dtype=np.float32, shape=expected
+        )
+        completed = 0
+        atomic_json(
+            progress_path,
+            {"expected_shape": list(expected), "completed_rows": completed},
+        )
+    if not 0 <= completed <= len(context):
+        raise RuntimeError("invalid completed-row counter")
+    for start in range(completed, len(context), chunk):
+        stop = min(start + chunk, len(context))
+        samples[start:stop] = sample_posterior(
+            posterior, context[start:stop], n_samples, chunk, device
+        )
+        samples.flush()
+        atomic_json(
+            progress_path,
+            {"expected_shape": list(expected), "completed_rows": stop},
+        )
+    return np.load(sample_path, mmap_mode="r")
 
 
 def plot_ranks(theta_ranks: np.ndarray, eigen_ranks: np.ndarray, output: Path) -> None:
@@ -323,7 +370,6 @@ def main() -> None:
     parser.add_argument("--sample-chunk", type=int, default=2048)
     parser.add_argument("--bootstrap-repeats", type=int, default=100)
     parser.add_argument("--bootstrap-rows", type=int, default=10_000)
-    parser.add_argument("--reuse-samples", action="store_true")
     args = parser.parse_args()
 
     if not torch.cuda.is_available():
@@ -367,21 +413,17 @@ def main() -> None:
     ).astype(np.float32)
 
     sample_path = args.output_root / "evaluation_samples_scaled.npy"
-    expected = (len(evaluation_index), args.n_posterior_samples, 3)
-    if args.reuse_samples and sample_path.exists():
-        samples_scaled = np.load(sample_path, mmap_mode="r")
-        if samples_scaled.shape != expected:
-            raise RuntimeError("cached posterior samples have the wrong shape")
-    else:
-        posterior = build_posterior(checkpoint, "cuda")
-        samples_scaled = sample_posterior(
-            posterior,
-            context_scaled[evaluation_index],
-            args.n_posterior_samples,
-            args.sample_chunk,
-            "cuda",
-        )
-        np.save(sample_path, samples_scaled)
+    progress_path = args.output_root / "sampling_progress.json"
+    posterior = build_posterior(checkpoint, "cuda")
+    samples_scaled = sample_posterior_resumable(
+        posterior,
+        context_scaled[evaluation_index],
+        args.n_posterior_samples,
+        args.sample_chunk,
+        "cuda",
+        sample_path,
+        progress_path,
+    )
 
     theta_samples = np.asarray(samples_scaled, dtype=np.float64) * theta_std + theta_mean
     eigen_samples = theta_to_eigenvalues(theta_samples)

@@ -1,4 +1,8 @@
+import json
+from pathlib import Path
+from tempfile import TemporaryDirectory
 import unittest
+from unittest.mock import patch
 
 import numpy as np
 
@@ -6,6 +10,7 @@ from workflows.sbi.p12_calibration_diagnostics import (
     choose_indices,
     randomized_pit,
     rank_summary,
+    sample_posterior_resumable,
 )
 
 
@@ -54,6 +59,35 @@ class P12CalibrationDiagnosticsTests(unittest.TestCase):
         self.assertTrue(np.all(np.isin(fold[calibration], [0, 1])))
         self.assertTrue(np.all(np.isin(fold[evaluation], [2, 3, 4])))
 
+    def test_resumable_sampling_writes_progress_and_resumes(self):
+        context = np.arange(30, dtype=np.float32).reshape(10, 3)
+
+        def fake_sample(_posterior, batch, draws, _chunk, _device):
+            values = batch[:, :1, None]
+            return np.broadcast_to(values, (len(batch), draws, 3)).copy()
+
+        with TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            sample_path = root / "samples.npy"
+            progress_path = root / "progress.json"
+            with patch(
+                "workflows.sbi.p12_calibration_diagnostics.sample_posterior",
+                side_effect=fake_sample,
+            ):
+                first = sample_posterior_resumable(
+                    object(), context, 4, 3, "cpu", sample_path, progress_path
+                )
+                self.assertEqual(first.shape, (10, 4, 3))
+                self.assertEqual(
+                    json.loads(progress_path.read_text())["completed_rows"], 10
+                )
+                progress = json.loads(progress_path.read_text())
+                progress["completed_rows"] = 7
+                progress_path.write_text(json.dumps(progress))
+                second = sample_posterior_resumable(
+                    object(), context, 4, 3, "cpu", sample_path, progress_path
+                )
+                np.testing.assert_allclose(first, second)
 
 if __name__ == "__main__":
     unittest.main()
