@@ -3696,8 +3696,14 @@ Implementation status:
   dataset with `P12A_DATASET_READY.json` after all OOF, parent, random-support and
   finiteness gates pass:
   `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/`.
-- [ ] Fit/evaluate FMPE on ph006 and write `P12A_COMPLETE.json`; write the separate
-  `P12A_CALIBRATION_PASS.json` only if all registered calibration gates pass.
+- [x] Fit/evaluate the full FMPE on ph006 and write the technical completion marker:
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/P12A_COMPLETE.json`.
+  The two-million-row fit converged after 143 epochs; evaluation uses 20k disjoint
+  calibration rows and 50k selection rows, and ph001 remained sealed.
+- [ ] Write `P12A_CALIBRATION_PASS.json` only after the remaining SBC-shape failure is
+  repaired. Marginal coverage, shell-conditional coverage, TARP and posterior-mean
+  accuracy pass, but the full-sample rank tests reject uniformity for all three
+  eigenvalues; scalar temperature `tau=1.03045` is insufficient.
 - [x] Install the persistent `p12a_posterior` supervisor. It waits for all OOF exports
   and a free allocation slot, enforces the two-allocation limit, then performs a GPU
   canary and the full dataset/fit/evaluation chain using

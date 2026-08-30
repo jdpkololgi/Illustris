@@ -39,12 +39,37 @@ unit test. The official 50k/20k FMPE canary is technically complete: GPU trainin
 posterior sampling, physical-space log score, TARP/SBC/coverage diagnostics, disjoint
 ph006 superblocks, checkpoint and `P12A_COMPLETE.json` export all work. Its calibration
 gate is intentionally not promoted because the smoke fit uses only three epochs and
-1,000 evaluation rows. The full P12-A fit is active in job `57716132` on one otherwise
-idle GPU; ph001 remains sealed.
+1,000 evaluation rows.
+
+The full two-million-row P12-A FMPE fit is now technically complete. A validated
+`batch_size=16384` throughput setting changed only minibatch execution; the frozen
+dataset, seed, architecture, ordered-softplus target, conditioning variables, early
+stopping and ph006 split were unchanged. The estimator converged after 143 epochs
+(best validation performance `4.5359`) and wrote
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/fmpe_estimator.pt`
+(SHA-256 `0474ce3f0b3a6c97de7fe225eaceee9f0b2b0ea76ea5d417e545eeeacf437880`).
+The authoritative technical marker is
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/P12A_COMPLETE.json`;
+ph001 remained sealed.
+
+This is a useful near-pass but not yet a production calibration pass. On 50,000
+spatially disjoint ph006 evaluation rows, untempered 68% coverage is
+`0.6770/0.6862/0.6848`, 90% coverage is `0.8970/0.8991/0.8997`, and TARP passes
+with maximum deviation `0.0194`. Posterior-mean R2 is
+`0.6612/0.7475/0.7993`, essentially preserving the deterministic base
+`0.6625/0.7481/0.8003`; knot probability ECE is `0.00283` and Brier score
+`0.03423`. Marginal coverage, shell-conditional coverage, posterior-mean accuracy
+and TARP pass. The separate `P12A_CALIBRATION_PASS.json` is correctly absent because
+SBC rank-uniformity fails for all three eigenvalues
+(`p=5.98e-4, 2.35e-4, 2.58e-8`). The fitted scalar width temperature
+`tau=1.03045` does not repair that shape failure. P12-A therefore proves the full
+posterior machinery and gives well-covered, informative posteriors, but requires a
+more flexible rank/shape-calibration diagnosis before posterior VAC promotion.
 
 Random-response work is now an informative bounded ladder rather than the critical
-path. R1 reached epoch 15 with macro `R2(lambda1)=0.56790` and is resuming toward its
-frozen epoch-20 cap. At epoch 13 the strict density-matched random control is
+path. R1 reached epoch 16 with macro `R2(lambda1)=0.56861`, first-three-shell macro
+`0.62841` and sparse-shell `0.38922`; it is approximately flat from epoch 15 and
+continues only to its frozen epoch-20 cap. At epoch 13 the strict density-matched random control is
 `0.55458/0.57513` across seeds (mean `0.56485`), while cross-phase FAINT is
 `0.57722/0.57782` (mean `0.57752`). Both continue to epoch 15. These values remain far
 below the old same-phase BRIGHT+FAINT Proxy/Null results, so the hypothesis that random
@@ -55,8 +80,9 @@ P11 degraded factorial views are ready at the source-contract level but not read
 JEPA training. `FACTORIAL_VIEW_SOURCES_READY.json`, the frozen view config and builders
 exist; the dense BRIGHT/FAINT and assigned BRIGHT count products, nesting/identity QA,
 `FACTORIAL_VIEW_PRODUCTS_READY.json`, and the supervised dense-teacher ph006 headroom
-gate remain outstanding. They can proceed as a separate, non-blocking branch after the
-full P12 marker releases an allocation. JEPA opens only if the dense teacher transfers
+gate remain outstanding. The full P12 technical marker now exists, so they may
+proceed as a separate, non-blocking branch when an interactive allocation is free.
+JEPA opens only if the dense teacher transfers
 with measurable headroom; it remains a representation challenger, not posterior
 uncertainty or recovery of information removed by selection.
 
