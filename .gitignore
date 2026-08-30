@@ -83,3 +83,9 @@ docs/figures/*
 docs/figures/p12_calibration_audit_20260830/*
 !docs/figures/p12_calibration_audit_20260830/p12a_rank_histograms.png
 !docs/figures/p12_calibration_audit_20260830/p12a_affine_rank_comparison.png
+# Durable P12 posterior-width / information diagnostics
+!docs/figures/p12_width_information_20260830/
+docs/figures/p12_width_information_20260830/*
+!docs/figures/p12_width_information_20260830/p12a_width_information_summary.png
+!docs/figures/p12_width_information_20260830/p12a_posterior_examples.png
+!docs/figures/p12_width_information_20260830/p12a_sparse_shell_failure_sky.png

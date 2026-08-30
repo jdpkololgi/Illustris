@@ -1,5 +1,58 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-30 - [science/run] P12-A widths adapt to information; sparse-shell residual is mild miscentring
+
+The frozen uncorrected P12-A posterior was tested directly for the production question:
+does uncertainty widen when the observed configuration carries less information, and
+does that width identify genuinely difficult galaxies? The diagnostic used 50,000
+ph006 folds-2--4 rows, 512 cached posterior draws per row, natural-volume weights and
+300 spatial cap+superblock bootstrap resamples. ph001 remained sealed.
+
+The answer is **yes**. Median physical central-68% half-width grows from
+`0.0664/0.0729/0.0863` in shell 0 to `0.1466/0.1694/0.1946` in shell 3 for
+lambda1/lambda2/lambda3: sparse-to-dense factors `2.21/2.33/2.25`. The widest posterior
+quartile has `3.45/3.33/3.38` times the RMSE of the narrowest quartile. Thus width is
+not decorative output; it is a strong difficulty discriminator.
+
+P12-A directly conditions on redshift, ntilde, cap and random-support boundary distance,
+but not on realized BRIGHT neighbour counts. As an external local-configuration check,
+observed BRIGHT neighbours within `20 Mpc/h` were counted with the target excluded.
+After residualizing within redshift shell and predicted-trace decile, local count still
+anticorrelates with log width by `-0.131/-0.151/-0.134`; 300-block 95% intervals exclude
+zero for all coordinates. The explicit boundary-distance response covariate is more
+strongly related (`-0.481/-0.523/-0.551`). This establishes an association between
+local sampling and posterior contraction, but does not claim that the P12 head reads
+neighbour counts independently: that information can only arrive through the frozen
+U-PATCH base predictions.
+
+The sparse-shell limitation is now more precisely classified. Nominal 68% coverage is
+`0.6893/0.6577/0.6633`. For lambda2/lambda3, lower-tail misses are
+`0.1810/0.1791` versus upper-tail misses `0.1613/0.1575`; the posterior widens but is
+occasionally shifted slightly high. Four deterministic examples show (i) a dense,
+narrow covered case, (ii) a sparse, wider covered case, and (iii--iv) representative
+lambda2/lambda3 lower-tail misses. The sky diagnostic shows these misses distributed
+through the observed caps rather than confined to one obvious geometric defect.
+
+Scientific decision: adaptive widening passes; exact conditional calibration in the
+sparsest shell does not. Keep the uncorrected P12-A posterior, publish response/width and
+sparse-shell quality metadata, and do not revive the rejected affine correction. A
+future richer-summary challenger must improve an out-of-fit proper score, not merely
+widen or flatten ranks.
+
+Implementation and evidence:
+
+- `workflows/sbi/p12_width_information_diagnostics.py` and
+  `tests/phase4/test_p12_width_information_diagnostics.py` (five tests pass);
+- authoritative report
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/width_information_diagnostic_v1/P12A_WIDTH_INFORMATION_DIAGNOSTIC.json`
+  (SHA-256 `e3933e050d9d89dbd97eb090360a893f5ed974bfcfbecdb336fa53d1247cb455`);
+- durable repository evidence `docs/evidence/p12/P12A_WIDTH_INFORMATION_DIAGNOSTIC.json`;
+- figures `docs/figures/p12_width_information_20260830/` with summary, posterior
+  examples and sparse-shell sky hashes
+  `f7f56e6ef9620e2e025cb8778be82aa2ec1b1ab1503b04dbc8a0a8bd4791dc95`,
+  `2ac296bb62886280e58b6fd3ecb942eac63c36da93a7606b5a3b85fa696850f8`, and
+  `874b61206108459bd0d3549ebd8f0e863aa1a5a6240a2ae9bd64945b57c5887c`.
+
 ### 2026-08-30 - [science/run] P12-A affine recalibration rejected by proper-score and crossfit gates
 
 The preregistered correction canary completed without opening ph001. Its purpose was

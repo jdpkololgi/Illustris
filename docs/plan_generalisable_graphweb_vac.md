@@ -3751,11 +3751,23 @@ Implementation status:
     preservation. It improved sparse lambda2/lambda3 coverage but worsened other
     diagnostics; no corrected posterior was promoted. Evidence:
     `docs/evidence/p12/P12A_AFFINE_CALIBRATION_CANARY.json`.
-  - [ ] Retain uncorrected P12-A as the baseline and encode the sparse-shell limitation
+  - [x] Retain uncorrected P12-A as the baseline and encode the sparse-shell limitation
     in the release/quality contract. Do not open a flexible conditional map merely to
     flatten ph006 ranks. A conditional recalibrator or richer P12-B summary is a new
     challenger and must improve crossfit and spatial proper score on data not used to
     fit it before it can replace P12-A.
+  - [x] Verify that posterior width responds to available information and identifies
+    difficult cases on the frozen 50k-row ph006 folds-2--4 sample. Median central-68%
+    half-width grows by factors `2.21/2.33/2.25` from the densest to sparsest shell;
+    widest-width-quartile RMSE is `3.45/3.33/3.38` times the narrowest. After control
+    within shell and predicted-trace decile, local BRIGHT neighbour count still
+    anticorrelates with log width (`-0.131/-0.151/-0.134`), while the explicit
+    random-support boundary covariate has the stronger relation
+    (`-0.481/-0.523/-0.551`). Sparse-shell coverage is
+    `0.689/0.658/0.663`; the lambda2/lambda3 shortfall is a mild lower-tail/high-location
+    residual, not failure to widen. Evidence:
+    `docs/evidence/p12/P12A_WIDTH_INFORMATION_DIAGNOSTIC.json` and
+    `docs/figures/p12_width_information_20260830/`.
 - [x] Install the persistent `p12a_posterior` supervisor. It waits for all OOF exports
   and a free allocation slot, enforces the two-allocation limit, then performs a GPU
   canary and the full dataset/fit/evaluation chain using
