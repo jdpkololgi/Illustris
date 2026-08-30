@@ -3720,6 +3720,23 @@ Implementation status:
   repaired. Marginal coverage, shell-conditional coverage, TARP and posterior-mean
   accuracy pass, but the full-sample rank tests reject uniformity for all three
   eigenvalues; scalar temperature `tau=1.03045` is insufficient.
+  Correction programme:
+  - [x] Preregister and unit-test randomized finite-rank diagnostics in both
+    ordered-softplus and physical-eigenvalue coordinates, with matched SBC/TARP
+    budgets and conditional response/shell audits:
+    `workflows/sbi/p12_calibration_diagnostics.py`.
+  - [ ] Run the frozen 512-draw audit on the existing checkpoint; cache samples,
+    row indices, plots, and a provenance-complete JSON report.
+  - [ ] Classify the defect as location, width, skew/tail, conditional response
+    mismatch, or a combination before choosing any correction.
+  - [ ] If the defect is affine, fit per-coordinate location/scale correction on
+    ph006 folds 0--1 only, checking fold-0-to-1 and fold-1-to-0 stability.
+  - [ ] If it is non-affine or response-dependent, retain P12-A as a baseline and
+    test a conditional calibration map or richer P12-B summary; do not hide it with
+    scalar tempering.
+  - [ ] Freeze the correction and evaluate exactly once on folds 2--4 using physical
+    SBC/TARP, coverage, proper score, tail/class reliability and posterior-mean
+    preservation before considering the calibration-pass marker.
 - [x] Install the persistent `p12a_posterior` supervisor. It waits for all OOF exports
   and a free allocation slot, enforces the two-allocation limit, then performs a GPU
   canary and the full dataset/fit/evaluation chain using

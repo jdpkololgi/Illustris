@@ -1,5 +1,42 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-29 - [science/code] P12-A calibration correction programme preregistered
+
+The full P12-A fit is a technical success but not yet a posterior-VAC calibration
+pass. The correction programme will not treat a small KS p-value as a diagnosis
+or tune directly on all ph006 rows. It first audits the frozen posterior without
+opening ph001 or changing its samples.
+
+The existing SBC implementation ranked the three *training coordinates*
+`(lambda1, inverse-softplus gap12, inverse-softplus gap23)` using
+`mean(samples < truth)` and a continuous-uniform KS test. It was therefore
+mislabelled as three physical-eigenvalue ranks and did not randomize the finite
+256-draw rank grid. Meanwhile TARP used only 10,000 of the 50,000 selection rows.
+Those choices do not prove that the posterior is calibrated, but they can exaggerate
+or obscure the meaning of the observed SBC--TARP disagreement.
+
+`workflows/sbi/p12_calibration_diagnostics.py` now preregisters the first audit:
+
+- reproduce the exact ph006 fold-2--4 selection rows, retaining folds 0--1 solely
+  for later correction fitting;
+- draw 512 posterior samples and use randomized finite-sample ranks;
+- report ranks in both ordered-softplus coordinates and physical
+  `(lambda1, lambda2, lambda3)`;
+- compare SBC and TARP on the same rows and draws, with bootstrap sensitivity;
+- stratify ranks and coverage by shell, cap, redshift, `ntilde(z)`, random-support
+  boundary distance, truth/base lambda1, and posterior width;
+- interpret rank location, edge mass, centre mass, and asymmetry separately so
+  location bias is not mistaken for underdispersion or intrinsic tail ambiguity.
+
+The decision tree is frozen before looking at the audit. A mostly affine
+location/width defect will be corrected in ordered-softplus coordinates using
+ph006 folds 0--1 only and evaluated once on folds 2--4. Strong skew, tail, or
+response-dependent failures will not be hidden by scalar tempering; they instead
+motivate a conditional calibration map or a richer P12-B posterior summary.
+`P12A_CALIBRATION_PASS.json` remains absent until physical-eigenvalue SBC/TARP,
+marginal and conditional coverage, proper score, and tail/class diagnostics pass.
+ph001 remains sealed.
+
 
 ### 2026-08-29 - [science/code/run] P12 dataset contract repaired; FMPE canary passes and full fit starts
 
