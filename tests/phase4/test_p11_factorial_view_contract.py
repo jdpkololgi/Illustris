@@ -21,6 +21,10 @@ class P11FactorialViewContractTests(unittest.TestCase):
         self.assertFalse(train & blind)
         self.assertFalse(validation & blind)
         self.assertEqual(blind, {"ph001"})
+        self.assertNotIn("ph000", train)
+        exclusion = self.contract["phase_exclusions"]["ph000"]
+        self.assertEqual(exclusion["scope"], "P11 factorial-view branch only")
+        self.assertIn("not TARGETID-nested", exclusion["reason"])
 
     def test_factorial_axes_and_heldout_recipe_are_explicit(self):
         self.assertEqual(

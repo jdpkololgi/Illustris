@@ -3442,8 +3442,9 @@ Four-GPU execution policy for these gates:
 
 ### P11 — Representation pretraining
 
-**Status:** SOURCE CONTRACT FROZEN; COUNT PRODUCTS AND DENSE-TEACHER GATE PENDING;
-BOUNDED AND NON-BLOCKING; RANDOM-RESPONSE VIEWS ARE MANDATORY
+**Status:** FACTORIAL COUNT PRODUCTS READY FOR PH002--PH006; RESPONSE ADAPTER AND
+DENSE-TEACHER GATE PENDING; BOUNDED AND NON-BLOCKING; RANDOM-RESPONSE VIEWS ARE
+MANDATORY
 **Duration:** 2–5 GPU days for bounded controls
 
 #### P11.0 — Frozen factorial-view contract
@@ -3463,6 +3464,15 @@ the views sampled in an optimizer step. BRIGHT-only remains the production defau
 FAINT is a separately testable information axis, not an implicit response channel.
 The current mocks have `C_z=1` and do not license a learned redshift-success response.
 
+The optional P11 branch uses `ph002--ph005` for training and `ph006` for selection.
+It excludes `ph000` because its canonical final catalogue descends from the legacy
+`path1_fiberassign` staging chain, whereas its available targetable and assigned
+catalogues descend from the official `forFA0_nomask`/`altmtl0` chain. Those products
+are not pointwise TARGETID-nested, so treating them as successive degraded views would
+confound observation stage with catalogue lineage. This exclusion is local to P11:
+`ph000` remains valid and retained in the frozen P10 training and P12 posterior
+contracts.
+
 Progress:
 
 - [x] Freeze the observation-stage, tracer and stochastic-response axes, including
@@ -3470,19 +3480,25 @@ Progress:
 - [x] Freeze the visible-phase source manifest without reading ph001 or large data on
   the login node. Artifact:
   `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p11_factorial_views_v1/FACTORIAL_VIEW_SOURCES_READY.json`.
-- [ ] Materialize missing `V_dense` BRIGHT/FAINT and `V_assign` BRIGHT count fields on
+- [x] Materialize missing `V_dense` BRIGHT/FAINT and `V_assign` BRIGHT count fields on
   the exact canonical P3 lattices in a CPU allocation. Reuse the immutable final-view
   P3/P3b-R products. The existing FAINT overlay is assignment-stage context and is
   not silently relabelled as a final Loa catalogue; under the audited mock `C_z=1`,
   the final FAINT view is an explicit identity reference to the supported assignment
   field. Builder: `workflows/abacus_tweb/p11_build_factorial_view_counts.py`.
+  Completed products and per-phase manifests are below
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p11_factorial_views_v1/` for
+  `ph002--ph006`.
 - [x] Install a bounded persistent CPU supervisor for the heavy count build. It waits
   for `P12A_COMPLETE.json` and an allocation slot before running, so optional P11
   preparation cannot delay P12 or exceed the two-allocation policy. Artifact:
   `workflows/abacus_tweb/run_p11_factorial_view_counts_interactive.sh`.
-- [ ] Validate nesting, TARGETID identity, count conservation, common random support,
+- [x] Validate nesting, TARGETID identity, count conservation, common random support,
   per-view response tuples, and one-total-weight ownership before writing
-  `FACTORIAL_VIEW_PRODUCTS_READY.json`.
+  `FACTORIAL_VIEW_PRODUCTS_READY.json`. The aggregate marker passes with
+  `sealed_phase_opened=false` and `truth_or_targets_read=false`; view-specific response
+  transformations remain the next frozen-adapter gate rather than being inferred from
+  count products.
 - [ ] Validate a supervised dense-view teacher on ph006; close P11 cheaply if it has
   no material headroom over the final-view student.
 

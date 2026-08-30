@@ -21,7 +21,7 @@ if str(REPO_ROOT) not in sys.path:
 from workflows.abacus_tweb.p8_deterministic_common import atomic_json, sha256
 
 
-VISIBLE = ("ph000", "ph002", "ph003", "ph004", "ph005", "ph006")
+VISIBLE = ("ph002", "ph003", "ph004", "ph005", "ph006")
 SEALED = "ph001"
 ROOT = Path("/pscratch/sd/d/dkololgi/abacus/p10_multiphase")
 CONFIG = REPO_ROOT / "configs/p11_factorial_views_v1.json"
@@ -133,8 +133,15 @@ def main() -> None:
     source_audit = json.loads(args.source_audit.read_text())
     if not source_audit.get("all_visible_phases_pass") or source_audit.get("sealed_phase_opened"):
         raise RuntimeError("visible-phase multitracer source audit is not valid")
-    if tuple(source_audit["visible_phases"]) != VISIBLE:
-        raise RuntimeError("source-audit visible phases differ from the factorial contract")
+    audited_visible = tuple(source_audit["visible_phases"])
+    if not set(VISIBLE).issubset(audited_visible):
+        raise RuntimeError("source audit does not contain every factorial-contract phase")
+    contract_visible = tuple(
+        config["phase_split"]["training"]
+        + config["phase_split"]["validation_and_selection"]
+    )
+    if contract_visible != VISIBLE:
+        raise RuntimeError("config phase split differs from the executable factorial contract")
     phases = {phase: phase_record(phase, source_audit) for phase in VISIBLE}
     output = args.output_root
     output.mkdir(parents=True, exist_ok=True)

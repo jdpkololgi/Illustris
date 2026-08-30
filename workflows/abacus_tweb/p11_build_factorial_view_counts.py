@@ -40,7 +40,7 @@ from workflows.abacus_tweb.p10_multitracer_source_audit import (
 )
 
 
-VISIBLE = ("ph000", "ph002", "ph003", "ph004", "ph005", "ph006")
+VISIBLE = ("ph002", "ph003", "ph004", "ph005", "ph006")
 SEALED = "ph001"
 ROOT = Path("/pscratch/sd/d/dkololgi/abacus/p10_multiphase")
 OUTPUT = ROOT / "p11_factorial_views_v1"

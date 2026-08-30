@@ -1,10 +1,17 @@
 {
-  "schema_version": "p11-factorial-view-contract-v1",
-  "contract_id": "p11-factorial-observation-tracer-v1",
+  "schema_version": "p11-factorial-view-contract-v2",
+  "contract_id": "p11-factorial-observation-tracer-v2",
   "phase_split": {
-    "training": ["ph000", "ph002", "ph003", "ph004", "ph005"],
+    "training": ["ph002", "ph003", "ph004", "ph005"],
     "validation_and_selection": ["ph006"],
     "sealed_blind_test": ["ph001"]
+  },
+  "phase_exclusions": {
+    "ph000": {
+      "scope": "P11 factorial-view branch only",
+      "reason": "canonical final BRIGHT is legacy path1_fiberassign while available BRIGHT+FAINT dense/assigned sources are official altmtl0; the populations are not TARGETID-nested",
+      "not_excluded_from": ["P10 deterministic training", "P12 posterior training"]
+    }
   },
   "observation_stage_axis": {
     "V_dense": {

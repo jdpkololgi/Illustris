@@ -67,24 +67,40 @@ posterior machinery and gives well-covered, informative posteriors, but requires
 more flexible rank/shape-calibration diagnosis before posterior VAC promotion.
 
 Random-response work is now an informative bounded ladder rather than the critical
-path. R1 reached epoch 16 with macro `R2(lambda1)=0.56861`, first-three-shell macro
-`0.62841` and sparse-shell `0.38922`; it is approximately flat from epoch 15 and
-continues only to its frozen epoch-20 cap. At epoch 13 the strict density-matched random control is
-`0.55458/0.57513` across seeds (mean `0.56485`), while cross-phase FAINT is
-`0.57722/0.57782` (mean `0.57752`). Both continue to epoch 15. These values remain far
-below the old same-phase BRIGHT+FAINT Proxy/Null results, so the hypothesis that random
-response alone explains the FAINT gain is not supported; final strict-control markers
-are still required before closing that diagnosis.
+path. R1 reached epoch 17 with macro `R2(lambda1)=0.57475`; its epoch-16
+first-three-shell macro and sparse-shell scores were `0.62841` and `0.38922`.
+R2 assignment response and R3-RF high-S/N random fields are frozen at epoch 15 with
+two-seed mean macro scores `0.57991` and `0.57126`, respectively. The stricter
+density-matched random and cross-phase-FAINT controls have reached epoch 14 with
+two-seed means `0.56862` and `0.57989`. They remain far below the old same-phase
+BRIGHT+FAINT Proxy/Null results. Random response alone therefore does not reproduce
+the old FAINT gain, while cross-phase FAINT currently has only modest headroom over
+the strict random control; final epoch-15 markers remain required before closing the
+diagnosis.
 
-P11 degraded factorial views are ready at the source-contract level but not ready for
-JEPA training. `FACTORIAL_VIEW_SOURCES_READY.json`, the frozen view config and builders
-exist; the dense BRIGHT/FAINT and assigned BRIGHT count products, nesting/identity QA,
-`FACTORIAL_VIEW_PRODUCTS_READY.json`, and the supervised dense-teacher ph006 headroom
-gate remain outstanding. The full P12 technical marker now exists, so they may
-proceed as a separate, non-blocking branch when an interactive allocation is free.
-JEPA opens only if the dense teacher transfers
-with measurable headroom; it remains a representation challenger, not posterior
-uncertainty or recovery of information removed by selection.
+P11 factorial count products are now complete for `ph002--ph006`. Dense BRIGHT/FAINT
+and assigned BRIGHT fields were materialized on the exact canonical P3 lattices with
+common random support. Every individual phase passes count conservation and exact
+`V_dense >= V_assign >= V_final` voxel nesting. The aggregate
+`FACTORIAL_VIEW_PRODUCTS_READY.json` passes with `sealed_phase_opened=false` and
+`truth_or_targets_read=false`.
+The source and aggregate product marker SHA-256 values are
+`e820fec02d4cff94a51256a7fcb73b7acef85fd68b0c148d1ca6f3da846282f2` and
+`bac20cc4115d58c02c399d8debcc5a916227f64e99296b11aa07e1717dafcdcb`,
+respectively.
+
+The build audit caught and prevented a catalogue-lineage confound in `ph000`: its
+legacy `path1_fiberassign` final catalogue is not pointwise nested inside the
+official `forFA0_nomask` and `altmtl0` targetable/assigned products. The optional
+P11 branch therefore uses `ph002--ph005` for training and `ph006` for selection
+only. This does not change the frozen P10 training or P12 posterior contracts, which
+retain ph000.
+
+This makes the factorial-view data substrate ready, but not JEPA training itself.
+The view-specific response adapter must still be frozen and a supervised dense-view
+teacher must demonstrate measurable transfer headroom on ph006. JEPA remains a
+separate, non-blocking representation challenger rather than posterior uncertainty or
+recovery of information removed by selection.
 
 
 
