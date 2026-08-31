@@ -34,6 +34,7 @@ if str(REPO_ROOT) not in sys.path:
 from workflows.abacus_tweb import p8_train_graph_patch as graph_impl
 from workflows.abacus_tweb import p8_train_unet_patch as unet_impl
 from workflows.abacus_tweb import p10_multitracer_training as multitracer_impl
+from workflows.abacus_tweb import p11_factorial_training as p11_impl
 from workflows.abacus_tweb.p8_deterministic_common import (
     SHELL_NAMES,
     acquire_run_lock,
@@ -106,6 +107,7 @@ def source_contract() -> dict[str, str]:
         REPO_ROOT / "workflows/abacus_tweb/p10_multitracer_training.py",
         REPO_ROOT / "workflows/abacus_tweb/p8_deterministic_common.py",
         REPO_ROOT / "workflows/abacus_tweb/p8_epoch_training.py",
+        REPO_ROOT / "workflows/abacus_tweb/p11_factorial_training.py",
     )
     return {str(path.relative_to(REPO_ROOT)): sha256(path) for path in paths}
 
@@ -299,6 +301,21 @@ def parse_args() -> argparse.Namespace:
         choices=("proxy", "null"),
         help="required only for the unet_multitracer model",
     )
+    parser.add_argument(
+        "--p11-dense-view",
+        action="store_true",
+        help="train U-PATCH on the frozen P11 V_dense adapter and ph002--ph005 only",
+    )
+    parser.add_argument(
+        "--p11-factorial-root",
+        type=Path,
+        default=p11_impl.DEFAULT_ROOT,
+    )
+    parser.add_argument(
+        "--p11-adapter-contract",
+        type=Path,
+        default=p11_impl.DEFAULT_CONTRACT,
+    )
     parser.add_argument("--validation-group-cores", type=int, default=8)
     parser.add_argument("--loss-log-every", type=int, default=25)
     parser.add_argument("--checkpoint-every", type=int, default=250)
@@ -335,6 +352,10 @@ def parse_args() -> argparse.Namespace:
         parser.error("unet_multitracer requires --multitracer-view")
     if args.model != "unet_multitracer" and args.multitracer_view is not None:
         parser.error("--multitracer-view is exclusive to unet_multitracer")
+    if args.p11_dense_view and args.model != "unet":
+        parser.error("--p11-dense-view is exclusive to --model unet")
+    if args.p11_dense_view and args.multitracer_view is not None:
+        parser.error("P11 dense teacher cannot use a P10 multitracer view")
     return args
 
 
@@ -357,7 +378,14 @@ def main() -> None:
     if any(path.name != ".run.lock" for path in output.iterdir()) and not resume:
         raise RuntimeError(f"non-empty Arm-A output requires --auto-resume: {output}")
 
-    loader = P10PhaseBalancedLoader(args.contract_root, include_blind=False)
+    if args.p11_dense_view:
+        loader = p11_impl.P11DensePhaseBalancedLoader(
+            args.contract_root,
+            factorial_root=args.p11_factorial_root,
+            adapter_contract=args.p11_adapter_contract,
+        )
+    else:
+        loader = P10PhaseBalancedLoader(args.contract_root, include_blind=False)
     phases = tuple(loader.training_phases)
     validation_phase = loader.validation_phase
     if loader.blind_phase == validation_phase or loader.blind_phase in phases:
@@ -481,7 +509,11 @@ def main() -> None:
     run_manifest = {
         "schema_version": "p10-arm-a-run-v1",
         "created_utc": utc_now(),
-        "stage": "P10 deterministic multi-phase Arm A final-view R0",
+        "stage": (
+            "P11 supervised dense-view teacher headroom gate"
+            if args.p11_dense_view
+            else "P10 deterministic multi-phase Arm A final-view R0"
+        ),
         "model": args.model,
         "seed": args.seed,
         "fresh_initialization": True,
@@ -496,7 +528,11 @@ def main() -> None:
         "validation_cores": int(len(validation_core)),
         "sampler": loader.manifest["epoch"],
         "objective": loader.manifest["objective"],
-        "view": "V_final R0 frozen P3a/P8 input contract",
+        "view": (
+            "V_dense BRIGHT frozen P11 response-adapter contract"
+            if args.p11_dense_view
+            else "V_final R0 frozen P3a/P8 input contract"
+        ),
         "multitracer_view": args.multitracer_view,
         "multitracer_root": (
             str(args.multitracer_root) if args.model == "unet_multitracer" else None
@@ -517,7 +553,11 @@ def main() -> None:
             sha256(graph_transform_path) if args.model == "graph" else None
         ),
         "field_transform_sha256": sha256(
-            args.contract_root / "transforms/field/field_transform.json"
+            (
+                args.p11_adapter_contract / "P11_DENSE_RESPONSE_ADAPTER_READY.json"
+                if args.p11_dense_view
+                else args.contract_root / "transforms/field/field_transform.json"
+            )
         ),
     }
     atomic_json(output / "run_manifest.json", run_manifest)

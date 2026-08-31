@@ -3443,8 +3443,9 @@ Four-GPU execution policy for these gates:
 ### P11 — Representation pretraining
 
 **Status:** FACTORIAL COUNT PRODUCTS READY FOR PH002--PH006; RESPONSE ADAPTER AND
-DENSE-TEACHER GATE PENDING; BOUNDED AND NON-BLOCKING; RANDOM-RESPONSE VIEWS ARE
-MANDATORY
+DENSE-RESPONSE ADAPTER/TRAINER IMPLEMENTED; COMPUTE-NODE MATERIALIZATION AND
+DENSE-TEACHER FIT BLOCKED BY ZERO INTERACTIVE USER BALANCE; BOUNDED AND
+NON-BLOCKING; RANDOM-RESPONSE VIEWS ARE MANDATORY
 **Duration:** 2–5 GPU days for bounded controls
 
 #### P11.0 — Frozen factorial-view contract
@@ -3499,6 +3500,19 @@ Progress:
   `sealed_phase_opened=false` and `truth_or_targets_read=false`; view-specific response
   transformations remain the next frozen-adapter gate rather than being inferred from
   count products.
+- [x] Implement the label-free V_dense response fit, lazy stage-count overlay and
+  capacity-matched three-channel U-PATCH adapter. Integrate it with the resumable
+  phase-balanced trainer using ph002--ph005 only, retain ph006 as application-only,
+  and add a compute-node worker. Artifacts:
+  workflows/abacus_tweb/p11_factorial_training.py,
+  workflows/abacus_tweb/run_p11_dense_teacher_interactive.sh, and
+  tests/phase4/test_p11_factorial_training.py (10 combined P11 tests pass).
+- [ ] Materialize dense_response_adapter_v1/P11_DENSE_RESPONSE_ADAPTER_READY.json
+  on a compute node, then run one extraction/normalization parity smoke and a bounded
+  GPU update canary. Do not scan the full cap grids on the login node.
+- [ ] Resolve the NERSC interactive user-balance rejection. Both desi_g and desi
+  reported zero user node-hours on 2026-08-30, so no allocation or scientific P11
+  update was launched; do not substitute sbatch for this development gate.
 - [ ] Validate a supervised dense-view teacher on ph006; close P11 cheaply if it has
   no material headroom over the final-view student.
 

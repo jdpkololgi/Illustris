@@ -1,4 +1,46 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
+### 2026-08-30 - [science/code/run] P11 dense-teacher gate implemented; launch blocked by zero interactive balance
+
+P11 has begun with the preregistered information-headroom test rather than JEPA
+training. The first estimator is a capacity-matched supervised U-PATCH teacher on the
+BRIGHT V_dense targetable view. It retains the production three-channel interface
+[log1p counts, clipped count/mu contrast, random-support exposure]; the count field
+and the view-specific ntilde_dense(z) are changed, but model width, target
+parameterisation, loss, patch geometry and ph006 scoring contract are not. Training
+uses ph002--ph005 only, ph006 remains application/model-selection only, ph000 is
+excluded because its factorial views are not pointwise nested, and ph001 remains
+sealed. The promotion question is whether the dense teacher exceeds the frozen
+final-view U-PATCH by about +0.03 macro R2 on ph006. Only a passing teacher licenses
+the matched supervised/masked-reconstruction/JEPA/curriculum programme.
+
+Implementation is complete for the dense-view response-contract builder, lazy patch
+overlay, P11 phase-balanced loader, integration with the resumable Arm-A trainer,
+interactive worker and focused tests:
+
+- workflows/abacus_tweb/p11_factorial_training.py;
+- workflows/abacus_tweb/run_p11_dense_teacher_interactive.sh;
+- tests/phase4/test_p11_factorial_training.py;
+- the pre-existing factorial contract/count tests plus the new tests pass (10/10).
+
+The response fit is label-free and phase-safe. It derives mu_dense from the common
+P3b-R support and angular response plus a phase-equal ph002--ph005 radial density
+curve; ph006 does not enter the curve or normalization. The builder must still scan
+the stored dense count/response grids on a compute node before writing
+P11_DENSE_RESPONSE_ADAPTER_READY.json, after which the same worker runs a resumable
+20-epoch teacher fit.
+
+No scientific training result exists yet. Two interactive allocation attempts
+(desi_g and desi) were rejected by NERSC before allocation because the user
+balance was reported as 0.00 node hours despite a positive repository balance.
+The builder was not run on the login node and no sbatch job was substituted.
+This is an external scheduling/account blocker, not a data, code or model failure.
+
+The P12 illustrative posterior plot was also corrected. All four rows now share one
+fixed physical x-range within each eigenvalue column, so width differences are
+visually comparable rather than hidden by per-panel autoscaling. Updated artifact:
+docs/figures/p12_width_information_20260830/p12a_posterior_examples.png
+(SHA-256 2154704e85f20acfc0ea40b1ed899021ba8f3d6110bfc5fe59103dc9aea1d5d7);
+the PDF companion was regenerated from the same frozen four posterior rows.
 
 ### 2026-08-30 - [science/run] P12-A widths adapt to information; sparse-shell residual is mild miscentring
 
