@@ -519,6 +519,26 @@ def plot_examples(
 ) -> None:
     apply_style()
     fig, axes = plt.subplots(4, 3, figsize=(15, 14), constrained_layout=True)
+    # Share one physical range within each eigenvalue column. Per-panel
+    # autoscaling makes narrow and broad posteriors look deceptively alike.
+    component_limits: list[tuple[float, float]] = []
+    example_index = np.asarray(
+        [int(example["evaluation_row"]) for example in examples], dtype=np.int64
+    )
+    for component in range(3):
+        selected = np.asarray(
+            eigen_samples[example_index, :, component], dtype=np.float64
+        )
+        low = min(
+            float(np.quantile(selected, 0.005)),
+            float(np.min(truth[example_index, component])),
+        )
+        high = max(
+            float(np.quantile(selected, 0.995)),
+            float(np.max(truth[example_index, component])),
+        )
+        padding = max(0.05 * (high - low), 0.02)
+        component_limits.append((low - padding, high + padding))
     for row, example in enumerate(examples):
         index = int(example["evaluation_row"])
         for component in range(3):
@@ -532,6 +552,7 @@ def plot_examples(
             ax.plot(grid, density, color=COLORS[component], linewidth=2, label="Posterior")
             ax.axvline(q50, color=TEXT_COLOR, linestyle="--", linewidth=1.2, label="Median")
             ax.axvline(truth[index, component], color="#D62828", linewidth=2, label="Truth")
+            ax.set_xlim(*component_limits[component])
             ax.set_yticks([])
             if row == 0:
                 ax.set_title(EIGEN_LABELS[component])
@@ -599,6 +620,11 @@ def main() -> None:
     parser.add_argument("--workers", type=int, default=-1)
     parser.add_argument("--bootstrap-repeats", type=int, default=1000)
     parser.add_argument("--seed", type=int, default=20260830)
+    parser.add_argument(
+        "--replot-examples-only",
+        action="store_true",
+        help="regenerate the posterior-example figure from frozen rows without rerunning diagnostics",
+    )
     args = parser.parse_args()
     args.output_root.mkdir(parents=True, exist_ok=True)
 
@@ -618,6 +644,32 @@ def main() -> None:
     checkpoint = __import__("torch").load(checkpoint_path, map_location="cpu", weights_only=False)
     theta_mean = np.asarray(checkpoint["theta_mean"], dtype=np.float64)
     theta_std = np.asarray(checkpoint["theta_std"], dtype=np.float64)
+    if args.replot_examples_only:
+        report = json.loads(
+            (args.output_root / "P12A_WIDTH_INFORMATION_DIAGNOSTIC.json").read_text()
+        )
+        examples = [dict(row) for row in report["examples"]]
+        selected = np.asarray(
+            [int(row["evaluation_row"]) for row in examples], dtype=np.int64
+        )
+        theta_samples = (
+            np.asarray(samples_scaled[selected], dtype=np.float64) * theta_std + theta_mean
+        )
+        eigen_samples = theta_to_eigenvalues(theta_samples)
+        truth = np.asarray(validation["truth_eigenvalues"])[evaluation_index[selected]]
+        context = np.asarray(validation["context"])[evaluation_index[selected]]
+        for local_index, row in enumerate(examples):
+            row["evaluation_row"] = local_index
+        plot_examples(
+            args.output_root / "p12a_posterior_examples",
+            eigen_samples,
+            truth,
+            examples,
+            context[:, 3],
+            np.exp(context[:, 4]),
+            np.expm1(context[:, 6]),
+        )
+        return
     theta_samples = np.asarray(samples_scaled, dtype=np.float64) * theta_std + theta_mean
     eigen_samples = theta_to_eigenvalues(theta_samples)
     del theta_samples
