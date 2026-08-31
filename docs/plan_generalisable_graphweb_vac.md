@@ -3509,10 +3509,12 @@ Progress:
   tests/phase4/test_p11_factorial_training.py (10 combined P11 tests pass).
 - [ ] Materialize dense_response_adapter_v1/P11_DENSE_RESPONSE_ADAPTER_READY.json
   on a compute node, then run one extraction/normalization parity smoke and a bounded
-  GPU update canary. Do not scan the full cap grids on the login node.
-- [ ] Resolve the NERSC interactive user-balance rejection. Both desi_g and desi
-  reported zero user node-hours on 2026-08-30, so no allocation or scientific P11
-  update was launched; do not substitute sbatch for this development gate.
+  GPU update canary. Do not scan the full cap grids on the login node. Active worker:
+  allocation 57782878 on nid008477; runtime log
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p11_factorial_views_v1/p11_dense_teacher_interactive_57782878.log`.
+- [x] Resolve the NERSC interactive user-balance rejection. The DESI GPU balance
+  accepted allocation 57782878 on 2026-08-31. Reuse this interactive allocation for
+  the development gate; do not substitute sbatch.
 - [ ] Validate a supervised dense-view teacher on ph006; close P11 cheaply if it has
   no material headroom over the final-view student.
 

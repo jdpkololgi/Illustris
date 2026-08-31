@@ -24,7 +24,7 @@ export PYTHONNOUSERSITE=1
 export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK:-32}"
 
 {
-  "${PY}" -u workflows/abacus_tweb/p11_factorial_training.py
+  "${PY}" -u -m workflows.abacus_tweb.p11_factorial_training
   "${PY}" -m unittest     tests.phase4.test_p11_factorial_training     tests.phase4.test_p11_factorial_view_contract     tests.phase4.test_p11_factorial_view_counts
   "${PY}" -u workflows/abacus_tweb/p10_train_arm_a.py     --model unet     --p11-dense-view     --seed 42     --epochs 20     --min-epochs 10     --patience 5     --min-delta 0.002     --lr 0.002     --run-name p11_dense_teacher_v1     --output-root "${OUTPUT}"     --max-runtime-seconds 13200     --validation-reserve-seconds 1200     --checkpoint-every 250     --loss-log-every 25     --auto-resume
 } 2>&1 | tee -a "${LOG}"

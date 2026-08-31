@@ -1,4 +1,25 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
+### 2026-08-31 - [code/run] P11 dense-teacher gate resumed after GPU balance restoration
+
+The DESI GPU balance now accepts interactive work. Allocation `57782878` was
+granted on `nid008477` for four hours with one 80-GB A100, 32 CPU cores and
+the `desi_g` account. The frozen P11 worker is running the label-free
+V_dense response-adapter scan and will then run the focused tests and resume the
+20-epoch capacity-matched U-PATCH dense teacher. Authoritative runtime log:
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p11_factorial_views_v1/p11_dense_teacher_interactive_57782878.log`.
+
+The first launch stopped before reading scientific products because the clean
+compute-node environment could not resolve the repository package when
+`p11_factorial_training.py` was invoked by file path
+(`ModuleNotFoundError: workflows`). The worker now invokes the builder with
+`python -m workflows.abacus_tweb.p11_factorial_training`, matching the
+package-safe contract used by the tests. The same allocation was reused; no
+data product, checkpoint or scientific result was accepted from the failed
+step.
+
+No dense-teacher result is claimed yet. ph006 remains validation-only and
+ph001 remains sealed.
+
 ### 2026-08-30 - [science/code/run] P11 dense-teacher gate implemented; launch blocked by zero interactive balance
 
 P11 has begun with the preregistered information-headroom test rather than JEPA
