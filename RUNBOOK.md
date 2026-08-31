@@ -200,9 +200,171 @@ HDF5 lattices. A valid run has passing `unit_audit.json`, `field_manifest.json`,
 Consumers must load the checksummed manifest/schema contract; they must not infer
 units or channel order from an unaccompanied HDF5 file.
 
+## Generalisable GraphWeb P12-A Posterior
+
+P12-A is the current Abacus VAC uncertainty model: a per-galaxy FMPE posterior
+over ordered tidal eigenvalues, conditioned on the three-dimensional OOF
+U-PATCH base prediction plus deployable response covariates. It is **not** a
+joint tidal-field posterior and **not** the older wedge-graph FlowJAX NPE.
+
+Estimand:
+
+```text
+q(λ | λ̂_U-PATCH^OOF, z, ñ(z), cap, random-support boundary distance, H_fid)
+```
+
+Targets are ordered softplus increments (`λ1` plus `gap12`/`gap23`); invert to
+physical `(λ1 ≤ λ2 ≤ λ3)` only at evaluation. Phase, fold, superblock, and
+artificial fold-boundary distance are never features. `ph001` is sealed.
+
+Default scratch root (hardcoded in the P12 scripts):
+
+```text
+/pscratch/sd/d/dkololgi/abacus/p10_multiphase
+```
+
+### Chain
+
+OOF export and FMPE fit (what the supervisor runs):
+
+```text
+leave-one-phase-out U-PATCH contracts
+  -> p12_export_unet_summaries.py          # OOF summaries; GPU
+  -> p12_prepare_base_response_dataset.py  # 2e6 train / 6e5 ph006 rows
+  -> p12_train_base_response_fmpe.py       # GPU; writes P12A_COMPLETE.json
+```
+
+Post-fit diagnostics (not in the supervisor; GPU; frozen uncorrected posterior):
+
+```text
+p12_calibration_diagnostics.py            # physical ranks + TARP
+p12_affine_calibration_canary.py          # challenger; REJECTED 2026-08-30
+p12_width_information_diagnostics.py      # uses frozen audit draws
+```
+
+Persistent supervisor (login-safe watcher; heavy work only on interactive GPU):
+
+```bash
+# tmux session p12a_posterior; flock-locked against duplicate watchers
+bash workflows/sbi/run_p12a_posterior_interactive.sh
+```
+
+It waits until `p12_oof_summaries/{ph000,ph002–ph006}/OOF_SUMMARY_COMPLETE.json`
+exist and fewer than two user allocations are submitted, then `salloc`s one
+HBM80 GPU node. It does **not** run the calibration audit, affine canary, or
+width diagnostic; those are separate GPU commands after `P12A_COMPLETE.json`
+exists. Direct commands (inside `cosmic_env`, GPU allocation):
+
+```bash
+unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD
+export PYTHONNOUSERSITE=1
+PY=/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python
+ROOT=/pscratch/sd/d/dkololgi/abacus/p10_multiphase
+OUT=$ROOT/p12a_base_response_v1
+
+$PY workflows/sbi/p12_prepare_base_response_dataset.py --output-root "$OUT"
+$PY workflows/sbi/p12_train_base_response_fmpe.py \
+  --dataset-root "$OUT" --output-root "$OUT/fmpe_seed42"
+$PY workflows/sbi/p12_calibration_diagnostics.py \
+  --dataset-root "$OUT" --output-root "$OUT/fmpe_seed42/calibration_audit_v1"
+$PY workflows/sbi/p12_width_information_diagnostics.py \
+  --dataset-root "$OUT" \
+  --audit-root "$OUT/fmpe_seed42/calibration_audit_v1"
+```
+
+`--dataloader-workers` must stay `0`: FMPE keeps the training TensorDataset on
+CUDA, and a forked DataLoader re-initialises CUDA.
+
+### Markers (do not confuse)
+
+| Marker | Meaning |
+| --- | --- |
+| `P12A_DATASET_READY.json` | Dataset contract passed; sealed phase not opened. |
+| `P12A_COMPLETE.json` | Fit + evaluation ran (`technical_complete`). |
+| `P12A_CALIBRATION_PASS.json` | Trainer's own coverage/SBC/TARP gates. **Absent** for the frozen fit. |
+| `P12A_CALIBRATION_AUDIT.json` | Authoritative physical-eigenvalue audit. |
+| `P12A_AFFINE_CORRECTION_REJECTED.json` | Affine challenger failed proper-score/crossfit gates. |
+
+Scientific status (2026-08-30): keep the **uncorrected** posterior; widths
+adapt to information; sparse-shell λ2/λ3 residual is mild miscentring, not a
+reason to revive the affine map. Repository evidence:
+`docs/evidence/p12/`. Figures: `docs/figures/p12_calibration_audit_20260830/`
+and `docs/figures/p12_width_information_20260830/`.
+
+Fold contract on ph006: folds 0–1 calibration-only, folds 2–4 selection-only.
+Natural-volume weights undo sqrt-count shell sampling.
+
+### Pitfalls
+
+- GPU required for FMPE fit, posterior sampling, calibration audit, and affine
+  canary. The scripts `raise RuntimeError` without CUDA.
+- Do not open `ph001`. Dataset/train/audit/canary/width all refuse it.
+- Do not treat the trainer's `calibration_pass` field as the scientific
+  calibration verdict. The audit + affine canary programme is authoritative.
+- Do not promote the affine map because rank histograms look flatter. Promotion
+  requires every gate in `selection_gates()`, including out-of-fit proper log
+  score with spatial-block 95% CI above zero.
+- The supervisor re-runs canary then full fit whenever `P12A_COMPLETE.json` is
+  missing (bounded to 8 `salloc` attempts). If a partial fit died after the
+  canary, expect that cost again unless you invoke the Python entrypoints
+  directly.
+- Realised BRIGHT neighbour counts are an **external** width diagnostic, not
+  P12-A features. P1/P3 coordinates are comoving Mpc; the width script converts
+  to Mpc/h with Planck18 `h=0.6766` before the 7/10/20 Mpc/h queries.
+- Tests: `tests/phase4/test_p12_base_response.py`,
+  `test_p12_calibration_diagnostics.py`, `test_p12_affine_calibration.py`,
+  `test_p12_width_information_diagnostics.py`. Full sampling still needs NERSC
+  products and a GPU.
+
+## P11 Factorial Observation Views
+
+P11 materialises truth-free dense/assigned/final count fields on canonical P3
+grids. It is a JEPA/observation-operator substrate, not a posterior and not a
+replacement for P12-A calibration.
+
+```text
+configs/p11_factorial_views_v1.json
+  -> p11_prepare_factorial_view_sources.py   # login-safe manifests only
+  -> p11_build_factorial_view_counts.py      # CPU interactive; heavy FITS/HDF5
+```
+
+Axes: observation stage `V_dense` / `V_assign` / `V_final`; tracer BRIGHT-only
+(production default) vs BRIGHT+FAINT context; stochastic response
+(`tileloc_correlated_thinning` is the held-out degradation recipe). `V_final`
+FAINT is an identity reference to supported `V_assign` FAINT under the current
+mock `C_z=1` contract — not a Loa pointwise product.
+
+`ph001` is sealed. `ph000` is excluded from this branch only (canonical final
+BRIGHT is legacy `path1_fiberassign` while dense/assigned sources are
+`altmtl0`; not TARGETID-nested). P10/P12 still use `ph000`.
+
+The CPU supervisor waits for `P12A_COMPLETE.json` and an allocation slot:
+
+```bash
+bash workflows/abacus_tweb/run_p11_factorial_view_counts_interactive.sh
+```
+
+Login-safe source freeze, then heavy build inside a CPU `salloc`:
+
+```bash
+$PY workflows/abacus_tweb/p11_prepare_factorial_view_sources.py
+$PY workflows/abacus_tweb/p11_build_factorial_view_counts.py
+```
+
+`--phase ph00N` builds one phase and does **not** write the all-phase
+`FACTORIAL_VIEW_PRODUCTS_READY.json` marker. Omit `--phase` for the full
+`ph002–ph006` product. `--force` rebuilds an existing phase.
+
+Nesting gate: voxelwise `V_final Bright ≤ V_assign Bright ≤ V_dense Bright`
+(and the assigned/dense FAINT analogue) on the common random-derived support.
+The builder reads no T-Web targets.
+
 ## Abacus SBI Cache And Wedges
 
-The active Abacus-scale SBI chain is:
+This is the older Abacus **wedge-graph FlowJAX NPE** chain (one RA/Dec/z
+wedge graph). It is not the P12-A VAC posterior above.
+
+The wedge-graph SBI chain is:
 
 ```text
 annotated CutSky FITS
@@ -268,7 +430,11 @@ it for new Abacus SBI runs.
 
 ## SBI FlowJAX Training
 
-Use `workflows/sbi/jraph_sbi_flowjax.py` for the TNG/full-graph cache path:
+For the current Abacus VAC posterior, use P12-A
+(`workflows/sbi/p12_train_base_response_fmpe.py`), not this trainer.
+
+`workflows/sbi/jraph_sbi_flowjax.py` remains the TNG/full-graph and older
+Abacus wedge-graph NPE trainer:
 
 ```bash
 python workflows/sbi/jraph_sbi_flowjax.py --help
@@ -353,9 +519,10 @@ Run the lightweight Phase 4 tests from the repository root:
 python -m unittest discover -s tests/phase4
 ```
 
-These tests cover import compatibility, cache-schema helpers, and help output
-for selected entrypoints. Full scientific validation still requires the
-Perlmutter data products and SLURM workflows above.
+These tests cover import compatibility, cache-schema helpers, P11/P12
+contracts, and help output for selected entrypoints. Full scientific validation
+still requires the Perlmutter data products and SLURM workflows above. P12
+posterior sampling tests that need CUDA will fail in CPU-only environments.
 
 ## Compatibility Notes
 

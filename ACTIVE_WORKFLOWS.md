@@ -3,6 +3,10 @@
 This file is the quick reference for what to run in this repository now. For
 Perlmutter commands and operational details, see `RUNBOOK.md`.
 
+The **current Abacus VAC posterior** is P12-A (FMPE on OOF U-PATCH base
+predictions plus deployable response). The older wedge-graph FlowJAX NPE path
+remains in the inventory below but is not the production uncertainty model.
+
 ## Canonical Layout
 
 - `workflows/abacus_tweb/` for Abacus slab T-Web generation, CutSky annotation,
@@ -12,9 +16,9 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   and HTML visualizations.
 - `workflows/jraph/` for JAX/Jraph regression, tuning, checkpoint evaluation,
   diagnostics, and ensembles.
-- `workflows/sbi/` for FlowJAX SBI trainers. Current Abacus-scale SBI uses
-  wedge-subvolume caches with the full-graph NPE trainer; partitioned FlowJAX is
-  retained as legacy/reference.
+- `workflows/sbi/` for P12-A FMPE (current Abacus VAC posterior) and FlowJAX
+  SBI trainers. Wedge-subvolume FlowJAX NPE is the older Abacus graph path;
+  partitioned FlowJAX is legacy/reference.
 - `workflows/sbi/experimental/` for the optional two-stage SBI prototype.
 - `workflows/gcn_paper/` for the paper-critical PyTorch GCN workflow.
 - `shared/` for reusable model, transformation, path, resource, and cache-schema
@@ -24,6 +28,20 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
 
 ## Active
 
+- Generalisable GraphWeb P12-A posterior (current VAC uncertainty model):
+  - `workflows/sbi/p12_prepare_crossfit_contracts.py`
+  - `workflows/sbi/p12_export_unet_summaries.py`
+  - `workflows/sbi/p12_prepare_base_response_dataset.py`
+  - `workflows/sbi/p12_train_base_response_fmpe.py`
+  - `workflows/sbi/p12_calibration_diagnostics.py`
+  - `workflows/sbi/p12_affine_calibration_canary.py` (challenger only; rejected)
+  - `workflows/sbi/p12_width_information_diagnostics.py`
+  - `workflows/sbi/run_p12a_posterior_interactive.sh`
+- P11 factorial observation views (JEPA substrate; not a posterior):
+  - `configs/p11_factorial_views_v1.json`
+  - `workflows/abacus_tweb/p11_prepare_factorial_view_sources.py`
+  - `workflows/abacus_tweb/p11_build_factorial_view_counts.py`
+  - `workflows/abacus_tweb/run_p11_factorial_view_counts_interactive.sh`
 - Abacus slab + MPI T-Web:
   - `workflows/abacus_tweb/submit_abacus_tweb_cpu.slurm`
   - `workflows/abacus_tweb/abacus_cactus_tweb.py`
@@ -47,7 +65,7 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   - `workflows/abacus_tweb/build_staged_mock_wedge_truth_npz.py`
   - `workflows/abacus_tweb/build_staged_mock_wedge_variants.py`
   - `workflows/abacus_tweb/build_staged_mock_wedge_sbi_cache.py`
-- SBI FlowJAX:
+- SBI FlowJAX (TNG / older Abacus wedge-graph NPE; not P12-A):
   - `workflows/sbi/jraph_sbi_flowjax.py` for TNG/full-graph caches and Abacus
     wedge-subvolume caches.
   - `workflows/sbi/plot_flowjax_posteriors.py`
@@ -83,7 +101,8 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
 - `workflows/abacus_tweb/build_abacus_partition_batches.py`,
   `workflows/abacus_tweb/submit_build_partitions_adaptive.slurm`, and
   `workflows/abacus_tweb/PARTITION_ARTIFACT_SCHEMA.md` (partitioned Abacus
-  cache artifacts; superseded by wedge subvolumes for current SBI work)
+  cache artifacts; superseded by wedge subvolumes for graph-NPE work; the
+  current VAC posterior is P12-A, not partitions)
 - `workflows/sbi/jraph_sbi_flowjax_partitioned.py`,
   `workflows/sbi/submit_sbi_partitioned_data_parallel.slurm`,
   `workflows/sbi/submit_sbi_partitioned_data_parallel_multinode.slurm`, and
@@ -94,6 +113,13 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
 
 ## Known Issues And Audit Notes
 
+- P12-A is technically complete (`P12A_COMPLETE.json`) but **not** exactly
+  calibrated in the sparsest redshift shell. The uncorrected posterior is the
+  production model. Do not adopt the affine correction; do not write
+  `P12A_CALIBRATION_PASS.json` by hand. Evidence:
+  `docs/evidence/p12/` and `SCIENCE_LOG.md` (2026-08-30).
+- `ph001` is sealed across P11 and P12. `ph000` is excluded from P11 factorial
+  views only (catalogue nesting), not from P10/P12 training.
 - Abacus label quality depends on host-halo linkage, not naive sky-coordinate
   inversion. Start label-alignment debugging with
   `workflows/abacus_tweb/ABACUS_TWEB_AUDIT_FINDINGS.md`.
