@@ -3507,10 +3507,12 @@ Progress:
   workflows/abacus_tweb/p11_factorial_training.py,
   workflows/abacus_tweb/run_p11_dense_teacher_interactive.sh, and
   tests/phase4/test_p11_factorial_training.py (10 combined P11 tests pass).
-- [ ] Materialize dense_response_adapter_v1/P11_DENSE_RESPONSE_ADAPTER_READY.json
+- [x] Materialize dense_response_adapter_v1/P11_DENSE_RESPONSE_ADAPTER_READY.json
   on a compute node, then run one extraction/normalization parity smoke and a bounded
-  GPU update canary. Do not scan the full cap grids on the login node. Active worker:
-  allocation 57782878 on nid008477; runtime log
+  GPU update canary. The adapter gates and 10 tests pass; SHA-256
+  `e2c2847a8f38a2ba46c38823c9facd86ad07e7c90b3dc6330251933c97fa56ed`.
+  Training passed 500 finite optimizer updates with an atomic checkpoint. Active
+  worker: allocation 57782878 on nid008477; runtime log
   `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p11_factorial_views_v1/p11_dense_teacher_interactive_57782878.log`.
 - [x] Resolve the NERSC interactive user-balance rejection. The DESI GPU balance
   accepted allocation 57782878 on 2026-08-31. Reuse this interactive allocation for

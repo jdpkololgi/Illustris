@@ -3,10 +3,17 @@
 
 The DESI GPU balance now accepts interactive work. Allocation `57782878` was
 granted on `nid008477` for four hours with one 80-GB A100, 32 CPU cores and
-the `desi_g` account. The frozen P11 worker is running the label-free
-V_dense response-adapter scan and will then run the focused tests and resume the
-20-epoch capacity-matched U-PATCH dense teacher. Authoritative runtime log:
+the `desi_g` account. The label-free V_dense response adapter completed, all
+10 focused P11 tests passed, and the fresh 20-epoch capacity-matched U-PATCH
+dense teacher is now training with checkpoint and loss logging active.
+Authoritative runtime log:
 `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p11_factorial_views_v1/p11_dense_teacher_interactive_57782878.log`.
+
+The adapter marker is
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p11_factorial_views_v1/dense_response_adapter_v1/P11_DENSE_RESPONSE_ADAPTER_READY.json`
+(SHA-256 `e2c2847a8f38a2ba46c38823c9facd86ad07e7c90b3dc6330251933c97fa56ed`).
+Its gates record ph002--ph005-only fitting, ph006 application-only, ph001
+unopened, finite positive curves and normalization, and passing shell closure.
 
 The first launch stopped before reading scientific products because the clean
 compute-node environment could not resolve the repository package when
@@ -17,8 +24,9 @@ package-safe contract used by the tests. The same allocation was reused; no
 data product, checkpoint or scientific result was accepted from the failed
 step.
 
-No dense-teacher result is claimed yet. ph006 remains validation-only and
-ph001 remains sealed.
+The GPU canary has passed 500 optimizer updates with finite losses and a valid
+atomic checkpoint. No dense-teacher validation result is claimed yet. ph006
+remains validation-only and ph001 remains sealed.
 
 ### 2026-08-30 - [science/code/run] P11 dense-teacher gate implemented; launch blocked by zero interactive balance
 
