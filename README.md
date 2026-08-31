@@ -10,9 +10,12 @@ for voids, walls, filaments, and clusters.
 - `ACTIVE_WORKFLOWS.md` is the current index of supported entrypoints.
 - `RUNBOOK.md` has NERSC Perlmutter launch commands, environment notes, and
   common operational pitfalls.
+- The current Abacus VAC posterior is **P12-A** (FMPE on OOF U-PATCH predictions
+  plus deployable response). See `workflows/sbi/README.md` and the P12-A section
+  of `RUNBOOK.md`. The older wedge-graph FlowJAX NPE path is a separate stack.
 - `workflows/abacus_tweb/README.md` explains the Abacus CutSky to T-Web to graph
-  cache chain.
-- `workflows/sbi/README.md` explains the FlowJAX SBI trainers and launchers.
+  cache chain, plus P11 factorial observation views.
+- `workflows/sbi/README.md` explains P12-A and the FlowJAX SBI trainers.
 - `workflows/gcn_paper/README.md` covers the paper-critical PyTorch GCN path.
 - `local-subgraph-pipeline/README.md` covers the independent ego-graph pilot.
 
@@ -22,9 +25,10 @@ for voids, walls, filaments, and clusters.
   construction, graph features, SBI cache builders, and staged-mock helpers.
 - `workflows/jraph/`: JAX/Jraph regression, tuning, checkpoint evaluation, and
   ensemble utilities for TNG-style graph training.
-- `workflows/sbi/`: FlowJAX conditional density estimation for TNG/full-graph
-  caches and the current Abacus wedge-subvolume NPE path. The older
-  partitioned Abacus trainer remains for reference/debugging only.
+- `workflows/sbi/`: P12-A FMPE posterior on U-PATCH summaries (current Abacus
+  VAC uncertainty model), plus FlowJAX NPE for TNG/full-graph and older Abacus
+  wedge-subvolume caches. The partitioned Abacus trainer remains for
+  reference/debugging only.
 - `workflows/gcn_paper/`: PyTorch/Torch Geometric classification pipeline used
   for paper reproduction.
 - `shared/`: reusable model, path, resource, cache-schema, graph-construction,

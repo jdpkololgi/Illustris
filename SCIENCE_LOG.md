@@ -1,5 +1,21 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-08-31 — [code] Document P12-A posterior and P11 factorial ops
+
+- What: Pointed `ACTIVE_WORKFLOWS.md`, `RUNBOOK.md`, `workflows/sbi/README.md`,
+  `workflows/abacus_tweb/README.md`, and `README.md` at the live P12-A FMPE /
+  P11 factorial path. Clarified that wedge-graph FlowJAX NPE is a separate,
+  older stack. Recorded marker semantics (`P12A_COMPLETE` vs calibration pass),
+  sealed-phase / `ph000` P11 exclusion, GPU and `--dataloader-workers 0`
+  constraints, affine-canary rejection, and width-diagnostic pitfalls.
+- Why / decision: Operational indexes still described wedge NPE while the
+  2026-08-30 science result is the uncorrected P12-A posterior. Docs now match
+  the scripts rather than restating numbers from the evidence JSON.
+- Next: Keep `ph001` sealed; do not revive the affine map; JEPA may challenge
+  the P12-A summary only after a deployable final-view student improves ph006.
+- Refs: `docs/evidence/p12/`, `configs/p11_factorial_views_v1.json`,
+  `workflows/sbi/p12_*.py`, `workflows/abacus_tweb/p11_*.py`.
+
 ### 2026-08-30 - [science/run] P12-A widths adapt to information; sparse-shell residual is mild miscentring
 
 The frozen uncorrected P12-A posterior was tested directly for the production question:

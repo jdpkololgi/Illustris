@@ -3,7 +3,9 @@
 This directory contains the Abacus side of the cosmic web pipeline: build or
 load T-Web eigenvalue fields, attach those labels to DESI/Abacus CutSky mock
 galaxies, construct graph topology, compute graph features, and export
-SBI-ready caches or staged-mock products.
+SBI-ready caches or staged-mock products. The Generalisable GraphWeb VAC path
+(P3 fields, P11 factorial views, P12-A posterior) lives here and in
+`workflows/sbi/`; it is separate from the older wedge-graph NPE cache chain.
 
 ## Canonical Pipeline
 
@@ -31,6 +33,7 @@ Abacus particle/halo products
 | Legacy partition batches | `build_abacus_partition_batches.py`, `submit_build_partitions_adaptive.slurm`, `PARTITION_ARTIFACT_SCHEMA.md` |
 | Validation / audits | `validate_unique_halo_eigs_fits_vs_slabs.py`, `validate_cutsky_eigs_boxindex_vs_halo_xcom.py`, `diagnose_cutsky_tweb_alignment.py`, `audit_abacus_leakage_alignment.py`, `ABACUS_TWEB_AUDIT_FINDINGS.md` |
 | Staged mocks / fiberassign | `build_staged_mock_wedge_variants.py`, `build_staged_mock_wedge_truth_npz.py`, `build_staged_mock_wedge_sbi_cache.py`, `write_fiberassign_mock_science_fits.py`, `write_stage3_postcollision_science_fits.py`, `join_cutsky_eigs_to_fiberassign_catalog.py` |
+| P11 factorial views | `p11_prepare_factorial_view_sources.py`, `p11_build_factorial_view_counts.py`, `run_p11_factorial_view_counts_interactive.sh`, `configs/p11_factorial_views_v1.json` |
 
 ## Scientific And Alignment Constraints
 
@@ -97,6 +100,28 @@ Wedge constraints:
 `build_abacus_partition_batches.py` and `PARTITION_ARTIFACT_SCHEMA.md` document
 the older partitioned FlowJAX experiment. Keep them for audit/debugging, but do
 not start new Abacus SBI runs from partition artifacts.
+
+## P11 Factorial Observation Views
+
+P11 builds nested, truth-free CIC count fields on the canonical P3 lattices for
+a later JEPA/observation-operator comparison. It does not train a posterior and
+does not replace P12-A.
+
+```text
+login-safe source freeze
+  -> p11_prepare_factorial_view_sources.py
+heavy CPU materialization
+  -> p11_build_factorial_view_counts.py
+```
+
+Contract: `configs/p11_factorial_views_v1.json`. Visible phases `ph002–ph006`;
+`ph001` sealed; `ph000` excluded from this branch only (catalogue nesting),
+not from P10/P12. `V_final` FAINT is an identity to supported `V_assign` FAINT
+under current-mock `C_z=1`. Voxel nesting
+`V_final Bright ≤ V_assign Bright ≤ V_dense Bright` is a hard gate.
+
+The interactive supervisor waits for `P12A_COMPLETE.json` so factorial CPU work
+cannot displace the posterior allocation. See `RUNBOOK.md`.
 
 ## Operational Notes
 

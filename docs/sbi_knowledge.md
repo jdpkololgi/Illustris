@@ -1,5 +1,10 @@
 # SBI (Simulation-Based Inference) for Cosmic Web Eigenvalues
 
+> Operational note: the current **Abacus VAC posterior** is P12-A FMPE
+> (`workflows/sbi/p12_train_base_response_fmpe.py`), not the TNG graph-NPE
+> stack described below. See `workflows/sbi/README.md` and `RUNBOOK.md`.
+> This page is a conceptual note for the older NPE-on-graph-observables path.
+
 ## Overview
 
 We train a conditional normalizing flow to learn the posterior distribution of cosmic web eigenvalues (λ₁, λ₂, λ₃) given galaxy observables.
