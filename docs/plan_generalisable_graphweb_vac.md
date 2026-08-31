@@ -3750,6 +3750,13 @@ Implementation status:
     `fmpe_seed42/calibration_audit_v1/P12A_CALIBRATION_AUDIT.json`; ph001 stayed
     sealed. It adds randomized ranks, physical-eigenvalue ranks, fold strata and a
     254-superblock spatial bootstrap.
+  - [x] Render and archive the matched-row joint TARP curve from those cached draws.
+    On 50,000 ph006 folds-2--4 galaxies with 512 draws each,
+    `max|ECP-alpha|=0.00770`, passing the registered `0.05` gate. The plot uses the
+    standardized ordered-softplus coordinates used by the frozen audit and labels the
+    spatial-resampling envelope as a maximum-deviation reference, not a pointwise
+    confidence interval. Evidence: `docs/evidence/p12/P12A_TARP_CURVE.json` and
+    `docs/figures/p12_calibration_audit_20260830/p12a_tarp_curve.png`.
   - [x] Classify the defect before choosing a correction. Global physical rank
     distances are only `0.0075/0.0156/0.0078`, global coverage is near nominal and
     spatial TARP passes. The bounded residual is a sparse-shell lambda2/lambda3

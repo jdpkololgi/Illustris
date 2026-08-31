@@ -1,5 +1,35 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
+
+### 2026-08-31 - [science/code/run] Frozen P12-A TARP curve archived
+
+The full P12 calibration audit had stored the numerical TARP result but no durable
+curve. A plotting-only postprocessor now reuses the exact cached ph006 folds-2--4
+selection: 50,000 galaxies, 512 posterior draws per galaxy, seed 42 and the same
+standardized ordered-softplus three-dimensional coordinates used by the audit. It
+does not resample the posterior, fit a correction, or open ph001.
+
+The recomputed expected-coverage curve exactly reproduces the frozen audit:
+`max|ECP-alpha|=0.007700`, comfortably inside the registered `0.05` gate. The lower
+residual panel exposes the percent-level shape rather than hiding it behind the
+diagonal. The narrow magenta reference is explicitly the audit's 95th percentile of
+the *maximum* absolute deviation across 100 cap+superblock resamples of 10,000 rows
+(`0.016105`); it is not presented as a pointwise confidence interval.
+
+The first compute invocation stopped before reading posterior products because a
+file-path entrypoint could not resolve the repository package. No result was accepted.
+The package-safe module invocation completed on CPU allocation `57797228`, and the
+script now also inserts the repository root so either invocation is reproducible.
+
+Artifacts:
+
+- source: `workflows/sbi/plot_p12_tarp_curve.py`;
+- focused tests: `tests/phase4/test_plot_p12_tarp_curve.py`;
+- report: `docs/evidence/p12/P12A_TARP_CURVE.json`
+  (SHA-256 `fc6a12c65af1dc93c9257ba026ebb9ec746267eab39312fd8dc54220101d3704`);
+- figure: `docs/figures/p12_calibration_audit_20260830/p12a_tarp_curve.png`
+  (SHA-256 `0cca83b2a1fbc048ecf7f9cb7a0bce875297654a7324b58bee978d53bc5a8ef4`).
 ### 2026-08-31 - [code/run] P11 dense-teacher gate resumed after GPU balance restoration
+
 
 The DESI GPU balance now accepts interactive work. Allocation `57782878` was
 granted on `nid008477` for four hours with one 80-GB A100, 32 CPU cores and
