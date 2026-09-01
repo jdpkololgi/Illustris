@@ -2630,8 +2630,9 @@ not from any subsequent score on ph000. The remaining authorized `ph000` activit
 2. include `ph000` with equal phase-level sampling weight in Arms A--C, while retaining
    its development-contaminated provenance and never treating its training-set score as
    production-transfer evidence;
-3. open one paired-view P11 experiment only after the view ladder is frozen and its
-   dense teacher transfers; run it as a non-blocking parallel challenger rather than a
+3. open one paired-view P11 experiment only after the view ladder is frozen and the
+   P12 summary-information headroom sub-gate passes; retain dense-teacher transfer as
+   advisory evidence and run P11 as a non-blocking parallel challenger rather than a
    prerequisite for P12.
 
 No additional **ph000-only** architecture, loss, feature, context, cell-size, residual,
@@ -3392,8 +3393,9 @@ order-controlled replay ablation using the identical Arm-C examples and optimize
 updates. After any dense-to-sparse warm-up, retain balanced replay of dense,
 intermediate, and final views; a one-way curriculum that forgets earlier views is not an
 admissible comparison. Paired consistency is optional. Cross-stage JEPA remains P11: it
-may open as a bounded parallel experiment once the paired view ladder and a transferring
-dense teacher are frozen, but it cannot delay Arm A, response work, or P12.
+may open as a bounded parallel experiment once the paired view ladder is frozen and the
+P12 same-summary headroom/identity audit passes. The dense teacher remains advisory,
+and P11 cannot delay Arm A, response work, or P12.
 
 Minimal decision order:
 
@@ -3415,9 +3417,10 @@ Minimal decision order:
    with R3-RF under frozen contracts; the matched sequence, rather than waiting for R1
    convergence, provides the test of increasing response detail. Defer boundary-distance
    R4 until this response-compression ladder is resolved;
-7. in parallel with P12, open one bounded paired-view P11 JEPA comparison once the
-   view ladder and a transferring dense teacher are frozen; do not require Arm C to
-   first label the problem ``representation-limited'';
+7. [licensed 2026-09-01] open one bounded paired-view P11 JEPA comparison after the
+   frozen view ladder and P12 summary-headroom audit; keep the running dense teacher as
+   advisory evidence and do not require Arm C to first label the problem
+   ``representation-limited'';
 8. test curriculum or paired consistency only for a remaining observation-transfer
    failure;
 9. open the bounded NEXUS+ auxiliary branch only for a diagnosed multiscale-morphology
@@ -3443,9 +3446,9 @@ Four-GPU execution policy for these gates:
 ### P11 — Representation pretraining
 
 **Status:** FACTORIAL COUNT PRODUCTS READY FOR PH002--PH006; RESPONSE ADAPTER AND
-DENSE-RESPONSE ADAPTER/TRAINER IMPLEMENTED; COMPUTE-NODE MATERIALIZATION AND
-DENSE-TEACHER FIT BLOCKED BY ZERO INTERACTIVE USER BALANCE; BOUNDED AND
-NON-BLOCKING; RANDOM-RESPONSE VIEWS ARE MANDATORY
+DENSE-RESPONSE ADAPTER/TRAINER IMPLEMENTED; P12 SUMMARY-INFORMATION HEADROOM GATE
+PASSES AND LICENSES A BOUNDED MATCHED-CONTROL JEPA CANARY; DENSE TEACHER CONTINUES
+AS ADVISORY EVIDENCE; BOUNDED AND NON-BLOCKING; RANDOM-RESPONSE VIEWS ARE MANDATORY
 **Duration:** 2–5 GPU days for bounded controls
 
 #### P11.0 — Frozen factorial-view contract
@@ -3515,10 +3518,22 @@ Progress:
   worker: allocation 57782878 on nid008477; runtime log
   `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p11_factorial_views_v1/p11_dense_teacher_interactive_57782878.log`.
 - [x] Resolve the NERSC interactive user-balance rejection. The DESI GPU balance
-  accepted allocation 57782878 on 2026-08-31. Reuse this interactive allocation for
-  the development gate; do not substitute sbatch.
-- [ ] Validate a supervised dense-view teacher on ph006; close P11 cheaply if it has
-  no material headroom over the final-view student.
+  accepted allocation 57782878 on 2026-08-31. Reuse interactive allocations for
+  development gates; do not substitute sbatch.
+- [x] Implement the first information-headroom sub-gate on the frozen P12-A ph006
+  folds-2--4 posterior. The report uses 50,000 rows, 512 untempered draws per row,
+  natural-volume weights and 500 cap+superblock bootstrap resamples. It explicitly
+  estimates `R2_max(S_U)` for the seven-feature P12 summary, not `R2_max(X_final)` or
+  `R2_max(X_dense)`. The global Bayes-identity gaps are
+  `-0.00029/-0.00603/-0.00809`; the lambda1 97.5% upper bound on additional
+  same-summary headroom is `0.01764`, below the registered `0.03` materiality scale.
+  Artifact: `docs/evidence/p11/P11_INFORMATION_HEADROOM.json`; implementation:
+  `workflows/sbi/p11_information_headroom.py`; three focused tests pass.
+- [ ] Continue the already-started supervised dense-view teacher to its registered
+  stopping condition and report it as advisory privileged-view evidence. Its
+  historical `0.602` threshold is no longer a hard JEPA veto: failure can mean either
+  little privileged information or failure of the matched supervised architecture to
+  extract it.
 
 JEPA is not GraphNet-only. Apply it to whichever graph, grid, or F-tier encoders remain
 competitive. It is a parallel summary-learning challenger, not part of the critical
@@ -3566,9 +3581,9 @@ varied magnitude selection, fibre assignment, completeness, and redshift errors.
 HOD/velocity-bias variation is a later nuisance-robustness extension, not a prerequisite
 for the bounded JEPA test.
 
-#### P11.1 — Paired dense/degraded teacher--student gate
+#### P11.1 — Information headroom and paired dense/degraded teacher--student gate
 
-**Status:** OPTIONAL; GATED ON A FROZEN VIEW LADDER AND A TRANSFERRING DENSE TEACHER
+**Status:** BOUNDED MATCHED-CONTROL CANARY LICENSED; NOT A PRODUCTION PROMOTION
 
 The historical T3 LUPI attempt is not evidence against this branch: it used a
 true-density CNN teacher, never completed a valid GPU run, and was shelved without a
@@ -3576,14 +3591,41 @@ scientific result. The first P11 test instead uses the same observed-galaxy moda
 different known response levels so it isolates observation robustness rather than
 distilling a teacher that directly sees the answer field.
 
-Open `PAIRED-DEGRADE-JEPA-v1` only if:
+The supervised dense teacher is an empirical privileged-view control, not an
+information-theoretic upper bound and not a hard veto. Open the bounded
+`PAIRED-DEGRADE-JEPA-v1` canary only if:
 
-1. the dense-view teacher transfers under the frozen outer spatial/phase split and has
-   clear headroom over the final-view student;
+1. the frozen P12 posterior passes the Bayes-risk identity check closely enough to
+   diagnose headroom inside the current deployable summary, while the report states
+   explicitly that it does not estimate the raw final-view ceiling;
 2. `V_dense`, `V_assign`, and `V_final` are correctly paired views of the same latent
    core under a frozen observation/response contract; and
 3. all views of a latent core remain in one outer
    split with one total scientific weight.
+
+The first sub-gate now passes. On the primary macro-shell statistic the posterior-
+variance estimate is `R2_max(S_U)=0.57896` for lambda1, while the posterior mean and
+frozen base achieve `0.58082` and `0.58188` on the same sampled rows. The small sign
+reversal is a finite-posterior/calibration residual, not evidence of beating a Bayes
+limit: the global lambda1 identity gap is `-0.00029` with a spatial-block 95% interval
+`[-0.01764, +0.01764]`. There is therefore no material downstream-estimator headroom
+inside `S_U` at the `0.03` scale. A material improvement must change what information
+the summary retains, which is precisely the bounded question assigned to JEPA.
+
+This does **not** establish `R2_max(X_final)` or prove a representation gap. The later
+information ladder remains:
+
+1. cross-fitted higher-capacity `q(lambda|X_final)` with held-out proper score and
+   conditional variance;
+2. the matched `q(lambda|X_dense)` control;
+3. the held-out proper-score increment from adding the privileged view, treated as an
+   operational rather than exact conditional-information estimate; and
+4. the same headroom audit for `Z_JEPA` if the bounded canary trains.
+
+Those estimates strengthen the diagnosis but need not delay one preregistered,
+compute-bounded matched-control JEPA canary. The canary itself is now the direct test
+of whether a different representation preserves useful final-view information that
+the current supervised summary discards.
 
 The final-view deficit may contain both representation loss and irreducible information
 loss; that ambiguity does not block the bounded experiment. It does constrain the
@@ -3639,11 +3681,15 @@ gain.
 
 Progress checklist:
 
-- [ ] Open only after the paired view ladder is frozen and the dense teacher transfers
-  to ph006 with measurable headroom; do not delay Arm A or P12.
+- [x] Freeze the paired view ladder and pass the P12 same-summary information-headroom
+  sub-gate without opening ph001. License one bounded canary; do not equate this with
+  scientific promotion.
+- [ ] Finish the dense-teacher fit as advisory evidence; do not use its historical
+  `+0.03` threshold as a mathematical JEPA veto.
 - [ ] Freeze random-init, masked-reconstruction, and JEPA matched controls.
 - [ ] Implement leakage-safe spatial masks and feature-support guards.
-- [ ] Validate the dense teacher on unseen spatial blocks and ph006 before distillation.
+- [ ] Report the dense teacher on unseen spatial blocks and ph006 before distillation;
+  retain the score as advisory even if it misses the historical threshold.
 - [ ] Keep all paired views in one outer split with one latent-core scientific weight.
 - [ ] Freeze the forward-observation ladder, held-out response recipe, alignment layers,
   and loss weights.
@@ -3800,9 +3846,11 @@ Implementation status:
 
 Execution order after the current strict controls is frozen:
 
-1. complete P12-A now rather than waiting for P11;
-2. finish the factorial view products and dense-teacher headroom gate;
-3. run matched supervised, masked-reconstruction, JEPA and curriculum controls;
+1. [complete] complete P12-A without waiting for P11;
+2. [complete] finish the factorial view products and P12 same-summary information-
+   headroom gate; continue the dense teacher only as advisory evidence;
+3. freeze and run matched supervised, masked-reconstruction, JEPA and curriculum
+   controls under one bounded canary contract;
 4. condition the same P12 head on the winning summary and compare proper posterior
    scores;
 5. run end-to-end JEPA-initialized FMPE only after the frozen-summary challenger wins;

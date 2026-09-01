@@ -1,5 +1,79 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-01 - [science/code/run] P11 information-headroom sub-gate passes; bounded JEPA canary licensed
+
+The dense-view supervised teacher has been downgraded from a hard JEPA go/no-go gate
+to advisory privileged-view evidence. This is a conceptual correction, not a weakening
+of the scientific gate. A supervised dense-view score conflates two possibilities:
+the privileged view may contain little extra information, or the matched U-PATCH
+architecture may fail to extract it. JEPA operates in representation space and can be
+useful in the second case, so a failed `R2_dense >= R2_final + 0.03` test is not an
+information-theoretic veto.
+
+The first reproducible information-headroom sub-gate now uses the frozen, uncorrected
+P12-A posterior on its existing ph006 folds-2--4 evaluation selection: 50,000 rows,
+512 posterior draws per row, natural-volume weights and 500 cap+superblock bootstrap
+resamples. For a calibrated posterior conditioned on summary `S`, the Bayes-risk
+identity gives
+
+`R2_max(S) = 1 - E[Var(lambda|S)] / Var(lambda)`.
+
+The implementation also compares this conditional-variance estimate with the actual
+held-out squared error of the posterior mean. If those disagree, posterior width is
+not a defensible ceiling estimate. This guard passes at the registered 0.03 scale.
+
+On pooled ph006 rows, the posterior-variance estimates for lambda1/lambda2/lambda3 are
+`0.66152/0.74185/0.79151`, versus posterior-mean R2
+`0.66181/0.74788/0.79960`. The corresponding Bayes-identity gaps are only
+`-0.00029/-0.00603/-0.00809`. On the primary macro-shell statistic the estimates are
+`0.57896/0.66703/0.72086`, versus posterior-mean R2
+`0.58082/0.66489/0.72038`; the gaps are
+`-0.00186/+0.00214/+0.00047`. The global lambda1 spatial-block interval for the
+identity/headroom gap is `[-0.01764,+0.01764]`, so even its 97.5% upper endpoint is
+below the 0.03 materiality threshold. The small negative point gaps mean the sampled
+posterior variance is slightly wider than posterior-mean error; they do not mean the
+model exceeds a Bayes limit.
+
+The shell-wise lambda1 conditional-variance estimates are
+`0.6773/0.6676/0.5705/0.4005`, making the falling information ceiling toward the
+sparse shell explicit. Shell-level identity uncertainty is widest in shell 3, so no
+claim of exact shell-wise saturation is made. The robust conclusion is narrower:
+there is no evidence for material downstream-estimator headroom **inside the current
+seven-feature P12 summary**. The posterior head is not the source of a missing 0.03
+gain. Any material improvement must change the information retained by the summary or
+the observations supplied to it.
+
+Crucially, P12 conditions on the three OOF U-PATCH eigenvalue predictions plus
+redshift, ntilde, cap and random-support boundary distance. This result therefore
+estimates `R2_max(S_U)`, not `R2_max(X_final)` for the raw DESI-like voxel field and
+not `R2_max(X_dense)`. It neither proves nor excludes a representation gap. It instead
+licenses one bounded matched-control JEPA canary as the direct test of whether a new
+final-view representation preserves more target-relevant information. Random-init,
+masked-reconstruction, JEPA and curriculum controls must still be frozen and compared
+at identical examples, updates and compute. JEPA is not promoted unless the deployable
+ph006 student improves by the existing fresh-phase criterion without supported-shell
+or held-out-degradation harm.
+
+The already-running dense teacher was left untouched as requested. Allocation
+`57823090` remains advisory, but its current process has spent more than three hours in
+the Lustre `cl_sync_io_wait` state with 0% CPU and a zero-byte new invocation log, so
+no epoch-4 result has been produced by this allocation. This is an I/O/runtime stall,
+not a scientific score. Earlier complete epochs remain the only accepted teacher
+evidence.
+
+Artifacts and provenance:
+
+- implementation: `workflows/sbi/p11_information_headroom.py`;
+- focused tests: `tests/phase4/test_p11_information_headroom.py` (3/3 pass);
+- durable report: `docs/evidence/p11/P11_INFORMATION_HEADROOM.json`;
+- authoritative scratch report:
+  `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p11_factorial_views_v1/information_headroom_v1/P11_INFORMATION_HEADROOM.json`;
+- both report copies SHA-256:
+  `95ee472ee1bca4ab3e983423ea581cfbe35bd45abc88ddfd7b926567ff3552eb`;
+- posterior draws SHA-256:
+  `bcdc94442e9ebc3c75ea0d10254d181eff43f4afc9de69eeacb3e891982fdfee`;
+- ph001 remained sealed and unopened.
+
 ### 2026-08-31 - [science/code/run] Frozen P12-A TARP curve archived
 
 The full P12 calibration audit had stored the numerical TARP result but no durable
