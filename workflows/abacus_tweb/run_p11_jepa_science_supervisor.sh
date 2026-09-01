@@ -12,6 +12,12 @@
 # canary and scientific review after the JEPA arm completes.
 set -uo pipefail
 
+# Keep login-node guard/diagnostic calls on the same uncontaminated Python
+# contract as the compute worker.  NERSC login shells can inherit DESI Python
+# paths whose binary extensions are incompatible with the frozen CFS runtime.
+unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD
+export PYTHONNOUSERSITE=1
+
 REPO=/global/homes/d/dkololgi/TNG/Illustris
 ROOT=/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p11_factorial_views_v1
 RUN_NAME=${P11_RUN_NAME:-paired_degrade_jepa_m25_v2}
