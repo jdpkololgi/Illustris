@@ -1,0 +1,57 @@
+{
+  "schema_version": "p11-r1-contract-mirror-recovery-v1",
+  "created_utc": "2026-09-01T18:25:22Z",
+  "reason": "One small Scratch metadata inode in the frozen R1 contract entered persistent Lustre cl_sync_io_wait on login and multiple compute nodes.",
+  "inaccessible_source": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random/adapters/ph002/field/adapter_manifest.json",
+  "observations": {
+    "blocked_syscall": "stat(2)",
+    "blocked_wchan": "cl_sync_io_wait",
+    "affected_nodes": [
+      "nid008604",
+      "nid008280"
+    ],
+    "failed_allocations": [
+      "57827577",
+      "57831608"
+    ],
+    "optimizer_updates_before_recovery": 0
+  },
+  "mirror": {
+    "path": "/global/homes/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901",
+    "regular_and_symlink_bytes": 98043,
+    "symlink_count": 49,
+    "large_arrays_duplicated": false,
+    "training_loader_ready_sha256": "ac21d57f1b321bdeee2d7a9c73e421fb213aae57a4acc2cf79e5c62c2f9042d9",
+    "adapter_inventory_sha256": "1926bf2eb81d88cb25480f62ab409cff82885fb43de9b8c4bc474ab427bb5608",
+    "field_transform_sha256": "1841e2d2f8a76f6e649d149803f377fd4ae6e0e713eb30fd2d775e957c490aa4",
+    "target_scaler_sha256": "c918ab3d58c3ec1dbb568ef450b3eabc76db7a94a41b822e7cedbfaf364eae9f",
+    "adapter_sha256": {
+      "ph000": "6590f0e161c83be9bbe9fdd4c2412c14001484ec00b10d4afa5e8299d8c48712",
+      "ph002": "f3a63ed15c424bce67db0da739bf7872851d5eddd259b49b31e556dc0ce6f6f6",
+      "ph003": "6b85a14c009cf1ca0c52b8b2abe09cf0e997516fb3872d2237e34de3b87d5e39",
+      "ph004": "01fdfc9bcac17823e6c1257829cbee04cf2eb3494d82f25f028b6b4a203eaa0e",
+      "ph005": "071a85c8d4bb50f0558739a922cfbf5580c53629e23c85176711e5802cc792a4",
+      "ph006": "13dd5b7090a9080455ad892f8ff81273c510fecc42bd34f2bca594ad7e7a92a0"
+    }
+  },
+  "source_contract": {
+    "git_head_before_recovery_commit": "64a801d90ab900962400c5b0b2fffe50fb589c65",
+    "builder": "workflows/abacus_tweb/p3br_prepare_r1_contract.py",
+    "builder_sha256": "54e12b1d3614a4e779135e1149c291790fba36cc61bf00479a17f813e49ea032",
+    "jepa_canary_sha256": "7f87ffe0f78e69cb280024947cf45800282f97bd953f80a96f0e326ba68f7d13",
+    "base_contract": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract",
+    "base_contract_marker_sha256": "460fa2dc7938994aa1110677ad609f6761deee274767375cb474fec1c4d6cad6"
+  },
+  "gates": {
+    "builder_passed": true,
+    "ready_inventory_pointer_is_mirror_local": true,
+    "ready_inventory_hash_matches": true,
+    "all_visible_phase_adapters_pass": true,
+    "field_transform_matches_frozen_r1": true,
+    "target_scaler_matches_frozen_base": true,
+    "geometry_and_phase_arrays_are_immutable_symlinks": true,
+    "ph001_product_built": false,
+    "ph001_opened": false
+  },
+  "pass": true
+}

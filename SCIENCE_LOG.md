@@ -23,6 +23,28 @@ tests pass.  This is a P11/P12 recovery runtime, not a claim that all historical
 catalogue-builder extras are reproduced.  Its exact provenance and inventory hashes
 are stored in `docs/evidence/p11/P11_CFS_RUNTIME_RECOVERY.json`.
 
+Two subsequent step-0 JEPA attempts isolated a second, independent storage fault.  On
+both `nid008604` and `nid008280`, the process blocked in `stat(2)` on the same small
+file,
+`training_contract_r1_random/adapters/ph002/field/adapter_manifest.json`, while all
+large fields remained unopened.  The first allocation was reported by Slurm as a node
+failure; the second could not kill the uninterruptible task and remained `COMPLETING`.
+Both attempts performed zero optimizer updates.  This proves that moving Python alone
+does not repair an inaccessible data-contract inode.
+
+The R1 contract was therefore deterministically regenerated under home at
+`/global/homes/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901`.
+Only 98,043 bytes of manifests/transforms/symlinks were created: all phase arrays,
+geometry arrays, targets and field products still resolve to the original immutable
+artifacts.  The regenerated field transform has the frozen R1 SHA-256
+`1841e2d2f8a76f6e649d149803f377fd4ae6e0e713eb30fd2d775e957c490aa4`, and
+the target scaler retains SHA-256
+`c918ab3d58c3ec1dbb568ef450b3eabc76db7a94a41b822e7cedbfaf364eae9f`.
+During recovery, an inherited READY pointer to the base R0 adapter inventory was also
+found and corrected: READY now points to and hashes the mirror-local R1 inventory, and
+the JEPA preflight fails closed on every phase pointer/hash.  Full recovery evidence is
+`docs/evidence/p11/P11_R1_CONTRACT_MIRROR_RECOVERY.json`.
+
 The advisory dense teacher was then resumed on interactive allocation `57827338` from
 the unchanged checkpoint.  Fresh loss rows, atomic checkpoints, finite gradients and
 nonzero GPU updates are present.  It remains advisory privileged-view evidence; it is

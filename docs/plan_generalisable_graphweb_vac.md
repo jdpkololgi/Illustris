@@ -3594,6 +3594,14 @@ response-contract defect. The rejected preflight that found 4,374 P3a/P3b-R supp
 disagreements performed zero optimizer updates and remains a useful negative
 provenance record.
 
+Operationally, P11 uses the content-addressed recovery mirror at
+`/global/homes/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901`.
+It regenerates only small R1 manifests and the already-frozen transform, while all
+phase/core/geometry arrays and fields remain symlinks to the canonical immutable
+products. This is a storage-inode recovery, not a new scientific data version. The
+loader must verify the mirror-local R1 inventory pointer, every phase adapter hash,
+the unchanged target-scaler and R1 field-transform hashes, and sealed ph001 before use.
+
 #### P11.1 — Information headroom and paired dense/degraded teacher--student gate
 
 **Status:** BOUNDED MATCHED-CONTROL CANARY LICENSED; NOT A PRODUCTION PROMOTION
@@ -3749,6 +3757,10 @@ Progress checklist:
   support disagreements between legacy P3a `V_final` and P3b-R `V_dense`; replace the
   final-view adapter with the frozen R1/P3b-R contract rather than weakening the gate.
   The current compute preflight passes all 24 registered implementation tests.
+- [x] Recover the inaccessible ph002 R1 adapter-manifest inode with a 98-kB
+  content-addressed home mirror; retain all large immutable products by symlink and
+  archive exact pointers/hashes in
+  `docs/evidence/p11/P11_R1_CONTRACT_MIRROR_RECOVERY.json`.
 - [ ] Pass the corrected R1/P3b-R real-patch parity gate and archive its frozen-data
   digest before permitting any optimizer update.
 - [ ] Complete the bounded 500-update technical canary and registered 0/250/500 latent
