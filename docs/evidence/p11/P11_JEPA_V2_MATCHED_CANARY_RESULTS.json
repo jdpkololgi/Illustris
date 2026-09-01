@@ -1,0 +1,97 @@
+{
+  "schema_version": "p11-jepa-v2-matched-canary-results-v1",
+  "created_utc": "2026-09-01T19:55:00Z",
+  "launch_git_revision": "01d7ec0121d54ff16e76349a890ba61c2a754cef",
+  "run_name": "paired_degrade_jepa_m25_v2",
+  "training_phases": [
+    "ph002",
+    "ph003",
+    "ph004",
+    "ph005"
+  ],
+  "selection_phase": "ph006",
+  "sealed_phase": "ph001",
+  "sealed_phase_opened": false,
+  "data_contract_aggregate_sha256": "004ef485b3773ded1639720aad2e2d634155000367f98ee663f8d0468e676f57",
+  "registered_steps": [
+    0,
+    250,
+    500
+  ],
+  "technical_contract": {
+    "updates": 500,
+    "target_mask_fraction": 0.2499979274544889,
+    "auxiliary_valid_updates": 500,
+    "auxiliary_invalid_updates": 0,
+    "all_arms_passed": true
+  },
+  "arms": {
+    "jepa": {
+      "diagnostic_status": "fail",
+      "effective_rank_fraction_step0": 0.22115815075694129,
+      "effective_rank_fraction_step500": 0.0332827861365242,
+      "student_probe_macro_r2_step0": 0.02201213685154994,
+      "student_probe_macro_r2_step500": -0.08775244622246219,
+      "dense_view_probe_macro_r2_step500": 0.21795946480105421,
+      "native_student_dense_cka_step500": 0.8725391615653468,
+      "retrieval_mrr_step500": 0.31348928580886976,
+      "retrieval_mrr_over_response_matched_shuffle_step500": 0.2544559127138755,
+      "technical_marker_sha256": "bab0af24fcb1d57e22123ec606653fc208e74cd3211b09109cf2f4e4f736e9b3",
+      "latent_diagnostics_sha256": "81f61ab73b38ba87ec8752c3dfe459e796aa0bc128a0766f3a65501873d2ee18",
+      "latent_plot_sha256": "496abad0552b14879af210d959f0f15f05a43bc47fd109e10214a554840806e6",
+      "failure_reasons": [
+        "step-500 collapse or an adverse alignment trajectory violates a hard guard",
+        "step-500 shared predictable-subspace gate failed"
+      ]
+    },
+    "supervised_masked": {
+      "diagnostic_status": "advisory",
+      "effective_rank_fraction_step0": 0.22115815075694129,
+      "effective_rank_fraction_step500": 0.03341898593859479,
+      "student_probe_macro_r2_step0": 0.02201213685154994,
+      "student_probe_macro_r2_step500": 0.011447716763979376,
+      "dense_view_probe_macro_r2_step500": 0.23642273467959177,
+      "native_student_dense_cka_step500": 0.8667431261063709,
+      "retrieval_mrr_step500": 0.292477785940552,
+      "retrieval_mrr_over_response_matched_shuffle_step500": 0.24700341183668753,
+      "technical_marker_sha256": "d20a79e5be6d3e326082f2ddd4f406fa4a4e057bb4e8836db5e3ace2e95e4d8e",
+      "latent_diagnostics_sha256": "8f013b88ea6631f8cdc7e43359c55881c3efad82fce3eb401797812bcf9ccba4",
+      "latent_plot_sha256": "42fc4ebcf62818d6eba33c40811492d65b28d9b60da5c25faf31f7eadadb8751"
+    },
+    "masked_reconstruction": {
+      "diagnostic_status": "advisory",
+      "effective_rank_fraction_step0": 0.22115815075694129,
+      "effective_rank_fraction_step500": 0.03335074322857135,
+      "student_probe_macro_r2_step0": 0.02201213685154994,
+      "student_probe_macro_r2_step500": -0.6579241600199107,
+      "dense_view_probe_macro_r2_step500": -0.2584025320944318,
+      "native_student_dense_cka_step500": 0.8487645547352821,
+      "retrieval_mrr_step500": 0.19191321570957415,
+      "retrieval_mrr_over_response_matched_shuffle_step500": 0.14145529777070687,
+      "technical_marker_sha256": "6370660190875b8bc806b46fb5a9f39c9e1588ea3e70a36b866f0db972828fdb",
+      "latent_diagnostics_sha256": "f328ecccce2b2b0e44db54ba3d87e148a17aa87771bed9e344894f628cf008ef",
+      "latent_plot_sha256": "8e914e9147f54b8a5c9e760f1b3a3dda795c7bee52573a9a3cca0397cc466783"
+    },
+    "response_only": {
+      "diagnostic_status": "advisory",
+      "effective_rank_fraction_step0": 0.11342490042115506,
+      "effective_rank_fraction_step500": 0.0406702295603664,
+      "student_probe_macro_r2_step0": -3.6523156313266174,
+      "student_probe_macro_r2_step500": -2.400363783362556,
+      "dense_view_probe_macro_r2_step500": -0.6815283835240081,
+      "native_student_dense_cka_step500": 0.16649216493331861,
+      "retrieval_mrr_step500": 0.03372910959022455,
+      "retrieval_mrr_over_response_matched_shuffle_step500": -0.0013471694995808234,
+      "technical_marker_sha256": "71f61beced121c4d9ba767980a6b423c396e83e06fb9e3371e59ef63e1a03b52",
+      "latent_diagnostics_sha256": "ab921bb8c3f53c6c57a91588dc471e0f3b51091b67819f7d491e19423b55d6d3",
+      "latent_plot_sha256": "7aff789ec5a959aad5c946d7c1604cac512948f11fa35d181d373e02f38144da"
+    }
+  },
+  "source_root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p11_factorial_views_v1/training/paired_degrade_jepa_v2/paired_degrade_jepa_m25_v2",
+  "verdict": {
+    "technical_canaries": "pass",
+    "full_jepa_v2_continuation": "no-go",
+    "reason": "Cross-view alignment increased, but the JEPA student lost held-out target information relative to the matched supervised control and failed the frozen latent-content gate.",
+    "next_action": "Do not resume or weaken JEPA-v2. Any continuation must use a separately preregistered objective and repeat the same technical and content gates."
+  }
+}

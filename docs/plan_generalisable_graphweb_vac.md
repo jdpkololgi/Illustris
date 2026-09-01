@@ -3417,10 +3417,11 @@ Minimal decision order:
    with R3-RF under frozen contracts; the matched sequence, rather than waiting for R1
    convergence, provides the test of increasing response detail. Defer boundary-distance
    R4 until this response-compression ladder is resolved;
-7. [licensed 2026-09-01] open one bounded paired-view P11 JEPA comparison after the
-   frozen view ladder and P12 summary-headroom audit; keep the running dense teacher as
-   advisory evidence and do not require Arm C to first label the problem
-   ``representation-limited'';
+7. [bounded v2 canary closed 2026-09-01] the exact-M JEPA arm passed its 500-update
+   technical contract but failed the registered latent-content gate. Do not chain full
+   JEPA-v2 training. All three bounded attribution controls are complete; require a
+   separately frozen v3 contract before testing any altered objective, and keep the
+   incomplete dense teacher as advisory evidence;
 8. test curriculum or paired consistency only for a remaining observation-transfer
    failure;
 9. open the bounded NEXUS+ auxiliary branch only for a diagnosed multiscale-morphology
@@ -3445,13 +3446,10 @@ Four-GPU execution policy for these gates:
 
 ### P11 — Representation pretraining
 
-**Status:** FACTORIAL COUNT PRODUCTS READY FOR PH002--PH006; RESPONSE ADAPTER AND
-DENSE-RESPONSE ADAPTER/TRAINER IMPLEMENTED; P12 SUMMARY-INFORMATION HEADROOM GATE
-PASSES; PAIRED-VIEW JEPA AND LATENT AUDIT IMPLEMENTED; BOTH ZERO-UPDATE PREFLIGHTS
-WERE USEFUL FAILURES: THE FIRST CAUGHT A P3A/P3B-R VIEW MISMATCH AND THE SECOND
-INVALIDATED THE INTERIOR-ONLY 8^3 MASK AND APODIZED-AS-BINARY SUPPORT RULE; THE
-EXACT-M, FIXED-FRACTION V2 MASK PASSES THE FULL VISIBLE-CORE FEASIBILITY AUDIT AND
-ITS 500-UPDATE CANARY IS PENDING; DENSE TEACHER CONTINUES AS ADVISORY EVIDENCE; BOUNDED AND
+**Status:** FACTORIAL PRODUCTS AND EXACT-M V2 CONTRACT READY; CFS RUNTIME/R1
+MIRROR RECOVERY PASSED; JEPA-V2 500-UPDATE TECHNICAL CANARY PASSED BUT ITS
+REGISTERED LATENT-CONTENT GATE FAILED; FULL V2 CONTINUATION BLOCKED; ALL THREE
+MATCHED CONTROLS COMPLETE; DENSE TEACHER ADVISORY; PH001 SEALED; BOUNDED AND
 NON-BLOCKING; RANDOM-RESPONSE VIEWS ARE MANDATORY
 **Duration:** 2–5 GPU days for bounded controls
 
@@ -3533,11 +3531,11 @@ Progress:
   same-summary headroom is `0.01764`, below the registered `0.03` materiality scale.
   Artifact: `docs/evidence/p11/P11_INFORMATION_HEADROOM.json`; implementation:
   `workflows/sbi/p11_information_headroom.py`; three focused tests pass.
-- [ ] Continue the already-started supervised dense-view teacher to its registered
-  stopping condition and report it as advisory privileged-view evidence. Its
-  historical `0.602` threshold is no longer a hard JEPA veto: failure can mean either
-  little privileged information or failure of the matched supervised architecture to
-  extract it.
+- [ ] Finish the dense teacher only as advisory evidence. The recovered epoch-4 run
+  advanced from cursor `13,819` to `39,043` and global step `215,551` to `240,775`;
+  a later altered-source resume correctly failed the content-addressed source guard.
+  Restore the exact frozen source set before another resume; do not weaken the guard
+  or use the historical `0.602` threshold as a JEPA veto.
 
 JEPA is not GraphNet-only. Apply it to whichever graph, grid, or F-tier encoders remain
 competitive. It is a parallel summary-learning challenger, not part of the critical
@@ -3612,7 +3610,8 @@ the unchanged target-scaler and R1 field-transform hashes, and sealed ph001 befo
 
 #### P11.1 — Information headroom and paired dense/degraded teacher--student gate
 
-**Status:** BOUNDED MATCHED-CONTROL CANARY LICENSED; NOT A PRODUCTION PROMOTION
+**Status:** BOUNDED MATCHED-CONTROL V2 CANARIES COMPLETE; JEPA-V2 LATENT-CONTENT
+GATE FAILED; FULL V2 CONTINUATION FORBIDDEN; NOT A PRODUCTION PROMOTION
 
 The historical T3 LUPI attempt is not evidence against this branch: it used a
 true-density CNN teacher, never completed a valid GPU run, and was shelved without a
@@ -3725,6 +3724,15 @@ too strong. Therefore every promoted P11 encoder must be refit under P12 and pas
 TARP, response-conditional, shell-conditional and local-information coverage. No
 latent-alignment statistic may be substituted for posterior calibration.
 
+The frozen v2 canary now demonstrates why this compound gate is necessary. By update
+500 its native student/dense CKA reaches `0.87254` and retrieval MRR reaches `0.31349`,
+but the held-out student target probe is `-0.08775`, versus `+0.01145` for the matched
+plain-supervised control. Its effective-rank fraction is only `0.03328`; the supervised
+control reaches a nearly identical `0.03342`, so low pooled rank is not uniquely a
+JEPA pathology, but JEPA-v2 still preserves less target information. The registered
+latent-content gate therefore blocks full v2 continuation. High cross-view alignment
+is not accepted as evidence of a useful or uncertainty-aware representation.
+
 Do not pretrain on DESI until truth-known sim-to-sim controls pass. DESI pretraining is
 transductive domain adaptation, not zero-shot generalisation.
 
@@ -3788,15 +3796,30 @@ Progress checklist:
   cores (`10/67,244 = 1.487e-4`) auxiliary-invalid and zero in ph006, versus
   12.12--12.61% invalid under rejected nearest resizing. Evidence:
   `docs/evidence/p11/P11_JEPA_MASK_FEASIBILITY.json`; ph001 remains sealed.
-- [ ] Pass the corrected R1/P3b-R exact-M real-patch parity gate and archive its
-  frozen-data digest before permitting any optimizer update.
-- [ ] Complete the bounded 500-update technical canary and registered 0/250/500 latent
-  trajectory for every matched arm; a technical pass is not a science promotion.
-- [ ] Report the dense teacher on unseen spatial blocks and ph006 before distillation;
-  retain the score as advisory even if it misses the historical threshold.
-- [ ] Train and compare the matched arms on identical folds, compute, seeds, optimizer
-  updates, ph006 final/degraded views and the held-out response recipe.
-- [ ] Adopt only for reproducible deterministic transfer gain.
+- [x] Pass corrected R1/P3b-R exact-M real-view parity on ph002--ph006 and freeze
+  aggregate data-contract SHA-256
+  `004ef485b3773ded1639720aad2e2d634155000367f98ee663f8d0468e676f57`.
+- [x] Complete all four 500-update technical canaries (`jepa`,
+  `supervised_masked`, `masked_reconstruction`, and `response_only`): every arm has
+  500 auxiliary-valid and zero auxiliary-invalid updates, finite state, a reloadable
+  checkpoint, target fraction `0.249998`, and valid step-0/250/500 exports. ph001
+  remained sealed.
+- [x] Apply the registered JEPA latent-content gate and fail closed. Despite strong
+  paired alignment, effective-rank fraction fell `0.22116 -> 0.03328` and the held-out
+  student probe macro R2 fell `0.02201 -> -0.08775`; the shared-predictable-subspace
+  gate is false. Do not launch full JEPA-v2.
+- [x] Compare the bounded matched controls. Plain supervised training also compresses
+  the pooled latent to rank fraction `0.03342`, showing that this symptom is not
+  uniquely JEPA-induced, but retains a better target probe (`+0.01145`). Masked
+  reconstruction is worse (`-0.65792`), while response-only input is non-predictive
+  (`-2.40036`) and cannot explain the JEPA alignment as a response shortcut.
+  Evidence: `docs/evidence/p11/P11_JEPA_V2_MATCHED_CANARY_RESULTS.json`.
+- [ ] If P11 continues, freeze a distinct JEPA-v3 objective before inspecting new
+  ph006 results and rerun the identical technical/content gate. Do not tune or resume
+  v2 post hoc.
+- [ ] Finish and report the dense teacher as advisory privileged-view evidence.
+- [ ] Adopt only after a newly gated encoder gives reproducible deployable-view
+  transfer gain and passes a fresh P12 posterior fit and calibration audit.
 
 ---
 

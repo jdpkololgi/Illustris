@@ -1,5 +1,73 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-01 - [science/code/run] P11 JEPA-v2 technical pass, latent-content no-go, matched controls complete
+
+The recovered P11 runtime and R1 metadata mirror removed the two independent Lustre
+failure modes described below.  The corrected exact-M real-view parity gate then
+passed for ph002--ph006.  All four bounded arms (`jepa`, `supervised_masked`,
+`masked_reconstruction`, and `response_only`) completed exactly 500 optimizer updates
+under the same frozen examples, masks, target weights, U-PATCH capacity, data digest
+and step-0/250/500 probe schedule.  Every technical marker passes: losses, gradients
+and parameters are finite; checkpoints reload; all 500 examples are auxiliary-valid;
+the cumulative target-mask fraction is `0.249998`; and `ph001_opened=false`.  The
+aggregate frozen-data SHA-256 is
+`004ef485b3773ded1639720aad2e2d634155000367f98ee663f8d0468e676f57`.
+
+The JEPA arm nevertheless fails the independently registered latent-content gate.
+Native student/dense CKA rises from `0.8393` to `0.8725`, and paired retrieval at step
+500 is far above its response-matched shuffle (`MRR 0.3135`, excess `+0.2545`).  Those
+attractive alignment numbers coexist with loss of content: the student effective-rank
+fraction falls from `0.22116` to `0.03328` (effective rank approximately `7.08 ->
+1.06` of 32), while the spatially held-out student target probe falls from macro
+`R2=0.02201` to `-0.08775`.  At step 500 the dense-view probe remains `0.21796`.
+The shared-predictable-subspace gate is false and the collapse/adverse-trajectory
+guard fires.  The full JEPA-v2 supervisor correctly refused to request another GPU
+allocation; this gate was not weakened or overridden.
+
+The matched controls sharpen rather than reverse that conclusion:
+
+| Arm | Effective-rank fraction, step 0 -> 500 | Student probe macro R2, step 0 -> 500 | Native CKA, step 500 | Interpretation |
+| --- | ---: | ---: | ---: | --- |
+| `jepa` | `0.22116 -> 0.03328` | `0.02201 -> -0.08775` | `0.87254` | registered latent-content failure |
+| `supervised_masked` | `0.22116 -> 0.03342` | `0.02201 -> +0.01145` | `0.86674` | advisory reference |
+| `masked_reconstruction` | `0.22116 -> 0.03335` | `0.02201 -> -0.65792` | `0.84876` | advisory; worst target retention |
+| `response_only` | `0.11342 -> 0.04067` | `-3.65232 -> -2.40036` | `0.16649` | response alone is non-predictive |
+
+The almost identical low rank in the plain supervised arm means that pooled-latent
+compression is not uniquely caused by JEPA; it is partly confounded with rapid
+optimization of a 32-dimensional pooled U-Net representation toward three regression
+targets.  This nuance does not rescue JEPA-v2.  With matched target loss and healthy
+optimization, JEPA retains about `0.0992` less held-out probe macro R2 than the
+supervised control, while masked reconstruction is substantially worse.  The
+response-only arm also rules out the simple explanation that high JEPA alignment is
+only footprint/response reconstruction.  Alignment without rank and target-content
+preservation is therefore not accepted as a shared scientific representation.
+
+The fixed-reference latent trajectory makes the failure visible: by steps 250 and 500
+the paired embeddings have folded onto an almost one-dimensional locus even as CKA
+recovers.  The durable figure is
+`docs/figures/p11_jepa_v2_20260901/latent_trajectory_0_250_500.png`; its SHA-256 is
+`496abad0552b14879af210d959f0f15f05a43bc47fd109e10214a554840806e6`.
+The machine-readable matched-arm summary is
+`docs/evidence/p11/P11_JEPA_V2_MATCHED_CANARY_RESULTS.json`.
+
+This is a no-go for this frozen JEPA-v2 objective, not for every possible JEPA.  Any
+JEPA-v3 must be a separately registered experiment with a changed teacher/anti-collapse
+objective and must repeat the identical technical and latent-content gates before
+longer training.  It may not tune v2 post hoc against these ph006 diagnostics.  Any
+future promoted representation must still receive a newly fitted P12 posterior and
+pass SBC, TARP, shell/response/local-information conditional coverage; JEPA alignment
+is not posterior uncertainty.
+
+The advisory dense teacher did resume successfully under the CFS runtime, advancing
+epoch 4 from cursor `13,819` to `39,043` and global step `215,551` to `240,775`.
+A later continuation after source changes was correctly refused by the frozen source
+hash guard.  Restore the exact historical source set before any further advisory
+resume; do not weaken that guard.  The login-side JEPA supervisor now also clears
+inherited `PYTHONPATH`, `PYTHONHOME`, `PYTHONUSERBASE`, and `LD_PRELOAD` before using
+the CFS Python, preventing DESI Python 3.13 extensions from contaminating the frozen
+Python 3.11 runtime.
+
 ### 2026-09-01 - [science/code/run] P11 zero-update mask failure exposes exact-support contract error
 
 The repaired R1/P3b-R JEPA preflight progressed past the inaccessible-manifest
