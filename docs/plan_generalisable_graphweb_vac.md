@@ -3447,11 +3447,12 @@ Four-GPU execution policy for these gates:
 
 **Status:** FACTORIAL COUNT PRODUCTS READY FOR PH002--PH006; RESPONSE ADAPTER AND
 DENSE-RESPONSE ADAPTER/TRAINER IMPLEMENTED; P12 SUMMARY-INFORMATION HEADROOM GATE
-PASSES; PAIRED-VIEW JEPA TECHNICAL CONTRACT AND LATENT AUDIT IMPLEMENTED; FIRST
-REAL-PATCH PREFLIGHT CAUGHT A P3A/P3B-R SUPPORT MISMATCH BEFORE ANY UPDATE; THE R1
-FINAL-VIEW CORRECTION IS IMPLEMENTED AND ITS REAL-PATCH RERUN REMAINS PENDING; DENSE
-TEACHER CONTINUES AS ADVISORY EVIDENCE; BOUNDED AND NON-BLOCKING; RANDOM-RESPONSE
-VIEWS ARE MANDATORY
+PASSES; PAIRED-VIEW JEPA AND LATENT AUDIT IMPLEMENTED; BOTH ZERO-UPDATE PREFLIGHTS
+WERE USEFUL FAILURES: THE FIRST CAUGHT A P3A/P3B-R VIEW MISMATCH AND THE SECOND
+INVALIDATED THE INTERIOR-ONLY 8^3 MASK AND APODIZED-AS-BINARY SUPPORT RULE; THE
+EXACT-M, FIXED-FRACTION V2 MASK PASSES THE FULL VISIBLE-CORE FEASIBILITY AUDIT AND
+ITS 500-UPDATE CANARY IS PENDING; DENSE TEACHER CONTINUES AS ADVISORY EVIDENCE; BOUNDED AND
+NON-BLOCKING; RANDOM-RESPONSE VIEWS ARE MANDATORY
 **Duration:** 2–5 GPU days for bounded controls
 
 #### P11.0 — Frozen factorial-view contract
@@ -3567,8 +3568,13 @@ For Graph-JEPA, prevent globally computed graph metrics leaking hidden targets: 
 target nodes/edges and exclude a feature-support guard. Target location may enter the
 JEPA predictor but not production GraphNet node features.
 
-For grid JEPA, mask 3-D blocks built from counts, expected counts, mask/exposure, and
-luminosity channels. Reuse the U-Net encoder before considering a new transformer.
+For grid JEPA, mask compact three-dimensional regions of the signal channels while
+retaining the response channel. The target-validity mask is exact binary
+`support_random`; apodized exposure remains a model input but is not permission to
+train on `M=0`. The registered v2 mask selects a fixed fraction of exact support in
+four deterministic, spatially separated compact clusters and propagates the mask to
+coarser U-Net layers with pooling-aligned logical-any operations. Reuse the U-Net
+encoder before considering a new transformer.
 
 Every P11 view carries its own deployable response tuple
 `{N_s, M_s, C_s, mu_s, distance_to_boundary}`. Reuse the same base angular-random IDs
@@ -3588,11 +3594,13 @@ The deployable final-view adapter is frozen to the R1 random-response field cont
 not the legacy P3a occupancy exposure. `V_final` uses the immutable final BRIGHT counts
 plus stored P3b-R log-ratio and random exposure, while `V_dense` uses its own dense
 count/selection fit on the identical P3b-R support. A real-patch parity gate must prove
-identical phase/cap/core/context/authoritative galaxies and common M before writing the
-step-0 checkpoint. Intersecting discrepant masks is forbidden because it would hide a
-response-contract defect. The rejected preflight that found 4,374 P3a/P3b-R support
-disagreements performed zero optimizer updates and remains a useful negative
-provenance record.
+identical phase/cap/core/context/authoritative galaxies and a common underlying
+response artifact before writing the step-0 checkpoint. Exact `support_random` is
+loaded as mask-only M metadata; `exposure_apodized_random > 1e-4` is explicitly not an
+M proxy because smoothing extends beyond binary support. Intersecting discrepant masks
+is forbidden because it would hide a response-contract defect. The rejected preflight
+that found 4,374 P3a/P3b-R exposure disagreements and the later infeasible-cuboid
+preflight both performed zero optimizer updates and remain useful negative provenance.
 
 Operationally, P11 uses the content-addressed recovery mirror at
 `/global/homes/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901`.
@@ -3614,7 +3622,7 @@ distilling a teacher that directly sees the answer field.
 
 The supervised dense teacher is an empirical privileged-view control, not an
 information-theoretic upper bound and not a hard veto. Open the bounded
-`PAIRED-DEGRADE-JEPA-v1` canary only if:
+`PAIRED-DEGRADE-JEPA-v2` canary only if:
 
 1. the frozen P12 posterior passes the Bayes-risk identity check closely enough to
    diagnose headroom inside the current deployable summary, while the report states
@@ -3735,15 +3743,27 @@ Progress checklist:
   `response_only`, and `jepa` arm contract. All arms start from registered random
   initialization and use the same phase-balanced examples, masks, target weights,
   optimizer-update budget and three-channel U-PATCH capacity.
-- [x] Implement leakage-safe grid masks as exactly four non-overlapping `8^3` cuboids
-  wholly inside the authoritative core and common P3b-R random support. There is no
-  voxel-level or mask-intersection fallback; failure to construct the registered mask
-  is fatal.
+- [x] Reject the v1 interior-only mask before step 0. Four exact-M `8^3` cuboids are
+  constructible in only 69.6--70.8% of the 500-per-phase audit, and the former
+  `exposure_apodized_random > 1e-4` eligibility rule includes M=0 because apodization
+  spills outside binary support. Do not repair this by dropping boundary cores,
+  selecting a convenient parity core, or weakening M.
+- [x] Specify the v2 leakage-safe mask as four compact, spatially separated clusters
+  covering 25% of exact P3b-R `support_random`, with supported context left visible.
+  M=0 is never an auxiliary target; all matched arms share the seeded mask schedule
+  and retain every core's supervised eigenvalue loss. Propagate target masks through
+  the U-Net pools by logical-any rather than nearest resampling. The production-identical
+  audit finds 10 of 67,244 training cores (`1.487e-4`; 3/2/3/2 by phase and zero in
+  ph006) auxiliary-invalid under the exact minima. They are explicit `aux_valid=false`
+  examples with zero auxiliary weight, not omitted examples; the population rate must
+  remain below the frozen `0.001` ceiling. The 500-update canary uses the separately
+  registered finite-sample rule of at most one invalid update and fails at two.
 - [x] Keep all paired views in one outer split with one latent-core scientific weight,
   and retain `ph002--ph005` for fit, `ph006` for selection and `ph001` sealed.
 - [x] Freeze the forward-observation ladder, held-out response recipe, aligned layers,
   stop-gradient EMA teacher, predictor, spread/covariance regularization and loss
-  weights in `configs/p11_paired_degrade_jepa_v1.json`.
+  weights. Preserve `configs/p11_paired_degrade_jepa_v1.json` as the rejected
+  zero-update contract; use `configs/p11_paired_degrade_jepa_v2.json` for new work.
 - [x] Implement exact checkpoint/resume and logging, a content-addressed frozen-data
   contract, atomic step-0 checkpointing, finite-gradient and checkpoint-reload gates,
   and fixed ph006 latent exports at steps 0/250/500. Controls export student encodings
@@ -3756,13 +3776,20 @@ Progress checklist:
 - [x] Reject the first real-patch preflight before step 0 after it exposed 4,374
   support disagreements between legacy P3a `V_final` and P3b-R `V_dense`; replace the
   final-view adapter with the frozen R1/P3b-R contract rather than weakening the gate.
-  The current compute preflight passes all 24 registered implementation tests.
+  The corrected v2 compute preflight passes all 37 registered implementation,
+  loader, latent-diagnostic, supervisor and view-contract tests.
 - [x] Recover the inaccessible ph002 R1 adapter-manifest inode with a 98-kB
   content-addressed home mirror; retain all large immutable products by symlink and
   archive exact pointers/hashes in
   `docs/evidence/p11/P11_R1_CONTRACT_MIRROR_RECOVERY.json`.
-- [ ] Pass the corrected R1/P3b-R real-patch parity gate and archive its frozen-data
-  digest before permitting any optimizer update.
+- [x] Complete and archive the production-identical, label-free, all-visible-core
+  exact-M mask audit, including support/target/bottleneck quantiles and failures by
+  phase. Across 84,040 ph002--ph006 cores, pooled mask propagation leaves 10 training
+  cores (`10/67,244 = 1.487e-4`) auxiliary-invalid and zero in ph006, versus
+  12.12--12.61% invalid under rejected nearest resizing. Evidence:
+  `docs/evidence/p11/P11_JEPA_MASK_FEASIBILITY.json`; ph001 remains sealed.
+- [ ] Pass the corrected R1/P3b-R exact-M real-patch parity gate and archive its
+  frozen-data digest before permitting any optimizer update.
 - [ ] Complete the bounded 500-update technical canary and registered 0/250/500 latent
   trajectory for every matched arm; a technical pass is not a science promotion.
 - [ ] Report the dense teacher on unseen spatial blocks and ph006 before distillation;

@@ -1,5 +1,62 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-01 - [science/code/run] P11 zero-update mask failure exposes exact-support contract error
+
+The repaired R1/P3b-R JEPA preflight progressed past the inaccessible-manifest
+failure and reached real paired patches. It then failed before the step-0 checkpoint
+and before any optimizer update: ph002 core 6 contained zero complete supported
+`8^3` target cuboids, whereas `PAIRED-DEGRADE-JEPA-v1` required four. No latent
+trajectory, validation score, or JEPA result exists from this run. The failed v1
+directory is retained as negative provenance and must never be resumed under an
+amended mask contract.
+
+The failure revealed that `exposure_apodized_random > 1e-4` is not the binary survey
+support `M`. The apodized exposure is deliberately Gaussian-smoothed and spills beyond
+the footprint. In the failing 19x19x20 core, exact `support_random` contains only 18
+supported voxels, while the apodized threshold admits 939. Using the latter as target
+eligibility could therefore make `M=0` cells into reconstruction/alignment targets,
+contrary to the P11 scientific contract. The visible response channel remains the
+apodized exposure, but target eligibility must be loaded separately from exact
+`support_random`.
+
+A label-free 500-core-per-phase audit over ph002--ph006 confirms that selecting a
+different parity core or merely fixing the greedy cuboid packer would not solve the
+problem. Four complete exact-M `8^3` cuboids were constructible in only 69.6--70.8%
+of sampled cores. Exact support ranges from 18--194 voxels at the phase minima to
+about 7,683--7,793 at the medians; excluding thin-support cores would selectively
+remove the boundary/low-response regime that P11 is meant to improve.
+
+The replacement `PAIRED-DEGRADE-JEPA-v2` mask is therefore support-aware rather than
+interior-only. It deterministically selects four compact, spatially separated clusters
+covering 25% of exact M, leaves the apodized response channel visible, and never targets
+M=0. Student, reconstruction, response-only and JEPA arms receive the identical seeded
+mask schedule and retain every core's authoritative supervised eigenvalue loss. Target
+masks are propagated to the U-Net bottleneck by pooling-aligned logical-any operations;
+nearest-neighbour resizing silently lost all but one coarse target in 10.2--14.6% of
+the sampled cores, whereas pooled propagation retained at least two bottleneck targets
+in all 2,500 sampled cores across epochs 1, 2, 5 and 10.
+
+The production-identical all-visible-core epoch-1 audit covers 84,040 cores. Exact-M
+support minima are 2/11/5/5/26 voxels for ph002/ph003/ph004/ph005/ph006, while phase
+medians remain 7,736--7,739. Pool-aligned propagation leaves only 10 auxiliary-invalid
+training cores (3/2/3/2 in ph002/ph003/ph004/ph005 and none in ph006): `10/67,244 =
+1.487e-4`, below the frozen `0.001` population ceiling. Nearest resizing would have
+invalidated 12.12--12.61%. Those ten examples remain in the phase-balanced training
+stream and retain their authoritative eigenvalue loss, but receive an
+explicit `aux_valid=false` and zero alignment/reconstruction/collapse weight. They are
+never silently removed. The frozen summary is
+`docs/evidence/p11/P11_JEPA_MASK_FEASIBILITY.json`; ph001 remains sealed.
+
+The technical canary does not reapply that population fraction to only 500 updates,
+where one rare invalid example would equal 0.002 by granularity alone. It requires
+exactly 500 updates, permits at most one auxiliary-invalid update, and fails at two.
+Full science continuation additionally requires a passing, content-bound 0/250/500
+latent diagnostic; technical health alone cannot trigger another allocation.
+
+This amendment is not post-hoc optimization against a science result: v1 performed
+zero updates and exposed no ph006 representation or target metric. It repairs a
+support-definition error and an infeasible preprocessing rule before training.
+
 ### 2026-09-01 - [science/code/run] P11 runtime recovered; paired-view JEPA technical contract frozen
 
 The stalled dense-teacher allocation was diagnosed before altering the model.  Its
