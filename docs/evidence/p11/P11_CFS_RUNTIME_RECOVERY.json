@@ -1,0 +1,51 @@
+{
+  "schema_version": "p11-cfs-runtime-recovery-v1",
+  "created_utc": "2026-09-01T17:36:00+00:00",
+  "reason": "The pscratch cosmic_env Python blocked in the Lustre cl_sync_io_wait state before imports on nid008201.",
+  "prefix": "/global/cfs/cdirs/desi/users/dkololgi/conda/envs/cosmic_env_recovery_v4_20260901",
+  "source_contract": {
+    "explicit_spec": "docs/evidence/p0s/env/cosmic_env.explicit.txt",
+    "explicit_spec_sha256": "685235788a28fb22809f66cad03a52d81cc5273bdde182ef12cff674a454b55e",
+    "from_history": "docs/evidence/p0s/env/cosmic_env.from-history.yml",
+    "from_history_sha256": "3a21bb4862fcfffa7eaa1fe112cd596ba1266fd53f73aa7bdb77b2253398a271",
+    "recovered_explicit_inventory_sha256": "fe078a2b1f13d7531efcf6de6235372d43467f4d127da6fa364fb95b77dcb85b",
+    "recovered_pip_freeze_sha256": "b20c3e56297706d444371d618b3eecf4fc9fe3649a6969f730e7f088a51a5c54"
+  },
+  "runtime": {
+    "python": "3.11.15",
+    "jax": "0.7.2",
+    "torch": "2.9.1",
+    "numpy": "2.3.5",
+    "h5py": "3.15.1",
+    "fitsio": "1.3.0",
+    "graphifyy": "0.8.40",
+    "pip_additions_beyond_explicit_conda_spec": [
+      "fitsio==1.3.0",
+      "graphifyy==0.8.40"
+    ],
+    "optional_desi_source_paths_for_builder_tests": [
+      "/global/common/software/desi/perlmutter/desiconda/20260227-2.3.1/code/desitarget/main/py",
+      "/global/common/software/desi/perlmutter/desiconda/20260227-2.3.1/code/desiutil/main/py"
+    ]
+  },
+  "compute_preflight": {
+    "job": "57827577",
+    "node": "nid008604",
+    "gpu": "NVIDIA A100-SXM4-80GB",
+    "environment_imports": true,
+    "scratch_json_read": true,
+    "p11_jepa_test_modules": 4,
+    "p11_jepa_tests_passed": 24,
+    "p11_jepa_tests_failed": 0
+  },
+  "dense_teacher_resume_preflight": {
+    "job": "57827338",
+    "node": "nid008257",
+    "trainer_contract_tests_passed": 6,
+    "trainer_contract_tests_failed": 0,
+    "checkpoint_resume_observed": true
+  },
+  "scope": "Validated recovery runtime for P11/P12 training and diagnostics, not a claim that every historical catalogue-builder dependency is reproduced.",
+  "sealed_phase_opened": false,
+  "pass": true
+}

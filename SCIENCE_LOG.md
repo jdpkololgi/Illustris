@@ -1,5 +1,102 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-01 - [science/code/run] P11 runtime recovered; paired-view JEPA technical contract frozen
+
+The stalled dense-teacher allocation was diagnosed before altering the model.  Its
+Python process had spent more than 3.5 hours in the Lustre-client kernel wait
+`cl_sync_io_wait`, with 0% CPU, 5.3 MiB RSS, a zero-byte invocation log, and a
+`stat(2)` system call that never returned.  It had not imported the training stack or
+written a new checkpoint.  A brief occurrence of this wait state is ordinary storage
+latency; an hours-long occurrence with no CPU or log progress is a node/client I/O
+failure, not slow learning and not evidence about P11.  Allocation `57823090` was
+cancelled.  The intact epoch-4 checkpoint is 17,390,251 bytes with SHA-256
+`c088262000b7a9f4b75157c60ae8b1af476e8e183d1c1cb5b5318944f73246fb` at
+epoch 4, cursor 13,819/67,244 and global step 215,551.
+
+To avoid repeating the failing Scratch-resident interpreter access, the frozen conda
+explicit specification was reconstructed under CFS at
+`/global/cfs/cdirs/desi/users/dkololgi/conda/envs/cosmic_env_recovery_v4_20260901`.
+Clean compute-node preflights on A100-80GB nodes `nid008257` and `nid008604` passed
+JAX/Torch/NumPy/HDF5/FITS imports, a Scratch checkpoint `stat`, and a frozen P11 JSON
+read.  Twenty-four focused JEPA/latent/loader tests and six dense-trainer contract
+tests pass.  This is a P11/P12 recovery runtime, not a claim that all historical
+catalogue-builder extras are reproduced.  Its exact provenance and inventory hashes
+are stored in `docs/evidence/p11/P11_CFS_RUNTIME_RECOVERY.json`.
+
+The advisory dense teacher was then resumed on interactive allocation `57827338` from
+the unchanged checkpoint.  Fresh loss rows, atomic checkpoints, finite gradients and
+nonzero GPU updates are present.  It remains advisory privileged-view evidence; it is
+not the JEPA go/no-go criterion and ph001 remains sealed.
+
+The bounded `PAIRED-DEGRADE-JEPA-v1` implementation is now frozen as a supervised
+multi-view JEPA auxiliary objective:
+
+- identical ph002--ph005 latent cores supply a deployable `V_final` student and an
+  EMA, stop-gradient, target-head-free `V_dense` teacher;
+- the student alone owns the ordered-increment eigenvalue head;
+- exactly four non-overlapping 8^3 blocks are hidden only inside the authoritative
+  core and common random-supported region; exposure remains visible and M=0 is never
+  a target;
+- the checkpoint hashes the loader marker, target scaler, final and dense transforms,
+  core/weight arrays, response manifests, configuration and source files, and writes
+  an atomic step-0 checkpoint before any diagnostic export;
+- the 500-update technical gate requires finite losses, gradients and all parameters,
+  a reloadable checkpoint, the registered mask fraction, and valid fixed ph006 latent
+  snapshots at steps 0, 250 and 500.
+
+The first real-view preflight performed zero optimizer updates and correctly failed:
+the legacy final-view adapter used P3a occupancy-derived `exposure_apodized`, whereas
+the dense view used P3b-R `exposure_apodized_random`, producing 4,374 support-mask
+disagreements in the first audited patch.  This was a data-contract defect, not a
+reason to intersect the masks.  The final student is now explicitly dispatched
+through the frozen R1 random-response loader: its immutable final BRIGHT counts and
+P3b-R log-ratio/exposure channels share the same random-derived M as `V_dense`, while
+the view-specific counts and radial selection remain different.  The failed run
+directory is retained fail-closed as provenance; no score or representation result is
+accepted from it.
+
+The latent audit must not ask whether the degraded embedding is numerically bounded by
+the dense embedding.  Latent coordinates are free to rotate, rescale and permute.  The
+valid information statement is
+
+`I(E; Z_student) <= I(E; V_final) <= I(E; V_dense)`.
+
+Evidence for a shared predictable representation therefore requires paired CKA/CCA,
+cross-fitted Procrustes alignment and retrieval above shuffled and response-matched
+controls, retained effective rank/spread, and target probes on spatially disjoint
+ph006 cores.  Fixed teacher-space PCA is used only for visualization, so arrows across
+steps 0/250/500 show changes in one stable coordinate system rather than refitting an
+attractive projection at every checkpoint.
+
+Multiple matter/density fields can remain compatible with one observed galaxy view.
+A deterministic JEPA predictor can learn only the teacher components predictable from
+that view—often a conditional-average representation—not select the unique missing
+field.  Strong alignment can therefore become a hallucination or overconfidence risk
+if a later posterior head treats the aligned latent as complete information.  The
+response-only, shuffled, collapse/rank, low-response error and held-out target-probe
+controls guard the representation claim.  They do not calibrate uncertainty.  Any
+promoted encoder requires a new P12 fit plus SBC, TARP and response/shell-conditional
+coverage; JEPA itself is never reported as a posterior.
+
+Implemented artifacts:
+
+- `configs/p11_paired_degrade_jepa_v1.json`;
+- `workflows/abacus_tweb/p11_jepa_canary.py`;
+- `workflows/abacus_tweb/p11_jepa_latent_diagnostics.py`;
+- `workflows/abacus_tweb/plot_p11_jepa_latents.py`;
+- `workflows/abacus_tweb/run_p11_jepa_interactive.sh`;
+- `workflows/abacus_tweb/p11_jepa_supervisor_guard.py`;
+- `workflows/abacus_tweb/run_p11_jepa_science_worker.sh`;
+- `workflows/abacus_tweb/run_p11_jepa_science_supervisor.sh`;
+- focused tests under `tests/phase4/test_p11_jepa_*.py`.
+
+The post-canary supervisor uses successive one-GPU interactive allocations only,
+enforces the shared two-allocation limit, and resumes only after exit 75 plus an
+independently reloaded checkpoint.  It does not auto-launch the matched controls:
+`supervised_masked`, `masked_reconstruction`, and `response_only` each require their
+own technical canary after the JEPA trajectory is reviewed.  No sbatch job was used
+and ph001 was not opened.
+
 ### 2026-09-01 - [science/code/run] P11 information-headroom sub-gate passes; bounded JEPA canary licensed
 
 The dense-view supervised teacher has been downgraded from a hard JEPA go/no-go gate

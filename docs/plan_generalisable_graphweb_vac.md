@@ -3447,8 +3447,11 @@ Four-GPU execution policy for these gates:
 
 **Status:** FACTORIAL COUNT PRODUCTS READY FOR PH002--PH006; RESPONSE ADAPTER AND
 DENSE-RESPONSE ADAPTER/TRAINER IMPLEMENTED; P12 SUMMARY-INFORMATION HEADROOM GATE
-PASSES AND LICENSES A BOUNDED MATCHED-CONTROL JEPA CANARY; DENSE TEACHER CONTINUES
-AS ADVISORY EVIDENCE; BOUNDED AND NON-BLOCKING; RANDOM-RESPONSE VIEWS ARE MANDATORY
+PASSES; PAIRED-VIEW JEPA TECHNICAL CONTRACT AND LATENT AUDIT IMPLEMENTED; FIRST
+REAL-PATCH PREFLIGHT CAUGHT A P3A/P3B-R SUPPORT MISMATCH BEFORE ANY UPDATE; THE R1
+FINAL-VIEW CORRECTION IS IMPLEMENTED AND ITS REAL-PATCH RERUN REMAINS PENDING; DENSE
+TEACHER CONTINUES AS ADVISORY EVIDENCE; BOUNDED AND NON-BLOCKING; RANDOM-RESPONSE
+VIEWS ARE MANDATORY
 **Duration:** 2–5 GPU days for bounded controls
 
 #### P11.0 — Frozen factorial-view contract
@@ -3581,6 +3584,16 @@ varied magnitude selection, fibre assignment, completeness, and redshift errors.
 HOD/velocity-bias variation is a later nuisance-robustness extension, not a prerequisite
 for the bounded JEPA test.
 
+The deployable final-view adapter is frozen to the R1 random-response field contract,
+not the legacy P3a occupancy exposure. `V_final` uses the immutable final BRIGHT counts
+plus stored P3b-R log-ratio and random exposure, while `V_dense` uses its own dense
+count/selection fit on the identical P3b-R support. A real-patch parity gate must prove
+identical phase/cap/core/context/authoritative galaxies and common M before writing the
+step-0 checkpoint. Intersecting discrepant masks is forbidden because it would hide a
+response-contract defect. The rejected preflight that found 4,374 P3a/P3b-R support
+disagreements performed zero optimizer updates and remains a useful negative
+provenance record.
+
 #### P11.1 — Information headroom and paired dense/degraded teacher--student gate
 
 **Status:** BOUNDED MATCHED-CONTROL CANARY LICENSED; NOT A PRODUCTION PROMOTION
@@ -3672,6 +3685,30 @@ JEPA supplies an encoder/summary, not a posterior, and alignment must never be p
 as calibrated uncertainty. Begin P12 after ph006 deterministic selection even if this
 P11 experiment is still running.
 
+Latent coordinates are neither ordered nor coordinate-wise bounded between views.
+The registered bound is informational:
+
+```text
+I(environment; Z_student)
+    <= I(environment; V_final)
+    <= I(environment; V_dense).
+```
+
+Use fixed ph006 probe cores and one frozen teacher-space PCA basis to display steps
+0/250/500. Scientific alignment evidence requires native/predictor CKA above both
+ordinary and response-matched shuffles, cross-fitted Procrustes/CCA, paired retrieval,
+non-collapsed variance/effective rank, response-quartile diagnostics, and spatially
+disjoint target probes. The response-only encoder is a decisive shortcut control;
+missing it caps the audit at advisory. Alignment that rises while rank or held-out
+target-probe performance falls is a failure, not a visually pleasing result.
+
+Because several density fields can be compatible with one final observed view, a
+deterministic predictor may learn only a conditional-average teacher component. It
+cannot identify a unique missing field and may encourage hallucination if alignment is
+too strong. Therefore every promoted P11 encoder must be refit under P12 and pass SBC,
+TARP, response-conditional, shell-conditional and local-information coverage. No
+latent-alignment statistic may be substituted for posterior calibration.
+
 Do not pretrain on DESI until truth-known sim-to-sim controls pass. DESI pretraining is
 transductive domain adaptation, not zero-shot generalisation.
 
@@ -3686,14 +3723,40 @@ Progress checklist:
   scientific promotion.
 - [ ] Finish the dense-teacher fit as advisory evidence; do not use its historical
   `+0.03` threshold as a mathematical JEPA veto.
-- [ ] Freeze random-init, masked-reconstruction, and JEPA matched controls.
-- [ ] Implement leakage-safe spatial masks and feature-support guards.
+- [x] Freeze the capacity-matched `supervised_masked`, `masked_reconstruction`,
+  `response_only`, and `jepa` arm contract. All arms start from registered random
+  initialization and use the same phase-balanced examples, masks, target weights,
+  optimizer-update budget and three-channel U-PATCH capacity.
+- [x] Implement leakage-safe grid masks as exactly four non-overlapping `8^3` cuboids
+  wholly inside the authoritative core and common P3b-R random support. There is no
+  voxel-level or mask-intersection fallback; failure to construct the registered mask
+  is fatal.
+- [x] Keep all paired views in one outer split with one latent-core scientific weight,
+  and retain `ph002--ph005` for fit, `ph006` for selection and `ph001` sealed.
+- [x] Freeze the forward-observation ladder, held-out response recipe, aligned layers,
+  stop-gradient EMA teacher, predictor, spread/covariance regularization and loss
+  weights in `configs/p11_paired_degrade_jepa_v1.json`.
+- [x] Implement exact checkpoint/resume and logging, a content-addressed frozen-data
+  contract, atomic step-0 checkpointing, finite-gradient and checkpoint-reload gates,
+  and fixed ph006 latent exports at steps 0/250/500. Controls export student encodings
+  of both views and an explicit response-only latent; only the JEPA arm exports a
+  trained predictor output.
+- [x] Implement the fixed-probe latent audit: frozen teacher-space projection,
+  CKA/shuffle controls, retrieval, spread/effective rank, response stratification and
+  spatially disjoint target probes. A missing response-only control limits the result
+  to advisory evidence.
+- [x] Reject the first real-patch preflight before step 0 after it exposed 4,374
+  support disagreements between legacy P3a `V_final` and P3b-R `V_dense`; replace the
+  final-view adapter with the frozen R1/P3b-R contract rather than weakening the gate.
+  The current compute preflight passes all 24 registered implementation tests.
+- [ ] Pass the corrected R1/P3b-R real-patch parity gate and archive its frozen-data
+  digest before permitting any optimizer update.
+- [ ] Complete the bounded 500-update technical canary and registered 0/250/500 latent
+  trajectory for every matched arm; a technical pass is not a science promotion.
 - [ ] Report the dense teacher on unseen spatial blocks and ph006 before distillation;
   retain the score as advisory even if it misses the historical threshold.
-- [ ] Keep all paired views in one outer split with one latent-core scientific weight.
-- [ ] Freeze the forward-observation ladder, held-out response recipe, alignment layers,
-  and loss weights.
-- [ ] Compare on identical folds, compute, seeds, and independent phase tests.
+- [ ] Train and compare the matched arms on identical folds, compute, seeds, optimizer
+  updates, ph006 final/degraded views and the held-out response recipe.
 - [ ] Adopt only for reproducible deterministic transfer gain.
 
 ---
