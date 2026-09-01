@@ -3532,7 +3532,7 @@ Progress:
   Artifact: `docs/evidence/p11/P11_INFORMATION_HEADROOM.json`; implementation:
   `workflows/sbi/p11_information_headroom.py`; three focused tests pass.
 - [ ] Finish the dense teacher only as advisory evidence. The recovered epoch-4 run
-  advanced from cursor `13,819` to `39,043` and global step `215,551` to `240,775`;
+  advanced from cursor `13,819` to `54,518` and global step `215,551` to `256,250`;
   a later altered-source resume correctly failed the content-addressed source guard.
   Restore the exact frozen source set before another resume; do not weaken the guard
   or use the historical `0.602` threshold as a JEPA veto.

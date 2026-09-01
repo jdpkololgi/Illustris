@@ -60,7 +60,7 @@ pass SBC, TARP, shell/response/local-information conditional coverage; JEPA alig
 is not posterior uncertainty.
 
 The advisory dense teacher did resume successfully under the CFS runtime, advancing
-epoch 4 from cursor `13,819` to `39,043` and global step `215,551` to `240,775`.
+epoch 4 from cursor `13,819` to `54,518` and global step `215,551` to `256,250`.
 A later continuation after source changes was correctly refused by the frozen source
 hash guard.  Restore the exact historical source set before any further advisory
 resume; do not weaken that guard.  The login-side JEPA supervisor now also clears
