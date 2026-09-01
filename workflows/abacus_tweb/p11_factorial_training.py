@@ -22,6 +22,7 @@ from workflows.abacus_tweb.p10_training_contract import (
     atomic_json,
     sha256,
 )
+from workflows.abacus_tweb.p3br_training_contract import P10RandomResponseLoader
 from workflows.abacus_tweb.p6_field_patch_utils import (
     CAP_NAME,
     FieldPatch,
@@ -58,6 +59,14 @@ def utc_now() -> str:
 
 def _load(path: Path) -> dict:
     return json.loads(Path(path).read_text())
+
+
+def final_view_adapter(loader, phase: str):
+    """Select the scientifically registered V_final field implementation."""
+    loader_schema = str(loader.manifest.get("schema_version", ""))
+    if loader_schema == "p3br-r1-training-loader-ready-v1":
+        return P10RandomResponseLoader.field_adapter(loader, phase)
+    return P10PhaseBalancedLoader.field_adapter(loader, phase)
 
 
 def _stage_component(root: Path, phase: str, cap_name: str) -> tuple[dict, dict]:
@@ -334,7 +343,11 @@ class P11DenseFieldAdapter:
         self.contract = _load(self.contract_path)
         if not self.contract.get("pass") or self.contract.get("sealed_phase_opened"):
             raise RuntimeError("P11 dense response adapter does not pass")
-        self.base = P10PhaseBalancedLoader.field_adapter(loader, phase)
+        # The deployable V_final view must consume stored P3b-R channels directly
+        # when the R1 contract is supplied.  Calling the base P10 method would
+        # re-derive P3a selection channels and silently replace common random
+        # support M by occupancy-derived exposure.
+        self.base = final_view_adapter(loader, phase)
         self.core_cap = self.base.core_cap
         self.stage_manifest = _load(
             self.root / phase / "PHASE_FACTORIAL_VIEW_COUNTS_READY.json"

@@ -1,4 +1,6 @@
 import unittest
+from types import SimpleNamespace
+from unittest import mock
 
 import numpy as np
 
@@ -7,7 +9,10 @@ from workflows.abacus_tweb.p11_factorial_training import (
     P11_SEALED_PHASE,
     P11_TRAINING_PHASES,
     P11_VALIDATION_PHASE,
+    final_view_adapter,
 )
+from workflows.abacus_tweb.p10_training_contract import P10PhaseBalancedLoader
+from workflows.abacus_tweb.p3br_training_contract import P10RandomResponseLoader
 from workflows.abacus_tweb.p6_field_patch_utils import derive_selection_channels
 
 
@@ -23,6 +28,20 @@ class P11DenseResponseContractTest(unittest.TestCase):
         self.assertEqual(
             CHANNELS, ("counts", "exposure_apodized", "log_count_ratio")
         )
+
+    def test_r1_final_view_never_falls_back_to_p3a_selection_derivation(self):
+        loader = SimpleNamespace(
+            manifest={"schema_version": "p3br-r1-training-loader-ready-v1"}
+        )
+        sentinel = object()
+        with mock.patch.object(
+            P10RandomResponseLoader, "field_adapter", return_value=sentinel
+        ) as random_adapter, mock.patch.object(
+            P10PhaseBalancedLoader, "field_adapter"
+        ) as p3a_adapter:
+            self.assertIs(final_view_adapter(loader, "ph002"), sentinel)
+        random_adapter.assert_called_once_with(loader, "ph002")
+        p3a_adapter.assert_not_called()
 
     def test_response_weight_changes_mu_not_observed_counts(self):
         counts = np.ones((2, 2, 2), dtype=np.float32)
