@@ -183,6 +183,37 @@ def fit_field_normalization(output: Path, adapters: dict, base: Path) -> dict:
     return manifest
 
 
+def build_ready_marker(
+    base_marker: dict,
+    *,
+    output: Path,
+    base_contract: Path,
+    adapters: dict,
+    inventory_path: Path,
+    field: dict,
+) -> dict:
+    """Bind R1 readiness pointers and hashes to this output, not the R0 source."""
+    field_transform = output / "transforms/field/field_transform.json"
+    return {
+        **base_marker,
+        "schema_version": "p3br-r1-training-loader-ready-v1",
+        "view": "R1 BRIGHT counts plus random-derived response, capacity matched to R0",
+        "field_channels": list(CHANNELS),
+        "adapters": adapters,
+        "adapter_inventory": str(inventory_path),
+        "adapter_inventory_sha256": sha256(inventory_path),
+        "field_transform": str(field_transform),
+        "field_transform_sha256": sha256(field_transform),
+        "base_contract": str(base_contract),
+        "base_contract_marker_sha256": sha256(
+            base_contract / "TRAINING_LOADER_READY.json"
+        ),
+        "ph001_product_built": False,
+        "ph001_opened": False,
+        "pass": bool(field["pass"] and all(row["pass"] for row in adapters.values())),
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, default=ROOT)
@@ -198,7 +229,8 @@ def main() -> None:
         phase: build_field_adapter(args.base_contract, args.output, args.root, phase)
         for phase in VISIBLE_PHASES
     }
-    atomic_json(args.output / "adapter_inventory.json", {
+    inventory_path = args.output / "adapter_inventory.json"
+    atomic_json(inventory_path, {
         "schema_version": "p3br-r1-adapter-inventory-v1",
         "phases": {
             phase: {
@@ -217,20 +249,14 @@ def main() -> None:
         transforms / "target_scaler.json",
     )
     field = fit_field_normalization(args.output, adapters, args.base_contract)
-    ready = {
-        **marker,
-        "schema_version": "p3br-r1-training-loader-ready-v1",
-        "view": "R1 BRIGHT counts plus random-derived response, capacity matched to R0",
-        "field_channels": list(CHANNELS),
-        "adapters": adapters,
-        "field_transform": str(args.output / "transforms/field/field_transform.json"),
-        "field_transform_sha256": sha256(args.output / "transforms/field/field_transform.json"),
-        "base_contract": str(args.base_contract),
-        "base_contract_marker_sha256": sha256(args.base_contract / "TRAINING_LOADER_READY.json"),
-        "ph001_product_built": False,
-        "ph001_opened": False,
-        "pass": bool(field["pass"] and all(row["pass"] for row in adapters.values())),
-    }
+    ready = build_ready_marker(
+        marker,
+        output=args.output,
+        base_contract=args.base_contract,
+        adapters=adapters,
+        inventory_path=inventory_path,
+        field=field,
+    )
     atomic_json(args.output / "TRAINING_LOADER_READY.json", ready)
     if not ready["pass"]:
         raise RuntimeError("P3b-R R1 loader freeze failed")

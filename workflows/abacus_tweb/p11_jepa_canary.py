@@ -217,6 +217,75 @@ def validate_dense_adapter_marker(
         raise RuntimeError("P11 V_dense no longer uses the registered common-random response")
 
 
+def validate_r1_ready_manifest(
+    ready: dict,
+    *,
+    root: Path,
+    training: tuple[str, ...],
+    validation: str,
+    sealed: str,
+) -> None:
+    """Require a self-consistent, root-local P3b-R R1 readiness inventory."""
+    root = Path(root)
+    if (
+        ready.get("schema_version") != "p3br-r1-training-loader-ready-v1"
+        or ready.get("view")
+        != "R1 BRIGHT counts plus random-derived response, capacity matched to R0"
+        or ready.get("field_channels")
+        != ["counts", "exposure_apodized", "log_count_ratio"]
+        or ready.get("ph001_opened", True)
+        or ready.get("ph001_product_built", True)
+        or not ready.get("pass")
+    ):
+        raise RuntimeError("P11 V_final must use the passed P3b-R R1 response contract")
+    roles = ready.get("roles", {})
+    if (
+        not set(training).issubset(set(roles.get("training", ())))
+        or roles.get("validation_and_selection") != validation
+        or roles.get("sealed_blind_test") != sealed
+    ):
+        raise RuntimeError("P3b-R R1 readiness roles violate the frozen P11 split")
+
+    inventory_path = root / "adapter_inventory.json"
+    if Path(str(ready.get("adapter_inventory", ""))) != inventory_path:
+        raise RuntimeError("P3b-R R1 readiness points outside its contract-root inventory")
+    if ready.get("adapter_inventory_sha256") != sha256(inventory_path):
+        raise RuntimeError("P3b-R R1 readiness inventory hash is stale")
+    inventory = json.loads(inventory_path.read_text())
+    if (
+        inventory.get("schema_version") != "p3br-r1-adapter-inventory-v1"
+        or not inventory.get("pass")
+        or inventory.get("ph001_product_built", True)
+    ):
+        raise RuntimeError("P3b-R R1 adapter inventory is failing or unsafe")
+
+    adapters = ready.get("adapters", {})
+    inventory_phases = inventory.get("phases", {})
+    for phase in training + (validation,):
+        expected = root / "adapters" / phase / "field" / "adapter_manifest.json"
+        ready_record = adapters.get(phase, {})
+        inventory_record = inventory_phases.get(phase, {})
+        if (
+            Path(str(ready_record.get("path", ""))) != expected
+            or Path(str(inventory_record.get("field_manifest", ""))) != expected
+            or not ready_record.get("pass")
+        ):
+            raise RuntimeError(f"{phase} R1 adapter pointer is absent or outside contract root")
+        current_hash = sha256(expected)
+        if (
+            ready_record.get("sha256") != current_hash
+            or inventory_record.get("field_manifest_sha256") != current_hash
+        ):
+            raise RuntimeError(f"{phase} R1 adapter hash is stale")
+
+    transform_path = root / "transforms" / "field" / "field_transform.json"
+    if (
+        Path(str(ready.get("field_transform", ""))) != transform_path
+        or ready.get("field_transform_sha256") != sha256(transform_path)
+    ):
+        raise RuntimeError("P3b-R R1 field-transform pointer or hash is stale")
+
+
 def frozen_data_contract(args: argparse.Namespace, contract: dict) -> dict:
     """Digest all small artifacts that determine examples, weights and transforms."""
     split = contract["phase_split"]
@@ -224,14 +293,13 @@ def frozen_data_contract(args: argparse.Namespace, contract: dict) -> dict:
     validation = str(split["validation_and_selection"])
     ready_path = args.contract_root / "TRAINING_LOADER_READY.json"
     ready = json.loads(ready_path.read_text())
-    if (
-        ready.get("schema_version") != "p3br-r1-training-loader-ready-v1"
-        or ready.get("view")
-        != "R1 BRIGHT counts plus random-derived response, capacity matched to R0"
-        or ready.get("ph001_opened", True)
-        or not ready.get("pass")
-    ):
-        raise RuntimeError("P11 V_final must use the passed P3b-R R1 response contract")
+    validate_r1_ready_manifest(
+        ready,
+        root=args.contract_root,
+        training=training,
+        validation=validation,
+        sealed=str(split["sealed_blind_test"]),
+    )
     dense_marker_path = args.adapter_contract / "P11_DENSE_RESPONSE_ADAPTER_READY.json"
     dense_marker = json.loads(dense_marker_path.read_text())
     validate_dense_adapter_marker(

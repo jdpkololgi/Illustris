@@ -17,6 +17,7 @@ ROOT=/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p11_factorial_views_v1
 RUN_NAME=${P11_RUN_NAME:-paired_degrade_jepa_v1}
 RUN_DIR=${P11_RUN_DIR:-${ROOT}/training/paired_degrade_jepa_v1/${RUN_NAME}/jepa/seed_42}
 CONTRACT=${P11_CONTRACT:-${REPO}/configs/p11_paired_degrade_jepa_v1.json}
+CONTRACT_ROOT=${P11_CONTRACT_ROOT:-/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random}
 PY=${P11_PYTHON:-${COSMIC_ENV_PYTHON:-/global/cfs/cdirs/desi/users/dkololgi/conda/envs/cosmic_env_recovery_v4_20260901/bin/python}}
 GUARD=${REPO}/workflows/abacus_tweb/p11_jepa_supervisor_guard.py
 WORKER=${REPO}/workflows/abacus_tweb/run_p11_jepa_science_worker.sh
@@ -57,11 +58,12 @@ fi
 export P11_PYTHON="${PY}"
 export P11_RUN_DIR="${RUN_DIR}"
 export P11_CONTRACT="${CONTRACT}"
+export P11_CONTRACT_ROOT="${CONTRACT_ROOT}"
 export P11_ARM=jepa
 export P11_RUN_NAME="${RUN_NAME}"
 export P11_STOP_AFTER_UPDATES=
 
-log "supervisor_start session=${SESSION_ID} pid=$$ interpreter=${PY}"
+log "supervisor_start session=${SESSION_ID} pid=$$ interpreter=${PY} contract_root=${CONTRACT_ROOT}"
 log "registered_control_plan=supervised_masked,masked_reconstruction,response_only auto_launch=false"
 
 # This is intentionally checked before the first allocation request.  A missing,

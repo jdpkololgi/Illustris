@@ -23,6 +23,7 @@ from workflows.abacus_tweb.p11_jepa_canary import (
     unet_features,
     validate_dense_adapter_marker,
     validate_pair,
+    validate_r1_ready_manifest,
 )
 
 
@@ -186,6 +187,76 @@ class P11JEPAContractTest(unittest.TestCase):
                 validation="ph006",
                 sealed="ph001",
             )
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            phases = ("ph002", "ph003", "ph004", "ph005", "ph006")
+            adapters = {}
+            inventory_phases = {}
+            for phase in phases:
+                path = root / "adapters" / phase / "field" / "adapter_manifest.json"
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(json.dumps({"phase": phase, "pass": True}))
+                digest = aggregate_file_contract({"adapter": path})["files"]["adapter"]["sha256"]
+                adapters[phase] = {"path": str(path), "sha256": digest, "pass": True}
+                inventory_phases[phase] = {
+                    "field_manifest": str(path),
+                    "field_manifest_sha256": digest,
+                }
+            inventory_path = root / "adapter_inventory.json"
+            inventory_path.write_text(json.dumps({
+                "schema_version": "p3br-r1-adapter-inventory-v1",
+                "phases": inventory_phases,
+                "ph001_product_built": False,
+                "pass": True,
+            }))
+            transform_path = root / "transforms" / "field" / "field_transform.json"
+            transform_path.parent.mkdir(parents=True, exist_ok=True)
+            transform_path.write_text(json.dumps({"pass": True}))
+            inventory_hash = aggregate_file_contract({"inventory": inventory_path})[
+                "files"
+            ]["inventory"]["sha256"]
+            transform_hash = aggregate_file_contract({"transform": transform_path})[
+                "files"
+            ]["transform"]["sha256"]
+            ready = {
+                "schema_version": "p3br-r1-training-loader-ready-v1",
+                "view": "R1 BRIGHT counts plus random-derived response, capacity matched to R0",
+                "field_channels": ["counts", "exposure_apodized", "log_count_ratio"],
+                "roles": {
+                    "training": ["ph000", "ph002", "ph003", "ph004", "ph005"],
+                    "validation_and_selection": "ph006",
+                    "sealed_blind_test": "ph001",
+                },
+                "adapters": adapters,
+                "adapter_inventory": str(inventory_path),
+                "adapter_inventory_sha256": inventory_hash,
+                "field_transform": str(transform_path),
+                "field_transform_sha256": transform_hash,
+                "ph001_product_built": False,
+                "ph001_opened": False,
+                "pass": True,
+            }
+            kwargs = {
+                "root": root,
+                "training": ("ph002", "ph003", "ph004", "ph005"),
+                "validation": "ph006",
+                "sealed": "ph001",
+            }
+            validate_r1_ready_manifest(ready, **kwargs)
+            for field, bad_value in (
+                ("adapter_inventory", "/stale/base/adapter_inventory.json"),
+                ("adapter_inventory_sha256", "0" * 64),
+                ("field_transform", "/stale/base/field_transform.json"),
+            ):
+                bad = json.loads(json.dumps(ready))
+                bad[field] = bad_value
+                with self.assertRaises(RuntimeError):
+                    validate_r1_ready_manifest(bad, **kwargs)
+            bad = json.loads(json.dumps(ready))
+            bad["adapters"]["ph002"]["sha256"] = "0" * 64
+            with self.assertRaises(RuntimeError):
+                validate_r1_ready_manifest(bad, **kwargs)
 
     def test_response_channel_is_never_hidden(self):
         values = torch.randn(1, 3, 8, 8, 8)

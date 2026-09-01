@@ -4,6 +4,7 @@ set -euo pipefail
 
 REPO=/global/homes/d/dkololgi/TNG/Illustris
 ROOT=/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p11_factorial_views_v1
+CONTRACT_ROOT=${P11_CONTRACT_ROOT:-/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random}
 ARM=${P11_ARM:-jepa}
 RUN_NAME=${P11_RUN_NAME:-canary_v1}
 SEED=${P11_SEED:-42}
@@ -52,6 +53,7 @@ fi
   echo "P11_PYTHON=${PY}"
   timeout 90 "${PY}" -c 'import fitsio, h5py, jax, numpy, torch; print("P11_ENV_OK", jax.__version__, torch.__version__)'
   "${PY}" -m unittest \
+    tests.phase4.test_p3br_prepare_r1_contract \
     tests.phase4.test_p11_jepa_canary \
     tests.phase4.test_p11_jepa_latent_diagnostics \
     tests.phase4.test_p11_factorial_training \
@@ -59,6 +61,7 @@ fi
   "${PY}" -u -m workflows.abacus_tweb.p11_jepa_canary \
     --arm "${ARM}" \
     --seed "${SEED}" \
+    --contract-root "${CONTRACT_ROOT}" \
     --run-name "${RUN_NAME}" \
     --checkpoint-every 250 \
     --loss-log-every 25 \
