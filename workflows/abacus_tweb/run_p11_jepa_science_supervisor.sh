@@ -14,12 +14,15 @@ set -uo pipefail
 
 REPO=/global/homes/d/dkololgi/TNG/Illustris
 ROOT=/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p11_factorial_views_v1
-RUN_NAME=${P11_RUN_NAME:-paired_degrade_jepa_v1}
-RUN_DIR=${P11_RUN_DIR:-${ROOT}/training/paired_degrade_jepa_v1/${RUN_NAME}/jepa/seed_42}
-CONTRACT=${P11_CONTRACT:-${REPO}/configs/p11_paired_degrade_jepa_v1.json}
-CONTRACT_ROOT=${P11_CONTRACT_ROOT:-/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random}
+RUN_NAME=${P11_RUN_NAME:-paired_degrade_jepa_m25_v2}
+RUN_DIR=${P11_RUN_DIR:-${ROOT}/training/paired_degrade_jepa_v2/${RUN_NAME}/jepa/seed_42}
+CONTRACT=${P11_CONTRACT:-${REPO}/configs/p11_paired_degrade_jepa_v2.json}
+CONTRACT_ROOT=${P11_CONTRACT_ROOT:-/global/homes/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901}
 PY=${P11_PYTHON:-${COSMIC_ENV_PYTHON:-/global/cfs/cdirs/desi/users/dkololgi/conda/envs/cosmic_env_recovery_v4_20260901/bin/python}}
 GUARD=${REPO}/workflows/abacus_tweb/p11_jepa_supervisor_guard.py
+LATENT_DIAGNOSTICS=${REPO}/workflows/abacus_tweb/p11_jepa_latent_diagnostics.py
+LATENT_EXPORT_ROOT=${RUN_DIR}/latent_exports
+LATENT_GATE_REPORT=${RUN_DIR}/latent_diagnostics_0_250_500.json
 WORKER=${REPO}/workflows/abacus_tweb/run_p11_jepa_science_worker.sh
 ALLOCATION_STATUS=/global/u2/d/dkololgi/.codex/skills/nersc-interactive-allocation/scripts/allocation_status.py
 LOG_ROOT=${ROOT}/supervisor_logs/p11_jepa_science
@@ -66,12 +69,25 @@ export P11_STOP_AFTER_UPDATES=
 log "supervisor_start session=${SESSION_ID} pid=$$ interpreter=${PY} contract_root=${CONTRACT_ROOT}"
 log "registered_control_plan=supervised_masked,masked_reconstruction,response_only auto_launch=false"
 
-# This is intentionally checked before the first allocation request.  A missing,
-# stale, or failed technical canary is a terminal error, not a reason to spend a
-# GPU allocation trying to repair scientific state.
+# Recompute the registered scientific gate directly from the content-addressed
+# 0/250/500 exports before any full-science allocation.  The subsequent guard
+# binds this report back to the technical marker, exact export hashes, frozen
+# thresholds, ph006 and the sealed-ph001 contract.
+if ! "${PY}" -u "${LATENT_DIAGNOSTICS}" \
+  --snapshots \
+    "${LATENT_EXPORT_ROOT}/step_000000000.npz" \
+    "${LATENT_EXPORT_ROOT}/step_000000250.npz" \
+    "${LATENT_EXPORT_ROOT}/step_000000500.npz" \
+  --output "${LATENT_GATE_REPORT}" >> "${SUPERVISOR_LOG}" 2>&1; then
+  fail registered_latent_diagnostic_failed_to_run 3
+fi
+
+# These are intentionally checked before the first allocation request.  A
+# missing, stale, or failed technical or scientific canary is a terminal error,
+# not a reason to spend a GPU allocation trying to repair scientific state.
 if ! "${PY}" -u "${GUARD}" --mode preallocation --run-dir "${RUN_DIR}" \
   --contract "${CONTRACT}" >> "${SUPERVISOR_LOG}" 2>&1; then
-  fail passing_canary_marker_required 3
+  fail passing_technical_and_latent_canary_required 3
 fi
 
 if [[ -f "${RUN_DIR}/P11_MATCHED_ARM_COMPLETE.json" ]]; then

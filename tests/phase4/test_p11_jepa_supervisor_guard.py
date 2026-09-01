@@ -8,8 +8,10 @@ import unittest
 
 from workflows.abacus_tweb.p11_jepa_supervisor_guard import (
     DEFAULT_CONTRACT,
+    LATENT_DIAGNOSTIC_FILENAME,
     REPO_ROOT,
     validate_canary_marker,
+    validate_latent_diagnostic_gate,
     validate_preallocation,
     validate_stored_complete,
 )
@@ -29,7 +31,7 @@ class P11JEPASupervisorGuardTest(unittest.TestCase):
         self.checkpoint.write_bytes(b"checkpoint-placeholder")
         self.digest = "a" * 64
         self.marker = {
-            "schema_version": "p11-jepa-technical-canary-v1",
+            "schema_version": "p11-jepa-technical-canary-v2",
             "arm": "jepa",
             "pass": True,
             "global_step": 500,
@@ -43,6 +45,32 @@ class P11JEPASupervisorGuardTest(unittest.TestCase):
                 "checkpoint_reload_valid": True,
             },
         }
+        self.run_id = "canary_v1/jepa/seed_42"
+        self.latent_exports = []
+        self.latent_sources = []
+        for step in (0, 250, 500):
+            path = self.run_dir / "latent_exports" / f"step_{step:09d}.npz"
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(f"latent-{step}".encode())
+            digest = hashlib.sha256(path.read_bytes()).hexdigest()
+            self.latent_exports.append(
+                {
+                    "path": str(path),
+                    "sha256": digest,
+                    "rows": 8,
+                    "global_step": step,
+                    "run_id": self.run_id,
+                }
+            )
+            self.latent_sources.append(
+                {
+                    "path": str(path),
+                    "sha256": digest,
+                    "epoch": 0,
+                    "global_step": step,
+                }
+            )
+        self.marker["registered_latent_exports"] = self.latent_exports
         write_json(self.run_dir / "TECHNICAL_CANARY_COMPLETE.json", self.marker)
         data_artifact = Path(self.temporary.name) / "visible/ph006/contract.json"
         data_artifact.parent.mkdir(parents=True)
@@ -92,6 +120,37 @@ class P11JEPASupervisorGuardTest(unittest.TestCase):
             "frozen_execution": {"arm": "jepa", "seed": 42},
         }
         write_json(self.run_dir / "run_manifest.json", self.manifest)
+        contract = json.loads(DEFAULT_CONTRACT.read_text())
+        thresholds = dict(contract["diagnostics"]["registered_gate"])
+        gate_version = thresholds.pop("version")
+        self.latent_report = {
+            "schema_version": "p11-jepa-latent-diagnostics-v1",
+            "status": "pass",
+            "pass": True,
+            "run_id": self.run_id,
+            "selection_phase": "ph006",
+            "sealed_phase": "ph001",
+            "sealed_phase_opened": False,
+            "snapshot_sources": self.latent_sources,
+            "thresholds": thresholds,
+            "checkpoints": [
+                {"global_step": step} for step in (0, 250, 500)
+            ],
+            "registered_status_gate": {
+                "version": gate_version,
+                "status": "pass",
+                "pass": True,
+                "arm": "jepa",
+                "required_steps": [0, 250, 500],
+                "observed_steps": [0, 250, 500],
+                "missing_steps": [],
+                "response_only_encoder_available": True,
+                "response_only_control_evaluable": True,
+            },
+        }
+        write_json(
+            self.run_dir / LATENT_DIAGNOSTIC_FILENAME, self.latent_report
+        )
 
     def tearDown(self):
         self.temporary.cleanup()
@@ -103,6 +162,46 @@ class P11JEPASupervisorGuardTest(unittest.TestCase):
         self.assertTrue(report["pass"])
         self.assertEqual(report["sealed_phase"], "ph001")
         self.assertFalse(report["sealed_phase_opened"])
+        self.assertEqual(report["latent_gate_status"], "pass")
+
+    def test_latent_gate_requires_pass_and_exact_registered_trajectory(self):
+        contract = json.loads(DEFAULT_CONTRACT.read_text())
+        report = validate_latent_diagnostic_gate(
+            self.run_dir, self.marker, contract
+        )
+        self.assertTrue(report["pass"])
+
+        failed = copy.deepcopy(self.latent_report)
+        failed["pass"] = False
+        failed["status"] = "fail"
+        write_json(self.run_dir / LATENT_DIAGNOSTIC_FILENAME, failed)
+        with self.assertRaisesRegex(RuntimeError, "did not pass"):
+            validate_preallocation(self.run_dir, DEFAULT_CONTRACT)
+
+        wrong_steps = copy.deepcopy(self.latent_report)
+        wrong_steps["registered_status_gate"]["observed_steps"] = [0, 250]
+        wrong_steps["registered_status_gate"]["missing_steps"] = [500]
+        write_json(self.run_dir / LATENT_DIAGNOSTIC_FILENAME, wrong_steps)
+        with self.assertRaisesRegex(RuntimeError, "exact 0/250/500"):
+            validate_preallocation(self.run_dir, DEFAULT_CONTRACT)
+
+    def test_preallocation_requires_the_registered_latent_report(self):
+        (self.run_dir / LATENT_DIAGNOSTIC_FILENAME).unlink()
+        with self.assertRaisesRegex(RuntimeError, "required supervisor artifact"):
+            validate_preallocation(self.run_dir, DEFAULT_CONTRACT)
+
+    def test_latent_gate_binds_run_identity_and_snapshot_hashes(self):
+        wrong_run = copy.deepcopy(self.latent_report)
+        wrong_run["run_id"] = "another/jepa/seed_42"
+        write_json(self.run_dir / LATENT_DIAGNOSTIC_FILENAME, wrong_run)
+        with self.assertRaisesRegex(RuntimeError, "run identity"):
+            validate_preallocation(self.run_dir, DEFAULT_CONTRACT)
+
+        wrong_hash = copy.deepcopy(self.latent_report)
+        wrong_hash["snapshot_sources"][1]["sha256"] = "f" * 64
+        write_json(self.run_dir / LATENT_DIAGNOSTIC_FILENAME, wrong_hash)
+        with self.assertRaisesRegex(RuntimeError, "snapshot hash"):
+            validate_preallocation(self.run_dir, DEFAULT_CONTRACT)
 
     def test_marker_fails_closed_on_one_failed_gate(self):
         marker = copy.deepcopy(self.marker)

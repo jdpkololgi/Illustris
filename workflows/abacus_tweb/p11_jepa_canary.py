@@ -75,24 +75,82 @@ from workflows.abacus_tweb.p10_training_contract import (
 )
 
 
-DEFAULT_CONTRACT = REPO_ROOT / "configs/p11_paired_degrade_jepa_v1.json"
-DEFAULT_OUTPUT = p11_impl.DEFAULT_ROOT / "training/paired_degrade_jepa_v1"
+DEFAULT_CONTRACT = REPO_ROOT / "configs/p11_paired_degrade_jepa_v2.json"
+DEFAULT_OUTPUT = p11_impl.DEFAULT_ROOT / "training/paired_degrade_jepa_v2"
 DEFAULT_FINAL_CONTRACT = Path(
-    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random"
+    "/global/homes/d/dkololgi/p11_contracts/"
+    "training_contract_r1_random_repair_v2_20260901"
 )
 CONTINUE_EXIT_CODE = 75
 ARMS = ("supervised_masked", "masked_reconstruction", "response_only", "jepa")
 ALIGNED_LAYERS = ("latent", "bottleneck")
-MINIMUM_SUPPORT = 1.0e-4
+V1_MINIMUM_SUPPORT = 1.0e-4
 
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+def validate_auxiliary_sampling_contract(masking: dict) -> dict:
+    """Validate the population audit separately from the finite canary gate.
+
+    The exhaustive audit establishes how often an exact-support core cannot
+    support the auxiliary intervention.  A 500-update technical canary is only
+    a finite sample from that population, so it is gated by an integer count,
+    not by reapplying the population fraction threshold to the small sample.
+    """
+    audit = dict(masking.get("population_auxiliary_audit", {}))
+    canary = dict(masking.get("technical_canary_auxiliary_gate", {}))
+    maximum_population_fraction = float(
+        audit.get("maximum_auxiliary_invalid_fraction", np.nan)
+    )
+    if not np.isclose(maximum_population_fraction, 1.0e-3):
+        raise RuntimeError("P11 v2 exhaustive auxiliary-invalid rate gate changed")
+    expected_audit = {
+        "status": "pass",
+        "visible_cores": 84040,
+        "visible_auxiliary_invalid_cores": 10,
+        "training_cores": 67244,
+        "training_auxiliary_invalid_cores": 10,
+        "validation_cores": 16796,
+        "validation_auxiliary_invalid_cores": 0,
+        "report_sha256": (
+            "519394bba5a033b20513b702efab4a102c4b91fa1bbac4181aa0207cf33ef5af"
+        ),
+    }
+    for name, value in expected_audit.items():
+        if audit.get(name) != value:
+            raise RuntimeError(f"P11 v2 auxiliary population audit changed: {name}")
+    training_fraction = float(audit.get("training_auxiliary_invalid_fraction", np.nan))
+    if not np.isclose(training_fraction, 10.0 / 67244.0, rtol=0.0, atol=1.0e-15):
+        raise RuntimeError("P11 v2 training auxiliary-invalid fraction changed")
+    report = Path(str(audit.get("report", "")))
+    if not report.is_file() or sha256(report) != audit["report_sha256"]:
+        raise RuntimeError("P11 v2 population audit report is absent or changed")
+    if training_fraction > maximum_population_fraction:
+        raise RuntimeError("P11 v2 population auxiliary-invalid gate failed")
+    registered_updates = int(canary.get("registered_updates", -1))
+    maximum_invalid = int(canary.get("maximum_auxiliary_invalid_updates", -1))
+    if registered_updates != max(REGISTERED_TRAJECTORY_STEPS) or maximum_invalid != 1:
+        raise RuntimeError("P11 v2 finite technical-canary auxiliary gate changed")
+    return {
+        "maximum_population_auxiliary_invalid_fraction": maximum_population_fraction,
+        "training_population_auxiliary_invalid_fraction": training_fraction,
+        "training_population_auxiliary_invalid_cores": int(
+            audit["training_auxiliary_invalid_cores"]
+        ),
+        "registered_canary_updates": registered_updates,
+        "maximum_canary_auxiliary_invalid_updates": maximum_invalid,
+    }
+
+
 def load_contract(path: Path) -> dict:
     contract = json.loads(Path(path).read_text())
-    if contract.get("schema_version") != "p11-paired-degrade-jepa-contract-v1":
+    schema = contract.get("schema_version")
+    if schema not in {
+        "p11-paired-degrade-jepa-contract-v1",
+        "p11-paired-degrade-jepa-contract-v2",
+    }:
         raise RuntimeError("unsupported P11 JEPA contract")
     split = contract["phase_split"]
     if tuple(split["training"]) != p11_impl.P11_TRAINING_PHASES:
@@ -123,6 +181,31 @@ def load_contract(path: Path) -> dict:
         raise RuntimeError("latent diagnostic gate version changed")
     if registered_gate != DEFAULT_THRESHOLDS:
         raise RuntimeError("latent diagnostic thresholds differ from the frozen gate")
+    masking = contract["masking"]
+    if schema == "p11-paired-degrade-jepa-contract-v2":
+        expected = {
+            "strategy": "exact_support_compact_clusters_v2",
+            "support_channel": "support_random",
+            "integer_target_policy": "numpy_rint",
+            "clusters": 4,
+            "registered_target_fraction": 0.25,
+        }
+        for name, value in expected.items():
+            if masking.get(name) != value:
+                raise RuntimeError(f"P11 v2 masking contract changed: {name}")
+        minimum_eligible = int(masking.get("minimum_eligible_voxels", 0))
+        minimum_target = int(masking.get("minimum_target_voxels", 0))
+        minimum_context = int(masking.get("minimum_context_voxels", 0))
+        rounded = int(np.rint(float(masking["registered_target_fraction"]) * minimum_eligible))
+        if (
+            minimum_eligible <= 0
+            or minimum_target < int(masking["clusters"])
+            or minimum_context <= 0
+            or rounded < minimum_target
+            or minimum_eligible - rounded < minimum_context
+        ):
+            raise RuntimeError("P11 v2 masking minimum counts are inconsistent")
+        validate_auxiliary_sampling_contract(masking)
     return contract
 
 
@@ -366,27 +449,49 @@ def validate_pair(final_patch, dense_patch) -> None:
 
 
 def supported_core_mask(final_patch, dense_patch) -> np.ndarray:
-    """Common registered M=1 proxy restricted to the authoritative voxel core.
+    """Historical v1 exposure-threshold proxy for the authoritative core.
 
-    Both paired adapters must independently produce the same binary validity map
-    under the frozen ``exposure_apodized > 1e-4`` rule.  Intersecting mismatched
-    maps would hide a response-contract defect, so parity is asserted first.
+    This function is retained only so the frozen v1 contract remains inspectable.
+    New runs use :func:`exact_supported_core_mask` and exact ``support_random``.
     """
     validate_pair(final_patch, dense_patch)
     final_at = {name: i for i, name in enumerate(final_patch.channel_names)}
     dense_at = {name: i for i, name in enumerate(dense_patch.channel_names)}
     name = "exposure_apodized"
-    final_support = np.asarray(final_patch.values[final_at[name]]) > MINIMUM_SUPPORT
-    dense_support = np.asarray(dense_patch.values[dense_at[name]]) > MINIMUM_SUPPORT
+    final_support = np.asarray(final_patch.values[final_at[name]]) > V1_MINIMUM_SUPPORT
+    dense_support = np.asarray(dense_patch.values[dense_at[name]]) > V1_MINIMUM_SUPPORT
     if not np.array_equal(final_support, dense_support):
         mismatch = int(np.count_nonzero(final_support != dense_support))
         raise RuntimeError(
             f"paired final/dense support parity failed at {mismatch} voxels "
-            f"under exposure_apodized>{MINIMUM_SUPPORT:g}"
+            f"under exposure_apodized>{V1_MINIMUM_SUPPORT:g}"
         )
     core = np.zeros_like(final_support, dtype=bool)
     core[final_patch.core_slice] = True
     return core & final_support
+
+
+def exact_supported_core_mask(final_patch, dense_patch, support_patch) -> np.ndarray:
+    """Return the authoritative core intersected with exact binary P3b-R M.
+
+    ``support_random`` is hidden data-contract metadata, not a model channel.
+    The apodized exposure channel remains visible to both paired views, but it
+    neither creates nor removes JEPA targets.  Geometry is checked against both
+    model views before the exact binary field is accepted.
+    """
+    validate_pair(final_patch, dense_patch)
+    validate_pair(final_patch, support_patch)
+    if tuple(support_patch.channel_names) != ("support_random",):
+        raise RuntimeError("exact P11 support patch must contain only support_random")
+    values = np.asarray(support_patch.values)
+    if values.shape[0] != 1 or not np.all(np.isfinite(values)):
+        raise RuntimeError("P3b-R support_random metadata is malformed")
+    exact = values[0]
+    if not np.all((exact == 0) | (exact == 1)):
+        raise RuntimeError("P3b-R support_random is not exactly binary")
+    core = np.zeros_like(exact, dtype=bool)
+    core[final_patch.core_slice] = True
+    return core & exact.astype(bool)
 
 
 def _valid_cuboid_starts(eligible: np.ndarray, block_voxels: int) -> np.ndarray:
@@ -457,13 +562,202 @@ def deterministic_block_mask(
     return result
 
 
+def registered_cluster_target_count(eligible_voxels: int, mask_spec: dict) -> int:
+    """Resolve the v2 exact integer target count and fail closed on small M."""
+    eligible_voxels = int(eligible_voxels)
+    minimum_eligible = int(mask_spec["minimum_eligible_voxels"])
+    minimum_target = int(mask_spec["minimum_target_voxels"])
+    minimum_context = int(mask_spec["minimum_context_voxels"])
+    clusters = int(mask_spec["clusters"])
+    fraction = float(mask_spec["registered_target_fraction"])
+    if eligible_voxels < minimum_eligible:
+        raise RuntimeError(
+            f"exact support has {eligible_voxels} voxels; registered minimum is "
+            f"{minimum_eligible}"
+        )
+    target = int(np.rint(fraction * eligible_voxels))
+    if target < minimum_target or target < clusters:
+        raise RuntimeError(
+            f"registered fraction yields only {target} targets; require at least "
+            f"{max(minimum_target, clusters)}"
+        )
+    if eligible_voxels - target < minimum_context:
+        raise RuntimeError(
+            f"registered mask leaves {eligible_voxels - target} context voxels; "
+            f"require at least {minimum_context}"
+        )
+    return target
+
+
+def _distance_order(coords: np.ndarray, centre: np.ndarray) -> np.ndarray:
+    """Stable nearest-first order with coordinate tie-breaking."""
+    distance = np.sum(np.square(coords - centre[None, :]), axis=1)
+    return np.lexsort((coords[:, 2], coords[:, 1], coords[:, 0], distance))
+
+
+def deterministic_cluster_mask(
+    eligible: np.ndarray,
+    *,
+    seed: int,
+    epoch: int,
+    phase_index: int,
+    core_id: int,
+    mask_spec: dict,
+) -> np.ndarray:
+    """Mask an exact registered fraction of M as four compact clusters.
+
+    The first seed is stochastic only through the fully registered SeedSequence.
+    Later seeds are farthest-point samples.  Every seed is retained, then each
+    cluster takes its nearest still-visible supported voxels up to a balanced
+    quota.  This preserves compactness while guaranteeing an exact count.
+    """
+    eligible = np.asarray(eligible, dtype=bool)
+    if eligible.ndim != 3:
+        raise ValueError("eligible mask must be three-dimensional")
+    coords = np.argwhere(eligible).astype(np.int64)
+    target = registered_cluster_target_count(len(coords), mask_spec)
+    clusters = int(mask_spec["clusters"])
+    rng = np.random.default_rng(
+        np.random.SeedSequence([seed, epoch, phase_index, core_id, 210911])
+    )
+
+    centres = [int(rng.integers(len(coords)))]
+    minimum_distance = np.sum(
+        np.square(coords - coords[centres[0]][None, :]), axis=1
+    )
+    for _ in range(1, clusters):
+        maximum = int(minimum_distance.max())
+        candidates = np.flatnonzero(minimum_distance == maximum)
+        chosen = int(candidates[int(rng.integers(len(candidates)))])
+        if chosen in centres:
+            raise RuntimeError("farthest-point mask seeding selected a duplicate")
+        centres.append(chosen)
+        distance = np.sum(np.square(coords - coords[chosen][None, :]), axis=1)
+        minimum_distance = np.minimum(minimum_distance, distance)
+
+    centre_indices = np.asarray(centres, dtype=np.int64)
+    centre_coords = coords[centre_indices]
+    distances = np.sum(
+        np.square(coords[:, None, :] - centre_coords[None, :, :]), axis=2
+    )
+    owner = np.argmin(distances, axis=1)
+    quota = np.full(clusters, target // clusters, dtype=np.int64)
+    quota[: target % clusters] += 1
+    if np.any(quota < 1):
+        raise RuntimeError("registered compact-cluster quota is empty")
+    selected = np.zeros(len(coords), dtype=bool)
+    for cluster in range(clusters):
+        members = np.flatnonzero(owner == cluster)
+        take = min(int(quota[cluster]), len(members))
+        if take:
+            member_order = _distance_order(coords[members], centre_coords[cluster])
+            selected[members[member_order[:take]]] = True
+    shortfall = target - int(selected.sum())
+    if shortfall:
+        remaining = np.flatnonzero(~selected)
+        nearest = distances[remaining].min(axis=1)
+        order = np.lexsort(
+            (
+                coords[remaining, 2],
+                coords[remaining, 1],
+                coords[remaining, 0],
+                nearest,
+            )
+        )
+        if len(order) < shortfall:
+            raise RuntimeError("insufficient supported voxels for registered cluster quota")
+        selected[remaining[order[:shortfall]]] = True
+
+    result = np.zeros_like(eligible, dtype=bool)
+    result[tuple(coords[selected].T)] = True
+    if int(result.sum()) != target or np.any(result & ~eligible):
+        raise RuntimeError("constructed an invalid exact-M compact-cluster mask")
+    return result
+
+
+def auxiliary_cluster_mask(
+    eligible: np.ndarray,
+    *,
+    seed: int,
+    epoch: int,
+    phase_index: int,
+    core_id: int,
+    mask_spec: dict,
+) -> tuple[np.ndarray, bool, str | None, dict[str, int]]:
+    """Build a v2 mask or disable only the auxiliary intervention.
+
+    Tiny or topologically thin exact-support cores remain in the supervised
+    epoch and retain their authoritative target loss.  They receive an all-zero
+    mask so every matched auxiliary arm sees the same no-intervention example.
+    """
+    eligible = np.asarray(eligible, dtype=bool)
+    count = int(eligible.sum())
+    zero = np.zeros_like(eligible, dtype=bool)
+    minimum_eligible = int(mask_spec["minimum_eligible_voxels"])
+    minimum_target = int(mask_spec["minimum_target_voxels"])
+    minimum_context = int(mask_spec["minimum_context_voxels"])
+    candidate_count = int(np.rint(float(mask_spec["registered_target_fraction"]) * count))
+    if (
+        count < minimum_eligible
+        or candidate_count < minimum_target
+        or count - candidate_count < minimum_context
+    ):
+        return zero, False, "registered_exact_support_minimum", {
+            "full_resolution_targets": 0,
+            "bottleneck_targets": 0,
+        }
+    candidate = deterministic_cluster_mask(
+        eligible,
+        seed=seed,
+        epoch=epoch,
+        phase_index=phase_index,
+        core_id=core_id,
+        mask_spec=mask_spec,
+    )
+    shape = tuple(int(value) for value in candidate.shape)
+    bottleneck_shape = shape
+    for _ in range(3):
+        bottleneck_shape = tuple((value + 1) // 2 for value in bottleneck_shape)
+    tensor = torch.from_numpy(candidate[None])
+    full_count = int(candidate.sum())
+    bottleneck_count = int(resize_mask(tensor, bottleneck_shape).sum())
+    counts = {
+        "full_resolution_targets": full_count,
+        "bottleneck_targets": bottleneck_count,
+    }
+    if full_count < 2 or bottleneck_count < 2:
+        return zero, False, "aligned_layer_target_minimum", counts
+    return candidate, True, None, counts
+
+
 def resize_mask(mask: torch.Tensor, spatial_shape: tuple[int, int, int]) -> torch.Tensor:
     if mask.ndim != 4 or mask.shape[0] != 1:
         raise ValueError("mask must have shape (1,nx,ny,nz)")
-    return (
-        F.interpolate(mask[:, None].float(), size=spatial_shape, mode="nearest")[:, 0]
-        > 0.5
-    )
+    source_shape = tuple(int(value) for value in mask.shape[1:])
+    target_shape = tuple(int(value) for value in spatial_shape)
+    if any(value <= 0 for value in target_shape):
+        raise ValueError("mask target shape must be positive")
+    if source_shape == target_shape:
+        return mask.bool()
+    if all(target <= source for source, target in zip(source_shape, target_shape)):
+        # Follow the U-Net's exact ANY-propagation path whenever its successive
+        # MaxPool3d(2, ceil_mode=True) shapes lead to the requested feature map.
+        pooled = mask[:, None].float()
+        while tuple(int(value) for value in pooled.shape[2:]) != target_shape:
+            current = tuple(int(value) for value in pooled.shape[2:])
+            next_shape = tuple((value + 1) // 2 for value in current)
+            if any(next_value < target for next_value, target in zip(next_shape, target_shape)):
+                # Non-U-Net diagnostic shapes retain ANY/max-pool semantics.
+                pooled = F.adaptive_max_pool3d(pooled, output_size=target_shape)
+                break
+            pooled = F.max_pool3d(pooled, kernel_size=2, stride=2, ceil_mode=True)
+        return pooled[:, 0].bool()
+    if all(target >= source for source, target in zip(source_shape, target_shape)):
+        return (
+            F.interpolate(mask[:, None].float(), size=target_shape, mode="nearest")[:, 0]
+            > 0.5
+        )
+    raise ValueError("mixed mask up/down-sampling is not a registered operation")
 
 
 def masked_vectors(values: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
@@ -629,12 +923,16 @@ class PairedDegradeJEPA(nn.Module):
 class PairedInputs:
     final_patch: object
     dense_patch: object
+    support_patch: object
     final_values: torch.Tensor
     dense_values: torch.Tensor
     points: torch.Tensor
     target_mask: torch.Tensor
     eligible_voxels: int
     target_voxels: int
+    auxiliary_valid: bool
+    auxiliary_invalid_reason: str | None
+    aligned_target_voxels: dict[str, int]
 
 
 def paired_inputs(
@@ -663,34 +961,67 @@ def paired_inputs(
         unet_impl.CHANNELS,
         alignment_voxels=unet_impl.ALIGNMENT_VOXELS,
     )
+    support_patch = dense_adapter.base.extract(
+        core_id,
+        unet_impl.HALO_VOXELS,
+        (str(mask_spec.get("support_channel", "support_random")),),
+        alignment_voxels=unet_impl.ALIGNMENT_VOXELS,
+    )
     validate_pair(final_patch, dense_patch)
     final_values, points = unet_impl.model_inputs(final_patch, final_normalization, device)
     dense_values, dense_points = unet_impl.model_inputs(dense_patch, dense_normalization, device)
     if not torch.equal(points, dense_points):
         raise RuntimeError("paired views produced different galaxy sampling coordinates")
-    eligible = supported_core_mask(final_patch, dense_patch)
-    mask = deterministic_block_mask(
-        eligible,
-        seed=seed,
-        epoch=epoch,
-        phase_index=phase_index,
-        core_id=core_id,
-        block_voxels=int(mask_spec["block_voxels"]),
-        blocks=int(mask_spec["blocks"]),
-    )
+    strategy = str(mask_spec.get("strategy", "full_supported_cuboids_v1"))
+    if strategy == "exact_support_compact_clusters_v2":
+        eligible = exact_supported_core_mask(final_patch, dense_patch, support_patch)
+        mask, auxiliary_valid, invalid_reason, aligned_counts = auxiliary_cluster_mask(
+            eligible,
+            seed=seed,
+            epoch=epoch,
+            phase_index=phase_index,
+            core_id=core_id,
+            mask_spec=mask_spec,
+        )
+        expected = (
+            registered_cluster_target_count(int(eligible.sum()), mask_spec)
+            if auxiliary_valid
+            else 0
+        )
+    elif strategy == "full_supported_cuboids_v1":
+        eligible = supported_core_mask(final_patch, dense_patch)
+        mask = deterministic_block_mask(
+            eligible,
+            seed=seed,
+            epoch=epoch,
+            phase_index=phase_index,
+            core_id=core_id,
+            block_voxels=int(mask_spec["block_voxels"]),
+            blocks=int(mask_spec["blocks"]),
+        )
+        expected = int(mask_spec["blocks"]) * int(mask_spec["block_voxels"]) ** 3
+        auxiliary_valid = True
+        invalid_reason = None
+        aligned_counts = {
+            "full_resolution_targets": int(expected),
+            "bottleneck_targets": -1,
+        }
+    else:
+        raise RuntimeError(f"unsupported P11 mask strategy: {strategy}")
     target_voxels = int(np.count_nonzero(mask))
     eligible_voxels = int(np.count_nonzero(eligible))
-    fraction = target_voxels / eligible_voxels
+    fraction = target_voxels / max(eligible_voxels, 1)
     low, high = (
         float(value) for value in mask_spec["registered_mask_fraction_range"]
     )
-    expected = int(mask_spec["blocks"]) * int(mask_spec["block_voxels"]) ** 3
     if target_voxels != expected:
         raise RuntimeError(
-            f"JEPA mask contains {target_voxels} voxels; registered geometry requires "
+            f"JEPA mask contains {target_voxels} voxels; registered contract requires "
             f"exactly {expected}"
         )
-    if not (np.isfinite(fraction) and fraction > 0 and low <= fraction <= high):
+    if auxiliary_valid and not (
+        np.isfinite(fraction) and fraction > 0 and low <= fraction <= high
+    ):
         raise RuntimeError(
             f"JEPA mask fraction {fraction:.6g} lies outside registered "
             f"[{low:.6g}, {high:.6g}]"
@@ -698,12 +1029,16 @@ def paired_inputs(
     return PairedInputs(
         final_patch=final_patch,
         dense_patch=dense_patch,
+        support_patch=support_patch,
         final_values=final_values,
         dense_values=dense_values,
         points=points,
         target_mask=torch.from_numpy(mask[None]).to(device),
         eligible_voxels=eligible_voxels,
         target_voxels=target_voxels,
+        auxiliary_valid=auxiliary_valid,
+        auxiliary_invalid_reason=invalid_reason,
+        aligned_target_voxels=aligned_counts,
     )
 
 
@@ -755,14 +1090,45 @@ def run_real_view_parity_gate(
             epoch=1,
             phase_index=phase_index,
         )
-        fraction = paired.target_voxels / paired.eligible_voxels
-        expected = int(mask_spec["blocks"]) * int(mask_spec["block_voxels"]) ** 3
+        fraction = paired.target_voxels / max(paired.eligible_voxels, 1)
+        strategy = str(mask_spec.get("strategy", "full_supported_cuboids_v1"))
+        expected = (
+            registered_cluster_target_count(paired.eligible_voxels, mask_spec)
+            if strategy == "exact_support_compact_clusters_v2"
+            and paired.auxiliary_valid
+            else int(mask_spec["blocks"]) * int(mask_spec["block_voxels"]) ** 3
+            if strategy != "exact_support_compact_clusters_v2"
+            else 0
+        )
         gates = {
             "paired_geometry_exact": True,
             "paired_parent_order_exact": True,
-            "support_threshold_parity_exact": True,
-            "exact_registered_cuboid_voxels": paired.target_voxels == expected,
-            "mask_fraction_registered": low <= fraction <= high,
+            "exact_support_random_geometry_parity": True,
+            "exact_registered_target_voxels": paired.target_voxels == expected,
+            "registered_auxiliary_exception": bool(
+                paired.auxiliary_valid
+                or (
+                    paired.target_voxels == 0
+                    and paired.auxiliary_invalid_reason
+                    in {
+                        "registered_exact_support_minimum",
+                        "aligned_layer_target_minimum",
+                    }
+                )
+            ),
+            "unsupported_voxels_excluded": bool(
+                not np.any(
+                    paired.target_mask.detach().cpu().numpy()[0]
+                    & ~exact_supported_core_mask(
+                        paired.final_patch, paired.dense_patch, paired.support_patch
+                    )
+                )
+                if strategy == "exact_support_compact_clusters_v2"
+                else True
+            ),
+            "mask_fraction_registered": bool(
+                not paired.auxiliary_valid or low <= fraction <= high
+            ),
         }
         records.append(
             {
@@ -772,15 +1138,23 @@ def run_real_view_parity_gate(
                 "eligible_voxels": paired.eligible_voxels,
                 "target_voxels": paired.target_voxels,
                 "mask_fraction": fraction,
+                "auxiliary_valid": paired.auxiliary_valid,
+                "auxiliary_invalid_reason": paired.auxiliary_invalid_reason,
+                "aligned_target_voxels": paired.aligned_target_voxels,
                 "gates": gates,
                 "pass": bool(all(gates.values())),
             }
         )
     report = {
-        "schema_version": "p11-real-view-pair-parity-v1",
+        "schema_version": "p11-real-view-pair-parity-v2",
         "created_utc": utc_now(),
         "data_contract_aggregate_sha256": data_contract["aggregate_sha256"],
-        "support_semantics": f"exposure_apodized>{MINIMUM_SUPPORT:g} as registered M=1 target proxy",
+        "support_semantics": (
+            "exact binary P3b-R support_random hidden metadata"
+            if str(mask_spec.get("strategy", "full_supported_cuboids_v1"))
+            == "exact_support_compact_clusters_v2"
+            else f"historical exposure_apodized>{V1_MINIMUM_SUPPORT:g} proxy"
+        ),
         "records": records,
         "sealed_phase_opened": False,
         "pass": bool(all(row["pass"] for row in records)),
@@ -816,9 +1190,12 @@ def arm_auxiliary_losses(
     unmasked_final_values: torch.Tensor,
     target_mask: torch.Tensor,
     layer_weights: dict[str, float],
+    auxiliary_valid: bool = True,
 ) -> dict[str, torch.Tensor]:
     zero = student_features["latent"].sum() * 0.0
     losses = {"alignment": zero, "spread": zero, "covariance": zero, "reconstruction": zero}
+    if not auxiliary_valid:
+        return losses
     if arm == "jepa":
         teacher_features = model.encode_teacher(dense_values)
         alignment = zero
@@ -867,6 +1244,10 @@ def technical_canary_gates(
     gradient_norm: float,
     mask_fraction: float,
     registered_mask_fraction_range: tuple[float, float],
+    auxiliary_invalid_updates: int,
+    maximum_auxiliary_invalid_updates: int,
+    canary_updates: int,
+    registered_canary_updates: int,
     checkpoint_reload_valid: bool,
     latent_snapshot_valid: bool,
 ) -> dict:
@@ -878,6 +1259,15 @@ def technical_canary_gates(
         "finite_gradient_norm": bool(np.isfinite(gradient_norm)),
         "nonzero_registered_mask_fraction": bool(
             np.isfinite(mask_fraction) and mask_fraction > 0 and low <= mask_fraction <= high
+        ),
+        "registered_canary_update_count": bool(
+            int(canary_updates) == int(registered_canary_updates)
+        ),
+        "auxiliary_invalid_count_registered": bool(
+            int(auxiliary_invalid_updates) == auxiliary_invalid_updates
+            and 0
+            <= int(auxiliary_invalid_updates)
+            <= int(maximum_auxiliary_invalid_updates)
         ),
         "checkpoint_reload_valid": bool(checkpoint_reload_valid),
         "final_latent_snapshot_valid": bool(latent_snapshot_valid),
@@ -915,7 +1305,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--factorial-root", type=Path, default=p11_impl.DEFAULT_ROOT)
     parser.add_argument("--adapter-contract", type=Path, default=p11_impl.DEFAULT_CONTRACT)
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT)
-    parser.add_argument("--run-name", default="canary_v1")
+    parser.add_argument("--run-name", default="paired_degrade_jepa_m25_v2")
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--checkpoint-every", type=int, default=250)
     parser.add_argument("--loss-log-every", type=int, default=25)
@@ -1061,6 +1451,9 @@ def main() -> None:
     aux_steps = 0
     target_voxels = 0
     eligible_voxels = 0
+    auxiliary_valid_cores = 0
+    auxiliary_invalid_cores = 0
+    auxiliary_invalid_reasons: dict[str, int] = {}
     maximum_memory = 0
 
     if resume:
@@ -1095,6 +1488,12 @@ def main() -> None:
         aux_steps = int(state["aux_steps"])
         target_voxels = int(state["target_voxels"])
         eligible_voxels = int(state["eligible_voxels"])
+        auxiliary_valid_cores = int(state.get("auxiliary_valid_cores", 0))
+        auxiliary_invalid_cores = int(state.get("auxiliary_invalid_cores", 0))
+        auxiliary_invalid_reasons = {
+            str(name): int(value)
+            for name, value in state.get("auxiliary_invalid_reasons", {}).items()
+        }
         maximum_memory = int(state["maximum_memory"])
         torch.set_rng_state(state["torch_rng_state"].cpu())
         if "cuda_rng_state_all" in state and torch.cuda.is_available():
@@ -1188,6 +1587,9 @@ def main() -> None:
             "aux_steps": aux_steps,
             "target_voxels": target_voxels,
             "eligible_voxels": eligible_voxels,
+            "auxiliary_valid_cores": auxiliary_valid_cores,
+            "auxiliary_invalid_cores": auxiliary_invalid_cores,
+            "auxiliary_invalid_reasons": auxiliary_invalid_reasons,
             "maximum_memory": maximum_memory,
             "torch_rng_state": torch.get_rng_state(),
         }
@@ -1489,6 +1891,7 @@ def main() -> None:
                     unmasked_final_values=paired.final_values,
                     target_mask=paired.target_mask,
                     layer_weights=architecture["aligned_layers"],
+                    auxiliary_valid=paired.auxiliary_valid,
                 )
                 scale = lambda value: phase_scaled_patch_loss(
                     value, ref, phase_core_count[ref.phase]
@@ -1531,6 +1934,14 @@ def main() -> None:
                 aux_steps += 1
                 target_voxels += paired.target_voxels
                 eligible_voxels += paired.eligible_voxels
+                if paired.auxiliary_valid:
+                    auxiliary_valid_cores += 1
+                else:
+                    auxiliary_invalid_cores += 1
+                    reason = str(paired.auxiliary_invalid_reason)
+                    auxiliary_invalid_reasons[reason] = (
+                        auxiliary_invalid_reasons.get(reason, 0) + 1
+                    )
                 loss_window.append(
                     {
                         "total": float(loss.detach().cpu()),
@@ -1553,6 +1964,10 @@ def main() -> None:
                         },
                         "learning_rate": float(scheduler.get_last_lr()[0]),
                         "target_mask_fraction_cumulative": target_voxels / max(eligible_voxels, 1),
+                        "auxiliary_valid_cores_cumulative": auxiliary_valid_cores,
+                        "auxiliary_invalid_cores_cumulative": auxiliary_invalid_cores,
+                        "auxiliary_invalid_fraction_cumulative": auxiliary_invalid_cores
+                        / max(auxiliary_valid_cores + auxiliary_invalid_cores, 1),
                     }
                     append_jsonl(output / "loss_trace.jsonl", row)
                     loss_window.clear()
@@ -1589,6 +2004,9 @@ def main() -> None:
                     ]
                     final_export = registered_exports[-1]
                     mask_fraction = target_voxels / max(eligible_voxels, 1)
+                    auxiliary_invalid_fraction = auxiliary_invalid_cores / max(
+                        auxiliary_valid_cores + auxiliary_invalid_cores, 1
+                    )
                     technical = technical_canary_gates(
                         finite_pre_parameters=finite_pre_parameters,
                         finite_post_parameters=module_parameters_finite(model),
@@ -1599,6 +2017,18 @@ def main() -> None:
                             float(value)
                             for value in mask_spec["registered_mask_fraction_range"]
                         ),
+                        auxiliary_invalid_updates=auxiliary_invalid_cores,
+                        maximum_auxiliary_invalid_updates=int(
+                            mask_spec["technical_canary_auxiliary_gate"][
+                                "maximum_auxiliary_invalid_updates"
+                            ]
+                        ),
+                        canary_updates=global_step,
+                        registered_canary_updates=int(
+                            mask_spec["technical_canary_auxiliary_gate"][
+                                "registered_updates"
+                            ]
+                        ),
                         checkpoint_reload_valid=checkpoint_reload_valid,
                         latent_snapshot_valid=bool(
                             len(registered_exports) == len(REGISTERED_TRAJECTORY_STEPS)
@@ -1607,7 +2037,7 @@ def main() -> None:
                         ),
                     )
                     marker = {
-                        "schema_version": "p11-jepa-technical-canary-v1",
+                        "schema_version": "p11-jepa-technical-canary-v2",
                         "created_utc": utc_now(),
                         "arm": args.arm,
                         "global_step": global_step,
@@ -1619,6 +2049,16 @@ def main() -> None:
                         "registered_mask_fraction_range": mask_spec[
                             "registered_mask_fraction_range"
                         ],
+                        "auxiliary_valid_cores": auxiliary_valid_cores,
+                        "auxiliary_invalid_cores": auxiliary_invalid_cores,
+                        "auxiliary_invalid_reasons": auxiliary_invalid_reasons,
+                        "auxiliary_invalid_fraction": auxiliary_invalid_fraction,
+                        "maximum_auxiliary_invalid_updates": mask_spec[
+                            "technical_canary_auxiliary_gate"
+                        ]["maximum_auxiliary_invalid_updates"],
+                        "population_auxiliary_invalid_fraction_gate": mask_spec[
+                            "population_auxiliary_audit"
+                        ]["maximum_auxiliary_invalid_fraction"],
                         "teacher_gradient_free": True,
                         "data_contract_aggregate_sha256": data_contract[
                             "aggregate_sha256"
@@ -1703,6 +2143,11 @@ def main() -> None:
                     name: value / max(aux_steps, 1) for name, value in aux_sums.items()
                 },
                 "target_mask_fraction": target_voxels / max(eligible_voxels, 1),
+                "auxiliary_valid_cores": auxiliary_valid_cores,
+                "auxiliary_invalid_cores": auxiliary_invalid_cores,
+                "auxiliary_invalid_reasons": dict(auxiliary_invalid_reasons),
+                "auxiliary_invalid_fraction": auxiliary_invalid_cores
+                / max(auxiliary_valid_cores + auxiliary_invalid_cores, 1),
                 "validation_all_rows_scaled_mse": float(np.mean(val_row_loss)),
                 "primary_macro_r2_lambda1": score,
                 "diagnostic_first_three_shell_macro_r2_lambda1": report[
@@ -1765,6 +2210,9 @@ def main() -> None:
             aux_steps = 0
             target_voxels = 0
             eligible_voxels = 0
+            auxiliary_valid_cores = 0
+            auxiliary_invalid_cores = 0
+            auxiliary_invalid_reasons = {}
             if epoch <= int(optimization["epochs"]):
                 checkpoint(loader.training_epoch(seed=args.seed, epoch=epoch), 0)
             if stopped:

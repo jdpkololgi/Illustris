@@ -22,17 +22,21 @@ from types import SimpleNamespace
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_CONTRACT = REPO_ROOT / "configs/p11_paired_degrade_jepa_v1.json"
+DEFAULT_CONTRACT = REPO_ROOT / "configs/p11_paired_degrade_jepa_v2.json"
 DEFAULT_RUN_DIR = Path(
     "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/"
-    "p11_factorial_views_v1/training/paired_degrade_jepa_v1/"
-    "paired_degrade_jepa_v1/jepa/seed_42"
+    "p11_factorial_views_v1/training/paired_degrade_jepa_v2/"
+    "paired_degrade_jepa_m25_v2/jepa/seed_42"
 )
 TRAINING_PHASES = ("ph002", "ph003", "ph004", "ph005")
 VALIDATION_PHASE = "ph006"
 SEALED_PHASE = "ph001"
-CANARY_MINIMUM_STEP = 500
+CANARY_REGISTERED_STEP = 500
 SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
+LATENT_DIAGNOSTIC_FILENAME = "latent_diagnostics_0_250_500.json"
+LATENT_DIAGNOSTIC_SCHEMA = "p11-jepa-latent-diagnostics-v1"
+LATENT_GATE_VERSION = "p11-jepa-latent-gate-v1"
+REGISTERED_LATENT_STEPS = (0, 250, 500)
 
 
 def _load_json(path: Path) -> dict:
@@ -80,14 +84,14 @@ def validate_canary_marker(run_dir: Path) -> dict:
     """Validate only small JSON; this gate runs before every salloc request."""
     run_dir = Path(run_dir)
     marker = _load_json(run_dir / "TECHNICAL_CANARY_COMPLETE.json")
-    if marker.get("schema_version") != "p11-jepa-technical-canary-v1":
+    if marker.get("schema_version") != "p11-jepa-technical-canary-v2":
         raise RuntimeError("unsupported P11 technical-canary marker")
     if marker.get("arm") != "jepa" or not marker.get("pass"):
         raise RuntimeError("P11 JEPA technical canary is absent or did not pass")
     if marker.get("ph001_opened") or not marker.get("teacher_gradient_free"):
         raise RuntimeError("P11 canary violates a sealed-phase or teacher-gradient guard")
-    if int(marker.get("global_step", -1)) < CANARY_MINIMUM_STEP:
-        raise RuntimeError("P11 canary did not complete 500 optimizer updates")
+    if int(marker.get("global_step", -1)) != CANARY_REGISTERED_STEP:
+        raise RuntimeError("P11 canary did not stop at exactly 500 optimizer updates")
     gates = marker.get("gates")
     if not isinstance(gates, dict) or not gates or not all(value is True for value in gates.values()):
         raise RuntimeError("one or more P11 technical-canary gates did not pass")
@@ -100,6 +104,123 @@ def validate_canary_marker(run_dir: Path) -> dict:
     if not expected_checkpoint.is_file():
         raise RuntimeError("P11 canary checkpoint is absent")
     return marker
+
+
+def validate_latent_diagnostic_gate(
+    run_dir: Path, marker: dict, contract: dict
+) -> dict:
+    """Require the registered scientific 0/250/500 gate before continuation.
+
+    The technical marker proves only that optimization, checkpointing and latent
+    export worked.  This independently binds a passing scientific diagnostic to
+    the exact registered exports and frozen thresholds.  The exports are small
+    fixed-ph006 probe products, so rehashing all three on the login node is an
+    intentional fail-closed pre-allocation check.
+    """
+    run_dir = Path(run_dir)
+    report = _load_json(run_dir / LATENT_DIAGNOSTIC_FILENAME)
+    if report.get("schema_version") != LATENT_DIAGNOSTIC_SCHEMA:
+        raise RuntimeError("unsupported P11 latent-diagnostic report")
+    if report.get("status") != "pass" or report.get("pass") is not True:
+        raise RuntimeError("registered P11 0/250/500 latent diagnostic did not pass")
+    if report.get("selection_phase") != VALIDATION_PHASE:
+        raise RuntimeError("P11 latent diagnostic did not use ph006 selection data")
+    if (
+        report.get("sealed_phase") != SEALED_PHASE
+        or report.get("sealed_phase_opened") is not False
+    ):
+        raise RuntimeError("P11 latent diagnostic violates the sealed ph001 guard")
+
+    diagnostics = contract.get("diagnostics", {})
+    if tuple(diagnostics.get("registered_latent_trajectory_steps", ())) != (
+        REGISTERED_LATENT_STEPS
+    ):
+        raise RuntimeError("P11 contract no longer registers the 0/250/500 trajectory")
+    registered_thresholds = dict(diagnostics.get("registered_gate", {}))
+    if registered_thresholds.pop("version", None) != LATENT_GATE_VERSION:
+        raise RuntimeError("P11 contract latent-gate version changed")
+    if report.get("thresholds") != registered_thresholds:
+        raise RuntimeError("P11 latent diagnostic did not use frozen gate thresholds")
+
+    gate = report.get("registered_status_gate")
+    if not isinstance(gate, dict):
+        raise RuntimeError("P11 latent diagnostic omitted the registered status gate")
+    if (
+        gate.get("version") != LATENT_GATE_VERSION
+        or gate.get("status") != "pass"
+        or gate.get("pass") is not True
+        or gate.get("arm") != "jepa"
+    ):
+        raise RuntimeError("registered P11 latent status gate did not pass")
+    if (
+        tuple(gate.get("required_steps", ())) != REGISTERED_LATENT_STEPS
+        or tuple(gate.get("observed_steps", ())) != REGISTERED_LATENT_STEPS
+        or gate.get("missing_steps") != []
+    ):
+        raise RuntimeError("registered P11 latent status gate is not exact 0/250/500")
+    if (
+        gate.get("response_only_encoder_available") is not True
+        or gate.get("response_only_control_evaluable") is not True
+    ):
+        raise RuntimeError("P11 latent gate lacks its registered response-only control")
+
+    expected_run_id = "/".join(run_dir.resolve().parts[-3:])
+    if report.get("run_id") != expected_run_id:
+        raise RuntimeError("P11 latent diagnostic run identity changed")
+    exports = marker.get("registered_latent_exports")
+    if not isinstance(exports, list) or len(exports) != len(REGISTERED_LATENT_STEPS):
+        raise RuntimeError("technical canary omitted registered 0/250/500 exports")
+    by_step = {}
+    for export in exports:
+        if not isinstance(export, dict):
+            raise RuntimeError("technical-canary latent export record is malformed")
+        step = int(export.get("global_step", -1))
+        if step in by_step:
+            raise RuntimeError("technical canary repeats a registered latent step")
+        by_step[step] = export
+    if tuple(sorted(by_step)) != REGISTERED_LATENT_STEPS:
+        raise RuntimeError("technical canary latent exports are not exact 0/250/500")
+
+    sources = report.get("snapshot_sources")
+    if not isinstance(sources, list) or len(sources) != len(REGISTERED_LATENT_STEPS):
+        raise RuntimeError("P11 latent diagnostic snapshot inventory is incomplete")
+    source_by_step = {}
+    for source in sources:
+        if not isinstance(source, dict):
+            raise RuntimeError("P11 latent diagnostic snapshot record is malformed")
+        step = int(source.get("global_step", -1))
+        if step in source_by_step:
+            raise RuntimeError("P11 latent diagnostic repeats a snapshot step")
+        source_by_step[step] = source
+    if tuple(sorted(source_by_step)) != REGISTERED_LATENT_STEPS:
+        raise RuntimeError("P11 latent diagnostic snapshots are not exact 0/250/500")
+
+    expected_export_dir = (run_dir / "latent_exports").resolve()
+    for step in REGISTERED_LATENT_STEPS:
+        export = by_step[step]
+        source = source_by_step[step]
+        expected_path = (
+            expected_export_dir / f"step_{step:09d}.npz"
+        ).resolve()
+        export_path = Path(str(export.get("path", ""))).resolve()
+        source_path = Path(str(source.get("path", ""))).resolve()
+        if export_path != expected_path or source_path != expected_path:
+            raise RuntimeError("P11 latent diagnostic references an unexpected snapshot")
+        expected_hash = str(export.get("sha256", ""))
+        if (
+            export.get("run_id") != expected_run_id
+            or not SHA256_PATTERN.fullmatch(expected_hash)
+            or source.get("sha256") != expected_hash
+            or _sha256(expected_path) != expected_hash
+        ):
+            raise RuntimeError("P11 latent diagnostic snapshot hash or identity changed")
+
+    checkpoint_steps = tuple(
+        sorted(int(row.get("global_step", -1)) for row in report.get("checkpoints", ()))
+    )
+    if checkpoint_steps != REGISTERED_LATENT_STEPS:
+        raise RuntimeError("P11 latent diagnostic checkpoint series is not exact 0/250/500")
+    return report
 
 
 def _paths_from_manifest(manifest: dict) -> SimpleNamespace:
@@ -155,6 +276,7 @@ def validate_preallocation(run_dir: Path, contract_path: Path) -> dict:
     marker = validate_canary_marker(run_dir)
     contract = _load_json(contract_path)
     _require_phase_contract(contract)
+    latent_gate = validate_latent_diagnostic_gate(run_dir, marker, contract)
     manifest = _load_json(run_dir / "run_manifest.json")
     if manifest.get("schema_version") != "p11-paired-degrade-jepa-run-v1":
         raise RuntimeError("unsupported P11 run manifest")
@@ -197,6 +319,10 @@ def validate_preallocation(run_dir: Path, contract_path: Path) -> dict:
         "contract_sha256": manifest["contract_sha256"],
         "data_contract_aggregate_sha256": stored_data["aggregate_sha256"],
         "global_step": int(marker["global_step"]),
+        "latent_diagnostic_sha256": _sha256(
+            run_dir / LATENT_DIAGNOSTIC_FILENAME
+        ),
+        "latent_gate_status": latent_gate["status"],
         "sealed_phase": SEALED_PHASE,
         "sealed_phase_opened": False,
     }
@@ -213,6 +339,7 @@ def validate_frozen_run(run_dir: Path, contract_path: Path) -> tuple[dict, dict,
     marker = validate_canary_marker(run_dir)
     contract = implementation.load_contract(contract_path)
     _require_phase_contract(contract)
+    validate_latent_diagnostic_gate(run_dir, marker, contract)
     manifest = _load_json(run_dir / "run_manifest.json")
     if manifest.get("schema_version") != "p11-paired-degrade-jepa-run-v1":
         raise RuntimeError("unsupported P11 run manifest")

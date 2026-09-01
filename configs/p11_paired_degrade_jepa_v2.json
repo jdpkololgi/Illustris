@@ -1,0 +1,144 @@
+{
+  "schema_version": "p11-paired-degrade-jepa-contract-v2",
+  "contract_id": "PAIRED-DEGRADE-JEPA-M25-v2",
+  "phase_split": {
+    "training": ["ph002", "ph003", "ph004", "ph005"],
+    "validation_and_selection": "ph006",
+    "sealed_blind_test": "ph001"
+  },
+  "views": {
+    "student": "V_final BRIGHT from the frozen P3b-R R1 random-response contract",
+    "teacher": "V_dense BRIGHT on the identical canonical grid and exact P3b-R support_random",
+    "pairing": "same phase, cap, core, context lattice, authoritative galaxies, outer split, and exact binary P3b-R support_random M; stage counts and ntilde-derived contrast may differ"
+  },
+  "architecture": {
+    "family": "U-PATCH",
+    "input_channels": 3,
+    "unet_base_channels": 24,
+    "latent_channels": 32,
+    "point_head_width": 128,
+    "aligned_layers": {
+      "latent": 0.75,
+      "bottleneck": 0.25
+    },
+    "teacher": "EMA copy of student encoder only; stop-gradient; no target head",
+    "predictor": "separate pointwise convolutional predictor at each aligned layer",
+    "deployment": "student encoder plus student-only ordered-increment target head"
+  },
+  "masking": {
+    "strategy": "exact_support_compact_clusters_v2",
+    "seed_policy": "SeedSequence(seed, epoch, phase_index, core_id, 210911)",
+    "support_channel": "support_random",
+    "support_role": "hidden exact binary P3b-R M metadata; never a model input",
+    "clusters": 4,
+    "registered_target_fraction": 0.25,
+    "integer_target_policy": "numpy_rint",
+    "minimum_eligible_voxels": 16,
+    "minimum_target_voxels": 4,
+    "minimum_context_voxels": 12,
+    "registered_mask_fraction_range": [0.20, 0.30],
+    "population_auxiliary_audit": {
+      "maximum_auxiliary_invalid_fraction": 0.001,
+      "status": "pass",
+      "visible_cores": 84040,
+      "visible_auxiliary_invalid_cores": 10,
+      "training_cores": 67244,
+      "training_auxiliary_invalid_cores": 10,
+      "training_auxiliary_invalid_fraction": 0.0001487121527571233,
+      "validation_cores": 16796,
+      "validation_auxiliary_invalid_cores": 0,
+      "report": "/global/homes/d/dkololgi/TNG/Illustris/docs/evidence/p11/P11_JEPA_MASK_FEASIBILITY.json",
+      "report_sha256": "519394bba5a033b20513b702efab4a102c4b91fa1bbac4181aa0207cf33ef5af"
+    },
+    "technical_canary_auxiliary_gate": {
+      "registered_updates": 500,
+      "maximum_auxiliary_invalid_updates": 1,
+      "policy": "the exhaustive population rate is gated separately; the finite 500-update technical canary uses an integer count so one rare auxiliary-invalid core does not fail solely because 1/500 exceeds the population-rate threshold"
+    },
+    "cluster_policy": "seeded first supported voxel plus farthest-point seeds; balanced nearest-unselected supported voxels per seed",
+    "downsample_policy": "ANY propagation through the U-Net MaxPool3d(2,ceil_mode=True) hierarchy",
+    "student_masked_channels": [0, 1],
+    "response_channel_preserved": 2,
+    "model_tensor_order": ["zscored_log1p_counts", "density_proxy", "exposure_apodized"],
+    "target_domain": "exact support_random==1 inside the authoritative core; 25 percent integer-rounded into four compact clusters when auxiliary-valid",
+    "auxiliary_invalid_policy": "retain the core and authoritative target loss; supervised_masked, masked_reconstruction, and jepa use unmasked V_final, while response_only retains its registered globally zeroed cosmological-signal input; every arm uses an all-zero target mask and zero auxiliary terms when exact-support minima fail or either aligned layer has fewer than two pooled targets",
+    "fallback": "no core is dropped; only the matched auxiliary intervention is disabled under the registered auxiliary-invalid policy",
+    "unsupported_locations_are_targets": false
+  },
+  "objective": {
+    "target": "registered equal-phase square-root-shell-weighted ordered-increment MSE",
+    "alignment": "smooth-L1 between layer-normalized predictor and stop-gradient teacher targets",
+    "alignment_weight": 0.25,
+    "spread": "VICReg hinge on per-channel standard deviation of student target latents",
+    "spread_weight": 0.02,
+    "covariance_weight": 0.002,
+    "reconstruction_weight": 0.25,
+    "teacher_ema_momentum": 0.996,
+    "gradient_clip": 5.0
+  },
+  "optimization": {
+    "seed": 42,
+    "epochs": 10,
+    "minimum_epochs": 5,
+    "patience": 3,
+    "minimum_macro_r2_delta": 0.002,
+    "learning_rate": 0.002,
+    "weight_decay": 0.0001,
+    "scheduler": "CosineAnnealingLR over the identical full-epoch update budget"
+  },
+  "matched_arms": {
+    "supervised_masked": "same student, examples, masks, weights and updates; target loss only",
+    "masked_reconstruction": "same student and masks; target loss plus reconstruction of the two masked final-view signal channels",
+    "response_only": "same target head and examples, with both cosmological signal channels zeroed and response retained",
+    "jepa": "same student and masks; target loss plus dense-view EMA latent prediction and collapse regularization"
+  },
+  "diagnostics": {
+    "fixed_validation_probe_cores": 10,
+    "maximum_exported_galaxies": 4096,
+    "latent_export_every_updates": 250,
+    "registered_latent_trajectory_steps": [0, 250, 500],
+    "registered_gate": {
+      "version": "p11-jepa-latent-gate-v1",
+      "minimum_effective_rank_fraction": 0.25,
+      "minimum_total_standard_deviation": 0.0001,
+      "minimum_cka_over_shuffle": 0.05,
+      "minimum_retrieval_mrr_over_shuffle": 0.02,
+      "high_alignment": 0.95,
+      "material_probe_gap": 0.03,
+      "maximum_probe_regression": 0.01,
+      "material_alignment_gain": 0.05,
+      "material_rank_fraction_loss": 0.10,
+      "response_shortcut_margin": 0.01,
+      "low_response_error_ratio": 1.5,
+      "deceptively_flat_alignment_ratio": 0.9
+    },
+    "exported_latents": [
+      "student_final",
+      "predicted_dense_jepa_only",
+      "teacher_dense",
+      "response_only_student"
+    ],
+    "metrics": [
+      "pair_cosine",
+      "predictor_cosine",
+      "student_to_teacher_norm_ratio",
+      "per_channel_spread",
+      "effective_rank",
+      "collapse_fraction"
+    ]
+  },
+  "scientific_guards": {
+    "phase_is_model_input": false,
+    "response_is_available_to_student": true,
+    "teacher_or_degradation_metadata_available_at_inference": false,
+    "jepa_is_posterior": false,
+    "exact_latent_equality_required": false,
+    "ph001_may_be_opened": false
+  },
+  "promotion": {
+    "primary": "deployable student ph006 macro-shell R2(lambda1) gain >= 0.03 over the matched supervised control",
+    "supported_shell_max_degradation": 0.01,
+    "heldout_degradation_harm_allowed": false,
+    "posterior_calibration_still_required": true
+  }
+}

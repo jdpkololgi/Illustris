@@ -1,0 +1,61 @@
+{
+  "schema_version": "p11-jepa-mask-feasibility-evidence-v1",
+  "created_utc": "2026-09-01T19:31:55Z",
+  "decision": "replace zero-update v1 full-cuboid/apodized-proxy mask with exact-M 25-percent compact-cluster v2; retain ten training-population auxiliary-invalid cores for supervised learning with zero auxiliary weight",
+  "sealed_phase": "ph001",
+  "sealed_phase_opened": false,
+  "support_contract": {
+    "target_eligibility": "support_random == 1 inside the authoritative core",
+    "visible_response_channel": "exposure_apodized_random",
+    "apodized_exposure_is_binary_support": false,
+    "unsupported_locations_are_targets": false
+  },
+  "mask_contract": {
+    "target_fraction_of_exact_support": 0.25,
+    "clusters": 4,
+    "cluster_layout": "seeded first centre, farthest-point remaining centres, balanced nearest supported voxels",
+    "bottleneck_propagation": "logical-any through three MaxPool3d(2,stride=2,ceil_mode=true) stages",
+    "auxiliary_invalid_policy": "retain authoritative supervised target and example; zero JEPA/reconstruction/collapse auxiliary terms; do not drop the core"
+  },
+  "all_visible_epoch1": {
+    "source": "/global/homes/d/dkololgi/p11_exact_m_cluster_all_visible_epoch1_production_v2.json",
+    "source_sha256": "afe9e20bf8c37c3285bed07be1ef95772d3505503b39900ebada3da103294cd7",
+    "cores": 84040,
+    "training_cores": 67244,
+    "validation_cores": 16796,
+    "nearest_resize_aux_invalid_fraction_range_rejected": [0.12121933793760419, 0.12612398022985769],
+    "production_aux_invalid_cores": 10,
+    "production_aux_invalid_fraction": 0.00011899095668729176,
+    "training_aux_invalid_cores": 10,
+    "training_aux_invalid_fraction": 0.0001487121527571233,
+    "validation_aux_invalid_cores": 0,
+    "phases": {
+      "ph002": {"cores": 16768, "exact_support_min": 2, "exact_support_median": 7739, "production_aux_invalid": 3},
+      "ph003": {"cores": 16890, "exact_support_min": 11, "exact_support_median": 7738, "production_aux_invalid": 2},
+      "ph004": {"cores": 16793, "exact_support_min": 5, "exact_support_median": 7737, "production_aux_invalid": 3},
+      "ph005": {"cores": 16793, "exact_support_min": 5, "exact_support_median": 7736, "production_aux_invalid": 2},
+      "ph006": {"cores": 16796, "exact_support_min": 26, "exact_support_median": 7738, "production_aux_invalid": 0}
+    }
+  },
+  "multi_epoch_sample": {
+    "source": "/global/homes/d/dkololgi/p11_exact_m_cluster_sample500_production_v2.json",
+    "source_sha256": "d4f6a7b2d7ed2ccb0a210ea6fd99cd951f9861d1428afdd5e8327904bae12aec",
+    "cores_per_phase": 500,
+    "epochs": [1, 2, 5, 10],
+    "production_aux_invalid": 0
+  },
+  "implementation": {
+    "audit_source": "workflows/abacus_tweb/p11_jepa_mask_feasibility_audit.py",
+    "audit_source_sha256_before_evidence_freeze": "57196b580734bdcd46e8a5150b1e9152ea12ef99962d45d96aebe05e29c4bcd1",
+    "production_function": "workflows.abacus_tweb.p11_jepa_canary.auxiliary_cluster_mask"
+  },
+  "gates": {
+    "all_visible_cores_audited": true,
+    "ph001_not_opened": true,
+    "exact_M_used": true,
+    "nearest_resize_rejected": true,
+    "production_training_invalid_fraction_below_0p001": true,
+    "zero_update_amendment": true
+  },
+  "pass": true
+}

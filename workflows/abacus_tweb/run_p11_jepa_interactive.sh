@@ -4,9 +4,10 @@ set -euo pipefail
 
 REPO=/global/homes/d/dkololgi/TNG/Illustris
 ROOT=/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p11_factorial_views_v1
-CONTRACT_ROOT=${P11_CONTRACT_ROOT:-/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random}
+CONTRACT_ROOT=${P11_CONTRACT_ROOT:-/global/homes/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901}
 ARM=${P11_ARM:-jepa}
-RUN_NAME=${P11_RUN_NAME:-canary_v1}
+RUN_NAME=${P11_RUN_NAME:-paired_degrade_jepa_m25_v2}
+CONTRACT=${P11_CONTRACT:-${REPO}/configs/p11_paired_degrade_jepa_v2.json}
 SEED=${P11_SEED:-42}
 LOG=${ROOT}/p11_${ARM}_${SLURM_JOB_ID:-manual}.log
 
@@ -42,8 +43,8 @@ export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK:-32}"
 
 extra=()
 # This launcher is a bounded technical canary by default.  Set the variable to
-# an empty string only after the step-500 marker has passed and the matched-arm
-# science run has been explicitly opened.
+# an empty string only after the step-500 marker and registered 0/250/500 latent
+# gate have passed and the matched-arm science run has been explicitly opened.
 STOP_AFTER_UPDATES=${P11_STOP_AFTER_UPDATES-500}
 if [[ -n "${STOP_AFTER_UPDATES}" ]]; then
   extra+=(--stop-after-updates "${STOP_AFTER_UPDATES}")
@@ -61,6 +62,7 @@ fi
   "${PY}" -u -m workflows.abacus_tweb.p11_jepa_canary \
     --arm "${ARM}" \
     --seed "${SEED}" \
+    --contract "${CONTRACT}" \
     --contract-root "${CONTRACT_ROOT}" \
     --run-name "${RUN_NAME}" \
     --checkpoint-every 250 \
