@@ -1,5 +1,15 @@
 {
   "artifacts": {
+    "base_checkpoint": {
+      "bytes": 5791201,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/arm_a_training/arm_a_r0_v1/unet/seed_42/best_checkpoint.pt",
+      "sha256": "cd7c280602b3496753d21d236d30c50bde96335fa69ccc60cd12c0dfe3ccdfab"
+    },
+    "base_summary": {
+      "bytes": 1710,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_oof_summaries/ph006/OOF_SUMMARY_COMPLETE.json",
+      "sha256": "dfc43618bebb29f97541335d27984a516076f442c63266e62e031172d7d35afd"
+    },
     "calibration_audit": {
       "bytes": 271018,
       "path": "docs/evidence/p12/P12A_CALIBRATION_AUDIT.json",
@@ -32,9 +42,25 @@
     }
   },
   "audit_draw_rows": 50000,
-  "created_utc": "2026-09-02T14:04:40.222859+00:00",
-  "estimand": "q(lambda_ordered | U_PATCH_R1_prediction, response, H_fid)",
-  "git_revision": "ae14c06cb96c4654bf48d38caa8b1c62aa11a977",
+  "base_encoder": {
+    "checkpoint": {
+      "bytes": 5791201,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/arm_a_training/arm_a_r0_v1/unet/seed_42/best_checkpoint.pt",
+      "sha256": "cd7c280602b3496753d21d236d30c50bde96335fa69ccc60cd12c0dfe3ccdfab"
+    },
+    "model": "U-PATCH R0 five-phase",
+    "response_aware_encoder": false,
+    "response_conditioned_posterior": true,
+    "selected_epoch": 20,
+    "validation_summary": {
+      "bytes": 1710,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_oof_summaries/ph006/OOF_SUMMARY_COMPLETE.json",
+      "sha256": "dfc43618bebb29f97541335d27984a516076f442c63266e62e031172d7d35afd"
+    }
+  },
+  "created_utc": "2026-09-02T15:13:38.605041+00:00",
+  "estimand": "q(lambda_ordered | U_PATCH_R0_epoch20_prediction, P3b-R response covariates, H_fid)",
+  "git_revision": "edb42be608170d8ad6e5385487b790333d87ad53",
   "open_count": 0,
   "pass": true,
   "ph006_caveat": "sparse-shell lambda2/lambda3 conditional residual",
