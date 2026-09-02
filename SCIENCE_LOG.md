@@ -37,6 +37,26 @@ clean code-75 wall-time pause, while enforcing the two-allocation limit.  Large 
 is rooted at `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_dependency_rescue_v2/`.
 No ph001 truth, density target or T-web product was opened.
 
+The first allocation request (`57869733`) timed out before a compute worker began;
+it produced no panel or samples. Commit `50eda1b` teaches the tmux supervisor to retry
+only this pre-worker allocation failure, while retaining fail-closed behavior after a
+worker-start marker exists. The relaunched `rescue_v2` session obtained job `57871978`
+on `nid008192`; its environment preflight and 15 frozen tests passed, the 1,024-core
+panel was written, and resumable G1 export began. A second tmux session, `eval_v2`,
+waits without holding an allocation until the archive completion marker appears.
+
+Commit `0b0d414` implements the downstream resumable evaluation and visual layer:
+`workflows/sbi/p12f_dependency_rescue_evaluator.py`,
+`workflows/sbi/plot_p12f_dependency_rescue.py`, and
+`workflows/sbi/run_p12f_dependency_evaluation_tmux.sh`. Expensive tidal physics is
+cached per core. The evaluator diagonalizes only the eight interpolation-corner
+tensors required by each authoritative galaxy, which unit tests reproduce against
+the historical full-grid-eigenvalue-then-interpolate path to `2e-6`. Twenty-one
+focused tests pass. The frozen outputs include nested-draw and four-disjoint-panel
+TARP, eigenvalue/eigengap SBC, shell TARP, response/boundary/tracer coverage, residual
+covariance/variogram, and residual-power plots. Scalar summaries cannot close the
+gate until these plots are generated and inspected.
+
 ### 2026-09-02 - [science/code] Authorize truth-free ph001 random-response construction
 
 The P12-A candidate and bounded P12-F selection are now frozen, so the observation-

@@ -4255,6 +4255,17 @@ version the estimand and restore `W_7(k)` exactly once inside the physics layer.
   four disjoint 256-core subpanels, reference-seed sensitivity and core-block
   bootstrap. Contract/supervisor: `configs/p12f_dependency_rescue_v2.json` and
   `workflows/sbi/run_p12f_dependency_rescue_v2_tmux.sh`.
+- [x] Implement and unit-test a resumable per-core fixed-physics cache plus aggregate
+  evaluator and visualizer. The sparse eigensolver evaluates only the interpolation
+  corners actually consumed by authoritative galaxies and reproduces full-grid
+  eigenvalue interpolation to `2e-6`. Infrastructure:
+  `workflows/sbi/p12f_dependency_rescue_evaluator.py`,
+  `workflows/sbi/plot_p12f_dependency_rescue.py`, and
+  `workflows/sbi/run_p12f_dependency_evaluation_tmux.sh` (commit `0b0d414`).
+- [ ] Complete the active tmux chain: `rescue_v2` exports the archive and `eval_v2`
+  waits without an allocation, then resumes per-core physics and produces all compact
+  evidence/plots. A pre-worker request timeout is retryable; any failure after the
+  worker-start marker remains fail-closed.
 - [ ] Render TARP curves and SBC ranks for every registered aggregate/conditional
   result. Scalar maximum deviations are supporting annotations, never the sole
   calibration report.
