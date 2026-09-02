@@ -88,7 +88,29 @@ class P12ABlindInferenceTest(unittest.TestCase):
                 shell=np.asarray([0], dtype=np.int8),
             )
             points = root / "ph001" / "points.npy"
-            np.save(points, np.asarray([[1.0, 2.0, 3.0, 0.0, 0.2]], dtype=np.float32))
+            np.save(points, np.asarray([[1.0, 2.0, 3.0, 0.0]], dtype=np.float32))
+            contract_root = root / "training_contract" / "phases" / "ph001"
+            contract_root.mkdir(parents=True)
+            redshift = contract_root / "parent_redshift.npy"
+            np.save(redshift, np.asarray([0.2], dtype=np.float32))
+            phase_contract = contract_root / "phase_contract.json"
+            phase_contract.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "p10-phase-loader-contract-v1",
+                        "phase": "ph001",
+                        "role": "sealed_blind_test",
+                        "pass": True,
+                        "target": None,
+                        "truth_present": False,
+                        "gates": {"truth_sealed_if_blind": True},
+                        "inputs": {
+                            "assignment": str(assignment),
+                            "assignment_sha256": sha256(assignment),
+                        },
+                    }
+                )
+            )
             adapter_manifest_path = adapter / "adapter_manifest.json"
             adapter_manifest = json.loads(adapter_manifest_path.read_text())
             adapter_manifest["p4_active_assignment_sha256"] = sha256(assignment)
@@ -173,6 +195,8 @@ class P12ABlindInferenceTest(unittest.TestCase):
                     adapter_root=adapter,
                     assignment_path=assignment,
                     points_path=points,
+                    redshift_path=redshift,
+                    phase_contract_path=phase_contract,
                     response_field_manifest_path=response,
                     selection_manifest_path=selection,
                     candidate_marker_path=candidate,

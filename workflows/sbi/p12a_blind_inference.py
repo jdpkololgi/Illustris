@@ -150,6 +150,37 @@ def validate_blind_selection_manifest(selection: dict) -> None:
         raise PermissionError("radial selection manifest is not frozen blind-safe")
 
 
+def validate_blind_phase_contract(
+    contract: dict,
+    *,
+    phase_contract_path: Path,
+    assignment_path: Path,
+    redshift_path: Path,
+) -> None:
+    """Bind observed redshifts to the sealed ph001 loader contract."""
+    if (
+        contract.get("schema_version") != "p10-phase-loader-contract-v1"
+        or contract.get("phase") != "ph001"
+        or contract.get("role") != "sealed_blind_test"
+        or contract.get("pass") is not True
+        or contract.get("target") is not None
+        or contract.get("truth_present") is not False
+        or contract.get("gates", {}).get("truth_sealed_if_blind") is not True
+    ):
+        raise PermissionError("ph001 loader contract is not sealed and truth-free")
+    registered_assignment = Path(contract.get("inputs", {}).get("assignment", ""))
+    if (
+        registered_assignment.resolve() != assignment_path.resolve()
+        or contract["inputs"].get("assignment_sha256") != sha256(assignment_path)
+    ):
+        raise RuntimeError("ph001 redshift/assignment contract identity mismatch")
+    expected_redshift = phase_contract_path.parent / "parent_redshift.npy"
+    if expected_redshift.resolve() != redshift_path.resolve():
+        raise RuntimeError("blind redshift is not the registered parent-aligned array")
+    if any(token in str(redshift_path).lower() for token in FORBIDDEN_ARRAY_TOKENS):
+        raise PermissionError("blind redshift path appears truth-bearing")
+
+
 def _parent_lookup(parent: np.ndarray, rows: np.ndarray) -> np.ndarray:
     parent = np.asarray(parent, dtype=np.int64)
     if len(np.unique(parent)) != len(parent) or np.any(parent < 0):
@@ -167,6 +198,8 @@ def export_blind_unet_context(
     adapter_root: Path,
     assignment_path: Path,
     points_path: Path,
+    redshift_path: Path,
+    phase_contract_path: Path,
     response_field_manifest_path: Path,
     selection_manifest_path: Path,
     candidate_marker_path: Path,
@@ -210,6 +243,18 @@ def export_blind_unet_context(
     points = np.load(points_path, mmap_mode="r")
     if points.ndim != 2 or points.shape[1] < 4:
         raise RuntimeError("canonical observed points are invalid")
+    phase_contract = json.loads(phase_contract_path.read_text())
+    validate_blind_phase_contract(
+        phase_contract,
+        phase_contract_path=phase_contract_path,
+        assignment_path=assignment_path,
+        redshift_path=redshift_path,
+    )
+    parent_redshift = np.load(redshift_path, mmap_mode="r")
+    if parent_redshift.shape != (len(points),) or not np.all(
+        np.isfinite(parent_redshift)
+    ):
+        raise RuntimeError("blind parent redshift array is invalid")
     response_manifest = json.loads(response_field_manifest_path.read_text())
     if (
         response_manifest.get("phase") != "ph001"
@@ -262,9 +307,7 @@ def export_blind_unet_context(
     shell = np.asarray(assignment["shell"][row], dtype=np.int8)
     if np.any(parent >= len(points)):
         raise RuntimeError("blind parent lies outside canonical points")
-    redshift = np.asarray(points[parent, 4], dtype=np.float32) if points.shape[1] > 4 else None
-    if redshift is None or not np.all(np.isfinite(redshift)):
-        raise RuntimeError("canonical observed points do not include finite redshift")
+    redshift = np.asarray(parent_redshift[parent], dtype=np.float32)
     if not np.array_equal(np.asarray(points[parent, 3], dtype=np.uint8), cap):
         raise RuntimeError("assignment/point cap mismatch")
     boundary, support = sample_random_support_distance(response_manifest, points, parent)
@@ -337,6 +380,10 @@ def export_blind_unet_context(
         "adapter_manifest_sha256": sha256(adapter_root / "adapter_manifest.json"),
         "assignment": str(assignment_path),
         "assignment_sha256": sha256(assignment_path),
+        "redshift": str(redshift_path),
+        "redshift_sha256": sha256(redshift_path),
+        "phase_contract": str(phase_contract_path),
+        "phase_contract_sha256": sha256(phase_contract_path),
         "response_manifest": str(response_field_manifest_path),
         "response_manifest_sha256": sha256(response_field_manifest_path),
         "truth_files_read": [],
@@ -537,6 +584,8 @@ def main() -> None:
     context.add_argument("--adapter-root", type=Path, required=True)
     context.add_argument("--assignment", type=Path, required=True)
     context.add_argument("--points", type=Path, required=True)
+    context.add_argument("--redshift", type=Path, required=True)
+    context.add_argument("--phase-contract", type=Path, required=True)
     context.add_argument("--response-field-manifest", type=Path, required=True)
     context.add_argument("--selection-manifest", type=Path, required=True)
     context.add_argument("--candidate", type=Path, required=True)
@@ -561,6 +610,8 @@ def main() -> None:
             adapter_root=args.adapter_root,
             assignment_path=args.assignment,
             points_path=args.points,
+            redshift_path=args.redshift,
+            phase_contract_path=args.phase_contract,
             response_field_manifest_path=args.response_field_manifest,
             selection_manifest_path=args.selection_manifest,
             candidate_marker_path=args.candidate,

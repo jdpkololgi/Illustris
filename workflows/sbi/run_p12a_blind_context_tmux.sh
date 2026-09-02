@@ -7,6 +7,8 @@ python=${P12A_PYTHON:-/global/cfs/cdirs/desi/users/dkololgi/conda/envs/cosmic_en
 adapter=${root}/training_contract/adapters/ph001/field
 assignment=${root}/ph001/p4_patches/active_assignment.npz
 points=${root}/ph001/p1_canonical/points.npy
+redshift=${root}/training_contract/phases/ph001/parent_redshift.npy
+phase_contract=${root}/training_contract/phases/ph001/phase_contract.json
 response=${root}/ph001/p3b_random_response_v1/manifest.json
 selection=${root}/training_contract/transforms/field/selection_manifest.json
 candidate=${repo}/docs/evidence/p12/P12A_PRODUCTION_CANDIDATE_FROZEN.json
@@ -83,7 +85,7 @@ salloc \
       cd '${repo}'
       printf '{\"attempt\":%d,\"started_utc\":\"%s\"}\n' '${attempt}' \"\$(date -u +%FT%TZ)\" > '${worker_started}.tmp'
       mv '${worker_started}.tmp' '${worker_started}'
-      timeout 90 '${python}' -c \"import torch,numpy,h5py,sbi; assert torch.cuda.is_available(); print('P12A_BLIND_CONTEXT_RUNTIME_OK', torch.cuda.get_device_name(0))\"
+      timeout 90 '${python}' -c \"import torch,numpy,h5py,fitsio; assert torch.cuda.is_available(); print('P12A_BLIND_CONTEXT_RUNTIME_OK', torch.cuda.get_device_name(0))\"
       '${python}' -m unittest -v \
         tests.phase4.test_p12a_blind_inference \
         tests.phase4.test_p12a_blind_shards
@@ -91,6 +93,8 @@ salloc \
         --adapter-root '${adapter}' \
         --assignment '${assignment}' \
         --points '${points}' \
+        --redshift '${redshift}' \
+        --phase-contract '${phase_contract}' \
         --response-field-manifest '${response}' \
         --selection-manifest '${selection}' \
         --candidate '${candidate}' \
