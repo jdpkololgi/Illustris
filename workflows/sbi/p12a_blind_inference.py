@@ -450,6 +450,22 @@ def reconstruct_fmpe(checkpoint_path: Path, device: str) -> tuple[Any, dict]:
     estimator.eval()
     inference = FMPE(prior=prior, density_estimator=builder, device=device)
     posterior = inference.build_posterior(estimator)
+    # SBI's construction path may normalize/check a user prior on CPU even when
+    # the estimator and posterior sampler live on CUDA.  `sample_batched()` then
+    # checks CUDA candidates against CPU Uniform bounds and fails before drawing.
+    # Rebind the posterior-owned prior explicitly; this is an in-place device
+    # move and does not alter the frozen prior limits.
+    posterior.prior.to(device)
+    prior_devices = {
+        posterior.prior.base_dist.low.device.type,
+        posterior.prior.base_dist.high.device.type,
+    }
+    expected_device = torch.device(device).type
+    if prior_devices != {expected_device}:
+        raise RuntimeError(
+            f"P12-A posterior prior remained on {sorted(prior_devices)}, "
+            f"expected {expected_device}"
+        )
     return posterior, checkpoint
 
 
