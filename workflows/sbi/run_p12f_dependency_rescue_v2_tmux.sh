@@ -52,6 +52,7 @@ while [[ ! -f "${archive}" ]]; do
     exit 4
   fi
   wait_for_slot
+  worker_started=${root}/attempt_$(printf '%03d' "${attempt}")_worker_started.json
   echo "[$(date -u +%FT%TZ)] allocation attempt ${attempt}: panel/export"
   set +e
   salloc \
@@ -77,6 +78,8 @@ while [[ ! -f "${archive}" ]]; do
         unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD
         export PYTHONNOUSERSITE=1
         cd '${repo}'
+        printf '{\"attempt\":%d,\"started_utc\":\"%s\"}\n' '${attempt}' \"\$(date -u +%FT%TZ)\" > '${worker_started}.tmp'
+        mv '${worker_started}.tmp' '${worker_started}'
         timeout 90 '${python}' -c \"import tarp, torch, numpy, h5py; print('P12F_V2_RUNTIME_OK', torch.__version__)\"
         '${python}' -m unittest tests.phase4.test_p12f_challengers tests.phase4.test_p12f_production_challengers
         if [[ ! -f '${panel}' ]]; then
@@ -105,6 +108,11 @@ while [[ ! -f "${archive}" ]]; do
   fi
   if [[ ${code} -eq 75 ]]; then
     echo "[$(date -u +%FT%TZ)] clean checkpoint pause; requesting continuation"
+    continue
+  fi
+  if [[ ! -f "${worker_started}" ]]; then
+    echo "[$(date -u +%FT%TZ)] allocation attempt ended before the compute worker started (exit ${code}); retrying after 60 s"
+    sleep 60
     continue
   fi
   echo "P12-F v2 worker failed with exit ${code}; refusing automatic retry"
