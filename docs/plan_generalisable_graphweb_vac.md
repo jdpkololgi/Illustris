@@ -3832,7 +3832,8 @@ Progress checklist:
 
 ### P12 — Posterior calibration
 
-**Status:** START AFTER PH006 DETERMINISTIC SELECTION; P11 MAY RUN IN PARALLEL
+**Status:** P12-A PH006 FIT/AUDIT COMPLETE AND FROZEN AS THE FIRST PRODUCTION
+CANDIDATE; P12-F IS A BOUNDED FIELD CHALLENGER; PH001 REMAINS SEALED
 
 P12 is the binding gate for the intended posterior/class-probability VAC. Begin it from
 scratch immediately after deterministic model selection on ph006 rather than waiting
@@ -3840,11 +3841,20 @@ for optional P11 or a long deterministic research tail. Deterministic protocol
 selection and a deterministic canary do not require FMPE/NPE, but the production VAC
 claim does.
 
-1. Generate spatially out-of-fold embeddings or base predictions.
-2. Fit FMPE/NPE on training phases.
-3. Include ntilde(z) and response covariates directly in posterior conditioning.
-4. Tune on ph006.
-5. Evaluate once on ph001.
+The production spine is now
+
+```text
+freeze P12-A
+  -> bounded matched P12-F Gaussian/flow/diffusion comparison
+  -> freeze all truth-free ph001 predictions
+  -> one shared blind opening
+  -> P13 Loa VAC.
+```
+
+P11's JEPA mainline is closed; no JEPA-v3 is scheduled. Its factorial views and
+latent diagnostics are advisory inputs to later field-posterior work, not a dependency
+of the first VAC. If no P12-F method passes the frozen ph006 selection gate, record
+`P12F_NO_FIELD_FINALIST.json` and continue with P12-A alone.
 
 The baseline posterior contract is
 
@@ -3869,6 +3879,12 @@ mask distance, hole versus footprint edge and held-out response recipe. Scalar
 tempering that repairs average coverage while leaving shape failure is insufficient.
 
 #### P12-A — Coordinate-aligned baseline posterior
+
+**Production state:** freeze the existing untempered and uncorrected FMPE as
+`P12A_PRODUCTION_CANDIDATE_FROZEN`. Bind the exact estimator checkpoint, dataset
+marker, architecture, transformations, ph006 corrected-calibration audit and quality
+thresholds. `P12A_CALIBRATION_PASS.json` remains absent because the strict conditional
+gate is not fully met; do not introduce a new ph006-fitted recalibration.
 
 Complete this before using independently trained raw fold latents. Fit
 
@@ -3974,18 +3990,18 @@ Implementation status:
   canary and the full dataset/fit/evaluation chain using
   `workflows/sbi/run_p12a_posterior_interactive.sh`.
 
-Execution order after the current strict controls is frozen:
+Execution order after the P11 closeout:
 
-1. [complete] complete P12-A without waiting for P11;
-2. [complete] finish the factorial view products and P12 same-summary information-
-   headroom gate; continue the dense teacher only as advisory evidence;
-3. freeze and run matched supervised, masked-reconstruction, JEPA and curriculum
-   controls under one bounded canary contract;
-4. condition the same P12 head on the winning summary and compare proper posterior
-   scores;
-5. run end-to-end JEPA-initialized FMPE only after the frozen-summary challenger wins;
-6. stress-test one held-out HOD only after in-domain calibration, and open ph001 once
-   all choices are frozen.
+1. [complete] fit and audit uncorrected P12-A without waiting for P11;
+2. [ ] write and validate `P12A_PRODUCTION_CANDIDATE_FROZEN.json`;
+3. [ ] run the matched P12-F Gaussian/flow/diffusion comparison on ph006 and freeze
+   either one field finalist or `P12F_NO_FIELD_FINALIST.json`;
+4. [ ] generate and freeze truth-free P12-A ph001 summaries plus deterministic and
+   classical blind predictions; add P12-F ph001 panel draws only for a field finalist;
+5. [ ] perform exactly one shared ph001 opening and immutable evaluation;
+6. [ ] hand the promoted P12-A contract to P13 Loa deployment;
+7. [ ] run a held-out-HOD intervention for robustness language without blocking the
+   first explicitly `H_fid`-conditional VAC.
 
 Progress checklist:
 
@@ -4030,11 +4046,54 @@ Progress checklist:
         with latent/base/truth/response hashes and `sealed_phase_opened=false`.
       - [x] Concatenate after all remaining omitted-phase shards pass, producing
         the frozen `P12A_DATASET_READY.json` v2 response-conditioned dataset.
-- [ ] Fit on training phases and tune on ph006 only.
-- [ ] Pass marginal, multivariate, conditional, tail, and information gates.
+- [x] Fit on training phases and tune/audit on ph006 only.
+- [x] Pass global multivariate TARP, marginal and information-width diagnostics;
+  retain the sparse-shell conditional lambda2/lambda3 residual as a release flag
+  rather than mislabeling the strict calibration marker as passed.
+- [ ] Freeze the exact uncorrected production-candidate contract and truth-free blind
+  inference implementation.
 - [ ] Record the `H_fid` conditional estimand and run the optional held-out-HOD stress
   test only after baseline calibration.
 - [ ] Evaluate once on ph001 and freeze calibrated posterior artifacts.
+
+##### P12-A truth-free blind output contract
+
+Add a dedicated blind-only inference path; never weaken the OOF exporter's
+unconditional ph001 refusal. It may read only observed ph001 geometry, the frozen R1
+field adapter and random-response support. It must refuse target arrays, T-web paths
+and truth-bearing manifests. For every `M=1` authoritative galaxy it exports 512-draw
+posterior summaries (mean, standard deviation and 5/16/50/84/95 percentiles),
+`P(lambda_i>0.2)`, web-class probabilities and entropy, trace summaries, the U-PATCH
+point prediction, redshift, train-frozen `ntilde(z)`, cap, support-boundary distance,
+model/response/checkpoint identifiers and a quality bitmask. It exports no prediction
+for `M=0`.
+
+Freeze quality bits for `z>=0.45`, boundary distance below 7 and 14 Mpc/h, response
+outside the training range and posterior width in the ph006-defined prior-dominated
+tail. Retain complete draws for a deterministic 50,000-row shell/cap/boundary-
+stratified audit subset; summarize and discard draws for all remaining rows. Also
+freeze a train-only shell/cap residual Gaussian around U-PATCH as the proper-score
+baseline. Exact shard replay, parent uniqueness/completeness, ordered draws and class
+normalization are fail-closed gates.
+
+##### P12 shared blind state machine
+
+Create a posterior-specific blind contract that extends rather than edits the P10
+deterministic blind contract. Before truth access it requires:
+
+- `P12A_PRODUCTION_CANDIDATE_FROZEN.json`;
+- a frozen P12-F method-selection result or `P12F_NO_FIELD_FINALIST.json`;
+- full truth-free P12-A summaries and 50k audit draws;
+- the P10 U-PATCH and matched CIC/DTFE blind predictions; and
+- if and only if promoted, 64 P12-F draws for a truth-free-stratified 128-core ph001
+  panel.
+
+`P12_BLIND_PREDICTIONS_FROZEN.json` must record all row/core identities, seeds,
+configurations, Git revisions and hashes with `truth_files_read=[]` and `open_count=0`.
+Only then may the controlled opener build/read truth once and write
+`P12_BLIND_OPENED.json` with `open_count=1`. Evaluators may not fit, temper, recalibrate
+or change thresholds after that transition. Any later changed model requires a new
+blind phase.
 
 Out-of-fold summary contract:
 

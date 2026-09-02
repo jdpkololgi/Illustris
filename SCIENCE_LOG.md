@@ -1,5 +1,27 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-02 - [science/decision] Freeze P12-A; bound P12-F before one shared blind opening
+
+P12-A is the first production posterior: retain the existing untempered, uncorrected
+FMPE over ordered eigenvalues and bind its exact checkpoint, transforms, dataset and
+corrected ph006 audit in `P12A_PRODUCTION_CANDIDATE_FROZEN.json`. Global TARP and
+coverage are strong, but the sparse-shell conditional residual remains; therefore
+`P12A_CALIBRATION_PASS.json` stays absent and no new ph006-fitted recalibration is
+introduced. The limitation becomes a high-redshift/prior-dominated quality flag.
+
+P11 JEPA is closed on the production mainline; no JEPA-v3 is scheduled. P12-F is a
+bounded field challenger comparing the frozen rectified flow with matched independent
+and correlated Gaussian controls and score diffusion. The 16-core panel is technical
+only; selection uses a truth-free-stratified 128-core ph006 panel, proper scores, block
+bootstrap and conditional calibration. Posterior-mean R2 remains diagnostic only.
+
+Truth-free P12-A ph001 predictions may be generated now, but ph001 truth remains
+sealed until P12-F selection is frozen. All posterior, deterministic and classical
+predictions are then frozen before one shared opening (`open_count=1`). Degraded views
+remain view-specific observations `(delta_R7, X_s, S_s)`, not teacher bounds or draws.
+Paper 2 / the first VAC follows P12-A; coherent-field and factorial-view work remains
+a bounded extension. No ph001 truth was opened by this decision.
+
 ### 2026-09-02 - [science/code/run] First conditional field-flow posterior is informative but not conditionally calibrated
 
 The first proper coherent-field posterior canaries are complete.  They target
