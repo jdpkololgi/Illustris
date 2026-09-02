@@ -12,6 +12,42 @@ from workflows.sbi.p12_production_contract import P12A_SCHEMA, assert_truth_free
 from workflows.sbi.p12a_blind_inference import posterior_inference_shard
 
 
+def validate_existing_shard(
+    *,
+    output: Path,
+    marker: Path,
+    shard: dict,
+    draws: int,
+    seed: int,
+    context_sha256: str,
+    checkpoint: Path,
+    candidate: Path,
+    quality_thresholds: Path,
+) -> dict:
+    if not (output.exists() and marker.exists()):
+        raise FileExistsError("blind shard output/marker pair is incomplete")
+    existing = json.loads(marker.read_text())
+    assert_truth_free_payload(existing)
+    audit = Path(existing.get("audit_draws", ""))
+    if (
+        existing.get("schema_version") != "p12a-blind-posterior-shard-v1"
+        or existing.get("pass") is not True
+        or existing.get("start") != shard["start"]
+        or existing.get("stop") != shard["stop"]
+        or existing.get("draws") != draws
+        or existing.get("seed") != seed
+        or existing.get("context_sha256") != context_sha256
+        or existing.get("checkpoint_sha256") != sha256(checkpoint)
+        or existing.get("candidate_sha256") != sha256(candidate)
+        or existing.get("quality_thresholds_sha256") != sha256(quality_thresholds)
+        or existing.get("summary_sha256") != sha256(output)
+        or not audit.is_file()
+        or existing.get("audit_draws_sha256") != sha256(audit)
+    ):
+        raise RuntimeError("existing blind shard fails exact replay contract")
+    return existing
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--candidate", type=Path, required=True)
@@ -49,7 +85,19 @@ def main() -> None:
     output = args.output_root / f"shard_{rank:03d}.npz"
     marker = output.with_suffix(".json")
     if output.exists() or marker.exists():
-        raise FileExistsError(f"refusing to overwrite blind shard {rank}")
+        existing = validate_existing_shard(
+            output=output,
+            marker=marker,
+            shard=shard,
+            draws=args.draws,
+            seed=args.seed + rank,
+            context_sha256=plan["context_sha256"],
+            checkpoint=args.checkpoint,
+            candidate=args.candidate,
+            quality_thresholds=args.quality_thresholds,
+        )
+        print(json.dumps({**existing, "reused": True}, indent=2), flush=True)
+        return
     result = posterior_inference_shard(
         candidate_marker_path=args.candidate,
         context_path=args.context,
