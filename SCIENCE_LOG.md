@@ -1,5 +1,67 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-01 - [science/code] Close JEPA mainline; open calibrated coherent-field posterior canary
+
+P11 now answers the representation-alignment question sufficiently for the current
+programme.  JEPA-v2 learned strong dense/final-view alignment but did not preserve
+more held-out tidal information than its matched supervised control.  More
+fundamentally, deterministic latent alignment is not the estimand required by the
+VAC: one selection-affected galaxy observation is compatible with multiple matter
+and tidal fields.  No JEPA-v3 is therefore on the production path.  The existing P11
+products remain useful factorial observation views and advisory representation
+evidence, but P12 posterior inference remains binding.
+
+An immediate physics diagnostic clarifies the low-rank P11 result.  On the frozen
+426-row ph006 step-500 probe, PC1 explains `0.98869` of weighted JEPA-student latent
+variance and has weighted Spearman `|rho|=0.84600` with the physical tidal trace
+`lambda1+lambda2+lambda3`, versus `0.27012/-0.07781` with the two eigengaps and
+`0.18195` with random-response strength.  The supervised control is almost identical:
+PC1 fraction `0.98682`, trace `|rho|=0.84362`, response `0.18414`.  The sign of PC1 is
+arbitrary.  Thus the one-dimensional locus is predominantly a learned density/trace
+coordinate, not a constant collapse and not principally a response shortcut.  It also
+explains why alignment alone did not recover tidal-shape ambiguity.  Evidence:
+`docs/evidence/p11/P11_LATENT_PHYSICS_DIAGNOSTIC.json`; implementation:
+`workflows/sbi/p11_latent_physics_diagnostic.py`.  ph001 remained sealed.
+
+The next coherent-field challenger is `P12-F`, with frozen conditional estimand
+
+```text
+p(delta_R7 patch | BGS_BRIGHT V_final, random-derived response, H_fid).
+```
+
+`delta_R7` is the trace of the already `R=7 Mpc/h` smoothed T-web eigenvalues.  It is
+not smoothed again.  Every posterior draw is transformed by the fixed local-periodic
+projector `T_ij(k)=k_i k_j/k^2 delta_R7(k)` and `eigvalsh`; this is a deterministic
+physics map, not a learned eigenvalue head.  Posterior-mean field `R2` is explicitly a
+diagnostic rather than a promotion gate.  The primary canary asks whether held-out
+ph006 truth behaves as a draw using voxel ranks/coverage, Fourier-mode ranks/coverage,
+derived-eigenvalue coverage and stratification by redshift shell, random response,
+true environment and support-boundary distance.  Spatial dependence is retained as a
+warning: production validation still requires block/mode TARP/SBC and posterior
+predictive re-observation through a frozen stochastic galaxy plus DESI response model.
+
+Groundwork is implemented in
+`workflows/abacus_tweb/p12f_build_field_targets.py`,
+`workflows/sbi/p12f_field_posterior_diagnostics.py`,
+`workflows/sbi/p12f_train_conditional_field_flow.py`, and
+`configs/p12f_conditional_field_flow_v1.json`.  Seven focused tests pass, including
+ph001 rejection, rectified-flow path algebra, Heun integration, posterior ranks,
+draw-axis-preserving Fourier diagnostics and fixed-physics trace/eigenvalue closure.
+Visible-phase field-target construction and the 1,000-update conditional-flow canary
+are pending compute.  A canary pass licenses a larger comparison, not production: it
+does not establish global long-mode coherence, HOD marginalisation, DESI closure or
+blind-phase calibration.
+
+Degraded P11 views are retained, but their role changes.  They are alternate
+conditioned observations `(X_s,S_s)` of the same privileged `delta_R7`, not teacher
+latents and not posterior samples.  Establish the V_final-only field posterior first.
+Then run one factorial-view challenger that samples one view per latent core/update,
+conditions on that view's deployable response, and keeps total core weight one.
+Promotion is decided on V_final and a held-out degradation recipe using proper scores
+and calibration.  Do not force coordinate-wise latent equality, sample equality, or
+per-object width monotonicity; only aggregate conditional entropy/contraction should
+follow the information ordering after calibration.
+
 ### 2026-09-01 - [science/code/run] P11 JEPA-v2 technical pass, latent-content no-go, matched controls complete
 
 The recovered P11 runtime and R1 metadata mirror removed the two independent Lustre

@@ -3446,11 +3446,10 @@ Four-GPU execution policy for these gates:
 
 ### P11 — Representation pretraining
 
-**Status:** FACTORIAL PRODUCTS AND EXACT-M V2 CONTRACT READY; CFS RUNTIME/R1
-MIRROR RECOVERY PASSED; JEPA-V2 500-UPDATE TECHNICAL CANARY PASSED BUT ITS
-REGISTERED LATENT-CONTENT GATE FAILED; FULL V2 CONTINUATION BLOCKED; ALL THREE
-MATCHED CONTROLS COMPLETE; DENSE TEACHER ADVISORY; PH001 SEALED; BOUNDED AND
-NON-BLOCKING; RANDOM-RESPONSE VIEWS ARE MANDATORY
+**Status:** FACTORIAL PRODUCTS AND EXACT-M V2 CONTRACT READY; JEPA-V2 AND MATCHED
+CONTROLS COMPLETE; REGISTERED LATENT-CONTENT GATE FAILED; JEPA MAINLINE CLOSED;
+DENSE TEACHER ADVISORY; FACTORIAL VIEWS RETAINED FOR CONDITIONAL GENERATIVE
+INFERENCE; PH001 SEALED
 **Duration:** 2–5 GPU days for bounded controls
 
 #### P11.0 — Frozen factorial-view contract
@@ -3814,9 +3813,15 @@ Progress checklist:
   reconstruction is worse (`-0.65792`), while response-only input is non-predictive
   (`-2.40036`) and cannot explain the JEPA alignment as a response shortcut.
   Evidence: `docs/evidence/p11/P11_JEPA_V2_MATCHED_CANARY_RESULTS.json`.
-- [ ] If P11 continues, freeze a distinct JEPA-v3 objective before inspecting new
-  ph006 results and rerun the identical technical/content gate. Do not tune or resume
-  v2 post hoc.
+- [x] Close JEPA as the current production route. Do not launch JEPA-v3 unless a new,
+  separately motivated representation question arises after the field-posterior
+  experiments; never resume or tune v2 post hoc.
+- [x] Identify the dominant low-rank coordinate on the frozen ph006 probes. PC1
+  explains `0.98869`/`0.98682` of JEPA/supervised latent variance and correlates most
+  strongly with tidal trace (`|rho_s|=0.84600/0.84362`), not response
+  (`0.18195/0.18414`) or eigengaps. Treat the compression as a predominantly learned
+  density coordinate rather than proof of constant collapse. Evidence:
+  `docs/evidence/p11/P11_LATENT_PHYSICS_DIAGNOSTIC.json`.
 - [ ] Finish and report the dense teacher as advisory privileged-view evidence.
 - [ ] Adopt only after a newly gated encoder gives reproducible deployable-view
   transfer gain and passes a fresh P12 posterior fit and calibration audit.
@@ -4053,6 +4058,125 @@ Out-of-fold summary contract:
 5. Freeze parent-row identity, checkpoint/source hashes, response schema and the
    no-ph001-access marker for every shard. A cheaper in-sample latent extraction is a
    technical diagnostic only and cannot support posterior coverage claims.
+
+#### P12-F — Coherent conditional field posterior challenger
+
+**Status:** CONDITIONAL-FLOW CANARY CONTRACT AND TESTED GROUNDWORK READY; VISIBLE-PHASE
+TARGET BUILD AND GPU CANARY PENDING; NOT A PRODUCTION MODEL; PH001 SEALED
+
+The per-galaxy P12-A posterior remains the shortest production spine.  P12-F is the
+coherent-field challenger motivated by the fact that multiple tidal fields can be
+compatible with one incomplete observed galaxy configuration.  Its estimand is
+
+```text
+p(delta_R7 | X_final, S_random, H_fid),
+```
+
+where `X_final` is the BRIGHT-only final observation, `S_random` is the deployable
+random-derived response, and `H_fid` is the fixed mock HOD.  This is not an
+HOD-marginalized posterior.  `delta_R7` is already smoothed at `7 Mpc/h`; apply no
+second Gaussian.  For every draw, use the fixed differentiable map
+
+```text
+delta_R7(k) -> T_ij(k) = k_i k_j/k^2 delta_R7(k) -> eigvalsh(T)
+```
+
+with the zero mode removed.  If a later model instead targets unsmoothed density,
+version the estimand and restore `W_7(k)` exactly once inside the physics layer.
+
+##### Ranked method ladder
+
+1. **Gaussian stochastic-field baseline:** fit a heteroscedastic residual field (and
+   at least a correlated Fourier/wavelet residual control) around a deterministic
+   density predictor.  This is a cheap calibration/information diagnostic, not the
+   expected final sampler.
+2. **Conditional rectified flow matching:** the preferred first learned sampler.
+   It provides direct conditional transport and a deterministic ODE sampler with the
+   same U-Net-style conditioning infrastructure already validated by U-PATCH.
+3. **Conditional score diffusion:** run a capacity-, target-, conditioning- and
+   evaluation-matched challenger only after the flow canary is technically healthy.
+   Do not infer superiority from generic image-generation benchmarks.
+4. **Global-coarse plus local-residual field model:** required before a full-cap VAC.
+   Share sampled long modes across overlapping tiles, then condition local residual
+   draws on that global sample.  Independent patch draws are not a coherent Universe.
+5. **BORG-style forward posterior comparator:** retain as the conceptual/gold-standard
+   reference and, if computationally feasible, a small-volume benchmark.  It is not
+   the immediate amortized production implementation.
+
+##### Bounded P12-F1 canary
+
+- [x] Freeze `configs/p12f_conditional_field_flow_v1.json`: 5-Mpc lattice,
+  already-R7 target, R1 three-channel BRIGHT/random-response condition, ph000 plus
+  ph002--ph005 training, ph006 selection, ph001 sealed.
+- [x] Implement a visible-phase target builder that samples
+  `delta_R7=lambda1+lambda2+lambda3` from the immutable 2048-cubed T-web slabs onto
+  the exact P3/P3b-R grids, retains exact `support_random`, and records source hashes.
+  Builder: `workflows/abacus_tweb/p12f_build_field_targets.py`.
+- [x] Implement a proper conditional rectified-flow velocity model,
+  `x_t=(1-t)epsilon+t delta_R7`, fixed-step Heun sampling, atomic checkpoint/reload,
+  and a no-ph001 guard in
+  `workflows/sbi/p12f_train_conditional_field_flow.py`.
+- [x] Implement voxel/mode/derived-eigenvalue posterior ranks, central coverage,
+  CRPS, conditional coverage and fixed-physics closure in
+  `workflows/sbi/p12f_field_posterior_diagnostics.py`. Seven focused tests pass.
+- [ ] Build and validate targets for ph000 and ph002--ph006 on a CPU allocation.
+- [ ] Run the frozen 1,000-update/16-draw ph006 canary. A pass only licenses a larger
+  field-posterior comparison; it cannot promote a production VAC.
+- [ ] If technically healthy, compare a matched conditional score-diffusion canary
+  and the stochastic Gaussian/correlated-residual baseline using the same selected
+  cores and draw budget.
+
+The primary gate is **not** `R2(posterior mean, truth)`.  The held-out truth must be
+statistically compatible with the learned conditional ensemble.  Require, in order:
+
+1. finite, non-degenerate samples and exact fixed-physics trace/order closure;
+2. voxel and Fourier/wavelet-mode rank/coverage checks, with spatial-block or
+   phase/core resampling rather than treating voxels as independent;
+3. TARP/SBC-like diagnostics after the deterministic physics map for galaxy-sampled
+   ordered eigenvalues, eigengaps and web-class probabilities;
+4. conditional coverage/proper scores versus redshift, exact random response,
+   boundary distance, tracer density and true environment;
+5. cross-patch overlap agreement, power/cross spectra and shared-long-mode context
+   convergence; and
+6. posterior predictive re-observation: sample a field, sample/paint galaxies under a
+   frozen stochastic galaxy model, apply the DESI degradation/response, and test the
+   actual observed count, clustering, void/occupancy, shell and boundary statistics.
+
+Posterior-mean R2, RMSE, transfer functions and visual fidelity remain useful
+descriptive diagnostics, especially for detecting an uninformative but over-wide
+sampler, but none can substitute for calibration or posterior predictive closure.
+
+##### Degraded factorial views in P12-F
+
+Do not use the dense view as a deterministic teacher target and do not call different
+views posterior draws.  Each view is a paired observation `(X_s,S_s)` of the same
+privileged field.  First establish the V_final-only baseline.  Then freeze one
+factorial challenger that:
+
+1. keeps every view of a latent core in the same outer split;
+2. samples one view per core/update (or divides the total core weight exactly) so
+   extra views do not duplicate cosmological truth;
+3. supplies the view-correct, deployable response tuple and never treats `M=0` as a
+   void or loss target;
+4. hides phase/HOD/recipe IDs unless they are genuine deployment covariates;
+5. selects only on final-view ph006 proper scores/calibration and a held-out response
+   recipe; and
+6. tests aggregate posterior contraction as information increases. Do not impose
+   coordinate-wise latent equality, identical samples, or per-object monotonic width.
+
+This use of degraded views teaches the conditional law to respond to known observation
+quality. It does not recover information absent from `V_final`, and it cannot by
+itself prevent overconfidence. Fresh P12 calibration is mandatory for every view-
+augmented sampler.
+
+##### Full-cap production blockers
+
+- shared global/long-wavelength modes and coherent overlap sampling;
+- full response plus stochastic HOD/galaxy forward model for re-observation;
+- HOD intervention or explicit conditional-scope statement;
+- calibrated derived quantities and quality flags on independent phases; and
+- one frozen ph001 opening only after the sampler, response, physics, diagnostics and
+  model-selection rules are immutable.
 
 ### P13 — DESI canary and scale-out
 

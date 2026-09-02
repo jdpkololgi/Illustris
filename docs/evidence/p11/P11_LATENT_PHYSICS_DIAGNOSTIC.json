@@ -1,0 +1,100 @@
+{
+  "created_utc": "2026-09-02T00:23:50.460294+00:00",
+  "interpretation": "Advisory identification of the dominant trained latent direction; not a JEPA promotion gate and not posterior uncertainty.",
+  "ph001_opened": false,
+  "schema_version": "p11-latent-physics-diagnostic-v1",
+  "snapshots": [
+    {
+      "arm": "jepa",
+      "correlations": {
+        "anisotropy_range": {
+          "pearson": 0.13440115109903975,
+          "spearman": 0.1707870416622584
+        },
+        "gap12": {
+          "pearson": 0.2361407994218191,
+          "spearman": 0.2701158200726656
+        },
+        "gap23": {
+          "pearson": -0.1572187076704632,
+          "spearman": -0.07781263261281361
+        },
+        "lambda1": {
+          "pearson": -0.7381975625858652,
+          "spearman": -0.767536670404878
+        },
+        "lambda2": {
+          "pearson": -0.6557526322447459,
+          "spearman": -0.6583764230254705
+        },
+        "lambda3": {
+          "pearson": -0.6781448446212491,
+          "spearman": -0.709136567030331
+        },
+        "response_strength": {
+          "pearson": 0.3344587498978227,
+          "spearman": 0.18194718320867048
+        },
+        "trace": {
+          "pearson": -0.7964715390044736,
+          "spearman": -0.8460041272864971
+        }
+      },
+      "global_step": 500,
+      "latent_dimensions": 32,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p11_factorial_views_v1/training/paired_degrade_jepa_v2/paired_degrade_jepa_m25_v2/jepa/seed_42/latent_exports/step_000000500.npz",
+      "pc1_sign_is_arbitrary": true,
+      "pc1_weighted_variance_fraction": 0.9886911421730952,
+      "ph001_opened": false,
+      "rows": 426,
+      "run_id": "paired_degrade_jepa_m25_v2/jepa/seed_42",
+      "strongest_absolute_spearman": "trace"
+    },
+    {
+      "arm": "supervised_masked",
+      "correlations": {
+        "anisotropy_range": {
+          "pearson": 0.13480493930551157,
+          "spearman": 0.16821675874065894
+        },
+        "gap12": {
+          "pearson": 0.23541085231358522,
+          "spearman": 0.26943497771569813
+        },
+        "gap23": {
+          "pearson": -0.1556273208540702,
+          "spearman": -0.08101921331777409
+        },
+        "lambda1": {
+          "pearson": -0.7334793481815104,
+          "spearman": -0.7645916040152043
+        },
+        "lambda2": {
+          "pearson": -0.6507062646947815,
+          "spearman": -0.6533899782655286
+        },
+        "lambda3": {
+          "pearson": -0.6726710426815519,
+          "spearman": -0.7068020002318525
+        },
+        "response_strength": {
+          "pearson": 0.33557722851247723,
+          "spearman": 0.18413912827041193
+        },
+        "trace": {
+          "pearson": -0.7906480713338504,
+          "spearman": -0.8436245891893862
+        }
+      },
+      "global_step": 500,
+      "latent_dimensions": 32,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p11_factorial_views_v1/training/paired_degrade_jepa_v2/paired_degrade_jepa_m25_v2/supervised_masked/seed_42/latent_exports/step_000000500.npz",
+      "pc1_sign_is_arbitrary": true,
+      "pc1_weighted_variance_fraction": 0.9868181490800948,
+      "ph001_opened": false,
+      "rows": 426,
+      "run_id": "paired_degrade_jepa_m25_v2/supervised_masked/seed_42",
+      "strongest_absolute_spearman": "trace"
+    }
+  ]
+}
