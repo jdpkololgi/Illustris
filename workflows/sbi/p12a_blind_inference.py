@@ -314,6 +314,7 @@ def export_blind_unet_context(
         "schema_version": "p12a-blind-base-context-v1",
         "created_utc": utc_now(),
         "git_revision": git_revision(),
+        "source": {"path": str(Path(__file__).resolve()), "sha256": sha256(Path(__file__))},
         "phase": "ph001",
         "rows": int(len(parent)),
         "unsupported_rows_omitted": int(np.count_nonzero(~supported)),
