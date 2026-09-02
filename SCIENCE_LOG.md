@@ -1,5 +1,63 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-02 - [science/code/run] First conditional field-flow posterior is informative but not conditionally calibrated
+
+The first proper coherent-field posterior canaries are complete.  They target
+`p(delta_R7 patch | BGS_BRIGHT V_final, random-derived response, H_fid)` and transform
+every sampled already-smoothed `delta_R7` field through the fixed local-periodic
+tidal projector and `eigvalsh`.  ph001 remained sealed throughout.  The 1,000-update,
+64-core-per-phase run was technically healthy but scientifically underfit: voxel
+posterior-mean `R2=0.16588`, CRPS `0.22141`, nominal-68% voxel coverage `0.47385`, and
+all three derived-eigenvalue coverage gates failed.  This was not evidence against
+conditional flow matching; it was only about three passes through 320 training cores.
+
+A pre-registered corrective run used exact nested provenance: the same 64 scaler
+cores per training phase and the same 16 ph006 validation cores, embedded in 512
+training cores per phase, with 10,000 updates.  No target, response channel, model,
+solver, physics map, gate, or validation identity changed.  Training remained finite
+and took 513 seconds on one A100.  The posterior-mean field diagnostic improved to
+`R2=0.42863` and the 16-draw CRPS to `0.18277`; nominal-68% voxel coverage improved to
+`0.56409`, voxel rank-CDF deviation to `0.07583`, and only lambda3 missed the frozen
+bounded tolerance (`0.52776` coverage, absolute error `0.15224` versus the registered
+maximum `0.15`).  Fixed-physics closure remained exact to `1.91e-6` maximum trace
+error, with finite ordered eigenvalues and no second smoothing.
+
+Because that lambda3 miss was only `0.00224` beyond the tolerance and 16 draws give
+coarse Monte Carlo interval estimates, a separately labelled checkpoint-only
+64-draw rescore was run.  It did not change the parent marker or checkpoint.  The
+rescore passes the bounded aggregate gates: voxel coverage `0.60921`, rank-CDF
+deviation `0.08245`, and lambda1/2/3 coverage `0.59351/0.59972/0.56871`.  However,
+this must not be reported as production calibration.  A 4,000-replicate bootstrap
+over the 16 authoritative ph006 patch cores gives voxel coverage 95% interval
+`[0.55223,0.66502]`, still below nominal 0.68.  Lambda1/2/3 intervals are
+`[0.50186,0.68487]`, `[0.54426,0.65932]`, and `[0.50506,0.63066]`.  The sparse shell
+is distinctly undercovered (`0.51991`, interval `[0.46480,0.57455]`), while the
+lowest/highest true-density quartiles cover only `0.32849/0.39655`; middle quartiles
+overcover at `0.84674/0.86505`.  High-k modes remain strongly overdispersed even as
+the lowest-k quartile is much better behaved.  These are structured conditional
+failures, not independent-voxel sampling noise.
+
+The result is therefore a positive feasibility result and a negative calibration
+result.  Conditional flow matching can learn a useful stochastic field law from the
+current infrastructure, and the original deterministic `R2~0.5` ceiling was not a
+valid go/no-go criterion.  But the present patch-local sampler is not a production
+posterior and cannot support VAC uncertainty claims.  Freeze it as `P12-F1b`; next
+run the matched stochastic Gaussian/correlated-residual baseline and a separately
+registered conditional score-diffusion challenger on the identical target,
+conditioning, core identities, draw budget and diagnostics.  Select by proper scores
+and block-conditional calibration, not posterior-mean R2.  A larger validation-core
+panel, derived-lambda TARP/SBC, global shared long modes, overlap coherence, HOD scope,
+and posterior predictive galaxy-plus-DESI re-observation remain mandatory before any
+production promotion.
+
+Durable evidence:
+`docs/evidence/p12/P12F_CFM_1K_16DRAW_REPORT.json`,
+`docs/evidence/p12/P12F_CFM_10K_16DRAW_REPORT.json`,
+`docs/evidence/p12/P12F_CFM_10K_64DRAW_RESCORE.json`, and
+`docs/evidence/p12/P12F_CFM_10K_64DRAW_BLOCK_BOOTSTRAP.json`.  Reusable checkpoint-
+only and bootstrap tools are `workflows/sbi/p12f_rescore_field_flow.py` and
+`workflows/sbi/p12f_block_bootstrap_audit.py`.
+
 ### 2026-09-01 - [science/code] Close JEPA mainline; open calibrated coherent-field posterior canary
 
 P11 now answers the representation-alignment question sufficiently for the current
@@ -56,10 +114,9 @@ with maximum absolute difference exactly `0.0`.  Evidence:
 `docs/evidence/p12/P12F_FIELD_TARGETS_READY.json`; aggregate validator:
 `workflows/abacus_tweb/p12f_validate_field_targets.py`.
 
-The 1,000-update conditional-flow canary remains pending GPU compute.  A canary pass
-licenses a larger comparison, not production: it
-does not establish global long-mode coherence, HOD marginalisation, DESI closure or
-blind-phase calibration.
+The later 1,000-update and nested 10,000-update conditional-flow results are recorded
+in the 2026-09-02 entry above.  They do not establish global long-mode coherence, HOD
+marginalisation, DESI closure or blind-phase calibration.
 
 Degraded P11 views are retained, but their role changes.  They are alternate
 conditioned observations `(X_s,S_s)` of the same privileged `delta_R7`, not teacher

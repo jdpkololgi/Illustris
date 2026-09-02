@@ -4061,8 +4061,9 @@ Out-of-fold summary contract:
 
 #### P12-F — Coherent conditional field posterior challenger
 
-**Status:** CONDITIONAL-FLOW CANARY CONTRACT, TESTS AND ALL VISIBLE-PHASE TARGETS
-READY; GPU CANARY PENDING; NOT A PRODUCTION MODEL; PH001 SEALED
+**Status:** P12-F1A/F1B CONDITIONAL-FLOW CANARIES COMPLETE; STOCHASTIC FIELD
+FEASIBILITY POSITIVE BUT BLOCK-CONDITIONAL CALIBRATION FAILED; MATCHED GAUSSIAN AND
+SCORE-DIFFUSION CHALLENGERS NEXT; NOT A PRODUCTION MODEL; PH001 SEALED
 
 The per-galaxy P12-A posterior remains the shortest production spine.  P12-F is the
 coherent-field challenger motivated by the fact that multiple tidal fields can be
@@ -4118,18 +4119,38 @@ version the estimand and restore `W_7(k)` exactly once inside the physics layer.
   `workflows/sbi/p12f_train_conditional_field_flow.py`.
 - [x] Implement voxel/mode/derived-eigenvalue posterior ranks, central coverage,
   CRPS, conditional coverage and fixed-physics closure in
-  `workflows/sbi/p12f_field_posterior_diagnostics.py`. Seven focused tests pass.
+  `workflows/sbi/p12f_field_posterior_diagnostics.py`. Eleven focused tests now pass,
+  including frozen checkpoint-only rescoring and patch-block bootstrap logic.
 - [x] Build and validate targets for ph000 and ph002--ph006 on a CPU allocation.
   The aggregate audit passes every schema, physics, support, finiteness and phase-
   distribution gate. Twelve cap fields have means in
   `[-0.001794,0.001489]`, standard deviations in `[0.463958,0.466929]`, and sampled
   ph000 parity with historical D0 is exactly `0.0` maximum absolute difference.
   Evidence: `docs/evidence/p12/P12F_FIELD_TARGETS_READY.json`.
-- [ ] Run the frozen 1,000-update/16-draw ph006 canary. A pass only licenses a larger
-  field-posterior comparison; it cannot promote a production VAC.
-- [ ] If technically healthy, compare a matched conditional score-diffusion canary
-  and the stochastic Gaussian/correlated-residual baseline using the same selected
-  cores and draw budget.
+- [x] Run the frozen 1,000-update/16-draw ph006 canary. It is technically healthy but
+  underfit: voxel `R2=0.16588`, CRPS `0.22141`, 68% coverage `0.47385`, and all field/
+  derived-eigenvalue calibration gates fail.  This is a bounded negative result, not
+  a method veto.
+- [x] Run the exact-nested `P12-F1b` corrective: 512 versus 64 training cores per
+  phase and 10,000 versus 1,000 updates, with the exact same scaler cores, ph006 rows,
+  architecture, target, response, solver, physics and gates.  Field `R2` improves to
+  `0.42863`, CRPS to `0.18277`, and the 16-draw result misses only lambda3 coverage by
+  `0.00224` beyond tolerance.
+- [x] Run a separately labelled 64-draw checkpoint rescore without changing the
+  frozen parent marker.  It passes the loose bounded gate, but a 4,000-replicate
+  16-core block bootstrap shows robust residual undercoverage: voxel 68% coverage
+  `0.60921 [0.55223,0.66502]`; lambda1/2/3 `0.59351/0.59972/0.56871`; sparse shell
+  `0.51991 [0.46480,0.57455]`; extreme true-environment quartiles `0.32849/0.39655`.
+  Do not promote by quoting only the aggregate gate.
+- [ ] Fit the matched stochastic Gaussian and correlated Fourier/wavelet residual
+  controls on the exact P12-F1b rows.  These establish whether the learned sampler
+  improves conditional proper scores/calibration over a simpler stochastic field.
+- [ ] Run one separately registered conditional score-diffusion canary with the same
+  512-core-per-phase panel, 10,000-update budget, 64 draws, target, conditioning,
+  architecture capacity, local physics diagnostic and bootstrap report.  It is a
+  matched objective/sampler comparison, not a generic flow-versus-diffusion claim.
+- [ ] Expand only the best calibrated challenger to a larger ph006 core panel and
+  block/mode resampling before any long training or ph001 access.
 
 The primary gate is **not** `R2(posterior mean, truth)`.  The held-out truth must be
 statistically compatible with the learned conditional ensemble.  Require, in order:
