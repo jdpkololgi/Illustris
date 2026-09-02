@@ -1,0 +1,24 @@
+{
+  "artifacts": {
+    "blind_input": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/BLIND_INPUT_COMPLETE.json",
+      "sha256": "2b6b1bd7021b66159a946be8842292aa19b2856e3b6012071503f40e6ad16b9c"
+    },
+    "p12a_candidate": {
+      "path": "docs/evidence/p12/P12A_PRODUCTION_CANDIDATE_FROZEN.json",
+      "sha256": "cd8e5aa543a133fbff622ee1d72f078d7132ff1214b00f9856ea47dcd729550f"
+    },
+    "p12f_selection": {
+      "path": "docs/evidence/p12/p12f_matched_v1/P12F_NO_FIELD_FINALIST.json",
+      "sha256": "a628d42d36a8b36601e6cd65c8fb7ce5f17acfd856727497547e8f8da2adb278"
+    }
+  },
+  "created_utc": "2026-09-02T16:05:37.496926+00:00",
+  "git_revision": "c20911c9db210858be185f82df511c9c007a8986",
+  "open_count": 0,
+  "pass": true,
+  "ph001_opened": false,
+  "phase": "ph001",
+  "schema_version": "p12-blind-response-build-authority-v1",
+  "truth_files_read": []
+}
