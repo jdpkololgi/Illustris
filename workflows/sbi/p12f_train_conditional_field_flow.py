@@ -231,15 +231,46 @@ def deterministic_subset(values: np.ndarray, count: int, *, seed: int) -> np.nda
     return np.sort(rng.choice(values, size=count, replace=False))
 
 
+def deterministic_nested_subset(
+    values: np.ndarray,
+    count: int,
+    *,
+    reference_count: int,
+    seed: int,
+) -> np.ndarray:
+    """Extend a frozen smaller subset without changing its membership."""
+    values = np.asarray(values, dtype=np.int64)
+    if reference_count <= 0 or reference_count > count:
+        raise ValueError("nested reference count must lie in [1, count]")
+    reference = deterministic_subset(values, reference_count, seed=seed)
+    if count == reference_count:
+        return reference
+    remaining = np.setdiff1d(values, reference, assume_unique=False)
+    extra = deterministic_subset(
+        remaining,
+        count - reference_count,
+        seed=seed + 33001,
+    )
+    return np.sort(np.concatenate([reference, extra]))
+
+
 def selected_core_contract(loader, config: dict) -> dict[str, np.ndarray]:
     seed = int(config["canary"]["seed"])
     count = int(config["canary"]["training_cores_per_phase"])
+    reference_count = int(
+        config["canary"].get("nested_reference_training_cores_per_phase", count)
+    )
     output = {}
     for index, phase in enumerate(config["roles"]["training"]):
         source = np.load(
             loader.root / "phases" / phase / "training_core_id.npy", mmap_mode="r"
         )
-        output[phase] = deterministic_subset(source, count, seed=seed + 101 * index)
+        output[phase] = deterministic_nested_subset(
+            source,
+            count,
+            reference_count=reference_count,
+            seed=seed + 101 * index,
+        )
     source = np.load(
         loader.root / "phases" / loader.validation_phase / "validation_core_id.npy",
         mmap_mode="r",
@@ -247,6 +278,38 @@ def selected_core_contract(loader, config: dict) -> dict[str, np.ndarray]:
     output[loader.validation_phase] = deterministic_subset(
         source, int(config["canary"]["validation_cores"]), seed=seed + 999
     )
+    return output
+
+
+def target_scaler_core_contract(
+    loader, selected: dict[str, np.ndarray], config: dict
+) -> dict[str, np.ndarray]:
+    """Freeze a bounded nested subset for target scaling.
+
+    Increasing the optimization-core canary must not make startup scale linearly
+    with the training population.  The field scaler is a low-order global moment
+    estimate, so a separately registered deterministic subset is sufficient and
+    is recorded alongside the optimizer-core identities.
+    """
+    count = int(
+        config["canary"].get(
+            "target_scaler_cores_per_phase",
+            config["canary"]["training_cores_per_phase"],
+        )
+    )
+    seed = int(config["canary"]["seed"])
+    output = {}
+    for phase_index, phase in enumerate(config["roles"]["training"]):
+        source = np.load(
+            loader.root / "phases" / phase / "training_core_id.npy", mmap_mode="r"
+        )
+        output[phase] = deterministic_subset(
+            source, count, seed=seed + 101 * phase_index
+        )
+        if not set(output[phase]).issubset(
+            set(np.asarray(selected[phase], dtype=np.int64))
+        ):
+            raise RuntimeError("target-scaler cores are not nested in optimizer cores")
     return output
 
 
@@ -589,8 +652,9 @@ def main() -> None:
     if loader.validation_phase != config["roles"]["validation_and_selection"]:
         raise RuntimeError("validation phase contract mismatch")
     selected = selected_core_contract(loader, config)
+    scaler_selected = target_scaler_core_contract(loader, selected, config)
     store = FieldTargetStore(args.phase_root, visible)
-    scaler = fit_target_scaler(loader, store, selected, config)
+    scaler = fit_target_scaler(loader, store, scaler_selected, config)
     atomic_json(output / "target_scaler.json", scaler)
 
     source_paths = [
@@ -626,6 +690,10 @@ def main() -> None:
         "field_target_markers": target_markers,
         "selected_core_ids": {
             phase: [int(value) for value in values] for phase, values in selected.items()
+        },
+        "target_scaler_core_ids": {
+            phase: [int(value) for value in values]
+            for phase, values in scaler_selected.items()
         },
         "target_scaler": scaler,
         "ph001_opened": False,

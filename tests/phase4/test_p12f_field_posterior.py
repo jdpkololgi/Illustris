@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from types import SimpleNamespace
 import unittest
 
 import numpy as np
@@ -22,6 +23,8 @@ from workflows.sbi.p12f_train_conditional_field_flow import (
     _fourier_parts,
     rectified_flow_training_pair,
     sample_heun,
+    selected_core_contract,
+    target_scaler_core_contract,
 )
 from workflows.sbi.p11_latent_physics_diagnostic import pc1, weighted_correlation
 
@@ -144,6 +147,43 @@ class P12FFieldPosteriorTest(unittest.TestCase):
             with h5py.File(path, "r") as handle:
                 observed = read_flat_points(handle["values"], flat)
             np.testing.assert_array_equal(observed, expected.ravel()[flat])
+
+    def test_corrective_scaler_subset_is_deterministic_and_nested(self):
+        config = {
+            "canary": {
+                "seed": 42,
+                "training_cores_per_phase": 8,
+                "nested_reference_training_cores_per_phase": 3,
+                "target_scaler_cores_per_phase": 3,
+                "validation_cores": 4,
+            },
+            "roles": {"training": ["ph000", "ph002"]},
+        }
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for offset, phase in enumerate(config["roles"]["training"]):
+                phase_dir = root / "phases" / phase
+                phase_dir.mkdir(parents=True)
+                np.save(
+                    phase_dir / "training_core_id.npy",
+                    np.arange(20 * offset, 20 * offset + 12, dtype=np.int64),
+                )
+            validation_dir = root / "phases" / "ph006"
+            validation_dir.mkdir(parents=True)
+            np.save(
+                validation_dir / "validation_core_id.npy",
+                np.arange(100, 120, dtype=np.int64),
+            )
+            loader = SimpleNamespace(root=root, validation_phase="ph006")
+            selected = selected_core_contract(loader, config)
+            first = target_scaler_core_contract(loader, selected, config)
+            second = target_scaler_core_contract(loader, selected, config)
+            for phase in config["roles"]["training"]:
+                np.testing.assert_array_equal(first[phase], second[phase])
+                self.assertEqual(len(first[phase]), 3)
+                self.assertTrue(set(first[phase]).issubset(set(selected[phase])))
 
 
 if __name__ == "__main__":
