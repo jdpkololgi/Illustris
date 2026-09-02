@@ -1,0 +1,80 @@
+{
+  "schema_version": "p12f-conditional-field-flow-canary-v1",
+  "status": "bounded_canary_not_production",
+  "estimand": "p(delta_R7 patch | BGS_BRIGHT final view, random-derived response, H_fid)",
+  "roles": {
+    "training": ["ph000", "ph002", "ph003", "ph004", "ph005"],
+    "validation_and_selection": "ph006",
+    "sealed_blind_test": "ph001"
+  },
+  "conditioning": {
+    "view": "V_final R1 random-response BRIGHT-only",
+    "channels": ["counts", "derived_density_proxy", "exposure_apodized_random"],
+    "response_is_conditioning_not_target": true,
+    "phase_is_model_input": false,
+    "hod_is_model_input": false,
+    "fixed_hod_condition": "H_fid"
+  },
+  "target": {
+    "field": "delta_R7=lambda1+lambda2+lambda3",
+    "smoothing_mpc_h": 7.0,
+    "double_smoothing_forbidden": true,
+    "voxel_mpc": 5.0,
+    "transform": "training-core global zscore",
+    "privileged_target_is_model_input": false
+  },
+  "patch": {
+    "context_halo_voxels": 8,
+    "alignment_voxels": 8,
+    "loss_region": "entire authoritative core including prior-only M=0 cells",
+    "science_evaluation_region": "authoritative core intersect exact support_random",
+    "production_context_converged": false
+  },
+  "model": {
+    "family": "conditional_rectified_flow_matching",
+    "architecture": "3D U-Net velocity field",
+    "input_channels": 5,
+    "unet_base": 8,
+    "output_channels": 1,
+    "base_distribution": "iid standard normal in standardized delta_R7 coordinates",
+    "path": "x_t=(1-t)epsilon+t*delta; target_velocity=delta-epsilon",
+    "time_conditioning": "broadcast scalar channel",
+    "ode_solver": "fixed-step Heun"
+  },
+  "canary": {
+    "training_cores_per_phase": 64,
+    "validation_cores": 16,
+    "updates": 1000,
+    "seed": 42,
+    "learning_rate": 0.0003,
+    "weight_decay": 0.0001,
+    "gradient_clip": 5.0,
+    "posterior_draws": 16,
+    "ode_steps": 12,
+    "maximum_saved_voxels_per_core": 4096
+  },
+  "primary_gates": {
+    "all_finite": true,
+    "checkpoint_reload": true,
+    "ph001_opened": false,
+    "voxel_68_coverage_absolute_error_maximum": 0.12,
+    "voxel_rank_cdf_maximum_deviation": 0.12,
+    "lambda_68_coverage_absolute_error_maximum": 0.15,
+    "posterior_width_positive_fraction_minimum": 0.99
+  },
+  "diagnostics_not_promotion_gates": [
+    "posterior-mean R2(delta_R7)",
+    "posterior-mean RMSE(delta_R7)",
+    "local-periodic-patch derived eigenvalue accuracy"
+  ],
+  "missing_before_production": [
+    "full multi-phase target and loader audit",
+    "context/global-mode convergence",
+    "coherent overlap sampling with shared long modes",
+    "mode/block-bootstrap calibration",
+    "TARP and SBC for derived eigenvalues",
+    "held-out degradation response ladder",
+    "posterior predictive galaxy re-observation",
+    "HOD and observation-model marginalisation or explicit conditional scope"
+  ]
+}

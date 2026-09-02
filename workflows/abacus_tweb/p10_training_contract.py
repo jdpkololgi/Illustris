@@ -229,6 +229,21 @@ class P10PhaseBalancedLoader:
         self._graph: dict[str, CanonicalGraphPatchAdapter] = {}
         self._field: dict[str, CanonicalFieldPatchAdapter] = {}
 
+    def close(self) -> None:
+        """Close any lazily opened graph/field adapter resources."""
+        for adapter in (*self._graph.values(), *self._field.values()):
+            close = getattr(adapter, "close", None)
+            if close is not None:
+                close()
+        self._graph.clear()
+        self._field.clear()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_):
+        self.close()
+
     def _array(self, phase: str, name: str, *, mmap_mode: str = "r") -> np.ndarray:
         return np.load(self.root / "phases" / phase / name, mmap_mode=mmap_mode)
 
@@ -296,4 +311,3 @@ class P10PhaseBalancedLoader:
         return json.loads(
             (self.root / "transforms" / "target_scaler.json").read_text()
         )
-
