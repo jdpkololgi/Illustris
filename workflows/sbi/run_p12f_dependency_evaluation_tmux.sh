@@ -37,14 +37,19 @@ wait_for_slot() {
     timeout 45 "${status_python}" "${status_helper}" --max-interactive 2
     status=$?
     set -e
-    if [[ ${status} -eq 0 ]]; then
-      return 0
-    fi
-    if [[ ${status} -ne 2 && ${status} -ne 124 ]]; then
+    if [[ ${status} -ne 0 && ${status} -ne 2 && ${status} -ne 124 ]]; then
       echo "allocation-status helper failed with ${status}"
       return "${status}"
     fi
-    echo "[$(date -u +%FT%TZ)] two interactive allocations are occupied; waiting 60 s"
+    # Urgent-reservation interactive jobs can be reported in the helper's
+    # `other_jobs` list. Count the standard salloc job name directly as the
+    # binding two-allocation guard.
+    live_allocations=$(squeue -h -u "${USER}" -o '%j|%T' | awk -F'|' \
+      '$1 == "interactive" && ($2 == "RUNNING" || $2 == "PENDING" || $2 == "CONFIGURING" || $2 == "COMPLETING") {n += 1} END {print n + 0}')
+    if [[ ${live_allocations} -lt 2 ]]; then
+      return 0
+    fi
+    echo "[$(date -u +%FT%TZ)] ${live_allocations} allocations are occupied; waiting 60 s"
     sleep 60
   done
 }
