@@ -1,0 +1,56 @@
+{
+  "artifacts": {
+    "calibration_audit": {
+      "bytes": 271018,
+      "path": "docs/evidence/p12/P12A_CALIBRATION_AUDIT.json",
+      "sha256": "ea602b92eadc997fdf1aaf201902f4973981e8e7cae6007bc6ecfb07f17cab3b"
+    },
+    "checkpoint": {
+      "bytes": 505497,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/fmpe_estimator.pt",
+      "sha256": "0474ce3f0b3a6c97de7fe225eaceee9f0b2b0ea76ea5d417e545eeeacf437880"
+    },
+    "completion": {
+      "bytes": 14357,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/P12A_COMPLETE.json",
+      "sha256": "9748d62d4a2f7476bedf26223281436f4eacf71660a2bfef232f3c44cb973b90"
+    },
+    "dataset": {
+      "bytes": 15517,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/P12A_DATASET_READY.json",
+      "sha256": "7c93cb8a1e4f409aac49050c61e036e9b917ac42db0df8c97990ce59187fa7f9"
+    },
+    "gaussian_baseline": {
+      "bytes": 5116,
+      "path": "docs/evidence/p12/production_aux_v1/P12A_GAUSSIAN_BASELINE.json",
+      "sha256": "7180877540b9a3a1a876ba539febcaa8679b8fd2e26a10473bf4bbe512138f3e"
+    },
+    "quality_thresholds": {
+      "bytes": 2352,
+      "path": "docs/evidence/p12/production_aux_v1/P12A_QUALITY_THRESHOLDS.json",
+      "sha256": "533cc9eb5b9ed14452b9b78aa1df7d7bc79a5a20b05701fade5180d425b5368b"
+    }
+  },
+  "audit_draw_rows": 50000,
+  "created_utc": "2026-09-02T14:04:40.222859+00:00",
+  "estimand": "q(lambda_ordered | U_PATCH_R1_prediction, response, H_fid)",
+  "git_revision": "ae14c06cb96c4654bf48d38caa8b1c62aa11a977",
+  "open_count": 0,
+  "pass": true,
+  "ph006_caveat": "sparse-shell lambda2/lambda3 conditional residual",
+  "posterior": "FMPE conditional flow matching in ordered-softplus coordinates",
+  "posterior_draws": 512,
+  "quality_bits": {
+    "boundary_distance_lt_14_mpc_h": 4,
+    "boundary_distance_lt_7_mpc_h": 2,
+    "prior_dominated_width": 16,
+    "response_outside_training_range": 8,
+    "sparse_shell_z_ge_0p45": 1
+  },
+  "recalibration": null,
+  "schema_version": "p12a-production-candidate-frozen-v1",
+  "sealed_phase_opened": false,
+  "strict_calibration_pass_marker_present": false,
+  "tempering": null,
+  "truth_files_read": []
+}
