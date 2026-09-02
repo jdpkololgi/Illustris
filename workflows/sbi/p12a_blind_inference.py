@@ -455,7 +455,10 @@ def reconstruct_fmpe(checkpoint_path: Path, device: str) -> tuple[Any, dict]:
     # checks CUDA candidates against CPU Uniform bounds and fails before drawing.
     # Rebind the posterior-owned prior explicitly; this is an in-place device
     # move and does not alter the frozen prior limits.
-    posterior.prior.to(device)
+    # Move the complete posterior rather than only its prior. Otherwise the
+    # ODE sampler remains on the build-time CPU device and produces CPU
+    # candidates which are then checked against CUDA prior bounds.
+    posterior.to(device)
     # torch.distributions exposes `support` as a lazy property. SBI's prior
     # validation can materialize and cache that Interval before BoxUniform.to()
     # rebuilds the base distribution, leaving stale CPU bounds even though
