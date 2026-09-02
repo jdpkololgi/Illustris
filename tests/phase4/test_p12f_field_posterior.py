@@ -27,6 +27,7 @@ from workflows.sbi.p12f_train_conditional_field_flow import (
     target_scaler_core_contract,
 )
 from workflows.sbi.p11_latent_physics_diagnostic import pc1, weighted_correlation
+from workflows.sbi.p12f_rescore_field_flow import validate_parent
 
 
 REPO = Path(__file__).resolve().parents[2]
@@ -184,6 +185,19 @@ class P12FFieldPosteriorTest(unittest.TestCase):
                 np.testing.assert_array_equal(first[phase], second[phase])
                 self.assertEqual(len(first[phase]), 3)
                 self.assertTrue(set(first[phase]).issubset(set(selected[phase])))
+
+    def test_draw_rescore_rejects_unsealed_parent(self):
+        config = {
+            "canary": {"posterior_draws": 16},
+            "roles": {
+                "sealed_blind_test": "ph001",
+                "validation_and_selection": "ph006",
+            },
+        }
+        manifest = {"ph001_opened": True}
+        checkpoint = {"ph001_opened": False}
+        with self.assertRaises(PermissionError):
+            validate_parent(Path("/nonexistent"), manifest, checkpoint, config)
 
 
 if __name__ == "__main__":
