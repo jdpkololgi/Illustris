@@ -99,6 +99,57 @@ def validate_observed_assignment(assignment: Any) -> None:
         raise RuntimeError(f"observed assignment is missing {sorted(required - set(names))}")
 
 
+def validate_blind_adapter_inputs(
+    manifest: dict,
+    *,
+    adapter_root: Path,
+    assignment_path: Path,
+    points_path: Path,
+) -> None:
+    """Bind the observed-only adapter to the exact ph001 rows and field manifest."""
+    if not manifest.get("pass") or "ph001" not in str(adapter_root).lower():
+        raise PermissionError("blind field adapter is not an approved ph001 input")
+    if not set(unet_impl.CHANNELS).issubset(manifest.get("channel_order", ())):
+        raise RuntimeError("blind field adapter does not expose the frozen R0 channels")
+    expected_assignment = Path(manifest.get("p4_active_assignment", ""))
+    expected_points = Path(manifest.get("points", ""))
+    p3_manifest = Path(manifest.get("p3_manifest", ""))
+    if (
+        expected_assignment.resolve() != assignment_path.resolve()
+        or expected_points.resolve() != points_path.resolve()
+    ):
+        raise RuntimeError("blind adapter row identity differs from the supplied inputs")
+    if (
+        not p3_manifest.is_file()
+        or sha256(p3_manifest) != manifest.get("p3_manifest_sha256")
+        or sha256(assignment_path) != manifest.get("p4_active_assignment_sha256")
+    ):
+        raise RuntimeError("blind adapter provenance hash mismatch")
+    referenced = (expected_assignment, expected_points, p3_manifest) + tuple(
+        Path(record.get("field_path", ""))
+        for record in manifest.get("caps", {}).values()
+    )
+    if any("ph001" not in str(path).lower() for path in referenced):
+        raise PermissionError("blind adapter references a non-ph001 source")
+    if any(
+        any(token in str(path).lower() for token in FORBIDDEN_ARRAY_TOKENS)
+        for path in referenced
+    ):
+        raise PermissionError("blind adapter references a truth-bearing source")
+
+
+def validate_blind_selection_manifest(selection: dict) -> None:
+    expected = ("ph000", "ph002", "ph003", "ph004", "ph005")
+    if (
+        selection.get("pass") is not True
+        or tuple(selection.get("fit_phases", ())) != expected
+        or "ph001" not in selection.get("application_phases", ())
+        or "ph001" in selection.get("fit_phases", ())
+        or selection.get("gates", {}).get("no_validation_or_blind_fit") is not True
+    ):
+        raise PermissionError("radial selection manifest is not frozen blind-safe")
+
+
 def _parent_lookup(parent: np.ndarray, rows: np.ndarray) -> np.ndarray:
     parent = np.asarray(parent, dtype=np.int64)
     if len(np.unique(parent)) != len(parent) or np.any(parent < 0):
@@ -133,9 +184,9 @@ def export_blind_unet_context(
     if candidate.get("schema_version") != P12A_SCHEMA or not candidate.get("pass"):
         raise RuntimeError("P12-A production candidate is not frozen")
     base_encoder = candidate.get("base_encoder", {})
-    base = base_encoder.get("checkpoint", {})
+    base_checkpoint_record = base_encoder.get("checkpoint", {})
     if (
-        base.get("sha256") != sha256(checkpoint_path)
+        base_checkpoint_record.get("sha256") != sha256(checkpoint_path)
         or base_encoder.get("selected_epoch") != 20
         or base_encoder.get("response_aware_encoder") is not False
     ):
@@ -148,17 +199,27 @@ def export_blind_unet_context(
         "ph001",
     ):
         raise PermissionError("blind field adapter provenance is invalid")
-    if not adapter.manifest.get("pass"):
-        raise RuntimeError("blind field adapter marker does not pass")
+    validate_blind_adapter_inputs(
+        adapter.manifest,
+        adapter_root=adapter_root,
+        assignment_path=assignment_path,
+        points_path=points_path,
+    )
     assignment = np.load(assignment_path, mmap_mode="r")
     validate_observed_assignment(assignment)
     points = np.load(points_path, mmap_mode="r")
     if points.ndim != 2 or points.shape[1] < 4:
         raise RuntimeError("canonical observed points are invalid")
     response_manifest = json.loads(response_field_manifest_path.read_text())
-    if response_manifest.get("ph001_opened") or response_manifest.get("truth_files_read"):
+    if (
+        response_manifest.get("phase") != "ph001"
+        or response_manifest.get("pass") is not True
+        or response_manifest.get("ph001_opened")
+        or response_manifest.get("truth_files_read")
+    ):
         raise PermissionError("response manifest is not truth-free")
     selection = json.loads(selection_manifest_path.read_text())
+    validate_blind_selection_manifest(selection)
     model = unet_impl.UPatch(base=base, latent_channels=latent_channels).to(device)
     model.load_state_dict(checkpoint["state_dict"])
     model.eval()

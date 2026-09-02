@@ -73,7 +73,10 @@ while [[ ! -f "${manifest}" ]]; do
         printf '{\"attempt\":%d,\"started_utc\":\"%s\"}\n' '${attempt}' \"\$(date -u +%FT%TZ)\" > '${worker_started}.tmp'
         mv '${worker_started}.tmp' '${worker_started}'
         timeout 90 '${python}' -c \"import fitsio,h5py,healpy,numpy,scipy; print('P12_BLIND_RESPONSE_RUNTIME_OK')\"
-        '${python}' -m unittest tests.phase4.test_p12_blind_response_authority tests.phase4.test_p3br_random_response
+        '${python}' -m unittest \
+          tests.phase4.test_p12_blind_response_authority \
+          tests.phase4.test_p3br_random_response \
+          tests.phase4.test_p12a_blind_inference
         '${python}' -u -m workflows.abacus_tweb.p3br_build_random_response maps \
           --phase ph001 \
           --snapshots 18 \
