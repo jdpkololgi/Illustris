@@ -1,0 +1,225 @@
+{
+  "bootstrap_replicates": 4000,
+  "bootstrap_unit": "ph006 authoritative patch core",
+  "created_utc": "2026-09-02T01:23:13.068919+00:00",
+  "derived_local_tidal_eigenvalues": {
+    "lambda1": {
+      "absolute_error_from_0.68": 0.08649414062500005,
+      "block_bootstrap_95_interval": [
+        0.5018596649169922,
+        0.6848690032958985
+      ],
+      "empirical_coverage": 0.593505859375,
+      "n_blocks": 16,
+      "n_rows": 65536
+    },
+    "lambda2": {
+      "absolute_error_from_0.68": 0.08028381347656255,
+      "block_bootstrap_95_interval": [
+        0.5442638397216797,
+        0.6593204498291015
+      ],
+      "empirical_coverage": 0.5997161865234375,
+      "n_blocks": 16,
+      "n_rows": 65536
+    },
+    "lambda3": {
+      "absolute_error_from_0.68": 0.11128967285156255,
+      "block_bootstrap_95_interval": [
+        0.5050601959228516,
+        0.6306636810302735
+      ],
+      "empirical_coverage": 0.5687103271484375,
+      "n_blocks": 16,
+      "n_rows": 65536
+    }
+  },
+  "nominal_coverage": 0.68,
+  "ph001_opened": false,
+  "schema_version": "p12f-patch-block-bootstrap-coverage-v1",
+  "source_samples": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_conditional_field_flow_v1/cfm_corrective_seed42_v2/rescore_draws_64/ph006_posterior_samples.npz",
+  "source_samples_sha256": "d4b6aed160ef87a19f25101fa7afce1dca3a58bf34af9308f9b00cdcd5e2abe2",
+  "unique_blocks": 16,
+  "voxel": {
+    "angular_response_quartile": {
+      "0": {
+        "absolute_error_from_0.68": 0.06791101332355465,
+        "block_bootstrap_95_interval": [
+          0.5491613668259756,
+          0.6692238690808747
+        ],
+        "empirical_coverage": 0.6120889866764454,
+        "n_blocks": 16,
+        "n_rows": 16362
+      },
+      "1": {
+        "absolute_error_from_0.68": 0.05584761435088159,
+        "block_bootstrap_95_interval": [
+          0.5563687882162802,
+          0.6895362999076294
+        ],
+        "empirical_coverage": 0.6241523856491185,
+        "n_blocks": 16,
+        "n_rows": 16222
+      },
+      "2": {
+        "absolute_error_from_0.68": 0.0719163847269213,
+        "block_bootstrap_95_interval": [
+          0.5424630164180783,
+          0.672994191256937
+        ],
+        "empirical_coverage": 0.6080836152730787,
+        "n_blocks": 16,
+        "n_rows": 16552
+      },
+      "3": {
+        "absolute_error_from_0.68": 0.08731707317073178,
+        "block_bootstrap_95_interval": [
+          0.5307974818997072,
+          0.6669603026154983
+        ],
+        "empirical_coverage": 0.5926829268292683,
+        "n_blocks": 16,
+        "n_rows": 16400
+      }
+    },
+    "boundary_distance_quartile": {
+      "0": {
+        "absolute_error_from_0.68": 0.03522460937500005,
+        "block_bootstrap_95_interval": [
+          0.5739010270605996,
+          0.7244517399256296
+        ],
+        "empirical_coverage": 0.644775390625,
+        "n_blocks": 12,
+        "n_rows": 16384
+      },
+      "1": {
+        "absolute_error_from_0.68": 0.04468505859375005,
+        "block_bootstrap_95_interval": [
+          0.5638753565156215,
+          0.6963586258503047
+        ],
+        "empirical_coverage": 0.63531494140625,
+        "n_blocks": 13,
+        "n_rows": 16384
+      },
+      "2": {
+        "absolute_error_from_0.68": 0.09223144531250005,
+        "block_bootstrap_95_interval": [
+          0.5043073992713563,
+          0.6693118477569182
+        ],
+        "empirical_coverage": 0.5877685546875,
+        "n_blocks": 12,
+        "n_rows": 16384
+      },
+      "3": {
+        "absolute_error_from_0.68": 0.11103027343750005,
+        "block_bootstrap_95_interval": [
+          0.45216661669333486,
+          0.7357572639618046
+        ],
+        "empirical_coverage": 0.5689697265625,
+        "n_blocks": 11,
+        "n_rows": 16384
+      }
+    },
+    "overall": {
+      "0": {
+        "absolute_error_from_0.68": 0.07079284667968755,
+        "block_bootstrap_95_interval": [
+          0.5522254943847656,
+          0.6650150299072266
+        ],
+        "empirical_coverage": 0.6092071533203125,
+        "n_blocks": 16,
+        "n_rows": 65536
+      }
+    },
+    "redshift_shell": {
+      "0": {
+        "absolute_error_from_0.68": 0.02607020813917371,
+        "block_bootstrap_95_interval": [
+          0.567138671875,
+          0.7672354948805461
+        ],
+        "empirical_coverage": 0.6539297918608263,
+        "n_blocks": 3,
+        "n_rows": 9657
+      },
+      "1": {
+        "absolute_error_from_0.68": 0.0033944648216071016,
+        "block_bootstrap_95_interval": [
+          0.6602052451539339,
+          0.7015147015147015
+        ],
+        "empirical_coverage": 0.6833944648216072,
+        "n_blocks": 2,
+        "n_rows": 5998
+      },
+      "2": {
+        "absolute_error_from_0.68": 0.048908623510165894,
+        "block_bootstrap_95_interval": [
+          0.6833401507625781,
+          0.8029803806216086
+        ],
+        "empirical_coverage": 0.7289086235101659,
+        "n_blocks": 6,
+        "n_rows": 17116
+      },
+      "3": {
+        "absolute_error_from_0.68": 0.16008545704257593,
+        "block_bootstrap_95_interval": [
+          0.46479704004760014,
+          0.5745524021293851
+        ],
+        "empirical_coverage": 0.5199145429574241,
+        "n_blocks": 9,
+        "n_rows": 32765
+      }
+    },
+    "true_environment_quartile": {
+      "0": {
+        "absolute_error_from_0.68": 0.35150878906250005,
+        "block_bootstrap_95_interval": [
+          0.23528984888585333,
+          0.42113305233313475
+        ],
+        "empirical_coverage": 0.3284912109375,
+        "n_blocks": 16,
+        "n_rows": 16384
+      },
+      "1": {
+        "absolute_error_from_0.68": 0.16674072265624995,
+        "block_bootstrap_95_interval": [
+          0.797291916114226,
+          0.8929637930793446
+        ],
+        "empirical_coverage": 0.84674072265625,
+        "n_blocks": 16,
+        "n_rows": 16384
+      },
+      "2": {
+        "absolute_error_from_0.68": 0.18505126953124995,
+        "block_bootstrap_95_interval": [
+          0.8280305591350651,
+          0.8980993875562273
+        ],
+        "empirical_coverage": 0.86505126953125,
+        "n_blocks": 16,
+        "n_rows": 16384
+      },
+      "3": {
+        "absolute_error_from_0.68": 0.28345458984375005,
+        "block_bootstrap_95_interval": [
+          0.28500907727995217,
+          0.517210213711686
+        ],
+        "empirical_coverage": 0.39654541015625,
+        "n_blocks": 16,
+        "n_rows": 16384
+      }
+    }
+  }
+}

@@ -28,6 +28,10 @@ from workflows.sbi.p12f_train_conditional_field_flow import (
 )
 from workflows.sbi.p11_latent_physics_diagnostic import pc1, weighted_correlation
 from workflows.sbi.p12f_rescore_field_flow import validate_parent
+from workflows.sbi.p12f_block_bootstrap_audit import (
+    blocked_fraction_interval,
+    central_hits,
+)
 
 
 REPO = Path(__file__).resolve().parents[2]
@@ -198,6 +202,20 @@ class P12FFieldPosteriorTest(unittest.TestCase):
         checkpoint = {"ph001_opened": False}
         with self.assertRaises(PermissionError):
             validate_parent(Path("/nonexistent"), manifest, checkpoint, config)
+
+    def test_block_bootstrap_uses_patch_not_voxel_as_resampling_unit(self):
+        truth = np.array([0.0, 1.0, 2.0, 3.0])
+        samples = np.stack((truth - 1.0, truth + 1.0))
+        hits = central_hits(samples, truth)
+        result = blocked_fraction_interval(
+            hits,
+            np.array([10, 10, 20, 20]),
+            strata=None,
+            replicates=100,
+            seed=1,
+        )["0"]
+        self.assertEqual(result["n_blocks"], 2)
+        self.assertEqual(result["empirical_coverage"], 1.0)
 
 
 if __name__ == "__main__":
