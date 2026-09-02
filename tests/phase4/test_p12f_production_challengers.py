@@ -15,7 +15,10 @@ from workflows.sbi.p12f_common_evaluator import (
     sample_eigenvalues_at_galaxies,
     validate_archive_manifest,
 )
-from workflows.sbi.p12f_freeze_selection_panel import shell_from_radius
+from workflows.sbi.p12f_freeze_selection_panel import (
+    panel_marker_filename,
+    shell_from_radius,
+)
 from workflows.sbi.p12f_gaussian_controls import (
     correlated_unit_residuals,
     finalize_residual_filter,
@@ -39,6 +42,13 @@ class ZeroDiffusion(torch.nn.Module):
 
 
 class P12FProductionChallengerTest(unittest.TestCase):
+    def test_panel_marker_filename_tracks_frozen_panel_size(self):
+        self.assertEqual(
+            panel_marker_filename(1024), "P12F_PH006_PANEL_1024.json"
+        )
+        with self.assertRaises(ValueError):
+            panel_marker_filename(0)
+
     def test_crps_matches_brute_force_definition(self):
         rng = np.random.default_rng(3)
         samples = rng.normal(size=(7, 13))

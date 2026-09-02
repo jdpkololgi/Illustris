@@ -47,6 +47,12 @@ def git_revision() -> str:
     return subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
 
 
+def panel_marker_filename(expected_cores: int) -> str:
+    if int(expected_cores) <= 0:
+        raise ValueError("selection-panel core count must be positive")
+    return f"P12F_PH006_PANEL_{int(expected_cores)}.json"
+
+
 def core_radius_mpc(grid: dict, patch, support: np.ndarray) -> float:
     """Median radius of supported core voxels using the canonical P3 lattice."""
     if support.shape != patch.core_values.shape[1:] or not np.any(support):
@@ -222,7 +228,10 @@ def main() -> None:
         "outside_science_shell_core_count": int(
             np.count_nonzero(np.asarray([row["shell"] for row in rows]) < 0)
         ),
-        "outside_science_shell_policy": "retained in audit metadata; ineligible for the 128-core science panel",
+        "outside_science_shell_policy": (
+            "retained in audit metadata; ineligible for the "
+            f"{expected}-core science panel"
+        ),
         "selection_covariates": [
             "cap",
             "angular_response",
@@ -252,7 +261,7 @@ def main() -> None:
         "observation_metadata_sha256": sha256(arrays_path),
         "pass": True,
     }
-    atomic_json(args.output_root / "P12F_PH006_PANEL_128.json", marker)
+    atomic_json(args.output_root / panel_marker_filename(expected), marker)
     loader.close()
     print(json.dumps(marker, indent=2, sort_keys=True))
 
