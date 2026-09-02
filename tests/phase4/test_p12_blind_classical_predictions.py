@@ -7,6 +7,7 @@ import numpy as np
 from workflows.sbi.p12_blind_classical_predictions import (
     authoritative_rows,
     validate_affine_report,
+    validate_canonical_points,
     validate_response_manifest,
 )
 
@@ -73,6 +74,12 @@ class P12BlindClassicalPredictionsTest(unittest.TestCase):
         valid["ph001_opened"] = True
         with self.assertRaises(PermissionError):
             validate_response_manifest(valid)
+
+    def test_truth_free_four_column_points_are_valid(self):
+        points = np.zeros((5, 4), dtype=np.float32)
+        validate_canonical_points(points, np.asarray([0, 4], dtype=np.int64))
+        with self.assertRaises(RuntimeError):
+            validate_canonical_points(points[:, :3], np.asarray([0], dtype=np.int64))
 
 
 if __name__ == "__main__":

@@ -89,6 +89,12 @@ def validate_response_manifest(response: dict) -> None:
         raise PermissionError("ph001 random-response manifest is not frozen and sealed")
 
 
+def validate_canonical_points(points: np.ndarray, parent: np.ndarray) -> None:
+    """Validate the truth-free (x,y,z,cap) catalogue used by CIC/DTFE."""
+    if points.ndim != 2 or points.shape[1] < 4 or np.any(parent >= len(points)):
+        raise RuntimeError("blind canonical points are invalid")
+
+
 def predict(
     *,
     estimator: str,
@@ -117,8 +123,9 @@ def predict(
     assignment = np.load(assignment_path, mmap_mode="r")
     parent, core, assignment_cap = authoritative_rows(assignment)
     points = np.load(points_path, mmap_mode="r")
-    if points.ndim != 2 or points.shape[1] < 5 or np.any(parent >= len(points)):
-        raise RuntimeError("blind canonical points are invalid")
+    # Redshift lives in the separate sealed loader vector and is not an input
+    # to the gridded classical estimators.
+    validate_canonical_points(points, parent)
     position = np.asarray(points[parent, :3], dtype=np.float64)
     cap = np.asarray(points[parent, 3], dtype=np.uint8)
     if not np.array_equal(cap, assignment_cap):
