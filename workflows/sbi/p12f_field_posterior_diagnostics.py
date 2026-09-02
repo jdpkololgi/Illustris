@@ -144,6 +144,22 @@ def fixed_tidal_tensor(delta_r7: torch.Tensor) -> torch.Tensor:
     return torch.stack(rows, dim=-2)
 
 
+def _chunked_eigvalsh(
+    tensor: torch.Tensor, *, matrix_chunk_size: int = 8192
+) -> torch.Tensor:
+    """Diagonalize a tensor field with bounded vendor-library batch size."""
+    if tensor.shape[-2:] != (3, 3):
+        raise ValueError("tidal tensor must end in 3x3 matrices")
+    if matrix_chunk_size <= 0:
+        raise ValueError("matrix_chunk_size must be positive")
+    flat = tensor.reshape(-1, 3, 3)
+    pieces = [
+        torch.linalg.eigvalsh(flat[start : start + matrix_chunk_size])
+        for start in range(0, len(flat), matrix_chunk_size)
+    ]
+    return torch.cat(pieces, dim=0).reshape(*tensor.shape[:-2], 3)
+
+
 def fixed_tidal_eigenvalues(
     delta_r7: torch.Tensor, *, matrix_chunk_size: int = 8192
 ) -> torch.Tensor:
@@ -155,15 +171,8 @@ def fixed_tidal_eigenvalues(
     while bounding memory.  Concatenation preserves autograd for later uses of the
     fixed physics layer.
     """
-    if matrix_chunk_size <= 0:
-        raise ValueError("matrix_chunk_size must be positive")
     tensor = fixed_tidal_tensor(delta_r7)
-    flat = tensor.reshape(-1, 3, 3)
-    pieces = [
-        torch.linalg.eigvalsh(flat[start : start + matrix_chunk_size])
-        for start in range(0, len(flat), matrix_chunk_size)
-    ]
-    return torch.cat(pieces, dim=0).reshape(*tensor.shape[:-2], 3)
+    return _chunked_eigvalsh(tensor, matrix_chunk_size=matrix_chunk_size)
 
 
 def physics_closure_report(delta_r7: torch.Tensor) -> dict:
@@ -171,7 +180,7 @@ def physics_closure_report(delta_r7: torch.Tensor) -> dict:
     trace = torch.diagonal(tensor, dim1=-2, dim2=-1).sum(dim=-1)
     centered = delta_r7 - delta_r7.mean(dim=(-3, -2, -1), keepdim=True)
     error = trace - centered
-    eigen = torch.linalg.eigvalsh(tensor)
+    eigen = _chunked_eigvalsh(tensor)
     ordering = eigen[..., 1:] - eigen[..., :-1]
     return {
         "trace_max_abs": float(error.abs().max().detach().cpu()),
