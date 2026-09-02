@@ -40,6 +40,14 @@
         "path": "docs/evidence/p12/P12A_CALIBRATION_AUDIT.json",
         "sha256": "ea602b92eadc997fdf1aaf201902f4973981e8e7cae6007bc6ecfb07f17cab3b"
       },
+      "quality_thresholds": {
+        "path": "docs/evidence/p12/production_aux_v1/P12A_QUALITY_THRESHOLDS.json",
+        "sha256": "533cc9eb5b9ed14452b9b78aa1df7d7bc79a5a20b05701fade5180d425b5368b"
+      },
+      "gaussian_baseline": {
+        "path": "docs/evidence/p12/production_aux_v1/P12A_GAUSSIAN_BASELINE.json",
+        "sha256": "7180877540b9a3a1a876ba539febcaa8679b8fd2e26a10473bf4bbe512138f3e"
+      },
       "calibration_pass_absent": {
         "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/P12A_CALIBRATION_PASS.json"
       }

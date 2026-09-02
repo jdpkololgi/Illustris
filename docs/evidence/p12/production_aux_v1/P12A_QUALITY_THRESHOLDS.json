@@ -1,0 +1,57 @@
+{
+  "boundary_distance": {
+    "hubble_h": 0.6766,
+    "smoothing_radius_mpc_h": 7.0,
+    "stored_unit": "Mpc",
+    "threshold_2r_mpc": 20.69169376293231,
+    "threshold_r_mpc": 10.345846881466155
+  },
+  "created_utc": "2026-09-02T14:02:20.164425+00:00",
+  "git_revision": "93636f283d21185e02453b9a5cd3f4dc6969064c",
+  "pass": true,
+  "ph001_opened": false,
+  "prior_dominated_width": {
+    "audit_rows": 50000,
+    "definition": "ph006 posterior q84-q16 component width",
+    "quantile": 0.95,
+    "threshold_by_ordered_eigenvalue": [
+      0.37212620145082465,
+      0.4289914869567313,
+      0.48909189510889695
+    ]
+  },
+  "response_covariate": {
+    "context_index": 4,
+    "name": "log_ntilde_mpc3",
+    "training_maximum": -5.525633811950684,
+    "training_minimum": -12.93972110748291
+  },
+  "schema_version": "p12a-production-quality-thresholds-v1",
+  "sealed_phase_opened": false,
+  "sources": {
+    "fmpe_checkpoint": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/fmpe_estimator.pt",
+      "sha256": "0474ce3f0b3a6c97de7fe225eaceee9f0b2b0ea76ea5d417e545eeeacf437880"
+    },
+    "ph006_evaluation_index": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/calibration_audit_v1/evaluation_index.npy",
+      "sha256": "a2448de636b3d0f2aab4481cac63459c7971a28bf0ccefe67860f5d95cebc3ec"
+    },
+    "ph006_evaluation_samples": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/calibration_audit_v1/evaluation_samples_scaled.npy",
+      "sha256": "bcdc94442e9ebc3c75ea0d10254d181eff43f4afc9de69eeacb3e891982fdfee"
+    },
+    "ph006_selection": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/ph006_selection_sample.npz",
+      "sha256": "c9074b4276d149d3315908a704a64b3f072818b07a0325813a8820536790e403"
+    },
+    "training_oof": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/training_oof_sample.npz",
+      "sha256": "ce4a89bff67dd874be1f71e4dc9703253549a48bb8b6ad995322b961cc585fa7"
+    }
+  },
+  "truth_files_read": [
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/training_oof_sample.npz",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/ph006_selection_sample.npz"
+  ]
+}
