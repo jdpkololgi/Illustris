@@ -30,7 +30,9 @@ from workflows.abacus_tweb.p8_train_patch_recovery import torch_load
 from workflows.sbi.p12_export_unet_summaries import ntilde_at_rows
 from workflows.sbi.p12_prepare_base_response_dataset import sample_random_support_distance
 from workflows.sbi.p12_production_contract import (
+    P12A_SCHEMA,
     QUALITY_BITS,
+    assert_truth_free_payload,
     deterministic_audit_subset,
     posterior_summaries,
     quality_bitmask,
@@ -116,6 +118,7 @@ def export_blind_unet_context(
     points_path: Path,
     response_field_manifest_path: Path,
     selection_manifest_path: Path,
+    candidate_marker_path: Path,
     checkpoint_path: Path,
     output_path: Path,
     device: str,
@@ -125,6 +128,18 @@ def export_blind_unet_context(
     seed: int = 42,
 ) -> dict:
     """Export only observed ph001 covariates and U-PATCH base predictions."""
+    candidate = json.loads(candidate_marker_path.read_text())
+    assert_truth_free_payload(candidate)
+    if candidate.get("schema_version") != P12A_SCHEMA or not candidate.get("pass"):
+        raise RuntimeError("P12-A production candidate is not frozen")
+    base_encoder = candidate.get("base_encoder", {})
+    base = base_encoder.get("checkpoint", {})
+    if (
+        base.get("sha256") != sha256(checkpoint_path)
+        or base_encoder.get("selected_epoch") != 20
+        or base_encoder.get("response_aware_encoder") is not False
+    ):
+        raise RuntimeError("blind U-PATCH differs from the P12-A base encoder")
     checkpoint = torch_load(checkpoint_path, device)
     validate_blind_checkpoint(checkpoint, latent_channels=latent_channels)
     adapter = CanonicalFieldPatchAdapter(adapter_root, selection_manifest=None, rotation=None)
@@ -254,6 +269,8 @@ def export_blind_unet_context(
         "array_sha256": sha256(output_path),
         "checkpoint": str(checkpoint_path),
         "checkpoint_sha256": sha256(checkpoint_path),
+        "candidate": str(candidate_marker_path),
+        "candidate_sha256": sha256(candidate_marker_path),
         "adapter_manifest": str(adapter_root / "adapter_manifest.json"),
         "adapter_manifest_sha256": sha256(adapter_root / "adapter_manifest.json"),
         "assignment": str(assignment_path),
@@ -324,6 +341,7 @@ def reconstruct_fmpe(checkpoint_path: Path, device: str) -> tuple[Any, dict]:
 
 def posterior_inference_shard(
     *,
+    candidate_marker_path: Path,
     context_path: Path,
     checkpoint_path: Path,
     output_path: Path,
@@ -344,6 +362,17 @@ def posterior_inference_shard(
         raise RuntimeError("unsupported P12-A quality-threshold contract")
     if quality.get("pass") is not True or quality.get("ph001_opened"):
         raise PermissionError("P12-A quality thresholds are not frozen and blind-safe")
+    candidate = json.loads(candidate_marker_path.read_text())
+    assert_truth_free_payload(candidate)
+    if candidate.get("schema_version") != P12A_SCHEMA or not candidate.get("pass"):
+        raise RuntimeError("P12-A production candidate is not frozen")
+    artifacts = candidate.get("artifacts", {})
+    if (
+        artifacts.get("checkpoint", {}).get("sha256") != sha256(checkpoint_path)
+        or artifacts.get("quality_thresholds", {}).get("sha256")
+        != sha256(quality_thresholds_path)
+    ):
+        raise RuntimeError("blind posterior artifacts differ from the frozen candidate")
     response_contract = quality["response_covariate"]
     if response_contract.get("name") != "log_ntilde_mpc3" or response_contract.get("context_index") != 4:
         raise RuntimeError("P12-A response covariate contract mismatch")
@@ -427,6 +456,8 @@ def posterior_inference_shard(
         "context_sha256": sha256(context_path),
         "quality_thresholds": str(quality_thresholds_path),
         "quality_thresholds_sha256": sha256(quality_thresholds_path),
+        "candidate": str(candidate_marker_path),
+        "candidate_sha256": sha256(candidate_marker_path),
         "quality_bits": QUALITY_BITS,
         "truth_files_read": [],
         "open_count": 0,
@@ -446,10 +477,12 @@ def main() -> None:
     context.add_argument("--points", type=Path, required=True)
     context.add_argument("--response-field-manifest", type=Path, required=True)
     context.add_argument("--selection-manifest", type=Path, required=True)
+    context.add_argument("--candidate", type=Path, required=True)
     context.add_argument("--checkpoint", type=Path, required=True)
     context.add_argument("--output", type=Path, required=True)
     context.add_argument("--device", default="cuda")
     sample = subparsers.add_parser("sample")
+    sample.add_argument("--candidate", type=Path, required=True)
     sample.add_argument("--context", type=Path, required=True)
     sample.add_argument("--checkpoint", type=Path, required=True)
     sample.add_argument("--output", type=Path, required=True)
@@ -468,12 +501,14 @@ def main() -> None:
             points_path=args.points,
             response_field_manifest_path=args.response_field_manifest,
             selection_manifest_path=args.selection_manifest,
+            candidate_marker_path=args.candidate,
             checkpoint_path=args.checkpoint,
             output_path=args.output,
             device=args.device,
         )
     else:
         result = posterior_inference_shard(
+            candidate_marker_path=args.candidate,
             context_path=args.context,
             checkpoint_path=args.checkpoint,
             output_path=args.output,

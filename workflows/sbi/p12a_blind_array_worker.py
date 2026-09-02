@@ -51,6 +51,7 @@ def main() -> None:
     if output.exists() or marker.exists():
         raise FileExistsError(f"refusing to overwrite blind shard {rank}")
     result = posterior_inference_shard(
+        candidate_marker_path=args.candidate,
         context_path=args.context,
         checkpoint_path=args.checkpoint,
         output_path=output,

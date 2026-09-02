@@ -24,6 +24,14 @@
       "prior_width_tail_quantile": 0.95
     },
     "artifacts": {
+      "base_checkpoint": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/arm_a_training/arm_a_r0_v1/unet/seed_42/best_checkpoint.pt",
+        "sha256": "cd7c280602b3496753d21d236d30c50bde96335fa69ccc60cd12c0dfe3ccdfab"
+      },
+      "base_summary": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_oof_summaries/ph006/OOF_SUMMARY_COMPLETE.json",
+        "sha256": "dfc43618bebb29f97541335d27984a516076f442c63266e62e031172d7d35afd"
+      },
       "checkpoint": {
         "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/fmpe_estimator.pt",
         "sha256": "0474ce3f0b3a6c97de7fe225eaceee9f0b2b0ea76ea5d417e545eeeacf437880"

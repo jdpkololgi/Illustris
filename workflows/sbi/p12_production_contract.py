@@ -261,6 +261,7 @@ def build_p12a_candidate_marker(config: Mapping[str, Any]) -> dict:
     completion = json.loads(Path(artifacts["completion"]["path"]).read_text())
     dataset = json.loads(Path(artifacts["dataset"]["path"]).read_text())
     audit = json.loads(Path(artifacts["calibration_audit"]["path"]).read_text())
+    base_summary = json.loads(Path(artifacts["base_summary"]["path"]).read_text())
     for payload in (completion, dataset, audit):
         assert_truth_free_payload(payload)
     if not completion.get("technical_complete") or completion.get("calibration_pass"):
@@ -270,11 +271,34 @@ def build_p12a_candidate_marker(config: Mapping[str, Any]) -> dict:
     checkpoint = artifacts["checkpoint"]
     if completion.get("checkpoint_sha256") != checkpoint["sha256"]:
         raise RuntimeError("completion/checkpoint hash mismatch")
+    if (
+        base_summary.get("phase") != "ph006"
+        or base_summary.get("schema_version") != "p12-unet-oof-summary-v1"
+        or not base_summary.get("pass")
+        or base_summary.get("sealed_phase_opened")
+    ):
+        raise RuntimeError("P12-A base-prediction summary is not frozen on ph006")
+    if base_summary.get("checkpoint_sha256") != artifacts["base_checkpoint"]["sha256"]:
+        raise RuntimeError("P12-A base checkpoint differs from the dataset summary")
+    phase_contract = dataset.get("phase_audit", {}).get("ph006", {})
+    if phase_contract.get("summary_marker_sha256") != artifacts["base_summary"]["sha256"]:
+        raise RuntimeError("P12-A dataset does not bind the frozen ph006 base summary")
     marker = {
         "schema_version": P12A_SCHEMA,
         "created_utc": utc_now(),
         "git_revision": git_revision(),
-        "estimand": "q(lambda_ordered | U_PATCH_R1_prediction, response, H_fid)",
+        "estimand": (
+            "q(lambda_ordered | U_PATCH_R0_epoch20_prediction, "
+            "P3b-R response covariates, H_fid)"
+        ),
+        "base_encoder": {
+            "model": "U-PATCH R0 five-phase",
+            "selected_epoch": 20,
+            "checkpoint": artifacts["base_checkpoint"],
+            "validation_summary": artifacts["base_summary"],
+            "response_aware_encoder": False,
+            "response_conditioned_posterior": True,
+        },
         "posterior": "FMPE conditional flow matching in ordered-softplus coordinates",
         "tempering": None,
         "recalibration": None,
