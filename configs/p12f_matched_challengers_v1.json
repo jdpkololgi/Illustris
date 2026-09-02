@@ -1,0 +1,84 @@
+{
+  "schema_version": "p12f-matched-challengers-v1",
+  "parent_flow_config": "configs/p12f_conditional_field_flow_v1.json",
+  "roles": {
+    "training": ["ph000", "ph002", "ph003", "ph004", "ph005"],
+    "validation_and_selection": "ph006",
+    "sealed_blind_test": "ph001"
+  },
+  "estimand": "p(delta_R7 | BGS_BRIGHT V_final, S_random, H_fid)",
+  "target": {
+    "field": "delta_R7",
+    "already_smoothed_mpc_h": 7.0,
+    "additional_gaussian_smoothing": false,
+    "scaler": "exact P12-F1b target scaler"
+  },
+  "matched_contract": {
+    "condition_channels": ["counts", "exposure_apodized", "log_count_ratio"],
+    "unet_base": 8,
+    "training_cores_per_phase": 512,
+    "target_scaler_cores_per_phase": 64,
+    "updates": 10000,
+    "posterior_draws": 64,
+    "technical_panel_cores": 16,
+    "selection_panel_cores": 128,
+    "selection_cores_per_shell": 32,
+    "selection_panel_uses_truth": false
+  },
+  "methods": {
+    "gaussian_independent_g0": {
+      "objective": "voxelwise heteroscedastic Gaussian NLL",
+      "residual_correlation": "independent"
+    },
+    "gaussian_correlated_g1": {
+      "objective": "same trained mean/log_std as G0",
+      "residual_correlation": "training-only radial rFFT power filter",
+      "radial_bins": 32,
+      "real_hermitian_sampling": true
+    },
+    "rectified_flow_f1b": {
+      "frozen": true,
+      "source": "workflows/sbi/p12f_train_conditional_field_flow.py",
+      "sampler": "12-step Heun",
+      "changed": false
+    },
+    "score_diffusion_v1": {
+      "parameterization": "v",
+      "schedule": "variance-preserving cosine",
+      "primary_sampler": "50-step DDIM",
+      "comparison": "network-evaluation-matched against 12-step Heun"
+    }
+  },
+  "evaluation": {
+    "voxel": ["randomized_rank", "coverage_0p68", "coverage_0p90", "CRPS"],
+    "mode": ["low_frequency_Fourier_rank", "wavelet_rank", "coverage"],
+    "joint": ["fixed_index_energy", "variogram_p0p5"],
+    "derived": ["lambda_ordered", "eigengap", "web_class_TARP_SBC"],
+    "conditional": [
+      "shell",
+      "random_response",
+      "boundary_distance",
+      "tracer_density",
+      "true_environment"
+    ],
+    "bootstrap": {
+      "replicates": 4000,
+      "unit": "authoritative patch core",
+      "voxel_independent": false
+    },
+    "posterior_mean_diagnostics_only": ["R2", "spectrum", "transfer_function"]
+  },
+  "selection_gates": {
+    "tarp": 0.05,
+    "global_coverage": 0.05,
+    "conditional_coverage": 0.10,
+    "joint_improvement": 0.02,
+    "joint_improvement_interval_excludes_zero": true,
+    "other_score_worsening": 0.01
+  },
+  "scope": {
+    "local_patch_posterior_only": true,
+    "independent_patch_draws_are_not_full_cap_universes": true,
+    "posterior_predictive_reobservation_deferred": true
+  }
+}
