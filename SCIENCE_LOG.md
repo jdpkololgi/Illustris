@@ -1,5 +1,62 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-02 - [science/results/code/run] Expanded P12-F audit localizes a stable scale/covariance defect; blind context completes
+
+The 1,024-core P12-F v2 evaluation-sufficiency audit is complete on ph006, with
+`541,546` galaxy locations, `2,033,266` sampled voxel rows and 256 G1 draws.  Increasing
+the draw budget improves the joint ordered-eigenvalue TARP maximum from `0.04219`
+(64 draws) to `0.03178` (256), so the three-eigenvalue vector itself now passes the
+registered `0.05` gate.  The eigengap miss does **not** disappear: it changes only
+from `0.07354` to `0.06486`, its 20-reference-seed p90 is `0.06506`, and the four
+disjoint 256-core panels span `0.04962--0.07109`.  The old 128-core result was therefore
+not merely a small-panel or low-draw accident.
+
+The figures make the failure interpretable.  Eigenvalue TARP is below `0.05` in all
+four shells, while eigengap TARP is worst in shell 0 (`0.08425`) and shell 3
+(`0.06618`) and passes in shells 1--2.  SBC shows the strongest rank-shape defects in
+`lambda3` (`0.08993`) and `lambda2-lambda1` (`0.07491`).  Marginal voxel uncertainty is
+much healthier: the 256-draw 68/90% errors are `0.03365/0.00034`, and every plotted
+response, boundary-distance and tracer-density quartile remains below the registered
+`0.10` conditional gate.  This is not principally a failure to widen in low-response
+regions.
+
+The dependence panels instead identify a scale/covariance error.  G1 posterior draws
+have too little residual covariance at essentially every separation, lose the positive
+held-out correlation beyond roughly `100 Mpc/h`, underpower the lowest Fourier modes,
+and overpopulate intermediate/high-frequency residual power.  The residual variogram
+is correspondingly too rough at the shortest separations and too flat on larger
+separations.  Exact tidal trace/order closure still passes (`2.86e-6` maximum trace
+error; no second smoothing).  This licenses one bounded, training-only
+**shell/scale-conditioned correlated-Gaussian control**.  It does not license a generic
+architecture sweep, JEPA restart or immediate lognormal model: the signed `delta_R7`
+target and the observed scale-localized defect make conditional covariance the direct
+test first.  Until that control is evaluated, the v1 no-field-finalist marker remains
+historical and ph001 truth stays sealed.
+
+Visual evidence is in
+`docs/figures/p12f_dependency_rescue_20260902/{p12f_v2_nested_tarp,p12f_v2_subpanel_tarp,p12f_v2_sbc,p12f_v2_dependency,p12f_v2_conditional_tarp,p12f_v2_seed_response_stability}.png`.
+The content-addressed report and figure manifest are
+`docs/evidence/p12/p12f_dependency_rescue_v2/P12F_DEPENDENCY_RESCUE_V2_REPORT.json`
+and `P12F_DEPENDENCY_RESCUE_PLOTS.json` (commit `ab5d6e8`).
+
+The observed-only ph001 production path also advanced without opening truth.  The
+frozen R0 U-PATCH context now contains `4,897,905` supported authoritative galaxies;
+`28,983` M=0 rows are omitted.  Its four core-safe shards contain
+`1,224,516/1,224,782/1,224,648/1,223,959` rows and preserve
+`truth_files_read=[]`, `open_count=0`.  CIC produced the same `4,897,905` parent rows;
+DTFE is actively building its observed-galaxy raster in tmux.  Two schema assumptions
+were caught before scientific output: the canonical assignment field `targetid` is an
+observed identifier, not a target label, and the canonical point array is exactly
+`(x,y,z,cap)`, not a five-column redshift table.  Commits `74fa6a1` and `9110bfc`
+correct and test those guards.  Commit `f8f19ba` makes the eventual blind freeze reopen
+the context/P12-A/CIC/DTFE artifacts to demand exact row/core/support identity, while
+`ef9cd5c` adds a real 512-draw ph001 throughput smoke before the four-GPU production
+submission.  Its first compute attempt passed the runtime/tests and reached real FMPE
+sampling, then exposed an SBI device mismatch: posterior candidates were on CUDA while
+the posterior-owned BoxUniform bounds had been moved to CPU during reconstruction.
+Commit `c6b118c` moves and verifies the posterior-owned prior on the requested device;
+the truth-free smoke will be retried.  No full posterior shard has yet been launched.
+
 ### 2026-09-02 - [science/code/run] Open bounded P12-F v2 dependency-rescue before blind truth
 
 The frozen v1 no-field-finalist result remains valid for its registered experiment,

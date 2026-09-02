@@ -3833,8 +3833,8 @@ Progress checklist:
 ### P12 — Posterior calibration
 
 **Status:** P12-A PH006 FIT/AUDIT COMPLETE AND FROZEN AS THE FIRST PRODUCTION
-CANDIDATE; P12-F V1 NO-FINALIST FROZEN; ONE BOUNDED V2 DEPENDENCY-RESCUE ACTIVE;
-PH001 REMAINS SEALED
+CANDIDATE; P12-F V1 NO-FINALIST FROZEN; V2 EXPANDED AUDIT COMPLETE AND ONE
+SHELL/SCALE-CONDITIONAL COVARIANCE CONTROL LICENSED; PH001 REMAINS SEALED
 
 P12 is the binding gate for the intended posterior/class-probability VAC. Begin it from
 scratch immediately after deterministic model selection on ph006 rather than waiting
@@ -4101,17 +4101,37 @@ Progress checklist:
   admits one GPU only below the two-allocation cap and writes the observed-only base
   context plus a four-way core-safe shard plan. Full posterior sampling remains a
   separate production job after the v2 field decision is frozen.
+- [x] Complete the truth-free ph001 R0 context and core-safe plan. The archive contains
+  `4,897,905` unique supported parents and omits `28,983` M=0 rows; the four shards
+  contain `1,224,516/1,224,782/1,224,648/1,223,959` rows. All markers retain
+  `truth_files_read=[]`, `open_count=0` and bind the observed parent-redshift vector,
+  P3b-R response, assignment, adapter and epoch-20 checkpoint by hash.
 - [x] Implement and test the target-free ph001 CIC/DTFE path without weakening P10's
   target-bearing ph001 refusal. `p12_blind_classical_predictions.py` validates the
   train-only five-phase affine fit, canonical observed assignment/points, P3b-R
   support and sealed state; commit `9d1c4c0` adds a detached supervisor. Tmux
-  `blind_classical` has pending one-GPU job `57873346` and will build the observed-only
-  DTFE raster before exporting both baselines.
+  The first two attempts correctly failed before science output because the guard
+  confused observed `targetid` with a label and then expected a fifth point column;
+  commits `74fa6a1` and `9110bfc` fix both exact on-disk schemas. CIC now covers the
+  same `4,897,905` rows and the restarted `blind_classical_v3` tmux worker is building
+  the observed-only DTFE raster on job `57874056`.
 - [x] Make the four-GPU posterior production submission restart-safe. Commit `c39ace8`
   content-addresses every reusable shard and adds the aggregate
   `P12A_BLIND_EXPORT_COMPLETE.json` freeze step. Use the complete Scratch runtime with
   a bounded `sbi==0.26.1` cold-import gate; the CFS recovery environment is valid for
   context export but does not contain SBI.
+- [x] Add a bounded, truth-free, core-aligned 512-draw throughput smoke before the
+  production array (`p12a_blind_throughput_smoke.py`, commit `ef9cd5c`). It validates
+  the real FMPE reconstruction, output finiteness/class normalization and projects
+  four-GPU wall time from a real ph001 sample. Its first compute attempt reached SBI
+  sampling and found that reconstructed posterior candidates were CUDA-resident while
+  the posterior-owned prior bounds were on CPU; commit `c6b118c` now moves and verifies
+  that prior explicitly. The retry remains pending, and the production array stays
+  blocked until this passes and P12-F v2 freezes.
+- [x] Harden `P12_BLIND_PREDICTIONS_FROZEN` so it requires exactly one base-context,
+  complete P12-A export, CIC and DTFE manifest, rehashes every posterior/audit shard,
+  and demands exact parent/core/support identity. Validation truth on ph006 is allowed;
+  any ph001 truth access remains fail-closed (commit `f8f19ba`).
 - [x] Record the `H_fid`-conditional estimand explicitly.
 - [ ] Run the optional held-out-HOD stress test after blind baseline closure; it does
   not block the first explicitly `H_fid`-conditional VAC.
@@ -4183,8 +4203,9 @@ Out-of-fold summary contract:
 #### P12-F — Coherent conditional field posterior challenger
 
 **Status:** MATCHED 128-CORE V1 GAUSSIAN/FLOW/DIFFUSION GATE COMPLETE;
-`P12F_NO_FIELD_FINALIST.json` FROZEN FOR V1; BOUNDED V2 RESCUE ACTIVE; NOT A
-PRODUCTION MODEL; PH001 SEALED
+`P12F_NO_FIELD_FINALIST.json` FROZEN FOR V1; 1,024-CORE V2 DEPENDENCY AUDIT
+COMPLETE; ONE CONDITIONAL-COVARIANCE CONTROL LICENSED; NOT A PRODUCTION MODEL;
+PH001 SEALED
 
 The per-galaxy P12-A posterior remains the shortest production spine.  P12-F is the
 coherent-field challenger motivated by the fact that multiple tidal fields can be
@@ -4281,7 +4302,7 @@ version the estimand and restore `W_7(k)` exactly once inside the physics layer.
   global/conditional coverage, >=2% joint-score improvement and non-regression gates.
   Do not generate a P12-F ph001 panel; proceed to P12-A blind inference. Durable
   evidence: `docs/evidence/p12/p12f_matched_v1/`.
-- [ ] Complete P12-F v2 stage 1 without retraining: export 256 frozen G1 draws on a
+- [x] Complete P12-F v2 stage 1 without retraining: export 256 frozen G1 draws on a
   truth-free-stratified 1,024-core ph006 panel; audit nested 64/128/256 draw budgets,
   four disjoint 256-core subpanels, reference-seed sensitivity and core-block
   bootstrap. Contract/supervisor: `configs/p12f_dependency_rescue_v2.json` and
@@ -4293,20 +4314,38 @@ version the estimand and restore `W_7(k)` exactly once inside the physics layer.
   `workflows/sbi/p12f_dependency_rescue_evaluator.py`,
   `workflows/sbi/plot_p12f_dependency_rescue.py`, and
   `workflows/sbi/run_p12f_dependency_evaluation_tmux.sh` (commit `0b0d414`).
-- [ ] Complete the active tmux chain: `rescue_v2` exports the archive and `eval_v2`
-  waits without an allocation, then resumes per-core physics and produces all compact
-  evidence/plots. A pre-worker request timeout is retryable; any failure after the
-  worker-start marker remains fail-closed. The resumed exporter is active on GPU job
-  `57871978`; the frozen 1,024-core panel is complete and archive progress is
-  monotonic. The concurrent ph001 response build is observational-only and does not
-  alter this ph006 selection gate.
-- [ ] Render TARP curves and SBC ranks for every registered aggregate/conditional
+- [x] Complete the tmux chain. Job `57871978` exported all 1,024 G1 archives; job
+  `57873611` cached exact fixed-physics products for every core, aggregated the frozen
+  nested/subpanel/conditional diagnostics and rendered the visual audit. The report
+  covers `541,546` galaxies and `2,033,266` voxel rows with ph001 sealed.
+- [x] Render TARP curves and SBC ranks for every registered aggregate/conditional
   result. Scalar maximum deviations are supporting annotations, never the sole
-  calibration report.
-- [ ] If and only if stage 1 confirms a stable defect, decompose it into within-voxel
-  eigenvalue covariance, spatial separation, Fourier/wavelet scale, response,
-  boundary, shell and environment components. License a conditional-covariance G1
-  upgrade only where those plots locate the miss.
+  calibration report. Figures are under
+  `docs/figures/p12f_dependency_rescue_20260902/`; durable JSON evidence is
+  `docs/evidence/p12/p12f_dependency_rescue_v2/` (commit `ab5d6e8`).
+- [x] Establish that the eigengap defect is stable rather than evaluation noise.
+  Ordered-eigenvalue TARP improves from `0.04219` at 64 draws to `0.03178` at 256,
+  whereas eigengap TARP remains `0.07354 -> 0.06486`; its 20-seed p90 is `0.06506`
+  and four disjoint panels span `0.04962--0.07109`. Voxel 68/90% coverage errors are
+  only `0.03365/0.00034`, so marginal widening is not the binding failure.
+- [x] Decompose the stable defect into within-voxel eigenvalue/eigengap rank shape,
+  spatial separation, Fourier scale, response, boundary and shell components. SBC is
+  worst for lambda3 (`0.08993`) and gap12 (`0.07491`); eigengap TARP fails mainly in
+  shells 0/3 (`0.08425/0.06618`). Response/boundary/tracer voxel coverage remains
+  inside `0.10`. Posterior residual covariance and lowest-k power are too small while
+  intermediate/high-k power is too large.
+- [ ] Implement one bounded training-only shell/scale-conditioned G1 covariance
+  control on the unchanged frozen Gaussian mean/log-variance network and exact
+  1,024-core panel. This is the only stage-1-licensed challenger. It must improve the
+  eigengap TARP/scale-dependence plots and the registered joint proper score without
+  degrading marginal/conditional coverage; otherwise freeze the v2 no-finalist
+  result and proceed with P12-A alone.
+- [x] Apply the "if and only if" diagnostic gate: stage 1 confirms a stable defect and
+  localizes it to covariance/scale dependence rather than generic response failure.
+  The one conditional-G1 control above is licensed; no architecture sweep is.
+- [ ] After the conditional-G1 control, freeze a versioned v2 no-finalist result if
+  it misses the unchanged gates. Any non-Gaussian/lognormal or new-architecture
+  branch then moves to later field-posterior work rather than delaying P12-A.
 - [ ] Run a bounded log-density/lognormal control only after checking the exact
   transform/Jacobian and trace/no-double-smoothing closure. Treat it as a
   positivity-aware non-Gaussian control, not as the presumed truth law of signed
