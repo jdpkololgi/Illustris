@@ -75,8 +75,8 @@ def shell_from_radius(radius_mpc: float) -> int:
         dtype=np.float64,
     )
     shell = int(np.searchsorted(bounds[1:-1], float(radius_mpc), side="right"))
-    if shell not in range(4) or not bounds[0] <= radius_mpc < bounds[-1]:
-        raise ValueError("core median radius lies outside the registered shell range")
+    if not bounds[0] <= radius_mpc < bounds[-1]:
+        return -1
     return shell
 
 
@@ -218,11 +218,16 @@ def main() -> None:
         "selected_core_id": selected_core_id.tolist(),
         "selected_core_metadata": selected_rows,
         "shell_counts": shell_counts.tolist(),
+        "supported_core_count": int(len(rows)),
+        "outside_science_shell_core_count": int(
+            np.count_nonzero(np.asarray([row["shell"] for row in rows]) < 0)
+        ),
+        "outside_science_shell_policy": "retained in audit metadata; ineligible for the 128-core science panel",
         "selection_covariates": [
             "cap",
             "angular_response",
             "boundary_distance",
-            "redshift_shell",
+            "redshift_shell_from_median_supported_voxel_radius",
         ],
         "selection_uses_truth": False,
         "truth_files_read": [],

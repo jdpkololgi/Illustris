@@ -123,6 +123,8 @@ class P12FProductionChallengerTest(unittest.TestCase):
                 shell_from_radius(0.5 * (bounds[shell] + bounds[shell + 1])),
                 shell,
             )
+        self.assertEqual(shell_from_radius(bounds[0] - 1.0), -1)
+        self.assertEqual(shell_from_radius(bounds[-1] + 1.0), -1)
         draws = np.zeros((2, 4, 4, 4, 3), dtype=np.float32)
         truth = np.zeros((4, 4, 4, 3), dtype=np.float32)
         draws[..., 0] = 3.0
