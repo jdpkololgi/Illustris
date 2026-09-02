@@ -12,8 +12,9 @@ The command is deliberately staged so the expensive FITS scans are resumable:
 * ``decision``: apply the registered 1/4/18 convergence gate on ph000/ph006;
 * ``overlay``: project the selected angular map onto the immutable P3a grids.
 
-No ph001 product is accepted by this implementation.  Blind response products
-are constructed only after the upstream model and evaluation contract freeze.
+ph001 remains rejected by default.  Its truth-free response product is accepted
+only with a content-addressed authorization written after the P12-A candidate and
+the bounded P12-F method-selection decision have both been frozen.
 """
 from __future__ import annotations
 
@@ -44,12 +45,15 @@ from workflows.abacus_tweb.p3a_build_canonical_fields import (
     sha256,
 )
 from workflows.abacus_tweb.p10_training_contract import atomic_json
+from workflows.sbi.p12_authorize_blind_response import validate_blind_authority
 
 
 DEFAULT_ROOT = Path("/pscratch/sd/d/dkololgi/abacus/p10_multiphase")
 DEFAULT_REGISTRY = REPO_ROOT / "configs/p10_response_sources_v1.json"
 DEFAULT_SELECTION = DEFAULT_ROOT / "training_contract/transforms/field/selection_manifest.json"
 PHASES = ("ph000", "ph002", "ph003", "ph004", "ph005", "ph006")
+BLIND_PHASE = "ph001"
+SUPPORTED_PHASES = PHASES + (BLIND_PHASE,)
 CANARY_PHASES = ("ph000", "ph006")
 CAPS = ((1, "NGC"), (0, "SGC"))
 SHELLS = ((0.15, 0.25), (0.25, 0.35), (0.35, 0.45), (0.45, 0.55))
@@ -69,9 +73,15 @@ def phase_output(root: Path, phase: str) -> Path:
     return Path(root) / phase / "p3b_random_response_v1"
 
 
-def selected_random_sources(registry: dict, phase: str, ids: tuple[int, ...]) -> list[dict]:
-    if phase == "ph001":
-        raise PermissionError("ph001 remains sealed during P3b-R development")
+def selected_random_sources(
+    registry: dict,
+    phase: str,
+    ids: tuple[int, ...],
+    *,
+    blind_authority: Path | None = None,
+) -> list[dict]:
+    if phase == BLIND_PHASE:
+        validate_blind_authority(blind_authority)
     records = registry["mock_phases"][phase]["full_random"]
     by_id = {int(record.get("random_id", index)): record for index, record in enumerate(records)}
     missing = sorted(set(ids) - set(by_id))
@@ -256,13 +266,15 @@ def refresh_map_normalization(path: Path) -> dict:
 
 
 def build_maps(root: Path, registry_path: Path, phase: str,
-               snapshots: tuple[int, ...]) -> dict:
-    if phase not in PHASES:
+               snapshots: tuple[int, ...], blind_authority: Path | None = None) -> dict:
+    if phase not in SUPPORTED_PHASES:
         raise ValueError(f"unsupported P3b-R phase {phase}")
     registry = load_json(registry_path)
     maximum = max(snapshots)
     ids = tuple(range(maximum))
-    sources = selected_random_sources(registry, phase, ids)
+    sources = selected_random_sources(
+        registry, phase, ids, blind_authority=blind_authority
+    )
     angular_dir = phase_output(root, phase) / "angular"
     existing = angular_dir / f"randoms_n{maximum}.npz"
     if existing.is_file() and existing.with_suffix(".json").is_file():
@@ -498,10 +510,17 @@ def create_virtual(handle: h5py.File, name: str, source_path: Path,
     handle.create_virtual_dataset(name, layout, fillvalue=0)
 
 
-def build_overlay(root: Path, selection_path: Path, phase: str, decision_path: Path) -> dict:
+def build_overlay(
+    root: Path,
+    selection_path: Path,
+    phase: str,
+    decision_path: Path,
+    blind_authority: Path | None = None,
+) -> dict:
     global _SELECTION_CONTEXT
-    if phase not in PHASES:
+    if phase not in SUPPORTED_PHASES:
         raise ValueError(phase)
+    authority = validate_blind_authority(blind_authority) if phase == BLIND_PHASE else None
     decision = load_json(decision_path)
     n_random = int(decision["selected_realisation_count"])
     angular_path = phase_output(root, phase) / "angular" / f"randoms_n{n_random}.npz"
@@ -802,6 +821,14 @@ def build_overlay(root: Path, selection_path: Path, phase: str, decision_path: P
         "mock_provenance": "official mock full randoms are Kibo-derived",
         "deployment_contract": "Loa DR2; not claimed pointwise Kibo-Loa matched",
         "ph001_opened": False,
+        "blind_authority": (
+            {
+                "path": str(blind_authority),
+                "sha256": sha256(blind_authority),
+                "schema_version": authority["schema_version"],
+            }
+            if authority is not None else None
+        ),
         "creation_commit": git_sha(REPO_ROOT),
         "gates": {
             "unit_audit_pass": bool(p3_manifest["gates"]["unit_audit_pass"]),
@@ -817,7 +844,8 @@ def build_overlay(root: Path, selection_path: Path, phase: str, decision_path: P
 def parser() -> argparse.ArgumentParser:
     result = argparse.ArgumentParser()
     result.add_argument("stage", choices=("maps", "decision", "overlay"))
-    result.add_argument("--phase", choices=PHASES)
+    result.add_argument("--phase", choices=SUPPORTED_PHASES)
+    result.add_argument("--blind-authority", type=Path)
     result.add_argument("--root", type=Path, default=DEFAULT_ROOT)
     result.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY)
     result.add_argument("--selection", type=Path, default=DEFAULT_SELECTION)
@@ -838,13 +866,17 @@ def main() -> None:
             tuple(int(value) for value in args.snapshots.split(","))
             if args.snapshots else (SNAPSHOT_COUNTS if args.phase in CANARY_PHASES else (4,))
         )
-        print(json.dumps(build_maps(args.root, args.registry, args.phase, snapshots), indent=2))
+        print(json.dumps(build_maps(
+            args.root, args.registry, args.phase, snapshots, args.blind_authority
+        ), indent=2))
     elif args.stage == "decision":
         print(json.dumps(freeze_decision(args.root, args.registry), indent=2))
     else:
         if args.phase is None:
             raise SystemExit("overlay requires --phase")
-        print(json.dumps(build_overlay(args.root, args.selection, args.phase, args.decision), indent=2))
+        print(json.dumps(build_overlay(
+            args.root, args.selection, args.phase, args.decision, args.blind_authority
+        ), indent=2))
 
 
 if __name__ == "__main__":
