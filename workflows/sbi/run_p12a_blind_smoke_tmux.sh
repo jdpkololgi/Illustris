@@ -59,4 +59,4 @@ salloc --nodes=1 --ntasks=1 --cpus-per-task=16 --constraint="gpu&hbm80g" \
       --output '${output}' --minimum-rows 2048
   "
 
-"${python}" -c "import json,pathlib; p=pathlib.Path('${output%.npz}.json'); d=json.loads(p.read_text()); assert d['pass'] and d['draws']==512 and d['truth_files_read']==[] and d['open_count']==0; print('P12A_BLIND_SMOKE_COMPLETE', d['rows'], d['projected_four_gpu_hours'])"
+/usr/bin/python3 -c "import json,pathlib; p=pathlib.Path('${output%.npz}.json'); d=json.loads(p.read_text()); assert d['pass'] and d['draws']==512 and d['truth_files_read']==[] and d['open_count']==0; print('P12A_BLIND_SMOKE_COMPLETE', d['rows'], d['projected_four_gpu_hours'])"
