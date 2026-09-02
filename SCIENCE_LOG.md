@@ -57,6 +57,26 @@ TARP, eigenvalue/eigengap SBC, shell TARP, response/boundary/tracer coverage, re
 covariance/variogram, and residual-power plots. Scalar summaries cannot close the
 gate until these plots are generated and inspected.
 
+After work resumed, the expanded G1 export remained healthy on interactive GPU job
+`57871978`; the frozen 1,024-core panel was complete and the 256-draw archive was
+advancing monotonically. Tmux session `eval_v2` continues to wait without holding an
+allocation and will start the content-addressed evaluator only after the archive
+completion marker exists. In parallel, commits `3088469` and `01d3f70` add and fix a
+truth-free ph001 random-response supervisor. Its first CPU allocation (`57872429`)
+failed during the bounded cold-import preflight because the minimal CFS recovery
+environment lacks `healpy`; it opened no random catalogue. Replacement job
+`57872480` uses the complete Scratch environment, passed all nine P3b-R/blind-authority
+tests, and began the registered 18-realisation scan. These are the two live
+allocations; no third allocation was requested.
+
+Commit `3039fbb` fixes a pre-execution defect in the P12-A blind context exporter: a
+checkpoint-record local variable had shadowed the numeric U-Net base width and would
+have passed a dictionary to `UPatch(base=24)`. The exporter now also binds the exact
+ph001 assignment, points and P3 manifest, enforces the frozen train-only radial
+selection, and rejects cross-phase/truth-bearing adapter sources. A synthetic
+end-to-end truth-free context test plus the core-safe shard tests pass on the active
+CPU compute node. No ph001 posterior context or prediction has yet been generated.
+
 ### 2026-09-02 - [science/code] Authorize truth-free ph001 random-response construction
 
 The P12-A candidate and bounded P12-F selection are now frozen, so the observation-
