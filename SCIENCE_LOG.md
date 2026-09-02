@@ -76,6 +76,11 @@ ph001 assignment, points and P3 manifest, enforces the frozen train-only radial
 selection, and rejects cross-phase/truth-bearing adapter sources. A synthetic
 end-to-end truth-free context test plus the core-safe shard tests pass on the active
 CPU compute node. No ph001 posterior context or prediction has yet been generated.
+Commit `7f7695c` adds the next fail-closed tmux stage: `blind_context` waits without
+compute for the complete response manifest, explicitly counts live `salloc` jobs to
+avoid a third-allocation race, then runs the frozen R0 U-PATCH on observed-only ph001
+fields and writes a four-way core-safe posterior shard plan. It is staged but has not
+started a GPU allocation or produced predictions.
 
 ### 2026-09-02 - [science/code] Authorize truth-free ph001 random-response construction
 
