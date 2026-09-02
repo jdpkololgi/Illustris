@@ -70,6 +70,11 @@ def git_revision() -> str:
 def reject_truth_bearing_names(names: tuple[str, ...] | list[str]) -> None:
     for name in names:
         lowered = str(name).lower()
+        # TARGETID is an observed catalogue row identifier, not a supervised
+        # target.  Permit only this exact spelling; broader target-bearing
+        # arrays remain forbidden below.
+        if lowered == "targetid":
+            continue
         if any(token in lowered for token in FORBIDDEN_ARRAY_TOKENS):
             raise PermissionError(f"blind input exposes forbidden array name: {name}")
 

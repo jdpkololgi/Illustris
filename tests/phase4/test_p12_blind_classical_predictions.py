@@ -12,11 +12,12 @@ from workflows.sbi.p12_blind_classical_predictions import (
 
 
 class _Archive:
-    files = ("parent_node_id", "core_id", "cap", "shell", "supervised_eligible")
+    files = ("parent_node_id", "targetid", "core_id", "cap", "shell", "supervised_eligible")
 
     def __init__(self):
         self.values = {
             "parent_node_id": np.asarray([9, 3, 8, 2]),
+            "targetid": np.asarray([90, 30, 80, 20]),
             "core_id": np.asarray([1, 0, 1, 0]),
             "cap": np.asarray([1, 0, 1, 0]),
             "shell": np.asarray([0, 0, 1, 0]),
