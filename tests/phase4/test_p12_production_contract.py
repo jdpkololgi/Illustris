@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 import tempfile
@@ -16,6 +17,7 @@ from workflows.sbi.p12_production_contract import (
     QUALITY_RESPONSE_OOD,
     QUALITY_SPARSE_SHELL,
     assert_truth_free_payload,
+    assert_ph001_sealed_payload,
     build_opened_marker,
     deterministic_audit_subset,
     fit_shell_cap_gaussian,
@@ -84,6 +86,13 @@ class P12ProductionContractTest(unittest.TestCase):
             assert_truth_free_payload({"truth_files_read": ["truth.h5"], "open_count": 0})
         with self.assertRaises(PermissionError):
             assert_truth_free_payload({"truth_files_read": [], "open_count": 1})
+        assert_ph001_sealed_payload(
+            {"truth_files_read": ["ph006 density/T-web"], "open_count": 0}
+        )
+        with self.assertRaises(PermissionError):
+            assert_ph001_sealed_payload(
+                {"truth_files_read": ["/truth/ph001/tweb.h5"], "open_count": 0}
+            )
         with tempfile.TemporaryDirectory() as tmp:
             truth = Path(tmp) / "truth.bin"
             truth.write_bytes(b"frozen")
@@ -107,54 +116,101 @@ class P12ProductionContractTest(unittest.TestCase):
             self.assertEqual(opened["open_count"], 1)
             self.assertFalse(opened["post_open_tuning_allowed"])
 
-    def test_blind_freeze_rejects_stale_or_open_manifest(self):
+    def test_blind_freeze_requires_complete_exact_row_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             candidate = root / "candidate.json"
             selection = root / "selection.json"
-            prediction = root / "prediction.json"
             deterministic = root / "p10.json"
+            checkpoint = root / "fmpe.pt"
+            checkpoint.write_bytes(b"checkpoint")
             candidate.write_text(json.dumps({
                 "schema_version": P12A_SCHEMA,
+                "posterior_draws": 512,
+                "artifacts": {
+                    "checkpoint": {"sha256": hashlib.sha256(b"checkpoint").hexdigest()}
+                },
                 "truth_files_read": [],
                 "open_count": 0,
                 "pass": True,
             }))
             selection.write_text(json.dumps({
                 "schema_version": "p12f-no-field-finalist-v1",
-                "truth_files_read": [],
-                "open_count": 0,
-                "pass": True,
-            }))
-            prediction.write_text(json.dumps({
-                "schema_version": "p12a-blind-shard-v1",
-                "truth_files_read": [],
+                "truth_files_read": ["ph006 density/T-web"],
                 "open_count": 0,
                 "pass": True,
             }))
             deterministic.write_text(json.dumps({
+                "schema_version": "p10-blind-evaluation-frozen-marker-v1",
+                "phase": "ph001",
                 "truth_files_read": [],
                 "open_count": 0,
                 "pass": True,
             }))
+
+            parent = np.arange(6, dtype=np.int64)
+            core = np.repeat([1, 2], 3).astype(np.int64)
+            context_array = root / "context.npz"
+            np.savez(
+                context_array,
+                parent_node_id=parent,
+                core_id=core,
+                support_random=np.ones(6, bool),
+            )
+            digest = lambda path: hashlib.sha256(Path(path).read_bytes()).hexdigest()
+            context = root / "context.json"
+            context.write_text(json.dumps({
+                "schema_version": "p12a-blind-base-context-v1", "phase": "ph001",
+                "rows": 6, "array": str(context_array), "array_sha256": digest(context_array),
+                "truth_files_read": [], "open_count": 0, "pass": True,
+            }))
+            shard_summary = root / "summary.npz"
+            np.savez(shard_summary, parent_node_id=parent, core_id=core)
+            audit = root / "audit.npz"
+            np.savez(audit, parent_node_id=parent[:2])
+            shard = root / "shard.json"
+            shard.write_text(json.dumps({
+                "schema_version": "p12a-blind-posterior-shard-v1", "phase": "ph001",
+                "draws": 512, "candidate_sha256": digest(candidate),
+                "checkpoint_sha256": digest(checkpoint), "context_sha256": digest(context_array),
+                "summary": str(shard_summary), "summary_sha256": digest(shard_summary),
+                "audit_draws": str(audit), "audit_draws_sha256": digest(audit),
+                "truth_files_read": [], "open_count": 0, "pass": True,
+            }))
+            complete = root / "complete.json"
+            complete.write_text(json.dumps({
+                "schema_version": "p12a-blind-export-complete-v1", "phase": "ph001",
+                "rows": 6, "context": {"path": str(context_array), "sha256": digest(context_array)},
+                "shards": [{"path": str(shard), "sha256": digest(shard)}],
+                "truth_files_read": [], "open_count": 0, "pass": True,
+            }))
+            classical = []
+            for estimator in ("cic", "dtfe"):
+                array = root / f"{estimator}.npz"
+                np.savez(array, parent_node_id=parent, core_id=core, support_random=np.ones(6, bool))
+                manifest = root / f"{estimator}.json"
+                manifest.write_text(json.dumps({
+                    "schema_version": f"p12-blind-{estimator}-prediction-v1",
+                    "phase": "ph001", "estimator": estimator, "prediction": str(array),
+                    "prediction_sha256": digest(array), "truth_files_read": [],
+                    "open_count": 0, "pass": True,
+                }))
+                classical.append(manifest)
+            predictions = [context, complete, *classical]
             marker = freeze_blind_predictions(
                 candidate_marker=candidate,
                 method_selection_marker=selection,
-                prediction_manifests=[prediction],
+                prediction_manifests=predictions,
                 deterministic_contract=deterministic,
             )
             self.assertEqual(marker["schema_version"], BLIND_SCHEMA)
-            prediction.write_text(json.dumps({
-                "schema_version": "p12a-blind-shard-v1",
-                "truth_files_read": ["truth.npy"],
-                "open_count": 1,
-                "pass": True,
-            }))
-            with self.assertRaises(PermissionError):
+            array = root / "cic.npz"
+            np.savez(array, parent_node_id=parent[::-1], core_id=core, support_random=np.ones(6, bool))
+            with self.assertRaises(RuntimeError):
                 freeze_blind_predictions(
                     candidate_marker=candidate,
                     method_selection_marker=selection,
-                    prediction_manifests=[prediction],
+                    prediction_manifests=predictions,
                     deterministic_contract=deterministic,
                 )
 

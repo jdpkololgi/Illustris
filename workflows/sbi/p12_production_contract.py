@@ -69,6 +69,18 @@ def assert_truth_free_payload(payload: Mapping[str, Any]) -> None:
             raise PermissionError(f"blind payload has {key}=true")
 
 
+def assert_ph001_sealed_payload(payload: Mapping[str, Any]) -> None:
+    """Allow validation truth while refusing any access to the blind phase."""
+    if payload.get("open_count", 0) != 0:
+        raise PermissionError("ph001-sealed payload has a nonzero open count")
+    for key in ("sealed_phase_opened", "ph001_opened", "blind_truth_opened"):
+        if bool(payload.get(key, False)):
+            raise PermissionError(f"ph001-sealed payload has {key}=true")
+    truth = json.dumps(payload.get("truth_files_read", []), sort_keys=True).lower()
+    if "ph001" in truth:
+        raise PermissionError("ph001-sealed payload records blind truth access")
+
+
 def validate_ordered_draws(draws: np.ndarray) -> np.ndarray:
     values = np.asarray(draws, dtype=np.float32)
     if values.ndim != 3 or values.shape[-1] != 3:
@@ -327,7 +339,7 @@ def freeze_blind_predictions(
     candidate = json.loads(candidate_marker.read_text())
     selection = json.loads(method_selection_marker.read_text())
     assert_truth_free_payload(candidate)
-    assert_truth_free_payload(selection)
+    assert_ph001_sealed_payload(selection)
     if candidate.get("schema_version") != P12A_SCHEMA or not candidate.get("pass"):
         raise RuntimeError("P12-A production candidate is not frozen")
     if selection.get("schema_version") not in (
@@ -335,15 +347,130 @@ def freeze_blind_predictions(
         "p12f-no-field-finalist-v1",
     ):
         raise RuntimeError("P12-F method selection is not frozen")
-    manifests = []
+    if selection.get("pass") is not True:
+        raise RuntimeError("P12-F method selection does not pass")
+
+    payload_by_schema: dict[str, tuple[Path, dict[str, Any]]] = {}
     for path in prediction_manifests:
         payload = json.loads(path.read_text())
         assert_truth_free_payload(payload)
-        if not payload.get("pass"):
+        if payload.get("phase") != "ph001" or not payload.get("pass"):
             raise RuntimeError(f"prediction manifest does not pass: {path}")
-        manifests.append(require_file(path))
+        schema = str(payload.get("schema_version", ""))
+        if schema in payload_by_schema:
+            raise RuntimeError(f"duplicate prediction-manifest schema: {schema}")
+        payload_by_schema[schema] = (path, payload)
+
+    required = {
+        "p12a-blind-base-context-v1",
+        "p12a-blind-export-complete-v1",
+        "p12-blind-cic-prediction-v1",
+        "p12-blind-dtfe-prediction-v1",
+    }
+    missing = required - set(payload_by_schema)
+    unexpected = set(payload_by_schema) - required
+    if missing or unexpected:
+        raise RuntimeError(
+            f"blind prediction-manifest set mismatch; missing={sorted(missing)}, "
+            f"unexpected={sorted(unexpected)}"
+        )
+
+    _, context_marker = payload_by_schema["p12a-blind-base-context-v1"]
+    context_array = Path(context_marker["array"])
+    if (
+        context_marker.get("array_sha256") != sha256(context_array)
+        or int(context_marker.get("rows", -1)) <= 0
+    ):
+        raise RuntimeError("blind P12-A context artifact is stale")
+    context = np.load(context_array, mmap_mode="r")
+    for name in ("parent_node_id", "core_id", "support_random"):
+        if name not in context.files:
+            raise RuntimeError(f"blind context is missing {name}")
+    reference_parent = np.asarray(context["parent_node_id"], dtype=np.int64)
+    reference_core = np.asarray(context["core_id"], dtype=np.int64)
+    if (
+        len(reference_parent) != int(context_marker["rows"])
+        or len(np.unique(reference_parent)) != len(reference_parent)
+        or not np.all(np.asarray(context["support_random"], dtype=bool))
+    ):
+        raise RuntimeError("blind context row identity/support contract is invalid")
+
+    _, complete = payload_by_schema["p12a-blind-export-complete-v1"]
+    if (
+        int(complete.get("rows", -1)) != len(reference_parent)
+        or complete.get("context", {}).get("sha256") != context_marker["array_sha256"]
+        or Path(complete.get("context", {}).get("path", "")) != context_array
+    ):
+        raise RuntimeError("P12-A complete export does not bind the blind context")
+    candidate_hash = sha256(candidate_marker)
+    checkpoint_hash = candidate.get("artifacts", {}).get("checkpoint", {}).get("sha256")
+    if not checkpoint_hash:
+        raise RuntimeError("P12-A candidate does not bind its FMPE checkpoint")
+    shard_parent: list[np.ndarray] = []
+    shard_core: list[np.ndarray] = []
+    for shard_evidence in complete.get("shards", []):
+        shard_path = Path(shard_evidence["path"])
+        if sha256(shard_path) != shard_evidence.get("sha256"):
+            raise RuntimeError("P12-A shard manifest changed after completion")
+        shard = json.loads(shard_path.read_text())
+        assert_truth_free_payload(shard)
+        if (
+            shard.get("schema_version") != "p12a-blind-posterior-shard-v1"
+            or shard.get("phase") != "ph001"
+            or shard.get("pass") is not True
+            or int(shard.get("draws", 0)) != int(candidate.get("posterior_draws", 0))
+            or shard.get("candidate_sha256") != candidate_hash
+            or shard.get("checkpoint_sha256") != checkpoint_hash
+            or shard.get("context_sha256") != context_marker["array_sha256"]
+        ):
+            raise RuntimeError("P12-A posterior shard violates the frozen candidate")
+        summary_path = Path(shard["summary"])
+        audit_path = Path(shard["audit_draws"])
+        if (
+            sha256(summary_path) != shard.get("summary_sha256")
+            or sha256(audit_path) != shard.get("audit_draws_sha256")
+        ):
+            raise RuntimeError("P12-A posterior shard artifact hash mismatch")
+        summary = np.load(summary_path, mmap_mode="r")
+        shard_parent.append(np.asarray(summary["parent_node_id"], dtype=np.int64))
+        shard_core.append(np.asarray(summary["core_id"], dtype=np.int64))
+        summary.close()
+    if not shard_parent:
+        raise RuntimeError("P12-A complete export contains no posterior shards")
+    if not np.array_equal(np.concatenate(shard_parent), reference_parent):
+        raise RuntimeError("P12-A posterior summaries do not exactly cover blind parents")
+    if not np.array_equal(np.concatenate(shard_core), reference_core):
+        raise RuntimeError("P12-A posterior summaries do not exactly cover blind cores")
+
+    for estimator in ("cic", "dtfe"):
+        schema = f"p12-blind-{estimator}-prediction-v1"
+        _, payload = payload_by_schema[schema]
+        if payload.get("estimator") != estimator:
+            raise RuntimeError(f"{estimator} manifest estimator mismatch")
+        array_path = Path(payload["prediction"])
+        if payload.get("prediction_sha256") != sha256(array_path):
+            raise RuntimeError(f"{estimator} blind prediction hash mismatch")
+        archive = np.load(array_path, mmap_mode="r")
+        if (
+            not np.array_equal(
+                np.asarray(archive["parent_node_id"], dtype=np.int64), reference_parent
+            )
+            or not np.array_equal(np.asarray(archive["core_id"], dtype=np.int64), reference_core)
+            or not np.all(np.asarray(archive["support_random"], dtype=bool))
+        ):
+            raise RuntimeError(f"{estimator} blind rows differ from P12-A rows")
+        archive.close()
+    context.close()
+
     deterministic = json.loads(deterministic_contract.read_text())
-    assert_truth_free_payload(deterministic)
+    assert_ph001_sealed_payload(deterministic)
+    if (
+        deterministic.get("schema_version") != "p10-blind-evaluation-frozen-marker-v1"
+        or deterministic.get("phase") != "ph001"
+        or deterministic.get("pass") is not True
+    ):
+        raise RuntimeError("P10 blind deterministic contract is not sealed")
+    manifests = [require_file(payload_by_schema[schema][0]) for schema in sorted(required)]
     marker = {
         "schema_version": BLIND_SCHEMA,
         "created_utc": utc_now(),
