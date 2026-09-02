@@ -13,10 +13,15 @@
     "recalibration": null,
     "quality": {
       "sparse_shell_redshift_minimum": 0.45,
-      "boundary_r_mpc_h": 7.0,
-      "boundary_2r_mpc_h": 14.0,
+      "smoothing_radius_mpc_h": 7.0,
+      "distance_field_unit": "Mpc",
+      "hubble_h_source": "Planck18",
+      "boundary_thresholds_mpc": "freeze as R/h and 2R/h",
+      "response_context_index": 4,
+      "response_covariate": "log_ntilde_mpc3",
       "response_range_source": "training phases only",
-      "prior_width_threshold_source": "ph006 frozen audit before blind opening"
+      "prior_width_threshold_source": "ph006 frozen audit before blind opening",
+      "prior_width_tail_quantile": 0.95
     },
     "artifacts": {
       "checkpoint": {

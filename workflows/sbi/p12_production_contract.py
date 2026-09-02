@@ -126,6 +126,8 @@ def quality_bitmask(
     posterior_width: np.ndarray,
     response_training_range: tuple[float, float],
     prior_width_threshold: np.ndarray | float,
+    boundary_r_mpc: float,
+    boundary_2r_mpc: float,
 ) -> np.ndarray:
     redshift = np.asarray(redshift, dtype=np.float64)
     boundary = np.asarray(boundary_distance_mpc_h, dtype=np.float64)
@@ -144,6 +146,10 @@ def quality_bitmask(
     low, high = map(float, response_training_range)
     if not low < high:
         raise ValueError("invalid response training range")
+    boundary_r_mpc = float(boundary_r_mpc)
+    boundary_2r_mpc = float(boundary_2r_mpc)
+    if not 0.0 < boundary_r_mpc < boundary_2r_mpc:
+        raise ValueError("invalid physical boundary thresholds")
     threshold = np.asarray(prior_width_threshold, dtype=np.float64)
     if threshold.ndim > 1:
         raise ValueError("prior-width threshold must be scalar or one-dimensional")
@@ -155,8 +161,8 @@ def quality_bitmask(
         prior_dominated = width_metric > threshold
     mask = np.zeros(len(redshift), dtype=np.uint16)
     mask[redshift >= 0.45] |= QUALITY_SPARSE_SHELL
-    mask[boundary < 7.0] |= QUALITY_BOUNDARY_LT_R7
-    mask[boundary < 14.0] |= QUALITY_BOUNDARY_LT_2R7
+    mask[boundary < boundary_r_mpc] |= QUALITY_BOUNDARY_LT_R7
+    mask[boundary < boundary_2r_mpc] |= QUALITY_BOUNDARY_LT_2R7
     mask[(response < low) | (response > high)] |= QUALITY_RESPONSE_OOD
     mask[prior_dominated] |= QUALITY_PRIOR_DOMINATED_WIDTH
     return mask

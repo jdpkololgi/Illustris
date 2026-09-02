@@ -41,11 +41,13 @@ class P12ProductionContractTest(unittest.TestCase):
     def test_quality_bits_are_independent_and_nested_at_boundary(self):
         bits = quality_bitmask(
             redshift=np.array([0.46, 0.2, 0.2]),
-            boundary_distance_mpc_h=np.array([6.0, 10.0, 20.0]),
+            boundary_distance_mpc_h=np.array([6.0, 15.0, 25.0]),
             response_covariate=np.array([0.5, -3.0, 0.0]),
             posterior_width=np.array([[0.1, 0.1, 0.1], [0.2, 0.2, 0.2], [2.0, 0.1, 0.1]]),
             response_training_range=(-1.0, 1.0),
             prior_width_threshold=np.array([1.0, 1.0, 1.0]),
+            boundary_r_mpc=10.35,
+            boundary_2r_mpc=20.70,
         )
         self.assertTrue(bits[0] & QUALITY_SPARSE_SHELL)
         self.assertTrue(bits[0] & QUALITY_BOUNDARY_LT_R7)

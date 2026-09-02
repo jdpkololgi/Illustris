@@ -323,13 +323,28 @@ def posterior_inference_shard(
     seed: int,
     device: str,
     sample_chunk: int,
-    response_training_range: tuple[float, float],
-    prior_width_threshold: np.ndarray,
+    quality_thresholds_path: Path,
 ) -> dict:
     archive = np.load(context_path, mmap_mode="r")
     validate_context_archive(archive)
     if not (0 <= start < stop <= len(archive["parent_node_id"])):
         raise ValueError("invalid blind shard interval")
+    quality = json.loads(quality_thresholds_path.read_text())
+    if quality.get("schema_version") != "p12a-production-quality-thresholds-v1":
+        raise RuntimeError("unsupported P12-A quality-threshold contract")
+    if quality.get("pass") is not True or quality.get("ph001_opened"):
+        raise PermissionError("P12-A quality thresholds are not frozen and blind-safe")
+    response_contract = quality["response_covariate"]
+    if response_contract.get("name") != "log_ntilde_mpc3" or response_contract.get("context_index") != 4:
+        raise RuntimeError("P12-A response covariate contract mismatch")
+    response_training_range = (
+        float(response_contract["training_minimum"]),
+        float(response_contract["training_maximum"]),
+    )
+    prior_width_threshold = np.asarray(
+        quality["prior_dominated_width"]["threshold_by_ordered_eigenvalue"], dtype=np.float64
+    )
+    boundary_contract = quality["boundary_distance"]
     posterior, checkpoint = reconstruct_fmpe(checkpoint_path, device)
     context = np.asarray(archive["context"][start:stop], dtype=np.float32)
     scaled_context = (
@@ -349,10 +364,12 @@ def posterior_inference_shard(
     bits = quality_bitmask(
         redshift=archive["redshift"][start:stop],
         boundary_distance_mpc_h=archive["distance_to_support_boundary_mpc"][start:stop],
-        response_covariate=context[:, -1],
+        response_covariate=context[:, 4],
         posterior_width=width,
         response_training_range=response_training_range,
         prior_width_threshold=prior_width_threshold,
+        boundary_r_mpc=float(boundary_contract["threshold_r_mpc"]),
+        boundary_2r_mpc=float(boundary_contract["threshold_2r_mpc"]),
     )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     arrays = {
@@ -395,6 +412,8 @@ def posterior_inference_shard(
         "checkpoint_sha256": sha256(checkpoint_path),
         "context": str(context_path),
         "context_sha256": sha256(context_path),
+        "quality_thresholds": str(quality_thresholds_path),
+        "quality_thresholds_sha256": sha256(quality_thresholds_path),
         "quality_bits": QUALITY_BITS,
         "truth_files_read": [],
         "open_count": 0,
@@ -427,8 +446,7 @@ def main() -> None:
     sample.add_argument("--seed", type=int, required=True)
     sample.add_argument("--device", default="cuda")
     sample.add_argument("--sample-chunk", type=int, default=2048)
-    sample.add_argument("--response-range", type=float, nargs=2, required=True)
-    sample.add_argument("--prior-width-threshold", type=float, nargs=3, required=True)
+    sample.add_argument("--quality-thresholds", type=Path, required=True)
     args = parser.parse_args()
     if args.command == "context":
         result = export_blind_unet_context(
@@ -452,8 +470,7 @@ def main() -> None:
             seed=args.seed,
             device=args.device,
             sample_chunk=args.sample_chunk,
-            response_training_range=tuple(args.response_range),
-            prior_width_threshold=np.asarray(args.prior_width_threshold),
+            quality_thresholds_path=args.quality_thresholds,
         )
     print(json.dumps(result, indent=2), flush=True)
 
