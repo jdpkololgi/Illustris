@@ -456,15 +456,25 @@ def reconstruct_fmpe(checkpoint_path: Path, device: str) -> tuple[Any, dict]:
     # Rebind the posterior-owned prior explicitly; this is an in-place device
     # move and does not alter the frozen prior limits.
     posterior.prior.to(device)
+    # torch.distributions exposes `support` as a lazy property. SBI's prior
+    # validation can materialize and cache that Interval before BoxUniform.to()
+    # rebuilds the base distribution, leaving stale CPU bounds even though
+    # `base_dist.low/high` are now CUDA tensors.
+    posterior.prior.__dict__.pop("support", None)
     prior_devices = {
         posterior.prior.base_dist.low.device.type,
         posterior.prior.base_dist.high.device.type,
     }
+    support_constraint = posterior.prior.support.base_constraint
+    support_devices = {
+        support_constraint.lower_bound.device.type,
+        support_constraint.upper_bound.device.type,
+    }
     expected_device = torch.device(device).type
-    if prior_devices != {expected_device}:
+    if prior_devices != {expected_device} or support_devices != {expected_device}:
         raise RuntimeError(
-            f"P12-A posterior prior remained on {sorted(prior_devices)}, "
-            f"expected {expected_device}"
+            "P12-A posterior prior/support remained on "
+            f"{sorted(prior_devices | support_devices)}, expected {expected_device}"
         )
     return posterior, checkpoint
 
