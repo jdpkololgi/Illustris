@@ -4354,7 +4354,10 @@ version the estimand and restore `W_7(k)` exactly once inside the physics layer.
   1,024 fixed variogram pairs and 2,048 fixed CRPS voxels per core, then use 4,000
   paired core-block bootstrap replicates. The primary energy score must improve by at
   least 2% with its 95% interval above zero; all existing TARP/coverage and <=1%
-  non-regression gates remain unchanged.
+  non-regression gates remain unchanged. Detached job `57875238` is active: the
+  train-only filter fit passed with `291/516/824/875` fields in shells 0--3 and exact
+  global-G1 reproduction; the 1,024-core ph006 archive is in progress. Do not infer a
+  scientific result from partial archive counts.
 - [x] Apply the "if and only if" diagnostic gate: stage 1 confirms a stable defect and
   localizes it to covariance/scale dependence rather than generic response failure.
   The one conditional-G1 control above is licensed; no architecture sweep is.

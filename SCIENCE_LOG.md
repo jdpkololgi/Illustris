@@ -39,6 +39,15 @@ GPU.  Fifteen focused Gaussian/archive/dependency tests pass in the complete
 runtime, including the G2 shell sampler, exact registered draw prefix, compact
 physics aggregation and TARP controls.
 
+The detached G2 chain is now live on one-A100 interactive job `57875238`.  Its
+training-only filter fit has already completed and exactly reproduces the global
+G1 spectrum.  The four shell filters contain `291/516/824/875` registered fields;
+54 cores outside the four science shells contribute only to the global reference.
+The ph006 256-draw archive then started cleanly and had written 14/1,024 atomic core
+files at the first status audit.  This is operational progress only: no G2 ph006
+calibration or proper-score conclusion exists until the complete archive,
+fixed-physics evaluation and paired G1 comparison finish.
+
 The separate truth-free P12-A 512-draw throughput smoke is now complete.  After
 three pre-output device failures, commit `071da4f` moved the complete FMPE
 posterior (including its ODE sampler) rather than only its prior.  GPU job
