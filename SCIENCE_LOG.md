@@ -1,5 +1,42 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-02 - [science/code/run] Open bounded P12-F v2 dependency-rescue before blind truth
+
+The frozen v1 no-field-finalist result remains valid for its registered experiment,
+but it is not yet a strong method-level veto.  The matched learned challengers trained
+on only 512 cores per phase, while the ph006 selection used 128 of 16,796 available
+cores and 64 draws.  G1's derived eigengap TARP miss is modest and visibly structured,
+so the shared ph001 truth opening is paused for one separately registered, truth-sealed
+P12-F v2 rescue.  P12-A remains the first production candidate and v2 cannot displace
+it without passing the existing proper-score and calibration gates.
+
+The first v2 stage is evaluation sufficiency, not retraining: reuse the frozen G1
+checkpoint/filter on a truth-free-stratified 1,024-core ph006 panel, 256 draws, nested
+64/128/256 draw audits, four disjoint 256-core subpanels, multiple TARP reference seeds
+and core-block bootstrap.  This tests whether the apparent eigengap miss is stable to
+panel composition and Monte Carlo budget.  Subsequent diagnostics must separate
+within-voxel eigenvalue covariance from spatial/scale/response dependence before any
+conditional-covariance or log-density challenger is licensed.  A log-Gaussian field is
+only a bounded positivity-aware control; the current target is the signed contrast
+`delta_R7`, so it is not Gaussian merely because the underlying density is positive.
+
+Visual reporting is now binding: TARP coverage curves, SBC rank histograms and later
+dependence diagnostics must be rendered and inspected before scalar summaries are
+interpreted.  Frozen v1 figures and their content-addressed report are
+`docs/figures/p12f_calibration_20260902/p12f_tarp_comparison.png`,
+`docs/figures/p12f_calibration_20260902/p12f_sbc_comparison.png`, and
+`docs/evidence/p12/p12f_matched_v1/P12F_CALIBRATION_PLOTS.json` (commits `15afe1c`,
+`2d593c1`, `eae5c40`).  They show P12-A close to the diagonal, G1 as the strongest
+field challenger, and clear structured tail/rank defects in flow and diffusion.
+
+The resumable stage-1 contract and tmux supervisor are frozen in commit `bfa182b`:
+`configs/p12f_dependency_rescue_v2.json` and
+`workflows/sbi/run_p12f_dependency_rescue_v2_tmux.sh`.  Tmux session `rescue_v2`
+requested interactive job `57869733`; it will checkpoint and re-request only after a
+clean code-75 wall-time pause, while enforcing the two-allocation limit.  Large output
+is rooted at `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_dependency_rescue_v2/`.
+No ph001 truth, density target or T-web product was opened.
+
 ### 2026-09-02 - [science/code] Authorize truth-free ph001 random-response construction
 
 The P12-A candidate and bounded P12-F selection are now frozen, so the observation-

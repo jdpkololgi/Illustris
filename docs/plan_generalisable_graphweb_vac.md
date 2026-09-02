@@ -3833,7 +3833,8 @@ Progress checklist:
 ### P12 — Posterior calibration
 
 **Status:** P12-A PH006 FIT/AUDIT COMPLETE AND FROZEN AS THE FIRST PRODUCTION
-CANDIDATE; P12-F BOUNDED GATE COMPLETE WITH NO FIELD FINALIST; PH001 REMAINS SEALED
+CANDIDATE; P12-F V1 NO-FINALIST FROZEN; ONE BOUNDED V2 DEPENDENCY-RESCUE ACTIVE;
+PH001 REMAINS SEALED
 
 P12 is the binding gate for the intended posterior/class-probability VAC. Begin it from
 scratch immediately after deterministic model selection on ph006 rather than waiting
@@ -3846,6 +3847,7 @@ The production spine is now
 ```text
 freeze P12-A
   -> bounded matched P12-F Gaussian/flow/diffusion comparison
+  -> bounded P12-F v2 evaluation/dependency rescue (no ph001 access)
   -> freeze all truth-free ph001 predictions
   -> one shared blind opening
   -> P13 Loa VAC.
@@ -3853,9 +3855,12 @@ freeze P12-A
 
 P11's JEPA mainline is closed; no JEPA-v3 is scheduled. Its factorial views and
 latent diagnostics are advisory inputs to later field-posterior work, not a dependency
-of the first VAC. No P12-F method passed the frozen ph006 selection gate;
-`docs/evidence/p12/p12f_matched_v1/P12F_NO_FIELD_FINALIST.json` is now frozen and the
-production spine continues with P12-A alone.
+of the first VAC. No P12-F method passed the frozen v1 ph006 selection gate;
+`docs/evidence/p12/p12f_matched_v1/P12F_NO_FIELD_FINALIST.json` remains immutable.
+Before the one-open ph001 transition, run one separately versioned rescue to establish
+whether G1's modest joint miss survives a much larger ph006 panel/draw budget and to
+localize the failed dependency. P12-A remains the production candidate regardless;
+v2 may add a field finalist only by passing the unchanged registered gates.
 
 On the matched 128-core ph006 panel, correlated Gaussian G1 is the strongest bounded
 field baseline but still misses the gate: max derived TARP deviation `0.06044`, global
@@ -4146,8 +4151,9 @@ Out-of-fold summary contract:
 
 #### P12-F — Coherent conditional field posterior challenger
 
-**Status:** MATCHED 128-CORE GAUSSIAN/FLOW/DIFFUSION GATE COMPLETE;
-`P12F_NO_FIELD_FINALIST.json` FROZEN; NOT A PRODUCTION MODEL; PH001 SEALED
+**Status:** MATCHED 128-CORE V1 GAUSSIAN/FLOW/DIFFUSION GATE COMPLETE;
+`P12F_NO_FIELD_FINALIST.json` FROZEN FOR V1; BOUNDED V2 RESCUE ACTIVE; NOT A
+PRODUCTION MODEL; PH001 SEALED
 
 The per-galaxy P12-A posterior remains the shortest production spine.  P12-F is the
 coherent-field challenger motivated by the fact that multiple tidal fields can be
@@ -4244,6 +4250,24 @@ version the estimand and restore `W_7(k)` exactly once inside the physics layer.
   global/conditional coverage, >=2% joint-score improvement and non-regression gates.
   Do not generate a P12-F ph001 panel; proceed to P12-A blind inference. Durable
   evidence: `docs/evidence/p12/p12f_matched_v1/`.
+- [ ] Complete P12-F v2 stage 1 without retraining: export 256 frozen G1 draws on a
+  truth-free-stratified 1,024-core ph006 panel; audit nested 64/128/256 draw budgets,
+  four disjoint 256-core subpanels, reference-seed sensitivity and core-block
+  bootstrap. Contract/supervisor: `configs/p12f_dependency_rescue_v2.json` and
+  `workflows/sbi/run_p12f_dependency_rescue_v2_tmux.sh`.
+- [ ] Render TARP curves and SBC ranks for every registered aggregate/conditional
+  result. Scalar maximum deviations are supporting annotations, never the sole
+  calibration report.
+- [ ] If and only if stage 1 confirms a stable defect, decompose it into within-voxel
+  eigenvalue covariance, spatial separation, Fourier/wavelet scale, response,
+  boundary, shell and environment components. License a conditional-covariance G1
+  upgrade only where those plots locate the miss.
+- [ ] Run a bounded log-density/lognormal control only after checking the exact
+  transform/Jacobian and trace/no-double-smoothing closure. Treat it as a
+  positivity-aware non-Gaussian control, not as the presumed truth law of signed
+  `delta_R7`.
+- [ ] Freeze a v2 finalist or a versioned v2 no-finalist decision before generating
+  any P12-F ph001 draws or opening ph001 truth.
 
 The primary gate is **not** `R2(posterior mean, truth)`.  The held-out truth must be
 statistically compatible with the learned conditional ensemble.  Require, in order:
