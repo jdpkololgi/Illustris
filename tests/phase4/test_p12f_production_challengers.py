@@ -15,6 +15,7 @@ from workflows.sbi.p12f_common_evaluator import (
     sample_eigenvalues_at_galaxies,
     validate_archive_manifest,
 )
+from workflows.sbi.p12f_compare_g2_g1_scores import _core_values
 from workflows.sbi.p12f_freeze_selection_panel import (
     panel_marker_filename,
     shell_from_radius,
@@ -22,8 +23,10 @@ from workflows.sbi.p12f_freeze_selection_panel import (
 from workflows.sbi.p12f_gaussian_controls import (
     correlated_unit_residuals,
     finalize_residual_filter,
+    finalize_shell_residual_filters,
     residual_filter_accumulator,
     sample_correlated_gaussian,
+    sample_shell_correlated_gaussian,
     update_residual_filter_accumulator,
 )
 from workflows.sbi.p12f_train_matched_challenger import challenger_loss
@@ -42,6 +45,18 @@ class ZeroDiffusion(torch.nn.Module):
 
 
 class P12FProductionChallengerTest(unittest.TestCase):
+    def test_g2_proper_score_core_slice_uses_registered_draw_prefix(self):
+        record = {
+            "core_bounds": np.asarray([[1, 1, 1], [3, 4, 5]]),
+            "delta_samples": np.arange(8 * 4 * 5 * 6).reshape(8, 4, 5, 6),
+            "delta_truth": np.arange(4 * 5 * 6).reshape(4, 5, 6),
+            "support": np.ones((4, 5, 6), dtype=np.uint8),
+        }
+        sample, truth, support = _core_values(record, 4)
+        self.assertEqual(sample.shape, (4, 2, 3, 4))
+        self.assertEqual(truth.shape, (2, 3, 4))
+        self.assertTrue(np.all(support))
+
     def test_panel_marker_filename_tracks_frozen_panel_size(self):
         self.assertEqual(
             panel_marker_filename(1024), "P12F_PH006_PANEL_1024.json"
@@ -122,6 +137,44 @@ class P12FProductionChallengerTest(unittest.TestCase):
             seed=7,
         )
         self.assertEqual(sample.shape, (4, 5, 6, 7))
+
+    def test_shell_conditioned_filter_shrinks_to_global(self):
+        rng = np.random.default_rng(19)
+        global_accumulator = residual_filter_accumulator(6)
+        shell_accumulators = {
+            shell: residual_filter_accumulator(6) for shell in range(4)
+        }
+        for shell in range(4):
+            for _ in range(3):
+                field = rng.normal(size=(5, 6, 7)) * (1.0 + shell)
+                update_residual_filter_accumulator(global_accumulator, field)
+                update_residual_filter_accumulator(shell_accumulators[shell], field)
+        contract = finalize_shell_residual_filters(
+            global_accumulator,
+            shell_accumulators,
+            pseudo_fields=3,
+        )
+        self.assertEqual(set(contract["shell_filters"]), {"0", "1", "2", "3"})
+        selected = contract["shell_filters"]["2"]
+        self.assertEqual(selected["shell"], 2)
+        sampled = sample_shell_correlated_gaussian(
+            np.zeros((5, 6, 7)),
+            np.ones((5, 6, 7)),
+            contract,
+            shell=2,
+            draws=2,
+            seed=11,
+        )
+        self.assertEqual(sampled.shape, (2, 5, 6, 7))
+        with self.assertRaises(ValueError):
+            sample_shell_correlated_gaussian(
+                np.zeros((5, 6, 7)),
+                np.ones((5, 6, 7)),
+                contract,
+                shell=4,
+                draws=2,
+                seed=11,
+            )
 
     def test_shell_contract_and_eigenvalue_sampling(self):
         bounds = [

@@ -1,0 +1,107 @@
+{
+  "schema_version": "p12f-matched-challengers-v1",
+  "experiment_version": "P12-F v2 conditional covariance rescue",
+  "parent_flow_config": "configs/p12f_conditional_field_flow_v1.json",
+  "roles": {
+    "training": ["ph000", "ph002", "ph003", "ph004", "ph005"],
+    "validation_and_selection": "ph006",
+    "sealed_blind_test": "ph001"
+  },
+  "estimand": "p(delta_R7 | BGS_BRIGHT V_final, S_random, H_fid)",
+  "target": {
+    "field": "delta_R7",
+    "already_smoothed_mpc_h": 7.0,
+    "additional_gaussian_smoothing": false,
+    "scaler": "exact P12-F1b target scaler"
+  },
+  "matched_contract": {
+    "condition_channels": ["counts", "exposure_apodized", "log_count_ratio"],
+    "unet_base": 8,
+    "training_cores_per_phase": 512,
+    "target_scaler_cores_per_phase": 64,
+    "updates": 10000,
+    "posterior_draws": 256,
+    "technical_panel_cores": 16,
+    "selection_panel_cores": 1024,
+    "selection_cores_per_shell": 256,
+    "selection_panel_uses_truth": false
+  },
+  "evaluation_sufficiency": {
+    "checkpoint_only": true,
+    "primary_method": "gaussian_shell_correlated_g2",
+    "nested_draw_counts": [64, 128, 256],
+    "disjoint_subpanels": 4,
+    "cores_per_subpanel": 256,
+    "tarp_reference_seeds": 20,
+    "core_bootstrap_replicates": 4000,
+    "retain_full_draws_for_all_cores": true,
+    "ph001_opened": false
+  },
+  "conditional_covariance_control": {
+    "only_changed_component": "training-only normalized-residual radial covariance filter",
+    "conditioning": "four fixed redshift shells from median supported core radius",
+    "radial_bins": 32,
+    "shrinkage_target": "same-training-core global G1 radial spectrum",
+    "shrinkage_pseudofields": 64,
+    "minimum_fields_per_shell": 128,
+    "proper_score_draws": 64,
+    "response_subconditioning": false,
+    "mean_log_variance_network_changed": false,
+    "target_scaler_changed": false,
+    "ph006_fitting": false
+  },
+  "proper_score_comparison": {
+    "draws": 64,
+    "fixed_voxel_features_per_core": 512,
+    "fixed_variogram_pairs_per_core": 1024,
+    "fixed_crps_voxels_per_core": 2048,
+    "bootstrap_replicates": 4000,
+    "reference_method": "gaussian_correlated_g1",
+    "candidate_method": "gaussian_shell_correlated_g2"
+  },
+  "methods": {
+    "gaussian_shell_correlated_g2": {
+      "objective": "same frozen trained mean/log_std as P12-F v1 G0/G1",
+      "residual_correlation": "training-only shell-conditioned radial rFFT power filter",
+      "radial_bins": 32,
+      "real_hermitian_sampling": true
+    }
+  },
+  "evaluation": {
+    "voxel": ["randomized_rank", "coverage_0p68", "coverage_0p90", "CRPS"],
+    "mode": ["low_frequency_Fourier_rank", "wavelet_rank", "coverage"],
+    "joint": ["fixed_index_energy", "variogram_p0p5"],
+    "derived": ["lambda_ordered", "eigengap", "web_class_TARP_SBC"],
+    "conditional": [
+      "shell",
+      "random_response",
+      "boundary_distance",
+      "tracer_density",
+      "true_environment"
+    ],
+    "bootstrap": {
+      "replicates": 4000,
+      "unit": "authoritative patch core",
+      "voxel_independent": false
+    },
+    "posterior_mean_diagnostics_only": ["R2", "spectrum", "transfer_function"]
+  },
+  "selection_gates": {
+    "tarp": 0.05,
+    "tarp_reference_seed_p90": 0.06,
+    "global_coverage": 0.05,
+    "conditional_coverage": 0.10,
+    "joint_improvement": 0.02,
+    "joint_improvement_interval_excludes_zero": true,
+    "other_score_worsening": 0.01
+  },
+  "scope": {
+    "single_bounded_control": true,
+    "local_patch_posterior_only": true,
+    "independent_patch_draws_are_not_full_cap_universes": true,
+    "posterior_predictive_reobservation_deferred": true,
+    "v1_no_field_finalist_remains_historical": true,
+    "ph001_truth_opening_blocked_until_v2_freeze": true,
+    "failure_action": "freeze P12-F v2 no-finalist and proceed with P12-A"
+  }
+}

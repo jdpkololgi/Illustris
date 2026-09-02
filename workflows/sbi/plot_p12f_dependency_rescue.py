@@ -23,6 +23,15 @@ DRAW_COLORS = {
 }
 
 
+def method_label(report: dict) -> str:
+    labels = {
+        "gaussian_correlated_g1": "G1 global covariance",
+        "gaussian_shell_correlated_g2": "G2 shell/scale covariance",
+    }
+    method = str(report.get("method", "unknown"))
+    return labels.get(method, method)
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--report", type=Path, required=True)
@@ -94,7 +103,8 @@ def render_nested_tarp(report: dict, output: Path) -> None:
             axes[1, column].plot(alpha, ecp - alpha, color=DRAW_COLORS[draws], linewidth=1.8)
         axes[0, column].legend(loc="lower right")
     figure.suptitle(
-        f"P12-F G1 calibration stability on {report['cores']:,} held-out ph006 cores",
+        f"P12-F {method_label(report)} calibration stability on "
+        f"{report['cores']:,} held-out ph006 cores",
         fontsize=18,
         fontweight="bold",
     )
@@ -128,7 +138,8 @@ def render_subpanels(report: dict, output: Path) -> None:
             fontsize=9,
         )
     figure.suptitle(
-        "P12-F G1 panel-composition stability — four disjoint balanced panels",
+        f"P12-F {method_label(report)} panel-composition stability — "
+        "four disjoint balanced panels",
         fontsize=18,
         fontweight="bold",
     )
@@ -157,7 +168,8 @@ def render_sbc(report: dict, output: Path) -> None:
         ax.grid(True, axis="y", alpha=0.15)
     axes.ravel()[-1].axis("off")
     figure.suptitle(
-        "P12-F G1 joint-physics SBC — 256 draws, core-bootstrap intervals",
+        f"P12-F {method_label(report)} joint-physics SBC — "
+        "256 draws, core-bootstrap intervals",
         fontsize=18,
         fontweight="bold",
     )
@@ -203,7 +215,7 @@ def render_dependency(report: dict, output: Path) -> None:
     for ax in axes:
         ax.grid(True, alpha=0.15)
     figure.suptitle(
-        "Where G1's dependency structure differs from held-out truth",
+        f"Where {method_label(report)} differs from held-out truth",
         fontsize=18,
         fontweight="bold",
     )
@@ -228,7 +240,7 @@ def render_conditional(report: dict, output: Path) -> None:
                 f"max |ECP-alpha|={payload[key]['maximum_deviation']:.3f}"
             )
     figure.suptitle(
-        "P12-F G1 calibration versus redshift shell — 256 draws",
+        f"P12-F {method_label(report)} calibration versus redshift shell — 256 draws",
         fontsize=18,
         fontweight="bold",
     )
@@ -267,6 +279,7 @@ def render_seed_and_response_stability(report: dict, output: Path) -> None:
         ("random_response", "random response", ACCENT_COLORS["blue"]),
         ("boundary_distance", "boundary distance", ACCENT_COLORS["magenta"]),
         ("tracer_density", "tracer density", ACCENT_COLORS["red"]),
+        ("true_environment", "true environment", "#F5C144"),
     ):
         error68 = [conditional[variable][str(value)]["coverage"]["0.68"]["absolute_error"] for value in range(4)]
         error90 = [conditional[variable][str(value)]["coverage"]["0.90"]["absolute_error"] for value in range(4)]
@@ -277,7 +290,11 @@ def render_seed_and_response_stability(report: dict, output: Path) -> None:
     axes[1].legend(fontsize=8, ncol=2)
     for ax in axes:
         ax.grid(True, alpha=0.15)
-    figure.suptitle("P12-F G1 stability controls", fontsize=18, fontweight="bold")
+    figure.suptitle(
+        f"P12-F {method_label(report)} stability controls",
+        fontsize=18,
+        fontweight="bold",
+    )
     output.parent.mkdir(parents=True, exist_ok=True)
     figure.savefig(output.with_suffix(".png"), bbox_inches="tight")
     figure.savefig(output.with_suffix(".pdf"), bbox_inches="tight")

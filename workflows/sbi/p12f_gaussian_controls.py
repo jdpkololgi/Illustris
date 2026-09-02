@@ -173,6 +173,63 @@ def fit_radial_residual_filter(
     return finalize_residual_filter(accumulator)
 
 
+def finalize_shell_residual_filters(
+    global_accumulator: dict,
+    shell_accumulators: dict[int, dict],
+    *,
+    pseudo_fields: int = 32,
+) -> dict:
+    """Shrink shell-specific spectra toward the training-global G1 spectrum."""
+    if pseudo_fields <= 0 or set(shell_accumulators) != {0, 1, 2, 3}:
+        raise ValueError("G2 requires four shells and positive fixed shrinkage")
+    global_filter = finalize_residual_filter(global_accumulator)
+    global_power = np.asarray(global_filter["radial_power"], dtype=np.float64)
+    global_count = np.asarray(global_accumulator["mode_count"], dtype=np.float64)
+    average_modes = global_count / float(global_accumulator["fields"])
+    prior_count = float(pseudo_fields) * average_modes
+    shell_filters: dict[str, dict] = {}
+    for shell, accumulator in sorted(shell_accumulators.items()):
+        if int(accumulator["fields"]) < 2:
+            raise ValueError(f"G2 shell {shell} has insufficient training fields")
+        if not np.array_equal(accumulator["edges"], global_accumulator["edges"]):
+            raise ValueError("G2 shell/global radial-frequency edges differ")
+        count = np.asarray(accumulator["mode_count"], dtype=np.float64)
+        power_sum = np.asarray(accumulator["power_sum"], dtype=np.float64)
+        denominator = count + prior_count
+        radial = np.divide(
+            power_sum + prior_count * global_power,
+            denominator,
+            out=global_power.copy(),
+            where=denominator > 0,
+        )
+        radial = np.maximum(radial, 1e-8)
+        shell_filters[str(shell)] = {
+            "schema_version": "p12f-g2-shell-radial-component-v1",
+            "shell": int(shell),
+            "shape": global_filter["shape"],
+            "reference_shapes": [list(value) for value in sorted(accumulator["shapes"])],
+            "supports_variable_shapes": True,
+            "fields": int(accumulator["fields"]),
+            "bins": int(accumulator["bins"]),
+            "edges": np.asarray(accumulator["edges"]).tolist(),
+            "radial_power": radial.tolist(),
+            "mode_count": np.asarray(accumulator["mode_count"], dtype=np.int64).tolist(),
+            "global_prior_mode_count": prior_count.tolist(),
+        }
+    return {
+        "schema_version": "p12f-g2-shell-radial-residual-filter-v1",
+        "fit_scope": "training phases and registered training cores only",
+        "shell_definition": "median radius of exact-supported core voxels",
+        "shrinkage": {
+            "kind": "mode-count empirical Bayes toward frozen training-global G1",
+            "pseudo_fields": int(pseudo_fields),
+        },
+        "global_filter": global_filter,
+        "shell_filters": shell_filters,
+        "real_hermitian_sampling": True,
+    }
+
+
 def correlated_unit_residuals(
     filter_contract: dict,
     *,
@@ -225,6 +282,29 @@ def sample_correlated_gaussian(
         filter_contract, draws=draws, seed=seed, shape=tuple(mean.shape)
     )
     return mean[None] + standard[None] * residual
+
+
+def sample_shell_correlated_gaussian(
+    mean: np.ndarray,
+    standard_deviation: np.ndarray,
+    filter_contract: dict,
+    *,
+    shell: int,
+    draws: int,
+    seed: int,
+) -> np.ndarray:
+    if filter_contract.get("schema_version") != "p12f-g2-shell-radial-residual-filter-v1":
+        raise ValueError("unsupported G2 shell-filter contract")
+    component = filter_contract.get("shell_filters", {}).get(str(int(shell)))
+    if component is None or int(component.get("shell", -1)) != int(shell):
+        raise ValueError(f"G2 has no frozen filter for shell {shell}")
+    return sample_correlated_gaussian(
+        mean,
+        standard_deviation,
+        component,
+        draws=draws,
+        seed=seed,
+    )
 
 
 @dataclass

@@ -20,6 +20,7 @@ from workflows.sbi.p12f_gaussian_controls import (
     ConditionalGaussianUNet,
     sample_correlated_gaussian,
     sample_independent_gaussian,
+    sample_shell_correlated_gaussian,
 )
 from workflows.sbi.p12f_score_diffusion import (
     ConditionalVDiffusionUNet,
@@ -43,6 +44,7 @@ DEFAULT_PHASE_ROOT = Path("/pscratch/sd/d/dkololgi/abacus/p10_multiphase")
 METHODS = (
     "gaussian_independent_g0",
     "gaussian_correlated_g1",
+    "gaussian_shell_correlated_g2",
     "rectified_flow_f1b",
     "score_diffusion_v1",
 )
@@ -57,6 +59,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--checkpoint", type=Path, required=True)
     parser.add_argument("--method", choices=METHODS, required=True)
     parser.add_argument("--g1-filter", type=Path)
+    parser.add_argument("--g2-filter", type=Path)
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--resume", action="store_true")
@@ -138,6 +141,8 @@ def draw_samples(
     draws: int,
     seed: int,
     g1_filter: dict | None,
+    g2_filter: dict | None,
+    shell: int,
 ) -> np.ndarray:
     generator = torch.Generator(device=condition.device)
     generator.manual_seed(int(seed))
@@ -150,7 +155,7 @@ def draw_samples(
                 draws=draws,
                 generator=generator,
             )[:, 0].cpu().numpy()
-        else:
+        elif method == "gaussian_correlated_g1":
             if g1_filter is None:
                 raise RuntimeError("G1 sampling requires the frozen residual filter")
             scaled = sample_correlated_gaussian(
@@ -160,6 +165,19 @@ def draw_samples(
                 draws=draws,
                 seed=seed,
             )
+        elif method == "gaussian_shell_correlated_g2":
+            if g2_filter is None:
+                raise RuntimeError("G2 sampling requires the frozen shell filter")
+            scaled = sample_shell_correlated_gaussian(
+                mean[0, 0].cpu().numpy(),
+                torch.exp(log_std[0, 0]).cpu().numpy(),
+                g2_filter,
+                shell=shell,
+                draws=draws,
+                seed=seed,
+            )
+        else:
+            raise ValueError(f"unsupported Gaussian method {method}")
     elif method == "score_diffusion_v1":
         scaled = sample_ddim(
             model,
@@ -219,6 +237,10 @@ def main() -> None:
         raise RuntimeError("G1 requires --g1-filter")
     if args.method != "gaussian_correlated_g1" and args.g1_filter is not None:
         raise RuntimeError("only G1 may consume a residual filter")
+    if args.method == "gaussian_shell_correlated_g2" and args.g2_filter is None:
+        raise RuntimeError("G2 requires --g2-filter")
+    if args.method != "gaussian_shell_correlated_g2" and args.g2_filter is not None:
+        raise RuntimeError("only G2 may consume a shell residual filter")
 
     output = args.output_root / args.method
     output.mkdir(parents=True, exist_ok=True)
@@ -235,18 +257,31 @@ def main() -> None:
     model, scaler = build_model_and_scaler(
         args.method, checkpoint, config, parent, args.device
     )
-    filter_contract = (
+    g1_filter_contract = (
         None if args.g1_filter is None else json.loads(args.g1_filter.read_text())
     )
-    if filter_contract is not None:
+    g2_filter_contract = (
+        None if args.g2_filter is None else json.loads(args.g2_filter.read_text())
+    )
+    if g1_filter_contract is not None:
         if (
-            filter_contract.get("schema_version")
+            g1_filter_contract.get("schema_version")
             != "p12f-g1-radial-residual-filter-v2"
-            or not filter_contract.get("pass")
-            or filter_contract.get("ph001_opened")
-            or filter_contract.get("checkpoint_sha256") != sha256(args.checkpoint)
+            or not g1_filter_contract.get("pass")
+            or g1_filter_contract.get("ph001_opened")
+            or g1_filter_contract.get("checkpoint_sha256") != sha256(args.checkpoint)
         ):
             raise RuntimeError("G1 residual-filter provenance mismatch")
+    if g2_filter_contract is not None:
+        if (
+            g2_filter_contract.get("schema_version")
+            != "p12f-g2-shell-radial-residual-filter-v1"
+            or not g2_filter_contract.get("pass")
+            or g2_filter_contract.get("ph001_opened")
+            or g2_filter_contract.get("validation_phase_read")
+            or g2_filter_contract.get("checkpoint_sha256") != sha256(args.checkpoint)
+        ):
+            raise RuntimeError("G2 shell-filter provenance mismatch")
 
     loader = P10RandomResponseLoader(args.contract_root, include_blind=False)
     store = FieldTargetStore(args.phase_root, ("ph006",))
@@ -269,6 +304,9 @@ def main() -> None:
         "target_scaler_canonical_sha256": canonical_json_sha256(scaler),
         "g1_filter_sha256": (
             None if args.g1_filter is None else sha256(args.g1_filter)
+        ),
+        "g2_filter_sha256": (
+            None if args.g2_filter is None else sha256(args.g2_filter)
         ),
         "method": args.method,
         "selected_core_id": selected,
@@ -307,6 +345,9 @@ def main() -> None:
     if progress.get("frozen_digest") != frozen_digest:
         raise RuntimeError("sample-export progress contract changed")
     completed = {int(row["core_id"]): row for row in progress["entries"]}
+    metadata = {
+        int(row["core_id"]): row for row in panel["selected_core_metadata"]
+    }
     normalization = loader.field_normalization
     started = time.monotonic()
     for ordinal, core_id in enumerate(selected):
@@ -330,7 +371,9 @@ def main() -> None:
             scaler,
             draws=draws,
             seed=42_000 + core_id,
-            g1_filter=filter_contract,
+            g1_filter=g1_filter_contract,
+            g2_filter=g2_filter_contract,
+            shell=int(metadata[core_id]["shell"]),
         )
         counts = np.asarray(
             patch.values[patch.channel_names.index("counts")], dtype=np.float32
@@ -400,6 +443,10 @@ def main() -> None:
         "g1_filter": (
             None if args.g1_filter is None else str(args.g1_filter.resolve())
         ),
+        "g2_filter": (
+            None if args.g2_filter is None else str(args.g2_filter.resolve())
+        ),
+        "g2_filter_sha256": frozen["g2_filter_sha256"],
         "g1_filter_sha256": frozen["g1_filter_sha256"],
         "entries": entries,
         "truth_files_read": ["ph006"],

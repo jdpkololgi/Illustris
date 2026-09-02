@@ -517,7 +517,13 @@ def aggregate_compact(entries: list[dict], config: dict) -> dict:
             "ordered_eigenvalue_tarp": tarp_curve(l, target, seed=42),
             "eigengap_tarp": tarp_curve(gap, gap_target, seed=43),
         }
-    conditional = {"shell": {}, "random_response": {}, "boundary_distance": {}, "tracer_density": {}}
+    conditional = {
+        "shell": {},
+        "random_response": {},
+        "boundary_distance": {},
+        "tracer_density": {},
+        "true_environment": {},
+    }
     gap = lam[..., 1:] - lam[..., :-1]
     gap_truth = lam_truth[..., 1:] - lam_truth[..., :-1]
     for shell in range(4):
@@ -531,6 +537,7 @@ def aggregate_compact(entries: list[dict], config: dict) -> dict:
         "random_response": quantile_labels(vox_response),
         "boundary_distance": quantile_labels(vox_boundary),
         "tracer_density": quantile_labels(vox_tracer),
+        "true_environment": quantile_labels(vox_truth),
     }
     for variable, labels in voxel_labels.items():
         for value in range(4):
@@ -573,7 +580,11 @@ def aggregate_compact(entries: list[dict], config: dict) -> dict:
     return {
         "schema_version": "p12f-dependency-rescue-evaluation-v2",
         "created_utc": utc_now(),
-        "method": "gaussian_correlated_g1",
+        "method": str(
+            config.get("evaluation_sufficiency", {}).get(
+                "primary_method", "gaussian_correlated_g1"
+            )
+        ),
         "phase": "ph006",
         "cores": len(entries),
         "galaxies": int(len(lam_truth)),
@@ -610,7 +621,10 @@ def main() -> None:
     if args.device.startswith("cuda") and not torch.cuda.is_available():
         raise RuntimeError("expanded P12-F physics evaluation requires a compute GPU")
     config = json.loads(args.config.read_text())
-    if config.get("experiment_version") != "P12-F v2 checkpoint-only evaluation sufficiency":
+    if config.get("experiment_version") not in {
+        "P12-F v2 checkpoint-only evaluation sufficiency",
+        "P12-F v2 conditional covariance rescue",
+    }:
         raise RuntimeError("unexpected P12-F dependency-rescue contract")
     if config["roles"]["sealed_blind_test"] != "ph001":
         raise PermissionError("P12-F blind phase contract changed")
@@ -635,8 +649,12 @@ def main() -> None:
         or len(panel.get("selected_core_id", [])) != 1024
     ):
         raise RuntimeError("expanded ph006 panel is not truth-free and complete")
-    if archive.get("method") != "gaussian_correlated_g1":
-        raise RuntimeError("dependency rescue stage 1 is frozen to G1")
+    expected_method = str(evaluation_contract["primary_method"])
+    if archive.get("method") != expected_method:
+        raise RuntimeError(
+            f"dependency-rescue archive is {archive.get('method')}, "
+            f"expected {expected_method}"
+        )
     entries = validate_archive_manifest(
         archive,
         archive_path=args.archive_manifest,
