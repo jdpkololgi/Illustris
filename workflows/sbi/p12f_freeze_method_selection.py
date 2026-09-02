@@ -45,6 +45,23 @@ def matched_identity(report: dict) -> tuple:
     )
 
 
+def require_complete_tarp(report: dict) -> None:
+    """Refuse method selection when a required TARP diagnostic did not run."""
+    diagnostics = report.get("tarp", {})
+    required = ("ordered_eigenvalues", "eigengaps")
+    missing = [
+        name
+        for name in required
+        if not isinstance(diagnostics.get(name), dict)
+        or diagnostics[name].get("available") is not True
+    ]
+    if missing:
+        raise RuntimeError(
+            f"{report.get('method', 'unknown')} lacks required TARP diagnostics: "
+            + ", ".join(missing)
+        )
+
+
 def main() -> None:
     args = parse_args()
     config = json.loads(args.config.read_text())
@@ -65,6 +82,7 @@ def main() -> None:
         ):
             raise RuntimeError(f"report is not a frozen ph006 evaluation: {path}")
         method = str(payload["method"])
+        require_complete_tarp(payload)
         if method in reports:
             raise RuntimeError(f"duplicate P12-F report for {method}")
         reports[method] = payload

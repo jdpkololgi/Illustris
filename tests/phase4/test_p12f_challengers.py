@@ -21,9 +21,31 @@ from workflows.sbi.p12f_gaussian_controls import (
     gaussian_nll,
     sample_correlated_gaussian,
 )
+from workflows.sbi.p12f_freeze_method_selection import require_complete_tarp
 
 
 class P12FChallengerTest(unittest.TestCase):
+    def test_method_selection_requires_completed_tarp(self):
+        with self.assertRaisesRegex(RuntimeError, "lacks required TARP"):
+            require_complete_tarp(
+                {
+                    "method": "candidate",
+                    "tarp": {
+                        "ordered_eigenvalues": {"available": True},
+                        "eigengaps": {"available": False},
+                    },
+                }
+            )
+        require_complete_tarp(
+            {
+                "method": "candidate",
+                "tarp": {
+                    "ordered_eigenvalues": {"available": True},
+                    "eigengaps": {"available": True},
+                },
+            }
+        )
+
     def test_truth_free_panel_has_32_per_shell_and_is_reproducible(self):
         core = np.arange(800)
         shell = np.repeat(np.arange(4), 200)
