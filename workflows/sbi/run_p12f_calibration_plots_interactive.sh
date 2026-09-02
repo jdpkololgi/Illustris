@@ -3,7 +3,7 @@ set -euo pipefail
 
 repo=/global/homes/d/dkololgi/TNG/Illustris
 run_root=/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_matched_challengers_v1
-python=/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python
+python=${P12F_PYTHON:-/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python}
 log=${run_root}/p12f_calibration_plots_20260902.log
 
 mkdir -p "${run_root}"
@@ -38,6 +38,7 @@ salloc \
       unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD
       export PYTHONNOUSERSITE=1
       cd '${repo}'
+      timeout 90 '${python}' -c \"import tarp, torch, numpy; print('P12F_RUNTIME_OK', torch.__version__)\"
       '${python}' -m unittest tests.phase4.test_plot_p12f_calibration_comparison
       '${python}' -u -m workflows.sbi.plot_p12f_calibration_comparison
     "
