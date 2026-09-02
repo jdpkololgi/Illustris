@@ -1,0 +1,54 @@
+{
+  "schema_version": "p12-production-blind-contract-v1",
+  "roles": {
+    "training": ["ph000", "ph002", "ph003", "ph004", "ph005"],
+    "selection": "ph006",
+    "sealed_blind": "ph001"
+  },
+  "p12a": {
+    "posterior_draws": 512,
+    "audit_draw_rows": 50000,
+    "threshold": 0.2,
+    "tempering": null,
+    "recalibration": null,
+    "quality": {
+      "sparse_shell_redshift_minimum": 0.45,
+      "boundary_r_mpc_h": 7.0,
+      "boundary_2r_mpc_h": 14.0,
+      "response_range_source": "training phases only",
+      "prior_width_threshold_source": "ph006 frozen audit before blind opening"
+    },
+    "artifacts": {
+      "checkpoint": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/fmpe_estimator.pt",
+        "sha256": "0474ce3f0b3a6c97de7fe225eaceee9f0b2b0ea76ea5d417e545eeeacf437880"
+      },
+      "dataset": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/P12A_DATASET_READY.json",
+        "sha256": "7c93cb8a1e4f409aac49050c61e036e9b917ac42db0df8c97990ce59187fa7f9"
+      },
+      "completion": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/P12A_COMPLETE.json",
+        "sha256": "9748d62d4a2f7476bedf26223281436f4eacf71660a2bfef232f3c44cb973b90"
+      },
+      "calibration_audit": {
+        "path": "docs/evidence/p12/P12A_CALIBRATION_AUDIT.json",
+        "sha256": "ea602b92eadc997fdf1aaf201902f4973981e8e7cae6007bc6ecfb07f17cab3b"
+      },
+      "calibration_pass_absent": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/P12A_CALIBRATION_PASS.json"
+      }
+    }
+  },
+  "blind": {
+    "seed": 42,
+    "shard_rows": 65536,
+    "full_draw_subset": {
+      "rows": 50000,
+      "strata": ["shell", "cap", "boundary_distance_quartile"]
+    },
+    "truth_files_read": [],
+    "open_count": 0,
+    "full_export_is_production_slurm_only": true
+  }
+}
