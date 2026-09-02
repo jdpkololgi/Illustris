@@ -4109,12 +4109,13 @@ Progress checklist:
 - [x] Implement and test the target-free ph001 CIC/DTFE path without weakening P10's
   target-bearing ph001 refusal. `p12_blind_classical_predictions.py` validates the
   train-only five-phase affine fit, canonical observed assignment/points, P3b-R
-  support and sealed state; commit `9d1c4c0` adds a detached supervisor. Tmux
-  The first two attempts correctly failed before science output because the guard
+  support and sealed state; commit `9d1c4c0` adds a detached supervisor. The first
+  two attempts correctly failed before science output because the guard
   confused observed `targetid` with a label and then expected a fifth point column;
   commits `74fa6a1` and `9110bfc` fix both exact on-disk schemas. CIC now covers the
-  same `4,897,905` rows and the restarted `blind_classical_v3` tmux worker is building
-  the observed-only DTFE raster on job `57874056`.
+  same `4,897,905` rows as the frozen context. DTFE has also completed on those exact
+  supported rows; both methods omit `28,983` M=0 rows and retain
+  `truth_files_read=[]`, `open_count=0`.
 - [x] Make the four-GPU posterior production submission restart-safe. Commit `c39ace8`
   content-addresses every reusable shard and adds the aggregate
   `P12A_BLIND_EXPORT_COMPLETE.json` freeze step. Use the complete Scratch runtime with

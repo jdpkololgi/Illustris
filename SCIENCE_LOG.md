@@ -43,8 +43,9 @@ The observed-only ph001 production path also advanced without opening truth.  Th
 frozen R0 U-PATCH context now contains `4,897,905` supported authoritative galaxies;
 `28,983` M=0 rows are omitted.  Its four core-safe shards contain
 `1,224,516/1,224,782/1,224,648/1,223,959` rows and preserve
-`truth_files_read=[]`, `open_count=0`.  CIC produced the same `4,897,905` parent rows;
-DTFE is actively building its observed-galaxy raster in tmux.  Two schema assumptions
+`truth_files_read=[]`, `open_count=0`.  CIC and DTFE now both cover the same
+`4,897,905` supported parent rows and omit the same `28,983` M=0 rows; their compact
+manifests retain `truth_files_read=[]`, `open_count=0`.  Two schema assumptions
 were caught before scientific output: the canonical assignment field `targetid` is an
 observed identifier, not a target label, and the canonical point array is exactly
 `(x,y,z,cap)`, not a five-column redshift table.  Commits `74fa6a1` and `9110bfc`
