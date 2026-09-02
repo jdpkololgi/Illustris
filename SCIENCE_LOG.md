@@ -82,6 +82,43 @@ avoid a third-allocation race, then runs the frozen R0 U-PATCH on observed-only 
 fields and writes a four-way core-safe posterior shard plan. It is staged but has not
 started a GPU allocation or produced predictions.
 
+The ph001 P3b-R build is now complete and remains truth-free. The canonical manifest
+is `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/p3b_random_response_v1/manifest.json`
+(SHA-256 `708491faef2f016f44931bb1f844484003ff2151aaac10d4ea9b8a5a631c3570`);
+the 18-realisation angular map/manifest hashes are `e886fc26...f63477` and
+`4369c6a9...d78903`. Both cap overlays pass exact P3a grid/virtual-channel identity,
+finite/non-negative response, no-support-outside-random, hard-link alias and Poisson
+residual gates. Observed/expected shell totals differ by at most `4.12%`, within the
+registered ensemble tolerance. `ph001_opened=false`; no density or T-web truth was
+read. The outer response shell emitted a post-worker parse error only after the
+content-addressed manifest had been written and independently revalidated; this is a
+supervisor-shell failure, not a failed or partial response product.
+
+Two further blind-context assumptions were corrected before inference. Canonical P3b-R
+uses `components/file/grid`, whereas the visible posterior cache uses normalized
+`caps/field_path`; commit `e0af07c` makes the response sampler accept only those two
+registered schemas. Canonical `points.npy` intentionally contains only `(x,y,z,cap)`,
+so commit `ce2caf2` binds redshift to the existing parent-aligned observed-only
+`training_contract/phases/ph001/parent_redshift.npy` and its sealed phase contract
+instead of assuming a fifth points column. Nine focused tests pass under the exact CFS
+context runtime. The original sleeping context shell was invalidated by this live
+source amendment and exited before requesting compute; fresh tmux session
+`blind_context_v2` now waits under the corrected source.
+
+The pre-opening baseline set is also implemented rather than deferred. Commit
+`e0af07c` adds a separate truth-free CIC/DTFE predictor that reuses the train-only
+affine maps frozen on ph000/ph002--005 and selected on ph006; it never weakens the
+target-bearing P10 evaluator's ph001 refusal. Commit `9d1c4c0` adds tmux supervisor
+`blind_classical`, which waits for the response and two-allocation guard, then builds
+the observed-galaxy ph001 DTFE raster and exports matched CIC/DTFE predictions. Its
+one-GPU job `57873346` is pending while the active P12-F exporter occupies the other
+slot. Commit `c39ace8` makes the four-GPU P12-A production export exactly resumable:
+an existing shard is reused only after all context/checkpoint/candidate/quality/output
+hashes pass, and the job now freezes the complete four-shard marker. Full sampling
+uses the complete Scratch `cosmic_env` because the recovery CFS runtime lacks
+`sbi==0.26.1`; a bounded cold-import/version gate prevents an I/O-stalled runtime from
+writing any blind shard. ph001 truth remains sealed.
+
 ### 2026-09-02 - [science/code] Authorize truth-free ph001 random-response construction
 
 The P12-A candidate and bounded P12-F selection are now frozen, so the observation-
