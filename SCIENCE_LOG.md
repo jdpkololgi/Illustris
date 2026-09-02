@@ -1,5 +1,55 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-02 - [science/plan/code/run] Freeze the single licensed P12-F G2 covariance rescue
+
+The expanded G1 audit localised the remaining field-posterior defect to residual
+scale/covariance structure rather than a generic lack of marginal widening.  The
+only licensed follow-up is therefore frozen as **G2**: reuse the exact trained
+heteroscedastic Gaussian mean/log-variance U-Net, target scaler, response
+conditioner, training-core identities and 1,024-core ph006 panel, changing only
+the training-derived normalized-residual covariance sampler.
+
+G2 fits four radial residual-power filters, one per registered redshift shell,
+from ph000/ph002--ph005 training cores only.  Each 32-bin shell spectrum is
+mode-count shrunk toward the exactly reproduced global G1 spectrum using a fixed
+64-pseudofield prior.  ph006 is used only for the frozen comparison and ph001
+remains sealed.  Sampling retains real Hermitian Fourier residuals and the same
+256 draws per core; no network is retrained and no density transform, response
+feature or physics layer changes.
+
+The visual and statistical decision uses the same held-out objects at every
+stage: nested 64/128/256-draw TARP/SBC and dependency plots on all 1,024 cores,
+plus paired 64-draw core-block energy, variogram, coarse-energy and marginal-CRPS
+scores.  The primary energy score must improve over G1 by at least 2% with a
+paired 95% interval above zero, no other registered score may worsen by more
+than 1%, eigenvalue/eigengap TARP must pass 0.05, reference-seed p90 must pass
+0.06, global coverage error must pass 0.05, and shell/response/boundary/tracer/
+environment conditional error must pass 0.10.  Failure freezes a v2
+no-field-finalist result and returns the production spine to P12-A; it does not
+license a lognormal or architecture sweep.
+
+Implementation is frozen in commit `1471089`:
+`configs/p12f_conditional_covariance_g2_v2.json`,
+`p12f_fit_g2_shell_filter.py`, the common sample-archive/dependency evaluator,
+the resumable paired-score/decision tools and
+`run_p12f_g2_conditional_covariance_tmux.sh`.  The detached supervisor uses at
+most one interactive GPU at a time and re-requests only after an atomic
+code-75 pause; the final CPU-only proper-score/plotting stage does not reserve a
+GPU.  Fifteen focused Gaussian/archive/dependency tests pass in the complete
+runtime, including the G2 shell sampler, exact registered draw prefix, compact
+physics aggregation and TARP controls.
+
+The separate truth-free P12-A 512-draw throughput smoke is not yet complete.
+Jobs `57874309`, `57874515` and `57874863` each passed the GPU/runtime tests and
+reached real FMPE sampling, but stopped before any posterior artifact because
+SBI's accept/reject support check still compared CPU and CUDA tensors.  Moving
+the posterior-owned prior (`c6b118c`), clearing its cached support (`6dec30c`)
+and moving the complete posterior did not by themselves resolve the library's
+ODE-output/support-device disagreement.  The next attempt must instrument one
+unrestricted proposal and align the support check to its actual device before
+the production array is authorized.  No ph001 target, density or T-web truth
+has been opened.
+
 ### 2026-09-02 - [science/results/code/run] Expanded P12-F audit localizes a stable scale/covariance defect; blind context completes
 
 The 1,024-core P12-F v2 evaluation-sufficiency audit is complete on ph006, with

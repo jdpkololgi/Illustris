@@ -3833,8 +3833,8 @@ Progress checklist:
 ### P12 — Posterior calibration
 
 **Status:** P12-A PH006 FIT/AUDIT COMPLETE AND FROZEN AS THE FIRST PRODUCTION
-CANDIDATE; P12-F V1 NO-FINALIST FROZEN; V2 EXPANDED AUDIT COMPLETE AND ONE
-SHELL/SCALE-CONDITIONAL COVARIANCE CONTROL LICENSED; PH001 REMAINS SEALED
+CANDIDATE; P12-F V1 NO-FINALIST FROZEN; V2 EXPANDED AUDIT COMPLETE; G2
+SHELL/SCALE-CONDITIONAL COVARIANCE CONTROL IMPLEMENTED AND PENDING; PH001 SEALED
 
 P12 is the binding gate for the intended posterior/class-probability VAC. Begin it from
 scratch immediately after deterministic model selection on ph006 rather than waiting
@@ -4124,11 +4124,13 @@ Progress checklist:
 - [x] Add a bounded, truth-free, core-aligned 512-draw throughput smoke before the
   production array (`p12a_blind_throughput_smoke.py`, commit `ef9cd5c`). It validates
   the real FMPE reconstruction, output finiteness/class normalization and projects
-  four-GPU wall time from a real ph001 sample. Its first compute attempt reached SBI
-  sampling and found that reconstructed posterior candidates were CUDA-resident while
-  the posterior-owned prior bounds were on CPU; commit `c6b118c` now moves and verifies
-  that prior explicitly. The retry remains pending, and the production array stays
-  blocked until this passes and P12-F v2 freezes.
+  four-GPU wall time from a real ph001 sample. Three compute attempts (`57874309`,
+  `57874515`, `57874863`) reached SBI sampling but wrote no posterior artifact: the
+  accept/reject support check still mixed CPU and CUDA tensors after moving the prior,
+  refreshing its cached support and then moving the complete posterior. Add a bounded
+  one-proposal device diagnostic, align the support constraint to the sampler's actual
+  output device, and rerun. The production array stays blocked until this passes and
+  P12-F v2 freezes.
 - [x] Harden `P12_BLIND_PREDICTIONS_FROZEN` so it requires exactly one base-context,
   complete P12-A export, CIC and DTFE manifest, rehashes every posterior/audit shard,
   and demands exact parent/core/support identity. Validation truth on ph006 is allowed;
@@ -4205,8 +4207,8 @@ Out-of-fold summary contract:
 
 **Status:** MATCHED 128-CORE V1 GAUSSIAN/FLOW/DIFFUSION GATE COMPLETE;
 `P12F_NO_FIELD_FINALIST.json` FROZEN FOR V1; 1,024-CORE V2 DEPENDENCY AUDIT
-COMPLETE; ONE CONDITIONAL-COVARIANCE CONTROL LICENSED; NOT A PRODUCTION MODEL;
-PH001 SEALED
+COMPLETE; G2 CONDITIONAL-COVARIANCE CONTROL IMPLEMENTED AND PENDING; NOT A
+PRODUCTION MODEL; PH001 SEALED
 
 The per-galaxy P12-A posterior remains the shortest production spine.  P12-F is the
 coherent-field challenger motivated by the fact that multiple tidal fields can be
@@ -4335,16 +4337,26 @@ version the estimand and restore `W_7(k)` exactly once inside the physics layer.
   shells 0/3 (`0.08425/0.06618`). Response/boundary/tracer voxel coverage remains
   inside `0.10`. Posterior residual covariance and lowest-k power are too small while
   intermediate/high-k power is too large.
-- [ ] Implement one bounded training-only shell/scale-conditioned G1 covariance
-  control on the unchanged frozen Gaussian mean/log-variance network and exact
-  1,024-core panel. This is the only stage-1-licensed challenger. It must improve the
-  eigengap TARP/scale-dependence plots and the registered joint proper score without
-  degrading marginal/conditional coverage; otherwise freeze the v2 no-finalist
-  result and proceed with P12-A alone.
+- [x] Implement and unit-test one bounded training-only shell/scale-conditioned G1
+  covariance control (`G2`) on the unchanged frozen Gaussian mean/log-variance network
+  and exact 1,024-core panel (commit `1471089`). Four 32-bin residual-power filters are
+  fitted on the registered ph000/ph002--ph005 cores using the median exact-supported
+  core radius to assign the four frozen redshift shells. Each spectrum is mode-count
+  shrunk toward the exactly reproduced global G1 spectrum with 64 pseudofields; ph006
+  is not used to fit it and ph001 remains sealed. Fifteen focused tests pass in the
+  complete runtime.
+- [ ] Run G2 with 256 draws on the frozen 1,024-core ph006 panel and render the visual
+  comparison before reading the scalar decision. Reuse nested 64/128/256 TARP/SBC,
+  response/boundary/tracer/true-environment strata and scale/separation diagnostics.
+  Compare G2 against frozen G1 on the first 64 draws using 512 fixed voxel features,
+  1,024 fixed variogram pairs and 2,048 fixed CRPS voxels per core, then use 4,000
+  paired core-block bootstrap replicates. The primary energy score must improve by at
+  least 2% with its 95% interval above zero; all existing TARP/coverage and <=1%
+  non-regression gates remain unchanged.
 - [x] Apply the "if and only if" diagnostic gate: stage 1 confirms a stable defect and
   localizes it to covariance/scale dependence rather than generic response failure.
   The one conditional-G1 control above is licensed; no architecture sweep is.
-- [ ] After the conditional-G1 control, freeze a versioned v2 no-finalist result if
+- [ ] After G2, freeze a versioned v2 no-finalist result if
   it misses the unchanged gates. Any non-Gaussian/lognormal or new-architecture
   branch then moves to later field-posterior work rather than delaying P12-A.
 - [ ] Run a bounded log-density/lognormal control only after checking the exact
