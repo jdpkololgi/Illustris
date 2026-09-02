@@ -1,0 +1,264 @@
+{
+  "angular_normalization_policy": "mean-one-after-unique-cap-PHOTSYS-domain-assignment-v1",
+  "blind_truth_opened": false,
+  "creation_commit": "ce2caf253de26ee51c0afc2bc848fb211d3362c9",
+  "domain_overlap_pixels": 862,
+  "domains": {
+    "cap0_PHOTSYSN": {
+      "mean_raw_count": null,
+      "raw_count_sum": 0,
+      "response_mean": null,
+      "status": "empty physical cap/PHOTSYS intersection",
+      "supported_pixels": 0
+    },
+    "cap0_PHOTSYSS": {
+      "mean_raw_count": 2034.3942836919248,
+      "raw_count_sum": 166700302,
+      "response_mean": 1.0,
+      "supported_pixels": 81941
+    },
+    "cap1_PHOTSYSN": {
+      "mean_raw_count": 2082.260138440909,
+      "raw_count_sum": 172434551,
+      "response_mean": 1.0,
+      "supported_pixels": 82779
+    },
+    "cap1_PHOTSYSS": {
+      "mean_raw_count": 2130.918969270292,
+      "raw_count_sum": 217500733,
+      "response_mean": 1.0,
+      "supported_pixels": 101986
+    }
+  },
+  "elapsed_seconds": 1898.7486999034882,
+  "nside": 256,
+  "ordering": "RING",
+  "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/p3b_random_response_v1/angular/randoms_n18.npz",
+  "phase": "ph001",
+  "random_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+  ],
+  "schema_version": "p3br-angular-random-map-v1",
+  "sha256": "e886fc26a76064cdc3343f645ccc89b54baa660bd0e34e4881c32ab972f63477",
+  "source_registry": "/global/u2/d/dkololgi/TNG/Illustris/configs/p10_response_sources_v1.json",
+  "source_registry_sha256": "11d7fd79b89e7dc065a27db4cfccd940de5e88be67b92f26fd6703271cf89d71",
+  "sources": [
+    {
+      "accepted_rows": 30923498,
+      "goodhardloc_rejected": 0,
+      "maskbits_filter_applied": false,
+      "maskbits_nonzero": 604524,
+      "maskbits_nonzero_fraction": 0.019549017384773222,
+      "maskbits_policy": "use all rows in the registered HPmapcut product; retain MASKBITS only for audit because no additional veto-bit contract is registered",
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+      "rows": 30923498,
+      "sha256": "651fe726fad3a731ef518d191815ace2e17dd2f4a190fae1dd4a6e6ebfd16bfd"
+    },
+    {
+      "accepted_rows": 30924323,
+      "goodhardloc_rejected": 0,
+      "maskbits_filter_applied": false,
+      "maskbits_nonzero": 604446,
+      "maskbits_nonzero_fraction": 0.019545973569089936,
+      "maskbits_policy": "use all rows in the registered HPmapcut product; retain MASKBITS only for audit because no additional veto-bit contract is registered",
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+      "rows": 30924323,
+      "sha256": "e6a67b10695122f0f84f2a384c115301f396ee20af969e3fc739a80167ef86bf"
+    },
+    {
+      "accepted_rows": 30920384,
+      "goodhardloc_rejected": 0,
+      "maskbits_filter_applied": false,
+      "maskbits_nonzero": 604062,
+      "maskbits_nonzero_fraction": 0.01953604457176211,
+      "maskbits_policy": "use all rows in the registered HPmapcut product; retain MASKBITS only for audit because no additional veto-bit contract is registered",
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+      "rows": 30920384,
+      "sha256": "5984d152df9a310f90a2b76f3d147716d1532810d43b278a1f4fe8c1c8152bcd"
+    },
+    {
+      "accepted_rows": 30922361,
+      "goodhardloc_rejected": 0,
+      "maskbits_filter_applied": false,
+      "maskbits_nonzero": 603877,
+      "maskbits_nonzero_fraction": 0.01952881282253965,
+      "maskbits_policy": "use all rows in the registered HPmapcut product; retain MASKBITS only for audit because no additional veto-bit contract is registered",
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+      "rows": 30922361,
+      "sha256": "1cb331400771b3f81f6b68c003d9cc3caaf6ef2abe1964dd3473e552bb2d6da1"
+    },
+    {
+      "accepted_rows": 30927256,
+      "goodhardloc_rejected": 0,
+      "maskbits_filter_applied": false,
+      "maskbits_nonzero": 603343,
+      "maskbits_nonzero_fraction": 0.019508455583644408,
+      "maskbits_policy": "use all rows in the registered HPmapcut product; retain MASKBITS only for audit because no additional veto-bit contract is registered",
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+      "rows": 30927256,
+      "sha256": "50936a16f1dbb924f873355cebe0164651257fa3d036ee50ad8830ebb39d8baf"
+    },
+    {
+      "accepted_rows": 30923275,
+      "goodhardloc_rejected": 0,
+      "maskbits_filter_applied": false,
+      "maskbits_nonzero": 603645,
+      "maskbits_nonzero_fraction": 0.019520733169433056,
+      "maskbits_policy": "use all rows in the registered HPmapcut product; retain MASKBITS only for audit because no additional veto-bit contract is registered",
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+      "rows": 30923275,
+      "sha256": "dd81fd7254e2f928688703a618404fa33d76aa0cdad11a9664e7440af309e0c7"
+    },
+    {
+      "accepted_rows": 30922772,
+      "goodhardloc_rejected": 0,
+      "maskbits_filter_applied": false,
+      "maskbits_nonzero": 602871,
+      "maskbits_nonzero_fraction": 0.019496020602551414,
+      "maskbits_policy": "use all rows in the registered HPmapcut product; retain MASKBITS only for audit because no additional veto-bit contract is registered",
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+      "rows": 30922772,
+      "sha256": "f0b04b1c0e1a1e2718844994ea91786c435643969645003bf1c2e467bc389a56"
+    },
+    {
+      "accepted_rows": 30926637,
+      "goodhardloc_rejected": 0,
+      "maskbits_filter_applied": false,
+      "maskbits_nonzero": 604303,
+      "maskbits_nonzero_fraction": 0.019539887249945733,
+      "maskbits_policy": "use all rows in the registered HPmapcut product; retain MASKBITS only for audit because no additional veto-bit contract is registered",
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+      "rows": 30926637,
+      "sha256": "3a4c0d32309b3eb3f5f0f9f6465ecf0e95bc42a7b90561aa9f653f5f08ad91a0"
+    },
+    {
+      "accepted_rows": 30922899,
+      "goodhardloc_rejected": 0,
+      "maskbits_filter_applied": false,
+      "maskbits_nonzero": 602519,
+      "maskbits_nonzero_fraction": 0.019484557382540364,
+      "maskbits_policy": "use all rows in the registered HPmapcut product; retain MASKBITS only for audit because no additional veto-bit contract is registered",
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+      "rows": 30922899,
+      "sha256": "d159fae82ab590b6b7bb3b4377567aaf7bc6b40c9fb7cf1da91eeca9037cb678"
+    },
+    {
+      "accepted_rows": 30921323,
+      "goodhardloc_rejected": 0,
+      "maskbits_filter_applied": false,
+      "maskbits_nonzero": 604123,
+      "maskbits_nonzero_fraction": 0.019537424061706544,
+      "maskbits_policy": "use all rows in the registered HPmapcut product; retain MASKBITS only for audit because no additional veto-bit contract is registered",
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+      "rows": 30921323,
+      "sha256": "402e0774ddd89f44fadcfaf82797b6c9e0371626f5521a07a5fda459e49ef309"
+    },
+    {
+      "accepted_rows": 30924521,
+      "goodhardloc_rejected": 0,
+      "maskbits_filter_applied": false,
+      "maskbits_nonzero": 604917,
+      "maskbits_nonzero_fraction": 0.019561079054385352,
+      "maskbits_policy": "use all rows in the registered HPmapcut product; retain MASKBITS only for audit because no additional veto-bit contract is registered",
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+      "rows": 30924521,
+      "sha256": "e684d2d8ede58584cda28ddb604b9c4a0373e8ce06cf39a3b5b71005c5c03773"
+    },
+    {
+      "accepted_rows": 30925887,
+      "goodhardloc_rejected": 0,
+      "maskbits_filter_applied": false,
+      "maskbits_nonzero": 604021,
+      "maskbits_nonzero_fraction": 0.019531242547707686,
+      "maskbits_policy": "use all rows in the registered HPmapcut product; retain MASKBITS only for audit because no additional veto-bit contract is registered",
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+      "rows": 30925887,
+      "sha256": "64fb316712e098a9bc4cbeeaa4241d2302101b1ab7b02bf499b4c7c67ad4b4e1"
+    },
+    {
+      "accepted_rows": 30921973,
+      "goodhardloc_rejected": 0,
+      "maskbits_filter_applied": false,
+      "maskbits_nonzero": 604734,
+      "maskbits_nonzero_fraction": 0.01955677278419459,
+      "maskbits_policy": "use all rows in the registered HPmapcut product; retain MASKBITS only for audit because no additional veto-bit contract is registered",
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+      "rows": 30921973,
+      "sha256": "a8c1e8f15c55d9c58d2f06066d7ffd2a44d2ab823a898c333fab8eea21796220"
+    },
+    {
+      "accepted_rows": 30924268,
+      "goodhardloc_rejected": 0,
+      "maskbits_filter_applied": false,
+      "maskbits_nonzero": 604862,
+      "maskbits_nonzero_fraction": 0.019559460550529442,
+      "maskbits_policy": "use all rows in the registered HPmapcut product; retain MASKBITS only for audit because no additional veto-bit contract is registered",
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+      "rows": 30924268,
+      "sha256": "8daa74bcb237e18c41289b508ac7784791fd10fcb95244627754eb7628170723"
+    },
+    {
+      "accepted_rows": 30924750,
+      "goodhardloc_rejected": 0,
+      "maskbits_filter_applied": false,
+      "maskbits_nonzero": 604176,
+      "maskbits_nonzero_fraction": 0.019536972813038102,
+      "maskbits_policy": "use all rows in the registered HPmapcut product; retain MASKBITS only for audit because no additional veto-bit contract is registered",
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+      "rows": 30924750,
+      "sha256": "4794ccc7f968fa5b6292399e2eb22b72410eafd3c4b1a9d8b38132aeca1c2e05"
+    },
+    {
+      "accepted_rows": 30929501,
+      "goodhardloc_rejected": 0,
+      "maskbits_filter_applied": false,
+      "maskbits_nonzero": 604679,
+      "maskbits_nonzero_fraction": 0.019550234580247513,
+      "maskbits_policy": "use all rows in the registered HPmapcut product; retain MASKBITS only for audit because no additional veto-bit contract is registered",
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+      "rows": 30929501,
+      "sha256": "439ded33bc526c16f5db3dc4aebb6346caa0d7a1498541e23c3b5dec5707ba1f"
+    },
+    {
+      "accepted_rows": 30926385,
+      "goodhardloc_rejected": 0,
+      "maskbits_filter_applied": false,
+      "maskbits_nonzero": 604654,
+      "maskbits_nonzero_fraction": 0.019551396000534817,
+      "maskbits_policy": "use all rows in the registered HPmapcut product; retain MASKBITS only for audit because no additional veto-bit contract is registered",
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+      "rows": 30926385,
+      "sha256": "39722a578d152bd020d00e651d9a712d23504b422121ca0fb8614a17a3db36ba"
+    },
+    {
+      "accepted_rows": 30923573,
+      "goodhardloc_rejected": 0,
+      "maskbits_filter_applied": false,
+      "maskbits_nonzero": 603996,
+      "maskbits_nonzero_fraction": 0.019531895618918292,
+      "maskbits_policy": "use all rows in the registered HPmapcut product; retain MASKBITS only for audit because no additional veto-bit contract is registered",
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+      "rows": 30923573,
+      "sha256": "cbe5b20ff771a3c7055c6d08d17e3e7292b8937d3f493a0fdb5ba25997828559"
+    }
+  ],
+  "supported_area_deg2": 13990.29068373059,
+  "supported_pixels": 266706
+}

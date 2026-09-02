@@ -1,0 +1,71 @@
+{
+  "base_p3a_file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/p3_fields/sgc_fields.h5",
+  "base_p3a_file_sha256": "39a5bb1aad94bf5ba92df169feceb560a5acfeda18ca068a10adc2219e3aa50f",
+  "cap": "SGC",
+  "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/p3b_random_response_v1/SGC/response_overlay.h5",
+  "file_bytes": 698347176,
+  "file_sha256": "c2c03243572685ce7df125c504fcd58c43397edba7fbd96df22070f67227fe08",
+  "gates": {
+    "all_arrays_finite": true,
+    "canonical_response_names_are_hardlink_aliases": true,
+    "cap_shell_closure_within_25pct": true,
+    "expected_counts_nonnegative": true,
+    "exposure_constrained_0_1": true,
+    "grid_shape_parity": true,
+    "immutable_p3a_channels_are_virtual_identity_views": true,
+    "no_support_outside_random_map": true,
+    "poisson_count_residual_consistent_zero": true
+  },
+  "grid": {
+    "cell_mpc": 5.0,
+    "origin_mpc": [
+      70.19707506187599,
+      -1761.9114859668468,
+      -730.9969520547953
+    ],
+    "padding_mpc": 40.0,
+    "shape": [
+      439,
+      778,
+      388
+    ],
+    "voxel_count": 132518296
+  },
+  "observed_expected_ratio": {
+    "0.15_0.25": 1.0310631331696773,
+    "0.25_0.35": 1.0084562145439477,
+    "0.35_0.45": 1.0141382279891966,
+    "0.45_0.55": 0.9906635709145964
+  },
+  "pass": true,
+  "phase": "ph001",
+  "poisson_validation": {
+    "log_count_ratio_mean": -3.6910659625789477,
+    "note": "The Poisson count residual must have zero mean. The log-count ratio is reported but is not zero-mean because log is concave (Jensen bias).",
+    "sample_size": 1000000,
+    "standardized_count_residual_mean": 0.000627983056652796
+  },
+  "schema_version": "p3br-cap-qa-v1",
+  "shell_totals": {
+    "0.15_0.25": {
+      "expected": 775467.7925150145,
+      "observed": 799556.2518227042,
+      "supported": 3018974
+    },
+    "0.25_0.35": {
+      "expected": 479560.8359228209,
+      "observed": 483616.1052382592,
+      "supported": 6040608
+    },
+    "0.35_0.45": {
+      "expected": 162087.33858432906,
+      "observed": 164378.96633139643,
+      "supported": 9576159
+    },
+    "0.45_0.55": {
+      "expected": 21452.997570762866,
+      "observed": 21252.703180274104,
+      "supported": 13333269
+    }
+  }
+}
