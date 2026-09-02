@@ -39,16 +39,17 @@ GPU.  Fifteen focused Gaussian/archive/dependency tests pass in the complete
 runtime, including the G2 shell sampler, exact registered draw prefix, compact
 physics aggregation and TARP controls.
 
-The separate truth-free P12-A 512-draw throughput smoke is not yet complete.
-Jobs `57874309`, `57874515` and `57874863` each passed the GPU/runtime tests and
-reached real FMPE sampling, but stopped before any posterior artifact because
-SBI's accept/reject support check still compared CPU and CUDA tensors.  Moving
-the posterior-owned prior (`c6b118c`), clearing its cached support (`6dec30c`)
-and moving the complete posterior did not by themselves resolve the library's
-ODE-output/support-device disagreement.  The next attempt must instrument one
-unrestricted proposal and align the support check to its actual device before
-the production array is authorized.  No ph001 target, density or T-web truth
-has been opened.
+The separate truth-free P12-A 512-draw throughput smoke is now complete.  After
+three pre-output device failures, commit `071da4f` moved the complete FMPE
+posterior (including its ODE sampler) rather than only its prior.  GPU job
+`57875171` then produced finite, normalized summaries and retained audit draws
+for 3,074 real supported ph001 rows in 28.57 seconds: 107.60 rows/s on one A100.
+The preregistered linear projection is 3.16 hours across four independent GPUs,
+excluding startup, shard imbalance and filesystem contention.  The summary SHA
+is `ef3abbed...c153b`; its manifest records 512 draws,
+`truth_files_read=[]`, `open_count=0` and `sealed_phase_opened=false`.
+This clears the sampler/throughput gate, but the full production export remains
+blocked until the bounded G2 field decision is frozen.
 
 ### 2026-09-02 - [science/results/code/run] Expanded P12-F audit localizes a stable scale/covariance defect; blind context completes
 

@@ -4124,13 +4124,15 @@ Progress checklist:
 - [x] Add a bounded, truth-free, core-aligned 512-draw throughput smoke before the
   production array (`p12a_blind_throughput_smoke.py`, commit `ef9cd5c`). It validates
   the real FMPE reconstruction, output finiteness/class normalization and projects
-  four-GPU wall time from a real ph001 sample. Three compute attempts (`57874309`,
-  `57874515`, `57874863`) reached SBI sampling but wrote no posterior artifact: the
-  accept/reject support check still mixed CPU and CUDA tensors after moving the prior,
-  refreshing its cached support and then moving the complete posterior. Add a bounded
-  one-proposal device diagnostic, align the support constraint to the sampler's actual
-  output device, and rerun. The production array stays blocked until this passes and
-  P12-F v2 freezes.
+  four-GPU wall time from a real ph001 sample. After three pre-output device failures,
+  commit `071da4f` moves the complete FMPE posterior and ODE sampler to CUDA. Job
+  `57875171` then passed on 3,074 supported rows with 512 draws: 28.57 seconds,
+  107.60 rows/s/GPU and a 3.16-hour linear four-GPU projection. Finite summaries,
+  normalized web-class probabilities and retained audit draws pass with
+  `truth_files_read=[]`, `open_count=0` and `sealed_phase_opened=false`. The full
+  production array remains blocked only until P12-F v2 freezes; its real wall time may
+  exceed the projection because startup, shard imbalance and I/O contention were not
+  included.
 - [x] Harden `P12_BLIND_PREDICTIONS_FROZEN` so it requires exactly one base-context,
   complete P12-A export, CIC and DTFE manifest, rehashes every posterior/audit shard,
   and demands exact parent/core/support identity. Validation truth on ph006 is allowed;
