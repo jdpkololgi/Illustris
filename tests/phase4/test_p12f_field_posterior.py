@@ -6,6 +6,10 @@ import numpy as np
 import torch
 
 from workflows.abacus_tweb.p12f_build_field_targets import validate_visible_phase
+from workflows.abacus_tweb.p12f_validate_field_targets import (
+    read_flat_points,
+    sample_indices,
+)
 from workflows.sbi.p12f_field_posterior_diagnostics import (
     central_coverage,
     fixed_tidal_eigenvalues,
@@ -124,6 +128,20 @@ class P12FFieldPosteriorTest(unittest.TestCase):
         score, explained = pc1(values, weight)
         self.assertAlmostEqual(explained, 1.0, places=12)
         self.assertAlmostEqual(abs(weighted_correlation(score, signal, weight)), 1.0)
+
+    def test_field_target_audit_samples_hdf5_by_flat_identity(self):
+        import h5py
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "test.h5"
+            expected = np.arange(4 * 5 * 6, dtype=np.float32).reshape(4, 5, 6)
+            with h5py.File(path, "w") as handle:
+                handle.create_dataset("values", data=expected)
+            flat = sample_indices(expected.shape, 31, seed=8)
+            with h5py.File(path, "r") as handle:
+                observed = read_flat_points(handle["values"], flat)
+            np.testing.assert_array_equal(observed, expected.ravel()[flat])
 
 
 if __name__ == "__main__":
