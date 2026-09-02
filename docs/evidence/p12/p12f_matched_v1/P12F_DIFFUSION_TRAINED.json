@@ -1,0 +1,15 @@
+{
+  "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_matched_challengers_v1/matched_v1_seed42/diffusion/checkpoint.pt",
+  "checkpoint_reload_parity": true,
+  "checkpoint_sha256": "7332ac564784de0229ed9e6c7a8d36786634b3b30ab14c8b978d61c330baa148",
+  "created_utc": "2026-09-02T14:39:09.205848+00:00",
+  "frozen_digest": "044548119831f66a18e64a2151e9c1b509eaa49151970a9e2e2dbdafd40aee11",
+  "last_preclip_gradient_norm": 2.4412662982940674,
+  "mean_training_loss": 0.24044548088535667,
+  "method": "diffusion",
+  "pass": true,
+  "ph001_opened": false,
+  "ready_for_common_evaluator": true,
+  "schema_version": "p12f-matched-challenger-trained-v1",
+  "updates": 10000
+}

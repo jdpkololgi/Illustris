@@ -1,5 +1,43 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-02 - [science/code/run] P12-F matched gate closes with no field finalist
+
+The bounded P12-F comparison is complete on the frozen, truth-free-stratified
+128-core ph006 panel (32 cores per shell; cap, random-response and boundary strata
+balanced without truth). The independent Gaussian, correlated-residual Gaussian,
+frozen rectified flow and conditional score diffusion all use the same 512-core-per-
+training-phase population, 10,000-update budget where learned, 64 evaluation draws,
+conditioner, target scaler, already-R7 field target and fixed no-second-smoothing
+tidal physics. All samples and derived fields are finite and ordered; ph001 remained
+sealed.
+
+The correlated Gaussian G1 is the strongest bounded field baseline, with voxel
+posterior-mean diagnostic R2 `0.63642`, marginal CRPS `0.13257`, primary energy score
+`5.95390`, and ordered-eigenvalue/eigengap TARP deviations `0.03802/0.06044`. It still
+misses the registered global coverage (`0.06193/0.06804` at 68/90%) and maximum
+conditional coverage (`0.12293`) gates. Independent G0 has similar marginal voxel
+accuracy but loses joint structure: max TARP deviation `0.16995` and energy `5.99310`.
+The rectified flow gives max TARP `0.08725`, energy `7.06255`, CRPS `0.16571`, and
+voxel R2 `0.52516`; score diffusion gives `0.13231`, `8.75432`, `0.20587`, and
+`0.28861`, respectively. Relative to G1 their paired core-bootstrap primary-score
+improvements are negative: G0 `-0.00720` (95% interval
+`[-0.01111,-0.00323]`), flow `-0.26973` (`[-0.33748,-0.20672]`) and diffusion
+`-0.62370` (`[-0.72329,-0.53186]`).
+
+The preregistered selector therefore writes `P12F_NO_FIELD_FINALIST.json`; no gate was
+weakened after seeing ph006. This closes the bounded field challenger for the first
+VAC and advances the production spine with P12-A alone. It does not show that field
+posteriors are impossible: the correlated baseline demonstrates useful stochastic
+field information, while the learned objectives remain under-calibrated and lack
+full-cap shared long modes. Any future P12-F version is a separately registered
+field-posterior extension and requires a new blind phase once ph001 is opened.
+
+Durable evidence is under `docs/evidence/p12/p12f_matched_v1/`, including the panel,
+training markers, residual filter, four common evaluation reports and the no-finalist
+marker. The selector now fails closed if either required TARP diagnostic is missing;
+the official `tarp==0.1.1` runtime already recorded in the frozen environment
+specification was used. No ph001 file, truth array or T-web product was opened.
+
 ### 2026-09-02 - [science/decision] Freeze P12-A; bound P12-F before one shared blind opening
 
 P12-A is the first production posterior: retain the existing untempered, uncorrected

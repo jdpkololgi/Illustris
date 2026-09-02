@@ -3833,7 +3833,7 @@ Progress checklist:
 ### P12 — Posterior calibration
 
 **Status:** P12-A PH006 FIT/AUDIT COMPLETE AND FROZEN AS THE FIRST PRODUCTION
-CANDIDATE; P12-F IS A BOUNDED FIELD CHALLENGER; PH001 REMAINS SEALED
+CANDIDATE; P12-F BOUNDED GATE COMPLETE WITH NO FIELD FINALIST; PH001 REMAINS SEALED
 
 P12 is the binding gate for the intended posterior/class-probability VAC. Begin it from
 scratch immediately after deterministic model selection on ph006 rather than waiting
@@ -3853,8 +3853,18 @@ freeze P12-A
 
 P11's JEPA mainline is closed; no JEPA-v3 is scheduled. Its factorial views and
 latent diagnostics are advisory inputs to later field-posterior work, not a dependency
-of the first VAC. If no P12-F method passes the frozen ph006 selection gate, record
-`P12F_NO_FIELD_FINALIST.json` and continue with P12-A alone.
+of the first VAC. No P12-F method passed the frozen ph006 selection gate;
+`docs/evidence/p12/p12f_matched_v1/P12F_NO_FIELD_FINALIST.json` is now frozen and the
+production spine continues with P12-A alone.
+
+On the matched 128-core ph006 panel, correlated Gaussian G1 is the strongest bounded
+field baseline but still misses the gate: max derived TARP deviation `0.06044`, global
+68/90% coverage errors `0.06193/0.06804`, maximum conditional coverage error
+`0.12293`, energy `5.95390` and marginal CRPS `0.13257`. Independent G0, rectified
+flow and score diffusion have max TARP deviations `0.16995/0.08725/0.13231` and none
+improves G1's primary joint score. The learned methods remain useful negative evidence
+for a later field-posterior study; they are not ph001 finalists and cannot delay the
+first posterior VAC.
 
 The baseline posterior contract is
 
@@ -3880,7 +3890,7 @@ tempering that repairs average coverage while leaving shape failure is insuffici
 
 #### P12-A — Coordinate-aligned baseline posterior
 
-**Production state:** freeze the existing untempered and uncorrected FMPE as
+**Production state:** the existing untempered and uncorrected FMPE is frozen as
 `P12A_PRODUCTION_CANDIDATE_FROZEN`. Bind the exact estimator checkpoint, dataset
 marker, architecture, transformations, ph006 corrected-calibration audit and quality
 thresholds. `P12A_CALIBRATION_PASS.json` remains absent because the strict conditional
@@ -3926,6 +3936,13 @@ Implementation status:
   `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/P12A_COMPLETE.json`.
   The two-million-row fit converged after 143 epochs; evaluation uses 20k disjoint
   calibration rows and 50k selection rows, and ph001 remained sealed.
+- [x] Freeze `docs/evidence/p12/P12A_PRODUCTION_CANDIDATE_FROZEN.json`, binding the
+  exact untempered FMPE checkpoint, epoch-20 five-phase U-PATCH R0 checkpoint, ph006
+  base-prediction summary, response-conditioned dataset and quality thresholds. The
+  estimand is `q(lambda_ordered | U_PATCH_R0_epoch20_prediction, P3b-R response,
+  H_fid)`: the deterministic encoder itself is R0, while the posterior is explicitly
+  response-conditioned. The blind exporter, four-GPU core-safe shard planner and
+  single-open state machine are implemented and tested; no ph001 truth was read.
 - [ ] Write `P12A_CALIBRATION_PASS.json` only after a frozen production acceptance
   contract is satisfied. The corrected audit shows that global physical-eigenvalue
   calibration is practically close to nominal, but the sparsest shell retains a
@@ -3993,9 +4010,9 @@ Implementation status:
 Execution order after the P11 closeout:
 
 1. [complete] fit and audit uncorrected P12-A without waiting for P11;
-2. [ ] write and validate `P12A_PRODUCTION_CANDIDATE_FROZEN.json`;
-3. [ ] run the matched P12-F Gaussian/flow/diffusion comparison on ph006 and freeze
-   either one field finalist or `P12F_NO_FIELD_FINALIST.json`;
+2. [complete] write and validate `P12A_PRODUCTION_CANDIDATE_FROZEN.json`;
+3. [complete] run the matched P12-F Gaussian/flow/diffusion comparison on ph006 and
+   freeze `P12F_NO_FIELD_FINALIST.json`;
 4. [ ] generate and freeze truth-free P12-A ph001 summaries plus deterministic and
    classical blind predictions; add P12-F ph001 panel draws only for a field finalist;
 5. [ ] perform exactly one shared ph001 opening and immutable evaluation;
@@ -4050,18 +4067,19 @@ Progress checklist:
 - [x] Pass global multivariate TARP, marginal and information-width diagnostics;
   retain the sparse-shell conditional lambda2/lambda3 residual as a release flag
   rather than mislabeling the strict calibration marker as passed.
-- [ ] Freeze the exact uncorrected production-candidate contract and truth-free blind
+- [x] Freeze the exact uncorrected production-candidate contract and truth-free blind
   inference implementation.
-- [ ] Record the `H_fid` conditional estimand and run the optional held-out-HOD stress
-  test only after baseline calibration.
+- [x] Record the `H_fid`-conditional estimand explicitly.
+- [ ] Run the optional held-out-HOD stress test after blind baseline closure; it does
+  not block the first explicitly `H_fid`-conditional VAC.
 - [ ] Evaluate once on ph001 and freeze calibrated posterior artifacts.
 
 ##### P12-A truth-free blind output contract
 
 Add a dedicated blind-only inference path; never weaken the OOF exporter's
-unconditional ph001 refusal. It may read only observed ph001 geometry, the frozen R1
-field adapter and random-response support. It must refuse target arrays, T-web paths
-and truth-bearing manifests. For every `M=1` authoritative galaxy it exports 512-draw
+unconditional ph001 refusal. It may read only observed ph001 geometry, a dedicated
+R0-compatible field adapter and P3b-R random-response support. It must refuse target
+arrays, T-web paths and truth-bearing manifests. For every `M=1` authoritative galaxy it exports 512-draw
 posterior summaries (mean, standard deviation and 5/16/50/84/95 percentiles),
 `P(lambda_i>0.2)`, web-class probabilities and entropy, trace summaries, the U-PATCH
 point prediction, redshift, train-frozen `ntilde(z)`, cap, support-boundary distance,
@@ -4120,9 +4138,8 @@ Out-of-fold summary contract:
 
 #### P12-F — Coherent conditional field posterior challenger
 
-**Status:** P12-F1A/F1B CONDITIONAL-FLOW CANARIES COMPLETE; STOCHASTIC FIELD
-FEASIBILITY POSITIVE BUT BLOCK-CONDITIONAL CALIBRATION FAILED; MATCHED GAUSSIAN AND
-SCORE-DIFFUSION CHALLENGERS NEXT; NOT A PRODUCTION MODEL; PH001 SEALED
+**Status:** MATCHED 128-CORE GAUSSIAN/FLOW/DIFFUSION GATE COMPLETE;
+`P12F_NO_FIELD_FINALIST.json` FROZEN; NOT A PRODUCTION MODEL; PH001 SEALED
 
 The per-galaxy P12-A posterior remains the shortest production spine.  P12-F is the
 coherent-field challenger motivated by the fact that multiple tidal fields can be
@@ -4201,15 +4218,24 @@ version the estimand and restore `W_7(k)` exactly once inside the physics layer.
   `0.60921 [0.55223,0.66502]`; lambda1/2/3 `0.59351/0.59972/0.56871`; sparse shell
   `0.51991 [0.46480,0.57455]`; extreme true-environment quartiles `0.32849/0.39655`.
   Do not promote by quoting only the aggregate gate.
-- [ ] Fit the matched stochastic Gaussian and correlated Fourier/wavelet residual
-  controls on the exact P12-F1b rows.  These establish whether the learned sampler
-  improves conditional proper scores/calibration over a simpler stochastic field.
-- [ ] Run one separately registered conditional score-diffusion canary with the same
+- [x] Fit the matched stochastic Gaussian and correlated Fourier residual controls on
+  the exact P12-F1b rows. G1 preserves joint structure much better than independent G0:
+  max TARP `0.06044` versus `0.16995` and energy `5.95390` versus `5.99310`, although
+  G1 itself misses the strict coverage/TARP gate.
+- [x] Run one separately registered conditional score-diffusion canary with the same
   512-core-per-phase panel, 10,000-update budget, 64 draws, target, conditioning,
   architecture capacity, local physics diagnostic and bootstrap report.  It is a
-  matched objective/sampler comparison, not a generic flow-versus-diffusion claim.
-- [ ] Expand only the best calibrated challenger to a larger ph006 core panel and
-  block/mode resampling before any long training or ph001 access.
+  matched implementation comparison, not a generic flow-versus-diffusion claim. Its
+  max TARP is `0.13231`, energy `8.75432`, CRPS `0.20587` and voxel R2 `0.28861`.
+- [x] Evaluate all finite candidates on the fixed 128-core ph006 panel with 64 draws,
+  block/mode diagnostics, derived tidal physics and paired core bootstrap. Rectified
+  flow records max TARP `0.08725`, energy `7.06255`, CRPS `0.16571` and voxel R2
+  `0.52516`. Relative to G1, primary joint-score changes are negative for G0, flow and
+  diffusion, with paired 95% intervals excluding zero in the wrong direction.
+- [x] Freeze `P12F_NO_FIELD_FINALIST.json`. No candidate passes finite+physics, TARP,
+  global/conditional coverage, >=2% joint-score improvement and non-regression gates.
+  Do not generate a P12-F ph001 panel; proceed to P12-A blind inference. Durable
+  evidence: `docs/evidence/p12/p12f_matched_v1/`.
 
 The primary gate is **not** `R2(posterior mean, truth)`.  The held-out truth must be
 statistically compatible with the learned conditional ensemble.  Require, in order:
