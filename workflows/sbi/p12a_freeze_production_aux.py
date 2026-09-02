@@ -40,7 +40,7 @@ def _load_visible(path: Path, *, role: str) -> np.lib.npyio.NpzFile:
     if "ph001" in str(path).lower():
         raise PermissionError("sealed ph001 is forbidden from production-auxiliary fitting")
     archive = np.load(path, mmap_mode="r")
-    required = {"context", "base_prediction", "truth_eigenvalues", "shell", "cap"}
+    required = {"context", "base_prediction_eigenvalues", "truth_eigenvalues", "shell", "cap"}
     missing = required - set(archive.files)
     if missing:
         raise RuntimeError(f"{role} archive is missing {sorted(missing)}")
@@ -144,7 +144,7 @@ def freeze_auxiliary_contracts(
         "pass": True,
     }
     residual = np.asarray(training["truth_eigenvalues"], dtype=np.float64) - np.asarray(
-        training["base_prediction"], dtype=np.float64
+        training["base_prediction_eigenvalues"], dtype=np.float64
     )
     baseline = fit_shell_cap_gaussian(
         residual,
