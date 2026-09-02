@@ -4061,8 +4061,8 @@ Out-of-fold summary contract:
 
 #### P12-F — Coherent conditional field posterior challenger
 
-**Status:** CONDITIONAL-FLOW CANARY CONTRACT AND TESTED GROUNDWORK READY; VISIBLE-PHASE
-TARGET BUILD AND GPU CANARY PENDING; NOT A PRODUCTION MODEL; PH001 SEALED
+**Status:** CONDITIONAL-FLOW CANARY CONTRACT, TESTS AND ALL VISIBLE-PHASE TARGETS
+READY; GPU CANARY PENDING; NOT A PRODUCTION MODEL; PH001 SEALED
 
 The per-galaxy P12-A posterior remains the shortest production spine.  P12-F is the
 coherent-field challenger motivated by the fact that multiple tidal fields can be
@@ -4119,7 +4119,12 @@ version the estimand and restore `W_7(k)` exactly once inside the physics layer.
 - [x] Implement voxel/mode/derived-eigenvalue posterior ranks, central coverage,
   CRPS, conditional coverage and fixed-physics closure in
   `workflows/sbi/p12f_field_posterior_diagnostics.py`. Seven focused tests pass.
-- [ ] Build and validate targets for ph000 and ph002--ph006 on a CPU allocation.
+- [x] Build and validate targets for ph000 and ph002--ph006 on a CPU allocation.
+  The aggregate audit passes every schema, physics, support, finiteness and phase-
+  distribution gate. Twelve cap fields have means in
+  `[-0.001794,0.001489]`, standard deviations in `[0.463958,0.466929]`, and sampled
+  ph000 parity with historical D0 is exactly `0.0` maximum absolute difference.
+  Evidence: `docs/evidence/p12/P12F_FIELD_TARGETS_READY.json`.
 - [ ] Run the frozen 1,000-update/16-draw ph006 canary. A pass only licenses a larger
   field-posterior comparison; it cannot promote a production VAC.
 - [ ] If technically healthy, compare a matched conditional score-diffusion canary

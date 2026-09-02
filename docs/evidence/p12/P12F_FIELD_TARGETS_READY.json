@@ -1,0 +1,190 @@
+{
+  "created_utc": "2026-09-02T00:43:39.166571+00:00",
+  "gates": {
+    "all_exact_supports_nonempty": true,
+    "all_sampled_targets_finite": true,
+    "all_six_visible_phases_present": true,
+    "ph000_historical_delta_sample_max_abs_zero": true,
+    "ph001_sealed": true,
+    "phase_cap_target_mean_absolute_max_below_0p02": true,
+    "phase_cap_target_std_range_0p4_0p55": true,
+    "single_physics_contract": true,
+    "single_schema": true
+  },
+  "pass": true,
+  "ph000_historical_delta_sample_max_abs": 0.0,
+  "ph001_opened": false,
+  "phases": [
+    "ph000",
+    "ph002",
+    "ph003",
+    "ph004",
+    "ph005",
+    "ph006"
+  ],
+  "records": {
+    "ph000": {
+      "components": {
+        "NGC": {
+          "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p12f_field_targets_v1/ngc_delta_r7.h5",
+          "file_sha256": "adbbd4459fff2f69508cecf1a2a22fd0a4db3a7e5d443b000e53dc1375490b0e",
+          "sample_all_finite": true,
+          "sample_points": 1024,
+          "sample_science_support_fraction": 0.294921875,
+          "science_supported_voxels": 72085652,
+          "target_mean": -9.68238044135166e-05,
+          "target_std": 0.4667196778268421
+        },
+        "SGC": {
+          "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p12f_field_targets_v1/sgc_delta_r7.h5",
+          "file_sha256": "99120e9f9412cda8125798c04c63a021eb5dac754820ac6d7af4bc8f94ae3455",
+          "sample_all_finite": true,
+          "sample_points": 1024,
+          "sample_science_support_fraction": 0.2578125,
+          "science_supported_voxels": 31968801,
+          "target_mean": -0.0017942122738503668,
+          "target_std": 0.4639575517990714
+        }
+      },
+      "marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p12f_field_targets_v1/FIELD_TARGET_READY.json",
+      "marker_sha256": "729c3905ec28fb29276398b5f9e09f7e659b42738f056bd69d16926cfe316160"
+    },
+    "ph002": {
+      "components": {
+        "NGC": {
+          "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p12f_field_targets_v1/ngc_delta_r7.h5",
+          "file_sha256": "a999d098e0c07e3216a0ad886831be671defab95a5770613c35f6ec84c2b4cd9",
+          "sample_all_finite": true,
+          "sample_points": 1024,
+          "sample_science_support_fraction": 0.3134765625,
+          "science_supported_voxels": 72085604,
+          "target_mean": -0.0006313177575927298,
+          "target_std": 0.464649631325616
+        },
+        "SGC": {
+          "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p12f_field_targets_v1/sgc_delta_r7.h5",
+          "file_sha256": "43c6d914ceae25d5cf5007a77eec72049c749b6430f328392a4d4a400c1ec9a2",
+          "sample_all_finite": true,
+          "sample_points": 1024,
+          "sample_science_support_fraction": 0.2333984375,
+          "science_supported_voxels": 31968978,
+          "target_mean": -0.0014167379926762157,
+          "target_std": 0.4648227949376118
+        }
+      },
+      "marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p12f_field_targets_v1/FIELD_TARGET_READY.json",
+      "marker_sha256": "3809ae8099c464eb4ea35431990bfc77991155163f4b762d23cfd2880ca5bd06"
+    },
+    "ph003": {
+      "components": {
+        "NGC": {
+          "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p12f_field_targets_v1/ngc_delta_r7.h5",
+          "file_sha256": "371e1ee3258213afcc25a8cb3d85921d4a862d48efb71b63e0aedc1bdf176b3d",
+          "sample_all_finite": true,
+          "sample_points": 1024,
+          "sample_science_support_fraction": 0.3056640625,
+          "science_supported_voxels": 72085313,
+          "target_mean": -0.0017450678013691669,
+          "target_std": 0.46525321046753154
+        },
+        "SGC": {
+          "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p12f_field_targets_v1/sgc_delta_r7.h5",
+          "file_sha256": "cabf90a3936367a218924f8cf965a5a67a4e951c7fe1deea78cd8447284d2368",
+          "sample_all_finite": true,
+          "sample_points": 1024,
+          "sample_science_support_fraction": 0.212890625,
+          "science_supported_voxels": 31969584,
+          "target_mean": 0.0004495120559629685,
+          "target_std": 0.46504474338003393
+        }
+      },
+      "marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p12f_field_targets_v1/FIELD_TARGET_READY.json",
+      "marker_sha256": "7663d4b2fcbc784eaace0199264180e8b4dec56c6745b983a9ab9b00f86b8eb3"
+    },
+    "ph004": {
+      "components": {
+        "NGC": {
+          "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p12f_field_targets_v1/ngc_delta_r7.h5",
+          "file_sha256": "2eb146b74fc6bbb6295e65527bac5fd93776166ccd5d0a2fbcce4a316e8a75ce",
+          "sample_all_finite": true,
+          "sample_points": 1024,
+          "sample_science_support_fraction": 0.306640625,
+          "science_supported_voxels": 72085418,
+          "target_mean": 0.0011339985596237093,
+          "target_std": 0.46692897760716606
+        },
+        "SGC": {
+          "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p12f_field_targets_v1/sgc_delta_r7.h5",
+          "file_sha256": "fff46179a3812847893084bdfbd5810ed149f06c579dff7024c06c6049442032",
+          "sample_all_finite": true,
+          "sample_points": 1024,
+          "sample_science_support_fraction": 0.2109375,
+          "science_supported_voxels": 31968912,
+          "target_mean": -0.001335001022143525,
+          "target_std": 0.4644073865190587
+        }
+      },
+      "marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p12f_field_targets_v1/FIELD_TARGET_READY.json",
+      "marker_sha256": "98f8395b0001fe260cfe788a180035e202a0deff20fd7eb9765c25610b2a9b2a"
+    },
+    "ph005": {
+      "components": {
+        "NGC": {
+          "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p12f_field_targets_v1/ngc_delta_r7.h5",
+          "file_sha256": "f5e6326ab1d80b4f84b559a6b72043fcba8226e9bf5e2ef510390693f16ef385",
+          "sample_all_finite": true,
+          "sample_points": 1024,
+          "sample_science_support_fraction": 0.33203125,
+          "science_supported_voxels": 72083861,
+          "target_mean": 0.0005167473344880514,
+          "target_std": 0.4659630447929643
+        },
+        "SGC": {
+          "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p12f_field_targets_v1/sgc_delta_r7.h5",
+          "file_sha256": "9ef431e937a5d29ee28f5b506fcc24abfd29fd3c7eff17cbdf2e2feeecf83456",
+          "sample_all_finite": true,
+          "sample_points": 1024,
+          "sample_science_support_fraction": 0.25,
+          "science_supported_voxels": 31969177,
+          "target_mean": 0.0014892308832642166,
+          "target_std": 0.4663472987184817
+        }
+      },
+      "marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p12f_field_targets_v1/FIELD_TARGET_READY.json",
+      "marker_sha256": "c1766634792ddac36ce0785462a53d199f5b9b1ebe2b93da3899aa945fec0d36"
+    },
+    "ph006": {
+      "components": {
+        "NGC": {
+          "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p12f_field_targets_v1/ngc_delta_r7.h5",
+          "file_sha256": "c79216f2ffcbabfdf2805a27745864b04fc9e34d9afdfc60e2ac91b73ae07870",
+          "sample_all_finite": true,
+          "sample_points": 1024,
+          "sample_science_support_fraction": 0.318359375,
+          "science_supported_voxels": 72081464,
+          "target_mean": -0.0004819835546534393,
+          "target_std": 0.46511646975236715
+        },
+        "SGC": {
+          "file": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p12f_field_targets_v1/sgc_delta_r7.h5",
+          "file_sha256": "000ea32d0ecfd5848827a3616b5c64af03ddfc717d2e09bfaa821eb537700942",
+          "sample_all_finite": true,
+          "sample_points": 1024,
+          "sample_science_support_fraction": 0.2705078125,
+          "science_supported_voxels": 31969294,
+          "target_mean": -8.095117583337384e-05,
+          "target_std": 0.46535330859068363
+        }
+      },
+      "marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p12f_field_targets_v1/FIELD_TARGET_READY.json",
+      "marker_sha256": "9a00f7458532be23f16d2875844cf655cdaec27524194308745621ef6b759858"
+    }
+  },
+  "schema_version": "p12f-visible-field-target-aggregate-audit-v1",
+  "target_distribution": {
+    "component_mean_maximum": 0.0014892308832642166,
+    "component_mean_minimum": -0.0017942122738503668,
+    "component_std_maximum": 0.46692897760716606,
+    "component_std_minimum": 0.4639575517990714
+  }
+}

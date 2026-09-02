@@ -47,8 +47,17 @@ Groundwork is implemented in
 `configs/p12f_conditional_field_flow_v1.json`.  Seven focused tests pass, including
 ph001 rejection, rectified-flow path algebra, Heun integration, posterior ranks,
 draw-axis-preserving Fourier diagnostics and fixed-physics trace/eigenvalue closure.
-Visible-phase field-target construction and the 1,000-update conditional-flow canary
-are pending compute.  A canary pass licenses a larger comparison, not production: it
+Visible-phase field-target construction is now complete for ph000 and ph002--ph006.
+All six manifests pass with exact random support, the same no-double-smoothing physics
+contract and `ph001_opened=false`.  The aggregate audit samples 1,024 stored voxels
+per cap/phase, finds cap target means in `[-0.001794,0.001489]` and standard deviations
+in `[0.463958,0.466929]`, and reproduces the historical ph000 D0 `delta_R7` values
+with maximum absolute difference exactly `0.0`.  Evidence:
+`docs/evidence/p12/P12F_FIELD_TARGETS_READY.json`; aggregate validator:
+`workflows/abacus_tweb/p12f_validate_field_targets.py`.
+
+The 1,000-update conditional-flow canary remains pending GPU compute.  A canary pass
+licenses a larger comparison, not production: it
 does not establish global long-mode coherence, HOD marginalisation, DESI closure or
 blind-phase calibration.
 
