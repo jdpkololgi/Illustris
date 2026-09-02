@@ -1,0 +1,16 @@
+{
+  "figures": {
+    "conditional": "/global/u2/d/dkololgi/TNG/Illustris/docs/figures/p12f_dependency_rescue_20260902/p12f_v2_conditional_tarp.png",
+    "dependency": "/global/u2/d/dkololgi/TNG/Illustris/docs/figures/p12f_dependency_rescue_20260902/p12f_v2_dependency.png",
+    "nested_tarp": "/global/u2/d/dkololgi/TNG/Illustris/docs/figures/p12f_dependency_rescue_20260902/p12f_v2_nested_tarp.png",
+    "sbc": "/global/u2/d/dkololgi/TNG/Illustris/docs/figures/p12f_dependency_rescue_20260902/p12f_v2_sbc.png",
+    "stability": "/global/u2/d/dkololgi/TNG/Illustris/docs/figures/p12f_dependency_rescue_20260902/p12f_v2_seed_response_stability.png",
+    "subpanel_tarp": "/global/u2/d/dkololgi/TNG/Illustris/docs/figures/p12f_dependency_rescue_20260902/p12f_v2_subpanel_tarp.png"
+  },
+  "pass": true,
+  "ph001_opened": false,
+  "report": "/global/u2/d/dkololgi/TNG/Illustris/docs/evidence/p12/p12f_dependency_rescue_v2/P12F_DEPENDENCY_RESCUE_V2_REPORT.json",
+  "report_sha256": "1d8bf833fe6c2c5fd01c6ad6defc5e4f8da405d12b8bf6ede04ff9e5f2f618c6",
+  "schema_version": "p12f-dependency-rescue-plots-v2",
+  "selection_phase": "ph006"
+}
