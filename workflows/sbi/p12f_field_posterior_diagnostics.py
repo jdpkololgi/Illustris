@@ -144,8 +144,26 @@ def fixed_tidal_tensor(delta_r7: torch.Tensor) -> torch.Tensor:
     return torch.stack(rows, dim=-2)
 
 
-def fixed_tidal_eigenvalues(delta_r7: torch.Tensor) -> torch.Tensor:
-    return torch.linalg.eigvalsh(fixed_tidal_tensor(delta_r7))
+def fixed_tidal_eigenvalues(
+    delta_r7: torch.Tensor, *, matrix_chunk_size: int = 8192
+) -> torch.Tensor:
+    """Return ordered tidal eigenvalues with bounded eigensolver workspace.
+
+    ``torch.linalg.eigvalsh`` can request a very large vendor-library workspace
+    when millions of 3x3 tensors are presented as one batch.  Chunking only the
+    matrix batch leaves the physical FFT projector and numerical result unchanged
+    while bounding memory.  Concatenation preserves autograd for later uses of the
+    fixed physics layer.
+    """
+    if matrix_chunk_size <= 0:
+        raise ValueError("matrix_chunk_size must be positive")
+    tensor = fixed_tidal_tensor(delta_r7)
+    flat = tensor.reshape(-1, 3, 3)
+    pieces = [
+        torch.linalg.eigvalsh(flat[start : start + matrix_chunk_size])
+        for start in range(0, len(flat), matrix_chunk_size)
+    ]
+    return torch.cat(pieces, dim=0).reshape(*tensor.shape[:-2], 3)
 
 
 def physics_closure_report(delta_r7: torch.Tensor) -> dict:
