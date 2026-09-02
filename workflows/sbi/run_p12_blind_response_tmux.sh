@@ -2,7 +2,11 @@
 set -euo pipefail
 
 repo=/global/homes/d/dkololgi/TNG/Illustris
-python=${P12_CPU_PYTHON:-/global/cfs/cdirs/desi/users/dkololgi/conda/envs/cosmic_env_recovery_v4_20260901/bin/python}
+# The CFS recovery environment is intentionally minimal and does not contain
+# healpy, which the HEALPix random-map stage requires.  Keep the import under a
+# bounded compute-node preflight so a node-local Scratch/Lustre stall fails
+# quickly rather than burning an allocation.
+python=${P12_CPU_PYTHON:-/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python}
 status_python=/global/cfs/cdirs/desi/users/dkololgi/conda/envs/cosmic_env_recovery_v4_20260901/bin/python
 status_helper=/global/u2/d/dkololgi/.codex/skills/nersc-interactive-allocation/scripts/allocation_status.py
 root=/pscratch/sd/d/dkololgi/abacus/p10_multiphase
