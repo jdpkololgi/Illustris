@@ -134,15 +134,38 @@ def sample_random_support_distance(
     caps = np.asarray(points[parent, 3], dtype=np.uint8)
     distance = np.full(len(parent), np.nan, dtype=np.float32)
     support = np.zeros(len(parent), dtype=bool)
+    # Visible-phase posterior preparation consumes the normalized R1 field
+    # manifests (``caps``/``field_path``), while the truth-free blind path is
+    # intentionally bound directly to the canonical P3b-R product
+    # (``components``/``file`` plus a nested ``grid`` record).  Accept only
+    # those two registered schemas and normalize them locally; do not require a
+    # second, mutable ph001 response manifest merely to rename fields.
+    if "caps" in field_manifest:
+        components = field_manifest["caps"]
+        schema = "normalized"
+    elif (
+        field_manifest.get("schema_version") == "p3br-response-overlay-manifest-v1"
+        and "components" in field_manifest
+    ):
+        components = field_manifest["components"]
+        schema = "canonical"
+    else:
+        raise RuntimeError("unrecognized P3b-R response manifest schema")
     for cap_value, cap_name in ((0, "SGC"), (1, "NGC")):
         selected = np.flatnonzero(caps == cap_value)
         if not len(selected):
             continue
-        component = field_manifest["caps"][cap_name]
-        origin = np.asarray(component["origin_mpc"], dtype=np.float64)
-        cell = float(component["cell_mpc"])
+        component = components[cap_name]
+        if schema == "canonical":
+            grid = component["grid"]
+            field_path = component["file"]
+        else:
+            grid = component
+            field_path = component["field_path"]
+        origin = np.asarray(grid["origin_mpc"], dtype=np.float64)
+        cell = float(grid["cell_mpc"])
         index = np.floor((positions[selected] - origin) / cell).astype(np.int64)
-        with h5py.File(component["field_path"], "r") as handle:
+        with h5py.File(field_path, "r") as handle:
             shape = np.asarray(handle["counts"].shape, dtype=np.int64)
             inside = np.all((index >= 0) & (index < shape), axis=1)
             if not np.all(inside):

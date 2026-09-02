@@ -111,6 +111,38 @@ class P12BaseResponseTests(unittest.TestCase):
             np.testing.assert_allclose(distance, [3.0, 7.0])
             np.testing.assert_array_equal(support, [True, True])
 
+    def test_random_support_distance_accepts_canonical_p3br_manifest(self):
+        with TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            manifest = {
+                "schema_version": "p3br-response-overlay-manifest-v1",
+                "components": {},
+            }
+            for cap_name, value in (("SGC", 2.0), ("NGC", 5.0)):
+                path = root / f"{cap_name}.h5"
+                with h5py.File(path, "w") as handle:
+                    handle.create_dataset("counts", data=np.zeros((2, 2, 2)))
+                    handle.create_dataset(
+                        "distance_to_support_boundary",
+                        data=np.full((2, 2, 2), value, dtype=np.float32),
+                    )
+                    handle.create_dataset(
+                        "support_random",
+                        data=np.ones((2, 2, 2), dtype=np.uint8),
+                    )
+                manifest["components"][cap_name] = {
+                    "file": str(path),
+                    "grid": {"origin_mpc": [0.0, 0.0, 0.0], "cell_mpc": 1.0},
+                }
+            points = np.asarray(
+                [[0.2, 0.2, 0.2, 0.0], [1.2, 1.2, 1.2, 1.0]], dtype=np.float32
+            )
+            distance, support = sample_random_support_distance(
+                manifest, points, np.asarray([0, 1], dtype=np.int64)
+            )
+            np.testing.assert_allclose(distance, [2.0, 5.0])
+            np.testing.assert_array_equal(support, [True, True])
+
 
 if __name__ == "__main__":
     unittest.main()
