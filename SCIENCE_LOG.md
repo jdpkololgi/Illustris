@@ -1,5 +1,24 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-02 - [science/code] Authorize truth-free ph001 random-response construction
+
+The P12-A candidate and bounded P12-F selection are now frozen, so the observation-
+side ph001 P3b-R product may be constructed without opening truth. Commit `c20911c`
+adds an explicit fail-closed path to the existing P3b-R builder: ph001 remains rejected
+unless `P12_BLIND_RESPONSE_BUILD_AUTHORIZED.json` content-addresses the passing P12-A
+candidate, `P12F_NO_FIELD_FINALIST.json`, and the sealed observed-only
+`BLIND_INPUT_COMPLETE.json`. The authorization has `truth_files_read=[]`,
+`open_count=0`, and `ph001_opened=false`; it does not permit density/T-web access.
+
+The authorization is frozen at
+`docs/evidence/p12/P12_BLIND_RESPONSE_BUILD_AUTHORIZED.json` (commit `a2d1fa7`). Nine
+focused P3b-R/authority tests pass, including hash-tamper and opened-phase rejection.
+The actual ph001 angular map and Cartesian response overlay are not yet built: both
+NERSC CPU and GPU interactive requests returned `PartitionDown` and were cancelled.
+No allocation remains queued and no ph001 file beyond the already sealed observed-
+input/registered-random contracts was opened. Resume on a compute node; never run the
+large random scan or HDF5 overlay build on a login node.
+
 ### 2026-09-02 - [science/code/run] P12-F matched gate closes with no field finalist
 
 The bounded P12-F comparison is complete on the frozen, truth-free-stratified

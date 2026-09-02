@@ -4069,6 +4069,13 @@ Progress checklist:
   rather than mislabeling the strict calibration marker as passed.
 - [x] Freeze the exact uncorrected production-candidate contract and truth-free blind
   inference implementation.
+- [x] Freeze a content-addressed authorization for the truth-free ph001 P3b-R build,
+  binding the P12-A candidate, no-field-finalist decision and sealed observed-input
+  marker. ph001 remains rejected by the response builder without this authority.
+- [ ] Build and validate the ph001 random-response overlay on a compute node, then
+  materialize the dedicated observed-only R0 adapter/context. The first allocation
+  attempts on 2026-09-02 were cancelled after both interactive partitions reported
+  `PartitionDown`; do not move this workload onto a login node.
 - [x] Record the `H_fid`-conditional estimand explicitly.
 - [ ] Run the optional held-out-HOD stress test after blind baseline closure; it does
   not block the first explicitly `H_fid`-conditional VAC.
@@ -4079,7 +4086,8 @@ Progress checklist:
 Add a dedicated blind-only inference path; never weaken the OOF exporter's
 unconditional ph001 refusal. It may read only observed ph001 geometry, a dedicated
 R0-compatible field adapter and P3b-R random-response support. It must refuse target
-arrays, T-web paths and truth-bearing manifests. For every `M=1` authoritative galaxy it exports 512-draw
+arrays, T-web paths and truth-bearing manifests. For every `M=1` authoritative galaxy
+it exports 512-draw
 posterior summaries (mean, standard deviation and 5/16/50/84/95 percentiles),
 `P(lambda_i>0.2)`, web-class probabilities and entropy, trace summaries, the U-PATCH
 point prediction, redshift, train-frozen `ntilde(z)`, cap, support-boundary distance,
