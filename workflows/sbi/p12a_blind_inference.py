@@ -44,6 +44,7 @@ from workflows.sbi.p12_train_base_response_fmpe import (
 FORBIDDEN_ARRAY_TOKENS = ("truth", "target", "tweb", "cweb")
 REQUIRED_CONTEXT_ARRAYS = (
     "parent_node_id",
+    "core_id",
     "base_prediction_eigenvalues",
     "redshift",
     "ntilde_mpc3",
@@ -148,6 +149,7 @@ def export_blind_unet_context(
     model.eval()
 
     parent_parts: list[np.ndarray] = []
+    core_parts: list[np.ndarray] = []
     prediction_parts: list[np.ndarray] = []
     with torch.inference_mode():
         for core_id in range(len(adapter.core_cap)):
@@ -165,10 +167,13 @@ def export_blind_unet_context(
             prediction = increments_to_eigenvalues(
                 unscale_increments(scaled.cpu().numpy(), checkpoint["scaler"])
             ).astype(np.float32)
-            parent_parts.append(np.asarray(patch.authoritative_parent_id, dtype=np.int64))
+            patch_parent = np.asarray(patch.authoritative_parent_id, dtype=np.int64)
+            parent_parts.append(patch_parent)
+            core_parts.append(np.full(len(patch_parent), core_id, dtype=np.int64))
             prediction_parts.append(prediction)
     adapter.close()
     parent = np.concatenate(parent_parts)
+    core = np.concatenate(core_parts)
     prediction = np.concatenate(prediction_parts)
     if len(np.unique(parent)) != len(parent):
         raise RuntimeError("blind authoritative parents are duplicated")
@@ -191,6 +196,7 @@ def export_blind_unet_context(
     if not np.any(supported):
         raise RuntimeError("blind response supports no authoritative galaxy")
     parent = parent[supported]
+    core = core[supported]
     prediction = prediction[supported]
     redshift = redshift[supported]
     cap = cap[supported]
@@ -217,6 +223,7 @@ def export_blind_unet_context(
     np.savez_compressed(
         output_path,
         parent_node_id=parent,
+        core_id=core,
         base_prediction_eigenvalues=prediction,
         redshift=redshift,
         ntilde_mpc3=ntilde,
@@ -277,6 +284,9 @@ def validate_context_archive(archive: Any) -> None:
     parent = np.asarray(archive["parent_node_id"], dtype=np.int64)
     if len(np.unique(parent)) != len(parent):
         raise RuntimeError("blind context parent identifiers are not unique")
+    core = np.asarray(archive["core_id"], dtype=np.int64)
+    if np.any(core < 0) or np.any(np.diff(core) < 0):
+        raise RuntimeError("blind context core identifiers are invalid or unordered")
     context = np.asarray(archive["context"], dtype=np.float32)
     if context.shape != (len(parent), 7) or not np.all(np.isfinite(context)):
         raise RuntimeError("blind context has invalid seven-feature rows")
@@ -374,12 +384,15 @@ def posterior_inference_shard(
     output_path.parent.mkdir(parents=True, exist_ok=True)
     arrays = {
         "parent_node_id": np.asarray(archive["parent_node_id"][start:stop], dtype=np.int64),
+        "core_id": np.asarray(archive["core_id"][start:stop], dtype=np.int64),
         "base_prediction_eigenvalues": np.asarray(
             archive["base_prediction_eigenvalues"][start:stop], dtype=np.float32
         ),
         "redshift": np.asarray(archive["redshift"][start:stop], dtype=np.float32),
         "ntilde_mpc3": np.asarray(archive["ntilde_mpc3"][start:stop], dtype=np.float32),
         "cap": np.asarray(archive["cap"][start:stop], dtype=np.uint8),
+        "shell": np.asarray(archive["shell"][start:stop], dtype=np.int8),
+        "support_random": np.ones(stop - start, dtype=bool),
         "distance_to_support_boundary_mpc": np.asarray(
             archive["distance_to_support_boundary_mpc"][start:stop], dtype=np.float32
         ),
