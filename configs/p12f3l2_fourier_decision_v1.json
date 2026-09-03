@@ -1,0 +1,25 @@
+{
+  "schema_version": "p12f3l2-fourier-decision-v1",
+  "roles": {"validation": "ph006", "sealed_blind_test": "ph001"},
+  "expected_methods": ["g1_wide_h24", "fourier_gaussian_h24", "fourier_flow_h24"],
+  "expected_cores": 256,
+  "expected_draws": 64,
+  "registered_low_bands": 2,
+  "bootstrap_replicates": 4000,
+  "bootstrap_seed": 42,
+  "gates": {
+    "low_band_power_ratio_absolute_tolerance": 0.10,
+    "low_band_error_improvement_over_g1": 0.20,
+    "joint_ordered_eigen_tarp_maximum": 0.05,
+    "joint_eigengap_tarp_maximum": 0.05,
+    "global_coverage_error_maximum": 0.05,
+    "conditional_coverage_error_maximum": 0.10,
+    "traceless_shear_coverage_error_maximum": 0.05,
+    "traceless_shear_joint_tarp_maximum": 0.05,
+    "proper_score_worsening_maximum": 0.01
+  },
+  "decision_policy": {
+    "pass": "freeze the direct Fourier target and run one matched Fourier-space diffusion comparison",
+    "fail": "stop hierarchical G1 repair; do not launch diffusion or F3-H from this parent"
+  }
+}
