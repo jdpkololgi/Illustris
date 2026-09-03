@@ -1,0 +1,95 @@
+{
+  "schema_version": "p12f3-hierarchical-lowmode-v1",
+  "status": "registered_research_canary_not_production",
+  "estimand": "p(r_low | BGS_BRIGHT V_final, S_random, H_fid)",
+  "roles": {
+    "training": ["ph000", "ph002", "ph003", "ph004", "ph005"],
+    "validation": "ph006",
+    "sealed_blind_test": "ph001"
+  },
+  "sources": {
+    "conditioning_contract": "/global/homes/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901",
+    "phase_root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase",
+    "g1_checkpoint": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_matched_challengers_v1/matched_v1_seed42/gaussian/checkpoint.pt",
+    "g1_trained_marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_matched_challengers_v1/matched_v1_seed42/gaussian/P12F_TRAINED.json",
+    "g1_run_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_matched_challengers_v1/matched_v1_seed42/gaussian/run_manifest.json",
+    "g1_filter": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_matched_challengers_v1/matched_v1_seed42/gaussian/g1_residual_filter.json"
+  },
+  "target": {
+    "field": "delta_R7 standardized with the frozen G1 target scaler",
+    "residual": "delta_R7_scaled - frozen_G1_conditional_mean_scaled",
+    "low_mode": "hard physical rFFT split on the common wide context",
+    "minimum_k_h_mpc_exclusive": 0.0,
+    "maximum_k_h_mpc_inclusive": 0.1813799364234218,
+    "dc_included": false,
+    "voxel_mpc_h": 5.0,
+    "coarse_factor": 2,
+    "coarse_voxel_mpc_h": 10.0,
+    "double_smoothing_forbidden": true
+  },
+  "patch": {
+    "common_target_halo_voxels": 24,
+    "alignment_voxels": 8,
+    "authoritative_core_unchanged": true,
+    "loss_region": "coarse cells intersecting the authoritative core",
+    "science_evaluation_region": "authoritative core intersect exact support_random"
+  },
+  "arms": {
+    "local_h8": {
+      "conditioning_halo_voxels": 8,
+      "conditioning_halo_mpc_h": 40.0
+    },
+    "wide_h24": {
+      "conditioning_halo_voxels": 24,
+      "conditioning_halo_mpc_h": 120.0
+    }
+  },
+  "model": {
+    "family": "conditional_rectified_flow_matching",
+    "architecture": "3D U-Net velocity field on pooled low-mode residual",
+    "condition_channels": 3,
+    "unet_base": 8,
+    "path": "x_t=(1-t)epsilon+t*r_low",
+    "sampler": "fixed-step Heun",
+    "ode_steps": 12
+  },
+  "training": {
+    "seed": 42,
+    "training_cores_per_phase": 512,
+    "nested_reference_training_cores_per_phase": 64,
+    "validation_cores": 16,
+    "technical_canary_updates": 500,
+    "science_updates": 10000,
+    "learning_rate": 0.0003,
+    "weight_decay": 0.0001,
+    "gradient_clip": 5.0,
+    "checkpoint_every_updates": 100,
+    "loss_log_every_updates": 25,
+    "technical_probe_draws": 4
+  },
+  "technical_gate": {
+    "all_losses_finite": true,
+    "all_gradients_and_parameters_finite": true,
+    "checkpoint_reload": true,
+    "minimum_probe_draw_std": 1e-06,
+    "ph001_opened": false
+  },
+  "science_gate": {
+    "evaluation_draws": 64,
+    "evaluation_cores": 256,
+    "low_band_relative_improvement_over_local": 0.2,
+    "joint_eigengap_tarp_maximum": 0.05,
+    "global_coverage_error_maximum": 0.05,
+    "conditional_coverage_error_maximum": 0.1,
+    "proper_score_worsening_maximum": 0.01,
+    "paired_core_bootstrap": true,
+    "posterior_mean_r2_is_diagnostic_only": true
+  },
+  "scope": {
+    "research_only": true,
+    "does_not_reopen_p12f_v2_selection": true,
+    "independent_core_draws_are_not_full_cap_universes": true,
+    "degraded_factorial_views_deferred": true,
+    "ph001_opened": false
+  }
+}
