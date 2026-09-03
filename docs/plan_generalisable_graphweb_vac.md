@@ -4707,6 +4707,53 @@ F3-L2 compact evidence is frozen under
 `docs/evidence/p12/p12f3l2_fourier_v1/`; the visual calibration, low-band power,
 training and field panels are under `docs/figures/p12f3l2_fourier_20260903/`.
 
+###### P12-F3-L2a/L2b — Conditional autopsy and training sufficiency
+
+**Status:** AUTOPSY COMPLETE; FRESH 30,000-UPDATE SUFFICIENCY RUN REGISTERED;
+DIFFUSION NOT YET LICENSED; PH001 SEALED
+
+The 10,000-update F3-L2 result is not reinterpreted or recalibrated.  A matched,
+checkpoint-free autopsy on the frozen 256-core ph006 archive separates four possible
+causes of the coverage miss: finite-draw noise, core-panel uncertainty, posterior
+location bias and conditional-width heterogeneity.  It uses the same supported voxel
+identities for G1, Fourier Gaussian and Fourier flow; bootstraps authoritative cores;
+and reports shell, random-response, boundary, tracer-density and true-environment
+strata.  Truth-defined environment bins are evaluation diagnostics only and may not
+become deployed conditioner features.
+
+The result is decisive enough to rule out two easy explanations.  The 32-to-64 draw
+change in maximum environment error is only `0.0075`, while the core-bootstrap
+5/50/95% interval is `0.1266/0.1358/0.1482`.  The 68% intervals over-cover the first
+three true-density quartiles (`0.8079/0.8124/0.7145`) and under-cover the densest
+quartile (`0.5742`).  Required recentered width multipliers span `0.759--1.129`, and
+even the best diagnostic global multiplier leaves error `0.1200`.  Therefore no
+single scalar temperature is an acceptable cure.
+
+The original flow had nevertheless seen only `10,000 / 2,560 = 3.90625` passes over
+the selected multi-phase cores, with training loss still declining.  One bounded
+F3-L2b run is therefore registered from a fresh initialization at 30,000 updates,
+using the identical 2,560 training cores, whitening, `h24` conditioner, Fourier
+target, G1 high-frequency completion, sampler, physics layer and frozen 256-core
+ph006 panel.  The original checkpoint is immutable.  There is no ph006-fitted
+temperature, conditional recalibration or gate change.
+
+- [x] Build and unit-test the visual, block-aware conditional autopsy.
+- [x] Run it on the exact frozen G1/Fourier-Gaussian/Fourier-flow archive triplet and
+  freeze its compact JSON evidence.
+- [x] Register the fresh 30,000-update training-sufficiency contract without
+  mutating the original 10,000-update run.
+- [ ] Train F3-L2b and inspect its moving training-loss curve for a genuine plateau.
+- [ ] Export 64 common-seed draws on the unchanged 256-core ph006 panel and rerun the
+  full Fourier-power, shear, eigen/eigengap, coverage and proper-score ladder.
+- [ ] If the conditional sign reversal remains, train a small observation-conditional
+  scale/covariance control using training phases only.  If it disappears and all
+  gates pass, freeze the flow target and run one compute-matched diffusion control.
+
+Diffusion is promoted only by evidence: it must use the same target, conditioning,
+training cores, update budget and evaluator and must improve the joint gate without
+proper-score regression.  A sampler-family change cannot be credited with curing a
+model that simply had not completed enough passes through its training examples.
+
 The primary gate is **not** `R2(posterior mean, truth)`.  The held-out truth must be
 statistically compatible with the learned conditional ensemble.  Require, in order:
 

@@ -1,5 +1,45 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-03 - [science/results/plan/code] F3-L2 conditional-coverage autopsy and bounded training-sufficiency rescue
+
+The frozen 256-core ph006 archives were re-audited on exactly matched supported
+voxels for G1, the Fourier-Gaussian control and the conditional Fourier flow.  This
+is a diagnostic of the existing samples, not a ph006-fitted recalibration.  The
+flow's remaining conditional error is robust under authoritative-core bootstrap:
+the 5/50/95% interval for its maximum true-environment coverage error is
+`0.1266/0.1358/0.1482`.  Increasing the ensemble from 32 to 64 draws changes the
+maximum 68% error by only `+0.0075`, so finite ensemble noise does not explain the
+failure.
+
+The failure also changes sign.  Across increasing true-density quartiles, nominal
+68% coverage is `0.8079, 0.8124, 0.7145, 0.5742`: F3-L2 is too broad in low and
+intermediate density but too narrow in the densest environments.  The corresponding
+truth-assisted, recentered interval multipliers are `0.803, 0.759, 0.883, 1.129`.
+A single global interval multiplier cannot repair this heterogeneity; its best scan
+still leaves maximum environment error `0.1200`.  By contrast, the response and
+boundary quartiles now remain within the registered 0.10 conditional gate.  The
+direct Fourier representation has therefore repaired the earlier long-mode/shear
+dependence failure, while the residual defect is conditional location/scale
+heterogeneity tied most strongly to the underlying environment.
+
+The autopsy also exposed a training-sufficiency concern that must precede a sampler
+change: the original 10,000-update flow saw only `3.90625` passes over its 2,560
+selected multi-phase cores, and its noisy flow-matching loss was still declining at
+the cap.  A separately registered, fresh-initialization 30,000-update F3-L2b run is
+therefore authorized.  It leaves the frozen 10,000-update checkpoint and evidence
+untouched and retains the same target, whitening, conditioner, physics, ph006 panel
+and gates.  Diffusion is not promoted merely because F3-L2 missed coverage: it is
+licensed only after this sufficiency run shows a plateau and a matched diffusion
+beats the same joint calibration/proper-score ladder.  If longer training preserves
+the sign-changing defect, the next control is an observation-conditional covariance
+or scale model, not a ph006-fitted temperature.
+
+The compact autopsy is
+`docs/evidence/p12/p12f3l2_conditional_autopsy_v1/P12F3L2_CONDITIONAL_AUTOPSY.json`;
+four visual panels are under
+`docs/figures/p12f3l2_conditional_autopsy_20260903/`.  Only ph006 truth was read and
+ph001 remains sealed.
+
 ### 2026-09-03 - [science/results/code/run] Direct Fourier F3-L2 repairs low-mode tidal dependence but narrowly fails conditional calibration
 
 The attached refinement was implemented as registered rather than replacing the

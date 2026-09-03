@@ -1,0 +1,111 @@
+{
+  "schema_version": "p12f3-fourier-lowmode-v1",
+  "status": "registered_training_sufficiency_not_production",
+  "estimand": "p(independent Hermitian r_low Fourier coefficients | BGS_BRIGHT V_final, S_random, H_fid)",
+  "roles": {
+    "training": ["ph000", "ph002", "ph003", "ph004", "ph005"],
+    "validation": "ph006",
+    "sealed_blind_test": "ph001"
+  },
+  "sources": {
+    "conditioning_contract": "/global/homes/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901",
+    "phase_root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase",
+    "g1_checkpoint": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_matched_challengers_v1/matched_v1_seed42/gaussian/checkpoint.pt",
+    "g1_trained_marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_matched_challengers_v1/matched_v1_seed42/gaussian/P12F_TRAINED.json",
+    "g1_run_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_matched_challengers_v1/matched_v1_seed42/gaussian/run_manifest.json",
+    "g1_filter": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_matched_challengers_v1/matched_v1_seed42/gaussian/g1_residual_filter.json",
+    "whitening": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_fourier_lowmode_v1/whitening/P12F3L2_FOURIER_WHITENING.json"
+  },
+  "target": {
+    "field": "delta_R7 standardized with frozen G1 scaler",
+    "residual": "delta_R7_scaled - frozen G1 conditional mean",
+    "coordinate": "one independent real coordinate per Hermitian low-mode degree of freedom",
+    "band_edges_h_mpc": [0.0, 0.0906899682117109, 0.1813799364234218],
+    "dc_included": false,
+    "voxel_mpc_h": 5.0,
+    "whitening_groups": "band x real_or_imaginary",
+    "pooling": false,
+    "interpolation": false,
+    "hand_tuned_band_inflation": false,
+    "double_smoothing_forbidden": true
+  },
+  "patch": {
+    "conditioning_halo_voxels": 24,
+    "conditioning_halo_mpc_h": 120.0,
+    "alignment_voxels": 8,
+    "variable_shape_fourier_layout": true,
+    "authoritative_core_unchanged": true,
+    "per_patch_science_weight": 1.0
+  },
+  "model": {
+    "family": "conditional_rectified_flow_matching",
+    "state": "whitened independent Fourier components",
+    "directional_conditioner": "full-resolution spatial three-channel h24 view",
+    "condition_channels": 3,
+    "unet_base": 4,
+    "path": "z_t=(1-t)epsilon+t*z_low",
+    "loss": "equal mean of the two bandwise component MSEs",
+    "sampler": "fixed-step Heun with exact low-mode projection each velocity evaluation",
+    "ode_steps": 12
+  },
+  "training": {
+    "seed": 42,
+    "training_cores_per_phase": 512,
+    "whitening_cores_per_phase": 512,
+    "validation_probe_cores": 16,
+    "technical_canary_updates": 500,
+    "science_updates": 30000,
+    "learning_rate": 0.0002,
+    "weight_decay": 0.0001,
+    "gradient_clip": 5.0,
+    "checkpoint_every_updates": 100,
+    "loss_log_every_updates": 25,
+    "technical_probe_draws": 4,
+    "epoch_equivalent_updates": 2560,
+    "reason": "the frozen 10000-update run saw only 3.90625 passes and retained a robust sign-changing conditional-width error"
+  },
+  "representation_gate": {
+    "maximum_roundtrip_abs_error": 0.00002,
+    "maximum_hermitian_abs_error": 0.00002,
+    "minimum_group_count": 1000,
+    "all_groups_finite_positive_scale": true,
+    "synthetic_known_covariance_test": true,
+    "ph006_used_for_fit": false,
+    "ph001_opened": false
+  },
+  "technical_gate": {
+    "all_losses_finite": true,
+    "all_gradients_and_parameters_finite": true,
+    "checkpoint_reload": true,
+    "minimum_probe_draw_std": 0.000001,
+    "ph001_opened": false
+  },
+  "science_gate": {
+    "evaluation_draws": 64,
+    "evaluation_cores": 256,
+    "low_band_power_ratio_absolute_tolerance": 0.10,
+    "low_band_error_improvement_over_g1": 0.20,
+    "joint_ordered_eigen_tarp_maximum": 0.05,
+    "joint_eigengap_tarp_maximum": 0.05,
+    "global_coverage_error_maximum": 0.05,
+    "conditional_coverage_error_maximum": 0.10,
+    "traceless_shear_coverage_error_maximum": 0.05,
+    "proper_score_worsening_maximum": 0.01,
+    "paired_core_bootstrap": true,
+    "posterior_mean_r2_is_diagnostic_only": true
+  },
+  "stop_rule": {
+    "one_strong_fourier_flow_attempt": false,
+    "diffusion_only_after_flow_target_gate": true,
+    "f3h_only_after_lowmode_posterior_gate": true,
+    "failure_disposition": "evaluate the fresh 30000-update checkpoint once; conditional-covariance or diffusion work requires a separately frozen decision"
+  },
+  "scope": {
+    "research_only": true,
+    "fresh_initialization_and_frozen_v1_untouched": true,
+    "does_not_reopen_p12f_v2_selection": true,
+    "independent_core_draws_are_not_full_cap_universes": true,
+    "degraded_factorial_views_deferred": true,
+    "ph001_opened": false
+  }
+}
