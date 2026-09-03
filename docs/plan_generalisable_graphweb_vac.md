@@ -3832,9 +3832,9 @@ Progress checklist:
 
 ### P12 — Posterior calibration
 
-**Status:** P12-A PH006 FIT/AUDIT COMPLETE AND FROZEN AS THE FIRST PRODUCTION
-CANDIDATE; P12-F V1 NO-FINALIST FROZEN; V2 EXPANDED AUDIT COMPLETE; G2
-SHELL/SCALE-CONDITIONAL COVARIANCE CONTROL IMPLEMENTED AND PENDING; PH001 SEALED
+**Status:** P12-A PH006 FIT/AUDIT COMPLETE, DIRECT PHYSICAL EIGENVALUE/EIGENGAP
+CALIBRATION PASSED, AND FROZEN AS THE FIRST PRODUCTION CANDIDATE; P12-F V1 AND
+V2 NO-FINALIST DECISIONS FROZEN; PH001 SEALED
 
 P12 is the binding gate for the intended posterior/class-probability VAC. Begin it from
 scratch immediately after deterministic model selection on ph006 rather than waiting
@@ -3857,10 +3857,12 @@ P11's JEPA mainline is closed; no JEPA-v3 is scheduled. Its factorial views and
 latent diagnostics are advisory inputs to later field-posterior work, not a dependency
 of the first VAC. No P12-F method passed the frozen v1 ph006 selection gate;
 `docs/evidence/p12/p12f_matched_v1/P12F_NO_FIELD_FINALIST.json` remains immutable.
-Before the one-open ph001 transition, run one separately versioned rescue to establish
-whether G1's modest joint miss survives a much larger ph006 panel/draw budget and to
-localize the failed dependency. P12-A remains the production candidate regardless;
-v2 may add a field finalist only by passing the unchanged registered gates.
+The separately versioned v2 rescue established that G1's modest joint miss survives a
+much larger ph006 panel/draw budget and localized it to spatial/scale covariance.  The
+single licensed shell-conditioned covariance correction G2 did not improve the primary
+proper score and left eigengap TARP above threshold, so v2 is now closed with no field
+finalist.  P12-A remains the production candidate and the truth-free ph001 export may
+proceed.
 
 On the matched 128-core ph006 panel, correlated Gaussian G1 is the strongest bounded
 field baseline but still misses the gate: max derived TARP deviation `0.06044`, global
@@ -3971,6 +3973,14 @@ Implementation status:
     spatial-resampling envelope as a maximum-deviation reference, not a pointwise
     confidence interval. Evidence: `docs/evidence/p12/P12A_TARP_CURVE.json` and
     `docs/figures/p12_calibration_audit_20260830/p12a_tarp_curve.png`.
+  - [x] Rescore the same 50,000 rows and 512 cached draws directly in physical
+    `(lambda1,lambda2,lambda3)` and physical positive-eigengap coordinates using the
+    exact P12-F v2 TARP/SBC implementation. Joint maxima are `0.00684/0.01002`,
+    20-seed p90 values are `0.00942/0.01184`, and worst-shell maxima are
+    `0.01804/0.01626`; all pass `0.05`. This proves within-galaxy joint eigenvalue/
+    eigengap calibration, not coherent dependence between different galaxies.
+    Evidence: `docs/evidence/p12/P12A_PHYSICAL_DEPENDENCE_DIAGNOSTIC.json` and
+    `docs/figures/p12a_physical_dependence_20260903/`.
   - [x] Classify the defect before choosing a correction. Global physical rank
     distances are only `0.0075/0.0156/0.0078`, global coverage is near nominal and
     spatial TARP passes. The bounded residual is a sparse-shell lambda2/lambda3
@@ -4016,8 +4026,8 @@ Execution order after the P11 closeout:
 
 1. [complete] fit and audit uncorrected P12-A without waiting for P11;
 2. [complete] write and validate `P12A_PRODUCTION_CANDIDATE_FROZEN.json`;
-3. [complete] run the matched P12-F Gaussian/flow/diffusion comparison on ph006 and
-   freeze `P12F_NO_FIELD_FINALIST.json`;
+3. [complete] run the matched P12-F Gaussian/flow/diffusion comparison and bounded
+   v2/G2 covariance rescue on ph006; freeze the v1 and v2 no-field-finalist decisions;
 4. [ ] generate and freeze truth-free P12-A ph001 summaries plus deterministic and
    classical blind predictions; add P12-F ph001 panel draws only for a field finalist;
 5. [ ] perform exactly one shared ph001 opening and immutable evaluation;
@@ -4208,9 +4218,9 @@ Out-of-fold summary contract:
 #### P12-F — Coherent conditional field posterior challenger
 
 **Status:** MATCHED 128-CORE V1 GAUSSIAN/FLOW/DIFFUSION GATE COMPLETE;
-`P12F_NO_FIELD_FINALIST.json` FROZEN FOR V1; 1,024-CORE V2 DEPENDENCY AUDIT
-COMPLETE; G2 CONDITIONAL-COVARIANCE CONTROL IMPLEMENTED AND PENDING; NOT A
-PRODUCTION MODEL; PH001 SEALED
+`P12F_NO_FIELD_FINALIST.json` FROZEN FOR V1; 1,024-CORE V2 DEPENDENCY AUDIT AND
+G2 CONDITIONAL-COVARIANCE CONTROL COMPLETE; V2 NO-FIELD-FINALIST DECISION FROZEN;
+NOT A PRODUCTION MODEL; PH001 SEALED
 
 The per-galaxy P12-A posterior remains the shortest production spine.  P12-F is the
 coherent-field challenger motivated by the fact that multiple tidal fields can be
@@ -4347,29 +4357,31 @@ version the estimand and restore `W_7(k)` exactly once inside the physics layer.
   shrunk toward the exactly reproduced global G1 spectrum with 64 pseudofields; ph006
   is not used to fit it and ph001 remains sealed. Fifteen focused tests pass in the
   complete runtime.
-- [ ] Run G2 with 256 draws on the frozen 1,024-core ph006 panel and render the visual
+- [x] Run G2 with 256 draws on the frozen 1,024-core ph006 panel and render the visual
   comparison before reading the scalar decision. Reuse nested 64/128/256 TARP/SBC,
   response/boundary/tracer/true-environment strata and scale/separation diagnostics.
   Compare G2 against frozen G1 on the first 64 draws using 512 fixed voxel features,
   1,024 fixed variogram pairs and 2,048 fixed CRPS voxels per core, then use 4,000
   paired core-block bootstrap replicates. The primary energy score must improve by at
   least 2% with its 95% interval above zero; all existing TARP/coverage and <=1%
-  non-regression gates remain unchanged. Detached job `57875238` is active: the
-  train-only filter fit passed with `291/516/824/875` fields in shells 0--3 and exact
-  global-G1 reproduction; the 1,024-core ph006 archive is in progress. Do not infer a
-  scientific result from partial archive counts.
+  non-regression gates remain unchanged. G2 completed but did not improve the primary
+  energy score (`-5.36e-5`, 95% interval `[-1.19e-4,1.09e-5]`) and retained
+  eigenvalue/eigengap TARP `0.03286/0.06471`, eigengap reference-seed p90 `0.06496`,
+  global coverage error `0.06182` and conditional maximum `0.11435`.
 - [x] Apply the "if and only if" diagnostic gate: stage 1 confirms a stable defect and
   localizes it to covariance/scale dependence rather than generic response failure.
   The one conditional-G1 control above is licensed; no architecture sweep is.
-- [ ] After G2, freeze a versioned v2 no-finalist result if
-  it misses the unchanged gates. Any non-Gaussian/lognormal or new-architecture
-  branch then moves to later field-posterior work rather than delaying P12-A.
-- [ ] Run a bounded log-density/lognormal control only after checking the exact
-  transform/Jacobian and trace/no-double-smoothing closure. Treat it as a
-  positivity-aware non-Gaussian control, not as the presumed truth law of signed
+- [x] Freeze the versioned v2 no-field-finalist result after G2 missed the unchanged
+  gates. Evidence: `docs/evidence/p12/p12f_g2_conditional_covariance_v2/`.  Any
+  non-Gaussian/lognormal or new-architecture branch moves to later field-posterior work
+  rather than delaying P12-A.
+- [x] Apply the registered production stop: do not run the optional bounded
+  log-density/lognormal control now.  If revisited in later field-posterior work, first
+  freeze its transform/Jacobian and trace/no-double-smoothing closure and treat it as a
+  positivity-aware non-Gaussian control, not the presumed truth law of signed
   `delta_R7`.
-- [ ] Freeze a v2 finalist or a versioned v2 no-finalist decision before generating
-  any P12-F ph001 draws or opening ph001 truth.
+- [x] Freeze the v2 no-field-finalist decision before generating any P12-F ph001 draws
+  or opening ph001 truth.  No P12-F ph001 panel is licensed in this production cycle.
 
 The primary gate is **not** `R2(posterior mean, truth)`.  The held-out truth must be
 statistically compatible with the learned conditional ensemble.  Require, in order:

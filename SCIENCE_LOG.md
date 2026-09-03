@@ -1,5 +1,50 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-03 - [science/results/code/run] P12-A physical eigenvalue/eigengap calibration passes directly; G2 closes with no field finalist
+
+The frozen P12-A 50,000-row by 512-draw ph006 cache has now been rescored in the
+actual physical coordinates used by the VAC.  This was a checkpoint-free posterior
+diagnostic: the checkpoint was opened only for its frozen target mean/scale, no draws
+were regenerated, no fit or recalibration occurred, and ph001 remained sealed.  The
+diagnostic reuses the exact P12-F v2 TARP and clustered-SBC implementations so that
+the comparison is algorithm-matched rather than a comparison of two plotting codes.
+
+The result is substantially stronger than the previous ordered-softplus-coordinate
+TARP alone.  At 512 draws, joint physical
+`(lambda1,lambda2,lambda3)` TARP has maximum deviation `0.00684`, while joint
+physical `(lambda2-lambda1,lambda3-lambda2)` TARP is `0.01002`.  Their 20-reference-
+seed p90 values are `0.00942/0.01184`, all far inside the registered `0.05` gate.
+The worst redshift-shell deviations are only `0.01804/0.01626`; the sparse shell is
+not the worst eigengap stratum.  Component SBC rank-CDF deviations are
+`0.00704/0.01212/0.00680` for the eigenvalues and `0.00911/0.01313` for the two
+physical gaps, with cap+superblock bootstrap intervals shown on the archived plot.
+
+This resolves an important conceptual ambiguity: P12-A **does** learn a joint
+three-dimensional distribution among the ordered eigenvalues at each galaxy, and its
+implied physical eigengap dependence is well calibrated on held-out ph006.  What it
+does not provide is a coherent joint posterior between different galaxies or voxels.
+The P12-F failure is therefore not evidence that the per-galaxy FMPE has the same
+dependency defect; it is specifically a failure of the much harder spatial-field
+posterior to reproduce inter-location/scale covariance strongly enough after the
+fixed tidal map.
+
+The matched 256-draw visual makes the distinction clear: P12-A physical eigenvalue/
+eigengap TARP is `0.00758/0.01078`, versus G1 `0.03178/0.06486` and G2
+`0.03286/0.06471`.  G2 therefore did not rescue the field result.  Its paired primary
+energy improvement over G1 is `-5.36e-5` with 95% interval
+`[-1.19e-4,1.09e-5]`, global eigengap TARP and reference-seed p90 remain
+`0.06471/0.06496`, and conditional coverage still reaches `0.11435`.  The frozen v2
+decision is consequently `no_field_finalist`; do not run a lognormal or architecture
+sweep before the P12-A production spine.  The next binding action is the truth-free
+P12-A/deterministic/classical ph001 export, followed by the single controlled opening.
+
+Implementation is commit `e53882a`.  Durable evidence is
+`docs/evidence/p12/P12A_PHYSICAL_DEPENDENCE_DIAGNOSTIC.json` and
+`docs/evidence/p12/p12f_g2_conditional_covariance_v2/`; visual products are under
+`docs/figures/p12a_physical_dependence_20260903/` and
+`docs/figures/p12f_g2_conditional_covariance_20260902/`.  CPU interactive allocation
+`57886438` ran the five focused tests and the complete physical diagnostic.
+
 ### 2026-09-02 - [science/plan/code/run] Freeze the single licensed P12-F G2 covariance rescue
 
 The expanded G1 audit localised the remaining field-posterior defect to residual

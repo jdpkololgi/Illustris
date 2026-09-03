@@ -1,0 +1,16 @@
+{
+  "figures": {
+    "conditional": "/global/u2/d/dkololgi/TNG/Illustris/docs/figures/p12f_g2_conditional_covariance_20260902/g2/p12f_v2_conditional_tarp.png",
+    "dependency": "/global/u2/d/dkololgi/TNG/Illustris/docs/figures/p12f_g2_conditional_covariance_20260902/g2/p12f_v2_dependency.png",
+    "nested_tarp": "/global/u2/d/dkololgi/TNG/Illustris/docs/figures/p12f_g2_conditional_covariance_20260902/g2/p12f_v2_nested_tarp.png",
+    "sbc": "/global/u2/d/dkololgi/TNG/Illustris/docs/figures/p12f_g2_conditional_covariance_20260902/g2/p12f_v2_sbc.png",
+    "stability": "/global/u2/d/dkololgi/TNG/Illustris/docs/figures/p12f_g2_conditional_covariance_20260902/g2/p12f_v2_seed_response_stability.png",
+    "subpanel_tarp": "/global/u2/d/dkololgi/TNG/Illustris/docs/figures/p12f_g2_conditional_covariance_20260902/g2/p12f_v2_subpanel_tarp.png"
+  },
+  "pass": true,
+  "ph001_opened": false,
+  "report": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_dependency_rescue_v2/g2_shell_covariance_seed42/dependency_evaluation/P12F_DEPENDENCY_RESCUE_V2_REPORT.json",
+  "report_sha256": "15e6bb10f5a8020372991188d13c3d050bbdeb5967ec34983d1c6e459c2e390b",
+  "schema_version": "p12f-dependency-rescue-plots-v2",
+  "selection_phase": "ph006"
+}

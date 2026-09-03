@@ -1,0 +1,32 @@
+{
+  "candidate_pass": false,
+  "config_sha256": "9458f03195e5629a36c2c3344de2cafc14a4054362cc173af8580956b957c59b",
+  "created_utc": "2026-09-03T01:43:48.782500+00:00",
+  "decision": "no_field_finalist",
+  "diagnostics": {
+    "conditional_scalar_maximum_error": 0.11435246116104714,
+    "conditional_shell_tarp_maximum": 0.08392673242303106,
+    "global_coverage_maximum_error": 0.06181820196252952,
+    "tarp_maximum_deviation": 0.06470663095261128,
+    "tarp_reference_seed_p90": 0.0649649999999964
+  },
+  "failure_action": "proceed with P12-A alone",
+  "full_cap_coherence_established": false,
+  "g2_report_sha256": "15e6bb10f5a8020372991188d13c3d050bbdeb5967ec34983d1c6e459c2e390b",
+  "gates": {
+    "conditional_coverage": false,
+    "finite_and_physics": true,
+    "global_coverage": false,
+    "proper_scores": false,
+    "tarp": false,
+    "tarp_reference_seed_p90": false
+  },
+  "pass": true,
+  "ph001_opened": false,
+  "proper_scores_sha256": "797b8f59f1c7bd69f04085721d58a93f6b89a364ab7434edce108cee1dc5525c",
+  "schema_version": "p12f-v2-no-field-finalist-v1",
+  "scope": "local patch posterior only",
+  "truth_files_read": [
+    "ph006 evaluation evidence"
+  ]
+}
