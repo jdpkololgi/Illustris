@@ -1,0 +1,31 @@
+{
+  "schema_version": "p12f3-lowmode-decision-v1",
+  "roles": {
+    "validation": "ph006",
+    "sealed_blind_test": "ph001"
+  },
+  "expected_methods": [
+    "g1_wide_crop_h8",
+    "g1_wide_h24",
+    "hybrid_local_h8",
+    "hybrid_wide_h24"
+  ],
+  "expected_cores": 256,
+  "expected_draws": 64,
+  "registered_low_bands": 2,
+  "bootstrap_replicates": 4000,
+  "bootstrap_seed": 42,
+  "gates": {
+    "low_band_error_improvement_vs_local": 0.20,
+    "eigengap_tarp_maximum_deviation": 0.05,
+    "global_coverage_error": 0.05,
+    "conditional_coverage_error": 0.10,
+    "ordered_eigen_tarp_absolute_worsening": 0.01,
+    "proper_score_fractional_worsening": 0.01,
+    "paired_primary_score_interval_must_exclude_zero": true
+  },
+  "decision_policy": {
+    "pass": "advance to the registered F3-H local refinement experiment",
+    "fail": "do not launch F3-H or a matched diffusion sweep; diagnose the low-mode conditional law as a new versioned experiment"
+  }
+}
