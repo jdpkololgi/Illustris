@@ -4585,6 +4585,91 @@ frozen v2 no-field-finalist and first-VAC P12-A decisions unchanged.
   parent.  Diffusion remains a later sampler-family control only after the conditional
   low-mode target is repaired.
 
+###### P12-F3-L2 — Direct conditional Fourier-mode posterior
+
+**Status:** REGISTERED; REPRESENTATION/CONTROL INFRASTRUCTURE IN PROGRESS; PH001
+SEALED
+
+F3-L2 receives one bounded attempt to test whether F3-L failed because its factor-two
+coarse real-space state and trilinear reconstruction entangled the two causal low
+bands.  It does not reopen F3-H and is not a generic architecture sweep.  The random
+variable is now the exact set of independent Hermitian Fourier degrees of freedom of
+the standardized G1 residual in the two registered bands,
+
+```text
+K1: 0 < k <= 0.0906899682 h/Mpc
+K2: 0.0906899682 < k <= 0.1813799364 h/Mpc,
+```
+
+with DC excluded.  Each patch retains its physical `k` coordinates and variable
+wide-context geometry; one representative of every conjugate pair is stored and
+self-conjugate modes have no imaginary degree of freedom.  Exact pack -> unpack must
+reconstruct the registered low-pass field before any learned run is licensed.
+
+Whitening is fitted on all frozen 512 cores in each of ph000/ph002--ph005, separately
+by band and real/imaginary component, with no ph006 fit.  Flow matching and its source
+Gaussian operate in these whitened independent coordinates.  The per-patch objective
+is the mean of the two bandwise losses rather than a mean over all coefficients, so
+the much larger second band cannot dominate or be compensated by inflation of the
+first.  The conditional velocity network may transform the coefficient state back to
+an exact real low-mode field internally, but every integration step and loss is in the
+packed Fourier coordinates and every predicted velocity is projected back onto the
+registered modes.  There is no pooling, interpolation or hand-tuned band inflation.
+
+The conditioner is the full directional `h24` (`120 Mpc/h`) three-channel final view,
+not an isotropic summary: BRIGHT counts, random-derived exposure and stabilized count
+ratio retain their common spatial axes.  This is necessary to learn orientation-
+dependent long-wave shear.  The model samples the two bands jointly; predicting only
+`P(k|X,S)` or independent band amplitudes is forbidden because that would reproduce a
+more elaborate G2 rather than the required conditional copula.
+
+The control ladder is frozen before training:
+
+1. exact Hermitian/round-trip and synthetic known-covariance tests;
+2. a training-only band-whitened Gaussian control in the identical Fourier basis,
+   labelled as an unconditional covariance control rather than a conditional
+   posterior;
+3. the frozen wide G1 reference with identical high-mode draws;
+4. one wide conditional rectified-flow model; and
+5. a matched conditional diffusion model only if the Fourier flow passes the
+   representation and joint-posterior gates.  Flow-versus-diffusion is not interpretable
+   until the target space is fixed.
+
+Every sampled low-mode realization is transformed through the unchanged tidal
+operator.  In addition to scalar residual power, report coverage/rank/variance for a
+five-component traceless-shear basis (`Sxx`, `Syy`, `Sxy`, `Sxz`, `Syz`), joint
+ordered eigenvalues and both eigengaps.  Trace/shear diagnostics are explanatory;
+the generated object remains a scalar density field and the hard-coded physics map is
+unchanged.
+
+F3-L2 passes only if the conditional flow, on the frozen 256-core ph006 panel and 64
+common-seed draws:
+
+- keeps each registered low-band posterior/truth power ratio within 10% of unity and
+  improves each absolute band error by at least 20% relative to G1;
+- reaches both joint ordered-eigenvalue and eigengap TARP <= `0.05`;
+- has global 68/90% coverage errors <= `0.05`, conditional shell/response/boundary/
+  environment errors <= `0.10`, and five-component traceless-shear coverage errors
+  <= `0.05`;
+- worsens no registered energy, variogram, coarse-energy or marginal-CRPS score by
+  more than 1%, with paired authoritative-core intervals; and
+- passes exact finiteness, Hermitian, fixed-physics trace/order and no-double-smoothing
+  closure.  An eigengap-only win, hand-tuned inflation or a pooled-voxel win is a fail.
+
+If F3-L2 gets both low-band powers right but still fails joint tidal/eigengap
+calibration, stop hierarchical repair of G1 and design a separately registered
+end-to-end multiscale field generator or direct tidal/shear target.  If it passes,
+freeze its Fourier target/data contract and run one network-evaluation-matched score
+diffusion comparison before authorizing F3-H.
+
+- [x] Register the explicit Fourier coordinates, bandwise whitening, directional
+  conditioner, Gaussian/control ladder, traceless-shear audit and one-shot stop rule.
+- [ ] Implement and test the exact variable-shape Hermitian pack/unpack and whitening
+  fit without ph006 or ph001 fitting.
+- [ ] Pass the representation/control audit and a 500-update GPU canary before the
+  10,000-update science run.
+- [ ] Render the frozen ph006 visual comparison and apply the anti-gaming gate.
+
 Frozen compact evidence is
 `docs/evidence/p12/p12f3_hierarchical_v1/P12F3_VISUAL_AUDIT.json` and
 `P12F3_LOWMODE_DECISION.json`; the inspected TARP, residual-power, gate and field

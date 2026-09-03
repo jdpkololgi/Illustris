@@ -1,5 +1,33 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-03 - [science/plan] Register F3-L2 as one direct Fourier-mode conditional-posterior test
+
+The reviewed F3-L2 refinement is accepted.  The first F3-L result is encouraging in
+one narrow sense—wide context moved eigengap TARP `0.0865 -> 0.0368`—but it did so by
+moving the two problematic residual bands to `1.322/0.982` times their held-out power
+and damaging the ordered-eigenvalue joint law.  This is specific evidence for a
+low-mode parameterisation/conditional-copula defect, not a reason to compare another
+sampler on the same coarse interpolated state.
+
+F3-L2 therefore makes the independent Hermitian Fourier coefficients in the two
+registered non-DC bands the actual stochastic coordinates.  It fits real/imaginary,
+bandwise whitening using all frozen training cores only; gives each band equal loss
+weight; preserves the full directional 120-Mpc/h BRIGHT/random-response conditioner;
+samples all modes jointly; and projects every velocity/integration step back into the
+exact low-mode subspace.  Pooling, trilinear reconstruction, independent `P(k)` or
+band-amplitude prediction, and hand-fitted ph006 inflation are excluded.
+
+The pre-training ladder requires exact Hermitian/round-trip and synthetic-covariance
+tests plus a training-only band-whitened Gaussian control.  Evaluation adds explicit
+five-component traceless-shear coverage/rank/variance to the existing residual-power,
+ordered-eigenvalue/eigengap TARP and proper-score suite.  The anti-gaming gate requires
+both bands within 10% of unit power, both joint TARP deviations <=0.05, global and
+conditional coverage, shear coverage, fixed physics and <=1% proper-score regression
+simultaneously.  A matched Fourier-space diffusion run is licensed only after this
+flow target passes; high-frequency F3-H remains closed.  If the direct target repairs
+band power but not joint tidal calibration, hierarchical G1 repair stops after this
+one attempt.  ph006 is validation only and ph001 remains sealed.
+
 ### 2026-09-03 - [science/results/code] P12-F3 wide context repairs eigengaps but fails the joint field-posterior gate
 
 The first hierarchical P12-F3 experiment is complete.  Both matched low-mode
