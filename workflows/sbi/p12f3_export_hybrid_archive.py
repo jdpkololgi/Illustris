@@ -229,7 +229,7 @@ def load_low_model(
     path: Path, *, arm: str, device: str, config: dict, config_path: Path
 ):
     checkpoint = torch.load(path, map_location="cpu", weights_only=False)
-    trained_path = path.parent / "P12F3_TRAINED.json"
+    trained_path = path.parent / "P12F3_LOWMODE_TRAINED.json"
     trained = json.loads(trained_path.read_text())
     run_manifest = json.loads((path.parent / "run_manifest.json").read_text())
     if (
