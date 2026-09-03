@@ -13,10 +13,17 @@ from workflows.sbi.p12f3_hierarchical_lowmode import (
     prepare_low_mode_example,
     spectral_split,
 )
+from workflows.sbi.p12f3_train_lowmode_flow import restore_rng_states
 from workflows.sbi.p12f3_train_lowmode_flow import load_config
 
 
 class P12F3HierarchicalLowModeTests(unittest.TestCase):
+    def test_rng_resume_accepts_array_backed_state(self):
+        expected = torch.get_rng_state().clone()
+        torch.manual_seed(123456)
+        restore_rng_states({"torch_rng": expected.numpy(), "cuda_rng": []})
+        self.assertTrue(torch.equal(torch.get_rng_state(), expected))
+
     def test_physical_split_is_exact_and_excludes_dc(self):
         generator = torch.Generator().manual_seed(9)
         field = torch.randn((2, 1, 24, 20, 16), generator=generator)

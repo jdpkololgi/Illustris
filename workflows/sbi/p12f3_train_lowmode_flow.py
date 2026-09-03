@@ -299,6 +299,22 @@ def atomic_checkpoint(path: Path, payload: dict) -> None:
     temporary.replace(path)
 
 
+def restore_rng_states(checkpoint: dict) -> None:
+    """Restore CPU/CUDA RNG state without inheriting checkpoint map location.
+
+    ``torch.set_rng_state`` and ``torch.cuda.set_rng_state_all`` require CPU
+    byte tensors.  Coercing explicitly keeps resume safe even if a caller has
+    loaded the checkpoint onto a CUDA device.
+    """
+    cpu_state = torch.as_tensor(checkpoint["torch_rng"], dtype=torch.uint8).cpu()
+    torch.set_rng_state(cpu_state)
+    cuda_states = checkpoint.get("cuda_rng") or []
+    if torch.cuda.is_available() and cuda_states:
+        torch.cuda.set_rng_state_all(
+            [torch.as_tensor(state, dtype=torch.uint8).cpu() for state in cuda_states]
+        )
+
+
 def state_reload_exact(model: torch.nn.Module, *, condition_channels: int, base: int) -> bool:
     clone = build_low_mode_model(condition_channels=condition_channels, base=base).cpu()
     cpu_state = {name: value.detach().cpu() for name, value in model.state_dict().items()}
@@ -447,7 +463,7 @@ def main() -> None:
     loss_sum = 0.0
     loss_count = 0
     if checkpoint_path.exists():
-        checkpoint = torch.load(checkpoint_path, map_location=args.device, weights_only=False)
+        checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
         if (
             checkpoint.get("schema_version") != "p12f3-lowmode-checkpoint-v1"
             or checkpoint.get("frozen_digest") != frozen_digest
@@ -459,9 +475,7 @@ def main() -> None:
         update = int(checkpoint["update"])
         loss_sum = float(checkpoint["loss_sum"])
         loss_count = int(checkpoint["loss_count"])
-        torch.set_rng_state(checkpoint["torch_rng"])
-        if torch.cuda.is_available() and checkpoint.get("cuda_rng"):
-            torch.cuda.set_rng_state_all(checkpoint["cuda_rng"])
+        restore_rng_states(checkpoint)
     else:
         atomic_checkpoint(
             checkpoint_path,
