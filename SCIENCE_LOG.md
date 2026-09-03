@@ -1,5 +1,59 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-03 - [science/results/code/run] Direct Fourier F3-L2 repairs low-mode tidal dependence but narrowly fails conditional calibration
+
+The attached refinement was implemented as registered rather than replacing the
+coarse F3-L state with a generic diffusion model.  F3-L2 represents every independent
+Hermitian Fourier coefficient in the two causal non-DC bands explicitly, excludes DC,
+fits band-by-real/imaginary whitening on the 2,560 frozen ph000/ph002--ph005 cores
+only, weights the two bands equally, and conditions their joint flow on the full
+directional 120-Mpc/h BRIGHT/random-response view.  Exact pack/unpack, Hermitian,
+real-field, synthetic-covariance and model-contract tests pass; the maximum whitening
+round-trip and Hermitian errors are `3.81e-6` and `1.53e-5`.  The 500-update canary and
+the exact-resume 10,000-update run both pass with finite states and deterministic
+reload.  The final checkpoint SHA256 is
+`448a61cc75a4f7bd4cbe26daea99587614de9d8ef54a685f3a6f5c0ce62570b8`.
+
+On the frozen 256-core ph006 panel with 64 common-seed draws, the direct conditional
+flow supplies `0.9969/0.9433` times the true innovation power in the two registered
+bands, compared with G1 `0.7305/0.8784`.  It therefore passes both the 10% amplitude
+and 20%-relative-improvement gates without fitted ph006 inflation.  Block-aware
+ordered-eigenvalue/eigengap TARP deviations are `0.0211/0.0477`; five-component
+traceless-shear joint TARP is `0.0224`, maximum shear marginal coverage error is
+`0.0487`, and component standard-deviation ratios are
+`0.972/0.981/0.900/0.951/0.978`.  This is the first tested field challenger to repair
+the specific low-mode eigengap/shear dependence failure while also retaining a good
+ordered-eigenvalue joint law.
+
+The gain is not bought by worse joint proper scores.  Relative to G1, energy improves
+`5.9828 -> 5.8054`, coarse energy `1.8488 -> 1.7854`, variogram
+`0.04764 -> 0.04644`, and marginal CRPS `0.13425 -> 0.13307`.  A paired
+authoritative-core bootstrap gives `+1.64%` primary-energy improvement with 95%
+interval `[+0.45%,+2.87%]`.  The band-whitened unconditional Fourier Gaussian is an
+important negative control rather than an oracle posterior: it over-disperses the
+two bands to `1.432/1.492`, its five-shear standard deviations are 9--16% too large,
+and it fails the joint calibration suite.  Correct Fourier coordinates alone are not
+enough; observation-conditional mode dependence matters.
+
+F3-L2 is still not promoted because the simultaneous frozen coverage gate is strict.
+Its maximum global error is `0.05149` versus the `0.05` limit, and maximum conditional
+error is `0.13241` versus `0.10`.  The worst slice is the nominal 68% interval in
+true-environment stratum 1, which covers `81.24%`: the remaining defect is conditional
+over-dispersion, not the previous missing long-wave shear.  We do not round the global
+near-miss down or tune on ph006.  The frozen decision is
+`stop_hierarchical_g1_repair`, so the attached ladder does not license matched Fourier
+diffusion or F3-H from this parent.  Scientifically, this is much stronger than the
+first F3-L failure: it validates the direct joint Fourier target as the right causal
+representation, while localising the remaining problem to heterogeneous conditional
+widths.
+
+Compact reports and the decision are under
+`docs/evidence/p12/p12f3l2_fourier_v1/`; inspected visual panels are under
+`docs/figures/p12f3l2_fourier_20260903/`.  All decisive TARP statistics use the full
+curve with authoritative-core block bootstrap for uncertainty; pooled curves are
+visual aids only.  ph006 truth was used for evaluation, ph001 was never opened, and
+no P12-A/ph001 production work was resumed.
+
 ### 2026-09-03 - [science/plan] Register F3-L2 as one direct Fourier-mode conditional-posterior test
 
 The reviewed F3-L2 refinement is accepted.  The first F3-L result is encouraging in

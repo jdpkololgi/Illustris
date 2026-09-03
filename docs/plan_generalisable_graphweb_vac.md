@@ -4578,7 +4578,7 @@ frozen v2 no-field-finalist and first-VAC P12-A decisions unchanged.
   evidence that context matters, but that the current scalar-density low-mode flow
   learns the wrong joint amplitude/dependence law; larger patches alone are not a
   sufficient cure.
-- [ ] Before any new GPU launch, register an F3-L2 hypothesis that separates the
+- [x] Before any new GPU launch, register an F3-L2 hypothesis that separates the
   density-like trace/monopole from traceless tidal shear and conditions the low-mode
   covariance or spectral amplitude on the observation.  Do not launch the registered
   F3-H high-frequency refinement or a generic matched diffusion sweep from this failed
@@ -4587,8 +4587,8 @@ frozen v2 no-field-finalist and first-VAC P12-A decisions unchanged.
 
 ###### P12-F3-L2 — Direct conditional Fourier-mode posterior
 
-**Status:** REGISTERED; REPRESENTATION/CONTROL INFRASTRUCTURE IN PROGRESS; PH001
-SEALED
+**Status:** COMPLETE — DIRECT FOURIER FLOW IS A NEAR-MISS AND IS NOT PROMOTED;
+PH001 SEALED
 
 F3-L2 receives one bounded attempt to test whether F3-L failed because its factor-two
 coarse real-space state and trilinear reconstruction entangled the two causal low
@@ -4664,17 +4664,48 @@ diffusion comparison before authorizing F3-H.
 
 - [x] Register the explicit Fourier coordinates, bandwise whitening, directional
   conditioner, Gaussian/control ladder, traceless-shear audit and one-shot stop rule.
-- [ ] Implement and test the exact variable-shape Hermitian pack/unpack and whitening
+- [x] Implement and test the exact variable-shape Hermitian pack/unpack and whitening
   fit without ph006 or ph001 fitting.
-- [ ] Pass the representation/control audit and a 500-update GPU canary before the
+- [x] Pass the representation/control audit and a 500-update GPU canary before the
   10,000-update science run.
-- [ ] Render the frozen ph006 visual comparison and apply the anti-gaming gate.
+- [x] Complete the exact-resume 10,000-update wide-context flow, export 64 draws on
+  the frozen 256-core ph006 panel, render the visual comparison, and apply the
+  block-aware anti-gaming gate.
+
+The direct target succeeds at the failure mode that motivated it.  Its first two
+non-DC posterior/truth residual-power ratios are `0.9969/0.9433`, versus frozen G1
+`0.7305/0.8784`; block-aware ordered-eigenvalue/eigengap TARP is `0.0211/0.0477`,
+and five-component low-k shear TARP and maximum marginal coverage error are
+`0.0224/0.0487`.  All four proper scores improve over G1: energy `5.8054` versus
+`5.9828`, coarse energy `1.7854` versus `1.8488`, variogram `0.04644` versus
+`0.04764`, and marginal CRPS `0.13307` versus `0.13425`.  The paired core bootstrap
+for primary energy is positive (`+1.64%`, 95% interval `[+0.45%,+2.87%]`).
+
+It nevertheless fails the frozen simultaneous gate.  Maximum global coverage error
+is `0.05149` against `0.05`, and maximum conditional coverage error is `0.13241`
+against `0.10`; the worst registered slice is the 68% interval in true-environment
+stratum 1, with empirical coverage `0.8124`, i.e. over-dispersion rather than missing
+truth tails.  The unconditional band-whitened Gaussian control demonstrates why
+power matching alone is insufficient: it over-injects both low bands
+(`1.432/1.492`) and fails eigen, eigengap and five-shear dependence diagnostics.
+
+The frozen decision is therefore `stop_hierarchical_g1_repair`.  This result supports
+the direct Fourier representation and observation-conditioned joint generator, but
+does not license the matched diffusion comparison under the registered ladder.  Do
+not weaken the gates after seeing ph006.  A later separately registered experiment
+may test whether the residual conditional over-coverage is a finite-training/seed
+effect or demands an end-to-end multiscale field model; it is not a continuation of
+this one-shot F3-L2 run.
 
 Frozen compact evidence is
 `docs/evidence/p12/p12f3_hierarchical_v1/P12F3_VISUAL_AUDIT.json` and
 `P12F3_LOWMODE_DECISION.json`; the inspected TARP, residual-power, gate and field
 panels are in `docs/figures/p12f3_hierarchical_20260903/`.  These are ph006 research
 results, not a reopening of the v2 production no-field-finalist decision.
+
+F3-L2 compact evidence is frozen under
+`docs/evidence/p12/p12f3l2_fourier_v1/`; the visual calibration, low-band power,
+training and field panels are under `docs/figures/p12f3l2_fourier_20260903/`.
 
 The primary gate is **not** `R2(posterior mean, truth)`.  The held-out truth must be
 statistically compatible with the learned conditional ensemble.  Require, in order:
