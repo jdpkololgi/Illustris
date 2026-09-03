@@ -1,5 +1,36 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-03 - [science/decision/code/run] Rain-check P12-A/ph001 production and prioritize the multiscale P12-F3 experiment
+
+The user has explicitly changed the scheduling priority: understanding conditional
+field posteriors now takes precedence over rushing the first VAC.  The queued P12-A
+four-GPU ph001 export (`57890469`) and its dependent CPU freeze (`57890760`) were
+cancelled before either started.  No blind shard or partial freeze artifact was
+written, ph001 truth remains sealed, and all existing P12-A contracts/checkpoints are
+retained for a later restart.  This is a rain-check, not a reversal of P12-A's frozen
+production-candidate status.
+
+Commits `0ab4dea` and `6e015c4` register and implement the first P12-F3 low-mode
+experiment.  The matched `local_h8` and `wide_h24` rectified flows learn only the
+standardized residual component at `0 < k <= 0.181 h/Mpc`, around the same frozen G1
+wide-context conditional mean.  Both corrected 500-update canaries pass on one A100:
+all losses/samples are finite, checkpoints reload exactly, ph001 is unopened, and the
+mean core draw standard deviations are `0.5051/0.5011`.  A resume-only device bug was
+then exposed before any continuation update: loading a checkpoint directly onto CUDA
+also moved the CPU RNG tensor, which `torch.set_rng_state` rejects.  Commit `7b02298`
+loads checkpoints on CPU and explicitly restores CPU byte RNG states; its five focused
+tests pass.  Fresh content-addressed `rngfix_v2` canaries were used rather than
+weakening the original run digest, and both arms are now training concurrently toward
+the frozen 10,000-update budget on interactive jobs `57891912` and `57892371`.
+
+The evaluation is being constructed as a four-way causal comparison: wide G1 on an
+`h24` FFT patch, the identical wide G1 realization cropped to `h8`, and two hybrids
+that replace only G1's low-frequency residual with local- or wide-conditioned learned
+draws while sharing the same G1 high-frequency realization.  This separates a larger
+physics window from richer conditioner context.  The registered 256-core ph006 panel,
+64 common-seed draws, fixed tidal operator, proper scores, residual-power ratios and
+visual eigenvalue/eigengap TARP remain required before any F3-H or diffusion launch.
+
 ### 2026-09-03 - [science/plan] Open a hierarchical conditional long-mode field-posterior branch
 
 The completed P12-F causal autopsy changes the field-model question.  We will not
@@ -25,7 +56,8 @@ High-frequency flow versus diffusion is conditional on the low-mode gate.  Share
 superpatch latents and overlap coherence follow only after a useful low-mode model is
 demonstrated.  Degraded factorial views are deferred until the final-view hierarchy
 works; they will enter as view-correct conditioners rather than teacher-latent bounds.
-P12-A blind production continues independently, the frozen v2
+P12-A remains scientifically independent but its blind production is now deliberately
+rain-checked while P12-F3 is prioritized; the frozen v2
 `P12F_NO_FIELD_FINALIST` decision remains binding for the first VAC, and ph001 stays
 sealed throughout this research branch.
 

@@ -4239,6 +4239,13 @@ compatible with one incomplete observed galaxy configuration.  Its estimand is
 p(delta_R7 | X_final, S_random, H_fid),
 ```
 
+**Current scheduling decision (2026-09-03):** the truth-free P12-A ph001 export and
+dependent blind-prediction freeze are rain-checked while the P12-F3 multiscale field
+programme is prioritized.  Jobs `57890469` and `57890760` were cancelled before
+starting; no ph001 product or truth was opened.  This changes execution order, not the
+frozen P12-A candidate or one-open policy.  Resume the same content-addressed export
+later rather than rebuilding or tuning it from P12-F3 results.
+
 where `X_final` is the BRIGHT-only final observation, `S_random` is the deployable
 random-derived response, and `H_fid` is the fixed mock HOD.  This is not an
 HOD-marginalized posterior.  `delta_R7` is already smoothed at `7 Mpc/h`; apply no
@@ -4463,8 +4470,8 @@ sealed.
 
 ##### P12-F3 — Hierarchical conditional residual-field research programme
 
-**Status:** REGISTERED; LOCAL- VERSUS WIDE-CONTEXT LOW-MODE FLOW CANARIES IN
-IMPLEMENTATION; NOT A PRODUCTION REOPENING; PH001 SEALED
+**Status:** IMPLEMENTED; MATCHED LOCAL/WIDE 500-UPDATE CANARIES PASS; 10,000-UPDATE
+SCIENCE RUNS ACTIVE; NOT A PRODUCTION REOPENING; PH001 SEALED
 
 The causal autopsy motivates a new field-posterior experiment, but it does not justify
 repeating P12-F1b with a larger generic U-Net.  The demonstrated defect is specific:
@@ -4547,11 +4554,11 @@ frozen v2 no-field-finalist and first-VAC P12-A decisions unchanged.
 
 - [x] Freeze the causal target, scale split, context arms, staged decisions and visual
   evaluation gates in this roadmap before starting F3-L.
-- [ ] Implement and unit-test the fixed spectral split, pooled low-mode flow, frozen
+- [x] Implement and unit-test the fixed spectral split, pooled low-mode flow, frozen
   G1 mean/high-frequency hybrid sampler, exact-resume contract and ph001 refusal.
-- [ ] Run matched 500-update local/wide technical canaries on one A100 each; archive
+- [x] Run matched 500-update local/wide technical canaries on one A100 each; archive
   throughput, loss trajectories and sample panels.
-- [ ] Resume technically passing arms to 10,000 updates and evaluate on the frozen
+- [ ] Complete the active, checkpoint-resumable 10,000-update runs and evaluate on the frozen
   ph006 causal-autopsy panel with at least 64 common-seed draws.
 - [ ] Decide F3-H flow/diffusion or stop from the registered visual/calibration gate.
 
