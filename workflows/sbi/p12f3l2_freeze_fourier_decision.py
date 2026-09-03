@@ -51,6 +51,10 @@ def build_decision(
     if set(reports) != expected or set(shear) != expected or set(visual["methods"]) != expected:
         raise RuntimeError("F3-L2 requires the exact registered method triplet")
     identity = report_identity(reports["g1_wide_h24"])
+    shear_identity = (
+        int(shear["g1_wide_h24"].get("galaxies", -1)),
+        shear["g1_wide_h24"].get("core_id_sha256"),
+    )
     for method in expected:
         report = reports[method]
         shear_row = shear[method]
@@ -70,6 +74,10 @@ def build_decision(
             or shear_row.get("ph001_opened")
             or int(shear_row.get("cores", -1)) != identity[1]
             or int(shear_row.get("draws", -1)) != identity[2]
+            or (
+                int(shear_row.get("galaxies", -1)),
+                shear_row.get("core_id_sha256"),
+            ) != shear_identity
         ):
             raise RuntimeError(f"unsafe or unmatched shear report for {method}")
     if identity[:3] != ("ph006", int(config["expected_cores"]), int(config["expected_draws"])):

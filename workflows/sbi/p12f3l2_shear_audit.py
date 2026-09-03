@@ -189,6 +189,7 @@ def audit_archive(
         "core_id_sha256": __import__("hashlib").sha256(groups.tobytes()).hexdigest(),
         "archive_manifest": str(manifest_path.resolve()),
         "archive_manifest_sha256": sha256(manifest_path),
+        "source_sha256": sha256(Path(__file__)),
         "truth_files_read": ["ph006 density/T-web"],
         "ph001_opened": False,
     }
