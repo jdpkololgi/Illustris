@@ -1,0 +1,32 @@
+{
+  "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_fourier_lowmode_v1/seed42_v1/wide_h24/checkpoint.pt",
+  "checkpoint_reload_exact": true,
+  "checkpoint_sha256": "1eebb955c18ab5b780c3216e1e131020f723f4c38a8c2416e363c0830b4e8ef0",
+  "created_utc": "2026-09-03T15:50:48.968741+00:00",
+  "frozen_digest": "9534c1c456839903276be636e4b4ab7925f9b3740f312c1f22cb0abbd9b5cc42",
+  "last_preclip_gradient_norm": 4.690606117248535,
+  "mean_probe_draw_std": 0.6330045461654663,
+  "mean_training_loss": 1.8353279875516892,
+  "pass": true,
+  "ph001_opened": false,
+  "probe_all_finite": true,
+  "probe_metadata": {
+    "band_mode_counts": [
+      309,
+      2055
+    ],
+    "components": 4728,
+    "core_id": 2745,
+    "hermitian_abs_error": 9.5367431640625e-06,
+    "modes": 2364,
+    "phase": "ph006",
+    "roundtrip_abs_error": 1.1920928955078125e-06,
+    "shape": [
+      72,
+      72,
+      72
+    ]
+  },
+  "schema_version": "p12f3l2-fourier-flow-technical-canary-v1",
+  "update": 500
+}
