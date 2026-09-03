@@ -72,9 +72,11 @@ def sample_shear_at_galaxies(
         shear = traceless_components(fixed_tidal_tensor(field))
         # [draw,5,x,y,z] -> channels understood by trilinear_sample.
         channels = shear.reshape(-1, *shear.shape[-3:])
-        sampled = trilinear_sample(channels, coordinates)
-        sampled = sampled.reshape(len(coordinates), len(field), 5).permute(1, 0, 2)
-        pieces.append(sampled.detach().cpu().numpy().astype(np.float32))
+        sampled = trilinear_sample(
+            channels.detach().cpu().numpy(), coordinates
+        )
+        sampled = sampled.reshape(len(coordinates), len(field), 5).transpose(1, 0, 2)
+        pieces.append(sampled.astype(np.float32))
     return np.concatenate(pieces, axis=0)
 
 

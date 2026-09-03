@@ -2,7 +2,10 @@ import unittest
 
 import torch
 
-from workflows.sbi.p12f3l2_shear_audit import traceless_components
+from workflows.sbi.p12f3l2_shear_audit import (
+    sample_shear_at_galaxies,
+    traceless_components,
+)
 
 
 class TestP12F3L2ShearAudit(unittest.TestCase):
@@ -21,6 +24,15 @@ class TestP12F3L2ShearAudit(unittest.TestCase):
         self.assertTrue(torch.allclose(value[:, 2], torch.full((2, 3, 4, 5), 0.5)))
         self.assertTrue(torch.allclose(value[:, 3], torch.full((2, 3, 4, 5), -0.25)))
         self.assertTrue(torch.allclose(value[:, 4], torch.full((2, 3, 4, 5), 0.75)))
+
+    def test_numpy_sampler_boundary_accepts_torch_physics_output(self):
+        fields = torch.zeros(2, 8, 8, 8).numpy()
+        coordinates = torch.tensor([[1.5, 2.5, 3.5], [4.0, 4.0, 4.0]]).numpy()
+        value = sample_shear_at_galaxies(
+            fields, coordinates, device="cpu", batch=1
+        )
+        self.assertEqual(value.shape, (2, 2, 5))
+        self.assertTrue((value == 0).all())
 
 
 if __name__ == "__main__":
