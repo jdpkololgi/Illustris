@@ -4461,6 +4461,100 @@ sealed.
   `ph001_opened=false`; no sampler was refit or promoted, and the v2
   `P12F_NO_FIELD_FINALIST` decision remains binding.
 
+##### P12-F3 — Hierarchical conditional residual-field research programme
+
+**Status:** REGISTERED; LOCAL- VERSUS WIDE-CONTEXT LOW-MODE FLOW CANARIES IN
+IMPLEMENTATION; NOT A PRODUCTION REOPENING; PH001 SEALED
+
+The causal autopsy motivates a new field-posterior experiment, but it does not justify
+repeating P12-F1b with a larger generic U-Net.  The demonstrated defect is specific:
+G1 under-disperses the first two non-DC residual bands, those modes dominate the
+traceless-tidal-shear amplitude error, and unconditional whole-patch residuals do not
+repair the two-eigengap copula.  The next estimand is therefore factorized as
+
+```text
+p(delta_R7 | X_final,S_random,H_fid)
+  = p(r_low | X_wide,S_wide,H_fid)
+    p(r_high | r_low,X_local,S_local,H_fid),
+```
+
+where `delta_R7 = mu_G1 + r_low + r_high` in the frozen standardized target
+coordinates.  `mu_G1` is the frozen heteroscedastic-Gaussian conditional mean.  The
+low/high split is linear and fixed before training: `r_low` contains the two causal-
+autopsy bands (`0 < k <= 0.181 h/Mpc`), while the DC mode is ignored by the tidal
+operator.  Do not multiply the split residual by a spatially varying standard
+deviation after filtering, because that would remix Fourier scales.
+
+The research order is deliberately causal and staged:
+
+1. **F3-L context experiment.** Train conditional rectified flows only for `r_low`.
+   Compare a local arm with the P12-F1b halo (`8` voxels = `40 Mpc/h`) to a wide arm
+   (`24` voxels = `120 Mpc/h`) on identical training core IDs, target scaler,
+   conditional mean, response channels, update sequence and seeds.  Low-pass the
+   full context first, then represent the smooth generative state on a 10-Mpc lattice
+   (factor-two pooling); evaluate only the unchanged authoritative core.  This is a
+   proper conditional stochastic model of the low modes, not a truth-assisted power
+   correction.
+2. **F3-H local refinement, conditional on success.** Only if F3-L improves held-out
+   low-mode and eigengap calibration, train `p(r_high | r_low,X_local,S_local)`.
+   Compare rectified flow with one matched score-diffusion implementation on the same
+   stochastic low-mode draws.  Do not rerun an unconditional/local full-field flow or
+   diffusion architecture sweep.
+3. **F3-S shared-mode overlap test.** Generate one coarse latent field for a fixed
+   spatial superpatch and reuse its overlapping values in every child core.  Local
+   refinements may have independent noise only above the frozen split.  Require
+   agreement in overlaps and cross-core long-mode covariance before using the phrase
+   “coherent field posterior.”  Independent low-mode draws per canonical core remain
+   a patch-posterior diagnostic, not a full-cap Universe.
+4. **Factorial views only after the V_final hierarchy works.** Treat each degradation
+   as a correctly paired conditioner `(X_s,S_s)` for the same latent field, not as a
+   teacher representation or an uncertainty bound.  Hold out one degradation recipe
+   and require aggregate posterior contraction with information plus fresh
+   calibration on both final and held-out views.
+5. **Forward re-observation last.** Couple accepted field draws to a frozen stochastic
+   halo/galaxy model and DESI response and compare galaxy counts, occupancy,
+   clustering, shell and boundary statistics.  A Poisson painting shortcut is a
+   technical diagnostic, not posterior-predictive closure.
+
+The first F3-L run has two gates.  A 500-update technical canary requires finite loss,
+finite gradients and parameters, exact checkpoint replay, non-degenerate low-mode
+draws, frozen-source/data hashes and no ph001 access.  Passing it licenses a
+checkpoint-resumed 10,000-update run; it is not scientific evidence by itself.  The
+science comparison uses the same truth-free-selected ph006 cores and draw prefixes for
+both context arms and G1, with visual TARP/SBC, residual-power, trace/shear, separation
+and proper-score panels.
+
+F3-L is scientifically promising only if the wide arm, relative to both G1 and the
+matched local arm:
+
+- moves the held-out/posterior residual-power ratio toward unity in each registered
+  low band and improves it by at least 20% relative to the local arm;
+- reaches joint physical eigengap TARP at most `0.05`, with 68/90% coverage errors at
+  most `0.05` and conditional shell/response/boundary errors at most `0.10`;
+- does not worsen joint ordered-eigenvalue TARP or any registered proper score by more
+  than 1%; and
+- shows the gain on paired authoritative-core bootstrap intervals rather than only in
+  pooled voxels.
+
+If local and wide arms are indistinguishable, larger context alone is not the missing
+ingredient and F3-H must not be launched as though the context hypothesis passed.  If
+both flows remain under-dispersed while training and validation losses plateau, test
+one matched low-mode score-diffusion model; if the flow is still improving, extend its
+registered update budget before changing sampler family.  If the wide low-mode model
+passes but the hybrid field does not, the remaining defect lies in low/high coupling
+or the local refinement.  Every F3 result is ph006 research evidence and leaves the
+frozen v2 no-field-finalist and first-VAC P12-A decisions unchanged.
+
+- [x] Freeze the causal target, scale split, context arms, staged decisions and visual
+  evaluation gates in this roadmap before starting F3-L.
+- [ ] Implement and unit-test the fixed spectral split, pooled low-mode flow, frozen
+  G1 mean/high-frequency hybrid sampler, exact-resume contract and ph001 refusal.
+- [ ] Run matched 500-update local/wide technical canaries on one A100 each; archive
+  throughput, loss trajectories and sample panels.
+- [ ] Resume technically passing arms to 10,000 updates and evaluate on the frozen
+  ph006 causal-autopsy panel with at least 64 common-seed draws.
+- [ ] Decide F3-H flow/diffusion or stop from the registered visual/calibration gate.
+
 The primary gate is **not** `R2(posterior mean, truth)`.  The held-out truth must be
 statistically compatible with the learned conditional ensemble.  Require, in order:
 

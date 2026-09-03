@@ -1,5 +1,34 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-03 - [science/plan] Open a hierarchical conditional long-mode field-posterior branch
+
+The completed P12-F causal autopsy changes the field-model question.  We will not
+interpret the negative P12-F1b flow/diffusion comparison as evidence against learned
+field posteriors in general, but neither will we repeat those local single-scale
+generators with a larger generic U-Net.  The observed failure is concentrated in
+under-dispersed long-wave traceless tidal shear: a held-out low-mode power oracle
+repairs eigengap TARP, while complete unconditional training residual patches repair
+marginal widths but not the joint two-gap copula.  This specifically motivates an
+observation-conditional, multiscale residual model with shared long modes.
+
+A new research-only P12-F3 programme is registered in the roadmap.  It factorizes the
+frozen standardized field residual around G1's conditional mean into a conditional
+low-mode draw and a local high-frequency refinement.  Stage F3-L first compares two
+otherwise identical rectified-flow samplers for the registered `0 < k <= 0.181 h/Mpc`
+component: the existing 40-Mpc/h context halo and a 120-Mpc/h halo.  The smooth state
+is represented on a factor-two coarse lattice, while evaluation remains on the same
+authoritative cores.  A 500-update run is only a numerical/throughput canary; passing
+arms resume to 10,000 updates before visual ph006 TARP/SBC, residual-power,
+trace/shear, dependence and proper-score interpretation.
+
+High-frequency flow versus diffusion is conditional on the low-mode gate.  Shared
+superpatch latents and overlap coherence follow only after a useful low-mode model is
+demonstrated.  Degraded factorial views are deferred until the final-view hierarchy
+works; they will enter as view-correct conditioners rather than teacher-latent bounds.
+P12-A blind production continues independently, the frozen v2
+`P12F_NO_FIELD_FINALIST` decision remains binding for the first VAC, and ph001 stays
+sealed throughout this research branch.
+
 ### 2026-09-03 - [code/run] Launch the truth-free P12-A ph001 production export and dependent freeze
 
 The completed P12-F v2/no-field-finalist decision removes the final registered block
