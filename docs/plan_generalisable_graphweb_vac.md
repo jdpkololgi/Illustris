@@ -4391,14 +4391,21 @@ the frozen G1 archive and checkpoint.  This is explanatory work: it cannot promo
 G1/G2, fit a production correction or reopen model selection, and ph001 remains
 sealed.
 
-- [ ] **Trace versus shear bridge.** On the exact cached galaxy-sampled eigenvalue
+- [x] **Trace versus shear bridge.** On the exact cached galaxy-sampled eigenvalue
   draws, compare TARP/SBC and central coverage for the trace
   `I1=lambda1+lambda2+lambda3`, traceless shear amplitude
   `q=sqrt(3/2 sum_i (lambda_i-I1/3)^2)`, normalized shear shape and the two
   eigengaps.  Use authoritative patch cores as the bootstrap unit.  The causal bridge
   is supported only if trace calibration is materially healthier than shear/gap
   calibration; exact trace algebra alone is not evidence of posterior calibration.
-- [ ] **Low-mode intervention.** On a truth-free-selected, shell-balanced subset of
+  On `541,546` galaxy rows in `1,018` cached ph006 cores, trace central coverage is
+  `0.516/0.690/0.885` at nominal `0.50/0.68/0.90`, whereas shear-amplitude `q`
+  coverage is `0.444/0.609/0.828`.  The normalized Lode-shape statistic is much
+  healthier (`0.489/0.663/0.875`).  Rank-CDF deviations are `0.0542` for trace,
+  `0.1112` for `q` and `0.0247` for shape.  The defect therefore enters primarily
+  through the *amplitude of the traceless tidal shear*, not through the density-like
+  trace or normalized shear shape.
+- [x] **Low-mode intervention.** On a truth-free-selected, shell-balanced subset of
   the frozen 1,024-core ph006 panel, preserve every high-frequency mode and run three
   explicitly diagnostic low-`k` interventions: replace the posterior-mean low modes
   by the held-out truth modes while retaining draw scatter; rescale only low-mode draw
@@ -4406,22 +4413,44 @@ sealed.
   Freeze the cutoff at the first two non-DC 12-bin radial bands
   (`k <= 0.181 h/Mpc` for 5 Mpc/h voxels).  These are deliberately truth-assisted
   sensitivity/oracle tests, not candidate samplers.  Report changes in physical
-  eigenvalue/eigengap TARP, SBC, coverage and proper scores visually.
-- [ ] **Whole training-residual-patch resampling.** Regenerate normalized residual
+  eigenvalue/eigengap TARP, SBC, coverage and proper scores visually.  The pooled
+  ph006 oracle requires residual-amplitude factors `1.288/1.099` in the two frozen
+  low-`k` bands.  Applying those factors alone changes joint gap TARP
+  `0.0608 -> 0.0199` and 68% coverage from `0.617/0.648` to `0.668/0.693` for
+  `g12/g23`.  Replacing the low-mode mean with held-out truth instead makes joint
+  gap TARP `0.247` despite much smaller point-distance scores: better mean accuracy
+  is not calibration.  The power oracle slightly worsens ordered-eigenvalue TARP
+  (`0.0292 -> 0.0577`) and the field scores, so it identifies missing long-mode
+  scatter but is not a deployable global inflation.
+- [x] **Whole training-residual-patch resampling.** Regenerate normalized residual
   fields from the frozen G1 Gaussian checkpoint on its exact registered
   ph000/ph002--ph005 training cores, retaining no ph006 fit.  Draw complete residual
   patches, with deterministic cube symmetries and shape/shell/support matching, then
   apply the unchanged ph006 conditional mean and scale.  Compare against G1 on the
   same cores and draw count.  Improvement would implicate Gaussian random phases or
   missing cross-scale/non-Gaussian dependence; no improvement would shift weight
-  toward conditional/local covariance, support geometry or shared long modes.
-- [ ] Render, inspect and content-address all three tests before interpreting scalar
+  toward conditional/local covariance, support geometry or shared long modes.  The
+  exact `5 x 512` training-core library was completed.  Whole-patch resampling repairs
+  68% gap coverage to `0.667/0.671` and improves energy/coarse-energy/variogram by
+  `1.48%/2.12%/0.92%`, but joint gap TARP remains `0.0610` versus G1 `0.0608`.
+  Thus realistic non-Gaussian phases and cross-scale texture explain the marginal
+  width deficit and some field score, but do not repair the two-gap copula.
+- [x] Render, inspect and content-address all three tests before interpreting scalar
   maxima.  The required summary must distinguish a one-point width/location defect
   from a joint-copula or spatial-dependence defect and state which causal hypotheses
-  remain unresolved.
-- [ ] Preserve the production boundary regardless of the outcome: no ph001 access,
+  remain unresolved.  The three frozen visual panels and machine-readable reports
+  are archived under `docs/figures/p12f_causal_autopsy_20260903/` and
+  `docs/evidence/p12/p12f_causal_autopsy_v1/`.  The causal synthesis is: G1
+  under-disperses long-wave traceless shear; complete residual patches repair
+  marginal widths; the remaining joint error is an observation-conditional,
+  anisotropic/local covariance or support/shared-mode problem, not a generic lack of
+  density variance.  Because gaps subtract common trace, they expose this covariance
+  error more strongly than the ordered eigenvalues themselves.
+- [x] Preserve the production boundary regardless of the outcome: no ph001 access,
   no recalibration on ph006, no removal of `P12F_NO_FIELD_FINALIST`, and no delay to
-  the frozen P12-A blind-production spine.
+  the frozen P12-A blind-production spine.  All reports record
+  `ph001_opened=false`; no sampler was refit or promoted, and the v2
+  `P12F_NO_FIELD_FINALIST` decision remains binding.
 
 The primary gate is **not** `R2(posterior mean, truth)`.  The held-out truth must be
 statistically compatible with the learned conditional ensemble.  Require, in order:

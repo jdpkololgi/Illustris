@@ -1,11 +1,69 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-03 - [science/results/code/run] Causal autopsy localizes the P12-F gap miss to long-wave tidal-shear covariance
+
+The registered three-part, no-refitting P12-F causal autopsy is complete.  It
+does not reopen field-model selection: every intervention used frozen G1 artifacts,
+ph006 only, the unchanged density-to-tidal physics map and authoritative core-block
+uncertainty.  No model was fitted or recalibrated on ph006, ph001 was never opened,
+and `P12F_NO_FIELD_FINALIST` remains the production decision.
+
+The first bridge shows that this is not a generic failure to represent density
+uncertainty.  Across `541,546` galaxy rows in `1,018` cached ph006 cores, the
+density-like trace has central coverage `0.516/0.690/0.885` at nominal
+`0.50/0.68/0.90`.  The normalized Lode-shape statistic is also comparatively healthy
+at `0.489/0.663/0.875`.  In contrast, traceless shear amplitude `q` covers only
+`0.444/0.609/0.828`; its rank-CDF deviation is `0.1112`, versus `0.0542` for trace
+and `0.0247` for shear shape.  The fixed tidal map is therefore exposing an
+under-dispersed *amplitude of anisotropic tidal shear*.  Eigengaps are differences of
+eigenvalues, so common trace fluctuations cancel and this shear/covariance defect is
+amplified even when the joint ordered-eigenvalue TARP appears acceptable.
+
+The low-mode sensitivity experiment supplies the strongest causal evidence.  On the
+truth-free-selected shell-balanced 256-core subpanel, the held-out innovation power
+requires posterior-residual amplitude factors `1.288` and `1.099` in the first two
+non-DC radial bands (`k <= 0.181 h/Mpc`).  Scaling only those draw fluctuations changes
+joint eigengap TARP `0.0608 -> 0.0199`, and 68% gap coverage from `0.617/0.648` to
+`0.668/0.693` for `g12/g23`.  Replacing the low-mode posterior mean with the held-out
+truth instead drives gap TARP to `0.247`, despite greatly improving point-distance
+scores.  Thus the problem is missing posterior scatter in coherent long modes, not
+simply a biased posterior mean.  The global power oracle is still not a production
+fix: it worsens ordered-eigenvalue TARP `0.0292 -> 0.0577`, energy by `0.68%` and the
+variogram score by `2.09%`.
+
+Finally, a `5 x 512 = 2,560`-core train-only residual library was rebuilt from the
+frozen Gaussian checkpoint.  Transplanting complete normalized residual patches into
+the same 256 ph006 cores preserves non-Gaussian phases and cross-scale spatial
+texture.  It repairs 68% marginal gap coverage to `0.667/0.671` and improves
+energy/coarse-energy/variogram by `1.48%/2.12%/0.92%`.  Nevertheless, joint gap TARP
+is unchanged (`0.0610` versus G1 `0.0608`): its largest positive deviation moves from
+nominal coverage `0.227` to `0.477` rather than disappearing.  Correct one-dimensional
+widths and more realistic spatial residuals therefore do not guarantee the correct
+two-gap copula.  The residual control is only matched by shape, shell, cap and support
+fraction; it is not conditioned on the detailed observed galaxy configuration.
+
+The causal conclusion is consequently narrower and more useful than “P12-F is
+uncalibrated.”  G1's stationary radial residual filter under-represents long-wave
+traceless-shear scatter.  Restoring whole train-phase residual fields fixes much of
+the marginal and field-score problem, while the remaining joint miss points to an
+observation-conditional, direction-dependent/local covariance, footprint coupling or
+shared-long-mode component.  A single global spectrum inflation cannot solve all
+these simultaneously.  That is a concrete specification for later field-posterior
+work, but it does not justify delaying the P12-A per-galaxy production spine.
+
+Implementation is commits `9870e37` and `d895107`.  The exact reports, residual-
+library manifest and source hashes are archived under
+`docs/evidence/p12/p12f_causal_autopsy_v1/`; the inspected figures are under
+`docs/figures/p12f_causal_autopsy_20260903/`.  Interactive allocation `57887617`
+completed seven focused tests, all three analyses and figure rendering, then was
+released.
+
 ### 2026-09-03 - [science/plan] Open a post-selection causal autopsy of the P12-F eigengap coverage error
 
 The frozen P12-F v2 no-field-finalist decision remains binding for the first VAC, but
 the current evidence identifies a spatial/scale covariance defect without yet proving
 which part of that defect causes the physical eigengap miss.  A bounded,
-checkpoint-free causal autopsy is therefore opened on frozen G1 artifacts and ph006
+no-refitting causal autopsy is therefore opened on frozen G1 artifacts and ph006
 only.  It is explanatory rather than a renewed model-selection exercise: it cannot
 promote G1/G2, fit a production correction or delay the P12-A blind-production spine,
 and ph001 remains sealed.

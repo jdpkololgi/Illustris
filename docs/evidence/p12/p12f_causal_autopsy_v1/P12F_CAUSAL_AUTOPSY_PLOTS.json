@@ -1,0 +1,46 @@
+{
+  "artifacts": [
+    {
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/figures/p12f_causal_autopsy_20260903/p12f_trace_vs_shear_autopsy.png",
+      "sha256": "728d2de032ed41e8235090fef07f312ff999d1045bf0932463070905bb05cc97"
+    },
+    {
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/figures/p12f_causal_autopsy_20260903/p12f_trace_vs_shear_autopsy.pdf",
+      "sha256": "9ef2eebad8a8e1bf4cb5f8427462fae9bf3586045a56af043ee94c1e7c7a63db"
+    },
+    {
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/figures/p12f_causal_autopsy_20260903/p12f_low_k_oracle_autopsy.png",
+      "sha256": "0b9249c1c6b3aaa0bf1cc65cf18e7050e5c367aafe5a1d48d9b895fc6b6b0a9c"
+    },
+    {
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/figures/p12f_causal_autopsy_20260903/p12f_low_k_oracle_autopsy.pdf",
+      "sha256": "52437adedf70a9ffbf8a9491ed2f0fec7cc0f4f65c33b7725aa111eb6152b93f"
+    },
+    {
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/figures/p12f_causal_autopsy_20260903/p12f_empirical_residual_autopsy.png",
+      "sha256": "de3a90bbabf7c0502b248b7b563ee187c89d496b5608bf6a201aff83bad5cd26"
+    },
+    {
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/figures/p12f_causal_autopsy_20260903/p12f_empirical_residual_autopsy.pdf",
+      "sha256": "c0e3aea8158fccaaad4a3f2bdb6171dda04a30dff9b24bf0b7f061658b40da8b"
+    }
+  ],
+  "created_utc": "2026-09-03T10:17:58.039586+00:00",
+  "pass": true,
+  "ph001_opened": false,
+  "schema_version": "p12f-causal-autopsy-plots-v1",
+  "source_reports": [
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_causal_autopsy_v1/P12F_TRACE_SHEAR_AUTOPSY.json",
+      "sha256": "1b16b66d5dc32044eee15d9e38423ea8d1573984b2383061abc0568bd9a8ce41"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_causal_autopsy_v1/P12F_LOW_K_CAUSAL_AUTOPSY.json",
+      "sha256": "7de19997a68a6d9fe7e67eb1aef05e476a01833bcbc0793b946fddf715f83772"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_causal_autopsy_v1/P12F_EMPIRICAL_RESIDUAL_CAUSAL_AUTOPSY.json",
+      "sha256": "a407eb0feb62990deffaa9282e9b0c7da4e9c6bc71b44244c92d661b7b53086f"
+    }
+  ]
+}

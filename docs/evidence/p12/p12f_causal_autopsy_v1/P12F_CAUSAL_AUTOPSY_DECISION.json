@@ -1,0 +1,58 @@
+{
+  "schema_version": "p12f-causal-autopsy-decision-v1",
+  "date_utc": "2026-09-03",
+  "phase": "ph006",
+  "ph001_opened": false,
+  "refitting_or_recalibration": false,
+  "production_decision_changed": false,
+  "production_decision": "P12F_NO_FIELD_FINALIST remains binding",
+  "causal_findings": {
+    "primary": "P12-F G1 under-disperses the amplitude of long-wave traceless tidal shear; this is amplified by eigenvalue differencing into eigengap undercoverage.",
+    "trace_shear_bridge": {
+      "trace_rank_cdf_maximum_deviation": 0.05417150949476646,
+      "shear_q_rank_cdf_maximum_deviation": 0.11121753745427465,
+      "lode_eta_rank_cdf_maximum_deviation": 0.024687686380696905,
+      "trace_coverage_68": 0.6898933793251173,
+      "shear_q_coverage_68": 0.6093517448194613
+    },
+    "low_k_power_oracle": {
+      "registered_max_k_h_per_mpc": 0.181,
+      "amplitude_scale_first_two_non_dc_bands": [
+        1.2883830473881426,
+        1.098608319279681
+      ],
+      "g1_eigengap_tarp_maximum_deviation": 0.06075819894164794,
+      "oracle_eigengap_tarp_maximum_deviation": 0.01989745475996796,
+      "g1_gap12_coverage_68": 0.6172942003620099,
+      "oracle_gap12_coverage_68": 0.6675567323370581,
+      "g1_gap23_coverage_68": 0.648304387500187,
+      "oracle_gap23_coverage_68": 0.692852548280453,
+      "deployable": false,
+      "reason_not_deployable": "Truth-assisted global inflation worsens ordered-eigenvalue TARP and field proper scores."
+    },
+    "whole_training_residual_patch": {
+      "training_core_count": 2560,
+      "g1_eigengap_tarp_maximum_deviation": 0.06075819894164794,
+      "empirical_eigengap_tarp_maximum_deviation": 0.060952668190255355,
+      "g1_gap12_coverage_68": 0.6172942003620099,
+      "empirical_gap12_coverage_68": 0.666546993971488,
+      "g1_gap23_coverage_68": 0.648304387500187,
+      "empirical_gap23_coverage_68": 0.6707953746503313,
+      "energy_relative_improvement": 0.014809490397849104,
+      "coarse_energy_relative_improvement": 0.02120529090306729,
+      "variogram_relative_improvement": 0.009239336640622835
+    },
+    "remaining_mechanisms": [
+      "observation-conditional covariance tied to the detailed galaxy configuration",
+      "direction-dependent or local residual covariance",
+      "footprint and support coupling",
+      "shared long modes beyond independent local patches"
+    ]
+  },
+  "source_reports": {
+    "P12F_TRACE_SHEAR_AUTOPSY.json": "1b16b66d5dc32044eee15d9e38423ea8d1573984b2383061abc0568bd9a8ce41",
+    "P12F_LOW_K_CAUSAL_AUTOPSY.json": "7de19997a68a6d9fe7e67eb1aef05e476a01833bcbc0793b946fddf715f83772",
+    "P12F_EMPIRICAL_RESIDUAL_CAUSAL_AUTOPSY.json": "a407eb0feb62990deffaa9282e9b0c7da4e9c6bc71b44244c92d661b7b53086f",
+    "P12F_TRAINING_RESIDUAL_LIBRARY.json": "3b0e479ef59741bd4759344422564fb18282db86a3e04833b6ca8a5262dda134"
+  }
+}
