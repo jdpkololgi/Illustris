@@ -40,7 +40,7 @@ DEFAULT_SOURCE_PANEL = Path(
     "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_dependency_rescue_v2/"
     "evaluation_sufficiency_seed42/panel_1024/P12F_PH006_PANEL_1024.json"
 )
-METHODS = ("fourier_gaussian_h24", "fourier_flow_h24")
+METHODS = ("g1_wide_h24", "fourier_gaussian_h24", "fourier_flow_h24")
 
 
 def parse_args() -> argparse.Namespace:
@@ -226,13 +226,29 @@ def main() -> None:
             seed = 43_000 + core_id
             unit = correlated_unit_residuals(filter_contract, draws=draws, seed=seed, shape=tuple(mean_scaled.shape))
             residual_g1 = std_scaled[None] * unit
-            high = residual_g1 - lowpass_numpy(residual_g1, voxel_mpc_h=voxel, maximum_k=maximum_k)
-            layout = build_fourier_layout(mean_scaled.shape, voxel_mpc_h=voxel, band_edges_h_mpc=edges)
-            learned_low = sample_low(
-                args.method, flow_model, condition, layout=layout, whitening=whitening,
-                draws=draws, steps=int(config["model"]["ode_steps"]),
-                seed=seed+100_000_000, batch=args.draw_batch,
+            low_g1 = lowpass_numpy(
+                residual_g1, voxel_mpc_h=voxel, maximum_k=maximum_k
             )
+            high = residual_g1 - low_g1
+            layout = build_fourier_layout(
+                mean_scaled.shape,
+                voxel_mpc_h=voxel,
+                band_edges_h_mpc=edges,
+            )
+            if args.method == "g1_wide_h24":
+                learned_low = low_g1
+            else:
+                learned_low = sample_low(
+                    args.method,
+                    flow_model,
+                    condition,
+                    layout=layout,
+                    whitening=whitening,
+                    draws=draws,
+                    steps=int(config["model"]["ode_steps"]),
+                    seed=seed + 100_000_000,
+                    batch=args.draw_batch,
+                )
             scaled = mean_scaled[None] + high + learned_low
             samples = (scaled*np.float32(scaler["std"])+np.float32(scaler["mean"])).astype(np.float32)
             mean_physical = (mean_scaled*np.float32(scaler["std"])+np.float32(scaler["mean"])).astype(np.float32)
