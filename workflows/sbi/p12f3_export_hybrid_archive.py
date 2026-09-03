@@ -221,7 +221,9 @@ def core_bounds(patch) -> np.ndarray:
 def atomic_npz(path: Path, **arrays: np.ndarray) -> None:
     temporary = path.with_suffix(path.suffix + ".tmp")
     with temporary.open("wb") as handle:
-        np.savez_compressed(handle, **arrays)
+        # These archives are read once immediately and the 3-D posterior draws are
+        # high entropy.  Deflate saved little space but dominated wide-h24 runtime.
+        np.savez(handle, **arrays)
     temporary.replace(path)
 
 
