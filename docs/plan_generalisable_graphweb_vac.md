@@ -4028,8 +4028,11 @@ Execution order after the P11 closeout:
 2. [complete] write and validate `P12A_PRODUCTION_CANDIDATE_FROZEN.json`;
 3. [complete] run the matched P12-F Gaussian/flow/diffusion comparison and bounded
    v2/G2 covariance rescue on ph006; freeze the v1 and v2 no-field-finalist decisions;
-4. [ ] generate and freeze truth-free P12-A ph001 summaries plus deterministic and
-   classical blind predictions; add P12-F ph001 panel draws only for a field finalist;
+4. [in progress] generate and freeze truth-free P12-A ph001 summaries plus
+   deterministic and classical blind predictions; add P12-F ph001 panel draws only
+   for a field finalist.  The context and CIC/DTFE products are complete. Four-GPU
+   regular-QOS production export `57890469` is pending/running, with fail-closed CPU
+   freeze job `57890760` dependent on its successful completion;
 5. [ ] perform exactly one shared ph001 opening and immutable evaluation;
 6. [ ] hand the promoted P12-A contract to P13 Loa deployment;
 7. [ ] run a held-out-HOD intervention for robustness language without blocking the
@@ -4147,6 +4150,12 @@ Progress checklist:
   complete P12-A export, CIC and DTFE manifest, rehashes every posterior/audit shard,
   and demands exact parent/core/support identity. Validation truth on ph006 is allowed;
   any ph001 truth access remains fail-closed (commit `f8f19ba`).
+- [ ] Complete and archive the full 512-draw ph001 production export. Regular-QOS job
+  `57890469` uses four independent one-GPU core-safe shards under the exact frozen
+  candidate/context/quality/checkpoint hashes. Dependent CPU job `57890760` runs the
+  nine focused contract tests and writes `P12_BLIND_PREDICTIONS_FROZEN.json` only
+  after all four shards, CIC and DTFE pass exact row/core/support and hash parity
+  (freeze wrapper commit `90e42ae`). No job in this chain can open ph001 truth.
 - [x] Record the `H_fid`-conditional estimand explicitly.
 - [ ] Run the optional held-out-HOD stress test after blind baseline closure; it does
   not block the first explicitly `H_fid`-conditional VAC.

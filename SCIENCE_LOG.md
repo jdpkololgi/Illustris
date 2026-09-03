@@ -1,5 +1,30 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-03 - [code/run] Launch the truth-free P12-A ph001 production export and dependent freeze
+
+The completed P12-F v2/no-field-finalist decision removes the final registered block
+on P12-A blind inference.  The observed-only ph001 context, P3b-R support, four
+core-safe shard plan and matched CIC/DTFE predictions were revalidated at
+`4,897,905` identical supported parent rows; all source markers retain
+`truth_files_read=[]`, `open_count=0` and `sealed_phase_opened=false`.  The previous
+512-draw smoke measured `107.60` rows/s on one A100 and projected `3.16` hours for
+four independent GPUs.
+
+Regular-QOS production job `57890469` is submitted for the exact four shards and 512
+draws per galaxy.  It requests one four-A100 node with a six-hour ceiling: the larger
+ceiling changes no scientific contract and protects against startup, shard imbalance
+and Scratch contention omitted by the linear smoke estimate; allocation charging
+still stops when the job exits.  Its output root is
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/p12a/production_export_v1/`.
+
+Commit `90e42ae` adds the separate fail-closed freeze CLI and CPU Slurm stage.  Nine
+focused production-contract/shard tests pass.  Dependent job `57890760` will run only
+after a successful posterior export, rehash every P12-A summary/audit shard, require
+exact parent/core identity with the base context and both classical estimators, and
+write `P12_BLIND_PREDICTIONS_FROZEN.json`.  A failed parent prevents the freeze job
+from running.  Neither job has authority to open ph001 truth; the one-time opening
+remains a separate explicit decision after this freeze is validated and archived.
+
 ### 2026-09-03 - [science/results/code/run] Causal autopsy localizes the P12-F gap miss to long-wave tidal-shear covariance
 
 The registered three-part, no-refitting P12-F causal autopsy is complete.  It
