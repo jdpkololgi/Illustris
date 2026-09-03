@@ -1,0 +1,25 @@
+{
+  "schema_version": "p12f3-hybrid-evaluation-v1",
+  "roles": {
+    "validation": "ph006",
+    "sealed_blind_test": "ph001"
+  },
+  "matched_contract": {
+    "posterior_draws": 64,
+    "selection_panel_cores": 256,
+    "selection_cores_per_shell": 64,
+    "resampling_unit": "authoritative patch core"
+  },
+  "comparisons": {
+    "g1_wide_crop_h8": "wide-context frozen G1 cropped to local h8 before fixed physics",
+    "g1_wide_h24": "wide-context frozen G1 control",
+    "hybrid_local_h8": "learned low modes conditioned on local h8 plus shared wide G1 high modes",
+    "hybrid_wide_h24": "learned low modes conditioned on wide h24 plus shared wide G1 high modes"
+  },
+  "guards": {
+    "truth_free_panel": true,
+    "ph001_opened": false,
+    "posterior_mean_r2_is_diagnostic_only": true,
+    "full_cap_coherence_established": false
+  }
+}
