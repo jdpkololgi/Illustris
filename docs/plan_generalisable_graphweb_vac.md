@@ -4028,11 +4028,12 @@ Execution order after the P11 closeout:
 2. [complete] write and validate `P12A_PRODUCTION_CANDIDATE_FROZEN.json`;
 3. [complete] run the matched P12-F Gaussian/flow/diffusion comparison and bounded
    v2/G2 covariance rescue on ph006; freeze the v1 and v2 no-field-finalist decisions;
-4. [in progress] generate and freeze truth-free P12-A ph001 summaries plus
+4. [rain-checked] generate and freeze truth-free P12-A ph001 summaries plus
    deterministic and classical blind predictions; add P12-F ph001 panel draws only
-   for a field finalist.  The context and CIC/DTFE products are complete. Four-GPU
-   regular-QOS production export `57890469` is pending/running, with fail-closed CPU
-   freeze job `57890760` dependent on its successful completion;
+   for a field finalist.  The context and CIC/DTFE products are complete, but the
+   four-GPU export `57890469` and dependent CPU freeze `57890760` were cancelled
+   before starting on 2026-09-03 so that P12-F3 could take compute priority.  No
+   partial posterior export exists and ph001 remains sealed;
 5. [ ] perform exactly one shared ph001 opening and immutable evaluation;
 6. [ ] hand the promoted P12-A contract to P13 Loa deployment;
 7. [ ] run a held-out-HOD intervention for robustness language without blocking the
@@ -4150,12 +4151,13 @@ Progress checklist:
   complete P12-A export, CIC and DTFE manifest, rehashes every posterior/audit shard,
   and demands exact parent/core/support identity. Validation truth on ph006 is allowed;
   any ph001 truth access remains fail-closed (commit `f8f19ba`).
-- [ ] Complete and archive the full 512-draw ph001 production export. Regular-QOS job
-  `57890469` uses four independent one-GPU core-safe shards under the exact frozen
-  candidate/context/quality/checkpoint hashes. Dependent CPU job `57890760` runs the
-  nine focused contract tests and writes `P12_BLIND_PREDICTIONS_FROZEN.json` only
-  after all four shards, CIC and DTFE pass exact row/core/support and hash parity
-  (freeze wrapper commit `90e42ae`). No job in this chain can open ph001 truth.
+- [ ] Resume and archive the rain-checked full 512-draw ph001 production export only
+  when field-posterior research no longer has compute priority.  Cancelled jobs
+  `57890469` and `57890760` never started, so restart from the same content-addressed
+  four-shard contract rather than treating them as resumable partial runs.  The CPU
+  freeze still writes `P12_BLIND_PREDICTIONS_FROZEN.json` only after all four shards,
+  CIC and DTFE pass exact row/core/support and hash parity (freeze wrapper commit
+  `90e42ae`). No job in this chain can open ph001 truth.
 - [x] Record the `H_fid`-conditional estimand explicitly.
 - [ ] Run the optional held-out-HOD stress test after blind baseline closure; it does
   not block the first explicitly `H_fid`-conditional VAC.
@@ -4470,8 +4472,8 @@ sealed.
 
 ##### P12-F3 — Hierarchical conditional residual-field research programme
 
-**Status:** IMPLEMENTED; MATCHED LOCAL/WIDE 500-UPDATE CANARIES PASS; 10,000-UPDATE
-SCIENCE RUNS ACTIVE; NOT A PRODUCTION REOPENING; PH001 SEALED
+**Status:** F3-L COMPLETE; WIDE CONTEXT IMPROVES EIGENGAP TARP BUT FAILS THE
+REGISTERED JOINT FIELD GATE; F3-H NOT AUTHORIZED; PH001 SEALED
 
 The causal autopsy motivates a new field-posterior experiment, but it does not justify
 repeating P12-F1b with a larger generic U-Net.  The demonstrated defect is specific:
@@ -4558,9 +4560,36 @@ frozen v2 no-field-finalist and first-VAC P12-A decisions unchanged.
   G1 mean/high-frequency hybrid sampler, exact-resume contract and ph001 refusal.
 - [x] Run matched 500-update local/wide technical canaries on one A100 each; archive
   throughput, loss trajectories and sample panels.
-- [ ] Complete the active, checkpoint-resumable 10,000-update runs and evaluate on the frozen
-  ph006 causal-autopsy panel with at least 64 common-seed draws.
-- [ ] Decide F3-H flow/diffusion or stop from the registered visual/calibration gate.
+- [x] Complete both exact-resume 10,000-update runs and the fixed 256-core ph006
+  comparison with 64 common-seed draws.  Local/wide cumulative flow losses are
+  `0.4410/0.4360`; both terminal markers pass and retain `ph001_opened=false`.
+- [x] Apply the registered F3-L gate.  The wide conditioner repairs joint eigengap
+  TARP to `0.0368`, but overshoots the longest residual band (`P_post/P_true=1.322`),
+  worsens joint ordered-eigenvalue TARP to `0.1253`, has maximum global/conditional
+  coverage errors `0.1003/0.2070`, and worsens the energy/variogram scores to
+  `6.0698/0.05138` versus G1 `5.9828/0.04764`.  Its paired per-core energy change
+  relative to G1 is `-3.93%` improvement (95% interval `[-5.37%,-2.55%]`), i.e. a
+  statistically resolved worsening.  `P12F3_LOWMODE_DECISION.json` therefore freezes
+  `stop_f3l_do_not_launch_f3h`.
+- [x] Retain the useful causal result: wider conditioning improves the learned-flow
+  ordered-eigenvalue TARP (`0.2284 -> 0.1253`) and eigengap TARP
+  (`0.0575 -> 0.0368`), while the second low band approaches unit power
+  (`0.885 -> 0.982`).  The first band instead changes `1.101 -> 1.322`.  This is
+  evidence that context matters, but that the current scalar-density low-mode flow
+  learns the wrong joint amplitude/dependence law; larger patches alone are not a
+  sufficient cure.
+- [ ] Before any new GPU launch, register an F3-L2 hypothesis that separates the
+  density-like trace/monopole from traceless tidal shear and conditions the low-mode
+  covariance or spectral amplitude on the observation.  Do not launch the registered
+  F3-H high-frequency refinement or a generic matched diffusion sweep from this failed
+  parent.  Diffusion remains a later sampler-family control only after the conditional
+  low-mode target is repaired.
+
+Frozen compact evidence is
+`docs/evidence/p12/p12f3_hierarchical_v1/P12F3_VISUAL_AUDIT.json` and
+`P12F3_LOWMODE_DECISION.json`; the inspected TARP, residual-power, gate and field
+panels are in `docs/figures/p12f3_hierarchical_20260903/`.  These are ph006 research
+results, not a reopening of the v2 production no-field-finalist decision.
 
 The primary gate is **not** `R2(posterior mean, truth)`.  The held-out truth must be
 statistically compatible with the learned conditional ensemble.  Require, in order:

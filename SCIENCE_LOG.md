@@ -1,5 +1,53 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-03 - [science/results/code] P12-F3 wide context repairs eigengaps but fails the joint field-posterior gate
+
+The first hierarchical P12-F3 experiment is complete.  Both matched low-mode
+rectified flows reached the frozen 10,000-update budget (`3.90625` epoch-equivalents)
+with finite samples, exact checkpoint replay and no ph001 access.  Their cumulative
+losses were `0.4410` for local `h8` conditioning and `0.4360` for wide `h24`
+conditioning; terminal-marker SHA256 values are `b8fcf3c...e4d53b` and
+`c7df68a...518a4d`.  The noisy late losses are approximately flat, so this is a
+scientific comparison rather than another premature short-run result.
+
+The fixed 256-core ph006 comparison cleanly separates the physics-window effect from
+the learned-conditioner effect.  Frozen G1 is well calibrated for the ordered
+eigenvalue vector (TARP `0.0362` with a local FFT and `0.0345` with a wide FFT), but
+its eigengap TARP is `0.0759/0.0865`.  Replacing only its first two non-DC residual
+bands with the learned local flow moves ordered-eigenvalue/eigengap TARP to
+`0.2284/0.0575`; wide conditioning improves these to `0.1253/0.0368`.  The wide
+model therefore genuinely learns dependence that helps the eigengaps, and larger
+context is useful within that learned model.  It does not produce a calibrated joint
+field posterior.
+
+The residual-power panel explains the trade-off.  Relative to truth, G1 supplies
+`0.731/0.878` power in the two registered low bands.  The local learned flow gives
+`1.101/0.885`; the wide flow gives `1.322/0.982`.  Wide context nearly fixes the
+second band but over-disperses the longest band.  The improved eigengap TARP is thus
+not a general posterior repair: uncertainty has been redistributed into a shear-
+sensitive combination while the ordered-eigenvalue joint geometry becomes too broad
+and distorted.  Consistently, the wide hybrid has maximum global and conditional
+coverage errors `0.1003/0.2070`, above the `0.05/0.10` gates.
+
+Proper scores reject promotion independently of TARP.  Wide-hybrid energy and
+variogram scores are `6.0698` and `0.05138`, versus G1 `5.9828` and `0.04764` (lower
+is better).  The paired authoritative-core bootstrap estimates an energy
+“improvement” of `-3.93%`, with 95% interval `[-5.37%,-2.55%]`: the degradation is
+spatially replicated, not a pooled-voxel fluctuation.  Wide versus local hybrid is
+only a `+0.30%` paired change with interval `[-0.29%,+0.90%]`.  All fixed-physics
+finiteness, trace, ordering and no-double-smoothing checks pass.
+
+The frozen decision is therefore `stop_f3l_do_not_launch_f3h`.  This does not reject
+conditional flows or diffusion as field-posterior tools.  It rejects using this
+scalar-density, fixed-band low-mode flow as the parent for high-frequency refinement.
+The next bounded hypothesis should separate density-like trace from traceless tidal
+shear and make the low-mode covariance/amplitude observation-conditional; a generic
+diffusion rerun or still larger patch is not licensed by these results.  Compact
+evidence and inspected plots are under
+`docs/evidence/p12/p12f3_hierarchical_v1/` and
+`docs/figures/p12f3_hierarchical_20260903/`; visual-audit and decision SHA256 values
+are `a036eff...54f15` and `12e298a...d3441`.  ph001 remains sealed.
+
 ### 2026-09-03 - [science/decision/code/run] Rain-check P12-A/ph001 production and prioritize the multiscale P12-F3 experiment
 
 The user has explicitly changed the scheduling priority: understanding conditional
