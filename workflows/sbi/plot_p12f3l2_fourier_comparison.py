@@ -81,7 +81,16 @@ def plot_main(summary: dict, reports: dict, shear: dict, trace: tuple[np.ndarray
         axis.plot([0, 1], [0, 1], color="black", linestyle="--", linewidth=1, label="ideal")
         for method in METHODS:
             row = summary[method][key]
-            axis.plot(row["alpha"], row["expected_coverage_probability"], color=COLORS[method], label=f"{LABELS[method]} (max {row['maximum_deviation']:.3f})")
+            blocked = reports[method]["tarp"][
+                "ordered_eigenvalues" if key == "eigen_tarp" else "eigengaps"
+            ]["full_max_abs_ecp_minus_alpha"]
+            axis.plot(
+                row["alpha"], row["expected_coverage_probability"],
+                color=COLORS[method],
+                label=(f"{LABELS[method]} "
+                       f"(pooled {row['maximum_deviation']:.3f}; "
+                       f"blocked {blocked:.3f})"),
+            )
         axis.fill_between([0, 1], [0, .95], [.05, 1], color="#8bc34a", alpha=.06)
         axis.set(xlim=(0, 1), ylim=(0, 1), xlabel="nominal coverage", ylabel="empirical coverage", title=title)
         axis.legend(fontsize=7)
@@ -90,7 +99,16 @@ def plot_main(summary: dict, reports: dict, shear: dict, trace: tuple[np.ndarray
     axis.plot([0, 1], [0, 1], color="black", linestyle="--", linewidth=1, label="ideal")
     for method in METHODS:
         row = shear[method]["joint_tarp"]
-        axis.plot(row["alpha"], row["expected_coverage_probability"], color=COLORS[method], label=f"{LABELS[method]} (max {row['maximum_deviation']:.3f})")
+        blocked = shear[method]["joint_tarp_blocked"][
+            "full_max_abs_ecp_minus_alpha"
+        ]
+        axis.plot(
+            row["alpha"], row["expected_coverage_probability"],
+            color=COLORS[method],
+            label=(f"{LABELS[method]} "
+                   f"(pooled {row['maximum_deviation']:.3f}; "
+                   f"blocked {blocked:.3f})"),
+        )
     axis.set(xlim=(0, 1), ylim=(0, 1), xlabel="nominal coverage", ylabel="empirical coverage", title="E. Joint five-component low-k shear TARP")
     axis.legend(fontsize=7)
 
@@ -99,12 +117,15 @@ def plot_main(summary: dict, reports: dict, shear: dict, trace: tuple[np.ndarray
     limits = np.asarray((.05, .05, .05, .10, .05, .05))
     for method in METHODS:
         values = np.asarray((
-            summary[method]["eigen_tarp"]["maximum_deviation"],
-            summary[method]["gap_tarp"]["maximum_deviation"],
+            reports[method]["tarp"]["ordered_eigenvalues"]
+            ["full_max_abs_ecp_minus_alpha"],
+            reports[method]["tarp"]["eigengaps"]
+            ["full_max_abs_ecp_minus_alpha"],
             max(reports[method]["global_coverage_error"].values()),
             reports[method]["maximum_conditional_coverage_error"],
             shear[method]["maximum_marginal_coverage_error"],
-            shear[method]["joint_tarp"]["maximum_deviation"],
+            shear[method]["joint_tarp_blocked"]
+            ["full_max_abs_ecp_minus_alpha"],
         ))
         axis.plot(np.arange(len(names)), values / limits, marker="o", color=COLORS[method], label=LABELS[method])
     axis.axhline(1, color="black", linestyle="--", linewidth=1, label="gate")

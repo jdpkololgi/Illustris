@@ -112,11 +112,16 @@ def build_decision(
     flow_shear = shear["fourier_flow_h24"]
     scalar = {
         "ordered_eigen_tarp": {
-            "value": float(flow_visual["eigen_tarp"]["maximum_deviation"]),
+            "value": float(
+                flow["tarp"]["ordered_eigenvalues"]
+                ["full_max_abs_ecp_minus_alpha"]
+            ),
             "limit": float(gates["joint_ordered_eigen_tarp_maximum"]),
         },
         "eigengap_tarp": {
-            "value": float(flow_visual["gap_tarp"]["maximum_deviation"]),
+            "value": float(
+                flow["tarp"]["eigengaps"]["full_max_abs_ecp_minus_alpha"]
+            ),
             "limit": float(gates["joint_eigengap_tarp_maximum"]),
         },
         "global_coverage": {
@@ -132,7 +137,10 @@ def build_decision(
             "limit": float(gates["traceless_shear_coverage_error_maximum"]),
         },
         "shear_joint_tarp": {
-            "value": float(flow_shear["joint_tarp"]["maximum_deviation"]),
+            "value": float(
+                flow_shear["joint_tarp_blocked"]
+                ["full_max_abs_ecp_minus_alpha"]
+            ),
             "limit": float(gates["traceless_shear_joint_tarp_maximum"]),
         },
     }

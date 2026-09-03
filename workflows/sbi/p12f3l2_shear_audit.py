@@ -20,6 +20,7 @@ from workflows.abacus_tweb.p8_deterministic_common import atomic_json, sha256
 from workflows.sbi.p12f3_export_hybrid_archive import lowpass_numpy
 from workflows.sbi.p12f_common_evaluator import load_core_record
 from workflows.sbi.p12f_dependency_rescue_evaluator import tarp_curve
+from workflows.sbi.p12_calibration_diagnostics import tarp_diagnostic
 from workflows.sbi.p12f_field_posterior_diagnostics import (
     fixed_tidal_tensor,
     scalar_posterior_report,
@@ -168,6 +169,18 @@ def audit_archive(
         for index, name in enumerate(COMPONENTS)
     }
     joint = tarp_curve(draws, truth, seed=79)
+    joint_blocked = tarp_diagnostic(
+        np.transpose(draws, (1, 0, 2)),
+        truth,
+        groups,
+        seed=79,
+        bootstrap_repeats=100,
+        bootstrap_rows=min(20000, len(truth)),
+    )
+    if not joint_blocked.get("available"):
+        raise RuntimeError(
+            f"block-aware five-shear TARP unavailable: {joint_blocked.get('error')}"
+        )
     maximum_coverage_error = max(
         float(row["coverage"][level]["absolute_error"])
         for row in marginal.values()
@@ -185,9 +198,13 @@ def audit_archive(
         "maximum_k_h_mpc": float(maximum_k),
         "marginal": marginal,
         "joint_tarp": joint,
+        "joint_tarp_blocked": joint_blocked,
         "maximum_marginal_coverage_error": maximum_coverage_error,
         "covariance": covariance_report(draws, truth),
-        "resampling_note": "TARP visualization is pooled; uncertainty decisions remain patch-blocked",
+        "resampling_note": (
+            "joint_tarp is a pooled visualization; joint_tarp_blocked is the "
+            "registered patch-block-aware decision statistic"
+        ),
         "core_id_sha256": __import__("hashlib").sha256(groups.tobytes()).hexdigest(),
         "archive_manifest": str(manifest_path.resolve()),
         "archive_manifest_sha256": sha256(manifest_path),
