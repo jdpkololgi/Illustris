@@ -42,6 +42,13 @@ COLORS = {
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--evaluation-root", type=Path, required=True)
+    parser.add_argument(
+        "--method-evaluation-root",
+        action="append",
+        default=[],
+        metavar="METHOD=PATH",
+        help="Override the evaluation root for one method (repeatable).",
+    )
     parser.add_argument("--training-root", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--evidence-output", type=Path)
@@ -287,10 +294,20 @@ def main() -> None:
     if args.device.startswith("cuda") and not torch.cuda.is_available():
         raise RuntimeError("P12-F3 physics visualization requires a compute GPU")
     args.output_dir.mkdir(parents=True, exist_ok=True)
+    evaluation_roots = {method: args.evaluation_root for method in METHODS}
+    for item in args.method_evaluation_root:
+        try:
+            method, raw_path = item.split("=", 1)
+        except ValueError as error:
+            raise RuntimeError("--method-evaluation-root must be METHOD=PATH") from error
+        if method not in METHODS or not raw_path:
+            raise RuntimeError(f"invalid method evaluation-root override: {item}")
+        evaluation_roots[method] = Path(raw_path)
     summaries, examples, reports = {}, {}, {}
     for method in METHODS:
-        manifest = args.evaluation_root / "archives" / method / "P12F_SAMPLE_ARCHIVE.json"
-        report_path = args.evaluation_root / "reports" / f"{method}.json"
+        root = evaluation_roots[method]
+        manifest = root / "archives" / method / "P12F_SAMPLE_ARCHIVE.json"
+        report_path = root / "reports" / f"{method}.json"
         summaries[method], examples[method] = analyze_archive(manifest, device=args.device)
         reports[method] = json.loads(report_path.read_text())
     traces = {
@@ -304,6 +321,9 @@ def main() -> None:
         "schema_version": "p12f3-hierarchical-visual-audit-v1",
         "created_utc": utc_now(),
         "phase": "ph006",
+        "evaluation_roots": {
+            method: str(evaluation_roots[method].resolve()) for method in METHODS
+        },
         "methods": summaries,
         "common_evaluation": {
             method: {
