@@ -1,5 +1,28 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-03 - [science/plan] Open a post-selection causal autopsy of the P12-F eigengap coverage error
+
+The frozen P12-F v2 no-field-finalist decision remains binding for the first VAC, but
+the current evidence identifies a spatial/scale covariance defect without yet proving
+which part of that defect causes the physical eigengap miss.  A bounded,
+checkpoint-free causal autopsy is therefore opened on frozen G1 artifacts and ph006
+only.  It is explanatory rather than a renewed model-selection exercise: it cannot
+promote G1/G2, fit a production correction or delay the P12-A blind-production spine,
+and ph001 remains sealed.
+
+Three tests are preregistered in the roadmap.  First, a trace-versus-shear bridge will
+separate calibration of the density-like trace from the traceless tidal amplitude,
+shape and eigengaps.  Second, truth-assisted low-mode interventions will separately
+correct the held-out low-`k` posterior mean and draw power while preserving all higher
+modes; these are sensitivity oracles, never deployable samplers.  Third, complete
+normalized residual fields will be regenerated on the exact registered training cores
+and resampled as whole patches so their non-Gaussian phases and cross-scale structure
+are retained.  Every comparison uses common ph006 cores/draws, core-block uncertainty,
+visual TARP/SBC/dependence panels and the unchanged fixed tidal operator.  The outcome
+must state whether the evidence supports trace-versus-shear propagation, missing
+coherent low modes, Gaussian random-phase/cross-scale loss, or an unresolved
+conditional-covariance/support effect.
+
 ### 2026-09-03 - [science/results/code/run] P12-A physical eigenvalue/eigengap calibration passes directly; G2 closes with no field finalist
 
 The frozen P12-A 50,000-row by 512-draw ph006 cache has now been rescored in the

@@ -4383,6 +4383,45 @@ version the estimand and restore `W_7(k)` exactly once inside the physics layer.
 - [x] Freeze the v2 no-field-finalist decision before generating any P12-F ph001 draws
   or opening ph001 truth.  No P12-F ph001 panel is licensed in this production cycle.
 
+##### P12-F post-selection causal autopsy
+
+The frozen no-field-finalist decision is a production stop, not a licence to leave the
+coverage mechanism uninterpreted.  Run one checkpoint-free, ph006-only causal autopsy
+on the frozen G1 field archive.  This is explanatory work: it cannot promote G1/G2,
+fit a production correction or reopen model selection, and ph001 remains sealed.
+
+- [ ] **Trace versus shear bridge.** On the exact cached galaxy-sampled eigenvalue
+  draws, compare TARP/SBC and central coverage for the trace
+  `I1=lambda1+lambda2+lambda3`, traceless shear amplitude
+  `q=sqrt(3/2 sum_i (lambda_i-I1/3)^2)`, normalized shear shape and the two
+  eigengaps.  Use authoritative patch cores as the bootstrap unit.  The causal bridge
+  is supported only if trace calibration is materially healthier than shear/gap
+  calibration; exact trace algebra alone is not evidence of posterior calibration.
+- [ ] **Low-mode intervention.** On a truth-free-selected, shell-balanced subset of
+  the frozen 1,024-core ph006 panel, preserve every high-frequency mode and run three
+  explicitly diagnostic low-`k` interventions: replace the posterior-mean low modes
+  by the held-out truth modes while retaining draw scatter; rescale only low-mode draw
+  scatter by the pooled held-out innovation/residual power ratio; and combine both.
+  Freeze the cutoff at the first two non-DC 12-bin radial bands
+  (`k <= 0.181 h/Mpc` for 5 Mpc/h voxels).  These are deliberately truth-assisted
+  sensitivity/oracle tests, not candidate samplers.  Report changes in physical
+  eigenvalue/eigengap TARP, SBC, coverage and proper scores visually.
+- [ ] **Whole training-residual-patch resampling.** Regenerate normalized residual
+  fields from the frozen G1 Gaussian checkpoint on its exact registered
+  ph000/ph002--ph005 training cores, retaining no ph006 fit.  Draw complete residual
+  patches, with deterministic cube symmetries and shape/shell/support matching, then
+  apply the unchanged ph006 conditional mean and scale.  Compare against G1 on the
+  same cores and draw count.  Improvement would implicate Gaussian random phases or
+  missing cross-scale/non-Gaussian dependence; no improvement would shift weight
+  toward conditional/local covariance, support geometry or shared long modes.
+- [ ] Render, inspect and content-address all three tests before interpreting scalar
+  maxima.  The required summary must distinguish a one-point width/location defect
+  from a joint-copula or spatial-dependence defect and state which causal hypotheses
+  remain unresolved.
+- [ ] Preserve the production boundary regardless of the outcome: no ph001 access,
+  no recalibration on ph006, no removal of `P12F_NO_FIELD_FINALIST`, and no delay to
+  the frozen P12-A blind-production spine.
+
 The primary gate is **not** `R2(posterior mean, truth)`.  The held-out truth must be
 statistically compatible with the learned conditional ensemble.  Require, in order:
 
