@@ -10,7 +10,9 @@ only.  It is explanatory rather than a renewed model-selection exercise: it cann
 promote G1/G2, fit a production correction or delay the P12-A blind-production spine,
 and ph001 remains sealed.
 
-Three tests are preregistered in the roadmap.  First, a trace-versus-shear bridge will
+Three no-refitting tests are preregistered in the roadmap; the frozen checkpoint is
+opened only to regenerate training residuals and the exact conditional mean/scale.
+First, a trace-versus-shear bridge will
 separate calibration of the density-like trace from the traceless tidal amplitude,
 shape and eigengaps.  Second, truth-assisted low-mode interventions will separately
 correct the held-out low-`k` posterior mean and draw power while preserving all higher

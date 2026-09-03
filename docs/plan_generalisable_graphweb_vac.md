@@ -4386,9 +4386,10 @@ version the estimand and restore `W_7(k)` exactly once inside the physics layer.
 ##### P12-F post-selection causal autopsy
 
 The frozen no-field-finalist decision is a production stop, not a licence to leave the
-coverage mechanism uninterpreted.  Run one checkpoint-free, ph006-only causal autopsy
-on the frozen G1 field archive.  This is explanatory work: it cannot promote G1/G2,
-fit a production correction or reopen model selection, and ph001 remains sealed.
+coverage mechanism uninterpreted.  Run one no-refitting, ph006-only causal autopsy on
+the frozen G1 archive and checkpoint.  This is explanatory work: it cannot promote
+G1/G2, fit a production correction or reopen model selection, and ph001 remains
+sealed.
 
 - [ ] **Trace versus shear bridge.** On the exact cached galaxy-sampled eigenvalue
   draws, compare TARP/SBC and central coverage for the trace

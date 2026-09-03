@@ -1,0 +1,73 @@
+{
+  "schema_version": "p12f-causal-autopsy-v1",
+  "experiment_version": "P12-F post-selection causal autopsy",
+  "roles": {
+    "training": ["ph000", "ph002", "ph003", "ph004", "ph005"],
+    "diagnostic_validation": "ph006",
+    "sealed_blind_test": "ph001"
+  },
+  "estimand": "p(delta_R7 | BGS_BRIGHT V_final, S_random, H_fid)",
+  "production_effect": "none; explanatory post-selection diagnostic only",
+  "sources": {
+    "parent_config": "configs/p12f_dependency_rescue_v2.json",
+    "g1_archive_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_dependency_rescue_v2/evaluation_sufficiency_seed42/archives/gaussian_correlated_g1/P12F_SAMPLE_ARCHIVE.json",
+    "compact_archive_ready": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_dependency_rescue_v2/evaluation_sufficiency_seed42/dependency_evaluation/COMPACT_ARCHIVE_READY.json",
+    "panel_marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_dependency_rescue_v2/evaluation_sufficiency_seed42/panel_1024/P12F_PH006_PANEL_1024.json",
+    "gaussian_checkpoint": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_matched_challengers_v1/matched_v1_seed42/gaussian/checkpoint.pt",
+    "gaussian_run_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_matched_challengers_v1/matched_v1_seed42/gaussian/run_manifest.json",
+    "g1_filter": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_matched_challengers_v1/matched_v1_seed42/gaussian/g1_residual_filter.json",
+    "conditioning_contract": "/global/homes/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901",
+    "phase_root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase"
+  },
+  "common": {
+    "posterior_draws": 256,
+    "tarp_reference_seed": 42,
+    "tarp_reference_seeds": 20,
+    "bootstrap_replicates": 4000,
+    "resampling_unit": "authoritative patch core",
+    "voxel_size_mpc_h": 5.0,
+    "additional_gaussian_smoothing": false
+  },
+  "trace_shear": {
+    "cores": 1024,
+    "invariants": ["trace", "shear_q", "lode_eta", "gap12", "gap23"],
+    "shear_q_definition": "sqrt(3/2 sum_i (lambda_i-trace/3)^2)",
+    "lode_eta_definition": "3 sqrt(6) prod_i(lambda_i-trace/3) / sum_i(lambda_i-trace/3)^2^(3/2)"
+  },
+  "low_k_intervention": {
+    "subset_rule": "existing truth-free panel; core_id-sorted every-fourth subpanel 0 within each shell",
+    "cores": 256,
+    "cores_per_shell": 64,
+    "radial_bins": 12,
+    "corrected_radial_bins": [0, 1],
+    "exclude_dc": true,
+    "maximum_k_cycles_per_voxel": 0.14433756729740643,
+    "maximum_k_h_mpc": 0.18137993642342178,
+    "interventions": ["g1", "lowk_mean_oracle", "lowk_power_oracle", "lowk_mean_power_oracle"],
+    "truth_assisted": true,
+    "production_sampler": false
+  },
+  "empirical_residual": {
+    "training_cores_per_phase": 512,
+    "library_fields": 2560,
+    "recipient_cores": 256,
+    "draws": 256,
+    "donor_match_order": ["exact_shape", "shell", "cap", "support_fraction"],
+    "deterministic_cube_symmetries": true,
+    "retain_full_raw_residual_outside_support_for_tidal_context": true,
+    "fit_on_ph006": false,
+    "production_sampler": false
+  },
+  "interpretation": {
+    "trace_shear_bridge": "trace materially healthier than shear/gaps supports tidal-shear propagation",
+    "low_k_oracle": "improvement localizes sensitivity to missing or miscentered coherent modes, but cannot estimate deployable performance",
+    "empirical_residual": "improvement over G1 implicates Gaussian random phases or lost non-Gaussian cross-scale dependence",
+    "no_improvement": "retains conditional/local covariance, response geometry and shared-mode context as unresolved causes"
+  },
+  "guards": {
+    "ph001_opened": false,
+    "ph006_recalibration_allowed": false,
+    "may_change_no_field_finalist": false,
+    "may_delay_p12a_blind_spine": false
+  }
+}
