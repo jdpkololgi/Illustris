@@ -1,0 +1,193 @@
+{
+  "schema_version": "p12f3-d2-diffusion-v1",
+  "status": "registered_before_d2_training",
+  "estimand": "p(delta_R7 local patch field | BGS_BRIGHT V_final, S_random, H_fid)",
+  "roles": {
+    "training": ["ph000", "ph002", "ph003", "ph004", "ph005"],
+    "internal_validation": "fixed 10 percent per training phase inherited from P12-F3 conditional rescue",
+    "validation": "ph006",
+    "sealed_blind_test": "ph001"
+  },
+  "sources": {
+    "parent_config": "configs/p12f3_conditional_calibration_v1.json",
+    "conditional_output_root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1",
+    "conditional_gaussian_arm": "proxy7",
+    "conditional_gaussian_run": "seed42_v3",
+    "conditional_whitening": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/generative/proxy7/conditional_whitening.json",
+    "f3l2d_checkpoint": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/generative/diffusion/seed42_v3/checkpoint.pt",
+    "f3l2d_trained_marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/generative/diffusion/seed42_v3/P12F3_CONDITIONAL_GENERATIVE_TRAINED.json",
+    "f3l2d_sampler_convergence": "docs/evidence/p12/p12f3_conditional_rescue_v1/P12F3_DIFFUSION_SAMPLER_CONVERGENCE.json",
+    "g1_reference_archive": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_fourier_lowmode_v1/evaluation/seed42_v1/g1_wide_h24/P12F_SAMPLE_ARCHIVE.json",
+    "g1_reference_report": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_fourier_lowmode_v1/evaluation/seed42_v1/reports/g1_wide_h24.json",
+    "f3l2b_reference_archive": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_fourier_training_sufficiency_v1/evaluation/seed42_30k_dp4_v1/fourier_flow_h24/P12F_SAMPLE_ARCHIVE.json",
+    "f3l2b_reference_report": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_fourier_training_sufficiency_v1/evaluation/seed42_30k_dp4_v1/reports/fourier_flow_h24.json",
+    "f3l2d_nfe100_reference_archive": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/conditional_diffusion_proxy7_nfe100/P12F_SAMPLE_ARCHIVE.json",
+    "f3l2d_nfe100_reference_report": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/reports/conditional_diffusion_proxy7_nfe100.json"
+  },
+  "matched_contract": {
+    "condition_channels": [
+      "counts_normalized",
+      "density_proxy_from_log_count_ratio",
+      "exposure_apodized",
+      "frozen_g1_mean_scaled",
+      "frozen_g1_log_std",
+      "frozen_g1_traceless_shear_amplitude",
+      "random_support_boundary_distance_clipped_0_120_mpc_h"
+    ],
+    "condition_channels_count": 7,
+    "mask_only_metadata": "support_random exact M; never concatenated as an eighth learned condition channel",
+    "target": "conditionally standardized exact low-mode Hermitian Fourier coefficients",
+    "band_edges_h_mpc": [0.0, 0.0906899682117109, 0.1813799364234218],
+    "voxel_mpc_h": 5.0,
+    "additional_smoothing": false,
+    "conditional_location_scale_frozen": true,
+    "conditional_whitening_frozen": true,
+    "conditional_standardization_roundtrip": "quantified on one fixed internal-training core per phase before D2 optimization; descriptive because low-pass projection and spatially varying location/scale do not commute",
+    "high_frequency_completion": "frozen G1 correlated residual minus its exact registered low modes",
+    "physics_layer": "unchanged fixed no-double-smoothing delta_R7 to tidal tensor to eigensystem",
+    "training_cores_per_phase_before_internal_split": 512,
+    "ph006_panel_cores": 256,
+    "ph006_draws": 64
+  },
+  "diffusion": {
+    "path": "variance_preserving_cosine",
+    "prediction": "v",
+    "time_sampling": "uniform_continuous_0_1",
+    "time_embedding": "sinusoidal_cosine_log_snr_then_two_layer_mlp",
+    "residual_blocks": "3d_per_voxel_channel_layernorm_silu_time_addition_zero_padding",
+    "normalization_safety": "spatial GroupNorm and InstanceNorm forbidden by frozen P6/P8 context/subdivision invariance contract",
+    "ema_decay": 0.999,
+    "ema_warmup": true,
+    "classifier_free_guidance": false,
+    "learned_reverse_variance": false,
+    "periodic_padding": false
+  },
+  "reproducibility": {
+    "cuda_deterministic_algorithms": true,
+    "cublas_workspace_config": ":4096:8",
+    "cudnn_deterministic": true,
+    "cudnn_benchmark": false,
+    "allow_tf32": false,
+    "float32_matmul_precision": "highest",
+    "numerical_replay_absolute_tolerance": 1e-6,
+    "resume_claim_policy": "state serialization is exact; post-update numerical replay is claimed only after the registered one-GPU smoke passes and is not generalized beyond the tested topology"
+  },
+  "arms": {
+    "modern_base4": {
+      "base": 4,
+      "time_channels": 64,
+      "coarse_attention": false,
+      "attention_heads": 4
+    },
+    "modern_base8": {
+      "base": 8,
+      "time_channels": 64,
+      "coarse_attention": false,
+      "attention_heads": 4
+    },
+    "modern_base8_attention": {
+      "base": 8,
+      "time_channels": 64,
+      "coarse_attention": true,
+      "attention_heads": 4,
+      "attention_support_metadata": "support_random",
+      "attention_support_rule": "exact random-derived binary support; apodized exposure is forbidden as an attention mask"
+    }
+  },
+  "funnel": {
+    "seed": 42,
+    "replication_seed": 314159,
+    "canary_presentations": 2500,
+    "science_total_presentations": 12500,
+    "gradient_accumulation_steps": 2,
+    "maximum_effective_training_passes": 6.0,
+    "maximum_programme_presentations_including_replication": 30000,
+    "learning_rate": 0.0002,
+    "weight_decay": 0.0001,
+    "gradient_clip": 5.0,
+    "loss_log_every_optimizer_updates": 25,
+    "checkpoint_every_optimizer_updates": 100,
+    "internal_sample_milestone_presentations": [2500, 5000, 7500, 10000, 12500],
+    "internal_selection_cores": 128,
+    "internal_confirmation_cores": 127,
+    "internal_sample_draws": 32,
+    "internal_sample_draw_batch": 4,
+    "internal_sample_network_evaluations": 50,
+    "capacity_energy_relative_improvement_required": 0.01,
+    "attention_energy_relative_improvement_required": 0.01,
+    "internal_variance_ratio_log_regression_maximum": 0.10,
+    "internal_loss_relative_regression_maximum": 0.01,
+    "no_update_extension": true,
+    "earliest_checkpoint_within_one_standard_error": true,
+    "internal_confirmation_policy": "before winner continuation, open the 127 cores once and repeat each already-frozen sequential arm contrast with the arm-specific raw_or_ema choices and common sample seeds; apply the identical paired energy and feasibility rule; any contradicted decision closes D2 and never promotes a runner-up"
+  },
+  "selection_sequence": [
+    "quantify the inherited conditional-standardization round trip on training cores",
+    "pass the one-GPU state-resume and 32-draw NFE50 memory/throughput smoke",
+    "run modern_base4 and modern_base8 canaries",
+    "select capacity using internal training-phase diagnostics only",
+    "run modern_base8_attention canary only if modern_base8 wins capacity gate",
+    "freeze the final canary architecture and each arm-specific raw or EMA choice on the 128-core internal selection split",
+    "open the disjoint 127-core internal confirmation split once and repeat the frozen paired arm contrasts; failure closes D2 without a runner-up",
+    "only after confirmation, continue the selected canary checkpoint to 12500 total patch presentations (6250 optimizer steps at accumulation two)",
+    "freeze checkpoint age and raw or EMA weights across 2500/5000/7500/10000/12500 using only the 128-core selection split",
+    "evaluate the internally frozen weights at NFE50 and NFE100 exactly once on ph006",
+    "replicate only a simultaneous ph006 pass with the registered second seed"
+  ],
+  "sampler": {
+    "primary": {"type": "ddim", "eta": 0.0, "network_evaluations": 100},
+    "draw_batch": 4,
+    "deterministic_ladder_network_evaluations": [50, 100],
+    "convergence_reference_pair": [50, 100],
+    "convergence_tarp_change_maximum": 0.01,
+    "convergence_global_coverage_change_maximum": 0.01,
+    "convergence_low_band_power_change_maximum": 0.05,
+    "convergence_proper_score_relative_change_maximum": 0.01,
+    "stochastic_control": {
+      "type": "generalized_ddim_reverse_process",
+      "eta": 1.0,
+      "network_evaluations": 100,
+      "run_only_if_deterministic_convergence_fails": true
+    }
+  },
+  "evaluation": {
+    "common_evaluator_seed": 42,
+    "higher_order_seed": 20260904,
+    "paired_bootstrap_repeats": 5000,
+    "paired_bootstrap_seed": 20260904,
+    "deployable_conditioning_gates": ["shell", "random_response", "boundary_distance", "tracer_density", "frozen_g1_mean_scaled", "frozen_g1_log_std", "frozen_g1_traceless_shear_amplitude"],
+    "conditional_coverage_gate_scope": "maximum 68/90 percent component coverage error across supported voxel delta and galaxy-sampled lambda1/lambda2/lambda3/gap12/gap23 for every deployable conditioning variable; true environment is descriptive only",
+    "matched_reference_methods": ["g1", "f3l2b", "f3l2d_nfe100"],
+    "matched_reference_policy": "recompute every frozen reference archive and D2 with the same p12f_common_evaluator seed and core_joint_scores subsets before any paired proper-score gate"
+  },
+  "ph006_gate": {
+    "low_band_power_ratio_absolute_tolerance": 0.10,
+    "joint_tarp_maximum": 0.05,
+    "five_shear_tarp_maximum": 0.05,
+    "five_shear_marginal_coverage_error_maximum": 0.05,
+    "global_coverage_error_maximum": 0.05,
+    "deployable_proxy_conditional_coverage_error_maximum": 0.10,
+    "proper_score_worsening_maximum": 0.01,
+    "primary_paired_energy_relative_improvement_over_f3l2b_minimum": 0.02,
+    "positive_paired_core_energy_improvement_over_g1_required": true,
+    "positive_paired_core_energy_improvement_over_f3l2b_required": true,
+    "paired_core_interval_excludes_zero": true,
+    "f3l2d_nfe100_role": "diagnostic non-inferiority reference; no superiority claim required",
+    "f3l2d_nfe100_proper_score_worsening_maximum": 0.01,
+    "finite_non_degenerate_required": true,
+    "physics_trace_and_order_closure_required": true,
+    "phase_sensitive_bispectrum_proxy_required": false,
+    "phase_sensitive_bispectrum_proxy_role": "descriptive_only_no_promotion_gate",
+    "selected_arm_second_seed_required": true
+  },
+  "scope": {
+    "v2_research_branch": true,
+    "off_p12a_v1_critical_path": true,
+    "local_patch_posterior_only": true,
+    "no_ph006_architecture_or_sampler_tuning": true,
+    "no_ph006_fitted_recalibration": true,
+    "true_environment_training_forbidden": true,
+    "independent_patch_draws_are_not_full_cap_universes": true,
+    "ph001_opened": false
+  }
+}
