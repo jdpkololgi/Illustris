@@ -1,0 +1,866 @@
+{
+  "bootstrap_unit": "authoritative core",
+  "candidate": {
+    "bytes": 3467,
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/evidence/p12/P12A_PRODUCTION_CANDIDATE_FROZEN.json",
+    "sha256": "cd8e5aa543a133fbff622ee1d72f078d7132ff1214b00f9856ea47dcd729550f"
+  },
+  "candidate_artifacts": {
+    "base_checkpoint": {
+      "bytes": 5791201,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/arm_a_training/arm_a_r0_v1/unet/seed_42/best_checkpoint.pt",
+      "sha256": "cd7c280602b3496753d21d236d30c50bde96335fa69ccc60cd12c0dfe3ccdfab"
+    },
+    "base_summary": {
+      "bytes": 1710,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_oof_summaries/ph006/OOF_SUMMARY_COMPLETE.json",
+      "sha256": "dfc43618bebb29f97541335d27984a516076f442c63266e62e031172d7d35afd"
+    },
+    "calibration_audit": {
+      "bytes": 271018,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/evidence/p12/P12A_CALIBRATION_AUDIT.json",
+      "sha256": "ea602b92eadc997fdf1aaf201902f4973981e8e7cae6007bc6ecfb07f17cab3b"
+    },
+    "checkpoint": {
+      "bytes": 505497,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/fmpe_estimator.pt",
+      "sha256": "0474ce3f0b3a6c97de7fe225eaceee9f0b2b0ea76ea5d417e545eeeacf437880"
+    },
+    "completion": {
+      "bytes": 14357,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/P12A_COMPLETE.json",
+      "sha256": "9748d62d4a2f7476bedf26223281436f4eacf71660a2bfef232f3c44cb973b90"
+    },
+    "dataset": {
+      "bytes": 15517,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/P12A_DATASET_READY.json",
+      "sha256": "7c93cb8a1e4f409aac49050c61e036e9b917ac42db0df8c97990ce59187fa7f9"
+    },
+    "gaussian_baseline": {
+      "bytes": 5116,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/evidence/p12/production_aux_v1/P12A_GAUSSIAN_BASELINE.json",
+      "sha256": "7180877540b9a3a1a876ba539febcaa8679b8fd2e26a10473bf4bbe512138f3e"
+    },
+    "quality_thresholds": {
+      "bytes": 2352,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/evidence/p12/production_aux_v1/P12A_QUALITY_THRESHOLDS.json",
+      "sha256": "533cc9eb5b9ed14452b9b78aa1df7d7bc79a5a20b05701fade5180d425b5368b"
+    }
+  },
+  "canonical_outputs": {
+    "energy_score_array": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/evaluation/P12A_PH001_ENERGY_SCORES.npz",
+    "energy_score_report": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/evaluation/P12A_PH001_ENERGY_SCORE.json",
+    "evaluation_figure": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/evaluation/P12A_PH001_BLIND_EVALUATION.png",
+    "evaluation_report": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/evaluation/P12A_PH001_BLIND_EVALUATION.json",
+    "opened_marker": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/P12_BLIND_OPENED.json",
+    "plot_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/evaluation/P12A_PH001_BLIND_PLOTS.json"
+  },
+  "class_threshold": 0.2,
+  "conditional_strata": {
+    "radial_selection_density_quartile": "ntilde_mpc3",
+    "random_support_boundary_distance_quartile": "distance_to_support_boundary_mpc",
+    "redshift_shell": "shell"
+  },
+  "covariate_definitions": {
+    "distance_to_support_boundary_mpc": "P3b-R random-support boundary distance stored in comoving Mpc; the frozen quality thresholds 10.3458469 and 20.6916938 Mpc correspond to 7 and 14 Mpc/h at h=0.6766",
+    "ntilde_mpc3": "training-frozen BRIGHT radial selection density evaluated at galaxy redshift; not angular random density, fibre completeness, or redshift success",
+    "quality_bit_legacy_response_outside_training_range": "the existing production bit name is retained for binary compatibility, but its actual covariate is log(ntilde_mpc3); it must not be described as a random-completeness or full survey-response OOD flag",
+    "quartile_binning": "deterministic quartiles of the frozen truth-free ph001 covariate rows; no truth or post-open fit enters bin assignment"
+  },
+  "created_utc": "2026-09-04T20:09:03.324405+00:00",
+  "dataset_marker": {
+    "bytes": 15517,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/P12A_DATASET_READY.json",
+    "sha256": "7c93cb8a1e4f409aac49050c61e036e9b917ac42db0df8c97990ce59187fa7f9"
+  },
+  "evaluation_implementation": {
+    "abacus_tweb_package_init": {
+      "bytes": 0,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "blind_array_worker": {
+      "bytes": 5143,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12a_blind_array_worker.py",
+      "sha256": "9b1e7211f9ce64ab4570690314ba0671b87b0c260f2328951cbccf4c95fba4dc"
+    },
+    "blind_classical_fullcap_dependency": {
+      "bytes": 19978,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p10_classical_fullcap.py",
+      "sha256": "08e17c6e340fcf7312b2a0bf637e9607e584db809733aeca581c0085a8651c07"
+    },
+    "blind_classical_predictions": {
+      "bytes": 11041,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12_blind_classical_predictions.py",
+      "sha256": "e2db1144e4150d327dd2b8f41143d155753fe0df085d1b5999add386ee9b2802"
+    },
+    "blind_classical_tidal_sampler": {
+      "bytes": 16719,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p8_classical_fullcap.py",
+      "sha256": "bdfbfa7b0deeeab265528aeb1a5a7ed70142957cf0a29a9854150b92c1bade2a"
+    },
+    "blind_evaluator": {
+      "bytes": 40506,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12a_evaluate_blind.py",
+      "sha256": "c6981683cc4da8fd6ee0aac8f2ee6070fb43bce8e5fd42b488896c621ffd8d01"
+    },
+    "blind_export_slurm": {
+      "bytes": 2229,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/submit_p12a_blind_export.slurm",
+      "sha256": "a29eb1924a96420c92f2973705e1c9f5de75369848e6db98067499d4ca7f9af5"
+    },
+    "blind_field_adapter_dependency": {
+      "bytes": 16831,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p6_field_patch_utils.py",
+      "sha256": "119a1dd753049e73e207563ea4c930c0ee4f6d3a87cadf9053397e469acfdd14"
+    },
+    "blind_freeze_cli": {
+      "bytes": 1324,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12_freeze_blind_predictions.py",
+      "sha256": "4db8781427666690a7b784a5f1c3834810eed5e55f3bc0acd3c5991c343f91fc"
+    },
+    "blind_freeze_slurm": {
+      "bytes": 2058,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/submit_p12_blind_freeze.slurm",
+      "sha256": "145f310b614eca7baa6eec63b063507b777bd0fee9f2953c6be790bfbb9042ab"
+    },
+    "blind_inference": {
+      "bytes": 29822,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12a_blind_inference.py",
+      "sha256": "a99d46fbb6d35752a811ace2b9e829e7c33b5a0a2d79e0d37f8404c991a9eda3"
+    },
+    "blind_plotter": {
+      "bytes": 11321,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12a_plot_blind_evaluation.py",
+      "sha256": "c5dd35fd949d581b451c6353182b2d9529b878fae8b36415b12314d4d45dd50d"
+    },
+    "blind_shard_contract": {
+      "bytes": 8414,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12a_blind_shards.py",
+      "sha256": "acdf863fdcf0bc1faea1b94dcc46d38db5f3868de5c43872313f56d9ba563f2a"
+    },
+    "blind_unet_dependency": {
+      "bytes": 16361,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p8_train_unet_patch.py",
+      "sha256": "baef42892ed9ef90a6f1366078940ffdf8d507c4f20c14e8e7504327a4070d6f"
+    },
+    "blind_unet_summary_dependency": {
+      "bytes": 9960,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12_export_unet_summaries.py",
+      "sha256": "39df2f79d3a5b74f0e82f8df3ef4535c41dc68f572e4e7c1c3054a9ff0d92b74"
+    },
+    "calibration_diagnostics_dependency": {
+      "bytes": 25692,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12_calibration_diagnostics.py",
+      "sha256": "034f467cecd615f77e2302938ba8246115a7ecd6093d9ae96eff0765585cbb4d"
+    },
+    "checkpoint_loader_dependency": {
+      "bytes": 47625,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p8_train_patch_recovery.py",
+      "sha256": "8985b84744595a908b6079f6d40bbe3bda6bd78867ce2b470cfec4f0a3935b40"
+    },
+    "deep_preauthorization_audit": {
+      "bytes": 22792,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12a_blind_preauthorization.py",
+      "sha256": "266b76f78cc84f10553ad398f241f78b05fe353e343aa5aae384888a34913881"
+    },
+    "epoch_training_dependency": {
+      "bytes": 8289,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p8_epoch_training.py",
+      "sha256": "7a555d68ae982a9653743e0e62ff6fc17814dba3cf0a7fac5f51ce63bfb33729"
+    },
+    "evaluation_contract": {
+      "bytes": 26848,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12a_blind_evaluation_contract.py",
+      "sha256": "92491f128ea32bab7d57970368c02c280a8b5d0bff96be472262d96a88d9858f"
+    },
+    "graph_patch_dependency": {
+      "bytes": 16169,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p5_graph_patch_utils.py",
+      "sha256": "4373e3df3bcc6b5bc7824d739df91c8b8fb738f3fcbd0ee32a7cd35b82f74e37"
+    },
+    "immutable_publication": {
+      "bytes": 4667,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12a_immutable_io.py",
+      "sha256": "4da06ac79eb4aa5764fb01316253e0e939f8b683520e2c88fed8ed575666d007"
+    },
+    "one_open_guard": {
+      "bytes": 37449,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12a_open_blind.py",
+      "sha256": "fefbdf08b3d703b0e5f54747d6703e600f95f4ef4da6d449630a127f630714b9"
+    },
+    "posterior_sampling_dependency": {
+      "bytes": 24149,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12_train_base_response_fmpe.py",
+      "sha256": "8a21fdfba5eb852a9106648cf90f72ffaaf3828a3b00f870c9bc272a380aee12"
+    },
+    "posterior_transform_dependency": {
+      "bytes": 21033,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12_prepare_base_response_dataset.py",
+      "sha256": "1c34707f9ad290c4c3df56ccbd3722737af3655dd865698c7ef48cf5e8ebfc16"
+    },
+    "postopen_chain": {
+      "bytes": 2422,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/submit_p12a_ph001_postopen_chain.sh",
+      "sha256": "d85e646bc9df3315bdc9292cc7a05acae8e713a7dfa703da5cf9cf65a0110cbd"
+    },
+    "postopen_evaluate_slurm": {
+      "bytes": 1328,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/submit_p12a_ph001_evaluate.slurm",
+      "sha256": "53d0ee46647e00232d899ea4e36ab3d0d7d7ad6b145c5727924c6019077245c5"
+    },
+    "postopen_finalize_slurm": {
+      "bytes": 1179,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/submit_p12a_ph001_finalize.slurm",
+      "sha256": "124b8da344137015ae935e3e777fa461b0015bc1e5f85ced73aa5a78eed4e364"
+    },
+    "postopen_plot_slurm": {
+      "bytes": 1219,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/submit_p12a_ph001_plot.slurm",
+      "sha256": "1481a9cbb5e9ff6d0dd459eddd19467510dd73b87400dc010024073b07c7cb49"
+    },
+    "postopen_score_slurm": {
+      "bytes": 1307,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/submit_p12a_ph001_energy_score.slurm",
+      "sha256": "83ec39a455001c853487bd62d3f2033a3a4908ad8a63be7ac8d9efed3c21cd02"
+    },
+    "production_contract": {
+      "bytes": 24126,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12_production_contract.py",
+      "sha256": "2b07b9ec4dbefc7840140413fdd33f7c5b86097cae41e9667b1f40d40b3d038d"
+    },
+    "proper_score_evaluator": {
+      "bytes": 8882,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12a_blind_proper_score.py",
+      "sha256": "045257071238605c003ee91553c4df2d93fd5a44ffa3a93da33b028e05f251fb"
+    },
+    "proper_score_primitives": {
+      "bytes": 5911,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12a_blind_energy_score.py",
+      "sha256": "655e851ee308afbe4866323ed62095d2cbfe32c2723c1ddb97f11d00d1b3089d"
+    },
+    "rank_dependency": {
+      "bytes": 8952,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12f_field_posterior_diagnostics.py",
+      "sha256": "009b435caabed008ac0c0b55f8b9bda9556e1ae8992e3df70bf8d207ef1e29de"
+    },
+    "sbi_package_init": {
+      "bytes": 0,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "shared_config_paths": {
+      "bytes": 2049,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/shared/config_paths.py",
+      "sha256": "88715f2365c4b63e5a2864f40021562d8f6351612a1d9460621fd63eedd0ec71"
+    },
+    "shared_deterministic_dependency": {
+      "bytes": 18736,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p8_deterministic_common.py",
+      "sha256": "c7636ce698b69041bcf5d090a709780eb68ad267ea8ad57948f076d94c589cd2"
+    },
+    "shared_package_init": {
+      "bytes": 60,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/shared/__init__.py",
+      "sha256": "d7262fac8eb0d1993540411bc05c4b94c2b339f7e87b35ffa6266ec08b4edcb3"
+    },
+    "tarp_common_evaluator_dependency": {
+      "bytes": 21717,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12f_common_evaluator.py",
+      "sha256": "326c7d2e4611eada2e20651b7d68af68c5433b2977667e9543b4b26b6fd31a6c"
+    },
+    "tarp_dependency": {
+      "bytes": 32272,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12f_dependency_rescue_evaluator.py",
+      "sha256": "ac9cf927469627630b107d00754b3d80b789df15eccb9e4cce3f024b78fcdb08"
+    },
+    "tarp_field_contract_dependency": {
+      "bytes": 14103,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12f_challenger_common.py",
+      "sha256": "6b17b11aa41f27bf1d4879303f0dcba63af1932285b768fdb09033dfdba3e43f"
+    },
+    "training_contract_dependency": {
+      "bytes": 11429,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p10_training_contract.py",
+      "sha256": "16158ea713e0a077fa06332ffa2da26cd50fd93233728541c8e84b675a8f81e7"
+    },
+    "workflows_package_init": {
+      "bytes": 0,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "evaluation_protocol": {
+    "audit_rows": 50000,
+    "bootstrap_repetitions": 4000,
+    "bootstrap_seed": 202609042,
+    "bootstrap_unit": "authoritative core",
+    "eigengap_tarp_seed_offset": 1,
+    "energy_pairing_offset": 257,
+    "gaussian_draw_seed": 202609041,
+    "gaussian_ordering_transform": "none; evaluate the frozen unconstrained shell/cap residual Gaussian exactly, including any unordered draws",
+    "joint_energy_norm": "euclidean physical ordered-eigenvalue coordinates",
+    "posterior_draws": 512,
+    "posterior_shard_seed_base": 42,
+    "rank_repetitions": 1,
+    "rank_seed_offset": 2,
+    "tarp_gate_aggregation": "p90 of per-seed maximum deviation across 20 consecutive fixed seeds",
+    "tarp_repetitions": 20,
+    "tarp_seed": 202609043
+  },
+  "fit_scope": "training phases only; no ph001 outcomes",
+  "forbidden_artifacts_absent": {
+    "p12a_strict_calibration_pass": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/fmpe_seed42/P12A_CALIBRATION_PASS.json"
+  },
+  "gates": {
+    "gaussian_minus_fmpe_energy_score_ci95_lower_minimum": 0.0,
+    "global_coverage_absolute_error_maximum": 0.03,
+    "joint_eigengap_tarp_maximum": 0.05,
+    "joint_eigenvalue_tarp_maximum": 0.05,
+    "multiclass_brier_skill_minimum": 0.0,
+    "nonsparse_conditional_coverage_absolute_error_maximum": 0.06,
+    "physical_rank_cdf_maximum": 0.05,
+    "posterior_mean_lambda1_r2_delta_minimum": -0.02,
+    "sparse_shell_green_absolute_error_maximum": 0.03,
+    "sparse_shell_release_absolute_error_maximum": 0.06
+  },
+  "gaussian_baseline": {
+    "bytes": 5116,
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/evidence/p12/production_aux_v1/P12A_GAUSSIAN_BASELINE.json",
+    "sha256": "7180877540b9a3a1a876ba539febcaa8679b8fd2e26a10473bf4bbe512138f3e"
+  },
+  "git_revision": "2ccb575ff2bcf3b9f7d0e51138f2f4037639d1d6",
+  "open_count": 0,
+  "pass": true,
+  "phase": "ph001",
+  "post_open_refit_allowed": false,
+  "primary_proper_score": "physical joint energy score on frozen 50k x 512 production draws; positive Gaussian-minus-FMPE difference favours FMPE",
+  "release_policy": {
+    "amber": "all non-sparse gates pass and 0.03 < sparse-shell coverage error <= 0.06; release requires the frozen high-redshift quality flag",
+    "blocked": "any global/non-sparse gate fails or sparse-shell coverage error > 0.06",
+    "green": "all gates pass and sparse-shell coverage error <= 0.03"
+  },
+  "runtime": {
+    "all_installed_distributions": {
+      "abacusutils": "2.1.2",
+      "absl-py": "2.3.1",
+      "aiobotocore": "2.25.2",
+      "aiohappyeyeballs": "2.6.1",
+      "aiohttp": "3.13.2",
+      "aioitertools": "0.12.0",
+      "aiosignal": "1.4.0",
+      "annotated-types": "0.7.0",
+      "anthropic": "0.109.2",
+      "anyio": "4.14.0",
+      "asdf": "5.1.0",
+      "asdf-astropy": "0.9.0",
+      "asdf_coordinates_schemas": "0.4.0",
+      "asdf_standard": "1.4.0",
+      "asdf_transform_schemas": "0.6.0",
+      "astropy": "7.2.0",
+      "astropy-iers-data": "0.2025.12.22.0.40.30",
+      "asttokens": "3.0.1",
+      "attrs": "25.4.0",
+      "backports.zstd": "1.2.0",
+      "beautifulsoup4": "4.14.3",
+      "bleach": "6.3.0",
+      "blosc": "1.11.4",
+      "botocore": "1.40.70",
+      "bottleneck": "1.6.0",
+      "bqplot": "0.12.45",
+      "brotli": "1.2.0",
+      "cached-property": "1.5.2",
+      "cactus": "0.6.0",
+      "certifi": "2026.4.22",
+      "cgal": "6.0.1.post202410241521",
+      "charset-normalizer": "3.4.4",
+      "chex": "0.1.91",
+      "click": "8.3.1",
+      "cloudpickle": "3.1.2",
+      "colorama": "0.4.6",
+      "comm": "0.2.3",
+      "configobj": "5.0.9",
+      "contourpy": "1.3.3",
+      "cycler": "0.12.1",
+      "dask": "2025.12.0",
+      "dataclasses": "0.8",
+      "debugpy": "1.8.20",
+      "decorator": "5.2.1",
+      "defusedxml": "0.7.1",
+      "deprecation": "2.1.0",
+      "desimeter": "0.9.0.dev1218",
+      "desimodel": "0.20.1.dev850",
+      "desitarget": "4.7.2.dev5932",
+      "desiutil": "3.6.2.dev1241",
+      "distrax": "0.1.7",
+      "distro": "1.9.0",
+      "dm-haiku": "0.0.16",
+      "dm-tree": "0.1.9",
+      "docstring_parser": "0.18.0",
+      "e3nn": "0.6.0",
+      "equinox": "0.13.2",
+      "etils": "1.12.2",
+      "executing": "2.2.1",
+      "fastjsonschema": "2.21.2",
+      "fiberassign": "5.9.1.dev3749",
+      "filelock": "3.20.1",
+      "fitsio": "1.3.0",
+      "flax": "0.10.4",
+      "flowjax": "17.2.1",
+      "fonttools": "4.61.1",
+      "frozenlist": "1.7.0",
+      "fsspec": "2025.12.0",
+      "gast": "0.4.0",
+      "gmpy2": "2.2.1",
+      "graphifyy": "0.8.40",
+      "grpcio": "1.81.1",
+      "gudhi": "3.11.0",
+      "h11": "0.16.0",
+      "h2": "4.3.0",
+      "h5py": "3.15.1",
+      "hdf5plugin": "6.0.0",
+      "healpy": "1.19.0",
+      "hpack": "4.1.0",
+      "html5lib": "1.1",
+      "httpcore": "1.0.9",
+      "httpx": "0.28.1",
+      "humanize": "4.15.0",
+      "hyperframe": "6.1.0",
+      "idna": "3.11",
+      "illustris_python": "1.0.0",
+      "iminuit": "2.32.0",
+      "importlib_metadata": "8.7.0",
+      "importlib_resources": "6.5.2",
+      "ipydatagrid": "1.4.0",
+      "ipykernel": "7.2.0",
+      "ipympl": "0.10.0",
+      "ipython": "9.10.0",
+      "ipython_pygments_lexers": "1.1.1",
+      "ipywidgets": "8.1.8",
+      "jax": "0.7.2",
+      "jax-cuda12-pjrt": "0.7.2",
+      "jax-cuda12-plugin": "0.7.2",
+      "jaxlib": "0.7.2",
+      "jaxtyping": "0.3.4",
+      "jedi": "0.19.2",
+      "jinja2": "3.1.6",
+      "jiter": "0.15.0",
+      "jmespath": "1.0.1",
+      "jmp": "0.0.4",
+      "joblib": "1.5.3",
+      "jplephem": "2.23",
+      "jraph": "0.0.6.dev0",
+      "jsonschema": "4.25.1",
+      "jsonschema-specifications": "2025.9.1",
+      "jupyter_client": "8.8.0",
+      "jupyter_core": "5.9.1",
+      "jupyterlab_pygments": "0.3.0",
+      "jupyterlab_widgets": "3.0.16",
+      "kiwisolver": "1.4.9",
+      "llvmlite": "0.46.0",
+      "locket": "1.0.0",
+      "lss": "0.0.1.dev0",
+      "markdown": "3.10.2",
+      "markdown-it-py": "4.0.0",
+      "markupsafe": "3.0.3",
+      "matplotlib": "3.10.8",
+      "matplotlib-inline": "0.2.1",
+      "mdurl": "0.1.2",
+      "mistree": "2.0.0",
+      "mistune": "3.2.0",
+      "ml_dtypes": "0.5.4",
+      "mpi4py": "4.1.1",
+      "mpmath": "1.3.0",
+      "msgpack": "1.1.2",
+      "multidict": "6.7.0",
+      "munkres": "1.1.4",
+      "narwhals": "2.14.0",
+      "nbclient": "0.10.4",
+      "nbconvert": "7.16.6",
+      "nbformat": "5.10.4",
+      "nbstripout": "0.9.1",
+      "nest_asyncio": "1.6.0",
+      "networkit": "11.2",
+      "networkx": "3.6.1",
+      "nflows": "0.14",
+      "numba": "0.63.1",
+      "numpy": "2.3.5",
+      "nvidia-nccl-cu12": "2.29.7",
+      "opt-einsum-fx": "0.1.4",
+      "opt_einsum": "3.4.0",
+      "optax": "0.2.6",
+      "optree": "0.18.0",
+      "orbax-checkpoint": "0.8.0",
+      "packaging": "26.0",
+      "pandas": "2.3.3",
+      "pandocfilters": "1.5.0",
+      "parallel-numpy-rng": "0.2.0",
+      "paramax": "0.0.3",
+      "parso": "0.8.6",
+      "partd": "1.4.2",
+      "patsy": "1.0.2",
+      "pexpect": "4.9.0",
+      "pillow": "12.0.0",
+      "pip": "26.1.2",
+      "platformdirs": "4.9.4",
+      "plotly": "6.5.0",
+      "prompt_toolkit": "3.0.52",
+      "propcache": "0.3.1",
+      "protobuf": "6.31.1",
+      "psutil": "7.2.2",
+      "ptyprocess": "0.7.0",
+      "pure_eval": "0.2.3",
+      "py2vega": "0.6.1",
+      "pyarrow": "22.0.0",
+      "pybind11": "3.0.1",
+      "pybind11-global": "3.0.1",
+      "pydantic": "2.13.4",
+      "pydantic_core": "2.46.4",
+      "pyerfa": "2.0.1.5",
+      "pygadgetreader": "2.6",
+      "pygments": "2.19.2",
+      "pymetis": "2025.2.2",
+      "pynndescent": "0.5.13",
+      "pyparsing": "3.3.1",
+      "pyside6": "6.10.2",
+      "pysocks": "1.7.1",
+      "python-dateutil": "2.9.0.post0",
+      "pytz": "2025.2",
+      "pyyaml": "6.0.3",
+      "pyzmq": "27.1.0",
+      "rapidfuzz": "3.14.5",
+      "referencing": "0.37.0",
+      "requests": "2.32.5",
+      "rich": "14.2.0",
+      "rpds-py": "0.30.0",
+      "s3fs": "2025.12.0",
+      "sbi": "0.26.1",
+      "scienceplots": "0.0.0",
+      "scikit-learn": "1.8.0",
+      "scipy": "1.16.3",
+      "seaborn": "0.13.2",
+      "semantic-version": "2.10.0",
+      "setuptools": "82.0.1",
+      "shap": "0.50.0",
+      "shiboken6": "6.10.2",
+      "shift-fft": "1.0.4",
+      "six": "1.17.0",
+      "skorch": "1.4.0",
+      "slicer": "0.0.8",
+      "sniffio": "1.3.1",
+      "sortedcontainers": "2.4.0",
+      "soupsieve": "2.8.1",
+      "stack_data": "0.6.3",
+      "statsmodels": "0.14.6",
+      "sympy": "1.14.0",
+      "tabulate": "0.9.0",
+      "tarp": "0.1.1",
+      "tensorboard": "2.21.0",
+      "tensorboard-data-server": "0.7.2",
+      "tensorstore": "0.1.65",
+      "tfp-nightly": "0.25.0",
+      "threadpoolctl": "3.6.0",
+      "tinycss2": "1.5.1",
+      "toolz": "1.1.0",
+      "torch": "2.9.1",
+      "torch-geometric": "2.7.0",
+      "tornado": "6.5.4",
+      "tqdm": "4.67.1",
+      "traitlets": "5.14.3",
+      "traittypes": "0.2.3",
+      "tree-sitter": "0.25.2",
+      "tree-sitter-bash": "0.25.1",
+      "tree-sitter-c": "0.24.2",
+      "tree-sitter-c-sharp": "0.23.5",
+      "tree-sitter-cpp": "0.23.4",
+      "tree-sitter-elixir": "0.3.5",
+      "tree-sitter-fortran": "0.6.0",
+      "tree-sitter-go": "0.25.0",
+      "tree-sitter-groovy": "0.1.2",
+      "tree-sitter-java": "0.23.5",
+      "tree-sitter-javascript": "0.25.0",
+      "tree-sitter-json": "0.24.8",
+      "tree-sitter-julia": "0.23.1",
+      "tree-sitter-kotlin": "1.1.0",
+      "tree-sitter-lua": "0.5.0",
+      "tree-sitter-objc": "3.0.2",
+      "tree-sitter-php": "0.24.1",
+      "tree-sitter-powershell": "0.26.4",
+      "tree-sitter-python": "0.25.0",
+      "tree-sitter-ruby": "0.23.1",
+      "tree-sitter-rust": "0.24.2",
+      "tree-sitter-scala": "0.26.0",
+      "tree-sitter-swift": "0.7.3",
+      "tree-sitter-typescript": "0.23.2",
+      "tree-sitter-verilog": "1.0.3",
+      "tree-sitter-zig": "1.1.2",
+      "treescope": "0.1.10",
+      "triton": "3.5.1",
+      "typing-inspection": "0.4.2",
+      "typing_extensions": "4.15.0",
+      "tzdata": "2025.3",
+      "umap-learn": "0.5.11",
+      "uncompresspy": "0.4.1",
+      "unicodedata2": "17.0.0",
+      "urllib3": "2.6.2",
+      "uv": "0.11.26",
+      "wadler_lindig": "0.1.7",
+      "wcwidth": "0.6.0",
+      "webencodings": "0.5.1",
+      "werkzeug": "3.1.8",
+      "wheel": "0.46.3",
+      "widgetsnbextension": "4.0.15",
+      "wrapt": "1.17.3",
+      "xgboost": "3.2.0",
+      "xxhash": "3.6.0",
+      "yarl": "1.22.0",
+      "zipp": "3.23.0",
+      "zuko": "1.6.0"
+    },
+    "conda_metadata": {
+      "environment_root": "/pscratch/sd/d/dkololgi/conda/envs/cosmic_env",
+      "history": {
+        "bytes": 111818,
+        "path": "/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/conda-meta/history",
+        "sha256": "e62826cfc836ddaf77e85cb5ef69ea91cda267a9cac64d30001ba0c24ed48ad1"
+      },
+      "record_count": 423,
+      "records_sha256": "b227cc86b63c1a98a26d1d288c032ab11a75e766c8e9d41cf94902b2a172228b"
+    },
+    "distributions": {
+      "abacusutils": "2.1.2",
+      "asdf": "5.1.0",
+      "astropy": "7.2.0",
+      "fitsio": "1.3.0",
+      "matplotlib": "3.10.8",
+      "mpi4py": "4.1.1",
+      "numba": "0.63.1",
+      "numpy": "2.3.5",
+      "sbi": "0.26.1",
+      "scipy": "1.16.3",
+      "tarp": "0.1.1",
+      "torch": "2.9.1"
+    },
+    "environment_variables_unset": [
+      "PYTHONPATH",
+      "PYTHONHOME",
+      "PYTHONUSERBASE",
+      "LD_PRELOAD"
+    ],
+    "implementation": "CPython",
+    "python": {
+      "bytes": 25533120,
+      "path": "/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python3.11",
+      "sha256": "03a8d23c1345647d74fca923a07437093786b48dfe19e8d7f011350696b47dab"
+    },
+    "python_no_user_site": true,
+    "python_no_user_site_environment": "1",
+    "python_version": "3.11.15"
+  },
+  "schema_version": "p12a-blind-evaluation-contract-v2",
+  "scientific_contract_sources": {
+    "p12_production_blind_config": {
+      "bytes": 3075,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/configs/p12_production_blind_v1.json",
+      "sha256": "e4a02f04649d75d83a13dbf8a6eba4983b5cf7adb77c28eeab28fae660fd3d74"
+    }
+  },
+  "sealed_phase_opened": false,
+  "selection_phase": "ph006",
+  "shell_class_climatology": {
+    "0": {
+      "probability_void_sheet_filament_knot": [
+        0.26629743743404094,
+        0.4220961237195389,
+        0.2570022796611424,
+        0.054604159185277695
+      ],
+      "rows": 843575
+    },
+    "1": {
+      "probability_void_sheet_filament_knot": [
+        0.22922560943006404,
+        0.4270818764063397,
+        0.2833512469587646,
+        0.060341267204831635
+      ],
+      "rows": 658349
+    },
+    "2": {
+      "probability_void_sheet_filament_knot": [
+        0.16235243735498928,
+        0.4114749933030152,
+        0.3445150060232289,
+        0.08165756331876661
+      ],
+      "rows": 371326
+    },
+    "3": {
+      "probability_void_sheet_filament_knot": [
+        0.07616957064291682,
+        0.3191847642661496,
+        0.44207906325384766,
+        0.16256660183708588
+      ],
+      "rows": 126750
+    }
+  },
+  "training_sample": {
+    "bytes": 170003092,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/training_oof_sample.npz",
+    "sha256": "ce4a89bff67dd874be1f71e4dc9703253549a48bb8b6ad995322b961cc585fa7"
+  },
+  "truth_construction_contract": {
+    "compact_join": "frozen context parent_node_id -> P1 TARGETID -> annotated parent",
+    "density_box_size_mpc_h": 2000.0,
+    "density_grid_size": 2048,
+    "eigenvalue_order": "lambda1<=lambda2<=lambda3",
+    "expected_supported_context_rows": 4897905,
+    "halo_position_field": "x_com",
+    "mass_assignment": "TSC",
+    "ordinary_phase_tree_truth_writes_allowed": false,
+    "particle_a_fraction": 0.03,
+    "particle_b_fraction": 0.07,
+    "phase": "ph001",
+    "phase_registry_mutation_allowed": false,
+    "tidal_smoothing_mpc_h": 7.0,
+    "truth_root": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1",
+    "tweb_mpi_ranks": 16,
+    "web_threshold": 0.2
+  },
+  "truth_construction_implementation": {
+    "annotation_physics": {
+      "bytes": 23978,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/annotate_cutsky_with_tweb_eigs.py",
+      "sha256": "4587258b8da6cb31119c8aea1b7ea63d538719b94f7305091917236eeb0f4983"
+    },
+    "annotation_slurm": {
+      "bytes": 2435,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/submit_p12a_ph001_annotation.slurm",
+      "sha256": "a8936d29723fbc4f95e0159183184357cbf9ddab0e1f471664245eaa695f32a3"
+    },
+    "authorized_truth_wrapper": {
+      "bytes": 54977,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12a_authorized_truth.py",
+      "sha256": "5ccb69dfeeb96de108e0f616d165b458d2b468a40194070ac6a2f9f920ac785f"
+    },
+    "compact_truth_slurm": {
+      "bytes": 1535,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/submit_p12a_ph001_compact_truth.slurm",
+      "sha256": "f24e65c63a48f103244c2a8ff6721ae206cc58f3eebaa3f5866f6e003ec15b4a"
+    },
+    "density_physics": {
+      "bytes": 13159,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p10_build_density_field.py",
+      "sha256": "d90a91ba22aa88138bd3784019cf617d062afd927312d5ff69349b6ddc4b2ba6"
+    },
+    "density_slurm": {
+      "bytes": 2324,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/submit_p12a_ph001_density.slurm",
+      "sha256": "04c404fd51c925b4ef7f194de568088fa6263ffd7cc43dae9fb8e3f6be0766d5"
+    },
+    "dependency_chain": {
+      "bytes": 2873,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/submit_p12a_ph001_truth_chain.sh",
+      "sha256": "3f94e9ab62b1d738391d89ce7e56652bdf776948b181cfa7d02e8fa10e0aa3da"
+    },
+    "immutable_publication": {
+      "bytes": 4667,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12a_immutable_io.py",
+      "sha256": "4da06ac79eb4aa5764fb01316253e0e939f8b683520e2c88fed8ed575666d007"
+    },
+    "particle_b_restore_physics": {
+      "bytes": 13036,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p10_stage_particle_b.py",
+      "sha256": "8edce16bc0ae957cc4bc4fa4a600ec29c81f1b5520c672c3f354e4138aa41a33"
+    },
+    "particle_b_restore_slurm": {
+      "bytes": 1658,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/submit_p12a_ph001_particle_b.slurm",
+      "sha256": "4bfbefc7be515acc7e6887e807156bb6e7b378507cfebbcdc3cace84b14be038"
+    },
+    "path_configuration": {
+      "bytes": 2074,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/config_paths.py",
+      "sha256": "eaa05b9bfa869d7e5c7e97979ba9e1652bf51142316a2c4ee8bb76bf66671a65"
+    },
+    "phase_registry_loader": {
+      "bytes": 15025,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p10_phase_assets.py",
+      "sha256": "cec2a9b64c51abfdf824082aca38bbf766dc2d06db7e7ff988e98a9a17b09e6f"
+    },
+    "resource_guards": {
+      "bytes": 3124,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/shared/resource_requirements.py",
+      "sha256": "6ae027d83e90487dd5e6e8716ecc8d9c12e48a4e1054f6e29334f3fa5cd95deb"
+    },
+    "tweb_physics": {
+      "bytes": 13031,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p10_run_tweb.py",
+      "sha256": "3c02a8b2d7e0828b5b1da574842022451528fd4c8c076139b74cdf4b421b9b56"
+    },
+    "tweb_slurm": {
+      "bytes": 2266,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/submit_p12a_ph001_tweb.slurm",
+      "sha256": "3777c64f37125beeba3fefa8b5408bb090479513ec4b8021ed46eaf6278882b7"
+    },
+    "tweb_solver": {
+      "bytes": 43723,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/abacus_process_particles2.py",
+      "sha256": "4167beba835757cb07e0c9e8e57bc1d5ea01c0fae9701b1e6f75f6cb44f0e1bb"
+    }
+  },
+  "truth_files_read": [
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1/training_oof_sample.npz"
+  ],
+  "truth_free_identity_inputs": {
+    "blind_parent_catalogue": {
+      "bytes": 588424320,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/catalogues/blind_parent/ph001_bgs_bright_parent_linkage.fits",
+      "sha256": "665e3b63e54a4b1a394ae68a53dea6ed13757db171d0b9df8ba9ce826c184365"
+    },
+    "blind_parent_completion": {
+      "bytes": 1587,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/catalogues/blind_parent/ph001_bgs_bright_parent_linkage.fits.complete.json",
+      "sha256": "1c838155bd15d15cffc1d63157314bb3eb1faf6fefb9b1e5f2740bbd7689ae1b"
+    },
+    "p1_canonical_index": {
+      "bytes": 39465011,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/p1_canonical/canonical_index.npz",
+      "sha256": "e6a27bdbf1fe8fc01a76711a4f23aa7166ea0ccbc3c441003a1ffc5b75a192ee"
+    },
+    "p1_canonical_manifest": {
+      "bytes": 3165,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/p1_canonical/manifest.json",
+      "sha256": "9c24d46b49b1774ecd3d818745d1d2fc4b533cfeb384a984643848388fe0dc8e"
+    },
+    "phase_registry": {
+      "bytes": 5593,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/configs/p10_phase_registry_v1.json",
+      "sha256": "968cd8ed010de9b75ec4115d3a0d2be51a27306c601d04aa11bac4bdf20bb303"
+    }
+  },
+  "truth_source_contract": {
+    "halo_info_root": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph001/halos/z0.200/halo_info",
+    "particle_a_directories": [
+      "field_rv_A",
+      "halo_rv_A"
+    ],
+    "particle_a_root": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph001/halos/z0.200",
+    "particle_b": {
+      "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph001/Abacus_AbacusSummit_base_c000_ph001_halos.tar",
+      "kind": "hpss",
+      "members": [
+        "./halos/z0.200/field_rv_B",
+        "./halos/z0.200/halo_rv_B"
+      ]
+    },
+    "payload_content_may_be_read_only_after_authorization": true,
+    "phase_registry": {
+      "bytes": 5593,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/configs/p10_phase_registry_v1.json",
+      "sha256": "968cd8ed010de9b75ec4115d3a0d2be51a27306c601d04aa11bac4bdf20bb303"
+    }
+  },
+  "unnormalized_fmpe_log_score_is_decisive": false
+}
