@@ -4932,6 +4932,12 @@ Before ph006, freeze DDIM NFE100 as primary and NFE50 as its convergence compari
 The 50-to-100 changes must be at most `0.01` for TARP and global coverage, `0.05` for
 low-band power and 1% for each proper score. A stochastic reverse-process sampler is
 causal diagnosis only and cannot become a post-ph006 selected alternative.
+Seed-42 promotion also retains the original P12-F materiality requirement: paired
+primary energy must improve over frozen F3-L2b by at least 2%, with the core-block
+bootstrap 95% interval excluding zero.  It must be non-inferior to both G1 and the
+frozen small-diffusion NFE100 reference, with no registered proper score worsening by
+more than 1%.  A statistically positive but scientifically negligible gain does not
+license replication or promotion.
 
 **NERSC execution contract (2026-09-04):** interactive allocations are restricted
 to cold-import/data-read checks, unit tests and bounded end-to-end smoke runs.  Once
