@@ -1,5 +1,30 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-04 - [code/contract] P12-A authorized ph001 truth chain is ready; truth remains unopened
+
+Commit `7aaa99d` adds the irreversible half of the P12-A blind protocol without
+reading or constructing ph001 truth.  The opener is now a two-phase fail-closed
+state machine: after the four posterior shards and `P12_BLIND_PREDICTIONS_FROZEN`
+pass deep replay, an evaluation contract is committed and an O_EXCL
+`P12_BLIND_OPEN_AUTHORIZED.json` consumes `open_count=1` **before** the first truth
+read.  Every truth stage must validate that same authorization and hashes;
+`P12A_PH001_TRUTH_COMPLETE.json` binds the compact outputs before a second O_EXCL
+transition writes `P12_BLIND_OPENED.json`.  The evaluator cannot fit, recalibrate or
+change gates after authorization.
+
+The isolated truth chain is
+`HPSS ParticleSubsample-B restore -> 2048^3 A+B TSC density -> 4-node/16-rank R7
+CACTUS T-web -> x_com parent annotation -> exact frozen-order compact join`.  It
+writes only below
+`/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1`; it does not modify
+the ordinary ph001 product tree or phase registry.  The B restore is necessary
+because ph001 ParticleSubsample B is registered on HPSS but is not currently staged
+online.  The compact join requires exactly all `4,897,905` supported blind-parent
+rows.  Twenty-seven focused P12 tests, shell syntax, clean-environment imports and a
+truth-free contract dry run pass.  No truth job has been submitted: storage headroom,
+completion of jobs `57919118/57919122`, and the committed evaluation contract remain
+pre-authorization gates.
+
 ### 2026-09-04 - [ops/code/run] Route finalized P12/D2 workloads through Slurm after bounded interactive smoke
 
 The current NERSC coding-agent, Perlmutter-job and resource-policy guidance was

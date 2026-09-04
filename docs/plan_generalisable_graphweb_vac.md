@@ -4165,6 +4165,17 @@ Progress checklist:
   freeze still writes `P12_BLIND_PREDICTIONS_FROZEN.json` only after all four shards,
   CIC and DTFE pass exact row/core/support and hash parity (freeze wrapper commit
   `90e42ae`). No job in this chain can open ph001 truth.
+- [x] Implement the two-phase, O_EXCL one-open protocol and isolated authorized truth
+  chain without opening ph001.  Commit `7aaa99d` binds the frozen evaluator and every
+  builder/physics source before authorization, then requires the same `open_count=1`
+  state through HPSS particle-B restore, A+B density, R7 T-web, parent annotation,
+  exact compact truth and terminal rehash.  The ordinary phase registry/product tree
+  remains untouched; 27 focused P12 tests pass.
+- [ ] After the posterior export/freeze completes, build and commit
+  `P12A_BLIND_EVALUATION_CONTRACT.json`, deep-replay all `4,897,905` frozen rows, write
+  `P12_BLIND_OPEN_AUTHORIZED.json` before any truth access, run the authorized truth
+  chain, finalize `P12_BLIND_OPENED.json`, and execute the frozen evaluator exactly
+  once.  Stop after the immutable P12-A pass/fail report; P13 remains unauthorized.
 - [x] Record the `H_fid`-conditional estimand explicitly.
 - [ ] Run the optional held-out-HOD stress test after blind baseline closure; it does
   not block the first explicitly `H_fid`-conditional VAC.
@@ -4205,10 +4216,13 @@ deterministic blind contract. Before truth access it requires:
 
 `P12_BLIND_PREDICTIONS_FROZEN.json` must record all row/core identities, seeds,
 configurations, Git revisions and hashes with `truth_files_read=[]` and `open_count=0`.
-Only then may the controlled opener build/read truth once and write
-`P12_BLIND_OPENED.json` with `open_count=1`. Evaluators may not fit, temper, recalibrate
-or change thresholds after that transition. Any later changed model requires a new
-blind phase.
+Only then may the controlled opener atomically write
+`P12_BLIND_OPEN_AUTHORIZED.json` with `open_count=1`; this transition must occur
+before the first truth read.  Authorized builders retain that same count and write a
+content-addressed `P12A_PH001_TRUTH_COMPLETE.json`; only afterward may the opener
+atomically finalize `P12_BLIND_OPENED.json`. Evaluators may not fit, temper,
+recalibrate or change thresholds after authorization. Any later changed model
+requires a new blind phase.
 
 Out-of-fold summary contract:
 
