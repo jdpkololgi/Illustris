@@ -52,6 +52,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--draw-batch", type=int, default=4)
+    parser.add_argument(
+        "--data-parallel",
+        action="store_true",
+        help="Replicate the frozen flow over every visible CUDA device for sampling only.",
+    )
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--max-wall-seconds", type=float, default=6600.0)
     return parser.parse_args()
@@ -168,6 +173,11 @@ def main() -> None:
     flow_model = None
     if args.flow_checkpoint is not None:
         flow_model, _ = load_flow(args.flow_checkpoint, config, args.config, args.device)
+        if args.data_parallel:
+            visible_devices = torch.cuda.device_count()
+            if visible_devices < 2:
+                raise RuntimeError("--data-parallel requires at least two visible CUDA devices")
+            flow_model = torch.nn.DataParallel(flow_model)
     contract_root = Path(config["sources"]["conditioning_contract"])
     phase_root = Path(config["sources"]["phase_root"])
     loader = P10RandomResponseLoader(contract_root, include_blind=False)
@@ -189,6 +199,7 @@ def main() -> None:
         "g1_checkpoint_sha256": sha256(Path(config["sources"]["g1_checkpoint"])),
         "g1_filter_sha256": sha256(filter_path), "whitening_sha256": sha256(whitening_path),
         "flow_checkpoint_sha256": None if args.flow_checkpoint is None else sha256(args.flow_checkpoint),
+        "sampling_data_parallel_devices": torch.cuda.device_count() if args.data_parallel else 1,
         "method": args.method, "draws": draws, "selected_core_id": panel["selected_core_id"],
         "source_hashes": {
             "exporter": sha256(Path(__file__)),
