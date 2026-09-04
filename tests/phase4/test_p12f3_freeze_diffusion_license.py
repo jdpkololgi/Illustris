@@ -3,10 +3,38 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
 
-from workflows.sbi.p12f3_freeze_diffusion_license import loss_plateau, science_gates
+from workflows.sbi.p12f3_freeze_diffusion_license import (
+    deployable_conditional_error,
+    loss_plateau,
+    science_gates,
+)
 
 
 class P12F3DiffusionLicenseTests(unittest.TestCase):
+    def test_deployable_gate_excludes_truth_environment_diagnostic(self):
+        coverage = {
+            name: {
+                "0": {
+                    "coverage": {
+                        "0.68": {"absolute_error": error},
+                        "0.90": {"absolute_error": error / 2.0},
+                    }
+                }
+            }
+            for name, error in {
+                "shell": 0.04,
+                "random_response": 0.03,
+                "boundary_distance": 0.02,
+                "tracer_density": 0.01,
+                "true_environment": 0.20,
+            }.items()
+        }
+        report = {
+            "conditional_voxel_coverage": coverage,
+            "maximum_conditional_coverage_error": 0.20,
+        }
+        self.assertEqual(deployable_conditional_error(report), 0.04)
+
     def test_plateau_accepts_no_final_window_improvement(self):
         with TemporaryDirectory() as temporary:
             path = Path(temporary) / "loss.jsonl"
@@ -31,7 +59,8 @@ class P12F3DiffusionLicenseTests(unittest.TestCase):
                 "eigengaps": {"full_max_abs_ecp_minus_alpha": 0.03},
             },
             "global_coverage_error": {"0.68": 0.02, "0.90": 0.03},
-            "maximum_conditional_coverage_error": 0.12,
+            "maximum_conditional_coverage_error": 0.20,
+            "maximum_deployable_conditional_coverage_error": 0.12,
             "proper_scores": {
                 "energy": 0.9, "coarse_energy": 0.9,
                 "marginal_crps": 0.9, "variogram_p0p5": 0.9,

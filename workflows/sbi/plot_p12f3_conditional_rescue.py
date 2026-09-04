@@ -43,6 +43,7 @@ VARIABLES = (
     ("tracer_density", "tracer-density quartile"),
     ("true_environment", "true-density quartile (diagnostic)"),
 )
+DEPLOYABLE_CONDITIONS = ("shell", "random_response", "boundary_distance", "tracer_density")
 
 
 def parse_keyed(values: list[str], *, required: tuple[str, ...]) -> dict[str, Path]:
@@ -67,6 +68,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--reference-shear", type=Path, required=True)
     parser.add_argument("--selection", type=Path, required=True)
     parser.add_argument("--flow-loss", type=Path, required=True)
+    parser.add_argument("--diffusion-loss", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     return parser.parse_args()
 
@@ -76,6 +78,19 @@ def read_json(path: Path) -> dict:
     if value.get("ph001_opened"):
         raise RuntimeError(f"blind phase was opened in {path}")
     return value
+
+
+def deployable_conditional_error(report: dict) -> float:
+    if "maximum_deployable_conditional_coverage_error" in report:
+        return float(report["maximum_deployable_conditional_coverage_error"])
+    rows = report["conditional_voxel_coverage"]
+    return max(
+        float(row["coverage"][level]["absolute_error"])
+        for name in DEPLOYABLE_CONDITIONS
+        for row in rows[name].values()
+        for level in ("0.68", "0.90")
+        if level in row.get("coverage", {})
+    )
 
 
 def curve(visual: dict, name: str) -> tuple[np.ndarray, np.ndarray, float]:
@@ -91,7 +106,8 @@ def plot_overview(
     reports: dict[str, dict],
     visuals: dict[str, dict],
     selection: dict,
-    loss_trace: Path,
+    flow_loss_trace: Path,
+    diffusion_loss_trace: Path,
     output: Path,
 ) -> None:
     figure, axes = plt.subplots(2, 3, figsize=(18, 10), constrained_layout=True)
@@ -111,15 +127,21 @@ def plot_overview(
         title="A. Observable proxies carry train-phase information",
     )
 
-    rows = [json.loads(line) for line in loss_trace.read_text().splitlines() if line]
-    update = np.asarray([row["update"] for row in rows])
-    loss = np.asarray([row["loss"] for row in rows])
-    axes[0, 1].plot(update, loss, color=COLORS["flow"], alpha=0.18, linewidth=0.7)
-    axes[0, 1].plot(update, moving_average(loss, 21), color=COLORS["flow"], linewidth=2)
+    for key, path in (("flow", flow_loss_trace), ("diffusion", diffusion_loss_trace)):
+        rows = [json.loads(line) for line in path.read_text().splitlines() if line]
+        update = np.asarray([row["update"] for row in rows])
+        loss = np.asarray([row["loss"] for row in rows])
+        smooth = moving_average(loss, 21)
+        normalizer = float(np.median(smooth[: min(20, len(smooth))]))
+        axes[0, 1].plot(
+            update, smooth / normalizer, color=COLORS[key], linewidth=2,
+            label=LABELS[key],
+        )
     axes[0, 1].set(
-        xlabel="optimizer update", ylabel="equal-band flow loss",
-        title="B. F3-L2c training trajectory",
+        xlabel="optimizer update", ylabel="moving loss / initial window",
+        title="B. Training trajectories (objective units normalized)",
     )
+    axes[0, 1].legend(fontsize=7)
 
     for axis, name, title in (
         (axes[0, 2], "eigen_tarp", "C. Joint ordered-eigenvalue TARP"),
@@ -138,7 +160,7 @@ def plot_overview(
                  ylabel="empirical coverage", title=title)
         axis.legend(fontsize=7, loc="lower right")
 
-    gate_names = ("eigen TARP", "gap TARP", "global 68/90", "conditional")
+    gate_names = ("eigen TARP", "gap TARP", "global 68/90", "deployable conditional")
     limits = np.asarray((0.05, 0.05, 0.05, 0.10))
     for key in ORDER:
         report = reports[key]
@@ -147,7 +169,7 @@ def plot_overview(
                 report["tarp"]["ordered_eigenvalues"]["full_max_abs_ecp_minus_alpha"],
                 report["tarp"]["eigengaps"]["full_max_abs_ecp_minus_alpha"],
                 max(report["global_coverage_error"].values()),
-                report["maximum_conditional_coverage_error"],
+                deployable_conditional_error(report),
             ),
             dtype=np.float64,
         )
@@ -292,13 +314,13 @@ def main() -> None:
         if reports[key].get("phase") != "ph006" or shear[key].get("phase") != "ph006":
             raise RuntimeError(f"{key} is not a ph006-only result")
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    plot_overview(reports, visuals, selection, args.flow_loss,
+    plot_overview(reports, visuals, selection, args.flow_loss, args.diffusion_loss,
                   args.output_dir / "p12f3_conditional_rescue_overview")
     plot_conditional(reports, args.output_dir / "p12f3_conditional_coverage")
     plot_shear(reports, shear, args.output_dir / "p12f3_conditional_shear")
     inputs = [*report_paths.values(), *visual_paths.values(), *shear_paths.values(),
               args.reference_report, args.reference_visual, args.reference_shear,
-              args.selection, args.flow_loss]
+              args.selection, args.flow_loss, args.diffusion_loss]
     atomic_json(
         args.output_dir / "P12F3_CONDITIONAL_VISUAL_AUDIT.json",
         {

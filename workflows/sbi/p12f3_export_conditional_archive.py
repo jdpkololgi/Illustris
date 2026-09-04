@@ -54,6 +54,8 @@ def parse_args():
     parser.add_argument("--device",default="cuda")
     parser.add_argument("--draw-batch",type=int,default=4)
     parser.add_argument("--data-parallel",action="store_true")
+    parser.add_argument("--diffusion-network-evaluations",type=int)
+    parser.add_argument("--output-name")
     parser.add_argument("--resume",action="store_true")
     parser.add_argument("--max-wall-seconds",type=float,default=6600)
     return parser.parse_args()
@@ -111,6 +113,18 @@ def main():
     args=parse_args()
     if args.device.startswith("cuda") and not torch.cuda.is_available(): raise RuntimeError("conditional archive export requires CUDA")
     config,parent,parent_path=load_config(args.config);kind,arm=method_parts(args.method)
+    diffusion_steps = int(config["diffusion"]["network_evaluations"])
+    output_name = args.method
+    if args.diffusion_network_evaluations is not None:
+        if kind != "diffusion" or args.diffusion_network_evaluations <= 0:
+            raise ValueError("network-evaluation override is valid only for diffusion")
+        diffusion_steps = int(args.diffusion_network_evaluations)
+        expected_name = f"{args.method}_nfe{diffusion_steps}"
+        if args.output_name not in (None, expected_name):
+            raise ValueError(f"sampler-check output name must be {expected_name}")
+        output_name = expected_name
+    elif args.output_name not in (None, args.method):
+        raise ValueError("custom output name requires a diffusion NFE override")
     if kind=="diffusion" and config["diffusion"]["run_only_if_licensed"]:
         license_path=args.output_root.parent/"DIFFUSION_LICENSE.json"
         if not license_path.is_file() or not json.loads(license_path.read_text()).get("licensed"): raise PermissionError("diffusion export is not licensed")
@@ -123,12 +137,14 @@ def main():
             generative_model=torch.nn.DataParallel(generative_model)
     panel_path=Path(config["sources"]["source_panel"]);panel=json.loads(panel_path.read_text())
     if panel.get("phase")!="ph006" or panel.get("selection_uses_truth") or panel.get("ph001_opened") or len(panel.get("selected_core_id",[]))!=256: raise RuntimeError("unsafe ph006 conditional panel")
-    output=args.output_root/args.method;output.mkdir(parents=True,exist_ok=True);archive_path=output/"P12F_SAMPLE_ARCHIVE.json"
+    output=args.output_root/output_name;output.mkdir(parents=True,exist_ok=True);archive_path=output/"P12F_SAMPLE_ARCHIVE.json"
     if archive_path.exists(): print(archive_path.read_text(),flush=True);return
     if any(output.iterdir()) and not args.resume: raise RuntimeError("non-empty conditional archive requires resume")
     loader=P10RandomResponseLoader(Path(config["sources"]["conditioning_contract"]),include_blind=False);store=EvaluationTargetStore(Path(config["sources"]["phase_root"]));adapter=loader.field_adapter("ph006")
     g1_model,scaler=load_g1_model(parent,args.device);g1_filter=json.loads(Path(config["sources"]["g1_filter"]).read_text())
     frozen={"config_sha256":sha256(args.config),"panel_sha256":sha256(panel_path),"method":args.method,"draws":int(config["evaluation"]["draws"]),"location_marker_sha256":sha256(location_marker),"location_checkpoint_sha256":sha256(location_checkpoint),"conditional_filter_sha256":sha256(filter_path),"generative_marker_sha256":None if generative_marker is None else sha256(generative_marker),"generative_checkpoint_sha256":None if generative_checkpoint is None else sha256(generative_checkpoint),"whitening_sha256":None if whitening_path is None else sha256(whitening_path),"source_hashes":{"exporter":sha256(Path(__file__)),"models":sha256(REPO_ROOT/"workflows/sbi/p12f3_conditional_models.py")},"ph001_opened":False}
+    if args.diffusion_network_evaluations is not None:
+        frozen["diffusion_network_evaluations"] = diffusion_steps
     frozen_digest=digest(frozen);run_path=output/"run_manifest.json"
     if run_path.exists():
         if json.loads(run_path.read_text()).get("frozen_digest")!=frozen_digest: raise RuntimeError("conditional export resume contract changed")
@@ -147,7 +163,7 @@ def main():
             unit=correlated_unit_residuals(g1_filter,draws=draws,seed=seed,shape=shape);g1_residual=np.exp(g1_log_std[0,0].cpu().numpy())[None]*unit
             g1_low=lowpass_numpy(g1_residual,voxel_mpc_h=float(config["target"]["voxel_mpc_h"]),maximum_k=float(config["target"]["band_edges_h_mpc"][-1]));high=g1_residual-g1_low
             if kind=="gaussian": low=sample_conditional_gaussian_low(location,log_scale,layout,filter_contract,draws=draws,seed=seed+100_000_000)
-            else: low=sample_generative(kind,generative_model,condition,layout,whitening,location,log_scale,draws,int(config["conditional_flow"]["ode_steps"] if kind=="flow" else config["diffusion"]["network_evaluations"]),seed+100_000_000,args.draw_batch)
+            else: low=sample_generative(kind,generative_model,condition,layout,whitening,location,log_scale,draws,int(config["conditional_flow"]["ode_steps"] if kind=="flow" else diffusion_steps),seed+100_000_000,args.draw_batch)
             mean_scaled=g1_mean[0,0].cpu().numpy();scaled=mean_scaled[None]+high+low;samples=(scaled*np.float32(scaler["std"])+np.float32(scaler["mean"])).astype(np.float32)
             target=store.extract(patch);counts=np.asarray(patch.values[patch.channel_names.index("counts")],dtype=np.float32);path=output/f"core_{core_id:08d}.npz"
             atomic_npz(path,delta_samples=samples,delta_truth=np.asarray(target["delta"],dtype=np.float32),conditional_mean=(mean_scaled*np.float32(scaler["std"])+np.float32(scaler["mean"])).astype(np.float32),support=np.asarray(target["support"],dtype=np.uint8),angular_response=np.asarray(target["angular_response"],dtype=np.float32),boundary_distance_mpc=np.asarray(target["boundary_distance"],dtype=np.float32),tracer_density=counts/np.float32(float(config["target"]["voxel_mpc_h"])**3),core_bounds=core_bounds(patch),galaxy_frac_index_local=np.asarray(patch.authoritative_frac_index_local,dtype=np.float32))
@@ -155,7 +171,7 @@ def main():
             print(json.dumps({"method":args.method,"core":ordinal+1,"total":256,"elapsed_seconds":time.monotonic()-started}),flush=True)
             if time.monotonic()-started>=args.max_wall_seconds: raise SystemExit(75)
         scaler_path=output/"target_scaler.json";atomic_json(scaler_path,scaler);ordered=[complete[int(v)] for v in panel["selected_core_id"]]
-        archive={"schema_version":"p12f-sample-archive-v1","created_utc":utc_now(),"method":args.method,"phase":"ph006","draws":draws,"panel_marker":str(panel_path.resolve()),"panel_sha256":sha256(panel_path),"checkpoint":str((location_checkpoint if generative_checkpoint is None else generative_checkpoint).resolve()),"checkpoint_sha256":sha256(location_checkpoint if generative_checkpoint is None else generative_checkpoint),"conditioning_contract_sha256":sha256(Path(config["sources"]["conditioning_contract"])/"TRAINING_LOADER_READY.json"),"target_scaler":str(scaler_path.resolve()),"target_scaler_sha256":sha256(scaler_path),"entries":ordered,"truth_files_read":["ph006"],"ph001_opened":False,"pass":True}
+        archive={"schema_version":"p12f-sample-archive-v1","created_utc":utc_now(),"method":output_name,"phase":"ph006","draws":draws,"panel_marker":str(panel_path.resolve()),"panel_sha256":sha256(panel_path),"checkpoint":str((location_checkpoint if generative_checkpoint is None else generative_checkpoint).resolve()),"checkpoint_sha256":sha256(location_checkpoint if generative_checkpoint is None else generative_checkpoint),"conditioning_contract_sha256":sha256(Path(config["sources"]["conditioning_contract"])/"TRAINING_LOADER_READY.json"),"target_scaler":str(scaler_path.resolve()),"target_scaler_sha256":sha256(scaler_path),"entries":ordered,"truth_files_read":["ph006"],"ph001_opened":False,"pass":True}
         atomic_json(archive_path,archive);print(json.dumps(archive,indent=2),flush=True)
     finally: store.close();loader.close()
 

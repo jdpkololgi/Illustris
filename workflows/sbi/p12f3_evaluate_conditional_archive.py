@@ -11,6 +11,31 @@ from workflows.abacus_tweb.p8_deterministic_common import atomic_json, sha256
 from workflows.sbi.p12f_common_evaluator import evaluate_records, load_core_record
 
 
+DEPLOYABLE_CONDITIONS = (
+    "shell",
+    "random_response",
+    "boundary_distance",
+    "tracer_density",
+)
+
+
+def maximum_coverage_error(rows: dict, variables: tuple[str, ...]) -> float:
+    """Maximum 68/90% error for a frozen set of conditioning variables."""
+    missing = [name for name in variables if name not in rows]
+    if missing:
+        raise RuntimeError(f"conditional coverage report is missing {missing}")
+    values = []
+    for name in variables:
+        for report in rows[name].values():
+            for level in ("0.68", "0.90"):
+                coverage = report.get("coverage", {}).get(level)
+                if coverage is not None:
+                    values.append(float(coverage["absolute_error"]))
+    if not values:
+        raise RuntimeError("conditional coverage report has no registered intervals")
+    return max(values)
+
+
 def parse_args():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--archive",type=Path,required=True);parser.add_argument("--output",type=Path,required=True)
@@ -29,6 +54,22 @@ def main():
         if sha256(path)!=row["sha256"] or "ph001" in str(path).lower(): raise RuntimeError("conditional archive core changed")
         records.append((metadata[int(row["core_id"])],load_core_record(row,64)))
     report=evaluate_records(records,method=manifest["method"],seed=args.seed,device=args.device)
+    missing_tarp = [
+        name for name in ("ordered_eigenvalues", "eigengaps")
+        if not report.get("tarp", {}).get(name, {}).get("available")
+    ]
+    if missing_tarp:
+        raise RuntimeError(
+            "registered conditional evaluation requires TARP; unavailable for "
+            + ", ".join(missing_tarp)
+        )
+    conditional = report.get("conditional_voxel_coverage", {})
+    report["maximum_deployable_conditional_coverage_error"] = maximum_coverage_error(
+        conditional, DEPLOYABLE_CONDITIONS
+    )
+    report["maximum_true_environment_coverage_error_diagnostic"] = maximum_coverage_error(
+        conditional, ("true_environment",)
+    )
     report.update({"schema_version":"p12f3-conditional-common-evaluation-v1","created_utc":datetime.now(timezone.utc).isoformat(),"archive":str(args.archive.resolve()),"archive_sha256":sha256(args.archive),"truth_files_read":["ph006"],"ph001_opened":False})
     atomic_json(args.output,report);print(json.dumps(report,indent=2,sort_keys=True))
 

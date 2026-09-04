@@ -13,6 +13,7 @@ from workflows.abacus_tweb.p8_deterministic_common import atomic_json, sha256
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+DEPLOYABLE_CONDITIONS = ("shell", "random_response", "boundary_distance", "tracer_density")
 
 
 def parse_args() -> argparse.Namespace:
@@ -83,6 +84,26 @@ def paired_energy(candidate: dict, reference: dict, *, repeats: int, seed: int) 
     }
 
 
+def deployable_conditional_error(report: dict) -> float:
+    """Read or deterministically recover the preregistered deployable-only gate."""
+    if "maximum_deployable_conditional_coverage_error" in report:
+        return float(report["maximum_deployable_conditional_coverage_error"])
+    rows = report.get("conditional_voxel_coverage", {})
+    missing = [name for name in DEPLOYABLE_CONDITIONS if name not in rows]
+    if missing:
+        raise RuntimeError(f"conditional coverage report is missing {missing}")
+    values = []
+    for name in DEPLOYABLE_CONDITIONS:
+        for row in rows[name].values():
+            for level in ("0.68", "0.90"):
+                coverage = row.get("coverage", {}).get(level)
+                if coverage is not None:
+                    values.append(float(coverage["absolute_error"]))
+    if not values:
+        raise RuntimeError("conditional coverage report has no deployable intervals")
+    return max(values)
+
+
 def science_gates(
     report: dict, shear: dict, visual: dict, reference: dict, contract: dict, *, seed: int
 ) -> dict:
@@ -122,8 +143,9 @@ def science_gates(
             "limit": float(limits["global_coverage_error_maximum"]),
         },
         "conditional_coverage": {
-            "value": float(report["maximum_conditional_coverage_error"]),
+            "value": deployable_conditional_error(report),
             "limit": float(limits["conditional_coverage_error_maximum"]),
+            "estimand": "deployable observables only",
         },
         "proper_score_non_worsening": {
             "fractional_changes": proper_fractional,

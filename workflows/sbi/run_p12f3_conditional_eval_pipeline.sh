@@ -7,7 +7,7 @@ export OMP_NUM_THREADS="${OMP_NUM_THREADS:-8}"
 
 METHOD="${1:?usage: run_p12f3_conditional_eval_pipeline.sh METHOD}"
 case "${METHOD}" in
-  conditional_gaussian_base3|conditional_gaussian_proxy7|conditional_gaussian_proxy7_shuffled|conditional_flow_proxy7) ;;
+  conditional_gaussian_base3|conditional_gaussian_proxy7|conditional_gaussian_proxy7_shuffled|conditional_flow_proxy7|conditional_diffusion_proxy7|conditional_diffusion_proxy7_nfe50|conditional_diffusion_proxy7_nfe100) ;;
   *) echo "unsupported conditional rescue method: ${METHOD}" >&2; exit 2 ;;
 esac
 
