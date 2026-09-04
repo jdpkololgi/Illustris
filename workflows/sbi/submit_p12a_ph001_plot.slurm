@@ -4,9 +4,9 @@
 #SBATCH --qos=shared
 #SBATCH --constraint=cpu
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=2
-#SBATCH --mem=16G
-#SBATCH --time=01:00:00
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=64G
+#SBATCH --time=04:00:00
 #SBATCH --licenses=scratch
 #SBATCH --export=NONE
 #SBATCH --output=/pscratch/sd/d/dkololgi/logs/p12a_ph001_plot_%j.out
@@ -14,7 +14,7 @@
 
 set -euo pipefail
 unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD
-export PYTHONNOUSERSITE=1 PATH=/usr/bin:/bin MPLBACKEND=Agg
+export PYTHONNOUSERSITE=1 PATH=/usr/bin:/bin MPLBACKEND=Agg OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
 REPO=/global/homes/d/dkololgi/TNG/Illustris
 PY=/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python
 BLIND=/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001

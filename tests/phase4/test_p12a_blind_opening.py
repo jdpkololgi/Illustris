@@ -17,13 +17,16 @@ from workflows.sbi.p12a_blind_energy_score import (
     joint_energy_score,
 )
 from workflows.sbi.p12a_blind_evaluation_contract import (
+    IMPLEMENTATION_FILES,
     SCHEMA as CONTRACT_SCHEMA,
     shell_class_climatology,
     validate_runtime_environment,
 )
 from workflows.sbi.p12a_evaluate_blind import (
     PROPER_SCORE_SCHEMA,
+    RESULT_SCHEMA,
     evaluate_arrays,
+    validate_evaluation_report,
     validate_open_state,
     validate_proper_score_report,
 )
@@ -178,6 +181,22 @@ class P12ABlindOpeningTest(unittest.TestCase):
             with self.assertRaises(RuntimeError):
                 validate_runtime_environment()
 
+    def test_transitive_runtime_dependencies_are_frozen(self):
+        required = {
+            "workflows_package_init",
+            "sbi_package_init",
+            "shared_package_init",
+            "shared_config_paths",
+            "abacus_tweb_package_init",
+            "training_contract_dependency",
+            "graph_patch_dependency",
+            "epoch_training_dependency",
+            "calibration_diagnostics_dependency",
+        }
+        self.assertTrue(required.issubset(IMPLEMENTATION_FILES))
+        for key in required:
+            self.assertTrue(IMPLEMENTATION_FILES[key].is_file(), key)
+
     def test_open_transition_binds_truth_and_rejects_tamper(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -213,7 +232,20 @@ class P12ABlindOpeningTest(unittest.TestCase):
                 with mock.patch(
                     "workflows.sbi.p12a_evaluate_blind.validate_evaluation_implementation",
                     return_value=None,
+                ), mock.patch(
+                    "workflows.sbi.p12a_evaluate_blind.validate_evaluation_contract",
+                    return_value={},
                 ):
+                    validate_open_state(
+                        frozen_path=frozen,
+                        opened_path=opened,
+                        contract_path=contract,
+                        truth_manifest_path=truth_manifest,
+                    )
+                with mock.patch(
+                    "workflows.sbi.p12a_evaluate_blind.validate_evaluation_contract",
+                    side_effect=RuntimeError("runtime fingerprint drift"),
+                ), self.assertRaisesRegex(RuntimeError, "runtime fingerprint drift"):
                     validate_open_state(
                         frozen_path=frozen,
                         opened_path=opened,
@@ -250,6 +282,9 @@ class P12ABlindOpeningTest(unittest.TestCase):
                 "workflows.sbi.p12a_evaluate_blind.validate_evaluation_implementation",
                 return_value=None,
             ), mock.patch(
+                "workflows.sbi.p12a_evaluate_blind.validate_evaluation_contract",
+                return_value={},
+            ), mock.patch(
                 "workflows.sbi.p12a_open_blind.validate_evaluation_contract",
                 return_value={},
             ), self.assertRaises(RuntimeError):
@@ -258,6 +293,53 @@ class P12ABlindOpeningTest(unittest.TestCase):
                     opened_path=opened,
                     contract_path=contract,
                     truth_manifest_path=truth_manifest,
+                )
+
+    def test_existing_evaluation_requires_full_replay(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            paths = {
+                key: root / f"{key}.json"
+                for key in (
+                    "frozen_predictions",
+                    "opened_marker",
+                    "evaluation_contract",
+                    "truth_manifest",
+                    "proper_score_report",
+                )
+            }
+            for path in paths.values():
+                path.write_text("{}")
+            report_path = root / "evaluation.json"
+            report = {
+                "schema_version": RESULT_SCHEMA,
+                "created_utc": "frozen-time",
+                "git_revision": "frozen-revision",
+                "release_status": "green",
+                **{key: self._record(path) for key, path in paths.items()},
+            }
+            report_path.write_text(json.dumps(report))
+            with mock.patch(
+                "workflows.sbi.p12a_evaluate_blind.recompute_evaluation_report",
+                return_value=dict(report),
+            ) as replay:
+                self.assertEqual(
+                    validate_evaluation_report(
+                        report_path,
+                        evaluation_contract_path=paths["evaluation_contract"],
+                    ),
+                    report,
+                )
+                replay.assert_called_once()
+            tampered = {**report, "release_status": "blocked"}
+            report_path.write_text(json.dumps(tampered))
+            with mock.patch(
+                "workflows.sbi.p12a_evaluate_blind.recompute_evaluation_report",
+                return_value=dict(report),
+            ), self.assertRaises(RuntimeError):
+                validate_evaluation_report(
+                    report_path,
+                    evaluation_contract_path=paths["evaluation_contract"],
                 )
 
     def test_metric_gate_and_green_amber_blocked_tree(self):

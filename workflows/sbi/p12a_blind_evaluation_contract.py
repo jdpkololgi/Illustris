@@ -76,6 +76,9 @@ EVALUATION_PROTOCOL = {
 }
 IMPLEMENTATION_FILES = {
     "evaluation_contract": Path(__file__),
+    "workflows_package_init": REPO_ROOT / "workflows/__init__.py",
+    "sbi_package_init": REPO_ROOT / "workflows/sbi/__init__.py",
+    "shared_package_init": REPO_ROOT / "shared/__init__.py",
     "blind_evaluator": Path(__file__).with_name("p12a_evaluate_blind.py"),
     "proper_score_evaluator": Path(__file__).with_name("p12a_blind_proper_score.py"),
     "proper_score_primitives": Path(__file__).with_name(
@@ -125,11 +128,23 @@ IMPLEMENTATION_FILES = {
     / "abacus_tweb/p8_train_unet_patch.py",
     "blind_field_adapter_dependency": Path(__file__).parents[1]
     / "abacus_tweb/p6_field_patch_utils.py",
+    "abacus_tweb_package_init": Path(__file__).parents[1]
+    / "abacus_tweb/__init__.py",
+    "training_contract_dependency": Path(__file__).parents[1]
+    / "abacus_tweb/p10_training_contract.py",
+    "graph_patch_dependency": Path(__file__).parents[1]
+    / "abacus_tweb/p5_graph_patch_utils.py",
+    "epoch_training_dependency": Path(__file__).parents[1]
+    / "abacus_tweb/p8_epoch_training.py",
     "blind_unet_summary_dependency": Path(__file__).with_name(
         "p12_export_unet_summaries.py"
     ),
+    "calibration_diagnostics_dependency": Path(__file__).with_name(
+        "p12_calibration_diagnostics.py"
+    ),
     "shared_deterministic_dependency": Path(__file__).parents[1]
     / "abacus_tweb/p8_deterministic_common.py",
+    "shared_config_paths": REPO_ROOT / "shared/config_paths.py",
     "postopen_chain": Path(__file__).with_name(
         "submit_p12a_ph001_postopen_chain.sh"
     ),

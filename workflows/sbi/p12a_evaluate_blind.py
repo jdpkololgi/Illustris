@@ -35,6 +35,7 @@ from workflows.sbi.p12a_immutable_io import write_json_exclusive
 from workflows.sbi.p12a_open_blind import (
     AUTHORIZATION_SCHEMA,
     TRUTH_COMPLETE_SCHEMA,
+    validate_evaluation_contract,
     validate_truth_complete,
 )
 from workflows.sbi.p12f_field_posterior_diagnostics import (
@@ -284,6 +285,9 @@ def validate_open_state(
         or contract.get("post_open_refit_allowed") is not False
     ):
         raise PermissionError("evaluation contract was not frozen before opening")
+    # This checks the complete frozen gate/estimand/source inventory and exact
+    # Python/conda fingerprint, rather than only the evaluator source hashes.
+    validate_evaluation_contract(contract_path)
     validate_evaluation_implementation(contract)
     contract_reference = opened.get("evaluation_contract_reference", {})
     if (
@@ -702,26 +706,34 @@ def evaluate_arrays(
     }
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--frozen-predictions", type=Path, required=True)
-    parser.add_argument("--opened-marker", type=Path, required=True)
-    parser.add_argument("--evaluation-contract", type=Path, required=True)
-    parser.add_argument("--truth-manifest", type=Path, required=True)
-    parser.add_argument("--proper-score-report", type=Path, required=True)
-    parser.add_argument("--output", type=Path, required=True)
-    args = parser.parse_args()
+def recompute_evaluation_report(
+    *,
+    frozen_path: Path,
+    opened_path: Path,
+    contract_path: Path,
+    truth_manifest_path: Path,
+    proper_score_path: Path,
+    output_path: Path,
+) -> dict[str, Any]:
+    """Recompute every published blind result from frozen arrays and truth."""
+
+    frozen_path = frozen_path.resolve()
+    opened_path = opened_path.resolve()
+    contract_path = contract_path.resolve()
+    truth_manifest_path = truth_manifest_path.resolve()
+    proper_score_path = proper_score_path.resolve()
+    output_path = output_path.resolve()
     frozen, opened, contract, truth_manifest = validate_open_state(
-        frozen_path=args.frozen_predictions,
-        opened_path=args.opened_marker,
-        contract_path=args.evaluation_contract,
-        truth_manifest_path=args.truth_manifest,
+        frozen_path=frozen_path,
+        opened_path=opened_path,
+        contract_path=contract_path,
+        truth_manifest_path=truth_manifest_path,
     )
     expected_score = Path(contract["canonical_outputs"]["energy_score_report"]).resolve()
     expected_output = Path(contract["canonical_outputs"]["evaluation_report"]).resolve()
-    if args.proper_score_report.resolve() != expected_score:
+    if proper_score_path != expected_score:
         raise PermissionError("energy-score report is not at its frozen canonical path")
-    if args.output.resolve() != expected_output:
+    if output_path != expected_output:
         raise PermissionError("blind evaluation output is not at its frozen canonical path")
     summary, audit = load_prediction_arrays(frozen)
     if (
@@ -746,13 +758,13 @@ def main() -> None:
         ):
             raise RuntimeError("audit parents are absent from the compact truth")
         audit_position = order[position]
-        proper_score = json.loads(args.proper_score_report.read_text())
+        proper_score = json.loads(proper_score_path.read_text())
         proper_recomputed = validate_proper_score_report(
             proper_score,
-            frozen_path=args.frozen_predictions,
-            opened_path=args.opened_marker,
-            contract_path=args.evaluation_contract,
-            truth_manifest_path=args.truth_manifest,
+            frozen_path=frozen_path,
+            opened_path=opened_path,
+            contract_path=contract_path,
+            truth_manifest_path=truth_manifest_path,
             contract=contract,
             audit_parent=audit["parent_node_id"],
             audit_core=audit_core,
@@ -779,11 +791,11 @@ def main() -> None:
         "phase": "ph001",
         "estimand": "per-galaxy joint ordered tidal-eigenvalue posterior conditional on H_fid",
         "not_a_coherent_field_posterior": True,
-        "frozen_predictions": {"path": str(args.frozen_predictions.resolve()), "sha256": sha256(args.frozen_predictions)},
-        "opened_marker": {"path": str(args.opened_marker.resolve()), "sha256": sha256(args.opened_marker)},
-        "evaluation_contract": {"path": str(args.evaluation_contract.resolve()), "sha256": sha256(args.evaluation_contract)},
-        "truth_manifest": {"path": str(args.truth_manifest.resolve()), "sha256": sha256(args.truth_manifest)},
-        "proper_score_report": {"path": str(args.proper_score_report.resolve()), "sha256": sha256(args.proper_score_report)},
+        "frozen_predictions": {"path": str(frozen_path), "sha256": sha256(frozen_path)},
+        "opened_marker": {"path": str(opened_path), "sha256": sha256(opened_path)},
+        "evaluation_contract": {"path": str(contract_path), "sha256": sha256(contract_path)},
+        "truth_manifest": {"path": str(truth_manifest_path), "sha256": sha256(truth_manifest_path)},
+        "proper_score_report": {"path": str(proper_score_path), "sha256": sha256(proper_score_path)},
         "post_open_refit_performed": False,
         "post_open_tuning_allowed": False,
         "truth_files_read": opened["truth_files_read"],
@@ -791,15 +803,82 @@ def main() -> None:
         "sealed_phase_opened": True,
         **result,
     }
+    return report
+
+
+def validate_evaluation_report(
+    report_path: Path, *, evaluation_contract_path: Path
+) -> dict[str, Any]:
+    """Deep-replay an existing report; metadata/schema checks alone are insufficient."""
+
+    report_path = report_path.resolve()
+    evaluation_contract_path = evaluation_contract_path.resolve()
+    existing = json.loads(report_path.read_text())
+    if existing.get("schema_version") != RESULT_SCHEMA:
+        raise RuntimeError("blind evaluation report schema changed")
+    references: dict[str, Path] = {}
+    for key in (
+        "frozen_predictions",
+        "opened_marker",
+        "evaluation_contract",
+        "truth_manifest",
+        "proper_score_report",
+    ):
+        record = existing.get(key, {})
+        path = Path(str(record.get("path", ""))).resolve()
+        if not path.is_file() or record.get("sha256") != sha256(path):
+            raise RuntimeError(f"blind evaluation report does not bind {key}")
+        references[key] = path
+    if references["evaluation_contract"] != evaluation_contract_path:
+        raise RuntimeError("blind evaluation report binds a different contract")
+    replay = recompute_evaluation_report(
+        frozen_path=references["frozen_predictions"],
+        opened_path=references["opened_marker"],
+        contract_path=evaluation_contract_path,
+        truth_manifest_path=references["truth_manifest"],
+        proper_score_path=references["proper_score_report"],
+        output_path=report_path,
+    )
+    replay["created_utc"] = existing.get("created_utc")
+    replay["git_revision"] = existing.get("git_revision")
+    if existing != replay:
+        raise RuntimeError("existing blind evaluation differs from full frozen replay")
+    return existing
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--frozen-predictions", type=Path, required=True)
+    parser.add_argument("--opened-marker", type=Path, required=True)
+    parser.add_argument("--evaluation-contract", type=Path, required=True)
+    parser.add_argument("--truth-manifest", type=Path, required=True)
+    parser.add_argument("--proper-score-report", type=Path, required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    args = parser.parse_args()
     if args.output.exists():
-        existing = json.loads(args.output.read_text())
-        replay = dict(report)
-        replay["created_utc"] = existing.get("created_utc")
-        replay["git_revision"] = existing.get("git_revision")
-        if existing != replay:
-            raise RuntimeError("existing blind evaluation differs from full frozen replay")
+        existing_payload = json.loads(args.output.read_text())
+        for key, supplied in (
+            ("frozen_predictions", args.frozen_predictions),
+            ("opened_marker", args.opened_marker),
+            ("evaluation_contract", args.evaluation_contract),
+            ("truth_manifest", args.truth_manifest),
+            ("proper_score_report", args.proper_score_report),
+        ):
+            if Path(str(existing_payload.get(key, {}).get("path", ""))).resolve() != supplied.resolve():
+                raise PermissionError(f"existing evaluation is bound to a different {key}")
+        existing = validate_evaluation_report(
+            args.output, evaluation_contract_path=args.evaluation_contract
+        )
         print(json.dumps(existing, indent=2), flush=True)
         return
+    report = recompute_evaluation_report(
+        frozen_path=args.frozen_predictions,
+        opened_path=args.opened_marker,
+        contract_path=args.evaluation_contract,
+        truth_manifest_path=args.truth_manifest,
+        proper_score_path=args.proper_score_report,
+        output_path=args.output,
+    )
     write_json_exclusive(args.output, report)
     print(json.dumps(report, indent=2), flush=True)
 

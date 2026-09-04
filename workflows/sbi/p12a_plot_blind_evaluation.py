@@ -15,6 +15,7 @@ from workflows.abacus_tweb.p8_deterministic_common import sha256
 from workflows.sbi.p12a_blind_evaluation_contract import SCHEMA as CONTRACT_SCHEMA
 from workflows.sbi.p12a_evaluate_blind import (
     RESULT_SCHEMA,
+    validate_evaluation_report,
     validate_evaluation_implementation,
 )
 from workflows.sbi.p12a_immutable_io import (
@@ -220,6 +221,14 @@ def main() -> None:
         args.evaluation_contract
     ):
         raise RuntimeError("evaluation result does not bind the frozen contract")
+    # Rendering is downstream of the scientific decision.  Recompute the full
+    # report from the frozen posterior, proper-score sidecar and compact truth;
+    # accepting a schema-valid JSON here would allow altered gates or metrics to
+    # become the canonical visual evidence.
+    report = validate_evaluation_report(
+        args.evaluation_report,
+        evaluation_contract_path=args.evaluation_contract,
+    )
     if args.manifest.exists():
         if not args.output.is_file():
             raise RuntimeError("plot manifest exists without its canonical figure")
