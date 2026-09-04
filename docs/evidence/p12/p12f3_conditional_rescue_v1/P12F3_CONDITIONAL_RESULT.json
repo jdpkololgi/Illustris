@@ -1,0 +1,141 @@
+{
+  "created_utc": "2026-09-04T10:46:28.434314+00:00",
+  "inputs": {
+    "/global/u2/d/dkololgi/TNG/Illustris/configs/p12f3_conditional_decision_v1.json": "f5e28e33cbe1d0f0b8c84f16a85d78e91cf5bdd2287473bf70b5ec05ffc432f2",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/DIFFUSION_LICENSE.json": "bf9e62e5ef9451d61a8e063167b15d8a013fee7c12b660a2ead0f66f2f6989c1",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/reports/conditional_diffusion_proxy7.json": "bf5aa984f58c9de4ed44f81b5b70d254520724406aa931801cd3929402e15774",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/reports/conditional_flow_proxy7.json": "90817b907a98730df2c4c91430b60f0d949926b0c9023f345d556436cc2d4370",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/shear/conditional_diffusion_proxy7.json": "a691e65b6272b853db9c45be0fa7048c326a1739eb3fe000d3111f605193cf70",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/shear/conditional_flow_proxy7.json": "018bb7397f9febe5a29ab6a388c051a8b4ac35d89eec998d654eab0c6224d2fe",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/visual/conditional_diffusion_proxy7.json": "6756e330d3c649b4e88279906b9e90299a6a8c47fe0c06581d7a09edf193a654",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/visual/conditional_flow_proxy7.json": "f3e23bd37f9311cbdcbc5b0f1f771c388cebd59daa60a95ce03425cdbe087d5a",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_fourier_training_sufficiency_v1/evaluation/seed42_30k_dp4_v1/reports/fourier_flow_h24.json": "6889003b0dd1c85712fa867f48b50952612d87af7da7aa228c608afd933cd816"
+  },
+  "interpretation": "Neither target-identical conditional generative objective passed the simultaneous ph006 calibration and proper-score gates. Retain F3-L2b as the most informative field-research checkpoint, not as a calibrated production field posterior.",
+  "ph001_opened": false,
+  "schema_version": "p12f3-conditional-result-v1",
+  "second_seed_required": false,
+  "seed42_results": {
+    "diffusion": {
+      "all_pass": false,
+      "conditional_coverage": {
+        "estimand": "deployable observables only",
+        "limit": 0.1,
+        "pass": true,
+        "value": 0.06466665114582604
+      },
+      "eigengap_tarp": {
+        "limit": 0.05,
+        "pass": true,
+        "value": 0.025937185815046275
+      },
+      "five_shear_tarp": {
+        "limit": 0.05,
+        "pass": true,
+        "value": 0.03471629895878359
+      },
+      "global_coverage": {
+        "limit": 0.05,
+        "pass": false,
+        "value": 0.05390656554323925
+      },
+      "low_band_power": {
+        "limit": 0.1,
+        "pass": true,
+        "values": [
+          0.9146220852842386,
+          0.9115820315423369
+        ]
+      },
+      "ordered_eigenvalue_tarp": {
+        "limit": 0.05,
+        "pass": true,
+        "value": 0.02760605775815711
+      },
+      "primary_energy_paired_improvement": {
+        "bootstrap_repeats": 2000,
+        "candidate_minus_reference_mean": -0.024107581111866717,
+        "cores": 256,
+        "pass": false,
+        "q025_q50_q975": [
+          -0.07457277130794901,
+          -0.024747242602776498,
+          0.02765159607360102
+        ]
+      },
+      "proper_score_non_worsening": {
+        "fractional_changes": {
+          "coarse_energy": -0.0007320509429483701,
+          "energy": -0.004206045733182506,
+          "marginal_crps": -0.006522230017353192,
+          "variogram_p0p5": -0.016908856141891082
+        },
+        "limit": 0.01,
+        "pass": true
+      }
+    },
+    "flow": {
+      "all_pass": false,
+      "conditional_coverage": {
+        "estimand": "deployable observables only",
+        "limit": 0.1,
+        "pass": true,
+        "value": 0.06692184154175584
+      },
+      "eigengap_tarp": {
+        "limit": 0.05,
+        "pass": false,
+        "value": 0.11985407228901979
+      },
+      "five_shear_tarp": {
+        "limit": 0.05,
+        "pass": true,
+        "value": 0.038416802100956104
+      },
+      "global_coverage": {
+        "limit": 0.05,
+        "pass": false,
+        "value": 0.08743317027928621
+      },
+      "low_band_power": {
+        "limit": 0.1,
+        "pass": true,
+        "values": [
+          1.0189196967587162,
+          1.0776141162160708
+        ]
+      },
+      "ordered_eigenvalue_tarp": {
+        "limit": 0.05,
+        "pass": true,
+        "value": 0.024648833476941426
+      },
+      "primary_energy_paired_improvement": {
+        "bootstrap_repeats": 2000,
+        "candidate_minus_reference_mean": 0.2518804712565059,
+        "cores": 256,
+        "pass": false,
+        "q025_q50_q975": [
+          0.17778052946474707,
+          0.2515545254666478,
+          0.32975708474944837
+        ]
+      },
+      "proper_score_non_worsening": {
+        "fractional_changes": {
+          "coarse_energy": 0.04741286688727642,
+          "energy": 0.04394554461870004,
+          "marginal_crps": 0.04845231516384918,
+          "variogram_p0p5": 0.04041819729554663
+        },
+        "limit": 0.01,
+        "pass": false
+      }
+    }
+  },
+  "selected_candidate": null,
+  "status": "no_conditional_width_finalist",
+  "truth_files_read": [
+    "ph006"
+  ]
+}

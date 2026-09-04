@@ -1,0 +1,125 @@
+{
+  "schema_version": "p12f3-conditional-calibration-v1",
+  "status": "registered_before_rescue_training",
+  "estimand": "p(delta_R7 local patch field | BGS_BRIGHT V_final, S_random, H_fid)",
+  "roles": {
+    "training": ["ph000", "ph002", "ph003", "ph004", "ph005"],
+    "validation": "ph006",
+    "sealed_blind_test": "ph001"
+  },
+  "sources": {
+    "parent_config": "configs/p12f3_fourier_training_sufficiency_v1.json",
+    "conditioning_contract": "/global/homes/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901",
+    "phase_root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase",
+    "g1_checkpoint": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_matched_challengers_v1/matched_v1_seed42/gaussian/checkpoint.pt",
+    "g1_run_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_matched_challengers_v1/matched_v1_seed42/gaussian/run_manifest.json",
+    "g1_filter": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f_matched_challengers_v1/matched_v1_seed42/gaussian/g1_residual_filter.json",
+    "parent_whitening": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_fourier_lowmode_v1/whitening/P12F3L2_FOURIER_WHITENING.json",
+    "f3l2b_checkpoint": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_fourier_training_sufficiency_v1/seed42_30k/wide_h24/checkpoint.pt",
+    "f3l2b_archive": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_fourier_training_sufficiency_v1/evaluation/seed42_30k_dp4_v1/fourier_flow_h24/P12F_SAMPLE_ARCHIVE.json",
+    "source_panel": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_fourier_training_sufficiency_v1/evaluation/seed42_30k_dp4_v1/P12F3L2_PH006_PANEL_256.json"
+  },
+  "target": {
+    "field": "delta_R7 standardized with the exact frozen G1 scaler",
+    "base_residual": "delta_R7_scaled - frozen G1 conditional mean",
+    "low_modes": "exact two registered non-DC Hermitian bands",
+    "band_edges_h_mpc": [0.0, 0.0906899682117109, 0.1813799364234218],
+    "voxel_mpc_h": 5.0,
+    "additional_smoothing": false
+  },
+  "proxy_contract": {
+    "base_channels": ["counts", "exposure_apodized", "log_count_ratio"],
+    "deployable_added_channels": [
+      "frozen_g1_mean_scaled",
+      "frozen_g1_log_std",
+      "frozen_g1_traceless_shear_amplitude",
+      "random_support_boundary_distance_clipped_0_120_mpc_h"
+    ],
+    "true_environment_forbidden": true,
+    "ph006_fitting_forbidden": true,
+    "posterior_self_consistency": {
+      "interval_draws": 32,
+      "pseudo_truth_draws": 32,
+      "fixed_split_repetitions": 16
+    },
+    "strata": 4,
+    "core_bootstrap_repeats": 2000
+  },
+  "training": {
+    "seed": 42,
+    "replication_seed": 314159,
+    "training_cores_per_phase": 512,
+    "internal_validation_fraction_per_phase": 0.1,
+    "technical_canary_updates": 500,
+    "gaussian_selection_updates": 5000,
+    "science_updates": 10000,
+    "maximum_effective_passes": 15,
+    "loss_log_every_updates": 25,
+    "checkpoint_every_updates": 100,
+    "learning_rate": 0.0002,
+    "weight_decay": 0.0001,
+    "gradient_clip": 5.0,
+    "no_extension_after_internal_plateau": true
+  },
+  "gaussian_control": {
+    "arms": ["base3", "proxy7", "proxy7_shuffled"],
+    "family": "conditional_realspace_location_scale_plus_training_radial_covariance",
+    "unet_base": 4,
+    "local_scale_bounds_log": [-5.0, 3.0],
+    "standardized_covariance": "training-only radial Hermitian residual filter",
+    "exact_low_mode_projection_after_local_rescaling": true
+  },
+  "conditional_flow": {
+    "arm": "f3l2c_proxy7_prewhitened",
+    "family": "conditional_rectified_flow_matching",
+    "unet_base": 4,
+    "ode_steps": 12,
+    "conditional_location_scale_frozen": true,
+    "fresh_initialization": true
+  },
+  "diffusion": {
+    "arm": "f3l2d_proxy7_prewhitened_v",
+    "run_only_if_licensed": true,
+    "schedule": "variance_preserving_cosine",
+    "prediction": "v",
+    "network_evaluations": 24,
+    "target_condition_and_physics_identical_to_f3l2c": true
+  },
+  "evaluation": {
+    "cores": 256,
+    "draws": 64,
+    "common_seeds": true,
+    "block_unit": "authoritative_core",
+    "visual_outputs_required": true,
+    "joint_metrics": ["ordered_eigen_tarp", "eigengap_tarp", "five_shear_tarp"],
+    "proper_scores": ["energy", "coarse_energy", "marginal_crps", "variogram"],
+    "conditional_variables": [
+      "shell", "random_response", "boundary_distance", "tracer_density",
+      "predicted_density", "predicted_shear", "predicted_web_probability",
+      "true_environment_diagnostic_only"
+    ]
+  },
+  "science_gate": {
+    "low_band_power_ratio_absolute_tolerance": 0.10,
+    "joint_tarp_maximum": 0.05,
+    "global_coverage_error_maximum": 0.05,
+    "deployable_proxy_conditional_coverage_error_maximum": 0.10,
+    "proper_score_worsening_maximum": 0.01,
+    "positive_paired_core_improvement_required": true,
+    "selected_arm_second_seed_required": true
+  },
+  "diffusion_license": {
+    "observable_proxy_signal_required": true,
+    "conditional_gaussian_headroom_required": true,
+    "f3l2c_internal_plateau_required": true,
+    "remaining_non_gaussian_or_sampler_limitation_required": true,
+    "failure_action": "write_frozen_diffusion_no_run_decision"
+  },
+  "scope": {
+    "research_only": true,
+    "local_patch_posterior_only": true,
+    "no_ph006_fitted_recalibration": true,
+    "independent_patch_draws_are_not_full_cap_universes": true,
+    "ph001_opened": false
+  }
+}

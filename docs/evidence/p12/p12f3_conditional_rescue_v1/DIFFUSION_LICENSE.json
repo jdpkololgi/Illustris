@@ -1,0 +1,91 @@
+{
+  "created_utc": "2026-09-04T09:25:43.803132+00:00",
+  "f3l2c_science_gates": {
+    "all_pass": false,
+    "conditional_coverage": {
+      "limit": 0.1,
+      "pass": false,
+      "value": 0.12187995969265641
+    },
+    "eigengap_tarp": {
+      "limit": 0.05,
+      "pass": false,
+      "value": 0.11985407228901979
+    },
+    "five_shear_tarp": {
+      "limit": 0.05,
+      "pass": true,
+      "value": 0.038416802100956104
+    },
+    "global_coverage": {
+      "limit": 0.05,
+      "pass": false,
+      "value": 0.08743317027928621
+    },
+    "low_band_power": {
+      "limit": 0.1,
+      "pass": true,
+      "values": [
+        1.0189196967587162,
+        1.0776141162160708
+      ]
+    },
+    "ordered_eigenvalue_tarp": {
+      "limit": 0.05,
+      "pass": true,
+      "value": 0.024648833476941426
+    },
+    "primary_energy_paired_improvement": {
+      "bootstrap_repeats": 2000,
+      "candidate_minus_reference_mean": 0.2518804712565059,
+      "cores": 256,
+      "pass": false,
+      "q025_q50_q975": [
+        0.17648844151119414,
+        0.24996401804224605,
+        0.3292343355134554
+      ]
+    },
+    "proper_score_non_worsening": {
+      "fractional_changes": {
+        "coarse_energy": 0.04741286688727642,
+        "energy": 0.04394554461870004,
+        "marginal_crps": 0.04845231516384918,
+        "variogram_p0p5": 0.04041819729554663
+      },
+      "limit": 0.01,
+      "pass": false
+    }
+  },
+  "inputs": {
+    "/global/u2/d/dkololgi/TNG/Illustris/configs/p12f3_conditional_decision_v1.json": "f5e28e33cbe1d0f0b8c84f16a85d78e91cf5bdd2287473bf70b5ec05ffc432f2",
+    "/global/u2/d/dkololgi/TNG/Illustris/docs/evidence/p12/p12f3l2_training_sufficiency_30k_v1/common_fourier_flow_h24.json": "6889003b0dd1c85712fa867f48b50952612d87af7da7aa228c608afd933cd816",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/reports/conditional_flow_proxy7.json": "90817b907a98730df2c4c91430b60f0d949926b0c9023f345d556436cc2d4370",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/shear/conditional_flow_proxy7.json": "018bb7397f9febe5a29ab6a388c051a8b4ac35d89eec998d654eab0c6224d2fe",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/visual/conditional_flow_proxy7.json": "f3e23bd37f9311cbdcbc5b0f1f771c388cebd59daa60a95ce03425cdbe087d5a",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/gaussian/P12F3_CONDITIONAL_GAUSSIAN_SELECTION.json": "9671244c5ded83aef0c3233166d4784efb291d6126301a8008e4d36c124f379f",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/generative/flow/seed42_v3/loss_trace.jsonl": "1538c7ef7d1ef50bc581acd574265ac4069efca591e364c854d962a14377ab25",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/observable_proxy_autopsy/P12F3_OBSERVABLE_PROXY_AUTOPSY.json": "efbed1299455ca6452a6f386f987d7acedf86a1d0c8de2c59c601f0200fdaff6"
+  },
+  "interpretation": "a licensed diffusion run is a target-identical alternate generative-objective test; it is not presumed to repair conditional calibration",
+  "license_gates": {
+    "conditional_gaussian_headroom": true,
+    "f3l2c_internal_plateau": true,
+    "observable_proxy_signal": true,
+    "remaining_non_gaussian_or_sampler_limitation": true
+  },
+  "licensed": true,
+  "ph001_opened": false,
+  "plateau": {
+    "final_mean_loss": 1.4571186703443528,
+    "fractional_improvement": -0.03328437720065243,
+    "maximum_fractional_improvement": 0.01,
+    "pass": true,
+    "previous_mean_loss": 1.4101816523075104,
+    "window_updates": 2500
+  },
+  "schema_version": "p12f3-diffusion-license-v1",
+  "truth_files_read": [
+    "ph006"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/generative/diffusion/seed42_v3/checkpoint.pt",
+  "checkpoint_sha256": "4ec810f5d1ea5a38652e6949abd305ca7b2155506974cc83bcef90431cb48cfd",
+  "created_utc": "2026-09-04T09:50:05.600642+00:00",
+  "frozen_digest": "ecc09eae6731e4a951f94d3aefe50b606f553de551a66be7d902a94d87c6fdc6",
+  "internal_validation": {
+    "cores": 255,
+    "mean_loss": 0.8891562782081903,
+    "standard_error": 0.008090076075990387
+  },
+  "mean_training_loss": 0.9122570647895336,
+  "method": "diffusion",
+  "pass": true,
+  "ph001_opened": false,
+  "ph006_used_for_fit": false,
+  "schema_version": "p12f3-conditional-generative-trained-v1",
+  "updates": 10000
+}

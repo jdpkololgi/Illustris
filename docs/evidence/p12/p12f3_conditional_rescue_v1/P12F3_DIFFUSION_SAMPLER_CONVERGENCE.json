@@ -1,0 +1,125 @@
+{
+  "absolute_metrics": {
+    "nfe100": {
+      "deployable_conditional_coverage_error": 0.07889595135020466,
+      "eigengap_tarp": 0.021786974633502595,
+      "global_coverage_error": {
+        "0.68": 0.05704575513288823,
+        "0.90": 0.04495355203518381
+      },
+      "joint_shear_tarp": 0.02601104581701086,
+      "low_band_power_ratio": [
+        0.9948968457330349,
+        0.9797930544477746
+      ],
+      "maximum_marginal_shear_coverage_error": 0.04803512393603493,
+      "network_evaluations": 100,
+      "ordered_eigenvalue_tarp": 0.028987902431222512,
+      "proper_scores": {
+        "coarse_energy": 1.761820985376302,
+        "energy": 5.71537999602727,
+        "marginal_crps": 0.13132683365290448,
+        "variogram_p0p5": 0.04511779677434824
+      }
+    },
+    "nfe24": {
+      "deployable_conditional_coverage_error": 0.06466665114582604,
+      "eigengap_tarp": 0.025937185815046275,
+      "global_coverage_error": {
+        "0.68": 0.043703788260486154,
+        "0.90": 0.05390656554323925
+      },
+      "joint_shear_tarp": 0.03471629895878359,
+      "low_band_power_ratio": [
+        0.9146220852842386,
+        0.9115820315423369
+      ],
+      "maximum_marginal_shear_coverage_error": 0.06138610899190711,
+      "network_evaluations": 24,
+      "ordered_eigenvalue_tarp": 0.02760605775815711,
+      "proper_scores": {
+        "coarse_energy": 1.7605915031535608,
+        "energy": 5.707542201408408,
+        "marginal_crps": 0.1309858045248216,
+        "variogram_p0p5": 0.04498240713052402
+      }
+    },
+    "nfe50": {
+      "deployable_conditional_coverage_error": 0.07413468262136913,
+      "eigengap_tarp": 0.022864028890110775,
+      "global_coverage_error": {
+        "0.68": 0.052741450434563464,
+        "0.90": 0.047040344657362176
+      },
+      "joint_shear_tarp": 0.028419458807481868,
+      "low_band_power_ratio": [
+        0.9708563541731375,
+        0.9577332872034855
+      ],
+      "maximum_marginal_shear_coverage_error": 0.05214139328935363,
+      "network_evaluations": 50,
+      "ordered_eigenvalue_tarp": 0.02837457986843195,
+      "proper_scores": {
+        "coarse_energy": 1.7614146721988757,
+        "energy": 5.711649329793062,
+        "marginal_crps": 0.13119231196109615,
+        "variogram_p0p5": 0.04504722353293045
+      }
+    }
+  },
+  "comparisons": {
+    "nfe24_to_nfe50": {
+      "converged": false,
+      "gates": {
+        "global_coverage_error_change_le_0p01": true,
+        "joint_tarp_change_le_0p01": true,
+        "low_band_power_change_le_0p05": false,
+        "proper_score_relative_change_le_0p01": true
+      },
+      "lower": "nfe24",
+      "maximum_changes": {
+        "global_coverage_error": 0.00903766217407731,
+        "joint_tarp": 0.0030731569249355002,
+        "low_band_power_ratio": 0.05623426888889893,
+        "proper_score_relative": 0.001576563483529414
+      },
+      "upper": "nfe50"
+    },
+    "nfe50_to_nfe100": {
+      "converged": true,
+      "gates": {
+        "global_coverage_error_change_le_0p01": true,
+        "joint_tarp_change_le_0p01": true,
+        "low_band_power_change_le_0p05": true,
+        "proper_score_relative_change_le_0p01": true
+      },
+      "lower": "nfe50",
+      "maximum_changes": {
+        "global_coverage_error": 0.004304304698324768,
+        "joint_tarp": 0.00107705425660818,
+        "low_band_power_ratio": 0.024040491559897403,
+        "proper_score_relative": 0.0015666501924631593
+      },
+      "upper": "nfe100"
+    }
+  },
+  "converged_at_nfe100": true,
+  "converged_at_nfe50": false,
+  "created_utc": "2026-09-04T11:29:54.975435+00:00",
+  "inputs": {
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/reports/conditional_diffusion_proxy7.json": "bf5aa984f58c9de4ed44f81b5b70d254520724406aa931801cd3929402e15774",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/reports/conditional_diffusion_proxy7_nfe100.json": "d6e98fbc53791b9753d06c6d8d4ab4c0f23816c6290b840a40039c1a84babdb3",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/reports/conditional_diffusion_proxy7_nfe50.json": "1b5207c073d8cbaed88f00c0ced6f5f7ca87458b4e24396226973f1628cda0d3",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/shear/conditional_diffusion_proxy7.json": "a691e65b6272b853db9c45be0fa7048c326a1739eb3fe000d3111f605193cf70",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/shear/conditional_diffusion_proxy7_nfe100.json": "ebd41c3e0887b2a0e4074011cb4e99f165d920119485da36340bde50c190dd2e",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/shear/conditional_diffusion_proxy7_nfe50.json": "c20acc09ffd4c3e9b5a1df10706c856406734328c72ff961b5d0124473642767",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/visual/conditional_diffusion_proxy7.json": "6756e330d3c649b4e88279906b9e90299a6a8c47fe0c06581d7a09edf193a654",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/visual/conditional_diffusion_proxy7_nfe100.json": "9521a773a19744c0cc295bd5f6e976072565f8062a3848da60288516ab4e7b6c",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/visual/conditional_diffusion_proxy7_nfe50.json": "bcef1aa826e9026abf8dcac3c4e969a66cd24260a2d3dfb9191500257ded3089"
+  },
+  "ph001_opened": false,
+  "schema_version": "p12f3-diffusion-sampler-convergence-v2",
+  "truth_files_read": [
+    "ph006"
+  ]
+}

@@ -4709,7 +4709,8 @@ training and field panels are under `docs/figures/p12f3l2_fourier_20260903/`.
 
 ###### P12-F3-L2c/L2d — Observable conditional-calibration rescue
 
-**Status:** REGISTERED; IMPLEMENTATION AND PH006 EVALUATION IN PROGRESS; PH001 SEALED
+**Status:** COMPLETE; SEED-42 FLOW AND SMALL-DIFFUSION ARMS NOT PROMOTED;
+DIFFUSION FAMILY REMAINS MOTIVATED FOR A NEW D2 EXPERIMENT; PH001 SEALED
 
 The 30,000-update F3-L2b result closes training length as an explanation: its
 joint ordered-eigenvalue, eigengap and five-shear laws improve while its
@@ -4766,14 +4767,51 @@ temperature is permitted.  The decisive comparisons continue to use the frozen
 256 authoritative ph006 cores and common 64-draw seeds, with patch/core rather
 than voxel-independent uncertainty.
 
-- [ ] Freeze the versioned configuration, data hashes, proxy definitions,
+- [x] Freeze the versioned configuration, data hashes, proxy definitions,
   internal split, update budgets and diffusion license before GPU training.
-- [ ] Complete the observable-proxy and split-draw self-consistency visual audit.
-- [ ] Train and evaluate the conditional Gaussian base/proxy/shuffled controls.
-- [ ] Train and evaluate F3-L2c from a fresh initialization using only the frozen
+- [x] Complete the observable-proxy and split-draw self-consistency visual audit.
+- [x] Train and evaluate the conditional Gaussian base/proxy/shuffled controls.
+- [x] Train and evaluate F3-L2c from a fresh initialization using only the frozen
   training-phase conditional transform.
-- [ ] Run F3-L2d only if licensed, otherwise write the frozen no-run decision.
-- [ ] Freeze one final decision and compact evidence; retain ph001 sealed.
+- [x] Run the licensed, target-identical F3-L2d small score-diffusion comparator.
+- [x] Freeze the seed-42 no-finalist decision and compact evidence; retain ph001
+  sealed.
+
+The causal sequence is now complete.  The observable autopsy finds real
+inference-time proxy signal: frozen predicted density correlates with true
+density at Spearman `0.811`, posterior width at `0.496` and predicted shear at
+`0.379`.  On the internal training-phase split, the aligned seven-channel
+Gaussian improves NLL over base by `-0.0488` (95% interval
+`[-0.0602,-0.0382]`) and over shuffled proxies by `-0.0254`
+(`[-0.0376,-0.0134]`).  Thus the response/G1-derived observables genuinely
+predict residual width/location; this was not a ph006-fitted story.
+
+That information is not by itself a calibration cure.  Fresh F3-L2c recovers
+the two low-mode powers (`1.019/1.078`) and ordered-eigenvalue TARP (`0.0246`),
+but fails eigengap TARP (`0.1199`), global coverage (`0.0874`) and every proper
+score relative to F3-L2b by roughly 4--5%.  Conditional pre-whitening plus the
+same small rectified-flow family therefore damaged the learned copula rather
+than isolating it successfully.
+
+The matched F3-L2d diffusion arm is much more encouraging but does not pass the
+simultaneous seed-42 promotion rule.  At its preregistered 24-evaluation DDIM
+sampler it passes ordered-eigenvalue, eigengap and five-shear TARP
+(`0.0276/0.0259/0.0347`), low-mode power (`0.915/0.912`) and deployable
+conditional coverage (`0.0647`).  All four proper scores improve over F3-L2b,
+but global 90% coverage misses by `0.00391` and the paired primary-energy 95%
+interval `[-0.0746,+0.0277]` includes zero.  No second seed is licensed and the
+frozen result is `no_conditional_width_finalist`.
+
+A checkpoint-only common-seed sampler audit prevents over-interpreting the
+24-step result.  The 24-to-50 comparison fails only the registered low-band
+power-change tolerance (`0.0562 > 0.05`).  At 100 evaluations the powers reach
+`0.995/0.980`; all 50-to-100 changes pass (`TARP 0.00108`, global coverage
+`0.00430`, power `0.0240`, proper scores `0.00157` maximum relative change).
+The frozen small denoiser is therefore sampler-converged by NFE100, but its
+remaining global 68% coverage error is `0.0570` and its primary proper-score
+gain remains modest.  This rules out too-short DDIM sampling as the remaining
+explanation while strengthening, rather than rejecting, the case for a
+better-capacity diffusion model under the separately registered D2 contract.
 
 The simultaneous anti-gaming gate is unchanged for the physical posterior:
 low-band residual powers within 10%, ordered-eigenvalue/eigengap/five-shear TARP
@@ -4783,6 +4821,65 @@ conditional error at most 0.10, and no registered proper-score regression above
 split-draw self-consistency reference, but is not used as a trainable correction.
 Promotion additionally requires a positive paired-core proper-score result over
 both G1 and F3-L2b and replication of the selected arm with a second seed.
+
+###### P12-F3-D2 — Literature-grade conditional diffusion successor
+
+**Status:** REGISTERED AS A NEW EXPERIMENT; NOT A CONTINUATION OF THE SMALL
+F3-L2d COMPARATOR; PH001 SEALED
+
+The capacity-matched F3-L2d arm is deliberately a controlled objective swap:
+it uses the same `base=4` U-Net, exact conditionally standardized Fourier target
+and 10,000-update budget as F3-L2c.  It can identify whether a score objective is
+promising under matched capacity, but it is not an adequate negative test of
+conditional diffusion as a model family.  Ono et al. (2024) instead use a
+four-block residual hierarchy, GroupNorm, a substantial time embedding,
+coarse-scale attention and much longer training; the ablations in that paper
+show that depth, time encoding, schedule choice and attention can each affect
+field quality.  Standard diffusion work also motivates EMA evaluation,
+preconditioning/noise-schedule ablations and explicit sampler convergence.
+
+The next diffusion experiment, if pursued after the frozen seed-42 decision, is
+therefore a separately versioned D2 model with the following one-factor-at-a-time
+ladder:
+
+1. replace the scalar constant time channel with a multilevel sinusoidal/log-SNR
+   embedding injected into 3-D residual blocks with GroupNorm;
+2. run a bounded capacity canary against `base=4`, then add attention only at the
+   bottleneck/coarsest scale;
+3. retain both raw and exponential-moving-average weights and compare them on a
+   training-phase-only validation sampler;
+4. compare the frozen cosine VP schedule with either a learned monotone log-SNR
+   schedule or EDM-style preconditioning on the internal split, never by ph006
+   tuning;
+5. measure effective batch scaling through GroupNorm-safe gradient accumulation
+   when a full 3-D patch per GPU exhausts memory;
+6. freeze a sampler ladder before ph006: deterministic DDIM at increasing NFE and
+   a stochastic reverse-SDE/DDPM-style control if deterministic convergence is
+   not reached.
+
+All ablations keep the exact seven-channel BRIGHT/random-response condition,
+the same training cores, conditional pre-whitening, high-frequency completion,
+physics layer and evaluation panel.  Periodic/circular padding is forbidden for
+CutSky patches; physical rotations/reflections must transform line of sight and
+response consistently; classifier-free guidance is excluded because sharpening
+can manufacture undercoverage.  Selection may not use denoising loss, visual
+appearance or power alone.  It must include block-aware joint eigenvalue,
+eigengap and tidal-shear TARP, deployable conditional coverage, joint proper
+scores, power/cross-correlation and a phase-sensitive higher-order statistic.
+
+- [ ] Freeze D2 architecture, schedule/preconditioning, EMA, effective-batch and
+  sampler-ablation contracts before training.
+- [ ] Run small capacity/time-embedding/attention canaries on the internal
+  training-phase split and select without ph006.
+- [ ] Train the frozen D2 arm to a preregistered cap with train-only sample
+  diagnostics, not loss-only stopping.
+- [ ] Establish deterministic sampler convergence or run the frozen stochastic
+  reverse-process control.
+- [ ] Evaluate exactly once on the 256-core ph006 ladder; replicate a passing arm
+  with the registered second seed before any promotion.
+
+The detailed literature and adequacy audit is frozen at
+`docs/evidence/p12/p12f3_conditional_rescue_v1/DIFFUSION_LITERATURE_AUDIT.md`.
 
 ###### P12-F3-L2a/L2b — Conditional autopsy and training sufficiency
 

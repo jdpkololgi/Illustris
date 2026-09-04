@@ -1,5 +1,66 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-04 - [science/results/code/run] Conditional rescue closes with no seed-42 finalist; small diffusion motivates a literature-grade successor
+
+The four-step P12-F3 conditional-calibration rescue is complete on the frozen
+256-core ph006 panel with 64 common-seed field draws; `ph001` was never opened.
+This programme tested a causal sequence rather than another unstructured model
+sweep: observable-proxy autopsy, training-only conditional Gaussian controls,
+fresh conditionally pre-whitened flow, and a licensed target-identical score
+diffusion comparator.
+
+The observable signal is real.  Frozen predicted density, posterior width and
+predicted shear correlate with true density at Spearman `0.811/0.496/0.379`.
+On the disjoint internal training-phase split, the aligned seven-channel
+Gaussian improves NLL over the three-channel base by `-0.0488` with 95% interval
+`[-0.0602,-0.0382]`, and over the spatially shuffled proxy control by `-0.0254`
+with interval `[-0.0376,-0.0134]`.  This licenses conditional modeling but not a
+ph006 recalibration.
+
+The F3-L2c flow does not exploit that signal safely.  It recovers the two
+registered low-mode powers (`1.019/1.078`) and ordered-eigenvalue TARP (`0.0246`),
+but eigengap TARP becomes `0.1199`, global coverage error `0.0874`, and every
+proper score worsens by about 4--5% relative to frozen F3-L2b.  By contrast, the
+small F3-L2d diffusion comparator preserves the difficult joint physics:
+ordered-eigenvalue/eigengap/five-shear TARP are `0.0276/0.0259/0.0347`, the
+deployable-observable conditional error is `0.0647`, and all four proper scores
+improve.  It is nevertheless not promoted.  The preregistered primary NFE24
+archive misses global 90% coverage by `0.00391`, and its paired primary-energy
+difference is `-0.0241` with 95% interval `[-0.0746,+0.0277]`, which does not
+exclude zero.  `P12F3_CONDITIONAL_RESULT.json` therefore records
+`no_conditional_width_finalist`; no second seed is licensed.
+
+A checkpoint-only sampler autopsy was necessary before interpreting that
+negative decision.  NFE24 to NFE50 changes the longest-band power by `0.0562`,
+slightly exceeding the frozen `0.05` tolerance, so the primary sampler was not
+yet converged in the physical long modes.  NFE100 reaches power ratios
+`0.9949/0.9798`.  All NFE50-to-NFE100 changes pass: maximum TARP change
+`0.00108`, global-coverage change `0.00430`, low-band-power change `0.0240`, and
+proper-score change `0.00157`.  The NFE100 global errors are `0.0570/0.0450`,
+deployable conditional error `0.0789`, ordered/eigengap TARP `0.0290/0.0218`,
+and joint shear TARP `0.0260`.  More DDIM steps therefore restore the missing
+long-mode variance but do not remove the small global-coverage miss.
+
+This is not evidence against conditional diffusion as a family.  The current
+arm is a capacity-matched `base=4` objective swap with a scalar spatial time
+channel, no diffusion residual blocks, GroupNorm time injection, attention,
+EMA, learned reverse variance or schedule/preconditioning ablation.  The
+literature audit records a new, separately versioned D2 ladder informed by Ono
+et al. (2024), Legin et al. (2023), Riveros et al. (2025), Improved DDPM,
+v-prediction/progressive distillation and EDM.  D2 will ablate residual/time
+architecture, capacity, coarse attention, EMA, schedule/preconditioning and
+sampler type one at a time; it will not copy periodic padding, classifier-free
+guidance or loss/power-only selection into CutSky inference.
+
+Compact evidence is under
+`docs/evidence/p12/p12f3_conditional_rescue_v1/`.  The main frozen SHA256 values
+are: configuration `8b92461c...`, observable autopsy `efbed129...`, Gaussian
+selection `9671244c...`, seed-42 decision `7b463d94...`, sampler convergence
+`c267902c...`, NFE100 report/shear/visual
+`d6e98fbc.../ebd41c3e.../9521a773...`, and literature audit `a10dbf9b...`.
+The inspected overview, conditional-coverage, shear and NFE-convergence figures
+are under `docs/figures/p12f3_conditional_rescue_20260904/`.
+
 ### 2026-09-03 - [science/plan] Register conditional-calibration rescue after F3-L2b
 
 The completed 30k F3-L2b experiment rules out training length as the principal

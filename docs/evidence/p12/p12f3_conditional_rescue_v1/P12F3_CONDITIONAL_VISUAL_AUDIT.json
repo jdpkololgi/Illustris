@@ -1,0 +1,36 @@
+{
+  "created_utc": "2026-09-04T11:25:03.652838+00:00",
+  "figures": [
+    "p12f3_conditional_rescue_overview.png",
+    "p12f3_conditional_coverage.png",
+    "p12f3_conditional_shear.png"
+  ],
+  "inputs": {
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/reports/conditional_diffusion_proxy7.json": "bf5aa984f58c9de4ed44f81b5b70d254520724406aa931801cd3929402e15774",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/reports/conditional_flow_proxy7.json": "90817b907a98730df2c4c91430b60f0d949926b0c9023f345d556436cc2d4370",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/reports/conditional_gaussian_base3.json": "af650c6ad303fd00314900af4bb1d0c75479da13e0958de2593b205887ccecb4",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/reports/conditional_gaussian_proxy7.json": "10e16dbfda52c2d3e2d0b2ac188b5fa650af8f08958326fb41abfa7d0c07a6b2",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/reports/conditional_gaussian_proxy7_shuffled.json": "e6daf218e54149247e1c367794c40b4b4b92985431152e6629b392cd1e8caa65",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/shear/conditional_diffusion_proxy7.json": "a691e65b6272b853db9c45be0fa7048c326a1739eb3fe000d3111f605193cf70",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/shear/conditional_flow_proxy7.json": "018bb7397f9febe5a29ab6a388c051a8b4ac35d89eec998d654eab0c6224d2fe",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/shear/conditional_gaussian_base3.json": "40235038d7b5e453bd50a01811b48dbac0b1f86975dfe8d58dcc6c428c019af7",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/shear/conditional_gaussian_proxy7.json": "9d54471f7e9952bae34956cd0f9a0b4f2934a7adc76ec0c175867b158ec05688",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/shear/conditional_gaussian_proxy7_shuffled.json": "2653b20706bb6dee8e5ee429da65459524d99280ec068b041cbdb01dc543fb4f",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/visual/conditional_diffusion_proxy7.json": "6756e330d3c649b4e88279906b9e90299a6a8c47fe0c06581d7a09edf193a654",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/visual/conditional_flow_proxy7.json": "f3e23bd37f9311cbdcbc5b0f1f771c388cebd59daa60a95ce03425cdbe087d5a",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/visual/conditional_gaussian_base3.json": "e2a258d66646abd6b733bc423b17bf403e303b5dbb10a5f0ecbf9cb76ad0f2f7",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/visual/conditional_gaussian_proxy7.json": "8c753b475bd9164a0e31abf53a89eefa58eadec1e3f66549cc0a06d716805b27",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/evaluation/visual/conditional_gaussian_proxy7_shuffled.json": "f04533c361042dac25f9bdb8e5dcf4a30b396c49fb4822a6bef93cb9f2033527",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/gaussian/P12F3_CONDITIONAL_GAUSSIAN_SELECTION.json": "9671244c5ded83aef0c3233166d4784efb291d6126301a8008e4d36c124f379f",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/generative/diffusion/seed42_v3/loss_trace.jsonl": "99a759f980ccf2227620d60c9926c838a6831cf21c3c018d0e0818df5622dcba",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_conditional_calibration_v1/generative/flow/seed42_v3/loss_trace.jsonl": "1538c7ef7d1ef50bc581acd574265ac4069efca591e364c854d962a14377ab25",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_fourier_training_sufficiency_v1/evaluation/seed42_30k_dp4_v1/reports/fourier_flow_h24.json": "6889003b0dd1c85712fa867f48b50952612d87af7da7aa228c608afd933cd816",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_fourier_training_sufficiency_v1/evaluation/seed42_30k_dp4_v1/shear/fourier_flow_h24.json": "807b8148e1a7516622ec500bfb9747ac48d338d4771de1cda1574bad2e6720f0",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_fourier_training_sufficiency_v1/evaluation/seed42_30k_dp4_v1/visual/P12F3L2_VISUAL_AUDIT.json": "5d4119151d5b9d75eda150a7b046b37e715362e23e5c363e59a69d6b01741616"
+  },
+  "ph001_opened": false,
+  "schema_version": "p12f3-conditional-visual-audit-v1",
+  "truth_files_read": [
+    "ph006"
+  ]
+}
