@@ -1,0 +1,21 @@
+{
+  "schema_version": "p12f3-conditional-selection-v1",
+  "parent_config": "configs/p12f3_conditional_calibration_v1.json",
+  "run_name": "seed42_v2",
+  "arms": ["base3", "proxy7", "proxy7_shuffled"],
+  "selection_sample": "fixed 10 percent per-phase internal split from ph000 and ph002-ph005",
+  "paired_core_bootstrap_repeats": 4000,
+  "seed": 20260904,
+  "aligned_proxy_gate": {
+    "minimum_relative_nll_improvement_over_base3": 0.01,
+    "minimum_relative_nll_improvement_over_shuffled": 0.005,
+    "paired_difference_upper_95_percent_must_be_below_zero": true
+  },
+  "selection_policy": {
+    "pass": "select proxy7 for the shared conditional whitening and F3-L2c",
+    "fail": "select base3; record that aligned deployable proxies have no demonstrated conditional-NLL headroom",
+    "proxy7_shuffled_is_never_a_science_candidate": true
+  },
+  "validation_phase_used_for_fit": false,
+  "sealed_blind_phase": "ph001"
+}
