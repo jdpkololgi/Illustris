@@ -4707,6 +4707,83 @@ F3-L2 compact evidence is frozen under
 `docs/evidence/p12/p12f3l2_fourier_v1/`; the visual calibration, low-band power,
 training and field panels are under `docs/figures/p12f3l2_fourier_20260903/`.
 
+###### P12-F3-L2c/L2d — Observable conditional-calibration rescue
+
+**Status:** REGISTERED; IMPLEMENTATION AND PH006 EVALUATION IN PROGRESS; PH001 SEALED
+
+The 30,000-update F3-L2b result closes training length as an explanation: its
+joint ordered-eigenvalue, eigengap and five-shear laws improve while its
+environment-stratified interval coverage worsens.  The next experiment changes
+the conditional location/scale/covariance model rather than extending the same
+objective.  The frozen 10k and 30k checkpoints, archives and gates remain
+immutable.
+
+One statistical qualification is registered before fitting the rescue.  Flat
+coverage after conditioning on the realised truth is not guaranteed even for an
+exact Bayesian posterior; the defining calibration statement is conditional on
+the observation.  Consequently, true-density/environment strata remain a
+conservative scientific diagnostic, but they may neither enter the model nor be
+treated alone as proof of a width defect.  A split-draw posterior-self-consistency
+reference and deployable-proxy conditional diagnostics must first distinguish
+truth-stratification geometry from a correctable observation-conditional error.
+
+The bounded ladder is:
+
+1. **Observable-proxy/calibrand autopsy (checkpoint-free).**  On the frozen
+   256-core ph006/64-draw F3-L2b archive, compare coverage, PIT/rank, normalized
+   location error, spread-to-error ratio and low/high-frequency variance against
+   BRIGHT tracer density, exact random response, boundary distance, redshift,
+   frozen posterior-mean density, frozen posterior width, predicted tidal-shear
+   amplitude and predicted web probabilities.  Fit no correction on ph006.  Use
+   disjoint draw halves to measure the non-flat truth-stratified coverage expected
+   under posterior self-consistency and authoritative-core bootstrap throughout.
+2. **Training-only conditional Gaussian location/covariance control.**  On the
+   exact ph000/ph002--ph005 F3-L2 cores, train a lightweight local mean/log-scale
+   head for the two-band low-frequency G1 residual.  Compare the original
+   BRIGHT/random-response channels with a capacity-matched arm augmented only by
+   deployable frozen G1 mean, G1 scale, predicted traceless-shear amplitude and
+   boundary distance.  Fit the covariance of the standardized residual on the
+   training phases only and retain exact Hermitian projection.  A shuffled-proxy
+   score is an anti-shortcut control; true environment is forbidden.
+3. **F3-L2c conditional pre-whitening.**  Freeze the winning Gaussian
+   location/scale head and transform the low-mode target into standardized exact
+   Fourier coordinates.  Train a fresh conditional flow on the standardized
+   residual and reconstruct samples through the frozen conditional mean/scale plus
+   exact low-mode projection.  This separates heteroscedastic location/scale from
+   the non-Gaussian copula instead of post-hoc ph006 temperature scaling.
+4. **F3-L2d target-identical score diffusion, conditionally licensed.**  Run one
+   diffusion challenger only if the observable proxy is informative and the
+   Gaussian/F3-L2c results leave evidence of a sampler-family limitation.  It must
+   use the identical standardized Fourier target, conditioning, training cores,
+   fixed high-frequency completion, physics layer and network-evaluation budget.
+   If the causal gate does not license diffusion, freeze a no-run decision; that
+   is completion of this fourth experiment, not missing work.
+
+All fitted quantities use ph000/ph002--ph005 only.  Model stopping uses a frozen
+internal training-phase split and a bounded update cap; ph006 is evaluated only
+after an arm is frozen.  No ph006-fitted scale, covariance, bin edge, feature or
+temperature is permitted.  The decisive comparisons continue to use the frozen
+256 authoritative ph006 cores and common 64-draw seeds, with patch/core rather
+than voxel-independent uncertainty.
+
+- [ ] Freeze the versioned configuration, data hashes, proxy definitions,
+  internal split, update budgets and diffusion license before GPU training.
+- [ ] Complete the observable-proxy and split-draw self-consistency visual audit.
+- [ ] Train and evaluate the conditional Gaussian base/proxy/shuffled controls.
+- [ ] Train and evaluate F3-L2c from a fresh initialization using only the frozen
+  training-phase conditional transform.
+- [ ] Run F3-L2d only if licensed, otherwise write the frozen no-run decision.
+- [ ] Freeze one final decision and compact evidence; retain ph001 sealed.
+
+The simultaneous anti-gaming gate is unchanged for the physical posterior:
+low-band residual powers within 10%, ordered-eigenvalue/eigengap/five-shear TARP
+at most 0.05, global 68/90% coverage error at most 0.05, deployable-observable
+conditional error at most 0.10, and no registered proper-score regression above
+1%.  The original true-environment error is still reported, alongside the
+split-draw self-consistency reference, but is not used as a trainable correction.
+Promotion additionally requires a positive paired-core proper-score result over
+both G1 and F3-L2b and replication of the selected arm with a second seed.
+
 ###### P12-F3-L2a/L2b — Conditional autopsy and training sufficiency
 
 **Status:** COMPLETE; 30,000-UPDATE SUFFICIENCY TEST FAILS CONDITIONAL-COVERAGE

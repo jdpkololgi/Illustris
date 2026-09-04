@@ -1,5 +1,33 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-03 - [science/plan] Register conditional-calibration rescue after F3-L2b
+
+The completed 30k F3-L2b experiment rules out training length as the principal
+cause of its remaining conditional-coverage failure.  The next bounded field
+programme is registered as observable-proxy/calibrand autopsy -> training-only
+conditional Gaussian location/covariance control -> conditionally pre-whitened
+F3-L2c -> one target-identical diffusion challenger only if the causal gate
+licenses it.  There will be no further same-objective F3-L2 update extension and
+no ph006-fitted temperature or environment correction.
+
+The new contract corrects an important interpretation risk.  Coverage need not
+be flat after conditioning on the realised truth even for an exact posterior, so
+the striking true-density-quartile pattern remains a conservative diagnostic but
+cannot by itself establish a correctable width defect.  The first experiment will
+construct a split-draw posterior-self-consistency reference, separate normalized
+location error from spread error, decompose low/high-frequency variance, and ask
+whether the failure is identifiable using only inference-time observables or
+frozen predictions.  True density/environment remains evaluation-only.
+
+If deployable proxies carry the relevant signal, a training-phase-only Gaussian
+head will model local low-mode location/scale and the covariance of its
+standardized residual.  F3-L2c will then learn the remaining standardized
+non-Gaussian dependence in exact Hermitian coordinates.  Diffusion is not an
+automatic response to a failed flow: it is run only if these controls isolate a
+sampler-family limitation, otherwise a frozen no-run decision completes that
+branch.  The physical joint/coverage/proper-score gates remain anti-gaming, the
+256-core ph006 panel remains fixed, and ph001 remains sealed.
+
 ### 2026-09-03 - [science/results/code/run] F3-L2b 30k sufficiency test closes: joint dependence improves, conditional coverage does not
 
 The fresh-initialization F3-L2b training-sufficiency experiment is complete at
