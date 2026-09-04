@@ -4709,8 +4709,8 @@ training and field panels are under `docs/figures/p12f3l2_fourier_20260903/`.
 
 ###### P12-F3-L2a/L2b — Conditional autopsy and training sufficiency
 
-**Status:** AUTOPSY COMPLETE; FRESH 30,000-UPDATE SUFFICIENCY RUN REGISTERED;
-DIFFUSION NOT YET LICENSED; PH001 SEALED
+**Status:** COMPLETE; 30,000-UPDATE SUFFICIENCY TEST FAILS CONDITIONAL-COVERAGE
+GATE; NO FURTHER EXTENSION; PH001 SEALED
 
 The 10,000-update F3-L2 result is not reinterpreted or recalibrated.  A matched,
 checkpoint-free autopsy on the frozen 256-core ph006 archive separates four possible
@@ -4730,7 +4730,9 @@ even the best diagnostic global multiplier leaves error `0.1200`.  Therefore no
 single scalar temperature is an acceptable cure.
 
 The original flow had nevertheless seen only `10,000 / 2,560 = 3.90625` passes over
-the selected multi-phase cores, with training loss still declining.  One bounded
+the selected multi-phase cores.  Its cumulative loss diagnostic appeared to keep
+declining, but a later moving-window audit shows most useful descent ending near
+5,000 updates.  One bounded
 F3-L2b run is therefore registered from a fresh initialization at 30,000 updates,
 using the identical 2,560 training cores, whitening, `h24` conditioner, Fourier
 target, G1 high-frequency completion, sampler, physics layer and frozen 256-core
@@ -4742,12 +4744,31 @@ temperature, conditional recalibration or gate change.
   freeze its compact JSON evidence.
 - [x] Register the fresh 30,000-update training-sufficiency contract without
   mutating the original 10,000-update run.
-- [ ] Train F3-L2b and inspect its moving training-loss curve for a genuine plateau.
-- [ ] Export 64 common-seed draws on the unchanged 256-core ph006 panel and rerun the
+- [x] Train F3-L2b to 30,000 updates (`11.71875` passes) and inspect the moving
+  training-loss curve; useful descent is largely exhausted near 5,000 updates.
+- [x] Export 64 common-seed draws on the unchanged 256-core ph006 panel and rerun the
   full Fourier-power, shear, eigen/eigengap, coverage and proper-score ladder.
-- [ ] If the conditional sign reversal remains, train a small observation-conditional
-  scale/covariance control using training phases only.  If it disappears and all
-  gates pass, freeze the flow target and run one compute-matched diffusion control.
+- [x] Compare the 10k and 30k frozen results.  Joint structure improves strongly
+  (`eigengap TARP 0.0477 -> 0.0209`; low-band power `0.9969/0.9433 ->
+  1.0419/1.0343`) and proper scores improve modestly, but global 68% coverage error
+  worsens `0.0473 -> 0.0607` and maximum conditional error worsens
+  `0.1324 -> 0.1524`.
+- [x] Freeze the decision: the conditional sign reversal remains
+  (`0.8304/0.8324/0.7293/0.5706` coverage across increasing true-density
+  quartiles), so F3-L2b is not promoted and no further training extension is
+  licensed.
+- [ ] Register a new training-phase-only observation-conditional location/scale or
+  covariance experiment if field-posterior work continues.  This is a new model
+  contract, not continuation or ph006 recalibration of F3-L2b.  A diffusion
+  comparison remains a separate matched experiment and is not automatically
+  promoted by this failure.
+
+The 30k run was a deliberately overpowered training-sufficiency falsification,
+not evidence that three times the update budget was selected from the loss curve.
+It was warranted once because the 10k run had seen each selected core fewer than
+four times.  Having now shown that extra exposure improves the joint low-mode law
+but not conditional calibration, training length is no longer a defensible
+explanation for the remaining coverage error.
 
 Diffusion is promoted only by evidence: it must use the same target, conditioning,
 training cores, update budget and evaluator and must improve the joint gate without

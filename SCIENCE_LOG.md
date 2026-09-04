@@ -1,5 +1,54 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-03 - [science/results/code/run] F3-L2b 30k sufficiency test closes: joint dependence improves, conditional coverage does not
+
+The fresh-initialization F3-L2b training-sufficiency experiment is complete at
+30,000 updates (`11.71875` passes over the 2,560 frozen multi-phase training
+cores).  The final checkpoint SHA256 is
+`6b67b0beb6b6bc7d445618b49f5a91256d8e9466ead15610f98015268b9662b3`.
+Its full frozen evaluation used the unchanged 256-core ph006 panel and 64 draws;
+ph001 remained sealed.  Four-GPU data-parallel sampling changed only wall-clock
+export, not the model, draws or evaluation contract.
+
+The extra training genuinely improves the intended joint low-mode result.  The
+two residual-power ratios are `1.0419/1.0343`, ordered-eigenvalue TARP is
+`0.0199`, eigengap TARP improves from the 10k value `0.0477` to `0.0209`, and
+five-component low-k shear TARP is `0.0240`.  Relative to G1, energy score
+improves by `4.20%`, coarse energy by `4.70%`, marginal CRPS by `1.79%`, and
+variogram score by `3.95%`; the paired-core primary-energy improvement is
+`3.28%` with 95% interval `[2.16%,4.44%]`.  Thus the direct Fourier flow is not
+merely adding arbitrary variance: it learned a materially better joint
+low-mode law even after the average loss had largely flattened.
+
+It nevertheless fails the simultaneous posterior gate.  Empirical 68% voxel
+coverage is `0.7407` (error `0.0607` against the `0.05` limit), maximum
+conditional coverage error is `0.1524` (limit `0.10`), and maximum marginal
+low-k shear coverage error is `0.05029`, missing its `0.05` limit by
+`0.00029`.  The true-density-quartile 68% coverages are
+`0.8304/0.8324/0.7293/0.5706`: extra training increases over-coverage in the
+low-density quartiles while leaving the densest under-coverage nearly
+unchanged.  A truth-assisted global width scan still leaves error `0.1319`,
+and oracle recentered scale requirements span `0.715--1.116`.  This is not a
+single-temperature defect.
+
+This result closes the training-length confound.  The earlier statement that
+loss was still falling referred to a noisy cumulative diagnostic and was too
+optimistic: the moving-window curve shows most useful descent ending near
+5,000 updates.  The 30k run was justified as one bounded, fresh-start negative
+control because 10k exposed each core only `3.90625` times, not as an open-ended
+optimization continuation.  Its scientific value is now clear: longer
+training can repair joint eigengap/long-mode structure, but it cannot repair
+the sign-changing conditional width error.  No further update extension of
+this architecture is licensed.  The frozen decision remains
+`stop_hierarchical_g1_repair`; any next field experiment must change the
+observation-conditional location/scale or covariance model under a newly
+registered contract rather than extend this checkpoint or fit ph006.
+
+Compact evidence is under
+`docs/evidence/p12/p12f3l2_training_sufficiency_30k_v1/`; inspected visual
+panels are under
+`docs/figures/p12f3l2_training_sufficiency_20260903/`.
+
 ### 2026-09-03 - [science/results/plan/code] F3-L2 conditional-coverage autopsy and bounded training-sufficiency rescue
 
 The frozen 256-core ph006 archives were re-audited on exactly matched supported
@@ -22,10 +71,11 @@ direct Fourier representation has therefore repaired the earlier long-mode/shear
 dependence failure, while the residual defect is conditional location/scale
 heterogeneity tied most strongly to the underlying environment.
 
-The autopsy also exposed a training-sufficiency concern that must precede a sampler
+The autopsy also exposed a training-sufficiency concern that had to precede a sampler
 change: the original 10,000-update flow saw only `3.90625` passes over its 2,560
-selected multi-phase cores, and its noisy flow-matching loss was still declining at
-the cap.  A separately registered, fresh-initialization 30,000-update F3-L2b run is
+selected multi-phase cores.  Its cumulative loss diagnostic was still declining,
+although the later moving-window audit shows that most useful descent had ended near
+5,000 updates.  A separately registered, fresh-initialization 30,000-update F3-L2b run was
 therefore authorized.  It leaves the frozen 10,000-update checkpoint and evidence
 untouched and retains the same target, whitening, conditioner, physics, ph006 panel
 and gates.  Diffusion is not promoted merely because F3-L2 missed coverage: it is

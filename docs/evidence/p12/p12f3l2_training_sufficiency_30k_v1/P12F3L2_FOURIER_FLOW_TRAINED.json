@@ -1,0 +1,32 @@
+{
+  "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_fourier_training_sufficiency_v1/seed42_30k_v1/wide_h24/checkpoint.pt",
+  "checkpoint_reload_exact": true,
+  "checkpoint_sha256": "6b67b0beb6b6bc7d445618b49f5a91256d8e9466ead15610f98015268b9662b3",
+  "created_utc": "2026-09-03T21:50:09.410075+00:00",
+  "frozen_digest": "b8653a0acad4864f348da67bfc135f32da5ae4f7ee8161f0f2b1d8213a9559e9",
+  "last_preclip_gradient_norm": 1.9263826608657837,
+  "mean_probe_draw_std": 0.6885014772415161,
+  "mean_training_loss": 1.3378988727509975,
+  "pass": true,
+  "ph001_opened": false,
+  "probe_all_finite": true,
+  "probe_metadata": {
+    "band_mode_counts": [
+      309,
+      2055
+    ],
+    "components": 4728,
+    "core_id": 2745,
+    "hermitian_abs_error": 9.5367431640625e-06,
+    "modes": 2364,
+    "phase": "ph006",
+    "roundtrip_abs_error": 1.1920928955078125e-06,
+    "shape": [
+      72,
+      72,
+      72
+    ]
+  },
+  "schema_version": "p12f3l2-fourier-flow-trained-v1",
+  "update": 30000
+}
