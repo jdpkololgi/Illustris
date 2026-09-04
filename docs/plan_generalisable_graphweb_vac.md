@@ -4151,9 +4151,9 @@ Progress checklist:
   107.60 rows/s/GPU and a 3.16-hour linear four-GPU projection. Finite summaries,
   normalized web-class probabilities and retained audit draws pass with
   `truth_files_read=[]`, `open_count=0` and `sealed_phase_opened=false`. The full
-  production array remains blocked only until P12-F v2 freezes; its real wall time may
-  exceed the projection because startup, shard imbalance and I/O contention were not
-  included.
+  production array is now queued independently of D2 as four-GPU job `57919118`, with
+  dependent prediction-freeze job `57919122`; its real wall time may exceed the
+  projection because startup, shard imbalance and I/O contention were not included.
 - [x] Harden `P12_BLIND_PREDICTIONS_FROZEN` so it requires exactly one base-context,
   complete P12-A export, CIC and DTFE manifest, rehashes every posterior/audit shard,
   and demands exact parent/core/support identity. Validation truth on ph006 is allowed;
@@ -4164,13 +4164,19 @@ Progress checklist:
   four-shard contract rather than treating them as resumable partial runs.  The CPU
   freeze still writes `P12_BLIND_PREDICTIONS_FROZEN.json` only after all four shards,
   CIC and DTFE pass exact row/core/support and hash parity (freeze wrapper commit
-  `90e42ae`). No job in this chain can open ph001 truth.
+  `90e42ae`). Jobs `57919118` and `57919122` are the active export/`afterok` freeze
+  pair. No job in this chain can open ph001 truth.
 - [x] Implement the two-phase, O_EXCL one-open protocol and isolated authorized truth
-  chain without opening ph001.  Commit `7aaa99d` binds the frozen evaluator and every
-  builder/physics source before authorization, then requires the same `open_count=1`
-  state through HPSS particle-B restore, A+B density, R7 T-web, parent annotation,
-  exact compact truth and terminal rehash.  The ordinary phase registry/product tree
-  remains untouched; 27 focused P12 tests pass.
+  chain without opening ph001.  Commit `7aaa99d` introduced the isolated chain and
+  commit `902a6cf` hardens it after independent audit: the primary FMPE-versus-Gaussian
+  comparison is the sample-based joint energy score of the posterior actually drawn;
+  seeds, canonical outputs and green/amber/block logic are frozen; all `4,897,905`
+  rows plus the exact 50,000-row by 512-draw audit sample deep-replay before
+  authorization; transitive code/runtime and truth inputs are hashed; and duplicate
+  submission, partial publication and post-open evaluator/plot paths fail closed.
+  The same `open_count=1` state remains bound through HPSS particle-B restore, A+B
+  density, R7 T-web, parent annotation, exact compact truth and terminal rehash.  The
+  ordinary phase registry/product tree remains untouched.
 - [ ] After the posterior export/freeze completes, build and commit
   `P12A_BLIND_EVALUATION_CONTRACT.json`, deep-replay all `4,897,905` frozen rows, write
   `P12_BLIND_OPEN_AUTHORIZED.json` before any truth access, run the authorized truth
@@ -4845,8 +4851,8 @@ both G1 and F3-L2b and replication of the selected arm with a second seed.
 
 ###### P12-F3-D2 — Literature-grade conditional diffusion successor
 
-**Status:** AUTHORIZED AS A HARD-BUDGET, PARALLEL V2 EXPERIMENT; NOT A CONTINUATION
-OF THE SMALL F3-L2d COMPARATOR; NOT A P12-A BLOCKER; PH001 SEALED FROM D2
+**Status:** IMPLEMENTED AND FROZEN; OFFICIAL SAME-CONTRACT GPU PREFLIGHT PASSED;
+REFERENCE/A0/A1 SLURM CHAIN QUEUED; NOT A P12-A BLOCKER; PH001 SEALED FROM D2
 
 The capacity-matched F3-L2d arm is deliberately a controlled objective swap:
 it uses the same `base=4` U-Net, exact conditionally standardized Fourier target
@@ -4953,10 +4959,24 @@ and `sacct`, not merely from disappearance from `squeue`.  Batch submission foll
 the reviewed smoke and is the production handoff, not a replacement for development
 testing.
 
-- [ ] Freeze D2 architecture, schedule/preconditioning, EMA, effective-batch and
-  sampler-ablation contracts before training.
-- [ ] Run small capacity/time-embedding/attention canaries on the internal
-  training-phase split and select without ph006.
+Commit `467f442` implements this contract in the clean detached worktree
+`/global/u2/d/dkololgi/TNG/Illustris_d2_467f442`.  The official contract/output root is
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_d2_diffusion_v1/official_467f442_seed42_v1`.
+Its same-contract GPU smoke restores model, EMA and optimizer exactly and reproduces
+the interrupted trajectory with zero numerical difference on the tested one-A100
+topology; base-8 and attention backward/sampling paths are finite and peak at about
+1.57 GB.  The inherited conditional-standardization round trip has median/max
+relative low-mode RMSE `0.0452/0.0860` and band-power ratios up to `1.157`; downstream
+physical gates may reject this approximation, and a negative result applies only to
+this matched hybrid representation.  Batch jobs `57921151` (matched references),
+`57921152` (A0) and `57921153` (A1) form the initial `afterok` chain.
+
+- [x] Freeze D2 architecture, schedule/preconditioning, EMA, effective-batch and
+  sampler-ablation contracts before training; pass 28 focused tests and the official
+  exact-resume/memory/throughput GPU preflight.
+- [ ] Complete the queued capacity/time-embedding canaries on the internal
+  training-phase split and select without ph006; run attention only if the capacity
+  marker licenses A2.
 - [ ] Train the frozen D2 arm to a preregistered cap with train-only sample
   diagnostics, not loss-only stopping.
 - [ ] Establish deterministic sampler convergence or run the frozen stochastic

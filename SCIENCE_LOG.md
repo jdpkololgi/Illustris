@@ -1,5 +1,55 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-04 - [code/run] Freeze and launch the bounded P12-F3-D2 capacity funnel
+
+Commit `467f442` implements the separately versioned D2 programme and freezes its
+patch-safe conditional-diffusion architecture, exact Fourier target/condition,
+presentation ledger, train-only 128/127 selection split, EMA/milestone selection,
+sampler-convergence ladder, matched reference evaluator and simultaneous physical,
+calibration and paired-proper-score gates.  The implementation deliberately replaces
+spatial GroupNorm with per-voxel channel LayerNorm, keeps exact `support_random` as
+mask-only metadata, and retains ph001 as sealed.  Twenty-eight focused tests pass.
+
+The committed detached worktree
+`/global/u2/d/dkololgi/TNG/Illustris_d2_467f442` and official output root
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_d2_diffusion_v1/official_467f442_seed42_v1`
+are bound to revision `467f442c5c54864658fdfaf948335d6e11a647fe` and config SHA256
+`3143ce1dfdb9546d3eb40413feab91bafa11b70718a2e4bb0ecb451080793533`.
+The same-contract GPU preflight passes: model/EMA/optimizer checkpoint restoration and
+interrupted-versus-uninterrupted replay differ by exactly zero; base-8 and
+support-attention backward passes are finite; and 32-draw NFE50 sampling peaks at
+about 1.57 GB on one A100.  The inherited spatially varying standardization is only
+approximately invertible (median/max relative low-mode RMSE `0.0452/0.0860`, band
+power ratios `1.010--1.157`), so D2 is a matched F3-L2d falsification test rather than
+a universal test of diffusion.
+
+Finalized work now runs through one-GPU `shared` Slurm jobs, not a persistent
+interactive allocation.  Reference recomputation `57921151`, A0 `57921152` and A1
+`57921153` are queued as an `afterok` chain.  Attention, science continuation, ph006
+evaluation and seed `314159` remain conditional on their registered markers; exit 75
+may resume only after `sacct` and the atomic checkpoint prove a planned pause.  No D2
+training presentation, ph006 candidate evaluation or ph001 access has yet occurred.
+
+### 2026-09-04 - [code/contract] Harden P12-A blind opening and evaluation before authorization
+
+Commit `902a6cf` closes the pre-opening audit findings without changing any module
+imported by the queued truth-free export.  The blind comparison now uses a sample-based
+joint energy score for the actual truncated FMPE draws rather than comparing an
+unnormalized flow log density with a normalized Gaussian.  It freezes TARP/rank/
+bootstrap seeds and canonical outputs, requires the 20-seed p90 replicate rule,
+deep-replays all posterior rows and the exact 50,000-row by 512-draw audit subset,
+binds transitive source/runtime and truth-input provenance, and implements the
+registered green/amber/full-footprint-block decision tree.  Exclusive submission and
+atomic publication guards cover the authorized truth and post-open evaluator/plot
+chains.  The focused P12-A suite passes; an independent final review remains a gate.
+
+Jobs `57919118` and `57919122` remain the truth-free posterior export and dependent
+freeze.  `P12_BLIND_OPEN_AUTHORIZED.json` is absent, `open_count=0`, and no ph001 truth
+has been read.  Authorization is forbidden until those jobs complete, the frozen
+prediction package deep-replays, and the evaluation contract is committed.  The
+programme still stops after the immutable P12-A pass/fail report; P13/Loa is not
+authorized.
+
 ### 2026-09-04 - [code/contract] P12-A authorized ph001 truth chain is ready; truth remains unopened
 
 Commit `7aaa99d` adds the irreversible half of the P12-A blind protocol without
