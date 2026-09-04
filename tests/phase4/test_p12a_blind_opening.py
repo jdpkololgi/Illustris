@@ -13,6 +13,9 @@ from workflows.sbi.p12_production_contract import BLIND_SCHEMA
 from workflows.sbi.p12a_blind_evaluation_contract import (
     CONDITIONAL_STRATA,
     GATES,
+    TRUTH_CONSTRUCTION_CONTRACT,
+    TRUTH_CONSTRUCTION_IMPLEMENTATION_FILES,
+    TRUTH_FREE_IDENTITY_INPUTS,
     shell_class_climatology,
 )
 from workflows.sbi.p12a_blind_proper_score import (
@@ -105,6 +108,15 @@ class P12ABlindOpeningTest(unittest.TestCase):
             "post_open_refit_allowed": False,
             "truth_files_read": [str(training.resolve())], "pass": True,
             "evaluation_implementation": implementation,
+            "truth_construction_implementation": {
+                name: self._record(path)
+                for name, path in TRUTH_CONSTRUCTION_IMPLEMENTATION_FILES.items()
+            },
+            "truth_free_identity_inputs": {
+                name: self._record(path)
+                for name, path in TRUTH_FREE_IDENTITY_INPUTS.items()
+            },
+            "truth_construction_contract": TRUTH_CONSTRUCTION_CONTRACT,
             "gates": GATES, "conditional_strata": CONDITIONAL_STRATA,
             "class_threshold": 0.2, "bootstrap_unit": "authoritative core",
             "primary_proper_score": "physical joint log score on the frozen 50k audit rows",

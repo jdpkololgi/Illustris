@@ -34,6 +34,60 @@ IMPLEMENTATION_FILES = {
     "proper_score_evaluator": Path(__file__).with_name("p12a_blind_proper_score.py"),
     "one_open_guard": Path(__file__).with_name("p12a_open_blind.py"),
 }
+TRUTH_CONSTRUCTION_IMPLEMENTATION_FILES = {
+    "authorized_truth_wrapper": Path(__file__).with_name("p12a_authorized_truth.py"),
+    "particle_b_restore_slurm": Path(__file__).with_name(
+        "submit_p12a_ph001_particle_b.slurm"
+    ),
+    "density_slurm": Path(__file__).with_name("submit_p12a_ph001_density.slurm"),
+    "tweb_slurm": Path(__file__).with_name("submit_p12a_ph001_tweb.slurm"),
+    "annotation_slurm": Path(__file__).with_name(
+        "submit_p12a_ph001_annotation.slurm"
+    ),
+    "compact_truth_slurm": Path(__file__).with_name(
+        "submit_p12a_ph001_compact_truth.slurm"
+    ),
+    "dependency_chain": Path(__file__).with_name(
+        "submit_p12a_ph001_truth_chain.sh"
+    ),
+    "particle_b_restore_physics": Path(__file__).parents[1]
+    / "abacus_tweb/p10_stage_particle_b.py",
+    "density_physics": Path(__file__).parents[1]
+    / "abacus_tweb/p10_build_density_field.py",
+    "tweb_physics": Path(__file__).parents[1] / "abacus_tweb/p10_run_tweb.py",
+    "annotation_physics": Path(__file__).parents[1]
+    / "abacus_tweb/annotate_cutsky_with_tweb_eigs.py",
+}
+TRUTH_FREE_IDENTITY_INPUTS = {
+    "phase_registry": Path(__file__).resolve().parents[2]
+    / "configs/p10_phase_registry_v1.json",
+    "blind_parent_completion": Path(
+        "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/catalogues/"
+        "blind_parent/ph001_bgs_bright_parent_linkage.fits.complete.json"
+    ),
+    "p1_canonical_manifest": Path(
+        "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/"
+        "p1_canonical/manifest.json"
+    ),
+}
+TRUTH_CONSTRUCTION_CONTRACT = {
+    "phase": "ph001",
+    "truth_root": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1",
+    "ordinary_phase_tree_truth_writes_allowed": False,
+    "phase_registry_mutation_allowed": False,
+    "expected_supported_context_rows": 4_897_905,
+    "density_grid_size": 2048,
+    "density_box_size_mpc_h": 2000.0,
+    "mass_assignment": "TSC",
+    "particle_a_fraction": 0.03,
+    "particle_b_fraction": 0.07,
+    "tidal_smoothing_mpc_h": 7.0,
+    "web_threshold": 0.2,
+    "eigenvalue_order": "lambda1<=lambda2<=lambda3",
+    "tweb_mpi_ranks": 16,
+    "halo_position_field": "x_com",
+    "compact_join": "frozen context parent_node_id -> P1 TARGETID -> annotated parent",
+}
 GATES = {
     "joint_eigenvalue_tarp_maximum": 0.05,
     "joint_eigengap_tarp_maximum": 0.05,
@@ -114,6 +168,22 @@ def build_contract(
         raise RuntimeError("P12-A Gaussian control is not frozen")
     if candidate.get("artifacts", {}).get("gaussian_baseline", {}).get("sha256") != sha256(gaussian_path):
         raise RuntimeError("Gaussian control differs from the frozen candidate")
+    parent_completion = json.loads(
+        TRUTH_FREE_IDENTITY_INPUTS["blind_parent_completion"].read_text()
+    )
+    if (
+        parent_completion.get("phase") != "ph001"
+        or parent_completion.get("target_truth_present") is not False
+    ):
+        raise PermissionError("blind parent identity input is not truth-free")
+    p1_manifest = json.loads(
+        TRUTH_FREE_IDENTITY_INPUTS["p1_canonical_manifest"].read_text()
+    )
+    if (
+        p1_manifest.get("phase") != "ph001"
+        or p1_manifest.get("target_truth_present") is not False
+    ):
+        raise PermissionError("P1 canonical identity input is not truth-free")
     training_spec = dataset.get("training", {})
     training_path = Path(training_spec.get("path", ""))
     if "ph001" in str(training_path).lower() or sha256(training_path) != training_spec.get("sha256"):
@@ -139,6 +209,14 @@ def build_contract(
         "evaluation_implementation": {
             name: _record(path) for name, path in IMPLEMENTATION_FILES.items()
         },
+        "truth_construction_implementation": {
+            name: _record(path)
+            for name, path in TRUTH_CONSTRUCTION_IMPLEMENTATION_FILES.items()
+        },
+        "truth_free_identity_inputs": {
+            name: _record(path) for name, path in TRUTH_FREE_IDENTITY_INPUTS.items()
+        },
+        "truth_construction_contract": TRUTH_CONSTRUCTION_CONTRACT,
         "class_threshold": 0.2,
         "shell_class_climatology": climatology,
         "gates": GATES,

@@ -43,6 +43,9 @@ from workflows.sbi.p12a_blind_evaluation_contract import (
     CONDITIONAL_STRATA,
     GATES,
     SCHEMA as CONTRACT_SCHEMA,
+    TRUTH_CONSTRUCTION_CONTRACT,
+    TRUTH_CONSTRUCTION_IMPLEMENTATION_FILES,
+    TRUTH_FREE_IDENTITY_INPUTS,
 )
 
 
@@ -228,6 +231,20 @@ def validate_evaluation_contract(path: Path) -> dict[str, Any]:
     for name, implementation_path in EVALUATION_IMPLEMENTATION_FILES.items():
         if not _record_matches(records[name], implementation_path):
             raise RuntimeError(f"blind evaluation implementation changed: {name}")
+    truth_records = contract.get("truth_construction_implementation", {})
+    if set(truth_records) != set(TRUTH_CONSTRUCTION_IMPLEMENTATION_FILES):
+        raise RuntimeError("blind truth-construction implementation inventory is not frozen")
+    for name, implementation_path in TRUTH_CONSTRUCTION_IMPLEMENTATION_FILES.items():
+        if not _record_matches(truth_records[name], implementation_path):
+            raise RuntimeError(f"blind truth-construction implementation changed: {name}")
+    identity_records = contract.get("truth_free_identity_inputs", {})
+    if set(identity_records) != set(TRUTH_FREE_IDENTITY_INPUTS):
+        raise RuntimeError("blind truth-free identity inventory is not frozen")
+    for name, identity_path in TRUTH_FREE_IDENTITY_INPUTS.items():
+        if not _record_matches(identity_records[name], identity_path):
+            raise RuntimeError(f"blind truth-free identity input changed: {name}")
+    if contract.get("truth_construction_contract") != TRUTH_CONSTRUCTION_CONTRACT:
+        raise RuntimeError("blind truth-construction physics or isolation contract changed")
     return contract
 
 
@@ -301,6 +318,10 @@ def validate_open_authorization(
         raise RuntimeError("frozen predictions changed after truth authorization")
     if not _record_matches(contract_reference, bound_contract):
         raise RuntimeError("evaluation contract changed after truth authorization")
+    # The contract hash alone is insufficient if a frozen builder or evaluator
+    # is edited in place after authorization.  Revalidate every nested source
+    # hash before each truth-bearing stage.
+    validate_evaluation_contract(bound_contract)
     canonical = bound_frozen.parent / AUTHORIZATION_FILENAME
     if authorization_path != canonical:
         raise PermissionError(f"truth authorization must use canonical path {canonical}")
