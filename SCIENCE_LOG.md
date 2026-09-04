@@ -1,5 +1,31 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-04 - [science/decision] Reactivate P12-A blind evaluation; run hard-budget D2 in parallel; hold P13
+
+The production/research split is now explicit. Resume the staged, truth-free
+four-shard P12-A `ph001` export, freeze it with the exact-row CIC/DTFE predictions,
+and perform the single controlled blind opening. That opening ends in an immutable
+P12-A pass/fail report only: **no Loa/P13 handoff is authorized in this programme**,
+even if P12-A passes. The uncorrected FMPE remains a frozen production *candidate*
+rather than a strict calibration-pass marker; its excellent within-galaxy physical
+TARP and mild sparse-shell lambda2/lambda3 conditional residual must both remain
+visible in the blind interpretation.
+
+P12-F3-D2 is simultaneously authorized as a separate v2 research branch, not as a
+prerequisite for P12-A. Its hard budget is an internal-training-phase ablation funnel,
+at most one selected seed-42 full science fit and one frozen ph006 evaluation. A
+second seed is licensed only if seed 42 passes every simultaneous calibration/physics
+gate and the registered positive paired proper-score rule. No failed D2 arm may
+register another successor in this programme, and no same-objective training extension
+is allowed. The funnel is capped at approximately three full-run equivalents;
+capacity, time-conditioning, EMA and attention choices must be made without ph006.
+
+`ph001` is assigned to the v1 P12-A claim. Once its truth is opened, D2 cannot use it
+as independent evidence; any later D2/v2 blind claim requires a newly designated mock
+phase or ensemble. Existing P12-F no-finalist decisions remain immutable, ph001 stays
+sealed until the P12-A freeze state machine authorizes its single opening, and the two
+branches may use one interactive allocation each without exceeding the local limit.
+
 ### 2026-09-04 - [science] STATUS/DIRECTION REVIEW (Claude Code): P12-A is a genuine VAC-grade result; P12-F is a 15-closure research branch now sitting on the critical path
 
 Reviewed the P12-A/P12-F entries and the plan's P12 sections. No runs, no promotion. Three findings.

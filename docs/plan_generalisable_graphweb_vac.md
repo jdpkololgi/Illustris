@@ -3842,15 +3842,19 @@ for optional P11 or a long deterministic research tail. Deterministic protocol
 selection and a deterministic canary do not require FMPE/NPE, but the production VAC
 claim does.
 
-The production spine is now
+The v1 production spine is now
 
 ```text
 freeze P12-A
-  -> bounded matched P12-F Gaussian/flow/diffusion comparison
-  -> bounded P12-F v2 evaluation/dependency rescue (no ph001 access)
   -> freeze all truth-free ph001 predictions
   -> one shared blind opening
-  -> P13 Loa VAC.
+  -> immutable P12-A pass/fail report
+  -> STOP (P13/Loa requires separate user authorization).
+
+parallel, non-blocking v2 research:
+  frozen P12-F no-finalist evidence
+  -> hard-budget P12-F3-D2 funnel
+  -> ph006 result only (a later blind claim requires a new phase/ensemble).
 ```
 
 P11's JEPA mainline is closed; no JEPA-v3 is scheduled. Its factorial views and
@@ -3861,8 +3865,9 @@ The separately versioned v2 rescue established that G1's modest joint miss survi
 much larger ph006 panel/draw budget and localized it to spatial/scale covariance.  The
 single licensed shell-conditioned covariance correction G2 did not improve the primary
 proper score and left eigengap TARP above threshold, so v2 is now closed with no field
-finalist.  P12-A remains the production candidate and the truth-free ph001 export may
-proceed.
+finalist. P12-A remains the production candidate and the truth-free ph001 export must
+now proceed independently of D2. The single blind evaluation reports pass/fail only;
+P13/Loa deployment is deliberately outside the present authorization.
 
 On the matched 128-core ph006 panel, correlated Gaussian G1 is the strongest bounded
 field baseline but still misses the gate: max derived TARP deviation `0.06044`, global
@@ -4028,14 +4033,16 @@ Execution order after the P11 closeout:
 2. [complete] write and validate `P12A_PRODUCTION_CANDIDATE_FROZEN.json`;
 3. [complete] run the matched P12-F Gaussian/flow/diffusion comparison and bounded
    v2/G2 covariance rescue on ph006; freeze the v1 and v2 no-field-finalist decisions;
-4. [rain-checked] generate and freeze truth-free P12-A ph001 summaries plus
+4. [reactivated] generate and freeze truth-free P12-A ph001 summaries plus
    deterministic and classical blind predictions; add P12-F ph001 panel draws only
    for a field finalist.  The context and CIC/DTFE products are complete, but the
    four-GPU export `57890469` and dependent CPU freeze `57890760` were cancelled
    before starting on 2026-09-03 so that P12-F3 could take compute priority.  No
-   partial posterior export exists and ph001 remains sealed;
+   partial posterior export exists and ph001 remains sealed. Resume from the same
+   content-addressed shard contract now; D2 is not a blocker;
 5. [ ] perform exactly one shared ph001 opening and immutable evaluation;
-6. [ ] hand the promoted P12-A contract to P13 Loa deployment;
+6. [held — not authorized] stop after reporting whether P12-A passes; do not hand the
+   candidate to P13/Loa in this programme;
 7. [ ] run a held-out-HOD intervention for robustness language without blocking the
    first explicitly `H_fid`-conditional VAC.
 
@@ -4151,8 +4158,8 @@ Progress checklist:
   complete P12-A export, CIC and DTFE manifest, rehashes every posterior/audit shard,
   and demands exact parent/core/support identity. Validation truth on ph006 is allowed;
   any ph001 truth access remains fail-closed (commit `f8f19ba`).
-- [ ] Resume and archive the rain-checked full 512-draw ph001 production export only
-  when field-posterior research no longer has compute priority.  Cancelled jobs
+- [ ] Resume and archive the full 512-draw ph001 production export now, independently
+  of the parallel D2 field-posterior research. Cancelled jobs
   `57890469` and `57890760` never started, so restart from the same content-addressed
   four-shard contract rather than treating them as resumable partial runs.  The CPU
   freeze still writes `P12_BLIND_PREDICTIONS_FROZEN.json` only after all four shards,
@@ -4241,12 +4248,12 @@ compatible with one incomplete observed galaxy configuration.  Its estimand is
 p(delta_R7 | X_final, S_random, H_fid),
 ```
 
-**Current scheduling decision (2026-09-03):** the truth-free P12-A ph001 export and
-dependent blind-prediction freeze are rain-checked while the P12-F3 multiscale field
-programme is prioritized.  Jobs `57890469` and `57890760` were cancelled before
-starting; no ph001 product or truth was opened.  This changes execution order, not the
-frozen P12-A candidate or one-open policy.  Resume the same content-addressed export
-later rather than rebuilding or tuning it from P12-F3 results.
+**Current scheduling decision (2026-09-04):** reactivate the truth-free P12-A ph001
+export and dependent blind-prediction freeze now. P12-F3-D2 runs concurrently as a
+bounded v2 research branch and cannot delay the v1 opening. Jobs `57890469` and
+`57890760` were cancelled before starting; no ph001 product or truth was opened, so
+resume the same content-addressed export rather than rebuilding or tuning it from
+P12-F3 results. The opening ends in a P12-A pass/fail report; P13 is held.
 
 where `X_final` is the BRIGHT-only final observation, `S_random` is the deployable
 random-derived response, and `H_fid` is the fixed mock HOD.  This is not an
@@ -4824,8 +4831,8 @@ both G1 and F3-L2b and replication of the selected arm with a second seed.
 
 ###### P12-F3-D2 — Literature-grade conditional diffusion successor
 
-**Status:** REGISTERED AS A NEW EXPERIMENT; NOT A CONTINUATION OF THE SMALL
-F3-L2d COMPARATOR; PH001 SEALED
+**Status:** AUTHORIZED AS A HARD-BUDGET, PARALLEL V2 EXPERIMENT; NOT A CONTINUATION
+OF THE SMALL F3-L2d COMPARATOR; NOT A P12-A BLOCKER; PH001 SEALED FROM D2
 
 The capacity-matched F3-L2d arm is deliberately a controlled objective swap:
 it uses the same `base=4` U-Net, exact conditionally standardized Fourier target
@@ -4838,9 +4845,8 @@ show that depth, time encoding, schedule choice and attention can each affect
 field quality.  Standard diffusion work also motivates EMA evaluation,
 preconditioning/noise-schedule ablations and explicit sampler convergence.
 
-The next diffusion experiment, if pursued after the frozen seed-42 decision, is
-therefore a separately versioned D2 model with the following one-factor-at-a-time
-ladder:
+The next diffusion experiment is a separately versioned D2 model with the following
+one-factor-at-a-time internal-training-phase funnel:
 
 1. replace the scalar constant time channel with a multilevel sinusoidal/log-SNR
    embedding injected into 3-D residual blocks with GroupNorm;
@@ -4866,6 +4872,16 @@ can manufacture undercoverage.  Selection may not use denoising loss, visual
 appearance or power alone.  It must include block-aware joint eigenvalue,
 eigengap and tidal-shear TARP, deployable conditional coverage, joint proper
 scores, power/cross-correlation and a phase-sensitive higher-order statistic.
+
+**Hard budget and stop contract (2026-09-04):** the internal ablations, one selected
+seed-42 science fit and its sampler audit are capped at approximately three full-run
+equivalents. Only the selected frozen arm may be evaluated once on ph006. A second
+seed is licensed only after seed 42 passes every simultaneous physical/calibration
+gate and the paired proper-score promotion rule. A failed seed-42 result closes D2:
+no same-objective extension and no new successor may be registered here. Capacity,
+time-conditioning, EMA, attention and schedule choices use only the internal
+training-phase split. D2 never reads ph001; after the v1 opening it needs a new blind
+phase or ensemble for any independent v2 claim.
 
 - [ ] Freeze D2 architecture, schedule/preconditioning, EMA, effective-batch and
   sampler-ablation contracts before training.
