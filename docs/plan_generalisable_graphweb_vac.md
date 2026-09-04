@@ -4860,9 +4860,9 @@ one-factor-at-a-time internal-training-phase funnel:
    bottleneck/coarsest scale;
 3. retain both raw and exponential-moving-average weights and compare them on a
    training-phase-only validation sampler;
-4. compare the frozen cosine VP schedule with either a learned monotone log-SNR
-   schedule or EDM-style preconditioning on the internal split, never by ph006
-   tuning;
+4. keep the frozen cosine VP schedule and v-prediction fixed in this bounded
+   programme; learned log-SNR schedules and EDM preconditioning are literature
+   context, not extra tuning arms;
 5. measure effective batch scaling through patch-presentation-counted gradient
    accumulation when a full 3-D patch per GPU exhausts memory;
 6. freeze a sampler ladder before ph006: deterministic DDIM at increasing NFE and
@@ -4890,18 +4890,26 @@ training-phase split. D2 never reads ph001; after the v1 opening it needs a new 
 phase or ensemble for any independent v2 claim.
 
 The exact presentation budget is at most `30,000`: A0 (`base=4`, patch-safe residual
-time architecture, no attention) and A1 (identical, `base=8`) receive `2,500` updates
-each. A2 (`base=8` plus support-aware bottleneck attention) receives `2,500` only if
+time architecture, no attention) and A1 (identical, `base=8`) receive `2,500` patch
+presentations each (`1,250` optimizer updates at gradient accumulation two). A2
+(`base=8` plus exact-support-aware bottleneck attention) receives `2,500` patch
+presentations only if
 A1 improves paired internal primary energy over A0 by at least 1% without feasibility
 regression. The winner continues from its canary checkpoint, never restarts, to a hard
-total of `12,500` updates. Seed `314159` receives the frozen winning contract and
-`12,500` updates only if seed 42 passes every ph006 gate. Cosine VP plus v-prediction
+total of `12,500` patch presentations (`6,250` optimizer updates). Seed `314159`
+receives the frozen winning contract and `12,500` patch presentations only if seed 42
+passes every ph006 gate. Cosine VP plus v-prediction
 and EMA decay `0.999` are fixed rather than opened as schedule arms.
 
 Internal selection uses one frozen, phase-balanced split of the existing 255 cores:
 128 selection and 127 confirmation, 32 common draws and NFE50. Differences below 1%
 or intervals containing zero choose the simpler/no-attention arm. After selection,
 internal confirmation opens once; failure closes D2 rather than promoting a runner-up.
+For the selected arm, generated-sample diagnostics are frozen at `2,500`, `5,000`,
+`7,500`, `10,000` and `12,500` patch presentations. Select the earliest feasible
+milestone whose paired primary energy lies within one standard error of the best
+milestone; the `2,500` canary is eligible because it already receives the same frozen
+32-draw/NFE50 diagnostic and including it prevents an unnecessary continuation.
 Before ph006, freeze DDIM NFE100 as primary and NFE50 as its convergence comparison.
 The 50-to-100 changes must be at most `0.01` for TARP and global coverage, `0.05` for
 low-band power and 1% for each proper score. A stochastic reverse-process sampler is
