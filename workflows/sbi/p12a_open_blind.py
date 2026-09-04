@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import argparse
 from datetime import datetime, timezone
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -108,6 +109,49 @@ def _record_matches(record: Mapping[str, Any], path: Path) -> bool:
     )
 
 
+def _generator_record_matches(
+    record: Mapping[str, Any], path: Path, revision: str
+) -> bool:
+    """Validate either the live generator or its exact historical Git blob.
+
+    Truth-free products may legitimately outlive later fixes to their generator
+    module. Their manifests bind both the source digest and the generating Git
+    revision, so validate that historical blob instead of requiring the live
+    checkout to remain byte-identical forever.
+    """
+
+    path = path.resolve()
+    if Path(str(record.get("path", ""))).resolve() != path:
+        return False
+    if _record_matches(record, path):
+        return True
+    revision = str(revision)
+    if len(revision) != 40 or any(ch not in "0123456789abcdef" for ch in revision):
+        return False
+    repo = Path(__file__).resolve().parents[2]
+    try:
+        relative = path.relative_to(repo).as_posix()
+    except ValueError:
+        return False
+    if subprocess.run(
+        ["git", "-C", str(repo), "merge-base", "--is-ancestor", revision, "HEAD"],
+        check=False,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    ).returncode != 0:
+        return False
+    try:
+        blob = subprocess.check_output(
+            ["git", "-C", str(repo), "show", f"{revision}:{relative}"],
+            stderr=subprocess.DEVNULL,
+        )
+    except subprocess.CalledProcessError:
+        return False
+    if hashlib.sha256(blob).hexdigest() != record.get("sha256"):
+        return False
+    return "bytes" not in record or int(record["bytes"]) == len(blob)
+
+
 def _canonical_path(frozen_path: Path, filename: str) -> Path:
     return frozen_path.resolve().parent / filename
 
@@ -167,7 +211,9 @@ def validate_frozen_predictions(path: Path, *, deep: bool = True) -> dict[str, A
             payload = manifest_payloads.get(schema)
             if payload is None:
                 raise RuntimeError(f"frozen prediction inventory lacks {schema}")
-            if not _record_matches(payload.get("source", {}), source_path):
+            if not _generator_record_matches(
+                payload.get("source", {}), source_path, payload.get("git_revision", "")
+            ):
                 raise RuntimeError(f"frozen prediction source changed: {schema}")
 
         replay = freeze_blind_predictions(

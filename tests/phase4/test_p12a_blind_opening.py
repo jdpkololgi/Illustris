@@ -34,6 +34,7 @@ from workflows.sbi.p12a_open_blind import (
     AUTHORIZATION_FILENAME,
     OPEN_FILENAME,
     TRUTH_COMPLETE_FILENAME,
+    _generator_record_matches,
     build_authorization_marker,
     build_opened_marker,
     build_truth_complete_marker,
@@ -48,6 +49,33 @@ def digest(path: Path) -> str:
 
 
 class P12ABlindOpeningTest(unittest.TestCase):
+    def test_historical_generator_source_is_content_addressed(self) -> None:
+        source = IMPLEMENTATION_FILES["blind_inference"].resolve()
+        blob = b"historical generator bytes\n"
+        record = {
+            "path": str(source),
+            "sha256": hashlib.sha256(blob).hexdigest(),
+            "bytes": len(blob),
+        }
+        completed = mock.Mock(returncode=0)
+        with mock.patch(
+            "workflows.sbi.p12a_open_blind.subprocess.run",
+            return_value=completed,
+        ), mock.patch(
+            "workflows.sbi.p12a_open_blind.subprocess.check_output",
+            return_value=blob,
+        ):
+            self.assertTrue(
+                _generator_record_matches(record, source, "a" * 40)
+            )
+            bad = dict(record, sha256="0" * 64)
+            self.assertFalse(
+                _generator_record_matches(bad, source, "a" * 40)
+            )
+            self.assertFalse(
+                _generator_record_matches(record, source, "not-a-revision")
+            )
+
     @staticmethod
     def _record(path: Path) -> dict:
         return {
