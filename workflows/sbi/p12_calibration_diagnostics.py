@@ -342,6 +342,10 @@ def tarp_diagnostic(
         return {
             "available": True,
             "rows": int(len(truth)),
+            "alpha": np.asarray(alpha, dtype=np.float64).tolist(),
+            "expected_coverage_probability": np.asarray(
+                ecp, dtype=np.float64
+            ).tolist(),
             "full_max_abs_ecp_minus_alpha": full,
             "bootstrap_rows": int(size),
             "bootstrap_scheme": "cap+superblock cluster resampling",
@@ -619,4 +623,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

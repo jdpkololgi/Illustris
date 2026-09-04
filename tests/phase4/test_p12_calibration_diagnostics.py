@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
+import sys
 from tempfile import TemporaryDirectory
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
@@ -12,6 +14,7 @@ from workflows.sbi.p12_calibration_diagnostics import (
     rank_summary,
     sample_posterior_resumable,
     spatial_block_bootstrap,
+    tarp_diagnostic,
 )
 
 
@@ -111,5 +114,28 @@ class P12CalibrationDiagnosticsTests(unittest.TestCase):
         self.assertEqual(result["spatial_blocks"], blocks)
         for row in result["components"].values():
             self.assertEqual(row["uniform_deciles_outside_pointwise_95ci"], [])
+
+    def test_tarp_diagnostic_retains_visual_curve(self):
+        def fake_tarp(_posterior, _truth, **_kwargs):
+            alpha = np.linspace(0.0, 1.0, 5)
+            return alpha + np.asarray((0.0, 0.01, -0.02, 0.01, 0.0)), alpha
+
+        samples = np.zeros((20, 8, 2), dtype=np.float32)
+        truth = np.zeros((20, 2), dtype=np.float32)
+        groups = np.repeat(np.arange(4), 5)
+        module = SimpleNamespace(get_tarp_coverage=fake_tarp)
+        with patch.dict(sys.modules, {"tarp": module}):
+            report = tarp_diagnostic(
+                samples,
+                truth,
+                groups,
+                seed=7,
+                bootstrap_repeats=3,
+                bootstrap_rows=12,
+            )
+        self.assertTrue(report["available"])
+        self.assertEqual(len(report["alpha"]), 5)
+        self.assertEqual(len(report["expected_coverage_probability"]), 5)
+        self.assertAlmostEqual(report["full_max_abs_ecp_minus_alpha"], 0.02)
 if __name__ == "__main__":
     unittest.main()
