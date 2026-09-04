@@ -32,16 +32,21 @@ training presentation, ph006 candidate evaluation or ph001 access has yet occurr
 
 ### 2026-09-04 - [code/contract] Harden P12-A blind opening and evaluation before authorization
 
-Commit `902a6cf` closes the pre-opening audit findings without changing any module
-imported by the queued truth-free export.  The blind comparison now uses a sample-based
-joint energy score for the actual truncated FMPE draws rather than comparing an
-unnormalized flow log density with a normalized Gaussian.  It freezes TARP/rank/
-bootstrap seeds and canonical outputs, requires the 20-seed p90 replicate rule,
+Commits `902a6cf`, `7853387` and `ef9eff2` close the pre-opening audit findings
+without changing any module imported by the queued truth-free export.  The blind
+comparison now uses a sample-based joint energy score for the actual truncated FMPE
+draws rather than comparing an unnormalized flow log density with a normalized
+Gaussian.  It freezes TARP/rank/bootstrap seeds and canonical outputs, requires the
+20-seed p90 replicate rule,
 deep-replays all posterior rows and the exact 50,000-row by 512-draw audit subset,
 binds transitive source/runtime and truth-input provenance, and implements the
 registered green/amber/full-footprint-block decision tree.  Exclusive submission and
 atomic publication guards cover the authorized truth and post-open evaluator/plot
-chains.  The focused P12-A suite passes; an independent final review remains a gate.
+chains.  The final patch hashes the complete local import closure and package
+initializers, makes scoring/evaluation revalidate the frozen Python/package runtime,
+and makes the plotter deep-replay the canonical report before rendering.  The focused
+P12-A suite passes 33/33 tests and an independent audit reports no remaining code
+launch blocker.
 
 Jobs `57919118` and `57919122` remain the truth-free posterior export and dependent
 freeze.  `P12_BLIND_OPEN_AUTHORIZED.json` is absent, `open_count=0`, and no ph001 truth

@@ -4167,13 +4167,18 @@ Progress checklist:
   `90e42ae`). Jobs `57919118` and `57919122` are the active export/`afterok` freeze
   pair. No job in this chain can open ph001 truth.
 - [x] Implement the two-phase, O_EXCL one-open protocol and isolated authorized truth
-  chain without opening ph001.  Commit `7aaa99d` introduced the isolated chain and
-  commit `902a6cf` hardens it after independent audit: the primary FMPE-versus-Gaussian
-  comparison is the sample-based joint energy score of the posterior actually drawn;
+  chain without opening ph001.  Commit `7aaa99d` introduced the isolated chain;
+  commits `902a6cf`, `7853387` and `ef9eff2` harden it after independent audit.  The
+  primary FMPE-versus-Gaussian comparison is the sample-based joint energy score of
+  the posterior actually drawn;
   seeds, canonical outputs and green/amber/block logic are frozen; all `4,897,905`
   rows plus the exact 50,000-row by 512-draw audit sample deep-replay before
-  authorization; transitive code/runtime and truth inputs are hashed; and duplicate
-  submission, partial publication and post-open evaluator/plot paths fail closed.
+  authorization; the complete local import closure, package initializers, exact
+  Python/package runtime and truth inputs are hashed; and duplicate submission,
+  partial publication and post-open evaluator/plot paths fail closed.  The plotter
+  replays the full immutable evaluation and release decision from the frozen draws and
+  compact truth before rendering.  Thirty-three focused tests and an independent
+  code/science audit pass.
   The same `open_count=1` state remains bound through HPSS particle-B restore, A+B
   density, R7 T-web, parent annotation, exact compact truth and terminal rehash.  The
   ordinary phase registry/product tree remains untouched.
