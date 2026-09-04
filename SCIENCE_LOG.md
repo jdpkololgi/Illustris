@@ -19,6 +19,9 @@ gate and the registered positive paired proper-score rule. No failed D2 arm may
 register another successor in this programme, and no same-objective training extension
 is allowed. The funnel is capped at approximately three full-run equivalents;
 capacity, time-conditioning, EMA and attention choices must be made without ph006.
+The P6/P8 patch-safety result overrides the literature's common GroupNorm default:
+D2 uses per-voxel channel LayerNorm/RMSNorm because GroupNorm and InstanceNorm mix
+statistics across the patch and previously broke context/subdivision invariance.
 
 `ph001` is assigned to the v1 P12-A claim. Once its truth is opened, D2 cannot use it
 as independent evidence; any later D2/v2 blind claim requires a newly designated mock

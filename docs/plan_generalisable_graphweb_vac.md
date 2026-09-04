@@ -4844,12 +4844,18 @@ coarse-scale attention and much longer training; the ablations in that paper
 show that depth, time encoding, schedule choice and attention can each affect
 field quality.  Standard diffusion work also motivates EMA evaluation,
 preconditioning/noise-schedule ablations and explicit sampler convergence.
+However, P6/P8 demonstrated that spatial GroupNorm/InstanceNorm statistics make
+otherwise identical core predictions depend on patch extent. D2 must translate the
+literature architecture into patch-safe per-voxel channel LayerNorm or RMSNorm;
+GroupNorm is not an eligible default without a separately passed context/subdivision
+invariance gate.
 
 The next diffusion experiment is a separately versioned D2 model with the following
 one-factor-at-a-time internal-training-phase funnel:
 
 1. replace the scalar constant time channel with a multilevel sinusoidal/log-SNR
-   embedding injected into 3-D residual blocks with GroupNorm;
+   embedding injected into 3-D residual blocks with patch-safe per-voxel channel
+   LayerNorm/RMSNorm;
 2. run a bounded capacity canary against `base=4`, then add attention only at the
    bottleneck/coarsest scale;
 3. retain both raw and exponential-moving-average weights and compare them on a
@@ -4857,8 +4863,8 @@ one-factor-at-a-time internal-training-phase funnel:
 4. compare the frozen cosine VP schedule with either a learned monotone log-SNR
    schedule or EDM-style preconditioning on the internal split, never by ph006
    tuning;
-5. measure effective batch scaling through GroupNorm-safe gradient accumulation
-   when a full 3-D patch per GPU exhausts memory;
+5. measure effective batch scaling through patch-presentation-counted gradient
+   accumulation when a full 3-D patch per GPU exhausts memory;
 6. freeze a sampler ladder before ph006: deterministic DDIM at increasing NFE and
    a stochastic reverse-SDE/DDPM-style control if deterministic convergence is
    not reached.
@@ -4882,6 +4888,24 @@ no same-objective extension and no new successor may be registered here. Capacit
 time-conditioning, EMA, attention and schedule choices use only the internal
 training-phase split. D2 never reads ph001; after the v1 opening it needs a new blind
 phase or ensemble for any independent v2 claim.
+
+The exact presentation budget is at most `30,000`: A0 (`base=4`, patch-safe residual
+time architecture, no attention) and A1 (identical, `base=8`) receive `2,500` updates
+each. A2 (`base=8` plus support-aware bottleneck attention) receives `2,500` only if
+A1 improves paired internal primary energy over A0 by at least 1% without feasibility
+regression. The winner continues from its canary checkpoint, never restarts, to a hard
+total of `12,500` updates. Seed `314159` receives the frozen winning contract and
+`12,500` updates only if seed 42 passes every ph006 gate. Cosine VP plus v-prediction
+and EMA decay `0.999` are fixed rather than opened as schedule arms.
+
+Internal selection uses one frozen, phase-balanced split of the existing 255 cores:
+128 selection and 127 confirmation, 32 common draws and NFE50. Differences below 1%
+or intervals containing zero choose the simpler/no-attention arm. After selection,
+internal confirmation opens once; failure closes D2 rather than promoting a runner-up.
+Before ph006, freeze DDIM NFE100 as primary and NFE50 as its convergence comparison.
+The 50-to-100 changes must be at most `0.01` for TARP and global coverage, `0.05` for
+low-band power and 1% for each proper score. A stochastic reverse-process sampler is
+causal diagnosis only and cannot become a post-ph006 selected alternative.
 
 - [ ] Freeze D2 architecture, schedule/preconditioning, EMA, effective-batch and
   sampler-ablation contracts before training.
