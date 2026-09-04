@@ -1,0 +1,34 @@
+{
+  "schema_version": "p12f3-conditional-decision-v1",
+  "status": "registered_before_f3l2c_ph006_result_inspection",
+  "parent_config": "configs/p12f3_conditional_calibration_v1.json",
+  "parent_config_sha256": "8b92461c0e65a2a4158d1b9b8e2648517ed2776eb060c9cbf96c0e2831b4115b",
+  "diffusion_license": {
+    "all_required": true,
+    "observable_proxy_signal": "observable autopsy diagnosis.observable_proxy_signal is true",
+    "conditional_gaussian_headroom": "aligned proxy selector passes against both base3 and spatially shuffled proxy7",
+    "f3l2c_internal_plateau": {
+      "window_updates": 2500,
+      "maximum_fractional_loss_improvement_final_over_previous": 0.01
+    },
+    "remaining_non_gaussian_or_sampler_limitation": "the converged 10000-update F3-L2c model fails at least one registered ph006 science gate",
+    "interpretation": "a licensed diffusion run is a target-identical alternate generative-objective test; it is not presumed to repair conditional calibration"
+  },
+  "science_gates": {
+    "low_band_power_ratio_absolute_tolerance": 0.10,
+    "ordered_eigenvalue_tarp_maximum": 0.05,
+    "eigengap_tarp_maximum": 0.05,
+    "five_shear_tarp_maximum": 0.05,
+    "global_coverage_error_maximum": 0.05,
+    "conditional_coverage_error_maximum": 0.10,
+    "proper_score_worsening_maximum": 0.01,
+    "primary_energy_paired_bootstrap_repeats": 2000,
+    "primary_energy_positive_improvement_required": true
+  },
+  "selection": {
+    "selected_arm_second_seed_required": true,
+    "if_no_arm_passes": "freeze no conditional-width finalist and retain F3-L2b as the best field-research checkpoint",
+    "ph006_recalibration_forbidden": true,
+    "ph001_opened": false
+  }
+}
