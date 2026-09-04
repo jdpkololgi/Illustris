@@ -1,7 +1,7 @@
 {
   "schema_version": "p12f3-conditional-selection-v1",
   "parent_config": "configs/p12f3_conditional_calibration_v1.json",
-  "run_name": "seed42_v2",
+  "run_name": "seed42_v3",
   "arms": ["base3", "proxy7", "proxy7_shuffled"],
   "selection_sample": "fixed 10 percent per-phase internal split from ph000 and ph002-ph005",
   "paired_core_bootstrap_repeats": 4000,
