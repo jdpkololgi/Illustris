@@ -1,5 +1,67 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-04 - [science] STATUS/DIRECTION REVIEW (Claude Code): P12-A is a genuine VAC-grade result; P12-F is a 15-closure research branch now sitting on the critical path
+
+Reviewed the P12-A/P12-F entries and the plan's P12 sections. No runs, no promotion. Three findings.
+
+**1. P12-A per-galaxy calibration is the strongest scientific result the programme has produced, and
+it deserves to be recognised as such.** On held-out ph006, joint physical `(l1,l2,l3)` TARP maximum
+deviation is `0.00684` and joint physical eigengap `(l2-l1,l3-l2)` TARP is `0.01002`, against a
+registered `0.05` gate — i.e. **5-7x inside the gate**, with 20-seed p90 `0.00942/0.01184`, worst
+redshift-shell `0.01804/0.01626` (the sparse shell is NOT the worst eigengap stratum), and component
+SBC `0.0068-0.0131`. Three properties matter for the product: (i) it is a genuine JOINT
+three-dimensional posterior per galaxy, not three marginals; (ii) it was measured in the PHYSICAL
+coordinates the VAC ships, not the training coordinates; (iii) it is checkpoint-free/no-refit on
+held-out data with algorithm-matched TARP/SBC implementations. This is exactly the deliverable the
+class-metric work argued for: the conditional-mean shrinkage that broke thresholded point estimates
+is now expressible as calibrated per-galaxy probability. Against the earlier trajectory — where the
+leaky-era FMPE calibration had to be voided — this is a large, well-earned reversal.
+
+**2. The P12-A vs P12-F distinction is correctly drawn and should be stated explicitly in the VAC
+release language.** P12-A gives a calibrated joint posterior over the eigenvalue triplet AT each
+galaxy. P12-F attempts a coherent joint posterior BETWEEN galaxies/voxels (a field posterior). The
+registered v1 product — calibrated l1 summaries and `P(l1>0.2)` per galaxy with flags — needs the
+former and does NOT need the latter. A field posterior is required only for correlated multi-object
+uncertainty (e.g. environment-clustering statistics, coherent map draws), which is a v2 claim. The
+log already says the P12-F failure is not evidence of a P12-A defect; the release text should carry
+that same sentence, because reviewers will otherwise read "no field finalist" as a product failure.
+
+**3. STRATEGIC FLAG — P12-F has now closed 15 times without a finalist, and each closure registers a
+successor.** The chain is F1b -> G1 -> G2 -> F3-L -> F3-L2 -> F3-L2b(30k) -> F3-L2c flow ->
+F3-L2d diffusion -> conditional rescue -> now the D2 ladder (6 one-factor ablations). Every stage has
+been executed with real rigour, and the failures are informatively localised (under-dispersed
+long-wave traceless shear; conditional coverage, not marginal coverage). But the pattern
+"negative result -> register better-specified successor" is precisely how a research branch becomes
+unbounded, and it now sits on the VAC critical path: the P12-A ph001 export (`57890469`) and its
+freeze (`57890760`) were cancelled to prioritise it. The rain-check was a legitimate user decision
+and P12-F3 has since produced real understanding — but the justification for continuing to defer the
+production spine weakens with each closure, and D2 is explicitly "a NEW experiment", not a
+continuation. Two honest markers of the risk: (a) the latest arm's own autopsy shows its primary
+sampler was not converged in long modes (NFE24->NFE50 exceeded the 0.05 tolerance; NFE100 needed),
+i.e. the branch is still discovering its own numerical floor; (b) the small-diffusion arm's paired
+energy difference `-0.0241 [-0.0746,+0.0277]` does not exclude zero, so even the encouraging arm is
+statistically inconclusive at this budget.
+
+**RECOMMENDED DIRECTION:**
+(i) **Un-rain-check the P12-A spine and complete the ph001 blind sequence.** Everything is staged:
+    4,897,905 supported rows revalidated, four-shard plan frozen, `truth_files_read=[]`,
+    `open_count=0`, fail-closed freeze CLI with nine passing tests. Producing the frozen blind
+    predictions does NOT open truth and forecloses nothing — it is the last reversible step.
+(ii) **Give D2 a hard, preregistered budget and take it OFF the critical path.** Six one-factor
+     ablations with sampler ladders is a multi-week programme; run it as a v2 research track after
+     the v1 blind evaluation, or run it in parallel only if it cannot delay the spine.
+(iii) **Write the v1 product contract to depend on P12-A only**, with the field posterior named as a
+      v2 extension. This makes the VAC releasable on evidence that already exists.
+(iv) **Keep the anti-gaming discipline exactly as-is** — ph001 `open_count=0` with a documented
+     one-open procedure, no ph006 refitting, frozen decision JSONs with SHA256. That discipline is
+     what will make the eventual blind number credible, and it has held under real schedule pressure.
+
+The honest summary of where the programme stands: the per-galaxy environmental posterior product is
+scientifically ready and calibrated on held-out data; what remains for v1 is an execution sequence
+(blind export -> freeze -> one-open evaluation -> DESI canary), not a research question. The open
+research question — coherent field-level posteriors — is real, valuable, and should be resourced as
+v2 rather than as a precondition for shipping v1.
+
 ### 2026-09-04 - [science/results/code/run] Conditional rescue closes with no seed-42 finalist; small diffusion motivates a literature-grade successor
 
 The four-step P12-F3 conditional-calibration rescue is complete on the frozen
