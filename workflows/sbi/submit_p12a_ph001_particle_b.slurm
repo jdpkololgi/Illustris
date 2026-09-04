@@ -6,6 +6,7 @@
 #SBATCH --time=12:00:00
 #SBATCH --mem=8G
 #SBATCH --licenses=hpss,scratch
+#SBATCH --export=NONE
 #SBATCH --output=/pscratch/sd/d/dkololgi/logs/p12a_ph001_particle_b_%j.out
 #SBATCH --error=/pscratch/sd/d/dkololgi/logs/p12a_ph001_particle_b_%j.err
 
@@ -14,10 +15,11 @@
 set -euo pipefail
 unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD
 export PYTHONNOUSERSITE=1
+export PATH=/usr/bin:/bin
 
 REPO=/global/homes/d/dkololgi/TNG/Illustris
-PY=${P12A_PYTHON:-/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python}
-TRUTH_ROOT=${P12A_TRUTH_ROOT:-/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1}
+PY=/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python
+TRUTH_ROOT=/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1
 cd "$REPO"
 
 timeout 120 "$PY" -c 'import asdf,numpy; print("P12A_PH001_PARTICLE_RUNTIME_OK")'
@@ -32,12 +34,12 @@ else
   [[ "$status" -eq 3 ]] || exit "$status"
 fi
 
-attempt="$TRUTH_ROOT/attempts/particle_b/$SLURM_JOB_ID"
+attempt="$TRUTH_ROOT/attempts/particle_b/$SLURM_JOB_ID-${SLURM_RESTART_COUNT:-0}"
 mkdir -p "$attempt"
 "$PY" -u workflows/abacus_tweb/p10_stage_particle_b.py \
   --phase ph001 \
   --mode stage \
-  --staging-root "$TRUTH_ROOT/particle_b" \
+  --staging-root "$attempt/staging" \
   --out "$attempt/stage_result.json"
 "$PY" -u -m workflows.sbi.p12a_authorized_truth complete-particle-b \
-  --truth-root "$TRUTH_ROOT"
+  --truth-root "$TRUTH_ROOT" --staging-root "$attempt/staging"

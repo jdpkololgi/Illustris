@@ -189,6 +189,7 @@ class P12AAuthorizedTruthTest(unittest.TestCase):
         for text in payload.values():
             self.assertIn("p12a_authorized_truth guard", text)
             self.assertIn("--licenses=", text)
+            self.assertIn("#SBATCH --export=NONE", text)
             self.assertIn("scratch", text)
             self.assertIn("unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD", text)
         self.assertIn("--qos=xfer", payload["particle"])
@@ -202,7 +203,94 @@ class P12AAuthorizedTruthTest(unittest.TestCase):
         chain = (root / "submit_p12a_ph001_truth_chain.sh").read_text()
         self.assertIn("p12a_authorized_truth guard", chain)
         self.assertEqual(chain.count("--dependency=\"afterok:"), 4)
+        self.assertIn("claim-chain", chain)
+        self.assertEqual(chain.count("record-chain-job"), 5)
+        self.assertIn("--comment=\"p12a:$submission_id:", chain)
         self.assertNotIn("p10_phase_registry_v1.json", chain)
+
+        postopen = (root / "submit_p12a_ph001_postopen_chain.sh").read_text()
+        self.assertEqual(postopen.count("--dependency=\"afterok:"), 3)
+        self.assertIn("claim-chain", postopen)
+        self.assertEqual(postopen.count("record-chain-job"), 4)
+        for name in ("finalize", "energy_score", "evaluate", "plot"):
+            script = (root / f"submit_p12a_ph001_{name}.slurm").read_text()
+            self.assertIn("#SBATCH --export=NONE", script)
+            self.assertIn(
+                "PY=/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python",
+                script,
+            )
+
+    def test_chain_claim_and_job_records_are_exclusive_and_dependency_exact(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            authorization = root / "authorization.json"
+            authorization.write_text("{}")
+            claim = root / "claim.json"
+            submitted = root / "submitted.json"
+            state = {
+                "truth": {
+                    "claim": claim,
+                    "submitted": submitted,
+                    "jobs": ("a", "b", "c"),
+                }
+            }
+            with mock.patch.object(truth, "CHAIN_STATE", state), mock.patch.object(
+                truth, "CHAIN_SUBMISSION_ROOT", root / "jobs"
+            ), mock.patch.object(
+                truth, "AUTHORIZATION", authorization
+            ), mock.patch.object(
+                truth, "authorization_context", return_value={"open_count": 1}
+            ), mock.patch.object(
+                truth, "git_revision", return_value="test-revision"
+            ):
+                truth.claim_chain(kind="truth", submission_id="unit-1")
+                with self.assertRaises(FileExistsError):
+                    truth.claim_chain(kind="truth", submission_id="unit-1")
+                truth.record_chain_job(
+                    kind="truth",
+                    submission_id="unit-1",
+                    job="a",
+                    job_id="101",
+                    dependency_job_id=None,
+                )
+                with self.assertRaises(ValueError):
+                    truth.record_chain_job(
+                        kind="truth",
+                        submission_id="unit-1",
+                        job="b",
+                        job_id="102",
+                        dependency_job_id="999",
+                    )
+                truth.record_chain_job(
+                    kind="truth",
+                    submission_id="unit-1",
+                    job="b",
+                    job_id="102",
+                    dependency_job_id="101",
+                )
+                with self.assertRaises(ValueError):
+                    truth.record_chain_job(
+                        kind="truth",
+                        submission_id="unit-1",
+                        job="c",
+                        job_id="101",
+                        dependency_job_id="102",
+                    )
+                truth.record_chain_job(
+                    kind="truth",
+                    submission_id="unit-1",
+                    job="c",
+                    job_id="103",
+                    dependency_job_id="102",
+                )
+                final = truth.record_chain_submission(
+                    kind="truth", submission_id="unit-1"
+                )
+                self.assertEqual(final["jobs"]["c"]["slurm_job_id"], "103")
+                with self.assertRaises(FileExistsError):
+                    truth.record_chain_submission(
+                        kind="truth", submission_id="unit-1"
+                    )
 
 
 if __name__ == "__main__":
