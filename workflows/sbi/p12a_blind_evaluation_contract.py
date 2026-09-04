@@ -91,10 +91,16 @@ IMPLEMENTATION_FILES = {
     "blind_shard_contract": Path(__file__).with_name("p12a_blind_shards.py"),
     "blind_array_worker": Path(__file__).with_name("p12a_blind_array_worker.py"),
     "blind_export_slurm": Path(__file__).with_name("submit_p12a_blind_export.slurm"),
+    "blind_freeze_cli": Path(__file__).with_name("p12_freeze_blind_predictions.py"),
+    "blind_freeze_slurm": Path(__file__).with_name("submit_p12_blind_freeze.slurm"),
     "blind_inference": Path(__file__).with_name("p12a_blind_inference.py"),
     "blind_classical_predictions": Path(__file__).with_name(
         "p12_blind_classical_predictions.py"
     ),
+    "blind_classical_tidal_sampler": Path(__file__).parents[1]
+    / "abacus_tweb/p8_classical_fullcap.py",
+    "blind_classical_fullcap_dependency": Path(__file__).parents[1]
+    / "abacus_tweb/p10_classical_fullcap.py",
     "tarp_dependency": Path(__file__).with_name(
         "p12f_dependency_rescue_evaluator.py"
     ),

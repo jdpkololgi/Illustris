@@ -137,13 +137,39 @@ def validate_frozen_predictions(path: Path, *, deep: bool = True) -> dict[str, A
     if len(manifest_records) != 4:
         raise RuntimeError("frozen prediction manifest inventory changed")
     manifest_paths: list[Path] = []
+    manifest_payloads: dict[str, dict[str, Any]] = {}
     for record in manifest_records:
         manifest_path = Path(str(record.get("path", ""))).resolve()
         if not _record_matches(record, manifest_path):
             raise RuntimeError("frozen prediction manifest is stale")
+        payload = _load_json(manifest_path)
+        schema = str(payload.get("schema_version", ""))
+        if schema in manifest_payloads:
+            raise RuntimeError(f"duplicate frozen prediction schema: {schema}")
+        manifest_payloads[schema] = payload
         manifest_paths.append(manifest_path)
 
     if deep:
+        # Bind outputs that carry their generator fingerprint to the exact source
+        # bytes in the pre-open implementation contract.  The export-completion
+        # marker itself has no source field, so its complete arrays are instead
+        # replayed below by ``validate_frozen_audit_export``.
+        expected_sources = {
+            "p12a-blind-base-context-v1": IMPLEMENTATION_FILES["blind_inference"],
+            "p12-blind-cic-prediction-v1": IMPLEMENTATION_FILES[
+                "blind_classical_predictions"
+            ],
+            "p12-blind-dtfe-prediction-v1": IMPLEMENTATION_FILES[
+                "blind_classical_predictions"
+            ],
+        }
+        for schema, source_path in expected_sources.items():
+            payload = manifest_payloads.get(schema)
+            if payload is None:
+                raise RuntimeError(f"frozen prediction inventory lacks {schema}")
+            if not _record_matches(payload.get("source", {}), source_path):
+                raise RuntimeError(f"frozen prediction source changed: {schema}")
+
         replay = freeze_blind_predictions(
             candidate_marker=candidate_path,
             method_selection_marker=selection_path,
