@@ -36,7 +36,7 @@ def shear_amplitude(field: torch.Tensor) -> torch.Tensor:
     return torch.sqrt(torch.clamp(torch.sum(shear.square(), dim=(-2, -1)), min=0))[..., None].movedim(-1, 1)
 
 
-@torch.inference_mode()
+@torch.no_grad()
 def proxy_condition(
     patch,
     normalization: dict,
