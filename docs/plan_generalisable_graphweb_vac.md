@@ -4904,7 +4904,11 @@ and EMA decay `0.999` are fixed rather than opened as schedule arms.
 Internal selection uses one frozen, phase-balanced split of the existing 255 cores:
 128 selection and 127 confirmation, 32 common draws and NFE50. Differences below 1%
 or intervals containing zero choose the simpler/no-attention arm. After selection,
-internal confirmation opens once; failure closes D2 rather than promoting a runner-up.
+internal confirmation opens exactly once, before continuing the winner beyond its
+canary.  It repeats the already-frozen sequential arm contrast on the 127 common-seed
+cores; it does not compare absolute scores between the intrinsically different
+128- and 127-core panels.  A contradiction of the frozen paired decision or a
+feasibility regression closes D2 rather than switching to a runner-up.
 For the selected arm, generated-sample diagnostics are frozen at `2,500`, `5,000`,
 `7,500`, `10,000` and `12,500` patch presentations. Select the earliest feasible
 milestone whose paired primary energy lies within one standard error of the best
