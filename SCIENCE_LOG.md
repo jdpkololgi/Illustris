@@ -1,5 +1,42 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-04 - [ops/code/run] Route finalized P12/D2 workloads through Slurm after bounded interactive smoke
+
+The current NERSC coding-agent, Perlmutter-job and resource-policy guidance was
+reviewed before continuing the two active P12 branches.  The upstream
+`NERSC/coding-agents` repository presently supplies workspace `AGENTS.md` guidance
+but no installable Perlmutter compute skill, so the local
+`nersc-interactive-allocation` skill remains necessary.  It now distinguishes
+interactive development/evaluation from finalized production: use
+`shared_interactive` for bounded one- or two-GPU smoke tests when sub-node memory is
+adequate, then submit the frozen one-GPU D2 stages through `shared` `sbatch` with an
+explicit Scratch license, durable Scratch logs, a clean environment, exact source
+and data hashes, atomic checkpoints and `sacct` terminal-state checks.  A full
+four-GPU node remains appropriate for the already-sharded P12-A production export.
+The allocation-status helper was also corrected to recognize architecture-prefixed
+QOS names such as `gpu_interactive`; the revised skill passes its structural
+validator and the helper reports the live allocation correctly.
+
+The disposable D2 end-to-end smoke under
+`p12f3_d2_smoke_20260904` completed four patch presentations and two optimizer
+updates in 3.57 seconds.  It wrote a valid checkpoint and registered pause marker,
+with mean denoising loss `0.93894`, pre-clip gradient norm `1.67696`,
+`ph001_opened=false` and `ph006_used_for_fit=false`.  This validates the basic
+model/data/checkpoint path only; it is not part of the scientific D2 presentation
+budget and no official D2 contract has yet been frozen.  Full D2 training remains
+blocked on the independent code/contract audit, one-open internal confirmation,
+ph006 evaluator/plots and production batch wrappers.
+
+P12-A blind export job `57919118` is the frozen four-shard, four-GPU production job
+and dependent freeze job `57919122` uses `afterok`.  At this entry both remain
+queued (`Priority`/`Dependency` respectively), so no blind posterior shard has yet
+been produced and ph001 truth remains sealed.  The blind-opening side is being
+implemented as a two-phase `OPEN_AUTHORIZED -> TRUTH_COMPLETE -> OPENED` state
+machine; no truth construction or opening is permitted until the posterior export,
+prediction freeze and evaluator contract have all passed their hash and identity
+gates.  This programme still ends with the P12-A blind pass/fail report and does not
+authorize P13/Loa.
+
 ### 2026-09-04 - [science/decision] Reactivate P12-A blind evaluation; run hard-budget D2 in parallel; hold P13
 
 The production/research split is now explicit. Resume the staged, truth-free

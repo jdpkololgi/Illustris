@@ -4915,6 +4915,20 @@ The 50-to-100 changes must be at most `0.01` for TARP and global coverage, `0.05
 low-band power and 1% for each proper score. A stochastic reverse-process sampler is
 causal diagnosis only and cannot become a post-ph006 selected alternative.
 
+**NERSC execution contract (2026-09-04):** interactive allocations are restricted
+to cold-import/data-read checks, unit tests and bounded end-to-end smoke runs.  Once
+the D2 code, data contract and exact-resume path pass those checks, each finalized
+one-GPU training/evaluation stage is submitted through `shared` `sbatch` with one
+task, 32 Slurm CPUs, one GPU, an explicit Scratch license, Scratch-resident logs and
+a smoke-measured wall-time margin.  The batch worker must scrub inherited Python
+environment variables, bind the committed source/config/data digests, checkpoint
+atomically and resume only from the registered pause exit.  Use a full-node
+`regular` job only if measured host-memory/GPU needs require it; do not reserve four
+GPUs for a one-GPU D2 arm.  Completion is established from the application marker
+and `sacct`, not merely from disappearance from `squeue`.  Batch submission follows
+the reviewed smoke and is the production handoff, not a replacement for development
+testing.
+
 - [ ] Freeze D2 architecture, schedule/preconditioning, EMA, effective-batch and
   sampler-ablation contracts before training.
 - [ ] Run small capacity/time-embedding/attention canaries on the internal
