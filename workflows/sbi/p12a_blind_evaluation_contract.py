@@ -337,6 +337,20 @@ def _record(path: Path) -> dict:
     return {"path": str(path), "sha256": sha256(path), "bytes": path.stat().st_size}
 
 
+def installed_distribution_versions() -> dict[str, str]:
+    """Return named distributions while ignoring malformed metadata entries."""
+
+    versions: dict[str, str] = {}
+    for distribution in metadata.distributions():
+        distribution_metadata = distribution.metadata
+        if distribution_metadata is None:
+            continue
+        name = str(distribution_metadata.get("Name", "")).strip().lower()
+        if name:
+            versions[name] = str(distribution.version)
+    return dict(sorted(versions.items()))
+
+
 def runtime_fingerprint() -> dict:
     """Return the exact interpreter and relevant installed distributions."""
 
@@ -348,11 +362,7 @@ def runtime_fingerprint() -> dict:
             versions[distribution] = metadata.version(distribution)
         except metadata.PackageNotFoundError:
             versions[distribution] = "NOT_INSTALLED"
-    all_distributions: dict[str, str] = {}
-    for distribution in metadata.distributions():
-        name = str(distribution.metadata.get("Name", "")).strip().lower()
-        if name:
-            all_distributions[name] = str(distribution.version)
+    all_distributions = installed_distribution_versions()
     environment_root = executable.parent.parent
     conda_meta = environment_root / "conda-meta"
     conda_records = []

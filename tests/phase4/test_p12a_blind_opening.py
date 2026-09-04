@@ -19,6 +19,7 @@ from workflows.sbi.p12a_blind_energy_score import (
 from workflows.sbi.p12a_blind_evaluation_contract import (
     IMPLEMENTATION_FILES,
     SCHEMA as CONTRACT_SCHEMA,
+    installed_distribution_versions,
     shell_class_climatology,
     validate_runtime_environment,
 )
@@ -49,6 +50,17 @@ def digest(path: Path) -> str:
 
 
 class P12ABlindOpeningTest(unittest.TestCase):
+    def test_runtime_inventory_ignores_distribution_without_metadata(self) -> None:
+        malformed = mock.Mock(metadata=None, version="unknown")
+        valid = mock.Mock(metadata={"Name": "Example-Package"}, version="1.2.3")
+        with mock.patch(
+            "workflows.sbi.p12a_blind_evaluation_contract.metadata.distributions",
+            return_value=[malformed, valid],
+        ):
+            self.assertEqual(
+                installed_distribution_versions(), {"example-package": "1.2.3"}
+            )
+
     def test_historical_generator_source_is_content_addressed(self) -> None:
         source = IMPLEMENTATION_FILES["blind_inference"].resolve()
         blob = b"historical generator bytes\n"
