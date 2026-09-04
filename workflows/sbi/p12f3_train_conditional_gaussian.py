@@ -162,6 +162,13 @@ def atomic_checkpoint(path: Path, payload: dict) -> None:
     torch.save(payload, temporary); os.replace(temporary, path)
 
 
+def restore_rng_state(state: dict) -> None:
+    """Restore RNG tensors safely after a CUDA-mapped checkpoint load."""
+    torch.set_rng_state(state["torch_rng"].cpu())
+    if torch.cuda.is_available():
+        torch.cuda.set_rng_state_all([value.cpu() for value in state["cuda_rng"]])
+
+
 @torch.inference_mode()
 def validation_nll(model, refs: dict[str, list[int]], *, loader, store, g1_model, scaler, config, parent, arm, device) -> dict:
     model.eval()
@@ -219,8 +226,7 @@ def train(args: argparse.Namespace, config: dict, parent: dict, parent_path: Pat
             raise RuntimeError("unsafe conditional Gaussian checkpoint")
         model.load_state_dict(state["model"]); optimizer.load_state_dict(state["optimizer"])
         update = int(state["update"]); loss_sum = float(state["loss_sum"]); loss_count = int(state["loss_count"])
-        torch.set_rng_state(state["torch_rng"])
-        if torch.cuda.is_available(): torch.cuda.set_rng_state_all(state["cuda_rng"])
+        restore_rng_state(state)
     else:
         atomic_checkpoint(checkpoint_path, checkpoint_payload(model, optimizer, 0, frozen_digest, 0.0, 0))
     total = int(config["training"]["gaussian_selection_updates"])

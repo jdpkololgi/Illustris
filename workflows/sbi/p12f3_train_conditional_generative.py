@@ -40,6 +40,7 @@ from workflows.sbi.p12f3_train_conditional_gaussian import (
     digest,
     git_revision,
     load_config,
+    restore_rng_state,
     shuffle_seed,
     split_selected,
     utc_now,
@@ -232,8 +233,7 @@ def train(args, config, parent, parent_path):
         state=torch.load(checkpoint_path,map_location=args.device,weights_only=False)
         if state.get("frozen_digest")!=frozen_digest or state.get("method")!=args.method or state.get("ph001_opened"): raise RuntimeError("unsafe generative checkpoint")
         model.load_state_dict(state["model"]);optimizer.load_state_dict(state["optimizer"]);update=int(state["update"]);loss_sum=float(state["loss_sum"]);loss_count=int(state["loss_count"])
-        torch.set_rng_state(state["torch_rng"])
-        if torch.cuda.is_available(): torch.cuda.set_rng_state_all(state["cuda_rng"])
+        restore_rng_state(state)
     else: atomic_checkpoint(checkpoint_path,checkpoint_payload(model,optimizer,0,frozen_digest,0,0,args.method))
     total=int(config["training"]["science_updates"]);stop=total if args.stop_after_updates is None else int(args.stop_after_updates)
     if stop<=update or stop>total: raise ValueError("invalid conditional generative stop update")
