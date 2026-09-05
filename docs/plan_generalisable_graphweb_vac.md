@@ -5000,15 +5000,21 @@ this matched hybrid representation.  Batch jobs `57921151` (matched references),
   D2 without switching to a runner-up.
 - [ ] Train the frozen D2 arm to a preregistered cap with train-only sample
   diagnostics, not loss-only stopping.
-  Science job `57928639` waits for confirmation allocation `57928395` and
+  Science job `57928836` waits for confirmation allocation `57928395` and
   additionally validates the passing confirmation marker before fitting.
   Jobs `57928645/57928647/57928651/57928653/57928655` form the strict-success
   NFE50 export, NFE100 export, paired evaluations and seed-42 decision chain.
-  Tested one-shot cron dispatcher `57928703` follows that decision and may
+  Tested one-shot cron dispatcher `57928840` follows that decision and may
   submit only the already-licensed replication ladder or stochastic diagnostic;
   otherwise it stops. Its source hash is checked at launch, submission is
   exclusive, and automatic retry is forbidden. No scientific implementation,
   presentation budget or gate changes are introduced by this operational helper.
+  Pending jobs `57928639/57928703` were replaced before execution: the training
+  wrapper now uses a 13,800-second soft stop within the same four-hour Slurm
+  reservation, rather than the interactive launcher's 6,500-second soft stop.
+  This accommodates the measured milestone-sampling cost without changing the
+  pinned trainer, 12,500-presentation cap or registered diagnostics. Seven
+  focused dispatch/wrapper tests pass; no automatic retry is registered.
 - [ ] Establish deterministic sampler convergence or run the frozen stochastic
   reverse-process control.
 - [ ] Evaluate exactly once on the 256-core ph006 ladder; replicate a passing arm

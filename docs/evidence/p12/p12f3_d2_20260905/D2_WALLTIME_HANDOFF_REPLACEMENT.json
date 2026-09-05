@@ -1,0 +1,23 @@
+{
+  "schema_version": "d2-operational-walltime-replacement-v1",
+  "reason": "Canary timestamps show that four raw-plus-EMA milestone diagnostics plus the remaining training can exceed the interactive launcher's 6500-second soft stop. Use the existing four-hour reservation, without changing the registered presentations or diagnostics.",
+  "source_revision": "b0441d3",
+  "cancelled_while_pending": ["57928639", "57928703"],
+  "training_job": "57928836",
+  "training_dependency": "afterok:57928395",
+  "training_wrapper": "workflows/sbi/submit_p12f3_d2_training_fullwall.slurm",
+  "training_wrapper_sha256": "cc2054003c3202125a56f532637a33488e9e3e33f0af13759a76737737cde16c",
+  "training_soft_stop_seconds": 13800,
+  "slurm_wall_time_unchanged": "04:00:00",
+  "primary_presentation_cap_unchanged": 12500,
+  "first_export_job": "57928645",
+  "first_export_dependency_updated_to": "afterok:57928836",
+  "licensed_dispatch_job": "57928840",
+  "licensed_dispatch_dependency": "afterok:57928655",
+  "dispatcher_sha256": "f09ac23442c48dd9dfb7d45cfbe51a2b7b764879e5d225d2e797802e9df34638",
+  "focused_tests_passed": 7,
+  "scientific_implementation_changed": false,
+  "confirmation_time_limit_increase": "Slurm denied increasing running allocation 57928395 from 60 to 90 minutes; its original limit remains active",
+  "automatic_retry": false,
+  "science_complete": false
+}
