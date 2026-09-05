@@ -1,5 +1,32 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-05 - [ops/run] P12-A particles validated; bounded D2 completion chain wired
+
+P12-A Particle-B job `57928435` completed with exit `0:0` in 39m55s.
+Its checksum/header/provenance marker `PARTICLE_B_COMPLETE.json` is archived
+under `docs/evidence/p12/p12a_blind_opening_20260905/`. Density job
+`57928437` is eligible and waiting on scheduler priority. No P12-A scientific
+acceptance is claimed; the one-open state and frozen post-open gates are unchanged.
+
+The active D2 primary chain is `57928836 -> 57928645 -> 57928647 ->
+57928651 -> 57928653 -> 57928655`: science continuation, NFE50/NFE100
+exports, their evaluations, then the seed-42 decision. The first job still
+requires confirmation allocation `57928395` to finish and its immutable
+confirmation marker to pass. One-shot dispatcher `57928840` then submits only
+an already-licensed second-seed ladder or sampler diagnostic, or stops.
+Exclusive claims forbid duplicate or automatic partial-submission retries.
+Seven focused tests distinguish technical completion from `seed_pass`, reject
+mismatched licences, and bind the operational training wrapper.
+
+Measured canary milestone diagnostics motivate using the already-reserved
+four-hour training job: its separate wrapper supplies a 13,800-second operational
+soft stop instead of the interactive launcher's 6,500 seconds. The pinned
+`467f442` trainer, 12,500-presentation cap, seeds, milestones, transforms and
+scientific gates are unchanged. Pending jobs `57928639/57928703` were replaced
+before execution; the dependent export was rebound. Full provenance is in
+`D2_WALLTIME_HANDOFF_REPLACEMENT.json`. This is neither a training-budget
+extension nor a new experiment. D2 confirmation remains in progress.
+
 ### 2026-09-05 - [code/run] Execute the authorised P12-A blind sequence and D2 confirmation
 
 The user explicitly requested completion of P12-A and the registered D2 experiment;
