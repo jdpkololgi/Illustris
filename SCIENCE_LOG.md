@@ -1,5 +1,21 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-05 - [ops/run] D2 confirmation timeout is not a scientific failure
+
+Allocation `57928395` exhausted its one-hour limit (Slurm TIMEOUT; worker
+terminated by signal 15) without writing `D2_INTERNAL_CONFIRMATION.json`.
+The allocation duration was underestimated; Slurm denied increasing it while
+running. After checking the terminal state, absent report and unchanged frozen
+inputs, one operational replay was launched as `57929227` with a two-hour limit
+in tmux session `p12f3_d2_confirmation_replay_20260905`. It uses exactly the
+same 127 cores, selected canary weights, draws and random seeds. No partial
+result was used to choose a model or change a gate, and no training occurs in
+confirmation. Its wrapper exits after the report and propagates a failed
+confirmation as nonzero status. Pending science job `57928836` now depends on
+this replay and still revalidates the passing marker. No further automatic
+retry is registered. P12-A remains unaffected: particles validated, density
+`57928437` waiting on Priority, and no scientific acceptance claimed.
+
 ### 2026-09-05 - [ops/run] P12-A particles validated; bounded D2 completion chain wired
 
 P12-A Particle-B job `57928435` completed with exit `0:0` in 39m55s.
