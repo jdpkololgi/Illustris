@@ -4198,12 +4198,19 @@ Progress checklist:
   `afterok`. One-shot dispatcher `57928546` waits for compact truth and then
   invokes the unchanged frozen finalization/scoring/evaluation/plot submission
   script. A failed stage requires inspection, not automatic resubmission.
-  Status verified 2026-09-05: Particle B completed and its provenance marker
-  passed. Density job `57928437` is running with active CPU/I/O and no reported
-  application error; the later stages remain success-dependent. Neither the
-  terminal truth marker nor the blind scientific report exists yet. The opening
-  authorization has already consumed `open_count=1`; do not describe ph001 as
-  unopened, and do not infer a scientific pass from the frozen predictions.
+  Status verified 2026-09-05: Particle B, density `57928437`, T-web `57928438`
+  and annotation `57928442` completed with validated provenance markers. Compact
+  join `57928446` failed its physical-closure guard; dispatcher `57928546` is
+  correctly blocked. A read-only full-row diagnostic (`57935350`) localizes the
+  cause to exactly one float32(0.2) threshold comparison: every identity and
+  eigenvalue is valid, and float64 comparison agrees with the annotated CWEB
+  for all 4,897,905 rows. No prediction, target value or calibration gate was
+  changed. Request a documented precision-only exception for the source-frozen
+  join before resuming; do not silently edit it or bypass its hash guard.
+  Evidence: `docs/evidence/p12/p12a_blind_opening_20260905/P12A_COMPACT_CLOSURE_DIAGNOSTIC_57935350.json`.
+  Neither terminal truth completion nor the blind scientific report exists yet.
+  The opening authorization has already consumed `open_count=1`; ph001 is not
+  unopened, and successful prediction export is not a scientific pass.
 - [x] Record the `H_fid`-conditional estimand explicitly.
 - [ ] Run the optional held-out-HOD stress test after blind baseline closure; it does
   not block the first explicitly `H_fid`-conditional VAC.

@@ -1,0 +1,181 @@
+{
+  "artifacts": {
+    "annotated_parent": {
+      "bytes": 1229379840,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/annotation/57928442-0/output/ph001_bgs_bright_parent_linkage_with_tweb_eigs.fits",
+      "sha256": "8d87d28d1409ecafae9f48c5aa67b4809e1f799ec5d736403e81cd22df1535ee"
+    },
+    "halo_source_inventory": {
+      "bytes": 8198,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/annotation/57928442-0/output/ph001_bgs_bright_parent_linkage_with_tweb_eigs.halo_sources.json",
+      "sha256": "ba90e7ddead2723707fcc7f932a81328c1deacc6473451266f99f6ed24259755"
+    },
+    "truth_free_blind_parent": {
+      "bytes": 588424320,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/catalogues/blind_parent/ph001_bgs_bright_parent_linkage.fits",
+      "sha256": "665e3b63e54a4b1a394ae68a53dea6ed13757db171d0b9df8ba9ce826c184365"
+    },
+    "truth_free_blind_parent_marker": {
+      "bytes": 1587,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/catalogues/blind_parent/ph001_bgs_bright_parent_linkage.fits.complete.json",
+      "sha256": "1c838155bd15d15cffc1d63157314bb3eb1faf6fefb9b1e5f2740bbd7689ae1b"
+    }
+  },
+  "audit": {
+    "finite_ordered_eigenvalues": true,
+    "halo_file_numbers_read": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33
+    ],
+    "halo_position_field": "x_com",
+    "linkage_identity_exact": true,
+    "mean_eigenvalues": [
+      -0.13942999711531656,
+      0.154915871664275,
+      0.4196758588038066
+    ],
+    "rows": 10507441,
+    "target": {
+      "box_size_mpc_h": 2000.0,
+      "eigenvalue_order": "lambda1<=lambda2<=lambda3",
+      "grid_size": 2048,
+      "mass_assignment": "TSC",
+      "mpi_ranks": 16,
+      "particle_a_fraction": 0.03,
+      "particle_b_fraction": 0.07,
+      "particle_total_fraction": 0.1,
+      "tidal_smoothing_mpc_h": 7.0,
+      "web_threshold": 0.2
+    },
+    "web_class_counts_void_sheet_filament_knot": [
+      2724685,
+      4350907,
+      2790251,
+      641598
+    ]
+  },
+  "authorization_reference": {
+    "bytes": 1187,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/P12_BLIND_OPEN_AUTHORIZED.json",
+    "sha256": "6fc87936d528d29b3c32661fc5a885e457fc760f639fdd04b5d34ced360bc52a"
+  },
+  "created_utc": "2026-09-05T06:47:45.770907+00:00",
+  "evaluation_contract_reference": {
+    "bytes": 35023,
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/evidence/p12/P12A_BLIND_EVALUATION_CONTRACT.json",
+    "sha256": "f7b5b9ff7a63347fc2c458e4509f0ac05ef89b0a27648e7ca957ae7ef955b44c"
+  },
+  "fit_performed": false,
+  "frozen_predictions_reference": {
+    "bytes": 2037,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/P12_BLIND_PREDICTIONS_FROZEN.json",
+    "sha256": "818a318e9701abbe8113904afb597ed3ec8912b8ed7dd6a5329f4daace5c5c59"
+  },
+  "generated_artifacts": {
+    "annotated_parent": {
+      "bytes": 1229379840,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/annotation/57928442-0/output/ph001_bgs_bright_parent_linkage_with_tweb_eigs.fits",
+      "sha256": "8d87d28d1409ecafae9f48c5aa67b4809e1f799ec5d736403e81cd22df1535ee"
+    },
+    "halo_source_inventory": {
+      "bytes": 8198,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/annotation/57928442-0/output/ph001_bgs_bright_parent_linkage_with_tweb_eigs.halo_sources.json",
+      "sha256": "ba90e7ddead2723707fcc7f932a81328c1deacc6473451266f99f6ed24259755"
+    },
+    "truth_free_blind_parent": {
+      "bytes": 588424320,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/catalogues/blind_parent/ph001_bgs_bright_parent_linkage.fits",
+      "sha256": "665e3b63e54a4b1a394ae68a53dea6ed13757db171d0b9df8ba9ce826c184365"
+    },
+    "truth_free_blind_parent_marker": {
+      "bytes": 1587,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/catalogues/blind_parent/ph001_bgs_bright_parent_linkage.fits.complete.json",
+      "sha256": "1c838155bd15d15cffc1d63157314bb3eb1faf6fefb9b1e5f2740bbd7689ae1b"
+    }
+  },
+  "git_revision": "dedb511411a760af2a145699fb00841279eabf0b",
+  "open_count": 1,
+  "pass": true,
+  "phase": "ph001",
+  "phase_registry_mutation_performed": false,
+  "post_open_refit_allowed": false,
+  "post_open_tuning_allowed": false,
+  "schema_version": "p12a-ph001-truth-stage-complete-v1",
+  "sealed_phase_opened": true,
+  "stage": "annotation",
+  "truth_files_read": [
+    {
+      "bytes": 8198,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/annotation/57928442-0/output/ph001_bgs_bright_parent_linkage_with_tweb_eigs.halo_sources.json",
+      "sha256": "ba90e7ddead2723707fcc7f932a81328c1deacc6473451266f99f6ed24259755"
+    },
+    {
+      "bytes": 588424320,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/catalogues/blind_parent/ph001_bgs_bright_parent_linkage.fits",
+      "sha256": "665e3b63e54a4b1a394ae68a53dea6ed13757db171d0b9df8ba9ce826c184365"
+    },
+    {
+      "bytes": 6067,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/TWEB_COMPLETE.json",
+      "sha256": "bfe9ec09bec1d29a32c3a1b7694036a53ce2e76104a58c6263cd2b628400b947"
+    }
+  ],
+  "truth_input_manifests": [
+    {
+      "bytes": 8198,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/annotation/57928442-0/output/ph001_bgs_bright_parent_linkage_with_tweb_eigs.halo_sources.json",
+      "sha256": "ba90e7ddead2723707fcc7f932a81328c1deacc6473451266f99f6ed24259755"
+    },
+    {
+      "bytes": 588424320,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph001/catalogues/blind_parent/ph001_bgs_bright_parent_linkage.fits",
+      "sha256": "665e3b63e54a4b1a394ae68a53dea6ed13757db171d0b9df8ba9ce826c184365"
+    },
+    {
+      "bytes": 6067,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/TWEB_COMPLETE.json",
+      "sha256": "bfe9ec09bec1d29a32c3a1b7694036a53ce2e76104a58c6263cd2b628400b947"
+    }
+  ],
+  "truth_read_provenance_scope": "content-addressed manifest/inventory roots; each Particle A/B payload member is enumerated with registered POSIX checksum and byte size, while each halo payload member is bound by its registered POSIX checksum when present and otherwise by direct SHA256, in the bound source inventories",
+  "truth_root": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1",
+  "upstream_stages": [
+    {
+      "bytes": 12884,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/stages/TWEB_COMPLETE.json",
+      "sha256": "63417a9dd5de4438964361dc7c78158ed157f6228b178549291f4b90b4a40817"
+    }
+  ]
+}

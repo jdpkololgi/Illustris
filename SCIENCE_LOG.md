@@ -1,5 +1,38 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-05 - [code/diagnosis] P12-A truth join stopped on a one-row precision inconsistency
+
+Live reconciliation of the reported completed runs shows density `57928437`,
+T-web `57928438` and annotation `57928442` COMPLETED with exit `0:0` in
+52m17s, 17m59s and 12m19s. Their signed stage markers are archived under
+`docs/evidence/p12/p12a_blind_opening_20260905/`. Compact join `57928446`
+FAILED with exit `2:0`: `joined compact truth fails physical closure`.
+The dependent post-open dispatcher `57928546` correctly remains blocked.
+D2 science job `57928836` has not started; it is still queued on Priority.
+Its canary/confirmation completion must not be mistaken for final training.
+
+Read-only CPU diagnostic `57935350` reproduced the exact failure over all
+4,897,905 supported rows: identity is exact, eigenvalues are finite and ordered,
+and casting to float32 preserves every source value. There is exactly one
+CWEB mismatch when the threshold comparison is performed in float32 and zero
+when those same stored values are compared in float64, as in the already-passing
+annotation audit. That one row has an eigenvalue equal to float32(0.2), whose
+exact represented value is 0.20000000298023224. NumPy's float32 comparison rounds
+the scalar threshold to the same value; the float64 comparison does not. A
+synthetic one-row example reproduces the bug without ph001 data. Four tests
+also ensure genuine class disagreement and invalid eigenvalues are not excused.
+
+This is a deterministic precision inconsistency in truth validation, not evidence
+of a posterior-calibration failure. No posterior score, fit or recalibration was
+computed; predictions and truth artifacts remain unchanged, and `open_count=1`
+is preserved. The diagnostic receipt is
+`P12A_COMPACT_CLOSURE_DIAGNOSTIC_57935350.json` in the evidence directory above.
+The short CPU allocation was released after diagnosis. Because the faulty join
+is source-hash frozen, a documented precision-only exception was requested from
+the user before correction; no source hash guard has been bypassed and no frozen
+implementation has been edited. Scientific evaluation remains pending that
+exception and successful compact-truth finalization. P13 is still excluded.
+
 ### 2026-09-05 - [science/run] D2 capacity decision independently confirmed; blind P12-A still computing
 
 The identical-input D2 confirmation replay `57929227` completed in 1h03m21s
