@@ -3,10 +3,20 @@ import tempfile
 from pathlib import Path
 import unittest
 
-from workflows.sbi.dispatch_p12f3_d2_after_primary import actions_for, digest, exclusive_json
+from workflows.sbi.dispatch_p12f3_d2_after_primary import (
+    actions_for, digest, exclusive_json, sha, TRAINING_WRAPPER, TRAINING_WRAPPER_HASH,
+)
 
 
 class DispatchTests(unittest.TestCase):
+    def test_training_wrapper_is_hash_bound_and_preserves_pinned_trainer(self):
+        self.assertEqual(sha(TRAINING_WRAPPER), TRAINING_WRAPPER_HASH)
+        text = TRAINING_WRAPPER.read_text()
+        self.assertIn('--max-wall-seconds 13800', text)
+        self.assertIn('-m workflows.sbi.p12f3_d2_train', text)
+        self.assertIn('Illustris_d2_467f442', text)
+        self.assertIn('RESUME=()', text)
+
     def inputs(self, passed=False, convergence=True):
         common = dict(pass_=True, ph001_opened=False, selected_arm='modern_base4',
                       selected_presentations=2500, selected_weights='ema', contract_digest='contract')

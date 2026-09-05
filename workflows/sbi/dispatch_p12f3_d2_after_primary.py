@@ -19,6 +19,8 @@ SOURCE = Path('/global/u2/d/dkololgi/TNG/Illustris_d2_467f442')
 REVISION = '467f442c5c54864658fdfaf948335d6e11a647fe'
 CONFIG_HASH = '3143ce1dfdb9546d3eb40413feab91bafa11b70718a2e4bb0ecb451080793533'
 ROOT = Path('/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_d2_diffusion_v1/official_467f442_seed42_v1')
+TRAINING_WRAPPER = Path(__file__).with_name('submit_p12f3_d2_training_fullwall.slurm')
+TRAINING_WRAPPER_HASH = 'cc2054003c3202125a56f532637a33488e9e3e33f0af13759a76737737cde16c'
 
 
 def sha(path):
@@ -92,10 +94,12 @@ def main():
         raise ValueError('Pinned D2 worktree is dirty')
     if sha(SOURCE / 'configs/p12f3_d2_diffusion_v1.json') != CONFIG_HASH:
         raise ValueError('Pinned D2 configuration changed')
+    if sha(TRAINING_WRAPPER) != TRAINING_WRAPPER_HASH:
+        raise ValueError('Operational training wrapper changed')
     plan = {'schema_version': 'd2-licensed-dispatch-v1', 'actions': actions,
             'seed42_decision_sha256': sha(decision_path), 'automatic_retry': False,
             'dispatch_only': True, 'created_utc': datetime.now(timezone.utc).isoformat(),
-            'dispatcher_sha256': sha(__file__)}
+            'dispatcher_sha256': sha(__file__), 'training_wrapper_sha256': TRAINING_WRAPPER_HASH}
     if args.dry_run:
         print(json.dumps(plan, indent=2))
         return
@@ -106,12 +110,14 @@ def main():
     exclusive_json(claim, plan)
     records = []
     for index, action in enumerate(actions):
+        script = (TRAINING_WRAPPER if action.startswith('replicate ') else
+                  SOURCE / 'workflows/sbi/submit_p12f3_d2_stage.slurm')
         export = ','.join(['ALL', f'D2_ACTION={action}', f'D2_SOURCE_ROOT={SOURCE}',
             f'D2_OUTPUT_ROOT={ROOT}', f'EXPECTED_GIT_REVISION={REVISION}',
             f'EXPECTED_CONFIG_SHA256={CONFIG_HASH}'])
         job = subprocess.check_output(['sbatch', '--parsable',
             f'--job-name=d2_licensed_{index}', f'--dependency=afterok:{parent}',
-            f'--export={export}', str(SOURCE / 'workflows/sbi/submit_p12f3_d2_stage.slurm')],
+            f'--export={export}', str(script)],
             text=True).strip().split(';')[0]
         if not job.isdigit():
             raise RuntimeError('Unrecognized sbatch result; reconcile claim manually')
