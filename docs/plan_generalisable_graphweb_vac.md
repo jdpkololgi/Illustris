@@ -4205,8 +4205,18 @@ Progress checklist:
   cause to exactly one float32(0.2) threshold comparison: every identity and
   eigenvalue is valid, and float64 comparison agrees with the annotated CWEB
   for all 4,897,905 rows. No prediction, target value or calibration gate was
-  changed. Request a documented precision-only exception for the source-frozen
-  join before resuming; do not silently edit it or bypass its hash guard.
+  changed. The user subsequently approved the documented precision-only
+  exception. Commit `0df337b` implements a separate recovery path, preserving
+  every pre-open source hash and the original contract. Thirty-three tests and
+  the full-row smoke in CPU allocation `57935677` pass with exact identities,
+  retained eigenvalues/native CWEB, exactly one diagnosed boundary ambiguity and
+  zero float64 mismatches. `P12A_COMPACT_PRECISION_EXCEPTION.json` is exclusive
+  and bound into downstream truth provenance. Production recovery `57935710`
+  now precedes strict-afterok dispatcher `57935711`, which invokes the unchanged
+  frozen finalization/scoring/evaluation/plot chain. The superseded blocked
+  dispatcher `57928546` was cancelled after the user's explicit job-specific
+  approval. The new chain and historical held duplicates were not modified.
+  No automatic retry is registered.
   Evidence: `docs/evidence/p12/p12a_blind_opening_20260905/P12A_COMPACT_CLOSURE_DIAGNOSTIC_57935350.json`.
   Neither terminal truth completion nor the blind scientific report exists yet.
   The opening authorization has already consumed `open_count=1`; ph001 is not

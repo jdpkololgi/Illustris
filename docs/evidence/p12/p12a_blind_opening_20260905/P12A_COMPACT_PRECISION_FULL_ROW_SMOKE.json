@@ -1,0 +1,25 @@
+{
+  "array_or_stage_marker_written": false,
+  "created_utc": "2026-09-05T09:39:59.454536+00:00",
+  "exception_reference": {
+    "bytes": 3738,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/P12A_COMPACT_PRECISION_EXCEPTION.json",
+    "sha256": "3c0fb06d7ac8c2bb9ed58528c08d1b32f25ca20bbe265e3780eebde97bca7ebd"
+  },
+  "identity_join_exact": true,
+  "open_count": 1,
+  "pass": true,
+  "posterior_scores_computed": false,
+  "precision_recovery": {
+    "boundary_ambiguity_rows": 1,
+    "eigenvalue_storage_dtype": "float32",
+    "float64_crosscheck_mismatch_rows": 0,
+    "native_cweb_retained": true,
+    "nonboundary_class_mismatch_rows": 0,
+    "precision_validator": "stored_class_consistency plus diagnosed float64 cross-check",
+    "scientific_threshold": 0.2,
+    "stored_eigenvalues_retained": true
+  },
+  "rows": 4897905,
+  "schema_version": "p12a-compact-precision-full-row-smoke-v1"
+}

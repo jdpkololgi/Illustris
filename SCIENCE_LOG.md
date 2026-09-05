@@ -1,5 +1,42 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-05 - [code/run] Authorized precision-only recovery passes full-row smoke and resumes P12-A
+
+The user approved continuing after the explicit precision-exception request.
+Commit `0df337b` completes the staged recovery implementation as a separate,
+content-addressed path; the original truth builder, evaluation contract and
+scientific evaluator remain byte-identical. The exception permits only the
+diagnosed one-row float32 threshold ambiguity, requires exact float64 agreement
+with the native CWEB labels, and retains every stored eigenvalue and class label.
+It is not a tolerance relaxation for other rows, a truth correction, a refit or
+a new blind opening. Recovery code and the exception receipt are carried into
+the compact and terminal truth provenance.
+
+CPU allocation `57935677` passed 33 recovery/diagnostic/original blind-protocol
+tests. The committed implementation then passed its full 4,897,905-row smoke:
+exact identities, exactly one registered precision ambiguity, zero nonboundary
+or float64 class mismatches, and no array/stage marker or posterior score written.
+The exclusive `P12A_COMPACT_PRECISION_EXCEPTION.json` was authorized at
+2026-09-05T09:39:03Z (SHA256
+`3c0fb06d7ac8c2bb9ed58528c08d1b32f25ca20bbe265e3780eebde97bca7ebd`).
+The test allocation was released before production submission.
+
+The reviewed shared-CPU recovery job `57935710` rebuilds only compact truth and
+performs the frozen terminal deep validation. Its strict-afterok dispatcher
+`57935711` then invokes the unchanged finalization, energy-score, evaluation and
+plot chain. Cancellation of the permanently blocked old dispatcher `57928546`
+was initially denied by the approval reviewer. The user then explicitly approved
+cancelling that exact job, and it was cancelled without touching the replacement
+chain. The five user-held historical duplicates remain held.
+Exclusive claims and immediate job records prevent duplicate recovery
+submission; no automatic retry is licensed.
+
+Exception, smoke and submission receipts are archived under
+`docs/evidence/p12/p12a_blind_opening_20260905/`. P12-A scientific acceptance
+remains pending, with unchanged gates and `open_count=1`; stop after the report,
+not P13/Loa. D2 science job `57928836` remains eligible but pending on Priority;
+its checkpoint, training cap and downstream scientific chain are unchanged.
+
 ### 2026-09-05 - [code/diagnosis] P12-A truth join stopped on a one-row precision inconsistency
 
 Live reconciliation of the reported completed runs shows density `57928437`,
