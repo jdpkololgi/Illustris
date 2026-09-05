@@ -4194,6 +4194,10 @@ Progress checklist:
 - [ ] Complete the isolated authorized truth chain, finalize
   `P12_BLIND_OPENED.json`, and execute the frozen evaluator exactly once. Stop
   after the immutable P12-A pass/fail report; P13 remains unauthorized.
+  Truth jobs `57928435/57928437/57928438/57928442/57928446` are chained with
+  `afterok`. One-shot dispatcher `57928546` waits for compact truth and then
+  invokes the unchanged frozen finalization/scoring/evaluation/plot submission
+  script. A failed stage requires inspection, not automatic resubmission.
 - [x] Record the `H_fid`-conditional estimand explicitly.
 - [ ] Run the optional held-out-HOD stress test after blind baseline closure; it does
   not block the first explicitly `H_fid`-conditional VAC.

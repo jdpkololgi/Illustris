@@ -16,6 +16,10 @@ deep truth-free replay against the committed evaluation contract `d72f429`.
 isolated truth chain is submitted as `57928435` (HPSS Particle B), `57928437`
 (density), `57928438` (T-web), `57928442` (annotation), and `57928446` (compact
 truth), with sequential `afterok` dependencies. The HPSS restore is running.
+One-shot lightweight cron-QOS dispatcher `57928546`, dependent on successful
+compact truth, invokes the unchanged frozen post-open submission script for
+finalization, energy scoring, evaluation and plots. Its exclusive claim guards
+remain active; no automatic retries are registered.
 Neither truth completion nor P12-A scientific acceptance is claimed yet; all
 post-open fitting, recalibration and gate changes remain prohibited.
 
