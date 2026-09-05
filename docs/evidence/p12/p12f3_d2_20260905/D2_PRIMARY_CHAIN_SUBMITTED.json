@@ -1,0 +1,42 @@
+{
+  "schema_version": "p12f3-d2-primary-chain-submission-v1",
+  "source_revision": "467f442c5c54864658fdfaf948335d6e11a647fe",
+  "config_sha256": "3143ce1dfdb9546d3eb40413feab91bafa11b70718a2e4bb0ecb451080793533",
+  "jobs": [
+    {
+      "job_id": "57928639",
+      "action": "science modern_base4",
+      "dependency": "57928395"
+    },
+    {
+      "job_id": "57928645",
+      "action": "export primary 50 modern_base4",
+      "dependency": "57928639"
+    },
+    {
+      "job_id": "57928647",
+      "action": "export primary 100 modern_base4",
+      "dependency": "57928645"
+    },
+    {
+      "job_id": "57928651",
+      "action": "evaluate primary 50 modern_base4",
+      "dependency": "57928647"
+    },
+    {
+      "job_id": "57928653",
+      "action": "evaluate primary 100 modern_base4",
+      "dependency": "57928651"
+    },
+    {
+      "job_id": "57928655",
+      "action": "decide-seed primary modern_base4",
+      "dependency": "57928653"
+    }
+  ],
+  "dependency_policy": "strict afterok plus frozen scientific marker validation",
+  "confirmation_required": true,
+  "automatic_retry": false,
+  "replication_submitted": false,
+  "science_complete": false
+}
