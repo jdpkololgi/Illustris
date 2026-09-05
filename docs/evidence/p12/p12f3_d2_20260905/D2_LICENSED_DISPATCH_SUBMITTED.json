@@ -1,0 +1,19 @@
+{
+  "schema_version": "d2-licensed-dispatch-submission-v1",
+  "slurm_job_id": "57928703",
+  "dependency": "afterok:57928655",
+  "qos": "cron",
+  "constraint": "cron",
+  "cpus": 1,
+  "memory": "4G",
+  "wall_time": "00:10:00",
+  "source_revision": "1cc67c0",
+  "dispatcher": "workflows/sbi/dispatch_p12f3_d2_after_primary.py",
+  "dispatcher_sha256": "93dd238731c05f46bb89be8404ec581fa7b175c51ba2ae77b5ebbd034b4c12d4",
+  "hash_rechecked_before_execution": true,
+  "permitted_actions": "Only existing licensed replication ladder, existing licensed stochastic diagnostic, or no further jobs",
+  "automatic_retry": false,
+  "focused_tests_passed": 6,
+  "scientific_code_or_gates_changed": false,
+  "science_complete": false
+}
