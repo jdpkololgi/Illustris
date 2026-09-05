@@ -4996,11 +4996,14 @@ this matched hybrid representation.  Batch jobs `57921151` (matched references),
   attention is not licensed. Both canaries completed 2,500 patch presentations
   (1,250 optimizer updates) under the unchanged contract.
 - [ ] Complete the once-only 127-core internal confirmation of the frozen
-  final selection. Allocation `57928395` runs this gate; a contradiction closes
-  D2 without switching to a runner-up.
+  final selection. Allocation `57928395` timed out after one hour without a
+  confirmation artifact. The inspected interruption is replayed by `57929227`
+  with two hours, identical frozen weights/cores/draws/seeds, and no use of
+  partial results for selection. A contradiction closes D2 without switching
+  to a runner-up; no further automatic retry is registered.
 - [ ] Train the frozen D2 arm to a preregistered cap with train-only sample
   diagnostics, not loss-only stopping.
-  Science job `57928836` waits for confirmation allocation `57928395` and
+  Science job `57928836` waits for confirmation allocation `57929227` and
   additionally validates the passing confirmation marker before fitting.
   Jobs `57928645/57928647/57928651/57928653/57928655` form the strict-success
   NFE50 export, NFE100 export, paired evaluations and seed-42 decision chain.
