@@ -1,5 +1,32 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-05 - [code/run] Execute the authorised P12-A blind sequence and D2 confirmation
+
+The user explicitly requested completion of P12-A and the registered D2 experiment;
+P13/Loa and the separately owned end-to-end field programme remain out of scope.
+The previous interactive jobs `57924701` (P12-A freeze/deep replay) and `57924556`
+(D2 A1/capacity selection) both completed with exit `0:0`. The five superseded
+batch jobs remain user-held; do not release them as duplicate work.
+
+P12-A has 4,897,905 frozen summary rows in four shards and 50,000 audit rows with
+512 draws. CPU allocation `57928401` passed all 11 opening tests and repeated the
+deep truth-free replay against the committed evaluation contract `d72f429`.
+`P12_BLIND_OPEN_AUTHORIZED.json` was written at 2026-09-04T23:58:48Z, consuming
+`open_count=1` before truth access. The CPU allocation was then released. The
+isolated truth chain is submitted as `57928435` (HPSS Particle B), `57928437`
+(density), `57928438` (T-web), `57928442` (annotation), and `57928446` (compact
+truth), with sequential `afterok` dependencies. The HPSS restore is running.
+Neither truth completion nor P12-A scientific acceptance is claimed yet; all
+post-open fitting, recalibration and gate changes remain prohibited.
+
+D2's 128-core selection chooses `modern_base4`: the measured base-8 energy gain
+is below the registered 1% materiality threshold. Attention is therefore not
+licensed. GPU allocation `57928395` freezes final selection and runs the one-open
+127-core confirmation using the unchanged `Illustris_d2_467f442` worktree and
+official output root. Only a passing confirmation permits the existing canary
+checkpoint to continue within the 12,500-presentation cap. No ph006 D2 candidate
+evaluation has occurred, and D2 never reads ph001.
+
 ### 2026-09-04 - [code/run] Freeze and launch the bounded P12-F3-D2 capacity funnel
 
 Commit `467f442` implements the separately versioned D2 programme and freezes its

@@ -4158,14 +4158,17 @@ Progress checklist:
   complete P12-A export, CIC and DTFE manifest, rehashes every posterior/audit shard,
   and demands exact parent/core/support identity. Validation truth on ph006 is allowed;
   any ph001 truth access remains fail-closed (commit `f8f19ba`).
-- [ ] Resume and archive the full 512-draw ph001 production export now, independently
+- [x] Resume and archive the full 512-draw ph001 production export now, independently
   of the parallel D2 field-posterior research. Cancelled jobs
   `57890469` and `57890760` never started, so restart from the same content-addressed
   four-shard contract rather than treating them as resumable partial runs.  The CPU
   freeze still writes `P12_BLIND_PREDICTIONS_FROZEN.json` only after all four shards,
   CIC and DTFE pass exact row/core/support and hash parity (freeze wrapper commit
-  `90e42ae`). Jobs `57919118` and `57919122` are the active export/`afterok` freeze
-  pair. No job in this chain can open ph001 truth.
+  `90e42ae`). The replacement interactive export/freeze completed; CPU job
+  `57924701` deep-replayed 4,897,905 summary rows, four shards and the 50,000-row
+  by 512-draw audit archive. The superseded batch jobs `57919118` and `57919122`
+  remain user-held and must not be released as duplicate work. This export/freeze
+  chain read no ph001 truth.
 - [x] Implement the two-phase, O_EXCL one-open protocol and isolated authorized truth
   chain without opening ph001.  Commit `7aaa99d` introduced the isolated chain;
   commits `902a6cf`, `7853387` and `ef9eff2` harden it after independent audit.  The
@@ -4182,11 +4185,15 @@ Progress checklist:
   The same `open_count=1` state remains bound through HPSS particle-B restore, A+B
   density, R7 T-web, parent annotation, exact compact truth and terminal rehash.  The
   ordinary phase registry/product tree remains untouched.
-- [ ] After the posterior export/freeze completes, build and commit
-  `P12A_BLIND_EVALUATION_CONTRACT.json`, deep-replay all `4,897,905` frozen rows, write
-  `P12_BLIND_OPEN_AUTHORIZED.json` before any truth access, run the authorized truth
-  chain, finalize `P12_BLIND_OPENED.json`, and execute the frozen evaluator exactly
-  once.  Stop after the immutable P12-A pass/fail report; P13 remains unauthorized.
+- [x] Build and commit `P12A_BLIND_EVALUATION_CONTRACT.json` (`d72f429`), then
+  deep-replay all `4,897,905` frozen rows and write
+  `P12_BLIND_OPEN_AUTHORIZED.json` before truth access. On renewed explicit user
+  authorization, CPU job `57928401` passed 11 opening tests and the deep replay;
+  the immutable authorization now consumes `open_count=1`. No post-open tuning,
+  recalibration or threshold changes are permitted.
+- [ ] Complete the isolated authorized truth chain, finalize
+  `P12_BLIND_OPENED.json`, and execute the frozen evaluator exactly once. Stop
+  after the immutable P12-A pass/fail report; P13 remains unauthorized.
 - [x] Record the `H_fid`-conditional estimand explicitly.
 - [ ] Run the optional held-out-HOD stress test after blind baseline closure; it does
   not block the first explicitly `H_fid`-conditional VAC.
@@ -4979,9 +4986,14 @@ this matched hybrid representation.  Batch jobs `57921151` (matched references),
 - [x] Freeze D2 architecture, schedule/preconditioning, EMA, effective-batch and
   sampler-ablation contracts before training; pass 28 focused tests and the official
   exact-resume/memory/throughput GPU preflight.
-- [ ] Complete the queued capacity/time-embedding canaries on the internal
-  training-phase split and select without ph006; run attention only if the capacity
-  marker licenses A2.
+- [x] Complete the capacity canaries on the internal training-phase split and
+  select without ph006. `D2_CAPACITY_SELECTION.json` selects `modern_base4`;
+  the base-8 improvement is below the registered 1% materiality threshold, so
+  attention is not licensed. Both canaries completed 2,500 patch presentations
+  (1,250 optimizer updates) under the unchanged contract.
+- [ ] Complete the once-only 127-core internal confirmation of the frozen
+  final selection. Allocation `57928395` runs this gate; a contradiction closes
+  D2 without switching to a runner-up.
 - [ ] Train the frozen D2 arm to a preregistered cap with train-only sample
   diagnostics, not loss-only stopping.
 - [ ] Establish deterministic sampler convergence or run the frozen stochastic

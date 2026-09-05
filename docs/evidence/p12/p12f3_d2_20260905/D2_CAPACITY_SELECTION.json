@@ -1,0 +1,45 @@
+{
+  "attention_comparison": null,
+  "attention_licensed": false,
+  "capacity_comparison": {
+    "confirmation_used": false,
+    "eligible": false,
+    "selection": {
+      "candidate_weight": "ema",
+      "denoising_loss_relative_regression": -0.016270710017833312,
+      "eligible": false,
+      "log_variance_calibration_regression": -0.007681915568023112,
+      "marginal_crps_relative_regression": -0.005281213445788913,
+      "paired_energy": {
+        "cores": 128,
+        "mean_reference_minus_candidate": 0.0031532449647784233,
+        "one_standard_error_lower": 0.002899126248523113,
+        "relative_improvement": 0.004399657844860656,
+        "standard_error": 0.0002541187162553105
+      },
+      "paired_interval_convention": "mean_minus_one_standard_error_strictly_positive",
+      "reference_weight": "ema"
+    }
+  },
+  "contract_digest": "859a686967c9fcb22284d042f55259b2e779732906597fcdd053a354e9a0f9ec",
+  "created_utc": "2026-09-04T21:27:18.968465+00:00",
+  "frozen_inputs": {
+    "base4_canary": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_d2_diffusion_v1/official_467f442_seed42_v1/training/modern_base4/seed42_v1/D2_CANARY_COMPLETE.json",
+    "base4_canary_sha256": "12d265c90ab3621e6ef0adb625de5da69495c402b472b185a15b4a3c6d249c2f",
+    "base8_canary": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_d2_diffusion_v1/official_467f442_seed42_v1/training/modern_base8/seed42_v1/D2_CANARY_COMPLETE.json",
+    "base8_canary_sha256": "eeda3f66c43a5aa356f84cb2064b67f6717f49b990a960d12710a40c93134b0f",
+    "contract": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_d2_diffusion_v1/official_467f442_seed42_v1/D2_CONTRACT_FROZEN.json",
+    "contract_sha256": "92c18b3a695bf146fc3f942b8a40fe35c9e087b91b6c33639de3b69c6ec242dd"
+  },
+  "frozen_inputs_digest": "5b960ddaaa660368d440bab5afe4ba6a7419ff781d405c739345a59538a3147a",
+  "pass": true,
+  "ph001_opened": false,
+  "ph006_used_for_selection": false,
+  "schema_version": "p12f3-d2-funnel-selection-v1",
+  "selected_arm": "modern_base4",
+  "selection_unit": "training_phase_internal_128_selection_cores_only",
+  "stage": "capacity",
+  "truth_files_read": [
+    "training-phase internal-validation delta_R7 only"
+  ]
+}
