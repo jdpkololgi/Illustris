@@ -4198,6 +4198,12 @@ Progress checklist:
   `afterok`. One-shot dispatcher `57928546` waits for compact truth and then
   invokes the unchanged frozen finalization/scoring/evaluation/plot submission
   script. A failed stage requires inspection, not automatic resubmission.
+  Status verified 2026-09-05: Particle B completed and its provenance marker
+  passed. Density job `57928437` is running with active CPU/I/O and no reported
+  application error; the later stages remain success-dependent. Neither the
+  terminal truth marker nor the blind scientific report exists yet. The opening
+  authorization has already consumed `open_count=1`; do not describe ph001 as
+  unopened, and do not infer a scientific pass from the frozen predictions.
 - [x] Record the `H_fid`-conditional estimand explicitly.
 - [ ] Run the optional held-out-HOD stress test after blind baseline closure; it does
   not block the first explicitly `H_fid`-conditional VAC.
@@ -4995,16 +5001,23 @@ this matched hybrid representation.  Batch jobs `57921151` (matched references),
   the base-8 improvement is below the registered 1% materiality threshold, so
   attention is not licensed. Both canaries completed 2,500 patch presentations
   (1,250 optimizer updates) under the unchanged contract.
-- [ ] Complete the once-only 127-core internal confirmation of the frozen
+- [x] Complete the once-only 127-core internal confirmation of the frozen
   final selection. Allocation `57928395` timed out after one hour without a
   confirmation artifact. The inspected interruption is replayed by `57929227`
   with two hours, identical frozen weights/cores/draws/seeds, and no use of
-  partial results for selection. A contradiction closes D2 without switching
-  to a runner-up; no further automatic retry is registered.
+  partial results for selection. Replay `57929227` completed in 1h03m21s with
+  exit `0:0` and a passing `D2_INTERNAL_CONFIRMATION.json`. The base8-over-base4
+  energy improvement is 0.426% on confirmation versus 0.440% on selection,
+  below the frozen 1% threshold on both panels. Continue `modern_base4`;
+  attention remains unlicensed. This confirms the capacity decision only,
+  not final ph006 calibration. Archive and reporting-only plot:
+  `docs/evidence/p12/p12f3_d2_20260905/D2_INTERNAL_CONFIRMATION.json` and
+  `docs/figures/p12f3_d2_20260905/d2_capacity_confirmation.png`.
 - [ ] Train the frozen D2 arm to a preregistered cap with train-only sample
   diagnostics, not loss-only stopping.
-  Science job `57928836` waits for confirmation allocation `57929227` and
-  additionally validates the passing confirmation marker before fitting.
+  Science job `57928836` has satisfied its confirmation dependency and is
+  queued on scheduler Priority; it additionally validates the passing
+  confirmation marker before fitting.
   Jobs `57928645/57928647/57928651/57928653/57928655` form the strict-success
   NFE50 export, NFE100 export, paired evaluations and seed-42 decision chain.
   Tested one-shot cron dispatcher `57928840` follows that decision and may

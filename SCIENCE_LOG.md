@@ -1,5 +1,39 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-05 - [science/run] D2 capacity decision independently confirmed; blind P12-A still computing
+
+The identical-input D2 confirmation replay `57929227` completed in 1h03m21s
+with Slurm exit `0:0` and a passing `D2_INTERNAL_CONFIRMATION.json` at
+2026-09-05T02:01:36Z. Its SHA256 is
+`be8053f8c876d9e87d24a1468bb8d238e75bd1d446542686af61c2a548fcbd06`;
+an exact copy is archived under `docs/evidence/p12/p12f3_d2_20260905/`.
+No ph006 candidate evaluation or D2 ph001 access occurred.
+
+The wider base8 model improves paired internal energy by 0.440% on the
+128-core selection panel and 0.426% on the disjoint 127-core confirmation
+panel. The gain is reproducible and positive under the registered paired
+one-standard-error rule, but below the 1% materiality threshold on both.
+Thus the frozen choice of `modern_base4` is confirmed; attention remains
+unlicensed. This is not evidence that capacity never matters, and it is not
+a final posterior-calibration pass. The canary confirmation's second-band
+spread/error ratios remain about 0.745/0.749 for base4/base8 in the whitened
+training coordinates. These finite-32-draw diagnostics must not be relabelled
+as physical field-power ratios or final eigengap coverage measurements.
+
+The reporting-only figure `docs/figures/p12f3_d2_20260905/d2_capacity_confirmation.png`
+reproduces the frozen paired contrast with one-standard-error bars, not IID
+voxel or 95% intervals; four focused plot tests pass. It does not enter
+selection or alter the pinned scientific implementation. Science training
+`57928836` is eligible and waiting on Priority; the existing NFE50/NFE100
+export, evaluation, decision and conditional replication chain remains active.
+
+P12-A Particle B is complete. Density `57928437` is running with CPU and I/O
+progress and no application error; T-web, annotation, compact truth and the
+frozen post-open evaluation/plots remain success-dependent. The one-open
+authorization has already consumed `open_count=1`; neither terminal truth
+completion nor blind scientific acceptance is claimed. No refit, recalibration,
+gate change, P13 handoff or new field-model successor is authorized by this update.
+
 ### 2026-09-05 - [ops/run] D2 confirmation timeout is not a scientific failure
 
 Allocation `57928395` exhausted its one-hour limit (Slurm TIMEOUT; worker
