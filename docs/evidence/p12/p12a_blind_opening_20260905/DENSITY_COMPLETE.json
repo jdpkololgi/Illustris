@@ -1,0 +1,123 @@
+{
+  "artifacts": {
+    "density": {
+      "bytes": 34359738496,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/density/57928437-0/AbacusSummit_base_c000_ph001_z0.200_ngrid2048_ab10_tsc_counts.npy",
+      "sha256": "e917694e057ed9b947f8d952615ecb8af084c4b74a0b71dd6cba93e28ad467b8"
+    },
+    "density_source_inventory": {
+      "bytes": 38226,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/density/57928437-0/AbacusSummit_base_c000_ph001_z0.200_ngrid2048_ab10_tsc_counts.manifest.sources.json",
+      "sha256": "ca2416225dce38d336f419ce9de3ff28e526ad4f768918f68bed9033c19d21ca"
+    },
+    "p10_density_manifest": {
+      "bytes": 49510,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/density/57928437-0/AbacusSummit_base_c000_ph001_z0.200_ngrid2048_ab10_tsc_counts.manifest.json",
+      "sha256": "6ea1ca9a375bd9ae2c1425d4bbeb1fd534dccaf8b030255803fbdb5d6609ce02"
+    }
+  },
+  "audit": {
+    "bytes": 34359738496,
+    "dtype": "float32",
+    "manifest": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/density/57928437-0/AbacusSummit_base_c000_ph001_z0.200_ngrid2048_ab10_tsc_counts.manifest.json",
+    "manifest_sha256": "6ea1ca9a375bd9ae2c1425d4bbeb1fd534dccaf8b030255803fbdb5d6609ce02",
+    "particle_count": 33022530364,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/density/57928437-0/AbacusSummit_base_c000_ph001_z0.200_ngrid2048_ab10_tsc_counts.npy",
+    "relative_count_error": 9.467222698299158e-08,
+    "shape": [
+      2048,
+      2048,
+      2048
+    ],
+    "target": {
+      "box_size_mpc_h": 2000.0,
+      "eigenvalue_order": "lambda1<=lambda2<=lambda3",
+      "grid_size": 2048,
+      "mass_assignment": "TSC",
+      "mpi_ranks": 16,
+      "particle_a_fraction": 0.03,
+      "particle_b_fraction": 0.07,
+      "particle_total_fraction": 0.1,
+      "tidal_smoothing_mpc_h": 7.0,
+      "web_threshold": 0.2
+    },
+    "verified": true
+  },
+  "authorization_reference": {
+    "bytes": 1187,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/P12_BLIND_OPEN_AUTHORIZED.json",
+    "sha256": "6fc87936d528d29b3c32661fc5a885e457fc760f639fdd04b5d34ced360bc52a"
+  },
+  "created_utc": "2026-09-05T03:16:40.936347+00:00",
+  "evaluation_contract_reference": {
+    "bytes": 35023,
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/evidence/p12/P12A_BLIND_EVALUATION_CONTRACT.json",
+    "sha256": "f7b5b9ff7a63347fc2c458e4509f0ac05ef89b0a27648e7ca957ae7ef955b44c"
+  },
+  "fit_performed": false,
+  "frozen_predictions_reference": {
+    "bytes": 2037,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/P12_BLIND_PREDICTIONS_FROZEN.json",
+    "sha256": "818a318e9701abbe8113904afb597ed3ec8912b8ed7dd6a5329f4daace5c5c59"
+  },
+  "generated_artifacts": {
+    "density": {
+      "bytes": 34359738496,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/density/57928437-0/AbacusSummit_base_c000_ph001_z0.200_ngrid2048_ab10_tsc_counts.npy",
+      "sha256": "e917694e057ed9b947f8d952615ecb8af084c4b74a0b71dd6cba93e28ad467b8"
+    },
+    "density_source_inventory": {
+      "bytes": 38226,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/density/57928437-0/AbacusSummit_base_c000_ph001_z0.200_ngrid2048_ab10_tsc_counts.manifest.sources.json",
+      "sha256": "ca2416225dce38d336f419ce9de3ff28e526ad4f768918f68bed9033c19d21ca"
+    },
+    "p10_density_manifest": {
+      "bytes": 49510,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/density/57928437-0/AbacusSummit_base_c000_ph001_z0.200_ngrid2048_ab10_tsc_counts.manifest.json",
+      "sha256": "6ea1ca9a375bd9ae2c1425d4bbeb1fd534dccaf8b030255803fbdb5d6609ce02"
+    }
+  },
+  "git_revision": "dedb511411a760af2a145699fb00841279eabf0b",
+  "open_count": 1,
+  "pass": true,
+  "phase": "ph001",
+  "phase_registry_mutation_performed": false,
+  "post_open_refit_allowed": false,
+  "post_open_tuning_allowed": false,
+  "schema_version": "p12a-ph001-truth-stage-complete-v1",
+  "sealed_phase_opened": true,
+  "stage": "density",
+  "truth_files_read": [
+    {
+      "bytes": 38226,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/density/57928437-0/AbacusSummit_base_c000_ph001_z0.200_ngrid2048_ab10_tsc_counts.manifest.sources.json",
+      "sha256": "ca2416225dce38d336f419ce9de3ff28e526ad4f768918f68bed9033c19d21ca"
+    },
+    {
+      "bytes": 2427,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/particle_b/57928435-0/staging/AbacusSummit_base_c000_ph001/B_STAGE_COMPLETE.json",
+      "sha256": "fece850e07bd9c7221abf81ce9ccd80e0ac3429c31251741259e4d3cdd7e534a"
+    }
+  ],
+  "truth_input_manifests": [
+    {
+      "bytes": 38226,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/density/57928437-0/AbacusSummit_base_c000_ph001_z0.200_ngrid2048_ab10_tsc_counts.manifest.sources.json",
+      "sha256": "ca2416225dce38d336f419ce9de3ff28e526ad4f768918f68bed9033c19d21ca"
+    },
+    {
+      "bytes": 2427,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/particle_b/57928435-0/staging/AbacusSummit_base_c000_ph001/B_STAGE_COMPLETE.json",
+      "sha256": "fece850e07bd9c7221abf81ce9ccd80e0ac3429c31251741259e4d3cdd7e534a"
+    }
+  ],
+  "truth_read_provenance_scope": "content-addressed manifest/inventory roots; each Particle A/B payload member is enumerated with registered POSIX checksum and byte size, while each halo payload member is bound by its registered POSIX checksum when present and otherwise by direct SHA256, in the bound source inventories",
+  "truth_root": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1",
+  "upstream_stages": [
+    {
+      "bytes": 4354,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/stages/PARTICLE_B_COMPLETE.json",
+      "sha256": "4774639b082ee0c7191873d2b1405ff32369316d44cefe3b641a6adbcb08b2a7"
+    }
+  ]
+}

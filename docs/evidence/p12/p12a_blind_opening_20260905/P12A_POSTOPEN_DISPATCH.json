@@ -1,0 +1,18 @@
+{
+  "schema_version": "p12a-postopen-dispatch-submission-v1",
+  "slurm_job_id": "57928546",
+  "dependency": "afterok:57928446",
+  "qos": "cron",
+  "constraint": "cron",
+  "cpus": 1,
+  "memory": "4G",
+  "wall_time": "00:10:00",
+  "licenses": "scratch",
+  "command": "exec /bin/bash /global/homes/d/dkololgi/TNG/Illustris/workflows/sbi/submit_p12a_ph001_postopen_chain.sh",
+  "purpose": "Submit the unchanged frozen finalize, energy-score, evaluate and plot chain only after compact truth succeeds",
+  "scientific_implementation_contract": "docs/evidence/p12/P12A_BLIND_EVALUATION_CONTRACT.json",
+  "automatic_retry": false,
+  "p13_authorized": false,
+  "submission_succeeded": true,
+  "science_complete": false
+}

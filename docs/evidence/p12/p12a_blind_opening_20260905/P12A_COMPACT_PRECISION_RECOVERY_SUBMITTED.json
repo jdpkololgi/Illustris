@@ -1,0 +1,33 @@
+{
+  "automatic_retry_allowed": false,
+  "created_utc": "2026-09-05T09:41:53.911890+00:00",
+  "dependency_policy": "strict afterok",
+  "exception_reference": {
+    "bytes": 3738,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/P12A_COMPACT_PRECISION_EXCEPTION.json",
+    "sha256": "3c0fb06d7ac8c2bb9ed58528c08d1b32f25ca20bbe265e3780eebde97bca7ebd"
+  },
+  "jobs": {
+    "compact_precision_recovery": {
+      "marker": {
+        "bytes": 611,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/chain_submissions/precision_recovery/precision-20260905T094100Z-1245793/compact_precision_recovery.json",
+        "sha256": "3defa4f8e1641a841ca637b283e0bdfbdd0db72be3b6709033ff5180924a1ce7"
+      },
+      "slurm_job_id": "57935710"
+    },
+    "postopen_dispatch": {
+      "marker": {
+        "bytes": 608,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/chain_submissions/precision_recovery/precision-20260905T094100Z-1245793/postopen_dispatch.json",
+        "sha256": "24f3333d924f334eac31a39a7deda700daf03cbe656ebe9317b8b9bc82835263"
+      },
+      "slurm_job_id": "57935711"
+    }
+  },
+  "open_count": 1,
+  "pass": true,
+  "phase": "ph001",
+  "schema_version": "p12a-compact-precision-resume-submitted-v1",
+  "submission_id": "precision-20260905T094100Z-1245793"
+}

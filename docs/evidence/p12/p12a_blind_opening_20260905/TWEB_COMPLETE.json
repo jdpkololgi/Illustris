@@ -1,0 +1,261 @@
+{
+  "artifacts": {
+    "p10_tweb_complete": {
+      "bytes": 6067,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/TWEB_COMPLETE.json",
+      "sha256": "bfe9ec09bec1d29a32c3a1b7694036a53ce2e76104a58c6263cd2b628400b947"
+    },
+    "rank_products": [
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0000.npz",
+        "sha256": "f5477b500260b5c990373d21ae6e1e219cd32a39b5d62e1aa22f0f607e251f1b"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0001.npz",
+        "sha256": "9147fa36124fb1475107d88f6db3bf060957797cac61936f28fd9c3ea432a160"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0002.npz",
+        "sha256": "f3cb3959fac04d74c668785030bd77214f21eb19a0b00a52273a187e59de54ef"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0003.npz",
+        "sha256": "3c1832aa343510244e9ed743c7f35f38ae748113af6a62e3c4fca42c7cd5df89"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0004.npz",
+        "sha256": "b15320d360d83b443031885c8daff0320e4531eadc25ed3698bcbc0a5c2903e2"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0005.npz",
+        "sha256": "0b09f15247bd7b07ede716c26f6b623e5ae4f5a1ee273c58fcc37c4dc914cd8b"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0006.npz",
+        "sha256": "1d00d7abc3138674cf2d73948c3fb5ec2e9c9a4b550bdd7945a3677d1ad36ba9"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0007.npz",
+        "sha256": "8296e2d916b66125315440094d6b6913e6711dbb683423f7859d41becaa8977d"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0008.npz",
+        "sha256": "c55b1b1f684217449e4c42bdd143d2ebceebd8df8bf521263d36761b67e2be97"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0009.npz",
+        "sha256": "908153e64653771183815b6b1a5a8a2d3854d6e310f916d5765e478b713c508d"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0010.npz",
+        "sha256": "693344ce2fd769efe8c46d717d6c99f1334f584135ae41cabbd8d76c82aca014"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0011.npz",
+        "sha256": "25eefe98c8a45dd83db3cccf38c3ea152c89d7c88132f84377d63995d8242413"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0012.npz",
+        "sha256": "96a04e7f680f7a0287e1d6c51018aa85d0b74f0812bd1d7bcb844585a16b5c4a"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0013.npz",
+        "sha256": "24653d91bef48ede25fe3245c153e76e8d8de30475b55fec182b6a9f1fe0e5bc"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0014.npz",
+        "sha256": "6a5465f20289ef247860a2dbd23d6edaf1269b33b23414d99ea06379babb1f07"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0015.npz",
+        "sha256": "f9b6162f4098d395a160d3e16d10861165e793c3359828887c3bed4885559125"
+      }
+    ]
+  },
+  "audit": {
+    "rank_count": 16,
+    "target": {
+      "box_size_mpc_h": 2000.0,
+      "eigenvalue_order": "lambda1<=lambda2<=lambda3",
+      "grid_size": 2048,
+      "mass_assignment": "TSC",
+      "mpi_ranks": 16,
+      "particle_a_fraction": 0.03,
+      "particle_b_fraction": 0.07,
+      "particle_total_fraction": 0.1,
+      "tidal_smoothing_mpc_h": 7.0,
+      "web_threshold": 0.2
+    },
+    "total_bytes": 111669184864,
+    "tweb_dir": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0",
+    "x_coverage": [
+      0,
+      2048
+    ]
+  },
+  "authorization_reference": {
+    "bytes": 1187,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/P12_BLIND_OPEN_AUTHORIZED.json",
+    "sha256": "6fc87936d528d29b3c32661fc5a885e457fc760f639fdd04b5d34ced360bc52a"
+  },
+  "created_utc": "2026-09-05T04:47:03.711798+00:00",
+  "evaluation_contract_reference": {
+    "bytes": 35023,
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/evidence/p12/P12A_BLIND_EVALUATION_CONTRACT.json",
+    "sha256": "f7b5b9ff7a63347fc2c458e4509f0ac05ef89b0a27648e7ca957ae7ef955b44c"
+  },
+  "fit_performed": false,
+  "frozen_predictions_reference": {
+    "bytes": 2037,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/P12_BLIND_PREDICTIONS_FROZEN.json",
+    "sha256": "818a318e9701abbe8113904afb597ed3ec8912b8ed7dd6a5329f4daace5c5c59"
+  },
+  "generated_artifacts": {
+    "p10_tweb_complete": {
+      "bytes": 6067,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/TWEB_COMPLETE.json",
+      "sha256": "bfe9ec09bec1d29a32c3a1b7694036a53ce2e76104a58c6263cd2b628400b947"
+    },
+    "rank_products": [
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0000.npz",
+        "sha256": "f5477b500260b5c990373d21ae6e1e219cd32a39b5d62e1aa22f0f607e251f1b"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0001.npz",
+        "sha256": "9147fa36124fb1475107d88f6db3bf060957797cac61936f28fd9c3ea432a160"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0002.npz",
+        "sha256": "f3cb3959fac04d74c668785030bd77214f21eb19a0b00a52273a187e59de54ef"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0003.npz",
+        "sha256": "3c1832aa343510244e9ed743c7f35f38ae748113af6a62e3c4fca42c7cd5df89"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0004.npz",
+        "sha256": "b15320d360d83b443031885c8daff0320e4531eadc25ed3698bcbc0a5c2903e2"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0005.npz",
+        "sha256": "0b09f15247bd7b07ede716c26f6b623e5ae4f5a1ee273c58fcc37c4dc914cd8b"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0006.npz",
+        "sha256": "1d00d7abc3138674cf2d73948c3fb5ec2e9c9a4b550bdd7945a3677d1ad36ba9"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0007.npz",
+        "sha256": "8296e2d916b66125315440094d6b6913e6711dbb683423f7859d41becaa8977d"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0008.npz",
+        "sha256": "c55b1b1f684217449e4c42bdd143d2ebceebd8df8bf521263d36761b67e2be97"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0009.npz",
+        "sha256": "908153e64653771183815b6b1a5a8a2d3854d6e310f916d5765e478b713c508d"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0010.npz",
+        "sha256": "693344ce2fd769efe8c46d717d6c99f1334f584135ae41cabbd8d76c82aca014"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0011.npz",
+        "sha256": "25eefe98c8a45dd83db3cccf38c3ea152c89d7c88132f84377d63995d8242413"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0012.npz",
+        "sha256": "96a04e7f680f7a0287e1d6c51018aa85d0b74f0812bd1d7bcb844585a16b5c4a"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0013.npz",
+        "sha256": "24653d91bef48ede25fe3245c153e76e8d8de30475b55fec182b6a9f1fe0e5bc"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0014.npz",
+        "sha256": "6a5465f20289ef247860a2dbd23d6edaf1269b33b23414d99ea06379babb1f07"
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/tweb/57928438-0/abacus_cactus_tweb_rank0015.npz",
+        "sha256": "f9b6162f4098d395a160d3e16d10861165e793c3359828887c3bed4885559125"
+      }
+    ]
+  },
+  "git_revision": "dedb511411a760af2a145699fb00841279eabf0b",
+  "open_count": 1,
+  "pass": true,
+  "phase": "ph001",
+  "phase_registry_mutation_performed": false,
+  "post_open_refit_allowed": false,
+  "post_open_tuning_allowed": false,
+  "schema_version": "p12a-ph001-truth-stage-complete-v1",
+  "sealed_phase_opened": true,
+  "stage": "tweb",
+  "truth_files_read": [
+    {
+      "bytes": 34359738496,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/density/57928437-0/AbacusSummit_base_c000_ph001_z0.200_ngrid2048_ab10_tsc_counts.npy",
+      "sha256": "e917694e057ed9b947f8d952615ecb8af084c4b74a0b71dd6cba93e28ad467b8"
+    },
+    {
+      "bytes": 49510,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/density/57928437-0/AbacusSummit_base_c000_ph001_z0.200_ngrid2048_ab10_tsc_counts.manifest.json",
+      "sha256": "6ea1ca9a375bd9ae2c1425d4bbeb1fd534dccaf8b030255803fbdb5d6609ce02"
+    }
+  ],
+  "truth_input_manifests": [
+    {
+      "bytes": 34359738496,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/density/57928437-0/AbacusSummit_base_c000_ph001_z0.200_ngrid2048_ab10_tsc_counts.npy",
+      "sha256": "e917694e057ed9b947f8d952615ecb8af084c4b74a0b71dd6cba93e28ad467b8"
+    },
+    {
+      "bytes": 49510,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/density/57928437-0/AbacusSummit_base_c000_ph001_z0.200_ngrid2048_ab10_tsc_counts.manifest.json",
+      "sha256": "6ea1ca9a375bd9ae2c1425d4bbeb1fd534dccaf8b030255803fbdb5d6609ce02"
+    }
+  ],
+  "truth_read_provenance_scope": "content-addressed manifest/inventory roots; each Particle A/B payload member is enumerated with registered POSIX checksum and byte size, while each halo payload member is bound by its registered POSIX checksum when present and otherwise by direct SHA256, in the bound source inventories",
+  "truth_root": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1",
+  "upstream_stages": [
+    {
+      "bytes": 6117,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/stages/DENSITY_COMPLETE.json",
+      "sha256": "f7b7e8db37391ad8e54fd9f3f428845eeddd22959aa970d6cfd82f1723d9d6d5"
+    }
+  ]
+}

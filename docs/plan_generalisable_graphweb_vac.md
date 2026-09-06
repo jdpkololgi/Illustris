@@ -3842,15 +3842,19 @@ for optional P11 or a long deterministic research tail. Deterministic protocol
 selection and a deterministic canary do not require FMPE/NPE, but the production VAC
 claim does.
 
-The production spine is now
+The v1 production spine is now
 
 ```text
 freeze P12-A
-  -> bounded matched P12-F Gaussian/flow/diffusion comparison
-  -> bounded P12-F v2 evaluation/dependency rescue (no ph001 access)
   -> freeze all truth-free ph001 predictions
   -> one shared blind opening
-  -> P13 Loa VAC.
+  -> immutable P12-A pass/fail report
+  -> STOP (P13/Loa requires separate user authorization).
+
+parallel, non-blocking v2 research:
+  frozen P12-F no-finalist evidence
+  -> hard-budget P12-F3-D2 funnel
+  -> ph006 result only (a later blind claim requires a new phase/ensemble).
 ```
 
 P11's JEPA mainline is closed; no JEPA-v3 is scheduled. Its factorial views and
@@ -3861,8 +3865,9 @@ The separately versioned v2 rescue established that G1's modest joint miss survi
 much larger ph006 panel/draw budget and localized it to spatial/scale covariance.  The
 single licensed shell-conditioned covariance correction G2 did not improve the primary
 proper score and left eigengap TARP above threshold, so v2 is now closed with no field
-finalist.  P12-A remains the production candidate and the truth-free ph001 export may
-proceed.
+finalist. P12-A remains the production candidate and the truth-free ph001 export must
+now proceed independently of D2. The single blind evaluation reports pass/fail only;
+P13/Loa deployment is deliberately outside the present authorization.
 
 On the matched 128-core ph006 panel, correlated Gaussian G1 is the strongest bounded
 field baseline but still misses the gate: max derived TARP deviation `0.06044`, global
@@ -4028,14 +4033,16 @@ Execution order after the P11 closeout:
 2. [complete] write and validate `P12A_PRODUCTION_CANDIDATE_FROZEN.json`;
 3. [complete] run the matched P12-F Gaussian/flow/diffusion comparison and bounded
    v2/G2 covariance rescue on ph006; freeze the v1 and v2 no-field-finalist decisions;
-4. [rain-checked] generate and freeze truth-free P12-A ph001 summaries plus
+4. [reactivated] generate and freeze truth-free P12-A ph001 summaries plus
    deterministic and classical blind predictions; add P12-F ph001 panel draws only
    for a field finalist.  The context and CIC/DTFE products are complete, but the
    four-GPU export `57890469` and dependent CPU freeze `57890760` were cancelled
    before starting on 2026-09-03 so that P12-F3 could take compute priority.  No
-   partial posterior export exists and ph001 remains sealed;
+   partial posterior export exists and ph001 remains sealed. Resume from the same
+   content-addressed shard contract now; D2 is not a blocker;
 5. [ ] perform exactly one shared ph001 opening and immutable evaluation;
-6. [ ] hand the promoted P12-A contract to P13 Loa deployment;
+6. [held — not authorized] stop after reporting whether P12-A passes; do not hand the
+   candidate to P13/Loa in this programme;
 7. [ ] run a held-out-HOD intervention for robustness language without blocking the
    first explicitly `H_fid`-conditional VAC.
 
@@ -4144,20 +4151,76 @@ Progress checklist:
   107.60 rows/s/GPU and a 3.16-hour linear four-GPU projection. Finite summaries,
   normalized web-class probabilities and retained audit draws pass with
   `truth_files_read=[]`, `open_count=0` and `sealed_phase_opened=false`. The full
-  production array remains blocked only until P12-F v2 freezes; its real wall time may
-  exceed the projection because startup, shard imbalance and I/O contention were not
-  included.
+  production array is now queued independently of D2 as four-GPU job `57919118`, with
+  dependent prediction-freeze job `57919122`; its real wall time may exceed the
+  projection because startup, shard imbalance and I/O contention were not included.
 - [x] Harden `P12_BLIND_PREDICTIONS_FROZEN` so it requires exactly one base-context,
   complete P12-A export, CIC and DTFE manifest, rehashes every posterior/audit shard,
   and demands exact parent/core/support identity. Validation truth on ph006 is allowed;
   any ph001 truth access remains fail-closed (commit `f8f19ba`).
-- [ ] Resume and archive the rain-checked full 512-draw ph001 production export only
-  when field-posterior research no longer has compute priority.  Cancelled jobs
+- [x] Resume and archive the full 512-draw ph001 production export now, independently
+  of the parallel D2 field-posterior research. Cancelled jobs
   `57890469` and `57890760` never started, so restart from the same content-addressed
   four-shard contract rather than treating them as resumable partial runs.  The CPU
   freeze still writes `P12_BLIND_PREDICTIONS_FROZEN.json` only after all four shards,
   CIC and DTFE pass exact row/core/support and hash parity (freeze wrapper commit
-  `90e42ae`). No job in this chain can open ph001 truth.
+  `90e42ae`). The replacement interactive export/freeze completed; CPU job
+  `57924701` deep-replayed 4,897,905 summary rows, four shards and the 50,000-row
+  by 512-draw audit archive. The superseded batch jobs `57919118` and `57919122`
+  remain user-held and must not be released as duplicate work. This export/freeze
+  chain read no ph001 truth.
+- [x] Implement the two-phase, O_EXCL one-open protocol and isolated authorized truth
+  chain without opening ph001.  Commit `7aaa99d` introduced the isolated chain;
+  commits `902a6cf`, `7853387` and `ef9eff2` harden it after independent audit.  The
+  primary FMPE-versus-Gaussian comparison is the sample-based joint energy score of
+  the posterior actually drawn;
+  seeds, canonical outputs and green/amber/block logic are frozen; all `4,897,905`
+  rows plus the exact 50,000-row by 512-draw audit sample deep-replay before
+  authorization; the complete local import closure, package initializers, exact
+  Python/package runtime and truth inputs are hashed; and duplicate submission,
+  partial publication and post-open evaluator/plot paths fail closed.  The plotter
+  replays the full immutable evaluation and release decision from the frozen draws and
+  compact truth before rendering.  Thirty-three focused tests and an independent
+  code/science audit pass.
+  The same `open_count=1` state remains bound through HPSS particle-B restore, A+B
+  density, R7 T-web, parent annotation, exact compact truth and terminal rehash.  The
+  ordinary phase registry/product tree remains untouched.
+- [x] Build and commit `P12A_BLIND_EVALUATION_CONTRACT.json` (`d72f429`), then
+  deep-replay all `4,897,905` frozen rows and write
+  `P12_BLIND_OPEN_AUTHORIZED.json` before truth access. On renewed explicit user
+  authorization, CPU job `57928401` passed 11 opening tests and the deep replay;
+  the immutable authorization now consumes `open_count=1`. No post-open tuning,
+  recalibration or threshold changes are permitted.
+- [ ] Complete the isolated authorized truth chain, finalize
+  `P12_BLIND_OPENED.json`, and execute the frozen evaluator exactly once. Stop
+  after the immutable P12-A pass/fail report; P13 remains unauthorized.
+  Truth jobs `57928435/57928437/57928438/57928442/57928446` are chained with
+  `afterok`. One-shot dispatcher `57928546` waits for compact truth and then
+  invokes the unchanged frozen finalization/scoring/evaluation/plot submission
+  script. A failed stage requires inspection, not automatic resubmission.
+  Status verified 2026-09-05: Particle B, density `57928437`, T-web `57928438`
+  and annotation `57928442` completed with validated provenance markers. Compact
+  join `57928446` failed its physical-closure guard; dispatcher `57928546` is
+  correctly blocked. A read-only full-row diagnostic (`57935350`) localizes the
+  cause to exactly one float32(0.2) threshold comparison: every identity and
+  eigenvalue is valid, and float64 comparison agrees with the annotated CWEB
+  for all 4,897,905 rows. No prediction, target value or calibration gate was
+  changed. The user subsequently approved the documented precision-only
+  exception. Commit `0df337b` implements a separate recovery path, preserving
+  every pre-open source hash and the original contract. Thirty-three tests and
+  the full-row smoke in CPU allocation `57935677` pass with exact identities,
+  retained eigenvalues/native CWEB, exactly one diagnosed boundary ambiguity and
+  zero float64 mismatches. `P12A_COMPACT_PRECISION_EXCEPTION.json` is exclusive
+  and bound into downstream truth provenance. Production recovery `57935710`
+  now precedes strict-afterok dispatcher `57935711`, which invokes the unchanged
+  frozen finalization/scoring/evaluation/plot chain. The superseded blocked
+  dispatcher `57928546` was cancelled after the user's explicit job-specific
+  approval. The new chain and historical held duplicates were not modified.
+  No automatic retry is registered.
+  Evidence: `docs/evidence/p12/p12a_blind_opening_20260905/P12A_COMPACT_CLOSURE_DIAGNOSTIC_57935350.json`.
+  Neither terminal truth completion nor the blind scientific report exists yet.
+  The opening authorization has already consumed `open_count=1`; ph001 is not
+  unopened, and successful prediction export is not a scientific pass.
 - [x] Record the `H_fid`-conditional estimand explicitly.
 - [ ] Run the optional held-out-HOD stress test after blind baseline closure; it does
   not block the first explicitly `H_fid`-conditional VAC.
@@ -4198,10 +4261,13 @@ deterministic blind contract. Before truth access it requires:
 
 `P12_BLIND_PREDICTIONS_FROZEN.json` must record all row/core identities, seeds,
 configurations, Git revisions and hashes with `truth_files_read=[]` and `open_count=0`.
-Only then may the controlled opener build/read truth once and write
-`P12_BLIND_OPENED.json` with `open_count=1`. Evaluators may not fit, temper, recalibrate
-or change thresholds after that transition. Any later changed model requires a new
-blind phase.
+Only then may the controlled opener atomically write
+`P12_BLIND_OPEN_AUTHORIZED.json` with `open_count=1`; this transition must occur
+before the first truth read.  Authorized builders retain that same count and write a
+content-addressed `P12A_PH001_TRUTH_COMPLETE.json`; only afterward may the opener
+atomically finalize `P12_BLIND_OPENED.json`. Evaluators may not fit, temper,
+recalibrate or change thresholds after authorization. Any later changed model
+requires a new blind phase.
 
 Out-of-fold summary contract:
 
@@ -4241,12 +4307,12 @@ compatible with one incomplete observed galaxy configuration.  Its estimand is
 p(delta_R7 | X_final, S_random, H_fid),
 ```
 
-**Current scheduling decision (2026-09-03):** the truth-free P12-A ph001 export and
-dependent blind-prediction freeze are rain-checked while the P12-F3 multiscale field
-programme is prioritized.  Jobs `57890469` and `57890760` were cancelled before
-starting; no ph001 product or truth was opened.  This changes execution order, not the
-frozen P12-A candidate or one-open policy.  Resume the same content-addressed export
-later rather than rebuilding or tuning it from P12-F3 results.
+**Current scheduling decision (2026-09-04):** reactivate the truth-free P12-A ph001
+export and dependent blind-prediction freeze now. P12-F3-D2 runs concurrently as a
+bounded v2 research branch and cannot delay the v1 opening. Jobs `57890469` and
+`57890760` were cancelled before starting; no ph001 product or truth was opened, so
+resume the same content-addressed export rather than rebuilding or tuning it from
+P12-F3 results. The opening ends in a P12-A pass/fail report; P13 is held.
 
 where `X_final` is the BRIGHT-only final observation, `S_random` is the deployable
 random-derived response, and `H_fid` is the fixed mock HOD.  This is not an
@@ -4824,8 +4890,8 @@ both G1 and F3-L2b and replication of the selected arm with a second seed.
 
 ###### P12-F3-D2 — Literature-grade conditional diffusion successor
 
-**Status:** REGISTERED AS A NEW EXPERIMENT; NOT A CONTINUATION OF THE SMALL
-F3-L2d COMPARATOR; PH001 SEALED
+**Status:** IMPLEMENTED AND FROZEN; OFFICIAL SAME-CONTRACT GPU PREFLIGHT PASSED;
+REFERENCE/A0/A1 SLURM CHAIN QUEUED; NOT A P12-A BLOCKER; PH001 SEALED FROM D2
 
 The capacity-matched F3-L2d arm is deliberately a controlled objective swap:
 it uses the same `base=4` U-Net, exact conditionally standardized Fourier target
@@ -4837,22 +4903,27 @@ coarse-scale attention and much longer training; the ablations in that paper
 show that depth, time encoding, schedule choice and attention can each affect
 field quality.  Standard diffusion work also motivates EMA evaluation,
 preconditioning/noise-schedule ablations and explicit sampler convergence.
+However, P6/P8 demonstrated that spatial GroupNorm/InstanceNorm statistics make
+otherwise identical core predictions depend on patch extent. D2 must translate the
+literature architecture into patch-safe per-voxel channel LayerNorm or RMSNorm;
+GroupNorm is not an eligible default without a separately passed context/subdivision
+invariance gate.
 
-The next diffusion experiment, if pursued after the frozen seed-42 decision, is
-therefore a separately versioned D2 model with the following one-factor-at-a-time
-ladder:
+The next diffusion experiment is a separately versioned D2 model with the following
+one-factor-at-a-time internal-training-phase funnel:
 
 1. replace the scalar constant time channel with a multilevel sinusoidal/log-SNR
-   embedding injected into 3-D residual blocks with GroupNorm;
+   embedding injected into 3-D residual blocks with patch-safe per-voxel channel
+   LayerNorm/RMSNorm;
 2. run a bounded capacity canary against `base=4`, then add attention only at the
    bottleneck/coarsest scale;
 3. retain both raw and exponential-moving-average weights and compare them on a
    training-phase-only validation sampler;
-4. compare the frozen cosine VP schedule with either a learned monotone log-SNR
-   schedule or EDM-style preconditioning on the internal split, never by ph006
-   tuning;
-5. measure effective batch scaling through GroupNorm-safe gradient accumulation
-   when a full 3-D patch per GPU exhausts memory;
+4. keep the frozen cosine VP schedule and v-prediction fixed in this bounded
+   programme; learned log-SNR schedules and EDM preconditioning are literature
+   context, not extra tuning arms;
+5. measure effective batch scaling through patch-presentation-counted gradient
+   accumulation when a full 3-D patch per GPU exhausts memory;
 6. freeze a sampler ladder before ph006: deterministic DDIM at increasing NFE and
    a stochastic reverse-SDE/DDPM-style control if deterministic convergence is
    not reached.
@@ -4867,12 +4938,116 @@ appearance or power alone.  It must include block-aware joint eigenvalue,
 eigengap and tidal-shear TARP, deployable conditional coverage, joint proper
 scores, power/cross-correlation and a phase-sensitive higher-order statistic.
 
-- [ ] Freeze D2 architecture, schedule/preconditioning, EMA, effective-batch and
-  sampler-ablation contracts before training.
-- [ ] Run small capacity/time-embedding/attention canaries on the internal
-  training-phase split and select without ph006.
+**Hard budget and stop contract (2026-09-04):** the internal ablations, one selected
+seed-42 science fit and its sampler audit are capped at approximately three full-run
+equivalents. Only the selected frozen arm may be evaluated once on ph006. A second
+seed is licensed only after seed 42 passes every simultaneous physical/calibration
+gate and the paired proper-score promotion rule. A failed seed-42 result closes D2:
+no same-objective extension and no new successor may be registered here. Capacity,
+time-conditioning, EMA, attention and schedule choices use only the internal
+training-phase split. D2 never reads ph001; after the v1 opening it needs a new blind
+phase or ensemble for any independent v2 claim.
+
+The exact presentation budget is at most `30,000`: A0 (`base=4`, patch-safe residual
+time architecture, no attention) and A1 (identical, `base=8`) receive `2,500` patch
+presentations each (`1,250` optimizer updates at gradient accumulation two). A2
+(`base=8` plus exact-support-aware bottleneck attention) receives `2,500` patch
+presentations only if
+A1 improves paired internal primary energy over A0 by at least 1% without feasibility
+regression. The winner continues from its canary checkpoint, never restarts, to a hard
+total of `12,500` patch presentations (`6,250` optimizer updates). Seed `314159`
+receives the frozen winning contract and `12,500` patch presentations only if seed 42
+passes every ph006 gate. Cosine VP plus v-prediction
+and EMA decay `0.999` are fixed rather than opened as schedule arms.
+
+Internal selection uses one frozen, phase-balanced split of the existing 255 cores:
+128 selection and 127 confirmation, 32 common draws and NFE50. Differences below 1%
+or intervals containing zero choose the simpler/no-attention arm. After selection,
+internal confirmation opens exactly once, before continuing the winner beyond its
+canary.  It repeats the already-frozen sequential arm contrast on the 127 common-seed
+cores; it does not compare absolute scores between the intrinsically different
+128- and 127-core panels.  A contradiction of the frozen paired decision or a
+feasibility regression closes D2 rather than switching to a runner-up.
+For the selected arm, generated-sample diagnostics are frozen at `2,500`, `5,000`,
+`7,500`, `10,000` and `12,500` patch presentations. Select the earliest feasible
+milestone whose paired primary energy lies within one standard error of the best
+milestone; the `2,500` canary is eligible because it already receives the same frozen
+32-draw/NFE50 diagnostic and including it prevents an unnecessary continuation.
+Before ph006, freeze DDIM NFE100 as primary and NFE50 as its convergence comparison.
+The 50-to-100 changes must be at most `0.01` for TARP and global coverage, `0.05` for
+low-band power and 1% for each proper score. A stochastic reverse-process sampler is
+causal diagnosis only and cannot become a post-ph006 selected alternative.
+Seed-42 promotion also retains the original P12-F materiality requirement: paired
+primary energy must improve over frozen F3-L2b by at least 2%, with the core-block
+bootstrap 95% interval excluding zero.  It must be non-inferior to both G1 and the
+frozen small-diffusion NFE100 reference, with no registered proper score worsening by
+more than 1%.  A statistically positive but scientifically negligible gain does not
+license replication or promotion.
+
+**NERSC execution contract (2026-09-04):** interactive allocations are restricted
+to cold-import/data-read checks, unit tests and bounded end-to-end smoke runs.  Once
+the D2 code, data contract and exact-resume path pass those checks, each finalized
+one-GPU training/evaluation stage is submitted through `shared` `sbatch` with one
+task, 32 Slurm CPUs, one GPU, an explicit Scratch license, Scratch-resident logs and
+a smoke-measured wall-time margin.  The batch worker must scrub inherited Python
+environment variables, bind the committed source/config/data digests, checkpoint
+atomically and resume only from the registered pause exit.  Use a full-node
+`regular` job only if measured host-memory/GPU needs require it; do not reserve four
+GPUs for a one-GPU D2 arm.  Completion is established from the application marker
+and `sacct`, not merely from disappearance from `squeue`.  Batch submission follows
+the reviewed smoke and is the production handoff, not a replacement for development
+testing.
+
+Commit `467f442` implements this contract in the clean detached worktree
+`/global/u2/d/dkololgi/TNG/Illustris_d2_467f442`.  The official contract/output root is
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_d2_diffusion_v1/official_467f442_seed42_v1`.
+Its same-contract GPU smoke restores model, EMA and optimizer exactly and reproduces
+the interrupted trajectory with zero numerical difference on the tested one-A100
+topology; base-8 and attention backward/sampling paths are finite and peak at about
+1.57 GB.  The inherited conditional-standardization round trip has median/max
+relative low-mode RMSE `0.0452/0.0860` and band-power ratios up to `1.157`; downstream
+physical gates may reject this approximation, and a negative result applies only to
+this matched hybrid representation.  Batch jobs `57921151` (matched references),
+`57921152` (A0) and `57921153` (A1) form the initial `afterok` chain.
+
+- [x] Freeze D2 architecture, schedule/preconditioning, EMA, effective-batch and
+  sampler-ablation contracts before training; pass 28 focused tests and the official
+  exact-resume/memory/throughput GPU preflight.
+- [x] Complete the capacity canaries on the internal training-phase split and
+  select without ph006. `D2_CAPACITY_SELECTION.json` selects `modern_base4`;
+  the base-8 improvement is below the registered 1% materiality threshold, so
+  attention is not licensed. Both canaries completed 2,500 patch presentations
+  (1,250 optimizer updates) under the unchanged contract.
+- [x] Complete the once-only 127-core internal confirmation of the frozen
+  final selection. Allocation `57928395` timed out after one hour without a
+  confirmation artifact. The inspected interruption is replayed by `57929227`
+  with two hours, identical frozen weights/cores/draws/seeds, and no use of
+  partial results for selection. Replay `57929227` completed in 1h03m21s with
+  exit `0:0` and a passing `D2_INTERNAL_CONFIRMATION.json`. The base8-over-base4
+  energy improvement is 0.426% on confirmation versus 0.440% on selection,
+  below the frozen 1% threshold on both panels. Continue `modern_base4`;
+  attention remains unlicensed. This confirms the capacity decision only,
+  not final ph006 calibration. Archive and reporting-only plot:
+  `docs/evidence/p12/p12f3_d2_20260905/D2_INTERNAL_CONFIRMATION.json` and
+  `docs/figures/p12f3_d2_20260905/d2_capacity_confirmation.png`.
 - [ ] Train the frozen D2 arm to a preregistered cap with train-only sample
   diagnostics, not loss-only stopping.
+  Science job `57928836` has satisfied its confirmation dependency and is
+  queued on scheduler Priority; it additionally validates the passing
+  confirmation marker before fitting.
+  Jobs `57928645/57928647/57928651/57928653/57928655` form the strict-success
+  NFE50 export, NFE100 export, paired evaluations and seed-42 decision chain.
+  Tested one-shot cron dispatcher `57928840` follows that decision and may
+  submit only the already-licensed replication ladder or stochastic diagnostic;
+  otherwise it stops. Its source hash is checked at launch, submission is
+  exclusive, and automatic retry is forbidden. No scientific implementation,
+  presentation budget or gate changes are introduced by this operational helper.
+  Pending jobs `57928639/57928703` were replaced before execution: the training
+  wrapper now uses a 13,800-second soft stop within the same four-hour Slurm
+  reservation, rather than the interactive launcher's 6,500-second soft stop.
+  This accommodates the measured milestone-sampling cost without changing the
+  pinned trainer, 12,500-presentation cap or registered diagnostics. Seven
+  focused dispatch/wrapper tests pass; no automatic retry is registered.
 - [ ] Establish deterministic sampler convergence or run the frozen stochastic
   reverse-process control.
 - [ ] Evaluate exactly once on the 256-core ph006 ladder; replicate a passing arm

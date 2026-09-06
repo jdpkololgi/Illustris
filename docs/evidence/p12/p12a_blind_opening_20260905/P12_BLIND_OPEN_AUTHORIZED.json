@@ -1,0 +1,34 @@
+{
+  "created_utc": "2026-09-04T23:58:48.376591+00:00",
+  "deep_prediction_revalidation": {
+    "audit_rows": 50000,
+    "pass": true,
+    "performed": true,
+    "posterior_draws": 512,
+    "prediction_manifest_count": 4,
+    "shards": 4,
+    "summary_rows": 4897905
+  },
+  "evaluation_contract_reference": {
+    "bytes": 35023,
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/evidence/p12/P12A_BLIND_EVALUATION_CONTRACT.json",
+    "sha256": "f7b5b9ff7a63347fc2c458e4509f0ac05ef89b0a27648e7ca957ae7ef955b44c"
+  },
+  "evaluation_only": true,
+  "frozen_predictions_reference": {
+    "bytes": 2037,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/P12_BLIND_PREDICTIONS_FROZEN.json",
+    "sha256": "818a318e9701abbe8113904afb597ed3ec8912b8ed7dd6a5329f4daace5c5c59"
+  },
+  "git_revision": "d72f429f71527f05b8d76daf03b05b11e7ad7f43",
+  "open_count": 1,
+  "pass": true,
+  "phase": "ph001",
+  "post_open_refit_allowed": false,
+  "post_open_tuning_allowed": false,
+  "schema_version": "p12-blind-open-authorized-v1",
+  "sealed_phase_opened": true,
+  "state": "truth_access_authorized",
+  "truth_files_read": [],
+  "truth_materialization_complete": false
+}

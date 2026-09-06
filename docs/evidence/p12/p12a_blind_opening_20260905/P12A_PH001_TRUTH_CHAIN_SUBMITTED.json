@@ -1,0 +1,60 @@
+{
+  "automatic_resubmission_allowed": false,
+  "claim_reference": {
+    "bytes": 827,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/P12A_PH001_TRUTH_CHAIN_CLAIM.json",
+    "sha256": "08f47b515c4a4a3e9a3fb6d9f25a8cfad8fe3d600014269c0ad6f17995f3ed3f"
+  },
+  "created_utc": "2026-09-05T00:00:53.322631+00:00",
+  "dependency_policy": "strict afterok in listed order",
+  "git_revision": "d72f429f71527f05b8d76daf03b05b11e7ad7f43",
+  "jobs": {
+    "annotation": {
+      "marker": {
+        "bytes": 725,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/chain_submissions/truth/truth-20260904T235927Z-444937/annotation.json",
+        "sha256": "c2c213075bc31c184c66d28c2d86c5571ae2fecb143f6c2a0dfb2a5c8d4813ed"
+      },
+      "slurm_job_id": "57928442"
+    },
+    "compact": {
+      "marker": {
+        "bytes": 722,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/chain_submissions/truth/truth-20260904T235927Z-444937/compact.json",
+        "sha256": "94557a2d66f4f83ee6889caa214e3b7c13ea3ab983ba20b182ffd7237941bd6f"
+      },
+      "slurm_job_id": "57928446"
+    },
+    "density": {
+      "marker": {
+        "bytes": 722,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/chain_submissions/truth/truth-20260904T235927Z-444937/density.json",
+        "sha256": "252045cb144edd25d9aa270a836c6cd69f2d892b00964b0c47992a7613d08d72"
+      },
+      "slurm_job_id": "57928437"
+    },
+    "particle_b": {
+      "marker": {
+        "bytes": 719,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/chain_submissions/truth/truth-20260904T235927Z-444937/particle_b.json",
+        "sha256": "1eac9e9f0b9e955fcc344b200330506521399718c45a449b58794763778efb84"
+      },
+      "slurm_job_id": "57928435"
+    },
+    "tweb": {
+      "marker": {
+        "bytes": 719,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/chain_submissions/truth/truth-20260904T235927Z-444937/tweb.json",
+        "sha256": "ba34030c0e886341622cd06b5174698d15d15b9a5e62c74b35608ad061c3d4bb"
+      },
+      "slurm_job_id": "57928438"
+    }
+  },
+  "kind": "truth",
+  "open_count": 1,
+  "pass": true,
+  "phase": "ph001",
+  "schema_version": "p12a-ph001-chain-submitted-v1",
+  "sealed_phase_opened": true,
+  "submission_id": "truth-20260904T235927Z-444937"
+}

@@ -1,0 +1,97 @@
+{
+  "artifacts": {
+    "p10_b_stage_marker": {
+      "bytes": 2427,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/particle_b/57928435-0/staging/AbacusSummit_base_c000_ph001/B_STAGE_COMPLETE.json",
+      "sha256": "fece850e07bd9c7221abf81ce9ccd80e0ac3429c31251741259e4d3cdd7e534a"
+    }
+  },
+  "audit": {
+    "asdf_headers": {
+      "expected_redshift": 0.2,
+      "expected_sim_name": "AbacusSummit_base_c000_ph001",
+      "file_count": 68,
+      "readable": true
+    },
+    "asdf_headers_reverified_at_authorized_completion": true,
+    "checksums": {
+      "field": {
+        "bytes": 98855754256,
+        "file_count": 34,
+        "manifest": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/particle_b/57928435-0/staging/AbacusSummit_base_c000_ph001/halos/z0.200/field_rv_B/checksums.crc32",
+        "verified": true
+      },
+      "halo": {
+        "bytes": 69181366204,
+        "file_count": 34,
+        "manifest": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/particle_b/57928435-0/staging/AbacusSummit_base_c000_ph001/halos/z0.200/halo_rv_B/checksums.crc32",
+        "verified": true
+      }
+    },
+    "checksums_reverified_at_authorized_completion": true,
+    "field_asdf_count": 34,
+    "halo_asdf_count": 34,
+    "particle_root": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/particle_b/57928435-0/staging/AbacusSummit_base_c000_ph001/halos/z0.200",
+    "payload_bytes": 168037120460,
+    "registered_hpss_source": {
+      "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph001/Abacus_AbacusSummit_base_c000_ph001_halos.tar",
+      "kind": "hpss",
+      "members": [
+        "./halos/z0.200/field_rv_B",
+        "./halos/z0.200/halo_rv_B"
+      ]
+    },
+    "staging_root": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/particle_b/57928435-0/staging"
+  },
+  "authorization_reference": {
+    "bytes": 1187,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/P12_BLIND_OPEN_AUTHORIZED.json",
+    "sha256": "6fc87936d528d29b3c32661fc5a885e457fc760f639fdd04b5d34ced360bc52a"
+  },
+  "created_utc": "2026-09-05T00:29:13.495044+00:00",
+  "evaluation_contract_reference": {
+    "bytes": 35023,
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/evidence/p12/P12A_BLIND_EVALUATION_CONTRACT.json",
+    "sha256": "f7b5b9ff7a63347fc2c458e4509f0ac05ef89b0a27648e7ca957ae7ef955b44c"
+  },
+  "fit_performed": false,
+  "frozen_predictions_reference": {
+    "bytes": 2037,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/P12_BLIND_PREDICTIONS_FROZEN.json",
+    "sha256": "818a318e9701abbe8113904afb597ed3ec8912b8ed7dd6a5329f4daace5c5c59"
+  },
+  "generated_artifacts": {
+    "p10_b_stage_marker": {
+      "bytes": 2427,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/particle_b/57928435-0/staging/AbacusSummit_base_c000_ph001/B_STAGE_COMPLETE.json",
+      "sha256": "fece850e07bd9c7221abf81ce9ccd80e0ac3429c31251741259e4d3cdd7e534a"
+    }
+  },
+  "git_revision": "84318d75bee0d9c9343a67e4050cbc147dbd5d33",
+  "open_count": 1,
+  "pass": true,
+  "phase": "ph001",
+  "phase_registry_mutation_performed": false,
+  "post_open_refit_allowed": false,
+  "post_open_tuning_allowed": false,
+  "schema_version": "p12a-ph001-truth-stage-complete-v1",
+  "sealed_phase_opened": true,
+  "stage": "particle_b",
+  "truth_files_read": [
+    {
+      "bytes": 5593,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/configs/p10_phase_registry_v1.json",
+      "sha256": "968cd8ed010de9b75ec4115d3a0d2be51a27306c601d04aa11bac4bdf20bb303"
+    }
+  ],
+  "truth_input_manifests": [
+    {
+      "bytes": 5593,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/configs/p10_phase_registry_v1.json",
+      "sha256": "968cd8ed010de9b75ec4115d3a0d2be51a27306c601d04aa11bac4bdf20bb303"
+    }
+  ],
+  "truth_read_provenance_scope": "content-addressed manifest/inventory roots; each Particle A/B payload member is enumerated with registered POSIX checksum and byte size, while each halo payload member is bound by its registered POSIX checksum when present and otherwise by direct SHA256, in the bound source inventories",
+  "truth_root": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1",
+  "upstream_stages": []
+}

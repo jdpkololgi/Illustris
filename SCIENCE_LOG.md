@@ -1,5 +1,329 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-05 - [code/run] Authorized precision-only recovery passes full-row smoke and resumes P12-A
+
+The user approved continuing after the explicit precision-exception request.
+Commit `0df337b` completes the staged recovery implementation as a separate,
+content-addressed path; the original truth builder, evaluation contract and
+scientific evaluator remain byte-identical. The exception permits only the
+diagnosed one-row float32 threshold ambiguity, requires exact float64 agreement
+with the native CWEB labels, and retains every stored eigenvalue and class label.
+It is not a tolerance relaxation for other rows, a truth correction, a refit or
+a new blind opening. Recovery code and the exception receipt are carried into
+the compact and terminal truth provenance.
+
+CPU allocation `57935677` passed 33 recovery/diagnostic/original blind-protocol
+tests. The committed implementation then passed its full 4,897,905-row smoke:
+exact identities, exactly one registered precision ambiguity, zero nonboundary
+or float64 class mismatches, and no array/stage marker or posterior score written.
+The exclusive `P12A_COMPACT_PRECISION_EXCEPTION.json` was authorized at
+2026-09-05T09:39:03Z (SHA256
+`3c0fb06d7ac8c2bb9ed58528c08d1b32f25ca20bbe265e3780eebde97bca7ebd`).
+The test allocation was released before production submission.
+
+The reviewed shared-CPU recovery job `57935710` rebuilds only compact truth and
+performs the frozen terminal deep validation. Its strict-afterok dispatcher
+`57935711` then invokes the unchanged finalization, energy-score, evaluation and
+plot chain. Cancellation of the permanently blocked old dispatcher `57928546`
+was initially denied by the approval reviewer. The user then explicitly approved
+cancelling that exact job, and it was cancelled without touching the replacement
+chain. The five user-held historical duplicates remain held.
+Exclusive claims and immediate job records prevent duplicate recovery
+submission; no automatic retry is licensed.
+
+Exception, smoke and submission receipts are archived under
+`docs/evidence/p12/p12a_blind_opening_20260905/`. P12-A scientific acceptance
+remains pending, with unchanged gates and `open_count=1`; stop after the report,
+not P13/Loa. D2 science job `57928836` remains eligible but pending on Priority;
+its checkpoint, training cap and downstream scientific chain are unchanged.
+
+### 2026-09-05 - [code/diagnosis] P12-A truth join stopped on a one-row precision inconsistency
+
+Live reconciliation of the reported completed runs shows density `57928437`,
+T-web `57928438` and annotation `57928442` COMPLETED with exit `0:0` in
+52m17s, 17m59s and 12m19s. Their signed stage markers are archived under
+`docs/evidence/p12/p12a_blind_opening_20260905/`. Compact join `57928446`
+FAILED with exit `2:0`: `joined compact truth fails physical closure`.
+The dependent post-open dispatcher `57928546` correctly remains blocked.
+D2 science job `57928836` has not started; it is still queued on Priority.
+Its canary/confirmation completion must not be mistaken for final training.
+
+Read-only CPU diagnostic `57935350` reproduced the exact failure over all
+4,897,905 supported rows: identity is exact, eigenvalues are finite and ordered,
+and casting to float32 preserves every source value. There is exactly one
+CWEB mismatch when the threshold comparison is performed in float32 and zero
+when those same stored values are compared in float64, as in the already-passing
+annotation audit. That one row has an eigenvalue equal to float32(0.2), whose
+exact represented value is 0.20000000298023224. NumPy's float32 comparison rounds
+the scalar threshold to the same value; the float64 comparison does not. A
+synthetic one-row example reproduces the bug without ph001 data. Four tests
+also ensure genuine class disagreement and invalid eigenvalues are not excused.
+
+This is a deterministic precision inconsistency in truth validation, not evidence
+of a posterior-calibration failure. No posterior score, fit or recalibration was
+computed; predictions and truth artifacts remain unchanged, and `open_count=1`
+is preserved. The diagnostic receipt is
+`P12A_COMPACT_CLOSURE_DIAGNOSTIC_57935350.json` in the evidence directory above.
+The short CPU allocation was released after diagnosis. Because the faulty join
+is source-hash frozen, a documented precision-only exception was requested from
+the user before correction; no source hash guard has been bypassed and no frozen
+implementation has been edited. Scientific evaluation remains pending that
+exception and successful compact-truth finalization. P13 is still excluded.
+
+### 2026-09-05 - [science/run] D2 capacity decision independently confirmed; blind P12-A still computing
+
+The identical-input D2 confirmation replay `57929227` completed in 1h03m21s
+with Slurm exit `0:0` and a passing `D2_INTERNAL_CONFIRMATION.json` at
+2026-09-05T02:01:36Z. Its SHA256 is
+`be8053f8c876d9e87d24a1468bb8d238e75bd1d446542686af61c2a548fcbd06`;
+an exact copy is archived under `docs/evidence/p12/p12f3_d2_20260905/`.
+No ph006 candidate evaluation or D2 ph001 access occurred.
+
+The wider base8 model improves paired internal energy by 0.440% on the
+128-core selection panel and 0.426% on the disjoint 127-core confirmation
+panel. The gain is reproducible and positive under the registered paired
+one-standard-error rule, but below the 1% materiality threshold on both.
+Thus the frozen choice of `modern_base4` is confirmed; attention remains
+unlicensed. This is not evidence that capacity never matters, and it is not
+a final posterior-calibration pass. The canary confirmation's second-band
+spread/error ratios remain about 0.745/0.749 for base4/base8 in the whitened
+training coordinates. These finite-32-draw diagnostics must not be relabelled
+as physical field-power ratios or final eigengap coverage measurements.
+
+The reporting-only figure `docs/figures/p12f3_d2_20260905/d2_capacity_confirmation.png`
+reproduces the frozen paired contrast with one-standard-error bars, not IID
+voxel or 95% intervals; four focused plot tests pass. It does not enter
+selection or alter the pinned scientific implementation. Science training
+`57928836` is eligible and waiting on Priority; the existing NFE50/NFE100
+export, evaluation, decision and conditional replication chain remains active.
+
+P12-A Particle B is complete. Density `57928437` is running with CPU and I/O
+progress and no application error; T-web, annotation, compact truth and the
+frozen post-open evaluation/plots remain success-dependent. The one-open
+authorization has already consumed `open_count=1`; neither terminal truth
+completion nor blind scientific acceptance is claimed. No refit, recalibration,
+gate change, P13 handoff or new field-model successor is authorized by this update.
+
+### 2026-09-05 - [ops/run] D2 confirmation timeout is not a scientific failure
+
+Allocation `57928395` exhausted its one-hour limit (Slurm TIMEOUT; worker
+terminated by signal 15) without writing `D2_INTERNAL_CONFIRMATION.json`.
+The allocation duration was underestimated; Slurm denied increasing it while
+running. After checking the terminal state, absent report and unchanged frozen
+inputs, one operational replay was launched as `57929227` with a two-hour limit
+in tmux session `p12f3_d2_confirmation_replay_20260905`. It uses exactly the
+same 127 cores, selected canary weights, draws and random seeds. No partial
+result was used to choose a model or change a gate, and no training occurs in
+confirmation. Its wrapper exits after the report and propagates a failed
+confirmation as nonzero status. Pending science job `57928836` now depends on
+this replay and still revalidates the passing marker. No further automatic
+retry is registered. P12-A remains unaffected: particles validated, density
+`57928437` waiting on Priority, and no scientific acceptance claimed.
+
+### 2026-09-05 - [ops/run] P12-A particles validated; bounded D2 completion chain wired
+
+P12-A Particle-B job `57928435` completed with exit `0:0` in 39m55s.
+Its checksum/header/provenance marker `PARTICLE_B_COMPLETE.json` is archived
+under `docs/evidence/p12/p12a_blind_opening_20260905/`. Density job
+`57928437` is eligible and waiting on scheduler priority. No P12-A scientific
+acceptance is claimed; the one-open state and frozen post-open gates are unchanged.
+
+The active D2 primary chain is `57928836 -> 57928645 -> 57928647 ->
+57928651 -> 57928653 -> 57928655`: science continuation, NFE50/NFE100
+exports, their evaluations, then the seed-42 decision. The first job still
+requires confirmation allocation `57928395` to finish and its immutable
+confirmation marker to pass. One-shot dispatcher `57928840` then submits only
+an already-licensed second-seed ladder or sampler diagnostic, or stops.
+Exclusive claims forbid duplicate or automatic partial-submission retries.
+Seven focused tests distinguish technical completion from `seed_pass`, reject
+mismatched licences, and bind the operational training wrapper.
+
+Measured canary milestone diagnostics motivate using the already-reserved
+four-hour training job: its separate wrapper supplies a 13,800-second operational
+soft stop instead of the interactive launcher's 6,500 seconds. The pinned
+`467f442` trainer, 12,500-presentation cap, seeds, milestones, transforms and
+scientific gates are unchanged. Pending jobs `57928639/57928703` were replaced
+before execution; the dependent export was rebound. Full provenance is in
+`D2_WALLTIME_HANDOFF_REPLACEMENT.json`. This is neither a training-budget
+extension nor a new experiment. D2 confirmation remains in progress.
+
+### 2026-09-05 - [code/run] Execute the authorised P12-A blind sequence and D2 confirmation
+
+The user explicitly requested completion of P12-A and the registered D2 experiment;
+P13/Loa and the separately owned end-to-end field programme remain out of scope.
+The previous interactive jobs `57924701` (P12-A freeze/deep replay) and `57924556`
+(D2 A1/capacity selection) both completed with exit `0:0`. The five superseded
+batch jobs remain user-held; do not release them as duplicate work.
+
+P12-A has 4,897,905 frozen summary rows in four shards and 50,000 audit rows with
+512 draws. CPU allocation `57928401` passed all 11 opening tests and repeated the
+deep truth-free replay against the committed evaluation contract `d72f429`.
+`P12_BLIND_OPEN_AUTHORIZED.json` was written at 2026-09-04T23:58:48Z, consuming
+`open_count=1` before truth access. The CPU allocation was then released. The
+isolated truth chain is submitted as `57928435` (HPSS Particle B), `57928437`
+(density), `57928438` (T-web), `57928442` (annotation), and `57928446` (compact
+truth), with sequential `afterok` dependencies. The HPSS restore is running.
+One-shot lightweight cron-QOS dispatcher `57928546`, dependent on successful
+compact truth, invokes the unchanged frozen post-open submission script for
+finalization, energy scoring, evaluation and plots. Its exclusive claim guards
+remain active; no automatic retries are registered.
+Neither truth completion nor P12-A scientific acceptance is claimed yet; all
+post-open fitting, recalibration and gate changes remain prohibited.
+
+D2's 128-core selection chooses `modern_base4`: the measured base-8 energy gain
+is below the registered 1% materiality threshold. Attention is therefore not
+licensed. GPU allocation `57928395` freezes final selection and runs the one-open
+127-core confirmation using the unchanged `Illustris_d2_467f442` worktree and
+official output root. Only a passing confirmation permits the existing canary
+checkpoint to continue within the 12,500-presentation cap. No ph006 D2 candidate
+evaluation has occurred, and D2 never reads ph001.
+
+### 2026-09-04 - [code/run] Freeze and launch the bounded P12-F3-D2 capacity funnel
+
+Commit `467f442` implements the separately versioned D2 programme and freezes its
+patch-safe conditional-diffusion architecture, exact Fourier target/condition,
+presentation ledger, train-only 128/127 selection split, EMA/milestone selection,
+sampler-convergence ladder, matched reference evaluator and simultaneous physical,
+calibration and paired-proper-score gates.  The implementation deliberately replaces
+spatial GroupNorm with per-voxel channel LayerNorm, keeps exact `support_random` as
+mask-only metadata, and retains ph001 as sealed.  Twenty-eight focused tests pass.
+
+The committed detached worktree
+`/global/u2/d/dkololgi/TNG/Illustris_d2_467f442` and official output root
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_d2_diffusion_v1/official_467f442_seed42_v1`
+are bound to revision `467f442c5c54864658fdfaf948335d6e11a647fe` and config SHA256
+`3143ce1dfdb9546d3eb40413feab91bafa11b70718a2e4bb0ecb451080793533`.
+The same-contract GPU preflight passes: model/EMA/optimizer checkpoint restoration and
+interrupted-versus-uninterrupted replay differ by exactly zero; base-8 and
+support-attention backward passes are finite; and 32-draw NFE50 sampling peaks at
+about 1.57 GB on one A100.  The inherited spatially varying standardization is only
+approximately invertible (median/max relative low-mode RMSE `0.0452/0.0860`, band
+power ratios `1.010--1.157`), so D2 is a matched F3-L2d falsification test rather than
+a universal test of diffusion.
+
+Finalized work now runs through one-GPU `shared` Slurm jobs, not a persistent
+interactive allocation.  Reference recomputation `57921151`, A0 `57921152` and A1
+`57921153` are queued as an `afterok` chain.  Attention, science continuation, ph006
+evaluation and seed `314159` remain conditional on their registered markers; exit 75
+may resume only after `sacct` and the atomic checkpoint prove a planned pause.  No D2
+training presentation, ph006 candidate evaluation or ph001 access has yet occurred.
+
+### 2026-09-04 - [code/contract] Harden P12-A blind opening and evaluation before authorization
+
+Commits `902a6cf`, `7853387` and `ef9eff2` close the pre-opening audit findings
+without changing any module imported by the queued truth-free export.  The blind
+comparison now uses a sample-based joint energy score for the actual truncated FMPE
+draws rather than comparing an unnormalized flow log density with a normalized
+Gaussian.  It freezes TARP/rank/bootstrap seeds and canonical outputs, requires the
+20-seed p90 replicate rule,
+deep-replays all posterior rows and the exact 50,000-row by 512-draw audit subset,
+binds transitive source/runtime and truth-input provenance, and implements the
+registered green/amber/full-footprint-block decision tree.  Exclusive submission and
+atomic publication guards cover the authorized truth and post-open evaluator/plot
+chains.  The final patch hashes the complete local import closure and package
+initializers, makes scoring/evaluation revalidate the frozen Python/package runtime,
+and makes the plotter deep-replay the canonical report before rendering.  The focused
+P12-A suite passes 33/33 tests and an independent audit reports no remaining code
+launch blocker.
+
+Jobs `57919118` and `57919122` remain the truth-free posterior export and dependent
+freeze.  `P12_BLIND_OPEN_AUTHORIZED.json` is absent, `open_count=0`, and no ph001 truth
+has been read.  Authorization is forbidden until those jobs complete, the frozen
+prediction package deep-replays, and the evaluation contract is committed.  The
+programme still stops after the immutable P12-A pass/fail report; P13/Loa is not
+authorized.
+
+### 2026-09-04 - [code/contract] P12-A authorized ph001 truth chain is ready; truth remains unopened
+
+Commit `7aaa99d` adds the irreversible half of the P12-A blind protocol without
+reading or constructing ph001 truth.  The opener is now a two-phase fail-closed
+state machine: after the four posterior shards and `P12_BLIND_PREDICTIONS_FROZEN`
+pass deep replay, an evaluation contract is committed and an O_EXCL
+`P12_BLIND_OPEN_AUTHORIZED.json` consumes `open_count=1` **before** the first truth
+read.  Every truth stage must validate that same authorization and hashes;
+`P12A_PH001_TRUTH_COMPLETE.json` binds the compact outputs before a second O_EXCL
+transition writes `P12_BLIND_OPENED.json`.  The evaluator cannot fit, recalibrate or
+change gates after authorization.
+
+The isolated truth chain is
+`HPSS ParticleSubsample-B restore -> 2048^3 A+B TSC density -> 4-node/16-rank R7
+CACTUS T-web -> x_com parent annotation -> exact frozen-order compact join`.  It
+writes only below
+`/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1`; it does not modify
+the ordinary ph001 product tree or phase registry.  The B restore is necessary
+because ph001 ParticleSubsample B is registered on HPSS but is not currently staged
+online.  The compact join requires exactly all `4,897,905` supported blind-parent
+rows.  Twenty-seven focused P12 tests, shell syntax, clean-environment imports and a
+truth-free contract dry run pass.  No truth job has been submitted: storage headroom,
+completion of jobs `57919118/57919122`, and the committed evaluation contract remain
+pre-authorization gates.
+
+### 2026-09-04 - [ops/code/run] Route finalized P12/D2 workloads through Slurm after bounded interactive smoke
+
+The current NERSC coding-agent, Perlmutter-job and resource-policy guidance was
+reviewed before continuing the two active P12 branches.  The upstream
+`NERSC/coding-agents` repository presently supplies workspace `AGENTS.md` guidance
+but no installable Perlmutter compute skill, so the local
+`nersc-interactive-allocation` skill remains necessary.  It now distinguishes
+interactive development/evaluation from finalized production: use
+`shared_interactive` for bounded one- or two-GPU smoke tests when sub-node memory is
+adequate, then submit the frozen one-GPU D2 stages through `shared` `sbatch` with an
+explicit Scratch license, durable Scratch logs, a clean environment, exact source
+and data hashes, atomic checkpoints and `sacct` terminal-state checks.  A full
+four-GPU node remains appropriate for the already-sharded P12-A production export.
+The allocation-status helper was also corrected to recognize architecture-prefixed
+QOS names such as `gpu_interactive`; the revised skill passes its structural
+validator and the helper reports the live allocation correctly.
+
+The disposable D2 end-to-end smoke under
+`p12f3_d2_smoke_20260904` completed four patch presentations and two optimizer
+updates in 3.57 seconds.  It wrote a valid checkpoint and registered pause marker,
+with mean denoising loss `0.93894`, pre-clip gradient norm `1.67696`,
+`ph001_opened=false` and `ph006_used_for_fit=false`.  This validates the basic
+model/data/checkpoint path only; it is not part of the scientific D2 presentation
+budget and no official D2 contract has yet been frozen.  Full D2 training remains
+blocked on the independent code/contract audit, one-open internal confirmation,
+ph006 evaluator/plots and production batch wrappers.
+
+P12-A blind export job `57919118` is the frozen four-shard, four-GPU production job
+and dependent freeze job `57919122` uses `afterok`.  At this entry both remain
+queued (`Priority`/`Dependency` respectively), so no blind posterior shard has yet
+been produced and ph001 truth remains sealed.  The blind-opening side is being
+implemented as a two-phase `OPEN_AUTHORIZED -> TRUTH_COMPLETE -> OPENED` state
+machine; no truth construction or opening is permitted until the posterior export,
+prediction freeze and evaluator contract have all passed their hash and identity
+gates.  This programme still ends with the P12-A blind pass/fail report and does not
+authorize P13/Loa.
+
+### 2026-09-04 - [science/decision] Reactivate P12-A blind evaluation; run hard-budget D2 in parallel; hold P13
+
+The production/research split is now explicit. Resume the staged, truth-free
+four-shard P12-A `ph001` export, freeze it with the exact-row CIC/DTFE predictions,
+and perform the single controlled blind opening. That opening ends in an immutable
+P12-A pass/fail report only: **no Loa/P13 handoff is authorized in this programme**,
+even if P12-A passes. The uncorrected FMPE remains a frozen production *candidate*
+rather than a strict calibration-pass marker; its excellent within-galaxy physical
+TARP and mild sparse-shell lambda2/lambda3 conditional residual must both remain
+visible in the blind interpretation.
+
+P12-F3-D2 is simultaneously authorized as a separate v2 research branch, not as a
+prerequisite for P12-A. Its hard budget is an internal-training-phase ablation funnel,
+at most one selected seed-42 full science fit and one frozen ph006 evaluation. A
+second seed is licensed only if seed 42 passes every simultaneous calibration/physics
+gate and the registered positive paired proper-score rule. No failed D2 arm may
+register another successor in this programme, and no same-objective training extension
+is allowed. The funnel is capped at approximately three full-run equivalents;
+capacity, time-conditioning, EMA and attention choices must be made without ph006.
+The P6/P8 patch-safety result overrides the literature's common GroupNorm default:
+D2 uses per-voxel channel LayerNorm/RMSNorm because GroupNorm and InstanceNorm mix
+statistics across the patch and previously broke context/subdivision invariance.
+
+`ph001` is assigned to the v1 P12-A claim. Once its truth is opened, D2 cannot use it
+as independent evidence; any later D2/v2 blind claim requires a newly designated mock
+phase or ensemble. Existing P12-F no-finalist decisions remain immutable, ph001 stays
+sealed until the P12-A freeze state machine authorizes its single opening, and the two
+branches may use one interactive allocation each without exceeding the local limit.
+
 ### 2026-09-04 - [science] STATUS/DIRECTION REVIEW (Claude Code): P12-A is a genuine VAC-grade result; P12-F is a 15-closure research branch now sitting on the critical path
 
 Reviewed the P12-A/P12-F entries and the plan's P12 sections. No runs, no promotion. Three findings.

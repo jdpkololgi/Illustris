@@ -1,0 +1,83 @@
+{
+  "acceptance_gate_change_allowed": false,
+  "allowed_boundary_ambiguity_rows": 1,
+  "authorization_reference": {
+    "bytes": 1187,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/P12_BLIND_OPEN_AUTHORIZED.json",
+    "sha256": "6fc87936d528d29b3c32661fc5a885e457fc760f639fdd04b5d34ced360bc52a"
+  },
+  "blocked_dispatcher_to_supersede": "57928546",
+  "created_utc": "2026-09-05T09:39:03.790903+00:00",
+  "diagnostic_closure": {
+    "all_float32_mismatches_explained_by_threshold_rounding": true,
+    "finite": true,
+    "float32_comparison_class_mismatches": 1,
+    "float32_threshold_as_float64": 0.20000000298023224,
+    "float64_comparison_class_mismatches": 0,
+    "ordered": true,
+    "rows": 4897905,
+    "rows_at_rounded_threshold": 1,
+    "source_dtype": "float32",
+    "source_values_preserved_by_float32": true
+  },
+  "diagnostic_reference": {
+    "bytes": 1614,
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/evidence/p12/p12a_blind_opening_20260905/P12A_COMPACT_CLOSURE_DIAGNOSTIC_57935350.json",
+    "sha256": "93ed8fd0e31b0e416434da2b1721160ddb8642bd48a2398f37d485d1e58ea23d"
+  },
+  "evaluation_contract_reference": {
+    "bytes": 35023,
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/evidence/p12/P12A_BLIND_EVALUATION_CONTRACT.json",
+    "sha256": "f7b5b9ff7a63347fc2c458e4509f0ac05ef89b0a27648e7ca957ae7ef955b44c"
+  },
+  "evaluation_contract_rewrite_allowed": false,
+  "fit_or_recalibration_allowed": false,
+  "frozen_builder_sources": {
+    "authorized_truth_wrapper": {
+      "bytes": 54977,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12a_authorized_truth.py",
+      "sha256": "5ccb69dfeeb96de108e0f616d165b458d2b468a40194070ac6a2f9f920ac785f"
+    },
+    "compact_truth_slurm": {
+      "bytes": 1535,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/submit_p12a_ph001_compact_truth.slurm",
+      "sha256": "f24e65c63a48f103244c2a8ff6721ae206cc58f3eebaa3f5866f6e003ec15b4a"
+    }
+  },
+  "git_revision": "0df337b347be99f1ec8203ad8a5d757d623207f5",
+  "native_cweb_retained": true,
+  "open_count": 1,
+  "original_failed_compact_job": "57928446",
+  "pass": true,
+  "phase": "ph001",
+  "posterior_predictions_modified": false,
+  "posterior_scores_inspected": false,
+  "recovery_sources": {
+    "precision_aware_target_contract": {
+      "bytes": 1611,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p10_target_contract.py",
+      "sha256": "58834b121355de0192bce94fdd7aacbeabc1e1f5a0cf800cc49c16b8981e1b7c"
+    },
+    "recovery_implementation": {
+      "bytes": 25086,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12a_compact_precision_recovery.py",
+      "sha256": "0b2ed512e0dc7b9efc997e350e70da48039cd3f66e8349660dc0e62466472089"
+    },
+    "recovery_slurm": {
+      "bytes": 1705,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/submit_p12a_ph001_compact_precision_recovery.slurm",
+      "sha256": "7f9e86d1fc509af492399de398d53131ccad686e3357d67bba6e425d5e87e6ca"
+    },
+    "submission_script": {
+      "bytes": 1940,
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/submit_p12a_ph001_precision_recovery_chain.sh",
+      "sha256": "fc631e701be997139cba3842de8322d58f91dfcd7746acf2ff2c51a848f32177"
+    }
+  },
+  "schema_version": "p12a-compact-precision-exception-v1",
+  "scientific_threshold": 0.2,
+  "scope": "one-row float32 threshold-validation recovery only",
+  "sealed_phase_opened": true,
+  "stored_eigenvalues_retained": true,
+  "user_authorization": "2026-09-05 user request: Please continue; in response to the explicit precision-only exception request, retaining predictions, eigenvalues, thresholds, calibration gates and open_count=1"
+}

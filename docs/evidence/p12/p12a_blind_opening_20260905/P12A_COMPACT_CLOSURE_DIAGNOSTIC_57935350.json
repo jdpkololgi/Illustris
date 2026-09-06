@@ -1,0 +1,40 @@
+{
+  "annotation_stage": {
+    "bytes": 7058,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/stages/ANNOTATION_COMPLETE.json",
+    "sha256": "7013333a51f65cdda5844819219507be048bfb83e471098adec54b6018c88ecf"
+  },
+  "authorization": {
+    "bytes": 1187,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/blind_predictions/ph001/P12_BLIND_OPEN_AUTHORIZED.json",
+    "sha256": "6fc87936d528d29b3c32661fc5a885e457fc760f639fdd04b5d34ced360bc52a"
+  },
+  "closure": {
+    "all_float32_mismatches_explained_by_threshold_rounding": true,
+    "finite": true,
+    "float32_comparison_class_mismatches": 1,
+    "float32_threshold_as_float64": 0.20000000298023224,
+    "float64_comparison_class_mismatches": 0,
+    "ordered": true,
+    "rows": 4897905,
+    "rows_at_rounded_threshold": 1,
+    "source_dtype": "float32",
+    "source_values_preserved_by_float32": true
+  },
+  "created_utc": "2026-09-05T09:10:21.241141+00:00",
+  "diagnostic_implementation": {
+    "bytes": 4078,
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/diagnose_p12a_compact_closure.py",
+    "sha256": "e080aec59a1958c62334ac0769400744876d582dd3d58e1b35c0447806cd9cc7"
+  },
+  "identity_join_exact": true,
+  "open_count": 1,
+  "posterior_scores_computed": false,
+  "predictions_modified": false,
+  "schema_version": "p12a-compact-closure-diagnostic-v1",
+  "slurm_job_id": "57935350",
+  "truth_files_read": [
+    "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/attempts/annotation/57928442-0/output/ph001_bgs_bright_parent_linkage_with_tweb_eigs.fits"
+  ],
+  "truth_outputs_modified": false
+}
