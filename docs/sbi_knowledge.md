@@ -1,5 +1,9 @@
 # SBI (Simulation-Based Inference) for Cosmic Web Eigenvalues
 
+This note explains the **TNG graph-cache FlowJAX NPE** design. It is not the
+current Abacus VAC posterior. That path is P12-A FMPE on OOF U-PATCH
+predictions plus P3b-R response; see `workflows/sbi/README.md` and `RUNBOOK.md`.
+
 ## Overview
 
 We train a conditional normalizing flow to learn the posterior distribution of cosmic web eigenvalues (λ₁, λ₂, λ₃) given galaxy observables.

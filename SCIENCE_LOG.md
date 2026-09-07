@@ -1,5 +1,24 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-07 - [code] Align operational docs with P12-A blind opening and D2
+
+Operational indexes still described wedge-graph FlowJAX NPE as the current
+Abacus SBI path after P12-A had been frozen as the production candidate.
+This documentation pass updates `ACTIVE_WORKFLOWS.md`, `RUNBOOK.md`,
+`workflows/sbi/README.md`, `workflows/abacus_tweb/README.md`, `README.md`,
+`CLAUDE.md`, `CONTEXT.md`, and `docs/sbi_knowledge.md` against source.
+
+Covered codepaths: P12-A dataset/FMPE fit, truth-free export, two-phase
+ph001 opening, isolated truth chain, compact-truth precision recovery,
+blind evaluation, and the parallel P12-F3-D2 funnel. No scientific gates,
+hashes, or entrypoints were changed.
+
+Status recorded from existing evidence, not a new run: uncorrected P12-A
+remains the candidate; `P12A_CALIBRATION_PASS.json` is absent; affine
+correction stays rejected; `open_count=1` is already consumed; scientific
+acceptance waits on the immutable ph001 report; D2 selected `modern_base4`
+and must not open `ph001`. P13/Loa remains unauthorized.
+
 ### 2026-09-05 - [code/run] Authorized precision-only recovery passes full-row smoke and resumes P12-A
 
 The user approved continuing after the explicit precision-exception request.

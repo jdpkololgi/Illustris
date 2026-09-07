@@ -46,17 +46,24 @@ sbatch workflows/gcn_paper/submit_gcn.slurm
 python workflows/gcn_paper/gcn_pipeline.py --help
 ```
 
-### TNG / Full-Graph SBI FlowJAX
+### Abacus P12-A FMPE (current VAC posterior)
+
+The current Abacus posterior is **FMPE on leakage-safe OOF U-PATCH predictions
+plus deployable P3b-R response covariates**, frozen as
+`docs/evidence/p12/P12A_PRODUCTION_CANDIDATE_FROZEN.json`. Operational commands
+live in `RUNBOOK.md` and `workflows/sbi/README.md`. Do not start new Abacus VAC
+runs from wedge-graph FlowJAX NPE.
+
+```bash
+python workflows/sbi/p12_train_base_response_fmpe.py --help
+python workflows/sbi/p12a_open_blind.py --help
+```
+
+### TNG / Full-Graph SBI FlowJAX (older graph-NPE stack)
 
 ```bash
 python workflows/sbi/jraph_sbi_flowjax.py --help
 ```
-
-### Abacus SBI — wedge NPE (current) / partitioned FlowJAX (legacy)
-
-The current Abacus-scale SBI path is **NPE on wedge subvolumes** (one graph per
-RA/Dec/z wedge). Per `SCIENCE_LOG.md` this runs interactively today; a production
-`sbatch` submit script is still an open thread.
 
 The **partitioned / graph-partitioned FlowJAX** path below is **legacy and
 abandoned** — kept for reference only; do not start new runs from it:
@@ -94,13 +101,15 @@ source /global/homes/d/dkololgi/miniforge3/bin/activate "${ABACUS_RAPIDS_ENV_PAT
 1. **Abacus T-Web and mock graph pipeline** (`workflows/abacus_tweb/`): builds
    slabwise T-Web outputs, annotates DESI/Abacus CutSky mocks via host-halo
    linkage, constructs alpha/Delaunay graph artifacts, computes graph features,
-   and builds SBI caches (wedge subvolumes are current; partitioned caches are
-   legacy).
+   and builds graph / older wedge SBI caches. The current VAC posterior consumes
+   P10 multi-phase catalogues and P3b-R response overlays, not those wedge
+   caches.
 2. **Regression** (`workflows/jraph/jraph_pipeline.py`): JAX/Jraph
    GraphNetwork predicting eigenvalue (ordered softplus increments).
-3. **SBI** (`workflows/sbi/`): GNN encoder plus a normalizing-flow posterior
-   (NPE). The current Abacus-scale path is **NPE on wedge subvolumes**; the
-   partitioned `jraph_sbi_flowjax_partitioned.py` path is legacy/abandoned.
+3. **SBI** (`workflows/sbi/`): the current Abacus VAC posterior is **P12-A
+   FMPE** on OOF U-PATCH base predictions plus P3b-R response. Graph-cache
+   FlowJAX NPE (`jraph_sbi_flowjax.py`) remains for TNG/wedge diagnostics.
+   Partitioned `jraph_sbi_flowjax_partitioned.py` is legacy/abandoned.
 4. **Classification** (`workflows/gcn_paper/gcn_pipeline.py`): PyTorch/Torch
    Geometric GCN/GAT workflow for 4-class T-Web classification.
 
@@ -138,17 +147,19 @@ regression and SBI-flow stacks. The policy and converters live in
   `--use_shape_params` flag and the shape/invariant converters are retained for
   legacy caches only; do not use them for new runs.
 
-For Abacus SBI caches, inspect `build_abacus_sbi_cache.py --help` and the
-generated cache metadata to confirm the target parameterisation that was
-written.
+For Abacus graph-NPE caches, inspect `build_abacus_sbi_cache.py --help`. For
+the current P12-A posterior, inspect `p12_prepare_base_response_dataset.py`
+and `docs/evidence/p12/P12A_PRODUCTION_CANDIDATE_FROZEN.json`.
 
 ### Data Flow
 
 1. Load IllustrisTNG subhalos or Abacus/DESI CutSky mock galaxies.
-2. Assign or load T-Web Hessian eigenvalues.
-3. Construct graph topology via Delaunay, MST, alpha-complex, or wedge
-   subvolumes depending on workflow (partitioned subgraphs are legacy).
-4. Extract node and edge features.
+2. Assign or load T-Web Hessian eigenvalues (host-halo linkage on Abacus).
+3. For P12-A: train U-PATCH on P10 spatial patches, export leakage-safe OOF
+   summaries, fit FMPE on those predictions plus P3b-R response, then run the
+   single ph001 blind opening. Graph Delaunay/alpha/wedge caches remain the
+   older NPE stack (partitioned subgraphs are legacy).
+4. Extract node, edge, or field/response features depending on workflow.
 5. Train regression, classification, or conditional density models.
 
 ### Caching

@@ -27,14 +27,22 @@ IllustrisTNG-300.
 - Training data: AbacusSummit HOD cutsky mocks with CACTUS T-web labels.
 - T-web convention: potential Hessian, `lambda_th = 0.2`, smoothing scale
   7 Mpc/h. Do not conflate this with V-web velocity shear.
-- Baseline encoder: attentional Jraph Battaglia-style GraphNetwork.
-- Baseline graph: union of Delaunay and radius-10 Mpc/h edges.
-- Posterior model: FlowJAX normalising flow trained as NPE.
+- Deterministic encoder for the first VAC posterior: five-phase U-PATCH R0
+  (epoch 20), not the older G3 GraphNet.
+- Posterior: untempered, uncorrected FMPE in ordered-softplus coordinates,
+  frozen as `P12A_PRODUCTION_CANDIDATE_FROZEN`. Conditioning is the three
+  physical OOF U-PATCH eigenvalue predictions plus deployable P3b-R response
+  (`redshift`, `log_ntilde_mpc3`, NGC cap, log1p random-support boundary
+  distance). The encoder itself is not response-aware.
 - Canonical target representation: ordered eigenvalue increments. Predict
   `lambda_1` and positive successive increments; invert only for evaluation
   and plots.
-- G3 union-graph NPE performance: R2 = 0.804 / 0.846 / 0.895 for
-  lambda_1 / lambda_2 / lambda_3.
+- `P12A_CALIBRATION_PASS.json` remains absent: global physical TARP on ph006
+  passes the registered 0.05 gate, but the sparsest shell retains a
+  lambda2/lambda3 residual. The affine correction was rejected. Blind ph001
+  acceptance is pending; P13/Loa is not authorized.
+- Historical G3 union-graph NPE (interpolation, not the VAC candidate):
+  R2 = 0.804 / 0.846 / 0.895 for lambda_1 / lambda_2 / lambda_3.
 
 ## Active direction: field-level physics-grounded inference
 

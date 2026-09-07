@@ -1,24 +1,117 @@
-# FlowJAX SBI Workflows
+# SBI Workflows
 
-This directory contains conditional density estimation workflows for cosmic web
-targets. The models combine a graph neural network encoder with FlowJAX
-normalizing flows to estimate posteriors over T-Web eigenvalue targets from
-galaxy graph observables.
+This directory contains posterior-estimation workflows for cosmic-web
+eigenvalue targets.
 
-## Which Trainer To Use
+**Current Abacus VAC posterior:** P12-A FMPE on leakage-safe OOF U-PATCH
+predictions plus P3b-R response covariates. Graph-cache FlowJAX NPE remains
+for TNG and older Abacus wedge diagnostics. Partitioned FlowJAX is legacy.
+
+## Which Path To Use
 
 | Use case | Entrypoint | Notes |
 | --- | --- | --- |
-| TNG/full-graph cache | `jraph_sbi_flowjax.py` | Loads one SBI cache in memory and trains/evaluates the baseline FlowJAX NPE model. |
-| Abacus wedge-subvolume cache | `jraph_sbi_flowjax.py` | Current Abacus-scale path: run one RA/Dec/z wedge graph at a time using a cache built under `workflows/abacus_tweb/`. |
+| Abacus VAC posterior (current) | `p12_train_base_response_fmpe.py`, `run_p12a_posterior_interactive.sh` | Frozen as `docs/evidence/p12/P12A_PRODUCTION_CANDIDATE_FROZEN.json`. |
+| P12-A ph001 blind opening | `p12a_open_blind.py`, `p12a_authorized_truth.py` | One shared opening; `open_count=1` is consumed before truth is read. |
+| P12-A compact-truth recovery | `p12a_compact_precision_recovery.py` | Authorized one-row float32 threshold exception only. |
+| P12-A blind evaluation | `p12a_evaluate_blind.py`, `p12a_plot_blind_evaluation.py` | Cannot fit, open truth, or change gates. |
+| P12-F3-D2 field diffusion | `run_p12f3_d2_in_allocation.sh` | Parallel ph006 experiment; `ph001` stays sealed. |
+| TNG/full-graph cache | `jraph_sbi_flowjax.py` | Older graph-NPE stack. |
+| Abacus wedge-subvolume cache | `jraph_sbi_flowjax.py` | Older graph-NPE stack, not the VAC posterior. |
 | Posterior plots, full graph/wedge | `plot_flowjax_posteriors.py` | Uses saved model outputs from the full-graph trainer. |
-| Abacus partition artifacts | `jraph_sbi_flowjax_partitioned.py` | Legacy partitioned experiment; keep for audit/debugging, not new production runs. |
-| Posterior plots, partitioned | `plot_flowjax_posteriors_partitioned.py` | Legacy diagnostics for partitioned checkpoints. |
-| Data-parallel benchmark | `benchmark_partition_data_parallel.py` | Measures legacy partition collation/loading behavior. |
-| Tensor sharding prototype | `prototype_tensor_sharding_fullgraph.py` | Experimental full-graph sharding prototype. |
-| Two-stage prototype | `experimental/jraph_sbi_two_stage.py` | Optional experimental path, not the primary Abacus run. |
+| Abacus partition artifacts | `jraph_sbi_flowjax_partitioned.py` | Legacy partitioned experiment. |
+| Two-stage prototype | `experimental/jraph_sbi_two_stage.py` | Optional experimental path. |
 
-## Current Abacus Wedge Inputs
+## P12-A FMPE Posterior
+
+Estimand:
+
+```text
+q(lambda_ordered | U_PATCH_R0_epoch20_prediction, P3b-R response, H_fid)
+```
+
+The encoder is the five-phase U-PATCH R0 checkpoint (epoch 20). The posterior
+is explicitly response-conditioned; the encoder is not. Target coordinates are
+ordered softplus increments from `p12_prepare_base_response_dataset.py`
+(`softplus_coordinates`). Conversion to physical `(lambda1, lambda2, lambda3)`
+is evaluation-only.
+
+OOF summaries (`p12_export_unet_summaries.py`) refuse `ph001` and refuse any
+phase listed in the checkpoint's training phases. Dataset builder
+`p12_prepare_base_response_dataset.py` likewise refuses `ph001`. Feature names:
+
+```text
+base_lambda1, base_lambda2, base_lambda3, redshift, log_ntilde_mpc3,
+cap_ngc, log1p_random_support_boundary_distance_mpc
+```
+
+Scratch roots default to `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/`.
+Completion marker: `p12a_base_response_v1/fmpe_seed42/P12A_COMPLETE.json`.
+
+The supervisor `run_p12a_posterior_interactive.sh` stops at that marker. It
+does not run `p12_calibration_diagnostics.py`, the affine canary, or the
+width diagnostic. GPU is required; `--dataloader-workers` must remain `0`.
+
+`P12A_CALIBRATION_PASS.json` is still absent. The later 50k-row physical
+TARP audit passes the registered 0.05 gate, but the sparsest shell retains a
+lambda2/lambda3 residual. The affine challenger in
+`p12_affine_calibration_canary.py` was rejected; promotion requires every
+`selection_gates()` check, including spatial-block proper log-score
+improvement. Do not revive that map.
+
+## P12-A Blind Opening And Evaluation
+
+```text
+freeze truth-free ph001 predictions
+  -> authorize (P12_BLIND_OPEN_AUTHORIZED.json, open_count=1)
+  -> isolated truth chain (particle_b -> density -> tweb -> annotation -> compact)
+  -> finalize (P12_BLIND_OPENED.json)
+  -> energy score -> evaluate -> plot
+  -> STOP (P13/Loa needs separate authorization)
+```
+
+Contract: `docs/evidence/p12/P12A_BLIND_EVALUATION_CONTRACT.json`. Isolated
+truth root: `/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1`.
+
+```bash
+python -m workflows.sbi.p12a_open_blind authorize --help
+bash workflows/sbi/submit_p12a_ph001_truth_chain.sh
+bash workflows/sbi/submit_p12a_ph001_postopen_chain.sh
+```
+
+Four-GPU truth-free sampling: `submit_p12a_blind_export.slurm` with
+`sbi==0.26.1`. Markers are `O_EXCL`; exclusive chain claims refuse duplicate
+submission.
+
+Compact-join validation must use `stored_class_consistency()` so a single
+`float32(0.2)` boundary row is a counted exception, not a reconstructed-class
+failure. Authorized recovery:
+
+```bash
+python -m workflows.sbi.p12a_compact_precision_recovery validate
+bash workflows/sbi/submit_p12a_ph001_precision_recovery_chain.sh
+```
+
+The recovery path does not edit the frozen original builder, does not score
+posteriors, and does not increment `open_count`.
+
+## P12-F3-D2 (parallel)
+
+P12-F v1/v2 closed with no field finalist. D2 is a hard-budget ph006
+diffusion funnel on pinned commit `467f442`. Selected arm: `modern_base4`.
+Confirmation passed internally; attention is unlicensed. This is not a
+P12-A blocker and must not open `ph001`.
+
+```bash
+bash workflows/sbi/run_p12f3_d2_in_allocation.sh test
+bash workflows/sbi/run_p12f3_d2_in_allocation.sh science modern_base4
+```
+
+The four-hour science wrapper
+`submit_p12f3_d2_training_fullwall.slurm` is hash-pinned by
+`dispatch_p12f3_d2_after_primary.py`. Confirmation allocations need >1 h.
+
+## Older Abacus Wedge Inputs
 
 Build wedge caches in `workflows/abacus_tweb/`:
 
@@ -59,26 +152,22 @@ an intentional ablation.
 
 ## Launchers
 
-There is no tracked production `submit_sbi_flowjax.slurm` for the current Abacus
-wedge path. The wedge NPE workflow is run directly today inside an appropriate
-GPU allocation:
+P12-A and D2 launchers are listed above. There is no tracked production
+`submit_sbi_flowjax.slurm` for the older wedge NPE path; run
+`jraph_sbi_flowjax.py` inside a GPU allocation.
 
-```bash
-python workflows/sbi/jraph_sbi_flowjax.py --help
-```
-
-Tracked SLURM scripts in this directory are mostly legacy partition diagnostics
-or experiments:
+Tracked SLURM scripts for graph-NPE / partition diagnostics:
 
 | SLURM script | Purpose |
 | --- | --- |
+| `submit_p12a_blind_export.slurm` | Four-GPU truth-free P12-A posterior export. |
+| `submit_p12a_ph001_truth_chain.sh` | Isolated ph001 particle/density/T-web/annotation/compact chain. |
+| `submit_p12a_ph001_postopen_chain.sh` | Finalize, energy score, evaluate, plot. |
+| `submit_p12a_ph001_precision_recovery_chain.sh` | Authorized compact-truth recovery plus post-open dispatch. |
+| `submit_p12f3_d2_training_fullwall.slurm` | Hash-pinned D2 science wrapper (pinned `467f442` worktree). |
 | `submit_sbi_partitioned_data_parallel.slurm` | Legacy single-node, four-GPU partitioned SBI training. |
-| `submit_sbi_partitioned_data_parallel_multinode.slurm` | Legacy multi-node partitioned SBI training with JAX distributed initialization. |
+| `submit_sbi_partitioned_data_parallel_multinode.slurm` | Legacy multi-node partitioned SBI training. |
 | `submit_sbi_overfit_tiny.slurm` | Tiny overfit diagnostic for partitioned SBI. |
-| `submit_partition_data_parallel_benchmark.slurm` | Partition loading and data-parallel benchmark. |
-| `submit_plot_flowjax_posteriors_partitioned.slurm` | Posterior plotting for partitioned checkpoints. |
-| `submit_sbi_stageB_4node.slurm` | Stage-B multi-node experiment. |
-| `submit_tensor_sharding_prototype.slurm` | Experimental tensor-sharding prototype. |
 
 ## Legacy Partition Notes
 
@@ -94,4 +183,5 @@ The partitioned trainer requires:
 Partition semantics are documented in
 `workflows/abacus_tweb/PARTITION_ARTIFACT_SCHEMA.md`. `ABACUS_SBI_DEBUG_STRATEGY.md`
 records the row-order checks and overfit diagnostics that motivated moving away
-from this path for current Abacus SBI work.
+from this path for later Abacus graph-NPE work. The current VAC posterior is
+P12-A, documented above.

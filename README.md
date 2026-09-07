@@ -10,9 +10,10 @@ for voids, walls, filaments, and clusters.
 - `ACTIVE_WORKFLOWS.md` is the current index of supported entrypoints.
 - `RUNBOOK.md` has NERSC Perlmutter launch commands, environment notes, and
   common operational pitfalls.
-- `workflows/abacus_tweb/README.md` explains the Abacus CutSky to T-Web to graph
-  cache chain.
-- `workflows/sbi/README.md` explains the FlowJAX SBI trainers and launchers.
+- `workflows/sbi/README.md` explains the current P12-A FMPE posterior, the
+  ph001 blind-opening chain, and the older graph-cache FlowJAX trainers.
+- `workflows/abacus_tweb/README.md` explains Abacus CutSky T-Web annotation,
+  graph construction, and the older wedge-cache chain.
 - `workflows/gcn_paper/README.md` covers the paper-critical PyTorch GCN path.
 - `local-subgraph-pipeline/README.md` covers the independent ego-graph pilot.
 
@@ -22,9 +23,9 @@ for voids, walls, filaments, and clusters.
   construction, graph features, SBI cache builders, and staged-mock helpers.
 - `workflows/jraph/`: JAX/Jraph regression, tuning, checkpoint evaluation, and
   ensemble utilities for TNG-style graph training.
-- `workflows/sbi/`: FlowJAX conditional density estimation for TNG/full-graph
-  caches and the current Abacus wedge-subvolume NPE path. The older
-  partitioned Abacus trainer remains for reference/debugging only.
+- `workflows/sbi/`: current Abacus VAC posterior (P12-A FMPE on OOF U-PATCH
+  predictions plus P3b-R response), ph001 blind evaluation, parallel P12-F3-D2
+  field-diffusion experiments, and older TNG/wedge FlowJAX NPE trainers.
 - `workflows/gcn_paper/`: PyTorch/Torch Geometric classification pipeline used
   for paper reproduction.
 - `shared/`: reusable model, path, resource, cache-schema, graph-construction,

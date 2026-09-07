@@ -200,9 +200,9 @@ HDF5 lattices. A valid run has passing `unit_audit.json`, `field_manifest.json`,
 Consumers must load the checksummed manifest/schema contract; they must not infer
 units or channel order from an unaccompanied HDF5 file.
 
-## Abacus SBI Cache And Wedges
+## Abacus SBI Cache And Wedges (older graph-NPE stack)
 
-The active Abacus-scale SBI chain is:
+The older Abacus-scale graph NPE chain is:
 
 ```text
 annotated CutSky FITS
@@ -212,6 +212,9 @@ annotated CutSky FITS
   -> SBI cache pickle
   -> FlowJAX NPE on one wedge graph
 ```
+
+This is **not** the current VAC posterior. New Abacus posterior work uses
+P12-A FMPE (next section).
 
 Build a survey-space wedge from a parent graph:
 
@@ -264,21 +267,185 @@ Cache constraints:
 The older graph-partition path (`submit_build_partitions_adaptive.slurm`,
 `build_abacus_partition_batches.py`, and `PARTITION_ARTIFACT_SCHEMA.md`) is
 legacy. Keep it for reproducing partitioned FlowJAX diagnostics, but do not use
-it for new Abacus SBI runs.
+it for new Abacus SBI runs. The current Abacus VAC posterior is P12-A FMPE
+(below), not this wedge-cache NPE stack.
 
-## SBI FlowJAX Training
+## P12-A VAC Posterior (current Abacus production candidate)
 
-Use `workflows/sbi/jraph_sbi_flowjax.py` for the TNG/full-graph cache path:
+P12-A estimates
+
+```text
+q(lambda_ordered | U_PATCH_R0_epoch20_OOF_prediction, P3b-R response, H_fid)
+```
+
+in ordered-softplus coordinates. The frozen untempered FMPE is
+`docs/evidence/p12/P12A_PRODUCTION_CANDIDATE_FROZEN.json`. The scientific
+`P12A_CALIBRATION_PASS.json` marker is still absent. Do not start new Abacus
+VAC posterior work from `jraph_sbi_flowjax.py`.
+
+### Conditioning contract
+
+Features in `p12_prepare_base_response_dataset.py` (`FEATURE_NAMES`):
+
+| Feature | Meaning |
+| --- | --- |
+| `base_lambda1/2/3` | Physical OOF U-PATCH eigenvalue predictions |
+| `redshift` | Galaxy redshift |
+| `log_ntilde_mpc3` | Frozen BRIGHT radial selection density at z (not fibre completeness) |
+| `cap_ngc` | NGC vs SGC cap |
+| `log1p_random_support_boundary_distance_mpc` | P3b-R random-support boundary distance in comoving Mpc |
+
+Fold ID, superblock ID, phase ID, and independently trained 32-d latents are
+**not** model features. Superblock/fold are retained only to keep ph006 width
+calibration (folds 0–1) spatially disjoint from the selection report (folds
+2–4). `ph001` is refused during dataset/fit/OOF export.
+
+Distance quality bits use 10.3458469 and 20.6916938 Mpc, equal to 7 and 14
+Mpc/h at Planck18 `h=0.6766`. The legacy bit name
+`response_outside_training_range` is actually `log(ntilde_mpc3)` OOD, not a
+full survey-response flag.
+
+### Fit and supervisor (already complete)
+
+```bash
+unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD
+export PYTHONNOUSERSITE=1
+PY=/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python
+
+$PY workflows/sbi/p12_prepare_crossfit_contracts.py --help
+$PY workflows/sbi/p12_export_unet_summaries.py --help
+$PY workflows/sbi/p12_prepare_base_response_dataset.py --help
+$PY workflows/sbi/p12_train_base_response_fmpe.py --help
+```
+
+The persistent supervisor `workflows/sbi/run_p12a_posterior_interactive.sh`
+waits for all six OOF summaries (`ph000`, `ph002`–`ph006`) and a free
+interactive GPU slot, then runs a canary plus the full dataset/fit. It stops
+when `P12A_COMPLETE.json` exists and does **not** run the later audit, affine
+canary, or width diagnostic.
+
+Constraints:
+
+- Requires CUDA. `--dataloader-workers` must stay `0` because the training
+  `TensorDataset` lives on GPU.
+- If `P12A_COMPLETE.json` is missing, the supervisor retries `salloc` at most
+  8 times.
+- The trainer's `calibration_pass` field is a weaker in-script gate than the
+  later physical-eigenvalue audit. Absence of
+  `docs/evidence/p12/P12A_CALIBRATION_PASS.json` is the scientific status.
+- Paths default to `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/...`.
+
+Post-fit diagnostics (ph006 only; do not promote a new map from them):
+
+```bash
+$PY workflows/sbi/p12_calibration_diagnostics.py --help
+$PY workflows/sbi/p12_affine_calibration_canary.py --help
+$PY workflows/sbi/p12_width_information_diagnostics.py --help
+$PY workflows/sbi/p12a_physical_dependence_diagnostic.py --help
+```
+
+The affine location-scale canary was rejected: both crossfit scores worsened
+and the folds-2–4 physical log-score delta was negative with a spatial 95%
+interval below zero. Rank flattening alone is not adoption. Evidence:
+`docs/evidence/p12/P12A_AFFINE_CALIBRATION_CANARY.json`.
+
+### Blind opening (one shared ph001 opening)
+
+The opening is two exclusive state changes in `p12a_open_blind.py`:
+
+1. `authorize` — revalidates frozen truth-free predictions and
+   `docs/evidence/p12/P12A_BLIND_EVALUATION_CONTRACT.json`, then consumes
+   `open_count=1` by creating `P12_BLIND_OPEN_AUTHORIZED.json` **before** any
+   ph001 truth is read.
+2. `finalize` — runs only after `P12A_PH001_TRUTH_COMPLETE.json` exists, then
+   writes `P12_BLIND_OPENED.json`.
+
+Both markers use `O_EXCL`. A failed truth build cannot obtain a second
+opening. Isolated truth is written under
+`/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1`, not the
+ordinary `p10_multiphase/ph001` product tree.
+
+Authorized truth chain (requires the exclusive authorization marker):
+
+```bash
+bash workflows/sbi/submit_p12a_ph001_truth_chain.sh
+# particle_b -> density -> tweb -> annotation -> compact
+```
+
+Post-open evaluation chain (after compact/terminal truth):
+
+```bash
+bash workflows/sbi/submit_p12a_ph001_postopen_chain.sh
+# finalize -> energy_score -> evaluate -> plot
+```
+
+Truth-free four-GPU export (before opening) uses
+`submit_p12a_blind_export.slurm`. It requires `sbi==0.26.1`, CUDA, and the
+frozen candidate/plan/context/checkpoint. Clear `PYTHONPATH` /
+`PYTHONHOME` / `PYTHONUSERBASE` / `LD_PRELOAD` first.
+
+Stop after the immutable pass/fail report. P13/Loa is not authorized by a
+passing or failing P12-A report.
+
+### Compact-truth precision recovery
+
+Job `57928446` failed compact join because one of 4,897,905 rows has an
+eigenvalue equal to `float32(0.2)` (stored value 0.20000000298023224). NumPy
+`float32` comparison rounds the 0.2 threshold to the same value; the native
+CACTUS `CWEB` label was computed in higher precision. This is a validation
+bug, not a posterior failure.
+
+The authorized exception permits **only** that one-row boundary ambiguity.
+It keeps stored eigenvalues and native `CWEB` labels unchanged, does not
+refit or rescore, and preserves `open_count=1`. Implementation:
+`p12a_compact_precision_recovery.py` plus
+`stored_class_consistency()` in `p10_target_contract.py`.
+
+```bash
+$PY -m workflows.sbi.diagnose_p12a_compact_closure --output /path/to/diagnostic.json
+$PY -m workflows.sbi.p12a_compact_precision_recovery validate
+# Production resume (exclusive claim; no automatic retry):
+bash workflows/sbi/submit_p12a_ph001_precision_recovery_chain.sh
+```
+
+Do not edit the frozen original compact builder to “fix” this. Receipts live
+under `docs/evidence/p12/p12a_blind_opening_20260905/`.
+
+## P12-F3-D2 Field Diffusion (parallel, non-blocking)
+
+D2 is a bounded ph006 field-diffusion experiment. It must not read `ph001`,
+delay P12-A, or change P12-A gates. The frozen canary selected `modern_base4`;
+`modern_base8` improved paired energy by ~0.44% (below the 1% materiality
+threshold) and attention remains unlicensed.
+
+Run stages from an existing one-GPU allocation:
+
+```bash
+bash workflows/sbi/run_p12f3_d2_in_allocation.sh
+# usage: test|contract|matched-references|transform-roundtrip|gpu-smoke|
+#        a0|a1|select-capacity|a2|select-final|confirm|
+#        science ARM|export ROLE NFE ARM|evaluate ROLE NFE ARM|...
+```
+
+The official science wrapper
+`workflows/sbi/submit_p12f3_d2_training_fullwall.slurm` uses the pinned
+worktree `/global/u2/d/dkololgi/TNG/Illustris_d2_467f442` at commit
+`467f442` and a 13,800 s operational soft stop (the interactive launcher
+stops at 6,500 s). Changing that wrapper hash fails
+`dispatch_p12f3_d2_after_primary.py`. Confirmation needs more than one hour;
+the first 1 h allocation timed out without a scientific failure.
+
+Post-primary dispatch submits only already-licensed second-seed or sampler
+diagnostics. Exclusive claims forbid duplicate or automatic retries.
+
+## TNG / Wedge FlowJAX Training (older graph-NPE stack)
+
+Use `workflows/sbi/jraph_sbi_flowjax.py` for the TNG/full-graph cache path and
+for older Abacus wedge-subvolume caches. This is not the current VAC
+posterior (that is P12-A FMPE above).
 
 ```bash
 python workflows/sbi/jraph_sbi_flowjax.py --help
-```
-
-Use the same trainer for current Abacus wedge-subvolume caches. The trainer
-resolves its input through `TNG_SBI_CACHE_DIR` and expects the cache filename
-shown in the cache example above:
-
-```bash
 export TNG_SBI_CACHE_DIR="/pscratch/sd/d/dkololgi/abacus/sbi_caches"
 python workflows/sbi/jraph_sbi_flowjax.py --epochs 1000 --output_dir "/pscratch/sd/d/dkololgi/outputs/sbi_wedge"
 ```

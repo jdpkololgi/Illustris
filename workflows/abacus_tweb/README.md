@@ -15,8 +15,12 @@ Abacus particle/halo products
   -> graph node/edge features
   -> RA/Dec/z wedge subgraph and aligned wedge targets
   -> wedge graph-feature metadata
-  -> SBI cache pickle for NPE training
+  -> SBI cache pickle for older graph-NPE training
 ```
+
+P12-A, the current VAC posterior, does not consume this graph-cache chain. It
+fits FMPE on leakage-safe OOF U-PATCH predictions plus P3b-R response from the
+P10 multi-phase products. See `workflows/sbi/README.md`.
 
 ## Entry Points
 
@@ -61,12 +65,15 @@ Feature builders consume those artifacts and write either CPU feature tables or
 cuGraph GNN arrays. The cuGraph path writes metadata consumed by
 `build_abacus_sbi_cache.py`.
 
-## Wedge SBI Cache
+## Wedge SBI Cache (older graph-NPE stack)
 
 `build_abacus_sbi_cache.py` produces a pickle with a `jraph.GraphsTuple`,
 regression targets, split masks, scalers, raw eigenvalues, and optional CWEB
-classification labels. Current Abacus-scale SBI uses one cache per survey-space
-wedge rather than graph partitions.
+classification labels. This older graph-NPE path uses one cache per
+survey-space wedge rather than graph partitions. The current Abacus VAC
+posterior is P12-A FMPE (`workflows/sbi/README.md`); it consumes P10
+multi-phase catalogues and P3b-R random-support overlays, not these wedge
+caches.
 
 The wedge path is:
 
@@ -96,7 +103,7 @@ Wedge constraints:
 
 `build_abacus_partition_batches.py` and `PARTITION_ARTIFACT_SCHEMA.md` document
 the older partitioned FlowJAX experiment. Keep them for audit/debugging, but do
-not start new Abacus SBI runs from partition artifacts.
+not start new Abacus posterior runs from partition artifacts.
 
 ## Operational Notes
 
