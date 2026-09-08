@@ -1,0 +1,114 @@
+{
+  "actual_neural_sampler_tested": false,
+  "all_parent_and_truth_hashes_verified": true,
+  "config_sha256": "fe5788055ac0d057921143ddded2cf39658c4e5c78719c6cd275a2a7dbaa3343",
+  "confirmation_guard_pass": true,
+  "data_engineering_pass": true,
+  "dataset_checks": [
+    {
+      "anchor_id": "ph000_NGC_s3_interior_00",
+      "nested_condition_exact": true,
+      "nested_target_exact": true,
+      "scaler_roundtrip_relative_l2": 1.4505698864297756e-08
+    },
+    {
+      "anchor_id": "ph000_SGC_s1_boundary_00",
+      "nested_condition_exact": true,
+      "nested_target_exact": true,
+      "scaler_roundtrip_relative_l2": 1.4531222447544678e-08
+    },
+    {
+      "anchor_id": "ph002_NGC_s2_interior_00",
+      "nested_condition_exact": true,
+      "nested_target_exact": true,
+      "scaler_roundtrip_relative_l2": 1.450174647033009e-08
+    },
+    {
+      "anchor_id": "ph002_SGC_s3_boundary_00",
+      "nested_condition_exact": true,
+      "nested_target_exact": true,
+      "scaler_roundtrip_relative_l2": 1.4571223339032713e-08
+    },
+    {
+      "anchor_id": "ph003_NGC_s2_interior_00",
+      "nested_condition_exact": true,
+      "nested_target_exact": true,
+      "scaler_roundtrip_relative_l2": 1.4324368358131778e-08
+    },
+    {
+      "anchor_id": "ph003_SGC_s3_boundary_00",
+      "nested_condition_exact": true,
+      "nested_target_exact": true,
+      "scaler_roundtrip_relative_l2": 1.4621763355648909e-08
+    }
+  ],
+  "dataset_index_sha256": "446b4bbb318fc7abc081c4a83297eb7cfbdab2150d4bfc6b2dd81e09c61fb4eb",
+  "diagnostic_power_study_complete": false,
+  "distinct_parent_anchors_by_role": {
+    "internal_confirmation": 32,
+    "internal_selection": 32,
+    "train": 96
+  },
+  "elapsed_seconds": 21.164956628053915,
+  "job_id": "58069599",
+  "native_truth_manifest_sha256": "f22007e59e6ff5e06b1798736513b9d15fec77e47f46a130deb90874c91ba7de",
+  "numerical_checks": [
+    {
+      "coordinate_noise_exact": true,
+      "haar": {
+        "1": {
+          "relative_energy_error": 4.440892098500626e-16,
+          "relative_l2": 4.371201068879523e-16
+        },
+        "2": {
+          "relative_energy_error": 7.771561172376096e-16,
+          "relative_l2": 7.66594136835917e-16
+        }
+      },
+      "heun_tiling_offset0_max_abs": 0.0,
+      "heun_tiling_offset16_max_abs": 0.0,
+      "low_high_leakage_relative_l2": 1.7185826186159283e-16,
+      "parent_mean_abs_error": 0.0,
+      "roundtrip_relative_l2": 3.853101334715722e-18,
+      "side": 64,
+      "tensor_trace_max_abs": 9.43689570931383e-16
+    },
+    {
+      "coordinate_noise_exact": true,
+      "haar": {
+        "1": {
+          "relative_energy_error": 4.440892098500626e-16,
+          "relative_l2": 4.384241608387917e-16
+        },
+        "2": {
+          "relative_energy_error": 6.661338147750939e-16,
+          "relative_l2": 7.715914587937168e-16
+        }
+      },
+      "heun_tiling_offset0_max_abs": 0.0,
+      "heun_tiling_offset16_max_abs": 0.0,
+      "low_high_leakage_relative_l2": 3.0290428275181576e-16,
+      "parent_mean_abs_error": 6.938893903907228e-18,
+      "roundtrip_relative_l2": 3.5431698632327295e-18,
+      "side": 96,
+      "tensor_trace_max_abs": 2.6645352591003757e-15
+    }
+  ],
+  "numerical_split_cycles_per_voxel": 0.14433756729740643,
+  "numerical_split_h_mpc": 0.2680755785152553,
+  "parent_count": 160,
+  "parent_geometry_view_count": 320,
+  "r0_physics_pass": false,
+  "readiness_guard_pass": true,
+  "schema_version": "e2e-data-engineering-smoke-v1",
+  "science_training_cutoff_frozen": false,
+  "source_phase_density_hashes_unique": true,
+  "training_normalization_phases": [
+    "ph000",
+    "ph002",
+    "ph003"
+  ],
+  "training_ready": false,
+  "validator_sha256": "9534a4378aa250f162e4d42c3a455c1ee3b0dd2ac782093274cfd84f3c50b529",
+  "wavelet_fixture": "orthonormal Haar local pairs, depths 1 and 2; no added package dependency"
+}

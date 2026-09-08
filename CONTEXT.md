@@ -37,9 +37,13 @@ IllustrisTNG-300.
   ladder. The second training seed and combined-decision chain are submitted;
   no two-seed promotion is recorded. All galaxies were retained, and the
   registered conditional tolerance is 0.10 versus 0.05 for global/joint checks.
-- **E2E-FIELD:** metadata proposals and a small analytic fixture exist, but
-  `training_ready=false`; support/split, independent physics, extraction and
-  diagnostic-power gates remain. No learned training has begun.
+- **E2E-FIELD:** 160 response-screened anchors (320 nested 64/96-cell views)
+  have source-verified arrays, whole-phase internal roles, train-only scaling
+  and independent native tensor/eigenvalue references. Full-size engineering
+  checks pass, but `training_ready=false`: the native finite-difference trace
+  differs from continuum R7 density, and physical-adequacy/error-budget,
+  matched model/transform and diagnostic-power gates remain. No learned
+  training has begun. See `docs/e2e_field_data_build_20260908.md`.
 - **P13/Loa:** held pending separate authorization. P12-A's single blind opening
   does not authorize ph001 reuse by D2, P12-B or E2E.
 

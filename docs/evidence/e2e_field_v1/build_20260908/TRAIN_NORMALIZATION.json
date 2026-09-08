@@ -1,0 +1,55 @@
+{
+  "channels": {
+    "counts": {
+      "mean": 0.049423802929732884,
+      "std": 0.16739565930952233,
+      "voxel_presentations": 201326592
+    },
+    "distance_to_support_boundary": {
+      "mean": 42.83751527391137,
+      "std": 54.87160097756034,
+      "voxel_presentations": 201326592
+    },
+    "expected_counts_random": {
+      "mean": 0.06061015220718085,
+      "std": 0.09642962051208917,
+      "voxel_presentations": 201326592
+    },
+    "log_count_ratio_random": {
+      "mean": -1.6028802961450446,
+      "std": 2.0797118134765893,
+      "voxel_presentations": 201326592
+    },
+    "ntilde_mpc3": {
+      "mean": -10.911383268124775,
+      "std": 5.547751552666074,
+      "voxel_presentations": 201326592
+    },
+    "observer_redshift": {
+      "mean": 0.36000676265696835,
+      "std": 0.12342244143099151,
+      "voxel_presentations": 201326592
+    }
+  },
+  "fit_phases": [
+    "ph000",
+    "ph002",
+    "ph003"
+  ],
+  "fit_population": "equal-volume largest parent targets / wide conditions; equal weight per anchor",
+  "fit_roles": [
+    "train"
+  ],
+  "other_channels": "identity",
+  "target": {
+    "mean": -0.0021300214069809678,
+    "std": 0.46334761662115426,
+    "voxel_presentations": 84934656
+  },
+  "target_scaling": "one affine field-space transform; preserve and generate parent mean",
+  "transforms": {
+    "counts": "log1p",
+    "expected_counts_random": "log1p",
+    "ntilde_mpc3": "log_floor_1e-10"
+  }
+}

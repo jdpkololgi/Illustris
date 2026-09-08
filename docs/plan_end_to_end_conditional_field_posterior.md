@@ -20,6 +20,13 @@ licensed second training seed and combined decision remain outstanding in the
 record. This is not authorization to inherit a provisional winner or start E2E
 compute. P12-A's registered blind release is green; no P13 action is authorized.
 
+**Subsequent user authorization, 2026-09-08:** one concurrent interactive slot
+was authorized to construct E2E input products, with model fits deferred and D2
+untouched. Response screening, parent arrays, all independent native labels and
+full-size numerical checks are complete, superseding the metadata-only status
+above. Evidence is in `docs/e2e_field_data_build_20260908.md`. Packaging is not a
+science-training release; R0-PHYSICS and the final matched contract remain gates.
+
 ## 0. Executive decision and boundary
 
 This is a new, research-only programme for a response-conditioned posterior over
@@ -300,6 +307,15 @@ approximated by `q_theta`. Here:
 - `S_random` is the deployable random-derived survey response;
 - `H_fid` is the fixed fiducial mock galaxy--halo prescription;
 - `delta_R7` is the matter-density contrast already smoothed at 7 Mpc/h.
+
+The September-8 native-source audit clarifies a finite-resolution qualification:
+the inherited P12-F scalar is actually `delta_R7_trace`, the trace of a tensor
+formed by centred finite differences of the smoothed potential, sampled at
+nearest native cells. It is not identically continuum Gaussian-smoothed density.
+New arrays retain that matched source quantity under an explicit name. The
+transfer-function distinction and independent references are recorded in
+`docs/e2e_field_data_build_20260908.md`. R0-PHYSICS must budget this discretization
+as well as boundary error before a tidal claim. No P12-A/D2 target is amended.
 
 This is not an unsmoothed density posterior, an initial-condition posterior, a
 cosmology posterior, or an HOD-marginalized posterior. Any future change to one
@@ -791,7 +807,11 @@ research finalist.
 The present registry contains only ph000--ph006. ph000/ph002--ph005 are available
 development phases, but have historical training exposure; ph006 is used legacy
 evidence, and ph001 remains excluded from this programme even after P12-A opens
-it. Current preparation leaves E2E train/selection/confirmation roles unassigned.
+it. The September-8 internal canary build assigns ph000/ph002/ph003 to training,
+ph004 to internal selection and ph005 to internal confirmation, with entire
+phases (all caps and replicas) grouped together. These roles supersede the
+September-5 unassigned proposals; they do not establish fresh external evidence
+or freeze the final science-training population.
 New field phases require an exposure ledger and source-asset audit before being
 called fresh. Independent HOD draws from one box do not create new cosmological
 phases. A second training seed establishes optimization repeatability, not new
@@ -1453,7 +1473,9 @@ No answer may be chosen using ph001 or by fitting ph006 failures.
 - [x] Choose environment correlations as primary and connectivity as secondary;
   specify initial functionals (Section 2.2), pending geometry/power audits.
 - [ ] Designate fresh external and future blind simulation evidence.
-- [ ] Freeze the parent/child/context geometry candidates.
+- [x] Freeze the internal data-build geometry candidates: paired 64/96-cell
+  parents, 96/128-cell context, central 32-cell science region. Scientific
+  adequacy and the final training population remain open.
 - [ ] Implement the checkpoint-free superpatch/transform/RNG audit and decide
   `R0-WAVELET`.
 - [ ] Freeze the Fourier coarse transform, baseline fine transform, at most one
@@ -1508,3 +1530,20 @@ random response, validate source-box grouping and coordinates, build native
 tensor reference patches, and run `R0-PHYSICS` before constructing a science-ready
 parent dataset. No salloc, Slurm job, HDF5 target extraction, full-volume FFT or
 learned training was run in this preparation session.
+
+### 16.1 Authorized input build on 2026-09-08
+
+The subsequent user instruction authorizes one concurrent interactive slot for
+data preparation, with D2 untouched and no model fits. The build contract is
+`configs/e2e_field_build_v1.json`; the operational and scientific handoff is
+`docs/e2e_field_data_build_20260908.md`. It uses 160 response-screened anchors
+across five historically exposed phases, with 320 nested views, whole-phase
+roles and train-only normalization. Neither ph001 nor ph006 payloads are used.
+
+Raw arrays may be packaged in quarantine to enable the remaining physical
+audit; this is not a relaxation of R0-PHYSICS before science training. Default
+dataset access rejects unreleased products and separately guards confirmation.
+Native-reference and full-size numerical completion markers determine technical
+readiness. The physical error budget, final common conditioner/transforms,
+diagnostic-power study and model contracts remain unresolved; `training_ready`
+must remain false until those gates are satisfied.

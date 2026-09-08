@@ -1,0 +1,112 @@
+{
+  "anchor_count": 160,
+  "archived_metadata": {
+    "DATA_ENGINEERING_SMOKE.json": "92737327e23c0b53d77ea6f5e20012869a151ddaac372d8f8cf2f4e947ed3e81",
+    "NATIVE_REFERENCE_AUDIT.json": "f11b1240b6ea5e9bd0c46e0c22b444aa580f778571f92ba581ab550b2db5c534",
+    "NATIVE_TRUTH_COMPLETE.json": "f22007e59e6ff5e06b1798736513b9d15fec77e47f46a130deb90874c91ba7de",
+    "SCREENED_PARENTS.json": "5b7de539f87340d069ec0b328c0578f3ae3e6f3b6f0c089d47b582e3880d41cd",
+    "TRAIN_NORMALIZATION.json": "b3c52c5ceac449976ddb38e6bfc7c47d557b5d4f531d1dd6e94328a03c198e5b"
+  },
+  "array_shards": [
+    {
+      "bytes": 1136763928,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v1/data_20260908/parent_arrays/ph000_NGC.h5",
+      "sha256": "0e940e07c87809ba85e9b4a59f65a0f1c2bd9851f869e52b311947ae6a86665d"
+    },
+    {
+      "bytes": 1026921933,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v1/data_20260908/parent_arrays/ph000_SGC.h5",
+      "sha256": "c630323c687c7ffaacb0461dacfa43bee926a644ac19628efc203b679b134d54"
+    },
+    {
+      "bytes": 1143273876,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v1/data_20260908/parent_arrays/ph002_NGC.h5",
+      "sha256": "4fde1781efbce06f470fa5abb4fb21d8f611c5954ff26eeadb6359b0119818b3"
+    },
+    {
+      "bytes": 973836776,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v1/data_20260908/parent_arrays/ph002_SGC.h5",
+      "sha256": "7f3b11a1f105d047f85978cad1ed49ae203ee4380fb2430c37adc473007f5323"
+    },
+    {
+      "bytes": 1072087947,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v1/data_20260908/parent_arrays/ph003_NGC.h5",
+      "sha256": "c0fbb7ff002b1aebb2a577da005ed0fcb154317ef75d12a021a7073deebf7540"
+    },
+    {
+      "bytes": 993777672,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v1/data_20260908/parent_arrays/ph003_SGC.h5",
+      "sha256": "bcb54820432131c2c4c1de7910963f12866a1a1dec8ccbc126ed7e4f806618b1"
+    },
+    {
+      "bytes": 1094964433,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v1/data_20260908/parent_arrays/ph004_NGC.h5",
+      "sha256": "0ad8e65aeb8c1f777382daecf3d5fe89d9c2481c537faa962594cc907b3e1095"
+    },
+    {
+      "bytes": 950483018,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v1/data_20260908/parent_arrays/ph004_SGC.h5",
+      "sha256": "7b28c676e2b342a370de574d809f675ac0f2a890abd93097a80949c85d29c602"
+    },
+    {
+      "bytes": 1104072357,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v1/data_20260908/parent_arrays/ph005_NGC.h5",
+      "sha256": "99542fbc4c273d11ae5311b2bd0722e3bdecd969358ecb10fd10fd96dc72f0e7"
+    },
+    {
+      "bytes": 999602148,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v1/data_20260908/parent_arrays/ph005_SGC.h5",
+      "sha256": "a9af0034876dc9f66854f24f0d602c60d9c75ab78fca86a2747dc56687bfbc0f"
+    }
+  ],
+  "base_git_revision": "bbaec53fa8e0d028d892f5b58e44bcd494935ed7",
+  "created_utc": "2026-09-08T13:34:11.416526+00:00",
+  "data_engineering_ready": true,
+  "data_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v1/data_20260908",
+  "dataset_index": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v1/data_20260908/parent_arrays/DATASET_INDEX.json",
+  "dataset_index_sha256": "446b4bbb318fc7abc081c4a83297eb7cfbdab2150d4bfc6b2dd81e09c61fb4eb",
+  "external_confirmation": null,
+  "final_science_training_population_frozen": false,
+  "geometry_view_count": 320,
+  "independent_truth_ready": true,
+  "learned_models_trained": 0,
+  "native_truth_bytes": 5102246520,
+  "parent_array_bytes": 10495784088,
+  "ph001_or_ph006_payloads_accessed": false,
+  "phase_roles": {
+    "ph000": "train",
+    "ph002": "train",
+    "ph003": "train",
+    "ph004": "internal_selection",
+    "ph005": "internal_confirmation"
+  },
+  "r0_physics_pass": false,
+  "schema_version": "e2e-data-build-report-v1",
+  "scientific_release_blockers": [
+    "R0-PHYSICS scientific error budget and domain decision",
+    "frozen multiscale transform and diagnostic-power contract",
+    "model/training contract and explicit launch authorization"
+  ],
+  "software_versions": {
+    "astropy": "7.2.0",
+    "h5py": "3.15.1",
+    "numpy": "2.3.5",
+    "scipy": "1.16.3",
+    "torch": "2.9.1"
+  },
+  "source_sha256": {
+    "configs/e2e_field_build_v1.json": "fe5788055ac0d057921143ddded2cf39658c4e5c78719c6cd275a2a7dbaa3343",
+    "workflows/sbi/e2e_field_archive_preparation.py": "39bb485e3eecf32651b7d80560b6135adc15a29e75a2697c8335a90fdfee6b88",
+    "workflows/sbi/e2e_field_build_products.py": "3bd0159626ddc2101e556829a7adf6ee75174385b3ecc9056686068b73cf6aa5",
+    "workflows/sbi/e2e_field_calibration_fixture.py": "d3bd03f4cdbc10122221de07085f7219edc9a18320614ca17f95966180e49d14",
+    "workflows/sbi/e2e_field_dataset.py": "b184abf9a8704209845b557bb48a32cd66178c6d2b3505f6f33539bb3d8a63be",
+    "workflows/sbi/e2e_field_native_reference.py": "8faf94f35e0e99b52ea4c154b3cb36b3b139ce60fdd10cdcbcde73d210dea9b0",
+    "workflows/sbi/e2e_field_numerics.py": "b62dcac372553a45b5d3db1ff7f84d882561375ea325220c715cc43650ab9cb2",
+    "workflows/sbi/e2e_field_package_native_truth.py": "abad123a8376391de742c59db541e680a2ee70ee27fe5bb1821844b03ac1f23c",
+    "workflows/sbi/e2e_field_prepare_data.py": "3d7dfdcb156aabdd67b5d9b808dc21c5c2d3d58b24b94aa457c4707afeef0a6e",
+    "workflows/sbi/e2e_field_validate_products.py": "9534a4378aa250f162e4d42c3a455c1ee3b0dd2ac782093274cfd84f3c50b529",
+    "workflows/sbi/run_e2e_data_completion.sh": "2665eea7e798d82eceab87a30871561d332bbbf02d85f92c75c6fbc92ec7474b"
+  },
+  "source_snapshot_basis": "base Git revision plus exact source hashes",
+  "training_ready": false
+}

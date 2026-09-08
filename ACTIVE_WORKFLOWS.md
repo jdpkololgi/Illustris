@@ -15,9 +15,17 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   `workflows/sbi/submit_p12f3_d2_native_support.slurm` is the amended evaluation
   entrypoint. The immutable 467f442 worktree owns original science code.
   Do not relaunch legacy unamended evaluators or alter frozen source hashes.
-- E2E preparation entrypoints are `workflows/sbi/e2e_field_prepare_data.py` and
-  `workflows/sbi/e2e_field_calibration_fixture.py`; the plan remains non-training
-  preparation with `training_ready=false`.
+- E2E metadata/analytic entrypoints remain `e2e_field_prepare_data.py` and
+  `e2e_field_calibration_fixture.py` under `workflows/sbi/`. Actual data build:
+  `e2e_field_build_products.py` (screening), `e2e_field_native_reference.py`
+  (independent physical audit), `e2e_field_dataset.py` (packaging/guarded reader),
+  `e2e_field_package_native_truth.py` (native reference shards), and
+  `e2e_field_validate_products.py` (full-size engineering checks).
+  `e2e_field_archive_preparation.py` archives bounded metadata/receipts only.
+  The completed September-8 build is engineering-ready, not science-released;
+  `training_ready=false`. See `docs/e2e_field_data_build_20260908.md` for the
+  immutable evidence, Scratch products, target-convention caveat and remaining
+  gates. These are not automatic rerun or training instructions.
 - Root-level `*_supervisor_v2_20260904.sh` scripts are historical operational
   records, not current launch instructions. Frozen production uses Slurm.
 

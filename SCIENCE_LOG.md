@@ -1,5 +1,72 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-08 - [science/code/result] E2E input arrays and independent native truth complete; science-training gate remains closed
+
+Using the user's authorized single concurrent interactive slot, built a balanced
+internal E2E canary panel with 160 response-only screened anchors and paired
+64/96-cell parents (320 correlated views, not independent realizations).
+Whole phases define roles: ph000/ph002/ph003 train (96 anchors), ph004 internal
+selection (32), ph005 internal confirmation (32). Both caps and all replicas
+stay in the same role; 366 mapped source-box overlap pairs cross no roles.
+All five phases have historical programme exposure, so this is not fresh
+external evidence. Neither ph001 nor ph006 payloads were accessed. No D2 job,
+frozen source, P12-A artifact or P13 state was changed; no model fit was launched.
+
+Completed ten source-hash-verified parent shards (10,495,784,088 bytes), train-only
+normalization, guarded dataset access and five independent native-reference
+shards (5,102,246,520 bytes). Parents have complete 96-cubed targets, 128-cubed
+conditions, exact smaller crops, explicit ownership and separate support/truth/
+loss/science masks. The 32-cell central science region is 108.256 Mpc/h;
+64/96-cell parent sides are 216.512/324.768 Mpc/h, not 320/480 Mpc/h.
+The ph000 imported-base path alias was accepted only after its exact registered
+cap checksum matched. Source payloads were not modified.
+
+Important target clarification: the inherited scalar is the native R7 tidal
+tensor trace, not exactly continuum Gaussian-smoothed density. Native labels
+use a smoothed Fourier Poisson potential followed by centered first differences
+twice; the trace transfer includes sum sin(k_i dx)^2/(dx^2 k^2). A spectral
+tensor operator on that trace is not an exact native-tensor reconstruction.
+New arrays are named delta_r7_trace; no second R7 smoothing is introduced.
+Independent full-box 2048-cubed count-to-potential/stencil reconstruction agrees
+with frozen eigenvalues within 5.36e-7 across every stored parent and reproduces
+the source trace exactly. Numerical replay on selection/confirmation is not
+an opening of posterior/scientific selection scores.
+
+For eight response-selected ph000 central regions, periodic parent reconstruction
+with isotropic parent-mean completion has eigenvalue RMSE/truth-scatter ranges
+0.093--0.196 / 0.068--0.134 / 0.051--0.142 at 64 cells and
+0.067--0.090 / 0.047--0.068 / 0.038--0.061 at 96 cells. Larger parents reduce
+the discrepancy, supporting 96 cells for development, but these are not errors
+in conditional-posterior units and do not qualify exterior shear, connectivity
+or a final non-periodic operator. R0-PHYSICS has NOT passed. No post-hoc
+scientific tolerance was invented from these measurements.
+
+All 28 focused tests pass. Compute-node 64/96-cubed checks pass for payload
+hashes, phase-source uniqueness, guarded access, nested crops, scaling,
+Fourier/DC and Haar round trips, globally addressed noise and synchronized Heun
+fixtures with two tilings. This is not an actual neural-sampler test, a full
+R0-WAVELET decision or a diagnostic-power study. data_engineering_ready=true;
+training_ready=false. Scientific release still requires the physical error
+budget/domain decision, matched transform/conditioner/model and power contracts,
+then explicit fit authorization. Quarantined packaging does not bypass these
+gates or freeze a final science-training population.
+
+CPU allocation 58068916 completed screening/audit/packaging but its idle owner
+shell auto-logged out, terminating the active label step (not OOM). The partial
+ph002 shard is preserved under ph002_partial_58068916.h5 and excluded from
+manifests. Sequential replacement 58069599 ran the remaining labels and final
+validation in the foreground, completed both steps at exit 0:0, and released
+after 15m22s; peak recorded RSS was about 199 GiB. No concurrent second E2E
+allocation or GPU training was used. The NERSC allocation workflow kept heavy
+FFT/eigensolver work on compute nodes and preserved the D2 allocation boundary.
+
+Handoff: docs/e2e_field_data_build_20260908.md; frozen build configuration:
+configs/e2e_field_build_v1.json; small receipts/provenance:
+docs/evidence/e2e_field_v1/build_20260908/BUILD_REPORT.json and adjacent records.
+Large products remain at /pscratch/sd/d/dkololgi/abacus/e2e_field_v1/data_20260908.
+The source AST and global graph were refreshed. The E2E plan, context and workflow
+index now distinguish completed engineering preparation from scientific release.
+
 ### 2026-09-08 - [science/docs] Reconcile programme plans and commit accumulated work
 
 At the user's request, reconciled CONTEXT.md, ACTIVE_WORKFLOWS.md, the main

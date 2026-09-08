@@ -1,0 +1,10 @@
+{
+  "allocation_ids": [
+    58068916,
+    58069599
+  ],
+  "d2_scheduler_mutations": 0,
+  "initial_interruption": "allocation owner shell auto-logout; active step terminated",
+  "partial_preserved": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v1/data_20260908/native_truth/ph002_partial_58068916.h5",
+  "sacct": "58068916|e2e_data_prep|COMPLETED|0:0|00:30:06|02:00:00||nid004186\n58068916.interactive|interactive|COMPLETED|0:0|00:30:06||104240K|nid004186\n58068916.extern|extern|COMPLETED|0:0|00:30:11|||nid004186\n58068916.0|env|FAILED|1:0|00:00:03||0|nid004186\n58068916.1|env|FAILED|1:0|00:00:00||0|nid004186\n58068916.2|env|COMPLETED|0:0|00:00:03||0|nid004186\n58068916.3|env|COMPLETED|0:0|00:00:09||0|nid004186\n58068916.4|env|COMPLETED|0:0|00:03:10||202103872K|nid004186\n58068916.5|env|FAILED|1:0|00:00:06||0|nid004186\n58068916.6|env|COMPLETED|0:0|00:02:52||27678536K|nid004186\n58068916.7|env|CANCELLED|0:15|00:07:31||203391896K|nid004186\n58069599|e2e_data_finish|COMPLETED|0:0|00:15:22|01:00:00||nid004203\n58069599.extern|extern|COMPLETED|0:0|00:15:23|||nid004203\n58069599.0|python|COMPLETED|0:0|00:14:56||208332024K|nid004203\n58069599.1|python|COMPLETED|0:0|00:00:24||0|nid004203\n"
+}

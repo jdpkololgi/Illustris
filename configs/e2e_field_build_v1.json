@@ -1,0 +1,47 @@
+{
+  "schema_version": "e2e-field-build-v1",
+  "purpose": "internal research data preparation; no training authorization",
+  "metadata_preparation": "docs/evidence/e2e_field_v1/preparation_20260905",
+  "output_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v1/data_20260908",
+  "phase_roles": {
+    "ph000": "train",
+    "ph002": "train",
+    "ph003": "train",
+    "ph004": "internal_selection",
+    "ph005": "internal_confirmation"
+  },
+  "external_confirmation": null,
+  "forbidden_phases": ["ph001", "ph006"],
+  "parent_sides": [64, 96],
+  "science_core_side": 32,
+  "child_core_side": 32,
+  "child_halo": 8,
+  "observation_halo": 16,
+  "seed": 20260908,
+  "candidate_centers_per_cap": 4096,
+  "anchors_per_cap_shell_support_stratum": 2,
+  "shell_edges": [0.15, 0.25, 0.35, 0.45, 0.55],
+  "core_support_fraction_min": 0.25,
+  "interior_support_fraction_min": 0.95,
+  "condition_channels": [
+    "counts", "support_random", "angular_response", "exposure_apodized_random",
+    "expected_counts_random", "log_count_ratio_random", "distance_to_support_boundary",
+    "ntilde_mpc3", "los_x", "los_y", "los_z"
+  ],
+  "coordinate_h": 0.6766,
+  "cell_mpc": 5.0,
+  "box_mpc_h": 2000.0,
+  "box_offset_mpc_h": -1000.0,
+  "native_ngrid": 2048,
+  "native_smoothing_mpc_h": 7.0,
+  "native_reference_audit_phase": "ph000",
+  "native_reference_max_anchors": 8,
+  "technical_tolerances": {
+    "native_eigenvalue_max_abs": 0.00005,
+    "source_trace_max_abs": 0.000002,
+    "transform_relative_l2": 0.000002,
+    "tensor_trace_max_abs": 0.00001
+  },
+  "science_error_budget_frozen": false,
+  "science_training_authorized": false
+}
