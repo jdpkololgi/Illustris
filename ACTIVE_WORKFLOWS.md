@@ -26,6 +26,11 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   `training_ready=false`. See `docs/e2e_field_data_build_20260908.md` for the
   immutable evidence, Scratch products, target-convention caveat and remaining
   gates. These are not automatic rerun or training instructions.
+  `e2e_field_error_budget.py` implements the completed training-only physical
+  attribution audit; `e2e_field_summarize_error_budget.py` produces bounded
+  metadata summaries/archives. Both are under `workflows/sbi/`. Findings and
+  numerical-versus-topology limitations are in
+  `docs/e2e_field_error_budget_20260908.md`; neither entrypoint licenses fits.
 - Root-level `*_supervisor_v2_20260904.sh` scripts are historical operational
   records, not current launch instructions. Frozen production uses Slurm.
 

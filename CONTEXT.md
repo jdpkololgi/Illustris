@@ -40,10 +40,14 @@ IllustrisTNG-300.
 - **E2E-FIELD:** 160 response-screened anchors (320 nested 64/96-cell views)
   have source-verified arrays, whole-phase internal roles, train-only scaling
   and independent native tensor/eigenvalue references. Full-size engineering
-  checks pass, but `training_ready=false`: the native finite-difference trace
-  differs from continuum R7 density, and physical-adequacy/error-budget,
-  matched model/transform and diagnostic-power gates remain. No learned
-  training has begun. See `docs/e2e_field_data_build_20260908.md`.
+  checks pass, but `training_ready=false`. The completed three-training-phase
+  error audit finds FD2 sub-percent in typical eigenvalue RMS but topology-
+  sensitive; floor sampling and finite-parent tides are larger typical errors.
+  FD8 nearly matches the spectral reference. Separate spectral target products
+  are recommended, not yet regenerated for training. Domain/topology tolerances,
+  matched model/transform and diagnostic-power gates remain. No learned training
+  has begun. See `docs/e2e_field_data_build_20260908.md` and
+  `docs/e2e_field_error_budget_20260908.md`.
 - **P13/Loa:** held pending separate authorization. P12-A's single blind opening
   does not authorize ph001 reuse by D2, P12-B or E2E.
 

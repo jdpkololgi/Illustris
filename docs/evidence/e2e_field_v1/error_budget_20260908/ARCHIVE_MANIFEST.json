@@ -1,0 +1,14 @@
+{
+  "archived_files_sha256": {
+    "FROZEN_AUDIT.json": "7997632c5e24922201f4e2023fbcd6167cd11671a33de7e54ef6700e80871933",
+    "SUMMARY.json": "d111efb281c46f4e89a83c02069f7fbc6d450fff348973789e800afb7fb87dd6",
+    "ph000_ERROR_BUDGET.json": "ddee567f1cd82416ef22f9cd0c063e99cadcdab1b3caf7e7b61d8828a1eb5523",
+    "ph002_ERROR_BUDGET.json": "f45badcd47be58db583ead2103e6ddca80ee7a7e88140f52602193f2490dec38",
+    "ph003_ERROR_BUDGET.json": "183a54ca9085387b473069f8c7d37a3ae56f8dcfb716d067701c1a861b0fd3f0"
+  },
+  "complete_report_sha256": "1852a315193bf9d4b744d05481000fee4fa594a8457c03b23e9732df146fc068",
+  "r0_physics_pass": false,
+  "source_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v1/error_budget_20260908",
+  "summary_builder_sha256": "5a447f8fc18256b91a701112cff0a4914818be3ec05007d29f78a205c21735e2",
+  "training_ready": false
+}

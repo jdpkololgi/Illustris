@@ -1,5 +1,81 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-08 - [science/code/result] E2E physical error attribution: FD2 small in RMS but topology-sensitive; sampling and exterior tides dominate typical error
+
+At the user's request, completed the registered no-fit error-budget audit before
+deciding whether to regenerate separate E2E density/tensor products. Used all
+96 response-selected training anchors in ph000/ph002/ph003; selection,
+confirmation, ph001 and ph006 payloads were not read. Full-box 2048-cubed
+spectral tensors and Gaussian R7 density were reconstructed from the same hashed
+TSC counts, with native FD2 replay and FD4/FD8 alternatives, four sampling
+rules, 64/96/128-cell parent controls, mean ablation, two science masks and exact
+tensor-error attribution. The central science region remains 32 cells.
+
+Across phase/component medians on observed science voxels, native FD2 eigenvalue
+RMS is 0.576--0.918% of local truth scatter (absolute RMS of order 0.001), FD4 is
+0.00571--0.00821%, and FD8 is 2.80e-6--4.06e-6%. These are signal-scatter units,
+not E2E posterior-width units. FD2 changes median four-class labels at
+0.21--0.23% of observed voxels. Worst regional lambda2>0.2 filling-fraction change
+is 0.0872 percentage points; worst absolute environment-pair change is 0.000599.
+
+Small RMS does NOT establish harmlessness for topology. FD2 changes one fixed
+connection test among 96 anchors, and in ph003_SGC_s3_interior_00 the observed
+largest-void fraction is 23.28% versus 15.07% for spectral/FD4/FD8. The complete
+core also changes, 22.99% versus 14.88%, so this is not just a survey-mask effect.
+FD4 reduces the worst largest-void difference to 0.00947 percentage points.
+FD8 changes none of the observed-mask threshold/science summaries; one unobserved
+voxel changes web class in the complete-core ph000 audit. FD8 is very close to
+the spectral reference at this R7/native resolution, not bitwise identical.
+
+The inherited floor lookup is a larger typical error source: floor versus linear
+spectral sampling has median eigenvalue RMS 7.42--10.42% of local scatter, changes
+median 3.46--3.52% of web labels, seven connection anchors, and has a worst
+largest-void difference of 17.88 percentage points. Installed Abacus TSC and both
+density builders confirm zero-offset integer-centred deposition; floor is not
+nearest-site lookup. Nearest-round halves typical sampling error; linear versus
+local cubic differs by 0.239--0.391% of scatter. The legacy observer/box mapping
+was held fixed, not recalibrated from truth.
+
+Cleaning the target does not remove finite-domain error. Clean linear-sampled
+64/96/128-cell parents have median eigenvalue RMS ranges 8.03--13.91%,
+3.35--6.44%, and 2.07--4.11% against the full-box tensor. The 128-cell domain is
+433.024 Mpc/h and is an audit candidate, not a new frozen training geometry.
+It still changes one fixed connection and has a 17.63-percentage-point worst
+largest-void error. Typical accuracy improves, but topology is not monotonically
+safe. Constant tensor offsets explain median 63--72% of residual energy at 96
+cells and 79--83% at 128 cells; their essentially zero trace is consistent with
+missing exterior shear. This is an oracle diagnostic, not a correction license.
+Removing the parent mean worsens aggregate errors. The exact tensor Gram matrix
+shows strong cancellation of inherited FD trace/tensor terms; adding their RMS
+values in quadrature would misattribute the error.
+
+Recommendation: regenerate separate, matched E2E Gaussian-density/spectral-tensor
+products with a consistent convergence-tested interpolation rule. Existing counts
+can be reused; FD8 is a tested alternative if retaining the potential/stencil
+workflow. A discrete trace-compatible operator is possible only with matching
+native-grid/sampling/boundary conventions; deconvolving an old resampled trace
+is not the preferred repair. These recommendations do not redefine P12-A/D2's
+frozen estimand or invalidate their native-label validation. No full training
+dataset was regenerated or model fitted. Particle/TSC/resolution errors common
+to both references remain outside this derivative comparison.
+
+R0-PHYSICS release remains open: these are deterministic training-only science
+sensitivities, not posterior calibration or errors normalized to future E2E
+uncertainty. No retrospective science thresholds or IID voxel significance tests
+were introduced. Absolute/uncertainty-scaled functional tolerances, domain and
+matched target/model/power contracts remain to be frozen; training_ready=false.
+
+Allocation 58074689 (nid004205) and step .0 completed at exit 0:0, in 29m05s
+allocation time, peak RSS about 264 GiB, then released. The NERSC allocation
+workflow used one foreground CPU interactive slot; D2 and all other jobs were
+untouched. All 34 focused E2E tests pass. Native tensor replay max difference is
+1.20e-7; three compact reference shards total 2,668,620,576 bytes on Scratch.
+The AST/global graphs were refreshed. Registration, full interpretation and
+alternatives: docs/e2e_field_error_budget_20260908.md. Small evidence and terminal
+receipt: docs/evidence/e2e_field_v1/error_budget_20260908/SUMMARY.json plus phase
+reports. Raw audit outputs remain under
+/pscratch/sd/d/dkololgi/abacus/e2e_field_v1/error_budget_20260908.
+
 ### 2026-09-08 - [science/code/result] E2E input arrays and independent native truth complete; science-training gate remains closed
 
 Using the user's authorized single concurrent interactive slot, built a balanced

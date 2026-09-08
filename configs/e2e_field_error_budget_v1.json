@@ -1,0 +1,22 @@
+{
+  "schema_version": "e2e-physical-error-budget-v1",
+  "build_config": "configs/e2e_field_build_v1.json",
+  "output_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v1/error_budget_20260908",
+  "phases": ["ph000", "ph002", "ph003"],
+  "anchor_selection": "all 32 response-selected training anchors per phase; no selection or confirmation payloads",
+  "parent_sides": [64, 96, 128],
+  "science_side": 32,
+  "threshold": 0.2,
+  "pair_bin_edges_mpc_h": [10.0, 20.0, 40.0, 80.0],
+  "connectivity": 6,
+  "connectivity_terminals": "per axis: [6:8] and [24:26], other coordinates [12:20], in fixed 32-cubed science region",
+  "masks": ["all_science_voxels", "observed_science_voxels"],
+  "interpolation": ["legacy_floor", "nearest_round", "linear", "local_cubic_lagrange"],
+  "finite_difference_orders": [2, 4, 8],
+  "spectral_reference": "same native TSC counts and one Gaussian R7 filter, full periodic box; no TSC deconvolution",
+  "tensor_components": ["xx", "xy", "xz", "yy", "yz", "zz"],
+  "new_training_products": false,
+  "posterior_uncertainty_available": false,
+  "science_acceptance_thresholds_frozen": false,
+  "training_ready": false
+}

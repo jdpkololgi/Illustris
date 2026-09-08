@@ -27,6 +27,15 @@ full-size numerical checks are complete, superseding the metadata-only status
 above. Evidence is in `docs/e2e_field_data_build_20260908.md`. Packaging is not a
 science-training release; R0-PHYSICS and the final matched contract remain gates.
 
+**Subsequent physical audit, 2026-09-08:** the user-authorized three-training-phase
+error-budget comparison is complete. FD2 is sub-percent in typical eigenvalue
+RMS but can change void connectivity materially. FD8 nearly matches spectral
+derivatives; floor sampling and finite-domain tides dominate typical errors.
+Separate matched spectral E2E target regeneration is recommended, not executed
+as a training-product change. Even the diagnostic 128-cell parent retains
+topology-sensitive outliers. See `docs/e2e_field_error_budget_20260908.md`.
+Scientific tolerance/domain release and `training_ready` remain unresolved.
+
 ## 0. Executive decision and boundary
 
 This is a new, research-only programme for a response-conditioned posterior over
@@ -1547,3 +1556,22 @@ Native-reference and full-size numerical completion markers determine technical
 readiness. The physical error budget, final common conditioner/transforms,
 diagnostic-power study and model contracts remain unresolved; `training_ready`
 must remain false until those gates are satisfied.
+
+### 16.2 Physical error attribution completed on 2026-09-08
+
+`configs/e2e_field_error_budget_v1.json` freezes the no-fit comparison over all
+96 training anchors. Independent full-box spectral references, FD2/4/8 controls,
+floor/nearest/linear/cubic sampling and 64/96/128-cell parent reconstructions
+were compared on the same 32-cell central science region. Regional filling,
+pair statistics, fixed-terminal six-neighbour connectivity and largest-void
+fractions are reported separately for complete and observed support, per phase
+and shell/support stratum. No selection/confirmation targets were used to choose
+these outcomes, and no ph001/ph006 payloads were read.
+
+Evidence is in `docs/evidence/e2e_field_v1/error_budget_20260908/`. Typical FD2
+RMS is small, but an interior void-component example changes by 8.2 percentage
+points. Floor sampling and exterior tides are larger typical effects; the
+128-cell diagnostic does not establish topology safety. Thus the completed
+attribution audit is not a scientific R0-PHYSICS pass. The recommended separate
+spectral target/interpolation contract and final domain still need an explicit
+decision and acceptable science-functional tolerances before training release.
