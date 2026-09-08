@@ -1,0 +1,17 @@
+{
+  "contract_digest": "859a686967c9fcb22284d042f55259b2e779732906597fcdd053a354e9a0f9ec",
+  "created_utc": "2026-09-06T21:28:50.003814+00:00",
+  "frozen_digest": "772cc326330277f35c976dac4b8078c954d15922f5e753eb322efb3b68940add",
+  "licensed": false,
+  "pass": true,
+  "ph001_opened": false,
+  "reason": "run eta=1 NFE100 only when deterministic NFE50-to-100 convergence fails",
+  "role": "diagnostic_only_never_promotable",
+  "schema_version": "p12f3-d2-stochastic-control-license-v1",
+  "seed": 42,
+  "seed_decision": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_d2_diffusion_v1/official_467f442_seed42_v1/D2_SEED42_PH006_DECISION.json",
+  "seed_decision_sha256": "59dbdf518b213856ce5d7ede75645f9229718005b8dd07fda8332079f9bd88c9",
+  "selected_arm": "modern_base4",
+  "selected_presentations": 12500,
+  "selected_weights": "ema"
+}

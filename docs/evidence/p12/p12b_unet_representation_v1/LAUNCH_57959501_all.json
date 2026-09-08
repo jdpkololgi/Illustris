@@ -1,0 +1,29 @@
+{
+  "allocation": "57959501",
+  "command": [
+    "workflows/sbi/p12b_unet_representation.py",
+    "all",
+    "--max-runtime-seconds",
+    "6600"
+  ],
+  "config_sha256": "741702b54d74647f56837d361b9ef66b317f2389b39cd3a7475cf69fda8360d4",
+  "git_revision": "1582692da7cc2ecaae192e1210ad3e830008a241",
+  "gpu": "NVIDIA A100-SXM4-80GB",
+  "node": "nid008213",
+  "python": "/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python",
+  "sbi": "0.26.1",
+  "source_hashes": {
+    "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p10_training_contract.py": "16158ea713e0a077fa06332ffa2da26cd50fd93233728541c8e84b675a8f81e7",
+    "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p6_field_patch_utils.py": "119a1dd753049e73e207563ea4c930c0ee4f6d3a87cadf9053397e469acfdd14",
+    "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p8_deterministic_common.py": "c7636ce698b69041bcf5d090a709780eb68ad267ea8ad57948f076d94c589cd2",
+    "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p8_train_patch_recovery.py": "8985b84744595a908b6079f6d40bbe3bda6bd78867ce2b470cfec4f0a3935b40",
+    "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p8_train_unet_patch.py": "baef42892ed9ef90a6f1366078940ffdf8d507c4f20c14e8e7504327a4070d6f",
+    "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12_export_unet_summaries.py": "39df2f79d3a5b74f0e82f8df3ef4535c41dc68f572e4e7c1c3054a9ff0d92b74",
+    "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12b_unet_representation.py": "094a3a4259e932207e068da682549590fa4f21318a3a23cc278e4b4a85a6dc90",
+    "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12b_unet_representation_common.py": "52e33be59c8daacd6e7e9ae949e546178792ed15c6f6ab668f3baa7f9816c655",
+    "/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/lib/python3.11/site-packages/sbi/neural_nets/estimators/flowmatching_estimator.py": "fe8e37b9a1710f7b25df4217e228bbb9a54dcd18db9b4a0ac304023906c9cb53"
+  },
+  "stage": "all",
+  "torch": "2.9.1",
+  "utc": "2026-09-06T02:38:20.848988+00:00"
+}

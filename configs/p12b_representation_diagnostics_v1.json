@@ -1,0 +1,19 @@
+{
+  "schema_version": "p12b-representation-diagnostics-config-v1",
+  "baseline_config": "/global/homes/d/dkololgi/TNG/Illustris/configs/p12b_unet_representation_v1.json",
+  "baseline_config_sha256": "741702b54d74647f56837d361b9ef66b317f2389b39cd3a7475cf69fda8360d4",
+  "output_root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12b_representation_diagnostics_v1",
+  "seed": 12062026,
+  "training_updates": 0,
+  "train_probe_cores": 32,
+  "rows_per_core": 16,
+  "posterior_draws": 128,
+  "sample_steps": 64,
+  "sample_check_steps": 128,
+  "loss_noise_repeats": 8,
+  "bootstrap_repetitions": 2000,
+  "max_seconds": 3000,
+  "ph001_access": false,
+  "ph006_access": false,
+  "production_promotion_allowed": false
+}

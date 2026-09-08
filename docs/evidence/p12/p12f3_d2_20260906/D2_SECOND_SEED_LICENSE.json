@@ -1,0 +1,22 @@
+{
+  "contract_digest": "859a686967c9fcb22284d042f55259b2e779732906597fcdd053a354e9a0f9ec",
+  "contract_sha256": "92c18b3a695bf146fc3f942b8a40fe35c9e087b91b6c33639de3b69c6ec242dd",
+  "created_utc": "2026-09-06T21:28:50.001296+00:00",
+  "final_selection": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_d2_diffusion_v1/official_467f442_seed42_v1/D2_FINAL_SELECTION.json",
+  "final_selection_sha256": "70220859d0ffcaee80284d12395c0a299a2cf040e5ee9071f32b19eae29732e4",
+  "frozen_digest": "af22a1fe0b3aa45227399635781fe118c051e19389071a4144670999c87c3d29",
+  "internal_confirmation": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_d2_diffusion_v1/official_467f442_seed42_v1/D2_INTERNAL_CONFIRMATION.json",
+  "internal_confirmation_sha256": "be8053f8c876d9e87d24a1468bb8d238e75bd1d446542686af61c2a548fcbd06",
+  "licensed": true,
+  "pass": true,
+  "ph001_opened": false,
+  "schema_version": "p12f3-d2-second-seed-license-v1",
+  "seed42_decision": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_d2_diffusion_v1/official_467f442_seed42_v1/D2_SEED42_PH006_DECISION.json",
+  "seed42_decision_sha256": "59dbdf518b213856ce5d7ede75645f9229718005b8dd07fda8332079f9bd88c9",
+  "selected_arm": "modern_base4",
+  "selected_presentations": 12500,
+  "selected_weights": "ema",
+  "truth_files_read": [
+    "ph006"
+  ]
+}

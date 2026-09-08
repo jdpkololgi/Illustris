@@ -1,0 +1,37 @@
+{
+  "config": {
+    "bytes": 1940,
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/configs/e2e_field_data_prep_v1.json",
+    "sha256": "efea20b545adb2bf375f4056d34f745cbee1e6115458e6ee2b74c258689a3507"
+  },
+  "created_utc": "2026-09-05T10:40:00.121171+00:00",
+  "deferred_compute": [
+    "random_support_screening_and_parent_overlap_graph",
+    "source_box_alias_and_split_guard_audit",
+    "full_box_tensor_reference_and_parent_boundary_closure",
+    "parent_hdf5_extraction_and_source_payload_hash_validation",
+    "full_size_transform_rng_and_synchronous_sampler_audit",
+    "diagnostic_sensitivity_power_study"
+  ],
+  "git_revision": "1582692da7cc2ecaae192e1210ad3e830008a241",
+  "parent_count": 96,
+  "ph001_accessed": false,
+  "preparation_complete": true,
+  "products": {
+    "parent_geometry_proposals.json": {
+      "bytes": 847982,
+      "sha256": "c540b427e121cb2a5f3c9c632e9d25f5dd8ca9099860967d5856413f64e8ed93"
+    },
+    "source_box_overlap_proposals.json": {
+      "bytes": 7215,
+      "sha256": "fe72e9bd7c6c5d64101b31da2c692981cc88e9039517acf0447c823691d208bb"
+    },
+    "source_inventory.json": {
+      "bytes": 28360,
+      "sha256": "d0de2ce6ae5d187973e9d46c894f19ea01ac65bb05e72664b0f147091cb74ef5"
+    }
+  },
+  "source_array_payloads_read": 0,
+  "source_sha256": "3d7dfdcb156aabdd67b5d9b808dc21c5c2d3d58b24b94aa457c4707afeef0a6e",
+  "training_ready": false
+}

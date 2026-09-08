@@ -3,6 +3,24 @@
 This file is the quick reference for what to run in this repository now. For
 Perlmutter commands and operational details, see `RUNBOOK.md`.
 
+## Posterior programme status — 2026-09-08
+
+- P12-A's registered blind evaluation is green; its frozen artifacts remain the
+  per-galaxy production anchor. Do not reopen ph001 or start P13 without authority.
+- P12-B pilot and follow-up are complete research workflows, not rerun requests:
+  `docs/plan_p12b_unet_representation_pilot.md` and
+  `docs/plan_p12b_representation_followup_v1.md` link the evidence and stop gates.
+- D2 seed42 passed; the licensed seed314159 chain is submitted. Its training
+  wrapper is `workflows/sbi/submit_p12f3_d2_replication_fullwall.slurm`;
+  `workflows/sbi/submit_p12f3_d2_native_support.slurm` is the amended evaluation
+  entrypoint. The immutable 467f442 worktree owns original science code.
+  Do not relaunch legacy unamended evaluators or alter frozen source hashes.
+- E2E preparation entrypoints are `workflows/sbi/e2e_field_prepare_data.py` and
+  `workflows/sbi/e2e_field_calibration_fixture.py`; the plan remains non-training
+  preparation with `training_ready=false`.
+- Root-level `*_supervisor_v2_20260904.sh` scripts are historical operational
+  records, not current launch instructions. Frozen production uses Slurm.
+
 ## Canonical Layout
 
 - `workflows/abacus_tweb/` for Abacus slab T-Web generation, CutSky annotation,

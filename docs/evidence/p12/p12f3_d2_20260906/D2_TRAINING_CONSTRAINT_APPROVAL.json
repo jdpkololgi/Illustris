@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-08",
+  "job_id": "58065554",
+  "user_approval": "Yes, I approve",
+  "action": "scontrol update JobId=58065554 Features=gpu",
+  "before_features": "gpu&a100&hbm80g",
+  "after_features": "gpu&a100",
+  "reason": "Frozen GPU smoke reports under 0.68 GB training-update and 1.57 GB sampler allocation; the 80-GB-only constraint is unnecessary for this replication.",
+  "unchanged": {
+    "gpus": 1,
+    "logical_cpus": 32,
+    "host_memory_mib": 57472,
+    "wall_hours": 6,
+    "scientific_presentations": 12500,
+    "seed": 314159,
+    "arm": "modern_base4",
+    "selected_weights": "ema"
+  },
+  "other_jobs_modified": [],
+  "scheduler_verified": true,
+  "scientific_completion": false
+}

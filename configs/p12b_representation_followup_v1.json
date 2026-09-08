@@ -1,0 +1,25 @@
+{
+  "schema_version": "p12b-representation-followup-config-v1",
+  "baseline_config": "/global/homes/d/dkololgi/TNG/Illustris/configs/p12b_unet_representation_v1.json",
+  "diagnostics_report": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12b_representation_diagnostics_v1/DIAGNOSTICS_COMPLETE.json",
+  "output_root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12b_representation_followup_v1",
+  "total_updates": 6000,
+  "max_seconds": 1800,
+  "ph001_access": false,
+  "ph006_access": false,
+  "production_promotion_allowed": false,
+  "arms": [
+    {"name": "point_continue", "parent_arm": "point", "mode": "point", "clipping": "global"},
+    {"name": "frozen_continue", "parent_arm": "frozen", "mode": "frozen", "clipping": "global"},
+    {"name": "joint_continue", "parent_arm": "joint", "mode": "joint", "clipping": "global"},
+    {"name": "joint_separate_clip", "parent_arm": "joint", "mode": "joint", "clipping": "separate"},
+    {"name": "joint_warm_start", "parent_arm": "frozen", "mode": "joint", "clipping": "global"}
+  ],
+  "contrasts": [
+    ["frozen_continue", "point_continue"],
+    ["joint_continue", "frozen_continue"],
+    ["joint_separate_clip", "joint_continue"],
+    ["joint_warm_start", "frozen_continue"],
+    ["joint_warm_start", "joint_continue"]
+  ]
+}

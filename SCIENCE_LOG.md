@@ -1,5 +1,452 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-08 - [science/docs] Reconcile programme plans and commit accumulated work
+
+At the user's request, reconciled CONTEXT.md, ACTIVE_WORKFLOWS.md, the main
+generalisable-VAC plan, wider roadmap, P12-B pilot/follow-up/diagnostic plans,
+D2 native-support amendment and E2E plan against the recorded terminal evidence.
+P12-A is the registered blind-green per-galaxy anchor; P12-B is complete without
+a supported representation change; D2 seed42 passes its amended ladder but the
+licensed second-seed/combined decision remains outstanding in this record;
+E2E metadata/analytic preparation is complete with training_ready=false and
+physics/data/power gates still ahead of training. Historical registrations and
+negative results are retained, with dated current-status sections overriding
+stale prospective wording. No new scientific thresholds or experiments were added.
+
+The user explicitly approved changing only training job 58065554 from
+gpu&a100&hbm80g to gpu&a100. The scheduler verified the change with the same
+one GPU, 32 logical CPUs, 57,472 MiB host memory and six-hour wall limit;
+the frozen smoke uses under 0.68 GB for an update and 1.57 GB for sampling.
+D2_TRAINING_CONSTRAINT_APPROVAL.json records that approval. The user then
+requested that genuinely queued work be left alone: active polling is stopped.
+No scheduler checks, submissions or modifications were made for this commit
+reconciliation, and no fresh scheduler/completion status is asserted here.
+
+The commit includes accumulated E2E preparation, P12-B implementations/configs,
+tests and completed evidence; D2 recovery/support code, operational launchers
+and receipts; and the historical September-4 supervisor scripts, identified as
+non-canonical in the workflow index. Existing frozen scientific sources/configs
+and the separate 467f442 worktree are unchanged. The accidental :q file (an old
+terminal branch listing) was removed with explicit user approval. Narrow ignore
+exceptions retain the small analytic fixture and support-geometry figure as
+durable evidence; large simulation payloads and checkpoints stay on Scratch.
+
+Verification: all 35 focused E2E/P12-B/D2-support CPU tests pass in cosmic_env.
+New Python sources compile, all seven new shell/Slurm scripts pass bash -n,
+and staged JSON parses. Staged whitespace checks pass except for one preserved
+blank-at-EOF warning in the hash-frozen replication launcher; its recorded
+SHA256 is unchanged. No credential-pattern matches were found in staged text.
+The existing compute-node smoke and terminal reports remain the evidence for
+intensive execution; no new allocation or field computation was required.
+
+### 2026-09-08 - [science/result/run] D2 seed42 passes; frozen second-seed replication submitted
+
+The native-support D2 recovery chain completed: export100 57985431 (1h26m19s),
+evaluation50 57988874 (22m40s), evaluation100 57988878 (23m47s), and primary
+decision 57988884 (24s), all exit 0:0. The prior one-GPU evaluation 57987709
+failed on host memory; its entire partial report directory is preserved with
+suffix _oom57987709. The successful evaluations allocated two GPU shares for
+110 GiB host memory while calculating on one GPU. No science code, threshold,
+sample, voxel mask or field calculation changed during that memory recovery.
+Both terminal reports verify the authorized native-support amendment retaining
+all 133,698 galaxies, including 736 nearest-voxel M=0 cases.
+
+D2_SEED42_PH006_DECISION.json SHA256
+59dbdf518b213856ce5d7ede75645f9229718005b8dd07fda8332079f9bd88c9 reports
+seed_pass=true: all 14 NFE100 science checks and all four NFE50/100 convergence
+checks pass. Global coverage error is 0.04870 against 0.05; maximum deployable
+conditional error is 0.08768 against the separately registered 0.10 tolerance.
+Ordered-eigenvalue/eigengap/five-shear TARP deviations are
+0.02578/0.01940/0.02317. Low-band power ratios are 0.96368/1.02375.
+Paired field-energy improvement is 2.3427% over F3-L2b (registered minimum 2%)
+and 6.4421% over G1; candidate-minus-F3-L2b is -0.13427 with authoritative-core
+bootstrap 95% interval [-0.17833,-0.09142]. The largest sampler coverage change
+is 0.00521; all proper-score relative changes are below 0.00178.
+
+This is a registered single-training-seed pass, not exact conditional calibration,
+independent-phase replication, coherent full-cap closure or blind production
+promotion. Some margins are narrow. The descriptive three-point statistic has
+rank-CDF deviation 0.2186 and is not a promotion gate; retain that limitation.
+D2_SECOND_SEED_LICENSE.json licenses only the pre-registered seed314159 arm,
+12,500 presentations and EMA choice. D2_STOCHASTIC_CONTROL_LICENSE.json is false:
+no stochastic control was submitted because deterministic convergence passed.
+
+On the user's instruction to continue, submitted replication training 58065554,
+export50 58065566, export100 58065567, native evaluation50 58065569,
+native evaluation100 58065570, replication decision 58065575 and combined
+decision 58065581. Exports use the unchanged 467f442 worktree; evaluations use
+the already-frozen native amendment and tested 110-GiB request. The new operational
+wrapper submit_p12f3_d2_replication_fullwall.slurm allows six hours for training
+from initialization, with soft stop 21,000 seconds; it does not change the
+12,500-presentation scientific cap or retry automatically. Source SHA256
+98771b7a2fd38ee0ee3fc82a9ce09bb610b02877b87fbc7801617501b88be126.
+The entire chain is dependency-gated and was pending when this entry was written.
+D2 remains incomplete until replication and the combined decision terminate.
+Receipts and frozen seed42 results are archived under
+docs/evidence/p12/p12f3_d2_20260906/. P12-B remains complete with no demonstrated
+absolute continuation gain; P12-A blind green and E2E preparation are unchanged.
+
+
+### 2026-09-06 - [science/result] P12-B follow-up complete; native-support D2 chain running
+
+P12-B continuation completed with all numerical gates passing at 6,000 total
+updates and 431,146 row presentations per arm. Internal energy scores:
+point 0.142606, frozen 0.139953, joint 0.139702, separate-clipping joint
+0.140616, warm-start joint 0.140363. Joint-minus-frozen remains unresolved:
+-0.000251 [-0.001427, +0.000903]. Separate clipping is slightly worse than
+continued joint: +0.000914 [+0.000022, +0.001677]; warm-start is also worse
+than continued joint: +0.000661 [+0.000335, +0.001034]. Intervals are descriptive,
+unadjusted 2,000-bootstrap intervals over 56 cap+superblock clusters.
+
+The apparent frozen-minus-point advantage at 6,000, -0.002653
+[-0.003831, -0.001473], must not be mistaken for an absolute representation
+improvement: the point continuation deteriorated relative to its 3,000-update
+parent by +0.003694 [+0.001456, +0.005696]. No continuation demonstrates an
+energy improvement over its parent. Longer point/frozen training shows broader
+intervals and pooled overcoverage; joint variants retain component/shell
+undercoverage. Therefore a larger constant-LR budget, warm-starting or separate
+clipping does not reliably fix this pilot. These tests do not establish that
+joint FMPE is intrinsically ineffective, or identify overfitting versus
+optimization drift as the cause.
+
+Additional lightweight aggregation of existing row summaries confirms that
+feature permutation moves posterior mean vectors by mean Euclidean
+0.2037/0.2143 (frozen/joint), while average marginal widths change only about
+1--2.5%. Thus the fitted heads use the latents for substantial location information.
+This is consistent with, but does not prove, redundancy with the strong cached
+point summary. A future investigation should stabilize the head-training protocol,
+separate inherited location information from residual uncertainty information,
+and require multi-phase/seed replication. No further variants are auto-launched.
+
+Full scientific interpretation and the archived comparison:
+docs/evidence/p12/p12b_representation_followup_v1/RESULTS.md and
+FOLLOWUP_COMPARISON.json (SHA256
+8296b3da2f96b0886fab72d4855ed87f8e6a16fa2f037c45ec4c4283d90d15cf).
+All original pilot artifacts remain unchanged; no ph006 payload or ph001 data
+were used. The combined diagnostic allocation 57986464 was released and
+COMPLETED 0:0 after 40m44s; its scheduler receipt records the corrected intermediate
+plotting-step failure as well as the successful scientific stages.
+
+D2 native-support smoke passed on affected core 208, retaining all 4,009 galaxies
+including its 28 nearest-voxel M=0 cases. It reproduced the original guard error
+and passed the amended derived calculation, without changing masks or calculations.
+Smoke SHA256 b4f4ad34caf7cdfcecaec674ce14b7397d1311b9bdb0c4c8b3c95d78a9d81cb5.
+Submitted native evaluation50 57987709, evaluation100 57987713
+(afterok 57985431 + 57987709), and unchanged decision 57987720 (afterok 57987713).
+Cancelled only the stranded old jobs 57928653, 57928655 and 57928840; export100
+recovery 57985431 remains running. Eval50 is running and has passed 160/256
+common-evaluation cores. D2 is not yet scientifically complete. The old unamended
+dispatcher is disabled; any further frozen science licence must use the native
+evaluation path. See D2_NATIVE_CHAIN_SUBMITTED.json in the D2 evidence directory.
+
+### 2026-09-06 - [science/code] D2 native-footprint amendment authorized; P12-B optimization controls running
+
+The D2 geometry/construction audit rules out patch truncation. None of the 736
+nearest-voxel M=0 galaxies is near a context edge (minimum 24.14 voxels).
+Core-face distance medians are 2.39 voxels for these galaxies and 2.45 for the
+132,962 nearest-voxel-supported rows. All 133,698 authoritative galaxy positions
+are inside the native random-map angular/cap footprint and registered radial
+cuts. Exactly 736 nearest voxel centres fall outside that footprint; independent
+mask reconstruction gives zero disagreements at sampled voxel centres. All 736
+galaxies are within 1.341 voxels of a supported centre (722 within one voxel).
+The grid cell is 5 Mpc. This is boundary/hole discretization, not rounding error,
+archive corruption, true out-of-footprint galaxies or context-patch truncation.
+
+After seeing that evidence, the user explicitly approved retaining all galaxies
+and replacing only the galaxy-support check with verified native-footprint
+membership. This supersedes the proposed nearest-voxel-supported subset amendment.
+docs/d2_native_support_amendment_20260906.md records the scope. The additive
+D2_NATIVE_SUPPORT_AMENDMENT.json SHA256 is
+3a6ef4d38c0cc659f87cef8894f57cb4b3ea1028728e094a1da2d432eee7a546.
+The base contract and 467f442 worktree remain unchanged; the separate amended
+entrypoint imports all original science modules from that worktree and still runs
+its strict Git/source/data guards. Four focused tests pass, including AST
+equivalence of metric functions and a sole-guard change in derived conditionals.
+Production evaluation awaits a real affected-core smoke; no amended score/pass is
+claimed yet. Export100 recovery 57985431 is running and passed core 162/256.
+
+P12-B read-only diagnostics completed in 277.3 seconds on allocation 57986464.
+Original posteriors replay with maximum difference zero for every arm; all
+Heun64/128 refinement gates and the exact point-only ablation control pass.
+Frozen feature permutation raises internal energy by 0.08098
+[0.07273,0.08868]; joint permutation by 0.08693 [0.07823,0.09469].
+These off-manifold interventions establish fitted-model reliance, not additional
+conditional information beyond the cached point prediction/response.
+The joint feature RMS shift is 0.1713 training-standardized units; channel spread
+is retained and the old deterministic head is unchanged. Joint gradients were
+clipped on 90.9% of logged updates versus 23.1% for point/frozen; terminal mean
+head/encoder norms are 3.59/14.98 on 32 fixed training probes. Adam's adaptive
+scaling prevents treating these norms alone as proof of an optimization cause.
+
+Registered docs/plan_p12b_representation_followup_v1.md and
+configs/p12b_representation_followup_v1.json before new training. Five arms extend
+to 6,000 total updates: point/frozen/joint continuations, joint with separate
+group clipping from the same joint parent, and joint warm-start from the trained
+frozen head (including its AdamW state). Head/encoder LRs stay 5e-4/1e-5.
+Four new clipping tests and all five real-patch smoke/replay tests pass
+(maximum replay difference 2.384e-7). All arms have now completed the same
+431,146 total row presentations. Internal-only terminal evaluation is running.
+No ph006 payloads or ph001 data are used, and no production/calibration promotion
+is permitted. The stage reuses allocation 57986464, has an 1,800-second limit,
+and does not extend or chain allocations. Original P12-B artifacts are unchanged.
+
+### 2026-09-06 - [code/run] D2 support geometry and P12-B feature-use investigation launched
+
+Following the user's two annotations, registered
+docs/plan_p12_followup_diagnostics_20260906.md and
+configs/p12b_representation_diagnostics_v1.json. D2's proposed supported-galaxy
+conditional amendment is not yet applied: first locate all 736 M=0 galaxies
+relative to core faces, context faces and survey support, and independently
+reconstruct angular/radial mask membership at galaxies and nearest voxel centres.
+If galaxies are internal to patches, investigate support construction before
+changing the evaluated population. The user explicitly made this a prerequisite.
+
+One authorized shared-interactive allocation 57986464, nid008409, one A100 80GB,
+32 logical CPUs and Scratch license, runs both diagnostics with a one-hour cap.
+Six focused tests pass on the login node and compute node. Launcher:
+workflows/sbi/run_p12_followup_diagnostics.sh.
+D2 export100 recovery 57985431 remains independent and pending Priority.
+
+The P12-B stage is read-only: preserve all three terminal checkpoint/source/data
+contracts, verify original internal posterior replay, measure per-tensor encoder
+movement, feature drift, sparse loss/clipping traces and terminal separate
+head/encoder gradients on 32 fixed training cores. On all 128 original ph005
+internal cores, zero or cap/shell-permute only the 32 feature channels; preserve
+the point/response block, rows and common posterior/loss noise. The point arm is
+an exact negative control. Energy/CRPS/coverage/widths and paired spatial-cluster
+uncertainty retain the original panel estimand and numerical refinement gates.
+Ablations probe fitted-model reliance, not conditional information sufficiency.
+
+No ph006 payloads or ph001 data are used for P12-B. No optimizer updates,
+calibration, production promotion, automatic retry or follow-on allocation are
+part of this initial diagnostic launch. A warm-start/budget/learning-rate study
+will be specified only after these diagnostics; no such training has yet started.
+Outputs: the official D2 root's recovery_20260906/SUPPORT_GEOMETRY_57986464.json,
+and the dedicated Scratch p12b_representation_diagnostics_v1/ directory,
+with logs/followup_57986464.log. No result is asserted before those complete.
+
+### 2026-09-06 - [code/diagnostic] D2 export recovery submitted; conditional evaluation blocked by genuine support mismatch
+
+User authorized bounded D2 recovery and continuation to completion. The 100-step
+export job 57928647 exited 75 at its internal 6600-second budget, after 145/256
+cores; this was not the four-hour Slurm limit. Evaluation job 57928651 completed
+its common 256-core evaluation but failed the derived-conditional M=1 galaxy
+assertion. No scientific D2 completion or ranking is claimed.
+
+Read-only audit allocation 57985230 (nid008393, one shared-interactive GPU)
+COMPLETED 0:0 and was released after 2m46s. All 50-step archive shard hashes,
+canonical support masks and float32 coordinate identities agree. Exactly
+736/133698 galaxies across 84 cores have M=0 under archive rounding, canonical
+float64 rounding and the alternative cell rule; there are zero rounding-induced
+support changes. Thus removing the assertion alone is not a numerical repair.
+The original all-row galaxy sample and support mask remain unchanged. A supported
+conditional subset would require an explicit amended estimand, identical handling
+for all matched references, and separate accounting of unsupported rows.
+
+The audit also verified hashes and the frozen panel prefix for all 145 saved
+100-step shards. One authorized recovery job 57985431 was submitted with the
+unchanged, clean 467f442c5c54864658fdfaf948335d6e11a647fe worktree and config hash
+3143ce1dfdb9546d3eb40413feab91bafa11b70718a2e4bb0ecb451080793533.
+It resumes the remaining 111 cores through the existing launcher; no automatic
+retry was added. Job is pending Priority at this record. Downstream evaluation,
+decision and dispatcher jobs remain blocked on the old failed chain; no replacement
+evaluation or scientific-contract modification has been made pending direction.
+
+Audit source: workflows/sbi/p12f3_d2_recovery_audit.py.
+Audit receipt:
+docs/evidence/p12/p12f3_d2_20260906/READONLY_AUDIT_57985230.json.
+Original large artifacts remain under the official D2 Scratch root.
+
+P12-B follow-up diagnosis: joint gradients are present even at update 3000, so a
+disconnected encoder is not supported by the trace. Its final logged pre-clipping
+gradient norm is 12.89 (clip threshold 5), with encoder max gradient 1.616.
+This is not evidence of convergence or adequate representation use. One seed,
+one posterior-training phase, 3000 updates, and head/encoder rates 5e-4/1e-5
+cannot establish that joint FMPE is intrinsically unhelpful. Proposed next checks
+are loss/clipping trajectories, relative encoder movement and feature-use
+ablations on internal data, followed only if warranted by a registered
+warm-start/learning-rate/budget study with phase/seed replication. No new P12-B
+training or ph006-driven tuning is launched; ph001 is not accessed.
+
+### 2026-09-06 - [science/result] P12-B pilot complete: no convincing representation gain at the matched budget
+
+Interactive allocation `57959501` and step `57959501.0` both COMPLETED, exit
+`0:0`; application/srun exit was 0. The allocation was released after 17m35s
+(step 15m37s). All three arms completed 3,000 updates and exactly 216,138 galaxy
+presentations. The common-noise Heun64/128 checks pass on both panels for every
+arm: mean absolute scaled draw differences <=4.02e-5, physical log-score
+differences <=3.08e-4, and measured 68/90% coverage differences zero on the
+registered 128-row refinement subsets. This is numerical/technical completion,
+not a conditional-calibration or production pass.
+
+| Matched pilot arm | Internal energy (1,717 rows) | ph006 energy (1,687 rows) |
+| --- | --- | --- |
+| point prediction + response | 0.138912 | 0.149972 |
+| + frozen 32-d U-Net features | 0.138369 | 0.149711 |
+| + jointly fine-tuned features | 0.139325 | 0.149954 |
+
+Lower energy is better. Paired cap+superblock bootstrap (56 internal / 103
+transfer clusters, 2,000 draws) gives frozen-minus-point internal
+-0.000543 [ -0.001459, +0.000280 ] and transfer
+-0.000261 [ -0.001080, +0.000517 ]; neither interval resolves a gain.
+Joint-minus-frozen is worse internally, +0.000957
+[ +0.000066, +0.001940 ], and unresolved in transfer, +0.000243
+[ -0.000871, +0.001348 ]. These are descriptive, unadjusted paired intervals
+within a one-seed/one-posterior-training-phase development pilot.
+
+Coverage does not rescue joint training. On ph006, nominal 68% marginal coverage
+is 0.691/0.656/0.659 for point, 0.676/0.632/0.647 for frozen, and
+0.654/0.619/0.630 for joint. Shell diagnostics retain larger local deficits.
+Physical log score (higher better, a bounded common subset) is
+2.5485/2.5354/2.5033 on ph006 for point/frozen/joint. CRPS, widths,
+TARP curves, row identities and all per-shell metrics are in the report.
+
+Decision: no production representation change is supported by this run.
+It is a useful matched negative/null pilot, not evidence that the 32-d features
+contain no extra information or that joint FMPE cannot work at a different
+registered training scale. The point arm is a newly retrained matched pilot,
+not the full P12-A estimator. Larger or replicated work would need a separately
+registered multi-phase/seed design and independent confirmation, without using
+ph006 for posthoc calibration. P12-A/D2/ph001 artifacts remain unchanged.
+
+Archived small reports, training/source/data manifests and the scheduler receipt:
+`docs/evidence/p12/p12b_unet_representation_v1/`.
+`P12B_COMPARISON.json` SHA256:
+`7c923824eb727bf3e97559846febb5cd14b61d6d2d7841eff03e9711af6d6dfc`.
+Parent-keyed patch caches, 128-draw posterior shards and resumable terminal
+checkpoints remain in the dedicated Scratch pilot root. No automatic follow-on
+allocation or batch submission was made.
+
+### 2026-09-06 - [code/run] P12-B matched U-Net representation/FMPE pilot launched interactively
+
+Following the user's representation-testing request, registered
+`docs/plan_p12b_unet_representation_pilot.md` and
+`configs/p12b_unet_representation_v1.json` before data/score inspection.
+The feature interface is U-Net [1,3,X,Y,Z] -> [1,32,X,Y,Z] -> trilinear sampling
+at authoritative galaxies -> [N,32]. A conditional FMPE head models three ordered
+softplus coordinates per galaxy; it does not generate a coherent tidal field.
+
+The nested arms share cached physical point prediction (3) + deployable response
+(4), then either zeros, frozen 32-d features, or differentiable jointly fine-tuned
+32-d features. All use one terminal epoch-20 omit-ph005 encoder trained on
+ph000/ph002/ph003/ph004, not independently aligned fold latents or a ph005-selected
+best checkpoint. The old deterministic point head and cached point predictions
+remain unchanged. Posterior training is ph005 folds 0--3; selected fold-4 internal
+input-context boxes are disjoint from training boxes within cap. ph006 is a fixed
+historical development/transfer diagnostic, not new blind evidence or a selector.
+The design is not motivated by ph001 outcomes; this workflow never accesses ph001
+and does not change P12-A, D2, or their artifacts.
+
+One user-authorized shared_interactive allocation `57959501`, node `nid008213`,
+provides one A100 80GB and 32 logical CPUs for at most two hours, with Scratch
+licensed. The exact cosmic_env launcher passed ten focused tests on CPU and again
+on the compute node. Data preparation completed in about 81 seconds: 512/128/128
+train/internal/diagnostic cores contain 36,812/10,458/10,145 supported selected
+galaxies. Identities, selection/normalization sources, response parent joins and
+small-array hashes are bound; large source HDF5 payloads are referenced through
+existing manifests, not rehashed. All posterior transforms fit training rows only.
+
+Real-patch smoke passed every arm: cached/online feature difference zero, frozen
+encoder invariance, unchanged old point head, finite loss/samples/exact-divergence
+log density, and nonzero joint encoder gradient (maximum 0.0248055). Installed
+SBI 0.26.1 initializes its FMPE output at zero: the conditioning gradient opens
+after the first shared optimizer step. This was caught in testing, not bypassed.
+Checkpoint replay differences were zero for point/frozen and 2.98e-8 for joint,
+below the registered 1e-6 CUDA numerical tolerance; bitwise grid_sample backward
+determinism is not claimed. Trainable parameter counts are 350,723 for each frozen
+head arm and 1,770,859 for joint. Training has started at the fixed 3,000 updates
+per arm, with identical core order and loss noise/time seeds.
+
+The runner writes atomic checkpoints and bounded evaluation shards, physical energy
+and CRPS, coverage/widths by shell, TARP in physical eigenvalue/gap coordinates,
+exact-3D-divergence physical log scores, and paired cap+superblock bootstrap
+differences. Common-noise Heun64/128 refinement gates qualify numerical reliability.
+A completion report is technical only: no automatic calibration-pass or production
+promotion is allowed. A single posterior-training phase and the balanced panel
+estimand require replication before a production representation decision.
+
+Sources: `workflows/sbi/p12b_unet_representation.py`,
+`workflows/sbi/p12b_unet_representation_common.py`,
+`workflows/sbi/run_p12b_unet_representation_interactive.sh`,
+`tests/phase4/test_p12b_unet_representation.py`.
+Scratch root: `/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12b_unet_representation_v1`;
+`P12B_DATA_READY.json`, `P12B_SMOKE_PASS.json`,
+`LAUNCH_57959501_all.json`, and `logs/interactive_57959501.log` hold live evidence.
+Soft deadline is 6,600 seconds with checkpoint reserve; no allocation chaining,
+batch fallback, ph006 tuning, or unrelated Slurm change is authorized.
+Repository and global graphify indexes were refreshed.
+
+### 2026-09-05 - [code/status] P12-A blind evaluation green; D2 trained, exports eligible
+
+Live scheduler reconciliation confirms P12-A precision recovery `57935710`,
+dispatcher `57935711`, finalization `57936484`, energy score `57936488`,
+evaluation `57936490` and plotting `57936491` all COMPLETED with exit `0:0`.
+The frozen `blind_predictions/ph001/evaluation/P12A_PH001_BLIND_EVALUATION.json`
+reports `pass=true`, `release_status=green`, and all ten registered gates pass
+on 4,897,905 rows. Coverage68 is 0.66661/0.67075/0.66480; coverage90 is
+0.89115/0.89481/0.89001. Maximum conditional error is 0.03429, and sparse-shell
+error is 0.02898. Gaussian-minus-FMPE joint energy improvement is 0.008999
+(95% authoritative-core bootstrap interval 0.008740--0.009264; 8,199 blocks).
+The report permits its registered full-footprint claim; this remains per-galaxy
+inference, not a coherent field posterior or a claim of exact conditional
+calibration. `open_count=1`, no post-open refit, and no P13/Loa action.
+
+D2 science job `57928836` COMPLETED with exit `0:0` in 3h38m37s.
+`D2_TRAINED.json` records 12,500 presentations / 6,250 optimizer updates and
+selects the 12,500-presentation EMA checkpoint for modern_base4, seed42.
+First export `57928645` is PENDING on Priority with Dependency=(null): its
+training dependency is satisfied, not broken. Export100 `57928647`, eval50
+`57928651`, eval100 `57928653`, decision `57928655`, and licensed dispatcher
+`57928840` remain queued downstream. D2 scientific completion is still pending.
+No jobs were submitted, cancelled, retried or modified during this status check.
+
+### 2026-09-05 - [science/code] Sharpen E2E field science and begin allocation-free data preparation
+
+The user prioritized environment correlations and cosmic-web connectivity and
+authorized research, plan revisions and initial data products, with allocations
+left for a later day. `docs/plan_end_to_end_conditional_field_posterior.md` and
+`docs/e2e_field_research_review_20260905.md` now connect the field posterior to
+regional web fractions, environment pair statistics and a secondary connectivity
+event. BORG/Leclercq already establish survey-conditioned density/tidal-web
+realizations; novelty is restricted to an accurate, efficient amortized
+approximation and its response/dependence/science-functional benchmark.
+
+The review adds a pre-training `R0-PHYSICS` gate: independent native tensor truth
+must quantify observer/box coordinates, native sampling, parent DC and external
+tidal contributions before a learned-model error is interpreted. A finite density
+crop does not determine exterior harmonic shear. The inherited grid is 5 Mpc
+(3.383 Mpc/h with observer h=0.6766), not 5 Mpc/h, and uses a fixed z=0.2 target.
+The sampler now has one parent state synchronized at every velocity/denoising
+evaluation; identical initial noise in separately evolved crops is insufficient.
+Low/high noise and velocities must preserve complementary subspaces. Wavelet CFM
+remains gated, but its contrast is explicitly wavelet/network inductive bias;
+orthogonal coordinates alone preserve the Gaussian CFM loss. CFM/diffusion compare
+registered path, weighting and solver recipes, not disjoint hypothesis classes.
+
+Fresh simulation evidence remains unassigned. Source-box aliases and all halos
+must be grouped before split assignment; independent training seeds do not create
+independent phases. Finalist ranking is frozen on internal selection, before
+confirmation/external results. Observation-ignored and shuffled-condition controls
+join the calibration suite because marginal ranks can miss ignored observations.
+MIRA remains supplementary pending a sensitivity study with its finite-N reference.
+
+The new metadata preparer constructs 12 phase/cap source records and 96 parent
+geometry proposals in `docs/evidence/e2e_field_v1/preparation_20260905/`, including
+child ownership, explicit units and provisional periodic source-box overlap pairs.
+It reads bounded JSON metadata only: no target/response array values, historical
+normalizers or ph001 sources. Proposals remain support-unscreened, split-unassigned
+and `training_ready=false`; large payload hashes are recorded, not reverified.
+
+A separate 128-example, 12-cell analytic Gaussian fixture supplies exact and
+deliberately defective posterior samples under `analytic_fixture_20260905/`.
+Removing sibling covariance preserves local marginals but reduces the analytic
+variance of the regional sum from 20.370 to 14.273 (about 30%). Its scalar MIRA
+contrast is unresolved at this small sample size; it is not a power study or a
+cosmological calibration pass. Eleven focused tests pass. The review specifies
+response screening, source-identity checks, independent tensor references and
+parent extraction for a later CPU session. No allocation, Slurm action, substantial
+field computation, training, P12-A/D2 code change or ph001 access occurred.
+
 ### 2026-09-05 - [code/run] Authorized precision-only recovery passes full-row smoke and resumes P12-A
 
 The user approved continuing after the explicit precision-exception request.
@@ -177,6 +624,41 @@ licensed. GPU allocation `57928395` freezes final selection and runs the one-ope
 official output root. Only a passing confirmation permits the existing canary
 checkpoint to continue within the 12,500-presentation cap. No ph006 D2 candidate
 evaluation has occurred, and D2 never reads ph001.
+
+### 2026-09-04 - [science/plan] Bound the coherent-field programme to a three-arm causal design
+
+`docs/plan_end_to_end_conditional_field_posterior.md` remains a research-only
+successor question beyond the local/hybrid P12-F models. It does not reopen P12-F
+selection or alter P12-A, D2, P13, ph001 or any active job. The design now contains
+two matched generative-objective arms (`E2E-CFM`, `E2E-DIFF`) and one gated
+fine-representation challenger (`E2E-WCFM`). The latter shares the exact Fourier
+coarse CFM posterior and changes only the complementary fine residual to an
+orthonormal wavelet representation. This licenses two causal contrasts: CFM versus
+diffusion under the baseline representation, and wavelet versus baseline fine
+coordinates under CFM. It does not license a wavelet-diffusion interaction arm.
+
+The closest literature sharpens rather than removes the motivation. CosmoFlow
+demonstrates scale-aware 2-D flow representation learning, Cosmo3DFlow demonstrates
+3-D wavelet CFM for periodic initial-condition reconstruction, EFT field inference
+provides controlled sampler/likelihood consistency tests, and JADE/MIRA demonstrates
+a sample-only multivariate diagnostic for a 2-D map-plus-cosmology posterior. None
+of those comparators by itself establishes a response-conditioned late-time 3-D
+CutSky field posterior with shared-superpatch stochastic identity and joint
+density/tidal/cross-sibling calibration. That combination is the bounded novelty
+claim; it is earned only by independent-simulation closure, not by the architecture
+or plausible samples.
+
+`R0-WAVELET` is a checkpoint-free transform/boundary/physics gate and
+`R1-WAVELET` is one paired learned canary; failure of either deletes the third arm.
+`MIRA-ACTIVATION` must detect frozen mean, width, long-mode covariance and
+independent-child alternatives before MIRA becomes a co-primary hard gate. Pooled
+spatial PICP, relative predictive variance, diversity spectra, visual samples and
+truth-environment strata remain supplementary. An auxiliary power-spectrum loss,
+periodic padding, spatial GroupNorm, fully wavelet coarse model, fourth learned
+model and successor after failure are forbidden. Only one provisional finalist may
+receive a second seed; replication failure promotes no runner-up. Fresh external
+evidence is required, ph006 is legacy development evidence, ph001 stays reserved
+for P12-A, and no training or Slurm submission is authorized by the plan.
 
 ### 2026-09-04 - [code/run] Freeze and launch the bounded P12-F3-D2 capacity funnel
 

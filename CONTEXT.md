@@ -22,7 +22,32 @@ The published foundation is Kololgi et al. 2025 (RASTI,
 doi:10.1093/rasti/rzag025), a graph-attention classifier trained on
 IllustrisTNG-300.
 
-## Current production anchor
+## Current programme state — reconciled 2026-09-08
+
+- **P12-A:** the untempered, uncorrected coordinate-aligned FMPE is the first
+  per-galaxy posterior product. Its one-open ph001 evaluation reports green and
+  all ten registered release gates pass on 4,897,905 galaxies. This is a
+  registered conditional-on-mock/HOD claim, not exact conditional calibration,
+  HOD marginalization, sim-to-real validation, or a coherent field posterior.
+- **P12-B:** the matched point/frozen-latent/joint pilot and five-arm continuation
+  are complete. Features are connected and used, but neither the pilot nor the
+  continuation supports a production representation change. No further variant
+  is automatically licensed.
+- **D2:** seed42 passed its registered native-support-amended science and sampler
+  ladder. The second training seed and combined-decision chain are submitted;
+  no two-seed promotion is recorded. All galaxies were retained, and the
+  registered conditional tolerance is 0.10 versus 0.05 for global/joint checks.
+- **E2E-FIELD:** metadata proposals and a small analytic fixture exist, but
+  `training_ready=false`; support/split, independent physics, extraction and
+  diagnostic-power gates remain. No learned training has begun.
+- **P13/Loa:** held pending separate authorization. P12-A's single blind opening
+  does not authorize ph001 reuse by D2, P12-B or E2E.
+
+See `docs/plan_generalisable_graphweb_vac.md`, the P12-B plans and
+`docs/plan_end_to_end_conditional_field_posterior.md`. These status statements
+come from the recorded terminal evidence, not continuous scheduler monitoring.
+
+## Historical graph/NPE baseline
 
 - Training data: AbacusSummit HOD cutsky mocks with CACTUS T-web labels.
 - T-web convention: potential Hessian, `lambda_th = 0.2`, smoothing scale
@@ -36,7 +61,7 @@ IllustrisTNG-300.
 - G3 union-graph NPE performance: R2 = 0.804 / 0.846 / 0.895 for
   lambda_1 / lambda_2 / lambda_3.
 
-## Active direction: field-level physics-grounded inference
+## Field-level physics-grounded inference: motivation and historical evidence
 
 The immediate research priority is field-level inference rather than further
 equivariant-architecture exploration:
@@ -51,14 +76,15 @@ so the density-to-tidal mapping is physical and differentiable rather than
 learned. This supports tensor consistency and supplies eigenvectors for future
 intrinsic-alignment science.
 
-Current evidence:
+Earlier deterministic evidence (not posterior-selection scores):
 
 - T2: a 3-D U-Net on 5 Mpc voxelised galaxy counts reaches lambda_1
   R2 = 0.876 +/- 0.004 across three seeds.
 - T4/F1: graph encoder -> CIC scatter -> 3-D U-Net -> fixed physics layer
   reaches R2 = 0.841 / 0.897 / 0.931.
-- The field encoder is not yet production: it must meet the NPE calibration
-  gate, beginning with the F1 FlowJAX posterior head.
+- These deterministic scores do not establish posterior calibration. The
+  current posterior status is the P12-A/P12-B/D2 summary above; full-cap field
+  coherence remains a separate E2E research question.
 
 The graph work remains central: the results indicate that representation scale
 and a physics-grounded output are the main levers. A CNN is a GNN on a regular
@@ -103,10 +129,14 @@ results. Add only genuine decisions, hypotheses, results, and direction changes;
 keep newest entries first.
 
 Local desktop work is primarily science, planning, and interpretation. NERSC
-work is implementation, data processing, and interactive GPU experiments.
+work includes implementation, data processing, interactive development and
+user-authorized frozen production jobs.
 Synchronise through git and the science log:
 
 1. Pull with `git pull --no-rebase` before pushing.
 2. Preserve all log entries when resolving conflicts.
-3. Commit and push substantive science-log updates promptly.
-4. Use tmux for NERSC work that must survive SSH/VPN interruptions.
+3. Commit substantive science-log updates; push when requested or authorized.
+4. Use the NERSC allocation workflow: interactive allocations for development,
+   explicitly authorized Slurm batch for frozen production. A login-node tmux
+   supervisor is not a substitute for scheduler persistence. Preserve all
+   scheduler approval rules and frozen source worktrees.

@@ -1,0 +1,25 @@
+{
+  "schema_version": "d2-native-support-recovery-chain-v1",
+  "created_utc": "2026-09-06T19:21:11Z",
+  "base_revision": "467f442c5c54864658fdfaf948335d6e11a647fe",
+  "native_support_amendment_sha256": "3a6ef4d38c0cc659f87cef8894f57cb4b3ea1028728e094a1da2d432eee7a546",
+  "smoke_sha256": "b4f4ad34caf7cdfcecaec674ce14b7397d1311b9bdb0c4c8b3c95d78a9d81cb5",
+  "smoke_allocation": "57986464",
+  "smoke_core": 208,
+  "smoke_retained_galaxies": 4009,
+  "smoke_nearest_voxel_m0": 28,
+  "retained_export_recovery": "57985431",
+  "jobs": [
+    {"job_id": "57987709", "action": "evaluate primary 50", "afterok": []},
+    {"job_id": "57987713", "action": "evaluate primary 100", "afterok": ["57985431", "57987709"]},
+    {"job_id": "57987720", "action": "decide primary", "afterok": ["57987713"]}
+  ],
+  "cancelled_stranded_jobs": ["57928653", "57928655", "57928840"],
+  "original_science_code_changed": false,
+  "voxel_masks_changed": false,
+  "galaxies_dropped": 0,
+  "ph001_access": false,
+  "automatic_retry": false,
+  "unamended_dispatch_disabled": true,
+  "science_complete": false
+}

@@ -3,12 +3,42 @@
 **Status:** ACTIVE WORKING PLAN
 **Created:** 2026-07-16
 **Programme:** Learning the Cosmic Web / GraphWeb-BGS
-**Controlling pre-shutdown objective:** **Demonstrate transferable deterministic
-inference under the new patch protocol.**
+**Current objective (2026-09-08):** preserve the validated P12-A per-galaxy
+product, finish the licensed D2 second-seed decision, and keep new coherent-field
+research behind its physics/data gates. The original pre-shutdown deterministic
+objective is retained in the historical protocol sections below.
 
-**Immediate objective:** replace interpolation-driven model selection with a common
+**Protocol foundation:** replace interpolation-driven model selection with a common
 spatially inductive training and validation protocol for graph, grid, field-physics,
-and classical estimators.
+and classical estimators. Deterministic R2 results below are historical evidence,
+not the current posterior-promotion metric.
+
+## Current evidence and next gates — 2026-09-08
+
+- P12-A passed all ten registered ph001 release gates on 4,897,905 rows, with
+  `release_status=green`, one opening and no post-open refit. The claim remains
+  per-galaxy, conditional on the registered mock/HOD; P13/Loa is not authorized.
+- P12-B pilot and representation/optimization follow-up completed. Numerical
+  checks passed, but no supported production representation change or absolute
+  continuation improvement was demonstrated. See the [follow-up result](evidence/p12/p12b_representation_followup_v1/RESULTS.md).
+- D2 seed42 passed all 14 science and four sampler checks under the explicitly
+  approved [native-support amendment](d2_native_support_amendment_20260906.md).
+  Global error 0.04870 is below 0.05; conditional error 0.08768 is below the
+  separately registered 0.10. Energy improves 2.3427% over F3-L2b against a 2%
+  minimum. These narrow margins, the descriptive three-point mismatch and the
+  one-phase limitations remain visible; this is not exact calibration or full-cap
+  closure. [The licensed second-seed chain](evidence/p12/p12f3_d2_20260906/D2_REPLICATION_CHAIN_SUBMITTED.json)
+  is submitted, with no combined verdict recorded here.
+- [E2E-FIELD](plan_end_to_end_conditional_field_posterior.md) has metadata-only
+  proposals and a small analytic fixture. Parent support/splits, independent
+  tensor/boundary truth, extraction and diagnostic power remain gated before
+  training; `training_ready=false`.
+- Per the user's instruction, queued jobs are left intact and active polling is
+  stopped. This reconciliation records known evidence, not a fresh queue audit.
+
+This snapshot supersedes prospective status/launch wording in older dated
+sections. Those sections preserve original registrations and negative results;
+they do not authorize repeated blind openings, allocations, or new variants.
 
 ## Authority and maintenance
 
@@ -3832,9 +3862,10 @@ Progress checklist:
 
 ### P12 — Posterior calibration
 
-**Status:** P12-A PH006 FIT/AUDIT COMPLETE, DIRECT PHYSICAL EIGENVALUE/EIGENGAP
-CALIBRATION PASSED, AND FROZEN AS THE FIRST PRODUCTION CANDIDATE; P12-F V1 AND
-V2 NO-FINALIST DECISIONS FROZEN; PH001 SEALED
+**Status (2026-09-08):** P12-A REGISTERED PH001 BLIND RELEASE GREEN;
+P12-B PILOT/FOLLOW-UP COMPLETE WITHOUT PRODUCTION CHANGE; P12-F V1/V2
+NO-FINALIST RECORDS PRESERVED; D2 SEED42 PASS, LICENSED SECOND SEED SUBMITTED.
+PH001 WAS OPENED ONCE FOR P12-A AND REMAINS EXCLUDED FROM NEW RESEARCH.
 
 P12 is the binding gate for the intended posterior/class-probability VAC. Begin it from
 scratch immediately after deterministic model selection on ph006 rather than waiting
@@ -3842,7 +3873,8 @@ for optional P11 or a long deterministic research tail. Deterministic protocol
 selection and a deterministic canary do not require FMPE/NPE, but the production VAC
 claim does.
 
-The v1 production spine is now
+The v1 production spine has completed through its immutable pass/fail report;
+the following registered sequence is retained to show the authorization boundary:
 
 ```text
 freeze P12-A
@@ -3865,9 +3897,9 @@ The separately versioned v2 rescue established that G1's modest joint miss survi
 much larger ph006 panel/draw budget and localized it to spatial/scale covariance.  The
 single licensed shell-conditioned covariance correction G2 did not improve the primary
 proper score and left eigengap TARP above threshold, so v2 is now closed with no field
-finalist. P12-A remains the production candidate and the truth-free ph001 export must
-now proceed independently of D2. The single blind evaluation reports pass/fail only;
-P13/Loa deployment is deliberately outside the present authorization.
+finalist. P12-A remains the production anchor; its truth-free export and single
+blind evaluation completed independently of D2. P13/Loa deployment is deliberately
+outside the present authorization.
 
 On the matched 128-core ph006 panel, correlated Gaussian G1 is the strongest bounded
 field baseline but still misses the gate: max derived TARP deviation `0.06044`, global
@@ -3902,11 +3934,14 @@ tempering that repairs average coverage while leaving shape failure is insuffici
 
 #### P12-A — Coordinate-aligned baseline posterior
 
-**Production state:** the existing untempered and uncorrected FMPE is frozen as
+**Production state (reconciled 2026-09-08):** the existing untempered and uncorrected FMPE is frozen as
 `P12A_PRODUCTION_CANDIDATE_FROZEN`. Bind the exact estimator checkpoint, dataset
 marker, architecture, transformations, ph006 corrected-calibration audit and quality
 thresholds. `P12A_CALIBRATION_PASS.json` remains absent because the strict conditional
-gate is not fully met; do not introduce a new ph006-fitted recalibration.
+gate was not fully met; do not introduce a new ph006-fitted recalibration. This
+historical marker boundary is distinct from the later registered ph001 release:
+`P12A_PH001_BLIND_EVALUATION.json` reports green and all ten gates passing on
+4,897,905 rows. Do not describe that release as exact conditional calibration.
 
 Complete this before using independently trained raw fold latents. Fit
 
@@ -4297,7 +4332,8 @@ Out-of-fold summary contract:
 **Status:** MATCHED 128-CORE V1 GAUSSIAN/FLOW/DIFFUSION GATE COMPLETE;
 `P12F_NO_FIELD_FINALIST.json` FROZEN FOR V1; 1,024-CORE V2 DEPENDENCY AUDIT AND
 G2 CONDITIONAL-COVARIANCE CONTROL COMPLETE; V2 NO-FIELD-FINALIST DECISION FROZEN;
-NOT A PRODUCTION MODEL; PH001 SEALED
+NOT A PRODUCTION MODEL; PH001 EXCLUDED FROM THIS RESEARCH BRANCH.
+D2 SEED42 NOW PASSES ITS SEPARATE REGISTERED LADDER; SECOND-SEED DECISION PENDING.
 
 The per-galaxy P12-A posterior remains the shortest production spine.  P12-F is the
 coherent-field challenger motivated by the fact that multiple tidal fields can be
@@ -4307,7 +4343,7 @@ compatible with one incomplete observed galaxy configuration.  Its estimand is
 p(delta_R7 | X_final, S_random, H_fid),
 ```
 
-**Current scheduling decision (2026-09-04):** reactivate the truth-free P12-A ph001
+**Historical scheduling decision (2026-09-04; completed, not a relaunch instruction):** reactivate the truth-free P12-A ph001
 export and dependent blind-prediction freeze now. P12-F3-D2 runs concurrently as a
 bounded v2 research branch and cannot delay the v1 opening. Jobs `57890469` and
 `57890760` were cancelled before starting; no ph001 product or truth was opened, so
@@ -5440,7 +5476,13 @@ dry-run manifest.
 
 ---
 
-## 15. Explicit defaults and closed branches
+## 15. Historical deterministic-protocol defaults and closed branches
+
+This is the original deterministic/shutdown register. The current posterior,
+blind-opening and research status is given in the dated snapshot at the top and
+in P12 above; in particular, ph001 was opened once for P12-A, JEPA's mainline is
+closed, and P12-A FMPE is no longer a deferred experiment. Preserve the older
+defaults below as protocol history, not current launch authority.
 
 - Primary hypothesis: protocol and independent training diversity.
 - Active model families: GraphNet, 3-D U-Net, F-tier.

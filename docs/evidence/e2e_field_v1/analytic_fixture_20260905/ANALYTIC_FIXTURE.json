@@ -1,0 +1,51 @@
+{
+  "analytic_independent_sibling_sum_variance": 14.273172820013146,
+  "analytic_mean_sum_variance": 20.369924708611407,
+  "candidates": {
+    "exact_posterior": {
+      "data_discrepancy_rank_mean_fraction": 0.50048828125,
+      "mean_posterior_sum_variance": 19.94172346211785,
+      "mira_mean": 0.6496212121212122,
+      "mira_parent_standard_error": 0.020838755503594528,
+      "sum_rank_mean_fraction": 0.4951171875
+    },
+    "ignores_observation_prior": {
+      "data_discrepancy_rank_mean_fraction": 0.046630859375,
+      "mean_posterior_sum_variance": 54.26819972699664,
+      "mira_mean": 0.6048768939393939,
+      "mira_parent_standard_error": 0.021851418357170985,
+      "sum_rank_mean_fraction": 0.481201171875
+    },
+    "independent_siblings": {
+      "data_discrepancy_rank_mean_fraction": 0.5029296875,
+      "mean_posterior_sum_variance": 13.946600088978967,
+      "mira_mean": 0.6375473484848484,
+      "mira_parent_standard_error": 0.021755559076821213,
+      "sum_rank_mean_fraction": 0.494873046875
+    },
+    "width_half": {
+      "data_discrepancy_rank_mean_fraction": 0.7783203125,
+      "mean_posterior_sum_variance": 4.985430865529462,
+      "mira_mean": 0.5215435606060606,
+      "mira_parent_standard_error": 0.023794943664243867,
+      "sum_rank_mean_fraction": 0.49609375
+    }
+  },
+  "draws": 32,
+  "fixture_bytes": 1548296,
+  "fixture_sha256": "a27cdb7b98bbd8011ed41cc0f287812390ca0bc8c1d5d97e3e25d0e626df956e",
+  "kind": "analytic_diagnostic_fixture_not_cosmological_data",
+  "limitations": [
+    "one small synthetic panel does not establish diagnostic power",
+    "no realistic survey masks or nonlinear tides used",
+    "rank means alone do not test rank uniformity",
+    "MIRA is supplementary until its full activation study passes"
+  ],
+  "mira_activated": false,
+  "mira_finite_sample_null_mean": 0.6565656565656566,
+  "mira_mass_draws": 31,
+  "parents": 128,
+  "power_study_performed": false,
+  "seed": 20260905,
+  "source_sha256": "d3bd03f4cdbc10122221de07085f7219edc9a18320614ca17f95966180e49d14"
+}

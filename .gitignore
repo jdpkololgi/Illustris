@@ -68,6 +68,10 @@ to-delete/
 # Graphify output
 graphify-out/
 
+# Small, durable scientific evidence (not training caches/checkpoints).
+!docs/evidence/e2e_field_v1/analytic_fixture_20260905/analytic_field_fixture.npz
+!docs/evidence/p12/p12f3_d2_20260906/support_geometry.png
+
 # Machine-local fonts (one-time IBM Plex install per PLOT_STYLE_GUIDE.md §2.3)
 assets/fonts/
 

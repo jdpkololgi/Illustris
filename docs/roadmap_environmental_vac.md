@@ -1,5 +1,14 @@
 # Roadmap v2 — DESI BGS cosmic-web environment VAC + papers
 
+> **Current status, 2026-09-08:** the July roadmap below is programme history,
+> not a current launch queue. P12-A passed its registered blind release gates;
+> P12-B's representation investigation is complete without a supported production
+> change; D2 seed42 passed and its licensed second-seed chain is submitted.
+> E2E-FIELD remains at metadata/analytic preparation, with physics/data gates
+> before training. P13 remains held. Use `SCIENCE_LOG.md`, the current-status
+> sections of `docs/plan_generalisable_graphweb_vac.md`, and
+> `docs/plan_end_to_end_conditional_field_posterior.md` for next actions.
+
 > **Active implementation plan, 2026-07-16:** The authoritative protocol-first
 > plan for encoder comparison, global graph/field construction, spatial patch
 > training, blind simulation validation, and VAC readiness is

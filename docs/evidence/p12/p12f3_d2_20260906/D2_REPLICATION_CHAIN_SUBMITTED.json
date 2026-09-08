@@ -1,0 +1,32 @@
+{
+  "date": "2026-09-08",
+  "status": "submitted_not_complete",
+  "jobs": {
+    "train": "58065554",
+    "export50": "58065566",
+    "export100": "58065567",
+    "evaluation50": "58065569",
+    "evaluation100": "58065570",
+    "replication_decision": "58065575",
+    "combined_decision": "58065581"
+  },
+  "training": {
+    "seed": 314159,
+    "arm": "modern_base4",
+    "presentations": 12500,
+    "weights": "ema",
+    "wall_hours": 6,
+    "soft_wall_seconds": 21000,
+    "launcher_sha256": "98771b7a2fd38ee0ee3fc82a9ce09bb610b02877b87fbc7801617501b88be126"
+  },
+  "evaluation": {
+    "native_support_amendment_sha256": "3a6ef4d38c0cc659f87cef8894f57cb4b3ea1028728e094a1da2d432eee7a546",
+    "cpus": 64,
+    "gpus_allocated": 2,
+    "gpus_used": 1,
+    "host_memory_gib": 110
+  },
+  "seed42_decision_sha256": "59dbdf518b213856ce5d7ede75645f9229718005b8dd07fda8332079f9bd88c9",
+  "stochastic_control_licensed": false,
+  "ph001_opened": false
+}

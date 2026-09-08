@@ -1,0 +1,78 @@
+{
+  "schema_version": "p12f3-d2-native-galaxy-support-amendment-v1",
+  "rule": "native-random-angular-cap-and-radial-support-at-authoritative-galaxy-v1",
+  "user_authorized": true,
+  "authorization": "2026-09-06 user approved retaining all galaxies with native-footprint check after full-panel audit",
+  "retain_all_galaxies": true,
+  "voxel_masks_unchanged": true,
+  "field_targets_unchanged": true,
+  "thresholds_unchanged": true,
+  "ph001_access": false,
+  "base_contract_digest": "859a686967c9fcb22284d042f55259b2e779732906597fcdd053a354e9a0f9ec",
+  "files": {
+    "base_contract": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_d2_diffusion_v1/official_467f442_seed42_v1/D2_CONTRACT_FROZEN.json",
+      "sha256": "92c18b3a695bf146fc3f942b8a40fe35c9e087b91b6c33639de3b69c6ec242dd"
+    },
+    "geometry_audit": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_d2_diffusion_v1/official_467f442_seed42_v1/recovery_20260906/SUPPORT_GEOMETRY_57986464.json",
+      "sha256": "a2164421c6a58f7ebcdfdb51c1d33d5b9963b55b1fcfe30945c312e9813e114a"
+    },
+    "construction_audit": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_d2_diffusion_v1/official_467f442_seed42_v1/recovery_20260906/construction_57986464/SUPPORT_CONSTRUCTION.json",
+      "sha256": "692cd4c2f97e25c5fdcf7fb827edc82612f173249a49b85370e8003d3364fa95"
+    },
+    "support_panel": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12f3_d2_diffusion_v1/official_467f442_seed42_v1/recovery_20260906/construction_57986464/SUPPORT_PANEL.npz",
+      "sha256": "7a5546ea7806bbcd62de4e5c76517d3d5249454320374bb257e3433128c56614"
+    },
+    "helper": {
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12f3_d2_native_support.py",
+      "sha256": "41e2c923d483e1642a480f75b06d4ff76cbacc2524b54c39fe29a2a4c5a39cdd"
+    },
+    "evaluator": {
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12f3_d2_evaluate_native_support.py",
+      "sha256": "1c484331cc5474813d17edcc511f70c11052027b8b887655714eab70f24adb2a"
+    },
+    "launcher": {
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/submit_p12f3_d2_native_support.slurm",
+      "sha256": "e18a9c09a0ba97e04cb562a2c09ccc6c6078ccec29d94fb26b8cf0096433bfd7"
+    },
+    "original_evaluator": {
+      "path": "/global/u2/d/dkololgi/TNG/Illustris_d2_467f442/workflows/sbi/p12f3_d2_evaluate.py",
+      "sha256": "9308245225b69310163671febb19fbb6e312f401452a5cf469417f3fd1782957"
+    },
+    "adapter_manifest": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract_r1_random/adapters/ph006/field/adapter_manifest.json",
+      "sha256": "09c08a010fb5319955de31edd168476076529b604f16af31fb67934894d70b31"
+    },
+    "selection": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/transforms/field/selection_manifest.json",
+      "sha256": "b010391138a3cb36f90c41506c85755e2154bdfee7e7ebe7e9f9a1d51662a526"
+    },
+    "angular_map": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p3b_random_response_v1/angular/randoms_n18.npz",
+      "sha256": "b3d45d06447d2978ad4dd60ec534e0d3ee85b2c6ba1545b827a2b9e0f6d53dc4"
+    },
+    "core_voxel_start": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph006/field/core_voxel_start.npy",
+      "sha256": "a9814786f4b462f9e98ba3009930baddceddff0005c9b740e270f4c9a6645656"
+    },
+    "core_active_offsets": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph006/field/core_active_offsets.npy",
+      "sha256": "a53089b40f50259a6341c71cb6413c0b90fe2efee194546f3f21e9944833eed4"
+    },
+    "core_active_parent": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph006/field/core_active_parent.npy",
+      "sha256": "504bff1466852966175644ef8eea7e1c69f83bbaaef298c4856b117b941eabf2"
+    },
+    "core_active_frac_index": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph006/field/core_active_frac_index.npy",
+      "sha256": "0d165f249f79befacc23f40d3871f09f3decf416403afbbc9706bb61cd6fbbdd"
+    },
+    "core_cap": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph006/field/core_cap.npy",
+      "sha256": "d6e40f20c083367302ff7ce9fa362632bbd10f6a5a7e5a84a7d10e38ae9f02b6"
+    }
+  }
+}

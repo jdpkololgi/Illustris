@@ -1,0 +1,27 @@
+{
+  "schema_version": "p12b-interactive-completion-v1",
+  "allocation": "57959501",
+  "node": "nid008213",
+  "qos": "gpu_shared_interactive",
+  "state": "COMPLETED",
+  "slurm_exit_code": "0:0",
+  "srun_exit_code": 0,
+  "allocation_elapsed": "00:17:35",
+  "step_elapsed": "00:15:37",
+  "allocation_released": true,
+  "tests": 10,
+  "all_real_patch_smokes_pass": true,
+  "sampler_refinement_pass": true,
+  "training_updates_per_arm": 3000,
+  "row_presentations_per_arm": 216138,
+  "training_phases_for_posterior": [
+    "ph005"
+  ],
+  "diagnostic_phase": "ph006",
+  "diagnostic_phase_is_new_blind_evidence": false,
+  "ph001_access": false,
+  "production_promotion": false,
+  "posthoc_calibration": false,
+  "science_decision": "No convincing representation gain at this registered pilot budget. Frozen-minus-point energy differences include zero on both panels; joint-minus-frozen is worse internally and unresolved in transfer. Coverage deficits remain. No production change; phase replication and independent confirmation required.",
+  "artifacts": "./P12B_COMPARISON.json and accompanying source/data/smoke/training manifests; large arrays remain in the dedicated Scratch root."
+}

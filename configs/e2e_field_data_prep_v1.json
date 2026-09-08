@@ -1,0 +1,52 @@
+{
+  "schema_version": "e2e-field-data-prep-v1",
+  "status": "preparation_only_not_a_training_contract",
+  "phase_registry": "configs/p10_phase_registry_v1.json",
+  "phase_root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase",
+  "response_contract_root": "/global/u2/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901",
+  "development_pool": ["ph000", "ph002", "ph003", "ph004", "ph005"],
+  "legacy_benchmarks": ["ph006"],
+  "forbidden_phases": ["ph001"],
+  "external_confirmation": null,
+  "future_blind": null,
+  "split_assignment": "deferred_until_source_box_overlap_audit",
+  "coordinate_contract": {
+    "observer_units": "Mpc",
+    "observer_h": 0.6766,
+    "cell_mpc": 5.0,
+    "cell_mpc_h": 3.383,
+    "target_epoch": 0.2,
+    "smoothing_mpc_h": 7.0,
+    "source_box_size_mpc_h": 2000.0,
+    "source_box_offset_mpc_h": -1000.0,
+    "target_frame": "real_space_snapshot_sampled_on_observer_lattice",
+    "observation_frame": "observed_redshift_space",
+    "axis_order": "ix,iy,iz",
+    "center_convention": "origin + (index + 0.5) * cell_mpc"
+  },
+  "geometry_proposals": {
+    "parent_side_voxels": [64, 96],
+    "child_core_side_voxels": 32,
+    "child_halo_voxels": 8,
+    "observation_halo_voxels": 16,
+    "alignment_voxels": 8,
+    "anchors_per_cap": 4,
+    "seed": 20260905,
+    "support_selection": "deferred_random_response_only",
+    "truth_values_used_for_selection": false
+  },
+  "bounded_io": {
+    "maximum_json_bytes": 2097152,
+    "read_hdf5_payload": false,
+    "read_npz_payload": false,
+    "hash_large_source_payloads": false
+  },
+  "deferred_compute": [
+    "random_support_screening_and_parent_overlap_graph",
+    "source_box_alias_and_split_guard_audit",
+    "full_box_tensor_reference_and_parent_boundary_closure",
+    "parent_hdf5_extraction_and_source_payload_hash_validation",
+    "full_size_transform_rng_and_synchronous_sampler_audit",
+    "diagnostic_sensitivity_power_study"
+  ]
+}

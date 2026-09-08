@@ -1,0 +1,769 @@
+{
+  "coordinate_contract": {
+    "axis_order": "ix,iy,iz",
+    "cell_mpc": 5.0,
+    "cell_mpc_h": 3.383,
+    "center_convention": "origin + (index + 0.5) * cell_mpc",
+    "observation_frame": "observed_redshift_space",
+    "observer_h": 0.6766,
+    "observer_units": "Mpc",
+    "smoothing_mpc_h": 7.0,
+    "source_box_offset_mpc_h": -1000.0,
+    "source_box_size_mpc_h": 2000.0,
+    "target_epoch": 0.2,
+    "target_frame": "real_space_snapshot_sampled_on_observer_lattice"
+  },
+  "phase_registry": {
+    "bytes": 5593,
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/configs/p10_phase_registry_v1.json",
+    "sha256": "968cd8ed010de9b75ec4115d3a0d2be51a27306c601d04aa11bac4bdf20bb303"
+  },
+  "schema_version": "e2e-field-preparation-products-v1",
+  "sources": [
+    {
+      "adapter_metadata": {
+        "bytes": 7120,
+        "path": "/global/u2/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901/adapters/ph000/field/adapter_manifest.json",
+        "sha256": "6590f0e161c83be9bbe9fdd4c2412c14001484ec00b10d4afa5e8299d8c48712"
+      },
+      "cap": "NGC",
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          -2277.7230222783965,
+          -2205.238309722041,
+          -412.8210045448139
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          539,
+          823,
+          528
+        ],
+        "voxel_count": 234219216
+      },
+      "native_tensor_reference": "not_materialized",
+      "normalizers_inherited": false,
+      "phase": "ph000",
+      "response_channels": [
+        "counts",
+        "exposure_apodized",
+        "log_count_ratio"
+      ],
+      "response_file": {
+        "bytes": 1460714211,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3b_random_response_v1/NGC/response_overlay.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "6db838244d6d95499838a2ec20f601461d1036fadba09e702696d6b427333bf2"
+      },
+      "response_metadata": {
+        "bytes": 5910,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3b_random_response_v1/manifest.json",
+        "sha256": "0ed592560a73ce64055ad148335050d62fb7739972cb07cd602df7c9baa62f0e"
+      },
+      "source_epoch": 0.2,
+      "source_payloads_present": true,
+      "source_sampling": "nearest_native_grid_cell_trace",
+      "target_dataset": "delta_r7",
+      "target_file": {
+        "bytes": 969017721,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p12f_field_targets_v1/ngc_delta_r7.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "adbbd4459fff2f69508cecf1a2a22fd0a4db3a7e5d443b000e53dc1375490b0e"
+      },
+      "target_metadata": {
+        "bytes": 35943,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p12f_field_targets_v1/FIELD_TARGET_READY.json",
+        "sha256": "729c3905ec28fb29276398b5f9e09f7e659b42738f056bd69d16926cfe316160"
+      },
+      "target_values_read": false
+    },
+    {
+      "adapter_metadata": {
+        "bytes": 7120,
+        "path": "/global/u2/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901/adapters/ph000/field/adapter_manifest.json",
+        "sha256": "6590f0e161c83be9bbe9fdd4c2412c14001484ec00b10d4afa5e8299d8c48712"
+      },
+      "cap": "SGC",
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          70.64531755701772,
+          -1689.5756619407848,
+          -726.8134567450163
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          445,
+          764,
+          386
+        ],
+        "voxel_count": 131232280
+      },
+      "native_tensor_reference": "not_materialized",
+      "normalizers_inherited": false,
+      "phase": "ph000",
+      "response_channels": [
+        "counts",
+        "exposure_apodized",
+        "log_count_ratio"
+      ],
+      "response_file": {
+        "bytes": 697851948,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3b_random_response_v1/SGC/response_overlay.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "37a8e6eec01c35957069071ec735998293600af2f4f2a31af1a297d07abd2c21"
+      },
+      "response_metadata": {
+        "bytes": 5910,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3b_random_response_v1/manifest.json",
+        "sha256": "0ed592560a73ce64055ad148335050d62fb7739972cb07cd602df7c9baa62f0e"
+      },
+      "source_epoch": 0.2,
+      "source_payloads_present": true,
+      "source_sampling": "nearest_native_grid_cell_trace",
+      "target_dataset": "delta_r7",
+      "target_file": {
+        "bytes": 545848678,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p12f_field_targets_v1/sgc_delta_r7.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "99120e9f9412cda8125798c04c63a021eb5dac754820ac6d7af4bc8f94ae3455"
+      },
+      "target_metadata": {
+        "bytes": 35943,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p12f_field_targets_v1/FIELD_TARGET_READY.json",
+        "sha256": "729c3905ec28fb29276398b5f9e09f7e659b42738f056bd69d16926cfe316160"
+      },
+      "target_values_read": false
+    },
+    {
+      "adapter_metadata": {
+        "bytes": 7096,
+        "path": "/global/u2/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901/adapters/ph002/field/adapter_manifest.json",
+        "sha256": "f3a63ed15c424bce67db0da739bf7872851d5eddd259b49b31e556dc0ce6f6f6"
+      },
+      "cap": "NGC",
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          -2289.9174039970753,
+          -2151.4550472456185,
+          -380.73899500758773
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          538,
+          821,
+          515
+        ],
+        "voxel_count": 227474470
+      },
+      "native_tensor_reference": "not_materialized",
+      "normalizers_inherited": false,
+      "phase": "ph002",
+      "response_channels": [
+        "counts",
+        "exposure_apodized",
+        "log_count_ratio"
+      ],
+      "response_file": {
+        "bytes": 1457483241,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3b_random_response_v1/NGC/response_overlay.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "b4456f59c3d779b05d97ef63f418f8fd47d09ac7ceaa2d0daa6ae881bf9b7634"
+      },
+      "response_metadata": {
+        "bytes": 5890,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3b_random_response_v1/manifest.json",
+        "sha256": "9a09ab07d5dc8c3b8ff8a0720a50c06069656f6314086b011303850b39f9b75a"
+      },
+      "source_epoch": 0.2,
+      "source_payloads_present": true,
+      "source_sampling": "nearest_native_grid_cell_trace",
+      "target_dataset": "delta_r7",
+      "target_file": {
+        "bytes": 941277028,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p12f_field_targets_v1/ngc_delta_r7.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "a999d098e0c07e3216a0ad886831be671defab95a5770613c35f6ec84c2b4cd9"
+      },
+      "target_metadata": {
+        "bytes": 8418,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p12f_field_targets_v1/FIELD_TARGET_READY.json",
+        "sha256": "3809ae8099c464eb4ea35431990bfc77991155163f4b762d23cfd2880ca5bd06"
+      },
+      "target_values_read": false
+    },
+    {
+      "adapter_metadata": {
+        "bytes": 7096,
+        "path": "/global/u2/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901/adapters/ph002/field/adapter_manifest.json",
+        "sha256": "f3a63ed15c424bce67db0da739bf7872851d5eddd259b49b31e556dc0ce6f6f6"
+      },
+      "cap": "SGC",
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          69.24737124477603,
+          -1656.3455302958455,
+          -723.5721531845493
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          444,
+          765,
+          391
+        ],
+        "voxel_count": 132807060
+      },
+      "native_tensor_reference": "not_materialized",
+      "normalizers_inherited": false,
+      "phase": "ph002",
+      "response_channels": [
+        "counts",
+        "exposure_apodized",
+        "log_count_ratio"
+      ],
+      "response_file": {
+        "bytes": 697595960,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3b_random_response_v1/SGC/response_overlay.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "d8bcea7f712a9f4610d9e5694dc83efec631236003f6dafd8c8de6f0361d1f72"
+      },
+      "response_metadata": {
+        "bytes": 5890,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3b_random_response_v1/manifest.json",
+        "sha256": "9a09ab07d5dc8c3b8ff8a0720a50c06069656f6314086b011303850b39f9b75a"
+      },
+      "source_epoch": 0.2,
+      "source_payloads_present": true,
+      "source_sampling": "nearest_native_grid_cell_trace",
+      "target_dataset": "delta_r7",
+      "target_file": {
+        "bytes": 552235326,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p12f_field_targets_v1/sgc_delta_r7.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "43c6d914ceae25d5cf5007a77eec72049c749b6430f328392a4d4a400c1ec9a2"
+      },
+      "target_metadata": {
+        "bytes": 8418,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p12f_field_targets_v1/FIELD_TARGET_READY.json",
+        "sha256": "3809ae8099c464eb4ea35431990bfc77991155163f4b762d23cfd2880ca5bd06"
+      },
+      "target_values_read": false
+    },
+    {
+      "adapter_metadata": {
+        "bytes": 7095,
+        "path": "/global/u2/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901/adapters/ph003/field/adapter_manifest.json",
+        "sha256": "6b85a14c009cf1ca0c52b8b2abe09cf0e997516fb3872d2237e34de3b87d5e39"
+      },
+      "cap": "NGC",
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          -2259.92423560969,
+          -2166.624370150686,
+          -402.5800973491054
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          538,
+          809,
+          529
+        ],
+        "voxel_count": 230243018
+      },
+      "native_tensor_reference": "not_materialized",
+      "normalizers_inherited": false,
+      "phase": "ph003",
+      "response_channels": [
+        "counts",
+        "exposure_apodized",
+        "log_count_ratio"
+      ],
+      "response_file": {
+        "bytes": 1457827848,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p3b_random_response_v1/NGC/response_overlay.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "25cf7a8b3515ee272f2c5bfd06d6207b7243b94958623fbd8140ee86fc2f7a67"
+      },
+      "response_metadata": {
+        "bytes": 5887,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p3b_random_response_v1/manifest.json",
+        "sha256": "d0e67b2abce5842ae4142faeb307a7f5512e38e40f9614b72ba6e6239d9059d1"
+      },
+      "source_epoch": 0.2,
+      "source_payloads_present": true,
+      "source_sampling": "nearest_native_grid_cell_trace",
+      "target_dataset": "delta_r7",
+      "target_file": {
+        "bytes": 953242853,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p12f_field_targets_v1/ngc_delta_r7.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "371e1ee3258213afcc25a8cb3d85921d4a862d48efb71b63e0aedc1bdf176b3d"
+      },
+      "target_metadata": {
+        "bytes": 8417,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p12f_field_targets_v1/FIELD_TARGET_READY.json",
+        "sha256": "7663d4b2fcbc784eaace0199264180e8b4dec56c6745b983a9ab9b00f86b8eb3"
+      },
+      "target_values_read": false
+    },
+    {
+      "adapter_metadata": {
+        "bytes": 7095,
+        "path": "/global/u2/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901/adapters/ph003/field/adapter_manifest.json",
+        "sha256": "6b85a14c009cf1ca0c52b8b2abe09cf0e997516fb3872d2237e34de3b87d5e39"
+      },
+      "cap": "SGC",
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          68.89362986585388,
+          -1714.6697673382837,
+          -716.7869348626247
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          442,
+          780,
+          385
+        ],
+        "voxel_count": 132732600
+      },
+      "native_tensor_reference": "not_materialized",
+      "normalizers_inherited": false,
+      "phase": "ph003",
+      "response_channels": [
+        "counts",
+        "exposure_apodized",
+        "log_count_ratio"
+      ],
+      "response_file": {
+        "bytes": 698240996,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p3b_random_response_v1/SGC/response_overlay.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "678e8c0d1aa7e4644a3f84ff35ea9533f9f46ef1611c8e7492d02aaf06e12788"
+      },
+      "response_metadata": {
+        "bytes": 5887,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p3b_random_response_v1/manifest.json",
+        "sha256": "d0e67b2abce5842ae4142faeb307a7f5512e38e40f9614b72ba6e6239d9059d1"
+      },
+      "source_epoch": 0.2,
+      "source_payloads_present": true,
+      "source_sampling": "nearest_native_grid_cell_trace",
+      "target_dataset": "delta_r7",
+      "target_file": {
+        "bytes": 551971637,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p12f_field_targets_v1/sgc_delta_r7.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "cabf90a3936367a218924f8cf965a5a67a4e951c7fe1deea78cd8447284d2368"
+      },
+      "target_metadata": {
+        "bytes": 8417,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p12f_field_targets_v1/FIELD_TARGET_READY.json",
+        "sha256": "7663d4b2fcbc784eaace0199264180e8b4dec56c6745b983a9ab9b00f86b8eb3"
+      },
+      "target_values_read": false
+    },
+    {
+      "adapter_metadata": {
+        "bytes": 7092,
+        "path": "/global/u2/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901/adapters/ph004/field/adapter_manifest.json",
+        "sha256": "01fdfc9bcac17823e6c1257829cbee04cf2eb3494d82f25f028b6b4a203eaa0e"
+      },
+      "cap": "NGC",
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          -2296.4609539282174,
+          -2153.154703775186,
+          -387.1646155376302
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          537,
+          815,
+          519
+        ],
+        "voxel_count": 227142945
+      },
+      "native_tensor_reference": "not_materialized",
+      "normalizers_inherited": false,
+      "phase": "ph004",
+      "response_channels": [
+        "counts",
+        "exposure_apodized",
+        "log_count_ratio"
+      ],
+      "response_file": {
+        "bytes": 1457732385,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p3b_random_response_v1/NGC/response_overlay.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "813357547fa2306778b87a5fb60fcc34908e920a578fcb9de9c34deebadab0f3"
+      },
+      "response_metadata": {
+        "bytes": 5887,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p3b_random_response_v1/manifest.json",
+        "sha256": "2e0e2a3b0bf713ce078d88335e00b13d6e89a6db711b9bf3a2150f02fa60cf49"
+      },
+      "source_epoch": 0.2,
+      "source_payloads_present": true,
+      "source_sampling": "nearest_native_grid_cell_trace",
+      "target_dataset": "delta_r7",
+      "target_file": {
+        "bytes": 939864784,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p12f_field_targets_v1/ngc_delta_r7.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "2eb146b74fc6bbb6295e65527bac5fd93776166ccd5d0a2fbcce4a316e8a75ce"
+      },
+      "target_metadata": {
+        "bytes": 8416,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p12f_field_targets_v1/FIELD_TARGET_READY.json",
+        "sha256": "98f8395b0001fe260cfe788a180035e202a0deff20fd7eb9765c25610b2a9b2a"
+      },
+      "target_values_read": false
+    },
+    {
+      "adapter_metadata": {
+        "bytes": 7092,
+        "path": "/global/u2/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901/adapters/ph004/field/adapter_manifest.json",
+        "sha256": "01fdfc9bcac17823e6c1257829cbee04cf2eb3494d82f25f028b6b4a203eaa0e"
+      },
+      "cap": "SGC",
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          70.27979349710202,
+          -1726.5906942620913,
+          -717.4315089507376
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          440,
+          781,
+          393
+        ],
+        "voxel_count": 135050520
+      },
+      "native_tensor_reference": "not_materialized",
+      "normalizers_inherited": false,
+      "phase": "ph004",
+      "response_channels": [
+        "counts",
+        "exposure_apodized",
+        "log_count_ratio"
+      ],
+      "response_file": {
+        "bytes": 698976720,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p3b_random_response_v1/SGC/response_overlay.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "be8978749cc1238eb3b0f1b26a7decbae05536da2fc90730f562fda1cd9f58f3"
+      },
+      "response_metadata": {
+        "bytes": 5887,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p3b_random_response_v1/manifest.json",
+        "sha256": "2e0e2a3b0bf713ce078d88335e00b13d6e89a6db711b9bf3a2150f02fa60cf49"
+      },
+      "source_epoch": 0.2,
+      "source_payloads_present": true,
+      "source_sampling": "nearest_native_grid_cell_trace",
+      "target_dataset": "delta_r7",
+      "target_file": {
+        "bytes": 561555371,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p12f_field_targets_v1/sgc_delta_r7.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "fff46179a3812847893084bdfbd5810ed149f06c579dff7024c06c6049442032"
+      },
+      "target_metadata": {
+        "bytes": 8416,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p12f_field_targets_v1/FIELD_TARGET_READY.json",
+        "sha256": "98f8395b0001fe260cfe788a180035e202a0deff20fd7eb9765c25610b2a9b2a"
+      },
+      "target_values_read": false
+    },
+    {
+      "adapter_metadata": {
+        "bytes": 7095,
+        "path": "/global/u2/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901/adapters/ph005/field/adapter_manifest.json",
+        "sha256": "071a85c8d4bb50f0558739a922cfbf5580c53629e23c85176711e5802cc792a4"
+      },
+      "cap": "NGC",
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          -2258.913490862589,
+          -2187.7668059653925,
+          -395.9449921130429
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          529,
+          825,
+          522
+        ],
+        "voxel_count": 227813850
+      },
+      "native_tensor_reference": "not_materialized",
+      "normalizers_inherited": false,
+      "phase": "ph005",
+      "response_channels": [
+        "counts",
+        "exposure_apodized",
+        "log_count_ratio"
+      ],
+      "response_file": {
+        "bytes": 1458020641,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3b_random_response_v1/NGC/response_overlay.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "62a1dc553454609f0d204531f75cb8790bf14037d64b0726489b55f67e07d902"
+      },
+      "response_metadata": {
+        "bytes": 5886,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3b_random_response_v1/manifest.json",
+        "sha256": "b2980f1bd98df2ff1ceec9b1c53f03a01d026a69b03a149627d53b6705f03260"
+      },
+      "source_epoch": 0.2,
+      "source_payloads_present": true,
+      "source_sampling": "nearest_native_grid_cell_trace",
+      "target_dataset": "delta_r7",
+      "target_file": {
+        "bytes": 943211767,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p12f_field_targets_v1/ngc_delta_r7.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "f5e6326ab1d80b4f84b559a6b72043fcba8226e9bf5e2ef510390693f16ef385"
+      },
+      "target_metadata": {
+        "bytes": 8415,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p12f_field_targets_v1/FIELD_TARGET_READY.json",
+        "sha256": "c1766634792ddac36ce0785462a53d199f5b9b1ebe2b93da3899aa945fec0d36"
+      },
+      "target_values_read": false
+    },
+    {
+      "adapter_metadata": {
+        "bytes": 7095,
+        "path": "/global/u2/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901/adapters/ph005/field/adapter_manifest.json",
+        "sha256": "071a85c8d4bb50f0558739a922cfbf5580c53629e23c85176711e5802cc792a4"
+      },
+      "cap": "SGC",
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          72.19100745682474,
+          -1685.908223854389,
+          -718.4431492624069
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          443,
+          765,
+          388
+        ],
+        "voxel_count": 131491260
+      },
+      "native_tensor_reference": "not_materialized",
+      "normalizers_inherited": false,
+      "phase": "ph005",
+      "response_channels": [
+        "counts",
+        "exposure_apodized",
+        "log_count_ratio"
+      ],
+      "response_file": {
+        "bytes": 697722675,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3b_random_response_v1/SGC/response_overlay.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "4d11bdf78a6f74ad6a59e853cb8c948517bf80556bd6edf4abc641ffe89ed7e0"
+      },
+      "response_metadata": {
+        "bytes": 5886,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3b_random_response_v1/manifest.json",
+        "sha256": "b2980f1bd98df2ff1ceec9b1c53f03a01d026a69b03a149627d53b6705f03260"
+      },
+      "source_epoch": 0.2,
+      "source_payloads_present": true,
+      "source_sampling": "nearest_native_grid_cell_trace",
+      "target_dataset": "delta_r7",
+      "target_file": {
+        "bytes": 546882239,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p12f_field_targets_v1/sgc_delta_r7.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "9ef431e937a5d29ee28f5b506fcc24abfd29fd3c7eff17cbdf2e2feeecf83456"
+      },
+      "target_metadata": {
+        "bytes": 8415,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p12f_field_targets_v1/FIELD_TARGET_READY.json",
+        "sha256": "c1766634792ddac36ce0785462a53d199f5b9b1ebe2b93da3899aa945fec0d36"
+      },
+      "target_values_read": false
+    },
+    {
+      "adapter_metadata": {
+        "bytes": 7093,
+        "path": "/global/u2/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901/adapters/ph006/field/adapter_manifest.json",
+        "sha256": "13dd5b7090a9080455ad892f8ff81273c510fecc42bd34f2bca594ad7e7a92a0"
+      },
+      "cap": "NGC",
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          -2303.375772555768,
+          -2135.412300587079,
+          -389.8286893560029
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          536,
+          803,
+          525
+        ],
+        "voxel_count": 225964200
+      },
+      "native_tensor_reference": "not_materialized",
+      "normalizers_inherited": false,
+      "phase": "ph006",
+      "response_channels": [
+        "counts",
+        "exposure_apodized",
+        "log_count_ratio"
+      ],
+      "response_file": {
+        "bytes": 1457213351,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p3b_random_response_v1/NGC/response_overlay.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "23cc618fcac1a55e08b38a4a29db0db23416b64ca9ae0f51f91293940c7724c8"
+      },
+      "response_metadata": {
+        "bytes": 5884,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p3b_random_response_v1/manifest.json",
+        "sha256": "be1daa00ab5415c0c854741765773288f142c28dcf7f2004e30273153aacdc08"
+      },
+      "source_epoch": 0.2,
+      "source_payloads_present": true,
+      "source_sampling": "nearest_native_grid_cell_trace",
+      "target_dataset": "delta_r7",
+      "target_file": {
+        "bytes": 935501954,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p12f_field_targets_v1/ngc_delta_r7.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "c79216f2ffcbabfdf2805a27745864b04fc9e34d9afdfc60e2ac91b73ae07870"
+      },
+      "target_metadata": {
+        "bytes": 8434,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p12f_field_targets_v1/FIELD_TARGET_READY.json",
+        "sha256": "9a00f7458532be23f16d2875844cf655cdaec27524194308745621ef6b759858"
+      },
+      "target_values_read": false
+    },
+    {
+      "adapter_metadata": {
+        "bytes": 7093,
+        "path": "/global/u2/d/dkololgi/p11_contracts/training_contract_r1_random_repair_v2_20260901/adapters/ph006/field/adapter_manifest.json",
+        "sha256": "13dd5b7090a9080455ad892f8ff81273c510fecc42bd34f2bca594ad7e7a92a0"
+      },
+      "cap": "SGC",
+      "grid": {
+        "cell_mpc": 5.0,
+        "origin_mpc": [
+          69.83013353411494,
+          -1702.1258448612832,
+          -703.8851605877938
+        ],
+        "padding_mpc": 40.0,
+        "shape": [
+          437,
+          765,
+          379
+        ],
+        "voxel_count": 126701595
+      },
+      "native_tensor_reference": "not_materialized",
+      "normalizers_inherited": false,
+      "phase": "ph006",
+      "response_channels": [
+        "counts",
+        "exposure_apodized",
+        "log_count_ratio"
+      ],
+      "response_file": {
+        "bytes": 695645454,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p3b_random_response_v1/SGC/response_overlay.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "e5965a8f719f93d0bdd8e9d6f1716cd3172f288b757fe053759b442723992898"
+      },
+      "response_metadata": {
+        "bytes": 5884,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p3b_random_response_v1/manifest.json",
+        "sha256": "be1daa00ab5415c0c854741765773288f142c28dcf7f2004e30273153aacdc08"
+      },
+      "source_epoch": 0.2,
+      "source_payloads_present": true,
+      "source_sampling": "nearest_native_grid_cell_trace",
+      "target_dataset": "delta_r7",
+      "target_file": {
+        "bytes": 528157427,
+        "exists": true,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p12f_field_targets_v1/sgc_delta_r7.h5",
+        "payload_hash_verified": false,
+        "payload_read": false,
+        "recorded_sha256": "000ea32d0ecfd5848827a3616b5c64af03ddfc717d2e09bfaa821eb537700942"
+      },
+      "target_metadata": {
+        "bytes": 8434,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p12f_field_targets_v1/FIELD_TARGET_READY.json",
+        "sha256": "9a00f7458532be23f16d2875844cf655cdaec27524194308745621ef6b759858"
+      },
+      "target_values_read": false
+    }
+  ],
+  "training_ready": false
+}

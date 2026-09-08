@@ -1,0 +1,64 @@
+{
+  "schema_version": "p12-followup-scheduler-receipt-v1",
+  "allocation": "57986464",
+  "released": true,
+  "jobs": [
+    {
+      "JobID": "57986464",
+      "JobName": "p12_followup_diag",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:40:44"
+    },
+    {
+      "JobID": "57986464.interactive",
+      "JobName": "interactive",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:40:42"
+    },
+    {
+      "JobID": "57986464.extern",
+      "JobName": "extern",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:40:44"
+    },
+    {
+      "JobID": "57986464.0",
+      "JobName": "bash",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:05:54"
+    },
+    {
+      "JobID": "57986464.1",
+      "JobName": "bash",
+      "State": "FAILED",
+      "ExitCode": "1:0",
+      "Elapsed": "00:00:03"
+    },
+    {
+      "JobID": "57986464.2",
+      "JobName": "bash",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:03"
+    },
+    {
+      "JobID": "57986464.3",
+      "JobName": "bash",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:25:20"
+    },
+    {
+      "JobID": "57986464.4",
+      "JobName": "python",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:10"
+    }
+  ],
+  "note": "Step .1 failed on an empty-array boolean dtype in support plotting; fixed before outputs, step .2 succeeded. All scientific stages and final allocation completed."
+}

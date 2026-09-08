@@ -1,0 +1,16 @@
+{
+  "schema_version": "d2-support-construction-followup-v1",
+  "allocation": "57986464",
+  "geometry_sha256": "a2164421c6a58f7ebcdfdb51c1d33d5b9963b55b1fcfe30945c312e9813e114a",
+  "source_sha256": "a8bb6ec7b61230beb998a14e0fc6042971728d1b8e0a7e0588cc2bf6fb7ca10e",
+  "cross_tab": {
+    "native_0_voxel_0": 0,
+    "native_0_voxel_1": 0,
+    "native_1_voxel_0": 736,
+    "native_1_voxel_1": 132962
+  },
+  "all_galaxies_native_supported": true,
+  "ph001_access": false,
+  "evaluation_amended": false,
+  "interpretation": "Nearest voxel membership and native galaxy footprint membership are different discretizations; patch truncation is excluded"
+}

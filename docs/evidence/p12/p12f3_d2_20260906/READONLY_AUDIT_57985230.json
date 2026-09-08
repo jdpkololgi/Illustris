@@ -1,0 +1,6114 @@
+{
+  "schema_version": "d2-recovery-readonly-audit-v1",
+  "created_utc": "2026-09-06T18:06:18.093825+00:00",
+  "allocation": "57985230",
+  "source_sha256": "879ead6d5dd51504e7da0aea0d1558d5c4fe78409b27edcff6306624aa4d8568",
+  "archive_sha256": "63dccf44513be1dc44a0453e5a2f7412a43b1cf4a2e0403a3ac827ebc2e7f1c8",
+  "progress_sha256": "84035da57d5960cf2621d0ba6a4af56e05b03ba706be985a6843621dc95c03a0",
+  "support_exact": true,
+  "coordinate_identity_exact_float32": true,
+  "galaxies": 133698,
+  "unsupported": {
+    "archive_rint": 736,
+    "canonical_rint": 736,
+    "canonical_cell": 736
+  },
+  "cores_with_unsupported": 84,
+  "float32_changes": 0,
+  "cell_rule_changes": 0,
+  "resume_verified_cores": 145,
+  "remaining_cores": 111,
+  "ph001_access": false,
+  "records": [
+    {
+      "core": 26,
+      "cap": "SGC",
+      "galaxies": 1,
+      "unsupported": {
+        "archive_rint": 1,
+        "canonical_rint": 1,
+        "canonical_cell": 1
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 7290619,
+          "coordinate": [
+            36.19794845581055,
+            27.92205810546875,
+            42.750938415527344
+          ],
+          "canonical_coordinate": [
+            36.19794845581055,
+            27.92205810546875,
+            42.750938415527344
+          ]
+        }
+      ]
+    },
+    {
+      "core": 153,
+      "cap": "SGC",
+      "galaxies": 595,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 170,
+      "cap": "SGC",
+      "galaxies": 1253,
+      "unsupported": {
+        "archive_rint": 8,
+        "canonical_rint": 8,
+        "canonical_cell": 8
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3974456,
+          "coordinate": [
+            27.557979583740234,
+            42.6844482421875,
+            28.46727752685547
+          ],
+          "canonical_coordinate": [
+            27.557979583740234,
+            42.6844482421875,
+            28.46727752685547
+          ]
+        },
+        {
+          "parent": 3974488,
+          "coordinate": [
+            24.62915802001953,
+            35.46728515625,
+            29.731361389160156
+          ],
+          "canonical_coordinate": [
+            24.62915802001953,
+            35.46728515625,
+            29.731361389160156
+          ]
+        },
+        {
+          "parent": 6050612,
+          "coordinate": [
+            25.525020599365234,
+            37.821044921875,
+            30.756309509277344
+          ],
+          "canonical_coordinate": [
+            25.525020599365234,
+            37.821044921875,
+            30.756309509277344
+          ]
+        }
+      ]
+    },
+    {
+      "core": 208,
+      "cap": "SGC",
+      "galaxies": 4009,
+      "unsupported": {
+        "archive_rint": 28,
+        "canonical_rint": 28,
+        "canonical_cell": 28
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 2292230,
+          "coordinate": [
+            28.978042602539062,
+            32.34388732910156,
+            38.92919921875
+          ],
+          "canonical_coordinate": [
+            28.978042602539062,
+            32.34388732910156,
+            38.92919921875
+          ]
+        },
+        {
+          "parent": 2292428,
+          "coordinate": [
+            32.389320373535156,
+            28.059951782226562,
+            39.031768798828125
+          ],
+          "canonical_coordinate": [
+            32.389320373535156,
+            28.059951782226562,
+            39.031768798828125
+          ]
+        },
+        {
+          "parent": 2292439,
+          "coordinate": [
+            28.991500854492188,
+            32.28251647949219,
+            38.6329345703125
+          ],
+          "canonical_coordinate": [
+            28.991500854492188,
+            32.28251647949219,
+            38.6329345703125
+          ]
+        }
+      ]
+    },
+    {
+      "core": 333,
+      "cap": "SGC",
+      "galaxies": 1,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 362,
+      "cap": "SGC",
+      "galaxies": 1798,
+      "unsupported": {
+        "archive_rint": 27,
+        "canonical_rint": 27,
+        "canonical_cell": 27
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 2333143,
+          "coordinate": [
+            30.12493133544922,
+            32.52754211425781,
+            34.416656494140625
+          ],
+          "canonical_coordinate": [
+            30.12493133544922,
+            32.52754211425781,
+            34.416656494140625
+          ]
+        },
+        {
+          "parent": 2338083,
+          "coordinate": [
+            48.49452209472656,
+            41.21202087402344,
+            36.52342224121094
+          ],
+          "canonical_coordinate": [
+            48.49452209472656,
+            41.21202087402344,
+            36.52342224121094
+          ]
+        },
+        {
+          "parent": 2338940,
+          "coordinate": [
+            48.49579620361328,
+            41.20829772949219,
+            37.19569396972656
+          ],
+          "canonical_coordinate": [
+            48.49579620361328,
+            41.20829772949219,
+            37.19569396972656
+          ]
+        }
+      ]
+    },
+    {
+      "core": 383,
+      "cap": "SGC",
+      "galaxies": 823,
+      "unsupported": {
+        "archive_rint": 3,
+        "canonical_rint": 3,
+        "canonical_cell": 3
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 773173,
+          "coordinate": [
+            46.73235321044922,
+            40.835235595703125,
+            36.863037109375
+          ],
+          "canonical_coordinate": [
+            46.73235321044922,
+            40.835235595703125,
+            36.863037109375
+          ]
+        },
+        {
+          "parent": 773881,
+          "coordinate": [
+            46.48231506347656,
+            41.92626953125,
+            36.832916259765625
+          ],
+          "canonical_coordinate": [
+            46.48231506347656,
+            41.92626953125,
+            36.832916259765625
+          ]
+        },
+        {
+          "parent": 4573642,
+          "coordinate": [
+            46.819915771484375,
+            40.6390380859375,
+            36.61875915527344
+          ],
+          "canonical_coordinate": [
+            46.819915771484375,
+            40.6390380859375,
+            36.61875915527344
+          ]
+        }
+      ]
+    },
+    {
+      "core": 418,
+      "cap": "SGC",
+      "galaxies": 1171,
+      "unsupported": {
+        "archive_rint": 56,
+        "canonical_rint": 56,
+        "canonical_cell": 56
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 2203970,
+          "coordinate": [
+            42.363311767578125,
+            40.621429443359375,
+            35.13677978515625
+          ],
+          "canonical_coordinate": [
+            42.363311767578125,
+            40.621429443359375,
+            35.13677978515625
+          ]
+        },
+        {
+          "parent": 2204151,
+          "coordinate": [
+            44.53601837158203,
+            37.4100341796875,
+            35.42230224609375
+          ],
+          "canonical_coordinate": [
+            44.53601837158203,
+            37.4100341796875,
+            35.42230224609375
+          ]
+        },
+        {
+          "parent": 2204198,
+          "coordinate": [
+            42.27970886230469,
+            37.8709716796875,
+            33.517059326171875
+          ],
+          "canonical_coordinate": [
+            42.27970886230469,
+            37.8709716796875,
+            33.517059326171875
+          ]
+        }
+      ]
+    },
+    {
+      "core": 447,
+      "cap": "SGC",
+      "galaxies": 1215,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 507,
+      "cap": "SGC",
+      "galaxies": 114,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 529,
+      "cap": "SGC",
+      "galaxies": 7,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 547,
+      "cap": "SGC",
+      "galaxies": 1337,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 567,
+      "cap": "SGC",
+      "galaxies": 2038,
+      "unsupported": {
+        "archive_rint": 4,
+        "canonical_rint": 4,
+        "canonical_cell": 4
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 2241420,
+          "coordinate": [
+            25.756492614746094,
+            35.14349365234375,
+            34.57867431640625
+          ],
+          "canonical_coordinate": [
+            25.756492614746094,
+            35.14349365234375,
+            34.57867431640625
+          ]
+        },
+        {
+          "parent": 5256736,
+          "coordinate": [
+            28.213363647460938,
+            35.99665832519531,
+            48.33177185058594
+          ],
+          "canonical_coordinate": [
+            28.213363647460938,
+            35.99665832519531,
+            48.33177185058594
+          ]
+        },
+        {
+          "parent": 6570998,
+          "coordinate": [
+            29.119140625,
+            34.79020690917969,
+            35.49809265136719
+          ],
+          "canonical_coordinate": [
+            29.119140625,
+            34.79020690917969,
+            35.49809265136719
+          ]
+        }
+      ]
+    },
+    {
+      "core": 588,
+      "cap": "SGC",
+      "galaxies": 785,
+      "unsupported": {
+        "archive_rint": 7,
+        "canonical_rint": 7,
+        "canonical_cell": 7
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 1402928,
+          "coordinate": [
+            42.30940246582031,
+            48.587890625,
+            40.268165588378906
+          ],
+          "canonical_coordinate": [
+            42.30940246582031,
+            48.587890625,
+            40.268165588378906
+          ]
+        },
+        {
+          "parent": 4851414,
+          "coordinate": [
+            32.711273193359375,
+            30.438568115234375,
+            41.309288024902344
+          ],
+          "canonical_coordinate": [
+            32.711273193359375,
+            30.438568115234375,
+            41.309288024902344
+          ]
+        },
+        {
+          "parent": 4851526,
+          "coordinate": [
+            27.898719787597656,
+            34.22967529296875,
+            47.674278259277344
+          ],
+          "canonical_coordinate": [
+            27.898719787597656,
+            34.22967529296875,
+            47.674278259277344
+          ]
+        }
+      ]
+    },
+    {
+      "core": 614,
+      "cap": "SGC",
+      "galaxies": 2257,
+      "unsupported": {
+        "archive_rint": 2,
+        "canonical_rint": 2,
+        "canonical_cell": 2
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 2817351,
+          "coordinate": [
+            40.47967529296875,
+            42.73126220703125,
+            45.700592041015625
+          ],
+          "canonical_coordinate": [
+            40.47967529296875,
+            42.73126220703125,
+            45.700592041015625
+          ]
+        },
+        {
+          "parent": 2817371,
+          "coordinate": [
+            39.54657745361328,
+            44.20318603515625,
+            45.64251708984375
+          ],
+          "canonical_coordinate": [
+            39.54657745361328,
+            44.20318603515625,
+            45.64251708984375
+          ]
+        }
+      ]
+    },
+    {
+      "core": 642,
+      "cap": "SGC",
+      "galaxies": 2123,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 653,
+      "cap": "SGC",
+      "galaxies": 2080,
+      "unsupported": {
+        "archive_rint": 25,
+        "canonical_rint": 25,
+        "canonical_cell": 25
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 1859614,
+          "coordinate": [
+            39.537635803222656,
+            44.114501953125,
+            43.6173095703125
+          ],
+          "canonical_coordinate": [
+            39.537635803222656,
+            44.114501953125,
+            43.6173095703125
+          ]
+        },
+        {
+          "parent": 1859630,
+          "coordinate": [
+            30.243927001953125,
+            37.70062255859375,
+            41.65653991699219
+          ],
+          "canonical_coordinate": [
+            30.243927001953125,
+            37.70062255859375,
+            41.65653991699219
+          ]
+        },
+        {
+          "parent": 1859632,
+          "coordinate": [
+            30.25249481201172,
+            37.60919189453125,
+            41.84869384765625
+          ],
+          "canonical_coordinate": [
+            30.25249481201172,
+            37.60919189453125,
+            41.84869384765625
+          ]
+        }
+      ]
+    },
+    {
+      "core": 701,
+      "cap": "SGC",
+      "galaxies": 145,
+      "unsupported": {
+        "archive_rint": 7,
+        "canonical_rint": 7,
+        "canonical_cell": 7
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3914470,
+          "coordinate": [
+            42.44390869140625,
+            36.67041015625,
+            31.779136657714844
+          ],
+          "canonical_coordinate": [
+            42.44390869140625,
+            36.67041015625,
+            31.779136657714844
+          ]
+        },
+        {
+          "parent": 3987821,
+          "coordinate": [
+            25.87773895263672,
+            45.03857421875,
+            37.55785369873047
+          ],
+          "canonical_coordinate": [
+            25.87773895263672,
+            45.03857421875,
+            37.55785369873047
+          ]
+        },
+        {
+          "parent": 3989330,
+          "coordinate": [
+            26.26739501953125,
+            44.58966064453125,
+            37.54401397705078
+          ],
+          "canonical_coordinate": [
+            26.26739501953125,
+            44.58966064453125,
+            37.54401397705078
+          ]
+        }
+      ]
+    },
+    {
+      "core": 779,
+      "cap": "SGC",
+      "galaxies": 1063,
+      "unsupported": {
+        "archive_rint": 3,
+        "canonical_rint": 3,
+        "canonical_cell": 3
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 2261344,
+          "coordinate": [
+            33.84344482421875,
+            42.15313720703125,
+            32.86033630371094
+          ],
+          "canonical_coordinate": [
+            33.84344482421875,
+            42.15313720703125,
+            32.86033630371094
+          ]
+        },
+        {
+          "parent": 2262825,
+          "coordinate": [
+            46.81072998046875,
+            32.01103210449219,
+            32.77215576171875
+          ],
+          "canonical_coordinate": [
+            46.81072998046875,
+            32.01103210449219,
+            32.77215576171875
+          ]
+        },
+        {
+          "parent": 5267152,
+          "coordinate": [
+            46.778228759765625,
+            32.16583251953125,
+            32.7821044921875
+          ],
+          "canonical_coordinate": [
+            46.778228759765625,
+            32.16583251953125,
+            32.7821044921875
+          ]
+        }
+      ]
+    },
+    {
+      "core": 811,
+      "cap": "SGC",
+      "galaxies": 71,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 840,
+      "cap": "SGC",
+      "galaxies": 2287,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 906,
+      "cap": "SGC",
+      "galaxies": 313,
+      "unsupported": {
+        "archive_rint": 14,
+        "canonical_rint": 14,
+        "canonical_cell": 14
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 1490266,
+          "coordinate": [
+            32.517730712890625,
+            33.505767822265625,
+            43.4129638671875
+          ],
+          "canonical_coordinate": [
+            32.517730712890625,
+            33.505767822265625,
+            43.4129638671875
+          ]
+        },
+        {
+          "parent": 1495038,
+          "coordinate": [
+            32.0927734375,
+            42.291168212890625,
+            29.535003662109375
+          ],
+          "canonical_coordinate": [
+            32.0927734375,
+            42.291168212890625,
+            29.535003662109375
+          ]
+        },
+        {
+          "parent": 1495226,
+          "coordinate": [
+            33.68830871582031,
+            44.4197998046875,
+            30.640640258789062
+          ],
+          "canonical_coordinate": [
+            33.68830871582031,
+            44.4197998046875,
+            30.640640258789062
+          ]
+        }
+      ]
+    },
+    {
+      "core": 992,
+      "cap": "SGC",
+      "galaxies": 8,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 1007,
+      "cap": "SGC",
+      "galaxies": 3,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 1016,
+      "cap": "SGC",
+      "galaxies": 277,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 1073,
+      "cap": "SGC",
+      "galaxies": 45,
+      "unsupported": {
+        "archive_rint": 4,
+        "canonical_rint": 4,
+        "canonical_cell": 4
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 4861370,
+          "coordinate": [
+            48.19639587402344,
+            39.190673828125,
+            43.3641357421875
+          ],
+          "canonical_coordinate": [
+            48.19639587402344,
+            39.190673828125,
+            43.3641357421875
+          ]
+        },
+        {
+          "parent": 4862422,
+          "coordinate": [
+            41.688018798828125,
+            36.792938232421875,
+            45.06249237060547
+          ],
+          "canonical_coordinate": [
+            41.688018798828125,
+            36.792938232421875,
+            45.06249237060547
+          ]
+        },
+        {
+          "parent": 4862527,
+          "coordinate": [
+            42.25718688964844,
+            36.7705078125,
+            45.14830017089844
+          ],
+          "canonical_coordinate": [
+            42.25718688964844,
+            36.7705078125,
+            45.14830017089844
+          ]
+        }
+      ]
+    },
+    {
+      "core": 1113,
+      "cap": "SGC",
+      "galaxies": 2,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 1140,
+      "cap": "SGC",
+      "galaxies": 734,
+      "unsupported": {
+        "archive_rint": 1,
+        "canonical_rint": 1,
+        "canonical_cell": 1
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 5509329,
+          "coordinate": [
+            38.53727722167969,
+            30.70196533203125,
+            40.4822998046875
+          ],
+          "canonical_coordinate": [
+            38.53727722167969,
+            30.70196533203125,
+            40.4822998046875
+          ]
+        }
+      ]
+    },
+    {
+      "core": 1160,
+      "cap": "SGC",
+      "galaxies": 1994,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 1192,
+      "cap": "SGC",
+      "galaxies": 542,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 1226,
+      "cap": "SGC",
+      "galaxies": 529,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 1330,
+      "cap": "SGC",
+      "galaxies": 12,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 1414,
+      "cap": "SGC",
+      "galaxies": 828,
+      "unsupported": {
+        "archive_rint": 13,
+        "canonical_rint": 13,
+        "canonical_cell": 13
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3389359,
+          "coordinate": [
+            43.05049133300781,
+            26.262847900390625,
+            30.81488037109375
+          ],
+          "canonical_coordinate": [
+            43.05049133300781,
+            26.262847900390625,
+            30.81488037109375
+          ]
+        },
+        {
+          "parent": 5768041,
+          "coordinate": [
+            42.84466552734375,
+            36.8399658203125,
+            32.31260681152344
+          ],
+          "canonical_coordinate": [
+            42.84466552734375,
+            36.8399658203125,
+            32.31260681152344
+          ]
+        },
+        {
+          "parent": 5768573,
+          "coordinate": [
+            41.00701904296875,
+            37.3402099609375,
+            31.091262817382812
+          ],
+          "canonical_coordinate": [
+            41.00701904296875,
+            37.3402099609375,
+            31.091262817382812
+          ]
+        }
+      ]
+    },
+    {
+      "core": 1420,
+      "cap": "SGC",
+      "galaxies": 1052,
+      "unsupported": {
+        "archive_rint": 11,
+        "canonical_rint": 11,
+        "canonical_cell": 11
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 2819477,
+          "coordinate": [
+            39.85304260253906,
+            42.035308837890625,
+            46.85173034667969
+          ],
+          "canonical_coordinate": [
+            39.85304260253906,
+            42.035308837890625,
+            46.85173034667969
+          ]
+        },
+        {
+          "parent": 2820442,
+          "coordinate": [
+            43.74763488769531,
+            42.552703857421875,
+            47.62493896484375
+          ],
+          "canonical_coordinate": [
+            43.74763488769531,
+            42.552703857421875,
+            47.62493896484375
+          ]
+        },
+        {
+          "parent": 2821070,
+          "coordinate": [
+            40.65162658691406,
+            40.56396484375,
+            49.21391296386719
+          ],
+          "canonical_coordinate": [
+            40.65162658691406,
+            40.56396484375,
+            49.21391296386719
+          ]
+        }
+      ]
+    },
+    {
+      "core": 1438,
+      "cap": "SGC",
+      "galaxies": 336,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 1468,
+      "cap": "SGC",
+      "galaxies": 582,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 1489,
+      "cap": "SGC",
+      "galaxies": 799,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 1517,
+      "cap": "SGC",
+      "galaxies": 646,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 1588,
+      "cap": "SGC",
+      "galaxies": 16,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 1618,
+      "cap": "SGC",
+      "galaxies": 98,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 1675,
+      "cap": "SGC",
+      "galaxies": 531,
+      "unsupported": {
+        "archive_rint": 13,
+        "canonical_rint": 13,
+        "canonical_cell": 13
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 2356792,
+          "coordinate": [
+            32.227508544921875,
+            34.464141845703125,
+            43.590789794921875
+          ],
+          "canonical_coordinate": [
+            32.227508544921875,
+            34.464141845703125,
+            43.590789794921875
+          ]
+        },
+        {
+          "parent": 2357839,
+          "coordinate": [
+            31.104446411132812,
+            36.27085876464844,
+            39.610816955566406
+          ],
+          "canonical_coordinate": [
+            31.104446411132812,
+            36.27085876464844,
+            39.610816955566406
+          ]
+        },
+        {
+          "parent": 2358103,
+          "coordinate": [
+            43.16905212402344,
+            33.55836486816406,
+            43.73948669433594
+          ],
+          "canonical_coordinate": [
+            43.16905212402344,
+            33.55836486816406,
+            43.73948669433594
+          ]
+        }
+      ]
+    },
+    {
+      "core": 1706,
+      "cap": "SGC",
+      "galaxies": 361,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 1741,
+      "cap": "SGC",
+      "galaxies": 619,
+      "unsupported": {
+        "archive_rint": 25,
+        "canonical_rint": 25,
+        "canonical_cell": 25
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 824086,
+          "coordinate": [
+            31.72589111328125,
+            35.566650390625,
+            43.350921630859375
+          ],
+          "canonical_coordinate": [
+            31.72589111328125,
+            35.566650390625,
+            43.350921630859375
+          ]
+        },
+        {
+          "parent": 824230,
+          "coordinate": [
+            39.66033935546875,
+            34.740386962890625,
+            45.591156005859375
+          ],
+          "canonical_coordinate": [
+            39.66033935546875,
+            34.740386962890625,
+            45.591156005859375
+          ]
+        },
+        {
+          "parent": 824271,
+          "coordinate": [
+            36.503082275390625,
+            35.9227294921875,
+            45.314239501953125
+          ],
+          "canonical_coordinate": [
+            36.503082275390625,
+            35.9227294921875,
+            45.314239501953125
+          ]
+        }
+      ]
+    },
+    {
+      "core": 1911,
+      "cap": "SGC",
+      "galaxies": 36,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 2022,
+      "cap": "SGC",
+      "galaxies": 16,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 2092,
+      "cap": "SGC",
+      "galaxies": 99,
+      "unsupported": {
+        "archive_rint": 6,
+        "canonical_rint": 6,
+        "canonical_cell": 6
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3379927,
+          "coordinate": [
+            42.17333984375,
+            35.1298828125,
+            44.83349609375
+          ],
+          "canonical_coordinate": [
+            42.17333984375,
+            35.1298828125,
+            44.83349609375
+          ]
+        },
+        {
+          "parent": 3380036,
+          "coordinate": [
+            23.727584838867188,
+            40.892791748046875,
+            35.3243408203125
+          ],
+          "canonical_coordinate": [
+            23.727584838867188,
+            40.892791748046875,
+            35.3243408203125
+          ]
+        },
+        {
+          "parent": 3380338,
+          "coordinate": [
+            26.2166748046875,
+            41.36663818359375,
+            28.893814086914062
+          ],
+          "canonical_coordinate": [
+            26.2166748046875,
+            41.36663818359375,
+            28.893814086914062
+          ]
+        }
+      ]
+    },
+    {
+      "core": 2146,
+      "cap": "SGC",
+      "galaxies": 734,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 2249,
+      "cap": "SGC",
+      "galaxies": 170,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 2318,
+      "cap": "SGC",
+      "galaxies": 5,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 2425,
+      "cap": "SGC",
+      "galaxies": 186,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 2447,
+      "cap": "SGC",
+      "galaxies": 401,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 2488,
+      "cap": "SGC",
+      "galaxies": 409,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 2629,
+      "cap": "SGC",
+      "galaxies": 204,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 2796,
+      "cap": "SGC",
+      "galaxies": 39,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 2845,
+      "cap": "SGC",
+      "galaxies": 169,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 2865,
+      "cap": "SGC",
+      "galaxies": 17,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 2914,
+      "cap": "SGC",
+      "galaxies": 360,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 2944,
+      "cap": "SGC",
+      "galaxies": 311,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 2977,
+      "cap": "SGC",
+      "galaxies": 99,
+      "unsupported": {
+        "archive_rint": 1,
+        "canonical_rint": 1,
+        "canonical_cell": 1
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 2230761,
+          "coordinate": [
+            29.985519409179688,
+            41.452911376953125,
+            44.350006103515625
+          ],
+          "canonical_coordinate": [
+            29.985519409179688,
+            41.452911376953125,
+            44.350006103515625
+          ]
+        }
+      ]
+    },
+    {
+      "core": 3118,
+      "cap": "SGC",
+      "galaxies": 15,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 3266,
+      "cap": "SGC",
+      "galaxies": 4,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 3331,
+      "cap": "SGC",
+      "galaxies": 114,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 3464,
+      "cap": "SGC",
+      "galaxies": 223,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 3605,
+      "cap": "SGC",
+      "galaxies": 48,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 3637,
+      "cap": "SGC",
+      "galaxies": 29,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 3736,
+      "cap": "SGC",
+      "galaxies": 14,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 3881,
+      "cap": "SGC",
+      "galaxies": 78,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 3920,
+      "cap": "SGC",
+      "galaxies": 81,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 4014,
+      "cap": "SGC",
+      "galaxies": 2,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 4162,
+      "cap": "SGC",
+      "galaxies": 3,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 4218,
+      "cap": "SGC",
+      "galaxies": 17,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 4254,
+      "cap": "SGC",
+      "galaxies": 43,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 4371,
+      "cap": "SGC",
+      "galaxies": 41,
+      "unsupported": {
+        "archive_rint": 3,
+        "canonical_rint": 3,
+        "canonical_cell": 3
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 2859273,
+          "coordinate": [
+            45.730804443359375,
+            45.527374267578125,
+            36.81065368652344
+          ],
+          "canonical_coordinate": [
+            45.730804443359375,
+            45.527374267578125,
+            36.81065368652344
+          ]
+        },
+        {
+          "parent": 2859418,
+          "coordinate": [
+            44.473419189453125,
+            45.5264892578125,
+            36.50056457519531
+          ],
+          "canonical_coordinate": [
+            44.473419189453125,
+            45.5264892578125,
+            36.50056457519531
+          ]
+        },
+        {
+          "parent": 2865016,
+          "coordinate": [
+            39.040802001953125,
+            40.071197509765625,
+            30.38018798828125
+          ],
+          "canonical_coordinate": [
+            39.040802001953125,
+            40.071197509765625,
+            30.38018798828125
+          ]
+        }
+      ]
+    },
+    {
+      "core": 4446,
+      "cap": "SGC",
+      "galaxies": 7,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 4551,
+      "cap": "SGC",
+      "galaxies": 9,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 4604,
+      "cap": "SGC",
+      "galaxies": 4,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 4733,
+      "cap": "SGC",
+      "galaxies": 9,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 4792,
+      "cap": "SGC",
+      "galaxies": 31,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 4884,
+      "cap": "SGC",
+      "galaxies": 16,
+      "unsupported": {
+        "archive_rint": 1,
+        "canonical_rint": 1,
+        "canonical_cell": 1
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 2748266,
+          "coordinate": [
+            30.445953369140625,
+            42.2816162109375,
+            43.008148193359375
+          ],
+          "canonical_coordinate": [
+            30.445953369140625,
+            42.2816162109375,
+            43.008148193359375
+          ]
+        }
+      ]
+    },
+    {
+      "core": 4966,
+      "cap": "SGC",
+      "galaxies": 2,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 5127,
+      "cap": "SGC",
+      "galaxies": 11,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 5317,
+      "cap": "SGC",
+      "galaxies": 0,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 5546,
+      "cap": "SGC",
+      "galaxies": 6,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 5715,
+      "cap": "SGC",
+      "galaxies": 1,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 6088,
+      "cap": "NGC",
+      "galaxies": 0,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 6145,
+      "cap": "NGC",
+      "galaxies": 1,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 6265,
+      "cap": "NGC",
+      "galaxies": 1,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 6394,
+      "cap": "NGC",
+      "galaxies": 1,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 6479,
+      "cap": "NGC",
+      "galaxies": 3,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 6564,
+      "cap": "NGC",
+      "galaxies": 24,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 6642,
+      "cap": "NGC",
+      "galaxies": 9,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 6774,
+      "cap": "NGC",
+      "galaxies": 1,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 6916,
+      "cap": "NGC",
+      "galaxies": 16,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 6974,
+      "cap": "NGC",
+      "galaxies": 3,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 7196,
+      "cap": "NGC",
+      "galaxies": 17,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 7335,
+      "cap": "NGC",
+      "galaxies": 15,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 7592,
+      "cap": "NGC",
+      "galaxies": 4,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 7655,
+      "cap": "NGC",
+      "galaxies": 50,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 7684,
+      "cap": "NGC",
+      "galaxies": 84,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 7774,
+      "cap": "NGC",
+      "galaxies": 125,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 7866,
+      "cap": "NGC",
+      "galaxies": 54,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 7916,
+      "cap": "NGC",
+      "galaxies": 15,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 7992,
+      "cap": "NGC",
+      "galaxies": 15,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 8100,
+      "cap": "NGC",
+      "galaxies": 2,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 8239,
+      "cap": "NGC",
+      "galaxies": 86,
+      "unsupported": {
+        "archive_rint": 1,
+        "canonical_rint": 1,
+        "canonical_cell": 1
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3020676,
+          "coordinate": [
+            31.240890502929688,
+            44.1407470703125,
+            28.67194366455078
+          ],
+          "canonical_coordinate": [
+            31.240890502929688,
+            44.1407470703125,
+            28.67194366455078
+          ]
+        }
+      ]
+    },
+    {
+      "core": 8425,
+      "cap": "NGC",
+      "galaxies": 81,
+      "unsupported": {
+        "archive_rint": 1,
+        "canonical_rint": 1,
+        "canonical_cell": 1
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 7032751,
+          "coordinate": [
+            32.15617370605469,
+            29.675872802734375,
+            47.450439453125
+          ],
+          "canonical_coordinate": [
+            32.15617370605469,
+            29.675872802734375,
+            47.450439453125
+          ]
+        }
+      ]
+    },
+    {
+      "core": 8507,
+      "cap": "NGC",
+      "galaxies": 5,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 8514,
+      "cap": "NGC",
+      "galaxies": 229,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 8628,
+      "cap": "NGC",
+      "galaxies": 9,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 8698,
+      "cap": "NGC",
+      "galaxies": 2,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 8775,
+      "cap": "NGC",
+      "galaxies": 158,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 8918,
+      "cap": "NGC",
+      "galaxies": 81,
+      "unsupported": {
+        "archive_rint": 1,
+        "canonical_rint": 1,
+        "canonical_cell": 1
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3183316,
+          "coordinate": [
+            42.9912109375,
+            40.758514404296875,
+            44.6614990234375
+          ],
+          "canonical_coordinate": [
+            42.9912109375,
+            40.758514404296875,
+            44.6614990234375
+          ]
+        }
+      ]
+    },
+    {
+      "core": 8975,
+      "cap": "NGC",
+      "galaxies": 557,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 9111,
+      "cap": "NGC",
+      "galaxies": 25,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 9160,
+      "cap": "NGC",
+      "galaxies": 23,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 9182,
+      "cap": "NGC",
+      "galaxies": 9,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 9320,
+      "cap": "NGC",
+      "galaxies": 1,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 9439,
+      "cap": "NGC",
+      "galaxies": 190,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 9443,
+      "cap": "NGC",
+      "galaxies": 277,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 9587,
+      "cap": "NGC",
+      "galaxies": 256,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 9700,
+      "cap": "NGC",
+      "galaxies": 251,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 9711,
+      "cap": "NGC",
+      "galaxies": 346,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 9726,
+      "cap": "NGC",
+      "galaxies": 18,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 9895,
+      "cap": "NGC",
+      "galaxies": 6,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 10048,
+      "cap": "NGC",
+      "galaxies": 40,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 10167,
+      "cap": "NGC",
+      "galaxies": 206,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 10296,
+      "cap": "NGC",
+      "galaxies": 495,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 10350,
+      "cap": "NGC",
+      "galaxies": 8,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 10477,
+      "cap": "NGC",
+      "galaxies": 129,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 10572,
+      "cap": "NGC",
+      "galaxies": 2,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 10701,
+      "cap": "NGC",
+      "galaxies": 231,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 10742,
+      "cap": "NGC",
+      "galaxies": 501,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 10749,
+      "cap": "NGC",
+      "galaxies": 160,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 10847,
+      "cap": "NGC",
+      "galaxies": 1174,
+      "unsupported": {
+        "archive_rint": 3,
+        "canonical_rint": 3,
+        "canonical_cell": 3
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3018840,
+          "coordinate": [
+            46.56695556640625,
+            28.3665771484375,
+            42.15416717529297
+          ],
+          "canonical_coordinate": [
+            46.56695556640625,
+            28.3665771484375,
+            42.15416717529297
+          ]
+        },
+        {
+          "parent": 5612290,
+          "coordinate": [
+            47.99310302734375,
+            29.478729248046875,
+            42.90216064453125
+          ],
+          "canonical_coordinate": [
+            47.99310302734375,
+            29.478729248046875,
+            42.90216064453125
+          ]
+        },
+        {
+          "parent": 5613345,
+          "coordinate": [
+            47.862548828125,
+            29.425445556640625,
+            42.65855407714844
+          ],
+          "canonical_coordinate": [
+            47.862548828125,
+            29.425445556640625,
+            42.65855407714844
+          ]
+        }
+      ]
+    },
+    {
+      "core": 10935,
+      "cap": "NGC",
+      "galaxies": 1060,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 10969,
+      "cap": "NGC",
+      "galaxies": 113,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 11000,
+      "cap": "NGC",
+      "galaxies": 1363,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 11017,
+      "cap": "NGC",
+      "galaxies": 24,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 11092,
+      "cap": "NGC",
+      "galaxies": 332,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 11148,
+      "cap": "NGC",
+      "galaxies": 379,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 11193,
+      "cap": "NGC",
+      "galaxies": 114,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 11233,
+      "cap": "NGC",
+      "galaxies": 33,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 11322,
+      "cap": "NGC",
+      "galaxies": 18,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 11352,
+      "cap": "NGC",
+      "galaxies": 21,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 11551,
+      "cap": "NGC",
+      "galaxies": 873,
+      "unsupported": {
+        "archive_rint": 1,
+        "canonical_rint": 1,
+        "canonical_cell": 1
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 5677966,
+          "coordinate": [
+            42.9244384765625,
+            41.265838623046875,
+            42.765777587890625
+          ],
+          "canonical_coordinate": [
+            42.9244384765625,
+            41.265838623046875,
+            42.765777587890625
+          ]
+        }
+      ]
+    },
+    {
+      "core": 11635,
+      "cap": "NGC",
+      "galaxies": 1607,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 11732,
+      "cap": "NGC",
+      "galaxies": 810,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 11783,
+      "cap": "NGC",
+      "galaxies": 40,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 11845,
+      "cap": "NGC",
+      "galaxies": 15,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 11989,
+      "cap": "NGC",
+      "galaxies": 5,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 12037,
+      "cap": "NGC",
+      "galaxies": 104,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 12120,
+      "cap": "NGC",
+      "galaxies": 237,
+      "unsupported": {
+        "archive_rint": 11,
+        "canonical_rint": 11,
+        "canonical_cell": 11
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 252575,
+          "coordinate": [
+            42.6036376953125,
+            26.869003295898438,
+            42.98846435546875
+          ],
+          "canonical_coordinate": [
+            42.6036376953125,
+            26.869003295898438,
+            42.98846435546875
+          ]
+        },
+        {
+          "parent": 257856,
+          "coordinate": [
+            45.42645263671875,
+            26.850936889648438,
+            42.48949432373047
+          ],
+          "canonical_coordinate": [
+            45.42645263671875,
+            26.850936889648438,
+            42.48949432373047
+          ]
+        },
+        {
+          "parent": 284238,
+          "coordinate": [
+            28.301055908203125,
+            40.64689636230469,
+            25.631488800048828
+          ],
+          "canonical_coordinate": [
+            28.301055908203125,
+            40.64689636230469,
+            25.631488800048828
+          ]
+        }
+      ]
+    },
+    {
+      "core": 12170,
+      "cap": "NGC",
+      "galaxies": 477,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 12223,
+      "cap": "NGC",
+      "galaxies": 51,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 12227,
+      "cap": "NGC",
+      "galaxies": 2,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 12275,
+      "cap": "NGC",
+      "galaxies": 1528,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 12326,
+      "cap": "NGC",
+      "galaxies": 1869,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 12378,
+      "cap": "NGC",
+      "galaxies": 455,
+      "unsupported": {
+        "archive_rint": 1,
+        "canonical_rint": 1,
+        "canonical_cell": 1
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 6448560,
+          "coordinate": [
+            37.430206298828125,
+            36.7603759765625,
+            44.35498046875
+          ],
+          "canonical_coordinate": [
+            37.430206298828125,
+            36.7603759765625,
+            44.35498046875
+          ]
+        }
+      ]
+    },
+    {
+      "core": 12392,
+      "cap": "NGC",
+      "galaxies": 1608,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 12448,
+      "cap": "NGC",
+      "galaxies": 204,
+      "unsupported": {
+        "archive_rint": 3,
+        "canonical_rint": 3,
+        "canonical_cell": 3
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 1674308,
+          "coordinate": [
+            27.68939208984375,
+            27.389007568359375,
+            45.447479248046875
+          ],
+          "canonical_coordinate": [
+            27.68939208984375,
+            27.389007568359375,
+            45.447479248046875
+          ]
+        },
+        {
+          "parent": 4672615,
+          "coordinate": [
+            31.612762451171875,
+            43.809844970703125,
+            40.814666748046875
+          ],
+          "canonical_coordinate": [
+            31.612762451171875,
+            43.809844970703125,
+            40.814666748046875
+          ]
+        },
+        {
+          "parent": 7030672,
+          "coordinate": [
+            42.01812744140625,
+            42.81219482421875,
+            31.387115478515625
+          ],
+          "canonical_coordinate": [
+            42.01812744140625,
+            42.81219482421875,
+            31.387115478515625
+          ]
+        }
+      ]
+    },
+    {
+      "core": 12461,
+      "cap": "NGC",
+      "galaxies": 1319,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 12542,
+      "cap": "NGC",
+      "galaxies": 9,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 12606,
+      "cap": "NGC",
+      "galaxies": 24,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 12616,
+      "cap": "NGC",
+      "galaxies": 60,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 12661,
+      "cap": "NGC",
+      "galaxies": 141,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 12869,
+      "cap": "NGC",
+      "galaxies": 103,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 12875,
+      "cap": "NGC",
+      "galaxies": 1,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 12927,
+      "cap": "NGC",
+      "galaxies": 1477,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 12974,
+      "cap": "NGC",
+      "galaxies": 1707,
+      "unsupported": {
+        "archive_rint": 4,
+        "canonical_rint": 4,
+        "canonical_cell": 4
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3217249,
+          "coordinate": [
+            43.78912353515625,
+            46.3909912109375,
+            43.22315979003906
+          ],
+          "canonical_coordinate": [
+            43.78912353515625,
+            46.3909912109375,
+            43.22315979003906
+          ]
+        },
+        {
+          "parent": 3217748,
+          "coordinate": [
+            46.51483154296875,
+            46.82781982421875,
+            41.58372497558594
+          ],
+          "canonical_coordinate": [
+            46.51483154296875,
+            46.82781982421875,
+            41.58372497558594
+          ]
+        },
+        {
+          "parent": 3217777,
+          "coordinate": [
+            46.402496337890625,
+            46.58026123046875,
+            41.57356262207031
+          ],
+          "canonical_coordinate": [
+            46.402496337890625,
+            46.58026123046875,
+            41.57356262207031
+          ]
+        }
+      ]
+    },
+    {
+      "core": 12979,
+      "cap": "NGC",
+      "galaxies": 582,
+      "unsupported": {
+        "archive_rint": 2,
+        "canonical_rint": 2,
+        "canonical_cell": 2
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 5709090,
+          "coordinate": [
+            40.231170654296875,
+            43.53076171875,
+            45.12310791015625
+          ],
+          "canonical_coordinate": [
+            40.231170654296875,
+            43.53076171875,
+            45.12310791015625
+          ]
+        },
+        {
+          "parent": 5709803,
+          "coordinate": [
+            45.136962890625,
+            44.54766845703125,
+            37.80073547363281
+          ],
+          "canonical_coordinate": [
+            45.136962890625,
+            44.54766845703125,
+            37.80073547363281
+          ]
+        }
+      ]
+    },
+    {
+      "core": 13042,
+      "cap": "NGC",
+      "galaxies": 2344,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 13099,
+      "cap": "NGC",
+      "galaxies": 397,
+      "unsupported": {
+        "archive_rint": 7,
+        "canonical_rint": 7,
+        "canonical_cell": 7
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 1574825,
+          "coordinate": [
+            39.68035888671875,
+            36.349884033203125,
+            37.59954833984375
+          ],
+          "canonical_coordinate": [
+            39.68035888671875,
+            36.349884033203125,
+            37.59954833984375
+          ]
+        },
+        {
+          "parent": 1574922,
+          "coordinate": [
+            36.6875,
+            37.952880859375,
+            42.8043212890625
+          ],
+          "canonical_coordinate": [
+            36.6875,
+            37.952880859375,
+            42.8043212890625
+          ]
+        },
+        {
+          "parent": 1575450,
+          "coordinate": [
+            36.248291015625,
+            40.4351806640625,
+            37.386871337890625
+          ],
+          "canonical_coordinate": [
+            36.248291015625,
+            40.4351806640625,
+            37.386871337890625
+          ]
+        }
+      ]
+    },
+    {
+      "core": 13118,
+      "cap": "NGC",
+      "galaxies": 692,
+      "unsupported": {
+        "archive_rint": 13,
+        "canonical_rint": 13,
+        "canonical_cell": 13
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 969865,
+          "coordinate": [
+            33.796875,
+            39.40594482421875,
+            30.7310791015625
+          ],
+          "canonical_coordinate": [
+            33.796875,
+            39.40594482421875,
+            30.7310791015625
+          ]
+        },
+        {
+          "parent": 4667554,
+          "coordinate": [
+            46.145416259765625,
+            38.97833251953125,
+            30.364089965820312
+          ],
+          "canonical_coordinate": [
+            46.145416259765625,
+            38.97833251953125,
+            30.364089965820312
+          ]
+        },
+        {
+          "parent": 4667814,
+          "coordinate": [
+            44.307098388671875,
+            41.913726806640625,
+            29.745391845703125
+          ],
+          "canonical_coordinate": [
+            44.307098388671875,
+            41.913726806640625,
+            29.745391845703125
+          ]
+        }
+      ]
+    },
+    {
+      "core": 13141,
+      "cap": "NGC",
+      "galaxies": 1263,
+      "unsupported": {
+        "archive_rint": 14,
+        "canonical_rint": 14,
+        "canonical_cell": 14
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 846794,
+          "coordinate": [
+            31.587127685546875,
+            38.577301025390625,
+            29.641616821289062
+          ],
+          "canonical_coordinate": [
+            31.587127685546875,
+            38.577301025390625,
+            29.641616821289062
+          ]
+        },
+        {
+          "parent": 858344,
+          "coordinate": [
+            36.037811279296875,
+            33.1947021484375,
+            29.105987548828125
+          ],
+          "canonical_coordinate": [
+            36.037811279296875,
+            33.1947021484375,
+            29.105987548828125
+          ]
+        },
+        {
+          "parent": 858367,
+          "coordinate": [
+            39.956695556640625,
+            29.4229736328125,
+            28.945892333984375
+          ],
+          "canonical_coordinate": [
+            39.956695556640625,
+            29.4229736328125,
+            28.945892333984375
+          ]
+        }
+      ]
+    },
+    {
+      "core": 13206,
+      "cap": "NGC",
+      "galaxies": 1856,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 13273,
+      "cap": "NGC",
+      "galaxies": 660,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 13351,
+      "cap": "NGC",
+      "galaxies": 187,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 13442,
+      "cap": "NGC",
+      "galaxies": 28,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 13522,
+      "cap": "NGC",
+      "galaxies": 279,
+      "unsupported": {
+        "archive_rint": 3,
+        "canonical_rint": 3,
+        "canonical_cell": 3
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 658155,
+          "coordinate": [
+            38.8004150390625,
+            34.93699645996094,
+            41.02496337890625
+          ],
+          "canonical_coordinate": [
+            38.8004150390625,
+            34.93699645996094,
+            41.02496337890625
+          ]
+        },
+        {
+          "parent": 658432,
+          "coordinate": [
+            39.5126953125,
+            35.37870788574219,
+            40.163177490234375
+          ],
+          "canonical_coordinate": [
+            39.5126953125,
+            35.37870788574219,
+            40.163177490234375
+          ]
+        },
+        {
+          "parent": 6252692,
+          "coordinate": [
+            26.532379150390625,
+            36.724334716796875,
+            29.870285034179688
+          ],
+          "canonical_coordinate": [
+            26.532379150390625,
+            36.724334716796875,
+            29.870285034179688
+          ]
+        }
+      ]
+    },
+    {
+      "core": 13711,
+      "cap": "NGC",
+      "galaxies": 1109,
+      "unsupported": {
+        "archive_rint": 30,
+        "canonical_rint": 30,
+        "canonical_cell": 30
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3117923,
+          "coordinate": [
+            31.36505126953125,
+            38.538818359375,
+            24.121566772460938
+          ],
+          "canonical_coordinate": [
+            31.36505126953125,
+            38.538818359375,
+            24.121566772460938
+          ]
+        },
+        {
+          "parent": 3117950,
+          "coordinate": [
+            29.41650390625,
+            38.772491455078125,
+            25.664688110351562
+          ],
+          "canonical_coordinate": [
+            29.41650390625,
+            38.772491455078125,
+            25.664688110351562
+          ]
+        },
+        {
+          "parent": 3118163,
+          "coordinate": [
+            34.593719482421875,
+            30.010986328125,
+            24.566696166992188
+          ],
+          "canonical_coordinate": [
+            34.593719482421875,
+            30.010986328125,
+            24.566696166992188
+          ]
+        }
+      ]
+    },
+    {
+      "core": 13760,
+      "cap": "NGC",
+      "galaxies": 1081,
+      "unsupported": {
+        "archive_rint": 5,
+        "canonical_rint": 5,
+        "canonical_cell": 5
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 1742710,
+          "coordinate": [
+            25.320831298828125,
+            40.5679931640625,
+            29.92864990234375
+          ],
+          "canonical_coordinate": [
+            25.320831298828125,
+            40.5679931640625,
+            29.92864990234375
+          ]
+        },
+        {
+          "parent": 1743421,
+          "coordinate": [
+            25.354461669921875,
+            33.236358642578125,
+            31.177932739257812
+          ],
+          "canonical_coordinate": [
+            25.354461669921875,
+            33.236358642578125,
+            31.177932739257812
+          ]
+        },
+        {
+          "parent": 4980633,
+          "coordinate": [
+            31.539764404296875,
+            40.366912841796875,
+            31.742279052734375
+          ],
+          "canonical_coordinate": [
+            31.539764404296875,
+            40.366912841796875,
+            31.742279052734375
+          ]
+        }
+      ]
+    },
+    {
+      "core": 13773,
+      "cap": "NGC",
+      "galaxies": 2132,
+      "unsupported": {
+        "archive_rint": 1,
+        "canonical_rint": 1,
+        "canonical_cell": 1
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 7072046,
+          "coordinate": [
+            36.0595703125,
+            39.092132568359375,
+            24.487239837646484
+          ],
+          "canonical_coordinate": [
+            36.0595703125,
+            39.092132568359375,
+            24.487239837646484
+          ]
+        }
+      ]
+    },
+    {
+      "core": 13877,
+      "cap": "NGC",
+      "galaxies": 940,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 13917,
+      "cap": "NGC",
+      "galaxies": 3327,
+      "unsupported": {
+        "archive_rint": 12,
+        "canonical_rint": 12,
+        "canonical_cell": 12
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 4063945,
+          "coordinate": [
+            32.5228271484375,
+            30.672576904296875,
+            44.56135559082031
+          ],
+          "canonical_coordinate": [
+            32.5228271484375,
+            30.672576904296875,
+            44.56135559082031
+          ]
+        },
+        {
+          "parent": 4104397,
+          "coordinate": [
+            32.31964111328125,
+            33.4056396484375,
+            45.723670959472656
+          ],
+          "canonical_coordinate": [
+            32.31964111328125,
+            33.4056396484375,
+            45.723670959472656
+          ]
+        },
+        {
+          "parent": 4104402,
+          "coordinate": [
+            30.9010009765625,
+            34.46319580078125,
+            44.672523498535156
+          ],
+          "canonical_coordinate": [
+            30.9010009765625,
+            34.46319580078125,
+            44.672523498535156
+          ]
+        }
+      ]
+    },
+    {
+      "core": 13936,
+      "cap": "NGC",
+      "galaxies": 1,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 14005,
+      "cap": "NGC",
+      "galaxies": 359,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 14090,
+      "cap": "NGC",
+      "galaxies": 188,
+      "unsupported": {
+        "archive_rint": 1,
+        "canonical_rint": 1,
+        "canonical_cell": 1
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3757504,
+          "coordinate": [
+            40.3963623046875,
+            46.89947509765625,
+            41.59852600097656
+          ],
+          "canonical_coordinate": [
+            40.3963623046875,
+            46.89947509765625,
+            41.59852600097656
+          ]
+        }
+      ]
+    },
+    {
+      "core": 14219,
+      "cap": "NGC",
+      "galaxies": 86,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 14290,
+      "cap": "NGC",
+      "galaxies": 324,
+      "unsupported": {
+        "archive_rint": 4,
+        "canonical_rint": 4,
+        "canonical_cell": 4
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 616796,
+          "coordinate": [
+            29.528564453125,
+            25.692596435546875,
+            38.81440734863281
+          ],
+          "canonical_coordinate": [
+            29.528564453125,
+            25.692596435546875,
+            38.81440734863281
+          ]
+        },
+        {
+          "parent": 616920,
+          "coordinate": [
+            38.33660888671875,
+            40.769256591796875,
+            36.39166259765625
+          ],
+          "canonical_coordinate": [
+            38.33660888671875,
+            40.769256591796875,
+            36.39166259765625
+          ]
+        },
+        {
+          "parent": 4500577,
+          "coordinate": [
+            36.222198486328125,
+            40.3489990234375,
+            37.4010009765625
+          ],
+          "canonical_coordinate": [
+            36.222198486328125,
+            40.3489990234375,
+            37.4010009765625
+          ]
+        }
+      ]
+    },
+    {
+      "core": 14323,
+      "cap": "NGC",
+      "galaxies": 1231,
+      "unsupported": {
+        "archive_rint": 11,
+        "canonical_rint": 11,
+        "canonical_cell": 11
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 1225,
+          "coordinate": [
+            32.29937744140625,
+            31.744064331054688,
+            33.12389373779297
+          ],
+          "canonical_coordinate": [
+            32.29937744140625,
+            31.744064331054688,
+            33.12389373779297
+          ]
+        },
+        {
+          "parent": 369775,
+          "coordinate": [
+            36.467071533203125,
+            40.165557861328125,
+            34.95751190185547
+          ],
+          "canonical_coordinate": [
+            36.467071533203125,
+            40.165557861328125,
+            34.95751190185547
+          ]
+        },
+        {
+          "parent": 370679,
+          "coordinate": [
+            36.3399658203125,
+            39.883331298828125,
+            36.40715789794922
+          ],
+          "canonical_coordinate": [
+            36.3399658203125,
+            39.883331298828125,
+            36.40715789794922
+          ]
+        }
+      ]
+    },
+    {
+      "core": 14342,
+      "cap": "NGC",
+      "galaxies": 0,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 14354,
+      "cap": "NGC",
+      "galaxies": 384,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 14389,
+      "cap": "NGC",
+      "galaxies": 1359,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 14403,
+      "cap": "NGC",
+      "galaxies": 44,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 14434,
+      "cap": "NGC",
+      "galaxies": 3776,
+      "unsupported": {
+        "archive_rint": 3,
+        "canonical_rint": 3,
+        "canonical_cell": 3
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 682505,
+          "coordinate": [
+            30.54254150390625,
+            36.314453125,
+            39.16869354248047
+          ],
+          "canonical_coordinate": [
+            30.54254150390625,
+            36.314453125,
+            39.16869354248047
+          ]
+        },
+        {
+          "parent": 682671,
+          "coordinate": [
+            33.54144287109375,
+            36.583587646484375,
+            37.56077575683594
+          ],
+          "canonical_coordinate": [
+            33.54144287109375,
+            36.583587646484375,
+            37.56077575683594
+          ]
+        },
+        {
+          "parent": 5742442,
+          "coordinate": [
+            31.322265625,
+            36.209259033203125,
+            39.184783935546875
+          ],
+          "canonical_coordinate": [
+            31.322265625,
+            36.209259033203125,
+            39.184783935546875
+          ]
+        }
+      ]
+    },
+    {
+      "core": 14486,
+      "cap": "NGC",
+      "galaxies": 2091,
+      "unsupported": {
+        "archive_rint": 17,
+        "canonical_rint": 17,
+        "canonical_cell": 17
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 1741934,
+          "coordinate": [
+            29.320343017578125,
+            44.52685546875,
+            35.17218017578125
+          ],
+          "canonical_coordinate": [
+            29.320343017578125,
+            44.52685546875,
+            35.17218017578125
+          ]
+        },
+        {
+          "parent": 1743394,
+          "coordinate": [
+            40.228546142578125,
+            43.3248291015625,
+            25.275558471679688
+          ],
+          "canonical_coordinate": [
+            40.228546142578125,
+            43.3248291015625,
+            25.275558471679688
+          ]
+        },
+        {
+          "parent": 1743504,
+          "coordinate": [
+            33.14154052734375,
+            42.756256103515625,
+            31.41766357421875
+          ],
+          "canonical_coordinate": [
+            33.14154052734375,
+            42.756256103515625,
+            31.41766357421875
+          ]
+        }
+      ]
+    },
+    {
+      "core": 14491,
+      "cap": "NGC",
+      "galaxies": 634,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 14534,
+      "cap": "NGC",
+      "galaxies": 1096,
+      "unsupported": {
+        "archive_rint": 14,
+        "canonical_rint": 14,
+        "canonical_cell": 14
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 1578658,
+          "coordinate": [
+            44.432373046875,
+            40.486053466796875,
+            35.95849609375
+          ],
+          "canonical_coordinate": [
+            44.432373046875,
+            40.486053466796875,
+            35.95849609375
+          ]
+        },
+        {
+          "parent": 1589646,
+          "coordinate": [
+            36.370880126953125,
+            39.4605712890625,
+            28.035263061523438
+          ],
+          "canonical_coordinate": [
+            36.370880126953125,
+            39.4605712890625,
+            28.035263061523438
+          ]
+        },
+        {
+          "parent": 1597992,
+          "coordinate": [
+            30.677398681640625,
+            36.82928466796875,
+            35.90959167480469
+          ],
+          "canonical_coordinate": [
+            30.677398681640625,
+            36.82928466796875,
+            35.90959167480469
+          ]
+        }
+      ]
+    },
+    {
+      "core": 14607,
+      "cap": "NGC",
+      "galaxies": 201,
+      "unsupported": {
+        "archive_rint": 4,
+        "canonical_rint": 4,
+        "canonical_cell": 4
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3604591,
+          "coordinate": [
+            43.405517578125,
+            28.700775146484375,
+            43.61749267578125
+          ],
+          "canonical_coordinate": [
+            43.405517578125,
+            28.700775146484375,
+            43.61749267578125
+          ]
+        },
+        {
+          "parent": 3604733,
+          "coordinate": [
+            46.523773193359375,
+            27.54833984375,
+            40.942779541015625
+          ],
+          "canonical_coordinate": [
+            46.523773193359375,
+            27.54833984375,
+            40.942779541015625
+          ]
+        },
+        {
+          "parent": 3604809,
+          "coordinate": [
+            45.625640869140625,
+            27.54876708984375,
+            42.7701416015625
+          ],
+          "canonical_coordinate": [
+            45.625640869140625,
+            27.54876708984375,
+            42.7701416015625
+          ]
+        }
+      ]
+    },
+    {
+      "core": 14644,
+      "cap": "NGC",
+      "galaxies": 1683,
+      "unsupported": {
+        "archive_rint": 4,
+        "canonical_rint": 4,
+        "canonical_cell": 4
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 951325,
+          "coordinate": [
+            43.87872314453125,
+            32.858642578125,
+            49.1348876953125
+          ],
+          "canonical_coordinate": [
+            43.87872314453125,
+            32.858642578125,
+            49.1348876953125
+          ]
+        },
+        {
+          "parent": 5978019,
+          "coordinate": [
+            43.40814208984375,
+            36.43658447265625,
+            35.08384704589844
+          ],
+          "canonical_coordinate": [
+            43.40814208984375,
+            36.43658447265625,
+            35.08384704589844
+          ]
+        },
+        {
+          "parent": 6153027,
+          "coordinate": [
+            43.4752197265625,
+            31.49517822265625,
+            47.112640380859375
+          ],
+          "canonical_coordinate": [
+            43.4752197265625,
+            31.49517822265625,
+            47.112640380859375
+          ]
+        }
+      ]
+    },
+    {
+      "core": 14701,
+      "cap": "NGC",
+      "galaxies": 21,
+      "unsupported": {
+        "archive_rint": 1,
+        "canonical_rint": 1,
+        "canonical_cell": 1
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3645937,
+          "coordinate": [
+            42.827880859375,
+            33.09033203125,
+            37.656524658203125
+          ],
+          "canonical_coordinate": [
+            42.827880859375,
+            33.09033203125,
+            37.656524658203125
+          ]
+        }
+      ]
+    },
+    {
+      "core": 14710,
+      "cap": "NGC",
+      "galaxies": 1953,
+      "unsupported": {
+        "archive_rint": 1,
+        "canonical_rint": 1,
+        "canonical_cell": 1
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3729171,
+          "coordinate": [
+            44.083404541015625,
+            44.4180908203125,
+            28.362197875976562
+          ],
+          "canonical_coordinate": [
+            44.083404541015625,
+            44.4180908203125,
+            28.362197875976562
+          ]
+        }
+      ]
+    },
+    {
+      "core": 14755,
+      "cap": "NGC",
+      "galaxies": 432,
+      "unsupported": {
+        "archive_rint": 7,
+        "canonical_rint": 7,
+        "canonical_cell": 7
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 5452390,
+          "coordinate": [
+            31.64447021484375,
+            41.5810546875,
+            40.063720703125
+          ],
+          "canonical_coordinate": [
+            31.64447021484375,
+            41.5810546875,
+            40.063720703125
+          ]
+        },
+        {
+          "parent": 5452470,
+          "coordinate": [
+            34.44439697265625,
+            34.02642822265625,
+            35.77580261230469
+          ],
+          "canonical_coordinate": [
+            34.44439697265625,
+            34.02642822265625,
+            35.77580261230469
+          ]
+        },
+        {
+          "parent": 5452481,
+          "coordinate": [
+            34.584442138671875,
+            35.51123046875,
+            36.284942626953125
+          ],
+          "canonical_coordinate": [
+            34.584442138671875,
+            35.51123046875,
+            36.284942626953125
+          ]
+        }
+      ]
+    },
+    {
+      "core": 14809,
+      "cap": "NGC",
+      "galaxies": 3,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 14888,
+      "cap": "NGC",
+      "galaxies": 34,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 14971,
+      "cap": "NGC",
+      "galaxies": 457,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 15032,
+      "cap": "NGC",
+      "galaxies": 778,
+      "unsupported": {
+        "archive_rint": 3,
+        "canonical_rint": 3,
+        "canonical_cell": 3
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 5119550,
+          "coordinate": [
+            42.578460693359375,
+            47.08892822265625,
+            37.58018493652344
+          ],
+          "canonical_coordinate": [
+            42.578460693359375,
+            47.08892822265625,
+            37.58018493652344
+          ]
+        },
+        {
+          "parent": 5119584,
+          "coordinate": [
+            43.7353515625,
+            47.827056884765625,
+            35.93263244628906
+          ],
+          "canonical_coordinate": [
+            43.7353515625,
+            47.827056884765625,
+            35.93263244628906
+          ]
+        },
+        {
+          "parent": 6544464,
+          "coordinate": [
+            45.08819580078125,
+            47.602142333984375,
+            36.960968017578125
+          ],
+          "canonical_coordinate": [
+            45.08819580078125,
+            47.602142333984375,
+            36.960968017578125
+          ]
+        }
+      ]
+    },
+    {
+      "core": 15095,
+      "cap": "NGC",
+      "galaxies": 1811,
+      "unsupported": {
+        "archive_rint": 10,
+        "canonical_rint": 10,
+        "canonical_cell": 10
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 635946,
+          "coordinate": [
+            31.23675537109375,
+            44.64703369140625,
+            26.631668090820312
+          ],
+          "canonical_coordinate": [
+            31.23675537109375,
+            44.64703369140625,
+            26.631668090820312
+          ]
+        },
+        {
+          "parent": 2108295,
+          "coordinate": [
+            49.2095947265625,
+            36.1968994140625,
+            33.59519958496094
+          ],
+          "canonical_coordinate": [
+            49.2095947265625,
+            36.1968994140625,
+            33.59519958496094
+          ]
+        },
+        {
+          "parent": 2109895,
+          "coordinate": [
+            45.51605224609375,
+            49.061126708984375,
+            42.99366760253906
+          ],
+          "canonical_coordinate": [
+            45.51605224609375,
+            49.061126708984375,
+            42.99366760253906
+          ]
+        }
+      ]
+    },
+    {
+      "core": 15139,
+      "cap": "NGC",
+      "galaxies": 1441,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 15171,
+      "cap": "NGC",
+      "galaxies": 90,
+      "unsupported": {
+        "archive_rint": 2,
+        "canonical_rint": 2,
+        "canonical_cell": 2
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 43597,
+          "coordinate": [
+            43.355560302734375,
+            47.421661376953125,
+            33.131988525390625
+          ],
+          "canonical_coordinate": [
+            43.355560302734375,
+            47.421661376953125,
+            33.131988525390625
+          ]
+        },
+        {
+          "parent": 4239810,
+          "coordinate": [
+            49.65826416015625,
+            44.16009521484375,
+            32.458282470703125
+          ],
+          "canonical_coordinate": [
+            49.65826416015625,
+            44.16009521484375,
+            32.458282470703125
+          ]
+        }
+      ]
+    },
+    {
+      "core": 15210,
+      "cap": "NGC",
+      "galaxies": 1220,
+      "unsupported": {
+        "archive_rint": 1,
+        "canonical_rint": 1,
+        "canonical_cell": 1
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 1695857,
+          "coordinate": [
+            31.013031005859375,
+            42.542266845703125,
+            38.047821044921875
+          ],
+          "canonical_coordinate": [
+            31.013031005859375,
+            42.542266845703125,
+            38.047821044921875
+          ]
+        }
+      ]
+    },
+    {
+      "core": 15303,
+      "cap": "NGC",
+      "galaxies": 985,
+      "unsupported": {
+        "archive_rint": 11,
+        "canonical_rint": 11,
+        "canonical_cell": 11
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 1647376,
+          "coordinate": [
+            31.21923828125,
+            29.18798828125,
+            33.47694396972656
+          ],
+          "canonical_coordinate": [
+            31.21923828125,
+            29.18798828125,
+            33.47694396972656
+          ]
+        },
+        {
+          "parent": 3639484,
+          "coordinate": [
+            49.771453857421875,
+            27.416351318359375,
+            43.858734130859375
+          ],
+          "canonical_coordinate": [
+            49.771453857421875,
+            27.416351318359375,
+            43.858734130859375
+          ]
+        },
+        {
+          "parent": 3657297,
+          "coordinate": [
+            37.655548095703125,
+            42.390594482421875,
+            37.663116455078125
+          ],
+          "canonical_coordinate": [
+            37.655548095703125,
+            42.390594482421875,
+            37.663116455078125
+          ]
+        }
+      ]
+    },
+    {
+      "core": 15306,
+      "cap": "NGC",
+      "galaxies": 734,
+      "unsupported": {
+        "archive_rint": 5,
+        "canonical_rint": 5,
+        "canonical_cell": 5
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3611673,
+          "coordinate": [
+            46.636260986328125,
+            42.979949951171875,
+            41.08203125
+          ],
+          "canonical_coordinate": [
+            46.636260986328125,
+            42.979949951171875,
+            41.08203125
+          ]
+        },
+        {
+          "parent": 5868938,
+          "coordinate": [
+            37.45782470703125,
+            25.3896484375,
+            41.121185302734375
+          ],
+          "canonical_coordinate": [
+            37.45782470703125,
+            25.3896484375,
+            41.121185302734375
+          ]
+        },
+        {
+          "parent": 5880694,
+          "coordinate": [
+            46.778289794921875,
+            39.651947021484375,
+            45.393890380859375
+          ],
+          "canonical_coordinate": [
+            46.778289794921875,
+            39.651947021484375,
+            45.393890380859375
+          ]
+        }
+      ]
+    },
+    {
+      "core": 15345,
+      "cap": "NGC",
+      "galaxies": 1094,
+      "unsupported": {
+        "archive_rint": 2,
+        "canonical_rint": 2,
+        "canonical_cell": 2
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 948707,
+          "coordinate": [
+            32.452362060546875,
+            34.08074951171875,
+            34.36747741699219
+          ],
+          "canonical_coordinate": [
+            32.452362060546875,
+            34.08074951171875,
+            34.36747741699219
+          ]
+        },
+        {
+          "parent": 7171660,
+          "coordinate": [
+            31.2864990234375,
+            32.68756103515625,
+            42.41661071777344
+          ],
+          "canonical_coordinate": [
+            31.2864990234375,
+            32.68756103515625,
+            42.41661071777344
+          ]
+        }
+      ]
+    },
+    {
+      "core": 15413,
+      "cap": "NGC",
+      "galaxies": 816,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 15502,
+      "cap": "NGC",
+      "galaxies": 51,
+      "unsupported": {
+        "archive_rint": 1,
+        "canonical_rint": 1,
+        "canonical_cell": 1
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 2746059,
+          "coordinate": [
+            36.939788818359375,
+            34.1510009765625,
+            47.524566650390625
+          ],
+          "canonical_coordinate": [
+            36.939788818359375,
+            34.1510009765625,
+            47.524566650390625
+          ]
+        }
+      ]
+    },
+    {
+      "core": 15514,
+      "cap": "NGC",
+      "galaxies": 28,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 15671,
+      "cap": "NGC",
+      "galaxies": 506,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 15728,
+      "cap": "NGC",
+      "galaxies": 965,
+      "unsupported": {
+        "archive_rint": 9,
+        "canonical_rint": 9,
+        "canonical_cell": 9
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 1060023,
+          "coordinate": [
+            39.6339111328125,
+            29.568328857421875,
+            33.41038513183594
+          ],
+          "canonical_coordinate": [
+            39.6339111328125,
+            29.568328857421875,
+            33.41038513183594
+          ]
+        },
+        {
+          "parent": 1060024,
+          "coordinate": [
+            39.60150146484375,
+            30.429779052734375,
+            33.83656311035156
+          ],
+          "canonical_coordinate": [
+            39.60150146484375,
+            30.429779052734375,
+            33.83656311035156
+          ]
+        },
+        {
+          "parent": 1060100,
+          "coordinate": [
+            38.642059326171875,
+            27.4366455078125,
+            33.606475830078125
+          ],
+          "canonical_coordinate": [
+            38.642059326171875,
+            27.4366455078125,
+            33.606475830078125
+          ]
+        }
+      ]
+    },
+    {
+      "core": 15745,
+      "cap": "NGC",
+      "galaxies": 18,
+      "unsupported": {
+        "archive_rint": 1,
+        "canonical_rint": 1,
+        "canonical_cell": 1
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 121129,
+          "coordinate": [
+            43.356903076171875,
+            40.544647216796875,
+            32.894256591796875
+          ],
+          "canonical_coordinate": [
+            43.356903076171875,
+            40.544647216796875,
+            32.894256591796875
+          ]
+        }
+      ]
+    },
+    {
+      "core": 15776,
+      "cap": "NGC",
+      "galaxies": 2082,
+      "unsupported": {
+        "archive_rint": 17,
+        "canonical_rint": 17,
+        "canonical_cell": 17
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 622621,
+          "coordinate": [
+            25.89544677734375,
+            30.3447265625,
+            35.764801025390625
+          ],
+          "canonical_coordinate": [
+            25.89544677734375,
+            30.3447265625,
+            35.764801025390625
+          ]
+        },
+        {
+          "parent": 643673,
+          "coordinate": [
+            38.09112548828125,
+            46.5689697265625,
+            37.053192138671875
+          ],
+          "canonical_coordinate": [
+            38.09112548828125,
+            46.5689697265625,
+            37.053192138671875
+          ]
+        },
+        {
+          "parent": 644121,
+          "coordinate": [
+            37.25390625,
+            41.445098876953125,
+            40.04826354980469
+          ],
+          "canonical_coordinate": [
+            37.25390625,
+            41.445098876953125,
+            40.04826354980469
+          ]
+        }
+      ]
+    },
+    {
+      "core": 15865,
+      "cap": "NGC",
+      "galaxies": 1331,
+      "unsupported": {
+        "archive_rint": 3,
+        "canonical_rint": 3,
+        "canonical_cell": 3
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 51121,
+          "coordinate": [
+            30.326446533203125,
+            32.8792724609375,
+            25.73089599609375
+          ],
+          "canonical_coordinate": [
+            30.326446533203125,
+            32.8792724609375,
+            25.73089599609375
+          ]
+        },
+        {
+          "parent": 4243998,
+          "coordinate": [
+            29.942230224609375,
+            32.55218505859375,
+            25.607330322265625
+          ],
+          "canonical_coordinate": [
+            29.942230224609375,
+            32.55218505859375,
+            25.607330322265625
+          ]
+        },
+        {
+          "parent": 4244741,
+          "coordinate": [
+            29.522857666015625,
+            33.38348388671875,
+            25.015869140625
+          ],
+          "canonical_coordinate": [
+            29.522857666015625,
+            33.38348388671875,
+            25.015869140625
+          ]
+        }
+      ]
+    },
+    {
+      "core": 15885,
+      "cap": "NGC",
+      "galaxies": 1091,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 15958,
+      "cap": "NGC",
+      "galaxies": 105,
+      "unsupported": {
+        "archive_rint": 2,
+        "canonical_rint": 2,
+        "canonical_cell": 2
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3540033,
+          "coordinate": [
+            30.523406982421875,
+            45.676971435546875,
+            38.1751708984375
+          ],
+          "canonical_coordinate": [
+            30.523406982421875,
+            45.676971435546875,
+            38.1751708984375
+          ]
+        },
+        {
+          "parent": 6821690,
+          "coordinate": [
+            35.425140380859375,
+            46.509124755859375,
+            27.17987060546875
+          ],
+          "canonical_coordinate": [
+            35.425140380859375,
+            46.509124755859375,
+            27.17987060546875
+          ]
+        }
+      ]
+    },
+    {
+      "core": 15996,
+      "cap": "NGC",
+      "galaxies": 908,
+      "unsupported": {
+        "archive_rint": 13,
+        "canonical_rint": 13,
+        "canonical_cell": 13
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3608379,
+          "coordinate": [
+            33.10833740234375,
+            27.482025146484375,
+            41.230377197265625
+          ],
+          "canonical_coordinate": [
+            33.10833740234375,
+            27.482025146484375,
+            41.230377197265625
+          ]
+        },
+        {
+          "parent": 3645965,
+          "coordinate": [
+            39.628448486328125,
+            33.237945556640625,
+            41.466644287109375
+          ],
+          "canonical_coordinate": [
+            39.628448486328125,
+            33.237945556640625,
+            41.466644287109375
+          ]
+        },
+        {
+          "parent": 3647241,
+          "coordinate": [
+            43.3551025390625,
+            28.148468017578125,
+            37.1885986328125
+          ],
+          "canonical_coordinate": [
+            43.3551025390625,
+            28.148468017578125,
+            37.1885986328125
+          ]
+        }
+      ]
+    },
+    {
+      "core": 16058,
+      "cap": "NGC",
+      "galaxies": 2872,
+      "unsupported": {
+        "archive_rint": 2,
+        "canonical_rint": 2,
+        "canonical_cell": 2
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3756438,
+          "coordinate": [
+            42.499359130859375,
+            39.763916015625,
+            37.355438232421875
+          ],
+          "canonical_coordinate": [
+            42.499359130859375,
+            39.763916015625,
+            37.355438232421875
+          ]
+        },
+        {
+          "parent": 6000069,
+          "coordinate": [
+            42.412872314453125,
+            39.7813720703125,
+            37.37535095214844
+          ],
+          "canonical_coordinate": [
+            42.412872314453125,
+            39.7813720703125,
+            37.37535095214844
+          ]
+        }
+      ]
+    },
+    {
+      "core": 16234,
+      "cap": "NGC",
+      "galaxies": 26,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 16280,
+      "cap": "NGC",
+      "galaxies": 370,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 16323,
+      "cap": "NGC",
+      "galaxies": 141,
+      "unsupported": {
+        "archive_rint": 1,
+        "canonical_rint": 1,
+        "canonical_cell": 1
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 2079972,
+          "coordinate": [
+            46.568634033203125,
+            40.15455627441406,
+            35.374969482421875
+          ],
+          "canonical_coordinate": [
+            46.568634033203125,
+            40.15455627441406,
+            35.374969482421875
+          ]
+        }
+      ]
+    },
+    {
+      "core": 16366,
+      "cap": "NGC",
+      "galaxies": 519,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 16378,
+      "cap": "NGC",
+      "galaxies": 2820,
+      "unsupported": {
+        "archive_rint": 18,
+        "canonical_rint": 18,
+        "canonical_cell": 18
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 1060386,
+          "coordinate": [
+            32.127471923828125,
+            34.442413330078125,
+            35.23438262939453
+          ],
+          "canonical_coordinate": [
+            32.127471923828125,
+            34.442413330078125,
+            35.23438262939453
+          ]
+        },
+        {
+          "parent": 1061143,
+          "coordinate": [
+            33.002899169921875,
+            35.2762451171875,
+            35.75708770751953
+          ],
+          "canonical_coordinate": [
+            33.002899169921875,
+            35.2762451171875,
+            35.75708770751953
+          ]
+        },
+        {
+          "parent": 1061225,
+          "coordinate": [
+            31.57220458984375,
+            33.43359375,
+            36.02764129638672
+          ],
+          "canonical_coordinate": [
+            31.57220458984375,
+            33.43359375,
+            36.02764129638672
+          ]
+        }
+      ]
+    },
+    {
+      "core": 16558,
+      "cap": "NGC",
+      "galaxies": 1545,
+      "unsupported": {
+        "archive_rint": 37,
+        "canonical_rint": 37,
+        "canonical_cell": 37
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3537732,
+          "coordinate": [
+            46.294769287109375,
+            34.353607177734375,
+            36.240203857421875
+          ],
+          "canonical_coordinate": [
+            46.294769287109375,
+            34.353607177734375,
+            36.240203857421875
+          ]
+        },
+        {
+          "parent": 3537805,
+          "coordinate": [
+            45.5059814453125,
+            38.09661865234375,
+            32.45918273925781
+          ],
+          "canonical_coordinate": [
+            45.5059814453125,
+            38.09661865234375,
+            32.45918273925781
+          ]
+        },
+        {
+          "parent": 3537813,
+          "coordinate": [
+            45.33544921875,
+            37.6429443359375,
+            32.456573486328125
+          ],
+          "canonical_coordinate": [
+            45.33544921875,
+            37.6429443359375,
+            32.456573486328125
+          ]
+        }
+      ]
+    },
+    {
+      "core": 16667,
+      "cap": "NGC",
+      "galaxies": 1185,
+      "unsupported": {
+        "archive_rint": 18,
+        "canonical_rint": 18,
+        "canonical_cell": 18
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 2654503,
+          "coordinate": [
+            36.700653076171875,
+            35.447998046875,
+            41.00202941894531
+          ],
+          "canonical_coordinate": [
+            36.700653076171875,
+            35.447998046875,
+            41.00202941894531
+          ]
+        },
+        {
+          "parent": 2654825,
+          "coordinate": [
+            40.27587890625,
+            31.5823974609375,
+            43.43479919433594
+          ],
+          "canonical_coordinate": [
+            40.27587890625,
+            31.5823974609375,
+            43.43479919433594
+          ]
+        },
+        {
+          "parent": 2654827,
+          "coordinate": [
+            40.461090087890625,
+            32.266845703125,
+            42.215667724609375
+          ],
+          "canonical_coordinate": [
+            40.461090087890625,
+            32.266845703125,
+            42.215667724609375
+          ]
+        }
+      ]
+    },
+    {
+      "core": 16707,
+      "cap": "NGC",
+      "galaxies": 419,
+      "unsupported": {
+        "archive_rint": 1,
+        "canonical_rint": 1,
+        "canonical_cell": 1
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 2631624,
+          "coordinate": [
+            47.528045654296875,
+            42.364501953125,
+            44.204620361328125
+          ],
+          "canonical_coordinate": [
+            47.528045654296875,
+            42.364501953125,
+            44.204620361328125
+          ]
+        }
+      ]
+    },
+    {
+      "core": 16758,
+      "cap": "NGC",
+      "galaxies": 2,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 16822,
+      "cap": "NGC",
+      "galaxies": 124,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 16884,
+      "cap": "NGC",
+      "galaxies": 654,
+      "unsupported": {
+        "archive_rint": 2,
+        "canonical_rint": 2,
+        "canonical_cell": 2
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 4686504,
+          "coordinate": [
+            27.157470703125,
+            30.475112915039062,
+            28.464035034179688
+          ],
+          "canonical_coordinate": [
+            27.157470703125,
+            30.475112915039062,
+            28.464035034179688
+          ]
+        },
+        {
+          "parent": 4693295,
+          "coordinate": [
+            40.249267578125,
+            28.213943481445312,
+            29.417800903320312
+          ],
+          "canonical_coordinate": [
+            40.249267578125,
+            28.213943481445312,
+            29.417800903320312
+          ]
+        }
+      ]
+    },
+    {
+      "core": 17012,
+      "cap": "NGC",
+      "galaxies": 1896,
+      "unsupported": {
+        "archive_rint": 17,
+        "canonical_rint": 17,
+        "canonical_cell": 17
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 2027086,
+          "coordinate": [
+            36.69140625,
+            26.895751953125,
+            31.768096923828125
+          ],
+          "canonical_coordinate": [
+            36.69140625,
+            26.895751953125,
+            31.768096923828125
+          ]
+        },
+        {
+          "parent": 2027201,
+          "coordinate": [
+            37.46917724609375,
+            26.50543212890625,
+            32.03865051269531
+          ],
+          "canonical_coordinate": [
+            37.46917724609375,
+            26.50543212890625,
+            32.03865051269531
+          ]
+        },
+        {
+          "parent": 2030871,
+          "coordinate": [
+            30.286407470703125,
+            33.1314697265625,
+            34.61531066894531
+          ],
+          "canonical_coordinate": [
+            30.286407470703125,
+            33.1314697265625,
+            34.61531066894531
+          ]
+        }
+      ]
+    },
+    {
+      "core": 17039,
+      "cap": "NGC",
+      "galaxies": 399,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 17187,
+      "cap": "NGC",
+      "galaxies": 1328,
+      "unsupported": {
+        "archive_rint": 22,
+        "canonical_rint": 22,
+        "canonical_cell": 22
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 2626046,
+          "coordinate": [
+            41.1602783203125,
+            33.28607177734375,
+            31.322708129882812
+          ],
+          "canonical_coordinate": [
+            41.1602783203125,
+            33.28607177734375,
+            31.322708129882812
+          ]
+        },
+        {
+          "parent": 2661377,
+          "coordinate": [
+            27.560760498046875,
+            26.8839111328125,
+            33.91667175292969
+          ],
+          "canonical_coordinate": [
+            27.560760498046875,
+            26.8839111328125,
+            33.91667175292969
+          ]
+        },
+        {
+          "parent": 2661751,
+          "coordinate": [
+            27.060791015625,
+            33.36920166015625,
+            45.589630126953125
+          ],
+          "canonical_coordinate": [
+            27.060791015625,
+            33.36920166015625,
+            45.589630126953125
+          ]
+        }
+      ]
+    },
+    {
+      "core": 17214,
+      "cap": "NGC",
+      "galaxies": 34,
+      "unsupported": {
+        "archive_rint": 4,
+        "canonical_rint": 4,
+        "canonical_cell": 4
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3557223,
+          "coordinate": [
+            30.801910400390625,
+            41.9320068359375,
+            28.82843017578125
+          ],
+          "canonical_coordinate": [
+            30.801910400390625,
+            41.9320068359375,
+            28.82843017578125
+          ]
+        },
+        {
+          "parent": 3557278,
+          "coordinate": [
+            35.7581787109375,
+            40.490234375,
+            30.789215087890625
+          ],
+          "canonical_coordinate": [
+            35.7581787109375,
+            40.490234375,
+            30.789215087890625
+          ]
+        },
+        {
+          "parent": 3557281,
+          "coordinate": [
+            32.09112548828125,
+            40.46612548828125,
+            36.17083740234375
+          ],
+          "canonical_coordinate": [
+            32.09112548828125,
+            40.46612548828125,
+            36.17083740234375
+          ]
+        }
+      ]
+    },
+    {
+      "core": 17301,
+      "cap": "NGC",
+      "galaxies": 23,
+      "unsupported": {
+        "archive_rint": 5,
+        "canonical_rint": 5,
+        "canonical_cell": 5
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 1126702,
+          "coordinate": [
+            29.063995361328125,
+            36.371803283691406,
+            36.136932373046875
+          ],
+          "canonical_coordinate": [
+            29.063995361328125,
+            36.371803283691406,
+            36.136932373046875
+          ]
+        },
+        {
+          "parent": 1126784,
+          "coordinate": [
+            29.113616943359375,
+            38.95818328857422,
+            35.40061950683594
+          ],
+          "canonical_coordinate": [
+            29.113616943359375,
+            38.95818328857422,
+            35.40061950683594
+          ]
+        },
+        {
+          "parent": 1127638,
+          "coordinate": [
+            27.94354248046875,
+            38.804527282714844,
+            36.37306213378906
+          ],
+          "canonical_coordinate": [
+            27.94354248046875,
+            38.804527282714844,
+            36.37306213378906
+          ]
+        }
+      ]
+    },
+    {
+      "core": 17418,
+      "cap": "NGC",
+      "galaxies": 93,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 17428,
+      "cap": "NGC",
+      "galaxies": 1761,
+      "unsupported": {
+        "archive_rint": 7,
+        "canonical_rint": 7,
+        "canonical_cell": 7
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 2510895,
+          "coordinate": [
+            27.07122802734375,
+            41.324005126953125,
+            40.15638732910156
+          ],
+          "canonical_coordinate": [
+            27.07122802734375,
+            41.324005126953125,
+            40.15638732910156
+          ]
+        },
+        {
+          "parent": 2514395,
+          "coordinate": [
+            41.326873779296875,
+            35.03289794921875,
+            49.20579528808594
+          ],
+          "canonical_coordinate": [
+            41.326873779296875,
+            35.03289794921875,
+            49.20579528808594
+          ]
+        },
+        {
+          "parent": 2514444,
+          "coordinate": [
+            42.10552978515625,
+            34.942413330078125,
+            48.79747009277344
+          ],
+          "canonical_coordinate": [
+            42.10552978515625,
+            34.942413330078125,
+            48.79747009277344
+          ]
+        }
+      ]
+    },
+    {
+      "core": 17455,
+      "cap": "NGC",
+      "galaxies": 220,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 17533,
+      "cap": "NGC",
+      "galaxies": 2110,
+      "unsupported": {
+        "archive_rint": 54,
+        "canonical_rint": 54,
+        "canonical_cell": 54
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 67181,
+          "coordinate": [
+            26.806427001953125,
+            49.087066650390625,
+            34.31683349609375
+          ],
+          "canonical_coordinate": [
+            26.806427001953125,
+            49.087066650390625,
+            34.31683349609375
+          ]
+        },
+        {
+          "parent": 67253,
+          "coordinate": [
+            26.79266357421875,
+            49.261260986328125,
+            40.838287353515625
+          ],
+          "canonical_coordinate": [
+            26.79266357421875,
+            49.261260986328125,
+            40.838287353515625
+          ]
+        },
+        {
+          "parent": 67342,
+          "coordinate": [
+            28.041351318359375,
+            47.481658935546875,
+            37.17533874511719
+          ],
+          "canonical_coordinate": [
+            28.041351318359375,
+            47.481658935546875,
+            37.17533874511719
+          ]
+        }
+      ]
+    },
+    {
+      "core": 17633,
+      "cap": "NGC",
+      "galaxies": 159,
+      "unsupported": {
+        "archive_rint": 6,
+        "canonical_rint": 6,
+        "canonical_cell": 6
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 5420288,
+          "coordinate": [
+            26.687835693359375,
+            27.60125732421875,
+            36.19352722167969
+          ],
+          "canonical_coordinate": [
+            26.687835693359375,
+            27.60125732421875,
+            36.19352722167969
+          ]
+        },
+        {
+          "parent": 6731512,
+          "coordinate": [
+            26.70513916015625,
+            36.08941650390625,
+            36.58580017089844
+          ],
+          "canonical_coordinate": [
+            26.70513916015625,
+            36.08941650390625,
+            36.58580017089844
+          ]
+        },
+        {
+          "parent": 7177240,
+          "coordinate": [
+            29.5257568359375,
+            27.18017578125,
+            35.7882080078125
+          ],
+          "canonical_coordinate": [
+            29.5257568359375,
+            27.18017578125,
+            35.7882080078125
+          ]
+        }
+      ]
+    },
+    {
+      "core": 17641,
+      "cap": "NGC",
+      "galaxies": 77,
+      "unsupported": {
+        "archive_rint": 10,
+        "canonical_rint": 10,
+        "canonical_cell": 10
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3586355,
+          "coordinate": [
+            31.682586669921875,
+            29.66632080078125,
+            30.821868896484375
+          ],
+          "canonical_coordinate": [
+            31.682586669921875,
+            29.66632080078125,
+            30.821868896484375
+          ]
+        },
+        {
+          "parent": 3586392,
+          "coordinate": [
+            28.78759765625,
+            30.28570556640625,
+            41.090667724609375
+          ],
+          "canonical_coordinate": [
+            28.78759765625,
+            30.28570556640625,
+            41.090667724609375
+          ]
+        },
+        {
+          "parent": 3662455,
+          "coordinate": [
+            38.498382568359375,
+            43.2564697265625,
+            30.0987548828125
+          ],
+          "canonical_coordinate": [
+            38.498382568359375,
+            43.2564697265625,
+            30.0987548828125
+          ]
+        }
+      ]
+    },
+    {
+      "core": 17645,
+      "cap": "NGC",
+      "galaxies": 4,
+      "unsupported": {
+        "archive_rint": 1,
+        "canonical_rint": 1,
+        "canonical_cell": 1
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 5856810,
+          "coordinate": [
+            30.995361328125,
+            34.56304931640625,
+            25.768829345703125
+          ],
+          "canonical_coordinate": [
+            30.995361328125,
+            34.56304931640625,
+            25.768829345703125
+          ]
+        }
+      ]
+    },
+    {
+      "core": 17753,
+      "cap": "NGC",
+      "galaxies": 53,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 17797,
+      "cap": "NGC",
+      "galaxies": 959,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 17822,
+      "cap": "NGC",
+      "galaxies": 35,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 17878,
+      "cap": "NGC",
+      "galaxies": 444,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 17885,
+      "cap": "NGC",
+      "galaxies": 13,
+      "unsupported": {
+        "archive_rint": 0,
+        "canonical_rint": 0,
+        "canonical_cell": 0
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": []
+    },
+    {
+      "core": 17945,
+      "cap": "NGC",
+      "galaxies": 54,
+      "unsupported": {
+        "archive_rint": 6,
+        "canonical_rint": 6,
+        "canonical_cell": 6
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 3586913,
+          "coordinate": [
+            30.31500244140625,
+            39.682403564453125,
+            38.78733825683594
+          ],
+          "canonical_coordinate": [
+            30.31500244140625,
+            39.682403564453125,
+            38.78733825683594
+          ]
+        },
+        {
+          "parent": 3586920,
+          "coordinate": [
+            30.324371337890625,
+            41.204345703125,
+            40.04302978515625
+          ],
+          "canonical_coordinate": [
+            30.324371337890625,
+            41.204345703125,
+            40.04302978515625
+          ]
+        },
+        {
+          "parent": 3587023,
+          "coordinate": [
+            29.555816650390625,
+            40.940826416015625,
+            37.20970153808594
+          ],
+          "canonical_coordinate": [
+            29.555816650390625,
+            40.940826416015625,
+            37.20970153808594
+          ]
+        }
+      ]
+    },
+    {
+      "core": 18112,
+      "cap": "NGC",
+      "galaxies": 329,
+      "unsupported": {
+        "archive_rint": 2,
+        "canonical_rint": 2,
+        "canonical_cell": 2
+      },
+      "float32_changes": 0,
+      "cell_rule_changes": 0,
+      "examples": [
+        {
+          "parent": 6608613,
+          "coordinate": [
+            24.616180419921875,
+            31.113525390625,
+            27.203231811523438
+          ],
+          "canonical_coordinate": [
+            24.616180419921875,
+            31.113525390625,
+            27.203231811523438
+          ]
+        },
+        {
+          "parent": 7319048,
+          "coordinate": [
+            27.7325439453125,
+            36.215179443359375,
+            38.46257019042969
+          ],
+          "canonical_coordinate": [
+            27.7325439453125,
+            36.215179443359375,
+            38.46257019042969
+          ]
+        }
+      ]
+    }
+  ]
+}
