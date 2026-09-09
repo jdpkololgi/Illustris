@@ -65,3 +65,8 @@ The native 2048-cubed double-precision forward FFT needs a full-memory CPU node;
 subsequent low-mode FFTs use the compact grid. Request one CPU node, 64 logical
 CPUs, two hours, interactive QOS, desi account, Scratch license, through srun.
 No batch submission or autonomous retry.
+
+Launched as interactive CPU job 58131992 on nid004156, frozen source 5051f69.
+All 50 focused E2E tests passed before launch. Log:
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_coarse_20260909.log`.
+The launch marker is verified; build/test completion is not yet claimed.

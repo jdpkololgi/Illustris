@@ -52,6 +52,12 @@ IllustrisTNG-300.
   diagnostic-power gates remain blocked; no learned training
   has begun. See `docs/e2e_field_data_build_20260908.md` and
   `docs/e2e_field_error_budget_20260908.md`.
+  A separate user-authorized wider-coarse/local-fine build and truth-only test
+  launched as interactive CPU job 58131992 (code 5051f69): two larger extents
+  with a fixed-extent resolution control, training phases only. Historical
+  all-anchor criteria are diagnostics for this extension, not an automatic
+  research-pilot veto. No model training or release is implied. See
+  `docs/e2e_field_wide_coarse_20260909.md`; completion is not yet recorded.
 - **P13/Loa:** held pending separate authorization. P12-A's single blind opening
   does not authorize ph001 reuse by D2, P12-B or E2E.
 

@@ -1,5 +1,34 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-09 - [science/code/run] Wider-coarse/local-fine products and truth-only test launched
+
+The user authorized an interactive build of additional wide-coarse field data
+and initiation of the physics comparison. Frozen implementation 5051f69 adds
+649.536 and 1299.072 Mpc/h domains at 13.532 Mpc/h coarse resolution, plus a
+6.766 Mpc/h resolution control on the larger domain. Keep the original 96-cubed
+fine fields, 32-cubed science cores, and all 96 training anchors in
+ph000/ph002/ph003. The full-box once-R7 field is split at fixed k <= 0.08 h/Mpc;
+matched fine residuals preserve the original local density. Coarse cap-specific
+count/response channels include explicit missing-coverage handling. No learned
+training or selection/confirmation/sealed-phase payload access is authorized.
+
+The physics test compares wide-coarse plus local-fine tensors with full-box
+truth and the existing local-96 baseline; a full-box-low oracle is attribution
+only, never a learned condition. Report eigenvalues, classes, filling/pairs,
+connectivity, and voids separately, including cross terms in the tensor error
+budget. The previous all-anchor criteria are historical diagnostics, not an
+automatic research-pilot veto or a posterior-calibration claim. The old domain
+verdict is not retroactively changed; training_ready=false and r0_physics_pass=false.
+
+All 50 focused E2E tests passed. User-authorized interactive CPU job 58131992
+started on nid004156 (one full-memory CPU node, 64 logical CPUs, two hours,
+desi account, Scratch license). It builds all three phases and automatically
+starts the truth-only test. At this entry only the launch/provenance marker is
+verified; no product completion or scientific outcome is claimed.
+Run definition: docs/e2e_field_wide_coarse_20260909.md. Outputs:
+/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_coarse_20260909;
+log: the sibling wide_coarse_20260909.log. Other programmes are unchanged.
+
 ### 2026-09-09 - [science/code/result] E2E spectral products complete; neither registered parent domain qualifies for tidal/topology training
 
 Verified spectral regeneration 58115135 COMPLETED 0:0 in 44m05s: all five phases,
