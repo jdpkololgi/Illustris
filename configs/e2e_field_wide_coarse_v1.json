@@ -1,0 +1,23 @@
+{
+  "schema_version": "e2e-wide-coarse-v1",
+  "dataset_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/spectral_20260909",
+  "dataset_index_sha256": "cbefcd73af815d90d403f72a48a3fab7f466c27286d9424107f1847f10e2b436",
+  "output_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_coarse_20260909",
+  "build_config": "configs/e2e_field_build_v1.json",
+  "diagnostic_config": "configs/e2e_field_domain_gate_v2.json",
+  "phases": ["ph000", "ph002", "ph003"],
+  "variants": [
+    {"name": "wide192_f4", "span_fine_cells": 192, "factor": 4},
+    {"name": "wide384_f4", "span_fine_cells": 384, "factor": 4},
+    {"name": "wide384_f2", "span_fine_cells": 384, "factor": 2}
+  ],
+  "fine_side": 96,
+  "science_side": 32,
+  "lowpass_kmax_h_mpc": 0.08,
+  "compact_fullbox_ngrid": 512,
+  "interpolation_degree": 5,
+  "technical_max_abs": 0.000002,
+  "historical_tolerances_use": "diagnostic comparison only, not an automatic pilot-training veto or release",
+  "training_ready": false,
+  "r0_physics_pass": false
+}
