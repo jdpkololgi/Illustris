@@ -1,5 +1,48 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-09 - [science/code/result] E2E spectral products complete; neither registered parent domain qualifies for tidal/topology training
+
+Verified spectral regeneration 58115135 COMPLETED 0:0 in 44m05s: all five phases,
+160 parents / 320 views, 10 shards, 15.614 GB, independent density/tensor trace
+and interpolation checks, exact observations/masks and guarded readers pass.
+The user then authorized the matched finite-domain audit and downstream
+contracts using spare interactive capacity, before any learned canary.
+
+Committed the internal domain screen before running (aae5cfd), with the earlier
+audit already known. Its tolerances are pre-fit design criteria, not blind
+validation or measured posterior-scaled uncertainty: eigenvalue RMS <=0.01 and
+<=5% of core scatter, absolute bias <=0.005, class disagreement <=1%, filling
+change <=0.5 percentage points, pair-probability change <=0.0025, largest-void
+change <=1 percentage point, and no fixed-axis connection reversals. All anchors
+and both masks must pass; no pooled rescue. User-approved CPU job 58120066 on
+nid004164 completed 0:0 in 1m47s and released; 42 E2E tests pass. All six training
+shard hashes passed; ph004/ph005/ph001/ph006 payloads were not read.
+
+On observed support, 64/96-cell parents have median eigenvalue RMS of
+13.38/10.22/8.07% versus 6.15/4.76/3.62% of core scatter. At 96 cells all
+filling/pair statistics pass the chosen limits (worst 0.373 percentage points
+and 0.002027), but 95/96 anchors fail the combined screen: 76 relative-RMS,
+93 class-disagreement, 11 largest-void and three connection failures.
+Worst observed largest-void error is 17.435 percentage points; complete cores
+also fail (worst 18.408 points). Even multiplying nonzero tolerances by five
+leaves nine 96-cell anchors failing, with the no-connection-reversal rule fixed.
+
+A constant tensor accounts for median 68.85% of 96-cell observed residual energy,
+consistent with missing exterior shear but not a proof of a sufficient model.
+Oracle constant-traceless removal improves eigenvalue RMS but still has a
+15.56-point largest-void error; it uses truth and is not deployable. Removing
+the parent mean worsens errors. Numerical parent trace closure is 5.33e-15.
+
+Domain decision: neither registered domain qualifies for the joint tidal and
+topology purpose. Freeze the common target and diagnostic-design requirements,
+but stop the final model/transform release and canary at R0. No realistic power
+study, MIRA activation or posterior-scaled pass is claimed; training_ready=false
+and r0_physics_pass=false. A narrower density-only benchmark, wider-domain audit
+or exterior-tide-aware model requires a subsequent explicit scope decision.
+P12-A/D2 remain unchanged. Details and compact evidence:
+docs/e2e_field_domain_gate_20260909.md;
+docs/evidence/e2e_field_v2/domain_gate_20260909/DOMAIN_GATE_RECEIPT.json.
+
 ### 2026-09-09 - [code/run] Separate E2E spectral regeneration started on spare CPU capacity
 
 At the user's explicit request, started interactive CPU job 58115135 on

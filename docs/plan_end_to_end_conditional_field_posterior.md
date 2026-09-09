@@ -1575,3 +1575,26 @@ points. Floor sampling and exterior tides are larger typical effects; the
 attribution audit is not a scientific R0-PHYSICS pass. The recommended separate
 spectral target/interpolation contract and final domain still need an explicit
 decision and acceptable science-functional tolerances before training release.
+
+### 16.3 Spectral v2 completion and finite-domain stop on 2026-09-09
+
+Separate Gaussian R7/spectral-tensor products are technically complete on all
+160 anchors (job 58115135). The user then authorized the matching cubic-target
+64/96-cell domain audit and downstream contracts before a canary. The contract
+in `configs/e2e_field_domain_gate_v2.json` was committed before that run, with
+the previous audit already known: its thresholds are internal design criteria,
+not independent validation or a measured posterior-scaled error budget.
+
+Job 58120066 tested all 96 training anchors; no holdout payloads were opened.
+Neither domain passes. At 96 cells all observed-support filling/pair statistics
+pass the chosen limits, but 95/96 anchors fail the combined eigenvalue/class/
+topology screen. Worst observed largest-void error remains 17.43 percentage
+points; a truth-assisted constant traceless correction does not resolve every
+topology failure. See `docs/e2e_field_domain_gate_20260909.md` and its receipt.
+
+This settles the registered domain choice as **neither for the joint tidal and
+topology purpose**. The final model/transform freeze and learned canary stop at
+R0; do not reinterpret the common target/diagnostic requirements as a released
+training recipe. Wider-domain or exterior-tide-aware modelling, or a narrower
+density-only claim, require an explicit subsequent scope decision. No learned
+fit, MIRA activation, posterior-scaled pass or training release occurred.

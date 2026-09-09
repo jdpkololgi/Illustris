@@ -104,3 +104,62 @@ bounded 30-minute limit, as documented by
 [NERSC](https://docs.nersc.gov/jobs/interactive/#perlmutter-cpu-nodes), and release
 the allocation when its foreground step exits. Run and terminal evidence will
 be recorded after execution.
+
+## Result: no registered domain qualifies
+
+Job **58120066**, nid004164, completed at exit 0:0 in 1m47s; step .0 completed
+in 1m45s, peak RSS 5,169,348 KiB. The allocation was released. The six training
+shards were fully hash-verified on the compute node. All 96 anchors were tested;
+no selection, confirmation, ph001 or ph006 payload was opened. All 42 focused
+E2E tests pass. Parent tensor trace closure is 5.33e-15 at worst, so numerical
+trace correctness does not explain away the physical discrepancies.
+
+The table uses observed support. RMS entries are medians across anchors, in
+percent of each core's eigenvalue scatter; the science changes are maxima.
+
+| Result | 64-cell parent | 96-cell parent |
+| --- | ---: | ---: |
+| Median eigenvalue RMS, lambda1 / lambda2 / lambda3 (%) | 13.38 / 10.22 / 8.07 | 6.15 / 4.76 / 3.62 |
+| Maximum filling change (percentage points) | 1.217 | 0.373 |
+| Maximum environment-pair probability change | 0.006012 | 0.002027 |
+| Maximum four-class disagreement (%) | 7.599 | 4.398 |
+| Anchors with a changed connection event | 4 | 3 |
+| Maximum largest-void change (percentage points) | 17.503 | 17.435 |
+| Anchors failing one or more primary criteria | 96 / 96 | 95 / 96 |
+
+For 96 cells, every anchor passes the filling and pair-probability limits. The
+failures are not a blanket failure of all science functions: 76 anchors exceed
+the relative eigenvalue-RMS limit, 93 exceed the four-class-disagreement limit,
+11 exceed the largest-void limit and three change a fixed connection event on
+observed support. Complete-core results also fail: 95 anchors overall, eight
+largest-void failures, three connection changes, and a worst largest-void change
+of 18.408 percentage points. This is not solely a survey-mask artifact.
+By phase, observed-support failed counts for 96 cells are 31/32, 32/32 and 32/32.
+
+The union across both masks fails at 96/95 anchors for 64/96 cells under the
+primary limits; at twice the nonzero limits it fails at 95/38 anchors; at five
+times, 27/9 still fail. These sensitivity results do not change the primary
+decision. The no-connection-reversal rule remains fixed at every multiplier.
+
+At 96 cells a constant tensor residual accounts for median 68.85% of observed
+tensor-error energy. The truth-assisted traceless-constant removal lowers
+median relative eigenvalue RMS to 3.51 / 2.72 / 2.05%, but still has a worst
+largest-void change of 15.56 percentage points and 49 failed observed anchors.
+It neither qualifies a domain nor proves that a constant exterior-shear model
+would suffice. Removing the parent mean worsens the result, failing all 96
+observed anchors and reversing connection events at seven.
+
+The **domain decision is neither 64 nor 96 for the registered joint tidal and
+topology purpose**. No final model/transform release or learned canary follows.
+The common target and diagnostic-design requirements above are frozen, but the
+full model/transform contract is explicitly blocked upstream by R0. MIRA power,
+realistic diagnostic power and posterior-scaled accuracy have not been measured
+by this run; training_ready=false and r0_physics_pass=false remain. A narrower
+science aim may be useful, but changing it requires a separate decision.
+
+Evidence:
+`docs/evidence/e2e_field_v2/domain_gate_20260909/DOMAIN_GATE_RECEIPT.json`;
+full per-anchor and shell/support report on Scratch:
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/domain_gate_20260909/DOMAIN_GATE_REPORT.json`.
+The report hash was rechecked before archiving the compact receipt. Source/config
+were frozen in commit `aae5cfd`; no source/config drift occurred during the run.

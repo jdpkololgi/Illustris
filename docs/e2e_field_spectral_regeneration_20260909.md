@@ -45,7 +45,8 @@ allocation with 64 logical CPUs, account desi, Scratch license and a two-hour
 limit. No interactive allocations existed at the pre-launch check. The previous
 audit's approximately 264 GiB peak RSS motivates a full CPU node; no GPU is used.
 The first phase's input hashes passed and spectral density generation began.
-Completion is not yet claimed. The foreground launcher exits with the job step.
+At launch, completion was not yet claimed. The foreground launcher exits with
+the job step.
 
 Log: `/pscratch/sd/d/dkololgi/abacus/e2e_field_v1/spectral_regeneration_20260909_58115135.log`
 (log location only; all regenerated arrays go to the separate v2 root).
@@ -55,3 +56,22 @@ source-index hash and configuration hash
 `28ecea86dc318ee408d9755161b71745519247a670a0a5b842df0bfcbb89352e`.
 Only `REGENERATION_COMPLETE.json` plus clean scheduler/step exits establish
 technical completion; neither releases model training.
+
+## Verified completion
+
+Job 58115135 and step .0 completed at exit 0:0 in 44m05s and 44m00s respectively.
+The completion receipt confirms all five phases, 160 parents / 320 nested views,
+10 shards totalling 15,613,700,088 bytes, all shard hashes, nested-reader checks
+and readiness/confirmation guards. Peak step RSS was 292,125,836 KiB.
+
+The current dataset-index hash matches the receipt. All phase registrations
+agree and recorded shard sizes match. Saved checks report exact observations
+and masks, maximum density/tensor trace residual 9.54e-7, and 576 training-core
+interpolation checks with maximum cubic/quintic RMS 2.214e-5 of component scatter
+and maximum prior cubic-reference difference 2.23e-15. This status check did not
+rehash all 15.6 GB on the login node; full payload hashes were verified by the
+completed compute-node build. The subsequent domain audit separately rehashes
+the six training shards before its calculations.
+
+The products are technically complete, not released for learned training.
+Follow-up domain screening: `docs/e2e_field_domain_gate_20260909.md`.

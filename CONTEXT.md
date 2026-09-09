@@ -43,10 +43,13 @@ IllustrisTNG-300.
   checks pass, but `training_ready=false`. The completed three-training-phase
   error audit finds FD2 sub-percent in typical eigenvalue RMS but topology-
   sensitive; floor sampling and finite-parent tides are larger typical errors.
-  FD8 nearly matches the spectral reference. Separate spectral v2 target products
-  are regenerating on CPU job 58115135 (not yet
-  verified complete; see `docs/e2e_field_spectral_regeneration_20260909.md`). Domain/topology tolerances,
-  matched model/transform and diagnostic-power gates remain. No learned training
+  FD8 nearly matches the spectral reference. Separate spectral v2 products are
+  verified complete (job 58115135, 44m05s). The matched cubic-target domain audit
+  also completed (58120066): neither 64 nor 96 cells qualifies under the frozen
+  internal tidal/topology screen. The 96-cell parent passes filling/pair limits
+  but retains eigenvalue/class and topology failures. See
+  `docs/e2e_field_domain_gate_20260909.md`. Final model/transform release and
+  diagnostic-power gates remain blocked; no learned training
   has begun. See `docs/e2e_field_data_build_20260908.md` and
   `docs/e2e_field_error_budget_20260908.md`.
 - **P13/Loa:** held pending separate authorization. P12-A's single blind opening

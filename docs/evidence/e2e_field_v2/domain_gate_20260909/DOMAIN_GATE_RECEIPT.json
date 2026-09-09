@@ -1,0 +1,1318 @@
+{
+  "completion": {
+    "domain_decision": "NO_REGISTERED_DOMAIN_QUALIFIES",
+    "elapsed_seconds": 101.08999454398872,
+    "eligible_parent_sides": [],
+    "failed_anchor_counts_by_tolerance_multiplier": {
+      "0.5": {
+        "64": 96,
+        "96": 96
+      },
+      "1.0": {
+        "64": 96,
+        "96": 95
+      },
+      "2.0": {
+        "64": 95,
+        "96": 38
+      },
+      "5.0": {
+        "64": 27,
+        "96": 9
+      }
+    },
+    "holdout_payloads_read": false,
+    "job_id": "58120066",
+    "learned_training_performed": false,
+    "max_numerical_trace_residual": 5.329070518200751e-15,
+    "node": "nid004164",
+    "posterior_scaled_budget_evaluated": false,
+    "r0_physics_pass": false,
+    "registration": {
+      "config_sha256": "f50a58f8ce5d0d51c7404a6915529ac571ee0433d12b3786544dd08987164b8c",
+      "dataset_index_sha256": "cbefcd73af815d90d403f72a48a3fab7f466c27286d9424107f1847f10e2b436",
+      "source_sha256": {
+        "workflows/sbi/e2e_field_build_products.py": "3bd0159626ddc2101e556829a7adf6ee75174385b3ecc9056686068b73cf6aa5",
+        "workflows/sbi/e2e_field_dataset.py": "b184abf9a8704209845b557bb48a32cd66178c6d2b3505f6f33539bb3d8a63be",
+        "workflows/sbi/e2e_field_domain_gate.py": "84047690076233ba68248c42a23c8ee88066ac88141098f71635c7ccf554fd44",
+        "workflows/sbi/e2e_field_error_budget.py": "5c21b0a7647c0e64b3c599ea2e6b0a38989da590d31862e57f9dd2eb1d87daf7",
+        "workflows/sbi/e2e_field_prepare_data.py": "3d7dfdcb156aabdd67b5d9b808dc21c5c2d3d58b24b94aa457c4707afeef0a6e"
+      }
+    },
+    "remaining": "model/transform release conditional on R0; realistic diagnostic power and posterior-scaled budget unresolved",
+    "report_sha256": "de72cd5b26a6120785912a56a590dde7268afc577b0ab0e45ddab4f33637726f",
+    "selected_screen_candidate": null,
+    "technical_pass": true,
+    "training_ready": false
+  },
+  "full_report": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/domain_gate_20260909/DOMAIN_GATE_REPORT.json",
+  "phase_summaries": {
+    "ph000": {
+      "96_no_parent_mean": {
+        "all_science_voxels": {
+          "failed_parents": 32,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 24,
+            "eigen_rmse_max_abs": 19,
+            "eigen_rmse_max_over_truth_std": 30,
+            "filling_fraction_max_abs_change": 14,
+            "four_class_disagreement_max": 32,
+            "largest_void_fraction_max_abs_change": 19,
+            "pair_probability_max_abs_change": 13
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 0.016407906163633988,
+            "eigen_rmse_max_abs": 0.019000192239668045,
+            "eigen_rmse_max_over_truth_std": 0.13209231335207602,
+            "filling_fraction_max_abs_change": 0.017486572265625,
+            "four_class_disagreement_max": 0.0474853515625,
+            "largest_void_fraction_max_abs_change": 0.17962646484375,
+            "pair_probability_max_abs_change": 0.009384440041580996
+          },
+          "median_constant_residual_energy_fraction": 0.7485107433615183,
+          "median_eigen_rmse": [
+            0.009917455725964393,
+            0.01023490892655364,
+            0.009949442629234325
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.07695997900259219,
+            0.05919685862115832,
+            0.04641851850521794
+          ],
+          "parents": 32
+        },
+        "observed_science_voxels": {
+          "failed_parents": 32,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 23,
+            "eigen_rmse_max_abs": 21,
+            "eigen_rmse_max_over_truth_std": 30,
+            "filling_fraction_max_abs_change": 15,
+            "four_class_disagreement_max": 32,
+            "largest_void_fraction_max_abs_change": 21,
+            "pair_probability_max_abs_change": 14
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 0.016517587091233795,
+            "eigen_rmse_max_abs": 0.019042355631538627,
+            "eigen_rmse_max_over_truth_std": 0.13144020350787622,
+            "filling_fraction_max_abs_change": 0.017141332621890215,
+            "four_class_disagreement_max": 0.04695524578136464,
+            "largest_void_fraction_max_abs_change": 0.17831170026696125,
+            "pair_probability_max_abs_change": 0.009086347437096146
+          },
+          "median_constant_residual_energy_fraction": 0.7482622508208379,
+          "median_eigen_rmse": [
+            0.010296613174070452,
+            0.010557179742953176,
+            0.009977859070607439
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.07753254905306883,
+            0.06153695290825249,
+            0.04564257323723863
+          ],
+          "parents": 32
+        }
+      },
+      "96_oracle_constant_traceless_residual_removed": {
+        "all_science_voxels": {
+          "failed_parents": 16,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 0,
+            "eigen_bias_max_abs": 0,
+            "eigen_rmse_max_abs": 0,
+            "eigen_rmse_max_over_truth_std": 1,
+            "filling_fraction_max_abs_change": 0,
+            "four_class_disagreement_max": 15,
+            "largest_void_fraction_max_abs_change": 3,
+            "pair_probability_max_abs_change": 0
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 0,
+            "eigen_bias_max_abs": 0.002163012977599265,
+            "eigen_rmse_max_abs": 0.006903641913419929,
+            "eigen_rmse_max_over_truth_std": 0.0575047252718219,
+            "filling_fraction_max_abs_change": 0.001617431640625,
+            "four_class_disagreement_max": 0.015380859375,
+            "largest_void_fraction_max_abs_change": 0.1568603515625,
+            "pair_probability_max_abs_change": 0.0007411501901450485
+          },
+          "median_constant_residual_energy_fraction": 2.886408665133817e-18,
+          "median_eigen_rmse": [
+            0.00458346144184695,
+            0.004592740130562252,
+            0.004516454187732652
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.03475490182344512,
+            0.02612921449192454,
+            0.02036203064499727
+          ],
+          "parents": 32
+        },
+        "observed_science_voxels": {
+          "failed_parents": 16,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 0,
+            "eigen_bias_max_abs": 0,
+            "eigen_rmse_max_abs": 0,
+            "eigen_rmse_max_over_truth_std": 1,
+            "filling_fraction_max_abs_change": 0,
+            "four_class_disagreement_max": 15,
+            "largest_void_fraction_max_abs_change": 3,
+            "pair_probability_max_abs_change": 0
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 0,
+            "eigen_bias_max_abs": 0.0022065721514300802,
+            "eigen_rmse_max_abs": 0.006899506728593662,
+            "eigen_rmse_max_over_truth_std": 0.056922407426421164,
+            "filling_fraction_max_abs_change": 0.0016194579399272657,
+            "four_class_disagreement_max": 0.015400128334402787,
+            "largest_void_fraction_max_abs_change": 0.15563533707692778,
+            "pair_probability_max_abs_change": 0.0008548880319097368
+          },
+          "median_constant_residual_energy_fraction": 8.52966931671549e-18,
+          "median_eigen_rmse": [
+            0.004573260930417794,
+            0.0043971242845330365,
+            0.004524471386651911
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.03478334196398576,
+            0.02685549071143901,
+            0.02076628861494803
+          ],
+          "parents": 32
+        }
+      },
+      "parent_64": {
+        "all_science_voxels": {
+          "failed_parents": 32,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 9,
+            "eigen_rmse_max_abs": 32,
+            "eigen_rmse_max_over_truth_std": 32,
+            "filling_fraction_max_abs_change": 0,
+            "four_class_disagreement_max": 32,
+            "largest_void_fraction_max_abs_change": 11,
+            "pair_probability_max_abs_change": 0
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 0.012457413987726283,
+            "eigen_rmse_max_abs": 0.03205488250678722,
+            "eigen_rmse_max_over_truth_std": 0.21677072452280627,
+            "filling_fraction_max_abs_change": 0.004730224609375,
+            "four_class_disagreement_max": 0.07080078125,
+            "largest_void_fraction_max_abs_change": 0.175262451171875,
+            "pair_probability_max_abs_change": 0.0019886206256048908
+          },
+          "median_constant_residual_energy_fraction": 0.48138478149039066,
+          "median_eigen_rmse": [
+            0.017874226285762514,
+            0.017309111051621563,
+            0.017393275042609367
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.1354374810909184,
+            0.0997687765482503,
+            0.07772091416688728
+          ],
+          "parents": 32
+        },
+        "observed_science_voxels": {
+          "failed_parents": 32,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 9,
+            "eigen_rmse_max_abs": 32,
+            "eigen_rmse_max_over_truth_std": 32,
+            "filling_fraction_max_abs_change": 1,
+            "four_class_disagreement_max": 32,
+            "largest_void_fraction_max_abs_change": 11,
+            "pair_probability_max_abs_change": 2
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 0.01257066784324972,
+            "eigen_rmse_max_abs": 0.032081856256290876,
+            "eigen_rmse_max_over_truth_std": 0.21697077399663836,
+            "filling_fraction_max_abs_change": 0.012168792934249273,
+            "four_class_disagreement_max": 0.07145083858095891,
+            "largest_void_fraction_max_abs_change": 0.17502588661661922,
+            "pair_probability_max_abs_change": 0.005858377956354695
+          },
+          "median_constant_residual_energy_fraction": 0.4843975185789011,
+          "median_eigen_rmse": [
+            0.018199226404615826,
+            0.017254169330588078,
+            0.01741203158483281
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.1389681339383358,
+            0.09974688462931347,
+            0.08017510020119245
+          ],
+          "parents": 32
+        }
+      },
+      "parent_96": {
+        "all_science_voxels": {
+          "failed_parents": 31,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 0,
+            "eigen_bias_max_abs": 1,
+            "eigen_rmse_max_abs": 3,
+            "eigen_rmse_max_over_truth_std": 22,
+            "filling_fraction_max_abs_change": 0,
+            "four_class_disagreement_max": 31,
+            "largest_void_fraction_max_abs_change": 4,
+            "pair_probability_max_abs_change": 0
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 0,
+            "eigen_bias_max_abs": 0.006510225869128721,
+            "eigen_rmse_max_abs": 0.017234339599418568,
+            "eigen_rmse_max_over_truth_std": 0.10574153162497184,
+            "filling_fraction_max_abs_change": 0.002044677734375,
+            "four_class_disagreement_max": 0.040435791015625,
+            "largest_void_fraction_max_abs_change": 0.17449951171875,
+            "pair_probability_max_abs_change": 0.0017446255918610737
+          },
+          "median_constant_residual_energy_fraction": 0.617237930968082,
+          "median_eigen_rmse": [
+            0.007255248116387147,
+            0.007654312809502399,
+            0.007336238986215288
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.05347032117420848,
+            0.04324110917656115,
+            0.03209572413490078
+          ],
+          "parents": 32
+        },
+        "observed_science_voxels": {
+          "failed_parents": 31,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 1,
+            "eigen_rmse_max_abs": 4,
+            "eigen_rmse_max_over_truth_std": 22,
+            "filling_fraction_max_abs_change": 0,
+            "four_class_disagreement_max": 31,
+            "largest_void_fraction_max_abs_change": 5,
+            "pair_probability_max_abs_change": 0
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 0.006531243849620503,
+            "eigen_rmse_max_abs": 0.01727618565566979,
+            "eigen_rmse_max_over_truth_std": 0.10581605289102575,
+            "filling_fraction_max_abs_change": 0.0037291462217860505,
+            "four_class_disagreement_max": 0.04096265353201571,
+            "largest_void_fraction_max_abs_change": 0.174346362930365,
+            "pair_probability_max_abs_change": 0.0020271855610234785
+          },
+          "median_constant_residual_energy_fraction": 0.6320848682143724,
+          "median_eigen_rmse": [
+            0.0074511658314798945,
+            0.007691570487539852,
+            0.007369893994709524
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.057296445719322575,
+            0.04366151390987251,
+            0.03341732960654818
+          ],
+          "parents": 32
+        }
+      }
+    },
+    "ph002": {
+      "96_no_parent_mean": {
+        "all_science_voxels": {
+          "failed_parents": 32,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 3,
+            "eigen_bias_max_abs": 23,
+            "eigen_rmse_max_abs": 23,
+            "eigen_rmse_max_over_truth_std": 28,
+            "filling_fraction_max_abs_change": 13,
+            "four_class_disagreement_max": 32,
+            "largest_void_fraction_max_abs_change": 13,
+            "pair_probability_max_abs_change": 12
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 2,
+            "eigen_bias_max_abs": 0.017579030405960573,
+            "eigen_rmse_max_abs": 0.019729139111919366,
+            "eigen_rmse_max_over_truth_std": 0.1947539536715636,
+            "filling_fraction_max_abs_change": 0.01409912109375,
+            "four_class_disagreement_max": 0.05487060546875,
+            "largest_void_fraction_max_abs_change": 0.196685791015625,
+            "pair_probability_max_abs_change": 0.005869322940258284
+          },
+          "median_constant_residual_energy_fraction": 0.7487988373028474,
+          "median_eigen_rmse": [
+            0.01078137774872066,
+            0.010868222359142886,
+            0.010424473653590945
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.07643124618299274,
+            0.06034017700141425,
+            0.046289758359170104
+          ],
+          "parents": 32
+        },
+        "observed_science_voxels": {
+          "failed_parents": 32,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 2,
+            "eigen_bias_max_abs": 24,
+            "eigen_rmse_max_abs": 24,
+            "eigen_rmse_max_over_truth_std": 29,
+            "filling_fraction_max_abs_change": 13,
+            "four_class_disagreement_max": 32,
+            "largest_void_fraction_max_abs_change": 15,
+            "pair_probability_max_abs_change": 14
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 2,
+            "eigen_bias_max_abs": 0.01760190027926102,
+            "eigen_rmse_max_abs": 0.02116431372848298,
+            "eigen_rmse_max_over_truth_std": 0.23023525725686042,
+            "filling_fraction_max_abs_change": 0.013848959782373493,
+            "four_class_disagreement_max": 0.05459210485640978,
+            "largest_void_fraction_max_abs_change": 0.16415018706574025,
+            "pair_probability_max_abs_change": 0.005846678945670612
+          },
+          "median_constant_residual_energy_fraction": 0.7482943789247836,
+          "median_eigen_rmse": [
+            0.010760101799511573,
+            0.010858664849055696,
+            0.010606505485289786
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.07450953654042893,
+            0.06016417905871612,
+            0.046565456762190593
+          ],
+          "parents": 32
+        }
+      },
+      "96_oracle_constant_traceless_residual_removed": {
+        "all_science_voxels": {
+          "failed_parents": 17,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 0,
+            "eigen_bias_max_abs": 0,
+            "eigen_rmse_max_abs": 0,
+            "eigen_rmse_max_over_truth_std": 3,
+            "filling_fraction_max_abs_change": 0,
+            "four_class_disagreement_max": 16,
+            "largest_void_fraction_max_abs_change": 0,
+            "pair_probability_max_abs_change": 0
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 0,
+            "eigen_bias_max_abs": 0.001906282344154109,
+            "eigen_rmse_max_abs": 0.007405949307262908,
+            "eigen_rmse_max_over_truth_std": 0.0596928684737834,
+            "filling_fraction_max_abs_change": 0.00177001953125,
+            "four_class_disagreement_max": 0.018280029296875,
+            "largest_void_fraction_max_abs_change": 0.009796142578125,
+            "pair_probability_max_abs_change": 0.001128629782547061
+          },
+          "median_constant_residual_energy_fraction": 6.172384520558213e-18,
+          "median_eigen_rmse": [
+            0.004790438941820335,
+            0.004739680648337382,
+            0.0045080876630746725
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.036135520538261606,
+            0.027235912730896487,
+            0.020533608026733836
+          ],
+          "parents": 32
+        },
+        "observed_science_voxels": {
+          "failed_parents": 17,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 0,
+            "eigen_bias_max_abs": 0,
+            "eigen_rmse_max_abs": 0,
+            "eigen_rmse_max_over_truth_std": 3,
+            "filling_fraction_max_abs_change": 0,
+            "four_class_disagreement_max": 16,
+            "largest_void_fraction_max_abs_change": 0,
+            "pair_probability_max_abs_change": 0
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 0,
+            "eigen_bias_max_abs": 0.0020098835492586248,
+            "eigen_rmse_max_abs": 0.007219882700908386,
+            "eigen_rmse_max_over_truth_std": 0.059615645054957804,
+            "filling_fraction_max_abs_change": 0.0016820333914777108,
+            "four_class_disagreement_max": 0.01781512605042017,
+            "largest_void_fraction_max_abs_change": 0.005790558445382232,
+            "pair_probability_max_abs_change": 0.0011018049620403758
+          },
+          "median_constant_residual_energy_fraction": 1.541546444532352e-17,
+          "median_eigen_rmse": [
+            0.004774976796281997,
+            0.0046271376900726855,
+            0.0045158180392093
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.035930134354997395,
+            0.027216516077690142,
+            0.020095804798635257
+          ],
+          "parents": 32
+        }
+      },
+      "parent_64": {
+        "all_science_voxels": {
+          "failed_parents": 32,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 3,
+            "eigen_bias_max_abs": 8,
+            "eigen_rmse_max_abs": 32,
+            "eigen_rmse_max_over_truth_std": 32,
+            "filling_fraction_max_abs_change": 1,
+            "four_class_disagreement_max": 32,
+            "largest_void_fraction_max_abs_change": 12,
+            "pair_probability_max_abs_change": 0
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 2,
+            "eigen_bias_max_abs": 0.011697359585137805,
+            "eigen_rmse_max_abs": 0.02887095127806941,
+            "eigen_rmse_max_over_truth_std": 0.23917771977938354,
+            "filling_fraction_max_abs_change": 0.0069580078125,
+            "four_class_disagreement_max": 0.059722900390625,
+            "largest_void_fraction_max_abs_change": 0.069000244140625,
+            "pair_probability_max_abs_change": 0.002298909802490298
+          },
+          "median_constant_residual_energy_fraction": 0.49233721977473643,
+          "median_eigen_rmse": [
+            0.018134769596054146,
+            0.017946561787451305,
+            0.018154919110658262
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.12800151138793675,
+            0.10491775355205549,
+            0.08032312054332807
+          ],
+          "parents": 32
+        },
+        "observed_science_voxels": {
+          "failed_parents": 32,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 3,
+            "eigen_bias_max_abs": 10,
+            "eigen_rmse_max_abs": 32,
+            "eigen_rmse_max_over_truth_std": 32,
+            "filling_fraction_max_abs_change": 2,
+            "four_class_disagreement_max": 32,
+            "largest_void_fraction_max_abs_change": 11,
+            "pair_probability_max_abs_change": 1
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 2,
+            "eigen_bias_max_abs": 0.013535010657025543,
+            "eigen_rmse_max_abs": 0.029131100489426177,
+            "eigen_rmse_max_over_truth_std": 0.257390637507997,
+            "filling_fraction_max_abs_change": 0.007131874243465175,
+            "four_class_disagreement_max": 0.059722900390625,
+            "largest_void_fraction_max_abs_change": 0.020263363598099937,
+            "pair_probability_max_abs_change": 0.00474900446967616
+          },
+          "median_constant_residual_energy_fraction": 0.49971232204979893,
+          "median_eigen_rmse": [
+            0.01808971172881138,
+            0.01777666113448592,
+            0.018223296956610846
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.12718090570106322,
+            0.10276966955253916,
+            0.08089714332686512
+          ],
+          "parents": 32
+        }
+      },
+      "parent_96": {
+        "all_science_voxels": {
+          "failed_parents": 32,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 2,
+            "eigen_bias_max_abs": 2,
+            "eigen_rmse_max_abs": 10,
+            "eigen_rmse_max_over_truth_std": 26,
+            "filling_fraction_max_abs_change": 0,
+            "four_class_disagreement_max": 32,
+            "largest_void_fraction_max_abs_change": 2,
+            "pair_probability_max_abs_change": 0
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 0.00530701610243161,
+            "eigen_rmse_max_abs": 0.014928767063775264,
+            "eigen_rmse_max_over_truth_std": 0.14808847947783907,
+            "filling_fraction_max_abs_change": 0.0023193359375,
+            "four_class_disagreement_max": 0.03533935546875,
+            "largest_void_fraction_max_abs_change": 0.18408203125,
+            "pair_probability_max_abs_change": 0.001456027125404491
+          },
+          "median_constant_residual_energy_fraction": 0.6654383518688265,
+          "median_eigen_rmse": [
+            0.009033202903225273,
+            0.009003288214019562,
+            0.008616519157013714
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.06363107623791316,
+            0.04960133693276037,
+            0.03751125815110365
+          ],
+          "parents": 32
+        },
+        "observed_science_voxels": {
+          "failed_parents": 32,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 3,
+            "eigen_rmse_max_abs": 10,
+            "eigen_rmse_max_over_truth_std": 26,
+            "filling_fraction_max_abs_change": 0,
+            "four_class_disagreement_max": 32,
+            "largest_void_fraction_max_abs_change": 3,
+            "pair_probability_max_abs_change": 0
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 0.006002362068227767,
+            "eigen_rmse_max_abs": 0.015419778822291608,
+            "eigen_rmse_max_over_truth_std": 0.16416620900762882,
+            "filling_fraction_max_abs_change": 0.003236701379116247,
+            "four_class_disagreement_max": 0.034864902898958626,
+            "largest_void_fraction_max_abs_change": 0.15115579903794762,
+            "pair_probability_max_abs_change": 0.0019629632324272214
+          },
+          "median_constant_residual_energy_fraction": 0.6742916829872736,
+          "median_eigen_rmse": [
+            0.008953788941453551,
+            0.008997573877312036,
+            0.008639692995027641
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.06429130966670243,
+            0.04923062430678954,
+            0.03809612029480794
+          ],
+          "parents": 32
+        }
+      }
+    },
+    "ph003": {
+      "96_no_parent_mean": {
+        "all_science_voxels": {
+          "failed_parents": 32,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 4,
+            "eigen_bias_max_abs": 20,
+            "eigen_rmse_max_abs": 21,
+            "eigen_rmse_max_over_truth_std": 30,
+            "filling_fraction_max_abs_change": 13,
+            "four_class_disagreement_max": 32,
+            "largest_void_fraction_max_abs_change": 19,
+            "pair_probability_max_abs_change": 14
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 0.02089322937764774,
+            "eigen_rmse_max_abs": 0.0216704538027222,
+            "eigen_rmse_max_over_truth_std": 0.17866565885115504,
+            "filling_fraction_max_abs_change": 0.013916015625,
+            "four_class_disagreement_max": 0.0538330078125,
+            "largest_void_fraction_max_abs_change": 0.079315185546875,
+            "pair_probability_max_abs_change": 0.008070369960015769
+          },
+          "median_constant_residual_energy_fraction": 0.7373662935318845,
+          "median_eigen_rmse": [
+            0.010176068518028769,
+            0.010604045473313471,
+            0.0110899869481163
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.07864690363701995,
+            0.06184633803805199,
+            0.04771024372436473
+          ],
+          "parents": 32
+        },
+        "observed_science_voxels": {
+          "failed_parents": 32,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 4,
+            "eigen_bias_max_abs": 21,
+            "eigen_rmse_max_abs": 21,
+            "eigen_rmse_max_over_truth_std": 30,
+            "filling_fraction_max_abs_change": 13,
+            "four_class_disagreement_max": 32,
+            "largest_void_fraction_max_abs_change": 19,
+            "pair_probability_max_abs_change": 14
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 0.02093896855816875,
+            "eigen_rmse_max_abs": 0.021721800812662263,
+            "eigen_rmse_max_over_truth_std": 0.1801800188113562,
+            "filling_fraction_max_abs_change": 0.0140462889066241,
+            "four_class_disagreement_max": 0.05429717835878851,
+            "largest_void_fraction_max_abs_change": 0.08033258121348871,
+            "pair_probability_max_abs_change": 0.008811930134140854
+          },
+          "median_constant_residual_energy_fraction": 0.7444371656988049,
+          "median_eigen_rmse": [
+            0.010535183612456093,
+            0.010803306334461554,
+            0.011273716752118579
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.07938178461470377,
+            0.06283903439260802,
+            0.04776765578436075
+          ],
+          "parents": 32
+        }
+      },
+      "96_oracle_constant_traceless_residual_removed": {
+        "all_science_voxels": {
+          "failed_parents": 14,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 0,
+            "eigen_bias_max_abs": 0,
+            "eigen_rmse_max_abs": 0,
+            "eigen_rmse_max_over_truth_std": 3,
+            "filling_fraction_max_abs_change": 0,
+            "four_class_disagreement_max": 13,
+            "largest_void_fraction_max_abs_change": 0,
+            "pair_probability_max_abs_change": 0
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 0,
+            "eigen_bias_max_abs": 0.002801884222000992,
+            "eigen_rmse_max_abs": 0.007814358002036564,
+            "eigen_rmse_max_over_truth_std": 0.05485910327756829,
+            "filling_fraction_max_abs_change": 0.001861572265625,
+            "four_class_disagreement_max": 0.01922607421875,
+            "largest_void_fraction_max_abs_change": 0.008697509765625,
+            "pair_probability_max_abs_change": 0.0011164096639956211
+          },
+          "median_constant_residual_energy_fraction": 1.0943543532012681e-17,
+          "median_eigen_rmse": [
+            0.004566501594876647,
+            0.0046524763164593275,
+            0.004645128395000768
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.0348087244799902,
+            0.028741782140437794,
+            0.021146627971123162
+          ],
+          "parents": 32
+        },
+        "observed_science_voxels": {
+          "failed_parents": 16,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 0,
+            "eigen_bias_max_abs": 0,
+            "eigen_rmse_max_abs": 0,
+            "eigen_rmse_max_over_truth_std": 3,
+            "filling_fraction_max_abs_change": 0,
+            "four_class_disagreement_max": 15,
+            "largest_void_fraction_max_abs_change": 0,
+            "pair_probability_max_abs_change": 0
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 0,
+            "eigen_bias_max_abs": 0.0027728310830408887,
+            "eigen_rmse_max_abs": 0.007814358002036564,
+            "eigen_rmse_max_over_truth_std": 0.055409681699172104,
+            "filling_fraction_max_abs_change": 0.0018736945570708985,
+            "four_class_disagreement_max": 0.01922607421875,
+            "largest_void_fraction_max_abs_change": 0.008641054332960363,
+            "pair_probability_max_abs_change": 0.0011314353093087037
+          },
+          "median_constant_residual_energy_fraction": 1.044843541701073e-17,
+          "median_eigen_rmse": [
+            0.0047329082420607994,
+            0.00469152258843554,
+            0.0046442755184294415
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.0341386319532664,
+            0.028074357164421727,
+            0.02049935917424696
+          ],
+          "parents": 32
+        }
+      },
+      "parent_64": {
+        "all_science_voxels": {
+          "failed_parents": 32,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 5,
+            "eigen_rmse_max_abs": 32,
+            "eigen_rmse_max_over_truth_std": 32,
+            "filling_fraction_max_abs_change": 2,
+            "four_class_disagreement_max": 32,
+            "largest_void_fraction_max_abs_change": 5,
+            "pair_probability_max_abs_change": 4
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 0.007975625846694288,
+            "eigen_rmse_max_abs": 0.027180683945576215,
+            "eigen_rmse_max_over_truth_std": 0.20059201891536801,
+            "filling_fraction_max_abs_change": 0.006683349609375,
+            "four_class_disagreement_max": 0.07598876953125,
+            "largest_void_fraction_max_abs_change": 0.04315185546875,
+            "pair_probability_max_abs_change": 0.0048361119167337485
+          },
+          "median_constant_residual_energy_fraction": 0.4243960673566359,
+          "median_eigen_rmse": [
+            0.017635001191383785,
+            0.017431102633313846,
+            0.017870721191864843
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.13232523512473304,
+            0.1053427638837568,
+            0.08171609328689616
+          ],
+          "parents": 32
+        },
+        "observed_science_voxels": {
+          "failed_parents": 32,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 0,
+            "eigen_bias_max_abs": 5,
+            "eigen_rmse_max_abs": 32,
+            "eigen_rmse_max_over_truth_std": 32,
+            "filling_fraction_max_abs_change": 2,
+            "four_class_disagreement_max": 32,
+            "largest_void_fraction_max_abs_change": 7,
+            "pair_probability_max_abs_change": 4
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 0,
+            "eigen_bias_max_abs": 0.007424659771089509,
+            "eigen_rmse_max_abs": 0.02642294101001049,
+            "eigen_rmse_max_over_truth_std": 0.20058551123115437,
+            "filling_fraction_max_abs_change": 0.007581803671189158,
+            "four_class_disagreement_max": 0.07598876953125,
+            "largest_void_fraction_max_abs_change": 0.05323224261771747,
+            "pair_probability_max_abs_change": 0.006011509821699734
+          },
+          "median_constant_residual_energy_fraction": 0.4400409432426515,
+          "median_eigen_rmse": [
+            0.017811007156706117,
+            0.017249479360936636,
+            0.017885051709675314
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.13397454352792498,
+            0.10414518973777334,
+            0.08071827489596461
+          ],
+          "parents": 32
+        }
+      },
+      "parent_96": {
+        "all_science_voxels": {
+          "failed_parents": 32,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 0,
+            "eigen_rmse_max_abs": 10,
+            "eigen_rmse_max_over_truth_std": 25,
+            "filling_fraction_max_abs_change": 0,
+            "four_class_disagreement_max": 30,
+            "largest_void_fraction_max_abs_change": 2,
+            "pair_probability_max_abs_change": 0
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 0.004186101515324242,
+            "eigen_rmse_max_abs": 0.016449739746513328,
+            "eigen_rmse_max_over_truth_std": 0.09567016782695256,
+            "filling_fraction_max_abs_change": 0.00299072265625,
+            "four_class_disagreement_max": 0.044769287109375,
+            "largest_void_fraction_max_abs_change": 0.080841064453125,
+            "pair_probability_max_abs_change": 0.0016141059262022167
+          },
+          "median_constant_residual_energy_fraction": 0.7005965963819778,
+          "median_eigen_rmse": [
+            0.007992764257484995,
+            0.00796897733188932,
+            0.008007429265148067
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.06230286287854797,
+            0.0477924498654741,
+            0.03657779686915659
+          ],
+          "parents": 32
+        },
+        "observed_science_voxels": {
+          "failed_parents": 32,
+          "gate_failure_counts": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 0,
+            "eigen_rmse_max_abs": 10,
+            "eigen_rmse_max_over_truth_std": 28,
+            "filling_fraction_max_abs_change": 0,
+            "four_class_disagreement_max": 30,
+            "largest_void_fraction_max_abs_change": 3,
+            "pair_probability_max_abs_change": 0
+          },
+          "max_gate_values": {
+            "changed_connection_axes_max": 1,
+            "eigen_bias_max_abs": 0.004788033151255852,
+            "eigen_rmse_max_abs": 0.016411009856874673,
+            "eigen_rmse_max_over_truth_std": 0.09567016782695256,
+            "filling_fraction_max_abs_change": 0.002375901569792116,
+            "four_class_disagreement_max": 0.04397965447689205,
+            "largest_void_fraction_max_abs_change": 0.08187803294903101,
+            "pair_probability_max_abs_change": 0.001755602380776801
+          },
+          "median_constant_residual_energy_fraction": 0.7225552322686397,
+          "median_eigen_rmse": [
+            0.007959854827095401,
+            0.007973450763227497,
+            0.008102471509776367
+          ],
+          "median_eigen_rmse_over_truth_std": [
+            0.062158978652616034,
+            0.04778479225620555,
+            0.03714796453248239
+          ],
+          "parents": 32
+        }
+      }
+    }
+  },
+  "report_hash_verified": true,
+  "summary": {
+    "96_no_parent_mean": {
+      "all_science_voxels": {
+        "failed_parents": 96,
+        "gate_failure_counts": {
+          "changed_connection_axes_max": 8,
+          "eigen_bias_max_abs": 67,
+          "eigen_rmse_max_abs": 63,
+          "eigen_rmse_max_over_truth_std": 88,
+          "filling_fraction_max_abs_change": 40,
+          "four_class_disagreement_max": 96,
+          "largest_void_fraction_max_abs_change": 51,
+          "pair_probability_max_abs_change": 39
+        },
+        "max_gate_values": {
+          "changed_connection_axes_max": 2,
+          "eigen_bias_max_abs": 0.02089322937764774,
+          "eigen_rmse_max_abs": 0.0216704538027222,
+          "eigen_rmse_max_over_truth_std": 0.1947539536715636,
+          "filling_fraction_max_abs_change": 0.017486572265625,
+          "four_class_disagreement_max": 0.05487060546875,
+          "largest_void_fraction_max_abs_change": 0.196685791015625,
+          "pair_probability_max_abs_change": 0.009384440041580996
+        },
+        "median_constant_residual_energy_fraction": 0.7439612887263773,
+        "median_eigen_rmse": [
+          0.010610009264493507,
+          0.010562818053542202,
+          0.01049032037560264
+        ],
+        "median_eigen_rmse_over_truth_std": [
+          0.07723526430775296,
+          0.06034017700141425,
+          0.04667236322794055
+        ],
+        "parents": 96
+      },
+      "observed_science_voxels": {
+        "failed_parents": 96,
+        "gate_failure_counts": {
+          "changed_connection_axes_max": 7,
+          "eigen_bias_max_abs": 68,
+          "eigen_rmse_max_abs": 66,
+          "eigen_rmse_max_over_truth_std": 89,
+          "filling_fraction_max_abs_change": 41,
+          "four_class_disagreement_max": 96,
+          "largest_void_fraction_max_abs_change": 55,
+          "pair_probability_max_abs_change": 42
+        },
+        "max_gate_values": {
+          "changed_connection_axes_max": 2,
+          "eigen_bias_max_abs": 0.02093896855816875,
+          "eigen_rmse_max_abs": 0.021721800812662263,
+          "eigen_rmse_max_over_truth_std": 0.23023525725686042,
+          "filling_fraction_max_abs_change": 0.017141332621890215,
+          "four_class_disagreement_max": 0.05459210485640978,
+          "largest_void_fraction_max_abs_change": 0.17831170026696125,
+          "pair_probability_max_abs_change": 0.009086347437096146
+        },
+        "median_constant_residual_energy_fraction": 0.746784138201599,
+        "median_eigen_rmse": [
+          0.010693438444011476,
+          0.010665583782686908,
+          0.010637262264168735
+        ],
+        "median_eigen_rmse_over_truth_std": [
+          0.07707645686900963,
+          0.06153695290825249,
+          0.04640577975951861
+        ],
+        "parents": 96
+      }
+    },
+    "96_oracle_constant_traceless_residual_removed": {
+      "all_science_voxels": {
+        "failed_parents": 47,
+        "gate_failure_counts": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0,
+          "eigen_rmse_max_abs": 0,
+          "eigen_rmse_max_over_truth_std": 7,
+          "filling_fraction_max_abs_change": 0,
+          "four_class_disagreement_max": 44,
+          "largest_void_fraction_max_abs_change": 3,
+          "pair_probability_max_abs_change": 0
+        },
+        "max_gate_values": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0.002801884222000992,
+          "eigen_rmse_max_abs": 0.007814358002036564,
+          "eigen_rmse_max_over_truth_std": 0.0596928684737834,
+          "filling_fraction_max_abs_change": 0.001861572265625,
+          "four_class_disagreement_max": 0.01922607421875,
+          "largest_void_fraction_max_abs_change": 0.1568603515625,
+          "pair_probability_max_abs_change": 0.001128629782547061
+        },
+        "median_constant_residual_energy_fraction": 5.7009340531203994e-18,
+        "median_eigen_rmse": [
+          0.004696995256398599,
+          0.0046492068355452,
+          0.004547159496767864
+        ],
+        "median_eigen_rmse_over_truth_std": [
+          0.034959874626643385,
+          0.027334693003971455,
+          0.02057649734411355
+        ],
+        "parents": 96
+      },
+      "observed_science_voxels": {
+        "failed_parents": 49,
+        "gate_failure_counts": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0,
+          "eigen_rmse_max_abs": 0,
+          "eigen_rmse_max_over_truth_std": 7,
+          "filling_fraction_max_abs_change": 0,
+          "four_class_disagreement_max": 46,
+          "largest_void_fraction_max_abs_change": 3,
+          "pair_probability_max_abs_change": 0
+        },
+        "max_gate_values": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0.0027728310830408887,
+          "eigen_rmse_max_abs": 0.007814358002036564,
+          "eigen_rmse_max_over_truth_std": 0.059615645054957804,
+          "filling_fraction_max_abs_change": 0.0018736945570708985,
+          "four_class_disagreement_max": 0.01922607421875,
+          "largest_void_fraction_max_abs_change": 0.15563533707692778,
+          "pair_probability_max_abs_change": 0.0011314353093087037
+        },
+        "median_constant_residual_energy_fraction": 1.1223259536419238e-17,
+        "median_eigen_rmse": [
+          0.004728567380990071,
+          0.00458643534897798,
+          0.004532400056929247
+        ],
+        "median_eigen_rmse_over_truth_std": [
+          0.035090305886392184,
+          0.027246304589851795,
+          0.02049935917424696
+        ],
+        "parents": 96
+      }
+    },
+    "parent_64": {
+      "all_science_voxels": {
+        "failed_parents": 96,
+        "gate_failure_counts": {
+          "changed_connection_axes_max": 5,
+          "eigen_bias_max_abs": 22,
+          "eigen_rmse_max_abs": 96,
+          "eigen_rmse_max_over_truth_std": 96,
+          "filling_fraction_max_abs_change": 3,
+          "four_class_disagreement_max": 96,
+          "largest_void_fraction_max_abs_change": 28,
+          "pair_probability_max_abs_change": 4
+        },
+        "max_gate_values": {
+          "changed_connection_axes_max": 2,
+          "eigen_bias_max_abs": 0.012457413987726283,
+          "eigen_rmse_max_abs": 0.03205488250678722,
+          "eigen_rmse_max_over_truth_std": 0.23917771977938354,
+          "filling_fraction_max_abs_change": 0.0069580078125,
+          "four_class_disagreement_max": 0.07598876953125,
+          "largest_void_fraction_max_abs_change": 0.175262451171875,
+          "pair_probability_max_abs_change": 0.0048361119167337485
+        },
+        "median_constant_residual_energy_fraction": 0.47027801660947516,
+        "median_eigen_rmse": [
+          0.017761255964556667,
+          0.01751194099332279,
+          0.017578434227879677
+        ],
+        "median_eigen_rmse_over_truth_std": [
+          0.13232523512473304,
+          0.10325617302626408,
+          0.08080859122828489
+        ],
+        "parents": 96
+      },
+      "observed_science_voxels": {
+        "failed_parents": 96,
+        "gate_failure_counts": {
+          "changed_connection_axes_max": 4,
+          "eigen_bias_max_abs": 24,
+          "eigen_rmse_max_abs": 96,
+          "eigen_rmse_max_over_truth_std": 96,
+          "filling_fraction_max_abs_change": 5,
+          "four_class_disagreement_max": 96,
+          "largest_void_fraction_max_abs_change": 29,
+          "pair_probability_max_abs_change": 7
+        },
+        "max_gate_values": {
+          "changed_connection_axes_max": 2,
+          "eigen_bias_max_abs": 0.013535010657025543,
+          "eigen_rmse_max_abs": 0.032081856256290876,
+          "eigen_rmse_max_over_truth_std": 0.257390637507997,
+          "filling_fraction_max_abs_change": 0.012168792934249273,
+          "four_class_disagreement_max": 0.07598876953125,
+          "largest_void_fraction_max_abs_change": 0.17502588661661922,
+          "pair_probability_max_abs_change": 0.006011509821699734
+        },
+        "median_constant_residual_energy_fraction": 0.48099879032801296,
+        "median_eigen_rmse": [
+          0.017849183847865237,
+          0.017448786986007714,
+          0.017813165581276418
+        ],
+        "median_eigen_rmse_over_truth_std": [
+          0.13377599201486412,
+          0.10223415052013182,
+          0.08069649395339343
+        ],
+        "parents": 96
+      }
+    },
+    "parent_96": {
+      "all_science_voxels": {
+        "failed_parents": 95,
+        "gate_failure_counts": {
+          "changed_connection_axes_max": 3,
+          "eigen_bias_max_abs": 3,
+          "eigen_rmse_max_abs": 23,
+          "eigen_rmse_max_over_truth_std": 73,
+          "filling_fraction_max_abs_change": 0,
+          "four_class_disagreement_max": 93,
+          "largest_void_fraction_max_abs_change": 8,
+          "pair_probability_max_abs_change": 0
+        },
+        "max_gate_values": {
+          "changed_connection_axes_max": 1,
+          "eigen_bias_max_abs": 0.006510225869128721,
+          "eigen_rmse_max_abs": 0.017234339599418568,
+          "eigen_rmse_max_over_truth_std": 0.14808847947783907,
+          "filling_fraction_max_abs_change": 0.00299072265625,
+          "four_class_disagreement_max": 0.044769287109375,
+          "largest_void_fraction_max_abs_change": 0.18408203125,
+          "pair_probability_max_abs_change": 0.0017446255918610737
+        },
+        "median_constant_residual_energy_fraction": 0.65363826851102,
+        "median_eigen_rmse": [
+          0.008029207738979655,
+          0.007993434805594793,
+          0.007964775360549275
+        ],
+        "median_eigen_rmse_over_truth_std": [
+          0.06132171401099006,
+          0.047013187052766595,
+          0.035261306316473416
+        ],
+        "parents": 96
+      },
+      "observed_science_voxels": {
+        "failed_parents": 95,
+        "gate_failure_counts": {
+          "changed_connection_axes_max": 3,
+          "eigen_bias_max_abs": 4,
+          "eigen_rmse_max_abs": 24,
+          "eigen_rmse_max_over_truth_std": 76,
+          "filling_fraction_max_abs_change": 0,
+          "four_class_disagreement_max": 93,
+          "largest_void_fraction_max_abs_change": 11,
+          "pair_probability_max_abs_change": 0
+        },
+        "max_gate_values": {
+          "changed_connection_axes_max": 1,
+          "eigen_bias_max_abs": 0.006531243849620503,
+          "eigen_rmse_max_abs": 0.01727618565566979,
+          "eigen_rmse_max_over_truth_std": 0.16416620900762882,
+          "filling_fraction_max_abs_change": 0.0037291462217860505,
+          "four_class_disagreement_max": 0.04397965447689205,
+          "largest_void_fraction_max_abs_change": 0.174346362930365,
+          "pair_probability_max_abs_change": 0.0020271855610234785
+        },
+        "median_constant_residual_energy_fraction": 0.6885313243056271,
+        "median_eigen_rmse": [
+          0.008033519885748106,
+          0.008085919055067186,
+          0.007981518070086274
+        ],
+        "median_eigen_rmse_over_truth_std": [
+          0.061499121463452024,
+          0.04758780832634435,
+          0.03618193049228866
+        ],
+        "parents": 96
+      }
+    }
+  },
+  "worst_anchor_by_gate": {
+    "96_no_parent_mean": {
+      "all_science_voxels": {
+        "changed_connection_axes_max": "ph002_SGC_s2_interior_00",
+        "eigen_bias_max_abs": "ph003_NGC_s1_boundary_01",
+        "eigen_rmse_max_abs": "ph003_NGC_s1_boundary_01",
+        "eigen_rmse_max_over_truth_std": "ph002_SGC_s0_boundary_00",
+        "filling_fraction_max_abs_change": "ph000_NGC_s1_boundary_01",
+        "four_class_disagreement_max": "ph002_NGC_s3_interior_01",
+        "largest_void_fraction_max_abs_change": "ph002_NGC_s3_boundary_00",
+        "pair_probability_max_abs_change": "ph000_NGC_s1_boundary_01"
+      },
+      "observed_science_voxels": {
+        "changed_connection_axes_max": "ph002_SGC_s2_interior_00",
+        "eigen_bias_max_abs": "ph003_NGC_s1_boundary_01",
+        "eigen_rmse_max_abs": "ph003_NGC_s1_boundary_01",
+        "eigen_rmse_max_over_truth_std": "ph002_SGC_s0_boundary_00",
+        "filling_fraction_max_abs_change": "ph000_NGC_s1_boundary_01",
+        "four_class_disagreement_max": "ph002_NGC_s3_interior_01",
+        "largest_void_fraction_max_abs_change": "ph000_NGC_s3_interior_01",
+        "pair_probability_max_abs_change": "ph000_NGC_s1_boundary_01"
+      }
+    },
+    "96_oracle_constant_traceless_residual_removed": {
+      "all_science_voxels": {
+        "changed_connection_axes_max": "ph000_NGC_s3_interior_00",
+        "eigen_bias_max_abs": "ph003_NGC_s3_boundary_01",
+        "eigen_rmse_max_abs": "ph003_SGC_s3_interior_01",
+        "eigen_rmse_max_over_truth_std": "ph002_SGC_s0_interior_00",
+        "filling_fraction_max_abs_change": "ph003_NGC_s3_interior_01",
+        "four_class_disagreement_max": "ph003_NGC_s2_interior_00",
+        "largest_void_fraction_max_abs_change": "ph000_NGC_s3_interior_01",
+        "pair_probability_max_abs_change": "ph002_SGC_s1_interior_00"
+      },
+      "observed_science_voxels": {
+        "changed_connection_axes_max": "ph000_NGC_s3_interior_00",
+        "eigen_bias_max_abs": "ph003_NGC_s3_boundary_01",
+        "eigen_rmse_max_abs": "ph003_SGC_s3_interior_01",
+        "eigen_rmse_max_over_truth_std": "ph002_SGC_s0_interior_00",
+        "filling_fraction_max_abs_change": "ph003_NGC_s3_interior_01",
+        "four_class_disagreement_max": "ph003_NGC_s2_interior_00",
+        "largest_void_fraction_max_abs_change": "ph000_NGC_s3_interior_01",
+        "pair_probability_max_abs_change": "ph003_NGC_s3_interior_01"
+      }
+    },
+    "parent_64": {
+      "all_science_voxels": {
+        "changed_connection_axes_max": "ph002_SGC_s2_interior_00",
+        "eigen_bias_max_abs": "ph000_NGC_s3_interior_00",
+        "eigen_rmse_max_abs": "ph000_SGC_s1_interior_01",
+        "eigen_rmse_max_over_truth_std": "ph002_SGC_s0_boundary_00",
+        "filling_fraction_max_abs_change": "ph002_NGC_s2_boundary_01",
+        "four_class_disagreement_max": "ph003_NGC_s3_interior_00",
+        "largest_void_fraction_max_abs_change": "ph000_NGC_s2_boundary_00",
+        "pair_probability_max_abs_change": "ph003_SGC_s1_boundary_00"
+      },
+      "observed_science_voxels": {
+        "changed_connection_axes_max": "ph002_SGC_s2_interior_00",
+        "eigen_bias_max_abs": "ph002_SGC_s1_boundary_01",
+        "eigen_rmse_max_abs": "ph000_SGC_s1_interior_01",
+        "eigen_rmse_max_over_truth_std": "ph002_SGC_s0_boundary_00",
+        "filling_fraction_max_abs_change": "ph000_SGC_s2_boundary_00",
+        "four_class_disagreement_max": "ph003_NGC_s3_interior_00",
+        "largest_void_fraction_max_abs_change": "ph000_NGC_s2_boundary_00",
+        "pair_probability_max_abs_change": "ph003_SGC_s1_boundary_00"
+      }
+    },
+    "parent_96": {
+      "all_science_voxels": {
+        "changed_connection_axes_max": "ph002_NGC_s0_boundary_00",
+        "eigen_bias_max_abs": "ph000_SGC_s1_interior_01",
+        "eigen_rmse_max_abs": "ph000_SGC_s1_interior_01",
+        "eigen_rmse_max_over_truth_std": "ph002_SGC_s0_boundary_00",
+        "filling_fraction_max_abs_change": "ph003_NGC_s2_boundary_00",
+        "four_class_disagreement_max": "ph003_SGC_s2_boundary_00",
+        "largest_void_fraction_max_abs_change": "ph002_NGC_s3_boundary_00",
+        "pair_probability_max_abs_change": "ph000_SGC_s2_boundary_01"
+      },
+      "observed_science_voxels": {
+        "changed_connection_axes_max": "ph000_NGC_s1_boundary_01",
+        "eigen_bias_max_abs": "ph000_SGC_s1_interior_01",
+        "eigen_rmse_max_abs": "ph000_SGC_s1_interior_01",
+        "eigen_rmse_max_over_truth_std": "ph002_SGC_s0_boundary_00",
+        "filling_fraction_max_abs_change": "ph000_SGC_s2_boundary_00",
+        "four_class_disagreement_max": "ph003_SGC_s2_boundary_00",
+        "largest_void_fraction_max_abs_change": "ph000_NGC_s2_boundary_00",
+        "pair_probability_max_abs_change": "ph000_SGC_s2_boundary_00"
+      }
+    }
+  },
+  "scheduler": {
+    "allocation": "58120066",
+    "node": "nid004164",
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed": "00:01:47",
+    "step_state": "COMPLETED",
+    "step_exit_code": "0:0",
+    "step_elapsed": "00:01:45",
+    "step_max_rss_kib": 5169348,
+    "allocation_released": true
+  },
+  "tests": {
+    "e2e_tests_passed": 42,
+    "elapsed_seconds": 1.877
+  }
+}
