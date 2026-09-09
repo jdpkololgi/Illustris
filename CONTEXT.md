@@ -22,7 +22,7 @@ The published foundation is Kololgi et al. 2025 (RASTI,
 doi:10.1093/rasti/rzag025), a graph-attention classifier trained on
 IllustrisTNG-300.
 
-## Current programme state — reconciled 2026-09-08
+## Current programme state — reconciled 2026-09-09
 
 - **P12-A:** the untempered, uncorrected coordinate-aligned FMPE is the first
   per-galaxy posterior product. Its one-open ph001 evaluation reports green and
@@ -43,8 +43,9 @@ IllustrisTNG-300.
   checks pass, but `training_ready=false`. The completed three-training-phase
   error audit finds FD2 sub-percent in typical eigenvalue RMS but topology-
   sensitive; floor sampling and finite-parent tides are larger typical errors.
-  FD8 nearly matches the spectral reference. Separate spectral target products
-  are recommended, not yet regenerated for training. Domain/topology tolerances,
+  FD8 nearly matches the spectral reference. Separate spectral v2 target products
+  are regenerating on CPU job 58115135 (not yet
+  verified complete; see `docs/e2e_field_spectral_regeneration_20260909.md`). Domain/topology tolerances,
   matched model/transform and diagnostic-power gates remain. No learned training
   has begun. See `docs/e2e_field_data_build_20260908.md` and
   `docs/e2e_field_error_budget_20260908.md`.

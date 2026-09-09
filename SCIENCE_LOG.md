@@ -1,5 +1,37 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-09 - [code/run] Separate E2E spectral regeneration started on spare CPU capacity
+
+At the user's explicit request, started interactive CPU job 58115135 on
+nid004150 (one node, 64 logical CPUs, desi, two-hour limit, Scratch license).
+No interactive allocations were pending or running before launch; the separate
+D2 batch/dependency chain was not modified. Full-box FFT memory needs justify
+the CPU node (the preceding audit peaked near 264 GiB).
+
+The new e2e-spectral-products-v2 contract reuses hashed native TSC counts and
+reconstructs Gaussian R7 density plus all six spectral tensor components with
+matched local cubic sampling. Outputs are separate under
+/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/spectral_20260909. Preserve the existing
+160 anchors, phase roles, 64/96-cell targets, 128-cell observation context and
+masks. New target normalization uses only ph000/ph002/ph003; observations are
+copied exactly and their train-only normalizers must reproduce the old values.
+ph004/ph005 are packaged with numerical checks only; ph001/ph006 are excluded.
+
+Four focused implementation tests pass. Registered technical checks include
+independent density/tensor trace agreement, audited cubic-reference parity,
+cubic/quintic convergence on training cores, source/output hashes, unchanged
+observations/masks, nested readers and release/confirmation access guards.
+These are engineering checks, not retrospective science tolerances.
+
+Launch verified: ph000 input hashes passed and spectral density generation
+began. Build completion is NOT yet claimed; require REGENERATION_COMPLETE.json
+and successful scheduler/step exits. No fits are launched. Exterior tides,
+science-functional tolerances, matched model/transform and diagnostic-power
+gates remain open; training_ready=false and r0_physics_pass=false. P12-A/D2
+products remain unchanged. Source hashes and the pre-build Git base are frozen
+in REGENERATION_STARTED.json. Contract, launcher and details:
+docs/e2e_field_spectral_regeneration_20260909.md.
+
 ### 2026-09-08 - [science/code/result] E2E physical error attribution: FD2 small in RMS but topology-sensitive; sampling and exterior tides dominate typical error
 
 At the user's request, completed the registered no-fit error-budget audit before

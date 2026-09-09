@@ -1,0 +1,20 @@
+{
+  "schema_version": "e2e-spectral-products-v2",
+  "build_config": "configs/e2e_field_build_v1.json",
+  "output_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/spectral_20260909",
+  "phase_roles": {"ph000": "train", "ph002": "train", "ph003": "train", "ph004": "internal_selection", "ph005": "internal_confirmation"},
+  "parent_sides": [64, 96],
+  "interpolation": "local_cubic_lagrange_integer_centred_periodic",
+  "training_core_interpolation_control": "local_quintic_lagrange",
+  "smoothing_mpc_h": 7.0,
+  "particle_redeposition": false,
+  "source_count_normalization": "same arithmetic as audited v1 reference",
+  "tensor_operator": "full-box spectral ki*kj/k2; global DC zero; mixed Nyquist zero",
+  "target_dataset": "delta_r7_gaussian",
+  "observation_channels": "byte-equivalent copies from source-verified v1 parents",
+  "technical_trace_max_abs": 0.000002,
+  "technical_cubic_quintic_relative_l2": 0.0003,
+  "technical_prior_cubic_reference_max_abs": 0.000002,
+  "training_ready": false,
+  "r0_physics_pass": false
+}
