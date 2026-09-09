@@ -1,0 +1,33 @@
+{
+  "schema_version": "e2e-domain-gate-v2",
+  "dataset_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/spectral_20260909",
+  "output_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/domain_gate_20260909",
+  "build_config": "configs/e2e_field_build_v1.json",
+  "phases": ["ph000", "ph002", "ph003"],
+  "parent_sides": [64, 96],
+  "science_side": 32,
+  "threshold": 0.2,
+  "pair_bin_edges_mpc_h": [10.0, 20.0, 40.0, 80.0],
+  "masks": ["all_science_voxels", "observed_science_voxels"],
+  "operator": "existing tensor_from_delta; no further smoothing; periodic crop spectral operator; mean/3 diagonal completion",
+  "tolerances": {
+    "eigen_rmse_max_abs": 0.01,
+    "eigen_bias_max_abs": 0.005,
+    "eigen_rmse_max_over_truth_std": 0.05,
+    "four_class_disagreement_max": 0.01,
+    "filling_fraction_max_abs_change": 0.005,
+    "pair_probability_max_abs_change": 0.0025,
+    "largest_void_fraction_max_abs_change": 0.01,
+    "changed_connection_axes_max": 0
+  },
+  "acceptance_rule": "every training anchor and both masks, every eigenvalue/pair bin; no pooled rescue",
+  "threshold_status": "internal pre-fit screening tolerances frozen before this run; informed by prior audit, not blind validation or posterior-scaled qualification",
+  "posterior_scaled_future_budget_fraction": 0.1,
+  "posterior_uncertainty_available": false,
+  "controls": ["96_no_parent_mean", "96_oracle_constant_traceless_residual_removed"],
+  "control_use": "attribution only; neither can qualify a domain or enter inference",
+  "sensitivity_multiplier_grid": [0.5, 1.0, 2.0, 5.0],
+  "technical_trace_max_abs": 0.000002,
+  "training_ready": false,
+  "r0_physics_pass": false
+}
