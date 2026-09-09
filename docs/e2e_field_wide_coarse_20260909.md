@@ -69,4 +69,11 @@ No batch submission or autonomous retry.
 Launched as interactive CPU job 58131992 on nid004156, frozen source 5051f69.
 All 50 focused E2E tests passed before launch. Log:
 `/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_coarse_20260909.log`.
-The launch marker is verified; build/test completion is not yet claimed.
+All three phases are built: 96 anchors, 288 anchor-variant checks, nine payloads,
+5,686,861,663 bytes. Maximum density reconstruction error is 3.070e-7, independent
+direct-Fourier interpolation error 6.191e-7, and relative count-conservation
+error 6.706e-10. Both numerical field errors are below the 2e-6 limit.
+The physics-start marker and first 16 anchor reports are verified; the full
+test is still running, with no scientific outcome or release yet recorded.
+Durable product hashes and start receipt:
+`docs/evidence/e2e_field_v2/wide_coarse_20260909/PRODUCTS_AND_TEST_START.json`.

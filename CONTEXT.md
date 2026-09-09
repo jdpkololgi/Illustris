@@ -57,7 +57,9 @@ IllustrisTNG-300.
   with a fixed-extent resolution control, training phases only. Historical
   all-anchor criteria are diagnostics for this extension, not an automatic
   research-pilot veto. No model training or release is implied. See
-  `docs/e2e_field_wide_coarse_20260909.md`; completion is not yet recorded.
+  `docs/e2e_field_wide_coarse_20260909.md`. All 96 anchors / three variants and
+  nine payloads (5.687 GB) are verified built; the truth-only test has started
+  and its first anchor reports are saved. The full test is still running.
 - **P13/Loa:** held pending separate authorization. P12-A's single blind opening
   does not authorize ph001 reuse by D2, P12-B or E2E.
 

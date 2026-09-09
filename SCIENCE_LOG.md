@@ -1,6 +1,6 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
-### 2026-09-09 - [science/code/run] Wider-coarse/local-fine products and truth-only test launched
+### 2026-09-09 - [science/code/run] Wider-coarse/local-fine products complete; truth-only test running
 
 The user authorized an interactive build of additional wide-coarse field data
 and initiation of the physics comparison. Frozen implementation 5051f69 adds
@@ -23,8 +23,13 @@ verdict is not retroactively changed; training_ready=false and r0_physics_pass=f
 All 50 focused E2E tests passed. User-authorized interactive CPU job 58131992
 started on nid004156 (one full-memory CPU node, 64 logical CPUs, two hours,
 desi account, Scratch license). It builds all three phases and automatically
-starts the truth-only test. At this entry only the launch/provenance marker is
-verified; no product completion or scientific outcome is claimed.
+starts the truth-only test. All three phase products are now verified complete:
+96 anchors / 288 anchor-variant checks, nine payloads totaling 5.687 GB.
+Worst density reconstruction error is 3.070e-7, direct-Fourier interpolation
+error 6.191e-7 (both below 2e-6), and relative coarse count conservation error
+6.706e-10. The physics-start marker and first 16 checked anchor reports are
+verified; the full test remains running and no scientific outcome is claimed.
+Durable receipt: docs/evidence/e2e_field_v2/wide_coarse_20260909/PRODUCTS_AND_TEST_START.json.
 Run definition: docs/e2e_field_wide_coarse_20260909.md. Outputs:
 /pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_coarse_20260909;
 log: the sibling wide_coarse_20260909.log. Other programmes are unchanged.
