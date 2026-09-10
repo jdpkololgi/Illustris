@@ -81,6 +81,12 @@ and response-count conservation checks also passed as previously recorded.
 
 ## What this enables next
 
+**September-10 follow-up:** the loader/normalizer, matched coarse/fine models,
+trainer, checkpoint continuation, ancestral sampler and training diagnostics
+are now implemented. See the [pipeline contract](e2e_wide_pipeline_20260910.md).
+The list below records the work identified at physics closeout; full-size
+compute verification, fitting and held-out calibration are still pending.
+
 This completes the authorized truth-only experiment; no rerun is needed.
 It supports proceeding to finish a bounded research training pipeline around
 the large factor-4 representation, with the void limitation explicit. It does

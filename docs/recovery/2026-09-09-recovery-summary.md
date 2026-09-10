@@ -129,5 +129,22 @@ a documented display-repair mechanism. Per the user's instruction to prioritize
 science if restoration is burdensome, no app-storage mutation was attempted.
 See [official app-server documentation](https://learn.chatgpt.com/docs/app-server).
 
+### Fresh-reader follow-up during pipeline implementation
+
+A fresh local app-server independently reproduces the missing-later-messages
+cutoff through both `thread/read` and `thread/turns/list`. Its last returned turn
+is `01a08694-a7ca-7571-aca0-25d4cbf7c21d` (September 9, 14:31:24 UTC); it returns
+ten turns and the expected saved-record path, but not the later completed turns.
+The fresh process calls the task interrupted, while the desktop previously
+called it in progress. This rules out a purely desktop rendering-cache
+explanation; it does not identify the underlying parsing/state defect.
+
+Both temporary diagnostic servers exited on stdin EOF. No resume, injected
+messages, app restart, database edit, saved-record rewrite, deletion or external
+upload was performed. The inspected supported API documents retrieval and
+continuation, not a history repair operation. A desktop restart is therefore
+not a verified remedy. App synchronization remains unresolved; the current
+scientific handoff is in `../e2e_wide_pipeline_20260910.md` and SCIENCE_LOG.md.
+
 The physics closeout and training-pipeline implications are now recorded in
 [the results report](../e2e_field_wide_coarse_results_20260909.md).

@@ -1,5 +1,45 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-10 - [science/code] 1299 Mpc/h wide-coarse research pipeline implemented; full-size GPU verification pending
+
+At the user's request, implemented the bounded wide384_f4 pipeline: verified
+train-only raw loader/normalizer, matched CFM and cosine-v diffusion coarse/fine
+models, staged trainer, immutable provenance/RNG checkpoints, ancestral sampler
+and per-draw training diagnostics. The fine model receives both wide-observation
+features and the same generated coarse realization at inference. Child crops
+share one parent; independent anchor calls are not a full-cap coherent field.
+The fixed output map is interpolated wide-coarse tides plus local-residual tides,
+with no second R7 smoothing and no oracle condition.
+
+Explicit representation amendment: the tested fine residual is local density
+minus quintically interpolated cropped global low-pass density. It is not an
+orthogonal high-pass subspace on the local periodic lattice. Applying the old
+plan's local state/noise projection would change this target, so it is not used.
+The separate wide-context compression is a learned approximation to the fine
+conditional, not an exact conditional-independence claim.
+
+The 1299.072 Mpc/h cube fits inside the 2000 Mpc/h periodic simulation and covers
+27.4% of its volume. The 96 windows are correlated, over only three independent
+training phases; no super-box modes or extra independent volume are created.
+Choose factor-4 for the economical pilot: factor-2 improves median error only
+about 1% while using eight times as many coarse cells. Retain the 6.211-point
+largest-void caveat and the historical negative domain decision.
+
+Config e2e_wide_pipeline_v1 freezes matched 192-update-per-stage canary caps and
+32 network evaluations per sampled stage. All 71 focused E2E tests pass,
+including 21 new tiny loader/model/pipeline checks covering gradients,
+observation conditioning, overlap, ancestral coarse replacement, physical/DC
+closure and exact checkpoint continuation. Full-size GPU verification and
+normalization fitting still require an approved compute session; none was
+launched. No held-out payload access, calibrated-posterior claim, old receipt
+mutation or P12-A/D2/P13 change occurred. Details and pending run criteria:
+docs/e2e_wide_pipeline_20260910.md.
+
+The app's missing-message retrieval also reproduces in a fresh app-server;
+this is not merely a desktop display cache. No supported history repair is
+available in the inspected interface. Repository records are current, but app
+synchronization is not verified or claimed. No storage mutation was attempted.
+
 ### 2026-09-10 - [science/code/result] Wide-coarse physics comparison complete; large domain supports research-pipeline development with a void caveat
 
 Closed out the user-authorized truth-only test after recovering the missing

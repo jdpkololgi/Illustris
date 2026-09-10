@@ -66,6 +66,13 @@ IllustrisTNG-300.
   a strict joint-topology pass or training release. See
   `docs/e2e_field_wide_coarse_results_20260909.md` for the completed comparison
   and concrete remaining model/normalization/sampler/canary work.
+  The September-10 implementation now supplies a bounded wide384_f4 loader,
+  matched staged CFM/DIFF trainer, shared-draw sampler and training diagnostics.
+  Tiny synthetic checks do not replace pending full-size GPU/normalization
+  verification. No model fit or held-out wide-product access has occurred.
+  The tested finite-window residual is not a local orthogonal high-pass
+  subspace; see `docs/e2e_wide_pipeline_20260910.md` for the explicit amendment,
+  matched canary caps and the 1299-versus-2000 Mpc/h volume/phase limitation.
 - **P13/Loa:** held pending separate authorization. P12-A's single blind opening
   does not authorize ph001 reuse by D2, P12-B or E2E.
 

@@ -1,0 +1,30 @@
+{
+  "schema": "e2e-wide-pipeline-v1",
+  "purpose": "bounded training-phase research canary, not production VAC or calibrated finalist",
+  "products_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_coarse_20260909",
+  "products_manifest_sha256": "db2a4b998a087d40bbbb31e1a80613ed24987c503e868dfb724f3045372fe253",
+  "output_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1",
+  "phases": ["ph000", "ph002", "ph003"],
+  "variant": "wide384_f4",
+  "coarse_side": 96,
+  "fine_side": 96,
+  "core_side": 32,
+  "fine_cell_mpc_h": 3.383,
+  "coarse_factor": 4,
+  "interpolation_degree": 5,
+  "model": {"base_channels": 8, "levels": 3},
+  "training": {
+    "seed": 42,
+    "batch_size": 1,
+    "maximum_updates": 192,
+    "checkpoint_every": 16,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0001,
+    "clip_gradient_norm": 1.0
+  },
+  "sampling": {"seed": 1729, "cfm_steps": 16, "cfm_solver": "heun", "diffusion_steps": 32},
+  "diagnostic_config": "configs/e2e_field_domain_gate_v2.json",
+  "training_ready": false,
+  "r0_physics_pass": false,
+  "science_training_authorized": false
+}

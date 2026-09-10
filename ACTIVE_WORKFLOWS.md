@@ -31,6 +31,13 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   metadata summaries/archives. Both are under `workflows/sbi/`. Findings and
   numerical-versus-topology limitations are in
   `docs/e2e_field_error_budget_20260908.md`; neither entrypoint licenses fits.
+  The September-10 wide384_f4 research pipeline is
+  `python -m workflows.sbi.e2e_wide_pipeline` with `prepare`, `train`, `sample`
+  and `diagnose` subcommands. Its train-only reader and matched CFM/DIFF models
+  are `e2e_wide_data.py` / `e2e_wide_models.py`; config is
+  `configs/e2e_wide_pipeline_v1.json`. All real-array work requires approved
+  compute; no new job or full-size learned smoke has been run. See
+  `docs/e2e_wide_pipeline_20260910.md` for usage, caps and scientific boundaries.
 - Root-level `*_supervisor_v2_20260904.sh` scripts are historical operational
   records, not current launch instructions. Frozen production uses Slurm.
 

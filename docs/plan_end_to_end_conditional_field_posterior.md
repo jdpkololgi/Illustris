@@ -11,6 +11,17 @@ this document
 **Authority:** current `SCIENCE_LOG.md` and frozen evidence supersede this plan
 when they disagree
 
+**Implementation amendment, 2026-09-10:** the user selected the tested
+1299.072 Mpc/h wider-coarse/local-fine direction. The bounded `wide384_f4`
+CFM/DIFF pipeline is implemented under
+[`e2e_wide_pipeline_20260910.md`](e2e_wide_pipeline_20260910.md), including its
+train-only data/transform contract, matched canary budgets and pending approved
+full-size verification. For this pilot, the finite-window residual definition
+explicitly supersedes the same-lattice orthogonal-subspace/noise-projection
+prescription in section 3.2 below. The latter is not implemented by the tested
+arrays. Separate anchor parents are not a full-cap coherent draw. No learned
+fit, holdout opening, WCFM/MIRA activation or production release is implied.
+
 **Status reconciliation, 2026-09-08:** metadata preparation and the small analytic
 fixture are complete; the 96 parent proposals remain support-unscreened,
 split-unassigned and `training_ready=false`. R0-PHYSICS, payload verification,
@@ -345,6 +356,13 @@ It is not an exact map from a masked or finite density crop to the cosmological
 tidal tensor. Section 3.4 supplies the missing boundary/zero-mode contract.
 
 ### 3.2 Spatial factorization
+
+**Current pilot qualification:** see the September-10 amendment above. The
+implemented residual is `delta_local - U(crop(global_lowpass_delta))`, not
+`(I-P_L) delta` on one local periodic lattice. The orthogonal construction
+described below remains an alternative representation, not the current pilot's
+noise or velocity constraint. The full tested wide-coarse tensor must enter
+the physics synthesis; it is not merely a neural conditioner.
 
 Let `P` be a parent superpatch and `C_j` be child target cores inside it. Define
 fixed, training-independent analysis operators `A_L`, `A_H` and synthesis
