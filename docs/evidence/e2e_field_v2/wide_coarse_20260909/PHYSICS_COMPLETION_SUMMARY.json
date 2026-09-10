@@ -1,0 +1,622 @@
+{
+  "by_phase_relative_eigen_rmse": {
+    "ph000": {
+      "oracle_fullbox_low_plus_local_high": {
+        "all_science_voxels": [
+          0.006524444265241423,
+          0.005020587771678442,
+          0.003939383875592393
+        ],
+        "observed_science_voxels": [
+          0.006604749557742861,
+          0.0050989671455153925,
+          0.003935559281957879
+        ]
+      },
+      "parent_96": {
+        "all_science_voxels": [
+          0.05347032117420848,
+          0.04324110917656115,
+          0.03209572413490078
+        ],
+        "observed_science_voxels": [
+          0.057296445719322575,
+          0.04366151390987251,
+          0.03341732960654818
+        ]
+      },
+      "wide192_f4": {
+        "all_science_voxels": [
+          0.019945401364164082,
+          0.015666286877332385,
+          0.012198151522587145
+        ],
+        "observed_science_voxels": [
+          0.020309829476170174,
+          0.01565969855679181,
+          0.012545043565218432
+        ]
+      },
+      "wide384_f2": {
+        "all_science_voxels": [
+          0.007122409199578771,
+          0.0056864840600312355,
+          0.004131876605621701
+        ],
+        "observed_science_voxels": [
+          0.007283395370648536,
+          0.005816775638898163,
+          0.004234944160582316
+        ]
+      },
+      "wide384_f4": {
+        "all_science_voxels": [
+          0.007230863162770021,
+          0.005774713090732233,
+          0.004199399572349001
+        ],
+        "observed_science_voxels": [
+          0.007435637388686244,
+          0.005923772094197035,
+          0.004377760548423967
+        ]
+      }
+    },
+    "ph002": {
+      "oracle_fullbox_low_plus_local_high": {
+        "all_science_voxels": [
+          0.006947956566567329,
+          0.005326538132306068,
+          0.004335536265920354
+        ],
+        "observed_science_voxels": [
+          0.006885067561949187,
+          0.0053503727992757506,
+          0.004152553456108047
+        ]
+      },
+      "parent_96": {
+        "all_science_voxels": [
+          0.06363107623791316,
+          0.04960133693276037,
+          0.03751125815110365
+        ],
+        "observed_science_voxels": [
+          0.06429130966670243,
+          0.04923062430678954,
+          0.03809612029480794
+        ]
+      },
+      "wide192_f4": {
+        "all_science_voxels": [
+          0.02067147420750546,
+          0.017207216367197783,
+          0.012960572164747676
+        ],
+        "observed_science_voxels": [
+          0.02081547522848891,
+          0.01734316781845268,
+          0.012922406688372617
+        ]
+      },
+      "wide384_f2": {
+        "all_science_voxels": [
+          0.00816095470217617,
+          0.0065678488811901515,
+          0.005109452982554075
+        ],
+        "observed_science_voxels": [
+          0.00800776986616822,
+          0.006539777027604967,
+          0.004957207827649483
+        ]
+      },
+      "wide384_f4": {
+        "all_science_voxels": [
+          0.0082596234380872,
+          0.006581179300853808,
+          0.005181013890375754
+        ],
+        "observed_science_voxels": [
+          0.008112035237538947,
+          0.006552127779955433,
+          0.005022586702323262
+        ]
+      }
+    },
+    "ph003": {
+      "oracle_fullbox_low_plus_local_high": {
+        "all_science_voxels": [
+          0.006828627002369497,
+          0.005807215671408884,
+          0.004303254507151981
+        ],
+        "observed_science_voxels": [
+          0.0069533597158820135,
+          0.0057891914645978905,
+          0.004362733995264037
+        ]
+      },
+      "parent_96": {
+        "all_science_voxels": [
+          0.06230286287854797,
+          0.0477924498654741,
+          0.03657779686915659
+        ],
+        "observed_science_voxels": [
+          0.062158978652616034,
+          0.04778479225620555,
+          0.03714796453248239
+        ]
+      },
+      "wide192_f4": {
+        "all_science_voxels": [
+          0.020060464628680837,
+          0.01626109568107197,
+          0.01252152186100721
+        ],
+        "observed_science_voxels": [
+          0.020850573075958154,
+          0.01751567372237251,
+          0.012521095177741456
+        ]
+      },
+      "wide384_f2": {
+        "all_science_voxels": [
+          0.008608239220197848,
+          0.006816400369726423,
+          0.0051980296653497005
+        ],
+        "observed_science_voxels": [
+          0.008666890067296762,
+          0.006766707938674942,
+          0.0051979633957167
+        ]
+      },
+      "wide384_f4": {
+        "all_science_voxels": [
+          0.008717754365409693,
+          0.0069034445540655034,
+          0.005243835200678328
+        ],
+        "observed_science_voxels": [
+          0.008769026562961186,
+          0.006865491417189139,
+          0.005258385024733015
+        ]
+      }
+    }
+  },
+  "historical_thresholds": "diagnostic only; not an automatic exploratory-training veto",
+  "interpretation": "Supports wide384_f4 as a bounded research-pilot candidate; not a strict joint-topology pass, training authorization, or posterior-calibration result.",
+  "paired_comparisons": {
+    "all_science_voxels": {
+      "anchors_all_three_eigen_rmse_improved": 96,
+      "finer_grid_median_rmse_improvement_percent": [
+        1.1139555803508456,
+        0.9992111946108917,
+        1.2014356173395973
+      ],
+      "max_attribution_closure": 9.240384065550833e-16,
+      "paired_median_eigen_rmse_improvement_factor": [
+        7.511498144060175,
+        7.584567770847151,
+        7.675670382702246
+      ]
+    },
+    "observed_science_voxels": {
+      "anchors_all_three_eigen_rmse_improved": 96,
+      "finer_grid_median_rmse_improvement_percent": [
+        1.0935359223309553,
+        1.012314856247753,
+        1.1269749613446225
+      ],
+      "max_attribution_closure": 9.240384065550833e-16,
+      "paired_median_eigen_rmse_improvement_factor": [
+        7.4130787643742515,
+        7.6433412589562,
+        7.991039305354011
+      ]
+    }
+  },
+  "r0_physics_pass": false,
+  "report_path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_coarse_20260909/PHYSICS_TEST_REPORT.json",
+  "residual_topology_anchor": "ph003_NGC_s3_interior_01",
+  "scheduler": {
+    "elapsed": "00:36:03",
+    "exit_code": "0:0",
+    "job_id": "58131992",
+    "node": "nid004156",
+    "state": "COMPLETED"
+  },
+  "summary": {
+    "oracle_fullbox_low_plus_local_high": {
+      "all_science_voxels": {
+        "failed_parents": 1,
+        "gate_failure_counts": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0,
+          "eigen_rmse_max_abs": 0,
+          "eigen_rmse_max_over_truth_std": 0,
+          "filling_fraction_max_abs_change": 0,
+          "four_class_disagreement_max": 0,
+          "largest_void_fraction_max_abs_change": 1,
+          "pair_probability_max_abs_change": 0
+        },
+        "max_gate_values": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0.0006862128753833338,
+          "eigen_rmse_max_abs": 0.0020109131312806214,
+          "eigen_rmse_max_over_truth_std": 0.013853289812395421,
+          "filling_fraction_max_abs_change": 0.000640869140625,
+          "four_class_disagreement_max": 0.004730224609375,
+          "largest_void_fraction_max_abs_change": 0.012054443359375,
+          "pair_probability_max_abs_change": 0.0005781134418045425
+        },
+        "median_constant_residual_energy_fraction": 0.5261171315630133,
+        "median_eigen_rmse": [
+          0.0008624156806998368,
+          0.000875403951649871,
+          0.000857342015655806
+        ],
+        "median_eigen_rmse_over_truth_std": [
+          0.006828627002369497,
+          0.005246934834243514,
+          0.0041640869837541936
+        ],
+        "parents": 96
+      },
+      "observed_science_voxels": {
+        "failed_parents": 0,
+        "gate_failure_counts": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0,
+          "eigen_rmse_max_abs": 0,
+          "eigen_rmse_max_over_truth_std": 0,
+          "filling_fraction_max_abs_change": 0,
+          "four_class_disagreement_max": 0,
+          "largest_void_fraction_max_abs_change": 0,
+          "pair_probability_max_abs_change": 0
+        },
+        "max_gate_values": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0.0008591930347492735,
+          "eigen_rmse_max_abs": 0.0020315223095621194,
+          "eigen_rmse_max_over_truth_std": 0.014322806098140359,
+          "filling_fraction_max_abs_change": 0.0004925415142133516,
+          "four_class_disagreement_max": 0.0045055568534525916,
+          "largest_void_fraction_max_abs_change": 0.005557912600763659,
+          "pair_probability_max_abs_change": 0.00042412519578011176
+        },
+        "median_constant_residual_energy_fraction": 0.5268189226241454,
+        "median_eigen_rmse": [
+          0.0008720455836953781,
+          0.0008728242633287266,
+          0.0008638832882601823
+        ],
+        "median_eigen_rmse_over_truth_std": [
+          0.0068099239173511125,
+          0.005418207508683564,
+          0.0040544550914795325
+        ],
+        "parents": 96
+      }
+    },
+    "parent_96": {
+      "all_science_voxels": {
+        "failed_parents": 95,
+        "gate_failure_counts": {
+          "changed_connection_axes_max": 3,
+          "eigen_bias_max_abs": 3,
+          "eigen_rmse_max_abs": 23,
+          "eigen_rmse_max_over_truth_std": 73,
+          "filling_fraction_max_abs_change": 0,
+          "four_class_disagreement_max": 93,
+          "largest_void_fraction_max_abs_change": 8,
+          "pair_probability_max_abs_change": 0
+        },
+        "max_gate_values": {
+          "changed_connection_axes_max": 1,
+          "eigen_bias_max_abs": 0.006510225869128721,
+          "eigen_rmse_max_abs": 0.017234339599418568,
+          "eigen_rmse_max_over_truth_std": 0.14808847947783907,
+          "filling_fraction_max_abs_change": 0.00299072265625,
+          "four_class_disagreement_max": 0.044769287109375,
+          "largest_void_fraction_max_abs_change": 0.18408203125,
+          "pair_probability_max_abs_change": 0.0017446255918610737
+        },
+        "median_constant_residual_energy_fraction": 0.65363826851102,
+        "median_eigen_rmse": [
+          0.008029207738979655,
+          0.007993434805594793,
+          0.007964775360549275
+        ],
+        "median_eigen_rmse_over_truth_std": [
+          0.06132171401099006,
+          0.047013187052766595,
+          0.035261306316473416
+        ],
+        "parents": 96
+      },
+      "observed_science_voxels": {
+        "failed_parents": 95,
+        "gate_failure_counts": {
+          "changed_connection_axes_max": 3,
+          "eigen_bias_max_abs": 4,
+          "eigen_rmse_max_abs": 24,
+          "eigen_rmse_max_over_truth_std": 76,
+          "filling_fraction_max_abs_change": 0,
+          "four_class_disagreement_max": 93,
+          "largest_void_fraction_max_abs_change": 11,
+          "pair_probability_max_abs_change": 0
+        },
+        "max_gate_values": {
+          "changed_connection_axes_max": 1,
+          "eigen_bias_max_abs": 0.006531243849620503,
+          "eigen_rmse_max_abs": 0.01727618565566979,
+          "eigen_rmse_max_over_truth_std": 0.16416620900762882,
+          "filling_fraction_max_abs_change": 0.0037291462217860505,
+          "four_class_disagreement_max": 0.04397965447689205,
+          "largest_void_fraction_max_abs_change": 0.174346362930365,
+          "pair_probability_max_abs_change": 0.0020271855610234785
+        },
+        "median_constant_residual_energy_fraction": 0.6885313243056271,
+        "median_eigen_rmse": [
+          0.008033519885748106,
+          0.008085919055067186,
+          0.007981518070086274
+        ],
+        "median_eigen_rmse_over_truth_std": [
+          0.061499121463452024,
+          0.04758780832634435,
+          0.03618193049228866
+        ],
+        "parents": 96
+      }
+    },
+    "wide192_f4": {
+      "all_science_voxels": {
+        "failed_parents": 6,
+        "gate_failure_counts": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0,
+          "eigen_rmse_max_abs": 0,
+          "eigen_rmse_max_over_truth_std": 0,
+          "filling_fraction_max_abs_change": 0,
+          "four_class_disagreement_max": 5,
+          "largest_void_fraction_max_abs_change": 2,
+          "pair_probability_max_abs_change": 0
+        },
+        "max_gate_values": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0.0020001696407758616,
+          "eigen_rmse_max_abs": 0.004942754497057711,
+          "eigen_rmse_max_over_truth_std": 0.040797378061694076,
+          "filling_fraction_max_abs_change": 0.001007080078125,
+          "four_class_disagreement_max": 0.012237548828125,
+          "largest_void_fraction_max_abs_change": 0.060638427734375,
+          "pair_probability_max_abs_change": 0.0006422690641996187
+        },
+        "median_constant_residual_energy_fraction": 0.8553319137266666,
+        "median_eigen_rmse": [
+          0.0026939481468785213,
+          0.0027087067419514165,
+          0.0027906312713758836
+        ],
+        "median_eigen_rmse_over_truth_std": [
+          0.02028163514601819,
+          0.01578759720246691,
+          0.012744290124425135
+        ],
+        "parents": 96
+      },
+      "observed_science_voxels": {
+        "failed_parents": 7,
+        "gate_failure_counts": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0,
+          "eigen_rmse_max_abs": 0,
+          "eigen_rmse_max_over_truth_std": 0,
+          "filling_fraction_max_abs_change": 0,
+          "four_class_disagreement_max": 5,
+          "largest_void_fraction_max_abs_change": 3,
+          "pair_probability_max_abs_change": 0
+        },
+        "max_gate_values": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0.0022914506528771395,
+          "eigen_rmse_max_abs": 0.005018984688064641,
+          "eigen_rmse_max_over_truth_std": 0.04080612842028122,
+          "filling_fraction_max_abs_change": 0.0010606703436571996,
+          "four_class_disagreement_max": 0.012287581699346406,
+          "largest_void_fraction_max_abs_change": 0.12013093289689036,
+          "pair_probability_max_abs_change": 0.0007083508711499126
+        },
+        "median_constant_residual_energy_fraction": 0.8586972717878335,
+        "median_eigen_rmse": [
+          0.0027133006830251842,
+          0.00270845905679901,
+          0.002794064204610463
+        ],
+        "median_eigen_rmse_over_truth_std": [
+          0.020576798731070177,
+          0.016523057248134597,
+          0.012755927315919197
+        ],
+        "parents": 96
+      }
+    },
+    "wide384_f2": {
+      "all_science_voxels": {
+        "failed_parents": 1,
+        "gate_failure_counts": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0,
+          "eigen_rmse_max_abs": 0,
+          "eigen_rmse_max_over_truth_std": 0,
+          "filling_fraction_max_abs_change": 0,
+          "four_class_disagreement_max": 0,
+          "largest_void_fraction_max_abs_change": 1,
+          "pair_probability_max_abs_change": 0
+        },
+        "max_gate_values": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0.0007838154360680002,
+          "eigen_rmse_max_abs": 0.002648582144385578,
+          "eigen_rmse_max_over_truth_std": 0.02026824585336769,
+          "filling_fraction_max_abs_change": 0.000640869140625,
+          "four_class_disagreement_max": 0.00555419921875,
+          "largest_void_fraction_max_abs_change": 0.061553955078125,
+          "pair_probability_max_abs_change": 0.0006155884720289717
+        },
+        "median_constant_residual_energy_fraction": 0.6837105069268081,
+        "median_eigen_rmse": [
+          0.0010834326329197254,
+          0.001086932462006774,
+          0.0010589678876932402
+        ],
+        "median_eigen_rmse_over_truth_std": [
+          0.00816095470217617,
+          0.006400345163970296,
+          0.004769490795605125
+        ],
+        "parents": 96
+      },
+      "observed_science_voxels": {
+        "failed_parents": 1,
+        "gate_failure_counts": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0,
+          "eigen_rmse_max_abs": 0,
+          "eigen_rmse_max_over_truth_std": 0,
+          "filling_fraction_max_abs_change": 0,
+          "four_class_disagreement_max": 0,
+          "largest_void_fraction_max_abs_change": 1,
+          "pair_probability_max_abs_change": 0
+        },
+        "max_gate_values": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0.0008394955457798484,
+          "eigen_rmse_max_abs": 0.002649198104172904,
+          "eigen_rmse_max_over_truth_std": 0.020251746652542736,
+          "filling_fraction_max_abs_change": 0.000640869140625,
+          "four_class_disagreement_max": 0.005523336095001381,
+          "largest_void_fraction_max_abs_change": 0.06195478560019657,
+          "pair_probability_max_abs_change": 0.0004814484539002739
+        },
+        "median_constant_residual_energy_fraction": 0.6868809073665104,
+        "median_eigen_rmse": [
+          0.0010803325655751699,
+          0.0010758728029528868,
+          0.0010569172144800788
+        ],
+        "median_eigen_rmse_over_truth_std": [
+          0.008083528177833064,
+          0.006368610133201816,
+          0.0048423524524954095
+        ],
+        "parents": 96
+      }
+    },
+    "wide384_f4": {
+      "all_science_voxels": {
+        "failed_parents": 1,
+        "gate_failure_counts": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0,
+          "eigen_rmse_max_abs": 0,
+          "eigen_rmse_max_over_truth_std": 0,
+          "filling_fraction_max_abs_change": 0,
+          "four_class_disagreement_max": 0,
+          "largest_void_fraction_max_abs_change": 1,
+          "pair_probability_max_abs_change": 0
+        },
+        "max_gate_values": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0.0007849070614132438,
+          "eigen_rmse_max_abs": 0.002651395199259656,
+          "eigen_rmse_max_over_truth_std": 0.020354214871041075,
+          "filling_fraction_max_abs_change": 0.0006103515625,
+          "four_class_disagreement_max": 0.00555419921875,
+          "largest_void_fraction_max_abs_change": 0.06170654296875,
+          "pair_probability_max_abs_change": 0.0005865656904692901
+        },
+        "median_constant_residual_energy_fraction": 0.6654477230842941,
+        "median_eigen_rmse": [
+          0.0010963947854747465,
+          0.001093225447741989,
+          0.0010735187367260303
+        ],
+        "median_eigen_rmse_over_truth_std": [
+          0.0082596234380872,
+          0.006460022241381374,
+          0.004857717911622747
+        ],
+        "parents": 96
+      },
+      "observed_science_voxels": {
+        "failed_parents": 1,
+        "gate_failure_counts": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0,
+          "eigen_rmse_max_abs": 0,
+          "eigen_rmse_max_over_truth_std": 0,
+          "filling_fraction_max_abs_change": 0,
+          "four_class_disagreement_max": 0,
+          "largest_void_fraction_max_abs_change": 1,
+          "pair_probability_max_abs_change": 0
+        },
+        "max_gate_values": {
+          "changed_connection_axes_max": 0,
+          "eigen_bias_max_abs": 0.0008384544330492524,
+          "eigen_rmse_max_abs": 0.0026519872635115266,
+          "eigen_rmse_max_over_truth_std": 0.020335944956178967,
+          "filling_fraction_max_abs_change": 0.0005824488739321759,
+          "four_class_disagreement_max": 0.005544323960056362,
+          "largest_void_fraction_max_abs_change": 0.062108367121267966,
+          "pair_probability_max_abs_change": 0.00041768727913234216
+        },
+        "median_constant_residual_energy_fraction": 0.6706169254564146,
+        "median_eigen_rmse": [
+          0.001094772014809199,
+          0.0010821901865760986,
+          0.0010739432516544615
+        ],
+        "median_eigen_rmse_over_truth_std": [
+          0.008172786354921895,
+          0.00642873985742571,
+          0.004887115041423954
+        ],
+        "parents": 96
+      }
+    }
+  },
+  "terminal_receipt": {
+    "elapsed_seconds": 2152.8571712250123,
+    "holdout_payloads_read": false,
+    "job_id": "58131992",
+    "learned_training_performed": false,
+    "node": "nid004156",
+    "r0_physics_pass": false,
+    "registration": {
+      "base_git": "5051f69e8f1b66486c5421a8c69d3b785ae8b0c1",
+      "build_config_sha256": "fe5788055ac0d057921143ddded2cf39658c4e5c78719c6cd275a2a7dbaa3343",
+      "config_sha256": "048c24aae15ec95a413b43eb66ab87a8c81c5503b0b75728c03159abe1ccc701",
+      "dataset_index_sha256": "cbefcd73af815d90d403f72a48a3fab7f466c27286d9424107f1847f10e2b436",
+      "diagnostic_config_sha256": "f50a58f8ce5d0d51c7404a6915529ac571ee0433d12b3786544dd08987164b8c",
+      "source_sha256": {
+        "workflows/sbi/e2e_field_build_products.py": "3bd0159626ddc2101e556829a7adf6ee75174385b3ecc9056686068b73cf6aa5",
+        "workflows/sbi/e2e_field_dataset.py": "b184abf9a8704209845b557bb48a32cd66178c6d2b3505f6f33539bb3d8a63be",
+        "workflows/sbi/e2e_field_domain_gate.py": "84047690076233ba68248c42a23c8ee88066ac88141098f71635c7ccf554fd44",
+        "workflows/sbi/e2e_field_error_budget.py": "5c21b0a7647c0e64b3c599ea2e6b0a38989da590d31862e57f9dd2eb1d87daf7",
+        "workflows/sbi/e2e_field_prepare_data.py": "3d7dfdcb156aabdd67b5d9b808dc21c5c2d3d58b24b94aa457c4707afeef0a6e",
+        "workflows/sbi/e2e_field_regenerate_spectral.py": "b593760a7728bf997ee36688e1f25377c35fb50b6bc74c0057eab3bfc5e550ca",
+        "workflows/sbi/e2e_field_wide_coarse.py": "d95bb17c3bdccd1e2e2ae86d300fd18646e24b2b880541f64b90600bb92d3860"
+      }
+    },
+    "report_sha256": "ea4196eda37470445d3e003e0708d43d8845c5715affc06f9b6a283e40da574c",
+    "technical_pass": true,
+    "training_ready": false
+  },
+  "training_ready": false
+}

@@ -1,5 +1,36 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-10 - [science/code/result] Wide-coarse physics comparison complete; large domain supports research-pipeline development with a void caveat
+
+Closed out the user-authorized truth-only test after recovering the missing
+conversation content. Job 58131992 completed 0:0 in 36m03s; all 96 anchors and
+both masks are in the checksum-verified report. No rerun, new fit, holdout read,
+or scheduler change occurred during closeout.
+
+Observed median relative eigenvalue RMS (lambda1/2/3, percent of truth scatter)
+falls from 6.150/4.759/3.618 for local96 to 2.058/1.652/1.276 at 649.536 Mpc/h,
+and 0.817/0.643/0.489 at 1299.072 Mpc/h with factor-4 coarse spacing. Every
+anchor improves in all three eigenvalues under both masks. The factor-2
+resolution control gives only about 1% further median RMS improvement.
+
+At the large extent, all eigenvalue/class/filling/pair/fixed-connection limits
+pass on every anchor and both masks under the historical criteria. One
+largest-void outlier remains: ph003_NGC_s3_interior_01, 6.211 observed percentage
+points (6.171 on complete core). Finer coarse resolution does not remove it.
+The full-box-low oracle reduces that event to 0.0491 observed points, but is
+truth-only and cannot enter inference. No claim that all topology is accurate.
+
+Interpretation: wide384_f4 is a supported candidate for finishing a bounded
+research training pipeline, not a strict joint-topology or calibration pass.
+The September 9 correction stands: old all-anchor design limits are diagnostics,
+not an automatic veto on exploratory training. Retain the old negative domain
+verdict and all frozen training_ready=false/r0_physics_pass=false receipts.
+The raw loader/normalization, shared coarse/fine model and synchronized sampler,
+matched pilot budget and canary criteria remain to be completed; GPU jobs and
+additional phase access require explicit authority. No training was launched.
+Details: docs/e2e_field_wide_coarse_results_20260909.md; durable evidence:
+docs/evidence/e2e_field_v2/wide_coarse_20260909/PHYSICS_COMPLETION_SUMMARY.json.
+
 ### 2026-09-09 - [science/code/run] Wider-coarse/local-fine products complete; truth-only test running
 
 The user authorized an interactive build of additional wide-coarse field data

@@ -1,5 +1,9 @@
 # Wider-coarse/local-fine truth-only prototype
 
+Status update: the full test completed 0:0. See the
+[completed comparison](e2e_field_wide_coarse_results_20260909.md). The launch
+snapshot below is retained as historical provenance, not current job status.
+
 Authorized 2026-09-09: build additional wide-context products on an interactive
 CPU allocation and initiate the truth-only physics test. No learned training,
 holdout access, production VAC change, or P12-A/D2/P13 change is authorized.

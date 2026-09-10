@@ -58,8 +58,14 @@ IllustrisTNG-300.
   all-anchor criteria are diagnostics for this extension, not an automatic
   research-pilot veto. No model training or release is implied. See
   `docs/e2e_field_wide_coarse_20260909.md`. All 96 anchors / three variants and
-  nine payloads (5.687 GB) are verified built; the truth-only test has started
-  and its first anchor reports are saved. The full test is still running.
+  nine payloads (5.687 GB) are verified built. The full truth-only test completed
+  0:0: the 1299.072 Mpc/h domain reduces observed median eigenvalue RMS to
+  0.817/0.643/0.489% of truth scatter, about 7--8x better than local96.
+  One 6.211-percentage-point largest-void outlier remains; finer coarse resolution
+  does not remove it. This supports bounded research-pipeline development, not
+  a strict joint-topology pass or training release. See
+  `docs/e2e_field_wide_coarse_results_20260909.md` for the completed comparison
+  and concrete remaining model/normalization/sampler/canary work.
 - **P13/Loa:** held pending separate authorization. P12-A's single blind opening
   does not authorize ph001 reuse by D2, P12-B or E2E.
 

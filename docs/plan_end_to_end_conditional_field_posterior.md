@@ -1598,3 +1598,27 @@ R0; do not reinterpret the common target/diagnostic requirements as a released
 training recipe. Wider-domain or exterior-tide-aware modelling, or a narrower
 density-only claim, require an explicit subsequent scope decision. No learned
 fit, MIRA activation, posterior-scaled pass or training release occurred.
+
+### 16.4 Authorized wide-coarse extension and research-pilot interpretation
+
+The subsequent September 9 discussion corrected the interpretation of the
+internal every-anchor thresholds: preserve their negative result, but do not
+use them as a blanket veto on exploratory research. The user authorized wider
+coarse targets and matching observations, local fine residuals, and a truth-only
+test. Shared coarse modes must contribute to the tidal operator, not only to
+the conditioner. The learned shared hierarchy itself remains untrained.
+
+Job 58131992 completed all 96 training anchors. The large 1299.072 Mpc/h,
+factor-4 variant reduces typical eigenvalue error by about 7--8x, to observed
+median 0.817/0.643/0.489% of truth scatter. It satisfies the historical
+eigenvalue/class/filling/pair/fixed-connection limits in both masks. One void
+outlier remains, 6.211 percentage points, unchanged materially by the finer-grid
+control. The result supports this representation as a bounded research-pilot
+candidate, not an automatic training release or accurate-topology claim.
+
+Next work is completing its raw-data normalization/interface, shared coarse/fine
+trainer and synchronized sampler, and matched canary contract. Retain separate
+claim/release criteria and explicit GPU/phase-access authorization. No additional
+architecture search, truth-assisted inference correction, or new physics run is
+implicitly licensed. Details and evidence:
+`docs/e2e_field_wide_coarse_results_20260909.md`.

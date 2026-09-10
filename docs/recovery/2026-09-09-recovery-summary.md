@@ -111,3 +111,23 @@ changes or external uploads were made. The official troubleshooting guidance
 describes submitting feedback from the composer and reviewing logs for sensitive
 content before sharing: [official troubleshooting](https://learn.chatgpt.com/docs/reference/troubleshooting).
 No report or scientific transcript was sent to a third party during recovery.
+
+### Bounded follow-up investigation
+
+On September 10, the app reader still reported the September 9 14:31 UTC turn
+as in progress and returned no newer turns or further page cursor. The saved
+record contains later task-start and task-complete pairs, including the 22:40
+wide-coarse request and its 23:29 completion. No rollback marker appeared in the
+inspected interval. The 14:31 turn itself has no matching completion in that
+interval. This is consistent with stale loaded task state or a history-reader
+problem; the precise cause, including whether the unmatched early turn matters,
+is not established. It is not evidence that the later message text was deleted.
+
+No exposed tool restores original message positions inline. The documented
+`thread/inject_items` operation appends model-visible prompt history; it is not
+a documented display-repair mechanism. Per the user's instruction to prioritize
+science if restoration is burdensome, no app-storage mutation was attempted.
+See [official app-server documentation](https://learn.chatgpt.com/docs/app-server).
+
+The physics closeout and training-pipeline implications are now recorded in
+[the results report](../e2e_field_wide_coarse_results_20260909.md).
