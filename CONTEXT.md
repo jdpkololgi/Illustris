@@ -73,6 +73,10 @@ IllustrisTNG-300.
   for both objectives/stages. Only engineering fits occurred; no research
   canary/science fit or held-out wide-product access. See
   `docs/e2e_wide_gpu_smoke_20260911.md`.
+  The user subsequently authorized the matched 192-update research canary;
+  job 58196924 has started four sequential fresh coarse/fine CFM/DIFF fits.
+  Initial CFM coarse updates are finite. No completed-training or calibration
+  claim yet; see `docs/e2e_wide_research_canary_20260911.md`.
   The tested finite-window residual is not a local orthogonal high-pass
   subspace; see `docs/e2e_wide_pipeline_20260910.md` for the explicit amendment,
   matched canary caps and the 1299-versus-2000 Mpc/h volume/phase limitation.

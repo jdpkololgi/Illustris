@@ -11,6 +11,12 @@ this document
 **Authority:** current `SCIENCE_LOG.md` and frozen evidence supersede this plan
 when they disagree
 
+**Research-canary start, 2026-09-11:** after explicit user authorization, job
+58196924 started the unchanged matched 192-update coarse/fine CFM/DIFF canary.
+Initial training is verified running, not complete. No holdout access or
+production release is implied. See
+[`e2e_wide_research_canary_20260911.md`](e2e_wide_research_canary_20260911.md).
+
 **Engineering verification, 2026-09-11:** training-only normalization and the
 full-size wide384_f4 CFM/DIFF GPU smoke pass, including exact resume and sampled
 field replay. Job 58196582 completed and was released. This closes that bounded

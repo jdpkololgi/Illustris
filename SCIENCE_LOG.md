@@ -1,5 +1,26 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-11 - [science/code/run] Matched wide-coarse research training started
+
+The user requested “Begin training” after the successful full-size smoke.
+Started the frozen 192-update-per-stage canary, not an expanded production fit:
+fresh CFM coarse/fine and DIFF coarse/fine, seed 42, matched order and unchanged
+training-only normalization. Launcher 832da07 validates the model/data/config
+source hashes against the passed GPU smoke before each stage. No held-out phase
+payload access or changes to P12-A/D2/P13 are authorized.
+
+Interactive job 58196924 on nid001001 has one GPU, 32 logical CPUs, one-hour
+shared_interactive/desi_g allocation and Scratch access. No other allocations
+were active at preflight. CFM coarse genuinely started; its first ten updates
+have finite losses/gradients. The deterministic runner executes the four capped
+fits sequentially, records immutable checkpoints every 16 updates and releases
+the allocation on exit. No adaptive continuation or automatic retry is enabled.
+
+This is a separately authorized research canary; retain all frozen
+training_ready=false/r0_physics_pass=false and prior domain receipts. Training
+completion, learnability, calibration and topology validity are not yet claimed.
+Run contract/output paths: docs/e2e_wide_research_canary_20260911.md.
+
 ### 2026-09-11 - [code/result] Wide-coarse full-size GPU smoke passes; training normalization frozen
 
 The user approved normalization and engineering verification only. Interactive
