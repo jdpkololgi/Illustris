@@ -11,6 +11,13 @@ this document
 **Authority:** current `SCIENCE_LOG.md` and frozen evidence supersede this plan
 when they disagree
 
+**Engineering verification, 2026-09-11:** training-only normalization and the
+full-size wide384_f4 CFM/DIFF GPU smoke pass, including exact resume and sampled
+field replay. Job 58196582 completed and was released. This closes that bounded
+prerequisite, not the matched research canary, held-out calibration, full-cap
+coherence or a topology-release gate. See
+[`e2e_wide_gpu_smoke_20260911.md`](e2e_wide_gpu_smoke_20260911.md).
+
 **Implementation amendment, 2026-09-10:** the user selected the tested
 1299.072 Mpc/h wider-coarse/local-fine direction. The bounded `wide384_f4`
 CFM/DIFF pipeline is implemented under

@@ -2,6 +2,12 @@
 
 ## Current result and boundary
 
+**September-11 follow-up:** the user-approved normalization and full-size GPU
+smoke passed. Both objectives/stages have exact CUDA checkpoint continuation
+and repeated-draw parity; the allocation is released. See the
+[verified run record](e2e_wide_gpu_smoke_20260911.md). This supersedes the pending
+engineering status below, but not the remaining science/calibration gates.
+
 The raw-loader, train-only transforms, matched CFM/DIFF models, staged trainer,
 checkpoint continuation, ancestral sampler and training-diagnostic entrypoints
 are implemented. This is the bounded engineering pipeline for `wide384_f4`,

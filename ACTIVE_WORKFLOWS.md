@@ -36,7 +36,9 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   and `diagnose` subcommands. Its train-only reader and matched CFM/DIFF models
   are `e2e_wide_data.py` / `e2e_wide_models.py`; config is
   `configs/e2e_wide_pipeline_v1.json`. All real-array work requires approved
-  compute; no new job or full-size learned smoke has been run. See
+  compute. Approved job 58196582 passed normalization/full-size GPU engineering
+  checks and was released; no science fit or research canary was started. See
+  `docs/e2e_wide_gpu_smoke_20260911.md` for the verified run and
   `docs/e2e_wide_pipeline_20260910.md` for usage, caps and scientific boundaries.
 - Root-level `*_supervisor_v2_20260904.sh` scripts are historical operational
   records, not current launch instructions. Frozen production uses Slurm.

@@ -1,5 +1,33 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-11 - [code/result] Wide-coarse full-size GPU smoke passes; training normalization frozen
+
+The user approved normalization and engineering verification only. Interactive
+job 58196582 on nid001001 used one A100 40 GB under shared_interactive/desi_g,
+with Scratch access. Runner commit 4983dd1 fitted and reloaded normalization on
+all 96 training anchors after verifying all 15 payload hashes. No held-out phase
+payload access occurred.
+
+At full 96-cubed coarse/fine shape, both CFM and DIFF pass uninterrupted-two-update
+versus one-plus-one resumed CUDA parity: exact weights, optimizer, RNG, update
+position and history. Both objectives' repeated ancestral draws match exactly,
+including tensors/eigenvalues and shared-child overlaps. Independent-reference
+training diagnostics complete under both masks. Trace residual maxima are
+8.454e-8 / 8.342e-8. No pipeline code fix was required during verification.
+
+The runner finished 0 in 6m16s; step 58196582.0 is COMPLETED 0:0 in 6m17s.
+Allocation 58196582 was released normally, COMPLETED 0:0 in 7m35s. Peak PyTorch
+CUDA allocation is 0.79 GiB; process RSS is 1.62 GiB while Slurm step MaxRSS is
+12.02 GiB (different accounting). No additional job was launched.
+
+This closes the full-size engineering and normalization prerequisites, not
+learnability, held-out calibration or the known topology caveat. Only two-update
+engineering fits occurred; no 192-update research canary or science training.
+Keep training_ready=false/r0_physics_pass=false and all original negative-domain
+receipts. P12-A/D2/P13 remain untouched. Details and archived completion/scales:
+docs/e2e_wide_gpu_smoke_20260911.md and
+docs/evidence/e2e_field_v2/wide_gpu_smoke_20260911/.
+
 ### 2026-09-10 - [science/code] 1299 Mpc/h wide-coarse research pipeline implemented; full-size GPU verification pending
 
 At the user's request, implemented the bounded wide384_f4 pipeline: verified

@@ -68,8 +68,11 @@ IllustrisTNG-300.
   and concrete remaining model/normalization/sampler/canary work.
   The September-10 implementation now supplies a bounded wide384_f4 loader,
   matched staged CFM/DIFF trainer, shared-draw sampler and training diagnostics.
-  Tiny synthetic checks do not replace pending full-size GPU/normalization
-  verification. No model fit or held-out wide-product access has occurred.
+  The September-11 approved full-size GPU smoke and training normalization now
+  pass (58196582, released): exact two-update resume and repeated-draw parity
+  for both objectives/stages. Only engineering fits occurred; no research
+  canary/science fit or held-out wide-product access. See
+  `docs/e2e_wide_gpu_smoke_20260911.md`.
   The tested finite-window residual is not a local orthogonal high-pass
   subspace; see `docs/e2e_wide_pipeline_20260910.md` for the explicit amendment,
   matched canary caps and the 1299-versus-2000 Mpc/h volume/phase limitation.

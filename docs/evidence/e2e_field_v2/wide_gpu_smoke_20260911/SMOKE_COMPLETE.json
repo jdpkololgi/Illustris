@@ -1,0 +1,103 @@
+{
+  "checks": [
+    {
+      "method": "cfm",
+      "resume_exact": {
+        "history": true,
+        "model": true,
+        "optimizer": true,
+        "rng": true,
+        "step": true
+      },
+      "stage": "coarse"
+    },
+    {
+      "method": "cfm",
+      "resume_exact": {
+        "history": true,
+        "model": true,
+        "optimizer": true,
+        "rng": true,
+        "step": true
+      },
+      "stage": "fine"
+    },
+    {
+      "method": "cfm",
+      "replay_exact": {
+        "coarse_delta": true,
+        "delta_local96": true,
+        "eigen_core": true,
+        "fine_residual": true,
+        "tensor_core": true,
+        "trace_max_abs": true
+      },
+      "sibling_overlap_exact": true
+    },
+    {
+      "method": "diffusion",
+      "resume_exact": {
+        "history": true,
+        "model": true,
+        "optimizer": true,
+        "rng": true,
+        "step": true
+      },
+      "stage": "coarse"
+    },
+    {
+      "method": "diffusion",
+      "resume_exact": {
+        "history": true,
+        "model": true,
+        "optimizer": true,
+        "rng": true,
+        "step": true
+      },
+      "stage": "fine"
+    },
+    {
+      "method": "diffusion",
+      "replay_exact": {
+        "coarse_delta": true,
+        "delta_local96": true,
+        "eigen_core": true,
+        "fine_residual": true,
+        "tensor_core": true,
+        "trace_max_abs": true
+      },
+      "sibling_overlap_exact": true
+    }
+  ],
+  "diagnostics_sha256": "5f2d5cfc6917d63ef612f588ebe174d0bb78a813504366393cb0bf8155d6bb23",
+  "elapsed_seconds": 363.69059353199555,
+  "heldout_payloads_read": false,
+  "normalization_sha256": "c9c22e88af58c7adafac30b1aa67957c414e7206c5528428d34712452d84369b",
+  "peak_cuda_allocated_bytes": 846084096,
+  "r0_physics_pass": false,
+  "registration": {
+    "config_sha256": "d465de6faba85f4f5014125c84f9e32f95558d9742345dd64f4765b7c9095364",
+    "cuda": "12.9",
+    "git_head": "4983dd1c3b5e8c206396266bf887562a814552dd",
+    "gpu": "NVIDIA A100-SXM4-40GB",
+    "harness_sha256": "a99a312910cef8c0bc3d57ab183bf18adb15ef2eee4c518e5483733b2da50dc1",
+    "job_id": "58196582",
+    "node": "nid001001",
+    "scope": "two-update engineering checks only; no science training or holdout access",
+    "source_sha256": {
+      "configs/e2e_field_domain_gate_v2.json": "f50a58f8ce5d0d51c7404a6915529ac571ee0433d12b3786544dd08987164b8c",
+      "workflows/sbi/e2e_field_build_products.py": "3bd0159626ddc2101e556829a7adf6ee75174385b3ecc9056686068b73cf6aa5",
+      "workflows/sbi/e2e_field_dataset.py": "b184abf9a8704209845b557bb48a32cd66178c6d2b3505f6f33539bb3d8a63be",
+      "workflows/sbi/e2e_field_error_budget.py": "5c21b0a7647c0e64b3c599ea2e6b0a38989da590d31862e57f9dd2eb1d87daf7",
+      "workflows/sbi/e2e_field_regenerate_spectral.py": "b593760a7728bf997ee36688e1f25377c35fb50b6bc74c0057eab3bfc5e550ca",
+      "workflows/sbi/e2e_field_wide_coarse.py": "d95bb17c3bdccd1e2e2ae86d300fd18646e24b2b880541f64b90600bb92d3860",
+      "workflows/sbi/e2e_wide_data.py": "80108ef21660a17ef1b99569ca77fddc30eeabf9bb491655c50e4d5b3c2a6bd1",
+      "workflows/sbi/e2e_wide_models.py": "6ceedcd499857265fbd8e3e149b1014050da6a9079aa9b12bd1f05fe198e9de8",
+      "workflows/sbi/e2e_wide_pipeline.py": "7c10db9b7b5d45e5897ecb69547d939869ed986dba4e7fa84d4e3f4da68d72bb"
+    },
+    "torch": "2.9.1"
+  },
+  "science_training_started": false,
+  "technical_pass": true,
+  "training_ready": false
+}

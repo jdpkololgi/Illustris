@@ -1,0 +1,148 @@
+{
+  "binding": {
+    "coarse_channels": [
+      "counts",
+      "expected_counts_random",
+      "support_random",
+      "angular_response",
+      "exposure_apodized_random",
+      "ntilde_mpc3",
+      "geometry_valid_fraction",
+      "log_count_ratio_random",
+      "los_x",
+      "los_y",
+      "los_z",
+      "observer_radius_mpc"
+    ],
+    "fine_channels": [
+      "counts",
+      "support_random",
+      "angular_response",
+      "exposure_apodized_random",
+      "expected_counts_random",
+      "log_count_ratio_random",
+      "distance_to_support_boundary",
+      "ntilde_mpc3",
+      "los_x",
+      "los_y",
+      "los_z",
+      "observer_redshift",
+      "shared_coarse_on_fine"
+    ],
+    "index_sha256": "cbefcd73af815d90d403f72a48a3fab7f466c27286d9424107f1847f10e2b436",
+    "manifest_sha256": "db2a4b998a087d40bbbb31e1a80613ed24987c503e868dfb724f3045372fe253",
+    "normalization_source_sha256": {
+      "e2e_field_build_products.py": "3bd0159626ddc2101e556829a7adf6ee75174385b3ecc9056686068b73cf6aa5",
+      "e2e_field_dataset.py": "b184abf9a8704209845b557bb48a32cd66178c6d2b3505f6f33539bb3d8a63be",
+      "e2e_field_regenerate_spectral.py": "b593760a7728bf997ee36688e1f25377c35fb50b6bc74c0057eab3bfc5e550ca",
+      "e2e_field_wide_coarse.py": "d95bb17c3bdccd1e2e2ae86d300fd18646e24b2b880541f64b90600bb92d3860",
+      "e2e_wide_data.py": "80108ef21660a17ef1b99569ca77fddc30eeabf9bb491655c50e4d5b3c2a6bd1"
+    },
+    "payloads": {
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/spectral_20260909/ph000_NGC.h5": "3722429c840cc6496fc20b828549ab3ccfe1beb8f6ae5aea3b1853dc9c58dd3e",
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/spectral_20260909/ph000_SGC.h5": "88fca9fff140365bcb8fedfd3459398caa066fde315a70775ae6aad272b0b0dd",
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/spectral_20260909/ph002_NGC.h5": "bce9b477c3acb832a032bbacb408c48d0060b14fbc9f8fce73e3eec873f9ecc4",
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/spectral_20260909/ph002_SGC.h5": "90fa105b13e9f333f2bece79feec6c667a52ba47f3065bc8c8483e2ad0c1490d",
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/spectral_20260909/ph003_NGC.h5": "637a41a1e55c177c1185cbfa17cb9a7a4f6ac21ba5b9ff9bfcdac35cb7555612",
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/spectral_20260909/ph003_SGC.h5": "b79824a8fa1f978c5758e791701dd1b21f0cf02871048a0f6f7129dd08964bf3",
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_coarse_20260909/ph000_NGC_response.h5": "d918e375784c61976e4ed6426e960308f2f7fc2ddfe4e3c497f852a9103329a0",
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_coarse_20260909/ph000_SGC_response.h5": "169e72796731ccd7a8cc35d8956ccd76ef7c2bd10a82e7421404abadd4dc0c06",
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_coarse_20260909/ph000_fields.h5": "56fe5c611d54b5cbc411d437671881f43c5530b69d0f92a30f65f257583a1769",
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_coarse_20260909/ph002_NGC_response.h5": "7132fa5f4ec2a21e4f72ccbe7143fd7dd92f56f9c9d56fdd10b92cd216756da9",
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_coarse_20260909/ph002_SGC_response.h5": "22b9ee28f099eef35c311555c4a7cac715700ab07d4c5df31d6b501dccb0ee7e",
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_coarse_20260909/ph002_fields.h5": "77ad9a579ab27d01bb0dd2778f56a7cc6a306754c90a9e1df5cae1113ee940e6",
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_coarse_20260909/ph003_NGC_response.h5": "b54da023275b6c3f1290b5d986c5585f4da82ec99183ef1a3f4cd6236d107706",
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_coarse_20260909/ph003_SGC_response.h5": "ab37f9670453040ab826a6d2e2cf6dc12de950516b5b06d9c019d01ca84ce76c",
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_coarse_20260909/ph003_fields.h5": "99331917e1b733e72ddba52446a9735a243eb1385da8eb8fd4b2d03e1406a8a1"
+    },
+    "reader_sha256": "80108ef21660a17ef1b99569ca77fddc30eeabf9bb491655c50e4d5b3c2a6bd1",
+    "started_sha256": "fc7d1142b6dd8df0c495cee977e34b427e92f84ed6c0faf3f040ce2f79c87581",
+    "variant": {
+      "factor": 4,
+      "name": "wide384_f4",
+      "span_fine_cells": 384
+    }
+  },
+  "coarse": {
+    "counts": {
+      "mean": 0.37952131546087126,
+      "std": 0.8427079174153708,
+      "voxel_presentations": 84934656
+    },
+    "expected_counts_random": {
+      "mean": 0.45790765859008065,
+      "std": 0.8439954905583554,
+      "voxel_presentations": 84934656
+    },
+    "log_count_ratio_random": {
+      "mean": -0.1175733446267475,
+      "std": 0.5316368920252764,
+      "voxel_presentations": 84934656
+    },
+    "ntilde_mpc3": {
+      "mean": -16.226359606483726,
+      "std": 7.024791785549084,
+      "voxel_presentations": 84934656
+    },
+    "observer_radius_mpc": {
+      "mean": 1651.8942025697002,
+      "std": 604.8649290849527,
+      "voxel_presentations": 84934656
+    }
+  },
+  "fine": {
+    "counts": {
+      "mean": 0.05346391958892146,
+      "std": 0.1731797707724043,
+      "voxel_presentations": 84934656
+    },
+    "distance_to_support_boundary": {
+      "mean": 44.57465661121149,
+      "std": 54.88761574594236,
+      "voxel_presentations": 84934656
+    },
+    "expected_counts_random": {
+      "mean": 0.06609528331651539,
+      "std": 0.09931222703355493,
+      "voxel_presentations": 84934656
+    },
+    "log_count_ratio_random": {
+      "mean": -1.6961554691148053,
+      "std": 2.112762961090581,
+      "voxel_presentations": 84934656
+    },
+    "ntilde_mpc3": {
+      "mean": -10.24586794110191,
+      "std": 4.967924304222902,
+      "voxel_presentations": 84934656
+    },
+    "observer_redshift": {
+      "mean": 0.35653695916187994,
+      "std": 0.1196282828652525,
+      "voxel_presentations": 84934656
+    }
+  },
+  "fit_phases": [
+    "ph000",
+    "ph002",
+    "ph003"
+  ],
+  "fit_roles": [
+    "train"
+  ],
+  "schema": "e2e-wide-normalization-v1",
+  "sha256": "c82770c2d319c7a75acfa93e0372a3136518f52ddda5c77c9aabf670e9a28b77",
+  "targets": {
+    "coarse": {
+      "mean": 0.000195326184439737,
+      "std": 0.25839137274027246,
+      "voxel_presentations": 84934656
+    },
+    "fine": {
+      "mean": -0.00021597224372059995,
+      "std": 0.38708294438709767,
+      "voxel_presentations": 84934656
+    }
+  },
+  "training_ready": false
+}
