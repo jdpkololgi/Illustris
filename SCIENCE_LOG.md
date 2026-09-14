@@ -1,5 +1,29 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-14 - [code/result] Wide-coarse research canary completed; trained-draw evaluation authorized
+
+Verified terminal job 58196924: COMPLETED 0:0, step runtime 15m34s, allocation
+16m47s and released. All four CFM/DIFF coarse/fine fits reached 192 updates,
+exactly two presentations of each of 96 training anchors. All histories are
+finite and the four final checkpoint SHA256 values match both stage and group
+receipts. The earlier log entry was only the launch snapshot.
+
+First-pass to second-pass mean objective losses: CFM coarse 1.497 -> 1.256,
+CFM fine 1.511 -> 1.169, DIFF coarse 0.847 -> 0.747 and DIFF fine 0.869 -> 0.693.
+These 12--23% decreases are optimization progress, not convergence or calibrated
+field accuracy. Different objective values cannot rank CFM against diffusion.
+The training launcher generated no post-fit draws or scientific evaluation.
+Completed-training receipt is now archived under
+docs/evidence/e2e_field_v2/wide_research_20260911/RESEARCH_CANARY_COMPLETE.json.
+
+The user now authorizes generated draws and evaluation, with discussion of
+whether longer training is needed. Evaluate four draws per training anchor per
+method, paired fixed-noise objectives at 96/144/192 updates, and a finer-step
+sampler diagnostic on 24 balanced training anchors. Preserve per-phase and
+shell/support diagnostics and both masks. This is training-panel evaluation,
+not held-out calibration. No additional training or held-out phase opening is
+authorized by this diagnostic run; frozen release flags remain unchanged.
+
 ### 2026-09-11 - [science/code/run] Matched wide-coarse research training started
 
 The user requested “Begin training” after the successful full-size smoke.

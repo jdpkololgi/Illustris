@@ -1,0 +1,76 @@
+{
+  "calibration_pass": null,
+  "claim": "matched training-phase canary only; no held-out evaluation or production release",
+  "elapsed_seconds": 928.3847884149873,
+  "r0_physics_pass": false,
+  "registration": {
+    "authorization": "user: Begin training",
+    "config_sha256": "d465de6faba85f4f5014125c84f9e32f95558d9742345dd64f4765b7c9095364",
+    "git_head": "832da079e76dd5ea432305dc1bd82f550741ae1f",
+    "heldout_access_authorized": false,
+    "job_id": "58196924",
+    "node": "nid001001",
+    "normalization_path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/smoke_20260911_58196582/normalization.json",
+    "normalization_sha256": "c9c22e88af58c7adafac30b1aa67957c414e7206c5528428d34712452d84369b",
+    "phases": [
+      "ph000",
+      "ph002",
+      "ph003"
+    ],
+    "r0_physics_pass": false,
+    "research_canary_authorized": true,
+    "runner_sha256": "1f933f9010a51c12f087cdc74623e272c3b517d236d99a487709271cc35e7f9f",
+    "seed": 42,
+    "smoke_receipt_sha256": "46b7a2b422cebb49dd5d6c6089f8e5b96c4466be3042e6b89a58dcfbb1b27a49",
+    "source_sha256": {
+      "configs/e2e_field_domain_gate_v2.json": "f50a58f8ce5d0d51c7404a6915529ac571ee0433d12b3786544dd08987164b8c",
+      "workflows/sbi/e2e_field_build_products.py": "3bd0159626ddc2101e556829a7adf6ee75174385b3ecc9056686068b73cf6aa5",
+      "workflows/sbi/e2e_field_dataset.py": "b184abf9a8704209845b557bb48a32cd66178c6d2b3505f6f33539bb3d8a63be",
+      "workflows/sbi/e2e_field_error_budget.py": "5c21b0a7647c0e64b3c599ea2e6b0a38989da590d31862e57f9dd2eb1d87daf7",
+      "workflows/sbi/e2e_field_regenerate_spectral.py": "b593760a7728bf997ee36688e1f25377c35fb50b6bc74c0057eab3bfc5e550ca",
+      "workflows/sbi/e2e_field_wide_coarse.py": "d95bb17c3bdccd1e2e2ae86d300fd18646e24b2b880541f64b90600bb92d3860",
+      "workflows/sbi/e2e_wide_data.py": "80108ef21660a17ef1b99569ca77fddc30eeabf9bb491655c50e4d5b3c2a6bd1",
+      "workflows/sbi/e2e_wide_models.py": "6ceedcd499857265fbd8e3e149b1014050da6a9079aa9b12bd1f05fe198e9de8",
+      "workflows/sbi/e2e_wide_pipeline.py": "7c10db9b7b5d45e5897ecb69547d939869ed986dba4e7fa84d4e3f4da68d72bb"
+    },
+    "start": "fresh; not resumed from smoke",
+    "training_ready": false,
+    "updates_per_stage": 192
+  },
+  "stages": [
+    {
+      "checkpoint": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/research_20260911_58196924/cfm_coarse/step_000192.pt",
+      "checkpoint_sha256": "c8380e3ace8251727beb69eba9eb7abd74f74f7475a157f417861b9d3710344e",
+      "elapsed_seconds": 220.4640631749935,
+      "method": "cfm",
+      "stage": "coarse",
+      "updates": 192
+    },
+    {
+      "checkpoint": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/research_20260911_58196924/cfm_fine/step_000192.pt",
+      "checkpoint_sha256": "b0ba71b8fe18b6b66680d481c560711fb34e5f323a5a706e82b02431b31c8203",
+      "elapsed_seconds": 220.59613043401623,
+      "method": "cfm",
+      "stage": "fine",
+      "updates": 192
+    },
+    {
+      "checkpoint": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/research_20260911_58196924/diffusion_coarse/step_000192.pt",
+      "checkpoint_sha256": "c58debf78ae09a0854d4cb5b98398cc7986b13f17ceb41b14a91c7451cd3cde5",
+      "elapsed_seconds": 219.6185683689837,
+      "method": "diffusion",
+      "stage": "coarse",
+      "updates": 192
+    },
+    {
+      "checkpoint": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/research_20260911_58196924/diffusion_fine/step_000192.pt",
+      "checkpoint_sha256": "c432010a4fef5014bf94ad738c807f44a0d95af55554d850594fb32c11efc03f",
+      "elapsed_seconds": 220.18390916500357,
+      "method": "diffusion",
+      "stage": "fine",
+      "updates": 192
+    }
+  ],
+  "training_complete": true,
+  "training_ready": false
+}
