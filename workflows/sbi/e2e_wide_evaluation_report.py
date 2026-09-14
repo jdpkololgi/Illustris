@@ -26,16 +26,19 @@ def band_power(delta,cell=3.383):
 
 def summarize(report, root):
     losses=report['fixed_loss_probes']
+    steps=report['registration']['loss_checkpoints']
+    means_key='means_'+'_'.join(map(str,steps))
     optimization={}
     for method in ('cfm','diffusion'):
         for stage in ('coarse','fine'):
             rows=[r for r in losses if r['method']==method and r['stage']==stage]
-            x=np.array([[r['losses'][str(s)] for s in (96,144,192)] for r in rows])
+            x=np.array([[r['losses'][str(s)] for s in steps] for r in rows])
             means=x.mean(axis=0)
-            optimization[f'{method}/{stage}']={'means_96_144_192':means.tolist(),
+            optimization[f'{method}/{stage}']={means_key:means.tolist(),
+                'checkpoint_steps':steps,
                 'late_relative_improvement':float(1-means[2]/means[1]),
                 'fraction_anchors_improving_late':float(np.mean(x[:,2]<x[:,1])),
-                'by_phase':{ph:np.mean([[r['losses'][str(s)] for s in (96,144,192)] for r in rows if r['phase']==ph],axis=0).tolist()
+                'by_phase':{ph:np.mean([[r['losses'][str(s)] for s in steps] for r in rows if r['phase']==ph],axis=0).tolist()
                             for ph in ('ph000','ph002','ph003')}}
     refinement={}
     for method in ('cfm','diffusion'):
@@ -68,10 +71,19 @@ def main():
     c,ds,_,_=preflight()
     ds=p.dataset_for(c,NORMALIZATION)
     binding=p.provenance(c,ds)
+    steps=report['registration']['loss_checkpoints']
+    earlier_step,current_step=steps[-2:]
+    train_root=Path(report['registration'].get('train_root',TRAIN_ROOT))
+    continuation_root=report['registration'].get('continuation_root')
+    if continuation_root:
+        from workflows.sbi.e2e_wide_continue import checked_binding
+        binding=checked_binding(continuation_root,binding)
+    if p.digest(binding)!=report['registration']['binding_sha256']:
+        raise ValueError('report checkpoint binding differs from evaluation')
     older={}
     for method in ('cfm','diffusion'):
         for stage in ('coarse','fine'):
-            state=p.load_checkpoint(TRAIN_ROOT/f'{method}_{stage}/step_000144.pt',binding,stage,method)
+            state=p.load_checkpoint(train_root/f'{method}_{stage}'/f'step_{earlier_step:06d}.pt',binding,stage,method)
             older[method,stage]=p.build_model(c,stage,device).eval()
             older[method,stage].load_state_dict(state['model'])
     cfg=json.loads((p.REPO/c['diagnostic_config']).read_text())
@@ -100,6 +112,10 @@ def main():
                                'truth_min_delta':float(truth.min()),
                                'truth_below_minus_one_fraction':float(np.mean(truth < -1)),
                                'truth_observed_below_minus_one_fraction':float(np.mean(truth[32:64,32:64,32:64][mask] < -1)),
+                               'truth_band_power':reference.tolist(),
+                               'mean_draw_band_power':np.mean(powers,axis=0).tolist(),
+                               'truth_high_k_power_fraction':float(reference[-1]/reference.sum()),
+                               'draw_high_k_power_fraction':float(np.mean(powers,axis=0)[-1]/np.mean(powers,axis=0).sum()),
                                'draw_power_over_truth':(np.mean(powers,axis=0)/np.maximum(reference,1e-30)).tolist()})
             if row['anchor_id'] in report['registration']['refinement_anchors']:
                 sampler_functionals.append({'anchor_id':row['anchor_id'],'method':method,
@@ -108,9 +124,9 @@ def main():
                 obs=ds.inference_conditions(index)
                 co,fi,seeds=p.generate_pair(c,ds,obs,older[method,'coarse'],older[method,'fine'],method,'eval-0',device)
                 earlier=p.reconstruct(co,fi)
-                target=args.root/f'{row["anchor_id"]}_{method}_checkpoint144.h5'
+                target=args.root/f'{row["anchor_id"]}_{method}_checkpoint{earlier_step}.h5'
                 with h5py.File(target,'x') as f:
-                    f.attrs['checkpoint_step']=144
+                    f.attrs['checkpoint_step']=earlier_step
                     f.attrs['paired_sample_id']='eval-0'
                     for name,value in {'coarse_delta':co,'fine_residual':fi,**earlier}.items():
                         f.create_dataset(name,data=value)
@@ -126,12 +142,14 @@ def main():
         'window':'same Hann taper and weighted demeaning on full 96-cubed local parents; no mask',
         'rows':power_rows,'median_ratio':{m:np.median([r['draw_power_over_truth'] for r in power_rows if r['method']==m],axis=0).tolist()
                                          for m in ('cfm','diffusion')}}
-    result['late_checkpoint_draw_drift']={'earlier':144,'current':192,'paired_seed':True,'rows':drift,
+    result['late_checkpoint_draw_drift']={'earlier':earlier_step,'current':current_step,'paired_seed':True,'rows':drift,
         'median_eigen_rms_change_over_draw_std':{m:np.median([r['eigen_rms_change_over_draw_std'] for r in drift if r['method']==m],axis=0).tolist()
                                                  for m in ('cfm','diffusion')}}
     result['sampler_functional_drift']=sampler_functionals
     result['report_source_sha256']=p.sha256(__file__)
     preflight()
+    if continuation_root and checked_binding(continuation_root,p.provenance(c,ds)) != binding:
+        raise ValueError('continuation binding changed during report')
     p.write_json(args.root/'INTERPRETATION_SUMMARY.json',result)
     import matplotlib
     matplotlib.use('Agg')
@@ -139,9 +157,9 @@ def main():
     fig,axes=plt.subplots(2,2,figsize=(10,7),layout='constrained')
     for ax,(name,r) in zip(axes.flat,result['optimization'].items()):
         for phase,values in r['by_phase'].items():
-            ax.plot([96,144,192],values,'o-',label=phase,alpha=.65)
-        ax.plot([96,144,192],r['means_96_144_192'],'ko-',label='All training phases',lw=2)
-        ax.set(title=name,xlabel='Training update',ylabel='Fixed-noise objective loss',xticks=[96,144,192])
+            ax.plot(steps,values,'o-',label=phase,alpha=.65)
+        ax.plot(steps,r['means_'+'_'.join(map(str,steps))],'ko-',label='All training phases',lw=2)
+        ax.set(title=name,xlabel='Training update',ylabel='Fixed-noise objective loss',xticks=steps)
         ax.grid(alpha=.2)
     axes[0,0].legend(fontsize=8)
     fig.suptitle('Optimization probes on training data — not held-out calibration')

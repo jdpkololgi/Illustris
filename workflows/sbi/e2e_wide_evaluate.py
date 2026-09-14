@@ -64,11 +64,18 @@ def summarize(rows):
 
 
 @torch.no_grad()
-def run(output):
+def run(output, continuation_root=None):
     device = p.runtime()
     c, _, smoke, source = preflight()
     ds = p.dataset_for(c, NORMALIZATION)
     binding = p.provenance(c, ds)
+    train_root, steps = TRAIN_ROOT, (96,144,192)
+    if continuation_root is not None:
+        from workflows.sbi.e2e_wide_continue import checked_binding
+        train_root = p.output_path(c, continuation_root)
+        binding = checked_binding(train_root, binding)
+        steps = tuple(binding['continuation']['specification']['loss_checkpoints'])
+    current = steps[-1]
     out = p.output_path(c, output)
     out.mkdir(parents=True, exist_ok=False)
     start = time.monotonic()
@@ -76,9 +83,9 @@ def run(output):
     checkpoints, models = {}, {}
     for method in ('cfm','diffusion'):
         for stage in ('coarse','fine'):
-            for step in (96,144,192):
+            for step in steps:
                 key = (method,stage,step)
-                path = TRAIN_ROOT/f'{method}_{stage}'/f'step_{step:06d}.pt'
+                path = train_root/f'{method}_{stage}'/f'step_{step:06d}.pt'
                 state = p.load_checkpoint(path,binding,stage,method)
                 if state['step'] != step:
                     raise ValueError('wrong checkpoint update')
@@ -97,7 +104,8 @@ def run(output):
                 refinement.append(next(i for i in candidates if ds.rows[i]['cap']==cap))
     registration = {'checkpoint_sha256':checkpoints,'binding_sha256':p.digest(binding),
         'evaluator_sha256':p.sha256(__file__), 'draws_per_anchor':4,'training_anchors':len(ds),
-        'loss_checkpoints':[96,144,192],'fixed_loss_replicates':4,
+        'loss_checkpoints':list(steps),'fixed_loss_replicates':4,
+        'train_root':str(train_root),'continuation_root':str(train_root) if continuation_root is not None else None,
         'refinement_anchors':[ds.rows[i]['anchor_id'] for i in refinement],
         'refinement':'same draw 0, CFM16->32 Heun / DIFF32->64 DDIM, diagnostic only',
         'claim':'training panel only; four draws are not a calibration/power study',
@@ -114,7 +122,7 @@ def run(output):
             for method in ('cfm','diffusion'):
                 lossfn=p.flow_matching_loss if method=='cfm' else p.diffusion_loss
                 losses={}
-                for step in (96,144,192):
+                for step in steps:
                     values=[]
                     for rep in range(4):
                         rng=torch.Generator(device=device).manual_seed(p.seed_for(904,row['anchor_id'],rep,stage))
@@ -141,7 +149,7 @@ def run(output):
                 f.attrs['registration_sha256']=p.digest(registration)
                 f.attrs['anchor_id']=row['anchor_id']; f.attrs['method']=method
                 for draw in range(4):
-                    co,fi,seeds=p.generate_pair(c,ds,obs,models[method,'coarse',192],models[method,'fine',192],method,f'eval-{draw}',device)
+                    co,fi,seeds=p.generate_pair(c,ds,obs,models[method,'coarse',current],models[method,'fine',current],method,f'eval-{draw}',device)
                     result=p.reconstruct(co,fi)
                     group=f.create_group(str(draw)); group.attrs['seeds_json']=json.dumps(seeds)
                     for name,value in {'coarse_delta':co,'fine_residual':fi,**result}.items():
@@ -154,7 +162,7 @@ def run(output):
                         refined_config=copy.deepcopy(c)
                         refined_config['sampling']['cfm_steps']*=2
                         refined_config['sampling']['diffusion_steps']*=2
-                        rc,rf,_=p.generate_pair(refined_config,ds,obs,models[method,'coarse',192],models[method,'fine',192],method,'eval-0',device)
+                        rc,rf,_=p.generate_pair(refined_config,ds,obs,models[method,'coarse',current],models[method,'fine',current],method,'eval-0',device)
                         rr=p.reconstruct(rc,rf)
                         rg=f.create_group('refined_0')
                         for name,value in {'coarse_delta':rc,'fine_residual':rf,**rr}.items():
@@ -175,6 +183,8 @@ def run(output):
         print(f'EVALUATED {index+1}/96 {row["anchor_id"]}',flush=True)
         p.write_json(out/f'loss_{index:03d}.json',loss_rows[-4:])
     preflight()
+    if continuation_root is not None and checked_binding(train_root, p.provenance(c,ds)) != binding:
+        raise ValueError('continuation binding changed during evaluation')
     p.write_json(out/'EVALUATION_COMPLETE.json',{'registration':registration,'elapsed_seconds':time.monotonic()-start,
         'summary':summarize(rows),'by_phase':{phase:summarize([r for r in rows if r['phase']==phase]) for phase in ('ph000','ph002','ph003')},
         'by_shell_support':{f'{shell}/{support}':summarize([r for r in rows if r['shell']==shell and r['support_stratum']==support])
@@ -187,4 +197,6 @@ def run(output):
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output',type=Path,required=True)
-    run(parser.parse_args().output)
+    parser.add_argument('--continuation-root',type=Path)
+    args=parser.parse_args()
+    run(args.output,args.continuation_root)

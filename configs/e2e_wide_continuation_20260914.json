@@ -1,0 +1,22 @@
+{
+  "schema": "e2e-wide-continuation-20260914",
+  "authorization": "Begin additional training. Complete your recommendations",
+  "start_update": 192,
+  "stop_update": 384,
+  "loss_checkpoints": [288, 336, 384],
+  "heldout_access_authorized": false,
+  "automatic_extension": false,
+  "scope": "matched continuation and repeated training-panel evaluation only",
+  "diagnostic_gates_not_release_criteria": {
+    "plateau_absolute_relative_loss_change_max_each_of_last_two_intervals": 0.01,
+    "plateau_apply_to": "each objective/stage and each phase mean",
+    "paired_checkpoint_median_eigen_rms_over_draw_std_max_each_component": 0.1,
+    "paired_checkpoint_median_largest_void_change_max": 0.01,
+    "paired_checkpoint_connection_changes_max": 0,
+    "physics_density_below_minus_one_anchor_median_max": 0.001,
+    "physics_band_power_ratio_median_range_each_band": [0.8, 1.2],
+    "physics_apply_to": "each method; density/topology under both masks; power on full parent",
+    "decision": "stop at 384 regardless; failed physics despite improving loss triggers diagnosis, not automatic extension",
+    "caveat": "exploratory engineering tolerances; no held-out calibration or production release"
+  }
+}

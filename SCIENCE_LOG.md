@@ -1,5 +1,22 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-14 - [science/code] Bounded continuation and repeated evaluation authorized
+
+The user approved the recommended additional training and diagnostics. Continue
+all four matched fits from 192 to 384 updates, preserving optimizer/RNG, targets,
+normalization and batch order. The old 192-update contract remains frozen; the
+separate continuation binding records explicit authority and parent hashes.
+Require exact serialization/resume parity on all four real checkpoints before
+full continuation. Repeat the same 96-anchor/four-draw evaluation and balanced
+sampler/late-checkpoint panel; probe updates 288/336/384.
+
+Predeclared diagnostic plateau, field-stability and support/power tolerances are
+in configs/e2e_wide_continuation_20260914.json and
+docs/e2e_wide_continuation_20260914.md. Stop at 384 regardless of outcome; physics
+failure despite improving losses triggers diagnosis, not an automatic 768-update
+extension. Held-out payload access and production release remain unauthorized;
+all frozen negative-domain receipts and release flags remain unchanged.
+
 ### 2026-09-14 - [science/result] Trained wide-field draws complete; 192 updates are not converged
 
 User-authorized evaluation is complete, not merely launched. Job 58305867 and
