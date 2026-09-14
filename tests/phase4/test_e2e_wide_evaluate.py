@@ -1,6 +1,7 @@
 import unittest
 import numpy as np
 from workflows.sbi.e2e_wide_evaluate import ensemble_metrics,distribution
+from workflows.sbi.e2e_wide_evaluation_report import band_power
 
 
 class EvaluationTests(unittest.TestCase):
@@ -23,6 +24,11 @@ class EvaluationTests(unittest.TestCase):
 
     def test_distribution_retains_components(self):
         self.assertEqual(distribution([[1,3],[3,5]])['median'],[2,4])
+
+    def test_power_scaling_and_constant_offset(self):
+        x=np.broadcast_to(np.cos(2*np.pi*np.arange(16)/16)[:,None,None],(16,16,16))
+        np.testing.assert_allclose(band_power(2*x),4*band_power(x),rtol=1e-12,atol=1e-12)
+        np.testing.assert_allclose(band_power(x+5),band_power(x),rtol=1e-12,atol=1e-10)
 
 
 if __name__=='__main__':

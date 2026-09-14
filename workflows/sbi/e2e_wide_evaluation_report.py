@@ -5,6 +5,25 @@ from pathlib import Path
 import numpy as np
 
 
+def band_power(delta,cell=3.383):
+    """Matched Hann-windowed parent power; analysis only, not another smoothing."""
+    x=np.asarray(delta,dtype=float)
+    n=x.shape[0]
+    w=np.hanning(n)
+    window=w[:,None,None]*w[None,:,None]*w[None,None,:]
+    centered=x-float(np.sum(x*window)/window.sum())
+    power=np.abs(np.fft.rfftn(centered*window))**2
+    k=np.fft.fftfreq(n,d=cell)*2*np.pi
+    kz=np.fft.rfftfreq(n,d=cell)*2*np.pi
+    radius=np.sqrt(k[:,None,None]**2+k[None,:,None]**2+kz[None,None,:]**2)
+    weights=np.full(kz.shape,2.); weights[0]=1
+    if n%2==0:
+        weights[-1]=1
+    power*=weights
+    edges=[0,.08,.16,.32,np.inf]
+    return np.array([power[(radius>lo)&(radius<=hi)].sum() for lo,hi in zip(edges[:-1],edges[1:])])
+
+
 def summarize(report, root):
     losses=report['fixed_loss_probes']
     optimization={}
@@ -43,6 +62,24 @@ def main():
     from workflows.sbi import e2e_wide_pipeline as p
     p.require_compute()
     result=summarize(report,args.root)
+    import h5py
+    from workflows.sbi.e2e_wide_research_canary import preflight
+    c,ds,_,_=preflight()
+    power_rows=[]
+    for row in ds.rows:
+        with h5py.File(row['shard'],'r') as f:
+            truth=f[row['group']]['delta_r7_gaussian'][:]
+        reference=band_power(truth)
+        for method in ('cfm','diffusion'):
+            path=args.root/f'{row["anchor_id"]}_{method}.h5'
+            with h5py.File(path,'r') as f:
+                powers=[band_power(f[str(i)]['delta_local96'][:]) for i in range(4)]
+            power_rows.append({'anchor_id':row['anchor_id'],'phase':row['phase'],'method':method,
+                               'draw_power_over_truth':(np.mean(powers,axis=0)/np.maximum(reference,1e-30)).tolist()})
+    result['parent_density_power']={'bands_h_mpc':['(0,.08]','(.08,.16]','(.16,.32]','>.32'],
+        'window':'same Hann taper and weighted demeaning on full 96-cubed local parents; no mask',
+        'rows':power_rows,'median_ratio':{m:np.median([r['draw_power_over_truth'] for r in power_rows if r['method']==m],axis=0).tolist()
+                                         for m in ('cfm','diffusion')}}
     p.write_json(args.root/'INTERPRETATION_SUMMARY.json',result)
     import matplotlib
     matplotlib.use('Agg')
