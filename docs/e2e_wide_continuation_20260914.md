@@ -65,9 +65,21 @@ receipts and `training_ready=false` / `r0_physics_pass=false` stay unchanged.
 
 ## Execution and results
 
-Pending launch after focused tests and source commit. Request one GPU/32 logical
+Launched source commit `8431bfd` as job 58309454 on nid001037 after nine focused
+unit tests and unchanged original smoke preflight passed. One GPU/32 logical
 CPUs under shared_interactive/desi_g, Scratch license, two-hour cap. Prior measured
 training plus evaluation/report totals about 100 minutes. The NERSC allocation
 skill requires the allocation-reuse check, isolated cosmic_env and prompt release.
 No compatible allocation was present at preflight. Record terminal receipts and
 actual results here before claiming completion.
+
+Training root:
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/continue_20260914_58309454`.
+Evaluation root:
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/eval384_20260914_58309454`.
+Logs in `/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/`:
+`wide_continue_58309454.log`, `wide_eval384_58309454.log`,
+`wide_report384_58309454.log`, `wide_assess384_58309454.log`.
+The fixed sequential chain fails closed and releases the allocation after
+success or failure; no automatic retry, additional training or adaptive job
+submission is enabled. Training/evaluation completion is pending.

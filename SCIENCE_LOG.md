@@ -17,6 +17,13 @@ failure despite improving losses triggers diagnosis, not an automatic 768-update
 extension. Held-out payload access and production release remain unauthorized;
 all frozen negative-domain receipts and release flags remain unchanged.
 
+Launch verified: committed runner 8431bfd, job 58309454 on nid001037, one GPU,
+32 logical CPUs, shared_interactive/desi_g, Scratch, two-hour cap. All four
+actual-checkpoint 192->194 versus 192->193->194 resume tests pass exact state
+parity. CFM coarse continuation is running with finite updates beyond 192.
+The fixed training/evaluation/report/assessment chain releases the allocation
+on success or failure and does not retry or extend beyond 384 automatically.
+
 ### 2026-09-14 - [science/result] Trained wide-field draws complete; 192 updates are not converged
 
 User-authorized evaluation is complete, not merely launched. Job 58305867 and
