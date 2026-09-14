@@ -60,26 +60,78 @@ def main():
     args=parser.parse_args()
     report=json.loads((args.root/'EVALUATION_COMPLETE.json').read_text())
     from workflows.sbi import e2e_wide_pipeline as p
-    p.require_compute()
+    device=p.runtime()
     result=summarize(report,args.root)
     import h5py
-    from workflows.sbi.e2e_wide_research_canary import preflight
+    from workflows.sbi.e2e_wide_research_canary import preflight,NORMALIZATION
+    from workflows.sbi.e2e_wide_evaluate import TRAIN_ROOT
     c,ds,_,_=preflight()
-    power_rows=[]
-    for row in ds.rows:
+    ds=p.dataset_for(c,NORMALIZATION)
+    binding=p.provenance(c,ds)
+    older={}
+    for method in ('cfm','diffusion'):
+        for stage in ('coarse','fine'):
+            state=p.load_checkpoint(TRAIN_ROOT/f'{method}_{stage}/step_000144.pt',binding,stage,method)
+            older[method,stage]=p.build_model(c,stage,device).eval()
+            older[method,stage].load_state_dict(state['model'])
+    cfg=json.loads((p.REPO/c['diagnostic_config']).read_text())
+    def functional_delta(a,b,mask):
+        sa,sb=[p.science(p.eigs(t),mask,c['fine_cell_mpc_h'],cfg) for t in (a,b)]
+        return {'filling_abs_change':abs(sa['filling_fraction']-sb['filling_fraction']),
+                'largest_void_abs_change':abs(sa['largest_void_fraction']-sb['largest_void_fraction']),
+                'connection_changed':sa['connections_xyz']!=sb['connections_xyz'],
+                'pair_abs_change':[abs(x['value']-y['value']) for x,y in zip(sa['pair'],sb['pair'])]}
+    power_rows=[]; drift=[]; sampler_functionals=[]
+    for index,row in enumerate(ds.rows):
         with h5py.File(row['shard'],'r') as f:
             truth=f[row['group']]['delta_r7_gaussian'][:]
+            mask=f[row['group']]['masks/observed_parent'][32:64,32:64,32:64].astype(bool)
         reference=band_power(truth)
         for method in ('cfm','diffusion'):
             path=args.root/f'{row["anchor_id"]}_{method}.h5'
+            record=json.loads(path.with_suffix('.json').read_text())
+            if p.sha256(path)!=record['sample_sha256']:
+                raise ValueError('draw file checksum changed')
             with h5py.File(path,'r') as f:
                 powers=[band_power(f[str(i)]['delta_local96'][:]) for i in range(4)]
+                current=f['0/tensor_core'][:]
+                refined=f['refined_0/tensor_core'][:] if 'refined_0' in f else None
             power_rows.append({'anchor_id':row['anchor_id'],'phase':row['phase'],'method':method,
+                               'truth_min_delta':float(truth.min()),
+                               'truth_below_minus_one_fraction':float(np.mean(truth < -1)),
+                               'truth_observed_below_minus_one_fraction':float(np.mean(truth[32:64,32:64,32:64][mask] < -1)),
                                'draw_power_over_truth':(np.mean(powers,axis=0)/np.maximum(reference,1e-30)).tolist()})
+            if row['anchor_id'] in report['registration']['refinement_anchors']:
+                sampler_functionals.append({'anchor_id':row['anchor_id'],'method':method,
+                    'observed':functional_delta(refined,current,mask),
+                    'complete':functional_delta(refined,current,np.ones_like(mask))})
+                obs=ds.inference_conditions(index)
+                co,fi,seeds=p.generate_pair(c,ds,obs,older[method,'coarse'],older[method,'fine'],method,'eval-0',device)
+                earlier=p.reconstruct(co,fi)
+                target=args.root/f'{row["anchor_id"]}_{method}_checkpoint144.h5'
+                with h5py.File(target,'x') as f:
+                    f.attrs['checkpoint_step']=144
+                    f.attrs['paired_sample_id']='eval-0'
+                    for name,value in {'coarse_delta':co,'fine_residual':fi,**earlier}.items():
+                        f.create_dataset(name,data=value)
+                metrics=p.tensor_metrics(earlier['tensor_core'],current,mask)
+                spread=np.array(record['ensemble']['observed']['mean_pointwise_draw_std'])
+                drift.append({'anchor_id':row['anchor_id'],'method':method,'metrics':metrics,
+                    'observed_functionals':functional_delta(earlier['tensor_core'],current,mask),
+                    'complete_functionals':functional_delta(earlier['tensor_core'],current,np.ones_like(mask)),
+                    'eigen_rms_change_over_draw_std':(np.array(metrics['eigen_rmse'])/np.maximum(spread,1e-30)).tolist(),
+                    'sample_sha256':p.sha256(target)})
+        print(f'POWER/DRIFT CHECK {index+1}/96',flush=True)
     result['parent_density_power']={'bands_h_mpc':['(0,.08]','(.08,.16]','(.16,.32]','>.32'],
         'window':'same Hann taper and weighted demeaning on full 96-cubed local parents; no mask',
         'rows':power_rows,'median_ratio':{m:np.median([r['draw_power_over_truth'] for r in power_rows if r['method']==m],axis=0).tolist()
                                          for m in ('cfm','diffusion')}}
+    result['late_checkpoint_draw_drift']={'earlier':144,'current':192,'paired_seed':True,'rows':drift,
+        'median_eigen_rms_change_over_draw_std':{m:np.median([r['eigen_rms_change_over_draw_std'] for r in drift if r['method']==m],axis=0).tolist()
+                                                 for m in ('cfm','diffusion')}}
+    result['sampler_functional_drift']=sampler_functionals
+    result['report_source_sha256']=p.sha256(__file__)
+    preflight()
     p.write_json(args.root/'INTERPRETATION_SUMMARY.json',result)
     import matplotlib
     matplotlib.use('Agg')
@@ -94,6 +146,16 @@ def main():
     axes[0,0].legend(fontsize=8)
     fig.suptitle('Optimization probes on training data — not held-out calibration')
     fig.savefig(args.root/'fixed_noise_convergence.png',dpi=160)
+    plt.close(fig)
+    fig,ax=plt.subplots(figsize=(8,4),layout='constrained')
+    for method in ('cfm','diffusion'):
+        ax.plot(np.arange(4),result['parent_density_power']['median_ratio'][method],'o-',label=method)
+    ax.axhline(1,color='k',ls='--',label='Matched target power')
+    ax.set(yscale='log',xticks=np.arange(4),xticklabels=result['parent_density_power']['bands_h_mpc'],
+           xlabel='Wavenumber band [h/Mpc]',ylabel='Median draw power / target power',
+           title='Full local-parent density spectra — matched window, training panel')
+    ax.grid(alpha=.2); ax.legend()
+    fig.savefig(args.root/'density_power_ratio.png',dpi=160)
     plt.close(fig)
     print(json.dumps(result['optimization'],indent=2))
     print(json.dumps(result['sampler_refinement'],indent=2))

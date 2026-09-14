@@ -37,6 +37,17 @@ a random posterior draw need not resemble the one simulator truth pointwise;
 physical density support, training progress and sampler stability answer
 different questions.
 
+Diagnostic follow-up, specified while the main evaluation runs: reuse the same
+24-anchor panel for paired update-144 versus update-192 draws, and compare their
+eigenvalue and thresholded-functional changes with the sampler-refinement
+changes. Also compare full local-parent density power in four fixed wavenumber
+bands using identical Hann windows and weighted demeaning for generated and
+target fields. Check target as well as generated density support. These are
+attribution diagnostics, not a blind convergence gate, posterior correction,
+additional R7 smoothing or truth-driven sampler selection. No anchors are
+selected according to their outcomes. The extra 48 update-144 draws use the
+same sample-zero seeds and remain separate from the 192-update ensemble.
+
 ## Execution
 
 Job 58305867: nid001057, one shared GPU, 32 logical CPUs, two-hour cap,
