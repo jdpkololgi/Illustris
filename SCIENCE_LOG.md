@@ -1,5 +1,71 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-14 - [science/result] 384-update continuation complete: improved support/topology, not convergence
+
+Executed the user-approved continuation and recommendations through the fixed
+384-update endpoint and diagnostics. All four actual-checkpoint resume parity
+tests passed before fitting; optimizer/RNG, original 192 histories, targets,
+normalization and batch order are preserved. Training finished in 842.2 s.
+Generated/evaluated 864 fields across all 96 training anchors, 4,608 fixed-noise
+checkpoint probes and 960 matched/control forward probes on the unchanged
+24-anchor diagnostic panel. The entire chain and job 58309454 are COMPLETED
+0:0; allocation 1h40m01s, released normally. No retry or training past 384.
+
+All 20 predeclared exploratory diagnostic gates fail; these are correlated
+checks, not independent tests or held-out calibration gates. Last-48-update
+fixed losses still fall 11.44% CFM coarse, 7.92% CFM fine, 8.61% DIFF coarse
+and 9.08% DIFF fine, with every phase mean improving. Paired 336->384 eigenvalue
+RMS drift is 31--45% of draw dispersion, far above the 10% tolerance. Observed
+median largest-void changes are 13.63 pp CFM / 2.35 pp DIFF; connection outcomes
+change in 7/24 and 5/24 pairs. No optimization/field-stability plateau exists.
+
+Additional training did help: observed median density fractions below -1 fall
+1.177% -> 0.170% CFM and 1.546% -> 0.625% DIFF. Per-draw absolute largest-void
+differences from the one truth fall 27.97 -> 8.82 pp and 26.10 -> 10.35 pp;
+filling differences fall 6.89 -> 3.18 pp and 5.74 -> 2.34 pp. But generated
+support violations still exceed the registered 0.1% tolerance under both masks.
+CFM mean-field eigenvalue RMSE becomes [0.131,0.141,0.179], DIFF
+[0.129,0.143,0.181]. Fair marginal CRPS becomes [0.06452,0.06984,0.09057] /
+[0.05998,0.06653,0.08729]. These improvements are not uniform: ph002 has worse
+third-component CRPS for both methods and worse second-component DIFF CRPS.
+Draw dispersion contracts substantially; narrowing is not calibrated certainty.
+
+The key countertrend is spectral. Median parent power / target power becomes
+[0.474,0.347,0.775,43.93] CFM / [0.710,0.559,0.779,61.15] DIFF in the same
+k=(0,.08],(.08,.16],(.16,.32],>.32 bands. High-k excess decreases, but low-k
+suppression worsens in every phase. About 29.81% / 31.34% of generated windowed
+fluctuation power is above .32, versus 0.494% in targets (192-update values
+43.44% / 41.18%). This is materially wrong spectral shape, not only a small
+R7-denominator artifact. No clipping, extra smoothing or estimator change.
+
+Doubling sampler steps changes eigenvalue RMS by only 0.136--0.166% CFM /
+2.49--3.56% DIFF of draw dispersion, much less than checkpoint drift. Thresholded
+topology is still sensitive: DIFF refinement reaches 3.18 pp observed / 3.57 pp
+complete largest-void change and one complete-mask connection change.
+
+Bounded failure attribution completed with all matched-noise baselines verified.
+Shuffling observations raises mean losses 6.24%/9.22% for CFM coarse/fine and
+19.65%/9.36% for DIFF, with positive phase-mean changes throughout: observations
+affect the models. Replacing true coarse conditioning by saved generated coarse
+raises fine loss only 1.33% CFM / 0.98% DIFF. This does not support a dominant
+coarse-conditioning failure in these probes, but neither rules out tail/topology
+effects nor directly measures deployment risk. The shuffled opposite-cap control
+is not a causal channel attribution, and generated coarse plus the fixed truth
+residual is not a jointly sampled truth pair. The spectral cause remains open.
+
+Decision: stop at 384, as registered. The continuation was useful but is not a
+convergence or science-release success. Do not blindly extend to 768. Next
+register scale-resolved coarse/fine denoising errors versus noise time and
+separately authorized validation distinct from sealed confirmation, before a
+larger continuation. Keep prior negative-domain receipts, the separate 6.211-pp
+truth-only topology caveat and training_ready=false/r0_physics_pass=false intact.
+No held-out access, model revision, P12-A/D2/P13 change or production promotion.
+
+Full report: docs/e2e_wide_continuation_20260914.md. Archived training/resume
+receipts, all 240 draw-file hashes, both-run summaries and full control results:
+docs/evidence/e2e_field_v2/wide_continuation_20260914/. Code 8431bfd; nine focused
+tests pass. All generated fields remain in the registered Scratch roots.
+
 ### 2026-09-14 - [science/code] Bounded continuation and repeated evaluation authorized
 
 The user approved the recommended additional training and diagnostics. Continue

@@ -81,9 +81,16 @@ IllustrisTNG-300.
   released): 864 saved fields and 4,608 fixed-noise probes, training phases only.
   Late losses still fall 1.5--7.7%, and checkpoint drift far exceeds sampler
   refinement drift. Generated support violations and incorrect power shape
-  remain. The 192-update canary is not converged or science-ready; bounded
-  continuation and held-out validation need new authorization. See
-  `docs/e2e_wide_evaluation_20260914.md` and its archived evidence.
+  remain. The 192-update canary was not converged or science-ready; see
+  `docs/e2e_wide_evaluation_20260914.md`. The subsequent authorized continuation
+  to 384 and repeated evaluation/conditioning diagnostics completed as 58309454,
+  released. Support/topology improved, but all predeclared diagnostic gates fail:
+  late losses fall 7.9--11.4%, fields still drift, and low-k power suppression
+  worsens while high-k excess remains. Observations affect the fits; generated-
+  coarse loss sensitivity is modest and does not identify the spectral cause.
+  Stopped at 384; no automatic 768, held-out opening or model revision. Next
+  scale-resolved denoising diagnostics/validation require new authorization.
+  See `docs/e2e_wide_continuation_20260914.md` and its archived evidence.
   The tested finite-window residual is not a local orthogonal high-pass
   subspace; see `docs/e2e_wide_pipeline_20260910.md` for the explicit amendment,
   matched canary caps and the 1299-versus-2000 Mpc/h volume/phase limitation.

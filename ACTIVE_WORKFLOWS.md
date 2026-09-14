@@ -47,6 +47,14 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   The canary is not converged; support/power discrepancies remain. Further
   training or holdout access is not authorized. See
   `docs/e2e_wide_evaluation_20260914.md`; no calibration or release claim.
+  The subsequent approved `e2e_wide_continue.py` extension completed 192->384
+  updates for all four fits, with exact real-checkpoint resume parity. Job
+  58309454 also completed the same draw evaluation plus
+  `e2e_wide_continuation_assess.py` diagnostic gates/conditioning controls and
+  was released. All registered gates fail despite support/topology improvement;
+  power shape and convergence remain unresolved. No automatic continuation,
+  model revision or holdout access. Contract/results:
+  `docs/e2e_wide_continuation_20260914.md`.
 - Root-level `*_supervisor_v2_20260904.sh` scripts are historical operational
   records, not current launch instructions. Frozen production uses Slurm.
 

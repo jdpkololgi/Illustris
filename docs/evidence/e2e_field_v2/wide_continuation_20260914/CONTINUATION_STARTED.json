@@ -1,0 +1,49 @@
+{
+  "contract": {
+    "base_binding_sha256": "a9d297f3d04fc770ae594aa6d8a446cf07b39b52d78f72bd401c40adb006bf00",
+    "parent_checkpoint_sha256": {
+      "cfm/coarse": "c8380e3ace8251727beb69eba9eb7abd74f74f7475a157f417861b9d3710344e",
+      "cfm/fine": "b0ba71b8fe18b6b66680d481c560711fb34e5f323a5a706e82b02431b31c8203",
+      "diffusion/coarse": "c58debf78ae09a0854d4cb5b98398cc7986b13f17ceb41b14a91c7451cd3cde5",
+      "diffusion/fine": "c432010a4fef5014bf94ad738c807f44a0d95af55554d850594fb32c11efc03f"
+    },
+    "parent_receipt_sha256": "7db7dce9e693f095f46fdb170d3c64884563538c5749a3861e36e6a60f0f482e",
+    "parent_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/research_20260911_58196924",
+    "source_sha256": {
+      "configs/e2e_wide_continuation_20260914.json": "c513c170fe544836ca4676fa130d155221bfc840e5e0df900324b0137cfe9c06",
+      "workflows/sbi/e2e_wide_continue.py": "e22b3c1a879d100a4a7efd7db426b7ccb0ac40ee8ac9bed81c10ef0479b47a45"
+    },
+    "specification": {
+      "authorization": "Begin additional training. Complete your recommendations",
+      "automatic_extension": false,
+      "diagnostic_gates_not_release_criteria": {
+        "caveat": "exploratory engineering tolerances; no held-out calibration or production release",
+        "decision": "stop at 384 regardless; failed physics despite improving loss triggers diagnosis, not automatic extension",
+        "paired_checkpoint_connection_changes_max": 0,
+        "paired_checkpoint_median_eigen_rms_over_draw_std_max_each_component": 0.1,
+        "paired_checkpoint_median_largest_void_change_max": 0.01,
+        "physics_apply_to": "each method; density/topology under both masks; power on full parent",
+        "physics_band_power_ratio_median_range_each_band": [
+          0.8,
+          1.2
+        ],
+        "physics_density_below_minus_one_anchor_median_max": 0.001,
+        "plateau_absolute_relative_loss_change_max_each_of_last_two_intervals": 0.01,
+        "plateau_apply_to": "each objective/stage and each phase mean"
+      },
+      "heldout_access_authorized": false,
+      "loss_checkpoints": [
+        288,
+        336,
+        384
+      ],
+      "schema": "e2e-wide-continuation-20260914",
+      "scope": "matched continuation and repeated training-panel evaluation only",
+      "start_update": 192,
+      "stop_update": 384
+    }
+  },
+  "git_head": "8431bfd26c1d727acc9a3e9dbfa902fe222ca456",
+  "job_id": "58309454",
+  "node": "nid001037"
+}

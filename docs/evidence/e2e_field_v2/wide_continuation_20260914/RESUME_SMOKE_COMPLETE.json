@@ -1,0 +1,25 @@
+{
+  "checks": [
+    {
+      "exact_state_parity": true,
+      "method": "cfm",
+      "stage": "coarse"
+    },
+    {
+      "exact_state_parity": true,
+      "method": "cfm",
+      "stage": "fine"
+    },
+    {
+      "exact_state_parity": true,
+      "method": "diffusion",
+      "stage": "coarse"
+    },
+    {
+      "exact_state_parity": true,
+      "method": "diffusion",
+      "stage": "fine"
+    }
+  ],
+  "technical_pass": true
+}
