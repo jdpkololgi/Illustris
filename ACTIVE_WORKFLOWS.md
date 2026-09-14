@@ -40,9 +40,13 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   checks and was released; no science fit or research canary was started. See
   `docs/e2e_wide_gpu_smoke_20260911.md` for the verified run and
   `docs/e2e_wide_pipeline_20260910.md` for usage, caps and scientific boundaries.
-  Subsequent user-approved matched research training is now running as 58196924;
-  launcher `e2e_wide_research_canary.py` holds four fresh 192-update stage fits.
-  See `docs/e2e_wide_research_canary_20260911.md`; no holdout or release claim.
+  Subsequent approved research job 58196924 completed all four 192-update fits.
+  September-14 evaluation job 58305867 completed and was released: 864 fields
+  and 4,608 fixed-noise probes. Entrypoints `e2e_wide_evaluate.py` and
+  `e2e_wide_evaluation_report.py` retain paired checkpoint/sampler diagnostics.
+  The canary is not converged; support/power discrepancies remain. Further
+  training or holdout access is not authorized. See
+  `docs/e2e_wide_evaluation_20260914.md`; no calibration or release claim.
 - Root-level `*_supervisor_v2_20260904.sh` scripts are historical operational
   records, not current launch instructions. Frozen production uses Slurm.
 

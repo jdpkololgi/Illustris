@@ -77,8 +77,13 @@ IllustrisTNG-300.
   job 58196924 completed all four 192-update fits, verified September 14 with
   finite histories and matching final checkpoint hashes. First-to-second-pass
   objective means fell 12--23%; convergence/calibration are not established.
-  Trained-draw and checkpoint/sampler diagnostics are now user-authorized,
-  training phases only; see `docs/e2e_wide_research_canary_20260911.md`.
+  Trained-draw/checkpoint/sampler evaluation completed on September 14 (58305867,
+  released): 864 saved fields and 4,608 fixed-noise probes, training phases only.
+  Late losses still fall 1.5--7.7%, and checkpoint drift far exceeds sampler
+  refinement drift. Generated support violations and incorrect power shape
+  remain. The 192-update canary is not converged or science-ready; bounded
+  continuation and held-out validation need new authorization. See
+  `docs/e2e_wide_evaluation_20260914.md` and its archived evidence.
   The tested finite-window residual is not a local orthogonal high-pass
   subspace; see `docs/e2e_wide_pipeline_20260910.md` for the explicit amendment,
   matched canary caps and the 1299-versus-2000 Mpc/h volume/phase limitation.

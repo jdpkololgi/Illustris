@@ -1,5 +1,60 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-14 - [science/result] Trained wide-field draws complete; 192 updates are not converged
+
+User-authorized evaluation is complete, not merely launched. Job 58305867 and
+both steps finished COMPLETED 0:0; 1h24m12s allocation released normally.
+Evaluated all 96 ph000/ph002/ph003 training anchors: 768 base draws (four per
+method/anchor), 48 doubled-step draws and 48 paired update-144 draws, with full
+parent arrays and hashes retained. All 4,608 fixed-time/noise checkpoint probes
+completed. Original data/config/model/normalization bindings pass again. No
+additional training, held-out payload access or P12-A/D2/P13 change occurred.
+
+Fixed-probe loss decreases from updates 144 to 192 are 1.52% CFM coarse, 5.71%
+CFM fine, 7.74% DIFF coarse and 4.19% DIFF fine, with all phase means improving.
+On the balanced 24-anchor paired-seed panel, late checkpoint eigenvalue RMS
+drift is 31--44% CFM / 44--47% DIFF of pointwise draw dispersion, versus only
+0.15--0.18% / 2.2--3.2% from doubling sampler steps. Training evolution, not
+sampler resolution, dominates this difference. Observed-mask connection changes
+occur in 4/24 and 9/24 late-checkpoint pairs; median largest-void changes are
+5.84 and 13.63 pp. Sampler topology is not uniformly exact: DIFF refinement
+changes observed largest-void fraction by up to 2.01 pp and one complete-mask
+connection, while CFM complete-mask void change reaches 1.62 pp.
+
+Generated fields are not science-ready. Median observed density fractions below
+delta=-1 are 1.18% CFM / 1.55% DIFF; targets have none (minimum -0.8400).
+Matched Hann-windowed parent density power / target power has band medians
+[0.743, 0.496, 1.206, 113.27] / [0.946, 0.623, 1.077, 117.41] for
+k=(0,.08],(.08,.16],(.16,.32],>.32 h/Mpc. R7 makes the final denominator small;
+this is not a total-variance ratio, but the spectral shape is wrong in every
+phase. No clipping, extra smoothing or truth-driven sampler selection is used.
+
+Observed four-draw mean-eigenvalue RMSE medians are [0.140,0.149,0.193] CFM /
+[0.141,0.148,0.179] DIFF; fair marginal CRPS [0.0645,0.0705,0.0956] /
+[0.0655,0.0680,0.0895]. Per-draw largest-void absolute differences from the one
+truth have medians 27.97 / 26.10 pp, with worse sparse-shell boundary results.
+These training-panel discrepancies mix posterior uncertainty and model error;
+they alone do not prove underfitting, calibration failure or condition use.
+Four draws and three correlated training phases cannot support a held-out
+calibration/model-winner claim. Raw CFM and DIFF objectives are incomparable.
+
+Decision: sufficient as a working research canary, insufficient for convergence
+or scientific release. Recommend a newly authorized bounded continuation first
+to 384 updates/stage, paired checkpoint/physics checks, and separately approved
+held-out validation/condition-use controls. Do not automatically extend to 768
+or promise that more epochs will fix the spectrum/support. Predeclare plateau
+and physics tolerances; if losses fall without physical improvement, diagnose
+the model/conditioning rather than train indefinitely. Original 192-update cap
+and training_ready=false/r0_physics_pass=false flags remain unchanged.
+
+Full design, mask caveats and proposed next gate:
+docs/e2e_wide_evaluation_20260914.md. Durable compact results, report hashes,
+all 240 draw-file hashes and checkpoint bindings:
+docs/evidence/e2e_field_v2/wide_eval_20260914/SUMMARY.json. Arrays/plots remain
+under wide_pipeline_v1/eval_20260914_58305867 on Scratch. Evaluator 204ebc2,
+report bb2701b; five focused unit tests pass. Preserve the older truth-only
+6.211-pp domain/topology caveat separately from learned-field scores.
+
 ### 2026-09-14 - [code/result] Wide-coarse research canary completed; trained-draw evaluation authorized
 
 Verified terminal job 58196924: COMPLETED 0:0, step runtime 15m34s, allocation

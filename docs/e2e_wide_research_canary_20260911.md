@@ -46,3 +46,12 @@ before claiming completed training. Starting this run does not establish those
 terminal conditions. Losses across CFM and DIFF use different objectives and
 must not be ranked directly. Held-out calibration and physical/topology
 validation remain separate subsequent decisions.
+
+Verified September 14: all four fits reached 192 updates with finite histories
+and matching checkpoint hashes. Job 58196924 and its step are COMPLETED 0:0,
+step 15m34s, allocation 16m47s, released. The group completion receipt is
+archived in `docs/evidence/e2e_field_v2/wide_research_20260911/`.
+The subsequent authorized trained-draw evaluation also completed; see
+`docs/e2e_wide_evaluation_20260914.md`. It finds continuing optimization and
+field-physics discrepancies, not convergence. No continuation beyond this
+original 192-update contract has been executed.
