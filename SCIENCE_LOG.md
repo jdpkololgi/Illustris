@@ -1,5 +1,53 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-15 - [science/result] Fine learning test: partial noise removal, all capability checks fail
+
+The user-authorized small experiment completed as 58358688, one A100/nid001001,
+experiment 7m41.27s and allocation 9m00s, released; both steps and allocation
+COMPLETED 0:0. Six fine-only 256-update branches used identical 384 parent weights
+and AdamW state, unchanged architecture/loss/hyperparameters, three fit anchors,
+three training-only transfer controls and independent evaluation-noise seeds.
+All 1,440 probes, 48 oracle-coarse draws and 18 checkpoints completed. Eight focused
+tests, identical initial probes/state, disjoint noise seeds and provenance pass.
+
+None of the six branches passes the registered near-clean capability check on
+either fitted or transfer anchors. All 72 correlated phase/ratio/group checks
+fail. At sigma/alpha=.05, fitted high-k noise amplitude remaining after ordinary
+uniform-time / balanced-five-level / near-clean-only training is93.07/94.14/86.35%
+CFM and94.63/98.47/65.02% DIFF, versus parent97.67/98.72%. Required <=20%.
+Near-clean-only training helps most, but at ratio.2 still retains53.78/35.79%.
+Transfer controls show the same failure (86.03/69.22% at.05,53.26/39.74% at.2).
+Near-clean lower-band gains remain approximately.96--1.00, so this modest
+improvement is real noise removal without destroying those low-noise signals.
+
+The specialist branches damage other noise levels and generation. At ratio20,
+near-clean DIFF fitted low-band gains fall to[.0049,.0037,.0031] and high-k
+error power rises about8.66x relative to parent. In fixed-seed true-coarse draws,
+near-clean middle-band power/truth falls to .090/.192 CFM and .070/.061 DIFF;
+high-k power remains18.41/8.02x truth despite reduced graininess. These are not
+usable generative models. Ordinary-time training improves broader spectra but
+retains weak near-clean cancellation; no physics/calibration/convergence pass.
+
+Interpretation: partial learnability is demonstrated, sufficient capability is
+not. The near-clean DIFF curve is still improving, so this does not establish
+an architectural impossibility or optimization plateau. Balanced exposure alone
+does not fix the failure under this protocol. Gradient clipping occurs on
+95.7--100% of updates (median pre-clip norms2.78--9.55, clip1), but causality and
+the effect of inherited AdamW moments were not tested. Optimization versus
+time-conditioning/parameterization remains unresolved; do not prescribe a
+particular architectural fix from these results alone.
+
+Decision: original E2E stays paused at384; promote none of the diagnostic
+branches and do not launch another large extension. A fine-stage capability
+gate must precede renewed E2E training. Next separately scope an optimization/
+fixed-noise-level/time-conditioning control with measured noise response and
+gradients. Original parents, normalization, coarse models, sealed phases and
+training_ready=false/r0_physics_pass=false stay unchanged; no P12/D2/P13 changes.
+Report: docs/e2e_fine_learning_20260915.md. Compact curves, every branch/phase
+check, checkpoint/draw hashes and run receipt:
+docs/evidence/e2e_field_v2/fine_learning_20260915/. Source 5134485; large artifacts
+remain in the registered Scratch root. No automatic further training is running.
+
 ### 2026-09-15 - [science/experiment] Small fine-denoising learning test authorized
 
 User approved the recommended noise-resolved learning test. Registered six

@@ -95,8 +95,14 @@ IllustrisTNG-300.
   amplitude. True-coarse controls improve largest-scale power but leave high-k
   excess almost unchanged. Exact sampler algebra/replay passes; optimization
   versus time-conditioning/capacity/loss-weighting causes remain unresolved.
-  Next authorize a small noise-resolved learning/overfit test, not a blind
-  extension; held-out validation remains separately gated. See
+  The subsequently authorized small learning test completed as 58358688:
+  six 256-update fine branches, no capability pass. Near-clean-only fitting
+  reduces residual-noise amplitude most (to 86% CFM/65% DIFF at ratio .05), but
+  still fails and damages other noise levels/generated middle-scale structure.
+  Partial learning is evident; no architecture impossibility or plateau is
+  established. Keep E2E paused at384 and investigate fine-stage optimization/
+  time conditioning before a large extension. Details:
+  `docs/e2e_fine_learning_20260915.md`; held-out validation remains separately gated. See
   `docs/e2e_wide_denoising_audit_20260915.md`.
   See `docs/e2e_wide_continuation_20260914.md` and its archived evidence.
   The tested finite-window residual is not a local orthogonal high-pass

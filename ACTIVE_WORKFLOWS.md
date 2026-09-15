@@ -61,6 +61,12 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   largest-scale deficit. Report/phase summaries: `e2e_wide_denoising_report.py`
   and `docs/e2e_wide_denoising_audit_20260915.md`. Further training/validation
   remains separately authorized, not an automatic follow-on.
+  The subsequent approved `e2e_fine_learning_test.py` experiment completed as
+  58358688 (released): six 256-update diagnostic fine fits, all near-clean
+  capability checks fail. Partial noise-removal learning does not justify
+  promotion or another full E2E extension. Source/config/report:
+  `configs/e2e_fine_learning_20260915.json`, `e2e_fine_learning_report.py`,
+  `docs/e2e_fine_learning_20260915.md`. These branches are not production models.
 - Root-level `*_supervisor_v2_20260904.sh` scripts are historical operational
   records, not current launch instructions. Frozen production uses Slurm.
 

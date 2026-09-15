@@ -1,0 +1,38 @@
+{
+  "job_id": "58358688",
+  "node": "nid001001",
+  "authorization": "User requested proceeding with the recommended small noise-resolved learning test and reporting results",
+  "allocation_command": "salloc --nodes=1 --ntasks=1 --cpus-per-task=32 --constraint=gpu --gpus=1 --qos=shared_interactive --time=01:00:00 --account=desi_g --licenses=scratch --immediate=600",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "allocation_elapsed": "00:09:00",
+  "released_normally": true,
+  "steps": [
+    {"job_id": "58358688.0", "task": "fine-stage learning experiment", "state": "COMPLETED", "exit_code": "0:0", "elapsed": "00:07:41"},
+    {"job_id": "58358688.1", "task": "report and figure", "state": "COMPLETED", "exit_code": "0:0", "elapsed": "00:00:05"}
+  ],
+  "experiment_wall_seconds": 461.27,
+  "git_head_at_launch": "51344857eb82e2b1bc0d4630de872886574234e0",
+  "output_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/fine_learning_20260915_58358688",
+  "logs": [
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/fine_learning_58358688.log",
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/fine_learning_report_58358688.log"
+  ],
+  "raw_complete_sha256": "7ce15d01afc4625b403dfe7ffc7a0de730b407154966f72b9c131a1337bf7a1d",
+  "report_source_sha256": "3f621740e6855666c8c9b4f790013701c4868393c13e6cefc1ae60e259d54cf8",
+  "archive_sha256": {
+    "SUMMARY.json": "b04a0ef00832ccf767df46a1fc9867396915a89fd35b117ff29bca010d5ddeaa",
+    "learning_curves.png": "66003961cadeb44aa7e2e782b55b3e87b4751a7f18d4ae999baa2f3a15a8d61d"
+  },
+  "focused_tests_passed": 8,
+  "updates": 1536,
+  "controlled_probes": 1440,
+  "diagnostic_fields": 48,
+  "diagnostic_checkpoints": 18,
+  "any_capability_gate_pass": false,
+  "coarse_training": false,
+  "heldout_payloads_read": false,
+  "training_ready": false,
+  "r0_physics_pass": false,
+  "calibration_pass": null
+}
