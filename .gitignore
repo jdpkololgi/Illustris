@@ -69,6 +69,9 @@ to-delete/
 graphify-out/
 
 # Small, durable scientific evidence (not training caches/checkpoints).
+!docs/evidence/e2e_field_v2/diversity_norm_20260915/learning_curves.png
+!docs/evidence/e2e_field_v2/diversity_norm_20260915/clean_limit.png
+!docs/evidence/e2e_field_v2/diversity_norm_20260915/field_associations.png
 !docs/evidence/e2e_field_v1/analytic_fixture_20260905/analytic_field_fixture.npz
 !docs/evidence/p12/p12f3_d2_20260906/support_geometry.png
 

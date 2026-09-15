@@ -1,5 +1,45 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-15 - [science/result] Diversity gives modest gains; global normalization does not resolve clean distortion
+
+Approved two-GPU allocation58373492 completed and was released after1h23m08s;
+five application steps/allocation COMPLETED0:0, zero remaining allocations.
+Sixteen matched3,072-update near-identity FiLM U-Net fits (3/6/9/15 regions x
+current/strict-global-train scalers x two seeds),49,152updates,32checkpoints,
+16,038probes and135 coordinate-roundtrip comparisons.14unit tests/full-size
+gradient smokes pass; source/cache/checkpoint hashes and paired exposure verified.
+Tiny/current seed0 EXACTLY replays prior weights and expanded-panel predictions.
+
+Transfer .05 clean RMS current: .009512,.007908,.009518,.008167 across3/6/9/15;
+strict: .010652,.009935,.007828,.007774 (physical fine-residual units).3->15
+summary reductions14.1%/27.0%, not a collapse. Paired per-field ratios current
+.648/1.072 by seed; strict .675/.774. At15 strict versus current paired clean
+ratios1.001/.923, but second-seed noisy error worsens11.7% and leakage rises.248.
+Strongest15/strict seed0 passes12/12 transfer .05 checks but only12/15 fitted;
+paired seed passes0/12 transfer and0/15 fitted. No cell passes the full gate.
+
+Current scaling was already global. Strict fine scale differs0.225%. Frozen
+current->strict clean RMS .0103055->.0101062 (1.93%); target-only .45%, context-only
+1.45% improvements. Tiny-only frozen scaler makes RMS5.34x worse; not a retraining
+result. Compensated coordinate reparameterization agrees within3.34e-6. No simple
+global normalization fix established; activation GroupNorm was NOT changed.
+
+Exact sigma0 identity holds structurally. Zero-injected-noise positive-sigma
+distortion persists on fitted AND transfer fields. At15, nominal .001 transfer
+RMS .000232--.000313 (.60--.81 of nominal noise amplitude); these probes extrapolate
+below training minimum .025. At .05 transfer distortion remains1.7--2.45% of field
+std. Mean/variance associations do not uniquely implicate scaling; redshift/support
+associations are stronger in some fits but change with seed/coverage.12 correlated
+development regions,3 phases, NGC->SGC split; no new-cosmology or causal claim.
+
+15-field noisy error still falls47--69% over1,536->3,072 updates; one seed's clean
+RMS simultaneously worsens3%. Frequent clipping and fewer presentations per field
+prevent an optimization/asymptote claim. Next isolate fixed-field convergence,
+matched selection/conditioning coverage and sub-.025 noise-boundary behavior.
+No follow-on launched; full E2E stays paused384, no held-out access or promotion.
+Report: docs/e2e_diversity_norm_20260915.md; evidence under matching e2e_field_v2
+directory. Training implementationc785ed9, paired reporting86caba7.
+
 ### 2026-09-15 - [science/experiment] Diversity versus numerical scale matrix registered
 
 User approves compute to isolate clean-input transfer distortion. Best near-identity

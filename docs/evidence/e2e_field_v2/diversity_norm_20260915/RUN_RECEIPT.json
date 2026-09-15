@@ -1,0 +1,40 @@
+{
+  "job_id": "58373492",
+  "node": "nid001016",
+  "resources": {"gpus": 2, "gpu_type": "A100", "cpus": 64, "allocation_limit": "02:00:00", "qos": "shared_interactive", "account": "desi_g"},
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "elapsed": "01:23:08",
+  "scheduler_reported_start": "2026-09-15T11:29:48",
+  "scheduler_reported_end": "2026-09-15T12:52:56",
+  "timestamp_note": "sacct timestamp strings retained verbatim",
+  "steps": [
+    {"id": "58373492.0", "purpose": "prepare/cache/full-size gradient smoke", "state": "COMPLETED", "exit_code": "0:0", "elapsed": "00:01:03"},
+    {"id": "58373492.1", "purpose": "replica 0: eight matrix fits", "state": "COMPLETED", "exit_code": "0:0", "elapsed": "01:03:31", "application_seconds": 3801.325918984003},
+    {"id": "58373492.2", "purpose": "frozen normalization controls and parent probes", "state": "COMPLETED", "exit_code": "0:0", "elapsed": "00:03:03"},
+    {"id": "58373492.3", "purpose": "replica 1: eight matrix fits", "state": "COMPLETED", "exit_code": "0:0", "elapsed": "01:03:23", "application_seconds": 3793.596822681},
+    {"id": "58373492.4", "purpose": "verification/report/plots", "state": "COMPLETED", "exit_code": "0:0", "elapsed": "00:00:12"}
+  ],
+  "allocation_released": true,
+  "interactive_allocations_after_release": 0,
+  "unit_tests": {"command": "python -m unittest tests.test_e2e_diversity_norm", "passed": 14},
+  "source_commit": "c785ed90eb2c4d71790b4e205720e7ee7c6b8640",
+  "report_commit": "86caba7",
+  "root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/diversity_norm_20260915_58373492",
+  "prepared_sha256": "26a29ceb1f15ddc5012b7fd14ae825eda59ab065bd64f529f682d49cd4a5e19d",
+  "frozen_sha256": "fb4de43e03ae6af4d1c6d66cb848e1da31cd30152b3df33ea3758632a76351e8",
+  "replica_0_sha256": "fe3575ae0011c01275cf190b868fd6b501a516ba3b1bb5385ce38c085c834c23",
+  "replica_1_sha256": "298c229627d8b3f5839285f84cc2a8a75e09b48e08d2392c67534e6fe1c8b97e",
+  "summary_sha256": "39cce1e27ca0e66149ff0da33535d87abd97eea36e16a1dbbbb43a854b0346aa",
+  "plot_sha256": {
+    "learning_curves.png": "1cf2c9c5e4248cf22fb4d7449f8518b36dbb5c068e6cbad39c48371b1b730b0c",
+    "clean_limit.png": "f65b0e43a1d100200e8a8791aaab5d11260112aebb2570e727e28503cd61110a",
+    "field_associations.png": "e0dba58cdf062b6d6c901fd72422cf40290d742ee9e7d31d3adffa6ba58bba36"
+  },
+  "counts": {"fits": 16, "updates": 49152, "checkpoints": 32, "clean_and_noisy_probes": 16038, "coordinate_roundtrip_comparisons": 135},
+  "checks": {"source_hashes": true, "cache_hash": true, "all_checkpoint_hashes": true, "paired_physical_exposure": true, "nonoverlapping_train_transfer_source_footprints": true, "exact_prior_weight_replay": true, "expanded_panel_prediction_replay": true, "finite_probes": true, "zero_endpoint_identity": true},
+  "heldout_payloads_read": false,
+  "full_e2e_training": false,
+  "training_ready": false,
+  "follow_on_launched": false
+}

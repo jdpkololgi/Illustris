@@ -128,14 +128,18 @@ IllustrisTNG-300.
   pass all .2 checks, but no model passes the full gate; transformer does not help.
   Remaining U-Net .05 error is80.19% noise-even, matching clean-input distortion.
   Generated high-k power is still3.54x truth with biased lower/middle bands.
-  Keep full E2E paused384; no convergence/calibration/production claim. Next
-  isolate coverage/normalization on the fixed best model, not a transformer swap.
-  Current approved isolation58373492 compares3/6/9/15 non-overlapping fitting
+  Keep full E2E paused384; no convergence/calibration/production claim.
+  Completed isolation58373492 compared3/6/9/15 non-overlapping fitting
   regions versus two global normalizers, two seeds, fixed3,072 updates; twelve
   fixed transfer regions. Current target scaler is already pooled/global;
   strict scaler excludes transfer moments and is held fixed across diversity.
   Physical corruption/loss matched, internal GroupNorm unchanged. Exactly0
   identity is structural; positive-nominal-noise clean probes are diagnostic.
+  Diversity gives modest, seed-dependent clean preservation gains, not a collapse;
+  global scaling is not a reliable remedy. No model passes the full fitted+transfer
+  gate. Near-zero probes below.025 extrapolate beyond training noise coverage.
+  Next isolate optimization, selection/conditioning shift and this boundary;
+  no follow-on launched, allocation released. No full E2E or held-out opening.
   `docs/e2e_diversity_norm_20260915.md`; prior `docs/e2e_multinoise_20260915.md`.
   See `docs/e2e_wide_continuation_20260914.md` and its archived evidence.
   The tested finite-window residual is not a local orthogonal high-pass
