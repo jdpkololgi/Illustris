@@ -47,6 +47,14 @@ def summarize(rows,anchors,parent):
     return out
 
 
+def with_metadata(rows,anchors,parent,metadata):
+    out=summarize(rows,anchors,parent)
+    for ratio,record in out.items():
+        rr=[r for r in rows if r['anchor_id'] in anchors and r['kind']=='clean' and r['ratio']==float(ratio)]
+        if rr:record['clean_rms_over_field_std']=med([r['rms']/metadata[r['anchor_id']]['stats']['std'] for r in rr])
+    return out
+
+
 def ranks(x):
     x=np.asarray(x);return np.array([(np.sum(x<v)+.5*(np.sum(x==v)-1)) for v in x],dtype=float)
 
@@ -55,6 +63,13 @@ def correlation(x,y):
     x=np.asarray(x,dtype=float);y=np.asarray(y,dtype=float)
     if np.std(x)<1e-14 or np.std(y)<1e-14:return None
     return float(np.corrcoef(x,y)[0,1])
+
+
+def finite_tree(value):
+    if isinstance(value,dict):return all(finite_tree(v) for v in value.values())
+    if isinstance(value,list):return all(finite_tree(v) for v in value)
+    if isinstance(value,(int,float)):return bool(np.isfinite(value))
+    return True
 
 
 def associations(rows,prepared,n):
@@ -69,6 +84,7 @@ def associations(rows,prepared,n):
         raw=np.array([metadata[r['anchor_id']]['stats'][key] for r in rr],dtype=float)
         for transform,x in [('value',raw),('absolute_distance_from_fit_mean',abs(raw-fit_mean))]:
             for outcome,y in [('rms',[r['rms'] for r in rr]),('signed_bias',[r['bias'] for r in rr]),
+                              ('rms_over_field_std',[r['rms']/metadata[r['anchor_id']]['stats']['std'] for r in rr]),
                               ('highk_error',[r['metrics']['error_power'][-1] for r in rr])]:
                 out.append(dict(feature=key,transform=transform,outcome=outcome,n=len(rr),
                     pearson=correlation(x,y),spearman=correlation(ranks(x),ranks(y)),
@@ -85,7 +101,7 @@ def verify(root):
     assert not any(overlap(a,b) for a in prep['selection']['train'] for b in prep['selection']['transfer'])
     assert frozen['complete'] and frozen['prepared_sha256']==digest and frozen['source_sha256']==source_hashes()
     assert len(frozen['roundtrip'])==135 and len(frozen['results'])==5
-    for rows in list(frozen['results'].values())+[frozen['parent384']]:assert len(rows)==297
+    for rows in list(frozen['results'].values())+[frozen['parent384']]:assert len(rows)==297 and finite_tree(rows)
     cells=[];hashes={};inputs={str(root/'PREPARED.json'):digest,str(root/'FROZEN.json'):p.sha256(root/'FROZEN.json')}
     for replica in range(2):
         folder=root/f'replica_{replica}';path=folder/'MATRIX_COMPLETE.json';receipt=json.loads(path.read_text());inputs[str(path)]=p.sha256(path)
@@ -107,6 +123,7 @@ def verify(root):
             assert [x['update'] for x in cell['curve']]==[0,1536,3072]
             for point in cell['curve']:
                 assert len(point['rows'])==297
+                assert finite_tree(point['rows'])
                 assert len({(r['anchor_id'],r['kind'],r['ratio'],r.get('rep')) for r in point['rows']})==297
                 for r in point['rows']:
                     if r['kind']=='clean' and r['ratio']==0:assert r['max_abs']<=1e-6
@@ -114,22 +131,31 @@ def verify(root):
             cells.append(cell)
         assert seen=={(n,norm) for n in cfg['field_counts'] for norm in cfg['normalizations']}
     assert cells[0]['replay'] is not None
+    # Same fixed predictor must also reproduce the entire expanded evaluation panel.
+    replay={(r['anchor_id'],r['kind'],r['ratio'],r.get('rep')):r for r in cells[0]['curve'][-1]['rows']}
+    for r in frozen['results']['current']:
+        actual=replay[r['anchor_id'],r['kind'],r['ratio'],r.get('rep')]
+        for metric in ('gain','error_power','power_ratio'):
+            np.testing.assert_allclose(actual['metrics'][metric],r['metrics'][metric],atol=1e-7,rtol=1e-4)
     return prep,frozen,cells,hashes,inputs
 
 
 def main(root,out):
     prep,frozen,cells,hashes,inputs=verify(root);out.mkdir(parents=True,exist_ok=False)
     parent={(r['anchor_id'],r['ratio'],r['rep']):r for r in frozen['parent384'] if r['kind']=='noisy'}
+    metadata={r['anchor_id']:r for r in prep['metadata']}
     records=[]
     for cell in cells:
         record={k:cell[k] for k in ('n','normalization','replica','replay','elapsed_seconds')}
-        record['curve']=[dict(update=point['update'],groups={name:summarize(point['rows'],aa,parent) for name,aa in groups(prep,cell['n']).items()}) for point in cell['curve']]
+        record['curve']=[dict(update=point['update'],groups={name:with_metadata(point['rows'],aa,parent,metadata) for name,aa in groups(prep,cell['n']).items()}) for point in cell['curve']]
         h=cell['history'];record['loss_blocks']=[float(np.mean([r['loss'] for r in h[i:i+512]])) for i in range(0,3072,512)]
         record['clipped_fraction']=float(np.mean([r['gradient_norm']>1 for r in h]))
         record['presentations']={a:sum(r['anchor_id']==a for r in h) for a in groups(prep,cell['n'])['exposed']}
         record['associations']=associations(cell['curve'][-1]['rows'],prep,cell['n']);records.append(record)
-    frozen_summary={name:{group:summarize(rows,aa,parent) for group,aa in groups(prep,3).items()} for name,rows in frozen['results'].items()}
-    summary=dict(cells=records,frozen=frozen_summary,normalizations=prep['normalizations'],metadata=prep['metadata'],
+    frozen_summary={name:{group:with_metadata(rows,aa,parent,metadata) for group,aa in groups(prep,3).items()} for name,rows in frozen['results'].items()}
+    summary=dict(cells=records,frozen=frozen_summary,
+        frozen_associations={name:associations(rows,prep,3) for name,rows in frozen['results'].items()},
+        normalizations=prep['normalizations'],metadata=prep['metadata'],
         roundtrip_max_abs=max(r['max_abs'] for r in frozen['roundtrip']),checkpoints=hashes,inputs=inputs,
         counts=dict(fits=16,updates=49152,checkpoints=32,matrix_probes=14256,frozen_probes=1782,roundtrip_comparisons=135),
         source_sha256=source_hashes(),report_source_sha256=p.sha256(__file__),heldout_payloads_read=False,training_ready=False,
@@ -138,7 +164,8 @@ def main(root,out):
           'Finite nominal noise clean identity is diagnostic, not required Bayes identity.',
           'Two seeds describe run variability, not independent-cosmology uncertainty.',
           'Fixed updates reduce exposures per field as diversity grows; no convergence guarantee.',
-          'Direct frozen scaler swaps change the predictor; only compensated roundtrip is function-equivalent.'])
+          'Direct frozen scaler swaps change the predictor; only compensated roundtrip is function-equivalent.',
+          'Raw RMS naturally covaries with signal amplitude; field-relative RMS associations are also reported.'])
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
@@ -164,6 +191,19 @@ def main(root,out):
             ax.loglog(ratios,y,'o-',label=f'{n} fields',color=f'C{i}')
         ax.set(xlabel='Nominal noise ratio (no noise injected)',ylabel='Transfer clean RMS',title=norm);ax.legend();ax.grid(alpha=.2)
     fig.savefig(out/'clean_limit.png',dpi=150);plt.close(fig)
+    fig,axes=plt.subplots(1,3,figsize=(12,4),constrained_layout=True)
+    transfer=groups(prep,3)['transfer']
+    for ax,feature in zip(axes,['std','redshift','support_fraction']):
+        for n,marker in [(3,'o'),(15,'s')]:
+            cc=[c for c in cells if c['n']==n and c['normalization']=='current']
+            for phase,color in [('ph000','C0'),('ph002','C1'),('ph003','C2')]:
+                aa=[a for a in transfer if metadata[a]['phase']==phase]
+                yy=[med([next(r['rms'] for r in c['curve'][-1]['rows'] if r['anchor_id']==a and r['kind']=='clean' and r['ratio']==.05)
+                         for c in cc])/metadata[a]['stats']['std'] for a in aa]
+                ax.scatter([metadata[a]['stats'][feature] for a in aa],yy,color=color,marker=marker,label=f'{phase}, N={n}')
+        ax.set(xlabel=feature,ylabel='Clean RMS / field std at .05');ax.grid(alpha=.2)
+    axes[-1].legend(fontsize=7);fig.suptitle('Current normalization: descriptive transfer associations, two-seed medians')
+    fig.savefig(out/'field_associations.png',dpi=150);plt.close(fig)
     lines=['# Diversity / normalization results','','All rows: median over the same 12 transfer regions and two fitted models; no confidence intervals.','',
            '| Fields | Normalization | Clean RMS at .05 | .05 noise left | .05 error / parent | .2 noise left |',
            '|---:|---|---:|---:|---:|---:|']

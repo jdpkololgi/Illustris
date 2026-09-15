@@ -6,7 +6,7 @@ import torch
 from torch import nn
 from workflows.sbi.e2e_diversity_norm import AffineChart, identity_norm, inverse_norm, fit_norm, field_for, overlap
 from workflows.sbi.e2e_multinoise_models import coefficients
-from workflows.sbi.e2e_diversity_norm_report import ranks, correlation, groups, summarize
+from workflows.sbi.e2e_diversity_norm_report import ranks, correlation, groups, summarize, with_metadata, finite_tree
 
 
 class Toy(nn.Module):
@@ -99,6 +99,17 @@ class DiversityNormTests(unittest.TestCase):
             rows.append(r);parent['a',.05,rep]=dict(metrics=dict(error_power=[0,0,0,10*error]))
         r=summarize(rows,['a'],parent)['0.05'];self.assertAlmostEqual(r['error_vs_parent'],.1)
         self.assertEqual(r['passed'],1)
+
+    def test_report_field_relative_distortion(self):
+        rows=[dict(anchor_id='a',kind='clean',ratio=.05,rms=.02,bias=0.,max_abs=.1,rms_over_injected=1.,
+                   metrics=dict(error_power=[0,0,0,.01],gain=[1,1,1,1]))]
+        out=with_metadata(rows,['a'],{},dict(a=dict(stats=dict(std=.4))))
+        self.assertAlmostEqual(out['0.05']['clean_rms_over_field_std'],.05)
+
+    def test_report_rejects_nonfinite_metrics(self):
+        self.assertTrue(finite_tree({'a':[None,1.,'metadata']}))
+        self.assertFalse(finite_tree({'a':[float('nan')]}))
+        self.assertFalse(finite_tree({'a':[float('inf')]}))
 
 
 if __name__=='__main__':unittest.main()
