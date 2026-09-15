@@ -1,5 +1,57 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-15 - [science/result] Denoising localized: fine high-k cancellation fails near clean end; coarse affects largest scales
+
+User approved the bounded GPU diagnostic. Job 58352703, one A100 on nid001028,
+completed the 1,920 controlled probes, 384 saved-draw component decompositions,
+48 explicitly labelled true-coarse controls and 216 intermediate sampler records.
+Audit 11m42.15s, allocation 15m29s, released; all steps COMPLETED 0:0. All physical
+sums, velocity/clean identities, signed-power closure, hashes, exact instrumented
+replays and final provenance checks pass. Five focused synthetic/report tests
+pass. No fitting, original-source changes, smoothing/clipping or held-out reads.
+
+On the unchanged 24-anchor training panel, the fine residual contributes 98.97%
+CFM / 99.29% DIFF of total generated k>.32 power; signed cross-power is accounted
+for separately. High-k / truth power is 46.03/65.37 and its fraction of total
+generated fluctuation power 30.25%/31.96%, versus 0.498% in truth. These panel
+medians differ slightly from the previous full-96-anchor summaries, not a rerun
+discrepancy. Every phase shows the same fine-dominated excess.
+
+Near-clean controlled fine probes (sigma/alpha=.05) retain 97.39%/97.96% of
+injected high-k noise amplitude in the clean-estimation error; 97.48%/97.89%
+of high-k error power is aligned with that noise. The amplitude is a signed
+projection, not an RMS uncertainty. 94.62%/96.65% of band-summed velocity-error
+power lies above k=.32. Normalized velocity MSE remains 1.0244/.9977 even though
+small sigma makes clean MSE look small. At ratio.2, 89.35%/87.91% noise amplitude
+remains. This is a direct learned noise-cancellation failure, not just apparent
+graininess or a tiny target-power denominator. Coarse near-clean cancellation
+also fails, but contributes only about 1% of final local high-k power.
+
+Using true coarse with the same fine seed improves largest-scale local power /
+truth from .516 to 1.035 CFM and .756 to .908 DIFF, but high-k power changes only
+about 1%: 45.99->45.43 / 65.02->64.49. Middle-band deficits remain. This separates
+the coarse/coupled largest-scale deficit from the fine-stage noise failure;
+the control does not distinguish additive coarse error from conditioning error
+and is not deployable inference. Across six exactly reproduced sampler pairs,
+DIFF intermediate fine high-k power / true residual rises from 7.14 at t=.875
+to 66.85 near completion; CFM starts high (56.36) and stays high (about 48).
+
+192->384 training substantially improved cancellation at intermediate noise but
+barely at ratio.05 (CFM .9967->.9739; DIFF .9983->.9796). Thus the old no-plateau
+decision stands. Basic sampler algebra/replay is ruled out; more integration
+steps alone is not supported as the main remedy. Undertraining versus weak time
+conditioning, capacity and loss weighting remains unresolved. Next separately
+authorize a small fixed-panel, noise-resolved learning/overfit experiment before
+a large continuation; retain absolute band errors and signal-gain controls.
+No automatic training extension, validation opening or science release. These
+are correlated training cases in three phases, not calibration evidence.
+
+Report and figure: docs/e2e_wide_denoising_audit_20260915.md. Compact evidence,
+checkpoint/oracle hashes and scheduler receipt:
+docs/evidence/e2e_field_v2/wide_denoising_20260915/. Raw arrays/probes remain in
+the registered Scratch root. Audit source 3aba780; all original negative-domain
+receipts, training_ready=false/r0_physics_pass=false and P12/D2/P13 are preserved.
+
 ### 2026-09-15 - [science/diagnostic] Denoising localization prepared; GPU approval pending
 
 User requested a brief E2E status and isolation of denoising errors. The current

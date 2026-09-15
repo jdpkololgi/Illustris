@@ -55,6 +55,12 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   power shape and convergence remain unresolved. No automatic continuation,
   model revision or holdout access. Contract/results:
   `docs/e2e_wide_continuation_20260914.md`.
+  The approved September 15 `e2e_wide_denoising_audit.py` diagnosis completed
+  as 58352703 (released), with no training or held-out reads. Fine-stage
+  near-clean high-k noise cancellation fails; true coarse improves only the
+  largest-scale deficit. Report/phase summaries: `e2e_wide_denoising_report.py`
+  and `docs/e2e_wide_denoising_audit_20260915.md`. Further training/validation
+  remains separately authorized, not an automatic follow-on.
 - Root-level `*_supervisor_v2_20260904.sh` scripts are historical operational
   records, not current launch instructions. Frozen production uses Slurm.
 

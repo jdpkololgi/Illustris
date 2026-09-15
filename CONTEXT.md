@@ -88,8 +88,16 @@ IllustrisTNG-300.
   late losses fall 7.9--11.4%, fields still drift, and low-k power suppression
   worsens while high-k excess remains. Observations affect the fits; generated-
   coarse loss sensitivity is modest and does not identify the spectral cause.
-  Stopped at 384; no automatic 768, held-out opening or model revision. Next
-  scale-resolved denoising diagnostics/validation require new authorization.
+  Stopped at 384; no automatic 768, held-out opening or model revision. The
+  subsequently approved scale-resolved audit completed September 15 (58352703,
+  released): about 99% of generated local high-k power comes from the fine
+  residual, whose near-clean estimates retain 97--98% of injected high-k noise
+  amplitude. True-coarse controls improve largest-scale power but leave high-k
+  excess almost unchanged. Exact sampler algebra/replay passes; optimization
+  versus time-conditioning/capacity/loss-weighting causes remain unresolved.
+  Next authorize a small noise-resolved learning/overfit test, not a blind
+  extension; held-out validation remains separately gated. See
+  `docs/e2e_wide_denoising_audit_20260915.md`.
   See `docs/e2e_wide_continuation_20260914.md` and its archived evidence.
   The tested finite-window residual is not a local orthogonal high-pass
   subspace; see `docs/e2e_wide_pipeline_20260910.md` for the explicit amendment,

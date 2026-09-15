@@ -1,0 +1,37 @@
+{
+  "job_id": "58352703",
+  "node": "nid001028",
+  "authorization": "User explicitly approved one GPU for up to one hour of training-only checkpoint diagnosis",
+  "allocation": "salloc --nodes=1 --ntasks=1 --cpus-per-task=32 --constraint=gpu --gpus=1 --qos=shared_interactive --time=01:00:00 --account=desi_g --licenses=scratch --immediate=600",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "allocation_elapsed": "00:15:29",
+  "released_normally": true,
+  "steps": [
+    {"job_id": "58352703.0", "task": "denoising audit", "state": "COMPLETED", "exit_code": "0:0", "elapsed": "00:11:43"},
+    {"job_id": "58352703.1", "task": "compact report", "state": "COMPLETED", "exit_code": "0:0", "elapsed": "00:00:04"},
+    {"job_id": "58352703.2", "task": "figure and supplementary summaries", "state": "COMPLETED", "exit_code": "0:0", "elapsed": "00:00:03"}
+  ],
+  "audit_wall_seconds": 702.15,
+  "audit_git_head": "3aba78073a73860e66d41928b81b1f584e790221",
+  "audit_source_sha256": "f61e36a76fef35197db5627750f6cd5450cb3dd0c3dc7bb8e75a786c2694690a",
+  "report_source_sha256": "150f2e5f200925a568726aa80e335f1f6c21a141c94514c7390a87ead1d563b3",
+  "output_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/denoise_20260915_58352703",
+  "logs": [
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_denoise_58352703.log",
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_denoise_report_58352703.log",
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_denoise_plot_58352703.log"
+  ],
+  "audit_complete_sha256": "53907fffe06253818ad899436832f7fb423ea7cfcd96eae366e7b36d2f6ab56b",
+  "archive_sha256": {
+    "SUMMARY.json": "51bca2a9ec73c70c74e9b24d95afa246f5787484a1dade46df20f8828ade4be7",
+    "SUPPLEMENTARY.json": "34d7d0a97cc762538e08f9e95c2ff423f7278b95651b2d50a73dec86f3c71992",
+    "denoising_localization.png": "1b8886581e5b32f22a0823093a1e365696a966671ae8c074f3d799aece21013c",
+    "plot.py": "37a36f41e5f4fd290a7fa575451925ecf66d33b2312494f995d0644582d9dfd8"
+  },
+  "training_performed": false,
+  "heldout_payloads_read": false,
+  "training_ready": false,
+  "r0_physics_pass": false,
+  "calibration_pass": null
+}
