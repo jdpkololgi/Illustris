@@ -1,5 +1,23 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-15 - [science/experiment] Diversity versus numerical scale matrix registered
+
+User approves compute to isolate clean-input transfer distortion. Best near-identity
+FiLM U-Net unchanged: 3/6/9/15 distinct non-overlapping fitting regions, current
+versus strict-global-train normalization, two seeds, 3,072 updates each (16 fits).
+Twelve fixed transfer regions excluded from fitting by stored source footprints;
+three existing training phases only, no independent-cosmology/held-out claim.
+Current scaling is global but includes development transfer regions; strict scaler
+uses largest15 fit partition and stays fixed across diversity. Endpoint-safe affine
+VP conversion preserves physical corruption and physical loss. Internal GroupNorm
+unchanged. Frozen scaler swaps plus compensated coordinate-equivalence control.
+Clean zero-injected-noise sweep (exact0 through .2), .05/.2 paired noisy probes,
+common fitted/transfer learning curves, and descriptive field-statistics associations.
+Exactly0 identity is structural, not a learned success. Fifteen regions/fixed updates
+cannot by themselves establish a sensible asymptote. Allocation58373492, twoGPUs,
+twohours; full-size smoke before fits. No E2E restart or production promotion.
+Contract and cautions: docs/e2e_diversity_norm_20260915.md.
+
 ### 2026-09-15 - [science/result] Joint-noise skip isolation improves U-Net; .05 transfer distortion still blocks E2E
 
 Approved allocation58368502/nid001028 completed and was released after57m34s;
