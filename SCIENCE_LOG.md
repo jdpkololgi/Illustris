@@ -1,5 +1,51 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-15 - [science/result] Joint-noise skip isolation improves U-Net; .05 transfer distortion still blocks E2E
+
+Approved allocation58368502/nid001028 completed and was released after57m34s;
+all four steps and allocation COMPLETED0:0, zero remaining allocations. Initial
+six3,072-update fits plus separately approved adaptive three-arm skip-only test
+completed:27,648updates,2,652new noise probes,27checkpoints,60 paired true-coarse
+DDIM draws and324 read-only response forwards. Main applications2,208.51s and
+761.60s, within6,000s/900s caps. Source, checkpoint/draw hashes, training/exposure
+pairing, disjoint evaluation noise, no transfer fitting and recomputed gates pass.
+
+Initial endpoint-safe raw scaling alone fails0/72 phase checks. Transfer .05
+noise left: plainU-Net95.72%, FiLM57.97%, clean-penalty72.46%, dropout99.66%,
+transformer87.68%, wavelet84.76%. Clean penalty/dropout in these forms are not
+supported. This chart also changed the specialist's near-clean skip; the user
+separately approved a skip-only contrast, not an automatic training extension.
+
+With identical architecture/initial hidden weights/raw scaling/optimizer/exposure,
+v=-a*b*x-r/d (D=a*(1+b^2)*x+(b/d)*r) improves FiLM U-Net .05 transfer noise
+.580->.133 and worst-phase error/parent .729->.375. Bounded endpoints, no x/a
+division. It changes initial prediction/raw target and optimization trajectory,
+not capacity or scalar v-MSE. At .2 U-Net AND wavelet pass every fitted/transfer
+phase. At .05 U-Net passes2/3fit and1/3transfer; fittedph000 noise.232 fails,
+transferph002/ph003 error/parent .375/.340 fails though noise and lower gains pass.
+Skip-wavelet .05 transfer noise.405/error.392--.412; transformer.949/error1.024--
+1.067. Skip-only phase checks15/36pass (U-Net9,wavelet6,transformer0), no model
+passes its complete12-check gate. The tested transformer is not a better denoiser.
+
+Improved U-Net .05 transfer error is80.19% noise-even and correlates.99788 with
+clean-input error; clean power/paired.904. Persistent structure distortion now
+dominates again, not leftover injected noise. This is error localization, not
+a unique attribution to normalization/conditioning/coverage; power ratios are
+not additive bias fractions. Antithetic closure holds. True-coarse generated
+U-Net transfer high-k power/truth improves15.51->3.54 but lower/middle ratios
+.706/.611/.625 remain biased; transformer75.21 and wavelet24.57 high-k ratios.
+
+Decision: retain near-identity+FiLM U-Net as diagnostic reference; do not switch
+to this transformer or resume full E2E. Losses/curves still move, so no convergence
+claim. Next isolate fit-coverage/generalization and activation normalization on
+the fixed best architecture, with untouched/disjoint transfer checks and a
+training-derived linear shrinkage reference; no further test launched. No held-out
+payloads, coarse training, production promotion or physics/calibration pass.
+Original384 parents, data, normalization and unrelated D2 edits preserved.
+Report and evidence: docs/e2e_multinoise_20260915.md;
+docs/evidence/e2e_field_v2/multinoise_20260915/. Source569bfe9 (initial),82c4c14
+(skip follow-on); complete artifact and scheduler receipt retained there.
+
 ### 2026-09-15 - [science/experiment] Separately approved bounded skip-only follow-on
 
 Six joint-noise fits completed technically as58368502 but none passed the full

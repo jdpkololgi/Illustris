@@ -73,7 +73,7 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   clip10 and the tested dilated bottleneck do not establish a remedy. Original
   E2E stays paused at384. Model/config/report: `e2e_edm_ablation_models.py`,
   `configs/e2e_edm_ablation_20260915.json`, `e2e_edm_ablation_report.py`,
-  `docs/e2e_edm_ablation_20260915.md`. No further training is running or promoted.
+  `docs/e2e_edm_ablation_20260915.md`. No arm promoted.
   The approved `e2e_fixed_noise_test.py` follow-on completed as58363476 (released):
   eight512-update fixed-ratio fits. The field-unit residual U-Net passes fitted
   capability at .05/.2 and transfer at .2; .05 transfer reconstruction error
@@ -82,7 +82,17 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   sole architectural/conditioning cause established. Config/model/report:
   `configs/e2e_fixed_noise_20260915.json`, `e2e_fixed_noise_models.py`,
   `e2e_fixed_noise_report.py`, `docs/e2e_fixed_noise_20260915.md`.
-  Original full E2E remains paused at384; no joint-noise training or promotion.
+  Original full E2E remains paused at384. Approved joint-noise comparison
+  `e2e_multinoise_test.py` and separately approved skip-only contrast
+  `e2e_skip_path_test.py` completed as58368502 (released; all steps0:0).
+  Config/model/report/response: `configs/e2e_multinoise_20260915.json`,
+  `e2e_multinoise_models.py`, `e2e_multinoise_report.py`,
+  `e2e_multinoise_response.py`, `docs/e2e_multinoise_20260915.md`.
+  `configs/e2e_skip_path_20260915.json`, `e2e_skip_path_report.py`.
+  Nine3,072-update fits total. Near-identity+FiLM U-Net is best, but .05 transfer
+  distortion still fails two phases; U-Net/wavelet pass .2, transformer does not
+  help. No full-gate/convergence/calibration claim or production promotion.
+  No further diagnostic training is running.
 - Root-level `*_supervisor_v2_20260904.sh` scripts are historical operational
   records, not current launch instructions. Frozen production uses Slurm.
 
