@@ -30,6 +30,11 @@ class SkipTests(unittest.TestCase):
         self.assertLessEqual(float((a*b).max()), .500001)
         torch.testing.assert_close(clean-target, -b*(v-(a*noise-b*target)), atol=2e-6, rtol=2e-5)
 
+    def test_report_rejects_partial(self):
+        from workflows.sbi.e2e_skip_path_report import summarize
+        with self.assertRaises(ValueError):
+            summarize(dict(registration={'config': {}}, complete=False, results=[], baseline=[], fields=[], checkpoints={}), {})
+
 
 if __name__ == '__main__':
     unittest.main()
