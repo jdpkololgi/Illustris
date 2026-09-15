@@ -77,7 +77,7 @@ def main():
     fig, axes = plt.subplots(2, 4, figsize=(12, 6), constrained_layout=True)
     arrays = [np.array(slices['reference'][k]) for k in ('truth', 'noisy')]+[np.array(slices[arm]['clean']) for arm in cfg['arms']]
     limit = float(np.quantile(np.abs(arrays[0]), .995))
-    for ax, arr, title in zip(axes.ravel(), arrays, ['Truth', 'Noisy input']+cfg['arms']):
+    for ax, arr, title in zip(axes.ravel(), arrays, ['Truth', 'VE-equivalent noisy input']+cfg['arms']):
         im = ax.imshow(arr, cmap='RdBu_r', vmin=-limit, vmax=limit); ax.set_title(title, fontsize=9); ax.set_axis_off()
     fig.colorbar(im, ax=axes.ravel().tolist(), label='Normalized fine residual')
     fig.suptitle('Same transfer slice, noise ratio .05; visual appearance does not replace spectral gates')

@@ -1,5 +1,6 @@
 import unittest
-from workflows.sbi.e2e_multinoise_report import grouped, summarize
+from workflows.sbi.e2e_multinoise_report import grouped, summarize, validate_probes
+from workflows.sbi import e2e_wide_pipeline as p
 
 
 class ReportTests(unittest.TestCase):
@@ -13,6 +14,17 @@ class ReportTests(unittest.TestCase):
     def test_reject_incomplete(self):
         with self.assertRaises(ValueError):
             summarize(dict(complete=False, results=[], baseline=[], fields=[], checkpoints={}))
+
+    def test_probe_panel_rejects_duplicate_or_wrong_seed(self):
+        panel = dict(fit_anchors=['a'], transfer_anchors=['b'], seed=7, evaluation_noise_replicates=1)
+        rows = [dict(anchor_id=a, group=g, ratio=.05, rep=0, seed=p.seed_for(7, a, 'evaluation-0', 'fine'))
+                for a, g in (('a', 'fit'), ('b', 'transfer'))]
+        validate_probes(rows, panel, [.05])
+        with self.assertRaises(ValueError):
+            validate_probes(rows+rows[:1], panel, [.05])
+        rows[0]['seed'] += 1
+        with self.assertRaises(ValueError):
+            validate_probes(rows, panel, [.05])
 
 
 if __name__ == '__main__':

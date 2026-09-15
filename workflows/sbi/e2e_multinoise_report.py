@@ -21,6 +21,15 @@ def grouped(probes):
     return result
 
 
+def validate_probes(rows, panel, ratios):
+    expected = {(anchor, ratio, rep, p.seed_for(panel['seed'], anchor, f'evaluation-{rep}', 'fine'), group)
+                for group in ('fit', 'transfer') for anchor in panel[group+'_anchors']
+                for ratio in ratios for rep in range(panel['evaluation_noise_replicates'])}
+    actual = [(r['anchor_id'], r['ratio'], r['rep'], r['seed'], r['group']) for r in rows]
+    if len(actual) != len(expected) or set(actual) != expected:
+        raise ValueError('missing/duplicate/mismatched probe panel')
+
+
 def verify(data, root):
     cfg = data['registration']['config']; panel = data['registration']['panel']
     for path, expected in data['registration']['source_sha256'].items():
@@ -33,9 +42,15 @@ def verify(data, root):
         path = root/f'diffusion_{r["label"]}_{r["anchor_id"]}_true_coarse.h5'
         if p.sha256(path) != r['sample_sha256']:
             raise ValueError('draw mismatch: '+str(path))
+    if sorted(b['arm'] for b in data['results']) != sorted(cfg['arms']):
+        raise ValueError('missing/duplicate architecture')
+    validate_probes(data['baseline'], panel, panel['ratios'])
     common = None
     baseline_keys = [(r['anchor_id'], r['ratio'], r['rep'], r['seed']) for r in data['baseline']]
     for branch in data['results']:
+        if [c['update'] for c in branch['curve']] != cfg['evaluate_at']:
+            raise ValueError('checkpoint evaluation sequence mismatch')
+        validate_probes(branch['intermediate'], panel, cfg['intermediate_ratios'])
         if [r['update'] for r in branch['training']] != list(range(1, cfg['updates']+1)):
             raise ValueError('training update sequence mismatch')
         exposure = [(r['anchor_id'], r['noise_seed'], r['ratio'], r['time']) for r in branch['training']]
@@ -45,6 +60,7 @@ def verify(data, root):
         if set(r['anchor_id'] for r in branch['training']) != set(panel['fit_anchors']):
             raise ValueError('transfer training contamination')
         for point in branch['curve']:
+            validate_probes(point['probes'], panel, panel['ratios'])
             if [(r['anchor_id'], r['ratio'], r['rep'], r['seed']) for r in point['probes']] != baseline_keys:
                 raise ValueError('unpaired evaluation')
         evalseeds = {r['seed'] for point in branch['curve'] for r in point['probes']}
