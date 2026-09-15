@@ -15,6 +15,14 @@ from workflows.sbi.e2e_clean_limit import read_spec
 SCRATCH = Path('/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1')
 
 
+def snapshot_paths(names):
+    """Runtime source/config/tests only; never archive unrelated held-out evidence."""
+    docs={'AGENTS.md','CLAUDE.md','docs/e2e_clean_limit_20260915.md'}
+    return [name for name in names if name and 'ph001' not in name and
+            (name in docs or name.endswith(('.py','.slurm')) or
+             (name.startswith('configs/') and name.endswith('.json')))]
+
+
 def stage(root):
     root = root.resolve()
     if root.parent != SCRATCH or not root.name.startswith('clean_limit_'):
@@ -28,13 +36,13 @@ def stage(root):
         raise ValueError('prepared receipt drift')
     root.mkdir(exist_ok=False)
     source=root/'source'; source.mkdir(); (root/'logs').mkdir()
-    archive=subprocess.Popen(['git','archive',revision],cwd=p.REPO,stdout=subprocess.PIPE)
+    names=snapshot_paths(subprocess.check_output(['git','ls-files','-z'],cwd=p.REPO).decode().split('\0'))
+    archive=subprocess.Popen(['git','archive',revision,'--',*names],cwd=p.REPO,stdout=subprocess.PIPE)
     unpack=subprocess.run(['tar','-xf','-','-C',str(source)],stdin=archive.stdout)
     archive.stdout.close()
     if archive.wait() or unpack.returncode:
         raise RuntimeError('source snapshot failed; preserve partial root')
-    # Bind every tracked source/config/doc byte, not just the top-level runner.
-    names=subprocess.check_output(['git','ls-files','-z'],cwd=p.REPO).decode().split('\0')
+    # Bind every archived source/config byte, not just the top-level runner.
     hashes={name:p.sha256(source/name) for name in names if name and (source/name).is_file()}
     parents={str(r):p.sha256(old/f'replica_{r}/n15_current/update_003072.pt') for r in spec['replicas']}
     durable.publish_json(root/'MANIFEST.json',dict(schema='e2e-clean-limit-source-v1',

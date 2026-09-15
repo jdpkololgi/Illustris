@@ -8,7 +8,7 @@ import torch
 from workflows.sbi import e2e_durable as durable
 from workflows.sbi import e2e_clean_limit as experiment
 from workflows.sbi.e2e_multinoise_test import exposure
-from workflows.sbi.e2e_clean_limit_launch import command
+from workflows.sbi.e2e_clean_limit_launch import command, snapshot_paths
 
 
 class DurableTests(unittest.TestCase):
@@ -92,6 +92,11 @@ class DesignTests(unittest.TestCase):
             self.assertIn('--dependency=afterok:12345',args);self.assertIn('--no-requeue',args)
             self.assertIn('--qos=shared',args);self.assertIn('--signal=USR1@180',args)
             self.assertNotIn('--qos=interactive',args)
+
+    def test_snapshot_excludes_heldout_and_unrelated_artifacts(self):
+        names=['workflows/sbi/example.py','configs/example.json','configs/example_ph001.json',
+               'docs/evidence/ph001/receipt.json','data/target.npy','docs/e2e_clean_limit_20260915.md']
+        self.assertEqual(snapshot_paths(names),[names[0],names[1],names[-1]])
 
     def test_shift_predictors_leave_phase_out(self):
         metadata=[];rows=[]
