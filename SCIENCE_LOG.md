@@ -1,5 +1,56 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-15 - [science/result] EDM-informed ablations improve noise removal but no capability pass
+
+User-authorized six-arm diffusion fine-only experiment completed as58361744,
+one A100/nid001028,617.65s experiment,14m50s allocation, now released. Same384
+parent weights and identical initial predictions,512 additional updates per arm,
+three fit/three training-only transfer anchors,1,440 probes,42 oracle-coarse
+draws and18 separately bound diagnostic checkpoints. Source66ba31d; original
+pipeline/parent hashes unchanged, paired training noise and independent evaluation
+noise verified. Fifteen focused tests pass; no held-out payloads or CFM/coarse fits.
+
+All72 correlated phase/ratio/group capability checks fail. Fitted high-k residual
+noise amplitudes at ratios.05/.2 after512 updates: inherited-AdamW uniform-time
+86.33/50.80%; reset-AdamW87.65/53.76%; EDM log-normal exposure74.30/33.33%;
+with per-block log-noise FiLM73.99/25.64%; clip10 variant74.71/28.13%; dilated
+bottleneck variant75.20/29.09%. Required <=20%, alongside error reduction and
+lower-band signal preservation. Transfer modified-arm .05 retains75.01--75.80%,
+.2 retains30.86--36.28%. Fitted near-clean lower-band gains remain .982--1.004,
+but high-k error/parent remains .684--.705 at.05 and .276--.293 at.2 (> .25).
+
+The strongest identified improvement is noise exposure, not a new scalar loss:
+for unit-variance VP-v targets, EDM sigma_data=1 preconditioning/weighting with
+F=-v is algebraically equivalent to the existing objective (loss/gradient tests).
+Per-block conditioning adds a limited .2 benefit, not a .05 remedy. Resetting
+AdamW does not help; relaxing clipping reduces clipped steps100%->17.38% without
+better noise amplitude. Additional bottleneck capacity/RF102,825->159,369
+parameters receives gradients but does not improve on FiLM alone. These are
+bounded contrasts, not exclusions of all optimizers or architectures.
+
+Generated true-coarse fields improve high-k power substantially: fitted ratios
+80.80 parent ->15.33/20.34 uniform controls ->6.93--9.35 EDM variants, still far
+from truth. EDM fitted .08--.16 power remains .550--.701 versus1.034 reset control;
+other bands/transfer responses are mixed. Do not confuse reduced graininess with
+correct spectra. Log-normal exposure supplies only8/512 updates at sigma>5,
+versus58 uniform; edm_noise ratio20 high-k error rises4.95x parent fit/4.57x
+transfer. FiLM mitigates that error but has weak high-noise lower-band gains.
+
+Decision: keep full E2E paused at384; promote none. Partial learning is clear,
+required capability/convergence/calibration is not. Curves still improve, so
+failure at512 is not proof of a plateau or architectural impossibility. Next
+proposed separately bounded test: fixed-sigma .05/.2 denoising with explicit
+residual/skip and linear-reference/high-resolution-capacity controls, then test
+joint-noise interference only if local capability passes. Not launched; no
+automatic training extension or held-out opening. training_ready=false and
+r0_physics_pass=false unchanged; no P12/D2/P13 changes.
+
+Report: docs/e2e_edm_ablation_20260915.md; compact curves, phase gates, hashes
+and receipt: docs/evidence/e2e_field_v2/edm_ablation_20260915/. Main training
+step.0 and final verified report.3 COMPLETED0:0. Report-only step.2 failed on
+existing exclusive output; initial report preserved on Scratch and regenerated
+as.3. No training rerun or source drift; allocation COMPLETED0:0 and released.
+
 ### 2026-09-15 - [science/experiment] EDM-informed causal denoiser ablations registered
 
 User requested implementing/testing noise-time, preconditioning/loss and capacity

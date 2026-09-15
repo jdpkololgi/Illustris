@@ -67,6 +67,13 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   promotion or another full E2E extension. Source/config/report:
   `configs/e2e_fine_learning_20260915.json`, `e2e_fine_learning_report.py`,
   `docs/e2e_fine_learning_20260915.md`. These branches are not production models.
+  The subsequent approved `e2e_edm_ablation.py` experiment completed as58361744
+  (released): six512-update diffusion-only branches; all capability gates fail.
+  Noise exposure improves denoising; log-noise FiLM partly helps. Optimizer reset,
+  clip10 and the tested dilated bottleneck do not establish a remedy. Original
+  E2E stays paused at384. Model/config/report: `e2e_edm_ablation_models.py`,
+  `configs/e2e_edm_ablation_20260915.json`, `e2e_edm_ablation_report.py`,
+  `docs/e2e_edm_ablation_20260915.md`. No further training is running or promoted.
 - Root-level `*_supervisor_v2_20260904.sh` scripts are historical operational
   records, not current launch instructions. Frozen production uses Slurm.
 

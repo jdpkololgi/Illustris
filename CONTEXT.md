@@ -104,6 +104,16 @@ IllustrisTNG-300.
   time conditioning before a large extension. Details:
   `docs/e2e_fine_learning_20260915.md`; held-out validation remains separately gated. See
   `docs/e2e_wide_denoising_audit_20260915.md`.
+  The next approved six-arm diffusion-only EDM-informed test completed as58361744
+  (released):512 additional updates per arm, all72 capability checks fail.
+  EDM scalar preconditioning/loss equals existing normalized VP-v here; changed
+  noise exposure helps, per-block conditioning partly helps, but optimizer reset,
+  relaxed clipping and the tested bottleneck RF addition do not solve denoising.
+  Best fitted .05 residual noise remains74%; generated high-k power remains
+  7--9x truth for EDM variants. No converged or production-ready branch. Keep
+  original E2E paused at384. Report: `docs/e2e_edm_ablation_20260915.md`.
+  A fixed-sigma residual-path/high-resolution capacity control is proposed,
+  not launched; no automatic extension or held-out access.
   See `docs/e2e_wide_continuation_20260914.md` and its archived evidence.
   The tested finite-window residual is not a local orthogonal high-pass
   subspace; see `docs/e2e_wide_pipeline_20260910.md` for the explicit amendment,
