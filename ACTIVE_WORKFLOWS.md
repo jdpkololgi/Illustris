@@ -1,5 +1,13 @@
 # Active Workflow Index
 
+## Ordered clean-limit follow-on (registered 2026-09-15)
+
+`workflows/sbi/e2e_clean_limit.py` / `e2e_clean_limit_launch.py`: frozen15-field
+optimization -> paired low-noise exposure -> observation-shift diagnostics.
+Disconnect-safe shared Slurm batches after representative interactive smoke.
+Contract/restart: `docs/e2e_clean_limit_20260915.md`. Full E2E remains paused;
+bounded denoiser diagnosis, not model promotion.
+
 This file is the quick reference for what to run in this repository now. For
 Perlmutter commands and operational details, see `RUNBOOK.md`.
 

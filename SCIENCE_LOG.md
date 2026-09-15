@@ -1,5 +1,21 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-15 - [science/experiment] Ordered optimization / near-zero / conditioning follow-on registered
+
+User approves follow-ons and requests SSH-disconnect survival. Two existing
+15-field/current-normalization seeds resume3,072->24,576 with Adam/RNG, then paired
+unchanged-exposure/near-zero branches continue to36,864.92,160 new updates bounded;
+no architecture, loss, normalization or field change. One of six exposure bins
+adds near-zero coverage; others/pure-noise endpoint unchanged. Dense clean-limit
+and paired noise probes, then target-versus-observation associations/leave-phase-
+out predictions. Exact0 identity structural; log-time floor.002 unchanged. No
+causal, asymptote, independent-cosmology or production-readiness claim.
+
+Frozen-source shared Slurm arrays with afterok dependencies, atomic checkpoints,
+signal handling; submission gated on tests/full-size GPU smoke/exact cross-process
+interruption replay. No batch submitted at registration. E2E paused384, no held-out
+access. Contract: docs/e2e_clean_limit_20260915.md; config of matching date.
+
 ### 2026-09-15 - [science/result] Diversity gives modest gains; global normalization does not resolve clean distortion
 
 Approved two-GPU allocation58373492 completed and was released after1h23m08s;

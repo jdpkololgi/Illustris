@@ -1,0 +1,22 @@
+{
+  "schema": "e2e-clean-limit-v1",
+  "parent_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/diversity_norm_20260915_58373492",
+  "prepared_sha256": "26a29ceb1f15ddc5012b7fd14ae825eda59ab065bd64f529f682d49cd4a5e19d",
+  "replicas": [0, 1],
+  "field_count": 15,
+  "normalization": "current",
+  "parent_update": 3072,
+  "optimization_end": 24576,
+  "coverage_end": 36864,
+  "optimization_probes": [3072, 6144, 12288, 18432, 24576],
+  "coverage_probes": [24576, 30720, 36864],
+  "checkpoint_every": 512,
+  "clean_ratios": [0.0, 0.00001, 0.00003, 0.0001, 0.0003, 0.001, 0.003, 0.005, 0.01, 0.025, 0.05, 0.2],
+  "noisy_ratios": [0.001, 0.005, 0.01, 0.025, 0.05, 0.2, 1.0, 5.0, 20.0],
+  "near_zero": {"replace_bin": 0, "zero_probability": 0.03125, "positive_uniform_fraction": 0.5, "log_min": 0.00001, "maximum": 0.05},
+  "plateau_fraction": 0.05,
+  "full_e2e_training": false,
+  "heldout_access": false,
+  "automatic_extension": false,
+  "training_ready": false
+}

@@ -1,5 +1,16 @@
 # TNG/Illustris Runbook
 
+## Disconnect-safe clean-limit experiments (2026-09-15)
+
+Frozen-source batch launcher: `workflows/sbi/e2e_clean_limit_launch.py`; reviewed
+Slurm entrypoint: `workflows/sbi/submit_e2e_clean_limit.slurm`. Follow the gated
+stage/smoke/signal-replay/submit sequence in `docs/e2e_clean_limit_20260915.md`.
+Check SUBMITTED.json for job IDs, logs/ for durable stdout/stderr, per-branch
+LATEST.json/COMPLETE.json for restart/completion, analysis/SUMMARY.json for results.
+Do not blindly repeat submission after interruption: inspect the exclusive intent
+and Slurm first. Jobs do not require a live SSH connection, but failures/walltime
+need explicit recovery; no automatic requeue or E2E restart.
+
 This runbook lists verified workflow entrypoints, launch commands, and common
 operational constraints for the TNG/Illustris and Abacus cosmic web pipelines.
 For a concise status index, see `ACTIVE_WORKFLOWS.md`.
