@@ -1,5 +1,24 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-15 - [science/experiment] Fixed-noise residual-path capability test registered
+
+User approved the follow-on fixed-sigma test. Register eight512-update fits:
+ratios.05/.2 crossed with original384 U-Net, fresh zero-head v U-Net, matching
+fresh field-unit-correction/clean-skip U-Net, and full-resolution residual network.
+Same three fit/three training-transfer anchors and original evaluation noise;
+fresh common training noise, fresh AdamW/lr1e-4/clip1. Noisy identity and a
+predeclared even-boundary DCT low-pass are no-learning diagnostic references,
+not production smoothing. Retain all phase-wise noise/error/gain gates.
+
+One GPU/one hour,45-minute application cap. Expected4,096 updates,2,100 probes,
+72 controlled denoising reconstructions and24 checkpoints; no full diffusion
+sampling, held-out reads, CFM/coarse fits or automatic joint-noise continuation.
+The high-resolution architecture combines resolution/normalization/capacity
+changes; the reference uses the known diagnostic band edge, not truth-tuned
+cutoffs. A local pass is not a posterior/calibration pass. Plan/config:
+docs/e2e_fixed_noise_20260915.md and configs/e2e_fixed_noise_20260915.json.
+Original full E2E remains paused at384; results pending.
+
 ### 2026-09-15 - [science/result] EDM-informed ablations improve noise removal but no capability pass
 
 User-authorized six-arm diffusion fine-only experiment completed as58361744,

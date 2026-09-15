@@ -1,0 +1,22 @@
+{
+  "schema": "e2e-fixed-noise-capability-v1",
+  "ratios": [0.05, 0.2],
+  "arms": ["vp_parent", "vp_fresh", "residual_unet", "residual_highres"],
+  "updates": 512,
+  "evaluate_at": [0, 128, 256, 512],
+  "train_seed": 91529,
+  "model_seed": 91530,
+  "learning_rate": 0.0001,
+  "weight_decay": 0.0001,
+  "clip": 1.0,
+  "highres_width": 24,
+  "highres_blocks": 4,
+  "reference_low_h_mpc": 0.32,
+  "reference_high_h_mpc": 0.40,
+  "maximum_work_seconds": 2700,
+  "heldout_access": false,
+  "full_e2e_training": false,
+  "full_diffusion_sampling": false,
+  "automatic_extension": false,
+  "training_ready": false
+}
