@@ -1,5 +1,22 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-15 - [science/experiment] Joint-noise residual U-Net, transformer and wavelet comparison registered
+
+User approved one A100 for at most2h. Six fresh3,072-update arms: bounded-head
+residual U-Net, noise-FiLM U-Net, FiLM+clean-input penalty, FiLM+context dropout,
+patch2/windowed transformer, and lossless-Haar residual CNN. Same fit/transfer
+anchors and unchanged .05/.2 per-phase noise/error/gain gates; no transfer fitting
+or held-out data. Continuous broad noise plus pure-noise endpoint exposure.
+Bounded raw-head scaling makes v/D finite at both endpoints; this is not the
+previous singular fixed-noise residual chart or a new scalar v-MSE loss.
+Clean regularization deliberately changes the objective and is a separate arm.
+18,432 updates,1,788 probes,18 checkpoints,42 true-coarse DDIM diagnostic draws
+planned;6,000s application cap and full-size smoke before training. Architectures
+are update/data matched, not FLOP/parameter matched. No automatic extension,
+full E2E restart, convergence/calibration claim or readiness promotion.
+Plan/config/tests: docs/e2e_multinoise_20260915.md and its linked entrypoints.
+Original frozen384 parents, normalization and source-bound pipeline unchanged.
+
 ### 2026-09-15 - [science/result] Fixed-noise residual U-Net passes fitted capability; near-clean transfer distortion remains
 
 Authorized job58363476 completed on one A100/nid001040 and was released:
