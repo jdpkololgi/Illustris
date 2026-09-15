@@ -130,7 +130,13 @@ IllustrisTNG-300.
   Generated high-k power is still3.54x truth with biased lower/middle bands.
   Keep full E2E paused384; no convergence/calibration/production claim. Next
   isolate coverage/normalization on the fixed best model, not a transformer swap.
-  No further training running. `docs/e2e_multinoise_20260915.md`.
+  Current approved isolation58373492 compares3/6/9/15 non-overlapping fitting
+  regions versus two global normalizers, two seeds, fixed3,072 updates; twelve
+  fixed transfer regions. Current target scaler is already pooled/global;
+  strict scaler excludes transfer moments and is held fixed across diversity.
+  Physical corruption/loss matched, internal GroupNorm unchanged. Exactly0
+  identity is structural; positive-nominal-noise clean probes are diagnostic.
+  `docs/e2e_diversity_norm_20260915.md`; prior `docs/e2e_multinoise_20260915.md`.
   See `docs/e2e_wide_continuation_20260914.md` and its archived evidence.
   The tested finite-window residual is not a local orthogonal high-pass
   subspace; see `docs/e2e_wide_pipeline_20260910.md` for the explicit amendment,

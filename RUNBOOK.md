@@ -4,6 +4,23 @@ This runbook lists verified workflow entrypoints, launch commands, and common
 operational constraints for the TNG/Illustris and Abacus cosmic web pipelines.
 For a concise status index, see `ACTIVE_WORKFLOWS.md`.
 
+## Diversity / normalization diagnostic
+
+Training-only controlled experiment: `docs/e2e_diversity_norm_20260915.md`.
+In an approved allocation and `cosmic_env`, use the module subcommands:
+`python -m workflows.sbi.e2e_diversity_norm prepare --root <new-scratch-root>`,
+then `frozen --root <root> --output <root>/FROZEN.json`, and
+`train --root <root> --replica 0 --output <root>/replica_0` (likewise replica1).
+Each process needs one GPU; use exclusive one-GPU steps for concurrent replicas.
+The prepare step verifies source inputs, caches the fixed panel, freezes train-only
+moments and performs a full-size gradient smoke. Do not edit hash-bound sources
+between preparation and completion. Outputs are exclusive-create, not resumable.
+After both replicas and frozen controls finish, run
+`python -m workflows.sbi.e2e_diversity_norm_report --root <root> --output <new-report-dir>`.
+It verifies all32 checkpoint hashes, field/noise schedules and endpoint probes.
+Small tests: `python -m unittest tests.test_e2e_diversity_norm`.
+No full E2E/held-out evaluation is included.
+
 ## Environment Setup
 
 Activate an environment before running repository scripts or tests. The default

@@ -6,6 +6,7 @@ import torch
 from torch import nn
 from workflows.sbi.e2e_diversity_norm import AffineChart, identity_norm, inverse_norm, fit_norm, field_for, overlap
 from workflows.sbi.e2e_multinoise_models import coefficients
+from workflows.sbi.e2e_diversity_norm_report import ranks, correlation, groups, summarize
 
 
 class Toy(nn.Module):
@@ -77,6 +78,27 @@ class DiversityNormTests(unittest.TestCase):
         for val in (0.,-1.,float('nan')):
             norm=copy.deepcopy(self.norm);norm['target_std']=val
             with self.assertRaises(ValueError):AffineChart(Toy(),norm)
+
+    def test_report_matched_groups(self):
+        prep={'selection':{'train':[dict(anchor_id=str(i)) for i in range(15)],
+                           'transfer':[dict(anchor_id='t'+str(i)) for i in range(12)]}}
+        g=groups(prep,6)
+        self.assertEqual(g['common_fit'],['0','1','2']);self.assertEqual(len(g['exposed']),6)
+        self.assertEqual(len(g['unused']),9);self.assertEqual(len(g['transfer']),12)
+
+    def test_report_correlations_with_ties(self):
+        np.testing.assert_equal(ranks([2,1,2,3]),[1.5,0,1.5,3])
+        self.assertAlmostEqual(correlation([1,2,3],[2,4,6]),1.)
+        self.assertIsNone(correlation([1,1,1],[1,2,3]))
+
+    def test_report_gate_uses_paired_parent(self):
+        rows=[];parent={}
+        for rep,error in enumerate([1.,2.]):
+            r=dict(anchor_id='a',kind='noisy',ratio=.05,rep=rep,
+                metrics=dict(noise_amplitude=[0,0,0,.1],error_power=[0,0,0,error],gain=[1,1,1,1]))
+            rows.append(r);parent['a',.05,rep]=dict(metrics=dict(error_power=[0,0,0,10*error]))
+        r=summarize(rows,['a'],parent)['0.05'];self.assertAlmostEqual(r['error_vs_parent'],.1)
+        self.assertEqual(r['passed'],1)
 
 
 if __name__=='__main__':unittest.main()

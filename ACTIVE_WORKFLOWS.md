@@ -92,7 +92,13 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   Nine3,072-update fits total. Near-identity+FiLM U-Net is best, but .05 transfer
   distortion still fails two phases; U-Net/wavelet pass .2, transformer does not
   help. No full-gate/convergence/calibration claim or production promotion.
-  No further diagnostic training is running.
+  Diversity/global-normalization isolation is running as58373492 (twoGPUs):
+  `e2e_diversity_norm.py`, `e2e_diversity_norm_report.py`,
+  `configs/e2e_diversity_norm_20260915.json`,
+  `docs/e2e_diversity_norm_20260915.md`. Sixteen matched3,072-update fits;
+  3/6/9/15 non-overlapping training regions, two fixed global scalers, two seeds.
+  Fixed12 transfer regions; exact0 identity and positive-nominal-noise clean probes.
+  No held-out data, internal GroupNorm change, or E2E resumption.
 - Root-level `*_supervisor_v2_20260904.sh` scripts are historical operational
   records, not current launch instructions. Frozen production uses Slurm.
 
