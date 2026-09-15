@@ -112,8 +112,16 @@ IllustrisTNG-300.
   Best fitted .05 residual noise remains74%; generated high-k power remains
   7--9x truth for EDM variants. No converged or production-ready branch. Keep
   original E2E paused at384. Report: `docs/e2e_edm_ablation_20260915.md`.
-  A fixed-sigma residual-path/high-resolution capacity control is proposed,
-  not launched; no automatic extension or held-out access.
+  The subsequently approved fixed-noise residual-path/high-resolution test
+  completed as58363476 (released).
+  The same-size field-unit residual U-Net passes all fitted phases at BOTH .05
+  and .2, and transfer at .2. Basic fitted denoising is now demonstrated; the
+  blanket inability claim is superseded. At .05 transfer it cancels noise but
+  fails reconstruction error, dominated by a noise-even distortion closely
+  matching clean-input error. No architecture passes the complete two-ratio
+  fit+transfer gate. Separate specialists are not a joint-noise sampler; original
+  E2E stays paused at384. `docs/e2e_fixed_noise_20260915.md` records the results,
+  confounders and proposed transfer-bias/joint-noise follow-on, not yet launched.
   See `docs/e2e_wide_continuation_20260914.md` and its archived evidence.
   The tested finite-window residual is not a local orthogonal high-pass
   subspace; see `docs/e2e_wide_pipeline_20260910.md` for the explicit amendment,

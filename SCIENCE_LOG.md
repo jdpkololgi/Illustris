@@ -1,5 +1,62 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-15 - [science/result] Fixed-noise residual U-Net passes fitted capability; near-clean transfer distortion remains
+
+Authorized job58363476 completed on one A100/nid001040 and was released:
+843.46s main experiment,14m31.09s process,17m17s allocation. Eight512-update
+fixed-ratio fits (.05/.2 x four arms),4,096 updates,2,100 probes,72 explicitly
+controlled denoising reconstructions and24 diagnostic checkpoints completed.
+The read-only post-fit clean-input/antithetic check added96 forwards, zero
+updates. Both steps and allocation COMPLETED0:0. Fourteen focused tests pass;
+source/checkpoint/reconstruction hashes and disjoint evaluation noise verify.
+
+Positive result: the original-size96,969-parameter U-Net with field-unit
+correction output D=z+r passes every fitted phase at BOTH fixed noise levels.
+Fitted high-k noise amplitude remaining .05/.2: original384 warm-start v
+21.82/13.59%; fresh v67.69/71.62%; fresh residual U-Net13.09/4.28%; larger
+full-resolution residual49.95/3.14%. The fresh v/residual U-Net pair shares
+initial hidden weights, zero heads, conditions, noise seeds and optimization
+budget. Output parameterization/optimization changes enable the fitted-field
+operation without extra capacity. Raw output scale, skip, initial clean estimate
+and parameter-space gradients change together; do not call this a scalar-loss
+or pure identity-connection effect. Fixed exposure is not a controlled proof
+of joint-noise gradient interference, and warm-start has prior384 experience.
+
+At .05 residual U-Net, fitted error/parent is .142--.144 and lower-band gains
+.99943--1.00016, so its pass preserves signal as well as cancelling noise.
+Transfer noise also passes (.105--.146 amplitude), but high-k error/parent
+.314/.493/.428 fails in all three phases. At .2 it passes fit AND transfer,
+with transfer error/parent .054--.077 and noise .037--.043. Original warm-start
+v and full-resolution residual also pass both groups at .2; fresh v passes
+neither ratio. Neural checks21/48 pass; NO architecture passes both noise levels
+on fit AND transfer. These are correlated training-pool checks, not calibration.
+
+The predeclared nonperiodic linear low-pass cancels about99% of noise and
+preserves lower-band gains, but at .05 discards enough true higher-frequency
+structure to fail error reduction (fit .445--.651, transfer .357--.592 of
+parent error). It passes .2. No cutoff retuning or production output filtering.
+
+Post-fit localization: only4.34% of residual-U-Net .05 transfer high-k error
+projects onto injected noise. In the paired +/-noise control,71.55% of high-k
+error power is noise-even and correlates .9862 with the clean-input error;
+fit even fraction27.28%. This supports persistent transfer reconstruction
+distortion rather than merely leftover noise. Clean-input error power is1.124x
+paired transfer power: adding noise changes the response, so this is not an
+additive bias fraction. Even/odd power closure passes. It does not identify
+conditioning, normalization, coverage or overfitting as the sole cause; clean
+inputs at nonzero nominal noise time are descriptive controls, not a new gate.
+
+Decision: basic fitted fixed-noise capability demonstrated, but full E2E stays
+paused at384. Do not promote separate specialists or use the singular z+r
+endpoint chart as a full sampler. No convergence claim: curves still improve.
+Next isolate .05 transfer distortion/conditioning and coverage, then test one
+endpoint-safe joint-noise residual model with broad-noise/generation gates.
+No further training or held-out access launched. Original data, parents,
+normalization and training_ready=false/r0_physics_pass=false unchanged; no
+P12/D2/P13 changes. Report: docs/e2e_fixed_noise_20260915.md; all gates, curves,
+response decomposition, hashes and receipt: docs/evidence/e2e_field_v2/fixed_noise_20260915/.
+Main source b75d447; large artifacts remain in the registered Scratch run root.
+
 ### 2026-09-15 - [science/experiment] Fixed-noise residual-path capability test registered
 
 User approved the follow-on fixed-sigma test. Register eight512-update fits:

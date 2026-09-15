@@ -74,6 +74,15 @@ Perlmutter commands and operational details, see `RUNBOOK.md`.
   E2E stays paused at384. Model/config/report: `e2e_edm_ablation_models.py`,
   `configs/e2e_edm_ablation_20260915.json`, `e2e_edm_ablation_report.py`,
   `docs/e2e_edm_ablation_20260915.md`. No further training is running or promoted.
+  The approved `e2e_fixed_noise_test.py` follow-on completed as58363476 (released):
+  eight512-update fixed-ratio fits. The field-unit residual U-Net passes fitted
+  capability at .05/.2 and transfer at .2; .05 transfer reconstruction error
+  still fails despite noise cancellation. `e2e_fixed_noise_response.py` localizes
+  a dominant noise-even distortion closely matching clean-input error; no
+  sole architectural/conditioning cause established. Config/model/report:
+  `configs/e2e_fixed_noise_20260915.json`, `e2e_fixed_noise_models.py`,
+  `e2e_fixed_noise_report.py`, `docs/e2e_fixed_noise_20260915.md`.
+  Original full E2E remains paused at384; no joint-noise training or promotion.
 - Root-level `*_supervisor_v2_20260904.sh` scripts are historical operational
   records, not current launch instructions. Frozen production uses Slurm.
 
