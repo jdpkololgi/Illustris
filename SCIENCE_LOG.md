@@ -1,5 +1,23 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-15 - [science/experiment] Small fine-denoising learning test authorized
+
+User approved the recommended noise-resolved learning test. Registered six
+256-update fine-only diagnostic fits from the same 384 model/AdamW parents:
+CFM/DIFF crossed with uniform-time, balanced-five-noise-level and near-clean-only
+exposure. Three fitted training anchors (one per phase), three opposite-cap
+training transfer controls, fresh training noise and separate evaluation noise.
+Original architecture/loss/hyperparameters/normalization/coarse models stay fixed.
+The six fits are diagnostic branches, not full E2E continuation or validation.
+
+Predeclared each-phase near-clean checks require residual-noise amplitude <=.2,
+high-k error power <=.25 of the matched parent, and lower-band signal gain
+.9--1.1. Eight focused tests pass, including original-loss/gradient equivalence.
+One GPU, at most one hour; application stop at45 minutes, no automatic extension.
+Contract and full design: configs/e2e_fine_learning_20260915.json and
+docs/e2e_fine_learning_20260915.md. Original sealed phases and release flags stay
+unchanged. Results pending execution; no capability or convergence claim yet.
+
 ### 2026-09-15 - [science/result] Denoising localized: fine high-k cancellation fails near clean end; coarse affects largest scales
 
 User approved the bounded GPU diagnostic. Job 58352703, one A100 on nid001028,

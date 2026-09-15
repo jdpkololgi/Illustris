@@ -1,0 +1,19 @@
+{
+  "schema": "e2e-fine-learning-test-v1",
+  "parent_update": 384,
+  "additional_updates": 256,
+  "evaluate_at": [0, 64, 128, 256],
+  "methods": ["cfm", "diffusion"],
+  "arms": ["uniform_time", "balanced_noise", "near_clean"],
+  "ratios": [0.05, 0.2, 1.0, 5.0, 20.0],
+  "fit_anchors": ["ph000_NGC_s0_boundary_00", "ph002_NGC_s0_boundary_00", "ph003_NGC_s0_boundary_00"],
+  "transfer_anchors": ["ph000_SGC_s0_boundary_00", "ph002_SGC_s0_boundary_00", "ph003_SGC_s0_boundary_00"],
+  "evaluation_noise_replicates": 2,
+  "seed": 91526,
+  "maximum_work_seconds": 2700,
+  "gate": {"near_clean_ratios": [0.05, 0.2], "max_abs_noise_amplitude": 0.2, "max_error_vs_parent": 0.25, "signal_gain_min": 0.9, "signal_gain_max": 1.1},
+  "claim": "training-only learnability stress test, not an E2E continuation or validation",
+  "heldout_access": false,
+  "automatic_extension": false,
+  "training_ready": false
+}
