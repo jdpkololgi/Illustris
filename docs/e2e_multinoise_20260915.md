@@ -69,4 +69,40 @@ Large artifacts remain under the registered wide_pipeline_v1 Scratch child.
 
 ## Results
 
-Not yet executed. No scientific pass or completed training is claimed.
+Running as approved allocation58368502 on nid001028, source registration569bfe9.
+All six full-size forward/backward smoke checks passed (peak GPU allocation
+0.95--2.10GB). Actual parameter counts: plain U-Net96,969; FiLM variants112,937;
+transformer120,592; wavelet346,448. Nineteen focused model/report/regression tests
+pass. No completed comparison or scientific pass is claimed yet.
+
+The post-fit read-only response module adds216 forwards: clean and antithetic
+noise inputs for sixmodels x twonear-clean ratios x sixanchors. It introduces
+zero updates or new pass thresholds and has a separate ten-minute cap within
+the approved allocation. Reports verify exposure pairing, disjoint evaluation
+noise, no transfer fitting, gate recomputation, source/checkpoint/draw hashes.
+
+## Separately approved adaptive skip-path follow-on
+
+After the six fits showed no complete gate pass, the user approved approximately
+15 additional GPU minutes within the same two-hour allocation. This is adaptive
+and must NOT be presented as part of the original six-arm preregistration.
+The initial bounded chart retained raw scaling but replaced the specialist's
+near-clean identity skip. Its failure therefore confounds noise coverage with
+that skip change; it does not disprove the earlier specialist's learnability.
+
+Freeze a skip-only three-arm contrast: FiLM U-Net, transformer, wavelet, each
+fresh3,072updates with IDENTICAL weights/optimizer/exposure/evaluation seeds
+to its original counterpart. Change only v from -r/d to -a*b*x-r/d, equivalently
+D=a*(1+b^2)*x+(b/d)*r. The fixed velocity coefficient is bounded by1/2 at every
+time and zero at both endpoints. For a clean input x=a*y and zero head,
+D=(1-b^4)*y rather than (1-b^2)*y: it approximates the specialist's near-clean
+identity through second order without the divergent x/a endpoint. The initial
+predictor and raw regression target change; architecture and scalar v-MSE do not.
+This changes neither the pass thresholds nor the old six fits/checkpoints.
+
+Budget9,216 newupdates;864 new noise probes plus60 reused parent probes;
+9checkpoints;18 new true-coarse draws;108 clean/antithetic forwards, no held-out
+payloads.900s application cap, no automatic extension/retry. Compare against the
+immutable original run and paired counterpart, not just the weaker frozen384
+baseline. Entrypoint `workflows.sbi.e2e_skip_path_test`, frozen config
+`configs/e2e_skip_path_20260915.json`, focused tests `tests/test_e2e_skip_path.py`.

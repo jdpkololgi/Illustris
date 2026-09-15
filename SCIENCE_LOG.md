@@ -1,5 +1,23 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-15 - [science/experiment] Separately approved bounded skip-only follow-on
+
+Six joint-noise fits completed technically as58368502 but none passed the full
+gate. The original endpoint-safe chart changes the successful specialist's
+near-clean identity skip as well as exposure; those effects remain confounded.
+User explicitly approved about15 more GPU minutes within the same allocation.
+Register adaptive three-arm skip-only contrast (FiLM U-Net/transformer/wavelet),
+fresh3,072updates each, same exact hidden weights/zero raw heads, raw scaling,
+optimizer, schedule, seeds, data and gates as their just-completed counterparts.
+Only fixed v term changes: v=-a*b*x-r/d, D=a*(1+b^2)*x+(b/d)*r. Coefficient a*b
+bounded by1/2; initial clean estimate (1-b^4)*y approximates near-clean identity
+without divergent endpoint division. Initial predictor/raw target change, not
+architecture or scalar v-MSE.9,216updates,864new probes,9checkpoints,18draws and
+108read-only response forwards;900s cap, no automatic retry/extension.
+Old six-arm registration and artifacts immutable; this is NOT preregistered
+with them. No full E2E or held-out evaluation/promotion. Detailed contract and
+entrypoints: docs/e2e_multinoise_20260915.md, configs/e2e_skip_path_20260915.json.
+
 ### 2026-09-15 - [science/experiment] Joint-noise residual U-Net, transformer and wavelet comparison registered
 
 User approved one A100 for at most2h. Six fresh3,072-update arms: bounded-head
