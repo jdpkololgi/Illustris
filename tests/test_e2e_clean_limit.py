@@ -90,7 +90,8 @@ class DesignTests(unittest.TestCase):
         for name in ('optimization','coverage','analysis'):
             args=command(Path('/tmp/example'),name,'12345')
             self.assertIn('--dependency=afterok:12345',args);self.assertIn('--no-requeue',args)
-            self.assertIn('--qos=shared',args);self.assertIn('--signal=USR1@180',args)
+            self.assertIn('--qos='+('debug' if name=='analysis' else 'shared'),args)
+            self.assertIn('--signal=USR1@180',args)
             self.assertNotIn('--qos=interactive',args)
 
     def test_snapshot_excludes_heldout_and_unrelated_artifacts(self):

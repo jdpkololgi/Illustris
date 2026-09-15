@@ -53,7 +53,7 @@ def stage(root):
 
 def command(root, stage_name, dependency=None):
     gpu=stage_name!='analysis'
-    args=['sbatch','--parsable','--nodes=1','--ntasks=1','--qos=shared','--licenses=scratch',
+    args=['sbatch','--parsable','--nodes=1','--ntasks=1','--qos='+('shared' if gpu else 'debug'),'--licenses=scratch',
           '--no-requeue','--signal=USR1@180','--open-mode=append',
           '--job-name=e2e-limit-'+stage_name,'--chdir='+str(root/'source'),
           '--output='+str(root/f'logs/{stage_name}_%A_%a.out'),
@@ -62,7 +62,9 @@ def command(root, stage_name, dependency=None):
         args+=['--account=desi_g','--constraint=gpu','--gpus=1','--cpus-per-task=32']
         args+=['--array=0-1%2','--time=03:00:00'] if stage_name=='optimization' else ['--array=0-3%2','--time=02:00:00']
     else:
-        args+=['--account=desi','--constraint=cpu','--cpus-per-task=8','--mem=16G','--time=00:30:00']
+        # This is a short, read-only diagnostic report, not production training.
+        # CPU shared queue estimates were weeks; debug avoids that partition.
+        args+=['--account=desi','--constraint=cpu','--cpus-per-task=8','--time=00:10:00']
     if dependency:
         args+=['--dependency=afterok:'+str(dependency)]
     args += [str(root/'source/workflows/sbi/submit_e2e_clean_limit.slurm'),str(root),stage_name]

@@ -73,9 +73,12 @@ the beginning of optimization seed0; the batch resumes them normally.
 | --- | --- | --- | --- |
 | Optimization array0-1%2 | oneGPU/task, shared, desi_g | 3h/task | none |
 | Coverage array0-3%2 | oneGPU/task, shared, desi_g | 2h/task | afterok: entire optimization array |
-| Analysis | 8 logical CPUs,16GB, shared, desi | 30min | afterok: entire coverage array |
+| Analysis | 8 logical CPUs on oneCPU node, debug, desi | 10min | afterok: entire coverage array |
 
 At most two training GPUs concurrently,14GPU-hour reservation cap plus smoke.
+The report is a short read-only diagnostic, not training; CPU debug was selected
+after shared-CPU dry-run queue estimates extended into October. Queue forecasts
+are provisional, and even debug may wait. No GPU training uses debug QOS.
 Slurm owns the chain independently of SSH/desktop/agent connection. Queue waiting
 time is separate. Checkpoint every512 updates and on USR1/TERM: weights, Adam,
 all RNG, history, binding and checksums. Files/directories flushed before atomic
