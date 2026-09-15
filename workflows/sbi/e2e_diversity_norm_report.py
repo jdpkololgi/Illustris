@@ -72,6 +72,22 @@ def finite_tree(value):
     return True
 
 
+def paired_effect(before,after,anchors,ratio=.05):
+    """Within-field paired effects, not ratios of changing group medians."""
+    a={(r['anchor_id'],r['kind'],r.get('rep')):r for r in before if r['ratio']==ratio}
+    b={(r['anchor_id'],r['kind'],r.get('rep')):r for r in after if r['ratio']==ratio}
+    fields=[]
+    for anchor in anchors:
+        x=a[anchor,'clean',None];y=b[anchor,'clean',None]
+        reps=[k[2] for k in a if k[0]==anchor and k[1]=='noisy']
+        fields.append(dict(anchor_id=anchor,clean_rms_ratio=y['rms']/x['rms'],clean_rms_change=y['rms']-x['rms'],
+            noise_left_change=med([abs(b[anchor,'noisy',rep]['metrics']['noise_amplitude'][-1]) for rep in reps])-
+                              med([abs(a[anchor,'noisy',rep]['metrics']['noise_amplitude'][-1]) for rep in reps]),
+            noisy_highk_error_ratio=med([b[anchor,'noisy',rep]['metrics']['error_power'][-1]/a[anchor,'noisy',rep]['metrics']['error_power'][-1] for rep in reps])))
+    return dict(ratio=ratio,fields=fields,median={k:med([r[k] for r in fields]) for k in fields[0] if k!='anchor_id'},
+                clean_improved=sum(r['clean_rms_ratio']<1 for r in fields),total=len(fields))
+
+
 def associations(rows,prepared,n):
     metadata={r['anchor_id']:r for r in prepared['metadata']};g=groups(prepared,n)
     rr=[r for r in rows if r['kind']=='clean' and r['ratio']==.05 and r['anchor_id'] in g['transfer']]
@@ -153,7 +169,19 @@ def main(root,out):
         record['presentations']={a:sum(r['anchor_id']==a for r in h) for a in groups(prep,cell['n'])['exposed']}
         record['associations']=associations(cell['curve'][-1]['rows'],prep,cell['n']);records.append(record)
     frozen_summary={name:{group:with_metadata(rows,aa,parent,metadata) for group,aa in groups(prep,3).items()} for name,rows in frozen['results'].items()}
+    indexed={(c['replica'],c['n'],c['normalization']):c for c in cells};effects=[]
+    for cell in cells:
+        seed,n,norm=cell['replica'],cell['n'],cell['normalization']
+        comparisons=[('optimization_1536_to_3072',cell['curve'][1]['rows'])]
+        if n!=3:comparisons.append(('diversity_vs_3',indexed[seed,3,norm]['curve'][-1]['rows']))
+        if norm!='current':comparisons.append(('normalization_vs_current',indexed[seed,n,'current']['curve'][-1]['rows']))
+        for contrast,before in comparisons:
+            for group in ('common_fit','transfer'):
+                for ratio in (.05,.2):
+                    effects.append(dict(contrast=contrast,replica=seed,n=n,normalization=norm,group=group,
+                        **paired_effect(before,cell['curve'][-1]['rows'],groups(prep,n)[group],ratio)))
     summary=dict(cells=records,frozen=frozen_summary,
+        paired_effects=effects,
         frozen_associations={name:associations(rows,prep,3) for name,rows in frozen['results'].items()},
         normalizations=prep['normalizations'],metadata=prep['metadata'],
         roundtrip_max_abs=max(r['max_abs'] for r in frozen['roundtrip']),checkpoints=hashes,inputs=inputs,
@@ -204,7 +232,7 @@ def main(root,out):
         ax.set(xlabel=feature,ylabel='Clean RMS / field std at .05');ax.grid(alpha=.2)
     axes[-1].legend(fontsize=7);fig.suptitle('Current normalization: descriptive transfer associations, two-seed medians')
     fig.savefig(out/'field_associations.png',dpi=150);plt.close(fig)
-    lines=['# Diversity / normalization results','','All rows: median over the same 12 transfer regions and two fitted models; no confidence intervals.','',
+    lines=['# Diversity / normalization results','','All rows: median across two seeds of each model\'s median over the same 12 transfer regions; no confidence intervals. Separate within-field paired effects and all seed results are in SUMMARY.json.','',
            '| Fields | Normalization | Clean RMS at .05 | .05 noise left | .05 error / parent | .2 noise left |',
            '|---:|---|---:|---:|---:|---:|']
     for n in prep['config']['field_counts']:

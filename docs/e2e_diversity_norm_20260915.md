@@ -70,3 +70,23 @@ Implementation: `workflows/sbi/e2e_diversity_norm.py`; frozen settings:
 `configs/e2e_diversity_norm_20260915.json`; tiny algebra/scheduling tests:
 `tests/test_e2e_diversity_norm.py`. Full-size forward/backward smoke precedes fitting.
 Output root: `/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/diversity_norm_20260915_58373492`.
+
+## Physical equivalence of normalization charts
+
+Write the original normalized target as y, corrupted state as x=a*y+b*epsilon,
+and the new target as y'=(y-m)/s. Define q=sqrt(s²*a²+b²). The new network sees
+x'=(x-a*m)/q with a'=s*a/q and b'=b/q, so exactly the same physical noise
+realization is used. Its time is t'=2*atan2(b,s*a)/pi. Convert its velocity back:
+
+`v = a*b*(1-s²)*x/q² - b*m/q² + (s/q)*v'`.
+
+This avoids division by a or b and remains finite at clean and pure-noise
+endpoints. The original physical velocity loss is evaluated AFTER conversion.
+Changing numerical units therefore does not change the corrupted physical field
+or objective. It does change what the raw network sees and how its parameters
+optimize, which is the intended intervention. Applying a matching inverse chart
+inside a frozen model instead must preserve its complete physical function.
+
+The measured pooled strict target mean/scale in original normalized units are
+0.0011421151 and 0.9977481911. Thus the fine-target scale changes by only0.225%.
+Conditioning changes are larger and remain a separately tested component.

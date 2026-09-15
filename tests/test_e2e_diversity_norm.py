@@ -6,7 +6,7 @@ import torch
 from torch import nn
 from workflows.sbi.e2e_diversity_norm import AffineChart, identity_norm, inverse_norm, fit_norm, field_for, overlap
 from workflows.sbi.e2e_multinoise_models import coefficients
-from workflows.sbi.e2e_diversity_norm_report import ranks, correlation, groups, summarize, with_metadata, finite_tree
+from workflows.sbi.e2e_diversity_norm_report import ranks, correlation, groups, summarize, with_metadata, finite_tree, paired_effect
 
 
 class Toy(nn.Module):
@@ -110,6 +110,16 @@ class DiversityNormTests(unittest.TestCase):
         self.assertTrue(finite_tree({'a':[None,1.,'metadata']}))
         self.assertFalse(finite_tree({'a':[float('nan')]}))
         self.assertFalse(finite_tree({'a':[float('inf')]}))
+
+    def test_report_pairing_not_row_order(self):
+        before=[dict(anchor_id='a',kind='clean',ratio=.05,rms=2.),
+                dict(anchor_id='a',kind='noisy',ratio=.05,rep=0,metrics=dict(noise_amplitude=[.4],error_power=[2.]))]
+        after=[dict(anchor_id='a',kind='noisy',ratio=.05,rep=0,metrics=dict(noise_amplitude=[.1],error_power=[1.])),
+               dict(anchor_id='a',kind='clean',ratio=.05,rms=1.)]
+        effect=paired_effect(before,after,['a'])
+        self.assertEqual(effect['clean_improved'],1)
+        self.assertEqual(effect['median']['clean_rms_ratio'],.5)
+        self.assertAlmostEqual(effect['median']['noise_left_change'],-.3)
 
 
 if __name__=='__main__':unittest.main()
