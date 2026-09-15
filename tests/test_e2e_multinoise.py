@@ -99,6 +99,21 @@ class MultiNoiseTests(unittest.TestCase):
         self.assertEqual(exposure(63, cfg)[:2], (1., None))
         self.assertEqual(cfg['evaluate_at'][-1], cfg['updates'])
 
+    def test_nonzero_head_backpropagates_to_architecture(self):
+        for arm in ('unet_film', 'transformer', 'wavelet'):
+            model = self.model(arm)
+            head = model.net.base.output if arm.startswith('unet') else model.net.output
+            torch.nn.init.normal_(head.weight, std=.01)
+            loss, _, _ = loss_for(model, self.x, torch.randn_like(self.x), .03, self.c, self.w)
+            loss.backward()
+            if arm == 'transformer':
+                parameter = model.net.blocks[0].qkv.weight
+            elif arm == 'wavelet':
+                parameter = model.net.blocks[0][0].weight
+            else:
+                parameter = model.net.base.encoders[0].layers[0].weight
+            self.assertGreater(float(parameter.grad.abs().sum()), 0.)
+
 
 if __name__ == '__main__':
     unittest.main()
