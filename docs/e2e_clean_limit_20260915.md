@@ -1,5 +1,33 @@
 # Fixed-field optimization and the clean-input limit
 
+## Live launch status — 2026-09-15 21:10 UTC
+
+Submitted and verified: optimization array **58385300**, coverage array
+**58385303**, analysis **58385304**, with whole-array afterok dependencies.
+All queued at handoff; no long-run scientific results yet. Training source frozen
+at **021fde6d32aa3eadd1d049f9f3972724cf65f933**.24 tests and exact actual-process
+signal/checkpoint/restart replay passed. Development allocation58384288 released.
+
+Canonical run root:
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/clean_limit_20260915_58384288_v3`.
+Use its logs, SUBMITTED.json and per-branch LATEST/COMPLETE receipts. Final report
+will be `analysis/SUMMARY.json`. Validation console log is retained in the sibling
+v2 run's `logs/final_validation.out` / `.err`; v3 validation receipts bind v3's
+own manifest. The final log ends with an unrelated compute-node HOME-index lock
+failure AFTER every experiment gate passed; login-node refresh subsequently passed.
+
+```
+squeue -j 58385300,58385303,58385304
+sacct -j 58385300,58385303,58385304 --format=JobID,State,ExitCode,Elapsed
+```
+
+Measured estimates (with headroom):67min/optimization job,39min/coverage branch,
+roughly2.5h compute along the dependency path if two GPUs remain available.
+Queue waits are additional, uncertain and potentially long. These are not ETAs.
+Do not repeat the submit command: its exclusive intent correctly rejects it.
+
+## Registered contract
+
 Registered 2026-09-15, following the completed diversity/normalization matrix.
 User authorizes ordered follow-ons that survive SSH disconnects. Full E2E remains
 paused at384; no held-out access, promotion, or automatic extension.

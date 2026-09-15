@@ -1,0 +1,53 @@
+{
+  "schema": "e2e-clean-limit-launch-evidence-v1",
+  "verified_at_utc": "2026-09-15 21:10",
+  "run_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/clean_limit_20260915_58384288_v3",
+  "source_revision": "021fde6d32aa3eadd1d049f9f3972724cf65f933",
+  "artifact_sha256": {
+    "MANIFEST.json": "99515618d7d4bb32f3247725be359cef3d7163e3c2c0e375547fb3e8b343e118",
+    "SMOKE.json": "7acf1efc5c9da09be2aee5ced90aff53bccaed17860e51176d3c1907b31a6a21",
+    "RESTART_TEST.json": "78467622f99b448c7277971802d33c5190e3527af38d24c24cfa92c3fddae572",
+    "REPORT_SMOKE.json": "2829d7952b15adda9330e2417f0b0a1026c4365ccfb076cb7ef230a5961742dc",
+    "SUBMITTED.json": "ff9e280714de6925605c70c723c939de37da2c868335413d1094e2cd84857ac2"
+  },
+  "jobs": [
+    {"stage": "optimization", "array_job_id": "58385300", "tasks": 2, "concurrency": 2, "gpus_per_task": 1, "maximum_seconds_per_task": 10800, "dependency": null},
+    {"stage": "coverage", "array_job_id": "58385303", "tasks": 4, "concurrency": 2, "gpus_per_task": 1, "maximum_seconds_per_task": 7200, "dependency": "afterok:58385300_*"},
+    {"stage": "analysis", "job_id": "58385304", "tasks": 1, "logical_cpus": 8, "qos": "debug", "maximum_seconds": 600, "dependency": "afterok:58385303_*"}
+  ],
+  "queue_status_at_verification": "pending",
+  "slurm_batch_flag_verified": true,
+  "slurm_requeue_disabled_verified": true,
+  "full_e2e_training": false,
+  "training_ready": false,
+  "scientific_results_pending": true,
+  "validation": {
+    "unit_tests_passed": 24,
+    "full_size_side": 96,
+    "parent_probe_parity_count": 22,
+    "full_probe_rows": 810,
+    "exact_gpu_checkpoint_resume": true,
+    "signal_interruption_updates": [3080, 3088],
+    "expected_signal_exit_code": 75,
+    "cross_process_model_optimizer_rng_history_exact": true,
+    "validated_seed_zero_resume_update": 3088,
+    "resume_checkpoint_sha256": "281de879564ff72d497ee82a3781611cfe182796c823803b35936ed1dad61c5d",
+    "seconds_per_update": 0.12695399325093604,
+    "seconds_per_probe_field": 2.7685999629902653,
+    "peak_gpu_bytes": 3351813120,
+    "estimated_optimization_seconds_with_headroom": 4034.9135656333588,
+    "estimated_coverage_seconds_with_headroom": 2319.547445890628,
+    "estimates_exclude_queue_wait": true,
+    "allocation_id": "58384288",
+    "node": "nid001249",
+    "allocation_state": "COMPLETED",
+    "allocation_exit_code": "0:0",
+    "allocation_elapsed": "00:16:38"
+  },
+  "operational_notes": [
+    "Initial staging guard rejected an unrelated held-out-labelled repository path; runtime-only snapshot fixed this.",
+    "Final validation step completed every experiment gate before a separate HOME graph-index lock failed on the compute node; login refresh then succeeded.",
+    "Earlier staging and validation directories are preserved; only v3 was submitted.",
+    "No automatic retry, requeue, scientific promotion, or full E2E restart."
+  ]
+}

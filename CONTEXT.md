@@ -5,7 +5,8 @@
 Approved ordered denoiser diagnosis: fixed15-field/current-normalization
 optimization3,072->24,576 (two seeds), paired unchanged/near-zero exposure to36,864,
 then descriptive observation-versus-target shift analysis. Frozen shared Slurm
-batch workflow is being validated for SSH-independent execution and exact resume.
+batch workflow passed exact interruption/resume validation and is queued as
+58385300 -> 58385303 -> 58385304. The final report is a short CPU diagnostic.
 Contract: `docs/e2e_clean_limit_20260915.md`; live job/result status in SCIENCE_LOG.
 No full E2E restart, held-out access, or production promotion.
 

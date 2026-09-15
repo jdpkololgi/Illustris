@@ -1,5 +1,40 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-15 - [ops/launch] Disconnect-safe clean-limit chain submitted; scientific results pending
+
+At21:10UTC Slurm accepted optimization array58385300 (two seeds,3h/oneGPU each),
+coverage array58385303 (four paired branches,2h/oneGPU each,throttle2), and short
+CPU diagnostic58385304 (debug,10min). Verified BatchFlag1, Requeue0, frozen source
+working directories, Scratch logs, and whole-array afterok dependencies in order.
+All pending at verification; queue forecasts are uncertain and potentially long.
+No long-training result yet. Full E2E remains paused384; no held-out payload access
+by these diagnostics and no promotion. Only the16 validated continuation updates
+at seed0 were run so far; batch resumes step3,088, seed1 resumes3,072.
+
+Frozen source021fde6d32aa3eadd1d049f9f3972724cf65f933; canonical run:
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/clean_limit_20260915_58384288_v3`.
+24 focused tests pass (14 existing +10 new). Full96^3 GPU smoke:22 parent-probe
+comparisons agree; model/Adam/all RNG replay exactly. Actual SIGUSR1 interruption
+at3,080 then fresh-process resume/interruption at3,088 reproduces uninterrupted
+weights, Adam, RNG and history EXACTLY.810-row parent probe/reporting smoke passes.
+Finite endpoint gradients; peak3.352GB;0.12695s/update. Conservative estimated
+runtime67min/optimization job and39min/coverage branch, EXCLUDING queue waits.
+
+Development allocation58384288/nid001249 released after16m38, COMPLETED0:0.
+Accounting exceptions: step0 staging guard rejected an unrelated ph001-labelled
+repository path; no diagnostic data load occurred. Narrowed runtime-only archive
+then passed. Steps3/4 intentionally exit75 for signal tests. Step6 completed ALL
+v3 scientific/operational gates, then a separate HOME graph-index lock failed
+on the compute node (errno524); index refresh/global registration subsequently
+passed on login. v1/v2 scratch artifacts preserved, v3 alone submitted.
+
+Restart: atomic checksummed LATEST every512 updates and on USR1/TERM; preserve
+incomplete generations, single writer, fail closed on corruption or duplicate
+submission. Failed parents block dependents; no automatic retries. Operational
+persistence is not scientific convergence. Contract/recovery commands:
+docs/e2e_clean_limit_20260915.md. Checked-in launch/hash receipt:
+docs/evidence/e2e_field_v2/clean_limit_20260915/LAUNCH.json.
+
 ### 2026-09-15 - [science/experiment] Ordered optimization / near-zero / conditioning follow-on registered
 
 User approves follow-ons and requests SSH-disconnect survival. Two existing
