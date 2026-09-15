@@ -1,0 +1,24 @@
+{
+  "schema": "e2e-edm-causal-ablation-v1",
+  "updates": 512,
+  "evaluate_at": [0,128,256,512],
+  "maximum_work_seconds": 2700,
+  "train_seed": 91527,
+  "adapter_seed": 91528,
+  "sigma_data": 1.0,
+  "P_mean": -1.2,
+  "P_std": 1.2,
+  "log_noise_embedding_sigma_clip": [0.002,80.0],
+  "arms": [
+    {"name":"vp_inherit","noise":"uniform_time","optimizer":"inherit","film":false,"receptive":false,"clip":1.0},
+    {"name":"vp_reset","noise":"uniform_time","optimizer":"reset","film":false,"receptive":false,"clip":1.0},
+    {"name":"edm_noise","noise":"lognormal","optimizer":"reset","film":false,"receptive":false,"clip":1.0},
+    {"name":"edm_film","noise":"lognormal","optimizer":"reset","film":true,"receptive":false,"clip":1.0},
+    {"name":"edm_film_clip10","noise":"lognormal","optimizer":"reset","film":true,"receptive":false,"clip":10.0},
+    {"name":"edm_film_rf","noise":"lognormal","optimizer":"reset","film":true,"receptive":true,"clip":1.0}
+  ],
+  "heldout_access": false,
+  "full_e2e_continuation": false,
+  "automatic_extension": false,
+  "training_ready": false
+}

@@ -1,5 +1,25 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-15 - [science/experiment] EDM-informed causal denoiser ablations registered
+
+User requested implementing/testing noise-time, preconditioning/loss and capacity
+hypotheses from the linked Pause E2E discussion. Reviewed its full message and
+EDM Table1/Section5 plus official coefficients/loss implementation. Important
+algebraic control: for this unit-variance VP-v model, EDM sigma_data=1 with F=-v
+has exactly the same clean estimate and weighted loss. A wrapper alone is not
+a new remedy; loss and parameter-gradient equivalence tests pass.
+
+Registered six diffusion fine-only512-update diagnostic arms from the same384
+weights: inherited vs reset AdamW; then log-normal EDM noise exposure; then
+identity-initialized per-block log-noise FiLM; separate clip10 and dilated
+residual-bottleneck variants. Retain the prior three fit/three training-transfer
+anchors, noise-resolved capability gate and32-step diagnostic sampler. No sealed
+payloads, CFM/coarse retraining, full E2E extension or output smoothing/clipping.
+Twelve focused tests pass, including identity initialization and finite endpoints.
+One GPU/one-hour maximum,45-minute work cap. Full design and causal limitations:
+docs/e2e_edm_ablation_20260915.md and configs/e2e_edm_ablation_20260915.json.
+Results pending; original384 checkpoints and release flags remain frozen.
+
 ### 2026-09-15 - [science/result] Fine learning test: partial noise removal, all capability checks fail
 
 The user-authorized small experiment completed as 58358688, one A100/nid001001,
