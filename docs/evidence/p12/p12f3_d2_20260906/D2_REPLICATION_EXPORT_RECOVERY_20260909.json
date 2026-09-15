@@ -1,0 +1,42 @@
+{
+  "date": "2026-09-09",
+  "user_approval": "Yes, please go ahead",
+  "status": "resume_submitted_dependencies_repaired_not_scientifically_complete",
+  "failed_export": "58065567",
+  "failure_kind": "registered_6600_second_soft_budget_exit_75",
+  "completed_cores": 145,
+  "remaining_cores": 111,
+  "progress_sha256_before_resume": "c6e3d8fb36da965eb38681b06fb50f9e39b09fbf41d32e7e2080a5a723543c9b",
+  "progress_frozen_digest": "1526241150f47ea703dfe5c260d49bbd9aea84d9a328c1f86ee329303cb38aa3",
+  "metadata_checks": {
+    "digest_matches_run": true,
+    "unique_core_ids": true,
+    "exact_frozen_panel_prefix": true,
+    "ph001_opened": false,
+    "payload_hashes_rechecked_on_login": false,
+    "resume_verifies_all_saved_payload_hashes_before_new_cores": true
+  },
+  "resume_job": "58114767",
+  "evaluation100_job": "58065570",
+  "evaluation100_dependency": "afterok:58114767",
+  "completed_evaluation50_job": "58065569",
+  "replication_decision_job": "58065575",
+  "combined_decision_job": "58065581",
+  "dependency_repair_note": "Adding the already completed evaluation50 ID was rejected by Slurm; depending only on the new unfinished export succeeded. Evaluation50 completion and its terminal artifact were verified separately.",
+  "resources_unchanged": {
+    "gpus": 1,
+    "logical_cpus": 32,
+    "qos": "shared",
+    "constraint": "gpu&hbm80g",
+    "wall_hours": 4,
+    "scratch_license": true
+  },
+  "base_revision": "467f442c5c54864658fdfaf948335d6e11a647fe",
+  "base_worktree_clean": true,
+  "config_sha256": "3143ce1dfdb9546d3eb40413feab91bafa11b70718a2e4bb0ecb451080793533",
+  "scientific_code_changed": false,
+  "retraining": false,
+  "further_automatic_retry": false,
+  "last_verified_resume_state": "PENDING Priority",
+  "active_polling": false
+}

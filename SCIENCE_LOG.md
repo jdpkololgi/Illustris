@@ -765,6 +765,52 @@ products remain unchanged. Source hashes and the pre-build Git base are frozen
 in REGENERATION_STARTED.json. Contract, launcher and details:
 docs/e2e_field_spectral_regeneration_20260909.md.
 
+### 2026-09-09 - [ops/run] Approved D2 export resume submitted; existing decision chain repaired
+
+The user approved the recovery described below. Submitted one unchanged frozen
+NFE100 resume as 58114767 (one GPU, 32 logical CPUs, shared QOS, four-hour
+allocation envelope), starting from the verified 145-core progress metadata.
+The frozen exporter rechecks saved shard hashes before computing the remaining
+111 cores. No retraining, estimator, sampler or threshold change is introduced.
+
+Repaired existing evaluation100 job 58065570 to afterok:58114767; its NFE50
+prerequisite 58065569 is already completed and verified. Slurm rejected re-adding
+that older completed job ID, but accepted the dependency on the new unfinished
+export. Seed decision 58065575 still depends on 58065570, and combined decision
+58065581 on 58065575. No jobs were cancelled or duplicated downstream.
+The final verification shows the resume genuinely pending on Priority and the
+corrected dependency links. Active polling is stopped per the user's preference;
+scientific completion is still outstanding. Receipt:
+docs/evidence/p12/p12f3_d2_20260906/D2_REPLICATION_EXPORT_RECOVERY_20260909.json.
+
+### 2026-09-09 - [ops/status] D2 replication trained; NFE100 export paused and dependencies stranded
+
+One user-requested status check finds seed314159 training 58065554 COMPLETED
+0:0 in 4h32m47s, NFE50 export 58065566 COMPLETED in 1h40m40s, and amended
+NFE50 evaluation 58065569 COMPLETED in 24m06s. D2_TRAINED.json fixes the
+registered modern_base4 EMA checkpoint at 12,500 presentations. The NFE50
+terminal evaluation retains all 133,698 galaxies for candidate and references
+under the unchanged native-support amendment. Technical evaluation completion
+alone is not the seed-level scientific decision.
+
+NFE100 export 58065567 exited 75 after 1h50m47s at its internal 6,600-second
+soft budget, after atomically recording 145/256 cores. This is not a model or
+calibration failure. Progress metadata has the correct run digest, no duplicate
+cores, the exact frozen panel prefix and ph001_opened=false; 111 cores remain.
+Progress SHA256 c6e3d8fb36da965eb38681b06fb50f9e39b09fbf41d32e7e2080a5a723543c9b.
+Full shard payload hashes were not reread on the login node; the existing frozen
+resume path verifies every saved shard hash before computing any remaining core.
+
+Evaluation100 58065570 is PENDING with DependencyNeverSatisfied; seed decision
+58065575 and combined decision 58065581 remain downstream. Only the seed42
+scientific decision exists. D2 is therefore not scientifically complete, and
+these jobs are stranded rather than merely waiting on scheduler priority.
+Prepared the bounded recovery: one unchanged NFE100 export resume, then repair
+the evaluation dependency so the existing native evaluation and frozen decision
+chain can proceed. Explicit scheduler approval is requested before submission
+or modification; no job was changed by this diagnostic check. No polling loop,
+new fit, threshold change, ph001 access or E2E action was introduced.
+
 ### 2026-09-08 - [science/code/result] E2E physical error attribution: FD2 small in RMS but topology-sensitive; sampling and exterior tides dominate typical error
 
 At the user's request, completed the registered no-fit error-budget audit before
