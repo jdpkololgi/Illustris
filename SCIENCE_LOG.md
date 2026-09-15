@@ -1,5 +1,26 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-15 - [science/diagnostic] Denoising localization prepared; GPU approval pending
+
+User requested a brief E2E status and isolation of denoising errors. The current
+endpoint remains 384 updates: improved density support/void statistics, but no
+plateau and excess small-scale power alongside suppressed large-scale power.
+No additional training or held-out access is part of this diagnostic request.
+
+Inspection finds internally consistent CFM/VP-v equations. Four small synthetic
+tests pass, including exact known-field recovery through both actual samplers,
+matched noise/signal ratios, velocity-to-clean error identities, and signed
+component-power closure. These rule out elementary algebra/sign/time-direction
+errors, not errors of the learned denoisers or their sampling trajectories.
+
+Prepared `workflows/sbi/e2e_wide_denoising_audit.py`: 1,920 paired scale/noise
+probes at steps 192/384 on the unchanged 24 training anchors; coarse/fine/cross
+decomposition of 384 saved draws; 48 explicitly labelled true-coarse diagnostic
+generations; and six-anchor intermediate-clean sampler spectra with exact replay
+checks. See `docs/e2e_wide_denoising_audit_20260915.md`. A one-GPU, at-most-one-hour
+interactive allocation has been requested from the user, not yet submitted.
+No new empirical denoising-localization result is claimed until it executes.
+
 ### 2026-09-14 - [science/result] 384-update continuation complete: improved support/topology, not convergence
 
 Executed the user-approved continuation and recommendations through the fixed
