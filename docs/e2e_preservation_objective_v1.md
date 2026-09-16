@@ -5,6 +5,16 @@ not another unchanged extension. Full E2E stays paused. The implemented commands
 support frozen-source, restartable execution; the full eight-fit matrix is NOT
 automatically submitted by implementation or smoke tests.
 
+**Authorized launch, 2026-09-16 03:18UTC:** submitted array58407655 (0-7%2)
+and afterok CPU report58407656. Both initially pending, not yet a scientific
+result. Session `e2e-preservation` on login39 retains the launch terminal;
+`tmux attach -t e2e-preservation` reconnects there. Slurm owns training, so loss
+of SSH or tmux does not stop it. Exact single-use launch commands are recorded in
+[launch_tmux.sh](evidence/e2e_field_v2/preservation_objective_v1/launch_tmux.sh).
+Job-ID receipts and logs are in the canonical staged root below. This authorized
+submission supersedes the earlier implementation-only status, not its frozen
+scientific design. Full E2E remains paused; no automatic retries.
+
 **Validation complete:** 35 focused tests and all four full96^3 GPU smoke arms
 pass. Model/Adam/RNG checkpoint replay is exact; the zero-weight control exactly
 matches the previous training step. Finite endpoint gradients, 60 ordinary and
@@ -13,8 +23,8 @@ Allocation58397904 was released successfully. Frozen implementation:
 `344f65202515b7b5f632ec3506e215fae65d7d9f`; canonical staged root:
 `/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/preservation_objective_v1_20260916_58397904`.
 Receipt: [VALIDATION.json](evidence/e2e_field_v2/preservation_objective_v1/VALIDATION.json).
-This verifies implementation, not scientific efficacy. Full eight-fit training
-has not been launched. Signal handling reuses the previously tested durable
+This verifies implementation, not scientific efficacy. At validation time the
+eight-fit training had not been launched. Signal handling reuses the previously tested durable
 workflow; the new smoke checks same-process checkpoint replay, not a fresh
 scheduler-interruption test.
 

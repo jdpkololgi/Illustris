@@ -5,7 +5,9 @@
 `workflows/sbi/e2e_preservation_experiment.py`: stage/smoke/train/report for four
 loss arms x two seeds; `e2e_preservation_loss.py` owns the explicit clean/even/odd
 terms. Frozen restartable batch entrypoint `submit_e2e_preservation.slurm`; no
-full matrix automatically submitted. Contract `docs/e2e_preservation_objective_v1.md`.
+full matrix automatically submitted. Explicitly authorized launch2026-09-16:
+array58407655 (eight fits, throttle2), dependent report58407656; tmux session
+`e2e-preservation` on login39. Contract `docs/e2e_preservation_objective_v1.md`.
 
 ## Ordered clean-limit follow-on (completed 2026-09-15)
 

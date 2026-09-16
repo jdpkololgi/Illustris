@@ -1,5 +1,24 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-16 - [ops/launch] Preservation comparison submitted from persistent tmux
+
+User authorized launch and disconnect survival. At03:18UTC submitted GPU array
+58407655 (eight fits, four loss arms x two seeds, throttle2, one GPU/32 logical
+CPUs per fit, shared/desi_g,2h cap) and CPU report58407656 (debug/desi,8 CPUs,
+10min, afterok of the entire array). Both accepted as BatchFlag1/Requeue0,
+Scratch licensed, with frozen source344f652 and durable Scratch stdout/stderr.
+Initial verification: training pending, report waiting on dependency. No new
+scientific result yet; full E2E remains paused and no held-out data are opened.
+
+tmux session `e2e-preservation` on login39 retains the launch terminal; reconnect
+there with `tmux attach -t e2e-preservation`. Slurm, not tmux, owns persistence:
+training survives SSH/tmux loss. Atomic model/Adam/RNG checkpoints every512 steps
+and on USR1/TERM remain enabled; no automatic retry/requeue. The single-use
+LAUNCH_INTENT.txt and TRAIN_JOB_ID.txt/REPORT_JOB_ID.txt receipts are under the
+validated preservation_objective_v1_20260916_58397904 run root. Exact commands:
+docs/evidence/e2e_field_v2/preservation_objective_v1/launch_tmux.sh (commitf3fb915).
+Do not rerun the launcher to monitor or resume; inspect Slurm and receipts first.
+
 ### 2026-09-16 - [engineering/validation] Preservation-objective pilot implemented; full-size smoke passes
 
 Frozen source344f65202515b7b5f632ec3506e215fae65d7d9f; run root

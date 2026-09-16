@@ -8,7 +8,8 @@ across both seeds, but clean distortion is not stable. Near-zero exposure helps
 the tiny-noise clean limit while leaving a seed-dependent signal/noise tradeoff.
 Next: explicit clean-anchor and even/odd near-clean response supervision, four
 paired arms/two seeds; contract `docs/e2e_preservation_objective_v1.md`. Implement
-and smoke-test only, no full matrix submitted automatically. No full E2E restart,
+and smoke-test completed; user then authorized launch: array58407655 and dependent
+report58407656 submitted2026-09-16 via tmux `e2e-preservation` on login39. No full E2E restart,
 held-out access or promotion; live validation/result status in SCIENCE_LOG.
 
 ## Role

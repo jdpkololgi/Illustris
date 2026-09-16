@@ -11,6 +11,12 @@ it checks matching SMOKE.json. No batch submission occurs during stage/smoke.
 Full matrix: eight one-GPU tasks, throttle2, followed by an afterok CPU report.
 Keep logs on Scratch and record actual job IDs if/when a full run is requested.
 
+Authorized launch2026-09-16: array58407655, report58407656. On login39,
+`tmux attach -t e2e-preservation` opens the retained launch terminal. To check
+without attaching: `squeue -j 58407655,58407656`; after exit use `sacct` plus
+branch COMPLETE receipts and analysis/SUMMARY.json. Do not rerun the single-use
+launch script to monitor. Jobs survive loss of the tmux session itself.
+
 ## Disconnect-safe clean-limit experiments (2026-09-15)
 
 Frozen-source batch launcher: `workflows/sbi/e2e_clean_limit_launch.py`; reviewed
