@@ -40,7 +40,9 @@ class DirectVDMTest(unittest.TestCase):
         self.assertAlmostEqual(float(terms['decoder']),expected,places=5)
 
     def test_ancestral_gaussian_oracle(self):
-        # For N(0,1) data, E[eps|z]=sigma*z and every reverse marginal is N(0,1).
+        # Finite-step DDPM variance is NOT exact Gaussian posterior variance.
+        # Compare to the analytic discrete recurrence, not a false unit-variance
+        # assertion that would blame the network for sampler discretization.
         class Oracle(torch.nn.Module):
             def __init__(self):
                 super().__init__();self.schedule=LinearSchedule(learned=False)
@@ -48,9 +50,16 @@ class DirectVDMTest(unittest.TestCase):
                 return self.schedule.coefficients(g)[1][:,None,None,None,None]*z
         model=Oracle();model.train();c=torch.zeros(128,1,8,8,8)
         out=sample(model,c,16,torch.Generator().manual_seed(11))
+        variance=1.
+        for i in range(16):
+            gt=13.3-26.6*i/16;gs=13.3-26.6*(i+1)/16
+            at2=1/(1+math.exp(gt));ass2=1/(1+math.exp(gs))
+            st2=1-at2;ss2=1-ass2;change=-math.expm1(gs-gt)
+            multiplier=math.sqrt(ass2/at2)*(1-change*st2)
+            variance=multiplier**2*variance+ss2*change
         self.assertTrue(model.training)
         self.assertLess(abs(float(out.mean())),.015)
-        self.assertLess(abs(float(out.var())-1),.02)
+        self.assertLess(abs(float(out.var())-variance),.02)
         torch.testing.assert_close(out,sample(model,c,16,torch.Generator().manual_seed(11)),rtol=0,atol=0)
 
     def test_observation_excludes_coarse_truth(self):
