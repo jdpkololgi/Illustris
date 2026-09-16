@@ -1,5 +1,15 @@
 # Active Workflow Index
 
+## Direct-density VDM pilot (2026-09-16)
+
+`workflows/sbi/e2e_direct_experiment.py`: stage/smoke/train/matrix/submit/paired.
+Contract `docs/e2e_direct_vdm_v1.md`. Two seeds x fixed/learned gamma full VLB,
+full log-density target, observation-only conditioning. User prioritizes a
+90-minute Slurm training job launched from tmux; matching GPU smoke/replay gates
+submission. Sources frozen at87151a1, run direct_vdm_20260916_v2. Eight unit tests
+pass; initial smoke allocation58445684 is pending maintenance. No training
+started as of this entry. Original frozen coarse/fine pairing deferred.
+
 ## Frozen neural sampler / optimizer factorial (2026-09-16)
 
 `workflows/sbi/e2e_frozen_controls.py --root ROOT --mode optimizer|sampler`, from

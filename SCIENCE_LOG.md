@@ -13,6 +13,14 @@ implemented but deferred in favor of the requested bounded training launch.
 No production promotion or automatic retry. Smoke/replay and actual launch/run
 receipts are required before describing training as started or completed.
 
+Technical update:8 small tests pass, then real-data GPU smoke and exact replay
+pass on58445797/nid008325. Model8.20M parameters versus the earlier~113k diagnostic.
+Measured.17945s/update and11.0645s/250-step draw size the requested90-minute job
+at5120updates/fit, fourfits and100draws (~80minutes compute plus I/O). This is a
+budget-based length, not convergence evidence. Original2h allocation expired
+without running; approved15m replacement supplied the smoke. No scientific
+training results yet; final source/config requires its own matching smoke.
+
 ### 2026-09-16 - [science/result] Frozen neural samples improve numerically; physical/auxiliary-loss failures remain
 
 Allocation released COMPLETED0:0 after39m44. Implemented requested sampler and

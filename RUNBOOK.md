@@ -1,5 +1,16 @@
 # TNG/Illustris Runbook
 
+## Direct-density conditional VDM pilot
+
+Contract: `docs/e2e_direct_vdm_v1.md`. From frozen source run
+`python -m workflows.sbi.e2e_direct_experiment smoke --root ROOT` on approved GPU.
+After matching SMOKE.json passes, `submit --root ROOT` submits one shared90-minute
+GPU job for the four-fit matrix. Launch that command in a named tmux terminal;
+Slurm, not tmux, provides disconnect persistence. SUBMISSION.json records job ID;
+logs/train_JOBID.out and per-branch update_*.pt/COMPLETE.json record progress.
+No automatic retry/resubmit into a partial branch. Exact checkpoint replay is a
+smoke gate; saved interrupted states require an explicitly reviewed resume path.
+
 ## Frozen neural sampler / first-moment controls
 
 Completed58442539, contract/results `docs/e2e_frozen_controls_v1.md`. Stage with

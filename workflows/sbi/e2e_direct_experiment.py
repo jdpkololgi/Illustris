@@ -230,7 +230,7 @@ def submit(root):
     if not smoke['passed'] or not smoke['exact_replay'] or smoke['manifest_sha256']!=p.sha256(root/'MANIFEST.json'):
         raise ValueError('matching smoke required')
     command=['sbatch','--parsable','--nodes=1','--ntasks=1','--cpus-per-task=32',
-        '--constraint=gpu&hbm80g','--gpus=1','--qos=shared','--account=desi_g','--time=01:30:00',
+        '--constraint=gpu','--gpus=1','--qos=shared','--account=desi_g','--time=01:30:00',
         '--licenses=scratch','--no-requeue','--signal=USR1@180','--job-name=e2e-direct-vdm',
         '--chdir='+str(root/'source'),'--output='+str(root/'logs/train_%j.out'),
         '--error='+str(root/'logs/train_%j.err'),str(root/'source/workflows/sbi/submit_e2e_direct_vdm.slurm'),str(root)]
