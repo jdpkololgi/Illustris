@@ -51,3 +51,14 @@ python -m workflows.sbi.e2e_frozen_controls --root ROOT --mode sampler
 
 Atomic receipts and writer lock preserve partial diagnostics. No automatic retry
 or budget extension. Prior failed science gates are not retrospectively relaxed.
+
+## Decision discipline after the user's concern about diagnostic churn
+
+The paper ablations are a menu of conditional hypotheses, NOT a mandatory queue
+of further optimizations. Clean-input identity at positive sigma was a debugging
+proxy, not the scientific estimand. Do not demand that every proxy be perfect
+before inspecting generated fields. If fine-only frozen draws are credible,
+the next meaningful test is frozen coarse-to-fine inference with true versus
+sampled coarse conditioning, not another auxiliary-loss training run. If the
+resolved fine sampler fails, isolate that demonstrated generative failure first.
+Neither branch automatically authorizes restarting full E2E training.
