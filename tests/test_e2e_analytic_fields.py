@@ -5,6 +5,7 @@ from workflows.sbi.e2e_analytic_fields import (spectrum,filt,gaussian_mean,log_d
     GaussianVelocity,iid_lognormal_density_mean,min_snr_v_weight)
 from workflows.sbi.e2e_loss_conflict import comparison,remove_conflicting_component,gradient_vectors
 from workflows.sbi.e2e_oracle_solver import sample_vp_heun
+from workflows.sbi.e2e_gradient_step_probe import assign_gradient
 
 
 class AnalyticFieldsTests(unittest.TestCase):
@@ -55,6 +56,12 @@ class AnalyticFieldsTests(unittest.TestCase):
         x=torch.nn.Parameter(torch.tensor([1.,2.]));v=gradient_vectors({'a':x.square().sum(),'b':-x.sum()},[x])
         torch.testing.assert_close(v['a'],torch.tensor([2.,4.],dtype=torch.float64))
         self.assertLess(comparison(v['a'],v['b'])['cosine'],0)
+
+    def test_gradient_assignment(self):
+        a=torch.nn.Parameter(torch.zeros(2));b=torch.nn.Parameter(torch.zeros(1,2))
+        assign_gradient([a,b],torch.tensor([1.,2.,3.,4.],dtype=torch.float64))
+        torch.testing.assert_close(a.grad,torch.tensor([1.,2.]))
+        torch.testing.assert_close(b.grad,torch.tensor([[3.,4.]]))
 
     def test_bad_inputs(self):
         with self.assertRaises(ValueError):gaussian_mean(self.x,self.p,-1)

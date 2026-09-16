@@ -102,6 +102,22 @@ score, finite-time endpoint extrapolation or posterior calibration.
 separate source snapshot after committing this candidate; preserve the original
 oracle/gradient run unchanged. Do not rerun all gradients for this solver test.
 
+### Follow-on optimizer intervention, registered after partial gradients
+
+The initial measurements show seed/noise-dependent negative clean/denoising
+gradient alignment. Test one-sided projection through the ACTUAL restored AdamW
+state and clipping, not just Euclidean dot products. `e2e_gradient_step_probe.py`
+uses the two control30,720 checkpoints, three first registered fitting fields,
+and gradient sigma=.005/.01/.05. For EACH case independently restore model/Adam,
+take one step with denoising only, denoising+identity(weight1), or denoising plus
+projected identity. Evaluate clean MSE and two NEW noise draws at all three
+sigmas on that field; also report actual parameter-displacement dot products.
+54 single-step interventions, not54 sequential training steps. No weights saved,
+no transfer use or generalization/convergence claim. All originals restored.
+Projection is rejected as an automatic repair if it fails to improve the
+fresh-noise clean/noisy tradeoff consistently versus the denoising-only control.
+No full fit follows automatically, regardless of this local result.
+
 Activate cosmic_env before graphify/Python. Commit, then stage a new
 oracle_conflict_* child of the registered Scratch root with
 `python -m workflows.sbi.e2e_oracle_conflict stage --root <root>`.
