@@ -1,5 +1,10 @@
 # Plan — End-to-end conditional density-field posterior
 
+**Active follow-on:** docs/e2e_frozen_controls_v1.md implements the frozen neural
+sampler comparison and first-moment x clipping factorial, with explicit paper-
+control status. Numerically resolved but physically wrong outputs rule out a
+sampler-only repair; no automatic auxiliary-loss fit or E2E restart follows.
+
 **Completed oracle/optimizer tests:** Gaussian/log-Gaussian reference checks pass.
 An isolated VP-Heun sampler is more accurate than current DDIM at matched NFE on
 known distributions, but has not yet been tested on frozen neural scores.

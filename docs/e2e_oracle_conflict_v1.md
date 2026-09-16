@@ -1,5 +1,16 @@
 # Gaussian / log-Gaussian oracle and loss-conflict diagnostic
 
+## Registered follow-on: frozen neural sampler and optimizer factorial
+
+2026-09-16: configs/e2e_frozen_controls_v1.json and e2e_frozen_controls.py freeze
+two30720 control seeds; first fitted/transfer field per phase; two paired draws;
+DDIM32/128 versus Heun32/128/256/512 NFE. Reference256->512 relativeRMS <=1% is a
+provisional numerical screen, not a posterior gate. Fine-only TRUE-coarse input.
+216 independent one-step tests cross retained/zero FIRST moment and clipping
+on/off, three objectives, three fitted phases and sigma.005/.01/.05. Preserve
+variance/step age; compare against denoising-only within the same setting.
+Full contract/paper-control status: docs/e2e_frozen_controls_v1.md. No new fit/E2E.
+
 ## Completed results (2026-09-16)
 
 All tests completed on allocation58439522, released COMPLETED0:0 after18m18.

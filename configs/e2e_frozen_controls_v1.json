@@ -1,0 +1,15 @@
+{
+  "schema": "e2e-frozen-controls-v1",
+  "replicas": [0, 1],
+  "phases": ["ph000", "ph002", "ph003"],
+  "draws": 2,
+  "samplers": [["ddim", 32], ["heun", 32], ["ddim", 128], ["heun", 128], ["heun", 256], ["heun", 512]],
+  "reference_relative_rms_tolerance": 0.01,
+  "gradient_sigmas": [0.005, 0.01, 0.05],
+  "momentum": ["retained", "zero_first"],
+  "clipping": [true, false],
+  "variants": ["denoising_only", "identity_strong", "projected_identity"],
+  "full_e2e_training": false,
+  "saved_updated_weights": false,
+  "heldout_access": false
+}

@@ -1,5 +1,17 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-16 - [science/plan] Frozen neural sampler and Adam factorial
+
+User authorizes bounded frozen-checkpoint sampler and first-moment x clipping
+controls. docs/e2e_frozen_controls_v1.md / configs/e2e_frozen_controls_v1.json
+registered before execution. Two30720 control seeds, six phase/group-balanced
+fields, two coupled draws; compare matched32/128 NFE and refine Heun256->512.
+216 independent one-step Adam tests preserve second moment/step age and restore
+all original state.55 focused tests pass. No auxiliary-loss fit or E2E restart.
+Paper controls are distinguished as measured, algebra-tested or staged, not all
+claimed integrated in training. User flags diagnostic churn: generated-field
+failure after numerical resolution must stop another sampler-only extension.
+
 ### 2026-09-16 - [science/result] Oracle calibration passes; sampler improves, projection is not a reliable loss repair
 
 Completed authorized one-GPU diagnostic on allocation58439522/nid001008,

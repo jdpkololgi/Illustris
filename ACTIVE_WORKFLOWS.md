@@ -1,5 +1,11 @@
 # Active Workflow Index
 
+## Frozen neural sampler / optimizer factorial (2026-09-16)
+
+`workflows/sbi/e2e_frozen_controls.py --root ROOT --mode optimizer|sampler`, from
+an immutable oracle-conflict snapshot. Contract: docs/e2e_frozen_controls_v1.md.
+No E2E training or saved new fit.
+
 ## Oracle / loss-conflict diagnostic (2026-09-16)
 
 `workflows/sbi/e2e_oracle_conflict.py`: stage/run frozen analytic Gaussian and

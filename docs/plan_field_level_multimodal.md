@@ -1,5 +1,9 @@
 # Plan — Field-level & multimodal program: "stop throwing the field away"
 
+**Active controls:** e2e_frozen_controls_v1.md implements paired frozen neural
+samplers and first-moment x clipping isolation, distinguishing actual paper
+controls from staged ablations. No E2E promotion from implementation alone.
+
 **2026-09-16 oracle/optimizer amendment:** the preservation matrix failed its
 joint reproducibility gate. Gaussian/log-Gaussian calibration and full checkpoint
 gradient diagnostics are completed; a matched-NFE VP-Heun numerical candidate
