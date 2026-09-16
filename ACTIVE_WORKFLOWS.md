@@ -1,5 +1,12 @@
 # Active Workflow Index
 
+## Oracle / loss-conflict diagnostic (2026-09-16)
+
+`workflows/sbi/e2e_oracle_conflict.py`: stage/run frozen analytic Gaussian and
+log-Gaussian sampler tests and read-only checkpoint-gradient probes.
+`e2e_analytic_fields.py` and `e2e_loss_conflict.py` contain tested primitives.
+Contract: `docs/e2e_oracle_conflict_v1.md`. No new neural fits or E2E restart.
+
 ## Preservation-objective pilot (implemented 2026-09-16)
 
 `workflows/sbi/e2e_preservation_experiment.py`: stage/smoke/train/report for four

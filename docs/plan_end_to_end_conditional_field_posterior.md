@@ -1,5 +1,13 @@
 # Plan — End-to-end conditional density-field posterior
 
+**2026-09-16 diagnostic amendment:** the eight-fit preservation matrix completed,
+but no modified loss passed the joint two-seed/two-checkpoint gate. Calibrate
+positive-noise clean distortion against Gaussian/log-Gaussian posterior references
+and measure conflicting task/time gradients before selecting another repair.
+See `e2e_oracle_conflict_v1.md`. Analytic tests of the existing sampler primitives
+are not a neural E2E restart. Earlier pending/next-pilot notes are historical;
+the failed registered gate is retained, not retrospectively relaxed.
+
 **Programme name:** `E2E-FIELD-v1`
 **Variants:** `E2E-CFM` (conditional flow matching), `E2E-DIFF`
 (conditional diffusion) and the gated `E2E-WCFM` (Fourier-anchored wavelet

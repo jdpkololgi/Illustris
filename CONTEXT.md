@@ -2,6 +2,10 @@
 
 ## Preservation objective (2026-09-16)
 
+The eight-fit preservation matrix completed; no modified loss passes the joint
+gate. Current next step: Gaussian/log-Gaussian oracles and unchanged-checkpoint
+gradient diagnostics, `docs/e2e_oracle_conflict_v1.md`. No E2E restart or repair fit.
+
 Clean-limit chain58385300 ->58385303 ->58385304 completed successfully. Fixed15-
 field optimization improves denoising substantially and passes .05/.2 noisy gates
 across both seeds, but clean distortion is not stable. Near-zero exposure helps

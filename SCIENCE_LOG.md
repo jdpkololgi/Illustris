@@ -1,5 +1,35 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-16 - [science/plan] Gaussian/log-Gaussian oracles and loss-conflict diagnosis
+
+User authorizes implementation/testing, adds log-Gaussian fields and a focused
+literature check. Contract: docs/e2e_oracle_conflict_v1.md. Exact Gaussian and
+log-space log-Gaussian posterior means, separate iid lognormal/additive-density
+quadrature; existing VP-DDIM and CFM-Heun samplers tested against coupled exact
+transport. Positive-sigma clean distortion can be legitimate Bayes shrinkage;
+do not retrospectively declare the previous gate passed. Periodic synthetic
+tests do not establish survey-conditioned posterior calibration.
+
+All eight final checkpoints, three fitting phases, two noise draws, seven
+sigmas: separate clean/even/odd/denoising gradient norms/cosines and cross-sigma
+conflict. No transfer optimization or weight changes. Min-SNR v-weight and
+one-sided projection are tested diagnostic candidates, not enabled repairs.
+No new neural fits, full E2E restart, held-out access or promotion in this phase.
+
+### 2026-09-16 - [science/result] Preservation improves but the joint gate fails
+
+Array58407655: all eight fits COMPLETED0:0 in61m15--61m43; report58407656
+COMPLETED0:0 in25s. All reach30,720 updates;49,152 additional updates total.
+All32 probe hashes verified; summary SHA256
+77adc5743c11826ed64330b1d362e6e57c3a7bf6b4ec1d4283331f266dc8ab47.
+Final paired transfer .05 clean RMS reductions seed0/1: weak22.6/22.9%,
+strong46.8/54.4%, response40.3/47.1%. But .01 noisy MSE changes seed0/1:
+weak-15.1/+46.8%, strong-2.4/+100.8%, response-18.7/+28.7%.
+Response seed1 .001 clean RMS increases39.7%. Final .05/.2 legacy gates pass
+all fields, but no modified arm passes across both seeds/checkpoints/groups.
+Supervision teaches preservation while introducing noise-dependent tradeoffs.
+Full E2E remains paused; no successful repair or posterior calibration claimed.
+
 ### 2026-09-16 - [ops/launch] Preservation comparison submitted from persistent tmux
 
 User authorized launch and disconnect survival. At03:18UTC submitted GPU array
