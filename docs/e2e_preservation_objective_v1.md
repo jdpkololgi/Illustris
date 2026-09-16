@@ -5,6 +5,19 @@ not another unchanged extension. Full E2E stays paused. The implemented commands
 support frozen-source, restartable execution; the full eight-fit matrix is NOT
 automatically submitted by implementation or smoke tests.
 
+**Validation complete:** 35 focused tests and all four full96^3 GPU smoke arms
+pass. Model/Adam/RNG checkpoint replay is exact; the zero-weight control exactly
+matches the previous training step. Finite endpoint gradients, 60 ordinary and
+24 near-clean evaluation rows, and gate checks pass. Peak GPU memory is5.334GB.
+Allocation58397904 was released successfully. Frozen implementation:
+`344f65202515b7b5f632ec3506e215fae65d7d9f`; canonical staged root:
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/preservation_objective_v1_20260916_58397904`.
+Receipt: [VALIDATION.json](evidence/e2e_field_v2/preservation_objective_v1/VALIDATION.json).
+This verifies implementation, not scientific efficacy. Full eight-fit training
+has not been launched. Signal handling reuses the previously tested durable
+workflow; the new smoke checks same-process checkpoint replay, not a fresh
+scheduler-interruption test.
+
 ## Evidence motivating this test
 
 The completed clean-limit chain58385300 ->58385303 ->58385304 ran successfully.

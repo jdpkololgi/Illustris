@@ -1,5 +1,26 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-16 - [engineering/validation] Preservation-objective pilot implemented; full-size smoke passes
+
+Frozen source344f65202515b7b5f632ec3506e215fae65d7d9f; run root
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/preservation_objective_v1_20260916_58397904`.
+All35 focused tests pass (11 new loss/gate tests,10 durable/clean-limit,14 diversity).
+Full96^3 GPU smoke passes all four arms: finite primary endpoint gradients at
+auxiliary sigma1e-5/.001/.05, exact checkpoint replay of model/Adam/RNG, and exact
+zero-weight control replay against the previous training step. Evaluation smoke
+has60 ordinary and24 near-clean rows on one fitting and one transfer field;
+self-comparison correctly fails the required preservation-improvement gate.
+Peak allocated GPU memory5,333,728,256 bytes. This is engineering validation,
+NOT evidence of improved preservation, convergence or calibrated posteriors.
+
+Interactive allocation58397904/nid001008 released, COMPLETED0:0 after11m06;
+staging and GPU steps both0:0. NERSC allocation workflow kept full-size checks
+off the login node. Batch wrapper/source checks, atomic checkpointing and signal
+handling are implemented; this smoke tests same-process checkpoint replay, not
+a new scheduler-interruption drill. Prior durability tests remain applicable.
+The full eight-fit comparison has NOT been submitted. Full E2E remains paused.
+Checked-in receipt: docs/evidence/e2e_field_v2/preservation_objective_v1/VALIDATION.json.
+
 ### 2026-09-16 - [science/plan] Separate preservation from denoising in the objective
 
 User requests a loss-level experiment, not more unchanged training. Implement
