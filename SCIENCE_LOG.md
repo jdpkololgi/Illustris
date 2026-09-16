@@ -1,5 +1,18 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-16 - [science/plan] Direct log-density VDM pilot, 90-minute authorization
+
+User asks to implement the CAMELS-led recommendation, then prioritizes training
+now in tmux for about90minutes. Contract/config: docs/e2e_direct_vdm_v1.md and
+configs/e2e_direct_vdm_v1.json. Four paired fits (two seeds, fixed versus learned
+linear gamma), full VLB, larger residual3D U-Net, direct log physical density;
+no true-coarse input. Ten fit cutouts/ph000-ph002; ph003 excluded from new fitting
+and normalization. Adapted48^3 resolution and four draws/anchor do not establish
+full-resolution/full-cap posterior calibration. Frozen coarse/fine pairing is
+implemented but deferred in favor of the requested bounded training launch.
+No production promotion or automatic retry. Smoke/replay and actual launch/run
+receipts are required before describing training as started or completed.
+
 ### 2026-09-16 - [science/result] Frozen neural samples improve numerically; physical/auxiliary-loss failures remain
 
 Allocation released COMPLETED0:0 after39m44. Implemented requested sampler and

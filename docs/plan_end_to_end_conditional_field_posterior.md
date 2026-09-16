@@ -1,5 +1,12 @@
 # Plan — End-to-end conditional density-field posterior
 
+**Current authorized implementation (2026-09-16):** direct48^3 log-density VDM
+pilot, docs/e2e_direct_vdm_v1.md. Fixed/learned gamma VLB, two seeds, larger3D
+U-Net; galaxy/survey inputs only. Train ph000/ph002, development ph003; no ph001.
+User requests one90-minute GPU training window launched in tmux after smoke.
+Frozen original coarse/fine pairing implemented but deferred. This is an E2E
+research challenger, not restart/promotion of the old384-update pipeline.
+
 **Latest completed controls (2026-09-16):** frozen neural sampler/Adam factorial
 complete, docs/e2e_frozen_controls_v1.md. Better Heun128 numerics do not remove
 spectral bias; unclipping/reset-first-moment do not reproduce a safe loss repair.
