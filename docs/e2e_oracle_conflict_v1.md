@@ -85,6 +85,23 @@ existing sampler directly, not a claimed Diffusers-library equivalence test.
 
 ## Execution
 
+### Follow-on numerical candidate, registered after the oracle result
+
+The initial oracle passes at512 steps, but32-step DDIM has4.69% Gaussian and
+8.56% log-density coupled relative RMS error even with an exact denoiser.
+Implement a separate cosine-VP probability-flow Heun integrator with derivative
+(pi/2)*v, integrating1->0. Compare against unchanged DDIM at matched32/128/512
+network evaluations (Heun uses half as many intervals). Same spectrum, draws,
+condition and initial noise. Success requires lower coupled RMS for BOTH charts
+at EVERY tested NFE. This follow-on is explicitly selected after the initial
+oracle result; it is not part of the original preregistration. No E2E code is
+switched over, and success with an oracle does not imply success with a neural
+score, finite-time endpoint extrapolation or posterior calibration.
+
+`e2e_oracle_solver.py --root <fresh-frozen-root>` writes SOLVER.json. Stage a
+separate source snapshot after committing this candidate; preserve the original
+oracle/gradient run unchanged. Do not rerun all gradients for this solver test.
+
 Activate cosmic_env before graphify/Python. Commit, then stage a new
 oracle_conflict_* child of the registered Scratch root with
 `python -m workflows.sbi.e2e_oracle_conflict stage --root <root>`.

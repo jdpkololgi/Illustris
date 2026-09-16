@@ -4,6 +4,7 @@ import torch
 from workflows.sbi.e2e_analytic_fields import (spectrum,filt,gaussian_mean,log_density_mean,
     GaussianVelocity,iid_lognormal_density_mean,min_snr_v_weight)
 from workflows.sbi.e2e_loss_conflict import comparison,remove_conflicting_component,gradient_vectors
+from workflows.sbi.e2e_oracle_solver import sample_vp_heun
 
 
 class AnalyticFieldsTests(unittest.TestCase):
@@ -59,5 +60,21 @@ class AnalyticFieldsTests(unittest.TestCase):
         with self.assertRaises(ValueError):gaussian_mean(self.x,self.p,-1)
         with self.assertRaises(ValueError):iid_lognormal_density_mean(-2,.1)
         with self.assertRaises(ValueError):min_snr_v_weight(torch.tensor(-.1))
+
+    def test_heun_exact_stationary_standard_gaussian(self):
+        p=torch.ones_like(self.p);condition=torch.zeros_like(self.x);model=GaussianVelocity(p,'diffusion')
+        gen=lambda:torch.Generator().manual_seed(7)
+        expected=torch.randn(self.x.shape,dtype=self.x.dtype,generator=gen())
+        actual=sample_vp_heun(model,condition,8,gen())
+        torch.testing.assert_close(actual,expected,atol=1e-14,rtol=1e-14)
+        self.assertTrue(model.training)
+
+    def test_heun_refines_and_restores_mode(self):
+        p=torch.full_like(self.p,.2);condition=torch.ones_like(self.x)*.1
+        model=GaussianVelocity(p,'diffusion');model.eval();gen=lambda:torch.Generator().manual_seed(8)
+        expected=condition+torch.randn(self.x.shape,dtype=self.x.dtype,generator=gen())*math.sqrt(.2)
+        coarse=sample_vp_heun(model,condition,8,gen());fine=sample_vp_heun(model,condition,32,gen())
+        self.assertLess(float((fine-expected).square().mean()),float((coarse-expected).square().mean())/20)
+        self.assertFalse(model.training)
 
 if __name__=='__main__':unittest.main()
