@@ -6,6 +6,23 @@ Durable plan written 2026-07-07 (Claude Code + JDPK brainstorm). Companion to
 **output/target-representation and multimodal axis**. Running narrative:
 `SCIENCE_LOG.md`.
 
+**2026-09-16 field-model update:** this July document remains the historical
+representation/multimodal plan. The active generative-field programme is owned by
+[`plan_end_to_end_conditional_field_posterior.md`](plan_end_to_end_conditional_field_posterior.md).
+Its full E2E run is paused384 while the fine denoiser is isolated. Longer fixed-
+field optimization now passes the .05/.2 noisy gates across both seeds, but clean
+preservation remains unstable; near-zero exposure improves the tiny-noise limit
+without uniformly fixing signal/noise tradeoffs. This is not an architecture or
+normalization victory and does not establish a calibrated posterior.
+
+The next implemented experiment explicitly separates clean identity, even
+structure drift, and odd noise response in the loss. Four paired arms/two seeds
+and simultaneous preservation/noisy-error gates are registered in
+[`e2e_preservation_objective_v1.md`](e2e_preservation_objective_v1.md).
+No full matrix is launched by implementation. Reproducible local success plus
+independent-seed confirmation is required before a separately authorized
+conditional DIFF/CFM reintegration; all physics/coherence/calibration gates remain.
+
 ## 0. The observation that started this
 
 Simulations hand us the complete density / tidal / eigenvalue **fields** — full

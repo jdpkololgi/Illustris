@@ -1,13 +1,20 @@
 # Active Workflow Index
 
-## Ordered clean-limit follow-on (queued 2026-09-15)
+## Preservation-objective pilot (implemented 2026-09-16)
+
+`workflows/sbi/e2e_preservation_experiment.py`: stage/smoke/train/report for four
+loss arms x two seeds; `e2e_preservation_loss.py` owns the explicit clean/even/odd
+terms. Frozen restartable batch entrypoint `submit_e2e_preservation.slurm`; no
+full matrix automatically submitted. Contract `docs/e2e_preservation_objective_v1.md`.
+
+## Ordered clean-limit follow-on (completed 2026-09-15)
 
 `workflows/sbi/e2e_clean_limit.py` / `e2e_clean_limit_launch.py`: frozen15-field
 optimization -> paired low-noise exposure -> observation-shift diagnostics.
 Disconnect-safe shared Slurm batches after representative interactive smoke.
 Contract/restart: `docs/e2e_clean_limit_20260915.md`. Full E2E remains paused;
 bounded denoiser diagnosis, not model promotion.
-Verified job chain58385300 -> 58385303 -> 58385304; final source021fde6.
+Completed job chain58385300 -> 58385303 -> 58385304; final source021fde6.
 The first two jobs are GPU arrays; final reporting uses a short CPU debug job.
 
 This file is the quick reference for what to run in this repository now. For

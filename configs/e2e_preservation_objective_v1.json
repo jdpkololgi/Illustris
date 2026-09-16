@@ -1,0 +1,36 @@
+{
+  "schema": "e2e-preservation-objective-v1",
+  "parent_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/clean_limit_20260915_58384288_v3",
+  "parent_manifest_sha256": "99515618d7d4bb32f3247725be359cef3d7163e3c2c0e375547fb3e8b343e118",
+  "parent_summary_sha256": "fcbc6f1ca447190ab7e36e59400dc1f70861be2d8208ff4d30e9c0faf2ae4737",
+  "parent_arm": "optimization",
+  "parent_update": 24576,
+  "additional_updates": 6144,
+  "evaluate_after": [0, 1536, 3072, 6144],
+  "checkpoint_every": 512,
+  "replicas": [0, 1],
+  "arms": {
+    "control": {"identity_weight": 0.0, "response_weight": 0.0},
+    "identity_weak": {"identity_weight": 0.1, "response_weight": 0.0},
+    "identity_strong": {"identity_weight": 1.0, "response_weight": 0.0},
+    "identity_response": {"identity_weight": 0.1, "response_weight": 0.1}
+  },
+  "primary_exposure": "same near_zero schedule as previous paired branch",
+  "auxiliary_bins": [[0.00001, 0.0001], [0.0001, 0.001], [0.001, 0.005], [0.005, 0.015], [0.015, 0.03], [0.03, 0.05]],
+  "auxiliary_seed_offset": 916170,
+  "perturbation_fraction": 0.25,
+  "gate": {
+    "preservation_ratios": [0.001, 0.01, 0.05],
+    "maximum_median_clean_ratio": 0.75,
+    "minimum_improved_fraction": 0.75,
+    "maximum_median_noisy_mse_ratio": 1.05,
+    "maximum_phase_noisy_mse_ratio": 1.10,
+    "maximum_other_clean_ratio": 1.10,
+    "last_two_evaluations": [3072, 6144],
+    "require_all_seeds": true
+  },
+  "heldout_access": false,
+  "full_e2e_training": false,
+  "automatic_extension": false,
+  "training_ready": false
+}

@@ -11,6 +11,36 @@ this document
 **Authority:** current `SCIENCE_LOG.md` and frozen evidence supersede this plan
 when they disagree
 
+**Current amendment, 2026-09-16 — local preservation before reintegration:** the
+192->384 coarse/fine canary and subsequent isolated denoiser experiments are
+complete; older "initial training running" notes below are historical. Full E2E
+remains paused at384. The15-field optimization/coverage chain completed:
+optimization reduces transfer clean distortion43--50% and noisy high-k error
+68--79%; both seeds pass the existing .05/.2 noisy gates on fitted/transfer
+regions. However later clean distortion fluctuates, and near-zero exposure helps
+.001 preservation without reliable joint .05 gains. Exact0 identity is structural,
+not evidence that the preservation problem is solved. None of six trajectories
+passes the joint stability criterion; no calibrated field posterior is established.
+
+The next implemented pilot changes **what the objective teaches**, separately
+supervising clean identity, perturbation-even structure preservation, and
+perturbation-odd noise removal. Four arms x two optimized parent seeds, identical
+primary exposure/fields/optimizer and6,144 further updates per fit; no automatic
+submission or extension. Detailed contract, prior negative clean-penalty result,
+loss equations and preregistered simultaneous gates:
+[`e2e_preservation_objective_v1.md`](e2e_preservation_objective_v1.md).
+
+Both seeds AND both final checkpoints must improve clean preservation while
+retaining noisy MSE, physical gains and noise-removal gates on fitted and transfer
+fields. An identity map cannot pass. Follow with an independent third-seed
+confirmation before proposing a separately authorized true-coarse/sampled-coarse
+DIFF reintegration canary. A diffusion velocity cannot be inserted unchanged into
+CFM: derive/test its path-target conversion or train a matched CFM objective.
+Posterior calibration, proper scores, support, spectra, coherent sibling draws,
+R0-PHYSICS and held-out authorization remain independent gates. A local loss
+success does not waive them. This targeted amendment supersedes a blanket ban on
+further local loss ablations below; it does not authorize other variants or E2E.
+
 **Research-canary start, 2026-09-11:** after explicit user authorization, job
 58196924 started the unchanged matched 192-update coarse/fine CFM/DIFF canary.
 Initial training is verified running, not complete. No holdout access or

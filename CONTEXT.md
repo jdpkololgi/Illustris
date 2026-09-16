@@ -1,14 +1,15 @@
 # Research context — Illustris
 
-## Clean-limit follow-on (registered 2026-09-15)
+## Preservation objective (2026-09-16)
 
-Approved ordered denoiser diagnosis: fixed15-field/current-normalization
-optimization3,072->24,576 (two seeds), paired unchanged/near-zero exposure to36,864,
-then descriptive observation-versus-target shift analysis. Frozen shared Slurm
-batch workflow passed exact interruption/resume validation and is queued as
-58385300 -> 58385303 -> 58385304. The final report is a short CPU diagnostic.
-Contract: `docs/e2e_clean_limit_20260915.md`; live job/result status in SCIENCE_LOG.
-No full E2E restart, held-out access, or production promotion.
+Clean-limit chain58385300 ->58385303 ->58385304 completed successfully. Fixed15-
+field optimization improves denoising substantially and passes .05/.2 noisy gates
+across both seeds, but clean distortion is not stable. Near-zero exposure helps
+the tiny-noise clean limit while leaving a seed-dependent signal/noise tradeoff.
+Next: explicit clean-anchor and even/odd near-clean response supervision, four
+paired arms/two seeds; contract `docs/e2e_preservation_objective_v1.md`. Implement
+and smoke-test only, no full matrix submitted automatically. No full E2E restart,
+held-out access or promotion; live validation/result status in SCIENCE_LOG.
 
 ## Role
 

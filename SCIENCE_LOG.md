@@ -1,5 +1,54 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-16 - [science/plan] Separate preservation from denoising in the objective
+
+User requests a loss-level experiment, not more unchanged training. Implement
+four paired arms from BOTH24,576-update optimization parents: zero-weight matched
+control, clean-identity weights.1/1, and identity.1 plus explicit near-clean
+even/odd response weight.1.6,144 additional updates each;49,152 total across8fits.
+Primary near-zero exposure, fields, noise, architecture, Adam/LR/clipping and
+normalization fixed. Auxiliary positive-sigma clean anchor plus antithetic small
+perturbations separate baseline distortion, even structure drift and odd noise.
+All arms execute the same four forwards; control must replay the prior objective.
+This acknowledges the earlier failed simple clean-penalty arm; it is not a claim
+that its algebra is new. New response supervision is an explicit inductive bias,
+not guaranteed posterior-preserving score matching.
+
+Registered simultaneous gates: preservation improvement acrosssigma, no ordinary
+or near-clean noisy-MSE regression, original spectral/noise gates, both seeds and
+both final checkpoints, fitted AND transfer. Exact0 identity cannot count as a win.
+Independent third-seed confirmation precedes any separately authorized DIFF/CFM
+reintegration; CFM target/path conversion and posterior calibration remain gates.
+Implementation/smoke only at this entry; no full matrix submission or E2E restart.
+Contract: docs/e2e_preservation_objective_v1.md; config of the same stem.
+
+### 2026-09-16 - [science/result] Optimization and near-zero exposure help, but preservation is not stable
+
+Chain58385300/58385303/58385304 completed0:0: optimization50m55/52m03, four exposure
+branches30m00--30m13, CPU analysis21s.92,160 new updates including16 validated
+continuation updates; both seeds reach24,576 then paired branches36,864.22 probe
+hashes and final completion/latest receipts verified. Summary SHA256
+fcbc6f1ca447190ab7e36e59400dc1f70861be2d8208ff4d30e9c0faf2ae4737 in the canonical
+clean_limit_20260915_58384288_v3/analysis directory on Scratch.
+
+Transfer .05 clean RMS seed0/1: original .006803/.009531 ->24,576 .003370/.005443
+(50.5%/42.9% reductions); noisy high-k error falls68.4%/78.8%. At24,576 and every
+final branch, .05/.2 noisy gates pass all15 fitting and12 transfer regions.
+This is a substantial local-denoising advance, NOT a clean-preservation gate.
+Further unchanged training gives .005612/.004329; near-zero gives .003499/.005766.
+No branch meets the registered joint last-interval stability criterion.
+
+Near-zero vs equally trained controls: paired .001 clean RMS -59.3%/-83.3%, but
+about97% injected high-k noise remains. At .05 clean RMS -37.0%/+32.6% and noisy
+high-k error +23.9%/-15.0%: seed-dependent tradeoff. Final .05 clean RMS remains
+about0.9--1.5% of field std, also on fitted fields. Exact0 identity is structural;
+small-sigma distortion is approximately linear in sigma, not a new endpoint fix.
+Observation-feature predictive gains/associations vary across seeds; three
+development phases do not identify selection shift as the cause. No normalization
+or new-cosmology conclusion. Full E2E remains paused384, no held-out payloads,
+no promotion. Plans updated to require reproducible simultaneous preservation
+and denoising before a separately registered posterior reintegration experiment.
+
 ### 2026-09-15 - [ops/launch] Disconnect-safe clean-limit chain submitted; scientific results pending
 
 At21:10UTC Slurm accepted optimization array58385300 (two seeds,3h/oneGPU each),

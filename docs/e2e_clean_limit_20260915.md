@@ -1,5 +1,16 @@
 # Fixed-field optimization and the clean-input limit
 
+## Completion update — 2026-09-16 UTC
+
+All six fits and the CPU analysis completed0:0 on September15. The launch notes
+below are historical.22 probe hashes verified; final summary SHA256
+`fcbc6f1ca447190ab7e36e59400dc1f70861be2d8208ff4d30e9c0faf2ae4737`.
+Both seeds now pass .05/.2 noisy gates on all fitted/transfer regions, but no
+trajectory passes the joint stability criterion. Near-zero exposure reduces
+.001 clean distortion59%/83% versus matched controls, not a uniform joint .05
+repair. Full E2E stays paused. Results and next objective-level contract:
+[`e2e_preservation_objective_v1.md`](e2e_preservation_objective_v1.md).
+
 ## Live launch status — 2026-09-15 21:10 UTC
 
 Submitted and verified: optimization array **58385300**, coverage array

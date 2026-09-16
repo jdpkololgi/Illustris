@@ -1,5 +1,16 @@
 # TNG/Illustris Runbook
 
+## Preservation-objective pilot
+
+Contract: `docs/e2e_preservation_objective_v1.md`. Commit source, then stage a
+new preservation_* Scratch run with `e2e_preservation_experiment stage`; run its
+`smoke` command from frozen source on one allocated GPU. `train` and `report`
+use source/parent/data checks, durable checkpoints and paired gate evaluation.
+The reviewed `submit_e2e_preservation.slurm` expects run root and train/report;
+it checks matching SMOKE.json. No batch submission occurs during stage/smoke.
+Full matrix: eight one-GPU tasks, throttle2, followed by an afterok CPU report.
+Keep logs on Scratch and record actual job IDs if/when a full run is requested.
+
 ## Disconnect-safe clean-limit experiments (2026-09-15)
 
 Frozen-source batch launcher: `workflows/sbi/e2e_clean_limit_launch.py`; reviewed
