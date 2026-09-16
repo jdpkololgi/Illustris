@@ -1,5 +1,51 @@
 # Gaussian / log-Gaussian oracle and loss-conflict diagnostic
 
+## Completed results (2026-09-16)
+
+All tests completed on allocation58439522, released COMPLETED0:0 after18m18.
+48 focused unit/regression tests pass. Frozen initial source38c656b and follow-on
+dd38acc; source/result hashes reverified after execution. Checked-in provenance:
+[RESULTS.json](evidence/e2e_field_v2/oracle_conflict_v1/RESULTS.json).
+
+Gaussian/log-Gaussian oracle gates pass; Gaussian noisy MSE agrees with Bayes
+risk within0.5%. Correct clean-input changes at positive sigma are nonzero;
+they should not be confused with a neural modelling error. The separate scalar
+lognormal density-noise calculation also converges. Its prior is iid, not the
+correlated log-Gaussian field used in the log-space/sampler experiments.
+
+| Model evaluations | DDIM Gaussian error | VP Heun Gaussian error | DDIM log-density error | VP Heun log-density error |
+| ---: | ---: | ---: | ---: | ---: |
+| 32 | 4.691% | .4690% | 8.557% | .5327% |
+| 128 | 1.194% | .02900% | 2.239% | .03274% |
+| 512 | .3001% | .001806% | .5665% | .002037% |
+
+These are relative RMS errors against exact transport of IDENTICAL initial
+noise, not independent-draw differences. Original low-step DDIM suppresses
+power here; this does not explain the earlier cosmic excess high-k power.
+The new solver remains a separate candidate, not a production replacement.
+
+Gradient diagnostics produce336 component records and1,008 cross-sigma pairs.
+At .01, clean/denoising gradient cosine is+.980 for seed0 control and-.115 for
+seed1 control; seed1 strong-preservation has-.160, negative for all6 examples.
+Conflicts are not universal and a six-example diagnostic is not a population
+estimate. Read-only model and Adam equality checks pass for all eight checkpoints.
+
+The54 restored-checkpoint one-step interventions reject automatic adoption of
+raw gradient projection: it enforces nonnegative raw dots but does not preserve
+the actual Adam/clipped update or fresh-noise risk. Across9 interventions x3
+evaluation sigmas per seed, projected identity is jointly no worse than the
+denoising-only control in12/27 tests at seed0 and0/27 at seed1. Median paired
+clean/noisy MSE ratios are .9977/1.00013 and .9143/1.01015 respectively. These are
+small local changes, not training-convergence or transfer measurements. Some
+projected/unprojected medians coincide because projection changes only conflicting
+cases. No updated weights were saved; original states restored exactly.
+
+Next actionable order: isolate actual optimizer moments/global clipping; test
+the solver candidate on frozen neural scores without training; then register
+an oracle-calibrated local learning objective. Full E2E remains paused. Min-SNR
+weighting is algebra-tested but NOT trained, because its standard v-weight
+strongly downweights the very low-noise regime currently under investigation.
+
 Registered 2026-09-16 after the eight-fit preservation experiment failed its
 joint gate. User authorizes implementation/testing, including log-Gaussian fields
 and a focused literature check. Full E2E remains paused. No automatic repair fit,

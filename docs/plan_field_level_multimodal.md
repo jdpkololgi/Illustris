@@ -1,5 +1,12 @@
 # Plan — Field-level & multimodal program: "stop throwing the field away"
 
+**2026-09-16 oracle/optimizer amendment:** the preservation matrix failed its
+joint reproducibility gate. Gaussian/log-Gaussian calibration and full checkpoint
+gradient diagnostics are completed; a matched-NFE VP-Heun numerical candidate
+passes on synthetic oracles, while raw-gradient projection is not a consistent
+repair through Adam/clipping. Active results and next controls are recorded in
+`e2e_oracle_conflict_v1.md`. No neural E2E training restart or posterior promotion.
+
 Durable plan written 2026-07-07 (Claude Code + JDPK brainstorm). Companion to
 `plan_g4_proper_equivariant_tensor.md` (input-representation axis) and
 `roadmap_environmental_vac.md` (production gates). This document owns the

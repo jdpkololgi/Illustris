@@ -1,0 +1,47 @@
+{
+  "date_utc": "2026-09-16",
+  "allocation": {"id": "58439522", "node": "nid001008", "state": "COMPLETED", "exit_code": "0:0", "elapsed": "00:18:18", "released": true},
+  "initial": {
+    "root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/oracle_conflict_20260916_58439522",
+    "git_revision": "38c656b1ed5f3f71c1f218de2b13cc02ae540404",
+    "sha256": {
+      "MANIFEST.json": "450c058a111a9684f6be5baa0992aac8203d29225daba132af75be2e25204a52",
+      "ORACLES.json": "895d34f1ee06a018748c57c54f71378c60037013cea470247556acd3122c0be3",
+      "SUMMARY.json": "d05b2057c6b53a4636b64853d6d59628d59d29f2198bb96c8dc5bcc326ca0c5d"
+    },
+    "oracle_gates_passed": true,
+    "gradient_component_records": 336,
+    "cross_sigma_records": 1008,
+    "checkpoint_count": 8,
+    "model_optimizer_unchanged": true
+  },
+  "followup": {
+    "root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/oracle_conflict_followup_20260916_58439522",
+    "git_revision": "dd38acc57938fc917e01f3bee9609a493ac52b59",
+    "sha256": {
+      "MANIFEST.json": "cb8206c5ecb3be6a35b5599448c93a2092caaf560920b6e3110312d16b642eb2",
+      "SOLVER.json": "2e4f727f8b136ad96630b16a519c050a333edf0300ece2d3c11f9248fb32b6f3",
+      "ADAM_STEPS.json": "2c27c2801d78ee07da96636ec0e5ada241b213fba9ffe71930b006871e5849e8"
+    },
+    "matched_nfe_solver_gate_passed": true,
+    "independent_one_step_interventions": 54,
+    "projected_joint_nonregression_seed0": "12/27",
+    "projected_joint_nonregression_seed1": "0/27",
+    "projected_median_clean_noisy_mse_ratios_seed0": [0.9977068037349893, 1.0001343237344689],
+    "projected_median_clean_noisy_mse_ratios_seed1": [0.9142608319992265, 1.0101480950637387],
+    "updated_weights_saved": false,
+    "projection_adopted": false,
+    "production_sampler_changed": false
+  },
+  "focused_tests_passed": 48,
+  "graphify_refreshed_in_cosmic_env": true,
+  "full_e2e_training_resumed": false,
+  "heldout_access": false,
+  "limitations": [
+    "Known-distribution periodic synthetic tests, not trained-network or survey posterior calibration",
+    "Log-space correlated oracle differs from scalar iid density-noise quadrature",
+    "One-step fitting-field tests do not establish convergence or transfer",
+    "Min-SNR primitive tested algebraically, not used in training",
+    "Diffusers absent; no library parity claimed"
+  ]
+}

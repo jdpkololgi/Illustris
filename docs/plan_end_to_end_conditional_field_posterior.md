@@ -1,5 +1,15 @@
 # Plan — End-to-end conditional density-field posterior
 
+**Completed oracle/optimizer tests:** Gaussian/log-Gaussian reference checks pass.
+An isolated VP-Heun sampler is more accurate than current DDIM at matched NFE on
+known distributions, but has not yet been tested on frozen neural scores.
+Gradient conflict is seed/noise dependent; a one-step raw-projection candidate
+fails consistent fresh-noise non-regression under actual Adam/clipping. Do not
+automatically add stronger identity losses or resume E2E. Next bounded controls
+should isolate optimizer moments/clipping and compare frozen-score samplers;
+retain the previous failed gates and the distinction between legitimate Bayesian
+shrinkage and excess neural distortion. See `e2e_oracle_conflict_v1.md` results.
+
 **2026-09-16 diagnostic amendment:** the eight-fit preservation matrix completed,
 but no modified loss passed the joint two-seed/two-checkpoint gate. Calibrate
 positive-noise clean distortion against Gaussian/log-Gaussian posterior references

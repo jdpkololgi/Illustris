@@ -1,5 +1,45 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-16 - [science/result] Oracle calibration passes; sampler improves, projection is not a reliable loss repair
+
+Completed authorized one-GPU diagnostic on allocation58439522/nid001008,
+released COMPLETED0:0 after18m18; stage/oracle/gradient step4m41, separately
+frozen solver/Adam step1m07, both0:0.48 focused tests pass; graphify refreshed
+in activated cosmic_env. Frozen source38c656b (initial), dd38acc (follow-on).
+Receipt: docs/evidence/e2e_field_v2/oracle_conflict_v1/RESULTS.json.
+
+Gaussian/log-Gaussian references and registered numerical gates pass. Gaussian
+noisy MSE matches analytic Bayes risk within0.5% over tested positive sigmas;
+exact-zero identity is numerical precision. At sigma.05 the statistically correct
+clean-input RMS is .005512 for Gaussian and .008418 for log-Gaussian density,
+in synthetic units (NOT comparable directly to cosmic residual units). Finite-
+sigma identity is not the Bayes target. Log-density posterior means require the
+posterior-variance correction. Separate iid lognormal/additive-density quadrature
+converges under tolerance tightening; it is NOT a correlated-density posterior.
+
+Existing32-step DDIM with an exact oracle has4.69% Gaussian/8.56% log-density
+coupled RMS error, with power suppression rather than excess. A new isolated
+VP probability-flow Heun candidate reduces these to0.469%/0.533% at MATCHED32
+network evaluations; improves both charts also at128/512 evaluations. CFM-Heun
+oracle passes independently. This is a numerical gain, not an explanation for
+the earlier E2E excess high-k power, a neural-score success, or production switch.
+
+336 gradient records and1,008 cross-sigma pairs, all eight final checkpoints,
+three fitted phases/two noise draws. Clean versus denoising cosine at .01:
+control seed0+.980, seed1-.115; strong-preservation seed1-.160, all6 examples
+negative (also -.268 at .005). Conflict is seed/task/noise dependent, not universal.
+54 independent one-step Adam interventions restore original checkpoints each
+time and save NO updated weights. One-sided projection removes negative raw
+gradient dots, but fresh-noise joint clean/noisy non-regression versus denoising-
+only is12/27 tests seed0 and0/27 seed1. Seed1 median clean/noisy ratios .914/1.010.
+Raw projection is not an Adam/clipping guarantee; no automatic repair fit follows.
+
+Next: retain Bayes-calibrated diagnostics, isolate optimizer/moment/clipping
+effects before a further auxiliary-loss fit, and test the new sampler on frozen
+neural checkpoints in a bounded inference-only comparison before adopting it.
+No revised thresholds retrospectively promote the failed preservation matrix.
+No full E2E training, held-out access or calibrated-posterior claim.
+
 ### 2026-09-16 - [science/plan] Gaussian/log-Gaussian oracles and loss-conflict diagnosis
 
 User authorizes implementation/testing, adds log-Gaussian fields and a focused

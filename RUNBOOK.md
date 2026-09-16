@@ -1,5 +1,16 @@
 # TNG/Illustris Runbook
 
+## Oracle / loss-conflict diagnostics
+
+Activate cosmic_env before graphify and Python. Contract/results:
+`docs/e2e_oracle_conflict_v1.md`. Stage committed source with
+`python -m workflows.sbi.e2e_oracle_conflict stage --root <new-root>`; on an
+approved GPU, from <root>/source use `run --root <root>`. Analytic/reference and
+gradient results are separate from trained-model promotion. Follow-on modules
+`e2e_oracle_solver` and `e2e_gradient_step_probe` accept the same --root and were
+run in a separate frozen snapshot. No original checkpoints or sampler defaults
+are modified. Completed diagnostic allocation58439522 is released.
+
 ## Preservation-objective pilot
 
 Contract: `docs/e2e_preservation_objective_v1.md`. Commit source, then stage a
