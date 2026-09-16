@@ -1,5 +1,20 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-16 - [ops/launch] Direct-density VDM submitted, maintenance-pending
+
+Authorized90-minute job58445857 submitted successfully from tmux `e2e-direct-vdm`
+on login09. State at handoff PENDING: ReqNodeNotAvail, Reserved for maintenance;
+do not describe training as running/completed yet. Frozen revision0c507c1, root
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/direct_vdm_20260916_v3`.
+Final snapshot passes8tests and GPU smoke/exact replay on58445797/nid008325.
+Interactive smoke allocation released after verification. Fourfits,5120updates
+each, checkpoints every256, final ancestral draws; one GPU and hard90m total.
+SUBMISSION.json and logs/train_58445857.out record launch/progress. First tmux
+command failed before submission because shell startup reintroduced DESI Python3.13
+paths; activated cosmic_env and cleared PYTHONPATH/PYTHONHOME before the successful
+single submission. No failed training job or automatic retry occurred.
+Frozen original coarse/fine pairing remains deferred per latest user priority.
+
 ### 2026-09-16 - [science/plan] Direct log-density VDM pilot, 90-minute authorization
 
 User asks to implement the CAMELS-led recommendation, then prioritizes training

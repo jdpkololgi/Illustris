@@ -11,6 +11,14 @@ logs/train_JOBID.out and per-branch update_*.pt/COMPLETE.json record progress.
 No automatic retry/resubmit into a partial branch. Exact checkpoint replay is a
 smoke gate; saved interrupted states require an explicitly reviewed resume path.
 
+Submitted58445857 from `tmux attach -t e2e-direct-vdm` on login09, root
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/direct_vdm_20260916_v3`.
+Maintenance-pending at launch. Always activate cosmic_env AND unset PYTHONPATH,
+PYTHONHOME, PYTHONUSERBASE, LD_PRELOAD inside the tmux shell: its startup can
+reintroduce DESI Python3.13 paths even when tmux inherited a clean environment.
+Check `squeue -j 58445857`; after termination use sacct plus MATRIX_COMPLETE.json,
+four branch COMPLETE.json files and saved draw receipts, not scheduler status alone.
+
 ## Frozen neural sampler / first-moment controls
 
 Completed58442539, contract/results `docs/e2e_frozen_controls_v1.md`. Stage with

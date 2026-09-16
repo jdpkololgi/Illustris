@@ -6,9 +6,10 @@
 Contract `docs/e2e_direct_vdm_v1.md`. Two seeds x fixed/learned gamma full VLB,
 full log-density target, observation-only conditioning. User prioritizes a
 90-minute Slurm training job launched from tmux; matching GPU smoke/replay gates
-submission. Sources frozen at87151a1, run direct_vdm_20260916_v2. Eight unit tests
-pass; initial smoke allocation58445684 is pending maintenance. No training
-started as of this entry. Original frozen coarse/fine pairing deferred.
+submission. Sources frozen at0c507c1, run direct_vdm_20260916_v3. Eight unit tests
+and full-size GPU smoke/replay pass on58445797. Job58445857 submitted from tmux
+e2e-direct-vdm/login09, pending maintenance at handoff; not yet training. Original
+frozen coarse/fine pairing deferred. Check SUBMISSION.json then Slurm/logs.
 
 ## Frozen neural sampler / optimizer factorial (2026-09-16)
 

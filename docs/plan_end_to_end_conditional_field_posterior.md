@@ -7,6 +7,12 @@ User requests one90-minute GPU training window launched in tmux after smoke.
 Frozen original coarse/fine pairing implemented but deferred. This is an E2E
 research challenger, not restart/promotion of the old384-update pipeline.
 
+Launch update:8tests plus GPU smoke/replay pass; measured budget5120updates per
+fit. Single90-minute job58445857 submitted via tmux e2e-direct-vdm/login09,
+maintenance-pending at handoff. Frozen source0c507c1 in direct_vdm_20260916_v3.
+No scientific results/convergence claim yet. Keep original pipeline and sealed
+ph001 untouched while this direct observation-conditioned challenger is tested.
+
 **Latest completed controls (2026-09-16):** frozen neural sampler/Adam factorial
 complete, docs/e2e_frozen_controls_v1.md. Better Heun128 numerics do not remove
 spectral bias; unclipping/reset-first-moment do not reproduce a safe loss repair.

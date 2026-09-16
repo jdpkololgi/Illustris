@@ -92,3 +92,11 @@ about80minutes compute, leaving roughly10minutes for data/checkpoint/metric I/O
 within the90-minute job. This measured budget supersedes the initial2048-update
 proposal. A10040GB is sufficient; do not unnecessarily constrain batch to80GB.
 Final configuration must be restaged with matching smoke before submission.
+
+Completed restage: revision0c507c113396e75e59335597c9de847ae1d75a66, root
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/direct_vdm_20260916_v3`.
+Matching GPU smoke/replay and8unit tests pass; job58445857 successfully submitted
+from tmux e2e-direct-vdm on login09, hard90minute limit, oneGPU/shared. Pending
+maintenance at handoff, NOT yet trained. Smoke allocation58445797 released.
+SUBMISSION.json is authoritative for the job; outputs cannot be called scientific
+results until branch draw/checkpoint receipts and MATRIX_COMPLETE.json validate.
