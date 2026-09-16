@@ -1,5 +1,14 @@
 # TNG/Illustris Runbook
 
+## Frozen neural sampler / first-moment controls
+
+Completed58442539, contract/results `docs/e2e_frozen_controls_v1.md`. Stage with
+oracle-conflict CLI; from frozen source run `e2e_frozen_controls --mode optimizer`
+or `--mode sampler`, always with --root and approved GPU. Reporting module
+`e2e_frozen_controls_report --root ROOT` validates hashes and draws. Saved CUDA
+objective RNG state requires CUDA generator during full checkpoint reload;
+do not pass CPU generator to base.restore. No source/weights/defaults overwritten.
+
 ## Oracle / loss-conflict diagnostics
 
 Activate cosmic_env before graphify and Python. Contract/results:

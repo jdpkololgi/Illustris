@@ -1,5 +1,15 @@
 # Research context — Illustris
 
+## Latest field-model controls (2026-09-16)
+
+Frozen neural DDIM/Heun and first-moment x clipping tests complete on58442539.
+57 tests pass; numerical Heun128 improvement24/24, but residual spectral bias and
+seed1 auxiliary-loss tradeoff persist. No E2E training restart. Contracts/results:
+docs/e2e_frozen_controls_v1.md. Public-reference audit:
+docs/e2e_published_reference_gap_20260916.md. Our affine residual charts/tiny U-Net
+do not reproduce CAMELS log-density/full-VLB/learned-schedule recipe; tested Haar
+CNN is not Cosmo3DFlow. Prior next-step notes below are historical.
+
 ## Preservation objective (2026-09-16)
 
 The eight-fit preservation matrix completed; no modified loss passes the joint

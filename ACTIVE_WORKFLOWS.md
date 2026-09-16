@@ -6,6 +6,11 @@
 an immutable oracle-conflict snapshot. Contract: docs/e2e_frozen_controls_v1.md.
 No E2E training or saved new fit.
 
+Completed58442539:216 independent steps and144 arrays,57 tests passed. Report:
+`e2e_frozen_controls_report.py`. Source/receipt/root in the contract; no repaired
+auxiliary-loss fit or production-sampler adoption. Paper-gap audit:
+docs/e2e_published_reference_gap_20260916.md.
+
 ## Oracle / loss-conflict diagnostic (2026-09-16)
 
 `workflows/sbi/e2e_oracle_conflict.py`: stage/run frozen analytic Gaussian and

@@ -1,5 +1,14 @@
 # Plan — End-to-end conditional density-field posterior
 
+**Latest completed controls (2026-09-16):** frozen neural sampler/Adam factorial
+complete, docs/e2e_frozen_controls_v1.md. Better Heun128 numerics do not remove
+spectral bias; unclipping/reset-first-moment do not reproduce a safe loss repair.
+No E2E training restart. Paper audit e2e_published_reference_gap_20260916.md
+identifies the missing faithful CAMELS VDM reference (log-density, larger network,
+learned schedule/full VLB), and distinguishes the tested Haar CNN from unexecuted
+Cosmo3DFlow-inspired WCFM. Prefer direct frozen pipeline assessment and one
+reference-led training decision over another open-ended auxiliary-loss sweep.
+
 **Active follow-on:** docs/e2e_frozen_controls_v1.md implements the frozen neural
 sampler comparison and first-moment x clipping factorial, with explicit paper-
 control status. Numerically resolved but physically wrong outputs rule out a

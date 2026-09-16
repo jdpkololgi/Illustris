@@ -1,5 +1,63 @@
 # Frozen neural sampler and optimizer controls
 
+## Completed results
+
+Allocation58442539/nid001012 released COMPLETED0:0 after39m44; frozen source
+df9aa25, report a1f19e7.57 focused
+tests pass.216 independent optimizer steps and144 saved fields (24 paired cases
+x6 methods) complete. All54 retained-momentum/clipped controls exactly reproduce
+the previous probe, including fresh-noise errors and displacement dots. Receipt:
+`docs/evidence/e2e_field_v2/frozen_controls_v1/RESULTS.json`. Full arrays, metrics,
+fixed slices and hashes are in the receipt's Scratch root. Original checkpoints
+reloaded/hash-verified after execution. No updated weights saved or E2E restart.
+
+All24 reference256->512 screens pass; maximum coupled relativeRMS0.1784%.
+Heun128 beats DDIM128 numerically in24/24 cases. At32 NFE it wins only17/24,
+and high-k power is inflated relative to its refined limit. No default switch.
+
+| Seed/group | DDIM128 relativeRMS | Heun128 relativeRMS | Refined residual power ratios, four bands |
+| --- | ---: | ---: | --- |
+| 0 fitted | 1.660% | .473% | .954/.894/.978/1.156 |
+| 0 transfer | 2.196% | .581% | 1.757/.967/.969/1.129 |
+| 1 fitted | 1.828% | .830% | .892/.775/1.046/1.275 |
+| 1 transfer | 2.017% | .855% | 1.348/.945/1.025/1.098 |
+
+Bands are (0,.08],(.08,.16],(.16,.32],>.32 h/Mpc, Hann-windowed fine residual;
+the lowest-band excess is NOT a35--76% claim about the total matter field.
+Refined transfer median density<-1 fractions are1.75e-5 and5.65e-7; fitted medians
+zero. True targets have no support violations (minimum -.795 to -.815). Paired
+draw differences are49--93% of sample RMS in normalized residual units, ruling
+out exact draw collapse, NOT establishing calibrated uncertainty. The images
+are inspectable but spectral biases persist after numerical refinement.
+
+Projected auxiliary joint clean/noisy non-regression versus matched denoising-only
+controls, each denominator27 (9 interventions x3 evaluation sigmas):
+
+| First moment / clipping | Seed0 | Seed1 |
+| --- | ---: | ---: |
+| retained / on | 12/27 | 0/27 |
+| retained / off | 21/27 | 0/27 |
+| zeroed / on | 12/27 | 1/27 |
+| zeroed / off | 19/27 | 2/27 |
+
+Clipping changes the update geometry materially: projected-gradient median scale
+.0558/.0901 (seeds0/1). Removing clipping eliminates adverse incremental primary
+dots for seed0, but leaves6/9 for seed1 even without historical first moments.
+Clearing first moments removes seed0's absolute local-ascent cases, not the joint
+tradeoff. For seed1, retained/no-clip clean/noisy ratios are .718/1.044 versus
+.914/1.010 with clipping. Thus neither blanket unclipping, reset-first-moment,
+nor raw Euclidean projection is a demonstrated reproducible auxiliary-loss repair.
+
+Main scientific step24m28 and report10s complete0:0. Supplemental CPU-generator
+reload failed because saved objective RNG was CUDA; corrected GPU reload passes.
+This was a validation-device error, not a failed fit or a sampling rerun.
+
+Decision: preserve the improved denoiser as a research reference, but stop the
+sampler-only/identity-only repair loop. Direct frozen coarse-to-fine evaluation
+can localize pipeline errors without a training extension. Before new training,
+the faithful published-reference gap is now explicit in
+`e2e_published_reference_gap_20260916.md`; no further ablation queue is launched.
+
 Registered 2026-09-16 before execution. Contract:
 `configs/e2e_frozen_controls_v1.json`; implementation:
 `workflows/sbi/e2e_frozen_controls.py`. Full E2E remains paused at384.
@@ -27,6 +85,7 @@ No saved updated weights, held-out access, auxiliary-loss fit or E2E restart.
 
 | Paper/control | Actual status | Staged test |
 | --- | --- | --- |
+| [EDM official loss/preconditioning](https://github.com/NVlabs/edm/tree/main/training): noise-dependent coefficients, log-normal exposure, log-noise conditioning | ALREADY implemented/tested in the six-arm512-update experiment58361744; see e2e_edm_ablation_20260915.md | sigma_data=1/F=-v loss AND gradients equal existing VP-v under our mapping; do not repeat the wrapper as a novel repair. Noise exposure helped but failed the old capability gate. Earlier reset-all-Adam/clip10/RF controls are distinct from today's first-moment-only factorial. |
 | [Min-SNR](https://arxiv.org/html/2303.09556v2) timestep conflicts and weighting | Gradients measured; v-weight algebra-tested, NOT trained | Uniform-v versus gamma5 at matched exposure, all noise regimes; tiny sigma is strongly downweighted by the published v-weight. |
 | [CAMELS Appendix B](https://arxiv.org/html/2403.10648v1): schedule, embedding48/24, depth4/2, bottom attention | Explicit recommendations, NOT implemented ablations here | Prioritize time/noise encoding and learned/fixed schedule with matched exposure, then individual depth/attention controls. |
 | [3D diffusion-flow](https://arxiv.org/html/2502.17087v1): train-only log/minmax, Huber, PS/PDF/bispectrum | Train-only normalization and synthetic log-Gaussian tested; current panel has spectra/quantiles. Huber/log-cosmic training and new bispectrum tests NOT implemented | Separate Huber/MSE from representation; log requires valid positive full density, not signed residuals. Include unclipped-tail controls. |

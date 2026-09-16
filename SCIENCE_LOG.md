@@ -1,5 +1,42 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-16 - [science/result] Frozen neural samples improve numerically; physical/auxiliary-loss failures remain
+
+Allocation released COMPLETED0:0 after39m44. Implemented requested sampler and
+first-moment x clipping controls.57 focused
+tests pass. Allocation58442539/nid001012, frozen df9aa25/report a1f19e7;216
+independent steps,144 generated arrays across24 paired seed/phase/group/draw cases.
+All54 old Adam controls reproduce exactly. Main step24m28/report10s complete0:0.
+Receipt: docs/evidence/e2e_field_v2/frozen_controls_v1/RESULTS.json. Supplementary
+CPU reload failed on CUDA RNG state; corrected GPU reload passes, with original
+checkpoint hashes unchanged. No fit/sampling rerun and no saved updated weights.
+
+All24 Heun256->512 reference screens pass, maxrelativeRMS.1784%. Heun128 beats
+DDIM128 in24/24: group medianerrors.473--.855% versus1.660--2.196%. Heun32 is not
+a safe replacement:17/24 numerical wins and inflated fine-scale power. At refined
+limit, high-k residual power/truth is1.156/1.129 (seed0fit/transfer) and1.275/1.098
+(seed1); transfer LOWEST residual band is1.757/1.348, NOT total-matter large-scale
+power. Seed1 fitted .08--.16 ratio.775. Samples are noncollapsed and much less
+pathological, but numerical convergence does not fix spectral shape/calibration.
+
+Projected-loss joint clean/noisy non-regression counts (out of27): retained/on
+12,0; retained/off21,0; zero-first/on12,1; zero-first/off19,2 (seed0,seed1).
+Clipping materially changes directions, but removing it or first-moment history
+does not repair seed1. No further identity/projection fit justified by these tests.
+Full E2E training remains paused384. Direct frozen coarse-to-fine assessment is
+distinct from training restart or promotion; stop treating finite-noise identity
+as the final scientific estimand. Full results: docs/e2e_frozen_controls_v1.md.
+
+User asks why CAMELS succeeds and whether wavelets yielded anything. Code audit
+finds a genuine missing reference: their log-density, large residual/attention
+U-Net, learned finite log-SNR schedule and full VLB differ from our tiny fixed-
+cosine v-model. Affine normalization tests did NOT test log-density. Their data
+are2D projected stellar maps from1000 simulations/suite, not our15 cutouts/3phases.
+Their unbiasedness evidence is direct samples/statistics, not universal joint
+coverage. Our Haar CNN gave partial .2 success but failed .05/generation; it did
+NOT reproduce Cosmo3DFlow's wavelet-CFM/scale/skip/spectral recipe. E2E-WCFM stays
+gated. Details and pinned public sources: docs/e2e_published_reference_gap_20260916.md.
+
 ### 2026-09-16 - [science/plan] Frozen neural sampler and Adam factorial
 
 User authorizes bounded frozen-checkpoint sampler and first-moment x clipping

@@ -1,5 +1,11 @@
 # Plan — Field-level & multimodal program: "stop throwing the field away"
 
+**Latest evidence:** frozen neural sampler and optimizer factorial complete;
+spectral biases and seed-dependent loss tradeoffs remain. See
+e2e_frozen_controls_v1.md and e2e_published_reference_gap_20260916.md. Our small
+Haar CNN test was not Cosmo3DFlow; WCFM stays gated. Faithful CAMELS baseline is
+still missing. No E2E restart or automatic new loss/architecture sweep.
+
 **Active controls:** e2e_frozen_controls_v1.md implements paired frozen neural
 samplers and first-moment x clipping isolation, distinguishing actual paper
 controls from staged ablations. No E2E promotion from implementation alone.
