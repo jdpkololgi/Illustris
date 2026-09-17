@@ -2,6 +2,19 @@
 
 ## Controlled VDM diversity/context/multiscale experiment
 
+Full execution: commit tested code, then `context_control stage-run --root ROOT`
+to freeze source/data/draw ledger. From ROOT/source, run module
+`workflows.sbi.e2e_vdm_context_interactive --mode smoke-controller --root ROOT`
+for the one-GPU<=1h technical allocation. Only after SMOKE and RESTART_TEST pass,
+use `--mode controller` for the fixed train/freeze/refinement/sampler/main/report
+chain. Run the bounded controller in a named tmux shell under the user's explicit
+interactive/disconnect preference; all compute is launched with srun. Never use
+tmux as a substitute for Slurm limits. Resources/*REQUEST/START/END/ACCOUNTING
+and logs/resource_* plus per-worker/task logs are authoritative; no automatic
+retry after unexpected exit, scientific gate failure or budget exhaustion.
+EXPERIMENT_COMPLETE requires all registered draws, final RESULTS/REPORT and
+terminal resource accounting, not merely zero scheduler exit status.
+
 Latest2026-09-17: corrected physical gate58472098 COMPLETED0:0 in44s; v2 passes
 all three unchanged25%gates. PHYSICS_V2_RETURN exit0; REPRESENTATION_RELEASE
 and A32 NORMALIZATION exist and hashes verify. No allocation remains running.

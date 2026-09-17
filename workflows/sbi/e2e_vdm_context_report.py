@@ -3,6 +3,7 @@ import argparse
 from collections import defaultdict
 from pathlib import Path
 import time
+from concurrent.futures import ProcessPoolExecutor
 
 import numpy as np
 
@@ -173,7 +174,113 @@ def contrast_decision(rows,key):
                 policy='pooled gain >=10%; all four seed/phase directions and nonregression checks pass')
 
 
-def report(root):
+_REPORT_DATA=None
+_REPORT_ROOT=None
+
+
+def initialize_case_worker(root):
+    global _REPORT_DATA,_REPORT_ROOT
+    _REPORT_ROOT=Path(root)
+    # Parent already verifies all data payloads and the full matrix release.
+    # Each worker still checks role/geometry/receipt bindings without rereading
+    # the entire multi-GB product set for every one of the688 tasks.
+    _REPORT_DATA=Products(_REPORT_ROOT,list(ROLES),targets=True,
+        confirmation_receipt=_REPORT_ROOT/'MODELS_FROZEN.json',verify=False)
+
+
+def report_case_worker(task):
+    return summarize_case(_REPORT_ROOT,task,_REPORT_DATA)
+
+
+def render_report(root,result,records,data):
+    """Human-readable evidence and figures, with no checkpoint/model selection."""
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    folder=root/'analysis'
+    colors=dict(A='tab:blue',B='tab:orange',C='tab:green',D='tab:red')
+    fig,axes=plt.subplots(2,2,figsize=(11,8),constrained_layout=True)
+    panels=[('density_crps','Density fair CRPS'),('tidal_energy','Tidal joint energy'),
+            ('density_coverage90','Density central coverage'),('tidal_coverage90','Mean eigenvalue central coverage')]
+    for ax,(key,label) in zip(axes.flat,panels):
+        for arm in 'ABCD':
+            for seed in (0,1):
+                for phase in ('ph004','ph005'):
+                    rows=sorted((r for r in result['progression'] if r['arm']==arm and r['replica']==seed and r['phase']==phase),key=lambda r:r['checkpoint'])
+                    ax.plot([r['checkpoint'] for r in rows],[r[key] for r in rows],
+                        color=colors[arm],linestyle='-' if seed==0 else '--',marker='o' if phase=='ph004' else 's',
+                        label=arm if seed==0 and phase=='ph004' else None)
+        if 'coverage' in key:
+            targets=[r['attainable90'] for r in result['progression']]
+            ax.axhspan(min(targets),max(targets),color='grey',alpha=.2,label='finite-M target')
+            ax.set_ylim(0,1)
+        ax.set(title=label,xlabel='Updates per factor')
+        ax.legend(fontsize=8)
+    fig.suptitle('Fixed checkpoint progression; solid/dashed: seeds0/1; circles/squares: phases004/005')
+    with (folder/'checkpoint_progression.png').open('xb') as stream:
+        fig.savefig(stream,format='png',dpi=140)
+    plt.close(fig)
+    final=[r for r in records if r['task']['purpose']=='main' and r['task']['steps']==250 and r['task']['checkpoint']==20480]
+    fig,axes=plt.subplots(1,2,figsize=(11,4),constrained_layout=True)
+    for arm in 'ABCD':
+        rows=[r for r in final if r['task']['arm']==arm]
+        truth=np.mean([r['spectra']['truth_power'] for r in rows],axis=0)
+        for key,style,label in [('mean_sample_power','-',arm+' draws'),('posterior_mean_power','--',arm+' mean')]:
+            value=np.mean([r['spectra'][key] for r in rows],axis=0)/np.maximum(truth,1e-30)
+            axes[0].plot(range(len(value)),value,style,color=colors[arm],label=label)
+        corr=np.mean([r['spectra']['correlation_posterior_mean'] for r in rows],axis=0)
+        axes[1].plot(range(len(corr)),corr,'o-',color=colors[arm],label=arm)
+    axes[0].axhline(1,color='grey',linewidth=.7)
+    axes[0].set(title='Final sample power vs posterior-mean power',ylabel='Power / truth power',xlabel='Registered k band')
+    axes[1].set(title='Posterior-mean cross-correlation',ylabel='r',xlabel='Registered k band')
+    for ax in axes:
+        ax.legend(fontsize=7)
+    with (folder/'field_statistics.png').open('xb') as stream:
+        fig.savefig(stream,format='png',dpi=140)
+    plt.close(fig)
+    anchor=read_json(root/'DRAW_LEDGER.json')['panels']['refinement'][0]
+    truth=data.raw_targets(anchor)['rho']-1
+    fig,axes=plt.subplots(3,5,figsize=(14,8),constrained_layout=True)
+    lo,hi=np.quantile(truth,[.01,.99])
+    axes[0,0].imshow(truth[24],origin='lower',vmin=lo,vmax=hi,cmap='magma')
+    axes[0,0].set_title('Truth '+anchor,fontsize=7)
+    axes[1,0].axis('off');axes[2,0].axis('off')
+    for column,arm in enumerate('ABCD',1):
+        row=next(r for r in final if r['task']['anchor']==anchor and r['task']['arm']==arm and r['task']['replica']==0)
+        fields,_=ensemble(root,row['task'])
+        for index,(label,value) in enumerate([('draw0',fields[0]),('mean',fields.mean(0)),('spread',fields.std(0,ddof=1))]):
+            ax=axes[index,column]
+            ax.imshow(value[24],origin='lower',cmap='magma',vmin=0 if index==2 else lo,vmax=None if index==2 else hi)
+            ax.set_title(f'{arm} {label}; range[{value.min():.2g},{value.max():.2g}]',fontsize=8)
+    for ax in axes.flat:
+        ax.set_xticks([]);ax.set_yticks([])
+    fig.suptitle('Fixed development anchor, seed0, final checkpoint; density colors use truth1--99% range')
+    with (folder/'posterior_fields.png').open('xb') as stream:
+        fig.savefig(stream,format='png',dpi=140)
+    plt.close(fig)
+    lines=['# Controlled VDM field-posterior experiment','',
+        'All registered checkpoints and draws are assessed; no validation-selected checkpoint.',
+        'A:32 fields, summary context; B:384 fields, same context; C:spatial wide context; D:shared stochastic coarse/fine.',
+        '',f"Saved central draws: {result['central_draws']}; shared coarse draws: {result['coarse_draws']}.",'',
+        '| Contrast | Pooled primary-score gain | Joint registered gate |',
+        '| --- | ---: | --- |']
+    for label,row in result['contrast_decisions'].items():
+        lines.append(f"| {label} | {100*row['relative_primary_gain']:.2f}% | {'PASS' if row['passed'] else 'NOT ESTABLISHED'} |")
+    lines+=['','Individual seed/phase cells, coverage, power, paired dependence and spatial uncertainty are in RESULTS.json.',
+        'A failed contrast is inconclusive at this budget, not proof that its physical hypothesis or VDM is false.',
+        '', '![Checkpoint progression](checkpoint_progression.png)','',
+        '![Field statistics](field_statistics.png)','', '![Fixed posterior fields](posterior_fields.png)','',
+        '## Claim boundaries','']+['- '+item for item in result['limitations']]
+    lines+=['','No real-DESI production release, full-field SBC claim, or automatic architecture/optimizer change.',
+        'Final allocated GPU/CPU time and Scratch footprint are recorded in EXPERIMENT_COMPLETE.json after Slurm accounting closes.','']
+    with (folder/'REPORT.md').open('x') as stream:
+        stream.write('\n'.join(lines))
+    durable.publish_json(folder/'FIGURES.json',dict(manifest_sha256=existing.sha256(root/'MANIFEST.json'),
+        inputs_sha256=existing.sha256(folder/'RESULTS.json'),files={name:existing.sha256(folder/name) for name in
+            ('REPORT.md','checkpoint_progression.png','field_statistics.png','posterior_fields.png')}))
+
+
+def report(root,workers=1):
     require_compute()
     root=output_root(root)
     verify_launch(root)
@@ -189,7 +296,13 @@ def report(root):
             done=read_json(root/'sampling'/f'{arm}_seed{replica}_ALL_COMPLETE.json')
             if done['manifest_sha256']!=existing.sha256(root/'MANIFEST.json'):
                 raise ValueError('sampling branch incomplete/drifted')
-    records=[summarize_case(root,t,data) for t in ledger['tasks']]
+    if not 1<=workers<=8:
+        raise ValueError('bounded CPU reporting requires one to eight workers')
+    if workers==1:
+        records=[summarize_case(root,t,data) for t in ledger['tasks']]
+    else:
+        with ProcessPoolExecutor(max_workers=workers,initializer=initialize_case_worker,initargs=(str(root),)) as pool:
+            records=list(pool.map(report_case_worker,ledger['tasks']))
     cases={r['task']['task_id']:r for r in records}
     grouped=defaultdict(list)
     for r in records:
@@ -247,6 +360,7 @@ def report(root):
                      'coarse factor sees wide observations only; sufficiency for all local observations is unproven',
                      'fine cores are conditionally independent given the shared coarse field'])
     durable.publish_json(root/'analysis/RESULTS.json',result)
+    render_report(root,result,records,data)
     print('REPORT_COMPLETE',decisions,flush=True)
     return result
 

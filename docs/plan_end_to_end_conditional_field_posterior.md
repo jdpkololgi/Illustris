@@ -1,5 +1,11 @@
 # Plan — End-to-end conditional density-field posterior
 
+**Execution implementation (2026-09-17):** actual process interruption/replay,
+four-worker fixed task queue, real Slurm resource accounting and final CPU
+report/figure generation are implemented. Next freeze full source and run the
+one-A100<=1h smoke before the matrix. All previously approved caps and scientific
+gates remain; no new science or GPU success is claimed from unit tests.
+
 **Correction result (2026-09-17):** approved v2 physical gate PASSES. Same32
 training anchors, unchanged>=25%each-eigenvalue gate; median reductions
 84.17/84.96/84.88%, all anchors improve. CPU58472098 COMPLETED0:0 in44s,

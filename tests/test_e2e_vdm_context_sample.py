@@ -11,6 +11,7 @@ from workflows.sbi.e2e_vdm_context_models import FineCondition,block_mean
 from workflows.sbi.e2e_vdm_context_sample import SharedParents,with_coarse,case
 from workflows.sbi.e2e_vdm_context_tasks import draw_tasks
 from workflows.sbi.e2e_vdm_context_sample import selected_tasks
+from workflows.sbi.e2e_vdm_context_queue import task_done
 
 
 class Observations:
@@ -76,10 +77,13 @@ class SamplingTests(unittest.TestCase):
                 first=root/'draws/test/000000.json'
                 original=first.read_bytes()
                 self.assertFalse((root/'draws/test/COMPLETE.json').exists())
+                self.assertTrue(task_done(root,self.task,8))
+                self.assertFalse(task_done(root,self.task))
                 case(root,self.task,model,'fine-hash',observations,Parents())
                 self.assertEqual(mock.call_count,2)
                 self.assertEqual(first.read_bytes(),original)
                 self.assertTrue((root/'draws/test/COMPLETE.json').exists())
+                self.assertTrue(task_done(root,self.task))
                 with np.load(next((root/'draws/test').glob('000000-*.npz'))) as saved:
                     np.testing.assert_array_equal(saved['delta'],1)
 

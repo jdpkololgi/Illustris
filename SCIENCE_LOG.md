@@ -1,5 +1,21 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-17 - [code/active] Full VDM execution and reporting gates implemented
+
+After the passed physical gate, implement actual SIGUSR1 interruption at update4
+and fresh-process continuation to12 versus an uninterrupted full-size A0 runner;
+all five model/factor forms retain the per-update GPU replay/batch tests. This is
+technical smoke only; no change to20480 scientific updates or training objective.
+Fixed task queue shares all10fits/688draw tasks across4GPU workers, with blocking
+shared-parent cache locks. Every allocation is charged by terminal sacct elapsed
+time times allocated GPUs (including idle time); original5CPU jobs are included.
+Hard112GPUh/8CPU-nodeh/300GiB/8GPUrequests/48h caps unchanged, requests<=4h;
+one fullGPU node at a time. GPU full-node use is justified by four independent
+workers; one/two-task tails use shared allocations. No automatic scientific or
+infrastructure retry. Actual draw/state hashes remain verified by samplers/report.
+Parallel CPU case reports plus checkpoint/power/field figures and a human report
+are implemented. Frozen-source smoke precedes matrix launch; no GPU result yet.
+
 ### 2026-09-17 - [science/pass] Corrected physical tidal representation clears A32 gate
 
 Approved operator-only amendment, frozen2a2d837, completed on CPU58472098/nid004225

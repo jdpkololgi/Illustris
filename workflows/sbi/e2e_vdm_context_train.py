@@ -7,6 +7,7 @@ from dataclasses import fields
 import argparse
 import json
 import os
+import random
 from pathlib import Path
 import signal
 import socket
@@ -37,7 +38,10 @@ def new_model(c, seed, arm, factor, device):
     if factor == 'coarse' and arm != 'D':
         raise ValueError('only D has a coarse factor')
     # Same fine initialization for all information arms; separate coarse factor.
-    torch.manual_seed(address(c['seed'],seed,factor,'initialization'))
+    initialization=address(c['seed'],seed,factor,'initialization')
+    random.seed(initialization)
+    np.random.seed(initialization%(2**32))
+    torch.manual_seed(initialization)
     model = (ContextVDM(arm,base=c['unet_base'],levels=c['unet_levels']) if factor=='fine'
              else ConditionalVDM(condition_channels=12,base=c['unet_base'],levels=c['unet_levels'],learned=False))
     model.to(device)
@@ -172,21 +176,35 @@ def verify_launch(root):
             or smoke['manifest_sha256'] != existing.sha256(root/'MANIFEST.json')
             or smoke['forecast_gpu_hours'] > spec()['budget']['gpu_hours']):
         raise PermissionError('physical/replay/cost smoke gate not passed')
+    restart=read_json(root/'RESTART_TEST.json')
+    if not restart['passed'] or not restart['exact'] or restart['manifest_sha256']!=existing.sha256(root/'MANIFEST.json'):
+        raise PermissionError('actual process signal/restart gate not passed')
     return manifest
 
 
-def train(root,arm,seed,factor):
+def train(root,arm,seed,factor,restart_test=None):
     global STOP
     STOP = False
     root = output_root(root)
     device = existing.runtime()
-    verify_launch(root)
+    if restart_test is None:
+        verify_launch(root)
+    else:
+        verify_manifest(root)
+        if restart_test not in ('baseline','pause','resume') or (arm,seed,factor)!=('A',0,'fine'):
+            raise ValueError('only registered A0 twelve-update restart smoke allowed')
     c = spec()
+    if restart_test is not None:
+        c=dict(c,updates=12,checkpoint_every=4,checkpoint_updates=[4,8,12])
     data = TrainingCache(root,arm)
     model,opt,gen = new_model(c,seed,arm,factor,device)
     branch = root/'models'/f'{arm}_{factor}_seed{seed}'
+    if restart_test is not None:
+        branch=root/'restart_smoke'/('baseline' if restart_test=='baseline' else 'interrupted')
     binding = dict(manifest_sha256=existing.sha256(root/'MANIFEST.json'),arm=arm,factor=factor,
         seed=seed,normalization_sha256=existing.sha256(root/'data/NORMALIZATION.json'),products=data.receipts)
+    if restart_test is not None:
+        binding['technical_restart_test']=True
     signal.signal(signal.SIGUSR1,request_stop)
     signal.signal(signal.SIGTERM,request_stop)
     started = time.monotonic()
@@ -206,6 +224,8 @@ def train(root,arm,seed,factor):
             print('VERIFIED_COMPLETE',arm,factor,seed,flush=True)
             return
         if STOP:
+            durable.publish_json(branch/f'PAUSE_{step:06d}_{os.environ["SLURM_JOB_ID"]}.json',
+                dict(checkpoint=last,binding=binding,clean=True))
             raise SystemExit(75)
         while step < c['updates']:
             x,condition = data.batch(step,seed,factor,device)
@@ -217,6 +237,13 @@ def train(root,arm,seed,factor):
                 last = checkpoint(branch,model,opt,gen,binding,factor,step,history)
                 if step in c['checkpoint_updates']:
                     durable.publish_json(branch/f'CHECKPOINT_{step:06d}.json',last)
+            if restart_test=='pause' and step==4:
+                durable.publish_json(branch/'SIGNAL_READY.json',dict(pid=os.getpid(),checkpoint=last))
+                deadline=time.monotonic()+60
+                while not STOP and time.monotonic()<deadline:
+                    time.sleep(.05)
+                if not STOP:
+                    raise RuntimeError('restart smoke did not receive the actual signal')
             if STOP and step < c['updates']:
                 durable.publish_json(branch/f'PAUSE_{step:06d}_{os.environ["SLURM_JOB_ID"]}.json',
                     dict(checkpoint=last,binding=binding,clean=True))
@@ -234,8 +261,9 @@ def main():
     p.add_argument('--arm',choices=list('ABCD'),required=True)
     p.add_argument('--seed',type=int,choices=[0,1],required=True)
     p.add_argument('--factor',choices=['fine','coarse'],required=True)
+    p.add_argument('--restart-test',choices=['baseline','pause','resume'])
     a=p.parse_args()
-    train(a.root,a.arm,a.seed,a.factor)
+    train(a.root,a.arm,a.seed,a.factor,a.restart_test)
 
 
 if __name__=='__main__':

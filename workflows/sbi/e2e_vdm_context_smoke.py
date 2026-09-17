@@ -4,6 +4,9 @@ import gc
 import os
 from pathlib import Path
 import socket
+import signal
+import subprocess
+import sys
 import time
 
 import numpy as np
@@ -18,6 +21,58 @@ from workflows.sbi.e2e_vdm_context_models import coupled_sample,decode_density,b
 from workflows.sbi.e2e_vdm_context_sample import expand_condition,with_coarse
 from workflows.sbi.e2e_vdm_context_tasks import coarse_cache_key
 from workflows.sbi.e2e_vdm_context_train import TrainingCache,new_model,update_model,checkpoint,restore,verify_manifest
+
+
+def process_restart_test(root):
+    """Real runner, real signal, fresh processes; no scientific checkpoint writes."""
+    if (root/'RESTART_TEST.json').exists():
+        raise FileExistsError('immutable restart gate already exists')
+    folder=root/'restart_smoke'
+    folder.mkdir(exist_ok=False)
+    for mode in ('baseline','pause','resume'):
+        cmd=[sys.executable,'-u','-m','workflows.sbi.e2e_vdm_context_train',
+             '--root',str(root),'--arm','A','--seed','0','--factor','fine','--restart-test',mode]
+        with (folder/(mode+'.log')).open('x') as log:
+            child=subprocess.Popen(cmd,stdout=log,stderr=subprocess.STDOUT)
+            try:
+                if mode=='pause':
+                    ready=folder/'interrupted/SIGNAL_READY.json'
+                    deadline=time.monotonic()+240
+                    while not ready.exists() and child.poll() is None and time.monotonic()<deadline:
+                        time.sleep(.1)
+                    if not ready.exists() or read_json(ready)['pid']!=child.pid:
+                        raise RuntimeError('actual runner did not reach signal-ready checkpoint')
+                    child.send_signal(signal.SIGUSR1)
+                code=child.wait(timeout=300)
+                if code!=(75 if mode=='pause' else 0):
+                    raise RuntimeError('actual runner restart smoke failed: '+mode)
+            finally:
+                if child.poll() is None:
+                    child.terminate()
+                    child.wait(timeout=60)
+        if mode=='pause':
+            pointer=read_json(folder/'interrupted/LATEST.json')
+            paused=read_json(folder/f'interrupted/PAUSE_000004_{os.environ["SLURM_JOB_ID"]}.json')
+            if pointer['step']!=4 or paused['checkpoint']!=pointer or not paused['clean']:
+                raise ValueError('signal did not commit the expected safe pause')
+            first_sha=existing.sha256(folder/'interrupted'/pointer['path'])
+    states=[]
+    for name in ('baseline','interrupted'):
+        branch=folder/name
+        complete=read_json(branch/'COMPLETE.json')
+        state=existing.load_checkpoint(branch/complete['checkpoint']['path'],complete['binding'],'fine','vdm')
+        if state['step']!=12:
+            raise ValueError('incomplete restart comparison')
+        states.append(state)
+    for key in ('model','optimizer','rng','history','binding'):
+        if not equal_state(states[0][key],states[1][key]):
+            raise ValueError('actual interrupted runner differs from uninterrupted run: '+key)
+    if existing.sha256(folder/'interrupted'/pointer['path'])!=first_sha:
+        raise ValueError('resume overwrote the paused checkpoint')
+    durable.publish_json(root/'RESTART_TEST.json',dict(passed=True,exact=True,
+        manifest_sha256=existing.sha256(root/'MANIFEST.json'),updates=12,pause_at=4,
+        actual_signal='SIGUSR1',signal_exit_code=75,fresh_processes=3,
+        paused_checkpoint_sha256=first_sha,scientific_fit=False,job=os.environ['SLURM_JOB_ID']))
 
 
 def forecast(timings,ledger,c,overhead=1.15):
@@ -46,6 +101,7 @@ def smoke(root):
     verify_manifest(root)
     if (root/'SMOKE.json').exists():
         raise FileExistsError('immutable full-size smoke already recorded')
+    process_restart_test(root)
     c=spec()
     folder=root/'smoke'
     folder.mkdir(exist_ok=False)

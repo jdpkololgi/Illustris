@@ -21,6 +21,7 @@ from workflows.sbi.e2e_vdm_context_dataset import Products, coarse_local_crop
 from workflows.sbi.e2e_vdm_context_models import FineCondition, replicate, decode_density, coupled_sample
 from workflows.sbi.e2e_vdm_context_train import verify_launch, new_model
 from workflows.sbi.e2e_vdm_context_tasks import draw_tasks, task_seed, coarse_cache_key
+from workflows.sbi.e2e_vdm_context_queue import task_lock,task_done
 
 MICROBATCH = 8
 STOP = False
@@ -103,7 +104,7 @@ class SharedParents:
             binding=dict(manifest_sha256=existing.sha256(self.root/'MANIFEST.json'),checkpoint_sha256=self.sha,
                 domain=task['domain'],replica=task['replica'],checkpoint=task['checkpoint'],
                 steps=task['steps'],purpose=task['purpose'],ids=draw_ids)
-            with durable.single_writer(folder):
+            with task_lock(folder,blocking=True):
                 if receipt.exists():
                     rho,_=read_array_receipt(folder,receipt,binding,'rho')
                 else:
@@ -201,7 +202,7 @@ def selected_tasks(ledger,arm,replica,mode):
     return [(t,None) for t in tasks]
 
 
-def run(root,arm,replica,mode):
+def run(root,arm,replica,mode,task_id=None):
     global STOP
     STOP=False
     root=output_root(root)
@@ -226,6 +227,10 @@ def run(root,arm,replica,mode):
     observations=Products(root,phases,targets=False)
     oracle=None if mode=='refinement' or arm!='D' else Products(root,['ph004','ph005'],targets=True,confirmation_receipt=release)
     plan=selected_tasks(ledger,arm,replica,mode)
+    if task_id is not None:
+        plan=[item for item in plan if item[0]['task_id']==task_id]
+        if len(plan)!=1:
+            raise ValueError('task not in the registered stage/arm/replica ledger')
     active=None
     model=parents=None
     for task,limit in plan:
@@ -240,6 +245,15 @@ def run(root,arm,replica,mode):
                 parents=SharedParents(root,observations,coarse,coarse_sha,device,oracle)
             active=checkpoint
         case(root,task,model,checksum,observations,parents,limit)
+    if task_id is not None:
+        return
+    finalize(root,arm,replica,mode)
+
+
+def finalize(root,arm,replica,mode):
+    plan=selected_tasks(read_json(root/'DRAW_LEDGER.json'),arm,replica,mode)
+    if not all(task_done(root,task,limit) for task,limit in plan):
+        raise ValueError('sampling stage has incomplete tasks')
     folder=root/'sampling'
     folder.mkdir(exist_ok=True)
     receipt=folder/f'{arm}_seed{replica}_{mode.upper()}_COMPLETE.json'
@@ -254,8 +268,9 @@ def main():
     p.add_argument('--arm',required=True,choices=list('ABCD'))
     p.add_argument('--replica',required=True,type=int,choices=[0,1])
     p.add_argument('--mode',required=True,choices=['refinement','all'])
+    p.add_argument('--task-id')
     a=p.parse_args()
-    run(a.root,a.arm,a.replica,a.mode)
+    run(a.root,a.arm,a.replica,a.mode,a.task_id)
 
 
 if __name__=='__main__':

@@ -109,13 +109,23 @@ Shared coarse is necessary, not proof of full fine cross-patch coherence.
 Implemented counts:8,371,907/fine arm; D coarse8,188,395 additional parameters.
 
 Tides: matched-patch and fullbox physical reference; average six tensor components
-BEFORE eigenvalues. D composite U T(delta_c)+T_local(delta_f-U delta_c), U block
-replication; trace closes without double-counting. Exterior beyond1299 remains absent.
+BEFORE eigenvalues. Failedv1 used U T(delta_c)+T_local(delta_f-U delta_c).
+Explicitly approved/passedv2 uses crop(T_wide_fine(U delta_c)) plus the same
+T_local(delta_f-U delta_c), U block replication. Computational wide tide192^3,
+generated coarse48^3 unchanged. Trace closes; exterior beyond1299 remains absent.
 Training-only pre-fit gates: positive rho; roundtrip/block-mass/tensor-trace error
 <=2e-6; plane/DC declared-window transfer k=.01/.02/.04/.08; >=25% median reduction
 in EACH normalized eigenvalue RMSE vs parent-only closure. This median is taken
 over per-anchor relative RMSE reductions on the A32 training panel. Tails/topology reported.
 Failure stops for review; no automatic new grid or retrospective gate changes.
+
+Execution refinement (no scientific change): actual runner SIGUSR1/pause/resume
+comparison uses12 technical A0 updates with a signal at4, separate from all
+scientific branches. Four workers claim fixed fit/draw items under file locks;
+shared parent generation is blocking/exclusive. Slurm terminal accounting counts
+allocated GPU time including idle periods, and actual CPU-node time from all
+five initial jobs. Every request checks remaining caps/deadline; no unbounded
+interactive chain or automatic failure retry. CPU report uses<=8 workers.
 
 ## Evaluation and interpretation
 
