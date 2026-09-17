@@ -2,6 +2,11 @@
 
 ## Restartable four-GPU VDM assessment
 
+Active launch2026-09-17: `tmux attach -t vdm-assessment-4gpu` on login04;
+first allocation58465656/nid001133, four one-GPU steps. Controller log:
+`ROOT/logs/interactive_controller.log`. Launcher revisionbc81d1b. The next
+allocation ID, if needed, is recorded dynamically in INTERACTIVE_SEGMENT_1_START.
+
 Contract `docs/e2e_vdm_assessment_v1.md`. Root:
 `/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/vdm_assessment_20260917_v2`.
 After matching SMOKE and RESTART_TEST receipts, stage the standalone launcher

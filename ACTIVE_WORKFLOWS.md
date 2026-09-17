@@ -11,6 +11,8 @@ already committed. `e2e_vdm_assessment_interactive.py` stages a hash-bound,
 finite two75-minute four-GPU chain; unexpected failures stop. User explicitly
 prefers interactive/tmux to batch here. No new training automatically follows.
 The prior four-model training job58445857 COMPLETED5120updates each after maintenance.
+Assessment launch:58465656/nid001133, four concurrent A100 workers,
+tmux `vdm-assessment-4gpu` on login04; launcherbc81d1b. Scientific results pending.
 
 ## Direct-density VDM pilot (2026-09-16)
 

@@ -2,6 +2,14 @@
 
 ### 2026-09-17 - [ops/verified] VDM assessment smoke/resume pass; four-GPU interactive launch authorized
 
+Launch update: first interactive allocation58465656 started on nid001133 at
+04:50UTC, four concurrent one-A100 srun steps confirmed. tmux
+`vdm-assessment-4gpu` on login04 holds the finite controller. Launcher committed
+bc81d1b and separately frozen SHA1a3a4bbadf88338f82f1feaddbedfcc67ce72b96f4a7300790b8f8b6a0ef3931.
+Second75-minute allocation is requested only after clean pause of the first;
+report automatically follows four completed branches. No batch jobs submitted.
+Scientific assessment remains running, not complete.
+
 Frozen evaluation source4ff49d7, root vdm_assessment_20260917_v2;
 manifest a09b4ef9e9852bb5cd2aa4e28d689b821722a55ea632be035af5739b5de4b040.
 23 focused tests pass. Actual checkpoint512 GPU smoke on58464481/nid001024:

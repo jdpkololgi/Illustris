@@ -12,6 +12,8 @@ Only verified clean chunk-boundary pauses resume; unexpected errors stop.
 23 focused tests and actual GPU batch/restart tests pass. Root
 vdm_assessment_20260917_v2; frozen evaluator4ff49d7. No training extension until
 the checkpoint/sampler/calibration decision, and no ph001 access.
+Assessment first segment launched58465656/nid001133 with four GPU workers;
+tmux `vdm-assessment-4gpu` on login04 holds the bounded continuation launcher.
 
 **Historical implementation (2026-09-16):** direct48^3 log-density VDM
 pilot, docs/e2e_direct_vdm_v1.md. Fixed/learned gamma VLB, two seeds, larger3D
