@@ -1,5 +1,14 @@
 # Plan — End-to-end conditional density-field posterior
 
+**Scientific training live (2026-09-17):** all full-size/restart GPU gates passed,
+smoke58472788 COMPLETED0:0, measured forecast86.241GPUh under112cap. Frozen
+1639851 full source/manifest; first four-GPU training job58473428/nid008513
+RUNNING from tmux vdm-context-matrix/login04,4h max per request. Four workers
+verified producing finite training updates. Ten factors x20480updates, then
+global model freeze, new-checkpoint sampler gate, registered draw matrix and
+CPU report/figures. No posterior-calibration claim from smoke/early losses.
+Resources/receipts and scientific gates remain mandatory; full goal incomplete.
+
 **GPU preflight live (2026-09-17):** source1639851,54tests pass; one-A100
 job58472788/nid008217,<=1h. ActualSIGUSR1/fresh-process restart reproduces
 uninterrupted model/optimizer/RNG/history exactly. Full-size five-form sampling

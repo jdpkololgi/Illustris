@@ -1,5 +1,30 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-17 - [ops/training] All GPU gates pass; four-GPU scientific matrix running
+
+Smoke58472788 COMPLETED0:0 in363s,0.100833allocatedGPUh. All5forms pass exact
+checkpoint replay, scalar/batch ancestry (maxrelativeRMS1.211e-7), positive
+physical decoding and D block-mass consistency. ActualSIGUSR1/fresh-process
+restart also passes exactly. Smoke SHA
+7b32e8903b39365bfd0965a87c318f727b9152064af4908ba93185f27de4d459;
+manifest67e1f9d0edc73b58c761e35f1f2dc13d4fe102e27f260104ecdb87b725a9bf10,
+frozen1639851. Measured update.176--.182s, draw5.195--5.301s/250steps,
+forecast10.250training+61.264samplingGPUh,86.241GPUh including15%overhead and
+4GPUhsmoke allowance, below112cap. Smoke draw payload hashes reverified.
+
+Scientific controller launched17:19UTC in tmux vdm-context-matrix/login04.
+First job58473428/nid008513 RUNNING,4A100/128CPUs,4h limit. Four independent
+workers begin Dcoarse seeds0/1 and Afine seeds0/1; finite first updates observed,
+A fits reached128 during startup verification. All ten factors target20480updates;
+these early losses are not convergence or posterior-calibration evidence.
+Controller then freezes all models, runs250/500/1000 refinements, stops if that
+gate fails, otherwise produces all registered33280fine/7872coarse draws and CPU
+report/figures. No adaptive extension or objective change. Original resource and
+elapsed limits remain. Before this live allocation, completed usage was
+1.6389CPU-nodeh and0.100833GPUh; live time additionally counts toward the cap.
+Authoritative receipts: resources/01_*; logs/matrix_controller.log and per-task
+01_* logs. Full scientific experiment remains active/incomplete.
+
 ### 2026-09-17 - [ops/running] Frozen full-size GPU smoke; actual signal replay passes
 
 Frozen source1639851; full manifest

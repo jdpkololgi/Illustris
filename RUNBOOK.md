@@ -2,6 +2,13 @@
 
 ## Controlled VDM diversity/context/multiscale experiment
 
+Live2026-09-17: `tmux attach -t vdm-context-matrix` on login04. Frozen source
+1639851; full GPU smoke/restart passed on58472788. First scientific allocation
+58473428/nid008513,4GPUs,4h max; subsequent bounded IDs live in resources/*START.
+Inspect logs/matrix_controller.log, logs/resource_*.log, and per-task logs/01_*.
+Do not start another controller or rerun smoke into this root. Scientific fits
+and draws are incomplete; source snapshot must stay immutable throughout.
+
 Full execution: commit tested code, then `context_control stage-run --root ROOT`
 to freeze source/data/draw ledger. From ROOT/source, run module
 `workflows.sbi.e2e_vdm_context_interactive --mode smoke-controller --root ROOT`
