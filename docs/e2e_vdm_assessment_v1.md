@@ -89,3 +89,21 @@ sources remain unchanged. Frozen-source logs and receipts survive disconnection.
 Use short interactive development/smoke compute first, then a bounded explicitly
 authorized resumable evaluation schedule. Avoid an unattended login agent making
 new scientific/resource decisions or open-ended allocation chaining.
+
+### Authorized four-GPU interactive execution
+
+User specifically prefers interactive chaining and all four node GPUs over the
+proposed queued batch jobs. `e2e_vdm_assessment_interactive.py` freezes a separate
+hash-bound deterministic launcher; two75-minute allocations maximum, four
+independent GPU workers,10GPUh ceiling. Workers receive SIGUSR1 after70minutes
+and finish their current atomic chunk; only verified exit75 resumes. Unexpected
+errors, queue failure or exhausted budget stop, without batch fallback. All four
+completed branches gate report generation. tmux holds the launcher across SSH
+disconnects but does not extend Slurm limits. No agent is left making decisions.
+
+Root: vdm_assessment_20260917_v2; scientific source4ff49d7.23 tests pass and
+58464481 actual GPU smoke passes:43.78s/8draws/250steps, scalar/batch relativeRMS
+9.90e-8. Actual pause/restart saved32 unique scientific draws with the first
+receipt unchanged. SMOKE.json and RESTART_TEST.json bind the source manifest.
+Report/calibration results are pending the complete assessment, not established
+by these technical gates.

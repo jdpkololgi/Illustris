@@ -1,5 +1,24 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-17 - [ops/verified] VDM assessment smoke/resume pass; four-GPU interactive launch authorized
+
+Frozen evaluation source4ff49d7, root vdm_assessment_20260917_v2;
+manifest a09b4ef9e9852bb5cd2aa4e28d689b821722a55ea632be035af5739b5de4b040.
+23 focused tests pass. Actual checkpoint512 GPU smoke on58464481/nid001024:
+8draws/250steps43.78s, metrics1.35s; scalar/batch relativeRMS9.90e-8.
+Two SIGUSR1-limited segments committed32 scientific draws; resumed identities
+are unique and first receipt unchanged, all chunk hashes verified. Allocation
+58464481 released before requesting a full node. These are technical gates,
+not completed posterior-calibration results.
+
+User rejects queued batch handoff in favor of chained interactive allocations
+and all four node GPUs. Frozen deterministic launcher: two75-minute salloc
+allocations maximum, one branch per GPU,10GPUh ceiling, timeout clean pause at
+70minutes. Only exit75 with matching receipt permits continuation; unexpected
+errors or queue failure stop. No autonomous agent/resource decisions in tmux,
+no automatic training extension. Full report requires all3584 draws and hash
+checks. See contract/Runbook for operational receipts and completion criteria.
+
 ### 2026-09-17 - [science/plan] Frozen VDM checkpoint/sampler/calibration decision matrix
 
 User authorizes substantial follow-on compute but FIRST the four-model diagnostic

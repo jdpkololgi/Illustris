@@ -1,5 +1,26 @@
 # TNG/Illustris Runbook
 
+## Restartable four-GPU VDM assessment
+
+Contract `docs/e2e_vdm_assessment_v1.md`. Root:
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/vdm_assessment_20260917_v2`.
+After matching SMOKE and RESTART_TEST receipts, stage the standalone launcher
+using `python -m workflows.sbi.e2e_vdm_assessment_interactive --mode stage --root ROOT`.
+Run the frozen `ROOT/interactive_launcher.py --mode controller --root ROOT` from
+a clean cosmic_env tmux shell on the same login host. This is an explicitly
+authorized exception to the usual finalized-workload batch handoff: two75-minute
+salloc requests maximum, four GPUs and four independent exclusive srun workers.
+Each worker signals a clean chunk stop at70minutes. Only exit75 plus the matching
+pause receipt permits the next allocation. No retry on failure/unavailable nodes;
+no batch fallback; no new training. tmux preserves the shell, not Slurm wall time.
+
+INTERACTIVE_INTENT/REQUEST/SEGMENT/RETURN receipts record resources and status;
+logs/interactive_SEGMENT_JOB_BRANCH.log contains chunk progress. All four verified
+ALL_COMPLETE receipts gate the report; `analysis/RESULTS.json` and
+INTERACTIVE_COMPLETE.json are the success artifacts. No completed-report claim
+from allocation exit alone. Do not rerun stage/controller into an existing launch;
+inspect receipts and obtain a new bounded resource decision after budget exhaustion.
+
 ## Direct-density conditional VDM pilot
 
 Contract: `docs/e2e_direct_vdm_v1.md`. From frozen source run

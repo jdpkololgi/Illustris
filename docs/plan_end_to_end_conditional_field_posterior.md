@@ -1,6 +1,19 @@
 # Plan — End-to-end conditional density-field posterior
 
-**Current authorized implementation (2026-09-16):** direct48^3 log-density VDM
+**Current authorized assessment (2026-09-17):** the four direct VDM fits completed
+5120 updates each (job58445857,81m04,COMPLETED0:0). Before extending training,
+execute docs/e2e_vdm_assessment_v1.md:512/2048/5120 checkpoints,128draws per
+fixed ph003 NGC/SGC patch,250/500/1000-step coupled sampler controls, density and
+tidal eigenvalue/eigengap calibration against matched-patch and full-box truth.
+One phase/two correlated development-heldout patches are not joint-field SBC.
+User prefers a finite interactive chain over queued batches, using all four
+GPUs per node: at most two75-minute allocations, one model/GPU,10GPUh ceiling.
+Only verified clean chunk-boundary pauses resume; unexpected errors stop.
+23 focused tests and actual GPU batch/restart tests pass. Root
+vdm_assessment_20260917_v2; frozen evaluator4ff49d7. No training extension until
+the checkpoint/sampler/calibration decision, and no ph001 access.
+
+**Historical implementation (2026-09-16):** direct48^3 log-density VDM
 pilot, docs/e2e_direct_vdm_v1.md. Fixed/learned gamma VLB, two seeds, larger3D
 U-Net; galaxy/survey inputs only. Train ph000/ph002, development ph003; no ph001.
 User requests one90-minute GPU training window launched in tmux after smoke.

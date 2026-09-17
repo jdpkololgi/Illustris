@@ -1,5 +1,17 @@
 # Active Workflow Index
 
+## Four-model VDM checkpoint/sampler/calibration assessment (2026-09-17)
+
+`workflows/sbi/e2e_vdm_assessment.py` and `e2e_vdm_assessment_report.py`:
+3584 frozen-checkpoint draws, checkpoint512/2048/5120, sampler250/500/1000,
+128 baseline draws per two development-heldout patches. Contract
+`docs/e2e_vdm_assessment_v1.md`; root vdm_assessment_20260917_v2, source4ff49d7.
+23 focused tests, real GPU smoke and clean-pause resume pass;32 scientific draws
+already committed. `e2e_vdm_assessment_interactive.py` stages a hash-bound,
+finite two75-minute four-GPU chain; unexpected failures stop. User explicitly
+prefers interactive/tmux to batch here. No new training automatically follows.
+The prior four-model training job58445857 COMPLETED5120updates each after maintenance.
+
 ## Direct-density VDM pilot (2026-09-16)
 
 `workflows/sbi/e2e_direct_experiment.py`: stage/smoke/train/matrix/submit/paired.
