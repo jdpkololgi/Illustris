@@ -1,5 +1,18 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-17 - [ops/running] Frozen full-size GPU smoke; actual signal replay passes
+
+Frozen source1639851; full manifest
+67e1f9d0edc73b58c761e35f1f2dc13d4fe102e27f260104ecdb87b725a9bf10.
+54 focused/regression tests pass; graphify indices refreshed. One-A100 smoke
+job58472788/nid008217 launched17:11UTC from tmux vdm-context-gpu-smoke/login04,
+shared_interactive<=1h. RESTART_TEST.json now passes: actualSIGUSR1 atupdate4,
+exit75, freshprocessresume to12 exactly matches uninterrupted model/optimizer/
+RNG/history; original paused checkpoint preserved. All three processes used the
+actual full-size A0 runner, technical branches only. Five-form GPU timings,
+scalar/batch ancestry, positive mass decode and total-cost gate still running;
+no scientific fit yet. See resources/00_* and logs/00_smoke_worker0.log.
+
 ### 2026-09-17 - [code/active] Full VDM execution and reporting gates implemented
 
 After the passed physical gate, implement actual SIGUSR1 interruption at update4

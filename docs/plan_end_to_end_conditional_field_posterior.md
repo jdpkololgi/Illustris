@@ -1,5 +1,10 @@
 # Plan — End-to-end conditional density-field posterior
 
+**GPU preflight live (2026-09-17):** source1639851,54tests pass; one-A100
+job58472788/nid008217,<=1h. ActualSIGUSR1/fresh-process restart reproduces
+uninterrupted model/optimizer/RNG/history exactly. Full-size five-form sampling
+and resource forecast still pending; do not infer scientific training readiness.
+
 **Execution implementation (2026-09-17):** actual process interruption/replay,
 four-worker fixed task queue, real Slurm resource accounting and final CPU
 report/figure generation are implemented. Next freeze full source and run the
