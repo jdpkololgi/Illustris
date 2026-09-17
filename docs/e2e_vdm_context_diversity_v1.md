@@ -1,5 +1,10 @@
 # Controlled VDM diversity, spatial context, and shared matter uncertainty
 
+Current status2026-09-17: physical gate FAILED, training_launch_allowed=false;
+see docs/e2e_vdm_context_representation_failure_20260917.md. All data products
+complete, no GPU fits. The operator formula below is the failed registered v1,
+not an approved repaired prescription. Await explicit direction on its amendment.
+
 Approved 2026-09-17 as the active goal: implement, execute, verify and report this
 bounded experiment. No ph001/ph006 access; no old artifact overwrite.
 Implementation/audit clarification: docs/e2e_vdm_context_audit_proposal_20260917.md

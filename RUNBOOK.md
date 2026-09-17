@@ -2,6 +2,13 @@
 
 ## Controlled VDM diversity/context/multiscale experiment
 
+STOP2026-09-17: `data/REPRESENTATION_GATE.json` is an immutable FAILED scientific
+gate from58470989. No GPU launch or normalization release. All5phase product
+builders completed; no tmux allocation remains running. Do not rerun the single-
+use physics launcher or overwrite its gate to resume. See
+`docs/e2e_vdm_context_representation_failure_20260917.md`; a separately authorized
+operator correction needs new source/receipt provenance and the unchanged gate.
+
 Approved contract: `docs/e2e_vdm_context_diversity_v1.md`; current root
 `/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/vdm_context_20260917_v1`.
 Geometry job58469111 completed0:0,416 primary anchors, no quota relaxation.

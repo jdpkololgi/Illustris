@@ -1,5 +1,24 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-17 - [science/stop] VDM physical gate fails; inconsistent tidal lift isolated
+
+Frozen e1bde72 physical gate58470989 FAILED1:0 intentionally after publishing the
+result;18s allocation, no GPU fits. A32 training-only composite/parent median
+eigenvalue error ratios~8.03/6.51/7.29, all32anchors worsen for all3eigenvalues.
+Mass/roundtrip/trace identities remain~1e-15. GateSHA
+c72e7d9a6169299aa8beab877f156316bf6d6d56701aedefdc87fd2591e61581;
+training_launch_allowed=false. Do not overwrite or auto-retry a scientific failure.
+Tiny matched-periodic analytic test isolates noncommutation of block replication
+and the tidal operator: diagonal modes incur48.2/60.0%tensorRMS errors, although
+DC/axis modes and trace are exact. This is a physical operator defect, not VDM
+training failure; data/normalization alone cannot repair its tensor reconstruction.
+Report: docs/e2e_vdm_context_representation_failure_20260917.md. User direction
+requested for one<=30minCPU consistent-density tidal-operator correction test,
+same A32 and unchanged>=25%gate. No silent operator/grid/threshold amendment.
+All5phase products complete (remaining58470146 COMPLETED0:0,46m); no learned
+confirmation scores. All allocations released; cumulative1.6267CPU-nodeh,0GPUh.
+Full goal/matrix remains incomplete; physical gate must be resolved before fits.
+
 ### 2026-09-17 - [code/active] VDM audit corrections and physical preflight
 
 Continue the approved goal, not a second additive budget. Audit/proposal:
