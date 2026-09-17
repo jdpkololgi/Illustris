@@ -1,5 +1,23 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-17 - [science/plan] Frozen VDM checkpoint/sampler/calibration decision matrix
+
+User authorizes substantial follow-on compute but FIRST the four-model diagnostic
+decision tree. Contract docs/e2e_vdm_assessment_v1.md:128draws at512/2048/5120 on
+two ph003 development-heldout disjoint patches, fourmodels,250step ancestry;
+32 coupled draws at500/1000steps at5120. Total3584 draws. Grid-density power,
+cross-correlation, one-point/region statistics, spread, ranks, coverage and CRPS;
+ordered eigenvalues and gaps at512 correlated central-grid probes. Periodic,
+zero/reflect padded closures against matched-patch AND full-box-derived tensor
+truth, with tensor-component averaging before diagonalization. No ph001 opening,
+no false field-SBC claim from spatial probe count, no automatic training extension.
+
+Prior job58445857 did finish after maintenance:5120updates x4 and100saved draws
+in81m04, UTC2026-09-17 03:12--04:33, COMPLETED0:0. All final checkpoint/draw hashes
+verified during preceding report. Learned-schedule seed dependence and transfer
+power deficits persist; raw late diffusion losses still fall. This motivates the
+current diagnostic, not an architecture change or posterior-calibration claim.
+
 ### 2026-09-16 - [ops/launch] Direct-density VDM submitted, maintenance-pending
 
 Authorized90-minute job58445857 submitted successfully from tmux `e2e-direct-vdm`

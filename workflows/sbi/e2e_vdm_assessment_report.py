@@ -37,11 +37,16 @@ def paired_change(a,b,seed=1):
 
 def summarize(values,truth,fullbox,patch,mask,s):
     bands=Bands(48,6.766,[0,.08,.16,.32,np.inf]);power=np.array(bands.compare(truth,truth)['truth_power'])
+    onepoint=np.array([truth.mean(),truth.std(),*np.quantile(truth,[.001,.01,.1,.5,.9,.99,.999]),
+                      *[(truth<=v).mean() for v in [-.8,-.5,0,.5,1,2,4]]])
     out=dict(draws=len(values['power']),mean_power_ratio=(values['power'].mean(0)/power).tolist(),
         median_correlation=np.median(values['correlation'],axis=0).tolist(),
         mean_abs_log_power_error=float(np.abs(np.log(values['power'].mean(0)/power)).mean()),
         onepoint_draw_mean=values['onepoint'].mean(0).tolist(),
         onepoint_draw_std=values['onepoint'].std(0,ddof=1).tolist(),
+        onepoint_truth=onepoint.tolist(),
+        power_statistic_calibration=summarize_calibration(values['power'],power,levels=s['coverage_levels']),
+        onepoint_statistic_calibration=summarize_calibration(values['onepoint'],onepoint,levels=s['coverage_levels']),
         regional=summarize_calibration(values['regional'],patch['regional'],levels=s['coverage_levels']),tidal={})
     for boundary in s['boundaries']:
         out['tidal'][boundary]={}

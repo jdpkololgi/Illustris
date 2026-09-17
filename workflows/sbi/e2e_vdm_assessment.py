@@ -184,6 +184,9 @@ def case(root,m,model,prep,item,branch,step,anchor,steps,count,device):
 
 def run(root,branch,mode='all'):
     device=p.runtime();m=verify(root);s=m['spec'];prep,arrays,data=load_data(root,m,device)
+    smoke=json.loads((root/'SMOKE.json').read_text())
+    if not smoke['passed'] or smoke['manifest_sha256']!=p.sha256(root/'MANIFEST.json'):
+        raise ValueError('matching smoke required')
     if branch not in s['branches']:raise ValueError('unregistered branch')
     signal.signal(signal.SIGUSR1,stop_requested);signal.signal(signal.SIGTERM,stop_requested)
     with durable.single_writer(root/branch):
