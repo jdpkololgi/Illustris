@@ -19,6 +19,10 @@ fits. Total allocated1.6389CPU-nodeh,0GPUh; all allocations released. Next remai
 full-size GPU replay/throughput and finite controller completion under existing
 112GPUh/8CPU-nodeh/300GiB/deadline caps, then the frozen A/B/C/D matrix. Full goal
 is not complete. See preserved-failure report for paired before/after results.
+Verification:49 focused/regression tests pass. A random temporary test-directory
+name collided with the conservative phase guard on one rerun; test fixtures now
+reject such names before use. Production guard/operator unchanged; the collision
+has a deterministic regression. Graphify AST/global indices refreshed.
 
 ### 2026-09-17 - [science/authorized] Consistent-density tidal amendment
 

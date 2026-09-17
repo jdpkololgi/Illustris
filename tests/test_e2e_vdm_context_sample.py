@@ -1,6 +1,6 @@
 """Transactional/coherence checks without a scientific GPU run."""
 from pathlib import Path
-import tempfile
+from tests.context_test_support import safe_temporary_directory
 import unittest
 from unittest.mock import patch
 import numpy as np
@@ -31,7 +31,7 @@ class SamplingTests(unittest.TestCase):
                       start=0,count=16,purpose='joint',steps=250,coarse_mode='sampled',task_id='test')
 
     def test_shared_cache_request_order_and_corruption(self):
-        with tempfile.TemporaryDirectory() as tmp:
+        with safe_temporary_directory() as tmp:
             root=Path(tmp)
             publish_json(root/'MANIFEST.json',dict(test=True))
             parent=SharedParents(root,Observations(),None,'model-hash','cpu')
@@ -59,7 +59,7 @@ class SamplingTests(unittest.TestCase):
             SharedParents(Path('/tmp'),bad,None,'model','cpu')
 
     def test_conditioned_mass_and_resumable_chunks(self):
-        with tempfile.TemporaryDirectory() as tmp:
+        with safe_temporary_directory() as tmp:
             root=Path(tmp)
             publish_json(root/'MANIFEST.json',dict(test=True))
             observations=Observations()

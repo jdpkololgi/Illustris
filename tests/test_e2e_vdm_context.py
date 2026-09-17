@@ -1,7 +1,7 @@
 """Focused invariants; full-size physical and GPU gates are separate."""
 from dataclasses import replace
 from pathlib import Path
-import tempfile
+from tests.context_test_support import safe_temporary_directory
 import unittest
 import numpy as np
 import torch
@@ -48,7 +48,7 @@ class GeometryTests(unittest.TestCase):
         for path in ('/tmp/ph001/density', '/tmp/ph006/observations', '/tmp/ph007'):
             with self.assertRaises(PermissionError):
                 guarded(path)
-        with tempfile.TemporaryDirectory() as tmp:
+        with safe_temporary_directory() as tmp:
             link = Path(tmp)/'safe'
             link.symlink_to('/tmp/ph001')
             with self.assertRaises(PermissionError):
@@ -132,7 +132,7 @@ class ModelTests(unittest.TestCase):
         c=dict(spec(),unet_base=8,unet_levels=1)
         model,opt,gen=new_model(c,0,'C','fine','cpu')
         history=[update_model(model,opt,gen,self.z,self.condition,c,0)]
-        with tempfile.TemporaryDirectory() as tmp:
+        with safe_temporary_directory() as tmp:
             root=Path(tmp)
             binding=dict(test='exact-resume')
             saved=checkpoint(root,model,opt,gen,binding,'fine',1,history)

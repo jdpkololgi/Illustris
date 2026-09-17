@@ -1,6 +1,7 @@
 import unittest
 from pathlib import Path
-import tempfile
+from contextlib import nullcontext
+from tests.context_test_support import safe_temporary_directory
 from unittest.mock import patch
 import numpy as np
 
@@ -12,8 +13,16 @@ from workflows.sbi.e2e_durable import publish_json
 
 
 class OperatorAuditTests(unittest.TestCase):
+    def test_random_temporary_phase_collision_does_not_relax_reader(self):
+        with patch('tests.context_test_support.tempfile.TemporaryDirectory',side_effect=[
+                nullcontext('/tmp/tmpaph017z'),nullcontext('/tmp/tmpabcdef')]):
+            with safe_temporary_directory() as path:
+                self.assertEqual(path,'/tmp/tmpabcdef')
+        with self.assertRaises(PermissionError):
+            physics.read_json(Path('/tmp/tmpaph017z/LATEST.json'))
+
     def test_release_binds_failed_gate_new_gate_source_and_normalization(self):
-        with tempfile.TemporaryDirectory() as tmp:
+        with safe_temporary_directory() as tmp:
             root=Path(tmp)
             (root/'data').mkdir()
             publish_json(root/'data/REPRESENTATION_GATE.json',dict(training_launch_allowed=False))
