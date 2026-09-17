@@ -1,5 +1,14 @@
 # Controlled VDM diversity, spatial context, and shared matter uncertainty
 
+Latest execution status2026-09-17,21:15UTC: all16 sampler-refinement screens
+PASS; all48 eight-draw chunks saved. GPU58481962 and CPU58483908 complete0:0.
+Worst500-to1000 density power/width change1.399%/0.757%, tidal/gap width0.745%,
+D-wide power/width0.758%/0.667%; paired MC95 maximum1.447%. Gate SHA
+08b79f1a90874eacef9483cd5b6ff7cf11445061d2852140de1740539cf8e453.
+Main draw job58484127/nid008309 is running on four GPUs from the same detached
+controller. All fits/checkpoints are frozen; main draws and scientific conclusions
+remain pending. No protocol or frozen-source change; no calibration claim.
+
 Latest execution status2026-09-17,20:39UTC: all10fits complete20480updates;
 training58473428 COMPLETED0:0 in3h18m06s. CPU58481938 verifies/freezes all30
 registered checkpoints (MODELS_FROZEN SHA

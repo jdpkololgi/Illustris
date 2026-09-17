@@ -1,5 +1,41 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-17 - [science/sampler-pass] All VDM refinement checks pass; main draws running
+
+Refinement job58481962/nid008313 completed0:0 in29m32s, producing all48
+eight-draw chunks (384 fine draws) for the frozen16 model/seed/anchor cases.
+CPU58483908/nid004182 completed0:0 in4m12s. All16 registered sampler screens
+pass, including density power/width, tidal/eigengap widths and D-wide power/width.
+SAMPLER_GATE.json SHA
+08b79f1a90874eacef9483cd5b6ff7cf11445061d2852140de1740539cf8e453;
+its48 input receipts and manifest binding are present. Independent metadata audit
+confirms identical eight draw IDs and noise seeds across250/500/1000 steps in
+each of the16 cases. Evaluation used the two fixed ph004 development anchors.
+
+Worst relative changes across the registered cases:
+
+| Quantity |250 to500 steps|500 to1000 steps|
+|---|---:|---:|
+| Density power |2.789%|1.399%|
+| Density interval width |1.542%|0.757%|
+| Tidal/eigengap interval width |1.523%|0.745%|
+| D-wide density power |1.497%|0.758%|
+| D-wide interval width |1.319%|0.667%|
+
+Worst late paired MC95 bound is1.447%, below the registered5% exclusion bound;
+late point changes remain below2%, early changes below5%. This establishes
+numerical stability within these tolerances, not zero discretization bias or
+posterior calibration. With eight draws the tested interval has7/9 attainable
+coverage, not nominal90%; coverage accuracy is not inferred from width stability.
+
+The unchanged tmux controller started main draw job58484127/nid008309 at21:15UTC,
+four GPUs, <=4h for this segment. It continues the registered total33280fine/
+7872coarse draws, reusing refinement draws, with checkpointed bounded continuation.
+Completed usage before this live job:15.27639GPUh and1.71417CPU-nodeh. Original
+caps/deadline and frozen1639851 runtime remain. No further training is running.
+Checkpoint progression, field statistics, calibration, H1/H2 interpretation and
+final figures/report remain outstanding; no production-readiness claim.
+
 ### 2026-09-17 - [ops/verified] All ten VDM fits complete; checkpoint matrix frozen
 
 Training58473428/nid008513 COMPLETED0:0 in3h18m06s, all four workers exit0.

@@ -1,5 +1,18 @@
 # Plan — End-to-end conditional density-field posterior
 
+**Sampler gate passed; main draws running (2026-09-17):** all16 frozen-model
+refinement cases pass. Worst500-to1000 changes: density power1.399%, density
+width0.757%, tidal/eigengap width0.745%, D-wide power0.758%/width0.667%; worst
+late paired MC95 bound1.447%. Gate SHA
+08b79f1a90874eacef9483cd5b6ff7cf11445061d2852140de1740539cf8e453.
+GPU58481962 and CPU58483908 completed0:0; paired draw IDs/seeds verified across
+step counts. The tmux controller started main sampling58484127/nid008309 with
+four GPUs at21:15UTC. It completes the unchanged33280fine/7872coarse-draw ledger
+with refinement reuse and bounded checkpointed continuation. Completed usage
+before that live job:15.27639GPUh/1.71417CPU-nodeh. All training is finished;
+checkpoint progression, field statistics, coverage and H1/H2 conclusions are still
+pending. Numerical stability within tolerance is not calibrated-posterior evidence.
+
 **Training complete; evaluation pending (2026-09-17, 20:39UTC):** all ten factors
 finished20480updates/40960presentations on58473428 (COMPLETED0:0,3h18m06s).
 CPU58481938 verified all10fits/30 registered checkpoints and published the full
