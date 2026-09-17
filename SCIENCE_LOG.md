@@ -1,5 +1,30 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-17 - [ops/verified] All ten VDM fits complete; checkpoint matrix frozen
+
+Training58473428/nid008513 COMPLETED0:0 in3h18m06s, all four workers exit0.
+All eight fine fits and both D coarse fits reach20480updates/40960presentations.
+A uses32patches/two training phases; B/C/D use384patches/three phases, as
+registered. Fine parameter counts remain8,371,907 across arms; D coarse adds
+8,188,395. No objective, data, seed, update-budget or frozen-source change.
+
+CPU verification58481938/nid004211 COMPLETED0:0 in19s: all10branch receipts and
+all30 checkpoints at5120/10240/20480 pass the full checkpoint/history/exposure
+checks. MODELS_FROZEN.json SHA
+04abc713e9a1baa87288640ac10672b318ee7fd218ebcb2229eb78323bd3ea57;
+manifest67e1f9d0edc73b58c761e35f1f2dc13d4fe102e27f260104ecdb87b725a9bf10,
+runtime1639851. Independent metadata audit confirms branch hashes, committed
+pointers and registered exposures. No validation-selected checkpoint.
+
+At20:39UTC, the unchanged tmux controller has requested refinement58481962,
+PENDING(Resources), four GPUs/one-hour cap. This tests250/500/1000-step coupled
+draws before the main posterior matrix; the sampler gate is not yet evaluated.
+Completed allocation usage through freeze:13.3075GPUh and1.64417CPU-nodeh,
+including idle GPU time, smoke and all earlier CPU jobs. Original112GPUh/8CPU-nodeh,
+300GiB/48h limits remain. Training completion is not convergence, calibration or
+production readiness. Main draws, checkpoint progression, coverage/tidal/gap
+assessment, H1/H2 interpretation and final report remain outstanding.
+
 ### 2026-09-17 - [ops/training] All GPU gates pass; four-GPU scientific matrix running
 
 Smoke58472788 COMPLETED0:0 in363s,0.100833allocatedGPUh. All5forms pass exact

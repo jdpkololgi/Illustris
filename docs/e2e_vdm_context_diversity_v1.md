@@ -1,5 +1,15 @@
 # Controlled VDM diversity, spatial context, and shared matter uncertainty
 
+Latest execution status2026-09-17,20:39UTC: all10fits complete20480updates;
+training58473428 COMPLETED0:0 in3h18m06s. CPU58481938 verifies/freezes all30
+registered checkpoints (MODELS_FROZEN SHA
+04abc713e9a1baa87288640ac10672b318ee7fd218ebcb2229eb78323bd3ea57).
+Four-GPU refinement58481962 is pending under the existing finite tmux controller.
+Sampler acceptance, main draws and scientific conclusions remain pending. This
+updates execution status only; the frozen1639851 source/contract copy and all
+registered scientific/resource choices are unchanged. Earlier gate-status notes
+below are chronological history, superseded by this status and SCIENCE_LOG.
+
 Latest result2026-09-17: approved consistent-density v2 operator PASSES the
 unchanged physical gate,84.17/84.96/84.88%median reductions. Frozen2a2d837,
 CPU58472098 COMPLETED0:0,44s. Originalv1 failure retained. Hash-bound

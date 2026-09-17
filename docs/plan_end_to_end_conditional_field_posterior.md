@@ -1,5 +1,17 @@
 # Plan — End-to-end conditional density-field posterior
 
+**Training complete; evaluation pending (2026-09-17, 20:39UTC):** all ten factors
+finished20480updates/40960presentations on58473428 (COMPLETED0:0,3h18m06s).
+CPU58481938 verified all10fits/30 registered checkpoints and published the full
+model freeze; SHA04abc713e9a1baa87288640ac10672b318ee7fd218ebcb2229eb78323bd3ea57.
+The same detached controller has queued four-GPU refinement58481962 (<=1h).
+Next: coupled250/500/1000 sampler gate, then the registered posterior draws and
+checkpoint/field-statistics/calibration report if that gate passes. No automatic
+training extension, changed objective or calibration claim. Completed usage is
+13.3075GPUh/1.64417CPU-nodeh; the original caps and frozen1639851 runtime remain.
+See SCIENCE_LOG and the controlled-matrix contract for receipts and limitations.
+Earlier status entries below are historical; the full experiment is incomplete.
+
 **Scientific training live (2026-09-17):** all full-size/restart GPU gates passed,
 smoke58472788 COMPLETED0:0, measured forecast86.241GPUh under112cap. Frozen
 1639851 full source/manifest; first four-GPU training job58473428/nid008513
