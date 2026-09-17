@@ -2,6 +2,10 @@
 
 Approved 2026-09-17 as the active goal: implement, execute, verify and report this
 bounded experiment. No ph001/ph006 access; no old artifact overwrite.
+Implementation/audit clarification: docs/e2e_vdm_context_audit_proposal_20260917.md
+is incorporated under the resumed approved goal before any new predictive scores.
+It clarifies pooled contrast thresholds, noncancelling component coverage,
+coarse-conditioning limitations and same-draw tidal/wide refinement checks.
 
 ## Audited starting point
 
@@ -78,6 +82,10 @@ diffusion projects noise/predictions/states to block-zero-mean subspace; VLB use
 63DOF per64block, including correct prior/decoder dimension. True coarse is
 supervised training only; inference uses generated coarse; oracle labelled separately.
 Draw address binds model/domain/draw; adjacent cores share cached coarse realization.
+The coarse factor conditions on the12 wide observation channels only; the fine
+factor also receives local observations. This restricted factorization assumes
+wide summaries suffice for coarse mass; that assumption is not established.
+Negative D results cannot rule out a more general joint conditional posterior.
 Owned-core results invariant to request order; overlapping halos diagnostic only.
 Shared coarse is necessary, not proof of full fine cross-patch coherence.
 Implemented counts:8,371,907/fine arm; D coarse8,188,395 additional parameters.
@@ -114,13 +122,17 @@ Deployable conditioning strata: tracer density,response,redshift,boundary; truth
 environments descriptive. Equalanchor/stratum/phaseweight; report seeds/phases
 separately; paired500Mpc/h source-block bootstrap,1000Mpc/h sensitivity. Two
 evaluation phases limit inference; correlatedvoxels are not independent SBC trials.
-Positive contrast: >=10% primaryscore improvement same direction BOTHseeds and
-BOTHphases; >=5percentagepoint coveragegap reduction OR within5points of finite-M
-target; meanRMSE degradation<=5%, aggregate samplepower discrepancy degradation
+Positive contrast: >=10% equally pooled primaryscore improvement, positive
+direction in EACH of four seed/phase cells; >=5percentagepoint coveragegap
+reduction OR within5points of finite-M target in each cell. Compute tidal gaps
+per eigenvalue before averaging, never cancel under/overcoverage. Density
+meanRMSE degradation<=5%, aggregate samplepower discrepancy degradation
 <=.05abslogunits. A:B/B:C primary standardized densityCRPS; C:D joint physical
 tidal energy plusdependence. Partial/mixed/inconclusive allowed, not allmetrics
 monotone. Sampler gate:250:500<5%,500:1000power/width<2% with paired uncertainty
 excluding5%; failure stops finalsampling, no automatic solversearch.
+The same coupled draws must also pass tidal/eigengap width and D-wide power/width
+refinement;8 draws yield a7/9 attainable central interval, not literalC90.
 
 ## Bounded authorization and milestones
 

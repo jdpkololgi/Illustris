@@ -29,6 +29,14 @@ def coarse_local_crop(core_offset_raw, context_offset_raw):
     return tuple(slice(int(i),int(i+12)) for i in start)
 
 
+def observation_summary(raw):
+    core=(slice(16,32),)*3
+    x=raw['local'][(slice(None),*core)]
+    return dict(mean_log1p_count=float(x[0].mean()),support_fraction=float(raw['support'][core].mean()),
+        angular_response=float(x[2].mean()),boundary_distance_mpc=float(x[6].mean()),
+        mean_log_nbar=float(x[7].mean()),observer_redshift=float(x[11].mean()))
+
+
 class Products:
     def __init__(self, root, phases, *, targets=False, confirmation_receipt=None, verify=True):
         self.root, self.c = output_root(root), spec()
@@ -139,6 +147,7 @@ def fit_normalization(root):
     local, wide, summary = ([Moments() for _ in range(12)] for _ in range(3))
     fine, coarse, residual = Moments(), Moments(), Moments()
     physical = [Moments() for _ in range(6)]
+    descriptors=[]
     for anchor in ids:
         target = dataset.raw_targets(anchor)
         rho = torch.from_numpy(target['rho'])[None,None]
@@ -152,6 +161,8 @@ def fit_normalization(root):
             moment.add(features[...,channel])
         for offset_index,offset in enumerate(dataset.c['context_offsets_raw']):
             observation = dataset.raw_observations(anchor,offset)
+            if offset_index==0:
+                descriptors.append(observation_summary(observation))
             target = dataset.raw_targets(anchor,offset)
             coarse.add(np.log(target['coarse']))
             for channel in range(12):
@@ -168,6 +179,8 @@ def fit_normalization(root):
         local=channels(local),wide=channels(wide),summary=channels(summary),
         fine=fine.report(),coarse=coarse.report(),residual=dict(residual_report,mean=0.),
         physical_probe_scales=dict(channels(physical),names=['delta','lambda1','lambda2','lambda3','gap12','gap23']),
+        conditioning_bin_edges={key:np.quantile([d[key] for d in descriptors],[1/3,2/3]).tolist()
+                                for key in descriptors[0]},
         context_offsets_fit=dataset.c['context_offsets_raw'],per_patch_mean_removed=False)
     publish_json(root/'data/NORMALIZATION.json',result)
     return result

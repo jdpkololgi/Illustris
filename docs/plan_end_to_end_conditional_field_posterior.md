@@ -1,5 +1,15 @@
 # Plan — End-to-end conditional density-field posterior
 
+**Audit incorporated into the approved goal (2026-09-17):**
+[implementation and resource audit](e2e_vdm_context_audit_proposal_20260917.md).
+No additive budget or deadline reset. Resolve pooled>=10%score gain with consistent
+seed/phase direction, componentwise coverage gaps, strong confirmation release and
+same-draw tidal/coarse sampler refinements before predictive outcomes. D's coarse
+factor sees only wide observations: an explicit conditional-sufficiency limitation,
+not an exact all-observation factorization. CPU products ph000/002/003 complete;
+remaining phases building. Physical adequacy and actual GPU replay/throughput still
+gate training. Current progress/results in SCIENCE_LOG supersede older notes below.
+
 **Current approved goal (2026-09-17):** implement and complete
 [the diversity/context/multiscale VDM matrix](e2e_vdm_context_diversity_v1.md).
 Balanced32/384patches; current wide summaries vs spatial wide context vs sampled

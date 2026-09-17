@@ -1,5 +1,19 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-17 - [code/active] VDM audit corrections and physical preflight
+
+Continue the approved goal, not a second additive budget. Audit/proposal:
+docs/e2e_vdm_context_audit_proposal_20260917.md. Preserve112GPUh/8CPU-nodeh/300GiB
+and deadline2026-09-19T14:51:16Z.41 tests passed during audit. Before new predictive
+outcomes, clarify pooled>=10%score gain with positive direction in all4seed/phase
+cells; coverage gaps cannot cancel across eigenvalues. Report-time confirmation
+access requires the strong full-matrix freeze; sampler gates include existing-draw
+tidal/gap widths and D-wide power. Coarse D sees wide observations only, an explicit
+sufficiency restriction; C:D is a package contrast, not pure stochasticity proof.
+CPU58469318 COMPLETED0:0,50m21s; ph000/002/003 product receipts now present,
+mass/trace errors<=2.67e-15. Remaining builder58470146 live at16:05UTC.
+Representation gate, normalization and GPU preflight remain pending; no new fits.
+
 ### 2026-09-17 - [science/authorized] Controlled VDM diversity/context/multiscale matrix
 
 User approves implementation and bounded CPU/GPU execution as an active goal.

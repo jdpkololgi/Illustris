@@ -147,7 +147,7 @@ def checkpoint(branch,model,opt,gen,binding,factor,step,history):
                         stage=factor,method='vdm',step=step,history=history)
 
 
-def verify_launch(root):
+def verify_manifest(root):
     manifest = read_json(root/'MANIFEST.json')
     if manifest.get('schema') != 'e2e-vdm-context-run-v1' or manifest['config_sha256'] != existing.sha256(CONFIG):
         raise ValueError('frozen full-run manifest missing/mismatched')
@@ -161,8 +161,15 @@ def verify_launch(root):
         if existing.sha256(root/file) != expected:
             raise ValueError('data receipt drift')
     physics = read_json(root/'data/REPRESENTATION_GATE.json')
+    if not physics['training_launch_allowed']:
+        raise PermissionError('physical representation gate not passed')
+    return manifest
+
+
+def verify_launch(root):
+    manifest = verify_manifest(root)
     smoke = read_json(root/'SMOKE.json')
-    if (not physics['training_launch_allowed'] or not smoke['passed']
+    if (not smoke['passed']
             or smoke['manifest_sha256'] != existing.sha256(root/'MANIFEST.json')
             or smoke['forecast_gpu_hours'] > spec()['budget']['gpu_hours']):
         raise PermissionError('physical/replay/cost smoke gate not passed')
