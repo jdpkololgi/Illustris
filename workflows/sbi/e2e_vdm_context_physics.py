@@ -13,6 +13,9 @@ from workflows.sbi.e2e_vdm_context_models import encode_density, decode_density
 from workflows.sbi.e2e_field_build_products import require_compute, sha256, tensor_from_delta, eigs
 from workflows.sbi.e2e_durable import publish_json
 
+OPERATOR = 'consistent-expanded-density-v2'
+FAILED_V1_SHA256 = 'c72e7d9a6169299aa8beab877f156316bf6d6d56701aedefdc87fd2591e61581'
+
 
 def repeat_spatial(x, factor=4):
     for axis in range(3):
@@ -20,15 +23,71 @@ def repeat_spatial(x, factor=4):
     return x
 
 
+def consistent_tensor(delta, coarse_delta, coarse_crop, cell, factor=4):
+    """The wide tide and local subtraction use exactly the same lifted density.
+
+    This removes the lifting commutator, not unknown exterior/boundary error.
+    A small geometry-independent helper permits matched-domain analytic tests.
+    """
+    background = repeat_spatial(coarse_delta[coarse_crop],factor)
+    if background.shape != delta.shape:
+        raise ValueError('fine parent and coarse crop do not align')
+    crop = tuple(slice(s.start*factor,s.stop*factor) for s in coarse_crop)
+    wide_tensor = tensor_from_delta(repeat_spatial(coarse_delta,factor),cell)
+    return wide_tensor[crop]+tensor_from_delta(delta-background,cell)
+
+
 def composite_tensor(delta, coarse_delta, offset_raw=(0,0,0), cell=6.766):
-    """No double counting; a declared finite-domain closure, not exterior truth."""
+    """Approved v2 finite-domain closure; not full exterior truth."""
     delta,coarse_delta = np.asarray(delta,dtype=np.float64),np.asarray(coarse_delta,dtype=np.float64)
     if delta.shape != (48,)*3 or coarse_delta.shape != (48,)*3:
         raise ValueError('registered fine/coarse geometries required')
     sl = coarse_local_crop(offset_raw,(0,0,0))
-    background = repeat_spatial(coarse_delta[sl])
-    wide_tensor = tensor_from_delta(coarse_delta,4*cell)
-    return repeat_spatial(wide_tensor[sl])+tensor_from_delta(delta-background,cell)
+    return consistent_tensor(delta,coarse_delta,sl,cell)
+
+
+def tensor_controls():
+    n,factor,cell=16,4,6.766
+    axes=np.meshgrid(*[(np.arange(n)+.5)/n]*3,indexing='ij',sparse=True)
+    records=[]
+    for mode in ((0,0,0),(1,0,0),(1,1,0),(1,1,1)):
+        delta=np.broadcast_to(.2*np.cos(2*np.pi*sum(k*x for k,x in zip(mode,axes))),(n,)*3).copy()
+        coarse=delta.reshape(4,4,4,4,4,4).mean((1,3,5))
+        actual=consistent_tensor(delta,coarse,(slice(0,4),)*3,cell,factor)
+        truth=tensor_from_delta(delta,cell)
+        error=float(np.sqrt(np.mean((actual-truth)**2)/np.mean(truth**2)))
+        if error>1e-12:
+            raise ValueError('matched-domain tensor recovery failed')
+        records.append(dict(mode=mode,rms_tensor_error_over_reference=error))
+    return records
+
+
+def verify_representation_release(root):
+    release=read_json(root/'data/REPRESENTATION_RELEASE.json')
+    if release.get('operator')!=OPERATOR or not release.get('representation_pass'):
+        raise PermissionError('approved operator release missing')
+    required={'data/REPRESENTATION_GATE.json','data/REPRESENTATION_GATE_V2.json',
+              'data/NORMALIZATION.json','PHYSICS_V2_SOURCE.json'}
+    if set(release['receipts'])!=required:
+        raise ValueError('incomplete representation provenance')
+    for path,digest in release['receipts'].items():
+        if sha256(root/path)!=digest:
+            raise ValueError('representation provenance drift: '+path)
+    if release['receipts']['data/REPRESENTATION_GATE.json']!=FAILED_V1_SHA256:
+        raise ValueError('failed v1 result changed')
+    gate=read_json(root/'data/REPRESENTATION_GATE_V2.json')
+    source=read_json(root/'PHYSICS_V2_SOURCE.json')
+    if (not gate['scientific_representation_pass'] or not gate['training_launch_allowed']
+            or gate['operator']!=OPERATOR or gate['evaluator_sha256']!=sha256(__file__)
+            or gate['config_sha256']!=sha256(CONFIG)
+            or gate['geometry_sha256']!=sha256(root/'data/GEOMETRY.json')
+            or gate['source_receipt_sha256']!=sha256(root/'PHYSICS_V2_SOURCE.json')
+            or source['source_sha256']['workflows/sbi/e2e_vdm_context_physics.py']!=sha256(__file__)
+            or gate['failed_v1_sha256']!=FAILED_V1_SHA256
+            or len(gate['records'])!=32 or gate['heldout_used']
+            or not np.all(np.asarray(gate['median_per_anchor_relative_rmse_reduction'])>=.25)):
+        raise PermissionError('physical representation gate not passed/matched')
+    return release
 
 
 def plane_controls():
@@ -74,15 +133,24 @@ def topology(eigen, truth):
 def evaluate(root):
     require_compute()
     root = output_root(root)
-    destination = root/'data/REPRESENTATION_GATE.json'
+    destination = root/'data/REPRESENTATION_GATE_V2.json'
     if destination.exists():
         raise FileExistsError('representation gate is immutable')
+    if sha256(root/'data/REPRESENTATION_GATE.json')!=FAILED_V1_SHA256:
+        raise ValueError('preserved failed v1 gate required')
+    source=read_json(root/'PHYSICS_V2_SOURCE.json')
+    if Path(source['source']).resolve()!=Path(__file__).resolve().parents[2]:
+        raise ValueError('execute only frozen v2 evaluator')
+    for name,digest in source['source_sha256'].items():
+        if sha256(Path(source['source'])/name)!=digest:
+            raise ValueError('v2 source drift')
     dataset = Products(root,['ph000','ph002'],targets=True)
     anchors = sorted(k for k,r in dataset.rows.items() if r['small_train'])
     if len(anchors)!=32:
         raise ValueError('exact A32 training-only physical panel required')
     started = time.monotonic()
     controls = plane_controls()
+    tensor_checks = tensor_controls()
     records = []
     core = (slice(16,32),)*3
     for anchor in anchors:
@@ -115,7 +183,10 @@ def evaluate(root):
     reductions = np.array([r['reduction'] for r in records])
     median = np.median(reductions,axis=0)
     passed = bool(np.all(median>=.25))
-    result = dict(config_sha256=sha256(CONFIG),geometry_sha256=sha256(root/'data/GEOMETRY.json'),
+    result = dict(operator=OPERATOR,failed_v1_sha256=FAILED_V1_SHA256,
+        source_receipt_sha256=sha256(root/'PHYSICS_V2_SOURCE.json'),
+        tensor_controls=tensor_checks,
+        config_sha256=sha256(CONFIG),geometry_sha256=sha256(root/'data/GEOMETRY.json'),
         product_receipts=dataset.receipts,evaluator_sha256=sha256(__file__),records=records,
         plane_controls=controls,median_per_anchor_relative_rmse_reduction=median.tolist(),
         reduction_quantiles=np.quantile(reductions,[0,.1,.5,.9,1],axis=0).tolist(),
@@ -128,6 +199,12 @@ def evaluate(root):
     if not passed:
         raise RuntimeError('predeclared physical representation gate failed; no fits authorized')
     fit_normalization(root)
+    paths=['data/REPRESENTATION_GATE.json','data/REPRESENTATION_GATE_V2.json',
+           'data/NORMALIZATION.json','PHYSICS_V2_SOURCE.json']
+    publish_json(root/'data/REPRESENTATION_RELEASE.json',dict(operator=OPERATOR,
+        representation_pass=True,receipts={p:sha256(root/p) for p in paths},
+        gpu_launch_still_requires_full_manifest_and_smoke=True))
+    verify_representation_release(root)
     return result
 
 

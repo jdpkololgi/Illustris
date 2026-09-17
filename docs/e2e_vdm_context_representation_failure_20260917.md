@@ -70,7 +70,14 @@ This isolates a mechanism, not a complete quantitative decomposition of the
 cosmological error. Coarse aliasing and exterior/boundary approximation may still
 matter after correcting the inconsistent tensor lift.
 
-## Single next proposed action; approval requested
+## Approved single correction test
+
+User approved this action on2026-09-17. It is now being implemented; no v2
+cosmological result is implied by authorization or the analytic tests. Publish
+`data/REPRESENTATION_GATE_V2.json` from frozen `source_physics_v2`; the original
+gate/source must remain unchanged. A passing new gate and A32 normalization
+produce `data/REPRESENTATION_RELEASE.json`, which binds both results and the new
+source. All downstream training checks require this release and the GPU smoke.
 
 Keep the density target, block-mass factorization, data, resolution, model family
 and >=25% training-only physical gate unchanged. Test a **consistent-density tidal
@@ -87,8 +94,8 @@ cosmic gate and measure the increased CPU scoring cost. A new separately named
 receipt/source must retain the failed v1 provenance. Passing is not guaranteed.
 
 This is a material operator amendment to the registered formula, so it has been
-asked of the user rather than silently applied. The full matrix remains
-incomplete pending that direction and a valid representation release.
+approved explicitly rather than silently applied. The full matrix remains
+incomplete pending a valid representation release and all downstream work.
 
 ## Data and resource state
 

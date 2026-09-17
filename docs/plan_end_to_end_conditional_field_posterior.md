@@ -1,12 +1,13 @@
 # Plan — End-to-end conditional density-field posterior
 
-**Current stop (2026-09-17):** the A32 pre-fit representation gate failed; no GPU
+**Approved correction test (2026-09-17):** the A32 v1 representation gate failed; no GPU
 training. [Preserved result and isolated operator defect](e2e_vdm_context_representation_failure_20260917.md).
 All data products are complete, but block-replicated coarse tides are inconsistent
 with the tide of the block-replicated density subtracted from the fine residual.
-Mass/trace exactness did not ensure tensor accuracy. Await direction on a bounded
-consistent-density operator amendment; preserve the unchanged acceptance gate and
-failed v1 receipt. The full matrix remains incomplete, not scientifically released.
+Mass/trace exactness did not ensure tensor accuracy. User approves one<=30minCPU
+consistent-density operator amendment test, same A32 and unchanged acceptance
+gate. Preserve failed v1/source and publish separately versioned v2 evidence.
+The full matrix remains incomplete; no physical or GPU release claimed yet.
 
 **Audit incorporated into the approved goal (2026-09-17):**
 [implementation and resource audit](e2e_vdm_context_audit_proposal_20260917.md).

@@ -14,7 +14,7 @@ from workflows.sbi.e2e_vdm_context_models import (
 from workflows.sbi.e2e_vdm_context_products import sample_averaged, mean_pool
 from workflows.sbi.e2e_field_regenerate_spectral import interpolate
 from workflows.sbi.e2e_vdm_context_dataset import context_crop,coarse_local_crop
-from workflows.sbi.e2e_vdm_context_physics import composite_tensor,plane_controls
+from workflows.sbi.e2e_vdm_context_physics import consistent_tensor,plane_controls
 from workflows.sbi.e2e_vdm_context_train import new_model,update_model,checkpoint,restore
 from workflows.sbi.e2e_wide_continue import equal_state
 from workflows.sbi.e2e_vdm_context_tasks import draw_tasks,draw_seed,coarse_cache_key,task_seed
@@ -182,11 +182,12 @@ class ProductTests(unittest.TestCase):
     def test_composite_trace_and_dc_transfer(self):
         control=plane_controls()
         self.assertEqual(len(control),5)
-        tensor=composite_tensor(np.full((48,)*3,.4),np.full((48,)*3,.4))
+        crop=(slice(1,3),)*3
+        tensor=consistent_tensor(np.full((8,)*3,.4),np.full((4,)*3,.4),crop,6.766)
         np.testing.assert_allclose(tensor[...,[0,3,5]],.4/3,atol=1e-12)
         rng=np.random.default_rng(33)
-        fine,coarse=rng.normal(size=(48,)*3),rng.normal(size=(48,)*3)
-        tensor=composite_tensor(fine,coarse)
+        fine,coarse=rng.normal(size=(8,)*3),rng.normal(size=(4,)*3)
+        tensor=consistent_tensor(fine,coarse,crop,6.766)
         np.testing.assert_allclose(tensor[...,[0,3,5]].sum(-1),fine,atol=1e-12)
 
     def test_averaged_operator_exact_original_interpolation_and_mass(self):

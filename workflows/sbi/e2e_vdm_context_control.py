@@ -18,16 +18,17 @@ def factors():
 
 
 def snapshot(root,label):
-    if label not in ('physics','run'):
+    if label not in ('physics','physics_v2','run'):
         raise ValueError('unregistered source snapshot')
     root=output_root(root)
     if subprocess.check_output(['git','status','--porcelain'],cwd=REPO,text=True).strip():
         raise ValueError('commit tested source before staging')
     revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
     names=snapshot_paths(subprocess.check_output(['git','ls-files','-z'],cwd=REPO).decode().split('\0'))
-    names+=['docs/e2e_vdm_context_diversity_v1.md','docs/e2e_vdm_context_audit_proposal_20260917.md']
+    names+=['docs/e2e_vdm_context_diversity_v1.md','docs/e2e_vdm_context_audit_proposal_20260917.md',
+            'docs/e2e_vdm_context_representation_failure_20260917.md']
     names=sorted(set(names))
-    source=root/('source_physics' if label=='physics' else 'source')
+    source=root/('source' if label=='run' else 'source_'+label)
     source.mkdir(exist_ok=False)
     archive=subprocess.Popen(['git','archive',revision,'--',*names],cwd=REPO,stdout=subprocess.PIPE)
     result=subprocess.run(['tar','-xf','-','-C',str(source)],stdin=archive.stdout)
@@ -40,21 +41,24 @@ def snapshot(root,label):
 
 def stage_physics(root):
     root=output_root(root)
-    if (root/'PHYSICS_SOURCE.json').exists():
+    if (root/'PHYSICS_V2_SOURCE.json').exists():
         raise FileExistsError('physical evaluator already frozen')
-    result=snapshot(root,'physics')
-    durable.publish_json(root/'PHYSICS_SOURCE.json',result)
-    print('PHYSICS_SOURCE',result['source'],flush=True)
+    result=snapshot(root,'physics_v2')
+    durable.publish_json(root/'PHYSICS_V2_SOURCE.json',result)
+    print('PHYSICS_V2_SOURCE',result['source'],flush=True)
 
 
 def stage_run(root):
     root=output_root(root)
     if (root/'MANIFEST.json').exists():
         raise FileExistsError('full run already registered')
-    paths=['data/GEOMETRY.json','data/REPRESENTATION_GATE.json','data/NORMALIZATION.json',
-           'PHYSICS_SOURCE.json','BUILD_SOURCE.json']+[f'data/{phase}/COMPLETE.json' for phase in ROLES]
+    from workflows.sbi.e2e_vdm_context_physics import verify_representation_release
+    verify_representation_release(root)
+    paths=['data/GEOMETRY.json','data/REPRESENTATION_GATE.json','data/REPRESENTATION_GATE_V2.json',
+           'data/REPRESENTATION_RELEASE.json','data/NORMALIZATION.json',
+           'PHYSICS_SOURCE.json','PHYSICS_V2_SOURCE.json','BUILD_SOURCE.json']+[f'data/{phase}/COMPLETE.json' for phase in ROLES]
     hashes={p:existing.sha256(root/p) for p in paths}
-    gate=read_json(root/'data/REPRESENTATION_GATE.json')
+    gate=read_json(root/'data/REPRESENTATION_GATE_V2.json')
     norm=read_json(root/'data/NORMALIZATION.json')
     if not gate['training_launch_allowed'] or len(norm['fit_ids'])!=32 or norm['fit_phases']!=['ph000','ph002']:
         raise PermissionError('physical/normalization gate not passed')
@@ -134,10 +138,10 @@ def verify_models_frozen(root):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('mode',choices=['stage-physics','stage-run','freeze-models'])
+    p.add_argument('mode',choices=['stage-physics-v2','stage-run','freeze-models'])
     p.add_argument('--root',type=Path,required=True)
     a=p.parse_args()
-    {'stage-physics':stage_physics,'stage-run':stage_run,'freeze-models':freeze_models}[a.mode](a.root)
+    {'stage-physics-v2':stage_physics,'stage-run':stage_run,'freeze-models':freeze_models}[a.mode](a.root)
 
 
 if __name__=='__main__':

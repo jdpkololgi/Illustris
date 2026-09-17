@@ -15,18 +15,18 @@ from workflows.sbi.e2e_vdm_context_launch import PYTHON,check_root,digest,publis
 
 def launch(root,mode):
     root=check_root(root)
-    if mode not in ('remaining','physics'):
+    if mode not in ('remaining','physics_v2'):
         raise ValueError('unregistered CPU stage')
-    request=root/('REMAINING_REQUEST.json' if mode=='remaining' else 'PHYSICS_REQUEST.json')
-    result=root/('REMAINING_RETURN.json' if mode=='remaining' else 'PHYSICS_RETURN.json')
+    request=root/(mode.upper()+'_REQUEST.json')
+    result=root/(mode.upper()+'_RETURN.json')
     if request.exists() or result.exists():
         raise FileExistsError('single-use CPU launch already attempted')
-    source_record=json.loads((root/('BUILD_SOURCE.json' if mode=='remaining' else 'PHYSICS_SOURCE.json')).read_text())
+    source_record=json.loads((root/('BUILD_SOURCE.json' if mode=='remaining' else 'PHYSICS_V2_SOURCE.json')).read_text())
     source=Path(source_record['source'])
     for name,expected in source_record['source_sha256'].items():
         if digest(source/name)!=expected:
             raise ValueError('frozen CPU source drift')
-    if mode=='physics':
+    if mode=='physics_v2':
         for phase in ('ph000','ph002'):
             if not (root/'data'/phase/'COMPLETE.json').is_file():
                 raise ValueError('both A32 phase products required')
@@ -65,7 +65,7 @@ def launch(root,mode):
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--root',required=True,type=Path)
-    p.add_argument('--mode',choices=['remaining','physics'],required=True)
+    p.add_argument('--mode',choices=['remaining','physics_v2'],required=True)
     a=p.parse_args()
     launch(a.root,a.mode)
 

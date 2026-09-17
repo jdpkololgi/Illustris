@@ -160,9 +160,8 @@ def verify_manifest(root):
     for file,expected in manifest['data_receipts'].items():
         if existing.sha256(root/file) != expected:
             raise ValueError('data receipt drift')
-    physics = read_json(root/'data/REPRESENTATION_GATE.json')
-    if not physics['training_launch_allowed']:
-        raise PermissionError('physical representation gate not passed')
+    from workflows.sbi.e2e_vdm_context_physics import verify_representation_release
+    verify_representation_release(root)
     return manifest
 
 

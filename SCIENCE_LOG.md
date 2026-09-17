@@ -1,5 +1,18 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-17 - [science/authorized] Consistent-density tidal amendment
+
+User approves the proposed single operator correction test: one CPU allocation
+<=30minutes, same A32 training fields, unchanged >=25% median per-anchor RMSE
+reduction for EACH eigenvalue. Replace expanded coarse tensor with the tide of
+the expanded coarse density (192^3 at6.766Mpc/h); use that same density in the
+fine residual. Original generated grids, charts, models, data and budgets stay
+fixed. Failed v1 receipt/source remain immutable. New PHYSICS_V2_SOURCE and
+REPRESENTATION_GATE_V2 receipts, with a hash-bound REPRESENTATION_RELEASE only
+if successful; GPU training additionally requires the full manifest and smoke.
+Analytic DC/axis/diagonal and crop-alignment tests precede the cosmic gate.
+No new result claimed yet; full experiment goal remains incomplete.
+
 ### 2026-09-17 - [science/stop] VDM physical gate fails; inconsistent tidal lift isolated
 
 Frozen e1bde72 physical gate58470989 FAILED1:0 intentionally after publishing the

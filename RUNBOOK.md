@@ -7,7 +7,14 @@ gate from58470989. No GPU launch or normalization release. All5phase product
 builders completed; no tmux allocation remains running. Do not rerun the single-
 use physics launcher or overwrite its gate to resume. See
 `docs/e2e_vdm_context_representation_failure_20260917.md`; a separately authorized
-operator correction needs new source/receipt provenance and the unchanged gate.
+operator correction has now been approved: one<=30minCPU test, unchanged gate.
+After committed focused tests, stage using context_control `stage-physics-v2`;
+launch the frozen context_cpu `--mode physics_v2` in a named tmux shell with
+cosmic_env activated and Python paths cleared. This user-directed bounded test
+retains the earlier interactive preference; tmux does not extend Slurm walltime.
+PHYSICS_V2_REQUEST/RETURN and logs/physics_v2.log record the attempt, with no
+automatic retry. Require REPRESENTATION_GATE_V2 and hash-bound
+REPRESENTATION_RELEASE before proceeding; original failed receipt stays intact.
 
 Approved contract: `docs/e2e_vdm_context_diversity_v1.md`; current root
 `/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/vdm_context_20260917_v1`.

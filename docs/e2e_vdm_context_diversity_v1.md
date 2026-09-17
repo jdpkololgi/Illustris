@@ -3,7 +3,13 @@
 Current status2026-09-17: physical gate FAILED, training_launch_allowed=false;
 see docs/e2e_vdm_context_representation_failure_20260917.md. All data products
 complete, no GPU fits. The operator formula below is the failed registered v1,
-not an approved repaired prescription. Await explicit direction on its amendment.
+not the repaired prescription. User now approves one<=30minCPU test of its
+consistent-density amendment: use crop(T_wide_fine(U delta_c)) in place of
+U T_coarse(delta_c), with the same U delta_c in the fine residual. Computational
+wide FFT becomes192^3, but generated48^3 grids/data/targets stay unchanged.
+Same32 training fields, same>=25%each-eigenvalue gate, no held-out scores.
+Retain failedv1; new source_physics_v2 and REPRESENTATION_GATE_V2 provenance.
+Only a passing hash-bound REPRESENTATION_RELEASE can unlock the later GPU smoke.
 
 Approved 2026-09-17 as the active goal: implement, execute, verify and report this
 bounded experiment. No ph001/ph006 access; no old artifact overwrite.
