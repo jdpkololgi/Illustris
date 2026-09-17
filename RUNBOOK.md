@@ -1,5 +1,28 @@
 # TNG/Illustris Runbook
 
+## Controlled VDM diversity/context/multiscale experiment
+
+Approved contract: `docs/e2e_vdm_context_diversity_v1.md`; current root
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/vdm_context_20260917_v1`.
+Geometry job58469111 completed0:0,416 primary anchors, no quota relaxation.
+`GEOMETRY_SOURCE.json`, `SCREEN_REQUEST.json`, `SCREEN_RETURN.json` and
+`data/GEOMETRY.json` bind its source and outcome. Never rerun its single-use launch.
+
+Training-phase product build58469318 on nid004194, bounded2CPU-nodehours,
+launched from `tmux attach -t vdm-context-products` on login04. Fixed source in
+`ROOT/source_products`; `BUILD_SOURCE.json` lists all hashes. Inspect
+`ROOT/logs/products.log`, `BUILD_RETURN.json` after exit, and per-phase
+`data/phNNN/COMPLETE.json` with payload hashes. Existing partial files fail closed;
+no overwrite or restart solely because an observation times out. Completion of
+this build is not model readiness: require the separately frozen physical gate,
+A32 normalization, full-size GPU smoke/replay and revised cost forecast first.
+
+New training entrypoint `workflows.sbi.e2e_vdm_context_train` requires a full-run
+MANIFEST and passing SMOKE/REPRESENTATION_GATE, so cannot launch from the current
+geometry/product-only snapshots. Durable generation checkpoints commit via
+LATEST.json, with optimizer/objective/global RNG state; clean signal stop75.
+Full GPU controller/evaluation/report integration is still being implemented.
+
 ## Restartable four-GPU VDM assessment
 
 Active launch2026-09-17: `tmux attach -t vdm-assessment-4gpu` on login04;

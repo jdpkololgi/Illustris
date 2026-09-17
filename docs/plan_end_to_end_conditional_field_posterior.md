@@ -1,5 +1,22 @@
 # Plan — End-to-end conditional density-field posterior
 
+**Current approved goal (2026-09-17):** implement and complete
+[the diversity/context/multiscale VDM matrix](e2e_vdm_context_diversity_v1.md).
+Balanced32/384patches; current wide summaries vs spatial wide context vs sampled
+shared coarse matter. Two seeds,20480updates/factor; train000/002/003,
+development004,internalconfirmation005;001/006sealed. User approves bounded
+execution:112GPUh,8CPU-nodeh,300GiB,48h elapsed; four workers/fullGPU node.
+Data/representation, deterministicresume, no-oracle and cost gates precede fits.
+Implementation started, not yet run. Previous3584-draw assessment complete:
+all16 refinement screens pass; max500:1000 power/width0.590327%/0.528116%;
+CRPS worsens6/8 late-checkpoint comparisons. Older pending notes are historical.
+
+Implementation status:34 focused/regression tests pass; geometry job58469111
+completed all416 primary anchors under the unchanged quotas and alias checks.
+Exact training-phase products are building on CPU58469318 from frozen source,
+root vdm_context_20260917_v1. Physical representation and GPU smoke gates remain
+pending; no new learned posterior result or training launch yet.
+
 **Current authorized assessment (2026-09-17):** the four direct VDM fits completed
 5120 updates each (job58445857,81m04,COMPLETED0:0). Before extending training,
 execute docs/e2e_vdm_assessment_v1.md:512/2048/5120 checkpoints,128draws per

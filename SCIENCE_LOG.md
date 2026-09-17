@@ -1,5 +1,40 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-17 - [science/authorized] Controlled VDM diversity/context/multiscale matrix
+
+User approves implementation and bounded CPU/GPU execution as an active goal.
+Contract docs/e2e_vdm_context_diversity_v1.md: fresh balanced32/384-patch
+current-context fits, spatial-wide context, and shared stochastic coarse/fine VDM;
+two seeds,20480updates/factor, matched central target. Train000/002/003,
+development004, internal confirmation005;001/006 forbidden.87--99GPUh forecast,
+112GPUh ceiling,8CPU-nodeh,300GiB,48h elapsed; requests<=4h,max8GPUrequests,
+one4GPU node/fourworkers. Representation/replay/no-oracle/throughput gates precede
+expensive fitting. Implementation in progress; no new fits launched yet.
+
+Implementation update:34 focused/regression tests pass, including exact
+optimizer/RNG checkpoint replay, corruption rejection, matched fine-parameter
+counts, observation/true-coarse separation, blockmass/projected-noise algebra,
+averaged-interpolation parity and finite-ensemble Gaussian/logGaussian coverage.
+New modules e2e_vdm_context_{data,products,dataset,models,physics,metrics,train,launch}.
+The geometry-only draw ledger (e2e_vdm_context_tasks) fixes33280central/7872coarse
+draws; shared-parent addresses differ from per-core fine-noise ownership. Actual
+parameter counts:8,371,907 per fine arm; D coarse8,188,395 extra. Graphify AST and
+global indices refreshed. GPU-size replay/performance remains untested.
+Frozen geometry run58469111 COMPLETED0:0 in57s: all384 training and32 evaluation
+anchors meet unchanged separation/nonoverlap/stratum quotas. No target/count
+values used for selection. Root vdm_context_20260917_v1, data/GEOMETRY.json.
+CPU product job58469318/nid004194 is RUNNING, bounded2h, trainingphases000/002
+first; tmux vdm-context-products on login04. It builds exact averaged-R7 coarse
+mass and fullbox tensors. The representation gate, A32 normalization and GPU
+smoke remain unpassed pending those products; no scientific fit/draw result yet.
+
+The previous3584-draw assessment is COMPLETE, superseding running status below.
+Report SHA89cf73cab5878ed89708f9585bbc50efad6e4da201cc099af108465928932cde;
+all16 refinement screens pass,max500:1000 power0.590327%,C90width0.528116%.
+DensityCRPS worsens6/8 from2048to5120 despite improvingcorrelation. This motivates
+the controlled experiment, not blind longer training or a sampler-only repair.
+No calibrated-posterior/production claim.
+
 ### 2026-09-17 - [ops/verified] VDM assessment smoke/resume pass; four-GPU interactive launch authorized
 
 Launch update: first interactive allocation58465656 started on nid001133 at
