@@ -1,5 +1,13 @@
 # Plan — End-to-end conditional density-field posterior
 
+**Correction result (2026-09-17):** approved v2 physical gate PASSES. Same32
+training anchors, unchanged>=25%each-eigenvalue gate; median reductions
+84.17/84.96/84.88%, all anchors improve. CPU58472098 COMPLETED0:0 in44s,
+frozen2a2d837. Failedv1 retained; REPRESENTATION_RELEASE binds both receipts,
+new source and A32 normalization. Physical operator blocker is cleared, not the
+full experiment: GPU replay/throughput and controller gates still precede fitting.
+No learned calibration result or GPU training yet; original budget/deadline stay.
+
 **Approved correction test (2026-09-17):** the A32 v1 representation gate failed; no GPU
 training. [Preserved result and isolated operator defect](e2e_vdm_context_representation_failure_20260917.md).
 All data products are complete, but block-replicated coarse tides are inconsistent

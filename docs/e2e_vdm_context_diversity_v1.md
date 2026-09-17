@@ -1,5 +1,12 @@
 # Controlled VDM diversity, spatial context, and shared matter uncertainty
 
+Latest result2026-09-17: approved consistent-density v2 operator PASSES the
+unchanged physical gate,84.17/84.96/84.88%median reductions. Frozen2a2d837,
+CPU58472098 COMPLETED0:0,44s. Originalv1 failure retained. Hash-bound
+REPRESENTATION_RELEASE and A32 normalization now exist; full GPU smoke and
+resource-controller gates remain before any fit. Details in preserved-failure
+report; no completed A/B/C/D result or calibration claim.
+
 Current status2026-09-17: physical gate FAILED, training_launch_allowed=false;
 see docs/e2e_vdm_context_representation_failure_20260917.md. All data products
 complete, no GPU fits. The operator formula below is the failed registered v1,

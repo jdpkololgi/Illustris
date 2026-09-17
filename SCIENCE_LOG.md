@@ -1,5 +1,25 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-17 - [science/pass] Corrected physical tidal representation clears A32 gate
+
+Approved operator-only amendment, frozen2a2d837, completed on CPU58472098/nid004225
+COMPLETED0:0 in44s (evaluation21.333s). Same32 anchors and parent-only metrics
+exactly match failedv1. Consistent expanded-density wide tide reduces median
+per-anchor eigenvalue RMSE by84.1744/84.9633/84.8787%; unchanged>=25%each gate
+passes. All32 anchors improve for all3eigenvalues; minimum improvement64.35%.
+Median normalized RMSE becomes.01048/.00808/.00640 versus parent
+.06452/.05127/.03980. Analytic diagonal errors fall from48--60% to<3.6e-16;
+mass/roundtrip/trace errors<=4.45e-15. This isolates/removes the inconsistent
+tensor lift; it does not establish learned posterior calibration or exterior truth.
+New data/REPRESENTATION_GATE_V2.json SHA
+7b438a46515652d7f3711bb7e3105ca3d434f959654a4731c39256cf1c3f291c.
+Failedv1 hash verified unchanged. A32 normalization and hash-bound
+REPRESENTATION_RELEASE published/verified. No held-out predictive scores or GPU
+fits. Total allocated1.6389CPU-nodeh,0GPUh; all allocations released. Next remains
+full-size GPU replay/throughput and finite controller completion under existing
+112GPUh/8CPU-nodeh/300GiB/deadline caps, then the frozen A/B/C/D matrix. Full goal
+is not complete. See preserved-failure report for paired before/after results.
+
 ### 2026-09-17 - [science/authorized] Consistent-density tidal amendment
 
 User approves the proposed single operator correction test: one CPU allocation

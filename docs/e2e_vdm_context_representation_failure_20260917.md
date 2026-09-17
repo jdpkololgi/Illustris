@@ -1,5 +1,41 @@
 # VDM context experiment: preserved physical-representation failure
 
+**Update2026-09-17:** the explicitly approved operator-only v2 correction passes
+the unchanged A32 physical gate. The original failed result below remains intact.
+No GPU fit or new posterior draw has started; this is a representation result.
+
+## Paired correction result
+
+Frozen evaluator2a2d837, `source_physics_v2`; job58472098/nid004225
+COMPLETED0:0,44s allocated,21.333s gate evaluation. Exactly the same32 anchor IDs
+and parent-only metrics as v1 (verified exact equality). No held-out fields.
+
+| Ordered eigenvalue | Parent median normalized RMSE | v2 median normalized RMSE | Median per-anchor relative reduction |
+| --- | ---: | ---: | ---: |
+| lambda1 |0.0645172|0.0104776|84.1744%|
+| lambda2 |0.0512690|0.0080755|84.9633%|
+| lambda3 |0.0398007|0.0064029|84.8787%|
+
+All32 anchors improve for all3eigenvalues; minimum per-anchor reduction64.35%.
+The unchanged>=25%median gate passes separately for each eigenvalue. Exact
+mass/roundtrip/trace errors remain<=4.45e-15. Analytic DC/axis/diagonal relative
+tensor errors are0,1.93e-16,2.60e-16,3.57e-16. This validates removing the
+block-lift commutator; finite exterior/boundary and coarse-density errors remain.
+It is not a neural-training result, calibrated posterior or production release.
+
+New immutable `data/REPRESENTATION_GATE_V2.json` SHA256:
+`7b438a46515652d7f3711bb7e3105ca3d434f959654a4731c39256cf1c3f291c`.
+Original failedv1 SHA verified unchanged. `data/REPRESENTATION_RELEASE.json`
+binds failedv1, passedv2, PHYSICS_V2_SOURCE and A32-only NORMALIZATION hashes.
+Full training still requires the source/data manifest and GPU smoke/replay/cost
+gates. Normalization uses the unchanged data chart, not a representation repair.
+
+V2 gate evaluation costs21.333s vs1.404s for v1 (about15.2x, or0.67s/anchor),
+because its wide192^3 FFT is larger. Rebenchmark full draw scoring on compute;
+CPU-node cost can be parallelized within the unchanged8CPU-nodeh ceiling.
+Cumulative allocated time is5900s=1.6389CPU-nodeh,0GPUh; no active allocation.
+Full A/B/C/D completion remains the goal, with unchanged elapsed/resource caps.
+
 The pre-fit physical gate failed on 2026-09-17. **No GPU fit or new posterior draw
 has been launched.** This is a failure of the proposed tidal representation with
 known matter fields, not a neural learning result or evidence against VDM.

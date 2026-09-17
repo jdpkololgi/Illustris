@@ -2,6 +2,14 @@
 
 ## Controlled VDM diversity/context/multiscale experiment
 
+Latest2026-09-17: corrected physical gate58472098 COMPLETED0:0 in44s; v2 passes
+all three unchanged25%gates. PHYSICS_V2_RETURN exit0; REPRESENTATION_RELEASE
+and A32 NORMALIZATION exist and hashes verify. No allocation remains running.
+Do not rerun either physics launcher. Failedv1 remains immutable evidence,
+superseded for launch decisions only by the explicit v2 release. Next is full
+GPU replay/throughput preflight and bounded controller completion, not an
+unconditional training launch. No new fitted models/draws exist yet.
+
 STOP2026-09-17: `data/REPRESENTATION_GATE.json` is an immutable FAILED scientific
 gate from58470989. No GPU launch or normalization release. All5phase product
 builders completed; no tmux allocation remains running. Do not rerun the single-
