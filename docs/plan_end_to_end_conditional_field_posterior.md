@@ -1,5 +1,19 @@
 # Plan — End-to-end conditional density-field posterior
 
+**Checkpointed handoff verified (2026-09-18, 01:08 UTC):** the first main-draw
+allocation 58484127 paused as designed after 3h50m52s, with all four workers
+returning continuation code 75. Its scheduler `FAILED 75:0` is the expected
+application pause, not a scientific failure. The existing tmux controller
+started four-GPU successor 58497328/nid008309. Two interrupted B/seed0 cases
+resumed at draw 56 and finished with contiguous, duplicate-free IDs; eight
+selected old receipts/payloads and both new payloads pass the hash audit.
+Frozen manifest, model and sampler-gate hashes remain unchanged. Saved fine
+draws total 10,360/33,280; the 7,872 coarse draws remain in the full ledger.
+Completed usage before the live successor: 30.6675 GPUh / 1.71417 CPU-nodeh;
+five of eight GPU requests used, original caps/deadline unchanged. Continue the
+registered draws and full report; no new training or calibration claim. Earlier
+status entries below are historical. Details and audit limits are in SCIENCE_LOG.
+
 **Sampler gate passed; main draws running (2026-09-17):** all16 frozen-model
 refinement cases pass. Worst500-to1000 changes: density power1.399%, density
 width0.757%, tidal/eigengap width0.745%, D-wide power0.758%/width0.667%; worst

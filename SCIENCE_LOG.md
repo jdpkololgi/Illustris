@@ -1,5 +1,35 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-18 - [ops/restart-verified] Main draw campaign survives its first allocation handoff
+
+At 01:06 UTC, main sampling job 58484127/nid008309 stopped cleanly before its
+four-hour wall limit: all four workers, END and RETURN receipts report the
+registered continuation code 75, with no ABORT receipt. Slurm labels this
+nonzero application exit `FAILED 75:0`; here it is the planned checkpointed pause,
+not a scientific failure. Terminal elapsed time was 3h50m52s. The unchanged
+`vdm-context-matrix` tmux controller on login04 automatically started the next
+approved four-GPU segment, 58497328/nid008309, at 01:06:52 UTC. All four new
+worker steps were verified RUNNING; no duplicate allocation or manual restart.
+
+A read-only pre/post-handoff audit compared the 01:03:41 snapshot with saved
+outputs at 01:08:19 UTC. Eight selected pre-pause JSON receipts and their actual
+array payloads remain hash-identical across four formerly open B/seed0 cases.
+The two ph004 SGC shell0 cases (boundary and interior, final checkpoint, 64 draws)
+resumed from IDs 56--63 after the old job saved IDs 0--55. Their complete ID sets
+are contiguous and duplicate-free; both new array payload hashes were verified.
+The other two selected cases finished in the old allocation. MANIFEST,
+MODELS_FROZEN and SAMPLER_GATE hashes are unchanged. This checks representative
+real pause/resume integrity; the final report must still verify all payloads.
+
+At 01:08:43 UTC, saved fine-draw receipts contain 10,360/33,280 registered draws
+(including refinement reuse); the full 7,872-coarse-draw ledger also remains in
+scope. Completed accounting before the live successor is 30.6675 GPUh and
+1.71417 CPU-nodeh; five of at most eight GPU requests have been used. Original
+112 GPUh / 8 CPU-nodeh / 300 GiB / 48h caps and frozen runtime 1639851 remain.
+All ten fits are complete, but checkpoint progression, field statistics,
+coverage, H1/H2 interpretation and the final scientific report are still pending.
+No training extension, protocol change or posterior-calibration claim.
+
 ### 2026-09-17 - [science/sampler-pass] All VDM refinement checks pass; main draws running
 
 Refinement job58481962/nid008313 completed0:0 in29m32s, producing all48

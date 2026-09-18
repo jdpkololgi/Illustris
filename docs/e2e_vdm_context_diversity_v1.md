@@ -1,5 +1,18 @@
 # Controlled VDM diversity, spatial context, and shared matter uncertainty
 
+Latest execution status 2026-09-18, 01:08 UTC: first main-draw allocation
+58484127 completed its planned checkpointed pause (all workers exit 75,
+3h50m52s); the unchanged tmux controller started successor 58497328/nid008309
+with four GPUs. Two interrupted cases resumed at draw 56 with no missing or
+duplicate IDs, and selected old/new payloads pass a read-only hash audit.
+Manifest, frozen-model and sampler-gate hashes are unchanged. There are
+10,360/33,280 saved fine draws, including refinement reuse; all 7,872 registered
+coarse draws remain in scope. Completed accounting before the live successor:
+30.6675 GPUh / 1.71417 CPU-nodeh, five of eight GPU requests used. Original
+resource caps/deadline and frozen 1639851 runtime remain. See SCIENCE_LOG for
+receipt details and audit limits. Scientific conclusions still await the full
+draw matrix/report; this is an execution-status update only.
+
 Latest execution status2026-09-17,21:15UTC: all16 sampler-refinement screens
 PASS; all48 eight-draw chunks saved. GPU58481962 and CPU58483908 complete0:0.
 Worst500-to1000 density power/width change1.399%/0.757%, tidal/gap width0.745%,
