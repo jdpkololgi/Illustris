@@ -1,5 +1,26 @@
 # Final verification handoff, 2026-09-18
 
+Final login21 validation passed:17archive byte matches,4figure/report bindings,
+33local links plus current log/plan links, original decisions and18job totals;
+git diff --check clean. README sampler-gate path corrected to analysis/.
+Independent reviewer confirms final scientific/written requirements complete.
+Committing only login21-owned closeout documents and original artifact copies
+now; login35 retains its requirement-audit/literature-handoff edits. No more
+compute, no further scientific work, and no next-experiment launch required.
+
+Login21 written-closeout update: full scientific report is now finalized with
+D, spectra, coverage/ranks/strata, all gates, checkpoint/fitted behavior, joint
+controls and both literature reviews. SCIENCE_LOG, field-model plan, contract,
+audit proposal and preliminary supersession are updated. Small original JSON
+receipts/results and three unchanged PNGs are archived here; archive verification,
+README and commit are being completed. Login35 may now re-read these final
+written deliverables and update its completion_requirements_audit verdict.
+One additional subtlety: fixed-mean density core-summary difference is also
+deterministic; its pooled12.5% coverage likewise mixes a collapsed component.
+The full report now explicitly caveats that along with the oracle; please
+preserve this in any literature table comparison against continuous targets.
+No new scientific compute. Do not mark goal complete until commit/link checks.
+
 Latest login21 closeout: main report58524609 completed0:0 in2896seconds;
 RESULTS SHA2ca834400a766de7d6c357679f823fc9ee848f12b40ce7a562949a8186c3303f.
 All three figures have been visually inspected and copied unchanged to this

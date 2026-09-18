@@ -1,5 +1,54 @@
 # Plan — End-to-end conditional density-field posterior
 
+## Current decision: approved matrix complete, joint field not ready (2026-09-18)
+
+This supersedes the chronological running/preview statuses below. The full
+A/B/C/D experiment, report and independent audits are complete: ten fits,
+thirty checkpoints, 688 cases, 33,280 fine/7,872 distinct coarse draws.
+See the [final results and figures](e2e_vdm_context_results_20260918.md) and
+[evidence/requirement audit](evidence/e2e_field_v2/vdm_context_20260918/README.md).
+Actual cost78.0075GPUh/2.536111CPU-nodeh,113.65GiB, within all approved caps.
+No allocation or training continuation remains active.
+
+H1 diversity passes (+10.88% density CRPS); added spatial context does not
+(-3.37%). The D package improves physical tidal energy only3.54%, below the
+registered10%, and confirmation variograms regress in both seeds. B has
+89.32% voxel C90 but46.88% regional-mass C90; D improves the latter to74.80%,
+still short of90.75% attainable. Sampled coarse uncertainty beats fixed means
+on both pair scores in all eight controls, without correct joint calibration.
+Fine high-band power remains deficient; wide power is nearly correct except
+the lowest band. Sampler convergence passes. Later marginal score gains do
+not justify extending the same training until a desired result appears.
+
+### Next bounded protocol, not a new launch
+
+1. Audit usable additional independent matter/BGS complete/altmtl phase pairs,
+   epochs, coordinates, HOD and survey response; retain sealed phases. Existing
+   directories are not yet a verified paired training set.
+2. Specify a common jointly evolving adjacent-region/coarse representation
+   that permits fine residual dependence after conditioning on the parent,
+   with identical observation inputs and train-only invertible scale
+   conditioning. Preserve mass, DC, positivity and nonperiodic survey edges.
+3. Compare retained D with matched joint-design VDM and CFM, two seeds, common
+   new data/exposure and disclosed compute. Only the latter pair isolates
+   objective; D versus new design is an explicitly confounded package test.
+4. Freeze joint-power/residual, regional-mass, pair-energy/variogram, physical
+   tidal/eigengap and conditional-calibration gates with marginal nonregression.
+   Benchmark a finite compute proposal before approval; do not launch now.
+5. If that matched joint test fails, stop repetitive marginal optimization and
+   reassess the observation/forward model or a bounded physical-posterior
+   reference. Do not expand automatically to a survey-scale BORG calculation.
+
+Rationale and prior CFM history: [joint-field literature/data decision](e2e_vdm_context_joint_decision_literature_20260918.md).
+The [Gemini audit](e2e_gemini_literature_audit_20260918.md) distinguishes useful
+noise-dependent covariance from unsupported claims that ODEs produce MAP or
+that DPS/stochastic integration/exact differentiable HOD likelihoods are
+necessary. CFM is a legitimate posterior challenger, not a guaranteed fix.
+P12 local eigenvalue posteriors do not replace a joint matter-field posterior.
+Current fixed-HOD/epoch mock results do not certify real DESI inference.
+
+## Historical execution and planning record
+
 **Final sampling continuation verified (2026-09-18,12:46UTC):** job58514514
 paused cleanly after3h51m21s; the original controller continued on four-GPU
 58524030/nid008205 (request8of8). Eight selected old fine/coarse payloads are

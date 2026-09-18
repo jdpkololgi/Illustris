@@ -1,5 +1,16 @@
 # Controlled VDM diversity, spatial context, and shared matter uncertainty
 
+Final status2026-09-18: **approved experiment complete, not production-ready**.
+All10fits/30checkpoints/688cases and33,280fine/7,872coarse draws are verified.
+H1 diversity passes (+10.88%); B:C spatial context (-3.37%) and C:D multiscale
+tidal package (+3.54%) do not meet their registered gates. Final costs:
+78.0075GPUh/2.536111CPU-nodeh/113.65GiB, within all original limits.
+See [full scientific closeout](e2e_vdm_context_results_20260918.md) and
+[durable evidence](evidence/e2e_field_v2/vdm_context_20260918/README.md).
+No new run is authorized by the recommendation for a coupled-field VDM/CFM
+protocol. Earlier execution entries below are preserved historical snapshots;
+the frozen runtime/contract and original failed physical-v1 gate are unchanged.
+
 Latest execution status 2026-09-18, 11:05 UTC: all training is complete; seven
 of eight model/seed draw branches are complete. Saved fine draws total
 30,600/33,280 (636/688 complete cases); shared coarse draws total 5,736/7,872.

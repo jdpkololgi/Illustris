@@ -1,0 +1,75 @@
+{
+  "canonical_batch": 8,
+  "forecast_gpu_hours": 86.24117635129481,
+  "full_size": true,
+  "inference_gpu_hours": 61.26430132943584,
+  "job": "58472788",
+  "manifest_sha256": "67e1f9d0edc73b58c761e35f1f2dc13d4fe102e27f260104ecdb87b725a9bf10",
+  "node": "nid008217",
+  "observation_only_inference": true,
+  "overhead_factor": 1.15,
+  "passed": true,
+  "scientific_draws": false,
+  "scientific_fit": false,
+  "smoke_allowance_gpu_hours": 4,
+  "steps": 250,
+  "timings": {
+    "A_fine": {
+      "batch_sampling_seconds": 42.37019906299247,
+      "draw_file": "smoke/A_fine/smoke-draws-5cqpg6gz.npz",
+      "draw_seconds": 5.296274882874059,
+      "draw_sha256": "75b22f110c71724c625074880951c88de8a3f6e84db9dc1742e7dea4ddfebe03",
+      "exact_checkpoint_replay": true,
+      "parameters": 8371907,
+      "peak_gpu_bytes": 941180416,
+      "scalar_batch_relative_rms": 3.264594994334402e-08,
+      "update_seconds": 0.18098559050122276
+    },
+    "B_fine": {
+      "batch_sampling_seconds": 42.36333757601096,
+      "draw_file": "smoke/B_fine/smoke-draws-9ygkwf49.npz",
+      "draw_seconds": 5.29541719700137,
+      "draw_sha256": "747b726925e8e513019dce7cb679d0cd51a231cd1a0ab41541d6dd0a4f5808de",
+      "exact_checkpoint_replay": true,
+      "parameters": 8371907,
+      "peak_gpu_bytes": 941180416,
+      "scalar_batch_relative_rms": 3.6343550391393364e-08,
+      "update_seconds": 0.1811131164940889
+    },
+    "C_fine": {
+      "batch_sampling_seconds": 42.35932509500708,
+      "draw_file": "smoke/C_fine/smoke-draws-pw5n3nsd.npz",
+      "draw_seconds": 5.294915636875885,
+      "draw_sha256": "11fadfb510e65057aad583d914574a1e2b4efe81ff2e4dfedb1f9306b9dada5b",
+      "exact_checkpoint_replay": true,
+      "parameters": 8371907,
+      "peak_gpu_bytes": 941179904,
+      "scalar_batch_relative_rms": 3.600638365242048e-08,
+      "update_seconds": 0.18081770400021924
+    },
+    "D_coarse": {
+      "batch_sampling_seconds": 41.55975548499555,
+      "draw_file": "smoke/D_coarse/smoke-draws-wcyrokju.npz",
+      "draw_seconds": 5.194969435624444,
+      "draw_sha256": "cfa908220bcfac4eab213715f154076e6e03b71d6b318ff0e877a907f326130f",
+      "exact_checkpoint_replay": true,
+      "parameters": 8188395,
+      "peak_gpu_bytes": 877004800,
+      "scalar_batch_relative_rms": 2.7453463502524755e-08,
+      "update_seconds": 0.17612312049459433
+    },
+    "D_fine": {
+      "batch_sampling_seconds": 42.40416311300942,
+      "draw_file": "smoke/D_fine/smoke-draws-1s3x4n8t.npz",
+      "draw_seconds": 5.300520389126177,
+      "draw_sha256": "c7a3fcd450e795a9b20f18d86b4ae58b1b76ef39bf024a79a68bf7b1c8d95b7e",
+      "exact_checkpoint_replay": true,
+      "parameters": 8371907,
+      "peak_gpu_bytes": 941179904,
+      "scalar_batch_relative_rms": 1.2109575209251489e-07,
+      "update_seconds": 0.18181872599961935
+    }
+  },
+  "training_gpu_hours": 10.249765062994427,
+  "within_ceiling": true
+}

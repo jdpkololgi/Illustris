@@ -1,5 +1,11 @@
 # VDM diversity/context experiment: implementation audit and approval proposal
 
+Final status2026-09-18: the subsequently approved implementation, bounded runs
+and full assessment are complete. See [final results](e2e_vdm_context_results_20260918.md)
+and [completion evidence](evidence/e2e_field_v2/vdm_context_20260918/README.md).
+The audit-time approval request and pre-fit observations below are historical;
+no additional budget or automatic follow-up experiment is implied.
+
 Date: 2026-09-17. Status: **planning deliverable; approval requested before further
 implementation or new allocations under this request**. No training was launched
 by this audit. Existing jobs were inspected, not submitted, cancelled or modified.

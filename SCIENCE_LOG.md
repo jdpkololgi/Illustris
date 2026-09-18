@@ -1,5 +1,86 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-18 - [science/complete, not production] Controlled VDM matrix: diversity helps; joint field remains miscalibrated
+
+The approved A/B/C/D experiment is complete, superseding the running/preview
+entries below. All ten fits reach 20,480 updates/40,960 presentations per
+factor; thirty checkpoints and all 688 cases are verified. Saved ensembles:
+33,280 fine draws and 7,872 distinct coarse draws. Actual hashes pass for
+5,144 array payloads (34,634,901,688 bytes), all checkpoints, frozen source
+and data bindings. The full CPU report58524609 completed0:0 in2,896s;
+independent JSON-only closeout58526345 completed0:0 in12s, checking688cases,
+384preview reconciliations and32 progression cells. Its predecessor audit
+step ended on normal report-allocation release, not a scientific run failure.
+
+Final results and all three figures:
+[scientific closeout](docs/e2e_vdm_context_results_20260918.md).
+Durable receipts: [evidence index](docs/evidence/e2e_field_v2/vdm_context_20260918/README.md).
+RESULTS SHA256 `2ca834400a766de7d6c357679f823fc9ee848f12b40ce7a562949a8186c3303f`;
+frozen scientific source16398511d4552bd041e8d1e97cebd3e168088064.
+
+Registered decisions: H1 A32/2phases to B384/3phases **passes**, pooled fair
+density-CRPS gain10.8759%, all four seed/phase directions and nonregression
+checks pass. B:C spatial-context gain is -3.3745%, **not established**. C:D
+multiscale-package physical tidal-energy gain is +3.5359%, **not established**
+against10% required; ph005 variograms regress in both seeds and one
+componentwise tidal-coverage gap exceeds5percentage points. Do not relax gates.
+
+| Arm | Density CRPS | Density mean RMSE | Density C90 | Physical tidal energy | Regional-mass C90 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| A | .35214 | .33604 | 79.09% | .76876 | 56.64% |
+| B | .31384 | .31177 | 89.32% | .69840 | 46.88% |
+| C | .32443 | .32122 | 87.35% | .73209 | 31.64% |
+| D | .31580 | .30671 | 86.97% | .70620 | 74.80% |
+
+Finite-ensemble final C90 target90.7513%; earlier M32 target87.8788%.
+Regional masses are eight162.384Mpc/h parent octants including the auxiliary
+halo, not the smaller108.256Mpc/h owned core. Better voxel marginals are not
+joint calibration. D's fine sample/truth powers are [.929,.918,.781,.737,.628];
+wide coarse powers [1.357,.949,.958,1.000,1.003], wide voxel C90=89.24%.
+Thus a blanket variance deficit is not the whole diagnosis. All16 sampler
+screens pass (worst late power change1.399%); late checkpoint CRPS improves
+for B/C/D while fine spectral trends disagree. No joint convergence claim or
+automatic unchanged training extension follows.
+
+D's sampled shared parent beats its fixed mean on both adjacent-core scores
+in all8 seed/phase/cap cases (pair energy .33415 vs .58455; variogram .01293
+vs .01910). Yet sampled summary-difference coverage averages only33.33%,
+and coarse-shared fine factors remain conditionally independent. The true-
+coarse oracle improves variogram to .00361 but is not deployable. Its regional
+mass and density core-mean difference are deterministic by construction:
+the raw pooled oracle coverage mixes ties with stochastic tidal/gap terms
+and is not a valid continuous-target calibration comparison. Fixed-mean mass
+variance likewise collapses structurally. Full gap/rank/conditional, physical
+versus matched-boundary and finite-M spectral diagnostics are in the report.
+
+Resource closeout:78.0075 allocated GPUh/2.536111 CPU-nodeh/113.65GiB,
+23.03h from first allocation, within112/8/300GiB/48h caps. Eight GPU requests
+used, all terminal, no compute left running. Supplemental final accounting
+includes the12-second recovery once; original EXPERIMENT_COMPLETE is retained.
+Tmux and four-GPU worker continuation survived all four planned handoffs.
+Bulk Scratch artifacts are not backed up; small results/receipts/figures are
+archived in the repository. Original failed physical-v1 gate is preserved;
+approved v2 passed before fits, not by changing held-out criteria.
+
+**Single next step:** develop one bounded genuinely coupled spatial VDM/CFM
+comparison after checking additional independently phased matter/BGS pairing.
+Retain matched D, two seeds, identical observation information, train-only
+invertible multiscale conditioning and explicit residual cross-core dependence;
+freeze joint-power/mass/tidal/gap/coverage gates and a compute budget before
+launch. No auxiliary per-realization spectrum penalty or optimizer sweep.
+If that joint test fails, reassess forward/selection modelling or a bounded
+physical-likelihood reference rather than repeat marginal fits. P12 remains
+a different local per-galaxy estimand, not a substitute for a joint field.
+
+The requested [literature/CFM/data review](docs/e2e_vdm_context_joint_decision_literature_20260918.md)
+and [Gemini primary-paper audit](docs/e2e_gemini_literature_audit_20260918.md)
+support this bounded go/stop recommendation. Deterministic random-base ODE
+sampling is not MAP collapse; DPS, unconditional priors and Poisson likelihoods
+are not mandatory calibration remedies. Conicus3D's noise-dependent covariance
+is a useful mechanism, not proven masked-DESI calibration. New data directories
+exist but pairing/HOD/epoch/RSD/actual response remain unaudited. No new run is
+launched by this recommendation; no real-DESI production or full-field SBC claim.
+
 ### 2026-09-18 - [ops/restart-verified] Final GPU continuation preserves fine and shared coarse draws
 
 Job58514514/nid008309 ended after3h51m21s with all four workers returning

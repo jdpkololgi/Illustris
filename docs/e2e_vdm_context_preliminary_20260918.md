@@ -1,5 +1,9 @@
 # Preliminary registered density results: A/B/C
 
+Superseded2026-09-18 by the [complete A/B/C/D scientific report](e2e_vdm_context_results_20260918.md).
+All384preview cases reconcile with the final report. The text below is retained
+as the original partial assessment, not current running status or a new plan.
+
 This is an early subset of the frozen experiment, not its final decision or a
 replacement for D, tidal/eigengap, joint-field or conditional-stratum analyses.
 All training was frozen before these scores were opened. No fitting, new draws,

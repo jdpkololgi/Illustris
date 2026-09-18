@@ -1,0 +1,121 @@
+{
+  "includes_supplemental_audit": true,
+  "original_complete_sha256": "c0d90f6f8d6540a7216e729d3dca3114c2592d584c55447476fa1628480f50be",
+  "original_complete_unchanged": true,
+  "recorded_unix": 1789739567.6694455,
+  "resource_accounting": {
+    "cpu_node_hours": 2.536111111111111,
+    "gpu_hours": 78.00750000000001,
+    "jobs": {
+      "58469111": {
+        "exit_code": "0:0",
+        "gpus": 0,
+        "seconds": 57,
+        "state": "COMPLETED"
+      },
+      "58469318": {
+        "exit_code": "0:0",
+        "gpus": 0,
+        "seconds": 3021,
+        "state": "COMPLETED"
+      },
+      "58470146": {
+        "exit_code": "0:0",
+        "gpus": 0,
+        "seconds": 2760,
+        "state": "COMPLETED"
+      },
+      "58470989": {
+        "exit_code": "1:0",
+        "gpus": 0,
+        "seconds": 18,
+        "state": "FAILED"
+      },
+      "58472098": {
+        "exit_code": "0:0",
+        "gpus": 0,
+        "seconds": 44,
+        "state": "COMPLETED"
+      },
+      "58472788": {
+        "exit_code": "0:0",
+        "gpus": 1,
+        "seconds": 363,
+        "state": "COMPLETED"
+      },
+      "58473428": {
+        "exit_code": "0:0",
+        "gpus": 4,
+        "seconds": 11886,
+        "state": "COMPLETED"
+      },
+      "58481938": {
+        "exit_code": "0:0",
+        "gpus": 0,
+        "seconds": 19,
+        "state": "COMPLETED"
+      },
+      "58481962": {
+        "exit_code": "0:0",
+        "gpus": 4,
+        "seconds": 1772,
+        "state": "COMPLETED"
+      },
+      "58483908": {
+        "exit_code": "0:0",
+        "gpus": 0,
+        "seconds": 252,
+        "state": "COMPLETED"
+      },
+      "58484127": {
+        "exit_code": "75:0",
+        "gpus": 4,
+        "seconds": 13852,
+        "state": "FAILED"
+      },
+      "58497328": {
+        "exit_code": "75:0",
+        "gpus": 4,
+        "seconds": 13853,
+        "state": "FAILED"
+      },
+      "58505823": {
+        "exit_code": "75:0",
+        "gpus": 4,
+        "seconds": 13884,
+        "state": "FAILED"
+      },
+      "58514514": {
+        "exit_code": "75:0",
+        "gpus": 4,
+        "seconds": 13881,
+        "state": "FAILED"
+      },
+      "58521029": {
+        "exit_code": "0:0",
+        "gpus": 0,
+        "seconds": 51,
+        "state": "COMPLETED"
+      },
+      "58524030": {
+        "exit_code": "0:0",
+        "gpus": 4,
+        "seconds": 988,
+        "state": "COMPLETED"
+      },
+      "58524609": {
+        "exit_code": "0:0",
+        "gpus": 0,
+        "seconds": 2896,
+        "state": "COMPLETED"
+      },
+      "58526345": {
+        "exit_code": "0:0",
+        "gpus": 0,
+        "seconds": 12,
+        "state": "COMPLETED"
+      }
+    }
+  },
+  "scratch_bytes": 122030674932
+}

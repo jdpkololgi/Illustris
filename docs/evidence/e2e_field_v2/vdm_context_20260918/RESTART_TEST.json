@@ -1,0 +1,13 @@
+{
+  "actual_signal": "SIGUSR1",
+  "exact": true,
+  "fresh_processes": 3,
+  "job": "58472788",
+  "manifest_sha256": "67e1f9d0edc73b58c761e35f1f2dc13d4fe102e27f260104ecdb87b725a9bf10",
+  "passed": true,
+  "pause_at": 4,
+  "paused_checkpoint_sha256": "aa50b59a54c461ec80d2032f6bd22dd6f2e656b650c12ef46856d8543db91468",
+  "scientific_fit": false,
+  "signal_exit_code": 75,
+  "updates": 12
+}

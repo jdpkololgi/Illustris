@@ -1,0 +1,16 @@
+{
+  "auditor_sha256": "608728ed18f2cc29995342f943d6d0bf2b8860cf8a60dc26e9f3c55020584096",
+  "case_count": 688,
+  "checkpoint_integrity_sha256": "cd13431a793aad824a54df8a54642c6a852aff5b2771a52229d370c856a89ac0",
+  "draw_integrity_sha256": "0474b6596ff1da135789fef63ae19cd6ff58553e28cd7f32fd1a6418c7cac88b",
+  "ended_unix": 1789739550.1371534,
+  "experiment_complete_sha256": "c0d90f6f8d6540a7216e729d3dca3114c2592d584c55447476fa1628480f50be",
+  "figures_sha256": "ad912f178a78a34bf6cb941d7fe5d554a39d8d7079bf97c63cdf3a7c5dfa50bc",
+  "manifest_sha256": "67e1f9d0edc73b58c761e35f1f2dc13d4fe102e27f260104ecdb87b725a9bf10",
+  "passed": true,
+  "preview_cases_reconciled": 384,
+  "progression_cells_recomputed": 32,
+  "results_sha256": "2ca834400a766de7d6c357679f823fc9ee848f12b40ce7a562949a8186c3303f",
+  "scope": "JSON/receipt/count/aggregation/preview parity and recorded compute caps; scientific interpretation and scheduler review remain separate",
+  "started_unix": 1789739548.4246554
+}

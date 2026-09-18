@@ -1,0 +1,10 @@
+{
+  "files": {
+    "REPORT.md": "4211e1b25e6c4d5e70de50a07b140b0db7064e05f5322784516c95d972516d5a",
+    "checkpoint_progression.png": "af24ef732cfcfed0bc65a18da88718a6e9a0b92f0206e7bf65c9328ae0562b2b",
+    "field_statistics.png": "e92f9371545e1a2678bcbf749e81eac9fa40b82d79e981fe0c3b51de97d173a2",
+    "posterior_fields.png": "d160395e805a3851e797c5cf82593166a518efd9828620a6a05f6e0d8df32866"
+  },
+  "inputs_sha256": "2ca834400a766de7d6c357679f823fc9ee848f12b40ce7a562949a8186c3303f",
+  "manifest_sha256": "67e1f9d0edc73b58c761e35f1f2dc13d4fe102e27f260104ecdb87b725a9bf10"
+}
