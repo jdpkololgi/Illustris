@@ -119,8 +119,10 @@ tune it is not independent validation.
 
 The actual completed experiment has localized a dependence problem: sampled
 shared coarse fields beat fixed means in all eight adjacent-core control
-cases, yet pooled difference C90 is only 33.3%; the true-coarse diagnostic
-reaches 68.8%, still below its finite-ensemble target. D's regional-mass C90
+cases, yet pooled difference C90 is only 33.3%. True coarse information strongly
+improves the variogram, but its pooled coverage mixes stochastic tidal/gap
+components with an exactly determined density mean; that raw coverage must not
+be treated as a continuous-posterior calibration result. D's regional-mass C90
 is 74.8% versus a 90.75% target. Good marginals are not the stopping criterion.
 See the [decision note](e2e_vdm_context_joint_decision_literature_20260918.md)
 for score definitions and important panel-size/conditioning qualifications.

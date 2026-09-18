@@ -55,12 +55,20 @@ selection or new metric was introduced for this review.
 | --- | ---: | ---: | ---: |
 | Fixed predicted coarse mean | 0.58455 | 0.01910 | 12.50% |
 | Sampled shared coarse field | 0.33415 | 0.01293 | 33.33% |
-| True coarse field, diagnostic only | 0.28066 | 0.00361 | 68.75% |
+| True coarse field, diagnostic only | 0.28066 | 0.00361 | 68.75% raw; see caveat |
 
 These are equal averages over eight seed/phase/cap cases, each containing six
 summary differences; they are not 48 independent cosmological realizations.
-Finite-ensemble attainable coverage is 87.88% for the first two rows and
-88.24% for the 16-draw oracle. Oracle information changes the conditioning
+For nondegenerate 32-draw quantities the finite-ensemble target is 87.88%.
+The fixed-parent density means are deterministic as well, so the generic
+continuous-distribution target does not apply to that component. The raw
+oracle coverage mixes five stochastic tidal/gap differences with a density
+difference fixed exactly by the supplied coarse mass. Oracle regional masses
+are likewise fixed (spread/bias around 1e-15). Roundoff/ties therefore affect
+their generic interval-coverage outputs: the 88.24% continuous-distribution
+target is not applicable to those deterministic quantities, and 68.75% is not
+a clean pooled calibration comparison. Preserve raw outputs, but interpret
+nondegenerate components and proper scores separately. Oracle information changes the conditioning
 problem: its better score localizes a bottleneck, not deployable performance
 or a guaranteed lower bound for every score. Sampled versus fixed-mean coarse
 improves both scores in all eight cases, but correct stochastic dependence is

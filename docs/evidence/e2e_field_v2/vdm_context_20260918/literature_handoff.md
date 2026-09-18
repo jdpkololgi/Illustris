@@ -62,3 +62,11 @@ Poisson and differentiable-HOD-likelihood claims. It preserves the bounded
 joint VDM/CFM recommendation and notes observation double-counting hazards.
 Please link both literature notes in final closeout records. No code/compute
 or final-results/science-log/field-plan edits were made by this reviewer.
+
+Login35 has read the new59d4e1f deterministic-oracle caveat and verified it in
+the actual case JSON: oracle regional spread/bias about1e-15 and delta-summary
+difference CRPS about1e-16. Both literature notes now explicitly caveat the
+raw68.75% oracle pooled coverage and do not compare its deterministic component
+to the continuous finite-M target. The prior user-facing comparison was also
+corrected in commentary. Login21 retains ownership of final scientific docs;
+login35 is independently mapping completion requirements to current receipts.
