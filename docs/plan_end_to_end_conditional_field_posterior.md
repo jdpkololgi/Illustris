@@ -1,5 +1,18 @@
 # Plan — End-to-end conditional density-field posterior
 
+**Second sampling handoff verified (2026-09-18, 04:59 UTC):** allocation
+58497328 paused as designed after 3h50m53s (all workers code 75); the unchanged
+tmux controller resumed on 58505823/nid008309 with four live GPU workers and a
+four-hour limit. Two C/seed0 cases resume at IDs 104 and 24 with no missing or
+duplicate IDs. Three selected pre-pause receipts/array files are unchanged and
+two new array files pass their hashes; manifest/model/sampler hashes also match.
+Saved fine draws total 20,336/33,280. A/B each have 4,064 draws per seed; C/D and
+the full coarse-draw ledger remain in scope. Completed cost before this live
+segment: 46.05972 GPUh / 1.71417 CPU-nodeh; six of eight GPU requests used.
+Original caps, frozen runtime and scientific protocol are unchanged. Full
+checkpoint/field-statistics/calibration analysis remains pending. See SCIENCE_LOG
+and resources/06_* / resources/07_* for evidence and audit limits.
+
 **Checkpointed handoff verified (2026-09-18, 01:08 UTC):** the first main-draw
 allocation 58484127 paused as designed after 3h50m52s, with all four workers
 returning continuation code 75. Its scheduler `FAILED 75:0` is the expected

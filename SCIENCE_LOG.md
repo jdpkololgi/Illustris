@@ -1,5 +1,33 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-18 - [ops/restart-verified] Second sampling handoff preserves C draws
+
+Allocation 58497328/nid008309 ended after 3h50m53s with the registered pause
+code 75 from all four workers and no ABORT receipt (resources/06_END/RETURN).
+Its Slurm FAILED(75:0) label is the expected application pause. The same tmux
+controller started successor 58505823/nid008309 at 04:58:04 UTC, four GPUs,
+four-hour maximum; all four new worker steps were verified RUNNING.
+
+A bounded read-only snapshot at 04:56:04 UTC and audit at 04:59:52 UTC verify
+three pre-pause receipts and their actual array payloads unchanged, plus two
+new payloads against their saved hashes (33,738,300 payload bytes checked).
+The C/seed0/final-checkpoint ph005 SGC shell3 interior main case resumes at
+ID 104 after old-job IDs 0--103; it has 112/128 draws at this audit. The ph004
+SGC shell2 interior joint case resumes at ID 24 after old-job IDs 0--23 and
+finishes all 32. Both ID sets are contiguous, duplicate-free and preserve every
+pre-snapshot ID. Selected old chunk starts are 0 and 80 in the main case and
+0 in the joint case. MANIFEST, MODELS_FROZEN and SAMPLER_GATE hashes match the
+previously recorded values. This is a representative restart-integrity check,
+not a replacement for the final report's full payload audit.
+
+At the audit there are 20,336/33,280 saved fine draws, including refinement
+reuse. Both A/B seeds have 4,064 fine draws each; C/D production and the full
+7,872-coarse-draw ledger remain in scope. Completed allocated cost before the
+live successor is 46.05972 GPUh / 1.71417 CPU-nodeh; six of at most eight GPU
+requests have been used. Original caps/deadline, frozen runtime 1639851 and all
+scientific choices remain unchanged. Checkpoint progression, field statistics,
+calibration, H1/H2 conclusions and final figures/report are still pending.
+
 ### 2026-09-18 - [ops/restart-verified] Main draw campaign survives its first allocation handoff
 
 At 01:06 UTC, main sampling job 58484127/nid008309 stopped cleanly before its

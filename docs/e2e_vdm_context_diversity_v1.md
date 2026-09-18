@@ -1,5 +1,17 @@
 # Controlled VDM diversity, spatial context, and shared matter uncertainty
 
+Latest execution status 2026-09-18, 04:59 UTC: second sampling segment
+58497328 paused normally (all workers code 75, 3h50m53s); successor
+58505823/nid008309 has four live GPU workers. Two C/seed0 cases resume at IDs
+104 and 24 with contiguous, duplicate-free saved IDs. Three selected old
+receipts/payloads are unchanged across the pause and two new payloads pass
+their hashes; manifest/model/sampler bindings are unchanged. Fine draws total
+20,336/33,280, with both A/B seeds at 4,064 each. Completed cost before the live
+successor: 46.05972 GPUh / 1.71417 CPU-nodeh, six of eight GPU requests used.
+Original limits and frozen scientific/runtime choices remain. The full fine/
+coarse draw matrix, scientific conclusions and final report are not complete.
+See SCIENCE_LOG for the representative audit's scope and exact case IDs.
+
 Latest execution status 2026-09-18, 01:08 UTC: first main-draw allocation
 58484127 completed its planned checkpointed pause (all workers exit 75,
 3h50m52s); the unchanged tmux controller started successor 58497328/nid008309
