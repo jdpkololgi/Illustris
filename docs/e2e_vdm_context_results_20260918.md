@@ -49,6 +49,15 @@ distinct fine noise. Its restricted coarse conditioner and conditional fine-core
 independence remain approximations. C:D also changes capacity, compute, chart
 and physical tidal closure; it is a package contrast, not pure stochasticity.
 
+The original pre-fit tidal-composition gate failed and is preserved. The
+explicitly approved consistent-density v2 uses the tidal operator on the
+replicated wide density, plus the fine-parent residual tide; it does not
+commute replication and the tidal operator. Its unchanged A32 physical gate
+passes with 84.17% / 84.96% / 84.88% median per-anchor eigenvalue-RMSE reductions.
+This is a truth-representation check, not learned-posterior calibration.
+Computational wide FFTs are 192-cubed; the generated coarse grid remains
+48-cubed. Six tensor components are averaged before eigenvalue computation.
+
 ## Verified A/B/C results while D finishes
 
 Final-checkpoint summaries give equal weight to anchors, seeds and evaluation
