@@ -14,3 +14,22 @@ existing handoff. Please integrate this literature assessment with the final
 D fixed-mean/oracle/dependence and wide-power evidence before the final go/stop
 recommendation. The literature note will distinguish demonstrated joint
 calibration from power/reconstruction tests and will not assume D's result.
+
+At13:46UTC the user additionally requested discussion of conditional flow
+matching in the conclusion. The login35 review includes FMPE/CFM foundations,
+Cosmo3DFlow and fair objective/representation contrasts; it will distinguish
+random-base ODE posterior sampling from deterministic point regression and
+avoid claiming that a faster sampler repairs missing joint covariance.
+
+The literature note is now written at the stated path. Recommendation: yes to
+one bounded joint-field follow-up, no automatic launch or broad model search.
+It incorporates completed RESULTS/pairs and 64 final D-main case JSONs:
+D regional C90=.748046875; wide C90=.8923938893; pooled wide P ratios
+[1.3571,.9487,.9582,.9999,1.0035], fine [.9286,.9183,.7807,.7365,.6283].
+D shared stochastic versus fixed mean improves pair energy/variogram in all
+eight cases; the true-coarse diagnostic improves pooled variogram .01293 to
+.00361 but does not establish calibration. This supports targeting spatial
+conditional dependence rather than treating all errors as marginal suppression.
+The note explicitly retains F3-L2/F3-L2c historical CFM evidence from SCIENCE_LOG
+and documents metadata-only availability of raw ph007--024 and BGS complete/
+altmtl products; phase/HOD/epoch/truth pairings remain unaudited.
