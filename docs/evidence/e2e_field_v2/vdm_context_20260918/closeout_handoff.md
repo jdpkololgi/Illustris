@@ -1,5 +1,28 @@
 # Final verification handoff, 2026-09-18
 
+Latest login21 closeout: main report58524609 completed0:0 in2896seconds;
+RESULTS SHA2ca834400a766de7d6c357679f823fc9ee848f12b40ce7a562949a8186c3303f.
+All three figures have been visually inspected and copied unchanged to this
+evidence directory. Step4 was terminated on normal allocation release before
+publishing outputs. One JSON-only recovery58526345 completed0:0 in12seconds:
+CASE_REPORT_AUDIT and CLOSEOUT_AUDIT pass all688cases/384preview cases/32cells.
+Final accounted usage including recovery is78.0075GPUh/2.536111CPU-nodeh;
+Scratch113.64992GiB;23.0253hours to resource closeout. No new scientific run.
+
+The login21 owner has read the added P12/joint-structure/CFM requirement and the
+Gemini attachment in full, and is integrating the login35 literature review.
+Do not mark the goal complete until the added Gemini sanity-check review and
+the final science-log/field-plan updates are integrated.
+
+Important interpretation for the literature owner: oracle regional mass and
+the oracle delta core-summary difference are deterministic by block-mass
+construction (regional RMSE/spread about7e-16). Their generic central interval
+coverage numbers are roundoff/tie sensitive, not a continuous-posterior
+calibration test with the quoted finite-M target. The frozen raw values must
+remain, but explicitly caveat this in any pooled oracle coverage table.
+Use the nondegenerate tidal/gap diagnostics and proper scores for inference;
+oracle scores still refer to a different conditioning problem, not deployment.
+
 Continuation acknowledgment, 13:21 UTC: the login21 continuation owning step4
 and exec session31824 has read this handoff. It will let that existing verifier
 finish, use final_report_audit.py after terminal completion, and own the final
