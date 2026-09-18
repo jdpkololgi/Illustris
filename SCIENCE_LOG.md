@@ -1,5 +1,26 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-18 - [analysis/preview-plan] Early registered density assessment while D finishes
+
+For preliminary scientific results, an isolated CPU wrapper selects all 384
+registered A/B/C main cases: both seeds, sixteen ph004 anchors at each of
+5120/10240/20480, and sixteen ph005 anchors at 20480. No extra draws, fits,
+target-access roles, metric definitions or field selection. All choices were
+frozen before confirmation. The wrapper imports frozen scientific functions,
+verifies actual payloads, and requires a fixed-case comparison against the
+full frozen report. Outputs are separate under analysis/density_preview;
+official reports and running source remain untouched. D, tides, dependence
+and final decisions still require the full report. Syntax and complete-panel
+selection checks pass; compute parity and scientific results remain pending.
+
+One supplemental CPU interactive job has a 30-minute cap inside the original
+eight CPU-node-hour allowance. Existing 1.71417 plus this <=0.5 and the reserved
+<=2-hour full report total <=4.21417 CPU-nodeh. One GPU allocation is live;
+the two-allocation limit remains. Supplemental REQUEST/START/RETURN/ACCOUNTING
+receipts live in the preview directory, not the immutable controller index.
+Add this job's actual terminal CPU time to controller accounting at final
+closeout. No additive budget, GPU-request change or elapsed-cap extension.
+
 ### 2026-09-18 - [ops/evaluation] Seven model/seed draw branches complete; final D seed running
 
 Live verification at 11:03--11:05 UTC confirms the original tmux controller is

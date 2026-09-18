@@ -1,5 +1,15 @@
 # Plan — End-to-end conditional density-field posterior
 
+**Early density report (2026-09-18):** execute an isolated <=30-minute CPU
+preview of all 384 registered A/B/C main cases while D finishes. Frozen
+scientific functions, actual input hashes and a fixed-case full-report parity
+check are required. This changes execution order, not training/draws/metrics.
+Outputs under analysis/density_preview are preliminary; the full D, tidal,
+dependence and registered-decision report remains required. Add supplemental
+terminal CPU time to final controller accounting; the original eight CPU-node-
+hour cap includes this job and the reserved full report. See SCIENCE_LOG and
+e2e_vdm_context_density_preview.py for scope and safeguards.
+
 **Final model/seed sampling underway (2026-09-18, 11:05 UTC):** all ten fits
 and thirty checkpoints are complete/frozen. A/B/C seeds0/1 and D seed0 have
 finished their draw branches; D seed1 continues on all four GPUs in allocation
