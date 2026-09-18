@@ -16,11 +16,12 @@ v2 tidal-operator amendment. Later requests add literature/data-aware joint
 go/stop reasoning, CFM discussion and the Gemini sanity check; they do not
 authorize an automatic next training campaign.
 
-**Execution and computational assessment are complete. Overall goal completion
-still awaits inspection of the final scientific report and science-log/field-
-plan updates owned by the login21 continuation.** The machine completion flag
-alone does not establish those written deliverables. A scientifically negative
-H2 result is a completed experiment, not a reason to keep training.
+**Execution, computational assessment and the required written scientific
+deliverables are complete and inspected.** The final report, SCIENCE_LOG,
+field-model plan, contract status and evidence index have now been read in
+their updated state. Local-link/commit checks are the final repository handoff,
+not further scientific work. A scientifically negative H2 result is a completed
+experiment, not a reason to keep training.
 
 All Scratch paths below are relative to:
 `/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/vdm_context_20260917_v1`.
@@ -50,7 +51,7 @@ All Scratch paths below are relative to:
 | Figures and bindings | All3 repository PNG hashes match FIGURES; all3 visually inspected in this continuation. RESULTS hash independently recomputed. | Readable checkpoint, field-statistics and fixed-anchor draw/mean/spread figures. Not visual proof of calibration. |
 | Resources and terminal jobs | Live sacct:58524030,58524609,58526345 COMPLETED0:0 (988/2896/12seconds); allocation status has zero pending/running jobs. Supplemental ACCOUNTING includes its12seconds exactly once. | 78.0075GPUh,2.536111CPU-nodeh,122,030,674,932bytes (113.64992GiB),8GPUrequests; within112/8/300/48h caps. No new compute. |
 | Literature/data-specific joint go/stop and CFM | Committed joint-decision note and Gemini primary-paper audit, with actual data-inventory limitations and corrected deterministic-oracle caveat. | Complete review; recommends one bounded coupled-state VDM/CFM comparison, not its automatic implementation. |
-| Final science report, science log and field-model plan | At this audit, docs/e2e_vdm_context_results_20260918.md still says draft13:29; SCIENCE_LOG and docs/plan_end_to_end_conditional_field_posterior.md still lead with running/preview states. | **Incomplete written closeout.** Login21 owns edits per closeout_handoff; re-read the final artifacts before goal completion. |
+| Final science report, science log and field-model plan | Final report read in full; updated SCIENCE_LOG and docs/plan_end_to_end_conditional_field_posterior.md lead with completed, not production-ready status. Contract, approval audit and preview have explicit final/superseded notices. Evidence README links both reviews and the report. | Required written closeout complete. The joint-field follow-up is a proposed protocol needing a fresh resource decision, not part of this executed matrix. |
 
 ## Verified hashes and interpretation caveat
 
@@ -74,11 +75,19 @@ also lacks stochastic spread. Preserve frozen raw outputs; interpret the
 nondegenerate tidal/gap quantities and proper scores separately. Both literature
 notes have been corrected, and the user was informed.
 
-## Remaining completion action
+## Final independent review
 
-Inspect the completed report, its D/coarse/oracle/conditional/tidal results,
-SCIENCE_LOG, field-model plan and the contract's final status once the designated
-owner publishes them. Confirm they link both literature notes, retain all claim
-boundaries and contain one justified next step rather than an automatic run.
-Then update this verdict and mark the goal complete. Do not launch or rerun
-science merely because the writing is unfinished.
+The published report's principal score, one-point, regional, componentwise
+coverage and matched/physical closure tables were reconciled to current JSON.
+All12 contrast checks and bootstrap block counts were inspected. All18 terminal
+Slurm job records were read directly with sacct and match the supplemental
+accounting, including the preserved physical-v1 failure and four planned
+status75 pauses. All17 archived result/provenance/resource/figure files match
+their Scratch originals byte-for-byte. The three figures were rendered and
+inspected. Both literature notes correctly qualify deterministic mass controls.
+
+Final log/plan/report incorporate the requested research, CFM and available-
+data discussion and one justified bounded follow-up, without claiming
+real-DESI readiness, full-field SBC or automatically launching another run.
+No required scientific computation remains. Complete local-link/whitespace
+checks and commit the closeout before setting the active goal complete.

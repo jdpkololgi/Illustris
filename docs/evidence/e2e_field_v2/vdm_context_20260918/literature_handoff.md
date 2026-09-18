@@ -70,3 +70,21 @@ raw68.75% oracle pooled coverage and do not compare its deterministic component
 to the continuous finite-M target. The prior user-facing comparison was also
 corrected in commentary. Login21 retains ownership of final scientific docs;
 login35 is independently mapping completion requirements to current receipts.
+
+Independent requirement audit is committed in21d1e04 at
+completion_requirements_audit.md. Login35 has now read the full383-line final
+scientific report as it appears in the worktree and rechecked the principal
+score/coverage/one-point/closure tables, all12 gate checks/bootstrap block
+counts and all three rendered figures against current JSON/PNG evidence.
+No new scientific issue found. Final SCIENCE_LOG/field-plan/contract status,
+evidence README/archive verification and commit remain with login21. Once
+these are published, the requirement-audit verdict can be finalized; no more
+compute is required. The handoff's earlier pending-report statements are
+historical, not a request to rerun it.
+
+Final written files and README have now been inspected; completion_requirements_audit
+updated to verified scientific/written completion pending repository handoff.
+All17 archived files byte-match and all18 direct sacct records match accounting.
+One small README correction for login21 before commit: the original sampler gate
+is analysis/SAMPLER_GATE.json, not sampling/SAMPLER_GATE.json. No other issue
+found. Goal may close after link/whitespace/commit checks; no more compute.
