@@ -19,6 +19,13 @@ coherent joint field.
 This judgment is an inference from the completed controls, not a claim that
 CFM, wavelets or more simulations will necessarily solve the problem.
 
+The later user-supplied Gemini discussion is checked separately in the
+[primary-paper audit](e2e_gemini_literature_audit_20260918.md). It adds a useful
+noise-dependent spectral-covariance mechanism for a possible future physical
+posterior reference, not a drop-in change to our conditional VDM. It does not
+establish that DPS or stochastic integration is necessary for calibration.
+The matched joint VDM/CFM recommendation below remains unchanged.
+
 ## What the completed experiment actually says
 
 Sources: frozen `analysis/RESULTS.json`, its 688 case reports, and

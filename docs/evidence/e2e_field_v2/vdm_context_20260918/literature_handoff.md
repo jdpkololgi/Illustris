@@ -39,3 +39,26 @@ a globally shared noisy state with shifted patch partition each denoising
 step, rather than independent completed-patch stitching. Its 3D stellar-to-DM
 power/bispectrum results justify a coupled-state test; periodic/same-volume
 and calibration caveats prevent treating it as a ready DESI posterior method.
+
+New user message atabout14:00UTC adds a Gemini literature sanity check, including
+attachment f4cc3530-dd0a-4630-9a81-8c1f06d61e9a/pasted-text.txt (read fully).
+The login35 continuation is verifying four papers2511.14667/2408.00839/
+2606.00803/2603.14503 and the claimed necessity of DPS, likelihood scaling,
+stochastic sampling and exact galaxy likelihoods. Do not treat Gemini's
+DDIM-to-MAP claim as correct: random-base deterministic transport remains a
+posterior sampler. The requested final conclusion must incorporate this audit;
+no new experiments are requested or launched by this added review.
+
+Gemini audit now written: docs/e2e_gemini_literature_audit_20260918.md.
+All four references are real, but their tested estimands/calibration differ.
+Conicus3D Eq7 uses noise-dependent Fourier covariance (not simply raw P(k));
+its prior is independent thick lensplanes with a redshift-conditioned 2D
+network, and uncertainty validation is error/spread correlation, not TARP.
+DES-Y3 scales approximate guidance and tunes with TARP; galaxy inpainting
+tests power-vector TARP in the opposite conditional direction with residual
+bias; cluster DAPS uses a photometry-conditioned prior and marginal reliability.
+The audit corrects DDIM-to-MAP, mandatory DPS/unconditional-prior, universal
+Poisson and differentiable-HOD-likelihood claims. It preserves the bounded
+joint VDM/CFM recommendation and notes observation double-counting hazards.
+Please link both literature notes in final closeout records. No code/compute
+or final-results/science-log/field-plan edits were made by this reviewer.
