@@ -1,5 +1,15 @@
 # Plan — End-to-end conditional density-field posterior
 
+**Final sampling continuation verified (2026-09-18,12:46UTC):** job58514514
+paused cleanly after3h51m21s; the original controller continued on four-GPU
+58524030/nid008205 (request8of8). Eight selected old fine/coarse payloads are
+unchanged. The interrupted D sentinel completes IDs0--127 across the handoff;
+one new fine chunk and its coarse counterpart pass hashes. Saved totals:
+32928/33280fine,7808/7872coarse. Completed cost before this live job:
+76.90972GPUh/1.72833CPU-nodeh, with preview cost already included natively.
+All original caps remain. Finish the registered diagnostics and full report;
+the A/B/C preview is not completion. See SCIENCE_LOG and the saved handoff audit.
+
 **Preliminary density evidence (2026-09-18):** the full registered A/B/C main
 panel is assessed using frozen functions: 384cases/21504draws, CPU58521029
 COMPLETED0:0 in51s, full-report parity and independent aggregation checks pass.

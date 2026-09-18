@@ -1,0 +1,58 @@
+{
+  "utc": "2026-09-18T12:46:37.334828+00:00",
+  "before_utc": "2026-09-18T12:38:32.075218+00:00",
+  "old_files_verified": 8,
+  "old_payload_bytes": 53609493,
+  "cases": [
+    {
+      "task": "D_seed1_20480_main_ph005_SGC_s3_interior_00_250_sampled_0_128",
+      "before": 96,
+      "after": 128,
+      "total": 128,
+      "complete": true,
+      "by_job": {
+        "58514514": [
+          0,
+          111,
+          112
+        ],
+        "58524030": [
+          112,
+          127,
+          16
+        ]
+      }
+    },
+    {
+      "task": "D_seed1_20480_joint_fixed_mean_ph004_NGC_s2_interior_00_adjacent_x_250_fixed_mean_0_32",
+      "before": 16,
+      "after": 32,
+      "total": 32,
+      "complete": true,
+      "by_job": {
+        "58514514": [
+          0,
+          31,
+          32
+        ]
+      }
+    }
+  ],
+  "new_payloads": [
+    {
+      "receipt": "draws/D_seed1_20480_main_ph005_SGC_s3_interior_00_250_sampled_0_128/000112.json",
+      "job": "58524030",
+      "payload_sha256": "1fa5b1ca373c87f6c597ad309a892f0afb9f51869760ae0ad7acd1184e28f66b",
+      "bytes": 6752287
+    },
+    {
+      "receipt": "parents/D_seed1/update_020480/main/ph005_SGC_s3_interior_00/steps250/000112.json",
+      "job": "58524030",
+      "payload_sha256": "50b2e7cb734060638d383a868280c45d7068df7f659407d7feafb83c77d922b7",
+      "bytes": 6648938
+    }
+  ],
+  "total_payload_bytes_checked": 67010718,
+  "fine_draws": 32928,
+  "coarse_draws": 7808
+}

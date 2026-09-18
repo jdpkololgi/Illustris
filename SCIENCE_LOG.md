@@ -1,5 +1,32 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-18 - [ops/restart-verified] Final GPU continuation preserves fine and shared coarse draws
+
+Job58514514/nid008309 ended after3h51m21s with all four workers returning
+the registered pause code75 and no ABORT. Its scheduler FAILED75:0 is the
+expected clean continuation, not an unexpected failure. The original tmux
+controller started58524030/nid008205 at12:41:48UTC; all four worker steps
+are RUNNING and new chunks are being produced. This is GPU request8of8.
+
+A12:38:32snapshot and12:46:37audit verify eight pre-pause fine/coarse receipts
+and their actual payloads unchanged (53,609,493bytes). The D/seed1/20480
+ph005_SGC_s3_interior main sentinel completes128draws: old job IDs0--111,
+new job112--127, contiguous and duplicate-free. Its new112--119fine chunk and
+corresponding sampled coarse chunk pass their actual hashes. Total payload
+bytes checked67,010,718, below64MiB. The selected ph004NGC adjacent-core
+fixed-mean case completes32draws in the old job and remains unchanged. Frozen
+manifest/model/sampler hashes match. This is a representative handoff audit;
+the full report must still verify all payloads. Machine-readable before/after
+evidence: docs/evidence/e2e_field_v2/vdm_context_20260918/handoff_08_*.json.
+
+Saved totals at this audit:32928/33280fine and7808/7872coarse. Completed
+allocated cost before the live final continuation is76.90972GPUh and
+1.72833CPU-nodeh. Native08_ACCOUNTING and09_REQUEST correctly include the
+completed51-second density-preview CPU job; do not double-add it. Original
+GPU/CPU/storage/deadline limits and runtime1639851 remain unchanged. The
+full D/tidal/dependence report, final figures, H1/H2 decisions and completion
+audit remain outstanding. No new fit or scientific success claim.
+
 ### 2026-09-18 - [science/preliminary] Diversity helps density score and coverage; field power remains deficient
 
 The registered A/B/C density preview completed on CPU58521029/nid004145:
