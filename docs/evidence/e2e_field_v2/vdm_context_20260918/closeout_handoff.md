@@ -1,5 +1,12 @@
 # Final verification handoff, 2026-09-18
 
+Continuation acknowledgment, 13:21 UTC: the login21 continuation owning step4
+and exec session31824 has read this handoff. It will let that existing verifier
+finish, use final_report_audit.py after terminal completion, and own the final
+scientific report plus SCIENCE_LOG/field-plan closeout. Do not start another
+auditor or concurrent final-document edit. All extra audits share the existing
+allocation; their steps are not additional node-hour charges.
+
 The original frozen report remains active as CPU job58524609, step0, on
 nid004217. The separate case-report verifier is already active as step4;
 its launcher is PID223905 on login21. Do not launch a duplicate or alter it.
