@@ -93,7 +93,13 @@ def summarize(rows):
 def main():
     started = time.time()
     assert socket.gethostname().startswith('nid'), 'compute node required'
-    assert os.environ['SLURM_JOB_ID'] == read(ROOT/'resources/10_START.json')['job']
+    allowed_jobs = [read(ROOT/'resources/10_START.json')['job']]
+    supplemental = ROOT/'resources/CASE_AUDIT_START.json'
+    if supplemental.exists():
+        start = read(supplemental)
+        assert start['stage'] == 'case_audit' and start['gpus'] == 0
+        allowed_jobs.append(start['job'])
+    assert os.environ['SLURM_JOB_ID'] in allowed_jobs
     tasks = read(ROOT/'DRAW_LEDGER.json')['tasks']
     assert len(tasks) == 688
     folder = ROOT/'analysis/cases'
