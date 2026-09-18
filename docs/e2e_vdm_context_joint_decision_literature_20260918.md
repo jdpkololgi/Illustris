@@ -102,7 +102,17 @@ that extending the unchanged fit will jointly converge to the desired object.
    coefficient count. Our earlier flat Haar-CNN denoiser was not a reproduction
    of this multiscale flow model. [Paper](https://arxiv.org/html/2602.10172v1),
    [authors' implementation](https://github.com/UVA-MLSys/Cosmo3DFlow).
-5. **Manticore II/BORG.** A coherent physical forward model, galaxy bias,
+5. **Cosmo-FOLD.** This closer 3D stellar-density-to-matter diffusion study
+   maintains a global noisy field and shifts the chunk grid between denoising
+   steps, letting information cross patch boundaries during generation. It
+   reports improved power and, with positional encodings, bispectra when
+   upscaling small training volumes. This is a concrete alternative to
+   independently sampling complete patches and stitching their outputs. Its
+   periodic setting, small-simulation/same-volume splits and summary-statistic
+   tests do not establish masked-survey posterior calibration. Do not import
+   periodic wrapping across DESI edges or coordinate features that memorize
+   one realization. [Paper](https://arxiv.org/html/2601.14377v1).
+6. **Manticore II/BORG.** A coherent physical forward model, galaxy bias,
    redshift-space mapping and survey likelihood support large-volume inference
    from actual galaxy surveys, with external tests. This is evidence for the
    scientific programme, not for an inexpensive neural substitution. The
@@ -241,6 +251,8 @@ best-looking one-point histogram.
    coarse-conditioner restriction rather than silently assuming sufficiency.
    This design must permit residual cross-core dependence after conditioning
    on the coarse field; shared coarse noise alone cannot supply it.
+   Cosmo-FOLD's shared evolving state supplies a useful design precedent, not
+   proof that shifted local updates constitute the correct joint posterior.
 3. **Use a retained D baseline and two seeds.** Retrain the baseline on exactly
    the same new phase panel if claiming a gain over D. Compare matched joint-
    design VDM and CFM at equal data exposure with allocated compute and sampling

@@ -33,3 +33,9 @@ conditional dependence rather than treating all errors as marginal suppression.
 The note explicitly retains F3-L2/F3-L2c historical CFM evidence from SCIENCE_LOG
 and documents metadata-only availability of raw ph007--024 and BGS complete/
 altmtl products; phase/HOD/epoch/truth pairings remain unaudited.
+
+The review also includes the directly relevant Cosmo-FOLD (arXiv2601.14377):
+a globally shared noisy state with shifted patch partition each denoising
+step, rather than independent completed-patch stitching. Its 3D stellar-to-DM
+power/bispectrum results justify a coupled-state test; periodic/same-volume
+and calibration caveats prevent treating it as a ready DESI posterior method.
