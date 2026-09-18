@@ -1,5 +1,19 @@
 # Plan — End-to-end conditional density-field posterior
 
+**Preliminary density evidence (2026-09-18):** the full registered A/B/C main
+panel is assessed using frozen functions: 384cases/21504draws, CPU58521029
+COMPLETED0:0 in51s, full-report parity and independent aggregation checks pass.
+B's pooled density CRPS improves10.88% over A with favorable direction in all
+four seed/phase cells; central C90 rises79.09% to89.32% (attainable90.75%).
+C is3.37% worse than B in pooled CRPS. Yet B still suppresses sample power by
+11--44% across the reported bands/cells, and late checkpoint improvement in
+CRPS accompanies worse power discrepancy. This is not a calibrated field
+posterior or a reason for automatic further training. Finish D and the full
+tidal/dependence/conditional analysis before final decisions. Detailed evidence:
+[preliminary report](e2e_vdm_context_preliminary_20260918.md). The preview's
+0.0141667CPU-nodeh is now registered in native controller accounting; do not
+double-add the supplemental cost at closeout. Original caps remain unchanged.
+
 **Early density report (2026-09-18):** execute an isolated <=30-minute CPU
 preview of all 384 registered A/B/C main cases while D finishes. Frozen
 scientific functions, actual input hashes and a fixed-case full-report parity

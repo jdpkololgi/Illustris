@@ -1,5 +1,36 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-18 - [science/preliminary] Diversity helps density score and coverage; field power remains deficient
+
+The registered A/B/C density preview completed on CPU58521029/nid004145:
+COMPLETED0:0,51s,0.0141667CPU-nodeh. All384main cases/21504draws use frozen
+functions and actual payload checks; a fixed-case full-report parity test
+passes, and independent receipt/aggregation checks find no errors. Artifact
+analysis/density_preview/PRELIMINARY.json SHA
+ed3e401de1b236e6f946687d69bb491bc8a3f45d61549278fa802c472acd97c3.
+Full interpretation: docs/e2e_vdm_context_preliminary_20260918.md.
+
+At20480, equal-seed/phase density CRPS is A0.35214/B0.31384/C0.32443.
+B improves over A by10.88%, with positive10.35--11.24% gains in all four
+seed/phase cells. Mean central density C90 is79.09%/89.32%/87.35%, against
+90.75%attainable coverage. This supports a diversity benefit at this budget,
+not a population or whole-field calibration claim. C's pooled CRPS is3.37%
+worse than B, with only one of four cells improving slightly.
+
+B's10240-to20480 CRPS improves6.10%/8.98% across seeds, but its spectral
+discrepancy worsens in both. Final sample/truth power ratios span0.562--0.893
+across bands and seed/phase cells (11--44%suppression); C spans0.415--0.854.
+These are sample spectra, not just posterior-mean smoothing. Reasonable
+marginal coverage does not establish the correct spatial distribution.
+
+This is partial evidence only: D, tides/eigengaps, dependence, conditioned
+calibration and final contrast decisions still await the full report. No new
+fit/checkpoint selection or protocol change. Main four-GPU sampling continues.
+The completed supplemental job is registered after terminal verification as
+resources/DENSITY_PREVIEW_START.json so the unchanged controller includes its
+CPU cost automatically at the next accounting step; do not double-add it.
+Completed CPU cost including preview is1.72833nodeh, within the original cap.
+
 ### 2026-09-18 - [analysis/preview-plan] Early registered density assessment while D finishes
 
 For preliminary scientific results, an isolated CPU wrapper selects all 384
