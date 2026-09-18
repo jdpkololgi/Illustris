@@ -1,5 +1,38 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-18 - [ops/evaluation] Seven model/seed draw branches complete; final D seed running
+
+Live verification at 11:03--11:05 UTC confirms the original tmux controller is
+alive on login04 and allocation 58514514/nid008309 is running all four GPU
+workers. The preceding segment 58505823 ended at the registered clean pause:
+all workers returned 75 after 3h51m24s. Its successor started at 08:50:03 UTC.
+No model, runtime, protocol, or resource-cap change; all ten fits and thirty
+registered checkpoints remain frozen.
+
+At 11:04:41, the fine-draw metadata audit finds 30,600/33,280 saved draws and
+636/688 complete cases. A/B/C have 4,064 draws per seed; D seed0 has all 4,448,
+and D seed1 has 1,768. All 3,825 existing fine chunk receipts have matching
+task/manifest bindings and existing payloads; complete-case receipt hashes
+match, and saved IDs are contiguous and duplicate-free. This audit does not
+rehash all array payloads; the final compute-node report must do that. At
+11:05:17, shared parent-cache receipts contain 5,736/7,872 coarse draws
+(seed0 3,936; seed1 1,800), with matching manifest bindings and payload presence.
+MANIFEST, MODELS_FROZEN and SAMPLER_GATE hashes are unchanged.
+
+Completed allocation cost before the live job is 61.48639 GPUh and 1.71417
+CPU-nodeh; seven of at most eight GPU requests are used. The live four-GPU
+allocation adds to that cost. Original 112 GPUh / 8 CPU-nodeh / 300 GiB / 48h
+limits remain. All four current worker logs show continued draw production.
+
+The defensible preliminary result remains the sixteen passing sampler screens
+(worst 500-to-1000 density-power change 1.399%, interval-width change 0.757%).
+Numerical stability is not evidence of accurate or calibrated posteriors.
+There is not yet a RESULTS.json or REPORT.md: the registered report waits for
+the complete matrix. Continue the remaining D seed, then the full payload,
+checkpoint-progression, field-statistics, coverage, tidal/eigengap and H1/H2
+assessment. No training extension or scientific success claim follows from
+this progress update; the experiment goal remains incomplete.
+
 ### 2026-09-18 - [ops/restart-verified] Second sampling handoff preserves C draws
 
 Allocation 58497328/nid008309 ended after 3h50m53s with the registered pause

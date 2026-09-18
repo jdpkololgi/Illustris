@@ -1,5 +1,18 @@
 # Controlled VDM diversity, spatial context, and shared matter uncertainty
 
+Latest execution status 2026-09-18, 11:05 UTC: all training is complete; seven
+of eight model/seed draw branches are complete. Saved fine draws total
+30,600/33,280 (636/688 complete cases); shared coarse draws total 5,736/7,872.
+Only D seed1 remains. Four GPU workers continue on 58514514/nid008309 under
+the original live tmux controller. Third pause/resume completed with the
+registered code75; frozen manifest/model/sampler hashes are unchanged. The
+metadata/receipt audit passes, with full array rehashing still reserved for
+the final report. Completed cost before this live job: 61.48639 GPUh /
+1.71417 CPU-nodeh; seven of eight GPU requests used, original caps unchanged.
+All sixteen sampler screens pass, but field-statistics/calibration conclusions
+and the final report remain pending. Continue the frozen experiment; no new fit.
+See SCIENCE_LOG for timestamps and audit scope.
+
 Latest execution status 2026-09-18, 04:59 UTC: second sampling segment
 58497328 paused normally (all workers code 75, 3h50m53s); successor
 58505823/nid008309 has four live GPU workers. Two C/seed0 cases resume at IDs

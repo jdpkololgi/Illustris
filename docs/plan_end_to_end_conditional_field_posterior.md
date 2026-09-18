@@ -1,5 +1,19 @@
 # Plan — End-to-end conditional density-field posterior
 
+**Final model/seed sampling underway (2026-09-18, 11:05 UTC):** all ten fits
+and thirty checkpoints are complete/frozen. A/B/C seeds0/1 and D seed0 have
+finished their draw branches; D seed1 continues on all four GPUs in allocation
+58514514/nid008309. The original tmux controller remains alive after three
+planned clean pauses. Fine draws: 30,600/33,280; complete cases: 636/688;
+coarse draws: 5,736/7,872. Metadata/receipt checks pass, with unchanged frozen
+bindings; full payload verification and scientific analysis remain pending.
+Completed cost before the live job: 61.48639 GPUh / 1.71417 CPU-nodeh; seven
+of eight GPU requests used. Original caps and frozen runtime are unchanged.
+Preliminary evidence establishes sampler stability only (all sixteen screens
+pass), not field accuracy or calibration. Finish the remaining draws and the
+registered checkpoint/statistics/coverage/tidal report before deciding next
+scientific steps. See SCIENCE_LOG for exact timestamps and audit limitations.
+
 **Second sampling handoff verified (2026-09-18, 04:59 UTC):** allocation
 58497328 paused as designed after 3h50m53s (all workers code 75); the unchanged
 tmux controller resumed on 58505823/nid008309 with four live GPU workers and a
