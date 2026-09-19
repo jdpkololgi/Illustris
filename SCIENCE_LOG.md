@@ -1,5 +1,55 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-19 - [science/decision-input] The whole BGS volume fits on one GPU; inference strategy costed for decision
+
+Costed the non-amortised alternative (learned unconditional prior + explicit
+galaxy likelihood + MCMC) against the amortised plan, using the measured
+51.77ms per score evaluation from GPU receipt c9eb5cd/58559826. No run, no
+authorization, no frozen-artifact change. Full note:
+[inference-strategy decision](docs/e2e_inference_strategy_decision_20260919.md);
+receipt COST_NON_AMORTISED.json.
+
+**The result that reframes the coupling problem.** BGS BRIGHT over0.1<z<0.4 is
+1.76(Gpc/h)^3, which at6.766Mpc/h cells is5.7Mvoxels --39 coupled rectangles,
+21.3GiB and2.0s for ONE global score evaluation. The entire survey footprint
+fits on a single A100 at the working resolution. The cross-core stitching the
+I/J experiment exists to probe is a nuisance of a decomposition that a
+non-amortised route does not need. Resolution, not footprint, is the scaling
+lever:4.0Mpc/h needs27.5Mvoxels/103GiB/2GPUs;2.0Mpc/h needs220M/824GiB/12GPUs.
+
+**Costs.** Training an unconditional prior at literature-parity depth is
+41.4GPUh against289.5 for the14 conditional factor fits -- 7x cheaper, because
+the arm matrix exists to compare conditioning strategies the prior does not
+have. Non-amortised inference on the REGISTERED confirmation panel is
+unaffordable (748--7,109GPUh over a10x sweep in evaluations per sample), but
+that panel exists to validate amortisation; on the panel a non-amortised sampler
+actually needs (24fields x64draws) it is86--483GPUh against the proposed
+710GPUh ceiling.100 footprint posterior samples cost28--277 GPU node-hours
+against a ~234,000 CPU node-hour Manticore II reference -- two to three orders
+of magnitude, allowing that node-hours are not interchangeable and that
+Manticore solves a harder problem (initial conditions, joint cosmology) on a
+different survey.
+
+**Architecture constraint found.** At footprint scale the U-Net bottleneck
+carries ~11,114tokens, so the current global self-attention becomes1.24e8 pairs
+and quadratic in memory. A footprint-scale prior needs windowed or local
+attention. Decide this before training a prior, not after.
+
+**Framing.** The likelihood p(galaxies|delta) was never the intractable object
+for the field problem; the intractable object is the marginal after integrating
+out delta, which is why BORG samples delta jointly. Implicit-likelihood SBI was
+inherited from the P12 per-galaxy lineage, where it was correct, and has not
+been re-justified for the field problem. The dominant unbounded error remains
+that HOD and cosmology are fixed and unmarginalised, so every in-distribution
+calibration gate is blind to the misspecification that matters for real DESI.
+
+**Recommended before choosing either route,** since a 10x unknown drives
+everything: measure score evaluations per independent sample on a Gaussian rung
+where the exact Wiener-filter posterior is computable (a few GPUh, and it also
+establishes whether the sampler is calibrated at all); and write the explicit
+p(galaxies|delta) for the already-prepared mock selection (no GPU). P12-A and
+all data preparation are unaffected either way.
+
 ### 2026-09-19 - [code/diagnostic] Follow-up: the corrector does not generalise; coarser blocking does not rescue the gate
 
 Two extensions to the same-day diagnostics, both read-only. One materially
