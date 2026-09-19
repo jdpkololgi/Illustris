@@ -1,5 +1,109 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-19 - [code/correction] Independent review corrects five overstated claims in the same-day diagnostic entries
+
+An independent GPT review (Astra) checked the 2026-09-19 diagnostic entries
+against the scripts, saved results and primary papers. It is right on
+essentially every specific point. The earlier entries are retained unaltered;
+this entry records what does not hold. Each correction below was re-verified
+against the repository before writing. No run, no frozen-artifact change.
+
+**1. There is no passing Gaussian rung. FACTUAL ERROR.** The earlier framing
+claimed our stack had already demonstrated a calibrated posterior on a Gaussian
+target, so the proposed ladder only had to locate the boundary between a passing
+and a failing rung. docs/e2e_oracle_conflict_v1.md:101 states plainly that
+"No neural network is fitted to synthetic data in this phase"; the same document
+scopes those tests to "the local sampler primitive, not the entire conditional
+coarse/fine posterior pipeline". The 2026-09-16 Gaussian/log-Gaussian work
+qualified analytic formulas and sampler primitives with an EXACT denoiser. No
+learned conditional-posterior capability was ever established on a reference
+problem. The ladder is entirely unbuilt, which makes the reference experiment
+more necessary, not less. Related and useful: line148 of that document records
+8.56% log-density coupled relative RMS error even with an exact denoiser -- a
+sampler-primitive floor that must be re-measured before any Gaussian-rung result
+is attributed to learned-score error.
+
+**2. "The proposed primary gate cannot fire" is NOT established.**
+exp3_probe_effect_size.py conditions only on the 128 within-core coarse block
+means; it conditions on neither the galaxy observations nor the full wide
+context. Conditioning can INCREASE correlation -- two independent Gaussians
+become perfectly anticorrelated once their sum is known -- so a small
+partially-conditioned correlation does not bound the conditional one. The
+computation itself reproduces independently (Gaussian-surrogate gain ~0.20%
+against our 0.233% Monte Carlo). What survives is narrower: the registered 10%
+threshold was frozen without its achievable effect size ever being computed, and
+a prior-side surrogate puts that effect two orders of magnitude below it. That
+requires re-deriving the threshold before launch. It does not establish that the
+gate is unachievable, nor that I is already approximately the correct conditional
+posterior. Also, the two owned cores are ADJACENT; 108.256Mpc/h is their centre
+separation, not an empty gap, and exact coarse block masses do not fix every
+long-wavelength mode.
+
+**3. The detectability figures were overstated.** sqrt(chi2-7) is not a
+significance conversion. For the 54.13Mpc/h blocking, chi2=18.61 on 7dof gives
+p=0.00950, i.e. 2.59sigma two-sided, not the 3.4sigma recorded. The corrected
+values are 0.95/2.59/3.80/4.62sigma for chi2 7.90/18.61/29.0/37.5. Worse, the
+seven matched probe pairs are not independent tests -- they are built from the
+same two fields -- so the effective degrees of freedom are below seven and
+2.59sigma is itself optimistic. No coarse-resolution or confirmation-panel change
+is justified on this evidence.
+
+**4. The claimed statistical-power gain was misstated.** The entry reported
+anchors as near-independent replicates giving "~16x" more power. That conflated
+the n_eff ratio (64/4) with the operative standard-error ratio. The saved
+cluster/naive SE ratios are 0.26 (A->B density CRPS), 1.83 (B->C) and 0.83
+(C->D): the effect goes in both directions and is not a blanket gain.
+Additionally, two training seeds on the same simulation phase are not
+independent clusters, so the four seed/phase cells are effectively about two,
+and both the ICC and n_eff are optimistic. The uncertainty structure needs a
+phase/anchor/seed-aware treatment, not permission to pool.
+
+**5. The survey-scale figures are a feasibility hypothesis, not a costing.** The
+21.3GiB and 2.0s per global score evaluation scale patch memory and kernel time
+linearly by comoving volume. They exclude a padded non-cuboidal survey domain,
+global attention, external matter context, the likelihood evaluation and MCMC
+state, and the GPU node-hour figures divide by four without any demonstrated
+multi-GPU scaling. "The footprint fits on one A100, so tiling is unnecessary"
+is not supported by that arithmetic.
+
+**Two further corrections of framing.** The total-variance identity gives
+Var(d|g) >= E_phi[Var(d|g,phi)], an average-over-phi statement; it does not prove
+the posterior at our particular trained HOD is narrower than the marginalised
+one. And held-out mock validation is a valid falsifiable test that simply cannot
+establish real-DESI validity by itself; describing it as circular was
+rhetorical overreach. The explicit-likelihood argument was also too glib:
+completeness is density dependent and therefore not a scalar W(x) independent of
+delta, fibre assignment carries genuine pairwise structure (DESI altmtl
+methodology, arXiv 2404.03006), and a smoothed density does not determine halo
+occupation or velocities. The scale argument -- 0.6Mpc/h collisions against
+6.766Mpc/h cells -- stands but does not carry that conclusion.
+
+**What survives unchanged.** The sampler corrector does not generalise across
+arms (measured with CRPS and coverage on four anchors: B -1.69%, D +0.55%,
+C +9.56%). Voxel marginals can be over-covered while band power is deficient in
+the same ensemble. The prior-art findings stand, including that arXiv 2604.01456
+reports algorithmic membership frequencies with GAMA-matched thresholds rather
+than coverage-validated posteriors. And the general principle holds: a gate whose
+achievable effect size was never computed is not a scientific gate, and should be
+re-derived before launch. The review reaches the same conclusion independently.
+
+**Direction.** The prior entry's proposal to retire the coupled experiment and
+re-anchor on the environment estimand rested on treating the field work as
+instrumental to environments. It is not: it is a deliberate exploratory project
+with P12 parked as the production path, and that entry's framing is withdrawn.
+The review's bounded reference experiment supersedes both the four-arm campaign
+as written and that re-anchoring. Its key design point is sharper than the ladder
+proposed earlier: separate fixed-observation distribution fitting from amortised
+conditional learning, which distinguishes whether a model can REPRESENT the
+distribution from whether it can LEARN the conditioning map (Doeser/Jasche,
+arXiv 2606.10023). Add to it a re-measurement of the sampler-primitive floor from
+correction 1, and use the linear-Gaussian reference to calibrate whatever
+dependence statistic replaces the variogram gate.
+
+The confidence estimates given in this session are withdrawn rather than revised;
+they rested partly on claims corrected above, and the reference experiment is
+what should set them.
+
 ### 2026-09-19 - [science/direction] Prior-art check re-anchors the programme on the environment estimand
 
 Literature check on the actual science goal -- calibrated cosmic-web environment
