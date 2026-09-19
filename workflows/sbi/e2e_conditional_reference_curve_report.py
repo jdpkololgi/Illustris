@@ -89,6 +89,24 @@ def report(root, output):
     manifest = json.loads((root/'manifest.json').read_text())
     done = json.loads((root/'COMPLETE.json').read_text())
     summary = summarize(done, manifest)
+    summary['analysis_source_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+    summary['run_root'] = str(root.resolve())
+    parent = Path(manifest['parent'])/'results'
+    if hashlib.sha256((parent/'COMPLETE.json').read_bytes()).hexdigest() != manifest['parent_complete_sha256']:
+        raise ValueError('parent completion receipt changed')
+    controls = json.loads((parent/'controls.json').read_text())
+    summary['curve_covariance_thresholds'] = [max(manifest['base']['covariance_tolerance'], n['covariance_p99'])
+                                             for n in controls['nulls']]
+    replay = []
+    for r in done['evaluations']:
+        if r['objective'] != 'cfm' or r['update'] != 4096 or r['nfe'] != 256:
+            continue
+        old = json.loads((parent/r['fit']/f'evaluation_4096_{r["case"]}_256.json').read_text())
+        delta = max(abs(r[k]-old[k]) for k in METRICS)
+        if delta > 1e-6:
+            raise ValueError('original CFM baseline evaluation not reproduced')
+        replay.append(dict(fit=r['fit'], case=r['case'], maximum_metric_difference=delta))
+    summary['cfm_baseline_replay'] = replay
     output.mkdir(parents=True, exist_ok=True)
     for name in ('manifest.json', 'COMPLETE.json'):
         shutil.copy2(root/name, output/name)
@@ -97,6 +115,9 @@ def report(root, output):
     for item in manifest['items']:
         shutil.copy2(root/'results'/item['name']/'precision/nulls.json',
                      output/f'precision_nulls_{item["name"]}.json')
+    shutil.copy2(parent/'controls.json', output/'original_controls.json')
+    for name in ('replay_default.log', 'replay_deterministic.log'):
+        shutil.copy2(root/name, output/(name+'.txt'))
     (output/'summary.json').write_text(json.dumps(summary, indent=2)+'\n')
     lines = ['# Unchanged-training Gaussian reference continuation', '',
              '|Model|Updates|Mean RMS|Covariance error|Variance ratio|Octant coverage|Passed cells|',
@@ -128,7 +149,9 @@ def report(root, output):
             ax.grid(alpha=.2)
     axes[0].axhline(.1, color='black', ls=':', label='mean gate')
     axes[0].legend(fontsize=8)
-    axes[1].axhline(.15, color='black', ls=':', label='base covariance gate (MC-adjusted)')
+    thresholds = summary['curve_covariance_thresholds']
+    axes[1].axhspan(min(thresholds), max(thresholds), color='grey', alpha=.25,
+                   label='512-draw covariance gate range')
     axes[1].legend(fontsize=7)
     fig.suptitle('Matched observations0/1; both seeds; bands show cell range, not confidence intervals')
     fig.savefig(output/'learning_curves.png', dpi=180)
