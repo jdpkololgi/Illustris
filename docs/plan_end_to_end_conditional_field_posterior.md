@@ -9,6 +9,11 @@ node for90minutes is approved, with checkpointed tmux persistence. VDM uses
 512/1024NFE throughout the new curve; the original4096point is re-evaluated at
 those settings. No affine or coupled-field launch is included in this approval.
 
+**Preflight status:** allocation58596902 stopped after17seconds on a GPU replay
+check, before extended training. Seventeen focused tests pass, including exact
+mature-checkpoint CPU replay. An instrumented single89-minute retry has been
+requested; no resubmission until approved. Original checkpoints remain untouched.
+
 ## Prerequisite: learned reference experiment (2026-09-19)
 
 The large four-arm campaign is paused pending the

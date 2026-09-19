@@ -1,5 +1,23 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-19 - [execution] Continuation GPU replay smoke stops before scientific training
+
+First four-GPU allocation58596902 (nid008564) FAILED1:0 after17s; GPU step14s.
+All four initial worker replays failed the1e-6loss/parameter equality check.
+No continuation checkpoint or evaluation receipt was written; original4096
+checkpoints and failed source snapshot remain unchanged. This is a technical
+qualification failure, not a scientific learning-curve result.
+
+CPU replay of an actual mature4096CFM checkpoint is exact (loss2.9325413703918457
+both paths, maximum parameter difference0), as are the focused serialized replay
+tests. That does not establish the cause of the GPU discrepancy. New technical
+instrumentation records exact restored model/optimizer state, generated data,
+loss and parameter differences; a deterministic-CUDA smoke option isolates
+arithmetic reproducibility without changing the actual training backend. The
+1e-6numerical comparison has NOT been loosened. A single instrumented89-minute
+retry was requested, keeping both allocations below6GPUh; approval pending.
+No automatic resubmission or affine/Abacus run.
+
 ### 2026-09-19 - [design] Sixteen-fold unchanged-training reference continuation approved
 
 User prioritizes under-training before affine/teacher diagnostics and approves

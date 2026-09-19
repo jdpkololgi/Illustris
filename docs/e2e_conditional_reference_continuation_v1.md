@@ -82,3 +82,19 @@ update are verified fail-closed. Each worker checkpoints atomically and has an
 85-minute deadline. Parent and worker completion records distinguish successful
 execution from scientific gate success. Affine, nonlinear and Abacus fits remain
 outside this run.
+
+## Technical preflight record
+
+Source commit5660b29, frozen run tree
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/conditional_reference_continuation_20260919_v1`.
+Allocation58596902 stopped after17s because all four initial GPU replay checks
+failed before scientific fitting. No continuation checkpoints were published.
+The original4096results were not altered. A mature-checkpoint CPU replay is
+exact, but GPU nondeterminism remains a hypothesis until measured explicitly.
+
+The proposed retry uses a separate `_r1` run tree, records restored-state equality
+and numeric replay differences, and provides a deterministic-CUDA *smoke-only*
+control. Actual training retains the parent's backend settings. No equality
+tolerance is relaxed. One89-minute/four-GPU retry has been requested; combined
+with the first17seconds it remains below the original6GPU-hour cap. Await
+specific approval; do not silently resubmit. The failed source remains frozen.

@@ -1,0 +1,182 @@
+{
+  "extension": {
+    "schema": "conditional-reference-continuation-v1",
+    "parent_config_sha256": "ce2aa298fdebd133dcf9b79558577b4c21ac4c8248d473493b0f8de88b669610",
+    "start_update": 4096,
+    "updates": 65536,
+    "checkpoints": [
+      4096,
+      8192,
+      16384,
+      32768,
+      65536
+    ],
+    "nfe_by_objective": {
+      "vdm": [
+        512,
+        1024
+      ],
+      "cfm": [
+        128,
+        256
+      ]
+    },
+    "precision_draws": 2048,
+    "workers": 4,
+    "deadline_seconds": 5100,
+    "scratch_cap_gib": 20,
+    "affine_control": "deferred until learning-curve interpretation; not in this run"
+  },
+  "base": {
+    "schema": "conditional-reference-v1",
+    "grid": 8,
+    "base": 8,
+    "levels": 2,
+    "batch": 32,
+    "updates": 4096,
+    "checkpoints": [
+      1024,
+      4096
+    ],
+    "seeds": [
+      17,
+      29
+    ],
+    "objectives": [
+      "vdm",
+      "cfm"
+    ],
+    "cases": 4,
+    "fixed_cases": [
+      0,
+      1
+    ],
+    "draws": 512,
+    "evaluation_batch": 64,
+    "nfe": [
+      128,
+      256
+    ],
+    "oracle_nfe": [
+      32,
+      64,
+      128,
+      256,
+      512,
+      1024
+    ],
+    "learning_rate": 0.0003,
+    "null_repeats": 128,
+    "mean_tolerance": 0.1,
+    "variance_tolerance": 0.1,
+    "covariance_tolerance": 0.15,
+    "oracle_covariance_tolerance": 0.05,
+    "deadline_seconds": 6600,
+    "scratch_cap_gib": 20,
+    "lognormal_stage": "deferred until Gaussian learned and numerical gates pass"
+  },
+  "parent": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/conditional_reference_20260919_v1",
+  "parent_sources": {
+    "e2e_conditional_reference.py": "4cfe1afdc905094ca1ab2ee5ae1e3ef250e8f5bafd6edd90860bc7f407c981eb",
+    "e2e_conditional_reference_math.py": "70023d9d124ad2b552f694e4a4b12204c04efc80530b10b24fd1bf8f2733fd40",
+    "e2e_direct_vdm.py": "cca2c730ea28a76a2c49d6d9a823dfb8d7cafc3ec19bfe30c2d501f6d92b091b",
+    "e2e_conditional_reference_v1.json": "ce2aa298fdebd133dcf9b79558577b4c21ac4c8248d473493b0f8de88b669610"
+  },
+  "parent_complete_sha256": "7f6f4e91a79ed12d2c102f1dd2172bb73a7f1364efed5deb1b61db2655c9f40b",
+  "sources": {
+    "workflows/sbi/e2e_conditional_reference.py": "4cfe1afdc905094ca1ab2ee5ae1e3ef250e8f5bafd6edd90860bc7f407c981eb",
+    "workflows/sbi/e2e_conditional_reference_math.py": "70023d9d124ad2b552f694e4a4b12204c04efc80530b10b24fd1bf8f2733fd40",
+    "workflows/sbi/e2e_direct_vdm.py": "cca2c730ea28a76a2c49d6d9a823dfb8d7cafc3ec19bfe30c2d501f6d92b091b",
+    "configs/e2e_conditional_reference_v1.json": "ce2aa298fdebd133dcf9b79558577b4c21ac4c8248d473493b0f8de88b669610",
+    "workflows/sbi/e2e_conditional_reference_continue.py": "40ab0c32f7699c310ec29f5fdd3f5a497d5e166a6ffb9b221f1d9f69a7558892",
+    "configs/e2e_conditional_reference_continuation_v1.json": "e337d8f4302c424cc4ef7bac8ec7c6c65ca4bccdea67d82286a59694f5100b04",
+    "workflows/sbi/e2e_conditional_reference_continue_step.sh": "cbe89300150ef60e39b5403b6d6c06d7c0ef9f1c252ee156b0bf70d965f0930e"
+  },
+  "items": [
+    {
+      "seed": 17,
+      "objective": "vdm",
+      "fixed": null,
+      "name": "vdm_seed17_amortised",
+      "checkpoint_sha256": "0704735b69405199305fc6b0e67509dbc97db683e312d38c5b152cd228732664"
+    },
+    {
+      "seed": 17,
+      "objective": "vdm",
+      "fixed": 0,
+      "name": "vdm_seed17_fixed0",
+      "checkpoint_sha256": "7edb85988efbcfddbca531181ea1b781a8091c5d7cfe5768e6070986b7c2d42f"
+    },
+    {
+      "seed": 17,
+      "objective": "vdm",
+      "fixed": 1,
+      "name": "vdm_seed17_fixed1",
+      "checkpoint_sha256": "a2c16aa00afd9dd59c04cce23cf5eedf37cf53cea449a0f3caa2a9337e43d56e"
+    },
+    {
+      "seed": 17,
+      "objective": "cfm",
+      "fixed": null,
+      "name": "cfm_seed17_amortised",
+      "checkpoint_sha256": "6ba2c10f8a24df53f32348e810030b6da654ee7bc3c4ec144bcbacbed7e79ecc"
+    },
+    {
+      "seed": 17,
+      "objective": "cfm",
+      "fixed": 0,
+      "name": "cfm_seed17_fixed0",
+      "checkpoint_sha256": "0157ed5a75adac9570eb743af6f25d33ec3b47ed526c9b598e13000145821666"
+    },
+    {
+      "seed": 17,
+      "objective": "cfm",
+      "fixed": 1,
+      "name": "cfm_seed17_fixed1",
+      "checkpoint_sha256": "6cbfa768a9bbdf1648d36f4a4e05b8a2014a9bd08b23f88ba35ec204d75c389b"
+    },
+    {
+      "seed": 29,
+      "objective": "vdm",
+      "fixed": null,
+      "name": "vdm_seed29_amortised",
+      "checkpoint_sha256": "f200f734173f1a60d93196fbeb4210fe313e250719ab70cfc20a9eea643a6240"
+    },
+    {
+      "seed": 29,
+      "objective": "vdm",
+      "fixed": 0,
+      "name": "vdm_seed29_fixed0",
+      "checkpoint_sha256": "1bca477dab1d879595aefa67a4f29c687c6b99adf459503337193a4b6d2b6658"
+    },
+    {
+      "seed": 29,
+      "objective": "vdm",
+      "fixed": 1,
+      "name": "vdm_seed29_fixed1",
+      "checkpoint_sha256": "95648273c4582b755c07231bf714518c9b7713ed631d3d8115809cd9d6a2c9d3"
+    },
+    {
+      "seed": 29,
+      "objective": "cfm",
+      "fixed": null,
+      "name": "cfm_seed29_amortised",
+      "checkpoint_sha256": "de304a198ef474539634adc69589c7b2fcdbed595cc8b3c987b0c0bcf8a24c4a"
+    },
+    {
+      "seed": 29,
+      "objective": "cfm",
+      "fixed": 0,
+      "name": "cfm_seed29_fixed0",
+      "checkpoint_sha256": "d6edb52ef393328278d3ff8b2878fddfd28dd66f421b45ba14423628016dade7"
+    },
+    {
+      "seed": 29,
+      "objective": "cfm",
+      "fixed": 1,
+      "name": "cfm_seed29_fixed1",
+      "checkpoint_sha256": "848076f4340d1cb198af80a4968df5ea7cae818512364f661edb0d7802b53534"
+    }
+  ],
+  "prepared": 1789859285.2145321
+}

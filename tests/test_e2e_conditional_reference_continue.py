@@ -9,7 +9,7 @@ import torch
 from workflows.sbi.e2e_conditional_reference import train_step
 from workflows.sbi.e2e_direct_vdm import ConditionalVDM
 from workflows.sbi.e2e_conditional_reference_continue import (
-    digest,fit_items,restore_training_state,validate_extension,validate_state,verify_snapshot,
+    assert_state_equal,digest,fit_items,restore_training_state,validate_extension,validate_state,verify_snapshot,
 )
 
 
@@ -86,6 +86,13 @@ class ContinuationTests(unittest.TestCase):
             path.write_text("changed\n")
             with self.assertRaises(ValueError):
                 verify_snapshot(root,manifest)
+
+    def test_exact_restored_state_check(self):
+        state={"tensor":torch.arange(4),"groups":[{"lr":.0003}]}
+        assert_state_equal(copy.deepcopy(state),state)
+        altered=copy.deepcopy(state); altered["tensor"][0]=1
+        with self.assertRaises(AssertionError):
+            assert_state_equal(altered,state)
 
 
 if __name__=="__main__":

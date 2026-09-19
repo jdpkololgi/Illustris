@@ -8,6 +8,10 @@ VDM evaluations at512/1024NFE and CFM128/256, with final2048draw precision check
 See `docs/e2e_conditional_reference_continuation_v1.md`. No extended results yet;
 P12, Abacus and nonlinear training remain unchanged/deferred.
 
+First GPU preflight58596902 failed a replay equality check after17s, before any
+continuation training. An instrumented single retry has been requested; no new
+learning-curve result exists yet. See the current SCIENCE_LOG execution entry.
+
 ## Current reference gate (2026-09-19)
 
 The coupled scientific campaign is paused ahead of a bounded learned Gaussian

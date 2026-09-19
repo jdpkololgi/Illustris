@@ -73,6 +73,25 @@ def restore_training_state(model, optimizer, generator, saved):
         torch.cuda.set_rng_state(saved["cuda_rng"].cpu())
 
 
+def assert_state_equal(actual, expected):
+    """Exact value comparison independent of the checkpoint's storage device."""
+    if isinstance(expected,torch.Tensor):
+        if not isinstance(actual,torch.Tensor) or not torch.equal(actual.cpu(),expected.cpu()):
+            raise AssertionError("restored state tensor differs")
+    elif isinstance(expected,dict):
+        if actual.keys()!=expected.keys():
+            raise AssertionError("restored state keys differ")
+        for key in expected:
+            assert_state_equal(actual[key],expected[key])
+    elif isinstance(expected,(list,tuple)):
+        if len(actual)!=len(expected):
+            raise AssertionError("restored state sequence differs")
+        for a,b in zip(actual,expected):
+            assert_state_equal(a,b)
+    elif actual!=expected:
+        raise AssertionError("restored state value differs")
+
+
 def prepare(args):
     parent=Path(args.parent).resolve()
     output=Path(args.output).resolve()
@@ -145,6 +164,11 @@ def worker(args):
         raise RuntimeError("approved GPU allocation required")
     if torch.cuda.device_count()!=1:
         raise RuntimeError("each independent task must see exactly one assigned GPU")
+    if args.deterministic_smoke:
+        if args.mode!="smoke":
+            raise ValueError("deterministic override is a technical smoke control ONLY")
+        torch.use_deterministic_algorithms(True)
+        torch.backends.cudnn.deterministic=True
     torch.set_num_threads(4)
     output=Path(args.output).resolve()
     manifest=json.loads((output/"manifest.json").read_text())
@@ -181,6 +205,8 @@ def worker(args):
                 raise ValueError("continuation ancestry mismatch")
         restore_training_state(model,optimizer,generator,saved)
         if args.mode=="smoke":
+            assert_state_equal(model.state_dict(),saved["model"])
+            assert_state_equal(optimizer.state_dict(),saved["optimizer"])
             x,c=data.batch(cfg["batch"],fixed,generator)
             loss=train_step(model,optimizer,x,c,objective,generator)
             weights=copy.deepcopy(model.state_dict())
@@ -190,8 +216,14 @@ def worker(args):
                 raise AssertionError("restored data RNG differs")
             replay=train_step(model,optimizer,xx,cc,objective,generator)
             maximum=max(float((weights[k]-v).abs().max()) for k,v in model.state_dict().items())
+            diagnostic=dict(fit=item["name"],loss=loss,replay_loss=replay,
+                loss_difference=abs(loss-replay),parameter_maximum_difference=maximum,
+                restored_state_exact=True,data_rng_exact=True,
+                deterministic_algorithms=torch.are_deterministic_algorithms_enabled())
+            diagnostic_path=output/f'worker_{rank}_{item["name"]}_replay_{args.deterministic_smoke}.json'
+            atomic_json(diagnostic_path,diagnostic)
             if maximum>1e-6 or abs(loss-replay)>1e-6:
-                raise AssertionError("GPU checkpoint replay mismatch")
+                raise AssertionError(f"GPU checkpoint replay mismatch: {diagnostic}")
             tic=time.monotonic()
             for _ in range(32):
                 x,c=data.batch(cfg["batch"],fixed,generator)
@@ -235,7 +267,8 @@ def worker(args):
         atomic_json(final_dir/"nulls.json",precise.nulls)
     receipt=dict(rank=rank,job=os.environ["SLURM_JOB_ID"],node=socket.gethostname(),
                  seconds=time.monotonic()-started,mode=args.mode,owned=[x["name"] for x in owned],
-                 sources=manifest["sources"],peak_gpu_bytes=torch.cuda.max_memory_allocated())
+                 sources=manifest["sources"],peak_gpu_bytes=torch.cuda.max_memory_allocated(),
+                 deterministic_algorithms=torch.are_deterministic_algorithms_enabled())
     if args.mode=="smoke":
         receipt["smoke"]=smoke
     atomic_json(output/f'worker_{rank}_{args.mode.upper()}_COMPLETE.json',receipt)
@@ -281,5 +314,6 @@ if __name__=="__main__":
     p.add_argument("--parent")
     p.add_argument("--config")
     p.add_argument("--mode",choices=["smoke","run"],default="run")
+    p.add_argument("--deterministic-smoke",action="store_true")
     args=p.parse_args()
     {"prepare":prepare,"worker":worker,"collect":collect}[args.command](args)
