@@ -1,5 +1,20 @@
 # Research context — Illustris
 
+## Current reference gate (2026-09-19)
+
+The coupled scientific campaign is paused ahead of a bounded learned Gaussian
+reference: actual VDM/CFM, exact numerical controls, fixed-observation fits versus
+amortised conditioning, and metric-null validation. See
+`docs/e2e_conditional_reference_v1.md`. One shared GPU for two hours / 20 GiB is
+approved separately from completed preparation. No P12 or Abacus-training change.
+The older proposal below describes preparation readiness, not launch authority.
+
+This reference is now complete:12fits,96ensembles, Slurm58594516 COMPLETED
+in18m33s. No reproducible learned Gaussian pass: fixed fits improve means but
+retain covariance error. CFM is numerically better resolved than current VDM.
+See `docs/e2e_conditional_reference_conclusions_20260919.md`. The nonlinear rung
+and coupled campaign remain gated; the completed allocation has been released.
+
 ## Current coupled-field direction (2026-09-19)
 
 The A/B/C/D diversity/context/multiscale experiment is scientifically closed:

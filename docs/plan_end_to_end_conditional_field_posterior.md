@@ -1,5 +1,28 @@
 # Plan — End-to-end conditional density-field posterior
 
+## Prerequisite: learned reference experiment (2026-09-19)
+
+The large four-arm campaign is paused pending the
+[bounded Gaussian reference protocol](e2e_conditional_reference_v1.md).
+One shared A100, at most two hours and 20 GiB new Scratch are approved for actual
+VDM/CFM fits: exact-sampler controls, fixed-observation posterior fitting versus
+amortised conditional learning, two seeds, and conditional-covariance metric
+validation. P12 and prepared Abacus products remain unchanged. A nonlinear
+lognormal/Poisson rung follows only after reproducible Gaussian qualification.
+The archived coupled resource proposal is historical, not current launch
+authority; its dependence tolerances require conditional-reference validation.
+
+**Reference completed:** all12fits and96evaluation ensembles are present;
+Slurm58594516 completed in18m33s within the separate approval. The Gaussian
+learned gate did not pass reproducibly. Fixed-observation fitting improves mean
+accuracy but leaves covariance/power errors; CFM has a much smaller numerical
+floor than the present VDM sampler. See the
+[scientific conclusions](e2e_conditional_reference_conclusions_20260919.md) and
+[archived measurements](evidence/e2e_conditional_reference_20260919/README.md).
+No lognormal/Poisson or Abacus training follows automatically. The next proposed
+control is exact conditional score/velocity supervision and an affine learned
+reference, not the full four-arm launch; additional compute needs a new decision.
+
 ## Current handoff: coupled-field preparation complete (2026-09-19)
 
 All21phase products, independent audits and normalized interfaces qualify:

@@ -1,5 +1,65 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-19 - [result] Learned Gaussian reference completes; covariance failure is not solely amortisation
+
+All12actual VDM/CFM fits and96ensembles of512draws completed, two seeds,
+checkpoints1024/4096, masked heteroscedastic8^3 Gaussian inverse problem.
+Slurm58594516 COMPLETED0:0 in18m33s, one shared A100,220MiB run tree; no new
+allocation, Abacus training, P12 change or nonlinear fit. Ten focused tests pass.
+Protocol `docs/e2e_conditional_reference_v1.md`; full receipts
+`docs/evidence/e2e_conditional_reference_20260919/`; interpretation
+`docs/e2e_conditional_reference_conclusions_20260919.md`.
+
+At4096updates/256NFE, matched-case/two-seed mean RMS / projected-covariance
+relative errors: VDM amortised0.372/0.374, fixed0.153/0.402; CFM amortised
+0.278/0.253, fixed0.094/0.248. Mean RMS is normalized by posterior RMS, not
+percentage of voxels failing. Removing the conditional-map learning burden
+improves the mean substantially but does not remove covariance error. No model
+configuration passes reproducibly across cases/seeds. One fixed CFM cell passes
+at128NFE and barely misses the covariance threshold at256; do not overinterpret
+that threshold crossing. Highest-shell fixed-CFM posterior residual variance is
+1.51-1.72times exact despite near-correct average voxel variance.
+
+Exact-sampler controls: worst VDM covariance error9.71%/5.020%/2.553% at128/
+256/512NFE; current neural128/256 comparisons remain numerically qualified.
+Exact CFM Heun error<=0.0337%/0.0083% at128/256, and learned results barely
+change with doubled NFE. All four exact-ensemble metric controls pass; erasing
+covariance with correct voxel variances fails strongly (regional coverage
+0.667-0.708); all30%-variance-shrink controls fail. Coverage is exact posterior
+mass inside sample octant intervals, NOT TARP/population coverage over many
+independent truths. Full512-dimensional posterior accuracy is not certified.
+
+Checkpoint improvements remain substantial (fixed-CFM covariance0.480->0.248);
+no asymptotic or capacity-impossibility claim is justified. Gaussian learned rung
+not promoted; lognormal/Poisson and large coupled campaign stay paused. Next
+proposed isolating control: exact conditional score/velocity target by time/mode,
+an affine Gaussian-capable learned baseline and learning-curve checks, with CFM
+as the numerically clean first instrument. This is reference-only diagnostic
+supervision, not an oracle available for DESI. No extra neural run launched.
+
+### 2026-09-19 - [design] Learned Gaussian reference registered ahead of coupled campaign
+
+User approves one shared A100 for <=2h, CPU references within the allocation,
+<=20GiB new Scratch. Protocol: `docs/e2e_conditional_reference_v1.md`; fixed
+configuration: `configs/e2e_conditional_reference_v1.json`. Twelve actual neural
+fits compare VDM/CFM and fixed-observation versus amortised conditional learning
+on an 8^3 masked, heteroscedastic linear-Gaussian inverse problem, two seeds.
+Exact current-sampler moment propagation and Monte Carlo metric-null controls
+precede interpretation. Checkpoints1024/4096,512draws,NFE128/256. No fitted
+results yet. No P12 change, Abacus training or four-arm launch. The earlier
+large proposal is superseded as the immediate next step, not modified in its
+hash-bound preparation archive.
+
+The objective remains coherent joint p(delta|observed galaxies,survey response;
+simulator assumptions), including regional mass and tidal uncertainty. Criticism
+of amortisation is a legitimate hypothesis, not an isolated cause of earlier
+failures. Fixed-posterior fitting is deliberately easier and uses exact posterior
+training samples unavailable for DESI; differences identify finite-budget
+learning burdens, not representational impossibility. Opus's exact-sampler and
+metric-sensitivity suggestions are incorporated. Clarification to the correction
+below: sharing two fields does NOT itself establish effective chi-square dof<7;
+joint probe covariance/rank or a simulated null is needed, not guessed dof.
+
 ### 2026-09-19 - [code/correction] Independent review corrects five overstated claims in the same-day diagnostic entries
 
 An independent GPT review (Astra) checked the 2026-09-19 diagnostic entries

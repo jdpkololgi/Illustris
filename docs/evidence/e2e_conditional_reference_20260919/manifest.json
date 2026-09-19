@@ -1,0 +1,60 @@
+{
+  "config": {
+    "schema": "conditional-reference-v1",
+    "grid": 8,
+    "base": 8,
+    "levels": 2,
+    "batch": 32,
+    "updates": 4096,
+    "checkpoints": [
+      1024,
+      4096
+    ],
+    "seeds": [
+      17,
+      29
+    ],
+    "objectives": [
+      "vdm",
+      "cfm"
+    ],
+    "cases": 4,
+    "fixed_cases": [
+      0,
+      1
+    ],
+    "draws": 512,
+    "evaluation_batch": 64,
+    "nfe": [
+      128,
+      256
+    ],
+    "oracle_nfe": [
+      32,
+      64,
+      128,
+      256,
+      512,
+      1024
+    ],
+    "learning_rate": 0.0003,
+    "null_repeats": 128,
+    "mean_tolerance": 0.1,
+    "variance_tolerance": 0.1,
+    "covariance_tolerance": 0.15,
+    "oracle_covariance_tolerance": 0.05,
+    "deadline_seconds": 6600,
+    "scratch_cap_gib": 20,
+    "lognormal_stage": "deferred until Gaussian learned and numerical gates pass"
+  },
+  "sources": {
+    "e2e_conditional_reference.py": "4cfe1afdc905094ca1ab2ee5ae1e3ef250e8f5bafd6edd90860bc7f407c981eb",
+    "e2e_conditional_reference_math.py": "70023d9d124ad2b552f694e4a4b12204c04efc80530b10b24fd1bf8f2733fd40",
+    "e2e_direct_vdm.py": "cca2c730ea28a76a2c49d6d9a823dfb8d7cafc3ec19bfe30c2d501f6d92b091b",
+    "e2e_conditional_reference_v1.json": "ce2aa298fdebd133dcf9b79558577b4c21ac4c8248d473493b0f8de88b669610"
+  },
+  "job": "58594516",
+  "node": "nid008337",
+  "started": 1789856105.719454,
+  "mode": "run"
+}
