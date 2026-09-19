@@ -23,24 +23,24 @@ import numpy as np
 TARGETS = Path('/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets')
 CORES = (((16, 32), (16, 32), (16, 32)), ((32, 48), (16, 32), (16, 32)))
 MODES = ((1, 0, 0), (0, 1, 0), (0, 0, 1), (1, 1, 0), (1, 0, 1), (0, 1, 1), (1, 1, 1))
-CORE_N, BLOCK = 16, 4
+CORE_N, BLOCK = 16, 4  # BLOCK is the default coarse cell in fine cells; override with --block
 
 
-def probe_weights():
-    """Seven separable DCT-II modes, 4-cubed block means removed, unit L2."""
+def probe_weights(block=BLOCK):
+    """Seven separable DCT-II modes, block means removed, unit L2."""
     index = np.arange(CORE_N)
     axis = lambda k: np.cos(np.pi * k * (index + 0.5) / CORE_N)
     weights = []
     for mode in MODES:
         w = np.einsum('i,j,k->ijk', axis(mode[0]), axis(mode[1]), axis(mode[2]))
-        blocked = w.reshape(CORE_N // BLOCK, BLOCK, CORE_N // BLOCK, BLOCK, CORE_N // BLOCK, BLOCK)
+        blocked = w.reshape(CORE_N // block, block, CORE_N // block, block, CORE_N // block, block)
         w = (blocked - blocked.mean(axis=(1, 3, 5), keepdims=True)).reshape(CORE_N, CORE_N, CORE_N)
         weights.append(w / np.linalg.norm(w))
     return np.array(weights)
 
 
-def block_means(core):
-    shaped = core.reshape(CORE_N // BLOCK, BLOCK, CORE_N // BLOCK, BLOCK, CORE_N // BLOCK, BLOCK)
+def block_means(core, block=BLOCK):
+    shaped = core.reshape(CORE_N // block, block, CORE_N // block, block, CORE_N // block, block)
     return shaped.mean(axis=(1, 3, 5)).ravel()
 
 
@@ -61,8 +61,8 @@ def domain_files(targets, per_phase, roles=('train',)):
     return picked
 
 
-def collect(files, roles):
-    weights = probe_weights()
+def collect(files, roles, block=BLOCK):
+    weights = probe_weights(block)
     probes, coarse, used = [], [], []
     for path in files:
         with h5py.File(path, 'r') as handle:
@@ -74,7 +74,7 @@ def collect(files, roles):
         for (x0, x1), (y0, y1), (z0, z1) in CORES:
             core = delta[x0:x1, y0:y1, z0:z1]
             row.extend(float((w * core).sum()) for w in weights)
-            blocks.extend(block_means(core))
+            blocks.extend(block_means(core, block))
         probes.append(row)
         coarse.append(blocks)
         used.append(str(path.name))
@@ -122,12 +122,16 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--targets', type=Path, default=TARGETS)
     parser.add_argument('--per-phase', type=int, default=64)
+    parser.add_argument('--block', type=int, default=BLOCK,
+                        help='coarse cell in fine cells; 4 is the registered 27.064 Mpc/h blocking')
     parser.add_argument('--out', type=Path,
                         default=Path('/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/diagnostics_20260919'))
     args = parser.parse_args()
 
     files = domain_files(args.targets, args.per_phase)
-    probes, coarse, used = collect(files, ('train',))
+    if CORE_N % args.block:
+        raise SystemExit('block must divide the 16-cell core')
+    probes, coarse, used = collect(files, ('train',), args.block)
     if len(probes) < 200:
         raise SystemExit(f'too few training domains collected: {len(probes)}')
     dim = probes.shape[1] // 2
@@ -147,6 +151,7 @@ def main():
     result = dict(
         schema='e2e-diagnostic-probe-effect-size-v1',
         targets=str(args.targets), domains=len(probes), regressors=coarse.shape[1],
+        block_fine_cells=args.block, block_mpc_h=args.block * 6.766,
         cores=[[list(a) for a in core] for core in CORES], modes=[list(m) for m in MODES],
         core_separation_mpc_h=16 * 6.766,
         matched_cross_core_correlation_raw=matched_raw,
@@ -163,10 +168,12 @@ def main():
                 'the variogram mapping; not a claim about any trained posterior.'),
         example_files=used[:3])
     args.out.mkdir(parents=True, exist_ok=True)
-    path = args.out / 'EXP3_PROBE_EFFECT_SIZE.json'
+    suffix = '' if args.block == BLOCK else f'_block{args.block}'
+    path = args.out / f'EXP3_PROBE_EFFECT_SIZE{suffix}.json'
     path.write_text(json.dumps(result, indent=1, sort_keys=True))
     print('WROTE', path)
-    print(f"domains={len(probes)}  coarse regressors={coarse.shape[1]}")
+    print(f"domains={len(probes)}  block={args.block} ({args.block*6.766:.2f} Mpc/h)"
+          f"  coarse regressors={coarse.shape[1]}")
     print('matched cross-core corr (raw)        ', [round(x, 4) for x in matched_raw])
     print('matched cross-core corr (given coarse)', [round(x, 4) for x in matched_partial])
     print(f"max achievable variogram gain: raw {gain_raw['max_achievable_gain_percent']:.3f}%"

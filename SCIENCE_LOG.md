@@ -1,5 +1,55 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-19 - [code/diagnostic] Follow-up: the corrector does not generalise; coarser blocking does not rescue the gate
+
+Two extensions to the same-day diagnostics, both read-only. One materially
+qualifies the earlier entry. Receipts appended to
+[evidence](docs/evidence/e2e_diagnostics_20260919/README.md); one
+`gpu_interactive` allocation 58583789/nid001089, terminal.
+
+**Correction to the previous entry.** The "half the fine power deficit is the
+sampler" result is specific to arm B at one anchor and does NOT generalise. With
+32 draws on four ph004 anchors, scoring density CRPS and C90 on the owned core
+against development truth, the B-tuned setting (2 correctors, snr .3) gives:
+arm B mean CRPS -1.69% (improves 3/4) and closes the C90 gap in 4/4; arm D
++0.55%, essentially neutral, coverage gap slightly worse; arm C +9.56%, improving
+in only 1/4, with the band-power deficit also worsening. D is the arm whose
+.929/.918/.781/.737/.628 ratios motivated the test, so the honest statement is
+that corrector strength is an ARM-SPECIFIC tunable sampler factor with its own
+optimum, not a general repair of the reported deficit. The earlier 49.3% figure
+stands as measured for B/seed0/ph004_NGC_s2_interior_00 and should not be
+generalised to the experiment. Sampler configuration still deserves a development
+ladder as a first-class factor; it is not the cheap win the first entry implied.
+
+Incidental but relevant: several anchors are simultaneously OVER-covered at voxel
+level (C90 .9463/.9443/.9519/.9270 against an attainable .8788) and power
+deficient. Marginal voxel coverage and field power move in opposite directions
+inside a single ensemble -- the programme's central thesis, now visible without
+comparing arms.
+
+**Coarser coarse blocking does not rescue the primary gate.** Re-running the
+probe effect size with the coarse cell at 4/8/16 fine cells (27.06/54.13/108.26
+Mpc/h) over the same 832 training rectangles, the maximum variogram gain any
+correct posterior could show is .233%/.545%/.797% against the registered 10%.
+Even the extreme case, where the shared coarse field fixes only each core mean,
+is 12x short. The limiting factor is the 108.256Mpc/h core separation, not the
+blocking; adjacent cores at that separation are weakly correlated at every probe
+scale available inside a 16-cube core.
+
+**But a direct correlation test is well powered, and that is the way out.** The
+measured reference correlations are not zero: rms |rho| given coarse is
+.0772/.1178/.1464 at the three blockings. A chi-square test of rho_hat against
+rho_ref over the seven matched probe pairs reaches 3.4 sigma at 54.13Mpc/h
+blocking with ~192 paired domains and 5.5 sigma at ~384, while the registered
+27.06Mpc/h blocking needs ~384 for 3 sigma. Combined with the ICC result -- which
+licenses anchors rather than phases as the replicate unit for paired contrasts,
+so the existing 96-pair two-seed confirmation panel supplies ~192 -- the workable
+configuration is: 54.13Mpc/h coarse blocking, the direct |rho_hat - rho_ref|
+test, anchors as replicates, and ideally 12 rather than 6 confirmation phases.
+No single one of those suffices; the combination does.
+
+No frozen result, decision, budget or sealed phase changed. Nothing is running.
+
 ### 2026-09-19 - [code/diagnostic] Pre-Stage-A checks: half the power deficit is the sampler; the proposed primary gate cannot fire
 
 Three read-only diagnostics, run before committing the proposed 260GPUh Stage A.

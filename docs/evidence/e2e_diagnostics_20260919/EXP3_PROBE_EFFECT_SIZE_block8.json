@@ -1,0 +1,113 @@
+{
+ "block_fine_cells": 8,
+ "block_mpc_h": 54.128,
+ "caveat": "Training-role truth rectangles only; overlapping context crops are not independent volumes, so correlations carry more uncertainty than the count suggests. Partial correlations remove the 4-cubed coarse block means of both cores, the quantity I and J share exactly. Population Gaussian surrogate for the variogram mapping; not a claim about any trained posterior.",
+ "core_separation_mpc_h": 108.256,
+ "cores": [
+  [
+   [
+    16,
+    32
+   ],
+   [
+    16,
+    32
+   ],
+   [
+    16,
+    32
+   ]
+  ],
+  [
+   [
+    32,
+    48
+   ],
+   [
+    16,
+    32
+   ],
+   [
+    16,
+    32
+   ]
+  ]
+ ],
+ "domains": 832,
+ "example_files": [
+  "ph000_NGC_s0_boundary_00_generation_1789768227205837298.h5",
+  "ph000_NGC_s0_boundary_01_generation_1789768228234414482.h5",
+  "ph000_NGC_s0_boundary_02_generation_1789768229173360602.h5"
+ ],
+ "matched_cross_core_correlation_given_coarse": [
+  -0.18288294409230596,
+  0.0571210177039314,
+  0.10531515820394591,
+  -0.12216642570604873,
+  -0.1358247353703851,
+  0.0775443805130147,
+  -0.09977397780149307
+ ],
+ "matched_cross_core_correlation_raw": [
+  -0.30034835329286685,
+  0.08256718942638487,
+  0.10188774401847009,
+  -0.1896242385125987,
+  -0.20742022211193586,
+  0.10635054735269091,
+  -0.11124610675445779
+ ],
+ "mean_abs_matched_given_coarse": 0.11151837705587499,
+ "mean_abs_matched_raw": 0.1570634859242007,
+ "modes": [
+  [
+   1,
+   0,
+   0
+  ],
+  [
+   0,
+   1,
+   0
+  ],
+  [
+   0,
+   0,
+   1
+  ],
+  [
+   1,
+   1,
+   0
+  ],
+  [
+   1,
+   0,
+   1
+  ],
+  [
+   0,
+   1,
+   1
+  ],
+  [
+   1,
+   1,
+   1
+  ]
+ ],
+ "registered_gate_percent": 10.0,
+ "regressors": 16,
+ "schema": "e2e-diagnostic-probe-effect-size-v1",
+ "targets": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets",
+ "variogram_gain_given_coarse": {
+  "max_achievable_gain_percent": 0.5447745262530131,
+  "variogram_dependent": 1.2337822050922758,
+  "variogram_independent": 1.240540352922889
+ },
+ "variogram_gain_raw": {
+  "max_achievable_gain_percent": 1.0361064242642732,
+  "variogram_dependent": 1.2536832323313658,
+  "variogram_independent": 1.266808718850516
+ }
+}

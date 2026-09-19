@@ -1,0 +1,91 @@
+{
+ "blocks": {
+  "16": {
+   "block_mpc_h": 108.256,
+   "detectability_of_rho_vs_zero": {
+    "192": {
+     "chi2_7dof": 29.014153879047168,
+     "sigma_equivalent": 4.691924325801426
+    },
+    "384": {
+     "chi2_7dof": 58.48884988315859,
+     "sigma_equivalent": 7.175573139698222
+    },
+    "64": {
+     "chi2_7dof": 9.364356542972896,
+     "sigma_equivalent": 1.5376464297662502
+    }
+   },
+   "matched_correlation_given_coarse": [
+    -0.22042614409336833,
+    0.10864396858116214,
+    0.09142577813761281,
+    -0.1771870481914979,
+    -0.18846597326904635,
+    0.10257829744105094,
+    -0.06268110523011532
+   ],
+   "max_achievable_variogram_gain_percent": 0.7967527596458636,
+   "rms_abs": 0.14644149051161381
+  },
+  "4": {
+   "block_mpc_h": 27.064,
+   "detectability_of_rho_vs_zero": {
+    "192": {
+     "chi2_7dof": 7.947595757580514,
+     "sigma_equivalent": 0.9734453028190714
+    },
+    "384": {
+     "chi2_7dof": 16.021343828773418,
+     "sigma_equivalent": 3.0035551982231685
+    },
+    "64": {
+     "chi2_7dof": 2.565097043451911,
+     "sigma_equivalent": 0.0
+    }
+   },
+   "matched_correlation_given_coarse": [
+    -0.03737680640288188,
+    0.08347833968283434,
+    0.012692480663261384,
+    -0.1303445611006234,
+    -0.09104526741601848,
+    0.07763447851282612,
+    -0.04377476260660396
+   ],
+   "max_achievable_variogram_gain_percent": 0.2326397889866572,
+   "rms_abs": 0.0772279051537534
+  },
+  "8": {
+   "block_mpc_h": 54.128,
+   "detectability_of_rho_vs_zero": {
+    "192": {
+     "chi2_7dof": 18.610386640420984,
+     "sigma_equivalent": 3.4074017433259884
+    },
+    "384": {
+     "chi2_7dof": 37.51617624338834,
+     "sigma_equivalent": 5.524144842723472
+    },
+    "64": {
+     "chi2_7dof": 6.006526905109417,
+     "sigma_equivalent": 0.0
+    }
+   },
+   "matched_correlation_given_coarse": [
+    -0.18288294409230596,
+    0.0571210177039314,
+    0.10531515820394591,
+    -0.12216642570604873,
+    -0.1358247353703851,
+    0.0775443805130147,
+    -0.09977397780149307
+   ],
+   "max_achievable_variogram_gain_percent": 0.5447745262530131,
+   "rms_abs": 0.1178020351234775
+  }
+ },
+ "finding": "Coarsening the coarse cell raises the maximum achievable variogram gain from 0.233% (27.06 Mpc/h, registered) to 0.545% (54.13) and 0.797% (108.26), all still 12-40x below the 10% gate. Geometry alone does not rescue a relative-gain gate. The measured reference correlations are however non-trivial, so a DIRECT test of rho_hat against rho_ref is well powered at 54.13 Mpc/h blocking with ~192 paired domains (3.4 sigma) and at the registered blocking only with ~384.",
+ "registered_gate_percent": 10.0,
+ "schema": "e2e-diagnostic-block-sweep-v1"
+}

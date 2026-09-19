@@ -1,0 +1,426 @@
+{
+ "aggregate_by_arm": {
+  "B": {
+   "coverage_gap_reduction": {
+    "improved": 4,
+    "mean": 0.013307574218750007,
+    "n": 4
+   },
+   "crps_change_percent": {
+    "improved": 3,
+    "mean": -1.6872551434814627,
+    "n": 4
+   },
+   "power_deficit_reduction": {
+    "improved": 2,
+    "mean": 0.13337428063524762,
+    "n": 4
+   }
+  },
+  "C": {
+   "coverage_gap_reduction": {
+    "improved": 2,
+    "mean": -0.00140380859375,
+    "n": 4
+   },
+   "crps_change_percent": {
+    "improved": 1,
+    "mean": 9.555618882300724,
+    "n": 4
+   },
+   "power_deficit_reduction": {
+    "improved": 2,
+    "mean": -0.33841949963432383,
+    "n": 4
+   }
+  },
+  "D": {
+   "coverage_gap_reduction": {
+    "improved": 1,
+    "mean": -0.00543212890625,
+    "n": 4
+   },
+   "crps_change_percent": {
+    "improved": 2,
+    "mean": 0.5473294664912496,
+    "n": 4
+   },
+   "power_deficit_reduction": {
+    "improved": 3,
+    "mean": 0.0325491179255496,
+    "n": 4
+   }
+  }
+ },
+ "cases": {
+  "B_ph004_NGC_s0_boundary_00": {
+   "ancestral_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     1.6615534646071146,
+     0.673461745556071,
+     0.8477524340683347,
+     0.857035118728767,
+     0.8096093914627114
+    ],
+    "coverage90": 0.829833984375,
+    "density_crps": 0.2061525007534965,
+    "rmse_mean": 0.4279034866412888,
+    "standardized_crps": 0.49607723576334256
+   },
+   "corrector2_snr0.3_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     3.81572039204532,
+     1.0068731804777404,
+     1.1052636089383676,
+     1.0587116938073122,
+     1.145194779872595
+    ],
+    "coverage90": 0.83544921875,
+    "density_crps": 0.20417264282430536,
+    "rmse_mean": 0.42971353368123155,
+    "standardized_crps": 0.4913129838375719
+   }
+  },
+  "B_ph004_NGC_s0_interior_00": {
+   "ancestral_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     0.8114941869546634,
+     1.002850929425625,
+     0.9175092006069856,
+     0.8912051724078328,
+     0.9775327772396166
+    ],
+    "coverage90": 0.9462890625,
+    "density_crps": 0.06998949007370223,
+    "rmse_mean": 0.148019775771654,
+    "standardized_crps": 0.1684199446591444
+   },
+   "corrector2_snr0.3_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     1.0090717745848325,
+     1.1624071925845036,
+     1.0430901171132798,
+     1.0056348282492071,
+     1.0815955463265394
+    ],
+    "coverage90": 0.934326171875,
+    "density_crps": 0.06879440644733167,
+    "rmse_mean": 0.14891839374290133,
+    "standardized_crps": 0.1655441426208037
+   }
+  },
+  "B_ph004_NGC_s1_boundary_00": {
+   "ancestral_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     1.125495559308091,
+     0.9904307838769107,
+     0.9966362675873964,
+     0.9730131953148854,
+     1.046584568653308
+    ],
+    "coverage90": 0.9443359375,
+    "density_crps": 0.07197491347071816,
+    "rmse_mean": 0.15073750825522836,
+    "standardized_crps": 0.1731975891068789
+   },
+   "corrector2_snr0.3_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     1.2752291013194645,
+     1.0419593877489668,
+     1.0469935617286932,
+     1.0439823269739195,
+     1.1621620338803358
+    ],
+    "coverage90": 0.926025390625,
+    "density_crps": 0.07258532811487017,
+    "rmse_mean": 0.15555983451872143,
+    "standardized_crps": 0.1746664667980716
+   }
+  },
+  "B_ph004_NGC_s1_interior_00": {
+   "ancestral_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     1.100770983944841,
+     0.9731153882142671,
+     0.8264800604198794,
+     0.7815538426691442,
+     0.783873534066263
+    ],
+    "coverage90": 0.85888671875,
+    "density_crps": 0.1274938557048294,
+    "rmse_mean": 0.29507997092301064,
+    "standardized_crps": 0.3067961789631093
+   },
+   "corrector2_snr0.3_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     1.559603203391316,
+     1.201938826483432,
+     0.9678214470727523,
+     0.9347241360622126,
+     0.9865320377310507
+    ],
+    "coverage90": 0.88134765625,
+    "density_crps": 0.12120941533587938,
+    "rmse_mean": 0.27284575098601604,
+    "standardized_crps": 0.29167354986497346
+   }
+  },
+  "C_ph004_NGC_s0_boundary_00": {
+   "ancestral_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     1.131285182440512,
+     0.5006903074670634,
+     0.6479674123081155,
+     0.7602162664901261,
+     0.8273430731765709
+    ],
+    "coverage90": 0.79052734375,
+    "density_crps": 0.2098520241012705,
+    "rmse_mean": 0.43479586548964705,
+    "standardized_crps": 0.504979622633731
+   },
+   "corrector2_snr0.3_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     3.6916849571953447,
+     0.7755433794566696,
+     0.9266564303030687,
+     1.1421364522391133,
+     1.2742271097749318
+    ],
+    "coverage90": 0.740966796875,
+    "density_crps": 0.22358954609418047,
+    "rmse_mean": 0.45358916594980825,
+    "standardized_crps": 0.5380370529902498
+   }
+  },
+  "C_ph004_NGC_s0_interior_00": {
+   "ancestral_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     0.6981675056075014,
+     0.9004081412274647,
+     0.8468702684593139,
+     0.9499542568417614,
+     1.2158891896088078
+    ],
+    "coverage90": 0.951904296875,
+    "density_crps": 0.06931697489554572,
+    "rmse_mean": 0.1486652918194642,
+    "standardized_crps": 0.166801630695601
+   },
+   "corrector2_snr0.3_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     0.987521857894265,
+     1.2242416809856387,
+     1.1659000905294032,
+     1.385966798478521,
+     1.7504630628156692
+    ],
+    "coverage90": 0.9150390625,
+    "density_crps": 0.08094722490614883,
+    "rmse_mean": 0.17909588885671035,
+    "standardized_crps": 0.19478820498118468
+   }
+  },
+  "C_ph004_NGC_s1_boundary_00": {
+   "ancestral_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     0.9476370442131851,
+     0.9639313872120876,
+     1.0152055389406396,
+     1.162046502079429,
+     1.3479100655001302
+    ],
+    "coverage90": 0.927001953125,
+    "density_crps": 0.07785472403605988,
+    "rmse_mean": 0.16094006165433947,
+    "standardized_crps": 0.18734653302657736
+   },
+   "corrector2_snr0.3_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     1.4437321923290705,
+     1.254135750692395,
+     1.2966927639792023,
+     1.655598921680544,
+     1.9498116838370851
+    ],
+    "coverage90": 0.84765625,
+    "density_crps": 0.09971676395663126,
+    "rmse_mean": 0.21209269204072345,
+    "standardized_crps": 0.2399544824441444
+   }
+  },
+  "C_ph004_NGC_s1_interior_00": {
+   "ancestral_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     0.6694002789522447,
+     0.6652321413193555,
+     0.6185520312790972,
+     0.6758519403651813,
+     0.758851311873733
+    ],
+    "coverage90": 0.861328125,
+    "density_crps": 0.13713825778746827,
+    "rmse_mean": 0.32324633784272666,
+    "standardized_crps": 0.33000408722645136
+   },
+   "corrector2_snr0.3_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     0.9165191364904709,
+     0.9275403131993293,
+     0.8624468755099224,
+     1.1007745342358852,
+     1.2710989058670328
+    ],
+    "coverage90": 0.90625,
+    "density_crps": 0.1190596931139317,
+    "rmse_mean": 0.2697033610180986,
+    "standardized_crps": 0.2865005432139506
+   }
+  },
+  "D_ph004_NGC_s0_boundary_00": {
+   "ancestral_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     1.8773288789523765,
+     0.7890168918880551,
+     0.841515517025296,
+     0.8015069809034868,
+     0.6629534197854562
+    ],
+    "coverage90": 0.8515625,
+    "density_crps": 0.19641198290571626,
+    "rmse_mean": 0.4086971000088317,
+    "standardized_crps": 0.47263803831888285
+   },
+   "corrector2_snr0.3_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     1.8762571456809871,
+     0.7812252500528435,
+     0.8333758799863806,
+     0.8058650863495171,
+     0.7368734351734134
+    ],
+    "coverage90": 0.854736328125,
+    "density_crps": 0.19610162552833327,
+    "rmse_mean": 0.4086235911041427,
+    "standardized_crps": 0.4718912065835986
+   }
+  },
+  "D_ph004_NGC_s0_interior_00": {
+   "ancestral_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     1.0310850733622348,
+     0.9713148204143855,
+     0.7957543908326945,
+     0.7636477587925308,
+     0.6774149965500303
+    ],
+    "coverage90": 0.844970703125,
+    "density_crps": 0.10592871971186003,
+    "rmse_mean": 0.22879342318840015,
+    "standardized_crps": 0.2549026874306212
+   },
+   "corrector2_snr0.3_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     1.0304023035608685,
+     0.9626028158612037,
+     0.7819041548789468,
+     0.7496315483899649,
+     0.7340271485792973
+    ],
+    "coverage90": 0.83349609375,
+    "density_crps": 0.10732943222400981,
+    "rmse_mean": 0.2336487367391027,
+    "standardized_crps": 0.2582733066983315
+   }
+  },
+  "D_ph004_NGC_s1_boundary_00": {
+   "ancestral_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     0.9612758532345802,
+     1.064596515167195,
+     0.9461522778597483,
+     0.811875303384855,
+     0.6740570787030233
+    ],
+    "coverage90": 0.8447265625,
+    "density_crps": 0.0915715427116503,
+    "rmse_mean": 0.18595008718095185,
+    "standardized_crps": 0.22035414373798165
+   },
+   "corrector2_snr0.3_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     0.9581054996952406,
+     1.0557110166149148,
+     0.9529267778343979,
+     0.7976437326978874,
+     0.7223147056809454
+    ],
+    "coverage90": 0.842529296875,
+    "density_crps": 0.09105446804204442,
+    "rmse_mean": 0.18510436037307965,
+    "standardized_crps": 0.21910987567504872
+   }
+  },
+  "D_ph004_NGC_s1_interior_00": {
+   "ancestral_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     0.8618946383859558,
+     0.9097216547804553,
+     0.7120766153407341,
+     0.675604207339879,
+     0.5519181217572793
+    ],
+    "coverage90": 0.792724609375,
+    "density_crps": 0.15254086035775088,
+    "rmse_mean": 0.336912229723152,
+    "standardized_crps": 0.3670683017215431
+   },
+   "corrector2_snr0.3_250": {
+    "attainable90": 0.8787878787878788,
+    "band_power_ratio": [
+     0.8574893985831986,
+     0.8924662660963704,
+     0.696743046513003,
+     0.6676169675516971,
+     0.5906241928619593
+    ],
+    "coverage90": 0.781494140625,
+    "density_crps": 0.1549657759562636,
+    "rmse_mean": 0.34042727707970666,
+    "standardized_crps": 0.37290352284509376
+   }
+  }
+ },
+ "caveat": "Development phase ph004 only, one seed, a few anchors, 32 draws. Coverage is over correlated core voxels, not independent posterior trials. Arm D reuses existing cached coarse parents read-only. A screen for whether the corrector helps calibration, not a calibrated-posterior claim or a revision of any published result.",
+ "checkpoint": 20480,
+ "corrector": 2,
+ "draws": 32,
+ "finding": "The snr 0.3 / 2-corrector setting tuned on arm B does NOT transfer. Arm B improves CRPS (mean -1.69%, 3/4) and closes the coverage gap 4/4. Arm D is neutral (CRPS +0.55%). Arm C is harmed (CRPS +9.56%, 1/4). The corrector is therefore an arm-specific tunable sampler factor, not a universal repair. Several anchors are simultaneously OVER-covered at voxel level (C90 0.94-0.95 vs attainable 0.879) and power-deficient, which is the marginal-versus-joint distinction inside one ensemble.",
+ "replica": 0,
+ "run": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/vdm_context_20260917_v1",
+ "schema": "e2e-diagnostic-sampler-calibration-v1",
+ "snr": 0.3
+}

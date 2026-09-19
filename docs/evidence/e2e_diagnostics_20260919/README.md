@@ -32,4 +32,33 @@ Headline numbers, with their caveats recorded inside each JSON:
   could show is **0.93% raw / 0.23% conditional on the coarse field**, against a
   registered gate of 10%.
 
+## Follow-up, same day
+
+Two extensions were run after the first three, and one of them materially
+qualifies the EXP1 headline.
+
+| File | Experiment | Question |
+| --- | --- | --- |
+| `EXP4_SAMPLER_CALIBRATION.json` | corrector vs calibration | does the corrector improve CRPS/coverage, or only inflate variance? |
+| `EXP3_BLOCK_SWEEP.json` | coarse blocking sweep | does a coarser coarse cell rescue the primary gate? |
+| `EXP3_PROBE_EFFECT_SIZE_block8.json` | 54.13 Mpc/h blocking | probe correlations and achievable gain |
+| `EXP3_PROBE_EFFECT_SIZE_block16.json` | 108.26 Mpc/h blocking | probe correlations and achievable gain |
+
+- **EXP4 qualifies EXP1.** The corrector setting tuned on arm B (2 steps, snr 0.3)
+  does not transfer. Over four ph004 anchors at 32 draws: arm B improves density
+  CRPS by 1.69% on average (3/4 anchors) and closes the C90 gap in 4/4; arm **D is
+  neutral** (CRPS +0.55%); arm **C is harmed** (CRPS +9.56%, improving in 1/4).
+  So the corrector is an arm-specific tunable sampler factor, not a universal
+  repair, and the "half the deficit is the sampler" result from EXP1 is specific to
+  arm B at one anchor. Separately, several anchors are simultaneously OVER-covered
+  at voxel level (C90 0.94-0.95 against an attainable 0.879) and power-deficient --
+  the marginal-versus-joint distinction visible inside a single ensemble.
+- **EXP3 block sweep.** Coarsening the coarse cell raises the maximum achievable
+  variogram gain from 0.233% (27.06 Mpc/h, registered) to 0.545% (54.13) and 0.797%
+  (108.26) -- all still 12-40x below the 10% gate. Geometry alone does not rescue a
+  relative-gain gate. But the measured reference correlations are non-trivial, so a
+  DIRECT chi-square test of rho_hat against rho_ref is well powered: 3.4 sigma at
+  54.13 Mpc/h blocking with ~192 paired domains, rising to 5.5 sigma at ~384, while
+  the registered blocking needs ~384 to reach 3 sigma.
+
 Verify with `sha256sum -c SHA256SUMS.txt`.
