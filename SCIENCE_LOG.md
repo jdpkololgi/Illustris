@@ -1,5 +1,26 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-19 - [design] Sixteen-fold unchanged-training reference continuation approved
+
+User prioritizes under-training before affine/teacher diagnostics and approves
+one four-A100 interactive allocation, <=90minutes (6GPUh), <=20GiB new Scratch.
+Continue all12fixed/amortised VDM/CFM fits from their exact4096checkpoints to
+65536updates, retaining Adam/RNG state and every training setting. New protocol:
+`docs/e2e_conditional_reference_continuation_v1.md`; checkpoints8192/16384/32768/
+65536. Re-evaluate4096at the same numerically qualified settings as later points:
+VDM512/1024NFE, CFM128/256.512draws per checkpoint and2048draw final precision
+check. Original run remains immutable; four independent single-GPU workers,
+tmux persistence, finite deadline, no automatic successor. No extended results
+yet. Affine, nonlinear and Abacus runs remain deferred.
+
+This tests continued stochastic training with the original fresh-data process,
+not epochs over a fixed finite sample. A late plateau alone would not isolate
+representational capacity from optimizer/objective effects. Opus's diversity
+caveat is retained: fixed-observation posterior data have less between-observation
+diversity than prior-predictive amortised data. The small toy covariance results
+cannot numerically explain the earlier Abacus corrector or settle the later
+cosmological VDM/CFM comparison; the targets and error norms differ.
+
 ### 2026-09-19 - [result] Learned Gaussian reference completes; covariance failure is not solely amortisation
 
 All12actual VDM/CFM fits and96ensembles of512draws completed, two seeds,

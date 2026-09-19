@@ -1,0 +1,13 @@
+{
+  "schema": "conditional-reference-continuation-v1",
+  "parent_config_sha256": "ce2aa298fdebd133dcf9b79558577b4c21ac4c8248d473493b0f8de88b669610",
+  "start_update": 4096,
+  "updates": 65536,
+  "checkpoints": [4096, 8192, 16384, 32768, 65536],
+  "nfe_by_objective": {"vdm": [512, 1024], "cfm": [128, 256]},
+  "precision_draws": 2048,
+  "workers": 4,
+  "deadline_seconds": 5100,
+  "scratch_cap_gib": 20,
+  "affine_control": "deferred until learning-curve interpretation; not in this run"
+}

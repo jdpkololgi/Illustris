@@ -1,5 +1,14 @@
 # Plan — End-to-end conditional density-field posterior
 
+## Next: unchanged-training reference learning curve (2026-09-19)
+
+The user prioritizes the [65536-update continuation](e2e_conditional_reference_continuation_v1.md)
+before the affine diagnostic proposed below. All twelve fixed/amortised VDM/CFM
+fits retain their4096checkpoint, optimizer, RNG and training law. One four-GPU
+node for90minutes is approved, with checkpointed tmux persistence. VDM uses
+512/1024NFE throughout the new curve; the original4096point is re-evaluated at
+those settings. No affine or coupled-field launch is included in this approval.
+
 ## Prerequisite: learned reference experiment (2026-09-19)
 
 The large four-arm campaign is paused pending the

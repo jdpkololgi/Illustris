@@ -1,5 +1,13 @@
 # Research context — Illustris
 
+## Current reference continuation (2026-09-19)
+
+User approves unchanged-training continuation of all12Gaussian VDM/CFM fits from
+4096to65536updates before affine diagnostics. Four A100s,90minutes,20GiB cap;
+VDM evaluations at512/1024NFE and CFM128/256, with final2048draw precision checks.
+See `docs/e2e_conditional_reference_continuation_v1.md`. No extended results yet;
+P12, Abacus and nonlinear training remain unchanged/deferred.
+
 ## Current reference gate (2026-09-19)
 
 The coupled scientific campaign is paused ahead of a bounded learned Gaussian
