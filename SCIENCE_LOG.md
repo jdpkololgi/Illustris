@@ -1,5 +1,80 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-19 - [science/direction] Prior-art check re-anchors the programme on the environment estimand
+
+Literature check on the actual science goal -- calibrated cosmic-web environment
+for observed DESI galaxies -- rather than on the field-posterior machinery. No
+run, no authorization, no frozen-artifact change. This proposes a direction
+change and should be reviewed on the Mac side before any plan is rewritten.
+
+**Prior art.** The field-posterior-to-T-Web pipeline is a decade old.
+Leclercq/Jasche/Wandelt took BORG posteriors on SDSS and produced probabilistic
+web-type classification with propagated observational uncertainty
+(arXiv 1502.02690), plus the decision-theory framing for using such a
+classification (1503.00730) and probabilistic cartography (1512.02242).
+More important: a DESI probabilistic environment catalogue ALREADY EXISTS --
+arXiv 2604.01456, DESI EDR, BGS/LRG/ELG/QSO over 20 rosettes (~175deg^2),
+void/sheet/filament/knot per object, public pipeline. arXiv 2604.02463 gives
+DESI DR1 T-Web environments as point estimates with a quenching application.
+(A 2025 graph-based classification of simulated galaxies by dark-matter
+environment also exists, arXiv 2512.05909; confirm whether that is this repo's
+own RASTI lineage before citing it as external prior art.)
+
+**But 2604.01456 is not calibrated in our sense.** Its probabilities come from
+100 stochastic ASTRA realisations per tracer-zone pair -- algorithmic
+variability, reported as membership frequencies and classification entropies --
+and its thresholds are tuned so volume-filling fractions match GAMA. There is no
+coverage test, no truth comparison, no sense in which 70% filament means filament
+70% of the time. P12-A is stronger evidence of calibration than anything
+published on DESI: blind ph001 opening, 4,897,905 rows, coverage90
+.891/.895/.890, joint physical TARP 5--7x inside gate, no post-open refit. It
+has never been applied to real DESI data. That is the differentiated product and
+it is already in hand.
+
+**The re-anchoring argument.** The T-Web environment of a galaxy is a LOCAL
+three-dimensional functional of the field; a 10^7-dimensional posterior is not
+needed to produce three numbers per galaxy, and P12-A proves it. The field
+posterior buys exactly one thing the per-galaxy posterior does not: CORRELATED
+uncertainty between galaxies, needed for environment fractions with honest
+errors, environment-property correlations and coherent maps. That is a 3N-
+dimensional estimand for small N, not a field.
+
+Supporting pattern from our own record: every low-dimensional estimand has
+succeeded and every high-dimensional one has not. P12-A (3 dims) passed first
+time; P12-F closed 15 times with no finalist; the controlled VDM matrix
+established one of three registered hypotheses. Calibration is testable at low
+dimension and effectively untestable at 10^7 -- which is what the 2026-09-19
+diagnostics kept colliding with.
+
+**Where ML belongs.** p(l1,l2,l3 at a galaxy | observed catalogue) has a
+genuinely intractable likelihood: evaluating it means marginalising the whole
+field AND the galaxy-halo connection. That is what SBI is for, and it is low-
+dimensional enough for TARP/SBC to have power. For the FIELD the opposite holds:
+a learned prior only earns its keep at small scales where an explicit likelihood
+is untrustworthy, while an explicit likelihood is controlled only at large scales
+where the field is nearly Gaussian and needs no learning. The costed
+learned-prior route (docs/e2e_inference_strategy_decision_20260919.md) is a
+better solution to a problem we may not need to solve; its survey-scale and
+architecture numbers stand, its strategic recommendation is superseded here.
+
+**Proposed direction.** Retire or radically descope the coupled four-arm
+experiment (its primary gate cannot fire; see the same-day diagnostics). Three
+gaps replace it: deploy P12-A on real DESI BGS; build a minimal joint-environment
+estimand over small galaxy sets to supply correlated errors; and make
+misspecification the scientific core -- multiple HODs and cosmologies, measured
+coverage degradation off-distribution, and a posterior-predictive check that runs
+on REAL data. The 21-phase preparation, operators, normalisation, T-Web machinery
+and metric apparatus all carry over; the matter fields are exactly what the
+misspecification work needs.
+
+Immediate cheap check before building anything: measure the error-correlation of
+P12-A environment predictions on existing mock predictions as a function of pair
+separation, and report the effective number of independent environment
+measurements for a population statistic. If treating galaxies as independent
+barely biases the error bars, the joint estimand is unnecessary; if it is a large
+factor, that number motivates the whole programme. Effect size before build, as
+with the retired gate.
+
 ### 2026-09-19 - [science/decision-input] The whole BGS volume fits on one GPU; inference strategy costed for decision
 
 Costed the non-amortised alternative (learned unconditional prior + explicit
