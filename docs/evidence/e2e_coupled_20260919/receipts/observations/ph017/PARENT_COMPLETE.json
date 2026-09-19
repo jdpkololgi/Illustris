@@ -1,0 +1,51 @@
+{
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "contract": {
+    "bright_rows": 10567781,
+    "forfa_rows": 18091753
+  },
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "created_utc": "2026-09-18T19:59:04.784650+00:00",
+  "elapsed_seconds": 294.6951215649897,
+  "host": "nid004202",
+  "matching_code_sha256": "44f17a833149a4d8ebf6e6171a20a6cbcf36126f629195c4a3933699f7678a62",
+  "outputs": [
+    {
+      "bytes": 591802560,
+      "mtime_ns": 1789761541000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph017/bright_parent_linkage.fits",
+      "sha256": "39ba146606872e53f211addc61a0ad4c539ae9762788e919f831948a34810361"
+    }
+  ],
+  "parity": {
+    "max_abs_differences": {
+      "DEC": 0.0,
+      "RA": 0.0,
+      "R_MAG_APP": 0.0,
+      "Z": 0.0,
+      "Z_COSMO": 0.0
+    },
+    "row_identity_verified": true
+  },
+  "pass": true,
+  "phase": "ph017",
+  "role": "confirmation",
+  "schema": "e2e-coupled-parent-v1",
+  "slurm_job_id": "58540511",
+  "source_code_sha256": "697fad81721d75430e85b6549562152e4052b347badd5aef8c9f52a191c985e8",
+  "sources": {
+    "cutsky": {
+      "bytes": 6666105600,
+      "mtime_ns": 1706810813000000000,
+      "path": "/global/cfs/cdirs/desicollab/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph017.fits",
+      "sha256": "a2233c19361125a3f47e2dd281176e05a0fb1c40c22292b31d0a2af8a5f7fd19"
+    },
+    "forfa": {
+      "bytes": 2677590720,
+      "mtime_ns": 1728043138185648979,
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA17_nomask.fits",
+      "sha256": "95ce542a6551b308c9df80483bd140a27dc53515967553d7eb8995c7c281677b"
+    }
+  },
+  "target_columns_present": false
+}

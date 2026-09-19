@@ -1,5 +1,32 @@
 # Active Workflow Index
 
+## Coupled-field VDM/CFM preparation (2026-09-19)
+
+Current authority is **data preparation only**, not a four-arm training launch.
+Contract: `docs/e2e_coupled_data_preparation_20260918.md`; current verification:
+`docs/e2e_coupled_preparation_closeout_20260919.md`. Thirteen training, two
+development and six confirmation phases;001/006sealed. Corrected Cartesian
+products use the pinned DESI/Abacus distance table and selection-volume Jacobian.
+All21phase products, independent audits and normalized interfaces now qualify:
+1,792paired domains/11,776offset cases, full13-phase normalizer, physical gate
+and7synthetic GPU factor checks. All preparation allocations have terminated.
+The evidence archive is `docs/evidence/e2e_coupled_20260919`;126focused tests pass.
+
+Canonical guarded readers: `workflows/sbi/e2e_coupled_conditions.py` and
+`e2e_coupled_views.py`. Data-only qualification: `e2e_coupled_data_release.py`.
+Metadata/evidence closeout: `e2e_coupled_preparation_closeout.py` (refuses missing
+all-panel qualification, active allocations and exceeded original resource caps).
+Full-size technical VDM/CFM prototypes/benchmarks are not a scientific trainer.
+The measured later implementation/resource proposal is ready for review:
+`docs/e2e_coupled_resource_proposal_20260918.md`. Proposed development cap:
+260GPUh/24CPU-nodeh/512GiB; scientific execution requires separate approval.
+Frozen one-shot launch/recovery scripts retain historical job dependencies;
+they are not generic permission to request more allocations or rerun products.
+
+The preceding A/B/C/D scientific experiment is complete, with marginal gains but
+remaining joint-field/calibration failures: `docs/e2e_vdm_context_results_20260918.md`.
+Older dated launch/status entries below are historical, not current job status.
+
 ## Four-model VDM checkpoint/sampler/calibration assessment (2026-09-17)
 
 `workflows/sbi/e2e_vdm_assessment.py` and `e2e_vdm_assessment_report.py`:

@@ -1,0 +1,29 @@
+{
+  "binding": "75851d6f435f5ce9bd75b2e6bf19949a665f4aa47e9613a852773575fea26f94",
+  "box_mpc_h": 2000.0,
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "created_utc": "2026-09-19T00:03:07.160045+00:00",
+  "deposited_count": 33022527227.158016,
+  "dtype": "float32",
+  "elapsed_seconds_this_segment": 3809.013397332019,
+  "host": "nid004144",
+  "ngrid": 2048,
+  "outputs": [
+    {
+      "bytes": 34359738496,
+      "mtime_ns": 1789776150000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph010/counts_tsc_2048.npy",
+      "sha256": "bcda503cbf10820c27c64ce9d4399b02e03bce4dd6219498cf37b8aa7a0ac28c"
+    }
+  ],
+  "particle_count": 33022530364,
+  "pass": true,
+  "phase": "ph010",
+  "processed_files": 136,
+  "relative_count_error": 9.499096372138825e-08,
+  "role": "train",
+  "slurm_job_id": "58550091",
+  "source_code_sha256": "4ab2b9cf053e8c1ad8a05cf122d9d17180208fb074b815351a61da4be3066347",
+  "subsample_fraction": 0.1
+}

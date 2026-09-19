@@ -1,0 +1,6613 @@
+{
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+  "counts_or_targets_read": false,
+  "created_utc": "2026-09-18T20:19:54.380149+00:00",
+  "diagnostics": {
+    "NGC": {
+      "eligible": {
+        "0:boundary": 1280,
+        "0:interior": 1485,
+        "1:boundary": 2346,
+        "1:interior": 3261,
+        "2:boundary": 3462,
+        "2:interior": 5400,
+        "3:boundary": 4680,
+        "3:interior": 7044
+      },
+      "rejected": {
+        "duplicate": 7327,
+        "low_support": 6916,
+        "outside_shell": 22335
+      }
+    },
+    "SGC": {
+      "eligible": {
+        "0:boundary": 1473,
+        "0:interior": 810,
+        "1:boundary": 2608,
+        "1:interior": 2003,
+        "2:boundary": 3756,
+        "2:interior": 3638,
+        "3:boundary": 3453,
+        "3:interior": 3651
+      },
+      "rejected": {
+        "duplicate": 13256,
+        "low_support": 24180,
+        "outside_shell": 6708
+      }
+    }
+  },
+  "host": "nid004202",
+  "pairs": [
+    {
+      "cap": "NGC",
+      "center": [
+        272,
+        456,
+        96
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s0_interior_00",
+      "phase": "ph007",
+      "redshift": 0.20963830725845614,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        1.0
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        414.6592664754917,
+        1092.4006577740743,
+        1067.3923783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          360.531266475492,
+          1092.4006577740743,
+          1067.3923783796577
+        ],
+        [
+          468.78726647549183,
+          1092.4006577740743,
+          1067.3923783796577
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        416,
+        288,
+        136
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s0_boundary_00",
+      "phase": "ph007",
+      "redshift": 0.18384622139226517,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.97088623046875,
+        0.7657470703125
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        901.8112664754917,
+        524.0566577740742,
+        1202.7123783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          847.6832664754918,
+          524.0566577740742,
+          1202.7123783796578
+        ],
+        [
+          955.9392664754919,
+          524.0566577740742,
+          1202.7123783796578
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        184,
+        512,
+        144
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s1_interior_00",
+      "phase": "ph007",
+      "redshift": 0.3483110375182705,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        1.0
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        116.95526647549195,
+        1281.8486577740744,
+        1229.7763783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          62.8272664754918,
+          1281.8486577740744,
+          1229.7763783796577
+        ],
+        [
+          171.08326647549166,
+          1281.8486577740744,
+          1229.7763783796577
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        320,
+        632,
+        136
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s1_boundary_00",
+      "phase": "ph007",
+      "redshift": 0.2996859300996192,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.998779296875,
+        0.6644287109375
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        577.0432664754919,
+        1687.8086577740744,
+        1202.7123783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          522.9152664754918,
+          1687.8086577740744,
+          1202.7123783796578
+        ],
+        [
+          631.1712664754918,
+          1687.8086577740744,
+          1202.7123783796578
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        144,
+        304,
+        176
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s2_interior_00",
+      "phase": "ph007",
+      "redshift": 0.4299769713099586,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        1.0
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        1981.6352664754918,
+        578.1846577740744,
+        1338.0323783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1927.5072664754916,
+          578.1846577740744,
+          1338.0323783796578
+        ],
+        [
+          35.763266475491946,
+          578.1846577740744,
+          1338.0323783796578
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        136,
+        432,
+        40
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s2_boundary_00",
+      "phase": "ph007",
+      "redshift": 0.3880806100290616,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.9410400390625,
+        0.796356201171875
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        1954.571266475492,
+        1011.2086577740743,
+        877.9443783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1900.4432664754918,
+          1011.2086577740743,
+          877.9443783796578
+        ],
+        [
+          8.699266475491868,
+          1011.2086577740743,
+          877.9443783796578
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        128,
+        336,
+        248
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s3_interior_00",
+      "phase": "ph007",
+      "redshift": 0.47574193150469674,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.991119384765625,
+        0.99078369140625
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        1927.5072664754916,
+        686.4406577740745,
+        1581.6083783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1873.379266475492,
+          686.4406577740745,
+          1581.6083783796578
+        ],
+        [
+          1981.6352664754918,
+          686.4406577740745,
+          1581.6083783796578
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        408,
+        640,
+        432
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s3_boundary_00",
+      "phase": "ph007",
+      "redshift": 0.5405522806671388,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.884918212890625,
+        0.546661376953125
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        874.7472664754919,
+        1714.8726577740742,
+        204.08037837965753
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          820.6192664754917,
+          1714.8726577740742,
+          204.08037837965753
+        ],
+        [
+          928.8752664754918,
+          1714.8726577740742,
+          204.08037837965753
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        160,
+        384,
+        216
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s0_interior_00",
+      "phase": "ph007",
+      "redshift": 0.24995803917569645,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.985809326171875,
+        0.953765869140625
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        1641.3681348045598,
+        1152.2229847369879,
+        1246.0817910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1587.2401348045596,
+          1152.2229847369879,
+          1246.0817910138255
+        ],
+        [
+          1695.4961348045597,
+          1152.2229847369879,
+          1246.0817910138255
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        120,
+        336,
+        208
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s0_boundary_00",
+      "phase": "ph007",
+      "redshift": 0.19301710246799858,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.87701416015625,
+        0.839508056640625
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        1506.0481348045596,
+        989.8389847369879,
+        1219.0177910138254
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1451.9201348045597,
+          989.8389847369879,
+          1219.0177910138254
+        ],
+        [
+          1560.1761348045598,
+          989.8389847369879,
+          1219.0177910138254
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        160,
+        456,
+        128
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s1_interior_00",
+      "phase": "ph007",
+      "redshift": 0.26977764292483797,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        1.0
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        1641.3681348045598,
+        1395.7989847369877,
+        948.3777910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1587.2401348045596,
+          1395.7989847369877,
+          948.3777910138256
+        ],
+        [
+          1695.4961348045597,
+          1395.7989847369877,
+          948.3777910138256
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        192,
+        264,
+        248
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s1_boundary_00",
+      "phase": "ph007",
+      "redshift": 0.3132828814453154,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.96136474609375,
+        0.823333740234375
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        1749.6241348045596,
+        746.2629847369876,
+        1354.3377910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1695.4961348045597,
+          746.2629847369876,
+          1354.3377910138256
+        ],
+        [
+          1803.7521348045598,
+          746.2629847369876,
+          1354.3377910138256
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        264,
+        472,
+        288
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s2_interior_00",
+      "phase": "ph007",
+      "redshift": 0.4479692115844477,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.964080810546875,
+        0.973663330078125
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        1993.2001348045596,
+        1449.9269847369878,
+        1489.6577910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1939.0721348045595,
+          1449.9269847369878,
+          1489.6577910138255
+        ],
+        [
+          47.328134804559795,
+          1449.9269847369878,
+          1489.6577910138255
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        248,
+        200,
+        80
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s2_boundary_00",
+      "phase": "ph007",
+      "redshift": 0.39602702421742797,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.5927734375,
+        0.72039794921875
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        1939.0721348045595,
+        529.7509847369879,
+        785.9937910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1884.9441348045598,
+          529.7509847369879,
+          785.9937910138256
+        ],
+        [
+          1993.2001348045596,
+          529.7509847369879,
+          785.9937910138256
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        296,
+        512,
+        152
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s3_interior_00",
+      "phase": "ph007",
+      "redshift": 0.47050880120776994,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        1.0
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        101.45613480455972,
+        1585.2469847369878,
+        1029.5697910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          47.328134804559795,
+          1585.2469847369878,
+          1029.5697910138256
+        ],
+        [
+          155.58413480455965,
+          1585.2469847369878,
+          1029.5697910138256
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        280,
+        504,
+        256
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s3_boundary_00",
+      "phase": "ph007",
+      "redshift": 0.47004638246979863,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.82147216796875,
+        0.89068603515625
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        47.328134804559795,
+        1558.1829847369877,
+        1381.4017910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1993.2001348045596,
+          1558.1829847369877,
+          1381.4017910138255
+        ],
+        [
+          101.45613480455972,
+          1558.1829847369877,
+          1381.4017910138255
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        304,
+        392,
+        112
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s0_interior_01",
+      "phase": "ph007",
+      "redshift": 0.1769565273765858,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        0.998779296875
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        522.9152664754918,
+        875.8886577740743,
+        1121.5203783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          468.78726647549183,
+          875.8886577740743,
+          1121.5203783796578
+        ],
+        [
+          577.0432664754919,
+          875.8886577740743,
+          1121.5203783796578
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        320,
+        400,
+        192
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s0_boundary_01",
+      "phase": "ph007",
+      "redshift": 0.2053613534703571,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.988189697265625,
+        0.94384765625
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        577.0432664754919,
+        902.9526577740744,
+        1392.1603783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          522.9152664754918,
+          902.9526577740744,
+          1392.1603783796577
+        ],
+        [
+          631.1712664754918,
+          902.9526577740744,
+          1392.1603783796577
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        280,
+        304,
+        200
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s1_interior_01",
+      "phase": "ph007",
+      "redshift": 0.2931166375569615,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.991729736328125,
+        0.963043212890625
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        441.723266475492,
+        578.1846577740744,
+        1419.2243783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          387.5952664754918,
+          578.1846577740744,
+          1419.2243783796578
+        ],
+        [
+          495.8512664754919,
+          578.1846577740744,
+          1419.2243783796578
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        376,
+        480,
+        296
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s1_boundary_01",
+      "phase": "ph007",
+      "redshift": 0.28656857775483,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.948455810546875,
+        0.93829345703125
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        766.4912664754918,
+        1173.5926577740743,
+        1743.9923783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          712.3632664754919,
+          1173.5926577740743,
+          1743.9923783796578
+        ],
+        [
+          820.6192664754917,
+          1173.5926577740743,
+          1743.9923783796578
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        160,
+        240,
+        56
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s2_interior_01",
+      "phase": "ph007",
+      "redshift": 0.4322775836312463,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        0.9971923828125
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        35.763266475491946,
+        361.6726577740742,
+        932.0723783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1981.6352664754918,
+          361.6726577740742,
+          932.0723783796577
+        ],
+        [
+          89.89126647549188,
+          361.6726577740742,
+          932.0723783796577
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        208,
+        616,
+        256
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s2_boundary_01",
+      "phase": "ph007",
+      "redshift": 0.4455255286269112,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.9979248046875,
+        0.9359130859375
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        198.14726647549196,
+        1633.6806577740742,
+        1608.6723783796576
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          144.0192664754918,
+          1633.6806577740742,
+          1608.6723783796576
+        ],
+        [
+          252.27526647549166,
+          1633.6806577740742,
+          1608.6723783796576
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        72,
+        560,
+        136
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s3_interior_01",
+      "phase": "ph007",
+      "redshift": 0.5168604248786025,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        1.0
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        1738.0592664754918,
+        1444.2326577740744,
+        1202.7123783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1683.9312664754916,
+          1444.2326577740744,
+          1202.7123783796578
+        ],
+        [
+          1792.187266475492,
+          1444.2326577740744,
+          1202.7123783796578
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        392,
+        560,
+        416
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s3_boundary_01",
+      "phase": "ph007",
+      "redshift": 0.4696951269568254,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.99530029296875,
+        0.75909423828125
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        820.6192664754917,
+        1444.2326577740744,
+        149.9523783796576
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          766.4912664754918,
+          1444.2326577740744,
+          149.9523783796576
+        ],
+        [
+          874.7472664754919,
+          1444.2326577740744,
+          149.9523783796576
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        152,
+        264,
+        176
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s0_interior_01",
+      "phase": "ph007",
+      "redshift": 0.23865498342159006,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.979217529296875,
+        0.96331787109375
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        1614.3041348045597,
+        746.2629847369876,
+        1110.7617910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1560.1761348045598,
+          746.2629847369876,
+          1110.7617910138256
+        ],
+        [
+          1668.4321348045596,
+          746.2629847369876,
+          1110.7617910138256
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        80,
+        376,
+        208
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s0_boundary_01",
+      "phase": "ph007",
+      "redshift": 0.155422662012812,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.48583984375,
+        0.930908203125
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        1370.7281348045597,
+        1125.1589847369878,
+        1219.0177910138254
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1316.6001348045597,
+          1125.1589847369878,
+          1219.0177910138254
+        ],
+        [
+          1424.8561348045596,
+          1125.1589847369878,
+          1219.0177910138254
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        168,
+        536,
+        104
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s1_interior_01",
+      "phase": "ph007",
+      "redshift": 0.34758903907340427,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        0.9998779296875
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        1668.4321348045596,
+        1666.4389847369878,
+        867.1857910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1614.3041348045597,
+          1666.4389847369878,
+          867.1857910138256
+        ],
+        [
+          1722.5601348045598,
+          1666.4389847369878,
+          867.1857910138256
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        224,
+        312,
+        176
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s1_boundary_01",
+      "phase": "ph007",
+      "redshift": 0.3143502627851831,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.92919921875,
+        0.909515380859375
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        1857.8801348045595,
+        908.6469847369879,
+        1110.7617910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1803.7521348045598,
+          908.6469847369879,
+          1110.7617910138256
+        ],
+        [
+          1912.0081348045596,
+          908.6469847369879,
+          1110.7617910138256
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        216,
+        152,
+        176
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s2_interior_01",
+      "phase": "ph007",
+      "redshift": 0.38706196088620876,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.998199462890625,
+        0.988037109375
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        1830.8161348045596,
+        367.3669847369879,
+        1110.7617910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1776.6881348045595,
+          367.3669847369879,
+          1110.7617910138256
+        ],
+        [
+          1884.9441348045598,
+          367.3669847369879,
+          1110.7617910138256
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        288,
+        280,
+        72
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s2_boundary_01",
+      "phase": "ph007",
+      "redshift": 0.41571183700198777,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.780731201171875,
+        0.96954345703125
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        74.39213480455965,
+        800.3909847369878,
+        758.9297910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          20.264134804559603,
+          800.3909847369878,
+          758.9297910138255
+        ],
+        [
+          128.52013480455958,
+          800.3909847369878,
+          758.9297910138255
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        328,
+        240,
+        208
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s3_interior_01",
+      "phase": "ph007",
+      "redshift": 0.4820533032734417,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.950927734375,
+        0.9910888671875
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        209.71213480455958,
+        665.0709847369876,
+        1219.0177910138254
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          155.58413480455965,
+          665.0709847369876,
+          1219.0177910138254
+        ],
+        [
+          263.84013480455974,
+          665.0709847369876,
+          1219.0177910138254
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        288,
+        296,
+        296
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s3_boundary_01",
+      "phase": "ph007",
+      "redshift": 0.4504395076493304,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.92474365234375,
+        0.90679931640625
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        74.39213480455965,
+        854.5189847369879,
+        1516.7217910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          20.264134804559603,
+          854.5189847369879,
+          1516.7217910138256
+        ],
+        [
+          128.52013480455958,
+          854.5189847369879,
+          1516.7217910138256
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        312,
+        512,
+        88
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s0_interior_02",
+      "phase": "ph007",
+      "redshift": 0.18603804019044806,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.99151611328125,
+        0.98504638671875
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        549.9792664754918,
+        1281.8486577740744,
+        1040.3283783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          495.8512664754919,
+          1281.8486577740744,
+          1040.3283783796578
+        ],
+        [
+          604.1072664754918,
+          1281.8486577740744,
+          1040.3283783796578
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        408,
+        512,
+        176
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s0_boundary_02",
+      "phase": "ph007",
+      "redshift": 0.15874040114097038,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.967742919921875,
+        0.62603759765625
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        874.7472664754919,
+        1281.8486577740744,
+        1338.0323783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          820.6192664754917,
+          1281.8486577740744,
+          1338.0323783796578
+        ],
+        [
+          928.8752664754918,
+          1281.8486577740744,
+          1338.0323783796578
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        376,
+        224,
+        232
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s1_interior_02",
+      "phase": "ph007",
+      "redshift": 0.3268074390665671,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.987762451171875,
+        0.991729736328125
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        766.4912664754918,
+        307.5446577740745,
+        1527.4803783796576
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          712.3632664754919,
+          307.5446577740745,
+          1527.4803783796576
+        ],
+        [
+          820.6192664754917,
+          307.5446577740745,
+          1527.4803783796576
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        424,
+        320,
+        288
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s1_boundary_02",
+      "phase": "ph007",
+      "redshift": 0.290451766954773,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.93878173828125,
+        0.986846923828125
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        928.8752664754918,
+        632.3126577740743,
+        1716.9283783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          874.7472664754919,
+          632.3126577740743,
+          1716.9283783796577
+        ],
+        [
+          983.0032664754917,
+          632.3126577740743,
+          1716.9283783796577
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        400,
+        264,
+        344
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s2_interior_02",
+      "phase": "ph007",
+      "redshift": 0.3972489711285447,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.9818115234375,
+        0.996734619140625
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        847.6832664754918,
+        442.8646577740742,
+        1906.3763783796576
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          793.5552664754919,
+          442.8646577740742,
+          1906.3763783796576
+        ],
+        [
+          901.8112664754917,
+          442.8646577740742,
+          1906.3763783796576
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        344,
+        320,
+        376
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s2_boundary_02",
+      "phase": "ph007",
+      "redshift": 0.4211582390001149,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.973114013671875,
+        0.621002197265625
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        658.2352664754919,
+        632.3126577740743,
+        14.632378379657666
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          604.1072664754918,
+          632.3126577740743,
+          14.632378379657666
+        ],
+        [
+          712.3632664754919,
+          632.3126577740743,
+          14.632378379657666
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        256,
+        320,
+        368
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s3_interior_02",
+      "phase": "ph007",
+      "redshift": 0.46402488654734897,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.99786376953125,
+        0.995849609375
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        360.531266475492,
+        632.3126577740743,
+        1987.5683783796576
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          306.4032664754918,
+          632.3126577740743,
+          1987.5683783796576
+        ],
+        [
+          414.6592664754917,
+          632.3126577740743,
+          1987.5683783796576
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        184,
+        464,
+        376
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s3_boundary_02",
+      "phase": "ph007",
+      "redshift": 0.5156392018025944,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.810516357421875,
+        0.9998779296875
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        116.95526647549195,
+        1119.4646577740743,
+        14.632378379657666
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          62.8272664754918,
+          1119.4646577740743,
+          14.632378379657666
+        ],
+        [
+          171.08326647549166,
+          1119.4646577740743,
+          14.632378379657666
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        104,
+        328,
+        144
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s0_interior_02",
+      "phase": "ph007",
+      "redshift": 0.15724501297853305,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.987335205078125,
+        0.998260498046875
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        1451.9201348045597,
+        962.7749847369878,
+        1002.5057910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1397.7921348045597,
+          962.7749847369878,
+          1002.5057910138255
+        ],
+        [
+          1506.0481348045596,
+          962.7749847369878,
+          1002.5057910138255
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        72,
+        512,
+        128
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s0_boundary_02",
+      "phase": "ph007",
+      "redshift": 0.24124190733510223,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.8560791015625,
+        0.84979248046875
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        1343.6641348045596,
+        1585.2469847369878,
+        948.3777910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1289.5361348045597,
+          1585.2469847369878,
+          948.3777910138256
+        ],
+        [
+          1397.7921348045597,
+          1585.2469847369878,
+          948.3777910138256
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        208,
+        432,
+        256
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s1_interior_02",
+      "phase": "ph007",
+      "redshift": 0.34374809473543927,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.977508544921875,
+        0.970367431640625
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        1803.7521348045598,
+        1314.6069847369877,
+        1381.4017910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1749.6241348045596,
+          1314.6069847369877,
+          1381.4017910138255
+        ],
+        [
+          1857.8801348045595,
+          1314.6069847369877,
+          1381.4017910138255
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        144,
+        136,
+        144
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s1_boundary_02",
+      "phase": "ph007",
+      "redshift": 0.32774223557338117,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.255767822265625,
+        0.971282958984375
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        1587.2401348045596,
+        313.23898473698773,
+        1002.5057910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1533.1121348045597,
+          313.23898473698773,
+          1002.5057910138255
+        ],
+        [
+          1641.3681348045598,
+          313.23898473698773,
+          1002.5057910138255
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        280,
+        352,
+        152
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s2_interior_02",
+      "phase": "ph007",
+      "redshift": 0.3864643150541727,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        1.0
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        47.328134804559795,
+        1043.9669847369878,
+        1029.5697910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1993.2001348045596,
+          1043.9669847369878,
+          1029.5697910138256
+        ],
+        [
+          101.45613480455972,
+          1043.9669847369878,
+          1029.5697910138256
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        232,
+        432,
+        56
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s2_boundary_02",
+      "phase": "ph007",
+      "redshift": 0.3602385282769518,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.373870849609375,
+        0.492218017578125
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        1884.9441348045598,
+        1314.6069847369877,
+        704.8017910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1830.8161348045596,
+          1314.6069847369877,
+          704.8017910138256
+        ],
+        [
+          1939.0721348045595,
+          1314.6069847369877,
+          704.8017910138256
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        264,
+        560,
+        168
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s3_interior_02",
+      "phase": "ph007",
+      "redshift": 0.46978087629766385,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.994842529296875,
+        1.0
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        1993.2001348045596,
+        1747.6309847369878,
+        1083.6977910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1939.0721348045595,
+          1747.6309847369878,
+          1083.6977910138255
+        ],
+        [
+          47.328134804559795,
+          1747.6309847369878,
+          1083.6977910138255
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        272,
+        88,
+        264
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s3_boundary_02",
+      "phase": "ph007",
+      "redshift": 0.5328511530111231,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.395751953125,
+        0.93603515625
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        20.264134804559603,
+        150.85498473698772,
+        1408.4657910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1966.1361348045598,
+          150.85498473698772,
+          1408.4657910138255
+        ],
+        [
+          74.39213480455965,
+          150.85498473698772,
+          1408.4657910138255
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        408,
+        312,
+        184
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s0_interior_03",
+      "phase": "ph007",
+      "redshift": 0.19323595365674,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.975433349609375,
+        0.9896240234375
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        874.7472664754919,
+        605.2486577740744,
+        1365.0963783796576
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          820.6192664754917,
+          605.2486577740744,
+          1365.0963783796576
+        ],
+        [
+          928.8752664754918,
+          605.2486577740744,
+          1365.0963783796576
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        272,
+        408,
+        48
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s0_boundary_03",
+      "phase": "ph007",
+      "redshift": 0.20990049484697962,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.580291748046875,
+        0.42041015625
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        414.6592664754917,
+        930.0166577740742,
+        905.0083783796576
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          360.531266475492,
+          930.0166577740742,
+          905.0083783796576
+        ],
+        [
+          468.78726647549183,
+          930.0166577740742,
+          905.0083783796576
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        304,
+        424,
+        272
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s1_interior_03",
+      "phase": "ph007",
+      "redshift": 0.29355030655711967,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.98486328125,
+        0.971435546875
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        522.9152664754918,
+        984.1446577740744,
+        1662.8003783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          468.78726647549183,
+          984.1446577740744,
+          1662.8003783796578
+        ],
+        [
+          577.0432664754919,
+          984.1446577740744,
+          1662.8003783796578
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        280,
+        528,
+        232
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s1_boundary_03",
+      "phase": "ph007",
+      "redshift": 0.30196524698947613,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.874053955078125,
+        0.9752197265625
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        441.723266475492,
+        1335.9766577740743,
+        1527.4803783796576
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          387.5952664754918,
+          1335.9766577740743,
+          1527.4803783796576
+        ],
+        [
+          495.8512664754919,
+          1335.9766577740743,
+          1527.4803783796576
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        216,
+        416,
+        336
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s2_interior_03",
+      "phase": "ph007",
+      "redshift": 0.4383735954795956,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.975189208984375,
+        0.98638916015625
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        225.2112664754918,
+        957.0806577740743,
+        1879.3123783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          171.08326647549166,
+          957.0806577740743,
+          1879.3123783796577
+        ],
+        [
+          279.33926647549197,
+          957.0806577740743,
+          1879.3123783796577
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        256,
+        384,
+        288
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s2_boundary_03",
+      "phase": "ph007",
+      "redshift": 0.3553785730357405,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.944915771484375,
+        0.9034423828125
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        360.531266475492,
+        848.8246577740745,
+        1716.9283783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          306.4032664754918,
+          848.8246577740745,
+          1716.9283783796577
+        ],
+        [
+          414.6592664754917,
+          848.8246577740745,
+          1716.9283783796577
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        184,
+        712,
+        152
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s3_interior_03",
+      "phase": "ph007",
+      "redshift": 0.5058328133939483,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        1.0
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        116.95526647549195,
+        1958.4486577740743,
+        1256.8403783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          62.8272664754918,
+          1958.4486577740743,
+          1256.8403783796577
+        ],
+        [
+          171.08326647549166,
+          1958.4486577740743,
+          1256.8403783796577
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        368,
+        600,
+        440
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s3_boundary_03",
+      "phase": "ph007",
+      "redshift": 0.5313375851331338,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.9287109375,
+        0.9617919921875
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        739.4272664754919,
+        1579.5526577740743,
+        231.1443783796576
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          685.2992664754918,
+          1579.5526577740743,
+          231.1443783796576
+        ],
+        [
+          793.5552664754919,
+          1579.5526577740743,
+          231.1443783796576
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        112,
+        416,
+        160
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s0_interior_03",
+      "phase": "ph007",
+      "redshift": 0.19178644605758927,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.973358154296875,
+        0.99871826171875
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        1478.9841348045597,
+        1260.4789847369877,
+        1056.6337910138254
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1424.8561348045596,
+          1260.4789847369877,
+          1056.6337910138254
+        ],
+        [
+          1533.1121348045597,
+          1260.4789847369877,
+          1056.6337910138254
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        144,
+        232,
+        136
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s0_boundary_03",
+      "phase": "ph007",
+      "redshift": 0.24489270928301896,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.974639892578125,
+        0.942596435546875
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        1587.2401348045596,
+        638.0069847369878,
+        975.4417910138254
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1533.1121348045597,
+          638.0069847369878,
+          975.4417910138254
+        ],
+        [
+          1641.3681348045598,
+          638.0069847369878,
+          975.4417910138254
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        232,
+        432,
+        200
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s1_interior_03",
+      "phase": "ph007",
+      "redshift": 0.3497734476798214,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.995880126953125,
+        0.99951171875
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        1884.9441348045598,
+        1314.6069847369877,
+        1191.9537910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1830.8161348045596,
+          1314.6069847369877,
+          1191.9537910138256
+        ],
+        [
+          1939.0721348045595,
+          1314.6069847369877,
+          1191.9537910138256
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        96,
+        560,
+        136
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s1_boundary_03",
+      "phase": "ph007",
+      "redshift": 0.31058626507121967,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.676300048828125,
+        0.479827880859375
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        1424.8561348045596,
+        1747.6309847369878,
+        975.4417910138254
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1370.7281348045597,
+          1747.6309847369878,
+          975.4417910138254
+        ],
+        [
+          1478.9841348045597,
+          1747.6309847369878,
+          975.4417910138254
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        184,
+        592,
+        80
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s2_interior_03",
+      "phase": "ph007",
+      "redshift": 0.4246707689624099,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        1.0
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        1722.5601348045598,
+        1855.8869847369879,
+        785.9937910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1668.4321348045596,
+          1855.8869847369879,
+          785.9937910138256
+        ],
+        [
+          1776.6881348045595,
+          1855.8869847369879,
+          785.9937910138256
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        120,
+        648,
+        96
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s2_boundary_03",
+      "phase": "ph007",
+      "redshift": 0.43819983631704923,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.9287109375,
+        1.0
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        1506.0481348045596,
+        45.33498473698796,
+        840.1217910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1451.9201348045597,
+          45.33498473698796,
+          840.1217910138255
+        ],
+        [
+          1560.1761348045598,
+          45.33498473698796,
+          840.1217910138255
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        288,
+        424,
+        296
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s3_interior_03",
+      "phase": "ph007",
+      "redshift": 0.46132333795421293,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.96209716796875,
+        0.9837646484375
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        74.39213480455965,
+        1287.5429847369878,
+        1516.7217910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          20.264134804559603,
+          1287.5429847369878,
+          1516.7217910138256
+        ],
+        [
+          128.52013480455958,
+          1287.5429847369878,
+          1516.7217910138256
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        264,
+        144,
+        272
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s3_boundary_03",
+      "phase": "ph007",
+      "redshift": 0.47995888589550234,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.869354248046875,
+        0.9720458984375
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        1993.2001348045596,
+        340.3029847369878,
+        1435.5297910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1939.0721348045595,
+          340.3029847369878,
+          1435.5297910138256
+        ],
+        [
+          47.328134804559795,
+          340.3029847369878,
+          1435.5297910138256
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        344,
+        544,
+        152
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s0_interior_04",
+      "phase": "ph007",
+      "redshift": 0.20308379781445737,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.98785400390625,
+        0.993255615234375
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        658.2352664754919,
+        1390.1046577740744,
+        1256.8403783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          604.1072664754918,
+          1390.1046577740744,
+          1256.8403783796577
+        ],
+        [
+          712.3632664754919,
+          1390.1046577740744,
+          1256.8403783796577
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        416,
+        480,
+        248
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s0_boundary_04",
+      "phase": "ph007",
+      "redshift": 0.21650994680381525,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.931915283203125,
+        0.560791015625
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        901.8112664754917,
+        1173.5926577740743,
+        1581.6083783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          847.6832664754918,
+          1173.5926577740743,
+          1581.6083783796578
+        ],
+        [
+          955.9392664754919,
+          1173.5926577740743,
+          1581.6083783796578
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        328,
+        424,
+        328
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s1_interior_04",
+      "phase": "ph007",
+      "redshift": 0.3422235711801488,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.995574951171875,
+        0.980010986328125
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        604.1072664754918,
+        984.1446577740744,
+        1852.2483783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          549.9792664754918,
+          984.1446577740744,
+          1852.2483783796577
+        ],
+        [
+          658.2352664754919,
+          984.1446577740744,
+          1852.2483783796577
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        376,
+        568,
+        216
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s1_boundary_04",
+      "phase": "ph007",
+      "redshift": 0.2514757428655535,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.98974609375,
+        0.926361083984375
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        766.4912664754918,
+        1471.2966577740744,
+        1473.3523783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          712.3632664754919,
+          1471.2966577740744,
+          1473.3523783796577
+        ],
+        [
+          820.6192664754917,
+          1471.2966577740744,
+          1473.3523783796577
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        344,
+        160,
+        224
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s2_interior_04",
+      "phase": "ph007",
+      "redshift": 0.4045963382072842,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.99359130859375,
+        0.975830078125
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        658.2352664754919,
+        91.03265777407432,
+        1500.4163783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          604.1072664754918,
+          91.03265777407432,
+          1500.4163783796578
+        ],
+        [
+          712.3632664754919,
+          91.03265777407432,
+          1500.4163783796578
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        368,
+        656,
+        288
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s2_boundary_04",
+      "phase": "ph007",
+      "redshift": 0.4007354611577946,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.955078125,
+        0.610992431640625
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        739.4272664754919,
+        1769.0006577740744,
+        1716.9283783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          685.2992664754918,
+          1769.0006577740744,
+          1716.9283783796577
+        ],
+        [
+          793.5552664754919,
+          1769.0006577740744,
+          1716.9283783796577
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        208,
+        544,
+        384
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s3_interior_04",
+      "phase": "ph007",
+      "redshift": 0.5249538134785331,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.972747802734375,
+        0.9556884765625
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        198.14726647549196,
+        1390.1046577740744,
+        41.696378379657745
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          144.0192664754918,
+          1390.1046577740744,
+          41.696378379657745
+        ],
+        [
+          252.27526647549166,
+          1390.1046577740744,
+          41.696378379657745
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        168,
+        400,
+        384
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s3_boundary_04",
+      "phase": "ph007",
+      "redshift": 0.5399573523407307,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.885528564453125,
+        0.912384033203125
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        62.8272664754918,
+        902.9526577740744,
+        41.696378379657745
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          8.699266475491868,
+          902.9526577740744,
+          41.696378379657745
+        ],
+        [
+          116.95526647549195,
+          902.9526577740744,
+          41.696378379657745
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        168,
+        384,
+        160
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s0_interior_04",
+      "phase": "ph007",
+      "redshift": 0.24398133970911923,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.990081787109375,
+        0.993865966796875
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        1668.4321348045596,
+        1152.2229847369879,
+        1056.6337910138254
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1614.3041348045597,
+          1152.2229847369879,
+          1056.6337910138254
+        ],
+        [
+          1722.5601348045598,
+          1152.2229847369879,
+          1056.6337910138254
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        120,
+        232,
+        200
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s0_boundary_04",
+      "phase": "ph007",
+      "redshift": 0.2301033015962098,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.599761962890625,
+        0.97119140625
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        1506.0481348045596,
+        638.0069847369878,
+        1191.9537910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1451.9201348045597,
+          638.0069847369878,
+          1191.9537910138256
+        ],
+        [
+          1560.1761348045598,
+          638.0069847369878,
+          1191.9537910138256
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        208,
+        360,
+        248
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s1_interior_04",
+      "phase": "ph007",
+      "redshift": 0.31887553421179665,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.97308349609375,
+        0.978729248046875
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        1803.7521348045598,
+        1071.0309847369879,
+        1354.3377910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1749.6241348045596,
+          1071.0309847369879,
+          1354.3377910138256
+        ],
+        [
+          1857.8801348045595,
+          1071.0309847369879,
+          1354.3377910138256
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        56,
+        592,
+        128
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s1_boundary_04",
+      "phase": "ph007",
+      "redshift": 0.328301227923871,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.459869384765625,
+        0.979644775390625
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        1289.5361348045597,
+        1855.8869847369879,
+        948.3777910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1235.4081348045597,
+          1855.8869847369879,
+          948.3777910138256
+        ],
+        [
+          1343.6641348045596,
+          1855.8869847369879,
+          948.3777910138256
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        240,
+        536,
+        104
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s2_interior_04",
+      "phase": "ph007",
+      "redshift": 0.42339542103330474,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.99688720703125,
+        1.0
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        1912.0081348045596,
+        1666.4389847369878,
+        867.1857910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1857.8801348045595,
+          1666.4389847369878,
+          867.1857910138256
+        ],
+        [
+          1966.1361348045598,
+          1666.4389847369878,
+          867.1857910138256
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        96,
+        592,
+        56
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s2_boundary_04",
+      "phase": "ph007",
+      "redshift": 0.36657344952117926,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.45819091796875,
+        0.898040771484375
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        1424.8561348045596,
+        1855.8869847369879,
+        704.8017910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1370.7281348045597,
+          1855.8869847369879,
+          704.8017910138256
+        ],
+        [
+          1478.9841348045597,
+          1855.8869847369879,
+          704.8017910138256
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        304,
+        104,
+        64
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s3_interior_04",
+      "phase": "ph007",
+      "redshift": 0.5407074501087081,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.97802734375,
+        0.954803466796875
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        128.52013480455958,
+        204.98298473698787,
+        731.8657910138254
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          74.39213480455965,
+          204.98298473698787,
+          731.8657910138254
+        ],
+        [
+          182.64813480455973,
+          204.98298473698787,
+          731.8657910138254
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        320,
+        224,
+        304
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s3_boundary_04",
+      "phase": "ph007",
+      "redshift": 0.5192939525161738,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.926727294921875,
+        0.89129638671875
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        182.64813480455973,
+        610.9429847369879,
+        1543.7857910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          128.52013480455958,
+          610.9429847369879,
+          1543.7857910138255
+        ],
+        [
+          236.77613480455966,
+          610.9429847369879,
+          1543.7857910138255
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        408,
+        360,
+        208
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s0_interior_05",
+      "phase": "ph007",
+      "redshift": 0.18090227082395266,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.963165283203125,
+        0.953277587890625
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        874.7472664754919,
+        767.6326577740745,
+        1446.2883783796576
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          820.6192664754917,
+          767.6326577740745,
+          1446.2883783796576
+        ],
+        [
+          928.8752664754918,
+          767.6326577740745,
+          1446.2883783796576
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        392,
+        448,
+        216
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s0_boundary_05",
+      "phase": "ph007",
+      "redshift": 0.1779353997030568,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.9615478515625,
+        0.864715576171875
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        820.6192664754917,
+        1065.3366577740744,
+        1473.3523783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          766.4912664754918,
+          1065.3366577740744,
+          1473.3523783796577
+        ],
+        [
+          874.7472664754919,
+          1065.3366577740744,
+          1473.3523783796577
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        328,
+        176,
+        112
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s1_interior_05",
+      "phase": "ph007",
+      "redshift": 0.3462498916580751,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.98553466796875,
+        1.0
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        604.1072664754918,
+        145.16065777407448,
+        1121.5203783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          549.9792664754918,
+          145.16065777407448,
+          1121.5203783796578
+        ],
+        [
+          658.2352664754919,
+          145.16065777407448,
+          1121.5203783796578
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        320,
+        344,
+        224
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s1_boundary_05",
+      "phase": "ph007",
+      "redshift": 0.25433580522717025,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.941253662109375,
+        0.99847412109375
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        577.0432664754919,
+        713.5046577740743,
+        1500.4163783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          522.9152664754918,
+          713.5046577740743,
+          1500.4163783796578
+        ],
+        [
+          631.1712664754918,
+          713.5046577740743,
+          1500.4163783796578
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        136,
+        488,
+        104
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s2_interior_05",
+      "phase": "ph007",
+      "redshift": 0.39473406622124124,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        1.0
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        1954.571266475492,
+        1200.6566577740743,
+        1094.4563783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1900.4432664754918,
+          1200.6566577740743,
+          1094.4563783796577
+        ],
+        [
+          8.699266475491868,
+          1200.6566577740743,
+          1094.4563783796577
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        400,
+        568,
+        352
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s2_boundary_05",
+      "phase": "ph007",
+      "redshift": 0.38977969549677527,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.900146484375,
+        0.61175537109375
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        847.6832664754918,
+        1471.2966577740744,
+        1933.4403783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          793.5552664754919,
+          1471.2966577740744,
+          1933.4403783796577
+        ],
+        [
+          901.8112664754917,
+          1471.2966577740744,
+          1933.4403783796577
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        120,
+        592,
+        136
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s3_interior_05",
+      "phase": "ph007",
+      "redshift": 0.47029466936336534,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        0.99542236328125
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        1900.4432664754918,
+        1552.4886577740745,
+        1202.7123783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1846.3152664754916,
+          1552.4886577740745,
+          1202.7123783796578
+        ],
+        [
+          1954.571266475492,
+          1552.4886577740745,
+          1202.7123783796578
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        256,
+        560,
+        352
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s3_boundary_05",
+      "phase": "ph007",
+      "redshift": 0.45666674866062473,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.878173828125,
+        0.805267333984375
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        360.531266475492,
+        1444.2326577740744,
+        1933.4403783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          306.4032664754918,
+          1444.2326577740744,
+          1933.4403783796577
+        ],
+        [
+          414.6592664754917,
+          1444.2326577740744,
+          1933.4403783796577
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        88,
+        448,
+        128
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s0_interior_05",
+      "phase": "ph007",
+      "redshift": 0.19056958090554504,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.9996337890625,
+        0.9986572265625
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        1397.7921348045597,
+        1368.7349847369878,
+        948.3777910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1343.6641348045596,
+          1368.7349847369878,
+          948.3777910138256
+        ],
+        [
+          1451.9201348045597,
+          1368.7349847369878,
+          948.3777910138256
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        96,
+        280,
+        120
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s0_boundary_05",
+      "phase": "ph007",
+      "redshift": 0.16539358610589958,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.693115234375,
+        0.887237548828125
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        1424.8561348045596,
+        800.3909847369878,
+        921.3137910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1370.7281348045597,
+          800.3909847369878,
+          921.3137910138255
+        ],
+        [
+          1478.9841348045597,
+          800.3909847369878,
+          921.3137910138255
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        112,
+        496,
+        96
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s1_interior_05",
+      "phase": "ph007",
+      "redshift": 0.2611134974925018,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.996185302734375,
+        0.99639892578125
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        1478.9841348045597,
+        1531.1189847369878,
+        840.1217910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1424.8561348045596,
+          1531.1189847369878,
+          840.1217910138255
+        ],
+        [
+          1533.1121348045597,
+          1531.1189847369878,
+          840.1217910138255
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        192,
+        408,
+        112
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s1_boundary_05",
+      "phase": "ph007",
+      "redshift": 0.28398662784060597,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.91802978515625,
+        0.969879150390625
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        1749.6241348045596,
+        1233.4149847369877,
+        894.2497910138254
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1695.4961348045597,
+          1233.4149847369877,
+          894.2497910138254
+        ],
+        [
+          1803.7521348045598,
+          1233.4149847369877,
+          894.2497910138254
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        280,
+        272,
+        184
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s2_interior_05",
+      "phase": "ph007",
+      "redshift": 0.399588776255922,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        1.0
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        47.328134804559795,
+        773.3269847369879,
+        1137.8257910138254
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1993.2001348045596,
+          773.3269847369879,
+          1137.8257910138254
+        ],
+        [
+          101.45613480455972,
+          773.3269847369879,
+          1137.8257910138254
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        280,
+        272,
+        248
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s2_boundary_05",
+      "phase": "ph007",
+      "redshift": 0.4197367845377381,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.600555419921875,
+        0.685791015625
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        47.328134804559795,
+        773.3269847369879,
+        1354.3377910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1993.2001348045596,
+          773.3269847369879,
+          1354.3377910138256
+        ],
+        [
+          101.45613480455972,
+          773.3269847369879,
+          1354.3377910138256
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        240,
+        104,
+        144
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s3_interior_05",
+      "phase": "ph007",
+      "redshift": 0.4542314849144442,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        0.999298095703125
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        1912.0081348045596,
+        204.98298473698787,
+        1002.5057910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1857.8801348045595,
+          204.98298473698787,
+          1002.5057910138255
+        ],
+        [
+          1966.1361348045598,
+          204.98298473698787,
+          1002.5057910138255
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        240,
+        544,
+        264
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s3_boundary_05",
+      "phase": "ph007",
+      "redshift": 0.4570158519434076,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.579498291015625,
+        0.3765869140625
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        1912.0081348045596,
+        1693.5029847369879,
+        1408.4657910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1857.8801348045595,
+          1693.5029847369879,
+          1408.4657910138255
+        ],
+        [
+          1966.1361348045598,
+          1693.5029847369879,
+          1408.4657910138255
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        296,
+        360,
+        160
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s0_interior_06",
+      "phase": "ph007",
+      "redshift": 0.21974379848110645,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.9991455078125,
+        0.99078369140625
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        495.8512664754919,
+        767.6326577740745,
+        1283.9043783796576
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          441.723266475492,
+          767.6326577740745,
+          1283.9043783796576
+        ],
+        [
+          549.9792664754918,
+          767.6326577740745,
+          1283.9043783796576
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        312,
+        568,
+        48
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s0_boundary_06",
+      "phase": "ph007",
+      "redshift": 0.23288928821235952,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.582305908203125,
+        0.333831787109375
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        549.9792664754918,
+        1471.2966577740744,
+        905.0083783796576
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          495.8512664754919,
+          1471.2966577740744,
+          905.0083783796576
+        ],
+        [
+          604.1072664754918,
+          1471.2966577740744,
+          905.0083783796576
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        256,
+        576,
+        168
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s1_interior_06",
+      "phase": "ph007",
+      "redshift": 0.3137628159981021,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        0.995758056640625
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        360.531266475492,
+        1498.3606577740743,
+        1310.9683783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          306.4032664754918,
+          1498.3606577740743,
+          1310.9683783796577
+        ],
+        [
+          414.6592664754917,
+          1498.3606577740743,
+          1310.9683783796577
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        248,
+        472,
+        200
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s1_boundary_06",
+      "phase": "ph007",
+      "redshift": 0.2873701021773926,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.981658935546875,
+        0.942718505859375
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        333.46726647549167,
+        1146.5286577740744,
+        1419.2243783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          279.33926647549197,
+          1146.5286577740744,
+          1419.2243783796578
+        ],
+        [
+          387.5952664754918,
+          1146.5286577740744,
+          1419.2243783796578
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        200,
+        344,
+        296
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s2_interior_06",
+      "phase": "ph007",
+      "redshift": 0.4287742311902398,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.993896484375,
+        0.95513916015625
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        171.08326647549166,
+        713.5046577740743,
+        1743.9923783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          116.95526647549195,
+          713.5046577740743,
+          1743.9923783796578
+        ],
+        [
+          225.2112664754918,
+          713.5046577740743,
+          1743.9923783796578
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        272,
+        120,
+        96
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s2_boundary_06",
+      "phase": "ph007",
+      "redshift": 0.4495866555447465,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.93597412109375,
+        0.98443603515625
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        414.6592664754917,
+        1955.7126577740744,
+        1067.3923783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          360.531266475492,
+          1955.7126577740744,
+          1067.3923783796577
+        ],
+        [
+          468.78726647549183,
+          1955.7126577740744,
+          1067.3923783796577
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        440,
+        160,
+        328
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s3_interior_06",
+      "phase": "ph007",
+      "redshift": 0.4698562859828441,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.999542236328125,
+        1.0
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        983.0032664754917,
+        91.03265777407432,
+        1852.2483783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          928.8752664754918,
+          91.03265777407432,
+          1852.2483783796577
+        ],
+        [
+          1037.1312664754919,
+          91.03265777407432,
+          1852.2483783796577
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        160,
+        656,
+        280
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s3_boundary_06",
+      "phase": "ph007",
+      "redshift": 0.5438415953675853,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.949188232421875,
+        0.97802734375
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        35.763266475491946,
+        1769.0006577740744,
+        1689.8643783796576
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1981.6352664754918,
+          1769.0006577740744,
+          1689.8643783796576
+        ],
+        [
+          89.89126647549188,
+          1769.0006577740744,
+          1689.8643783796576
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        88,
+        280,
+        168
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s0_interior_06",
+      "phase": "ph007",
+      "redshift": 0.15703128874868624,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.98187255859375,
+        0.979278564453125
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        1397.7921348045597,
+        800.3909847369878,
+        1083.6977910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1343.6641348045596,
+          800.3909847369878,
+          1083.6977910138255
+        ],
+        [
+          1451.9201348045597,
+          800.3909847369878,
+          1083.6977910138255
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        128,
+        280,
+        232
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s0_boundary_06",
+      "phase": "ph007",
+      "redshift": 0.22726083717333498,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.725982666015625,
+        0.908538818359375
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        1533.1121348045597,
+        800.3909847369878,
+        1300.2097910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1478.9841348045597,
+          800.3909847369878,
+          1300.2097910138255
+        ],
+        [
+          1587.2401348045596,
+          800.3909847369878,
+          1300.2097910138255
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        240,
+        264,
+        152
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s1_interior_06",
+      "phase": "ph007",
+      "redshift": 0.3451407083599036,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.99755859375,
+        0.9969482421875
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        1912.0081348045596,
+        746.2629847369876,
+        1029.5697910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1857.8801348045595,
+          746.2629847369876,
+          1029.5697910138256
+        ],
+        [
+          1966.1361348045598,
+          746.2629847369876,
+          1029.5697910138256
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        128,
+        416,
+        256
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s1_boundary_06",
+      "phase": "ph007",
+      "redshift": 0.25061798779864397,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.25018310546875,
+        0.783935546875
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        1533.1121348045597,
+        1260.4789847369877,
+        1381.4017910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1478.9841348045597,
+          1260.4789847369877,
+          1381.4017910138255
+        ],
+        [
+          1587.2401348045596,
+          1260.4789847369877,
+          1381.4017910138255
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        312,
+        264,
+        128
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s2_interior_06",
+      "phase": "ph007",
+      "redshift": 0.4432654210561061,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        1.0
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        155.58413480455965,
+        746.2629847369876,
+        948.3777910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          101.45613480455972,
+          746.2629847369876,
+          948.3777910138256
+        ],
+        [
+          209.71213480455958,
+          746.2629847369876,
+          948.3777910138256
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        232,
+        552,
+        48
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s2_boundary_06",
+      "phase": "ph007",
+      "redshift": 0.4439442088958983,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.671661376953125,
+        0.7867431640625
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        1884.9441348045598,
+        1720.5669847369877,
+        677.7377910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1830.8161348045596,
+          1720.5669847369877,
+          677.7377910138255
+        ],
+        [
+          1939.0721348045595,
+          1720.5669847369877,
+          677.7377910138255
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        216,
+        664,
+        64
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s3_interior_06",
+      "phase": "ph007",
+      "redshift": 0.5396560943449211,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        0.9901123046875
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        1830.8161348045596,
+        99.46298473698766,
+        731.8657910138254
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1776.6881348045595,
+          99.46298473698766,
+          731.8657910138254
+        ],
+        [
+          1884.9441348045598,
+          99.46298473698766,
+          731.8657910138254
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        152,
+        656,
+        32
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s3_boundary_06",
+      "phase": "ph007",
+      "redshift": 0.4898132748446081,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.884002685546875,
+        0.965972900390625
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        1614.3041348045597,
+        72.39898473698781,
+        623.6097910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1560.1761348045598,
+          72.39898473698781,
+          623.6097910138255
+        ],
+        [
+          1668.4321348045596,
+          72.39898473698781,
+          623.6097910138255
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        288,
+        512,
+        160
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s0_interior_07",
+      "phase": "ph007",
+      "redshift": 0.2353288480539218,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.997955322265625,
+        0.99725341796875
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        468.78726647549183,
+        1281.8486577740744,
+        1283.9043783796576
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          414.6592664754917,
+          1281.8486577740744,
+          1283.9043783796576
+        ],
+        [
+          522.9152664754918,
+          1281.8486577740744,
+          1283.9043783796576
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        320,
+        448,
+        208
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s0_boundary_07",
+      "phase": "ph007",
+      "redshift": 0.21780926139322457,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.908721923828125,
+        0.942901611328125
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        577.0432664754919,
+        1065.3366577740744,
+        1446.2883783796576
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          522.9152664754918,
+          1065.3366577740744,
+          1446.2883783796576
+        ],
+        [
+          631.1712664754918,
+          1065.3366577740744,
+          1446.2883783796576
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        256,
+        624,
+        128
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s1_interior_07",
+      "phase": "ph007",
+      "redshift": 0.34073685252401065,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        1.0
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        360.531266475492,
+        1660.7446577740745,
+        1175.6483783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          306.4032664754918,
+          1660.7446577740745,
+          1175.6483783796577
+        ],
+        [
+          414.6592664754917,
+          1660.7446577740745,
+          1175.6483783796577
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        192,
+        464,
+        32
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s1_boundary_07",
+      "phase": "ph007",
+      "redshift": 0.3172090313482385,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.511322021484375,
+        0.354583740234375
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        144.0192664754918,
+        1119.4646577740743,
+        850.8803783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          89.89126647549188,
+          1119.4646577740743,
+          850.8803783796577
+        ],
+        [
+          198.14726647549196,
+          1119.4646577740743,
+          850.8803783796577
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        128,
+        568,
+        56
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s2_interior_07",
+      "phase": "ph007",
+      "redshift": 0.4386716569532522,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        1.0
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        1927.5072664754916,
+        1471.2966577740744,
+        932.0723783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1873.379266475492,
+          1471.2966577740744,
+          932.0723783796577
+        ],
+        [
+          1981.6352664754918,
+          1471.2966577740744,
+          932.0723783796577
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        272,
+        592,
+        248
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s2_boundary_07",
+      "phase": "ph007",
+      "redshift": 0.36370596462998395,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.892242431640625,
+        0.93560791015625
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        414.6592664754917,
+        1552.4886577740745,
+        1581.6083783796578
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          360.531266475492,
+          1552.4886577740745,
+          1581.6083783796578
+        ],
+        [
+          468.78726647549183,
+          1552.4886577740745,
+          1581.6083783796578
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        248,
+        136,
+        240
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s3_interior_07",
+      "phase": "ph007",
+      "redshift": 0.5004581537760528,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.997650146484375,
+        0.981964111328125
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        333.46726647549167,
+        9.840657774074316,
+        1554.5443783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          279.33926647549197,
+          9.840657774074316,
+          1554.5443783796577
+        ],
+        [
+          387.5952664754918,
+          9.840657774074316,
+          1554.5443783796577
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "NGC",
+      "center": [
+        320,
+        80,
+        80
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          -1559.6447335245082,
+          -1450.2473422259256,
+          -257.3756216203423
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          539,
+          813,
+          512
+        ]
+      },
+      "pair_id": "ph007_NGC_s3_boundary_07",
+      "phase": "ph007",
+      "redshift": 0.472927152477147,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.814117431640625,
+        0.46697998046875
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        577.0432664754919,
+        1820.3926577740745,
+        1013.2643783796577
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          522.9152664754918,
+          1820.3926577740745,
+          1013.2643783796577
+        ],
+        [
+          631.1712664754918,
+          1820.3926577740745,
+          1013.2643783796577
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        176,
+        352,
+        120
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s0_interior_07",
+      "phase": "ph007",
+      "redshift": 0.24908056183546218,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.975433349609375,
+        0.99896240234375
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        1695.4961348045597,
+        1043.9669847369878,
+        921.3137910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1641.3681348045598,
+          1043.9669847369878,
+          921.3137910138255
+        ],
+        [
+          1749.6241348045596,
+          1043.9669847369878,
+          921.3137910138255
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        104,
+        424,
+        208
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s0_boundary_07",
+      "phase": "ph007",
+      "redshift": 0.2030613302669416,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.690643310546875,
+        0.849212646484375
+      ],
+      "shell": 0,
+      "source_midpoint_mpc_h": [
+        1451.9201348045597,
+        1287.5429847369878,
+        1219.0177910138254
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1397.7921348045597,
+          1287.5429847369878,
+          1219.0177910138254
+        ],
+        [
+          1506.0481348045596,
+          1287.5429847369878,
+          1219.0177910138254
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        192,
+        192,
+        192
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s1_interior_07",
+      "phase": "ph007",
+      "redshift": 0.3321128823519022,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.981689453125,
+        0.991180419921875
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        1749.6241348045596,
+        502.6869847369878,
+        1164.8897910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1695.4961348045597,
+          502.6869847369878,
+          1164.8897910138255
+        ],
+        [
+          1803.7521348045598,
+          502.6869847369878,
+          1164.8897910138255
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        216,
+        296,
+        96
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s1_boundary_07",
+      "phase": "ph007",
+      "redshift": 0.3098812882194732,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.87164306640625,
+        0.984954833984375
+      ],
+      "shell": 1,
+      "source_midpoint_mpc_h": [
+        1830.8161348045596,
+        854.5189847369879,
+        840.1217910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1776.6881348045595,
+          854.5189847369879,
+          840.1217910138255
+        ],
+        [
+          1884.9441348045598,
+          854.5189847369879,
+          840.1217910138255
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        280,
+        464,
+        168
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s2_interior_07",
+      "phase": "ph007",
+      "redshift": 0.4213882975544761,
+      "role": "train",
+      "science_core_support_fractions": [
+        1.0,
+        1.0
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        47.328134804559795,
+        1422.8629847369878,
+        1083.6977910138255
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          1993.2001348045596,
+          1422.8629847369878,
+          1083.6977910138255
+        ],
+        [
+          101.45613480455972,
+          1422.8629847369878,
+          1083.6977910138255
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        312,
+        320,
+        176
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s2_boundary_07",
+      "phase": "ph007",
+      "redshift": 0.43409318040643263,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.897796630859375,
+        0.907440185546875
+      ],
+      "shell": 2,
+      "source_midpoint_mpc_h": [
+        155.58413480455965,
+        935.7109847369877,
+        1110.7617910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          101.45613480455972,
+          935.7109847369877,
+          1110.7617910138256
+        ],
+        [
+          209.71213480455958,
+          935.7109847369877,
+          1110.7617910138256
+        ]
+      ],
+      "support_stratum": "boundary"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        296,
+        112,
+        184
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s3_interior_07",
+      "phase": "ph007",
+      "redshift": 0.5153810575355441,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.98919677734375,
+        0.979339599609375
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        101.45613480455972,
+        232.04698473698772,
+        1137.8257910138254
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          47.328134804559795,
+          232.04698473698772,
+          1137.8257910138254
+        ],
+        [
+          155.58413480455965,
+          232.04698473698772,
+          1137.8257910138254
+        ]
+      ],
+      "support_stratum": "interior"
+    },
+    {
+      "cap": "SGC",
+      "center": [
+        304,
+        344,
+        296
+      ],
+      "grid": {
+        "cell_mpc_h": 3.383,
+        "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+        "distance_unit": "Mpc/h",
+        "origin_mpc_h": [
+          45.960134804559665,
+          -1146.8490152630122,
+          -484.6462089861745
+        ],
+        "padding_mpc_h": 27.064,
+        "shape": [
+          436,
+          769,
+          386
+        ]
+      },
+      "pair_id": "ph007_SGC_s3_boundary_07",
+      "phase": "ph007",
+      "redshift": 0.4677693363903319,
+      "role": "train",
+      "science_core_support_fractions": [
+        0.96807861328125,
+        0.880889892578125
+      ],
+      "shell": 3,
+      "source_midpoint_mpc_h": [
+        128.52013480455958,
+        1016.9029847369877,
+        1516.7217910138256
+      ],
+      "source_owned_core_centers_mpc_h": [
+        [
+          74.39213480455965,
+          1016.9029847369877,
+          1516.7217910138256
+        ],
+        [
+          182.64813480455973,
+          1016.9029847369877,
+          1516.7217910138256
+        ]
+      ],
+      "support_stratum": "boundary"
+    }
+  ],
+  "pass": true,
+  "phase": "ph007",
+  "qa": {
+    "midpoint_separation_mpc_h": 162.384,
+    "owned_cores": 256,
+    "pairs": 128,
+    "source_nonoverlap": true,
+    "stratum_counts": {
+      "('NGC', 0, 'boundary')": 8,
+      "('NGC', 0, 'interior')": 8,
+      "('NGC', 1, 'boundary')": 8,
+      "('NGC', 1, 'interior')": 8,
+      "('NGC', 2, 'boundary')": 8,
+      "('NGC', 2, 'interior')": 8,
+      "('NGC', 3, 'boundary')": 8,
+      "('NGC', 3, 'interior')": 8,
+      "('SGC', 0, 'boundary')": 8,
+      "('SGC', 0, 'interior')": 8,
+      "('SGC', 1, 'boundary')": 8,
+      "('SGC', 1, 'interior')": 8,
+      "('SGC', 2, 'boundary')": 8,
+      "('SGC', 2, 'interior')": 8,
+      "('SGC', 3, 'boundary')": 8,
+      "('SGC', 3, 'interior')": 8
+    }
+  },
+  "role": "train",
+  "slurm_job_id": "58540511",
+  "source_code_sha256": "201b6cb52e975a53dfadecc85363b1fc27203f3e1211de4abdebe5264f333af7",
+  "sources": {
+    "NGC": {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph007/NGC_COMPLETE.json",
+      "sha256": "4b89cc58c8f2d0057ac321c2e3fb2a355e3b6dc38c04053978fd0e6f2f1aaff7"
+    },
+    "SGC": {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph007/SGC_COMPLETE.json",
+      "sha256": "884721402381eec5c13c1c8f5f8733538b0e10b36ec487313859c385dd8c4722"
+    }
+  }
+}

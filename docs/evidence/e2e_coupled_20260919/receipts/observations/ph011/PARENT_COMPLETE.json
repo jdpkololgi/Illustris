@@ -1,0 +1,51 @@
+{
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "contract": {
+    "bright_rows": 10559220,
+    "forfa_rows": 18087243
+  },
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "created_utc": "2026-09-18T18:42:25.538290+00:00",
+  "elapsed_seconds": 307.52493424201384,
+  "host": "nid004142",
+  "matching_code_sha256": "44f17a833149a4d8ebf6e6171a20a6cbcf36126f629195c4a3933699f7678a62",
+  "outputs": [
+    {
+      "bytes": 591324480,
+      "mtime_ns": 1789756941000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph011/bright_parent_linkage.fits",
+      "sha256": "9bccf56bf3209099646f1b3b592a0354a6f8919a4a403eb9786555bb73cebbce"
+    }
+  ],
+  "parity": {
+    "max_abs_differences": {
+      "DEC": 0.0,
+      "RA": 0.0,
+      "R_MAG_APP": 0.0,
+      "Z": 0.0,
+      "Z_COSMO": 0.0
+    },
+    "row_identity_verified": true
+  },
+  "pass": true,
+  "phase": "ph011",
+  "role": "train",
+  "schema": "e2e-coupled-parent-v1",
+  "slurm_job_id": "58538574",
+  "source_code_sha256": "697fad81721d75430e85b6549562152e4052b347badd5aef8c9f52a191c985e8",
+  "sources": {
+    "cutsky": {
+      "bytes": 6655386240,
+      "mtime_ns": 1706809668000000000,
+      "path": "/global/cfs/cdirs/desicollab/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph011.fits",
+      "sha256": "61ababedf9d6f79018f64cdac0c9954222eac3e8692d2c279e0a7344d0c29c23"
+    },
+    "forfa": {
+      "bytes": 2676922560,
+      "mtime_ns": 1728042700035044894,
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA11_nomask.fits",
+      "sha256": "a7f13f72814ee80aa1324b19fda91b842918e18e4aaf3ee2929f40545776ca1e"
+    }
+  },
+  "target_columns_present": false
+}

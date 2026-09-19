@@ -1,5 +1,237 @@
 # Plan — End-to-end conditional density-field posterior
 
+## Current handoff: coupled-field preparation complete (2026-09-19)
+
+All21phase products, independent audits and normalized interfaces qualify:
+13train/2development/6confirmation phases,1,664/32/96paired domains and11,776
+registered offset cases. The complete train-only normalizer, physical-reference
+gate and full-shape synthetic GPU/restart checks pass. All126focused tests pass.
+See the [requirement closeout](e2e_coupled_preparation_closeout_20260919.md) and
+[archived evidence](evidence/e2e_coupled_20260919/README.md).
+
+The observation side ALREADY uses survey-affected DA2 altmtl successful BGS
+mocks and response/selection channels, not ideal complete galaxies. The target
+is matched fixed-epochz0.2 c000 A+B10% R7 matter. Upstream survey products are
+reused, not all regenerated; real-DESI closure, evolving matter lightcones and
+HOD marginalization remain outside this preparation.
+
+Next, obtain approval for the [measured scientific proposal](e2e_coupled_resource_proposal_20260918.md):
+implement the four-arm workflow and14two-seed factor fits,32epochs, development
+checkpoint/sampler/coarse controls, capped at260GPUh/24CPU-nodeh/512GiB. Later
+128draw confirmation requires a separate decision. No scientific training or
+confirmation predictions started in preparation. All preparation allocations
+are terminal; failures and recoveries remain in the original resource ledger.
+
+Keep I/J coarse draws identical: block-aligned mass must agree, not improve
+through fine coupling. Use fine-sensitive probes and a matched cross-core fair
+variogram for primary dependence improvement; retain energy nonregression,
+power/residual covariance, physical calibration and marginal gates. An analytic
+exact-correlated-Gaussian control showed a10%joint-energy improvement threshold
+would reject even the oracle (gains below1%); the design was corrected before
+any scientific predictions. This is a metric control, not model evidence.
+
+## Historical preparation execution (2026-09-18/19)
+
+The following timestamped entries document intermediate states, not remaining work.
+
+**03:20 UTC:** all21native fields and21condition sets are complete;17/21target
+audits/normalized interfaces pass. Fresh-process target recovery now builds012,
+then014/015/016.123focused tests pass. Final all-panel qualification, bounded
+evidence archive and commits remain outstanding; scientific fitting is not
+authorized. Proposed primary I:J probes explicitly annihilate coarse-constant
+mass so the fine-coupling test cannot be passed by an invariant coarse statistic.
+
+**03:06 UTC:** superseding recovery58562167 starts in the GPU-freed slot under
+the original limits. Native015 and fresh-process target FFTs can proceed while
+the older node finishes016; replacement qualification publishers wait for the
+old parent to stop and pass the exact reviewed-failure handoff. No source-kernel
+change, scientific fit or Slurm cancellation. The draft next scientific request
+is staged:260GPUh/24CPU-nodeh development first, with later confirmation needing
+separate approval. Those are proposals, not today's preparation authority.
+
+**02:57 UTC:** all7technical GPU cases pass exact checkpoint/process replay;
+actual normalized-loader and combined component-cost measurements are complete.
+19/21native fields,21/21condition sets and17/21audited/normalized phase products
+are ready, including all13training phases.014target FFT hits its288GiB memory
+limit after013completes. A reviewed one-shot2h recovery waits for the predecessor
+to end, then runs native gridding before400GiB fresh-process target builds.
+No numerical kernel, completed product or scientific authority changes. Full
+data qualification, approval-ready resource proposal and commits are pending.
+The later experiment is sampling-cost dominated; technical success is not a
+learned-posterior or convergence result.
+
+**02:20 UTC milestone:** the complete13-phase equal-weight normalizer is
+published and verified by exact recomputation from all cached, source-bound
+phase statistics.16/21phase audits pass; normalized interfaces000/002/003/007
+pass all128pairs and896offsets each at about1e-7density round-trip error.
+The remaining all-panel qualification, actual loader/GPU measurements, full
+resource proposal and committed closeout still prevent goal completion.
+
+**02:03 UTC update:**18/21native fields,19/21condition sets,15/21audited target
+sets and12/13training statistics. A short synthetic CPU postprocessing benchmark
+passes inside58550091; component-based development-plus-confirmation costs now
+exist, with explicit proxy/headroom limitations. No scientific performance is
+evaluated. All112focused tests pass. Actual GPU and normalized-loader timings,
+remaining all-panel qualifications and committed closeout still gate completion.
+
+**01:40 UTC delta:** native16/21 and independently audited phases15/21.
+ph014 native density and ph011 targets/audit newly qualify.011 is eligible for
+the twelfth train-statistics set;022 is the last training phase awaiting audited
+products. Both CPU jobs continue; full normalization, normalized interfaces,
+GPU timing, resource-proposal finalization and committed closeout remain pending.
+
+**01:23 UTC delta:** native15/21, conditions17/21, audited targets13/21,
+train moments10/13. Both CPU allocations remain live. The later cost estimator
+now includes finite checkpoint-progression, sampler-ladder and fixed/oracle-
+coarse development panels; all eight accounting tests pass. It still refuses
+to substitute placeholder timings for actual GPU/normalized-loader measurements.
+
+**2026-09-19, 01:20 UTC update:** 13/21 phase-product audits now pass; native
+fields cover 14/21, conditions 15/21 and train moments 10/13. All 103 focused
+tests pass. Final normalization, all-panel normalized interfaces, real data-only
+release and GPU/resource measurements remain outstanding. Two CPU jobs continue;
+the frozen final-data controller waits for 58552205 to end before one bounded
+continuation. The separate one-hour GPU controller waits for 58550091. Neither
+controller authorizes scientific training. The experiment already conditions on
+survey-affected DA2 altmtl successful-observation mocks plus response/selection
+channels; degradation is not deferred to a later ideal-to-real step. Validation
+of every upstream effect, real-DESI closure, HOD marginalization and an evolving
+matter lightcone remain separate requirements.
+
+**2026-09-19,00:46UTC update:**14/21native fields,15/21corrected conditions,
+10/21independently audited target phases and8/13train-statistics sets complete.
+All21joins/17B restores and the physical-reference gate are complete; full global
+normalization, normalized interface qualification and GPU/resource measurements
+remain. All93focused tests pass. No scientific fits or confirmation predictions.
+Five additional receipt-backed cost-accounting tests pass; the new projection
+tool awaits actual GPU/loader results and does not publish placeholder costs.
+The old product node stops at verified checkpoints; its known overall failure
+is traced to earlier recovered errors. New58552205 resumes017 at file93 under
+Mac/login04 tmux and a frozen472GiB/128CPU wrapper. Its serial audit/statistics
+tail waits for58550091's verified predecessor steps, avoiding duplicate writers.
+The tested data-only release index cannot publish until all required products
+qualify and explicitly does not authorize training or certify calibration.
+The one-hour technical GPU controller now waits for58550091 to end and a slot
+to open; no GPU allocation yet. It will use frozen`gpu_benchmark_v3`, including
+host-transfer/checkpoint overhead measurement. At closeout commit the verified
+goal-related source/configuration/tests/science records for the user's push;
+do not push remotely or commit unrelated edits.
+
+**23:26UTC update:**native10/21, corrected conditions10/21, audited targets7/21;
+train moments6/13. Native018/021 and019target/audit newly pass. All75tests pass.
+The unlaunched product-node continuation is corrected from488GiB to472GiB after
+checking the actual487802MiB Slurm allocation; use frozen`products_continue_02_v2`,
+not v1. Both future CPU wrappers verify aggregate requested memory/CPUs at runtime.
+Current jobs continue unchanged. I:J regional mass is a same-coarse invariant;
+the joint VDM/CFM comparison tests objective/path/sampler packages, not loss alone.
+
+**23:12UTC update:**8/21native fields,10/21corrected response/condition sets and
+6/21independently audited joint-target sets complete; train moments6/13.
+The planned58540511checkpoint pause hands off successfully to58550091, with
+native010/021 resuming their exact saved file positions. Two CPU allocations
+continue under Mac leadership. All71focused tests pass. Actual normalized-loader
+timing and bounded incremental interface qualification are now implemented,
+but await the full13-phase normalizer. The seven-factor technical GPU benchmark
+is frozen, not run. Physical representation passes; full data readiness and
+the measured scientific resource proposal remain incomplete. No scientific fit.
+
+**22:38UTC update:**5audited joint phases and5/13train-statistics sets complete;
+native6/21, observations/conditions9/21. A rectangular-aware common engineering
+backbone passes8full-size synthetic CPU cases, with explicit physical positions,
+full I/J observations and projected VDM/CFM objectives. No optimizer updates,
+GPU timings or scientific fits are claimed. All64 tests pass. The second CPU
+node reuses a freed slot for further observations while native builds continue.
+
+**22:16UTC update:**6native phases,9corrected response/condition sets and4
+independently audited joint-target sets (000/002/007/008); train statistics4/13.
+The actual128-pair targetless-reader IO smoke passes; full normalized-interface
+qualification is implemented but awaits final normalization. All58 tests pass.
+One frozen four-hour CPU successor waits for58540511's verified planned end,
+under the original resource and concurrency caps. No scientific fit is launched.
+
+**22:02UTC inventory:**6/21native phases,7/21corrected condition sets and3/21
+joint-target sets complete;000/007/008 each pass independent128pair/608hash QA.
+All21joins/17B transfers complete. Train-only normalization statistics are
+being checkpointed per audited phase;3/13exist, and no final normalizer is
+published before the complete panel. All54 focused tests pass. Two persistent
+CPU allocations continue; no scientific fit has started. Older dated entries
+below describe intermediate states, not additional outstanding physical gates.
+
+**Physical gate complete:** both registered wide-plus-fine operators pass on all
+64training cores, with about88% median eigenvalue-error reduction versus parent
+only (25% required). See the [full report](e2e_coupled_physical_gate_20260918.md).
+Independent audits pass for000/007/008 (128pairs/608hashes each). This clears the
+physical-representation requirement, not full data readiness or posterior
+calibration. Finish the remaining phase products, strict train normalization and
+technical throughput/resource proposal before scientific training approval.
+
+**21:43UTC update:** native000/002/003/007/008 qualified; joint007/008 targets
+complete; seven response phases and six condition phases complete. The full
+64-core physical gate is now evaluating. The strengthened007 audit passes608
+actual hashes and all128 pair bindings/assemblies. All52 focused tests pass.
+Common normalized data views and mass-preserving independent-parent assembly
+are implemented; normalization itself remains unfitted. The
+[resource proposal](e2e_coupled_resource_proposal_20260918.md) now specifies the
+14-factor accounting and draw-cost structure, but is NOT approval-ready until
+the full-panel/physical gates and actual GPU measurements are complete.
+
+Execution is now Mac-led after explicit user reconciliation of duplicate
+backends. See `e2e_coupled_session_reconciliation_20260918.md`. The phone's
+distance-convention audit is adopted: all later arms must use new verified
+DESI/Abacus Mpc/h Cartesian products with the inherited selection function's
+volume Jacobian. The old Planck18 Cartesian builder is not a canonical input.
+Catalogue joins, native matter and angular randoms are reusable. Coordinate
+replication across007/008/020 gates Cartesian builds; all original resource
+caps and held-out exclusions remain in force. No scientific training yet.
+The three-phase coordinate gate and46focused tests now pass. At21:12UTC all21
+catalogue joins/all17B transfers are complete; native007/002/003 are qualified,
+corrected responses exist for000/007/008/009/010, and all128ph007 joint targets
+pass numerical mass/trace checks. CPU58540511 and58544227 continue frozen workers
+in tmux. Full paired products, train normalization and physical-reference QA are
+not yet complete. Coordinate repair alone is not evidence of posterior calibration.
+
+Joint condition/target product builders and the targetless reader are now
+implemented, including exact mass-conserving rectangular charts, independent
+full-box references, restartable stage receipts and strict13-phase/equal-phase
+normalization. Their numerical tests pass; the normalizer has NOT yet been fit.
+The real-condition smoke passes and007/008/009 condition phases are complete.
+The independent full-payload audit passes for007 (604actual hashes/all128pairs).
+Its full-box target FFT took
+603s with257.5GiB peak RSS. The full64-core physical-reference gate still awaits008;
+one-pair operator smoke does not substitute for it. The full gate now waits for008
+inside58540511 with a one-hour dependency timeout and80-minute step limit.
+Complete remaining products,
+normalization, physical qualification and technical throughput/resource proposal
+before requesting scientific training.
+
+ph000's original greedy geometry selection failed at120/128 pairs. A bounded
+deterministic support-only packing repair succeeds at128/128 using the same
+candidates and unchanged support/separation/nonoverlap criteria; old committed
+geometries are not modified. Policy: `configs/e2e_coupled_geometry_search_v1.json`.
+The condition-worker recovery is frozen in `source_snapshots/geometry_repair_v1`.
+
+Approved preparation now includes020–024 in training:13train/2development/
+6confirmation phases. Eight phases were not a demonstrated diversity plateau.
+Keep012–013 for development,014–019 for confirmation,001/006 sealed,004–005
+historical/unused. The later four arms are D-reference, matched independent
+I-VDM, joint J-VDM and joint J-CFM. No scientific fitting is authorized yet.
+
+`configs/e2e_coupled_data_v1.json` binds caps of4.5TiB newScratch,64CPU-nodeh,
+4technicalGPUh and two simultaneous allocations. All21 phase observation/random
+metadata inventories and full joins pass. CPU58538574 ended on its registered
+pause; transfer58539034 completed. All17B transfers are present, but transferred
+payloads still require phase-specific CRC/headers before native construction.
+The three-phase central-host convention audit now passes the corrected frame.
+Particle CRC/headers, all-phase canonical observations,
+support-selected nonoverlapping pair geometry, separate joint targets,
+train-only charts and full-box physical-reference gates remain required.
+Data products and a measured downstream resource proposal must be verified
+before the later four-arm experiment can be approved.
+
+Resource ledger at21:12UTC:3.59139/64CPU-nodeh,0/4technicalGPUh,
+3,215,664,836,011/4,947,802,324,992newScratch bytes. Exactly two live allocations;
+the original resource allowance was not reset when this goal was resumed.
+
 ## Current decision: approved matrix complete, joint field not ready (2026-09-18)
 
 This supersedes the chronological running/preview statuses below. The full

@@ -1,0 +1,29 @@
+{
+  "binding": "2f61a89c1e4e95549777f172811a3eb00da64a779142df57beb365ad0ab0a698",
+  "box_mpc_h": 2000.0,
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "created_utc": "2026-09-19T02:00:35.350213+00:00",
+  "deposited_count": 33022527236.88139,
+  "dtype": "float32",
+  "elapsed_seconds_this_segment": 4602.2949253730185,
+  "host": "nid004157",
+  "ngrid": 2048,
+  "outputs": [
+    {
+      "bytes": 34359738496,
+      "mtime_ns": 1789783191000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph013/counts_tsc_2048.npy",
+      "sha256": "145ab0bd5c56180010e2eff5ef2fa7589e0e8d55b5451ecd81f6faf7dca91b11"
+    }
+  ],
+  "particle_count": 33022530364,
+  "pass": true,
+  "phase": "ph013",
+  "processed_files": 136,
+  "relative_count_error": 9.469651707220943e-08,
+  "role": "development",
+  "slurm_job_id": "58552205",
+  "source_code_sha256": "4ab2b9cf053e8c1ad8a05cf122d9d17180208fb074b815351a61da4be3066347",
+  "subsample_fraction": 0.1
+}

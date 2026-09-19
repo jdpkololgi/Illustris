@@ -1,0 +1,88 @@
+{
+  "binding": {
+    "block_sum_source_sha256": "d95bb17c3bdccd1e2e2ae86d300fd18646e24b2b880541f64b90600bb92d3860",
+    "builder_sha256": "8064dae21e223e02a45b16dd2253dd224a6f23d690c910bd4e812cae54c1e62d",
+    "coordinates_source_sha256": "d4f35f11abb5a956e74d3dd92c1f4d23b48d028467ae0eb898f0d0d43a0b07e1",
+    "geometry_receipt_sha256": "bcc5eca4ea9e76a7e428b96d4283ba793781906941b5873eea6787cb6846a73b",
+    "geometry_sha256": "201b6cb52e975a53dfadecc85363b1fc27203f3e1211de4abdebe5264f333af7",
+    "layout_sha256": "810a078eae98101f59ea380330c827f4603fb403ae7e166ce5e3dbae00a9c941",
+    "operators_sha256": "54934aa3c69bad36d0e4d9b5135106387fe01f44efdef24b4166caf5fcedc38d"
+  },
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "contains_matter": false,
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+  "created_utc": "2026-09-19T01:19:06.052332+00:00",
+  "host": "nid004144",
+  "outputs": [],
+  "pair_receipts": [
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph016/ph016_NGC_s0_interior_00.json",
+      "sha256": "dbce454cb87235cb631e0d55cda22d8287566c67ca7bc245b31cbbed69371f61"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph016/ph016_NGC_s0_boundary_00.json",
+      "sha256": "af3cd6ce6f8ed6958ab552dfd20aacc401c59a2fd93462259342514958434c08"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph016/ph016_NGC_s1_interior_00.json",
+      "sha256": "34d522291675974cfd9e4dd18f0afd68de9c341cc7abdd045dc02d26a873f211"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph016/ph016_NGC_s1_boundary_00.json",
+      "sha256": "6c0f22777bb2dc7eb4f48c7c9c93206f3f4d8563411c3e7f406fa6fe08dc27b9"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph016/ph016_NGC_s2_interior_00.json",
+      "sha256": "9168b72b87bac8b1304d2394f5e198cf9ccff1dbaa2b7df14ec1f327b37b8dfa"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph016/ph016_NGC_s2_boundary_00.json",
+      "sha256": "40932a984eb60abb9ab7e5bc78d1c317b6c4f48bf7a5902db210dd52447fefb0"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph016/ph016_NGC_s3_interior_00.json",
+      "sha256": "656af7cb67941b9a642a0ebc4209177c5d70b6f2eee8c1ce3a14d4eaac40db79"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph016/ph016_NGC_s3_boundary_00.json",
+      "sha256": "1a4e7f64ea96d797f54ec3ed584a2bc326fd22d12b8cd27c928e9ba31fd3c1d0"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph016/ph016_SGC_s0_interior_00.json",
+      "sha256": "6591cfda1e68f81ca18ed56f1ba2967b138c22af829d64e805128a46d3752e74"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph016/ph016_SGC_s0_boundary_00.json",
+      "sha256": "542d7b7bad39e1be1c88e8204caa193da10da971985d9641388deb42704aa834"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph016/ph016_SGC_s1_interior_00.json",
+      "sha256": "8da09d664dd48e25f403489b70acd8b3f1013d0f98f2d4980e639db0f1f1bad9"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph016/ph016_SGC_s1_boundary_00.json",
+      "sha256": "66925b28ccc924796381b97a8e1ab089bd976a29d9cfad0ae0c3df45e2a90954"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph016/ph016_SGC_s2_interior_00.json",
+      "sha256": "478085189585e4cc86aa54bf99e6667416aadaca31afc010bad89ef8f2e4ba49"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph016/ph016_SGC_s2_boundary_00.json",
+      "sha256": "55c16eda41bf29875bfaf9ca7f133f72147af301d09fd06540e9bf546b3a7d4f"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph016/ph016_SGC_s3_interior_00.json",
+      "sha256": "eb409becfb6c436905d60d4d1e88b23212a41de9dfb1147b35317ca4f701491f"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph016/ph016_SGC_s3_boundary_00.json",
+      "sha256": "a73702c40145e68e011f2f3af12d1393e623001fdd8d68dbf803711000ae434e"
+    }
+  ],
+  "pass": true,
+  "phase": "ph016",
+  "role": "confirmation",
+  "slurm_job_id": "58550091"
+}

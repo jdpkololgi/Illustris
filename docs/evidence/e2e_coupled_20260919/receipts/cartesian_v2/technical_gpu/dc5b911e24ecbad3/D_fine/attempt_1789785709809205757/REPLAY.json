@@ -1,0 +1,34 @@
+{
+  "binding": {
+    "config_sha256": "25349851bc8d365817c7ac17d9fe065e857e16be46c4b1332b0ea064d9572438",
+    "runner_sha256": "ea9df7df2649ed9c12647f76a1c15f434be7e2df47481cb1ef929e069f5b0a3b",
+    "scientific_fit": false,
+    "source_hashes": {
+      "e2e_coupled_benchmark_models.py": "c3213a76e878001645a5ca6b9e2b6ab9c63f58e510887cfae4b03bdc4f8a0886",
+      "e2e_direct_vdm.py": "cca2c730ea28a76a2c49d6d9a823dfb8d7cafc3ec19bfe30c2d501f6d92b091b",
+      "e2e_vdm_context_models.py": "871902576da89f35f5605a5613ecf3338d78da8cef5f8061ce48c9d2613b06b7",
+      "e2e_wide_continue.py": "e22b3c1a879d100a4a7efd7db426b7ccb0ac40ee8ac9bed81c10ef0479b47a45"
+    },
+    "synthetic_only": true
+  },
+  "case": "D_fine",
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+  "created_utc": "2026-09-19T02:43:21.860851+00:00",
+  "exact_fresh_process_replay": true,
+  "host": "nid008700",
+  "optimizer_updates": 1,
+  "outputs": [],
+  "pass": true,
+  "scientific_fit": false,
+  "slurm_job_id": "58559826",
+  "sources": [
+    {
+      "bytes": 5653,
+      "mtime_ns": 1789785794000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/D_fine/attempt_1789785709809205757/TIMINGS.json",
+      "sha256": "720b10e8b596f069c8fbc2b1bdae3adb4aa3f19f5d748e2bc7f4ac153d50dadc"
+    }
+  ]
+}

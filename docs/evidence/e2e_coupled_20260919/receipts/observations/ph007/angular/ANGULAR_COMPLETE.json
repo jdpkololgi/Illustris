@@ -1,0 +1,145 @@
+{
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "created_utc": "2026-09-18T19:04:50.543798+00:00",
+  "host": "nid004142",
+  "legacy_algorithm_sha256": "0aef93da1cf4d18865adffd29a4b9d94b5d6fa3510547d14c509bbb827fdf9a2",
+  "metadata": {
+    "angular_normalization_policy": "mean-one-after-unique-cap-PHOTSYS-domain-assignment-v1",
+    "domain_overlap_pixels": 862,
+    "domains": {
+      "cap0_PHOTSYSN": {
+        "mean_raw_count": null,
+        "raw_count_sum": 0,
+        "response_mean": null,
+        "status": "empty physical cap/PHOTSYS intersection",
+        "supported_pixels": 0
+      },
+      "cap0_PHOTSYSS": {
+        "mean_raw_count": 2034.3938565553265,
+        "raw_count_sum": 166700267,
+        "response_mean": 1.0,
+        "supported_pixels": 81941
+      },
+      "cap1_PHOTSYSN": {
+        "mean_raw_count": 2082.260827021346,
+        "raw_count_sum": 172434608,
+        "response_mean": 1.0,
+        "supported_pixels": 82779
+      },
+      "cap1_PHOTSYSS": {
+        "mean_raw_count": 2130.9177926382054,
+        "raw_count_sum": 217500613,
+        "response_mean": 1.0,
+        "supported_pixels": 101986
+      }
+    },
+    "supported_area_deg2": 13990.29068373059,
+    "supported_pixels": 266706
+  },
+  "outputs": [
+    {
+      "bytes": 1203269,
+      "mtime_ns": 1789758290000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/angular.npz",
+      "sha256": "40096683c1ea88e21beaf2f3adb54c5fee6847459a3b49b1228a01cb8826115d"
+    }
+  ],
+  "pass": true,
+  "phase": "ph007",
+  "random_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+  ],
+  "slurm_job_id": "58538574",
+  "sources": [
+    {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/random_00.json",
+      "sha256": "6641b3722156097f9d6a5dbec4d2e04d1904a5bd0d16c20fd531855bf7428492"
+    },
+    {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/random_01.json",
+      "sha256": "8e68832d8e212afb63def2910f038df94079160d863b57bdca754d9b97d807bc"
+    },
+    {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/random_02.json",
+      "sha256": "6e6e72775b1fd179b09949b6fbc0355ef4d9925964ebd9f128ec955419d34370"
+    },
+    {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/random_03.json",
+      "sha256": "edaeabc47f4404aae6ef0a2392bd099c6910998ae481cf0260421193cf0f7fa0"
+    },
+    {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/random_04.json",
+      "sha256": "8a70b20964a57b7708f56986196752b54fe3c03904c9c9e5e27251d1ea8da963"
+    },
+    {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/random_05.json",
+      "sha256": "dafe2cc5dfd45b9d6634c0ec7239dcfb02bb6ff4aded111e2031ccc4d39019d3"
+    },
+    {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/random_06.json",
+      "sha256": "9ddc67353f6a0e9a389360214372636db7ba2d8d0e6e39264a5fd6fe07276e8d"
+    },
+    {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/random_07.json",
+      "sha256": "9f2ed9bbf13adffbfb7cd9266d0faa2aaf44b249d7ff511f33d17740505240e9"
+    },
+    {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/random_08.json",
+      "sha256": "096c0b4478f1d0f879c8891b6825e553e20d8374e4e56875bd5661cb74b0cb67"
+    },
+    {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/random_09.json",
+      "sha256": "38198bfb9d3488643d99502c30cd5cf02fd71f0182c544672809787bc75bd933"
+    },
+    {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/random_10.json",
+      "sha256": "e0e1f1db1136897cb1aaf6405c8ec1acfa55b36d21a78b46dd7020db36ee6338"
+    },
+    {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/random_11.json",
+      "sha256": "fdd48d622caf94abded40df3e8994c19207a2d23afc3ce00669244325f89512f"
+    },
+    {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/random_12.json",
+      "sha256": "b0dff0a43dc54a0e61aced544c49b445288e309f79c3d4b150a31063fee17216"
+    },
+    {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/random_13.json",
+      "sha256": "9ce5045bc4d8e3b28a6ad52ebb26dcdb8c985637b572d7dff0ab7a8c32d0b43f"
+    },
+    {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/random_14.json",
+      "sha256": "66c6ae1dbf6083e933c4531b5cde447c7958b83ae1dcd5c13bb8a825f6e3613c"
+    },
+    {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/random_15.json",
+      "sha256": "64091325d09598c7ad6a821db4d72093f06b5dfdec75e8ceab5cf6b3f352018a"
+    },
+    {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/random_16.json",
+      "sha256": "0d23d550296789baf1885c42deeb602fe777c26ee20be0f533ad9924f6584c8a"
+    },
+    {
+      "receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/random_17.json",
+      "sha256": "c22ff2eea9f899bb8db41be1363e08f1134a31a32d7cd85eb0de34099c3ccd7d"
+    }
+  ]
+}

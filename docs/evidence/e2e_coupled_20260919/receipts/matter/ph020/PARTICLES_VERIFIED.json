@@ -1,0 +1,1943 @@
+{
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "crc_manifests": [
+    {
+      "bytes": 1418,
+      "mtime_ns": 1586133305000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/checksums.crc32",
+      "sha256": "8b73791ac646125d75fbcd62e2aa12a5057e017ce343ca2e31d95aece572758b"
+    },
+    {
+      "bytes": 1354,
+      "mtime_ns": 1586133305000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/checksums.crc32",
+      "sha256": "3dc9d1144e3293d467d57acf6133b630153b1583045f875e616227a76101fb18"
+    },
+    {
+      "bytes": 1420,
+      "mtime_ns": 1586133305000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/checksums.crc32",
+      "sha256": "6f7739ae803ce3f1a22d92adf6dce0e93bc2f78c4ecd0cff6de1fa41f2a59f14"
+    },
+    {
+      "bytes": 1385,
+      "mtime_ns": 1586133305000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/checksums.crc32",
+      "sha256": "f7fabccefe775ae1d8f6f718cdf048e3e3cb052f5b4e0a42cbef0d108dbdfd31"
+    }
+  ],
+  "created_utc": "2026-09-18T23:22:40.664150+00:00",
+  "elapsed_seconds": 163.1238746960007,
+  "files": [
+    {
+      "bytes": 1300775308,
+      "crc": 184311207,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131649000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_000.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1294334646,
+      "crc": 4294396700,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132042000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_001.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1282807091,
+      "crc": 4160642883,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131647000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_002.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1298364651,
+      "crc": 3784260900,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132041000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_003.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1296367270,
+      "crc": 1857906063,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131669000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_004.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1291215597,
+      "crc": 320479214,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132057000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_005.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1291555230,
+      "crc": 921725872,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131668000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_006.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1302505111,
+      "crc": 3892982649,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132069000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_007.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1299176235,
+      "crc": 1295210457,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131672000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_008.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1290064537,
+      "crc": 570852860,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132069000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_009.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1289682262,
+      "crc": 2386576005,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131649000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_010.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1283599202,
+      "crc": 1649956517,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132041000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_011.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1288790799,
+      "crc": 3919393428,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131667000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_012.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1295871416,
+      "crc": 3469515613,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132064000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_013.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1300962061,
+      "crc": 2019289183,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131673000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_014.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1294125790,
+      "crc": 4272277412,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132070000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_015.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1293963079,
+      "crc": 599649488,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132430000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_016.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1281254904,
+      "crc": 3990552512,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132812000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_017.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1295061968,
+      "crc": 392861832,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132431000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_018.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1295146434,
+      "crc": 1592314602,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132814000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_019.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1297654674,
+      "crc": 3103820137,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132431000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_020.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1288516703,
+      "crc": 597273807,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132811000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_021.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1295163909,
+      "crc": 3237336043,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132427000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_022.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1296821542,
+      "crc": 3518046139,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132789000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_023.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1300179591,
+      "crc": 1623132560,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132454000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_024.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1298697084,
+      "crc": 914572295,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132843000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_025.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1291074661,
+      "crc": 3493802460,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132441000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_026.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1298918359,
+      "crc": 3707039788,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132818000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_027.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1302932177,
+      "crc": 1898374949,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132462000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_028.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1310085710,
+      "crc": 2446658673,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132846000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_029.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1303167391,
+      "crc": 1487842510,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132463000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_030.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1287331778,
+      "crc": 531275969,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132843000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_031.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1283635714,
+      "crc": 3486583301,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586133039000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_032.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 1322065595,
+      "crc": 753339515,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586133265000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/field_rv_A/field_rv_A_033.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 914748803,
+      "crc": 2980856169,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131559000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_000.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 905951352,
+      "crc": 122050494,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131962000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_001.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 892099529,
+      "crc": 3767173237,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131562000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_002.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 912393704,
+      "crc": 1893886668,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131962000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_003.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 908954376,
+      "crc": 3710451395,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131581000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_004.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 903291262,
+      "crc": 2882189749,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131981000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_005.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 902282587,
+      "crc": 1794113116,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131575000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_006.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 918421565,
+      "crc": 4173078446,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131985000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_007.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 912540108,
+      "crc": 3121905904,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131581000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_008.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 901188411,
+      "crc": 3282981169,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131986000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_009.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 900891363,
+      "crc": 2530009960,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131565000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_010.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 892266514,
+      "crc": 373359751,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131959000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_011.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 899590544,
+      "crc": 1072740392,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131573000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_012.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 909393465,
+      "crc": 2189502885,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131983000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_013.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 916594302,
+      "crc": 4287125082,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131580000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_014.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 906749356,
+      "crc": 3014360994,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131986000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_015.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 904886990,
+      "crc": 2061108257,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132348000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_016.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 890634274,
+      "crc": 4035660990,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132730000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_017.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 908922769,
+      "crc": 648151225,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132349000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_018.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 906777411,
+      "crc": 3966225142,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132734000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_019.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 910376611,
+      "crc": 1673607326,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132350000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_020.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 896877302,
+      "crc": 2124782622,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132729000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_021.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 909620884,
+      "crc": 712985843,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132343000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_022.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 909126154,
+      "crc": 3410546602,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132717000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_023.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 914249752,
+      "crc": 2238031201,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132376000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_024.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 912197970,
+      "crc": 1563155530,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132763000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_025.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 902866590,
+      "crc": 2767871682,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132368000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_026.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 911699846,
+      "crc": 485090747,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132740000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_027.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 918184817,
+      "crc": 2611236690,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132379000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_028.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 928079221,
+      "crc": 2515525126,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132764000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_029.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 917699915,
+      "crc": 2383713030,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132379000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_030.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 897544854,
+      "crc": 2681799108,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132758000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_031.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 893285340,
+      "crc": 2216906676,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132990000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_032.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 927243531,
+      "crc": 799299146,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586133214000000000,
+      "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph020/halos/z0.200/halo_rv_A/halo_rv_A_033.asdf",
+      "sample": "A"
+    },
+    {
+      "bytes": 2920606193,
+      "crc": 1567646608,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131713000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_000.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2904842844,
+      "crc": 2016503913,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132105000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_001.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2879026221,
+      "crc": 3992350640,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131711000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_002.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2915727981,
+      "crc": 4177883032,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132104000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_003.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2910702788,
+      "crc": 2319106740,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131732000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_004.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2898905389,
+      "crc": 4198805754,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132113000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_005.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2899044745,
+      "crc": 3075492080,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131737000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_006.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2924731828,
+      "crc": 150337527,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132128000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_007.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2916305740,
+      "crc": 3589091252,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131739000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_008.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2895393374,
+      "crc": 1074092217,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132126000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_009.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2895475728,
+      "crc": 14505862,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131715000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_010.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2879957886,
+      "crc": 3459489208,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132102000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_011.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2893276605,
+      "crc": 48596295,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131735000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_012.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2909310849,
+      "crc": 2523982666,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132124000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_013.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2920328813,
+      "crc": 2384556198,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131739000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_014.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2904674071,
+      "crc": 3979642195,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132127000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_015.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2904418669,
+      "crc": 3905355260,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132493000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_016.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2875117188,
+      "crc": 1239389048,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132874000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_017.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2907747587,
+      "crc": 1530638536,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132496000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_018.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2907633499,
+      "crc": 1464207761,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132874000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_019.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2912510035,
+      "crc": 373798842,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132493000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_020.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2891903910,
+      "crc": 2875676908,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132871000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_021.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2907486632,
+      "crc": 2906566504,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132489000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_022.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2910706458,
+      "crc": 3799682743,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132849000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_023.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2919062395,
+      "crc": 2773548880,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132516000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_024.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2916113024,
+      "crc": 609965403,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132897000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_025.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2897104522,
+      "crc": 4128728550,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132500000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_026.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2915784846,
+      "crc": 713730199,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132877000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_027.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2924425983,
+      "crc": 3174108200,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132518000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_028.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2940459539,
+      "crc": 2081972619,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132898000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_029.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2925445985,
+      "crc": 3827640054,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132517000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_030.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2889824107,
+      "crc": 2076211263,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132895000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_031.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2880623222,
+      "crc": 2652826249,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586133078000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_032.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2968655418,
+      "crc": 2190047120,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586133305000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/field_rv_B/field_rv_B_033.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2050867567,
+      "crc": 2607619457,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131613000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_000.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2030535727,
+      "crc": 655524447,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132011000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_001.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 1999042353,
+      "crc": 144051767,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131614000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_002.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2046151075,
+      "crc": 465092421,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132011000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_003.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2038400227,
+      "crc": 3513623359,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131634000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_004.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2025934563,
+      "crc": 3055039373,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132026000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_005.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2024394249,
+      "crc": 4036409701,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131629000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_006.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2060179110,
+      "crc": 3679140921,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132033000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_007.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2045587972,
+      "crc": 536667843,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131635000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_008.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2021300814,
+      "crc": 874756837,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132034000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_009.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2020748140,
+      "crc": 2005277368,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131615000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_010.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2000133258,
+      "crc": 2672248255,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132008000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_011.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2016396724,
+      "crc": 3779480704,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131629000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_012.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2039820576,
+      "crc": 2372614944,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132031000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_013.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2054793043,
+      "crc": 505698701,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586131635000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_014.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2031969558,
+      "crc": 1126343143,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132036000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_015.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2029285169,
+      "crc": 1926530770,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132399000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_016.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 1996424021,
+      "crc": 340144969,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132780000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_017.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2037763849,
+      "crc": 3026862694,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132400000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_018.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2033384951,
+      "crc": 1537394188,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132783000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_019.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2042161591,
+      "crc": 4124781941,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132400000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_020.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2011197836,
+      "crc": 2046144913,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132779000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_021.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2038743820,
+      "crc": 456362483,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132395000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_022.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2038354792,
+      "crc": 3374635272,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132760000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_023.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2051001728,
+      "crc": 2646263150,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132421000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_024.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2045356951,
+      "crc": 967730919,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132810000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_025.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2024191225,
+      "crc": 4205180427,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132412000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_026.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2045025249,
+      "crc": 1752782446,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132788000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_027.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2059666079,
+      "crc": 2180593785,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132426000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_028.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2081012339,
+      "crc": 1884935510,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132810000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_029.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2057917794,
+      "crc": 1700783104,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132425000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_030.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2011956803,
+      "crc": 3270566835,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586132804000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_031.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2002761811,
+      "crc": 3059887917,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586133020000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_032.asdf",
+      "sample": "B"
+    },
+    {
+      "bytes": 2080397882,
+      "crc": 4160776449,
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph020"
+      },
+      "mtime_ns": 1586133246000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/halos/z0.200/halo_rv_B/halo_rv_B_033.asdf",
+      "sample": "B"
+    }
+  ],
+  "host": "nid004144",
+  "pass": true,
+  "phase": "ph020",
+  "slurm_job_id": "58550091",
+  "source_code_sha256": "4ab2b9cf053e8c1ad8a05cf122d9d17180208fb074b815351a61da4be3066347"
+}

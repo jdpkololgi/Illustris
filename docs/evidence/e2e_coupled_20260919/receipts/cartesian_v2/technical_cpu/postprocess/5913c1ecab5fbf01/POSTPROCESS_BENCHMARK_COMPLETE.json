@@ -1,0 +1,229 @@
+{
+  "binding": {
+    "layout_sha256": "810a078eae98101f59ea380330c827f4603fb403ae7e166ce5e3dbae00a9c941",
+    "posterior_performance_evaluated": false,
+    "runner_sha256": "0f69d665940f02f01f39fc559af8d985cf93dbf40313fd6fd931876ac6164201",
+    "scientific_payloads_read": false,
+    "source_hashes": {
+      "e2e_coupled_operators.py": "54934aa3c69bad36d0e4d9b5135106387fe01f44efdef24b4166caf5fcedc38d",
+      "e2e_coupled_physical_gate.py": "63bd35fb68e84d561a8e04d9d317567120f1cfeb3add6ce7a2c44aa04ac1c9a9",
+      "e2e_coupled_target_products.py": "9108a8296d03b68821080a5857acc5a1a4eeba4494c05f98f252780505cc7ac3",
+      "e2e_vdm_context_metrics.py": "4632512700f996cdfae330c8b98732ad0ce129b4428c0818cb0f9faa6585f56d"
+    },
+    "specification": {
+      "artifact_reserve_bytes": 268435456,
+      "joint_shape": [
+        64,
+        48,
+        48
+      ],
+      "max_seconds": 600,
+      "operator_draws": 8,
+      "owned_shape": [
+        2,
+        16,
+        16,
+        16
+      ],
+      "score_draws": [
+        32,
+        128,
+        256
+      ],
+      "synthetic_seed": 20260919,
+      "wide_shape": [
+        48,
+        48,
+        48
+      ],
+      "workers": 4
+    },
+    "synthetic_only": true
+  },
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+  "created_utc": "2026-09-19T01:54:55.502394+00:00",
+  "elapsed_seconds": 17.504675133997807,
+  "full_preparation_complete": false,
+  "host": "nid004144",
+  "limitations": [
+    "Synthetic inputs, not a trained-posterior evaluation",
+    "Four-worker common rectangular operator; no multi-job scaling claim",
+    "Uncompressed per-draw HDF5 including hash/roundtrip; no cold-cache claim",
+    "FFT/quantiles are component probes, not the final band/window implementation",
+    "GPU-to-host copy, orchestration and output contention are not measured"
+  ],
+  "numpy_version": "2.3.5",
+  "operator_measurements": [
+    {
+      "coarse_mass_relative_error": 6.643658116120614e-16,
+      "common_tensor_seconds": 0.4600706830096897,
+      "decode_seconds": 0.0038458599883597344,
+      "fft_quantile_seconds": 0.005708523996872827,
+      "index": 0,
+      "output_bytes": 1134592,
+      "owned_eigen_seconds": 0.04158344102324918,
+      "write_fsync_hash_verify_seconds": 0.043084725009975955
+    },
+    {
+      "coarse_mass_relative_error": 6.835784636840618e-16,
+      "common_tensor_seconds": 0.45919530000537634,
+      "decode_seconds": 0.003484120999928564,
+      "fft_quantile_seconds": 0.004169225983787328,
+      "index": 1,
+      "output_bytes": 1134592,
+      "owned_eigen_seconds": 0.007157947984524071,
+      "write_fsync_hash_verify_seconds": 0.010122895007953048
+    },
+    {
+      "coarse_mass_relative_error": 6.280765337070883e-16,
+      "common_tensor_seconds": 0.45335764600895345,
+      "decode_seconds": 0.003486845991574228,
+      "fft_quantile_seconds": 0.004352621006546542,
+      "index": 2,
+      "output_bytes": 1134592,
+      "owned_eigen_seconds": 0.0072822079819161445,
+      "write_fsync_hash_verify_seconds": 0.009945641999365762
+    },
+    {
+      "coarse_mass_relative_error": 5.876448195654037e-16,
+      "common_tensor_seconds": 0.4473054569971282,
+      "decode_seconds": 0.0035325039934832603,
+      "fft_quantile_seconds": 0.004142485006013885,
+      "index": 3,
+      "output_bytes": 1134592,
+      "owned_eigen_seconds": 0.0072755650035105646,
+      "write_fsync_hash_verify_seconds": 0.011178715998539701
+    },
+    {
+      "coarse_mass_relative_error": 6.176838788329745e-16,
+      "common_tensor_seconds": 0.44919069402385503,
+      "decode_seconds": 0.0035173650248907506,
+      "fft_quantile_seconds": 0.00411846800125204,
+      "index": 4,
+      "output_bytes": 1134592,
+      "owned_eigen_seconds": 0.007214999001007527,
+      "write_fsync_hash_verify_seconds": 0.010141450999071822
+    },
+    {
+      "coarse_mass_relative_error": 6.356401680180109e-16,
+      "common_tensor_seconds": 0.4542998489923775,
+      "decode_seconds": 0.0035283159813843668,
+      "fft_quantile_seconds": 0.004482993012061343,
+      "index": 5,
+      "output_bytes": 1134592,
+      "owned_eigen_seconds": 0.007465083006536588,
+      "write_fsync_hash_verify_seconds": 0.010714630014263093
+    },
+    {
+      "coarse_mass_relative_error": 6.125077979141579e-16,
+      "common_tensor_seconds": 0.4518167850037571,
+      "decode_seconds": 0.0035717000137083232,
+      "fft_quantile_seconds": 0.004198412992991507,
+      "index": 6,
+      "output_bytes": 1134592,
+      "owned_eigen_seconds": 0.0073351209866814315,
+      "write_fsync_hash_verify_seconds": 0.011023196013411507
+    },
+    {
+      "coarse_mass_relative_error": 7.161201997411442e-16,
+      "common_tensor_seconds": 0.4545229999930598,
+      "decode_seconds": 0.0035635539970826358,
+      "fft_quantile_seconds": 0.004272304999176413,
+      "index": 7,
+      "output_bytes": 1134592,
+      "owned_eigen_seconds": 0.007371020998107269,
+      "write_fsync_hash_verify_seconds": 0.010255190019961447
+    }
+  ],
+  "outputs": [
+    {
+      "bytes": 1134592,
+      "mtime_ns": 1789782878000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_cpu/postprocess/5913c1ecab5fbf01/attempt_1789782878007649805/synthetic_field_00.h5",
+      "sha256": "f24dbbdaeb8b610845bdfab8416706e1555ca806f32d5701976ce6c35caca402"
+    },
+    {
+      "bytes": 1134592,
+      "mtime_ns": 1789782879000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_cpu/postprocess/5913c1ecab5fbf01/attempt_1789782878007649805/synthetic_field_01.h5",
+      "sha256": "68d87f43223953ddd8e8ffdd30d591f7b18feb3d3b36adc683e327c781e7cd3f"
+    },
+    {
+      "bytes": 1134592,
+      "mtime_ns": 1789782879000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_cpu/postprocess/5913c1ecab5fbf01/attempt_1789782878007649805/synthetic_field_02.h5",
+      "sha256": "29213d9bd1b9bda094a53c3c2bbabb4d1231605c88aa644b9a92b72b239cdfa8"
+    },
+    {
+      "bytes": 1134592,
+      "mtime_ns": 1789782880000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_cpu/postprocess/5913c1ecab5fbf01/attempt_1789782878007649805/synthetic_field_03.h5",
+      "sha256": "7ebade00c38baacafd4e1332e5ce4f0943b058822a869e440b720456d321a4ae"
+    },
+    {
+      "bytes": 1134592,
+      "mtime_ns": 1789782880000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_cpu/postprocess/5913c1ecab5fbf01/attempt_1789782878007649805/synthetic_field_04.h5",
+      "sha256": "e4ca632be55f162437132727854ca0cbf09da79661a0bd1e543e94a24299f8fa"
+    },
+    {
+      "bytes": 1134592,
+      "mtime_ns": 1789782881000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_cpu/postprocess/5913c1ecab5fbf01/attempt_1789782878007649805/synthetic_field_05.h5",
+      "sha256": "bd47afdaa51b7c522c29b668589598d3412690a98a024d4bde8e88e720b87b5d"
+    },
+    {
+      "bytes": 1134592,
+      "mtime_ns": 1789782881000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_cpu/postprocess/5913c1ecab5fbf01/attempt_1789782878007649805/synthetic_field_06.h5",
+      "sha256": "b0f5a544a5ca1ee3195d90d2dd89bb2826ab07b2f59578a8a14364d92009e9c0"
+    },
+    {
+      "bytes": 1134592,
+      "mtime_ns": 1789782882000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_cpu/postprocess/5913c1ecab5fbf01/attempt_1789782878007649805/synthetic_field_07.h5",
+      "sha256": "746efc6e2310e9f9b7db65c7c4b677dd18368f89f4ae59650976f0f95f71cb1e"
+    }
+  ],
+  "pass": true,
+  "peak_host_rss_bytes": 1442484224,
+  "posterior_performance_evaluated": false,
+  "scientific_payloads_read": false,
+  "scientific_training_authorized": false,
+  "score_measurements": [
+    {
+      "adjacent_summary_scores_seconds": 0.0019424289930611849,
+      "density_calibration_seconds": 0.01497493201168254,
+      "draws": 32,
+      "eigen_gap_marginal_seconds": 0.027326176001224667,
+      "owned_voxels": 8192,
+      "pointwise_vector_energy_seconds": 0.12121509198914282,
+      "score_values_retained": false,
+      "vector_components": 5
+    },
+    {
+      "adjacent_summary_scores_seconds": 0.0020217510173097253,
+      "density_calibration_seconds": 0.025076946010813117,
+      "draws": 128,
+      "eigen_gap_marginal_seconds": 0.12367384700337425,
+      "owned_voxels": 8192,
+      "pointwise_vector_energy_seconds": 2.0902941639942583,
+      "score_values_retained": false,
+      "vector_components": 5
+    },
+    {
+      "adjacent_summary_scores_seconds": 0.01735808199737221,
+      "density_calibration_seconds": 0.16126254000118934,
+      "draws": 256,
+      "eigen_gap_marginal_seconds": 0.2773462820041459,
+      "owned_voxels": 8192,
+      "pointwise_vector_energy_seconds": 9.268214512005216,
+      "score_values_retained": false,
+      "vector_components": 5
+    }
+  ],
+  "slurm_job_id": "58550091",
+  "synthetic_only": true
+}

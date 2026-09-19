@@ -1,0 +1,53 @@
+{
+  "binding": {
+    "normalization_sha256": "b2b294c5de91a7659be16b87e2ea454a11464fbd4522b4c0d30d2b1effa9e43e",
+    "qualifier_sha256": "ae1f0cdf5e853eef1da9e889d621807487d66a5986850167d443d7e32f55061d",
+    "source_hashes": {
+      "e2e_coupled_conditions.py": "3386790d9a902beaa148aa2a5f5a4f8250d385fc941eb6ddc3cb4741d8aa0b2a",
+      "e2e_coupled_normalization.py": "51d241b5b291aefaf65c31b7a60e49782edc9ca3b148a8883a4a258c5695e247",
+      "e2e_coupled_operators.py": "54934aa3c69bad36d0e4d9b5135106387fe01f44efdef24b4166caf5fcedc38d",
+      "e2e_coupled_product_audit.py": "42501abe3553b8f6f382dd4030c48adf736c1eeb685a2b32c52f0319fca04f71",
+      "e2e_coupled_views.py": "bc72bc7d7fb4ab4f3b1db67c93e8260c656874245ef99d29fbae1340ce4a8e55"
+    }
+  },
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+  "created_utc": "2026-09-19T03:40:43.275985+00:00",
+  "elapsed_seconds": 1.413564167014556,
+  "heldout_fit_rejected": true,
+  "host": "nid004151",
+  "max_coarse_mass_relative_error": 6.020033534261442e-08,
+  "max_density_relative_error": 9.373325361394235e-08,
+  "max_standardized_block_mean": 1.7136335372924805e-07,
+  "observation_io_firewall_tested": true,
+  "offset_cases": 16,
+  "outputs": [],
+  "pairs": 16,
+  "pass": true,
+  "phase": "ph014",
+  "role": "confirmation",
+  "science_scores_evaluated": false,
+  "slurm_job_id": "58562167",
+  "sources": [
+    {
+      "bytes": 60125,
+      "mtime_ns": 1789789222000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph014/PRODUCT_AUDIT_1789789222960924292.json",
+      "sha256": "c46142c2bbe3c468922774fb22c9529274825aad4d2c1f84ce5c1048c46d00d1"
+    },
+    {
+      "bytes": 4987,
+      "mtime_ns": 1789784779000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph014/CONDITIONS_COMPLETE.json",
+      "sha256": "32eff94bb8adf98e787a2d87d136b42b18420d777e9aa2066fbedea461e41cd1"
+    },
+    {
+      "bytes": 12791,
+      "mtime_ns": 1789789027000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph014/TARGETS_COMPLETE.json",
+      "sha256": "52345fb839ceb40bb37dbd51a82a4534a7820a61e28f1b1a7b165952f075dc76"
+    }
+  ],
+  "training_reader_agreement": false
+}

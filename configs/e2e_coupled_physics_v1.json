@@ -1,0 +1,19 @@
+{
+  "schema": "e2e-coupled-physical-representation-gate-v1",
+  "purpose": "Training-only physical representation qualification, not posterior calibration or training authorization",
+  "phases": ["ph007", "ph008"],
+  "selection": "All 16 cap/shell/support strata, ordinal 00, both owned cores; 32 pairs and 64 cores total",
+  "reference": "Independent native full-box R7 spectral tensor, averaged with the same cubic sampling operator; diagonal trace equals sampled smoothed density",
+  "candidate_operators": ["independent_wide_plus_parent", "joint_wide_plus_rectangular_parent"],
+  "baseline": "Each separate 48-cubed fine parent alone, isotropic local-DC closure",
+  "primary_context_offset_raw": [0, 0, 0],
+  "primary_metric": "For each ordered eigenvalue, per-core 1 - candidate_eigen_RMSE / parent_only_eigen_RMSE",
+  "required_pooled_median_improvement": 0.25,
+  "required_each_phase_median_improvement": 0.0,
+  "both_candidate_operators_must_pass_all_three_eigenvalues": true,
+  "numerical_trace_max_abs": 0.000002,
+  "other_registered_context_translations": "Report the same errors and phase medians as diagnostics; do not pool them into or replace the zero-offset primary gate",
+  "additional_diagnostics": ["eigengap errors", "worst and upper-quantile core errors", "independent-versus-joint operator differences", "cap/shell/support stratification"],
+  "threshold_origin": "Retain the previous consistent-expanded-density-v2 pilot requirement of 25 percent median improvement over parent-only reconstruction; add phasewise non-regression",
+  "failure_policy": "Preserve failed evidence; no retrospective threshold change, no scientific model training"
+}

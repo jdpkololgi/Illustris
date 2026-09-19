@@ -1,0 +1,35 @@
+{
+  "audit": {
+    "actual_hashes": 608,
+    "elapsed_seconds": 278.7428585450107,
+    "pairs": 128,
+    "pass": true,
+    "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph002/PRODUCT_AUDIT_1789769170125928242.json",
+    "phase": "ph002",
+    "sha256": "e9b4a75f82001cbf58cb8bd384739db75b411c4fad39c1db3011786ef336538b"
+  },
+  "completion_sources": [
+    {
+      "bytes": 31524,
+      "mtime_ns": 1789767585000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph002/CONDITIONS_COMPLETE.json",
+      "sha256": "dbb8a969c73230ec722e4f274094f70e6a82f7b096c31ea72af2e4658837c20f"
+    },
+    {
+      "bytes": 79674,
+      "mtime_ns": 1789768872000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph002/TARGETS_COMPLETE.json",
+      "sha256": "9ca8c5a57bc6796d4f948a30f789efdb0e50f15db2ab836d8e9cdb2afbe6930e"
+    }
+  ],
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+  "created_utc": "2026-09-18T22:06:10.154776+00:00",
+  "global_training_readiness": null,
+  "host": "nid004202",
+  "outputs": [],
+  "pass": true,
+  "phase": "ph002",
+  "slurm_job_id": "58540511"
+}

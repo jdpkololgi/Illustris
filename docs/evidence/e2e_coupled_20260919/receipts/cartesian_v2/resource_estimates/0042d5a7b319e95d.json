@@ -1,0 +1,518 @@
+{
+  "assumptions": [
+    "Serial reader plus transfer plus GPU update, with no prefetch/cache speedup",
+    "Reader rate uses the slower of two measured26-pair pass averages, not a worst-case bound",
+    "Per-pair D/I fine timings already charge both independent parents; no extra factor of two",
+    "Shared I/J coarse fit and addressed coarse draws are counted once",
+    "Sampling transfer is a conservative training-shape proxy, not a measured inference IO path",
+    "Timing projections do not establish training convergence or sampler accuracy"
+  ],
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "confirmation_pairs": 96,
+  "confirmation_sampling": [
+    {
+      "distinct_coarse_draws": 73728,
+      "draws_per_confirmation_pair": 128,
+      "fine_latents": 147456,
+      "network_gpu_hours_by_nfe": {
+        "128": 329.54525476525225,
+        "256": 657.8097086804112,
+        "64": 165.35187179177998
+      },
+      "rectangular_fields": 98304,
+      "rectangular_float32_bytes": 57982058496,
+      "repeated_training_shape_transfer_proxy_gpu_hours": 0.061527862548828124,
+      "unique_coarse_float32_bytes": 32614907904
+    },
+    {
+      "distinct_coarse_draws": 147456,
+      "draws_per_confirmation_pair": 256,
+      "fine_latents": 294912,
+      "network_gpu_hours_by_nfe": {
+        "128": 659.0905095305045,
+        "256": 1315.6194173608224,
+        "64": 330.70374358355997
+      },
+      "rectangular_fields": 196608,
+      "rectangular_float32_bytes": 115964116992,
+      "repeated_training_shape_transfer_proxy_gpu_hours": 0.12305572509765625,
+      "unique_coarse_float32_bytes": 65229815808
+    }
+  ],
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+  "cpu_postprocessing": {
+    "additional_headroom_required": [
+      "Final band/window reductions and population calibration aggregation",
+      "Bootstrap/reference-point diagnostics and output contention",
+      "GPU-to-host copies and orchestration"
+    ],
+    "assumptions": [
+      "Maximum observed component times, not a statistical worst-case guarantee",
+      "One four-logical-CPU worker group; no unmeasured many-worker speedup",
+      "Exclusive CPU-node-hours equal these step-hours if only one group uses the node",
+      "Two rectangular decodes per field are a conservative independent-parent/assembly proxy",
+      "Wide scalar score uses explicit voxel-count scaling; wide FFT uses full joint-size proxy",
+      "Per-field IO includes a wide field each time; no shared-coarse IO discount"
+    ],
+    "confirmation_panels": [
+      {
+        "distinct_coarse_draws": 73728,
+        "draws": 128,
+        "field_decode_operator_io_seconds": 54867.305399894714,
+        "four_cpu_step_hours": 15.890089172522227,
+        "owned_and_joint_score_seconds": 1721.1392317637801,
+        "rectangular_fields": 98304,
+        "wide_fft_quantile_full_joint_size_proxy_seconds": 420.8780572414398,
+        "wide_scalar_score_size_proxy_seconds": 194.9983321800828
+      },
+      {
+        "distinct_coarse_draws": 147456,
+        "draws": 256,
+        "field_decode_operator_io_seconds": 109734.61079978943,
+        "four_cpu_step_hours": 33.138476598004345,
+        "owned_and_joint_score_seconds": 7468.171327494085,
+        "rectangular_fields": 196608,
+        "wide_fft_quantile_full_joint_size_proxy_seconds": 841.7561144828796,
+        "wide_scalar_score_size_proxy_seconds": 1253.9775110492483
+      }
+    ],
+    "development_four_cpu_step_hours": 7.142493778618519,
+    "development_panels": [
+      {
+        "distinct_coarse_draws": 18432,
+        "draws": 32,
+        "field_decode_operator_io_seconds": 13716.826349973679,
+        "four_cpu_step_hours": 3.9071008785208687,
+        "name": "checkpoint_progression",
+        "owned_and_joint_score_seconds": 127.07222706824541,
+        "rectangular_fields": 24576,
+        "wide_fft_quantile_full_joint_size_proxy_seconds": 105.21951431035995,
+        "wide_scalar_score_size_proxy_seconds": 116.44507132284343
+      },
+      {
+        "distinct_coarse_draws": 9216,
+        "draws": 32,
+        "field_decode_operator_io_seconds": 6858.413174986839,
+        "four_cpu_step_hours": 1.9535504392604344,
+        "name": "sampler_ladder",
+        "owned_and_joint_score_seconds": 63.536113534122705,
+        "rectangular_fields": 12288,
+        "wide_fft_quantile_full_joint_size_proxy_seconds": 52.60975715517998,
+        "wide_scalar_score_size_proxy_seconds": 58.222535661421716
+      },
+      {
+        "distinct_coarse_draws": 0,
+        "draws": 32,
+        "field_decode_operator_io_seconds": 4572.275449991226,
+        "four_cpu_step_hours": 1.2818424608372152,
+        "name": "fixed_mean_and_oracle_coarse_controls",
+        "owned_and_joint_score_seconds": 42.35740902274847,
+        "rectangular_fields": 8192,
+        "wide_fft_quantile_full_joint_size_proxy_seconds": 0.0,
+        "wide_scalar_score_size_proxy_seconds": 0.0
+      }
+    ],
+    "end_to_end_analysis_measured": false,
+    "peak_process_rss_bytes": 1442484224,
+    "rates_max_of_eight": {
+      "common_tensor_seconds": 0.4600706830096897,
+      "decode_seconds": 0.0038458599883597344,
+      "fft_quantile_seconds": 0.005708523996872827,
+      "owned_eigen_seconds": 0.04158344102324918,
+      "write_fsync_hash_verify_seconds": 0.043084725009975955
+    }
+  },
+  "created_utc": "2026-09-19T02:51:48.563540+00:00",
+  "development_sampling": {
+    "checkpoints": 3,
+    "controls_are_diagnostic": true,
+    "distinct_coarse_draws": 27648,
+    "fine_latents": 67584,
+    "fixed_mean_source": "Empirical coarse mean from the frozen primary development ensemble",
+    "network_gpu_hours_by_selected_nfe": {
+      "128": 149.41312648789338,
+      "256": 250.38718630225708,
+      "64": 98.90582118797218
+    },
+    "panel_selection": "Freeze16 development pairs by phase/cap/redshift/support before predictions",
+    "panels": [
+      {
+        "distinct_coarse_draws": 18432,
+        "draws": 32,
+        "factors": [
+          "D_coarse",
+          "D_fine",
+          "IJ_coarse",
+          "I_fine",
+          "J_fine",
+          "CFM_coarse",
+          "CFM_fine"
+        ],
+        "fine_latents": 36864,
+        "name": "checkpoint_progression",
+        "network_gpu_hours_by_selected_nfe": {
+          "128": 82.38631369131306,
+          "256": 164.4524271701028,
+          "64": 41.337967947944996
+        },
+        "nfe_policy": "selected",
+        "pairs": 32,
+        "rectangular_fields": 24576,
+        "repeated_training_shape_transfer_proxy_gpu_hours": 0.015381965637207031,
+        "repeats": 3,
+        "seeds": 2
+      },
+      {
+        "distinct_coarse_draws": 9216,
+        "draws": 32,
+        "factors": [
+          "D_coarse",
+          "D_fine",
+          "IJ_coarse",
+          "I_fine",
+          "J_fine",
+          "CFM_coarse",
+          "CFM_fine"
+        ],
+        "fine_latents": 18432,
+        "name": "sampler_ladder",
+        "network_gpu_hours_by_selected_nfe": {
+          "128": 48.02945146822681,
+          "256": 48.02945146822681,
+          "64": 48.02945146822681
+        },
+        "nfe_policy": "all_64_128_256",
+        "pairs": 16,
+        "rectangular_fields": 12288,
+        "repeated_training_shape_transfer_proxy_gpu_hours": 0.0076909828186035156,
+        "repeats": 3,
+        "seeds": 2
+      },
+      {
+        "distinct_coarse_draws": 0,
+        "draws": 32,
+        "factors": [
+          "D_fine",
+          "I_fine",
+          "J_fine",
+          "CFM_fine"
+        ],
+        "fine_latents": 12288,
+        "name": "fixed_mean_and_oracle_coarse_controls",
+        "network_gpu_hours_by_selected_nfe": {
+          "128": 18.997361328353485,
+          "256": 37.90530766392747,
+          "64": 9.538401771800386
+        },
+        "nfe_policy": "selected",
+        "pairs": 16,
+        "rectangular_fields": 8192,
+        "repeated_training_shape_transfer_proxy_gpu_hours": 0.003986438819103771,
+        "repeats": 2,
+        "seeds": 2
+      }
+    ],
+    "rectangular_fields": 45056,
+    "repeated_training_shape_transfer_proxy_gpu_hours": 0.027059387274914318,
+    "reuse_discount_applied": false,
+    "scientific_training_authorized": false
+  },
+  "end_to_end_campaign_measured": false,
+  "estimator_sha256": "690c1cee8ce1575abcee25df9d9a2893431e22e040d37b4b880d093a270c7d66",
+  "host": "login04",
+  "proposal_ready": false,
+  "rates": {
+    "CFM_coarse": {
+      "checkpoint_seconds": 0.25953424800536595,
+      "gpu_training_seconds_per_pair": 0.09110666574997595,
+      "loader_seconds_per_pair": 0.11727058146229516,
+      "pageable_transfer_seconds_per_pair": 0.0008085084991762415,
+      "parameters": 8398387,
+      "parent_evaluations_per_pair": 1,
+      "peak_gpu_reserved_bytes": 956301312,
+      "sampling_network_seconds_per_pair": {
+        "128": 4.973618952004472,
+        "256": 9.9453319394961,
+        "64": 2.4867475039936835
+      },
+      "serial_training_seconds_per_pair": 0.20918575571144735
+    },
+    "CFM_fine": {
+      "checkpoint_seconds": 0.26049693301320076,
+      "gpu_training_seconds_per_pair": 0.11652046500239521,
+      "loader_seconds_per_pair": 0.11727058146229516,
+      "pageable_transfer_seconds_per_pair": 0.0010551589948590845,
+      "parameters": 8398387,
+      "parent_evaluations_per_pair": 1,
+      "peak_gpu_reserved_bytes": 1186988032,
+      "sampling_network_seconds_per_pair": {
+        "128": 6.572031688003335,
+        "256": 13.140702853997936,
+        "64": 3.2859628074947977
+      },
+      "serial_training_seconds_per_pair": 0.23484620545954946
+    },
+    "D_coarse": {
+      "checkpoint_seconds": 0.2583033060072921,
+      "gpu_training_seconds_per_pair": 0.08789820474339649,
+      "loader_seconds_per_pair": 0.11727058146229516,
+      "pageable_transfer_seconds_per_pair": 0.0003544494975358248,
+      "parameters": 8188395,
+      "parent_evaluations_per_pair": 1,
+      "peak_gpu_reserved_bytes": 857735168,
+      "sampling_network_seconds_per_pair": {
+        "128": 4.897468921000836,
+        "256": 9.779953673991258,
+        "64": 2.4565386205067625
+      },
+      "serial_training_seconds_per_pair": 0.20552323570322747
+    },
+    "D_fine": {
+      "checkpoint_seconds": 0.2651105049881153,
+      "gpu_training_seconds_per_pair": 0.17908221649122424,
+      "loader_seconds_per_pair": 0.11727058146229516,
+      "pageable_transfer_seconds_per_pair": 0.0026360479969298467,
+      "parameters": 8371907,
+      "parent_evaluations_per_pair": 2,
+      "peak_gpu_reserved_bytes": 947912704,
+      "sampling_network_seconds_per_pair": {
+        "128": 9.990473702986492,
+        "256": 19.92222555250919,
+        "64": 5.024218039499829
+      },
+      "serial_training_seconds_per_pair": 0.2989888459504493
+    },
+    "IJ_coarse": {
+      "checkpoint_seconds": 0.2619051330257207,
+      "gpu_training_seconds_per_pair": 0.09095968874316895,
+      "loader_seconds_per_pair": 0.11727058146229516,
+      "pageable_transfer_seconds_per_pair": 0.0008425005071330816,
+      "parameters": 8398387,
+      "parent_evaluations_per_pair": 1,
+      "peak_gpu_reserved_bytes": 956301312,
+      "sampling_network_seconds_per_pair": {
+        "128": 5.008343595502083,
+        "256": 10.003134803497232,
+        "64": 2.5114576055057114
+      },
+      "serial_training_seconds_per_pair": 0.2090727707125972
+    },
+    "I_fine": {
+      "checkpoint_seconds": 0.26236877401242964,
+      "gpu_training_seconds_per_pair": 0.18272105274809292,
+      "loader_seconds_per_pair": 0.11727058146229516,
+      "pageable_transfer_seconds_per_pair": 0.002363723993767053,
+      "parameters": 8398387,
+      "parent_evaluations_per_pair": 2,
+      "peak_gpu_reserved_bytes": 964689920,
+      "sampling_network_seconds_per_pair": {
+        "128": 10.205157800504821,
+        "256": 20.345375439996133,
+        "64": 5.127793337000185
+      },
+      "serial_training_seconds_per_pair": 0.30235535820415516
+    },
+    "J_fine": {
+      "checkpoint_seconds": 0.2649269899993669,
+      "gpu_training_seconds_per_pair": 0.1165061709980364,
+      "loader_seconds_per_pair": 0.11727058146229516,
+      "pageable_transfer_seconds_per_pair": 0.000952481001149863,
+      "parameters": 8398387,
+      "parent_evaluations_per_pair": 1,
+      "peak_gpu_reserved_bytes": 1186988032,
+      "sampling_network_seconds_per_pair": {
+        "128": 6.626136018501711,
+        "256": 13.222119781494257,
+        "64": 3.3287476804980543
+      },
+      "serial_training_seconds_per_pair": 0.23472923346148142
+    }
+  },
+  "scientific_training_authorized": false,
+  "seeds": 2,
+  "slurm_job_id": null,
+  "sources": [
+    {
+      "bytes": 3448,
+      "mtime_ns": 1789786132000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/GPU_BENCHMARK_COMPLETE.json",
+      "sha256": "c9eb5cdeddc7e2f62090db1ded3f258783e25efe55efc65f398de73b66ca84c8"
+    },
+    {
+      "bytes": 20831,
+      "mtime_ns": 1789785057000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_cpu/normalized_loader/LOADER_BENCHMARK_COMPLETE.json",
+      "sha256": "bb4c670332a71a2516382426781597e01adfdacfcb60b1365789f73a9bcd3cf7"
+    },
+    {
+      "bytes": 7182,
+      "mtime_ns": 1789785709000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/D_coarse_COMPLETE.json",
+      "sha256": "ad9b2ad182b93eb7c5eeb06931c97755f9fbf4674ed59e4af609d900e0f731b7"
+    },
+    {
+      "bytes": 7794,
+      "mtime_ns": 1789785802000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/D_fine_COMPLETE.json",
+      "sha256": "8a9dbbbd6918feaad5fc80a44b27747f99e0f3989a8ed52335194b33a40b19dd"
+    },
+    {
+      "bytes": 7195,
+      "mtime_ns": 1789785855000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/IJ_coarse_COMPLETE.json",
+      "sha256": "29cdf40e8438089596097223d3eb8954a77f9e6cda214eb31e6c65d660c5c735"
+    },
+    {
+      "bytes": 7799,
+      "mtime_ns": 1789785950000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/I_fine_COMPLETE.json",
+      "sha256": "decb901c3288511a739ed093192f2ec197bbcb1f90c9d9478a0b6c34d7cc6ea2"
+    },
+    {
+      "bytes": 7169,
+      "mtime_ns": 1789786016000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/J_fine_COMPLETE.json",
+      "sha256": "ac1b4a1988b1e47dbe88a98fd254dee44c4c89744233e2951223922dbe81a015"
+    },
+    {
+      "bytes": 7196,
+      "mtime_ns": 1789786069000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/CFM_coarse_COMPLETE.json",
+      "sha256": "1a30f565cf74dba49fd95204b60b821e3f9f91ab7a59f11482deb748b6b9eb43"
+    },
+    {
+      "bytes": 7192,
+      "mtime_ns": 1789786132000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/CFM_fine_COMPLETE.json",
+      "sha256": "b6d253b47959bf263fa50e5218b20b111e4cb529b11be3e95d79ed861b1d1d42"
+    },
+    {
+      "bytes": 9337,
+      "mtime_ns": 1789782895000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_cpu/postprocess/5913c1ecab5fbf01/POSTPROCESS_BENCHMARK_COMPLETE.json",
+      "sha256": "a119cb95fb155488e6d55741c691a25b7486bef22270c484995ab6e57d525d19"
+    }
+  ],
+  "still_to_budget": [
+    "GPU-to-host copies, final band/window and population diagnostics",
+    "Output contention, process startup, warmup, bounded restart and scheduling headroom"
+  ],
+  "train_pairs": 1664,
+  "training": [
+    {
+      "checkpoint_writes_per_factor": 9,
+      "component_sum_gpu_hours": 25.075680013957594,
+      "distinct_factor_fits": 14,
+      "epochs": 16,
+      "factors": {
+        "CFM_coarse": {
+          "checkpoint_gpu_hours": 0.0012976712400268298,
+          "serial_training_gpu_hours": 3.0940897555897635
+        },
+        "CFM_fine": {
+          "checkpoint_gpu_hours": 0.0013024846650660038,
+          "serial_training_gpu_hours": 3.4736363189750246
+        },
+        "D_coarse": {
+          "checkpoint_gpu_hours": 0.0012915165300364606,
+          "serial_training_gpu_hours": 3.0399170152015156
+        },
+        "D_fine": {
+          "checkpoint_gpu_hours": 0.0013255525249405765,
+          "serial_training_gpu_hours": 4.422377241435979
+        },
+        "IJ_coarse": {
+          "checkpoint_gpu_hours": 0.0013095256651286036,
+          "serial_training_gpu_hours": 3.0924185819178818
+        },
+        "I_fine": {
+          "checkpoint_gpu_hours": 0.0013118438700621482,
+          "serial_training_gpu_hours": 4.472171698237459
+        },
+        "J_fine": {
+          "checkpoint_gpu_hours": 0.0013246349499968346,
+          "serial_training_gpu_hours": 3.4719061731547116
+        }
+      },
+      "pair_presentations_per_factor": 26624,
+      "updates_per_factor": 13312
+    },
+    {
+      "checkpoint_writes_per_factor": 17,
+      "component_sum_gpu_hours": 50.15034189131016,
+      "distinct_factor_fits": 14,
+      "epochs": 32,
+      "factors": {
+        "CFM_coarse": {
+          "checkpoint_gpu_hours": 0.0024511567867173453,
+          "serial_training_gpu_hours": 6.188179511179527
+        },
+        "CFM_fine": {
+          "checkpoint_gpu_hours": 0.0024602488117913407,
+          "serial_training_gpu_hours": 6.947272637950049
+        },
+        "D_coarse": {
+          "checkpoint_gpu_hours": 0.0024395312234022034,
+          "serial_training_gpu_hours": 6.079834030403031
+        },
+        "D_fine": {
+          "checkpoint_gpu_hours": 0.0025038214359988666,
+          "serial_training_gpu_hours": 8.844754482871958
+        },
+        "IJ_coarse": {
+          "checkpoint_gpu_hours": 0.002473548478576251,
+          "serial_training_gpu_hours": 6.1848371638357635
+        },
+        "I_fine": {
+          "checkpoint_gpu_hours": 0.002477927310117391,
+          "serial_training_gpu_hours": 8.944343396474919
+        },
+        "J_fine": {
+          "checkpoint_gpu_hours": 0.00250208823888291,
+          "serial_training_gpu_hours": 6.943812346309423
+        }
+      },
+      "pair_presentations_per_factor": 53248,
+      "updates_per_factor": 26624
+    },
+    {
+      "checkpoint_writes_per_factor": 33,
+      "component_sum_gpu_hours": 100.29966564601528,
+      "distinct_factor_fits": 14,
+      "epochs": 64,
+      "factors": {
+        "CFM_coarse": {
+          "checkpoint_gpu_hours": 0.004758127880098376,
+          "serial_training_gpu_hours": 12.376359022359054
+        },
+        "CFM_fine": {
+          "checkpoint_gpu_hours": 0.004775777105242014,
+          "serial_training_gpu_hours": 13.894545275900098
+        },
+        "D_coarse": {
+          "checkpoint_gpu_hours": 0.004735560610133689,
+          "serial_training_gpu_hours": 12.159668060806062
+        },
+        "D_fine": {
+          "checkpoint_gpu_hours": 0.004860359258115446,
+          "serial_training_gpu_hours": 17.689508965743915
+        },
+        "IJ_coarse": {
+          "checkpoint_gpu_hours": 0.004801594105471547,
+          "serial_training_gpu_hours": 12.369674327671527
+        },
+        "I_fine": {
+          "checkpoint_gpu_hours": 0.004810094190227877,
+          "serial_training_gpu_hours": 17.888686792949837
+        },
+        "J_fine": {
+          "checkpoint_gpu_hours": 0.00485699481665506,
+          "serial_training_gpu_hours": 13.887624692618846
+        }
+      },
+      "pair_presentations_per_factor": 106496,
+      "updates_per_factor": 53248
+    }
+  ]
+}

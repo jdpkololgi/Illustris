@@ -1,0 +1,33 @@
+{
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "context_rows": 6203860,
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "created_utc": "2026-09-18T18:43:37.561717+00:00",
+  "elapsed_seconds": 60.86979992600391,
+  "exact_id_sky_rsd_join": true,
+  "host": "nid004142",
+  "input_rows": 9163275,
+  "observed_rows": 7349708,
+  "outputs": [
+    {
+      "bytes": 235198080,
+      "mtime_ns": 1789757017000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph011/observed_geometry.fits",
+      "sha256": "fa3ae789690ce97f62bd63a135eb247b19ea65f7e0d24b28fe4386fe9f9ffbfa"
+    }
+  ],
+  "parent_receipt_sha256": "18afbc88a94b0f4513a6df6cf0427c74063e13387ce5aa2534298cde22938f7e",
+  "pass": true,
+  "phase": "ph011",
+  "role": "train",
+  "schema": "e2e-coupled-observed-v1",
+  "slurm_job_id": "58538574",
+  "source": {
+    "bytes": 2034259200,
+    "mtime_ns": 1730268958211889794,
+    "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+    "sha256": "30689a41df7d320ae1d81a63e455891d968616792b1080474a4f97a6242f7488"
+  },
+  "source_code_sha256": "697fad81721d75430e85b6549562152e4052b347badd5aef8c9f52a191c985e8",
+  "target_columns_present": false
+}

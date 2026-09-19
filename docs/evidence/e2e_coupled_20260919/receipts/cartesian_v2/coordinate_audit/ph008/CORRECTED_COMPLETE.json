@@ -1,0 +1,120 @@
+{
+  "best_scalar_diagnostic_only": 0.9990631082870081,
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+  "created_utc": "2026-09-18T19:18:12.958835+00:00",
+  "gates": {
+    "extra_and_missing_h_rejected": true,
+    "maximum_below_0p01": true,
+    "p95_below_0p001_mpc_h": true,
+    "source_training_only": true
+  },
+  "host": "nid004202",
+  "host_sources": [
+    {
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_DE": "0.684808",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph008",
+        "hMpc": "1",
+        "omega_b": "0.02237",
+        "omega_cdm": "0.12",
+        "omega_ncdm": "0.0006442"
+      },
+      "source": {
+        "bytes": 2203093282,
+        "mtime_ns": 1586114325000000000,
+        "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph008/halos/z0.200/halo_info/halo_info_027.asdf"
+      }
+    },
+    {
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_DE": "0.684808",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph008",
+        "hMpc": "1",
+        "omega_b": "0.02237",
+        "omega_cdm": "0.12",
+        "omega_ncdm": "0.0006442"
+      },
+      "source": {
+        "bytes": 2199892587,
+        "mtime_ns": 1586113075000000000,
+        "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph008/halos/z0.200/halo_info/halo_info_006.asdf"
+      }
+    },
+    {
+      "header": {
+        "BoxSizeHMpc": "2000.0",
+        "H0": "67.36",
+        "Omega_DE": "0.684808",
+        "Omega_M": "0.315192",
+        "Redshift": "0.2",
+        "SimName": "AbacusSummit_base_c000_ph008",
+        "hMpc": "1",
+        "omega_b": "0.02237",
+        "omega_cdm": "0.12",
+        "omega_ncdm": "0.0006442"
+      },
+      "source": {
+        "bytes": 2207797038,
+        "mtime_ns": 1586114815000000000,
+        "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph008/halos/z0.200/halo_info/halo_info_033.asdf"
+      }
+    }
+  ],
+  "old_audit_sha256": "6af65f1b347f8601d3618ec1563d5f2191086bbc56df9a82afe04b398d062e99",
+  "outputs": [
+    {
+      "bytes": 98105,
+      "mtime_ns": 1789759092000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/coordinate_audit/ph008/linked_centrals.npz",
+      "sha256": "a78da2097673e1b39c21a751042fb3868463d824b64d97b7bdc1b50ade93e177"
+    }
+  ],
+  "pass": true,
+  "phase": "ph008",
+  "radial_change_z_correlation": -0.9924905757676299,
+  "samples": 1361,
+  "slurm_job_id": "58540511",
+  "transformation_fitted": false,
+  "variants_mpc_h": {
+    "best_scalar_only": {
+      "maximum": 0.8339300668495714,
+      "median": 0.16688504008970387,
+      "p95": 0.31676172276131165,
+      "rms": 0.196384047951317
+    },
+    "corrected": {
+      "maximum": 0.00030054390345333765,
+      "median": 3.925680988667022e-05,
+      "p95": 0.0001216138194904585,
+      "rms": 6.118409869428591e-05
+    },
+    "inherited_planck18": {
+      "maximum": 2.169874457647195,
+      "median": 0.5352796596315452,
+      "p95": 1.382100897262385,
+      "rms": 0.7573274776675161
+    },
+    "wrong_extra_h": {
+      "maximum": 460.4448845721362,
+      "median": 229.31048658251288,
+      "p95": 367.2910588686329,
+      "rms": 252.24202298783203
+    },
+    "wrong_missing_h": {
+      "maximum": 680.5273474005874,
+      "median": 338.91579840461225,
+      "p95": 542.8480568002275,
+      "rms": 372.8081681214293
+    }
+  }
+}

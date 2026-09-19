@@ -1,0 +1,611 @@
+{
+  "binding": {
+    "audit_dependencies": {
+      "e2e_coupled_condition_products.py": "8064dae21e223e02a45b16dd2253dd224a6f23d690c910bd4e812cae54c1e62d",
+      "e2e_coupled_conditions.py": "3386790d9a902beaa148aa2a5f5a4f8250d385fc941eb6ddc3cb4741d8aa0b2a",
+      "e2e_coupled_contract.py": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+      "e2e_coupled_coordinates.py": "d4f35f11abb5a956e74d3dd92c1f4d23b48d028467ae0eb898f0d0d43a0b07e1",
+      "e2e_coupled_geometry.py": "201b6cb52e975a53dfadecc85363b1fc27203f3e1211de4abdebe5264f333af7",
+      "e2e_coupled_matter.py": "4ab2b9cf053e8c1ad8a05cf122d9d17180208fb074b815351a61da4be3066347",
+      "e2e_coupled_observations.py": "e925d2313406248487873113227bc88bda7d78b679a7c41346f4a625c8766857",
+      "e2e_coupled_operators.py": "54934aa3c69bad36d0e4d9b5135106387fe01f44efdef24b4166caf5fcedc38d",
+      "e2e_coupled_target_products.py": "9108a8296d03b68821080a5857acc5a1a4eeba4494c05f98f252780505cc7ac3",
+      "e2e_coupled_views.py": "bc72bc7d7fb4ab4f3b1db67c93e8260c656874245ef99d29fbae1340ce4a8e55"
+    },
+    "interface_sha256": "fe6df30cf4ff558cf85793d30d3db80129e897b395a310dddba9271369469c74",
+    "layout_sha256": "810a078eae98101f59ea380330c827f4603fb403ae7e166ce5e3dbae00a9c941",
+    "normalization_sha256": "b2b294c5de91a7659be16b87e2ea454a11464fbd4522b4c0d30d2b1effa9e43e",
+    "phase_roles": {
+      "ph000": "train",
+      "ph002": "train",
+      "ph003": "train",
+      "ph007": "train",
+      "ph008": "train",
+      "ph009": "train",
+      "ph010": "train",
+      "ph011": "train",
+      "ph012": "development",
+      "ph013": "development",
+      "ph014": "confirmation",
+      "ph015": "confirmation",
+      "ph016": "confirmation",
+      "ph017": "confirmation",
+      "ph018": "confirmation",
+      "ph019": "confirmation",
+      "ph020": "train",
+      "ph021": "train",
+      "ph022": "train",
+      "ph023": "train",
+      "ph024": "train"
+    },
+    "physical_gate_sha256": "0b53bea9cbfcb4760247e556f3195a24f5810189d056141154c16d51643c68a7",
+    "publisher_sha256": "b22cb07999ec860486ee2eef4079a9afd0621c86a0d2b7533f763c5cc872c8c8"
+  },
+  "claim_boundaries": [
+    "Fixed-epoch z0.2 c000 matter, not an evolving matter lightcone",
+    "Identified nominal paired mock-release branch, not recovered numerical HOD parameters",
+    "No HOD marginalization or demonstrated real-DESI likelihood validity",
+    "Adjacent-pair products do not establish global coherence across separately generated domains"
+  ],
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "confirmation_pairs": 96,
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+  "created_utc": "2026-09-19T03:59:09.422978+00:00",
+  "data_products_qualified": true,
+  "development_pairs": 32,
+  "full_preparation_complete": false,
+  "host": "nid004151",
+  "outputs": [],
+  "pass": true,
+  "phases": {
+    "ph000": {
+      "audit_pointer": {
+        "bytes": 1460,
+        "mtime_ns": 1789768531000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph000/LATEST_AUDIT.json",
+        "sha256": "243cb08116140a80ff36c21f35164b81e6107bc8ed82d578ca4b9f4cca40070e"
+      },
+      "files_checked_for_metadata_drift": 608,
+      "normalized_interface": {
+        "bytes": 2516,
+        "mtime_ns": 1789783987000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph000/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "3e95fdbdcd92efd831d644685ce50d8c6b3d59b6ce373683482366e0d89d3179"
+      },
+      "pairs": 128,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 259269,
+        "mtime_ns": 1789768531000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph000/PRODUCT_AUDIT_1789768531019521378.json",
+        "sha256": "665c09f28306591e16c86f3958d297688483c589633838ce8da232696d2f0540"
+      },
+      "role": "train"
+    },
+    "ph002": {
+      "audit_pointer": {
+        "bytes": 1459,
+        "mtime_ns": 1789769170000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph002/LATEST_AUDIT.json",
+        "sha256": "98707cf7a3ba98f25195422a64739f87573c2537dde1ebe092cd743e86a0831f"
+      },
+      "files_checked_for_metadata_drift": 608,
+      "normalized_interface": {
+        "bytes": 2514,
+        "mtime_ns": 1789784062000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph002/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "cec6445c469fa48bb7fb93e585411bb1c39c4f2d5acaf5b77f1899efad82fc83"
+      },
+      "pairs": 128,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 259293,
+        "mtime_ns": 1789769170000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph002/PRODUCT_AUDIT_1789769170125928242.json",
+        "sha256": "e9b4a75f82001cbf58cb8bd384739db75b411c4fad39c1db3011786ef336538b"
+      },
+      "role": "train"
+    },
+    "ph003": {
+      "audit_pointer": {
+        "bytes": 1459,
+        "mtime_ns": 1789770345000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph003/LATEST_AUDIT.json",
+        "sha256": "a0a87aedb0b685cc0a5798b548dfe3e1a86098d0c084c56ae34b4992c1568962"
+      },
+      "files_checked_for_metadata_drift": 608,
+      "normalized_interface": {
+        "bytes": 2517,
+        "mtime_ns": 1789784229000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph003/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "d7504d520799bd69bd9dacf4af734d04eda242e84e56c4e86417666a7b0de17a"
+      },
+      "pairs": 128,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 259332,
+        "mtime_ns": 1789770345000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph003/PRODUCT_AUDIT_1789770345200408908.json",
+        "sha256": "e4986359af52df336cdabe17da94dba56bb3ab3a13ac10c7cc4fb270f9f47255"
+      },
+      "role": "train"
+    },
+    "ph007": {
+      "audit_pointer": {
+        "bytes": 1459,
+        "mtime_ns": 1789767401000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph007/LATEST_AUDIT.json",
+        "sha256": "4f5199a0242c47064de244938efb92602a708082c78362e2fc2d560a06f7ad1e"
+      },
+      "files_checked_for_metadata_drift": 608,
+      "normalized_interface": {
+        "bytes": 2515,
+        "mtime_ns": 1789784303000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph007/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "69e547a2a311ca8c1d9d638944969fbd50868c49c30bbaf6c32d8781717b89e9"
+      },
+      "pairs": 128,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 258612,
+        "mtime_ns": 1789767399000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph007/PRODUCT_AUDIT_1789767399760428229.json",
+        "sha256": "2dbd8573a5af0b2b4ec57c824fa58c5caec5e1aa3885bcbbeef3cce1aa4ae818"
+      },
+      "role": "train"
+    },
+    "ph008": {
+      "audit_pointer": {
+        "bytes": 1460,
+        "mtime_ns": 1789767902000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph008/LATEST_AUDIT.json",
+        "sha256": "0cc59e52391c4f0c025aebc96d5d48d3c0e1d6d950aaeb37149756eb9712acae"
+      },
+      "files_checked_for_metadata_drift": 608,
+      "normalized_interface": {
+        "bytes": 2515,
+        "mtime_ns": 1789784377000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph008/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "84f3c874810459dd8bb4c273036a1e0a544f7cf51a6a884cdc850f98f9529bf5"
+      },
+      "pairs": 128,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 259192,
+        "mtime_ns": 1789767902000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph008/PRODUCT_AUDIT_1789767902215842430.json",
+        "sha256": "55707715a7f517fbbcac9b5d5f948a33c55862a0be29dbd8ca78a9ddae2bcb4d"
+      },
+      "role": "train"
+    },
+    "ph009": {
+      "audit_pointer": {
+        "bytes": 1459,
+        "mtime_ns": 1789772738000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph009/LATEST_AUDIT.json",
+        "sha256": "93c84c30423169725887f905ae5cb0d3926fc948f29ef829459d60fd12cd7b02"
+      },
+      "files_checked_for_metadata_drift": 608,
+      "normalized_interface": {
+        "bytes": 2516,
+        "mtime_ns": 1789784451000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph009/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "b16218a839bb37ae16353fef46895d030508025d93fc6ae5e9683d4046fab97b"
+      },
+      "pairs": 128,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 259239,
+        "mtime_ns": 1789772738000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph009/PRODUCT_AUDIT_1789772738124350788.json",
+        "sha256": "47d8c5f227d252f5aba77ac389162d3d2fd60f9ad69d4ba66ce41cfaba5dd6b9"
+      },
+      "role": "train"
+    },
+    "ph010": {
+      "audit_pointer": {
+        "bytes": 1460,
+        "mtime_ns": 1789777504000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph010/LATEST_AUDIT.json",
+        "sha256": "a5cf89ecfcc6d6240f278d5d9e3e844bd56396e726ee6eb3162cbc0ae70b47bb"
+      },
+      "files_checked_for_metadata_drift": 608,
+      "normalized_interface": {
+        "bytes": 2515,
+        "mtime_ns": 1789784538000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph010/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "85d02b07186a539e20ac2251babce987f11e25a4bc1f4b95d2e4d97f14856b6c"
+      },
+      "pairs": 128,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 259239,
+        "mtime_ns": 1789777501000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph010/PRODUCT_AUDIT_1789777501557114086.json",
+        "sha256": "f6c31c71de5686d8f50e518b5f3660d37462ef23e38bb70ebaf2d95fc5aab481"
+      },
+      "role": "train"
+    },
+    "ph011": {
+      "audit_pointer": {
+        "bytes": 1460,
+        "mtime_ns": 1789781956000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph011/LATEST_AUDIT.json",
+        "sha256": "9d111f156b489144715ee5be56d52f80f9186d3fe1c875d2d8e0d2f8e9c29667"
+      },
+      "files_checked_for_metadata_drift": 608,
+      "normalized_interface": {
+        "bytes": 2516,
+        "mtime_ns": 1789784611000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph011/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "7ee93e13c1290e51c74f8c7f8c07b8ea0b7f817acbdfe769f16829a91f8d00a6"
+      },
+      "pairs": 128,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 259253,
+        "mtime_ns": 1789781955000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph011/PRODUCT_AUDIT_1789781955305819277.json",
+        "sha256": "0d3e0680897639ebc885de486652eea18c9f2a3d08156cf37ba9d9111d59671f"
+      },
+      "role": "train"
+    },
+    "ph012": {
+      "audit_pointer": {
+        "bytes": 1457,
+        "mtime_ns": 1789788740000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph012/LATEST_AUDIT.json",
+        "sha256": "53b3bfefdcae482db7ecd2c969914c6b652cb0a70300abd3eb0e88fdb5b5a6d3"
+      },
+      "files_checked_for_metadata_drift": 160,
+      "normalized_interface": {
+        "bytes": 2518,
+        "mtime_ns": 1789788799000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph012/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "c793cc14fc89fb79909f076ad2f9cf3ae3c588d6c26d39c4a3770e0b8a41f890"
+      },
+      "pairs": 16,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 60120,
+        "mtime_ns": 1789788738000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph012/PRODUCT_AUDIT_1789788738561212696.json",
+        "sha256": "0832e4fae81a8cf066dd0db5314ce0d146bb74628ef3efd2c3b6af730e77f820"
+      },
+      "role": "development"
+    },
+    "ph013": {
+      "audit_pointer": {
+        "bytes": 1457,
+        "mtime_ns": 1789785435000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph013/LATEST_AUDIT.json",
+        "sha256": "3c55bc5d0ccad7a513b4d49f4c813f1443c8dc2cfd8840cfaad03f6e1431e467"
+      },
+      "files_checked_for_metadata_drift": 160,
+      "normalized_interface": {
+        "bytes": 2519,
+        "mtime_ns": 1789785480000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph013/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "786ad32620430411a6d0b5f78bc4a3a534be57961908f3cae92ded592729b6f9"
+      },
+      "pairs": 16,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 60126,
+        "mtime_ns": 1789785432000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph013/PRODUCT_AUDIT_1789785432945501533.json",
+        "sha256": "f8b833df8d335143acbb8e3795e91cb5ce4f9f5d2054c20654a800e8b8323aed"
+      },
+      "role": "development"
+    },
+    "ph014": {
+      "audit_pointer": {
+        "bytes": 1458,
+        "mtime_ns": 1789789225000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph014/LATEST_AUDIT.json",
+        "sha256": "885cb789ec128f8eac3c139f54ced930bb86112ce4a3398f72c91a26f98e5e45"
+      },
+      "files_checked_for_metadata_drift": 160,
+      "normalized_interface": {
+        "bytes": 2518,
+        "mtime_ns": 1789789243000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph014/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "c1d759c3e7c9084518a7092a481fcf988b8a44036207813d4c77880199477005"
+      },
+      "pairs": 16,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 60125,
+        "mtime_ns": 1789789222000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph014/PRODUCT_AUDIT_1789789222960924292.json",
+        "sha256": "c46142c2bbe3c468922774fb22c9529274825aad4d2c1f84ce5c1048c46d00d1"
+      },
+      "role": "confirmation"
+    },
+    "ph015": {
+      "audit_pointer": {
+        "bytes": 1458,
+        "mtime_ns": 1789789737000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph015/LATEST_AUDIT.json",
+        "sha256": "81a961513f0734388971fe42fe9410367a196ffb8d155bb7746e958b01ff9a30"
+      },
+      "files_checked_for_metadata_drift": 160,
+      "normalized_interface": {
+        "bytes": 2519,
+        "mtime_ns": 1789789787000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph015/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "9eaf2e14690df73d5743fbd31dc54627dfac8adbe78dbdb24c1aad9a9e243661"
+      },
+      "pairs": 16,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 60124,
+        "mtime_ns": 1789789736000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph015/PRODUCT_AUDIT_1789789736227312393.json",
+        "sha256": "67328c3db273295e32b0aa69d9071f4c75fe56cca865d87fced048a5276ef8af"
+      },
+      "role": "confirmation"
+    },
+    "ph016": {
+      "audit_pointer": {
+        "bytes": 1458,
+        "mtime_ns": 1789790298000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph016/LATEST_AUDIT.json",
+        "sha256": "147fa407c4857699d98ac60ef4a3b0045e4c7f730b4fdac7f7e32fd28058408e"
+      },
+      "files_checked_for_metadata_drift": 160,
+      "normalized_interface": {
+        "bytes": 2520,
+        "mtime_ns": 1789790330000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph016/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "8a4853a66bee3abd8bb1df94863df0ed3f6d0161f1f63329dce3d4065b78ed73"
+      },
+      "pairs": 16,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 60125,
+        "mtime_ns": 1789790295000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph016/PRODUCT_AUDIT_1789790295948187729.json",
+        "sha256": "ec0841a6d1249d4c26851c3cb5349671589c2149f3824cd2d26b7cc13f5ca381"
+      },
+      "role": "confirmation"
+    },
+    "ph017": {
+      "audit_pointer": {
+        "bytes": 1458,
+        "mtime_ns": 1789780321000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph017/LATEST_AUDIT.json",
+        "sha256": "862bf70fb3f92b134309fe6f4423631d46da2638e9c6219a12323455069ba99b"
+      },
+      "files_checked_for_metadata_drift": 160,
+      "normalized_interface": {
+        "bytes": 2518,
+        "mtime_ns": 1789785048000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph017/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "fe06b9d1415cf60a79f2dd6ed55c13d3495933f9f7e13935740155e915b42aa9"
+      },
+      "pairs": 16,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 60118,
+        "mtime_ns": 1789780318000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph017/PRODUCT_AUDIT_1789780318794727052.json",
+        "sha256": "0a46dcc34e32723e72879e0da9c4553831f3a67a93065a305dc70886c86b5c23"
+      },
+      "role": "confirmation"
+    },
+    "ph018": {
+      "audit_pointer": {
+        "bytes": 1457,
+        "mtime_ns": 1789775732000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph018/LATEST_AUDIT.json",
+        "sha256": "4b18042832cd51d9313dbf4cc3cc13cd0d3c77046ff1f05227fb46f53d7c5e89"
+      },
+      "files_checked_for_metadata_drift": 160,
+      "normalized_interface": {
+        "bytes": 2517,
+        "mtime_ns": 1789785049000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph018/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "118389c2ab69a9494ec4577d91baaadf251e290c12a961cab46227f6efa0b3fb"
+      },
+      "pairs": 16,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 60117,
+        "mtime_ns": 1789775729000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph018/PRODUCT_AUDIT_1789775729924590513.json",
+        "sha256": "5d7250eeab4402f1319aafd62ac44062bf89aa47d2314e7ae2c299ad17dff9e0"
+      },
+      "role": "confirmation"
+    },
+    "ph019": {
+      "audit_pointer": {
+        "bytes": 1458,
+        "mtime_ns": 1789773527000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph019/LATEST_AUDIT.json",
+        "sha256": "e886724ec46c730aececc3f3d3a6a872aeb19c8935d419f675fa380ade7cf2a3"
+      },
+      "files_checked_for_metadata_drift": 160,
+      "normalized_interface": {
+        "bytes": 2518,
+        "mtime_ns": 1789785051000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph019/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "e0e47822c965f616507b095a713700596ba0f2a0d89b68cd9ed1e245670a717b"
+      },
+      "pairs": 16,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 60117,
+        "mtime_ns": 1789773525000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph019/PRODUCT_AUDIT_1789773525382010217.json",
+        "sha256": "309674fb42a63724bb2aaba8adb99ddedf55f4f1a028f1fc8f72be24b5b3a76f"
+      },
+      "role": "confirmation"
+    },
+    "ph020": {
+      "audit_pointer": {
+        "bytes": 1459,
+        "mtime_ns": 1789779149000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph020/LATEST_AUDIT.json",
+        "sha256": "1f54ddaad31c81d822c0d068b264d9546c34cc53901fa8f7a5c295f53cba8a1e"
+      },
+      "files_checked_for_metadata_drift": 608,
+      "normalized_interface": {
+        "bytes": 2515,
+        "mtime_ns": 1789784684000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph020/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "8afbc5ba055eb32805da6a196304ad1297f62a725edad7b04f91744d2239707b"
+      },
+      "pairs": 128,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 259268,
+        "mtime_ns": 1789779146000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph020/PRODUCT_AUDIT_1789779146761740076.json",
+        "sha256": "a6664a9eec39fc47777230e631a2fb48fc5ea8ba4108ecff7bb1b4d22533afa3"
+      },
+      "role": "train"
+    },
+    "ph021": {
+      "audit_pointer": {
+        "bytes": 1460,
+        "mtime_ns": 1789775289000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph021/LATEST_AUDIT.json",
+        "sha256": "74c7a51213b2b9157b56d255c4cad0320fab4a2d7b940d3664d3b1c1bcd0f7d4"
+      },
+      "files_checked_for_metadata_drift": 608,
+      "normalized_interface": {
+        "bytes": 2515,
+        "mtime_ns": 1789784781000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph021/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "28a01a090137b831d3ce12990deb905388b809559ae51567d899bb83102cc104"
+      },
+      "pairs": 128,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 259232,
+        "mtime_ns": 1789775288000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph021/PRODUCT_AUDIT_1789775288376767678.json",
+        "sha256": "5a070e058f37598f8b0299d918734b632cded294eb0d18f880558aad817f0cc0"
+      },
+      "role": "train"
+    },
+    "ph022": {
+      "audit_pointer": {
+        "bytes": 1459,
+        "mtime_ns": 1789783848000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph022/LATEST_AUDIT.json",
+        "sha256": "8effd382b63658cbeac32fa89f9139602896c007f4e3e565c1c4be7870a9e58d"
+      },
+      "files_checked_for_metadata_drift": 608,
+      "normalized_interface": {
+        "bytes": 2516,
+        "mtime_ns": 1789784893000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph022/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "015f59b03a49fb5e31fd5572e92e9c2a2c082eb26e3e214a664dc8d6c30dd0d1"
+      },
+      "pairs": 128,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 259279,
+        "mtime_ns": 1789783845000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph022/PRODUCT_AUDIT_1789783845627075912.json",
+        "sha256": "0e5284b217d5873ae2362ff2f393e80187b5933ff2218df1212f24c8e838631a"
+      },
+      "role": "train"
+    },
+    "ph023": {
+      "audit_pointer": {
+        "bytes": 1460,
+        "mtime_ns": 1789779768000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph023/LATEST_AUDIT.json",
+        "sha256": "6b8ede249dae9433cd4f57e897abd405a73e743feba909f385edca42f52b91ae"
+      },
+      "files_checked_for_metadata_drift": 608,
+      "normalized_interface": {
+        "bytes": 2516,
+        "mtime_ns": 1789784973000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph023/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "0bc858443392d3011bf310aa359a16cb79c773bbff3518c98025ee58d24a1a52"
+      },
+      "pairs": 128,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 259255,
+        "mtime_ns": 1789779766000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph023/PRODUCT_AUDIT_1789779766384102681.json",
+        "sha256": "36d167e1bdc02bd3138a8144958a3fc7e7c1fb21eefb157d8e8ecc9fb8ae0b9f"
+      },
+      "role": "train"
+    },
+    "ph024": {
+      "audit_pointer": {
+        "bytes": 1460,
+        "mtime_ns": 1789781307000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph024/LATEST_AUDIT.json",
+        "sha256": "4ed8cedb7f17eb714b9fc731ce134858e0d9ba7926525395a06d3278fc9b385f"
+      },
+      "files_checked_for_metadata_drift": 608,
+      "normalized_interface": {
+        "bytes": 2514,
+        "mtime_ns": 1789785047000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph024/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "f8a1d4f9f83a1e39fa1a491f995e53ca3dcb0b48b9d5a76dece9dae10d476cb4"
+      },
+      "pairs": 128,
+      "pass": true,
+      "phase_audit": {
+        "bytes": 259265,
+        "mtime_ns": 1789781304000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph024/PRODUCT_AUDIT_1789781304869730123.json",
+        "sha256": "11feeb4dfe37648695207ce3b6ce0f5da08b270ffcbc00d881c2a4e5949ef3b7"
+      },
+      "role": "train"
+    }
+  },
+  "posterior_calibration_claim": false,
+  "scientific_training_authorized": false,
+  "slurm_job_id": "58562167",
+  "source_verification": "Independent phase payload hashes plus unchanged source metadata at publication; normalized interface rehashes all pair payloads",
+  "sources": [
+    {
+      "bytes": 19010,
+      "mtime_ns": 1789783881000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/normalization/NORMALIZATION_COMPLETE.json",
+      "sha256": "b2b294c5de91a7659be16b87e2ea454a11464fbd4522b4c0d30d2b1effa9e43e"
+    },
+    {
+      "bytes": 8688,
+      "mtime_ns": 1789790331000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/INTERFACE_COMPLETE.json",
+      "sha256": "fe6df30cf4ff558cf85793d30d3db80129e897b395a310dddba9271369469c74"
+    },
+    {
+      "bytes": 672906,
+      "mtime_ns": 1789767971000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/physical_gate/PHYSICAL_GATE_COMPLETE.json",
+      "sha256": "0b53bea9cbfcb4760247e556f3195a24f5810189d056141154c16d51643c68a7"
+    },
+    {
+      "bytes": 3800,
+      "mtime_ns": 1789759083000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/coordinate_audit/ph007/CORRECTED_COMPLETE.json",
+      "sha256": "dd480c8c87d6d7663d3690e74c8c869c3ec5b213ecd6da00980869624da0d909"
+    },
+    {
+      "bytes": 3796,
+      "mtime_ns": 1789759092000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/coordinate_audit/ph008/CORRECTED_COMPLETE.json",
+      "sha256": "a1b971b533b170d6b07ffae283d128f32c0b778af12ec3f4f51e54bc0134e1e5"
+    },
+    {
+      "bytes": 3796,
+      "mtime_ns": 1789759101000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/coordinate_audit/ph020/CORRECTED_COMPLETE.json",
+      "sha256": "04a4ff0352ca3762e9728fef69a3b63b5fd24e9a8fd8375f8177346e7f21eda7"
+    }
+  ],
+  "technical_gpu_and_resource_proposal_checked": false,
+  "training_pairs": 1664
+}

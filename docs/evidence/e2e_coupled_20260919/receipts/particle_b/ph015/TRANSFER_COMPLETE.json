@@ -1,0 +1,15 @@
+{
+  "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph015/Abacus_AbacusSummit_base_c000_ph015_halos.tar",
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "crc_verified": false,
+  "created_utc": "2026-09-18T19:57:32.807487+00:00",
+  "elapsed_seconds": 400.96610237599816,
+  "host": "login40",
+  "inventory_sha256": "e2eb683be0d11bbbd57f1388f310cf801968fd824f8aa1d7710391f51e77fd1a",
+  "note": "Transfer completion is NOT permission to use unverified particles",
+  "payload_bytes": 168049877535,
+  "phase": "ph015",
+  "scientific_qa_passed": false,
+  "slurm_job_id": "58539034"
+}

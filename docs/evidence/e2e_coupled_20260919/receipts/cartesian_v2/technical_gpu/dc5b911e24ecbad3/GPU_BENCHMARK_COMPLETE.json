@@ -1,0 +1,77 @@
+{
+  "binding": {
+    "config_sha256": "25349851bc8d365817c7ac17d9fe065e857e16be46c4b1332b0ea064d9572438",
+    "runner_sha256": "ea9df7df2649ed9c12647f76a1c15f434be7e2df47481cb1ef929e069f5b0a3b",
+    "scientific_fit": false,
+    "source_hashes": {
+      "e2e_coupled_benchmark_models.py": "c3213a76e878001645a5ca6b9e2b6ab9c63f58e510887cfae4b03bdc4f8a0886",
+      "e2e_direct_vdm.py": "cca2c730ea28a76a2c49d6d9a823dfb8d7cafc3ec19bfe30c2d501f6d92b091b",
+      "e2e_vdm_context_models.py": "871902576da89f35f5605a5613ecf3338d78da8cef5f8061ce48c9d2613b06b7",
+      "e2e_wide_continue.py": "e22b3c1a879d100a4a7efd7db426b7ccb0ac40ee8ac9bed81c10ef0479b47a45"
+    },
+    "synthetic_only": true
+  },
+  "cases": [
+    "D_coarse",
+    "D_fine",
+    "IJ_coarse",
+    "I_fine",
+    "J_fine",
+    "CFM_coarse",
+    "CFM_fine"
+  ],
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+  "created_utc": "2026-09-19T02:48:52.940524+00:00",
+  "full_preparation_complete": false,
+  "host": "nid008700",
+  "outputs": [
+    {
+      "bytes": 7182,
+      "mtime_ns": 1789785709000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/D_coarse_COMPLETE.json",
+      "sha256": "ad9b2ad182b93eb7c5eeb06931c97755f9fbf4674ed59e4af609d900e0f731b7"
+    },
+    {
+      "bytes": 7794,
+      "mtime_ns": 1789785802000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/D_fine_COMPLETE.json",
+      "sha256": "8a9dbbbd6918feaad5fc80a44b27747f99e0f3989a8ed52335194b33a40b19dd"
+    },
+    {
+      "bytes": 7195,
+      "mtime_ns": 1789785855000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/IJ_coarse_COMPLETE.json",
+      "sha256": "29cdf40e8438089596097223d3eb8954a77f9e6cda214eb31e6c65d660c5c735"
+    },
+    {
+      "bytes": 7799,
+      "mtime_ns": 1789785950000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/I_fine_COMPLETE.json",
+      "sha256": "decb901c3288511a739ed093192f2ec197bbcb1f90c9d9478a0b6c34d7cc6ea2"
+    },
+    {
+      "bytes": 7169,
+      "mtime_ns": 1789786016000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/J_fine_COMPLETE.json",
+      "sha256": "ac1b4a1988b1e47dbe88a98fd254dee44c4c89744233e2951223922dbe81a015"
+    },
+    {
+      "bytes": 7196,
+      "mtime_ns": 1789786069000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/CFM_coarse_COMPLETE.json",
+      "sha256": "1a30f565cf74dba49fd95204b60b821e3f9f91ab7a59f11482deb748b6b9eb43"
+    },
+    {
+      "bytes": 7192,
+      "mtime_ns": 1789786132000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/CFM_fine_COMPLETE.json",
+      "sha256": "b6d253b47959bf263fa50e5218b20b111e4cb529b11be3e95d79ed861b1d1d42"
+    }
+  ],
+  "pass": true,
+  "scientific_fit": false,
+  "slurm_job_id": "58559826",
+  "synthetic_only": true
+}

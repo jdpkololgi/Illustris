@@ -1,0 +1,22 @@
+{
+  "schema": "e2e-coupled-cartesian-v2",
+  "downstream_directory": "cartesian_v2",
+  "distance_convention": "cosmoprimo DESI / AbacusSummitBase c000",
+  "upstream_commit": "701f498eb936a172b91e0ccbd6f52f1770f7154c",
+  "table_path": "configs/data/desi_distance_701f498.dat",
+  "table_url": "https://raw.githubusercontent.com/cosmodesi/cosmoprimo/701f498eb936a172b91e0ccbd6f52f1770f7154c/cosmoprimo/data/desi.dat",
+  "table_sha256": "3cbbdae0d8e52350292f777e470ba6eb81889c560b9720146266aa03bc7dca35",
+  "distance_unit": "Mpc/h",
+  "density_unit": "(Mpc/h)^-3",
+  "raw_cell_mpc_h": 3.383,
+  "padding_mpc_h": 27.064,
+  "apodization_sigma_cells": 1.2,
+  "box_offset_mpc_h": -1000.0,
+  "box_mpc_h": 2000.0,
+  "legacy_mpc_to_mpc_h": 0.6766,
+  "selection_policy": "Preserve inherited dN/dz/dOmega using old-Mpc to new-Mpc/h radial volume Jacobian; no refitting",
+  "host_check_phases": ["ph007", "ph008", "ph020"],
+  "host_check_p95_mpc_h_max": 0.001,
+  "host_check_max_mpc_h_max": 0.01,
+  "scientific_training_authorized": false
+}

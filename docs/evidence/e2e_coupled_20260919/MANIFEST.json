@@ -1,0 +1,3022 @@
+{
+  "bulk_payloads_copied": false,
+  "closeout_sha256": "7ba7cfe1291dc424341894f3cea180cb6da3262487d02a0c5dbea80fbc166ad3",
+  "files": [
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph000/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 31524,
+        "mtime_ns": 1789766112000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph000/CONDITIONS_COMPLETE.json",
+        "sha256": "8151d0e07d3225bdcdb3d32b08287e38bda1003db0c74f4ae88860eaebdf54c6"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph002/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 31524,
+        "mtime_ns": 1789767585000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph002/CONDITIONS_COMPLETE.json",
+        "sha256": "dbb8a969c73230ec722e4f274094f70e6a82f7b096c31ea72af2e4658837c20f"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph003/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 31524,
+        "mtime_ns": 1789769574000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph003/CONDITIONS_COMPLETE.json",
+        "sha256": "bce4381df49c451afc4c55d4c291e4453e54d0bfb94861b60b680acbc2d327b4"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph007/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 31524,
+        "mtime_ns": 1789763010000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph007/CONDITIONS_COMPLETE.json",
+        "sha256": "f24bc6885ec4b7215d0a26fced0cfb206ff87fd2c6b07d96522a237d7afe853e"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph008/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 31524,
+        "mtime_ns": 1789763483000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph008/CONDITIONS_COMPLETE.json",
+        "sha256": "357661c84aab943bcd6207693c95ec1a00ac9dce2bb4b5d07b5436e43d06000f"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph009/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 31524,
+        "mtime_ns": 1789763676000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph009/CONDITIONS_COMPLETE.json",
+        "sha256": "3cbb78cc9889650431f5e2976522485bf75ebc00d5a5773cb176645fea4b66c9"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph010/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 31524,
+        "mtime_ns": 1789766308000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph010/CONDITIONS_COMPLETE.json",
+        "sha256": "68267a4064a0bd0dbd6bb055661d538e5bbb234abaf8ad7259c1a75bc313b996"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph011/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 31524,
+        "mtime_ns": 1789767799000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph011/CONDITIONS_COMPLETE.json",
+        "sha256": "ad0ef465397062af6dfd7dcdd3c7b5525cee2ac1cd3a39e3b96a06af47fb2a10"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph012/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 4986,
+        "mtime_ns": 1789782495000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph012/CONDITIONS_COMPLETE.json",
+        "sha256": "c23c04954e96d582b840389ba30e82abd30617f88722707a29140c2b30908b7d"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph013/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 4986,
+        "mtime_ns": 1789784725000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph013/CONDITIONS_COMPLETE.json",
+        "sha256": "b671a3e0668a07c6c53e098063e1d9a8f388b5d946ce03d0770b9ff06a194604"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph014/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 4987,
+        "mtime_ns": 1789784779000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph014/CONDITIONS_COMPLETE.json",
+        "sha256": "32eff94bb8adf98e787a2d87d136b42b18420d777e9aa2066fbedea461e41cd1"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph015/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 4987,
+        "mtime_ns": 1789782785000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph015/CONDITIONS_COMPLETE.json",
+        "sha256": "8f7476757a78bc019b6ed6d9e4cecd1ac1a0f41c762870d6ea01cdb9ec78d787"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph016/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 4987,
+        "mtime_ns": 1789780746000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph016/CONDITIONS_COMPLETE.json",
+        "sha256": "15e78c6fc293dd38747dd77c29d8843ddec76d67b60b87fb1c8acdc04a07234b"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph017/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 4987,
+        "mtime_ns": 1789778709000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph017/CONDITIONS_COMPLETE.json",
+        "sha256": "4f8f8108b098680436affed3d1f253f5b846e2d88b64669b5b71475dc9db2a2c"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph018/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 4987,
+        "mtime_ns": 1789774727000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph018/CONDITIONS_COMPLETE.json",
+        "sha256": "ec471a43f4dc9c1d01a8c80d663528c945ab99f3a708e930e4d03cabdb127e3e"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph019/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 4987,
+        "mtime_ns": 1789772855000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph019/CONDITIONS_COMPLETE.json",
+        "sha256": "ff56f128698278c69ba8ff17d9d850b038a57d16398c46287678583799b6e8e6"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph020/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 31524,
+        "mtime_ns": 1789769753000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph020/CONDITIONS_COMPLETE.json",
+        "sha256": "1a2f09661e3c5482e9ea1e15df180fa2c5fc7b515d14303642f4cfddc50cdfc7"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph021/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 31524,
+        "mtime_ns": 1789774585000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph021/CONDITIONS_COMPLETE.json",
+        "sha256": "5a59a9e8dd27da16ee3cdbdb3478e30bde1bdaa3b0fb71e1c383872aa3e6b921"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph022/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 31524,
+        "mtime_ns": 1789776550000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph022/CONDITIONS_COMPLETE.json",
+        "sha256": "73f6b4e008d3efca2bafae121547f9408fd605df0004ca88e3fed11089107375"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph023/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 31524,
+        "mtime_ns": 1789778529000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph023/CONDITIONS_COMPLETE.json",
+        "sha256": "f7da076334d738cf3855fe9971ca2ed6d9ffb3909c2086797b0abf750d19080c"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/conditions/ph024/CONDITIONS_COMPLETE.json",
+      "source": {
+        "bytes": 31524,
+        "mtime_ns": 1789780529000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/conditions/ph024/CONDITIONS_COMPLETE.json",
+        "sha256": "f00e9286641c82748f2c26a7671da8621e863e84094338410a862974a2b1998d"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/coordinate_audit/ph007/CORRECTED_COMPLETE.json",
+      "source": {
+        "bytes": 3800,
+        "mtime_ns": 1789759083000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/coordinate_audit/ph007/CORRECTED_COMPLETE.json",
+        "sha256": "dd480c8c87d6d7663d3690e74c8c869c3ec5b213ecd6da00980869624da0d909"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/coordinate_audit/ph008/CORRECTED_COMPLETE.json",
+      "source": {
+        "bytes": 3796,
+        "mtime_ns": 1789759092000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/coordinate_audit/ph008/CORRECTED_COMPLETE.json",
+        "sha256": "a1b971b533b170d6b07ffae283d128f32c0b778af12ec3f4f51e54bc0134e1e5"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/coordinate_audit/ph020/CORRECTED_COMPLETE.json",
+      "source": {
+        "bytes": 3796,
+        "mtime_ns": 1789759101000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/coordinate_audit/ph020/CORRECTED_COMPLETE.json",
+        "sha256": "04a4ff0352ca3762e9728fef69a3b63b5fd24e9a8fd8375f8177346e7f21eda7"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/data_release/DATA_PRODUCTS_QUALIFIED.json",
+      "source": {
+        "bytes": 28990,
+        "mtime_ns": 1789790349000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/data_release/DATA_PRODUCTS_QUALIFIED.json",
+        "sha256": "cf26b07c16ec0714fcd6d0c318c77b0ab3799497a00eba4195f48a2a42889ced"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph000/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 156113,
+        "mtime_ns": 1789765722000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph000/GEOMETRY_COMPLETE.json",
+        "sha256": "21a9fa16ba4f77915d58a09eb41e130c5edad1e89000f29de7b2b55c0a3f22f3"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph002/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 155395,
+        "mtime_ns": 1789767405000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph002/GEOMETRY_COMPLETE.json",
+        "sha256": "bd0cbca135861f80c083d061d5d105380a4d4fbf7e9373b517723cdc1355f677"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph003/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 155425,
+        "mtime_ns": 1789769373000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph003/GEOMETRY_COMPLETE.json",
+        "sha256": "7a949bddb48e1349c4912aebff09fecb33093df8dedbfdf3813235f0c7cc22a8"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph007/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 155036,
+        "mtime_ns": 1789762794000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph007/GEOMETRY_COMPLETE.json",
+        "sha256": "00dedfc98786638cc24d74a5e034dff1c4c00196ce1ffa2c747a9e989c3a3b37"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph008/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 155219,
+        "mtime_ns": 1789762725000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph008/GEOMETRY_COMPLETE.json",
+        "sha256": "2a41cafd73d8cfe2382aeb9cd0b9a74449d2343e7ecb3917029d894bf9a37f66"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph009/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 155126,
+        "mtime_ns": 1789763499000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph009/GEOMETRY_COMPLETE.json",
+        "sha256": "501789517c934167167c3bf258aef96291a4365511d98afcc428abd8453cff70"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph010/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 155414,
+        "mtime_ns": 1789766128000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph010/GEOMETRY_COMPLETE.json",
+        "sha256": "9817da2485a95fbd5a57e771f87a78eb50af5b9e76059ebba8feb4fb578e85f0"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph011/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 154798,
+        "mtime_ns": 1789767602000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph011/GEOMETRY_COMPLETE.json",
+        "sha256": "46e6cbdd89344bae9caa0078ed7d988d69d8e1ac9c3fbc69311ecfd5945b3c0b"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph012/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 22182,
+        "mtime_ns": 1789782413000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph012/GEOMETRY_COMPLETE.json",
+        "sha256": "5bf68a4787867134380c309464a7f5aa6a619b96f6268e215abdc6ebff1868a5"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph013/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 22192,
+        "mtime_ns": 1789784599000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph013/GEOMETRY_COMPLETE.json",
+        "sha256": "6b74717ffd4597c879dcf6ee3f152ba5e1514f352c62a8e6c78589ed432e432e"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph014/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 22204,
+        "mtime_ns": 1789784676000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph014/GEOMETRY_COMPLETE.json",
+        "sha256": "b30fedc49c9e9e55323b6bbdf76981a7db91f7eab4080b8596ee9efe57efc772"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph015/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 22214,
+        "mtime_ns": 1789782701000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph015/GEOMETRY_COMPLETE.json",
+        "sha256": "e557308a6733e8b0b4852e7a68efb605d0818b78565bacbabfdde662c11577f5"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph016/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 22192,
+        "mtime_ns": 1789780658000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph016/GEOMETRY_COMPLETE.json",
+        "sha256": "bcc5eca4ea9e76a7e428b96d4283ba793781906941b5873eea6787cb6846a73b"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph017/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 22212,
+        "mtime_ns": 1789778604000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph017/GEOMETRY_COMPLETE.json",
+        "sha256": "b0c08ad5d5523bc7ff1bd1d48ac3ac97ce697071d2c09abc48ab358b08435cc1"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph018/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 22204,
+        "mtime_ns": 1789774642000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph018/GEOMETRY_COMPLETE.json",
+        "sha256": "7f2e56488079c5b49645e23ff2862bdccaccd52cdad89e768637132fd581e9b7"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph019/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 22198,
+        "mtime_ns": 1789772768000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph019/GEOMETRY_COMPLETE.json",
+        "sha256": "99061bc512bfd8a06207e2ca297fe52455eaab8d45c14e5cc12b5393a9d61cc1"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph020/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 155133,
+        "mtime_ns": 1789769590000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph020/GEOMETRY_COMPLETE.json",
+        "sha256": "3292b58b0ceaabede845c6b95b658366cc1e6de421f7adf585fa98385f9157fc"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph021/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 155335,
+        "mtime_ns": 1789774373000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph021/GEOMETRY_COMPLETE.json",
+        "sha256": "55b17beecbcf3499edf360d97994adf6fda6c0fdb9d7d979d72b506b65bd429d"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph022/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 155398,
+        "mtime_ns": 1789776365000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph022/GEOMETRY_COMPLETE.json",
+        "sha256": "9ba5a110d9e4b367ad88d574c8a5609b2a8c05d2c895192eac67d3e6e8221762"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph023/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 155090,
+        "mtime_ns": 1789778322000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph023/GEOMETRY_COMPLETE.json",
+        "sha256": "8820e41c6e890c7fbfb23ecb89a968140dbd74130bc68b11ccc60bcc18195d09"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/geometry/ph024/GEOMETRY_COMPLETE.json",
+      "source": {
+        "bytes": 155282,
+        "mtime_ns": 1789780352000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/geometry/ph024/GEOMETRY_COMPLETE.json",
+        "sha256": "9bba769fa1026fddc7cc010708436990eeb1451f4826b397ce16bf8432dddd14"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/INTERFACE_COMPLETE.json",
+      "source": {
+        "bytes": 8688,
+        "mtime_ns": 1789790331000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/INTERFACE_COMPLETE.json",
+        "sha256": "fe6df30cf4ff558cf85793d30d3db80129e897b395a310dddba9271369469c74"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph000/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2516,
+        "mtime_ns": 1789783987000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph000/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "3e95fdbdcd92efd831d644685ce50d8c6b3d59b6ce373683482366e0d89d3179"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph002/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2514,
+        "mtime_ns": 1789784062000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph002/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "cec6445c469fa48bb7fb93e585411bb1c39c4f2d5acaf5b77f1899efad82fc83"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph003/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2517,
+        "mtime_ns": 1789784229000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph003/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "d7504d520799bd69bd9dacf4af734d04eda242e84e56c4e86417666a7b0de17a"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph007/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2515,
+        "mtime_ns": 1789784303000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph007/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "69e547a2a311ca8c1d9d638944969fbd50868c49c30bbaf6c32d8781717b89e9"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph008/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2515,
+        "mtime_ns": 1789784377000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph008/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "84f3c874810459dd8bb4c273036a1e0a544f7cf51a6a884cdc850f98f9529bf5"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph009/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2516,
+        "mtime_ns": 1789784451000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph009/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "b16218a839bb37ae16353fef46895d030508025d93fc6ae5e9683d4046fab97b"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph010/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2515,
+        "mtime_ns": 1789784538000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph010/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "85d02b07186a539e20ac2251babce987f11e25a4bc1f4b95d2e4d97f14856b6c"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph011/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2516,
+        "mtime_ns": 1789784611000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph011/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "7ee93e13c1290e51c74f8c7f8c07b8ea0b7f817acbdfe769f16829a91f8d00a6"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph012/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2518,
+        "mtime_ns": 1789788799000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph012/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "c793cc14fc89fb79909f076ad2f9cf3ae3c588d6c26d39c4a3770e0b8a41f890"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph013/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2519,
+        "mtime_ns": 1789785480000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph013/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "786ad32620430411a6d0b5f78bc4a3a534be57961908f3cae92ded592729b6f9"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph014/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2518,
+        "mtime_ns": 1789789243000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph014/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "c1d759c3e7c9084518a7092a481fcf988b8a44036207813d4c77880199477005"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph015/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2519,
+        "mtime_ns": 1789789787000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph015/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "9eaf2e14690df73d5743fbd31dc54627dfac8adbe78dbdb24c1aad9a9e243661"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph016/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2520,
+        "mtime_ns": 1789790330000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph016/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "8a4853a66bee3abd8bb1df94863df0ed3f6d0161f1f63329dce3d4065b78ed73"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph017/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2518,
+        "mtime_ns": 1789785048000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph017/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "fe06b9d1415cf60a79f2dd6ed55c13d3495933f9f7e13935740155e915b42aa9"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph018/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2517,
+        "mtime_ns": 1789785049000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph018/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "118389c2ab69a9494ec4577d91baaadf251e290c12a961cab46227f6efa0b3fb"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph019/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2518,
+        "mtime_ns": 1789785051000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph019/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "e0e47822c965f616507b095a713700596ba0f2a0d89b68cd9ed1e245670a717b"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph020/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2515,
+        "mtime_ns": 1789784684000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph020/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "8afbc5ba055eb32805da6a196304ad1297f62a725edad7b04f91744d2239707b"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph021/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2515,
+        "mtime_ns": 1789784781000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph021/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "28a01a090137b831d3ce12990deb905388b809559ae51567d899bb83102cc104"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph022/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2516,
+        "mtime_ns": 1789784893000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph022/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "015f59b03a49fb5e31fd5572e92e9c2a2c082eb26e3e214a664dc8d6c30dd0d1"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph023/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2516,
+        "mtime_ns": 1789784973000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph023/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "0bc858443392d3011bf310aa359a16cb79c773bbff3518c98025ee58d24a1a52"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/interface_qualification/ph024/INTERFACE_PHASE_COMPLETE.json",
+      "source": {
+        "bytes": 2514,
+        "mtime_ns": 1789785047000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/interface_qualification/ph024/INTERFACE_PHASE_COMPLETE.json",
+        "sha256": "f8a1d4f9f83a1e39fa1a491f995e53ca3dcb0b48b9d5a76dece9dae10d476cb4"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/normalization/NORMALIZATION_COMPLETE.json",
+      "source": {
+        "bytes": 19010,
+        "mtime_ns": 1789783881000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/normalization/NORMALIZATION_COMPLETE.json",
+        "sha256": "b2b294c5de91a7659be16b87e2ea454a11464fbd4522b4c0d30d2b1effa9e43e"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/normalization/ph000_MOMENTS.json",
+      "source": {
+        "bytes": 63590,
+        "mtime_ns": 1789768779000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/normalization/ph000_MOMENTS.json",
+        "sha256": "b6e9a674f787408b7540410f9b4319b0f049f5dee9489ee6245a7d3c1b7ddcd3"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/normalization/ph002_MOMENTS.json",
+      "source": {
+        "bytes": 63595,
+        "mtime_ns": 1789769186000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/normalization/ph002_MOMENTS.json",
+        "sha256": "40c426b5d5fd133692f8c45ac996c1c3fc52201de76495a701fd5a75c6197db3"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/normalization/ph003_MOMENTS.json",
+      "source": {
+        "bytes": 63585,
+        "mtime_ns": 1789770401000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/normalization/ph003_MOMENTS.json",
+        "sha256": "a33a1715cba1a44a350a618c1cf53e45d40bf3ed8cd707d26fd832976788c77a"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/normalization/ph007_MOMENTS.json",
+      "source": {
+        "bytes": 63585,
+        "mtime_ns": 1789768794000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/normalization/ph007_MOMENTS.json",
+        "sha256": "5627fa5a6ec959863a20c7bcb592aad3bc5a423f2a48c68575707f1c2a299ddd"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/normalization/ph008_MOMENTS.json",
+      "source": {
+        "bytes": 63598,
+        "mtime_ns": 1789768813000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/normalization/ph008_MOMENTS.json",
+        "sha256": "f80d268ed41b5f3054784987a08bf0b913e085011ac8c17b64d235960660d5d5"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/normalization/ph009_MOMENTS.json",
+      "source": {
+        "bytes": 63583,
+        "mtime_ns": 1789772766000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/normalization/ph009_MOMENTS.json",
+        "sha256": "2d2334c1c43b9e2140608a8e14a2c4b90d404e53759888b1720876d2fb9449ac"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/normalization/ph010_MOMENTS.json",
+      "source": {
+        "bytes": 63586,
+        "mtime_ns": 1789777552000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/normalization/ph010_MOMENTS.json",
+        "sha256": "61edfd9b87c854cf498a39e37256edacb8932821cbbe473a5920f574f360e1e8"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/normalization/ph011_MOMENTS.json",
+      "source": {
+        "bytes": 63596,
+        "mtime_ns": 1789781998000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/normalization/ph011_MOMENTS.json",
+        "sha256": "635fc0d6f7441bf9464d27e401843a58d3b26418fe55dbcb272f623f84ff6168"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/normalization/ph020_MOMENTS.json",
+      "source": {
+        "bytes": 63585,
+        "mtime_ns": 1789779188000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/normalization/ph020_MOMENTS.json",
+        "sha256": "b9078a0b4837e53c9ea1dc56ccc140fa5d592be4a08818755147682a8066dcee"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/normalization/ph021_MOMENTS.json",
+      "source": {
+        "bytes": 63590,
+        "mtime_ns": 1789775312000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/normalization/ph021_MOMENTS.json",
+        "sha256": "bf18168ddc1a65f9089113b0c04d43e69883e6ab2fd3046e91bf964c2771c87d"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/normalization/ph022_MOMENTS.json",
+      "source": {
+        "bytes": 63589,
+        "mtime_ns": 1789783881000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/normalization/ph022_MOMENTS.json",
+        "sha256": "7e527cec540cf59315223b408e66fff0e73718a46a1af6631a7f18be14649191"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/normalization/ph023_MOMENTS.json",
+      "source": {
+        "bytes": 63588,
+        "mtime_ns": 1789779805000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/normalization/ph023_MOMENTS.json",
+        "sha256": "462f603b52536e2b1c6ffdf3c76e984706916b24ff946eaa810fde9665b84006"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/normalization/ph024_MOMENTS.json",
+      "source": {
+        "bytes": 63587,
+        "mtime_ns": 1789781324000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/normalization/ph024_MOMENTS.json",
+        "sha256": "10d182a73e70d54d8d037190f67eb90b7085cf35680707b9e7feb3da2fba80a1"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph000/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2545,
+        "mtime_ns": 1789765348000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph000/NGC_COMPLETE.json",
+        "sha256": "0e481a02bfa9f841c1beb0ece054ceef005bc6b939de7f7127e1075c85255252"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph000/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2540,
+        "mtime_ns": 1789765388000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph000/SGC_COMPLETE.json",
+        "sha256": "61172570cb8488cb564617fedfdd6e9042a6fbbd95a89dfe738f9bdce44db7cf"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph002/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2540,
+        "mtime_ns": 1789767300000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph002/NGC_COMPLETE.json",
+        "sha256": "099cd0c527322d9d166377cb6a6f0fea6ddb0dd8b4762b4341a957c13e9963a5"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph002/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2546,
+        "mtime_ns": 1789767340000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph002/SGC_COMPLETE.json",
+        "sha256": "b8b5b71db9ae6efa59899b5857be5e1ff8b75bc63719b25de9823cc77889a1df"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph003/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2541,
+        "mtime_ns": 1789769298000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph003/NGC_COMPLETE.json",
+        "sha256": "f98bc42db79810e8cadd6fde5da103cc8523c9ff5025934b1797ff7397862f5b"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph003/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2538,
+        "mtime_ns": 1789769339000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph003/SGC_COMPLETE.json",
+        "sha256": "ac0854204c2a338f43950f7e1621b40d5e24ffdc72fc20e8af5fa218ebf9227b"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph007/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2541,
+        "mtime_ns": 1789759200000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph007/NGC_COMPLETE.json",
+        "sha256": "4b89cc58c8f2d0057ac321c2e3fb2a355e3b6dc38c04053978fd0e6f2f1aaff7"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph007/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2535,
+        "mtime_ns": 1789759244000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph007/SGC_COMPLETE.json",
+        "sha256": "884721402381eec5c13c1c8f5f8733538b0e10b36ec487313859c385dd8c4722"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph008/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2544,
+        "mtime_ns": 1789761193000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph008/NGC_COMPLETE.json",
+        "sha256": "db0f92d4846121b5074d6aa383b6a70f17d46aa787729974b9efb1778ac60558"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph008/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2538,
+        "mtime_ns": 1789761236000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph008/SGC_COMPLETE.json",
+        "sha256": "cd86868d2075526163f6f786944e4a6e2083ffc9dede0f13ad8c021d7a54f8b5"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph009/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2540,
+        "mtime_ns": 1789763272000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph009/NGC_COMPLETE.json",
+        "sha256": "a95967103c946b9a55da9844173d17a194f6ebb04495a4fe846e2c906f39d6e4"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph009/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2537,
+        "mtime_ns": 1789763317000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph009/SGC_COMPLETE.json",
+        "sha256": "3cc28d3252e7bf12260cb926012a0c94f2f04cb1640da5d534c79183515cde82"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph010/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2545,
+        "mtime_ns": 1789765440000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph010/NGC_COMPLETE.json",
+        "sha256": "84b1c25ddbb4ec4b1f5cec9e94aaf86bcdc1732254bef23785e008eca35a0063"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph010/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2538,
+        "mtime_ns": 1789765487000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph010/SGC_COMPLETE.json",
+        "sha256": "0312249d307462d21136e0b90eeb3c06357c4b53d5acdba0508160c326e80821"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph011/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2542,
+        "mtime_ns": 1789767461000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph011/NGC_COMPLETE.json",
+        "sha256": "fec79d0afbea9d19badb74dd2a6ae87c44ab090df9b149cff3556d922deb9fa3"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph011/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2533,
+        "mtime_ns": 1789767502000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph011/SGC_COMPLETE.json",
+        "sha256": "2783fa3700683d6a835da0411a1d0b901ad001e5660560d4cf7762671df7dbcb"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph012/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2541,
+        "mtime_ns": 1789782351000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph012/NGC_COMPLETE.json",
+        "sha256": "2b9a6edb21e9d2fbbcc2e7969a6a0afc92469a3434400f511cb5ee4eaf1e057f"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph012/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2549,
+        "mtime_ns": 1789782393000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph012/SGC_COMPLETE.json",
+        "sha256": "bab91a2c8fe8dbd96bc70c65af53c4923e682e10a8a40e4990f25100b076a6c0"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph013/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2542,
+        "mtime_ns": 1789784512000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph013/NGC_COMPLETE.json",
+        "sha256": "6c9f9a375ce2cba860f3567131c261888a92cf9b36cd30d6516f78e5adebbcb8"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph013/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2537,
+        "mtime_ns": 1789784553000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph013/SGC_COMPLETE.json",
+        "sha256": "ac10fd833e5a0ce5fcb5cb87b4e521aafae453c0aee998c455a1d56f7a3d4416"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph014/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2541,
+        "mtime_ns": 1789784606000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph014/NGC_COMPLETE.json",
+        "sha256": "02c9541c0252dd4113d3397e90be6e97fe834ccf1e4c74e6fc47a8e4a882cb51"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph014/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2553,
+        "mtime_ns": 1789784649000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph014/SGC_COMPLETE.json",
+        "sha256": "a9ec6e1e3fcaf01381b3d39517e8c504f3eb40fba94154efdba45d370745eaed"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph015/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2541,
+        "mtime_ns": 1789782586000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph015/NGC_COMPLETE.json",
+        "sha256": "5b77eda09061893b3d91d9e8a763909137aee7dbeb8cfef26aba1fc8d5fe6fd9"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph015/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2548,
+        "mtime_ns": 1789782629000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph015/SGC_COMPLETE.json",
+        "sha256": "88040ed8d462281021a0a179346b3ff008a928612c7944a183912d226bea751e"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph016/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2543,
+        "mtime_ns": 1789780565000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph016/NGC_COMPLETE.json",
+        "sha256": "db3ac9309d71d0a434816e36b5f4b10f3f6b4ee09229b9f7ffbaf1c72b645806"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph016/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2540,
+        "mtime_ns": 1789780608000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph016/SGC_COMPLETE.json",
+        "sha256": "c37b3a732f5d3d20bba793426e8c8884ee411ad504a2914df205666435aaa5d4"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph017/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2542,
+        "mtime_ns": 1789778490000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph017/NGC_COMPLETE.json",
+        "sha256": "5926e1d9f6d1f2c281d61a60c211751b9bc9dc4e1a4aea9a9f08e4a1bf1a5eed"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph017/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2539,
+        "mtime_ns": 1789778533000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph017/SGC_COMPLETE.json",
+        "sha256": "586cd9e42fa92d703364934a75ba1e9877776642eb6964516e3d6ee96b3fe50c"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph018/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2552,
+        "mtime_ns": 1789774575000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph018/NGC_COMPLETE.json",
+        "sha256": "accd75b2e96cbd655e7f587d95c7c1366c55b3c3af0a5387b020b2af42c1d61e"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph018/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2538,
+        "mtime_ns": 1789774617000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph018/SGC_COMPLETE.json",
+        "sha256": "a2fc3326dc3ce3abd9117763006c2cb6d0249afebfb112d1c5661a7b084d1ae6"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph019/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2544,
+        "mtime_ns": 1789772680000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph019/NGC_COMPLETE.json",
+        "sha256": "90f74faa928f06d4651e148ed0659ef7d250539455eb7eba16abb22745680853"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph019/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2537,
+        "mtime_ns": 1789772720000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph019/SGC_COMPLETE.json",
+        "sha256": "c1888dcea7e76cdfdb14b4d80cedcfbb477716a055800bbefa7ef0937587ea6b"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph020/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2537,
+        "mtime_ns": 1789769475000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph020/NGC_COMPLETE.json",
+        "sha256": "7d4e2a93a8d66208b926b0132ad5406766d04f8e50cb9ee6774f32be2d81e022"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph020/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2535,
+        "mtime_ns": 1789769538000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph020/SGC_COMPLETE.json",
+        "sha256": "bc66d3737291ed3c7e6ad3d8ae6c1f999855db37ca1de926cc477ffbeb7965ac"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph021/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2542,
+        "mtime_ns": 1789774296000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph021/NGC_COMPLETE.json",
+        "sha256": "608d8ed84bef3a89ad08642dab9b8d73230e069c8f35cf71f17baeb939e99d55"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph021/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2537,
+        "mtime_ns": 1789774336000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph021/SGC_COMPLETE.json",
+        "sha256": "09bfc05d91af034a891ec107a9b79e0380873be0c3b7b67c37c1db5a955d4954"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph022/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2546,
+        "mtime_ns": 1789776258000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph022/NGC_COMPLETE.json",
+        "sha256": "084567d139693ea0dfe8cdcc503aa80572ab8deb17ce39446c9baa6c8c54f4de"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph022/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2549,
+        "mtime_ns": 1789776316000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph022/SGC_COMPLETE.json",
+        "sha256": "7453a0e1a4741c958e55dad7708e9aac9d19a7d85b360a4c53c54299099a9135"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph023/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2543,
+        "mtime_ns": 1789778225000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph023/NGC_COMPLETE.json",
+        "sha256": "368a63728f1c0b200171be9561d77f4002ed443cb88fd350626521634c55078a"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph023/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2546,
+        "mtime_ns": 1789778269000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph023/SGC_COMPLETE.json",
+        "sha256": "a459777237cc87380c02454b4412097d341fb7741828359cd01106178c1a2e23"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph024/NGC_COMPLETE.json",
+      "source": {
+        "bytes": 2542,
+        "mtime_ns": 1789780276000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph024/NGC_COMPLETE.json",
+        "sha256": "37a2ffa2efe22060f11e298d235ce7367f660bb1b41fce60f09a7cfa559cf4ad"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/observations/ph024/SGC_COMPLETE.json",
+      "source": {
+        "bytes": 2539,
+        "mtime_ns": 1789780320000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph024/SGC_COMPLETE.json",
+        "sha256": "83db86b7a4f096c6f3e9b736549f48d36d24035e4cedd052b776e449e89413dc"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/physical_gate/PHYSICAL_GATE_COMPLETE.json",
+      "source": {
+        "bytes": 672906,
+        "mtime_ns": 1789767971000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/physical_gate/PHYSICAL_GATE_COMPLETE.json",
+        "sha256": "0b53bea9cbfcb4760247e556f3195a24f5810189d056141154c16d51643c68a7"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph000/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1460,
+        "mtime_ns": 1789768531000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph000/LATEST_AUDIT.json",
+        "sha256": "243cb08116140a80ff36c21f35164b81e6107bc8ed82d578ca4b9f4cca40070e"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph000/PRODUCT_AUDIT_1789768531019521378.json",
+      "source": {
+        "bytes": 259269,
+        "mtime_ns": 1789768531000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph000/PRODUCT_AUDIT_1789768531019521378.json",
+        "sha256": "665c09f28306591e16c86f3958d297688483c589633838ce8da232696d2f0540"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph002/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1459,
+        "mtime_ns": 1789769170000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph002/LATEST_AUDIT.json",
+        "sha256": "98707cf7a3ba98f25195422a64739f87573c2537dde1ebe092cd743e86a0831f"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph002/PRODUCT_AUDIT_1789769170125928242.json",
+      "source": {
+        "bytes": 259293,
+        "mtime_ns": 1789769170000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph002/PRODUCT_AUDIT_1789769170125928242.json",
+        "sha256": "e9b4a75f82001cbf58cb8bd384739db75b411c4fad39c1db3011786ef336538b"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph003/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1459,
+        "mtime_ns": 1789770345000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph003/LATEST_AUDIT.json",
+        "sha256": "a0a87aedb0b685cc0a5798b548dfe3e1a86098d0c084c56ae34b4992c1568962"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph003/PRODUCT_AUDIT_1789770345200408908.json",
+      "source": {
+        "bytes": 259332,
+        "mtime_ns": 1789770345000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph003/PRODUCT_AUDIT_1789770345200408908.json",
+        "sha256": "e4986359af52df336cdabe17da94dba56bb3ab3a13ac10c7cc4fb270f9f47255"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph007/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1459,
+        "mtime_ns": 1789767401000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph007/LATEST_AUDIT.json",
+        "sha256": "4f5199a0242c47064de244938efb92602a708082c78362e2fc2d560a06f7ad1e"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph007/PRODUCT_AUDIT_1789767399760428229.json",
+      "source": {
+        "bytes": 258612,
+        "mtime_ns": 1789767399000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph007/PRODUCT_AUDIT_1789767399760428229.json",
+        "sha256": "2dbd8573a5af0b2b4ec57c824fa58c5caec5e1aa3885bcbbeef3cce1aa4ae818"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph008/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1460,
+        "mtime_ns": 1789767902000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph008/LATEST_AUDIT.json",
+        "sha256": "0cc59e52391c4f0c025aebc96d5d48d3c0e1d6d950aaeb37149756eb9712acae"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph008/PRODUCT_AUDIT_1789767902215842430.json",
+      "source": {
+        "bytes": 259192,
+        "mtime_ns": 1789767902000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph008/PRODUCT_AUDIT_1789767902215842430.json",
+        "sha256": "55707715a7f517fbbcac9b5d5f948a33c55862a0be29dbd8ca78a9ddae2bcb4d"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph009/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1459,
+        "mtime_ns": 1789772738000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph009/LATEST_AUDIT.json",
+        "sha256": "93c84c30423169725887f905ae5cb0d3926fc948f29ef829459d60fd12cd7b02"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph009/PRODUCT_AUDIT_1789772738124350788.json",
+      "source": {
+        "bytes": 259239,
+        "mtime_ns": 1789772738000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph009/PRODUCT_AUDIT_1789772738124350788.json",
+        "sha256": "47d8c5f227d252f5aba77ac389162d3d2fd60f9ad69d4ba66ce41cfaba5dd6b9"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph010/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1460,
+        "mtime_ns": 1789777504000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph010/LATEST_AUDIT.json",
+        "sha256": "a5cf89ecfcc6d6240f278d5d9e3e844bd56396e726ee6eb3162cbc0ae70b47bb"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph010/PRODUCT_AUDIT_1789777501557114086.json",
+      "source": {
+        "bytes": 259239,
+        "mtime_ns": 1789777501000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph010/PRODUCT_AUDIT_1789777501557114086.json",
+        "sha256": "f6c31c71de5686d8f50e518b5f3660d37462ef23e38bb70ebaf2d95fc5aab481"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph011/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1460,
+        "mtime_ns": 1789781956000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph011/LATEST_AUDIT.json",
+        "sha256": "9d111f156b489144715ee5be56d52f80f9186d3fe1c875d2d8e0d2f8e9c29667"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph011/PRODUCT_AUDIT_1789781955305819277.json",
+      "source": {
+        "bytes": 259253,
+        "mtime_ns": 1789781955000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph011/PRODUCT_AUDIT_1789781955305819277.json",
+        "sha256": "0d3e0680897639ebc885de486652eea18c9f2a3d08156cf37ba9d9111d59671f"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph012/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1457,
+        "mtime_ns": 1789788740000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph012/LATEST_AUDIT.json",
+        "sha256": "53b3bfefdcae482db7ecd2c969914c6b652cb0a70300abd3eb0e88fdb5b5a6d3"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph012/PRODUCT_AUDIT_1789788738561212696.json",
+      "source": {
+        "bytes": 60120,
+        "mtime_ns": 1789788738000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph012/PRODUCT_AUDIT_1789788738561212696.json",
+        "sha256": "0832e4fae81a8cf066dd0db5314ce0d146bb74628ef3efd2c3b6af730e77f820"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph013/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1457,
+        "mtime_ns": 1789785435000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph013/LATEST_AUDIT.json",
+        "sha256": "3c55bc5d0ccad7a513b4d49f4c813f1443c8dc2cfd8840cfaad03f6e1431e467"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph013/PRODUCT_AUDIT_1789785432945501533.json",
+      "source": {
+        "bytes": 60126,
+        "mtime_ns": 1789785432000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph013/PRODUCT_AUDIT_1789785432945501533.json",
+        "sha256": "f8b833df8d335143acbb8e3795e91cb5ce4f9f5d2054c20654a800e8b8323aed"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph014/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1458,
+        "mtime_ns": 1789789225000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph014/LATEST_AUDIT.json",
+        "sha256": "885cb789ec128f8eac3c139f54ced930bb86112ce4a3398f72c91a26f98e5e45"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph014/PRODUCT_AUDIT_1789789222960924292.json",
+      "source": {
+        "bytes": 60125,
+        "mtime_ns": 1789789222000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph014/PRODUCT_AUDIT_1789789222960924292.json",
+        "sha256": "c46142c2bbe3c468922774fb22c9529274825aad4d2c1f84ce5c1048c46d00d1"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph015/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1458,
+        "mtime_ns": 1789789737000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph015/LATEST_AUDIT.json",
+        "sha256": "81a961513f0734388971fe42fe9410367a196ffb8d155bb7746e958b01ff9a30"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph015/PRODUCT_AUDIT_1789789736227312393.json",
+      "source": {
+        "bytes": 60124,
+        "mtime_ns": 1789789736000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph015/PRODUCT_AUDIT_1789789736227312393.json",
+        "sha256": "67328c3db273295e32b0aa69d9071f4c75fe56cca865d87fced048a5276ef8af"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph016/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1458,
+        "mtime_ns": 1789790298000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph016/LATEST_AUDIT.json",
+        "sha256": "147fa407c4857699d98ac60ef4a3b0045e4c7f730b4fdac7f7e32fd28058408e"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph016/PRODUCT_AUDIT_1789790295948187729.json",
+      "source": {
+        "bytes": 60125,
+        "mtime_ns": 1789790295000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph016/PRODUCT_AUDIT_1789790295948187729.json",
+        "sha256": "ec0841a6d1249d4c26851c3cb5349671589c2149f3824cd2d26b7cc13f5ca381"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph017/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1458,
+        "mtime_ns": 1789780321000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph017/LATEST_AUDIT.json",
+        "sha256": "862bf70fb3f92b134309fe6f4423631d46da2638e9c6219a12323455069ba99b"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph017/PRODUCT_AUDIT_1789780318794727052.json",
+      "source": {
+        "bytes": 60118,
+        "mtime_ns": 1789780318000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph017/PRODUCT_AUDIT_1789780318794727052.json",
+        "sha256": "0a46dcc34e32723e72879e0da9c4553831f3a67a93065a305dc70886c86b5c23"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph018/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1457,
+        "mtime_ns": 1789775732000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph018/LATEST_AUDIT.json",
+        "sha256": "4b18042832cd51d9313dbf4cc3cc13cd0d3c77046ff1f05227fb46f53d7c5e89"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph018/PRODUCT_AUDIT_1789775729924590513.json",
+      "source": {
+        "bytes": 60117,
+        "mtime_ns": 1789775729000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph018/PRODUCT_AUDIT_1789775729924590513.json",
+        "sha256": "5d7250eeab4402f1319aafd62ac44062bf89aa47d2314e7ae2c299ad17dff9e0"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph019/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1458,
+        "mtime_ns": 1789773527000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph019/LATEST_AUDIT.json",
+        "sha256": "e886724ec46c730aececc3f3d3a6a872aeb19c8935d419f675fa380ade7cf2a3"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph019/PRODUCT_AUDIT_1789773525382010217.json",
+      "source": {
+        "bytes": 60117,
+        "mtime_ns": 1789773525000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph019/PRODUCT_AUDIT_1789773525382010217.json",
+        "sha256": "309674fb42a63724bb2aaba8adb99ddedf55f4f1a028f1fc8f72be24b5b3a76f"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph020/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1459,
+        "mtime_ns": 1789779149000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph020/LATEST_AUDIT.json",
+        "sha256": "1f54ddaad31c81d822c0d068b264d9546c34cc53901fa8f7a5c295f53cba8a1e"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph020/PRODUCT_AUDIT_1789779146761740076.json",
+      "source": {
+        "bytes": 259268,
+        "mtime_ns": 1789779146000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph020/PRODUCT_AUDIT_1789779146761740076.json",
+        "sha256": "a6664a9eec39fc47777230e631a2fb48fc5ea8ba4108ecff7bb1b4d22533afa3"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph021/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1460,
+        "mtime_ns": 1789775289000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph021/LATEST_AUDIT.json",
+        "sha256": "74c7a51213b2b9157b56d255c4cad0320fab4a2d7b940d3664d3b1c1bcd0f7d4"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph021/PRODUCT_AUDIT_1789775288376767678.json",
+      "source": {
+        "bytes": 259232,
+        "mtime_ns": 1789775288000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph021/PRODUCT_AUDIT_1789775288376767678.json",
+        "sha256": "5a070e058f37598f8b0299d918734b632cded294eb0d18f880558aad817f0cc0"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph022/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1459,
+        "mtime_ns": 1789783848000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph022/LATEST_AUDIT.json",
+        "sha256": "8effd382b63658cbeac32fa89f9139602896c007f4e3e565c1c4be7870a9e58d"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph022/PRODUCT_AUDIT_1789783845627075912.json",
+      "source": {
+        "bytes": 259279,
+        "mtime_ns": 1789783845000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph022/PRODUCT_AUDIT_1789783845627075912.json",
+        "sha256": "0e5284b217d5873ae2362ff2f393e80187b5933ff2218df1212f24c8e838631a"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph023/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1460,
+        "mtime_ns": 1789779768000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph023/LATEST_AUDIT.json",
+        "sha256": "6b8ede249dae9433cd4f57e897abd405a73e743feba909f385edca42f52b91ae"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph023/PRODUCT_AUDIT_1789779766384102681.json",
+      "source": {
+        "bytes": 259255,
+        "mtime_ns": 1789779766000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph023/PRODUCT_AUDIT_1789779766384102681.json",
+        "sha256": "36d167e1bdc02bd3138a8144958a3fc7e7c1fb21eefb157d8e8ecc9fb8ae0b9f"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph024/LATEST_AUDIT.json",
+      "source": {
+        "bytes": 1460,
+        "mtime_ns": 1789781307000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph024/LATEST_AUDIT.json",
+        "sha256": "4ed8cedb7f17eb714b9fc731ce134858e0d9ba7926525395a06d3278fc9b385f"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/product_audit/ph024/PRODUCT_AUDIT_1789781304869730123.json",
+      "source": {
+        "bytes": 259265,
+        "mtime_ns": 1789781304000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/product_audit/ph024/PRODUCT_AUDIT_1789781304869730123.json",
+        "sha256": "11feeb4dfe37648695207ce3b6ce0f5da08b270ffcbc00d881c2a4e5949ef3b7"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/resource_estimates/0042d5a7b319e95d.json",
+      "source": {
+        "bytes": 19884,
+        "mtime_ns": 1789786308000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/resource_estimates/0042d5a7b319e95d.json",
+        "sha256": "beb26f13da65882159ba145fe43e011607ded1e85fad48c412a6c424c251eb4c"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph000/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 79706,
+        "mtime_ns": 1789768234000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph000/TARGETS_COMPLETE.json",
+        "sha256": "d23644ea6ac84b00a5d0167dcd5484bad8857911b5eeeb5464dd5a8c7f49b0e6"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph002/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 79674,
+        "mtime_ns": 1789768872000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph002/TARGETS_COMPLETE.json",
+        "sha256": "9ca8c5a57bc6796d4f948a30f789efdb0e50f15db2ab836d8e9cdb2afbe6930e"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph003/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 79713,
+        "mtime_ns": 1789770039000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph003/TARGETS_COMPLETE.json",
+        "sha256": "3c61ba48652d2d33c5fba2e72648c4bba00c6346105e6b5835f8b4a46ceae0cd"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph007/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 79629,
+        "mtime_ns": 1789763865000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph007/TARGETS_COMPLETE.json",
+        "sha256": "95bdc9b1f8be1081f3ee1ebad9da03d30f08c679a658228eec41801bdd204df0"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph008/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 79620,
+        "mtime_ns": 1789767622000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph008/TARGETS_COMPLETE.json",
+        "sha256": "8bd8268f041de24ab8754cd506f3b323eba7c37e4a0d26222ad25a7f6b9fe18d"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph009/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 79667,
+        "mtime_ns": 1789771988000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph009/TARGETS_COMPLETE.json",
+        "sha256": "05ca6f29eb18f08686aae202df3e1d559bb46a4f101de448dab53d25e7d1d858"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph010/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 79627,
+        "mtime_ns": 1789777287000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph010/TARGETS_COMPLETE.json",
+        "sha256": "a74c39629daba07a6960f80dacff22d0c1ea6a0944d1d4b90af4be533e56bd24"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph011/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 79641,
+        "mtime_ns": 1789781685000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph011/TARGETS_COMPLETE.json",
+        "sha256": "303bfe6e1b635304f85ad850ce79c13d5cdb7149c34fb962728775fe3a3b8dff"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph012/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 12786,
+        "mtime_ns": 1789788515000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph012/TARGETS_COMPLETE.json",
+        "sha256": "3ade1568c731b1c91d4803aaddb8273647f03b10da74d30393a069749ad68607"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph013/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 12791,
+        "mtime_ns": 1789785194000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph013/TARGETS_COMPLETE.json",
+        "sha256": "f53a67043e4d286fc8c5a927b7eadaa44d503e9c76170427e1381fd2d5fe1952"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph014/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 12791,
+        "mtime_ns": 1789789027000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph014/TARGETS_COMPLETE.json",
+        "sha256": "52345fb839ceb40bb37dbd51a82a4534a7820a61e28f1b1a7b165952f075dc76"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph015/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 12789,
+        "mtime_ns": 1789789541000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/TARGETS_COMPLETE.json",
+        "sha256": "f7cd8405ee567de747cf5c64c70f24ce7313600e358ce42491f10ae1572d25ae"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph016/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 12790,
+        "mtime_ns": 1789790057000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph016/TARGETS_COMPLETE.json",
+        "sha256": "7baead72a38c066c7d94014b7182709d7fc4d5867320ff2f8a168458ed63aa37"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph017/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 12783,
+        "mtime_ns": 1789780105000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph017/TARGETS_COMPLETE.json",
+        "sha256": "fffea9438511866e2dc2d0a451d7a81ac65e825da457923f4d8f0064cbafa345"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph018/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 12783,
+        "mtime_ns": 1789775528000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph018/TARGETS_COMPLETE.json",
+        "sha256": "1856ccc4c9a977e57163a0d2cc87abb43dd58c422ab853c2deaaf0ee1fd2f16b"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph019/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 12782,
+        "mtime_ns": 1789773318000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph019/TARGETS_COMPLETE.json",
+        "sha256": "f53381ed8042229bebfa104b1ce1d769c1734a9c2b5602ee5aa5ea3e097ae888"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph020/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 79657,
+        "mtime_ns": 1789778913000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph020/TARGETS_COMPLETE.json",
+        "sha256": "260ceb27d6557a7cab9ee8f8e861a4969968919f1b351059c7c5a9f2b4777ac8"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph021/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 79620,
+        "mtime_ns": 1789775005000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph021/TARGETS_COMPLETE.json",
+        "sha256": "23361cab3a79c5f3156d191f938cec6edb453ce189009b69cd0f0e6b6cb4f77b"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph022/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 79668,
+        "mtime_ns": 1789783623000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph022/TARGETS_COMPLETE.json",
+        "sha256": "4c29d2aa76c4f5ebbb82729e68d064d72509f2c3b4122ce862002aa072de8d6c"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph023/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 79643,
+        "mtime_ns": 1789779551000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph023/TARGETS_COMPLETE.json",
+        "sha256": "8257848b0b62aa7fa3e89802bedd0d0420aca4a3f48be762d8a803dcea8b8bff"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/targets/ph024/TARGETS_COMPLETE.json",
+      "source": {
+        "bytes": 79653,
+        "mtime_ns": 1789781048000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph024/TARGETS_COMPLETE.json",
+        "sha256": "b47e0ac25f9380be9a6173890e25e2d629e7784137916ea2d3858146baf2e00a"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_cpu/normalized_loader/LOADER_BENCHMARK_COMPLETE.json",
+      "source": {
+        "bytes": 20831,
+        "mtime_ns": 1789785057000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_cpu/normalized_loader/LOADER_BENCHMARK_COMPLETE.json",
+        "sha256": "bb4c670332a71a2516382426781597e01adfdacfcb60b1365789f73a9bcd3cf7"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_cpu/postprocess/5913c1ecab5fbf01/POSTPROCESS_BENCHMARK_COMPLETE.json",
+      "source": {
+        "bytes": 9337,
+        "mtime_ns": 1789782895000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_cpu/postprocess/5913c1ecab5fbf01/POSTPROCESS_BENCHMARK_COMPLETE.json",
+        "sha256": "a119cb95fb155488e6d55741c691a25b7486bef22270c484995ab6e57d525d19"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/CFM_coarse/attempt_1789786016574260852/REPLAY.json",
+      "source": {
+        "bytes": 1571,
+        "mtime_ns": 1789786068000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/CFM_coarse/attempt_1789786016574260852/REPLAY.json",
+        "sha256": "fc6d9bf6461b58f628b681a552fc01e9104cb24a8d08972e8c6eb4efb1f143d5"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/CFM_coarse/attempt_1789786016574260852/TIMINGS.json",
+      "source": {
+        "bytes": 5063,
+        "mtime_ns": 1789786061000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/CFM_coarse/attempt_1789786016574260852/TIMINGS.json",
+        "sha256": "bbaf569ee3b9eae506f367b8ab179819c55fdfb523fb4b9c21834d1228544a5e"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/CFM_coarse_COMPLETE.json",
+      "source": {
+        "bytes": 7196,
+        "mtime_ns": 1789786069000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/CFM_coarse_COMPLETE.json",
+        "sha256": "1a30f565cf74dba49fd95204b60b821e3f9f91ab7a59f11482deb748b6b9eb43"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/CFM_fine/attempt_1789786069117105697/REPLAY.json",
+      "source": {
+        "bytes": 1567,
+        "mtime_ns": 1789786132000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/CFM_fine/attempt_1789786069117105697/REPLAY.json",
+        "sha256": "2a7a932654bd1279ffd934344d85c5feaeeae516c4df554751e55ced40d2d5cc"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/CFM_fine/attempt_1789786069117105697/TIMINGS.json",
+      "source": {
+        "bytes": 5065,
+        "mtime_ns": 1789786126000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/CFM_fine/attempt_1789786069117105697/TIMINGS.json",
+        "sha256": "c191d752a017f5336726eb13151a3aed8b78ecbfdd048134adf49bb03baaa482"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/CFM_fine_COMPLETE.json",
+      "source": {
+        "bytes": 7192,
+        "mtime_ns": 1789786132000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/CFM_fine_COMPLETE.json",
+        "sha256": "b6d253b47959bf263fa50e5218b20b111e4cb529b11be3e95d79ed861b1d1d42"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/D_coarse/attempt_1789785654319580262/REPLAY.json",
+      "source": {
+        "bytes": 1567,
+        "mtime_ns": 1789785708000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/D_coarse/attempt_1789785654319580262/REPLAY.json",
+        "sha256": "cffdcac6344e1a5ea246efd03cb50621c4e8dbcd68fa38218a7a5f8c5f343ce4"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/D_coarse/attempt_1789785654319580262/TIMINGS.json",
+      "source": {
+        "bytes": 5055,
+        "mtime_ns": 1789785701000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/D_coarse/attempt_1789785654319580262/TIMINGS.json",
+        "sha256": "04d2069529da4fadfd4fbbb4b966501537c3345f636f8e8337cb5a3030783e2b"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/D_coarse_COMPLETE.json",
+      "source": {
+        "bytes": 7182,
+        "mtime_ns": 1789785709000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/D_coarse_COMPLETE.json",
+        "sha256": "ad9b2ad182b93eb7c5eeb06931c97755f9fbf4674ed59e4af609d900e0f731b7"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/D_fine/attempt_1789785709809205757/REPLAY.json",
+      "source": {
+        "bytes": 1563,
+        "mtime_ns": 1789785801000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/D_fine/attempt_1789785709809205757/REPLAY.json",
+        "sha256": "56a8c6bec55313b9c85c563b4a04e1e1a984b56618b2b8d506aa6de13ead74b1"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/D_fine/attempt_1789785709809205757/TIMINGS.json",
+      "source": {
+        "bytes": 5653,
+        "mtime_ns": 1789785794000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/D_fine/attempt_1789785709809205757/TIMINGS.json",
+        "sha256": "720b10e8b596f069c8fbc2b1bdae3adb4aa3f19f5d748e2bc7f4ac153d50dadc"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/D_fine_COMPLETE.json",
+      "source": {
+        "bytes": 7794,
+        "mtime_ns": 1789785802000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/D_fine_COMPLETE.json",
+        "sha256": "8a9dbbbd6918feaad5fc80a44b27747f99e0f3989a8ed52335194b33a40b19dd"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/GPU_BENCHMARK_COMPLETE.json",
+      "source": {
+        "bytes": 3448,
+        "mtime_ns": 1789786132000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/GPU_BENCHMARK_COMPLETE.json",
+        "sha256": "c9eb5cdeddc7e2f62090db1ded3f258783e25efe55efc65f398de73b66ca84c8"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/IJ_coarse/attempt_1789785802739355509/REPLAY.json",
+      "source": {
+        "bytes": 1569,
+        "mtime_ns": 1789785855000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/IJ_coarse/attempt_1789785802739355509/REPLAY.json",
+        "sha256": "7612f562561e26560c5377874ea845873b181cbbdc160914d9bd32ce00d3470d"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/IJ_coarse/attempt_1789785802739355509/TIMINGS.json",
+      "source": {
+        "bytes": 5065,
+        "mtime_ns": 1789785848000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/IJ_coarse/attempt_1789785802739355509/TIMINGS.json",
+        "sha256": "f8c98c8fc4d37260de09831d02d49687c60ba1243aab52b1618cc6e8e1f3ce69"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/IJ_coarse_COMPLETE.json",
+      "source": {
+        "bytes": 7195,
+        "mtime_ns": 1789785855000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/IJ_coarse_COMPLETE.json",
+        "sha256": "29cdf40e8438089596097223d3eb8954a77f9e6cda214eb31e6c65d660c5c735"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/I_fine/attempt_1789785855981925255/REPLAY.json",
+      "source": {
+        "bytes": 1563,
+        "mtime_ns": 1789785949000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/I_fine/attempt_1789785855981925255/REPLAY.json",
+        "sha256": "ebe610b88c809047734d4135bca6e64827dc389e9d8949ebbcd4536fa2308824"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/I_fine/attempt_1789785855981925255/TIMINGS.json",
+      "source": {
+        "bytes": 5658,
+        "mtime_ns": 1789785942000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/I_fine/attempt_1789785855981925255/TIMINGS.json",
+        "sha256": "c45375a499c82c61ef38b898c9c61edaa2c861e37e3bf83d2db0464a18ad7c88"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/I_fine_COMPLETE.json",
+      "source": {
+        "bytes": 7799,
+        "mtime_ns": 1789785950000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/I_fine_COMPLETE.json",
+        "sha256": "decb901c3288511a739ed093192f2ec197bbcb1f90c9d9478a0b6c34d7cc6ea2"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/J_fine/attempt_1789785950614416322/REPLAY.json",
+      "source": {
+        "bytes": 1563,
+        "mtime_ns": 1789786015000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/J_fine/attempt_1789785950614416322/REPLAY.json",
+        "sha256": "e138feac35123489f5e2e78e1a8c9cb161b60ff49d51e994bda452be911ff8cf"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/J_fine/attempt_1789785950614416322/TIMINGS.json",
+      "source": {
+        "bytes": 5048,
+        "mtime_ns": 1789786009000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/J_fine/attempt_1789785950614416322/TIMINGS.json",
+        "sha256": "7a50e449d16f4dca0c2171b18cda3a52adce71b8c475bcc299c1b5424f58bbcb"
+      }
+    },
+    {
+      "relative": "receipts/cartesian_v2/technical_gpu/dc5b911e24ecbad3/J_fine_COMPLETE.json",
+      "source": {
+        "bytes": 7169,
+        "mtime_ns": 1789786016000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/technical_gpu/dc5b911e24ecbad3/J_fine_COMPLETE.json",
+        "sha256": "ac1b4a1988b1e47dbe88a98fd254dee44c4c89744233e2951223922dbe81a015"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph000/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1051,
+        "mtime_ns": 1789767334000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph000/DENSITY_COMPLETE.json",
+        "sha256": "e353d77e1453df589915a21ee45237e310a87b19a3a4e561ca58ae8db9105efa"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph000/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 68465,
+        "mtime_ns": 1789762534000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph000/PARTICLES_VERIFIED.json",
+        "sha256": "49363ea6bab28a5938859f5e61915d85a45c18ac1d82e5a634dde5077292798c"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph002/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1486,
+        "mtime_ns": 1789764029000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph002/DENSITY_COMPLETE.json",
+        "sha256": "a6987b99e6cf59a04d285e82537435f73d1fa8f8fc8f465cb3fc8b4604ddff16"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph002/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 69183,
+        "mtime_ns": 1789762710000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph002/PARTICLES_VERIFIED.json",
+        "sha256": "869930336f09d5f5df583ddb5b703def26fd2df183a43c56858a55a6224d37fb"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph003/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1487,
+        "mtime_ns": 1789764088000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph003/DENSITY_COMPLETE.json",
+        "sha256": "2096067aa85bd6eb689d890d3de2536cc9a12725b31d7ed05b8a0fba789f5eb7"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph003/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 69182,
+        "mtime_ns": 1789762883000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph003/PARTICLES_VERIFIED.json",
+        "sha256": "87e7457f66d40c371da365bf6d29a3afb79bc3cb3050c2f23434a35e9f5a6739"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph007/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1110,
+        "mtime_ns": 1789762562000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph007/DENSITY_COMPLETE.json",
+        "sha256": "9b8135f9d82e3553dcc655ca645a654766660b588d3a99d7f1dd358820d3c29f"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph007/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 63616,
+        "mtime_ns": 1789757028000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph007/PARTICLES_VERIFIED.json",
+        "sha256": "e866ae5196130ff2398902e6a518de367f606b2ebd40ae9c4b1bf660fc487290"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph008/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1107,
+        "mtime_ns": 1789766956000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph008/DENSITY_COMPLETE.json",
+        "sha256": "5b44807f75f631cb5d4464df34539ccfcc702a1d048e58242502db6d40243377"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph008/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 63627,
+        "mtime_ns": 1789762730000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph008/PARTICLES_VERIFIED.json",
+        "sha256": "59b1f7e0034e935ccae54573dff7a880da5dc386238e51aae3001d1750b14e61"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph009/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1109,
+        "mtime_ns": 1789771304000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph009/DENSITY_COMPLETE.json",
+        "sha256": "ca8d10fbad681d4f5a60598f6fd5ced6af6a89f54ecec592ff87222669b6f922"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph009/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 63618,
+        "mtime_ns": 1789767121000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph009/PARTICLES_VERIFIED.json",
+        "sha256": "86124f3dd280a39b8ac8072bf7d6d13d7ba18ed0bb2bb6ca45b8eb8e5e5e0b31"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph010/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1109,
+        "mtime_ns": 1789776187000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph010/DENSITY_COMPLETE.json",
+        "sha256": "a46f0192ecc116c44fd2748e2b1917d2cb2aba6026756e1274fa8e01c616e1f0"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph010/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 63625,
+        "mtime_ns": 1789771473000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph010/PARTICLES_VERIFIED.json",
+        "sha256": "71f87a73b10d4dadb5bc4a4a096ecc32fafead5db90404f45deb4bfe112cad76"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph011/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1108,
+        "mtime_ns": 1789780830000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph011/DENSITY_COMPLETE.json",
+        "sha256": "49acd0c1706b4aacbde33383481991a53cba55d6f060857306bd6125ced2245e"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph011/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 63631,
+        "mtime_ns": 1789776349000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph011/PARTICLES_VERIFIED.json",
+        "sha256": "84f6f7ef257ed98ae1e6453de74eee609a99f533206868abf7c9b524def1f33b"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph012/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1115,
+        "mtime_ns": 1789785486000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph012/DENSITY_COMPLETE.json",
+        "sha256": "cca595131dec88e8a2bc3be79c09cd175c392023b5fd999cdd5458e8daf626ef"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph012/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 63626,
+        "mtime_ns": 1789780998000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph012/PARTICLES_VERIFIED.json",
+        "sha256": "d7f989c7373dd30bc8f62829b851b26a1609bb03dd7d4fb1b6491483b024e6c3"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph013/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1115,
+        "mtime_ns": 1789783235000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph013/DENSITY_COMPLETE.json",
+        "sha256": "7f882499d1987ff1f37c9be897a362eb0d381e3d3d26af269b4c1ec716ebbb8d"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph013/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 63629,
+        "mtime_ns": 1789778626000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph013/PARTICLES_VERIFIED.json",
+        "sha256": "2f88989c55ebd438da9bcfc42c24280ed8a1435c2073c5ac6c85dc37f02607d4"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph014/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1116,
+        "mtime_ns": 1789781697000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph014/DENSITY_COMPLETE.json",
+        "sha256": "64cc4db545bb30bffa8f98d0d25a8d17d8f78a4d4c5e6862a15d93a4c0a082d2"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph014/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 63628,
+        "mtime_ns": 1789777165000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph014/PARTICLES_VERIFIED.json",
+        "sha256": "46c4902c069b4c608fee01d37fee074c034eb9822f7490571d3b73607dcb00fc"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph015/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1116,
+        "mtime_ns": 1789787975000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph015/DENSITY_COMPLETE.json",
+        "sha256": "1e883625f6f83e8b23d51f9224d05389daa514ec9a577b735afa46de7412908b"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph015/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 63622,
+        "mtime_ns": 1789781862000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph015/PARTICLES_VERIFIED.json",
+        "sha256": "b5629b5024ec3ff96471751a48f869408e4949fc48693b557490a73ff67bc898"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph016/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1113,
+        "mtime_ns": 1789787624000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph016/DENSITY_COMPLETE.json",
+        "sha256": "53d36d3862e78f6073de2a668d39198b73de97c3dc57f7c6b41bb0343ec9f1e0"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph016/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 63620,
+        "mtime_ns": 1789783424000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph016/PARTICLES_VERIFIED.json",
+        "sha256": "d9a67d0c854143bdc31cdbe9c8e1aa68a48f0fb9908f8a8241b40a859cfa0952"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph017/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1117,
+        "mtime_ns": 1789778458000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph017/DENSITY_COMPLETE.json",
+        "sha256": "192b4664448fb232c4439bea6dafb0bbc38103c28a905a33bd00248b3b3cde85"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph017/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 63627,
+        "mtime_ns": 1789773539000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph017/PARTICLES_VERIFIED.json",
+        "sha256": "b05bdcf5ad1a31da9839c08c8a9891b20e3ee17cb9ae1f9d329ffe81c4b6c6da"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph018/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1117,
+        "mtime_ns": 1789773376000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph018/DENSITY_COMPLETE.json",
+        "sha256": "098af26bd0211e9bdde5051aa23dbf669dc507004e6eacbb1666473a2bfc943c"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph018/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 63615,
+        "mtime_ns": 1789769079000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph018/PARTICLES_VERIFIED.json",
+        "sha256": "333c7f9d7625739df369cf11090a0fe861d1edbcd36430984229e6b7864844e8"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph019/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1115,
+        "mtime_ns": 1789768917000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph019/DENSITY_COMPLETE.json",
+        "sha256": "4ac31f5c210c89c1a461d71c3857f13e59bc2978364d4327348a8ff0acd4a4be"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph019/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 63627,
+        "mtime_ns": 1789764483000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph019/PARTICLES_VERIFIED.json",
+        "sha256": "34f6f8a596a0b3b21f9b540bf877e99eb67ca5d2c3802fea4773f88cfce720fb"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph020/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1109,
+        "mtime_ns": 1789778238000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph020/DENSITY_COMPLETE.json",
+        "sha256": "3ad7b69187099efafa92e94b4aafbc8ce65618232e30fa25d2b7bfa75fb25e4b"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph020/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 63625,
+        "mtime_ns": 1789773760000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph020/PARTICLES_VERIFIED.json",
+        "sha256": "be4d569a4c41524bfebfc4c12575e3c9fed522663932ee4bc4480cc5bb79e694"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph021/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1109,
+        "mtime_ns": 1789773596000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph021/DENSITY_COMPLETE.json",
+        "sha256": "7c014cc39d1171f3e940e46afbf942e7753046ce7ce8269cf699665db92341ca"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph021/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 63627,
+        "mtime_ns": 1789768050000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph021/PARTICLES_VERIFIED.json",
+        "sha256": "592c62d583c8b4bb3bdd5d0003668f1bd85f6547dda2cd1ff4ae589878b3f116"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph022/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1109,
+        "mtime_ns": 1789782902000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph022/DENSITY_COMPLETE.json",
+        "sha256": "d0de4b31d2333a6e099ba9a8ec0c1db31db23cb53f21627b52f91c6dc178075e"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph022/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 63615,
+        "mtime_ns": 1789778403000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph022/PARTICLES_VERIFIED.json",
+        "sha256": "deb18fee54f5cca1f6f86eb293403227868016d37ad8912e0eecc752b855f4e9"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph023/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1108,
+        "mtime_ns": 1789777003000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph023/DENSITY_COMPLETE.json",
+        "sha256": "ffff51b89457921a2833a3f6019ebe8fd0b78e58b3f9d7dcd940175f4988edf1"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph023/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 63624,
+        "mtime_ns": 1789772493000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph023/PARTICLES_VERIFIED.json",
+        "sha256": "962ec77bf855dd56f6f5fd7a9757cb8751eaa0fe5ee8917eb7345821dfaab788"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph024/DENSITY_COMPLETE.json",
+      "source": {
+        "bytes": 1109,
+        "mtime_ns": 1789771473000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph024/DENSITY_COMPLETE.json",
+        "sha256": "f18e40fb26d722094003c220e64a36957f70aa801ada3b20b045f49987dcb10f"
+      }
+    },
+    {
+      "relative": "receipts/matter/ph024/PARTICLES_VERIFIED.json",
+      "source": {
+        "bytes": 63636,
+        "mtime_ns": 1789767181000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph024/PARTICLES_VERIFIED.json",
+        "sha256": "0dad42dafded0ab35b2a8a1309830402ef3c8ae25f43c3d012076e3a909e9b3a"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph000/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1389,
+        "mtime_ns": 1789762761000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph000/OBSERVED_COMPLETE.json",
+        "sha256": "89945065c284fbd5dfe7f5b6e8222c480e74698aeeffe8c26f1d38ed1ec0e106"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph000/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1853,
+        "mtime_ns": 1789762698000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph000/PARENT_COMPLETE.json",
+        "sha256": "708fe2f186c340f192cb08d2be6f84c1f3b0782419685924b1aa54fe0a9a2f12"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph000/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5928,
+        "mtime_ns": 1789765238000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph000/angular/ANGULAR_COMPLETE.json",
+        "sha256": "1b5a43ef449de239f8a06c24368974e5080fd6d993fa69e837aa1ad85abd5720"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph002/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1388,
+        "mtime_ns": 1789763123000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph002/OBSERVED_COMPLETE.json",
+        "sha256": "7c40a182a4a9b3d48c0afa18e29540b8d4a4c82ef0e3aef41424a85b1de85f7f"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph002/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1854,
+        "mtime_ns": 1789763068000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph002/PARENT_COMPLETE.json",
+        "sha256": "5074cd02755a0c1eb4b4c4510052a36f4a19c670c22c25f0e1f5c050cacb3225"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph002/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5931,
+        "mtime_ns": 1789767222000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph002/angular/ANGULAR_COMPLETE.json",
+        "sha256": "40c2551d970b7f7b1ab514e959111dde3ffb2ea0918237a4ecf86da67c6fd76c"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph003/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1388,
+        "mtime_ns": 1789763481000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph003/OBSERVED_COMPLETE.json",
+        "sha256": "7a3347765ca95c0f7c58f368ab90d0ca4e8555d78b82afd5b65bd3560576e1bb"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph003/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1853,
+        "mtime_ns": 1789763413000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph003/PARENT_COMPLETE.json",
+        "sha256": "3bc884ab86cf5f699794437ef7317ad204d23fc1c7bcbe4094cbcc6800299bf5"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph003/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5944,
+        "mtime_ns": 1789769219000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph003/angular/ANGULAR_COMPLETE.json",
+        "sha256": "eb50943a0890fc332bf5e249e477f64f9e975b4c48f7a6cb7728367dffc5987e"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph007/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1387,
+        "mtime_ns": 1789755653000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/OBSERVED_COMPLETE.json",
+        "sha256": "57fa74abfc02053eec079b9e31420d078bcc1f67520fabbdd0eb8bdbed3e1fcd"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph007/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1853,
+        "mtime_ns": 1789755601000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/PARENT_COMPLETE.json",
+        "sha256": "d805c433cfe17e97023a56ef8ae654546df18fe7c6efdbe2cd8d83303e2a4429"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph007/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5899,
+        "mtime_ns": 1789758290000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph007/angular/ANGULAR_COMPLETE.json",
+        "sha256": "4324cbebecf5b972841647bbd945b55cdf7b5ab8d2b362818a7c3878125f354a"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph008/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1388,
+        "mtime_ns": 1789755982000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph008/OBSERVED_COMPLETE.json",
+        "sha256": "6adbdf70b295517a46be5c38d358c48797402d9dbc453e1b5e56ce41dad59614"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph008/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1853,
+        "mtime_ns": 1789755926000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph008/PARENT_COMPLETE.json",
+        "sha256": "a3568f2a93986c7e98df5ecd17ebb9d36ec9e26a1c42d1f35737f87f8832238f"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph008/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5930,
+        "mtime_ns": 1789761109000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph008/angular/ANGULAR_COMPLETE.json",
+        "sha256": "5a3a1e48bf35a0a324f0d49526b8b8e35dff09353b4a607e45461703e78dbb2d"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph009/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1388,
+        "mtime_ns": 1789756312000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph009/OBSERVED_COMPLETE.json",
+        "sha256": "039ce9910e373894107ba7cedc6af7d4e63673c8cce4de88361da4e848bd6eaa"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph009/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1854,
+        "mtime_ns": 1789756254000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph009/PARENT_COMPLETE.json",
+        "sha256": "ed57dcbe5e6b0b061090167bb0b7c38e338bc1baf59f5fb8a50ec040d831beba"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph009/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5929,
+        "mtime_ns": 1789763189000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph009/angular/ANGULAR_COMPLETE.json",
+        "sha256": "7393c7cf1d757dff7ebda9eed104d8da204025ad15b66d4c69b2d37bfe9d7f0e"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph010/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1390,
+        "mtime_ns": 1789756650000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph010/OBSERVED_COMPLETE.json",
+        "sha256": "f6c4787ada9781254d3c6c2b96997fd7ab94f5dffbb996596842aa4551e07292"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph010/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1855,
+        "mtime_ns": 1789756592000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph010/PARENT_COMPLETE.json",
+        "sha256": "1cde6809892853459216ea4616151e29c6e566418989b49fe43c55042a6e0777"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph010/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5928,
+        "mtime_ns": 1789765361000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph010/angular/ANGULAR_COMPLETE.json",
+        "sha256": "041a6c9e888fb276264b4f1af3655e56fe427cd9c7bf1b93660d39c8d3b24918"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph011/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1390,
+        "mtime_ns": 1789757020000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph011/OBSERVED_COMPLETE.json",
+        "sha256": "147b6f073a48594533af400092f2c694b3cc40ed4037aeffd7babbdb0ba156dc"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph011/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1855,
+        "mtime_ns": 1789756960000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph011/PARENT_COMPLETE.json",
+        "sha256": "18afbc88a94b0f4513a6df6cf0427c74063e13387ce5aa2534298cde22938f7e"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph011/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5928,
+        "mtime_ns": 1789767380000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph011/angular/ANGULAR_COMPLETE.json",
+        "sha256": "40343cfbef6b25bd7052b426c4069ed299cb48699eb78146270f0fdbd94be92f"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph012/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1396,
+        "mtime_ns": 1789759828000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph012/OBSERVED_COMPLETE.json",
+        "sha256": "522647e9514ede3fb472de97651b7630a68d62b1c3585b14ad7d463a23f683bd"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph012/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1861,
+        "mtime_ns": 1789759770000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph012/PARENT_COMPLETE.json",
+        "sha256": "9865228c30d611282984d2704789ba24fb118d9ebf471ea440e93a2576108932"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph012/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5929,
+        "mtime_ns": 1789782274000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph012/angular/ANGULAR_COMPLETE.json",
+        "sha256": "530c293ce4058a10832947f155e00350a866fb3de01452fd3948ec38d471f592"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph013/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1396,
+        "mtime_ns": 1789760182000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph013/OBSERVED_COMPLETE.json",
+        "sha256": "d73a1083df3f98cca81a157446d946eeee1d10474d484e2627c5c724b7decc0c"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph013/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1860,
+        "mtime_ns": 1789760120000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph013/PARENT_COMPLETE.json",
+        "sha256": "b8f5ebb948eda22c80018abd5f8a7b386516c1bb565c34aadd2038fd63f65967"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph013/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5930,
+        "mtime_ns": 1789784432000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph013/angular/ANGULAR_COMPLETE.json",
+        "sha256": "4e1f061893877d45032d7e2571eed6c1c75ad668dc0fbe6ba7cc4e9baa404828"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph014/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1397,
+        "mtime_ns": 1789760543000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph014/OBSERVED_COMPLETE.json",
+        "sha256": "032d3ce7119ecebc0c7809dcfe5987ba5060cc8b39bf0dfc0945e7c9dd9fc588"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph014/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1862,
+        "mtime_ns": 1789760481000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph014/PARENT_COMPLETE.json",
+        "sha256": "c421858c70b2e0884187df5f5824eecde9838a2cfcdfcdda29ecb21f0732c223"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph014/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5930,
+        "mtime_ns": 1789784516000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph014/angular/ANGULAR_COMPLETE.json",
+        "sha256": "5e48e403ea256f32f788273bfcaa7244cb9c863c90b34a8fe7e85a33345bdd72"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph015/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1397,
+        "mtime_ns": 1789760897000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph015/OBSERVED_COMPLETE.json",
+        "sha256": "9ed13b53a967ef8e2d8c26ba850047f687f683c48c0b6143f41573c59be31e8b"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph015/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1861,
+        "mtime_ns": 1789760835000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph015/PARENT_COMPLETE.json",
+        "sha256": "1e92ae9a7ef2c150d4c25e081fd1ceab42f4170d41e656734b1178ef79021ed3"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph015/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5928,
+        "mtime_ns": 1789782505000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph015/angular/ANGULAR_COMPLETE.json",
+        "sha256": "835aa39539afec9833b56cdcc62ff2a5f04157d95078dfd8e511c3af26cd6c77"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph016/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1397,
+        "mtime_ns": 1789761261000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph016/OBSERVED_COMPLETE.json",
+        "sha256": "89bac59617a40ecf1dfe8204fc6d942a61863c27895c71c00ac7115031920262"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph016/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1861,
+        "mtime_ns": 1789761203000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph016/PARENT_COMPLETE.json",
+        "sha256": "c5335e29d851a4b62aad1a65553d91b0827db400c216eef3ea3686c5a2ecb2d5"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph016/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5930,
+        "mtime_ns": 1789780482000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph016/angular/ANGULAR_COMPLETE.json",
+        "sha256": "0d2e710c5e6657ee2469ac7e3e3260650e1d8d226253eaa6bf55d20624393bad"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph017/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1397,
+        "mtime_ns": 1789761624000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph017/OBSERVED_COMPLETE.json",
+        "sha256": "d17c53816a2b20325e78c6cf34e5d73f0ffb62ea43e75c1d942bc9aed17d01e0"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph017/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1861,
+        "mtime_ns": 1789761558000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph017/PARENT_COMPLETE.json",
+        "sha256": "d5e8212c7a786316c74cef37e74af4a0eb2ad886f6cb5726332a346b3e7a8cbc"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph017/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5929,
+        "mtime_ns": 1789778387000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph017/angular/ANGULAR_COMPLETE.json",
+        "sha256": "c06febb5011658ee1d4001372df239498c142dab06651cfd926f8df2ab3892dd"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph018/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1397,
+        "mtime_ns": 1789762001000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph018/OBSERVED_COMPLETE.json",
+        "sha256": "9438bf9fc56b975d3b211b9b4fb27446186b269f81be1500aaa307c19ab0afea"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph018/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1861,
+        "mtime_ns": 1789761941000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph018/PARENT_COMPLETE.json",
+        "sha256": "c15e31dcfdedff8de504ced25852fd532ce7a675388b51bf2ec1ca0d6a11cb32"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph018/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5929,
+        "mtime_ns": 1789774485000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph018/angular/ANGULAR_COMPLETE.json",
+        "sha256": "d60e35fcee005cb1d6516ce503d8a9fe76506cc2fd006d992e66880b7caf8f6d"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph019/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1398,
+        "mtime_ns": 1789762365000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph019/OBSERVED_COMPLETE.json",
+        "sha256": "487b13a5c354d9b38f583d75452cf6bee9dd4de48a4876f044a082a6268835b8"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph019/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1861,
+        "mtime_ns": 1789762309000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph019/PARENT_COMPLETE.json",
+        "sha256": "ca6d074f8a0b2eca84cb98ca80b0242c60bcb7b13a1c9bc4a6d7b474af81606b"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph019/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5931,
+        "mtime_ns": 1789772602000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph019/angular/ANGULAR_COMPLETE.json",
+        "sha256": "a6679738ef8ba9a5386319c618facc9baadee770ddd9103c2e8619ee63715027"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph020/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1391,
+        "mtime_ns": 1789757501000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph020/OBSERVED_COMPLETE.json",
+        "sha256": "9639d27b2cbc8be4cb8cc8b214bb822f1f0fd0dff4f90d6077b954f600b0f109"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph020/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1854,
+        "mtime_ns": 1789757323000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph020/PARENT_COMPLETE.json",
+        "sha256": "f6d273782fd64425f24e18daf798b30afd98b92501646dc9bb174d64b92bdb80"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph020/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5931,
+        "mtime_ns": 1789769389000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph020/angular/ANGULAR_COMPLETE.json",
+        "sha256": "feb662175743abae854f6e8d2bcc1c7bc65fe93074e44381220b6537dff109bc"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph021/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1390,
+        "mtime_ns": 1789757855000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph021/OBSERVED_COMPLETE.json",
+        "sha256": "248e0e268012c0314aae802dbd2ec7a464fda04b6b581e613956886debd84fe2"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph021/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1854,
+        "mtime_ns": 1789757797000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph021/PARENT_COMPLETE.json",
+        "sha256": "114f328a4ee7c940476089118432abf4ab821d5a77cdce32a49496b893c5faec"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph021/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5931,
+        "mtime_ns": 1789774219000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph021/angular/ANGULAR_COMPLETE.json",
+        "sha256": "6c7bef09ce334ade86e756ee8fb81c1a4b72a5d96f7e07c4984f13aff42184fd"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph022/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1389,
+        "mtime_ns": 1789758262000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph022/OBSERVED_COMPLETE.json",
+        "sha256": "6ecd3e3150e4c34d188a6578a296c3d93dad181cbed67c7a8418f7c7e2cc9e98"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph022/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1854,
+        "mtime_ns": 1789758208000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph022/PARENT_COMPLETE.json",
+        "sha256": "ad6ed83f944251c371a94f9cfbc4ccdddf8069640e4985cf31c3573edd2df40a"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph022/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5931,
+        "mtime_ns": 1789776172000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph022/angular/ANGULAR_COMPLETE.json",
+        "sha256": "ad7977335c93092b1a28f700297bca1cc0d58bee08a65bce89a3982f41f13248"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph023/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1391,
+        "mtime_ns": 1789758590000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph023/OBSERVED_COMPLETE.json",
+        "sha256": "529fd8e83ba252110019e7063d36a2d94c1c1cb9ff4fe6758581c359f72498b3"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph023/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1855,
+        "mtime_ns": 1789758538000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph023/PARENT_COMPLETE.json",
+        "sha256": "4f3a595c0d79642631eb3bfaa306712cc1885427357653d706c7bd87c4011312"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph023/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5930,
+        "mtime_ns": 1789778114000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph023/angular/ANGULAR_COMPLETE.json",
+        "sha256": "1c1f7ac55bfa4b5e68e3df4d67499517a1c5f880c3db5dd208859d2c0c87b132"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph024/OBSERVED_COMPLETE.json",
+      "source": {
+        "bytes": 1390,
+        "mtime_ns": 1789759475000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph024/OBSERVED_COMPLETE.json",
+        "sha256": "a112d08364a327476b55d750498117f9fd9ba16a4d82270f281f60ee5bac8d9f"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph024/PARENT_COMPLETE.json",
+      "source": {
+        "bytes": 1854,
+        "mtime_ns": 1789759404000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph024/PARENT_COMPLETE.json",
+        "sha256": "cb54fd016edeeafb8458c6938c7079a441b3c61a704d107992bf9fcc149ca441"
+      }
+    },
+    {
+      "relative": "receipts/observations/ph024/angular/ANGULAR_COMPLETE.json",
+      "source": {
+        "bytes": 5931,
+        "mtime_ns": 1789780189000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/observations/ph024/angular/ANGULAR_COMPLETE.json",
+        "sha256": "1ec0af6bb2069730e53c75182c84dc08b79d887a198334d2217e61bf9bd0a8e3"
+      }
+    },
+    {
+      "relative": "receipts/particle_b/ph008/TRANSFER_COMPLETE.json",
+      "source": {
+        "bytes": 739,
+        "mtime_ns": 1789756450000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph008/TRANSFER_COMPLETE.json",
+        "sha256": "1f67303d00d54c7e6ac5bfec13a892490284e65c3d1d26848deeeb59f010e8c1"
+      }
+    },
+    {
+      "relative": "receipts/particle_b/ph009/TRANSFER_COMPLETE.json",
+      "source": {
+        "bytes": 737,
+        "mtime_ns": 1789756840000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph009/TRANSFER_COMPLETE.json",
+        "sha256": "3d2b8a1a447bb561f733937535197a3d3432085e29b1151050798edd2f9998bf"
+      }
+    },
+    {
+      "relative": "receipts/particle_b/ph010/TRANSFER_COMPLETE.json",
+      "source": {
+        "bytes": 739,
+        "mtime_ns": 1789757222000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph010/TRANSFER_COMPLETE.json",
+        "sha256": "a1538438e8cf175286add8f5b33f6634c4c30fc9a8f2408055540951ce067e60"
+      }
+    },
+    {
+      "relative": "receipts/particle_b/ph011/TRANSFER_COMPLETE.json",
+      "source": {
+        "bytes": 738,
+        "mtime_ns": 1789757599000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph011/TRANSFER_COMPLETE.json",
+        "sha256": "3698d7e2ef37739a41c51ddddd65a37de5e77d629f45db6545e1bc1f460cba7d"
+      }
+    },
+    {
+      "relative": "receipts/particle_b/ph012/TRANSFER_COMPLETE.json",
+      "source": {
+        "bytes": 738,
+        "mtime_ns": 1789760279000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph012/TRANSFER_COMPLETE.json",
+        "sha256": "5fca74099512bc281e2460ed7088cacaa9518f2706cacff2ccb5b802f3c672b0"
+      }
+    },
+    {
+      "relative": "receipts/particle_b/ph013/TRANSFER_COMPLETE.json",
+      "source": {
+        "bytes": 739,
+        "mtime_ns": 1789760661000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph013/TRANSFER_COMPLETE.json",
+        "sha256": "ad43cdf4fdbf9bee34b36fcce72d10c2fe903f9d82e8ce082d2b7454a41831e9"
+      }
+    },
+    {
+      "relative": "receipts/particle_b/ph014/TRANSFER_COMPLETE.json",
+      "source": {
+        "bytes": 739,
+        "mtime_ns": 1789761050000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph014/TRANSFER_COMPLETE.json",
+        "sha256": "c2089ab92bca41abe604aedfa7a6231e52034646c9ba83120fe916db671a091d"
+      }
+    },
+    {
+      "relative": "receipts/particle_b/ph015/TRANSFER_COMPLETE.json",
+      "source": {
+        "bytes": 739,
+        "mtime_ns": 1789761452000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph015/TRANSFER_COMPLETE.json",
+        "sha256": "2547b8a72adda7bd6dab16f8934b8b44d8c031e122dc7ad80a4cbc4ba9641aea"
+      }
+    },
+    {
+      "relative": "receipts/particle_b/ph016/TRANSFER_COMPLETE.json",
+      "source": {
+        "bytes": 738,
+        "mtime_ns": 1789761857000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph016/TRANSFER_COMPLETE.json",
+        "sha256": "c6114b9f5f28b5eed2d9f8ac812622a36296e8bc9898608a5c7bd627fe6d084a"
+      }
+    },
+    {
+      "relative": "receipts/particle_b/ph017/TRANSFER_COMPLETE.json",
+      "source": {
+        "bytes": 738,
+        "mtime_ns": 1789762266000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph017/TRANSFER_COMPLETE.json",
+        "sha256": "8b328049db61f80f68dbd2633f36cbe014f2923e29065d5a04b0f85ddb4ec61e"
+      }
+    },
+    {
+      "relative": "receipts/particle_b/ph018/TRANSFER_COMPLETE.json",
+      "source": {
+        "bytes": 739,
+        "mtime_ns": 1789762655000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph018/TRANSFER_COMPLETE.json",
+        "sha256": "2ac94fed4acefaffa679ba6918b6d4ee20a72e1e52c054b523f1c77093c553cc"
+      }
+    },
+    {
+      "relative": "receipts/particle_b/ph019/TRANSFER_COMPLETE.json",
+      "source": {
+        "bytes": 738,
+        "mtime_ns": 1789763052000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph019/TRANSFER_COMPLETE.json",
+        "sha256": "5aa4571be917ea22824c68d2aecf815bbe4a865c3759af6b0bc439d52422870c"
+      }
+    },
+    {
+      "relative": "receipts/particle_b/ph020/TRANSFER_COMPLETE.json",
+      "source": {
+        "bytes": 738,
+        "mtime_ns": 1789757991000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph020/TRANSFER_COMPLETE.json",
+        "sha256": "a46cdf8250cfaea4eeaab32561737b49a1d5fcd5892c3cc8d4cf3d06cd2bc249"
+      }
+    },
+    {
+      "relative": "receipts/particle_b/ph021/TRANSFER_COMPLETE.json",
+      "source": {
+        "bytes": 738,
+        "mtime_ns": 1789758386000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph021/TRANSFER_COMPLETE.json",
+        "sha256": "3f9254af08bda143ce969d34941e69924bb29b67d1eba6c3cebf75895d59fbdb"
+      }
+    },
+    {
+      "relative": "receipts/particle_b/ph022/TRANSFER_COMPLETE.json",
+      "source": {
+        "bytes": 739,
+        "mtime_ns": 1789758789000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph022/TRANSFER_COMPLETE.json",
+        "sha256": "992b8787768f9421d82ae6ce118378f8ab2de9dd2ca2efb3d738739874153abb"
+      }
+    },
+    {
+      "relative": "receipts/particle_b/ph023/TRANSFER_COMPLETE.json",
+      "source": {
+        "bytes": 738,
+        "mtime_ns": 1789759176000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph023/TRANSFER_COMPLETE.json",
+        "sha256": "08b271e5f1f071bd1b7a0fbe0eb330ee82566caea8fd762449da145f34c1701c"
+      }
+    },
+    {
+      "relative": "receipts/particle_b/ph024/TRANSFER_COMPLETE.json",
+      "source": {
+        "bytes": 739,
+        "mtime_ns": 1789759891000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/particle_b/ph024/TRANSFER_COMPLETE.json",
+        "sha256": "25ad407f7d9c2e50d58382a6983186cb5b56cba339524d035852b3da64e5a8cf"
+      }
+    }
+  ],
+  "scientific_training_authorized": false
+}

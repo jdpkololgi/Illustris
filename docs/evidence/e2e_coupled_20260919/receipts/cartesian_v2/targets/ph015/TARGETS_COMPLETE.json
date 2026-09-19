@@ -1,0 +1,279 @@
+{
+  "binding": {
+    "builder_sha256": "9108a8296d03b68821080a5857acc5a1a4eeba4494c05f98f252780505cc7ac3",
+    "geometry_receipt_sha256": "e557308a6733e8b0b4852e7a68efb605d0818b78565bacbabfdde662c11577f5",
+    "layout_sha256": "810a078eae98101f59ea380330c827f4603fb403ae7e166ce5e3dbae00a9c941",
+    "native_operator_sha256": "5c21b0a7647c0e64b3c599ea2e6b0a38989da590d31862e57f9dd2eb1d87daf7",
+    "native_receipt_sha256": "1e883625f6f83e8b23d51f9224d05389daa514ec9a577b735afa46de7412908b",
+    "operators_sha256": "54934aa3c69bad36d0e4d9b5135106387fe01f44efdef24b4166caf5fcedc38d"
+  },
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+  "created_utc": "2026-09-19T03:45:41.720428+00:00",
+  "elapsed_seconds": 509.9711155150144,
+  "host": "nid004151",
+  "numerical_checks": [
+    {
+      "all_seven_context_crops_verified": true,
+      "coarse_fine_max_relative": 7.170693095625361e-16,
+      "fullbox_trace_max_abs": 6.661338147750939e-16,
+      "minimum_rho": 0.19953021641975044,
+      "minimum_wide_rho": 0.26423637451511295,
+      "physical_representation_gate_pass": null,
+      "roundtrip_max_relative": 7.717850133904802e-16
+    },
+    {
+      "all_seven_context_crops_verified": true,
+      "coarse_fine_max_relative": 6.377645304707762e-16,
+      "fullbox_trace_max_abs": 8.881784197001252e-16,
+      "minimum_rho": 0.22403422030035258,
+      "minimum_wide_rho": 0.2786489870306672,
+      "physical_representation_gate_pass": null,
+      "roundtrip_max_relative": 7.721844148063556e-16
+    },
+    {
+      "all_seven_context_crops_verified": true,
+      "coarse_fine_max_relative": 4.742185384837731e-16,
+      "fullbox_trace_max_abs": 6.661338147750939e-16,
+      "minimum_rho": 0.24376688988622497,
+      "minimum_wide_rho": 0.27641542684628606,
+      "physical_representation_gate_pass": null,
+      "roundtrip_max_relative": 8.093957851491015e-16
+    },
+    {
+      "all_seven_context_crops_verified": true,
+      "coarse_fine_max_relative": 6.129415114090483e-16,
+      "fullbox_trace_max_abs": 8.881784197001252e-16,
+      "minimum_rho": 0.2017972266900896,
+      "minimum_wide_rho": 0.2705907651904158,
+      "physical_representation_gate_pass": null,
+      "roundtrip_max_relative": 8.516804884699675e-16
+    },
+    {
+      "all_seven_context_crops_verified": true,
+      "coarse_fine_max_relative": 4.683765534991177e-16,
+      "fullbox_trace_max_abs": 6.661338147750939e-16,
+      "minimum_rho": 0.2302076393401371,
+      "minimum_wide_rho": 0.26423637451511295,
+      "physical_representation_gate_pass": null,
+      "roundtrip_max_relative": 8.628812946946722e-16
+    },
+    {
+      "all_seven_context_crops_verified": true,
+      "coarse_fine_max_relative": 6.641724740410754e-16,
+      "fullbox_trace_max_abs": 8.881784197001252e-16,
+      "minimum_rho": 0.23204838808131556,
+      "minimum_wide_rho": 0.26155841240038924,
+      "physical_representation_gate_pass": null,
+      "roundtrip_max_relative": 7.605217219475912e-16
+    },
+    {
+      "all_seven_context_crops_verified": true,
+      "coarse_fine_max_relative": 7.934649059833072e-16,
+      "fullbox_trace_max_abs": 1.1102230246251565e-15,
+      "minimum_rho": 0.19785473622562688,
+      "minimum_wide_rho": 0.2705907651904158,
+      "physical_representation_gate_pass": null,
+      "roundtrip_max_relative": 8.241655990277786e-16
+    },
+    {
+      "all_seven_context_crops_verified": true,
+      "coarse_fine_max_relative": 6.061456449370127e-16,
+      "fullbox_trace_max_abs": 8.881784197001252e-16,
+      "minimum_rho": 0.21183611292024718,
+      "minimum_wide_rho": 0.26155841240038924,
+      "physical_representation_gate_pass": null,
+      "roundtrip_max_relative": 1.0781046778662976e-15
+    },
+    {
+      "all_seven_context_crops_verified": true,
+      "coarse_fine_max_relative": 6.24537229275104e-16,
+      "fullbox_trace_max_abs": 8.881784197001252e-16,
+      "minimum_rho": 0.18901037104307328,
+      "minimum_wide_rho": 0.28943230968822764,
+      "physical_representation_gate_pass": null,
+      "roundtrip_max_relative": 8.022411523374746e-16
+    },
+    {
+      "all_seven_context_crops_verified": true,
+      "coarse_fine_max_relative": 5.937634535191575e-16,
+      "fullbox_trace_max_abs": 1.3322676295501878e-15,
+      "minimum_rho": 0.20096042620295362,
+      "minimum_wide_rho": 0.28943230968822764,
+      "physical_representation_gate_pass": null,
+      "roundtrip_max_relative": 8.767528775750888e-16
+    },
+    {
+      "all_seven_context_crops_verified": true,
+      "coarse_fine_max_relative": 6.394526242889847e-16,
+      "fullbox_trace_max_abs": 8.881784197001252e-16,
+      "minimum_rho": 0.21269834418126998,
+      "minimum_wide_rho": 0.2875245258814749,
+      "physical_representation_gate_pass": null,
+      "roundtrip_max_relative": 7.988037131848312e-16
+    },
+    {
+      "all_seven_context_crops_verified": true,
+      "coarse_fine_max_relative": 6.24537229275104e-16,
+      "fullbox_trace_max_abs": 6.661338147750939e-16,
+      "minimum_rho": 0.2123802838048049,
+      "minimum_wide_rho": 0.2875245258814749,
+      "physical_representation_gate_pass": null,
+      "roundtrip_max_relative": 7.597587701631754e-16
+    },
+    {
+      "all_seven_context_crops_verified": true,
+      "coarse_fine_max_relative": 5.139797211298636e-16,
+      "fullbox_trace_max_abs": 6.661338147750939e-16,
+      "minimum_rho": 0.2268281374714931,
+      "minimum_wide_rho": 0.2726273004995642,
+      "physical_representation_gate_pass": null,
+      "roundtrip_max_relative": 7.917124983516733e-16
+    },
+    {
+      "all_seven_context_crops_verified": true,
+      "coarse_fine_max_relative": 5.899726637596548e-16,
+      "fullbox_trace_max_abs": 4.718447854656915e-16,
+      "minimum_rho": 0.21794780223087062,
+      "minimum_wide_rho": 0.2783703343904175,
+      "physical_representation_gate_pass": null,
+      "roundtrip_max_relative": 9.77240283533249e-16
+    },
+    {
+      "all_seven_context_crops_verified": true,
+      "coarse_fine_max_relative": 5.324818997086348e-16,
+      "fullbox_trace_max_abs": 1.3322676295501878e-15,
+      "minimum_rho": 0.21179031179711738,
+      "minimum_wide_rho": 0.2783703343904175,
+      "physical_representation_gate_pass": null,
+      "roundtrip_max_relative": 8.78926651906623e-16
+    },
+    {
+      "all_seven_context_crops_verified": true,
+      "coarse_fine_max_relative": 4.850384717538905e-16,
+      "fullbox_trace_max_abs": 8.881784197001252e-16,
+      "minimum_rho": 0.19603992822592975,
+      "minimum_wide_rho": 0.2726273004995642,
+      "physical_representation_gate_pass": null,
+      "roundtrip_max_relative": 9.852274338568683e-16
+    }
+  ],
+  "outputs": [],
+  "pair_receipts": [
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/ph015_NGC_s0_interior_00.json",
+      "sha256": "167c516aa662350ec06631a389ad33fabc3069794786c374f814c8c6a670caef"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/ph015_NGC_s0_boundary_00.json",
+      "sha256": "4b176ee5b4875b2940d166940e4760b71837ce79a90e363290747779ac5732e9"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/ph015_NGC_s1_interior_00.json",
+      "sha256": "86c672b22dc7bf9608e4a1c948718b1f89203e017becbb432017b013e9556042"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/ph015_NGC_s1_boundary_00.json",
+      "sha256": "cc74f5732fa12ef58a8555afb342b60a7007e03e00bfae4ccb52afd9a60383d9"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/ph015_NGC_s2_interior_00.json",
+      "sha256": "819fca75298ead295e71b60a6e0b673ad3a836752c78fb7ea0efedb40a0f1636"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/ph015_NGC_s2_boundary_00.json",
+      "sha256": "ccf4e4e163a3e2274c669d74c309a5d29d9edbbd6ae0c240fd26021abcfaf56d"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/ph015_NGC_s3_interior_00.json",
+      "sha256": "ef7b48bd433ce83ce7567b603540306d9da32104d7f56d796897edcb5b068716"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/ph015_NGC_s3_boundary_00.json",
+      "sha256": "93f592c434da2735ba5d3969e36be685f1f2e62398287b6dafd7524814b35041"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/ph015_SGC_s0_interior_00.json",
+      "sha256": "2e7b198eba836ef7bfd42acfcb4c6033e3292f27321fb1931501f66ca2170863"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/ph015_SGC_s0_boundary_00.json",
+      "sha256": "dec0656740ad8d326c65056a462f2642f18f2e4850e468a16ffca67ef704d891"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/ph015_SGC_s1_interior_00.json",
+      "sha256": "026504aa27c32cf3cde13e356a45550e5f4d2fd91ff2143c66b432bd4d0cb9ba"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/ph015_SGC_s1_boundary_00.json",
+      "sha256": "22063720a3fffd35a0ad735d8ca8f1b6e746c34b78d1bf27b7d1c19e052212e7"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/ph015_SGC_s2_interior_00.json",
+      "sha256": "982507e6c2267eb6eac90216db29801f196b9f65a2fcbe2dbad77c5da4137cb3"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/ph015_SGC_s2_boundary_00.json",
+      "sha256": "66a02f70c515d72a9f4ead2ddb1d047316090b3b9f8403f74cbf3274c6ba6563"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/ph015_SGC_s3_interior_00.json",
+      "sha256": "d4d0df00498712f11132f7dc6a2f663ccd8d7f7d11eeb2ab04972559fb43c22a"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/ph015_SGC_s3_boundary_00.json",
+      "sha256": "b28aefe0080e03ea44e755240a8c8069812f5ebdd40938120b1810a7532d25aa"
+    }
+  ],
+  "pass": true,
+  "phase": "ph015",
+  "physical_representation_gate_pass": null,
+  "role": "confirmation",
+  "science_scores_evaluated": false,
+  "slurm_job_id": "58562167",
+  "stage_receipts": [
+    {
+      "bytes": 6299,
+      "mtime_ns": 1789789274000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/DENSITY_STAGE.json",
+      "sha256": "312a502bcee526bb28ff9f3897ee314f5a626c010ab8f96fe236820e81f56561"
+    },
+    {
+      "bytes": 1926,
+      "mtime_ns": 1789789315000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/TENSOR_0_STAGE.json",
+      "sha256": "70ea34f88208ceb1c06f3c5f324f4d184566d376116c5348cd72413ec33e0faf"
+    },
+    {
+      "bytes": 1926,
+      "mtime_ns": 1789789359000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/TENSOR_1_STAGE.json",
+      "sha256": "eb192068313cd5fc11d988427ca73174252ed9a3d0b80276cd2b2d7f87b433aa"
+    },
+    {
+      "bytes": 1926,
+      "mtime_ns": 1789789405000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/TENSOR_2_STAGE.json",
+      "sha256": "e68ab050ded85bea8b821f226f928d568c5c64e062f502f403b76b3c172e34a7"
+    },
+    {
+      "bytes": 1926,
+      "mtime_ns": 1789789449000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/TENSOR_3_STAGE.json",
+      "sha256": "46662f2bf4942b77364a160fa881c93698765c3d0e6f37fbc3560a64b4a5d799"
+    },
+    {
+      "bytes": 1926,
+      "mtime_ns": 1789789495000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/TENSOR_4_STAGE.json",
+      "sha256": "9ffafe1ee8cabf235e296045ae4b581d369df78d19b3584dc1f99cd95950a8ed"
+    },
+    {
+      "bytes": 1926,
+      "mtime_ns": 1789789540000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/TENSOR_5_STAGE.json",
+      "sha256": "9a2c0f4b0e0bf1ea77a4a8c31c0baffd311cff928499cd6bfbdd6840a06cf356"
+    }
+  ]
+}

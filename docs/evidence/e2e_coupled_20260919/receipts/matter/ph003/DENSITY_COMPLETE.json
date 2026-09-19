@@ -1,0 +1,34 @@
+{
+  "adoption": "Existing byte-identical native array; original manifest and every A+B input requalified",
+  "binding": {
+    "builder_sha256": "22119f2b6d1b85142d38b8ac991ca625293b920be5b494050fd5b9dad249acac",
+    "legacy_manifest_sha256": "791d5fe52a3bbff9a8fee69511271f908c36d1aa3e22d5fdb33dac39b8b2e9b6",
+    "native_index_sha256": "f22007e59e6ff5e06b1798736513b9d15fec77e47f46a130deb90874c91ba7de",
+    "particle_receipt_sha256": "87e7457f66d40c371da365bf6d29a3afb79bc3cb3050c2f23434a35e9f5a6739"
+  },
+  "box_mpc_h": 2000.0,
+  "chunked_minus_original_reduction": -0.000980377197265625,
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "created_utc": "2026-09-18T20:41:28.814198+00:00",
+  "deposited_count": 33022527240.670036,
+  "dtype": "float32",
+  "host": "nid004217",
+  "ngrid": 2048,
+  "outputs": [
+    {
+      "bytes": 34359738496,
+      "mtime_ns": 1786620436000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/density/AbacusSummit_base_c000_ph003_z0.200_ngrid2048_ab10_tsc_counts.npy",
+      "sha256": "e927672954ef1349208aeb96628a154b48f1439330b5709d9daedd2a0c865678"
+    }
+  ],
+  "particle_count": 33022530364,
+  "pass": true,
+  "phase": "ph003",
+  "processed_files": 136,
+  "relative_count_error": 9.458178792649476e-08,
+  "role": "train",
+  "slurm_job_id": "58544227",
+  "subsample_fraction": 0.1
+}

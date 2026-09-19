@@ -1,0 +1,13 @@
+{
+  "schema": "e2e-coupled-geometry-search-v1",
+  "policy": "Original greedy selection first; deterministic scarcity-first repair on the SAME support-only candidate pool if necessary",
+  "candidate_pool_changed": false,
+  "quotas_or_acceptance_criteria_changed": false,
+  "scarcity_order": "ascending initial bucket size, then cap/shell/stratum key",
+  "attempts": ["original", "scarcity_original_order", "scarcity_seeded_order"],
+  "maximum_seeded_attempts": 16,
+  "seed_namespace": "coupled-geometry-feasibility-v1",
+  "already_committed_geometry_changed": false,
+  "counts_or_targets_allowed": false,
+  "scientific_training_authorized": false
+}

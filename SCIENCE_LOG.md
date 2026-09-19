@@ -1,5 +1,837 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-19 - [preparation complete] All21 coupled-field products qualified; measured proposal ready
+
+The Mac-led approved steps1/2 preparation is complete: all21exact observation
+joins,17B restores/particle verification,21native matter fields, corrected
+observations/conditions, joint targets, independent phase audits and normalized
+interfaces pass. Panel:13train/2development/6confirmation,1,664/32/96paired
+domains and11,776registered pair-offset cases.001/006remain sealed;004/005are
+excluded from new fits. Full13-phase equal-weight train normalization is exactly
+reproduced from source-bound cached moments. Truth-only physical-reference gate
+and7full-shape synthetic GPU/restart cases pass; no scientific fits or held-out
+predictions occurred. All126focused tests pass, including recovery, closeout,
+resource accounting and the new analytic metric controls.
+
+The actual all-panel data index SHA256 is
+`cf26b07c16ec0714fcd6d0c318c77b0ab3799497a00eba4195f48a2a42889ced`;
+full normalized-interface SHA256
+`fe6df30cf4ff558cf85793d30d3db80129e897b395a310dddba9271369469c74`.
+The separate complete-preparation audit rechecks source bindings/audited file
+metadata, train moments, physical decisions and actual technical receipts; it
+does not repeat the earlier full particle CRC scan.335hash-verified JSON receipts
+(11,126,435bytes, no bulk arrays) are archived under
+`docs/evidence/e2e_coupled_20260919`. Archived CLOSEOUT SHA256
+`7ba7cfe1291dc424341894f3cea180cb6da3262487d02a0c5dbea80fbc166ad3`.
+The data-only marker intentionally retains its false technical/complete flags;
+the separate closeout certifies those steps without changing scientific authority.
+
+Recovery58562167 and all four steps complete0:0, parent53m58s. Fresh-process
+target maxRSS273,353,344KiB under400GiB; numerical kernels/gates unchanged.
+All eight registered allocations are terminal. Final total16.310833CPU-nodeh,
+0.141667GPUh and4,311,094,964,561newScratch bytes (3.920918TiB), within the original
+64/4/4.5TiB caps including every failure/pause/recovery. The old pre-OOM controller
+failed closed without launching another job. No pending continuation/fit remains.
+
+The [measured proposal](docs/e2e_coupled_resource_proposal_20260918.md) requests
+separate approval for scientific implementation and development:14factor fits,
+two seeds,32epochs, registered checkpoint/sampler/coarse controls; cap260GPUh,
+24CPU-nodeh,512GiB new outputs. Confirmation128draws remains a later decision
+(proposed128NFE ceiling450GPUh/32CPU-nodeh, same cumulative output cap). Sampling
+dominates projected cost; synthetic timing is not convergence evidence. I/J share
+coarse draws, so block-aligned mass equality is an invariant, not an I:J gain gate.
+
+An important pre-prediction metric correction: exact14-D Gaussian oracles with
+cross-core correlations0.5/0.8/0.99 improve energy only0.204/0.566/0.942% relative
+to exact-marginal independence. A10%energy-gain requirement would reject even
+the oracle.64/128node quadrature agrees within1.1e-8in relative gain. The revised
+proposal uses7matched cross-core fine-sensitive variograms as primary (10%gain,
+both seeds, phase-cluster interval excludes zero),14-vector energy nonregression
+(2%), plus the separate physical power/calibration/marginal gates. This analytic
+sensitivity result does not establish cosmological model capability.
+
+**Observational scope clarification:** inputs ALREADY use upstream DESI DA2
+SecondGenMocks BGS_v2 altmtl/kibo-v1 successful-observation products, exact parent
+joins, observed/RSD positions and random-derived survey response/selection
+channels. We are not postponing all survey degradation or fitting on ideal
+complete galaxies. Upstream pipeline outputs are reused, not every operation
+regenerated/independently validated. Targets remain same-phase c000z0.2 real-space
+A+B10% R7 matter, not an evolving lightcone. Real-DESI closure, numerical HOD
+marginalization and globally coherent whole-survey draws remain unestablished.
+See the [requirement handoff](docs/e2e_coupled_preparation_closeout_20260919.md).
+Goal-related source/config/tests/records/evidence are included in the requested
+local handoff commit containing this entry; no remote push or unrelated edits.
+
+### 2026-09-19 - [native panel complete, 03:20 UTC] All21 A+B matter fields built
+
+The final native015/016fields complete136files/33,022,530,364particles each.
+Their relative deposited-count errors are9.5097e-8/9.5027e-8. Receipt SHA256s:
+015`1e883625f6f83e8b23d51f9224d05389daa514ec9a577b735afa46de7412908b`;
+016`53d36d3862e78f6073de2a668d39198b73de97c3dc57f7c6b41bb0343ec9f1e0`.
+Earlier012is also independently checked:136files,9.4769e-8count error, receipt
+`cca595131dec88e8a2bc3be79c09cd175c392023b5fd999cdd5458e8daf626ef`.
+Native panel21/21; observation conditions21/21. Audited/normalized target phases
+remain17/21. The400GiB fresh-process recovery now starts012's full-box R7 FFT;
+remaining targets012/014/015/016 precede final all-panel data qualification.
+
+The complete focused suite passes123tests in4.22s. A metadata-only closeout
+and bounded JSON evidence archiver is implemented/tested but NOT run: it refuses
+missing all-panel qualification, live allocations, exceeded original caps or
+unreviewed proposal status. It cannot authorize scientific fitting. The final
+Git commit remains required. Graphify currently has10,226nodes/23,451edges.
+
+The proposed I:J primary score now uses14fine-sensitive physical-density probes,
+seven per owned core. Block-projecting fixed low-order DCT weights makes them
+annihilate every coarse-constant contribution; direct small-array algebra checks
+give rank7per core, unit norms and max block-weight mean2.82e-17. This is a
+design/algebra check, not a predictive result. The12density/eigenvalue/gap mean
+summaries remain physical diagnostics but are not treated as independent
+dimensions or a primary fine-coupling score dominated by shared coarse mass.
+
+### 2026-09-19 - [recovery launch, 03:06 UTC] Use freed slot; serialize only the publisher handoff
+
+GPU completion frees the second allocation slot. The never-launched v1 recovery
+controller is verified idle and terminated (owned Python PID892713 only; no
+Slurm job is cancelled or altered). Superseding frozen`target_recovery_v2`
+starts one2hCPU job58562167 under Mac/login04 tmux`coupled-target-recovery-v2`.
+Its launch guard verifies58552205.0 is already terminal with the exact reviewed
+target OOM, and all other named workers are healthy/running or normally/planned
+terminal. Seven guard tests pass. The original0.141667GPUh remains accounted.
+
+Native015 resumes first while016continues on the older node, protected by
+per-phase locks. Fresh-process400GiB target work then uses the new node. New
+audit/interface publishers MUST wait for the old parent allocation to end,
+then verify all its other steps ended0:0/75:0; this retains a single publisher
+without waiting to start independent gridding/FFT recovery. Requested aggregate
+416GiB/72CPU passes the actual487802MiB/256CPU allocation check. The earlier
+v1 full-parent wait is superseded; both frozen versions/logs are retained.
+No scientific kernel, completed product or fit authority changes. At03:02UTC
+Scratch usage is4,310,733,916,974bytes versus4,947,802,324,992approved.
+The complete focused suite passes118tests before the extra early-handoff test;
+graphify is refreshed to10,206nodes/23,412edges. Final all-panel closeout remains.
+
+### 2026-09-19 - [technical benchmarks, 02:57 UTC] All seven GPU cases pass; target OOM recovery isolated
+
+Technical job58559826 completes0:0 on nid008700 in8m30s, charging0.141667GPUh.
+All seven full-shape factor cases pass exact fresh-process model/Adam/RNG replay
+and64/128/256-NFE synthetic sampling checks. Scalar/batch discrepancies are
+below8.4e-8relative RMS. No scientific fields are fitted or scored. GPU receipt
+SHA256:`c9eb5cdeddc7e2f62090db1ded3f258783e25efe55efc65f398de73b66ca84c8`.
+The common matched model has8,398,387parameters; D's restricted coarse/fine
+models retain8,188,395/8,371,907. Peak reserved GPU memory is1,186,988,032bytes
+at batch2; this is not a benchmark of larger batches or concurrent GPU workers.
+
+The actual normalized loader also passes:26pairs total per pass, two from each
+training phase, ONE assigned offset per pair collectively spanning all7offsets.
+First-observed/repeat averages are0.1172706/0.0777027s per pair, including reader
+validation and CPU collation. These are not cold-cache measurements. Receipt
+SHA256:`bb4c670332a71a2516382426781597e01adfdacfcb60b1365789f73a9bcd3cf7`.
+The combined receipt-backed cost projection is now real, SHA256
+`beb26f13da65882159ba145fe43e011607ded1e85fad48c412a6c424c251eb4c`.
+At32epochs,14fits cost50.15componentGPUh; the proposed development panels cost
+149.41networkGPUh at128NFE.128-draw confirmation across96pairs/two seeds/four
+arms costs329.55networkGPUh at128NFE, before headroom. Sampling dominates;
+these estimates do not establish convergence or authorize those runs.
+
+Current data:19/21native fields,21/21conditions,17/21audited targets and17/21
+normalized interfaces, including all13training phases and013/017/018/019.
+The target lane58552205.0 hits OUT_OF_MEMORY0:125 at02:35:52 during014's initial
+full-box FFT, AFTER013target completion. Slurm reports271,642,300KiB MaxRSS
+inside288GiB; sampled RSS does not distinguish allocator retention from other
+cgroup-charged memory. Completed products are preserved; healthy workers remain.
+58550091 ends at its planned75:0 checkpoint, with015saved after113/136files.
+016continues on58552205. The old final-data controller requires a clean/planned
+predecessor and cannot blindly retry this unexpected target failure.
+
+A separately reviewed one-shot recovery is frozen as`target_recovery_v1` under
+Mac/login04 tmux`coupled-target-recovery-controller`. It waits for58552205 to
+end, requires EXACTLY the reviewed target OOM and normal/planned exits for all
+five other steps, then may request one2hCPU node under the ORIGINAL allowance.
+It first finishes native gridding, then runs each missing target in a fresh
+process with400GiB while audit/interface lanes use8GiB each. Aggregate416GiB/
+72CPU is checked against actual allocation memory. No scientific kernel, data
+contract or completed receipt is changed. Six recovery guard tests pass.
+The all-panel release, final proposal/requirement audit and commits remain
+outstanding; preparation is not complete. Usage at02:53UTC:14.6297CPU-nodeh and
+0.141667GPUh, before the unrequested recovery. No scientific fit is authorized.
+
+### 2026-09-19 - [normalization milestone, 02:20 UTC] Complete thirteen-phase transform verified
+
+ph022 passes its independent128-pair/608-hash audit in206.59s, SHA256
+`0e5284b217d5873ae2362ff2f393e80187b5933ff2218df1212f24c8e838631a`.
+All13 train-statistics sets are now collected and the final global normalizer
+is published, SHA256
+`b2b294c5de91a7659be16b87e2ea454a11464fbd4522b4c0d30d2b1effa9e43e`.
+The Mac-led verification rechecks each cached phase-statistic/source/audit
+binding, confirms the exact13phase list and1/13weights, and recomputes the
+global statistics from the cached moments. They agree exactly with the saved
+transform. No field payloads are opened for this lightweight metadata check.
+Coarse-log-density std=0.3059414752916531; fine residual std=0.2866526330875626.
+Physical support/LOS identity scales and the zero-mean fine chart remain intact.
+
+Normalization step58550091.4 completes0:0. Both parent CPU allocations remain
+RUNNING. The normalized-interface worker has qualified000/002/003/007, each
+128pairs and896offset cases, with maximum density round-trip errors around
+1.0e-7, below2e-6. Total independent phase audits are16/21. Remaining phase
+products/interfaces, actual loader timing, technical GPU measurement and the
+final measured resource proposal/commits are still pending. The real all-panel
+data-release index is absent; unit-test fixture messages are not such a release.
+
+### 2026-09-19 - [data/technical cost, 02:03 UTC] Eighteen native fields; postprocessing cost measured
+
+Native022/013 complete and conserve particle count to9.53e-8/9.47e-8 relative.
+Their receipt SHA256s are
+`d0de4b31d2333a6e099ba9a8ec0c1db31db23cb53f21627b52f91c6dc178075e`
+and `7f882499d1987ff1f37c9be897a362eb0d381e3d3d26af269b4c1ec716ebbb8d`.
+Current inventory:18/21native fields,19/21condition sets,15/21independently
+audited targets and12/13train-moment sets.022 target construction is underway;
+its audit/statistics are the remaining dependency of the full normalizer.
+Both original CPU allocations continue. Usage:13.1475CPU-nodeh/0GPUh,
+4,229,616,338,827newScratch bytes, within the original caps.
+
+A bounded synthetic postprocessing benchmark reuses58550091 as step.7 under
+Mac/login04 tmux, frozen `postprocess_benchmark_v1`.4CPUs/8GiB fit alongside
+the original workers: total472GiB/132CPUs against487802MiB/256allocated, with
+over an hour left before launch. The step completes0:0 in57s (17.50s measured
+work), well inside12minutes; no source/target scientific payload or fit occurs.
+Eight common-domain operator/decode/I/O probes and full-size32/128/256-draw
+score calculations pass numerical and serialization checks. Completion SHA256:
+`a119cb95fb155488e6d55741c691a25b7486bef22270c484995ab6e57d525d19`.
+Process RSS is1,442,484,224bytes; Slurm MaxRSS is7,444,144KiB, so retain8GiB
+for the tested worker. No theoretical many-worker speedup is claimed.
+
+The measured-component CPU projection is23.033four-CPU worker-hours for the
+proposed development plus128-draw confirmation panels, or40.281with256-draw
+confirmation, BEFORE remaining overhead/headroom. Wide-score/FFT size scaling
+and independent-parent decode allowance are explicit proxies, not unmeasured
+timings presented as facts. Actual GPU and normalized-loader timings still
+gate the full resource proposal. All112focused tests pass in4.50s; graphify
+refresh and diff checks pass. The preparation goal is not complete.
+
+### 2026-09-19 - [data progress, 01:40 UTC] Sixteen native fields; fifteen phase audits pass
+
+Native014 completes all136 files/33,022,530,364particles with relative deposited-
+count error9.5053e-8, below2e-6. Its receipt SHA256 is
+`64cc4db545bb30bffa8f98d0d25a8d17d8f78a4d4c5e6862a15d93a4c0a082d2`.
+Native coverage is16/21. ph011 targets and its independent128-pair/608-hash audit
+also complete; audit elapsed227.04s, SHA256
+`0d3e0680897639ebc885de486652eea18c9f2a3d08156cf37ba9d9111d59671f`.
+Its current audit/source binding is verified, bringing audited coverage to15/21.
+Eleven train-moment sets were present at the latest check;011 is now eligible
+for collection and022 is the last training phase awaiting audited products.
+
+Both CPU allocations remain live; bounded GPU/final-data controllers continue
+waiting for their named predecessors without adding a third allocation. At
+01:33UTC accounting was12.196389CPU-nodeh/0GPUh and4,121,430,991,491newScratch
+bytes, within the unchanged original caps. No full normalizer, all-panel data
+release, measured GPU result, scientific fit or completed-goal claim is made.
+
+### 2026-09-19 - [data/evaluation contract, 01:30 UTC] Fourteen audits and eleven training-statistics sets
+
+ph024 passes its independent128-pair/608-hash audit in201.68s, SHA256
+`11feeb4dfe37648695207ce3b6ce0f5da08b270ffcbc00d881c2a4e5949ef3b7`;
+its live source/audit binding is verified. Audits now14/21 and train moments11/13;
+the final normalizer awaits011/022. Both CPU allocations remain RUNNING.
+
+The later resource/evaluation proposal now makes finite-ensemble interpretation
+explicit. The current order-interval implementation gives nominal90% references
+of87.8788/90.6977/89.8833% for32/128/256draws, not an inherited90.75% constant.
+It also distinguishes exact sample-power decomposition (M-divisor residual)
+from unbiased posterior covariance (M-1 divisor) and the1+1/M extra variance of
+truth minus finite-ensemble mean under conditional calibration. These checked
+definitions are not performance measurements or a posterior-calibration claim.
+Scientific thresholds remain to be frozen before confirmation predictions.
+
+### 2026-09-19 - [data/resource planning, 01:23 UTC] Development controls included in later cost projection
+
+The receipt-backed resource estimator now charges finite proposed development
+panels as well as training and confirmation: three 32-draw checkpoints on all
+32 development pairs, a 32-draw 64/128/256-NFE ladder on 16 stratified development
+pairs, and two 32-draw fine-only fixed-mean/oracle-coarse controls on those 16.
+At two seeds/four arms this is 45,056 rectangular fields, 67,584 fine latents
+and 27,648 unique coarse draws. Shared I/J coarse draws are counted once; the
+ladder sums its three different measured-NFE costs rather than tripling one
+selected cost. No overlap/reuse discount is assumed. The empirical coarse-mean
+control is not an exact posterior expectation; oracle/fixed regional masses
+remain excluded from generic continuous-target coverage pooling.
+
+All eight cost arithmetic/guard tests pass. These are test fixtures and proposed
+panel counts, NOT measured GPU results, selected science checkpoints or launch
+authority. GPU/actual-loader measurements and inference/analysis/restart
+overheads still have to be included before the resource proposal is ready.
+Existing immutable job snapshots are unchanged. Graphify refresh passes.
+
+Native011 completes all136 files/33,022,530,364particles, deposited count
+33,022,527,220.14077; receipt SHA256
+`49acd0c1706b4aacbde33383481991a53cba55d6f060857306bd6125ced2245e`.
+Inventory is now15/21 native fields,17/21 condition sets,13/21 audited target
+sets and10/13 train-moment sets. Both CPU allocations and all their steps are
+verified RUNNING; the final-data/GPU controllers remain waiting for their named
+predecessors. The normalizer and real data-only release are still absent.
+
+### 2026-09-19 - [data/engineering progress, 01:20 UTC] Thirteen audited phases; survey-selection scope clarified
+
+Live preparation now has 14/21 native fields, 15/21 corrected condition sets,
+13/21 independently audited target sets, and 10/13 train-moment sets. Current
+audit/source bindings are rechecked for all thirteen completed phases. Newly
+qualified 020/023/017 audits have SHA256s
+`a6664a9eec39fc47777230e631a2fb48fc5ea8ba4108ecff7bb1b4d22533afa3`,
+`36d167e1bdc02bd3138a8144958a3fc7e7c1fb21eefb157d8e8ecc9fb8ae0b9f`,
+and `0a46dcc34e32723e72879e0da9c4553831f3a67a93065a305dc70886c86b5c23`.
+All 103 focused tests pass in 3.89s. Unit-test publication messages are fixtures:
+the real DATA_PRODUCTS_QUALIFIED index is still absent. No final normalization,
+all-panel normalized qualification, GPU measurement or scientific fit is claimed.
+
+Both CPU allocations 58550091/58552205 remain live. The frozen, deterministic
+`final_data_continue_v1` controller waits in Mac/login04 tmux for 58552205's
+verified success/planned checkpoint exit and a free slot. Its single bounded
+continuation completes remaining products and conditionally publishes the data
+index only after all gates; it does not replace the GPU/resource proposal or
+authorize training. The separate technical-GPU controller still waits for
+58550091. No third allocation or autonomous scientific decision is introduced.
+Latest usage: 11.579722 CPU-node-hours, zero GPU-hours; the subsequent disk check
+finds 4,113,161,609,636 new Scratch bytes, below 4,947,802,324,992.
+
+Clarification requested by the user: the current E2E conditions already inherit
+the DA2 altmtl successful-observation mock pipeline, not ideal CutSky galaxies
+awaiting later degradation. Successful redshift-space counts are paired with
+same-phase real-space z0.2 matter and supplied with random-derived survey response
+and inherited radial selection. Upstream fiber assignment/selection is reused,
+not rerun or independently validated in its entirety. Real-DESI closure, an
+evolving matter lightcone and astrophysical nuisance marginalization remain
+outside this capability claim; no extra redshift-error kernel is claimed.
+
+### 2026-09-19 - [data/engineering progress, 00:46 UTC] Fourteen native fields; measured-cost accounting ready
+
+Native017/020 now complete, giving14/21 native fields. Both account for all
+33,022,530,364particles/136files; relative deposited-count errors are9.49e-8
+and9.51e-8, below2e-6. Completion receipt SHA256s:
+`192b4664448fb232c4439bea6dafb0bbc38103c28a905a33bd00248b3b3cde85`
+and `3ad7b69187099efafa92e94b4aafbc8ce65618232e30fa25d2b7bfa75fb25e4b`.
+Native lanes advance to013/022, alongside011/014. Corrected condition sets now
+cover15/21, including017/023. Ten target phases remain independently audited;
+020 full-box reference construction is active and train moments remain8/13.
+Both CPU allocations are live; the technical GPU controller is still waiting.
+
+The new receipt-backed resource projection tool is implemented with five passing
+arithmetic/guard tests. It refuses to publish before actual seven-factor GPU and
+full13-phase normalized-loader measurements exist, checks replay evidence and
+source bindings, counts14fits/shared I:J coarse draws correctly, and keeps
+unmeasured development/analysis/restart overheads explicit. No measured campaign
+cost, scientific training authority or convergence claim is produced now.
+The resource proposal documents this accounting. At00:45UTC usage is
+10.575833CPU-nodeh/0GPUh and3,931,253,849,858newScratch bytes. B staging contributes
+2.8569TB, native/checkpoint products about0.9621TB and current Cartesian products
+about0.0875TB; full-box FFT working arrays are not retained as per-phase disk
+products. No deletion or allowance expansion is needed. Goal remains incomplete.
+
+### 2026-09-19 - [data/engineering progress, 00:28 UTC] Ten audited phases; bounded GPU handoff prepared
+
+Native023 completes:12/21 native fields. Corrected conditions remain13/21;
+ph010 targets and independent128-pair/608-hash audit pass in204.04s, bringing
+audited target coverage to10/21. Audit SHA256:
+`f6c31c71de5686d8f50e518b5f3660d37462ef23e38bb70ebaf2d95fc5aab481`.
+Its current receipt/source qualification is rechecked. Train statistics now
+cover8/13; no partial global normalizer is published. Both CPU jobs continue.
+
+All93focused tests pass in5.26s. The still-unrun GPU benchmark is superseded
+by immutable `gpu_benchmark_v3`: same seven full-size cases, nine unique
+technical updates plus one fresh-process replay per case, now also measuring
+synchronous pageable-host transfer and checkpoint extraction/write/fsync/hash
+costs. No asynchronous/shared-cache speedup is assumed. Mac/login04 tmux
+`coupled-gpu-technical-controller` runs one deterministic launcher, currently
+waiting for58550091's verified success/planned75:0 end and a free allocation
+slot. It may request ONE shared A10080 for ONE hour within the original4GPUh,
+with no automatic retry, batch fallback, third allocation or scientific fit.
+No GPU allocation has yet been requested. Usage:9.999167CPU-nodeh,0GPUh,
+3,885,913,752,579newScratch bytes, under the unchanged caps.
+
+The preparation plan now explicitly documents inherited DA2 altmtl successful-
+observation selection/random-response channels versus deferred real-DESI/HOD/
+lightcone validation. These inputs are already survey-affected mocks, not ideal
+galaxies awaiting later degradation. The user also requests a reviewed commit
+of all goal-related code/configuration/tests/scientific records at closeout,
+ready for their push; no remote push is authorized or performed.
+
+### 2026-09-19 - [data/engineering progress, 00:12 UTC] Nine audited phases; product-node handoff verified
+
+All21 catalogue joins and17 B restores remain complete. Native densities now
+cover11/21 phases, corrected conditions13/21, and complete independent target
+audits9/21 (000/002/003/007/008/009/018/019/021). Train-only moments cover7/13;
+there is deliberately no final global normalizer yet. New021 and018 audit hashes
+are `5a070e058f37598f8b0299d918734b632cded294eb0d18f880558aad817f0cc0`
+and `5d7250eeab4402f1319aafd62ac44062bf89aa47d2314e7ae2c299ad17dff9e0`.
+The registered physical-reference gate remains PASS. No scientific fitting,
+predictive confirmation scoring or technical GPU run has occurred.
+
+58544227 ends at00:03UTC after3h35m58s. Its target/native/condition/reverse-
+observation lanes all finish at the registered checkpoint pause75:0. The overall
+1:0 exit comes from the already documented/recovered early adoption and geometry
+errors, not a new data failure; all terminal steps and recovery receipts were
+reviewed before requesting a successor. A bounded one-off login30 lifetime guard
+temporarily stopped ONLY the old Bash wrapper while its independently attached
+workers completed, then resumed that exact PID. Slurm workers continued throughout;
+the allocation's hard deadline/resources were unchanged. The guard log ends with
+`wrapper_resumed`; the old allocation is terminal. ph017 committed file92 with
+19,426,985,455particles; its continuation demonstrably starts at file93.
+
+Mac/login04 tmux `coupled-products02-controller` now owns58552205 onnid004157,
+one four-hour CPU allocation from immutable `products_continue_02_v3`.
+Together with58550091 this remains exactly two allocations. All six product
+steps fit472GiB/128logical CPUs against the actual487802MiB allocation and are
+owned/waited by the wrapper. Native017 is resumed, with013/016 as additional
+tail work under existing per-phase locks. The new8GiB serial qualification lane
+waits for the specifically verified58550091.3 audit and.4 normalization steps
+to finish successfully or at planned75:0 before taking over. Tests reject wrong
+worker identities, unexpected failures and premature concurrent publication.
+Target010 is now building; the remaining native/response queues continue.
+
+The data-only release index is implemented and tested, not published. It requires
+all21 independent audits and normalized interfaces, exactly13 train normalization
+phases, the complete224-case physical reference panel and current source bindings.
+It explicitly does NOT certify posterior calibration, authorize training, or
+substitute for the still-outstanding GPU/resource proposal. All89 focused tests
+pass in4.32s; shell syntax and graphify refresh pass. Charged usage at00:12UTC:
+9.466944CPU-nodeh,0GPUh,3,804,870,747,921newScratch bytes. The original caps and
+sealed-phase exclusions are unchanged; preparation remains active/incomplete.
+
+### 2026-09-18 - [data/engineering progress, 23:26 UTC] Ten native fields; continuation memory guard
+
+Native018/021 complete, taking native coverage to10/21. Their136-file,
+33,022,530,364-particle receipts have SHA256
+`098af26bd0211e9bdde5051aa23dbf669dc507004e6eacbb1666473a2bfc943c`
+and `7c014cc39d1171f3e940e46afbf942e7753046ce7ce8269cf699665db92341ca`.
+The019 joint targets and independent16-pair/160-hash audit also pass:
+`309674fb42a63724bb2aaba8adb99ddedf55f4f1a028f1fc8f72be24b5b3a76f`.
+This is numerical confirmation-product QA, not predictive scoring. Audited
+product coverage is7/21; train moments remain6/13, conditions10/21. Native
+lanes proceed through010/020/023/017, with observations018/021 building.
+
+Prelaunch inspection catches an engineering resource error in the unlaunched
+`products_continue_02_v1`: its488GiB steps exceed the actual487802MiB Slurm
+allocation despite the node's larger physical RAM. That snapshot is retained
+but MUST NOT be launched. Corrected `products_continue_02_v2` reserves472GiB:
+target288, native128, observation32, condition16, interface8. Measured completed
+observation peaks are about5.4GiB; the live lane is below8GiB, leaving substantial
+headroom at32GiB. Native128GiB and target288GiB are unchanged. A new runtime
+guard validates aggregate steps against actual allocated TRES; tests reject
+488GiB and accept472GiB against487802MiB. The bulk CPU wrapper also gains this
+guard for future snapshots. Existing running frozen workers are unchanged.
+
+All75 tests pass. A new ensemble-level invariant confirms that independently
+and jointly decoded residuals sharing each coarse draw have identical owned-
+core and pair masses. Accordingly I:J regional-mass agreement is a numerical
+control, not an improvement criterion; coarse calibration is a separate gate.
+Matched J-VDM:J-CFM compares objective/path/sampler packages, not a loss-only
+ablation, because the registered probability paths and inference dynamics differ.
+No scientific fitting or GPU measurement has run. Usage:8.05139CPU-nodeh,
+0GPUh,3,661,803,699,095newScratch bytes, within the original caps.
+
+### 2026-09-18 - [data/engineering progress, 23:12 UTC] Checkpoint handoff verified; six audited phases
+
+The Mac-led preparation goal remains active, with no scientific training.
+All21 exact catalogue joins and17 B restores remain complete. Current native
+fields are8/21 (000/002/003/007/008/009/019/024); corrected responses AND
+conditions are10/21 (000/002/003/007/008/009/010/011/019/020). Joint targets,
+independent audits and train-statistics receipts cover000/002/003/007/008/009:
+6/21 complete product phases and6/13 training moment sets. Phase019 targets are
+building. The009 audit checks128pairs/608hashes in403.32s; receipt SHA256
+`47d8c5f227d252f5aba77ac389162d3d2fd60f9ad69d4ba66ce41cfaba5dd6b9`.
+No final global normalizer or normalized-interface qualification exists yet.
+
+Allocation58540511 ends with its registered checkpoint pause75:0 after3h40m30s.
+The frozen, single-successor controller starts58550091 onnid004144 at22:58UTC;
+Mac/login04 tmux remains `coupled-prep03-controller`. Native010 resumes at
+file34 after a33-file checkpoint, and021 at106 after105: neither is restarted
+from zero. Its disjoint third native lane starts023 after skipping completed024.
+Audit and normalization queues resume successfully. Product allocation58544227
+on nid004217 continues independently; exactly two allocations are active.
+
+The seven-factor synthetic GPU benchmark is implemented and frozen as
+`source_snapshots/gpu_benchmark_v1`, but NOT run. It bounds each factor to nine
+unique technical optimizer updates plus one fresh-process replay update, and
+measures64/128/256-NFE sampling, scalar/batch agreement and actual memory.
+It does not read catalogue/field payloads or authorize scientific fits.
+
+The new normalized-loader benchmark measures actual checksum-verified reads,
+normalization and CPU collation on two pairs from each of the13training phases,
+with all seven translations represented. It performs two passes, explicitly
+without claiming cold OS caches, persistent caching, GPU transfer or prefetch.
+It refuses to run before the full13-phase normalizer exists. The bounded
+interface worker can qualify completed phases incrementally after normalization,
+but publishes full interface qualification only through the existing all21-phase
+check. These checks are implemented, not yet executed on normalized data.
+
+The next product-node wrapper is frozen in `products_continue_02_v1` (not
+launched): target288GiB, native128GiB, observation48GiB, condition16GiB and
+interface8GiB, totaling488GiB/124logical CPUs. It waits for all its own steps,
+avoiding the original wrapper's independently attached-worker lifetime hazard.
+Inspect58544227's terminal state and recovered failures before any successor;
+do not treat its known wrapper failure as an unexplained science failure or
+automatically retry it. All71 focused tests and shell syntax checks pass.
+
+At23:12UTC charged preparation usage is7.58806CPU-nodeh/0GPUh and
+3,593,018,529,838newScratch bytes. Original64CPU-nodeh/4technicalGPUh/4.5TiB caps
+remain unchanged. The physical-reference gate is already passed; remaining
+bulk products, full normalization/interfaces and measured GPU/resource proposal
+are still required before completing preparation or approving scientific fits.
+
+### 2026-09-18 - [data/engineering progress, 22:38 UTC] Five audited phases; rectangular prototype smoke
+
+Complete joint targets, independent audits and train-statistics receipts now
+cover000/002/003/007/008 (5/21product phases,5/13normalization phases). The003
+audit checks128pairs/608hashes in274.13s; SHA256
+`e4986359af52df336cdabe17da94dba56bb3ab3a13ac10c7cc4fb270f9f47255`.
+Native completion remains6/21 and corrected observations/conditions9/21 at this
+snapshot. The first audit queue ends with its registered75:0deadline pause;
+the frozen next-allocation controller will resume that queue. The original
+observation worker also pauses75:0, not a new scientific or data error.
+
+After legacy observations finish, their48GiB slot in58544227 is reused by
+step.10, tmux `coupled-observations-high` onlogin04, frozen `cpu_continue_03_v1`.
+It builds019then018etc in reverse order under a6,200s deadline and existing
+per-phase locks. This overlaps particle construction without another allocation;
+019's native density is already complete. The58540511 successor still waits
+for verified predecessor termination; no scientific training or GPU use.
+
+For the later measured resource proposal, new `e2e_coupled_benchmark_models.py`
+implements a rectangular-aware engineering prototype, not a scientific trainer.
+All new coarse/independent/joint backbones have8,398,387parameters. Joint and
+parent feature positions agree exactly on matching voxels, retaining the joint
+433.024x324.768x324.768Mpc/h extent and parent-centre displacements±54.128Mpc/h.
+Coarse inference now has a spatial joint-observation encoder as well as wide
+observations. Both I parents retain the FULL joint observation context; they
+still require separate latent/noise paths. CFM uses independent Gaussian-base
+linear paths and velocity MSE/independent DOF; VDM retains the fixed-log-SNR
+VLB. Both use the same state-residual prediction network. This is not an
+optimal-transport-pairing experiment or evidence of learned posterior quality.
+
+All64 focused tests pass, including meta-device full-shape forward checks,
+objective parity with the previous projected VLB, an exact CFM velocity oracle,
+and exact constant-velocity Heun endpoint/replay. A separate real CPU forward/
+backward smoke passes all8full-size factor/objective cases in58540511.20
+(COMPLETED0:0,20s total). It uses synthetic tensors and0optimizer updates.
+The zero final head is explicitly perturbed only for this connectivity probe:
+mean-free spatial joint gradients and outside-parent observation gradients are
+nonzero; fine output block means remain below7.1e-8. The small initial context
+gradients demonstrate availability, NOT effective learned use or sufficiency.
+Receipt `MODEL_INTERFACE_SMOKE_1789770865595873044.json`, SHA256
+`3a29895299e741f62cfa55b64875d866411589b34583ab133f412eed8e612008`.
+GPU forward/backward timing, actual optimizer/process replay and later science
+sampling protocols are still unverified; CPU timings are not substituted.
+
+At22:38UTC charged preparation usage is6.45417CPU-nodeh/0GPUh and
+3,546,153,585,698newScratch bytes. The original64CPU-nodeh/4technicalGPUh/4.5TiB
+caps remain, and global product/interface qualification is incomplete.
+
+### 2026-09-18 - [data/in progress, 22:16 UTC] Four audited phases; actual targetless-reader smoke
+
+Native completion is6/21 (000/002/003/007/008/019). Corrected responses and
+conditions are9/21 (000/002/003/007/008/009/010/011/020). Joint targets, independent
+phase audits and train statistics are complete for000/002/007/008;003 full-box
+tensor construction is running. New002 audit:128pairs,608actual hashes,278.74s,
+SHA256:`e9b4a75f82001cbf58cb8bd384739db75b411c4fad39c1db3011786ef336538b`.
+No final normalizer or global training readiness is claimed.
+
+`e2e_coupled_interface_qualify.py` now covers all1,792pair domains and11,776
+registered phase/translation cases after normalization: positive float32
+round trips and coarse conservation at the unchanged2e-6 tolerance, fine
+zero-mode checks, identical fit/inference observations, and held-out fit
+rejection before IO. An instrumented reader test blocks non-observation Python
+and HDF5 file opens; existing HDF5 external/virtual-link guards remain active.
+This is a single-threaded executable IO test, not an OS sandbox. Full normalized
+qualification has NOT run because the complete13-phase normalizer is absent.
+
+A separate actual-data smoke passes all128ph007 condition shards under that
+IO guard in6.84s, step58540511.19 COMPLETED0:0. It neither reads target payloads
+inside inference nor certifies normalized readiness. Receipt
+`RAW_READER_SMOKE_1789769469030242509.json`, SHA256
+`66d2d1829d31cde26fae3fbc8c0540bd6d07336a04baee6af87513cd0248627a`.
+All58 focused tests pass; graphify is refreshed.
+
+One deterministic continuation controller is now live in login04 tmux
+`coupled-prep03-controller`, frozen `cpu_continue_03_v1`. It waits for58540511
+to end with success or the registered75:0checkpoint pause, rechecks aggregate
+reserved CPU budget and the two-allocation limit, then requests exactly one
+four-hour CPU allocation. Unexpected failure/timeout/cancellation stops it;
+there is no retry, cancellation, scientific fit or subsequent chained request.
+The reviewed step packs three disjoint128GiB native lanes plus observation,
+condition, audit and normalization workers (464GiB/128logical CPUs total).
+Checkpoint-bound matter code is unchanged. No new allocation has started yet.
+At22:16UTC usage is5.74806CPU-nodeh/0GPUh and3,465,220,532,698newScratch bytes.
+All original64CPU-nodeh/4technicalGPUh/4.5TiB caps remain in force.
+
+### 2026-09-18 - [data/in progress, 22:00 UTC] Three audited phases; incremental train statistics
+
+Complete joint products now pass the strengthened independent audit for000,
+007 and008:128pairs/608hashes per phase. Fresh000 audit takes268.49s, receipt
+`PRODUCT_AUDIT_1789768531019521378.json`, SHA256
+`665c09f28306591e16c86f3958d297688483c589633838ce8da232696d2f0540`.
+Native phases remain000/002/003/007/008; corrected responses AND conditions are
+complete for000/002/007/008/009/010/011. All21 source joins/17 B transfers are
+complete, but remaining native CRC/deposition and downstream products are not.
+The physical-reference gate has passed as documented below; this is not learned
+posterior evidence or training readiness.
+
+Normalization now collects immutable statistics from independently audited
+training phases as they finish, then publishes ONLY after all13 are complete.
+The global equal-phase estimator, seven-offset exposure, support/LOS identity
+scales and fine zero-mode convention are unchanged. Target reads use the strict
+HDF5 link/schema guard; development/confirmation/sealed phases are rejected
+before receipt IO. All54 focused tests pass, including partial-publication and
+held-out-access guards. Real moments for000/007/008 are saved; the final
+`NORMALIZATION_COMPLETE.json` correctly does not exist.
+
+Frozen `normalization_queue_v1` runs as step58540511.18,4CPU/8GiB, in login04
+tmux `coupled-normalization-queue`; it uses an existing allocation, with a bounded
+deadline and restartable per-phase receipts. Exactly two CPU allocations remain.
+At22:00UTC charged usage is5.21361CPU-nodeh/0GPUh; new Scratch is
+3,396,942,351,204bytes, within the original64CPU-nodeh/4GPUh/4.5TiB caps.
+No scientific training or additional resource allowance has been started.
+
+At22:02UTCph019 native density also commits:all136A+B files,
+33,022,530,364particles, relative count error9.47617e-8. Native completion is
+now6/21; receipt SHA256
+`4ac31f5c210c89c1a461d71c3857f13e59bc2978364d4327348a8ff0acd4a4be`.
+This is allowed numerical confirmation-product QA, not predictive scoring.
+
+### 2026-09-18 - [data/physical gate pass, not training-ready] Coupled representation qualifies
+
+The full registered truth-only gate completes in58540511.13 (0:0,348.64s of
+evaluation after dependency waiting):32pairs/64cores in training007/008, primary
+zero offset plus six diagnostic translations. Both operators pass the frozen25%
+median-eigenvalue-RMSE improvement and per-phase nonregression thresholds.
+Independent+wide gains88.44/88.44/88.53%; joint+wide88.20/88.30/88.30% forλ1/λ2/λ3.
+Worst primary core/component gains remain76.79%/76.23%; maximum numerical trace
+error5.33e-15. No threshold, panel or smoothing change was made after evaluation.
+This qualifies the physical representation, NOT a trained posterior. Detailed
+absolute errors, gaps, translations and provenance:
+[physical gate report](docs/e2e_coupled_physical_gate_20260918.md).
+Receipt SHA256:`0b53bea9cbfcb4760247e556f3195a24f5810189d056141154c16d51643c68a7`.
+
+The independent full-payload008 audit also passes all128pairs and608 actual
+hashes in261.15s; SHA256:`55707715a7f517fbbcac9b5d5f948a33c55862a0be29dbd8ca78a9ddae2bcb4d`.
+Both007/008 now have complete audited joint products. Target construction has
+moved to000; other deterministic native/response/condition/audit lanes continue
+in the two existing allocations. Full21-phase completion, train normalization,
+technical GPU checks and the measured resource proposal remain outstanding.
+No scientific training or additional resource allowance is implied by this pass.
+
+### 2026-09-18 - [data/in progress, 21:43 UTC] Five native phases; common I/J interface verified
+
+Qualified native densities now include000/002/003/007/008. Fresh000 replay reads
+all136 A+B files and33,022,530,364 particles, with relative deposition error
+9.53973e-8; its old uncounted density is preserved and unused. Native008 error is
+9.50300e-8. Legacy worker58540511.8 completed0:0 in1:24:19, including confirming
+the adopted002/003 products. Full joint targets now exist for007 AND008; the
+target worker proceeds to000. Corrected cap responses are complete for seven
+phases (000/002/007/008/009/010/011), conditions for six (all except011 at21:40).
+All21 joins and17 B transfers remain complete, with native CRC qualification
+still phase-specific. The full physical-reference gate58540511.13 is now
+evaluating the predeclared32pairs/64cores and seven context offsets, not waiting
+for targets. No pass is inferred from the earlier numerical smoke.
+
+The new common `e2e_coupled_views.py` supplies global-normalized targetless
+observations and coarse/fine chart adapters. Fit-batch role checks precede file
+IO; held-out context augmentation is rejected; support/LOS identity scaling and
+fine zero-mode preservation are enforced. The normalizer is NOT yet fitted.
+All52 focused tests pass, including float32 round trips at all seven offsets.
+
+Primary I/J diagnostics must use the same rectangular64x48x48 physical operator.
+The data adapter assembles independent48-cubed parents with a block-aligned
+ownership seam, not overlap averaging; exact truth reassembly and preservation
+of a shared sampled coarse mass are tested. I must retain the full common
+observation view and independently sampled parent noise. Sharing overlapping
+noise crops would contaminate its conditional-independence control. Equal pair
+exposure is not equal latent/compute exposure (two48-cubed evaluations versus
+one rectangle); the later proposal must disclose this. See the preparation plan.
+
+Strengthened phase007 audit58540511.16 passes608 actual hashes and all128 pair
+source/cache/geometry bindings and truth assemblies in252.59s. Receipt:
+`cartesian_v2/product_audit/ph007/PRODUCT_AUDIT_1789767399760428229.json`, SHA256
+`2dbd8573a5af0b2b4ec57c824fa58c5caec5e1aa3885bcbbeef3cce1aa4ae818`.
+Its frozen `product_audit_v2` queue continues consuming newly finished phases.
+This audit is not a global training-readiness receipt or predictive evaluation.
+
+A new native lane first failed before qualification when concurrent ASDF lazy
+extension imports observed a partially initialized Astropy module. Preserve
+failed step58540511.14. Serial reader initialization in a separate worker wrapper
+fixes startup without modifying the checkpoint-bound deposition/CRC code; retry
+58540511.15 is verified depositing024. A further lane reuses the completed legacy
+worker slot for021→020;019→018→017 continues on the second node. Exactly two
+allocations remain; all lanes use frozen sources, tmux and bounded deadlines.
+At21:40UTC total charged usage is4.51361CPU-nodeh/0GPUh and new Scratch is
+3,262,947,409,357bytes. Original64/4/4.5TiB caps remain; no scientific fitting.
+
+`docs/e2e_coupled_resource_proposal_20260918.md` now fixes factor/draw accounting
+and the technical measurement requirements; it is explicitly NOT approval-ready.
+Four arms/two seeds require14distinct factors because I/J share the coarse VDM.
+A128-draw full confirmation panel means98,304 comparable rectangular fields,
+147,456 evolved fine parent/joint fields and73,728 distinct coarse draws before
+development/sampler/control overhead. GPU throughput has not yet been measured.
+Source-header inspection confirms that numerical HOD parameter hashes are absent:
+the verified source is the nominal BGSv0.1/DA2-v2 altmtl release branch, not a
+recovered numerical HOD configuration or a HOD-marginalized empirical posterior.
+
+### 2026-09-18 - [data/in progress, 21:12 UTC] First complete joint phase; full panel still building
+
+All 21 exact CutSky/forFA/successful-LSS joins and all 17 approved B transfers
+(008–024) are complete. Transfer58539034 ended COMPLETED0:0 after1:56:07;
+CRC/header qualification is separate and remains phase-by-phase. The expanded
+13train/2development/6confirmation panel is unchanged; no scientific training.
+
+Native densities are qualified for007 and explicitly adopted002/003. All136
+A+B particle CRCs/headers and packed counts were rechecked for each adopted
+phase, and actual native-array hashes match the old independent reference.
+Their relative particle-count errors are9.4491e-8/9.4582e-8. Two adoption attempts
+failed before completion: a nested manifest-field lookup, then comparing different
+floating-point summation trees. Reproducing the original whole-array float64
+reduction matches the manifest exactly; the alternative chunked reduction differed
+by only0.0016 particles out of33billion. No physical tolerance was relaxed. Failed
+steps/logs remain, and the owning allocation can eventually inherit their nonzero
+wrapper status even though the corrected adoption step58544227.6 completed0:0.
+ph000 is instead undergoing a fresh A+B replay because its old manifest lacks
+exact deposition counts; its old source products remain untouched.
+
+Corrected cap-response products exist for000/007/008/009/010. Geometry is complete
+for000/007/008/009, condition shards for007/008/009, and full R7 density/coarse/
+full-box tidal targets for all128ph007 pairs. ph007 target construction took603.0s
+and peaked at257.5GiB RSS; maximum tensor trace error1.78e-15 and maximum
+coarse/fine relative mass error9.83e-16. These are numerical checks, NOT the
+registered physical-representation gate or evidence of posterior calibration.
+The one-pair/seven-offset operator smoke passes; the full64-core gate awaits008.
+
+The exact fast geometry kernel reproduces every selected ph007 row and candidate
+diagnostic from the slow reference, taking14.75s versus the original54m37s build.
+ph000 then exposed a genuine greedy-packing limitation: selection stopped at120
+pairs when the eighth SGC low-z interior pair could no longer fit. The bounded
+support-only feasibility policy in `configs/e2e_coupled_geometry_search_v1.json`
+retains the SAME candidate pool, quotas, support and source-nonoverlap criteria.
+Original ordering and scarcity-first ordering failed; the first deterministically
+seeded scarcity retry found all128 pairs (17.72s overall), independently passing
+the original geometry verifier. No counts/truth entered selection; no committed
+geometry was changed. The failed attempt is preserved. Condition construction
+resumes in tmux `coupled-conditions-recovery` using frozen `geometry_repair_v1`.
+
+All46 focused coupled-data tests pass. New `e2e_coupled_product_audit.py` re-reads
+actual source/product hashes, checks the receipt graph, validates the targetless
+reader, and independently recomputes native conservation, owned-core count/support,
+all-seven-offset mass charts and full-box trace. Its first all-payload ph007 audit
+completed successfully in step58540511.12:604 actual source/product hashes
+(121,419,972,713bytes) and all128 pairs,254.77s. Receipt:
+`cartesian_v2/product_audit/ph007/PRODUCT_AUDIT_1789766211380398266.json`, SHA256
+`011c388bcae0f6fc4654263c428a54081a154fd13bfb9452199816ba40980f4e`.
+This phase audit is not a full-panel or physical-reference pass.
+A corruption test exposed coarse filesystem timestamps,
+so content verification never trusts same-size/same-mtime cached hashes.
+
+Two CPU allocations remain:58540511/nid004202 and58544227/nid004217, each capped4h,
+with frozen deterministic workers in tmux. Additional native019→018→017 uses the
+second node; no third allocation or GPU was requested. At21:12UTC, charged usage
+is3.59139CPU-nodeh/0GPUh; new Scratch is3,215,664,836,011 unique-inode bytes against
+4,947,802,324,992. All previous spending is retained despite session reconciliation.
+Remaining: complete/audit every phase, strict13-phase normalization, full physical
+gate, technical throughput/restart qualification and the measured four-arm proposal.
+The data-preparation goal remains active, not complete or training-authorized.
+
+At21:18UTC the recovered condition worker has completedph000 and proceeds to010;
+geometry010 also passes. Step58540511.13 is live in tmux `coupled-physical-gate`,
+frozen `source_snapshots/physical_gate_v1`, with4CPU/8GiB and an80-minute step cap.
+It waits at most3600s forph008 targets, then evaluates the unchanged registered
+64-core/7-offset physical panel; a dependency timeout returns pause75, not a pass.
+The Mac reconnect now executes onlogin04; old allocation controllers remain on
+login30, with no competing old task backend. New recovery/gate tmux sessions are
+onlogin04. This is a controller-host change, not a second experiment or new budget.
+
+### 2026-09-18 - [data/implementation, not qualification] Joint products and strict train normalization
+
+Mac-led preparation continues. The new rectangular condition builder, targetless
+reader, restartable R7 density/full-box tensor builder, and equal-phase global
+normalizer are implemented. All32 focused coupled-data tests pass: nonperiodic
+survey padding, conservative response aggregation, exact independent-parent
+count-channel crops, condition-to-target path rejection, held-out augmentation
+guards, positive coarse/fine round trips, all seven context-crop mass identities,
+independent tensor trace checks, and exclusion of non-training phases from scaling.
+Synthetic/operator success is NOT real-product qualification or posterior evidence.
+
+`source_snapshots/joint_products_v1` freezes the new source. Step58540511.6
+(4CPU/16GiB inside the existing allocation), in tmux `coupled-products-smoke`,
+waits for the fullph007 geometry receipt, builds two real observation shards,
+independently compares their owned-core count/support channels with raw fields,
+and proceeds to all128ph007 shards only if those checks pass. It has not yet
+passed that real-data gate. The existing geometry step58540511.5 is still running;
+catalogue, matter and canonical-response workers continue unchanged. No new
+allocation, scientific fit, confirmation prediction, or GPU work was launched.
+
+At19:52UTC, completion receipts exist for14/21 exact observed joins and12/17
+B transfers. Onlyph007 has both corrected cap responses; no complete native
+phase/joint target/normalization receipt exists yet. Transfer receipts are not
+CRC qualification. Accounted spending is1.51167CPU-nodeh/0GPUh, and new Scratch
+contains2,137,191,240,630unique-inode bytes against4,947,802,324,992approved.
+The old000/002/003 native provenance still needs explicit adoption or rebuilding:
+ph000's legacy manifest lacks an exact deposited/particle count. Its originally
+restored B sources were located under `AbacusSummit_densities`;002/003's B sources
+remain in the old P10 staging root. No additional tape restore is currently needed
+to audit those inputs. Full real-data QA, physical representation qualification,
+technical throughput tests and the later-experiment resource proposal remain open.
+
+### 2026-09-18 - [ops/science in progress] Mac ownership reconciled; coordinate repair supersedes approximate frame acceptance
+
+The user explicitly selected this Mac-connected task as sole execution owner.
+The phone's18:32/18:37/18:38UTC findings are reconciled in
+`docs/e2e_coupled_session_reconciliation_20260918.md`. Two backends were writing
+the same task; the stale login21 backend was safely terminated after identity
+checks, without cancelling Slurm or deleting artifacts. The goal is active
+here with all prior costs carried forward, not a fresh resource allowance.
+
+`docs/e2e_coupled_distance_convention_audit_20260918.md` supersedes interpreting
+the0.510Mpc/h median discrepancy as an acceptable approximation. A pinned
+DESI/Abacus table reduces it to0.000036Mpc/h on the sampledph007 centrals.
+This is a redshift-distance cosmology mismatch, NOT a missing h factor; the
+earlier64Mpc/h versus94.59Mpc adapter fix was a separate unit error. New code
+uses explicit Mpc/h Cartesian coordinates and a selection-volume Jacobian,
+with a separate immutable downstream `cartesian_v2` authority. Old source
+joins/angular maps/particle counts remain reusable; old Cartesian products are
+not canonical. Additionalph008/ph020 checks now pass:4,077centrals across the
+three phases have corrected median errors0.00003617/0.00003926/0.00003793Mpc/h,
+with maximum0.000316705Mpc/h. Old medians were0.510020/0.535280/0.527499Mpc/h.
+Even a best constant scale leaves0.162--0.168Mpc/h; extra/missing h controls
+fail by hundreds of Mpc/h. No fitted transformation is adopted. Twenty focused
+tests pass, including NPZ/HDF5 publication-interruption recovery and radial
+volume measure conservation. The rebuiltph007 NGC/SGC maps pass count/finite/
+response closure; observed/expected shell ratios range0.95273--1.02747.
+The old source config hash is unchanged. CPU58540511/nid004202 is running from
+frozen `source_snapshots/cpu_prepare_cartesian_v2` in login30 tmux
+`coupled-prep-mac02`, capped4h; all three coordinate gates preceded workers.
+Transfer58539034 is unchanged. CPU58538574 ended with expected pause75 after
+3391s (0.941944nodeh), not a scientific failure. Full data product QA remains
+open; no claim that this explains the previous posterior-calibration failures.
+
+
+### 2026-09-18 - [data/in progress] Expanded coupled-field preparation approved
+
+The user approved phases020–024 joining training:13train/2development/
+6confirmation phases. Eight training phases were a reserve-based resource
+choice, not a demonstrated diversity plateau. Development012–013 and
+confirmation014–019 remain excluded from fitting/normalization; historical
+004–005 are unused and sealed001/006 remain excluded entirely. No scientific
+model training or full-particle restores are authorized by this preparation.
+
+Authority: `configs/e2e_coupled_data_v1.json`. Hard caps:4.5TiB newScratch,
+64CPU-nodeh,4technicalGPUh,two simultaneous allocations,CPU jobs at most4h.
+Approved B restoration008–024 is approximately2.60TiB. New root:
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1`.
+All21 observation/random metadata inventories and six focused contract/join
+tests pass. CPU58538574/nid004142,one-hour cap,tmux `coupled-pairing-01`,
+frozen `source_snapshots/pairing_v1`, is performing full catalogue pairing.
+ph007 passes exact CutSky/forFA/LSS linkage for7,339,301successful observations.
+A separate1,357-central host check supports the inherited axes/offset:
+median0.510Mpc/h,p95 1.453Mpc/h to x_L2com. This is a small frame check, not a
+complete coordinate/HOD audit; residual cosmology/position conventions need
+resolution before final target construction. Remaining phases, restored-payload
+CRC/header checks, response fields, pair geometry, joint targets, normalization,
+physical references and downstream resource proposal are still incomplete.
+
 ### 2026-09-18 - [science/complete, not production] Controlled VDM matrix: diversity helps; joint field remains miscalibrated
 
 The approved A/B/C/D experiment is complete, superseding the running/preview

@@ -1,0 +1,88 @@
+{
+  "cap": "SGC",
+  "cic": {
+    "deposited_weight": 1821370.0,
+    "input_points": 1821370,
+    "lost_weight": 0.0
+  },
+  "config_sha256": "af5917cfb89a7a0be00b4f91c2aa3a8f7d73b8de2fc339e53d58d48f185d2f2b",
+  "contract_source_sha256": "87f2239a6bd8a78e44e59b4a9e722b0f55ffcd84bf7102ec6fb850787a0e25d4",
+  "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+  "created_utc": "2026-09-19T02:22:32.582664+00:00",
+  "elapsed_seconds": 41.44996534701204,
+  "gates": {
+    "all_finite": true,
+    "cap_shell_closure_within_25pct": true,
+    "count_conservation": true
+  },
+  "grid": {
+    "cell_mpc_h": 3.383,
+    "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+    "distance_unit": "Mpc/h",
+    "origin_mpc_h": [
+      47.1310172045471,
+      -1144.3163599013553,
+      -480.9284433965529
+    ],
+    "padding_mpc_h": 27.064,
+    "shape": [
+      435,
+      778,
+      389
+    ]
+  },
+  "host": "nid004144",
+  "observed_expected_ratio": {
+    "0": 0.996930646114094,
+    "1": 1.0171323741577263,
+    "2": 1.0179375726488458,
+    "3": 0.950249420333211
+  },
+  "outputs": [
+    {
+      "bytes": 1647902241,
+      "mtime_ns": 1789784552000000000,
+      "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/observations/ph013/SGC_response_generation_1789784514331750600.h5",
+      "sha256": "a99a6d707aa7c8a0cfbd394e27cfe30804531426d7ae6ee321b4d5419872e641"
+    }
+  ],
+  "pass": true,
+  "phase": "ph013",
+  "selection": {
+    "bytes": 982294,
+    "fit_phases": [
+      "ph000",
+      "ph002",
+      "ph003",
+      "ph004",
+      "ph005"
+    ],
+    "mtime_ns": 1786722934000000000,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/transforms/field/selection_manifest.json",
+    "sha256": "b010391138a3cb36f90c41506c85755e2154bdfee7e7ebe7e9f9a1d51662a526"
+  },
+  "shell_totals": {
+    "0": {
+      "expected": 775366.3031091162,
+      "observed": 772986.4295336676,
+      "support_voxels": 3011437
+    },
+    "1": {
+      "expected": 479558.61716300464,
+      "observed": 487774.59482280305,
+      "support_voxels": 6018693
+    },
+    "2": {
+      "expected": 162091.39963247074,
+      "observed": 164998.92588913126,
+      "support_voxels": 9531489
+    },
+    "3": {
+      "expected": 21453.361807420122,
+      "observed": 20386.04462169962,
+      "support_voxels": 13258441
+    }
+  },
+  "slurm_job_id": "58550091",
+  "source_code_sha256": "e925d2313406248487873113227bc88bda7d78b679a7c41346f4a625c8766857"
+}

@@ -1,5 +1,33 @@
 # Research context — Illustris
 
+## Current coupled-field direction (2026-09-19)
+
+The A/B/C/D diversity/context/multiscale experiment is scientifically closed:
+more diverse training helps density marginals; the tested hierarchy does not
+establish a calibrated joint field posterior. Authoritative results and decision
+are `docs/e2e_vdm_context_results_20260918.md` and
+`docs/e2e_vdm_context_joint_decision_literature_20260918.md`.
+
+The approved follow-up currently prepares data, not scientific fits:13train/
+2development/6confirmation phases, matched DESI-like observed BGS mocks and
+same-phase c000 z0.2 R7-smoothed matter. Coordinates are corrected to the pinned
+DESI/Abacus distance convention with the inherited selection-volume Jacobian.
+All21phase products, independent audits and normalized interfaces now qualify,
+covering1,792paired domains and11,776offset cases. The full13-phase normalizer,
+physical gate and7synthetic GPU factor checks pass; preparation jobs are terminal.
+Use `SCIENCE_LOG.md` and
+`docs/e2e_coupled_preparation_closeout_20260919.md` for current readiness.
+
+Proposed later arms are retained D, observation-matched independent I-VDM,
+joint J-VDM and joint J-CFM. I/J share their coarse fit/draws; fine coupling cannot
+change block-aligned regional mass. Primary joint tests must therefore separate
+coarse uncertainty from fine residual dependence. Full-size technical checks and
+measured resource costs pass. The next proposal is ready for review, with a
+development cap of260GPUh/24CPU-nodeh/512GiB; scientific implementation/training
+still needs separate approval. No real-DESI validity, HOD marginalization, evolving lightcone
+or whole-survey coherence claim follows from these nominal mock products.
+The older dated status sections below are historical.
+
 ## Latest field-model controls (2026-09-16)
 
 Frozen neural DDIM/Heun and first-moment x clipping tests complete on58442539.
