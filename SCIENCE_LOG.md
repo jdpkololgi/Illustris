@@ -1,5 +1,63 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-19 - [code/diagnostic] Pre-Stage-A checks: half the power deficit is the sampler; the proposed primary gate cannot fire
+
+Three read-only diagnostics, run before committing the proposed 260GPUh Stage A.
+No fit, no frozen-artifact change, no sealed/confirmation phase access, no
+modification of any existing script. New code lives in
+`workflows/sbi/diagnostics_20260919/`; receipts and hashes in
+[evidence](docs/evidence/e2e_diagnostics_20260919/README.md). Two 25--30min
+`gpu_interactive` allocations (58583301/nid001017, 58583333/nid001000) were used
+because `require_compute()` correctly refuses login nodes; both are terminal.
+
+**1. Roughly half the fine power deficit is sampler discretisation, not score
+error.** For B/seed0 at `ph004_NGC_s2_interior_00` the registered 64-draw
+sample/truth band ratios are .646/.748/.766/.674/.684. Re-sampling the SAME
+frozen checkpoint, condition and eight addressed seeds: raising ancestral steps
+250 to 1000 removes only 3.7% of the summed band2--5 deficit (1.1283 to 1.0864),
+consistent with the passed sampler screen. Adding two Langevin corrector steps at
+snr .3 to the unchanged 250-step predictor removes 49.3% (deficit .5718; ratios
+.856/1.045/.878/.777/.819). Correction overshoots above snr .3 and at four
+corrector steps, so the optimum is interior -- the signature of a correction
+rather than blanket variance inflation. The 8-draw estimator reproduces the
+published 64-draw band powers to .6--4.7%. This is one arm, one development
+anchor, power only; CRPS/coverage were not measured and need development truth.
+It does not revise any published result, but it does mean the reported deficits
+are partly a property of the ancestral sampler we chose.
+
+**2. For paired arm differences, anchors inside a phase are near-independent
+replicates.** One-way ICC over the 4 seed/phase cells x 16 anchors of the final
+20480 main panel: A->B density CRPS -.0622, C->D -.0210, B->C +.1481; n_eff 64.0,
+64.0 and 19.9 of 64. A->B cell means are .0407/.0377/.0392/.0356 -- reproducible;
+B->C flips sign in one cell (+.0172 to -.0016). So phase-only clustering is far
+too conservative for paired contrasts, though correct for absolute scores. Four
+clusters give a noisy between-cluster estimate; treat as screening evidence.
+
+**3. The proposed coupled primary gate cannot fire.** On 832 training-role
+coupled truth rectangles (13 phases, 64 each), the matched cross-core DCT probe
+correlations are -.2269..+.1039 raw and -.1303..+.0835 after removing the 128
+shared coarse block means. Feeding the measured 14x14 covariance through the
+registered variogram estimator (matched pairs, equal weights, exponent .5), the
+MAXIMUM gain any correct posterior could show over a correct-marginal
+independent-core posterior is .931% raw and .233% conditional on the coarse
+field, against the registered 10% requirement. Block-mean subtraction moves the
+probes to k_eff ~.19h/Mpc while the cores are 108.256Mpc/h apart, so the probes
+are blind to the only scales with real cross-core dependence -- and those scales
+are fixed by the shared coarse field, which I and J share exactly. This
+reproduces for the variogram the error already caught for the energy score: the
+score was replaced, the 10% threshold was not re-derived. Overlapping context
+crops are not independent volumes, so these correlations carry more uncertainty
+than 832 suggests; the sign and order of magnitude are not in doubt.
+
+**Consequences for the proposal.** Item 3's primary gate needs redesign before
+launch (direct cross-core correlation against a truth-derived reference, or a
+geometry with coarser coarse blocks). The sampler screen tests stability, not
+accuracy, and should be replaced by an accuracy test against a reference with a
+known answer. The confirmation panel is better powered than assumed for paired
+contrasts. Sampler choice is now a first-class scientific factor, not a fixed
+cost: a corrector ladder belongs in Stage A. No change to any frozen result,
+decision or budget follows automatically from this entry.
+
 ### 2026-09-19 - [preparation complete] All21 coupled-field products qualified; measured proposal ready
 
 The Mac-led approved steps1/2 preparation is complete: all21exact observation

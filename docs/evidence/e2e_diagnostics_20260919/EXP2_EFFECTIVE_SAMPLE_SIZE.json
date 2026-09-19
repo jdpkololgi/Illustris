@@ -1,0 +1,296 @@
+{
+ "cases_used": 256,
+ "caveat": "Anchors inside a phase share large-scale modes; ICC measures how much. Two development phases give only a noisy between-cluster estimate. Read-only over published case reports; no payload or truth access.",
+ "run": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/vdm_context_20260917_v1",
+ "schema": "e2e-diagnostic-effective-sample-size-v1",
+ "statistics": {
+  "A->B:density_coverage90": {
+   "anchors_per_cell": 16,
+   "cell_means": [
+    0.116424560546875,
+    0.10595703125,
+    0.0915374755859375,
+    0.095245361328125
+   ],
+   "cells": [
+    "seed0_ph004",
+    "seed0_ph005",
+    "seed1_ph004",
+    "seed1_ph005"
+   ],
+   "icc": -0.05100473369614808,
+   "mean_difference": 0.10229110717773438,
+   "ms_between": 0.002018542028963566,
+   "ms_within": 0.009030376312633355,
+   "n_effective": 64.0,
+   "n_total": 64,
+   "power_ratio_cluster_over_naive": 0.4817782179902571,
+   "se_treating_anchors_independent": 0.011656864556173551,
+   "se_treating_cells_as_clusters": 0.005616023433227083
+  },
+  "A->B:density_crps": {
+   "anchors_per_cell": 16,
+   "cell_means": [
+    -0.04069332462942683,
+    -0.03765334245338474,
+    -0.03922296462640254,
+    -0.03562373793872099
+   ],
+   "cells": [
+    "seed0_ph004",
+    "seed0_ph005",
+    "seed1_ph004",
+    "seed1_ph005"
+   ],
+   "icc": -0.0621769005649081,
+   "mean_difference": -0.03829834241198378,
+   "ms_between": 7.552213384669425e-05,
+   "ms_within": 0.0011911216788763237,
+   "n_effective": 64.0,
+   "n_total": 64,
+   "power_ratio_cluster_over_naive": 0.2576121828204059,
+   "se_treating_anchors_independent": 0.004216778041011011,
+   "se_treating_cells_as_clusters": 0.0010862933956140015
+  },
+  "A->B:density_rmse": {
+   "anchors_per_cell": 16,
+   "cell_means": [
+    -0.02719770368323253,
+    -0.02565802215337066,
+    -0.02277606037128678,
+    -0.024232251627342702
+   ],
+   "cells": [
+    "seed0_ph004",
+    "seed0_ph005",
+    "seed1_ph004",
+    "seed1_ph005"
+   ],
+   "icc": -0.060697920475130056,
+   "mean_difference": -0.02496600945880817,
+   "ms_between": 5.756596395699924e-05,
+   "ms_within": 0.0006819980422456296,
+   "n_effective": 64.0,
+   "n_total": 64,
+   "power_ratio_cluster_over_naive": 0.29707866150775847,
+   "se_treating_anchors_independent": 0.0031924304548384993,
+   "se_treating_cells_as_clusters": 0.0009484029664800259
+  },
+  "A->B:tidal_energy": {
+   "anchors_per_cell": 16,
+   "cell_means": [
+    -0.08133334691105354,
+    -0.08183241797807632,
+    -0.059777564678008335,
+    -0.05850263282758654
+   ],
+   "cells": [
+    "seed0_ph004",
+    "seed0_ph005",
+    "seed1_ph004",
+    "seed1_ph005"
+   ],
+   "icc": -0.021766849255204276,
+   "mean_difference": -0.07036149059868119,
+   "ms_between": 0.002691284274197571,
+   "ms_within": 0.004082963973026348,
+   "n_effective": 64.0,
+   "n_total": 64,
+   "power_ratio_cluster_over_naive": 0.8185504272306048,
+   "se_treating_anchors_independent": 0.007922173698685621,
+   "se_treating_cells_as_clusters": 0.0064846986656541756
+  },
+  "B->C:density_coverage90": {
+   "anchors_per_cell": 16,
+   "cell_means": [
+    -0.0286865234375,
+    -0.0281524658203125,
+    -0.0157318115234375,
+    -0.0059661865234375
+   ],
+   "cells": [
+    "seed0_ph004",
+    "seed0_ph005",
+    "seed1_ph004",
+    "seed1_ph005"
+   ],
+   "icc": 0.09181644664633222,
+   "mean_difference": -0.019634246826171875,
+   "ms_between": 0.0019015927488605182,
+   "ms_within": 0.000726468674838543,
+   "n_effective": 26.921900873061105,
+   "n_total": 64,
+   "power_ratio_cluster_over_naive": 1.5589667478925922,
+   "se_treating_anchors_independent": 0.003496486996073891,
+   "se_treating_cells_as_clusters": 0.005450906961318052
+  },
+  "B->C:density_crps": {
+   "anchors_per_cell": 16,
+   "cell_means": [
+    0.01721262238485069,
+    0.01712953180486302,
+    0.009662020402072414,
+    -0.001641923151322144
+   ],
+   "cells": [
+    "seed0_ph004",
+    "seed0_ph005",
+    "seed1_ph004",
+    "seed1_ph005"
+   ],
+   "icc": 0.14805987062296763,
+   "mean_difference": 0.010590562860115994,
+   "ms_between": 0.0012645636924048795,
+   "ms_within": 0.00033448204068034336,
+   "n_effective": 19.870234580794104,
+   "n_total": 64,
+   "power_ratio_cluster_over_naive": 1.8271812299236707,
+   "se_treating_anchors_independent": 0.0024327570622887694,
+   "se_treating_cells_as_clusters": 0.00444508804117829
+  },
+  "B->C:density_rmse": {
+   "anchors_per_cell": 16,
+   "cell_means": [
+    0.014485522347597096,
+    0.013965307549749876,
+    0.008098446990859856,
+    -0.0007863642331378913
+   ],
+   "cells": [
+    "seed0_ph004",
+    "seed0_ph005",
+    "seed1_ph004",
+    "seed1_ph005"
+   ],
+   "icc": 0.1179721745839824,
+   "mean_difference": 0.008940728163767234,
+   "ms_between": 0.0008070234913026075,
+   "ms_within": 0.0002570124358348423,
+   "n_effective": 23.108175060926776,
+   "n_total": 64,
+   "power_ratio_cluster_over_naive": 1.6880831205690363,
+   "se_treating_anchors_independent": 0.002103581167007841,
+   "se_treating_cells_as_clusters": 0.0035510198607728513
+  },
+  "B->C:tidal_energy": {
+   "anchors_per_cell": 16,
+   "cell_means": [
+    0.05627362371126375,
+    0.04536150845734503,
+    0.029154922205723872,
+    0.0039474263255973654
+   ],
+   "cells": [
+    "seed0_ph004",
+    "seed0_ph005",
+    "seed1_ph004",
+    "seed1_ph005"
+   ],
+   "icc": 0.17339847869818076,
+   "mean_difference": 0.033684370174982506,
+   "ms_between": 0.008274302198397424,
+   "ms_within": 0.0018993596577050371,
+   "n_effective": 17.772953504692445,
+   "n_total": 64,
+   "power_ratio_cluster_over_naive": 1.938052346841309,
+   "se_treating_anchors_independent": 0.0058669204418168785,
+   "se_treating_cells_as_clusters": 0.01137039893099445
+  },
+  "C->D:density_coverage90": {
+   "anchors_per_cell": 16,
+   "cell_means": [
+    -0.006500244140625,
+    0.0008697509765625,
+    -0.0029449462890625,
+    -0.00677490234375
+   ],
+   "cells": [
+    "seed0_ph004",
+    "seed0_ph005",
+    "seed1_ph004",
+    "seed1_ph005"
+   ],
+   "icc": -0.06010310394497666,
+   "mean_difference": -0.00383758544921875,
+   "ms_between": 0.0002062581479549408,
+   "ms_within": 0.00222089650730292,
+   "n_effective": 64.0,
+   "n_total": 64,
+   "power_ratio_cluster_over_naive": 0.3115516384381531,
+   "se_treating_anchors_independent": 0.00576216287969138,
+   "se_treating_cells_as_clusters": 0.001795211286115356
+  },
+  "C->D:density_crps": {
+   "anchors_per_cell": 16,
+   "cell_means": [
+    -0.016349706351958492,
+    -0.011901773129259843,
+    -0.00905557279230655,
+    0.002776432716300384
+   ],
+   "cells": [
+    "seed0_ph004",
+    "seed0_ph005",
+    "seed1_ph004",
+    "seed1_ph005"
+   ],
+   "icc": -0.02100576742665345,
+   "mean_difference": -0.008632654889306124,
+   "ms_between": 0.001069792836741896,
+   "ms_within": 0.0015947483506238542,
+   "n_effective": 64.0,
+   "n_total": 64,
+   "power_ratio_cluster_over_naive": 0.8255331777836383,
+   "se_treating_anchors_independent": 0.004952509573770447,
+   "se_treating_cells_as_clusters": 0.004088460966438609
+  },
+  "C->D:density_rmse": {
+   "anchors_per_cell": 16,
+   "cell_means": [
+    -0.012987556407605442,
+    -0.009936678658481997,
+    -0.009483791836041785,
+    0.0018631667500242956
+   ],
+   "cells": [
+    "seed0_ph004",
+    "seed0_ph005",
+    "seed1_ph004",
+    "seed1_ph005"
+   ],
+   "icc": -0.01903561390594941,
+   "mean_difference": -0.007636215038026232,
+   "ms_between": 0.000680430835746783,
+   "ms_within": 0.0009704918874515058,
+   "n_effective": 64.0,
+   "n_total": 64,
+   "power_ratio_cluster_over_naive": 0.8433517866407364,
+   "se_treating_anchors_independent": 0.0038662794139237315,
+   "se_treating_cells_as_clusters": 0.003260633651384878
+  },
+  "C->D:tidal_energy": {
+   "anchors_per_cell": 16,
+   "cell_means": [
+    -0.038113378967501,
+    -0.029680407099176565,
+    -0.03027554485585103,
+    -0.005473004442880264
+   ],
+   "cells": [
+    "seed0_ph004",
+    "seed0_ph005",
+    "seed1_ph004",
+    "seed1_ph005"
+   ],
+   "icc": -0.022056988891723753,
+   "mean_difference": -0.025885583841352217,
+   "ms_between": 0.0031992790006023122,
+   "ms_within": 0.0048866010322940615,
+   "n_effective": 64.0,
+   "n_total": 64,
+   "power_ratio_cluster_over_naive": 0.815873396809208,
+   "se_treating_anchors_independent": 0.008665892521220644,
+   "se_treating_cells_as_clusters": 0.007070271167671799
+  }
+ }
+}
