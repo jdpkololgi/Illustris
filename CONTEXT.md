@@ -3,14 +3,17 @@
 ## Current reference continuation (2026-09-19)
 
 User approves unchanged-training continuation of all12Gaussian VDM/CFM fits from
-4096to65536updates before affine diagnostics. Four A100s,90minutes,20GiB cap;
+4096to65536updates before affine diagnostics. Initially four A100s,90minutes,20GiB;
 VDM evaluations at512/1024NFE and CFM128/256, with final2048draw precision checks.
 See `docs/e2e_conditional_reference_continuation_v1.md`. No extended results yet;
 P12, Abacus and nonlinear training remain unchanged/deferred.
 
-First GPU preflight58596902 failed a replay equality check after17s, before any
-continuation training. An instrumented single retry has been requested; no new
-learning-curve result exists yet. See the current SCIENCE_LOG execution entry.
+First GPU preflight58596902 failed a replay equality check after17s. The user
+subsequently lifted the compute-budget blocker and asked to complete the task.
+Allocation58597933 runs four GPUs under tmux with a two-hour scheduler bound.
+All12checkpoint replays are exact under deterministic arithmetic; the discrepancy
+is backend nondeterminism, not a corrupt restore. Actual training retains the
+original backend/settings and is in progress. See current SCIENCE_LOG entries.
 
 ## Current reference gate (2026-09-19)
 

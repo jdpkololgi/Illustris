@@ -98,3 +98,14 @@ control. Actual training retains the parent's backend settings. No equality
 tolerance is relaxed. One89-minute/four-GPU retry has been requested; combined
 with the first17seconds it remains below the original6GPU-hour cap. Await
 specific approval; do not silently resubmit. The failed source remains frozen.
+
+**Subsequent authorization and resolution:** the user then explicitly said to
+forget the budgets and complete the task. Allocation58597933 requests four A100s
+for two hours and remains in tmux during diagnosis and training. This supersedes
+the pending-budget blocker above, not the frozen scientific settings. In `_r1`,
+default arithmetic repeats loss/data/state exactly but differs in parameter
+updates; deterministic smoke repeats all12fits with zero parameter difference.
+This isolates GPU nondeterminism. Actual continuation keeps the original default
+backend. The frozen85-minute worker guard remains in place; if reached, preserved
+checkpoints can be resumed under the user's new completion authority. No new
+scientific configuration or Abacus campaign is authorized by this execution fix.

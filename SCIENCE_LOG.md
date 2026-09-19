@@ -1,5 +1,21 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-19 - [execution] GPU replay cause isolated; full continuation running
+
+User explicitly lifts the earlier compute-budget blocker and asks to complete
+the continuation. Allocation58597933 (nid008217, four A100s, two-hour scheduler
+limit) runs under tmux `conditional_curve_recovery_20260919` on login31. Frozen
+`conditional_reference_continuation_20260919_r1` preserves all parent hashes.
+Default-backend replay restores model/Adam/data exactly and reproduces loss,
+but parameter updates differ by3.1e-5--6.8e-5 in the measured VDM cells. Enabling
+deterministic algorithms for the technical control gives EXACT parameter replay
+for all12fits. This isolates backend nondeterminism as the replay-check cause;
+no restore tolerance was relaxed. Scientific training retains the parent's
+default backend and all training settings. The original failed run remains
+frozen. Extended training has now started, but no final scientific conclusion
+is available yet. Reporting tests fail closed on missing/duplicate cells and
+separate matched, additional amortised, and power gates;21focused tests pass.
+
 ### 2026-09-19 - [execution] Continuation GPU replay smoke stops before scientific training
 
 First four-GPU allocation58596902 (nid008564) FAILED1:0 after17s; GPU step14s.

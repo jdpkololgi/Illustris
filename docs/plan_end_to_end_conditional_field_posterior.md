@@ -9,10 +9,13 @@ node for90minutes is approved, with checkpointed tmux persistence. VDM uses
 512/1024NFE throughout the new curve; the original4096point is re-evaluated at
 those settings. No affine or coupled-field launch is included in this approval.
 
-**Preflight status:** allocation58596902 stopped after17seconds on a GPU replay
-check, before extended training. Seventeen focused tests pass, including exact
-mature-checkpoint CPU replay. An instrumented single89-minute retry has been
-requested; no resubmission until approved. Original checkpoints remain untouched.
+**Execution status:** the initial17-second preflight58596902 failed on GPU
+arithmetic reproducibility, not checkpoint corruption: all12replays are exact
+with deterministic algorithms. The user lifted the earlier resource blocker and
+asked to complete this task. Four-GPU allocation58597933 now continues the fits
+under tmux, with unchanged scientific settings and a two-hour scheduler bound.
+Twenty-one focused tests pass. Final curves and precision results are pending;
+original checkpoints remain untouched. No coupled-field campaign is launched.
 
 ## Prerequisite: learned reference experiment (2026-09-19)
 
