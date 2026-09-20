@@ -109,3 +109,13 @@ This isolates GPU nondeterminism. Actual continuation keeps the original default
 backend. The frozen85-minute worker guard remains in place; if reached, preserved
 checkpoints can be resumed under the user's new completion authority. No new
 scientific configuration or Abacus campaign is authorized by this execution fix.
+
+## Completion,2026-09-20
+
+All12fits reached65536updates;240curve ensembles and24precision ensembles pass
+execution/integrity checks. Job58597933 completed0:0 in1h11m59s, scientific step
+1h06m51s; allocation released.23focused tests pass. Full results and the distinction
+between endpoint success, across-checkpoint qualification and power failure are in
+[the closeout](e2e_conditional_reference_continuation_conclusions_20260920.md).
+The continuation materially improves the models but does not promote the nonlinear
+or coupled campaign. No affine/control training was included.

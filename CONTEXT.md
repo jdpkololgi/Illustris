@@ -1,19 +1,21 @@
 # Research context — Illustris
 
-## Current reference continuation (2026-09-19)
+## Reference continuation complete (2026-09-20)
 
-User approves unchanged-training continuation of all12Gaussian VDM/CFM fits from
-4096to65536updates before affine diagnostics. Initially four A100s,90minutes,20GiB;
-VDM evaluations at512/1024NFE and CFM128/256, with final2048draw precision checks.
-See `docs/e2e_conditional_reference_continuation_v1.md`. No extended results yet;
-P12, Abacus and nonlinear training remain unchanged/deferred.
+All12Gaussian VDM/CFM fits reached65536updates without changing the training law;
+240checkpoint and24precision ensembles completed under tmux. Slurm58597933
+COMPLETED0:0 in1h11m59s and is released;23tests and full artifact validation pass.
+The earlier replay stop was backend nondeterminism, not checkpoint corruption.
+See `docs/e2e_conditional_reference_continuation_conclusions_20260920.md`.
 
-First GPU preflight58596902 failed a replay equality check after17s. The user
-subsequently lifted the compute-budget blocker and asked to complete the task.
-Allocation58597933 runs four GPUs under tmux with a two-hour scheduler bound.
-All12checkpoint replays are exact under deterministic arithmetic; the discrepancy
-is backend nondeterminism, not a corrupt restore. Actual training retains the
-original backend/settings and is in progress. See current SCIENCE_LOG entries.
+Under-training was material: amortised mean errors roughly halve, and final fixed
+CFM passes all four original diagnostics in4/4matched cells (mean0.052,covariance
+0.067at2048draws). But no configuration passes the stricter across-checkpoint
+criterion; all retain30–42%excess highest-shell power, and amortised mean bias
+persists. The Gaussian power null is only about±2.25%at99%. No asymptote/capacity
+limit is proved. Next: same-U-Net exact-target CFM and an affine learned control
+to isolate noisy-target optimization/parameterization. This follow-on has NOT
+been launched. Nonlinear and coupled Abacus training remain gated; P12 unchanged.
 
 ## Current reference gate (2026-09-19)
 

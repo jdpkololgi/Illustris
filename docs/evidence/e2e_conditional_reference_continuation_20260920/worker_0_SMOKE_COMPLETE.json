@@ -1,0 +1,46 @@
+{
+  "rank": 0,
+  "job": "58597933",
+  "node": "nid008217",
+  "seconds": 4.724450337002054,
+  "mode": "smoke",
+  "owned": [
+    "vdm_seed17_amortised",
+    "cfm_seed17_fixed0",
+    "vdm_seed29_fixed1"
+  ],
+  "sources": {
+    "workflows/sbi/e2e_conditional_reference.py": "4cfe1afdc905094ca1ab2ee5ae1e3ef250e8f5bafd6edd90860bc7f407c981eb",
+    "workflows/sbi/e2e_conditional_reference_math.py": "70023d9d124ad2b552f694e4a4b12204c04efc80530b10b24fd1bf8f2733fd40",
+    "workflows/sbi/e2e_direct_vdm.py": "cca2c730ea28a76a2c49d6d9a823dfb8d7cafc3ec19bfe30c2d501f6d92b091b",
+    "configs/e2e_conditional_reference_v1.json": "ce2aa298fdebd133dcf9b79558577b4c21ac4c8248d473493b0f8de88b669610",
+    "workflows/sbi/e2e_conditional_reference_continue.py": "b1bfba72846374d4ba86677ac79546b113a100dc9b49eba06082d8bac67918a0",
+    "configs/e2e_conditional_reference_continuation_v1.json": "e337d8f4302c424cc4ef7bac8ec7c6c65ca4bccdea67d82286a59694f5100b04",
+    "workflows/sbi/e2e_conditional_reference_continue_step.sh": "72b40e09a140d86cb13cd4968c60a9c57787443c4b5461872e41f8b01fe6a030"
+  },
+  "peak_gpu_bytes": 96932864,
+  "deterministic_algorithms": true,
+  "smoke": [
+    {
+      "fit": "vdm_seed17_amortised",
+      "seconds_per_update": 0.014063265374716138,
+      "replay_maximum": 0.0,
+      "loss": 1.1725983619689941,
+      "replay_loss": 1.1725983619689941
+    },
+    {
+      "fit": "cfm_seed17_fixed0",
+      "seconds_per_update": 0.013780300843791338,
+      "replay_maximum": 0.0,
+      "loss": 0.8304473161697388,
+      "replay_loss": 0.8304473161697388
+    },
+    {
+      "fit": "vdm_seed29_fixed1",
+      "seconds_per_update": 0.014286445029938477,
+      "replay_maximum": 0.0,
+      "loss": 1.1491360664367676,
+      "replay_loss": 1.1491360664367676
+    }
+  ]
+}

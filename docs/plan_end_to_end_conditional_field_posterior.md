@@ -1,21 +1,29 @@
 # Plan — End-to-end conditional density-field posterior
 
-## Next: unchanged-training reference learning curve (2026-09-19)
+## Completed reference learning curve; next isolation test (2026-09-20)
 
-The user prioritizes the [65536-update continuation](e2e_conditional_reference_continuation_v1.md)
-before the affine diagnostic proposed below. All twelve fixed/amortised VDM/CFM
-fits retain their4096checkpoint, optimizer, RNG and training law. One four-GPU
-node for90minutes is approved, with checkpointed tmux persistence. VDM uses
-512/1024NFE throughout the new curve; the original4096point is re-evaluated at
-those settings. No affine or coupled-field launch is included in this approval.
+The [65536-update continuation](e2e_conditional_reference_continuation_v1.md) is
+complete:12unchanged-training fits,240checkpoint ensembles and24final precision
+ensembles. Slurm58597933 completed0:0; all allocations are released;23tests pass.
+Original checkpoints remain untouched. The initial replay guard issue was GPU
+nondeterminism; all12deterministic technical replays are exact.
 
-**Execution status:** the initial17-second preflight58596902 failed on GPU
-arithmetic reproducibility, not checkpoint corruption: all12replays are exact
-with deterministic algorithms. The user lifted the earlier resource blocker and
-asked to complete this task. Four-GPU allocation58597933 now continues the fits
-under tmux, with unchanged scientific settings and a two-hour scheduler bound.
-Twenty-one focused tests pass. Final curves and precision results are pending;
-original checkpoints remain untouched. No coupled-field campaign is launched.
+The [scientific closeout](e2e_conditional_reference_continuation_conclusions_20260920.md)
+establishes substantial under-training at4096. Fixed CFM now passes the original
+four endpoint diagnostics in4/4matched cells, but neither the stricter across-
+checkpoint condition nor the extra all-shell power condition is met. All models
+retain roughly30–42%excess highest-shell power; amortised mean bias remains.
+Some learning curves still improve, so no asymptote or representation impossibility
+has been established. Do not call the new result another blanket covariance failure.
+
+The next proposed isolation experiment compares the same U-Net trained on exact
+conditional-mean CFM targets with a Gaussian-capable affine learned control,
+retaining separate mean/covariance/power gates and measured curves. The analytic
+irreducible CFM loss floor is about0.803, close to observed0.81losses: removing
+target noise is now a concrete diagnostic, not a new DESI oracle assumption.
+An affine model alone would not distinguish target-noise optimization from U-Net
+parameterization. No affine, nonlinear or coupled-field fit was launched during
+this continuation; the large campaign remains paused and P12 unchanged.
 
 ## Prerequisite: learned reference experiment (2026-09-19)
 

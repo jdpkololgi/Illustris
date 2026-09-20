@@ -1,0 +1,36 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/conditional_reference_continuation_20260919_r1/source/workflows/sbi/e2e_conditional_reference_continue.py", line 319, in <module>
+    {"prepare":prepare,"worker":worker,"collect":collect}[args.command](args)
+  File "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/conditional_reference_continuation_20260919_r1/source/workflows/sbi/e2e_conditional_reference_continue.py", line 226, in worker
+    raise AssertionError(f"GPU checkpoint replay mismatch: {diagnostic}")
+AssertionError: GPU checkpoint replay mismatch: {'fit': 'cfm_seed17_amortised', 'loss': 0.8650164604187012, 'replay_loss': 0.8650164604187012, 'loss_difference': 0.0, 'parameter_maximum_difference': 1.1762836948037148e-05, 'restored_state_exact': True, 'data_rng_exact': True, 'deterministic_algorithms': False}
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/conditional_reference_continuation_20260919_r1/source/workflows/sbi/e2e_conditional_reference_continue.py", line 319, in <module>
+    {"prepare":prepare,"worker":worker,"collect":collect}[args.command](args)
+  File "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/conditional_reference_continuation_20260919_r1/source/workflows/sbi/e2e_conditional_reference_continue.py", line 226, in worker
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/conditional_reference_continuation_20260919_r1/source/workflows/sbi/e2e_conditional_reference_continue.py", line 319, in <module>
+    raise AssertionError(f"GPU checkpoint replay mismatch: {diagnostic}")
+AssertionError: GPU checkpoint replay mismatch: {'fit': 'vdm_seed17_fixed1', 'loss': 1.3915495872497559, 'replay_loss': 1.3915495872497559, 'loss_difference': 0.0, 'parameter_maximum_difference': 6.817653775215149e-05, 'restored_state_exact': True, 'data_rng_exact': True, 'deterministic_algorithms': False}
+    {"prepare":prepare,"worker":worker,"collect":collect}[args.command](args)
+Traceback (most recent call last):
+  File "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/conditional_reference_continuation_20260919_r1/source/workflows/sbi/e2e_conditional_reference_continue.py", line 226, in worker
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/conditional_reference_continuation_20260919_r1/source/workflows/sbi/e2e_conditional_reference_continue.py", line 319, in <module>
+    raise AssertionError(f"GPU checkpoint replay mismatch: {diagnostic}")
+AssertionError: GPU checkpoint replay mismatch: {'fit': 'vdm_seed17_fixed0', 'loss': 1.365725040435791, 'replay_loss': 1.365725040435791, 'loss_difference': 0.0, 'parameter_maximum_difference': 4.212092608213425e-05, 'restored_state_exact': True, 'data_rng_exact': True, 'deterministic_algorithms': False}
+    {"prepare":prepare,"worker":worker,"collect":collect}[args.command](args)
+  File "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/conditional_reference_continuation_20260919_r1/source/workflows/sbi/e2e_conditional_reference_continue.py", line 226, in worker
+    raise AssertionError(f"GPU checkpoint replay mismatch: {diagnostic}")
+AssertionError: GPU checkpoint replay mismatch: {'fit': 'vdm_seed17_amortised', 'loss': 1.1725811958312988, 'replay_loss': 1.1725811958312988, 'loss_difference': 0.0, 'parameter_maximum_difference': 3.080745227634907e-05, 'restored_state_exact': True, 'data_rng_exact': True, 'deterministic_algorithms': False}
+srun: error: nid008217: task 0: Exited with exit code 1
+srun: Terminating StepId=58597933.0
+[2026-09-19T23:29:51.687] error: *** STEP 58597933.0 ON nid008217 CANCELLED AT 2026-09-19T23:29:51 DUE TO TASK FAILURE ***
+srun: error: nid008217: tasks 1-3: Exited with exit code 1

@@ -1,5 +1,44 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-20 - [result] All twelve65536-update continuations complete: under-training matters, fine-scale bias remains
+
+All12fixed/amortised Gaussian VDM/CFM fits continued from4096to65536with unchanged
+training law, Adam/RNG state and fresh-data process. All240checkpoint ensembles
+(512draws) and24final precision ensembles (2048draws) completed. Slurm58597933
+COMPLETED0:0 in1h11m59s; scientific step1h06m51s; allocation released, no remaining
+jobs.23focused tests pass. All12saved optimizers have65536steps and the original
+learning rate/ancestry; all264draw arrays are finite with expected shapes. Archive
+hashes, report-source hash and612generated-artifact hashes are retained. Scientific
+run tree0.567GiB. The earlier replay stop is resolved as GPU arithmetic
+nondeterminism: all12deterministic technical replays are exact; actual training
+keeps the original backend. Original4096results remain immutable.
+
+At fixed sampling settings (512draws, VDM1024NFE/CFM256NFE), matched-case/two-seed
+mean/covariance errors4096→65536 are: VDM fixed0.153/0.396→0.081/0.188;
+VDM amortised0.369/0.387→0.183/0.204; CFM fixed0.094/0.248→0.064/0.130;
+CFM amortised0.278/0.253→0.144/0.158. Thus the initial run was materially
+under-trained. Do not mix old VDM256NFE values or different draw counts to estimate
+training gains. Final2048-draw mean/covariance errors are respectively0.075/0.145,
+0.181/0.160,0.052/0.067,and0.140/0.097. CFM fixed passes all four original endpoint
+gates in4/4cells; VDM fixed2/4; amortised models0/8each across all observations.
+No configuration passes the stricter across-checkpoint rule (e.g. fixed CFM
+passes only1/4at32768), and all final cells fail the additional all-shell power
+condition. Matched highest-shell power ratios remain1.304–1.415. An independent
+Gaussian sample-covariance reference gives a99%interval about[0.9776,1.0225], so
+the30–42%excess is not ensemble noise. Fixed-CFM high-k improvement slows markedly;
+amortised means are still improving. No asymptote or capacity impossibility is
+established. CFM128/256NFE differences are negligible on the recorded diagnostics.
+
+Analytic CFM irreducible MSE is0.802031/0.804151for the two templates, verified
+by independent quadrature. Near0.810training losses are dominated by unavoidable
+stochastic target variance; this is NOT a gradient-variance measurement. The next
+informative comparison is same-U-Net exact conditional-mean target supervision
+plus a Gaussian-capable affine learned control, not an unqualified extra doubling.
+Keep nonlinear and coupled Abacus training gated; P12/data products unchanged.
+No affine fit was launched in this continuation. Full interpretation:
+`docs/e2e_conditional_reference_continuation_conclusions_20260920.md`; receipts:
+`docs/evidence/e2e_conditional_reference_continuation_20260920/`.
+
 ### 2026-09-19 - [execution] GPU replay cause isolated; full continuation running
 
 User explicitly lifts the earlier compute-budget blocker and asks to complete

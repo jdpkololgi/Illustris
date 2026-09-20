@@ -1,0 +1,2079 @@
+{
+  "groups": {
+    "vdm_fixed": {
+      "primary_nfe": 1024,
+      "curve": {
+        "4096": {
+          "cells": 4,
+          "passed": 0,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.15319250293912362,
+              "minimum": 0.13016542443723442,
+              "maximum": 0.16878834448124455
+            },
+            "covariance_relative": {
+              "mean": 0.395528422853748,
+              "minimum": 0.3088966813807,
+              "maximum": 0.4701551533534619
+            },
+            "variance_ratio": {
+              "mean": 1.097002965675685,
+              "minimum": 1.0603368964474111,
+              "maximum": 1.1299953573956376
+            },
+            "octant_coverage": {
+              "mean": 0.8957608055993369,
+              "minimum": 0.882616148350801,
+              "maximum": 0.9078238451491263
+            },
+            "highest_shell_power": {
+              "mean": 2.9518753834805733,
+              "minimum": 2.4023981383791626,
+              "maximum": 3.3049885621322765
+            }
+          },
+          "power_minimum": 0.5650222941659123,
+          "power_maximum": 3.3049885621322765
+        },
+        "8192": {
+          "cells": 4,
+          "passed": 0,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.13856296404588853,
+              "minimum": 0.1167217033386519,
+              "maximum": 0.16166996244077533
+            },
+            "covariance_relative": {
+              "mean": 0.2877502492060292,
+              "minimum": 0.23521054698221971,
+              "maximum": 0.34468929768987344
+            },
+            "variance_ratio": {
+              "mean": 1.0526891741986453,
+              "minimum": 1.000678029356439,
+              "maximum": 1.0872183855773876
+            },
+            "octant_coverage": {
+              "mean": 0.8971661305620197,
+              "minimum": 0.8823823482935383,
+              "maximum": 0.9146925435763511
+            },
+            "highest_shell_power": {
+              "mean": 1.814294309376596,
+              "minimum": 1.6180536515274855,
+              "maximum": 2.0605706272173268
+            }
+          },
+          "power_minimum": 0.7058706907443131,
+          "power_maximum": 2.0605706272173268
+        },
+        "16384": {
+          "cells": 4,
+          "passed": 0,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.11075115598748231,
+              "minimum": 0.09764197056013771,
+              "maximum": 0.13176522603077734
+            },
+            "covariance_relative": {
+              "mean": 0.2916747907803137,
+              "minimum": 0.2733573675286875,
+              "maximum": 0.32083557472952307
+            },
+            "variance_ratio": {
+              "mean": 0.9915383468598604,
+              "minimum": 0.9814373661451542,
+              "maximum": 1.0051488937912427
+            },
+            "octant_coverage": {
+              "mean": 0.892462289935841,
+              "minimum": 0.8869902044674798,
+              "maximum": 0.8967213447927838
+            },
+            "highest_shell_power": {
+              "mean": 1.5284590333973753,
+              "minimum": 1.4558623870010357,
+              "maximum": 1.58504688970957
+            }
+          },
+          "power_minimum": 0.76318510941829,
+          "power_maximum": 1.58504688970957
+        },
+        "32768": {
+          "cells": 4,
+          "passed": 0,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.10302106975027926,
+              "minimum": 0.08390978064712568,
+              "maximum": 0.12045611186177875
+            },
+            "covariance_relative": {
+              "mean": 0.22826421482000853,
+              "minimum": 0.19571660070508284,
+              "maximum": 0.25506213484012846
+            },
+            "variance_ratio": {
+              "mean": 0.9880529623777397,
+              "minimum": 0.9722373510293479,
+              "maximum": 0.9983460974847359
+            },
+            "octant_coverage": {
+              "mean": 0.8927819207683546,
+              "minimum": 0.8898429757283817,
+              "maximum": 0.8962056849176252
+            },
+            "highest_shell_power": {
+              "mean": 1.423830272724925,
+              "minimum": 1.360204631138941,
+              "maximum": 1.475879872025307
+            }
+          },
+          "power_minimum": 0.7980347699404979,
+          "power_maximum": 1.475879872025307
+        },
+        "65536": {
+          "cells": 4,
+          "passed": 2,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.08051969785609812,
+              "minimum": 0.07579671261094156,
+              "maximum": 0.08670299158700538
+            },
+            "covariance_relative": {
+              "mean": 0.18826216266920845,
+              "minimum": 0.13283126783429944,
+              "maximum": 0.23674004665658607
+            },
+            "variance_ratio": {
+              "mean": 0.974356745507525,
+              "minimum": 0.9443376665711798,
+              "maximum": 0.9984035802657364
+            },
+            "octant_coverage": {
+              "mean": 0.8956838862206125,
+              "minimum": 0.8860799904146562,
+              "maximum": 0.9035282254894649
+            },
+            "highest_shell_power": {
+              "mean": 1.3381719332330275,
+              "minimum": 1.3072323095341951,
+              "maximum": 1.3739541806906013
+            }
+          },
+          "power_minimum": 0.8029047051093272,
+          "power_maximum": 1.3739541806906013
+        }
+      },
+      "precision_matched": {
+        "cells": 4,
+        "passed": 2,
+        "power_passed": 0,
+        "metrics": {
+          "mean_rms": {
+            "mean": 0.07507596448659726,
+            "minimum": 0.06807421348449673,
+            "maximum": 0.0784204961112538
+          },
+          "covariance_relative": {
+            "mean": 0.1452656547490468,
+            "minimum": 0.0926823939742715,
+            "maximum": 0.18858156381136743
+          },
+          "variance_ratio": {
+            "mean": 0.9758041272325454,
+            "minimum": 0.945011354318619,
+            "maximum": 0.9978171553268484
+          },
+          "octant_coverage": {
+            "mean": 0.8956982264098826,
+            "minimum": 0.8848394891094948,
+            "maximum": 0.9042512507003007
+          },
+          "highest_shell_power": {
+            "mean": 1.3511274294184341,
+            "minimum": 1.3269913894031005,
+            "maximum": 1.3605505540509757
+          }
+        },
+        "power_minimum": 0.8222312082669689,
+        "power_maximum": 1.3605505540509757
+      },
+      "precision_all_cases": {
+        "cells": 4,
+        "passed": 2,
+        "power_passed": 0,
+        "metrics": {
+          "mean_rms": {
+            "mean": 0.07507596448659726,
+            "minimum": 0.06807421348449673,
+            "maximum": 0.0784204961112538
+          },
+          "covariance_relative": {
+            "mean": 0.1452656547490468,
+            "minimum": 0.0926823939742715,
+            "maximum": 0.18858156381136743
+          },
+          "variance_ratio": {
+            "mean": 0.9758041272325454,
+            "minimum": 0.945011354318619,
+            "maximum": 0.9978171553268484
+          },
+          "octant_coverage": {
+            "mean": 0.8956982264098826,
+            "minimum": 0.8848394891094948,
+            "maximum": 0.9042512507003007
+          },
+          "highest_shell_power": {
+            "mean": 1.3511274294184341,
+            "minimum": 1.3269913894031005,
+            "maximum": 1.3605505540509757
+          }
+        },
+        "power_minimum": 0.8222312082669689,
+        "power_maximum": 1.3605505540509757
+      },
+      "nfe_sensitivity": [
+        {
+          "fit": "vdm_seed17_fixed0",
+          "case": 0,
+          "update": 4096,
+          "differences": {
+            "mean_rms": 0.002790496189922831,
+            "covariance_relative": 0.01521217264483865,
+            "variance_ratio": 0.0031330263652704637,
+            "octant_coverage": 0.011240331483944432
+          }
+        },
+        {
+          "fit": "vdm_seed17_fixed0",
+          "case": 0,
+          "update": 8192,
+          "differences": {
+            "mean_rms": -0.002171421111425695,
+            "covariance_relative": 0.035049192996823963,
+            "variance_ratio": 0.0071878231113405855,
+            "octant_coverage": 0.007253013069888459
+          }
+        },
+        {
+          "fit": "vdm_seed17_fixed0",
+          "case": 0,
+          "update": 16384,
+          "differences": {
+            "mean_rms": 0.0007550837555277828,
+            "covariance_relative": 0.017104228732918725,
+            "variance_ratio": 0.006700458169402457,
+            "octant_coverage": 0.004266884602019072
+          }
+        },
+        {
+          "fit": "vdm_seed17_fixed0",
+          "case": 0,
+          "update": 32768,
+          "differences": {
+            "mean_rms": -0.004626400881524967,
+            "covariance_relative": 0.023565475540432285,
+            "variance_ratio": 0.007002305836761091,
+            "octant_coverage": 0.002011224998702321
+          }
+        },
+        {
+          "fit": "vdm_seed17_fixed0",
+          "case": 0,
+          "update": 65536,
+          "differences": {
+            "mean_rms": -0.0011889853356462227,
+            "covariance_relative": 0.05242451846053056,
+            "variance_ratio": 0.007552651482200079,
+            "octant_coverage": 0.0022531812400055085
+          }
+        },
+        {
+          "fit": "vdm_seed17_fixed1",
+          "case": 1,
+          "update": 4096,
+          "differences": {
+            "mean_rms": 0.00047652157536726136,
+            "covariance_relative": -0.07092645634964101,
+            "variance_ratio": 0.010493498845040472,
+            "octant_coverage": 0.005886406728492721
+          }
+        },
+        {
+          "fit": "vdm_seed17_fixed1",
+          "case": 1,
+          "update": 8192,
+          "differences": {
+            "mean_rms": -0.0038971863932927703,
+            "covariance_relative": -0.08630430581502624,
+            "variance_ratio": 0.01410066202885174,
+            "octant_coverage": 0.006922166305594835
+          }
+        },
+        {
+          "fit": "vdm_seed17_fixed1",
+          "case": 1,
+          "update": 16384,
+          "differences": {
+            "mean_rms": 0.0010779513768202909,
+            "covariance_relative": -0.0954456375780452,
+            "variance_ratio": 0.01245679983324377,
+            "octant_coverage": 0.010225070138456971
+          }
+        },
+        {
+          "fit": "vdm_seed17_fixed1",
+          "case": 1,
+          "update": 32768,
+          "differences": {
+            "mean_rms": -0.006017769884252164,
+            "covariance_relative": -0.08049327725801303,
+            "variance_ratio": 0.013864804974701772,
+            "octant_coverage": 0.00209436036113686
+          }
+        },
+        {
+          "fit": "vdm_seed17_fixed1",
+          "case": 1,
+          "update": 65536,
+          "differences": {
+            "mean_rms": -0.002866705397889413,
+            "covariance_relative": -0.06158575593186716,
+            "variance_ratio": 0.01567812618929265,
+            "octant_coverage": 0.00250365573264566
+          }
+        },
+        {
+          "fit": "vdm_seed29_fixed0",
+          "case": 0,
+          "update": 4096,
+          "differences": {
+            "mean_rms": 0.0009095802301390121,
+            "covariance_relative": 0.012252130883007972,
+            "variance_ratio": 0.01345389451156409,
+            "octant_coverage": 0.0003946907509280173
+          }
+        },
+        {
+          "fit": "vdm_seed29_fixed0",
+          "case": 0,
+          "update": 8192,
+          "differences": {
+            "mean_rms": -0.0032284383746018774,
+            "covariance_relative": 0.021037136386844735,
+            "variance_ratio": 0.013179028889177102,
+            "octant_coverage": 0.003321089096326335
+          }
+        },
+        {
+          "fit": "vdm_seed29_fixed0",
+          "case": 0,
+          "update": 16384,
+          "differences": {
+            "mean_rms": -0.001969014526187321,
+            "covariance_relative": 0.010434631024187069,
+            "variance_ratio": 0.011565095145273152,
+            "octant_coverage": -0.004259756864036679
+          }
+        },
+        {
+          "fit": "vdm_seed29_fixed0",
+          "case": 0,
+          "update": 32768,
+          "differences": {
+            "mean_rms": -0.0019665420809507617,
+            "covariance_relative": 0.004376858789058524,
+            "variance_ratio": 0.012620622650097224,
+            "octant_coverage": -0.002252779282057582
+          }
+        },
+        {
+          "fit": "vdm_seed29_fixed0",
+          "case": 0,
+          "update": 65536,
+          "differences": {
+            "mean_rms": 0.0002185386251718352,
+            "covariance_relative": 0.02067449771071614,
+            "variance_ratio": 0.01290351683280977,
+            "octant_coverage": -0.0018127690243476824
+          }
+        },
+        {
+          "fit": "vdm_seed29_fixed1",
+          "case": 1,
+          "update": 4096,
+          "differences": {
+            "mean_rms": -0.008483289112895892,
+            "covariance_relative": 0.006926861927403938,
+            "variance_ratio": 0.021316165913776164,
+            "octant_coverage": -0.00231899833870286
+          }
+        },
+        {
+          "fit": "vdm_seed29_fixed1",
+          "case": 1,
+          "update": 8192,
+          "differences": {
+            "mean_rms": 0.010249474780968243,
+            "covariance_relative": 0.0006444735375794597,
+            "variance_ratio": 0.0230752384074413,
+            "octant_coverage": -0.007794815454587933
+          }
+        },
+        {
+          "fit": "vdm_seed29_fixed1",
+          "case": 1,
+          "update": 16384,
+          "differences": {
+            "mean_rms": 0.0023468883051297185,
+            "covariance_relative": 0.002623635308623473,
+            "variance_ratio": 0.023179261836083875,
+            "octant_coverage": -0.0015423782544942144
+          }
+        },
+        {
+          "fit": "vdm_seed29_fixed1",
+          "case": 1,
+          "update": 32768,
+          "differences": {
+            "mean_rms": -0.007357010308686393,
+            "covariance_relative": -0.007669520013841663,
+            "variance_ratio": 0.025689846947339667,
+            "octant_coverage": -0.0027910313701118294
+          }
+        },
+        {
+          "fit": "vdm_seed29_fixed1",
+          "case": 1,
+          "update": 65536,
+          "differences": {
+            "mean_rms": -0.01429425601283986,
+            "covariance_relative": -0.00602177744908397,
+            "variance_ratio": 0.023856878826467143,
+            "octant_coverage": -0.0003866076866749779
+          }
+        }
+      ],
+      "reproducible_matched_four_gate": false,
+      "final_all_cases_four_gate": false,
+      "final_matched_power_gate": false
+    },
+    "vdm_amortised": {
+      "primary_nfe": 1024,
+      "curve": {
+        "4096": {
+          "cells": 4,
+          "passed": 0,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.3686038482285561,
+              "minimum": 0.33794269106683433,
+              "maximum": 0.4131378051747581
+            },
+            "covariance_relative": {
+              "mean": 0.3869464245221513,
+              "minimum": 0.29763726928669615,
+              "maximum": 0.5169076308393243
+            },
+            "variance_ratio": {
+              "mean": 1.1131859861552762,
+              "minimum": 1.0718781821328909,
+              "maximum": 1.1567032714239878
+            },
+            "octant_coverage": {
+              "mean": 0.8888181143611906,
+              "minimum": 0.8493459458942851,
+              "maximum": 0.9183476909974921
+            },
+            "highest_shell_power": {
+              "mean": 2.2241326067988636,
+              "minimum": 1.8027711254799499,
+              "maximum": 2.6421953930401965
+            }
+          },
+          "power_minimum": 0.8104086626626399,
+          "power_maximum": 2.6421953930401965
+        },
+        "8192": {
+          "cells": 4,
+          "passed": 0,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.29355737595902615,
+              "minimum": 0.2639336382475681,
+              "maximum": 0.33322037227482737
+            },
+            "covariance_relative": {
+              "mean": 0.2972741134263687,
+              "minimum": 0.2591233649723813,
+              "maximum": 0.3580515238187252
+            },
+            "variance_ratio": {
+              "mean": 1.0559023514613965,
+              "minimum": 1.0107405542992343,
+              "maximum": 1.1071648734790338
+            },
+            "octant_coverage": {
+              "mean": 0.8950983966768404,
+              "minimum": 0.8721502795762728,
+              "maximum": 0.9180854514322341
+            },
+            "highest_shell_power": {
+              "mean": 1.651962506042927,
+              "minimum": 1.58086751116102,
+              "maximum": 1.7063514343171404
+            }
+          },
+          "power_minimum": 0.8651627021350343,
+          "power_maximum": 1.7063514343171404
+        },
+        "16384": {
+          "cells": 4,
+          "passed": 0,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.2525833718931644,
+              "minimum": 0.21901496525205075,
+              "maximum": 0.28732916033617784
+            },
+            "covariance_relative": {
+              "mean": 0.25880609392451087,
+              "minimum": 0.22911032466429337,
+              "maximum": 0.2971980680479092
+            },
+            "variance_ratio": {
+              "mean": 1.0864925923987938,
+              "minimum": 1.0559748347768716,
+              "maximum": 1.1393898422100504
+            },
+            "octant_coverage": {
+              "mean": 0.8971569097938095,
+              "minimum": 0.8788945730090441,
+              "maximum": 0.9083302611530957
+            },
+            "highest_shell_power": {
+              "mean": 1.5632863645471178,
+              "minimum": 1.5411048555749374,
+              "maximum": 1.5897843551433148
+            }
+          },
+          "power_minimum": 0.7914372606765568,
+          "power_maximum": 1.5897843551433148
+        },
+        "32768": {
+          "cells": 4,
+          "passed": 0,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.2278951684747943,
+              "minimum": 0.19972014675451466,
+              "maximum": 0.255559275044173
+            },
+            "covariance_relative": {
+              "mean": 0.18934186637135766,
+              "minimum": 0.13725244039205733,
+              "maximum": 0.24183163456013368
+            },
+            "variance_ratio": {
+              "mean": 1.048233238633391,
+              "minimum": 0.9927138385092549,
+              "maximum": 1.0940278714658545
+            },
+            "octant_coverage": {
+              "mean": 0.8843516111133752,
+              "minimum": 0.8628831687129852,
+              "maximum": 0.9042336139911589
+            },
+            "highest_shell_power": {
+              "mean": 1.4636879280493744,
+              "minimum": 1.3881159489679467,
+              "maximum": 1.5420675842703753
+            }
+          },
+          "power_minimum": 0.8446191633156358,
+          "power_maximum": 1.5420675842703753
+        },
+        "65536": {
+          "cells": 4,
+          "passed": 0,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.18330456961468622,
+              "minimum": 0.1774832338035533,
+              "maximum": 0.19129349998006545
+            },
+            "covariance_relative": {
+              "mean": 0.20410810469405122,
+              "minimum": 0.13091068159435393,
+              "maximum": 0.2601521159682713
+            },
+            "variance_ratio": {
+              "mean": 0.9690907246914459,
+              "minimum": 0.950208613485987,
+              "maximum": 0.9936162383736048
+            },
+            "octant_coverage": {
+              "mean": 0.8915485687128015,
+              "minimum": 0.8859624192127837,
+              "maximum": 0.9024427542602964
+            },
+            "highest_shell_power": {
+              "mean": 1.3695349586266832,
+              "minimum": 1.3088915656336717,
+              "maximum": 1.402240688479362
+            }
+          },
+          "power_minimum": 0.7753181409075376,
+          "power_maximum": 1.402240688479362
+        }
+      },
+      "precision_matched": {
+        "cells": 4,
+        "passed": 0,
+        "power_passed": 0,
+        "metrics": {
+          "mean_rms": {
+            "mean": 0.18136489529832966,
+            "minimum": 0.17370774533487784,
+            "maximum": 0.19057602696074133
+          },
+          "covariance_relative": {
+            "mean": 0.15968793190368682,
+            "minimum": 0.0741369201287715,
+            "maximum": 0.2167735597744577
+          },
+          "variance_ratio": {
+            "mean": 0.9705051484814993,
+            "minimum": 0.9503862480630297,
+            "maximum": 0.9937480146167853
+          },
+          "octant_coverage": {
+            "mean": 0.8924936086132278,
+            "minimum": 0.8828562017265156,
+            "maximum": 0.9024696728917653
+          },
+          "highest_shell_power": {
+            "mean": 1.383521231451704,
+            "minimum": 1.35697671821887,
+            "maximum": 1.410067149956766
+          }
+        },
+        "power_minimum": 0.8185535527190234,
+        "power_maximum": 1.410067149956766
+      },
+      "precision_all_cases": {
+        "cells": 8,
+        "passed": 0,
+        "power_passed": 0,
+        "metrics": {
+          "mean_rms": {
+            "mean": 0.19870356548018264,
+            "minimum": 0.16817423142669677,
+            "maximum": 0.2601664615272449
+          },
+          "covariance_relative": {
+            "mean": 0.15926872019942245,
+            "minimum": 0.0741369201287715,
+            "maximum": 0.2167735597744577
+          },
+          "variance_ratio": {
+            "mean": 0.9709731338243373,
+            "minimum": 0.947256523632491,
+            "maximum": 0.999300870842759
+          },
+          "octant_coverage": {
+            "mean": 0.8890173957573915,
+            "minimum": 0.8786186428460474,
+            "maximum": 0.9024696728917653
+          },
+          "highest_shell_power": {
+            "mean": 1.3784713575469791,
+            "minimum": 1.3469303936910217,
+            "maximum": 1.410067149956766
+          }
+        },
+        "power_minimum": 0.8185535527190234,
+        "power_maximum": 1.410067149956766
+      },
+      "nfe_sensitivity": [
+        {
+          "fit": "vdm_seed17_amortised",
+          "case": 0,
+          "update": 4096,
+          "differences": {
+            "mean_rms": 0.010140229404687118,
+            "covariance_relative": 0.04122418202220213,
+            "variance_ratio": 0.0052141301680757035,
+            "octant_coverage": 0.0018642323001051286
+          }
+        },
+        {
+          "fit": "vdm_seed17_amortised",
+          "case": 1,
+          "update": 4096,
+          "differences": {
+            "mean_rms": -0.0008443203026284318,
+            "covariance_relative": -0.09749199425473548,
+            "variance_ratio": 0.011627064064698933,
+            "octant_coverage": -0.000518686245900124
+          }
+        },
+        {
+          "fit": "vdm_seed17_amortised",
+          "case": 0,
+          "update": 8192,
+          "differences": {
+            "mean_rms": 0.0031167150252872644,
+            "covariance_relative": 0.03976569179114825,
+            "variance_ratio": 0.007167999268499647,
+            "octant_coverage": -0.001135879007187146
+          }
+        },
+        {
+          "fit": "vdm_seed17_amortised",
+          "case": 1,
+          "update": 8192,
+          "differences": {
+            "mean_rms": -0.000982574525710156,
+            "covariance_relative": -0.06605845711975772,
+            "variance_ratio": 0.011725045389080924,
+            "octant_coverage": -0.00392790446897906
+          }
+        },
+        {
+          "fit": "vdm_seed17_amortised",
+          "case": 0,
+          "update": 16384,
+          "differences": {
+            "mean_rms": 0.001989764086880924,
+            "covariance_relative": 0.02914395117849669,
+            "variance_ratio": 0.007907806418351981,
+            "octant_coverage": 0.0024423124005784613
+          }
+        },
+        {
+          "fit": "vdm_seed17_amortised",
+          "case": 1,
+          "update": 16384,
+          "differences": {
+            "mean_rms": -0.0008306828559558888,
+            "covariance_relative": -0.0009237591995972239,
+            "variance_ratio": 0.013217818024145345,
+            "octant_coverage": -0.011803795548567364
+          }
+        },
+        {
+          "fit": "vdm_seed17_amortised",
+          "case": 0,
+          "update": 32768,
+          "differences": {
+            "mean_rms": -0.0008165472965473153,
+            "covariance_relative": 0.020074268373298454,
+            "variance_ratio": 0.007730707905820977,
+            "octant_coverage": 0.0013758023127830032
+          }
+        },
+        {
+          "fit": "vdm_seed17_amortised",
+          "case": 1,
+          "update": 32768,
+          "differences": {
+            "mean_rms": -0.0005425228343803878,
+            "covariance_relative": -0.048494755742515994,
+            "variance_ratio": 0.013634100184328313,
+            "octant_coverage": -0.012621979967233132
+          }
+        },
+        {
+          "fit": "vdm_seed17_amortised",
+          "case": 0,
+          "update": 65536,
+          "differences": {
+            "mean_rms": -0.0004805608705511222,
+            "covariance_relative": 0.02463640733275979,
+            "variance_ratio": 0.009202175734352669,
+            "octant_coverage": 0.005046339028633162
+          }
+        },
+        {
+          "fit": "vdm_seed17_amortised",
+          "case": 1,
+          "update": 65536,
+          "differences": {
+            "mean_rms": 0.0013765524975056231,
+            "covariance_relative": -0.007144695340228047,
+            "variance_ratio": 0.014641578931216315,
+            "octant_coverage": 0.00221637579344236
+          }
+        },
+        {
+          "fit": "vdm_seed29_amortised",
+          "case": 0,
+          "update": 4096,
+          "differences": {
+            "mean_rms": 0.003200225281979996,
+            "covariance_relative": 0.04429330480764915,
+            "variance_ratio": 0.015604501717419117,
+            "octant_coverage": 0.002264122508132016
+          }
+        },
+        {
+          "fit": "vdm_seed29_amortised",
+          "case": 1,
+          "update": 4096,
+          "differences": {
+            "mean_rms": -0.015663471945003615,
+            "covariance_relative": 0.024478977365971766,
+            "variance_ratio": 0.028565035924941418,
+            "octant_coverage": -0.01002131673310469
+          }
+        },
+        {
+          "fit": "vdm_seed29_amortised",
+          "case": 0,
+          "update": 8192,
+          "differences": {
+            "mean_rms": -0.0012141708563160325,
+            "covariance_relative": 0.0009526313794405716,
+            "variance_ratio": 0.012444493487281383,
+            "octant_coverage": 0.0028372912524481375
+          }
+        },
+        {
+          "fit": "vdm_seed29_amortised",
+          "case": 1,
+          "update": 8192,
+          "differences": {
+            "mean_rms": -0.008199122294220096,
+            "covariance_relative": 0.01433891446104596,
+            "variance_ratio": 0.02534612239594436,
+            "octant_coverage": -0.018002897445727806
+          }
+        },
+        {
+          "fit": "vdm_seed29_amortised",
+          "case": 0,
+          "update": 16384,
+          "differences": {
+            "mean_rms": -0.0007574269532869549,
+            "covariance_relative": 0.011393057270462081,
+            "variance_ratio": 0.0141943960694626,
+            "octant_coverage": 0.002485668543456776
+          }
+        },
+        {
+          "fit": "vdm_seed29_amortised",
+          "case": 1,
+          "update": 16384,
+          "differences": {
+            "mean_rms": -0.010681194591591003,
+            "covariance_relative": 0.006060943498074622,
+            "variance_ratio": 0.02677839177719399,
+            "octant_coverage": -0.008588979157559185
+          }
+        },
+        {
+          "fit": "vdm_seed29_amortised",
+          "case": 0,
+          "update": 32768,
+          "differences": {
+            "mean_rms": 0.002749238333236731,
+            "covariance_relative": 0.027187336083678654,
+            "variance_ratio": 0.014637248864267871,
+            "octant_coverage": 3.413845067090637e-05
+          }
+        },
+        {
+          "fit": "vdm_seed29_amortised",
+          "case": 1,
+          "update": 32768,
+          "differences": {
+            "mean_rms": -0.018301361723625564,
+            "covariance_relative": 0.004099075956521231,
+            "variance_ratio": 0.025333015058543573,
+            "octant_coverage": 0.0011340410458265948
+          }
+        },
+        {
+          "fit": "vdm_seed29_amortised",
+          "case": 0,
+          "update": 65536,
+          "differences": {
+            "mean_rms": 0.00491325498491052,
+            "covariance_relative": 0.014886308195943943,
+            "variance_ratio": 0.011751119074286276,
+            "octant_coverage": -0.0030269892002433574
+          }
+        },
+        {
+          "fit": "vdm_seed29_amortised",
+          "case": 1,
+          "update": 65536,
+          "differences": {
+            "mean_rms": -0.006158940765046389,
+            "covariance_relative": 0.010913639768069,
+            "variance_ratio": 0.023402734631730482,
+            "octant_coverage": -0.0034519488573534485
+          }
+        }
+      ],
+      "reproducible_matched_four_gate": false,
+      "final_all_cases_four_gate": false,
+      "final_matched_power_gate": false
+    },
+    "cfm_fixed": {
+      "primary_nfe": 256,
+      "curve": {
+        "4096": {
+          "cells": 4,
+          "passed": 0,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.0938367002113583,
+              "minimum": 0.08596438153328155,
+              "maximum": 0.1042586646057487
+            },
+            "covariance_relative": {
+              "mean": 0.24833676010473774,
+              "minimum": 0.18403605370918533,
+              "maximum": 0.33089023507287907
+            },
+            "variance_ratio": {
+              "mean": 1.0258252592671082,
+              "minimum": 1.0035776526971099,
+              "maximum": 1.0697430745243461
+            },
+            "octant_coverage": {
+              "mean": 0.9182859039276267,
+              "minimum": 0.8919631416668294,
+              "maximum": 0.9441978191803847
+            },
+            "highest_shell_power": {
+              "mean": 1.5941587597330522,
+              "minimum": 1.5099010190108246,
+              "maximum": 1.7182490474590557
+            }
+          },
+          "power_minimum": 0.8692762664937196,
+          "power_maximum": 1.8530593759761542
+        },
+        "8192": {
+          "cells": 4,
+          "passed": 3,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.08560401792528187,
+              "minimum": 0.07121229728766365,
+              "maximum": 0.09936887169798256
+            },
+            "covariance_relative": {
+              "mean": 0.17168376910066566,
+              "minimum": 0.13400335310067657,
+              "maximum": 0.2144449337276862
+            },
+            "variance_ratio": {
+              "mean": 1.0073374595078257,
+              "minimum": 0.9938351830686153,
+              "maximum": 1.0201132136653703
+            },
+            "octant_coverage": {
+              "mean": 0.900647751955408,
+              "minimum": 0.8850615918632948,
+              "maximum": 0.9091483766450061
+            },
+            "highest_shell_power": {
+              "mean": 1.471632613387123,
+              "minimum": 1.3908209291612128,
+              "maximum": 1.5393432098574342
+            }
+          },
+          "power_minimum": 0.83829706969549,
+          "power_maximum": 1.5393432098574342
+        },
+        "16384": {
+          "cells": 4,
+          "passed": 4,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.0706838214178482,
+              "minimum": 0.06745756169427482,
+              "maximum": 0.07408131007988532
+            },
+            "covariance_relative": {
+              "mean": 0.13920528742015162,
+              "minimum": 0.12214808854630556,
+              "maximum": 0.15369502421325282
+            },
+            "variance_ratio": {
+              "mean": 0.993458955558433,
+              "minimum": 0.9693773165397663,
+              "maximum": 1.027337410350821
+            },
+            "octant_coverage": {
+              "mean": 0.9012803612057648,
+              "minimum": 0.8939236052057553,
+              "maximum": 0.9087900974990524
+            },
+            "highest_shell_power": {
+              "mean": 1.3738045663726501,
+              "minimum": 1.365309139782238,
+              "maximum": 1.381354904644861
+            }
+          },
+          "power_minimum": 0.8807658860139993,
+          "power_maximum": 1.381354904644861
+        },
+        "32768": {
+          "cells": 4,
+          "passed": 1,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.09788218393445891,
+              "minimum": 0.08547431834797899,
+              "maximum": 0.11169405868968997
+            },
+            "covariance_relative": {
+              "mean": 0.1424245577704282,
+              "minimum": 0.1157160747745408,
+              "maximum": 0.18690735857939147
+            },
+            "variance_ratio": {
+              "mean": 1.0082776577795158,
+              "minimum": 0.9890900778657207,
+              "maximum": 1.0263425124926544
+            },
+            "octant_coverage": {
+              "mean": 0.8991345679031276,
+              "minimum": 0.8911111979289057,
+              "maximum": 0.9071688470283592
+            },
+            "highest_shell_power": {
+              "mean": 1.3640044422230668,
+              "minimum": 1.3351726103095158,
+              "maximum": 1.3979629195056857
+            }
+          },
+          "power_minimum": 0.9342242191662932,
+          "power_maximum": 1.3979629195056857
+        },
+        "65536": {
+          "cells": 4,
+          "passed": 4,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.06395358884605125,
+              "minimum": 0.054828192487028075,
+              "maximum": 0.07302809594331593
+            },
+            "covariance_relative": {
+              "mean": 0.12986967651803002,
+              "minimum": 0.1096100700115405,
+              "maximum": 0.14299842608267407
+            },
+            "variance_ratio": {
+              "mean": 1.0038822197474946,
+              "minimum": 0.9875503221838466,
+              "maximum": 1.0176449165682586
+            },
+            "octant_coverage": {
+              "mean": 0.8991017214310006,
+              "minimum": 0.8860000269745334,
+              "maximum": 0.9067595254295004
+            },
+            "highest_shell_power": {
+              "mean": 1.348710001788418,
+              "minimum": 1.290848273911221,
+              "maximum": 1.3958425672204007
+            }
+          },
+          "power_minimum": 0.9540975973497937,
+          "power_maximum": 1.3958425672204007
+        }
+      },
+      "precision_matched": {
+        "cells": 4,
+        "passed": 4,
+        "power_passed": 0,
+        "metrics": {
+          "mean_rms": {
+            "mean": 0.05189059807694252,
+            "minimum": 0.040095889381003495,
+            "maximum": 0.06485998880425611
+          },
+          "covariance_relative": {
+            "mean": 0.06739564318462782,
+            "minimum": 0.05285971828748954,
+            "maximum": 0.07530714599830336
+          },
+          "variance_ratio": {
+            "mean": 1.0020977335570944,
+            "minimum": 0.9900748820078571,
+            "maximum": 1.0085143576001276
+          },
+          "octant_coverage": {
+            "mean": 0.9017554630364936,
+            "minimum": 0.8919078772369922,
+            "maximum": 0.9052109930491117
+          },
+          "highest_shell_power": {
+            "mean": 1.3644032385797942,
+            "minimum": 1.3326023276742012,
+            "maximum": 1.415250996157096
+          }
+        },
+        "power_minimum": 0.9516386331659273,
+        "power_maximum": 1.415250996157096
+      },
+      "precision_all_cases": {
+        "cells": 4,
+        "passed": 4,
+        "power_passed": 0,
+        "metrics": {
+          "mean_rms": {
+            "mean": 0.05189059807694252,
+            "minimum": 0.040095889381003495,
+            "maximum": 0.06485998880425611
+          },
+          "covariance_relative": {
+            "mean": 0.06739564318462782,
+            "minimum": 0.05285971828748954,
+            "maximum": 0.07530714599830336
+          },
+          "variance_ratio": {
+            "mean": 1.0020977335570944,
+            "minimum": 0.9900748820078571,
+            "maximum": 1.0085143576001276
+          },
+          "octant_coverage": {
+            "mean": 0.9017554630364936,
+            "minimum": 0.8919078772369922,
+            "maximum": 0.9052109930491117
+          },
+          "highest_shell_power": {
+            "mean": 1.3644032385797942,
+            "minimum": 1.3326023276742012,
+            "maximum": 1.415250996157096
+          }
+        },
+        "power_minimum": 0.9516386331659273,
+        "power_maximum": 1.415250996157096
+      },
+      "nfe_sensitivity": [
+        {
+          "fit": "cfm_seed17_fixed0",
+          "case": 0,
+          "update": 4096,
+          "differences": {
+            "mean_rms": -4.469461447192957e-06,
+            "covariance_relative": -3.208284322420152e-05,
+            "variance_ratio": 0.00011280943194647008,
+            "octant_coverage": 1.389501000048643e-05
+          }
+        },
+        {
+          "fit": "cfm_seed17_fixed0",
+          "case": 0,
+          "update": 8192,
+          "differences": {
+            "mean_rms": 4.584763998241592e-06,
+            "covariance_relative": 5.312838314289192e-05,
+            "variance_ratio": 0.00014723613943612435,
+            "octant_coverage": 1.7811176775461846e-05
+          }
+        },
+        {
+          "fit": "cfm_seed17_fixed0",
+          "case": 0,
+          "update": 16384,
+          "differences": {
+            "mean_rms": -1.528005061526838e-05,
+            "covariance_relative": 2.8631569073622742e-05,
+            "variance_ratio": -0.0001866781542552154,
+            "octant_coverage": -9.485260038522014e-06
+          }
+        },
+        {
+          "fit": "cfm_seed17_fixed0",
+          "case": 0,
+          "update": 32768,
+          "differences": {
+            "mean_rms": 1.8111904280068702e-05,
+            "covariance_relative": 5.653650580605962e-05,
+            "variance_ratio": 0.00016412608767324421,
+            "octant_coverage": 1.5892388922300604e-05
+          }
+        },
+        {
+          "fit": "cfm_seed17_fixed0",
+          "case": 0,
+          "update": 65536,
+          "differences": {
+            "mean_rms": -1.1331648554907536e-06,
+            "covariance_relative": -9.04326890602547e-05,
+            "variance_ratio": -8.366529073944307e-05,
+            "octant_coverage": -2.323036694096281e-05
+          }
+        },
+        {
+          "fit": "cfm_seed17_fixed1",
+          "case": 1,
+          "update": 4096,
+          "differences": {
+            "mean_rms": 2.054363658442193e-05,
+            "covariance_relative": -7.733728170172816e-06,
+            "variance_ratio": -7.311511106222746e-05,
+            "octant_coverage": -3.468491071867419e-05
+          }
+        },
+        {
+          "fit": "cfm_seed17_fixed1",
+          "case": 1,
+          "update": 8192,
+          "differences": {
+            "mean_rms": -7.2537929242944e-06,
+            "covariance_relative": -6.529090680754135e-05,
+            "variance_ratio": 6.18986170521918e-05,
+            "octant_coverage": 2.4751610479989417e-05
+          }
+        },
+        {
+          "fit": "cfm_seed17_fixed1",
+          "case": 1,
+          "update": 16384,
+          "differences": {
+            "mean_rms": -3.039881956823365e-06,
+            "covariance_relative": -7.723703584740227e-05,
+            "variance_ratio": -0.00035125425812476685,
+            "octant_coverage": -4.532298186721295e-05
+          }
+        },
+        {
+          "fit": "cfm_seed17_fixed1",
+          "case": 1,
+          "update": 32768,
+          "differences": {
+            "mean_rms": -2.2269207364700172e-05,
+            "covariance_relative": -0.0005867916279671259,
+            "variance_ratio": 0.0001124753463166428,
+            "octant_coverage": 4.074119777208729e-06
+          }
+        },
+        {
+          "fit": "cfm_seed17_fixed1",
+          "case": 1,
+          "update": 65536,
+          "differences": {
+            "mean_rms": 8.355745228366684e-06,
+            "covariance_relative": -0.00026448218278010693,
+            "variance_ratio": -0.00016821665486643766,
+            "octant_coverage": -2.9078958432071644e-05
+          }
+        },
+        {
+          "fit": "cfm_seed29_fixed0",
+          "case": 0,
+          "update": 4096,
+          "differences": {
+            "mean_rms": 1.4774138050260843e-05,
+            "covariance_relative": 0.0006905692365996308,
+            "variance_ratio": -0.0004116759233334655,
+            "octant_coverage": -0.00015210133745502397
+          }
+        },
+        {
+          "fit": "cfm_seed29_fixed0",
+          "case": 0,
+          "update": 8192,
+          "differences": {
+            "mean_rms": -2.2948430077704418e-05,
+            "covariance_relative": 0.0003615111016459782,
+            "variance_ratio": -0.00030891927753384785,
+            "octant_coverage": -7.907585272814988e-05
+          }
+        },
+        {
+          "fit": "cfm_seed29_fixed0",
+          "case": 0,
+          "update": 16384,
+          "differences": {
+            "mean_rms": -1.7304454897143495e-05,
+            "covariance_relative": 5.177711527881712e-05,
+            "variance_ratio": -0.0004639996354751652,
+            "octant_coverage": -5.4812762282363536e-05
+          }
+        },
+        {
+          "fit": "cfm_seed29_fixed0",
+          "case": 0,
+          "update": 32768,
+          "differences": {
+            "mean_rms": -2.0132950672990813e-05,
+            "covariance_relative": 1.3256912566705914e-05,
+            "variance_ratio": -0.00013345947858511842,
+            "octant_coverage": -3.232245554496416e-05
+          }
+        },
+        {
+          "fit": "cfm_seed29_fixed0",
+          "case": 0,
+          "update": 65536,
+          "differences": {
+            "mean_rms": 2.2899991699507072e-05,
+            "covariance_relative": -1.8310737638721486e-05,
+            "variance_ratio": -6.437510488155329e-05,
+            "octant_coverage": -1.4370803537055998e-05
+          }
+        },
+        {
+          "fit": "cfm_seed29_fixed1",
+          "case": 1,
+          "update": 4096,
+          "differences": {
+            "mean_rms": 1.335760381961093e-05,
+            "covariance_relative": 0.0007389090910760454,
+            "variance_ratio": -0.0004100645262390401,
+            "octant_coverage": -8.109305095926889e-05
+          }
+        },
+        {
+          "fit": "cfm_seed29_fixed1",
+          "case": 1,
+          "update": 8192,
+          "differences": {
+            "mean_rms": 6.664550391333179e-06,
+            "covariance_relative": 0.00023679403753923411,
+            "variance_ratio": -0.00039263246845144817,
+            "octant_coverage": -6.252027218178746e-05
+          }
+        },
+        {
+          "fit": "cfm_seed29_fixed1",
+          "case": 1,
+          "update": 16384,
+          "differences": {
+            "mean_rms": -1.0206835041451368e-05,
+            "covariance_relative": -0.00010900211795761283,
+            "variance_ratio": -0.0005029977520223383,
+            "octant_coverage": -8.633042647088196e-05
+          }
+        },
+        {
+          "fit": "cfm_seed29_fixed1",
+          "case": 1,
+          "update": 32768,
+          "differences": {
+            "mean_rms": -8.344040010460629e-07,
+            "covariance_relative": -5.659765903145986e-05,
+            "variance_ratio": -0.00046402673381606974,
+            "octant_coverage": -6.132371160738614e-05
+          }
+        },
+        {
+          "fit": "cfm_seed29_fixed1",
+          "case": 1,
+          "update": 65536,
+          "differences": {
+            "mean_rms": -3.234374277273633e-06,
+            "covariance_relative": -1.904866978583164e-06,
+            "variance_ratio": -0.00016805896661709063,
+            "octant_coverage": -3.0555884214744644e-05
+          }
+        }
+      ],
+      "reproducible_matched_four_gate": false,
+      "final_all_cases_four_gate": true,
+      "final_matched_power_gate": false
+    },
+    "cfm_amortised": {
+      "primary_nfe": 256,
+      "curve": {
+        "4096": {
+          "cells": 4,
+          "passed": 0,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.2784308561134507,
+              "minimum": 0.22648366977479442,
+              "maximum": 0.3146365121093444
+            },
+            "covariance_relative": {
+              "mean": 0.2534867175048116,
+              "minimum": 0.20057738552809037,
+              "maximum": 0.32454905903018555
+            },
+            "variance_ratio": {
+              "mean": 1.0853120591238226,
+              "minimum": 1.043812172778702,
+              "maximum": 1.1208711889604033
+            },
+            "octant_coverage": {
+              "mean": 0.9206891188347694,
+              "minimum": 0.8909190896243318,
+              "maximum": 0.9500224859192914
+            },
+            "highest_shell_power": {
+              "mean": 1.7347817628631423,
+              "minimum": 1.5883099264062581,
+              "maximum": 1.8433187505332873
+            }
+          },
+          "power_minimum": 0.887121309810832,
+          "power_maximum": 1.8433187505332873
+        },
+        "8192": {
+          "cells": 4,
+          "passed": 0,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.22206107593104163,
+              "minimum": 0.2000227298987569,
+              "maximum": 0.2425885643884595
+            },
+            "covariance_relative": {
+              "mean": 0.16927854996614017,
+              "minimum": 0.15798419649658677,
+              "maximum": 0.18088863187737717
+            },
+            "variance_ratio": {
+              "mean": 1.0639571879265937,
+              "minimum": 1.0457097081067401,
+              "maximum": 1.0794071285957352
+            },
+            "octant_coverage": {
+              "mean": 0.9125790097323889,
+              "minimum": 0.8981954273259132,
+              "maximum": 0.9268576855491586
+            },
+            "highest_shell_power": {
+              "mean": 1.5891677911510154,
+              "minimum": 1.4782013354876595,
+              "maximum": 1.6530200304595684
+            }
+          },
+          "power_minimum": 0.9098322358160219,
+          "power_maximum": 1.6530200304595684
+        },
+        "16384": {
+          "cells": 4,
+          "passed": 0,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.18464958831379483,
+              "minimum": 0.16351530985229537,
+              "maximum": 0.21980860333996785
+            },
+            "covariance_relative": {
+              "mean": 0.14771903697554842,
+              "minimum": 0.13575002936304292,
+              "maximum": 0.1649897002132893
+            },
+            "variance_ratio": {
+              "mean": 1.0188459615053915,
+              "minimum": 1.0069886313367773,
+              "maximum": 1.0371791606149057
+            },
+            "octant_coverage": {
+              "mean": 0.9080575466773093,
+              "minimum": 0.8888670864264199,
+              "maximum": 0.9229499269562558
+            },
+            "highest_shell_power": {
+              "mean": 1.4494774429097048,
+              "minimum": 1.3426244744595957,
+              "maximum": 1.5111517725542585
+            }
+          },
+          "power_minimum": 0.9348082756390536,
+          "power_maximum": 1.5111517725542585
+        },
+        "32768": {
+          "cells": 4,
+          "passed": 0,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.17191570594074873,
+              "minimum": 0.1388396160671755,
+              "maximum": 0.22106622265643164
+            },
+            "covariance_relative": {
+              "mean": 0.1962869267419858,
+              "minimum": 0.15205277745232962,
+              "maximum": 0.2276445394819282
+            },
+            "variance_ratio": {
+              "mean": 1.0527316752891318,
+              "minimum": 1.034491392352736,
+              "maximum": 1.0730314387777737
+            },
+            "octant_coverage": {
+              "mean": 0.90860143923676,
+              "minimum": 0.8990851932320598,
+              "maximum": 0.9268310662030266
+            },
+            "highest_shell_power": {
+              "mean": 1.423665055579053,
+              "minimum": 1.353536574847267,
+              "maximum": 1.5051866405404368
+            }
+          },
+          "power_minimum": 0.980079788205195,
+          "power_maximum": 1.5051866405404368
+        },
+        "65536": {
+          "cells": 4,
+          "passed": 0,
+          "power_passed": 0,
+          "metrics": {
+            "mean_rms": {
+              "mean": 0.14378942599950023,
+              "minimum": 0.12735265967887918,
+              "maximum": 0.15486944522512078
+            },
+            "covariance_relative": {
+              "mean": 0.15765503576390866,
+              "minimum": 0.1271665869380756,
+              "maximum": 0.2037731047195517
+            },
+            "variance_ratio": {
+              "mean": 1.013217907549462,
+              "minimum": 0.9973823068354797,
+              "maximum": 1.0364685660435675
+            },
+            "octant_coverage": {
+              "mean": 0.8856705193967356,
+              "minimum": 0.8808067888801904,
+              "maximum": 0.8936173568743228
+            },
+            "highest_shell_power": {
+              "mean": 1.3171531291125023,
+              "minimum": 1.2875273189258902,
+              "maximum": 1.3815990631197406
+            }
+          },
+          "power_minimum": 0.9449585406199936,
+          "power_maximum": 1.3815990631197406
+        }
+      },
+      "precision_matched": {
+        "cells": 4,
+        "passed": 0,
+        "power_passed": 0,
+        "metrics": {
+          "mean_rms": {
+            "mean": 0.14019425566852123,
+            "minimum": 0.1317770123020068,
+            "maximum": 0.1499541730190514
+          },
+          "covariance_relative": {
+            "mean": 0.09727495009225366,
+            "minimum": 0.08290844418962671,
+            "maximum": 0.12561484794930738
+          },
+          "variance_ratio": {
+            "mean": 1.011508479235398,
+            "minimum": 0.9988648707972914,
+            "maximum": 1.0277960639997512
+          },
+          "octant_coverage": {
+            "mean": 0.8892834810795543,
+            "minimum": 0.8837821285121041,
+            "maximum": 0.8944532924809245
+          },
+          "highest_shell_power": {
+            "mean": 1.3314037295149852,
+            "minimum": 1.3043910681918682,
+            "maximum": 1.3620241085461453
+          }
+        },
+        "power_minimum": 0.9484592146475183,
+        "power_maximum": 1.3620241085461453
+      },
+      "precision_all_cases": {
+        "cells": 8,
+        "passed": 0,
+        "power_passed": 0,
+        "metrics": {
+          "mean_rms": {
+            "mean": 0.13847693747503786,
+            "minimum": 0.12631726995166548,
+            "maximum": 0.1499541730190514
+          },
+          "covariance_relative": {
+            "mean": 0.09849774880874247,
+            "minimum": 0.07388512244503169,
+            "maximum": 0.12561484794930738
+          },
+          "variance_ratio": {
+            "mean": 1.0171557514053307,
+            "minimum": 0.9988648707972914,
+            "maximum": 1.0277960639997512
+          },
+          "octant_coverage": {
+            "mean": 0.8888749703389807,
+            "minimum": 0.8672124711630743,
+            "maximum": 0.9012976960788237
+          },
+          "highest_shell_power": {
+            "mean": 1.3509074497240816,
+            "minimum": 1.3043910681918682,
+            "maximum": 1.41636052754485
+          }
+        },
+        "power_minimum": 0.9484592146475183,
+        "power_maximum": 1.41636052754485
+      },
+      "nfe_sensitivity": [
+        {
+          "fit": "cfm_seed17_amortised",
+          "case": 0,
+          "update": 4096,
+          "differences": {
+            "mean_rms": 2.7505478321643295e-06,
+            "covariance_relative": 0.0001397279463964396,
+            "variance_ratio": 0.00015015084453606775,
+            "octant_coverage": 7.547697291832023e-06
+          }
+        },
+        {
+          "fit": "cfm_seed17_amortised",
+          "case": 1,
+          "update": 4096,
+          "differences": {
+            "mean_rms": 6.589943933782427e-05,
+            "covariance_relative": 0.0006349462749296597,
+            "variance_ratio": 0.0003637535800991021,
+            "octant_coverage": 5.087266748171615e-05
+          }
+        },
+        {
+          "fit": "cfm_seed17_amortised",
+          "case": 0,
+          "update": 8192,
+          "differences": {
+            "mean_rms": 5.822203903410594e-06,
+            "covariance_relative": -1.2967597148583199e-05,
+            "variance_ratio": -0.0004953641525282659,
+            "octant_coverage": -6.434360314666598e-05
+          }
+        },
+        {
+          "fit": "cfm_seed17_amortised",
+          "case": 1,
+          "update": 8192,
+          "differences": {
+            "mean_rms": 1.0128978992191007e-05,
+            "covariance_relative": 0.00016143958352105026,
+            "variance_ratio": -0.00042010150442317595,
+            "octant_coverage": -7.064293382597064e-05
+          }
+        },
+        {
+          "fit": "cfm_seed17_amortised",
+          "case": 0,
+          "update": 16384,
+          "differences": {
+            "mean_rms": -1.5906068539489615e-05,
+            "covariance_relative": 0.00015113081505155335,
+            "variance_ratio": 0.00043452758023043714,
+            "octant_coverage": 8.40653095346422e-05
+          }
+        },
+        {
+          "fit": "cfm_seed17_amortised",
+          "case": 1,
+          "update": 16384,
+          "differences": {
+            "mean_rms": 3.40837391588078e-06,
+            "covariance_relative": 0.0003070655181638682,
+            "variance_ratio": 0.0004395104456509369,
+            "octant_coverage": 6.566287938247761e-05
+          }
+        },
+        {
+          "fit": "cfm_seed17_amortised",
+          "case": 0,
+          "update": 32768,
+          "differences": {
+            "mean_rms": -2.2219651657218176e-06,
+            "covariance_relative": 3.020599953390546e-05,
+            "variance_ratio": -0.00015749392060970813,
+            "octant_coverage": -1.2173826946071387e-05
+          }
+        },
+        {
+          "fit": "cfm_seed17_amortised",
+          "case": 1,
+          "update": 32768,
+          "differences": {
+            "mean_rms": -6.3564769748059025e-06,
+            "covariance_relative": 0.00017265446103029158,
+            "variance_ratio": -0.00014937191834718533,
+            "octant_coverage": -3.5708160210923268e-06
+          }
+        },
+        {
+          "fit": "cfm_seed17_amortised",
+          "case": 0,
+          "update": 65536,
+          "differences": {
+            "mean_rms": 2.2062357768914964e-05,
+            "covariance_relative": 2.582801673109425e-05,
+            "variance_ratio": -0.00043590889285516354,
+            "octant_coverage": -6.997914129347471e-05
+          }
+        },
+        {
+          "fit": "cfm_seed17_amortised",
+          "case": 1,
+          "update": 65536,
+          "differences": {
+            "mean_rms": 3.556930648046519e-06,
+            "covariance_relative": 0.000245620234970656,
+            "variance_ratio": -0.00036233022977061324,
+            "octant_coverage": -0.00010213954292026539
+          }
+        },
+        {
+          "fit": "cfm_seed29_amortised",
+          "case": 0,
+          "update": 4096,
+          "differences": {
+            "mean_rms": 0.00014163844099707168,
+            "covariance_relative": -7.231795212095382e-05,
+            "variance_ratio": -0.0001845926006647236,
+            "octant_coverage": -0.0001992611287600088
+          }
+        },
+        {
+          "fit": "cfm_seed29_amortised",
+          "case": 1,
+          "update": 4096,
+          "differences": {
+            "mean_rms": 2.7518789262326315e-05,
+            "covariance_relative": 0.00037528547366758036,
+            "variance_ratio": -0.0002703417280189857,
+            "octant_coverage": -0.0001276433338868177
+          }
+        },
+        {
+          "fit": "cfm_seed29_amortised",
+          "case": 0,
+          "update": 8192,
+          "differences": {
+            "mean_rms": 4.492696696778431e-06,
+            "covariance_relative": -5.880098189117722e-05,
+            "variance_ratio": -3.648265527744776e-05,
+            "octant_coverage": -8.537854524026667e-05
+          }
+        },
+        {
+          "fit": "cfm_seed29_amortised",
+          "case": 1,
+          "update": 8192,
+          "differences": {
+            "mean_rms": -2.583815988832505e-06,
+            "covariance_relative": -0.00045315701827391974,
+            "variance_ratio": -5.6550288172863006e-05,
+            "octant_coverage": -1.9715487910576535e-05
+          }
+        },
+        {
+          "fit": "cfm_seed29_amortised",
+          "case": 0,
+          "update": 16384,
+          "differences": {
+            "mean_rms": 2.159398285728198e-05,
+            "covariance_relative": -9.527982169593718e-05,
+            "variance_ratio": -0.0002582841808507208,
+            "octant_coverage": -8.35587221452716e-05
+          }
+        },
+        {
+          "fit": "cfm_seed29_amortised",
+          "case": 1,
+          "update": 16384,
+          "differences": {
+            "mean_rms": -7.88619603103724e-06,
+            "covariance_relative": 0.000488536403962736,
+            "variance_ratio": -0.00031678087664666066,
+            "octant_coverage": -5.6336888957786435e-05
+          }
+        },
+        {
+          "fit": "cfm_seed29_amortised",
+          "case": 0,
+          "update": 32768,
+          "differences": {
+            "mean_rms": 3.3462676458595464e-05,
+            "covariance_relative": -0.0003894743705185888,
+            "variance_ratio": -3.760064382318795e-05,
+            "octant_coverage": -4.57937763630456e-05
+          }
+        },
+        {
+          "fit": "cfm_seed29_amortised",
+          "case": 1,
+          "update": 32768,
+          "differences": {
+            "mean_rms": -2.2213260719716743e-07,
+            "covariance_relative": -0.0008619945380901328,
+            "variance_ratio": -0.00011940514470265562,
+            "octant_coverage": -2.348335966617654e-05
+          }
+        },
+        {
+          "fit": "cfm_seed29_amortised",
+          "case": 0,
+          "update": 65536,
+          "differences": {
+            "mean_rms": -1.7617061347452445e-05,
+            "covariance_relative": -0.000344758927833283,
+            "variance_ratio": -0.0003104831523927931,
+            "octant_coverage": -7.547635490556814e-05
+          }
+        },
+        {
+          "fit": "cfm_seed29_amortised",
+          "case": 1,
+          "update": 65536,
+          "differences": {
+            "mean_rms": -7.68088957764368e-06,
+            "covariance_relative": -0.00023104696556944249,
+            "variance_ratio": -0.00031535625479039986,
+            "octant_coverage": -3.215935462530517e-05
+          }
+        }
+      ],
+      "reproducible_matched_four_gate": false,
+      "final_all_cases_four_gate": false,
+      "final_matched_power_gate": false
+    }
+  },
+  "checkpoints": [
+    4096,
+    8192,
+    16384,
+    32768,
+    65536
+  ],
+  "curve_ensembles": 240,
+  "precision_ensembles": 24,
+  "note": "Matched cases0/1, both seeds; no best-checkpoint selection. Coverage is exact posterior mass in sample octant intervals, not population TARP. Covariance is a16-probe diagnostic, not full-field certification.",
+  "analysis_source_sha256": "98726827fadc34dba8b586be20329a89c677ea55b79b80eba2b632b93f23313a",
+  "run_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/conditional_reference_continuation_20260919_r1",
+  "highest_shell_gaussian_null": [
+    {
+      "modes": 13,
+      "draws": 2048,
+      "repeats": 20000,
+      "standard_deviation": 0.008764537005938218,
+      "central_99_interval": [
+        0.9776012595546438,
+        1.0223960238846483
+      ]
+    },
+    {
+      "modes": 13,
+      "draws": 2048,
+      "repeats": 20000,
+      "standard_deviation": 0.008763916195236587,
+      "central_99_interval": [
+        0.9776047944687815,
+        1.022493945258228
+      ]
+    },
+    {
+      "modes": 13,
+      "draws": 2048,
+      "repeats": 20000,
+      "standard_deviation": 0.008764537005938218,
+      "central_99_interval": [
+        0.9776012595546438,
+        1.0223960238846483
+      ]
+    },
+    {
+      "modes": 13,
+      "draws": 2048,
+      "repeats": 20000,
+      "standard_deviation": 0.008763916195236587,
+      "central_99_interval": [
+        0.9776047944687815,
+        1.022493945258228
+      ]
+    }
+  ],
+  "cfm_irreducible_mse_by_case": [
+    0.8020309542089787,
+    0.8041508264739932,
+    0.8020309542089787,
+    0.8041508264739932
+  ],
+  "final_online_training_loss": {
+    "vdm_seed17_amortised": {
+      "update": 65536,
+      "loss": 1.10544873168692,
+      "elapsed_seconds": 1299.0274757580482
+    },
+    "vdm_seed17_fixed0": {
+      "update": 65536,
+      "loss": 1.0849021570757031,
+      "elapsed_seconds": 891.4068272149889
+    },
+    "vdm_seed17_fixed1": {
+      "update": 65536,
+      "loss": 1.0870542763732374,
+      "elapsed_seconds": 878.131226240017
+    },
+    "cfm_seed17_amortised": {
+      "update": 65536,
+      "loss": 0.8171616907930002,
+      "elapsed_seconds": 863.264616568049,
+      "bayes_floor": 0.803090890341486,
+      "estimated_excess_mse": 0.01407080045151421
+    },
+    "cfm_seed17_fixed0": {
+      "update": 65536,
+      "loss": 0.8084269539103843,
+      "elapsed_seconds": 746.324044945999,
+      "bayes_floor": 0.8020309542089787,
+      "estimated_excess_mse": 0.006395999701405586
+    },
+    "cfm_seed17_fixed1": {
+      "update": 65536,
+      "loss": 0.8102304580970667,
+      "elapsed_seconds": 752.8237332539866,
+      "bayes_floor": 0.8041508264739932,
+      "estimated_excess_mse": 0.006079631623073567
+    },
+    "vdm_seed29_amortised": {
+      "update": 65536,
+      "loss": 1.115964874625206,
+      "elapsed_seconds": 1293.3991586570046
+    },
+    "vdm_seed29_fixed0": {
+      "update": 65536,
+      "loss": 1.089127573184669,
+      "elapsed_seconds": 891.7062696400099
+    },
+    "vdm_seed29_fixed1": {
+      "update": 65536,
+      "loss": 1.0919004273600876,
+      "elapsed_seconds": 849.3335903369589
+    },
+    "cfm_seed29_amortised": {
+      "update": 65536,
+      "loss": 0.815507821040228,
+      "elapsed_seconds": 857.5531876169844,
+      "bayes_floor": 0.803090890341486,
+      "estimated_excess_mse": 0.012416930698742057
+    },
+    "cfm_seed29_fixed0": {
+      "update": 65536,
+      "loss": 0.8069245308288373,
+      "elapsed_seconds": 722.1157505099545,
+      "bayes_floor": 0.8020309542089787,
+      "estimated_excess_mse": 0.004893576619858564
+    },
+    "cfm_seed29_fixed1": {
+      "update": 65536,
+      "loss": 0.8092824202612974,
+      "elapsed_seconds": 754.5847477010102,
+      "bayes_floor": 0.8041508264739932,
+      "estimated_excess_mse": 0.005131593787304212
+    }
+  },
+  "loss_floor_note": "Analytic expected irreducible CFM MSE, checked by quadrature. Excess estimate uses the last1024 online minibatches, not frozen validation. This is a loss decomposition, not a gradient-variance measurement.",
+  "curve_covariance_thresholds": [
+    0.18399468878619407,
+    0.17596877811547287,
+    0.18399468878619407,
+    0.17596877811547287
+  ],
+  "cfm_baseline_replay": [
+    {
+      "fit": "cfm_seed17_amortised",
+      "case": 0,
+      "maximum_metric_difference": 0.0
+    },
+    {
+      "fit": "cfm_seed17_amortised",
+      "case": 1,
+      "maximum_metric_difference": 0.0
+    },
+    {
+      "fit": "cfm_seed17_amortised",
+      "case": 2,
+      "maximum_metric_difference": 0.0
+    },
+    {
+      "fit": "cfm_seed17_amortised",
+      "case": 3,
+      "maximum_metric_difference": 0.0
+    },
+    {
+      "fit": "cfm_seed17_fixed0",
+      "case": 0,
+      "maximum_metric_difference": 2.2730538451476434e-08
+    },
+    {
+      "fit": "cfm_seed17_fixed1",
+      "case": 1,
+      "maximum_metric_difference": 0.0
+    },
+    {
+      "fit": "cfm_seed29_amortised",
+      "case": 0,
+      "maximum_metric_difference": 0.0
+    },
+    {
+      "fit": "cfm_seed29_amortised",
+      "case": 1,
+      "maximum_metric_difference": 0.0
+    },
+    {
+      "fit": "cfm_seed29_amortised",
+      "case": 2,
+      "maximum_metric_difference": 0.0
+    },
+    {
+      "fit": "cfm_seed29_amortised",
+      "case": 3,
+      "maximum_metric_difference": 0.0
+    },
+    {
+      "fit": "cfm_seed29_fixed0",
+      "case": 0,
+      "maximum_metric_difference": 0.0
+    },
+    {
+      "fit": "cfm_seed29_fixed1",
+      "case": 1,
+      "maximum_metric_difference": 0.0
+    }
+  ]
+}

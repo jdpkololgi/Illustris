@@ -1,0 +1,10 @@
+{
+  "fit": "cfm_seed17_amortised",
+  "loss": 0.8650164604187012,
+  "replay_loss": 0.8650164604187012,
+  "loss_difference": 0.0,
+  "parameter_maximum_difference": 1.1762836948037148e-05,
+  "restored_state_exact": true,
+  "data_rng_exact": true,
+  "deterministic_algorithms": false
+}

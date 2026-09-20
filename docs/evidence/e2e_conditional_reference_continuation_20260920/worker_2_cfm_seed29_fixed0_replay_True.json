@@ -1,0 +1,10 @@
+{
+  "fit": "cfm_seed29_fixed0",
+  "loss": 0.8221290111541748,
+  "replay_loss": 0.8221290111541748,
+  "loss_difference": 0.0,
+  "parameter_maximum_difference": 0.0,
+  "restored_state_exact": true,
+  "data_rng_exact": true,
+  "deterministic_algorithms": true
+}

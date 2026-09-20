@@ -177,6 +177,10 @@ def report(root, output):
     shutil.copy2(parent/'controls.json', output/'original_controls.json')
     for name in ('replay_default.log', 'replay_deterministic.log'):
         shutil.copy2(root/name, output/(name+'.txt'))
+    generated_hashes = {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest()
+                        for p in sorted((root/'results').rglob('*'))
+                        if p.is_file() and p.suffix in ('.pt','.npy','.json','.jsonl')}
+    (output/'generated_artifact_sha256.json').write_text(json.dumps(generated_hashes,indent=2)+'\n')
     (output/'summary.json').write_text(json.dumps(summary, indent=2)+'\n')
     lines = ['# Unchanged-training Gaussian reference continuation', '',
              '|Model|Updates|Mean RMS|Covariance error|Variance ratio|Octant coverage|Passed cells|',

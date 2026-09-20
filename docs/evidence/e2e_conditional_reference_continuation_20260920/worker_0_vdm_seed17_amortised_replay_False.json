@@ -1,0 +1,10 @@
+{
+  "fit": "vdm_seed17_amortised",
+  "loss": 1.1725811958312988,
+  "replay_loss": 1.1725811958312988,
+  "loss_difference": 0.0,
+  "parameter_maximum_difference": 3.080745227634907e-05,
+  "restored_state_exact": true,
+  "data_rng_exact": true,
+  "deterministic_algorithms": false
+}
