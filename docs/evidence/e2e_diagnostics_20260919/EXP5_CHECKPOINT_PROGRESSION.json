@@ -1,0 +1,243 @@
+{
+ "caveat": "Ensemble size rises at 20480, which lowers the variance of the 20480 estimates but does not bias the compared quantities. density_rmse is excluded as ensemble-size dependent. A log-log slope from three points is a descriptive trend, not a fitted convergence law, and the projection assumes that trend continues, which is exactly what is not established.",
+ "checkpoints": [
+  5120,
+  10240,
+  20480
+ ],
+ "ensemble_sizes_present": [
+  32,
+  64,
+  128
+ ],
+ "matched_triples": 128,
+ "panel": "ph004 development anchors only; development-panel progression, not a held-out claim",
+ "run": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/vdm_context_20260917_v1",
+ "schema": "e2e-diagnostic-checkpoint-progression-v1",
+ "statistics": {
+  "A:coverage_gap": {
+   "anchors": 32,
+   "anchors_improving_on_second_doubling": 10,
+   "deceleration": 3.427449605715354,
+   "fractional_change_10240_to_20480": 0.45297325460426957,
+   "fractional_change_5120_to_10240": 0.13216044193587145,
+   "log_log_slope": 0.35904328421008647,
+   "means": [
+    0.07700602213541666,
+    0.08718317205255682,
+    0.12667481724392748
+   ],
+   "projected_if_16x_more": 0.34278473974682744
+  },
+  "A:density_crps": {
+   "anchors": 32,
+   "anchors_improving_on_second_doubling": 14,
+   "deceleration": -0.2690848623848075,
+   "fractional_change_10240_to_20480": 0.020305098635764733,
+   "fractional_change_5120_to_10240": -0.07545983246997827,
+   "log_log_slope": -0.04209573667323908,
+   "means": [
+    0.38275029754189394,
+    0.3538680242115483,
+    0.36105334934720695
+   ],
+   "projected_if_16x_more": 0.32127953341230153
+  },
+  "A:power_deficit": {
+   "anchors": 32,
+   "anchors_improving_on_second_doubling": 15,
+   "deceleration": -0.3286642136484379,
+   "fractional_change_10240_to_20480": 0.05161136991389657,
+   "fractional_change_5120_to_10240": -0.15703373768920179,
+   "log_log_slope": -0.08692577876340213,
+   "means": [
+    1.9791371261544122,
+    1.6683458258349195,
+    1.7544514393963908
+   ],
+   "projected_if_16x_more": 1.378707965939745
+  },
+  "A:tidal_energy": {
+   "anchors": 32,
+   "anchors_improving_on_second_doubling": 13,
+   "deceleration": -0.1895811189271398,
+   "fractional_change_10240_to_20480": 0.016155246501051265,
+   "fractional_change_5120_to_10240": -0.08521548238809626,
+   "log_log_slope": -0.05268765726075401,
+   "means": [
+    0.8532333362190776,
+    0.7805246458835642,
+    0.7931342139379589
+   ],
+   "projected_if_16x_more": 0.6853373860160686
+  },
+  "B:coverage_gap": {
+   "anchors": 32,
+   "anchors_improving_on_second_doubling": 22,
+   "deceleration": 1.1339976879732077,
+   "fractional_change_10240_to_20480": -0.3353536079690356,
+   "fractional_change_5120_to_10240": -0.2957268886221564,
+   "log_log_slope": -0.5475670954908987,
+   "means": [
+    0.0814756913618608,
+    0.0573811386570786,
+    0.038138166779055786
+   ],
+   "projected_if_16x_more": 0.008356479114373675
+  },
+  "B:density_crps": {
+   "anchors": 32,
+   "anchors_improving_on_second_doubling": 28,
+   "deceleration": 0.7739598335614029,
+   "fractional_change_10240_to_20480": -0.07565960332251277,
+   "fractional_change_5120_to_10240": -0.09775649851796894,
+   "log_log_slope": -0.13095755393257352,
+   "means": [
+    0.385015420075496,
+    0.3473776607334906,
+    0.32109520471929226
+   ],
+   "projected_if_16x_more": 0.2233290467646364
+  },
+  "B:power_deficit": {
+   "anchors": 32,
+   "anchors_improving_on_second_doubling": 9,
+   "deceleration": -1.1734095650555991,
+   "fractional_change_10240_to_20480": 0.28656012942164966,
+   "fractional_change_5120_to_10240": -0.24421151655438542,
+   "log_log_slope": -0.020213337170356147,
+   "means": [
+    1.4538069486407756,
+    1.0987705489359083,
+    1.4136343796436792
+   ],
+   "projected_if_16x_more": 1.3365887934394973
+  },
+  "B:tidal_energy": {
+   "anchors": 32,
+   "anchors_improving_on_second_doubling": 27,
+   "deceleration": 0.6499714091749822,
+   "fractional_change_10240_to_20480": -0.048719963384164525,
+   "fractional_change_5120_to_10240": -0.07495708687556804,
+   "log_log_slope": -0.09223289650926754,
+   "means": [
+    0.8211356869987384,
+    0.7595857479717447,
+    0.7225787581434281
+   ],
+   "projected_if_16x_more": 0.5595330145084879
+  },
+  "C:coverage_gap": {
+   "anchors": 32,
+   "anchors_improving_on_second_doubling": 20,
+   "deceleration": -0.9220282523726443,
+   "fractional_change_10240_to_20480": -0.10210805621260337,
+   "fractional_change_5120_to_10240": 0.11074287143571786,
+   "log_log_slope": -0.0019306886284073954,
+   "means": [
+    0.05545876242897727,
+    0.06160042502663352,
+    0.05531052536529377
+   ],
+   "projected_if_16x_more": 0.05501523885811188
+  },
+  "C:density_crps": {
+   "anchors": 32,
+   "anchors_improving_on_second_doubling": 24,
+   "deceleration": 0.7171317811822027,
+   "fractional_change_10240_to_20480": -0.0461671003144687,
+   "fractional_change_5120_to_10240": -0.06437742898294303,
+   "log_log_slope": -0.08209648942457892,
+   "means": [
+    0.3748567725714097,
+    0.35072445731641855,
+    0.33453252611275386
+   ],
+   "projected_if_16x_more": 0.26643073726441907
+  },
+  "C:power_deficit": {
+   "anchors": 32,
+   "anchors_improving_on_second_doubling": 5,
+   "deceleration": -1.601066908748673,
+   "fractional_change_10240_to_20480": 0.29237001063727597,
+   "fractional_change_5120_to_10240": -0.18260948935967963,
+   "log_log_slope": 0.039558289149203785,
+   "means": [
+    1.675151085883431,
+    1.3692526014899449,
+    1.7695809991526779
+   ],
+   "projected_if_16x_more": 1.9747102155538923
+  },
+  "C:tidal_energy": {
+   "anchors": 32,
+   "anchors_improving_on_second_doubling": 17,
+   "deceleration": 0.029891400586677476,
+   "fractional_change_10240_to_20480": -0.002039910204066849,
+   "fractional_change_5120_to_10240": -0.06824404892476106,
+   "log_log_slope": -0.05246097030362583,
+   "means": [
+    0.8230238297408545,
+    0.7668573512377754,
+    0.7652930311019218
+   ],
+   "projected_if_16x_more": 0.6616959186702395
+  },
+  "D:coverage_gap": {
+   "anchors": 32,
+   "anchors_improving_on_second_doubling": 14,
+   "deceleration": 0.27101859583981286,
+   "fractional_change_10240_to_20480": 0.12265604847647393,
+   "fractional_change_5120_to_10240": 0.4525742895848022,
+   "log_log_slope": 0.35276397122033043,
+   "means": [
+    0.029183358857125946,
+    0.042390996759588066,
+    0.04759050891309815
+   ],
+   "projected_if_16x_more": 0.12655826018818636
+  },
+  "D:density_crps": {
+   "anchors": 32,
+   "anchors_improving_on_second_doubling": 26,
+   "deceleration": 0.8303072117542165,
+   "fractional_change_10240_to_20480": -0.02376783496198063,
+   "fractional_change_5120_to_10240": -0.028625350503418568,
+   "log_log_slope": -0.038302033548171854,
+   "means": [
+    0.33938019441629175,
+    0.32966531739720706,
+    0.3218298865406213
+   ],
+   "projected_if_16x_more": 0.28940506536119254
+  },
+  "D:power_deficit": {
+   "anchors": 32,
+   "anchors_improving_on_second_doubling": 15,
+   "deceleration": 1.5959164683053768,
+   "fractional_change_10240_to_20480": 0.05227394546908618,
+   "fractional_change_5120_to_10240": 0.03275481299130477,
+   "log_log_slope": 0.06000406178923891,
+   "means": [
+    1.202042351677423,
+    1.2414150241142452,
+    1.3063086853892976
+   ],
+   "projected_if_16x_more": 1.5427583449455562
+  },
+  "D:tidal_energy": {
+   "anchors": 32,
+   "anchors_improving_on_second_doubling": 25,
+   "deceleration": 1.0053770072918695,
+   "fractional_change_10240_to_20480": -0.020916809987003866,
+   "fractional_change_5120_to_10240": -0.02080494166396978,
+   "log_log_slope": -0.03041423281953253,
+   "means": [
+    0.7625830127137196,
+    0.7467175176202764,
+    0.7310985691902459
+   ],
+   "projected_if_16x_more": 0.6719756692012941
+  }
+ }
+}

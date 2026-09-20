@@ -1,5 +1,88 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-20 - [code/diagnostic] Checkpoint progression: the completed matrix was still training, and its registered contrast magnitudes are budget-dependent
+
+Prompted by the Gaussian-reference continuation, which showed4096updates were
+materially under-trained and that16x more training roughly halved covariance
+error. The completed A/B/C/D matrix trained20480updates. This checks, from
+PUBLISHED case reports only, whether it had converged. Read-only: no payload, no
+truth, no checkpoint opened, nothing written into the frozen run root. Script
+workflows/sbi/diagnostics_20260919/exp5_checkpoint_progression.py; receipt
+EXP5_CHECKPOINT_PROGRESSION.json.
+
+**Method and its limits.**128 matched (arm,seed,anchor) triples -- four arms, two
+seeds,16 ph004 anchors -- present at5120/10240/20480. Ensemble size rises from32
+to64/128 at the final checkpoint, so only ensemble-size-unbiased quantities are
+compared: fair U-statistic density CRPS, fair tidal energy, mean sample/truth band
+power, and coverage as |C90 - attainable90| with each case using its own finite-M
+attainable value. density_rmse is EXCLUDED because it scores the M-draw posterior
+mean. This is a ph004 development panel, not a held-out claim, and a three-point
+log-log slope is descriptive, not a fitted convergence law.
+
+**1. B, C and D were still improving on local proper scores at20480.** Density
+CRPS on the last doubling: B -7.57%(28/32anchors improving), C -4.62%(24/32),
+D -2.38%(26/32). Fair tidal energy: B -4.87%(27/32), C -0.20%(17/32),
+D -2.09%(25/32). The fits had not converged where the registered primary score
+lives.
+
+**2. Arm A reverses after10240.** Density CRPS +2.03%, tidal energy +1.62%,
+coverage gap +45.30%, power deficit +5.16% on the last doubling, with only
+13--15of32anchors improving. That is the signature of overfitting, and A is the
+32-patch arm with twelve times less training diversity than B/C/D. Its final-
+checkpoint numbers are not simply an under-trained version of the others.
+
+**3. The spectral deficit is NOT an under-training artifact.** Summed |1-ratio|
+band-power deficit on the last doubling: B +28.66%(only9/32anchors improving),
+C +29.24%(5/32), D +5.23%(15/32), A +5.16%(15/32). More training made the power
+deficit WORSE while the local proper scores improved. So the reported fine
+sample/truth power ratios would not have been repaired by a longer fit; the
+divergence between marginal scores and spectral fidelity is a property of the
+training dynamics, not of where we stopped.
+
+**4. The registered contrast magnitudes are strongly budget-dependent, and two
+change sign.** Density-CRPS contrast at5120/10240/20480 (negative means the later
+arm is better): H1 A->B +0.59/-1.83/-11.07; H2 B->C -2.64/+0.96/+4.18. H3 C->D on
+tidal energy -7.34/-2.63/-4.47. The final-checkpoint H1 value on this panel,
+-11.07%, reproduces the registered pooled -10.8759% closely, which validates the
+panel. But at half the budget H1 was -1.83%, and at a quarter B was slightly
+WORSE than A. Decomposing the last doubling, B improves7.57% while A degrades
+2.03%, so roughly four fifths of the H1 magnitude comes from B continuing to
+learn and one fifth from A beginning to overfit.
+
+**What this does and does not change.** Nothing is retracted. 20480 was
+pre-registered as the final checkpoint before fitting, the decisions were taken
+there, and the frozen report's numbers stand exactly as measured. What is now
+established is narrower and should travel with any citation of that experiment:
+its ABSOLUTE proper-score values are those of unconverged fits; the SIGN of H1 is
+robust at the final two checkpoints but its MAGNITUDE is not a stable property of
+the arms; and its spectral conclusions are NOT explained by early stopping.
+Matched contrasts at a common budget remain the defensible unit, which is what
+the protocol was designed around.
+
+**5. On the toy: convergence rates differ sharply, and only CFM-fixed is near a
+floor.** Log-log slopes over the last decade,16384to65536: VDM fixed -0.230(mean),
+-0.316(covariance), -0.096(highest-shell power); VDM amortised -0.231/-0.171/-0.095;
+CFM fixed -0.072/-0.050/-0.013; CFM amortised -0.180/+0.047/-0.069. Projecting a
+further16x at those rates gives highest-shell power1.026(VDM fixed),1.051(VDM
+amortised),1.300(CFM fixed),1.088(CFM amortised). The four curves passing through
+1.32--1.37 at65536 is therefore partly coincidental: VDM is still descending fast
+enough to reach the [0.9,1.1] condition, whereas CFM-fixed has nearly stopped and
+would still sit near1.30. The persistent power excess is established as a floor
+for CFM, whose numerical sampler error is negligible, and is NOT yet established
+for VDM. None of the four has converged on mean or covariance.
+
+**6. The CFM loss decomposition puts a number on the amortisation penalty from a
+second direction.** Against the analytic irreducible target-variance floor
+0.803091, final online training losses give excess risk +0.48%/+0.66%/+0.77%/
++0.89% for the four fixed fits and +1.55%/+1.75% for the two amortised fits -- a
+ratio near2.6, independently consistent with the2.25--2.70 amortised/fixed mean-
+error ratio. The learnable part of the objective is under two percent of the loss,
+which is why exact-conditional-target supervision is the right next instrument:
+it removes the stochastic target variance that dominates the measured loss without
+changing the population minimiser.
+
+No run, no authorization, no frozen-artifact change, nothing left running.
+
 ### 2026-09-20 - [result] All twelve65536-update continuations complete: under-training matters, fine-scale bias remains
 
 All12fixed/amortised Gaussian VDM/CFM fits continued from4096to65536with unchanged
