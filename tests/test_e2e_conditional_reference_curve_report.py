@@ -1,7 +1,7 @@
 import copy
 import unittest
 
-from workflows.sbi.e2e_conditional_reference_curve_report import aggregate, summarize
+from workflows.sbi.e2e_conditional_reference_curve_report import aggregate, highest_shell_null, summarize
 
 
 class CurveReportTests(unittest.TestCase):
@@ -63,6 +63,16 @@ class CurveReportTests(unittest.TestCase):
             if kind=='sources': done['sources']={'a':'wrong'}
             with self.assertRaises(ValueError): summarize(done,manifest)
         with self.assertRaises(ValueError): aggregate([])
+
+    def test_power_null_against_isotropic_chisquare(self):
+        import numpy as np
+        from scipy.stats import chi2
+        from workflows.sbi.e2e_conditional_reference_math import prior
+        _, _, radius = prior(4)
+        out=highest_shell_null(np.eye(64),radius,128)
+        df=127*out['modes']
+        self.assertAlmostEqual(out['standard_deviation'],(2/df)**.5,places=12)
+        np.testing.assert_allclose(out['central_99_interval'],chi2.ppf([.005,.995],df)/df,atol=.006)
 
 
 if __name__ == '__main__':

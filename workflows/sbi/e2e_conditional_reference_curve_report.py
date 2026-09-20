@@ -13,13 +13,39 @@ METRICS = ('mean_rms', 'covariance_relative', 'variance_ratio', 'octant_coverage
 def aggregate(rows):
     if not rows:
         raise ValueError('empty comparison')
-    return dict(cells=len(rows), passed=sum(r['passed'] for r in rows),
+    result = dict(cells=len(rows), passed=sum(r['passed'] for r in rows),
                 power_passed=sum(all(.9 <= x <= 1.1 for x in r['power_ratio']) for r in rows),
                 metrics={k: dict(mean=statistics.mean(r[k] for r in rows),
                                   minimum=min(r[k] for r in rows),
                                   maximum=max(r[k] for r in rows)) for k in METRICS},
                 power_minimum=min(min(r['power_ratio']) for r in rows),
                 power_maximum=max(max(r['power_ratio']) for r in rows))
+    high = [r['power_ratio'][-1] for r in rows]
+    result['metrics']['highest_shell_power'] = dict(mean=statistics.mean(high), minimum=min(high), maximum=max(high))
+    return result
+
+
+def highest_shell_null(chol, radius, draws, repeats=20000):
+    """Exact Gaussian sample-covariance law, Monte Carlo quantiles (not new gates).
+
+    For real Gaussian samples, shell power is a weighted sum of independent
+    chi-squares with draws-1 degrees of freedom. The complete conjugate-closed
+    Fourier shell defines a real projector, despite using complex coordinates.
+    """
+    import numpy as np
+    n = radius.shape[0]
+    shell = np.floor(radius).ravel()
+    selected = shell == shell.max()
+    transformed = np.fft.fftn(chol.T.reshape(-1,n,n,n), axes=(1,2,3), norm='ortho')
+    factor = transformed.reshape(n**3,-1)[:,selected].T
+    eigen = np.linalg.eigvalsh(factor @ factor.conj().T)
+    if eigen.min() <= 0 or draws < 2:
+        raise ValueError('invalid Gaussian power reference')
+    rng = np.random.default_rng(71903)
+    ratio = (rng.chisquare(draws-1, size=(repeats,len(eigen))) @ eigen)/((draws-1)*eigen.sum())
+    return dict(modes=int(selected.sum()), draws=draws, repeats=repeats,
+                standard_deviation=float(np.sqrt(2*np.square(eigen).sum()/(draws-1))/eigen.sum()),
+                central_99_interval=np.quantile(ratio,[.005,.995]).tolist())
 
 
 def summarize(done, manifest):
@@ -91,6 +117,10 @@ def report(root, output):
     summary = summarize(done, manifest)
     summary['analysis_source_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     summary['run_root'] = str(root.resolve())
+    from workflows.sbi.e2e_conditional_reference_math import problem
+    _, _, _, _, cases, _, radius = problem(manifest['base']['grid'], manifest['base']['cases'])
+    summary['highest_shell_gaussian_null'] = [highest_shell_null(c['chol'],radius,manifest['extension']['precision_draws'])
+                                             for c in cases]
     parent = Path(manifest['parent'])/'results'
     if hashlib.sha256((parent/'COMPLETE.json').read_bytes()).hexdigest() != manifest['parent_complete_sha256']:
         raise ValueError('parent completion receipt changed')
@@ -135,11 +165,11 @@ def report(root, output):
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
-    fig, axes = plt.subplots(1, 2, figsize=(10, 4), constrained_layout=True)
+    fig, axes = plt.subplots(1, 3, figsize=(14, 4), constrained_layout=True)
     colors = {'vdm_fixed':'tab:orange', 'vdm_amortised':'tab:red',
               'cfm_fixed':'tab:blue', 'cfm_amortised':'tab:green'}
     for name, group in summary['groups'].items():
-        for ax, metric in zip(axes, METRICS[:2]):
+        for ax, metric in zip(axes, (*METRICS[:2], 'highest_shell_power')):
             points = [group['curve'][str(u)]['metrics'][metric] for u in summary['checkpoints']]
             ax.plot(summary['checkpoints'], [p['mean'] for p in points], 'o-', label=name,
                     color=colors[name])
@@ -153,6 +183,9 @@ def report(root, output):
     axes[1].axhspan(min(thresholds), max(thresholds), color='grey', alpha=.25,
                    label='512-draw covariance gate range')
     axes[1].legend(fontsize=7)
+    axes[2].axhspan(.9, 1.1, color='grey', alpha=.2, label='additional power condition')
+    axes[2].axhline(1., color='black', lw=.7)
+    axes[2].legend(fontsize=7)
     fig.suptitle('Matched observations0/1; both seeds; bands show cell range, not confidence intervals')
     fig.savefig(output/'learning_curves.png', dpi=180)
     plt.close(fig)
