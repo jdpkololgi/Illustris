@@ -1,7 +1,7 @@
 import copy
 import unittest
 
-from workflows.sbi.e2e_conditional_reference_curve_report import aggregate, highest_shell_null, summarize
+from workflows.sbi.e2e_conditional_reference_curve_report import aggregate, cfm_loss_floor, highest_shell_null, summarize
 
 
 class CurveReportTests(unittest.TestCase):
@@ -73,6 +73,12 @@ class CurveReportTests(unittest.TestCase):
         df=127*out['modes']
         self.assertAlmostEqual(out['standard_deviation'],(2/df)**.5,places=12)
         np.testing.assert_allclose(out['central_99_interval'],chi2.ppf([.005,.995],df)/df,atol=.006)
+
+    def test_cfm_risk_floor(self):
+        import math
+        self.assertAlmostEqual(cfm_loss_floor([1.,1.]),math.pi/2)
+        self.assertAlmostEqual(cfm_loss_floor([.01,.25,1.,4.]),math.pi/2*(.1+.5+1+2)/4)
+        with self.assertRaises(ValueError): cfm_loss_floor([0.,1.])
 
 
 if __name__ == '__main__':

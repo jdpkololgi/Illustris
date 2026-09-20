@@ -48,6 +48,20 @@ def highest_shell_null(chol, radius, draws, repeats=20000):
                 central_99_interval=np.quantile(ratio,[.005,.995]).tolist())
 
 
+def cfm_loss_floor(eigenvalues):
+    """Uniform-time irreducible MSE: integral lambda / ((1-t)^2+t^2 lambda)."""
+    import numpy as np
+    from scipy.integrate import quad
+    eigenvalues = np.asarray(eigenvalues)
+    if np.any(eigenvalues <= 0):
+        raise ValueError('positive posterior spectrum required')
+    closed = float(np.pi/2*np.sqrt(eigenvalues).mean())
+    numerical = quad(lambda t: np.mean(eigenvalues/((1-t)**2+t*t*eigenvalues)),0,1,epsabs=1e-11)[0]
+    if abs(closed-numerical) > 1e-9:
+        raise AssertionError('independent Bayes-risk calculations differ')
+    return closed
+
+
 def summarize(done, manifest):
     ext, base = manifest['extension'], manifest['base']
     if done['sources'] != manifest['sources']:
@@ -121,6 +135,20 @@ def report(root, output):
     _, _, _, _, cases, _, radius = problem(manifest['base']['grid'], manifest['base']['cases'])
     summary['highest_shell_gaussian_null'] = [highest_shell_null(c['chol'],radius,manifest['extension']['precision_draws'])
                                              for c in cases]
+    summary['cfm_irreducible_mse_by_case'] = [cfm_loss_floor(c['values']) for c in cases]
+    summary['final_online_training_loss'] = {}
+    for item in manifest['items']:
+        last = json.loads((root/'results'/item['name']/'learning.jsonl').read_text().splitlines()[-1])
+        if last['update'] != manifest['extension']['updates']:
+            raise ValueError('training log not at final update')
+        if item['objective'] == 'cfm':
+            floors = summary['cfm_irreducible_mse_by_case']
+            last['bayes_floor'] = statistics.mean(floors[:2]) if item['fixed'] is None else floors[item['fixed']]
+            last['estimated_excess_mse'] = last['loss']-last['bayes_floor']
+        summary['final_online_training_loss'][item['name']] = last
+    summary['loss_floor_note'] = ('Analytic expected irreducible CFM MSE, checked by quadrature. '
+                                 'Excess estimate uses the last1024 online minibatches, not frozen validation. '
+                                 'This is a loss decomposition, not a gradient-variance measurement.')
     parent = Path(manifest['parent'])/'results'
     if hashlib.sha256((parent/'COMPLETE.json').read_bytes()).hexdigest() != manifest['parent_complete_sha256']:
         raise ValueError('parent completion receipt changed')
@@ -145,6 +173,7 @@ def report(root, output):
     for item in manifest['items']:
         shutil.copy2(root/'results'/item['name']/'precision/nulls.json',
                      output/f'precision_nulls_{item["name"]}.json')
+        shutil.copy2(root/'results'/item['name']/'learning.jsonl', output/f'learning_{item["name"]}.jsonl')
     shutil.copy2(parent/'controls.json', output/'original_controls.json')
     for name in ('replay_default.log', 'replay_deterministic.log'):
         shutil.copy2(root/name, output/(name+'.txt'))
