@@ -1,5 +1,14 @@
 # Research context — Illustris
 
+## Alpha=.25 plain continuation authorized (2026-09-23)
+
+Partial-whitening sweep/confirmation completed; registered selectionalpha=.25.
+No stochastic full-gate passes; exact-target selectedalpha also not qualified.
+See `docs/e2e_partial_whitening_conclusions_20260923.md` for full closeout.
+Next: eight selected-alpha models continue unchanged to65536; add physical DC
+mean-error diagnostics. No variance-reduction intervention or nonlinear/Abacus
+work is bundled into this authorization. Old running entries below are history.
+
 ## Partial-whitening follow-up (2026-09-23)
 
 Original spectral panel completed; no all-gate qualification. High-k improved,

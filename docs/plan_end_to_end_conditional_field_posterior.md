@@ -1,5 +1,14 @@
 # Plan — End-to-end conditional density-field posterior
 
+## Selected-alpha unchanged continuation (2026-09-23)
+
+The partial-whitening panel is complete; see
+`e2e_partial_whitening_conclusions_20260923.md`. Execute the bounded plain
+alpha=.25 continuation in `e2e_alpha025_continuation_20260923.md` before
+attributing any future variance-reduction benefit to that intervention.
+No large four-arm/Abacus promotion; preserve fixed gates and separate
+numerical accuracy, learned posterior fidelity and survey robustness.
+
 ## Partial whitening and convergence (2026-09-23)
 
 The prior spectral comparison completed without full qualification. Next follow

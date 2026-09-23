@@ -1,5 +1,26 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-23 - [closeout/plan] Partial whitening complete; alpha=.25 continuation authorized
+
+Closeout: `docs/e2e_partial_whitening_conclusions_20260923.md`; archive contains
+DEVELOPMENT/SELECTION/COMPLETE receipts. All40fits and192confirmation ensembles
+completed. Selectedalpha=.25 stochastic held-out mean/covariance=.14564/.12795,
+DC/top=1.16773/1.17213;0/16full passes. Exact targets=.08485/.08324,
+DC/top=1.04630/1.12563;0/16full passes,14/16non-spectral passes. Two cases
+also fail mean accuracy, correcting the blanket 'only top shell fails' wording.
+Alpha=.50 continuation improves but does not qualify reproducibly; see closeout.
+All scientific steps completed0:0; allocation58790556 later timed out after
+its holder was cancelled. Do not treat that as failed scientific training.
+
+User now authorizes PLAIN alpha=.25 continuation, not a new objective. Protocol:
+`docs/e2e_alpha025_continuation_20260923.md`. Restore all eight32768checkpoints
+to65536 with unchanged Adam/LR/batch/bridge/RNG. No EMA, larger batch, antithetic
+coupling, hybrid, nonlinear reference or Abacus training is added. This supplies
+the necessary unchanged control before any later variance-reduction comparison.
+Add signed DC mean error in exact posterior-sd units and its Monte Carlo error
+to matched old/new draws. Cases4–11 are now longitudinal evaluation, not newly
+untouched confirmation. Gates remain fixed; no automatic extension or promotion.
+
 ### 2026-09-23 - [execution] Partial-whitening sweep and continuation launched
 
 Job58790556 on nid008197 launches frozen source7824b5e via tmux

@@ -1,0 +1,27 @@
+{
+  "alpha": 0.25,
+  "scores": [
+    {
+      "alpha": 0.2,
+      "worst": 2.436048950226495,
+      "average": 2.1395762503556455
+    },
+    {
+      "alpha": 0.25,
+      "worst": 2.159346148251715,
+      "average": 1.8733343330060717
+    },
+    {
+      "alpha": 0.3,
+      "worst": 2.628644880990807,
+      "average": 2.0880242004977188
+    },
+    {
+      "alpha": 0.35,
+      "worst": 4.827977349897152,
+      "average": 3.31204879515522
+    }
+  ],
+  "rule": "stochastic amortised development only; no confirmation reselection",
+  "development_sha256": "657941c219d45acd8ff463fa98613988c158db76058ff1d0b5c5f6ac26ebe085"
+}
