@@ -21,10 +21,11 @@ ARMS=['physical','weighted','coordinates','white_bridge']
 
 
 class Spectral(nn.Module):
-    def __init__(self,power):
+    def __init__(self,power,exponent=.5):
         super().__init__()
         p=torch.as_tensor(power,dtype=torch.float32)
-        self.register_buffer('scale',p.clamp_min(p.max()*1e-6).rsqrt())
+        p=p.clamp_min(p.max()*1e-6)
+        self.register_buffer('scale',p.rsqrt() if exponent==.5 else p.pow(-exponent))
     def forward(self,x,inverse=False):
         scale=self.scale.reciprocal() if inverse else self.scale
         return torch.fft.ifftn(torch.fft.fftn(x,dim=(-3,-2,-1))*scale,dim=(-3,-2,-1)).real
@@ -152,9 +153,9 @@ def velocity_risk(model,data,item,transform,teacher,white):
 
 
 @torch.no_grad()
-def evaluate(model,data,item,cfg,transform,out,update,draws,nfes):
+def evaluate(model,data,item,cfg,transform,out,update,draws,nfes,indices=None):
     out.mkdir(parents=True,exist_ok=True)
-    for case in (range(4) if item['fixed'] is None else [0]):
+    for case in (indices if indices is not None else (range(4) if item['fixed'] is None else [0])):
         for nfe in nfes:
             p=out/f'evaluation_{update}_{case}_{nfe}.json'
             if p.exists():continue
