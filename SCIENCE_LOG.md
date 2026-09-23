@@ -1,5 +1,36 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-23 - [closeout/plan] Spectral result and partial-whitening follow-up
+
+Spectral job58788297 completed32fits,160precision ensembles and bridge-aware
+diagnostics in61minutes. No cell passed all five gates. Exact-target amortised
+baseline/weighted/coordinates/white-bridge top-shell ratios were
+1.391/1.070/1.104/0.943; probe covariance errors0.081/0.412/0.458/0.118.
+Changing the bridge repairs high-k but leaves DC overdispersion and imperfect
+means. Sampler128/256NFE differences <=0.00107 in shell ratio. This is not a
+demonstrated permanent trade-off or a DESI-ready posterior.
+
+Opus's saved-progression and absorption claims reproduce: white-bridge exact
+amortised DC2.635→1.282 and probe covariance0.599→0.176 from8192→32768;
+stochastic DC5.867→1.818 and covariance1.530→0.348. These curves use512draws
+at128NFE, not128draws. Full2048draws give exact-target DC1.252 versus restricted
+absorption prediction1.221; stochastic1.788 versus1.231. That supports testing
+continued learning, not asserting a variance floor. Shell-averaged posterior
+variance is not an eigenvalue profile in a masked, nonstationary posterior.
+
+User authorizes next step. Registered protocol:
+`docs/e2e_partial_whitening_20260923.md`. Compare32fresh partial-whitening fits
+at alpha .20/.25/.30/.35 with the old matched32768full-whitening endpoints;
+separately continue all eight full-whitening fits to65536 unchanged. Choose
+one exponent using stochastic amortised DEVELOPMENT only, then seal selection
+before new observations4–11. Exact-target results cannot choose the exponent.
+Add bridge-aware absorption and the single-mode99%DC sampling null throughout.
+No Abacus/P12/nonlinear promotion or additional VDM work is authorized here.
+
+The active CPU job58790192 belongs to DESI-GQP-KP and is untouched. GPU
+allocation58790556 (four GPUs,2h30limit) is reserved for this follow-up's
+validation and bounded execution. Scientific fitting waits for the smoke gate.
+
 ### 2026-09-23 - [execution] Spectral comparison implemented, tested and launched
 
 Registered plan committed4408b77; implementation committeda4a1afb. Six new

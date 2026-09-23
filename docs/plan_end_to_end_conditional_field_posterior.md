@@ -1,5 +1,13 @@
 # Plan — End-to-end conditional density-field posterior
 
+## Partial whitening and convergence (2026-09-23)
+
+The prior spectral comparison completed without full qualification. Next follow
+[the preregistered partial-whitening design](e2e_partial_whitening_20260923.md):
+matched-budget alpha sweep, unchanged full-whitening continuation, development
+selection and sealed confirmation. Preserve DC and joint-field gates; improvements
+at high k alone do not justify the Abacus coupled-field campaign.
+
 ## Spectral preconditioning comparison (2026-09-23)
 
 Next execute [the registered four-arm comparison](e2e_spectral_preconditioning_20260923.md):
