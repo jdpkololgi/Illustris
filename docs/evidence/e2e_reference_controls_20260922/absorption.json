@@ -12561,5 +12561,12 @@
       ]
     }
   ],
+  "inputs": {
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_affine_curve_20260922_v1/results/affine_stochastic_seed17_amortised/checkpoint_65536.pt": "d9a309f3e9ad3fda3a285743903aae5c4ee171a333abc18c0af87a50316b8618",
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_affine_curve_20260922_v1/results/affine_teacher_seed17_amortised/checkpoint_65536.pt": "ea7fbf5e6c4c4aa97401398e81c264575b960e3309b21b38a9c9feb547e0419b",
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_affine_curve_20260922_v1/results/affine_stochastic_seed29_amortised/checkpoint_65536.pt": "832bda95861fcbcf2f734ddace70001655933c43d4bab40db2bf36333e55b4f7",
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_affine_curve_20260922_v1/results/affine_teacher_seed29_amortised/checkpoint_65536.pt": "511c4bb23494ce828b263ec519937901b26dc6e7816cc9fe17ecb5a8b00c9166"
+  },
+  "source_sha256": "73423fb510af6b31182ed59bf57ce4d95a4e238933dedce38418913f9d8f4792",
   "claim": "restricted-family equilibrium prediction; no universal CFM claim"
 }

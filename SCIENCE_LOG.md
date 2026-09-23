@@ -8,9 +8,12 @@ separate spectral loss weighting, transformed coordinates with correctly colored
 noise, and a deliberately changed white-in-whitened-space bridge. All transforms
 come only from fresh training-prior samples; evaluate in physical coordinates.
 Run an absorption diagnostic for every branch, with ensemble mean-noise correction.
-Opus's supplied mean/variance explanation is a hypothesis to verify, not yet an
-independently reproduced receipt. Its scalar formula applies to a restricted
-affine model, not all CFM posteriors. No new scientific fits have started.
+Opus's affine calculation is independently reproduced in the archived
+`absorption.json`: relative-inflation correlations0.984–0.997(exact targets),
+0.840–0.852(stochastic). Some template-level predictions differ by~0.04 in
+highest-shell ratio, so this supports the mechanism without exact equilibrium.
+Its scalar formula applies to a restricted affine model, not all CFM posteriors.
+No new scientific fits have started.
 
 Previous30target fits,8resolution fits and4affine continuations completed their
 scientific steps. Final affine exact-target amortised mean/covariance errors
