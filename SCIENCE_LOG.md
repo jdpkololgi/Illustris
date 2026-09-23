@@ -1,5 +1,30 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-23 - [execution] Spectral comparison implemented, tested and launched
+
+Registered plan committed4408b77; implementation committeda4a1afb. Six new
+spectral tests plus nine prior target/resolution/report tests pass. They cover
+invertibility/DC, paired bridges, an independent Gaussian solve for the changed
+bridge teacher, pathwise physical/coordinate sampler equivalence, absorption
+limits and balanced assignment. All eight GPU arm/target smoke fits pass.
+Changed-bridge oracle maximum physical-shell error at128NFE is0.000755,
+well below the10%scientific power gate. Train-prior weights use no held-out data.
+
+Job58788297 on nid008292 runs32fresh fits across four GPUs, bounded at2hours,
+with32768updates each and automatic paired128/256NFE final evaluations.
+tmux `spectral_reference_20260923` on login22 owns the fixed launcher; Slurm owns
+the compute step. All four first fits have passed3072updates with finite losses.
+Root: `/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_spectral_20260923_v1`.
+Checkpoints every1024updates; sources/config/transform hashes are frozen.
+Final scientific conclusions await the full32fits and160precision ensembles;
+training-loss scales differ by arm and must not be compared as scientific scores.
+The one-GPU technical allocation58788084 was released after validation.
+
+Graphify was invoked in cosmic_env; AST refresh fails with filesystem flock
+errno524, as before. Global add reports unchanged; no lock bypass was attempted.
+This tooling failure does not affect the passed scientific tests. No Abacus,
+VDM, nonlinear or P12 training is part of this CFM mechanism test.
+
 ### 2026-09-23 - [plan] Spectral weighting, coordinates and bridge controls
 
 User authorizes implementing the spectral comparison and incremental commits.

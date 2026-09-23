@@ -1,0 +1,299 @@
+{
+  "sources": {
+    "workflows/sbi/e2e_spectral_preconditioning.py": "25b9c59739e42a8278bdbb3bddb4483a7a0a161327c110befa492afcc5863356",
+    "workflows/sbi/e2e_spectral_absorption.py": "73423fb510af6b31182ed59bf57ce4d95a4e238933dedce38418913f9d8f4792",
+    "workflows/sbi/e2e_conditional_reference.py": "4cfe1afdc905094ca1ab2ee5ae1e3ef250e8f5bafd6edd90860bc7f407c981eb",
+    "workflows/sbi/e2e_conditional_reference_math.py": "70023d9d124ad2b552f694e4a4b12204c04efc80530b10b24fd1bf8f2733fd40",
+    "workflows/sbi/e2e_conditional_reference_continue.py": "b1bfba72846374d4ba86677ac79546b113a100dc9b49eba06082d8bac67918a0",
+    "workflows/sbi/e2e_reference_target_controls.py": "3d36f9ad72e25e8fd0d20834f0396d5b230bea443a9649d931b79398eb4be231",
+    "workflows/sbi/e2e_direct_vdm.py": "cca2c730ea28a76a2c49d6d9a823dfb8d7cafc3ec19bfe30c2d501f6d92b091b",
+    "configs/e2e_conditional_reference_v1.json": "ce2aa298fdebd133dcf9b79558577b4c21ac4c8248d473493b0f8de88b669610",
+    "docs/e2e_spectral_preconditioning_20260923.md": "2c8871cca8f0907beb355f6219759397fbe5f4f71c418a946a6eebbb075e7ba1",
+    "tests/test_e2e_spectral_preconditioning.py": "e7d3177040dd0e577264fc25a43433f9c243d859d1d9e0fc43538e2a69244b52"
+  },
+  "config": {
+    "schema": "conditional-reference-v1",
+    "grid": 8,
+    "base": 8,
+    "levels": 2,
+    "batch": 32,
+    "updates": 4096,
+    "checkpoints": [
+      1024,
+      4096
+    ],
+    "seeds": [
+      17,
+      29
+    ],
+    "objectives": [
+      "vdm",
+      "cfm"
+    ],
+    "cases": 4,
+    "fixed_cases": [
+      0,
+      1
+    ],
+    "draws": 512,
+    "evaluation_batch": 64,
+    "nfe": [
+      128,
+      256
+    ],
+    "oracle_nfe": [
+      32,
+      64,
+      128,
+      256,
+      512,
+      1024
+    ],
+    "learning_rate": 0.0003,
+    "null_repeats": 128,
+    "mean_tolerance": 0.1,
+    "variance_tolerance": 0.1,
+    "covariance_tolerance": 0.15,
+    "oracle_covariance_tolerance": 0.05,
+    "deadline_seconds": 6600,
+    "scratch_cap_gib": 20,
+    "lognormal_stage": "deferred until Gaussian learned and numerical gates pass"
+  },
+  "items": [
+    {
+      "seed": 17,
+      "fixed": null,
+      "exact": false,
+      "arm": "physical",
+      "name": "physical_stochastic_seed17_amortised"
+    },
+    {
+      "seed": 17,
+      "fixed": null,
+      "exact": false,
+      "arm": "weighted",
+      "name": "weighted_stochastic_seed17_amortised"
+    },
+    {
+      "seed": 17,
+      "fixed": null,
+      "exact": false,
+      "arm": "coordinates",
+      "name": "coordinates_stochastic_seed17_amortised"
+    },
+    {
+      "seed": 17,
+      "fixed": null,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "white_bridge_stochastic_seed17_amortised"
+    },
+    {
+      "seed": 17,
+      "fixed": null,
+      "exact": true,
+      "arm": "physical",
+      "name": "physical_exact_seed17_amortised"
+    },
+    {
+      "seed": 17,
+      "fixed": null,
+      "exact": true,
+      "arm": "weighted",
+      "name": "weighted_exact_seed17_amortised"
+    },
+    {
+      "seed": 17,
+      "fixed": null,
+      "exact": true,
+      "arm": "coordinates",
+      "name": "coordinates_exact_seed17_amortised"
+    },
+    {
+      "seed": 17,
+      "fixed": null,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "white_bridge_exact_seed17_amortised"
+    },
+    {
+      "seed": 17,
+      "fixed": 0,
+      "exact": false,
+      "arm": "physical",
+      "name": "physical_stochastic_seed17_fixed0"
+    },
+    {
+      "seed": 17,
+      "fixed": 0,
+      "exact": false,
+      "arm": "weighted",
+      "name": "weighted_stochastic_seed17_fixed0"
+    },
+    {
+      "seed": 17,
+      "fixed": 0,
+      "exact": false,
+      "arm": "coordinates",
+      "name": "coordinates_stochastic_seed17_fixed0"
+    },
+    {
+      "seed": 17,
+      "fixed": 0,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "white_bridge_stochastic_seed17_fixed0"
+    },
+    {
+      "seed": 17,
+      "fixed": 0,
+      "exact": true,
+      "arm": "physical",
+      "name": "physical_exact_seed17_fixed0"
+    },
+    {
+      "seed": 17,
+      "fixed": 0,
+      "exact": true,
+      "arm": "weighted",
+      "name": "weighted_exact_seed17_fixed0"
+    },
+    {
+      "seed": 17,
+      "fixed": 0,
+      "exact": true,
+      "arm": "coordinates",
+      "name": "coordinates_exact_seed17_fixed0"
+    },
+    {
+      "seed": 17,
+      "fixed": 0,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "white_bridge_exact_seed17_fixed0"
+    },
+    {
+      "seed": 29,
+      "fixed": null,
+      "exact": false,
+      "arm": "physical",
+      "name": "physical_stochastic_seed29_amortised"
+    },
+    {
+      "seed": 29,
+      "fixed": null,
+      "exact": false,
+      "arm": "weighted",
+      "name": "weighted_stochastic_seed29_amortised"
+    },
+    {
+      "seed": 29,
+      "fixed": null,
+      "exact": false,
+      "arm": "coordinates",
+      "name": "coordinates_stochastic_seed29_amortised"
+    },
+    {
+      "seed": 29,
+      "fixed": null,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "white_bridge_stochastic_seed29_amortised"
+    },
+    {
+      "seed": 29,
+      "fixed": null,
+      "exact": true,
+      "arm": "physical",
+      "name": "physical_exact_seed29_amortised"
+    },
+    {
+      "seed": 29,
+      "fixed": null,
+      "exact": true,
+      "arm": "weighted",
+      "name": "weighted_exact_seed29_amortised"
+    },
+    {
+      "seed": 29,
+      "fixed": null,
+      "exact": true,
+      "arm": "coordinates",
+      "name": "coordinates_exact_seed29_amortised"
+    },
+    {
+      "seed": 29,
+      "fixed": null,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "white_bridge_exact_seed29_amortised"
+    },
+    {
+      "seed": 29,
+      "fixed": 0,
+      "exact": false,
+      "arm": "physical",
+      "name": "physical_stochastic_seed29_fixed0"
+    },
+    {
+      "seed": 29,
+      "fixed": 0,
+      "exact": false,
+      "arm": "weighted",
+      "name": "weighted_stochastic_seed29_fixed0"
+    },
+    {
+      "seed": 29,
+      "fixed": 0,
+      "exact": false,
+      "arm": "coordinates",
+      "name": "coordinates_stochastic_seed29_fixed0"
+    },
+    {
+      "seed": 29,
+      "fixed": 0,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "white_bridge_stochastic_seed29_fixed0"
+    },
+    {
+      "seed": 29,
+      "fixed": 0,
+      "exact": true,
+      "arm": "physical",
+      "name": "physical_exact_seed29_fixed0"
+    },
+    {
+      "seed": 29,
+      "fixed": 0,
+      "exact": true,
+      "arm": "weighted",
+      "name": "weighted_exact_seed29_fixed0"
+    },
+    {
+      "seed": 29,
+      "fixed": 0,
+      "exact": true,
+      "arm": "coordinates",
+      "name": "coordinates_exact_seed29_fixed0"
+    },
+    {
+      "seed": 29,
+      "fixed": 0,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "white_bridge_exact_seed29_fixed0"
+    }
+  ],
+  "updates": 32768,
+  "checkpoints": [
+    8192,
+    32768
+  ],
+  "power_sha256": "4f08aa1a3d1ac1b968e8507df9874a69a99c61941ef85f663f32ef970e4f2a64",
+  "prior_fit_seed": 912731,
+  "prior_fit_count": 8192,
+  "workers": 4,
+  "job": "58788084",
+  "git_revision": "a4a1afb3df72a2c5fc71421a67dd13e88a07e72b"
+}

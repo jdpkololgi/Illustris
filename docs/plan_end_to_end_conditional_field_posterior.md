@@ -2256,3 +2256,10 @@ claim/release criteria and explicit GPU/phase-access authorization. No additiona
 architecture search, truth-assisted inference correction, or new physics run is
 implicitly licensed. Details and evidence:
 `docs/e2e_field_wide_coarse_results_20260909.md`.
+# Spectral diagnostic execution update (2026-09-23)
+
+Registered comparison: `e2e_spectral_preconditioning_20260923.md`.
+Implementationa4a1afb passes targeted tests and one-GPU smoke. Four-GPU
+job58788297 now runs32matched CFM fits (32768updates) and physical-coordinate
+evaluations under tmux; no full-field campaign is promoted by this launch.
+Read SCIENCE_LOG for runroot, provenance, caveats and eventual closeout.

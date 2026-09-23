@@ -2,12 +2,16 @@
 
 ## Spectral comparison authorized (2026-09-23)
 
-Prior target/resolution/affine scientific runs are complete; their final closeout
-was interrupted by tool approvals. New registered plan:
+Prior target/resolution/affine scientific runs and42checkpoint audits are complete.
+New registered plan:
 `docs/e2e_spectral_preconditioning_20260923.md`. Separate loss weighting,
 coordinates and changed bridge noise, with train-prior-only weights and physical
 metrics. Absorption predictions are diagnostics, not universal CFM identities.
-No new spectral scientific fit yet. P12/Abacus/nonlinear promotion stays gated.
+Spectral CFM job58788297 now runs32fresh fits on four GPUs (2hourlimit), from
+frozen sourcea4a1afb, under tmux `spectral_reference_20260923` on login22.
+Scratchroot: `/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_spectral_20260923_v1`.
+All four workers have finite3072-update checkpoints; final results pending.
+P12/Abacus/nonlinear promotion stays gated.
 Earlier execution entries below are historical, not current job status.
 
 
