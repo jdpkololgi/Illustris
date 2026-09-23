@@ -6,6 +6,7 @@ from workflows.sbi.e2e_conditional_reference_math import problem
 from workflows.sbi.e2e_reference_target_controls import Teacher, bridge
 from workflows.sbi.e2e_spectral_preconditioning import Spectral, WhitenedTeacher, targets, items, sample
 from workflows.sbi.e2e_spectral_absorption import absorbed_variance
+from workflows.sbi.e2e_spectral_bridge_diagnostics import transformed_case
 
 
 class SpectralTests(unittest.TestCase):
@@ -58,6 +59,12 @@ class SpectralTests(unittest.TestCase):
         self.assertEqual(len({i['name'] for i in panel}),32)
         for a in ['physical','weighted','coordinates','white_bridge']:
             self.assertEqual(sum(i['arm']==a for i in panel),8)
+
+    def test_absorption_basis_roundtrip(self):
+        original=self.data.cases[0]
+        case,basis,w=transformed_case(original,self.transform.scale.numpy())
+        np.testing.assert_allclose((basis*case['values'])@basis.T,original['sigma'],atol=1e-12)
+        np.testing.assert_allclose(np.linalg.solve(w,case['mu']),original['mu'],atol=1e-12)
 
     def test_sampler_coordinate_equivariance(self):
         teacher=self.teacher;transform=self.transform

@@ -31,16 +31,17 @@ def shell_power(values,vectors,radius):
     return np.array([p[shell==i].mean() for i in np.unique(shell)])
 
 
-def draw_diagnostic(draws,case,radius):
+def draw_diagnostic(draws,case,radius,basis_to_physical=None):
     z=(np.asarray(draws,dtype=float)-case['mu'])@case['vectors']
     raw=z.mean(0)**2;noise=z.var(0,ddof=1)/len(z);corrected=raw-noise
     predicted=absorbed_variance(case['values'],np.maximum(corrected,0))
-    reference=shell_power(case['values'],case['vectors'],radius)
+    basis=case['vectors'] if basis_to_physical is None else basis_to_physical
+    reference=shell_power(case['values'],basis,radius)
     return dict(kind='nonlinear_draw_approximation_not_causal_identity',draws=len(z),
         raw_mean_squared=raw.tolist(),mean_monte_carlo_variance=noise.tolist(),
         corrected_mean_squared=corrected.tolist(),negative_corrected_modes=int((corrected<0).sum()),
-        predicted_shell_ratio=(shell_power(predicted,case['vectors'],radius)/reference).tolist(),
-        raw_predicted_shell_ratio=(shell_power(absorbed_variance(case['values'],raw),case['vectors'],radius)/reference).tolist())
+        predicted_shell_ratio=(shell_power(predicted,basis,radius)/reference).tolist(),
+        raw_predicted_shell_ratio=(shell_power(absorbed_variance(case['values'],raw),basis,radius)/reference).tolist())
 
 
 def affine_diagnostic(state,case,prior_cov,template,radius):

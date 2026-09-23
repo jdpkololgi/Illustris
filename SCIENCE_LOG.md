@@ -25,6 +25,13 @@ errno524, as before. Global add reports unchanged; no lock bypass was attempted.
 This tooling failure does not affect the passed scientific tests. No Abacus,
 VDM, nonlinear or P12 training is part of this CFM mechanism test.
 
+Analysis contract clarification: frozen workers save a common physical-white-base
+absorption counterfactual. For `white_bridge`, scientific interpretation MUST use
+`e2e_spectral_bridge_diagnostics` after draws complete: transform draws and exact
+moments to that arm's white-base coordinates and project predicted variance back
+to physical shells. Do not interpret the original-bridge counterfactual as the
+changed-bridge absorption prediction. Training/source snapshots remain unchanged.
+
 ### 2026-09-23 - [plan] Spectral weighting, coordinates and bridge controls
 
 User authorizes implementing the spectral comparison and incremental commits.
