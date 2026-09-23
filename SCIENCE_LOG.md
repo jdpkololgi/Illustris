@@ -1,5 +1,25 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-23 - [execution] Partial-whitening sweep and continuation launched
+
+Job58790556 on nid008197 launches frozen source7824b5e via tmux
+`partial_whitening_20260923` on login22. Root:
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_partial_20260923_v2`.
+Four workers run32fresh32768-update fits and eight32768→65536continuations;
+then SELECTION.json locks the partial exponent using development results only,
+before192held-out confirmation ensembles. The allocation holder exits after
+COMPLETE.json; Slurm enforces the2h30limit if a stage fails. No automatic retry.
+
+Nineteen focused tests pass. Frozen GPU smoke passes all ten alpha/target
+combinations; stochastic and exact-target checkpoint replays pass under an
+explicit deterministic TECHNICAL override. Original v1 smoke found~3.54e-6
+parameter drift under normal GPU kernels; v1 is preserved, no scientific fits
+were started there. Scientific v2 workers retain the original nondeterministic
+training settings, not the technical override. Maximum analytic oracle shell
+error across all exponents/templates/NFEs is0.000755. New scientific conclusions
+remain pending. Graphify refresh still fails with filesystem flock errno524;
+global graph unchanged, no lock bypass attempted.
+
 ### 2026-09-23 - [closeout/plan] Spectral result and partial-whitening follow-up
 
 Spectral job58788297 completed32fits,160precision ensembles and bridge-aware

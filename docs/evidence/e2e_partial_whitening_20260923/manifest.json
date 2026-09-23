@@ -1,0 +1,470 @@
+{
+  "parent": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_spectral_20260923_v1",
+  "parents": {
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_spectral_20260923_v1/results/white_bridge_stochastic_seed17_fixed0/checkpoint_32768.pt": "ae9e29e9ffaa6ae9c54390fee970c7344d9e2856ab301b4a8d220ecde11be886",
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_spectral_20260923_v1/results/white_bridge_exact_seed17_fixed0/checkpoint_32768.pt": "f9a4090c04f23ba2eb0e7281d05982168f5fdc7f28060385f578c48748fe1adb",
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_spectral_20260923_v1/results/white_bridge_exact_seed29_fixed0/checkpoint_32768.pt": "e9fd3b1808bea42916ccfe4abe782dbeef865bc02ecd3d704416be98cda1dfe1",
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_spectral_20260923_v1/results/white_bridge_exact_seed29_amortised/checkpoint_32768.pt": "1256a6949ef16763525e958fc3a610f555a959ac22e6da2eb962d541376dc9ef",
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_spectral_20260923_v1/results/white_bridge_stochastic_seed29_amortised/checkpoint_32768.pt": "5ef994901e477aaaa984027bae481a71ce25e20da5e92e88f4b523f91627412b",
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_spectral_20260923_v1/results/white_bridge_stochastic_seed29_fixed0/checkpoint_32768.pt": "88bd32e6dac00f0fd1466b370bceae6f153cd95f97fb0c9093b066970d44217d",
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_spectral_20260923_v1/results/white_bridge_exact_seed17_amortised/checkpoint_32768.pt": "095b6f7db0395c4ee66dbdef93ae9829a11d2657ebec8de882c560a187290d2d",
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_spectral_20260923_v1/results/white_bridge_stochastic_seed17_amortised/checkpoint_32768.pt": "efd0395c62bf1407f4d161620a65b8db30df416e792303ac3fde4cf108526717"
+  },
+  "parent_sources": {
+    "workflows/sbi/e2e_spectral_preconditioning.py": "25b9c59739e42a8278bdbb3bddb4483a7a0a161327c110befa492afcc5863356",
+    "workflows/sbi/e2e_spectral_absorption.py": "73423fb510af6b31182ed59bf57ce4d95a4e238933dedce38418913f9d8f4792",
+    "workflows/sbi/e2e_conditional_reference.py": "4cfe1afdc905094ca1ab2ee5ae1e3ef250e8f5bafd6edd90860bc7f407c981eb",
+    "workflows/sbi/e2e_conditional_reference_math.py": "70023d9d124ad2b552f694e4a4b12204c04efc80530b10b24fd1bf8f2733fd40",
+    "workflows/sbi/e2e_conditional_reference_continue.py": "b1bfba72846374d4ba86677ac79546b113a100dc9b49eba06082d8bac67918a0",
+    "workflows/sbi/e2e_reference_target_controls.py": "3d36f9ad72e25e8fd0d20834f0396d5b230bea443a9649d931b79398eb4be231",
+    "workflows/sbi/e2e_direct_vdm.py": "cca2c730ea28a76a2c49d6d9a823dfb8d7cafc3ec19bfe30c2d501f6d92b091b",
+    "configs/e2e_conditional_reference_v1.json": "ce2aa298fdebd133dcf9b79558577b4c21ac4c8248d473493b0f8de88b669610",
+    "docs/e2e_spectral_preconditioning_20260923.md": "2c8871cca8f0907beb355f6219759397fbe5f4f71c418a946a6eebbb075e7ba1",
+    "tests/test_e2e_spectral_preconditioning.py": "e7d3177040dd0e577264fc25a43433f9c243d859d1d9e0fc43538e2a69244b52"
+  },
+  "sources": {
+    "workflows/sbi/e2e_spectral_preconditioning.py": "cfd483fba57b0dfa1093039d5f0e7ba9eacff6651171bd8e31738f9c42bf2506",
+    "workflows/sbi/e2e_spectral_absorption.py": "4e4898ea9f59d79dbd730347ba68cbc835bca2d99fe9d314e64873b19b56721b",
+    "workflows/sbi/e2e_conditional_reference.py": "4cfe1afdc905094ca1ab2ee5ae1e3ef250e8f5bafd6edd90860bc7f407c981eb",
+    "workflows/sbi/e2e_conditional_reference_math.py": "70023d9d124ad2b552f694e4a4b12204c04efc80530b10b24fd1bf8f2733fd40",
+    "workflows/sbi/e2e_conditional_reference_continue.py": "b1bfba72846374d4ba86677ac79546b113a100dc9b49eba06082d8bac67918a0",
+    "workflows/sbi/e2e_reference_target_controls.py": "3d36f9ad72e25e8fd0d20834f0396d5b230bea443a9649d931b79398eb4be231",
+    "workflows/sbi/e2e_direct_vdm.py": "cca2c730ea28a76a2c49d6d9a823dfb8d7cafc3ec19bfe30c2d501f6d92b091b",
+    "configs/e2e_conditional_reference_v1.json": "ce2aa298fdebd133dcf9b79558577b4c21ac4c8248d473493b0f8de88b669610",
+    "docs/e2e_spectral_preconditioning_20260923.md": "2c8871cca8f0907beb355f6219759397fbe5f4f71c418a946a6eebbb075e7ba1",
+    "tests/test_e2e_spectral_preconditioning.py": "dfd66a44d661727285533265b165b27732fcdd367f8241a485e76a56f4acc206",
+    "workflows/sbi/e2e_partial_whitening.py": "aa1ef3466947e7ca56b20873e1733eca5d4c123d79c580c03e994e09406045a3",
+    "workflows/sbi/e2e_spectral_bridge_diagnostics.py": "5f2200f4d0fd2f4f3b5e597259b5dc41b19e4bdfd092709e69dfcc99cb1eb139",
+    "tests/test_e2e_partial_whitening.py": "22b0614c378f55c9c4e2564166f49138ddec62ebc5f87266199eece8ccb61ca7",
+    "docs/e2e_partial_whitening_20260923.md": "a68cac88dfb765f84208aa823d147a4bf42ccf0d4795d7b5df38a4942c4db521",
+    "workflows/sbi/e2e_partial_whitening_step.sh": "6754d1da2c1fdd3868deb86d0bc0dab6b7d38519461f1cdd5c724e261e363ef1"
+  },
+  "config": {
+    "schema": "conditional-reference-v1",
+    "grid": 8,
+    "base": 8,
+    "levels": 2,
+    "batch": 32,
+    "updates": 4096,
+    "checkpoints": [
+      1024,
+      4096
+    ],
+    "seeds": [
+      17,
+      29
+    ],
+    "objectives": [
+      "vdm",
+      "cfm"
+    ],
+    "cases": 12,
+    "fixed_cases": [
+      0,
+      1
+    ],
+    "draws": 512,
+    "evaluation_batch": 64,
+    "nfe": [
+      128,
+      256
+    ],
+    "oracle_nfe": [
+      32,
+      64,
+      128,
+      256,
+      512,
+      1024
+    ],
+    "learning_rate": 0.0003,
+    "null_repeats": 128,
+    "mean_tolerance": 0.1,
+    "variance_tolerance": 0.1,
+    "covariance_tolerance": 0.15,
+    "oracle_covariance_tolerance": 0.05,
+    "deadline_seconds": 6600,
+    "scratch_cap_gib": 20,
+    "lognormal_stage": "deferred until Gaussian learned and numerical gates pass"
+  },
+  "items": [
+    {
+      "alpha": 0.2,
+      "seed": 17,
+      "fixed": null,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.20_white_bridge_stochastic_seed17_amortised",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.2,
+      "seed": 17,
+      "fixed": null,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.20_white_bridge_exact_seed17_amortised",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.2,
+      "seed": 17,
+      "fixed": 0,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.20_white_bridge_stochastic_seed17_fixed0",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.2,
+      "seed": 17,
+      "fixed": 0,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.20_white_bridge_exact_seed17_fixed0",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.2,
+      "seed": 29,
+      "fixed": null,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.20_white_bridge_stochastic_seed29_amortised",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.2,
+      "seed": 29,
+      "fixed": null,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.20_white_bridge_exact_seed29_amortised",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.2,
+      "seed": 29,
+      "fixed": 0,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.20_white_bridge_stochastic_seed29_fixed0",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.2,
+      "seed": 29,
+      "fixed": 0,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.20_white_bridge_exact_seed29_fixed0",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.25,
+      "seed": 17,
+      "fixed": null,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.25_white_bridge_stochastic_seed17_amortised",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.25,
+      "seed": 17,
+      "fixed": null,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.25_white_bridge_exact_seed17_amortised",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.25,
+      "seed": 17,
+      "fixed": 0,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.25_white_bridge_stochastic_seed17_fixed0",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.25,
+      "seed": 17,
+      "fixed": 0,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.25_white_bridge_exact_seed17_fixed0",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.25,
+      "seed": 29,
+      "fixed": null,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.25_white_bridge_stochastic_seed29_amortised",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.25,
+      "seed": 29,
+      "fixed": null,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.25_white_bridge_exact_seed29_amortised",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.25,
+      "seed": 29,
+      "fixed": 0,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.25_white_bridge_stochastic_seed29_fixed0",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.25,
+      "seed": 29,
+      "fixed": 0,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.25_white_bridge_exact_seed29_fixed0",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.3,
+      "seed": 17,
+      "fixed": null,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.30_white_bridge_stochastic_seed17_amortised",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.3,
+      "seed": 17,
+      "fixed": null,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.30_white_bridge_exact_seed17_amortised",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.3,
+      "seed": 17,
+      "fixed": 0,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.30_white_bridge_stochastic_seed17_fixed0",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.3,
+      "seed": 17,
+      "fixed": 0,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.30_white_bridge_exact_seed17_fixed0",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.3,
+      "seed": 29,
+      "fixed": null,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.30_white_bridge_stochastic_seed29_amortised",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.3,
+      "seed": 29,
+      "fixed": null,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.30_white_bridge_exact_seed29_amortised",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.3,
+      "seed": 29,
+      "fixed": 0,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.30_white_bridge_stochastic_seed29_fixed0",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.3,
+      "seed": 29,
+      "fixed": 0,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.30_white_bridge_exact_seed29_fixed0",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.35,
+      "seed": 17,
+      "fixed": null,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.35_white_bridge_stochastic_seed17_amortised",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.35,
+      "seed": 17,
+      "fixed": null,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.35_white_bridge_exact_seed17_amortised",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.35,
+      "seed": 17,
+      "fixed": 0,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.35_white_bridge_stochastic_seed17_fixed0",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.35,
+      "seed": 17,
+      "fixed": 0,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.35_white_bridge_exact_seed17_fixed0",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.35,
+      "seed": 29,
+      "fixed": null,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.35_white_bridge_stochastic_seed29_amortised",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.35,
+      "seed": 29,
+      "fixed": null,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.35_white_bridge_exact_seed29_amortised",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.35,
+      "seed": 29,
+      "fixed": 0,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.35_white_bridge_stochastic_seed29_fixed0",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.35,
+      "seed": 29,
+      "fixed": 0,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.35_white_bridge_exact_seed29_fixed0",
+      "parent_name": null
+    },
+    {
+      "alpha": 0.5,
+      "seed": 17,
+      "fixed": null,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.50_white_bridge_stochastic_seed17_amortised",
+      "parent_name": "white_bridge_stochastic_seed17_amortised"
+    },
+    {
+      "alpha": 0.5,
+      "seed": 17,
+      "fixed": null,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.50_white_bridge_exact_seed17_amortised",
+      "parent_name": "white_bridge_exact_seed17_amortised"
+    },
+    {
+      "alpha": 0.5,
+      "seed": 17,
+      "fixed": 0,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.50_white_bridge_stochastic_seed17_fixed0",
+      "parent_name": "white_bridge_stochastic_seed17_fixed0"
+    },
+    {
+      "alpha": 0.5,
+      "seed": 17,
+      "fixed": 0,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.50_white_bridge_exact_seed17_fixed0",
+      "parent_name": "white_bridge_exact_seed17_fixed0"
+    },
+    {
+      "alpha": 0.5,
+      "seed": 29,
+      "fixed": null,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.50_white_bridge_stochastic_seed29_amortised",
+      "parent_name": "white_bridge_stochastic_seed29_amortised"
+    },
+    {
+      "alpha": 0.5,
+      "seed": 29,
+      "fixed": null,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.50_white_bridge_exact_seed29_amortised",
+      "parent_name": "white_bridge_exact_seed29_amortised"
+    },
+    {
+      "alpha": 0.5,
+      "seed": 29,
+      "fixed": 0,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.50_white_bridge_stochastic_seed29_fixed0",
+      "parent_name": "white_bridge_stochastic_seed29_fixed0"
+    },
+    {
+      "alpha": 0.5,
+      "seed": 29,
+      "fixed": 0,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.50_white_bridge_exact_seed29_fixed0",
+      "parent_name": "white_bridge_exact_seed29_fixed0"
+    }
+  ],
+  "power_sha256": "4f08aa1a3d1ac1b968e8507df9874a69a99c61941ef85f663f32ef970e4f2a64",
+  "development_cases": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "confirmation_cases": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "git_revision": "7824b5e110726a01f2e575f1b3e006cf4b6b85f4"
+}

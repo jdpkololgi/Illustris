@@ -6,7 +6,10 @@ Original spectral panel completed; no all-gate qualification. High-k improved,
 DC remains wrong but is still improving across saved checkpoints. New protocol:
 `docs/e2e_partial_whitening_20260923.md`. Four partial exponents at matched budget,
 unchanged full-whitening continuation, development-only selection and untouched
-confirmation observations. GPU58790556 is validating; scientific launch pending.
+confirmation observations. GPU58790556 now runs frozen source7824b5e under tmux
+`partial_whitening_20260923` on login22. Scratchroot:
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_partial_20260923_v2`.
+Nineteen tests and ten GPU smoke branches pass; final results pending.
 Other project CPU allocation58790192 is unrelated and must not be commandeered.
 Earlier running-status entries are historical. P12/Abacus remain gated.
 
