@@ -14,6 +14,7 @@ from workflows.sbi.e2e_spectral_absorption import draw_diagnostic
 
 
 def transformed_case(case,scale):
+    scale=np.asarray(scale,dtype=np.float64)
     n=scale.shape[0];d=n**3
     def apply(x,s):
         return np.fft.ifftn(np.fft.fftn(x.reshape(-1,n,n,n),axes=(-3,-2,-1))*s,

@@ -31,6 +31,12 @@ absorption counterfactual. For `white_bridge`, scientific interpretation MUST us
 moments to that arm's white-base coordinates and project predicted variance back
 to physical shells. Do not interpret the original-bridge counterfactual as the
 changed-bridge absorption prediction. Training/source snapshots remain unchanged.
+The bridge-aware postprocessor is scheduled after COMPLETE in separate fixed
+tmux `spectral_analysis_20260923`, within the same allocation. Seven spectral
+tests now pass; the extra covariance round-trip test exposed a~3e-8float32
+reciprocal discrepancy in postprocessing, fixed by float64 reference arithmetic.
+This was not a training-transform or sampler failure. The allocation holder
+releases after BRIDGE_ABSORPTION.json, or its2hourlimit if the pipeline fails.
 
 ### 2026-09-23 - [plan] Spectral weighting, coordinates and bridge controls
 
