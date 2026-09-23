@@ -1,0 +1,74 @@
+{
+  "items": [
+    {
+      "alpha": 0.25,
+      "seed": 17,
+      "fixed": null,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.25_white_bridge_stochastic_seed17_amortised",
+      "parent_name": "alpha0.25_white_bridge_stochastic_seed17_amortised"
+    },
+    {
+      "alpha": 0.25,
+      "seed": 17,
+      "fixed": null,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.25_white_bridge_exact_seed17_amortised",
+      "parent_name": "alpha0.25_white_bridge_exact_seed17_amortised"
+    }
+  ],
+  "sources": {
+    "workflows/sbi/e2e_spectral_preconditioning.py": "cfd483fba57b0dfa1093039d5f0e7ba9eacff6651171bd8e31738f9c42bf2506",
+    "workflows/sbi/e2e_spectral_absorption.py": "4e4898ea9f59d79dbd730347ba68cbc835bca2d99fe9d314e64873b19b56721b",
+    "workflows/sbi/e2e_conditional_reference.py": "4cfe1afdc905094ca1ab2ee5ae1e3ef250e8f5bafd6edd90860bc7f407c981eb",
+    "workflows/sbi/e2e_conditional_reference_math.py": "70023d9d124ad2b552f694e4a4b12204c04efc80530b10b24fd1bf8f2733fd40",
+    "workflows/sbi/e2e_conditional_reference_continue.py": "b1bfba72846374d4ba86677ac79546b113a100dc9b49eba06082d8bac67918a0",
+    "workflows/sbi/e2e_reference_target_controls.py": "3d36f9ad72e25e8fd0d20834f0396d5b230bea443a9649d931b79398eb4be231",
+    "workflows/sbi/e2e_direct_vdm.py": "cca2c730ea28a76a2c49d6d9a823dfb8d7cafc3ec19bfe30c2d501f6d92b091b",
+    "configs/e2e_conditional_reference_v1.json": "ce2aa298fdebd133dcf9b79558577b4c21ac4c8248d473493b0f8de88b669610",
+    "docs/e2e_spectral_preconditioning_20260923.md": "2c8871cca8f0907beb355f6219759397fbe5f4f71c418a946a6eebbb075e7ba1",
+    "tests/test_e2e_spectral_preconditioning.py": "dfd66a44d661727285533265b165b27732fcdd367f8241a485e76a56f4acc206",
+    "workflows/sbi/e2e_partial_whitening.py": "aa1ef3466947e7ca56b20873e1733eca5d4c123d79c580c03e994e09406045a3",
+    "workflows/sbi/e2e_spectral_bridge_diagnostics.py": "5f2200f4d0fd2f4f3b5e597259b5dc41b19e4bdfd092709e69dfcc99cb1eb139",
+    "tests/test_e2e_partial_whitening.py": "22b0614c378f55c9c4e2564166f49138ddec62ebc5f87266199eece8ccb61ca7",
+    "docs/e2e_partial_whitening_20260923.md": "a68cac88dfb765f84208aa823d147a4bf42ccf0d4795d7b5df38a4942c4db521",
+    "workflows/sbi/e2e_partial_whitening_step.sh": "6754d1da2c1fdd3868deb86d0bc0dab6b7d38519461f1cdd5c724e261e363ef1",
+    "workflows/sbi/e2e_alpha025_continue.py": "61c90a350f80ab46293a2035e829c1533cfc4ae2348cc8074f5fc935157f9e79",
+    "workflows/sbi/e2e_alpha025_continue_step.sh": "4f82cb2c438a481bc466c097c44400a2f529cb7f9ef285673251e3344a53ef8d",
+    "tests/test_e2e_alpha025_continue.py": "ddad73ff52d59668661f6403ebc9013e81ff4fb6683a711d3b451be54889a2b0",
+    "docs/e2e_alpha025_continuation_20260923.md": "b9a13dfdc522b7ae89c3de9a8a3040a742946005d570e0e4f381b1f68b4aaf76"
+  },
+  "power_sha256": "4f08aa1a3d1ac1b968e8507df9874a69a99c61941ef85f663f32ef970e4f2a64",
+  "seconds": 5.447327671994572,
+  "timings": [
+    {
+      "item": {
+        "alpha": 0.25,
+        "seed": 17,
+        "fixed": null,
+        "exact": false,
+        "arm": "white_bridge",
+        "name": "alpha0.25_white_bridge_stochastic_seed17_amortised",
+        "parent_name": "alpha0.25_white_bridge_stochastic_seed17_amortised"
+      },
+      "seconds_per_update": 0.03289308753141995,
+      "restart_replay_pass": true
+    },
+    {
+      "item": {
+        "alpha": 0.25,
+        "seed": 17,
+        "fixed": null,
+        "exact": true,
+        "arm": "white_bridge",
+        "name": "alpha0.25_white_bridge_exact_seed17_amortised",
+        "parent_name": "alpha0.25_white_bridge_exact_seed17_amortised"
+      },
+      "seconds_per_update": 0.019140822703093363,
+      "restart_replay_pass": true
+    }
+  ],
+  "deterministic_algorithms": true
+}

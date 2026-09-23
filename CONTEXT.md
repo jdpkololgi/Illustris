@@ -8,6 +8,10 @@ See `docs/e2e_partial_whitening_conclusions_20260923.md` for full closeout.
 Next: eight selected-alpha models continue unchanged to65536; add physical DC
 mean-error diagnostics. No variance-reduction intervention or nonlinear/Abacus
 work is bundled into this authorization. Old running entries below are history.
+Job58803095 now executes frozen3724a51 under tmux `alpha025_continue_20260923`
+on login40; Scratchroot `reference_alpha025_continue_20260923_v1` under
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/`. Twenty-two tests and two GPU
+restart replays pass. Scientific continuation/evaluation remains pending.
 
 ## Partial-whitening follow-up (2026-09-23)
 

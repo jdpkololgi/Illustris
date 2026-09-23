@@ -1,5 +1,20 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-23 - [execution] Selected-alpha plain continuation launched
+
+Job58803095, nid008265, four GPUs,1hourlimit; tmux
+`alpha025_continue_20260923` on login40. Frozen implementation3724a51;
+root `/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_alpha025_continue_20260923_v1`.
+Eight alpha=.25 parents restored from32768updates; target65536. Twenty-two
+focused tests pass and both stochastic/exact deterministic GPU restart replays
+pass. These are technical controls; scientific kernels remain unchanged.
+All final draws and paired DC-mean diagnostics run automatically. The launcher
+writes LAUNCH_EXIT_CODE on success OR failure; the allocation holder exits on
+that receipt. No automatic retry, extension, alpha selection or objective change.
+Previous scientific results and selection were committed first (bcdd954).
+New scientific results remain pending. Graphify AST refresh again fails on
+filesystem flock errno524; global graph unchanged, no lock bypass attempted.
+
 ### 2026-09-23 - [closeout/plan] Partial whitening complete; alpha=.25 continuation authorized
 
 Closeout: `docs/e2e_partial_whitening_conclusions_20260923.md`; archive contains
