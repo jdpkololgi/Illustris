@@ -1,5 +1,66 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-23 - [plan] Spectral weighting, coordinates and bridge controls
+
+User authorizes implementing the spectral comparison and incremental commits.
+Protocol: `docs/e2e_spectral_preconditioning_20260923.md`. Four matched arms
+separate spectral loss weighting, transformed coordinates with correctly colored
+noise, and a deliberately changed white-in-whitened-space bridge. All transforms
+come only from fresh training-prior samples; evaluate in physical coordinates.
+Run an absorption diagnostic for every branch, with ensemble mean-noise correction.
+Opus's supplied mean/variance explanation is a hypothesis to verify, not yet an
+independently reproduced receipt. Its scalar formula applies to a restricted
+affine model, not all CFM posteriors. No new scientific fits have started.
+
+Previous30target fits,8resolution fits and4affine continuations completed their
+scientific steps. Final affine exact-target amortised mean/covariance errors
+are0.03536/0.06534, highest-shell ratio1.16949;0/8full passes. Stochastic affine
+amortised mean0.19307 and highest-shell1.11264;0/8passes. These are not a full
+Gaussian success. The delayed audit/archive completed on job58788084:
+`state_audit.json` reports PASS for all42checkpoints. The refreshed summary includes
+the65536-update affine continuation. No scientific jobs are left unaccounted for.
+
+
+### 2026-09-22 - [execution] Single-executor takeover; matched controls and resolution tests running
+
+The interrupted task had continued on login39 while a new executor started on
+login34. Per explicit user instruction, the duplicate agent app-server670715
+and code-mode host701449 on login39 are SIGSTOP-suspended, preserving compute
+children. This login34 session is the sole scientific executor; do not resume
+the duplicate until reconciliation. No source/checkpoint data were deleted.
+
+Target-control job58772775 runs30fits from frozen `reference_targets_20260922_v2`;
+resolution job58773317 runs8fits from frozen `reference_resolution_20260922_v1`,
+both below `/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/`. Both use four GPUs and
+tmux launchers with Slurm-owned compute/checkpointing. Technical job58773114
+was released after reference/smoke checks and23unittest tests passed. Pytest
+was unavailable; no dependency was installed. Resolution construction and its
+limitations are registered in `docs/e2e_reference_target_controls_20260922.md`.
+All final ensembles and both seeds are required before scientific closeout.
+
+
+### 2026-09-22 - [plan/correction] Matched target and optimization controls authorized
+
+User requests implementation and testing of the diagnostic next steps. Protocol:
+`docs/e2e_reference_target_controls_20260922.md`. Restore six CFM 65536-update
+parents into matched baseline, LR-decay and exact-conditional-target branches;
+fit a separately labelled privileged learned-affine control under both targets.
+Measure mean, probe covariance, regional coverage and every residual-power shell
+with matched draws and sampler settings across both seeds. Controlled physical
+8^3/16^3 resolution follows; naive grid changes alter the statistical problem.
+No results yet. Abacus/nonlinear training remain gated and P12 unchanged.
+
+Correction to the progression interpretation immediately below: neither its
+three-point slopes nor a constant-learning-rate plateau prove a spectral floor,
+exclude benefits from further optimization, or establish an irreducible
+amortisation penalty. Proper scores and spectral fidelity can decouple; spectra
+did not universally worsen over the full measured interval. Common-budget
+registered comparisons remain valid. Fixed-fit excess losses require their
+template-specific Bayes floors, not the mixture floor, and are not independent
+replications of the same fits' sampling errors. Covariance metrics use 16 probes;
+2048-draw errors must not be compared to 512-draw Monte Carlo null thresholds.
+
+
 ### 2026-09-20 - [code/diagnostic] Checkpoint progression: the completed matrix was still training, and its registered contrast magnitudes are budget-dependent
 
 Prompted by the Gaussian-reference continuation, which showed4096updates were

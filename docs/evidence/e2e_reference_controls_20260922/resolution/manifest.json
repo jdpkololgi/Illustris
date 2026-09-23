@@ -1,0 +1,117 @@
+{
+  "sources": {
+    "workflows/sbi/e2e_reference_resolution.py": "f4c25e44066bdb6bb145a29f6459d05b59cd347a203ce98b2018e778f4dc50e9",
+    "workflows/sbi/e2e_reference_target_controls.py": "3d36f9ad72e25e8fd0d20834f0396d5b230bea443a9649d931b79398eb4be231",
+    "workflows/sbi/e2e_conditional_reference.py": "4cfe1afdc905094ca1ab2ee5ae1e3ef250e8f5bafd6edd90860bc7f407c981eb",
+    "workflows/sbi/e2e_conditional_reference_math.py": "70023d9d124ad2b552f694e4a4b12204c04efc80530b10b24fd1bf8f2733fd40",
+    "workflows/sbi/e2e_conditional_reference_continue.py": "b1bfba72846374d4ba86677ac79546b113a100dc9b49eba06082d8bac67918a0",
+    "workflows/sbi/e2e_direct_vdm.py": "cca2c730ea28a76a2c49d6d9a823dfb8d7cafc3ec19bfe30c2d501f6d92b091b",
+    "configs/e2e_conditional_reference_v1.json": "ce2aa298fdebd133dcf9b79558577b4c21ac4c8248d473493b0f8de88b669610"
+  },
+  "config": {
+    "schema": "conditional-reference-v1",
+    "grid": 8,
+    "base": 8,
+    "levels": 2,
+    "batch": 32,
+    "updates": 4096,
+    "checkpoints": [
+      1024,
+      4096
+    ],
+    "seeds": [
+      17,
+      29
+    ],
+    "objectives": [
+      "vdm",
+      "cfm"
+    ],
+    "cases": 4,
+    "fixed_cases": [
+      0,
+      1
+    ],
+    "draws": 512,
+    "evaluation_batch": 64,
+    "nfe": [
+      128,
+      256
+    ],
+    "oracle_nfe": [
+      32,
+      64,
+      128,
+      256,
+      512,
+      1024
+    ],
+    "learning_rate": 0.0003,
+    "null_repeats": 128,
+    "mean_tolerance": 0.1,
+    "variance_tolerance": 0.1,
+    "covariance_tolerance": 0.15,
+    "oracle_covariance_tolerance": 0.05,
+    "deadline_seconds": 6600,
+    "scratch_cap_gib": 20,
+    "lognormal_stage": "deferred until Gaussian learned and numerical gates pass"
+  },
+  "items": [
+    {
+      "n": 8,
+      "seed": 17,
+      "fixed": null,
+      "name": "n8_seed17_amortised"
+    },
+    {
+      "n": 8,
+      "seed": 17,
+      "fixed": 0,
+      "name": "n8_seed17_fixed0"
+    },
+    {
+      "n": 16,
+      "seed": 17,
+      "fixed": null,
+      "name": "n16_seed17_amortised"
+    },
+    {
+      "n": 16,
+      "seed": 17,
+      "fixed": 0,
+      "name": "n16_seed17_fixed0"
+    },
+    {
+      "n": 8,
+      "seed": 29,
+      "fixed": null,
+      "name": "n8_seed29_amortised"
+    },
+    {
+      "n": 8,
+      "seed": 29,
+      "fixed": 0,
+      "name": "n8_seed29_fixed0"
+    },
+    {
+      "n": 16,
+      "seed": 29,
+      "fixed": null,
+      "name": "n16_seed29_amortised"
+    },
+    {
+      "n": 16,
+      "seed": 29,
+      "fixed": 0,
+      "name": "n16_seed29_fixed0"
+    }
+  ],
+  "updates": 16384,
+  "problems": {
+    "8": "79798b7914ce281c47b23402857ec40a35a8b93b7f1a0287579739b77eacaf87",
+    "16": "59fdcd8db2981e6c995c88ba8eea4e25b9355272279e62a3f1bc6872b8c9c39a"
+  },
+  "job": "58772987",
+  "nested_prior_and_posterior_verified": true,
+  "physical_cutoff": 8
+}

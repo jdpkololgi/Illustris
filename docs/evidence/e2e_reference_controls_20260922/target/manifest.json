@@ -1,0 +1,296 @@
+{
+  "config": {
+    "schema": "conditional-reference-v1",
+    "grid": 8,
+    "base": 8,
+    "levels": 2,
+    "batch": 32,
+    "updates": 4096,
+    "checkpoints": [
+      1024,
+      4096
+    ],
+    "seeds": [
+      17,
+      29
+    ],
+    "objectives": [
+      "vdm",
+      "cfm"
+    ],
+    "cases": 4,
+    "fixed_cases": [
+      0,
+      1
+    ],
+    "draws": 512,
+    "evaluation_batch": 64,
+    "nfe": [
+      128,
+      256
+    ],
+    "oracle_nfe": [
+      32,
+      64,
+      128,
+      256,
+      512,
+      1024
+    ],
+    "learning_rate": 0.0003,
+    "null_repeats": 128,
+    "mean_tolerance": 0.1,
+    "variance_tolerance": 0.1,
+    "covariance_tolerance": 0.15,
+    "oracle_covariance_tolerance": 0.05,
+    "deadline_seconds": 6600,
+    "scratch_cap_gib": 20,
+    "lognormal_stage": "deferred until Gaussian learned and numerical gates pass"
+  },
+  "sources": {
+    "workflows/sbi/e2e_reference_target_controls.py": "3d36f9ad72e25e8fd0d20834f0396d5b230bea443a9649d931b79398eb4be231",
+    "workflows/sbi/e2e_conditional_reference.py": "4cfe1afdc905094ca1ab2ee5ae1e3ef250e8f5bafd6edd90860bc7f407c981eb",
+    "workflows/sbi/e2e_conditional_reference_math.py": "70023d9d124ad2b552f694e4a4b12204c04efc80530b10b24fd1bf8f2733fd40",
+    "workflows/sbi/e2e_conditional_reference_continue.py": "b1bfba72846374d4ba86677ac79546b113a100dc9b49eba06082d8bac67918a0",
+    "workflows/sbi/e2e_direct_vdm.py": "cca2c730ea28a76a2c49d6d9a823dfb8d7cafc3ec19bfe30c2d501f6d92b091b",
+    "configs/e2e_conditional_reference_v1.json": "ce2aa298fdebd133dcf9b79558577b4c21ac4c8248d473493b0f8de88b669610",
+    "tests/test_e2e_reference_target_controls.py": "045697ff780372b737b87e6be1dfc1f2fb9d8c8b89e43b18a63546d4f9838eb4"
+  },
+  "parent": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/conditional_reference_continuation_20260919_r1",
+  "parent_sources": {
+    "workflows/sbi/e2e_conditional_reference.py": "4cfe1afdc905094ca1ab2ee5ae1e3ef250e8f5bafd6edd90860bc7f407c981eb",
+    "workflows/sbi/e2e_conditional_reference_math.py": "70023d9d124ad2b552f694e4a4b12204c04efc80530b10b24fd1bf8f2733fd40",
+    "workflows/sbi/e2e_direct_vdm.py": "cca2c730ea28a76a2c49d6d9a823dfb8d7cafc3ec19bfe30c2d501f6d92b091b",
+    "configs/e2e_conditional_reference_v1.json": "ce2aa298fdebd133dcf9b79558577b4c21ac4c8248d473493b0f8de88b669610",
+    "workflows/sbi/e2e_conditional_reference_continue.py": "b1bfba72846374d4ba86677ac79546b113a100dc9b49eba06082d8bac67918a0",
+    "configs/e2e_conditional_reference_continuation_v1.json": "e337d8f4302c424cc4ef7bac8ec7c6c65ca4bccdea67d82286a59694f5100b04",
+    "workflows/sbi/e2e_conditional_reference_continue_step.sh": "72b40e09a140d86cb13cd4968c60a9c57787443c4b5461872e41f8b01fe6a030"
+  },
+  "parents": {
+    "cfm_seed17_amortised": "84288b2b31da0b0a550c328b2a65947923aa262f080548848073f26f391eb8fb",
+    "cfm_seed17_fixed0": "8dc235a32dc1ac38dcf0448e786c7601d23f81803eef18fac0f2d663b47a1bce",
+    "cfm_seed17_fixed1": "6ecb580f8bb8ef3c64c31633348cbff3c181aa82092c4c2d38888ba11707a493",
+    "cfm_seed29_amortised": "9c2751a91a4fa7ad7b9eba7fc4b92176e0e2d7e43ba371834c87e3dee55708e0",
+    "cfm_seed29_fixed0": "96ac7ff8a0a4b39cd5059f99a35e1db100422e1815d157e813a2388d316a2094",
+    "cfm_seed29_fixed1": "f781c526cb5f980a296181b4df54d6220d7c9a300646ff8b391da3b1222f4b4f"
+  },
+  "items": [
+    {
+      "seed": 17,
+      "fixed": null,
+      "branch": "baseline",
+      "name": "baseline_seed17_amortised",
+      "parent": "cfm_seed17_amortised"
+    },
+    {
+      "seed": 17,
+      "fixed": null,
+      "branch": "decay",
+      "name": "decay_seed17_amortised",
+      "parent": "cfm_seed17_amortised"
+    },
+    {
+      "seed": 17,
+      "fixed": null,
+      "branch": "teacher",
+      "name": "teacher_seed17_amortised",
+      "parent": "cfm_seed17_amortised"
+    },
+    {
+      "seed": 17,
+      "fixed": null,
+      "branch": "affine_stochastic",
+      "name": "affine_stochastic_seed17_amortised",
+      "parent": "cfm_seed17_amortised"
+    },
+    {
+      "seed": 17,
+      "fixed": null,
+      "branch": "affine_teacher",
+      "name": "affine_teacher_seed17_amortised",
+      "parent": "cfm_seed17_amortised"
+    },
+    {
+      "seed": 17,
+      "fixed": 0,
+      "branch": "baseline",
+      "name": "baseline_seed17_fixed0",
+      "parent": "cfm_seed17_fixed0"
+    },
+    {
+      "seed": 17,
+      "fixed": 0,
+      "branch": "decay",
+      "name": "decay_seed17_fixed0",
+      "parent": "cfm_seed17_fixed0"
+    },
+    {
+      "seed": 17,
+      "fixed": 0,
+      "branch": "teacher",
+      "name": "teacher_seed17_fixed0",
+      "parent": "cfm_seed17_fixed0"
+    },
+    {
+      "seed": 17,
+      "fixed": 0,
+      "branch": "affine_stochastic",
+      "name": "affine_stochastic_seed17_fixed0",
+      "parent": "cfm_seed17_fixed0"
+    },
+    {
+      "seed": 17,
+      "fixed": 0,
+      "branch": "affine_teacher",
+      "name": "affine_teacher_seed17_fixed0",
+      "parent": "cfm_seed17_fixed0"
+    },
+    {
+      "seed": 17,
+      "fixed": 1,
+      "branch": "baseline",
+      "name": "baseline_seed17_fixed1",
+      "parent": "cfm_seed17_fixed1"
+    },
+    {
+      "seed": 17,
+      "fixed": 1,
+      "branch": "decay",
+      "name": "decay_seed17_fixed1",
+      "parent": "cfm_seed17_fixed1"
+    },
+    {
+      "seed": 17,
+      "fixed": 1,
+      "branch": "teacher",
+      "name": "teacher_seed17_fixed1",
+      "parent": "cfm_seed17_fixed1"
+    },
+    {
+      "seed": 17,
+      "fixed": 1,
+      "branch": "affine_stochastic",
+      "name": "affine_stochastic_seed17_fixed1",
+      "parent": "cfm_seed17_fixed1"
+    },
+    {
+      "seed": 17,
+      "fixed": 1,
+      "branch": "affine_teacher",
+      "name": "affine_teacher_seed17_fixed1",
+      "parent": "cfm_seed17_fixed1"
+    },
+    {
+      "seed": 29,
+      "fixed": null,
+      "branch": "baseline",
+      "name": "baseline_seed29_amortised",
+      "parent": "cfm_seed29_amortised"
+    },
+    {
+      "seed": 29,
+      "fixed": null,
+      "branch": "decay",
+      "name": "decay_seed29_amortised",
+      "parent": "cfm_seed29_amortised"
+    },
+    {
+      "seed": 29,
+      "fixed": null,
+      "branch": "teacher",
+      "name": "teacher_seed29_amortised",
+      "parent": "cfm_seed29_amortised"
+    },
+    {
+      "seed": 29,
+      "fixed": null,
+      "branch": "affine_stochastic",
+      "name": "affine_stochastic_seed29_amortised",
+      "parent": "cfm_seed29_amortised"
+    },
+    {
+      "seed": 29,
+      "fixed": null,
+      "branch": "affine_teacher",
+      "name": "affine_teacher_seed29_amortised",
+      "parent": "cfm_seed29_amortised"
+    },
+    {
+      "seed": 29,
+      "fixed": 0,
+      "branch": "baseline",
+      "name": "baseline_seed29_fixed0",
+      "parent": "cfm_seed29_fixed0"
+    },
+    {
+      "seed": 29,
+      "fixed": 0,
+      "branch": "decay",
+      "name": "decay_seed29_fixed0",
+      "parent": "cfm_seed29_fixed0"
+    },
+    {
+      "seed": 29,
+      "fixed": 0,
+      "branch": "teacher",
+      "name": "teacher_seed29_fixed0",
+      "parent": "cfm_seed29_fixed0"
+    },
+    {
+      "seed": 29,
+      "fixed": 0,
+      "branch": "affine_stochastic",
+      "name": "affine_stochastic_seed29_fixed0",
+      "parent": "cfm_seed29_fixed0"
+    },
+    {
+      "seed": 29,
+      "fixed": 0,
+      "branch": "affine_teacher",
+      "name": "affine_teacher_seed29_fixed0",
+      "parent": "cfm_seed29_fixed0"
+    },
+    {
+      "seed": 29,
+      "fixed": 1,
+      "branch": "baseline",
+      "name": "baseline_seed29_fixed1",
+      "parent": "cfm_seed29_fixed1"
+    },
+    {
+      "seed": 29,
+      "fixed": 1,
+      "branch": "decay",
+      "name": "decay_seed29_fixed1",
+      "parent": "cfm_seed29_fixed1"
+    },
+    {
+      "seed": 29,
+      "fixed": 1,
+      "branch": "teacher",
+      "name": "teacher_seed29_fixed1",
+      "parent": "cfm_seed29_fixed1"
+    },
+    {
+      "seed": 29,
+      "fixed": 1,
+      "branch": "affine_stochastic",
+      "name": "affine_stochastic_seed29_fixed1",
+      "parent": "cfm_seed29_fixed1"
+    },
+    {
+      "seed": 29,
+      "fixed": 1,
+      "branch": "affine_teacher",
+      "name": "affine_teacher_seed29_fixed1",
+      "parent": "cfm_seed29_fixed1"
+    }
+  ],
+  "updates": 16384,
+  "checkpoints": [
+    8192,
+    16384
+  ],
+  "workers": 4,
+  "created": 1790120166.6311336
+}

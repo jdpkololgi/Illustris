@@ -1,0 +1,67 @@
+{
+  "seconds": 1451.1529866010005,
+  "job": "58772775",
+  "node": "nid001081",
+  "sources": {
+    "workflows/sbi/e2e_reference_target_controls.py": "3d36f9ad72e25e8fd0d20834f0396d5b230bea443a9649d931b79398eb4be231",
+    "workflows/sbi/e2e_conditional_reference.py": "4cfe1afdc905094ca1ab2ee5ae1e3ef250e8f5bafd6edd90860bc7f407c981eb",
+    "workflows/sbi/e2e_conditional_reference_math.py": "70023d9d124ad2b552f694e4a4b12204c04efc80530b10b24fd1bf8f2733fd40",
+    "workflows/sbi/e2e_conditional_reference_continue.py": "b1bfba72846374d4ba86677ac79546b113a100dc9b49eba06082d8bac67918a0",
+    "workflows/sbi/e2e_direct_vdm.py": "cca2c730ea28a76a2c49d6d9a823dfb8d7cafc3ec19bfe30c2d501f6d92b091b",
+    "configs/e2e_conditional_reference_v1.json": "ce2aa298fdebd133dcf9b79558577b4c21ac4c8248d473493b0f8de88b669610",
+    "tests/test_e2e_reference_target_controls.py": "045697ff780372b737b87e6be1dfc1f2fb9d8c8b89e43b18a63546d4f9838eb4"
+  },
+  "items": [
+    {
+      "seed": 17,
+      "fixed": null,
+      "branch": "affine_stochastic",
+      "name": "affine_stochastic_seed17_amortised",
+      "parent": "cfm_seed17_amortised"
+    },
+    {
+      "seed": 17,
+      "fixed": 0,
+      "branch": "teacher",
+      "name": "teacher_seed17_fixed0",
+      "parent": "cfm_seed17_fixed0"
+    },
+    {
+      "seed": 17,
+      "fixed": 1,
+      "branch": "decay",
+      "name": "decay_seed17_fixed1",
+      "parent": "cfm_seed17_fixed1"
+    },
+    {
+      "seed": 29,
+      "fixed": null,
+      "branch": "baseline",
+      "name": "baseline_seed29_amortised",
+      "parent": "cfm_seed29_amortised"
+    },
+    {
+      "seed": 29,
+      "fixed": null,
+      "branch": "affine_teacher",
+      "name": "affine_teacher_seed29_amortised",
+      "parent": "cfm_seed29_amortised"
+    },
+    {
+      "seed": 29,
+      "fixed": 0,
+      "branch": "affine_stochastic",
+      "name": "affine_stochastic_seed29_fixed0",
+      "parent": "cfm_seed29_fixed0"
+    },
+    {
+      "seed": 29,
+      "fixed": 1,
+      "branch": "teacher",
+      "name": "teacher_seed29_fixed1",
+      "parent": "cfm_seed29_fixed1"
+    }
+  ],
+  "timings": [],
+  "peak_gpu_bytes": 58940928
+}

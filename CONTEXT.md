@@ -1,5 +1,39 @@
 # Research context — Illustris
 
+## Spectral comparison authorized (2026-09-23)
+
+Prior target/resolution/affine scientific runs are complete; their final closeout
+was interrupted by tool approvals. New registered plan:
+`docs/e2e_spectral_preconditioning_20260923.md`. Separate loss weighting,
+coordinates and changed bridge noise, with train-prior-only weights and physical
+metrics. Absorption predictions are diagnostics, not universal CFM identities.
+No new spectral scientific fit yet. P12/Abacus/nonlinear promotion stays gated.
+Earlier execution entries below are historical, not current job status.
+
+
+## Target and resolution controls running (2026-09-22)
+
+Thirty matched target/optimization/affine fits run on58772775; eight physically
+matched8^3/16^3fits run on58773317. Exact Gaussian references, GPU smoke and
+23tests pass; final conclusions remain pending both seeds and precision draws.
+Protocol: `docs/e2e_reference_target_controls_20260922.md`. The duplicate
+login39 agent was suspended at the user's request; login34 leads. Existing
+Slurm training was preserved. Abacus/nonlinear promotion remains gated.
+
+
+## Gaussian target controls executing (2026-09-22)
+
+User authorizes the next diagnostic tests. Protocol:
+`docs/e2e_reference_target_controls_20260922.md`. Twenty-one focused analytic and
+restart tests pass; one-GPU smoke58772687 passed and was released. Four-GPU
+allocation58772775 runs30independent CFM fits under tmux
+`reference_targets_20260922`: matched baseline/decay/exact-target continuations,
+plus explicitly privileged learned-affine controls. Run root:
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_targets_20260922_v2`.
+No scientific result yet. Permanent power floors and irreducible amortisation
+penalties are NOT established. Nonlinear/Abacus training and P12 remain unchanged.
+
+
 ## Reference continuation complete (2026-09-20)
 
 All12Gaussian VDM/CFM fits reached65536updates without changing the training law;

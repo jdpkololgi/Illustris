@@ -1,0 +1,6 @@
+{
+  "exact_target_mse": 2.030959393550802e-06,
+  "batch_standard_error": 7.266404558012361e-08,
+  "examples": 4096,
+  "diagnostic_seed": 700029
+}

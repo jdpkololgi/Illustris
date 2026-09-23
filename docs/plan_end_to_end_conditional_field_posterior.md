@@ -1,5 +1,25 @@
 # Plan — End-to-end conditional density-field posterior
 
+## Spectral preconditioning comparison (2026-09-23)
+
+Next execute [the registered four-arm comparison](e2e_spectral_preconditioning_20260923.md):
+physical baseline, spectral loss weighting, bridge-preserving coordinates, and
+white-in-whitened-space bridge. Transform estimates use only training-prior
+fields. Keep exact-target diagnostic and practical stochastic-target fits
+separate; require physical mean, covariance, coverage and ALL shell gates across
+seeds. Verify mean/variance absorption without treating it as a universal law.
+Commit plan, implementation, launch receipts and conclusions incrementally.
+
+## Authorized target/optimization controls (2026-09-22)
+
+Execute the [registered diagnostic panel](e2e_reference_target_controls_20260922.md):
+matched CFM constant-LR, decayed-LR and exact-target continuations; learned affine
+controls with explicit privileged structure; then a physically controlled grid
+comparison. Judge seeds/cases jointly on mean, covariance, regional coverage and
+residual power. No permanent optimization floor has been established. The large
+coupled Abacus campaign and nonlinear rung remain gated; P12 is unchanged.
+
+
 ## Completed reference learning curve; next isolation test (2026-09-20)
 
 The [65536-update continuation](e2e_conditional_reference_continuation_v1.md) is
