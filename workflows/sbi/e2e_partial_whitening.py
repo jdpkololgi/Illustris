@@ -128,6 +128,10 @@ def diagnostics(model,data,item,transform,out,update,indices):
 
 def worker(a):
     if not os.environ.get('SLURM_JOB_ID') or not torch.cuda.is_available():raise RuntimeError('GPU allocation required')
+    if a.deterministic_smoke:
+        if not a.smoke:raise ValueError('deterministic override is a technical replay control only')
+        torch.use_deterministic_algorithms(True)
+        torch.backends.cudnn.deterministic=True
     torch.set_num_threads(4);root=Path(a.output);m=context(root);cfg=m['config']
     data=Data(cfg,torch.device('cuda'));teacher=Teacher(data);power=np.load(root/'train_prior_power.npy')
     rank=int(os.environ.get('SLURM_PROCID',0))
@@ -176,7 +180,8 @@ def worker(a):
             diagnostics(model,data,item,transform,out/'precision',total,range(4) if item['fixed'] is None else [0])
             atomic_json(out/'velocity_risk.json',velocity_risk(model,data,item,transform,teacher,white))
     atomic_json(root/('SMOKE.json' if a.smoke else f'worker_{rank}_COMPLETE.json'),dict(items=owned,
-        sources=m['sources'],power_sha256=m['power_sha256'],seconds=time.monotonic()-started,timings=timings))
+        sources=m['sources'],power_sha256=m['power_sha256'],seconds=time.monotonic()-started,timings=timings,
+        deterministic_algorithms=torch.are_deterministic_algorithms_enabled()))
 
 
 def select(a):
@@ -235,4 +240,5 @@ def collect(a):
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('command',choices=['prepare','worker','select','confirmation','collect'])
     p.add_argument('--output',required=True);p.add_argument('--parent');p.add_argument('--smoke',action='store_true')
+    p.add_argument('--deterministic-smoke',action='store_true')
     a=p.parse_args();globals()[a.command](a)
