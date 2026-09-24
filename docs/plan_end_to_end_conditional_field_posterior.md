@@ -1,5 +1,12 @@
 # Plan — End-to-end conditional density-field posterior
 
+## Development stabilization (2026-09-24)
+
+Plain selected-alpha continuation is complete but not qualified. Run the bounded
+constant/decayedLR × raw/EMA control in `e2e_stabilization_20260924.md`, with
+standardized diagnostics and two-checkpoint stability on development only.
+No full-campaign or nonlinear-rung promotion is implied; stop at the stated bound.
+
 ## Selected-alpha unchanged continuation (2026-09-23)
 
 The partial-whitening panel is complete; see

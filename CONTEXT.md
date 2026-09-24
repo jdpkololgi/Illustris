@@ -1,5 +1,13 @@
 # Research context — Illustris
 
+## Stabilization control authorized (2026-09-24)
+
+Plainalpha=.25continuation finished; see `e2e_alpha025_continuation_conclusions_20260924.md`.
+Next development-only constant/decayedLR × raw/EMA factorial on four amortised
+parents, two evaluation checkpoints. Protocol: `docs/e2e_stabilization_20260924.md`.
+Automatic DC offset/scatter and stability battery; no additional confirmation,
+Abacus, hybrid or nonlinear work. Older launch entries below are historical.
+
 ## Alpha=.25 plain continuation authorized (2026-09-23)
 
 Partial-whitening sweep/confirmation completed; registered selectionalpha=.25.

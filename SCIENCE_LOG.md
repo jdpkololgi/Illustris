@@ -1,5 +1,28 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-24 - [closeout/plan] Plain continuation complete; stabilization factorial
+
+Closeout: `docs/e2e_alpha025_continuation_conclusions_20260924.md`.
+Job58803095 completed eight fits/104ensembles,32minutes,exit0. Stochastic
+mean .146→.113, covariance .128→.112, DC1.168→1.165, top1.172→1.106;
+0/16full passes. Exact mean .085→.073, but corrected DC RMS .096→.306;
+3/16full passes. No stable posterior or universal conditioning success claimed.
+
+User authorizes optimization-stabilization controls. Development-only protocol:
+`docs/e2e_stabilization_20260924.md`. Four amortised65536parents branch into
+constant/decayed LR; both carry EMA(.999), with raw+EMA evaluation at81920and
+98304. Same objective/data streams within pairs, no other intervention. Only
+the four development observations are scored; no new confirmation is opened.
+Automated battery adds per-template DC offset/scatter, MC terms, absorption,
+all-shell/gate metrics, NFE differences and two-checkpoint stability flags.
+Two observations per template severely limit scatter/generalization inference.
+Stop at98304, regardless of result. No automatic follow-on or Abacus promotion.
+
+Broader Opus proposals (classical nonlinear baselines, downstream tolerances,
+analytic hybrids) remain useful separate design questions, not newly authorized
+work. This turn adopts batched exploratory comparisons and standardized output,
+not a16GPUcampaign or relaxed claims. Basic provenance/restart safety is retained.
+
 ### 2026-09-23 - [execution] Selected-alpha plain continuation launched
 
 Job58803095, nid008265, four GPUs,1hourlimit; tmux
