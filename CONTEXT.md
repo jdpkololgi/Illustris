@@ -1,5 +1,13 @@
 # Research context — Illustris
 
+## Stabilization closeout and next batch (2026-09-24)
+
+Stabilization completed, no stable full-gate pass. DC drift shrank substantially;
+top-shell power remains high. New bounded development batch:
+`docs/e2e_stable_alpha_20260924.md`: stabilized alpha selection plus independent
+downstream sensitivity controls. Older running entries below are historical.
+
+
 ## Stabilization control authorized (2026-09-24)
 
 Now running: job 58818101 on nid008216, four GPUs, tmux

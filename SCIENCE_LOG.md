@@ -1,5 +1,27 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-24 - [closeout/plan] Stabilization complete; batched alpha/use-case tests
+
+Job58818101 completed with exit0: eight fits and192ensembles. Saved
+`reference_stabilization_20260924_v1/{COMPLETE.json,SUMMARY.md}` are authoritative.
+At98,304, stochastic constant/raw -> decay/EMA: mean .10167->.08189,
+covariance .09842->.08542, DC1.09176->1.03008, top1.12987->1.13220.
+EMA constant-LR DC template-offset RMS .19291->.06318 (stochastic),
+.18861->.04803 (exact). Supports optimizer-related drift; does not prove a
+universal fix, unchanged scatter, or a generally solved conditioning map.
+Exact decay/EMA top1.11306; predicted mean-absorption excess only .56%, versus
+11.3% observed (stochastic .73% versus13.2%). No branch passes all gates across
+both checkpoints/seeds. Largest128/256NFE shell change .000347769.
+
+User requests more than one experiment and a return-on-effort decision.
+Protocol: `docs/e2e_stable_alpha_20260924.md`. A: matched fresh-start16fit
+alpha(.25/.30/.35/.40) x targets x seeds, decay+EMA, both checkpoints. B:
+frozen-draw downstream sensitivity, with exact Gaussian and controlled
+top-shell/all-mode/erased-covariance alternatives. Development only. No gate
+relaxation or physical7Mpc/h claim from a dimensionless toy. Stop further
+alpha/optimizer tuning after this batch; no automatic extension or Abacus work.
+
+
 ### 2026-09-24 - [execution] Development-only optimizer stabilization launched
 
 Job 58818101, nid008216, four A100 GPUs, 75-minute allocation; tmux

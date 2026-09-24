@@ -1,5 +1,14 @@
 # Plan — End-to-end conditional density-field posterior
 
+## Stabilized alpha and use-case batch (2026-09-24)
+
+Stabilization is complete and not fully qualified. Execute the two experiments
+in `e2e_stable_alpha_20260924.md` together:16fit stabilized alpha factorial and
+frozen-draw downstream sensitivity. No confirmation or Abacus promotion,
+no post-hoc gate changes. End alpha/optimizer tuning after this batch and decide
+whether a stable candidate warrants confirmation or a different baseline is
+needed. Physical DESI functional tolerances remain an explicit unresolved input.
+
 ## Development stabilization (2026-09-24)
 
 Plain selected-alpha continuation is complete but not qualified. Run the bounded
