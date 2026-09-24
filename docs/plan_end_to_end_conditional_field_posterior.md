@@ -1,5 +1,38 @@
 # Plan — End-to-end conditional density-field posterior
 
+## CURRENT AUTHORITY — bounded coupled CFM pilot (2026-09-24)
+
+Active protocol: [e2e_cfm_abacus_pilot_20260924.md](e2e_cfm_abacus_pilot_20260924.md).
+User approves completing protocol and starting Abacus, then explicitly approves
+first four-A100/two-hour segment (8GPUh). One architecture/two seeds, four factors;
+not the four-arm campaign. All older dated launch/next-step language below is
+historical where it conflicts with this section. Production VAC remains separate.
+
+- Preparation: corrected13/2/6products complete; train1664pairs, development32,
+  confirmation96. Confirmation predictions remain sealed until protocol/config
+  and evaluation controls are frozen. No ph001/006 or historical004/005 access.
+- Gaussian/lognormal diagnostics complete for their purposes; no further toy
+  training prerequisite. EMA/decay and spectral balancing motivate, not guarantee,
+  transfer. Alpha=.30 starts as provisional, not an Abacus-selected optimum.
+- Wiener comparison COMPLETE: job58830984 exit0,3m57s,32anchors. Approximate
+  core-mass coverage44% versus B66% and D73%; densityCRPS .152/.145/.146.
+  These legacy-frame/input results are historical, not matched new-pilot gates.
+- First segment: train and measure coupled coarse/joint-fine CFM with EMA,
+  cosine decay, spectral loss weighting, actual13phase loading and checkpoints.
+  No calibrated-posterior claim from falling loss or a short segment.
+- Follow-on still required: development posterior sampler/evaluator, finite-panel
+  metric sensitivity controls, bounded alpha selection, two-checkpoint/two-seed
+  stability and measured continuation budget. Starting training does NOT mean
+  these scientific evaluations are already implemented or passed.
+- Gate policy: numerical invariants are hard;5ppcoverage/5%CRPS/10%power are
+  provisional practical targets, not demonstrated utility thresholds. Actual
+  panel sensitivity must be recorded before confirmation. Inconclusive is allowed.
+  No impossible10%energy gate; no fine-stage improvement gate on masses fixed
+  by the common coarse draw. No oracle conditional class-probability claims.
+- Stop scope creep: no automatic classical expansion, four-arm launch, extra
+  allocations, phase opening or production release. Return measured progress
+  and shortest next decision toward calibrated fields.
+
 ## Immediate bounded Abacus control (2026-09-24)
 
 User supersedes the proposed additional nonlinear toy comparison with Step1:

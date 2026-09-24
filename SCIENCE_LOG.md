@@ -1,5 +1,27 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-24 - [plan/E2E] Coupled CFM pilot and evidence-aware assessment
+
+User authorizes protocol completion and Abacus launch; separately approves first
+four-A100/two-hour segment (8GPUh). Updated main plan/CONTEXT to supersede stale
+toy/large-four-arm next-step language. Protocol: docs/e2e_cfm_abacus_pilot_20260924.md.
+One coupled coarse/joint-fine CFM design, two seeds; corrected13train phases,
+ph012/013development, confirmation remains sealed. EMA/decay and train-spectrum
+loss weighting; initialalpha=.30 provisional, not an Abacus-selected optimum.
+Full32epoch horizon checkpointed; first2h is a segment, not mature-training claim.
+Four focused tests pass0.124s. Training implementation exposes no held-out targets.
+Scientific evaluator, actual-panel sensitivity controls and developmentalpha
+selection are still follow-on tasks; not claimed complete by training launch.
+Pre-record5ppcoverage/5%CRPS/10%power as practical diagnostic targets, NOT validated
+utility thresholds. Require phase uncertainty/inconclusive category, no10%energy
+improvement gate, no fine-coupling gate on fixed coarse mass, no false exact
+conditional class-probability error. Six-phase panel cannot certify tight
+calibration by voxel bootstrap. No automatic allocations or confirmation opening.
+Wiener control already completed58830984/exit0: core-mass44% vs B66%/D73%; old
+frame/information not a matched causal control. No classical detour launched.
+
+
+
 ### 2026-09-24 - [execution/E2E] Corrected Wiener interactive retry running
 
 User approved interactive retry. Allocation58830984 on CPU nid004169, two-hour

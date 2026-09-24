@@ -1,5 +1,14 @@
 # Research context — Illustris
 
+## E2E current status (2026-09-24)
+
+Bounded coupled CFM Abacus pilot now authorized; see main field-posterior plan
+and docs/e2e_cfm_abacus_pilot_20260924.md. One design/two seeds, first4GPU/2h
+segment only; confirmation sealed. Wiener diagnostic completed, not a solution
+to regional calibration. Old toy launch entries below are history, not live jobs.
+Production VAC remains the separate application priority. Scientific success
+requires posterior evaluation and stability, not merely training completion.
+
 ## Current VAC application direction (2026-09-24)
 
 The user adopted `docs/plan_desi_p12a_vac_20260924.md`: frozen U-PATCH + P12-A
