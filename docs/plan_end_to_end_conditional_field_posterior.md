@@ -1,5 +1,16 @@
 # Plan — End-to-end conditional density-field posterior
 
+## Classical/hybrid decision comparison (2026-09-24, supersedes perfection gate)
+
+User authorizes finishing alpha evaluations and initiating the next classical/
+hybrid comparison. Execute `e2e_classical_hybrid_20260924.md`: Gaussian constrained
+realizations as competitor, selected neural draws, conditional low-mode hybrid
+and independent-splice negative control. Judge downstream accuracy and effort;
+no more alpha/optimizer tuning. A perfect Gaussian neural pass is no longer a
+blanket prerequisite for designing classical nonlinear baselines. Lognormal/
+Poisson multichain reference, Laplace approximation and subsequent neural/hybrid
+comparison remain the next explicitly designed rung, not an automatic Abacus run.
+
 ## VAC separation (2026-09-24)
 
 The user adopted [P12-A to Loa VAC](plan_desi_p12a_vac_20260924.md) as the
