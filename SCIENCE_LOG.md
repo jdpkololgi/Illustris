@@ -1,5 +1,32 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-24 - [code/handoff] P12 VAC preflight implemented; live command launch blocked
+
+On the user's instruction to proceed, implemented GraphWeb_DESI
+`workflows/catalog/p12a_vac_preflight.py` and five focused fixture tests.
+The CLI verifies the eight small candidate artifacts by size/SHA256 without
+deserializing checkpoints, checks FMPE feature order and checkpoint bindings,
+inventories archived Loa source metadata, and produces a phase-use ledger that
+never turns an E2E reservation or previously opened P12 phase into fresh blind
+data. Reads are capped at32MiB per small artifact; no catalogue/target arrays
+are opened. Reports are exclusively created and retain canary/release false.
+
+Source records identify the epoch20 base checkpoint SHA cd7c2806...dfab and
+FMPE SHA0474ce3f...7880. The live small FMPE completion JSON was readable and
+records the same posterior hash/seven features, but this is not a live binary
+hash verification. The archived Loa inventory separates full HPmapcut files
+under v2.1 from clustering products under v2.1/PIP. Its old semantic pass is
+not a P13 live refreeze or a qualified response-field build.
+
+Five tests passed in cosmic_env; whitespace checks are part of this change's
+verification. The production preflight CLI repeatedly failed at process creation
+with 'No such file or directory', before Python ran, although the unittest
+command succeeded. No live preflight report exists; artifact verification,
+coordinate/native-label closure and golden mock remain open. Graphify likewise
+could not start; no graph refresh claimed. No Slurm job, protected target read,
+DESI inference or retraining was launched. The implementation/run commands and
+V1 mapping are recorded in GraphWeb_DESI/docs/p12a_vac_execution.md.
+
 ### 2026-09-24 - [science/audit] VAC handoff begins; mandatory P12 coordinate gate and conditional retraining decision
 
 The user reaffirmed frozen-model Loa preparation/trial, additional-phase

@@ -203,6 +203,10 @@ larger campaign. GraphWeb_DESI: U-PATCH+P12-A handoff supersedes G3 deployment.
 
 - [x] Adopt plan, mock-use decision and patch/context audit requirements.
 - [x] Begin V0 source/recorded-product coordinate audit; save evidence and decision tree.
+- [x] Implement bounded artifact preflight and conservative phase-ledger generator
+  in GraphWeb_DESI/workflows/catalog/p12a_vac_preflight.py; five fixture tests pass.
+- [ ] Run live preflight and archive report: command process creation currently
+  fails before Python; no successful artifact verification is implied by tests.
 - [ ] V0-C numerical input/host-label closure and explicit correction/retraining decision.
 - [ ] V0 artifact manifest and cross-programme exposure ledger.
 - [ ] V1 adapter with schema/identity tests.
