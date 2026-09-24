@@ -1,5 +1,32 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-24 - [result/E2E] Alpha closeout and classical/hybrid comparison
+
+Completed the two missing alpha evaluations in idle GPU58824466; frozen
+collector now validates384ensembles. Original timeout receipt143 is retained.
+Selectedalpha=.30 is unchanged and not a stable full-gate pass. Closeout:
+docs/e2e_stable_alpha_closeout_20260924.md.
+
+User replaces mathematical-perfection stopping with downstream relevance or
+a simpler equally useful calibrated competitor. Implemented and ran Gaussian
+Wiener constrained realizations, selected neural draws, conditional low-mode
+hybrid and independent-splice negative control. CPU58824793/nid004194,
+12tests pass; 96comparison rows,116.5s assay, exit0; allocation released.
+At R=1cell, classical/neural/hybrid variance ratios are1.007/1.105/1.038;
+tidal-class RMS .00877/.01797/.01470. Independent splice gives variance1.606
+and covariance error~.485: correct low marginals do not preserve dependence.
+Classical2048draw generation takes .045-.052CPU seconds excluding prior
+factorization/reference construction; no neural training. Hybrid retains
+neural generation cost and uses known Gaussian conditional covariance.
+Details: docs/e2e_classical_hybrid_results_20260924.md. No DESI/7Mpc/h claim.
+No more Gaussian alpha/optimizer tuning. Nonlinear lognormal/Poisson classical
+reference and Laplace comparator are the next design, not yet implemented or
+launched; neural/hybrid must earn value there. This supersedes the old blanket
+perfect-Gaussian gate, not reference-convergence or survey-validation requirements.
+Graphify refresh fails at existing flock errno524; no bypass. Other VAC edits
+and allocations were preserved.
+
+
 ### 2026-09-24 - [code/handoff] P12 VAC preflight implemented; live command launch blocked
 
 On the user's instruction to proceed, implemented GraphWeb_DESI

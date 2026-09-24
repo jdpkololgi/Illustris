@@ -1,0 +1,16 @@
+{
+  "sources": {
+    "workflows/sbi/e2e_classical_hybrid.py": "9e7ecfdbaa879507bdc23962f60bb09e72ab6f2f62ecc2e50d54274a5d982221",
+    "workflows/sbi/e2e_reference_usecase.py": "abc31a9a56532141a2daeee3c906f724af16819c6fcba30db43789f0a56a3bb4",
+    "workflows/sbi/e2e_conditional_reference_math.py": "70023d9d124ad2b552f694e4a4b12204c04efc80530b10b24fd1bf8f2733fd40",
+    "tests/test_e2e_classical_hybrid.py": "6dd6568ac5e587da2c43ae60f1ac8fdc9ef253e7a26e185719277be7eda8d2c8",
+    "docs/e2e_classical_hybrid_20260924.md": "a0836b7c87a605383799290530927412043661bf6917d029233784a905264219"
+  },
+  "source_run": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_stable_alpha_20260924_v1",
+  "source_manifest_sha256": "bedc07bd22c1473b4569d50b65f18375ddfd52f0ff0ad072b4336dc5f9e68b37",
+  "selected_alpha": 0.3,
+  "scope": "development Gaussian only",
+  "low_rank": 7,
+  "cutoff": "|k|<=1 including DC",
+  "draws": 2048
+}

@@ -2,6 +2,11 @@
 
 ## Classical/hybrid decision comparison (2026-09-24, supersedes perfection gate)
 
+Completed: `e2e_classical_hybrid_results_20260924.md`. Classical wins this
+Gaussian comparison; conditional hybrid helps but is unnecessary here. Stop
+Gaussian tuning. Next concrete design is nonlinear lognormal/Poisson reference
+and Laplace competitor, not more alpha optimization or automatic Abacus training.
+
 User authorizes finishing alpha evaluations and initiating the next classical/
 hybrid comparison. Execute `e2e_classical_hybrid_20260924.md`: Gaussian constrained
 realizations as competitor, selected neural draws, conditional low-mode hybrid
