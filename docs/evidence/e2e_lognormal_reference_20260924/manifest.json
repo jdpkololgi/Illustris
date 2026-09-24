@@ -1,0 +1,15 @@
+{
+  "sources": {
+    "workflows/sbi/e2e_lognormal_reference.py": "1e68bca657c73175a9152ebc08fe687dacf480a71fd04579653b13b0b97e67f5",
+    "workflows/sbi/e2e_reference_usecase.py": "abc31a9a56532141a2daeee3c906f724af16819c6fcba30db43789f0a56a3bb4",
+    "workflows/sbi/e2e_conditional_reference_math.py": "70023d9d124ad2b552f694e4a4b12204c04efc80530b10b24fd1bf8f2733fd40",
+    "tests/test_e2e_lognormal_reference.py": "f29ceb9c711a6127ca22e9355b59f8284b9586e8c60add651e45d6e900551787",
+    "docs/e2e_lognormal_reference_20260924.md": "1336ebc05fccb92d24607b6b3110da605cc139262325378aeff7a4a25ba75033"
+  },
+  "grid": 4,
+  "cases": 4,
+  "chains": 8,
+  "draws_per_chain": 32768,
+  "warmup": 2048,
+  "scope": "synthetic development; no DESI likelihood"
+}

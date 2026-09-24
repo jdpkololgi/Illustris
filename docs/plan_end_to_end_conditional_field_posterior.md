@@ -1,5 +1,17 @@
 # Plan — End-to-end conditional density-field posterior
 
+## Nonlinear classical baseline completed (2026-09-24)
+
+See `e2e_lognormal_results_20260924.md`: four masked lognormal–Poisson cases,
+eight-chain MALA references pass convergence checks. Cheap Laplace fails regional
+mass and smoothed tidal-probability comparisons despite near-90% voxel interval
+mass. Classical sampling is fast on this 64-cell toy; no neural advantage established.
+Next design: matched nonlinear amortised CFM versus Laplace-based learned
+residual/transport versus classical sampling, scoring downstream/joint accuracy
+and total cost including training. This follow-on is not launched. Do not restart
+Gaussian tuning or promote Abacus. Physical DESI tolerances and prior-wide
+calibration remain unresolved; four conditional comparisons cannot settle them.
+
 ## Classical/hybrid decision comparison (2026-09-24, supersedes perfection gate)
 
 Completed: `e2e_classical_hybrid_results_20260924.md`. Classical wins this

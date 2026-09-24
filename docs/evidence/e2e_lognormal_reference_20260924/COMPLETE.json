@@ -1,0 +1,412 @@
+{
+  "results": [
+    {
+      "case": 0,
+      "expected_rate": 0.5,
+      "observed_count": 41,
+      "map": {
+        "seconds": 0.00871847799862735,
+        "gradient_max": 8.23012769046727e-11,
+        "iterations": 6
+      },
+      "sampling": {
+        "seconds": 3.8050270449894015,
+        "acceptance": [
+          0.592315673828125,
+          0.5191650390625,
+          0.599700927734375,
+          0.5357666015625,
+          0.83514404296875,
+          0.8463134765625,
+          0.84344482421875,
+          0.84796142578125
+        ],
+        "step_size": [
+          0.7894563466121983,
+          0.8382408263333068,
+          0.7793064046980805,
+          0.8262999799881876,
+          0.567373164776232,
+          0.5591653506859274,
+          0.5621808603501717,
+          0.5555571619215746
+        ],
+        "warmup": 2048
+      },
+      "convergence": {
+        "rhat_max": 1.0006956969949419,
+        "bulk_ess_min": 21771.03161371767,
+        "tail_ess_min": 32398.32783036181,
+        "group_mean_zmax": 2.0252212583041382,
+        "passed": true,
+        "diagnostic_count": 138,
+        "arviz_version": "0.22.0"
+      },
+      "laplace_draw_seconds": 0.03545672699692659,
+      "laplace": {
+        "scales": [
+          {
+            "r_cells": 0.0,
+            "mean_error_sd": 0.22937269537099478,
+            "variance_ratio": 1.6465477225451663,
+            "interval_reference_mass": 0.8936481475830078,
+            "class_probability_rms": 0.038280603953184465
+          },
+          {
+            "r_cells": 0.5,
+            "mean_error_sd": 0.4545165714090144,
+            "variance_ratio": 1.5799875370479444,
+            "interval_reference_mass": 0.8756647109985352,
+            "class_probability_rms": 0.0556310822113909
+          },
+          {
+            "r_cells": 1.0,
+            "mean_error_sd": 0.8980067423873512,
+            "variance_ratio": 1.5252435573944219,
+            "interval_reference_mass": 0.7917728424072266,
+            "class_probability_rms": 0.12204354481469858
+          }
+        ],
+        "regional_mass_mean_error_sd": 1.0484643642284204,
+        "regional_mass_variance_ratio": 1.5078643684637008,
+        "regional_interval_reference_mass": 0.76153564453125
+      },
+      "reference_replication": {
+        "scales": [
+          {
+            "r_cells": 0.0,
+            "mean_error_sd": 0.013703238467559003,
+            "variance_ratio": 0.9873316894678854,
+            "interval_reference_mass": 0.8996181488037109,
+            "class_probability_rms": 0.004114780103806149
+          },
+          {
+            "r_cells": 0.5,
+            "mean_error_sd": 0.015099334087074619,
+            "variance_ratio": 0.98586139339412,
+            "interval_reference_mass": 0.8993501663208008,
+            "class_probability_rms": 0.004253881793525459
+          },
+          {
+            "r_cells": 1.0,
+            "mean_error_sd": 0.02115028694407652,
+            "variance_ratio": 0.9857207086392727,
+            "interval_reference_mass": 0.9010848999023438,
+            "class_probability_rms": 0.004670812910494457
+          }
+        ],
+        "regional_mass_mean_error_sd": -0.024775066000363742,
+        "regional_mass_variance_ratio": 0.9856703639809316,
+        "regional_interval_reference_mass": 0.90069580078125
+      }
+    },
+    {
+      "case": 1,
+      "expected_rate": 0.5,
+      "observed_count": 35,
+      "map": {
+        "seconds": 0.0035737059952225536,
+        "gradient_max": 1.652189496326173e-11,
+        "iterations": 7
+      },
+      "sampling": {
+        "seconds": 3.7697468569967896,
+        "acceptance": [
+          0.49615478515625,
+          0.54168701171875,
+          0.550872802734375,
+          0.58514404296875,
+          0.866424560546875,
+          0.85626220703125,
+          0.85028076171875,
+          0.81195068359375
+        ],
+        "step_size": [
+          0.8527462723510868,
+          0.823702274784964,
+          0.8207589783925032,
+          0.7966672436137759,
+          0.5357962332279103,
+          0.5481269702076627,
+          0.5535667042677559,
+          0.5985129555645029
+        ],
+        "warmup": 2048
+      },
+      "convergence": {
+        "rhat_max": 1.0008696481618282,
+        "bulk_ess_min": 22292.543022029615,
+        "tail_ess_min": 32891.81738667169,
+        "group_mean_zmax": 2.616613689037793,
+        "passed": true,
+        "diagnostic_count": 138,
+        "arviz_version": "0.22.0"
+      },
+      "laplace_draw_seconds": 0.0390475660096854,
+      "laplace": {
+        "scales": [
+          {
+            "r_cells": 0.0,
+            "mean_error_sd": 0.23127225486255118,
+            "variance_ratio": 1.6926229462668116,
+            "interval_reference_mass": 0.8949012756347656,
+            "class_probability_rms": 0.026799976388186434
+          },
+          {
+            "r_cells": 0.5,
+            "mean_error_sd": 0.4305939426840246,
+            "variance_ratio": 1.5784734237600921,
+            "interval_reference_mass": 0.8837652206420898,
+            "class_probability_rms": 0.04422250487685631
+          },
+          {
+            "r_cells": 1.0,
+            "mean_error_sd": 0.7775682176814966,
+            "variance_ratio": 1.4578360767255791,
+            "interval_reference_mass": 0.8211631774902344,
+            "class_probability_rms": 0.10512863338118111
+          }
+        ],
+        "regional_mass_mean_error_sd": 0.8661708200397946,
+        "regional_mass_variance_ratio": 1.4165599764043595,
+        "regional_interval_reference_mass": 0.80816650390625
+      },
+      "reference_replication": {
+        "scales": [
+          {
+            "r_cells": 0.0,
+            "mean_error_sd": 0.01186756827761754,
+            "variance_ratio": 0.9960248835640921,
+            "interval_reference_mass": 0.8996763229370117,
+            "class_probability_rms": 0.0029778397684463087
+          },
+          {
+            "r_cells": 0.5,
+            "mean_error_sd": 0.010017012958437627,
+            "variance_ratio": 0.9900741316835049,
+            "interval_reference_mass": 0.8991031646728516,
+            "class_probability_rms": 0.002586769814967979
+          },
+          {
+            "r_cells": 1.0,
+            "mean_error_sd": 0.004872602584199631,
+            "variance_ratio": 0.9833778002203601,
+            "interval_reference_mass": 0.8995761871337891,
+            "class_probability_rms": 0.0029206484190529274
+          }
+        ],
+        "regional_mass_mean_error_sd": -0.00040935227566433845,
+        "regional_mass_variance_ratio": 0.9837779388365226,
+        "regional_interval_reference_mass": 0.90008544921875
+      }
+    },
+    {
+      "case": 2,
+      "expected_rate": 5.0,
+      "observed_count": 126,
+      "map": {
+        "seconds": 0.003277253999840468,
+        "gradient_max": 3.2374103398069565e-13,
+        "iterations": 6
+      },
+      "sampling": {
+        "seconds": 3.6610926970024593,
+        "acceptance": [
+          0.596160888671875,
+          0.623138427734375,
+          0.619781494140625,
+          0.58941650390625,
+          0.84613037109375,
+          0.853790283203125,
+          0.812255859375,
+          0.848846435546875
+        ],
+        "step_size": [
+          0.7735691397318263,
+          0.7576357938332094,
+          0.7597007815689091,
+          0.7805350167875433,
+          0.551755171324675,
+          0.5425096355833109,
+          0.5946220913402932,
+          0.549360361121015
+        ],
+        "warmup": 2048
+      },
+      "convergence": {
+        "rhat_max": 1.0006997152567472,
+        "bulk_ess_min": 20462.34618317593,
+        "tail_ess_min": 32293.572593332497,
+        "group_mean_zmax": 3.07727272341357,
+        "passed": true,
+        "diagnostic_count": 138,
+        "arviz_version": "0.22.0"
+      },
+      "laplace_draw_seconds": 0.03531398600898683,
+      "laplace": {
+        "scales": [
+          {
+            "r_cells": 0.0,
+            "mean_error_sd": 0.20624324953107903,
+            "variance_ratio": 1.3947250549702082,
+            "interval_reference_mass": 0.8913726806640625,
+            "class_probability_rms": 0.05445425577773469
+          },
+          {
+            "r_cells": 0.5,
+            "mean_error_sd": 0.3926009937351776,
+            "variance_ratio": 1.3130277030767052,
+            "interval_reference_mass": 0.8732938766479492,
+            "class_probability_rms": 0.07449077627337272
+          },
+          {
+            "r_cells": 1.0,
+            "mean_error_sd": 0.6926777401428074,
+            "variance_ratio": 1.2629424294067195,
+            "interval_reference_mass": 0.7987871170043945,
+            "class_probability_rms": 0.020549936685154972
+          }
+        ],
+        "regional_mass_mean_error_sd": 0.7177746845909199,
+        "regional_mass_variance_ratio": 1.2384142247785361,
+        "regional_interval_reference_mass": 0.7803955078125
+      },
+      "reference_replication": {
+        "scales": [
+          {
+            "r_cells": 0.0,
+            "mean_error_sd": 0.01436769005986614,
+            "variance_ratio": 0.9950610176181736,
+            "interval_reference_mass": 0.8998012542724609,
+            "class_probability_rms": 0.003984092908110817
+          },
+          {
+            "r_cells": 0.5,
+            "mean_error_sd": 0.013999782373580584,
+            "variance_ratio": 0.9948017324564431,
+            "interval_reference_mass": 0.8996343612670898,
+            "class_probability_rms": 0.003959758661656703
+          },
+          {
+            "r_cells": 1.0,
+            "mean_error_sd": 0.008518421934596548,
+            "variance_ratio": 0.9828580567752765,
+            "interval_reference_mass": 0.898930549621582,
+            "class_probability_rms": 0.0008340153163557222
+          }
+        ],
+        "regional_mass_mean_error_sd": 0.004882408703444815,
+        "regional_mass_variance_ratio": 0.9758965214816621,
+        "regional_interval_reference_mass": 0.90057373046875
+      }
+    },
+    {
+      "case": 3,
+      "expected_rate": 5.0,
+      "observed_count": 241,
+      "map": {
+        "seconds": 0.00303840302512981,
+        "gradient_max": 3.3416981404243984e-09,
+        "iterations": 6
+      },
+      "sampling": {
+        "seconds": 3.6653598560078535,
+        "acceptance": [
+          0.504974365234375,
+          0.5689697265625,
+          0.53076171875,
+          0.588348388671875,
+          0.85662841796875,
+          0.858062744140625,
+          0.855010986328125,
+          0.850616455078125
+        ],
+        "step_size": [
+          0.8397466645404482,
+          0.8007000284519402,
+          0.82634285703432,
+          0.7838118259306418,
+          0.5424366186956894,
+          0.5421817278682262,
+          0.5502936592457591,
+          0.5442073225249191
+        ],
+        "warmup": 2048
+      },
+      "convergence": {
+        "rhat_max": 1.0006620941339472,
+        "bulk_ess_min": 20307.834120693416,
+        "tail_ess_min": 32037.196769437607,
+        "group_mean_zmax": 2.737224899943155,
+        "passed": true,
+        "diagnostic_count": 138,
+        "arviz_version": "0.22.0"
+      },
+      "laplace_draw_seconds": 0.03370981098851189,
+      "laplace": {
+        "scales": [
+          {
+            "r_cells": 0.0,
+            "mean_error_sd": 0.1834517045353185,
+            "variance_ratio": 1.2737019049033034,
+            "interval_reference_mass": 0.8930540084838867,
+            "class_probability_rms": 0.027547247241913597
+          },
+          {
+            "r_cells": 0.5,
+            "mean_error_sd": 0.33235031205516374,
+            "variance_ratio": 1.194228569783799,
+            "interval_reference_mass": 0.8767366409301758,
+            "class_probability_rms": 0.05265782101129498
+          },
+          {
+            "r_cells": 1.0,
+            "mean_error_sd": 0.5380036296287627,
+            "variance_ratio": 1.1476608319697013,
+            "interval_reference_mass": 0.8198480606079102,
+            "class_probability_rms": 0.11222712349448549
+          }
+        ],
+        "regional_mass_mean_error_sd": 0.545418848665845,
+        "regional_mass_variance_ratio": 1.138325646493007,
+        "regional_interval_reference_mass": 0.80035400390625
+      },
+      "reference_replication": {
+        "scales": [
+          {
+            "r_cells": 0.0,
+            "mean_error_sd": 0.013945600600619234,
+            "variance_ratio": 0.9998359632828691,
+            "interval_reference_mass": 0.9001874923706055,
+            "class_probability_rms": 0.0034819807734948727
+          },
+          {
+            "r_cells": 0.5,
+            "mean_error_sd": 0.015506313813116268,
+            "variance_ratio": 1.0022579164833059,
+            "interval_reference_mass": 0.9004507064819336,
+            "class_probability_rms": 0.0040406702483107865
+          },
+          {
+            "r_cells": 1.0,
+            "mean_error_sd": 0.010475947690611546,
+            "variance_ratio": 1.0152113352059153,
+            "interval_reference_mass": 0.9024591445922852,
+            "class_probability_rms": 0.004495429341220157
+          }
+        ],
+        "regional_mass_mean_error_sd": -0.000923601658884593,
+        "regional_mass_variance_ratio": 1.0235325309313583,
+        "regional_interval_reference_mass": 0.90301513671875
+      }
+    }
+  ],
+  "all_references_pass": true,
+  "sources": {
+    "workflows/sbi/e2e_lognormal_reference.py": "1e68bca657c73175a9152ebc08fe687dacf480a71fd04579653b13b0b97e67f5",
+    "workflows/sbi/e2e_reference_usecase.py": "abc31a9a56532141a2daeee3c906f724af16819c6fcba30db43789f0a56a3bb4",
+    "workflows/sbi/e2e_conditional_reference_math.py": "70023d9d124ad2b552f694e4a4b12204c04efc80530b10b24fd1bf8f2733fd40",
+    "tests/test_e2e_lognormal_reference.py": "f29ceb9c711a6127ca22e9355b59f8284b9586e8c60add651e45d6e900551787",
+    "docs/e2e_lognormal_reference_20260924.md": "1336ebc05fccb92d24607b6b3110da605cc139262325378aeff7a4a25ba75033"
+  }
+}

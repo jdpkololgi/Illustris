@@ -1,5 +1,30 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-24 - [result/E2E] Nonlinear classical reference and Laplace competitor
+
+Implemented and completed the requested lognormal-Poisson comparison on
+CPU58825943/nid004164; four unit tests pass, four cases complete, source hashes
+unchanged. Eight-chain MALA references all pass: Rhat<=1.00087, bulkESS>=20308,
+tailESS>=32037; independent step-size groups agree within3.08MCSE.
+Laplace nominal90% global-mass intervals contain only76.2-80.8% reference mass;
+mean bias+0.55-1.05posterior sd despite variance inflation1.14-1.51.
+At R=1cell tidal-class probability RMS is .0205-.1220 versus independent
+reference replication .00083-.00467. Near90% unsmoothed voxel interval mass
+therefore hides scientifically relevant conditional-functional errors.
+Sampling loop3.66-3.81s/case excludes diagnostics and scoring; tiny64-cell
+problem, not survey throughput. No neural training, Abacus or P12 changes.
+Report: docs/e2e_lognormal_results_20260924.md; receipts in
+ docs/evidence/e2e_lognormal_reference_20260924/.
+Classical sampling is the competitor to beat; Laplace alone is inadequate here.
+Next designed rung is nonlinear CFM versus Laplace-based learned correction
+versus classical sampling with total-cost/downstream accuracy accounting;
+not launched. No Gaussian tuning or automatic Abacus promotion. Four conditional
+cases do not establish prior-wide coverage, DESI adequacy or physical T-Web
+requirements. Graphify refresh failed at existing flock errno524; no bypass.
+Unrelated VAC work preserved.
+
+
+
 ### 2026-09-24 - [result/E2E] Alpha closeout and classical/hybrid comparison
 
 Completed the two missing alpha evaluations in idle GPU58824466; frozen
