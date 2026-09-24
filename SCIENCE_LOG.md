@@ -1,5 +1,27 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-24 - [result] Frozen downstream sensitivity complete; alpha sweep training
+
+Experiment B completed128arm/case/smoothing rows in USECASE_COMPLETE.json.
+Four development observations; all units are toy grid cells, threshold zero.
+At R=1, top-shell-only13% variance inflation is indistinguishable from its
+paired oracle in sampled class probabilities; independent oracle class RMS
+is .00845. Erasing covariance preserves unsmoothed voxel variance (~1.001)
+but produces R=1 variance .400, class probability RMS .08763, and width4
+regional90% interval coverage .689 versus oracle .900. Thus joint diagnostics
+remain consequential even where a top-shell-only error is harmless.
+
+Actual stabilized stochastic decay/EMA parents have R=1 variance ratios
+1.10528/1.11235 (seeds17/29), class probability RMS .01788/.01740 versus
+oracle .00845, and width4 interval coverage .90832/.90779. Exact parents:
+R=1 variance1.05535/1.05504, class RMS .01342/.01210, regional coverage
+.90238/.90273. These conditional-reference readouts are not empirical DESI
+coverage and class errors include oracle Monte Carlo noise. No physical7Mpc/h
+or universal tolerance conclusion is drawn. Smoothing does not make the actual
+neural residual disappear; the isolated highest-shell excess is not its whole
+downstream effect. Experiment A remains running; no alpha result yet.
+
+
 ### 2026-09-24 - [execution] Two-experiment development batch launched
 
 Allocation58820323, nid008536, four A100s, two-hour bound, login29 tmux
