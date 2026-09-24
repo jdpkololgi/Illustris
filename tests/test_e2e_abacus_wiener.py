@@ -1,9 +1,31 @@
 import unittest
 import numpy as np
-from workflows.sbi.e2e_abacus_wiener import covariance, draw_wiener
+from workflows.sbi.e2e_abacus_wiener import covariance, draw_wiener, matched_observation
 
 
 class WienerTest(unittest.TestCase):
+    def test_edge_counts_are_missing_not_zero_measurements(self):
+        counts=np.ones((2,2,2))*10
+        expected=np.zeros_like(counts);apod=np.zeros_like(counts)
+        expected[0,0,0]=2;apod[0,0,0]=.5
+        n,mu,shot,audit=matched_observation(counts,expected,apod)
+        self.assertEqual(n.item(),5)
+        self.assertEqual(mu.item(),2)
+        self.assertEqual(shot.item(),1)
+        self.assertEqual(audit['excluded_counts'],70)
+        self.assertEqual(audit['zero_exposure_nonzero_count_cells'],7)
+
+    def test_untapered_counts_preserve_poisson_variance(self):
+        x=np.ones((2,2,2))*3
+        n,mu,shot,_=matched_observation(x,x,np.ones_like(x))
+        np.testing.assert_array_equal(n,mu)
+        np.testing.assert_array_equal(shot,mu)
+        self.assertEqual(n.item(),24)
+
+    def test_inconsistent_taper_rejected(self):
+        x=np.ones((2,2,2))
+        with self.assertRaises(ValueError):matched_observation(x,x,x*0)
+
     def test_covariance_operator_and_dense_posterior(self):
         shape=(2,2,2);n=8
         spectrum=np.arange(1,9,dtype=float).reshape(shape)/4

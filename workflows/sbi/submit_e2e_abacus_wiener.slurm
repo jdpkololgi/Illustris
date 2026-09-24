@@ -17,5 +17,5 @@ source /global/homes/d/dkololgi/miniforge3/bin/activate /pscratch/sd/d/dkololgi/
 python -m unittest tests.test_e2e_abacus_wiener
 python -u -m workflows.sbi.e2e_abacus_wiener \
   --root /pscratch/sd/d/dkololgi/abacus/e2e_field_v2/wide_pipeline_v1/vdm_context_20260917_v1 \
-  --output /pscratch/sd/d/dkololgi/abacus/e2e_field_v3/abacus_wiener_20260924_v1/results \
+  --output /pscratch/sd/d/dkololgi/abacus/e2e_field_v3/abacus_wiener_20260924_v2/results \
   --workers 8

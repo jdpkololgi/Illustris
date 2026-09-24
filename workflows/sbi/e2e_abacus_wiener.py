@@ -57,16 +57,35 @@ def draw_wiener(spectrum, response, noise, data, count, seed, tolerance=1e-7):
     return np.asarray(draws),dict(max_relative_residual=max(residuals),max_iterations=max(iterations),mean_iterations=float(np.mean(iterations)))
 
 
+def matched_observation(counts, expected, apod, factor=2):
+    """Apply the exposure taper to counts too; propagate weighted Poisson noise.
+
+    Expected already contains apodization. Unsupported cells provide no likelihood,
+    not a measured zero density. Never manufacture an exposure floor.
+    """
+    counts,expected,apod=map(lambda x:np.asarray(x,dtype=float),(counts,expected,apod))
+    if (counts.shape!=expected.shape or counts.shape!=apod.shape or
+        any(not np.isfinite(x).all() or np.min(x)<0 for x in (counts,expected,apod)) or
+        np.max(apod)>1):
+        raise ValueError('invalid native observation arrays')
+    if np.any((expected>0)&(apod<=1e-4)):
+        raise ValueError('positive exposure contradicts producer taper threshold')
+    weight=np.where(expected>0,apod,0.)
+    # If E[N_i]=lambda_i and expected_i=w_i*lambda_i,
+    # Var(sum w_i*N_i)=sum w_i*expected_i, NOT sum expected_i.
+    audit=dict(raw_counts=float(counts.sum()),excluded_counts=float(counts[weight==0].sum()),
+        weighted_counts=float(np.sum(weight*counts)),zero_exposure_cells=int(np.sum(expected==0)),
+        zero_exposure_nonzero_count_cells=int(np.sum((expected==0)&(counts>0))))
+    return (block_sum(weight*counts,factor),block_sum(expected,factor),
+            block_sum(weight*expected,factor),audit)
+
+
 def counts_for(row,sources):
     source=next(s for s in sources if s['phase']==row['phase'] and s['cap']==row['cap'])
     with h5py.File(source['response_file']['path'],'r') as f:
-        values=[block_sum(padded_extract(f[key],np.asarray(row['center'])-48,96),2)
-                for key in ('counts','expected_counts_random')]
-    if any(v.shape!=(48,)*3 or not np.isfinite(v).all() or np.min(v)<0 for v in values):
-        raise ValueError('invalid count/exposure products')
-    if np.any((values[1]==0)&(values[0]!=0)):
-        raise ValueError('nonzero counts outside random exposure')
-    return values
+        values=[padded_extract(f[key],np.asarray(row['center'])-48,96)
+                for key in ('counts','expected_counts_random','exposure_apodized_random')]
+    return matched_observation(*values)
 
 
 def fit(root,output):
@@ -81,19 +100,20 @@ def fit(root,output):
     for source in sources:
         if source['phase'] in products.phases:
             verified.update(verification_sources(source,spec()))
-    totals={};mean=0.;n=48
+    totals={};mean=0.;n=48;observation_audit={}
     # Use temporary local arrays only; retained products stay unchanged.
     samples=[]
     for row in rows:
         delta=products.raw_targets(row['anchor_id'])['rho'].astype(float)-1
-        counts,expected=counts_for(row,sources)
+        counts,expected,shot,audit=counts_for(row,sources)
+        observation_audit[row['anchor_id']]=audit
         key=f"{row['cap']}_{row['shell']}"
         pair=totals.setdefault(key,[0.,0.]);pair[0]+=float(counts.sum());pair[1]+=float(expected.sum())
         mean+=float(delta.mean())/len(rows)
-        samples.append((key,delta,counts,expected))
+        samples.append((key,delta,counts,expected,shot))
     normalization={k:v[0]/v[1] for k,v in totals.items()}
     cross=denom=0.;power=np.zeros((n,)*3)
-    for key,delta,counts,expected in samples:
+    for key,delta,counts,expected,shot in samples:
         mu=expected*normalization[key];x=delta-mean
         cross+=float(np.sum(x*(counts-mu)));denom+=float(np.sum(mu*x*x))
         power+=abs(fft.fftn(x,norm='ortho'))**2/len(samples)
@@ -105,9 +125,9 @@ def fit(root,output):
     floor=float(powers.max()*1e-6)
     spectrum=np.maximum(powers[shell],floor)
     residual=weight=0.
-    for key,delta,counts,expected in samples:
+    for key,delta,counts,expected,shot in samples:
         mu=expected*normalization[key]
-        residual+=float(np.sum((counts-mu-bias*mu*(delta-mean))**2-mu))
+        residual+=float(np.sum((counts-mu-bias*mu*(delta-mean))**2-shot*normalization[key]))
         weight+=float(np.sum(mu*mu))
     extra=max(0.,residual/weight)
     np.savez(output/'PRIOR.npz',spectrum=spectrum)
@@ -115,6 +135,7 @@ def fit(root,output):
         mean=mean,bias=bias,extra_variance=extra,exposure_normalization=normalization,
         spectrum_floor=floor,floored_mode_fraction=float(np.mean(powers[shell]<floor)),
         shell_power=powers.tolist(),product_receipts=products.receipts,raw_inputs=verified,
+        observation_audit=observation_audit,observation_contract='native-tapered-counts-weighted-Poisson-v2',
         geometry_sha256=sha256(root/'data/GEOMETRY.json'),prior_sha256=sha256(output/'PRIOR.npz'))
     atomic_json(output/'FIT.json',receipt)
     return receipt
@@ -150,11 +171,12 @@ def one_case(args):
     root,output,anchor=args;root=Path(root);output=Path(output)
     started=time.monotonic(); fitted=read_json(output/'FIT.json')
     products=Products(root,['ph004','ph005'],targets=True,confirmation_receipt=root/'MODELS_FROZEN.json',verify=False)
-    row=products.rows[anchor];counts,expected=counts_for(row,read_json(spec()['screened_source'])['sources'])
-    mu=expected*fitted['exposure_normalization'][f"{row['cap']}_{row['shell']}"]
+    row=products.rows[anchor];counts,expected,shot,audit=counts_for(row,read_json(spec()['screened_source'])['sources'])
+    normalization=fitted['exposure_normalization'][f"{row['cap']}_{row['shell']}"]
+    mu=expected*normalization
     response=fitted['bias']*mu
     # Zero exposure means zero response; its arbitrary positive N has no effect.
-    noise=np.where(mu>0,mu+mu**2*fitted['extra_variance'],1.)
+    noise=np.where(mu>0,shot*normalization+mu**2*fitted['extra_variance'],1.)
     target=products.raw_targets(anchor);truth=target['rho']-1
     spectrum=np.load(output/'PRIOR.npz')['spectrum']
     draws,solver=draw_wiener(spectrum,response,noise,counts-mu,64,70000+int(row['phase'][-3:])*100+sorted(products.rows).index(anchor))
@@ -172,7 +194,7 @@ def one_case(args):
     local_truth=eigs(tensor_from_delta(truth,6.766)[CORE])
     closure_error=float(np.sqrt(np.mean((local_truth-eigs(target['tensor']))**2)))
     result=dict(anchor=anchor,phase=row['phase'],cap=row['cap'],shell=row['shell'],support=row['support_stratum'],
-        solver=solver,scores=results,true_parent_tidal_closure_rmse=closure_error,
+        solver=solver,scores=results,observation_audit=audit,true_parent_tidal_closure_rmse=closure_error,
         input_chunks=bindings,seconds=time.monotonic()-started)
     atomic_json(output/f'{anchor}.json',result)
     print('CASE',anchor,'seconds',result['seconds'],flush=True)

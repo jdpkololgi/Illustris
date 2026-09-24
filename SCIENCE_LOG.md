@@ -1,5 +1,22 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-24 - [fix/E2E] Repair tapered-exposure observation contract
+
+Batch58828297 failed after51s before fits/draws: incorrect assertion that raw
+counts vanish wherever tapered expected counts vanish. User authorized repair,
+not automatic scheduler retry. Apply native exposure taper consistently to counts
+and expected counts, propagate weighted diagonal working shot variance, exclude
+unsupported cells as missing observations, and record excluded count mass.
+No arbitrary floor, original product modification or zero-density constraint.
+Six tests pass (2.772s); first training boundary patch now reads successfully:
+232352.257 raw deposited counts,11428.132 excluded (4.918%). No full panel rerun.
+CIC gridding correlates voxel noise; diagonal Poisson remains a declared working
+approximation, not an exact likelihood. Details and information-mismatch caveat:
+docs/e2e_abacus_wiener_20260924.md. Retry output changed to separatev2; original
+failure receipts retained. No interactive compute or Production VAC changes.
+
+
+
 ### 2026-09-24 - [plan/E2E] Bounded classical control on existing Abacus draws
 
 User requests Step1 on existing anchors, explicitly no interactive compute and
