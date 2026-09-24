@@ -1,5 +1,34 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-24 - [science/audit] VAC handoff begins; mandatory P12 coordinate gate and conditional retraining decision
+
+The user reaffirmed frozen-model Loa preparation/trial, additional-phase
+replication before release, and retraining only for a demonstrated defect or
+registered gain. Expanded docs/plan_desi_p12a_vac_20260924.md accordingly and
+began V0 with docs/p12a_coordinate_handoff_audit_20260924.md.
+
+Read-only source AND archived P10 product evidence confirm Planck18 observer
+distances in Mpc; this differs from E2E's audited native DESI/Abacus mapping.
+Observed labels are copied through a TARGETID parent join; the available native
+annotation path uses FILE_NUM/HALO_INDEX host positions. Actual frozen lineage
+and independent native-label closure remain to be checked. A consistently used
+fiducial input mapping is not automatically wrong for per-galaxy inference;
+do not infer label corruption from the E2E coordinate difference alone.
+
+The mandatory V0-C audit now separates consistent fiducial inputs, adapter-only
+mismatch, training-product error and unresolved provenance. Training errors
+require corrected versioned data, affected encoder/OOF retraining, regenerated
+summaries, FMPE refit and fresh validation. Adapter-only errors require replay
+against unchanged training semantics. The DESI canary waits for resolution;
+independent schema/provenance implementation can proceed meanwhile.
+
+Also made the large-scale-context diagnostic explicit: predeclare scales,
+effect-size criteria, spatial uncertainty and budget; if material, compare a
+matched global/coarse-context challenger with fresh posterior validation.
+Numerical crop convergence is not physical information sufficiency. No ph001
+model selection, new Slurm action, protected payload access or inference occurred.
+Graphify could not start; targeted source/recorded-manifest reads were used.
+
 ### 2026-09-24 - [science/plan] Restart DESI VAC application with frozen P12-A; additional mocks evaluate before retraining
 
 The user adopted the roadmap disposition and requested implementation of the

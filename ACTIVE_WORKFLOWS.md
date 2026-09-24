@@ -2,6 +2,11 @@
 
 ## Primary application: P12-A to DESI Loa VAC (2026-09-24)
 
+V0 has started: `docs/p12a_coordinate_handoff_audit_20260924.md` records the
+source/archived-product finding and mandatory native-label/coordinate checks.
+Numerical closure and frozen-checkpoint binding remain pending; V2/V3 must not
+assume the Planck18/native-distance difference is either harmless or a label error.
+
 Current plan: `docs/plan_desi_p12a_vac_20260924.md`. Next: immutable model/input
 handoff and cross-programme mock-exposure ledger; GraphWeb_DESI builds the Loa
 schema crosswalk and golden-mock adapter. P13 planning/implementation is authorized;

@@ -3,7 +3,8 @@
 Active plan, adopted 2026-09-24 following the user's approval of the roadmap
 disposition and request to proceed toward DESI application. SCIENCE_LOG.md and
 immutable experiment contracts control claims. This supersedes old prospective
-VAC schedules, not historical evidence. No compute or inference has run under it.
+VAC schedules, not historical evidence. V0 source/recorded-product inspection
+has begun; no new compute job or inference has run under it.
 
 ## Decision and product
 
@@ -32,7 +33,7 @@ absent; do not manufacture it or claim exact conditional calibration.
 
 | Stage | Owner | Deliverable and exit criterion | State |
 |---|---|---|---|
-| V0: handoff freeze | Illustris | Checkpoint/source/transforms/input/solver manifest; exact support, quality bits and evidence inventory | Next |
+| V0: handoff freeze | Illustris | Checkpoint/source/transforms/input/solver manifest; exact support, quality bits and coordinate audit | Started: source/recorded-product audit; numerical closure pending |
 | V1: Loa crosswalk | GraphWeb_DESI | Hashed release and mock-to-Loa schema; units, distances, masks, counts, response and joins verified | Pending |
 | V2: golden mock and final-checkpoint parity | Both | Existing licensed mock replay reproduces inputs/predictions/posteriors; context-growth and subdivision pass | Pending V0/V1 |
 | V3: bounded Loa trial | GraphWeb_DESI | Preselected supported region including sparse/edge cases; ordered finite draws, flags, input-shift/closure and throughput report | Pending V2 |
@@ -46,6 +47,21 @@ resource requests. Existing phase-access guards remain binding. No publication,
 reserved confirmation opening or unrelated E2E scheduler action is implied.
 
 ### Exact parity and observation contract
+
+**Mandatory V0-C coordinate gate:** follow
+[P12-A coordinate handoff audit](p12a_coordinate_handoff_audit_20260924.md).
+The initial inspection confirms Planck18 observer inputs in recorded P10
+products, differing from the native-distance convention identified in E2E.
+Whether this is a valid fiducial input convention or an actual training/label
+error remains unresolved. Bind frozen artifact ancestry and independently
+check native host-label closure before the DESI canary.
+
+If training inputs/labels are scientifically wrong, correct immutable products
+and retrain the affected encoder/OOF pipeline, regenerate summaries, refit FMPE
+and independently revalidate. A Loa-adapter-only mismatch instead requires
+adapter correction and golden-mock replay. A consistent input-only fiducial
+choice with valid native labels does not automatically require retraining.
+Until classified, prepare the adapter but do not pass V2/V3 on assumption.
 
 - Bind the actual production encoder(s), FMPE, OOF provenance, channel order,
   expected counts, normalizers, pooling alignment, interpolation and draw solver.
@@ -126,6 +142,15 @@ as a fresh blind test or absorb all reserved confirmation into training.
 
 ## Why patches, and what a whole-survey model changes
 
+**Registered next-step intent (user confirmed):** after numerical crop parity,
+measure residual/proper-score/calibration dependence on large-scale context on
+development data. Predefine context scales, spatial resampling, effect-size
+thresholds and a finite test budget before scoring. A material missing-information
+result licenses a separately registered matched local versus whole-survey/coarse
+context comparison, with new posterior fits and fresh confirmation. A null result
+does not prove that arbitrarily long modes are irrelevant. Do not use ph001 for
+this model-selection step or launch an open-ended architecture sweep.
+
 Patches are not physically necessary. They enabled memory-bounded training,
 balanced spatial sampling and blocked validation after random-split transfer
 failed. U-PATCH reads context from canonical full-cap fields; output cores are
@@ -177,6 +202,8 @@ VAC. E2E: existing bounded work/ownership and stop rules preserved, no automatic
 larger campaign. GraphWeb_DESI: U-PATCH+P12-A handoff supersedes G3 deployment.
 
 - [x] Adopt plan, mock-use decision and patch/context audit requirements.
+- [x] Begin V0 source/recorded-product coordinate audit; save evidence and decision tree.
+- [ ] V0-C numerical input/host-label closure and explicit correction/retraining decision.
 - [ ] V0 artifact manifest and cross-programme exposure ledger.
 - [ ] V1 adapter with schema/identity tests.
 - [ ] V2 frozen criteria, executable commands and measured resource request.
