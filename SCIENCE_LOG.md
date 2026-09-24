@@ -1,5 +1,19 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-24 - [execution/E2E] Coupled CFM pilot running on real Abacus pairs
+
+Approved first segment launched58831634/nid001033, four GPUs/two-hour cap,
+frozend973cc9, tmux cfm_pilot_20260924 on login03. All four coarse/fine seed17/29
+factors reached64updates with finite losses;4tests pass on compute0.098s.
+Early steady step timings0.34-0.38s, not posterior convergence evidence.
+Checkpoint/RNG/EMA/spectral-profile bindings retained; confirmation unopened.
+No other interactive allocation at launch; VAC batch jobs unchanged.
+Receipt: docs/e2e_cfm_abacus_pilot_launch_20260924.md. Evaluation/metric-power
+controls, fresh-process replay and development selection still require completion.
+No automatic successor or production promotion.
+
+
+
 ### 2026-09-24 - [plan/E2E] Coupled CFM pilot and evidence-aware assessment
 
 User authorizes protocol completion and Abacus launch; separately approves first
