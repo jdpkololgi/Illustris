@@ -1,5 +1,17 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-24 - [execution/E2E] Corrected Wiener interactive retry running
+
+User approved interactive retry. Allocation58830984 on CPU nid004169, two-hour
+cap,32CPU threads; tmux e2e_wiener_v2 on login03. Frozen scientific sourceecce430;
+launcherae8cab3. Six tests pass on compute in2.413s. Training-only nuisance fit
+and matched saved-draw evaluation now running; no scientific result claimed.
+Zero existing interactive jobs at launch; Production VAC jobs untouched.
+Receipt: docs/e2e_abacus_wiener_interactive_20260924.md. Separatev2 Scratch,
+failedv1 preserved; no automatic retry or expanded programme.
+
+
+
 ### 2026-09-24 - [fix/E2E] Repair tapered-exposure observation contract
 
 Batch58828297 failed after51s before fits/draws: incorrect assertion that raw
