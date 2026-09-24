@@ -14,7 +14,10 @@ full-box truth, regional mass, proper scores, ranks and spectral diagnostics.
 These are legacy-coordinate/R7 products; no corrected21phase products opened.
 Protocol: docs/e2e_abacus_wiener_20260924.md. Solver tests and first-anchor smoke
 are fail-closed inside batch; no interactive smoke under explicit user override.
-No results yet. Batch launch receipt to follow. No automatic retry, nonlinear
+No results yet. CPU batch58828297 submitted, pendingPriority at first check.
+Three solver tests pass locally and in frozenf53898a; no interactive use.
+Launch receipt: docs/e2e_abacus_wiener_launch_20260924.md.
+No automatic retry, nonlinear
 sampler expansion, neural refit or production claim. Calibration remains the
 objective; this one diagnostic asks what prevents it at matched information.
 
