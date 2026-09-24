@@ -1,5 +1,8 @@
 # P12-B: U-Net representation / FMPE pilot
 
+> **Closed; no VAC restart, 2026-09-24.** Preserve all registered evidence.
+> Active application follows [P12-A to Loa VAC](plan_desi_p12a_vac_20260924.md).
+
 ## Status reconciliation — 2026-09-08
 
 Completed on 2026-09-06: all three arms ran 3,000 updates and 216,138 row

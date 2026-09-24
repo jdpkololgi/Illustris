@@ -1,5 +1,8 @@
 # P12-B matched continuation and optimization controls
 
+> **Closed; no VAC restart, 2026-09-24.** Preserve the null/negative result.
+> Active application follows [P12-A to Loa VAC](plan_desi_p12a_vac_20260924.md).
+
 ## Status reconciliation — 2026-09-08
 
 Completed on 2026-09-06. All five arms reached 6,000 total updates and 431,146

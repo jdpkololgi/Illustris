@@ -1,5 +1,15 @@
 # Research context — Illustris
 
+## Current VAC application direction (2026-09-24)
+
+The user adopted `docs/plan_desi_p12a_vac_20260924.md`: frozen U-PATCH + P12-A
+handoff to Loa, golden-mock/final-checkpoint parity, bounded DESI trial, robustness
+and additional-phase replication before science release. No blanket retraining
+on the new same-cosmology/epoch phases; first audit exposure and compatibility.
+P13 planning/implementation is now authorized, superseding older hold wording;
+Slurm/phase-access/release gates remain. E2E is separate bounded research, not a
+VAC prerequisite. Older chronological entries below retain their dated scope.
+
 ## Stabilization closeout and next batch (2026-09-24)
 
 Launched job58820323, frozenf9d32f7, tmux `stable_alpha_20260924` on login29.

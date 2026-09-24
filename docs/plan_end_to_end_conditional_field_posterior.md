@@ -1,5 +1,14 @@
 # Plan — End-to-end conditional density-field posterior
 
+## VAC separation (2026-09-24)
+
+The user adopted [P12-A to Loa VAC](plan_desi_p12a_vac_20260924.md) as the
+application priority. E2E remains separate research; existing bounded experiments,
+ownership, phase reservations and stop rules are unchanged. This does not cancel
+jobs or authorize confirmation access or a larger campaign. Its 21 prepared
+products may support a separately audited P12 replication contract; additional
+phases do not by themselves warrant retraining or provide nuisance diversity.
+
 ## Stabilized alpha and use-case batch (2026-09-24)
 
 Stabilization is complete and not fully qualified. Execute the two experiments

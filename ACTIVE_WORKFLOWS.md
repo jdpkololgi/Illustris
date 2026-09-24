@@ -1,5 +1,15 @@
 # Active Workflow Index
 
+## Primary application: P12-A to DESI Loa VAC (2026-09-24)
+
+Current plan: `docs/plan_desi_p12a_vac_20260924.md`. Next: immutable model/input
+handoff and cross-programme mock-exposure ledger; GraphWeb_DESI builds the Loa
+schema crosswalk and golden-mock adapter. P13 planning/implementation is authorized;
+compute/access/release gates remain. No validated P12 Loa inference entrypoint is
+claimed yet. P12-B/completed P12-F rescues remain closed; D2 reconciliation and
+existing E2E work are separate research, not VAC dependencies. Dated statuses
+below do not override this priority or the current SCIENCE_LOG.
+
 ## Coupled-field VDM/CFM preparation (2026-09-19)
 
 Current authority is **data preparation only**, not a four-arm training launch.

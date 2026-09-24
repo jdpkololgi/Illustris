@@ -1,5 +1,10 @@
 # Plan — Field-level & multimodal program: "stop throwing the field away"
 
+> **Archived as a VAC architecture agenda, 2026-09-24.** Historical comparisons
+> below remain evidence, not deployment claims or new launch authority. Current
+> application follows [P12-A to Loa VAC](plan_desi_p12a_vac_20260924.md).
+> Separately authorized E2E work retains its own active plan and stop rules.
+
 **Latest evidence:** frozen neural sampler and optimizer factorial complete;
 spectral biases and seed-dependent loss tradeoffs remain. See
 e2e_frozen_controls_v1.md and e2e_published_reference_gap_20260916.md. Our small

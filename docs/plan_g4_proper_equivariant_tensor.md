@@ -1,5 +1,10 @@
 # Plan — G4-PROPER: equivariant point-cloud model, tensor-valued
 
+> **Archived architecture agenda, 2026-09-24.** Results and confounders below
+> remain evidence; prospective runs and “production stays G3” are historical.
+> No restart is requested. Active VAC work follows
+> [P12-A to Loa VAC](plan_desi_p12a_vac_20260924.md).
+
 Durable plan for the real G4 test (roadmap v2 symmetry axis). Written 2026-07-03
 (Claude Code + JDPK) after the G4-SMOKE naming correction. Running narrative:
 `SCIENCE_LOG.md`.

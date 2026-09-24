@@ -1,5 +1,13 @@
 # Generalisable GraphWeb — protocol-first training, blind validation, and DESI VAC
 
+> **Active disposition, 2026-09-24:** P0-P12 contracts and evidence below remain
+> historical authority. Current VAC execution follows
+> [P12-A to Loa VAC](plan_desi_p12a_vac_20260924.md). The user has authorized
+> restarting the P13 application work; old prospective handoff holds and July
+> deadlines are superseded for planning/implementation. Frozen results, phase
+> guards, Slurm approvals and science-release gates remain. Evaluate additional
+> same-family phases before deciding on retraining; E2E is not a VAC prerequisite.
+
 **Status:** ACTIVE WORKING PLAN
 **Created:** 2026-07-16
 **Programme:** Learning the Cosmic Web / GraphWeb-BGS

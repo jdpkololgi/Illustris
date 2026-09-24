@@ -1,5 +1,10 @@
 # Roadmap v2 — DESI BGS cosmic-web environment VAC + papers
 
+> **Retired as an execution schedule, 2026-09-24.** Preserve this document as
+> programme history. Active work follows [P12-A to Loa VAC](plan_desi_p12a_vac_20260924.md).
+> Old deadlines, model selections and launch instructions below are not current
+> authority. Survey validation requirements are integrated into the new plan.
+
 > **Current status, 2026-09-08:** the July roadmap below is programme history,
 > not a current launch queue. P12-A passed its registered blind release gates;
 > P12-B's representation investigation is complete without a supported production

@@ -1,5 +1,45 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-24 - [science/plan] Restart DESI VAC application with frozen P12-A; additional mocks evaluate before retraining
+
+The user adopted the roadmap disposition and requested implementation of the
+updated log/plan. Active execution authority is now
+`docs/plan_desi_p12a_vac_20260924.md`: frozen artifact handoff, Loa response/schema
+crosswalk, golden mock and final-checkpoint tiling parity, bounded DESI trial,
+replication/misspecification, idempotent scale-out, then science-release review.
+This supersedes the old P13 handoff hold for planning/reversible implementation,
+not scheduler approvals, reserved phase access or public release gates. No jobs,
+inference, checkpoint changes or held-out payload access occurred in this update.
+
+The qualified additional set has 21 products: 13 E2E training, 2 development and
+6 reserved confirmation phases (configs/e2e_coupled_data_v1.json). These add
+structures under c000/z0.2 and the existing BGS_v2 altmtl/Kibo observation family;
+they do not establish HOD/cosmology/evolution robustness. Use eligible phases to
+challenge frozen P12-A before release, after a cross-programme exposure ledger
+and P12 input/target compatibility audit. Do not retrain just because more data
+exist. Retraining requires failed replication, necessary input/coordinate repair
+or a registered worthwhile improvement, with new OOF conditioning/posterior fit
+and untouched confirmation. Preserve E2E role reservations; ph001 is already
+opened for P12 and ph006 repeatedly inspected, regardless of E2E sealed labels.
+
+Patches are computational/training/validation units, not a physical requirement.
+P6 historical-canary parity used patch-safe channel normalization, aligned strides
+and a 24-voxel/120-Mpc context halo. Final production checkpoint parity must be
+located/repeated. Numerical tiling equivalence does not establish physical
+long-mode sufficiency. A full-cap input to the same local U-Net does not enlarge
+its receptive field or make per-galaxy draws spatially joint. Diagnose missing
+large-scale information separately; test a global/coarse-context challenger only
+with matched targets, phase roles and posterior calibration. The E2E whole-volume
+cost estimate is not a P12 whole-survey training benchmark at the original grid.
+
+Old environmental/G4/field-multimodal agendas are archived for execution;
+generalisable P0-P12 evidence remains authoritative history; completed P12-B/F
+rescues stay closed. D2 terminal reconciliation is non-blocking research. E2E's
+existing bounded work/ownership is unchanged. GraphWeb_DESI now identifies the
+U-PATCH + P12-A application interface instead of the obsolete G3 anchor.
+The detailed plan records deliverables, stop conditions and open checks; it does
+not claim that the observation adapter or VAC has already been implemented.
+
 ### 2026-09-24 - [result] Frozen downstream sensitivity complete; alpha sweep training
 
 Experiment B completed128arm/case/smoothing rows in USECASE_COMPLETE.json.
