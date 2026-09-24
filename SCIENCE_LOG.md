@@ -1,5 +1,24 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-24 - [execution] Development-only optimizer stabilization launched
+
+Job 58818101, nid008216, four A100 GPUs, 75-minute allocation; tmux
+`stabilization_20260924` on login40. Frozen source: `ccd5065`. Root:
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_stabilization_20260924_v1`.
+Eight fits continue four amortised alpha=0.25 parents from 65,536 to 98,304
+updates: constant versus cosine-decayed LR, each with raw and EMA weights.
+Evaluate at 81,920 and 98,304 on four development observations only; 192
+ensembles include the final paired NFE check. No confirmation data are opened.
+Sixteen focused tests passed, followed by a three-test rerun after report edits;
+all four deterministic GPU replay checks (exact/stochastic x constant/decay)
+passed for raw weights, EMA and RNG state. Scientific kernels are unchanged.
+Automatic SUMMARY.md/COMPLETE.json report gates, checkpoint stability, paired
+sampling differences, absorption diagnostics and per-template DC offset/scatter.
+Launcher records success or failure, checkpoints every 1,024 updates, and exits
+the allocation on completion. No automatic extension or Abacus promotion.
+Results are pending. Graphify refresh in cosmic_env again failed at filesystem
+flock errno 524; existing global graph remained unchanged, no bypass attempted.
+
 ### 2026-09-24 - [closeout/plan] Plain continuation complete; stabilization factorial
 
 Closeout: `docs/e2e_alpha025_continuation_conclusions_20260924.md`.

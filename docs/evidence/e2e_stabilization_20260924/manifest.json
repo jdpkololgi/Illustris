@@ -1,0 +1,193 @@
+{
+  "parent": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_alpha025_continue_20260923_v1",
+  "parents": {
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_alpha025_continue_20260923_v1/results/alpha0.25_white_bridge_stochastic_seed17_amortised/checkpoint_65536.pt": "a8fb956b0ad31ee1cf54c0511bc521db2098fc65ec04be14a81e0339848bfb9b",
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_alpha025_continue_20260923_v1/results/alpha0.25_white_bridge_exact_seed17_amortised/checkpoint_65536.pt": "a7036c4d520417ac6bf13b6579a9426943f7e75bb73258a712fd99f776465faf",
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_alpha025_continue_20260923_v1/results/alpha0.25_white_bridge_stochastic_seed29_amortised/checkpoint_65536.pt": "4b2d1dd269a47e457bd92dbdaeb5ef110561586c5d857e75ac5ce5512bab0d2b",
+    "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_alpha025_continue_20260923_v1/results/alpha0.25_white_bridge_exact_seed29_amortised/checkpoint_65536.pt": "b0f8839a41266cd77fa840a8aa43a6d469a0a44faa880de6a90dcc01cbbd8203"
+  },
+  "parent_sources": {
+    "workflows/sbi/e2e_spectral_preconditioning.py": "cfd483fba57b0dfa1093039d5f0e7ba9eacff6651171bd8e31738f9c42bf2506",
+    "workflows/sbi/e2e_spectral_absorption.py": "4e4898ea9f59d79dbd730347ba68cbc835bca2d99fe9d314e64873b19b56721b",
+    "workflows/sbi/e2e_conditional_reference.py": "4cfe1afdc905094ca1ab2ee5ae1e3ef250e8f5bafd6edd90860bc7f407c981eb",
+    "workflows/sbi/e2e_conditional_reference_math.py": "70023d9d124ad2b552f694e4a4b12204c04efc80530b10b24fd1bf8f2733fd40",
+    "workflows/sbi/e2e_conditional_reference_continue.py": "b1bfba72846374d4ba86677ac79546b113a100dc9b49eba06082d8bac67918a0",
+    "workflows/sbi/e2e_reference_target_controls.py": "3d36f9ad72e25e8fd0d20834f0396d5b230bea443a9649d931b79398eb4be231",
+    "workflows/sbi/e2e_direct_vdm.py": "cca2c730ea28a76a2c49d6d9a823dfb8d7cafc3ec19bfe30c2d501f6d92b091b",
+    "configs/e2e_conditional_reference_v1.json": "ce2aa298fdebd133dcf9b79558577b4c21ac4c8248d473493b0f8de88b669610",
+    "docs/e2e_spectral_preconditioning_20260923.md": "2c8871cca8f0907beb355f6219759397fbe5f4f71c418a946a6eebbb075e7ba1",
+    "tests/test_e2e_spectral_preconditioning.py": "dfd66a44d661727285533265b165b27732fcdd367f8241a485e76a56f4acc206",
+    "workflows/sbi/e2e_partial_whitening.py": "aa1ef3466947e7ca56b20873e1733eca5d4c123d79c580c03e994e09406045a3",
+    "workflows/sbi/e2e_spectral_bridge_diagnostics.py": "5f2200f4d0fd2f4f3b5e597259b5dc41b19e4bdfd092709e69dfcc99cb1eb139",
+    "tests/test_e2e_partial_whitening.py": "22b0614c378f55c9c4e2564166f49138ddec62ebc5f87266199eece8ccb61ca7",
+    "docs/e2e_partial_whitening_20260923.md": "a68cac88dfb765f84208aa823d147a4bf42ccf0d4795d7b5df38a4942c4db521",
+    "workflows/sbi/e2e_partial_whitening_step.sh": "6754d1da2c1fdd3868deb86d0bc0dab6b7d38519461f1cdd5c724e261e363ef1",
+    "workflows/sbi/e2e_alpha025_continue.py": "61c90a350f80ab46293a2035e829c1533cfc4ae2348cc8074f5fc935157f9e79",
+    "workflows/sbi/e2e_alpha025_continue_step.sh": "4f82cb2c438a481bc466c097c44400a2f529cb7f9ef285673251e3344a53ef8d",
+    "tests/test_e2e_alpha025_continue.py": "ddad73ff52d59668661f6403ebc9013e81ff4fb6683a711d3b451be54889a2b0",
+    "docs/e2e_alpha025_continuation_20260923.md": "b9a13dfdc522b7ae89c3de9a8a3040a742946005d570e0e4f381b1f68b4aaf76"
+  },
+  "sources": {
+    "workflows/sbi/e2e_spectral_preconditioning.py": "cfd483fba57b0dfa1093039d5f0e7ba9eacff6651171bd8e31738f9c42bf2506",
+    "workflows/sbi/e2e_spectral_absorption.py": "4e4898ea9f59d79dbd730347ba68cbc835bca2d99fe9d314e64873b19b56721b",
+    "workflows/sbi/e2e_conditional_reference.py": "4cfe1afdc905094ca1ab2ee5ae1e3ef250e8f5bafd6edd90860bc7f407c981eb",
+    "workflows/sbi/e2e_conditional_reference_math.py": "70023d9d124ad2b552f694e4a4b12204c04efc80530b10b24fd1bf8f2733fd40",
+    "workflows/sbi/e2e_conditional_reference_continue.py": "b1bfba72846374d4ba86677ac79546b113a100dc9b49eba06082d8bac67918a0",
+    "workflows/sbi/e2e_reference_target_controls.py": "3d36f9ad72e25e8fd0d20834f0396d5b230bea443a9649d931b79398eb4be231",
+    "workflows/sbi/e2e_direct_vdm.py": "cca2c730ea28a76a2c49d6d9a823dfb8d7cafc3ec19bfe30c2d501f6d92b091b",
+    "configs/e2e_conditional_reference_v1.json": "ce2aa298fdebd133dcf9b79558577b4c21ac4c8248d473493b0f8de88b669610",
+    "docs/e2e_spectral_preconditioning_20260923.md": "2c8871cca8f0907beb355f6219759397fbe5f4f71c418a946a6eebbb075e7ba1",
+    "tests/test_e2e_spectral_preconditioning.py": "dfd66a44d661727285533265b165b27732fcdd367f8241a485e76a56f4acc206",
+    "workflows/sbi/e2e_partial_whitening.py": "aa1ef3466947e7ca56b20873e1733eca5d4c123d79c580c03e994e09406045a3",
+    "workflows/sbi/e2e_spectral_bridge_diagnostics.py": "5f2200f4d0fd2f4f3b5e597259b5dc41b19e4bdfd092709e69dfcc99cb1eb139",
+    "tests/test_e2e_partial_whitening.py": "22b0614c378f55c9c4e2564166f49138ddec62ebc5f87266199eece8ccb61ca7",
+    "docs/e2e_partial_whitening_20260923.md": "a68cac88dfb765f84208aa823d147a4bf42ccf0d4795d7b5df38a4942c4db521",
+    "workflows/sbi/e2e_partial_whitening_step.sh": "6754d1da2c1fdd3868deb86d0bc0dab6b7d38519461f1cdd5c724e261e363ef1",
+    "workflows/sbi/e2e_alpha025_continue.py": "61c90a350f80ab46293a2035e829c1533cfc4ae2348cc8074f5fc935157f9e79",
+    "workflows/sbi/e2e_alpha025_continue_step.sh": "4f82cb2c438a481bc466c097c44400a2f529cb7f9ef285673251e3344a53ef8d",
+    "tests/test_e2e_alpha025_continue.py": "ddad73ff52d59668661f6403ebc9013e81ff4fb6683a711d3b451be54889a2b0",
+    "docs/e2e_alpha025_continuation_20260923.md": "b9a13dfdc522b7ae89c3de9a8a3040a742946005d570e0e4f381b1f68b4aaf76",
+    "workflows/sbi/e2e_stabilization.py": "e3484fee0f573e186b50c5c1aeffe8cbf33f9af936f753dc802ea0d4949885df",
+    "workflows/sbi/e2e_stabilization_step.sh": "582d527450b6c3188cabbc104cdab54fbbf9cc47fe536a324f338c4eb3a6d12b",
+    "tests/test_e2e_stabilization.py": "ea49ee9c383919a000ceb60031c63c251020a5f23c1d066d21a5fd4160f4490b",
+    "docs/e2e_stabilization_20260924.md": "c6c9c0fa949ea343112d558ea466c5ef465cb50bc580b675f70769457bdc4842"
+  },
+  "config": {
+    "schema": "conditional-reference-v1",
+    "grid": 8,
+    "base": 8,
+    "levels": 2,
+    "batch": 32,
+    "updates": 4096,
+    "checkpoints": [
+      1024,
+      4096
+    ],
+    "seeds": [
+      17,
+      29
+    ],
+    "objectives": [
+      "vdm",
+      "cfm"
+    ],
+    "cases": 4,
+    "fixed_cases": [
+      0,
+      1
+    ],
+    "draws": 512,
+    "evaluation_batch": 64,
+    "nfe": [
+      128,
+      256
+    ],
+    "oracle_nfe": [
+      32,
+      64,
+      128,
+      256,
+      512,
+      1024
+    ],
+    "learning_rate": 0.0003,
+    "null_repeats": 128,
+    "mean_tolerance": 0.1,
+    "variance_tolerance": 0.1,
+    "covariance_tolerance": 0.15,
+    "oracle_covariance_tolerance": 0.05,
+    "deadline_seconds": 6600,
+    "scratch_cap_gib": 20,
+    "lognormal_stage": "deferred until Gaussian learned and numerical gates pass"
+  },
+  "items": [
+    {
+      "alpha": 0.25,
+      "seed": 17,
+      "fixed": null,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.25_white_bridge_stochastic_seed17_amortised_constant",
+      "parent_name": "alpha0.25_white_bridge_stochastic_seed17_amortised",
+      "lr_mode": "constant"
+    },
+    {
+      "alpha": 0.25,
+      "seed": 17,
+      "fixed": null,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.25_white_bridge_stochastic_seed17_amortised_decay",
+      "parent_name": "alpha0.25_white_bridge_stochastic_seed17_amortised",
+      "lr_mode": "decay"
+    },
+    {
+      "alpha": 0.25,
+      "seed": 17,
+      "fixed": null,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.25_white_bridge_exact_seed17_amortised_constant",
+      "parent_name": "alpha0.25_white_bridge_exact_seed17_amortised",
+      "lr_mode": "constant"
+    },
+    {
+      "alpha": 0.25,
+      "seed": 17,
+      "fixed": null,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.25_white_bridge_exact_seed17_amortised_decay",
+      "parent_name": "alpha0.25_white_bridge_exact_seed17_amortised",
+      "lr_mode": "decay"
+    },
+    {
+      "alpha": 0.25,
+      "seed": 29,
+      "fixed": null,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.25_white_bridge_stochastic_seed29_amortised_constant",
+      "parent_name": "alpha0.25_white_bridge_stochastic_seed29_amortised",
+      "lr_mode": "constant"
+    },
+    {
+      "alpha": 0.25,
+      "seed": 29,
+      "fixed": null,
+      "exact": false,
+      "arm": "white_bridge",
+      "name": "alpha0.25_white_bridge_stochastic_seed29_amortised_decay",
+      "parent_name": "alpha0.25_white_bridge_stochastic_seed29_amortised",
+      "lr_mode": "decay"
+    },
+    {
+      "alpha": 0.25,
+      "seed": 29,
+      "fixed": null,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.25_white_bridge_exact_seed29_amortised_constant",
+      "parent_name": "alpha0.25_white_bridge_exact_seed29_amortised",
+      "lr_mode": "constant"
+    },
+    {
+      "alpha": 0.25,
+      "seed": 29,
+      "fixed": null,
+      "exact": true,
+      "arm": "white_bridge",
+      "name": "alpha0.25_white_bridge_exact_seed29_amortised_decay",
+      "parent_name": "alpha0.25_white_bridge_exact_seed29_amortised",
+      "lr_mode": "decay"
+    }
+  ],
+  "power_sha256": "4f08aa1a3d1ac1b968e8507df9874a69a99c61941ef85f663f32ef970e4f2a64",
+  "ema_beta": 0.999,
+  "checkpoints": [
+    81920,
+    98304
+  ],
+  "scope": "development_only",
+  "git_revision": "ccd50659cb4aff3330ddb1b6c20e8fa899b04ebe"
+}

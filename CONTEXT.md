@@ -2,6 +2,12 @@
 
 ## Stabilization control authorized (2026-09-24)
 
+Now running: job 58818101 on nid008216, four GPUs, tmux
+`stabilization_20260924` on login40; frozen source `ccd5065`.
+Scratch root: `/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_stabilization_20260924_v1`.
+Sixteen tests and four GPU replay controls passed. Results remain pending;
+automatic SUMMARY.md and COMPLETE.json will summarize development-only results.
+
 Plainalpha=.25continuation finished; see `e2e_alpha025_continuation_conclusions_20260924.md`.
 Next development-only constant/decayedLR × raw/EMA factorial on four amortised
 parents, two evaluation checkpoints. Protocol: `docs/e2e_stabilization_20260924.md`.
