@@ -1,5 +1,19 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-24 - [execution] Two-experiment development batch launched
+
+Allocation58820323, nid008536, four A100s, two-hour bound, login29 tmux
+`stable_alpha_20260924`. Frozen source f9d32f7; root
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_stable_alpha_20260924_v1`.
+Twenty-one focused tests pass; eight replay checks cover everyalpha/target,
+and sixteen oracle checks (two templates, repeated by target) meet the1% floor.
+Experiment B is running on frozen prior draws with exact-reference controls;
+experiment A is launched as16matched fresh fits,98,304updates each. Automatic
+reports: USECASE_SUMMARY.md and SUMMARY.md, with full JSON and per-case receipts.
+No scientific result is claimed yet. Source/smoke receipts archived in Git.
+Graphify refresh in cosmic_env again fails at flock errno524; global unchanged.
+
+
 ### 2026-09-24 - [closeout/plan] Stabilization complete; batched alpha/use-case tests
 
 Job58818101 completed with exit0: eight fits and192ensembles. Saved

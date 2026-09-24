@@ -2,6 +2,10 @@
 
 ## Stabilization closeout and next batch (2026-09-24)
 
+Launched job58820323, frozenf9d32f7, tmux `stable_alpha_20260924` on login29.
+Scratch root `reference_stable_alpha_20260924_v1` under the e2e_field_v3 folder.
+Two-hour/four-GPU bound. Tests/replays/oracle checks pass; results pending.
+
 Stabilization completed, no stable full-gate pass. DC drift shrank substantially;
 top-shell power remains high. New bounded development batch:
 `docs/e2e_stable_alpha_20260924.md`: stabilized alpha selection plus independent

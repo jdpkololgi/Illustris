@@ -1,0 +1,302 @@
+{
+  "sources": {
+    "workflows/sbi/e2e_spectral_preconditioning.py": "cfd483fba57b0dfa1093039d5f0e7ba9eacff6651171bd8e31738f9c42bf2506",
+    "workflows/sbi/e2e_spectral_absorption.py": "4e4898ea9f59d79dbd730347ba68cbc835bca2d99fe9d314e64873b19b56721b",
+    "workflows/sbi/e2e_conditional_reference.py": "4cfe1afdc905094ca1ab2ee5ae1e3ef250e8f5bafd6edd90860bc7f407c981eb",
+    "workflows/sbi/e2e_conditional_reference_math.py": "70023d9d124ad2b552f694e4a4b12204c04efc80530b10b24fd1bf8f2733fd40",
+    "workflows/sbi/e2e_conditional_reference_continue.py": "b1bfba72846374d4ba86677ac79546b113a100dc9b49eba06082d8bac67918a0",
+    "workflows/sbi/e2e_reference_target_controls.py": "3d36f9ad72e25e8fd0d20834f0396d5b230bea443a9649d931b79398eb4be231",
+    "workflows/sbi/e2e_direct_vdm.py": "cca2c730ea28a76a2c49d6d9a823dfb8d7cafc3ec19bfe30c2d501f6d92b091b",
+    "configs/e2e_conditional_reference_v1.json": "ce2aa298fdebd133dcf9b79558577b4c21ac4c8248d473493b0f8de88b669610",
+    "docs/e2e_spectral_preconditioning_20260923.md": "2c8871cca8f0907beb355f6219759397fbe5f4f71c418a946a6eebbb075e7ba1",
+    "tests/test_e2e_spectral_preconditioning.py": "dfd66a44d661727285533265b165b27732fcdd367f8241a485e76a56f4acc206",
+    "workflows/sbi/e2e_partial_whitening.py": "aa1ef3466947e7ca56b20873e1733eca5d4c123d79c580c03e994e09406045a3",
+    "workflows/sbi/e2e_spectral_bridge_diagnostics.py": "5f2200f4d0fd2f4f3b5e597259b5dc41b19e4bdfd092709e69dfcc99cb1eb139",
+    "tests/test_e2e_partial_whitening.py": "22b0614c378f55c9c4e2564166f49138ddec62ebc5f87266199eece8ccb61ca7",
+    "docs/e2e_partial_whitening_20260923.md": "a68cac88dfb765f84208aa823d147a4bf42ccf0d4795d7b5df38a4942c4db521",
+    "workflows/sbi/e2e_partial_whitening_step.sh": "6754d1da2c1fdd3868deb86d0bc0dab6b7d38519461f1cdd5c724e261e363ef1",
+    "workflows/sbi/e2e_alpha025_continue.py": "61c90a350f80ab46293a2035e829c1533cfc4ae2348cc8074f5fc935157f9e79",
+    "workflows/sbi/e2e_alpha025_continue_step.sh": "4f82cb2c438a481bc466c097c44400a2f529cb7f9ef285673251e3344a53ef8d",
+    "tests/test_e2e_alpha025_continue.py": "ddad73ff52d59668661f6403ebc9013e81ff4fb6683a711d3b451be54889a2b0",
+    "docs/e2e_alpha025_continuation_20260923.md": "b9a13dfdc522b7ae89c3de9a8a3040a742946005d570e0e4f381b1f68b4aaf76",
+    "workflows/sbi/e2e_stabilization.py": "e3484fee0f573e186b50c5c1aeffe8cbf33f9af936f753dc802ea0d4949885df",
+    "workflows/sbi/e2e_stabilization_step.sh": "582d527450b6c3188cabbc104cdab54fbbf9cc47fe536a324f338c4eb3a6d12b",
+    "tests/test_e2e_stabilization.py": "ea49ee9c383919a000ceb60031c63c251020a5f23c1d066d21a5fd4160f4490b",
+    "docs/e2e_stabilization_20260924.md": "c6c9c0fa949ea343112d558ea466c5ef465cb50bc580b675f70769457bdc4842",
+    "workflows/sbi/e2e_stable_alpha.py": "df355e3fa95a64923f385dfa4ba63858ea3ff36a4495a42f9d70634e5f5b519e",
+    "workflows/sbi/e2e_reference_usecase.py": "abc31a9a56532141a2daeee3c906f724af16819c6fcba30db43789f0a56a3bb4",
+    "workflows/sbi/e2e_stable_alpha_step.sh": "6260b2434945604d9630873bd8287a9f8326266aa33b08b27d9fa58c04f04675",
+    "tests/test_e2e_stable_alpha.py": "86381b4236beaf2678c9506eea6507c7572cf020dd6e5210b7798271e63f20ac",
+    "docs/e2e_stable_alpha_20260924.md": "67e248bf614893f3727462fc214a0caf1915b82190f1b5ac89106498260258c4"
+  },
+  "items": [
+    {
+      "alpha": 0.25,
+      "seed": 17,
+      "exact": false,
+      "fixed": null,
+      "arm": "white_bridge",
+      "lr_mode": "decay",
+      "name": "alpha0.25_stochastic_seed17"
+    },
+    {
+      "alpha": 0.25,
+      "seed": 17,
+      "exact": true,
+      "fixed": null,
+      "arm": "white_bridge",
+      "lr_mode": "decay",
+      "name": "alpha0.25_exact_seed17"
+    },
+    {
+      "alpha": 0.3,
+      "seed": 17,
+      "exact": false,
+      "fixed": null,
+      "arm": "white_bridge",
+      "lr_mode": "decay",
+      "name": "alpha0.30_stochastic_seed17"
+    },
+    {
+      "alpha": 0.3,
+      "seed": 17,
+      "exact": true,
+      "fixed": null,
+      "arm": "white_bridge",
+      "lr_mode": "decay",
+      "name": "alpha0.30_exact_seed17"
+    },
+    {
+      "alpha": 0.35,
+      "seed": 17,
+      "exact": false,
+      "fixed": null,
+      "arm": "white_bridge",
+      "lr_mode": "decay",
+      "name": "alpha0.35_stochastic_seed17"
+    },
+    {
+      "alpha": 0.35,
+      "seed": 17,
+      "exact": true,
+      "fixed": null,
+      "arm": "white_bridge",
+      "lr_mode": "decay",
+      "name": "alpha0.35_exact_seed17"
+    },
+    {
+      "alpha": 0.4,
+      "seed": 17,
+      "exact": false,
+      "fixed": null,
+      "arm": "white_bridge",
+      "lr_mode": "decay",
+      "name": "alpha0.40_stochastic_seed17"
+    },
+    {
+      "alpha": 0.4,
+      "seed": 17,
+      "exact": true,
+      "fixed": null,
+      "arm": "white_bridge",
+      "lr_mode": "decay",
+      "name": "alpha0.40_exact_seed17"
+    }
+  ],
+  "seconds": 13.992640550000942,
+  "oracles": [
+    {
+      "alpha": 0.25,
+      "power_ratio": [
+        1.0000158491598625,
+        1.0000125866379155,
+        1.0000170989954635,
+        1.0000259520594375,
+        1.0000355450577754,
+        1.0000462772470444,
+        1.0000596989156332
+      ]
+    },
+    {
+      "alpha": 0.25,
+      "power_ratio": [
+        0.9999993678227782,
+        1.0000051373000463,
+        1.0000164542610837,
+        1.0000262584711919,
+        1.000035651793258,
+        1.0000462646751016,
+        1.0000596242425872
+      ]
+    },
+    {
+      "alpha": 0.25,
+      "power_ratio": [
+        1.0000158491598625,
+        1.0000125866379155,
+        1.0000170989954635,
+        1.0000259520594375,
+        1.0000355450577754,
+        1.0000462772470444,
+        1.0000596989156332
+      ]
+    },
+    {
+      "alpha": 0.25,
+      "power_ratio": [
+        0.9999993678227782,
+        1.0000051373000463,
+        1.0000164542610837,
+        1.0000262584711919,
+        1.000035651793258,
+        1.0000462646751016,
+        1.0000596242425872
+      ]
+    },
+    {
+      "alpha": 0.3,
+      "power_ratio": [
+        1.0000357813473528,
+        1.0000225797699627,
+        1.0000204690018206,
+        1.0000244066060873,
+        1.0000295729472264,
+        1.0000359310146545,
+        1.0000439938010777
+      ]
+    },
+    {
+      "alpha": 0.3,
+      "power_ratio": [
+        1.0000187532589715,
+        1.000015574215523,
+        1.0000198326455951,
+        1.0000246705566433,
+        1.000029672435975,
+        1.0000359210484417,
+        1.0000439326322998
+      ]
+    },
+    {
+      "alpha": 0.3,
+      "power_ratio": [
+        1.0000357813473528,
+        1.0000225797699627,
+        1.0000204690018206,
+        1.0000244066060873,
+        1.0000295729472264,
+        1.0000359310146545,
+        1.0000439938010777
+      ]
+    },
+    {
+      "alpha": 0.3,
+      "power_ratio": [
+        1.0000187532589715,
+        1.000015574215523,
+        1.0000198326455951,
+        1.0000246705566433,
+        1.000029672435975,
+        1.0000359210484417,
+        1.0000439326322998
+      ]
+    },
+    {
+      "alpha": 0.35,
+      "power_ratio": [
+        1.00006072279258,
+        1.0000337503867889,
+        1.0000238981951164,
+        1.0000228975015688,
+        1.0000241246136297,
+        1.000027052664888,
+        1.0000313125578757
+      ]
+    },
+    {
+      "alpha": 0.35,
+      "power_ratio": [
+        1.0000414696380164,
+        1.000026799378173,
+        1.0000232752060336,
+        1.0000231266059392,
+        1.0000242170928064,
+        1.0000270448218478,
+        1.0000312612178703
+      ]
+    },
+    {
+      "alpha": 0.35,
+      "power_ratio": [
+        1.00006072279258,
+        1.0000337503867889,
+        1.0000238981951164,
+        1.0000228975015688,
+        1.0000241246136297,
+        1.000027052664888,
+        1.0000313125578757
+      ]
+    },
+    {
+      "alpha": 0.35,
+      "power_ratio": [
+        1.0000414696380164,
+        1.000026799378173,
+        1.0000232752060336,
+        1.0000231266059392,
+        1.0000242170928064,
+        1.0000270448218478,
+        1.0000312612178703
+      ]
+    },
+    {
+      "alpha": 0.4,
+      "power_ratio": [
+        1.0000931374484097,
+        1.0000465740364168,
+        1.0000274244585572,
+        1.0000214205504268,
+        1.0000191017461082,
+        1.0000192798794452,
+        1.0000207874443656
+      ]
+    },
+    {
+      "alpha": 0.4,
+      "power_ratio": [
+        1.0000696777276448,
+        1.0000393021098088,
+        1.0000268170809996,
+        1.0000216212341202,
+        1.0000191874025488,
+        1.000019273706506,
+        1.0000207429664187
+      ]
+    },
+    {
+      "alpha": 0.4,
+      "power_ratio": [
+        1.0000931374484097,
+        1.0000465740364168,
+        1.0000274244585572,
+        1.0000214205504268,
+        1.0000191017461082,
+        1.0000192798794452,
+        1.0000207874443656
+      ]
+    },
+    {
+      "alpha": 0.4,
+      "power_ratio": [
+        1.0000696777276448,
+        1.0000393021098088,
+        1.0000268170809996,
+        1.0000216212341202,
+        1.0000191874025488,
+        1.000019273706506,
+        1.0000207429664187
+      ]
+    }
+  ],
+  "replay_checked": true
+}
