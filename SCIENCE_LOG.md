@@ -1,5 +1,20 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-24 - [execution/E2E] Paired development draw assessment running
+
+Launched approved allocation 58842310/nid001021 from frozen a919da4 under tmux
+cfm_eval_20260924 on login25; four GPUs, four-hour hard limit, no renewal.
+All four seed/checkpoint workers saved their first two ph012 draws and passed
+exact in-process replay, positive/finite decode and coarse-mass conservation.
+First two-draw chunk including its replay took about 47.4 s per worker. Six
+focused tests also passed on compute (0.107 s). This is technical launch health,
+not posterior quality: full physical scoring and checkpoint comparison pending.
+Root: /pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_pilot_eval_20260924_v1.
+Protocol and output ledger: docs/e2e_cfm_pilot_evaluation_20260924.md.
+Confirmation remains sealed; no additional training. Graphify refresh exceeded
+its five-second login-node cap and remains incomplete.
+
+
 ### 2026-09-24 - [protocol/E2E] Paired coupled-CFM development evaluation approved
 
 Pilot training allocation 58831634 completed; this is evaluation, not another

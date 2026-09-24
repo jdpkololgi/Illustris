@@ -68,3 +68,15 @@ and proper scores jointly; neither better plots nor broader intervals alone
 qualifies a posterior. A coarse failure cannot be rescued by fine coupling.
 OldD/Wiener inputs differ, so historical scores are not a matched causal baseline.
 No confirmation, architecture sweep, classical expansion or automatic retraining.
+
+## Launch receipt
+
+Approved allocation 58842310, nid001021, started 2026-09-24 16:48 UTC;
+four GPUs, four-hour hard limit. Frozen source commit a919da4, staged under
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_pilot_eval_20260924_v1/source`.
+Fixed launcher persists in tmux `cfm_eval_20260924` on login25. All four
+workers wrote checkpoint/chart bindings; six tests passed on compute (0.107 s).
+Outputs and per-worker logs are in the parent Scratch directory. Completion
+requires the aggregate `results/COMPLETE.json`, not merely scheduler success.
+The post-edit graphify refresh exceeded its five-second login-node cap;
+the graph refresh is incomplete and is not a scientific validation receipt.
