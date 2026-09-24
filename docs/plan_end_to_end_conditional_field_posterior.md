@@ -1,5 +1,15 @@
 # Plan — End-to-end conditional density-field posterior
 
+## Immediate bounded Abacus control (2026-09-24)
+
+User supersedes the proposed additional nonlinear toy comparison with Step1:
+`e2e_abacus_wiener_20260924.md`, training-only Wiener constrained realizations
+versus frozen VDM draws on the same legacy ph004/ph005 anchors. One approved
+CPU batch node <=2h, <=10GiB; no interactive allocation use. The objective stays
+calibrated field inference, not a classical-methods programme. Stop after this
+diagnostic; no nonlinear scaling or neural retraining authorized by its launch.
+Keep coordinate/target contracts matched and phase uncertainty explicit.
+
 ## Nonlinear classical baseline completed (2026-09-24)
 
 See `e2e_lognormal_results_20260924.md`: four masked lognormal–Poisson cases,

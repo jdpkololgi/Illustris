@@ -1,5 +1,25 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-24 - [plan/E2E] Bounded classical control on existing Abacus draws
+
+User requests Step1 on existing anchors, explicitly no interactive compute and
+no diversion from calibrated field-posterior development. Approved one CPU-only
+batch node <=2h, <=10GiB new Scratch. Production VAC resources remain untouched.
+Implemented train-only stationary Wiener/constrained realizations:384cores,
+ph000/002/003 prior, scalar galaxy response, cap/shell exposure normalization
+and diagonal shot-plus-unresolved noise. Raw counts are summed, not reconstructed
+from log-pooled neural channels. Final64draws per anchor matched against all
+A/B/C/D seeds on32existing ph004/ph005 anchors; common periodic tidal operator,
+full-box truth, regional mass, proper scores, ranks and spectral diagnostics.
+These are legacy-coordinate/R7 products; no corrected21phase products opened.
+Protocol: docs/e2e_abacus_wiener_20260924.md. Solver tests and first-anchor smoke
+are fail-closed inside batch; no interactive smoke under explicit user override.
+No results yet. Batch launch receipt to follow. No automatic retry, nonlinear
+sampler expansion, neural refit or production claim. Calibration remains the
+objective; this one diagnostic asks what prevents it at matched information.
+
+
+
 ### 2026-09-24 - [result/E2E] Nonlinear classical reference and Laplace competitor
 
 Implemented and completed the requested lognormal-Poisson comparison on
