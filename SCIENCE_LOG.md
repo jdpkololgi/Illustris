@@ -1,5 +1,21 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-24 - [protocol/E2E] Paired coupled-CFM development evaluation approved
+
+Pilot training allocation 58831634 completed; this is evaluation, not another
+training extension. Freeze EMA checkpoints 6656/13312, seeds 17/29, and all 32
+ph012/ph013 pairs. Main ledger: 4096 joint/wide draws at 128 NFE per factor;
+64 additional paired refinement draws at 256 NFE. Confirmation remains sealed.
+User approved one four-GPU interactive node for four hours maximum (16 GPUh),
+restartable under tmux, without automatic renewal. Production VAC is untouched.
+Protocol: docs/e2e_cfm_pilot_evaluation_20260924.md. Six focused tests pass
+(0.090 s): phase guards, addressed sampling/Heun oracle, physical probes,
+coverage and erased-dependence controls. These are not phase-level power tests.
+Report regional coverage against its finite-draw attainable value, CRPS/width,
+spectra, joint tidal scores and sampler sensitivity, separately by phase/seed.
+No scientific pass or new posterior-calibration claim before saved outputs.
+
+
 ### 2026-09-24 - [execution/E2E] Coupled CFM pilot running on real Abacus pairs
 
 Approved first segment launched58831634/nid001033, four GPUs/two-hour cap,

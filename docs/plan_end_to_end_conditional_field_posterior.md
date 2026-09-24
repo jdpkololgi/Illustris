@@ -2,6 +2,14 @@
 
 ## CURRENT AUTHORITY — bounded coupled CFM pilot (2026-09-24)
 
+Current execution step: training segment58831634completed successfully; coarse
+factors~20700updates, fine~17950, no held-out calibration yet. User now approves
+full development evaluation (4GPU/4h maximum) under
+`e2e_cfm_pilot_evaluation_20260924.md`: EMA checkpoints6656/13312, both seeds,
+32draws×32development pairs plus paired128/256NFE refinement. No new training
+or confirmation. Evaluation implementation includes physical samples/metrics,
+durable chunks and JSON collector; actual Abacus results remain pending launch.
+
 Active protocol: [e2e_cfm_abacus_pilot_20260924.md](e2e_cfm_abacus_pilot_20260924.md).
 User approves completing protocol and starting Abacus, then explicitly approves
 first four-A100/two-hour segment (8GPUh). One architecture/two seeds, four factors;
