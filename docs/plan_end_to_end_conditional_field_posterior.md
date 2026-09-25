@@ -2,6 +2,12 @@
 
 ## CURRENT AUTHORITY — bounded coupled CFM pilot (2026-09-24)
 
+Latest execution (2026-09-25): all four factors completed26624updates in job
+58862352. Final development comparison now launched58864736 (two GPUs/4h),
+frozen27bca24, against saved13312draws. See
+`e2e_cfm_final_evaluation_20260925.md`. No new training; confirmation sealed.
+Final checkpoint scientific conclusions remain pending evaluation completion.
+
 2026-09-25 update: evaluation58842310 completed (3h33m):4096 main draws plus64
 refinement draws. From6656to13312, density CRPS improves6.3%, core-mass11.2%,
 block-mass13.4%, joint energy6.4%, Brier5.4%. Aggregate core coverage88.3%

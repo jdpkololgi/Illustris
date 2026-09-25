@@ -23,3 +23,8 @@ coverage split shrink without sacrificing CRPS/sharpness; do joint scores and
 tidal classes improve reproducibly across seeds; is sampler refinement still
 negligible? Two development phases cannot certify general calibration. No
 scientific conclusions from this comparison exist at launch.
+
+Launch:58864736 on nid001024, frozen27bca24, tmux
+`cfm_final_eval_20260925` on login22. Six compute-node tests passed0.108s.
+Post-edit graphify update exceeded the five-second login cap; index refresh
+remains incomplete, unrelated to numerical evaluation success.
