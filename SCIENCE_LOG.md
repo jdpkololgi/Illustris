@@ -1,5 +1,21 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-25 - [result/continuation E2E] Development gains justify original-horizon completion
+
+Evaluation58842310 completed0:0 in3h33m:4096 main+64refinement draws.
+6656->13312 mean CRPS gains: density6.3%, core mass11.2%, block mass13.4%;
+joint energy6.4%, Brier5.4%. Core coverage88.3% vs attainable87.9%, with
+14% narrower intervals. Fine-region phase split~80-81%/95% prevents calibration
+claim. Top-band power~88% of truth; sampler refinement power change<=0.22%.
+User explicitly approves continuation/compute: unchanged four factors to26624,
+resume steps coarse17/29=20749/20721, fine17/29=17949/17945. Original frozen
+training source, alpha=.30, EMA, optimizer, RNG and cosine horizon retained.
+One four-GPU90min allocation; no automatic renewal, no confirmation access.
+Segment root: /pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_pilot_continue_20260925_v1.
+Original latest states backed up before launch; historical checkpoints untouched.
+Final-checkpoint development comparison remains next, not yet executed.
+
+
 ### 2026-09-24 - [execution/E2E] Paired development draw assessment running
 
 Launched approved allocation 58842310/nid001021 from frozen a919da4 under tmux

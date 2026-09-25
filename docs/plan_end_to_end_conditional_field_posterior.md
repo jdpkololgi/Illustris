@@ -2,13 +2,15 @@
 
 ## CURRENT AUTHORITY — bounded coupled CFM pilot (2026-09-24)
 
-Current execution step: training segment58831634completed successfully; coarse
-factors~20700updates, fine~17950, no held-out calibration yet. User now approves
-full development evaluation (4GPU/4h maximum) under
-`e2e_cfm_pilot_evaluation_20260924.md`: EMA checkpoints6656/13312, both seeds,
-32draws×32development pairs plus paired128/256NFE refinement. No new training
-or confirmation. Evaluation implementation includes physical samples/metrics,
-durable chunks and JSON collector; actual Abacus results remain pending launch.
+2026-09-25 update: evaluation58842310 completed (3h33m):4096 main draws plus64
+refinement draws. From6656to13312, density CRPS improves6.3%, core-mass11.2%,
+block-mass13.4%, joint energy6.4%, Brier5.4%. Aggregate core coverage88.3%
+versus attainable87.9%, but fine-region coverage~80-81%/95% by phase: not a
+calibration qualification. Top-band power~88% of truth; paired sampler power
+changes<=0.22%. User authorizes unchanged continuation to the original26624
+updates, resuming all four latest states under tmux (4GPU/90min bound).
+Confirmation remains sealed. Next assessment compares final26624 with13312
+using the same development panel/diagnostics; no automatic architecture change.
 
 Active protocol: [e2e_cfm_abacus_pilot_20260924.md](e2e_cfm_abacus_pilot_20260924.md).
 User approves completing protocol and starting Abacus, then explicitly approves
