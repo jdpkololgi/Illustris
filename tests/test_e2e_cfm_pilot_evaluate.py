@@ -10,6 +10,11 @@ from workflows.sbi.e2e_vdm_context_metrics import calibration
 
 
 class EvaluateTests(unittest.TestCase):
+    def test_replication_scope(self):
+        with patch('workflows.sbi.e2e_cfm_pilot_evaluate.EVAL_PHASES',('ph014','ph015')):
+            development('ph014');development('ph015')
+            for phase in ('ph012','ph016','ph017','ph018','ph019','ph000'):
+                with self.assertRaises(PermissionError):development(phase)
     def test_heun_linear_oracle_and_noise_pairing(self):
         class Linear(torch.nn.Module):
             stage='coarse'

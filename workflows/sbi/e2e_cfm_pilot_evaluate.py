@@ -21,10 +21,11 @@ from workflows.sbi.e2e_vdm_context_metrics import calibration,fair_energy
 from workflows.sbi.e2e_coupled_cfm_pilot import training_ids,pair
 
 TRAIN_ROOT=Path('/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_pilot_20260924_v1')
+EVAL_PHASES=c.DEVELOPMENT
 
 
 def development(phase):
-    if phase not in c.DEVELOPMENT:raise PermissionError('only ph012/ph013 predictions authorized')
+    if phase not in EVAL_PHASES:raise PermissionError('phase outside explicitly selected evaluation panel')
 
 
 def draw_seed(seed,phase,pair_id,index,stage):
@@ -182,6 +183,9 @@ def score(values,target,scale):
 
 
 def run(a):
+    global EVAL_PHASES
+    EVAL_PHASES=('ph014','ph015') if a.panel=='replication' else c.DEVELOPMENT
+    if a.panel=='replication' and a.step not in (13312,26624):raise ValueError('replication checkpoints frozen')
     c.require_compute();torch.set_num_threads(4)
     if torch.cuda.device_count()!=1:raise RuntimeError('one visible GPU per worker')
     torch.use_deterministic_algorithms(True);torch.backends.cudnn.benchmark=False
@@ -193,13 +197,14 @@ def run(a):
     models,hashes,normalizer=load_models(a.seed,a.step);chart=views.load_chart(normalizer)
     scale,fit_ids=reference_scales(normalizer)
     binding=dict(checkpoints=hashes,normalizer=normalizer,runner=c.sha256(__file__),seed=a.seed,step=a.step,
-        weights='ema',draws=32,nfe=128,refinement_draws=8,refinement_nfe=256,probe_scale=scale.tolist(),fit_ids=fit_ids)
+        weights='ema',draws=32,nfe=128,refinement_draws=8,refinement_nfe=256,probe_scale=scale.tolist(),fit_ids=fit_ids,
+        evaluation_phases=list(EVAL_PHASES),panel=a.panel)
     marker=root/'BINDING.json'
     if marker.exists():
         if json.loads(marker.read_text())!=json.loads(json.dumps(binding)):raise ValueError('resume binding mismatch')
     else:c.atomic_json(marker,binding)
     start=time.monotonic();completed=[]
-    for phase in c.DEVELOPMENT:
+    for phase in EVAL_PHASES:
         development(phase)
         receipt=coord.verify_receipt(coord.ROOT/'conditions'/phase/'CONDITIONS_COMPLETE.json',payload=False)
         ids=sorted(Path(item['path']).stem for item in receipt['pair_receipts'])
@@ -228,7 +233,7 @@ def run(a):
                             return
                         tick=time.monotonic();val=generate(models,observation,phase,pair_id,a.seed,first,nfe,chart)
                         replay=False
-                        if phase==c.DEVELOPMENT[0] and pair_id==ids[0] and first==0 and nfe==128:
+                        if phase==EVAL_PHASES[0] and pair_id==ids[0] and first==0 and nfe==128:
                             repeated=generate(models,observation,phase,pair_id,a.seed,first,nfe,chart)
                             if any(not np.array_equal(val[k],repeated[k]) for k in val):
                                 raise ValueError('addressed draw replay differs')
@@ -258,4 +263,5 @@ def run(a):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--seed',type=int,required=True);p.add_argument('--step',type=int,required=True)
-    p.add_argument('--output',required=True);p.add_argument('--seconds',type=int,default=13800);run(p.parse_args())
+    p.add_argument('--output',required=True);p.add_argument('--seconds',type=int,default=13800)
+    p.add_argument('--panel',choices=('development','replication'),default='development');run(p.parse_args())

@@ -6,9 +6,10 @@ import statistics
 from workflows.sbi.e2e_coupled_contract import atomic_json,digest
 
 
-def collect(root,baseline_root=None):
+def collect(root,baseline_root=None,panel='development'):
     root=Path(root);rows=[]
-    steps=(13312,26624) if baseline_root else (6656,13312)
+    steps=(13312,26624) if baseline_root or panel=='replication' else (6656,13312)
+    phases=('ph014','ph015') if panel=='replication' else ('ph012','ph013')
     for seed in (17,29):
         for step in steps:
             source=Path(baseline_root) if baseline_root and step==13312 else root
@@ -20,7 +21,7 @@ def collect(root,baseline_root=None):
                 path=Path(name)
                 if not path.is_relative_to(folder):raise ValueError('case outside worker root')
                 case=json.loads((path/'COMPLETE.json').read_text())
-                if case['binding']!=done['binding'] or case['phase'] not in ('ph012','ph013'):
+                if case['binding']!=done['binding'] or case['phase'] not in phases:
                     raise ValueError('invalid case binding or phase')
                 rows.append(dict(seed=seed,step=step,**case))
     main=[r for r in rows if r['nfe']==128]
@@ -36,7 +37,7 @@ def collect(root,baseline_root=None):
     records=[]
     for seed in (17,29):
         for step in steps:
-            for phase in ('ph012','ph013'):
+            for phase in phases:
                 selected=[r for r in main if (r['seed'],r['step'],r['phase'])==(seed,step,phase)]
                 if len(selected)!=16:raise ValueError('phase panel incomplete')
                 mean=lambda f:statistics.mean(f(r['scores']) for r in selected)
@@ -68,6 +69,7 @@ def collect(root,baseline_root=None):
         g=r['groups'];lines.append(f"| {r['seed']} | {r['step']} | {r['phase']} | {g['density']['crps']:.5g} | {g['core_mass']['crps']:.5g} | {g['core_mass']['coverage90']:.4f} | {g['block_mass']['coverage90']:.4f} | {r['joint_energy']:.5g} | {r['class_brier']:.5g} |")
     lines+=['','Sampler refinement uses identical8draws/condition at128and256NFE; no tight coverage gate on8draws.',
         'See COMPLETE.json for paired refinement deltas and all physical marginal summaries.',
+        'ph014/ph015 are now replication/development; ph016-ph019 remain sealed.' if panel=='replication' else
         'No confirmation was opened; no automatic training continuation or alpha selection.']
     (root/'SUMMARY.md').write_text('\n'.join(lines)+'\n')
 
@@ -75,4 +77,5 @@ def collect(root,baseline_root=None):
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--root',required=True)
     parser.add_argument('--baseline-root')
-    args=parser.parse_args();collect(args.root,args.baseline_root)
+    parser.add_argument('--panel',choices=('development','replication'),default='development')
+    args=parser.parse_args();collect(args.root,args.baseline_root,args.panel)

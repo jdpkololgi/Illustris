@@ -1,5 +1,19 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-25 - [protocol/E2E] User opens ph014/ph015 for frozen-checkpoint replication
+
+Final012/013 evaluation58864736completed0:0: top-band power93-94%, density
+CRPS improves2.5%, but core/block coverage78.1%/77.5% vs87.9%attainable;
+intervals narrow16-19%, regional CRPS worsens. No further training authorized.
+User requests additional phases before targeted diagnostics, explicitly opens
+014/015. These are now replication/development, not untouched confirmation.
+016-019remain sealed; original13trainingphases and preparation receipts unchanged.
+Run13312/26624 EMA, both seeds,32pairs x32draws =4096 plus64refinement draws,
+unchanged metric/RNG/operator recipe. Four-GPU/four-hour cap; no auto-renewal.
+Seven tests pass0.125s including remaining-seal and default-access guards.
+Protocol: docs/e2e_cfm_replication_20260925.md. Results pending.
+
+
 ### 2026-09-25 - [evaluation/E2E] Final26624 checkpoint comparison authorized
 
 Training58862352 completed0:0 in54m07s; all four26624checkpoints exist.

@@ -2,6 +2,15 @@
 
 ## CURRENT AUTHORITY — bounded coupled CFM pilot (2026-09-24)
 
+2026-09-25 phase-access amendment: user opensph014/ph015 for frozen-model
+replication, before targeted diagnostics. Current scientific roles13training,
+4development/replication (012-015),4sealed confirmation (016-019). Historical
+13/2/6 preparation receipts remain immutable. Protocol:
+`e2e_cfm_replication_20260925.md`. Evaluate13312/26624, both seeds, unchanged
+settings. Earlier full-six-confirmation wording below is superseded.
+Final012/013 evaluation completed: power improves to93-94% at the top band,
+but core/block mass coverage falls to78.1%/77.5%. No calibration qualification.
+
 Latest execution (2026-09-25): all four factors completed26624updates in job
 58862352. Final development comparison now launched58864736 (two GPUs/4h),
 frozen27bca24, against saved13312draws. See
