@@ -27,3 +27,9 @@ default still deniesph014/ph015, replication deniesph016-019 and alltraining.
 Historical checkpoint confirmation_access=false denotes training exposure,
 not this newly authorized evaluation; explicit evaluation_phases/panel fields
 in BINDING.json record current access. Summary is generated on full completion.
+
+Launch receipt: job58871642, nid001105, four GPUs/four-hour cap; frozen
+de379c3, tmux `cfm_replication_20260925` on login22. Seven tests passed on
+compute (0.110s). Allocation and worker logs are in the output root. Existing
+allocation58871404 untouched. Graphify refresh exceeded five-second login cap;
+index refresh remains incomplete, not a numerical validation failure.
