@@ -188,7 +188,7 @@ def run(a):
     torch.backends.cudnn.deterministic=True;torch.backends.cuda.matmul.allow_tf32=False
     torch.backends.cudnn.allow_tf32=False;torch.backends.cuda.enable_flash_sdp(False)
     torch.backends.cuda.enable_mem_efficient_sdp(False)
-    if a.seed not in (17,29) or a.step not in (6656,13312):raise ValueError('unregistered assessment cell')
+    if a.seed not in (17,29) or a.step not in (6656,13312,26624):raise ValueError('unregistered assessment cell')
     root=Path(a.output)/f'seed{a.seed}_step{a.step}';root.mkdir(parents=True,exist_ok=True)
     models,hashes,normalizer=load_models(a.seed,a.step);chart=views.load_chart(normalizer)
     scale,fit_ids=reference_scales(normalizer)

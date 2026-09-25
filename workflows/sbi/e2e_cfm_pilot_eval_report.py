@@ -6,11 +6,13 @@ import statistics
 from workflows.sbi.e2e_coupled_contract import atomic_json,digest
 
 
-def collect(root):
+def collect(root,baseline_root=None):
     root=Path(root);rows=[]
+    steps=(13312,26624) if baseline_root else (6656,13312)
     for seed in (17,29):
-        for step in (6656,13312):
-            folder=root/f'seed{seed}_step{step}'
+        for step in steps:
+            source=Path(baseline_root) if baseline_root and step==13312 else root
+            folder=source/f'seed{seed}_step{step}'
             bound=json.loads((folder/'BINDING.json').read_text())
             done=json.loads((folder/'COMPLETE.json').read_text())
             if done['binding']!=digest(bound) or len(done['cases'])!=34:raise ValueError('worker incomplete or changed')
@@ -24,9 +26,16 @@ def collect(root):
     main=[r for r in rows if r['nfe']==128]
     if len(main)!=128 or len({(r['seed'],r['step'],r['phase'],r['pair_id']) for r in main})!=128:
         raise ValueError('main ledger mismatch')
+    for seed in (17,29):
+        panels=[{(r['phase'],r['pair_id']):r for r in main if r['seed']==seed and r['step']==step} for step in steps]
+        if panels[0].keys()!=panels[1].keys():raise ValueError('checkpoint panels differ')
+        for key in panels[0]:
+            left,right=(p[key] for p in panels)
+            if left['truth_sha256']!=right['truth_sha256'] or left['draws']!=right['draws']:
+                raise ValueError('checkpoint truths or draw counts differ')
     records=[]
     for seed in (17,29):
-        for step in (6656,13312):
+        for step in steps:
             for phase in ('ph012','ph013'):
                 selected=[r for r in main if (r['seed'],r['step'],r['phase'])==(seed,step,phase)]
                 if len(selected)!=16:raise ValueError('phase panel incomplete')
@@ -64,4 +73,6 @@ def collect(root):
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--root',required=True);collect(parser.parse_args().root)
+    parser=argparse.ArgumentParser();parser.add_argument('--root',required=True)
+    parser.add_argument('--baseline-root')
+    args=parser.parse_args();collect(args.root,args.baseline_root)

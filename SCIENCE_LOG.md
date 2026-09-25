@@ -1,5 +1,15 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-25 - [evaluation/E2E] Final26624 checkpoint comparison authorized
+
+Training58862352 completed0:0 in54m07s; all four26624checkpoints exist.
+User approves final evaluation against saved13312:2048 new main draws plus32
+refinement draws, identical development pairs/RNG/EMA/metrics, confirmation sealed.
+Two-GPU/four-hour cap, expected3.5h; no training or automatic renewal.
+Protocol: docs/e2e_cfm_final_evaluation_20260925.md. Six tests pass0.124s.
+Final-versus13312 scientific results pending, not inferred from training loss.
+
+
 ### 2026-09-25 - [result/continuation E2E] Development gains justify original-horizon completion
 
 Evaluation58842310 completed0:0 in3h33m:4096 main+64refinement draws.
