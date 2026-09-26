@@ -1,0 +1,38 @@
+{
+  "allocation": 58862859,
+  "node": "nid001013",
+  "preparation": {
+    "optimized_step": "58862859.5",
+    "elapsed_seconds": 394,
+    "exit_code": "0:0",
+    "earlier_step": "58862859.0",
+    "earlier_disposition": "Cancelled slow strided FITS reads after catalogue finished; reused completed catalogue; exact tested contiguous random reads."
+  },
+  "inference": {
+    "step": "58862859.7",
+    "elapsed_seconds": 70,
+    "exit_code": "0:0",
+    "source_manifest": "SOURCE_MANIFEST.json"
+  },
+  "validation": {
+    "step": "58862859.9",
+    "elapsed_seconds": 2,
+    "exit_code": "0:0"
+  },
+  "response_parity": {
+    "step": "58862859.4",
+    "rows": 512,
+    "distance_exact": true,
+    "support_exact": true
+  },
+  "random_reader_test": {
+    "step": "58862859.6",
+    "tests": 1,
+    "status": "PASS"
+  },
+  "scheduler_step_fix": "For non-MPI Python use --mpi=none --resv-ports=0 to avoid reserved-port contention between overlapping allocation steps.",
+  "graphify": "cosmic_env executable works; compute-node update failed flock errno524; bounded 15-second login-node update succeeded.",
+  "real_desi_inference_performed": true,
+  "full_footprint_inference_performed": false,
+  "science_release_ready": false
+}

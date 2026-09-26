@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "rows": 5615,
+  "supported_rows": 5602,
+  "unsupported_rows": 13,
+  "unique_sorted_targetids": true,
+  "joint_draws_per_supported_row": 512,
+  "ordered_finite_draws": true,
+  "saved_summaries_and_class_probabilities_exact": true,
+  "all_provisional": true,
+  "source_files_verified": 721,
+  "quality_bit_counts": {
+    "1": 13,
+    "2": 105,
+    "4": 472,
+    "8": 1110,
+    "16": 0,
+    "32": 5615
+  },
+  "mean_class_probabilities": [
+    0.27868813276290894,
+    0.41201314330101013,
+    0.24964438378810883,
+    0.05965433642268181
+  ],
+  "science_release_ready": false,
+  "completion_sha256": "ec500504f926ea68a4b433e04e676fd495df07e41dd9fd614747eb30f9425c97"
+}

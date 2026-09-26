@@ -1,0 +1,7 @@
+{
+  "rows": 512,
+  "distance_exact": true,
+  "support_exact": true,
+  "maximum_distance_difference": 0.0,
+  "source_sha256": "994e48140148a7e594bedb027be55010e6a9cb0c1c857dd23d48bbf4c2304c62"
+}

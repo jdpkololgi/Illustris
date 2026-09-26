@@ -1,0 +1,208 @@
+{
+  "utc": "2026-09-24T17:12:08.227452+00:00",
+  "commands": [
+    {
+      "argv": [
+        "squeue",
+        "-h",
+        "-r",
+        "-j",
+        "58827028",
+        "-o",
+        "%i %T"
+      ],
+      "returncode": 0,
+      "stdout": "58827028_2 PENDING\n58827028_3 PENDING\n58827028_4 PENDING\n58827028_5 PENDING\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "scontrol",
+        "hold",
+        "58827028"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--account=desi_g",
+        "--qos=shared",
+        "--constraint=gpu",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=32",
+        "--gpus=a100:1",
+        "--mem=16G",
+        "--time=01:30:00",
+        "--licenses=scratch,cfs",
+        "--kill-on-invalid-dep=yes",
+        "--job-name=p12a48_ph003",
+        "--output=/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/logs/ph003_%j.out",
+        "--error=/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/logs/ph003_%j.err",
+        "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/resubmit_20260924/single_export.sh",
+        "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1",
+        "ph003"
+      ],
+      "returncode": 0,
+      "stdout": "58831285\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--account=desi_g",
+        "--qos=shared",
+        "--constraint=gpu",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=32",
+        "--gpus=a100:1",
+        "--mem=16G",
+        "--time=01:30:00",
+        "--licenses=scratch,cfs",
+        "--kill-on-invalid-dep=yes",
+        "--job-name=p12a48_ph004",
+        "--output=/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/logs/ph004_%j.out",
+        "--error=/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/logs/ph004_%j.err",
+        "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/resubmit_20260924/single_export.sh",
+        "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1",
+        "ph004"
+      ],
+      "returncode": 0,
+      "stdout": "58831286\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--account=desi_g",
+        "--qos=shared",
+        "--constraint=gpu",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=32",
+        "--gpus=a100:1",
+        "--mem=16G",
+        "--time=01:30:00",
+        "--licenses=scratch,cfs",
+        "--kill-on-invalid-dep=yes",
+        "--job-name=p12a48_ph005",
+        "--output=/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/logs/ph005_%j.out",
+        "--error=/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/logs/ph005_%j.err",
+        "--dependency=afterok:58831285",
+        "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/resubmit_20260924/single_export.sh",
+        "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1",
+        "ph005"
+      ],
+      "returncode": 0,
+      "stdout": "58831287\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--account=desi_g",
+        "--qos=shared",
+        "--constraint=gpu",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=32",
+        "--gpus=a100:1",
+        "--mem=16G",
+        "--time=01:30:00",
+        "--licenses=scratch,cfs",
+        "--kill-on-invalid-dep=yes",
+        "--job-name=p12a48_ph006",
+        "--output=/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/logs/ph006_%j.out",
+        "--error=/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/logs/ph006_%j.err",
+        "--dependency=afterok:58831286",
+        "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/resubmit_20260924/single_export.sh",
+        "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1",
+        "ph006"
+      ],
+      "returncode": 0,
+      "stdout": "58831289\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "scontrol",
+        "update",
+        "JobId=58827034",
+        "Dependency=afterok:58831285:58831286:58831287:58831289"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "scancel",
+        "58827028_2",
+        "58827028_3",
+        "58827028_4",
+        "58827028_5"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "scontrol",
+        "release",
+        "58831285,58831286,58831287,58831289"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "squeue",
+        "-u",
+        "dkololgi",
+        "-o",
+        "%.18i %.20j %.10T %.12l %.35R"
+      ],
+      "returncode": 0,
+      "stdout": "             JOBID                 NAME      STATE   TIME_LIMIT                    NODELIST(REASON)\n          58831289         p12a48_ph006    PENDING      1:30:00                              (None)\n          58831287         p12a48_ph005    PENDING      1:30:00                              (None)\n          58831286         p12a48_ph004    PENDING      1:30:00                              (None)\n          58831285         p12a48_ph003    PENDING      1:30:00                              (None)\n          58827036         p12a48_audit    PENDING      2:00:00                        (Dependency)\n          58827034           p12a48_fit    PENDING      4:00:00                        (Dependency)\n",
+      "stderr": ""
+    }
+  ],
+  "jobs": {
+    "ph003": "58831285",
+    "ph004": "58831286",
+    "ph005": "58831287",
+    "ph006": "58831289"
+  },
+  "old_pending_tasks": [
+    "58827028_2",
+    "58827028_3",
+    "58827028_4",
+    "58827028_5"
+  ],
+  "retained_fit": "58827034",
+  "retained_audit": "58827036",
+  "launcher_sha256": "fbbaf23b569a54d5d7b9f061fcc8c1c6e25fea4a4ff6ee21e11a2f373260a74e",
+  "resources": {
+    "gpus": 1,
+    "nodes": 1,
+    "cpus": 32,
+    "memory_gib": 16,
+    "wall_minutes": 90,
+    "max_concurrent_exports": 2
+  },
+  "queue_after": "JOBID                 NAME      STATE   TIME_LIMIT                    NODELIST(REASON)\n          58831289         p12a48_ph006    PENDING      1:30:00                              (None)\n          58831287         p12a48_ph005    PENDING      1:30:00                              (None)\n          58831286         p12a48_ph004    PENDING      1:30:00                              (None)\n          58831285         p12a48_ph003    PENDING      1:30:00                              (None)\n          58827036         p12a48_audit    PENDING      2:00:00                        (Dependency)\n          58827034           p12a48_fit    PENDING      4:00:00                        (Dependency)"
+}

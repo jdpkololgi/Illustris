@@ -102,6 +102,20 @@ def calibrate_lambda1_tau(
     return 0.5 * (low + high)
 
 
+def move_posterior_device(posterior: Any, device: str) -> Any:
+    """Move sampler and prior together, including SBI's cached support bounds."""
+    posterior.to(device)
+    posterior.prior.__dict__.pop("support", None)
+    expected = torch.device(device).type
+    prior = posterior.prior
+    support = prior.support.base_constraint
+    devices = {prior.base_dist.low.device.type, prior.base_dist.high.device.type,
+               support.lower_bound.device.type, support.upper_bound.device.type}
+    if devices != {expected}:
+        raise RuntimeError(f"posterior prior/support device mismatch: {devices}")
+    return posterior
+
+
 def sample_posterior(
     posterior: Any,
     context: np.ndarray,
@@ -442,7 +456,7 @@ def main() -> None:
             "pin_memory": False,
         },
     )
-    posterior = inference.build_posterior(estimator)
+    posterior = move_posterior_device(inference.build_posterior(estimator), device)
     output = args.output_root
     output.mkdir(parents=True, exist_ok=True)
     checkpoint = output / "fmpe_estimator.pt"

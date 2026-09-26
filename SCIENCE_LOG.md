@@ -1,6 +1,19 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
 
+### 2026-09-26 - [code/VAC] Commit remaining coordinate and halo48 implementation
+
+Reviewed pending P12-only changes: immutable export/context controls, SBI prior
+support device placement, coordinate/lineage audits, halo48 pipeline, conditional
+review and replay receipts. 226 tests/phase4/test_p12*.py and nine coordinate
+sampler tests pass on CPU allocation 58895657. All 60 untracked JSON records
+parse and pending Python sources parse. The 92 pending files total 3.7 MB;
+no large catalogue/checkpoint or unrelated E2E change is included. Historical
+receipts and superseded v1/v2 results are retained with their dated reports.
+Graphify update/global refresh performed in cosmic_env. This commits the
+implementation underlying previously logged runs; it does not rerun inference
+or establish real-DESI coverage. New ph006 selection experiment is separate.
+
 ### 2026-09-26 - [audit/VAC] n(z), regeneration and magnitude-term interpretation
 
 GraphWeb_DESI audit/code/evidence commit: 1078042. All 13 lightweight P12-A

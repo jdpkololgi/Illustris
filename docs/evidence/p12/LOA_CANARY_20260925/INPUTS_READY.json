@@ -1,0 +1,900 @@
+{
+  "schema": "loa-p12a-canary-inputs-v1",
+  "source": {
+    "bytes": 8026796160,
+    "columns": [
+      "TARGETID",
+      "MWS_TARGET",
+      "SUBPRIORITY",
+      "PRIORITY_INIT",
+      "TARGET_STATE",
+      "TIMESTAMP",
+      "PRIORITY",
+      "LOCATION",
+      "TILEID",
+      "TILELOCID",
+      "LASTNIGHT",
+      "Z_not4clus",
+      "ZERR",
+      "ZWARN",
+      "CHI2",
+      "COEFF",
+      "NPIXELS",
+      "SPECTYPE",
+      "SUBTYPE",
+      "NCOEFF",
+      "DELTACHI2",
+      "FIBER",
+      "COADD_FIBERSTATUS",
+      "FIBERASSIGN_X",
+      "FIBERASSIGN_Y",
+      "COADD_NUMEXP",
+      "COADD_EXPTIME",
+      "COADD_NUMNIGHT",
+      "MEAN_DELTA_X",
+      "RMS_DELTA_X",
+      "MEAN_DELTA_Y",
+      "RMS_DELTA_Y",
+      "MEAN_PSF_TO_FIBER_SPECFLUX",
+      "TSNR2_BGS_B",
+      "TSNR2_ELG_B",
+      "TSNR2_LRG_B",
+      "TSNR2_LYA_B",
+      "TSNR2_QSO_B",
+      "TSNR2_BGS_R",
+      "TSNR2_ELG_R",
+      "TSNR2_LRG_R",
+      "TSNR2_LYA_R",
+      "TSNR2_QSO_R",
+      "TSNR2_BGS_Z",
+      "TSNR2_ELG_Z",
+      "TSNR2_LRG_Z",
+      "TSNR2_LYA_Z",
+      "TSNR2_QSO_Z",
+      "TSNR2_BGS",
+      "TSNR2_ELG",
+      "TSNR2_LRG",
+      "TSNR2_LYA",
+      "TSNR2_QSO",
+      "ZWARN_MTL",
+      "Z_QN",
+      "Z_QN_CONF",
+      "IS_QSO_QN",
+      "PRIORITY_ASSIGNED",
+      "GOODPRI",
+      "GOODHARDLOC",
+      "LOCATION_ASSIGNED",
+      "TILELOCID_ASSIGNED",
+      "NTILE",
+      "TILES",
+      "BRICKID",
+      "BRICKNAME",
+      "MORPHTYPE",
+      "RA",
+      "DEC",
+      "DCHISQ",
+      "EBV",
+      "FLUX_G",
+      "FLUX_R",
+      "FLUX_Z",
+      "FLUX_IVAR_G",
+      "FLUX_IVAR_R",
+      "FLUX_IVAR_Z",
+      "MW_TRANSMISSION_G",
+      "MW_TRANSMISSION_R",
+      "MW_TRANSMISSION_Z",
+      "NOBS_G",
+      "NOBS_R",
+      "NOBS_Z",
+      "PSFDEPTH_G",
+      "PSFDEPTH_R",
+      "PSFDEPTH_Z",
+      "GALDEPTH_G",
+      "GALDEPTH_R",
+      "GALDEPTH_Z",
+      "FLUX_W1",
+      "FLUX_W2",
+      "FLUX_IVAR_W1",
+      "FLUX_IVAR_W2",
+      "MW_TRANSMISSION_W1",
+      "MW_TRANSMISSION_W2",
+      "FIBERFLUX_G",
+      "FIBERFLUX_R",
+      "FIBERFLUX_Z",
+      "FIBERTOTFLUX_G",
+      "FIBERTOTFLUX_R",
+      "FIBERTOTFLUX_Z",
+      "WISEMASK_W1",
+      "WISEMASK_W2",
+      "MASKBITS",
+      "SHAPE_R",
+      "PHOTSYS",
+      "DESI_TARGET",
+      "BGS_TARGET",
+      "COMP_TILE",
+      "FRACZ_TILELOCID",
+      "FRAC_TLOBS_TILES",
+      "WEIGHT_ZFAIL",
+      "mod_success_rate",
+      "WEIGHT_NTILE",
+      "WEIGHT_FKP_NTILE",
+      "BITWEIGHTS",
+      "PROB_OBS"
+    ],
+    "dtype": [
+      {
+        "dtype": ">i8",
+        "name": "TARGETID"
+      },
+      {
+        "dtype": ">i8",
+        "name": "MWS_TARGET"
+      },
+      {
+        "dtype": ">f8",
+        "name": "SUBPRIORITY"
+      },
+      {
+        "dtype": ">i8",
+        "name": "PRIORITY_INIT"
+      },
+      {
+        "dtype": "|S30",
+        "name": "TARGET_STATE"
+      },
+      {
+        "dtype": "|S25",
+        "name": "TIMESTAMP"
+      },
+      {
+        "dtype": ">i8",
+        "name": "PRIORITY"
+      },
+      {
+        "dtype": ">i8",
+        "name": "LOCATION"
+      },
+      {
+        "dtype": ">i8",
+        "name": "TILEID"
+      },
+      {
+        "dtype": ">i8",
+        "name": "TILELOCID"
+      },
+      {
+        "dtype": ">i4",
+        "name": "LASTNIGHT"
+      },
+      {
+        "dtype": ">f8",
+        "name": "Z_not4clus"
+      },
+      {
+        "dtype": ">f8",
+        "name": "ZERR"
+      },
+      {
+        "dtype": ">i8",
+        "name": "ZWARN"
+      },
+      {
+        "dtype": ">f8",
+        "name": "CHI2"
+      },
+      {
+        "dtype": "('>f8', (10,))",
+        "name": "COEFF"
+      },
+      {
+        "dtype": ">i8",
+        "name": "NPIXELS"
+      },
+      {
+        "dtype": "|S6",
+        "name": "SPECTYPE"
+      },
+      {
+        "dtype": "|S20",
+        "name": "SUBTYPE"
+      },
+      {
+        "dtype": ">i8",
+        "name": "NCOEFF"
+      },
+      {
+        "dtype": ">f8",
+        "name": "DELTACHI2"
+      },
+      {
+        "dtype": ">i4",
+        "name": "FIBER"
+      },
+      {
+        "dtype": ">i4",
+        "name": "COADD_FIBERSTATUS"
+      },
+      {
+        "dtype": ">f4",
+        "name": "FIBERASSIGN_X"
+      },
+      {
+        "dtype": ">f4",
+        "name": "FIBERASSIGN_Y"
+      },
+      {
+        "dtype": ">i2",
+        "name": "COADD_NUMEXP"
+      },
+      {
+        "dtype": ">f4",
+        "name": "COADD_EXPTIME"
+      },
+      {
+        "dtype": ">i2",
+        "name": "COADD_NUMNIGHT"
+      },
+      {
+        "dtype": ">f4",
+        "name": "MEAN_DELTA_X"
+      },
+      {
+        "dtype": ">f4",
+        "name": "RMS_DELTA_X"
+      },
+      {
+        "dtype": ">f4",
+        "name": "MEAN_DELTA_Y"
+      },
+      {
+        "dtype": ">f4",
+        "name": "RMS_DELTA_Y"
+      },
+      {
+        "dtype": ">f4",
+        "name": "MEAN_PSF_TO_FIBER_SPECFLUX"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_BGS_B"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_ELG_B"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_LRG_B"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_LYA_B"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_QSO_B"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_BGS_R"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_ELG_R"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_LRG_R"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_LYA_R"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_QSO_R"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_BGS_Z"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_ELG_Z"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_LRG_Z"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_LYA_Z"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_QSO_Z"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_BGS"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_ELG"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_LRG"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_LYA"
+      },
+      {
+        "dtype": ">f4",
+        "name": "TSNR2_QSO"
+      },
+      {
+        "dtype": ">i8",
+        "name": "ZWARN_MTL"
+      },
+      {
+        "dtype": ">f8",
+        "name": "Z_QN"
+      },
+      {
+        "dtype": ">f8",
+        "name": "Z_QN_CONF"
+      },
+      {
+        "dtype": ">i2",
+        "name": "IS_QSO_QN"
+      },
+      {
+        "dtype": ">i4",
+        "name": "PRIORITY_ASSIGNED"
+      },
+      {
+        "dtype": "bool",
+        "name": "GOODPRI"
+      },
+      {
+        "dtype": "bool",
+        "name": "GOODHARDLOC"
+      },
+      {
+        "dtype": "bool",
+        "name": "LOCATION_ASSIGNED"
+      },
+      {
+        "dtype": "bool",
+        "name": "TILELOCID_ASSIGNED"
+      },
+      {
+        "dtype": ">i8",
+        "name": "NTILE"
+      },
+      {
+        "dtype": "|S29",
+        "name": "TILES"
+      },
+      {
+        "dtype": ">i4",
+        "name": "BRICKID"
+      },
+      {
+        "dtype": "|S8",
+        "name": "BRICKNAME"
+      },
+      {
+        "dtype": "|S4",
+        "name": "MORPHTYPE"
+      },
+      {
+        "dtype": ">f8",
+        "name": "RA"
+      },
+      {
+        "dtype": ">f8",
+        "name": "DEC"
+      },
+      {
+        "dtype": "('>f4', (5,))",
+        "name": "DCHISQ"
+      },
+      {
+        "dtype": ">f4",
+        "name": "EBV"
+      },
+      {
+        "dtype": ">f4",
+        "name": "FLUX_G"
+      },
+      {
+        "dtype": ">f4",
+        "name": "FLUX_R"
+      },
+      {
+        "dtype": ">f4",
+        "name": "FLUX_Z"
+      },
+      {
+        "dtype": ">f4",
+        "name": "FLUX_IVAR_G"
+      },
+      {
+        "dtype": ">f4",
+        "name": "FLUX_IVAR_R"
+      },
+      {
+        "dtype": ">f4",
+        "name": "FLUX_IVAR_Z"
+      },
+      {
+        "dtype": ">f4",
+        "name": "MW_TRANSMISSION_G"
+      },
+      {
+        "dtype": ">f4",
+        "name": "MW_TRANSMISSION_R"
+      },
+      {
+        "dtype": ">f4",
+        "name": "MW_TRANSMISSION_Z"
+      },
+      {
+        "dtype": ">i2",
+        "name": "NOBS_G"
+      },
+      {
+        "dtype": ">i2",
+        "name": "NOBS_R"
+      },
+      {
+        "dtype": ">i2",
+        "name": "NOBS_Z"
+      },
+      {
+        "dtype": ">f4",
+        "name": "PSFDEPTH_G"
+      },
+      {
+        "dtype": ">f4",
+        "name": "PSFDEPTH_R"
+      },
+      {
+        "dtype": ">f4",
+        "name": "PSFDEPTH_Z"
+      },
+      {
+        "dtype": ">f4",
+        "name": "GALDEPTH_G"
+      },
+      {
+        "dtype": ">f4",
+        "name": "GALDEPTH_R"
+      },
+      {
+        "dtype": ">f4",
+        "name": "GALDEPTH_Z"
+      },
+      {
+        "dtype": ">f4",
+        "name": "FLUX_W1"
+      },
+      {
+        "dtype": ">f4",
+        "name": "FLUX_W2"
+      },
+      {
+        "dtype": ">f4",
+        "name": "FLUX_IVAR_W1"
+      },
+      {
+        "dtype": ">f4",
+        "name": "FLUX_IVAR_W2"
+      },
+      {
+        "dtype": ">f4",
+        "name": "MW_TRANSMISSION_W1"
+      },
+      {
+        "dtype": ">f4",
+        "name": "MW_TRANSMISSION_W2"
+      },
+      {
+        "dtype": ">f4",
+        "name": "FIBERFLUX_G"
+      },
+      {
+        "dtype": ">f4",
+        "name": "FIBERFLUX_R"
+      },
+      {
+        "dtype": ">f4",
+        "name": "FIBERFLUX_Z"
+      },
+      {
+        "dtype": ">f4",
+        "name": "FIBERTOTFLUX_G"
+      },
+      {
+        "dtype": ">f4",
+        "name": "FIBERTOTFLUX_R"
+      },
+      {
+        "dtype": ">f4",
+        "name": "FIBERTOTFLUX_Z"
+      },
+      {
+        "dtype": "uint8",
+        "name": "WISEMASK_W1"
+      },
+      {
+        "dtype": "uint8",
+        "name": "WISEMASK_W2"
+      },
+      {
+        "dtype": ">i2",
+        "name": "MASKBITS"
+      },
+      {
+        "dtype": ">f4",
+        "name": "SHAPE_R"
+      },
+      {
+        "dtype": "|S1",
+        "name": "PHOTSYS"
+      },
+      {
+        "dtype": ">i8",
+        "name": "DESI_TARGET"
+      },
+      {
+        "dtype": ">i8",
+        "name": "BGS_TARGET"
+      },
+      {
+        "dtype": ">f8",
+        "name": "COMP_TILE"
+      },
+      {
+        "dtype": ">f8",
+        "name": "FRACZ_TILELOCID"
+      },
+      {
+        "dtype": ">f8",
+        "name": "FRAC_TLOBS_TILES"
+      },
+      {
+        "dtype": ">f8",
+        "name": "WEIGHT_ZFAIL"
+      },
+      {
+        "dtype": ">f8",
+        "name": "mod_success_rate"
+      },
+      {
+        "dtype": ">f8",
+        "name": "WEIGHT_NTILE"
+      },
+      {
+        "dtype": ">f8",
+        "name": "WEIGHT_FKP_NTILE"
+      },
+      {
+        "dtype": "('>i8', (2,))",
+        "name": "BITWEIGHTS"
+      },
+      {
+        "dtype": ">f8",
+        "name": "PROB_OBS"
+      }
+    ],
+    "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_full_HPmapcut.dat.fits",
+    "rows": 10631484,
+    "sha256": "13aaab4a5b6539282dc40705cc86a3cc781af8a5911a8599267ff09f68a82a22"
+  },
+  "quality_rows": null,
+  "context_rows": 6680148,
+  "active_rows": 5436413,
+  "grids": {
+    "SGC": {
+      "origin_mpc": [
+        75.34169702865512,
+        -1797.9556685534799,
+        -771.8274093306397
+      ],
+      "shape": [
+        446,
+        795,
+        406
+      ],
+      "cell_mpc": 5.0,
+      "padding_mpc": 40.0,
+      "voxel_count": 143955420
+    },
+    "NGC": {
+      "origin_mpc": [
+        -2308.4739780774853,
+        -2237.691148220813,
+        -415.0757498829128
+      ],
+      "shape": [
+        548,
+        833,
+        534
+      ],
+      "cell_mpc": 5.0,
+      "padding_mpc": 40.0,
+      "voxel_count": 243762456
+    }
+  },
+  "cases": [
+    {
+      "cap": 0,
+      "shell": 0,
+      "kind": "typical",
+      "core_start": [
+        120,
+        260,
+        160
+      ],
+      "core_stop": [
+        140,
+        280,
+        180
+      ],
+      "active_rows": 1533
+    },
+    {
+      "cap": 0,
+      "shell": 0,
+      "kind": "boundary",
+      "core_start": [
+        0,
+        480,
+        120
+      ],
+      "core_stop": [
+        20,
+        500,
+        140
+      ],
+      "active_rows": 36
+    },
+    {
+      "cap": 0,
+      "shell": 1,
+      "kind": "typical",
+      "core_start": [
+        220,
+        480,
+        100
+      ],
+      "core_stop": [
+        240,
+        500,
+        120
+      ],
+      "active_rows": 498
+    },
+    {
+      "cap": 0,
+      "shell": 1,
+      "kind": "boundary",
+      "core_start": [
+        20,
+        560,
+        120
+      ],
+      "core_stop": [
+        40,
+        580,
+        140
+      ],
+      "active_rows": 49
+    },
+    {
+      "cap": 0,
+      "shell": 2,
+      "kind": "typical",
+      "core_start": [
+        280,
+        300,
+        220
+      ],
+      "core_stop": [
+        300,
+        320,
+        240
+      ],
+      "active_rows": 128
+    },
+    {
+      "cap": 0,
+      "shell": 2,
+      "kind": "boundary",
+      "core_start": [
+        60,
+        640,
+        80
+      ],
+      "core_stop": [
+        80,
+        660,
+        100
+      ],
+      "active_rows": 32
+    },
+    {
+      "cap": 0,
+      "shell": 3,
+      "kind": "typical",
+      "core_start": [
+        280,
+        200,
+        280
+      ],
+      "core_stop": [
+        300,
+        220,
+        300
+      ],
+      "active_rows": 31
+    },
+    {
+      "cap": 0,
+      "shell": 3,
+      "kind": "boundary",
+      "core_start": [
+        80,
+        740,
+        100
+      ],
+      "core_stop": [
+        100,
+        760,
+        120
+      ],
+      "active_rows": 20
+    },
+    {
+      "cap": 1,
+      "shell": 0,
+      "kind": "typical",
+      "core_start": [
+        300,
+        520,
+        140
+      ],
+      "core_stop": [
+        320,
+        540,
+        160
+      ],
+      "active_rows": 1933
+    },
+    {
+      "cap": 1,
+      "shell": 0,
+      "kind": "boundary",
+      "core_start": [
+        260,
+        400,
+        40
+      ],
+      "core_stop": [
+        280,
+        420,
+        60
+      ],
+      "active_rows": 484
+    },
+    {
+      "cap": 1,
+      "shell": 1,
+      "kind": "typical",
+      "core_start": [
+        340,
+        280,
+        240
+      ],
+      "core_stop": [
+        360,
+        300,
+        260
+      ],
+      "active_rows": 606
+    },
+    {
+      "cap": 1,
+      "shell": 1,
+      "kind": "boundary",
+      "core_start": [
+        180,
+        480,
+        20
+      ],
+      "core_stop": [
+        200,
+        500,
+        40
+      ],
+      "active_rows": 22
+    },
+    {
+      "cap": 1,
+      "shell": 2,
+      "kind": "typical",
+      "core_start": [
+        160,
+        280,
+        120
+      ],
+      "core_stop": [
+        180,
+        300,
+        140
+      ],
+      "active_rows": 146
+    },
+    {
+      "cap": 1,
+      "shell": 2,
+      "kind": "boundary",
+      "core_start": [
+        120,
+        360,
+        20
+      ],
+      "core_stop": [
+        140,
+        380,
+        40
+      ],
+      "active_rows": 41
+    },
+    {
+      "cap": 1,
+      "shell": 3,
+      "kind": "typical",
+      "core_start": [
+        120,
+        260,
+        20
+      ],
+      "core_stop": [
+        140,
+        280,
+        40
+      ],
+      "active_rows": 32
+    },
+    {
+      "cap": 1,
+      "shell": 3,
+      "kind": "boundary",
+      "core_start": [
+        80,
+        420,
+        200
+      ],
+      "core_stop": [
+        100,
+        440,
+        220
+      ],
+      "active_rows": 24
+    }
+  ],
+  "selection_path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/transforms/field/selection_manifest.json",
+  "source_registry_sha256": "11d7fd79b89e7dc065a27db4cfccd940de5e88be67b92f26fd6703271cf89d71",
+  "arrays_sha256": {
+    "catalogue.npz": "18add37fee12ce9d9ab7c3f8ec8b59f5f4f75c3ed0bc1ac2824adb69d227cacd",
+    "galaxy_angular_support.npy": "613946dbe57727626acfff1386c327d340bc95c34585a836c65b8e6bacf033ab",
+    "random_angular.npz": "e24e4fc820c87c3974ac8a9cb651f0028dceb9f6604de6848738e8b029b93829",
+    "boundary_angles.npz": "2eeb0948961b8e067afa67a05b195afb5f7acee8a6371489f2b9577ad76129a4"
+  },
+  "provisional": true
+}

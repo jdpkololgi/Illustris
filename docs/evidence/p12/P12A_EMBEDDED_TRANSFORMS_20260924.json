@@ -1,0 +1,138 @@
+{
+  "records": [
+    {
+      "phase": "ph000",
+      "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph000_v1/unet/seed_42/best_checkpoint.pt",
+      "checkpoint_sha256": "1bb69e54b93b003cd7a77cd341d8ddd258dfe9fbfaeda8fcfa82d1f811bc897c",
+      "checks": {
+        "normalization": true,
+        "scaler": true,
+        "epoch": true,
+        "membership": true
+      },
+      "source_contract": {
+        "workflows/abacus_tweb/p10_train_arm_a.py": "ce92a7e60f7790bfa633f3e1a67b83be7a022b99fc924d8576c2aadc15fb55c0",
+        "workflows/abacus_tweb/p10_training_contract.py": "e091a08dfc5beae62a27504fda5c2777d74f47c36632a18d3190867c78dd5b2e",
+        "workflows/abacus_tweb/p8_train_graph_patch.py": "0f25d6cf8758e7f1075dd38ce3f14cb896e895e1cf6c4c782671e3d97535f0fd",
+        "workflows/abacus_tweb/p8_train_unet_patch.py": "baef42892ed9ef90a6f1366078940ffdf8d507c4f20c14e8e7504327a4070d6f",
+        "workflows/abacus_tweb/p10_multitracer_training.py": "304699add7eb1425ff40d6574e36638b1913400b8240f1dc0ae6f4177c6402d7",
+        "workflows/abacus_tweb/p8_deterministic_common.py": "c7636ce698b69041bcf5d090a709780eb68ad267ea8ad57948f076d94c589cd2",
+        "workflows/abacus_tweb/p8_epoch_training.py": "7a555d68ae982a9653743e0e62ff6fc17814dba3cf0a7fac5f51ce63bfb33729"
+      },
+      "selection": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph000/transforms/field/selection_manifest.json",
+      "selection_sha256": "12369b82e1f32f848865eb79a0609c23171cf2fb63cc65b0a420d516b4aa21d3"
+    },
+    {
+      "phase": "ph002",
+      "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph002_v1/unet/seed_42/best_checkpoint.pt",
+      "checkpoint_sha256": "4c83fc000c1d92b26a6bf7b5977cf632472bf52eff57482ea79e8b383a936622",
+      "checks": {
+        "normalization": true,
+        "scaler": true,
+        "epoch": true,
+        "membership": true
+      },
+      "source_contract": {
+        "workflows/abacus_tweb/p10_train_arm_a.py": "ce92a7e60f7790bfa633f3e1a67b83be7a022b99fc924d8576c2aadc15fb55c0",
+        "workflows/abacus_tweb/p10_training_contract.py": "e091a08dfc5beae62a27504fda5c2777d74f47c36632a18d3190867c78dd5b2e",
+        "workflows/abacus_tweb/p8_train_graph_patch.py": "0f25d6cf8758e7f1075dd38ce3f14cb896e895e1cf6c4c782671e3d97535f0fd",
+        "workflows/abacus_tweb/p8_train_unet_patch.py": "baef42892ed9ef90a6f1366078940ffdf8d507c4f20c14e8e7504327a4070d6f",
+        "workflows/abacus_tweb/p10_multitracer_training.py": "304699add7eb1425ff40d6574e36638b1913400b8240f1dc0ae6f4177c6402d7",
+        "workflows/abacus_tweb/p8_deterministic_common.py": "c7636ce698b69041bcf5d090a709780eb68ad267ea8ad57948f076d94c589cd2",
+        "workflows/abacus_tweb/p8_epoch_training.py": "7a555d68ae982a9653743e0e62ff6fc17814dba3cf0a7fac5f51ce63bfb33729"
+      },
+      "selection": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph002/transforms/field/selection_manifest.json",
+      "selection_sha256": "a4adbfba2252cda420ff66059d31f19811b68f35528e138949d1380f9641a028"
+    },
+    {
+      "phase": "ph003",
+      "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph003_v1/unet/seed_42/best_checkpoint.pt",
+      "checkpoint_sha256": "677c2f7601566cbb9ede9d28d79a51d0920709f3fe97316eb9d8fd4712bcdce8",
+      "checks": {
+        "normalization": true,
+        "scaler": true,
+        "epoch": true,
+        "membership": true
+      },
+      "source_contract": {
+        "workflows/abacus_tweb/p10_train_arm_a.py": "ce92a7e60f7790bfa633f3e1a67b83be7a022b99fc924d8576c2aadc15fb55c0",
+        "workflows/abacus_tweb/p10_training_contract.py": "e091a08dfc5beae62a27504fda5c2777d74f47c36632a18d3190867c78dd5b2e",
+        "workflows/abacus_tweb/p8_train_graph_patch.py": "0f25d6cf8758e7f1075dd38ce3f14cb896e895e1cf6c4c782671e3d97535f0fd",
+        "workflows/abacus_tweb/p8_train_unet_patch.py": "baef42892ed9ef90a6f1366078940ffdf8d507c4f20c14e8e7504327a4070d6f",
+        "workflows/abacus_tweb/p10_multitracer_training.py": "304699add7eb1425ff40d6574e36638b1913400b8240f1dc0ae6f4177c6402d7",
+        "workflows/abacus_tweb/p8_deterministic_common.py": "c7636ce698b69041bcf5d090a709780eb68ad267ea8ad57948f076d94c589cd2",
+        "workflows/abacus_tweb/p8_epoch_training.py": "7a555d68ae982a9653743e0e62ff6fc17814dba3cf0a7fac5f51ce63bfb33729"
+      },
+      "selection": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph003/transforms/field/selection_manifest.json",
+      "selection_sha256": "ffcbe9613b9e7f0da8f297e2891a82d75e93ca50ce6276ac7be38980cd9f4888"
+    },
+    {
+      "phase": "ph004",
+      "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph004_v1/unet/seed_42/best_checkpoint.pt",
+      "checkpoint_sha256": "46d6754b4129a555809f88e45503e54a77e0126e8aab5ed0ed35938cfbf57549",
+      "checks": {
+        "normalization": true,
+        "scaler": true,
+        "epoch": true,
+        "membership": true
+      },
+      "source_contract": {
+        "workflows/abacus_tweb/p10_train_arm_a.py": "ce92a7e60f7790bfa633f3e1a67b83be7a022b99fc924d8576c2aadc15fb55c0",
+        "workflows/abacus_tweb/p10_training_contract.py": "e091a08dfc5beae62a27504fda5c2777d74f47c36632a18d3190867c78dd5b2e",
+        "workflows/abacus_tweb/p8_train_graph_patch.py": "0f25d6cf8758e7f1075dd38ce3f14cb896e895e1cf6c4c782671e3d97535f0fd",
+        "workflows/abacus_tweb/p8_train_unet_patch.py": "baef42892ed9ef90a6f1366078940ffdf8d507c4f20c14e8e7504327a4070d6f",
+        "workflows/abacus_tweb/p10_multitracer_training.py": "304699add7eb1425ff40d6574e36638b1913400b8240f1dc0ae6f4177c6402d7",
+        "workflows/abacus_tweb/p8_deterministic_common.py": "c7636ce698b69041bcf5d090a709780eb68ad267ea8ad57948f076d94c589cd2",
+        "workflows/abacus_tweb/p8_epoch_training.py": "7a555d68ae982a9653743e0e62ff6fc17814dba3cf0a7fac5f51ce63bfb33729"
+      },
+      "selection": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph004/transforms/field/selection_manifest.json",
+      "selection_sha256": "b2a73fc85161de6bd450ac192063f2b2e08decf252fd5773a48c220210a6606f"
+    },
+    {
+      "phase": "ph005",
+      "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph005_v1/unet/seed_42/best_checkpoint.pt",
+      "checkpoint_sha256": "9405eaa306419a52f5e14793c69a0434b6bfdf1dea94ee600e535911d4bc72a2",
+      "checks": {
+        "normalization": true,
+        "scaler": true,
+        "epoch": true,
+        "membership": true
+      },
+      "source_contract": {
+        "workflows/abacus_tweb/p10_train_arm_a.py": "ce92a7e60f7790bfa633f3e1a67b83be7a022b99fc924d8576c2aadc15fb55c0",
+        "workflows/abacus_tweb/p10_training_contract.py": "e091a08dfc5beae62a27504fda5c2777d74f47c36632a18d3190867c78dd5b2e",
+        "workflows/abacus_tweb/p8_train_graph_patch.py": "0f25d6cf8758e7f1075dd38ce3f14cb896e895e1cf6c4c782671e3d97535f0fd",
+        "workflows/abacus_tweb/p8_train_unet_patch.py": "baef42892ed9ef90a6f1366078940ffdf8d507c4f20c14e8e7504327a4070d6f",
+        "workflows/abacus_tweb/p10_multitracer_training.py": "304699add7eb1425ff40d6574e36638b1913400b8240f1dc0ae6f4177c6402d7",
+        "workflows/abacus_tweb/p8_deterministic_common.py": "c7636ce698b69041bcf5d090a709780eb68ad267ea8ad57948f076d94c589cd2",
+        "workflows/abacus_tweb/p8_epoch_training.py": "7a555d68ae982a9653743e0e62ff6fc17814dba3cf0a7fac5f51ce63bfb33729"
+      },
+      "selection": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph005/transforms/field/selection_manifest.json",
+      "selection_sha256": "61eaa72c0b830916855ac06fbb98b4b6f56a650bf39a69573e3815305803309d"
+    },
+    {
+      "phase": "ph006",
+      "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/arm_a_training/arm_a_r0_v1/unet/seed_42/best_checkpoint.pt",
+      "checkpoint_sha256": "cd7c280602b3496753d21d236d30c50bde96335fa69ccc60cd12c0dfe3ccdfab",
+      "checks": {
+        "normalization": true,
+        "scaler": true,
+        "epoch": true,
+        "membership": true
+      },
+      "source_contract": {
+        "workflows/abacus_tweb/p10_train_arm_a.py": "60e1f62da355f08e787a185ff3182bc53b1b0a7a8e5512f6619eaf2dfed1f29d",
+        "workflows/abacus_tweb/p10_training_contract.py": "e091a08dfc5beae62a27504fda5c2777d74f47c36632a18d3190867c78dd5b2e",
+        "workflows/abacus_tweb/p8_train_graph_patch.py": "0f25d6cf8758e7f1075dd38ce3f14cb896e895e1cf6c4c782671e3d97535f0fd",
+        "workflows/abacus_tweb/p8_train_unet_patch.py": "8468fcb38bf25676610ed26ee96e98bdd4ff18cb6571fe64ba20eba0ef0b8be3",
+        "workflows/abacus_tweb/p8_deterministic_common.py": "c7636ce698b69041bcf5d090a709780eb68ad267ea8ad57948f076d94c589cd2",
+        "workflows/abacus_tweb/p8_epoch_training.py": "7a555d68ae982a9653743e0e62ff6fc17814dba3cf0a7fac5f51ce63bfb33729"
+      },
+      "selection": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/transforms/field/selection_manifest.json",
+      "selection_sha256": "b010391138a3cb36f90c41506c85755e2154bdfee7e7ebe7e9f9a1d51662a526"
+    }
+  ],
+  "pass_checks": true,
+  "ready_for_desi_canary": false,
+  "script_sha256": "5e5496ccada3d48eab8d1ea9aee6ad3969a1323b45aa0164c90b08a07e6bc41e"
+}

@@ -1,0 +1,81 @@
+{
+  "schema": "p12a-coordinate-sample-audit-v1",
+  "created_utc": "2026-09-24T13:44:54.207888+00:00",
+  "source": {
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p12a_coordinate_sample_audit.py",
+    "bytes": 17279,
+    "mtime_ns": 1790257426322494000,
+    "content_hash_verified": true,
+    "sha256": "3f2a537b0658d1270cf3b304592d796bbc377d0eafd9b841ef57ba45b9ac440f"
+  },
+  "inputs": {
+    "phase": "ph005",
+    "registry": {
+      "path": "/global/u2/d/dkololgi/TNG/Illustris/configs/p10_phase_registry_v1.json",
+      "bytes": 5593,
+      "mtime_ns": 1787225508564890000,
+      "content_hash_verified": true,
+      "sha256": "968cd8ed010de9b75ec4115d3a0d2be51a27306c601d04aa11bac4bdf20bb303"
+    },
+    "p1": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p1_canonical/CATALOGUE_COMPLETE.json",
+      "bytes": 3326,
+      "mtime_ns": 1786622720000000000,
+      "content_hash_verified": true,
+      "sha256": "888cab0543a854bd8c7b9c78c3125a47be3b431d6d76736b1306a9a884821da2"
+    },
+    "observed_receipt": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/catalogues/observed/ph005_bgs_bright_full_observed_with_tweb.fits.complete.json",
+      "bytes": 1354,
+      "mtime_ns": 1786622699000000000,
+      "content_hash_verified": true,
+      "sha256": "78f316677cece91f35d18fdff439e497900a1b7da63be0ac01b165f4c9661505"
+    },
+    "observed": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/catalogues/observed/ph005_bgs_bright_full_observed_with_tweb.fits",
+      "bytes": 1403665920,
+      "mtime_ns": 1786622695000000000,
+      "content_hash_verified": false
+    },
+    "parent": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/catalogues/annotated_parent/ph005_bgs_bright_parent_with_tweb_eigs_rs7_ngrid2048_thr0p2_15d.fits",
+      "bytes": 1243984320,
+      "mtime_ns": 1786622649000000000,
+      "content_hash_verified": false
+    },
+    "points": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p1_canonical/points.npy",
+      "bytes": 236404800,
+      "mtime_ns": 1786622708000000000,
+      "content_hash_verified": false
+    },
+    "recorded_observed_sha256": "ee4732fb1965173679f9bf9a0327e0ac90236342a3281b24d1163bca9158f4fd",
+    "recorded_points_sha256": "5dcdc12de76c55ef463c4f1cbe2994fe9cab820abc8ff00798319bf44f4c5bb6",
+    "expected_rows": 7387646,
+    "snapshot_root": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph005/halos/z0.200",
+    "tweb_dir": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7"
+  },
+  "frozen_inventory": null,
+  "inventory_only": true,
+  "coordinate_audit_status": "unresolved",
+  "ready_for_desi_canary": false,
+  "numerical_tolerances": {
+    "replay_mpc": 1e-09,
+    "independent_distance_mpc": 1e-05,
+    "native_labels": "exact after float32 storage"
+  },
+  "outstanding": [
+    "full_encoder_and_oof_lineage",
+    "ph000_imported_lineage",
+    "annotation_run_position_field_provenance",
+    "central_satellite_unresolved_strata",
+    "pinned_native_distance_comparison",
+    "response_volume_and_support_consistency",
+    "loa_adapter_replay",
+    "cross_phase_replication"
+  ],
+  "execution": {
+    "host": "login28",
+    "job_id": null
+  }
+}

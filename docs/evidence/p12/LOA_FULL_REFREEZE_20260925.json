@@ -1,0 +1,122 @@
+{
+  "records": [
+    {
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_full_HPmapcut.dat.fits",
+      "bytes": 8026796160,
+      "sha256": "13aaab4a5b6539282dc40705cc86a3cc781af8a5911a8599267ff09f68a82a22",
+      "pass_checks": true
+    },
+    {
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+      "bytes": 8757480960,
+      "sha256": "3996667eb273d0b9c7e169dcbcf6dbd6a0adc916251b22c2ed8c457b72d3cf3c",
+      "pass_checks": true
+    },
+    {
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+      "bytes": 8757578880,
+      "sha256": "d707e3c4b15e04e3fd5f81dffda9991c0474eb0d436225d67557f871d71653ff",
+      "pass_checks": true
+    },
+    {
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+      "bytes": 8756547840,
+      "sha256": "ca5c745d2a96d230b2a8649c449749b8223b8165f27aa809992ad1e4360c5ac8",
+      "pass_checks": true
+    },
+    {
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+      "bytes": 8757023040,
+      "sha256": "dff15352592f545febb35cc826f118a939f35119ef1129747f3eada1fa154e66",
+      "pass_checks": true
+    },
+    {
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+      "bytes": 8758353600,
+      "sha256": "abc29433469191d94de0e5b6cc3c1c3a3544e837cc89d7ebca6b842038036605",
+      "pass_checks": true
+    },
+    {
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+      "bytes": 8757224640,
+      "sha256": "f9a24a51e4ea255194349cce4f774597bd650a64065e35fec1bfa9a105fd5c76",
+      "pass_checks": true
+    },
+    {
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+      "bytes": 8757383040,
+      "sha256": "4b5e679de27593c81e32f124243c2276484e16f1159e51d733f5c545b027a2ac",
+      "pass_checks": true
+    },
+    {
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+      "bytes": 8758048320,
+      "sha256": "76e5c605ab676730de6c57ca46947612b653ff8cfe2b88a50b6038beabc4161a",
+      "pass_checks": true
+    },
+    {
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+      "bytes": 8757377280,
+      "sha256": "90965c7a231c8e26b26241a9062a0f5b76f15a5392949911e8af6143c57fc320",
+      "pass_checks": true
+    },
+    {
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+      "bytes": 8756619840,
+      "sha256": "2ac54a122ab479cdfcd6c5c547b0f3b04eb8a3d6002c2c48e6f2f9db01d451da",
+      "pass_checks": true
+    },
+    {
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+      "bytes": 8757656640,
+      "sha256": "05f933090b78f2263b8ecaa223e117168865d706c5025d7ecafb3b89f2950f38",
+      "pass_checks": true
+    },
+    {
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+      "bytes": 8758324800,
+      "sha256": "ef3ceed1e3ed7c82422aa0f5973966149ee69c60501137a721d0a387e2e78dfb",
+      "pass_checks": true
+    },
+    {
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+      "bytes": 8756717760,
+      "sha256": "12b012c0b586f6c8d94b27b990c118bf6ca2930f985943280acb16c7914d9814",
+      "pass_checks": true
+    },
+    {
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+      "bytes": 8757429120,
+      "sha256": "c0e448cc2e20182a595fc65434285dfd0202fb95ab56765af2bdae1af902c283",
+      "pass_checks": true
+    },
+    {
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+      "bytes": 8757501120,
+      "sha256": "d61f2d168871142b89126f572c8c31e498a075b3f15b2e9ecd6ea2021be04a34",
+      "pass_checks": true
+    },
+    {
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+      "bytes": 8758765440,
+      "sha256": "569a217d0f6fe14bc3d40f1524e99b25cccc3c8a27f2f4ea07e88e193eb67ed7",
+      "pass_checks": true
+    },
+    {
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+      "bytes": 8758123200,
+      "sha256": "94165db35fddff26b46568295172e4f20640e40e67487edb1ccfd324e4de9722",
+      "pass_checks": true
+    },
+    {
+      "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/LSS/loa-v1/LSScats/v2.1/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+      "bytes": 8757308160,
+      "sha256": "ceeda7f6be53e547fbb681d3d5c64f619032103bb11ec6b04fe6522f876e8d34",
+      "pass_checks": true
+    }
+  ],
+  "pass_checks": true,
+  "registry_sha256": "11d7fd79b89e7dc065a27db4cfccd940de5e88be67b92f26fd6703271cf89d71",
+  "job": "58862354",
+  "clustering_randoms_used": false
+}

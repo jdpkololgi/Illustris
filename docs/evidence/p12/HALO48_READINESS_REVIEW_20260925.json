@@ -1,0 +1,94 @@
+{
+  "status": "technical_complete_not_yet_desi_ready",
+  "candidate_root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1",
+  "physical_512_draw_intervals": {
+    "base_r2": [
+      0.6623042791239708,
+      0.7466208244229762,
+      0.798529123921673
+    ],
+    "coverage68": [
+      0.6946933444464458,
+      0.6987037127502607,
+      0.7097486488094007
+    ],
+    "coverage90": [
+      0.9101211764328021,
+      0.9104062182071402,
+      0.9176507562795726
+    ],
+    "posterior_mean_r2": [
+      0.6619863391954861,
+      0.7483010117534912,
+      0.7998948022910253
+    ]
+  },
+  "physical_tarp_max_error": 0.014600000000002639,
+  "physical_tarp_pass_0p05": true,
+  "spatial_coverage68_95ci": [
+    [
+      0.687054588497616,
+      0.6944783323845435,
+      0.7021912263988369
+    ],
+    [
+      0.6906176527246889,
+      0.6987269494423769,
+      0.7057790813819609
+    ],
+    [
+      0.700483326853681,
+      0.709487728188972,
+      0.7184298843205995
+    ]
+  ],
+  "comparison_256_draw_intervals": {
+    "legacy_untempered": {
+      "coverage68": [
+        0.6770105521834141,
+        0.6862128416181899,
+        0.6847509548347744
+      ],
+      "coverage90": [
+        0.8970366774243659,
+        0.89909500416836,
+        0.8996999684589893
+      ],
+      "posterior_mean_r2": [
+        0.6611976623208207,
+        0.7474583115697562,
+        0.7993261517283735
+      ],
+      "knot_brier": 0.03423033718729243
+    },
+    "candidate_untempered": {
+      "coverage68": [
+        0.6910271188767864,
+        0.6954158853925464,
+        0.7088794345299745
+      ],
+      "coverage90": [
+        0.9061592663787023,
+        0.9084936818368187,
+        0.9149486213284054
+      ],
+      "posterior_mean_r2": [
+        0.6607239729771446,
+        0.7474556969726022,
+        0.7995747367665497
+      ],
+      "knot_brier": 0.034195800003047304
+    }
+  },
+  "remaining": [
+    "complete registered conditional acceptance comparison and record candidate disposition",
+    "bind candidate to Loa adapter and run end-to-end golden mock",
+    "resolve confirmation phase eligibility before any new phase access"
+  ],
+  "ready_for_desi_canary": false,
+  "source_reports_sha256": {
+    "posterior/P12A_COMPLETE.json": "fe379debb90f361580f193d16c8a6edb924223212de41ec76e37ca7b83617f0d",
+    "posterior/calibration_audit/P12A_CALIBRATION_AUDIT.json": "8dc69e4d9bb2de70094a552459ae637ddd3353e80a1751599f49e465bb4c7d6d",
+    "COMPARISON_PENDING_REVIEW.json": "d3a11f1157610a4b76352285b5e69accf2962dbcec399f5a70f3ca1383931b26"
+  }
+}

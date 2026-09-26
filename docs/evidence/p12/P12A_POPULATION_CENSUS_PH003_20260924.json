@@ -1,0 +1,44 @@
+{
+  "schema": "p12a-population-census-v1",
+  "phase": "ph003",
+  "input": {
+    "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph003.fits",
+    "bytes": 6636481920,
+    "mtime_ns": 1706808122000000000,
+    "content_hash_verified": false
+  },
+  "source": {
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p12a_population_census.py",
+    "bytes": 2494,
+    "mtime_ns": 1790260692327197000,
+    "content_hash_verified": true,
+    "sha256": "925623a0b246d9376b435c6d85bfd9b370b4f27ae13d4be1033f3ca69fda84bb"
+  },
+  "counts": {
+    "bright_all": {
+      "CEN=0,RES=1": 3991937,
+      "CEN=1,RES=1": 26158421,
+      "CEN=0,RES=0": 2204,
+      "CEN=1,RES=0": 493048
+    },
+    "bright_active": {
+      "CEN=0,RES=1": 2439864,
+      "CEN=1,RES=1": 18377593
+    }
+  },
+  "negative_host_keys": {
+    "bright_all": {
+      "FILE_NUM": 0,
+      "HALO_INDEX": 0,
+      "BOX_INDEX": 9819728
+    },
+    "bright_active": {
+      "FILE_NUM": 0,
+      "HALO_INDEX": 0,
+      "BOX_INDEX": 0
+    }
+  },
+  "unresolved_active_examples": [],
+  "scope": "Raw bright population before footprint/assignment; no assumption that all these rows enter P12",
+  "ready_for_desi_canary": false
+}

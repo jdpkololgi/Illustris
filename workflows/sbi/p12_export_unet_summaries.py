@@ -13,6 +13,7 @@ from datetime import datetime, timezone
 import json
 from pathlib import Path
 import sys
+import time
 
 import numpy as np
 import torch
@@ -85,9 +86,19 @@ def main() -> None:
     parser.add_argument("--phase", required=True)
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--device", default="cuda")
+    parser.add_argument("--context-halo", type=int, default=24)
     parser.add_argument("--base", type=int, default=24)
     parser.add_argument("--latent-channels", type=int, default=32)
     args = parser.parse_args()
+    if args.context_halo < 0:
+        raise ValueError("context halo must be nonnegative")
+    output = args.output_root / args.phase
+    if output.exists() and any(output.iterdir()):
+        raise FileExistsError(f"refusing to overwrite export directory: {output}")
+    started = time.monotonic()
+    torch.set_num_threads(8)
+    torch.backends.cudnn.allow_tf32 = True
+    torch.backends.cuda.matmul.allow_tf32 = False
     if args.phase == "ph001":
         raise PermissionError("ph001 summaries remain sealed until the final pipeline is frozen")
     if args.device.startswith("cuda") and not torch.cuda.is_available():
@@ -122,7 +133,7 @@ def main() -> None:
         for ref in loader.validation_refs():
             patch = adapter.extract(
                 ref.core_id,
-                unet_impl.HALO_VOXELS,
+                args.context_halo,
                 unet_impl.CHANNELS,
                 alignment_voxels=unet_impl.ALIGNMENT_VOXELS,
             )
@@ -137,6 +148,8 @@ def main() -> None:
             arrays["latent"][cursor:stop] = latent.cpu().numpy().astype(np.float32)
             arrays["base_prediction"][cursor:stop] = eigen
             cursor = stop
+            if cursor == len(patch.authoritative_parent_id) or cursor // 100000 != (cursor-len(patch.authoritative_parent_id)) // 100000:
+                print(json.dumps(dict(phase=args.phase, rows=cursor, total=n_rows, elapsed_seconds=time.monotonic()-started)), flush=True)
     if cursor != n_rows:
         raise RuntimeError(f"summary export row count mismatch: {cursor} != {n_rows}")
     for array in arrays.values():
@@ -176,6 +189,11 @@ def main() -> None:
     )
     manifest = {
         "schema_version": "p12-unet-oof-summary-v1",
+        "context_halo_voxels": args.context_halo,
+        "alignment_voxels": unet_impl.ALIGNMENT_VOXELS,
+        "precision": {"cudnn_tf32": True, "matmul_tf32": False},
+        "export_source_sha256": sha256(Path(__file__)),
+        "elapsed_seconds": time.monotonic() - started,
         "created_utc": datetime.now(timezone.utc).isoformat(),
         "phase": args.phase,
         "training_phases": list(checkpoint["training_phases"]),

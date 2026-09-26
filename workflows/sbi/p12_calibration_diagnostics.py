@@ -27,6 +27,7 @@ from workflows.abacus_tweb.p8_deterministic_common import sha256
 from workflows.abacus_tweb.p10_training_contract import atomic_json
 from workflows.sbi.p12_train_base_response_fmpe import (
     sample_posterior,
+    move_posterior_device,
     theta_to_eigenvalues,
     weighted_coverage,
     weighted_r2,
@@ -384,7 +385,7 @@ def build_posterior(checkpoint: dict[str, Any], device: str) -> Any:
     estimator.to(device)
     estimator.eval()
     inference = FMPE(prior=prior, density_estimator=builder, device=device)
-    return inference.build_posterior(estimator)
+    return move_posterior_device(inference.build_posterior(estimator), device)
 
 
 def sample_posterior_resumable(

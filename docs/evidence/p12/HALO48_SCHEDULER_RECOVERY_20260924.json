@@ -1,0 +1,32 @@
+{
+  "utc": "2026-09-24T16:53:48.502836+00:00",
+  "issue": "Array remaining tasks reported JobArrayTaskLimit after both running tasks had completed; no active interactive jobs",
+  "action": "scontrol update JobId=58827028 ArrayTaskThrottle=2",
+  "action_exit_code": 0,
+  "interpretation": "consistent with stale throttle reason/state; underlying scheduler cause not established",
+  "source_snapshot_hashes_verified": true,
+  "completed": {
+    "ph000": {
+      "rows": 5026863,
+      "pass": true,
+      "context_halo_voxels": 48,
+      "completion_marker_sha256": "8a5d9a12653a78c2cae15cf2de89eb0857b769af2d6d7aec51b62ebcd4e479ec",
+      "recorded_parent_sha_matches_original": true,
+      "recorded_truth_sha_matches_original": true,
+      "recorded_checkpoint_sha_matches_original": true
+    },
+    "ph002": {
+      "rows": 4929962,
+      "pass": true,
+      "context_halo_voxels": 48,
+      "completion_marker_sha256": "ffbb6d64b93731d2363fa152d31198f463283e8492d179c357b28c27fa39f6a9",
+      "recorded_parent_sha_matches_original": true,
+      "recorded_truth_sha_matches_original": true,
+      "recorded_checkpoint_sha_matches_original": true
+    }
+  },
+  "payload_rehash_this_check": false,
+  "queue_after": "               JOBID        STATE         TIME                         NODELIST(REASON)\n          58827028_3      PENDING         0:00                               (Priority)\n          58827028_2      PENDING         0:00                               (Priority)\n          58827028_4      PENDING         0:00                                   (None)\n          58827028_5      PENDING         0:00                                   (None)\n            58827036      PENDING         0:00                             (Dependency)\n            58827034      PENDING         0:00                             (Dependency)\n",
+  "scheduler_docs": "https://slurm.schedmd.com/scontrol.html",
+  "ready_for_desi_canary": false
+}

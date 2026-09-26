@@ -1,0 +1,284 @@
+{
+  "annotation_logs": [
+    {
+      "phase": "ph002",
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/logs/ph002_annotate_parent_56762868.out",
+      "sha256": "e47e03053ad991ca22f1275b3d684e73169864b97c5dabb056e0888cb9532d61",
+      "evidence": [
+        {
+          "line": 6,
+          "text": "Halo position field: x_com"
+        },
+        {
+          "line": 46,
+          "text": "  mapped rows: 10,619,510 / 10,619,510; skipped rows: 0"
+        },
+        {
+          "line": 69,
+          "text": "Output: /pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/annotated_parent/ph002_bgs_bright_parent_with_tweb_eigs_rs7_ngrid2048_thr0p2_15d.fits"
+        }
+      ]
+    },
+    {
+      "phase": "ph003",
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/logs/ph003_p1_56857414.out",
+      "sha256": "53f27963786a1cc64744ac440e05c85e4127ed14e27ec1752dae47551753e93d",
+      "evidence": [
+        {
+          "line": 111,
+          "text": "Halo position field: x_com"
+        },
+        {
+          "line": 151,
+          "text": "  mapped rows: 10,456,810 / 10,456,810; skipped rows: 0"
+        },
+        {
+          "line": 174,
+          "text": "Output: /pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/catalogues/annotated_parent/ph003_bgs_bright_parent_with_tweb_eigs_rs7_ngrid2048_thr0p2_15d.fits"
+        }
+      ]
+    },
+    {
+      "phase": "ph004",
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/logs/ph004_p1_56857414.out",
+      "sha256": "494ff7cba37d1077f725b0e6b390ec2f9f0512bb6ab0bec07ec878dbe0e71764",
+      "evidence": [
+        {
+          "line": 111,
+          "text": "Halo position field: x_com"
+        },
+        {
+          "line": 151,
+          "text": "  mapped rows: 10,483,193 / 10,483,193; skipped rows: 0"
+        },
+        {
+          "line": 174,
+          "text": "Output: /pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/catalogues/annotated_parent/ph004_bgs_bright_parent_with_tweb_eigs_rs7_ngrid2048_thr0p2_15d.fits"
+        }
+      ]
+    },
+    {
+      "phase": "ph005",
+      "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/logs/ph005_p1_56857414.out",
+      "sha256": "747ac537fd13bcb0c1c6be28aa879ca9a0f8f78c59b83e736c4351e3eb2fdbbb",
+      "evidence": [
+        {
+          "line": 112,
+          "text": "Halo position field: x_com"
+        },
+        {
+          "line": 152,
+          "text": "  mapped rows: 10,632,259 / 10,632,259; skipped rows: 0"
+        },
+        {
+          "line": 175,
+          "text": "Output: /pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/catalogues/annotated_parent/ph005_bgs_bright_parent_with_tweb_eigs_rs7_ngrid2048_thr0p2_15d.fits"
+        }
+      ]
+    }
+  ],
+  "checkpoint_sources": [
+    {
+      "phase": "ph000",
+      "revision": "e1aa3439c65e3c92a73bfc173e1cb97c128c09e0",
+      "checks": {
+        "workflows/abacus_tweb/p10_train_arm_a.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": false
+        },
+        "workflows/abacus_tweb/p10_training_contract.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": false
+        },
+        "workflows/abacus_tweb/p8_train_graph_patch.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p8_train_unet_patch.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p10_multitracer_training.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p8_deterministic_common.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p8_epoch_training.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        }
+      }
+    },
+    {
+      "phase": "ph002",
+      "revision": "e1aa3439c65e3c92a73bfc173e1cb97c128c09e0",
+      "checks": {
+        "workflows/abacus_tweb/p10_train_arm_a.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": false
+        },
+        "workflows/abacus_tweb/p10_training_contract.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": false
+        },
+        "workflows/abacus_tweb/p8_train_graph_patch.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p8_train_unet_patch.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p10_multitracer_training.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p8_deterministic_common.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p8_epoch_training.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        }
+      }
+    },
+    {
+      "phase": "ph003",
+      "revision": "a2289e919fbb95e95d61b561c466f6d16141f3ec",
+      "checks": {
+        "workflows/abacus_tweb/p10_train_arm_a.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": false
+        },
+        "workflows/abacus_tweb/p10_training_contract.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": false
+        },
+        "workflows/abacus_tweb/p8_train_graph_patch.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p8_train_unet_patch.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p10_multitracer_training.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p8_deterministic_common.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p8_epoch_training.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        }
+      }
+    },
+    {
+      "phase": "ph004",
+      "revision": "a2289e919fbb95e95d61b561c466f6d16141f3ec",
+      "checks": {
+        "workflows/abacus_tweb/p10_train_arm_a.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": false
+        },
+        "workflows/abacus_tweb/p10_training_contract.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": false
+        },
+        "workflows/abacus_tweb/p8_train_graph_patch.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p8_train_unet_patch.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p10_multitracer_training.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p8_deterministic_common.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p8_epoch_training.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        }
+      }
+    },
+    {
+      "phase": "ph005",
+      "revision": "a2289e919fbb95e95d61b561c466f6d16141f3ec",
+      "checks": {
+        "workflows/abacus_tweb/p10_train_arm_a.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": false
+        },
+        "workflows/abacus_tweb/p10_training_contract.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": false
+        },
+        "workflows/abacus_tweb/p8_train_graph_patch.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p8_train_unet_patch.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p10_multitracer_training.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p8_deterministic_common.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p8_epoch_training.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        }
+      }
+    },
+    {
+      "phase": "ph006",
+      "revision": "d5473e4e6130b2c6f9012650c70a0ddf342633cb",
+      "checks": {
+        "workflows/abacus_tweb/p10_train_arm_a.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": false
+        },
+        "workflows/abacus_tweb/p10_training_contract.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": false
+        },
+        "workflows/abacus_tweb/p8_train_graph_patch.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p8_train_unet_patch.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": false
+        },
+        "workflows/abacus_tweb/p8_deterministic_common.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        },
+        "workflows/abacus_tweb/p8_epoch_training.py": {
+          "historical_hash_matches": true,
+          "live_hash_matches": true
+        }
+      }
+    }
+  ],
+  "ph000_original_annotation_log_located": false,
+  "ready_for_desi_canary": false
+}

@@ -1,9 +1,13 @@
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
 import numpy as np
 import torch
 
 from workflows.sbi.p12_export_unet_summaries import (
+    main,
     ntilde_at_rows,
     parent_to_assignment_index,
     validate_oof_checkpoint,
@@ -19,6 +23,24 @@ class P12ExportUnetSummaryTests(unittest.TestCase):
             "validation_phase": "ph005",
             "state_dict": {"unet.output.weight": torch.zeros((32, 24, 1, 1, 1))},
         }
+
+    def test_existing_export_is_never_overwritten(self):
+        with TemporaryDirectory() as tmp:
+            phase = Path(tmp) / "ph002"
+            phase.mkdir()
+            old = phase / "parent_node_id.npy"
+            old.write_bytes(b"immutable")
+            argv = ["export", "--phase", "ph002", "--output-root", tmp,
+                    "--checkpoint", "unused", "--contract-root", "unused"]
+            with patch("sys.argv", argv), self.assertRaises(FileExistsError):
+                main()
+            self.assertEqual(old.read_bytes(), b"immutable")
+
+    def test_negative_context_is_rejected_before_loading(self):
+        argv = ["export", "--phase", "ph002", "--output-root", "unused",
+                "--checkpoint", "unused", "--contract-root", "unused", "--context-halo", "-1"]
+        with patch("sys.argv", argv), self.assertRaises(ValueError):
+            main()
 
     def test_out_of_fold_checkpoint_passes(self):
         validate_oof_checkpoint(self.checkpoint(), "ph005", 32)

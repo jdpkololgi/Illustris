@@ -1,0 +1,52 @@
+{
+  "schema": "p12a-halo48-bounded-trial-handoff-v1",
+  "candidate_root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1",
+  "checkpoint_sha256": "c4abd94e3b5881c7ba5db2d4e88fac9cbf84f000f170be640bf6615cb6a14277",
+  "context_halo_voxels": 48,
+  "alignment_voxels": 8,
+  "posterior_temperature": 1.0,
+  "conditional_coverage_review_pass": true,
+  "observer_golden_replay_pass": true,
+  "loa_full_source_content_verified": true,
+  "ready_to_start_bounded_desi_trial": true,
+  "real_desi_inputs_built": false,
+  "ready_for_posterior_sampling": false,
+  "science_release_ready": false,
+  "scope": "technical and development-validation clearance for bounded Loa input construction and diagnostic inference, not independent confirmation or release",
+  "selection": {
+    "z_column": "Z_not4clus",
+    "zwarn": 0,
+    "deltachi2_min_inclusive": 25,
+    "spectype": "GALAXY",
+    "z_context": [
+      0.1,
+      0.6
+    ],
+    "sentinel_excluded": [
+      0.585,
+      0.595
+    ],
+    "z_output": [
+      0.15,
+      0.55
+    ],
+    "count_weights": "unit; no PIP/ZFAIL/SYS weights"
+  },
+  "next_operations": [
+    "construct bounded Loa inputs with all required context and frozen selection",
+    "verify unique TARGETIDs, supported rows, field/response bounds and input-shift diagnostics before posterior sampling",
+    "produce diagnostic canary posteriors; retain sparse/OOD flags and evaluate truth-free closure"
+  ],
+  "release_remaining": [
+    "independent confirmation with recorded phase exposure",
+    "full registered joint/class/proper-score candidate qualification",
+    "survey misspecification and population closure"
+  ],
+  "evidence_sha256": {
+    "CONDITIONAL_REVIEW_20260925.json": "5491cd0f0d59fab2c7c7a78ec8cad9797107f3028e0b83aaa29717aea07af394",
+    "GOLDEN_OBSERVER_REPLAY_20260925.json": "e32b3d8103627cf3db95a47cb79dffd9488d51b71d5b6923bbf1638daf31058c",
+    "GOLDEN_OBSERVER_REPLAY_20260925_v2.json": "20fb0549fc3e6bc25daca7b6b86d19ffef8a50f42aedf6d03c3a0e05a27f9d06",
+    "GOLDEN_OBSERVER_REPLAY_20260925_v3.json": "a36d7e7fde0324f14bb0167c88a1b1ca61f4e8ab63a64636f0a02d5fd02267da",
+    "LOA_FULL_REFREEZE_20260925.json": "d1a0503ee026cc9d5cd1948c5cd2175b494d2fd5fbbbb52e1bd0a2255aa00818"
+  }
+}

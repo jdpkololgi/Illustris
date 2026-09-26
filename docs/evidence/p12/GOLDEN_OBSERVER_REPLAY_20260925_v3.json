@@ -1,0 +1,218 @@
+{
+  "schema": "p12a-observer-golden-replay-v1",
+  "phase": "ph006",
+  "runs": [
+    {
+      "cap": 0,
+      "shell": 0,
+      "rows": 4060,
+      "core": 590,
+      "rows_redeposited": 496710,
+      "coordinate_max_abs": 0.0,
+      "field_max_abs": {
+        "counts": 0.0,
+        "exposure_apodized": 0.0,
+        "log_count_ratio": 0.0
+      },
+      "checks": {
+        "coordinates": true,
+        "fields": true,
+        "encoder": true,
+        "stored_export": true,
+        "targetid": true,
+        "redshift_success": true,
+        "redshift": true,
+        "ntilde": true,
+        "random_support_distance": true,
+        "random_support": true
+      }
+    },
+    {
+      "cap": 0,
+      "shell": 1,
+      "rows": 1864,
+      "core": 1465,
+      "rows_redeposited": 233474,
+      "coordinate_max_abs": 0.0,
+      "field_max_abs": {
+        "counts": 0.0,
+        "exposure_apodized": 0.0,
+        "log_count_ratio": 0.0
+      },
+      "checks": {
+        "coordinates": true,
+        "fields": true,
+        "encoder": true,
+        "stored_export": true,
+        "targetid": true,
+        "redshift_success": true,
+        "redshift": true,
+        "ntilde": true,
+        "random_support_distance": true,
+        "random_support": true
+      }
+    },
+    {
+      "cap": 0,
+      "shell": 2,
+      "rows": 408,
+      "core": 2004,
+      "rows_redeposited": 65405,
+      "coordinate_max_abs": 0.0,
+      "field_max_abs": {
+        "counts": 0.0,
+        "exposure_apodized": 0.0,
+        "log_count_ratio": 0.0
+      },
+      "checks": {
+        "coordinates": true,
+        "fields": true,
+        "encoder": true,
+        "stored_export": true,
+        "targetid": true,
+        "redshift_success": true,
+        "redshift": true,
+        "ntilde": true,
+        "random_support_distance": true,
+        "random_support": true
+      }
+    },
+    {
+      "cap": 0,
+      "shell": 3,
+      "rows": 81,
+      "core": 4859,
+      "rows_redeposited": 8519,
+      "coordinate_max_abs": 0.0,
+      "field_max_abs": {
+        "counts": 0.0,
+        "exposure_apodized": 0.0,
+        "log_count_ratio": 0.0
+      },
+      "checks": {
+        "coordinates": true,
+        "fields": true,
+        "encoder": true,
+        "stored_export": true,
+        "targetid": true,
+        "redshift_success": true,
+        "redshift": true,
+        "ntilde": true,
+        "random_support_distance": true,
+        "random_support": true
+      }
+    },
+    {
+      "cap": 1,
+      "shell": 0,
+      "rows": 5247,
+      "core": 15341,
+      "rows_redeposited": 617185,
+      "coordinate_max_abs": 0.0,
+      "field_max_abs": {
+        "counts": 0.0,
+        "exposure_apodized": 0.0,
+        "log_count_ratio": 0.0
+      },
+      "checks": {
+        "coordinates": true,
+        "fields": true,
+        "encoder": true,
+        "stored_export": true,
+        "targetid": true,
+        "redshift_success": true,
+        "redshift": true,
+        "ntilde": true,
+        "random_support_distance": true,
+        "random_support": true
+      }
+    },
+    {
+      "cap": 1,
+      "shell": 1,
+      "rows": 1866,
+      "core": 17389,
+      "rows_redeposited": 178758,
+      "coordinate_max_abs": 0.0,
+      "field_max_abs": {
+        "counts": 0.0,
+        "exposure_apodized": 0.0,
+        "log_count_ratio": 0.0
+      },
+      "checks": {
+        "coordinates": true,
+        "fields": true,
+        "encoder": true,
+        "stored_export": true,
+        "targetid": true,
+        "redshift_success": true,
+        "redshift": true,
+        "ntilde": true,
+        "random_support_distance": true,
+        "random_support": true
+      }
+    },
+    {
+      "cap": 1,
+      "shell": 2,
+      "rows": 532,
+      "core": 15080,
+      "rows_redeposited": 88510,
+      "coordinate_max_abs": 0.0,
+      "field_max_abs": {
+        "counts": 0.0,
+        "exposure_apodized": 0.0,
+        "log_count_ratio": 0.0
+      },
+      "checks": {
+        "coordinates": true,
+        "fields": true,
+        "encoder": true,
+        "stored_export": true,
+        "targetid": true,
+        "redshift_success": true,
+        "redshift": true,
+        "ntilde": true,
+        "random_support_distance": true,
+        "random_support": true
+      }
+    },
+    {
+      "cap": 1,
+      "shell": 3,
+      "rows": 91,
+      "core": 10431,
+      "rows_redeposited": 12165,
+      "coordinate_max_abs": 0.0,
+      "field_max_abs": {
+        "counts": 0.0,
+        "exposure_apodized": 0.0,
+        "log_count_ratio": 0.0
+      },
+      "checks": {
+        "coordinates": true,
+        "fields": true,
+        "encoder": true,
+        "stored_export": true,
+        "targetid": true,
+        "redshift_success": true,
+        "redshift": true,
+        "ntilde": true,
+        "random_support_distance": true,
+        "random_support": true
+      }
+    }
+  ],
+  "posterior_scaled_max_abs": 0.0,
+  "posterior_parity": true,
+  "observer_fields_pass": true,
+  "random_response": "independent P3b field sampling agrees with cache on 64 output galaxies; Loa field generation remains a separate input step",
+  "loa_source_refreeze_complete": false,
+  "ready_for_desi_canary": false,
+  "job": "58862354",
+  "source_sha256": {
+    "/global/u2/d/dkololgi/GraphWeb_DESI/workflows/catalog/p12a_golden_replay.py": "0d857454838ec3a042d89626185299880eb7ee13b74e70b6ae59348160a0733f",
+    "/global/u2/d/dkololgi/GraphWeb_DESI/workflows/catalog/p12a_observation_patch.py": "d434a7b5918ce6b62af0fa932c1c4d92a3d5661cef54124cf14795e07c4f3e0c"
+  },
+  "checkpoint_sha256": "c4abd94e3b5881c7ba5db2d4e88fac9cbf84f000f170be640bf6615cb6a14277"
+}

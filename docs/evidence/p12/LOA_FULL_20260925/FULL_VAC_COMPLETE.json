@@ -1,0 +1,33 @@
+{
+  "schema": "p12a-loa-full-survey-v1",
+  "technical_complete": true,
+  "science_release_ready": false,
+  "rows": 5436413,
+  "supported_rows": 5404568,
+  "quality_bit_counts": {
+    "1": 31845,
+    "2": 137328,
+    "4": 1019446,
+    "8": 1904747,
+    "16": 125,
+    "32": 5436413,
+    "64": 847421
+  },
+  "quality_bits": {
+    "1": "unsupported/null",
+    "2": "sparse z>=.45",
+    "4": "boundary<R/h",
+    "8": "boundary<2R/h",
+    "16": "outside training feature envelope",
+    "32": "provisional; science release not qualified",
+    "64": "unresolved selection mismatch in z>=.35 shells; no correction or uncertainty marginalization"
+  },
+  "catalogue": "/pscratch/sd/d/dkololgi/graphweb_desi/outputs/p12a_loa_full_20260925_v1/DESI_LOA_P12A_HALO48_FULL_SURVEY_VAC.fits",
+  "catalogue_sha256": "cf472cb4e8fb327620629f347115ad26c55a3f985320b293e6753e07f50ebfbc",
+  "draw_index_sha256": "46bd100b16258555975a31a8642816bb965465dfca29ac8aee23b4231ce1e6ac",
+  "plan_sha256": "a0faf2020e6a39a28f8717d09db0de4df412275ad4c7740d2b2f83f647812de7",
+  "source_manifest_sha256": "c0c0ab67bedb5e04979cd3c02e367e420c397149be22d92b7394fa897f522a39",
+  "selection_shift": "Count-density excess increases with redshift, approximately 25% at z=.35-.45 and 90% at .45-.55. Frozen selection retained; systematic uncertainty not marginalized.",
+  "unique_complete_targetid_census": true,
+  "saved_draw_summary_validation": true
+}

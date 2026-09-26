@@ -1,0 +1,77 @@
+{
+  "parent": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/catalogues/annotated_parent/ph006_bgs_bright_parent_with_tweb_eigs_rs7_ngrid2048_thr0p2_15d.fits",
+  "mock": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+  "counts": {
+    "full_targets": [
+      998258,
+      610696,
+      200669,
+      26219,
+      2403637,
+      1423113,
+      479029,
+      59277
+    ],
+    "zwarn0": [
+      775671,
+      479734,
+      160714,
+      21258,
+      1928976,
+      1155840,
+      396169,
+      49846
+    ],
+    "assigned": [
+      775671,
+      479734,
+      160714,
+      21258,
+      1928976,
+      1155840,
+      396169,
+      49846
+    ],
+    "goodhardware": [
+      998258,
+      610696,
+      200669,
+      26219,
+      2403637,
+      1423113,
+      479029,
+      59277
+    ],
+    "goodpriority": [
+      998258,
+      610696,
+      200669,
+      26219,
+      2403637,
+      1423113,
+      479029,
+      59277
+    ],
+    "valid_source_z": [
+      775671,
+      479734,
+      160714,
+      21258,
+      1928976,
+      1155840,
+      396169,
+      49846
+    ],
+    "valid_truez": [
+      772151,
+      479734,
+      160714,
+      21241,
+      1919077,
+      1155840,
+      396169,
+      49813
+    ]
+  },
+  "note": "All full-table targets binned by parent observed/RSD redshift through TARGETID; unlike full-table TRUEZ and Z_not4clus this includes unassigned sentinel rows. No label columns used."
+}

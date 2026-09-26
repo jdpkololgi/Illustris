@@ -1,0 +1,1059 @@
+{
+  "schema": "p12a-population-sample-v1",
+  "phase": "ph002",
+  "source": {
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p12a_population_sample_audit.py",
+    "bytes": 3224,
+    "mtime_ns": 1790259496747665000,
+    "content_hash_verified": true,
+    "sha256": "086e5c36bc6110b7209685b2f4d90d02d389b549c55b73cff900205bfd48022b"
+  },
+  "input": {
+    "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph002.fits",
+    "bytes": 6647120640,
+    "mtime_ns": 1706807927000000000,
+    "content_hash_verified": false
+  },
+  "receipt": {
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/evidence/p12/P12A_COORDINATE_SAMPLE_PH002_20260924_v2.json",
+    "bytes": 506817,
+    "mtime_ns": 1790257605442826040,
+    "content_hash_verified": true,
+    "sha256": "1183df97c45255b60f25673151aa3baba9d2e4a1c7779e08d116e312a77c0326"
+  },
+  "sample_rows": 128,
+  "unique_raw_match": true,
+  "host_match": true,
+  "counts": {
+    "CEN=1,RES=1": 119,
+    "CEN=0,RES=1": 9
+  },
+  "records": [
+    {
+      "sample_index": 5,
+      "canonical_row": 193441,
+      "raw_row": 16679603,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 11,
+      "canonical_row": 401728,
+      "raw_row": 17072102,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 10,
+      "canonical_row": 401278,
+      "raw_row": 17072103,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 4,
+      "canonical_row": 192541,
+      "raw_row": 17145633,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 9,
+      "canonical_row": 392731,
+      "raw_row": 17213519,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 8,
+      "canonical_row": 391381,
+      "raw_row": 17213963,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 1,
+      "canonical_row": 32390,
+      "raw_row": 17345547,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 12,
+      "canonical_row": 402178,
+      "raw_row": 17353633,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 0,
+      "canonical_row": 6747,
+      "raw_row": 17540589,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 6,
+      "canonical_row": 389132,
+      "raw_row": 17543830,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 15,
+      "canonical_row": 417023,
+      "raw_row": 17598113,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 3,
+      "canonical_row": 192091,
+      "raw_row": 17614869,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 2,
+      "canonical_row": 32840,
+      "raw_row": 17747477,
+      "CEN": 0,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 54,
+      "canonical_row": 3996592,
+      "raw_row": 17879140,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 124,
+      "canonical_row": 4579166,
+      "raw_row": 20667932,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 112,
+      "canonical_row": 1562827,
+      "raw_row": 20673774,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 119,
+      "canonical_row": 4239968,
+      "raw_row": 20684332,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 7,
+      "canonical_row": 390931,
+      "raw_row": 20872371,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 21,
+      "canonical_row": 185793,
+      "raw_row": 20959852,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 17,
+      "canonical_row": 29691,
+      "raw_row": 20982478,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 30,
+      "canonical_row": 768817,
+      "raw_row": 21075243,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 13,
+      "canonical_row": 408026,
+      "raw_row": 21081780,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 16,
+      "canonical_row": 18894,
+      "raw_row": 21120787,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 31,
+      "canonical_row": 775565,
+      "raw_row": 21168386,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 14,
+      "canonical_row": 413425,
+      "raw_row": 21190826,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 25,
+      "canonical_row": 465609,
+      "raw_row": 21229951,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 28,
+      "canonical_row": 481804,
+      "raw_row": 21246933,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 47,
+      "canonical_row": 4584564,
+      "raw_row": 21290095,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 36,
+      "canonical_row": 1861537,
+      "raw_row": 21324075,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 20,
+      "canonical_row": 183544,
+      "raw_row": 21380717,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 27,
+      "canonical_row": 478205,
+      "raw_row": 21443871,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 35,
+      "canonical_row": 1820599,
+      "raw_row": 21448896,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 24,
+      "canonical_row": 430070,
+      "raw_row": 21547210,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 26,
+      "canonical_row": 468308,
+      "raw_row": 21550249,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 23,
+      "canonical_row": 412525,
+      "raw_row": 21581809,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 46,
+      "canonical_row": 4582765,
+      "raw_row": 21589802,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 29,
+      "canonical_row": 482704,
+      "raw_row": 21615008,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 45,
+      "canonical_row": 4582315,
+      "raw_row": 21623687,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 22,
+      "canonical_row": 194791,
+      "raw_row": 21632950,
+      "CEN": 0,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 19,
+      "canonical_row": 31490,
+      "raw_row": 21649948,
+      "CEN": 0,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 18,
+      "canonical_row": 30590,
+      "raw_row": 21752467,
+      "CEN": 0,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 105,
+      "canonical_row": 317154,
+      "raw_row": 25851348,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 109,
+      "canonical_row": 340097,
+      "raw_row": 25884345,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 108,
+      "canonical_row": 333349,
+      "raw_row": 25884485,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 116,
+      "canonical_row": 3137801,
+      "raw_row": 25884773,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 123,
+      "canonical_row": 4500889,
+      "raw_row": 25890629,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 111,
+      "canonical_row": 357641,
+      "raw_row": 25917981,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 104,
+      "canonical_row": 316704,
+      "raw_row": 25925114,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 107,
+      "canonical_row": 328850,
+      "raw_row": 25946888,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 106,
+      "canonical_row": 319853,
+      "raw_row": 26012363,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 122,
+      "canonical_row": 4482895,
+      "raw_row": 26096608,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 126,
+      "canonical_row": 5753761,
+      "raw_row": 26145776,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 96,
+      "canonical_row": 15745,
+      "raw_row": 26254761,
+      "CEN": 0,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 114,
+      "canonical_row": 1764816,
+      "raw_row": 26269339,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 40,
+      "canonical_row": 4417215,
+      "raw_row": 26294478,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 32,
+      "canonical_row": 1422020,
+      "raw_row": 26315992,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 50,
+      "canonical_row": 1889429,
+      "raw_row": 26320798,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 51,
+      "canonical_row": 2306003,
+      "raw_row": 26327392,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 37,
+      "canonical_row": 2851688,
+      "raw_row": 26329339,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 44,
+      "canonical_row": 4464450,
+      "raw_row": 26335077,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 41,
+      "canonical_row": 4425312,
+      "raw_row": 26341429,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 42,
+      "canonical_row": 4436559,
+      "raw_row": 26361814,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 39,
+      "canonical_row": 3459004,
+      "raw_row": 26383481,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 34,
+      "canonical_row": 1471505,
+      "raw_row": 26383953,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 38,
+      "canonical_row": 3380728,
+      "raw_row": 26386401,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 58,
+      "canonical_row": 5104157,
+      "raw_row": 26390783,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 62,
+      "canonical_row": 6553619,
+      "raw_row": 26401264,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 43,
+      "canonical_row": 4437459,
+      "raw_row": 26413067,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 103,
+      "canonical_row": 278015,
+      "raw_row": 27270901,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 110,
+      "canonical_row": 352243,
+      "raw_row": 27352859,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 102,
+      "canonical_row": 275316,
+      "raw_row": 27353326,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 125,
+      "canonical_row": 4680385,
+      "raw_row": 27363496,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 118,
+      "canonical_row": 3866581,
+      "raw_row": 27437287,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 88,
+      "canonical_row": 224482,
+      "raw_row": 27502072,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 99,
+      "canonical_row": 244276,
+      "raw_row": 27539466,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 117,
+      "canonical_row": 3254766,
+      "raw_row": 27581081,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 121,
+      "canonical_row": 4473898,
+      "raw_row": 27683495,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 97,
+      "canonical_row": 242026,
+      "raw_row": 27773630,
+      "CEN": 0,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 56,
+      "canonical_row": 4442857,
+      "raw_row": 27801004,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 57,
+      "canonical_row": 4443757,
+      "raw_row": 27810180,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 33,
+      "canonical_row": 1462957,
+      "raw_row": 27816663,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 49,
+      "canonical_row": 443116,
+      "raw_row": 27822618,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 61,
+      "canonical_row": 6449701,
+      "raw_row": 27823291,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 55,
+      "canonical_row": 4412266,
+      "raw_row": 27823813,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 59,
+      "canonical_row": 5502287,
+      "raw_row": 27846707,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 63,
+      "canonical_row": 7283299,
+      "raw_row": 27852886,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 52,
+      "canonical_row": 2866983,
+      "raw_row": 27857375,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 48,
+      "canonical_row": 414324,
+      "raw_row": 27858576,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 91,
+      "canonical_row": 236178,
+      "raw_row": 28878468,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 83,
+      "canonical_row": 201988,
+      "raw_row": 28896117,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 127,
+      "canonical_row": 5938205,
+      "raw_row": 28926597,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 80,
+      "canonical_row": 14395,
+      "raw_row": 29001015,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 100,
+      "canonical_row": 246075,
+      "raw_row": 29014245,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 84,
+      "canonical_row": 209186,
+      "raw_row": 29034514,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 98,
+      "canonical_row": 243376,
+      "raw_row": 29049740,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 120,
+      "canonical_row": 4359182,
+      "raw_row": 29139124,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 92,
+      "canonical_row": 264520,
+      "raw_row": 29213827,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 90,
+      "canonical_row": 233029,
+      "raw_row": 29289662,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 89,
+      "canonical_row": 227181,
+      "raw_row": 29307887,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 65,
+      "canonical_row": 698638,
+      "raw_row": 29317004,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 101,
+      "canonical_row": 271268,
+      "raw_row": 29324079,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 94,
+      "canonical_row": 288362,
+      "raw_row": 29327713,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 75,
+      "canonical_row": 1134557,
+      "raw_row": 29334364,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 85,
+      "canonical_row": 211885,
+      "raw_row": 29344373,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 74,
+      "canonical_row": 1134107,
+      "raw_row": 29352992,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 79,
+      "canonical_row": 1211034,
+      "raw_row": 29372092,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 76,
+      "canonical_row": 1168296,
+      "raw_row": 29373653,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 71,
+      "canonical_row": 741825,
+      "raw_row": 29410411,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 87,
+      "canonical_row": 215934,
+      "raw_row": 29439430,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 86,
+      "canonical_row": 214585,
+      "raw_row": 29439688,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 67,
+      "canonical_row": 708985,
+      "raw_row": 29449050,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 66,
+      "canonical_row": 707186,
+      "raw_row": 29467677,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 70,
+      "canonical_row": 722031,
+      "raw_row": 29469579,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 115,
+      "canonical_row": 2143152,
+      "raw_row": 29478151,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 72,
+      "canonical_row": 749923,
+      "raw_row": 29485611,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 77,
+      "canonical_row": 1169196,
+      "raw_row": 29488243,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 93,
+      "canonical_row": 274417,
+      "raw_row": 29536273,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 73,
+      "canonical_row": 751272,
+      "raw_row": 29544092,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 81,
+      "canonical_row": 197040,
+      "raw_row": 29555530,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 68,
+      "canonical_row": 709435,
+      "raw_row": 29565062,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 69,
+      "canonical_row": 713034,
+      "raw_row": 29662536,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 64,
+      "canonical_row": 691890,
+      "raw_row": 29664741,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 82,
+      "canonical_row": 199739,
+      "raw_row": 29746862,
+      "CEN": 0,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 95,
+      "canonical_row": 288812,
+      "raw_row": 29805735,
+      "CEN": 0,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 78,
+      "canonical_row": 1180443,
+      "raw_row": 29838337,
+      "CEN": 0,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 113,
+      "canonical_row": 1699586,
+      "raw_row": 29850916,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 53,
+      "canonical_row": 3384327,
+      "raw_row": 29879998,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    },
+    {
+      "sample_index": 60,
+      "canonical_row": 6265706,
+      "raw_row": 29881506,
+      "CEN": 1,
+      "RES": 1,
+      "host_match": true
+    }
+  ],
+  "ready_for_desi_canary": false,
+  "scope": "Raw flags for frozen native-label sample; flag semantics and absent populations require explicit treatment"
+}

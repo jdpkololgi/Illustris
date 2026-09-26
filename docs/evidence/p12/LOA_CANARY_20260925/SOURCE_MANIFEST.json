@@ -1,0 +1,13 @@
+{
+  "observation_source_sha256": {
+    "workflows/p12a_vac/loa_trial.py": "db4d0508d48e9d632a92745e82d6b671fec430f1ad778156bbb730ecc0e7e2c8",
+    "workflows/p12a_vac/verify_response_sampling.py": "735340346493a5efb386f9f10694ef6287d05b8de6d3b36b5e0810da7653f499",
+    "workflows/catalog/p12a_observation_patch.py": "7d4c438adfee137320d9681b9a555083acef8e0b1849352d541e503433a8ec5e"
+  },
+  "illustris_source": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/source",
+  "illustris_manifest_sha256": "27284588eb58a40722a7395941b0d423613e266b6fa1e3ccbef762e7e205c096",
+  "git_head": "eac906584b7029c8aa36a72c9cc75b386d70cfa9",
+  "source_is_working_tree_snapshot": true,
+  "posterior_draws": 512,
+  "provisional": true
+}

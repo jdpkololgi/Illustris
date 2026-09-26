@@ -1,0 +1,32 @@
+{
+  "jobs": {
+    "export": "58827028",
+    "fit": "58827034",
+    "audit": "58827036"
+  },
+  "manifest_sha256": "27284588eb58a40722a7395941b0d423613e266b6fa1e3ccbef762e7e205c096",
+  "updated_utc": "2026-09-24T15:25:21.250992+00:00",
+  "last_command": [
+    "sbatch",
+    "--parsable",
+    "--account=desi_g",
+    "--qos=shared",
+    "--constraint=gpu",
+    "--nodes=1",
+    "--ntasks=1",
+    "--cpus-per-task=32",
+    "--gpus=a100:1",
+    "--mem=48G",
+    "--licenses=scratch,cfs",
+    "--kill-on-invalid-dep=yes",
+    "--time=02:00:00",
+    "--job-name=p12a48_audit",
+    "--output=/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/logs/audit_%A_%a.out",
+    "--error=/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/logs/audit_%A_%a.err",
+    "--dependency=afterok:58827034",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/source/workflows/sbi/run_p12a_halo48_stage.sh",
+    "audit",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1"
+  ],
+  "last_stderr": ""
+}

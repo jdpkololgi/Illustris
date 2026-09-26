@@ -1,0 +1,9 @@
+{
+  "rows": 16542,
+  "supported": 16528,
+  "draw_validation": "PASS",
+  "prior_canary_base_response_parity": "exact on all5615 rows",
+  "resume_after_core_completion": "exact catalogue and all draw checksums",
+  "unit_tests": "3 passed: intact resume, corrupt draws, changed input and ownership checks",
+  "science_release_ready": false
+}

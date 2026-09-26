@@ -1,0 +1,165 @@
+{
+  "schema": "p12a-observer-golden-replay-v1",
+  "phase": "ph006",
+  "runs": [
+    {
+      "cap": 0,
+      "shell": 0,
+      "rows": 4060,
+      "core": 590,
+      "rows_redeposited": 496710,
+      "coordinate_max_abs": 6.851280431874329e-07,
+      "field_max_abs": {
+        "counts": 3.814697265625e-06,
+        "exposure_apodized": 0.0,
+        "log_count_ratio": 9.012222290039062e-05
+      },
+      "checks": {
+        "coordinates": false,
+        "fields": false,
+        "encoder": false,
+        "stored_export": true
+      }
+    },
+    {
+      "cap": 0,
+      "shell": 1,
+      "rows": 1864,
+      "core": 1465,
+      "rows_redeposited": 233474,
+      "coordinate_max_abs": 6.777423777748481e-07,
+      "field_max_abs": {
+        "counts": 1.9073486328125e-06,
+        "exposure_apodized": 0.0,
+        "log_count_ratio": 0.00011348724365234375
+      },
+      "checks": {
+        "coordinates": false,
+        "fields": false,
+        "encoder": false,
+        "stored_export": true
+      }
+    },
+    {
+      "cap": 0,
+      "shell": 2,
+      "rows": 408,
+      "core": 2004,
+      "rows_redeposited": 65405,
+      "coordinate_max_abs": 6.156567451398587e-07,
+      "field_max_abs": {
+        "counts": 7.152557373046875e-07,
+        "exposure_apodized": 0.0,
+        "log_count_ratio": 7.319450378417969e-05
+      },
+      "checks": {
+        "coordinates": false,
+        "fields": false,
+        "encoder": false,
+        "stored_export": true
+      }
+    },
+    {
+      "cap": 0,
+      "shell": 3,
+      "rows": 81,
+      "core": 4859,
+      "rows_redeposited": 8519,
+      "coordinate_max_abs": 6.655163815594278e-07,
+      "field_max_abs": {
+        "counts": 4.76837158203125e-07,
+        "exposure_apodized": 0.0,
+        "log_count_ratio": 6.532669067382812e-05
+      },
+      "checks": {
+        "coordinates": false,
+        "fields": false,
+        "encoder": false,
+        "stored_export": true
+      }
+    },
+    {
+      "cap": 1,
+      "shell": 0,
+      "rows": 5247,
+      "core": 15341,
+      "rows_redeposited": 617185,
+      "coordinate_max_abs": 6.731241910529207e-07,
+      "field_max_abs": {
+        "counts": 3.814697265625e-06,
+        "exposure_apodized": 0.0,
+        "log_count_ratio": 6.914138793945312e-05
+      },
+      "checks": {
+        "coordinates": false,
+        "fields": false,
+        "encoder": false,
+        "stored_export": true
+      }
+    },
+    {
+      "cap": 1,
+      "shell": 1,
+      "rows": 1866,
+      "core": 17389,
+      "rows_redeposited": 178758,
+      "coordinate_max_abs": 6.643142569373595e-07,
+      "field_max_abs": {
+        "counts": 1.430511474609375e-06,
+        "exposure_apodized": 0.0,
+        "log_count_ratio": 8.106231689453125e-05
+      },
+      "checks": {
+        "coordinates": false,
+        "fields": false,
+        "encoder": false,
+        "stored_export": true
+      }
+    },
+    {
+      "cap": 1,
+      "shell": 2,
+      "rows": 532,
+      "core": 15080,
+      "rows_redeposited": 88510,
+      "coordinate_max_abs": 6.426885192922782e-07,
+      "field_max_abs": {
+        "counts": 1.1920928955078125e-06,
+        "exposure_apodized": 0.0,
+        "log_count_ratio": 6.413459777832031e-05
+      },
+      "checks": {
+        "coordinates": false,
+        "fields": false,
+        "encoder": false,
+        "stored_export": true
+      }
+    },
+    {
+      "cap": 1,
+      "shell": 3,
+      "rows": 91,
+      "core": 10431,
+      "rows_redeposited": 12165,
+      "coordinate_max_abs": 5.394965683080954e-07,
+      "field_max_abs": {
+        "counts": 4.76837158203125e-07,
+        "exposure_apodized": 0.0,
+        "log_count_ratio": 8.058547973632812e-05
+      },
+      "checks": {
+        "coordinates": false,
+        "fields": false,
+        "encoder": false,
+        "stored_export": true
+      }
+    }
+  ],
+  "posterior_scaled_max_abs": 0.0007872581481933594,
+  "posterior_parity": false,
+  "observer_fields_pass": false,
+  "random_response": "previously validated mock cache reused; Loa random construction not qualified",
+  "loa_source_refreeze_complete": false,
+  "ready_for_desi_canary": false,
+  "job": "58862354"
+}

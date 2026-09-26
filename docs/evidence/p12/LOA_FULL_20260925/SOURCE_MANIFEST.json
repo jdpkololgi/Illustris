@@ -1,0 +1,33 @@
+{
+  "files": {
+    "workflows/p12a_vac/production_inference.py": "ac9f77fec442ed4f36b2b9cf20bb85df3751633f5c1ce3b38778555be952b551",
+    "workflows/p12a_vac/check_benchmark.py": "5e0b9ab3d3ee81f2868cd1ae58f558c837b838d87e0d9bb66fde1535d9b1ddb8",
+    "workflows/p12a_vac/loa_trial.py": "db4d0508d48e9d632a92745e82d6b671fec430f1ad778156bbb730ecc0e7e2c8",
+    "workflows/p12a_vac/production.py": "ca15b510d805b00682c70ec011e59b316c7e2abfa80f0bdccff577cef4fff87f",
+    "workflows/p12a_vac/mock_assignment_audit.py": "e3992f2f7b3bc3057ee07343c276da7d67c52ea22386f8686aef8d547fb9adee",
+    "workflows/p12a_vac/selection_audit.py": "0abe9d8671ce384532b0ce42460516b34d3c9841b7bd51b3e6e15b551a9533a2",
+    "workflows/p12a_vac/verify_response_sampling.py": "735340346493a5efb386f9f10694ef6287d05b8de6d3b36b5e0810da7653f499",
+    "workflows/p12a_vac/validate_canary.py": "34dd1b6c080e97eb897aade8225f7781f5ff36d72e5c12d8af75279b5b0305ab",
+    "workflows/p12a_vac/input_distribution.py": "0bde2fe221cb2e1ae1619f8fe34ee50e37fdcc9d80ba0b78e972482747c357bd",
+    "workflows/p12a_vac/run_production.sh": "132726d71ef4bfb50c1af84857192b3168109fa986b97b9419221ee660d703de",
+    "workflows/catalog/p12a_observation_patch.py": "7d4c438adfee137320d9681b9a555083acef8e0b1849352d541e503433a8ec5e"
+  },
+  "artifacts": {
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/transforms/field/selection_manifest.json": "b010391138a3cb36f90c41506c85755e2154bdfee7e7ebe7e9f9a1d51662a526",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/posterior/fmpe_estimator.pt": "c4abd94e3b5881c7ba5db2d4e88fac9cbf84f000f170be640bf6615cb6a14277",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/RUN_MANIFEST.json": "27284588eb58a40722a7395941b0d423613e266b6fa1e3ccbef762e7e205c096",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/dataset/P12A_DATASET_READY.json": "8abb1b626ba6c78404f3f6a0b8122c99e0295b04aa4c95efd96f300a454b6280",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/summaries/ph006/OOF_SUMMARY_COMPLETE.json": "09db405dee1ca551c64b6463ba0632b8c09484f85e23e5f323b1684349842129",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p3_fields/p3_field_schema_v1.json": "516626bbb79c633b58241817c543fedf6f7931f5234793c3ac721f0467025631",
+    "/pscratch/sd/d/dkololgi/abacus/conditioning/ntilde_spline_v1_frozen.json": "a7189cfaca7b1409483c3fdd3f5fe1d17ee688c94e458a0d29c502aa926815a0",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/arm_a_training/arm_a_r0_v1/unet/seed_42/best_checkpoint.pt": "cd7c280602b3496753d21d236d30c50bde96335fa69ccc60cd12c0dfe3ccdfab",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/dataset/training_oof_sample.npz": "6deaf393dd4137bd2573b9b1347f1b7a6153b92e88121a53b9e0311ed8ea7e09",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p3_fields/field_manifest.json": "6456859bcd136a80997a4e557e37cd2c53f050e3ba08aeaa3e0f46267249c1e3"
+  },
+  "plan_sha256": "a0faf2020e6a39a28f8717d09db0de4df412275ad4c7740d2b2f83f647812de7",
+  "repository": "/global/u2/d/dkololgi/GraphWeb_DESI",
+  "git_head": "eac906584b7029c8aa36a72c9cc75b386d70cfa9",
+  "working_tree_snapshot": true,
+  "science_source": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_halo48_candidate_20260924_v1/source",
+  "science_manifest_sha256": "27284588eb58a40722a7395941b0d423613e266b6fa1e3ccbef762e7e205c096"
+}

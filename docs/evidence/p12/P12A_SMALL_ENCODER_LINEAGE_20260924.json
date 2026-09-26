@@ -1,0 +1,1082 @@
+{
+  "schema": "p12a-small-encoder-lineage-v1",
+  "records": [
+    {
+      "phase": "ph000",
+      "summary": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_oof_summaries/ph000/OOF_SUMMARY_COMPLETE.json",
+        "bytes": 1738,
+        "mtime_ns": 1787397400000000000,
+        "content_hash_verified": true,
+        "sha256": "e0992777dc41466593d2b42c2f896259523c4ba0f7497ddfe2bb650aa54ceaee"
+      },
+      "run": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph000_v1/unet/seed_42/run_manifest.json",
+        "bytes": 4169,
+        "mtime_ns": 1787370846000000000,
+        "content_hash_verified": true,
+        "sha256": "31ab4f350cdbbe440f3341d151a059eeef5504cdfada930ea3ce80194a9ace65"
+      },
+      "final": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph000_v1/unet/seed_42/arm_a_summary.json",
+        "bytes": 53977,
+        "mtime_ns": 1787372098000000000,
+        "content_hash_verified": true,
+        "sha256": "4845f4c8ee88a3b312ca9ba646c80f84a6517152bb705fbdb219fc633aa0f16c"
+      },
+      "files": {
+        "checkpoint": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph000_v1/unet/seed_42/best_checkpoint.pt",
+          "bytes": 5791201,
+          "mtime_ns": 1787372098000000000,
+          "content_hash_verified": true,
+          "sha256": "1bb69e54b93b003cd7a77cd341d8ddd258dfe9fbfaeda8fcfa82d1f811bc897c"
+        },
+        "target_scaler": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph000/transforms/target_scaler.json",
+          "bytes": 1640,
+          "mtime_ns": 1787228232000000000,
+          "content_hash_verified": true,
+          "sha256": "584373a49858845198d22b003b0edc27833ba8cab5721bb10878980cc197617c"
+        },
+        "field_transform": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph000/transforms/field/field_transform.json",
+          "bytes": 1284,
+          "mtime_ns": 1787228232000000000,
+          "content_hash_verified": true,
+          "sha256": "b3393f85afa953105e8c658f0c21928023e5bbfe73bc9d22e87268df8806b20c"
+        },
+        "training_ready_marker": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph000/TRAINING_LOADER_READY.json",
+          "bytes": 830,
+          "mtime_ns": 1787228232000000000,
+          "content_hash_verified": true,
+          "sha256": "fb56da775ee8fbb1ee5ffa191c2febac831e256dc6da7ae24c9b2d3e5c304bd6"
+        }
+      },
+      "adapter_inventory": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapter_inventory.json",
+        "bytes": 3494,
+        "mtime_ns": 1786722679000000000,
+        "content_hash_verified": true,
+        "sha256": "18d2a737e76214c0fdeff2a7d18a7831a464a8b79499a91ea7ef2306f72e012a"
+      },
+      "adapters": {
+        "ph002": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph000/adapters/ph002/field/adapter_manifest.json",
+            "bytes": 4013,
+            "mtime_ns": 1786721773000000000,
+            "content_hash_verified": true,
+            "sha256": "b63feb02e6d57f9380d3ea637ca8c4beb973b832f4569aa6c965ac211dc985d8"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3_fields/field_manifest.json",
+            "bytes": 10570,
+            "mtime_ns": 1786618832000000000,
+            "content_hash_verified": true,
+            "sha256": "ff6f5862904e7515414b70bd35d2d58076816b11841934cc99c648472417634f"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p1_canonical/points.npy"
+        },
+        "ph003": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph000/adapters/ph003/field/adapter_manifest.json",
+            "bytes": 4130,
+            "mtime_ns": 1786722069000000000,
+            "content_hash_verified": true,
+            "sha256": "f5036a1f0a435c756b8cf3cf72da1aa9bd08998354c3fca544225d7e2e8336c1"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p3_fields/field_manifest.json",
+            "bytes": 10594,
+            "mtime_ns": 1786623635000000000,
+            "content_hash_verified": true,
+            "sha256": "9b76fa808fc632079ed9d4686d8400eb595f64022f89fe38240fbae0767bbc7a"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p1_canonical/points.npy"
+        },
+        "ph004": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph000/adapters/ph004/field/adapter_manifest.json",
+            "bytes": 4135,
+            "mtime_ns": 1786722377000000000,
+            "content_hash_verified": true,
+            "sha256": "ea4b05e6c8c955d81e0c4791a01e571128ad5c0b643a0e114b4e64fadfe8d360"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p3_fields/field_manifest.json",
+            "bytes": 10568,
+            "mtime_ns": 1786623716000000000,
+            "content_hash_verified": true,
+            "sha256": "d7cb282d42f34477fb668ee11d3edb9eab8082e3850fb2fcbba83973ed7e7ab4"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p1_canonical/points.npy"
+        },
+        "ph005": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph000/adapters/ph005/field/adapter_manifest.json",
+            "bytes": 4010,
+            "mtime_ns": 1786722679000000000,
+            "content_hash_verified": true,
+            "sha256": "d4e3ec8d9c954cba3dc697347f17e2651aded489abe3dda92bd9a9b12015d4de"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3_fields/field_manifest.json",
+            "bytes": 10587,
+            "mtime_ns": 1786623797000000000,
+            "content_hash_verified": true,
+            "sha256": "e0397d320740b9e5dea3c6aeff3b3518255d72ff9e56ad91107e6da971f951c9"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p1_canonical/points.npy"
+        },
+        "ph000": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph000/adapters/ph000/field/adapter_manifest.json",
+            "bytes": 4131,
+            "mtime_ns": 1786721186000000000,
+            "content_hash_verified": true,
+            "sha256": "6fb32a01c1cf7d1e2255b9dd331eba9f2e386fb529b44b8d1e7276e5ce14760e"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3_fields/field_manifest.json",
+            "bytes": 10504,
+            "mtime_ns": 1784399487000000000,
+            "content_hash_verified": true,
+            "sha256": "3f0fc7ba8e42c3004b9cc6969de76a44ce217f0a736dc2dd473ef2176371ca0d"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_points.npy"
+        }
+      },
+      "checks": {
+        "training_membership": true,
+        "run_training_membership": true,
+        "omitted_phase_absent": true,
+        "selected_epoch_twenty": true,
+        "summary_marked_complete": true,
+        "checkpoint_hash": true,
+        "target_scaler_hash": true,
+        "field_transform_hash": true,
+        "training_ready_marker_hash": true,
+        "fullfit_inventory_authority": true,
+        "adapter_inventory_binding": true,
+        "ph002_adapter_hash": true,
+        "ph002_p3_hash": true,
+        "ph003_adapter_hash": true,
+        "ph003_p3_hash": true,
+        "ph004_adapter_hash": true,
+        "ph004_p3_hash": true,
+        "ph005_adapter_hash": true,
+        "ph005_p3_hash": true,
+        "ph000_adapter_hash": true,
+        "ph000_p3_hash": true
+      },
+      "pass_checks": true,
+      "crossfit_adapter_binding": "current bytes match pinned fullfit inventory; crossfit loader does not itself hash adapters",
+      "selection_caveat": "omitted phase monitored; selected epoch is fixed terminal epoch20",
+      "summary_arrays_rehashed": false,
+      "field_payloads_rehashed": false
+    },
+    {
+      "phase": "ph002",
+      "summary": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_oof_summaries/ph002/OOF_SUMMARY_COMPLETE.json",
+        "bytes": 1738,
+        "mtime_ns": 1787397356000000000,
+        "content_hash_verified": true,
+        "sha256": "6c51495acef7e1bb131b7cd985a844d72bcd8fc48862d3e9eb42619eb6a332d9"
+      },
+      "run": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph002_v1/unet/seed_42/run_manifest.json",
+        "bytes": 4169,
+        "mtime_ns": 1787370846000000000,
+        "content_hash_verified": true,
+        "sha256": "caf59f966f923476acf089f616d53d0ea9fae84b160f888f43721ec4cf07683d"
+      },
+      "final": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph002_v1/unet/seed_42/arm_a_summary.json",
+        "bytes": 53996,
+        "mtime_ns": 1787372059000000000,
+        "content_hash_verified": true,
+        "sha256": "9ad9a46969911fb954b32e9c4414d9e72f642afd107592744aa3971d807450c5"
+      },
+      "files": {
+        "checkpoint": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph002_v1/unet/seed_42/best_checkpoint.pt",
+          "bytes": 5791201,
+          "mtime_ns": 1787372059000000000,
+          "content_hash_verified": true,
+          "sha256": "4c83fc000c1d92b26a6bf7b5977cf632472bf52eff57482ea79e8b383a936622"
+        },
+        "target_scaler": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph002/transforms/target_scaler.json",
+          "bytes": 1642,
+          "mtime_ns": 1787228294000000000,
+          "content_hash_verified": true,
+          "sha256": "548f7ccae7b5f94a61c0ca722c9d20f4c277081d41ef693a477ffc978259c8b6"
+        },
+        "field_transform": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph002/transforms/field/field_transform.json",
+          "bytes": 1284,
+          "mtime_ns": 1787228294000000000,
+          "content_hash_verified": true,
+          "sha256": "c183d1989ffac401a5d64db342d54cb7446ea586e1e551554285aaee34cf5694"
+        },
+        "training_ready_marker": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph002/TRAINING_LOADER_READY.json",
+          "bytes": 830,
+          "mtime_ns": 1787228294000000000,
+          "content_hash_verified": true,
+          "sha256": "ea3dd579e021a49ea163421424c454afc5692c14242a3badcabe87fea737cd58"
+        }
+      },
+      "adapter_inventory": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapter_inventory.json",
+        "bytes": 3494,
+        "mtime_ns": 1786722679000000000,
+        "content_hash_verified": true,
+        "sha256": "18d2a737e76214c0fdeff2a7d18a7831a464a8b79499a91ea7ef2306f72e012a"
+      },
+      "adapters": {
+        "ph000": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph002/adapters/ph000/field/adapter_manifest.json",
+            "bytes": 4131,
+            "mtime_ns": 1786721186000000000,
+            "content_hash_verified": true,
+            "sha256": "6fb32a01c1cf7d1e2255b9dd331eba9f2e386fb529b44b8d1e7276e5ce14760e"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3_fields/field_manifest.json",
+            "bytes": 10504,
+            "mtime_ns": 1784399487000000000,
+            "content_hash_verified": true,
+            "sha256": "3f0fc7ba8e42c3004b9cc6969de76a44ce217f0a736dc2dd473ef2176371ca0d"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_points.npy"
+        },
+        "ph003": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph002/adapters/ph003/field/adapter_manifest.json",
+            "bytes": 4130,
+            "mtime_ns": 1786722069000000000,
+            "content_hash_verified": true,
+            "sha256": "f5036a1f0a435c756b8cf3cf72da1aa9bd08998354c3fca544225d7e2e8336c1"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p3_fields/field_manifest.json",
+            "bytes": 10594,
+            "mtime_ns": 1786623635000000000,
+            "content_hash_verified": true,
+            "sha256": "9b76fa808fc632079ed9d4686d8400eb595f64022f89fe38240fbae0767bbc7a"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p1_canonical/points.npy"
+        },
+        "ph004": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph002/adapters/ph004/field/adapter_manifest.json",
+            "bytes": 4135,
+            "mtime_ns": 1786722377000000000,
+            "content_hash_verified": true,
+            "sha256": "ea4b05e6c8c955d81e0c4791a01e571128ad5c0b643a0e114b4e64fadfe8d360"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p3_fields/field_manifest.json",
+            "bytes": 10568,
+            "mtime_ns": 1786623716000000000,
+            "content_hash_verified": true,
+            "sha256": "d7cb282d42f34477fb668ee11d3edb9eab8082e3850fb2fcbba83973ed7e7ab4"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p1_canonical/points.npy"
+        },
+        "ph005": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph002/adapters/ph005/field/adapter_manifest.json",
+            "bytes": 4010,
+            "mtime_ns": 1786722679000000000,
+            "content_hash_verified": true,
+            "sha256": "d4e3ec8d9c954cba3dc697347f17e2651aded489abe3dda92bd9a9b12015d4de"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3_fields/field_manifest.json",
+            "bytes": 10587,
+            "mtime_ns": 1786623797000000000,
+            "content_hash_verified": true,
+            "sha256": "e0397d320740b9e5dea3c6aeff3b3518255d72ff9e56ad91107e6da971f951c9"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p1_canonical/points.npy"
+        },
+        "ph002": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph002/adapters/ph002/field/adapter_manifest.json",
+            "bytes": 4013,
+            "mtime_ns": 1786721773000000000,
+            "content_hash_verified": true,
+            "sha256": "b63feb02e6d57f9380d3ea637ca8c4beb973b832f4569aa6c965ac211dc985d8"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3_fields/field_manifest.json",
+            "bytes": 10570,
+            "mtime_ns": 1786618832000000000,
+            "content_hash_verified": true,
+            "sha256": "ff6f5862904e7515414b70bd35d2d58076816b11841934cc99c648472417634f"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p1_canonical/points.npy"
+        }
+      },
+      "checks": {
+        "training_membership": true,
+        "run_training_membership": true,
+        "omitted_phase_absent": true,
+        "selected_epoch_twenty": true,
+        "summary_marked_complete": true,
+        "checkpoint_hash": true,
+        "target_scaler_hash": true,
+        "field_transform_hash": true,
+        "training_ready_marker_hash": true,
+        "fullfit_inventory_authority": true,
+        "adapter_inventory_binding": true,
+        "ph000_adapter_hash": true,
+        "ph000_p3_hash": true,
+        "ph003_adapter_hash": true,
+        "ph003_p3_hash": true,
+        "ph004_adapter_hash": true,
+        "ph004_p3_hash": true,
+        "ph005_adapter_hash": true,
+        "ph005_p3_hash": true,
+        "ph002_adapter_hash": true,
+        "ph002_p3_hash": true
+      },
+      "pass_checks": true,
+      "crossfit_adapter_binding": "current bytes match pinned fullfit inventory; crossfit loader does not itself hash adapters",
+      "selection_caveat": "omitted phase monitored; selected epoch is fixed terminal epoch20",
+      "summary_arrays_rehashed": false,
+      "field_payloads_rehashed": false
+    },
+    {
+      "phase": "ph003",
+      "summary": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_oof_summaries/ph003/OOF_SUMMARY_COMPLETE.json",
+        "bytes": 1738,
+        "mtime_ns": 1788003368000000000,
+        "content_hash_verified": true,
+        "sha256": "0252607852f584a2ca6d365c0cd9eacf3a15f83b463672dac43e766a3cab5c9f"
+      },
+      "run": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph003_v1/unet/seed_42/run_manifest.json",
+        "bytes": 4169,
+        "mtime_ns": 1787996762000000000,
+        "content_hash_verified": true,
+        "sha256": "5e32e617a50dd2facea8b1c7ad358844c8f8b8147996160be4b15324fbaf24ac"
+      },
+      "final": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph003_v1/unet/seed_42/arm_a_summary.json",
+        "bytes": 53981,
+        "mtime_ns": 1788002285000000000,
+        "content_hash_verified": true,
+        "sha256": "c27cc259b7764657f0442b0f481136258cde4b4e19b90b0dac1cea7c86ec4d64"
+      },
+      "files": {
+        "checkpoint": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph003_v1/unet/seed_42/best_checkpoint.pt",
+          "bytes": 5791201,
+          "mtime_ns": 1788002284000000000,
+          "content_hash_verified": true,
+          "sha256": "677c2f7601566cbb9ede9d28d79a51d0920709f3fe97316eb9d8fd4712bcdce8"
+        },
+        "target_scaler": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph003/transforms/target_scaler.json",
+          "bytes": 1640,
+          "mtime_ns": 1787228356000000000,
+          "content_hash_verified": true,
+          "sha256": "b0759e2657409a830cf40d16090ce59b50dba2eba19140a24cd47993e17f4f0e"
+        },
+        "field_transform": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph003/transforms/field/field_transform.json",
+          "bytes": 1284,
+          "mtime_ns": 1787228356000000000,
+          "content_hash_verified": true,
+          "sha256": "f65e8e090f2e21561ca31e78e118d87a188308beb364ea00832f4fb9c4d889f3"
+        },
+        "training_ready_marker": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph003/TRAINING_LOADER_READY.json",
+          "bytes": 830,
+          "mtime_ns": 1787228356000000000,
+          "content_hash_verified": true,
+          "sha256": "f93dcc2742b084cff1fa0afcf241486d979f96c2372b4a36c65173c8d00f9964"
+        }
+      },
+      "adapter_inventory": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapter_inventory.json",
+        "bytes": 3494,
+        "mtime_ns": 1786722679000000000,
+        "content_hash_verified": true,
+        "sha256": "18d2a737e76214c0fdeff2a7d18a7831a464a8b79499a91ea7ef2306f72e012a"
+      },
+      "adapters": {
+        "ph000": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph003/adapters/ph000/field/adapter_manifest.json",
+            "bytes": 4131,
+            "mtime_ns": 1786721186000000000,
+            "content_hash_verified": true,
+            "sha256": "6fb32a01c1cf7d1e2255b9dd331eba9f2e386fb529b44b8d1e7276e5ce14760e"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3_fields/field_manifest.json",
+            "bytes": 10504,
+            "mtime_ns": 1784399487000000000,
+            "content_hash_verified": true,
+            "sha256": "3f0fc7ba8e42c3004b9cc6969de76a44ce217f0a736dc2dd473ef2176371ca0d"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_points.npy"
+        },
+        "ph002": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph003/adapters/ph002/field/adapter_manifest.json",
+            "bytes": 4013,
+            "mtime_ns": 1786721773000000000,
+            "content_hash_verified": true,
+            "sha256": "b63feb02e6d57f9380d3ea637ca8c4beb973b832f4569aa6c965ac211dc985d8"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3_fields/field_manifest.json",
+            "bytes": 10570,
+            "mtime_ns": 1786618832000000000,
+            "content_hash_verified": true,
+            "sha256": "ff6f5862904e7515414b70bd35d2d58076816b11841934cc99c648472417634f"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p1_canonical/points.npy"
+        },
+        "ph004": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph003/adapters/ph004/field/adapter_manifest.json",
+            "bytes": 4135,
+            "mtime_ns": 1786722377000000000,
+            "content_hash_verified": true,
+            "sha256": "ea4b05e6c8c955d81e0c4791a01e571128ad5c0b643a0e114b4e64fadfe8d360"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p3_fields/field_manifest.json",
+            "bytes": 10568,
+            "mtime_ns": 1786623716000000000,
+            "content_hash_verified": true,
+            "sha256": "d7cb282d42f34477fb668ee11d3edb9eab8082e3850fb2fcbba83973ed7e7ab4"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p1_canonical/points.npy"
+        },
+        "ph005": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph003/adapters/ph005/field/adapter_manifest.json",
+            "bytes": 4010,
+            "mtime_ns": 1786722679000000000,
+            "content_hash_verified": true,
+            "sha256": "d4e3ec8d9c954cba3dc697347f17e2651aded489abe3dda92bd9a9b12015d4de"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3_fields/field_manifest.json",
+            "bytes": 10587,
+            "mtime_ns": 1786623797000000000,
+            "content_hash_verified": true,
+            "sha256": "e0397d320740b9e5dea3c6aeff3b3518255d72ff9e56ad91107e6da971f951c9"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p1_canonical/points.npy"
+        },
+        "ph003": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph003/adapters/ph003/field/adapter_manifest.json",
+            "bytes": 4130,
+            "mtime_ns": 1786722069000000000,
+            "content_hash_verified": true,
+            "sha256": "f5036a1f0a435c756b8cf3cf72da1aa9bd08998354c3fca544225d7e2e8336c1"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p3_fields/field_manifest.json",
+            "bytes": 10594,
+            "mtime_ns": 1786623635000000000,
+            "content_hash_verified": true,
+            "sha256": "9b76fa808fc632079ed9d4686d8400eb595f64022f89fe38240fbae0767bbc7a"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p1_canonical/points.npy"
+        }
+      },
+      "checks": {
+        "training_membership": true,
+        "run_training_membership": true,
+        "omitted_phase_absent": true,
+        "selected_epoch_twenty": true,
+        "summary_marked_complete": true,
+        "checkpoint_hash": true,
+        "target_scaler_hash": true,
+        "field_transform_hash": true,
+        "training_ready_marker_hash": true,
+        "fullfit_inventory_authority": true,
+        "adapter_inventory_binding": true,
+        "ph000_adapter_hash": true,
+        "ph000_p3_hash": true,
+        "ph002_adapter_hash": true,
+        "ph002_p3_hash": true,
+        "ph004_adapter_hash": true,
+        "ph004_p3_hash": true,
+        "ph005_adapter_hash": true,
+        "ph005_p3_hash": true,
+        "ph003_adapter_hash": true,
+        "ph003_p3_hash": true
+      },
+      "pass_checks": true,
+      "crossfit_adapter_binding": "current bytes match pinned fullfit inventory; crossfit loader does not itself hash adapters",
+      "selection_caveat": "omitted phase monitored; selected epoch is fixed terminal epoch20",
+      "summary_arrays_rehashed": false,
+      "field_payloads_rehashed": false
+    },
+    {
+      "phase": "ph004",
+      "summary": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_oof_summaries/ph004/OOF_SUMMARY_COMPLETE.json",
+        "bytes": 1738,
+        "mtime_ns": 1787997834000000000,
+        "content_hash_verified": true,
+        "sha256": "a4acb3e0678188cd3343031c779027ba8123574c76c9dfa467874b2740069d5e"
+      },
+      "run": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph004_v1/unet/seed_42/run_manifest.json",
+        "bytes": 4169,
+        "mtime_ns": 1787983748000000000,
+        "content_hash_verified": true,
+        "sha256": "97d3f551bd3f35ba642622f6653549f2631552592864d98427bd7000c3ce3419"
+      },
+      "final": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph004_v1/unet/seed_42/arm_a_summary.json",
+        "bytes": 53965,
+        "mtime_ns": 1787995511000000000,
+        "content_hash_verified": true,
+        "sha256": "5b99dd9f2d1916ce48643b716b7d721ac89698bee57e1c0811edaa81148e60f0"
+      },
+      "files": {
+        "checkpoint": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph004_v1/unet/seed_42/best_checkpoint.pt",
+          "bytes": 5791201,
+          "mtime_ns": 1787995511000000000,
+          "content_hash_verified": true,
+          "sha256": "46d6754b4129a555809f88e45503e54a77e0126e8aab5ed0ed35938cfbf57549"
+        },
+        "target_scaler": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph004/transforms/target_scaler.json",
+          "bytes": 1646,
+          "mtime_ns": 1787228417000000000,
+          "content_hash_verified": true,
+          "sha256": "60d74a36b950d9628df7ab57c134cee90485480c741f1d1f7399949f68e9ee87"
+        },
+        "field_transform": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph004/transforms/field/field_transform.json",
+          "bytes": 1281,
+          "mtime_ns": 1787228417000000000,
+          "content_hash_verified": true,
+          "sha256": "7f176479db5574f0aaaa6b38d51851275786967e82574775db68d05e620f4abf"
+        },
+        "training_ready_marker": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph004/TRAINING_LOADER_READY.json",
+          "bytes": 830,
+          "mtime_ns": 1787228418000000000,
+          "content_hash_verified": true,
+          "sha256": "2324b4be24533fa322132ff8318c0c0c8226585cbfc4d6e81f7688258fe7cc91"
+        }
+      },
+      "adapter_inventory": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapter_inventory.json",
+        "bytes": 3494,
+        "mtime_ns": 1786722679000000000,
+        "content_hash_verified": true,
+        "sha256": "18d2a737e76214c0fdeff2a7d18a7831a464a8b79499a91ea7ef2306f72e012a"
+      },
+      "adapters": {
+        "ph000": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph004/adapters/ph000/field/adapter_manifest.json",
+            "bytes": 4131,
+            "mtime_ns": 1786721186000000000,
+            "content_hash_verified": true,
+            "sha256": "6fb32a01c1cf7d1e2255b9dd331eba9f2e386fb529b44b8d1e7276e5ce14760e"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3_fields/field_manifest.json",
+            "bytes": 10504,
+            "mtime_ns": 1784399487000000000,
+            "content_hash_verified": true,
+            "sha256": "3f0fc7ba8e42c3004b9cc6969de76a44ce217f0a736dc2dd473ef2176371ca0d"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_points.npy"
+        },
+        "ph002": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph004/adapters/ph002/field/adapter_manifest.json",
+            "bytes": 4013,
+            "mtime_ns": 1786721773000000000,
+            "content_hash_verified": true,
+            "sha256": "b63feb02e6d57f9380d3ea637ca8c4beb973b832f4569aa6c965ac211dc985d8"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3_fields/field_manifest.json",
+            "bytes": 10570,
+            "mtime_ns": 1786618832000000000,
+            "content_hash_verified": true,
+            "sha256": "ff6f5862904e7515414b70bd35d2d58076816b11841934cc99c648472417634f"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p1_canonical/points.npy"
+        },
+        "ph003": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph004/adapters/ph003/field/adapter_manifest.json",
+            "bytes": 4130,
+            "mtime_ns": 1786722069000000000,
+            "content_hash_verified": true,
+            "sha256": "f5036a1f0a435c756b8cf3cf72da1aa9bd08998354c3fca544225d7e2e8336c1"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p3_fields/field_manifest.json",
+            "bytes": 10594,
+            "mtime_ns": 1786623635000000000,
+            "content_hash_verified": true,
+            "sha256": "9b76fa808fc632079ed9d4686d8400eb595f64022f89fe38240fbae0767bbc7a"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p1_canonical/points.npy"
+        },
+        "ph005": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph004/adapters/ph005/field/adapter_manifest.json",
+            "bytes": 4010,
+            "mtime_ns": 1786722679000000000,
+            "content_hash_verified": true,
+            "sha256": "d4e3ec8d9c954cba3dc697347f17e2651aded489abe3dda92bd9a9b12015d4de"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3_fields/field_manifest.json",
+            "bytes": 10587,
+            "mtime_ns": 1786623797000000000,
+            "content_hash_verified": true,
+            "sha256": "e0397d320740b9e5dea3c6aeff3b3518255d72ff9e56ad91107e6da971f951c9"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p1_canonical/points.npy"
+        },
+        "ph004": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph004/adapters/ph004/field/adapter_manifest.json",
+            "bytes": 4135,
+            "mtime_ns": 1786722377000000000,
+            "content_hash_verified": true,
+            "sha256": "ea4b05e6c8c955d81e0c4791a01e571128ad5c0b643a0e114b4e64fadfe8d360"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p3_fields/field_manifest.json",
+            "bytes": 10568,
+            "mtime_ns": 1786623716000000000,
+            "content_hash_verified": true,
+            "sha256": "d7cb282d42f34477fb668ee11d3edb9eab8082e3850fb2fcbba83973ed7e7ab4"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p1_canonical/points.npy"
+        }
+      },
+      "checks": {
+        "training_membership": true,
+        "run_training_membership": true,
+        "omitted_phase_absent": true,
+        "selected_epoch_twenty": true,
+        "summary_marked_complete": true,
+        "checkpoint_hash": true,
+        "target_scaler_hash": true,
+        "field_transform_hash": true,
+        "training_ready_marker_hash": true,
+        "fullfit_inventory_authority": true,
+        "adapter_inventory_binding": true,
+        "ph000_adapter_hash": true,
+        "ph000_p3_hash": true,
+        "ph002_adapter_hash": true,
+        "ph002_p3_hash": true,
+        "ph003_adapter_hash": true,
+        "ph003_p3_hash": true,
+        "ph005_adapter_hash": true,
+        "ph005_p3_hash": true,
+        "ph004_adapter_hash": true,
+        "ph004_p3_hash": true
+      },
+      "pass_checks": true,
+      "crossfit_adapter_binding": "current bytes match pinned fullfit inventory; crossfit loader does not itself hash adapters",
+      "selection_caveat": "omitted phase monitored; selected epoch is fixed terminal epoch20",
+      "summary_arrays_rehashed": false,
+      "field_payloads_rehashed": false
+    },
+    {
+      "phase": "ph005",
+      "summary": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_oof_summaries/ph005/OOF_SUMMARY_COMPLETE.json",
+        "bytes": 1738,
+        "mtime_ns": 1787948708000000000,
+        "content_hash_verified": true,
+        "sha256": "cb4d2473fa813de8370139dee40350419190a9d3c80d96f73d1df232db50d3e2"
+      },
+      "run": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph005_v1/unet/seed_42/run_manifest.json",
+        "bytes": 4169,
+        "mtime_ns": 1787945590000000000,
+        "content_hash_verified": true,
+        "sha256": "dfe3a1c4ec17b1939ebe0b77a3f632b560daca0e48bf76e0566f93674f8a1b13"
+      },
+      "final": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph005_v1/unet/seed_42/arm_a_summary.json",
+        "bytes": 53979,
+        "mtime_ns": 1787947621000000000,
+        "content_hash_verified": true,
+        "sha256": "7d1271a7dff2055b46b7b3c84b571ab518d2f0fbcc416e4a0e7e4bf7a39cdb72"
+      },
+      "files": {
+        "checkpoint": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_and_multitracer_training/p12_xfit_omit_ph005_v1/unet/seed_42/best_checkpoint.pt",
+          "bytes": 5791201,
+          "mtime_ns": 1787947620000000000,
+          "content_hash_verified": true,
+          "sha256": "9405eaa306419a52f5e14793c69a0434b6bfdf1dea94ee600e535911d4bc72a2"
+        },
+        "target_scaler": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph005/transforms/target_scaler.json",
+          "bytes": 1641,
+          "mtime_ns": 1787228475000000000,
+          "content_hash_verified": true,
+          "sha256": "8397a87d8b3457472028e8b0ac710efa3fa968cbe8211122c930b9016a0d8709"
+        },
+        "field_transform": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph005/transforms/field/field_transform.json",
+          "bytes": 1283,
+          "mtime_ns": 1787228475000000000,
+          "content_hash_verified": true,
+          "sha256": "ccc190252d8662c8e50ca6346ff1f2ccd763e23e7a422fa824b730a821b46c15"
+        },
+        "training_ready_marker": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph005/TRAINING_LOADER_READY.json",
+          "bytes": 830,
+          "mtime_ns": 1787228475000000000,
+          "content_hash_verified": true,
+          "sha256": "b9dbac708ae16975749c4ef1acaef0c975862c64c2be0f9ab7aa4e524891659b"
+        }
+      },
+      "adapter_inventory": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapter_inventory.json",
+        "bytes": 3494,
+        "mtime_ns": 1786722679000000000,
+        "content_hash_verified": true,
+        "sha256": "18d2a737e76214c0fdeff2a7d18a7831a464a8b79499a91ea7ef2306f72e012a"
+      },
+      "adapters": {
+        "ph000": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph005/adapters/ph000/field/adapter_manifest.json",
+            "bytes": 4131,
+            "mtime_ns": 1786721186000000000,
+            "content_hash_verified": true,
+            "sha256": "6fb32a01c1cf7d1e2255b9dd331eba9f2e386fb529b44b8d1e7276e5ce14760e"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3_fields/field_manifest.json",
+            "bytes": 10504,
+            "mtime_ns": 1784399487000000000,
+            "content_hash_verified": true,
+            "sha256": "3f0fc7ba8e42c3004b9cc6969de76a44ce217f0a736dc2dd473ef2176371ca0d"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_points.npy"
+        },
+        "ph002": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph005/adapters/ph002/field/adapter_manifest.json",
+            "bytes": 4013,
+            "mtime_ns": 1786721773000000000,
+            "content_hash_verified": true,
+            "sha256": "b63feb02e6d57f9380d3ea637ca8c4beb973b832f4569aa6c965ac211dc985d8"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3_fields/field_manifest.json",
+            "bytes": 10570,
+            "mtime_ns": 1786618832000000000,
+            "content_hash_verified": true,
+            "sha256": "ff6f5862904e7515414b70bd35d2d58076816b11841934cc99c648472417634f"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p1_canonical/points.npy"
+        },
+        "ph003": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph005/adapters/ph003/field/adapter_manifest.json",
+            "bytes": 4130,
+            "mtime_ns": 1786722069000000000,
+            "content_hash_verified": true,
+            "sha256": "f5036a1f0a435c756b8cf3cf72da1aa9bd08998354c3fca544225d7e2e8336c1"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p3_fields/field_manifest.json",
+            "bytes": 10594,
+            "mtime_ns": 1786623635000000000,
+            "content_hash_verified": true,
+            "sha256": "9b76fa808fc632079ed9d4686d8400eb595f64022f89fe38240fbae0767bbc7a"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p1_canonical/points.npy"
+        },
+        "ph004": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph005/adapters/ph004/field/adapter_manifest.json",
+            "bytes": 4135,
+            "mtime_ns": 1786722377000000000,
+            "content_hash_verified": true,
+            "sha256": "ea4b05e6c8c955d81e0c4791a01e571128ad5c0b643a0e114b4e64fadfe8d360"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p3_fields/field_manifest.json",
+            "bytes": 10568,
+            "mtime_ns": 1786623716000000000,
+            "content_hash_verified": true,
+            "sha256": "d7cb282d42f34477fb668ee11d3edb9eab8082e3850fb2fcbba83973ed7e7ab4"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p1_canonical/points.npy"
+        },
+        "ph005": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_crossfit_contracts/omit_ph005/adapters/ph005/field/adapter_manifest.json",
+            "bytes": 4010,
+            "mtime_ns": 1786722679000000000,
+            "content_hash_verified": true,
+            "sha256": "d4e3ec8d9c954cba3dc697347f17e2651aded489abe3dda92bd9a9b12015d4de"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3_fields/field_manifest.json",
+            "bytes": 10587,
+            "mtime_ns": 1786623797000000000,
+            "content_hash_verified": true,
+            "sha256": "e0397d320740b9e5dea3c6aeff3b3518255d72ff9e56ad91107e6da971f951c9"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p1_canonical/points.npy"
+        }
+      },
+      "checks": {
+        "training_membership": true,
+        "run_training_membership": true,
+        "omitted_phase_absent": true,
+        "selected_epoch_twenty": true,
+        "summary_marked_complete": true,
+        "checkpoint_hash": true,
+        "target_scaler_hash": true,
+        "field_transform_hash": true,
+        "training_ready_marker_hash": true,
+        "fullfit_inventory_authority": true,
+        "adapter_inventory_binding": true,
+        "ph000_adapter_hash": true,
+        "ph000_p3_hash": true,
+        "ph002_adapter_hash": true,
+        "ph002_p3_hash": true,
+        "ph003_adapter_hash": true,
+        "ph003_p3_hash": true,
+        "ph004_adapter_hash": true,
+        "ph004_p3_hash": true,
+        "ph005_adapter_hash": true,
+        "ph005_p3_hash": true
+      },
+      "pass_checks": true,
+      "crossfit_adapter_binding": "current bytes match pinned fullfit inventory; crossfit loader does not itself hash adapters",
+      "selection_caveat": "omitted phase monitored; selected epoch is fixed terminal epoch20",
+      "summary_arrays_rehashed": false,
+      "field_payloads_rehashed": false
+    },
+    {
+      "phase": "ph006",
+      "summary": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12_oof_summaries/ph006/OOF_SUMMARY_COMPLETE.json",
+        "bytes": 1710,
+        "mtime_ns": 1787398459000000000,
+        "content_hash_verified": true,
+        "sha256": "dfc43618bebb29f97541335d27984a516076f442c63266e62e031172d7d35afd"
+      },
+      "run": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/arm_a_training/arm_a_r0_v1/unet/seed_42/run_manifest.json",
+        "bytes": 3610,
+        "mtime_ns": 1787050289000000000,
+        "content_hash_verified": true,
+        "sha256": "10d2058c26d0e0c9a3b65bc95e68e6b002bddf1e09fba6a3a3e8567044b7d237"
+      },
+      "final": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/arm_a_training/arm_a_r0_v1/unet/seed_42/arm_a_summary.json",
+        "bytes": 59680,
+        "mtime_ns": 1787056253000000000,
+        "content_hash_verified": true,
+        "sha256": "774b364c1001a84c79fc9d27bda8d7d675ba9db9be292f77572ed55e466c74ea"
+      },
+      "files": {
+        "checkpoint": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/arm_a_training/arm_a_r0_v1/unet/seed_42/best_checkpoint.pt",
+          "bytes": 5791201,
+          "mtime_ns": 1787056253000000000,
+          "content_hash_verified": true,
+          "sha256": "cd7c280602b3496753d21d236d30c50bde96335fa69ccc60cd12c0dfe3ccdfab"
+        },
+        "target_scaler": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/transforms/target_scaler.json",
+          "bytes": 1913,
+          "mtime_ns": 1786723090000000000,
+          "content_hash_verified": true,
+          "sha256": "c918ab3d58c3ec1dbb568ef450b3eabc76db7a94a41b822e7cedbfaf364eae9f"
+        },
+        "field_transform": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/transforms/field/field_transform.json",
+          "bytes": 5204,
+          "mtime_ns": 1786723028000000000,
+          "content_hash_verified": true,
+          "sha256": "4669aa537b9e9a62e3c34745099ce77b66edb9efdb98370667498dafe5c318f5"
+        },
+        "training_ready_marker": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/TRAINING_LOADER_READY.json",
+          "bytes": 4918,
+          "mtime_ns": 1786723450000000000,
+          "content_hash_verified": true,
+          "sha256": "460fa2dc7938994aa1110677ad609f6761deee274767375cb474fec1c4d6cad6"
+        }
+      },
+      "adapter_inventory": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapter_inventory.json",
+        "bytes": 3494,
+        "mtime_ns": 1786722679000000000,
+        "content_hash_verified": true,
+        "sha256": "18d2a737e76214c0fdeff2a7d18a7831a464a8b79499a91ea7ef2306f72e012a"
+      },
+      "adapters": {
+        "ph000": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph000/field/adapter_manifest.json",
+            "bytes": 4131,
+            "mtime_ns": 1786721186000000000,
+            "content_hash_verified": true,
+            "sha256": "6fb32a01c1cf7d1e2255b9dd331eba9f2e386fb529b44b8d1e7276e5ce14760e"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3_fields/field_manifest.json",
+            "bytes": 10504,
+            "mtime_ns": 1784399487000000000,
+            "content_hash_verified": true,
+            "sha256": "3f0fc7ba8e42c3004b9cc6969de76a44ce217f0a736dc2dd473ef2176371ca0d"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/graph_constructions/path1_fiberassign_mock_bgs_maglim_rs7_points.npy"
+        },
+        "ph002": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph002/field/adapter_manifest.json",
+            "bytes": 4013,
+            "mtime_ns": 1786721773000000000,
+            "content_hash_verified": true,
+            "sha256": "b63feb02e6d57f9380d3ea637ca8c4beb973b832f4569aa6c965ac211dc985d8"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p3_fields/field_manifest.json",
+            "bytes": 10570,
+            "mtime_ns": 1786618832000000000,
+            "content_hash_verified": true,
+            "sha256": "ff6f5862904e7515414b70bd35d2d58076816b11841934cc99c648472417634f"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p1_canonical/points.npy"
+        },
+        "ph003": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph003/field/adapter_manifest.json",
+            "bytes": 4130,
+            "mtime_ns": 1786722069000000000,
+            "content_hash_verified": true,
+            "sha256": "f5036a1f0a435c756b8cf3cf72da1aa9bd08998354c3fca544225d7e2e8336c1"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p3_fields/field_manifest.json",
+            "bytes": 10594,
+            "mtime_ns": 1786623635000000000,
+            "content_hash_verified": true,
+            "sha256": "9b76fa808fc632079ed9d4686d8400eb595f64022f89fe38240fbae0767bbc7a"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/p1_canonical/points.npy"
+        },
+        "ph004": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph004/field/adapter_manifest.json",
+            "bytes": 4135,
+            "mtime_ns": 1786722377000000000,
+            "content_hash_verified": true,
+            "sha256": "ea4b05e6c8c955d81e0c4791a01e571128ad5c0b643a0e114b4e64fadfe8d360"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p3_fields/field_manifest.json",
+            "bytes": 10568,
+            "mtime_ns": 1786623716000000000,
+            "content_hash_verified": true,
+            "sha256": "d7cb282d42f34477fb668ee11d3edb9eab8082e3850fb2fcbba83973ed7e7ab4"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/p1_canonical/points.npy"
+        },
+        "ph005": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph005/field/adapter_manifest.json",
+            "bytes": 4010,
+            "mtime_ns": 1786722679000000000,
+            "content_hash_verified": true,
+            "sha256": "d4e3ec8d9c954cba3dc697347f17e2651aded489abe3dda92bd9a9b12015d4de"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p3_fields/field_manifest.json",
+            "bytes": 10587,
+            "mtime_ns": 1786623797000000000,
+            "content_hash_verified": true,
+            "sha256": "e0397d320740b9e5dea3c6aeff3b3518255d72ff9e56ad91107e6da971f951c9"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/p1_canonical/points.npy"
+        },
+        "ph006": {
+          "adapter": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/adapters/ph006/field/adapter_manifest.json",
+            "bytes": 4009,
+            "mtime_ns": 1786722218000000000,
+            "content_hash_verified": true,
+            "sha256": "ecc3e72a46f8a29ef1c6996e165779e646c778871fd9c80957e3cbab4cf3917a"
+          },
+          "p3": {
+            "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p3_fields/field_manifest.json",
+            "bytes": 10566,
+            "mtime_ns": 1786631383000000000,
+            "content_hash_verified": true,
+            "sha256": "6456859bcd136a80997a4e557e37cd2c53f050e3ba08aeaa3e0f46267249c1e3"
+          },
+          "recorded_points": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph006/p1_canonical/points.npy"
+        }
+      },
+      "checks": {
+        "training_membership": true,
+        "run_training_membership": true,
+        "omitted_phase_absent": true,
+        "selected_epoch_twenty": true,
+        "summary_marked_complete": true,
+        "checkpoint_hash": true,
+        "target_scaler_hash": true,
+        "field_transform_hash": true,
+        "training_ready_marker_hash": true,
+        "adapter_inventory_binding": true,
+        "ph000_adapter_hash": true,
+        "ph000_p3_hash": true,
+        "ph002_adapter_hash": true,
+        "ph002_p3_hash": true,
+        "ph003_adapter_hash": true,
+        "ph003_p3_hash": true,
+        "ph004_adapter_hash": true,
+        "ph004_p3_hash": true,
+        "ph005_adapter_hash": true,
+        "ph005_p3_hash": true,
+        "ph006_adapter_hash": true,
+        "ph006_p3_hash": true
+      },
+      "pass_checks": true,
+      "crossfit_adapter_binding": "direct",
+      "selection_caveat": "omitted phase monitored; selected epoch is fixed terminal epoch20",
+      "summary_arrays_rehashed": false,
+      "field_payloads_rehashed": false
+    }
+  ],
+  "pass_checks": true,
+  "ready_for_desi_canary": false,
+  "scope": "live small checkpoint/transform/receipt bindings, not full response qualification"
+}

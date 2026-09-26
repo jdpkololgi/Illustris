@@ -1,0 +1,234 @@
+{
+  "schema": "p12a-halo48-control-v1",
+  "source": {
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12a_halo48_control.py",
+    "bytes": 4025,
+    "mtime_ns": 1790261409976917000,
+    "content_hash_verified": true,
+    "sha256": "4e473353096983e299f5d20ee4e560e70b937cbd2aed773c8292a148b98d0459"
+  },
+  "helper": {
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12a_frozen_mock_replay.py",
+    "bytes": 8322,
+    "mtime_ns": 1790261198295816000,
+    "content_hash_verified": true,
+    "sha256": "852f551617de2ef5f135d3b6d71e0e87f74ab2bdb9d792db8b39b098cf840590"
+  },
+  "selection_receipt": {
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/docs/evidence/p12/P12A_FROZEN_MOCK_REPLAY_20260924_v2.json",
+    "bytes": 17648,
+    "mtime_ns": 1790261274026199194,
+    "content_hash_verified": true,
+    "sha256": "32b6d90930689733b8d74916a14fc948d5a0cc4f4a45468eb698951cb8921736"
+  },
+  "checkpoint": {
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/arm_a_training/arm_a_r0_v1/unet/seed_42/best_checkpoint.pt",
+    "bytes": 5791201,
+    "mtime_ns": 1787056253000000000,
+    "content_hash_verified": true,
+    "sha256": "cd7c280602b3496753d21d236d30c50bde96335fa69ccc60cd12c0dfe3ccdfab"
+  },
+  "cores": [
+    {
+      "cap": 0,
+      "shell": 0,
+      "rows": 4934,
+      "core": 370,
+      "growth": {
+        "n": 14802,
+        "reference_std": 0.43616026971914645,
+        "rmse": 3.4060210829547976e-07,
+        "nrmse": 7.809104403635875e-07,
+        "p95_abs_over_std": 1.7765496673482626e-06,
+        "max_abs_over_std": 9.164604774349451e-06
+      },
+      "subdivision": {
+        "n": 14802,
+        "reference_std": 0.43616026875532926,
+        "rmse": 4.690304936942003e-05,
+        "nrmse": 0.00010753627216726385,
+        "p95_abs_over_std": 0.00024624345020528407,
+        "max_abs_over_std": 0.000916972945711448
+      }
+    },
+    {
+      "cap": 0,
+      "shell": 1,
+      "rows": 1634,
+      "core": 295,
+      "growth": {
+        "n": 4902,
+        "reference_std": 0.40700871829511676,
+        "rmse": 1.705060936397668e-05,
+        "nrmse": 4.189249172695486e-05,
+        "p95_abs_over_std": 8.724131796870552e-05,
+        "max_abs_over_std": 0.0004629512215008106
+      },
+      "subdivision": {
+        "n": 4902,
+        "reference_std": 0.407008144191024,
+        "rmse": 4.787834937812678e-06,
+        "nrmse": 1.1763486815058841e-05,
+        "p95_abs_over_std": 2.0502415953225335e-05,
+        "max_abs_over_std": 0.00013216735998418475
+      }
+    },
+    {
+      "cap": 0,
+      "shell": 2,
+      "rows": 466,
+      "core": 1630,
+      "growth": {
+        "n": 1398,
+        "reference_std": 0.398961986994248,
+        "rmse": 2.8989951677677715e-06,
+        "nrmse": 7.266344319188403e-06,
+        "p95_abs_over_std": 6.728571334066361e-06,
+        "max_abs_over_std": 0.00011817485262828743
+      },
+      "subdivision": {
+        "n": 1398,
+        "reference_std": 0.3989618293463723,
+        "rmse": 1.527508028419549e-05,
+        "nrmse": 3.828707199688998e-05,
+        "p95_abs_over_std": 8.998884124131881e-05,
+        "max_abs_over_std": 0.0002789286182539562
+      }
+    },
+    {
+      "cap": 0,
+      "shell": 3,
+      "rows": 64,
+      "core": 1919,
+      "growth": {
+        "n": 192,
+        "reference_std": 0.3594971516553101,
+        "rmse": 1.236321628530939e-07,
+        "nrmse": 3.439030386856411e-07,
+        "p95_abs_over_std": 9.305527658884816e-07,
+        "max_abs_over_std": 1.7409004974305677e-06
+      },
+      "subdivision": {
+        "n": 192,
+        "reference_std": 0.3594971454877896,
+        "rmse": 9.989769534804585e-05,
+        "nrmse": 0.00027788174844197447,
+        "p95_abs_over_std": 0.000596979660817809,
+        "max_abs_over_std": 0.002029972914853873
+      }
+    },
+    {
+      "cap": 1,
+      "shell": 0,
+      "rows": 4411,
+      "core": 13207,
+      "growth": {
+        "n": 13233,
+        "reference_std": 0.4579554847143067,
+        "rmse": 1.1896837397455568e-05,
+        "nrmse": 2.597815245051023e-05,
+        "p95_abs_over_std": 5.263419513843182e-05,
+        "max_abs_over_std": 0.00036560201321428066
+      },
+      "subdivision": {
+        "n": 13233,
+        "reference_std": 0.45795644813797404,
+        "rmse": 0.00010697584764178307,
+        "nrmse": 0.00023359393251638018,
+        "p95_abs_over_std": 0.000467094960753724,
+        "max_abs_over_std": 0.002875774613127988
+      }
+    },
+    {
+      "cap": 1,
+      "shell": 1,
+      "rows": 2056,
+      "core": 12606,
+      "growth": {
+        "n": 6168,
+        "reference_std": 0.6081721380795947,
+        "rmse": 2.1698748010949647e-05,
+        "nrmse": 3.567862888205809e-05,
+        "p95_abs_over_std": 7.603566595287761e-05,
+        "max_abs_over_std": 0.00036770703985686563
+      },
+      "subdivision": {
+        "n": 6168,
+        "reference_std": 0.6081747841868158,
+        "rmse": 8.058686817753756e-06,
+        "nrmse": 1.3250609902429516e-05,
+        "p95_abs_over_std": 2.2786344107981745e-05,
+        "max_abs_over_std": 0.00020355800736463693
+      }
+    },
+    {
+      "cap": 1,
+      "shell": 2,
+      "rows": 589,
+      "core": 10154,
+      "growth": {
+        "n": 1767,
+        "reference_std": 0.38951380442516376,
+        "rmse": 7.711277161886149e-06,
+        "nrmse": 1.979718581031111e-05,
+        "p95_abs_over_std": 3.844133803610699e-05,
+        "max_abs_over_std": 0.00021951176558808016
+      },
+      "subdivision": {
+        "n": 1767,
+        "reference_std": 0.3895144659004903,
+        "rmse": 6.065798482783556e-06,
+        "nrmse": 1.5572716840594034e-05,
+        "p95_abs_over_std": 2.5197138179805383e-05,
+        "max_abs_over_std": 0.00014613689796835448
+      }
+    },
+    {
+      "cap": 1,
+      "shell": 3,
+      "rows": 76,
+      "core": 11011,
+      "growth": {
+        "n": 228,
+        "reference_std": 0.5354196156592329,
+        "rmse": 1.2608596455558138e-05,
+        "nrmse": 2.3548999862535597e-05,
+        "p95_abs_over_std": 3.6792329832764666e-05,
+        "max_abs_over_std": 0.00017110381528883309
+      },
+      "subdivision": {
+        "n": 228,
+        "reference_std": 0.5354186002557153,
+        "rmse": 1.9925485323370155e-05,
+        "nrmse": 3.721477982620284e-05,
+        "p95_abs_over_std": 8.208712756759424e-05,
+        "max_abs_over_std": 0.00024335305762028964
+      }
+    }
+  ],
+  "aggregate_growth": {
+    "n": 42690,
+    "reference_std": 0.47066540627266323,
+    "rmse": 1.220285851046222e-05,
+    "nrmse": 2.5926822638400852e-05,
+    "p95_abs_over_std": 3.8245009049464666e-05,
+    "max_abs_over_std": 0.00047513408386576237
+  },
+  "aggregate_subdivision": {
+    "n": 42690,
+    "reference_std": 0.4706661867787067,
+    "rmse": 6.616875925710953e-05,
+    "nrmse": 0.00014058532589726936,
+    "p95_abs_over_std": 0.0002533375433417241,
+    "max_abs_over_std": 0.002798117996295864
+  },
+  "checks": {
+    "growth": true,
+    "worst_core": true,
+    "subdivision": true
+  },
+  "pass_checks": true,
+  "deployed_halo_changed": false,
+  "ready_for_desi_canary": false,
+  "scope": "eight previously selected dense training cores; no new summaries, posterior fitting, edge/sparse qualification or real-data inference"
+}
