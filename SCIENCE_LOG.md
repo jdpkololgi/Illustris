@@ -40,7 +40,16 @@ science gains705,048/losses7,232;5,389,711passboth, none |dr|>.01mag,
 8,221 |dz|/(1+z)>.005. Later data has more selected rows in all shells.
 Blinding/mask interpretation unverified; delivered-column audit only. Continued internal search located Uchuu Y3-v2.0/0000 completeBRIGHT/ANY
 (12,407,294/19,613,582rows), processedBGS and pairedLoa undercai/Uchuu-SHAM.
-This corrects earliernotlocatedstatus; censusrunningCPU58907166/nid004152.
+This corrects earliernotlocatedstatus; censuscompletedCPU58907166/nid004152.
+Criticalfinebinfinding: Uchuu completeBRIGHT,ANY,andprocessed are allzero
+at.50-.55 oncomparisonsky. Broad.45-.55 ratios~unity hide excessbelow.50!
+Processed/currentLoa highshell0.968/0.986 is notacceptance. PairedvsactualLoa
+TARGETID qualitycrosswalkcompleted; archivedclustering sample differs byfew%.
+Uchuu0.19boxandparticle/halodirectorieslocated; PIDsample{-1,0}, floatGALAXYID,
+boxposition/Mrblock need genuinehalo/epochjoin. No particle payloadopened.
+PrioritizeAbacusv1recipe andHoliobservationbenchmark; nofullrangeUchuu
+replacementfromtheseproducts. Fivefigures, compactreceipts andnegativefindings
+committed. G2andlaterphysical/empiricalrepair/traininggatesremainopen.
 Firstallocation auto-loggedout idle shellafter30min, after all scans completed.
 Producer jpiat path lists25N/Sphase directories; onlyph000 inspected, identity
 tocanonicalv1 unproven. No reservedphase payloadaccess. Full report GraphWeb/docs/
