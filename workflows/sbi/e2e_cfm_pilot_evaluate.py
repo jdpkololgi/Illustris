@@ -23,6 +23,17 @@ from workflows.sbi.e2e_coupled_cfm_pilot import training_ids,pair
 TRAIN_ROOT=Path('/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_pilot_20260924_v1')
 EVAL_PHASES=c.DEVELOPMENT
 
+def evaluation_phases(panel,step,fine_step):
+    if panel in ('additional16','additional17'):
+        if (step,fine_step)!=(13312,26624):
+            raise ValueError('additional phases restricted to frozen mixed model')
+        return ('ph016',) if panel=='additional16' else ('ph017',)
+    if panel=='replication':
+        if step not in (13312,26624):raise ValueError('replication checkpoints frozen')
+        return ('ph014','ph015')
+    if panel=='development':return c.DEVELOPMENT
+    raise ValueError('unregistered evaluation panel')
+
 
 def development(phase):
     if phase not in EVAL_PHASES:raise PermissionError('phase outside explicitly selected evaluation panel')
@@ -185,8 +196,7 @@ def score(values,target,scale):
 
 def run(a):
     global EVAL_PHASES
-    EVAL_PHASES=('ph014','ph015') if a.panel=='replication' else c.DEVELOPMENT
-    if a.panel=='replication' and a.step not in (13312,26624):raise ValueError('replication checkpoints frozen')
+    EVAL_PHASES=evaluation_phases(a.panel,a.step,a.fine_step)
     c.require_compute();torch.set_num_threads(4)
     if torch.cuda.device_count()!=1:raise RuntimeError('one visible GPU per worker')
     torch.use_deterministic_algorithms(True);torch.backends.cudnn.benchmark=False
@@ -235,7 +245,7 @@ def run(a):
                             c.atomic_json(root/'PAUSED.json',dict(phase=phase,pair_id=pair_id,nfe=nfe,first=first),replace=True)
                             return
                         tick=time.monotonic();val=generate(models,observation,phase,pair_id,a.seed,first,nfe,chart)
-                        if a.fine_step is not None:
+                        if a.fine_step is not None and phase in ('ph012','ph013','ph014','ph015'):
                             old_name='cfm_replication_20260925_v1' if phase in ('ph014','ph015') else 'cfm_pilot_eval_20260924_v1'
                             old=TRAIN_ROOT.parent/old_name/'results'/f'seed{a.seed}_step13312'/phase/pair_id/f'nfe{nfe}'/path.name
                             receipt=json.loads(old.with_suffix('.json').read_text())
@@ -276,4 +286,4 @@ if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--seed',type=int,required=True);p.add_argument('--step',type=int,required=True)
     p.add_argument('--output',required=True);p.add_argument('--seconds',type=int,default=13800)
     p.add_argument('--fine-step',type=int)
-    p.add_argument('--panel',choices=('development','replication'),default='development');run(p.parse_args())
+    p.add_argument('--panel',choices=('development','replication','additional16','additional17'),default='development');run(p.parse_args())

@@ -1,4 +1,19 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
+### 2026-09-26 - [science/code/E2E] Regime matching and next non-training panel
+
+All012–015 phases have equal16cap/shell/support strata, two seeds; verified392
+saved-score receipts. Fine-region013-minus012 coverage gap remains+24.22pp in
+NGC,+8.59pp inSGC,+17.19pp at boundaries,+15.63pp in interiors. Shell gaps
+are+29.69/+7.81/+34.38/-6.25pp: not a universal phase offset. Broad observation
+regime composition cannot explain it; continuous exposure/counts and cosmic
+structure within strata remain possible. No independent-region p-values or
+post-hoc global widening. User requests more non-training phases; implemented
+frozen coarse13312/fine26624 EMA replication on016/017, retaining018/019sealed.
+Specific4GPU/2.5h allocation approval requested, not yet launched. Both seeds,
+32draws x16pairs/phase,128NFE plus paired256NFE subset; no tuning on new outcomes.
+Methods and prospective boundaries: `docs/e2e_cfm_additional_20260926.md`;
+reproducible small diagnostic: `workflows/sbi/e2e_cfm_regime_check.py`.
+
 ### 2026-09-26 - [science/E2E] Mixed CFM exposed-phase sensitivity checked
 
 Quick saved-score audit verifies392 receipts, no compute allocation or sealed

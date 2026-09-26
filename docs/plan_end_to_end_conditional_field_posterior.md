@@ -2,6 +2,14 @@
 
 ## CURRENT AUTHORITY — bounded coupled CFM pilot (2026-09-24)
 
+Latest2026-09-26: mixed model improves fine scores while retaining13k coarse
+coverage by construction. Exposed-phase regime audit finds identical16stratum
+composition per phase;012/013 fine-region coverage contrast persists within
+both caps and boundary/interior groups, but differs by radial shell. User requests
+further non-training phases. Frozen mixed-model ph016/017 replication implemented;
+specific4GPU/2.5h allocation approval pending. Do not open018/019. Protocol
+`e2e_cfm_additional_20260926.md`; no new training or variance recalibration.
+
 Latest2026-09-26: stronger-decay screen completed, no useful improvement; both
 development-phase swaps select13312. User authorizes frozen coarse13312 plus
 fine26624 compatibility evaluation on all64development pairs/seeds17/29.

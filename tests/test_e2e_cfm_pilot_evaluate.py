@@ -10,6 +10,14 @@ from workflows.sbi.e2e_vdm_context_metrics import calibration
 
 
 class EvaluateTests(unittest.TestCase):
+    def test_additional_panel_frozen(self):
+        from workflows.sbi.e2e_cfm_pilot_evaluate import evaluation_phases
+        for panel,phase in [('additional16','ph016'),('additional17','ph017')]:
+            self.assertEqual(evaluation_phases(panel,13312,26624),(phase,))
+            for step,fine in [(26624,None),(13312,None),(13312,13312)]:
+                with self.assertRaises(ValueError):evaluation_phases(panel,step,fine)
+        for panel in ['additional18','additional19','unknown']:
+            with self.assertRaises(ValueError):evaluation_phases(panel,13312,26624)
     def test_mixed_checkpoint_routing(self):
         from workflows.sbi.e2e_cfm_pilot_evaluate import load_models
         seen=[]
