@@ -2,6 +2,14 @@
 
 ## CURRENT AUTHORITY — bounded coupled CFM pilot (2026-09-24)
 
+2026-09-26: user authorizes coarse train-versus-development error/spread test
+plus classical coarse control, before more training. Protocol
+`e2e_coarse_controls_20260926.md` defines52train anchors/13phases, reuse of64
+development anchors/4phases, both checkpoints/seeds, and Gaussianized classical
+coarse sampling. Classical control matches footprint but compresses observations;
+not full neural-information equivalence or an exact Poisson model. No hybrid
+fine launch until coarse qualification. Confirmation016-019stays sealed.
+
 2026-09-25 phase-access amendment: user opensph014/ph015 for frozen-model
 replication, before targeted diagnostics. Current scientific roles13training,
 4development/replication (012-015),4sealed confirmation (016-019). Historical

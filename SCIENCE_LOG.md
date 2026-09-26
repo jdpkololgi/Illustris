@@ -1,5 +1,20 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-26 - [protocol/E2E] Coarse generalization diagnostic and classical control
+
+User authorizes both. FrozenEMA13312/26624, seeds17/29;52training anchors across
+13phases; reuse64held-out anchors across012-015. Block/core-aligned masses
+permit coarse-only draws. Report bias, centered error, spread, ranks, coverage,
+CRPS, per phase/regime and equal-stratum standardized train/dev summaries.
+Classical positive log-density Wiener control fits prior/response/noise on
+training only; padded nonperiodic DCT+CG, numerical oracle/tolerance tests.
+Footprint matched but observation compression/diagonal Gaussian likelihood
+are explicit limitations, not full neural-information or exact Poisson match.
+No neural training, no fine hybrid, no opening016-019. One4GPU/4h bounded
+allocation; full-size classical smoke before panel; no automatic renewal.
+11tests pass0.770s. Protocol: docs/e2e_coarse_controls_20260926.md.
+
+
 ### 2026-09-25 - [protocol/E2E] User opens ph014/ph015 for frozen-checkpoint replication
 
 Final012/013 evaluation58864736completed0:0: top-band power93-94%, density
