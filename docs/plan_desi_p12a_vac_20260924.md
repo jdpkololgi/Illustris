@@ -605,3 +605,28 @@ quality-success modelling and historical mask closure before accepted regenerati
 No production change or retraining. Current VAC remains provisional.
 Report: GraphWeb_DESI/docs/p12a_joint_flags_magnitude_20260926.md; compact evidence
 and figures in docs/evidence/p12a_joint_flags_20260926.
+
+### 2026-09-26 - [audit/VAC] Reference mocks, literature and Loa v1.1
+
+Checked all supplied paper identifiers and APS DOI. Actual BGS_ANY workaround
+is Andrade et al.2503.14742/PRD kdys-w8vl, for Mr<-21.35 BAO sample at0.1–0.4;
+not a validated full-BRIGHT correction through0.55. Sanders2608.27830 identifies
+v1.1 as Loa LSS data version, not a new named BGS mock suite. Smith2312.08792
+explicitly evolves luminosities on z0.2 snapshot; P/Q causality not established.
+Uchuu2507.01593 reports~25% n(z) disagreement above0.4 and discrete snapshot
+shell construction.102 EDR lightcones are small SV3 footprints, not full Loa.
+
+CPU58904195 census23catalogues, exposedph002-006 only. Full-BRIGHT v1.1 vs our
+v2.1 counts differ<0.5% in broad shells; high-z v1.1/original mock remains
+1.8545SGC/1.8320NGC. KiboANY-02 mock/v1.1BAO totals0.9897/1.0130 at0.1–0.4,
+but1.5161/1.5790 at0.4–0.5. LoaBRIGHT-02 gives0.9903/1.0053 then0.6635/0.6758.
+ANY includes faint bits; LoaBRIGHT-02 allbit2. Stored WEIGHT comparison separate.
+Fine-z residuals persist; five phases insufficient for a precision covariance
+or formal equivalence claim. No new clustering or tidal labels evaluated.
+
+No validated replacement for full0.15–0.55 environmental input identified.
+Continue executed LF/observer-photometry/K-correction closure and physically
+consistent forward-model candidate, joint population/clustering checks and
+posterior validation before independent confirmation. No retraining, repairs
+or production changes. Report: GraphWeb_DESI/docs/p12a_reference_mock_review_20260926.md;
+23source-stat/finite-shape checks pass, plots inspected, compact evidence saved.
