@@ -1,4 +1,14 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
+### 2026-09-26 - [science/VAC] Piat figures inspected: no demonstrated Loa recipe
+
+Public COLOURS PDF visually inspected (pages22,23,27,33). Clustering figure uses
+BGS Y1, M<-21, mockv1; N(z) histogram has no Loa comparison. Redshift-dependent
+bright/faint magnitude splits are dipole tracer definitions, not a demonstrated
+parent-density repair. Generic snapshot/HOD/magnitude-evolution construction
+is reproducible; exact LF/K/E/HOD and velocity choices of June2026 files are not
+specified. This narrows the producer question without claiming a Loa-matching
+recipe was recovered. Checksummed source/page review recorded in GraphWeb.
+
 ### 2026-09-26 - [science/VAC] Jade Piat public context; recipe clarification
 
 User identifies jpiat as Jade Piat. Public June2025 COLOURS slides describe
