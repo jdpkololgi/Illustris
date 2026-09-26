@@ -630,3 +630,19 @@ consistent forward-model candidate, joint population/clustering checks and
 posterior validation before independent confirmation. No retraining, repairs
 or production changes. Report: GraphWeb_DESI/docs/p12a_reference_mock_review_20260926.md;
 23source-stat/finite-shape checks pass, plots inspected, compact evidence saved.
+
+### 2026-09-26 - [plan/VAC] ANY/PQ/version/Uchuu population tests
+
+User supports testing an empirical BGS_ANY threshold, direct P/Q sensitivity and
+Uchuu before dismissing alternatives. Protocol in GraphWeb_DESI/docs/
+p12a_population_test_protocol_20260926.md. New header inventory: raw Abacusv1
+ph00074,748,522rows versusv0.1 63,897,781; onlyph000 currentlyin v1; schema
+hasHALO_ID/box/rep coordinates and lacksIN_Y masks. Not yet a matched count test.
+Public UchuuEDR BGS files readable; initial header confirms photometry/K/E
+columns but nohaloIDs. Prior lack of full-Loa product is not lack of allUchuu.
+Next: matching-footprint rawv1 screen and Uchuu-vs-SV3 comparison, exact baseline
+recipe replay, separate P/Q/K tests and smooth ANY threshold, then reassignment
+and joint population/clustering/posterior qualification. Do not tune exact
+observed radial fluctuations or reuseFAINT assignment asBRIGHT. DR1/iron and
+SV3/fuji useful controls, not independent replacements automatically solving
+Loa. Experiments not yet run; no production changes or new compute submitted.

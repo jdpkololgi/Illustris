@@ -14937,3 +14937,19 @@ quality-success modelling and historical mask closure before accepted regenerati
 No production change or retraining. Current VAC remains provisional.
 Report: GraphWeb_DESI/docs/p12a_joint_flags_magnitude_20260926.md; compact evidence
 and figures in docs/evidence/p12a_joint_flags_20260926.
+
+### 2026-09-26 - [plan/VAC] ANY/PQ/version/Uchuu population tests
+
+User supports testing an empirical BGS_ANY threshold, direct P/Q sensitivity and
+Uchuu before dismissing alternatives. Protocol in GraphWeb_DESI/docs/
+p12a_population_test_protocol_20260926.md. New header inventory: raw Abacusv1
+ph00074,748,522rows versusv0.1 63,897,781; onlyph000 currentlyin v1; schema
+hasHALO_ID/box/rep coordinates and lacksIN_Y masks. Not yet a matched count test.
+Public UchuuEDR BGS files readable; initial header confirms photometry/K/E
+columns but nohaloIDs. Prior lack of full-Loa product is not lack of allUchuu.
+Next: matching-footprint rawv1 screen and Uchuu-vs-SV3 comparison, exact baseline
+recipe replay, separate P/Q/K tests and smooth ANY threshold, then reassignment
+and joint population/clustering/posterior qualification. Do not tune exact
+observed radial fluctuations or reuseFAINT assignment asBRIGHT. DR1/iron and
+SV3/fuji useful controls, not independent replacements automatically solving
+Loa. Experiments not yet run; no production changes or new compute submitted.
