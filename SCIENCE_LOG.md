@@ -1,4 +1,50 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
+### 2026-09-26 - [science/VAC] Alignment execution: newer Abacus parent lead
+
+CPU58905757/nid004183 completed matched numerical ph000 parent scans: v0.1
+63,897,781 raw rows and v1 74,748,522. Same common NSIDE256 support,
+12<=R_MAG_APP<19.5, no IN_Y flags, RSD z.15-.55; only exposed ph000.
+High-shell counts v0.1=29,139SGC/65,707NGC; v1=79,509/174,317.
+Thus v1/v0.1=2.729/2.653 at .45-.55, versus1.100/1.077 at .15-.25.
+This establishes a strongly redshift-dependent version difference, not its
+physical cause or observed Loa parity. New version halo/coordinate schema
+differs; generator receipt absent from header. Numerical K/E fingerprint completed: old tables match v0.1 colour to4.3e-8mag RMS,
+but v1 residual0.073mag RMS; v1 apparent-r mapping leaves0.041mag RMS after
+a fitted linear term. Thus old observer mapping cannot simply be reused.
+CEN=1 fraction also changes: low-shell~0.862 to~0.679; high~0.977 to~0.934
+(SGC), conditional on identical numerical cut; semantic parity still requires
+v1 recipe. No executed v1 HOD/LF parameters identified.
+
+Uchuu public102x2 SV3 ensemble census completed against the authors archived
+edav1/sv3 Nbin/area tables, with Fuji3.1 version control. High-shell mock/data
+means0.423S/0.463N (delivered SV3 hemisphere labels), far below unity; exact inherited completeness-weight
+replay remains open. No FKP count weights. Underlying paper JFE_files/DESI-BGS
+path is permission-denied; public lightcones readable. No blind phases opened,
+no VAC repair, fitting or retraining. Plan journal and compact receipts in
+GraphWeb docs/evidence/p12a_alignment_execution_20260926.
+
+
+Additional W1 execution: followed current LSS DA3DA2 BGS scripts to
+/global/cfs/cdirs/desi/mocks/cai/LSS/DA2/mocks. Read full BRIGHT Loa GLAM
+(glam_bgs_v2/mock10) and Holi(holi_bgs_v2/mock0); intersected their occupied
+sky and recomputed Loa counts. High-shell mock/Loa: GLAM0.737/0.795,
+Holi0.944/1.049. GLAM has zero rows abovez.50, so its broad-shell deficit
+includes a support cutoff. Holi extends to.55, but5SGC fine bins exceed10%;
+one realization is not covariance or acceptance. These are development opens.
+Current Holi prep reads Loa n(z) and uses placeholder absolute magnitudes,
+not proof of executedv2 recipe. Holi forFA0 exists but no read permission;
+GLAM forFA10 absent here. Need readable parent/config for physical validation.
+Scripts use survey=DA3,surveycat=DA2,Loa: not verified matterhorn mocks.
+Same-ID DA3 crosswalk completed:10,629,391matchedfullIDs; matched/common
+science gains705,048/losses7,232;5,389,711passboth, none |dr|>.01mag,
+8,221 |dz|/(1+z)>.005. Later data has more selected rows in all shells.
+Blinding/mask interpretation unverified; delivered-column audit only. Continued internal search located Uchuu Y3-v2.0/0000 completeBRIGHT/ANY
+(12,407,294/19,613,582rows), processedBGS and pairedLoa undercai/Uchuu-SHAM.
+This corrects earliernotlocatedstatus; censusrunningCPU58907166/nid004152.
+Firstallocation auto-loggedout idle shellafter30min, after all scans completed.
+Producer jpiat path lists25N/Sphase directories; onlyph000 inspected, identity
+tocanonicalv1 unproven. No reservedphase payloadaccess. Full report GraphWeb/docs/
+p12a_alignment_execution_results_20260926.md; plan records priorities/dead ends.
 
 ### 2026-09-26 - [plan/VAC] Mock-to-LOA Alignment Investigation adopted
 
