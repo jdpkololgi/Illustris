@@ -4,8 +4,14 @@ Active plan, adopted 2026-09-24 following the user's approval of the roadmap
 disposition and request to proceed toward DESI application. SCIENCE_LOG.md and
 immutable experiment contracts control claims. This supersedes old prospective
 VAC schedules, not historical evidence. V0 audits, halo48 OOF/refit/revalidation and golden replay have passed.
-The first real-Loa bounded provisional VAC is produced and independently checked;
-full-footprint production and science release remain open (2026-09-25).
+The bounded trial and full-survey provisional VAC have been produced.
+Science release and any qualified replacement remain gated on population
+alignment and posterior validation (status updated2026-09-26).
+
+Active population-alignment subplan: [Mock-to-LOA Alignment Investigation](../../../GraphWeb_DESI/docs/plan_mock_to_loa_alignment_investigation_20260926.md).
+It governs the current mock/observation diagnosis and candidate-selection sequence;
+the present document retains the overall VAC inference/release contract. Internal
+DESI releases are primary sources within the user's collaboration membership.
 
 ## Decision and product
 

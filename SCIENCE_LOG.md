@@ -1,5 +1,26 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-26 - [plan/VAC] Mock-to-LOA Alignment Investigation adopted
+
+Canonical alignment subplan created in GraphWeb_DESI/docs/
+plan_mock_to_loa_alignment_investigation_20260926.md. Integrates prior population
+protocol; preserves completed audits and supersedes only their execution ordering.
+W0comparison/exposure freeze; W1rawAbacusv1/Uchuu/internalDA3 screens; W2generator
+and observation replay; W3P/Q/K/LF factorial tests; W4smoothANY selection;
+W5fresh observation processing; W6joint validation/freeze; W7environmental
+confirmation and versioned VAC replacement. Counts alone never qualify release.
+
+User confirms full DESI membership and collaboration scope: internal data and
+mocks are primary sources, public-release status is not an eligibility gate.
+Live inventory confirms DA3/matterhorn-v2/LSScats/v0 BGS_BRIGHT fullHPmapcut
+header11,686,801rows, not a selected science count. Associated DA3 BGS mock
+package not yet located; continue internal production-provenance search, not
+only DA3/mocks (absent). No DA4 directory or publicDR3/DR4 directory found in
+bounded roots; publicdr2README is a placeholder. No claim of global absence.
+Release inventory JSON saved in GraphWeb. No new compute/science runs launched.
+VAC roadmap header corrected: full-survey provisional production complete,
+population/posterior science qualification remains open.
+
 ### 2026-09-26 - [audit/VAC] Reference mocks, literature and Loa v1.1
 
 Checked all supplied paper identifiers and APS DOI. Actual BGS_ANY workaround
