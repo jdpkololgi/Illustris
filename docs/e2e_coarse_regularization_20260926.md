@@ -73,3 +73,11 @@ uncertainty; it is not authorized by this run.
 Output: /pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coarse_regularization_20260926_v1.
 CLASSICAL_AUDIT.json is separate from model SUMMARY.md/COMPLETE.json. Completion
 requires all four workers and both new evaluation checkpoints, not Slurm exit alone.
+
+Launch receipt: job58896067 on nid200337, four-GPU/four-hour limit; fixed tmux
+`coarse_reg_20260926` on login33. Frozen21e0af9. Six compute-node tests pass
+0.647s. Classical audit completed: all52training regional-alignment checks pass;
+classical predictions fail zero-predictor/correlation gates in train and dev.
+This rules against the tested regional indexing mismatch, not every possible
+bug or likelihood misspecification. Neural scientific results pending.
+Graphify refresh exceeded five-second login cap; index refresh incomplete.
