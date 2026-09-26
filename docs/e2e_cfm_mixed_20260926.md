@@ -29,3 +29,7 @@ evaluation~3h33m. Atomic per-chunk restart, no automatic renewal. No old draw
 files overwritten. Root: /pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_mixed_20260926_v1.
 Four workers partition seeds and two-phase panels; final COMPLETE.json and
 SUMMARY.md compare all three configurations, with hashes of source summaries.
+
+Launch:58902807 on nid001160, four GPUs/four-hour cap, frozen2037ca4,
+tmux `cfm_mixed_20260926` on login33. Graphify update exceeded five-second
+login cap; index refresh incomplete. Initial launch, not completion evidence.
