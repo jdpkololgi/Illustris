@@ -1,4 +1,44 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
+### 2026-09-26 - [science/code/VAC] Producer census complete; velocity and targeting differences
+
+CPU58908840/nid004153 completed separate raw/Y3 N/S ph000 censuses. Raw high-shell
+counts are72,558/165,865 (N) and79,596/181,884 (S), galactic SGC/NGC; ratios to
+originalv0.1=2.490/2.524 and2.732/2.768. Y3 keeps~99–100% of these common-sky
+numerically bright counts. All25,023,399/26,371,919 forFA rows have BGS_TARGET=0;
+do not directly reuse these as completed BGS-BRIGHT targeting. This is not an
+identified error in historical P12 products, which are different inputs.
+N/S share central sky locations with distinct photometric assignments and must
+not be concatenated as disjoint sky regions. Canonicalv1 prefix crosswalk finds
+6,322/6,260 identical HALO_ID/RA/DEC/Z_COSMO centers, but velocity components and
+RSD Z differ (Z RMS~0.0013); photometry also differs. Exact-RSD-key join initially
+found zero; angular-key follow-up resolves the cause, not unrelated halo phases.
+Require executed velocity prescription as well as LF/HOD/K/E, seeds and N/S rule.
+
+Readable Holi parent filenames are explicitly named by archived installed LSS
+preparation, whose n(z) thinning and dummy-magnitude mechanism is documented.
+But source defaults DA3, skips seed0000 and inspected wrapper names bmask rather
+than deliveredv2; it is not the mock0 execution recipe. No arbitrary regeneration
+or fitting undertaken. Census conservation/source/helper/mask checks and four
+existing tests passed. Compact evidence, code and inspected comparison figure in
+GraphWeb docs/p12a_producer_followup_20260926.md; plan updated. Allocation released.
+W1/W2 remain partial; physical-regeneration configuration missing, exact-mask/DR1
+controls open. Existing VAC provisional and unchanged. No new compute approval
+needed; producer source/config is the next substantive external dependency.
+
+### 2026-09-26 - [science/VAC] Producer ph000 follow-up underway
+
+No new user input required for available follow-up. Readable producer Abacus N/S
+raw and Y3 forFA catalogues differ from canonical v1 row counts/schema. A bounded
+2,048-row probe per file finds all sampled BGS_TARGET values zero in both forFA
+files; full flag census pending. Old GAMA-table colour mapping also fails
+(raw selected-sample RMS0.054/0.081mag). N/S semantics and production parameters
+remain unpinned; do not concatenate or treat as observed BRIGHT products.
+Readable Holi webjax seed0000 BGS/NONKP parents found, but schema has only
+RA/DEC/Z/Z_COSMO/NX, no photometry or halo IDs. Link to delivered v2 unverified.
+CPU58908840/nid004153 now runs four-file common-sky numerical count/flag census;
+results pending. Probe/code/plan in GraphWeb; no additional Abacus phase exposure,
+no repairs/retraining/VAC replacement. Existing compute authorization sufficient.
+
 ### 2026-09-26 - [science/VAC] Alignment execution: newer Abacus parent lead
 
 CPU58905757/nid004183 completed matched numerical ph000 parent scans: v0.1
