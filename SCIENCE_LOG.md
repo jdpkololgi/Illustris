@@ -1,4 +1,20 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
+### 2026-09-26 - [science/E2E] Mixed CFM exposed-phase sensitivity checked
+
+Quick saved-score audit verifies392 receipts, no compute allocation or sealed
+phase access. Mixed coarse13312/fine26624 fine-region nominal90 coverage on
+ph012/013/014/015 is79.69/96.09/85.94/83.98% (finite-draw benchmark87.88%).
+Fine RMSE/posterior RMS spread=1.142/.663/.944/1.045; absolute pooled bias/spread
+<.09 throughout. The012/013 contrast persists in both seeds and every
+leave-one-anchor-pair-out check; these sensitivity ranges are not confidence
+intervals. Marginal tidal coverage86.80–87.77%, eigengap86.07–87.58% is more
+stable, not proof of joint or class-probability calibration. Four correlated
+phase panels cannot establish population significance or causal phase effects.
+Retain provisional candidate, do not declare near-complete DESI calibration or
+apply global widening. Next discriminate observation-regime heterogeneity on
+exposed phases before model changes;016–019 sealed. Detailed methods/source:
+`docs/e2e_cfm_mixed_phase_check_20260926.md`.
+
 ### 2026-09-26 - [science/VAC] Piat figures inspected: no demonstrated Loa recipe
 
 Public COLOURS PDF visually inspected (pages22,23,27,33). Clustering figure uses
