@@ -1,5 +1,18 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-26 - [audit/VAC] Additional Loa cuts review
+
+Existing complete-table audits show all5,436,413 targets pass historical BRIGHT
+replay; no large invalid-target population identified. Additional DELTACHI2>40
+while retaining GALAXY removes13,293 overall (0.2445%),1,853 high-z (1.349%).
+This differs from replacing the combined rule and dropping SPECTYPE, which can
+increase counts.80 selected nonzero COADD_FIBERSTATUS rows need Loa-version
+bit-level classification. Northern r19.5–19.54 targets are legitimate; uniform
+19.5 is a sample-alignment control, not demonstrated contamination. Recommend
+quality40+GALAXY control and status/mask closure, no silent production changes.
+Existing stricter conjunction does not explain large high-z count discrepancy.
+GraphWeb report: docs/p12a_loa_extra_cuts_review_20260926.md. No new compute.
+
 ### 2026-09-26 - [experiment/E2E] Mixed coarse13k / fine26k compatibility evaluation
 
 Stronger-decay screen58896067completed3h17m: no material benefit, both phase
