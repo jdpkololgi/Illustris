@@ -66,5 +66,7 @@ seed/checkpoint plus116classical cases and matched development truth hashes.
 Launch receipt:58892711 on nid001140, four GPUs/four-hour cap; frozen27afd80,
 tmux `coarse_controls_20260926` on login33. Eleven compute-node tests pass
 (0.699s); training-only52-anchor classical fit completed. Full-size solver smoke
-and posterior comparisons pending at this receipt. Graphify refresh exceeded
-five-second login cap, so the index refresh is incomplete.
+passed including32draws and tightened-tolerance comparison (12.43s first case).
+Four neural seed/checkpoint workers started and wrote their source bindings;
+posterior comparisons remain pending. Graphify refresh exceeded five-second
+login cap, so the index refresh is incomplete.
