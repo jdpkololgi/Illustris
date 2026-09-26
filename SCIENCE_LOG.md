@@ -1,5 +1,18 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-26 - [clarification/VAC] IN_Y flags are not Loa release switches
+
+Rechecked ph006 FITS schema: IN_Y1 and IN_Y5 plus regional Y1/Y5 masks; no
+IN_Y3. Loa is the reduction for our DA2/DR2 three-year sample. Pinned Y3 BGS
+preparation derives selY3 from DA2/LSS/tiles-BRIGHT.fits, followed by observation
+selection. Restoring Y5 reproduces historical preparation, not a claim that Y5
+is the correct Loa footprint. The tested tile-only variant adds just77/141
+high-shell common-sky BRIGHT targets. Even raw r<19.5 with no IN_Y filter is
+deficient relative to Loa successes, so footprint switches cannot explain the
+remaining deficit under that magnitude definition. Use fixed matched Loa sky.
+Details appended to GraphWeb docs/p12a_mock_test_phase_20260926.md. No compute
+allocation or catalogue mutation; header/source/evidence verification only.
+
 ### 2026-09-26 - [result/VAC] Reproduced ph006 BGS preparation and rejected first selection screen
 
 GraphWeb implementation/evidence committed2058231 (initial experiment41dfd08,
