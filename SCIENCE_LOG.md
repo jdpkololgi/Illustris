@@ -1,5 +1,103 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+
+### 2026-09-26 - [audit/VAC] n(z), regeneration and magnitude-term interpretation
+
+GraphWeb_DESI audit/code/evidence commit: 1078042. All 13 lightweight P12-A
+unittests and 15 source snapshot hash checks pass; Graphify refreshed in cosmic_env.
+
+User requests continued investigation, commits/logging and assessment of n(z)
+and mock regeneration. In inspected Y3 preparation source, STATUS nz mask is
+applied to dark tracers but bypassed by bright BGS; BRIGHT uses R_MAG_APP cut.
+Public BGS generator produces radial population via evolving LF/colour/K/flux
+limit, not a located external n(z) table. Generic downsampling defaults off;
+its inspected BGS branch is not a usable arbitrary n(z) interface. These source
+snapshots are not certified historical commands; an initial clarification was requested; user recalled the capability generally.
+A missing thinning step alone cannot explain too few raw high-z bright galaxies;
+wrong population generation or excessive upstream thinning remains distinct.
+
+Conditional algebra on 512 saved SEDs: if -.8(z-.1) is an actual apparent-mag
+adjustment, its sum with paired SDSS-minus-DECam r has shell medians
++.010,-.057,-.096,-.076mag. It could already cancel the filter difference.
+If stored M is evolution-corrected instead, that interpretation does not apply.
+No source record found that distinguishes these; no additional offset applied.
+Recommendation: resolve definitions and reproduce one exposed phase, then rebuild
+only the demonstrated faulty population/selection layer. No new N-body simulation
+indicated; supplied n(z) must distinguish intrinsic/target/successful samples and
+matching it is not independent validation. No regeneration, repair or Slurm run.
+Broader search after user clarified vague recollection confirms real BGS nzfile
+support in LSS calibrate_nz_bgs, used by prepare_holi_bgs.py with Loa full BGS
+n(z). It selects ran<n_target/n_parent and cannot upsample deficient parents.
+Separate Holi code also uses placeholder absolute magnitudes; not a drop-in
+photometric/halo-labelled Abacus replacement. Source snapshots/hash evidence saved.
+Report: GraphWeb_DESI/docs/p12a_nz_regeneration_assessment_20260926.md.
+Committing VAC audit implementation/evidence and the shared log/active plan,
+without including unrelated E2E changes.
+
+
+### 2026-09-26 - [audit/VAC] Module failure reproduction and same-galaxy photometry
+
+User asks what a production record is, further failed-module investigation,
+and same-galaxy SDSS/Legacy photometry. No repairs. In isolated retained20240425
+module tree, swaps to4.0.0/5.0.0 fail status1 and leave main fba_run selected.
+Mechanism reproduced, not historical proof; no assignment executed. Git version
+string5.7.2.dev3588 persists Feb2024–Apr2025, compatible with sampled output
+Oct2024 mtimes, not a unique commit.
+
+Paired SED reconstruction for512 real Loa VAC targets on common southern hp00,
+32/dz=.025: SDSS r minus DECam r medians .093,.106,.132,.246mag; g-r differences
++.037,+.055,-.018,-.089. FastSpecFit3.1.5 template2.0.0/speclite0.20 reconstruction
+replays saved model colours <2e-5mag. Model versus imaging residuals are nonzero;
+high-shell better-colour-fit subset22 still gives+.249r/-.089colour, nine with
+RCHI2_PHOT<10 give+.241/-.070. Thus plausible redshift-dependent selection effect,
+not calibrated correction or complete count explanation. Existing mock -.8(z-.1)
+relation may already encode a mapping; its interpretation is prerequisite.
+
+Direct local SDSS sweep imaging pilot:16/219 candidate files,83 unique pairs,
+60 with g/r Petrosian SNR>=5; only6 high-z, median Petrosian r minus Legacy+.435.
+Do not infer survey completeness or smooth correction from this selected pilot;
+clean flags, extinction conventions and flux-estimator effects remain to close.
+Allocation58894134; existing E2E58892711 untouched. Evidence/report:
+GraphWeb_DESI/docs/p12a_passband_followup_20260926.md. No inference/retraining.
+Final parity check caught and corrected an audit-code double extinction:
+FastSpecFit output FLUX is already de-reddened. Reran affected diagnostics;
+values above are corrected and supersede initial logs. Production VAC unaffected.
+Final512-object check: FSF g/r flux equals original Loa flux divided once by
+FSF transmission exactly; catalogue transmission differences affect g-r by
+<.0002mag. Source hashes, model replay and unique matches pass. Allocation released.
+
+
+
+### 2026-09-26 - [audit/VAC] Numerical photometric recipe identification
+
+Diagnostic only, no repairs. Public amjsmith/shared_code Abacus g/r tables at
+commit a40a5d3be570a6ce9d5a0698268b04864d4d3af2 reproduce ph006 observed colour
+within 1.84e-7 mag for 65,402 sampled science-bright galaxies. Identifies RSD Z,
+cubic colour interpolation and z>0.5 linear extrapolation; not a complete
+producer receipt or proof of SDSS-Petrosian/Legacy-Surveys equivalence.
+Stored current v0.1 r magnitudes additionally obey approximately -0.8(z-0.1)
+relative to R_MAG_ABS+DM+Kr (native-like distance); fitted residual RMS5.8e-7mag.
+Do not conflate this numerical relation with public LF Q=0.7 or assume which
+column was adjusted. Archived v0.1/old has roughly -1.6(z-0.1), and older
+versions favor Z_COSMO distance; current v0.1 favors Z. Historical receipt and
+exact older mapping remain unresolved; no product substitutions.
+
+Full SGC/PHOTSYS=S common-sky comparison at dz=.01, dr=.1 with >=20/cell:
+DESI-minus-standardized-mock median g-r = -.016,-.027,+.020,+.157mag over the
+four shells. High-shell cells retain92.88% of DESI. Thus z/r mixture alone
+does not explain colour mismatch. This is diagnostic histogram standardization,
+not count matching or a correction. Five date-spaced archived FA scripts request
+4.0.0/5.0.0, all outputs report5.7.2.dev3588. Missing fail-fast handling makes
+failed module swap plausible; no historical stderr proves cause. Raw-parent
+count deficit predates FA, so that issue cannot be its sole explanation.
+
+Allocation58892691/nid001016; successful fingerprint, archived-revision and
+full selected-population cell analyses, syntax and source-hash validation.
+Report/evidence: GraphWeb_DESI/docs/p12a_photometry_recipe_20260926.md.
+Next: producer receipt defining magnitude/evolution transformations and exact
+LF/colour recipe; same-target synthetic SDSS/Legacy photometry with explicit
+flux-estimator treatment; actual executed FA/mask receipts. VAC stays provisional.
+
 ### 2026-09-26 - [protocol/E2E] Coarse generalization diagnostic and classical control
 
 User authorizes both. FrozenEMA13312/26624, seeds17/29;52training anchors across
@@ -13,6 +111,73 @@ are explicit limitations, not full neural-information or exact Poisson match.
 No neural training, no fine hybrid, no opening016-019. One4GPU/4h bounded
 allocation; full-size classical smoke before panel; no automatic renewal.
 11tests pass0.770s. Protocol: docs/e2e_coarse_controls_20260926.md.
+
+
+### 2026-09-26 - [audit/VAC] Historical targeting replay and Kibo/Loa crosswalk
+
+Diagnostic-only closure per user; no repairs. Allocation58885256: all5,436,413
+science TARGETIDs join originalDR9/1.1.1 and pass historical BRIGHT selection
+including Gaia/SGA; g/r/z fluxes agree exactly with Loa. Selected-sample targeting
+provenance gap closed, not full mock completeness. Kibo is DR2-era, not DR1
+(Iron); Loa reran the same three-year data after a coaddition fix. Actual
+Loa ph006 mock found/read. Common-sky realLoa/Kibo changes0.2–0.5%; mock changes
+3.6–4.6%. MatchedLoa/Loa high-shell count ratios remain1.856SGC/1.839NGC.
+Mock target joins recover true z for all unassigned rows: raw bright and forFA
+parents already contain fewer high-z galaxies than successful observed DESI.
+
+Located sampled archived FA command/output, but script names4.0.0 while output
+records5.7.2.dev3588; cannot assert command-version provenance. Raw-CutSky
+generator LF/colour/passband/K-correction receipt and executed catalogue
+mask/bad-exposure recipe remain missing. No count correction or model repair.
+Point1 selected replay closed; points2/3 remain partial for generator lineage
+and unobserved real true-z completeness. Report:
+GraphWeb_DESI/docs/p12a_selection_closure_20260926.md; source-hashed evidence
+and reproducible scripts there. Existing raw threshold sensitivity:0.1mag
+moves counts~10%low-z versus~47%high-z; mechanism illustration only.
+
+
+### 2026-09-25 - [audit/VAC] Exact targeting alignment remains unverified
+
+User clarifies priority: establish actual DESI/mock selection equivalence and
+upstream modelling provenance, not impose a count correction. Previous cut
+ablations did not prove exact alignment. Allocation58871893 full Loa/ph006
+census: available real targeting-component conjunction almost universally passes;
+uniformr<19.5 plusdchi>40 and those components still leave high-shell ratios
+1.9155SGC/1.7806NGC. Nominal north/south magnitude limits differ; mock forFA lacks
+fibre/Gaia/SGA selection observables. Loa full table lacks Gaia/REF_CAT fields
+and historical targeting revision; raw CutSky lacks generator-recipe provenance.
+
+New observed-colour comparison, uniformr<19.5 and mock histogram reweighting
+withinΔz=.01 for comparison only: high-shell DESI g-r medians1.726/1.715 versus
+mock1.555/1.553. This supports photometric/population investigation but does not
+identify the cause, particularly before passband equivalence is pinned. Full
+alignment remains false. No selection changes, fitting or VAC replacement.
+Report: GraphWeb_DESI/docs/p12a_targeting_alignment_20260925.md; source-hashed
+row-count and histogram evidence in that repo docs/evidence. Prioritize original
+targeting joins/version, actual mock observation commands/maps and luminosity/
+colour/K-correction recipe, then stagewise retention and cause-specific repair.
+
+
+### 2026-09-25 - [result/VAC] Matched counts and truth-known selection tests
+
+Allocation58871404 completed count plots on common DESI/ph002–006 sky, saved
+50k-row ph006 posterior/truth analysis,32 paired core/arm runs and full64m-row
+raw-CutSky census. DESI/mock=1.0868 overall; high-shell1.973SGC/1.911NGC,
+last .54–.55 bin4.76/3.99. Even rawr<19.5 before fibre assignment is deficient:
+DESI/raw=1.369/1.447 atz=.45–.55. RSD-versus-cosmological redshift<1% effect;
+no hard raw.55 cutoff. Upstream photometry/luminosity selection remains unresolved.
+
+The high-z filament/knot trend also exists in ph006 truth; DESI posterior trend
+alone does not establish bias or physical evolution. Paired468-galaxy test:
+half expected density at unchanged counts raises filament/knot probabilities
+by.076/.060 and lowers lambda2/3 C68 from.669/.639 to.470/.365. Consistent
+half-count/half-expectation largely restores baseline; not a validated DESI fix.
+Eight geometry-selected cores, frozen angular response, exposed development
+phase; no global calibration claim, fitting, reserved-phase access or VAC change.
+Report/plots: GraphWeb_DESI/docs/p12a_selection_diagnostics_20260925.md.
+Plan updated: trace/pin physical photometric recipe, matched-population correction,
+representative mock validation, OOF/posterior replacement if needed, independent
+confirmation and DESI observable closure before science release.
 
 
 ### 2026-09-25 - [protocol/E2E] User opens ph014/ph015 for frozen-checkpoint replication
@@ -29,6 +194,52 @@ Seven tests pass0.125s including remaining-seal and default-access guards.
 Protocol: docs/e2e_cfm_replication_20260925.md. Results pending.
 
 
+
+### 2026-09-25 - [result/VAC] Full-survey provisional catalogue complete
+
+Merge58865126 completed0:0 in14m32s. Full TARGETID census and all saved-draw
+summary checks pass:5,436,413 rows,5,404,568 supported,31,845 null/unsupported.
+125 rows outside the training feature envelope;847,421 carry high-z selection
+warning64. All rows remain provisional32. Completion and catalogue SHA are
+archived under docs/evidence/p12/LOA_FULL_20260925/FULL_VAC_COMPLETE.json.
+Scientific release remains unqualified: the selection mismatch is unresolved.
+Four descriptive posterior figures and a PDF now exist in GraphWeb_DESI/docs/
+figures/p12a_loa_full_20260925. Median max class probability.744;40.01%>=.8.
+Widths increase toward high z; changing class mix there is not established
+physical evolution. Report: GraphWeb_DESI/docs/p12a_posterior_diagnostics_20260925.md.
+Real-DESI coverage cannot be inferred from these descriptive plots.
+
+
+### 2026-09-25 - [execution/VAC] Full-footprint provisional build submitted
+
+Array58865082:127 single-GPU shared shards, maximum8 concurrent,45min each.
+Part0 completed42,670rows in432s; full draw QA passed, allocation58864498
+released. Array workers are running. Merge58865126
+is afterok-dependent and validates every draw summary and all5,436,413 target
+identities before writing completion. The18-core16,542-row benchmark and exact
+restart pass; measured139s. No automatic retries or science-release promotion.
+Selection audit remains an applicability warning, especially z>=.35; full
+product gets flag64 there and provisional32 everywhere. Root:
+/pscratch/sd/d/dkololgi/graphweb_desi/outputs/p12a_loa_full_20260925_v1.
+Receipt: docs/evidence/p12/LOA_FULL_20260925/SUBMISSION_RECEIPT.json.
+
+
+### 2026-09-25 - [audit/VAC] Count mismatch persists after selection-cut checks
+
+Full Loa/raw-ph006/processed-ph006 census completed. Common-footprint Loa/mock
+ratios rise to1.94SGC/1.91NGC at z=.45-.55; applying r<19.5 plus DELTACHI2>40
+still leaves1.92/1.78. All baseline rows pass bright/hardware/priority/assignment/
+imaging-observation bits; processed mock counts exactly equal upstream counts.
+Parent-ID join recovers unassigned mock redshifts: even all supplied high-z mock
+targets are fewer than observed Loa successes. No accidental pipeline cut found;
+upstream population/observation mismatch remains unresolved, not a proven HOD
+cause. No selection refit or extra training. Full-footprint provisional inference
+is authorized, science release is not qualified; flag z>=.35 selection concern.
+Restartable18-core benchmark16,542rows and exact checkpoint recovery pass;
+5,615 prior-canary base/response rows agree exactly. Production plan:15,632cores,
+128 shards,5,436,413 rows. Evidence docs/evidence/p12/LOA_FULL_20260925 and
+GraphWeb_DESI/docs/p12a_selection_distribution_audit_20260925.md.
+
 ### 2026-09-25 - [evaluation/E2E] Final26624 checkpoint comparison authorized
 
 Training58862352 completed0:0 in54m07s; all four26624checkpoints exist.
@@ -38,6 +249,42 @@ Two-GPU/four-hour cap, expected3.5h; no training or automatic renewal.
 Protocol: docs/e2e_cfm_final_evaluation_20260925.md. Six tests pass0.124s.
 Final-versus13312 scientific results pending, not inferred from training loss.
 
+
+
+### 2026-09-25 - [result/VAC] First real Loa posterior canary produced
+
+Existing Loa full-data and18 full-random sources reused with new P12-compatible
+fields/support. Context6,680,148 rows, science-range5,436,413. Frozen halo48
+candidate sampled16 preselected cap/shell/edge cores:5,615 TARGETIDs,5,602 with
+512 ordered joint draws;13 unsupported rows retain flags/nulls. Zero canary
+contexts outside training min/max; not a multivariate domain-match claim.
+Independent FITS/draw/source validation passes;721 source hashes verified.
+No retraining, tuning or new confirmation access. Allocation58862859; optimized
+preparation394s, inference70s, product QA2s, successful steps exit0:0.
+Product: /pscratch/sd/d/dkololgi/graphweb_desi/outputs/p12a_loa_canary_20260925_v1/DESI_LOA_P12A_HALO48_CANARY_VAC.fits.
+This is a provisional bounded VAC, not full-footprint production/science release.
+Next: input-distribution/selection closure, representative shard benchmark and
+restartable V5 scale-out; V4 replication and V6 science release remain open.
+Evidence: docs/evidence/p12/LOA_CANARY_20260925; observation report
+GraphWeb_DESI/docs/p12a_loa_canary_20260925.md. Graphify works in cosmic_env;
+compute-node flock524 was resolved for index maintenance by a bounded login run.
+
+
+### 2026-09-25 - [result/VAC] Conditional coverage and observer golden replay pass
+
+Inherited per-row ph006 review: max global coverage error.02714<=.03;
+non-sparse conditional.03576 and sparse.01928<=.06. No fitting/tempering.
+Eight cap/shell golden cores reproduce observer coordinates, three input fields,
+halo48 predictions and posterior draws.64 output-row response/identity checks
+pass. Corrected adapter to the exact historical distance lookup, retaining the
+initial direct-integration failed receipt. Full Loa data plus18 full random hashes
+match. Four adapter tests pass. No DESI posteriors or new confirmation access.
+
+Cleared to begin bounded Loa trial preparation, not immediate sampling before
+Loa fields exist or science release. Input construction/QA precedes diagnostic
+inference; independent confirmation and full release qualification remain.
+Evidence and scope: docs/p12a_golden_conditional_results_20260925.md and
+P12A_HALO48_BOUNDED_TRIAL_HANDOFF_20260925.json under docs/evidence/p12.
 
 ### 2026-09-25 - [result/continuation E2E] Development gains justify original-horizon completion
 
@@ -54,6 +301,18 @@ Segment root: /pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_pilot_continue_202
 Original latest states backed up before launch; historical checkpoints untouched.
 Final-checkpoint development comparison remains next, not yet executed.
 
+
+
+### 2026-09-25 - [result/VAC] Halo48 batch complete; DESI readiness still open
+
+All exports, refit and audit completed0:0. Physical512-draw ph006 audit:
+C68=.69469/.69870/.70975, C90=.91012/.91041/.91765; modest overcoverage
+resolved by within-phase spatial bootstrap. TARP maxerror.0146 passes. Accuracy
+broadly retained. Historical strict SBC marker remains false for old and new;
+do not mislabel it a new candidate-only failure. Registered conditional review
+and candidate disposition, Loa adapter golden replay and confirmation-eligibility
+ledger remain. No DESI inference or further retraining launched. Full assessment:
+`docs/p12a_halo48_readiness_20260925.md`.
 
 ### 2026-09-24 - [execution/E2E] Paired development draw assessment running
 
@@ -122,6 +381,31 @@ frame/information not a matched causal control. No classical detour launched.
 
 
 
+
+### 2026-09-24 - [operations/VAC] Optimized named export jobs replace pending array
+
+User explicitly requested optimization and resubmission. The array brackets
+represented task indices, not a multi-node model. Remaining tasks were pending
+Priority rather than suspended. Prior throttle refresh cleared the reported
+array-limit reason but did not secure resources; no claim of a Slurm defect.
+
+Completed ph000/ph002 exports took60:28-65:20 and MaxRSS2.47-2.61GiB. Replaced
+only pending phases with90min/16GiB requests (formerly150min/48GiB), retaining
+one GPU and32CPUs each under shared QOS. Frozen scientific sources/checkpoints
+unchanged and rehashed. All four output directories absent/empty before launch.
+Two ordinary-job dependency chains retain max2 concurrent exports:
+ph003=58831285 -> ph005=58831287; ph004=58831286 -> ph006=58831289.
+Only old pending array tasks2-5 cancelled; completed tasks0/1 preserved.
+Refit58827034 now requires all four replacement jobs to succeed; audit58827036
+still requires successful refit. Replacements submitted held, dependencies
+rewired before old cancellations, then released. No DESI inference.
+
+A small named-job adapter selects the original frozen launcher phase; it does
+not submit arrays. Shell syntax validation passes. The smaller wall/memory
+request improves scheduling flexibility, not a guarantee of immediate start.
+No unvalidated reduction of fit/audit bounds. Durable commands, job IDs and
+launcher hash: `docs/evidence/p12/HALO48_OPTIMIZED_RESUBMISSION_20260924.json`.
+
 ### 2026-09-24 - [execution/E2E] Corrected Wiener interactive retry running
 
 User approved interactive retry. Allocation58830984 on CPU nid004169, two-hour
@@ -133,6 +417,24 @@ Receipt: docs/e2e_abacus_wiener_interactive_20260924.md. Separatev2 Scratch,
 failedv1 preserved; no automatic retry or expanded programme.
 
 
+
+
+### 2026-09-24 - [operations/VAC] Halo48 array scheduling recovery
+
+User requested repair of stuck P12 jobs. Live inspection found no active
+interactive allocations. Export58827028_0/ph000 and _1/ph002 completed0:0
+with pass markers (5,026,863 and4,929,962 rows). Recorded parent/truth and
+checkpoint hashes match the original phase records; all718 frozen source
+hashes reverified. Full output-byte validation remains the preparation gate.
+
+Remaining array tasks reported JobArrayTaskLimit despite zero running tasks.
+Reasserted the existing throttle with `scontrol update JobId=58827028
+ArrayTaskThrottle=2` (exit0). After scheduler reevaluation, tasks2/3 reported
+Priority; the throttle blockage cleared. This is consistent with stale scheduler
+state, not proof of a specific Slurm defect. No job cancelled or rerun, no source
+or scientific protocol change. Refit58827034 and audit58827036 retain their
+successful-completion dependencies. No DESI inference. Receipt:
+`docs/evidence/p12/HALO48_SCHEDULER_RECOVERY_20260924.json`.
 
 ### 2026-09-24 - [fix/E2E] Repair tapered-exposure observation contract
 
@@ -173,6 +475,32 @@ sampler expansion, neural refit or production claim. Calibration remains the
 objective; this one diagnostic asks what prevents it at matched information.
 
 
+
+
+### 2026-09-24 - [execution/VAC] Authorized halo48 exports, posterior refit and audit submitted
+
+User approved the context correction and requested execution. All six phase
+benchmarks pass legacy24 parity and candidate48 finite/ordered outputs on32
+stratified cores each; median0.205-0.246s/core, peak GPU<1.57GB. Seven exporter
+and six base-response tests pass. Fixed stale SBI prior-support device handling
+in fitting/diagnostic posterior construction; CUDA reconstruction returns32
+finite draws. Benchmark GPU58825781 released, other task allocations preserved.
+
+Isolated candidate `p12a_halo48_candidate_20260924_v1`: frozen718-file source
+snapshot and hashed manifest. Submitted shared-GPU export array58827028 (six
+phases, max2 concurrent), dependent preparation/FMPE58827034, dependent
+calibration audit58827036. Jobs retain original five omitted-phase encoders and
+full-fit ph006 role; no encoder training or reserved-phase opening. Parent,
+truth, response and cached support bindings must match before dataset fitting.
+Original P12-A products remain untouched. Exact source and submission receipts:
+`docs/evidence/p12/HALO48_RUN_MANIFEST_20260924.json` and
+`docs/evidence/p12/HALO48_SUBMISSION_RECEIPT_20260924.json`.
+
+Submitted is not completed or scientifically accepted. Candidate comparison
+keeps readiness false pending untempered/physical calibration and information
+review, confirmation eligibility, and Loa adapter golden replay. No DESI
+inference launched. Current execution and stop rules:
+`docs/p12a_halo48_candidate_plan_20260924.md`.
 
 ### 2026-09-24 - [result/E2E] Nonlinear classical reference and Laplace competitor
 
@@ -225,6 +553,151 @@ perfect-Gaussian gate, not reference-convergence or survey-validation requiremen
 Graphify refresh fails at existing flock errno524; no bypass. Other VAC edits
 and allocations were preserved.
 
+
+### 2026-09-24 - [result/VAC] Exact frozen replay, but halo24 context gate fails
+
+Continued population/actual-DESI quality and frozen-model checks under standing
+compute approval (CPU58824338, GPU58824466). The existing GraphWeb catalogue
+satisfies ZWARN0, DELTACHI2>=25 and GALAXY throughout. In the VAC range,>40
+would remove16,752/6,466,730 rows (0.259%); LSS's omission of the GALAXY cut is
+a separate effect. The previously noted cut difference is not by itself a defect.
+
+Eight ph002 OOF cores/14,230 galaxies replay exactly after matching original
+cuDNN TF32 precision. The initial TF32-off discrepancy is preserved, not a
+model/data correction. ntilde and sampled P3b boundary/support replays pass.
+Eight existing training contexts also pass frozen-FMPE same-seed draw replay.
+No fitting, DESI inference or reserved confirmation payload access occurred.
+
+Population closure: full raw bright target-range censuses in ph000 and
+ph002-005 contain zero RES=0 galaxies; resolved centrals and satellites are
+present in every phase. Unresolved bright objects exist outside the VAC range.
+This closes that target-population sampling gap without changing selection.
+
+The genuine new blocker: full-fit halo24 fails4/8 context-growth and2/8
+subdivision checks against existing gates. Frozen-weight halo48 passes on all
+24 dense/sparse/edge control cores. Do not silently change halo and reuse the
+halo24-calibrated posterior. Regenerate OOF/full-fit summaries, refit and
+revalidate posterior before promoting a candidate; encoder retraining remains
+conditional. The native/Planck18 chart comparison does not establish P12 is
+wrong and E2E products are not required for this VAC.
+
+Evidence, full qualification limits and concrete correction path:
+`docs/p12a_population_response_replay_results_20260924.md` and active VAC plan.
+
+### 2026-09-24 - [result/VAC] ph000 import, frozen transforms and live Loa source checks
+
+Continued under standing VAC compute approval in CPU job58823514/nid004174.
+ph000 original/imported catalogue and point hashes match; 16384 direct
+Planck18 point replays and128 native labels/classes agree exactly across eight
+cap/shell strata. Full-fit plus five OOF checkpoint/transform bindings and
+embedded normalization/scaler parity pass. Historical Git revisions reproduce
+all six recorded source hashes per checkpoint. ph002-005 annotation logs
+explicitly record x_com and zero skipped parents. Full and clustering Loa data
+hashes match; all36 random-file schemas/sizes/row counts match (random content
+hashes not yet verified). No DESI inference, fitting or reserved payload access.
+
+Native/fiducial chart comparison is now pinned; it does not justify replacing
+P12 coordinates with E2E arrays. Population flags and response replay remain
+open. The legacy GraphWeb DELTACHI2>=25 selection differs from installed LSS
+BGS DELTACHI2>40: freeze the release policy before building model inputs.
+Evidence and limits: `docs/p12a_handoff_followup_results_20260924.md`.
+Raw CutSky recovery for the128 verified ph002 label rows uniquely matches
+all sky and host keys:119 CEN=1/RES=1 and9 CEN=0/RES=1. This verifies central
+and satellite sample coverage but leaves RES=0 untested. Evidence:
+`docs/evidence/p12/P12A_POPULATION_SAMPLE_PH002_20260924.json`.
+Fourteen focused coordinate/preflight regression tests pass.
+No retraining trigger established; canary remains blocked by scientific gates.
+
+### 2026-09-24 - [result/VAC] Four training-phase sampled coordinate/native-label audits pass
+
+Job58823054 completed and released. ph002-005 each pass all seven partial
+checks on16384 observed rows and128 native-label rows (16 in each cap/shell).
+Stored Planck18 point replay, parent TARGETID/sky/host/label joins and native
+x_com-linked float32 labels/CWEB agree exactly. Maximum independent direct-
+distance discrepancy is6.85262e-7Mpc, below the predeclared1e-5Mpc threshold.
+All four complete reports are archived under docs/evidence/p12 with names
+`P12A_COORDINATE_SAMPLE_PH00{2,3,4,5}_20260924_v2.json`.
+
+The first ph002 attempt correctly failed coverage: globally most populated
+slabs sampled NGC only. Preserve its v1 report. Amended geometry-only sampling
+prioritizes uncovered cap/shell strata with at most six slabs, without changing
+numerical tolerances; nine synthetic tests pass. Passing phase runtimes9-13s.
+Scheduler/accounting details, sampling limits and next gates:
+`docs/p12a_coordinate_sample_results_20260924.md`.
+
+No sampled error warrants retraining. Full coordinate qualification remains
+open: imported ph000, encoder/OOF/response lineage, annotation run provenance,
+demographic/native-distance checks and Loa replay. No DESI posteriors yet. User's
+all-VAC-compute approval persists; no further scheduler permission is needed
+within that scope. Reserved phases and science-release gates remain unchanged.
+
+### 2026-09-24 - [execution/VAC] Compute authorization and first coordinate audit launched
+
+User explicitly approved all compute requests for VAC production. This covers
+subsequent bounded VAC allocations/job steps without repeated permission;
+scientific gates, reserved phase roles and the two-allocation limit remain.
+After confirming zero existing allocations, requested CPU job58823054 on
+nid004164: one node, eight CPUs,32GiB,30minutes,desi/interactive,Scratch+CFS.
+The frozen ph002 sample audit is running with the v2 input inventory. Output:
+`/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_vac_coordinate_ph002_20260924_v1/`.
+Numerical result pending; launch is not coordinate qualification.
+
+### 2026-09-24 - [code/VAC] Training-only coordinate sampler implemented; numerical run prepared
+
+Resumed the frozen P12-A VAC plan. Implemented
+`workflows/abacus_tweb/p12a_coordinate_sample_audit.py` with seven passing
+synthetic tests. Inventory-only execution froze the exact ph002 canonical FITS,
+P1 points and annotated-parent receipt in
+`docs/evidence/p12/P12A_COORDINATE_SAMPLE_INPUTS_PH002_20260924_v2.json`.
+The earlier unsuffixed inventory is historical; v2 binds source and input
+identities before and after numerical execution. These are metadata checks,
+not newly measured coordinate or label closure.
+
+The next run samples16,384 canonical rows, checks Planck18 point/cap replay
+and direct-distance integration, verifies TARGETID/sky/host/label joins, and
+resamples native x_com-linked R7 labels for <=16 rows per cap/shell from three
+halo slabs. NPZ cells are mapped read-only instead of loading entire T-Web
+grids. Scientific tolerances, missing-coverage behavior, source bindings,
+run command and resource request are frozen in
+`docs/p12a_coordinate_sample_run_20260924.md`. A passing partial audit still
+leaves the full coordinate gate unresolved, including ph000 imported lineage,
+annotation-run position-field provenance, encoder/OOF transforms, demographic
+strata, native-distance comparison, response consistency and Loa replay.
+
+Small tests and receipt inspection ran on the login node. Only the live audit
+requires compute because native ASDF position columns are decoded by slab.
+Prepared request: one CPU node, eight requested CPUs,32GiB,30minutes,
+desi/interactive, Scratch+CFS licenses. Allocation inspection found zero jobs;
+recheck before launch. No Slurm submission or numerical/data-payload audit yet;
+explicit scheduler approval remains required by the workspace AGENTS.md.
+
+Operational correction from the user: graphify is installed inside cosmic_env
+and rapids-gnn, not on the default login PATH. The cosmic_env executable query
+works; earlier command-not-found reports were environment-selection errors.
+Normal Codex execution now reaches a different sandbox error concerning the
+app-server socket mount under /cray/tmp; reviewed unsandboxed commands work.
+
+### 2026-09-24 - [ops/handoff] Codex sandbox launcher failure isolated; P12-A artifact preflight completed
+
+The earlier `No such file or directory` error occurred in Codex's command
+launcher, before the requested shell or Python process. An interactive-shell
+probe named the missing temporary executable
+`~/.codex/tmp/arg0/codex-arg05rzc5F/codex-linux-sandbox`; a direct check
+confirmed that directory is absent. The same `cosmic_env` Python runs when
+Codex's broken sandbox wrapper is bypassed, and read-only `squeue` showed an
+unrelated running allocation 58820323. This is not evidence of a Slurm,
+Perlmutter, Python-environment, or P12 script failure. The temporary workaround
+is an explicitly reviewed unsandboxed invocation; the Codex runner should be
+repaired rather than treating it as a science gate. No Slurm job was submitted.
+
+GraphWeb_DESI/docs/p12a_vac_preflight_report_20260924.json is the completed
+bounded V0 report. All eight frozen candidate artifacts passed live size/SHA256
+verification; feature order and checkpoint bindings passed. The script returned
+its documented exit 2 because `ready_for_desi_canary=false`. Archived Loa
+catalogue metadata is not live catalogue verification. Coordinate/native-host
+label closure, encoder/OOF lineage, source refreeze, response crosswalk, final
+checkpoint parity, and golden-mock replay remain open. No DESI posterior or
+release claim follows from this artifact inventory.
 
 ### 2026-09-24 - [code/handoff] P12 VAC preflight implemented; live command launch blocked
 
@@ -14300,3 +14773,15 @@ zero train↔test leakage, feature-count metadata survives a dry-run forward).
   over the last ~2 months. Future = NPE on the wedge subvolumes.
 - Next: when convenient, retire `workflows/sbi/*partitioned*` + partition builders.
 - Refs: `workflows/sbi/`, see also Claude Code memory `project-abacus-wedge-npe-direction`.
+
+### 2026-09-26 authoritative LSS Abacus follow-up
+
+User identifies desihub/LSS as the processing authority. Upstream commit
+d942b990860e016e7558c740966fea3e5ce7e7f3 inspected and snapshotted in GraphWeb
+LSS_UPSTREAM.json. mkCat_amtl --nz y measures n(z)/adds weights; it does not
+match counts to an input n(z). Loa Abacus wrapper distinguishes plain BRIGHT
+full products from BRIGHT-02 with a z-dependent absolute-magnitude threshold.
+Y3-named preparation wrapper actually calls Y1 code with downsampling n and
+rbandcut 19.5. Pin executed commands, footprint and sample suffix before causal
+attribution; current upstream is not proof of the historical execution.
+No repair/regeneration. Details in the n(z) regeneration assessment.
