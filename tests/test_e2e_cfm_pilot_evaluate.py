@@ -10,6 +10,20 @@ from workflows.sbi.e2e_vdm_context_metrics import calibration
 
 
 class EvaluateTests(unittest.TestCase):
+    def test_mixed_checkpoint_routing(self):
+        from workflows.sbi.e2e_cfm_pilot_evaluate import load_models
+        seen=[]
+        class Fake:
+            def __init__(self,*args):pass
+            def cuda(self):return self
+            def eval(self):return self
+            def load_state_dict(self,state):pass
+        def state(path,**kwargs):
+            stage,seed=path.parent.name.split('_');step=int(path.stem.split('_')[1]);seen.append((stage,step))
+            return dict(step=step,ema={},binding=dict(stage=stage,seed=int(seed),confirmation_access=False,normalizer='chart',model='hash'))
+        with patch('workflows.sbi.e2e_cfm_pilot_evaluate.CoupledBackbone',Fake), patch('torch.load',side_effect=state), patch('workflows.sbi.e2e_cfm_pilot_evaluate.c.sha256',return_value='hash'):
+            load_models(17,13312,26624)
+        self.assertEqual(seen,[('coarse',13312),('fine',26624)])
     def test_replication_scope(self):
         with patch('workflows.sbi.e2e_cfm_pilot_evaluate.EVAL_PHASES',('ph014','ph015')):
             development('ph014');development('ph015')

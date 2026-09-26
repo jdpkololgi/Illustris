@@ -68,13 +68,14 @@ def summary(draws,truth):
         width90=float(value['width_0.9'].mean()),rank_histogram=np.histogram(value['rank'],np.linspace(0,1,9))[0].tolist())
 
 
-def load_models(seed,step):
+def load_models(seed,step,fine_step=None):
     models={};hashes={};normalizer=None
     for stage in ('coarse','fine'):
-        path=TRAIN_ROOT/f'{stage}_{seed}'/f'CHECKPOINT_{step:06d}.pt'
+        selected=fine_step if stage=='fine' and fine_step is not None else step
+        path=TRAIN_ROOT/f'{stage}_{seed}'/f'CHECKPOINT_{selected:06d}.pt'
         hashes[stage]=c.sha256(path);state=torch.load(path,map_location='cpu',weights_only=False)
         b=state['binding']
-        if state['step']!=step or b['stage']!=stage or b['seed']!=seed or b['confirmation_access']:
+        if state['step']!=selected or b['stage']!=stage or b['seed']!=seed or b['confirmation_access']:
             raise ValueError('invalid checkpoint identity')
         if normalizer is not None and normalizer!=b['normalizer']:raise ValueError('factor chart mismatch')
         normalizer=b['normalizer']
@@ -193,12 +194,14 @@ def run(a):
     torch.backends.cudnn.allow_tf32=False;torch.backends.cuda.enable_flash_sdp(False)
     torch.backends.cuda.enable_mem_efficient_sdp(False)
     if a.seed not in (17,29) or a.step not in (6656,13312,26624):raise ValueError('unregistered assessment cell')
-    root=Path(a.output)/f'seed{a.seed}_step{a.step}';root.mkdir(parents=True,exist_ok=True)
-    models,hashes,normalizer=load_models(a.seed,a.step);chart=views.load_chart(normalizer)
+    if a.fine_step is not None and (a.step,a.fine_step)!=(13312,26624):raise ValueError('only authorized mixed pair')
+    suffix=f'_fine{a.fine_step}' if a.fine_step is not None else ''
+    root=Path(a.output)/(f'seed{a.seed}_step{a.step}'+suffix);root.mkdir(parents=True,exist_ok=True)
+    models,hashes,normalizer=load_models(a.seed,a.step,a.fine_step);chart=views.load_chart(normalizer)
     scale,fit_ids=reference_scales(normalizer)
     binding=dict(checkpoints=hashes,normalizer=normalizer,runner=c.sha256(__file__),seed=a.seed,step=a.step,
         weights='ema',draws=32,nfe=128,refinement_draws=8,refinement_nfe=256,probe_scale=scale.tolist(),fit_ids=fit_ids,
-        evaluation_phases=list(EVAL_PHASES),panel=a.panel)
+        evaluation_phases=list(EVAL_PHASES),panel=a.panel,fine_step=a.fine_step or a.step)
     marker=root/'BINDING.json'
     if marker.exists():
         if json.loads(marker.read_text())!=json.loads(json.dumps(binding)):raise ValueError('resume binding mismatch')
@@ -232,6 +235,14 @@ def run(a):
                             c.atomic_json(root/'PAUSED.json',dict(phase=phase,pair_id=pair_id,nfe=nfe,first=first),replace=True)
                             return
                         tick=time.monotonic();val=generate(models,observation,phase,pair_id,a.seed,first,nfe,chart)
+                        if a.fine_step is not None:
+                            old_name='cfm_replication_20260925_v1' if phase in ('ph014','ph015') else 'cfm_pilot_eval_20260924_v1'
+                            old=TRAIN_ROOT.parent/old_name/'results'/f'seed{a.seed}_step13312'/phase/pair_id/f'nfe{nfe}'/path.name
+                            receipt=json.loads(old.with_suffix('.json').read_text())
+                            if c.sha256(old)!=receipt['sha256']:raise ValueError('baseline chunk changed')
+                            with np.load(old) as previous:
+                                if not np.allclose(val['wide'],previous['wide'],rtol=2e-6,atol=1e-8):
+                                    raise ValueError('mixed run changed addressed coarse draw')
                         replay=False
                         if phase==EVAL_PHASES[0] and pair_id==ids[0] and first==0 and nfe==128:
                             repeated=generate(models,observation,phase,pair_id,a.seed,first,nfe,chart)
@@ -264,4 +275,5 @@ def run(a):
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--seed',type=int,required=True);p.add_argument('--step',type=int,required=True)
     p.add_argument('--output',required=True);p.add_argument('--seconds',type=int,default=13800)
+    p.add_argument('--fine-step',type=int)
     p.add_argument('--panel',choices=('development','replication'),default='development');run(p.parse_args())

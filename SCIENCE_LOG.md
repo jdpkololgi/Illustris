@@ -1,5 +1,19 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-26 - [experiment/E2E] Mixed coarse13k / fine26k compatibility evaluation
+
+Stronger-decay screen58896067completed3h17m: no material benefit, both phase
+swaps select13312; baseline parameters replay exactly. Classical alignment
+passes but control remains unusable. User approves frozen mixed-checkpoint
+assessment instead of further training. EMA coarse13312/fine26624, seeds17/29,
+all64open012-015pairs,4096main+64refinement draws; compare saved same-step
+ensembles. Coarse chunks checked against old13312draws; coarse-aligned coverage
+agreement is algebraic, not new learning/calibration. Fine-sensitive metrics
+and coarse/fine compatibility determine usefulness.016-019remain sealed.
+12focused tests pass0.780s. One4GPU/4h allocation, expected~3h33m, tmux;
+no auto-renewal. Protocol: docs/e2e_cfm_mixed_20260926.md. Results pending.
+
+
 ### 2026-09-26 - [clarification/VAC] IN_Y flags are not Loa release switches
 
 Rechecked ph006 FITS schema: IN_Y1 and IN_Y5 plus regional Y1/Y5 masks; no

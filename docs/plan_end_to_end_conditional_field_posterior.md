@@ -2,6 +2,13 @@
 
 ## CURRENT AUTHORITY — bounded coupled CFM pilot (2026-09-24)
 
+Latest2026-09-26: stronger-decay screen completed, no useful improvement; both
+development-phase swaps select13312. User authorizes frozen coarse13312 plus
+fine26624 compatibility evaluation on all64development pairs/seeds17/29.
+Protocol `e2e_cfm_mixed_20260926.md`. Compare saved same-step ensembles;
+coarse-controlled coverage equality is algebraic, not new calibration evidence.
+No training, no016-019access; fine-sensitive power/tidal/dependence are decisive.
+
 Latest2026-09-26: synthesize external review into baseline-vs-stronger-decay
 coarse continuations (two seeds), automatic small-panel19968/26624 evaluation
 and exposed-phase swap/early-stop reference; audit unusable classical control.
