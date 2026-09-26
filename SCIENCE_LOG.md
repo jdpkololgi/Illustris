@@ -1,4 +1,41 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
+### 2026-09-26 - [science/code/VAC] Independent controls close release/boundary tests
+
+CPU58921665/nid004148 completed0 and released. DR1 ironv1.5/Loav2.1 full-BRIGHT
+same-ID and random-supported-sky comparison:6,405,170 sharedIDs; interior Loa/DR1
+ratios decrease mildly low->high shell (1.455->1.410SGC,1.299->1.258NGC), unlike
+the old-mock high-z deficit. Of689,136 matched-ID gains,686,381(99.6002%) were
+unassigned inDR1. Among2,685,453 jointly accepted rows, no |dr|>.01mag;801 have
+|dz|/(1+z_DR1)>.005. These are conditional delivered-catalogue diagnostics,
+not an all-target success model. Original Loa/mock mask contains non-DR1 sky;
+its~2 ratios include area differences. Exact subpixel/tile-mask parity remains open.
+
+Original exposedph006 observed-mock/Loa histogram replay exact. Removing two
+NSIDE256 boundary rings leaves high-shell Loa/mock1.823/1.855SGC/NGC. Even
+NTILE>=3 has1.664/1.740. Thus simple footprint-edge or singly covered-region
+explanations cannot account for the whole mismatch; interior selection still open.
+
+Boundedph000 central-location velocity test: producerN/S versuscanonicalv1
+cannot be explained by scalar rescaling alone (per-object best-scalar residual
+RMS142–170 stored units; paired prefix only coversz.35–.55). Allthree satisfy
+radialRSD usingc~300000 to~.009 velocity-unit RMS, so this common small convention
+is not the inter-version cause. No catalogue corrections applied.
+Five focused tests, all source/helper/output hashes and fine-bin conservation
+checks pass. Two inspected figures, report, commands and compact evidence:
+GraphWeb docs/p12a_independent_controls_20260926.md. Plan updated. No regeneration,
+fitting/new phases/VAC replacement; E2E58920768 untouched. Await Jade's scientific
+population/selection prescription; exact angular/observation recipe remains needed.
+
+### 2026-09-26 - [code/science/VAC] Independent release/footprint controls launched
+
+While awaiting Jade, CPU58921665/nid004148 runs DR1 ironv1.5 vs Loav2.1
+full-BRIGHT controls: same-ID quality/redshift transitions and NSIDE256/512
+random-supported intersections, plus interior sensitivity. Next on same allocation:
+one/two-ring common-mask erosion of original exposedph006 observed mock/Loa,
+with tile-count strata and exact baseline replay assertion. Five focused tests pass;
+no results claimed yet. Existing E2E58920768 untouched, no new Abacus phases or
+fitting/regeneration. Code/plan and eventual receipts owned by GraphWeb.
+
 ### 2026-09-26 - [code/E2E] Approved ph016/017 mixed-model replication launched
 
 User approved4GPU/2.5h frozen evaluation. No other allocations were active.
