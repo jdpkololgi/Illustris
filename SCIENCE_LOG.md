@@ -1,5 +1,22 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-26 - [experiment/E2E] Coarse regularization screen and classical failure audit
+
+User asks to synthesize attached review and launch next experiment. Adopt
+matched baseline-vs-decay continuations, seeds17/29, parent13312, original
+26624horizon. OnlyAdamW decay1e-5->0.1 changes; preserve EMA/RNG/schedule/data.
+Save1664-spaced checkpoints; automatically assess19968/26624 and saved13312 on
+8training+16development anchors,32draws each. Exposed-phase swap selection by
+coverage error is exploratory, not fresh confirmation; retain CRPS/width guards.
+Classical control marked unusable pending audit, not evidence against Wiener
+methods. Check real-anchor region alignment and likelihood residuals plus null
+predictor/correlation gates. Synthetic/resampling arms deferred until observation
+model verified. Fine was trained on true coarse; any hybrid needs explicit
+compatibility checks.016-019remain sealed. FourGPU/four-hour bounded run.
+Six focused tests pass0.775s. Full protocol and limitations:
+docs/e2e_coarse_regularization_20260926.md.
+
+
 
 ### 2026-09-26 - [code/VAC] Commit remaining coordinate and halo48 implementation
 

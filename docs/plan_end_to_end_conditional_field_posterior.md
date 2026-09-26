@@ -2,6 +2,14 @@
 
 ## CURRENT AUTHORITY — bounded coupled CFM pilot (2026-09-24)
 
+Latest2026-09-26: synthesize external review into baseline-vs-stronger-decay
+coarse continuations (two seeds), automatic small-panel19968/26624 evaluation
+and exposed-phase swap/early-stop reference; audit unusable classical control.
+Protocol `e2e_coarse_regularization_20260926.md`. Fine frozen, original13train
+phases, development012-015, confirmation016-019sealed. Synthetic pretraining
+and observation resampling await a verified observation model. No automatic
+promotion; full development and fine-conditioning checks precede confirmation.
+
 2026-09-26: user authorizes coarse train-versus-development error/spread test
 plus classical coarse control, before more training. Protocol
 `e2e_coarse_controls_20260926.md` defines52train anchors/13phases, reuse of64
