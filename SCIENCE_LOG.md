@@ -1,4 +1,18 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
+### 2026-09-26 - [science/VAC] Jade Piat public context; recipe clarification
+
+User identifies jpiat as Jade Piat. Public June2025 COLOURS slides describe
+Abacus magnitude-dependent HOD, z0.2 cutsky magnitude evolution and proposed
+velocity evolution. This is a plausible lead for our velocity differences, not
+proof of the recipe for June2026 producer files. Parent counts do not yet establish
+Loa agreement; correct flags/observation processing may suffice but remain untested.
+Prioritize a short scientific recipe and recommended existing catalogue/version:
+N/S meaning, physical magnitudes, n(z)/LF changes, target/quality/footprint steps,
+velocity and halo conventions. A whole code repository is not necessary merely
+to replay selections on existing products. Do not confuse dipole bright/faint
+subsamples with targeting classes. Source and search limitations recorded in
+GraphWeb producer report/plan. Slack draft supplied for user; no outreach sent.
+
 ### 2026-09-26 - [science/code/VAC] Producer census complete; velocity and targeting differences
 
 CPU58908840/nid004153 completed separate raw/Y3 N/S ph000 censuses. Raw high-shell
