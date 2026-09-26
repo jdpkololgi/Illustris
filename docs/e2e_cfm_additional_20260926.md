@@ -20,7 +20,7 @@ This is descriptive stratification, not causal attribution or an independent
 binomial significance test: regions overlap, seeds repeat the same truth, and
 only four phases are exposed. No global variance correction is justified.
 
-## Prospective panel (allocation approval pending)
+## Approved prospective panel
 
 Use ph016 and017 only:16prepared anchor pairs each, two seeds,32draws per pair,
 128NFE per factor; first pair per phase/seed receives paired8draw256NFE refinement.
@@ -48,4 +48,12 @@ a real-survey robustness test.
 Verification:14focused unit tests passed in0.746s (routing, frozen phase scope,
 sampler/physics controls, complete/incomplete report collector); shell syntax
 and git diff checks passed. Graphify refresh exceeded the five-second login
-cap; index refresh incomplete. No scheduler submission has been made.
+cap; index refresh incomplete.
+
+Launch2026-09-26: user approved the specific allocation and panel. Job58920768
+granted on nid001252, four GPUs,2h30m cap, tmux `cfm_additional_20260926` on
+login33. Immutable source snapshot fromdc90e51bfcbd79d9f217b4ff744665f81e62938a.
+Output/log root:
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_additional_20260926_v1`.
+This is launch evidence, not scientific completion. Once targets are scored,
+016/017 are exposed replication phases;018/019 remain sealed.

@@ -7,7 +7,8 @@ coverage by construction. Exposed-phase regime audit finds identical16stratum
 composition per phase;012/013 fine-region coverage contrast persists within
 both caps and boundary/interior groups, but differs by radial shell. User requests
 further non-training phases. Frozen mixed-model ph016/017 replication implemented;
-specific4GPU/2.5h allocation approval pending. Do not open018/019. Protocol
+specific4GPU/2.5h allocation approved and launched as58920768 on nid001252,
+source dc90e51 frozen under tmux. Do not open018/019. Protocol
 `e2e_cfm_additional_20260926.md`; no new training or variance recalibration.
 
 Latest2026-09-26: stronger-decay screen completed, no useful improvement; both

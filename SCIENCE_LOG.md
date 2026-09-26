@@ -1,4 +1,15 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
+### 2026-09-26 - [code/E2E] Approved ph016/017 mixed-model replication launched
+
+User approved4GPU/2.5h frozen evaluation. No other allocations were active.
+Job58920768 granted on nid001252, tmux `cfm_additional_20260926` on login33;
+source dc90e51bfcbd79d9f217b4ff744665f81e62938a staged immutably in Scratch.
+Both seeds,2048main+32refinement draws, coarse13312/fine26624 EMA; no training
+or retuning. Target scoring will expose016/017 for replication;018/019staysealed.
+Root `cfm_additional_20260926_v1` under canonical e2e_field_v3; allocation.log,
+four worker logs, restartable draw receipts and automatic final collector.
+Launch evidence only; scientific conclusions await completed artifacts.
+
 ### 2026-09-26 - [science/code/E2E] Regime matching and next non-training panel
 
 All012–015 phases have equal16cap/shell/support strata, two seeds; verified392
