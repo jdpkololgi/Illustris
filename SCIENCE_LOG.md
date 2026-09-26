@@ -1,5 +1,43 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+### 2026-09-26 - [result/VAC] Reproduced ph006 BGS preparation and rejected first selection screen
+
+GraphWeb implementation/evidence committed2058231 (initial experiment41dfd08,
+launcher e49bcd8). Allocation58895657 released after completion.
+
+User authorizes an isolated test phase and generation-parameter iteration.
+CPU allocation58895657/cosmic_env; ph006 already exposed, reserved phases untouched.
+Pinned desihub/LSS d942b990 official Y3 preparation produced10,747,480 BRIGHT
+versus archived10,540,172. Exact RA/DEC/RSDZ join recovers all archived rows;
+shared redshifts/magnitudes/colours are bit-identical. All207,308 extras have
+IN_Y5=0. Restoring Y5 and postcut sequential IDs reproduces every checked BRIGHT
+column in original order. Common-sky high-shell extra counts are only77/141,
+0.258%/0.216% of SGC/NGC archived parent: not the large redshift discrepancy.
+The test Y5 forFA catalogue has18,062,788 targets,10,540,172 BRIGHT. FAINT is a
+new seeded realization, not historical RNG replay. 10,000-row independent stored
+readback and full count/last-ID checks pass. Initial missing DESIMODEL path,
+ambiguous 2D join and fitsio negative-index probe are recorded and resolved.
+
+49 bounded magnitude-map trials on16,637,115 raw common-sky rows versus5,309,765
+Loa quality25 galaxies. Best broad-shell SGC screen adds+.075-.6(z-.1) mag;
+fixed-retention predicted/Loa ratios SGC1.011,1.041,1.052,.976 and
+NGC1.018,1.032,1.085,1.041. These are screening approximations, NOT fresh FA or
+spectral-quality simulation. No trial matches all dz=.01 bins within10%; fine-bin
+best still has26.6%/16.7% extrema. High-z numerical colour mismatch worsens to
+-.191/-.180mag mock-minus-Loa, from-.163/-.152. Passband equivalence remains
+unresolved; do not interpret this as pure intrinsic colour error or fit a blind
+offset. Quality40/quality25 changes shell counts only0.5–1.3%; note quality40
+omits the SPECTYPE=GALAXY condition, so the combined rules are not nested.
+
+First magnitude-only family is NOT accepted. Trial parent7,352,166 rows retains
+raw-row/halo linkage, original magnitudes and separate trial fields; TESTONLY.
+Next: physically consistent observer-band/absolute-M convention, relevant
+spectral-success model, new assignment for changed targets, joint fine-z
+population/clustering checks and independent confirmation. No training or VAC
+replacement. 16 GraphWeb tests pass; Illustris VAC backlog committed8654219
+with226 P12 +9 coordinate tests. Report/code/evidence in GraphWeb_DESI
+ docs/p12a_mock_test_phase_20260926.md, docs/evidence/p12a_mock_test_20260926/.
+
 ### 2026-09-26 - [experiment/E2E] Coarse regularization screen and classical failure audit
 
 User asks to synthesize attached review and launch next experiment. Adopt

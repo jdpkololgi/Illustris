@@ -562,3 +562,27 @@ No repair/regeneration. Details in the n(z) regeneration assessment.
 Audit implementation/evidence committed in GraphWeb_DESI 1078042; 13 lightweight
 P12-A tests and 15 source snapshot hash checks pass. Scientific selection closure
 remains open. No catalogue repair, regeneration or inference launched this turn.
+
+### 2026-09-26 authorized exposed-phase generation experiment
+
+User authorizes a test phase and iteration of generation/selection parameters
+toward Loa agreement. ph006 only, already exposed. Official pinned LSS Y3 BGS
+preparation replay, baseline raw/forFA agreement, Loa quality25 versus quality40,
+and bounded apparent-magnitude sensitivity sweep are running on CPU58895657.
+The new authorization supersedes the earlier diagnostic-only/no-regeneration
+wording for isolated test products. Production VAC/training remain unchanged.
+SGC tunes and NGC checks shape; neither is independent confirmation. Existing
+assignment retention is only a screening approximation, not a quality model
+for newly admitted galaxies. No arbitrary radial matching, no reserved phases.
+GraphWeb plan: docs/p12a_mock_test_phase_20260926.md; implementation41dfd08/e49bcd8.
+Remaining Illustris VAC implementation/evidence committed as8654219 after
+226 P12 tests and nine coordinate tests; concurrent E2E work remains separate.
+
+First test completed: full BRIGHT preparation replays exactly after restoring
+IN_Y5 and postcut IDs. Saved seeded Y5 test catalogue18,062,788 rows. Its footprint
+difference contributes only0.2–0.3% high-shell common-sky counts. 49 magnitude
+trials improve broad counts but fail fine-z/joint colour checks; no candidate
+accepted. Retention remained an explicit screening approximation, not rerun FA.
+Next iteration requires consistent observer photometry/raw-M definition and
+quality-success modelling before joint population/assignment validation.
+Current VAC remains provisional. See GraphWeb test-phase report and evidence.
