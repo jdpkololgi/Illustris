@@ -586,3 +586,22 @@ accepted. Retention remained an explicit screening approximation, not rerun FA.
 Next iteration requires consistent observer photometry/raw-M definition and
 quality-success modelling before joint population/assignment validation.
 Current VAC remains provisional. See GraphWeb test-phase report and evidence.
+
+### 2026-09-26 exhaustive joint cuts and magnitude–redshift diagnostic
+
+Completed all 256 conjunctions of eight targeting/assignment/fibre/quality/magnitude
+cuts on 5,397,649 common-sky Loa successes against Loa-processed ph006 (CPU58903224).
+Twelve distinct count vectors; all-cuts union removes100,573 (1.86%). High-shell
+Loa/mock ratios1.856->1.832 SGC and1.839->1.718 NGC: no tested conjunction resolves
+the discrepancy. GALAXY retained for DELTACHI2>40. Nonzero fibre rows79 all decode
+as RESTRICTED; historical Loa accepted-status version still open.
+Shared-scale magnitude–redshift plots show a broader Loa bright tail at fixed z;
+passband equivalence remains unproven. True-z parent joins give mock retention
+0.719->0.745 SGC /0.753->0.792 NGC across shells. Loa stricter-cut retention is
+conditional on successes, not absolute survey completeness. Counts reproduce the
+previous crosswalk exactly; nesting/intersection checks pass; plots inspected.
+Next: raw mock luminosity support and observer-photometry mapping, plus realistic
+quality-success modelling and historical mask closure before accepted regeneration.
+No production change or retraining. Current VAC remains provisional.
+Report: GraphWeb_DESI/docs/p12a_joint_flags_magnitude_20260926.md; compact evidence
+and figures in docs/evidence/p12a_joint_flags_20260926.
