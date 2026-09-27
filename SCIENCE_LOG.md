@@ -1,4 +1,22 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
+### 2026-09-27 - [science/code/E2E] TARP, rank plots and model dataflow generated
+
+Approved CPU58949424/nid004154 completed0 in51s and released. Extracted192
+mixed-model cases012–017 x2seeds from checksum-verified draws; saved regional
+means/stds reproduced. No GPU/training/018–019access. Three numerical tests pass;
+PNG/PDF figures visually inspected. TARP uses random-point joint2core/8block/
+8fine-region vectors,64reference repetitions, finite32draw randomized ranks.
+Not full-field TARP; saved marginal histograms labelled SBC-style because
+stratified correlated anchors are not an iid prior-predictive SBC ensemble.
+Fine TARP ECP90=.780/.801on012,.767/.782on017; reference sd1instead of.25
+moves these to.822/.841and.821/.854. Effects remain, magnitudes reference-sensitive.
+Block curves closer to diagonal; density ranks near uniform do not establish
+joint calibration. No iid bands or pass claims. Diagram documents CFM hierarchy,
+true-coarse fine training versus sampled-coarse inference, positive mass decode,
+and pilot class threshold0 (not productionVAC.2). Code/methods/source hashes:
+`docs/e2e_cfm_calibration_figures_20260927.md`; figures in
+`docs/figures/cfm_calibration_20260927/`. Graphify refresh timed out at5s.
+
 ### 2026-09-26 - [science/code/VAC] Independent controls close release/boundary tests
 
 CPU58921665/nid004148 completed0 and released. DR1 ironv1.5/Loav2.1 full-BRIGHT
