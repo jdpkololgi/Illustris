@@ -15367,3 +15367,16 @@ not explain our already-common-sky high-z residual. No LF causal attribution
 or low-k clustering claim. Official random-derived subpixel effective volumes
 remain unclosed; output densities use explicitly geometric common volumes.
 No catalogue correction or change to authorized provisional-release decision.
+
+### 2026-09-28 — Realised LF versus recovered HOD table
+
+GraphWeb p12a_realised_lf_20260928.md: CPU59019148/nid004217, ph000 stride20,
+v1 stored M<-22 density/table ratios .981,.983,1.003,1.029 across four shells.
+At .45–.55 v1 has11% fewer delivered M<-22 galaxies than old, yet r-cut retention
+74.6% versus34.6% produces1.92x selected objects. Strengthens mapping/colour/
+luminosity-convention investigation over scalar bright abundance correction;
+not a causal K-only result. Parent truncation affects M<-21 high shell; M<-23
+samples11–29 per shell too sparse for strong conclusions. Table is HOD-predicted,
+not proven executed input: default redshift_evolution=False only loads LF when
+changed. Correct previous shorthand. No Loa correction, mock mutation or release
+policy change. Independent common luminosity calibration remains next gate.
