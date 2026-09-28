@@ -1,5 +1,25 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-09-28 — Literature assessment of modest property–environment contrasts
+
+Primary-source review finds broad distribution overlap and modest residual
+associations plausible (Alpaslan2015, Eardley2015, Alam2019, O'Kane2024,
+Hoosain2024), alongside detected residuals in other estimands (Kraljic2018,
+Darvish2017, Nandi/Pandey2025). No universal numerical benchmark. R7Mpc/h
+tidal classes are not bound clusters or narrow filament-distance samples.
+Our normalized logarithmic heatmaps reuse galaxies with different soft weights;
+similar loci do not imply identical mixture fractions. Existing controlled
+knot-void contrasts remain -.205dex/+7.77pp. Stronger hard/confident contrasts
+have different supports, so attenuation is plausible but not isolated.
+
+GraphWeb docs/p12a_property_literature_assessment_20260928.md records sources,
+comparability limits and proposed exposed-mock contrast-retention/proper-score
+tests, synthetic property injection if physical truth absent, and same-galaxy
+reference/common-support controls. No proposed experiment executed here, no
+new compute or fitting, no mock repair or VAC change. Coverage is not class
+discrimination or transfer validation. Literature neither qualifies inference
+nor establishes that it is poor; retain provisional status.
+
 
 ## 2026-09-28 — Current P12-A environments retain CIGALE property trends in old wedge
 
