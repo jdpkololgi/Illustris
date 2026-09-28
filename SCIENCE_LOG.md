@@ -15205,3 +15205,17 @@ correction/regeneration/retraining performed. Next: historical source/table diff
 then exposedph000 deterministic DESI mapping fingerprints. This can proceed
 without Jade's response. GraphWeb report p12a_canonical_v1_provenance_20260928.md,
 plan and API evidence committed45f0384. Exact production recipe remains open.
+
+### 2026-09-28 - [science/code/VAC] Alex upstream v1 photometry identified
+
+Alex amjsmith/hodpy abacus and Jade's abacus head are identical14222dcf.
+Pre-file November2024 ancestor differs only in an unrelated Uchuu table.
+CPU59007827/nid004176: every1000th canonicalv1 ph000 row,58,825 at.15<=Z<.55,
+reproduces upstream DESI N/S colours at9.61e-8mag RMS with fixed DEC32.375split.
+Apparent r RMS5.95e-5mag using approximate native flatLCDM distance, upstream
+z_obs prescription and E Q=.67; mixed-distance branch RMS.01022mag, worse.
+24,195 r<19.5 rows also match (colour5.14e-8,r5.10e-5mag RMS). No numerical
+HOD/seed/full-generation provenance claim. Next isolate population/HOD/LF vs
+photometric contributions before regeneration. Three steps completed0; allocation
+released; finite/count checks passed. Source/table hashes, code and results in
+GraphWeb docs/evidence/p12a_canonical_v1_replay_20260928 and canonicalv1 report.
