@@ -1,4 +1,30 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
+
+
+## 2026-09-28 — Existing Loa provisional VAC preserved; spatial atlas and integrity audit
+
+User directs stopping mock-repair and retaining the already-trained model,
+existing mocks, intended Loa selection and all posterior values. Cancelled
+confirmed mock-preparation job59013807 (`prepare_v1_forward.sbatch`); Slurm
+reports CANCELLED. No outputs deleted, no replacement inference/retraining.
+
+Read-only atlas on CPU allocation59020269/nid004216 (final layout replay
+on allocation59020572) verifies the original FITS
+SHA256 cf472cb4e8fb327620629f347115ad26c55a3f985320b293e6753e07f50ebfbc
+before and after plotting. 5,436,413 unique IDs; 5,404,568 supported, 31,845 null/
+flagged. All coordinate, probability, quantile-order and quality-count checks pass.
+Fixed 20Mpc equatorial slab: 48,798 galaxies; fixed low-z close-up: 6,044.
+Same-position views show observations, argmax classes, maximum probabilities and
+all four class probabilities. No class-dependent display selection or smoothing.
+Morphological coherence is descriptive, not coverage or physical-evolution proof.
+
+Release notes: `GraphWeb_DESI/docs/p12a_provisional_release_20260928.md`;
+figures/PDF/integrity manifest in `docs/figures/p12a_loa_atlas_20260928/` there.
+Both roadmap statuses updated. Real-DESI coverage remains unverified; known
+training-mock mismatch above z~0.35, severe at .45<z<.55; redshift trends may be
+selection/model effects; smaller low-z discrepancies do not certify low-z results.
+Provisional packaging does not equal scientific qualification or publication.
+Large FITS/draw products still need durable archival beyond Scratch.
 ### 2026-09-27 - [science/code/E2E] TARP, rank plots and model dataflow generated
 
 Approved CPU58949424/nid004154 completed0 in51s and released. Extracted192

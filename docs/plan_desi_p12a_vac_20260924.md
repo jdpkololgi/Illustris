@@ -5,13 +5,26 @@ disposition and request to proceed toward DESI application. SCIENCE_LOG.md and
 immutable experiment contracts control claims. This supersedes old prospective
 VAC schedules, not historical evidence. V0 audits, halo48 OOF/refit/revalidation and golden replay have passed.
 The bounded trial and full-survey provisional VAC have been produced.
-Science release and any qualified replacement remain gated on population
-alignment and posterior validation (status updated2026-09-26).
+**Current decision, 2026-09-28:** package the existing provisional VAC with its
+already-trained model, existing mocks, intended Loa selection and saved posterior
+values. Stop mock-repair investigation; do not switch populations or retrain.
+The prior population-alignment subplan is historical, not an active prerequisite
+for provisional delivery. This decision does not qualify a scientific release.
 
-Active population-alignment subplan: [Mock-to-LOA Alignment Investigation](../../../GraphWeb_DESI/docs/plan_mock_to_loa_alignment_investigation_20260926.md).
-It governs the current mock/observation diagnosis and candidate-selection sequence;
-the present document retains the overall VAC inference/release contract. Internal
-DESI releases are primary sources within the user's collaboration membership.
+Completed: read-only full-catalogue integrity audit and three-page spatial atlas,
+with identical-position, class-probability and uncertainty views. The original
+FITS checksum is unchanged. See [release notes and atlas](../../../GraphWeb_DESI/docs/p12a_provisional_release_20260928.md).
+
+Required limitations: real-DESI coverage unverified; training-mock population
+mismatch especially above z~0.35 and severe at 0.45<z<0.55; posterior trends
+must not be interpreted as physical evolution without independent validation;
+lower-redshift results are not automatically certified. Preserve all quality
+flags and unsupported/null rows. Outstanding delivery concern: large FITS/draw
+products currently reside on Scratch, not a durable collaboration archive.
+No external publication or shared-storage transfer has been performed.
+
+The historical milestones below describe the existing model's validation and
+provenance; they do not authorize restarting the stopped mock-repair programme.
 
 ## Decision and product
 
