@@ -15219,3 +15219,23 @@ HOD/seed/full-generation provenance claim. Next isolate population/HOD/LF vs
 photometric contributions before regeneration. Three steps completed0; allocation
 released; finite/count checks passed. Source/table hashes, code and results in
 GraphWeb docs/evidence/p12a_canonical_v1_replay_20260928 and canonicalv1 report.
+
+### 2026-09-28 - [science/code/VAC] Mapping sensitivity and observation gate
+
+CPU59008849/nid004153 completed fixed-row ph000 comparison (stride100,
+166708old/194814v1 common-sky rows). Swapping only additive K/E mapping raises
+old-parent .45-.55 sample selection2.84/2.52SGC/NGC; reverse swap removes62/59%
+ofv1. Supports photometric mapping as a large contributor, not exact causal
+attribution (different rest-colour/M conventions, parent truncation, sampling).
+Rawv1 high counts1.93Loa. Historical ph006 fine-z/cap raw->observed retention
+transferred to fullv1 predicts1.428/1.524Loa for uniformr19.5 quality25;
+all-targeted1.428/1.443. Quality40 alternatives do not remove excess; they omit
+GALAXY and are not nested cuts. This is a response-transfer DIAGNOSTIC, not
+actualv1 fibreassign or redshift-quality simulation. User's requested full
+systematics test is NOT closed: rawv1 lacks fibreflux/Gaia/morphology/quality
+observables and actualLoa assignment/veto products. Do not report absent cuts
+as passed or promotev1 as an n(z)solution. Need pinned observational forward
+model independently of producer reply. HOD wsys/nowsys tables recovered;
+executed choice still unproven. GraphWeb p12a_v1_population_diagnosis_20260928.md,
+code/results/hashes/accounting retained. Compute released; no regeneration,
+fitting/retraining or VAC replacement.
