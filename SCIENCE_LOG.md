@@ -15259,3 +15259,21 @@ GraphWeb6b4ad64 contains code, comparison evidence and forward status report.
 Assignment/veto/success stage pending; G2 not closed. Papers1809.07355 and
 2411.12020section11.2 reinforce density dependence/actual altMTL and document
 DR1 random-failure model, not a Loa high-tail validation.
+
+### 2026-09-28 - [execution/VAC] Forward smoke restart and additional LF evidence
+
+GraphWeb comparison figure/validation committed76e68a3; observed uniform-r
+histogram exactly replays preceding evidence. Preparation on59009604 was
+terminated because its idle allocation shell auto-logged out at30min06s, not
+because the1h wall limit was reached. sacct allocationCOMPLETED masks cancelled
+step.7; no valid forFA output or forward success. Restart59010842 places
+prepare/validate/initialize/one-action smoke in foreground salloc/srun,64CPU,
+32maskworkers with coordinate-only input. Logs and failures retained in
+v1_forward_ph000_20260928 Scratch. No full observational qualification yet.
+Replay wrapper checks LSS revision and shell exit status, logs each tile, and
+follows pinned DA2 wrapper's evolving-ledger NUMOBS (no static forFA targets).
+Current altMTL carries mapped real-observation redshift/status; final mock
+redshifts must come from forFA RSDZ and this is not a synthetic DELTACHI2 model.
+Moore et al.2511.01803v2 adds independent DR2 LF evidence: bright-end shape,
+North/South photometry and residual evolution warrant joint luminosity/colour/z
+checks. No arbitrary n(z) tuning or provisional VAC replacement.
