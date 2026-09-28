@@ -15458,3 +15458,30 @@ samples11–29 per shell too sparse for strong conclusions. Table is HOD-predict
 not proven executed input: default redshift_evolution=False only loads LF when
 changed. Correct previous shorthand. No Loa correction, mock mutation or release
 policy change. Independent common luminosity calibration remains next gate.
+
+### 2026-09-28 — Frozen-model property-contrast recovery and matched references
+
+User-authorized three checks completed; GraphWeb report
+`docs/p12a_contrast_checks_20260928.md`, reproducible script and hashed JSON/figures.
+CPU59022935; saved exposed ph006 evaluation only, no fresh phase or fitting.
+At z=.2–.3 (21052 rows), argmax accuracy .7645, Brier .3269 versus .6806
+cross-fitted prevalence baseline. Knot recall only ~46%, ~48% confused with
+filaments. Synthetic y=trueclass/3 contrast retained .680 soft/.839 argmax;
+explicitly not physical SFR or a DESI correction factor.
+
+CIGALE only, no FastSpecFit: identical61739 galaxies/68 fine mass-z cells
+for four estimators. Knot-minus-void mean log sSFR: current soft -.238 dex,
+current hard -.302, June FlowJAX soft -.247, June hard -.277; low-sSFR
+fraction differences +9.07,+11.63,+9.36,+10.60 percentage points. No dramatic
+property-separation improvement over this particular saved June model.
+Direct 7/h Mpc redshift-space neighbour density uses full-VAC tracers outside
+wedge, boundary interior, frozen local ntilde normalization. On shared65566
+rows/77cells, density Q4-Q1 -.247dex/+9.29pp, current soft -.237dex/+9.18pp.
+Density quartiles are not tidal web truth or an independent survey; selection
+calibration is shared. Expected class-density rank correlation .787.
+Paired sky-block bootstrap intervals and one within-cell permutation recorded;
+confidence subset common support shrinks to2692 rows/5cells, not representative.
+
+Evidence supports measurable association plus mock classification attenuation,
+not real-DESI accuracy certification. VAC hash unchanged; no selection/model/
+posterior edits or mock repair. Provisional release caveats remain in force.
