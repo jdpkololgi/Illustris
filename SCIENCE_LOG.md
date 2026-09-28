@@ -15352,3 +15352,18 @@ replacement development, not qualified training replacement. Tested Uchuu/GLAM
 support limits and HOLI photometry/truth caveats preclude full-range substitution.
 No evidence warrants changing Loa selection to match mocks. Realised parent LF,
 independent luminosity calibration, observation and galaxy–matter closure stay open.
+
+### 2026-09-28 — Historical BGS footprint does not remove common-sky deficit
+
+Replayed exact historical desimodel tiles from Ashley/Arnaud thread with
+PROGRAM BRIGHT and integer IN_DESI==1. GraphWeb report
+`docs/p12a_historical_footprint_20260928.md`, script/evidence pinned.
+CPU59018519/nid004175: all347202 selected sampled old-ph000 galaxies agree
+with stored IN_Y5 (zero discrepancies). Common area removed0.330%SGC/0.192%NGC;
+NSIDE512/1024 quadrature convergence0.006%. Equal geometric-volume comparison:
+old .45–.55 ratio .540/.582 becomes .541/.582; two-ring interior .532/.582.
+v1 remains1.534/1.545, interior1.492/1.537. The documented footprint bug does
+not explain our already-common-sky high-z residual. No LF causal attribution
+or low-k clustering claim. Official random-derived subpixel effective volumes
+remain unclosed; output densities use explicitly geometric common volumes.
+No catalogue correction or change to authorized provisional-release decision.
