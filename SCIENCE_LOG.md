@@ -15190,3 +15190,18 @@ and joint population/clustering/posterior qualification. Do not tune exact
 observed radial fluctuations or reuseFAINT assignment asBRIGHT. DR1/iron and
 SV3/fuji useful controls, not independent replacements automatically solving
 Loa. Experiments not yet run; no production changes or new compute submitted.
+
+### 2026-09-28 - [science/VAC] Public canonical-v1 generator lead recovered
+
+Located JadePiat/hodpy abacus branch (14222dcf794b3bff68987bf8e271203db20f8730):
+bundled BGS HOD-predicted LF, wsys/nowsys HOD tables, DESI N/S colour/K tables,
+E-correction Q=.67 and already E-corrected LF convention differ from old
+shared_code GAMA/SDSS generator. Canonical CFS v1 file itself is jpiat-owned,
+dated2024-11-27; branch head2025-02-04 cannot be treated as executed provenance.
+Pre-file ancestor a2473ad00a46ab75cbbaef646671997727f8682d located. Public
+my_abacus/fix_velocity branches expose distance/central-velocity changes and
+an apparent array-size issue in my_abacus velocity patch. No catalogue replay,
+correction/regeneration/retraining performed. Next: historical source/table diff,
+then exposedph000 deterministic DESI mapping fingerprints. This can proceed
+without Jade's response. GraphWeb report p12a_canonical_v1_provenance_20260928.md,
+plan and API evidence committed45f0384. Exact production recipe remains open.
