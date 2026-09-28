@@ -1,6 +1,38 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
 
+## 2026-09-28 — Current P12-A environments retain CIGALE property trends in old wedge
+
+User redirects property checks to the saved CIGALE wedge rather than known-issue
+FastSpecFit properties. No full-survey FastSpecFit result used. Exact TARGETID
+join reads only cached CG15/CG5 mass/SFR and positions, never old environment
+columns; current halo48 VAC supplies all P_WEB. 103,814 matches from111,503 cache
+rows;3 discrepant-redshift matches excluded and6 outside current-coordinate wedge;
+94,415 supported positive finite CIGALE-property galaxies at .20<=z<.30.
+
+After common z(.025) and CG15 mass(.25dex) standardization,94,028 rows/32 strata:
+low-sSFR fraction (log sSFR<-11) .4348/.4588/.4863/.5125 fromvoid->knot;
+mean log sSFR -10.6447/-10.7110/-10.7830/-10.8498. Knot-void -0.2051dex
+(16–84% blockbootstrap [-.2171,-.1943]) and+7.774pp ([7.325,8.347]). Raw
+contrasts -.4687dex/+16.401pp. Mass after z control increases by.1134dex.
+Clear moderate residual association; mass/redshift mixture explains part ofraw
+trend. Hard-label andCG5 checks preserve direction. Not proof of improvement
+over months-old models: no matched old-model comparison performed.
+
+96resamples of22occupiednside8 sky blocks; intervals omit property andtransfer
+systematics, not calibrated coverage. Soft summaries not unbiased true-class
+population inference. GoodPhoto/cache-selected wedge not fullsurvey; lowznotcertified.
+Property availability ~90.8–91.1% across inferred classes does not ensure no bias.
+Original VAC checksum unchanged before/after; no new fitting, inference orrepair.
+
+CPU59021332/nid004160. Full-survey exploratory step terminated before completion;
+subsequent analysis is bounded wedge only. Three estimator sanity cases pass;
+fourplots visually reviewed, source/cache/artifact hashes verified. GraphWeb
+`docs/p12a_cigale_environment_20260928.md`, script `workflows/p12a_vac/property_environment.py`,
+figures/evidence `docs/figures/p12a_cigale_properties_20260928/`. Upstream CIGALE
+source currently permission-denied; surviving historical property cache is pinned.
+
+
 ## 2026-09-28 — Existing Loa provisional VAC preserved; spatial atlas and integrity audit
 
 User directs stopping mock-repair and retaining the already-trained model,
