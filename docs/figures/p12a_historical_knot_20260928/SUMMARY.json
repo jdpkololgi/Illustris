@@ -1,0 +1,759 @@
+{
+  "scope": "Identical exposed ph006 evaluation rows; no blind phase, fitting, or VAC mutation",
+  "threshold_caveat": "Recall at precision is an empirical evaluation frontier, not a validated deployment threshold. Point scores are not probabilities.",
+  "sample_sha256": "a7fd3f5fe7a5ebcc71767a1539344902595711a4830b48fb483b0a214d90538e",
+  "index_sha256": "a2448de636b3d0f2aab4481cac63459c7971a28bf0ccefe67860f5d95cebc3ec",
+  "draws_sha256": "e8466fa6a2fea3fdc749d804557340ce0bc001ef1b0576beac0c97c0bfd52428",
+  "posterior_checkpoint_sha256": "c4abd94e3b5881c7ba5db2d4e88fac9cbf84f000f170be640bf6615cb6a14277",
+  "script_sha256": "6b5091711492985d4642ff67789a9f7a8fec208c19849d949e14c456c5742042",
+  "source": {
+    "July G-PATCH": {
+      "manifest": {
+        "binding": {
+          "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/recovery_v1/graph/rotation_0/seed_42/best_checkpoint.pt",
+          "checkpoint_sha256": "14124c039fd8582abdea27fc74865e422d29c27dca6d33c7a6bb05b0557f1971",
+          "epoch": 15,
+          "selection_sha256": "4f31078f5b61c808610bb48a6c8cc8f1ad9a597778e3fa71e7adae8eb950c977",
+          "rotation": 0,
+          "sample_sha256": "a7fd3f5fe7a5ebcc71767a1539344902595711a4830b48fb483b0a214d90538e",
+          "index_sha256": "a2448de636b3d0f2aab4481cac63459c7971a28bf0ccefe67860f5d95cebc3ec",
+          "script_sha256": "f864d556be5238809ded51112f71b1f98c9621a03bf2d5f3dcf09ef395a0b68c",
+          "model": "graph",
+          "phase": "ph006",
+          "evaluation": "exposed validation and selection phase, not blind",
+          "frozen_transforms": true,
+          "requested_rows": 50000,
+          "requested_cores": 7141
+        },
+        "complete": true,
+        "rows_done": 50000,
+        "elapsed_this_run": 425.29784397399635,
+        "gpu": "NVIDIA A100-SXM4-80GB",
+        "max_gpu_bytes": 6490209280
+      },
+      "prediction_sha256": "eef2f3e09473eae9aa90378acf850fcdcf34a53c331a9dbf196652317dd5e90f",
+      "ordering_violation_rate": 0.0
+    },
+    "July U-PATCH": {
+      "manifest": {
+        "binding": {
+          "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/recovery_v1/unet/rotation_0/seed_42/best_checkpoint.pt",
+          "checkpoint_sha256": "21a174f14de060463da04f1c59e8fa8c36ec8e10f7104f42efe3a231342dbd5e",
+          "epoch": 20,
+          "selection_sha256": "4f31078f5b61c808610bb48a6c8cc8f1ad9a597778e3fa71e7adae8eb950c977",
+          "rotation": 0,
+          "sample_sha256": "a7fd3f5fe7a5ebcc71767a1539344902595711a4830b48fb483b0a214d90538e",
+          "index_sha256": "a2448de636b3d0f2aab4481cac63459c7971a28bf0ccefe67860f5d95cebc3ec",
+          "script_sha256": "f864d556be5238809ded51112f71b1f98c9621a03bf2d5f3dcf09ef395a0b68c",
+          "model": "unet",
+          "phase": "ph006",
+          "evaluation": "exposed validation and selection phase, not blind",
+          "frozen_transforms": true,
+          "requested_rows": 50000,
+          "requested_cores": 7141
+        },
+        "complete": true,
+        "rows_done": 50000,
+        "elapsed_this_run": 461.57532877498306,
+        "gpu": "NVIDIA A100-SXM4-80GB",
+        "max_gpu_bytes": 395365376
+      },
+      "prediction_sha256": "bd8869c436510bffe5d8731d692566b90d98fc6be64a5f2e5c70dd71081ac57e",
+      "ordering_violation_rate": 0.0
+    },
+    "Extended G-PATCH": {
+      "manifest": {
+        "binding": {
+          "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/convergence_extension_v1/graph/rotation_0/seed_42/best_checkpoint.pt",
+          "checkpoint_sha256": "e8bdb29387cc14cd9507bae0fa022f23e27597e2d36973882e9ade40572df21f",
+          "epoch": 20,
+          "selection_sha256": "4f31078f5b61c808610bb48a6c8cc8f1ad9a597778e3fa71e7adae8eb950c977",
+          "rotation": 0,
+          "sample_sha256": "a7fd3f5fe7a5ebcc71767a1539344902595711a4830b48fb483b0a214d90538e",
+          "index_sha256": "a2448de636b3d0f2aab4481cac63459c7971a28bf0ccefe67860f5d95cebc3ec",
+          "script_sha256": "f864d556be5238809ded51112f71b1f98c9621a03bf2d5f3dcf09ef395a0b68c",
+          "model": "graph",
+          "phase": "ph006",
+          "evaluation": "exposed validation and selection phase, not blind",
+          "frozen_transforms": true,
+          "requested_rows": 50000,
+          "requested_cores": 7141
+        },
+        "complete": true,
+        "rows_done": 50000,
+        "elapsed_this_run": 380.01587442000164,
+        "gpu": "NVIDIA A100-SXM4-80GB",
+        "max_gpu_bytes": 6490125312
+      },
+      "prediction_sha256": "8daf07c21a9e75b167f7249d717df224d0f8e016fef7a72bd420eefb38a0dfad",
+      "ordering_violation_rate": 0.0
+    },
+    "Extended U-PATCH": {
+      "manifest": {
+        "binding": {
+          "checkpoint": "/pscratch/sd/d/dkololgi/abacus/p8_recovery_v1/convergence_extension_v1/unet/rotation_0/seed_42/best_checkpoint.pt",
+          "checkpoint_sha256": "8f497f50e180565def9b89efaf65b14db17d349af9e486f7aaf11116e07e30f6",
+          "epoch": 19,
+          "selection_sha256": "4f31078f5b61c808610bb48a6c8cc8f1ad9a597778e3fa71e7adae8eb950c977",
+          "rotation": 0,
+          "sample_sha256": "a7fd3f5fe7a5ebcc71767a1539344902595711a4830b48fb483b0a214d90538e",
+          "index_sha256": "a2448de636b3d0f2aab4481cac63459c7971a28bf0ccefe67860f5d95cebc3ec",
+          "script_sha256": "f864d556be5238809ded51112f71b1f98c9621a03bf2d5f3dcf09ef395a0b68c",
+          "model": "unet",
+          "phase": "ph006",
+          "evaluation": "exposed validation and selection phase, not blind",
+          "frozen_transforms": true,
+          "requested_rows": 50000,
+          "requested_cores": 7141
+        },
+        "complete": true,
+        "rows_done": 50000,
+        "elapsed_this_run": 443.7920273260097,
+        "gpu": "NVIDIA A100-SXM4-80GB",
+        "max_gpu_bytes": 395365376
+      },
+      "prediction_sha256": "27a18dfff898c55f4d14c5e5772f4ffada0cb98d9f28c67d93f0174b5098ee7d",
+      "ordering_violation_rate": 0.0
+    }
+  },
+  "subsets": {
+    "Full range": {
+      "rows": 50000,
+      "true_knots": 3387,
+      "weighted_prevalence": 0.06057976364757893,
+      "models": {
+        "Current posterior": {
+          "average_precision": 0.6166980326786431,
+          "hard_recall": 0.43781784176826477,
+          "hard_precision": 0.6991754174232483,
+          "recall_at_precision": {
+            "0.5": 0.6934884121695386,
+            "0.6": 0.5716371726387374,
+            "0.7": 0.4338615311600353,
+            "0.8": 0.26387969630261404,
+            "0.9": 0.12236194771897306
+          },
+          "recall_at_current_hard_precision": 0.43514257411507085
+        },
+        "Current encoder": {
+          "average_precision": 0.6049697562542089,
+          "hard_recall": 0.4908735454082489,
+          "hard_precision": 0.6643913388252258,
+          "recall_at_precision": {
+            "0.5": 0.6900537744376217,
+            "0.6": 0.567615080299616,
+            "0.7": 0.43307722468833926,
+            "0.8": 0.2832487273674489,
+            "0.9": 0.01736310400864568
+          },
+          "recall_at_current_hard_precision": 0.4346418764311139
+        },
+        "July G-PATCH": {
+          "average_precision": 0.5315293118448874,
+          "hard_recall": 0.493569552898407,
+          "hard_precision": 0.5716986656188965,
+          "recall_at_precision": {
+            "0.5": 0.5883171425495916,
+            "0.6": 0.4511812181526615,
+            "0.7": 0.269667594806663,
+            "0.8": 0.07634535603352398,
+            "0.9": 0.017063961748257087
+          },
+          "recall_at_current_hard_precision": 0.27068067499562926
+        },
+        "July U-PATCH": {
+          "average_precision": 0.5331935739186716,
+          "hard_recall": 0.44141244888305664,
+          "hard_precision": 0.6075016260147095,
+          "recall_at_precision": {
+            "0.5": 0.5925645169522172,
+            "0.6": 0.4630920723881184,
+            "0.7": 0.27430123994122324,
+            "0.8": 0.07630913533306688,
+            "0.9": 0.009740516705102563
+          },
+          "recall_at_current_hard_precision": 0.2775166742505642
+        },
+        "Extended G-PATCH": {
+          "average_precision": 0.5525762764447091,
+          "hard_recall": 0.4513789117336273,
+          "hard_precision": 0.6186153292655945,
+          "recall_at_precision": {
+            "0.5": 0.6127962929688548,
+            "0.6": 0.4680966218325177,
+            "0.7": 0.3076949050341716,
+            "0.8": 0.1755320952401336,
+            "0.9": 0.030511119885241925
+          },
+          "recall_at_current_hard_precision": 0.316574475005202
+        },
+        "Extended U-PATCH": {
+          "average_precision": 0.5326672097749245,
+          "hard_recall": 0.4655902087688446,
+          "hard_precision": 0.6071169376373291,
+          "recall_at_precision": {
+            "0.5": 0.5948824055969016,
+            "0.6": 0.4773584763925859,
+            "0.7": 0.25740560403570734,
+            "0.8": 0.05969455091281713,
+            "0.9": 0.009220349743654026
+          },
+          "recall_at_current_hard_precision": 0.2632963962638216
+        }
+      }
+    },
+    "0.20\u20130.30": {
+      "rows": 21052,
+      "true_knots": 1161,
+      "weighted_prevalence": 0.05519263710918132,
+      "models": {
+        "Current posterior": {
+          "average_precision": 0.60928604592893,
+          "hard_recall": 0.45712387561798096,
+          "hard_precision": 0.6908791661262512,
+          "recall_at_precision": {
+            "0.5": 0.6878530222589105,
+            "0.6": 0.5805251276878866,
+            "0.7": 0.45155004122467396,
+            "0.8": 0.27942511127041875,
+            "0.9": 0.03139777109007365
+          },
+          "recall_at_current_hard_precision": 0.45444499593786747
+        },
+        "Current encoder": {
+          "average_precision": 0.594972266844754,
+          "hard_recall": 0.4995393753051758,
+          "hard_precision": 0.6559123396873474,
+          "recall_at_precision": {
+            "0.5": 0.6853901949209625,
+            "0.6": 0.5850186549885369,
+            "0.7": 0.4288371342741808,
+            "0.8": 0.2527515345484275,
+            "0.9": 0.0
+          },
+          "recall_at_current_hard_precision": 0.44030161959323877
+        },
+        "July G-PATCH": {
+          "average_precision": 0.5355493374748778,
+          "hard_recall": 0.5075907111167908,
+          "hard_precision": 0.5739622712135315,
+          "recall_at_precision": {
+            "0.5": 0.5855515125176892,
+            "0.6": 0.4719154543709352,
+            "0.7": 0.3171164425564132,
+            "0.8": 0.106924973955397,
+            "0.9": 0.019601888549676896
+          },
+          "recall_at_current_hard_precision": 0.3219413670784023
+        },
+        "July U-PATCH": {
+          "average_precision": 0.5288769724584522,
+          "hard_recall": 0.4492025077342987,
+          "hard_precision": 0.5983272790908813,
+          "recall_at_precision": {
+            "0.5": 0.5688445786812057,
+            "0.6": 0.4621648751730501,
+            "0.7": 0.323756003353482,
+            "0.8": 0.09299766129839107,
+            "0.9": 0.002462827337947956
+          },
+          "recall_at_current_hard_precision": 0.3332905188637443
+        },
+        "Extended G-PATCH": {
+          "average_precision": 0.5484059497465247,
+          "hard_recall": 0.4599180817604065,
+          "hard_precision": 0.6205644607543945,
+          "recall_at_precision": {
+            "0.5": 0.6048220038460274,
+            "0.6": 0.47351402695839206,
+            "0.7": 0.3178799671529975,
+            "0.8": 0.17859223720312903,
+            "0.9": 0.02775389516010509
+          },
+          "recall_at_current_hard_precision": 0.3306262312179828
+        },
+        "Extended U-PATCH": {
+          "average_precision": 0.529325789163858,
+          "hard_recall": 0.4715840220451355,
+          "hard_precision": 0.5964989066123962,
+          "recall_at_precision": {
+            "0.5": 0.5797616030913022,
+            "0.6": 0.47083513593282134,
+            "0.7": 0.3250377820994093,
+            "0.8": 0.14709373595914862,
+            "0.9": 0.0034278122423457877
+          },
+          "recall_at_current_hard_precision": 0.34121185840674045
+        }
+      }
+    },
+    "0.15\u20130.25": {
+      "rows": 21302,
+      "true_knots": 1154,
+      "weighted_prevalence": 0.05417331705943104,
+      "models": {
+        "Current posterior": {
+          "average_precision": 0.6406540286634204,
+          "hard_recall": 0.4800693094730377,
+          "hard_precision": 0.690773069858551,
+          "recall_at_precision": {
+            "0.5": 0.7218370883882149,
+            "0.6": 0.6109185441941074,
+            "0.7": 0.4696707105719237,
+            "0.8": 0.31629116117850953,
+            "0.9": 0.15164644714038128
+          },
+          "recall_at_current_hard_precision": 0.47746967071057195
+        },
+        "Current encoder": {
+          "average_precision": 0.6247166682750713,
+          "hard_recall": 0.5216637849807739,
+          "hard_precision": 0.6674057841300964,
+          "recall_at_precision": {
+            "0.5": 0.7253032928942807,
+            "0.6": 0.6074523396880416,
+            "0.7": 0.46533795493934144,
+            "0.8": 0.32495667244367415,
+            "0.9": 0.011265164644714038
+          },
+          "recall_at_current_hard_precision": 0.47660311958405543
+        },
+        "July G-PATCH": {
+          "average_precision": 0.5474596136742339,
+          "hard_recall": 0.5450606346130371,
+          "hard_precision": 0.5651392340660095,
+          "recall_at_precision": {
+            "0.5": 0.6135181975736569,
+            "0.6": 0.5051993067590987,
+            "0.7": 0.3344887348353553,
+            "0.8": 0.10918544194107452,
+            "0.9": 0.024263431542461005
+          },
+          "recall_at_current_hard_precision": 0.34488734835355284
+        },
+        "July U-PATCH": {
+          "average_precision": 0.5511987643220058,
+          "hard_recall": 0.4809359014034271,
+          "hard_precision": 0.6264108419418335,
+          "recall_at_precision": {
+            "0.5": 0.610051993067591,
+            "0.6": 0.5233968804159446,
+            "0.7": 0.3396880415944541,
+            "0.8": 0.09012131715771231,
+            "0.9": 0.012998266897746967
+          },
+          "recall_at_current_hard_precision": 0.3483535528596187
+        },
+        "Extended G-PATCH": {
+          "average_precision": 0.5701103427925663,
+          "hard_recall": 0.4922010600566864,
+          "hard_precision": 0.6228070259094238,
+          "recall_at_precision": {
+            "0.5": 0.6247833622183708,
+            "0.6": 0.5060658578856152,
+            "0.7": 0.3804159445407279,
+            "0.8": 0.21143847487001732,
+            "0.9": 0.0415944540727903
+          },
+          "recall_at_current_hard_precision": 0.4055459272097054
+        },
+        "Extended U-PATCH": {
+          "average_precision": 0.5511405067628659,
+          "hard_recall": 0.5,
+          "hard_precision": 0.6312910318374634,
+          "recall_at_precision": {
+            "0.5": 0.6161178509532063,
+            "0.6": 0.5251299826689775,
+            "0.7": 0.35008665511265163,
+            "0.8": 0.0779896013864818,
+            "0.9": 0.01559792027729636
+          },
+          "recall_at_current_hard_precision": 0.3821490467937608
+        }
+      }
+    },
+    "0.25\u20130.35": {
+      "rows": 16501,
+      "true_knots": 1011,
+      "weighted_prevalence": 0.061269013999151564,
+      "models": {
+        "Current posterior": {
+          "average_precision": 0.5994111053152222,
+          "hard_recall": 0.4035608470439911,
+          "hard_precision": 0.7234042882919312,
+          "recall_at_precision": {
+            "0.5": 0.6795252225519288,
+            "0.6": 0.5558852621167161,
+            "0.7": 0.4381800197823937,
+            "0.8": 0.2502472799208704,
+            "0.9": 0.09495548961424333
+          },
+          "recall_at_current_hard_precision": 0.4035608308605341
+        },
+        "Current encoder": {
+          "average_precision": 0.5929361544106201,
+          "hard_recall": 0.46389713883399963,
+          "hard_precision": 0.6836734414100647,
+          "recall_at_precision": {
+            "0.5": 0.6696340257171117,
+            "0.6": 0.5568743818001978,
+            "0.7": 0.44609297725024727,
+            "0.8": 0.27002967359050445,
+            "0.9": 0.021760633036597428
+          },
+          "recall_at_current_hard_precision": 0.4075173095944609
+        },
+        "July G-PATCH": {
+          "average_precision": 0.5213632134799953,
+          "hard_recall": 0.45895156264305115,
+          "hard_precision": 0.5735476016998291,
+          "recall_at_precision": {
+            "0.5": 0.5914935707220573,
+            "0.6": 0.4055390702274975,
+            "0.7": 0.27398615232443124,
+            "0.8": 0.03758654797230465,
+            "0.9": 0.019782393669634024
+          },
+          "recall_at_current_hard_precision": 0.21068249258160238
+        },
+        "July U-PATCH": {
+          "average_precision": 0.5084813629531717,
+          "hard_recall": 0.39465877413749695,
+          "hard_precision": 0.5833333730697632,
+          "recall_at_precision": {
+            "0.5": 0.5499505440158259,
+            "0.6": 0.36894164193867457,
+            "0.7": 0.2532146389713155,
+            "0.8": 0.04253214638971316,
+            "0.9": 0.009891196834817012
+          },
+          "recall_at_current_hard_precision": 0.19287833827893175
+        },
+        "Extended G-PATCH": {
+          "average_precision": 0.5380927238574634,
+          "hard_recall": 0.41444116830825806,
+          "hard_precision": 0.6189069151878357,
+          "recall_at_precision": {
+            "0.5": 0.6112759643916914,
+            "0.6": 0.4391691394658754,
+            "0.7": 0.2561819980217606,
+            "0.8": 0.1552917903066271,
+            "0.9": 0.02373887240356083
+          },
+          "recall_at_current_hard_precision": 0.2344213649851632
+        },
+        "Extended U-PATCH": {
+          "average_precision": 0.5077559270681757,
+          "hard_recall": 0.42828884720802307,
+          "hard_precision": 0.5819892287254333,
+          "recall_at_precision": {
+            "0.5": 0.5558852621167161,
+            "0.6": 0.39663699307616224,
+            "0.7": 0.24530168150346193,
+            "0.8": 0.036597428288822946,
+            "0.9": 0.010880316518298714
+          },
+          "recall_at_current_hard_precision": 0.16122650840751732
+        }
+      }
+    },
+    "0.35\u20130.45": {
+      "rows": 8998,
+      "true_knots": 736,
+      "weighted_prevalence": 0.08179595465659036,
+      "models": {
+        "Current posterior": {
+          "average_precision": 0.5885252478576753,
+          "hard_recall": 0.3899456858634949,
+          "hard_precision": 0.6866029500961304,
+          "recall_at_precision": {
+            "0.5": 0.6480978260869565,
+            "0.6": 0.501358695652174,
+            "0.7": 0.36277173913043476,
+            "0.8": 0.2269021739130435,
+            "0.9": 0.08967391304347826
+          },
+          "recall_at_current_hard_precision": 0.38179347826086957
+        },
+        "Current encoder": {
+          "average_precision": 0.5821876472840259,
+          "hard_recall": 0.46059784293174744,
+          "hard_precision": 0.6312848925590515,
+          "recall_at_precision": {
+            "0.5": 0.6317934782608695,
+            "0.6": 0.5176630434782609,
+            "0.7": 0.33152173913043476,
+            "0.8": 0.20923913043478262,
+            "0.9": 0.09782608695652174
+          },
+          "recall_at_current_hard_precision": 0.36141304347826086
+        },
+        "July G-PATCH": {
+          "average_precision": 0.521225303875697,
+          "hard_recall": 0.4266304671764374,
+          "hard_precision": 0.5958254933357239,
+          "recall_at_precision": {
+            "0.5": 0.5733695652173914,
+            "0.6": 0.422554347826087,
+            "0.7": 0.23233695652173914,
+            "0.8": 0.059782608695652176,
+            "0.9": 0.035326086956521736
+          },
+          "recall_at_current_hard_precision": 0.2391304347826087
+        },
+        "July U-PATCH": {
+          "average_precision": 0.5333431078214388,
+          "hard_recall": 0.4279891550540924,
+          "hard_precision": 0.5988593697547913,
+          "recall_at_precision": {
+            "0.5": 0.623641304347826,
+            "0.6": 0.4279891304347826,
+            "0.7": 0.18070652173913043,
+            "0.8": 0.10733695652173914,
+            "0.9": 0.08016304347826086
+          },
+          "recall_at_current_hard_precision": 0.19972826086956522
+        },
+        "Extended G-PATCH": {
+          "average_precision": 0.5374156779693239,
+          "hard_recall": 0.4116847813129425,
+          "hard_precision": 0.6121212244033813,
+          "recall_at_precision": {
+            "0.5": 0.5747282608695652,
+            "0.6": 0.43070652173913043,
+            "0.7": 0.21875,
+            "0.8": 0.11820652173913043,
+            "0.9": 0.06114130434782609
+          },
+          "recall_at_current_hard_precision": 0.2418478260869565
+        },
+        "Extended U-PATCH": {
+          "average_precision": 0.5328487287109482,
+          "hard_recall": 0.45108693838119507,
+          "hard_precision": 0.585537850856781,
+          "recall_at_precision": {
+            "0.5": 0.6168478260869565,
+            "0.6": 0.44429347826086957,
+            "0.7": 0.1875,
+            "0.8": 0.11277173913043478,
+            "0.9": 0.09103260869565218
+          },
+          "recall_at_current_hard_precision": 0.1983695652173913
+        }
+      }
+    },
+    "0.45\u20130.55": {
+      "rows": 3199,
+      "true_knots": 486,
+      "weighted_prevalence": 0.1519224757736793,
+      "models": {
+        "Current posterior": {
+          "average_precision": 0.5386595783675062,
+          "hard_recall": 0.3497942388057709,
+          "hard_precision": 0.6589147448539734,
+          "recall_at_precision": {
+            "0.5": 0.5370370370370371,
+            "0.6": 0.3950617283950617,
+            "0.7": 0.31893004115226337,
+            "0.8": 0.06790123456790123,
+            "0.9": 0.00823045267489712
+          },
+          "recall_at_current_hard_precision": 0.3559670781893004
+        },
+        "Current encoder": {
+          "average_precision": 0.5324792044263873,
+          "hard_recall": 0.42798352241516113,
+          "hard_precision": 0.5698630213737488,
+          "recall_at_precision": {
+            "0.5": 0.522633744855967,
+            "0.6": 0.40329218106995884,
+            "0.7": 0.30864197530864196,
+            "0.8": 0.09465020576131687,
+            "0.9": 0.0205761316872428
+          },
+          "recall_at_current_hard_precision": 0.3333333333333333
+        },
+        "July G-PATCH": {
+          "average_precision": 0.48886022991515826,
+          "hard_recall": 0.3477365970611572,
+          "hard_precision": 0.5847750902175903,
+          "recall_at_precision": {
+            "0.5": 0.43621399176954734,
+            "0.6": 0.31893004115226337,
+            "0.7": 0.23045267489711935,
+            "0.8": 0.05761316872427984,
+            "0.9": 0.0
+          },
+          "recall_at_current_hard_precision": 0.24897119341563786
+        },
+        "July U-PATCH": {
+          "average_precision": 0.5047852855073139,
+          "hard_recall": 0.3786008059978485,
+          "hard_precision": 0.5679012537002563,
+          "recall_at_precision": {
+            "0.5": 0.44650205761316875,
+            "0.6": 0.35185185185185186,
+            "0.7": 0.19753086419753085,
+            "0.8": 0.1419753086419753,
+            "0.9": 0.012345679012345678
+          },
+          "recall_at_current_hard_precision": 0.2716049382716049
+        },
+        "Extended G-PATCH": {
+          "average_precision": 0.49690243774771226,
+          "hard_recall": 0.3786008059978485,
+          "hard_precision": 0.5661538243293762,
+          "recall_at_precision": {
+            "0.5": 0.4588477366255144,
+            "0.6": 0.3374485596707819,
+            "0.7": 0.2345679012345679,
+            "0.8": 0.03909465020576132,
+            "0.9": 0.0
+          },
+          "recall_at_current_hard_precision": 0.25102880658436216
+        },
+        "Extended U-PATCH": {
+          "average_precision": 0.5071415818526098,
+          "hard_recall": 0.38683128356933594,
+          "hard_precision": 0.5628742575645447,
+          "recall_at_precision": {
+            "0.5": 0.48148148148148145,
+            "0.6": 0.35802469135802467,
+            "0.7": 0.21604938271604937,
+            "0.8": 0.08436213991769548,
+            "0.9": 0.00823045267489712
+          },
+          "recall_at_current_hard_precision": 0.2880658436213992
+        }
+      }
+    }
+  },
+  "paired_spatial_bootstrap": {
+    "Full range": {
+      "Current posterior": {
+        "ap_interval16_84": [
+          0.5996672816500731,
+          0.6212035163248898
+        ],
+        "ap_minus_current_interval16_84": [
+          0.0,
+          0.0
+        ]
+      },
+      "Current encoder": {
+        "ap_interval16_84": [
+          0.5888668474534723,
+          0.6104864479684653
+        ],
+        "ap_minus_current_interval16_84": [
+          -0.014207487343344174,
+          -0.008791828671100656
+        ]
+      },
+      "July G-PATCH": {
+        "ap_interval16_84": [
+          0.5183396066635901,
+          0.5381868015189986
+        ],
+        "ap_minus_current_interval16_84": [
+          -0.08789256871461558,
+          -0.07774882052766371
+        ]
+      },
+      "July U-PATCH": {
+        "ap_interval16_84": [
+          0.5153640499876104,
+          0.5439820129360201
+        ],
+        "ap_minus_current_interval16_84": [
+          -0.08817272099023342,
+          -0.0732575609408494
+        ]
+      },
+      "Extended G-PATCH": {
+        "ap_interval16_84": [
+          0.5372013817167337,
+          0.5606470012490127
+        ],
+        "ap_minus_current_interval16_84": [
+          -0.06762807450405425,
+          -0.05761314963511644
+        ]
+      },
+      "Extended U-PATCH": {
+        "ap_interval16_84": [
+          0.5138624148000835,
+          0.5446511393013679
+        ],
+        "ap_minus_current_interval16_84": [
+          -0.08904881457515369,
+          -0.07421286875101452
+        ]
+      }
+    },
+    "0.20\u20130.30": {
+      "Current posterior": {
+        "ap_interval16_84": [
+          0.5892053916628689,
+          0.6241465752482886
+        ],
+        "ap_minus_current_interval16_84": [
+          0.0,
+          0.0
+        ]
+      },
+      "Current encoder": {
+        "ap_interval16_84": [
+          0.5765198127612375,
+          0.6121286758373196
+        ],
+        "ap_minus_current_interval16_84": [
+          -0.017319963793184324,
+          -0.009276164781380509
+        ]
+      },
+      "July G-PATCH": {
+        "ap_interval16_84": [
+          0.5170531692132008,
+          0.554985864519201
+        ],
+        "ap_minus_current_interval16_84": [
+          -0.08173371661806818,
+          -0.06753527026195091
+        ]
+      },
+      "July U-PATCH": {
+        "ap_interval16_84": [
+          0.5041343316415268,
+          0.5486025679416042
+        ],
+        "ap_minus_current_interval16_84": [
+          -0.09017225031290015,
+          -0.06871806876331998
+        ]
+      },
+      "Extended G-PATCH": {
+        "ap_interval16_84": [
+          0.5300287754968072,
+          0.5664382273733101
+        ],
+        "ap_minus_current_interval16_84": [
+          -0.06815113166520236,
+          -0.05548414095414731
+        ]
+      },
+      "Extended U-PATCH": {
+        "ap_interval16_84": [
+          0.5047377945096851,
+          0.5479492708032289
+        ],
+        "ap_minus_current_interval16_84": [
+          -0.09126794490659824,
+          -0.06662425039836768
+        ]
+      }
+    }
+  },
+  "full_curve_results": "/pscratch/sd/d/dkololgi/abacus/p12a_historical_knot_scores_20260928_v1/RESULTS.json",
+  "full_curve_results_sha256": "f81471144d9643c072435e658a8148bf598c392f2f2071710033ee96f2bd8192"
+}

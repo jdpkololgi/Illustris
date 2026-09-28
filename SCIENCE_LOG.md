@@ -15485,3 +15485,31 @@ confidence subset common support shrinks to2692 rows/5cells, not representative.
 Evidence supports measurable association plus mock classification attenuation,
 not real-DESI accuracy certification. VAC hash unchanged; no selection/model/
 posterior edits or mock repair. Provisional release caveats remain in force.
+
+### 2026-09-28 — Historical knot-recall advantage does not survive matched precision
+
+User requested actual old-checkpoint replay. Four frozen rotation0/seed42 P8
+models (July recovery U/G and convergence-extension U/G) evaluated on exactly
+the exposed ph006 50000 saved evaluation rows, same truth/natural weights/z.
+Report `docs/p12a_historical_knot_comparison_20260928.md`; code, hashed figures,
+metrics and checkpoint provenance retained. GPUs59024562/59024856 released.
+Old own-normalization/selection/scalers retained, no fitting. One original
+ph000 validation core reproduces saved predictions to <8e-8 for both families.
+Every replay covers all50000; no ordering violations or missing rows.
+
+At z.2-.3, knot hard recall/precision: current posterior45.7/69.1%, current
+encoder50.0/65.6%, JulyG50.8/57.4%, JulyU44.9/59.8%, extendedG46.0/62.1%,
+extendedU47.2/59.7%. At matched70%precision, current posterior recall45.2%,
+encoder42.9%, oldmodels31.7–32.5%. Wedge AP .6093 current versus .5289–.5484
+historical; full-range .6167 versus .5315–.5526. Current posterior AP highest
+in all four shells, not necessarily every individual threshold. Paired block
+bootstrap extendedG-minus-current AP fullrange -.0641,16–84%[-.0676,-.0576].
+Old higher recall alone reflected lower purity and different historical sample.
+
+Qualification: ph006 is separate from training phases but used for current
+model selection, so this is not new blind confirmation. ph001 untouched.
+June whole-wedge FlowJAX files and rotation2 checkpoints survive but were not
+evaluated in this rotation0 comparison; June needs its own graph contract.
+No evidence supports reverting to these four old models to fix knots. Current
+knot incompleteness remains real; this does not establish DESI coverage or
+class-conditional calibration. Provisional VAC/model/selection unchanged.

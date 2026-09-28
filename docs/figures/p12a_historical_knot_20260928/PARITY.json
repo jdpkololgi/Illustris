@@ -1,0 +1,14 @@
+{
+  "unet": {
+    "core": 4,
+    "rows": 24,
+    "max_abs_saved_prediction_error": 1.3333280590721586e-08,
+    "pass": true
+  },
+  "graph": {
+    "core": 4,
+    "rows": 24,
+    "max_abs_saved_prediction_error": 7.535749851905749e-08,
+    "pass": true
+  }
+}
