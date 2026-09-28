@@ -15298,3 +15298,25 @@ preparation+validation to regular batch59013807 (64CPU,32workers,onephase,2h).
 Source/LSS pins checked at launch; no automatic retries or untested full replay
 chain. Full imaging/assignment/veto/spectral closure remains open. Next selected-
 stage conditional repeat and independent fastspecfit/DR2 LF convention check.
+
+### 2026-09-28 - [science/VAC] Supplied DR2/CAI sources identify related BGS issues
+
+GraphWebee80b8c reviews user wiki attachment, CAI309-slide deck, linked LSS
+scripts at d942b990, fiberassign PR471 and brickmask desi branch. CAI slide36
+explicitly reports BGS completeness-vs-z mismatch, suspected incomplete whole
+BGS/low-z cluster competitors. Figure is HOLI/GLAM BGS-21.35 toz~.4, not proof
+of our full-BRIGHT .55 deficit cause. Slides128-130 document ANY-02 vs BRIGHT
+complete/altMTL mismatch in AbacusBGS_v2/kibo products (~5% density difference).
+Slides201/207 discuss high-priority WD competition (~3% completeness issue).
+Promote complete target-population and identical-sample audits; assignment
+cannot explain discrepancies already present in raw parents.
+Loa v1.1 fixes FRAC_TLOBS_TILES; v2.1 fixes PIP replication weights, not raw
+Abacus v1. Wiki flags BGS WEIGHT_ZFAIL weakness; retain assignment-only bracket
+and independently check official weighted Nbin/areas. Generic prepare_mocks_Y3
+currently exits before production and has incomplete BGS handling. Dedicated
+BRIGHT adapter remains appropriate baseline. HOLI BGS preparation explicitly
+uses supplied Loa n(z), adds competitor populations, and uses some dummy M_abs;
+not photometrically faithful environment-training replacement. DA3/DA2 script
+can still output Loa, not Matterhorn. PR471/brickmask are performance changes.
+Source hashes/static checks and priorities committed in GraphWeb report/plan.
+Queued59013807 unchanged; no additional compute or scientific repairs this turn.
