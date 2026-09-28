@@ -15277,3 +15277,24 @@ redshifts must come from forFA RSDZ and this is not a synthetic DELTACHI2 model.
 Moore et al.2511.01803v2 adds independent DR2 LF evidence: bright-end shape,
 North/South photometry and residual evolution warrant joint luminosity/colour/z
 checks. No arbitrary n(z) tuning or provisional VAC replacement.
+
+### 2026-09-28 - [science/VAC] Joint luminosity/colour/redshift test completed
+
+GraphWeb54588a8 records deterministic stride20 old/v1/Loa comparison (1,013,159
+selected rows), common sky/r cuts and Loa assignment*zfail weights. On identical
+fine dz=.01,dr=.1 cells shared by all three, high-z mean mock-minus-Loa g-r:
+old=-.107(S),-.081(N)mag; v1=-.074(S),-.119(N)mag. Retained corrected-Loa weight
+80%/61%; not full-population significance or uniformly improved v1 photometry.
+Common v1 K/E-mapped luminosity shapes differ too, but this is a conditional
+hypothesis, not independent LF validation. Old parent/corrected-Loa counts
+already~.88 at .35-.45 and .55-.59 at .45-.55; v1 surplus spans all shells.
+Additional galaxies provide selection headroom, not proof of matched galaxy-
+matter physics. Reader parity, histogram conservation and shared-cell checks
+pass; expanded sample Loa weight agrees full scan to0.048%. No VAC mutation.
+Original forward step59010842.0 had CANCELLED by0/signal9 after2m43s despite
+live allocation. Exact cause unproven; no assignment output. Reused allocation
+for diagnostics and two-row imaging-kernel smoke (passed), then handed frozen
+preparation+validation to regular batch59013807 (64CPU,32workers,onephase,2h).
+Source/LSS pins checked at launch; no automatic retries or untested full replay
+chain. Full imaging/assignment/veto/spectral closure remains open. Next selected-
+stage conditional repeat and independent fastspecfit/DR2 LF convention check.
