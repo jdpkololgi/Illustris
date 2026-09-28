@@ -15335,3 +15335,20 @@ response1.509 demonstrates bright-tail sensitivity, not predicted survey n(z).
 Next: complete-cell realised parent LF, separate fixed-row K/Q interventions,
 and independently calibrated Loa luminosities. No mock repair or VAC replacement.
 Preparation batch59013807 still pending Resources when checked.
+
+### 2026-09-28 — Provisional release decision and mock choice
+
+User explicitly chooses release labelled provisional with high-redshift inference
+warnings pending improved mocks. Do not withhold release solely for this mismatch;
+do not claim real-DESI coverage. Ashley Ross's user-supplied reply confirms known
+Abacus SecondGen input high-z issue, unresolved; no guaranteed DR3 fix.
+GraphWeb docs/p12a_mock_choice_20260928.md records candidate disposition.
+New fixed-parent ph000 stride20 evolution test CPU59018299/nid004210 completed
+exit0 (20s step): Q=.67→.78 raises high-z v1 counts18.6–18.9%; red/blue Q=.23/1.59
+raises2.22–2.37x without LF/HOD refit. Baselines match previous histogram exactly.
+These conditional interventions worsen surplus, not standalone corrections.
+Current frozen model remains basis of provisional VAC; canonical Abacusv1 leads
+replacement development, not qualified training replacement. Tested Uchuu/GLAM
+support limits and HOLI photometry/truth caveats preclude full-range substitution.
+No evidence warrants changing Loa selection to match mocks. Realised parent LF,
+independent luminosity calibration, observation and galaxy–matter closure stay open.
