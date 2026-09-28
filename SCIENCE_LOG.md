@@ -15239,3 +15239,23 @@ model independently of producer reply. HOD wsys/nowsys tables recovered;
 executed choice still unproven. GraphWeb p12a_v1_population_diagnosis_20260928.md,
 code/results/hashes/accounting retained. Compute released; no regeneration,
 fitting/retraining or VAC replacement.
+
+### 2026-09-28 - [science/code/VAC] Completeness scan done; actual v1 forward underway
+
+User approved completeness-corrected Loa comparison and one pinned phase through
+observational pipeline. CPU59009604/nid004176: scan5,397,649 selected Loa rows,
+zero invalid completeness factors; use1/(FRACZ_TILELOCID*FRAC_TLOBS_TILES),
+WEIGHT_ZFAIL separate, no FKP/imaging-density fitting. Uniformr19.5 rawv1/
+assignment+zfail-correctedLoa=.15-.25:1.195/1.112SGC/NGC, .45-.55:1.508/1.561.
+Common pixel support, not exact subpixel masks; failure weights relative, not
+absolute completeness of all imaging galaxies. No claim of resolved n(z).
+Actual forFA preparation ph000 running in v1_forward_ph000_20260928 Scratch.
+LSS d942b990 runtime verified; adapter usesv1 schema, deterministicseed20260928,
+19.54North/19.5South, Y3tiles, imagingmask, no bright downsampling. Inherited
+faint competitor model and placeholderZWARN0 explicitly not spectral simulation.
+Python3.14 unguarded Pool fixed for single phase; stopped step.5 proactively
+before128-worker mask pool, pinned fork/8workers in retry. No CFS writes.
+GraphWeb6b4ad64 contains code, comparison evidence and forward status report.
+Assignment/veto/success stage pending; G2 not closed. Papers1809.07355 and
+2411.12020section11.2 reinforce density dependence/actual altMTL and document
+DR1 random-failure model, not a Loa high-tail validation.
