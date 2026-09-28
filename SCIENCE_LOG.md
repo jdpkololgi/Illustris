@@ -15320,3 +15320,18 @@ not photometrically faithful environment-training replacement. DA3/DA2 script
 can still output Loa, not Matterhorn. PR471/brickmask are performance changes.
 Source hashes/static checks and priorities committed in GraphWeb report/plan.
 Queued59013807 unchanged; no additional compute or scientific repairs this turn.
+
+### 2026-09-28 — Independent published LF diagnostic
+
+GraphWeb report `docs/p12a_published_lf_20260928.md` and reproducible
+`workflows/p12a_vac/compare_published_lf.py` compare four Moore2026 r LF tables
+against both recovered cumulative generator LF branches using exact bin-average
+conversion. wsys/published ratios .875–.958 for -22<M<-20, .794–1.015 for
+-23<M<-22, .097–.217 for -24<M<-23. Nominal z=.1, M-5logh and density units align;
+photometric/K/E conventions and executed HOD branch remain unresolved. This is
+input LF evidence, not realised-parent LF closure or explanation of v1 surplus.
+Fixed-LF Q=.67→.78 shifts r by -.044 at z=.5; hypothetical Mlimit=-23 cumulative
+response1.509 demonstrates bright-tail sensitivity, not predicted survey n(z).
+Next: complete-cell realised parent LF, separate fixed-row K/Q interventions,
+and independently calibrated Loa luminosities. No mock repair or VAC replacement.
+Preparation batch59013807 still pending Resources when checked.
