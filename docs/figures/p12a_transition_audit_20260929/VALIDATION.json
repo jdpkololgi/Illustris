@@ -1,0 +1,10 @@
+{
+  "true_knot_lambda1_0p2_0p25": {
+    "rows": 765,
+    "mean_knot_probability": 0.31804101041613725,
+    "fraction_probability_le_0p1": 0.21989677985620223
+  },
+  "row_artifact": "/pscratch/sd/d/dkololgi/abacus/p12a_transition_audit_20260929_v2/transition_rows.npz",
+  "row_artifact_sha256": "5fbb1ca946b1eeb03d1f8de0d121bb43b8b467132da169224b8e602403181f8c",
+  "metrics_identical_before_after_plot_refinement": true
+}

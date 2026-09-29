@@ -15513,3 +15513,27 @@ evaluated in this rotation0 comparison; June needs its own graph contract.
 No evidence supports reverting to these four old models to fix knots. Current
 knot incompleteness remains real; this does not establish DESI coverage or
 class-conditional calibration. Provisional VAC/model/selection unchanged.
+
+### 2026-09-29 — Posterior transition uncertainty is useful but incomplete
+
+User-requested boundary audit completed on saved exposed ph00650k/512draws,
+no fitting/new phase or VAC changes. Ascending eigenvalues: knot/filament uses
+lambda1=.2, filament/wall lambda2=.2, wall/void lambda3=.2; existing hard labels
+are argmax integrated class probabilities, not posterior-peak thresholding.
+Report `docs/p12a_transition_audit_20260929.md`, source and hashed numerical/
+figure artifacts committed; CPU59072569 released after successful steps.
+
+Posterior-only transition selection .16<=P(lambda_j>.2)<=.84 has68% coverage
+68.9/69.7/72.4%,90% coverage90.0/90.9/92.1%, and mean adjacent-pair probability
+94.0/93.4/95.6% (knot, filament, wall interfaces in that order). Probability
+reliability broadly good for first two; void-wall q~.15/.25/.35 corresponds to
+~.10/.19/.29 observed crossings, a5–6pp residual not hidden by overall coverage.
+
+Truth-selected adjacent classes within±.05: ambiguity flagged62.1/72.4/69.7%;
+confidently wrong side9.7/4.1/4.4%. Of765 true borderline knots .2<lambda1<=.25,
+22.0% receive P(knot)<=.1; mean P(knot)=.318. Knot weakness survives tighter
+bands and removal of overlapping other boundaries. This is not simply benign
+hard-label ambiguity. Truth-conditioned coverage is descriptive, not required
+to equal nominal for an otherwise calibrated posterior. High-z true near-void/
+wall also weak:250rows,51.6% ambiguous,10.8% confident errors; full shell results
+retained. No proof of spatial boundary reconstruction or real-DESI coverage.
