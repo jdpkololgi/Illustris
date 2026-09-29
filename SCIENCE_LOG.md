@@ -15537,3 +15537,43 @@ hard-label ambiguity. Truth-conditioned coverage is descriptive, not required
 to equal nominal for an otherwise calibrated posterior. High-z true near-void/
 wall also weak:250rows,51.6% ambiguous,10.8% confident errors; full shell results
 retained. No proof of spatial boundary reconstruction or real-DESI coverage.
+
+### 2026-09-29 — Supplied Loa CIGALE joined to frozen posterior VAC
+
+User supplied accessible Zou DR2 CIGALE v1.0 catalogue, 33,346,076 rows:
+`/global/cfs/cdirs/desicollab/users/zouhu/vac/dr2/dr2_galaxy_sedfitting_v1.0.fits`.
+Matched TARGETID plus <1arcsec and |dz|/(1+z)<.001. Of5,436,413 VAC galaxies,
+5,436,352 IDs occur in source;5,019,523 unique consistent matches accepted.
+416,135 IDs have multiple consistent source rows: conservatively flagged
+ambiguous with missing CIGALE properties, not arbitrarily resolved. All VAC
+rows and original columns exactly preserved in property-enriched full FITS:
+`/pscratch/sd/d/dkololgi/graphweb_desi/outputs/p12a_loa_cigale_20260929_v1/DESI_LOA_P12A_CIGALE_FULL_VAC.fits`.
+No model, posterior, Loa-selection, mock-population or inference changes.
+
+GraphWeb report `docs/p12a_loa_cigale_20260929.md`, hashed figures/numerical
+receipts `docs/figures/p12a_loa_cigale_20260929/`; source entrypoints
+`workflows/p12a_vac/loa_cigale_{full,product,plots}.py`. Twelve figure pages:
+eight full-footprint diagnostics and four reproduced original-wedge figures.
+CPU59073991. Source/VAC SHA256 checks, output row identity and exact original
+column round-trip checks pass; established common-cell estimator tests pass.
+
+Usable supported CG15 galaxies4,989,187; full footprint .20<=z<.30:2,327,331;
+original wedge102,634. Retained QSO matches166 excluded from galaxy plots.
+CG15=five Tractor plus ten spectrophotometric bands;CG5=five Tractor bands.
+Both fits tested on identical rows/common CG15-mass/z cells. Knot-minus-void
+full-footprint .20–.30:CG15 mean logM+.105dex(z controlled), mean log sSFR
+-.186dex(mass/z controlled), low-sSFR fraction+7.13pp;CG5 -.180dex/+7.67pp.
+CG15 spatial-bootstrap16–84% contrasts[-.189,-.184]dex,[7.03,7.22]pp. Original
+wedge CG15-.197dex/+7.54pp. Strongly overlapping bimodal distributions still
+show modest resolved descriptive contrasts; no true-class or causal claim.
+
+Critical new selection caveat: conservative unique matching retains only
+about46–52% of supported probability weight by inferred class at .50–.55,
+versus~97% at .20–.30. Exclusions are strongly z/environment dependent;
+full-range/high-z property plots describe selected subsets, not unbiased full
+Loa populations. Recovering duplicates requires observation/coadd provenance.
+No dedicated SED-quality flag identified; spectroscopic CHI2 is not CIGALE
+fit quality. Positive finite mass/SFR required, no arbitrary AGN cut. CIGALE
+publisher cautions low-z Tractor SFR modelling; no SED covariance/systematic
+propagation. Real-DESI coverage unverified; known high-z mock mismatch remains,
+and low-z is not certified. No physical-evolution interpretation.
