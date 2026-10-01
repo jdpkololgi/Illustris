@@ -27,6 +27,24 @@ field-support and existing CIGALE duplicate/high-z exclusions must be visible.
 No originalVAC writes, sealedphases or externaluploads. Methods/source/receipts
 `docs/e2e_loa_atlas_20260930.md`; full results pending, not claimed here.
 
+October1UTC progress: regular4GPU job59140129 submitted, frozenIllustris238df8f,
+stillpendingPriority (no scheduler start estimate). Dependent30minCPU job59141138
+is heldafterok, frozenGraphWebe2c0495+five-file hash manifest, to produce the
+fullmatched8-page property figures, fullatlasHTML and browserchecks. Original
+sources/selection/VAC remain unchanged; productioncompletion is notyetclaimed.
+
+Detailed16drawNGC/SGCboxes and localCG15 comparison finished on59139104. NGC
+replays earlierfloat32densitiesexactly; matchedlocal.20–.30 sample12,074/9,432.
+Bothmethods show a rawlocal mean-sSFR gradient; no mass/z-controlled conclusion
+yet. GraphWeb `docs/figures/loa_field_properties_20260930/` retains numerical/
+figure/browserreceipts. InteractiveHTML at atlasroot`viewer_details_v4/Loa_3D.html`
+provides bothdetailboxes and fullsurveygalaxyoverviews, with explicitdisplay
+thinning, actualMpc/hcoordinates and noexternalrequests. Maskedmesh rendering,
+draw/togglecontrols anddesktop/mobilechecks pass; nativePlotlyisosurfaces had
+silentlyrenderedblankandwerereplaced. Three-real-tile atlasviewer smoke and
+synthetic24krow fullpropertypipeline tests pass; fixturesarenot scienceevidence.
+Fullmethods/resultsstatus: `docs/e2e_loa_atlas_20260930.md`.
+
 ## 2026-09-30 — CFM unseen-phase gallery and exploratory real-Loa field samples
 
 Verified all four coarse/fine seed17/29 pilot factors completed 26,624 updates

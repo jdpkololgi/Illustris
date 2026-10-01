@@ -99,3 +99,56 @@ No scheduler COMPLETED state alone constitutes scientific qualification.
 Official resource reference: https://docs.nersc.gov/jobs/policy/ and
 https://docs.nersc.gov/systems/perlmutter/running-jobs/ (checked2026-09-30).
 Shared QOS is used for1–2 GPUs; regular for a measured four-worker full-node run.
+
+## Representative results and artifact QA (October 1 UTC)
+
+Production atlas job59140129 is submitted from immutable Illustris238df8f;
+currently pending scheduler priority. No complete-atlas result is claimed yet.
+Both detailed boxes finished on59139104: sixteen draws each, original NGC
+float32 density replay exactly equal to the earlier gallery. NGC/SGC owned-core
+rows15,993/13,112; local property figure uses12,074/9,432 identical supported
+CG15 galaxies within .20<=z<.30. Raw P12-A weighted mean log sSFR runs
+NGC[-10.500,-10.646,-10.850,-10.905] and
+SGC[-10.510,-10.618,-10.765,-10.898] across void/sheet/filament/knot.
+CFM16-draw median class means are
+NGC[-10.525,-10.668,-10.849,-10.914] and
+SGC[-10.543,-10.633,-10.752,-10.891]. These local associations are **not**
+mass/redshift controlled or global results. The displayed16–84% ranges are
+within-patch conditional draw variation, not SED/transfer/systematic errors.
+
+GraphWeb source now includes `workflows/p12a_vac/field_property_environment.py`,
+`loa_field_viewer.py` with its HTML template, focused tests and browser checks.
+Four estimator identity/support tests and a24,000-row synthetic full8-page
+figure-pipeline smoke passed. The fixture was removed and is not evidence.
+The production analysis includes full/low-z controlled relations, distributions,
+fixed-mass curves, completeness, shell sensitivity, CG5 versusCG15, threshold0
+sensitivity and frozen-cell split-half Monte Carlo sensitivity.
+
+The self-contained current viewer is
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/loa_field_atlas_20260930_v1/viewer_details_v4/Loa_3D.html`.
+It contains both full-VAC galaxy overviews (100,000/cap display-hash sample) and
+both16-draw detailed fields. Detail galaxies are reproducibly thinned to30,000
+from310,030NGC/170,611SGC context galaxies; none are thinned for analysis.
+Density display uses2x pooling to13.532Mpc/h cells and support>=.5. Explicit
+masked marching-cubes surfaces replace Plotly's native isosurface path, which
+silently rendered blank with masked values in the tested runtime. Surface
+geometry, coordinate extents, draw selection, visibility toggles, desktop/mobile
+rendering and no external requests passed Chromium checks; screenshots inspected.
+Pinned scikit-image0.25.2/lazy-loader0.4 and browser-test dependencies are isolated
+under this Scratch artifact, not installed into project/shared environments.
+The atlas-view branch also passed with three real smoke tiles in a clearly
+labelled disposable fixture; no complete-atlas claim follows from that test.
+
+Small local results and validation receipts are retained in GraphWeb
+`docs/figures/loa_field_properties_20260930/`. Large HTML/fields remain on Scratch.
+Full property figures/full-atlas viewer require the production atlas completion
+receipt, and a dependent frozen CPU postprocessing job. Review its numerical
+results and screenshots before treating those pending products as delivered.
+
+Postprocessing is submitted as CPU59141138, `afterok:59140129`, regular/desi,
+one CPU node/32 requested CPUs/30minutes/scratch license. Frozen GraphWebe2c0495
+source is under atlasroot`analysis_source_e2c0495`, with five-file SHA256 manifest
+checked before analysis. Expected outputs are `property_comparison_v1/` and
+`viewer_full_v1/`; dependency-held at handoff. These do not yet exist and are not
+delivered results. Browser dependencies were copied from the successful compute
+test into bounded atlasroot`browser_runtime/` and `playwright_runtime/`.
