@@ -1,0 +1,373 @@
+{
+  "adapter": {
+    "checks": [
+      {
+        "channel": "counts",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "support_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "angular_response",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "exposure_apodized_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "expected_counts_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "log_count_ratio_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "distance_to_support_boundary",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "ntilde_h3_mpc3",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "los_x",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "los_y",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "los_z",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "observer_redshift",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "counts",
+        "max_abs": 4.76837158203125e-07,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "expected_counts_random",
+        "max_abs": 4.76837158203125e-07,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "support_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "angular_response",
+        "max_abs": 2.384185791015625e-07,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "exposure_apodized_random",
+        "max_abs": 1.7881393432617188e-07,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "ntilde_h3_mpc3",
+        "max_abs": 1.9073486328125e-06,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "geometry_valid_fraction",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "log_count_ratio_random",
+        "max_abs": 2.384185791015625e-07,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "los_x",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "los_y",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "los_z",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "observer_radius_mpc_h",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      }
+    ],
+    "cic": {
+      "local": {
+        "deposited_weight": 207854.8783900629,
+        "grid_sum": 207854.87841443,
+        "input_points": 214442,
+        "lost_weight": 6587.121609937124
+      },
+      "wide": {
+        "deposited_weight": 3827310.455179028,
+        "grid_sum": 3827310.4550007232,
+        "input_points": 3835086,
+        "lost_weight": 7775.544820971505
+      }
+    },
+    "pair": "ph016_NGC_s0_interior_00",
+    "passed": true
+  },
+  "loa": {
+    "center_radec_z": [
+      180,
+      10,
+      0.22
+    ],
+    "checkpoints": {
+      "coarse": "4de3a3ba510f7eace319a34386bb99b783d42ef78c17eb83449d99fca4964439",
+      "fine": "88b2c7d1c5174e64dc98bb6f555bf555c876ae02496f237a71f7ee8c31e5cced"
+    },
+    "chunks": {
+      "loa_draw000.npz": "93598fdfddab356b7fe0a8c68e6aa1a141ba1bf917b076aeb174bfde7d25b0d0",
+      "loa_draw002.npz": "2ef66b7ad494113dca8c2dc25bc80e17856e423124b28ca04dc979bd46230bf9",
+      "loa_draw004.npz": "a173e69278cc94458063f6b2785ca0a5c0899ea9d55bf34838b4cbbd53dccca0",
+      "loa_draw006.npz": "12ce18bbfe322709c6c7e276e6dcae9ef546104123905503f753a74660448e27",
+      "loa_draw008.npz": "37e9d4aab236317d34d5e606e539f8ce442b2efd4d586196cf648b670bf3a5d3",
+      "loa_draw010.npz": "1adf5e1ff448186812b27375b4a9881afe9fb245b6aa07b72d5104edabfd76f4",
+      "loa_draw012.npz": "89c536dc0b2442621acc8fc03c3acb239eb8601ea8bea648061c7f63bfdbaeb7",
+      "loa_draw014.npz": "c43788020a0ec60e49e3d325b8f682a685d0db89e6f82fcbb716fca3e8cae350"
+    },
+    "cic": {
+      "local": {
+        "deposited_weight": 310040.43480438984,
+        "grid_sum": 310040.43485180556,
+        "input_points": 318784,
+        "lost_weight": 8743.565195610157
+      },
+      "wide": {
+        "deposited_weight": 4141535.8354010237,
+        "grid_sum": 4141535.8356761276,
+        "input_points": 4149414,
+        "lost_weight": 7878.164598976392
+      }
+    },
+    "core_support": [
+      1.0,
+      0.999664306640625
+    ],
+    "draws": 16,
+    "galaxies": 15166,
+    "grid": {
+      "cell_mpc_h": 3.383,
+      "coordinate_sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+      "distance_unit": "Mpc/h",
+      "origin_mpc_h": [
+        -1559.4027793611435,
+        -1511.5893028225587,
+        -280.43464106576647
+      ],
+      "padding_mpc_h": 27.064,
+      "shape": [
+        547,
+        832,
+        533
+      ]
+    },
+    "input_receipt": {
+      "bytes": 16023,
+      "mtime_ns": 1790339532000000000,
+      "path": "/pscratch/sd/d/dkololgi/graphweb_desi/outputs/p12a_loa_canary_20260925_v1/INPUTS_READY.json",
+      "sha256": "4a308a14b7f92622715f3cd3068c728d34982bb803493dc087fd2dcf90ce8725"
+    },
+    "log_density_limits": [
+      -0.5,
+      0.5
+    ],
+    "max_mass_error": 8.683656171051143e-16,
+    "midpoint": [
+      280,
+      448,
+      112
+    ],
+    "nfe": 128,
+    "normalizer": "b2b294c5de91a7659be16b87e2ea454a11464fbd4522b4c0d30d2b1effa9e43e",
+    "posterior_sd_rms": 0.1871930391301345,
+    "refinement_draws": 2,
+    "refinement_nfe": 256,
+    "refinement_rmse": 0.0005559663232000171,
+    "sd_limits": [
+      0,
+      1
+    ],
+    "slab_z_cells": [
+      23,
+      25
+    ],
+    "status": "complete_exploratory",
+    "unsupported_slab_fraction": 0.0
+  },
+  "mocks": [
+    {
+      "draw_receipt": {
+        "bytes": 9496,
+        "mtime_ns": 1790464046000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_additional_20260926_v1/additional16/seed17_step13312_fine26624/ph016/ph016_NGC_s0_interior_00/nfe128/COMPLETE.json",
+        "sha256": "8ce57c9c784be0240f50c6067d708c90881203058b5f0e308371394340630163"
+      },
+      "draws": 32,
+      "figure": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_gallery_20260930_v2/ph016_NGC_s0_interior_00.png",
+      "galaxies": 9625,
+      "log_density_limits": [
+        -0.5,
+        0.5
+      ],
+      "pair": "ph016_NGC_s0_interior_00",
+      "sd_limits": [
+        0,
+        1
+      ],
+      "slab_z_cells": [
+        23,
+        25
+      ],
+      "target_sha256": "6abf066aeba73fa6a7244f0e08111f831419b56bfd18cdc49cb0677a67b5a854",
+      "unsupported_slab_fraction": 0.007161458333333333
+    },
+    {
+      "draw_receipt": {
+        "bytes": 9491,
+        "mtime_ns": 1790463468000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_additional_20260926_v1/additional16/seed17_step13312_fine26624/ph016/ph016_NGC_s0_boundary_00/nfe128/COMPLETE.json",
+        "sha256": "f86d2dd2577fe1060a72f5428ccb56295a9259d221dcc207585f581358b4aabc"
+      },
+      "draws": 32,
+      "figure": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_gallery_20260930_v2/ph016_NGC_s0_boundary_00.png",
+      "galaxies": 10232,
+      "log_density_limits": [
+        -0.5,
+        0.5
+      ],
+      "pair": "ph016_NGC_s0_boundary_00",
+      "sd_limits": [
+        0,
+        1
+      ],
+      "slab_z_cells": [
+        23,
+        25
+      ],
+      "target_sha256": "ea58383b25fa6eb377bfdf15357e58ff1b78b37e5f34b1982fd691a329ee2df7",
+      "unsupported_slab_fraction": 0.1591796875
+    },
+    {
+      "draw_receipt": {
+        "bytes": 9473,
+        "mtime_ns": 1790464046000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_additional_20260926_v1/additional17/seed17_step13312_fine26624/ph017/ph017_NGC_s0_interior_00/nfe128/COMPLETE.json",
+        "sha256": "c7e4ab59b2c2e048fe637076cb61b666432392e118f23d5954ab38fd39952f85"
+      },
+      "draws": 32,
+      "figure": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_gallery_20260930_v2/ph017_NGC_s0_interior_00.png",
+      "galaxies": 7453,
+      "log_density_limits": [
+        -0.5,
+        0.5
+      ],
+      "pair": "ph017_NGC_s0_interior_00",
+      "sd_limits": [
+        0,
+        1
+      ],
+      "slab_z_cells": [
+        23,
+        25
+      ],
+      "target_sha256": "da0744b19bf5eb4ba6947dfde41260c97bec682a57dbc9b94b739ae54279a880",
+      "unsupported_slab_fraction": 0.023763020833333332
+    },
+    {
+      "draw_receipt": {
+        "bytes": 9473,
+        "mtime_ns": 1790463468000000000,
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_additional_20260926_v1/additional17/seed17_step13312_fine26624/ph017/ph017_NGC_s0_boundary_00/nfe128/COMPLETE.json",
+        "sha256": "843ee29e97e4ee819438f06b96edbf68f1299735f3cba3bc506a528895ca5667"
+      },
+      "draws": 32,
+      "figure": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_gallery_20260930_v2/ph017_NGC_s0_boundary_00.png",
+      "galaxies": 1981,
+      "log_density_limits": [
+        -0.5,
+        0.5
+      ],
+      "pair": "ph017_NGC_s0_boundary_00",
+      "sd_limits": [
+        0,
+        1
+      ],
+      "slab_z_cells": [
+        23,
+        25
+      ],
+      "target_sha256": "47d45d9dec99eb95d3e33b6453192e079e73f034150c87cc8289ce92b0ba04ad",
+      "unsupported_slab_fraction": 0.6344401041666666
+    }
+  ],
+  "selection": {
+    "bytes": 982294,
+    "mtime_ns": 1786722934000000000,
+    "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/training_contract/transforms/field/selection_manifest.json",
+    "sha256": "b010391138a3cb36f90c41506c85755e2154bdfee7e7ebe7e9f9a1d51662a526"
+  },
+  "source": {
+    "bytes": 16391,
+    "mtime_ns": 1790809581770146000,
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/e2e_cfm_field_gallery.py",
+    "sha256": "74ecbe499f1d96c8b167bd94fb31f8bbb9a5fff5797189ee012160830444ecba"
+  }
+}

@@ -1,0 +1,449 @@
+{
+  "checks": {
+    "Loa_NGC": [
+      {
+        "channel": "counts",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "support_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "angular_response",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "exposure_apodized_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "expected_counts_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "log_count_ratio_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "distance_to_support_boundary",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "ntilde_h3_mpc3",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "los_x",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "los_y",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "los_z",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "observer_redshift",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "counts",
+        "max_abs": 9.5367431640625e-07,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "expected_counts_random",
+        "max_abs": 7.152557373046875e-07,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "support_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "angular_response",
+        "max_abs": 2.384185791015625e-07,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "exposure_apodized_random",
+        "max_abs": 1.7881393432617188e-07,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "ntilde_h3_mpc3",
+        "max_abs": 1.9073486328125e-06,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "geometry_valid_fraction",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "log_count_ratio_random",
+        "max_abs": 2.384185791015625e-07,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "los_x",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "los_y",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "los_z",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "observer_radius_mpc_h",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      }
+    ],
+    "NGC": [
+      {
+        "channel": "counts",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "support_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "angular_response",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "exposure_apodized_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "expected_counts_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "log_count_ratio_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "distance_to_support_boundary",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "ntilde_h3_mpc3",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "los_x",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "los_y",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "los_z",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "observer_redshift",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "counts",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "expected_counts_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "support_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "angular_response",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "exposure_apodized_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "ntilde_h3_mpc3",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "geometry_valid_fraction",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "log_count_ratio_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "los_x",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "los_y",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "los_z",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "observer_radius_mpc_h",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      }
+    ],
+    "SGC": [
+      {
+        "channel": "counts",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "support_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "angular_response",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "exposure_apodized_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "expected_counts_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "log_count_ratio_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "distance_to_support_boundary",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "ntilde_h3_mpc3",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "los_x",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "los_y",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "los_z",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "observer_redshift",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "joint"
+      },
+      {
+        "channel": "counts",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "expected_counts_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "support_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "angular_response",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "exposure_apodized_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "ntilde_h3_mpc3",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "geometry_valid_fraction",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "log_count_ratio_random",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "los_x",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "los_y",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "los_z",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      },
+      {
+        "channel": "observer_radius_mpc_h",
+        "max_abs": 0.0,
+        "passed": true,
+        "region": "wide"
+      }
+    ]
+  },
+  "passed": true,
+  "source": {
+    "bytes": 8898,
+    "mtime_ns": 1790812178008900000,
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/e2e_loa_field_conditions.py",
+    "sha256": "eef75d8172d201c605d61f0d070faabed22cdb6112e1d7f8d4e6c0d88cb7371d"
+  }
+}

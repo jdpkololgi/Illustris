@@ -1,0 +1,45 @@
+{
+  "checks": [
+    {
+      "kind": "rectangular",
+      "max_abs": 6.661338147750939e-16,
+      "passed": true,
+      "shape": [
+        12,
+        16,
+        8
+      ]
+    },
+    {
+      "kind": "rectangular",
+      "max_abs": 5.828670879282072e-16,
+      "passed": true,
+      "shape": [
+        9,
+        11,
+        13
+      ]
+    },
+    {
+      "cpu_seconds": 0.42105966701637954,
+      "gpu_seconds": 0.5041402020142414,
+      "kind": "full_physical",
+      "max_abs": 9.43689570931383e-16,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "precision": "float64 FFT, unchanged operator",
+  "reference_source": {
+    "bytes": 5832,
+    "mtime_ns": 1789758693120107000,
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/e2e_coupled_operators.py",
+    "sha256": "54934aa3c69bad36d0e4d9b5135106387fe01f44efdef24b4166caf5fcedc38d"
+  },
+  "source": {
+    "bytes": 3832,
+    "mtime_ns": 1790812273028823000,
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/e2e_loa_field_tensor.py",
+    "sha256": "20d52582c15830e85ef9d72c2f33c55c17513ef6936c30f2cef660a6c5406ec2"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "checkpoints": {
+    "coarse": "4de3a3ba510f7eace319a34386bb99b783d42ef78c17eb83449d99fca4964439",
+    "fine": "88b2c7d1c5174e64dc98bb6f555bf555c876ae02496f237a71f7ee8c31e5cced"
+  },
+  "checks": {
+    "tf32": {
+      "class_disagreement": 0.00079345703125,
+      "passed": true,
+      "rho_rmse_over_spread": 0.007368327574926258,
+      "wide_rmse_over_spread": 0.002527229629741186
+    },
+    "tf32_batch4": {
+      "class_disagreement": 0.000732421875,
+      "passed": true,
+      "rho_rmse_over_spread": 0.007364099236709777,
+      "wide_rmse_over_spread": 0.002527370237029336
+    }
+  },
+  "limits": "Numerical checks on two matched draws, not calibration or all-tile precision validation.",
+  "normalizer": "b2b294c5de91a7659be16b87e2ea454a11464fbd4522b4c0d30d2b1effa9e43e",
+  "original_density_exact_replay": true,
+  "passed": true,
+  "source": {
+    "bytes": 5538,
+    "mtime_ns": 1790811988029086000,
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/e2e_loa_field_sampling.py",
+    "sha256": "710a777f163806317e48b0ee05c78ca93d91d884612a0d29a4de77c58537ad5c"
+  },
+  "timing": {
+    "fp32": {
+      "draws": 2,
+      "peak_gpu_bytes": 371545088,
+      "seconds": 24.188875626015943,
+      "seconds_per_draw": 12.094437813007971
+    },
+    "tf32": {
+      "draws": 2,
+      "peak_gpu_bytes": 428230656,
+      "seconds": 2.909224135975819,
+      "seconds_per_draw": 1.4546120679879095
+    },
+    "tf32_batch4": {
+      "draws": 4,
+      "peak_gpu_bytes": 734823936,
+      "seconds": 3.916217277001124,
+      "seconds_per_draw": 0.979054319250281
+    }
+  }
+}

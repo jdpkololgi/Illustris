@@ -1,0 +1,181 @@
+{
+  "binding": {
+    "batch": 4,
+    "checkpoints": {
+      "coarse": "4de3a3ba510f7eace319a34386bb99b783d42ef78c17eb83449d99fca4964439",
+      "fine": "88b2c7d1c5174e64dc98bb6f555bf555c876ae02496f237a71f7ee8c31e5cced"
+    },
+    "draws": 8,
+    "global_joint_posterior": false,
+    "independent_tiles": true,
+    "nfe": 128,
+    "normalizer": "b2b294c5de91a7659be16b87e2ea454a11464fbd4522b4c0d30d2b1effa9e43e",
+    "plan": "0a9740c3a579fd992827f565599c33d30899b5666f4b418c0e4269646470faa2",
+    "precision": "TF32 float32 network; float64 FFT",
+    "runner": "75c65a24d143d262b91e71797279ea3844b29f4b93775adedbd30969ebc24f2f",
+    "source": {
+      "conditions": "eef75d8172d201c605d61f0d070faabed22cdb6112e1d7f8d4e6c0d88cb7371d",
+      "operators": "54934aa3c69bad36d0e4d9b5135106387fe01f44efdef24b4166caf5fcedc38d",
+      "sampling": "710a777f163806317e48b0ee05c78ca93d91d884612a0d29a4de77c58537ad5c",
+      "tensor": "20d52582c15830e85ef9d72c2f33c55c17513ef6936c30f2cef660a6c5406ec2"
+    }
+  },
+  "cases": 3,
+  "draws": 8,
+  "passed": true,
+  "results": [
+    {
+      "binding": "f22feeca8d092df5852fee0e1732c4bf6bd21aedc6c901497cbe485ad7902e74",
+      "case": {
+        "cap": "NGC",
+        "cap_id": 1,
+        "id": "NGC_004_013_003",
+        "key": [
+          4,
+          13,
+          3
+        ],
+        "lowz_rows": 11027,
+        "midpoint": [
+          288,
+          432,
+          112
+        ],
+        "rows": 17774,
+        "supported": 17774,
+        "usable_cg15": 17682
+      },
+      "condition_sha256": "d708faa956998e877c6652f36755db8b0ad45b813720f7de35ef9af768a1a7ef",
+      "conditioning_seconds": 0.7957826290512457,
+      "core_support": [
+        1.0,
+        0.9996337890625
+      ],
+      "draws": 8,
+      "field_property_eligible_rows": 17774,
+      "global_joint_posterior": false,
+      "independent_tiles": true,
+      "legacy_density_replay": false,
+      "max_mass_error": 7.204968971524005e-16,
+      "numerical_precision_check": {
+        "class_disagreement": 0.0009765625,
+        "passed": true,
+        "rho_rmse_over_spread": 0.007473988132178503,
+        "wide_rmse_over_spread": 0.0025674074836192612
+      },
+      "outputs": [
+        {
+          "bytes": 831098,
+          "mtime_ns": 1790812895000000000,
+          "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/loa_field_atlas_20260930_v1/tiles/NGC_004_013_003/fields_generation_1790812895752199163.npz",
+          "sha256": "95dd23e9b650fbccf4066474a341c893f76e107ed01735f988eb2f8b6be9725d"
+        }
+      ],
+      "rows": 17774,
+      "seconds": 32.63219218701124
+    },
+    {
+      "binding": "f22feeca8d092df5852fee0e1732c4bf6bd21aedc6c901497cbe485ad7902e74",
+      "case": {
+        "cap": "SGC",
+        "cap_id": 0,
+        "id": "SGC_002_011_003",
+        "key": [
+          2,
+          11,
+          3
+        ],
+        "lowz_rows": 5910,
+        "midpoint": [
+          160,
+          368,
+          112
+        ],
+        "rows": 8101,
+        "supported": 8012,
+        "usable_cg15": 7984
+      },
+      "condition_sha256": "01ab156d3256c26ccbed21e0cbb9d38221c8d541d3fd3eb06f741d163f962ffc",
+      "conditioning_seconds": 0.7471360510098748,
+      "core_support": [
+        0.452972412109375,
+        0.700836181640625
+      ],
+      "draws": 8,
+      "field_property_eligible_rows": 8043,
+      "global_joint_posterior": false,
+      "independent_tiles": true,
+      "legacy_density_replay": false,
+      "max_mass_error": 7.516900152442366e-16,
+      "numerical_precision_check": {
+        "class_disagreement": 0.00103759765625,
+        "passed": true,
+        "rho_rmse_over_spread": 0.0031637283709442976,
+        "wide_rmse_over_spread": 0.0015134862130193984
+      },
+      "outputs": [
+        {
+          "bytes": 514474,
+          "mtime_ns": 1790812927000000000,
+          "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/loa_field_atlas_20260930_v1/tiles/SGC_002_011_003/fields_generation_1790812927886805584.npz",
+          "sha256": "d215a31abe7ab8f384d1f948195220c9f6b61b1712d129700ed00c9b88716bf5"
+        }
+      ],
+      "rows": 8101,
+      "seconds": 32.07114460400771
+    },
+    {
+      "binding": "f22feeca8d092df5852fee0e1732c4bf6bd21aedc6c901497cbe485ad7902e74",
+      "case": {
+        "cap": "SGC",
+        "cap_id": 0,
+        "id": "SGC_005_011_002",
+        "key": [
+          5,
+          11,
+          2
+        ],
+        "lowz_rows": 0,
+        "midpoint": [
+          352,
+          368,
+          80
+        ],
+        "rows": 240,
+        "supported": 238,
+        "usable_cg15": 120
+      },
+      "condition_sha256": "a1096c6d302d97653300056ece66333f0dd26e36f5aefc0fed99043dbb311be4",
+      "conditioning_seconds": 0.7215558110037819,
+      "core_support": [
+        0.8953857421875,
+        0.91796875
+      ],
+      "draws": 8,
+      "field_property_eligible_rows": 236,
+      "global_joint_posterior": false,
+      "independent_tiles": true,
+      "legacy_density_replay": false,
+      "max_mass_error": 6.875143489193578e-16,
+      "numerical_precision_check": {
+        "class_disagreement": 0.00030517578125,
+        "passed": true,
+        "rho_rmse_over_spread": 0.0009170287071964938,
+        "wide_rmse_over_spread": 0.0009857446903406143
+      },
+      "outputs": [
+        {
+          "bytes": 240539,
+          "mtime_ns": 1790812959000000000,
+          "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/loa_field_atlas_20260930_v1/tiles/SGC_005_011_002/fields_generation_1790812959949093815.npz",
+          "sha256": "a8eed94b1702a1b9bcb2cac7aa64ec6b65ab05d205cd7f4c376d164cef737505"
+        }
+      ],
+      "rows": 240,
+      "seconds": 32.022695151972584
+    }
+  ],
+  "seconds": 96.74472053098725,
+  "worker": 0,
+  "workers": 1
+}

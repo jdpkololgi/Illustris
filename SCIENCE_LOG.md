@@ -1,5 +1,66 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-09-30 — Both-cap CFM atlas and full-CIGALE comparison authorized, in progress
+
+User corrected initial wedge-only orientation: the appended September29 entry
+records the later full-CIGALE product; current PRODUCT hash verified, all
+5,436,413 VAC rows crossmatched to model observations with matching RA/Dec/z.
+4,989,187 usable supported CG15 galaxies verified. No need to restrict to the
+legacy wedge. User approves compute including additional both-cap work, and
+explicitly requests both representative views and a full independent-tile atlas.
+
+Preparation59139104/nid200301: unique ownership requires2472tiles (1626NGC,
+846SGC), allVACrows exactly once. Shared count/coarse caches built, both-cap
+mock12local+12wide channels replay exactly; priorLoa replay within1.91e-6.
+StrictFP32 recovers originalLoa density draws exactly. TF32 batch4 benchmark
+.979s/draw vs12.09FP32; matchedNGC/SGClow/SGChigh checks all pass <1% fieldRMS
+error relative to pair spread and <1% class changes (maximum~.104%). FP64GPU
+FFT matches unchangedCPU tensor to~1e-15. Three focused ownership/interpolation
+tests pass. Normal8drawtile9.15s; four independentGPU workers planned in regular
+batch for3h maximum (12GPUh), estimated1.5–2h runtime after smoke.
+
+Eightdraws/tile,16/details; frozen mixedseed17/NFE128, no retraining. Classes
+from per-draw local+wide tensors at actual galaxy positions, threshold.2 to
+matchP12-A and0sensitivity. Independent tiles are NOT a global joint posterior.
+Fullpropertycurves will compare identical selected galaxies/controlcells;
+field-support and existing CIGALE duplicate/high-z exclusions must be visible.
+No originalVAC writes, sealedphases or externaluploads. Methods/source/receipts
+`docs/e2e_loa_atlas_20260930.md`; full results pending, not claimed here.
+
+## 2026-09-30 — CFM unseen-phase gallery and exploratory real-Loa field samples
+
+Verified all four coarse/fine seed17/29 pilot factors completed 26,624 updates
+(32 epochs); no additional training needed or run. Retained frozen mixed EMA
+coarse13,312/fine26,624 candidate. Fixed ph016/ph017 NGC shell0 interior_00 and
+boundary_00 galleries use saved32draws, truth, first3draws, mean and slab SD with
+actual observed galaxies in the same central13.532Mpc/h slab. These are unseen
+in training but already exposed evaluation phases, not sealed confirmation.
+
+User authorized one sharedGPU <=90min/10GiB for plots and a conditional Loa
+trial gated on adapter checks, with no training or VAC changes. Allocation
+59137943/nid200416 completed the corrected run and was released. First attempt
+stopped before any Loa draw due to missing deterministic CuBLAS setting; retained
+failure artifacts, corrected launch in the same allocation. All12local channels
+replay exactly; all12wide channels pass (maxabs1.907e-6 pooling roundoff).
+Recomputed pinned DESI Mpc/h xyz from hash-verified existing Loa RA/Dec/z cache;
+no reuse of cached Planck-Mpc xyz, no selection or random-response refit.
+
+Fixed RA180/Dec10/z.22 NGC patch: owned support1.0/.999664;16draws atNFE128 plus
+2matched-seed NFE256 refinements. Refinement RMSE.00055597 vs posteriorRMSsd.187193
+(ratio.00297); positive decode, maxrelative block-mass error8.69e-16. Figure
+overlays15,166 realgalaxies. FivePNG reviewed;3focused tests pass. Both attempts
+use46.4MiBScratch excluding tiny logs. Original P12-A VAC hash reverified unchanged
+cf472cb4e8fb327620629f347115ad26c55a3f985320b293e6753e07f50ebfbc.
+
+No real-data truth or calibration claim: known selection mismatch (especially
+z>.35, including possible wide-context contributions) remains. No mock repair,
+VAC rewrite or018/019access. Support/exposure/expectedcounts/boundarydistance
+distinguish unobserved cells from observed empty cells; observations never wrap
+periodically. Wide-context FFT tidal closure remains a finite-exterior approximation.
+Methods, figures and receipts: `docs/e2e_cfm_gallery_20260930.md`,
+`docs/figures/cfm_gallery_20260930/`; draws in Scratch `cfm_gallery_20260930_v2`.
+Graphify refresh unavailable (command not found); direct targeted inspection used.
+
 ## 2026-09-28 — Literature assessment of modest property–environment contrasts
 
 Primary-source review finds broad distribution overlap and modest residual

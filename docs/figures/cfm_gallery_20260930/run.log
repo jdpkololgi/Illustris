@@ -1,0 +1,14 @@
+{"mock_figure": "ph016_NGC_s0_interior_00"}
+{"adapter_passed": true, "checks": [{"region": "joint", "channel": "counts", "max_abs": 0.0, "passed": true}, {"region": "joint", "channel": "support_random", "max_abs": 0.0, "passed": true}, {"region": "joint", "channel": "angular_response", "max_abs": 0.0, "passed": true}, {"region": "joint", "channel": "exposure_apodized_random", "max_abs": 0.0, "passed": true}, {"region": "joint", "channel": "expected_counts_random", "max_abs": 0.0, "passed": true}, {"region": "joint", "channel": "log_count_ratio_random", "max_abs": 0.0, "passed": true}, {"region": "joint", "channel": "distance_to_support_boundary", "max_abs": 0.0, "passed": true}, {"region": "joint", "channel": "ntilde_h3_mpc3", "max_abs": 0.0, "passed": true}, {"region": "joint", "channel": "los_x", "max_abs": 0.0, "passed": true}, {"region": "joint", "channel": "los_y", "max_abs": 0.0, "passed": true}, {"region": "joint", "channel": "los_z", "max_abs": 0.0, "passed": true}, {"region": "joint", "channel": "observer_redshift", "max_abs": 0.0, "passed": true}, {"region": "wide", "channel": "counts", "max_abs": 4.76837158203125e-07, "passed": true}, {"region": "wide", "channel": "expected_counts_random", "max_abs": 4.76837158203125e-07, "passed": true}, {"region": "wide", "channel": "support_random", "max_abs": 0.0, "passed": true}, {"region": "wide", "channel": "angular_response", "max_abs": 2.384185791015625e-07, "passed": true}, {"region": "wide", "channel": "exposure_apodized_random", "max_abs": 1.7881393432617188e-07, "passed": true}, {"region": "wide", "channel": "ntilde_h3_mpc3", "max_abs": 1.9073486328125e-06, "passed": true}, {"region": "wide", "channel": "geometry_valid_fraction", "max_abs": 0.0, "passed": true}, {"region": "wide", "channel": "log_count_ratio_random", "max_abs": 2.384185791015625e-07, "passed": true}, {"region": "wide", "channel": "los_x", "max_abs": 0.0, "passed": true}, {"region": "wide", "channel": "los_y", "max_abs": 0.0, "passed": true}, {"region": "wide", "channel": "los_z", "max_abs": 0.0, "passed": true}, {"region": "wide", "channel": "observer_radius_mpc_h", "max_abs": 0.0, "passed": true}]}
+{"mock_figure": "ph016_NGC_s0_boundary_00"}
+{"mock_figure": "ph017_NGC_s0_interior_00"}
+{"mock_figure": "ph017_NGC_s0_boundary_00"}
+{"loa_draws": 2, "seconds": 23.534118379000574}
+{"loa_draws": 4, "seconds": 23.179986285045743}
+{"loa_draws": 6, "seconds": 23.17916087701451}
+{"loa_draws": 8, "seconds": 23.175757882010657}
+{"loa_draws": 10, "seconds": 23.177684878988657}
+{"loa_draws": 12, "seconds": 23.17991676199017}
+{"loa_draws": 14, "seconds": 23.17145087796962}
+{"loa_draws": 16, "seconds": 23.170737148961052}
+{"complete": true, "loa_status": "complete_exploratory"}
