@@ -1,0 +1,40 @@
+{
+  "schema": "e2e-coherent-exterior-campaign-v1",
+  "status": "scope_registered_before_new_fits_or_confirmation_access",
+  "authority": "User 2026-10-02 requests coherent conditional density fields, exterior-model comparison, all available training-unseen phase evaluation, coverage throughout and full-cap website update; necessary compute preapproved.",
+  "science_repository": "TNG/Illustris",
+  "new_output_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coherent_exterior_20261002_v1",
+  "training_phases": ["ph000", "ph002", "ph003", "ph007", "ph008", "ph009", "ph010", "ph011", "ph020", "ph021", "ph022", "ph023", "ph024"],
+  "prepared_training_unseen_phases": ["ph012", "ph013", "ph014", "ph015", "ph016", "ph017", "ph018", "ph019"],
+  "development_selection_phases": ["ph012", "ph013"],
+  "previously_exposed_replication_phases": ["ph014", "ph015", "ph016", "ph017"],
+  "fresh_confirmation_phases": ["ph018", "ph019"],
+  "additional_phase_metadata_audit": ["ph004", "ph005", "ph006"],
+  "additional_legacy_replication_phases": ["ph004", "ph005", "ph006"],
+  "legacy_rebuild_contract": "configs/e2e_exterior_legacy_inputs_20261002.json",
+  "final_phase_inventory": ["ph004", "ph005", "ph006", "ph012", "ph013", "ph014", "ph015", "ph016", "ph017", "ph018", "ph019"],
+  "preserved_sealed_reserve": ["ph001"],
+  "sealed_reserve_authority": "User explicitly chose Preserve the sealed ph001 reserve during this campaign. No ph001 preparation, prediction or truth access.",
+  "additional_phase_policy": "Audit compatibility and previous exposure without reading target payloads. Register a separate explicit input contract before any final prediction/truth evaluation. Do not relax legacy guards or call these phases fresh merely because CFM weights never saw them.",
+  "candidate_families": [
+    "zero-exterior density contrast control",
+    "capwise periodic control",
+    "unconditional spatially correlated positive-density exterior prior",
+    "conditional spatially correlated positive-density exterior draws given each inferred interior field",
+    "learned CFM density outside the footprint with shared-state integration"
+  ],
+  "required_posterior_object": "A coherent density-field realization with registered support, exterior extent and geometry, not independent per-core tidal coefficients or post-hoc eigenvalue noise.",
+  "comparison_order": [
+    "Audit input lineage, geometry, phase exposure and existing posterior limitations.",
+    "Register concrete candidate implementations, estimands, metrics, selection rule and numerical gates before scoring candidates.",
+    "Implement and pass synthetic numerical/calibration controls; benchmark representative CPU/GPU work.",
+    "Use matched inputs and budgets for development comparison, reporting marginal and joint field diagnostics.",
+    "Freeze selected model, sampler, exterior law, operators, numerical settings and full final phase inventory before final unseen prediction or truth access.",
+    "Evaluate all compatible available training-unseen phases, separating development reuse, exposed replication and fresh confirmation.",
+    "Generate full-cap density and per-draw tidal/environment fields and uncertainties, verify them, then update the existing private website with explicit qualification status."
+  ],
+  "minimum_diagnostics": ["finite-ensemble central coverage and ranks", "interval widths and fair CRPS", "density and ordered tidal eigenvalues", "regional masses and cross-region dependence", "joint summary coverage", "class probabilities and Brier score", "cap/redshift/boundary-distance splits", "long-mode and exterior-extent sensitivity", "solver/sampler resolution", "same-location coherence and density positivity"],
+  "evidence_policy": "No voxel-iid confidence intervals, no fresh-confirmation tuning, no claim of publishability from numerical success or marginal coverage alone. Report a failed or inconclusive qualification honestly.",
+  "resource_policy": "Use compatible authorized allocations; no more than two interactive allocations. Benchmark first, freeze production code, then use appropriate batch QOS for long deterministic work. Record measured costs and receipts. No unrelated jobs or shared data modifications.",
+  "website_policy": "Preserve the existing private audience and original research/VAC products. Derived fields must be from the same coherent density draws and operator, with validation scope, mask and uncertainty limitations visible."
+}

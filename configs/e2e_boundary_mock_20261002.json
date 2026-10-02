@@ -1,0 +1,41 @@
+{
+  "schema": "e2e-boundary-mock-v1",
+  "status": "registered before results",
+  "training_phases": ["ph007", "ph008"],
+  "evaluation_phases": ["ph016", "ph017"],
+  "forbidden_scoring_phases": ["ph018", "ph019"],
+  "geometry": "all existing registered cores: 256 per training phase, 32 per evaluation phase; both caps, four shells, interior and boundary",
+  "source": "complete original random-support footprints from BOTH caps; no local-crop replacement; R7 smoothing precedes masking",
+  "truth": "existing native2048 periodic full-box R7 tensors, block-averaged on registered cores",
+  "primary_cells": "support exactly one; correlated cells are not independent simulations",
+  "secondary_cells": "support at least 0.5; distinguish missing subcell isotropic source from exterior trace-free response",
+  "arms": [
+    "full-box reference",
+    "isolated exact-cuboid convolution of both complete observed footprints",
+    "strict periodic self-cap rectangular source box plus isolated other cap; k=0 omitted",
+    "periodic self-cap plus isotropic patch-mean correction plus isolated other cap",
+    "oracle constant trace-free exterior tensor in each core",
+    "oracle harmonic potential through cubic order in each core",
+    "training-only conditional Gaussian distribution of constant exterior tensor coefficients",
+    "training-only conditional Gaussian distribution of constant plus linear exterior tensor coefficients"
+  ],
+  "conditional_features": "supported-core mean observed tensor (6), density mean and standard deviation, support fraction, mean boundary distance divided by 100, physical core center divided by 1000 (3)",
+  "conditional_fit": "training-only standardized ridge regression with penalty 1 per coefficient; unpenalized intercept; fixed Gaussian residual covariance from leave-one-training-phase-out residuals; no evaluation tuning",
+  "conditional_draws": 64,
+  "conditional_seed": 271,
+  "threshold": 0.2,
+  "distance_bins_mpc_h": [0, 13.532, 27.064, 54.128, 108.256, 10000],
+  "metrics": ["tensor Frobenius RMSE", "ordered eigenvalue RMSE", "class confusion and flip rate", "conditional eigenvalue central coverage", "class Brier score", "oracle basis residual fraction"],
+  "weighting": "equal cores within each phase, equal evaluation phases; also report cap, shell, boundary stratum and distance bins; no voxel-binomial error bars",
+  "refinement": "repeat ph016 with source cells 3.383 instead of 6.766 Mpc/h, averaging tensors back onto identical evaluation cells; if unavailable, numerical/source-discretization uncertainty remains unresolved",
+  "limitations": [
+    "truth-interior conditional test is not galaxy-conditioned posterior calibration",
+    "two fitting phases and two exposed evaluation phases do not establish cosmology-wide calibration",
+    "strict periodic cap-box treatment is not the simulation's actual 2000 Mpc/h periodic boundary",
+    "source cuboid discretization and full-box spectral reference differ; refinement is required before attributing all residuals to missing exterior",
+    "compact oracle fit is an optimistic expressiveness bound, not a deployable conditional prediction",
+    "core-local conditional draws are not a coherent joint whole-survey exterior realization"
+  ],
+  "stop_gate": "benchmark first complete training phase; do not launch remaining phase workloads if they cannot fit the approved single two-hour CPU allocation; report partial results explicitly",
+  "production_or_website_change": false
+}

@@ -1,0 +1,277 @@
+# Coherent density fields with uncertain exterior matter
+
+## Aim and current status
+
+The user has authorized a comparison of exterior-density models aimed at a
+publishable conditional field posterior, followed by all available
+training-unseen simulation phases and a full-cap environmental website update.
+Necessary compute is preapproved. The two-phase development comparison is
+complete and its marginal coverage is encouraging, but every candidate fails
+the joint regional tidal diagnostic. No posterior qualification is claimed.
+The numerical checks and selection freeze are complete. The full-resolution
+production pilot and remaining targetless input preparation have been submitted;
+final full-cap scores and website publication are still pending. Fresh-phase
+scores cannot change the selected model or numerical settings.
+
+The previous compact exterior-response experiment did not qualify its model.
+The present target is different: each sample must be a coherent density field,
+including an explicit treatment of unobserved matter. Tidal tensors, ordered
+eigenvalues and web classes must then be deterministic functions of that same
+draw. Independent per-core tensor adjustments cannot stand in for this object.
+
+## Data and phase discipline
+
+The inherited CFM and normalizer use thirteen training phases. The prepared
+training-unseen set is ph012 through ph019. Ph012/ph013 are development phases;
+ph014 through ph017 have already been exposed by earlier evaluations. Only
+ph018/ph019 remain fresh confirmation for this programme. Freeze the complete
+candidate and evaluation contract before opening their prediction or truth
+payloads. Repeated use of exposed phases must be disclosed, not relabelled blind.
+
+The user explicitly chose to preserve the sealed ph001 programme reserve in
+the campaign clarification. Do not prepare, predict or evaluate ph001.
+The phrase all available unseen phases also requires a metadata audit of
+ph004/ph005/ph006. Legacy native grids for ph004/ph005/ph006 exist, but
+the coupled-model input products and exposure histories require qualification.
+The historical selection recipe used some legacy phases; absence from CFM
+training does not imply absence from all upstream fitting. Retain legacy access
+guards and register separate compatible inputs if these phases are included.
+List any unavailable or incompatible phase and its reason explicitly.
+
+The user subsequently explicitly requested rebuilding ph004/ph005/ph006 as
+additional non-blind replication. The final requested inventory is therefore
+eleven phases: 004/005/006 and 012–019. Their separate rebuild authority is
+`configs/e2e_exterior_legacy_inputs_20261002.json`. No old guard or registry is
+relaxed, no legacy output is overwritten, and no newly rebuilt phase may be
+used to choose or fit the exterior model. Numerical truth preparation is
+distinct from predictive scoring; all final scores require the later freeze.
+
+## Comparisons and gates
+
+Compare zero exterior contrast and periodic controls against spatially
+correlated unconditional exterior density, exterior density conditioned on
+each sampled interior, and learned CFM exterior draws. These are candidate
+families, not yet a frozen numerical specification. Fit new prior or likelihood
+parameters on training phases only. Register the concrete model choices,
+selection rule and numerical tolerances before their development scores.
+
+First isolate the exterior problem using matched true-density controls where
+useful; then evaluate the actual galaxy-conditioned sampler plus tidal operator.
+Never report truth-conditioned performance as operational inference. Larger
+connected domains and full-cap checks are required; two-window agreement alone
+is not survey-wide joint calibration. Zero exterior contrast means a mean-density
+background, not empty space.
+
+Report finite-ensemble attainable coverage at several levels, ranks, widths,
+proper scores, regional masses, joint summaries, spatial dependence and
+environment probabilities. Retain phase, cap, redshift and boundary-distance
+results. Check positivity, identical overlapping values, long modes, solver
+precision, source resolution and exterior-domain extent. Treat correlated
+cells within a phase as dependent and preserve the existing R7 estimand.
+
+After development selection, freeze weights, sampler, exterior law, operators,
+draw count, metrics and final phase inventory. Immediately execute the frozen
+full evaluation. A candidate may be best among those tested without being
+qualified: publication claims remain conditional on the observed diagnostics
+and the mock cosmology, epoch, tracer and selection assumptions.
+
+## Registered spatial-prior comparison (before new fits or scores)
+
+The new prior is a stationary Gaussian field for log density, with covariance
+equal to a nonnegative mixture of three discrete squared-inverse-Laplacian
+spectra. Length parameters are fixed at 1, 4 and 16 fine cells (6.766, 27.064
+and 108.256 Mpc/h). Mixture variances are fitted by nonnegative least squares
+to training log-density covariance at lags 0, 1, 2, 4, 8, 12 and 16 cells.
+Average within each training phase and then equally across all thirteen
+phases. Do not subtract individual patch means: that would erase measured
+long-mode variance. Use all registered training pairs, with no score-driven
+pair selection. Set the log mean to minus half the total variance so the
+prior's ensemble density mean is one; report its empirical lognormal mismatch.
+
+Conditional simulation uses the Gaussian conditional formula and an explicitly
+checked conjugate-gradient solve, not interpolation of a deterministic mean.
+The sampler preserves every supplied in-footprint density value. Fractionally
+occupied fine cells retain their inferred full cell-average density; these are
+an effective-cell representation, not resolved subcell boundary predictions.
+The isolated zero-contrast control retains the old fractional-occupancy source
+convention and must be identified separately. The learned arm keeps all valid
+CFM-generated cells, including those outside the footprint, and conditions the
+same prior on those cells to extend beyond the CFM domain. The unconditional
+arm replaces only the exterior with an independent spatial prior draw. The
+conditional arm conditions the spatial prior only on in-footprint sampled cells.
+All stochastic arms therefore return an entire positive density realization.
+
+The initial connected panel uses the registered two-window shared-state CFM,
+seed-17 coarse step 13312 and fine step 26624, Heun NFE 128, and 32 posterior
+draws. Use every registered development pair in ph012/ph013. This panel is a
+development comparison, not the full-cap joint qualification. The prior's
+finite periodic domain is not the tidal boundary condition: apply the analytic
+free-space cuboid operator to density contrast on the declared completed domain,
+without another R7 smoothing. Primary padding is 16 fine cells on each side;
+repeat representative cases with 32 and 64 cells to measure extent dependence.
+The periodic tensor remains a separately labelled control. New density models
+must not be compared with different tidal operators without identifying that
+as a confounded control.
+
+Numerical gates: Gaussian conditional reference tests must pass; exact interior
+values, density positivity, finite tensors, relative CG residual below 2e-7,
+shared-window density agreement below 1e-10 and mass consistency below 2e-6.
+Repeat representative posterior draws at NFE 256. Report per-target extent and
+solver changes relative to posterior standard deviations; an RMS change above
+0.1 posterior standard deviations is a failed stability gate, not permission
+to call the result converged. Fixed-cell R7 truth remains the primary estimand;
+the prior cannot claim to resolve density below that representation.
+
+Select among the three stochastic exterior arms by lowest equal-phase,
+equal-cap mean fair CRPS of the three ordered eigenvalues on development
+cores. This selects a best-tested approximation, not a qualified posterior.
+Report paired changes by phase and cap; no voxel-iid significance claims.
+Publishable qualification additionally requires finite-ensemble 50/68/90/95
+percent coverage within 0.05 of attainable nominal on each fresh phase for
+density, each eigenvalue, and regional means; no cap/boundary/redshift split
+with at least four cores may have 90-percent coverage deficit above 0.10.
+Report ranks, widths, fair energy and variogram scores, shuffled-dependence
+controls, environment Brier scores and joint regional diagnostics. Two fresh
+phases cannot establish population-level calibration even if these screening
+gates pass. If every arm fails, still freeze and evaluate the best-tested arm
+as explicitly unqualified; never retune on the fresh confirmation scores.
+
+Full-cap generation and website publication require the selected law to be
+applied to one connected cap density per draw. Independent local completions
+cannot be stitched into a purported global posterior. The two physical cap
+lattices are not commensurate; either demonstrate a common-world completion
+or disclose and test the independent-cap approximation. This remains a
+separate qualification condition, not something two-window tests establish.
+
+## Development evidence and full cap approximation
+
+All 32 connected development cases in phases 012 and 013 completed with
+32 draws each. The equal-phase, equal-cap, three-eigenvalue fair CRPS and
+joint six-regional-eigenvalue coverage are:
+
+| Exterior treatment | Fair CRPS | Joint regional 90 percent coverage |
+| --- | ---: | ---: |
+| Zero contrast control | 0.062786 | 21.875 percent |
+| Unconditional correlated density | 0.057819 | 46.875 percent |
+| Conditional correlated density | 0.057508 | 50.000 percent |
+| Learned CFM exterior plus conditional extension | 0.057463 | 46.875 percent |
+| Periodic operator control | 0.056851 | 65.625 percent |
+
+The attainable finite-draw reference is 87.879 percent. The learned arm
+narrowly wins the registered comparison among spatial-density candidates,
+but the difference from the conditional arm is small and only two independent
+phases contribute. The periodic control scores better than all three; it is
+not the same exterior-density model evaluated with the same operator. None
+passes joint calibration. Spatial-arm density marginal coverage is about
+87.7–87.9 percent, while eigenvalue marginal coverage spans 83.7–86.6 percent
+in phase 012 and 85.9–86.8 percent in phase 013. Marginal success must not be
+used to claim a calibrated field posterior.
+
+The direct cuboid-sum check agrees with the CUDA operator within 2.23e-16.
+Four saved-density cases replay exactly; doubling the sampler resolution to
+NFE 256 changes density by at most 0.259 percent of posterior standard
+deviation. Holding a larger-domain density realization fixed and cropping
+only its gravitational sources, padding 16 cells reaches 10.07 percent of
+posterior standard deviation and narrowly fails the registered 10 percent
+threshold. Padding 32 cells stays below 4.57 percent in all four tested cases;
+use 32 for the full-cap numerical implementation. These checks do not establish
+convergence of the prior distribution with domain size or convergence to a
+finer native-density representation.
+
+Full-cap completion is explicitly capwise: each cap has a coherent density
+draw and a spatially correlated exterior conditioned on that draw. The
+opposite cap's observations do not condition this exterior, and multiplying
+the two cap laws is an independence approximation. Do not add both completed
+cap boxes as gravitational sources: their modelled exteriors overlap. Do not
+claim a common-world or joint two-cap posterior. Final evaluation must test
+the resulting capwise approximation and retain that limitation on the website.
+
+Source results are under `scores/ph012`, `scores/ph013` and
+`verification/numerical_v1` in the registered campaign artifact root. All six
+targetless full-cap input caches for development phases and Loa completed.
+The NGC throughput benchmark uses 1537 windows, four draws and NFE 2: 92.03
+seconds sampling, 38.91 seconds loading and 26.73 GiB GPU memory. Scaling its
+sampling time to NFE 128 predicts about 99 minutes per four-draw batch; this
+is a planning extrapolation, not a completed posterior run. The full-cap
+completion smoke test and independent saved-file verification now pass.
+An initial float32 log/exp round-trip changed some known interior values by
+rounding. The implementation was corrected to copy supplied values exactly;
+the final smoke has zero difference in every covered cell. Saved eigenvalues
+retain the trace identity within their expected float32 rounding. All 32
+focused tests passed after that change. Both complete development phases were
+then repeated at padding 32 without resampling their inferred interiors.
+
+The refined fair CRPS is 0.05745935 learned, 0.05752063 conditional and
+0.05791410 unconditional. The same spatial candidate wins, narrowly; no
+significance or calibration claim follows. Learned eigenvalue 90-percent
+coverage is 86.36/86.38/83.81 percent in phase 012 and
+86.02/86.82/86.50 percent in phase 013. The periodic control retains its better
+primary score. Keep it visible rather than presenting the selected spatial
+candidate as the best performer across all controls.
+
+## Frozen production handoff
+
+At 23:32 UTC on October 2, `SELECTION_FREEZE.json` pinned the selected learned
+completion, 32 draws, NFE 128, padding 32, all eleven final mock phases, the
+sealed phase 001 exclusion, input normalizer, checkpoints, training-only prior,
+software versions and 856 runtime source files. Its SHA256 is
+`6bd49651231448443fe171ad7699032fee7151dcf34a33caf7952484b0745232`.
+The immutable source snapshot is `source_78156ac3417555ef269f` below the
+campaign artifact root. Provenance explicitly records both Git HEAD and the
+included uncommitted task files; this is not claimed to be a clean commit.
+
+`configs/e2e_exterior_tasks_20261002.json` contains 192 unique four-draw units:
+both caps of eleven mocks and Loa, each with 32 draws. Pilot job 59237546_1
+runs phase 012 SGC draws 0–3 through density sampling, complete-density tidal
+pushforward and independent saved-file verification. Job 59237550 prepares
+the targetless phase 014–019 inputs. Main array 59238002 is queued with 191
+units, excluding the pilot, and at most 16 concurrent GPUs. Its scheduler
+dependencies require the successful full-NFE pilot and both qualified input
+jobs. Earlier short-NFE timing remains an extrapolation until the pilot
+completes. Legacy 004/005/006 rebuilding is complete and all 48 target products
+were rehashed successfully. CPU allocation 59232476 completed and was released;
+dependent job 59237994 prepares those phases' targetless full-cap caches.
+
+Scoring job 59238010 depends on all production units. Website-preparation
+job 59238614 depends on scoring and performs packaging, recoverable removal
+of only superseded hash-verified generated cap chunks, and real-browser QA.
+It does not publish. Its source and current Site state are separately pinned
+by `WEBSITE_PREPARATION_FREEZE.json`, SHA256
+`964f03c67caef8cb0095a22ee283b4c1a0afcf8925c191523db99b1e6eb09d1d`.
+The runtime copy is `website_source_fa791612c371db5810bb`. Native private
+publication remains a separate final action after successful preparation.
+At this checkpoint the production jobs are queued without a scheduler start
+estimate. No final full-cap coverage or new website publication is claimed.
+
+Each production unit fails closed on incomplete outputs, changed source,
+changed inputs or mismatched freeze. Completed outputs are reused only with
+matching hashes and identities. Failed jobs are not automatically resubmitted.
+The frozen final scorer tests the same registered cores within the entire
+coherent cap draws, including joint 16-regional-mass and 48-regional-tidal
+vectors per cap and explicitly approximate paired-index two-cap summaries.
+The final summary must separate development reuse, exposed replication,
+legacy non-blind replication and the two fresh confirmation phases.
+
+## Delivery and provenance
+
+Keep source and scientific decisions in this repository and generated products
+under the registered Scratch root in
+`configs/e2e_exterior_campaign_20261002.json`. Use measured interactive smoke
+tests before appropriately sized, frozen batch jobs. Preserve unrelated work.
+
+The final website update must use full-cap draws and their own derived tidal
+and environment fields, not transplant earlier per-galaxy probabilities onto
+new density samples. Preserve private access, original VAC products and real
+mask holes. Display uncertainty and qualification limits, including any failed
+or inconclusive calibration tests, rather than implying a publishable result
+merely because a sampler produced a smooth field.
+
+The planned display uses the density mean of all 32 draws, four browsable
+individual draws, and environment fractions from native-cell eigenvalues in
+all 32 draws. Classify first, then pool eight fine cells: the result is an
+expected fine-cell volume fraction, not the class of a spatially pooled tidal
+tensor. Compute entropy across draws separately at each fine cell and only
+then spatially average it; entropy of the pooled class fractions would confuse
+unresolved spatial mixture with posterior uncertainty. Tiny analytic controls
+distinguish these cases exactly. These summaries are exploratory uncertainty
+from the model, not empirically certified real-DESI class probabilities.

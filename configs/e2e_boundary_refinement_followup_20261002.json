@@ -1,0 +1,11 @@
+{
+  "schema": "e2e-boundary-numerical-followup-v1",
+  "registered_when": "after coarse scoring, before a completed source-refinement result",
+  "reason": "coarse isolated and periodic implementations have different source discretizations; do not interpret their difference purely as an exterior-boundary effect",
+  "trigger": "ph016 source-grid change RMSE exceeds 10 percent of the baseline truth error in either cap, or another consequential numerical defect is found",
+  "action": "repeat the same ph007/ph008 training and ph016/ph017 evaluation panel with raw3.383Mpc/h source cells, averaging tensors to identical original core cells",
+  "unchanged": ["source masks", "R7 smoothing", "evaluation geometry", "phase split", "harmonic bases", "ridge penalty", "conditional covariance method", "draw count", "seed", "classification threshold"],
+  "presentation": "preserve and report coarse results as a numerical sensitivity comparison; no selection of favourable phases or arms",
+  "budget": "within the approved replacement allocation, at most89minutes; no further allocation or batch submission without approval",
+  "remaining_limit": "two source resolutions do not prove the continuum limit, especially next to mask edges"
+}

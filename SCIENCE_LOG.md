@@ -1,5 +1,297 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-02 — Coherent exterior density campaign authorized and scoped
+
+User requests a publishable conditional density-field model with coherent
+posteriors, comparison of exterior-density laws, immediate frozen evaluation
+on all available training-unseen phases, coverage throughout and full-cap
+environmental website delivery. Necessary compute is preapproved. Register
+scope in `configs/e2e_exterior_campaign_20261002.json`; methods and status in
+`docs/e2e_exterior_campaign_20261002.md`. No new fits or confirmation payloads
+have been opened at this registration.
+
+Prepared model-training-unseen phases are012–019;012/013 are development,
+014–017 already exposed,018/019 fresh confirmation. Audit001/004/005/006 metadata
+for additional compatible legacy inputs and prior exposure; do not silently
+truncate the final inventory or weaken legacy access guards. Freeze numerical
+implementations, model selection and final phase inventory before confirmation.
+Compare zero/periodic controls with unconditional correlated, conditional
+correlated and learned CFM exterior DENSITY draws. Same coherent field draw
+must produce its density, tensor, eigenvalues and class probabilities. Prior
+core-local harmonic draws do not satisfy this object. Full-field joint and
+conditional coverage, numerical/extent checks and real-data domain limits remain
+gates; neither a winning candidate nor a successful website is qualification.
+
+Campaign clarification: user explicitly chooses to preserve sealed ph001;
+no ph001 preparation, prediction or truth access. New stationary Gaussian
+logdensity exterior law implemented with fixed 1/4/16-fine-cell covariance
+scales and training-only mixture fit. All1664patches from13training phases used.
+Five reference tests pass; CPU/GPU conditional simulation agrees to1.78e-9.
+Allocation59210149 (one80GBGPU,2h) runs development checks and benchmark.
+User additionally requests separate non-blind legacy replication004/005/006;
+final requested inventory is eleven phases, with001 still sealed. The separate
+legacy-input authority preserves every original coupled-data guard.
+
+Development now complete:32draws at each of32connected two-window cases across
+012/013. Equal-phase mean eigenvalue fair CRPS is0.062786 zero,
+0.057819 unconditional,0.057508 conditional,0.057463 learned exterior and
+0.056851 periodic control. The learned arm narrowly leads the three spatial
+arms under the registered score, not the periodic control; superiority is not
+established from two phases. Phase012 spatial eigenvalue90coverage is83.7–86.6
+percent and phase013 is85.9–86.8percent, versus87.879percent attainable.
+Crucially, joint six-regional-eigenvalue coverage is46.875/50/46.875percent for
+unconditional/conditional/learned, and65.625percent for periodic. No candidate
+is qualified. Density marginal90coverage is87.7–87.9percent for spatial arms;
+this does not rescue their deficient joint tidal posterior.
+
+Independent checks underGPU59232480 pass direct cuboid agreement2.23e-16,
+exact saved-density replay andNFE256density changes0.215–0.259percent of
+posteriorSD. Same-large-realization source-extent checks narrowly fail16cells
+(maximum10.07percentSD), but32cells stays below4.57percentSD on all four
+representative cases. This is a finite-source truncation test, not proof of
+prior-domain distribution or native-source resolution convergence. Choose32
+for the full-cap numerical implementation, without fresh-phase tuning.
+
+All six targetless full-cap caches for012/013/Loa completed. Full-cap NGC
+benchmark1537windows/4draws/NFE2 uses26.73GiB and92.03s sampling plus38.91s
+loading; NFE128 runtime extrapolation is about99minutes, not yet a final
+posterior run. Existing development allocation scientific step completed0:0;
+both old allocations later expired. NewCPU59232476 rebuilds legacy inputs;
+GPU59232480 tests full-cap completion. No fresh018/019 prediction or truth
+payload opened and no final selection freeze or production batch submitted.
+Website unchanged while scientific and numerical checks continue.
+
+At23:32UTC the selection and production source were frozen. Padding32 repeats
+on all32development cases retain learned as the lowest-CRPS spatial candidate:
+learned.05745935, conditional.05752063, unconditional.05791410. This remains a
+small development advantage, not superiority or qualification. The full-cap
+completion/readback now preserves every covered inferred density exactly and
+passes saved-eigenvalue trace checks. A discovered float32 log/exp round-trip
+was corrected before the final32focused tests and development repeat; earlier
+smoke artifacts are superseded, not overwritten.
+
+FreezeSHA6bd49651231448443fe171ad7699032fee7151dcf34a33caf7952484b0745232
+pins856source files, environment, checkpoints, normalizer, training-only prior,
+32draws/NFE128/padding32 and all eleven phases. Immutable runtime snapshot:
+`source_78156ac3417555ef269f` under the campaign root. It includes hash-pinned
+uncommitted task source in addition to recorded GitHEAD; it is not represented
+as a clean committed checkout. Production pilot59237546_1 is ph012SGC draws0–3;
+CPUbatch59237550 prepares targetless014–019inputs after freeze. Both submitted
+with authorized batch QOS.
+The final192-unit task manifest includes32draws for both caps of11mocks andLoa.
+Scale-up waits for the fullNFE128pilot plus qualified inputs, with concurrency16.
+Both interactive allocations are now COMPLETED0:0 and released. Legacy004–006
+rebuilds finished; an independent receipt walk rehashed all48target products.
+CPUbatch59237994 prepares their targetless full-cap inputs after successful
+release of59232476. Mainarray59238002 contains191units (pilot excluded),
+concurrency16, afterok dependencies on pilot and BOTH input jobs. Frozen scoring
+job59238010 depends on the complete array and pilot. Website preparation59238614
+depends on scoring: hash-pinned packaging, recoverable old-asset replacement,
+and real-browser checks, with no external publication action. Its separate
+website freezeSHA964f03c67caef8cb0095a22ee283b4c1a0afcf8925c191523db99b1e6eb09d1d
+preserves current UI source and old manifest until that preparation starts.
+No automated retries. All production jobs are queued at this checkpoint;
+no scheduler start estimate, final coverage or new website publication yet.
+
+## 2026-10-02 — Matched mock boundary experiment complete; compact model not qualified
+
+User approves one CPU node for up to two hours; allocation59202754. Registered
+protocol: `configs/e2e_boundary_mock_20261002.json`. Use complete original mock
+footprints from BOTH caps, R7 truth, and existing registered cores. Fit compact
+exterior-response models only on ph007/ph008; evaluate exposed ph016/ph017.
+No ph018/ph019 access, density-model retraining, VAC or website changes.
+Include isolated zero-exterior, strict periodic and periodic-plus-mean controls,
+oracle compact-response bounds and training-only conditional response draws.
+Require density replay, trace tests and source-grid refinement; distinguish
+discretization, finite-mask and conditional-model errors. This is a truth-input
+boundary experiment, not galaxy-conditioned global posterior qualification.
+All17focused tests pass. Four phase preparations and compact-model scoring
+completed: coarse6.766Mpc/h isolated/periodic class mismatch5.47/3.90percent;
+conditional twelve-mode coverage72.38/81.57/72.80percent against87.69percent
+finite-draw reference. These coarse results are retained as a discretization
+sensitivity control; no exterior-model qualification follows.
+Allocation shell auto-logged out after30m15s, terminating the raw3.383Mpc/h
+refinement step despite the two-hour allocation limit. User approved replacement
+CPU allocation<=90min; launched59204439 with89min, keeping total bound<2h.
+Run steps in its foreground shell. Restart refinement in `ph016_refined_v2`.
+Before refinement completes, registered a same-panel finer-resolution follow-up
+if its grid change exceeds10percent of baseline error; no fit-choice changes.
+The first refined phase completed441.77s. Independent checks pass all64coarse
+core scores and original masks; eight full-footprint direct sums agree with
+FFT values within1.91e-14. Grid-change/base-error ratios are36.13percent NGC
+and25.56percent SGC, triggering the registered same-panel finer-source repeat.
+That repeat and independent verification are now COMPLETE. On the same64cores,
+fine-source isolated/periodic/conditional12/oracle12 tensor RMSE is
+0.07225/0.07156/0.07255/0.06110; class mismatch is4.10/3.83/4.13/3.21percent.
+Oracle uses evaluation truth and is only a representation bound. Conditional
+means do not recover its gain; capwise periodic advantage shrinks markedly
+after refinement. Do not interpret coarse rankings as pure boundary effects.
+Conditional12 eigenvalue coverage81.68/85.14/81.56percent hides boundary
+undercoverage66.32/72.54/65.98percent and interior overcoverage
+97.03/97.73/97.14percent versus87.69percent finite-draw reference. Its shared
+coefficient covariance and truncated local basis do not yield a calibrated
+exterior-response posterior. This does not reject all exterior models.
+Fine verification passes unchanged masks, native/reference binding, all64
+independently recomputed scores and eight direct sums with maxerror2.51e-14.
+All17focused numerical tests passed. Two resolutions do not prove convergence;
+two exposed evaluation phases do not provide fresh independent confirmation.
+No full exterior-density realizations or global coherence are claimed.
+Final score/verification receipts: `scores_refined/SCORES.json` and
+`scores_refined/VERIFIED.json` below the artifact root.
+Replacement59204439 relinquished, COMPLETED0:0 after55m53s; combined allocated
+time86m08s. Scientific step.3 completed0:0; subsequent delivery/preview failures
+were repaired and final browser QA passed at360/736px, including legend state.
+External preview dependencies were blocked; no research data were transmitted.
+Repository and global graph indexes refreshed successfully on the login host
+after the compute-node filesystem rejected graphify's lock.
+Retain partial `ph016_refined` as incomplete; original outputs are untouched.
+Method/status: `docs/e2e_boundary_mock_20261002.md`. Artifact root:
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/boundary_mock_20261002_v1`.
+
+## 2026-10-02 — Isolated observed-footprint tidal control generated and verified
+
+User authorizes the attached observed-footprint control first, with exterior
+modelling deferred. Implemented free-space tidal convolution of the unchanged
+fractional binary DESI support times(rho-1), using all four saved coherent draws
+per cap. Zero exterior CONTRAST means cosmic-mean background, not empty matter.
+Exact cuboid source integrals and sufficient FFT padding avoid periodic images
+and ad hoc DC replacement. Both observed caps contribute at both target caps;
+physical grid offsets are retained without density resampling. Pairing draw
+indices inherits the independent-cap approximation, not calibrated cross-cap
+posterior covariance. Existing smoothing is retained; masking occurs afterward.
+
+CPU59199774: eight numerical tests pass including independent kernel quadrature,
+direct/FFT agreement, no wraparound, trace and interior/exterior linearity.
+Complete generation334.09s after input preparation. Native reported cells:
+11,062,310NGC/4,905,122SGC; original display masks and1,382,456/611,897 counts
+unchanged. Poisson trace error<2.83e-14; float32 stored tensor trace<2.39e-7,
+eigenvalue parity<1.11e-7. Independent validation confirms unchanged masks,
+exact saved-eigenvalue classifications and normalized class frequencies at
+lambda0.2. Masked cells retain NaN/255. No new density sampling, exterior fit,
+mock truth access, VAC modification or website deployment in this step.
+
+Artifacts: `NGC_TIDAL.h5`, `SGC_TIDAL.h5`, `BINDING.json`, `COMPLETE.json`,
+`VERIFIED.json` under
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/loa_footprint_tidal_20261002_v1`.
+These are four-draw control pushforwards, NOT calibrated total tidal posteriors.
+Matched full-versus-masked mock truth and exterior-mode modelling remain future
+work; this control alone does not measure the missing exterior error.
+Protocol, operator conventions and reproduction:
+`docs/e2e_footprint_tidal_control_20261002.md`.
+
+## 2026-10-02 — Both coherent cap fields complete and independently verified
+
+NGC59178507 and SGC59178509 completed successfully (2h02m50s/1h03m29s),
+four shared-state NFE128 draws each. CPU59192470 verified stored field hashes,
+positive finite supported densities, block-mass conservation after float32
+storage (max relative error1.69e-8), and all eight interpolation corners for
+all5,436,413 catalogue positions. This is engineering validation, not full-cap
+joint-posterior calibration; no sealed phases, retraining, or VAC edits.
+
+Website packaging uses one complete display grid per cap, 1,382,456/611,897
+supported NGC/SGC cells at13.532Mpc/h and100,000 sampled observed galaxies per
+cap. The NGC/SGC atlas selectors now target these fields; old independent-tile
+density surfaces are not selectable. Existing galaxy-environment probabilities
+remain in separate views and are not presented as classifications of the new
+draws. Full-cap browser checks pass both means/all8draws, fixed axes, threshold
+changes, galaxy toggles, cap revisits, retained environments and mobile layout;
+no browser errors/external requests. Screenshots confirm removal of tile mesh
+cuts; actual survey-mask holes remain. Native private deployment succeeded:
+site source ecca529dfce76f695636688ca95fd4cb009f3d25,
+deployment appgdep_6abf66a1e0248191914707cbc07eb73a, same Loa website URL and
+owner-only access. Unreferenced legacy display chunks moved to recoverable
+Scratch backup to meet hosting limits; no original research data removed.
+CPU59192470 relinquished after publication.
+See `docs/e2e_global_caps_20261002.md` and its bound verification/package/QA
+receipts for evidence.
+
+## 2026-10-02 — Full-cap coherent density runs submitted; website delivery pending
+
+User requests full NGC/SGC shared-space density with overlaid galaxies, not
+another pair-only view, and approves necessary compute. Frozen local models
+now read one synchronously updated coarse/fine canvas per cap at both Heun
+evaluations. No final density blending, retraining, VAC modification, or bridge
+through unobserved sky. Full-cap many-window posterior calibration remains
+unestablished; earlier two-window mock checks do not establish it.
+
+Allocation59177348: five numerical tests pass, including global/crop decode
+parity; eight actual neighboring windows per cap have all28 intersections
+exactly equal and block-mass relative error<4.28e-16. Actual full-NGC one-step
+benchmark:1626windows,4draws,27.98GiB peak GPU,1274.93s preparation,97.90s for
+one Heun step in both factors. Benchmark NFE2 is not a posterior product.
+Sparse website decoder passes dense-mesh parity (8272triangles).
+
+Frozen revision2c80b4b9b829c8b678137363c2266083dd775e4d passed tests in its
+Scratch archive. Submitted shared oneGPU jobs59178507NGC(3h30),
+59178509SGC(2h30),4draws,NFE128,no automatic retry; development allocation
+relinquished. Independent verification and actual full-cap browser checks
+must pass before publishing. Current live site still contains pair views.
+Protocol/results: `docs/e2e_global_caps_20261002.md`. Evidence root:
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/loa_global_canvas_20261002_v1`.
+Graphify queries work in cosmic_env; activated compute-node refresh hit
+filesystem flock error524, not an unavailable executable.
+
+## 2026-10-01 — Shared-state mock calibration retains marginals; regional caveats persist
+
+User requests coverage/calibration on training-unseen mocks. Approved oneCPU
+and one sharedGPU, each<=2h, frozen weights and sealed018/019. Protocol:
+`docs/e2e_global_calibration_20261001.md`. Fixed ph016/ph017 panel:32cases,
+bothcaps/four shells/interior+boundary,32draws per sampler,NFE128. Compare
+original local, independent ownership-stitched and shared-state draws. Reuse
+verified left-window truth spanning new ownership seam; do not claim full-cap
+or multi-axis-junction calibration. Same local+wide tidal operator across arms.
+Repeat central coverage/ranks/fairCRPS, regional and seam dependence scores,
+and existing summary-spaceTARP with predeclared reference-width sensitivity.
+
+Preparation59160616 completed13m19s/released, all32leftcondition replays and
+observation overlaps pass. Seven new and three existingTARP tests pass.
+Factored sampler exactly replays earlier4drawNGC probe. GPU59160719/nid200345
+completed all32cases/32draws,3998.92s main generation. Central nominal90%
+reference29/33=87.8788%. Original→shared coverage: density88.70→88.70%,
+tidal88.35→88.28%, coremass85.94→85.94%, fine mass87.11→87.11%.
+FairCRPS changes+.18/+.24/+1.31/+1.13% respectively. Seamenergy/variogram
+improve2.15/2.55% versus independent ownership tiles, descriptively in both
+phases. No statistical equivalence or significance claim from two phases.
+
+Joint fine-region TARP90 remains heterogeneous: ph01688.87→90.63%,
+ph01777.34→76.95% (referenceSD.25; TARPnull90%, not87.88%). Width1.0
+sensitivity ph01782.42→82.23%. Highest-shell core/fine centralcoverage
+81.25/84.38→75/81.25% (eightcases; netonecore/twofine extra misses).
+Pooled agreement does not erase those regional/high-z warnings.
+
+Original factor samplerexactparity passes. Fourfixed-case NFE256/strictFP32
+checks maxRMSE .351%/.860% of32draw spread, below1% engineering threshold.
+Independent384coverage checks exact; directCRPSmaxdiff4.86e-17; allshared
+overlapexact, blockmassmaxrelative4.78e-16. Syntheticcontrols pass. Both
+allocations released after work; no retraining or production/site/VAC changes.
+Promising frozen coupling, not a full-survey calibrated posterior. Root:
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/global_mock_calibration_20261001_v1`.
+
+## 2026-10-01 — Atlas seam coverage verified; shared-state coupling feasible, unqualified
+
+User requests seam-gap coverage audit and a globally coherent posterior,
+including retraining if necessary. Approved first stage: CPU<=30min and shared
+GPU<=2h; production retraining requires a measured smoke/resource estimate.
+Coverage59157881 verifies all2472tile receipts/native galaxy draw files:
+all5,436,413rows have8finite positive densities and valid class probabilities,
+uniqueTARGETIDs/exact-once ownership. Geometric seam slabs contain1,540,018
+galaxies, all inferred;1,400,675pass existing field-support cuts. Rendering
+gaps are not absent galaxy inference. Original atlas remains independent tiles.
+
+GPU59158363: four frozen-weight draws on two adjacent windows perNGC/SGC,
+seed17coarse13312/fine26624,NFE128. Shared physical initial noise alone leaves
+density overlapRMSE.05195/.06008 (27.2%/19.3% of localdrawSD). One shared latent
+canvas throughout coarse and fine Heun integration gives exact same-location
+agreement, positive densities and block-mass error<4.4e-16. ~7.58s per four-draw
+pair;0.742GiB peak allocated tensors, NOT a training/full-cap cost estimate.
+Consensus changes the probability flow: zero seam error is enforced, not
+evidence of calibrated covariance or a correct globally conditioned posterior.
+No retraining yet needed for agreement; need exposed-mock joint calibration
+to decide whether frozen coupling suffices or a new joint objective is required.
+No018/019access, VAC modification, production replacement or website update.
+Methods, results, qualification gates and receipts:
+`docs/e2e_global_coherence_feasibility_20261001.md`.
+
 ## 2026-09-30 — Both-cap CFM atlas and full-CIGALE comparison authorized, in progress
 
 User corrected initial wedge-only orientation: the appended September29 entry

@@ -1,0 +1,24 @@
+{
+  "schema": "e2e-exterior-legacy-inputs-v1",
+  "authority": "User explicitly requested rebuilding ph004/ph005/ph006 as additional non-blind replication during the 2026-10-02 exterior campaign; preserve ph001 sealed.",
+  "phases": ["ph004", "ph005", "ph006"],
+  "forbidden_phases": ["ph001"],
+  "role": "legacy_nonblind_replication",
+  "root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coherent_exterior_20261002_v1/legacy_inputs",
+  "legacy_root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase",
+  "source_registry": "configs/p10_phase_registry_v1.json",
+  "coordinates": "configs/e2e_coupled_coordinates_v2.json",
+  "layout": "configs/e2e_coupled_product_layout_v1.json",
+  "model_training_allowed": false,
+  "model_selection_allowed": false,
+  "historical_exposure": {
+    "ph004": "Historical field-model development and inherited observation-selection fit.",
+    "ph005": "Historical field-model confirmation and inherited observation-selection fit.",
+    "ph006": "Historical P10 validation and selection phase."
+  },
+  "observation_policy": "Revalidate parent/source linkage and successful observed rows; read only geometry/selection columns, never tidal annotations into conditioning. Rebuild Cartesian counts, response and factor-four conditions in the current frame.",
+  "native_policy": "Verify exact phase/cosmology/epoch/grid/A+B file count and mass conservation. Rehash existing native arrays against independent prior index where available; record lack of independent prior hash for ph006. Do not restore or rewrite particles or native source arrays.",
+  "geometry_policy": "Use the same support-only selection seed, shell/cap/support strata, minimum support and source non-overlap rules as the current sixteen-pair held-out panel.",
+  "truth_policy": "Numerical target preparation is permitted; no predictive scoring or model selection before the campaign freeze. R7 smoothing once on native2048 matter; same fixed-epoch c000 estimand and periodic full-box tensor reference.",
+  "legacy_guard_policy": "Do not alter, extend, impersonate, or monkeypatch legacy contracts or phase guards. This separate contract owns all new outputs and readers."
+}

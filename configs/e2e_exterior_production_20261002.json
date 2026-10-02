@@ -1,0 +1,26 @@
+{
+  "schema": "e2e-exterior-production-handoff-v1",
+  "root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coherent_exterior_20261002_v1",
+  "science_freeze_sha256": "6bd49651231448443fe171ad7699032fee7151dcf34a33caf7952484b0745232",
+  "source_snapshot": "source_78156ac3417555ef269f",
+  "tasks_sha256": "51e769276f7c3e21716b4111f8060d877f740d0d906ba5adff583bc090824eb7",
+  "website_freeze_sha256": "964f03c67caef8cb0095a22ee283b4c1a0afcf8925c191523db99b1e6eb09d1d",
+  "website_source_snapshot": "website_source_fa791612c371db5810bb",
+  "jobs": {
+    "pilot": {"id": "59237546", "array": "1", "phase": "ph012", "cap": "SGC", "draws": [0, 1, 2, 3]},
+    "prepared_phase_inputs": {"id": "59237550", "phases": ["ph014", "ph015", "ph016", "ph017", "ph018", "ph019"]},
+    "legacy_phase_inputs": {"id": "59237994", "phases": ["ph004", "ph005", "ph006"], "afterok": ["59232476"]},
+    "main_array": {"id": "59238002", "array": "0,2-191%16", "afterok": ["59237546", "59237550", "59237994"]},
+    "scores": {"id": "59238010", "afterok": ["59237546", "59238002"]},
+    "website_preparation": {"id": "59238614", "afterok": ["59238010"], "publishes": false}
+  },
+  "all_phases": ["ph004", "ph005", "ph006", "ph012", "ph013", "ph014", "ph015", "ph016", "ph017", "ph018", "ph019"],
+  "sealed_reserve": ["ph001"],
+  "draws_per_cap": 32,
+  "caps": ["NGC", "SGC"],
+  "also_generate": "Loa",
+  "automatic_retries": false,
+  "posterior_qualified": false,
+  "publication_audience": "preserve existing private Site audience",
+  "status_at_registration": "queued, no full-cap final scores or new publication yet"
+}
