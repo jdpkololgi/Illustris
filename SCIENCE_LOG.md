@@ -93,6 +93,13 @@ preserves current UI source and old manifest until that preparation starts.
 No automated retries. All production jobs are queued at this checkpoint;
 no scheduler start estimate, final coverage or new website publication yet.
 
+Refined-pad32 development joint regional tidal coverage is37.5percent012 and
+62.5percent013 (50percent pooled32pairs), not the primary-pad16 46.875percent
+quoted above. Joint mass coverage81.25/87.5percent; regional-mass marginal
+81.25/90.625percent. Learnedlambda3coverage beyond27.064Mpc/h inside support
+is82.93percent012 and86.77percent013 (cell-weighted withinphase). The remaining
+deficit is not restricted to the footprint boundary. No model retuning follows.
+
 ## 2026-10-02 — Matched mock boundary experiment complete; compact model not qualified
 
 User approves one CPU node for up to two hours; allocation59202754. Registered

@@ -209,6 +209,18 @@ coverage is 86.36/86.38/83.81 percent in phase 012 and
 primary score. Keep it visible rather than presenting the selected spatial
 candidate as the best performer across all controls.
 
+For the final padding-32 development repeat, learned joint regional tidal
+coverage is 37.5 percent in phase 012 and 62.5 percent in phase 013, or 50
+percent across the 32 pairs. Joint regional mass coverage is 81.25 and 87.5
+percent; individual regional-mass interval coverage is 81.25 and 90.625
+percent. This is still a major joint tidal deficit against 87.879 percent.
+It is not confined to the footprint edge: in phase 012, cells more than
+27.064 Mpc/h inside support have eigenvalue coverage 85.05/85.68/82.93
+percent. The corresponding phase-013 values are 86.78/87.62/86.77 percent.
+Distance-bin figures are cell-count-weighted within each phase, with no
+voxel-independent uncertainty estimate. They do not identify a unique cause
+or license changing the frozen model after the final evaluation starts.
+
 ## Frozen production handoff
 
 At 23:32 UTC on October 2, `SELECTION_FREEZE.json` pinned the selected learned
