@@ -6,13 +6,16 @@
   "tasks_sha256": "51e769276f7c3e21716b4111f8060d877f740d0d906ba5adff583bc090824eb7",
   "website_freeze_sha256": "964f03c67caef8cb0095a22ee283b4c1a0afcf8925c191523db99b1e6eb09d1d",
   "website_source_snapshot": "website_source_fa791612c371db5810bb",
+  "field_summary_source_snapshot": "field_summary_source_6fcbefe6429873b995c9",
+  "field_summary_source_sha256": "bb26d28c6c1a3ead214f8eb91fa5dfeb07e539431abde3846979d8896e3626b6",
   "jobs": {
     "pilot": {"id": "59237546", "array": "1", "phase": "ph012", "cap": "SGC", "draws": [0, 1, 2, 3]},
     "prepared_phase_inputs": {"id": "59237550", "phases": ["ph014", "ph015", "ph016", "ph017", "ph018", "ph019"]},
     "legacy_phase_inputs": {"id": "59237994", "phases": ["ph004", "ph005", "ph006"], "afterok": ["59232476"]},
     "main_array": {"id": "59238002", "array": "0,2-191%16", "afterok": ["59237546", "59237550", "59237994"]},
     "scores": {"id": "59238010", "afterok": ["59237546", "59238002"]},
-    "website_preparation": {"id": "59238614", "afterok": ["59238010"], "publishes": false}
+    "website_preparation": {"id": "59238614", "afterok": ["59238010"], "publishes": false},
+    "loa_native_field_summary": {"id": "59241627", "afterok": ["59237546", "59238002"], "smoke_job": "59241517", "smoke_passed": true}
   },
   "all_phases": ["ph004", "ph005", "ph006", "ph012", "ph013", "ph014", "ph015", "ph016", "ph017", "ph018", "ph019"],
   "sealed_reserve": ["ph001"],

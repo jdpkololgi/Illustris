@@ -93,6 +93,20 @@ preserves current UI source and old manifest until that preparation starts.
 No automated retries. All production jobs are queued at this checkpoint;
 no scheduler start estimate, final coverage or new website publication yet.
 
+At01:10UTC October3, native-resolution Loa uncertainty postprocessing is also
+frozen and queued as59241627 after the complete density/tidal production.
+It writes density and ascending-eigenvalue means, sample standard deviations,
+50/68/90/95percent central order-statistic intervals, class probabilities at
+thresholds0/.2 and normalized class entropy at6.766Mpc/h. These are pointwise
+model intervals, not simultaneous bands or calibrated real-DESI probabilities.
+The independent cap approximation and failed qualification remain explicit.
+Three tiny tests and a two-cap/32draw compute-node round-trip smoke passed;
+allocation59241517 COMPLETED0:0 and released. Synthetic fixtures read no
+observed fields or mock truth. Snapshot `field_summary_source_6fcbefe6429873b995c9`
+pins the exporter separately; no frozen sampler, operator or scorer changed.
+The production manifest records its source SHA and dependencies. Native
+summary files do not yet exist; all seven production jobs remain queued.
+
 Refined-pad32 development joint regional tidal coverage is37.5percent012 and
 62.5percent013 (50percent pooled32pairs), not the primary-pad16 46.875percent
 quoted above. Joint mass coverage81.25/87.5percent; regional-mass marginal

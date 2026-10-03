@@ -264,6 +264,32 @@ vectors per cap and explicitly approximate paired-index two-cap summaries.
 The final summary must separate development reuse, exposed replication,
 legacy non-blind replication and the two fresh confirmation phases.
 
+## Native-resolution uncertainty products
+
+Postprocessing job 59241627 depends on the pilot and main production array.
+It writes `loa_field_summary/{NGC,SGC}/DENSITY_TIDAL_SUMMARY.h5` under the
+campaign root, with support and coverage masks, density and ascending tidal
+eigenvalue means, sample standard deviations and 50/68/90/95-percent central
+order-statistic intervals. These use the same finite-draw interval convention
+as the frozen scorer, without Gaussian approximations or interpolated
+quantiles. Native 6.766 Mpc/h class probabilities at thresholds zero and 0.2
+and normalized class entropy are also retained. All 32 source draws must pass
+identity, provenance and full-file hash checks before summaries are accepted.
+Slabwise processing bounds memory; saved means also undergo a trace check.
+
+These are pointwise model intervals, not simultaneous field bands. Real-DESI
+coverage is unverified, and the two caps still use the explicitly independent
+approximation. The postprocessor does not fit, retune or change the frozen
+science pipeline. Its independent immutable source directory is
+`field_summary_source_6fcbefe6429873b995c9`, with exporter SHA256
+`bb26d28c6c1a3ead214f8eb91fa5dfeb07e539431abde3846979d8896e3626b6`.
+Three tiny unit tests pass. A compute-node write/read smoke on 59241517
+verified known 32-draw summaries for two synthetic caps, including all four
+interval levels, classes, entropy and metadata; it read no observed fields
+or mock truth. That allocation completed successfully and was released.
+At registration the production exporter is queued; no actual Loa summary
+or scientific success is inferred from its synthetic smoke.
+
 ## Delivery and provenance
 
 Keep source and scientific decisions in this repository and generated products
