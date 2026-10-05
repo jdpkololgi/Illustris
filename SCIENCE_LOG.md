@@ -1,5 +1,31 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-06 — [science] Bounded CFM calibration investigation protocol
+
+User chooses to continue towards an informative, approximately calibrated field
+posterior within a restricted BGS/mock domain. Confirming genuinely modest
+property–environment relationships is a successful scientific outcome, not a
+reason to force stronger contrasts. P12-A writing/submission by end-2026 remains
+independent of CFM success. Japan21Oct–12Nov; talk26Oct sets a review point.
+
+Requested working protocol: `docs/e2e_cfm_calibration_investigation_plan_20261006.md`.
+Three questions organize the next work: locate coarse/conditional-fine/composed
+uncertainty failures; test galaxy class reliability, regional class fractions
+and an explicit property estimator; select at most one justified intervention
+with a matched control. Preserve physical R7 truth, exact mass and source/operator
+bindings. Existing32draw central90reference is29/33, not nominal90; other
+joint/discrete tests require their own validated reference.
+
+Initial proposed diagnostics use012/013 only. Other exposed phases need a later
+replication amendment;001 stays excluded and018/019 sealed. Inherited scalar
+and numerical gates remain, with explicit proposed joint/class/investment
+tolerances and an insufficient-evidence outcome. Two phases cannot certify
+population calibration. Density-only reconstruction remains a candidate;
+no automatic conditioning augmentation, longer training or VAC change.
+
+Documentation-only authorization: protocol resource caps are proposals, not
+Slurm approval. No new compute, phase opening or scientific result in this entry.
+
 ## 2026-10-05 — Exterior production scheduling tightened; interim full-cap scores
 
 User approved shorter pending limits, a bounded40GB compatibility test and
