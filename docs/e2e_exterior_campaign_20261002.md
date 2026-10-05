@@ -266,6 +266,104 @@ legacy non-blind replication and the two fresh confirmation phases.
 
 ## Native-resolution uncertainty products
 
+### October 5 operational acceleration and interim evaluation
+
+With explicit user approval, all 150 pending tasks (42–191) in array 59238002
+were changed from four-hour limits to 150 minutes for NGC and 90 minutes for
+SGC. Existing completed runtimes supported these limits with headroom. This
+changes scheduling eligibility, not the calculations, source freeze, outputs,
+dependencies or concurrency. The 80-GB constraint is still unchanged.
+
+CPU allocation 59377709 completed successfully in 4m13s and was released.
+The frozen final scorer was run separately on completed phases 012 and 013,
+writing `interim_scores/ph012/SCORES.json` and `interim_scores/ph013/SCORES.json`.
+Each includes all 16 registered two-core cases across both caps and all 32
+draws, plus passing synthetic metric controls. Equal-sized core cases are
+averaged within phase. These are reused development phases, not fresh tests.
+
+| Nominal 90% diagnostic | Phase 012 | Phase 013 |
+| --- | ---: | ---: |
+| Density marginal | 87.244% | 88.608% |
+| Eigenvalue 1 marginal | 86.208% | 85.803% |
+| Eigenvalue 2 marginal | 86.297% | 86.861% |
+| Eigenvalue 3 marginal | 84.120% | 86.638% |
+| Regional-mass marginal | 78.125% | 93.750% |
+| Joint two-core mass | 87.500% | 87.500% |
+| Joint six regional eigenvalues | 37.500% | 50.000% |
+
+The attainable reference is 87.879% with 32 draws. Marginal values describe
+the registered cores within coherent full-cap draws, not a whole-cap voxel
+census. The joint tidal deficit remains substantial. All four phase-cap
+48-dimensional regional tidal vectors are outside their nominal 90% rank
+region; all four 16-dimensional mass vectors are inside. These four dependent
+cap outcomes are diagnostics, not a population coverage estimate. Final-phase
+evaluation and existing calibration caveats are unchanged.
+
+The separate 45-minute 40-GB GPU allocation is 59377708. Hardware-test source
+`workflows/sbi/e2e_exterior_40gb_check.py` imports the immutable production
+snapshot without modifying it. Four simultaneous full-size sampler draws use
+NFE2 only as a memory/throughput test; these are not production samples.
+The tidal test replays all four saved phase-014 density draws at frozen
+padding32 and uses independent saved-file verification. Outputs remain under
+`verification/hbm40_20261005_v1`, never the production directories.
+
+The 40-GB test completed successfully in 16m16s; the GPU was released. Peak
+allocated memory for NGC/SGC was 26.95/14.24 GiB for sampling and 35.25/19.92
+GiB for tides. CPU comparison of every saved density and eigenvalue element
+found zero difference from the 80-GB production arrays. The 24 targetless
+input-cache headers show that tested NGC has the largest FFT geometry, but
+Loa has more conditioning windows and a larger SGC canvas than tested. Only
+phase 014 was executed on 40 GB; do not represent this as every phase tested.
+The production 80-GB restriction has not been changed.
+
+### Independent score audit and training-duration question
+
+At the user's request, CPU 59378079 independently reconstructed both cores
+from the registered layout and physical origins, assembled the true symmetric
+tidal matrices and diagonalized them, and extracted every one of the 32 draws
+for all 32 phase-012/013 cases. A separately implemented centered-covariance
+and Cholesky calculation reproduced all stored joint ranks exactly. No core
+offset, draw identity, ascending-eigenvalue or density/tidal trace discrepancy
+was found. Known inferred interiors match exactly; the largest saved trace
+residual is 4.77e-7. This is a targeted audit, not proof against every physical
+approximation or implementation defect.
+
+An independent 1,200-case six-dimensional Gaussian oracle gives 88.833%
+nominal-90 joint coverage, compatible with its 87.879% finite-draw reference;
+a 200-case underdispersed control gives 0.5%. The actual individual regional
+mean-eigenvalue interval coverage is only 67.708% and 73.958%. Thus poor joint
+coverage is accompanied by low marginal coverage of spatial averages: it is
+not merely a product of six ordinary cellwise intervals. The joint statistic
+is an exchangeable leave-one-out outlyingness rank, not an intersection of
+six marginal 90% intervals. Audit source is `e2e_exterior_score_audit.py` and
+the hashed receipt is `verification/score_audit_20261005_v1/AUDIT.json`.
+
+| Same joint regional-tidal diagnostic | Phase 012 | Phase 013 |
+| --- | ---: | ---: |
+| Earlier local learned exterior, padding 32 | 37.5% (6/16) | 62.5% (10/16) |
+| New coherent full-cap learned exterior | 37.5% (6/16) | 50.0% (8/16) |
+
+Checkpoint hashes and NFE are identical between these two rows. Full-cap
+integration, exterior context and random draws differ, so this is not a
+paired estimate of a training effect. Earlier approximately 87–88% tidal
+figures were cellwise marginal coverage, while earlier TARP curves tested
+regional density vectors. Neither is the same diagnostic as the table.
+There are only two independent development phases, not 32 independent skies.
+
+The saved coarse regularization screen provides evidence against assuming
+plain longer training will fix this: its baseline from 13,312 to 26,624
+updates reduces development block spread from 0.031142 to 0.025632 while RMSE
+barely changes (0.030244 to 0.029928). Block coverage drops from 87.5% to
+79.30%, and core coverage from 87.5% to 73.44%, while training errors improve.
+Source: `coarse_regularization_20260926_v1/SUMMARY.md` in the parent Scratch
+directory; its matched checkpoint entries are retained in `COMPLETE.json`.
+This supports a generalization/underdispersion concern, not a uniquely proved
+cause of the new tidal failures. The selected coarse-13,312/fine-26,624 model
+has not changed. A matched truth-density/operator-resolution closure test
+and checkpoint-specific regional bias/spread comparison would distinguish
+operator error from learned-posterior error more directly than more training
+alone. No such new training or production retuning is authorized by this audit.
+
 Postprocessing job 59241627 depends on the pilot and main production array.
 It writes `loa_field_summary/{NGC,SGC}/DENSITY_TIDAL_SUMMARY.h5` under the
 campaign root, with support and coverage masks, density and ascending tidal

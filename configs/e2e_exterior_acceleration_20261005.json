@@ -1,0 +1,18 @@
+{
+  "schema": "e2e-exterior-operational-change-v1",
+  "root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coherent_exterior_20261002_v1",
+  "science_freeze_sha256": "6bd49651231448443fe171ad7699032fee7151dcf34a33caf7952484b0745232",
+  "user_approved": "Shorten pending time limits, bounded 40-GB compatibility test, interim coverage on CPU allocation",
+  "production_array": "59238002",
+  "changed_pending_tasks": {"first": 42, "last": 191, "count": 150},
+  "wall_time_minutes": {"NGC": 150, "SGC": 90},
+  "unchanged": ["scientific source", "checkpoints", "draw count", "NFE", "padding", "production output paths", "dependencies", "concurrency", "80-GB production constraint"],
+  "cpu_allocation": {"id": "59377709", "limit_minutes": 60, "phases": ["ph012", "ph013"], "out": "interim_scores", "completed": true},
+  "gpu_test_allocation": {"id": "59377708", "limit_minutes": 45, "constraint": "gpu&hbm40g", "phase": "ph014", "out": "verification/hbm40_20261005_v1", "completed": true, "elapsed": "00:16:16", "both_caps_passed": true},
+  "peak_allocated_gib": {"NGC_sampler": 26.952314853668213, "NGC_tides": 35.24641227722168, "SGC_sampler": 14.235629558563232, "SGC_tides": 19.923828125},
+  "full_array_replay": {"rho_completed_max_abs_difference": 0.0, "eigenvalues_max_abs_difference": 0.0, "caps": ["NGC", "SGC"], "draws_per_cap": 4, "cpu_job": "59378079"},
+  "geometry_scope": "Tested NGC matches largest FFT geometry in all 24 targetless input caches. Loa has more conditioning windows and SGC extent than the tested phase; only phase014 was executed on 40GB.",
+  "sampler_test_scope": "Four simultaneous draws, full cap geometry, NFE2 memory/throughput benchmark only; not new scientific posterior samples",
+  "tidal_test_scope": "Replay frozen padding32 learned completion and tidal operation from four saved production density draws, then independent readback verification",
+  "automatic_retries": false
+}

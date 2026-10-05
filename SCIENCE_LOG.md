@@ -1,5 +1,69 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-05 — Exterior production scheduling tightened; interim full-cap scores
+
+User approved shorter pending limits, a bounded40GB compatibility test and
+CPU interim coverage. All150still-pending tasks42–191 of59238002 were updated:
+75NGC now150minutes and75SGC90minutes, down from240minutes. Completed outputs,
+science freeze, production source, dependencies and concurrency16 unchanged.
+The80GB production constraint remains until separately reviewed compatibility
+evidence and authorization. Operational record:
+`configs/e2e_exterior_acceleration_20261005.json`.
+
+CPU59377709 completed0:0 in4m13s and was released. Original frozen scorer ran
+on all32full-cap draws of012/013, to separate `interim_scores/ph*/SCORES.json`;
+final-score destinations untouched. All16registered pairs perphase scored,
+synthetic controls pass. Mean nominal90coverage on registered cores:
+density87.244/88.608percent; lambda1/2/3:86.208/86.297/84.120percent012 and
+85.803/86.861/86.638percent013. Attainable finite32draw reference87.879percent.
+Regional-mass marginal78.125/93.75percent; joint two-core mass87.5percent both;
+joint six-regional-eigenvalue coverage37.5/50percent. These are full-cap-draw
+results at registered cores, not a whole-cap voxel census and not the earlier
+local completion experiment. Both phases are reused development, not fresh
+confirmation. All four phase-cap48Dregional-tidal vectors fall outside their
+nominal90rank region; four dependent cap outcomes do not estimate population
+coverage. All four16Dmass vectors are inside. No posterior qualification or
+model retuning follows.
+
+GPU59377708 completed0:0 in16m16s and was released. Both40GB caps passed:
+sampler peak allocated26.95/14.24GiB(NGC/SGC), tidal35.25/19.92GiB. Sampler
+usesNFE2 solely for hardware testing; tidal replay processes4actualsaved draws.
+CPU59378079 compared ALLsaved density/eigenvalue arrays: zero difference
+against80GB production for bothcaps.24targetless cache headers show testedNGC
+matches maximum FFT geometry; Loa has more conditioning windows and a larger
+SGC than tested. No production hardware restriction has been relaxed.
+
+User questioned interim coverage and asked about training duration. Independent
+audit on59378079 reconstructs eachcore from registered layout/physicalorigins,
+assembles fullboxtruth tensors directly, recomputes eigensystems and32-draw
+regional features, and uses independent centered-covariance/Cholesky joint
+ranks. All32case ranks reproduce exactly. Inferred interior difference0,
+predicted trace residual<=4.77e-7, truthtrace<3e-15; marginal coverage agrees.
+Independent1200case six-dimensional Gaussian oracle90coverage88.833percent
+versus87.879attainable; underdispersed control0.5percent. Receipt:
+`verification/score_audit_20261005_v1/AUDIT.json`. No scoring/index/order bug
+found in these checks; this does not prove physical target resolution or model
+adequacy. Even individual REGIONALmean eigenvalue90coverage is67.708/73.958
+percent, so joint failures are not solely an obscure covariance-rank effect.
+
+Comparison clarification: older~87–88percent tidal figures were cellwise
+marginals, and earlierTARP measured regional DENSITYvectors, not these six
+regional tidal means. Matched October2padding32local learned joint coverage
+was37.5/62.5percent012/013; newfullcap37.5/50percent uses identicalcheckpoint
+hashes/NFE but changed full-cap integration/exterior context and newdraws.
+Phase013 differs by2of16pairs, not an87-to50percentage-point collapse.
+Both are reused development, with onlytwoindependent phases.
+
+Longertraining is not established as the cause or remedy. Historical matched
+coarse regularization baseline13312->26624 reduces development blockspread
+.031142->.025632 with RMSE nearlyunchanged .030244->.029928; block90coverage
+87.5->79.30percent and core87.5->73.44percent. Training errors improve while
+development calibration worsens, consistent with generalization/underdispersion
+rather than a simple too-short-training diagnosis. Currentfrozen choice remains
+coarse13312/fine26624; no retraining, checkpoint swap or fresh-phase tuning.
+Further causal attribution needs matched operator/truth-resolution closure
+and checkpoint bias/spread diagnostics, not extrapolation from training loss.
+
 ## 2026-10-02 — Coherent exterior density campaign authorized and scoped
 
 User requests a publishable conditional density-field model with coherent
