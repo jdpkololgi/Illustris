@@ -1,5 +1,49 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-06 — Stage C saved-draw mechanism diagnosis and no-fit decision
+
+User approves mechanism discrimination and compute. All32pairs/64cores,
+32saved draws, ph012/ph013 only; no new density draws, training, fresh-phase
+access or B3 property estimator. Configuration freezes moment accounting,
+other-development-phase bias transfer, spread factors1/1.5/2, cyclic right-core
+pairing and matched StageA factor comparison before diagnostic scoring.
+
+At primary threshold0.2 with original operator and galaxy-weighted fractions,
+global mean class offset accounts for6.58/6.46% of raw mean squared error.
+Other-phase bias subtraction changes paired joint90coverage71.25/75% to
+81.25/62.5%: helps012, harms013. Uniform1.5spread yields100/100% coverage,
+already65.625/68.75% at nominal50; joint energy worsens3.08% in012 and
+improves2.64% in013. Shift/spread probes can leave the simplex; they are
+summary-space sensitivities, never physical posterior corrections.
+
+All32cyclic right-core offsets preserve each core's full class-vector ensemble
+and average cross-covariance to0. Joint90coverage becomes65.55/75.74%, not a
+consistent improvement. Shuffles are not exchangeable calibration controls.
+
+Error moment Q=mean(ee^T)-mean(S)/32 is compared with predictive covarianceS.
+Classwise diagonal ratios vary: original012 [.661,1.429,1.001,1.597],013
+[.906,2.330,2.001,1.154] for void/wall/filament/knot. Not universal narrowing.
+Interior class-summed ratios2.701/2.106 vs boundary.753/.963; after removing
+stratum mean bias, interior2.320/2.018. Corrected operator leaves this pattern.
+Ratios are descriptive dependent-panel moments, not population acceptance tests;
+centered excess may be heterogeneous conditional bias, not only narrow spread.
+
+StageA core-mean shear ratios: coarse1.015/.902; fine given sampledcoarse
+1.404/.840; fine given truecoarse.872/1.002. However interior mean-shear
+variances do not show a uniform shortage explaining B2 fraction errors.
+Matched-local factor truth and physical full-cap class truth are distinct.
+Conditional within-region class/spatial uncertainty is the next mechanism to
+specify, not a proven coarse/fine cause or a licensed loss/augmentation change.
+
+Decision: no defensible training intervention selected; retain informative
+model and operator comparator. No global temperature/bias repair, blind phase
+opening or model-search expansion. A further fit requires a valid joint-law
+hypothesis, discriminating control and frozen objective; P12-A stays independent.
+Nine tests,2,112 source-parity checks and17,596 independent arithmetic checks
+pass. Full analysis22.09s,0.572GiB host; CPU59417200 released, no GPU. Graphify
+refresh again hits flock Errno524. Methods, figures, strata, limits and receipts:
+`docs/e2e_stage_c_mechanism_20261006.md`.
+
 ## 2026-10-06 — Stage B galaxy reliability and joint class fractions
 
 User requests Stage B and approves bounded CPU/shared-GPU allocations. B1/B2
