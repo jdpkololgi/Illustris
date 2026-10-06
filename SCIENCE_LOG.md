@@ -1,5 +1,29 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-06 — [science/code] Tier 2 gates frozen; bounded start authorized
+
+User explicitly directs freezing the remaining oracle tolerances/uncertainty
+rule and starting Tier2. Selected non-truncated conditioning-only augmentation
+retains saved coarse endpoints for mass. Two3328update fine continuations,
+augmented and matched s=0, seed17, frozen-parent EMA warm start, train-only.
+No alpha sweep, extra seeds, production inference or additional phase access.
+
+Freeze perphase oracle power/truth [.95,1.05] in [.04,.08),[.08,.16)h/Mpc;
+signed matched-local width deficit within±.5percentage points; magnitude
+degradation<=.2pp versus BOTH parent and continuation. Check clean and
+candidate-s oracle inputs. Paired whole-draw bootstrap4096replicates,
+seed6100617, one-sided95%pointwise bounds must satisfy these limits.
+Point breach=fail; bound overlap=inconclusive; neither allows promotion.
+Proper-score deterioration upper95%bound must be<=0 against control.
+These are conditional-MC development screens, not new-phase/familywise proof.
+All original marginal/interior screens and regional/joint reports retained.
+
+Frozen config `configs/e2e_cfm_conditioning_augmentation_v1.json`; protocol
+execution amendment in `docs/e2e_cfm_conditioning_augmentation_20261006.md`.
+Implementation is separate from hash-bound parent backbone. First perform
+GPU parent parity/restart and cached-coarse fine replay/throughput; launch
+record and measured cost precede full training/scoring. No result yet.
+
 ## 2026-10-06 — [science/code] Repository closeout and Tier 2 conditioning proposal
 
 User requests that all completed work be committed and supplies a revised

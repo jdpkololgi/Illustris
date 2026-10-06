@@ -1,4 +1,57 @@
-# Tier 2: paired conditioning augmentation proposal
+# Tier 2: paired conditioning augmentation frozen protocol
+
+## 2026-10-06 execution amendment (supersedes proposal-only wording below)
+
+User explicitly instructs: state/freeze the remaining tolerances and start
+Tier 2. The saved-draw non-truncated variant and matched experiment below are
+now selected. Fixed machine profile:
+`configs/e2e_cfm_conditioning_augmentation_v1.json`. No retrospective retuning
+after new metrics. No additional seeds, alpha sweep, higher resolution,
+production inference or new-phase access is included.
+
+**Oracle gate, each phase, clean and every candidate s:** physical residual
+power/truth must lie in [0.95,1.05] in EACH [.04,.08), [.08,.16) h/Mpc band.
+Signed matched-local tidal-gap width deficit D=100*(1-mean_width/truth_width)
+must lie in [-0.5,+0.5] percentage points. Against EACH frozen parent and
+matched unaugmented continuation require abs(D_new)-abs(D_reference)<=0.2
+percentage points. Using magnitude prevents an excess-width overshoot from
+being counted as improvement. These margins permit at most a small loss from
+the historical .247/.330% oracle deficits while bounding the total distortion;
+they are an explicit scientific tolerance choice, not fitted error bars.
+
+**Uncertainty rule:** 4,096 paired whole-draw bootstrap replicates, NumPy
+default_rng seed6100617; resample the32draw addresses with replacement and
+preserve every region, phase, cap and paired arm within each selected draw.
+Truth fields and region weights remain fixed. Recompute the complete statistic
+for each replicate. Each lower-bounded oracle statistic must have its5th
+percentile above its lower limit, and each upper-bounded statistic its95th
+percentile below its upper limit. Regression uses its95th-percentile upper
+bound <=0.2pp. These are pointwise one-sided95% bounds, NOT familywise bounds
+after choosing s and NOT phase/population confidence intervals.
+
+Any point-estimate oracle breach is fail; a point estimate inside bounds with
+an MC bound crossing a limit is inconclusive; only all point/bound checks pass
+is oracle pass. No extra draws automatically follow an inconclusive result.
+Proper-score deterioration also uses a paired upper95% bound <=0 against the
+continuation control; point estimate worse is fail, otherwise crossing is
+inconclusive. Retain the existing point-estimate marginal and interior-moment
+screens with MC sensitivities reported, rather than silently claiming coverage
+equivalence from bootstrap precision. A candidate needs all gates to pass;
+one inconclusive gate prevents promotion. Full regional/joint curves remain
+mandatory reports, not an unannounced full-posterior qualification gate.
+
+Engineering before scientific fitting: exact parent s=0 forward parity,
+deterministic serialized update/EMA restart, paired fine RNG, noised crop
+alignment and unchanged decoder mass; unchanged cached-coarse fine sampler
+replay before full training launch. Keep the backbone file unmodified.
+Initial Slurm scope is a bounded single-GPU interactive smoke/throughput/replay
+allocation under the user instruction to start. Size the two continuation arms
+from measured throughput, no automatic resubmission or speculative large
+generation sweep. A resource estimate/launch record must precede full scoring.
+
+The dated proposal text below preserves the motivation and estimands. Its
+old statements that launch/tolerances await approval are superseded ONLY by
+this amendment; no successful run is implied by the freeze.
 
 ## Decision and status
 
