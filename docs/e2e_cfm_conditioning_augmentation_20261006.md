@@ -46,10 +46,17 @@ Engineering results before full batch submission:
   maximum block-mass error4.42e-16. No scientific gate result inferred.
 - Original/corrected cap extraction59434274: exact saved Stage A means and Stage B
   labels;31.58s,35.47GiB peak GPU,19.94GiB host RSS on ph012NGC/d000.
-- Recompletion59434519 reproduces the saved parent exterior before extraction;
-  final receipt, not scheduler completion alone, governs acceptance.
-- Fine-only ph012SGC control benchmark59433919 is underway; NGC benchmark is
-  also requested. Completed benchmark fields are reused in the full grid.
+- Recompletion59434519 passed exact saved parent exterior/Stage A/B replay in
+  148.33s;35.73GiB peakGPU,20.20GiB host RSS.
+- Fine-only ph012SGC control59433919 passed NFE128:1811.19s sampling,18.94s
+  loading,14.23GiB GPU,4.85e-16 mass error. NGC59434621 is running.
+  Completed benchmark fields are reused in the full grid.
+
+Extension sourcece5448f is frozen; launch manifestSHA256
+1059cc0a3c34deaf1d09f5b44aebccfaca817bb1adf16b7aabd16c443d9f2a48.
+Submitted59434901 array0--31%4 for reused-parent core extraction and59434902
+for the oracle panel. Full-parent scientific-score reconciliation is still
+required before submission of the192new-field batch tasks.
 
 Planning estimate from the parent replay and existing cap timings: roughly
 150--200 single-GPU hours for the complete fine-generation grid, plus a few hours

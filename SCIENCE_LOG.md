@@ -1,5 +1,31 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-06 — [code] Frozen Tier 2 baseline/oracle evaluation submitted
+
+Extension revisionce5448f frozen at v3/evaluation_v1/source; manifestSHA256
+1059cc0a3c34deaf1d09f5b44aebccfaca817bb1adf16b7aabd16c443d9f2a48.
+14focused tests passed. Oracle smoke exact; parent extraction exactly recovers
+Stage A means and Stage B labels; exterior-recompletion smoke also exact.
+The initial wrong-snapshot extraction failed closed before truth access; its
+directory remains intact. Scoring now imports the original frozen evaluator.
+
+SGCcontrol59433919 completed its NFE128 four-draw benchmark:1811.19s sampling,
+18.94s loading,14.23GiB peakGPU, max mass error4.85e-16. This field is retained
+for the panel. Larger ph012NGC control benchmark59434621 is running,1GPU/1h30m.
+
+Submitted shared-QOS/one80GB-GPU/32logical-CPU/2h jobs, Scratch licensed and
+no requeue:59434901 array0--31%4 for the32reused-parent core extractions;
+59434902 for the32-pair x32-draw true-coarse oracle panel. Both were pending
+at this check. Full-parent scoring must reconcile existing scientific scores
+before the192new-field batch tasks are submitted. No new-field array yet.
+
+Resource planning: approximately150--200GPUh for new fine draws, plus oracle
+and scoring; six new compressed density banks estimated53.18GiB from existing
+field sizes, with ample Scratch quota. At most8full-cap GPU tasks concurrently.
+Scientific tolerances and phase restrictions unchanged; no results inferred
+from these engineering tests. No automatic failed-job retries or graph-refresh
+bypass following the earlier safety rejection.
+
 ## 2026-10-06 — [code] Tier 2 fits complete; authorized scientific evaluation in preparation
 
 User explicitly requests the frozen development sweep and conclusions, approving
