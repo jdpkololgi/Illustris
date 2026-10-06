@@ -1,5 +1,18 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-06 — [validation] Parent extraction and complete oracle panel finished
+
+All32tasks of parent extraction59434901 completed0:0,38--60seconds each,
+with32passed application receipts. Oracle59434902 completed0:0 in1h07m23s;
+its full32-case/32-draw task receipt reports4031.41seconds and binds the
+unchanged evaluation manifest1059cc0a. These are execution/parity passes,
+not scientific oracle-gate decisions, which await the registered summary.
+
+Parent score59436500 is eligible and pending CPU scheduler priority at this
+check. Full-parent score reconciliation remains the final prerequisite before
+new-field array submission. Both generation benchmarks are complete; when that
+gate passes, up to32new-field workers can run because the oracle GPU is free.
+
 ## 2026-10-06 — [validation] Large-cap Tier 2 generation benchmark passes
 
 ph012/NGC control/s0/d000 job59434621 completed0:0 in1h00m06s.
