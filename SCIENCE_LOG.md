@@ -1,5 +1,29 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-06 — [science/code] Full-box Abacus eigenvalue PDFs and spectra measured
+
+User-approved one-node/64-CPU/one-hour analysis completed as59431063,
+nid200036,0:0 in4m37s; allocation released. c000/ph000 z0.2,2000Mpc/h
+periodic matter box,GaussianR7,ascending potential-Hessian eigenvalues,
+volume weighting;256^3/512^3meshes from documented1024^3count-density cache.
+No model training or sealed-phase access. Random-phase fixed-amplitude control
+retains measured density power (512^3relative mismatch2.06e-7).
+
+512^3Abacus marginal integrated absolute differences from Doroshkevich are
+.428/.343/.355 versus .0011/.0014/.0011 for the control (binned[-4,6] in
+lambda/sigma; descriptive,not significance). Atk=.1010h/Mpc,
+r12=.679,r13=.607,r23=.898. Spectral trace closure2.13e-7.
+PDF departures survive resolution change; autos retain several-percent
+resolution/binning differences,up to~11%belowk=.2. No precision convergence,
+multi-phase uncertainty,shot-noise correction or cosmological gain claimed.
+
+Source/launch/summary under workflows/tidal_statistics/; report and artifact
+links: docs/abacus_tidal_statistics_20261006.md. Scratchrun
+/pscratch/sd/d/dkololgi/abacus/tidal_statistics_20261006.
+Small-array figures/tables copied to docs/figures/tidal_statistics_20261006.
+Graphify unavailable; targeted inspection and direct validation used.
+
+
 ## 2026-10-06 — [code] Foreground Tier 2 execution active on replacement allocation
 
 Job59429879/nid200280 is RUNNING under foreground salloc/srun ownership:
