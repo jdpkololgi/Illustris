@@ -1,5 +1,17 @@
 # Tier 2: paired conditioning augmentation frozen protocol
 
+## Execution status
+
+Started on GPU allocation59429391/nid200312 (single GPU,2h). Snapshot272b178
+is staged under Scratch `cfm_conditioning_augmentation_20261006_v3/source`.
+The v3 smoke passes exact parent forward and serialized update/EMA replay;
+warm update .236s excluding subsequent pair IO. Earlier v1/v2 setup failures
+are preserved. The launched sequence is full-length ph012SGC/d000 parent
+cached-coarse fine replay, then on success control and augmented continuations,
+each at most3328updates/1500seconds. No completed scientific fits or coverage
+results are claimed by this launch record. The shell releases the allocation
+after the sequence; no automatic retry or generation-grid submission.
+
 ## 2026-10-06 execution amendment (supersedes proposal-only wording below)
 
 User explicitly instructs: state/freeze the remaining tolerances and start

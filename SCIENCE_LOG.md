@@ -1,5 +1,35 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-06 — [code] Tier 2 GPU smoke passed; gated execution started
+
+Frozen scientific profile SHA256
+07b816eab858bea138a4c16f651b3629f9351f416e410558fcabae80f1bf2896;
+committed executable snapshot272b178 at Scratch
+`e2e_field_v3/cfm_conditioning_augmentation_20261006_v3/source`.
+Allocation59429391/nid200312, shared_interactive/desi_g,1GPU/32CPUs/2h,
+with Scratch license. Prior v1/v2 technical-failure snapshots/logs retained.
+
+v3 real-data smoke PASSED in5.61s: exact clean-input parent forward parity,
+exact serialized optimizer/update and EMA replay; train-only pairs from024/023.
+Warm update .236s excluding next-batch IO, peakGPU1.055GiB. Seven focused
+synthetic tests passed. No scientific result inferred from these checks.
+
+Execution step now performs ph012SGC/d000 four-draw NFE128 cached-coarse
+parent fine replay. ONLY success permits the control then augmented fine
+continuations, each capped at3328updates AND1500seconds in this segment.
+Weights start from parent EMA, not the smoke-updated weights. Partial progress
+is checkpointed and never called a completed matched experiment. No new
+coarse draws, scalar-noise fitting, automatic retries or new-phase access.
+Full generation grid/scoring has NOT started and no coverage claim is made.
+
+Logs `execute.log`/`execute.err`, `SMOKE.json`, replay receipts and per-arm
+STATUS/TRAIN/LATEST files live under the v3 root. The allocation shell waits
+for its numeric Slurm steps to finish and exits, so it is released after the
+sequence even on application failure; scheduler-query failure retains it until
+the next check, with the original2hwall bound. No resubmission or autonomous
+scientific decisions. Repository graph refresh remains unperformed after the
+earlier safety rejection; no bypass. Gate source/tests and science log committed.
+
 ## 2026-10-06 — [science/code] Tier 2 gates frozen; bounded start authorized
 
 User explicitly directs freezing the remaining oracle tolerances/uncertainty
