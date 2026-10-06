@@ -23,6 +23,16 @@ The parent timing supports a30min envelope for this resource-only packing;
 there is no new numerical algorithm, phase access, or automatic failed retry.
 Scientific conclusions remain pending the complete comparison.
 
+Scoring pack submitted as59440901; scheduler confirms
+`afterok:59440722_*(unfulfilled)` over the entire array, not one task. It uses
+one CPU node/64logical CPUs, eight numerical threads, regular QOS, Scratch
+license and no requeue. Launcher8263cbae8606b079ad5c63906157682f0c2158f2,
+SHA256da054795f4bd2db1dc6dd8b2943f368769cda1db58a272f4783ac9aaa3e917ba;
+source and provenance manifest staged read-only under
+`evaluation_v1/operations/score_pack_v1/`. Manifest source:
+`configs/e2e_cfm_conditioning_score_pack_launch_v1.json` (commit4cfdf14).
+Original numerical snapshot remains unchanged. Array throttle32 is verified.
+
 ## 2026-10-06 — [validation] Parent extraction and complete oracle panel finished
 
 All32tasks of parent extraction59434901 completed0:0,38--60seconds each,
