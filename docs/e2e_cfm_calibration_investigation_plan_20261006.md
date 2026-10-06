@@ -344,8 +344,9 @@ artifact path/hash and next action.
 - [x] Complete A0 controls and A1/A2 full-panel numerical integrity checks.
 - [x] Complete A1 factor/composition scorecards; cached density widths beyond 90% remain unavailable.
 - [x] Authorize and complete bounded A2 all-core operator replay; no precision expansion or promotion.
-- [ ] Authorize and complete B1/B2 science-facing scorecards.
-- [ ] Audit B3 properties and freeze its estimator or synthetic generating law.
+- [x] Authorize and complete B1/B2 science-facing scorecards; G2 still fails (see `e2e_stage_b_execution_20261006.md`).
+- [x] Audit B3 properties in the verified observation/parent-linkage products; stellar mass and sSFR absent there.
+- [ ] Obtain an appropriate B3 property source and freeze its estimator, or separately freeze a synthetic generating law.
 - [ ] Select one intervention, or explain why none is justified.
 - [ ] Execute matched comparison only after objective/budget approval.
 - [ ] Review information value, remaining failures and writing opportunity cost.

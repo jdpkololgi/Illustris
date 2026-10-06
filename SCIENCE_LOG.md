@@ -1,5 +1,45 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-06 — Stage B galaxy reliability and joint class fractions
+
+User requests Stage B and approves bounded CPU/shared-GPU allocations. B1/B2
+complete for all32pairs/64cores in ph012/ph013 using32saved draws and matched
+original/corrected operators. No new posterior sampling, training, fresh-phase
+access or production change. B3 is a scoped property audit only.
+
+Frozen selection uses verified successful BGS_BRIGHT IDs, observed0.15<=Z<0.55,
+half-open cores and positive containing-cell random support: 79,067/107,485
+galaxies; 5/17 zero-support exclusions, no duplicated IDs across cores.
+Both posterior and physical full-box R7 truth use the same6.766Mpc/h cell.
+This is field-at-observed-coordinate evidence, not true-host environment/P12-A.
+Training-only prevalence baseline uses geometry-selected208pairs from13training
+phases (1,061,074galaxies); no development labels fit this comparator.
+
+At threshold0.2 byphase012/013, baseline Brier .68308/.68390; original fairBrier
+.37407/.35833 -> corrected .37115/.35608. Strong information versus prevalence,
+but correction improves only .78/.63%. Fixed-bin residual failures7/20,6/20 ->
+5/20,2/20; largest corrected residual .1070/.0632. Low-z galaxies dominate;
+high-z counts remain small and ph013highest-shell Brier slightly worsens.
+
+Discrete fractions use validated randomization-averaged rank inclusion: exact
+nominal90% reference, NOT StageA29/33. Paired galaxy-weighted joint coverage
+71.25/75% ->71.25/68.75%; volume-weighted77.5/91.875% ->79.375/93.75%.
+Paired joint-energy scores improve under both weightings, yet every paired
+joint full curve failsG2. Galaxy wall-fraction coverage worsens88.00/86.80%
+->79.68/80.24%; wall/knot marginalCRPS also worsen. Information is not calibration.
+Retain candidate only; no automatic augmentation, promotion or confirmation.
+
+Inspected observation/parent-linkage products lack stellar mass/sSFR. B3 needs
+a suitable property source or separately frozen synthetic law; apparent r
+magnitude is not substituted for stellar mass. No physical contrast claimed.
+Eight focused tests and1,184 independent numerical checks pass; all saved-draw
+StageA classfraction/operator parity checks pass. CPU59400364/GPU59400781
+completed/released, final queue empty. Full prep128.08s/replay367.94s;
+19.781GiB host/35.475GiB GPU. Graphify queries work in cosmic_env; local refresh
+fails filesystem flock Errno524, not missing installation. Detailed methods,
+phase/selection tables, figures and source/input receipts:
+`docs/e2e_stage_b_execution_20261006.md`.
+
 ## 2026-10-06 — Stage A factor calibration and all-core operator replay
 
 User authorizes Stage A and all required compute, plus assessment/cancellation
