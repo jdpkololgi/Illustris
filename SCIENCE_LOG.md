@@ -1,5 +1,21 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-06 — [code] Correct early allocation release before any Tier 2 fit
+
+Post-launch verification caught termination of replay step59429391.3 after
+1m36s: the allocation shell's squeue-based release check exited prematurely.
+Allocation reports COMPLETED after8m15s, but application replay was CANCELLED
+0:15. This is NOT a replay pass. Neither scientific continuation ran.
+SMOKE.json remains valid; interrupted empty replay directory/logs retained.
+
+Replace the release mechanism with foreground `salloc ... srun ...` ownership:
+`workflows/sbi/run_e2e_cfm_conditioning_start.sh`, strict shell failure handling,
+same frozen v3 model code/config. Restart ONLY interrupted technical replay;
+full fits remain conditional on its success. Replacement requested1h50m on
+one GPU, so combined maximum allocated time stays below original2h envelope.
+No automatic retry, new scientific selection, or new-phase access. This entry
+supersedes the previous claim that the release monitor was a safe handoff.
+
 ## 2026-10-06 — [code] Tier 2 GPU smoke passed; gated execution started
 
 Frozen scientific profile SHA256
