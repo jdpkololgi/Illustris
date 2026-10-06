@@ -16,6 +16,11 @@ No posterior claim follows from this engineering pass. Parent extraction is
 Oracle59434902 continues. New-field production remains unsubmitted until the
 registered full-parent score reconciliation succeeds.
 
+Further resource right-sizing: all20completed parent extraction jobs took
+38--60seconds with exit0:0. Pending tasks20--31 are reduced from15min to5min
+for shorter backfill windows; their numerical sources and task inputs are
+unchanged. Oracle and scoring wall times remain unchanged. This is not a retry.
+
 ## 2026-10-06 — [validation] Independent Tier 2 score QA passes
 
 CPU interactive job59436416 completed0:0 (18s allocation,0.913s calculation).
