@@ -1,0 +1,1308 @@
+{
+  "checked_at": "2026-10-05 23:42:49 UTC",
+  "rows": [
+    {
+      "id": "59241627",
+      "name": "e2e-ext-summary",
+      "state": "PENDING",
+      "limit": "2:00:00"
+    },
+    {
+      "id": "59238614",
+      "name": "e2e-ext-website",
+      "state": "PENDING",
+      "limit": "2:00:00"
+    },
+    {
+      "id": "59238010",
+      "name": "e2e-ext-scores",
+      "state": "PENDING",
+      "limit": "2:00:00"
+    },
+    {
+      "id": "59238002_58",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph015",
+      "cap": "NGC",
+      "first": 20
+    },
+    {
+      "id": "59238002_60",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph015",
+      "cap": "NGC",
+      "first": 24
+    },
+    {
+      "id": "59238002_191",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "Loa",
+      "cap": "SGC",
+      "first": 28
+    },
+    {
+      "id": "59238002_189",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "Loa",
+      "cap": "SGC",
+      "first": 24
+    },
+    {
+      "id": "59238002_187",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "Loa",
+      "cap": "SGC",
+      "first": 20
+    },
+    {
+      "id": "59238002_185",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "Loa",
+      "cap": "SGC",
+      "first": 16
+    },
+    {
+      "id": "59238002_183",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "Loa",
+      "cap": "SGC",
+      "first": 12
+    },
+    {
+      "id": "59238002_181",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "Loa",
+      "cap": "SGC",
+      "first": 8
+    },
+    {
+      "id": "59238002_179",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "Loa",
+      "cap": "SGC",
+      "first": 4
+    },
+    {
+      "id": "59238002_177",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "Loa",
+      "cap": "SGC",
+      "first": 0
+    },
+    {
+      "id": "59238002_175",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph006",
+      "cap": "SGC",
+      "first": 28
+    },
+    {
+      "id": "59238002_173",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph006",
+      "cap": "SGC",
+      "first": 24
+    },
+    {
+      "id": "59238002_171",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph006",
+      "cap": "SGC",
+      "first": 20
+    },
+    {
+      "id": "59238002_169",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph006",
+      "cap": "SGC",
+      "first": 16
+    },
+    {
+      "id": "59238002_167",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph006",
+      "cap": "SGC",
+      "first": 12
+    },
+    {
+      "id": "59238002_165",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph006",
+      "cap": "SGC",
+      "first": 8
+    },
+    {
+      "id": "59238002_163",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph006",
+      "cap": "SGC",
+      "first": 4
+    },
+    {
+      "id": "59238002_161",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph006",
+      "cap": "SGC",
+      "first": 0
+    },
+    {
+      "id": "59238002_159",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph005",
+      "cap": "SGC",
+      "first": 28
+    },
+    {
+      "id": "59238002_157",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph005",
+      "cap": "SGC",
+      "first": 24
+    },
+    {
+      "id": "59238002_155",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph005",
+      "cap": "SGC",
+      "first": 20
+    },
+    {
+      "id": "59238002_153",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph005",
+      "cap": "SGC",
+      "first": 16
+    },
+    {
+      "id": "59238002_151",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph005",
+      "cap": "SGC",
+      "first": 12
+    },
+    {
+      "id": "59238002_149",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph005",
+      "cap": "SGC",
+      "first": 8
+    },
+    {
+      "id": "59238002_147",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph005",
+      "cap": "SGC",
+      "first": 4
+    },
+    {
+      "id": "59238002_145",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph005",
+      "cap": "SGC",
+      "first": 0
+    },
+    {
+      "id": "59238002_143",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph004",
+      "cap": "SGC",
+      "first": 28
+    },
+    {
+      "id": "59238002_141",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph004",
+      "cap": "SGC",
+      "first": 24
+    },
+    {
+      "id": "59238002_139",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph004",
+      "cap": "SGC",
+      "first": 20
+    },
+    {
+      "id": "59238002_137",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph004",
+      "cap": "SGC",
+      "first": 16
+    },
+    {
+      "id": "59238002_135",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph004",
+      "cap": "SGC",
+      "first": 12
+    },
+    {
+      "id": "59238002_133",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph004",
+      "cap": "SGC",
+      "first": 8
+    },
+    {
+      "id": "59238002_131",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph004",
+      "cap": "SGC",
+      "first": 4
+    },
+    {
+      "id": "59238002_129",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph004",
+      "cap": "SGC",
+      "first": 0
+    },
+    {
+      "id": "59238002_127",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph019",
+      "cap": "SGC",
+      "first": 28
+    },
+    {
+      "id": "59238002_125",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph019",
+      "cap": "SGC",
+      "first": 24
+    },
+    {
+      "id": "59238002_123",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph019",
+      "cap": "SGC",
+      "first": 20
+    },
+    {
+      "id": "59238002_121",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph019",
+      "cap": "SGC",
+      "first": 16
+    },
+    {
+      "id": "59238002_119",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph019",
+      "cap": "SGC",
+      "first": 12
+    },
+    {
+      "id": "59238002_117",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph019",
+      "cap": "SGC",
+      "first": 8
+    },
+    {
+      "id": "59238002_115",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph019",
+      "cap": "SGC",
+      "first": 4
+    },
+    {
+      "id": "59238002_113",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph019",
+      "cap": "SGC",
+      "first": 0
+    },
+    {
+      "id": "59238002_111",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph018",
+      "cap": "SGC",
+      "first": 28
+    },
+    {
+      "id": "59238002_109",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph018",
+      "cap": "SGC",
+      "first": 24
+    },
+    {
+      "id": "59238002_107",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph018",
+      "cap": "SGC",
+      "first": 20
+    },
+    {
+      "id": "59238002_105",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph018",
+      "cap": "SGC",
+      "first": 16
+    },
+    {
+      "id": "59238002_103",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph018",
+      "cap": "SGC",
+      "first": 12
+    },
+    {
+      "id": "59238002_101",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph018",
+      "cap": "SGC",
+      "first": 8
+    },
+    {
+      "id": "59238002_99",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph018",
+      "cap": "SGC",
+      "first": 4
+    },
+    {
+      "id": "59238002_97",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph018",
+      "cap": "SGC",
+      "first": 0
+    },
+    {
+      "id": "59238002_95",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph017",
+      "cap": "SGC",
+      "first": 28
+    },
+    {
+      "id": "59238002_93",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph017",
+      "cap": "SGC",
+      "first": 24
+    },
+    {
+      "id": "59238002_91",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph017",
+      "cap": "SGC",
+      "first": 20
+    },
+    {
+      "id": "59238002_89",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph017",
+      "cap": "SGC",
+      "first": 16
+    },
+    {
+      "id": "59238002_87",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph017",
+      "cap": "SGC",
+      "first": 12
+    },
+    {
+      "id": "59238002_85",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph017",
+      "cap": "SGC",
+      "first": 8
+    },
+    {
+      "id": "59238002_83",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph017",
+      "cap": "SGC",
+      "first": 4
+    },
+    {
+      "id": "59238002_81",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph017",
+      "cap": "SGC",
+      "first": 0
+    },
+    {
+      "id": "59238002_79",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph016",
+      "cap": "SGC",
+      "first": 28
+    },
+    {
+      "id": "59238002_77",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph016",
+      "cap": "SGC",
+      "first": 24
+    },
+    {
+      "id": "59238002_75",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph016",
+      "cap": "SGC",
+      "first": 20
+    },
+    {
+      "id": "59238002_73",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph016",
+      "cap": "SGC",
+      "first": 16
+    },
+    {
+      "id": "59238002_71",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph016",
+      "cap": "SGC",
+      "first": 12
+    },
+    {
+      "id": "59238002_69",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph016",
+      "cap": "SGC",
+      "first": 8
+    },
+    {
+      "id": "59238002_67",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph016",
+      "cap": "SGC",
+      "first": 4
+    },
+    {
+      "id": "59238002_65",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph016",
+      "cap": "SGC",
+      "first": 0
+    },
+    {
+      "id": "59238002_63",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph015",
+      "cap": "SGC",
+      "first": 28
+    },
+    {
+      "id": "59238002_61",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph015",
+      "cap": "SGC",
+      "first": 24
+    },
+    {
+      "id": "59238002_59",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph015",
+      "cap": "SGC",
+      "first": 20
+    },
+    {
+      "id": "59238002_57",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph015",
+      "cap": "SGC",
+      "first": 16
+    },
+    {
+      "id": "59238002_55",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph015",
+      "cap": "SGC",
+      "first": 12
+    },
+    {
+      "id": "59238002_53",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph015",
+      "cap": "SGC",
+      "first": 8
+    },
+    {
+      "id": "59238002_51",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph015",
+      "cap": "SGC",
+      "first": 4
+    },
+    {
+      "id": "59238002_49",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph015",
+      "cap": "SGC",
+      "first": 0
+    },
+    {
+      "id": "59238002_47",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph014",
+      "cap": "SGC",
+      "first": 28
+    },
+    {
+      "id": "59238002_45",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "1:30:00",
+      "phase": "ph014",
+      "cap": "SGC",
+      "first": 24
+    },
+    {
+      "id": "59238002_190",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "Loa",
+      "cap": "NGC",
+      "first": 28
+    },
+    {
+      "id": "59238002_188",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "Loa",
+      "cap": "NGC",
+      "first": 24
+    },
+    {
+      "id": "59238002_186",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "Loa",
+      "cap": "NGC",
+      "first": 20
+    },
+    {
+      "id": "59238002_184",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "Loa",
+      "cap": "NGC",
+      "first": 16
+    },
+    {
+      "id": "59238002_182",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "Loa",
+      "cap": "NGC",
+      "first": 12
+    },
+    {
+      "id": "59238002_180",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "Loa",
+      "cap": "NGC",
+      "first": 8
+    },
+    {
+      "id": "59238002_178",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "Loa",
+      "cap": "NGC",
+      "first": 4
+    },
+    {
+      "id": "59238002_176",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "Loa",
+      "cap": "NGC",
+      "first": 0
+    },
+    {
+      "id": "59238002_174",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph006",
+      "cap": "NGC",
+      "first": 28
+    },
+    {
+      "id": "59238002_172",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph006",
+      "cap": "NGC",
+      "first": 24
+    },
+    {
+      "id": "59238002_170",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph006",
+      "cap": "NGC",
+      "first": 20
+    },
+    {
+      "id": "59238002_168",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph006",
+      "cap": "NGC",
+      "first": 16
+    },
+    {
+      "id": "59238002_166",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph006",
+      "cap": "NGC",
+      "first": 12
+    },
+    {
+      "id": "59238002_164",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph006",
+      "cap": "NGC",
+      "first": 8
+    },
+    {
+      "id": "59238002_162",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph006",
+      "cap": "NGC",
+      "first": 4
+    },
+    {
+      "id": "59238002_160",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph006",
+      "cap": "NGC",
+      "first": 0
+    },
+    {
+      "id": "59238002_158",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph005",
+      "cap": "NGC",
+      "first": 28
+    },
+    {
+      "id": "59238002_156",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph005",
+      "cap": "NGC",
+      "first": 24
+    },
+    {
+      "id": "59238002_154",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph005",
+      "cap": "NGC",
+      "first": 20
+    },
+    {
+      "id": "59238002_152",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph005",
+      "cap": "NGC",
+      "first": 16
+    },
+    {
+      "id": "59238002_150",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph005",
+      "cap": "NGC",
+      "first": 12
+    },
+    {
+      "id": "59238002_148",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph005",
+      "cap": "NGC",
+      "first": 8
+    },
+    {
+      "id": "59238002_146",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph005",
+      "cap": "NGC",
+      "first": 4
+    },
+    {
+      "id": "59238002_144",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph005",
+      "cap": "NGC",
+      "first": 0
+    },
+    {
+      "id": "59238002_142",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph004",
+      "cap": "NGC",
+      "first": 28
+    },
+    {
+      "id": "59238002_140",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph004",
+      "cap": "NGC",
+      "first": 24
+    },
+    {
+      "id": "59238002_138",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph004",
+      "cap": "NGC",
+      "first": 20
+    },
+    {
+      "id": "59238002_136",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph004",
+      "cap": "NGC",
+      "first": 16
+    },
+    {
+      "id": "59238002_134",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph004",
+      "cap": "NGC",
+      "first": 12
+    },
+    {
+      "id": "59238002_132",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph004",
+      "cap": "NGC",
+      "first": 8
+    },
+    {
+      "id": "59238002_130",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph004",
+      "cap": "NGC",
+      "first": 4
+    },
+    {
+      "id": "59238002_128",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph004",
+      "cap": "NGC",
+      "first": 0
+    },
+    {
+      "id": "59238002_126",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph019",
+      "cap": "NGC",
+      "first": 28
+    },
+    {
+      "id": "59238002_124",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph019",
+      "cap": "NGC",
+      "first": 24
+    },
+    {
+      "id": "59238002_122",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph019",
+      "cap": "NGC",
+      "first": 20
+    },
+    {
+      "id": "59238002_120",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph019",
+      "cap": "NGC",
+      "first": 16
+    },
+    {
+      "id": "59238002_118",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph019",
+      "cap": "NGC",
+      "first": 12
+    },
+    {
+      "id": "59238002_116",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph019",
+      "cap": "NGC",
+      "first": 8
+    },
+    {
+      "id": "59238002_114",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph019",
+      "cap": "NGC",
+      "first": 4
+    },
+    {
+      "id": "59238002_112",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph019",
+      "cap": "NGC",
+      "first": 0
+    },
+    {
+      "id": "59238002_110",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph018",
+      "cap": "NGC",
+      "first": 28
+    },
+    {
+      "id": "59238002_108",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph018",
+      "cap": "NGC",
+      "first": 24
+    },
+    {
+      "id": "59238002_106",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph018",
+      "cap": "NGC",
+      "first": 20
+    },
+    {
+      "id": "59238002_104",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph018",
+      "cap": "NGC",
+      "first": 16
+    },
+    {
+      "id": "59238002_102",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph018",
+      "cap": "NGC",
+      "first": 12
+    },
+    {
+      "id": "59238002_100",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph018",
+      "cap": "NGC",
+      "first": 8
+    },
+    {
+      "id": "59238002_98",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph018",
+      "cap": "NGC",
+      "first": 4
+    },
+    {
+      "id": "59238002_96",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph018",
+      "cap": "NGC",
+      "first": 0
+    },
+    {
+      "id": "59238002_94",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph017",
+      "cap": "NGC",
+      "first": 28
+    },
+    {
+      "id": "59238002_92",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph017",
+      "cap": "NGC",
+      "first": 24
+    },
+    {
+      "id": "59238002_90",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph017",
+      "cap": "NGC",
+      "first": 20
+    },
+    {
+      "id": "59238002_88",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph017",
+      "cap": "NGC",
+      "first": 16
+    },
+    {
+      "id": "59238002_86",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph017",
+      "cap": "NGC",
+      "first": 12
+    },
+    {
+      "id": "59238002_84",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph017",
+      "cap": "NGC",
+      "first": 8
+    },
+    {
+      "id": "59238002_82",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph017",
+      "cap": "NGC",
+      "first": 4
+    },
+    {
+      "id": "59238002_80",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph017",
+      "cap": "NGC",
+      "first": 0
+    },
+    {
+      "id": "59238002_78",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph016",
+      "cap": "NGC",
+      "first": 28
+    },
+    {
+      "id": "59238002_76",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph016",
+      "cap": "NGC",
+      "first": 24
+    },
+    {
+      "id": "59238002_74",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph016",
+      "cap": "NGC",
+      "first": 20
+    },
+    {
+      "id": "59238002_72",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph016",
+      "cap": "NGC",
+      "first": 16
+    },
+    {
+      "id": "59238002_70",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph016",
+      "cap": "NGC",
+      "first": 12
+    },
+    {
+      "id": "59238002_68",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph016",
+      "cap": "NGC",
+      "first": 8
+    },
+    {
+      "id": "59238002_66",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph016",
+      "cap": "NGC",
+      "first": 4
+    },
+    {
+      "id": "59238002_64",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph016",
+      "cap": "NGC",
+      "first": 0
+    },
+    {
+      "id": "59238002_62",
+      "name": "e2e-exterior",
+      "state": "PENDING",
+      "limit": "2:30:00",
+      "phase": "ph015",
+      "cap": "NGC",
+      "first": 28
+    }
+  ],
+  "groups": {
+    "e2e-ext-summary": 1,
+    "e2e-ext-website": 1,
+    "e2e-ext-scores": 1,
+    "ph015": 11,
+    "Loa": 16,
+    "ph006": 16,
+    "ph005": 16,
+    "ph004": 16,
+    "ph019": 16,
+    "ph018": 16,
+    "ph017": 16,
+    "ph016": 16,
+    "ph014": 2
+  },
+  "decision": "Cancel pending old exterior production and downstream scoring/publication; preserve existing outputs. Stage A uses existing ph012/ph013 draws and keeps confirmation sealed."
+}

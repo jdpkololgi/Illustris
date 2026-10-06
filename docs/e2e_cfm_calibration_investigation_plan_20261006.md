@@ -340,10 +340,11 @@ artifact path/hash and next action.
 
 - [x] Record objective, restricted scope and independence from P12-A submission.
 - [x] Specify questions, controls, decision rules and proposed compute envelopes.
-- [ ] Approve first execution envelope and freeze the initial metric manifest.
-- [ ] Complete A0 integrity and synthetic sensitivity controls.
-- [ ] Complete A1 factor/composition and B1/B2 science-facing scorecards.
-- [ ] Decide whether A2 or precision expansion is needed and authorize it.
+- [x] Approve Stage A execution and freeze the initial metric manifest on 6 October.
+- [x] Complete A0 controls and A1/A2 full-panel numerical integrity checks.
+- [x] Complete A1 factor/composition scorecards; cached density widths beyond 90% remain unavailable.
+- [x] Authorize and complete bounded A2 all-core operator replay; no precision expansion or promotion.
+- [ ] Authorize and complete B1/B2 science-facing scorecards.
 - [ ] Audit B3 properties and freeze its estimator or synthetic generating law.
 - [ ] Select one intervention, or explain why none is justified.
 - [ ] Execute matched comparison only after objective/budget approval.
@@ -353,3 +354,8 @@ artifact path/hash and next action.
 Documentation review on 6 October checked source claims, target distinctions,
 finite-draw references, phase restrictions, local links and scope. No new numerical
 experiment, posterior qualification or execution approval follows from this plan.
+
+The subsequent user authorization and live execution record are in
+[Stage A execution](e2e_stage_a_execution_20261006.md). That record supersedes
+the documentation-only status above for Stage A, not for training, Stage B or
+fresh confirmation.

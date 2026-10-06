@@ -1,5 +1,46 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-06 — Stage A factor calibration and all-core operator replay
+
+User authorizes Stage A and all required compute, plus assessment/cancellation
+of queued work. Only ph012/ph013 scientific payloads opened. No retraining,
+Stage B galaxy/property work, production change or fresh confirmation.
+Cancelled 141 pending old-candidate generation tasks in array59238002 and
+three downstream jobs59238010/59238614/59241627; no running tasks cancelled.
+Completed draws/manifests preserved; queue audit is committed with this record.
+
+A0/A1/A2 complete on all32pairs/64cores x32saved draws. Seven focused tests
+pass. Initial stochastic joint-null pilot failed its50% engineering band;
+preserved failure and raw results. Exact all33member permutation controls
+replace that stochastic pass/fail, without changing scientific tolerances.
+Independent review checks544 A1 arithmetic conditions and matches96 joint
+ranks exactly; A2 replay/trace/truth parity and proper-score checks pass.
+
+Nominal90% reference29/33=87.879%. Byphase012/013: coarse shearRMS coverage
+81.25/87.5%; fineRMS given sampledcoarse62.5/50 vs truecoarse87.5/93.75,
+holding the fine sampler fixed. Coarse mid-credibility and regionaltrace
+also fail the descriptive curve screen; oracle joint gaps81.25/75 remain
+imperfect. Cached voxel density87.24/88.61% does not establish joint calibration.
+Failures include low/middle-redshift and interior strata, not only boundaries.
+
+A2 density-only positive central-linear correction uses each generated draw,
+unchanged physical truth and original distant tides. Mean regional width
+deficit7.647/7.681% ->5.222/5.235%; widthCRPS .03412/.03119 ->.02857/.02450.
+Widthcoverage59.375/59.375 ->65.625/71.875%; joint4gap50/43.75 ->56.25/68.75%;
+joint6 37.5/50 ->43.75/62.5%. Improvements remain far from calibration.
+Cell fairBrier improves modestly, but classfraction bias is not universally
+improved. Cell diagnostics are not galaxy reliability; discrete joint-fraction
+qualification stays in StageB. Cached density widths beyond90 remain unreported.
+
+Decision: retain operator candidate, do not promote or train automatically.
+Next proposed work is B1/B2 with matched galaxy selection and original/corrected
+operators, requiring separate authorization. Two reused phases cannot certify
+population equivalence. No P12-A or canonical target change.
+A1 took34.82s; A2 369.06s,19.787GiB host/35.475GiB GPU. CPU59397965 and
+GPU59398460 completed/released; final queue empty. Execution, source/input hashes,
+phase/support tables, plots, limitations and preserved failed control:
+`docs/e2e_stage_a_execution_20261006.md`. Scripts `e2e_stage_a_{calibration,reconstruction,review}.py`.
+
 ## 2026-10-06 — [science] Bounded CFM calibration investigation protocol
 
 User chooses to continue towards an informative, approximately calibrated field
