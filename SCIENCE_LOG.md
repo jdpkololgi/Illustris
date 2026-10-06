@@ -1,5 +1,28 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-06 — [code] Tier 2 fits complete; authorized scientific evaluation in preparation
+
+User explicitly requests the frozen development sweep and conclusions, approving
+all necessary compute. Training59429879 completed0:0; control and augmented
+both reached3328updates. This supersedes the historical running status below.
+Training completion alone is NOT evidence for conditioning augmentation.
+
+Keep model snapshot272b178 and frozen profile07b816e unchanged. New evaluation
+extensions import that immutable snapshot; no checkpoint-bound module is edited.
+Full-cap control ph012SGC/d000 smoke is running59433919/nid200361,1GPU/1h.
+True-coarse local oracle smoke59434024 completed0:0: exact parent field replay,
+all six settings, max mass error4.42e-16,19.43s application time. This is an
+engineering test, not a coverage or oracle-gate result. Parent full-cap scoring
+parity smoke59434167 has started. No production sweep submitted at this entry.
+
+The full sweep contains192 four-draw fine-generation batches plus reused parent
+fields and oracle diagnostics; only ph012/013, both caps, original32draws/pairs.
+Current gates, physical R7 truth, corrected primary/original comparator and
+whole-draw paired MC rules are unchanged. All settings must be reported; no
+sealed/confirmation phases, extra training, alpha sweep or deployment. Staged
+source/config provenance, measured resource estimate and passed representative
+smokes precede any finalized batch handoff. No automatic failed-job retries.
+
 ## 2026-10-06 — [science/code] Full-box Abacus eigenvalue PDFs and spectra measured
 
 User-approved one-node/64-CPU/one-hour analysis completed as59431063,

@@ -2,6 +2,70 @@
 
 ## Execution status
 
+### Evaluation authorization and implementation (2026-10-06)
+
+Both3328-update fits completed successfully in59429879. The user now explicitly
+requests the full frozen development-panel sweep and its scientific conclusions,
+approving all necessary compute. The older launch-only status below is historical.
+
+Evaluation extensions leave model snapshot272b178 and its configuration unchanged.
+Sampling/oracle inference import that training snapshot; capwise physical scoring
+imports the original78156ac3417555ef269f evaluation snapshot required by the
+selection-freeze hashes. An initial extraction smoke correctly refused the wrong
+snapshot before truth access. Its failed directory is retained; guards were not
+relaxed. New code is source-bound separately under `evaluation_v1/source`.
+
+The launch grid has224 compact-core extraction tasks:32 reused-parent tasks plus
+192 new fine-generation tasks (six settings x four phase/cap panels x eight
+four-draw batches). The original cached coarse endpoints and fine noise addresses
+remain paired. Each source field is hash-verified before reuse. Separate oracle
+evaluation covers all32 original production windows and32draws, with exact parent
+field replay before any continuation scores. It retains the original common
+coarse-only fill on uncovered local-window cells.
+
+`configs/e2e_cfm_conditioning_evaluation_v1.json` makes scoring details explicit:
+corrected operator primary, original comparator; physical R7 truth unchanged;
+Stage C joint interior statistic uses the first three fixed fractions per core
+(six-vector), equal pair weighting and the original galaxy counts at threshold.2.
+Four-class/core, centered, cross-core and directional moment results are also
+reported. Regional gap energy uses the paired four-gap vector; fraction energy
+uses the same interior six-vector. Brier is pooled over cells or fixed galaxy
+multiplicities, separately by phase. Threshold0 is descriptive sensitivity only.
+Original-operator proper-score comparisons are reported, not added as a new gate.
+
+Whole-draw bootstrap score kernels are algebraically identical to recomputing fair
+energy/Brier after resampling32addresses. Seven focused tests check direct
+resampling, inclusive ties, moment ratios, unchanged-control comparisons and the
+complete task grid. Marginal-curve bootstrap uses exact counts relative to truth,
+not interpolated quantiles. Its bands and the interior-ratio bands are MC
+sensitivities; they do not replace the previously frozen point-estimate screens.
+
+Engineering results before full batch submission:
+
+- Oracle smoke59434024: exact cached parent replay; all six settings;19.43s;
+  maximum block-mass error4.42e-16. No scientific gate result inferred.
+- Original/corrected cap extraction59434274: exact saved Stage A means and Stage B
+  labels;31.58s,35.47GiB peak GPU,19.94GiB host RSS on ph012NGC/d000.
+- Recompletion59434519 reproduces the saved parent exterior before extraction;
+  final receipt, not scheduler completion alone, governs acceptance.
+- Fine-only ph012SGC control benchmark59433919 is underway; NGC benchmark is
+  also requested. Completed benchmark fields are reused in the full grid.
+
+Planning estimate from the parent replay and existing cap timings: roughly
+150--200 single-GPU hours for the complete fine-generation grid, plus a few hours
+for oracle/extraction/scoring; this is not a measured final cost. At most eight
+independent full-cap GPU tasks run concurrently. Use one80GB GPU and32logical
+CPUs per shared-QOS task,2h maximum, explicit Scratch license. GPU kernels
+remain single-device; no distributed numerical rewrite. CPU score tasks use
+one node/64CPUs/1h. A completed full-parent scoring pass must reconcile the
+saved baseline before the new-field array is submitted. No automatic failed-job
+retry; partial directories and logs remain intact.
+
+Full task/config/source hashes and actual job IDs belong in the evaluation
+manifest and subsequent science-log entries. Sealed phases remain untouched.
+No successful augmentation or selected strength is claimed before all registered
+scores and oracle checks have completed.
+
 Current replacement:59429879/nid200280, one GPU/1h50m, foreground salloc/srun
 launcherab498a3. The prior squeue-based release check incorrectly ended59429391
 while its replay was running; neither continuation ran. That interrupted empty
