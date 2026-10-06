@@ -1,5 +1,21 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-06 — [validation] Large-cap Tier 2 generation benchmark passes
+
+ph012/NGC control/s0/d000 job59434621 completed0:0 in1h00m06s.
+NFE128,4draws: loading36.01s, sampling3548.33s, peakGPU26.75GiB,
+max decoder mass error4.72e-16. FieldSHA256
+8ece2eaa5a725d725fbc1cb9574c7868b352aa905752fe6d4cbe9785076bcc8d;
+the field is retained for its registered production-grid task32.
+Together with the passed SGC benchmark, measured generation time is roughly
+143single-GPU hours for192batches at these two cap sizes, before extraction,
+oracle/scoring and queue time;150--200GPUh remains the planning envelope.
+
+No posterior claim follows from this engineering pass. Parent extraction is
+12/32complete; parent scoring59436500 still waits on its full array dependency.
+Oracle59434902 continues. New-field production remains unsubmitted until the
+registered full-parent score reconciliation succeeds.
+
 ## 2026-10-06 — [validation] Independent Tier 2 score QA passes
 
 CPU interactive job59436416 completed0:0 (18s allocation,0.913s calculation).
