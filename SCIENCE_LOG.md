@@ -1,5 +1,22 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-06 — [code] Foreground Tier 2 execution active on replacement allocation
+
+Job59429879/nid200280 is RUNNING under foreground salloc/srun ownership:
+one GPU,32CPUs, shared_interactive/desi_g,1h50m, Scratch license. Launcher
+commitab498a3; model snapshot272b178 and frozen profile unchanged. Step.0
+has active CPU/RSS telemetry and no reported error at this check. The current
+application stage is NFE128 cached-coarse parent replay, NOT a completed fit.
+Logs: v3 `execute_foreground.log` and `execute_foreground.err`.
+
+The foreground command must complete before salloc releases its allocation;
+there is no squeue-based completion detector. Replay failure stops the script.
+Success permits the two registered fine continuations, at most3328updates
+and1500seconds each, with checkpoints. No auto retry/resubmission, full-panel
+generation/scoring, or sealed-phase access. Earlier interrupted replay and
+valid smoke artifacts remain intact. Current job replaces59429391; historical
+running statements below are not live scheduler status.
+
 ## 2026-10-06 — [code] Correct early allocation release before any Tier 2 fit
 
 Post-launch verification caught termination of replay step59429391.3 after

@@ -4,9 +4,11 @@
 
 Tier2 paired conditioning augmentation is authorized and gates are frozen.
 Use saved coarse endpoints plus conditioning noise (non-truncated variant);
-uncorrupted endpoints still set decoder mass. GPU smoke passes; job59429391
+uncorrupted endpoints still set decoder mass. GPU smoke passes; job59429879
 executes cached-coarse replay, then ONLY on success two bounded continuations.
-Snapshot272b178/v3; protocol `docs/e2e_cfm_conditioning_augmentation_20261006.md`.
+Snapshot272b178/v3, foreground launcherab498a3; prior59429391 was released
+early and its incomplete replay preserved. Protocol
+`docs/e2e_cfm_conditioning_augmentation_20261006.md`.
 No full generation-grid/scoring or scientific improvement result yet.
 
 Tier1 development-core analysis now defaults to the density-only corrected

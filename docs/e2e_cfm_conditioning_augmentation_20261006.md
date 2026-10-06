@@ -2,6 +2,13 @@
 
 ## Execution status
 
+Current replacement:59429879/nid200280, one GPU/1h50m, foreground salloc/srun
+launcherab498a3. The prior squeue-based release check incorrectly ended59429391
+while its replay was running; neither continuation ran. That interrupted empty
+replay directory and logs are preserved. The replacement has no release poller:
+salloc waits for its foreground command, including both gated training arms.
+Scientific gates/config/model source remain unchanged. No results yet.
+
 Started on GPU allocation59429391/nid200312 (single GPU,2h). Snapshot272b178
 is staged under Scratch `cfm_conditioning_augmentation_20261006_v3/source`.
 The v3 smoke passes exact parent forward and serialized update/EMA replay;
