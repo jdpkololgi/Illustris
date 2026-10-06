@@ -19,6 +19,12 @@ no requeue:59434901 array0--31%4 for the32reused-parent core extractions;
 at this check. Full-parent scoring must reconcile existing scientific scores
 before the192new-field batch tasks are submitted. No new-field array yet.
 
+Operational update: parent tasks0/1 subsequently completed successfully. Reduce
+only pending parent extraction tasks2--31 to15min (measured31.58s extraction)
+for backfill; scheduler confirmed the new limit. Finished tasks are untouched.
+Oracle and fine-sampling limits, task/source manifest and scientific rules stay
+unchanged. This is a resource-limit reduction, not a retry or model decision.
+
 Resource planning: approximately150--200GPUh for new fine draws, plus oracle
 and scoring; six new compressed density banks estimated53.18GiB from existing
 field sizes, with ample Scratch quota. At most8full-cap GPU tasks concurrently.
