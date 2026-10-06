@@ -177,6 +177,14 @@ distribution of regional fractions.
 
 ### B3 One end to end property estimator
 
+**2026-10-06 scope update:** B3 is deferred, not a prerequisite for the
+authorized CFM field-coverage intervention. Obtaining mock CIGALE properties
+is outside the user's remit. Existing observed Loa/CIGALE matches support
+descriptive property science, not truth-based mock estimator coverage. No
+synthetic property painting or property-estimator implementation is bundled
+into the field intervention. The historical B3 proposal below remains a
+separate future qualification requirement for property-science claims.
+
 Proposed first demonstrator: filament-minus-wall low-sSFR fraction contrast,
 log10(sSFR/yr^-1) < -11, with common mass/redshift support and standardization.
 This does not assert that suitable physical mock properties already exist.
@@ -250,6 +258,14 @@ independent realizations cannot resolve these, the estimator remains unqualified
 even when field screens pass. These are proposed tolerances requiring a freeze.
 
 ## Stage C Select one defensible intervention
+
+**2026-10-06 follow-on:** the user authorizes proceeding with a bounded
+coverage intervention and matched control, with B3 deferred. The first
+registered candidate is a fixed whole-model seed17/seed29 mixture, not a new
+training objective. See `e2e_cfm_model_mixture_20261006.md` for its hypothesis,
+matched-sampler requirement, score gates and staged compute approval boundary.
+This does not retroactively promote Stage C's failed probes or authorize
+Slurm operations, blind-phase access or an open-ended training search.
 
 Register one hypothesis, one candidate and one primary calibration discrepancy
 from the A/B scorecard before fitting. The following routes guide investigation,

@@ -176,7 +176,7 @@ def prepare(phase, cap, out):
     print(json.dumps({k: v for k, v in record.items() if k not in ('condition_sha256', 'sources')}), flush=True)
 
 
-def run(root, out, first=0, count=4, nfe=128, benchmark=False, freeze=None):
+def run(root, out, first=0, count=4, nfe=128, benchmark=False, freeze=None, model_seed=17, comparison=None):
     c.require_compute()
     import torch
     from workflows.sbi import e2e_loa_field_sampling as sampling
@@ -188,6 +188,9 @@ def run(root, out, first=0, count=4, nfe=128, benchmark=False, freeze=None):
     prepared = json.loads((root/'PREPARED.json').read_text())
     phase, cap = prepared['phase'], prepared['cap']
     inference_guard(phase, freeze)
+    from workflows.sbi.e2e_cfm_mixture_contract import sampler_seed_guard
+    registered = None if comparison is None else json.loads(comparison.read_text())
+    sampler_seed_guard(model_seed, phase, benchmark, freeze, registered)
     if count != 4 or first < 0 or first % 4 or nfe != 128:
         raise ValueError('Registered four-draw NFE128 batch required')
     if not prepared['targetless'] or prepared['plan_sha256'] != c.sha256(root/'PLAN.json'):
@@ -197,7 +200,13 @@ def run(root, out, first=0, count=4, nfe=128, benchmark=False, freeze=None):
     plan = json.loads((root/'PLAN.json').read_text())
     sampling.setup(True)
     cg, fg = (Geometry.make(plan['midpoints'], stage) for stage in ('coarse', 'fine'))
-    models, hashes, normalizer = old.load_models(17, 13312, 26624); chart = views.load_chart(normalizer)
+    models, hashes, normalizer = old.load_models(model_seed, 13312, 26624); chart = views.load_chart(normalizer)
+    if registered is not None:
+        if (first+count > 32 or hashes != registered['checkpoints'][str(model_seed)]
+                or normalizer != registered['normalizer']
+                or c.sha256(root/'PREPARED.json') != registered['prepared'][phase+'/'+cap]
+                or c.sha256(__file__) != registered['sources']['workflows/sbi/e2e_exterior_fullcap.py']):
+            raise ValueError('Mixture generation binding changed')
     if freeze is not None:
         selected = json.loads(freeze.read_text())
         if (hashes != selected['checkpoints'] or normalizer != selected['normalizer']
@@ -205,6 +214,8 @@ def run(root, out, first=0, count=4, nfe=128, benchmark=False, freeze=None):
             raise ValueError('Frozen sampler or checkpoints changed')
     out.mkdir(parents=True, exist_ok=False)
     binding = dict(phase=phase, cap=cap, first=first, draws=count, nfe=nfe, benchmark=benchmark,
+                   model_seed=model_seed,
+                   comparison_sha256=None if comparison is None else c.sha256(comparison),
                    checkpoints=hashes, normalizer=normalizer, prepared_sha256=c.sha256(root/'PREPARED.json'),
                    runner_sha256=c.sha256(__file__),
                    integrator_sha256=c.sha256(c.REPO/'workflows/sbi/e2e_global_canvas.py'),

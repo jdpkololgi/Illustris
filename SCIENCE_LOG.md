@@ -1,5 +1,193 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-06 — [science/code] Repository closeout and Tier 2 conditioning proposal
+
+User requests that all completed work be committed and supplies a revised
+paired-noise fine-tuning proposal. Preserve and commit the pending diagnostic,
+mixture/futility and Tier 1 implementation, tests and scientific write-ups.
+The prior dated entries below retain the results and stop decisions; this is
+repository closeout, not a rerun or reversal of their scientific conclusions.
+
+Next proposed experiment: noising only the paired true coarse conditioning in
+the existing standardized log-density CFM bridge, retain true within-block
+shape targets, supply s separately, and decode with uncorrupted sampled block
+masses. Include equal-budget s=0 fine continuation and frozen-parent anchor.
+Two training arms plus fine sampling/scoring are required, not one total run.
+At s=0 the INPUT is unchanged; fine-tuned weights need not equal the parent.
+
+Paper check distinguishes truncated coarse trajectories (Ho section3.2) from
+completed-draw re-noising (section3.3). Recommend the latter to reuse saved
+coarse endpoints, explicitly called non-truncated conditioning augmentation.
+User explicitly selects saved draws plus conditioning noise after clarification.
+CFM convention C_s=(1-s)C+s*eta, s=1-t. New conditioning and unchanged decoder
+must stay separate; exact mass still does not prove the correct joint law.
+
+Read-only metadata confirms32complete four-draw seed17batches across012/013
+NGC/SGC, each with coarse_logrho_standardized:128cap-level draws. Full payload
+rehashing and unchanged fine replay remain preflight requirements; a fine-only
+reuse runner does not yet exist. No intermediate trajectory availability claimed.
+
+Protocol: `docs/e2e_cfm_conditioning_augmentation_20261006.md`. It records
+proposed paired training budget/noise grid, two-sided power/moment gates,
+oracle/marginal/proper-score checks and mandatory regional/joint curves.
+Oracle noninferiority tolerance and precision rule remain to freeze before
+running. All s outcomes must be reported; selected development success is not
+independent confirmation. Failure rejects this fix, not factorization itself.
+
+Verification:36pending Python sources parse;43focused tests run in2.903s,
+42pass/1GPU-only skip. Compact cached-field metadata only, no intensive
+login-node run. Queue empty at check. Graphify query works after cosmic_env
+activation; no code changed in this closeout and no graph refresh attempted
+after the earlier safety rejection. No new allocation, model fitting, sample
+generation, 014–017payload, 018/019/001access or production change. Slurm
+submission still needs explicit approval; Tier2 remains a proposal, not launched.
+
+## 2026-10-06 — Tier 1 analysis adoption; unnecessary mixture generation cancelled
+
+User asks to execute Tier1 and cancel unnecessary running work. Cancelled
+mixture59422691, confirmedCANCELLED after3h16m41s; five complete seed29 batches
+and four partial batches preserved, no deletion/retry. No jobs remain queued.
+
+Adopt corrected positive central-linear density-only tidal operator as default
+for a NEW source-bound development-core analysis interface, not production.
+Profile `configs/e2e_cfm_analysis_v1.json`; loader
+`workflows/sbi/e2e_cfm_analysis_products.py`. Existing StageA/B32draw products,
+32pairs/64cores,012/013 only, physicalR7truth and galaxy weights unchanged.
+Selected eigenvalue summaries, cell probabilities and fractions use the SAME
+operator; original is an explicit comparator. Frozen cap/Loa products untouched.
+
+Evidence audit corrects “regional density is validated”: current core-mass90
+coverage78.125/93.75% vs87.879%reference and full curves fail in both phases.
+Cell density AND each individual cell tidal eigenvalue DO pass the phase-level
+0.05curve screen, under both operators for tides. This is development marginal
+evidence, not spatial/population qualification. Class probabilities informative
+but reliability failures remain; corrected regional/class joint coverage fails.
+Boundary near-unit moments are not a calibration pass; property contrasts untested.
+
+Actual four training bindings confirm alpha.30, EMA.999, cosineLR1e-4→1e-5,
+train-only spectrum weighting. Alpha is provisional, not newly introduced.
+Tier2 critique: independent coarse draws with unchanged fine-shape targets
+change the joint conditional law despite exact mass. Paired-noise augmentation
+is a testable surrogate, not an automatic fix; one failure does not prove a
+structural need for joint flow. Ho et al. image results motivate, not validate,
+cosmological posterior augmentation. Restore power AND calibration/proper scores.
+
+Optional summary recalibration NOT fitted: requires a frozen estimator and
+precision plan;014–017 are already exposed replication phases, not blind tests.
+018/019/001 remain sealed. No Tier2 fit, alpha sweep or finer-grid run launched.
+Five tests and160panel parity checks pass; bounded compact-product assembly1.77s,
+no new Slurm request. Manifest/evidence under Scratch `cfm_tier1_analysis_20261006_v1`.
+Details and talk-safe inventory: `docs/e2e_cfm_tier1_and_levers_20261006.md`.
+
+## 2026-10-06 — Cheap target-specific mixture screen: hold further generation
+
+User authorizes a target-specific futility check before another generation
+segment. Freeze eight matched17/29draws, both012/013SGC, all8pairs perphase,
+original operator, physicalR7truth, StageB selection; interior fractions4pairs
+perphase. No new draws/training/NGC/confirmation reads. Fixed thresholds and
+1024paired draw-address bootstrap sensitivities; no iid-region inference.
+
+Between-model covariance trace is small relative to matched seed17 variance:
+gaps1.58/1.21%, interior fractions0.66/3.79%. Total mixture variance changes
+−3.00/+0.58% and+7.46/−4.41%, respectively: component averaging can narrow it.
+Mixture fair-energy improvements: gaps+0.29/−3.41%, fractions+0.93/−11.59%.
+Ph013gap deterioration is stable across4drawhalves and its conditional bootstrap
+band; fraction result is noisy (halves+5.20/−21.77%, band includes benefit).
+Seed29 alone does not consistently improve on17. No coverage gate scored.
+
+Predeclared negligible-effect rule does NOT fire: `material_effect_detected`
+from directional covariance/mean changes. This is not beneficial-effect
+evidence. Resource decision: hold further generation; no second segment or
+automatic resume. Current59422691 is left unchanged, not cancelled. The screen
+does not mathematically exclude benefits elsewhere or complete the32drawgate.
+
+Six tests and8,440 independent arithmetic checks pass; original cell classes
+exactly replay StageB, gaps match StageA within2e-7. CPU59426886/nid200036,
+analysis22.11s, no additionalGPU. Source-bound results under mixture_v2's
+`futility_v1`; protocol/result in `docs/e2e_cfm_mixture_futility_20261006.md`
+and `docs/e2e_cfm_mixture_futility_results_20261006.md`.
+
+## 2026-10-06 — Full matched mixture comparison authorized interactively
+
+Question: does existing seed17/29 model variation improve BOTH regional
+tidal-gap and interior galaxy-fraction calibration without losing predictive
+information? Fixed50:50 whole-realization mixture versus both components,
+matched full-cap NFE128, original/secondary corrected operators,32draws each,
+existing012/013 panel. No training/B3/new-phase access or production change.
+
+User explicitly authorizes interactive jobs to complete the comparison.
+Measured pre-scoring cost about50GPUh requires multiple bounded segments;
+at most two allocations, independent single-GPU workers, no batch submission
+or automatic failed-task retry. First check exact full-NFE baseline replay in
+each cap before generating its seed29 batches. Immutable source/manifest and
+outputs: Scratch `e2e_field_v3/cfm_model_mixture_20261006_v2` (v1 retained
+as a source-staging failure only; no scientific task ran there).
+Prior scientific conclusions remain unchanged: the shortened pilot established
+compatibility, not coverage repair. Launch and final gates recorded separately.
+
+First segment launched:59422691 on nid008292, four independent GPUs,4h limit,
+interactive/desi_g. All four full-length baseline replay tasks claimed;15
+focused tests pass on compute. Manifest732423f715435080d3ca85cf82cc3afa91171735fd68e0150e42ef4adbd9aef9.
+Remaining tasks require further interactive segments and matched scoring;
+no automatic resubmission or scientific success is claimed. Repository graph
+refresh blocked by safety review; no bypass. Protocol records commands/limits.
+
+## 2026-10-06 — Model-mixture pilot: comparability established, coverage untested
+
+Scientific question: can independently trained model diversity repair regional
+tidal-gap and interior fraction coverage, rather than just widen intervals?
+User approves a one-hour shared-GPU/30minute CPU technical pilot and requests
+all reporting be framed by scientific objectives, questions and interpretation.
+
+Historical NFE128 SGC batch takes~50minutes, so before scoring the pilot is
+restricted to complete SGC canvases in012/013 at NFE2, four draws each:
+immutable reference17, extended-interface17 and extended-interface29. All six
+runs pass. Both phases reproduce reference coarse/fine states exactly for17;
+29 has distinct checkpoints/states with identical normalizer, observations,
+geometry and overlap weights. First-window decoder positivity/mass checks
+pass with worst relative error4.51e-16. Peak GPU14.20GiB/host1.56GiB.
+
+Meaning: no interface-induced change is detected in these shortened trajectories,
+and the two model components are technically comparable in this bounded test.
+This is NOT NFE128 parity, convergence, tidal validation or coverage evidence.
+No scientific truth/scoring, training, B3 or untouched-phase access occurred.
+
+Actual comparison is not a cheap saved-draw mixture: existing full-length rates
+imply42.25GPUh second-model generation +2.08tides +.47loading/setup, plus5.28h
+sampling for a four-cap full-length baseline replay if included. Verification,
+corrected-operator replay and scoring remain additional. Approximately79.94GiB
+new density/tidal products under current storage. No full-panel approval assumed.
+
+Fourteen tests and124 independent receipt/invariant checks pass. GPU59422033
+COMPLETED0:0 in10m05s and released; no separate CPU allocation. Graphify AST
+refresh again fails filesystem flock Errno524. Protocol/result:
+`docs/e2e_cfm_model_mixture_pilot_20261006.md`; source-bound SUMMARY/REVIEW under
+Scratch `e2e_field_v3/cfm_mixture_pilot_20261006_v1`. Coverage hypothesis remains
+untested; full scientific comparison needs separate resource authorization.
+
+## 2026-10-06 — B3 deferred; first field-coverage intervention registered
+
+User explicitly places mock CIGALE properties outside scope and authorizes
+one hypothesis-driven coverage intervention with a matched unchanged control.
+B3 is deferred, not a field-posterior prerequisite. Property-estimator validity
+remains necessary only for corresponding downstream property-science claims.
+
+First candidate: fixed50:50 whole-model mixture of existing seed17/29 CFM
+pipelines; unchanged seed17 is primary control, seed29 alone is diagnostic.
+No new energy-score or preservation-loss training. Test useful between-model
+variation, without assuming it causes the interior fraction/anisotropy defects.
+Historical seed29 local+wide draws are incompatible with current full-cap
+draws and must not be pooled. Match sampler, operator, targets and selection.
+
+Protocol `docs/e2e_cfm_model_mixture_20261006.md` freezes two phasewise
+co-primary coverage discrepancies, G3/G4 and nonregression requirements,
+whole-realization component selection, and a no-retuning stop gate. Both
+defects must improve; this is an investment screen, not qualification.
+Execution manifest/runner and bounded parity/throughput pilot remain pending.
+No new compute submitted, training started, output changed or sealed phase
+opened. Separate explicit Slurm approval is required before the technical pilot;
+full-panel generation and fresh confirmation are later resource decisions.
+
 ## 2026-10-06 — Stage C saved-draw mechanism diagnosis and no-fit decision
 
 User approves mechanism discrimination and compute. All32pairs/64cores,
@@ -150,6 +338,323 @@ no automatic conditioning augmentation, longer training or VAC change.
 
 Documentation-only authorization: protocol resource caps are proposals, not
 Slurm approval. No new compute, phase opening or scientific result in this entry.
+
+## 2026-10-05 — Mass-conserving conditioning/decoder ablation
+
+User authorizes the next investigation, all necessary compute and resource
+release. Retain012/013 development only; ph001/018/019 sealed. First inspect
+all32pairs x32saved draws; then frozen-weight, common-noise interventions on
+the original fourgeometry-selected pairs. No production or target change.
+
+Important correction to the proposed augmentation mechanism: the latent is
+block-centered LOGdensity u; decode is C*exp(u)/mean_block(exp(u)). Keeping u
+while changing C preserves the NEW masses, not the original physical target.
+Posterior-draw distance from one truth includes legitimate posterior variance,
+not only coarse-model error. Neither a raw correlation nor good average power
+proves the fine model amplifies small model errors. Training independently drawn
+coarse fields against unchanged residual targets alters the joint conditional
+distribution; a valid mass constraint is not proof of posterior correctness.
+
+Saved-draw crossed controls complete onCPU59384745: three shapes(true,
+oracle-conditioned, sampled-conditioned), each decoded with true/sampled masses.
+Pooled fine-shear RMS/truth: true shape1/.96279; oracle shape.99309/.95809;
+sampled-conditioned shape.95049/.94262 (true/sample masses respectively).
+Mass weighting and shape response interact; they are not independent additive
+causes. Comparison uses the SINGLEfine sampler in both conditioning arms.
+
+Within-pair joint-log-coarse-distance vs logfine-shear correlations are
+.0636/.0107(ph012/013) for fixed-canvas-coarse/localfine, not the predicted
+negative trend. Integrated fine-power correlations+.1143/+.2501;
+dimensionless-shape variance+.0583/+.1351. Canvasfine correlations similarly
+weak/nonnegative. This fails to confirm the proposed scalar amplification story,
+but does not rule out directional or cross-scale conditioning errors. Mean
+joint logdensity distance~.260 is not implied by the2%averageRMS deficit.
+Fine-RMS replay discrepancy<5.29e-9relative; positive exactmass tests pass.
+
+GPU59384986 now tests halfway, reflected and Fourier-phase-randomized
+logcoarse displacements on fourpreselectedpairs x32draws. Reflected/randomized
+controls have the same displacementRMS as actualsamples; new shapes are decoded
+with native/true/sampled masses. Endpoints replay savednoise/weights, NFE128.
+Fivefocusedtests and a fourdrawGPUengineeringpilot pass. CPUreleased.
+No augmentation training launched before interpreting these causal controls.
+Protocol: `docs/e2e_conditioning_ablation_20261005.md`; scripts
+`e2e_conditioning_ablation.py`, `e2e_conditioning_intervention.py`.
+
+Interventions COMPLETE: fourpairs/32draws, allmass/trace/displacement and
+endpoint checks pass. With decoder masses fixed totruth, pooledfineRMS/truth
+is.9967oracle,.9457halfway,.9449actualsample,1.2003reflected,1.1286randomized.
+Sample/reflected/randomized have SAMEwide-logdistance.3617; halfway.1808.
+Phasewise actualsample.9550/.9357 vsreflected1.2605/1.1458 andrandomized
+1.1545/1.1051. Same fine noise throughout. Thus coarse-displacement magnitude
+and power alone do not explain weakening; synthetic equal-size perturbations
+can strengthen structure. They are privileged, generally OOD controls, not
+valid posterior replacements or proof of a beneficial augmentation policy.
+Native decoderRMSratios.9258/.9566/1.4988/1.3571(half/sample/reflect/random).
+Endpointrelativeerror<5.96e-8, parentmasserror<4.45e-16. CPU59384745 and
+GPU59384986 completed and released; fivefocusedtests pass.
+
+Decision: no augmentation fitting launched. Independent coarse draws paired
+with an unchanged residual target factorize the training conditional law as
+p(U|G)p_model(C'|G), losing genuine C-U dependence. Noise around pairedtrueC
+is a different, smoothed conditional objective, still not automatically the
+desired posterior. A later empirical training ablation needs this objective
+declared, train-only perturbations, matched unaugmented continuation and
+joint/conditional gates. The present result supports conditioning/dependence
+investigation, NOT the asserted scalar error-amplification mechanism or a
+ready-made augmentation fix. `e2e_conditioning_summary.py` binds finaltables.
+
+## 2026-10-05 — Density-only reconstruction and matched sampler-factor controls
+
+User approves all compute and removal of finished work for the next diagnostic
+set. Strict phases012/013 only; ph001 and fresh018/019 remain sealed. No target
+redefinition, finer-density model, retraining, production change or promotion.
+
+Operator control: reconstruct two positive subcells per axis from saved6.766
+Mpc/h density using constant, central-linear or MC-limited linear reconstruction,
+with exact parent-cell mass. Apply the same analytic cuboid operator and average
+tensors back to the original cells before eigenvalues. Compare local tensor
+corrections with original full-cap true-density tensors and physical full-box
+truth. First four registered geometry cases use collars16/32; expand the same
+three fixed methods to all32development pairs atcollar32. True subcell density
+never enters reconstruction; previous oracle results are scoring-only.
+
+Sampler control: choose the nearest existing production window containing both
+registered cores, deterministically from geometry. Verify all saved canvas
+source hashes and extract observations, coarse fields, raw and completed fine
+density, and truth onto exactly those windows. All32windows have full canvas
+coverage, so no missing-window fill enters the actual experiment. Use the exact
+original global noise seed, shape and spatial crop for each window/draw. Fixed
+seed17 coarse13312/fine26624, chart, TF32 and NFE128 throughout. Five arms:
+saved raw canvas; saved completed canvas; saved canvas coarse plus single-window
+fine; single-window coarse plus single-window fine; oracle true coarse plus
+single-window fine. Allarms share the historical local+wide tidal operator and
+operator-matched truth on identical cells. Retain original full-box truth too.
+This is NOT direct scoring with the production full-cap free-space operator.
+
+The conditional single-fine intervention isolates consensus/context effects
+holding the realised canvas coarse field fixed; local-both additionally changes
+the coarse solve. Oracle-coarse is privileged conditioning, not a posterior
+candidate or a clean binary assignment of every error to one model factor.
+Changing window consensus also changes the surrounding observational context;
+do not equate any measured effect solely with velocity averaging. Raw/completed
+comparison checks sensitivity to density completion within the scored window.
+Record separate coarse and fine-residual tensor contributions and shear RMS;
+scalar eigenvalue widths are nonlinear and must not be additively apportioned.
+
+CPU59382745 and GPU59382896 execute the bounded controls. Four conservative
+reconstruction/shear-metric unit tests pass. First GPU4draw smoke produced all
+fields and passed mass/trace checks but its report called a32draw-only interval
+helper; fixed the smoke reporting to omit coverage, preserve failed outputs,
+and rerun to a separate pilot_v2 directory before full32draw assessment.
+Scripts: `e2e_density_only_reconstruction.py`,
+`e2e_sampler_factor_diagnostic.py`; immutable outputs under campaignverification.
+
+Completed all64 true-coarse reconstruction cores: original physical width
+deficit3.871% -> constant3.548%, central-linear1.366%, MC-limited1.540%.
+Central-linear recovers64.71% of the original deficit, improves every core,
+and leaves1.341%/1.391% byphase. It uses NO true subcells and preserves parent
+mass and trace. Constant subdivision's small improvement is target quadrature,
+not recovered unresolved density modes. No target redefinition or scorer change.
+
+All32pairs x32draws x5 matched sampler arms completed. Pooled matched width
+deficits: canvas3.923%; canvas-coarse/local-fine3.150%; local-both2.625%;
+oracle-coarse/local-fine0.289%. Byphase canvas3.904/3.942%, local-both
+2.601/2.649%, oracle0.247/0.330%. Raw/completed canvas agree exactly inside
+the selected windows. Changing both samplers recovers~33% of this matched
+deficit, with no comparable widthSD increase(.028618->.028679 pooled).
+It changes surrounding context as well as consensus; velocity averaging alone
+is not identified. Allarms use one historical local+wide operator, NOT the
+production free-space operator, so these means are not its additive error budget.
+
+Coarse/fine-residual traceless tensor RMS ratios: canvas.9783/.9271,
+local-both.9858/.9461, oracle1/.9931. Bandwise coarse canvas draw/truthpower
+.923-1.023, error/variance.861-1.087: no large universal low-mode power failure.
+Fine-residual power is broadly suppressed(.787-.913), partly restored by
+local-both(.824-.944), nearly restored by oraclecoarse(.957-1.007).
+This is coarse-conditioning sensitivity, not a binary proof that only the
+coarse factor is wrong; conditioning, alignment and cross-scale dependence
+remain confounded. Rectangular correlated-window spectra are not global modes.
+
+Jointfour-gap90coverage remains68.75% in EACHphase for canvas, fixed-coarse
+local-fine and local-both. Local-both de-meaned scatter/covariance eigenvalues
+remain[.436,1.237,1.784,2.400]/[.394,1.119,1.497,2.270]. Oracle jointcoverage
+81.25/75% is not qualification; its widthSD shrinks to.007357 because true
+coarse density removes genuine uncertainty. Oracle trace is deterministic:
+FP32conditioning O(1e-9) residuals divided by O(1e-15)SD make raw per-case
+z/coverage meaningless; reviewed summary suppresses them and checks mass.
+
+Decision: retain physical target and investigate coarse/fine conditioning and
+cross-scale dependence before a low-mode architecture or longer training.
+Density-only reconstruction is a candidate requiring full-cap/posterior gates,
+not a release. Details and claim boundaries:
+`docs/e2e_density_sampler_diagnostics_20261005.md`. Fivefocusedtests and
+independent CPU/GPU shifted-window parity pass. Confirmation018/019 stay sealed.
+
+Fixed central-linear reconstruction also replayed32saved posterior draws on
+the original fourgeometry pairs/eightcores. On THATSUBSET physical widthdeficit
+5.885%->3.463%, phase0122.706->.219%, phase0138.813->6.451%; meanwidthSD
+.033243->.033853. Corrected matched-target deficit2.146% pooled; no all64
+posterior claim. Original eigenvalue replay maxerror3.49e-10, tracecorrection
+8.78e-15, CPU/GPU reconstructedtruth1.67e-16. Thus the operator gain transfers
+to actual draws but does not remove posterior error. Allreceipts pass;
+CPU59382745, GPU59382896 and GPU59383302 released after work under userapproval.
+
+## 2026-10-05 — Trace/gap, operator split and matched checkpoint diagnostics
+
+User approves compute for the closure follow-up and asks to test Opus5.5's
+suggestions. Restrict to012/013; no retraining, promotion or confirmation access.
+CPU59381367 and GPU59381720 execute three bounded tests:
+
+- Exact32saved full-cap draws: extract regional trace, two ordered eigengaps
+  and total width for all64cores. Save individual regional eigenvalue draws.
+  These draws ALREADY exist in full-cap HDF5; the old closure JSON alone lacked
+  them. Trace equals mean density CONTRAST, not unnormalised density. Regional
+  eigenvalue gaps do not encode the five oriented shear-tensor components.
+- Operator: true-density source padding32->64 at fixed6.766Mpc/h in all cases;
+  local source/target refinement to3.383Mpc/h within16/32coarse-cell collars on
+  four geometry-selected cases:012NGCs1interior/SGCs2boundary and
+  013NGCs1boundary/SGCs2interior. Average refined tensors onto the original cells
+  before eigendecomposition; add the local fine-minus-coarse tensor correction
+  to the full-cap result. This is a local correction/convergence diagnostic,
+  NOT a complete half-cell cap solve or proof of infinite-domain convergence.
+- Checkpoints: all32pairs/two seeds17/29, coarse13312vs26624 with SAMEfine26624,
+  normalizer,32addressed draws,NFE128 and historical local+wide operator. This
+  isolates the coarse-checkpoint effect within that historical sampler, not
+  within today's full-cap sampler. CPU/GPU spectral parity7.77e-16 passes.
+
+Scripts: `e2e_trace_shear_diagnostic.py`, `e2e_operator_split.py`,
+`e2e_checkpoint_shear.py` underworkflows/sbi; separate immutable diagnostic
+outputs under campaign verification. No posterior/scorer replacement.
+Do not treat64correlated cores as64independent sign trials, small mean bias as
+proof of calibration, or an oldF3-L2repair as proof of the same current cause.
+F3-L2 repaired its registered low-mode/shear dependence but failed conditional
+coverage; the historical result motivates a test, not automatic promotion.
+
+Exact-draw results: pooled regional width(lambda3-lambda1) is0.433109 versus
+0.469058 full-box truth and0.450900 operator-matched truth: deficits7.664% and
+3.946%, with54/64 and44/64 posterior means below truth. Mean exact widthSD is
+0.027731; mean standardized bias is-1.544/-0.821, including lambda1/lambda3
+covariance. Width marginal90coverage is59.375/75%; joint four-gap90coverage
+is46.875/68.75% (full/matched). Trace joint90coverage is87.5% in each phase;
+its pooled mean bias is-0.002210 and marginal90coverage85.9375%. This supports
+an eigenvalue-separation deficit, not proof that trace is unbiased/calibrated,
+that low-k modes alone cause it, or that64cores provide independent sign trials.
+Posterior means need not lie above/below truth with equal probability even
+under calibration. All32individual draws were available and are now extracted
+to phase-specific REGIONAL_DRAWS.npz for reproducible covariance diagnostics.
+
+Matched-target residual scatter after subtracting each phase's global mean
+and estimated32-draw mean noise remains direction-dependent. Relative to the
+mean posterior covariance, four-gap scatter eigenvalues are
+[0.491,1.305,1.987,2.478] for012 and[0.425,1.011,1.504,2.300] for013.
+Trace values are[0.662,1.626]/[0.359,0.955]. Squared global mean-bias norm in
+mean-covariance units is1.019/0.674 for gaps versus0.188/0.062 for trace.
+This is descriptive bias/scatter/covariance evidence, not a fitted correction
+or proof of conditional underdispersion: observation-dependent residual bias
+can also generate excess scatter, and16pairs within each phase are dependent.
+
+Matched historical checkpoint replay completed all32pairs, bothseeds17/29,
+bothcoarse checkpoints and32draws:4096field replays. Finecheckpoint hashes,
+normalizer, NFE128 and random addresses agree withinseed. Forseed17, mean
+width changes0.451718->0.451852(012),0.462445->0.465885(013); forseed29,
+0.451245->0.446842 and0.458651->0.462458. Mean widthSD decreases in every
+comparison by6.7-10.1%. Thus the suggested universal tradeoff of early stopping
+against shear is NOT supported. This historical local+wide sampler is not a
+matched full-cap checkpoint intervention; do not combine its means with the
+current full-cap ensemble or identify an architectural cure from this alone.
+
+The proposed class-probability conclusion also does not follow. At threshold0
+the actual posterior knot fraction EXCEEDS truth by1.093/1.114percentage points;
+at threshold0.2 void fraction exceeds truth by2.396/2.605points. Compression
+at fixed trace can increase either extreme class, depending on trace/threshold.
+These are aggregate fraction biases, not full conditional probability tests.
+Four focused diagnostic controls pass (exact width covariance, trace shift,
+class counterexample, trace-free fine/coarse correction).
+
+Receipts under campaign verification: `trace_shear_20261005_v1/SUMMARY.json`,
+`trace_shear_20261005_v1/FOLLOWUP_SUMMARY.json`, and
+`checkpoint_shear_20261005_v1/seed{17,29}/COMPLETE.json`.
+Source summaries: `e2e_shear_followup_summary.py` and
+`e2e_operator_split_summary.py`. No training, production change, phase001
+access or confirmation exposure occurred.
+
+Operator split completed: doubling true-source padding32->64 shifts regional
+eigenvalues by RMS0.00531/0.00459 posteriorSD for012/013, maximum0.02904/0.02036.
+Mean width deficit changes only3.8149->3.8136% and3.9271->3.9173%. In all
+four preselected pairs/eightcores, local half-cell refinement recovers73.1-75.0%
+of the original operator width deficit; remaining deficit0.81-1.16%.
+Changing the refinement collar16->32 alters components by at most0.000331SD;
+fine-minus-coarse tensor trace error stays below7.4e-15. This strongly implicates
+local grid representation in the tested cases, not the added exterior shell.
+It does NOT prove infinite-domain convergence or identify the residual1% cause.
+The refinement uses privileged true subcell density: do NOT add its correction
+to posterior draws. Any usable repair must act consistently on inferred density
+and retain the original physical target (or explicitly register a new estimand).
+Receipt: `operator_split_20261005_v1/SUMMARY.json` and phase`SPLIT.json`.
+
+Decision: test a density-only, grid-consistent tidal reconstruction before any
+production change; independently localise the remaining matched posterior
+deficit with a frozen scale-resolved/mode-ablation diagnostic before choosing
+longer training or an F3-L2-style model. The results do not uniquely assign
+the posterior defect to exterior uncertainty or low-k modes. No eigenvalue-only
+rescaling, oracle transfer or qualification. All scientific steps completed0:0;
+CPU59381367(18m51s) and GPU59381720(14m47s) released with explicit approval.
+Repository graph updated and globalIllustris refreshed after script additions.
+
+## 2026-10-05 — True-density closure of the frozen full-cap tidal operator
+
+User authorizes required compute for a matched operator/truth closure test.
+Development phases012/013 only; no production changes or new phase exposure.
+Harness: `workflows/sbi/e2e_true_density_closure.py`. Rebuild native2048 R7
+density with the frozen target pipeline, sample onto the entire inference
+source cuboid (including holes and32-cell padding), and apply the exact frozen
+`CapTidal` class. Compare means of voxelwise ordered eigenvalues in each of the
+same32registered two-core cases with independent full-box truth. This is NOT
+the eigenvalue of the mean tensor. Five focused tests pass, including GPU
+agreement with an independent direct cuboid sum.
+
+Compare operator offsets in component posterior-SD and joint covariance units,
+their alignment with posterior residuals, and unchanged-draw coverage against
+operator-matched truth. A large offset alone does not establish dominance;
+closure conflates finite-source truncation and density discretisation, and a
+small offset does not uniquely identify exterior uncertainty rather than other
+posterior defects. Preserve original physical truth and original qualification.
+CPU59380112 prepares true sources; GPU59380404 runs the exact operator.
+Receipts under `verification/true_density_closure_20261005_v1` in the campaign
+Scratch root. No retraining authorized here.
+
+Completed both phases/all32pairs,32unchanged draws perpair. All resampled core
+densities agree EXACTLY with saved targets; maximum oracle tensor trace error
+2.58e-14. Original joint ranks reproduce exactly; five focused controls pass
+again after the final harness edit. Preparation takes266.46/265.03seconds;
+GPU evaluation37.41/36.71seconds. Initial GPU attempt failed only when its
+logging encountered NumPy integer shapes; cast metadata to Python integers in
+the harness and reused the valid true-density sources. Frozen operator unchanged.
+
+Operator-gap RMS in component posteriorSD is0.5806/0.6032 for012/013, maximum
+1.4876/1.7373. Average physical shifts in ascending eigenvalues are approximately
+(+.00902,-.00024,-.00879)/(+.00946,-.00040,-.00905). Thus the mismatch is
+material and mainly compresses the eigenvalue separation, without changing trace.
+Counterfactual operator-matched joint90coverage improves37.5->50percent012 and
+50->62.5percent013, still below29/33=87.879percent finite-draw reference.
+Regional marginal90coverage improves67.708->75 and73.958->84.375percent.
+Covariance-weighted residual norm improves in13/16pairs in EACHphase; mean
+squared norm falls16.8986->10.6811 and17.3158->9.4821. Component-standardised
+residual RMS falls1.7938->1.4462 and1.6920->1.2745. These are descriptive
+paired diagnostics on TWOindependent development phases, not confidence bounds.
+
+Conclusion: combined operator/representation/domain mismatch explains PART,
+not all, of the tidal deficit. It is not negligible, nor does its removal rescue
+qualification. Preserve full-box physical truth. Next distinguish discretisation
+from source-extent effects, and decompose remaining operator-matched posterior
+bias/spread/covariance; no claim that exterior uncertainty alone is responsible.
+No production source, checkpoint, scorer, phasefreeze or website changed.
+Completion receipts: `ph012/CLOSURE.json`, `ph013/CLOSURE.json`; reproducible
+small-receipt summary: `workflows/sbi/e2e_true_density_closure_summary.py`.
+Both diagnostic allocations released with explicit user approval and verified
+COMPLETED0:0: CPU59380112 elapsed17m50s, GPU59380404 elapsed10m41s.
+Initial preparation syntax failure and GPU logging failure are retained as
+failed steps; corrected scientific steps and final focused tests completed0:0.
 
 ## 2026-10-05 — Exterior production scheduling tightened; interim full-cap scores
 

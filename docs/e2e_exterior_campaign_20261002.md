@@ -21,6 +21,166 @@ draw. Independent per-core tensor adjustments cannot stand in for this object.
 
 ## Data and phase discipline
 
+### October 5: true-density operator closure
+
+Authorized development diagnostic: use phases012/013 only and the immutable
+production source `source_78156ac3417555ef269f`. The harness
+`workflows/sbi/e2e_true_density_closure.py` rebuilds the native2048 R7-smoothed
+contrast and uses the original cubic interpolation/two-raw-cell averaging to
+fill each cap's entire source cuboid at6.766Mpc/h, including holes and32-cell
+padding. No learned completion, footprint weighting, new smoothing, or model
+fit enters this oracle. The exact frozen `CapTidal` maps it to tidal tensors.
+The target is the regional average of ordered voxel eigenvalues, not the
+eigenvalues of the regional average tensor.
+
+Compare against the independently saved periodic full-box target in every
+registered two-core case, retaining32unchanged posterior draws. Report
+`operator_target - fullbox_target` divided by each posterior standard deviation,
+the same gap in fixed20percent-shrinkage covariance units, and its alignment
+with `posterior_mean - fullbox_target`. Recompute the original joint rank as a
+baseline check and evaluate the unchanged ensemble against operator-matched
+truth. This counterfactual test neither redefines the production estimand nor
+qualifies a posterior. It isolates combined representation/domain error; it
+does not distinguish discretisation from missing matter beyond the cuboid.
+
+Acceptance checks: true source agrees with all saved core densities within
+2e-6; true-source tensor trace within1e-8; exact recovery of original rank;
+source/freeze hashes; direct-cuboid small GPU control; zero/fully-explained/
+opposite-direction synthetic residual controls. Count phases, not cores, as
+independent units. Artifacts: campaign `verification/true_density_closure_20261005_v1`.
+
+Completed results (32draws,16pairs perphase):
+
+| Diagnostic | ph012 | ph013 |
+| --- | ---: | ---: |
+| RMS operator offset / component posteriorSD | 0.5806 | 0.6032 |
+| Largest absolute offset / component posteriorSD | 1.4876 | 1.7373 |
+| Original joint90coverage | 37.5% | 50.0% |
+| Operator-matched joint90coverage | 50.0% | 62.5% |
+| Original regional marginal90coverage | 67.71% | 73.96% |
+| Operator-matched regional marginal90coverage | 75.00% | 84.38% |
+| Mean squared covariance-weighted residual, original | 16.899 | 17.316 |
+| Mean squared covariance-weighted residual, matched | 10.681 | 9.482 |
+
+Finite-draw90reference is29/33=87.879%. In each phase13of16pairs have smaller
+covariance-weighted residual; two previously failing joint regions pass and
+none reverse. Mean eigenvalue shifts are approximately(+.009,-.0003,-.009),
+compressing the eigenvalue separation. This is suggestive of representation
+effects but does NOT separate discretisation from finite-domain tides.
+Exact agreement with all saved core density targets, oracle trace errors below
+2.58e-14 and exact original-rank recovery pass. Five focused controls pass.
+This identifies a material partial explanation, not a mostly-resolved failure
+or a validated posterior. Keep both the original physical-target assessment and
+the counterfactual matched-target assessment visible. The remaining gap requires
+posterior bias/spread/covariance diagnosis. Do not inflate eigenvalue intervals
+independently or change the physical truth to manufacture qualification.
+
+### October 5: exact trace/gaps, grid/extent split and checkpoint test
+
+Completed development-only follow-up on ph012/ph013. The 32 individual draws
+already existed in full-cap HDF5; they have now been extracted into regional
+NPZ records. Define trace as the sum of ascending eigenvalues (equal to density
+contrast), gaps as lambda2-lambda1 and lambda3-lambda2, and width as
+lambda3-lambda1. These are means of voxelwise eigenvalues: their gaps diagnose
+anisotropy but do not retain the five oriented traceless-tensor components.
+Uncertainties below use actual draw covariance, not independent eigenvalues.
+
+| Pooled descriptive diagnostic, 64 correlated cores | Full-box truth | Operator-matched truth |
+| --- | ---: | ---: |
+| Mean true width | 0.469058 | 0.450900 |
+| Mean posterior width | 0.433109 | 0.433109 |
+| Posterior width deficit | 7.664% | 3.946% |
+| Posterior mean width below truth | 54/64 | 44/64 |
+| Mean exact width posterior SD | 0.027731 | 0.027731 |
+| Mean standardized width bias | -1.544 | -0.821 |
+| Width marginal nominal-90 coverage | 59.375% | 75.0% |
+| Joint four-gap nominal-90 coverage | 46.875% | 68.75% |
+
+Trace has pooled bias -0.002210, marginal coverage 85.9375%, and joint two-core
+coverage 87.5% in each phase. It is less problematic than the gaps, but a small
+average bias is not proof of conditional calibration. There are only two
+independent phases, not 64 independent sign trials; even calibrated posterior
+means need not fall on either side of truth with equal probability.
+
+For the remaining matched-target error, subtracting each phase's global bias
+does not remove direction-dependent excess residual scatter. After subtracting
+estimated 32-draw mean noise, gap-scatter eigenvalues in mean-posterior-covariance
+units are [0.491, 1.305, 1.987, 2.478] and [0.425, 1.011, 1.504, 2.300].
+Trace values are [0.662, 1.626] and [0.359, 0.955]. This is a descriptive
+bias/spread/covariance split, not a calibration fit: observation-dependent bias
+and covariance error cannot be uniquely separated using these dependent cases.
+
+The operator controls hold true density and geometry fixed:
+
+- Extent: double the full true-source cuboid padding from 32 to 64 cells at
+  6.766 Mpc/h, verifying exact overlap with the original source. Across all
+  32 pairs, eigenvalue shifts are only 0.00531/0.00459 posterior-SD RMS and
+  at most 0.02904/0.02036 SD for ph012/ph013. The width deficits barely change:
+  3.8149% to 3.8136%, and 3.9271% to 3.9173%.
+- Grid: on four geometry-selected pairs (eight cores), evaluate the same
+  cuboid operator at 3.383 Mpc/h using true subcell density, average tensors
+  onto the original cells BEFORE eigendecomposition, and add the local
+  fine-minus-coarse tensor correction to the cap tensor. Recover 73.1–75.0%
+  of the operator width deficit in every tested core; residual deficit is
+  0.81–1.16%. Increasing the refinement collar from 16 to 32 coarse cells
+  changes components by less than 0.000331 posterior SD. Trace corrections
+  remain below 7.4e-15.
+
+This implicates local grid representation as the dominant tested operator
+effect. Extent doubling is not infinite-domain convergence, and local refinement
+is not a whole-cap half-cell solve. Its use of true subcell density makes it an
+oracle diagnostic, NOT a deployable correction: never transfer the truth-based
+tensor increments to posterior draws. A repair must reconstruct tides using
+only the inferred density (or an explicitly modelled subgrid posterior).
+
+The early-stopping test replays both coarse checkpoints with the SAME fine
+26,624 checkpoint, normalizer, NFE128 and 32 random addresses, for both seeds
+and every pair. All saved input hashes pass and CPU/GPU tensor parity is
+7.77e-16. There are 4,096 field replays. These use the historical local+wide
+sampler/operator, not the current full-cap sampler.
+
+| Seed / phase | Mean width, coarse 13,312 | Mean width, coarse 26,624 | Mean width SD, early to late |
+| --- | ---: | ---: | ---: |
+| 17 / 012 | 0.451718 | 0.451852 | 0.028335 to 0.026257 |
+| 17 / 013 | 0.462445 | 0.465885 | 0.028146 to 0.026272 |
+| 29 / 012 | 0.451245 | 0.446842 | 0.028182 to 0.025346 |
+| 29 / 013 | 0.458651 | 0.462458 | 0.027733 to 0.025164 |
+
+Longer training does not consistently recover width and reduces its spread by
+6.7–10.1% in every comparison. This does not support a general claim that early
+stopping sacrificed shear for calibration, nor uniquely establish a low-k cause.
+An F3-L2-style intervention remains a hypothesis; its earlier repaired dependence
+did not establish conditional coverage for this task.
+
+The proposed inference that compressed eigenvalues necessarily underpredict
+voids and knots is false. At fixed trace, compression can increase either extreme
+class depending on trace and threshold (a synthetic counterexample passes).
+Actual threshold-zero knot fractions OVERpredict truth by 1.093/1.114 percentage
+points, while threshold-0.2 void fractions overpredict by 2.396/2.605 points.
+Aggregate class fractions are not a substitute for probability calibration.
+
+Next research gates: a density-only, grid-consistent operator reconstruction,
+then a frozen scale-resolved/mode-ablation test of the remaining posterior
+deficit before selecting a training or architectural change. Preserve the
+original physical target; no independent eigenvalue rescaling or model promotion.
+No confirmation phases were opened by these diagnostics, and no production
+model, scorer or website changed.
+
+The proposed density-only reconstruction and matched sampler/factor follow-up
+is now complete; see [the dedicated October 5 results](e2e_density_sampler_diagnostics_20261005.md).
+It supports a deterministic operator improvement, a partial sampler/context
+effect and strong coarse-conditioning sensitivity, but no posterior promotion.
+
+Reproduction: `e2e_trace_shear_diagnostic.py`, `e2e_operator_split.py`,
+`e2e_checkpoint_shear.py`, `e2e_shear_followup_summary.py` and
+`e2e_operator_split_summary.py` in `workflows/sbi`. Receipts are under campaign
+`verification/trace_shear_20261005_v1`, `operator_split_20261005_v1`, and
+`checkpoint_shear_20261005_v1`. Four focused follow-up tests pass; original
+closure parity, trace, frozen-source and geometry checks remain enforced.
+CPU 59381367 and GPU 59381720 completed successfully and were released with
+explicit user approval. The data-validation workflow kept paired comparisons,
+units of replication, oracle information and supported claim limits explicit.
+
 The inherited CFM and normalizer use thirteen training phases. The prepared
 training-unseen set is ph012 through ph019. Ph012/ph013 are development phases;
 ph014 through ph017 have already been exposed by earlier evaluations. Only

@@ -1,5 +1,22 @@
 # Research context — Illustris
 
+## E2E analysis scope (2026-10-06)
+
+Next proposed Tier2 experiment is paired conditioning augmentation with a
+matched s=0 continuation. User selects saved coarse endpoints plus conditioning
+noise (non-truncated variant); uncorrupted endpoints still set decoder mass.
+Protocol `docs/e2e_cfm_conditioning_augmentation_20261006.md` records remaining
+preflight/gate details. No Tier2 implementation, fit or Slurm launch yet.
+
+Tier1 development-core analysis now defaults to the density-only corrected
+tidal operator through `workflows/sbi/e2e_cfm_analysis_products.py`; original
+remains explicit. No production/Loa default or frozen field is overwritten.
+Cellwise density and individual tidal marginals pass development screens;
+regional density and joint tidal/class uncertainty are NOT qualified.
+Mixture generation59422691 cancelled by user instruction; outputs preserved.
+No automatic continuation, Tier2 fitting or summary recalibration. See
+`docs/e2e_cfm_tier1_and_levers_20261006.md` and current SCIENCE_LOG for evidence.
+
 ## E2E current status (2026-09-24)
 
 Bounded coupled CFM Abacus pilot now authorized; see main field-posterior plan

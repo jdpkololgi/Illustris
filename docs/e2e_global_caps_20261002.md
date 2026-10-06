@@ -51,9 +51,39 @@ linear timing estimate is about 126 minutes including preparation, with no
 guarantee of exact scaling. Bounded shared-QOS submissions use one GPU each,
 3h30 for NGC and 2h30 for SGC, without automatic retries.
 
+Submitted NGC job 59178507 and SGC job 59178509 from frozen Git revision
+`2c80b4b9b829c8b678137363c2266083dd775e4d`, archived under the evidence root
+as `source_2c80b4b9b829c8b678137363c2266083dd775e4d`. All five tests also
+passed in that archive. Launch checks bind source hashes to the measured
+benchmark. Development allocation 59177348 was relinquished after submission.
+Both jobs completed successfully: NGC 2h02m50s, SGC 1h03m29s. Receipts confirm
+four NFE128 draws per cap, finite positive supported density, and double-precision
+block-mass errors below 4.80e-16. No retries or retraining were needed.
+
+Independent stored-field verification on CPU allocation 59192470 passed all
+3,868,333 NGC and 1,568,080 SGC catalogue positions, with all eight interpolation
+corners covered. Float32 storage mass errors are below 1.69e-8. The website
+package preserves 1,382,456 NGC and 611,897 SGC supported display cells on one
+regular grid per cap; no per-tile mesh decomposition or seam smoothing is used.
+Existing atlas selectors now target these full-cap fields. Old environment
+probabilities are kept in separate galaxy-only views, not attached to new draws.
+
 The website sparse-grid decoder passed dense-grid mesh parity: 8,272 triangles,
-maximum coordinate rounding 0.000061 Mpc/h. Full-cap browser validation awaits
-the actual inference products; no full-cap website update is published yet.
+maximum coordinate rounding 0.000061 Mpc/h. Full-cap browser validation passed
+both means and all eight draws, 100,000 galaxy overlays per cap, typed density
+thresholds, fixed physical axes, cap revisits, mobile layout, and retained local
+and galaxy environment views. No browser errors or external requests occurred.
+The default mean surfaces at density 2 have 704,960 NGC and 303,970 SGC triangles.
+Screenshots show the full fields without the former tile mesh cuts. Receipt:
+`browser_qa/QA.json` under the evidence root. Native private deployment succeeded
+for website source `ecca529dfce76f695636688ca95fd4cb009f3d25`, deployment
+`appgdep_6abf66a1e0248191914707cbc07eb73a`, at
+`https://loa-cosmic-web.astrodak99.chatgpt.site`. The NGC/SGC atlas selectors
+now serve the coherent fields; the default is NGC atlas. Owner-only access was
+preserved. To meet the hosting size limit, 152 unused generated chunks were
+moved out of the static tree into `unused-site-assets` under the evidence root;
+all referenced assets and original scientific data remain available.
+CPU allocation 59192470 was relinquished after the completed update.
 
 Evidence root:
 `/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/loa_global_canvas_20261002_v1`.

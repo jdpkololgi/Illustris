@@ -1,0 +1,18 @@
+{
+  "schema": "cfm-development-analysis-profile-v1",
+  "phases": ["ph012", "ph013"],
+  "draws": 32,
+  "pairs": 32,
+  "default_operator": "corrected",
+  "comparison_operator": "original",
+  "operator_definition": "positive central-linear density-only local tensor correction, collar32; preserve original distant tides and trace",
+  "threshold": 0.2,
+  "threshold_sensitivity": 0.0,
+  "physical_truth": "unchanged full-box R7 tensor averaged onto 6.766 Mpc/h cells before eigendecomposition",
+  "scope": "registered development cores only; not a whole-cap or Loa release",
+  "galaxy_selection": "unchanged Stage B observed-coordinate BGS selection and containing-cell counts",
+  "posterior_qualified": false,
+  "production_default_changed": false,
+  "summary_recalibration_fitted": false,
+  "confirmation_opened": false
+}
