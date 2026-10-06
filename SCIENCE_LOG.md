@@ -31,6 +31,12 @@ The guard correctly rejected it. Correct the harness to training mode under
 no_grad (no dropout), preserve v1 source/logs, stage v2; scientific gates
 unchanged. This is a technical setup failure, not an augmentation result.
 
+Second technical attempt identified missing CUBLAS_WORKSPACE_CONFIG before
+the first update. Match existing deterministic setup (:4096:8); preserve v2
+logs/source. Static replay audit also explicitly retains existing full-cap
+TF32 sampling (training remains FP32), avoiding an arithmetic confound with
+saved fields. Stage v3; all scientific gates/hyperparameters unchanged.
+
 ## 2026-10-06 — [science/code] Repository closeout and Tier 2 conditioning proposal
 
 User requests that all completed work be committed and supplies a revised

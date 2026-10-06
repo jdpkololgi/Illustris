@@ -5,6 +5,8 @@ import os
 from pathlib import Path
 import time
 
+os.environ.setdefault('CUBLAS_WORKSPACE_CONFIG', ':4096:8')
+
 import h5py
 import numpy as np
 import torch
@@ -43,6 +45,9 @@ def canvas_noise(geometry, phase, cap, first, kind, device='cuda'):
 
 def run(phase, cap, first, arm, strength, replay=False):
     guard(phase, cap, first, arm, strength); training.setup(); p = training.profile()
+    # Match the existing full-cap production arithmetic, not the FP32 trainer.
+    from workflows.sbi.e2e_loa_field_sampling import setup as sampler_setup
+    sampler_setup(True)
     if c.REPO != training.RUN/'source':
         raise PermissionError('run only the committed source snapshot')
     if replay and (arm != 'parent' or strength != 0):
@@ -163,6 +168,7 @@ def run(phase, cap, first, arm, strength, replay=False):
         coarse_receipt=dict(path=str(cache/'COMPLETE.json'), sha256=c.sha256(cache/'COMPLETE.json')),
         checkpoint=dict(path=str(checkpoint), sha256=c.sha256(checkpoint)),
         runner_sha256=c.sha256(__file__), config_sha256=c.sha256(training.CONFIG),
+        tf32=True, cublas_workspace=os.environ['CUBLAS_WORKSPACE_CONFIG'],
         sources=training.source_records(), loading_seconds=loading, sampling_seconds=sampling_seconds,
         max_mass_error=maximum, chunks=chunks, job=os.environ['SLURM_JOB_ID'],
         peak_gpu_gib=torch.cuda.max_memory_allocated()/2**30, posterior_qualified=False)

@@ -7,6 +7,8 @@ import os
 from pathlib import Path
 import time
 
+os.environ.setdefault('CUBLAS_WORKSPACE_CONFIG', ':4096:8')
+
 import numpy as np
 import torch
 
@@ -20,7 +22,7 @@ from workflows.sbi.e2e_vdm_context_models import project
 
 CONFIG = c.REPO/'configs/e2e_cfm_conditioning_augmentation_v1.json'
 PARENT = Path('/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_pilot_20260924_v1/fine_17/CHECKPOINT_026624.pt')
-RUN = Path('/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_conditioning_augmentation_20261006_v2')
+RUN = Path('/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_conditioning_augmentation_20261006_v3')
 
 
 def profile():
@@ -35,6 +37,8 @@ def profile():
 
 def setup():
     c.require_compute()
+    if os.environ.get('CUBLAS_WORKSPACE_CONFIG') != ':4096:8':
+        raise RuntimeError('registered deterministic cuBLAS workspace required')
     if not torch.cuda.is_available() or torch.cuda.device_count() != 1:
         raise RuntimeError('one visible GPU required')
     torch.set_num_threads(4); torch.manual_seed(17)
