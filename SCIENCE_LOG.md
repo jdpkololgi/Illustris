@@ -1,5 +1,17 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-06 — [operations] User approves up to32 evaluation GPU workers
+
+User selected32independent workers instead of the initial8worker planning cap.
+This changes scheduling concurrency only; frozen numerical sourcece5448f,
+manifest1059cc0a, scientific gates, draw addresses and no-retry policy remain
+unchanged. The operational amendment is
+`configs/e2e_cfm_conditioning_resources_20261006.json`; it explicitly supersedes
+only the old resource-cap field. Count the oracle and any active benchmark
+within32total evaluation GPU workers. Full-parent score reconciliation remains
+required before new-field array submission. Approximate ideal runtime becomes
+5--7h plus queue time at similar total GPU-hours; neither is a completion promise.
+
 ## 2026-10-06 — [code] Frozen Tier 2 baseline/oracle evaluation submitted
 
 Extension revisionce5448f frozen at v3/evaluation_v1/source; manifestSHA256

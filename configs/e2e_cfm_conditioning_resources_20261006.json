@@ -1,0 +1,15 @@
+{
+  "schema": "cfm-conditioning-operational-amendment-v1",
+  "authorization": "User 2026-10-06 explicitly selected: Use up to 32 workers",
+  "supersedes_resource_field_only": "max_concurrent_fullcap_gpus=8 in the original evaluation launch configuration",
+  "max_concurrent_evaluation_gpu_workers": 32,
+  "include_oracle_and_benchmark_workers_in_cap": true,
+  "source_revision": "ce5448f",
+  "original_launch_manifest_sha256": "1059cc0a3c34deaf1d09f5b44aebccfaca817bb1adf16b7aabd16c443d9f2a48",
+  "numerical_sources_changed": false,
+  "scientific_profile_changed": false,
+  "task_grid_changed": false,
+  "full_parent_score_reconciliation_required_before_new_field_submission": true,
+  "automatic_failed_job_retries": 0,
+  "scope": "Independent single-GPU jobs only; no distributed numerical rewrite or new scientific selection"
+}

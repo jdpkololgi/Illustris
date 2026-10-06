@@ -60,8 +60,11 @@ required before submission of the192new-field batch tasks.
 
 Planning estimate from the parent replay and existing cap timings: roughly
 150--200 single-GPU hours for the complete fine-generation grid, plus a few hours
-for oracle/extraction/scoring; this is not a measured final cost. At most eight
-independent full-cap GPU tasks run concurrently. Use one80GB GPU and32logical
+for oracle/extraction/scoring; this is not a measured final cost. The user later
+explicitly selected up to32independent GPU workers instead of the initial8cap;
+`configs/e2e_cfm_conditioning_resources_20261006.json` records this resource-only
+amendment without modifying the frozen numerical snapshot. Include the oracle
+and benchmark jobs within that cap. Use one80GB GPU and32logical
 CPUs per shared-QOS task,2h maximum, explicit Scratch license. GPU kernels
 remain single-device; no distributed numerical rewrite. CPU score tasks use
 one node/64CPUs/1h. A completed full-parent scoring pass must reconcile the
