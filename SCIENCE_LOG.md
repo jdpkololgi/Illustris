@@ -1,5 +1,20 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-06 — [validation] Independent Tier 2 score QA passes
+
+CPU interactive job59436416 completed0:0 (18s allocation,0.913s calculation).
+The separate `e2e_cfm_conditioning_score_verify.py` reproduces16 saved Stage
+A/B/C checks: both phases and both operators, regional gap energy, galaxy fair
+Brier, interior fraction energy and the registered joint trace ratio. The full
+4096-resample ratio calculation is finite on the real saved banks. Receipt:
+v3 `score_verification_v1/COMPLETE.json`; this is numerical QA, not a new
+scientific result or candidate gate decision.
+
+Parent CPU scoring submitted as59436500, array0, afterok59434901. It must
+finish full-parent reconciliation before new-field production submission.
+Oracle59434902 is running; parent tasks0--3 passed at this check. No new-field
+array has been submitted. The larger NGC benchmark59434621 remains active.
+
 ## 2026-10-06 — [operations] User approves up to32 evaluation GPU workers
 
 User selected32independent workers instead of the initial8worker planning cap.

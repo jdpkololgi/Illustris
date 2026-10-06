@@ -2,6 +2,15 @@
 
 ## E2E analysis scope (2026-10-06)
 
+Both Tier2 fits completed in59429879. User subsequently approved the entire
+frozen development-panel sweep and up to32 independent GPU workers. Evaluation
+snapshotce5448f and manifest1059cc0a are immutable; the resource-only amendment
+is `configs/e2e_cfm_conditioning_resources_20261006.json`. Parent extraction
+59434901, oracle59434902 and dependent parent scoring59436500 are underway.
+Independent16-check Stage A/B/C score QA passed. Full-parent reconciliation
+still precedes new-field production; scientific conclusions remain pending.
+This supersedes the historical training-only authorization/status below.
+
 Tier2 paired conditioning augmentation is authorized and gates are frozen.
 Use saved coarse endpoints plus conditioning noise (non-truncated variant);
 uncorrupted endpoints still set decoder mass. GPU smoke passes; job59429879
