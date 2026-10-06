@@ -20,7 +20,7 @@ from workflows.sbi.e2e_vdm_context_models import project
 
 CONFIG = c.REPO/'configs/e2e_cfm_conditioning_augmentation_v1.json'
 PARENT = Path('/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_pilot_20260924_v1/fine_17/CHECKPOINT_026624.pt')
-RUN = Path('/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_conditioning_augmentation_20261006_v1')
+RUN = Path('/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_conditioning_augmentation_20261006_v2')
 
 
 def profile():
@@ -212,8 +212,10 @@ def smoke():
         raise FileExistsError('retain prior smoke receipt')
     state = parent_state(); ids = pilot.training_ids()
     (x, cond), selected = training_batch(ids, 0, state['binding']['normalizer'])
-    model = initialize(state).eval()
-    parent = CoupledBackbone('fine', 'joint', 24, 3).cuda().eval()
+    # Both inputs are paired training truth, so preserve the training-source
+    # guard. This backbone has no dropout; no_grad below prevents any update.
+    model = initialize(state).train()
+    parent = CoupledBackbone('fine', 'joint', 24, 3).cuda().train()
     parent.load_state_dict(state['ema'])
     z, velocity, t, clean = step_inputs(x, cond, 'control', 0, p)
     with torch.no_grad():

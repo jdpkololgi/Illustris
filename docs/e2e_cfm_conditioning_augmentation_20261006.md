@@ -10,7 +10,8 @@ after new metrics. No additional seeds, alpha sweep, higher resolution,
 production inference or new-phase access is included.
 
 **Oracle gate, each phase, clean and every candidate s:** physical residual
-power/truth must lie in [0.95,1.05] in EACH [.04,.08), [.08,.16) h/Mpc band.
+power/truth must lie in [0.95,1.05] in EACH (.04,.08], (.08,.16] h/Mpc band
+(the existing spectral helper's exact endpoint convention).
 Signed matched-local tidal-gap width deficit D=100*(1-mean_width/truth_width)
 must lie in [-0.5,+0.5] percentage points. Against EACH frozen parent and
 matched unaugmented continuation require abs(D_new)-abs(D_reference)<=0.2

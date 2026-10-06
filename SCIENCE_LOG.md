@@ -24,6 +24,13 @@ Implementation is separate from hash-bound parent backbone. First perform
 GPU parent parity/restart and cached-coarse fine replay/throughput; launch
 record and measured cost precede full training/scoring. No result yet.
 
+First smoke allocation59429391/nid200312: one shared-interactive GPU,2h.
+Seven focused tests pass. The initial v1 smoke stopped before any update:
+the parity harness incorrectly used eval mode with training_truth provenance.
+The guard correctly rejected it. Correct the harness to training mode under
+no_grad (no dropout), preserve v1 source/logs, stage v2; scientific gates
+unchanged. This is a technical setup failure, not an augmentation result.
+
 ## 2026-10-06 — [science/code] Repository closeout and Tier 2 conditioning proposal
 
 User requests that all completed work be committed and supplies a revised
