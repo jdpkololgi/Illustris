@@ -1,5 +1,28 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-06 — [code/validation] Parent reconciled; complete Tier 2 sweep submitted
+
+Full-parent scoring passed1372reconciliation checks,32pairs/32draws, in32.44s
+(44.04s worker). The unchanged frozen evaluator ran on CPU interactive
+59440581/nid200019, completed0:0 in58s. The original batch copy59436500_0
+was held while still pending, then cancelled unused after validation passed;
+it never ran and produced no outputs. This was a scheduling change, not a
+failed-run retry. Parent score receiptSHA256
+d3a4b4c6f29b0699fc9172db46ee13ff03a940ce49b386993ec61944aa782a98.
+
+With both generation benchmarks and the complete oracle already passed,
+submit59440722: registered array32--223%32,192tasks, shared QOS, one80GB GPU
+and32logical CPUs per task,2h limit, Scratch license, no requeue. The two
+completed control benchmarks are reused by tasks32/40, not regenerated.
+Original numerical snapshotce5448f/manifest1059cc0a and all gates are unchanged.
+All prior evaluation GPU work is finished, so the full32-worker cap is available.
+
+Post-generation scoring will use one CPU job with six sequential score tasks
+and the registered final summary, reusing the immutable numerical snapshot.
+The parent timing supports a30min envelope for this resource-only packing;
+there is no new numerical algorithm, phase access, or automatic failed retry.
+Scientific conclusions remain pending the complete comparison.
+
 ## 2026-10-06 — [validation] Parent extraction and complete oracle panel finished
 
 All32tasks of parent extraction59434901 completed0:0,38--60seconds each,

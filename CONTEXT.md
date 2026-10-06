@@ -6,9 +6,11 @@ Both Tier2 fits completed in59429879. User subsequently approved the entire
 frozen development-panel sweep and up to32 independent GPU workers. Evaluation
 snapshotce5448f and manifest1059cc0a are immutable; the resource-only amendment
 is `configs/e2e_cfm_conditioning_resources_20261006.json`. Parent extraction
-59434901, oracle59434902 and dependent parent scoring59436500 are underway.
-Independent16-check Stage A/B/C score QA passed. Full-parent reconciliation
-still precedes new-field production; scientific conclusions remain pending.
+59434901 and oracle59434902 completed. Full-parent scoring59440581 passed
+1372reconciliation checks; unused queued copy59436500 was cancelled after that
+pass. Independent16-check Stage A/B/C score QA also passed. New-field array
+59440722 now executes registered tasks32--223%32. Subsequent scoring uses the
+same frozen evaluator; scientific conclusions remain pending the full sweep.
 This supersedes the historical training-only authorization/status below.
 
 Tier2 paired conditioning augmentation is authorized and gates are frozen.
