@@ -15,6 +15,11 @@ finish full-parent reconciliation before new-field production submission.
 Oracle59434902 is running; parent tasks0--3 passed at this check. No new-field
 array has been submitted. The larger NGC benchmark59434621 remains active.
 
+Operational follow-up: apply the approved32-worker ceiling to parent extraction
+as well: array59434901 throttle30, reserving one GPU each for the oracle and
+NGC benchmark. Scheduler confirms throttle30; completed tasks remain intact.
+This is a concurrency-only update, not a retry or a numerical change.
+
 ## 2026-10-06 — [operations] User approves up to32 evaluation GPU workers
 
 User selected32independent workers instead of the initial8worker planning cap.
