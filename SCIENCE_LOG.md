@@ -1,5 +1,23 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-08 — [code] Matched true-coarse diagnostic authorized; rule frozen
+
+User resumes saved-field power addendum, class-fraction truth closure, and
+matched full-cap true-coarse diagnostic. Parent seed17/fine26624 only, ph012/013,
+32 draws/NFE128; no training, model selection, sealed-phase access or sbatch.
+New scripts only; existing numerical implementations remain untouched.
+Protocol: docs/e2e_true_coarse_fraction_diagnostic_20261008.md; executable
+contract configs/e2e_true_coarse_fraction_diagnostic_20261008_v1.json.
+Five focused moment/bootstrap/rule/spectrum tests pass on interactive CPU
+59520249. No new scientific result at this entry.
+
+Saved parent oracle fields exist upstream, but use isolated-window sampling
+and a historical local-plus-wide operator. They cannot be substituted for
+Stage C's shared-cap/corrected-operator B. Preserve the user's numerical
+branching rule, but report its qualified meaning: coarse-conditioning-pathway
+contribution versus a defect persisting with true coarse, not unique causality.
+The saved-field addendum and coarse-only check proceed independently.
+
 ## 2026-10-06 — [code/validation] Parent reconciled; complete Tier 2 sweep submitted
 
 Full-parent scoring passed1372reconciliation checks,32pairs/32draws, in32.44s

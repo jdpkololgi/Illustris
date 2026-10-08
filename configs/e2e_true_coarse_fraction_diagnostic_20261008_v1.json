@@ -1,0 +1,43 @@
+{
+  "schema": "true-coarse-fraction-diagnostic-v1",
+  "scope": "one parent seed, two reused phases, diagnostic only",
+  "phases": ["ph012", "ph013"],
+  "seed": 17,
+  "draws": 32,
+  "nfe": 128,
+  "threshold": 0.2,
+  "primary_operator": "corrected",
+  "sensitivity_operator": "original",
+  "weighting": "galaxy",
+  "joint_coordinates": "first three class fractions per core, two cores per pair",
+  "bootstrap_replicates": 4096,
+  "bootstrap_seed": 6100617,
+  "bootstrap_unit": "whole draw address, shared across all cases, phases and arms",
+  "bootstrap_quantiles": [0.05, 0.95],
+  "interpretation": {
+    "coarse_dominated": "B point ratio <=1.5 in both phases AND upper(B)<lower(A) in both phases",
+    "coarse_not_implicated": "B point ratio >=2 in at least one phase AND B and A ranges overlap in that same phase",
+    "otherwise": "inconclusive",
+    "eligibility": "A and B must share the full-cap sampling law, operator, supports, cores, truth and fine-noise addresses",
+    "caution": "Rule labels are diagnostic routing decisions, not causal proof or population calibration certification",
+    "reported_meaning_coarse_dominated": "Evidence that the coarse-conditioning pathway contributes materially; does not distinguish coarse posterior from handoff",
+    "reported_meaning_coarse_not_implicated": "A substantial defect persists with true coarse; does not exonerate the coarse factor",
+    "matched_fullcap_B_authorized": true,
+    "truth_closure_required": true
+  },
+  "variance_difference": "trace(mean S_A)-trace(mean S_B); descriptive, not a causal variance decomposition",
+  "power": {
+    "residual": "physical fine density minus blockwise lift of its own uncorrupted coarse mass",
+    "geometry": "same 32 registered production windows as sampler_factor_20261005_v1",
+    "primary_bands_h_mpc": [[0.04, 0.08], [0.08, 0.16]],
+    "primary_interval": "lower inclusive, upper exclusive",
+    "legacy_interval_sensitivity": "lower exclusive, upper inclusive",
+    "summary": "ratio of equal-window mean draw-averaged power to equal-window mean true power, separately per phase",
+    "uncovered_cells": "existing fixed production support; common historical coarse-only fill, giving zero generated residual outside coverage",
+    "new_generation": false
+  },
+  "training": false,
+  "model_selection": false,
+  "confirmation_access": false,
+  "posterior_qualified": false
+}
