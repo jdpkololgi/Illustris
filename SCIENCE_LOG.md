@@ -1,5 +1,28 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-08 — [code/validation] True-coarse retained smoke passes; saved diagnostics complete
+
+Parent-only ph012/SGC/d000 true-coarse full-cap generation passes in1837s on
+interactive59520856, peakGPU14.24GiB, maximum block-mass relative error4.60e-16.
+Matched original/corrected Stage C extraction passes in92s, correction trace
+error8.01e-15; all7focused metric/report/worker tests pass. These four draws
+are retained, not regenerated. Three of four no-neural truth-closure caps
+are complete; final ph013/NGC runs on59520351. Full A/B conclusions remain pending.
+
+Saved parent A reconciles exactly; independent physical-power QA passes154
+historical comparisons. Separate decision/SAMPLED_COARSE_POWER_ADDENDUM_20261008.json
+is attached without changing the augmentation decision. Augmented s=0 improves
+the lower sampled-coarse residual band, not the higher band. Coarse-only interior
+regional-density ratios1.0208/1.0711 do not establish spatial/tidal calibration.
+Parent corrected fraction ratios2.6958/2.1147 remain2.3857/2.0420 after removing
+the common bias vector: a global offset alone is not the main mismatch.
+
+Resource-only packing is registered in
+configs/e2e_true_coarse_fraction_resources_20261008.json: at most two concurrent
+shared-interactive allocations, two independent single-GPU workers each,
+two-hour bounds, explicitly assigned batches, no retries/sbatch/background agent.
+No new model, training, metric selection or phase access is introduced.
+
 ## 2026-10-08 — [code] Matched true-coarse diagnostic authorized; rule frozen
 
 User resumes saved-field power addendum, class-fraction truth closure, and
