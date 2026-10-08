@@ -41,7 +41,7 @@ def run(phase, cap, first):
         raise ValueError('Parent numerical dependencies changed')
     inp = io.BASE/'fullcap_inputs'/phase/cap
     prepared = io.read(inp/'PREPARED.json'); plan = io.read(inp/'PLAN.json')
-    io.record(inp/'PREPARED.json'); plan_record = io.record(inp/'PLAN.json')
+    prepared_record = io.record(inp/'PREPARED.json'); plan_record = io.record(inp/'PLAN.json')
     if not prepared['targetless'] or prepared['plan_sha256'] != plan_record['sha256'] or prepared['phase'] != phase or prepared['cap'] != cap:
         raise ValueError('Observed input binding changed')
     io.verify(prepared['outputs'][0])
@@ -50,6 +50,8 @@ def run(phase, cap, first):
     io.record(cache/'COMPLETE.json'); br = io.record(cache/'BINDING.json')
     if not old['passed'] or old['binding'] != br['sha256'] or binding['phase'] != phase or binding['cap'] != cap or binding['first'] != first or binding['draws'] != 4 or binding['nfe'] != 128 or binding['benchmark']:
         raise ValueError('Parent draw addresses changed')
+    if binding['prepared_sha256'] != prepared_record['sha256'] or binding.get('model_seed', 17) != 17:
+        raise ValueError('Parent observed inputs or seed changed')
     parent = io.record(training.PARENT)
     if parent['sha256'] != io.FINE_SHA or binding['checkpoints']['fine'] != io.FINE_SHA:
         raise ValueError('Wrong parent checkpoint')
