@@ -69,6 +69,35 @@ The byte-verified separate attachment is
 `cfm_conditioning_augmentation_20261006_v3/decision/SAMPLED_COARSE_POWER_ADDENDUM_20261008.json`
 under the same Scratch E2E root.
 
+### Final missing-batch launch — 2026-10-08
+
+All 25 existing core completion receipts report success. The four workers on
+59536284/59536286 completed with exit code 0:0; their idle allocations later
+expired. The user authorizes the final seven batches, permits cancellation of
+redundant work, and asks for no continuing monitoring. Numerical sources and
+the frozen scientific contract are unchanged.
+
+| Allocation | Node | Explicit worker assignments |
+| --- | --- | --- |
+| 59542649 | nid200273 | ph012:NGC:24 -> ph012:SGC:28; ph013:NGC:24 -> ph013:SGC:24 |
+| 59542674 | nid200280 | ph012:NGC:28; ph013:NGC:28 -> ph013:SGC:28 |
+
+Each allocation has two GPUs and a two-hour limit; each worker has one GPU,
+32 logical CPUs and 50 GiB host memory. All environments are explicitly activated.
+The waiting second launcher on 59542649 encountered a reserved-port conflict
+before any application execution. Only that pending launcher was cancelled;
+its replacement uses `--mpi=none --resv-ports=0` for the same non-MPI Python work.
+No partial field was retried and no running worker was interrupted.
+Logs are `true_coarse_worker_{12N24_12S28,13N24_13S24}_59542649.log` and
+`true_coarse_worker_{12N28,13N28_13S28}_59542674.log` in the parent Scratch E2E root.
+
+Expected remaining worker time is approximately 95 minutes, not a completion
+guarantee. These are interactive allocations; disconnect survival is not assured.
+At the next pickup, verify all worker/core receipts and source/output hashes,
+then run the registered summary and independent final check. No final A/B
+interpretation is available yet. Do not infer an empirical coverage percentage
+from the error-to-predictive-variance trace ratios below.
+
 ### Resumption — 2026-10-08 08:13 UTC
 
 User requests resumption. Login13 scheduler access works and the queue was empty.

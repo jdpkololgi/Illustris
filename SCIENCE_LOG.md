@@ -1,5 +1,22 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-08 — [code] Final seven true-coarse batches launched; no monitoring requested
+
+All 25 existing core receipts report success; the four previous workers on
+59536284/59536286 completed 0:0 before their allocations expired. User approves
+the remaining seven batches and cancellation of redundant work, requesting
+launch-only handoff. Reuse all completed products and unchanged numerical source.
+Interactive 59542649 and 59542674 each provide two GPUs for at most two hours:
+59542649: ph012 NGC24 -> SGC28; ph013 NGC24 -> SGC24.
+59542674: ph012 NGC28; ph013 NGC28 -> SGC28.
+The never-started second launcher on 59542649 was cancelled after a reserved-port
+conflict, then replaced with the identical non-MPI Python worker using
+`--mpi=none --resv-ports=0`; no running science step was cancelled or retried.
+No ongoing monitor, new training, sealed-phase access, scoring of partial B,
+or scientific interpretation change. Final summary and independent reconciliation
+remain pending all 32 completed batches. Existing power and truth-closure results
+remain the scientific evidence; a unique fine-generator cause is not established.
+
 ## 2026-10-08 — [code] True-coarse diagnostic resumed from verified checkpoint
 
 User requests resumption; scheduler access works on login13 and the live queue
