@@ -11,7 +11,7 @@
   "constraint": "gpu&hbm80g",
   "licenses": "scratch",
   "logical_cpus_per_worker": 32,
-  "step_memory_gib": 60,
+  "step_memory_gib": 50,
   "worker_assignment": "One explicitly listed NGC batch and one SGC batch, or a single remaining batch",
   "worker_maximum_batches": 2,
   "launch_gates": [
