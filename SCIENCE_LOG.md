@@ -1,5 +1,22 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-08 — [code] True-coarse checkpoint: 17/32 batches; login-node scheduler blocked
+
+Matched B has17/32four-draw batches complete, all generation/extraction steps0:0.
+Independent compute-node inventory on59526182 rehashes every completed field/core:
+17complete,15missing,0partial; `PARTIAL_STATUS_20261008.json` explicitly records
+an incomplete diagnostic. Frozen A/B interpretation remains pending; no final
+COMPLETE.json or unique fine-generator causal conclusion is claimed.
+Login31 Slurm queries persistently fail with `Could not establish a configuration
+source`; standard login environment also fails, while existing compute-shell
+queries succeed. No scheduler config changes or alternate batch launch attempted.
+Idle allocations59525617/59526182 await scheduled expiry; release permission is
+pending. Successful artifacts are preserved for missing-address-only resumption.
+Two new independent final-accounting tests pass (nine focused tests total).
+See docs/e2e_true_coarse_fraction_diagnostic_20261008.md for completed power/closure
+evidence, exact remaining batches and final-summary/check entrypoints. No training,
+model selection, sealed-phase access, or push.
+
 ## 2026-10-08 — [code/results] Class-fraction truth closure is a material confounder
 
 Four-cap/32-draw no-neural closure completes on59520351, all steps0:0; allocation

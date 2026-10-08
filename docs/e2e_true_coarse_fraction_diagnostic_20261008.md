@@ -63,10 +63,48 @@ Saved-field analysis is complete. Parent Stage C moments and their conditional-M
 ranges reconcile to the original scores. Independent power verification passes
 154 comparisons with the historical spectrum products. The original decision
 receipt remains unchanged. No A/B interpretation branch has been selected:
-matched B generation is still running; the truth-closure panel is complete.
+matched B is incomplete and further launches are currently blocked; the
+truth-closure panel is complete.
 The byte-verified separate attachment is
 `cfm_conditioning_augmentation_20261006_v3/decision/SAMPLED_COARSE_POWER_ADDENDUM_20261008.json`
 under the same Scratch E2E root.
+
+### Execution checkpoint — 2026-10-08 06:04 UTC
+
+B has **17/32 four-draw batches complete**, each with successful generation
+and extraction. A compute-node inventory rehashes every completed B field and
+core product:17complete,15missing,0partial. The receipt is
+`PARTIAL_STATUS_20261008.json`; it explicitly sets `diagnostic_complete=false`
+and has no interpretation branch. There is no final `COMPLETE.json` yet.
+
+Further launches are blocked by login31's persistent Slurm configuration error
+(first observed around05:43UTC): `Could not establish a configuration source`.
+The standard login environment also fails. Queries through existing compute
+shells work and confirm all scientific steps on59525617/59526182 completed0:0.
+These idle allocations retain their scheduled06:10/06:20UTC expiries; explicit
+release permission is pending. No scheduler configuration was changed or
+maintenance restriction bypassed. Previous59522497/59522839 also expired only
+after all their scientific steps completed successfully.
+
+Resume only missing addresses from the receipt, without regenerating A or
+completed B. Remaining first-draw addresses: ph012/NGC16,20,24,28;
+ph012/SGC20,24,28; ph013/NGC16,20,24,28; ph013/SGC16,20,24,28.
+Keep at most two2-GPU interactive allocations unless separately approved.
+After all products complete, run `e2e_true_coarse_fraction_summary.py`, then
+`e2e_true_coarse_fraction_final_check.py`. The latter independently recomputes
+B's weighted fractions from labels and reconciles scalar moments and case
+contributions. Its two focused tests pass; nine focused tests pass in total.
+
+No interim B statistic is used to apply the frozen rule. Current evidence
+establishes a material truth/operator mismatch and a residual region-dependent
+discrepancy, **not a uniquely identified fine-generator failure**. A suitable
+repair sequence is to isolate truth-only resolution/interpolation versus
+finite-domain/exterior closure, preserve physical full-box truth as the target,
+then use the completed matched B result to direct conditional-model tests.
+Band-specific power and regional class calibration need separate checks;
+neither a global mean-offset correction nor the tested augmentation has been
+shown to fix both. New training or blanket variance inflation is not justified
+by these partial results and has not been launched.
 
 ### Completed truth-closure control
 
