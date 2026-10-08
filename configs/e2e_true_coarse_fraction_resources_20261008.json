@@ -1,0 +1,34 @@
+{
+  "scope": "Resource-only packing of the already authorized matched diagnostic",
+  "scientific_contract": "configs/e2e_true_coarse_fraction_diagnostic_20261008_v1.json",
+  "scheduler": "salloc/srun only; no sbatch",
+  "maximum_concurrent_allocations": 2,
+  "maximum_gpus_per_allocation": 2,
+  "maximum_concurrent_single_gpu_workers": 4,
+  "allocation_walltime": "02:00:00",
+  "qos": "shared_interactive",
+  "account": "desi_g",
+  "constraint": "gpu&hbm80g",
+  "licenses": "scratch",
+  "logical_cpus_per_worker": 32,
+  "step_memory_gib": 60,
+  "worker_assignment": "One explicitly listed NGC batch and one SGC batch, or a single remaining batch",
+  "worker_maximum_batches": 2,
+  "launch_gates": [
+    "Initial retained true-coarse SGC generation and extraction both pass",
+    "Focused metric and worker/report tests pass",
+    "Allocation inventory permits another allocation",
+    "No target field or core directory already exists"
+  ],
+  "timing_evidence": {
+    "retained_true_coarse_SGC_four_draw_seconds": 1837.3381354119629,
+    "retained_true_coarse_SGC_peak_gpu_gib": 14.236241817474365,
+    "retained_true_coarse_SGC_max_mass_error": 4.598975669289219e-16,
+    "prior_matched_NGC_control_four_draw_seconds": 3606,
+    "planned_two_batch_worker_minutes": 95,
+    "allocation_margin_minutes": 25
+  },
+  "no_automatic_retry": true,
+  "no_background_agent": true,
+  "no_model_or_metric_changes": true
+}
