@@ -68,6 +68,44 @@ The byte-verified separate attachment is
 `cfm_conditioning_augmentation_20261006_v3/decision/SAMPLED_COARSE_POWER_ADDENDUM_20261008.json`
 under the same Scratch E2E root.
 
+### Completed truth-closure control
+
+All four caps pass, with32 original exterior-noise addresses per cap. The
+corrected interior parent ratios depend materially on the reference:
+
+| Phase | Physical full-box truth (primary) | All-true padded cuboid reference | Mean true-covered / original-exterior reference |
+| --- | ---: | ---: | ---: |
+| ph012 | 2.6958 | 2.0461 | 2.3613 |
+| ph013 | 2.1147 | 1.3433 | 1.5942 |
+
+The last two columns are **changed-target sensitivities**, not replacements
+for physical truth, recalibration, or causal fractions of the error budget.
+Boundary ratios are much less sensitive: physical0.7501/1.0216 versus
+all-true-cuboid0.7425/1.0148. The all-true cuboid still includes finite-domain
+and discretisation effects; it is not an exact periodic full-box tidal operator.
+
+A post-hoc case-accounting check locates the large reference sensitivity in
+sparse high-redshift cores. `ph013_SGC_s3_interior_00` contains60 and5galaxies
+in its two cores. One galaxy changes class in each truth-only reconstruction;
+the five-galaxy core therefore has a20-percentage-point wall/filament shift.
+That pair contributes0.7801 of the net0.7714 reduction in the phase's ratio
+under the all-true-cuboid reference. In ph012, the11/29-galaxy
+`ph012_NGC_s3_interior_00` pair contributes0.5677 of the net0.6498 reduction.
+Contributions computed independently by case sum to the aggregate ratios.
+
+The two highest-redshift interior pairs account for85.38%/93.56% of the
+physical-target adjusted squared error in ph012/ph013. This is leverage in
+the frozen equal-case statistic, not evidence that those scientifically
+important cases should be dropped. Low counts amplify individual threshold
+crossings; they do not by themselves excuse posterior miscalibration.
+Indeed ph013's other high-redshift interior pair, with10/17galaxies, has no
+all-true-cuboid class changes but still contributes0.8944 to the phase ratio.
+Thus operator closure is a material confounder, not a complete explanation.
+All registered cases and the original physical target remain primary.
+
+Receipts: `TRUTH_CLOSURE_COMPLETE.json` and descriptive
+`TRUTH_CLOSURE_CASES.json` in the new diagnostic Scratch root.
+
 For the corrected interior parent, total ratios are 2.6958 and 2.1147;
 removing the common six-coordinate mean-error vector leaves 2.3857 and
 2.0420. A global mean-offset correction therefore does not account for most
