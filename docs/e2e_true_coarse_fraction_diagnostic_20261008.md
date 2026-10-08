@@ -64,6 +64,9 @@ ranges reconcile to the original scores. Independent power verification passes
 154 comparisons with the historical spectrum products. The original decision
 receipt remains unchanged. No A/B interpretation branch has been selected:
 matched B generation and the full truth-closure panel are still running.
+The byte-verified separate attachment is
+`cfm_conditioning_augmentation_20261006_v3/decision/SAMPLED_COARSE_POWER_ADDENDUM_20261008.json`
+under the same Scratch E2E root.
 
 For the corrected interior parent, total ratios are 2.6958 and 2.1147;
 removing the common six-coordinate mean-error vector leaves 2.3857 and
