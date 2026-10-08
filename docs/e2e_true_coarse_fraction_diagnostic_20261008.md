@@ -63,11 +63,19 @@ Saved-field analysis is complete. Parent Stage C moments and their conditional-M
 ranges reconcile to the original scores. Independent power verification passes
 154 comparisons with the historical spectrum products. The original decision
 receipt remains unchanged. No A/B interpretation branch has been selected:
-matched B is incomplete and further launches are currently blocked; the
-truth-closure panel is complete.
+matched B is incomplete and has resumed after the scheduler interruption;
+the truth-closure panel is complete.
 The byte-verified separate attachment is
 `cfm_conditioning_augmentation_20261006_v3/decision/SAMPLED_COARSE_POWER_ADDENDUM_20261008.json`
 under the same Scratch E2E root.
+
+### Resumption — 2026-10-08 08:13 UTC
+
+User requests resumption. Login13 scheduler access works and the queue was empty.
+The17completed batches are reused. Interactive59536284/59536286 run the next
+eight missing batches with the unchanged numerical sources and two-allocation/
+four-GPU limit. Seven missing batches follow this segment; final scoring remains
+pending all32. The checkpoint and interruption below are retained as history.
 
 ### Execution checkpoint — 2026-10-08 06:04 UTC
 

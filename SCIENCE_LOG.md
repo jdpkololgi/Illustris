@@ -1,5 +1,15 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-08 — [code] True-coarse diagnostic resumed from verified checkpoint
+
+User requests resumption; scheduler access works on login13 and the live queue
+was empty. Reuse17completed B batches; launch only missing addresses with the
+unchanged source750a018 and registered two-allocation/four-GPU bound.
+Interactive59536284/59536286 each run two independent one-GPU foreground workers,
+eight missing batches in this segment, seven afterward. No failed-batch retry,
+new model, training, metric change, sealed-phase access or sbatch. Final summary
+and independent fraction/moment reconciliation remain pending all32batches.
+
 ## 2026-10-08 — [code] True-coarse checkpoint: 17/32 batches; login-node scheduler blocked
 
 Matched B has17/32four-draw batches complete, all generation/extraction steps0:0.
