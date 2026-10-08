@@ -57,6 +57,45 @@ user's [.04,.08), [.08,.16); also retain the previous (lo,hi] convention for
 parity and document any edge-mode differences. Do not infer missing spectra
 from raw latent U, oracle power, or summary-only files.
 
-## Results
+## Results in progress
 
-Pending execution. No interpretation branch has been selected.
+Saved-field analysis is complete. Parent Stage C moments and their conditional-MC
+ranges reconcile to the original scores. Independent power verification passes
+154 comparisons with the historical spectrum products. The original decision
+receipt remains unchanged. No A/B interpretation branch has been selected:
+matched B generation and the full truth-closure panel are still running.
+
+For the corrected interior parent, total ratios are 2.6958 and 2.1147;
+removing the common six-coordinate mean-error vector leaves 2.3857 and
+2.0420. A global mean-offset correction therefore does not account for most
+of the mismatch. The centered statistic still includes region-dependent mean
+errors; it does not establish that posterior variance alone is too small.
+
+Physical sampled-coarse fine-residual power divided by truth power:
+
+| Setting | ph012 [.04,.08) | ph012 [.08,.16) | ph013 [.04,.08) | ph013 [.08,.16) |
+| --- | ---: | ---: | ---: | ---: |
+| Parent | 0.8507 | 0.8004 | 0.8801 | 0.8463 |
+| Control | 0.8508 | 0.7986 | 0.8799 | 0.8449 |
+| Augmented, s=0 | 0.9245 | 0.7958 | 0.9555 | 0.8410 |
+| Augmented, s=.025 | 0.8958 | 0.7930 | 0.9258 | 0.8382 |
+| Augmented, s=.05 | 0.8679 | 0.7905 | 0.8968 | 0.8358 |
+| Augmented, s=.1 | 0.8143 | 0.7868 | 0.8414 | 0.8322 |
+| Augmented, s=.2 | 0.7169 | 0.7842 | 0.7409 | 0.8299 |
+
+Thus the uncorrupted augmented model improves the lower band, but no setting
+removes the higher-band deficit. The premise that augmentation fixed both
+sampled-coarse power deficits while leaving fractions unchanged is unsupported.
+These are equal-window aggregate ratios, not independent-mode measurements.
+
+The secondary interior coarse-only regional-density joint ratios are 1.0208
+[0.9106,1.3025] for ph012 and 1.0711 [0.8775,1.4697] for ph013; centered ratios
+are 0.7208 and 1.0703. Brackets are conditional-MC sensitivity ranges. These
+volume-weighted block-density summaries do not test the anisotropic/spatial
+coarse information relevant to galaxy-weighted class fractions.
+
+Both phases' new global true-coarse canvases match all 32 registered saved
+wide-window truth crops exactly. First-stage truth closure and retained B
+generation use interactive allocations only. Scripts, inputs and outputs are
+hash-bound under
+`/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/true_coarse_fraction_diagnostic_20261008_v1`.
