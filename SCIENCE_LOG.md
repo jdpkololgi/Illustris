@@ -1,5 +1,20 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-08 — [code/results] Class-fraction truth closure is a material confounder
+
+Four-cap/32-draw no-neural closure completes on59520351, all steps0:0; allocation
+released. Corrected interior parent ratios2.6958/2.1147 become2.0461/1.3433
+against an all-true padded-cuboid reference, or2.3613/1.5942 against mean
+true-covered/original-exterior labels. These are changed-target sensitivities,
+not replacement gates or causal attribution. Boundary ratios change little.
+Post-hoc case accounting shows85.38%/93.56% of physical-target adjusted interior
+error in the highest-redshift pairs. A five-galaxy core's one class change
+produces a20-percentage-point fraction shift. Other sparse cores retain large
+error without closure class changes; closure does not explain everything.
+No cases are dropped and physical full-box truth remains primary. Details and
+receipts: docs/e2e_true_coarse_fraction_diagnostic_20261008.md. Matched B is
+still running; no frozen interpretation branch is yet available.
+
 ## 2026-10-08 — [code/validation] True-coarse retained smoke passes; saved diagnostics complete
 
 Parent-only ph012/SGC/d000 true-coarse full-cap generation passes in1837s on
