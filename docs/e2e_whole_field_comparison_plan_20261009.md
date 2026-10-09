@@ -9,15 +9,16 @@ See [the historical screen](e2e_wholefield_gate2_results_20261009.md) and
 The user subsequently chose the exact full-cap operator and explicitly approved
 field regeneration, GPUs and training subject to the scientific gates. The
 missing-input obstacle is therefore authorized to be resolved, but the measured-
-rate cost forecast exceeds the standing 32 GPU-hour ceiling. A 250-hour total
-amendment is pending; no new compute has launched. See the
+rate cost forecast exceeded the original 32 GPU-hour ceiling. The user has now
+explicitly approved a **250 allocated GPU-hour total**, retaining the deadline,
+8-hour Gate 1 subcap, interactive-only execution and at most two allocations. See the
 [full-cap regeneration preflight](e2e_wholefield_fullcap_regeneration_20261009.md).
 
 Status: execution approved on 9 October 2026. Commit this plan, the P12-A scope
 note and science log before compute. Run Gate 2 first or in parallel with Gate 1;
 stop if the panel cannot detect the registered effect. Measure Gate 1's full cost
 before its campaign and pack several small fits per GPU. Report each gate before
-proceeding. The approved ceiling is 14 days, 32 allocated GPU-hours total and
+proceeding. The amended ceiling is 14 days, 250 allocated GPU-hours total and
 8 for Gate 1, interactive salloc/srun only, at most two allocations. Existing
 frozen artifacts remain unchanged; sealed phases and follow-on coarse training
 remain outside this execution authorization.
@@ -436,7 +437,7 @@ contract are in [a separate note](e2e_cfm_p12a_comparison_scope_20261009.md).
    approved after selection is frozen. No VAC, DESI, website or default changes.
 
 Approved hard envelope: 14 calendar days from the first authorized compute start,
-32 aggregate allocated GPU-hours for Gates 1--2 and the fine pilot combined,
+250 aggregate allocated GPU-hours for baseline regeneration, Gates 1--2 and the fine pilot combined,
 including feasibility, training, posterior draws, refinement, controls and failed
 attempts. Gate 1 has an 8 GPU-hour subcap included in that total. These are spending
 ceilings, not timing predictions. Execution within these bounds is authorized.

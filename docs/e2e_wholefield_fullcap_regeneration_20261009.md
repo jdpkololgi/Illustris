@@ -6,9 +6,10 @@ On 9 October the user chose to retain the exact registered full-cap corrected
 operator and explicitly authorized field regeneration, GPU use and training as
 needed to obtain results. This resolves the operator/data-scope choice. It does
 not waive the sensitivity/Gaussian gates, sealed-phase restriction, or the
-explicit 32 allocated GPU-hour ceiling. A separate numerical budget amendment
-has been requested because the saved full-length timings exceed that ceiling.
-No new allocation, generation or training has been launched in this preflight.
+earlier explicit resource ceiling without a numerical amendment. The user has
+now explicitly approved **250 total allocated GPU-hours**, with the deadline,
+interactive-only execution, two-allocation limit and scientific gates unchanged.
+This authorizes bounded execution; the preflight itself launched no compute.
 
 The target is now a full-cap baseline over ph012--017, model seeds 17 and 29,
 32 draws per cap, and the same 16 pairs per phase. This matches the intended
@@ -63,17 +64,18 @@ complete storage bound: allow additional compact summaries, staging, logs and
 failed outputs, and check Scratch capacity before launch. Original inputs are
 never deleted or overwritten.
 
-## Requested budget amendment
+## Approved budget amendment
 
-Requested ceiling: **250 total allocated GPU-hours**, including rather than
+Approved ceiling: **250 total allocated GPU-hours**, including rather than
 adding to the original 32, with the original 8-hour Gate 1 subcap and deadline
 unchanged (23 October, 20:17 BST). At most two interactive allocations; no batch
 submission. This is a spending ceiling, not a promise that every later gate and
 training arm will fit. Measure and account at each stage; stop and report if a
 complete required stage cannot fit the remaining budget.
 
-This amendment is pending explicit user response. General permission to use
-GPUs is not recorded as approval to exceed the earlier numerical cap.
+The user's explicit numerical approval supersedes the earlier 32-hour total.
+It does not alter the frozen model/operator, statistical gates, phase scope,
+training-only normalizations or sealed confirmation restrictions.
 
 ## Execution sequence after the budget is resolved
 

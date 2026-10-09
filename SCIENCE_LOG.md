@@ -1,5 +1,18 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-09 — [budget approved] Full-cap matched evaluation within 250 allocated GPU-hours
+
+User explicitly approves raising the campaign total from 32 to 250 allocated
+GPU-hours, inclusive of the original budget. The deadline (23 October 20:17 BST),
+interactive-only execution, at most two simultaneous allocations, 8h Gaussian
+Gate1 subcap, scientific stop gates and sealed ph018/019 are unchanged. The
+earlier permission for regeneration/GPU/training is now resource-qualified.
+Proceed with source-bound reuse, necessary missing full-cap fields and corrected
+continuous-summary extraction, then the amended six-phase sensitivity gate.
+Report Gate2 before advancing; no baseline retraining or premature fine fits.
+Protocol and measured-rate forecast:
+`docs/e2e_wholefield_fullcap_regeneration_20261009.md`.
+
 ## 2026-10-09 — [execution scope approved] Exact full-cap operator retained; budget amendment needed
 
 User explicitly chooses the exact registered full-cap corrected operator and
