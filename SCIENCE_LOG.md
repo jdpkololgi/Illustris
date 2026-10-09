@@ -1,5 +1,30 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-09 — [execution scope approved] Exact full-cap operator retained; budget amendment needed
+
+User explicitly chooses the exact registered full-cap corrected operator and
+authorizes regeneration, GPUs and training to obtain results. This resolves the
+operator/data-scope choice, not the scientific gates or sealed ph018/019 rules.
+The target is the same six-phase/two-seed/16-pair panel under full-cap generation;
+it is not relabelled as the original pair-local draw distribution. Baseline
+models remain frozen at coarse13312/fine26624 EMA; no baseline retraining needed.
+
+Metadata-only preflight finds 56 completed four-draw density/tide pairs reusable
+subject to payload/source checks: 51 seed17 plus five seed29 SGC products from
+the stopped mixture campaign. Of 192 required cap tasks, 136 remain for each
+product. All twelve targetless input caches are present. Recorded full-NFE
+timing rates forecast 177.26 GPUh at median rates or 200.31 at maximum observed
+rates, before corrected extraction, validation, allocation overhead, gates or
+training; these are forecasts, not bounds or new measured runs. Added product
+storage forecast is 344.2 GiB. Initial metadata v1 double-counted tidal setup;
+controlling v2 fixes this, and independent totals reconcile.
+
+The standing 32 allocated GPUh ceiling has not been explicitly amended. Asked
+for 250 total GPUh, with existing 14-day deadline, 8h Gate1 subcap, interactive-
+only and at most two allocations unchanged. No new allocation/field/training
+launched while that material budget choice is pending. Evidence and execution
+sequence: `docs/e2e_wholefield_fullcap_regeneration_20261009.md`.
+
 ## 2026-10-09 — [Gate 2 correction] Matched six-phase rerun blocked by saved tidal inputs
 
 User corrects the comparison to the frozen coarse13312/fine26624 EMA evaluation:

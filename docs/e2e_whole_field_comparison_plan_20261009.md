@@ -6,9 +6,12 @@ is historical evidence for that narrower rule only, not a sensitivity decision
 for this comparison. Its acceptance margin also equalled its powered effect.
 See [the historical screen](e2e_wholefield_gate2_results_20261009.md) and
 [the matched-panel availability audit](e2e_wholefield_matched_gate2_20261009.md).
-The matched rerun is blocked at the saved-input prerequisite. CPU extraction
-and sensitivity simulation are authorized if the exact saved summaries can be
-recovered; no training or GPU work. Field regeneration requires new approval.
+The user subsequently chose the exact full-cap operator and explicitly approved
+field regeneration, GPUs and training subject to the scientific gates. The
+missing-input obstacle is therefore authorized to be resolved, but the measured-
+rate cost forecast exceeds the standing 32 GPU-hour ceiling. A 250-hour total
+amendment is pending; no new compute has launched. See the
+[full-cap regeneration preflight](e2e_wholefield_fullcap_regeneration_20261009.md).
 
 Status: execution approved on 9 October 2026. Commit this plan, the P12-A scope
 note and science log before compute. Run Gate 2 first or in parallel with Gate 1;
@@ -174,7 +177,9 @@ trace-free contrasts of volume-mean ordered tidal eigenvalues per core, with
 the registered corrected operator. Preserve identity scales. The 18-column
 historical density cache alone is insufficient. Missing corrected tidal inputs
 stop the rerun with an explicit inventory; no silent operator substitution or
-field regeneration. Do not attach full-cap summaries to pair-local draws just
+field regeneration without authority. The subsequent user approval chooses a
+new full-cap comparison over the same phase/seed/pair panel; it does not equate
+its draw law with the original pair-local evaluation. Do not attach full-cap summaries to pair-local draws just
 because phase, model and pair labels agree.
 
 Validate the complete decision rule on calibrated, biased, underdispersed and
