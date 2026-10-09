@@ -113,8 +113,8 @@ training-only normalizations or sealed confirmation restrictions.
 
 ### Execution checkpoint
 
-Authorization committed as35beaf7; generation contract/runner as a61cdcf.
-CPU59606194 passed12tests, verified all12prepared caches and all56reusable
+Authorization committed as 35beaf7; generation contract/runner as a61cdcf.
+CPU 59606194 passed 12 tests, verified all 12 prepared caches and all 56 reusable
 density/tide pairs, then released automatically. The immutable generation
 manifest SHA256 is
 `62dd809fc73bc056ab9ffd0168d8b71a8daefa307e9f25acb862341abfbc463f`.
@@ -125,17 +125,25 @@ its first task is ph014/NGC/seed29/d000. Completion remains pending.
 Generation root:
 `/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/wholefield_comparison_20261009_v1/fullcap_v1`.
 `MANIFEST.json` binds source/configuration/input identities;
-`REUSE_VERIFIED.json` records the56qualified reuses;
+`REUSE_VERIFIED.json` records the 56 qualified reuses;
 `allocations/s001/` holds reservation/start/final-accounting records;
 `logs/s001/` and `tasks/` retain task execution and completion evidence.
 
 The independent extractor is `workflows/sbi/e2e_wholefield_fullcap_extract.py`.
 It uses only the generation snapshot's numerical dependencies, binds its own
-source, restricts target access toph012--017 and checks original-tide replay,
+source, restricts target access to ph012--017 and checks original-tide replay,
 correction trace and corrected ph012/013 seed17 parity. It saves compact cores
 and the fixed six-coordinate summary, not an altered operator or gate. Five
-extractor unit tests plus12contract tests pass; GPU extraction is not yet
-qualified. No Gate2 decision, new fit or posterior claim follows from staging.
+extractor unit tests plus 12 contract tests pass.
+
+The first GPU replay, 59606430, passed all four ph012/NGC seed-17 draws, with
+exact corrected-core agreement, original-tide max difference 5.96e-8, and
+correction trace residual 8.93e-15. The extraction itself took 39.99 seconds and
+peaked at 35.47 GiB GPU memory. Actual allocation: 64 seconds, 0.01778 GPUh,
+COMPLETED 0:0, released automatically. Segment s003 (59606480) now extracts
+currently verified products within a one-hour/one-GPU reservation, retaining
+the two-allocation limit. No Gate 2 decision, new fit or posterior claim follows
+from this engineering replay.
 
 Metadata preflight source:
 `workflows/sbi/e2e_wholefield_fullcap_preflight.py`.

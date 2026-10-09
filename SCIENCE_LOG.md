@@ -2,23 +2,32 @@
 
 ## 2026-10-09 — [execution] Full-cap reuse verified; bounded regeneration started
 
-Authorization35beaf7 and source/contracta61cdcf committed before compute.
-CPU59606194 completed12tests, all12targetless input-cache hashes and56saved
-density/tide payload+lineage checks; exited automatically. Immutable generation
-manifest62dd809f binds192tasks, the same frozen models and unchanged numerical
-sampler. Four historical full-NFE seed17 replay checks remain source-qualified.
-136cap tasks require generation; no sealed-phase access or baseline training.
+Authorization 35beaf7 and source/contract a61cdcf committed before compute.
+CPU 59606194 completed 12 tests, all 12 targetless input-cache hashes and 56 saved
+density/tide payload and lineage checks; exited automatically. Immutable
+generation manifest 62dd809f binds 192 tasks, the same frozen models and unchanged
+numerical sampler. Four historical full-NFE seed-17 replay checks remain
+source-qualified. 136 cap tasks require generation; no sealed-phase access or
+baseline training.
 
-First technical generation segment s001 starts in59606367 on nid200277: one
+First technical generation segment s001 starts in 59606367 on nid200277: one
 80GB GPU, three-hour reservation, shared_interactive, foreground automatic exit.
 The first task is ph014/NGC/seed29/d000. This is a launch, not a completion or
 scientific result. Accounting uses actual allocated GPU-seconds after termination
-and full reservations while running; total ceiling250GPUh. No concurrent scale-up
+and full reservations while running; total ceiling 250 GPUh. No concurrent scale-up
 until representative generation verifies. Corrected extraction is a separately
 bound source and will not modify the running generation snapshot. Seventeen
 focused tests pass, including exact pure-function agreement with the registered
 linear reconstruction and continuous summary, plus sealed-phase guard failures.
-GPU replay/extraction and amended Gate2 remain pending. Protocol:
+
+GPU extraction replay 59606430 then passed all four ph012/NGC seed-17 draws:
+corrected cores agree exactly with the prior products, original-tide difference
+5.96e-8, correction trace residual 8.93e-15. Peak allocated GPU memory 35.47 GiB;
+allocation COMPLETED 0:0 in 64 seconds, 0.01778 allocated GPUh, released
+automatically. Segment s003 (59606480) extracts remaining verified products
+within one GPU-hour while s001 continues. This verifies the operator, not the
+posterior or sensitivity gate. Full generation and amended Gate 2 remain pending.
+Protocol:
 `docs/e2e_wholefield_fullcap_regeneration_20261009.md`.
 
 ## 2026-10-09 — [budget approved] Full-cap matched evaluation within 250 allocated GPU-hours
