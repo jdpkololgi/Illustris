@@ -1,9 +1,14 @@
 # Coupled CFM whole field comparison plan
 
-Execution outcome, 9 October: **stopped at Gate 2 for insufficient sensitivity**
-under the registered synthetic tests. No Gate 1 campaign, cost pilot or training
-was run; zero GPU-hours used. The contract below is retained, not relaxed.
-See [the verified gate result](e2e_wholefield_gate2_results_20261009.md).
+Current amendment, 9 October: **Gate 2 must match the frozen model's actual
+six-phase, two-seed evaluation.** The earlier two-phase parent-canvas screen
+is historical evidence for that narrower rule only, not a sensitivity decision
+for this comparison. Its acceptance margin also equalled its powered effect.
+See [the historical screen](e2e_wholefield_gate2_results_20261009.md) and
+[the matched-panel availability audit](e2e_wholefield_matched_gate2_20261009.md).
+The matched rerun is blocked at the saved-input prerequisite. CPU extraction
+and sensitivity simulation are authorized if the exact saved summaries can be
+recovered; no training or GPU work. Field regeneration requires new approval.
 
 Status: execution approved on 9 October 2026. Commit this plan, the P12-A scope
 note and science log before compute. Run Gate 2 first or in parallel with Gate 1;
@@ -150,10 +155,27 @@ or "a few GPU-hours" is not a measured estimate for this complete design.
 
 Run this gate first, or in parallel with Gate 1, using saved summaries and
 receipts wherever sufficient. A failed sensitivity gate stops the campaign.
-Freeze the actual comparison geometry: currently two phases with 16 region pairs
-per phase, including only eight interior pairs per phase in the published interior
-ratio. If the multiwindow pilot changes support, re-evaluate sensitivity on that
-exact subset before fitting. Do not count all 32 pairs as interior or independent.
+Freeze the matched comparison geometry: ph012--017, seeds 17 and 29, all 16
+region pairs per phase/seed, 32 draws per case: 192 cases but only six phases.
+The frozen coarse-13312/fine-26624 EMA evaluation is identified by
+`cfm_additional_20260926_v1/regional_calibration_cache.npz` and its upstream
+mixed/additional receipts. It is a pair-local evaluation, not the later
+parent full-cap canvas. Preserve the same 13 training phases for future fits.
+Select checkpoints on ph012/013 only; decide advancement with a pooled
+six-phase statistic and also report the ph014--017 out-of-fit pool. These four
+phases are exposed, not sealed, and are out-of-fit for the same 13-phase training
+set. Historical development exposure remains disclosed. Ph018/019 stay sealed.
+If the multiwindow pilot changes support or generation law, re-evaluate
+sensitivity on that exact matched support before fitting. Do not count cases,
+cores, seeds or draws as independent phases.
+
+First require saved fields sufficient for offset [2:14]^3 density and two
+trace-free contrasts of volume-mean ordered tidal eigenvalues per core, with
+the registered corrected operator. Preserve identity scales. The 18-column
+historical density cache alone is insufficient. Missing corrected tidal inputs
+stop the rerun with an explicit inventory; no silent operator substitution or
+field regeneration. Do not attach full-cap summaries to pair-local draws just
+because phase, model and pair labels agree.
 
 Validate the complete decision rule on calibrated, biased, underdispersed and
 decorrelated synthetic ensembles at the intended draw count and panel geometry.
@@ -171,10 +193,28 @@ statistic, not a measured continuous-summary baseline. Test that scenario as a
 secondary sensitivity check, alongside phase-specific starts 2.6958 and 2.1147.
 For the continuous primary vector defined below, freeze its own baseline and
 effect size from existing development summaries before any new fit. Use a proposed
-20% reduction in absolute deviation of its error/variance ratio from one, plus
-improvement in the registered joint score, rather than imposing a fraction-derived
-target. If that effect is not detectable, stop or obtain approval for a revised
-panel; more posterior draws can reduce MC error but cannot create new phases.
+minimum 10% reduction in absolute deviation of the pooled error/variance ratio
+from one, plus joint-score improvement. Test power of at least 80% at both 20%
+and 40% true improvement, with false advancement at most 5%. Acceptance and
+powered alternatives must be distinct. Pool Q and V with equal phase weights,
+retaining both seeds within each phase, then take tr(Q)/tr(V); do not average
+ratios or require every phase to pass. Resample entire phases, retaining all
+within-phase regions, draws and both seeds. Report both the six-phase and
+014--017 pools and all per-phase/per-seed baselines. The latter pool is a
+declared robustness report, not an alternative route selected after failure.
+Include frozen seed-to-seed variability in the improvement noise floor for
+both ratio and joint score; do not treat two seeds as extra universes.
+
+Retain b06670e's Gaussian-scale, biased, common-mode and heavy-tail laws and
+noise correlations 0, 0.9 and 1, with shared truths and within-phase dependence.
+Commit a new executable binding before any simulations, specifying the seed
+noise-floor formula, joint score/margin, checkpoint selector and multiplicity.
+These details remain unbound while the exact summary bank is missing; this
+document is not a claim that a complete new decision rule has been simulated.
+A rejection-only necessary-event screen may stop the rerun but cannot pass it.
+If it does not reject, complete full-rule power and false-advancement calibration,
+including selection, before a Gate 2 pass. More posterior draws can reduce MC
+error but cannot create new phases.
 Sensitivity established only for class fractions is insufficient to launch.
 
 ## Stage 3 Fine-only Abacus pilot
@@ -189,9 +229,10 @@ not twice as many fits. Match the frozen fine reference separately in each mode.
 
 True coarse is an oracle conditional diagnostic; sampled coarse is the deployable
 composition test. Improvement only under true coarse is not enough to advance.
-Both modes must improve the fine-sensitive primary summaries in both development
-phases and both seeds, with stable neighboring checkpoints and no material
-marginal regression. Test frozen-coarse compatibility explicitly rather than
+Both modes must improve the fine-sensitive primary summaries under the amended
+pooled six-phase, two-seed rule, with stable neighboring checkpoints selected
+only on ph012/013 and no material marginal regression. Report individual
+phases/seeds and the out-of-fit pool. Test frozen-coarse compatibility rather than
 assuming a new fine generator tolerates its errors.
 
 The positive mass-conserving decoder fixes total mass within each coarse cell.
@@ -263,8 +304,9 @@ For the fine-only Abacus pilot:
 3. Select on 012/013 using a frozen proper-score criterion with calibration
    guardrails; report every checkpoint and both seeds. Require stability at
    adjacent checkpoints rather than picking an isolated favorable fluctuation.
-   Successful pilot replication on 014--017 is a separately scoped follow-on,
-   acknowledging prior exposure; it is not a rescue search after pilot failure.
+   Evaluate the fixed selection on the full ph012--017 panel, reporting
+   014--017 separately as out-of-fit. Do not use those four phases for rescue
+   checkpoint selection or call them fresh confirmation.
 4. Track training versus held-out loss, posterior mean error, spread and coverage
    separately. Improving training loss with worsening held-out scores or shrinking
    uncertainty is a stop signal for that continuation, not motivation to keep
@@ -321,8 +363,8 @@ observed residuals. Define regional eigenvalues as volume means of the ordered
 voxel eigenvalues; eigenvalues of a mean tensor are a distinct, separately labeled
 statistic. Freeze vector coordinates, train-only scales/whitening, regularization
 and a TARP-style random-reference rank/coverage procedure with validated finite-draw
-and dependence-aware nulls. Two phases cannot establish population joint calibration;
-these remain finite-panel diagnostics with explicitly limited power.
+and dependence-aware nulls. Six phases provide limited population-calibration
+evidence; these remain finite-panel diagnostics with conditional sensitivity tests.
 
 For the fixed scaled continuous vector s, report R = tr(Q)/tr(V), where
 Q averages (posterior-mean minus truth) outer products minus V/M and V is the
@@ -330,8 +372,9 @@ sample predictive covariance at M draws. Use the same registered region weights
 for both, retain bias and variance separately, and do not clip negative MC-adjusted
 errors. Report distance from one, joint ranks and fair energy/variogram scores
 together: covariance inflation alone must not earn advancement. At the selected
-checkpoint require the predeclared 20% reduction in |R-1| and a resolved joint
-score improvement in every phase/seed and both conditioning modes, with no material
+checkpoint require the predeclared minimum 10% reduction in pooled |R-1| and a
+joint-score improvement resolved beyond the frozen seed noise floor, in both
+conditioning modes, with no material
 coverage or marginal-score regression. Freeze score margins in Gate 2, before
 training. Stability at a neighboring checkpoint is required, not a new chance to
 select after failure. If baseline R is already indistinguishable from one, this
@@ -360,7 +403,7 @@ and learning error unresolved. State how many draws are needed from measured
 precision, then freeze that count and its compute budget before scoring.
 
 Advance from the pilot only on the registered regional/joint rule above; later
-broader claims require exposed-phase replication and separately approved fresh
+broader claims require separately approved fresh
 confirmation. A whole-domain improvement supports that domain and target only.
 All-arm failure
 does not prove architecture impossibility; useful errors may instead concern
@@ -383,8 +426,8 @@ contract are in [a separate note](e2e_cfm_p12a_comparison_scope_20261009.md).
    training rather than silently dropping a seed or primary diagnostic.
 4. Only after both gate reports and passes, run two to four fine fits, evaluate both
    conditioning modes and apply the frozen stop/advance rule.
-5. Only success warrants a new proposal for coarse training, full-chain testing
-   and exposed-phase replication. Fresh 018/019 confirmation remains separately
+5. Only success warrants a new proposal for coarse training and full-chain
+   testing. Fresh 018/019 confirmation remains separately
    approved after selection is frozen. No VAC, DESI, website or default changes.
 
 Approved hard envelope: 14 calendar days from the first authorized compute start,
@@ -398,8 +441,8 @@ not only optimizer time. Record actual CPU hours and storage, and freeze their
 allocation/storage limits in the execution request as well.
 
 Stop at the first exhausted cap, failed prerequisite, numerical/physical invalidity
-or missing reproducible primary improvement. If no survivor improves in both
-phases and both seeds under both coarse modes, park this field-model campaign
+or missing reproducible primary improvement. If no survivor passes the pooled
+six-phase/two-seed rule under both coarse modes, park this field-model campaign
 and retain the result as negative or inconclusive according to its sensitivity.
 Unresolved numerical error, insufficient panel sensitivity or incomplete work
 is inconclusive, not evidence of architecture failure. There is no automatic

@@ -1,5 +1,38 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-09 — [Gate 2 correction] Matched six-phase rerun blocked by saved tidal inputs
+
+User corrects the comparison to the frozen coarse13312/fine26624 EMA evaluation:
+ph012--017 x seeds17/29 x16pairs=192cases. The earlier two-phase parent-canvas
+screen is not a sensitivity decision for this panel; it also used a different
+generation law and an acceptance threshold equal to the powered alternative.
+Plan amended: same13trainingphases; checkpointselection012/013 only; pooled
+six-phase advancement with014--017out-of-fit report; minimum10%improvement,
+power>=80%at20%and40%, falseadvancement<=5%, phase-level resampling and frozen
+seed-noise floor. Ph018/019 remain sealed. No training/GPU authorization here.
+
+CPU59603441 verifies192case receipts and3,072saved chunks/draw addresses. The
+historical cache has18density means, no tidal bank. Raw pair-local rho/wide
+fields support the exact offset-density component but not the registered
+corrected full-cap tides: missing native collar/exterior and shared cap state.
+Full-cap density/tide receipts are partial for014/015, absent for016/017;
+these separate draws cannot substitute for the original pair-local evaluation.
+Full six-coordinate R is unavailable for every matched phase/seed row. Report
+contains all12rows with explicit missing values plus supplemental density-only
+R; do not use that component or earlier parent R as the requested primary R.
+
+Five tests and300independent checks pass; all192historical cache rows reconcile
+to raw density, all96seed-paired truths agree. No new fields, sensitivity
+simulation or full-rule false-advancement calibration. Missing-input stop is
+not a sensitivity rejection. New executable decision binding remains deferred
+until an explicit operator/data-scope decision resolves this prerequisite.
+Audit committed6d5545a; results/provenance:
+`docs/e2e_wholefield_matched_gate2_20261009.md`. No push. Allocation release
+approval requested; final terminal accounting pending. Zero allocatedGPUhours.
+Graph maintenance is incomplete: local update failed filesystem lock errno524;
+global synchronization was blocked by auto-review for an unverified destination.
+Neither block was bypassed; scientific artifacts and QA are unaffected.
+
 ## 2026-10-09 — [Gate 2 stop] Whole-field campaign fails sensitivity before training
 
 Approved plan/scope/log committed as6d3b993 before compute; Gate2 runs first per
