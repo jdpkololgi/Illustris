@@ -1,5 +1,253 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-09 — [execution approved] Whole-field gates with sensitivity first
+
+User approves execution of `docs/e2e_whole_field_comparison_plan_20261009.md`
+and requests committing the plan, P12-A scope note and this log before compute.
+Gate 2 runs first or alongside Gate 1; insufficient sensitivity stops the
+campaign. Gate 1 requires a measured full-cost estimate and packing several
+small fits per GPU before launching its campaign. Report each gate before
+moving on. Authorized ceiling: 14 days from first compute, 32 allocated GPU-hours
+total including 8 for Gate 1, interactive salloc/srun only, at most two allocations.
+No sealed-phase opening, coarse/full-chain follow-on or production replacement.
+This records approval, not a claim that any gate has run or passed.
+
+## 2026-10-09 — [plan amendment only] Gate whole-field work before fine-only Abacus fits
+
+Review of Opus comments narrows the whole-field plan to a mandatory Gaussian
+2x2 plus matched patch-canvas screen (three seeds, 4k/16k/64k learning curves,
+fresh 16-observation gate), then pre-training sensitivity on the actual Abacus
+panel. Only one or two survivors receive two fine-model fits each. Frozen coarse
+endpoints are shared across candidates; true-coarse and sampled-coarse evaluation
+are both required. Persistent true-coarse errors motivate this ordering but do
+not uniquely blame the fine network. Coarse-cell-aligned masses are fixed by the
+decoder and cannot be fine-stage improvement targets.
+
+Continuous regional density/tidal and joint-summary diagnostics are primary;
+class fractions are secondary with the full fixed threshold sweep. The historical
+fraction ratio near 2.5 is not a continuous-summary baseline or coverage estimate.
+Proposed relative advancement margins and dependence-aware sensitivity tests must
+be frozen before training; they do not relax posterior-qualification gates.
+Proposed stop envelope is 14 calendar days and 32 allocated GPU-hours, including
+an 8-hour Gaussian subcap, not a runtime forecast or resource approval. No success
+within the cap parks this campaign; inconclusive and negative outcomes differ.
+
+Research execution is interactive-only with the two-allocation limit; no automatic
+sbatch handoff. Scratch availability/license and payload access must be checked
+before Scratch-backed work; the earlier reservation is not asserted current.
+Coarse/full-chain work requires a later successful-pilot decision and new scope.
+P12-A comparison moved to `docs/e2e_cfm_p12a_comparison_scope_20261009.md`; stronger
+P12-A blind evidence is not a matched per-galaxy dominance result. No compute,
+Scratch payload reads, sealed-phase access or scheduler changes in this turn.
+Supersedes the initial-fit matrix below; current protocol is
+`docs/e2e_whole_field_comparison_plan_20261009.md`.
+
+## 2026-10-09 — [plan amendment only] Four whole-field configurations and reused baseline
+
+User retains frozen coupled CFM as an existing reference, explicitly removes
+new patch-model training, and includes clean-field prediction immediately.
+Initial matrix is whole-domain U-Net/transformer crossed with velocity/clean-field
+prediction, two seeds, unchanged coarse/fine factorization. Reuse matched frozen
+results; new reference draws only where needed. A better configuration would not
+uniquely establish that removing assembly caused the improvement. Exploratory
+improvement, not promised production calibration, is the goal. Phase restrictions,
+numerical checks and separate compute approval remain unchanged; no runs launched.
+Per-galaxy parity with P12-A is unestablished: stronger P12-A blind validation
+versus CFM development reliability residuals, with host-halo versus observed-cell
+truth mismatch. Matched scoring is a separate scoped follow-up, not a new arm.
+Supersedes the matrix in the earlier same-day planning entry below. Updated plan:
+`docs/e2e_whole_field_comparison_plan_20261009.md`.
+
+## 2026-10-09 — [plan only] Matched whole-field coupled CFM comparison proposed
+
+User requests a plan comparing the frozen coupled CFM with whole-field U-Net
+and transformer versions, referencing arXiv:2606.31988 and questioning overfit.
+Proposed F frozen reference plus P matched patch control, W whole-domain U-Net
+and T whole-domain transformer; initially preserve coarse/fine factorization and
+physical target. Both new architectures retain velocity prediction first;
+clean-endpoint prediction is a separate paired ablation and remains CFM.
+Small multiwindow domain before measured full-cap scaling, two seeds, matched
+phase/voxel exposure, checkpoint curves and phase-level uncertainty. Current
+13 training, six exposed development/replication and two fresh confirmation
+roles must be audited and preserved. No payloads, fits, allocations or new phase
+access in this planning turn. Older September whole-volume cost claims were
+corrected; the missing early test was a matched small-domain control.
+Full proposed gates and sequence: `docs/e2e_whole_field_comparison_plan_20261009.md`.
+
+## 2026-10-09 — [results] Whole-field transformer improves pilot errors but still fails
+
+User requests transformer internals and approves one GPU for at most one hour.
+Eight global-attention blocks, width 240, six heads, 2-cubed voxel tokens,
+8,518,568 parameters versus U-Net 8,398,387. Same Gaussian target, data/bridge
+streams, full-voxel supervision, 4,096 updates, batch 8 and two fixed observations
+per size. No analytic teacher, posterior summary, checkpoint choice or rescue fit.
+
+At NFE32, transformer worst probe mean errors are 0.333/0.825 at side 8 versus
+U-Net 0.864/1.342; side 16 is 0.627/0.819 versus 1.098/0.963, in posterior SD.
+Probe-covariance and interval-content discrepancies also improve in all four
+cases, not every individual probe. Side-16 transformer variance ratios remain
+0.508--1.551. All 16 learned evaluations reject the predeclared Gaussian-null
+audit; four exact controls do not. NFE32->64 does not repair failures; only
+one of four transformer cases passes the tight probe-refinement screen.
+One seed on a reused development panel is not a general architecture ranking.
+
+Same-GPU side-16 raw draw cost 0.1234 s/57.06 MiB versus U-Net 0.2510 s/51.96 MiB;
+untrained inference-only timing in a post-training process, not qualified-draw
+cost or larger-domain scaling. 15 focused tests and 508 independent checks pass.
+Job 59598276 COMPLETED 0:0 and released after 5m15s; temporary read-only NERSC
+runtime/Home diagnostics, cosmic_env unchanged. Graph refresh unavailable.
+Full setup, paired cases and limits: `docs/e2e_gaussian_transformer_results_20261009.md`.
+
+## 2026-10-09 — [results] Whole-field CFM improves on blocks but neither qualifies
+
+The saved matched 3D experiment is now reconciled: 14 focused tests and 726
+independent checks pass. Same base-24/three-level coupled layers, Gaussian input
+adapter, one seed, 4,096 updates/32,768 fields per fit. At side 16 and NFE32,
+whole-field worst probe mean errors are 0.96–1.10 posterior standard deviations;
+block chains after 16 sweeps are 5.19–6.06 too low in the domain mean. Exact
+posterior initialization also fails after one learned block sweep. Both models
+fail; integration and chain convergence are not qualified. Block supervision
+uses one eighth as many target voxels at the matched field/optimizer budget.
+
+Direct side-48 inference costs: whole draw 0.458 s/134.39 MiB; complete block
+sweep 50.766 s/58.25 MiB. One sweep is not an independent draw, and neither arm
+has established cost at matched accuracy. Larger sizes are cost-only tests.
+Structured endpoint intervention attributes most covariance error to the mean
+response: exact mean/learned covariance 1.49 percent, learned mean/exact
+covariance 5.80 percent, both learned 6.01 percent.
+
+Original four-SE screen falsely rejected one exact control. Disclosed post-hoc
+Gaussian-null Bonferroni audit rejects all 20 learned evaluations and none of
+six exact-control entries. The verifier failure was a 1,000-iteration cap,
+resolved with a 10,000 cap at unchanged tolerance and unchanged scientific
+outputs. GPU 59596481 and CPU 59597879 released; graph refresh still unavailable.
+No rescue fit or Abacus qualification. Supersedes the unresolved checkpoint:
+`docs/e2e_matched_gaussian_3d_results_20261009.md`.
+
+## 2026-10-09 — [checkpoint] Matched 3D Gaussian CFM run complete, final audit unresolved
+
+User approved endpoint mean/covariance interventions and a matched whole-field
+versus block CFM comparison using the intended 3D backbone. The 128 intervention
+rows and main three-fit experiment are saved. The latter retains the actual
+base-24/three-level coupled layers with a Gaussian input interface, tests grids
+8 and 16 with fixed side-8 blocks, and uses 4,096 updates/32,768 fields per fit.
+Both learned methods show substantial errors; after 16 block sweeps the two
+domain means are 6.06 and 5.19 target posterior standard deviations too low.
+These bounded one-seed fits do not establish convergence or impossibility.
+
+Final independent verification is NOT complete: the subsequent direct-sweep
+cost/test/audit step exited 1, and repeated approval-service HTTP 503 errors
+prevented reading its log to identify the failing stage. The original four-SE
+screen also falsely rejected one exact control; a disclosed Gaussian-null
+Bonferroni audit was implemented but is not claimed to have passed. Do not
+promote the original labels or infer an accuracy-qualified speedup.
+
+GPU 59596481 was relinquished and its shell exited. The user separately approved
+graph maintenance, but the Scratch-dependent refresh still timed out. Normal
+environments and shared software remain unchanged. Resume from saved artifacts,
+not new fits: `docs/e2e_matched_gaussian_3d_checkpoint_20261009.md`.
+
+## 2026-10-09 — [results] Restricted context and learned conditional CFM do not qualify
+
+User approves restricted-context Gaussian comparison and one exterior-conditioned
+CFM pilot with compute.20targets/264rows complete: full exterior44/44accurate;
+none of the tested shortened contexts passes the whole panel, nine rows unstable.
+One-cell-collar n8spectral/sparse spectral radius1.02885 independently reproduced.
+Two-cell collar is exact for the finite-range-precision periodic spectral control,
+not generally sufficient; n8long-range/sparse plus exactglobal still has1.41%
+worst covariance error despite0.077%Frobenius error. All observations remain
+available; only sampled exterior is restricted. Fixed2^3patches acrossn4/6/8;
+new fixed-cell-scale prior differs from earlier fixed-domain-frequency example.
+
+One20k-update Gaussian-compatible time-neural/affine-state CFM learns full
+exterior conditionals from fresh synthetic(x,y), not analytic target velocities.
+Final block worst covariance error1.49%, mean-whitened RMS.032; assembled local
+worst covariance6.01%, fullFrobenius.597%, maxwhitenedmean norm.227. Exactglobal
+hybrid improves bulk/probe metrics but worst covariance5.11%; both0/8held-out
+observations pass all gates. NFErefinement passes; exact conditional-flow
+controls pass. No rescue fit, checkpoint selection or claimCFMcannotlearn.
+This is NOT the existing3Dnetwork or a galaxy likelihood. No Abacus promotion.
+
+13focusedtests and2,895receipt/source/gate checks pass; failed scientific gates
+remainfailed. First oracle abort corrected only to record unstable negative
+cases; partialfilespreserved. CPU59595457/GPU59595594released. Temporaryreadonly
+NERSCruntime, cosmic_envunchanged, graphmaintenancestilltimesout. Full result,
+definitions and limitations: `docs/e2e_restricted_context_cfm_results_20261009.md`.
+
+## 2026-10-09 — [results] Exact block sampler passes Gaussian gates with temporary runtime
+
+User explicitly approves Scratch-independent runtime/output workaround. CPU
+59593723/nid200211 completes the frozen 18-target/48-configuration panel using
+read-only NERSC pytorch/2.8.0; cosmic_env and shared installations unchanged.
+Seven focused tests and 1,376 receipt/source/gate checks pass. All transitions
+preserve target mean/covariance (max relative covariance residual 6.92e-15),
+have spectral radius below one, and pass finite-budget convergence by 64 sweeps.
+Actual sampled moments pass; constrained block means stay within 1.39e-16.
+
+Global conditional modes help sparse long-range targets: n8 passing checkpoint
+64->16 sweeps; worst-probe stationary tau 12.94->1.77. Constrained long-range
+tau 7.10->2.54 but burn-in checkpoint remains 32. Independent controls gain
+nothing. Exact block updates condition on full exterior via global precision;
+this is NOT obtainable by merely rearranging current patch-marginal calls.
+Matched side3 canvas spectral/long-range covariance errors remain 25.9--49.1%;
+full-domain controls <=3.81e-5. No learned/Abacus posterior qualification,
+training, production changes, sealed-phase access or survey-scale speed claim.
+
+Allocation released after 3m47s. Temporary outputs in Home/U2 diagnostics,
+versions/source hashes bound in COMPLETE.json. Graph maintenance still times
+out on Scratch. This supersedes the earlier compute-blocked status below.
+Full result and limits: `docs/e2e_exact_block_sampler_results_20261009.md`.
+
+## 2026-10-09 — [code, UNVERIFIED] Exact block/global sampler implemented; Scratch blocks compute
+
+User approves exact block-conditional sampler, analytic invariance test and
+global/coarse-update extension with required compute. New Gaussian-only module
+and fixed18target/48configuration harness implement conditional local updates,
+geometry-based global-mode updates, independent innovation accounting, analytic
+mixing/coverage/autocorrelation checks and block-zero-mean constraints. Seven
+focused tests are ADDED BUT UNRUN. No neural training,Abacus inputs,production
+changes or sealed-phase access. Existing numerical implementations untouched.
+
+CPU interactive59579059 (desi,64CPUs,1h,Scratch,immediate600) never starts:
+PENDING Reason=Licenses, ScratchTotal1000000/Reserved1000000. Ten-minute request
+times out; scheduler recordsCANCELLED,elapsed0. Required cosmic_env startup and
+graphify also time out. Shell syntax and git diff whitespace checks pass; NO
+Python test pass or numerical result is claimed. No missing-license bypass,
+login-node numerical fallback, sbatch or automatic resubmission. User approval
+remains for this diagnostic on resumption. Protocol and exact handoff:
+`docs/e2e_exact_block_sampler_checkpoint_20261009.md`.
+
+## 2026-10-08 — [results] True coarse does not remove fraction defect; threshold and exact-canvas tests complete
+
+All32matched B batches validate. Unchanged final summary and independent96check
+reconciliation complete on approved CPU interactive59553598/nid200209. Corrected
+interior A ratios2.6958/2.1147 become B3.1462/2.1483: frozen branch
+`coarse_factor_not_implicated`, qualified as defect persists with true coarse,
+NOT no coarse effect or a uniquely identified fine-generator cause. Adjusted
+absolute error falls44.3%/30.9%, variance52.3%/32.0%. Boundary ratios.5258/.4204.
+
+Saved parent thresholds0/.1/.15/.2/.25/.3/.4 show material target sensitivity:
+ph013 R spans.795–2.115, ph0121.718–2.749. No threshold selection/gate change.
+At.2 true-coarse galaxy-weighted Brier improves.383→.201/.354→.198 despite
+regional moment mismatch. About99% of ideal truth-closure label flips lie within
+.025 of a physical eigenvalue crossing. Sparse high-z cores dominate equal-pair
+regional error; all retained. B/closure multi-threshold sweep unavailable from
+saved labels. Class amplification is real, not an explanation of every continuous
+regional-density/tidal failure. Loa property–environment relation remains a
+measurement, never a calibration target.
+
+Exact4^3Gaussian reference through actual unmodified canvas: full-window and
+independent controls converge(maxcovarianceerror7.63e-6); correlated side3patch
+flows given ALL observations retain25.9%/26.3%covariance error with only1.5%/2.8%
+voxel-variance error; domain-mean90%intervals contain85.0%/83.6% of exact posterior.
+NFE128→512 does not repair it; whole-domain window does. Structural counterexample,
+not quantitative Abacus attribution or a fine-projection test.608oracle checks,
+32threshold reconciliations and11focused tests pass. Graph refresh alone fails
+filesystem flock errno524; no bypass. Allocation released; no training,new fields,
+sealed-phase access,production change or push. Resolution6.766→3.383 on fourpairs
+was one refinement, NOT convergence or a ceiling. Full evidence and limits:
+`docs/e2e_threshold_canvas_results_20261008.md`.
+
 ## 2026-10-08 — [code] Final seven true-coarse batches launched; no monitoring requested
 
 All 25 existing core receipts report success; the four previous workers on
