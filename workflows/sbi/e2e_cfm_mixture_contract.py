@@ -13,6 +13,10 @@ def pilot_guard(phase, seed):
 def sampler_seed_guard(seed, phase, benchmark, freeze, comparison=None):
     if seed not in SEEDS:
         raise PermissionError('Unregistered model seed')
+    if comparison is not None and comparison.get('schema') == 'wholefield-fullcap-generation-v1':
+        from workflows.sbi.e2e_wholefield_fullcap_contract import guard
+        guard(comparison, phase, seed, benchmark, freeze)
+        return
     if comparison is not None:
         expected = dict(schema='cfm-model-mixture-generation-v1', phases=list(PHASES),
                         seeds=list(SEEDS), nfe=128, draws=32)

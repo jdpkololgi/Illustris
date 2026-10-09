@@ -1,0 +1,21 @@
+{
+  "schema": "wholefield-fullcap-generation-v1",
+  "phases": ["ph012", "ph013", "ph014", "ph015", "ph016", "ph017"],
+  "seeds": [17, 29],
+  "draws": 32,
+  "nfe": 128,
+  "coarse_step": 13312,
+  "fine_step": 26624,
+  "training_phases": ["ph000", "ph002", "ph003", "ph007", "ph008", "ph009", "ph010", "ph011", "ph020", "ph021", "ph022", "ph023", "ph024"],
+  "method": "learned",
+  "padding": 32,
+  "operator": "fullcap_free_space_plus_conservative_linear_density_correction",
+  "gpu_hour_limit": 250,
+  "gate1_gpu_hour_limit": 8,
+  "deadline_utc": "2026-10-23T19:17:04+00:00",
+  "maximum_simultaneous_allocations": 2,
+  "interactive_only": true,
+  "sealed_phases": ["ph018", "ph019"],
+  "authorization_commit": "35beaf7",
+  "preflight_sha256": "6840dcd9acdfd6151d4408e26ccd48c6aa9e29d0fdd3b8debb47dac91d2e22c9"
+}
