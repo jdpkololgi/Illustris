@@ -1,5 +1,34 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-09 — [Gate 2 stop] Whole-field campaign fails sensitivity before training
+
+Approved plan/scope/log committed as6d3b993 before compute; Gate2 runs first per
+user instruction. Saved32-pair/32-draw ph012/ph013 panel is complete. Fixed fine-
+sensitive continuous summaries (offset density and trace-free regional tidal
+contrasts) give all-pair R1.46874/.76651, not the historical class-fraction ratios.
+Source summaries match StageA2;13focusedtests and840independentchecks pass.
+
+Frozenb06670e rejection-only screen uses4096synthetic two-phase panels per law/
+noise-pairing setting. Even allowing either configuration at any checkpoint and
+omitting second seed,true-coarse mode,stability,proper-score/coverage/MC guards,
+the simultaneous99%upper detection bounds for the registered20%improvement are
+4.9–51.1%, all below80%. Exact-binomial checks independently confirm all12rejects.
+The full advancement event is contained in that optimistic event, so this rejects
+the necessary sensitivity condition; it cannot qualify a full gate or posterior.
+The equal20%acceptance/power-alternative boundary and finite-panel ratio noise are
+limitations of this rule. Summary-surrogate power is conditional, not measured
+Abacus population power or evidence against either architecture.
+
+Campaign stopped as authorized. No Gate1 cost pilot/campaign, Abacus fits, new
+fields, confirmation opening or production changes;0allocatedGPUh. CPU59602162
+steps for tests/screen/independentQA completed0:0. Allocation release is pending
+separate permission: auto-review blocked shell exit, and the idle allocation was
+RUNNING at19:34UTC with scheduled expiry20:17:04UTC. Graph refresh alone failed
+filesystem lock errno524; no bypass. Current result and explicit omitted stages:
+`docs/e2e_wholefield_gate2_results_20261009.md`; execution ledger:
+`docs/e2e_wholefield_execution_20261009.md`. Restart needs a new user decision;
+do not silently change the rule or proceed to training.
+
 ## 2026-10-09 — [execution approved] Whole-field gates with sensitivity first
 
 User approves execution of `docs/e2e_whole_field_comparison_plan_20261009.md`

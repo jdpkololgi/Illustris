@@ -1,5 +1,10 @@
 # Coupled CFM whole field comparison plan
 
+Execution outcome, 9 October: **stopped at Gate 2 for insufficient sensitivity**
+under the registered synthetic tests. No Gate 1 campaign, cost pilot or training
+was run; zero GPU-hours used. The contract below is retained, not relaxed.
+See [the verified gate result](e2e_wholefield_gate2_results_20261009.md).
+
 Status: execution approved on 9 October 2026. Commit this plan, the P12-A scope
 note and science log before compute. Run Gate 2 first or in parallel with Gate 1;
 stop if the panel cannot detect the registered effect. Measure Gate 1's full cost

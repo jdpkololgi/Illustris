@@ -1,5 +1,17 @@
 # Whole-field campaign execution record
 
+## Current outcome
+
+Gate 2 rejects the registered sensitivity requirement; the campaign is stopped
+before Gate 1, its cost benchmark or any training. See
+[the verified result](e2e_wholefield_gate2_results_20261009.md).
+Thirteen tests and 840 independent checks pass. The optimistic necessary-event
+upper bounds at the 20% effect are 4.9–51.1%, all below the required 80% under the
+declared synthetic laws. No claim of architecture failure or measured population
+power follows. GPU usage is zero. CPU release requires separate user permission:
+auto-review blocked exiting allocation 59602162; it remained RUNNING at 19:34 UTC,
+with no scientific work active and scheduled expiry at 20:17:04 UTC.
+
 ## Authority and budget
 
 Approved plan/scope/log commit: `6d3b993`. Sensitivity runs first. All gates must
