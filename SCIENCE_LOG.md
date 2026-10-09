@@ -27,8 +27,10 @@ simulation or full-rule false-advancement calibration. Missing-input stop is
 not a sensitivity rejection. New executable decision binding remains deferred
 until an explicit operator/data-scope decision resolves this prerequisite.
 Audit committed6d5545a; results/provenance:
-`docs/e2e_wholefield_matched_gate2_20261009.md`. No push. Allocation release
-approval requested; final terminal accounting pending. Zero allocatedGPUhours.
+`docs/e2e_wholefield_matched_gate2_20261009.md`. No push. CPU59603441 ended
+automatically before release approval arrived: COMPLETED0:0 at20:38:11UTC,
+30m11s (0.5031CPU-node-hours including idle time), zero allocatedGPUhours.
+All six scientific/check steps completed0:0; no further release command needed.
 Graph maintenance is incomplete: local update failed filesystem lock errno524;
 global synchronization was blocked by auto-review for an unverified destination.
 Neither block was bypassed; scientific artifacts and QA are unaffected.

@@ -135,8 +135,12 @@ CPU allocation59603441, nid200003, desi/interactive,64CPUs requested and a full
 CPU node allocated (Slurm256logicalCPUs), one-hour cap and Scratch license,
 zero GPUs. No other allocation was present at start. Start20:08:00UTC;
 scheduled expiry21:08:00UTC.
-The full192-case audit took54.2seconds. Release approval requested; final
-allocation accounting will be appended after its terminal state is verified.
+The full192-case audit took54.2seconds. The idle shell automatically logged out
+and relinquished the allocation before release approval arrived. Slurm confirms
+COMPLETED 0:0 at20:38:11UTC after30m11s (0.5031CPU-node-hours including idle
+time), with zero GPU-hours. All six scientific/check steps completed0:0; the
+separate local graph-maintenance step failed as documented below. No cancellation
+or additional release command was needed.
 
 Output root:
 `/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/wholefield_comparison_20261009_v1/matched_panel_audit_v1`.
