@@ -46,3 +46,41 @@ event. If a simultaneously valid upper confidence bound for that relaxed event's
 detection probability is below 80%, additional stricter criteria cannot rescue
 the complete rule under that synthetic law. Otherwise continue to the complete
 rule and obtain any missing matched summaries within the approved budget.
+
+## Necessary-event sensitivity screen frozen before simulation
+
+`configs/e2e_wholefield_gate2_screen_v1.json` specifies a rejection-only screen.
+For each phase, construct the whole-phase covariance of the six-coordinate
+vectors from shared-address saved draws, with fixed 10% diagonal shrinkage.
+This is a synthetic nuisance fixture, not a new trained normalizer, a replacement
+physical truth or a model correction. Work in its orthogonal eigenbasis for
+trace statistics; this retains the correlated quadratic-form distribution.
+
+Generate 4,096 independent two-phase synthetic panels for each of four laws:
+Gaussian scale error, bias plus scale error, a 25%-trace coherent common mode,
+and elliptical Student-t noise with five degrees of freedom. Baseline expected
+ratios equal the registered phase-specific continuous ratios. The 20% alternative
+moves the population |R-1| 20% toward zero, not 20% of R itself. Additional
+0/40/60/100% scenarios distinguish null behavior and stronger-effect sensitivity.
+Pair posterior innovations at correlations 0, 0.9 and 1, with 0.8 correlation
+between checkpoints of a configuration. Truths remain shared across every
+candidate/checkpoint; phases are independent and spatial regions are not.
+
+The optimistic necessary event allows either configuration at any checkpoint
+to satisfy the ratio criterion in eligible phases. It drops the second seed,
+true-coarse mode, neighboring-checkpoint stability, actual selector, proper
+scores, coverage/marginal guardrails and MC significance. A phase whose fixed-
+truth whole-draw MC interval includes R=1 is also dropped, because its prescribed
+joint-dependence alternative can only make the full rule harder. If no ratio
+phase is eligible this screen is inapplicable, not failed. Every full-rule pass
+implies this optimistic event, so its probability is an upper bound on full-rule
+detection probability under the stated law. An exact-moment version separately
+shows the synthetic panel limit without finite posterior-draw noise.
+
+Use simultaneous one-sided Hoeffding bounds, total MC error at most 1% across
+all reported event probabilities. Reject Gate 2 if the optimistic upper bound
+is below 80% at the registered effect in a declared law. The no-effect event
+frequency is an upper bound, not a measurement of the complete rule's false-
+advancement rate. This screen cannot pass Gate 2 or qualify any posterior;
+absence of rejection requires completing the full rule and its <=5% null check.
+Secondary class-fraction sensitivity cannot reverse a primary-gate rejection.
