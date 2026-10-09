@@ -123,10 +123,12 @@ silently or spend additional training compute under this stopped campaign.
 - Synthetic screen: 11.10 seconds on CPU allocation 59602162; scheduler step .3
   completed 0:0 in 16 seconds including startup/tests. Verification step .4
   completed 0:0 in eight seconds.
-- Total campaign GPU use: **0 allocated GPU-hours**. Only one CPU allocation
-  was used. Release was requested but blocked by auto-review pending separate
-  user permission; the allocation was still RUNNING at the 19:34 UTC check and
-  is bounded to expire at 20:17:04 UTC. This is not a running scientific process.
+- Total campaign GPU use: **0 allocated GPU-hours**. The single CPU allocation
+  completed 0:0 at 19:47:18 UTC after 30m14s (0.5039 CPU-node-hours), including
+  setup and idle time. Manual release was blocked by auto-review pending separate
+  permission; the idle shell then logged out automatically and relinquished the
+  allocation. No agent-issued exit/cancellation bypass occurred. All eight steps
+  completed 0:0, and the final allocation inventory is empty.
 - Required graph refresh was attempted in cosmic_env but failed at the filesystem
   lock with errno 524. No bypass was attempted; scientific verification passed.
 

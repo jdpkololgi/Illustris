@@ -8,9 +8,10 @@ before Gate 1, its cost benchmark or any training. See
 Thirteen tests and 840 independent checks pass. The optimistic necessary-event
 upper bounds at the 20% effect are 4.9–51.1%, all below the required 80% under the
 declared synthetic laws. No claim of architecture failure or measured population
-power follows. GPU usage is zero. CPU release requires separate user permission:
-auto-review blocked exiting allocation 59602162; it remained RUNNING at 19:34 UTC,
-with no scientific work active and scheduled expiry at 20:17:04 UTC.
+power follows. GPU usage is zero. Auto-review blocked a manual exit pending
+separate user permission. The idle shell subsequently logged out automatically,
+relinquishing allocation 59602162 without an agent-issued exit or cancellation.
+Slurm confirms COMPLETED 0:0 at 19:47:18 UTC after 30m14s. No allocations remain.
 
 ## Authority and budget
 
@@ -22,7 +23,9 @@ hours, including at most 8 for Gate 1. GPU use so far: zero.
 
 Allocation 59602162: interactive CPU, desi, nid200076, one hour maximum,
 Scratch license, 64 requested logical CPUs (exclusive node allocation exposes
-256). No other allocation was present at start. Gate 2 output root is
+256). Final usage is 30m14s of one CPU node (0.5039 node-hours), including setup
+and the idle release wait; zero GPU-hours. All eight compute steps completed
+0:0. No other allocation was present at start or closeout. Gate 2 output root is
 `/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/wholefield_comparison_20261009_v1/gate2`.
 No new fields, training or sealed-phase access is needed for preparation.
 

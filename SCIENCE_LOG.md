@@ -21,9 +21,11 @@ Abacus population power or evidence against either architecture.
 
 Campaign stopped as authorized. No Gate1 cost pilot/campaign, Abacus fits, new
 fields, confirmation opening or production changes;0allocatedGPUh. CPU59602162
-steps for tests/screen/independentQA completed0:0. Allocation release is pending
-separate permission: auto-review blocked shell exit, and the idle allocation was
-RUNNING at19:34UTC with scheduled expiry20:17:04UTC. Graph refresh alone failed
+and all eight steps completed0:0. Auto-review blocked manual shell exit pending
+separate permission; the idle shell then logged out automatically, relinquishing
+the allocation at19:47:18UTC after30m14s (0.5039CPU-node-hours including idle time).
+No agent-issued exit/cancellation bypass; final allocation inventory is empty.
+Graph refresh alone failed
 filesystem lock errno524; no bypass. Current result and explicit omitted stages:
 `docs/e2e_wholefield_gate2_results_20261009.md`; execution ledger:
 `docs/e2e_wholefield_execution_20261009.md`. Restart needs a new user decision;
