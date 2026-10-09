@@ -1,5 +1,26 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-09 — [execution] Full-cap reuse verified; bounded regeneration started
+
+Authorization35beaf7 and source/contracta61cdcf committed before compute.
+CPU59606194 completed12tests, all12targetless input-cache hashes and56saved
+density/tide payload+lineage checks; exited automatically. Immutable generation
+manifest62dd809f binds192tasks, the same frozen models and unchanged numerical
+sampler. Four historical full-NFE seed17 replay checks remain source-qualified.
+136cap tasks require generation; no sealed-phase access or baseline training.
+
+First technical generation segment s001 starts in59606367 on nid200277: one
+80GB GPU, three-hour reservation, shared_interactive, foreground automatic exit.
+The first task is ph014/NGC/seed29/d000. This is a launch, not a completion or
+scientific result. Accounting uses actual allocated GPU-seconds after termination
+and full reservations while running; total ceiling250GPUh. No concurrent scale-up
+until representative generation verifies. Corrected extraction is a separately
+bound source and will not modify the running generation snapshot. Seventeen
+focused tests pass, including exact pure-function agreement with the registered
+linear reconstruction and continuous summary, plus sealed-phase guard failures.
+GPU replay/extraction and amended Gate2 remain pending. Protocol:
+`docs/e2e_wholefield_fullcap_regeneration_20261009.md`.
+
 ## 2026-10-09 — [budget approved] Full-cap matched evaluation within 250 allocated GPU-hours
 
 User explicitly approves raising the campaign total from 32 to 250 allocated
