@@ -1,5 +1,28 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-10 — [validation passed] Foreground generation completes; bounded parallel continuation
+
+Job 59628287 completed normally and released at 13:29:38 UTC after 6,341s
+(1.761389 allocated GPUh). New ph014/NGC seed29 d004 completes four NFE128
+draws with unchanged frozen checkpoints and operator. Density mass error
+4.87e-16; completed-field verification passes 159,252,480 interior voxels,
+saved interior difference zero, saved trace error 4.77e-7. Sampler GPU peak
+26.95 GiB. Total allocated GPU use is now 5.36h, including the previous failed
+allocation; 135 generation tasks remain. This is technical validation, not
+Gate 2 or posterior qualification. Corrected-core extraction s005 follows.
+
+User requests continuation. Refreshed batch dry run at 14:54 UTC estimates
+02:47:25 UTC on 11 October (~11h53m wait). Retain the approved interactive
+fallback. After the corrected-core check, use four independent single-GPU
+workers on one full node, each with its own Slurm rank and exactly one visible
+GPU. The measured single-worker memory fits four node shares; four ready
+independent tasks justify all four GPUs. No distributed numerical rewrite:
+workers retain the frozen sampler and atomic distinct-task claims. One
+foreground multi-task step propagates failure; no background coordinator or
+allocation-submission loop. Initial parallel segment capped at three hours
+(12 GPUh reserved); no second parallel allocation before startup validation.
+The failed d000 claim remains preserved; no automatic retry or sealed access.
+
 ## 2026-10-10 — [execution choice] Long batch estimate; supervised interactive fallback
 
 User authorizes batch if its queue wait is reasonable, otherwise sequential
