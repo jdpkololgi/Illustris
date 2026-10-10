@@ -27,6 +27,17 @@ bound. No retry/chain, no new model training, no sealed access. Routine polling
 remains off at the user's request; launch verification and later reconciliation
 are required. No full-generation completion is claimed by these lifecycle tests.
 
+s014/59650792 starts on nid200260 and s015/59650815 on nid200296, owned by
+tmux sessions wf_s014/wf_s015 on login13 (socket label wf-fullcap). Eight rank
+startup receipts and distinct claims verified: ph016/NGC seed17 d028, seed29
+d000/d004/d008 in s014; seed29 d012/d016/d020/d024 in s015. Both launch-owner
+shells are children of the independent tmux server. No completion claimed yet.
+User also requests the reason for session closure: official docs describe
+unsubscribed idle-thread unloading, but local logs only establish teardown and
+Shutdown, not the initiating client action. Do not conflate a plausible idle
+cleanup mechanism with a proven disconnect/tab-close cause. Detailed evidence
+and attach instructions are in the full-cap execution protocol.
+
 ## 2026-10-11 — [execution blocked] Interactive session-loss failure recurred
 
 s010/59644879 and s011/59645231 did not complete. The runtime records this

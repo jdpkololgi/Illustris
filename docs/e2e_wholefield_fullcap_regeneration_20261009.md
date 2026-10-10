@@ -1,5 +1,59 @@
 # Full-cap matched baseline: execution authority and resource preflight
 
+## Current continuation: explicitly approved tmux ownership, 11 October
+
+User explicitly approves tmux for a fixed bounded interactive workload. Owner
+script `workflows/sbi/e2e_wholefield_fullcap_tmux.sh` (df5c597, accounting-lag
+fix 06dc058) retains logs/source hashes and runs exactly one salloc/srun command.
+No agent, batch submission, allocation chain or failed-task retry is included.
+The tmux server on login13 has PPID 1 and a separate session/process group;
+the Slurm launchers are its pane children, not children of the Codex exec process.
+
+s012/59650697 verified CUDA success after the creating command returned; its
+23s allocation released normally, but immediate accounting briefly still read
+RUNNING, so the initial owner exited 1. That original result is retained.
+The fix allows six bounded five-second accounting-only retries. Repeat smoke
+s013/59650729 completed in 11s, released, recorded accounting and passed source
+checks; its tmux pane exited 0. Total actual use is now **44.433056 GPUh**.
+This tests detached terminal ownership and lifecycle, not login-node failure
+resilience or full generation completion.
+
+Two three-hour, four-GPU segments now run in separate tmux sessions:
+
+- `wf_s014`, job 59650792, nid200260: ph016/NGC seed17 d028 and seed29
+  d000/d004/d008.
+- `wf_s015`, job 59650815, nid200296: ph016/NGC seed29 d012/d016/d020/d024.
+
+All eight rank-start receipts exist and claims are distinct. Both slots are
+occupied; no third allocation. The accounted-plus-reserved bound is 68.433056
+of 250 GPUh, not expenditure. Frozen numerical sources and fourteen failed
+claims remain untouched. No routine polling or automatic follow-on is set.
+On login13, inspect with `tmux -L wf-fullcap list-sessions`; attach with
+`tmux -L wf-fullcap attach -t wf_s014` (or wf_s015). Detach without stopping
+the command using Ctrl-b then d. Owner logs/exit/accounting live in the matching
+`fullcap_v1/allocations/s014/` and `s015/` directories.
+
+### Why the earlier Codex session closure mattered
+
+Confirmed local sequence: at 21:01:10 UTC on 10 October, thread listener teardown
+with had_active_turn=false, an explicit Shutdown submission, and agent-loop
+exit; compute-step signal-9 terminations follow at 21:01:14/19 UTC. The earlier
+16:32 event has the same pattern. The long-running interactive clients were
+owned by those thread terminals. They were not durable merely because Slurm
+showed RUNNING. Their allocations could remain reserved after the clients died.
+
+[Current official app-server documentation](https://learn.chatgpt.com/docs/app-server)
+describes unloading a thread after the last subscriber disappears and a
+no-activity grace period (currently documented as 30 minutes).
+[Session-end documentation](https://learn.chatgpt.com/docs/hooks#sessionend)
+also lists normal closure and archive/delete paths. These establish possible
+mechanisms, not which client action occurred here. Narrow local log inspection
+does not identify the originating unsubscribe/disconnect/close request or an
+idle-timer decision. Do not claim the user closed a tab, the network failed,
+or a particular timeout caused the incident. tmux removes the identified
+thread-terminal dependency; it does not extend Slurm wall limits or protect
+against loss of the login node. No app configuration or safety hooks were changed.
+
 ## Current checkpoint, 11 October: session-loss failure repeated
 
 Neither s010/59644879 nor s011/59645231 completed. The app recorded thread
