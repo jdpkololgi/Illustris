@@ -1,5 +1,37 @@
 # Full-cap matched baseline: execution authority and resource preflight
 
+## Current checkpoint: parallel interruption, 10 October evening
+
+The two parallel segments did not complete. Jobs 59633119 and 59633169 have
+allocation state TIMEOUT and DerivedExitCode 0:9 despite allocation ExitCode
+0:0. Both compute steps were cancelled with signal 9 at 16:32:16 UTC. Each
+of the eight logs ends at fine step 56; each attempted task contains only
+START.json and density/BINDING.json, with no payload, restart checkpoint or
+COMPLETE.json. No worker/rank completion or failure receipt exists. The shared
+termination time is suggestive of an external event, not proof of a cause.
+The foreground wrapper did not prevent stranded allocations on this path.
+
+| Segment | Actual allocated GPU-hours | Outcome |
+| --- | ---: | --- |
+| s006 / 59633119 | 12.017778 | Compute killed; allocation timed out |
+| s007 / 59633169 | 12.015556 | Compute killed; allocation timed out |
+| Campaign cumulative | **29.409444 / 250** | 57 complete, 135 still missing |
+
+Accounting includes the idle tails. Both ACCOUNTED.json receipts are saved.
+No allocations remain active. Existing completed products are unchanged;
+preserve all failed claims/logs without retry or overwrite. Gate 2 and training
+cannot advance until the required bank is complete. No numerical gate result
+is inferred from this infrastructure failure.
+
+Stop further use of this interactive launch path. The latest non-submitting
+three-hour, one-GPU shared-batch estimate around 20:09 UTC is 09:12:31 UTC
+on 11 October (10:12:31 BST), about 13 hours away and not guaranteed.
+Request acceptance of that wait for one bounded single-GPU batch validation;
+the user's existing batch permission was conditional on a reasonable wait.
+No new job or retry is submitted in this checkpoint. Wider batch continuation
+requires verified completion and reconciled remaining-budget admission.
+The earlier launch sections below are historical, not current success claims.
+
 ## Validation passed and parallel continuation, 10 October
 
 The foreground validation job 59628287 completed successfully at 13:29:38 UTC

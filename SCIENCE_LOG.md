@@ -1,5 +1,33 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-10 — [execution stop] Parallel steps killed; no new completed fields
+
+Evening checkpoint: s006/59633119 and s007/59633169 both ended TIMEOUT.
+Their compute steps were CANCELLED by 0, signal 9, at the identical time
+16:32:16 UTC on different nodes. All eight task logs stop at fine step 56;
+their directories contain START/BINDING metadata only, no density payload,
+checkpoint or completion receipt. No Python traceback or rank-failure receipt
+establishes the cause. Simultaneous termination suggests a shared external
+event, but available evidence does not identify it. The foreground launcher
+did not ensure allocation release on this termination path; the earlier
+failure-propagation expectation is not supported by this outcome.
+
+Both allocations remained reserved until their three-hour timeouts. Accounted
+GPU use: s006 12.017778h; s007 12.015556h; cumulative **29.409444 of 250h**.
+The bank remains at 57 completed/extracted tasks and 135 missing generation
+tasks. Preserve all failed claims and logs, including the earlier d000 attempt;
+no automatic retry or overwrite. No allocations remain active. Gate 2 and
+training remain blocked by the incomplete bank, not a scientific gate failure.
+
+Do not repeat or scale this interactive launcher. A non-submitting shared-batch
+dry run around 20:09 UTC estimates 09:12:31 UTC on 11 October, approximately
+13 hours away, not a guaranteed start. The prior batch authority was conditional
+on a reasonable queue wait; request explicit acceptance of this longer wait
+before a bounded single-GPU batch validation, with wider work only after
+verification. No new job submitted. The NERSC skill's batch-handoff checks
+inform this recommendation. ACCOUNTED.json receipts for s006/s007 are saved;
+graphify remains unavailable. No sealed access, numerical-source change or push.
+
 ## 2026-10-10 — [validation passed] Foreground generation completes; bounded parallel continuation
 
 Job 59628287 completed normally and released at 13:29:38 UTC after 6,341s
