@@ -26,7 +26,8 @@ def execute(gen, segment, rank, tasks, visible):
     if rank == 0:
         gen.start(segment)
         # Release other ranks only after STARTED.json has been closed.
-        gen.write(root/'PARALLEL_READY.json', dict(job=os.environ['SLURM_JOB_ID'], source=source))
+        gen.write(root/'PARALLEL_READY_WRITTEN.json', dict(job=os.environ['SLURM_JOB_ID'], source=source))
+        os.link(root/'PARALLEL_READY_WRITTEN.json', root/'PARALLEL_READY.json')
     else:
         deadline = time.monotonic()+120
         while not (root/'PARALLEL_READY.json').exists():
