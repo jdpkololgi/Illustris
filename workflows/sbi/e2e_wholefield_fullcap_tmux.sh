@@ -49,8 +49,15 @@ sha256sum -c "$dir/TMUX_SOURCES.sha256"
 source_result=$?
 if [[ -f $dir/STARTED.json ]]; then
     cd "$root/source" || exit 1
-    "$py" -m workflows.sbi.e2e_wholefield_fullcap_run account --segment "$segment"
-    accounting_result=$?
+    # Slurm accounting may lag allocation release. Retry metadata only,
+    # for at most 30 seconds; never resubmit a scheduler job.
+    accounting_result=1
+    for attempt in 1 2 3 4 5 6; do
+        sleep 5
+        "$py" -m workflows.sbi.e2e_wholefield_fullcap_run account --segment "$segment"
+        accounting_result=$?
+        (( accounting_result == 0 )) && break
+    done
 else
     accounting_result=1
 fi
