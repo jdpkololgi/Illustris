@@ -21,6 +21,17 @@ No batch submitted yet; acceptance of the long queue after validation is request
 OpenAI Docs and NERSC skills guided lifecycle checks; runtime evidence, not public
 documentation, establishes the observed shutdown correlation.
 
+Repair commit 99b026b verified on nid200264: s008/59644691 CUDA success smoke
+COMPLETED 0:0 and released in 12 seconds. s009/59644697 deliberately raised an
+exception, recorded BATCH_FAILED.json, propagated exit 1 through srun and salloc,
+and released in 21 seconds (FAILED 1:0 as intended). No task claims or generation
+were made. Both ACCOUNTED.json receipts saved; total GPU use **29.418611h**.
+These test CUDA/source startup and normal error propagation, not resilience to
+app shutdown in interactive mode. Scheduler ownership is the production fix;
+no production batch has yet run. Reviewed-script dry run estimates 09:14:32 UTC
+on 11 October. No active allocations or batch submissions. Await explicit
+acceptance of that long wait before one bounded production validation.
+
 ## 2026-10-10 — [execution stop] Parallel steps killed; no new completed fields
 
 Evening checkpoint: s006/59633119 and s007/59633169 both ended TIMEOUT.

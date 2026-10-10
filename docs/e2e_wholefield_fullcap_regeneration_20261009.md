@@ -1,5 +1,51 @@
 # Full-cap matched baseline: execution authority and resource preflight
 
+## Repaired launch ownership and verification, 10 October
+
+The investigation found a shared launch-session failure: the runtime recorded
+teardown of this thread's listener (no active turn), an explicit Shutdown
+submission and session shutdown at **16:32:14 UTC**. Both Slurm steps died at
+**16:32:16 UTC**. This strongly identifies app-session teardown as the common
+trigger. The inspected records do not explain why the app requested shutdown.
+There is no reported OOM/node-failure reason or Python exception in the eight
+sampler logs. This is not evidence that the numerical sampler needs changing.
+
+The foreground change was insufficient because the salloc/srun processes still
+belonged to the app session. Repair 99b026b provides a scheduler-owned batch
+shell that execs srun and retains durable Slurm stdout/stderr. Its entrypoint
+binds/checks launcher source and reservation hashes, requires batch ownership for
+production, propagates worker errors, and rejects an empty completed-task list.
+There is no background login process, automatic retry, requeue, submission loop,
+failed-claim overwrite or change to frozen numerical sources.
+
+Verification:
+
+- Eighteen focused tests and shell syntax checks pass.
+- s008 / 59644691: real CUDA startup succeeds; allocation releases in 12s,
+  COMPLETED 0:0, with BATCH_COMPLETE.json explicitly marked non-scientific.
+- s009 / 59644697: injected error writes BATCH_FAILED.json, exits through srun
+  with code 1 and releases in 21s, FAILED 1:0 as expected.
+- Both use one GPU and make no generation claims. Total actual campaign use
+  is now **29.418611 / 250 GPUh**. No allocations remain active.
+- Slurm accepts the actual repaired script in a non-submitting dry run,
+  estimating 09:14:32 UTC (10:14:32 BST) on 11 October; no guaranteed start.
+
+The interactive smokes establish startup and error propagation; they do not
+prove survival of app shutdown. Moving production ownership to Slurm removes
+that dependency. No production batch has yet run. Explicit acceptance of the
+long queue is requested before a single-GPU, three-hour validation; further
+scale-up remains gated on verified completion and accounting. The bank is
+unchanged at 57/192 tasks. The failed claims remain preserved.
+
+Sources: local runtime lifecycle events and sacct records; launcher
+`workflows/sbi/e2e_wholefield_fullcap_batch.{py,sh}`; receipts in
+`fullcap_v1/allocations/s008/` and `s009/`. The
+[OpenAI tool guide](https://developers.openai.com/cookbook/examples/gpt-5/codex_prompting_guide)
+describes exec sessions but does not promise persistence through session shutdown.
+[NERSC interactive documentation](https://docs.nersc.gov/jobs/interactive/)
+describes the salloc/srun ownership model. Neither public source establishes
+the incident cause; that comes from the local timestamped evidence above.
+
 ## Current checkpoint: parallel interruption, 10 October evening
 
 The two parallel segments did not complete. Jobs 59633119 and 59633169 have
