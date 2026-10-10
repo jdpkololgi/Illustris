@@ -1,5 +1,22 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-10 — [user direction] Fill the second interactive slot
+
+User requests spare interactive capacity for parallel completion, after asking
+to stop routine monitoring of a normally progressing run. s010/59644879 remains
+RUNNING and has reached coarse step 8 with no reported error. The allocation
+helper confirms exactly one active interactive allocation. Use the second slot
+for four independent workers on one full node: measured single-worker sampler
+memory is about 27 GiB, and the previous four-GPU layout progressed concurrently
+until the common session shutdown. This is a resource continuation after the
+external-launch diagnosis, not a claim of completed parallel numerical validation.
+Eight parallel/contract tests pass; numerical sources and atomic claims unchanged.
+Reserve s011 for four GPUs and three hours (12 GPUh). With s010's 3h reservation,
+the total accounted-plus-reserved bound is 44.418611h, not actual expenditure.
+No third allocation, batch job, automatic retry, or model training. App-session
+teardown remains a disclosed risk; the request to stop routine polling supersedes
+the earlier continuous-monitoring procedure, not that lifetime limitation.
+
 ## 2026-10-10 — [user direction] Supervised interactive continuation only
 
 User declines batch: "No launch interactive jobs to do the work" in reply to
