@@ -18,6 +18,12 @@ claim/output; the next unclaimed task is selected by the frozen inventory.
 One GPU, at most three hours; record actual accounting before further segments.
 All scientific gates, the 250-hour total and two-allocation limit remain fixed.
 
+Foreground launcher committed as 151ac06; three lifecycle tests and 12 contract
+tests pass. Segment s004 starts promptly as 59628287 on nid200256, one 80GB GPU,
+three-hour limit. Previous actual use 3.598611 GPUh plus this 3h reservation.
+No completion or scale-up claim yet. Graph maintenance remains unavailable
+(`graphify: command not found`); no push or sealed-phase access.
+
 ## 2026-10-10 — [checkpoint] Extraction complete; generation interrupted, not a gate result
 
 User asks whether the runs finished and to continue. Slurm confirms extraction

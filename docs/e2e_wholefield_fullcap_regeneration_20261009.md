@@ -1,5 +1,33 @@
 # Full-cap matched baseline: execution authority and resource preflight
 
+## Queue-based continuation, 10 October
+
+User authorizes batch execution if queue waits are reasonable, otherwise
+sequential interactive segments. At 11:42 UTC, `sbatch --test-only` for one GPU,
+three hours, `shared`, `desi_g`, Scratch access and 80GB A100 memory estimated
+a start at 23:51:40 UTC: about 12h09m later (00:51:40 BST on 11 October).
+The same request without the 80GB constraint estimated 23:51:41 UTC. These
+were non-submitting scheduler estimates, not guaranteed start times. The
+initial host-local timestamp was rechecked explicitly in UTC before comparison.
+
+Selected the authorized interactive fallback because this wait is long relative
+to the bounded validation run. Segment s004, job 59628287, started promptly on
+nid200256 with one 80GB GPU and a three-hour limit. Actual use before this segment
+is 3.598611 GPUh, plus its 3 GPUh reservation against the unchanged 250h ceiling.
+The new launcher, committed in 151ac06, runs coordinator and worker inside one
+foreground compute step; no login-host background workers, automatic resubmission
+or unattended interactive-allocation chain. Three launcher lifecycle tests and
+12 existing contract tests pass. Frozen numerical generation sources and all
+existing outputs are unchanged; the failed d000 claim remains preserved.
+
+This is a started technical validation, not a successful completion. Further
+generation scale-up requires verified task completion; Gate 2 and training
+remain downstream. Source/status authority:
+`workflows/sbi/e2e_wholefield_fullcap_foreground.py`,
+`fullcap_v1/allocations/s004/`, and `fullcap_v1/logs/s004/`.
+Relevant scheduler references: [NERSC scheduling](https://docs.nersc.gov/jobs/scheduling/)
+and [QOS limits](https://docs.nersc.gov/jobs/policy/).
+
 ## 10 October execution checkpoint
 
 Extraction finished, but generation did not. Independent CPU audit 59628225
