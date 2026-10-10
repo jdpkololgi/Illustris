@@ -1,5 +1,39 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-10 — [checkpoint] Extraction complete; generation interrupted, not a gate result
+
+User asks whether the runs finished and to continue. Slurm confirms extraction
+59606480 COMPLETED 0:0 in 2,082 seconds. Together with the earlier replay, all
+56 available full-cap products have corrected-core outputs. Independent CPU
+audit 59628225 passes payload hashes, bindings, shapes, eigenvalue ordering,
+trace identities and summary reconstruction for all 56; all 32 products with
+prior corrected-core references have exact replay. Maximum original-tide
+difference 1.19e-7, correction trace residual 1.03e-14. All 21 focused tests pass.
+The audit allocation released automatically.
+
+Generation 59606367 did NOT finish. Its compute step was CANCELLED by 0 with
+signal 9 after 48m47s; the enclosing allocation persisted to TIMEOUT at 3h00m09s.
+The log reaches coarse step 64, without a Python traceback or recorded cause
+for the kill. Scheduler evidence does not establish why the step was killed.
+No density payload/checkpoint or completed new field exists; preserve its claim,
+binding and log. The earlier expected automatic release did not occur on this
+failure path. Do not repeat the same launcher or treat scheduler ExitCode 0:0
+as success: allocation State is TIMEOUT and DerivedExitCode is 0:9.
+
+Actual allocated GPU time: s001 3.0025h, s002 0.0177778h, s003 0.5783333h;
+total 3.5986111h of 250h, including the idle allocation tail. No GPU allocation
+is active and no new GPU run has been submitted in this checkpoint turn.
+All 136 missing generation tasks remain; Gate 2 and model training cannot
+advance. The user has been asked whether to replace interactive-only execution
+with bounded batch jobs, beginning with one single-GPU validation job and wider
+execution only after it passes. That change is pending explicit approval; no
+implicit batch handoff, automatic retry, sealed-phase access or push.
+
+Audit source committed as 355bd9a; artifact:
+`wholefield_comparison_20261009_v1/fullcap_v1/CHECKPOINT_AUDIT_20261010.json`
+under the registered Scratch E2E root. Graphify is unavailable in the current
+shell; direct scoped inspection was used and graph maintenance remains pending.
+
 ## 2026-10-09 — [execution] Full-cap reuse verified; bounded regeneration started
 
 Authorization 35beaf7 and source/contract a61cdcf committed before compute.

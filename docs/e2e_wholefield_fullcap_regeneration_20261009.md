@@ -1,5 +1,41 @@
 # Full-cap matched baseline: execution authority and resource preflight
 
+## 10 October execution checkpoint
+
+Extraction finished, but generation did not. Independent CPU audit 59628225
+verifies all 56 available corrected-core products: payload hashes and bindings,
+physical identities, exact summary reconstruction and 32 exact corrected-core
+replays against the earlier products. All 21 focused tests pass. This is an
+engineering verification, not a partial-panel sensitivity result.
+
+Generation job 59606367 has allocation state TIMEOUT. Its compute step was
+cancelled with signal 9 after 48m47s, while the allocation remained reserved for
+3h00m09s. The last sampling log is coarse step 64; no new density field or
+completed task was saved. Available Slurm records and logs do not establish
+the termination cause. The old launcher did not release its allocation after
+this step termination. Preserve the failed claim and partial directory; no
+automatic overwrite/retry or concurrent generation scale-up is authorized by
+this technical outcome.
+
+| Segment | Outcome | Actual allocated GPU-hours |
+| --- | --- | ---: |
+| s001 / 59606367 | Interrupted step; allocation timed out | 3.002500 |
+| s002 / 59606430 | Initial extraction replay passed | 0.017778 |
+| s003 / 59606480 | Remaining available extraction passed | 0.578333 |
+| Total | 56 extracted products; 136 generation tasks outstanding | 3.598611 |
+
+The 250-hour ceiling, original deadline and scientific gates remain unchanged.
+No new GPU job has been submitted during this checkpoint. A switch from the
+standing interactive-only restriction to bounded Slurm batch execution has been
+requested explicitly: one single-GPU validation job first, then wider execution
+only after verification. It is pending user approval, not an automatic handoff.
+Without the missing fields the complete baseline and Gate 2 remain unavailable;
+no training, sealed-phase access or posterior qualification follows.
+
+Audit: `fullcap_v1/CHECKPOINT_AUDIT_20261010.json`; accounting:
+`fullcap_v1/allocations/s001/ACCOUNTED.json`, `s002/ACCOUNTED.json`,
+`s003/ACCOUNTED.json`, all under the generation root recorded below.
+
 ## Current decision
 
 On 9 October the user chose to retain the exact registered full-cap corrected
