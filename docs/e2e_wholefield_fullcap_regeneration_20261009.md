@@ -1,5 +1,30 @@
 # Full-cap matched baseline: execution authority and resource preflight
 
+## Current checkpoint, 11 October: session-loss failure repeated
+
+Neither s010/59644879 nor s011/59645231 completed. The app recorded thread
+teardown and Shutdown at 21:01:10 UTC on 10 October (22:01:10 BST), followed
+by signal-9 cancellation of the compute steps at 21:01:14 and 21:01:19 UTC.
+Logs end at coarse step 64 for s010 and coarse step 48 for each s011 worker.
+The five task directories contain START/BINDING metadata only: no payload,
+restart checkpoint or completed new field. A progressing sampler did not imply
+the interactive launch would survive app-session teardown.
+
+Both allocations remained reserved until TIMEOUT. Actual accounting:
+s010 3.000556 GPUh, s011 12.004444 GPUh; campaign total **44.423611 / 250h**.
+The bank remains at 57/192 completed tasks; 135 remain. Fourteen failed task
+claims from all interrupted segments are preserved, not automatically retried.
+Nothing is running and no new job is submitted during this checkpoint.
+
+Do not repeat app-owned interactive launches. To preserve the user's explicit
+interactive-only choice without requiring an active Codex turn, the allocation
+must be launched and retained in a user-controlled SSH terminal outside this
+session. That terminal also must remain available; this is not a general
+disconnect-survival guarantee. An ownership handoff is required before further
+compute. No batch substitution or detached login workaround is authorized.
+Gate 2 and training remain pending the complete bank. Earlier launch/healthy
+startup entries below are historical, not current completion evidence.
+
 ## Current parallel continuation: both interactive slots occupied
 
 User requests the spare interactive capacity and asks not to routinely monitor

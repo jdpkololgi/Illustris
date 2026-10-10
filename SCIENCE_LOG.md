@@ -1,5 +1,32 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-11 — [execution blocked] Interactive session-loss failure recurred
+
+s010/59644879 and s011/59645231 did not complete. The runtime records this
+thread's listener teardown (had_active_turn=false) and explicit session Shutdown
+at 21:01:10 UTC on 10 October. Their compute steps were killed with signal 9 at
+21:01:14 and 21:01:19 UTC respectively. s010 logs stop at coarse step 64; all
+four s011 workers stop at coarse step 48. Each new task directory contains only
+START/BINDING metadata, no density payload, restart checkpoint or completion.
+The prior health check correctly observed progress then, not durable execution.
+Repeating the session-dependent launch after that check did not fix its lifetime.
+
+Both allocations persisted until TIMEOUT. ACCOUNTED receipts now record
+s010 3.000556 GPUh and s011 12.004444 GPUh, including idle tails. Cumulative
+actual allocated use is **44.423611 / 250 GPUh**; 205.576389h remains before
+future reservations. Bank unchanged: 57/192 complete, 135 tasks outstanding.
+All fourteen failed claims across previous attempts remain preserved. No job
+is currently active, no new submission or retry made, and no scientific gate
+or training advancement is justified.
+
+Stop new launches owned by this app session. User's interactive-only and
+no-routine-polling requirements remain in force. Safe continuation requires an
+interactive allocation owned by a user-controlled SSH terminal outside this
+Codex session, with that terminal retained for the run; ordinary foreground
+wrappers cannot guarantee survival of their owning session's teardown. Do not
+silently substitute batch, detached login processes or another identical retry.
+Request the independent interactive ownership handoff before spending more.
+
 ## 2026-10-10 — [user direction] Fill the second interactive slot
 
 User requests spare interactive capacity for parallel completion, after asking
