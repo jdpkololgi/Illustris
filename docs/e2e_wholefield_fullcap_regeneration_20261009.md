@@ -1,5 +1,22 @@
 # Full-cap matched baseline: execution authority and resource preflight
 
+## Current user direction: supervised interactive run
+
+User rejects the overnight batch handoff and explicitly requests interactive
+jobs. Commit 89938c1 adds a source-bound `supervised-interactive` mode, tested
+alongside the batch/smoke paths (20 focused tests pass). No batch is submitted.
+The numerical worker and failed claims remain unchanged. This changes the
+supervision procedure, not the app's disconnect behavior: retain an active agent
+turn and monitor through verified completion and allocation release. Do not end
+the turn with a live unattended interactive job. Connection/session loss remains
+a residual risk; no persistence claim or detached process is introduced.
+
+s010 / 59644879 starts on nid200264 with one GPU and a three-hour maximum,
+using shared_interactive and the tested shell/entrypoint. It claims the next
+untouched task, ph016/NGC/seed17/d008. Actual use before launch is 29.418611h,
+plus a 3h live reservation; no scale-up before verified completion. All gates,
+the 250h ceiling and at-most-two-allocation limit remain fixed.
+
 ## Repaired launch ownership and verification, 10 October
 
 The investigation found a shared launch-session failure: the runtime recorded

@@ -15,6 +15,11 @@ Existing two-allocation limit and 250 GPUh ceiling remain; actual use 29.418611h
 This supersedes the proposed batch handoff; NERSC skill guidance is applied
 within the user's explicit interactive-only scope.
 
+Commit 89938c1 passes 20 focused tests. s010/59644879 launches on nid200264,
+one GPU, shared_interactive, at most three hours; first untouched task
+ph016/NGC/seed17/d008. Three hours are reserved, not yet spent. Remain actively
+supervising; no completion/scale-up claim yet and no batch submission.
+
 ## 2026-10-10 — [cause identified] App-session teardown killed interactive steps
 
 User requests investigation and repair before continuation. Bounded runtime-log
