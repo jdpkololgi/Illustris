@@ -1,5 +1,26 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-10 — [cause identified] App-session teardown killed interactive steps
+
+User requests investigation and repair before continuation. Bounded runtime-log
+inspection finds this thread's listener teardown with had_active_turn=false,
+an explicit Shutdown submission, and Codex instance shutdown at 16:32:14 UTC.
+Both Slurm compute steps die at 16:32:16 UTC. This is strong evidence for the
+common app-owned launch-session failure, not independent sampler exceptions;
+the reason the app requested teardown is not recorded in the inspected evidence.
+No OOM/node-failure reason is reported. Local journal access is unavailable.
+
+The previous foreground fix retained the app-owned salloc/srun lifetime and was
+insufficient. New source-bound batch shell execs a single srun; Slurm owns the
+batch process and records its stdout/stderr. The entrypoint rejects production
+without SLURM_BATCH_HOST, propagates worker errors, and rejects empty completion.
+Frozen numerical sources and failed claims stay unchanged. No automatic retry,
+requeue or submission chain. Eighteen focused tests and shell syntax pass.
+Short one-GPU pass/failure lifecycle smokes are next, with no generation claims.
+No batch submitted yet; acceptance of the long queue after validation is requested.
+OpenAI Docs and NERSC skills guided lifecycle checks; runtime evidence, not public
+documentation, establishes the observed shutdown correlation.
+
 ## 2026-10-10 — [execution stop] Parallel steps killed; no new completed fields
 
 Evening checkpoint: s006/59633119 and s007/59633169 both ended TIMEOUT.
