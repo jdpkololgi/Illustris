@@ -1,5 +1,18 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-11 — [explicit authority] tmux-owned bounded interactive work
+
+User explicitly approves tmux for the fixed salloc/srun workload and requests
+continuation. This overrides the allocation skill's no-tmux handoff restriction,
+not NERSC resource rules. The tmux session contains no autonomous agent, scheduler
+retry or allocation chain. One owner script checks the reservation, retains
+exclusive durable logs/source hashes, runs one bounded allocation, records its
+exit code and reconciles accounting after termination. No numerical changes or
+failed-claim retry. First verify a short one-GPU CUDA smoke after the creating
+command exits, then resume independent tasks within two allocations and 250h.
+tmux separates terminal ownership from the Codex exec session; it does not protect
+against login-node failure, scheduler cancellation or allocation wall limits.
+
 ## 2026-10-11 — [execution blocked] Interactive session-loss failure recurred
 
 s010/59644879 and s011/59645231 did not complete. The runtime records this
