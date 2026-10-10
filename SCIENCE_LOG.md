@@ -23,6 +23,16 @@ allocation-submission loop. Initial parallel segment capped at three hours
 (12 GPUh reserved); no second parallel allocation before startup validation.
 The failed d000 claim remains preserved; no automatic retry or sealed access.
 
+Extraction s005 (59633091) passed and released in 58 seconds: original replay
+9.53e-8, correction trace 8.98e-15. Actual cumulative GPU use 5.376111h.
+Parallel launcher commits 5a55d97/59ff989; 17 focused tests pass. Segment s006
+starts as 59633119 on nid200404, four independent ranks on four physical GPUs,
+distinct d008/d012/d016/d020 claims verified. After this startup validation,
+s007 starts as 59633169 on nid200324 after a short queue wait, the second
+permitted four-GPU, three-hour segment. All four rank startup receipts exist. Aggregate
+reserved-plus-used GPU time is 29.376111h, not actual expenditure. No complete
+parallel-task or Gate 2 result yet; all numerical sources and gates unchanged.
+
 ## 2026-10-10 — [execution choice] Long batch estimate; supervised interactive fallback
 
 User authorizes batch if its queue wait is reasonable, otherwise sequential

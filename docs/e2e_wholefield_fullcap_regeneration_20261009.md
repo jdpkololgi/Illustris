@@ -1,5 +1,47 @@
 # Full-cap matched baseline: execution authority and resource preflight
 
+## Validation passed and parallel continuation, 10 October
+
+The foreground validation job 59628287 completed successfully at 13:29:38 UTC
+(14:29:38 BST), released normally, and used 1.761389 GPUh. It completed four
+ph014/NGC seed-29 draws, d004--d007, with the frozen NFE128 sampler. Density
+mass error is 4.87e-16. The saved tidal-field verifier passes 159,252,480 interior
+voxels, with zero interior density difference and trace residual 4.77e-7.
+The measured sampler peak is 26.95 GiB GPU memory.
+
+Corrected-core extraction 59633091 also completed and released normally in
+58 seconds (0.016111 GPUh): original-tide replay error 9.53e-8 and correction
+trace residual 8.98e-15. There are now 57 completed/extracted task products,
+including the 56 reused ones, and 135 generation tasks remain. This does not
+establish the complete baseline, Gate 2 or posterior qualification.
+
+Total actual GPU allocation use before parallel continuation is **5.376111h**.
+A fresh shared-batch dry run at 14:54 UTC estimates 02:47:25 UTC on 11 October,
+an approximately 11h53m wait. Continue with the user-approved interactive fallback.
+
+The parallel launcher (5a55d97, atomic startup barrier correction 59ff989) retains
+the unchanged frozen numerical worker, and binds its own source in each rank's
+receipt. Four independent ranks use one GPU apiece and atomically claim distinct
+tasks. One foreground srun owns the ranks; failure propagates to the allocation.
+Seventeen focused tests pass. No automatic retries or allocation-submission loop.
+The full node is justified by four ready independent tasks and the measured
+single-worker memory footprint; this is not a distributed-model rewrite.
+
+Segment s006, job 59633119 on nid200404, starts four workers with a three-hour
+limit (12 GPUh reserved). Startup verifies four distinct task claims and four
+different physical GPU UUIDs via a read-only device diagnostic. After that
+check, s007 starts as job 59633169 on nid200324 after a short queue wait, using
+the second permitted allocation for four further workers, also limited to three
+hours. All four ranks have passing startup records. Combined reservations plus prior actual use are
+29.376111 GPUh against the unchanged 250h ceiling. No third allocation, sealed
+phase, training run or scientific advancement is authorized by this launch.
+
+Evidence: `fullcap_v1/allocations/s004/ACCOUNTED.json`,
+`fullcap_v1/allocations/s005/ACCOUNTED.json`, the d004 generation and extraction
+receipts, and `fullcap_v1/allocations/s006/` and `s007/`. The failed d000 attempt
+remains preserved and is not silently retried. Each segment must be reconciled
+after termination before further resource decisions.
+
 ## Queue-based continuation, 10 October
 
 User authorizes batch execution if queue waits are reasonable, otherwise
