@@ -44,6 +44,17 @@ class BatchTests(unittest.TestCase):
             self.run_with(gen)
         self.assertEqual(gen.write.call_args.args[0].name, 'BATCH_FAILED.json')
 
+    def test_explicit_supervised_interactive_generates(self):
+        gen = self.fake('supervised-interactive'); self.run_with(gen, batch=False)
+        gen.worker.assert_called_once_with('test', 0)
+        self.assertTrue(gen.write.call_args.args[1]['scientific_completion'])
+
+    def test_supervised_mode_rejects_batch(self):
+        gen = self.fake('supervised-interactive')
+        with self.assertRaisesRegex(RuntimeError, 'cannot run as batch'):
+            self.run_with(gen)
+        gen.start.assert_not_called()
+
     def test_empty_worker_is_not_success(self):
         with self.assertRaisesRegex(RuntimeError, 'No completed'):
             self.run_with(self.fake(completed=[]))

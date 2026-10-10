@@ -9,7 +9,7 @@ from pathlib import Path
 import sys
 
 ROOT = Path('/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/wholefield_comparison_20261009_v1/fullcap_v1')
-MODES = ('production', 'smoke-pass', 'smoke-fail')
+MODES = ('production', 'supervised-interactive', 'smoke-pass', 'smoke-fail')
 
 
 def prepare(gen, segment, mode):
@@ -38,6 +38,8 @@ def execute(gen, segment, cuda_check):
         raise ValueError('Single-GPU validation only')
     if mode == 'production' and not os.environ.get('SLURM_BATCH_HOST'):
         raise RuntimeError('Production requires a scheduler-owned batch job')
+    if mode == 'supervised-interactive' and os.environ.get('SLURM_BATCH_HOST'):
+        raise RuntimeError('Supervised interactive mode cannot run as batch')
     if int(os.environ.get('SLURM_NTASKS', '0')) != 1:
         raise RuntimeError('Exactly one Slurm task required')
     gen.start(segment)
@@ -47,7 +49,7 @@ def execute(gen, segment, cuda_check):
         cuda_check()
         if mode == 'smoke-fail':
             raise RuntimeError('Deliberate lifecycle smoke failure; no generation attempted')
-        if mode == 'production':
+        if mode in ('production', 'supervised-interactive'):
             gen.worker(segment, 0)
             worker = gen.read(root/'WORKER_0.json')
             if not worker['passed'] or not worker['completed']:
@@ -58,7 +60,7 @@ def execute(gen, segment, cuda_check):
         gen.write(root/'BATCH_FAILED.json', dict(mode=mode, exception=type(error).__name__, message=str(error)))
         raise
     gen.write(root/'BATCH_COMPLETE.json', dict(passed=True, mode=mode,
-              scientific_completion=mode == 'production'))
+              scientific_completion=mode in ('production', 'supervised-interactive')))
 
 
 def cuda_check():

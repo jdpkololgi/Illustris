@@ -1,5 +1,20 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-10 — [user direction] Supervised interactive continuation only
+
+User declines batch: "No launch interactive jobs to do the work" in reply to
+the explicit batch-approval question. Continue with bounded interactive work;
+no batch submission. Add an explicitly source-bound supervised-interactive mode
+to the tested launcher, retaining CUDA/source checks, error propagation and
+nonempty completion requirements. The operator remains unchanged. This mode
+does not claim disconnect resilience: keep the agent turn active and supervise
+the one-GPU run until completion and allocation release. Do not hand off a live
+interactive process after ending the turn. App/connection loss remains a risk.
+At most three hours and no automatic retry, failed-claim overwrite or chain.
+Existing two-allocation limit and 250 GPUh ceiling remain; actual use 29.418611h.
+This supersedes the proposed batch handoff; NERSC skill guidance is applied
+within the user's explicit interactive-only scope.
+
 ## 2026-10-10 — [cause identified] App-session teardown killed interactive steps
 
 User requests investigation and repair before continuation. Bounded runtime-log
