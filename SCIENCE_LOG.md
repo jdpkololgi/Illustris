@@ -1,5 +1,23 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-10 — [execution choice] Long batch estimate; supervised interactive fallback
+
+User authorizes batch if its queue wait is reasonable, otherwise sequential
+interactive jobs. At 11:42 UTC, Slurm `sbatch --test-only` estimates 23:51:40 UTC
+for a one-GPU, three-hour shared job on an 80GB A100; unrestricted A100 memory
+gives 23:51:41 UTC. About 12h09m queue wait, not a reservation or guarantee.
+No batch job was submitted by these dry runs. Choose the authorized interactive
+fallback for the next technical validation, not an unattended allocation chain.
+
+New foreground coordinator runs within one compute-node srun step and calls
+the unchanged frozen worker directly. It records launcher identity and propagates
+worker exceptions; no login-host background-worker shell, automatic retry or
+scheduler submission loop. This addresses the observed stranded-allocation path
+without claiming the earlier signal-9 cause is known. Retain the failed d000
+claim/output; the next unclaimed task is selected by the frozen inventory.
+One GPU, at most three hours; record actual accounting before further segments.
+All scientific gates, the 250-hour total and two-allocation limit remain fixed.
+
 ## 2026-10-10 — [checkpoint] Extraction complete; generation interrupted, not a gate result
 
 User asks whether the runs finished and to continue. Slurm confirms extraction
