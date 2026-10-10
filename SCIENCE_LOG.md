@@ -17,6 +17,13 @@ No third allocation, batch job, automatic retry, or model training. App-session
 teardown remains a disclosed risk; the request to stop routine polling supersedes
 the earlier continuous-monitoring procedure, not that lifetime limitation.
 
+s011 starts as 59645231 on nid200424. All four rank startup receipts pass;
+distinct claims are ph016/NGC/seed17/d012, d016, d020 and d024. A one-time
+device diagnostic confirms four different GPU UUIDs, one worker on each.
+s010 retains d008 on nid200264. Five independent tasks now run across the two
+allowed allocations. Startup is verified, completion remains pending. No routine
+monitoring or automated follow-on allocation is configured.
+
 ## 2026-10-10 — [user direction] Supervised interactive continuation only
 
 User declines batch: "No launch interactive jobs to do the work" in reply to

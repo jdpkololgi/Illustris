@@ -1,5 +1,24 @@
 # Full-cap matched baseline: execution authority and resource preflight
 
+## Current parallel continuation: both interactive slots occupied
+
+User requests the spare interactive capacity and asks not to routinely monitor
+a normally progressing run. s010/59644879 remains running on nid200264 with one
+GPU, ph016/NGC/seed17/d008; its log reaches coarse step 8. Second allocation
+s011/59645231 starts on nid200424 with four independent single-GPU workers,
+claiming d012, d016, d020 and d024 of the same phase/cap/seed. Startup receipts
+and a one-time device check verify four ranks on four distinct physical GPUs.
+The frozen sampler and exclusive task-claim logic are unchanged; eight focused
+parallel/contract tests pass. No failed claim is retried or overwritten.
+
+This is five concurrent tasks over exactly two allocations, not five completed
+tasks. Each allocation has a three-hour limit; s011 reserves at most 12 GPUh.
+Accounted use plus both live reservations is 44.418611 of 250 GPUh; actual use
+must be reconciled after termination. No batch or third allocation is submitted.
+No routine polling or automatic follow-on allocation is configured. This user
+instruction supersedes the continuous-monitoring procedure below. Interactive
+session teardown remains a disclosed failure risk, not repaired persistence.
+
 ## Current user direction: supervised interactive run
 
 User rejects the overnight batch handoff and explicitly requests interactive
