@@ -13,6 +13,20 @@ command exits, then resume independent tasks within two allocations and 250h.
 tmux separates terminal ownership from the Codex exec session; it does not protect
 against login-node failure, scheduler cancellation or allocation wall limits.
 
+Owner df5c597 smoke s012/59650697 completes CUDA and releases in 23s after
+the creating exec exits. The tmux server has PPID 1 and its own SID/PGID,
+separate from the Codex process. Accounting initially lags release; fix 06dc058
+retries only accounting metadata, at most six times/five-second intervals.
+Repeated smoke s013/59650729 completes in 11s; wrapper exits 0 with source checks
+and ACCOUNTED receipt passing. s012's computation passed but original wrapper
+exit 1 remains disclosed. Total actual use is now 44.433056 GPUh.
+Proceed with s014 and s015, each four independent GPU workers for at most three
+hours, using the already exercised parallel topology and untouched claims.
+At most 24 additional GPUh reserved, for a 68.433056h accounted-plus-reserved
+bound. No retry/chain, no new model training, no sealed access. Routine polling
+remains off at the user's request; launch verification and later reconciliation
+are required. No full-generation completion is claimed by these lifecycle tests.
+
 ## 2026-10-11 — [execution blocked] Interactive session-loss failure recurred
 
 s010/59644879 and s011/59645231 did not complete. The runtime records this
