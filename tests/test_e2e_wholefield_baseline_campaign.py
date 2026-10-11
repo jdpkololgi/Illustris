@@ -5,9 +5,27 @@ import unittest
 from unittest.mock import patch
 
 from workflows.sbi import e2e_wholefield_baseline_campaign as c
+from workflows.sbi import e2e_wholefield_baseline_campaign_v2 as v2
 
 
 class CampaignTests(unittest.TestCase):
+    def test_nersc_expanded_qos_names(self):
+        output = '1|gpu_interactive|RUNNING\n2|gpu_shared_interactive|PENDING\n3|cpu_interactive|RUNNING\n4|interactive|RUNNING\n5|shared_interactive|RUNNING\n6|regular|RUNNING\n'
+        self.assertEqual(len(v2.parse_interactive_jobs(output)), 5)
+        self.assertEqual(v2.parse_interactive_jobs(''), [])
+        with self.assertRaises(ValueError): v2.parse_interactive_jobs('unexpected')
+
+    def test_adoption_requires_successful_accounting(self):
+        with tempfile.TemporaryDirectory() as tmp, patch.object(v2.c, 'ROOT', Path(tmp)):
+            binding = {'adopted_segments': [{'segment': 's020', 'job': '2'}]}
+            self.assertFalse(v2.adopted_complete(binding))
+            c.write(Path(tmp)/'allocations/s020/ACCOUNTED.json', {'state': 'COMPLETED', 'exit_code': '0:0', 'job': '2'})
+            self.assertFalse(v2.adopted_complete(binding))
+            c.write(Path(tmp)/'allocations/s020/BASELINE_OWNER_COMPLETE.json', {'passed': True})
+            self.assertTrue(v2.adopted_complete(binding))
+            c.write(Path(tmp)/'allocations/s020/RANK_0_FAILED.json', {'failed': True})
+            with self.assertRaises(RuntimeError): v2.adopted_complete(binding)
+
     def test_resources(self):
         for count, gpus in ((1, 1), (2, 2), (3, 2), (4, 4), (119, 4)):
             self.assertEqual(c.resource_plan('generate', count), (gpus, 10800))

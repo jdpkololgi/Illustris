@@ -2,6 +2,36 @@
 
 ## 11 October: baseline-only completion controller authorized
 
+**Launch and handoff checkpoint:** s019/59674462 passes the first extraction smoke
+in 51s, 0:0, including owner/source/accounting checks. Bank: 73 generated / 66
+extracted; cumulative use 72.353889 GPUh. s020/59674485 (nid008220) and
+s021/59674499 (nid200436) start four independent workers apiece, three-hour caps.
+
+The initial scheduler-count function missed expanded live names such as
+`gpu_interactive`. Its two-child limit still prevents a third campaign child,
+but the all-user count needs correction. Do not edit the live v1 file: existing
+owners bind it. Signal-based pause attempts were not confirmed effective.
+The exact `fullcap_v1/allocations` parent is temporarily mode 0500 instead of
+0700; its child allocation directories retain their original writable modes.
+This prevents replacement reservations while allowing current jobs to complete
+and account. v1 will record the expected PermissionError and drain both owners.
+
+`e2e_wholefield_baseline_campaign_v2.py` is a separately bound adapter; it counts
+both submission aliases and the expanded CPU/GPU interactive QOS names. Its
+four-hour bounded handoff waits for successful s020/s021 owner/accounting
+receipts, the expected permission-denied STOPPED.json, and exclusive acquisition
+of the old controller lock. Only then restore the parent mode to 0700 and run
+the corrected baseline controller. Any unexpected failure retains the hold and
+records HANDOFF_FAILED.json for inspection. No running job is cancelled or
+modified; v1 sources and manifests remain immutable. v2's source binding includes
+both controller files and all original dependencies. Nineteen focused tests pass.
+
+v2 lifecycle: `fullcap_v1/baseline_campaign_20261011_v2/`, with HANDOFF_WAITING,
+HANDOFF_COMPLETE or HANDOFF_FAILED receipts plus the normal campaign receipts.
+The archive of the 14 older interrupted attempts remains under the original
+`baseline_campaign_20261011/preserved_attempts/`, with its original-path hashes.
+No second archive move or extra retry is performed by the adapter.
+
 The user explicitly requests completing baseline generation and extraction using
 two allocations. The current checkpoint is **73 generated / 65 extracted of 192**,
 with **72.339722 allocated GPUh** used. s017 and s018 have both completed 0:0,

@@ -2,6 +2,29 @@
 
 ## 2026-10-11 — [explicit authority] Complete baseline with two interactive allocations
 
+Launch checkpoint: s019/59674462 completes the new-owner extraction smoke in
+51 seconds, 0:0, with owner/accounting verification passing. Extraction is now
+66/192; cumulative use 72.353889 GPUh. s020/59674485 on nid008220 and
+s021/59674499 on nid200436 each start four distinct generation claims under
+the unchanged frozen worker. Both are bounded to three hours.
+
+The smoke exposes a controller accounting bug: live QOS names are
+`gpu_interactive` / `gpu_shared_interactive`, not just their submission aliases.
+The local two-child limit still holds, but external interactive jobs must also
+be counted. Signal-based controller pausing was not verified effective; do not
+claim it stopped. Instead, the allocation-parent directory is temporarily 0500
+(formerly 0700), preventing new segment directories without affecting writes
+inside the running segments. Original owner/source files remain unchanged.
+
+The separately bound v2 adapter fixes expanded-QOS matching and waits for both
+owners to pass, the original controller's expected permission-denied stop, and
+its exclusive lock to release. Only then does it restore 0700 and continue with
+at most two total interactive jobs. Any different failure stops the handoff.
+No Slurm cancellation/modification, failed-task retry or source-hash waiver.
+Nineteen focused tests pass including the expanded-QOS and adoption checks.
+The v2 lifecycle directory is `fullcap_v1/baseline_campaign_20261011_v2/`;
+the original archived failed attempts and first-controller record stay intact.
+
 User requests completion of baseline generation and extraction with the two
 allocation slots. This authorizes a finite baseline-only replenishment controller,
 not Gate 2, Gaussian fitting, model training, sealed phases or budget expansion.
