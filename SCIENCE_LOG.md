@@ -1,5 +1,39 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-11 — [explicit authority] Complete baseline with two interactive allocations
+
+User requests completion of baseline generation and extraction with the two
+allocation slots. This authorizes a finite baseline-only replenishment controller,
+not Gate 2, Gaussian fitting, model training, sealed phases or budget expansion.
+Retain the approved tmux ownership, 250 total allocated GPU-hour ceiling and
+23 October deadline. There is no batch fallback or retry after a new failure.
+
+s017/59669982 and s018/59670054 both completed 0:0; all eight workers and owners
+passed. The generation bank is 73/192, corrected extraction 65/192, and actual
+allocated use 72.339722 GPUh. Both slots are idle before the continuation.
+Remaining generation forecast from the saved per-cap rates and exact inventory
+is 147.923958 GPUh at median rates / 166.781549 at maximum observed rates,
+excluding extraction, verification, allocation tails and failures. These are
+estimates, not upper bounds or permission to exceed the cap.
+
+The 14 interrupted tasks each contain only START.json and density/BINDING.json;
+their claims bind terminal, accounted TIMEOUT jobs. The controller archives
+these task/claim directories with a hash-verified original-path mapping before
+one fresh attempt, preserving all old logs and accounting. New failures stop
+replacement submissions while the other active allocation finishes normally.
+
+`workflows/sbi/e2e_wholefield_baseline_campaign.py` serializes reservations,
+counts all pending/running interactive jobs, uses at most two allocations,
+and retains the unchanged frozen numerical sampler/extractor. First complete
+one extraction smoke through the new owner; then generate on four independent
+GPUs per full node, interleaving one-GPU extraction batches. The final compute
+step verifies and assembles all 192 products with the existing baseline builder.
+It records baseline completion only, not a statistical gate or posterior pass.
+Seventeen focused controller/contract/topology tests pass before launch.
+Sources are hash-bound and must remain unchanged while this campaign runs.
+
+Execution record: `docs/e2e_wholefield_fullcap_regeneration_20261009.md`.
+
 ## 2026-10-11 — [generation complete] First eight tmux-owned tasks succeed
 
 s014/59650792 and s015/59650815 both COMPLETED 0:0, including their compute

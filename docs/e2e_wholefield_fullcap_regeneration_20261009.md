@@ -1,5 +1,54 @@
 # Full-cap matched baseline: execution authority and resource preflight
 
+## 11 October: baseline-only completion controller authorized
+
+The user explicitly requests completing baseline generation and extraction using
+two allocations. The current checkpoint is **73 generated / 65 extracted of 192**,
+with **72.339722 allocated GPUh** used. s017 and s018 have both completed 0:0,
+including all worker and owner receipts. Earlier running statements below are
+historical. No allocation is live at preparation time.
+
+The fixed controller `workflows/sbi/e2e_wholefield_baseline_campaign.py` is scoped
+to baseline generation, unchanged corrected extraction, and the complete-bank
+verification/assembly. It may replace successful allocations until completion,
+within two pending/running interactive jobs, the original deadline and 250h
+total. It stops new submissions on any new error, absent receipt, changed source,
+exhausted budget/deadline, or queue failure. Other already-running jobs finish
+normally and are accounted. No failure is automatically retried; no Gate 2,
+Gaussian campaign, fine training, sealed opening or batch submission is included.
+
+One extraction smoke validates the new ownership path before generation resumes.
+Use up to four independent workers per full node (two or one when fewer tasks
+are ready), bounded to three hours, with separate one-GPU extraction batches
+and a final 30-minute bank verification reservation. Reservations are serialized
+by one exclusive controller lock and charged against all prior campaign use.
+When no scientific stage remains, release and stop rather than spending unused
+budget. The allocation skill's generic batch/tmux handoff conflicts with the
+user's explicit interactive-only/tmux instruction; the user instruction governs.
+
+Preserve the 14 earlier interrupted task and claim directories under
+`fullcap_v1/baseline_campaign_20261011/preserved_attempts/`. MANIFEST.json stores
+the original paths, metadata hashes and job ownership before the moves; all
+hashes must match afterward. Read-only inventory confirms no payload/completion
+file exists in these failed task directories. Their old log/accounting paths
+remain unchanged. The frozen worker can then claim each original task address
+once in a fresh directory; this is not a resume from a nonexistent checkpoint.
+
+The controller's MANIFEST.json also binds all live orchestration/bank sources
+and the immutable generation/extraction identities. Keep those files unchanged
+until it stops. PREPARED.json, STARTED.json and either COMPLETE.json or
+STOP_REQUESTED.json/STOPPED.json provide durable lifecycle evidence. Each segment
+has BASELINE_PLAN.json, BASELINE_OWNER.log, BASELINE_OWNER_EXIT.json,
+ACCOUNTED.json and a success-only BASELINE_OWNER_COMPLETE.json. Final baseline
+products are in `fullcap_v1/baseline_v1/`; a complete receipt is required before
+claiming 192/192 verified. Scheduler completion alone is insufficient.
+
+Seventeen focused tests pass before launch. Exact remaining-inventory forecast:
+147.923958 / 166.781549 GPUh at saved median / maximum observed per-cap rates.
+These omit extraction/verification/idle tails/failures and are not upper bounds.
+Remaining hard allowance is 177.660278 GPUh; later scientific stages have no
+budget guarantee and are explicitly outside this controller.
+
 ## Current checkpoint: eight completed and verified, continued generation
 
 s014/59650792 and s015/59650815 both COMPLETED 0:0; all eight workers completed
