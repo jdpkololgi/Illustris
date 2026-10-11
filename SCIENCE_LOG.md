@@ -1,5 +1,23 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-11 — [generation complete] First eight tmux-owned tasks succeed
+
+s014/59650792 and s015/59650815 both COMPLETED 0:0, including their compute
+steps and tmux owners. All eight worker receipts list distinct completed tasks.
+Allocations released normally at 01:26:08 and 01:27:42 UTC after 6,269 and
+6,277 seconds. Actual GPU use 6.965556h and 6.974444h; cumulative 58.373056h
+of 250h. The tmux ownership path worked through full generation and release,
+not merely startup. Generation bank is now 65/192 tasks, with 127 outstanding.
+Corrected extraction remains at 57 pending verification of these eight products.
+
+User requests continuation. Fixed extraction wrapper ab3ccad invokes the staged,
+unchanged extractor on exactly the eight completed tasks; 11 focused tests and
+shell syntax pass. s016/59669913 on nid200261 uses one GPU for at most 30 minutes
+under tmux to verify payload/source hashes and corrected-core physical checks.
+No numerical/source gate changes, failed-claim retries, sealed access or model
+training. Further bounded generation may resume after representative extraction
+verification, within the two-allocation limit. Gate 2 still requires the full bank.
+
 ## 2026-10-11 — [explicit authority] tmux-owned bounded interactive work
 
 User explicitly approves tmux for the fixed salloc/srun workload and requests
