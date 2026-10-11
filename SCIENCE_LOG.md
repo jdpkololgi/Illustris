@@ -18,6 +18,24 @@ No numerical/source gate changes, failed-claim retries, sealed access or model
 training. Further bounded generation may resume after representative extraction
 verification, within the two-allocation limit. Gate 2 still requires the full bank.
 
+All eight corrected extractions pass, including input payload hashes, original
+tide replay and correction identities: maximum original error 1.19196e-7 and
+correction trace error 8.32667e-15. s016 COMPLETED 0:0 in 300s, owner exit 0,
+accounting saved; cumulative actual GPU use **58.456389h**. Bank now has 65
+generated/extracted tasks; 127 generation tasks remain. This is engineering
+verification, not Gate 2 or posterior qualification.
+
+After representative extraction passes, s017/59669982 starts four workers on
+nid200348, claiming ph016/NGC seed29 d028 and ph017/NGC seed17 d000/d004/d008.
+Once extraction releases, s018 is reserved for the second four-GPU segment.
+Both generation allocations are capped at three hours; accounted-plus-reserved
+bound 82.456389/250h. The segment label s018 is not permission to access sealed
+phase ph018. All scientific scope guards remain unchanged.
+
+s018 starts as 59670054 on nid200297; all four rank receipts pass, claiming
+ph017/NGC seed17 d012/d016/d020/d024. Both tmux-owned generation jobs are
+RUNNING with eight distinct task claims. No new completion is counted yet.
+
 ## 2026-10-11 — [explicit authority] tmux-owned bounded interactive work
 
 User explicitly approves tmux for the fixed salloc/srun workload and requests

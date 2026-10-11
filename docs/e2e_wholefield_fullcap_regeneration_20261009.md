@@ -1,5 +1,34 @@
 # Full-cap matched baseline: execution authority and resource preflight
 
+## Current checkpoint: eight completed and verified, continued generation
+
+s014/59650792 and s015/59650815 both COMPLETED 0:0; all eight workers completed
+one four-draw task each. tmux owners exited 0, allocations released normally,
+and accounting/source checks passed. They used 6.965556 and 6.974444 GPUh.
+The session-ownership change has now worked through full generation/release.
+
+Fixed extraction wrapper ab3ccad runs the unchanged staged extractor on those
+eight products. Eleven focused tests and shell syntax pass. s016/59669913
+verifies source/payload hashes and corrected summaries for all eight: maximum
+original-tide replay error 1.19196e-7, correction trace residual 8.32667e-15.
+It completes in 300s and releases, with owner exit 0 and accounting saved.
+Total actual campaign use is **58.456389 of 250 GPUh**. The complete-product
+bank is now **65/192**, with **127 generation tasks outstanding**. Gate 2 and
+model training remain gated; these checks do not qualify the posterior.
+
+Continuation: s017/59669982 on nid200348 runs four independent tasks after
+representative extraction verification. Claims: ph016/NGC seed29 d028 and
+ph017/NGC seed17 d000/d004/d008. Following extraction release, s018 occupies
+the second interactive slot for four further tasks. Each generation segment
+has a three-hour limit; accounted-plus-reserved bound is 82.456389 GPUh.
+All run under the approved fixed tmux owner, with no allocation chain/retry,
+new numerical source, training or sealed-phase access. Failed attempts remain
+preserved. No routine monitoring is configured.
+
+s018 starts as 59670054 on nid200297, with four passing rank-start receipts
+and distinct ph017/NGC seed17 d012/d016/d020/d024 claims. Both generation
+allocations are running; these eight in-flight tasks are not yet counted complete.
+
 ## Current continuation: explicitly approved tmux ownership, 11 October
 
 User explicitly approves tmux for a fixed bounded interactive workload. Owner
