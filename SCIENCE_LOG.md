@@ -24,6 +24,13 @@ No Slurm cancellation/modification, failed-task retry or source-hash waiver.
 Nineteen focused tests pass including the expanded-QOS and adoption checks.
 The v2 lifecycle directory is `fullcap_v1/baseline_campaign_20261011_v2/`;
 the original archived failed attempts and first-controller record stay intact.
+v2 (3581fab) is prepared and running in tmux `wf_baseline_v2_20261011` on
+login13, PID 1569312. HANDOFF_WAITING.json binds jobs 59674485/59674499.
+It has not yet submitted replacements: both original jobs are running, eight
+rank-start receipts pass, and baseline completion remains pending. Graphify
+refresh/global update succeeds in cosmic_env; final incremental refresh uses
+one worker and no clustering. Do not edit any bound controller/numerical source
+until the campaign completes or stops. No continuous user-facing status reports.
 
 User requests completion of baseline generation and extraction with the two
 allocation slots. This authorizes a finite baseline-only replenishment controller,

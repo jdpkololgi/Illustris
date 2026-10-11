@@ -31,6 +31,13 @@ HANDOFF_COMPLETE or HANDOFF_FAILED receipts plus the normal campaign receipts.
 The archive of the 14 older interrupted attempts remains under the original
 `baseline_campaign_20261011/preserved_attempts/`, with its original-path hashes.
 No second archive move or extra retry is performed by the adapter.
+v2 source revision 3581fab is prepared and its handoff is running under tmux
+`wf_baseline_v2_20261011`, socket `wf-fullcap`, on login13 (PID 1569312).
+HANDOFF_WAITING.json names both adopted jobs. Eight rank-start receipts pass;
+both jobs remain running. Replacements and complete-bank verification are
+pending, not completed. The initial controller PID 1484354 remains responsible
+for draining its two owners and writing the expected stop record. Do not resume
+or restart it independently or change the allocation-parent hold manually.
 
 The user explicitly requests completing baseline generation and extraction using
 two allocations. The current checkpoint is **73 generated / 65 extracted of 192**,
