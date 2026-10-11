@@ -5,10 +5,14 @@ set -euo pipefail
 segment=${1:?segment required}
 gpus=${2:?GPU count required}
 seconds=${3:?wall seconds required}
+mode=${4:-generation}
 [[ $segment =~ ^s[0-9]+$ ]] || exit 64
 [[ $gpus == 1 || $gpus == 4 ]] || exit 64
+[[ $mode == generation || $mode == extract-s014-s015 ]] || exit 64
+[[ $mode != extract-s014-s015 || $gpus == 1 ]] || exit 64
 case "$seconds" in
     600) wall=00:10:00 ;;
+    1800) wall=00:30:00 ;;
     10800) wall=03:00:00 ;;
     *) exit 64 ;;
 esac
@@ -26,11 +30,18 @@ set -o noclobber
 exec > "$dir/TMUX_OWNER.log" 2>&1
 sha256sum "$0" "$repo/workflows/sbi/e2e_wholefield_fullcap_parallel.py" \
     "$repo/workflows/sbi/e2e_wholefield_fullcap_batch.py" \
-    "$repo/workflows/sbi/e2e_wholefield_fullcap_batch.sh" > "$dir/TMUX_SOURCES.sha256"
+    "$repo/workflows/sbi/e2e_wholefield_fullcap_batch.sh" \
+    "$repo/workflows/sbi/e2e_wholefield_extract_s014_s015.sh" > "$dir/TMUX_SOURCES.sha256"
 date -u '+owner_start=%Y-%m-%dT%H:%M:%SZ'
 printf 'owner_pid=%s host=%s segment=%s gpus=%s\n' "$$" "$(hostname)" "$segment" "$gpus"
 set +e
-if [[ $gpus == 1 ]]; then
+if [[ $mode == extract-s014-s015 ]]; then
+    salloc -N1 -n1 -c32 --gpus=1 --constraint='gpu&hbm80g' \
+        --qos=shared_interactive --account=desi_g --licenses=scratch \
+        --time="$wall" --immediate=600 --job-name="wf_extract_$segment" \
+        srun --mpi=none --resv-ports=0 --kill-on-bad-exit=1 -N1 -n1 -c32 \
+        --gpus=1 --cpu-bind=cores bash "$repo/workflows/sbi/e2e_wholefield_extract_s014_s015.sh" "$segment"
+elif [[ $gpus == 1 ]]; then
     salloc -N1 -n1 -c32 --gpus=1 --constraint='gpu&hbm80g' \
         --qos=shared_interactive --account=desi_g --licenses=scratch \
         --time="$wall" --immediate=600 --job-name="wf_tmux_$segment" \
