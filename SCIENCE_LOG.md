@@ -1,5 +1,44 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-12 — [explicit authority] Recover baseline; GPU-hour ceiling waived
+
+User says "No need to worry about budgets! Just complete the work" and asks
+that execution survive SSH disconnects. Remove the 250 allocated GPU-hour stop
+condition for baseline completion. Retain two total interactive allocations,
+bounded per-job walltime, the existing deadline, frozen scientific scope and
+all accounting. This does not authorize model training or advancing a failed
+scientific gate. tmux `exit-unattached` and `destroy-unattached` are both off;
+fixed controllers/launchers remain outside the user's SSH/app terminal lifetime.
+Login-node failure, Slurm expiry and filesystem outages are distinct risks.
+
+Verified checkpoint: 105/192 generation and corrected-extraction tasks complete.
+No final-bank receipt exists. s032/59685897 and s034/59686674 both TIMEOUT after
+three hours; their steps end 0:15 and owners exit 143. v2 stops replacements and
+drains both jobs as designed; all allocations have released. Actual cumulative
+GPU use is 152.405h. Prior reports of active jobs were point-in-time checks, not
+completion evidence. The earlier QOS-name handoff completed successfully.
+
+All eight affected density products have passing receipts and present payloads;
+sampling took about 97--98 minutes. Neither job produced a tidal directory.
+The stage-handoff stall cause is not yet established; contemporaneous slow
+metadata checks are not proof of a filesystem cause. Do not rerun these densities
+without first checking their saved hashes/provenance on compute nodes.
+
+`e2e_wholefield_baseline_campaign_v3.py` preserves the original scientific
+manifest and frozen numerical files. A separately bound RESOURCE_AUTHORITY.json
+supersedes only the historical 250h admission ceiling; reservations bind both
+that amendment and the original manifest. Recover the eight existing density
+products into fresh tidal destinations, verify unchanged interior/trace/ordering,
+then append full-task receipts and perform unchanged corrected-core extraction.
+Old claims, products, logs and accounting remain intact. A one-product recovery
+smoke must pass before wider generation/recovery; new failures still stop
+automatic replacements for inspection. The other 79 tasks are untouched.
+Twenty-three focused tests pass, including reservations above the old ceiling,
+retained deadline/resource guards and rejection of wrong density provenance.
+
+No recovery job has launched at this implementation checkpoint. Protocol and
+lifecycle root: `fullcap_v1/baseline_campaign_20261012_v3/` (created at preparation).
+
 ## 2026-10-11 — [explicit authority] Complete baseline with two interactive allocations
 
 Launch checkpoint: s019/59674462 completes the new-owner extraction smoke in

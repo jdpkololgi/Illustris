@@ -1,5 +1,42 @@
 # Full-cap matched baseline: execution authority and resource preflight
 
+## 12 October: recover saved densities; total GPU-hour ceiling waived
+
+The user explicitly removes budget concerns and requests baseline completion,
+also requiring survival of normal SSH disconnects. The old 250h stop condition
+is superseded by a source-bound resource amendment, not by changing the immutable
+scientific manifest. Preserve two total interactive allocations, three-hour
+generation segments, the original deadline and baseline-only scope. Continue
+recording all allocated usage. No budget expansion substitutes for a gate pass.
+
+Current bank: **105/192 generated and extracted**, no final bank verification.
+s032/59685897 and s034/59686674 hit their three-hour limits; scheduler state
+TIMEOUT, compute-step 0:15, owner exit 143. Cumulative actual use **152.405 GPUh**.
+The controller has stopped and no jobs remain. Eight saved density products have
+passing receipts and existing payloads, but no tidal directories. Cause of the
+post-density stall is unresolved; payload hashes must be verified on compute.
+
+The v3 adapter retains the old controllers, generation snapshot and extractor
+byte-for-byte. Preparation binds the eight density receipts, original claims and
+timeout accounting. RESOURCE_AUTHORITY.json explicitly supersedes the 250h
+ceiling, and every new reservation binds it plus the old scientific manifest.
+No old outputs or receipts are overwritten. Recovery writes new
+`tides_recovery_20261012` directories and RECOVERY_20261012.json lineage, invokes
+the unchanged tidal generator/verifier, then publishes task completion and runs
+the unchanged corrected extractor. Begin with one one-GPU recovery smoke; only
+its verified owner/accounting success allows further baseline work. Recoveries
+are admitted only with enough time for their bounded subprocesses. Preserve all
+diagnostic evidence and stop replacements on any new failure, rather than blind
+resubmission. Seventy-nine never-attempted generation tasks also remain.
+
+The approved tmux ownership continues. Both detach-destruction options are off;
+verify the server/launcher ancestry at launch. SSH or app disconnects do not own
+these fixed processes. This does not protect against login-node failure, Slurm
+wall limits or filesystem outages. Durable lifecycle root is
+`fullcap_v1/baseline_campaign_20261012_v3/`; code is
+`workflows/sbi/e2e_wholefield_baseline_campaign_v3.py`. Twenty-three focused tests
+pass before launch. No Gate 2/Gaussian/fine-training work is included.
+
 ## 11 October: baseline-only completion controller authorized
 
 **Launch and handoff checkpoint:** s019/59674462 passes the first extraction smoke
