@@ -1,5 +1,28 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-13 — [authorized continuation] Complete bank; matched sensitivity next
+
+The user requests the rest of the gated whole-field plan. All 192 generation
+and extraction tasks plus final bank assembly pass; assembly job 59716594.
+The campaign receipt says gate2_run=false and training_run=false. The saved
+six-phase/two-seed bank has pooled Q/V=1.35780798635 (out-of-fit 1.49104852681),
+not a posterior qualification. This supersedes the partial counts below.
+
+Freeze the new matched Gate 2 configuration and executable rule before
+simulation. Preserve 10% minimum accepted improvement, powered alternatives
+20%/40%, equal-phase pooled Q/V, whole-phase resampling, seed noise floors,
+joint score, selection and stability requirements. A necessary-event screen
+can reject but never pass the gate. Four synthetic families, correlations
+0/0.9/1, 4,096 replicates per setting; simultaneous MC uncertainty retained.
+If it rejects, stop the campaign before Gaussian or fine training. If it does
+not reject, complete full-rule false-advancement/power calibration first.
+
+One fixed CPU interactive job, eight single-thread workers, maximum one hour,
+SSH-independent tmux owner; no batch fallback or automatic retry. Scientific
+gates and the Gaussian eight-GPU-hour subcap remain. Full-chain/coarse training
+and sealed ph018/019 remain outside scope. See
+`docs/e2e_wholefield_matched_gate2_20261013.md`. No new simulation run yet.
+
 ## 2026-10-12 — [explicit authority] Recover baseline; GPU-hour ceiling waived
 
 User says "No need to worry about budgets! Just complete the work" and asks
