@@ -9,10 +9,10 @@ scientific manifest. Preserve two total interactive allocations, three-hour
 generation segments, the original deadline and baseline-only scope. Continue
 recording all allocated usage. No budget expansion substitutes for a gate pass.
 
-Current bank: **105/192 generated and extracted**, no final bank verification.
+Pre-recovery bank: **105/192 generated and extracted**, no final bank verification.
 s032/59685897 and s034/59686674 hit their three-hour limits; scheduler state
 TIMEOUT, compute-step 0:15, owner exit 143. Cumulative actual use **152.405 GPUh**.
-The controller has stopped and no jobs remain. Eight saved density products have
+At that audit the controller had stopped and no jobs remained. Eight saved density products have
 passing receipts and existing payloads, but no tidal directories. Cause of the
 post-density stall is unresolved; payload hashes must be verified on compute.
 
@@ -36,6 +36,17 @@ wall limits or filesystem outages. Durable lifecycle root is
 `fullcap_v1/baseline_campaign_20261012_v3/`; code is
 `workflows/sbi/e2e_wholefield_baseline_campaign_v3.py`. Twenty-three focused tests
 pass before launch. No Gate 2/Gaussian/fine-training work is included.
+
+**Verified launch checkpoint:** revision c347d9a; s035/59703505 completes 0:0
+in 351 seconds. Saved payload hashes, four reconstructed tidal draws, independent
+verification, corrected extraction and owner/accounting receipts all pass.
+Saved interior density difference is exactly zero. Bank is now 106/192 generated
+and extracted; cumulative actual allocation use is 152.5025 GPUh. s036/59703564
+starts the next four saved-density recoveries. Final-bank verification is pending.
+Controller PID 150295 is a child of detached tmux server PID 1666530 (PPID 1),
+session `wf_baseline_v3_20261012`, socket `wf-fullcap`, login13. Both destruction
+settings are off, verifying independence from the user's SSH terminal. Graphify
+and the global graph refresh complete successfully.
 
 ## 11 October: baseline-only completion controller authorized
 

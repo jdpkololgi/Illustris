@@ -36,8 +36,18 @@ automatic replacements for inspection. The other 79 tasks are untouched.
 Twenty-three focused tests pass, including reservations above the old ceiling,
 retained deadline/resource guards and rejection of wrong density provenance.
 
-No recovery job has launched at this implementation checkpoint. Protocol and
-lifecycle root: `fullcap_v1/baseline_campaign_20261012_v3/` (created at preparation).
+Recovery smoke s035/59703505 now passes: saved density payload hashes, all four
+tidal draws, independent verification (saved interior difference exactly zero),
+corrected extraction and owner/accounting checks. Job COMPLETED 0:0 in 351s;
+bank is 106/192 generated and extracted, actual cumulative use 152.5025 GPUh.
+s036/59703564 begins the next four saved-density recoveries. Remaining baseline
+work is pending; neither complete-bank verification nor posterior qualification
+has passed. Code revision c347d9a is frozen; graphify/global refresh succeeds.
+
+Controller PID 150295 runs under tmux server PID 1666530, whose PPID is 1, on
+login13, session `wf_baseline_v3_20261012`, socket `wf-fullcap`. Neither process
+is owned by the SSH terminal; both detach-destruction settings are off. Protocol
+and lifecycle root: `fullcap_v1/baseline_campaign_20261012_v3/`.
 
 ## 2026-10-11 — [explicit authority] Complete baseline with two interactive allocations
 
