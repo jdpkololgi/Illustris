@@ -1,5 +1,15 @@
 # Coupled CFM whole field comparison plan
 
+**13 October verified status:** the full 192-task reference bank is complete.
+The amended six-phase/two-seed Gate 2 was run and independently verified; it
+rejects the registered sensitivity requirement in seven powered settings even
+under a relaxed necessary-event rule. The campaign stops before Gaussian
+comparison or fine-model training. This supersedes the missing-bank checkpoint
+and partial execution statuses below. See the
+[matched result and frozen rule](e2e_wholefield_matched_gate2_20261013.md).
+The historical 250h aggregate budget below was waived for baseline completion
+on 12 October; that waiver does not waive the scientific stop gate.
+
 Current amendment, 9 October: **Gate 2 must match the frozen model's actual
 six-phase, two-seed evaluation.** The earlier two-phase parent-canvas screen
 is historical evidence for that narrower rule only, not a sensitivity decision

@@ -1,5 +1,33 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-13 — [verified stop] Matched six-phase sensitivity rejects
+
+All 192 reference tasks and final assembly are complete. The newly authorized
+matched Gate 2 runs from committed binding 994e217 and rejects the registered
+80% power requirement: 7/24 powered law/correlation/effect settings fail even
+the optimistic necessary-event upper bound. At 20% improvement, common-mode
+correlation 0 has upper bound 77.29%; heavy-tail bounds are 50.75--57.54% across
+correlations 0/0.9/1. At 40%, all three heavy-tail upper bounds remain below
+61.79%. These simultaneous one-sided bounds include 1% familywise MC error.
+Full-rule power cannot exceed this relaxed event under the declared surrogates.
+No full-rule false-advancement calibration or posterior pass is claimed.
+
+This uses six phases, both seeds and the new full-cap law, with separately
+pooled Q/V, 10% acceptance, distinct 20%/40% alternatives and frozen seed floor
+0.05586830530. It is not a reuse of the narrower historical two-phase failure.
+Four laws x three correlations x 4,096 trials, five effects each; all outcomes
+retained. Reference R=1.35780798635, out-of-fit R=1.49104852681. No architecture
+or cosmological population-power conclusion follows from this design test.
+
+Six focused tests and 401 independent checks pass, including baseline traces,
+all event counts/bounds, same-noise null parity and provenance. CPU59720867
+COMPLETED 0:0, 67s, owner passed/released, zero GPUs; 4.7644 allocated logical
+CPU-hours (AllocCPUS=256). Graphify/global refresh succeeds. Stop per the plan:
+do not run Gaussian Gate 1 or fine-model fits after this failed prerequisite.
+No sealed-phase access or coarse/full-chain work. All original artifacts and
+unrelated user changes preserved. Result and binding:
+`docs/e2e_wholefield_matched_gate2_20261013.md`.
+
 ## 2026-10-13 — [authorized continuation] Complete bank; matched sensitivity next
 
 The user requests the rest of the gated whole-field plan. All 192 generation

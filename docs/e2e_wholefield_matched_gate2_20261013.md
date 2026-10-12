@@ -1,5 +1,68 @@
 # Matched full-cap Gate 2: frozen execution binding
 
+## Verified result: stop at the sensitivity prerequisite
+
+The matched six-phase/two-seed screen rejects the registered >=80% detection
+requirement. **Seven of 24 powered settings have simultaneous upper bounds
+below 80%.** No Gaussian comparison, fine-model fitting, coarse training or
+sealed-phase access follows. This is a conditional sensitivity failure for the
+registered decision rule, not evidence that a U-Net or transformer cannot work.
+
+All twelve law/correlation settings ran 4,096 independent simulated six-phase
+experiments, each evaluated at five effects. No thresholds changed after
+results. The bound is on an optimistic necessary event, not the power of the
+complete decision rule; full-rule power cannot exceed it under these laws.
+The actual false-advancement rate was not calibrated and no pass is claimed.
+
+| Law | Paired noise correlation | Upper power bound, 20% effect | Upper power bound, 40% effect |
+| --- | ---: | ---: | ---: |
+| Gaussian scale | 0 | 81.44% | 92.11% |
+| Gaussian scale | 0.9 | 91.94% | 92.30% |
+| Gaussian scale | 1 | 93.94% | 91.79% |
+| Biased | 0 | 88.84% | 99.43% |
+| Biased | 0.9 | 98.31% | 99.36% |
+| Biased | 1 | 98.85% | 98.67% |
+| Common mode | 0 | **77.29%** | 86.17% |
+| Common mode | 0.9 | 84.88% | 87.20% |
+| Common mode | 1 | 85.91% | 85.88% |
+| Heavy tail | 0 | **56.44%** | **61.22%** |
+| Heavy tail | 0.9 | **57.54%** | **61.78%** |
+| Heavy tail | 1 | **50.75%** | **59.56%** |
+
+These are simultaneous **upper** bounds with familywise MC error <=1% over
+120 reported probability endpoints, not measured cosmological detection rates.
+An upper bound above 80% cannot demonstrate sufficient power or grant a pass.
+Displayed upper bounds are the registered rejection basis; unused lower bounds
+in the machine receipt are not asserted jointly with the upper-bound family.
+
+At heavy-tail correlation 1 and 20% improvement, the point event frequency is
+47.36%, upper bound 50.75%. The corresponding exact-moment necessary event upper
+bound is 51.31%: increasing draw count alone does not resolve that particular
+declared surrogate's repeated-panel variation. This does not prove that adding
+phases alone is sufficient or license a different decision rule post hoc.
+
+The verified physical reference has pooled R=1.35780798635, selection-pool
+R=1.09406105891 and out-of-fit R=1.49104852681. Seed-pooled R values are
+1.39707546650 and 1.31806575144; the frozen ratio floor is 0.05586830530 and
+fair-energy floor 0.00126769236. Completing the bank resolved the missing-input
+blocker, but neither these ratios nor artifact verification qualify a posterior.
+
+Code/configuration commit **994e217** precedes all simulations. Six focused tests
+pass. Independent verifier passes **401 checks**, including all saved event
+counts/bounds, trial/phase/seed identities, null same-noise parity, input hashes
+and an independent flattened-coordinate baseline trace calculation. Preparation
+also independently recomputed all fair-energy scores. Graphify/global refresh
+passes. CPU job **59720867**, nid200085, COMPLETED 0:0 in **67 seconds**; owner
+passes and releases. AllocCPUS=256 means **4.7644 allocated logical-CPU hours**;
+eight workers used, zero GPU-hours. Slurm allocation success is distinct from
+the scientific rejection. The frozen baseline artifacts remain unchanged.
+
+Evidence under `matched_gate2_20261013_v1/`: BINDING.json, SIMULATIONS.npz,
+COMPLETE.json and VERIFIED.json. Parent owner log and exit/accounting receipt:
+`matched_gate2_20261013_OWNER.log`, `matched_gate2_20261013_OWNER_EXIT.json`.
+Any redesign of panel, margins, perturbation family or objective is a separately
+declared study, not automatic continuation of this failed gate.
+
 The 13 October request authorizes completing the remaining gated plan. The
 192-task reference bank and final assembly pass, with 32 draws for each of
 six phases, two seeds and 16 region pairs. This is the newly approved full-cap
@@ -79,4 +142,5 @@ or automatic failure retries. Output root:
 The eight-GPU-hour Gaussian subcap remains if Gate 2 passes. Coarse training,
 full-chain changes and sealed confirmation remain separately authorized work.
 
-Status: code/configuration binding prepared; simulations not yet run.
+Historical pre-run status: code/configuration binding prepared before simulations.
+The verified result above supersedes that checkpoint; this campaign is stopped.
