@@ -155,6 +155,13 @@ def run(architecture, prediction, seed, seconds, stop_step=STEPS):
     if seed not in (17, 29) or not 1 <= stop_step <= STEPS:
         raise ValueError('Unregistered training seed/stop')
     setup(seed)
+    checked = json.loads((ROOT/'smoke/COMPLETE.json').read_text())
+    if not checked['passed'] or checked['sources'] != sources():
+        raise ValueError('Full-shape engineering check source mismatch')
+    selection_path = ROOT/'gaussian/COMPLETE.json'
+    selection = json.loads(selection_path.read_text())
+    if selection['selection'][architecture]['selected_prediction'] != prediction:
+        raise ValueError('Outside the two selected fine configurations')
     normalizer = c.sha256(coord.ROOT/'normalization/NORMALIZATION_COMPLETE.json')
     chart = views.load_chart(normalizer); ids = panel(c.TRAIN)
     if len(ids) != 624:
@@ -163,6 +170,7 @@ def run(architecture, prediction, seed, seconds, stop_step=STEPS):
                  seed=seed, steps=STEPS, batch=2, shape=list(SHAPE), alpha=.3, ema=.999,
                  lr=[1e-4, 1e-5], normalizer=normalizer, ids=[list(a) for a in ids], sources=sources(),
                  data={p: c.sha256(ROOT/'data'/p/'COMPLETE.json') for p in c.TRAIN},
+                 selection=c.sha256(selection_path), engineering=c.sha256(ROOT/'smoke/COMPLETE.json'),
                  precision='bf16 forward, float32 loss and optimizer', sealed_access=False)
     root = ROOT/'fits'/f'{architecture}_{prediction}_{seed}'
     root.mkdir(parents=True, exist_ok=True)
