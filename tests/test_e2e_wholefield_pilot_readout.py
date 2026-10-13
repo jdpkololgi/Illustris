@@ -33,13 +33,14 @@ class PilotReadoutTests(unittest.TestCase):
 
     def test_oracle_does_not_gain_sampled_baseline(self):
         full = dict(crps=[1]*6, coverage90=[True]*6, mean=[2]*6, truth=[1]*6,
-                    sd=[3]*6, energy_score=4)
+                    sd=[3]*6, rank=[.5]*6, energy_score=4)
         row = dict(result=dict(fullbox=full, reference_fullbox=None,
                                density_voxels=dict(coverage90=.5, mean_crps=2)))
         result = aggregate([row])
         self.assertNotIn('paired_reference_crps_difference', result)
         self.assertEqual(result['cases'], 1)
         self.assertEqual(result['summary_component_rmse'], [1]*6)
+        self.assertEqual(result['summary_component_rank_counts'][0][16], 1)
 
 
 if __name__ == '__main__':

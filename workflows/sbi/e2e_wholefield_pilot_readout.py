@@ -44,10 +44,12 @@ def aggregate(rows):
     cover = np.asarray([r['coverage90'] for r in full], dtype=float)
     error = np.asarray([r['mean'] for r in full])-np.asarray([r['truth'] for r in full])
     sd = np.asarray([r['sd'] for r in full])
+    ranks = np.rint(32*np.asarray([r['rank'] for r in full])).astype(int)
     result = dict(cases=len(rows), summary_component_coverage90=cover.mean(0).tolist(),
                   summary_component_crps=crps.mean(0).tolist(),
                   summary_component_rmse=np.sqrt((error**2).mean(0)).tolist(),
                   summary_component_mean_sd=sd.mean(0).tolist(),
+                  summary_component_rank_counts=[np.bincount(ranks[:, j], minlength=33).tolist() for j in range(6)],
                   energy_score=float(np.mean([r['energy_score'] for r in full])),
                   density_voxel_coverage90=float(np.mean([r['result']['density_voxels']['coverage90'] for r in rows])),
                   density_voxel_crps=float(np.mean([r['result']['density_voxels']['mean_crps'] for r in rows])))
@@ -109,10 +111,14 @@ def readout(root):
                                 component_paired_rms=np.sqrt(((a-b)**2).mean(0)).tolist(),
                                 component_paired_rms_over_sd=(np.sqrt(((a-b)**2).mean(0))/np.maximum(scale, 1e-12)).tolist()))
     return dict(schema='exploratory-wholefield-readout-v1', source=digest(__file__), files=files,
+                summary_components=['core0_density', 'core0_shear_spread', 'core0_shear_curvature',
+                                    'core1_density', 'core1_shear_spread', 'core1_shear_curvature'],
                 completed_addresses=len(rows), expected_addresses=772,
                 all_addresses_complete=len(rows) == 772, panels=panels, refinements=refinements,
                 posterior_qualified=False,
                 limitations=['Descriptive finite-ensemble scores, not a statistical pass rule.',
+                             'Nominal 90-percent interpolated intervals use only 32 draws; finite-ensemble coverage differs from exact-posterior coverage.',
+                             'Ranks have 33 discrete levels; uniformity is descriptive here, with phase and spatial dependence retained.',
                              'Six exposed phases; two seeds, cores and voxels are not independent simulations.',
                              'Shared frozen exterior is not reconditioned on replacement density.',
                              'Oracle denotes true coarse input, not a full-cap truth exterior.',
