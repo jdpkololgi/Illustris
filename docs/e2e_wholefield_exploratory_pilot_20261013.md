@@ -122,3 +122,12 @@ The GPU worker remains bounded to one allocation and never requests another
 job. It prepares shared frozen exterior tensors while CPU 59721376 finishes
 the training panel, then starts the selected U-Net seeds 17/29. At most two
 interactive allocations remain active; no batch submission or scheduler retry.
+
+Reproducibility snapshot: `source_20ee757` under the output root contains the
+tracked source archive at commit `20ee757` plus the existing transformer-block
+module, whose SHA256 is
+`a2d5f434aea9732ccb6e2a50941c9ebd69bef62b3de352c13e1bc9cb66fd9492`.
+All nine checkpoint-bound source hashes match the passed smoke receipt, and
+all eleven focused tests pass from the snapshot. Running jobs remain on their
+bound, unchanged live sources; the snapshot is available for later loading and
+evaluation without depending on future worktree edits.
