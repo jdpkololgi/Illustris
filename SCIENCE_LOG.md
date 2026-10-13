@@ -1,5 +1,28 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-13 — [explicit override] Train exploratory whole-domain field models
+
+User explicitly removes sensitivity as a training prerequisite and asks for a
+working, approximately calibrated field model, then authorizes two interactive
+jobs. The earlier scientific stop below is historical, not current execution
+authority. Preserve its result, but do not use it to block this exploratory
+train/test comparison. No additional prerequisite campaign. Retain numerical,
+physical and data-leakage checks, coarse freeze and untouched ph018/019.
+
+Four Gaussian candidates are W-v/W-x/T-v/T-x; their diagnostics inform choice
+without a pass requirement. Abacus remains at most two fine configurations,
+each seeds 17/29. First prepare 96x64x64 fine domains spanning eight old canvas
+windows while the GPU diagnostic runs. Geometry-only selection gives 48 domains
+per original training phase, 624 total, exactly matching the original per-epoch
+target-voxel exposure. All sixteen evaluation pairs on ph012--017 remain; no
+new phase, normalization or physical target. Preparation reuses the existing
+native counts/R7 operator and verifies central-array parity. This is a finite
+multiwindow pilot, not whole-survey or cross-cap posterior qualification.
+
+Use at most two interactive jobs and the already approved detached ownership;
+generated outputs remain on Scratch. Details and readout plan:
+`docs/e2e_wholefield_exploratory_pilot_20261013.md`.
+
 ## 2026-10-13 — [verified stop] Matched six-phase sensitivity rejects
 
 All 192 reference tasks and final assembly are complete. The newly authorized

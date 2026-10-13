@@ -1,5 +1,13 @@
 # Coupled CFM whole field comparison plan
 
+**Current user override, 13 October:** proceed with exploratory training and
+testing despite sensitivity failure. Gaussian comparisons inform model choice
+but are not a blocking statistical prerequisite. Keep physical/numerical checks,
+frozen coarse, sealed-phase restrictions and the two-configuration/two-seed fine
+pilot. See the [active exploratory plan](e2e_wholefield_exploratory_pilot_20261013.md).
+The verified stop and gates below remain historical evidence, not current
+authority to prevent the newly requested train/test work.
+
 **13 October verified status:** the full 192-task reference bank is complete.
 The amended six-phase/two-seed Gate 2 was run and independently verified; it
 rejects the registered sensitivity requirement in seven powered settings even
