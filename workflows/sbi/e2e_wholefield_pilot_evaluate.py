@@ -200,7 +200,7 @@ def run(architecture, prediction, seed, step, phase, pair, coarse, draws, nfe, o
             t = physical_operator.tensor(rho, base)
             truth_t = physical_operator.tensor(truthrho, base)
             reference_t = physical_operator.tensor(base['rho'].astype(float), base)
-            reference = summary(base['rho'][CORE].reshape(2, 4096), tidal.eigensystem(reference_t))
+            reference = summary(base['rho'][CORE].astype(float).reshape(2, 4096), tidal.eigensystem(reference_t))
             with np.load(BANK/'extraction_v1/cores'/key/'CORES.npz') as f:
                 index = list(f['pair_id']).index(pair)
                 np.testing.assert_allclose(reference, f['draws'][index, draw % 4], atol=2e-8, rtol=0)

@@ -42,6 +42,9 @@ def prepare(phase, cap, seed, first):
     rows = [r for r in geometry['pairs'] if r['cap'] == cap]
     start = time.monotonic(); records = []
     with h5py.File(tides['output']['path']) as f:
+        if (f.attrs['padding_cells'] != 32 or f.attrs['cell_mpc_h'] != 6.766
+                or (f.attrs['phase'], f.attrs['cap'], f.attrs['first_draw']) != (phase, cap, first)):
+            raise ValueError('Wrong completed field geometry/address')
         shape = f['eigenvalues'].shape[1:4]; origin = np.asarray(f.attrs['origin_mpc_h'])
         operator = CapTidal(shape, 32)
         cores = [cuts(row, origin) for row in rows]
