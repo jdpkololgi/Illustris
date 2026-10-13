@@ -1,5 +1,20 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-13 — [explicit approval] Fixed two-job evaluation continuation
+
+User explicitly approves the fixed controller submitting successor interactive
+allocations until the existing evaluation panel finishes, at most two active or
+pending jobs, no new fits and no failed-job retries. This resolves the earlier
+activation block; it does not authorize new scientific configurations.
+
+At 07:11 UTC both initial evaluation allocations are verified COMPLETED 0:0,
+with source checks passing: U-Net59723578 saved69/386 addresses; transformer
+59722838 saved95/386. Controller`continuation_v1` is now activated under the
+explicit approval and has started U-Net successor59729528. It checks the second
+slot on its next one-minute cycle. Source-bound controller state and owner logs
+are saved under the pilot Scratch root. Evaluation is incomplete and no
+calibration qualification follows from these completion counts.
+
 ## 2026-10-13 — [explicit override] Train exploratory whole-domain field models
 
 Execution update: all twelve short Gaussian fits (four candidates x three seeds)

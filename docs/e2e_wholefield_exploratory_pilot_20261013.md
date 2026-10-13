@@ -228,3 +228,20 @@ Current jobs59723578(U-Net) and59722838(transformer) remain running and stop at
 their existing bounded segment limits. Do not infer automatic follow-on work
 from the presence of the committed controller script. No successor allocation
 will be submitted through it without the requested approval.
+
+## Explicit continuation approval and activation (07:11 UTC)
+
+The user subsequently selected **Approve fixed two-job continuation**, expressly
+authorizing successor interactive allocations for this existing panel until
+completion, with at most two active/pending jobs, no new fits and no failed-job
+retries. Auto-review accepted activation under this new explicit authority.
+The earlier blocked-attempt record above remains historical.
+
+Both original segments completed0:0, with bound source hashes unchanged:
+U-Net59723578 saved69/386 cases and transformer59722838 saved95/386.
+The controller is now running in `wf_pilot_continuation_v1` on the existing
+`wf-fullcap` tmux server. Its live binding/state is
+`continuation_v1/STATE.json`, and its log is`CONTINUATION_OWNER.log`, both under
+the pilot Scratch root. U-Net successor59729528 started; the controller checks
+the other slot on the next one-minute cycle. This is a fixed evaluation
+continuation, not an autonomous scientific agent or a calibration claim.
