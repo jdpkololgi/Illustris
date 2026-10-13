@@ -5,6 +5,7 @@ fixed final checkpoint, and the exposed six-phase panel. Existing complete
 artifacts are reused. A time-limited segment leaves remaining work explicit.
 """
 import argparse
+import fcntl
 import inspect
 import json
 import os
@@ -37,8 +38,10 @@ def tasks():
     return result
 
 
-def run(architecture, seconds, train=False):
+def run(architecture, seconds, train=False, shard=0, shards=1):
     c.require_compute()
+    if shards not in (1, 2) or not 0 <= shard < shards or (train and shards != 1):
+        raise ValueError('Invalid phase shard or duplicate-fit request')
     start = time.monotonic(); deadline = start+seconds
     if train:
         worker(architecture, max(1, seconds-120))
@@ -49,11 +52,12 @@ def run(architecture, seconds, train=False):
         if not checkpoint.exists():
             print('TRAINING_SEGMENT_SAVED_EVALUATION_NOT_STARTED', flush=True)
             return
-    expected = tasks(); completed = 0
+    expected = [task for task in tasks() if EVAL.index(task['phase']) % shards == shard]
+    completed = 0
     job = os.environ['SLURM_JOB_ID']
     root = ROOT/'campaign'/architecture; root.mkdir(parents=True, exist_ok=True)
     binding = dict(architecture=architecture, prediction=prediction, checkpoint=STEPS,
-                   draws=32, tasks=expected, source=c.sha256(__file__), job=job,
+                   draws=32, tasks=expected, shard=shard, shards=shards, source=c.sha256(__file__), job=job,
                    scope='fixed final checkpoint exploratory readout; no statistical stop rule')
     c.atomic_json(root/f'BINDING_{job}.json', binding)
     for task in expected:
@@ -72,7 +76,11 @@ def run(architecture, seconds, train=False):
         for first in range(0, 32, 4):
             if time.monotonic() > deadline-600:
                 break
-            prepare(task['phase'], task['cap'], task['seed'], first)
+            lock = ROOT/'exterior_locks'/task['phase']/task['cap']/f'seed{task["seed"]}'/f'd{first:03d}.lock'
+            lock.parent.mkdir(parents=True, exist_ok=True)
+            with lock.open('a') as handle:
+                fcntl.flock(handle, fcntl.LOCK_EX)
+                prepare(task['phase'], task['cap'], task['seed'], first)
         else:
             # Reserve at least fifteen minutes for an indivisible 32-draw case.
             if time.monotonic() < deadline-900:
@@ -80,11 +88,13 @@ def run(architecture, seconds, train=False):
                          task['coarse'], 32, task['nfe'], 'fullcap')
                 completed += 1
                 c.atomic_json(root/f'STATUS_{job}.json', dict(completed=completed, expected=len(expected),
-                    last=task, seconds=time.monotonic()-start, full_panel_complete=completed == len(expected)), replace=True)
+                    last=task, seconds=time.monotonic()-start, assigned_complete=completed == len(expected),
+                    full_panel_complete=shards == 1 and completed == len(expected)), replace=True)
                 continue
         break
     c.atomic_json(root/f'SEGMENT_{job}.json', dict(completed=completed, expected=len(expected),
-                  seconds=time.monotonic()-start, full_panel_complete=completed == len(expected),
+                  seconds=time.monotonic()-start, assigned_complete=completed == len(expected),
+                  full_panel_complete=shards == 1 and completed == len(expected), shard=shard, shards=shards,
                   posterior_qualified=False, job=job))
     print(json.dumps(dict(stage='evaluation_segment_saved', completed=completed, expected=len(expected))), flush=True)
 
@@ -94,4 +104,6 @@ if __name__ == '__main__':
     parser.add_argument('--architecture', choices=('unet', 'transformer'), required=True)
     parser.add_argument('--seconds', type=int, default=10200)
     parser.add_argument('--train', action='store_true')
+    parser.add_argument('--shard', type=int, default=0)
+    parser.add_argument('--shards', type=int, default=1, choices=(1, 2))
     run(**vars(parser.parse_args()))

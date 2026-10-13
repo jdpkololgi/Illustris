@@ -4,9 +4,15 @@ set -euo pipefail
 architecture=${1:?architecture required}
 segment=${2:?segment required}
 mode=${3:-evaluate}
+shard=${4:-0}
+shards=${5:-1}
 [[ $architecture == unet || $architecture == transformer ]] || exit 64
 [[ $segment =~ ^[a-z][0-9]{3}$ ]] || exit 64
 [[ $mode == train || $mode == evaluate ]] || exit 64
+[[ $shard == 0 || $shard == 1 ]] || exit 64
+[[ $shards == 1 || $shards == 2 ]] || exit 64
+(( shard < shards )) || exit 64
+[[ $mode != train || $shards == 1 ]] || exit 64
 repo=/global/u2/d/dkololgi/TNG/Illustris
 root=/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/wholefield_pilot_20261013_v1
 py=/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python
@@ -16,7 +22,7 @@ cd "$repo"
 "$py" /global/u2/d/dkololgi/.codex/skills/nersc-interactive-allocation/scripts/allocation_status.py
 set -C
 exec > "$root/${architecture}_${segment}_OWNER.log" 2>&1
-options=()
+options=(--shard "$shard" --shards "$shards")
 [[ $mode != train ]] || options+=(--train)
 sha256sum workflows/sbi/e2e_wholefield_pilot_{models,train,smoke,worker,exterior,evaluate,campaign}.py > "$root/${architecture}_${segment}_SOURCES.sha256"
 date -u '+owner_start=%Y-%m-%dT%H:%M:%SZ'
