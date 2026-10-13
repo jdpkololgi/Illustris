@@ -14,12 +14,20 @@ Both full-size Abacus candidates pass numerical GPU smoke/restart checks on
 GPU59722038: 8,398,387/8,939,824 parameters and 2.82/0.77 GiB smoke peak memory
 (U-Net/transformer), replay max parameter difference 5.08e-7/0, positive decoder
 mass errors below 4.2e-16. Eleven focused tests pass. CPU59721376 completed all
-nineteen prepared phases, exit 0:0. U-Net seed17 has finished all 9,984 updates
-in 27m25s on GPU59722038 and seed29 is training. GPU59722838 completed
-transformer seed17 in 16m17s and now trains seed29, then proceeds into the fixed posterior panel
-within its allocation. These
+nineteen prepared phases, exit 0:0. All four fits now complete 9,984 updates:
+U-Net seeds17/29 take 27m25s/27m02s; transformer takes 16m17s/16m05s.
+GPU59722038 released successfully after both U-Net fits and source checks.
+GPU59723578 now evaluates U-Net; GPU59722838 evaluates transformer. These
 engineering checks are not evidence of calibration. See the linked pilot record
 for the shared-exterior finite-domain approximation and retained limitations.
+
+First physical posterior case (ph012 NGC boundary00, seed17, sampled coarse)
+passes corrected-reference zero-replacement parity for both architectures.
+U-Net joint energy score0.08275 improves on reference0.09336 and transformer
+0.15848, but regional interval misses remain. Transformer NFE128/256 changes
+are tiny in this case, so refinement does not repair its errors. Independent
+saved-summary score arithmetic passes. These are initial single-case results,
+not panel averages, calibration qualification or an architecture selection.
 
 User explicitly removes sensitivity as a training prerequisite and asks for a
 working, approximately calibrated field model, then authorizes two interactive

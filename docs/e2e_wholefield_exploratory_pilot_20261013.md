@@ -169,3 +169,42 @@ exposed-evaluation phases separately, and paired integration refinement.
 Three focused readout tests pass. It adds no statistical stop condition or
 post-hoc uncertainty adjustment and never labels oracle input as a matched
 sampled-reference comparison.
+
+## All fits complete; first posterior cases (02:07 UTC)
+
+All four final 9,984-update checkpoints exist. U-Net seeds17/29 take
+1,644.64/1,622.48 seconds, final held-out velocity losses0.0135501/0.0135932.
+Transformer seeds17/29 take976.69/964.90 seconds, losses0.0564073/0.0563840.
+GPU59722038 completed0:0 in1h21m20s, with all bound source hashes unchanged.
+U-Net evaluation now uses GPU59723578; transformer continues evaluation in
+GPU59722838. Only two allocations are active. Training completion is not
+posterior qualification.
+
+For the first ph012 NGC boundary00/seed17 case with sampled coarse input:
+
+| Model | Density voxel CRPS | Voxel nominal90% coverage | Joint energy score |
+| --- | ---: | ---: | ---: |
+| U-Net clean endpoint, NFE128 | 0.11962 | 0.82849 | 0.08275 |
+| Transformer velocity, NFE128 | 0.16747 | 0.68372 | 0.15848 |
+| Shared frozen reference | not recomputed here | not recomputed here | 0.09336 |
+
+These are **one case**, not panel averages. U-Net misses3/6 regional intervals;
+transformer misses4/6. The six features and8,192 voxels are correlated, not
+independent coverage trials. Interpolated nominal90% intervals from32 draws
+also have finite-ensemble coverage bias; retained33-level rank counts accompany
+the interval results. Do not equate voxel coverage with joint calibration.
+
+For transformer, paired NFE128/256 summary changes are at most0.000372 posterior
+SD with sampled coarse and0.001105 with true coarse. Refinement does not repair
+its first-case mismatch. True coarse lowers its absolute density CRPS to0.14899
+but narrows spread: voxel coverage0.58728, regional misses5/6. This does not
+establish the cause across the panel. U-Net refinement/oracle results are still
+pending at this checkpoint.
+
+Both primary first-case evaluations pass corrected-bank zero-replacement parity
+and density/tensor-trace consistency. Independent arithmetic verifies the saved
+summary scores. The initial readout receipt is`READOUT_20261013T0204.json` in
+the output root; it explicitly contains only one completed address. Later
+readouts must report their own completed-case denominator. No stop, rescaling,
+new training configuration or calibrated-posterior claim follows from these
+initial cases; the authorized panel continues.
