@@ -5,6 +5,7 @@ fixed final checkpoint, and the exposed six-phase panel. Existing complete
 artifacts are reused. A time-limited segment leaves remaining work explicit.
 """
 import argparse
+import inspect
 import json
 import os
 import time
@@ -59,6 +60,12 @@ def run(architecture, seconds, train=False):
         output = (ROOT/'evaluation'/f'{architecture}_{prediction}_{task["seed"]}'/f'step{STEPS}'/
                   task['phase']/task['pair']/task['coarse']/'fullcap'/f'nfe{task["nfe"]}'/'COMPLETE.json')
         if output.exists():
+            finished = json.loads(output.read_text())
+            bound_path = output.parent/'BINDING.json'
+            bound = json.loads(bound_path.read_text())
+            if (not finished['passed'] or finished['binding'] != c.sha256(bound_path)
+                    or bound['source'] != c.sha256(inspect.getfile(evaluate))):
+                raise ValueError('Completed evaluation binding changed')
             completed += 1
             continue
         # Cache work is bounded chunk by chunk and reused across all models.

@@ -91,6 +91,11 @@ posterior widths and normalized errors; refinements use identical noise. The
 sampled baseline is not a matched oracle-coarse baseline and is not labelled as
 one. No post-hoc rescaling of fields or uncertainties.
 
+Here "oracle" names the fine model's true-coarse input, not an entire cap or
+exterior replaced by truth. Oracle density scores isolate the fine factor;
+oracle tidal scores still include the explicitly retained reference exterior
+and are accompanied by its closure-on-truth diagnostic.
+
 ## Gaussian advisory result and GPU smoke
 
 The 4,096-update, three-seed comparison completed all twelve fits and their
@@ -131,3 +136,13 @@ All nine checkpoint-bound source hashes match the passed smoke receipt, and
 all eleven focused tests pass from the snapshot. Running jobs remain on their
 bound, unchanged live sources; the snapshot is available for later loading and
 evaluation without depending on future worktree edits.
+
+The bounded continuation worker proceeds from the selected fits into 32-draw
+physical evaluations at the final 32-epoch checkpoint. It visits development
+ph012/013 before the already exposed ph014--017, interleaves caps and model
+seeds, and retains both sampled and true-coarse inputs. The first ph012/seed17
+case also gets paired NFE128/256 evaluation in both modes. This is386 case/NFE
+addresses per architecture (384 primary plus2 refinements), not386 new models.
+Two focused controller tests pass. Each allocation stops with saved work before
+its wall limit and does not submit a successor job. Intermediate checkpoint
+files remain available for the separately reported stability comparison.
