@@ -65,10 +65,10 @@ AdamW cosine 1e-4 to 1e-5, clipping .5 and EMA .999 are retained. All runs have
 9,984 updates and the same addressed data/noise order. No architecture or
 posterior-calibration conclusion follows from matching voxel exposure alone.
 
-Nine focused tests pass (data selection/parity geometry, rectangular tokens,
-owned-core coordinates, noise replay, and access guards). Full-shape GPU smoke
-and numerical restart replay are next; these are engineering checks, not a
-statistical gate. Checkpoint files include model, EMA, optimizer, loss weights
+Eleven focused tests pass (data selection/parity geometry, rectangular tokens,
+owned-core/collar coordinates, noise replay, mass reconstruction, score formulas
+and access guards). Full-shape GPU smoke and numerical restart replay also pass;
+these are engineering checks, not a statistical gate. Checkpoint files include model, EMA, optimizer, loss weights
 and CPU/CUDA RNG; the bridge RNG is addressed by seed/update. Development
 velocity loss is recorded separately and is not called posterior calibration.
 
@@ -90,3 +90,35 @@ against original fullbox truths. Report density/shear CRPS, ranks, 90% coverage,
 posterior widths and normalized errors; refinements use identical noise. The
 sampled baseline is not a matched oracle-coarse baseline and is not labelled as
 one. No post-hoc rescaling of fields or uncertainties.
+
+## Gaussian advisory result and GPU smoke
+
+The 4,096-update, three-seed comparison completed all twelve fits and their
+128-draw paired NFE64/128 readouts. Mean diagnostic scores (max standardized
+probe-mean error plus relative covariance error, averaged over observations
+and seeds) are:
+
+| Backbone | Velocity | Clean endpoint | Selected |
+| --- | ---: | ---: | --- |
+| U-Net | 1.734833 | 1.700022 | clean endpoint |
+| Transformer | 1.403997 | 1.501201 | velocity |
+
+The U-Net difference is small and is not an architecture qualification. Clean
+endpoint draws show materially greater paired integration sensitivity than
+velocity draws, retained as a diagnostic concern. No candidate passes a
+calibration screen and none needed a pass to continue. Gaussian job59721421
+completed in 28m21s (0.4725 allocated GPU-hours), exit0:0.
+
+GPU59722038 then verifies real batch-two 96x64x64 forward/backward paths,
+serialized optimizer restart, finite sampling and positive block-mass decoding.
+U-Net has8,398,387 parameters, transformer8,939,824. Smoke peak allocations are
+2.8242/0.7706 GiB; model restart differences are5.08e-7/0 (tolerance2e-6).
+Decoder mass relative errors are4.19e-16/4.10e-16. Thus numerical replay is
+tolerance-level for U-Net, not claimed bitwise exact. Both clean and velocity
+backward paths are exercised; sampling an endpoint reinterpretation of velocity
+weights is deliberately not treated as a model check.
+
+The GPU worker remains bounded to one allocation and never requests another
+job. It prepares shared frozen exterior tensors while CPU59721376 finishes
+the training panel, then starts the selected U-Net seeds17/29. At most two
+interactive allocations remain active; no batch submission or scheduler retry.

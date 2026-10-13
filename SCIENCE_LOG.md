@@ -2,6 +2,23 @@
 
 ## 2026-10-13 — [explicit override] Train exploratory whole-domain field models
 
+Execution update: all twelve short Gaussian fits (four candidates x three seeds)
+and paired NFE64/128 sampling are complete; GPU59721421 COMPLETED 0:0 in 28m21s.
+The declared mean-error-plus-covariance development score selects **U-Net clean
+endpoint** and **transformer velocity**. Mean scores v/x are 1.7348/1.7000 for
+U-Net and 1.4040/1.5012 for transformer. This is advisory selection, not a
+posterior pass; clean-field predictions show substantially greater integration
+sensitivity. No sensitivity gate was reinstated.
+
+Both full-size Abacus candidates pass numerical GPU smoke/restart checks on
+GPU59722038: 8,398,387/8,939,824 parameters and 2.82/0.77 GiB smoke peak memory
+(U-Net/transformer), replay max parameter difference 5.08e-7/0, positive decoder
+mass errors below 4.2e-16. Eleven focused tests pass. CPU59721376 continues the
+new-domain data; the GPU worker prepares common reference exteriors until all
+thirteen original training phases are available, then fits seeds17/29. These
+engineering checks are not evidence of calibration. See the linked pilot record
+for the shared-exterior finite-domain approximation and retained limitations.
+
 User explicitly removes sensitivity as a training prerequisite and asks for a
 working, approximately calibrated field model, then authorizes two interactive
 jobs. The earlier scientific stop below is historical, not current execution
