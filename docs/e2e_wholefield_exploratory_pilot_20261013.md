@@ -105,20 +105,20 @@ and seeds) are:
 
 The U-Net difference is small and is not an architecture qualification. Clean
 endpoint draws show materially greater paired integration sensitivity than
-velocity draws, retained as a diagnostic concern. No candidate passes a
-calibration screen and none needed a pass to continue. Gaussian job59721421
-completed in 28m21s (0.4725 allocated GPU-hours), exit0:0.
+velocity draws, retained as a diagnostic concern. No posterior-calibration
+qualification is claimed, and none needed a pass to continue. Gaussian job
+59721421 completed in 28m21s (0.4725 allocated GPU-hours), exit 0:0.
 
-GPU59722038 then verifies real batch-two 96x64x64 forward/backward paths,
+GPU 59722038 then verifies real batch-two 96x64x64 forward/backward paths,
 serialized optimizer restart, finite sampling and positive block-mass decoding.
-U-Net has8,398,387 parameters, transformer8,939,824. Smoke peak allocations are
-2.8242/0.7706 GiB; model restart differences are5.08e-7/0 (tolerance2e-6).
-Decoder mass relative errors are4.19e-16/4.10e-16. Thus numerical replay is
+U-Net has 8,398,387 parameters, transformer 8,939,824. Smoke peak allocations are
+2.8242/0.7706 GiB; model restart differences are 5.08e-7/0 (tolerance 2e-6).
+Decoder mass relative errors are 4.19e-16/4.10e-16. Thus numerical replay is
 tolerance-level for U-Net, not claimed bitwise exact. Both clean and velocity
 backward paths are exercised; sampling an endpoint reinterpretation of velocity
 weights is deliberately not treated as a model check.
 
 The GPU worker remains bounded to one allocation and never requests another
-job. It prepares shared frozen exterior tensors while CPU59721376 finishes
-the training panel, then starts the selected U-Net seeds17/29. At most two
+job. It prepares shared frozen exterior tensors while CPU 59721376 finishes
+the training panel, then starts the selected U-Net seeds 17/29. At most two
 interactive allocations remain active; no batch submission or scheduler retry.
