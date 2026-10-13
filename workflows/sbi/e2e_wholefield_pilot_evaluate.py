@@ -106,9 +106,10 @@ def metrics(draws, truth):
     lo, hi = np.quantile(draws, [.05, .95], axis=0)
     sd = draws.std(0, ddof=1)
     crps = np.abs(draws-truth).mean(0)-.5*np.abs(draws[:, None]-draws[None, :]).mean((0, 1))
+    energy = np.linalg.norm(draws-truth, axis=-1).mean()-.5*np.linalg.norm(draws[:, None]-draws[None, :], axis=-1).mean()
     return dict(mean=draws.mean(0).tolist(), sd=sd.tolist(), truth=truth.tolist(),
         coverage90=((lo <= truth)&(truth <= hi)).tolist(), lower90=lo.tolist(), upper90=hi.tolist(),
-        crps=crps.tolist(), rank=(draws < truth).mean(0).tolist(),
+        crps=crps.tolist(), energy_score=float(energy), rank=(draws < truth).mean(0).tolist(),
         mean_error_sd=((draws.mean(0)-truth)/np.maximum(sd, 1e-12)).tolist())
 
 
@@ -183,10 +184,11 @@ def run(architecture, prediction, seed, step, phase, pair, coarse, draws, nfe, o
         physical_operator = ReplacementTidal()
     else:
         physical_operator = LocalWideTidal()
-    predictions = []; baseline = []; closure_truth = []
+    predictions = []; baseline = []; closure_truth = []; density_draws = []
     for draw in range(draws):
         with np.load(dest/f'draw{draw:03d}.npz') as f:
             rho, wide = f['rho'].astype(float), f['wide'].astype(float)
+        density_draws.append(rho[CORE].reshape(2, 4096))
         if operator == 'fullcap':
             key = f'{phase}/{row["cap"]}/seed{seed}/d{draw//4*4:03d}'
             directory = ROOT/'exterior'/key
@@ -212,11 +214,22 @@ def run(architecture, prediction, seed, step, phase, pair, coarse, draws, nfe, o
         closure_truth.append(summary(truth_density, tidal.eigensystem(truth_t)))
     predictions = np.asarray(predictions)
     local_summary = np.mean(closure_truth, axis=0)
+    density_draws = np.asarray(density_draws)
+    lower, upper = np.quantile(density_draws, [.05, .95], axis=0)
+    # Efficient empirical CRPS avoids allocating draws x draws x all voxels.
+    ordered = np.sort(density_draws, axis=0)
+    coefficients = (2*np.arange(1, draws+1)-draws-1)[:, None, None]
+    voxel_crps = np.abs(density_draws-truth_density).mean(0)-(coefficients*ordered).sum(0)/draws**2
+    voxel = dict(coverage90=float(((lower <= truth_density)&(truth_density <= upper)).mean()),
+                 mean_crps=float(voxel_crps.mean()), rmse_mean=float(np.sqrt(((density_draws.mean(0)-truth_density)**2).mean())),
+                 mean_posterior_sd=float(density_draws.std(0, ddof=1).mean()),
+                 scope='8192 correlated core voxels; not independent coverage trials')
     c.atomic_json(dest/'COMPLETE.json', dict(binding=c.sha256(dest/'BINDING.json'), passed=True,
         fullbox=metrics(predictions, true_summary), closure_mean_diagnostic=metrics(predictions, local_summary),
         reference_fullbox=metrics(baseline, true_summary) if baseline and coarse == 'sampled' else None,
         closure_truth_shift=(local_summary-true_summary).tolist(), summaries=predictions.tolist(),
         truth_under_closure=np.asarray(closure_truth).tolist(), operator=operator,
+        density_voxels=voxel,
         coarse_receipts=receipts, seconds=time.monotonic()-start, posterior_qualified=False,
         warning=('Shared frozen exterior; modular finite-domain replacement, not a jointly reconditioned full-cap posterior.'
                  if operator == 'fullcap' else 'Local finite closure only; not corrected full-cap baseline.')))
