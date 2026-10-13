@@ -157,6 +157,11 @@ Seed29 continues on GPU59722038. Transformer seeds17/29 run on GPU59722838;
 its bounded worker proceeds into posterior evaluation after both fits finish.
 No posterior-calibration result is available at this checkpoint.
 
+By 01:46 UTC transformer seed17 also completed 9,984 updates in 976.69 seconds,
+with held-out velocity loss 0.0564073. Transformer seed29 then started on the
+same allocation. These loss values are optimization diagnostics, not evidence
+that either conditional distribution is calibrated.
+
 The independent saved-score readout checks CRPS through a sorted-ensemble
 identity and the joint energy score through pairwise scalar accumulation.
 It reports observed denominators, missing panels as missing, development and
