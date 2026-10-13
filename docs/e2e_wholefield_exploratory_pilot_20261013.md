@@ -242,6 +242,7 @@ U-Net59723578 saved69/386 cases and transformer59722838 saved95/386.
 The controller is now running in `wf_pilot_continuation_v1` on the existing
 `wf-fullcap` tmux server. Its live binding/state is
 `continuation_v1/STATE.json`, and its log is`CONTINUATION_OWNER.log`, both under
-the pilot Scratch root. U-Net successor59729528 started; the controller checks
-the other slot on the next one-minute cycle. This is a fixed evaluation
+the pilot Scratch root. By07:13 UTC U-Net successor59729528 and transformer
+successor59729541 both run and save new draws; live allocation count is two.
+This is a fixed evaluation
 continuation, not an autonomous scientific agent or a calibration claim.

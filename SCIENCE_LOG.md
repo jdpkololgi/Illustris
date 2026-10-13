@@ -10,8 +10,9 @@ activation block; it does not authorize new scientific configurations.
 At 07:11 UTC both initial evaluation allocations are verified COMPLETED 0:0,
 with source checks passing: U-Net59723578 saved69/386 addresses; transformer
 59722838 saved95/386. Controller`continuation_v1` is now activated under the
-explicit approval and has started U-Net successor59729528. It checks the second
-slot on its next one-minute cycle. Source-bound controller state and owner logs
+explicit approval. By 07:13 UTC U-Net successor59729528 and transformer
+successor59729541 are both running and saving new draws, with exactly two
+interactive allocations. Source-bound controller state and owner logs
 are saved under the pilot Scratch root. Evaluation is incomplete and no
 calibration qualification follows from these completion counts.
 
