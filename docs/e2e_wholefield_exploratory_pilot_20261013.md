@@ -51,3 +51,42 @@ on the reported support; neither low training loss nor attractive fields proves
 it. Do not silently apply a post-hoc summary recalibration or redefine the target.
 
 Output root: `/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/wholefield_pilot_20261013_v1`.
+
+## Implementation and first checks
+
+Both backbones use the expanded fine observation and unchanged wide observation
+and coarse fields. U-Net keeps the previous base-24 three-level architecture
+with rectangular bottleneck attention. Transformer uses eight width-240,
+six-head blocks and nonoverlapping four-cell patches; all 6,144 fine and 1,728
+wide tokens interact. Forward computation is BF16; loss, parameters and AdamW
+state remain float32. The common physical bridge, projected block-zero residual,
+positive mass decoder, alpha=.3 train-only spectral weighting, batch two,
+AdamW cosine 1e-4 to 1e-5, clipping .5 and EMA .999 are retained. All runs have
+9,984 updates and the same addressed data/noise order. No architecture or
+posterior-calibration conclusion follows from matching voxel exposure alone.
+
+Nine focused tests pass (data selection/parity geometry, rectangular tokens,
+owned-core coordinates, noise replay, and access guards). Full-shape GPU smoke
+and numerical restart replay are next; these are engineering checks, not a
+statistical gate. Checkpoint files include model, EMA, optimizer, loss weights
+and CPU/CUDA RNG; the bridge RNG is addressed by seed/update. Development
+velocity loss is recorded separately and is not called posterior calibration.
+
+Primary tidal evaluation uses a shared completed reference exterior: retain its
+full-cap uncorrected tensor, replace the 96x64x64 local density, apply the exact
+free-space tensor of the density difference, and recompute the same conservative
+linear reconstruction correction. Zero replacement must reproduce the bank's
+corrected core summaries. This preserves the operator and exterior draw, not a
+jointly reconditioned full-cap posterior. The unchanged exterior may retain
+incompatible reference correlations; report this modular approximation. Also
+record the operator evaluated on true local density under that exterior, so
+closure errors remain visible. A local-plus-wide free-space operator is available
+only as a separately labelled diagnostic; never pool it with full-cap scores.
+
+For sampled conditioning, read the actual shared frozen coarse draw from the
+completed bank, with physical-coordinate crop checks. Oracle conditioning reads
+true coarse density explicitly; sampled inference does not open targets. Score
+against original fullbox truths. Report density/shear CRPS, ranks, 90% coverage,
+posterior widths and normalized errors; refinements use identical noise. The
+sampled baseline is not a matched oracle-coarse baseline and is not labelled as
+one. No post-hoc rescaling of fields or uncertainties.
