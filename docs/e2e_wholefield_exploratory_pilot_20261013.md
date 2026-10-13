@@ -208,3 +208,23 @@ the output root; it explicitly contains only one completed address. Later
 readouts must report their own completed-case denominator. No stop, rescaling,
 new training configuration or calibrated-posterior claim follows from these
 initial cases; the authorized panel continues.
+
+## Evaluation continuation approval checkpoint (02:17 UTC)
+
+`READOUT_0002.json` records14 completed addresses (out of772), with independent
+summary arithmetic checks. U-Net true-coarse density CRPS is0.072656 and voxel
+nominal90% coverage0.829956 in the first case;4/6 regional intervals cover.
+Paired U-Net NFE128/256 changes reach0.163 posterior SD with sampled coarse
+and0.929 with true coarse (regional shear). The narrow oracle uncertainty makes
+this numerically consequential; do not call its integration converged.
+
+The fixed continuation implementation is committed at`7ba4ec5`, with three
+tests covering failed-job refusal, source-check/owner completion and the frozen
+386-address panel. It introduces no fits, scientific choices, cancellation,
+batch submissions or failed-job retries. Its attempted detached launch was
+rejected by auto-review because it could submit successor allocations. The
+controller **was not launched**, and explicit user approval is pending.
+Current jobs59723578(U-Net) and59722838(transformer) remain running and stop at
+their existing bounded segment limits. Do not infer automatic follow-on work
+from the presence of the committed controller script. No successor allocation
+will be submitted through it without the requested approval.

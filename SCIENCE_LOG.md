@@ -29,6 +29,15 @@ are tiny in this case, so refinement does not repair its errors. Independent
 saved-summary score arithmetic passes. These are initial single-case results,
 not panel averages, calibration qualification or an architecture selection.
 
+Continuation checkpoint (02:17 UTC): fourteen case/NFE addresses are scored
+and independently checked. U-Net oracle-coarse refinement changes one regional
+shear summary by0.929 posterior SD; do not infer integration convergence from
+its smaller sampled-coarse change. The fixed successor-allocation controller
+is prepared and its three focused tests pass, but its launch was blocked by
+auto-review. It is **not running**. Explicit user approval has been requested
+for automatic successor allocations; existing two evaluation jobs continue
+only within their current bounded allocations. No failed-job retry is enabled.
+
 User explicitly removes sensitivity as a training prerequisite and asks for a
 working, approximately calibrated field model, then authorizes two interactive
 jobs. The earlier scientific stop below is historical, not current execution
