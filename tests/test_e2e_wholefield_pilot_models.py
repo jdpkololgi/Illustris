@@ -49,6 +49,22 @@ class WholefieldTests(unittest.TestCase):
                 self.assertEqual(OLD_CROP[axis].start+left, CORE[axis].start+shift)
                 self.assertEqual(right-left, 16)
 
+    def test_exterior_replacement_alignment(self):
+        from workflows.sbi.e2e_wholefield_pilot_evaluate import CORE
+        for offset, core in zip((1, 9, 9), CORE):
+            self.assertEqual(offset+core.start, 33)
+        from workflows.sbi.e2e_wholefield_fullcap_extract import reconstruct, pool
+        import numpy as np
+        rho = np.exp(np.random.default_rng(17).normal(size=(4, 6, 8)))
+        np.testing.assert_allclose(pool(reconstruct(rho)), rho, rtol=1e-14, atol=1e-14)
+
+    def test_summary_metrics(self):
+        from workflows.sbi.e2e_wholefield_pilot_evaluate import metrics
+        import numpy as np
+        value = metrics(np.array([[0., 2.], [2., 4.]]), np.array([1., 5.]))
+        np.testing.assert_allclose(value['crps'], [.5, 1.5])
+        self.assertEqual(value['coverage90'], [True, False])
+
 
 if __name__ == '__main__':
     torch.set_num_threads(1)

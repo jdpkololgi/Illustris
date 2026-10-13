@@ -50,8 +50,19 @@ def arrays(address, chart, training=True):
     return tuple(np.asarray(a, dtype='f4') for a in (residual, joint, wide, coarse))
 
 
-def batch(addresses, chart, training=True, device='cuda'):
-    values = [arrays(a, chart, training) for a in addresses]
+def batch(addresses, chart, training=True, device='cuda', cache=None):
+    values = []
+    for address in addresses:
+        key = (training, *address)
+        if cache is None:
+            value = arrays(address, chart, training)
+        else:
+            if key not in cache:
+                if len(cache) >= 640:
+                    raise ValueError('Bounded normalized-array cache exceeded')
+                cache[key] = arrays(address, chart, training)
+            value = cache[key]
+        values.append(value)
     x, joint, wide, coarse = [torch.as_tensor(np.stack(v), device=device) for v in zip(*values)]
     return project(x), Condition(joint, wide, coarse, 'training_truth' if training else 'oracle_diagnostic')
 
@@ -131,7 +142,7 @@ def setup(seed):
 
 
 @torch.no_grad()
-def development(ema, chart, weight):
+def development(ema, chart, weight, cache=None):
     phases = ('ph012', 'ph013')
     if not all((ROOT/'data'/p/'COMPLETE.json').exists() for p in phases):
         return dict(available=False, reason='development preparation still running')
@@ -141,7 +152,7 @@ def development(ema, chart, weight):
         chosen.extend(options[i] for i in (0, 1, 8, 9))
     rows = []; ema.eval()
     for index in range(0, len(chosen), 2):
-        x, condition = batch(chosen[index:index+2], chart, training=False)
+        x, condition = batch(chosen[index:index+2], chart, training=False, cache=cache)
         z, target, t = bridge(x, 91271, index)
         with torch.autocast('cuda', dtype=torch.bfloat16):
             prediction = ema(z, t, condition)
@@ -194,7 +205,7 @@ def run(architecture, prediction, seed, seconds, stop_step=STEPS):
     else:
         weight, record = spectrum(ids, chart)
         c.atomic_json(root/'SPECTRAL_PROFILE.json', record)
-    start = time.monotonic()
+    start = time.monotonic(); cache = {}
     def checkpoint():
         state = dict(binding=bound, step=step, model=model.state_dict(), ema=ema.state_dict(),
                      optimizer=optimizer.state_dict(), weight=weight,
@@ -207,7 +218,7 @@ def run(architecture, prediction, seed, seconds, stop_step=STEPS):
             posterior_qualified=False, peak_gpu_gib=torch.cuda.max_memory_allocated()/2**30), replace=True)
     while step < stop_step and time.monotonic()-start < seconds:
         tick = time.monotonic(); addresses = selected(ids, seed, step)
-        x, cond = batch(addresses, chart)
+        x, cond = batch(addresses, chart, cache=cache)
         row = update(model, ema, optimizer, weight, x, cond, seed, step)
         torch.cuda.synchronize(); step += 1
         row.update(step=step, epoch=step/EPOCH_STEPS, seconds=time.monotonic()-tick,
@@ -219,7 +230,7 @@ def run(architecture, prediction, seed, seconds, stop_step=STEPS):
         if step == 1 or step % 128 == 0 or step in CHECKPOINTS:
             checkpoint()
         if step in CHECKPOINTS:
-            c.atomic_json(root/f'DEVELOPMENT_{step:06d}.json', development(ema, chart, weight))
+            c.atomic_json(root/f'DEVELOPMENT_{step:06d}.json', development(ema, chart, weight, cache))
     checkpoint()
     print(json.dumps(dict(event='segment_complete', architecture=architecture, seed=seed, step=step)), flush=True)
 
