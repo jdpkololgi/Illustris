@@ -13,9 +13,11 @@ sensitivity. No sensitivity gate was reinstated.
 Both full-size Abacus candidates pass numerical GPU smoke/restart checks on
 GPU59722038: 8,398,387/8,939,824 parameters and 2.82/0.77 GiB smoke peak memory
 (U-Net/transformer), replay max parameter difference 5.08e-7/0, positive decoder
-mass errors below 4.2e-16. Eleven focused tests pass. CPU59721376 continues the
-new-domain data; the GPU worker prepares common reference exteriors until all
-thirteen original training phases are available, then fits seeds17/29. These
+mass errors below 4.2e-16. Eleven focused tests pass. CPU59721376 completed all
+nineteen prepared phases, exit 0:0. U-Net seed17 has finished all 9,984 updates
+in 27m25s on GPU59722038 and seed29 is training. GPU59722838 independently
+trains transformer seeds17/29, then proceeds into the fixed posterior panel
+within its allocation. These
 engineering checks are not evidence of calibration. See the linked pilot record
 for the shared-exterior finite-domain approximation and retained limitations.
 

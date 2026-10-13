@@ -146,3 +146,21 @@ addresses per architecture (384 primary plus2 refinements), not386 new models.
 Two focused controller tests pass. Each allocation stops with saved work before
 its wall limit and does not submit a successor job. Intermediate checkpoint
 files remain available for the separately reported stability comparison.
+
+## Training checkpoint, 13 October 01:35 UTC
+
+CPU59721376 completed all nineteen data phases in 1h19m35s, exit 0:0.
+U-Net seed17 completed 9,984 updates in 1,644.64 seconds; its final fixed-noise
+development velocity loss is 0.0135501. This is not a posterior score. The
+final checkpoint is `fits/unet_x_17/CHECKPOINT_009984.pt` under the output root.
+Seed29 continues on GPU59722038. Transformer seeds17/29 run on GPU59722838;
+its bounded worker proceeds into posterior evaluation after both fits finish.
+No posterior-calibration result is available at this checkpoint.
+
+The independent saved-score readout checks CRPS through a sorted-ensemble
+identity and the joint energy score through pairwise scalar accumulation.
+It reports observed denominators, missing panels as missing, development and
+exposed-evaluation phases separately, and paired integration refinement.
+Three focused readout tests pass. It adds no statistical stop condition or
+post-hoc uncertainty adjustment and never labels oracle input as a matched
+sampled-reference comparison.
