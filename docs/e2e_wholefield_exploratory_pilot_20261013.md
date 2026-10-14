@@ -1,5 +1,10 @@
 # Exploratory train-and-test field pilot
 
+Current analysis: all four fits and the full final-checkpoint panel are complete.
+See `e2e_wholefield_pilot_closeout_20261014.md` for the six-phase comparative
+readout and the separately authorized development-checkpoint stability check.
+The execution snapshots below are retained as historical provenance.
+
 User authority, 13 October: proceed with two interactive jobs toward a working,
 approximately calibrated field model. Sensitivity is no longer a prerequisite.
 Keep the failed sensitivity result as a limitation, not a stop on exploratory

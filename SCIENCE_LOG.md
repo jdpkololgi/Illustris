@@ -1,5 +1,45 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-14 — [science/code] Wholefield pilot analysis and checkpoint comparison complete
+
+All four 32-epoch fits and all 772 final-checkpoint case/NFE addresses are
+complete and binding-verified. Final U-Net allocation 59743898 completed 0:0,
+source checks passing, at 18:59:53 UTC 13 October; the fixed controller completed
+at 19:00:51 UTC. The older progress entries below are historical.
+
+The full exposed ph014--017 comparison uses 128 cases per model/coarse mode,
+with ph012/013 development results separate. Sampled-coarse density CRPS is
+0.134611 U-Net endpoint versus 0.177831 transformer velocity. Regional energy is
+0.063764/0.111060 versus reference 0.065790: U-Net's gain is 3.08%, not universal
+across summaries or redshift shells. Transformer mean tidal spread is about 21%
+low in both cores and all 128 cases, persisting with true coarse input. U-Net
+regional rank discrepancies and endpoint integration sensitivity remain;
+neither model is qualified as an approximately calibrated field posterior.
+
+User explicitly requests completion of the analysis and approves up to two
+GPU interactive allocations of at most 3h each for the planned epoch 24/32
+comparison, no fits, sealed phases or automatic retries. Jobs 59758187/59758193
+completed all 64 geometry-selected development cases each: both caps, all four
+shells, balanced boundary/interior strata, both seeds/coarse modes, 32 draws,
+NFE128, reusing epoch-32 counterparts with matched noise/coarse/exterior.
+Both completed 0:0 with source checks passing (2h19m27s/57m12s), released by
+02:02:05 UTC 14 October. No active allocations remain.
+
+From epoch 24 to 32, U-Net sampled-coarse density CRPS improves 0.690%, but
+regional energy worsens 1.174%; true-coarse scores improve 2.111%/6.807%.
+Its maximum paired regional draw shift is 0.612/2.162 posterior SD for
+sampled/true coarse. Transformer density improves only 0.129%/0.146% and
+energy worsens 0.120%/0.248%; its large spread bias persists. These are local
+checkpoint sensitivities, not checkpoint selection or proof of convergence.
+U-Net remains the stronger exploratory configuration, neither is qualified.
+Twelve focused tests and 176 independent phase/split reconciliation checks pass.
+
+Evidence and scope: `docs/e2e_wholefield_pilot_closeout_20261014.md` and
+Scratch `READOUT_CLOSEOUT_20261014.json` and `CLOSEOUT_FINAL_20261014.json`.
+Thirty-two-draw interpolated 90% coverage is not compared naively with exact
+90%; discrete ranks provide an
+additional descriptive check. No new optimizer, loss or architecture run.
+
 ## 2026-10-13 — [explicit approval] Fixed two-job evaluation continuation
 
 User explicitly approves the fixed controller submitting successor interactive
