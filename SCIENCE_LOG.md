@@ -18024,3 +18024,140 @@ fit quality. Positive finite mass/SFR required, no arbitrary AGN cut. CIGALE
 publisher cautions low-z Tractor SFR modelling; no SED covariance/systematic
 propagation. Real-DESI coverage unverified; known high-z mock mismatch remains,
 and low-z is not certified. No physical-evolution interpretation.
+
+## 2026-10-13 — [science/code] Current-P12-A talk figures, DESI rotation and redshift-control check
+
+User requests replacement mass-binned quenching, eigenvalue corner and threshold
+figures, a DESI environment movie, and asks whether shallow trends persist after
+redshift control. Reuse frozen Loa/P12-A and the verified full CIGALE join; no
+inference, fitting, posterior draws or catalogue changes. All comparisons use
+.20<=z<.30. User explicitly approves CPU interactive59745887/nid200140 (30min).
+
+On identical property-valid galaxies within log-mass bands9.8–10.4/10.4–10.6/
+10.6–11.0/11.0–11.6, cluster-minus-void quenched-fraction differences in pp are
+raw1.051/9.507/10.944/8.110; z-controlled.963/7.418/10.754/8.092; fine-mass+z
+controlled.726/6.788/9.853/6.753. P_WEB weights, logssFR<-11, mass cells.1dex,
+z cells.025, fixed common reference, >=20 effective rows per group/cell;
+96 nside8 bootstrap replicates. Redshift attenuates chiefly the10.4–10.6 band;
+it does not generally remove the association. Low-mass curve is near the fraction
+floor; a full0–1 axis also makes slopes look modest. No causal or DESI-calibration
+claim; SED/selection/transfer systematics are omitted from intervals.
+
+Movie rotates18,000 uniformly subsampled supported galaxies from the103,788-row
+RA120–160/Dec14.5–30.6/z.2–.3 wedge, colors argmaxP_WEB and opacity confidence;
+actual Planck18 redshift-space coordinates, no coherent-field or time-evolution
+claim. Corner/sweep use21,052 naturally weighted exposedph006 rows and16,126 DESI
+rows in17 eligible contributors from128 randomly selected spatial cores;512 saved
+joint triplets each, exact savedP_WEB parity at.2. DESI sweep is a bounded subset,
+not full-survey population inference. Core sampling/selection caveats, tail
+fractions, source hashes and full-range companion preserved. Three estimator
+sanity checks pass; final visual/export/provenance QA packaged with artifacts.
+Details: GraphWeb_DESI/docs/presentation_updates_20261013.md. Source entrypoints
+GraphWeb_DESI/workflows/presentation/desi_{mass_movie,corner_sweep,redshift_control}_20261013.py.
+`graphify` unavailable in this shell; direct scoped inspection used.
+
+## 2026-10-14 — Current CIGALE trends versus cached independent point density
+
+At user request, compared all seven presentation properties (mass, SFR, sSFR,
+quenched fraction, fitted AGE, AV, FAGN) with non-neural counts and existing P12-A.
+User explicitly directed login-node execution; bounded cached analysis used one
+CPU thread, no spatial-index build, no Slurm action and no inference/training.
+Reused SHA-verified Sept28 7h^-1Mpc self-excluded counts (316480 padded tracers)
+and joined current Sept29 CG15 properties by exact TARGETID/P_WEB/z parity.
+Historical wedge-cache eligibility remains a selection; not full-footprint.
+89809 valid interior galaxies; common mass(.1dex)/z(.01) support gives84275 for
+all non-mass properties. Mass panel controls z only. Four methods share rows,
+strata, reference weights, minKish20 and128 valid paired nside8 bootstraps.
+
+Quenched contrasts: independent densityQ4-Q1 +7.690pp (68%7.289–8.033), raw
+counts +7.888pp, posterior-mean traceQ4-Q1 +6.406pp, soft cluster-void+7.364pp
+(6.915–7.666). Paired density-minus-soft +0.326pp (0.048–0.683). log-sSFR
+contrasts respectively−.207739/−.212520/−.172057/−.190759dex. Density versus
+soft: logM+.12865/+.10555dex; logAGE+.01028/+.00977dex; AV−.05293/−.04856mag;
+FAGN+.00644/+.00558. Density and inferred-trace sSFR Spearman−.146/−.120;
+within-mass/z-cell centered rank correlation−.081/−.069. Modest individual
+correlations and clear ensemble shifts coexist. Similar amplitudes across
+non-neural and neural estimators support trend consistency on this sample;
+quartiles and soft classes are different selections, not interchangeable labels.
+AGE is supplied SED-fit parameter, not established mass-weighted age; FAGN is
+fitted fraction, not AGN-host incidence. Shared survey/property systematics remain.
+
+Literature review: Kauffmann2004 demonstrates stronger small-scale fixed-mass
+sSFR trends; Balogh2004 separates population-mixture changes from within-SF
+trends; Peng2010 motivates mass/environment controls; Alam2019 emphasizes
+large-scale density with subtler residual tidal dependence; Kraljic2018 motivates
+filament/node distances beyond density. None specifies the exact expected
+amplitude for this selected DESI/CG15/top-hat/soft-class comparison. Proposed
+next raw diagnostics: projectedSigma5, multiscale counts, neighbour quadrupole,
+filament/node proximity, group-centric quantities; classical density/Poisson
+traceless tides require bias/mask/smoothing assumptions.
+
+Eigenvalue corner geometry checked from existing full-range histograms:
+ordering explains one-sided support; common trace shifts explain diagonal
+motion, gaps remove that common shift. DESI binned pair correlations
+.693/.632/.845 versus mock truth.685/.617/.863. The effect is present in truth,
+not evidence by itself of an inference artifact. Saved midpoint-gap companion
+is a histogram re-expression, not new draws; midpoint is not pure trace.
+
+Artifacts: ~/fmsu_tokyo_20261010/density_checks_20261014.zip and corresponding
+folder, including three figures PNG/PDF/SVG, statistics, extracted arrays,
+research notes and scripts. Details in GraphWeb_DESI/docs/density_property_checks_20261014.md;
+entrypoints workflows/presentation/desi_{density_properties,corner_geometry}_20261014.py.
+Estimator, tie, join/probability/order, archive/hash and visual checks passed.
+Full augmented FITS hash inherited from frozen receipt rather than reread;
+extracted rows and cached counts freshly hashed. No commit/push performed.
+
+## 2026-10-14 — [analysis] New Loa wedge Sigma5, multiscale counts and quadrupoles
+
+User selected the same RA120–160/Dec14.5–30.6/z.20–.30 sky wedge and retained
+login-node execution. Measured all103788 supported query galaxies with352198
+surrounding full-VAC tracers, excluding self by TARGETID; one thread,13.9s after
+correcting FITS byte order, no Slurm action. New measurements: projectedSigma5
+with±1000km/s window and10h^-1Mpc maximum search; spherical countsR1/2/4/7;
+density ratio insideR2 to shellR2–7; finite-N-debiased 3D direction quadrupole
+and tangent-sky quadrupole of the sameR7 neighbours; LOS_P2 diagnostic. All529
+queries without a fifth projected neighbour receiveNaN and invalid flags.
+Conservative edges use frozen nside256 angular-support distances at actual
+galaxy pixels minus2max_pixrad, plus tracer radial-limit checks. Shape plots
+require>=20directions. The bias subtraction assumes independent isotropy and
+does not remove clustering correlations or redshift-space effects.
+
+Fresh current-CIGALE selection in this geometric wedge yields96258valid rows;
+it does not inherit old property-cache IDs. Shared.1dex mass/.01z cells and
+same reference mix across all density estimators retain91066galaxies (134cells).
+Tied count values have identical fractional quantile memberships, no arbitrary
+rank breaking. Quenched high-low contrasts(pp):Sigma5+9.518[9.153,9.783];
+N1+3.296;N2+6.463;N4+7.819;N7+7.679;trace+6.346;softweb+7.420[6.976,7.677].
+Log-sSFR contrasts(dex):−.25199/−.08103/−.16482/−.21090/−.20927/−.17222/−.19243.
+N1 has76.1%zeros; weak fixed-small-aperture discrimination is sampling-limited.
+All seven properties plotted:mass,SFR,sSFR,quenched,AGE,AV,FAGN. AGE andFAGN are
+catalogue SED-fit parameters, not mass-weighted age or AGN incidence.
+
+Geometry support34537rows; common mass/z cells retain18501(47cells). Quenched
+contrasts(pp):compactness+7.271;Q3−4.615;Qsky−1.063;inferredshearproxy+1.853;
+softweb+5.953. Additional.2dex logN7 control retains4539rows(25cells); contrasts
++6.233[3.851,8.140],−2.668[−5.231,−.310],+.763[−2.198,3.460],+.911[−.940,3.032],
++2.168[.439,4.642]. Crucial same4539-row mass/z-only comparison:
++5.997/−3.000/+.605/+.919/+4.559. Support change explains much apparent
+attenuation forQ3; compactness retains its association. Before/after interval
+subtraction is not a paired significance test. Shape proxies and gravitational
+tidal shear are different observables; do not equate their signs or amplitudes.
+Shearproxy evaluates pairwise eigenvalue gaps at posterior means, notE[q].
+
+Validation: synthetic self-exclusion, known projected fifth neighbour, rotation,
+isotropic finite-N correction, tie equivalence/equal totals and null/signal
+checks;12real queries independently brute-forced; freshR7 counts exactly match
+all94415historical overlapping rows; uniqueIDs,countmonotonicity,quadrupolebounds,
+source support hashes,current property-ID/z parity and exported artifact checks.
+FullFITS hashes inherited from receipts, not freshly re-read; derived arrays
+freshlyhashed.128sky-block draws:126valid geometry,128density/fixed-density,
+127same-row baseline. Spatial errors omit SED/selection/transfer systematics.
+
+Deliverables:~/fmsu_tokyo_20261010/raw_environment_checks_20261014.zip andfolder;
+12PNG/PDF/SVG figures, raw_environment_catalogue.npz, statistics/contrasts,
+analysis membership, provenance and scripts. Documentation:
+GraphWeb_DESI/docs/raw_environment_checks_20261014.md. Entry points:
+workflows/presentation/desi_raw_environments_20261014.py and
+workflows/presentation/desi_raw_environment_plots_20261014.py.
+No model fitting/inference, CFS mutation or release overwrite. graphify unavailable;
+scoped direct inspection used. No commit/push.
