@@ -1,5 +1,76 @@
 # Research context — Illustris
 
+## Whole-field transformer CFM result (2026-10-09)
+
+A matched-budget whole-field transformer (eight blocks, 8.52M parameters) improves
+worst probe mean errors on all four Gaussian development observations relative
+to the 8.40M U-Net. Side-16 errors fall from 0.96--1.10 to 0.63--0.82 posterior SD,
+but variance ratios remain 0.508--1.551 and all learned evaluations reject the
+predeclared Gaussian-reference audit. Integration convergence is not established.
+One seed, 4,096 updates and reused observations do not qualify an architecture.
+Raw side-16 sampling is about 2x faster with modestly higher allocated memory;
+no matched-accuracy or survey-scaling claim. 15 tests/508 checks pass; GPU 59598276
+released. Evidence: `docs/e2e_gaussian_transformer_results_20261009.md`.
+
+## Matched Gaussian 3D CFM result (2026-10-09)
+
+Final audit resolved: 14 tests and 726 independent checks pass. Whole-field CFM
+has smaller mean errors and lower raw sampling cost than the block chain in the
+bounded matched experiment, but both fail posterior correctness. Side-16 mean
+errors are about 1 sigma for whole-field versus 5–6 sigma after 16 block sweeps.
+Blocks also fail a one-sweep exact-posterior-initialized test. Side-48 memory
+falls from 134 to 58 MiB, but a sweep takes 50.8 s versus 0.458 s for a whole draw.
+No accuracy-qualified draw cost, convergence or Abacus claim follows. The
+original statistical-screen failure and post-hoc correction remain disclosed.
+Both allocations released. Current result supersedes the checkpoint below:
+`docs/e2e_matched_gaussian_3d_results_20261009.md`.
+
+## Matched Gaussian 3D CFM verification checkpoint (2026-10-09)
+
+The approved mean/covariance interventions and fixed-budget whole-field/block
+3D fits are saved. Both learned approaches show substantial posterior errors;
+block chains also drift strongly in the domain mean. Final audit is unresolved:
+its job step exited 1 and approval-service HTTP 503 errors blocked log access.
+An approximate screen falsely rejected one exact control; its labels are not
+calibrated conclusions. No Abacus promotion or matched-accuracy speedup follows.
+GPU 59596481 was released. Inspect the saved audit before rerunning any compute:
+`docs/e2e_matched_gaussian_3d_checkpoint_20261009.md`.
+
+## Restricted context and learned CFM checkpoint (2026-10-09)
+
+Completed20-target/264-row Gaussian context comparison: full information passes,
+no tested restricted interface passes throughout; nine configurations unstable.
+One full-exterior Gaussian CFM pilot completes20kupdates but fails joint accuracy
+(worst covariance6.01%, versus1%gate); finer integration does not repair it.
+Exactglobal hybrid also fails worst-direction accuracy despite good probe coverage.
+Exact construction passes, learned components remain imperfect. No Abacus
+qualification or existing3D-model success/failure inference.13tests/2,895receipt
+checks pass; both allocations released and cosmic_env untouched. Definitions,
+limits and next diagnostic: `docs/e2e_restricted_context_cfm_results_20261009.md`.
+
+## Exact block sampler Gaussian results (2026-10-09)
+
+User-approved temporary Scratch-independent runtime completes 18 targets and
+48 configurations: seven tests and 1,376 reconciliation checks pass. Exact
+block/global updates preserve the Gaussian target; all pass finite-budget gates.
+Global modes improve sparse long-range mixing (n8 tau12.94->1.77; passing
+checkpoint64->16). Full exterior/global precision is an oracle input, not a
+learned exterior conditional; no Abacus promotion or production change follows.
+cosmic_env unchanged; CPU59593723 released. Result and limitations:
+`docs/e2e_exact_block_sampler_results_20261009.md`.
+
+## E2E diagnostic closeout (2026-10-08)
+
+Matched full-cap true-coarse summary is complete: corrected interior fraction
+error/variance ratios3.1462/2.1483; mismatch persists with true coarse, despite
+lower absolute error and lower predictive variance. Threshold sensitivity and
+exact Gaussian canvas tests also complete; distinguish threshold amplification,
+truth/operator representation, conditioning, and global joint-law errors. No
+posterior qualification, gate change, new training or sealed-phase access.
+Do not treat one density refinement as convergence, or the Loa BGS
+property–environment relation as a calibration target. Current evidence:
+`docs/e2e_threshold_canvas_results_20261008.md` and newest SCIENCE_LOG entry.
+
 ## E2E analysis scope (2026-10-06)
 
 Both Tier2 fits completed in59429879. User subsequently approved the entire

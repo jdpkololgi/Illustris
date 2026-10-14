@@ -57,7 +57,20 @@ user's [.04,.08), [.08,.16); also retain the previous (lo,hi] convention for
 parity and document any edge-mode differences. Do not infer missing spectra
 from raw latent U, oracle power, or summary-only files.
 
-## Results in progress
+## Final closeout — 2026-10-08
+
+All32matched B batches now validate. Registered summary completes; independent
+label/fraction/scalar reconciliation passes96checks on CPU59553598. Corrected
+interior A2.6958/2.1147 becomes B3.1462/2.1483 with overlapping conditional-MC
+ranges, selecting the frozen `coarse_factor_not_implicated` branch. Its meaning
+is that the defect persists with true coarse, not that coarse has no effect:
+both absolute adjusted error and predictive variance decrease. No unique
+fine-generator attribution or posterior qualification follows. Full error,
+variance, closure sensitivity and follow-up results are recorded in
+`e2e_threshold_canvas_results_20261008.md`. COMPLETE.json and FINAL_CHECK.json
+are now present in the registered Scratch root. Entries below are historical.
+
+## Results in progress (historical)
 
 Saved-field analysis is complete. Parent Stage C moments and their conditional-MC
 ranges reconcile to the original scores. Independent power verification passes
