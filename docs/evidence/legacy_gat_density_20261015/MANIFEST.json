@@ -1,0 +1,70 @@
+{
+  "source_artifact_root": "/global/u2/d/dkololgi/fmsu_tokyo_20261010/legacy_gat_density_20261015",
+  "files": [
+    {
+      "name": "ARTIFACT_MANIFEST.json",
+      "bytes": 6801,
+      "sha256": "7982691004a2d4a9b6710ceffe8e7fd3e54c9d47bf99a3db464561cde6ce21cb"
+    },
+    {
+      "name": "R2_dense_history.json",
+      "bytes": 2557,
+      "sha256": "8d1e6b3a9f2dd9a4b8366f3414dff2aab4e236e9c660f99a0d02d549e6a15e46"
+    },
+    {
+      "name": "R2_dense_training.json",
+      "bytes": 756,
+      "sha256": "4d3329072ce8e2f601f28eed73a164a1deb586ce2e501ebdc69a6a06d7734de0"
+    },
+    {
+      "name": "R2_thin_history.json",
+      "bytes": 2555,
+      "sha256": "6c81d87a8acfbac79d4dd051d4a3b3ab96495f3a98709ee4570a3954df760c1c"
+    },
+    {
+      "name": "R2_thin_training.json",
+      "bytes": 754,
+      "sha256": "82562570fe192a6963c11c05fefa2708785510098f802e5b52adae1e4aad17fe"
+    },
+    {
+      "name": "R7_dense_history.json",
+      "bytes": 2553,
+      "sha256": "fd1f066df50a8ddc1d7fc6323213c1c44891cc30a03ba031fc64a9370c021801"
+    },
+    {
+      "name": "R7_dense_training.json",
+      "bytes": 756,
+      "sha256": "eac3d83e07464dacf33300448dd25b3c139ede878f3e811f5c4ef41053ded70c"
+    },
+    {
+      "name": "R7_thin_history.json",
+      "bytes": 2552,
+      "sha256": "44fba421b02c8e21491090437f373f33faae5af98bd607ebd87f6658eef568f7"
+    },
+    {
+      "name": "R7_thin_training.json",
+      "bytes": 754,
+      "sha256": "88813ce9b5cc1876bd7f24dd77a9d5826c0c530e201ef8bea4873439eefb8bfb"
+    },
+    {
+      "name": "VALIDATION.json",
+      "bytes": 2141,
+      "sha256": "d54513e817f7ef669107b7fcd1f84140e502f89a9df6557502c29fabde399416"
+    },
+    {
+      "name": "dense_metrics.json",
+      "bytes": 386,
+      "sha256": "fe2b0c601a3d5324bd6019d9d02fa056f7095f51e21617684061aa3bf8b9dc96"
+    },
+    {
+      "name": "loa_metrics.json",
+      "bytes": 387,
+      "sha256": "21f119bb9a8dc3ff973b8a0532bb478dea414c5165e4275c83cd50d7b6f95042"
+    },
+    {
+      "name": "thin_metrics.json",
+      "bytes": 385,
+      "sha256": "15b67eed547375f0e99cf00cb614cb1bfdbbbd12a0c838ff6fc0d32475f8f820"
+    }
+  ]
+}

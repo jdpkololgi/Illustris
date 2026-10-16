@@ -1,0 +1,179 @@
+{
+  "schema": "tng-density-control-manifest-v1",
+  "output_root": "/global/u2/d/dkololgi/fmsu_tokyo_20261010/tng_density_control_20261015",
+  "script": "/global/u2/d/dkololgi/TNG/Illustris/workflows/gcn_paper/tng_density_control_20261015.py",
+  "script_sha256": "7cd97f5a8e07145ae0d3c31f0ea89450581971f3b28b76cc65d1188c2e9abc92",
+  "config": "/global/u2/d/dkololgi/TNG/Illustris/configs/tng_density_control_20261015.json",
+  "config_sha256": "fed96f1cf91d3f018b87ab4ca3b430242613e90aad3b9f189439407dba555c77",
+  "validation": {
+    "passed": true,
+    "checks": 122,
+    "independent_point_contrast_max_error": 1.0880185641326534e-14,
+    "independent_raw_row_bootstrap_max_error": 8.43769498715119e-15,
+    "independent_class_contrast_max_error": 1.3766765505351941e-14,
+    "checkpoint_prediction_replay_max_error": 9.531209386182127e-07,
+    "neighbour_extent": {
+      "dense": {
+        "max_40th_neighbour_hmpc": 16.7226505279541,
+        "queries_beyond_split_buffer": 0
+      },
+      "thin_20261015": {
+        "max_40th_neighbour_hmpc": 23.578702926635742,
+        "queries_beyond_split_buffer": 357
+      },
+      "thin_20261016": {
+        "max_40th_neighbour_hmpc": 23.115041732788086,
+        "queries_beyond_split_buffer": 240
+      },
+      "thin_20261017": {
+        "max_40th_neighbour_hmpc": 23.722408294677734,
+        "queries_beyond_split_buffer": 222
+      }
+    },
+    "config_sha256": "fed96f1cf91d3f018b87ab4ca3b430242613e90aad3b9f189439407dba555c77",
+    "script_sha256": "7cd97f5a8e07145ae0d3c31f0ea89450581971f3b28b76cc65d1188c2e9abc92"
+  },
+  "files": [
+    {
+      "name": "R2_dense_seed20261015.pt",
+      "bytes": 26557,
+      "sha256": "3a7755e304b7de2fc7a5886f117572272646bef1f898a306cb71af8f6ff238a2"
+    },
+    {
+      "name": "R2_dense_seed20261016.pt",
+      "bytes": 26557,
+      "sha256": "b31b6d8b2241eefb1dbef278e1db495ac164cf1bb4164c76904caf6ba3f962c0"
+    },
+    {
+      "name": "R2_dense_seed20261017.pt",
+      "bytes": 26557,
+      "sha256": "b2387b14adc3032162c762507879e62b1beb0748db6ee229f16e5a039455706a"
+    },
+    {
+      "name": "R2_thin_20261015_seed20261015.pt",
+      "bytes": 26717,
+      "sha256": "f4cc12cc742b32e861e8cfc79f3790a930152709eae14282383941df7cb595c2"
+    },
+    {
+      "name": "R2_thin_20261016_seed20261016.pt",
+      "bytes": 26717,
+      "sha256": "9fcd21ddf8f44722bafdcafd9798f70228b76349a3d381d8a1e254fd6c25887f"
+    },
+    {
+      "name": "R2_thin_20261017_seed20261017.pt",
+      "bytes": 26717,
+      "sha256": "0eea1149692b29736de9c7811df520cea234013a2d8d2cec942efa058cd39776"
+    },
+    {
+      "name": "R7_dense_seed20261015.pt",
+      "bytes": 26557,
+      "sha256": "95ad0d02a196d1c88ea35ec983d6f2966c5378f8825bd8e3bc9d982ac68e11f5"
+    },
+    {
+      "name": "R7_dense_seed20261016.pt",
+      "bytes": 26557,
+      "sha256": "1d550484e178d07bf50a2c9130facae9ba5927e1aed368d4427921ab83d6624c"
+    },
+    {
+      "name": "R7_dense_seed20261017.pt",
+      "bytes": 26557,
+      "sha256": "1fef114db78b3bca1127ecf82070918b8ef2fb907135585650668992ee4cbde7"
+    },
+    {
+      "name": "R7_thin_20261015_seed20261015.pt",
+      "bytes": 26717,
+      "sha256": "7f84d97a17dcb8882a644b6f2ad9a4bc80dd69e6b49978ac71a0fdbb20d7a40a"
+    },
+    {
+      "name": "R7_thin_20261016_seed20261016.pt",
+      "bytes": 26717,
+      "sha256": "e2905234e33da810b934de4ea86b0b699fe55ae7eb43dfda0bde57f33deeab2c"
+    },
+    {
+      "name": "R7_thin_20261017_seed20261017.pt",
+      "bytes": 26717,
+      "sha256": "8205534898372e13a766c5ccecf4a1bdc5068ff9aa9195a6a270ef940cc080d2"
+    },
+    {
+      "name": "RESULTS.json",
+      "bytes": 59953,
+      "sha256": "591563a7600b916bcbfcba0af0ac19c49eb7e0353d0b4c7c81bf6f6a0f865b1f"
+    },
+    {
+      "name": "VALIDATION.json",
+      "bytes": 990,
+      "sha256": "9a94a13e0340fe96d7cdc0f5d894f6a7a7950174e1d61e754f5896f86dbbeecf"
+    },
+    {
+      "name": "catalogue.npz",
+      "bytes": 8156586,
+      "sha256": "21d58db755db77c0945bd769429c7aeeab8106af4d3bbf9597e5d016ed8ced01"
+    },
+    {
+      "name": "catalogue_receipt.json",
+      "bytes": 175543,
+      "sha256": "3e309405be8df64586066459983ae705509dde8e39d193df06f7a1f3105a9e60"
+    },
+    {
+      "name": "contrast_bootstraps.npz",
+      "bytes": 239957,
+      "sha256": "0b65920a2bd060e5299ab514280081aa93bdff671f1a1fc7187edb63876e097e"
+    },
+    {
+      "name": "features.npz",
+      "bytes": 29986563,
+      "sha256": "15f2d25c1f3da36d74abf864c5a22df542f300cfb5c38d71bae4bbcfa9d07947"
+    },
+    {
+      "name": "features_receipt.json",
+      "bytes": 1075,
+      "sha256": "7990147c7c1e92b17775dfe64333b69de596a9a861f08dc326a5bd0a5bd21ac3"
+    },
+    {
+      "name": "heldout_analysis.npz",
+      "bytes": 15968396,
+      "sha256": "5907ce64ebb87340b803e75bbccc8d33f99ed5060e5cfe7c358f458b0b534c90"
+    },
+    {
+      "name": "predictions.npz",
+      "bytes": 56139951,
+      "sha256": "5a66c9b898f7a9371e6e96895d57447e92a126a5924d655d8cd9a417beb78b45"
+    },
+    {
+      "name": "tng_density_control.pdf",
+      "bytes": 23057,
+      "sha256": "37cf2bdafafe15243f84efa715ddc95b37e6a16026f6f8c01df4d14cdc8f80b7"
+    },
+    {
+      "name": "tng_density_control.png",
+      "bytes": 120817,
+      "sha256": "47f19cb29a22aa53110c6ca12c5470e7b4db9ae61ea2be14a118a9eec6a5b10d"
+    },
+    {
+      "name": "tng_density_control_20261015.json",
+      "bytes": 2104,
+      "sha256": "fed96f1cf91d3f018b87ab4ca3b430242613e90aad3b9f189439407dba555c77"
+    },
+    {
+      "name": "tng_density_control_20261015.py",
+      "bytes": 32633,
+      "sha256": "7cd97f5a8e07145ae0d3c31f0ea89450581971f3b28b76cc65d1188c2e9abc92"
+    },
+    {
+      "name": "training_receipt.json",
+      "bytes": 32068,
+      "sha256": "fb0c09f6842f2e2a954e4deca6e69610a2aa2140375d84ad87c6a906709e51a3"
+    },
+    {
+      "name": "truth.npz",
+      "bytes": 12565013,
+      "sha256": "1a9f2fa925050ed35c7118aea69559327d31024445b2f15ff4191d4995c9bb3e"
+    },
+    {
+      "name": "truth_receipt.json",
+      "bytes": 2589,
+      "sha256": "de0cd5147debe73de80e519cc249659f066d7427b5bd4a0d6a209fafff666b3d"
+    }
+  ],
+  "scope": "Same fixed TNG query galaxies, random tracer density and R2/R7 interventions; one-box point-estimator mechanism test; no production-model calibration claim"
+}
