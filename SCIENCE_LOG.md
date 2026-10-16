@@ -18862,3 +18862,28 @@ Report:GraphWeb_DESI/docs/massive_galaxy_environment_literature_20261016.md.
 User requestedallthisthreadworkcommitted; scopedreproducibilityarchive includes
 small historicalreports/figures/receipts, not largecatalogues/checkpoints.
 0.15-.20colourrerun prepared; pendingexplicitnewCPUapproval atthisentry.
+
+## 2026-10-16 — [science/code] Loa colour split extended to z=0.15–0.20
+
+User-approved CPU allocation 59857020 completed the same observed-colour audit
+and within-colour environment comparison; released and verified absent from queue.
+Fixed log10(Mstar/Msun)>=10.60 retains 518,962 red and 14,909 blue galaxies
+(534,070 total; 199 outside cuts). Blue hard-cluster count is 533. This gives
+7.76 times the previous blue sample but still fails the predeclared 20,000-blue
+gate; results remain exploratory. Observed cuts remain red 0.75<g-r<1.5 and
+blue g-r<0.75, without K correction.
+
+At 0.1 dex mass/0.01 redshift soft controls, red quenched fraction rises
+62.90% to 72.27% from void to cluster; red log-sSFR contrast is -0.202 dex.
+Blue log-sSFR contrast is -0.023 dex (conditional 95% CI -0.042 to -0.002),
+and colour +0.00425 mag. Blue hints are control-sensitive: finer joint support
+retains 6,451 galaxies and includes zero for log-sSFR and colour. Blue quenched
+fraction contrast also loses significance under alternative controls. No causal,
+calibration, robust blue-detection or isolated lower-mass-effect claim is made.
+
+All 128 mean vectors, ten colour percentiles, 256 bootstrap draws per calculation,
+257 sampled original-VAC row comparisons and FITS roundtrip passed. Fixed cut
+exceeds all old bin limits, excluding source truncation. Final plots inspected;
+small evidence copies SHA256 verified. Full FITS remains on Scratch under
+`graphweb_desi/outputs/loa_colour_lowz_20261016_v1/`. Report and figures are in
+sibling `GraphWeb_DESI/docs/loa_colour_lowz_20261016.md`.
