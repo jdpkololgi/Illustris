@@ -18887,3 +18887,16 @@ exceeds all old bin limits, excluding source truncation. Final plots inspected;
 small evidence copies SHA256 verified. Full FITS remains on Scratch under
 `graphweb_desi/outputs/loa_colour_lowz_20261016_v1/`. Report and figures are in
 sibling `GraphWeb_DESI/docs/loa_colour_lowz_20261016.md`.
+
+## 2026-10-16 — [science/code] Saved-selection colour–mass diagrams recreated
+
+Three raw observed-colour/mass distributions now compare z=0.15–0.20,
+0.20–0.22 and 0.20–0.30 at fixed log-mass cuts 10.60, 10.69 and 10.96.
+Frozen selected FITS inputs used directly; original selection/inference unchanged.
+Shared axes, count normalization and colour boundaries show the changing
+observed-colour membership; no K correction or volume normalization is applied.
+All saved counts, unique IDs, selection membership and independently rebuilt
+histograms passed. Common display bounds omit only 1/1/7 finite objects,
+explicitly annotated. Combined figure visually inspected; hashes archived.
+Approved CPU59858009 ran on nid200041; release verified with empty squeue output.
+Report: sibling `GraphWeb_DESI/docs/loa_colour_mass_20261016.md`.
