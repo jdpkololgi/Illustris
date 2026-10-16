@@ -18900,3 +18900,42 @@ histograms passed. Common display bounds omit only 1/1/7 finite objects,
 explicitly annotated. Combined figure visually inspected; hashes archived.
 Approved CPU59858009 ran on nid200041; release verified with empty squeue output.
 Report: sibling `GraphWeb_DESI/docs/loa_colour_mass_20261016.md`.
+
+## 2026-10-16 — [science/code] Observed environment splits and rest-colour audit
+
+Original colour–mass plots now have hard argmax and soft probability-weighted
+void/wall/filament/cluster splits for all three windows at original mass limits
+10.60/10.69/10.96. CIGALE MASS_CG_15 is retained throughout. User subsequently
+narrowed the requested display to these observed-colour/CIGALE-mass plots to
+inspect bimodality. FastSpecFit stellar masses were NEVER substituted.
+
+The separately requested rest-colour comparison completed before that steering
+and is archived as exploratory provenance. Loa FastSpecFit supplied only
+ABSMAG01_SDSS_G-R (SDSS reference z=0.1, not internally dust-corrected).
+3,734,189/3,734,198 parent rows pass unique/position/redshift/photometry checks;
+no missing or duplicate IDs, nine quality failures. At original mass limits,
+observed/rest blue counts on identical valid rows are 14,909/79,206,
+1,922/32,793 and 375/51,292. This changes frame AND filter system, not a pure
+same-filter K correction. Fixed-mass (10.98) diagnostics also show that the
+observed blue-fraction decline is strongly dependent on colour definition.
+
+Rest-colour empirical completeness including 0.70/0.75/0.80 sensitivity cuts
+requires 10.65/10.74/10.98, retaining 64,026/25,993/44,725 primary blue galaxies.
+Each passes the pragmatic 20k-per-colour / 100-per-hard-class count rule, not
+production calibration or power gates. Primary blue cluster-minus-void log-sSFR
+contrasts are -0.047/-0.042/-0.046 dex, excluding zero under four matching
+specifications at boundary 0.75. However 0.70 plus fine joint support in the
+widest window retains 7,276 galaxies and includes zero. Primary blue quenched
+fraction intervals include zero in both higher-z windows. Rest-blue populations
+remain colour-selected mixtures, with raw quenched fractions 4.84/6.19/12.33%.
+No pure star-forming-sequence, physical-causality or DESI-calibration claim.
+
+Approved CPU59858561 on nid200021 completed and was released; queue empty.
+384 fresh FastSpecFit rows, all 50 original VAC columns at 257 rows per six
+primary/paired products, exact original observed TARGETID sets, 1,364 curve
+vectors and independent histograms passed. All available calculations have
+256 bootstrap draws; 46 unsupported controls explicitly unavailable. Final
+figures show all 12 predeclared sensitivity combinations and were visually
+reviewed. Hash-verified small evidence/figures are archived; large FITS remain
+on Scratch under `graphweb_desi/outputs/loa_rest_colour_20261016_v1/`.
+Report: sibling `GraphWeb_DESI/docs/loa_rest_colour_20261016.md`.
