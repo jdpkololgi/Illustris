@@ -18939,3 +18939,42 @@ figures show all 12 predeclared sensitivity combinations and were visually
 reviewed. Hash-verified small evidence/figures are archived; large FITS remain
 on Scratch under `graphweb_desi/outputs/loa_rest_colour_20261016_v1/`.
 Report: sibling `GraphWeb_DESI/docs/loa_rest_colour_20261016.md`.
+
+## 2026-10-16 — [science/code] Overlaid observed-colour environment histograms
+
+User requested overlapping g−r distributions for the original three CIGALE
+mass selections. Marginalised the archived audited colour–mass grids, merged
+adjacent bins to 1/30 mag, and normalised each environment independently.
+Hard argmax and probability-weighted figures show linear and log-density views.
+Original observed colours retained; no FastSpecFit mass or rest colour used.
+Saved bounds omit 1/1/7 objects; all 24 distributions reconcile to source totals
+and integrate to one. Both figures visually checked; hashes/CSV archived.
+Dominant red peaks with blue shoulders are descriptive, not a bimodality test
+or mass/redshift-controlled environmental effect. Brief one-thread aggregate
+rendering only; no new scheduler allocation. Report in sibling GraphWeb_DESI:
+`docs/loa_colour_histograms_20261016.md`.
+
+## 2026-10-16 — [science/code] Joint mass/redshift matched observed-colour distributions
+
+Reweighted original CIGALE/observed-colour samples to the same pooled joint
+mass/redshift cell distribution across all four inferred environments. Primary
+cells 0.10 dex × 0.01 z, finer 0.05 dex × 0.005 z; require effective N≥20 in
+every hard/soft class per cell. Primary retains 533,037/231,388/607,579 galaxies
+(99.8/99.7/99.4%). No colour selection or new inference; FastSpecFit unused.
+
+Raw hard cluster-minus-void mean colour contrasts 0.0460/0.0465/0.0431 mag
+reduce to 0.03724/0.03740/0.03742 mag. Conditional 95% sky-block intervals:
+[0.03418,0.04017]/[0.03328,0.04106]/[0.03495,0.03950]. Soft contrasts are
+0.03110/0.03155/0.03114 mag; all primary/fine hard/soft intervals exclude zero.
+Fine hard contrasts differ by <0.0002 mag. Broad overlap persists with a small
+conditional colour association; no new bimodality, calibrated transfer or
+causal environmental effect claimed. Higher-z windows overlap.
+
+All 48 independent weighted histograms reconcile; joint-cell balance <3e-14.
+Fine residual mean mass/redshift differences <0.000357 dex/0.000047. All 256
+paired sky-block draws valid; fixed support/target, refitted weights. Residual
+bands are pointwise and conditional, excluding SED/selection/model systematics.
+CPU59873074 on nid200063 completed; two synthetic contracts also passed.
+Final plots retain original analysis with corrected shared display limits;
+small evidence and figures hash-verified. Report in sibling GraphWeb_DESI:
+`docs/loa_matched_colour_20261016.md`.
