@@ -19006,3 +19006,31 @@ Fresh full VAC SHA256 before/after and posterior/encoder/manifest bindings pass;
 exact original IDs, positions, quality/support/Pfil reproduced. Off-slab geometry
 analysis remains pending; no wall interpretation or retraining conclusion yet.
 Receipt: GraphWeb docs/evidence/filament_parent_20261017/READY.json.
+
+### 2026-10-17 — [P12-A] Off-slab geometry: partial projection effect, not majority sheets
+
+User-approved CPU comparison of frozen Loa parent180977/original4459 complete.
+Main297 projected-line-like Pfil<.2 wall-argmax targets: atR=7/.6766Mpc,244
+with>=8neighbours yield191line/49sheet/4isotropic covariance-dominance proxies;
+53too sparse. At1.5R all297 yield211/59/27. Main-radius sheet fraction~20–21%
+for minimum6/8/12. This is tracer geometry, NOT tidal truth or model-error rate.
+Paired193 targets: adding off-slab raises P-L+.1334,95%spatial-blockCI[.0764,.1939];
+matching counts with32random subsets gives+.1154,[.0665,.1646].27of178slab-lines
+become sheets,149remain lines. Thus meaningful projection effect, not sufficient
+explanation that most wall predictions are hidden sheets. Filament-argmax controls
+also lose elongation; unmatched density/mass and survey/RSD caveats remain.
+
+Same297 targets at20/40/80Mpc depths:288/63/9 projected-line-like; corresponding
+filament-control161/41/8of173. All-five-depth common wall cohort only3; recorded
+secondary20/40/80 comparison avoids changing denominator. Rotations/offsets
+reselect parent and retain eligibility transitions; do not interpret unpaired
+rotated fractions as a common-cohort effect. Original projected statistic
+reproduced to1e-10, exact IDs/probabilities and parent hash checked.
+
+Three synthetic contracts and183saved-array reconciliations pass. CPU59904230
+complete; validator59904267failed on empty-bin handling, fixed59904281complete.
+Allocations released. Three PNG/PDF figure pages visually reviewed, exact IDs/
+arrays and hashes committed in GraphWeb. Report docs/filament_offslab_results_20261017.md.
+No catalogue/model change or retraining; full model-error cause remains unresolved.
+Next matched mock matter-truth control distinguishes true-wall tracer strings
+from excess model error; TARP does not certify visual correspondence or Loa transfer.
