@@ -18978,3 +18978,21 @@ CPU59873074 on nid200063 completed; two synthetic contracts also passed.
 Final plots retain original analysis with corrected shared display limits;
 small evidence and figures hash-verified. Report in sibling GraphWeb_DESI:
 `docs/loa_matched_colour_20261016.md`.
+
+### 2026-10-17 — [P12-A morphology] Padded-parent preparation; compute gate pending
+
+User requested causal investigation of apparent strings versus lowPfil, with
+explicit resource approval before Slurm. Current verdict unresolved; no retraining
+justification from projected metric. Inspected current cached audits and production
+aggregation: strict per-draw lambda>.2 class counts, not posterior-mean class.
+Fresh shard aggregation, exact training operator normalization and preprocessing
+bindings remain open; inherited plotting integrity is not newly revalidated.
+GraphWeb `docs/filament_parent_stage_20261017.md` records scope and limitations.
+New fail-closed extractor pins full VAC/A06/model hashes, retains all tracers in
+320Mpc parent sphere centred(0,1025,0), exact original4459 row/coordinate/Pfil checks.
+Registered5/10/20/40/80Mpc depths,0/30/60/90deg y rotations,±5/0 offsets and
+0.5/1/1.5R radii. Three synthetic geometry contracts passed in cosmic_env.
+No catalogue scan, new inference, mock payload or job launch yet. Requires user
+approval for oneCPU node/64logical CPUs/desi/interactive/30min/scratch plus
+release only own allocation. Active chat profile mismatch reported, not changed.
+Concurrent untracked files preserved. No new spatial truth/field claim.
