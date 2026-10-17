@@ -18996,3 +18996,13 @@ No catalogue scan, new inference, mock payload or job launch yet. Requires user
 approval for oneCPU node/64logical CPUs/desi/interactive/30min/scratch plus
 release only own allocation. Active chat profile mismatch reported, not changed.
 Concurrent untracked files preserved. No new spatial truth/field claim.
+
+### 2026-10-17 — P12-A padded parent extracted and verified
+
+Approved CPU59904097/nid200020 completed0:0 (9s step,16s allocation); released
+automatically. Native escalation worked after bwrap sandbox directory failure;
+no profile/security changes. Parent180977 rows contains all4459 original targets.
+Fresh full VAC SHA256 before/after and posterior/encoder/manifest bindings pass;
+exact original IDs, positions, quality/support/Pfil reproduced. Off-slab geometry
+analysis remains pending; no wall interpretation or retraining conclusion yet.
+Receipt: GraphWeb docs/evidence/filament_parent_20261017/READY.json.
