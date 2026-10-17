@@ -19104,3 +19104,38 @@ and RSD are plausible contributors, not individually attributed causes. Prior
 full3Dresult rules out projection as sole explanation. No new model/training,
 sealedphase or populationprevalence claim from selectedexamples. GraphWeb
 report docs/filament_mock_examples_20261017.md, matching evidence/figures dirs.
+
+### 2026-10-17 — [P12-A morphology] Same-region real matter, thinning and RSD controls
+
+User requested dense realspace matter then DESIdensity thinning for same3regions.
+Fixed TARGETIDs6032112/3743465/1493453. Nativeph00610%A+B TSCgrid2048^3,
+.97656Mpc/h cells; publicHODgalaxiesZ_COSMO vsZ; actualobservedpositions replay.
+Matter-origin halfbox offset(+1000) verified16hosts/region; localgeometry-only
+transform heldoutmax<.00078Mpc. Nativehosttidaleigenvalues exact3centre replay.
+No label fitting, new model, sealedphase or CFSwrite.
+
+Dense real matter L=.547/.443/.587 (positiveexcessL=.646/.693/.769): resolved
+anisotropic structure exists even in truewallregions. AllavailablegalaxiesN46/29/25,
+realL=.687/.765/.565.512uniform countmatchedthinnings toobservedN17/14/13:
+medianL=.686/.741/.565; line-dominance503/512,504/512,422/512 (98.2/98.4/82.4%).
+UniformisotropicfiniteNreference itself gives28.7/41.8/46.5%line labels, so this
+covariance category is not a significance test. Matter-sampling controls retained.
+Thinning matches localobservedcounts, not fullDESIselection or globalnbar(z).
+
+ExactlysameobservedRS-selectedIDs realL->RSL: .6639->.6637(originalwallstring),
+.2926->.0424(previoussheetwall), .5990->.7620(truefilamenterror). Secondregion
+P=.4156->.6441, delta(P-L)+.4789, but membershipalsochanges: realN11 vsRSN14,
+10common/4RSonly/1realonly. Fixedreal11IDs remainline L=.637->.704. Therefore
+aperture/selection important; oldsheetgeometry not straightforward densematter
+sheet. Originalstring realstructureexists; alternatefixedreal23IDs RSDamplifies
+L=.544->.728, so do not say velocities have zeroeffect onwhole region. Filament
+errorRSDenhances genuineanisotropy. R7smoothdensitycov S>.91 for3cases illustrates
+scale/operator difference, not tidalclass change.
+
+4180independent SVD/repeateddraw/count/massshape checks pass; all3figurepages
+reviewed. CPU59905073/nid200071 released12min0:0 overall; corrected initialsyntax
+and overlytight grid-isotropyvalidator failures preserved in logs. Extract52s,
+analysis9s/v2repeat7s; finalfiguresvalid. GraphWebdocs/filament_realspace_20261017.md
+plusmatching evidence/figuresdirs; scratchfilament_realspace_20261017_v2 final.
+Largeinputfiles metadata/buildmanifestbound, not fullyrehashed. Nativegridreslimits,
+HOD/selection differences and3illustrative exposed-phasecases constrain inference.
