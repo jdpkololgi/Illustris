@@ -19034,3 +19034,48 @@ arrays and hashes committed in GraphWeb. Report docs/filament_offslab_results_20
 No catalogue/model change or retraining; full model-error cause remains unresolved.
 Next matched mock matter-truth control distinguishes true-wall tracer strings
 from excess model error; TARP does not certify visual correspondence or Loa transfer.
+
+### 2026-10-17 — [P12-A morphology] Mock truth control prepared; allocation approval pending
+
+User requested the same geometry test on mocks with tidal truth and approved
+necessary compute. Prepared GraphWeb workflows/p12a_vac/filament_geometry/mock_truth.py
+and docs/filament_mock_truth_20261017.md. Uses already-exposed ph006 evaluation
+rows/posterior draws and full canonical successful-redshift tracer context;
+original A06 target cuts and separately labelled local slabs, fixed geometry
+thresholds, natural shell weights and spatial-block intervals. Parent-ID/truth,
+coordinate and frozen-product hash assertions precede calculation. Syntax passes;
+no mock result, no misclassification verdict, no fresh sealed phase access.
+Automatic approval review rejected proposed oneCPU/64logicalCPU/desi/interactive/
+30min/scratch allocation because exact resource approval is required by workspace
+instructions. No allocation created and unrelated pending work untouched.
+
+### 2026-10-17 — [P12-A morphology] Mock truth: true walls commonly remain tracer strings
+
+Resource-specific user approval received; CPU59904645/nid200009 completed0:0
+and released after3m27s. Frozen already-exposed ph006 evaluation only, no sealed
+phase or retraining.21,052evaluation targets atz.2-.3,4,968,208full observed-context
+tracers atz.15-.55; sample/canonical parent-ID truth agreement and hashes pass.
+MainR=7/.6766Mpc,min8:4,521measurable truewalls are67.8%line/25.0%sheet weighted.
+968projected-string truewalls remain80.3%line/19.0%sheet in full3D. Thus tracer
+string morphology need not mean tidal-filament truth.
+
+772measurable projected-string,Pfil<.2,wallargmax predictions contain643truewalls,
+28filaments,101voids,0clusters. Weighted83.3%wall(95%blockCI80.5-86.1),3.6%filament
+(2.7-4.6),13.1%void. MeanPwall81.9%; truth-minus-probability+1.4pp[-.6,+3.6], no
+conditional mean evidence of wall overconfidence. All comparable wallpredictions
+83.1%wall/5.3%filament; overlapping/unmatched comparison, not causal significance.
+At1.5R all1,012boundary-cleared projected-wallstrings measurable:82.8%truewall,
+3.7%filament;65.2%line/25.9%sheet. Main min6/8/12truewallline69.2/67.8/65.3%.
+
+Headline uses target-centred20Mpc global-orientation slabs, not exactA06selection.
+OriginalA06cuts only52evaluationtargets,4eligible wallstrings across2blocks;
+all4truewall but too small for conclusion/reliable bootstrap intervals. Local
+centering reduces offslab effect; this tests geometry/truth correspondence, not
+replication of projection-loss magnitude. Stored native host matter-tidal labels
+not recomputed here; observed tracer covariance not tidal operator. Single
+model-selection-exposed phase; no DESIerrorrate or blindgeneralization claim.
+
+Three synthetic tests and1,080saved-array checks pass; figure visually reviewed.
+GraphWeb docs/filament_mock_truth_20261017.md, evidence and figures under matching
+filament_mock_truth_20261017 directories. Scientific conclusion: true-wall tracer
+strings dominate this mock cohort; appearance alone does not justify retraining.
