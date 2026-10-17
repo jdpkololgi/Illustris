@@ -19079,3 +19079,28 @@ Three synthetic tests and1,080saved-array checks pass; figure visually reviewed.
 GraphWeb docs/filament_mock_truth_20261017.md, evidence and figures under matching
 filament_mock_truth_20261017 directories. Scientific conclusion: true-wall tracer
 strings dominate this mock cohort; appearance alone does not justify retraining.
+
+### 2026-10-17 — [P12-A morphology] Three matched mock truth/prediction examples
+
+User requested physical explanation and galaxy/truth/P12-A side-by-side views.
+Selected median parent ID in three predeclared eligible ph006 cohorts: truewall
+withlinegeometry(pool522), truewallwithsheetgeometry(118), truefilament predicted
+wall(28). TARGETIDs6032112/3743465/1493453. No visual reselection. True eigenvalues
+[-.1215,.1057,.3121]/[-.2624,.1285,.3893]/[-.2317,.2177,.2791]; centralPwall
+.6641/.9180/.6738. Third is a real argmaxerror withlambda2only.0177above.2.
+FullRneighbours17/14/13, LPS(.664,.272,.064)/(.042,.644,.314)/(.762,.189,.049).
+
+Panels show exact20Mpcslab projectedradiusR and orthogonalfullRsphere, withsame
+positions across galaxy/truth/predictioncolumns within each row. Nativehostlabels
+shown atobservedpositions, not continuousmatterfield.133unique paddedneighbours;
+frozenFMPE512newCPUdraws using savedencoder/responsecontext;7originalevaluation
+probabilityvectors retained incl3centres. Alltruth/predictionsavailable.13context
+replayspass1e-6; fullgeometry/countreplayR/1.5R andprojectedstat1e-10pass. Figures
+visuallychecked. CPU59904866/nid2000140:0,35sinitial+3sfinalplot, released3m33s.
+
+Physical explanation distinguishes thresholded smoothedpotentialHessian from
+sparse observedgalaxy covariance. Multiscale substructure, sampling, projection
+and RSD are plausible contributors, not individually attributed causes. Prior
+full3Dresult rules out projection as sole explanation. No new model/training,
+sealedphase or populationprevalence claim from selectedexamples. GraphWeb
+report docs/filament_mock_examples_20261017.md, matching evidence/figures dirs.
