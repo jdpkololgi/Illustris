@@ -1,5 +1,34 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-20 — [review/decision] Galaxy-position repair ready for staged catalogue migration; retraining not yet ready
+
+Independent review of current implementation and saved evidence supports the
+all-population own-position R7 repair. Fresh rerun: 25 focused synthetic tests
+pass; 35 source/evidence/certificate/registry hashes and live source/field metadata
+bindings pass. Prior 619-row real-source CLI smoke is verified as saved evidence,
+not rerun. No full payload rehash, production rebuild or scheduler action today.
+
+Proceed with versioned catalogue repair on ph000/ph002–005 under approved compute;
+do not launch retraining yet. ph006 coordinate qualification is missing. P10
+still derives valid_target from BOX_INDEX>=0, fixes supervision at z0.15–0.55,
+and reads legacy P1/P4 paths. Synthetic valid-label rows at z0.08/0.12 remain
+inactive. New FITS alone cannot establish corrected training lineage or low-z
+support. Complete versioned target/cache/scaler/loader adapters and exact geometry,
+selection and fold reuse checks; freeze source and benchmark one complete phase.
+Keep a matched existing-range replacement separate from the low-z extension's
+selection/context/evaluation contract. Retrain label-dependent base models and
+out-of-fold summaries before the posterior; keep R7. Historical ph001 exposure
+cannot be reset by its sealed registry role. No new phase targets opened.
+
+October-17 mock true-wall fractions and named classification-error examples used
+legacy host truth: preserve as historical and re-evaluate under own-galaxy labels.
+Direct matter anisotropy and paired geometry are not automatically invalidated;
+tidal-class interpretations remain provisional. Direct-density field-model
+lineages are distinct and their previous calibration limitations still apply.
+
+Full review: `docs/galaxy_position_readiness_review_20261020.md`. Existing repair
+work remains unmodified; this review does not claim production replacements exist.
+
 ## 2026-10-14 — [science/code] Wholefield pilot analysis and checkpoint comparison complete
 
 All four 32-epoch fits and all 772 final-checkpoint case/NFE addresses are
