@@ -1,0 +1,14 @@
+# FMSU Tokyo presentation: source-verification notes
+
+Read-only lookup, 10 October 2026. The research-lookup skill's preferred `parallel-cli` executable was unavailable; primary sources were inspected with the available web/browser tools instead. These notes preserve the sources used in the presentation plan, not a new literature review.
+
+- [Conference overview](https://indico.ipmu.jp/event/522/overview): 26–30 October 2026, Kavli IPMU; relevant objectives concern observable robustness, tracer/scale dependence, reconstruction and galaxy evolution.
+- [Revised conference programme, 8 October](https://drive.google.com/file/d/1_C6Hndw4oT53IBn4h-3NPx93-TKWgcGV/view): browser-accessible PDF text, pp. 1–3. Long talks 12+3 minutes. Kololgi Monday 26 October 11:07–11:22 JST; Wallace immediately before, Hasan immediately after. Thiele 14:15–14:22; session discussion 14:29–14:59. Filament abstract explicitly credits Tastet as lead. Programme still describes the user's older graph-based method.
+- [Kololgi et al., RASTI 2026](https://academic.oup.com/rasti/article/doi/10.1093/rasti/rzag025/8554208), DOI [10.1093/rasti/rzag025](https://doi.org/10.1093/rasti/rzag025): published 28 March 2026; graph-based TNG300 environmental classification. Supports correcting the deck's 2025 publication-year label.
+- [Forero-Romero et al., A Dynamical Classification of the Cosmic Web](https://arxiv.org/abs/0809.4135), 2009 journal article: threshold-based tidal-web context. Identified through primary-source search.
+- [Leclercq, Jasche & Wandelt 2015](https://arxiv.org/abs/1502.02690), DOI [10.1088/1475-7516/2015/06/015](https://doi.org/10.1088/1475-7516/2015/06/015): Bayesian dynamical web analysis of SDSS; precedent for uncertainty-aware web classifications.
+- [Lipman et al., Flow Matching for Generative Modeling](https://arxiv.org/abs/2210.02747): generative flow-matching reference. Do not interpret learned transport time automatically as cosmological time.
+- [Lemos et al. 2023, Sampling-Based Accuracy Testing of Posterior Estimators for General Inference](https://arxiv.org/abs/2302.03026), [ICML proceedings](https://proceedings.mlr.press/v202/lemos23a.html): TARP reference. A mistakenly opened adjacent arXiv ID 2302.03027 was unrelated and was excluded.
+- [Thiele 2026, Bayesian Cosmic Void Finding with Graph Flows](https://arxiv.org/abs/2602.14630): v2 revised 17 April 2026; stochastic catalogue mapping with graph-network test-particle flow matching. This is a void paper; filament statements in the plan are attributed separately to the conference abstract.
+
+All project-specific numerical claims come from current SCIENCE_LOG and the linked local product/validation reports, not from these literature sources. Keynote was inspected via a 37-page rendered review export, with presenter notes, without editing the source deck. Static review does not validate animations/playback.
