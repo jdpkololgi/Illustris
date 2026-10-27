@@ -1,0 +1,169 @@
+{
+  "completed": true,
+  "job_id": "60008919",
+  "node": "nid200088",
+  "source": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000.fits",
+  "source_rows": 63897781,
+  "source_bytes": 6645378240,
+  "source_mtime_ns": 1706807554000000000,
+  "density": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/density_fields/AbacusSummit_base_c000_ph000_z0.200_ngrid_2048_10pc_density_field.npy",
+  "phase": "ph000",
+  "snapshot_z": 0.2,
+  "script_sha256": "7ff88c4419fb6e38a1f0b7d064ca67377ef9b1a20ef03bcb15e852deca4b6705",
+  "slice_depth_mpc_h": 14.6484375,
+  "width_mpc_h": 110.3515625,
+  "selection": "All source galaxies in exact unwrapped slabs; no additional magnitude or angular footprint cut; Z_COSMO < 0.65 prefilter",
+  "examples": [
+    {
+      "target_z": 0.08,
+      "center_source_row": 50730432,
+      "center_z": 0.0799064189195633,
+      "mean_density_mpc_h_minus3": 0.04369302621586655,
+      "expected_count_in_spherical_aperture": {
+        "2": 1.4641673618439743,
+        "4": 11.713338894751795,
+        "6": 39.53251876978731,
+        "7": 62.776175639060405
+      },
+      "n_galaxies": 7794,
+      "n_r_lt_19p5": 5814,
+      "z_min": 0.05445411801338196,
+      "z_max": 0.10638873279094696
+    },
+    {
+      "target_z": 0.25,
+      "center_source_row": 5289703,
+      "center_z": 0.2500009536743164,
+      "mean_density_mpc_h_minus3": 0.013493599448497663,
+      "expected_count_in_spherical_aperture": {
+        "2": 0.4521748575774244,
+        "4": 3.6173988606193954,
+        "6": 12.208721154590458,
+        "7": 19.38699701863207
+      },
+      "n_galaxies": 2407,
+      "n_r_lt_19p5": 1163,
+      "z_min": 0.22242262959480286,
+      "z_max": 0.2768534719944
+    },
+    {
+      "target_z": 0.5,
+      "center_source_row": 23608970,
+      "center_z": 0.4999896287918091,
+      "mean_density_mpc_h_minus3": 0.00044847858574150937,
+      "expected_count_in_spherical_aperture": {
+        "2": 0.015028661656083903,
+        "4": 0.12022929324867122,
+        "6": 0.4057738647142654,
+        "7": 0.6443538685045974
+      },
+      "n_galaxies": 80,
+      "n_r_lt_19p5": 7,
+      "z_min": 0.4745870530605316,
+      "z_max": 0.5243199467658997
+    }
+  ],
+  "density_preference": [
+    {
+      "density_edges": [
+        0.24869773723185062,
+        1.0498660245537756,
+        1.5986058582862217,
+        2.396322984695435,
+        4.0226951424280815,
+        217.12007772127788
+      ],
+      "pixel_counts": [
+        2554,
+        2554,
+        2553,
+        2554,
+        2554
+      ],
+      "galaxy_counts": [
+        160,
+        438,
+        981,
+        1752,
+        4463
+      ],
+      "relative_occupancy": [
+        0.10263502093552676,
+        0.28096336981100456,
+        0.629527458978207,
+        1.1238534792440182,
+        2.86287561522035
+      ]
+    },
+    {
+      "density_edges": [
+        0.15616544211904207,
+        1.1515011791388194,
+        1.7629698068896937,
+        2.681591397325198,
+        4.902402079105378,
+        263.79128510951995
+      ],
+      "pixel_counts": [
+        2554,
+        2554,
+        2553,
+        2554,
+        2554
+      ],
+      "galaxy_counts": [
+        2,
+        48,
+        142,
+        518,
+        1697
+      ],
+      "relative_occupancy": [
+        0.004154223894741876,
+        0.09970137347380503,
+        0.29506542723428253,
+        1.075943988738146,
+        3.5248589746884815
+      ]
+    },
+    {
+      "density_edges": [
+        0.2063978036865592,
+        0.9416320443153382,
+        1.4401647130648296,
+        2.167369755754869,
+        3.768354467749596,
+        125.54910467267037
+      ],
+      "pixel_counts": [
+        2554,
+        2554,
+        2553,
+        2554,
+        2554
+      ],
+      "galaxy_counts": [
+        0,
+        0,
+        1,
+        1,
+        78
+      ],
+      "relative_occupancy": [
+        0.0,
+        0.0,
+        0.0625195848021935,
+        0.0624951057165231,
+        4.874618245888802
+      ]
+    }
+  ],
+  "limitations": [
+    "Single phase and three fixed local volumes.",
+    "Flux-limited source; tracer density varies with redshift.",
+    "Density projection and galaxies use identical thickness and bounds.",
+    "Matter field fixed at snapshot z=0.2; this is not evolution validation.",
+    "Uniform-area reference is descriptive, not a survey-selection model."
+  ],
+  "sampling_script_sha256": "02687c37c96bb340c71344a62e42479e2a58917b118a9a2f3277fc6d059b2259"
+}

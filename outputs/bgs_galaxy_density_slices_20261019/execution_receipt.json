@@ -1,0 +1,24 @@
+{
+  "allocation": "60008919",
+  "released": true,
+  "node": "nid200088",
+  "elapsed": "00:03:50",
+  "plot_step": "COMPLETED 0:0, 3:39",
+  "local_smoothing_step": "COMPLETED 0:0, 0:06",
+  "graph_refresh": "FAILED 2:0: helper staged in login-node /tmp was unavailable on compute node; pending",
+  "aggregate_state": "FAILED due only to follow-on index step",
+  "render_correction": "Saved small slice arrays only; single-threaded, no catalogue or density-field rescan",
+  "files": {
+    "slice_0.npz": "5ba411d4e64d44b23ef949a107b1f8bdca6ccbbcc48739e3ecebeddb37315e8e",
+    "slice_1.npz": "928bc38fc039eeb985d4a6c5731fb580c53f8958c8264a83fdc72b4f6e59caed",
+    "03_smoothing_comparison.png": "4e1f73ec2a522083c992de329f9ea7a13c116ef40f25057ac1c96f371ae9aacf",
+    "01_galaxies_on_density.png": "addc87dc989ac2e05bf0d84b5dc9e170383df53ba31ae627fa688e2482c7ef00",
+    "02_density_preference.png": "4b622715b5c089d36a821e51c9c120c8a48dff0112b5f4ab17300106f0da21f8",
+    "slice_2.npz": "b11cfe52affa826e7096182d9777679fa283a34c63844712b692c3fc7964f4cf",
+    "01_galaxies_on_density.pdf": "280dac1e4a968f448a4327787cf15a6042ae6345b26418897beb026f1ced838e",
+    "03_smoothing_comparison.pdf": "f89f8231ad92a23c676fa4680980c0865f99dc8cea9cdfcfd9696bd5b4cd6d60",
+    "02_density_preference.pdf": "0a595601b83c4c12eeec680db20ddfc223fbab679e29bf6ee8a19c29e9a5106c",
+    "manifest.json": "0ecfa68a93b0e6e47394ef7f8429c929dc27432c7f118dd8189905d8711e4d37",
+    "smoothing_diagnostic.json": "243f0cc465ca16f5e0b5df32b7e46df0963223fa298a5173866a4cd5a4f4f2d1"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "allocation": "60008420",
+  "node": "nid200116",
+  "resources": {
+    "cpus": 8,
+    "memory_gb": 32,
+    "walltime_minutes": 15,
+    "account": "desi",
+    "qos": "interactive"
+  },
+  "tmux_session": "bgs-field-plots-20261019",
+  "released": true,
+  "elapsed": "00:01:39",
+  "plot_step": {
+    "state": "COMPLETED",
+    "exit": "0:0",
+    "elapsed": "00:01:33"
+  },
+  "graph_refresh_step": {
+    "state": "FAILED",
+    "exit": "1:0",
+    "error": "Filesystem flock failed with OSError 524; refresh remains pending"
+  },
+  "allocation_state": "FAILED due to graph refresh after successful plotting",
+  "layout_correction": "single-threaded rendering from saved paired samples; bounded native image patches, no repeated large field sampling",
+  "log": "outputs/bgs_field_alignment_20261019.log"
+}

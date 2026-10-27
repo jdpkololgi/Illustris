@@ -1,0 +1,12 @@
+{
+  "success": true,
+  "mode": "GRAPHIFY_OUT local staging with normal flock; original graph hash checked before publication",
+  "before_sha256": "2f3a10a1d2ff3a8e058554aaf7fd5cc4659bc4a8dbc493f818ff17cadd6c79ec",
+  "after_sha256": "b37138d8f6740277249e25758852815c8a3260b3af72af51d71d469451460f3d",
+  "changed_files": [
+    "plot_bgs_field_alignment.py",
+    "plot_bgs_galaxy_density_slices.py",
+    "inspect_bgs_smoothing_scales.py",
+    "plot_bgs_scale_support_redshift.py"
+  ]
+}
