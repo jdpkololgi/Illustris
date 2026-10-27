@@ -20092,7 +20092,6 @@ Final plots retain original analysis with corrected shared display limits;
 small evidence and figures hash-verified. Report in sibling GraphWeb_DESI:
 `docs/loa_matched_colour_20261016.md`.
 
-
 ## 2026-10-17 — [presentation] Three conditional density draws and one mock observation
 
 User requested a conceptual many-fields-to-one-observation diagram and a saved
@@ -20168,6 +20167,132 @@ Visual/export/hash/archive checks passed. No new inference/training/Slurm action
 Outputs: ~/fmsu_tokyo_20261010/{filament_and_local_geometry_20261017,
 a07_simplified_20261017}/. Script: workflows/presentation/tokyo_ssfr_variants_20261017.py.
 
+### 2026-10-17 — [P12-A morphology] Padded-parent preparation; compute gate pending
+
+User requested causal investigation of apparent strings versus lowPfil, with
+explicit resource approval before Slurm. Current verdict unresolved; no retraining
+justification from projected metric. Inspected current cached audits and production
+aggregation: strict per-draw lambda>.2 class counts, not posterior-mean class.
+Fresh shard aggregation, exact training operator normalization and preprocessing
+bindings remain open; inherited plotting integrity is not newly revalidated.
+GraphWeb `docs/filament_parent_stage_20261017.md` records scope and limitations.
+New fail-closed extractor pins full VAC/A06/model hashes, retains all tracers in
+320Mpc parent sphere centred(0,1025,0), exact original4459 row/coordinate/Pfil checks.
+Registered5/10/20/40/80Mpc depths,0/30/60/90deg y rotations,±5/0 offsets and
+0.5/1/1.5R radii. Three synthetic geometry contracts passed in cosmic_env.
+No catalogue scan, new inference, mock payload or job launch yet. Requires user
+approval for oneCPU node/64logical CPUs/desi/interactive/30min/scratch plus
+release only own allocation. Active chat profile mismatch reported, not changed.
+Concurrent untracked files preserved. No new spatial truth/field claim.
+
+### 2026-10-17 — P12-A padded parent extracted and verified
+
+Approved CPU59904097/nid200020 completed0:0 (9s step,16s allocation); released
+automatically. Native escalation worked after bwrap sandbox directory failure;
+no profile/security changes. Parent180977 rows contains all4459 original targets.
+Fresh full VAC SHA256 before/after and posterior/encoder/manifest bindings pass;
+exact original IDs, positions, quality/support/Pfil reproduced. Off-slab geometry
+analysis remains pending; no wall interpretation or retraining conclusion yet.
+Receipt: GraphWeb docs/evidence/filament_parent_20261017/READY.json.
+
+### 2026-10-17 — [P12-A] Off-slab geometry: partial projection effect, not majority sheets
+
+User-approved CPU comparison of frozen Loa parent180977/original4459 complete.
+Main297 projected-line-like Pfil<.2 wall-argmax targets: atR=7/.6766Mpc,244
+with>=8neighbours yield191line/49sheet/4isotropic covariance-dominance proxies;
+53too sparse. At1.5R all297 yield211/59/27. Main-radius sheet fraction~20–21%
+for minimum6/8/12. This is tracer geometry, NOT tidal truth or model-error rate.
+Paired193 targets: adding off-slab raises P-L+.1334,95%spatial-blockCI[.0764,.1939];
+matching counts with32random subsets gives+.1154,[.0665,.1646].27of178slab-lines
+become sheets,149remain lines. Thus meaningful projection effect, not sufficient
+explanation that most wall predictions are hidden sheets. Filament-argmax controls
+also lose elongation; unmatched density/mass and survey/RSD caveats remain.
+
+Same297 targets at20/40/80Mpc depths:288/63/9 projected-line-like; corresponding
+filament-control161/41/8of173. All-five-depth common wall cohort only3; recorded
+secondary20/40/80 comparison avoids changing denominator. Rotations/offsets
+reselect parent and retain eligibility transitions; do not interpret unpaired
+rotated fractions as a common-cohort effect. Original projected statistic
+reproduced to1e-10, exact IDs/probabilities and parent hash checked.
+
+Three synthetic contracts and183saved-array reconciliations pass. CPU59904230
+complete; validator59904267failed on empty-bin handling, fixed59904281complete.
+Allocations released. Three PNG/PDF figure pages visually reviewed, exact IDs/
+arrays and hashes committed in GraphWeb. Report docs/filament_offslab_results_20261017.md.
+No catalogue/model change or retraining; full model-error cause remains unresolved.
+Next matched mock matter-truth control distinguishes true-wall tracer strings
+from excess model error; TARP does not certify visual correspondence or Loa transfer.
+
+### 2026-10-17 — [P12-A morphology] Mock truth control prepared; allocation approval pending
+
+User requested the same geometry test on mocks with tidal truth and approved
+necessary compute. Prepared GraphWeb workflows/p12a_vac/filament_geometry/mock_truth.py
+and docs/filament_mock_truth_20261017.md. Uses already-exposed ph006 evaluation
+rows/posterior draws and full canonical successful-redshift tracer context;
+original A06 target cuts and separately labelled local slabs, fixed geometry
+thresholds, natural shell weights and spatial-block intervals. Parent-ID/truth,
+coordinate and frozen-product hash assertions precede calculation. Syntax passes;
+no mock result, no misclassification verdict, no fresh sealed phase access.
+Automatic approval review rejected proposed oneCPU/64logicalCPU/desi/interactive/
+30min/scratch allocation because exact resource approval is required by workspace
+instructions. No allocation created and unrelated pending work untouched.
+
+### 2026-10-17 — [P12-A morphology] Mock truth: true walls commonly remain tracer strings
+
+Resource-specific user approval received; CPU59904645/nid200009 completed0:0
+and released after3m27s. Frozen already-exposed ph006 evaluation only, no sealed
+phase or retraining.21,052evaluation targets atz.2-.3,4,968,208full observed-context
+tracers atz.15-.55; sample/canonical parent-ID truth agreement and hashes pass.
+MainR=7/.6766Mpc,min8:4,521measurable truewalls are67.8%line/25.0%sheet weighted.
+968projected-string truewalls remain80.3%line/19.0%sheet in full3D. Thus tracer
+string morphology need not mean tidal-filament truth.
+
+772measurable projected-string,Pfil<.2,wallargmax predictions contain643truewalls,
+28filaments,101voids,0clusters. Weighted83.3%wall(95%blockCI80.5-86.1),3.6%filament
+(2.7-4.6),13.1%void. MeanPwall81.9%; truth-minus-probability+1.4pp[-.6,+3.6], no
+conditional mean evidence of wall overconfidence. All comparable wallpredictions
+83.1%wall/5.3%filament; overlapping/unmatched comparison, not causal significance.
+At1.5R all1,012boundary-cleared projected-wallstrings measurable:82.8%truewall,
+3.7%filament;65.2%line/25.9%sheet. Main min6/8/12truewallline69.2/67.8/65.3%.
+
+Headline uses target-centred20Mpc global-orientation slabs, not exactA06selection.
+OriginalA06cuts only52evaluationtargets,4eligible wallstrings across2blocks;
+all4truewall but too small for conclusion/reliable bootstrap intervals. Local
+centering reduces offslab effect; this tests geometry/truth correspondence, not
+replication of projection-loss magnitude. Stored native host matter-tidal labels
+not recomputed here; observed tracer covariance not tidal operator. Single
+model-selection-exposed phase; no DESIerrorrate or blindgeneralization claim.
+
+Three synthetic tests and1,080saved-array checks pass; figure visually reviewed.
+GraphWeb docs/filament_mock_truth_20261017.md, evidence and figures under matching
+filament_mock_truth_20261017 directories. Scientific conclusion: true-wall tracer
+strings dominate this mock cohort; appearance alone does not justify retraining.
+
+### 2026-10-17 — [P12-A morphology] Three matched mock truth/prediction examples
+
+User requested physical explanation and galaxy/truth/P12-A side-by-side views.
+Selected median parent ID in three predeclared eligible ph006 cohorts: truewall
+withlinegeometry(pool522), truewallwithsheetgeometry(118), truefilament predicted
+wall(28). TARGETIDs6032112/3743465/1493453. No visual reselection. True eigenvalues
+[-.1215,.1057,.3121]/[-.2624,.1285,.3893]/[-.2317,.2177,.2791]; centralPwall
+.6641/.9180/.6738. Third is a real argmaxerror withlambda2only.0177above.2.
+FullRneighbours17/14/13, LPS(.664,.272,.064)/(.042,.644,.314)/(.762,.189,.049).
+
+Panels show exact20Mpcslab projectedradiusR and orthogonalfullRsphere, withsame
+positions across galaxy/truth/predictioncolumns within each row. Nativehostlabels
+shown atobservedpositions, not continuousmatterfield.133unique paddedneighbours;
+frozenFMPE512newCPUdraws using savedencoder/responsecontext;7originalevaluation
+probabilityvectors retained incl3centres. Alltruth/predictionsavailable.13context
+replayspass1e-6; fullgeometry/countreplayR/1.5R andprojectedstat1e-10pass. Figures
+visuallychecked. CPU59904866/nid2000140:0,35sinitial+3sfinalplot, released3m33s.
+
+Physical explanation distinguishes thresholded smoothedpotentialHessian from
+sparse observedgalaxy covariance. Multiscale substructure, sampling, projection
+and RSD are plausible contributors, not individually attributed causes. Prior
+full3Dresult rules out projection as sole explanation. No new model/training,
+sealedphase or populationprevalence claim from selectedexamples. GraphWeb
+report docs/filament_mock_examples_20261017.md, matching evidence/figures dirs.
+
 ### 2026-10-17 — [presentation] String-like wall main slide and matched sSFR overlay
 
 User requested genuine string-like tidalwall as main talk example, sheetlike wall
@@ -20191,6 +20316,41 @@ jointcellbalance and cell-only outcome equality pass. 4KPNG/vectorPDF/editableSV
 Outputs ~/fmsu_tokyo_20261010/talk_wall_overlay_20261017/; source GraphWeb_DESI/
 workflows/presentation/tokyo_wall_and_ssfr_overlay_20261017.py. Graphify unavailable;
 targeted inspection used. Original reports and scientific results unchanged.
+
+### 2026-10-17 — [P12-A morphology] Same-region real matter, thinning and RSD controls
+
+User requested dense realspace matter then DESIdensity thinning for same3regions.
+Fixed TARGETIDs6032112/3743465/1493453. Nativeph00610%A+B TSCgrid2048^3,
+.97656Mpc/h cells; publicHODgalaxiesZ_COSMO vsZ; actualobservedpositions replay.
+Matter-origin halfbox offset(+1000) verified16hosts/region; localgeometry-only
+transform heldoutmax<.00078Mpc. Nativehosttidaleigenvalues exact3centre replay.
+No label fitting, new model, sealedphase or CFSwrite.
+
+Dense real matter L=.547/.443/.587 (positiveexcessL=.646/.693/.769): resolved
+anisotropic structure exists even in truewallregions. AllavailablegalaxiesN46/29/25,
+realL=.687/.765/.565.512uniform countmatchedthinnings toobservedN17/14/13:
+medianL=.686/.741/.565; line-dominance503/512,504/512,422/512 (98.2/98.4/82.4%).
+UniformisotropicfiniteNreference itself gives28.7/41.8/46.5%line labels, so this
+covariance category is not a significance test. Matter-sampling controls retained.
+Thinning matches localobservedcounts, not fullDESIselection or globalnbar(z).
+
+ExactlysameobservedRS-selectedIDs realL->RSL: .6639->.6637(originalwallstring),
+.2926->.0424(previoussheetwall), .5990->.7620(truefilamenterror). Secondregion
+P=.4156->.6441, delta(P-L)+.4789, but membershipalsochanges: realN11 vsRSN14,
+10common/4RSonly/1realonly. Fixedreal11IDs remainline L=.637->.704. Therefore
+aperture/selection important; oldsheetgeometry not straightforward densematter
+sheet. Originalstring realstructureexists; alternatefixedreal23IDs RSDamplifies
+L=.544->.728, so do not say velocities have zeroeffect onwhole region. Filament
+errorRSDenhances genuineanisotropy. R7smoothdensitycov S>.91 for3cases illustrates
+scale/operator difference, not tidalclass change.
+
+4180independent SVD/repeateddraw/count/massshape checks pass; all3figurepages
+reviewed. CPU59905073/nid200071 released12min0:0 overall; corrected initialsyntax
+and overlytight grid-isotropyvalidator failures preserved in logs. Extract52s,
+analysis9s/v2repeat7s; finalfiguresvalid. GraphWebdocs/filament_realspace_20261017.md
+plusmatching evidence/figuresdirs; scratchfilament_realspace_20261017_v2 final.
+Largeinputfiles metadata/buildmanifestbound, not fullyrehashed. Nativegridreslimits,
+HOD/selection differences and3illustrative exposed-phasecases constrain inference.
 
 ### 2026-10-17 — [presentation] Extend sSFR curve with measured high-trace bin
 
