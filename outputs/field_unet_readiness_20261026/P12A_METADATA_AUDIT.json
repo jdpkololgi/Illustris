@@ -1,0 +1,328 @@
+{
+  "schema": "p12a-corrected-field-encoder-readiness-v1",
+  "created_utc": "2026-10-26T05:57:34.619190+00:00",
+  "roles": {
+    "fresh_initialization_required": true,
+    "ph000_scores_are_independent_generalisation_evidence": false,
+    "ph001_scores_are_fresh_blind_evidence": false,
+    "phase_balanced_sampling": true,
+    "phase_is_model_input": false,
+    "reserved_confirmation": [
+      "ph014",
+      "ph015",
+      "ph016",
+      "ph017",
+      "ph018",
+      "ph019"
+    ],
+    "sealed_blind_test": [
+      "ph001"
+    ],
+    "training": [
+      "ph000",
+      "ph002",
+      "ph003",
+      "ph004",
+      "ph005",
+      "ph007",
+      "ph008",
+      "ph009",
+      "ph010",
+      "ph011",
+      "ph020",
+      "ph021",
+      "ph022",
+      "ph023",
+      "ph024"
+    ],
+    "validation_and_selection": [
+      "ph006",
+      "ph012",
+      "ph013"
+    ]
+  },
+  "contract": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021",
+  "contract_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+  "visible_phase_metadata": {
+    "ph000": {
+      "phase_contract_sha256": "5fbb4648ad32bf3340a7ef4db311a3942a41a31924f94ba36feebdf58ef9cab7",
+      "eligible_cores": 16921,
+      "authoritative_rows": 4904051,
+      "truth_lineage": {
+        "annotation_receipt_sha256": "ef2cb00f0563b3db1560f7be2942d9f1bc236cbfae2b48f628a7eb969c69b7e0",
+        "independent_status_masks_truth": false,
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/catalogues/ph000_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "b0c1c246f8784933130510a56fd22522df38422a1a67005566b19fb4cd603572",
+        "observed_sha256": "9239e9cf2f4c524b1d3c7a02c503e7b293cfcd595101bd8d92aecf98664ce847",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+      }
+    },
+    "ph002": {
+      "phase_contract_sha256": "87df427e393916ef4c17d9c1be2685c494a1a38c531eb2cd35574af3fb1a9c05",
+      "eligible_cores": 16768,
+      "authoritative_rows": 4929962,
+      "truth_lineage": {
+        "annotation_receipt_sha256": "027ae4b7a7b048773a090c85bb5be7e73726803ccf0fac2d21645e621043d5fd",
+        "independent_status_masks_truth": false,
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/replacement/ph002/catalogues/ph002_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "d1f63f523311be7588504390156f66a9f6f745ca69c2f74f5279d3ba1a181b85",
+        "observed_sha256": "d11045ae702cb49e418fe53c834ec9eaa255884910472d46102b131715097712",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+      }
+    },
+    "ph003": {
+      "phase_contract_sha256": "11d109c29d1e2e7017509409632bb1991b2bf66d4430574f89c77bfdda31d6e2",
+      "eligible_cores": 16890,
+      "authoritative_rows": 4898606,
+      "truth_lineage": {
+        "annotation_receipt_sha256": "9b537033ff02bc15b6fd7272ee6a0c4738079a8cdf3abd069d1c580838a40a27",
+        "independent_status_masks_truth": false,
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph003/catalogues/ph003_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "62949afd0657c79b01ab898ea6ad93b1c671c7b78971b609edf942d837dd08b2",
+        "observed_sha256": "3c60498caf5ed2613f0f0948b4fc88f824c9d3484f2fdb3080698519fd7c6183",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+      }
+    },
+    "ph004": {
+      "phase_contract_sha256": "3b1661137819d9a45b60164e040c544c2297a6c5f01511dd3dde3c6552d33712",
+      "eligible_cores": 16793,
+      "authoritative_rows": 4869091,
+      "truth_lineage": {
+        "annotation_receipt_sha256": "b2d7dfd7c58d9bc872186857f92bbddbbd2dd85cac6d5b754edcc72e37f78fb7",
+        "independent_status_masks_truth": false,
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph004/catalogues/ph004_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "a375062247eac43f0dc07843ff522d6f1f19b114b94ffc43ef7f36e5d34ddf90",
+        "observed_sha256": "e6e3626e2bf6bb649dfa6cf9066e5823eb8cfb38e69f017950950cf757377d63",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+      }
+    },
+    "ph005": {
+      "phase_contract_sha256": "026b2ed4b560c4cea0b3496cddd3e7504d208a499dba292256af5acbf0174cc4",
+      "eligible_cores": 16793,
+      "authoritative_rows": 4942035,
+      "truth_lineage": {
+        "annotation_receipt_sha256": "bc9d5ecf08fb35c61baeb7b95f8a0e5c6ebe59afbf79c405e0beeedffd8e5df1",
+        "independent_status_masks_truth": false,
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph005/catalogues/ph005_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "5306939c0fc3f909824642864271e1ad3c138319c63cff5bafa54fee0f3eac34",
+        "observed_sha256": "49b99d218f1cbdd9151797edb75b97c64b04e5721c90303b807dd717a5ad8f9f",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+      }
+    },
+    "ph007": {
+      "phase_contract_sha256": "7f171da2495a4c09c788b43d387cde27f1d9d72a1aef41a0d00e988d6c51a510",
+      "eligible_cores": 16844,
+      "authoritative_rows": 4918772,
+      "truth_lineage": {
+        "annotation_receipt_sha256": "183157e734e4739a4e64ff0f082d1e153d992908ce810b9b808f8dee4232d810",
+        "independent_status_masks_truth": false,
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/catalogues/ph007_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "510a58279447202b41513a716c4f2cbefd59680e648d4fcceba302b6e2bd17e0",
+        "observed_sha256": "a7b600a553e8ed24e8ae51ee53192d21bc1cc80a5613c6db8dae2c3aae03d1a9",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+      }
+    },
+    "ph008": {
+      "phase_contract_sha256": "7149b77a4ad7e8f2175637b29deeefa68d08c3f29299a3168c2cb164a77e9ee3",
+      "eligible_cores": 16876,
+      "authoritative_rows": 4948899,
+      "truth_lineage": {
+        "annotation_receipt_sha256": "26054b44b01100b7f850d2ce79031aa3c8441d050300dccd7970b10e06417a08",
+        "independent_status_masks_truth": false,
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph008/catalogues/ph008_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "ae10ef7b0646e884af9ac56598f00b01b591f6635f5c56e76394faacf4152579",
+        "observed_sha256": "4a3757d9c7a033c443999b4aea2123c288adffd5e2436d36df7f67ddbaae9ef4",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+      }
+    },
+    "ph009": {
+      "phase_contract_sha256": "c04f586de9724bab855417d51b624e30eb506c45068e58f9df381acfc745f805",
+      "eligible_cores": 16816,
+      "authoritative_rows": 4901618,
+      "truth_lineage": {
+        "annotation_receipt_sha256": "aa18d0c4ec8fa38420acddf7797431e5ee71655af8faf33039d66c36365f8ad3",
+        "independent_status_masks_truth": false,
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph009/catalogues/ph009_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "3ba253e4fe55d6fd01eb513e9a8e6f2ea0266781883ffa261245c624c205fea1",
+        "observed_sha256": "e6b1508bad66689134a305c85c5fd0ccadd1f42cbf3e712129e9731a667c4c8a",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+      }
+    },
+    "ph010": {
+      "phase_contract_sha256": "b955c753746731955980735c48073548449d99038133e6c0e88b93d709a765d5",
+      "eligible_cores": 16797,
+      "authoritative_rows": 4903740,
+      "truth_lineage": {
+        "annotation_receipt_sha256": "a3f6cc3d7c6352379d2e08be55594338bfe02ea973a134931e5b8f1fc982fafa",
+        "independent_status_masks_truth": false,
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph010/catalogues/ph010_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "12f9b2695bd8686c4bf3226b5cde9e61ce70eaf2b4631d01c06cca6e29cde174",
+        "observed_sha256": "9f3f53c9c67a78f1a5b8233af7ea8f41648ce45c1473ba0497c6f78d89f357b1",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+      }
+    },
+    "ph011": {
+      "phase_contract_sha256": "64464b7a86bad11e8354d0d3876e758240c451d5cf6f5a05316986d3bc8ca804",
+      "eligible_cores": 16825,
+      "authoritative_rows": 4890879,
+      "truth_lineage": {
+        "annotation_receipt_sha256": "4eb2dc92a200d0bf00d34524dd9822a3bb124f871e781c51a62d80c9ac876102",
+        "independent_status_masks_truth": false,
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph011/catalogues/ph011_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "ad28e1ca3ce7b58e54328da7a042d26b5df2ab48315bceb8d0bff6cd728b68b5",
+        "observed_sha256": "f16ecc2e6498f832eca87b0309125c7e56e4cf6ba8b92c843272cd34d29aff1b",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+      }
+    },
+    "ph020": {
+      "phase_contract_sha256": "70ae8e3514cc3b46a0bd79f0ef67bcb4cc1908a3ab80d887b7ca0ca1dbdd3b6a",
+      "eligible_cores": 16841,
+      "authoritative_rows": 4926173,
+      "truth_lineage": {
+        "annotation_receipt_sha256": "8b4d51715e73be15cbd9df2e7db6181a0165434ab5f9b26e80820604eeccc4f1",
+        "independent_status_masks_truth": false,
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph020/catalogues/ph020_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "37872f324bdc57342418d735a41f8f01ddf1dad2066184008197fcb4341bdef2",
+        "observed_sha256": "242fbfb235ed7cb40116d4f051f06c89472c21fd153e480d44e61e19806347f0",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+      }
+    },
+    "ph021": {
+      "phase_contract_sha256": "5a6613a4999f73b278fafb94c9d152050bb210d4e8d726bf708354cc73e65833",
+      "eligible_cores": 16838,
+      "authoritative_rows": 4930940,
+      "truth_lineage": {
+        "annotation_receipt_sha256": "57e85d080d1acde957d0d0fab0934e71835b34166a44331f675b4fd5eda57610",
+        "independent_status_masks_truth": false,
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph021/catalogues/ph021_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "b24792447dd8bb9fcd2b48d32cc7d1f9e338d9c5342e22bd97cd871722f9a120",
+        "observed_sha256": "3a8cb2120d9bb697702083de76d608643855cf1f9eae10aa09e6ae076df1eb62",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+      }
+    },
+    "ph022": {
+      "phase_contract_sha256": "d83d0e6d46387cdc983a7c0a97a981e0adba12ef54926c808c049518e3665f2d",
+      "eligible_cores": 16822,
+      "authoritative_rows": 4895243,
+      "truth_lineage": {
+        "annotation_receipt_sha256": "200647214ef45c187754521501d1cb9aa569b8d30037fdb72ba7952b580124da",
+        "independent_status_masks_truth": false,
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph022/catalogues/ph022_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "0eb287b82222eaa4916278567f953c22b0051a807fb983eec4c37d378fdd4b4c",
+        "observed_sha256": "964d50824d1760fa99dcc5cadcb34bc9c3f0b5b28df9cf74662c4a64fef10828",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+      }
+    },
+    "ph023": {
+      "phase_contract_sha256": "59a5ff801c45a9a5fad17dc06cdf431296a0b2072543d0b576c5d9c77db72138",
+      "eligible_cores": 16840,
+      "authoritative_rows": 4897142,
+      "truth_lineage": {
+        "annotation_receipt_sha256": "82463b11e5f749d6f037f35ce81d1f49d7eaea8e2472dcaf00aa5b226962a1f1",
+        "independent_status_masks_truth": false,
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph023/catalogues/ph023_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "221d8f7b9dea73d3f21e16d85c866b6958efa2ec5e71869d0521e531a08a4666",
+        "observed_sha256": "cd42c0312e76d26458c36a495b19ee0498e3820f3c0f1a97634c7505ad10dbcb",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+      }
+    },
+    "ph024": {
+      "phase_contract_sha256": "3c06d9144115eb45e11804cab70bf2dc441308b703ba1494f37e837f320fcb79",
+      "eligible_cores": 16773,
+      "authoritative_rows": 4929249,
+      "truth_lineage": {
+        "annotation_receipt_sha256": "6176b427eb4048a689579fed9e42755003eb9bf90ea001e474180e3716026b63",
+        "independent_status_masks_truth": false,
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph024/catalogues/ph024_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "0d66e3b6cbb62c638c6f04477ddd18eea57cd3e8644417c05ffeaa016efdb7c3",
+        "observed_sha256": "c12f908a2392ef0f4fa9a660f3a48795ed9d38686dde50493bfa5d5f36331787",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+      }
+    },
+    "ph006": {
+      "phase_contract_sha256": "bebec6d58bad0a85628249e2969838aa373eebd26efcd18f490bb3430df10dae",
+      "eligible_cores": 16796,
+      "authoritative_rows": 4908831,
+      "truth_lineage": {
+        "annotation_receipt_sha256": "bf506d7368a24422cdf3538d93f004d2b207f4fa86117d398edb1958fb358481",
+        "independent_status_masks_truth": false,
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph006/catalogues/ph006_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "9d6a4256c7d1ac1cab404f42d75dbc0dd720d53d2a9eef848edf0fffefd092a1",
+        "observed_sha256": "fb8298a7a8598c56e017ca6770493e6c1c9229363d0515b7105322e085b1b40c",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+      }
+    },
+    "ph012": {
+      "phase_contract_sha256": "5cbc6d5fcae5a2d688ea9e2810c9bd864823f3bec76048a58dc5f0a0d7fb3224",
+      "eligible_cores": 16819,
+      "authoritative_rows": 4943359,
+      "truth_lineage": {
+        "annotation_receipt_sha256": "5b4da4a0ce5c9630ad0d1e7ade94136b54fc6686d55d067572f7edea97c16bca",
+        "independent_status_masks_truth": false,
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph012/catalogues/ph012_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "d35b774225cfc3d37955258b2ee4a3fef63fc52e3ae6fa7cfa89013d785ce621",
+        "observed_sha256": "a72822f40622ab515e2c7784f2b10bc17ae7296266e99cbceb66821923bbaaa9",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+      }
+    },
+    "ph013": {
+      "phase_contract_sha256": "81193918bf50d961839f5126155981cf3bbde9b6ab973bbc74eb70bbe4930c0f",
+      "eligible_cores": 16919,
+      "authoritative_rows": 4922244,
+      "truth_lineage": {
+        "annotation_receipt_sha256": "c888a4cd0f91b00994e0eb5347af310dbc8c9c2f861341d3dd5807b72e440c2c",
+        "independent_status_masks_truth": false,
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph013/catalogues/ph013_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "bbf6fd933105cb2b1e6a568933af3daf98800259a711fd2c6011fbadf94f19d5",
+        "observed_sha256": "c16959a81ffb6af09de20b777e9fd478b8eff6e5bb12afc6a9dcfd73c6c49085",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+      }
+    }
+  },
+  "metadata_pass": true,
+  "encoder_training_ready": false,
+  "p12a_posterior_training_ready": false,
+  "posterior_prerequisites": [
+    "Versioned cross-fit contracts for the expanded roles; existing builder defaults to five old phases",
+    "Fresh corrected-label full and out-of-fold U-PATCH fits",
+    "New halo48 per-galaxy base predictions and response-feature dataset with corrected targets",
+    "Versioned multi-phase posterior calibration/selection contract before FMPE fitting"
+  ],
+  "existing_models_unchanged": true
+}

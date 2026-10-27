@@ -1,0 +1,34 @@
+{
+  "schema_version": "p12a-corrected-expanded-inputs-v1",
+  "full_contract": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021",
+  "full_contract_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+  "crossfit_contracts": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_crossfit_20261026_v1",
+  "summaries": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_halo48_summaries_20261026_v1",
+  "response_contract": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_response_inputs_20261026_v1",
+  "response_cache": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_response_parent_cache_20261026_v1",
+  "dataset_root": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_posterior_inputs_20261026_v1",
+  "calibration_folds": [
+    0,
+    1
+  ],
+  "evaluation_folds": [
+    2,
+    3,
+    4
+  ],
+  "calibration_scope": "same disjoint fold policy separately in ph006/ph012/ph013; phase-cap-superblock identity",
+  "context_halo_voxels": 48,
+  "oof_checkpoint_policy": "terminal_fixed_budget",
+  "full_checkpoint_policy": "registered selection phases; never confirmation",
+  "feature_names": [
+    "base_lambda1",
+    "base_lambda2",
+    "base_lambda3",
+    "redshift",
+    "log_ntilde_mpc3",
+    "cap_ngc",
+    "log1p_random_support_boundary_distance_mpc"
+  ],
+  "reserved_opened": false,
+  "scientific_training_authorized_by_this_config": false
+}

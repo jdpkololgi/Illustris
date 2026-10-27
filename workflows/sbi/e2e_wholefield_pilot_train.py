@@ -131,6 +131,10 @@ def update(model, ema, optimizer, weight, x, condition, seed, step):
 
 
 def setup(seed):
+    # Attention and other CUDA kernels need the global policy as well as cuDNN.
+    import os
+    os.environ['CUBLAS_WORKSPACE_CONFIG'] = ':4096:8'
+    torch.use_deterministic_algorithms(True)
     c.require_compute()
     if not torch.cuda.is_available() or torch.cuda.device_count() != 1:
         raise RuntimeError('Exactly one allocated GPU required')
@@ -162,13 +166,28 @@ def development(ema, chart, weight, cache=None):
                 scope='held-out velocity loss, not posterior calibration')
 
 
-def run(architecture, prediction, seed, seconds, stop_step=STEPS):
+def validate_source_revision(parent, current, revision):
+    expected = dict(parent)
+    for name, binding in revision.get('sources', {}).items():
+        if name not in expected or expected[name] != binding['parent_sha256']:
+            raise ValueError('Wrong parent source revision')
+        expected[name] = binding['sha256']
+    if expected != current:
+        raise ValueError('Full-shape engineering check source mismatch')
+
+
+def run(architecture, prediction, seed, seconds, stop_step=STEPS,
+        output_root=None, source_revision=None):
     if seed not in (17, 29) or not 1 <= stop_step <= STEPS:
         raise ValueError('Unregistered training seed/stop')
     setup(seed)
     checked = json.loads((ROOT/'smoke/COMPLETE.json').read_text())
-    if not checked['passed'] or checked['sources'] != sources():
-        raise ValueError('Full-shape engineering check source mismatch')
+    if not checked['passed']:
+        raise ValueError('Parent engineering check failed')
+    revision = json.loads(Path(source_revision).read_text()) if source_revision else {}
+    validate_source_revision(checked['sources'], sources(), revision)
+    if revision and (output_root is None or Path(output_root).resolve() == (ROOT/'fits').resolve()):
+        raise ValueError('Numerical revision requires a separate output root; historical fits are immutable')
     selection_path = ROOT/'gaussian/COMPLETE.json'
     selection = json.loads(selection_path.read_text())
     if selection['selection'][architecture]['selected_prediction'] != prediction:
@@ -183,7 +202,10 @@ def run(architecture, prediction, seed, seconds, stop_step=STEPS):
                  data={p: c.sha256(ROOT/'data'/p/'COMPLETE.json') for p in c.TRAIN},
                  selection=c.sha256(selection_path), engineering=c.sha256(ROOT/'smoke/COMPLETE.json'),
                  precision='bf16 forward, float32 loss and optimizer', sealed_access=False)
-    root = ROOT/'fits'/f'{architecture}_{prediction}_{seed}'
+    if source_revision:
+        bound['numerical_revision_sha256'] = c.sha256(Path(source_revision))
+        bound['numerical_policy'] = 'strict deterministic CUDA; TF32 disabled'
+    root = (Path(output_root) if output_root else ROOT/'fits')/f'{architecture}_{prediction}_{seed}' 
     root.mkdir(parents=True, exist_ok=True)
     binding = root/'BINDING.json'
     if binding.exists():
@@ -242,4 +264,6 @@ if __name__ == '__main__':
     parser.add_argument('--seed', type=int, choices=(17, 29), required=True)
     parser.add_argument('--seconds', type=int, default=6600)
     parser.add_argument('--stop-step', type=int, default=STEPS)
+    parser.add_argument('--output-root', type=Path)
+    parser.add_argument('--source-revision', type=Path)
     args = parser.parse_args(); run(**vars(args))

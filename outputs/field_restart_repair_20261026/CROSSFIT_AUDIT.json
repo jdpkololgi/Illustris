@@ -1,0 +1,305 @@
+{
+  "pass": true,
+  "folds": {
+    "ph000": {
+      "marker_sha256": "d4f0c02d099a3ce144f3172400636cc6a4ef7bb7b477671bb91653b0978f11dc",
+      "training_phases": [
+        "ph002",
+        "ph003",
+        "ph004",
+        "ph005",
+        "ph007",
+        "ph008",
+        "ph009",
+        "ph010",
+        "ph011",
+        "ph020",
+        "ph021",
+        "ph022",
+        "ph023",
+        "ph024"
+      ],
+      "pass": true
+    },
+    "ph002": {
+      "marker_sha256": "e0f12a5502e36704c55b31a327afce537465c0d8a94a7a3c1ead1c5c08c76906",
+      "training_phases": [
+        "ph000",
+        "ph003",
+        "ph004",
+        "ph005",
+        "ph007",
+        "ph008",
+        "ph009",
+        "ph010",
+        "ph011",
+        "ph020",
+        "ph021",
+        "ph022",
+        "ph023",
+        "ph024"
+      ],
+      "pass": true
+    },
+    "ph003": {
+      "marker_sha256": "8e5f56c89fe5e6561a9a7f1d67c4b58a0ca310a534ac3b18c99301f6a67bc608",
+      "training_phases": [
+        "ph000",
+        "ph002",
+        "ph004",
+        "ph005",
+        "ph007",
+        "ph008",
+        "ph009",
+        "ph010",
+        "ph011",
+        "ph020",
+        "ph021",
+        "ph022",
+        "ph023",
+        "ph024"
+      ],
+      "pass": true
+    },
+    "ph004": {
+      "marker_sha256": "4d50f2a42e7253d011352850005733a61d3a0fff626d8bb48514fef06d9efd2d",
+      "training_phases": [
+        "ph000",
+        "ph002",
+        "ph003",
+        "ph005",
+        "ph007",
+        "ph008",
+        "ph009",
+        "ph010",
+        "ph011",
+        "ph020",
+        "ph021",
+        "ph022",
+        "ph023",
+        "ph024"
+      ],
+      "pass": true
+    },
+    "ph005": {
+      "marker_sha256": "11d5998c2876143da5154b7eb8bf8b3f46e037f9619570e95d61db63a7c84c3d",
+      "training_phases": [
+        "ph000",
+        "ph002",
+        "ph003",
+        "ph004",
+        "ph007",
+        "ph008",
+        "ph009",
+        "ph010",
+        "ph011",
+        "ph020",
+        "ph021",
+        "ph022",
+        "ph023",
+        "ph024"
+      ],
+      "pass": true
+    },
+    "ph007": {
+      "marker_sha256": "cb3b11dea536f375c4a6167080e59a99f6fac6b4111947a6e5196f5320cf4a7f",
+      "training_phases": [
+        "ph000",
+        "ph002",
+        "ph003",
+        "ph004",
+        "ph005",
+        "ph008",
+        "ph009",
+        "ph010",
+        "ph011",
+        "ph020",
+        "ph021",
+        "ph022",
+        "ph023",
+        "ph024"
+      ],
+      "pass": true
+    },
+    "ph008": {
+      "marker_sha256": "1bd4cd1563667da0360e0084665ad97f972ae6b364b48c9292556efef995388e",
+      "training_phases": [
+        "ph000",
+        "ph002",
+        "ph003",
+        "ph004",
+        "ph005",
+        "ph007",
+        "ph009",
+        "ph010",
+        "ph011",
+        "ph020",
+        "ph021",
+        "ph022",
+        "ph023",
+        "ph024"
+      ],
+      "pass": true
+    },
+    "ph009": {
+      "marker_sha256": "05bc89ac5a75687fb2c0d74bc00c6e96a4eeab589e2a7a0d83d934ba2112e9c4",
+      "training_phases": [
+        "ph000",
+        "ph002",
+        "ph003",
+        "ph004",
+        "ph005",
+        "ph007",
+        "ph008",
+        "ph010",
+        "ph011",
+        "ph020",
+        "ph021",
+        "ph022",
+        "ph023",
+        "ph024"
+      ],
+      "pass": true
+    },
+    "ph010": {
+      "marker_sha256": "bfc28e7a235261c44183f82ac21f3cd28c25aaef92a6320b645825cc6eb3f53f",
+      "training_phases": [
+        "ph000",
+        "ph002",
+        "ph003",
+        "ph004",
+        "ph005",
+        "ph007",
+        "ph008",
+        "ph009",
+        "ph011",
+        "ph020",
+        "ph021",
+        "ph022",
+        "ph023",
+        "ph024"
+      ],
+      "pass": true
+    },
+    "ph011": {
+      "marker_sha256": "18558f849c3417df865a9f495d5dc39bed61e398290182676d4b81e91e679f0f",
+      "training_phases": [
+        "ph000",
+        "ph002",
+        "ph003",
+        "ph004",
+        "ph005",
+        "ph007",
+        "ph008",
+        "ph009",
+        "ph010",
+        "ph020",
+        "ph021",
+        "ph022",
+        "ph023",
+        "ph024"
+      ],
+      "pass": true
+    },
+    "ph020": {
+      "marker_sha256": "7c8e4050da180da5b99120aa8709f37b690fa891e6beb04ab7314caeaa52a94b",
+      "training_phases": [
+        "ph000",
+        "ph002",
+        "ph003",
+        "ph004",
+        "ph005",
+        "ph007",
+        "ph008",
+        "ph009",
+        "ph010",
+        "ph011",
+        "ph021",
+        "ph022",
+        "ph023",
+        "ph024"
+      ],
+      "pass": true
+    },
+    "ph021": {
+      "marker_sha256": "3f1e70e1fbf9db06ae9ec0b55438c094b56bdacdf54a79b604d1258ca3c08b8e",
+      "training_phases": [
+        "ph000",
+        "ph002",
+        "ph003",
+        "ph004",
+        "ph005",
+        "ph007",
+        "ph008",
+        "ph009",
+        "ph010",
+        "ph011",
+        "ph020",
+        "ph022",
+        "ph023",
+        "ph024"
+      ],
+      "pass": true
+    },
+    "ph022": {
+      "marker_sha256": "a34ffa81d64704ecc5a321aca0f629d26d218c67111f9560835d2dad16077909",
+      "training_phases": [
+        "ph000",
+        "ph002",
+        "ph003",
+        "ph004",
+        "ph005",
+        "ph007",
+        "ph008",
+        "ph009",
+        "ph010",
+        "ph011",
+        "ph020",
+        "ph021",
+        "ph023",
+        "ph024"
+      ],
+      "pass": true
+    },
+    "ph023": {
+      "marker_sha256": "dd42574ad015cf13371618f04afd55e910920fd0e986e300ca1bfd9ad8c0ff57",
+      "training_phases": [
+        "ph000",
+        "ph002",
+        "ph003",
+        "ph004",
+        "ph005",
+        "ph007",
+        "ph008",
+        "ph009",
+        "ph010",
+        "ph011",
+        "ph020",
+        "ph021",
+        "ph022",
+        "ph024"
+      ],
+      "pass": true
+    },
+    "ph024": {
+      "marker_sha256": "3b64f1fb915964aeb198aaf8e7077c2bc02673c2b412a9e6ae69b96b9e25ad15",
+      "training_phases": [
+        "ph000",
+        "ph002",
+        "ph003",
+        "ph004",
+        "ph005",
+        "ph007",
+        "ph008",
+        "ph009",
+        "ph010",
+        "ph011",
+        "ph020",
+        "ph021",
+        "ph022",
+        "ph023"
+      ],
+      "pass": true
+    }
+  }
+}

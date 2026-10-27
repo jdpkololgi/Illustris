@@ -1,0 +1,133 @@
+{
+  "pass": true,
+  "panels": [
+    {
+      "phase": "ph000",
+      "core": 9383,
+      "galaxies": 135,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph002",
+      "core": 9290,
+      "galaxies": 60,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph003",
+      "core": 9415,
+      "galaxies": 2,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph004",
+      "core": 9354,
+      "galaxies": 28,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph005",
+      "core": 9339,
+      "galaxies": 191,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph007",
+      "core": 9383,
+      "galaxies": 1,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph008",
+      "core": 9357,
+      "galaxies": 35,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph009",
+      "core": 9314,
+      "galaxies": 57,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph010",
+      "core": 9329,
+      "galaxies": 13,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph011",
+      "core": 9357,
+      "galaxies": 75,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph020",
+      "core": 9380,
+      "galaxies": 6,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph021",
+      "core": 9320,
+      "galaxies": 9,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph022",
+      "core": 9364,
+      "galaxies": 14,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph023",
+      "core": 9323,
+      "galaxies": 116,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph024",
+      "core": 9359,
+      "galaxies": 2,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph006",
+      "core": 9300,
+      "galaxies": 15,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph012",
+      "core": 9328,
+      "galaxies": 108,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph013",
+      "core": 9360,
+      "galaxies": 503,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    }
+  ],
+  "replay_pass": false,
+  "training_ready": false
+}

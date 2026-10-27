@@ -85,13 +85,20 @@ class UNet3D(nn.Module):
 
     @staticmethod
     def up(values: torch.Tensor, reference: torch.Tensor) -> torch.Tensor:
+        if torch.are_deterministic_algorithms_enabled():
+            from shared.deterministic_interpolation import resize_trilinear
+            return resize_trilinear(values, reference.shape[2:])
         return F.interpolate(values, size=reference.shape[2:], mode="trilinear", align_corners=False)
 
     def forward(self, values: torch.Tensor) -> torch.Tensor:
+        pool = self.pool
+        if torch.are_deterministic_algorithms_enabled():
+            from shared.deterministic_interpolation import max_pool3d_stride2
+            pool = max_pool3d_stride2
         e0 = self.enc0(values)
-        e1 = self.enc1(self.pool(e0))
-        e2 = self.enc2(self.pool(e1))
-        bottleneck = self.bottleneck(self.pool(e2))
+        e1 = self.enc1(pool(e0))
+        e2 = self.enc2(pool(e1))
+        bottleneck = self.bottleneck(pool(e2))
         d2 = self.dec2(torch.cat((self.up(bottleneck, e2), e2), dim=1))
         d1 = self.dec1(torch.cat((self.up(d2, e1), e1), dim=1))
         d0 = self.dec0(torch.cat((self.up(d1, e0), e0), dim=1))
@@ -115,6 +122,9 @@ class UPatch(nn.Module):
     ) -> torch.Tensor:
         """Return the exact per-galaxy U-Net summary consumed by the point head."""
         latent = self.unet(values)
+        if torch.are_deterministic_algorithms_enabled():
+            from shared.deterministic_interpolation import sample_points_trilinear
+            return sample_points_trilinear(latent, points)[0].T
         return F.grid_sample(
             latent, points, mode="bilinear", align_corners=True, padding_mode="border"
         )[0, :, 0, 0].T

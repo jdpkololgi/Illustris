@@ -1,0 +1,870 @@
+{
+  "contracts": {
+    "ph000": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 235516,
+        "training_epoch_sha256": "4c45a861a147fe346383fad072cc24dc20e051bc2a94b2b2b3aa972b9206f351",
+        "validation_core_unique": true,
+        "validation_cores": 16921
+      },
+      "checkpoint_policy": "fixed training budget; omitted-phase metrics must not select checkpoint",
+      "created_utc": "2026-10-26T07:05:03.409508+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "full_contract": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021",
+      "full_contract_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+      "marker_sha256": "d4f0c02d099a3ce144f3172400636cc6a4ef7bb7b477671bb91653b0978f11dc",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph000",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "reserved_confirmation": [
+          "ph014",
+          "ph015",
+          "ph016",
+          "ph017",
+          "ph018",
+          "ph019"
+        ],
+        "sealed_blind_test": [
+          "ph001"
+        ],
+        "training": [
+          "ph002",
+          "ph003",
+          "ph004",
+          "ph005",
+          "ph007",
+          "ph008",
+          "ph009",
+          "ph010",
+          "ph011",
+          "ph020",
+          "ph021",
+          "ph022",
+          "ph023",
+          "ph024"
+        ],
+        "validation_and_selection": "ph000"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_crossfit_20261026_v1/omit_ph000",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    },
+    "ph002": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 235669,
+        "training_epoch_sha256": "50248ec6adcf4bdc3a437cba83252b9e1c510a3bf043d24e09beca0eedc041fa",
+        "validation_core_unique": true,
+        "validation_cores": 16768
+      },
+      "checkpoint_policy": "fixed training budget; omitted-phase metrics must not select checkpoint",
+      "created_utc": "2026-10-26T07:05:04.533168+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "full_contract": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021",
+      "full_contract_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+      "marker_sha256": "e0f12a5502e36704c55b31a327afce537465c0d8a94a7a3c1ead1c5c08c76906",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph002",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "reserved_confirmation": [
+          "ph014",
+          "ph015",
+          "ph016",
+          "ph017",
+          "ph018",
+          "ph019"
+        ],
+        "sealed_blind_test": [
+          "ph001"
+        ],
+        "training": [
+          "ph000",
+          "ph003",
+          "ph004",
+          "ph005",
+          "ph007",
+          "ph008",
+          "ph009",
+          "ph010",
+          "ph011",
+          "ph020",
+          "ph021",
+          "ph022",
+          "ph023",
+          "ph024"
+        ],
+        "validation_and_selection": "ph002"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_crossfit_20261026_v1/omit_ph002",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    },
+    "ph003": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 235547,
+        "training_epoch_sha256": "900da4e2b8acd5139505572b927e562fcd76947528aab7cfddb7f9cc010e6808",
+        "validation_core_unique": true,
+        "validation_cores": 16890
+      },
+      "checkpoint_policy": "fixed training budget; omitted-phase metrics must not select checkpoint",
+      "created_utc": "2026-10-26T07:05:05.609816+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "full_contract": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021",
+      "full_contract_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+      "marker_sha256": "8e5f56c89fe5e6561a9a7f1d67c4b58a0ca310a534ac3b18c99301f6a67bc608",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph003",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "reserved_confirmation": [
+          "ph014",
+          "ph015",
+          "ph016",
+          "ph017",
+          "ph018",
+          "ph019"
+        ],
+        "sealed_blind_test": [
+          "ph001"
+        ],
+        "training": [
+          "ph000",
+          "ph002",
+          "ph004",
+          "ph005",
+          "ph007",
+          "ph008",
+          "ph009",
+          "ph010",
+          "ph011",
+          "ph020",
+          "ph021",
+          "ph022",
+          "ph023",
+          "ph024"
+        ],
+        "validation_and_selection": "ph003"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_crossfit_20261026_v1/omit_ph003",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    },
+    "ph004": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 235644,
+        "training_epoch_sha256": "beb7c77b22c768e9f261a33562ddc33e527b4410be5e4d1ef2a459c887e7edff",
+        "validation_core_unique": true,
+        "validation_cores": 16793
+      },
+      "checkpoint_policy": "fixed training budget; omitted-phase metrics must not select checkpoint",
+      "created_utc": "2026-10-26T07:05:06.651768+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "full_contract": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021",
+      "full_contract_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+      "marker_sha256": "4d50f2a42e7253d011352850005733a61d3a0fff626d8bb48514fef06d9efd2d",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph004",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "reserved_confirmation": [
+          "ph014",
+          "ph015",
+          "ph016",
+          "ph017",
+          "ph018",
+          "ph019"
+        ],
+        "sealed_blind_test": [
+          "ph001"
+        ],
+        "training": [
+          "ph000",
+          "ph002",
+          "ph003",
+          "ph005",
+          "ph007",
+          "ph008",
+          "ph009",
+          "ph010",
+          "ph011",
+          "ph020",
+          "ph021",
+          "ph022",
+          "ph023",
+          "ph024"
+        ],
+        "validation_and_selection": "ph004"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_crossfit_20261026_v1/omit_ph004",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    },
+    "ph005": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 235644,
+        "training_epoch_sha256": "66c4d6825885838ad7a073f4d923fdbf1d9448081a43cd9058a50d942a075f6f",
+        "validation_core_unique": true,
+        "validation_cores": 16793
+      },
+      "checkpoint_policy": "fixed training budget; omitted-phase metrics must not select checkpoint",
+      "created_utc": "2026-10-26T07:05:07.749910+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "full_contract": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021",
+      "full_contract_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+      "marker_sha256": "11d5998c2876143da5154b7eb8bf8b3f46e037f9619570e95d61db63a7c84c3d",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph005",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "reserved_confirmation": [
+          "ph014",
+          "ph015",
+          "ph016",
+          "ph017",
+          "ph018",
+          "ph019"
+        ],
+        "sealed_blind_test": [
+          "ph001"
+        ],
+        "training": [
+          "ph000",
+          "ph002",
+          "ph003",
+          "ph004",
+          "ph007",
+          "ph008",
+          "ph009",
+          "ph010",
+          "ph011",
+          "ph020",
+          "ph021",
+          "ph022",
+          "ph023",
+          "ph024"
+        ],
+        "validation_and_selection": "ph005"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_crossfit_20261026_v1/omit_ph005",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    },
+    "ph007": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 235593,
+        "training_epoch_sha256": "9e74d17b1d4d65b81e6ec7b0198c63d8117c9e03621d78c9e7e0d8aeff866a3a",
+        "validation_core_unique": true,
+        "validation_cores": 16844
+      },
+      "checkpoint_policy": "fixed training budget; omitted-phase metrics must not select checkpoint",
+      "created_utc": "2026-10-26T07:05:08.774629+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "full_contract": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021",
+      "full_contract_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+      "marker_sha256": "cb3b11dea536f375c4a6167080e59a99f6fac6b4111947a6e5196f5320cf4a7f",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph007",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "reserved_confirmation": [
+          "ph014",
+          "ph015",
+          "ph016",
+          "ph017",
+          "ph018",
+          "ph019"
+        ],
+        "sealed_blind_test": [
+          "ph001"
+        ],
+        "training": [
+          "ph000",
+          "ph002",
+          "ph003",
+          "ph004",
+          "ph005",
+          "ph008",
+          "ph009",
+          "ph010",
+          "ph011",
+          "ph020",
+          "ph021",
+          "ph022",
+          "ph023",
+          "ph024"
+        ],
+        "validation_and_selection": "ph007"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_crossfit_20261026_v1/omit_ph007",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    },
+    "ph008": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 235561,
+        "training_epoch_sha256": "077ca98ea6a7b9a6b639bcc853fd051bdf7ac46fda4ed0c321161097bc293acd",
+        "validation_core_unique": true,
+        "validation_cores": 16876
+      },
+      "checkpoint_policy": "fixed training budget; omitted-phase metrics must not select checkpoint",
+      "created_utc": "2026-10-26T07:05:09.880299+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "full_contract": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021",
+      "full_contract_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+      "marker_sha256": "1bd4cd1563667da0360e0084665ad97f972ae6b364b48c9292556efef995388e",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph008",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "reserved_confirmation": [
+          "ph014",
+          "ph015",
+          "ph016",
+          "ph017",
+          "ph018",
+          "ph019"
+        ],
+        "sealed_blind_test": [
+          "ph001"
+        ],
+        "training": [
+          "ph000",
+          "ph002",
+          "ph003",
+          "ph004",
+          "ph005",
+          "ph007",
+          "ph009",
+          "ph010",
+          "ph011",
+          "ph020",
+          "ph021",
+          "ph022",
+          "ph023",
+          "ph024"
+        ],
+        "validation_and_selection": "ph008"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_crossfit_20261026_v1/omit_ph008",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    },
+    "ph009": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 235621,
+        "training_epoch_sha256": "03e8b6ee4812c501a64b7fabf9f5c6b67e35a9f0ab00e330f8ceb694ce7ef6e3",
+        "validation_core_unique": true,
+        "validation_cores": 16816
+      },
+      "checkpoint_policy": "fixed training budget; omitted-phase metrics must not select checkpoint",
+      "created_utc": "2026-10-26T07:05:10.955679+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "full_contract": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021",
+      "full_contract_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+      "marker_sha256": "05bc89ac5a75687fb2c0d74bc00c6e96a4eeab589e2a7a0d83d934ba2112e9c4",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph009",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "reserved_confirmation": [
+          "ph014",
+          "ph015",
+          "ph016",
+          "ph017",
+          "ph018",
+          "ph019"
+        ],
+        "sealed_blind_test": [
+          "ph001"
+        ],
+        "training": [
+          "ph000",
+          "ph002",
+          "ph003",
+          "ph004",
+          "ph005",
+          "ph007",
+          "ph008",
+          "ph010",
+          "ph011",
+          "ph020",
+          "ph021",
+          "ph022",
+          "ph023",
+          "ph024"
+        ],
+        "validation_and_selection": "ph009"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_crossfit_20261026_v1/omit_ph009",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    },
+    "ph010": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 235640,
+        "training_epoch_sha256": "76738bc0997c66a277511a263845ea718be1ace810b5f8e210b23f5a2b14aa3a",
+        "validation_core_unique": true,
+        "validation_cores": 16797
+      },
+      "checkpoint_policy": "fixed training budget; omitted-phase metrics must not select checkpoint",
+      "created_utc": "2026-10-26T07:05:11.985352+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "full_contract": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021",
+      "full_contract_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+      "marker_sha256": "bfc28e7a235261c44183f82ac21f3cd28c25aaef92a6320b645825cc6eb3f53f",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph010",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "reserved_confirmation": [
+          "ph014",
+          "ph015",
+          "ph016",
+          "ph017",
+          "ph018",
+          "ph019"
+        ],
+        "sealed_blind_test": [
+          "ph001"
+        ],
+        "training": [
+          "ph000",
+          "ph002",
+          "ph003",
+          "ph004",
+          "ph005",
+          "ph007",
+          "ph008",
+          "ph009",
+          "ph011",
+          "ph020",
+          "ph021",
+          "ph022",
+          "ph023",
+          "ph024"
+        ],
+        "validation_and_selection": "ph010"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_crossfit_20261026_v1/omit_ph010",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    },
+    "ph011": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 235612,
+        "training_epoch_sha256": "b827a85c32439eff5679293453cd2caaef5c021a8ca6d815952ce8cf4d61346c",
+        "validation_core_unique": true,
+        "validation_cores": 16825
+      },
+      "checkpoint_policy": "fixed training budget; omitted-phase metrics must not select checkpoint",
+      "created_utc": "2026-10-26T07:05:13.050045+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "full_contract": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021",
+      "full_contract_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+      "marker_sha256": "18558f849c3417df865a9f495d5dc39bed61e398290182676d4b81e91e679f0f",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph011",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "reserved_confirmation": [
+          "ph014",
+          "ph015",
+          "ph016",
+          "ph017",
+          "ph018",
+          "ph019"
+        ],
+        "sealed_blind_test": [
+          "ph001"
+        ],
+        "training": [
+          "ph000",
+          "ph002",
+          "ph003",
+          "ph004",
+          "ph005",
+          "ph007",
+          "ph008",
+          "ph009",
+          "ph010",
+          "ph020",
+          "ph021",
+          "ph022",
+          "ph023",
+          "ph024"
+        ],
+        "validation_and_selection": "ph011"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_crossfit_20261026_v1/omit_ph011",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    },
+    "ph020": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 235596,
+        "training_epoch_sha256": "9a1eb80c439df03d0ae1ee28a06da7d8415baea866add7834f1618149edea957",
+        "validation_core_unique": true,
+        "validation_cores": 16841
+      },
+      "checkpoint_policy": "fixed training budget; omitted-phase metrics must not select checkpoint",
+      "created_utc": "2026-10-26T07:05:14.134337+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "full_contract": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021",
+      "full_contract_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+      "marker_sha256": "7c8e4050da180da5b99120aa8709f37b690fa891e6beb04ab7314caeaa52a94b",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph020",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "reserved_confirmation": [
+          "ph014",
+          "ph015",
+          "ph016",
+          "ph017",
+          "ph018",
+          "ph019"
+        ],
+        "sealed_blind_test": [
+          "ph001"
+        ],
+        "training": [
+          "ph000",
+          "ph002",
+          "ph003",
+          "ph004",
+          "ph005",
+          "ph007",
+          "ph008",
+          "ph009",
+          "ph010",
+          "ph011",
+          "ph021",
+          "ph022",
+          "ph023",
+          "ph024"
+        ],
+        "validation_and_selection": "ph020"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_crossfit_20261026_v1/omit_ph020",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    },
+    "ph021": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 235599,
+        "training_epoch_sha256": "54daeae3fa831a6355b38d6843a97470b06109519f699f88c59a364115313876",
+        "validation_core_unique": true,
+        "validation_cores": 16838
+      },
+      "checkpoint_policy": "fixed training budget; omitted-phase metrics must not select checkpoint",
+      "created_utc": "2026-10-26T07:05:15.161062+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "full_contract": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021",
+      "full_contract_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+      "marker_sha256": "3f1e70e1fbf9db06ae9ec0b55438c094b56bdacdf54a79b604d1258ca3c08b8e",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph021",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "reserved_confirmation": [
+          "ph014",
+          "ph015",
+          "ph016",
+          "ph017",
+          "ph018",
+          "ph019"
+        ],
+        "sealed_blind_test": [
+          "ph001"
+        ],
+        "training": [
+          "ph000",
+          "ph002",
+          "ph003",
+          "ph004",
+          "ph005",
+          "ph007",
+          "ph008",
+          "ph009",
+          "ph010",
+          "ph011",
+          "ph020",
+          "ph022",
+          "ph023",
+          "ph024"
+        ],
+        "validation_and_selection": "ph021"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_crossfit_20261026_v1/omit_ph021",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    },
+    "ph022": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 235615,
+        "training_epoch_sha256": "19f752256e0b1bfdc5215479ef5bcd29ccb13f91d3918fb85908feebe6c0a8e2",
+        "validation_core_unique": true,
+        "validation_cores": 16822
+      },
+      "checkpoint_policy": "fixed training budget; omitted-phase metrics must not select checkpoint",
+      "created_utc": "2026-10-26T07:05:16.232912+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "full_contract": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021",
+      "full_contract_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+      "marker_sha256": "a34ffa81d64704ecc5a321aca0f629d26d218c67111f9560835d2dad16077909",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph022",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "reserved_confirmation": [
+          "ph014",
+          "ph015",
+          "ph016",
+          "ph017",
+          "ph018",
+          "ph019"
+        ],
+        "sealed_blind_test": [
+          "ph001"
+        ],
+        "training": [
+          "ph000",
+          "ph002",
+          "ph003",
+          "ph004",
+          "ph005",
+          "ph007",
+          "ph008",
+          "ph009",
+          "ph010",
+          "ph011",
+          "ph020",
+          "ph021",
+          "ph023",
+          "ph024"
+        ],
+        "validation_and_selection": "ph022"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_crossfit_20261026_v1/omit_ph022",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    },
+    "ph023": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 235597,
+        "training_epoch_sha256": "23fc290ad20f7415caf695cb74b45eb3de40f5f087972756da2e6a1db65c94fb",
+        "validation_core_unique": true,
+        "validation_cores": 16840
+      },
+      "checkpoint_policy": "fixed training budget; omitted-phase metrics must not select checkpoint",
+      "created_utc": "2026-10-26T07:05:17.254652+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "full_contract": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021",
+      "full_contract_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+      "marker_sha256": "dd42574ad015cf13371618f04afd55e910920fd0e986e300ca1bfd9ad8c0ff57",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph023",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "reserved_confirmation": [
+          "ph014",
+          "ph015",
+          "ph016",
+          "ph017",
+          "ph018",
+          "ph019"
+        ],
+        "sealed_blind_test": [
+          "ph001"
+        ],
+        "training": [
+          "ph000",
+          "ph002",
+          "ph003",
+          "ph004",
+          "ph005",
+          "ph007",
+          "ph008",
+          "ph009",
+          "ph010",
+          "ph011",
+          "ph020",
+          "ph021",
+          "ph022",
+          "ph024"
+        ],
+        "validation_and_selection": "ph023"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_crossfit_20261026_v1/omit_ph023",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    },
+    "ph024": {
+      "canary": {
+        "out_of_fold_phase_absent_from_training": true,
+        "training_cores": 235664,
+        "training_epoch_sha256": "d38ff3550ecf82eadf34f257d935d0854441f05924da5097c8f5b4002c54a009",
+        "validation_core_unique": true,
+        "validation_cores": 16773
+      },
+      "checkpoint_policy": "fixed training budget; omitted-phase metrics must not select checkpoint",
+      "created_utc": "2026-10-26T07:05:18.326155+00:00",
+      "epoch": {
+        "policy": "complete phase-balanced without-replacement cores"
+      },
+      "full_contract": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021",
+      "full_contract_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+      "marker_sha256": "3b64f1fb915964aeb198aaf8e7077c2bc02673c2b412a9e6ae69b96b9e25ad15",
+      "objective": {
+        "policy": "equal phase, within-phase sqrt-shell row MSE"
+      },
+      "out_of_fold_phase": "ph024",
+      "pass": true,
+      "phase_is_model_input": false,
+      "roles": {
+        "reserved_confirmation": [
+          "ph014",
+          "ph015",
+          "ph016",
+          "ph017",
+          "ph018",
+          "ph019"
+        ],
+        "sealed_blind_test": [
+          "ph001"
+        ],
+        "training": [
+          "ph000",
+          "ph002",
+          "ph003",
+          "ph004",
+          "ph005",
+          "ph007",
+          "ph008",
+          "ph009",
+          "ph010",
+          "ph011",
+          "ph020",
+          "ph021",
+          "ph022",
+          "ph023"
+        ],
+        "validation_and_selection": "ph024"
+      },
+      "root": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_crossfit_20261026_v1/omit_ph024",
+      "schema_version": "p12-crossfit-training-loader-v1",
+      "sealed_phase_opened": false
+    }
+  },
+  "created_utc": "2026-10-26T07:05:19.105965+00:00",
+  "full_contract": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021",
+  "full_contract_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+  "omitted_phases": [
+    "ph000",
+    "ph002",
+    "ph003",
+    "ph004",
+    "ph005",
+    "ph007",
+    "ph008",
+    "ph009",
+    "ph010",
+    "ph011",
+    "ph020",
+    "ph021",
+    "ph022",
+    "ph023",
+    "ph024"
+  ],
+  "pass": true,
+  "schema_version": "p12-crossfit-contract-set-v1",
+  "sealed_phase_opened": false,
+  "sealed_phases": [
+    "ph001"
+  ]
+}

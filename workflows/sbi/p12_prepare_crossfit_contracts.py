@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Prepare five leakage-safe leave-one-phase-out U-PATCH contracts for P12."""
+"""Prepare registered leave-one-phase-out U-PATCH contracts for P12."""
 from __future__ import annotations
 
 import argparse
 from collections import defaultdict
+from concurrent.futures import ProcessPoolExecutor
 from datetime import datetime, timezone
 import json
 import os
@@ -60,6 +61,8 @@ def utc_now() -> str:
 def hardlink_or_copy(source: Path, target: Path) -> None:
     target.parent.mkdir(parents=True, exist_ok=True)
     if target.exists() or target.is_symlink():
+        if not target.is_file() or (not os.path.samefile(source, target) and sha256(source) != sha256(target)):
+            raise RuntimeError(f"stale existing contract array: {target}")
         return
     try:
         os.link(source, target)
@@ -70,12 +73,34 @@ def hardlink_or_copy(source: Path, target: Path) -> None:
 def link_directory(source: Path, target: Path) -> None:
     target.parent.mkdir(parents=True, exist_ok=True)
     if target.exists() or target.is_symlink():
+        if not target.is_symlink() or target.resolve() != source.resolve():
+            raise RuntimeError(f"wrong existing adapter link: {target}")
         return
     target.symlink_to(source, target_is_directory=True)
 
 
+def phase_selection_statistics(root: Path, phase: str) -> dict:
+    files = phase_files(root, phase)
+    p3 = json.loads(files['p3_manifest'].read_text())
+    p1 = json.loads(files['p1_manifest'].read_text())
+    edges = np.arange(Z_MIN, Z_MAX + .5 * BIN_WIDTH, BIN_WIDTH)
+    radius_grid, redshift_grid = radius_to_redshift_grid(Z_MIN, Z_MAX)
+    with np.load(files['cores']) as cores:
+        widths = np.asarray(cores['upper_mpc'] - cores['lower_mpc'], dtype=np.float64)
+        core_mpc = float(np.median(widths))
+        lookups = {name: build_cap_lookup(cores, cap, core_mpc) for cap, name in CAP_NAME.items()}
+    counts, count_audit = histogram_counts(parent_path=Path(p1['parent']),
+        context_path=files['p4_root'] / 'context_assignment.npz', edges=edges)
+    volume, volume_audit = histogram_effective_volume(p3=p3, lookups=lookups,
+        core_mpc=core_mpc, edges=edges, radius_grid_mpc=radius_grid, redshift_grid=redshift_grid)
+    return {'counts': counts.sum(axis=1), 'volume': volume.sum(axis=1),
+            'audit': {'counts': count_audit, 'volume': volume_audit,
+                      'p1_manifest_sha256': sha256(files['p1_manifest']),
+                      'p3_manifest_sha256': sha256(files['p3_manifest'])}}
+
+
 def selection_fit(
-    *, root: Path, output: Path, train: tuple[str, ...], omitted: str
+    *, root: Path, output: Path, train: tuple[str, ...], omitted: str, statistics: dict | None = None
 ) -> dict:
     edges = np.arange(Z_MIN, Z_MAX + 0.5 * BIN_WIDTH, BIN_WIDTH)
     centers = 0.5 * (edges[:-1] + edges[1:])
@@ -85,31 +110,13 @@ def selection_fit(
     volume_total = np.zeros((2, len(centers)), dtype=np.float64)
     sources = {}
     for phase in train:
-        files = phase_files(root, phase)
-        p3 = json.loads(files["p3_manifest"].read_text())
-        cores = np.load(files["cores"], mmap_mode="r")
-        widths = np.asarray(cores["upper_mpc"] - cores["lower_mpc"], dtype=np.float64)
-        core_mpc = float(np.median(widths))
-        lookups = {
-            name: build_cap_lookup(cores, cap, core_mpc)
-            for cap, name in CAP_NAME.items()
-        }
-        counts, count_audit = histogram_counts(
-            parent_path=Path(p1_manifest(root, phase)["parent"]),
-            context_path=files["p4_root"] / "context_assignment.npz",
-            edges=edges,
-        )
-        volume, volume_audit = histogram_effective_volume(
-            p3=p3,
-            lookups=lookups,
-            core_mpc=core_mpc,
-            edges=edges,
-            radius_grid_mpc=radius_grid,
-            redshift_grid=redshift_grid,
-        )
-        counts_total += counts.sum(axis=1)
-        volume_total += volume.sum(axis=1)
-        sources[phase] = {"counts": count_audit, "volume": volume_audit}
+        if statistics is None:
+            record = phase_selection_statistics(root, phase)
+        else:
+            record = statistics[phase]
+        counts_total += record['counts']
+        volume_total += record['volume']
+        sources[phase] = record['audit']
     caps = {}
     for cap, name in CAP_NAME.items():
         curve, fit = fit_log_spline(
@@ -150,9 +157,9 @@ def selection_fit(
 
 
 def leave_one_out_field_transform(
-    *, output: Path, train: tuple[str, ...], selection: dict
+    *, output: Path, train: tuple[str, ...], selection: dict, full_contract: Path = FULL_CONTRACT
 ) -> dict:
-    full = json.loads((FULL_CONTRACT / "transforms/field/field_transform.json").read_text())
+    full = json.loads((full_contract / "transforms/field/field_transform.json").read_text())
     normalization = {"channels": {}}
     for channel in ("counts", "expected_counts", "log_count_ratio", "ntilde_mpc3"):
         means = [full["per_phase_diagnostics"][p][channel]["mean"] for p in train]
@@ -178,8 +185,8 @@ def leave_one_out_field_transform(
     return result
 
 
-def leave_one_out_target_scaler(*, output: Path, train: tuple[str, ...]) -> dict:
-    full = json.loads((FULL_CONTRACT / "transforms/target_scaler.json").read_text())
+def leave_one_out_target_scaler(*, output: Path, train: tuple[str, ...], full_contract: Path = FULL_CONTRACT) -> dict:
+    full = json.loads((full_contract / "transforms/target_scaler.json").read_text())
     means, seconds = [], []
     diagnostics = {}
     for phase in train:
@@ -209,9 +216,9 @@ def leave_one_out_target_scaler(*, output: Path, train: tuple[str, ...]) -> dict
 
 
 def materialize_phase_contract(
-    *, output: Path, phase: str, role: str
+    *, output: Path, phase: str, role: str, full_contract: Path = FULL_CONTRACT
 ) -> dict:
-    source = FULL_CONTRACT / "phases" / phase
+    source = full_contract / "phases" / phase
     target = output / "phases" / phase
     target.mkdir(parents=True, exist_ok=True)
     record = json.loads((source / "phase_contract.json").read_text())
@@ -225,12 +232,18 @@ def materialize_phase_contract(
             hardlink_or_copy(source / name, target / name)
     else:
         hardlink_or_copy(source / "training_core_id.npy", target / "validation_core_id.npy")
-    link_directory(FULL_CONTRACT / "adapters" / phase / "field", output / "adapters" / phase / "field")
+    link_directory(full_contract / "adapters" / phase / "field", output / "adapters" / phase / "field")
     return record
 
 
-def build_contract(*, root: Path, omitted: str) -> dict:
-    train = tuple(phase for phase in TRAINING_PHASES if phase != omitted)
+def build_contract(*, root: Path, omitted: str, full_contract: Path = FULL_CONTRACT,
+                   source_root: Path = ROOT, statistics: dict | None = None) -> dict:
+    full_marker = full_contract / "TRAINING_LOADER_READY.json"
+    full = json.loads(full_marker.read_text())
+    registered = tuple(full["roles"]["training"])
+    if not full.get("pass") or omitted not in registered or len(set(registered)) != len(registered):
+        raise ValueError("Omitted phase must belong to a passing registered training contract")
+    train = tuple(phase for phase in registered if phase != omitted)
     output = root / f"omit_{omitted}"
     output.mkdir(parents=True, exist_ok=True)
     phase_records = {
@@ -238,23 +251,28 @@ def build_contract(*, root: Path, omitted: str) -> dict:
             output=output,
             phase=phase,
             role="validation_and_selection" if phase == omitted else "training",
+            full_contract=full_contract,
         )
         for phase in train + (omitted,)
     }
-    selection = selection_fit(root=ROOT, output=output, train=train, omitted=omitted)
-    field = leave_one_out_field_transform(output=output, train=train, selection=selection)
-    target = leave_one_out_target_scaler(output=output, train=train)
+    selection = selection_fit(root=source_root, output=output, train=train, omitted=omitted, statistics=statistics)
+    field = leave_one_out_field_transform(output=output, train=train, selection=selection, full_contract=full_contract)
+    target = leave_one_out_target_scaler(output=output, train=train, full_contract=full_contract)
     loader_manifest = {
         "schema_version": "p12-crossfit-training-loader-v1",
         "created_utc": utc_now(),
         "roles": {
             "training": list(train),
             "validation_and_selection": omitted,
-            "sealed_blind_test": BLIND_PHASE,
+            "sealed_blind_test": full["roles"]["sealed_blind_test"],
+            "reserved_confirmation": full["roles"].get("reserved_confirmation", []),
         },
         "epoch": {"policy": "complete phase-balanced without-replacement cores"},
         "objective": {"policy": "equal phase, within-phase sqrt-shell row MSE"},
         "out_of_fold_phase": omitted,
+        "full_contract": str(full_contract),
+        "full_contract_sha256": sha256(full_marker),
+        "checkpoint_policy": "fixed training budget; omitted-phase metrics must not select checkpoint",
         "phase_is_model_input": False,
         "sealed_phase_opened": False,
         "pass": bool(
@@ -275,6 +293,7 @@ def build_contract(*, root: Path, omitted: str) -> dict:
         "validation_core_unique": len({row.core_id for row in validation}) == len(validation),
         "out_of_fold_phase_absent_from_training": omitted not in {row.phase for row in refs},
     }
+    loader.close()
     loader_manifest["canary"] = canary
     loader_manifest["pass"] = bool(loader_manifest["pass"] and all(
         value for key, value in canary.items() if isinstance(value, bool)
@@ -286,8 +305,27 @@ def build_contract(*, root: Path, omitted: str) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-root", type=Path, default=OUTPUT)
-    parser.add_argument("--omitted-phases", nargs="+", choices=TRAINING_PHASES, default=list(TRAINING_PHASES))
+    parser.add_argument("--full-contract", type=Path, default=FULL_CONTRACT)
+    parser.add_argument("--source-root", type=Path, default=ROOT)
+    parser.add_argument("--omitted-phases", nargs="+")
+    parser.add_argument("--workers", type=int, default=1)
     args = parser.parse_args()
+    from workflows.sbi.e2e_coupled_contract import require_compute
+    require_compute()
+    full_marker = args.full_contract / "TRAINING_LOADER_READY.json"
+    full = json.loads(full_marker.read_text())
+    registered = tuple(full['roles']['training'])
+    args.omitted_phases = args.omitted_phases or list(registered)
+    if (not full.get('pass') or len(set(args.omitted_phases)) != len(args.omitted_phases)
+            or not set(args.omitted_phases).issubset(registered)):
+        raise ValueError('Invalid omitted phases or full training contract')
+    for phase in registered:
+        record = json.loads((args.full_contract / 'phases' / phase / 'phase_contract.json').read_text())
+        if record.get('truth_lineage', {}).get('label_policy_version') != 'galaxy-realspace-all-populations-v2':
+            raise RuntimeError('Corrected label lineage required: ' + phase)
+        path = phase_files(args.source_root, phase)['p1_manifest']
+        if sha256(path) != record['inputs']['p1_manifest_sha256']:
+            raise RuntimeError('Source-root/full-contract mismatch: ' + phase)
     ready = args.output_root / "P12_CROSSFIT_CONTRACTS_READY.json"
     if ready.exists():
         existing = json.loads(ready.read_text())
@@ -295,18 +333,32 @@ def main() -> None:
             existing.get("pass") is True
             and existing.get("sealed_phase_opened") is False
             and existing.get("omitted_phases") == list(args.omitted_phases)
+            and existing.get("full_contract_sha256") == sha256(full_marker)
         ):
             print(json.dumps(existing, indent=2), flush=True)
             return
+    # Every training phase's label-free sufficient statistics are evaluated once,
+    # then combined excluding the relevant omitted phase for each separate fit.
+    if not 1 <= args.workers <= 4:
+        raise ValueError('Use one to four statistics workers')
+    statistics = {}
+    with ProcessPoolExecutor(max_workers=args.workers) as pool:
+        futures = {phase: pool.submit(phase_selection_statistics, args.source_root, phase) for phase in registered}
+        for phase, future in futures.items():
+            statistics[phase] = future.result()
+            print(json.dumps({'selection_statistics_complete': phase}), flush=True)
     contracts = {
-        phase: build_contract(root=args.output_root, omitted=phase)
+        phase: build_contract(root=args.output_root, omitted=phase, full_contract=args.full_contract,
+                              source_root=args.source_root, statistics=statistics)
         for phase in args.omitted_phases
     }
     report = {
         "schema_version": "p12-crossfit-contract-set-v1",
         "created_utc": utc_now(),
         "omitted_phases": list(args.omitted_phases),
-        "sealed_phase": BLIND_PHASE,
+        "full_contract": str(args.full_contract),
+        "full_contract_sha256": sha256(full_marker),
+        "sealed_phases": full["roles"]["sealed_blind_test"],
         "sealed_phase_opened": False,
         "contracts": contracts,
         "pass": bool(all(row["pass"] for row in contracts.values())),

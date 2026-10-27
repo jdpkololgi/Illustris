@@ -1,0 +1,83 @@
+{
+  "scope": "training-input and numerical readiness; no scientific fits or posterior qualification",
+  "endpoint_training_ready": true,
+  "p12a_encoder_training_ready": true,
+  "p12a_crossfit_folds": 15,
+  "response_inputs": {
+    "pass": true,
+    "required_phases": [
+      "ph000",
+      "ph002",
+      "ph003",
+      "ph004",
+      "ph005",
+      "ph007",
+      "ph008",
+      "ph009",
+      "ph010",
+      "ph011",
+      "ph020",
+      "ph021",
+      "ph022",
+      "ph023",
+      "ph024",
+      "ph006",
+      "ph012",
+      "ph013"
+    ],
+    "complete_phases": [
+      "ph000",
+      "ph002",
+      "ph003",
+      "ph004",
+      "ph005",
+      "ph006",
+      "ph007",
+      "ph008",
+      "ph009",
+      "ph010",
+      "ph011",
+      "ph012",
+      "ph013",
+      "ph020",
+      "ph021",
+      "ph022",
+      "ph023",
+      "ph024"
+    ],
+    "inventory": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/p12a_response_inputs_20261026_v1/adapter_inventory.json",
+    "inventory_sha256": "7cbb0539ac0503098951291ca4499fc1a43b573fba1d5d0e1d3ba61d11e1fc77",
+    "parent_rows": 132231271,
+    "supported_parent_rows": 111631040
+  },
+  "p12a_posterior_training_ready": false,
+  "remaining": [
+    "register and fit 15 fixed-budget out-of-fold encoders plus one full-training encoder",
+    "export corrected-label halo48 predictions",
+    "build and validate aligned posterior tables"
+  ],
+  "focused_regression_tests": {
+    "pass": true,
+    "count": 61
+  },
+  "graph_index_refresh_pass": false,
+  "reserved_phases_opened": false,
+  "scientific_fits_launched": false,
+  "allocations": [
+    {
+      "job_id": "60300734",
+      "purpose": "GPU numerical diagnosis, verification and initial preparation",
+      "state": "COMPLETED",
+      "elapsed": "00:59:34",
+      "released": true
+    },
+    {
+      "job_id": "60302320",
+      "purpose": "approved CPU response-input completion",
+      "state": "COMPLETED",
+      "elapsed": "00:04:58",
+      "released": true
+    }
+  ],
+  "pre_fit_data_preparation_complete": true
+}

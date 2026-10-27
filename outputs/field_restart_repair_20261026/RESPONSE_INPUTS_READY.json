@@ -1,0 +1,118 @@
+{
+  "full_contract_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+  "pass": true,
+  "phases": {
+    "ph000": {
+      "parent_response": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph000/p3b_random_response_v1/parent_response/P12A_PARENT_RESPONSE_READY.json",
+      "parent_response_sha256": "2fbdc073266dcb2811eb9a3efea81c4c26cb2b8bbec15f5a0067d9637ef86e58",
+      "rows": 7286820,
+      "support_rows": 6199710
+    },
+    "ph002": {
+      "parent_response": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph002/p3b_random_response_v1/parent_response/P12A_PARENT_RESPONSE_READY.json",
+      "parent_response_sha256": "732e39a83c43b660696b9fc4a32c28a0f0e5ea2cb857d4eed88d51ea7761fc0d",
+      "rows": 7370124,
+      "support_rows": 6214848
+    },
+    "ph003": {
+      "parent_response": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph003/p3b_random_response_v1/parent_response/P12A_PARENT_RESPONSE_READY.json",
+      "parent_response_sha256": "80051baf9e46fd7b0fc51855ba478f898533bd18e539dc0bd34539e5044d83c6",
+      "rows": 7283290,
+      "support_rows": 6165236
+    },
+    "ph004": {
+      "parent_response": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph004/p3b_random_response_v1/parent_response/P12A_PARENT_RESPONSE_READY.json",
+      "parent_response_sha256": "b587f504b1f72366c853f2a3eed313e610f287931e71ebc41dcb1a8071259d92",
+      "rows": 7303843,
+      "support_rows": 6183641
+    },
+    "ph005": {
+      "parent_response": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph005/p3b_random_response_v1/parent_response/P12A_PARENT_RESPONSE_READY.json",
+      "parent_response_sha256": "ffb4fb390d29a1a3fde16fdb13049fa8978123ca815d7b5832f2d2527ae8bc22",
+      "rows": 7387646,
+      "support_rows": 6234641
+    },
+    "ph006": {
+      "parent_response": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph006/p3b_random_response_v1/parent_response/P12A_PARENT_RESPONSE_READY.json",
+      "parent_response_sha256": "ff52de3190ca2eb3ef7cd9aabde304577066b4744df05b402ebf178801456ad8",
+      "rows": 7330186,
+      "support_rows": 6206736
+    },
+    "ph007": {
+      "parent_response": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/p3b_random_response_v1/parent_response/P12A_PARENT_RESPONSE_READY.json",
+      "parent_response_sha256": "065e5cdb749df790e7ffcce7b67f82d00f9b5f050111f300ac0fbda2e3178912",
+      "rows": 7339301,
+      "support_rows": 6203302
+    },
+    "ph008": {
+      "parent_response": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph008/p3b_random_response_v1/parent_response/P12A_PARENT_RESPONSE_READY.json",
+      "parent_response_sha256": "e74fbfe94907414e7f87a2d55e194b7937a47f38219caa11f1feb364b4a65052",
+      "rows": 7360522,
+      "support_rows": 6216200
+    },
+    "ph009": {
+      "parent_response": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph009/p3b_random_response_v1/parent_response/P12A_PARENT_RESPONSE_READY.json",
+      "parent_response_sha256": "ab4b6e0005100863e60d08f480fac29e20339c5f38e2600282e0996561bd7dd6",
+      "rows": 7316125,
+      "support_rows": 6195838
+    },
+    "ph010": {
+      "parent_response": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph010/p3b_random_response_v1/parent_response/P12A_PARENT_RESPONSE_READY.json",
+      "parent_response_sha256": "4c8efd102af3d26147ae83efbb314143958b427a358858ac85e30c48966efb96",
+      "rows": 7405544,
+      "support_rows": 6184207
+    },
+    "ph011": {
+      "parent_response": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph011/p3b_random_response_v1/parent_response/P12A_PARENT_RESPONSE_READY.json",
+      "parent_response_sha256": "edd22051cee33dd27a6d6771a8ac76596575ef8c5f1d9460d8d579e5e7928f37",
+      "rows": 7349708,
+      "support_rows": 6162157
+    },
+    "ph012": {
+      "parent_response": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph012/p3b_random_response_v1/parent_response/P12A_PARENT_RESPONSE_READY.json",
+      "parent_response_sha256": "cdc4c19d9ba148ca2e8cbfab5de3059fd24f10c20640cc648669164d63d5e40c",
+      "rows": 7404846,
+      "support_rows": 6229952
+    },
+    "ph013": {
+      "parent_response": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph013/p3b_random_response_v1/parent_response/P12A_PARENT_RESPONSE_READY.json",
+      "parent_response_sha256": "ddc05c6ca80a239190a18b5d529bb9d051de035e24f605b2a169d3897609955c",
+      "rows": 7339741,
+      "support_rows": 6203468
+    },
+    "ph020": {
+      "parent_response": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph020/p3b_random_response_v1/parent_response/P12A_PARENT_RESPONSE_READY.json",
+      "parent_response_sha256": "35d74aa5c66074629c0ff46a705fb9c8de5c05d3552d4564ad3a1fb85a139775",
+      "rows": 7367503,
+      "support_rows": 6182406
+    },
+    "ph021": {
+      "parent_response": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph021/p3b_random_response_v1/parent_response/P12A_PARENT_RESPONSE_READY.json",
+      "parent_response_sha256": "6aec61e8cede2b1dfc641284c04fa0af4aa1bc13c135aa621b0f50f5c7b9ecd4",
+      "rows": 7358264,
+      "support_rows": 6237701
+    },
+    "ph022": {
+      "parent_response": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph022/p3b_random_response_v1/parent_response/P12A_PARENT_RESPONSE_READY.json",
+      "parent_response_sha256": "1948d102f43a6669a5d13f4c0b873014da756aee708971997d068c17317c92fa",
+      "rows": 7353212,
+      "support_rows": 6221021
+    },
+    "ph023": {
+      "parent_response": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph023/p3b_random_response_v1/parent_response/P12A_PARENT_RESPONSE_READY.json",
+      "parent_response_sha256": "bee1b1e14e97868b01886d4b3069e9b244955fa3dcfc75024ce708624a161546",
+      "rows": 7348935,
+      "support_rows": 6184205
+    },
+    "ph024": {
+      "parent_response": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph024/p3b_random_response_v1/parent_response/P12A_PARENT_RESPONSE_READY.json",
+      "parent_response_sha256": "6e52749118ac4d34286a793660c522f82e8ecbfa18b86eb0f0701d2490ec9b08",
+      "rows": 7325661,
+      "support_rows": 6205771
+    }
+  },
+  "reserved_opened": false,
+  "schema_version": "p12a-visible-parent-response-v1",
+  "scientific_training": false,
+  "scope": "exact parent-indexed support and boundary distance for P12-A"
+}

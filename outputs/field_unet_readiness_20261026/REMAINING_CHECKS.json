@@ -1,0 +1,234 @@
+{
+  "training_ready": false,
+  "no_optimization_or_replay_retry": true,
+  "failures": [
+    "conditional endpoint restart tolerance",
+    "P12-A encoder restart tolerance"
+  ],
+  "p12a_saved_replay": {
+    "maximum_parameter_difference": 0.0003714342601597309,
+    "largest_parameters": [
+      [
+        "unet.enc2.0.weight",
+        0.0003714342601597309
+      ],
+      [
+        "unet.enc2.3.weight",
+        0.0003489670343697071
+      ],
+      [
+        "unet.enc0.3.weight",
+        0.0003462638705968857
+      ],
+      [
+        "unet.enc1.3.weight",
+        0.0003407727926969528
+      ],
+      [
+        "unet.enc1.0.weight",
+        0.0003405110037419945
+      ],
+      [
+        "unet.bottleneck.0.weight",
+        0.00031593069434165955
+      ],
+      [
+        "unet.dec2.0.weight",
+        0.00014846259728074074
+      ],
+      [
+        "unet.dec2.3.weight",
+        0.00013522151857614517
+      ]
+    ],
+    "global_steps": [
+      2,
+      2
+    ],
+    "cursors": [
+      2,
+      2
+    ],
+    "epoch_hashes": [
+      "a6030c357dd45565d322a1536610a7b8d1b22eff79c2745b197e7d8adb8deb2a",
+      "a6030c357dd45565d322a1536610a7b8d1b22eff79c2745b197e7d8adb8deb2a"
+    ],
+    "scheduler_equal": true,
+    "objective_sum": [
+      6.352970600128174,
+      6.352969169616699
+    ]
+  },
+  "p12a_phase_checks": [
+    {
+      "phase": "ph000",
+      "core": 9383,
+      "galaxies": 135,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph002",
+      "core": 9290,
+      "galaxies": 60,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph003",
+      "core": 9415,
+      "galaxies": 2,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph004",
+      "core": 9354,
+      "galaxies": 28,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph005",
+      "core": 9339,
+      "galaxies": 191,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph007",
+      "core": 9383,
+      "galaxies": 1,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph008",
+      "core": 9357,
+      "galaxies": 35,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph009",
+      "core": 9314,
+      "galaxies": 57,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph010",
+      "core": 9329,
+      "galaxies": 13,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph011",
+      "core": 9357,
+      "galaxies": 75,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph020",
+      "core": 9380,
+      "galaxies": 6,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph021",
+      "core": 9320,
+      "galaxies": 9,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph022",
+      "core": 9364,
+      "galaxies": 14,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph023",
+      "core": 9323,
+      "galaxies": 116,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph024",
+      "core": 9359,
+      "galaxies": 2,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph006",
+      "core": 9300,
+      "galaxies": 15,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph012",
+      "core": 9328,
+      "galaxies": 108,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    },
+    {
+      "phase": "ph013",
+      "core": 9360,
+      "galaxies": 503,
+      "base_ordering_violation_fraction": 0.0,
+      "pass": true
+    }
+  ],
+  "conditional_forward_checks": {
+    "pass": true,
+    "development": {
+      "available": true,
+      "ids": [
+        [
+          "ph012",
+          "ph012_NGC_s0_boundary_00"
+        ],
+        [
+          "ph012",
+          "ph012_NGC_s0_interior_00"
+        ],
+        [
+          "ph012",
+          "ph012_SGC_s0_boundary_00"
+        ],
+        [
+          "ph012",
+          "ph012_SGC_s0_interior_00"
+        ],
+        [
+          "ph013",
+          "ph013_NGC_s0_boundary_00"
+        ],
+        [
+          "ph013",
+          "ph013_NGC_s0_interior_00"
+        ],
+        [
+          "ph013",
+          "ph013_SGC_s0_boundary_00"
+        ],
+        [
+          "ph013",
+          "ph013_SGC_s0_interior_00"
+        ]
+      ],
+      "fixed_noise_cfm_loss": 1.0436141788959503,
+      "scope": "held-out velocity loss, not posterior calibration"
+    },
+    "decoder_mass_relative": 4.440892098500626e-16,
+    "scope": "saved disposable EMA; numerical forward/decode only; replay remains failed"
+  }
+}

@@ -30,6 +30,16 @@ from workflows.abacus_tweb.p10_training_contract import atomic_json
 ROOT = Path("/pscratch/sd/d/dkololgi/abacus/p10_multiphase/p12a_base_response_v1")
 
 
+def spatial_group_keys(rows: dict, index: np.ndarray) -> np.ndarray:
+    """Spatial IDs are local to each phase and cap, never global identifiers."""
+    phase = np.asarray(rows.get('phase_index', np.zeros(len(rows['cap']), dtype=np.int64)))
+    keys = np.empty(len(index), dtype=[('phase','i8'),('cap','i8'),('block','i8')])
+    keys['phase'] = phase[index]
+    keys['cap'] = rows['cap'][index]
+    keys['block'] = rows['superblock_id'][index]
+    return keys
+
+
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
@@ -491,14 +501,10 @@ def main() -> None:
 
     calibration_index = choose(np.isin(fold, ready["validation"]["calibration_folds"]), args.calibration_rows)
     evaluation_index = choose(np.isin(fold, ready["validation"]["evaluation_folds"]), args.evaluation_rows)
-    calibration_superblock = (
-        validation["cap"][calibration_index].astype(np.int64) << 32
-    ) + validation["superblock_id"][calibration_index].astype(np.int64)
-    evaluation_superblock = (
-        validation["cap"][evaluation_index].astype(np.int64) << 32
-    ) + validation["superblock_id"][evaluation_index].astype(np.int64)
+    calibration_superblock = spatial_group_keys(validation, calibration_index)
+    evaluation_superblock = spatial_group_keys(validation, evaluation_index)
     if np.intersect1d(calibration_superblock, evaluation_superblock).size:
-        raise RuntimeError("ph006 calibration/evaluation superblocks overlap")
+        raise RuntimeError("Calibration/evaluation phase-cap-superblock groups overlap")
     calibration_samples = sample_posterior(
         posterior, vx[calibration_index], args.n_posterior_samples, args.sample_chunk, device
     )
@@ -577,6 +583,7 @@ def main() -> None:
         "not_joint_field_posterior": True,
         "training_phases": ready["training_phases"],
         "selection_phase": ready["validation_phase"],
+        "selection_phases": ready.get("validation_phases", [ready["validation_phase"]]),
         "sealed_phase": ready["sealed_phase"],
         "sealed_phase_opened": False,
         "conditioning_features": ready["feature_names"],

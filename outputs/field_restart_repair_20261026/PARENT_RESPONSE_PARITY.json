@@ -1,0 +1,19 @@
+{
+  "pass": true,
+  "reference_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/p3_fields/field_manifest.json",
+  "panels": [
+    {
+      "cap": "NGC",
+      "rows": 32,
+      "grid_x_index": 381,
+      "exact_value_and_support_parity": true
+    },
+    {
+      "cap": "SGC",
+      "rows": 32,
+      "grid_x_index": 192,
+      "exact_value_and_support_parity": true
+    }
+  ],
+  "scope": "exact 64-row existing-grid parity plus synthetic whole-grid regression; no calibration claim"
+}

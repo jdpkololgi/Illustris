@@ -1,0 +1,10 @@
+{
+  "schema": "field-numerical-revision-v1",
+  "reason": "Enable strict deterministic algorithms and cuBLAS workspace for reproducible restart; scientific objective, data, architecture and tolerances unchanged",
+  "sources": {
+    "e2e_wholefield_pilot_train.py": {
+      "parent_sha256": "a2c2cc7be70dec201dc73014db7cc5803062d179ea0259ed9c96c8683adcbed9",
+      "sha256": "b0c050e1ed9c045e578e8907e2e2aa8131dd37a2de46882f727e13831efaf016"
+    }
+  }
+}

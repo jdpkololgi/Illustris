@@ -40,11 +40,39 @@ def validate_oof_checkpoint(checkpoint: dict, export_phase: str, latent_size: in
     training_phases = tuple(checkpoint.get("training_phases", ()))
     if export_phase in training_phases:
         raise RuntimeError(f"{export_phase} is in-sample for this checkpoint")
-    if checkpoint.get("validation_phase") != export_phase:
-        raise RuntimeError("export phase is not the checkpoint's frozen omitted phase")
+    validation_phases = checkpoint.get("validation_phases") or [checkpoint.get("validation_phase")]
+    if export_phase not in validation_phases:
+        raise RuntimeError("export phase is not one of the checkpoint's registered validation phases")
     weight = checkpoint["state_dict"].get("unet.output.weight")
     if weight is None or int(weight.shape[0]) != latent_size:
         raise RuntimeError("checkpoint latent width does not match the P12 contract")
+
+
+def terminal_export_checkpoint(state: dict, completion: dict, loader, epochs: int) -> dict:
+    """Select fixed-budget terminal weights without looking at omitted scores."""
+    args = state.get('frozen_arguments', {})
+    if (state.get('schema_version') != 'p10-arm-a-checkpoint-v1' or state.get('model') != 'unet'
+            or epochs < 1 or not args.get('disable_early_stopping')
+            or args.get('epochs') != epochs or completion.get('epochs_completed') != epochs
+            or state.get('global_step') != completion.get('global_steps')
+            or state.get('global_step') != epochs * completion.get('training_cores_per_epoch', 0)
+            or state.get('resume', {}).get('epoch') != epochs
+            or state.get('resume', {}).get('cursor') != completion.get('training_cores_per_epoch')):
+        raise RuntimeError('A complete fixed-budget terminal encoder is required')
+    if state.get('source_contract') != completion.get('source_contract'):
+        raise RuntimeError('Terminal checkpoint/completion source mismatch')
+    if tuple(completion['training_phases']) != loader.training_phases:
+        raise RuntimeError('Terminal encoder training phases mismatch')
+    for key, relative in [('training_ready_marker_sha256', 'TRAINING_LOADER_READY.json'),
+                          ('target_scaler_sha256','transforms/target_scaler.json'),
+                          ('field_transform_sha256','transforms/field/field_transform.json')]:
+        if completion[key] != sha256(loader.root / relative):
+            raise RuntimeError('Terminal encoder input binding mismatch: ' + key)
+    return {'schema_version':'p10-arm-a-best-v1', 'model':'unet',
+            'state_dict':state['model_state'], 'training_phases':list(loader.training_phases),
+            'validation_phases':list(loader.validation_phases),
+            'scaler':loader.target_scaler, 'normalization':loader.field_normalization,
+            'selection_policy':'terminal_fixed_budget', 'terminal_epochs':epochs}
 
 
 def ntilde_at_rows(selection: dict, cap: np.ndarray, redshift: np.ndarray) -> np.ndarray:
@@ -87,6 +115,7 @@ def main() -> None:
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--context-halo", type=int, default=24)
+    parser.add_argument("--terminal-epochs", type=int)
     parser.add_argument("--base", type=int, default=24)
     parser.add_argument("--latent-channels", type=int, default=32)
     args = parser.parse_args()
@@ -105,10 +134,25 @@ def main() -> None:
         raise RuntimeError("P12 summary export requires a GPU interactive allocation")
 
     loader = P10PhaseBalancedLoader(args.contract_root, include_blind=False)
-    if loader.validation_phase != args.phase:
+    if args.phase not in loader.validation_phases:
         raise RuntimeError("contract validation phase is not the requested omitted phase")
+    if loader.phase_records[args.phase].get('truth_lineage', {}).get('label_policy_version') == 'galaxy-realspace-all-populations-v2':
+        import os
+        os.environ['CUBLAS_WORKSPACE_CONFIG'] = ':4096:8'
+        torch.use_deterministic_algorithms(True)
+        torch.backends.cudnn.benchmark = False
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.allow_tf32 = False
     checkpoint = torch_load(args.checkpoint, args.device)
+    completion_path = args.checkpoint.parent / 'ARM_A_TRAINING_COMPLETE.json'
+    if args.terminal_epochs is not None:
+        checkpoint = terminal_export_checkpoint(checkpoint, json.loads(completion_path.read_text()),
+                                                loader, args.terminal_epochs)
+    elif loader.manifest.get('checkpoint_policy'):
+        raise RuntimeError('Expanded OOF contracts require --terminal-epochs; omitted-phase best selection is forbidden')
     validate_oof_checkpoint(checkpoint, args.phase, args.latent_channels)
+    if tuple(checkpoint['training_phases']) != loader.training_phases:
+        raise RuntimeError('Checkpoint training phases do not match its export contract')
     model = unet_impl.UPatch(base=args.base, latent_channels=args.latent_channels).to(args.device)
     model.load_state_dict(checkpoint["state_dict"])
     model.eval()
@@ -130,7 +174,7 @@ def main() -> None:
     cursor = 0
     adapter = loader.field_adapter(args.phase)
     with torch.inference_mode():
-        for ref in loader.validation_refs():
+        for ref in loader.validation_refs(args.phase):
             patch = adapter.extract(
                 ref.core_id,
                 args.context_halo,
@@ -191,7 +235,8 @@ def main() -> None:
         "schema_version": "p12-unet-oof-summary-v1",
         "context_halo_voxels": args.context_halo,
         "alignment_voxels": unet_impl.ALIGNMENT_VOXELS,
-        "precision": {"cudnn_tf32": True, "matmul_tf32": False},
+        "precision": {"cudnn_tf32": torch.backends.cudnn.allow_tf32, "matmul_tf32": False,
+                      "strict_deterministic": torch.are_deterministic_algorithms_enabled()},
         "export_source_sha256": sha256(Path(__file__)),
         "elapsed_seconds": time.monotonic() - started,
         "created_utc": datetime.now(timezone.utc).isoformat(),
@@ -204,6 +249,11 @@ def main() -> None:
         "latent_dimensions": args.latent_channels,
         "checkpoint": str(args.checkpoint),
         "checkpoint_sha256": sha256(args.checkpoint),
+        "checkpoint_selection": checkpoint.get('selection_policy', 'validation_best'),
+        "terminal_epochs": args.terminal_epochs,
+        "completion_sha256": sha256(completion_path) if args.terminal_epochs is not None else None,
+        "contract_marker_sha256": sha256(args.contract_root / 'TRAINING_LOADER_READY.json'),
+        "truth_lineage": record.get('truth_lineage'),
         "contract_root": str(args.contract_root),
         "arrays": {
             "parent_node_id": str(output / "parent_node_id.npy"),
