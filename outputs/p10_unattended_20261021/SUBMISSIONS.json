@@ -1,0 +1,66 @@
+{
+  "created_utc": "2026-10-21",
+  "purpose": "Finish phase inputs and loader preparation only; no model training",
+  "maintenance_utc": {
+    "start": "2026-10-21T13:00:00Z",
+    "end": "2026-10-22T05:00:00Z"
+  },
+  "jobs": {
+    "targets": 60061613,
+    "catalogues": 60062177,
+    "reserved_geometry": 60062705,
+    "development_graphs": 60064505,
+    "ph007_graph": 60064507,
+    "ph006_reuse_and_ph001_adoption": 60064520,
+    "development_final": 60064743,
+    "reserved_final": 60064745,
+    "ph007_final": 60064747,
+    "ph000_gpu_interactive": 60064334,
+    "training_data_readiness": 60064796
+  },
+  "dependencies": {
+    "development_graphs": "aftercorr:60062177",
+    "ph007_graph": "afterok:60061527",
+    "ph006_reuse_and_ph001_adoption": "afterok:60049122_4",
+    "development_final": "aftercorr:60064505",
+    "reserved_final": "aftercorr:60062705",
+    "ph007_final": "afterok:60064507",
+    "training_data_readiness": "afterok:60064743:60064745:60064747:60064520:60064334"
+  },
+  "launcher_sha256": {
+    "batch.sh": "b1d39af2da705e7f814a1977fcf6d445ddf68915afd93bce35c82ca510235796",
+    "prepare_training.sh": "5d58fbbace77d95bf2e6136c620ba2f0dc3beba62b7673946b28290afe56a80f",
+    "verify_source.py": "2ae6a0ca9539a18080f528b09b9d14d825c7334eda25965e9b621d20e1b15f05"
+  },
+  "success_marker": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021/TRAINING_LOADER_READY.json",
+  "automatic_retries": false,
+  "restart_policy": "Inspect failed job logs and existing atomic completion receipts; preserve completed products and incomplete artifacts. Do not blindly overwrite or resubmit.",
+  "ph007_catalogue": {
+    "job": 60061527,
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed": "00:58:59",
+    "recovery_needed": false
+  },
+  "ph000_preparation": {
+    "phase_complete_pass": true,
+    "completed_utc": "2026-10-21T00:57:08.922674+00:00",
+    "job": 60064334,
+    "scope": "truth-bearing P1-P4",
+    "historical_reference_import": true,
+    "allocation_state": "COMPLETED",
+    "allocation_exit_code": "0:0",
+    "allocation_elapsed": "00:16:39",
+    "released": true,
+    "graph_refresh": "GRAPH_REFRESH_COMPLETE; exit 0"
+  },
+  "post_maintenance_recovery": {
+    "manifest": "outputs/p10_recovery_20261026/RECOVERY.json",
+    "recovered_phase": "ph012",
+    "job": 60291063,
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "readiness_dependency": "afterok:60291063",
+    "original_failed_dependency_preserved_in_history": "afterok:60064743_*(failed)"
+  }
+}

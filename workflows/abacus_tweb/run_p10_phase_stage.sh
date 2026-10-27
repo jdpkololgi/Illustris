@@ -2,7 +2,7 @@
 set -euo pipefail
 
 if [[ $# -lt 2 ]]; then
-  echo "usage: $0 PHASE {p1|graph-cap|p2-post|p3|p3-p4} [CAP]" >&2
+  echo "usage: $0 PHASE {p1|galaxy-truth|graph-cap|p2-post|p3|p3-p4} [CAP]" >&2
   exit 2
 fi
 phase=$1
@@ -46,37 +46,22 @@ run_p1() {
     return
   fi
 
-  density="$phase_root/targets/density/AbacusSummit_base_c000_${phase}_z0.200_ngrid2048_ab10_tsc_counts.npy"
-  tweb="$phase_root/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json"
-  [[ -s "$density" ]] || { echo "missing density: $density" >&2; exit 2; }
-  [[ -s "$tweb" ]] || { echo "missing T-web marker: $tweb" >&2; exit 2; }
-  parent="$phase_root/catalogues/bright_parent/${phase}_bgs_bright_parent_linkage.fits"
-  annotated="$phase_root/catalogues/annotated_parent/${phase}_bgs_bright_parent_with_tweb_eigs_rs7_ngrid2048_thr0p2_15d.fits"
-  observed="$phase_root/catalogues/observed/${phase}_bgs_bright_full_observed_with_tweb.fits"
-  if [[ ! -s "$parent.complete.json" ]]; then
-    "$cosmic" -u workflows/abacus_tweb/p10_build_bright_parent.py \
-      --registry "$registry" --phase "$phase"
+  # Preserve the frozen legacy products; never write new galaxy-position labels
+  # under their old filenames or silently change canonical membership/targets.
+  if [[ -s "$phase_root/p1_canonical/CATALOGUE_COMPLETE.json" ]]; then
+    echo "Existing legacy P1 is preserved. Use galaxy-truth for the versioned target migration."
+    return
   fi
-  if [[ ! -s "$annotated" ]]; then
-    "$cosmic" -u workflows/abacus_tweb/annotate_cutsky_with_tweb_eigs.py \
-      --cutsky "$parent" \
-      --tweb-dir "$phase_root/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7" \
-      --halo-info-dir "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_${phase}/halos/z0.200/halo_info" \
-      --output-dir "$phase_root/catalogues/annotated_parent" \
-      --output-name "$(basename "$annotated")" \
-      --temp-dir "$phase_root/catalogues/annotated_parent/tmp_annotation"
-  fi
-  if [[ ! -s "$observed.complete.json" ]]; then
-    "$cosmic" -u workflows/abacus_tweb/p10_build_observed_truth.py \
-      --registry "$registry" --phase "$phase"
-  fi
-  if [[ ! -s "$phase_root/p1_canonical/CATALOGUE_COMPLETE.json" ]]; then
-    "$cosmic" -u workflows/abacus_tweb/p10_build_phase_index.py \
-      --registry "$registry" --phase "$phase"
-  elif [[ ! -s "$phase_root/p1_canonical/manifest.json" ]]; then
-    "$cosmic" -u workflows/abacus_tweb/p10_build_phase_index.py \
-      --registry "$registry" --phase "$phase" --reuse-validated
-  fi
+  echo "Legacy host-label P1 construction is retired. Run galaxy-truth, then explicitly rebind/rebuild downstream target products." >&2
+  exit 2
+
+}
+
+run_galaxy_truth() {
+  : "${TWEB_GALAXY_QUALIFICATION:?Set the passing galaxy-position qualification report path}"
+  "$cosmic" -u workflows/abacus_tweb/migrate_p10_galaxy_position_truth.py \
+    --registry "$registry" --phase "$phase" \
+    --qualification "$TWEB_GALAXY_QUALIFICATION" --execute
 }
 
 run_graph_cap() {
@@ -186,6 +171,7 @@ run_p3_p4() {
 
 case "$stage" in
   p1) run_p1 ;;
+  galaxy-truth) run_galaxy_truth ;;
   graph-cap) run_graph_cap ;;
   p2-post) run_p2_post ;;
   p3) run_p3 ;;

@@ -1,0 +1,179 @@
+{
+  "created_utc": "2026-10-20T21:47:42.533951+00:00",
+  "density": {
+    "bytes": 34359738496,
+    "dtype": "float32",
+    "manifest": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/density/AbacusSummit_base_c000_ph007_z0.200_ngrid2048_ab10_tsc_counts.job60054561.manifest.json",
+    "manifest_sha256": "88748428c3f52252c4814ea39ca90f600a7e90622b0af9f87af1a4730e22dfec",
+    "particle_count": 33022530364,
+    "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph007/counts_tsc_2048.npy",
+    "relative_count_error": 9.453188113913738e-08,
+    "shape": [
+      2048,
+      2048,
+      2048
+    ],
+    "verified": true
+  },
+  "git_sha": "0ba6d661e44a5de6c04290172ac29c027bdeb626",
+  "mpi_layout": {
+    "mpi_pickle_count_limit": 2147483647,
+    "mpi_size": 16,
+    "worst_fft_transpose_message_bytes": 536870912
+  },
+  "mpi_size": 16,
+  "outputs": {
+    "rank_count": 16,
+    "records": [
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0000.npz",
+        "rank": 0,
+        "x_end": 128,
+        "x_start": 0
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0001.npz",
+        "rank": 1,
+        "x_end": 256,
+        "x_start": 128
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0002.npz",
+        "rank": 2,
+        "x_end": 384,
+        "x_start": 256
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0003.npz",
+        "rank": 3,
+        "x_end": 512,
+        "x_start": 384
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0004.npz",
+        "rank": 4,
+        "x_end": 640,
+        "x_start": 512
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0005.npz",
+        "rank": 5,
+        "x_end": 768,
+        "x_start": 640
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0006.npz",
+        "rank": 6,
+        "x_end": 896,
+        "x_start": 768
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0007.npz",
+        "rank": 7,
+        "x_end": 1024,
+        "x_start": 896
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0008.npz",
+        "rank": 8,
+        "x_end": 1152,
+        "x_start": 1024
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0009.npz",
+        "rank": 9,
+        "x_end": 1280,
+        "x_start": 1152
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0010.npz",
+        "rank": 10,
+        "x_end": 1408,
+        "x_start": 1280
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0011.npz",
+        "rank": 11,
+        "x_end": 1536,
+        "x_start": 1408
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0012.npz",
+        "rank": 12,
+        "x_end": 1664,
+        "x_start": 1536
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0013.npz",
+        "rank": 13,
+        "x_end": 1792,
+        "x_start": 1664
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0014.npz",
+        "rank": 14,
+        "x_end": 1920,
+        "x_start": 1792
+      },
+      {
+        "bytes": 6979324054,
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0015.npz",
+        "rank": 15,
+        "x_end": 2048,
+        "x_start": 1920
+      }
+    ],
+    "total_bytes": 111669184864,
+    "verified": true,
+    "x_coverage": [
+      0,
+      2048
+    ]
+  },
+  "phase": "ph007",
+  "registry": "/global/u2/d/dkololgi/TNG/Illustris/outputs/p10_expansion_pilot_20261020/source_attempt2/configs/p10_phase_registry_v2.json",
+  "registry_sha256": "31371363318735e01f26bcc28b244377cc022b0135f54c488db7d27140f705eb",
+  "role": "training",
+  "schema_version": "p10-tweb-complete-v1",
+  "slurm_job_id": "60054561",
+  "target_contract": {
+    "box_size_mpc_h": 2000.0,
+    "coordinate_units": "Mpc/h",
+    "cosmology": "c000",
+    "eigenvalue_order": "lambda1<=lambda2<=lambda3",
+    "grid_size": 2048,
+    "mass_assignment": "TSC",
+    "particle_subsamples": {
+      "A_fraction": 0.03,
+      "B_fraction": 0.07,
+      "required_directories": [
+        "field_rv_A",
+        "halo_rv_A",
+        "field_rv_B",
+        "halo_rv_B"
+      ],
+      "total_fraction": 0.1
+    },
+    "phase_is_model_input": false,
+    "redshift": 0.2,
+    "simulation_family": "AbacusSummit",
+    "simulation_name_pattern": "AbacusSummit_base_c000_{phase}",
+    "tidal_smoothing_mpc_h": 7.0,
+    "web_threshold": 0.2
+  }
+}

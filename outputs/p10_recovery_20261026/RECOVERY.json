@@ -1,0 +1,153 @@
+{
+  "allocation": 60291063,
+  "node": "nid200043",
+  "cpus": 64,
+  "account": "desi",
+  "qos": "interactive",
+  "walltime": "01:00:00",
+  "scratch": true,
+  "tests": "10 passed",
+  "recovery_source": "outputs/p10_recovery_20261026/SOURCE_FREEZE.json",
+  "limits_changed": false,
+  "diagnostic": {
+    "old_max_cap_shell_deviation": 0.1111090223914921,
+    "swap_max_cap_shell_deviation": 0.021690935499920457,
+    "swap_active_count_ratio": 1.0053301140283244,
+    "swap_superblock_count_ratio": 1.1578947368421053,
+    "method": "At most 50 whole-component swaps, deterministic strict decrease in normalized squared cap/shell imbalance; reached fixed point after 46 swaps"
+  },
+  "full_rebuild_validation": "PASS",
+  "original_final_job": 60064796,
+  "recovery_exit_code": 0,
+  "phase_completion": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph012/PHASE_COMPLETE.json",
+  "phase_completion_sha256": "5d3b26ebe7a1cd15958e10db82f46dca1cada700f0b6dab342445d7e14f64abc",
+  "phase_completed_utc": "2026-10-26T01:49:30.935966+00:00",
+  "independent_rebuild": {
+    "active_parent_ids_unique": true,
+    "all_fold_cap_shell_cells_nonempty": true,
+    "context_parent_ids_unique": true,
+    "core_ids_dense_unique": true,
+    "deterministic_semantic_rebuild": true,
+    "eligible_count_matches_geometry": true,
+    "fft_status_explicitly_reserved": true,
+    "field_artifact_hashes_match": true,
+    "field_support_pass": true,
+    "fold_distance_medians_matched_below_25pct": true,
+    "fold_occupied_superblock_ratio_below_1p25": true,
+    "geometry_artifact_hashes_match": true,
+    "geometry_pass": true,
+    "graph_artifact_hashes_match": true,
+    "graph_support_pass": true,
+    "superblock_ids_dense_unique": true
+  },
+  "accepted_fold_assignment": {
+    "candidates": [
+      {
+        "active_count_ratio": 1.0216150189861652,
+        "cap_shell_max_relative_deviation": 0.11112782086806355,
+        "context_weight": 0.05,
+        "core_weight": 0.05,
+        "distance_median_ratio": 1.0544569492340088,
+        "distance_mpc_medians": [
+          48.100364685058594,
+          47.935272216796875,
+          49.272674560546875,
+          47.924705505371094,
+          46.72801208496094
+        ],
+        "gates": {
+          "cap_shell_relative_deviation_below_10pct": false,
+          "five_nonempty_folds": true,
+          "fold_active_count_max_min_below_1p05": true,
+          "fold_distance_medians_matched_below_25pct": true,
+          "fold_occupied_superblock_ratio_below_1p25": true
+        },
+        "name": "frozen_lpt_v1",
+        "occupied_superblock_ratio": 1.1808510638297873,
+        "pass": false
+      },
+      {
+        "active_count_ratio": 1.0334330237360216,
+        "cap_shell_max_relative_deviation": 0.1111090223914921,
+        "context_weight": 0.0,
+        "core_weight": 0.05,
+        "distance_median_ratio": 1.1280640363693237,
+        "distance_mpc_medians": [
+          50.13657760620117,
+          47.74100112915039,
+          47.49304962158203,
+          47.81127166748047,
+          44.44479751586914
+        ],
+        "gates": {
+          "cap_shell_relative_deviation_below_10pct": false,
+          "five_nonempty_folds": true,
+          "fold_active_count_max_min_below_1p05": true,
+          "fold_distance_medians_matched_below_25pct": true,
+          "fold_occupied_superblock_ratio_below_1p25": true
+        },
+        "name": "boundary_balance_fallback_v1",
+        "occupied_superblock_ratio": 1.1578947368421053,
+        "pass": false
+      },
+      {
+        "active_count_ratio": 1.0053301140283244,
+        "cap_shell_max_relative_deviation": 0.021690935499920457,
+        "context_weight": 0.0,
+        "core_weight": 0.05,
+        "distance_median_ratio": 1.1768290996551514,
+        "distance_mpc_medians": [
+          50.2446174621582,
+          52.418670654296875,
+          49.67909240722656,
+          48.35392761230469,
+          44.54229736328125
+        ],
+        "gates": {
+          "cap_shell_relative_deviation_below_10pct": true,
+          "five_nonempty_folds": true,
+          "fold_active_count_max_min_below_1p05": true,
+          "fold_distance_medians_matched_below_25pct": true,
+          "fold_occupied_superblock_ratio_below_1p25": true
+        },
+        "name": "whole_component_swap_fallback_v1",
+        "occupied_superblock_ratio": 1.1578947368421053,
+        "pass": true
+      }
+    ],
+    "selected": "whole_component_swap_fallback_v1",
+    "selection_policy": "use frozen LPT when all registered balance gates pass; otherwise use the first deterministic geometry-only fallback that passes every same gate"
+  },
+  "allocation_state": "COMPLETED",
+  "allocation_exit_code": "0:0",
+  "allocation_elapsed": "00:11:42",
+  "allocation_released": true,
+  "graph_refresh": "GRAPH_REFRESH_COMPLETE; exit 0",
+  "readiness_dependency_replaced": "afterok:60291063",
+  "readiness_job": 60064796,
+  "readiness": {
+    "job": 60064796,
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed": "02:57:20",
+    "report": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021/TRAINING_LOADER_READY.json",
+    "report_sha256": "4e51c87f460ed4314aa199eee1064eac5b6fba9e18d4883b64e99d47e2f4cf06",
+    "created_utc": "2026-10-26T05:25:28.896437+00:00",
+    "pass": true,
+    "gates": {
+      "all_adapters_pass": true,
+      "all_phase_contracts_pass": true,
+      "complete_deterministic_validation_order": true,
+      "complete_epoch_coverage": true,
+      "epoch_order_deterministic": true,
+      "field_extraction_deterministic_all_phases": true,
+      "graph_extraction_deterministic_all_phases": true,
+      "phase_prefix_balanced": true,
+      "reserved_truth_absent": true,
+      "resume_parity": true,
+      "target_alignment_all_visible_phases": true,
+      "weighted_loss_accounting": true
+    },
+    "referenced_manifest_hashes_verified": true
+  }
+}

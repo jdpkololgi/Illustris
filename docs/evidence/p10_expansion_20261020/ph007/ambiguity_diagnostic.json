@@ -1,0 +1,114 @@
+{
+  "completed": true,
+  "diagnostic_only": true,
+  "qualification_changed": false,
+  "training_ready": false,
+  "job_id": "60057549",
+  "script_sha256": "646e51c1b715c5ddd2e3f47bd519e8a20424554ecfd9239e6fd3eae15b89d134",
+  "audit_sha256": "16b71f4ed1e0962933dabffadf1f9bc8c659e37f8f418712cfbac56b5e05acbe",
+  "sample_sha256": "7682e6234ac07c8e468de1ee2963440553796c21dd2b4010d4abae3915a20f95",
+  "source": {
+    "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph007/halos/z0.200/field_rv_A/field_rv_A_033.asdf",
+    "bytes": 1306186206,
+    "mtime_ns": 1585882377000000000
+  },
+  "original_row": 64130602,
+  "query_position": [
+    960.1140231666034,
+    -893.6099922919456,
+    974.0820344098286
+  ],
+  "tolerance_mpc_h": 0.005,
+  "nearest_eight": [
+    {
+      "distance_mpc_h": 6.526342666015802e-05,
+      "source_row": 57354963
+    },
+    {
+      "distance_mpc_h": 0.0020173542673317412,
+      "source_row": 57354965
+    },
+    {
+      "distance_mpc_h": 0.5753663988542903,
+      "source_row": 57354964
+    },
+    {
+      "distance_mpc_h": 1.1482548807222155,
+      "source_row": 60731012
+    },
+    {
+      "distance_mpc_h": 1.2773362328743183,
+      "source_row": 57354966
+    },
+    {
+      "distance_mpc_h": 1.2870531949163175,
+      "source_row": 53979157
+    },
+    {
+      "distance_mpc_h": 1.3345553371293146,
+      "source_row": 53977559
+    },
+    {
+      "distance_mpc_h": 1.38276274291016,
+      "source_row": 57356861
+    }
+  ],
+  "candidates_within_tolerance": 2,
+  "candidate_source_rows": [
+    57354963,
+    57354965
+  ],
+  "candidate_positions": [
+    [
+      960.114013671875,
+      -893.6099853515625,
+      974.0819702148438
+    ],
+    [
+      960.114013671875,
+      -893.6099853515625,
+      974.0800170898438
+    ]
+  ],
+  "candidate_distances_mpc_h": [
+    6.526342666015802e-05,
+    0.0020173542673317412
+  ],
+  "candidate_voxels": [
+    [
+      983,
+      1132,
+      997
+    ],
+    [
+      983,
+      1132,
+      997
+    ]
+  ],
+  "query_voxel": [
+    983,
+    1132,
+    997
+  ],
+  "candidate_eigenvalues": [
+    [
+      -0.2919375002384186,
+      -0.02702310122549534,
+      0.3550526201725006
+    ],
+    [
+      -0.2919375002384186,
+      -0.02702310122549534,
+      0.3550526201725006
+    ]
+  ],
+  "query_eigenvalues": [
+    -0.2919375002384186,
+    -0.02702310122549534,
+    0.3550526201725006
+  ],
+  "distinct_candidate_positions": 2,
+  "all_candidates_same_query_voxel": true,
+  "all_candidates_same_query_eigenvalues": true
+}

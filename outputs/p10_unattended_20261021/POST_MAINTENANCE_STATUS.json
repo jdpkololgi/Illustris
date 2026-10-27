@@ -1,0 +1,193 @@
+{
+  "checked_utc": "2026-10-26T01:40:15.923451+00:00",
+  "phases": {
+    "ph000": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph000/PHASE_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T00:57:08.922674+00:00"
+      }
+    ],
+    "ph001": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph001/BLIND_INPUT_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-08-13T13:08:08.590710+00:00"
+      }
+    ],
+    "ph002": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph002/PHASE_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T00:18:10.304202+00:00"
+      }
+    ],
+    "ph003": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph003/PHASE_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T00:23:42.059543+00:00"
+      }
+    ],
+    "ph004": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph004/PHASE_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T00:29:12.784926+00:00"
+      }
+    ],
+    "ph005": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph005/PHASE_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T00:34:43.418489+00:00"
+      }
+    ],
+    "ph006": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph006/PHASE_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T01:07:55.265091+00:00"
+      }
+    ],
+    "ph007": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/PHASE_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T01:32:35.084308+00:00"
+      }
+    ],
+    "ph008": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph008/PHASE_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T05:37:19.423385+00:00"
+      }
+    ],
+    "ph009": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph009/PHASE_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T06:07:08.249902+00:00"
+      }
+    ],
+    "ph010": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph010/PHASE_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T06:17:16.570721+00:00"
+      }
+    ],
+    "ph011": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph011/PHASE_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T06:27:49.846440+00:00"
+      }
+    ],
+    "ph012": [],
+    "ph013": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph013/PHASE_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T07:10:48.100288+00:00"
+      }
+    ],
+    "ph014": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph014/BLIND_INPUT_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T01:19:40.394869+00:00"
+      }
+    ],
+    "ph015": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph015/BLIND_INPUT_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T01:38:41.292571+00:00"
+      }
+    ],
+    "ph016": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph016/BLIND_INPUT_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T05:24:41.132478+00:00"
+      }
+    ],
+    "ph017": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph017/BLIND_INPUT_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T05:55:34.862193+00:00"
+      }
+    ],
+    "ph018": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph018/BLIND_INPUT_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T06:54:32.736240+00:00"
+      }
+    ],
+    "ph019": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph019/BLIND_INPUT_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T07:27:04.907628+00:00"
+      }
+    ],
+    "ph020": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph020/PHASE_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T07:22:30.544239+00:00"
+      }
+    ],
+    "ph021": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph021/PHASE_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T07:47:11.387831+00:00"
+      }
+    ],
+    "ph022": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph022/PHASE_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T07:56:31.646751+00:00"
+      }
+    ],
+    "ph023": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph023/PHASE_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T08:07:45.936293+00:00"
+      }
+    ],
+    "ph024": [
+      {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph024/PHASE_COMPLETE.json",
+        "pass": true,
+        "created_utc": "2026-10-21T06:38:30.547159+00:00"
+      }
+    ]
+  },
+  "scope": "Receipt inventory only; full artifact hash verification remains in final readiness job",
+  "missing_phase": "ph012",
+  "failed_job": "60064743_4",
+  "failure": "Both deterministic spatial-fold candidates exceed 10 percent cap-shell balance gate: 0.1111278 and 0.1111090",
+  "last_successful_build_end_utc": "2026-10-21T08:07:47Z",
+  "final_readiness_job": 60064796,
+  "final_readiness_state": "DependencyNeverSatisfied",
+  "readiness_marker_exists": false,
+  "allocation_request_blocked_by_auto_review": {
+    "nodes": 1,
+    "cpus": 64,
+    "constraint": "cpu",
+    "qos": "interactive",
+    "account": "desi",
+    "walltime": "01:00:00",
+    "licenses": "scratch",
+    "reason": "Reviewer requires explicit approval of allocation parameters despite earlier broad compute authorization"
+  },
+  "scheduler_mutations_this_turn": false
+}

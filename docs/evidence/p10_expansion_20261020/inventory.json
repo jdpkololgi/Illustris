@@ -1,0 +1,2033 @@
+{
+  "schema_version": "p10-expansion-inventory-v1",
+  "created_utc": "2026-10-20T20:07:43.571566+00:00",
+  "phases": {
+    "ph000": {
+      "role": "training_development_reference",
+      "truth_access": "development",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000.fits",
+          "exists": true,
+          "bytes": 6645378240
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA0_nomask.fits",
+          "exists": true,
+          "bytes": 2663075520
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock0/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9761575680
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/fba0_bkp/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3482789760
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2016144000
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph000/BGS_box_ph000.fits",
+          "exists": true,
+          "bytes": 12076937280
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph000/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph000/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph000/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph000/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph000/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph000/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false
+    },
+    "ph001": {
+      "role": "sealed_blind",
+      "truth_access": "sealed_until_predictions_frozen",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph001.fits",
+          "exists": true,
+          "bytes": 6657753600
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA1_nomask.fits",
+          "exists": true,
+          "bytes": 2671053120
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock1/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9816246720
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/fba1/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3502298880
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl1/kibo-v1/mock1/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2024570880
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph001/BGS_box_ph001.fits",
+          "exists": true,
+          "bytes": 12079514880
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph001/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph001/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph001/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph001/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph001/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph001/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false
+    },
+    "ph002": {
+      "role": "training_and_target_benchmark",
+      "truth_access": "development",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph002.fits",
+          "exists": true,
+          "bytes": 6647120640
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA2_nomask.fits",
+          "exists": true,
+          "bytes": 2690429760
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock2/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9866341440
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/fba2/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3520163520
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2045658240
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph002/BGS_box_ph002.fits",
+          "exists": true,
+          "bytes": 12076018560
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph002/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph002/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph002/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph002/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph002/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false
+    },
+    "ph003": {
+      "role": "training",
+      "truth_access": "development",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph003.fits",
+          "exists": true,
+          "bytes": 6636481920
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA3_nomask.fits",
+          "exists": true,
+          "bytes": 2659089600
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock3/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9755933760
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/fba3/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3480776640
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2014200000
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph003/BGS_box_ph003.fits",
+          "exists": true,
+          "bytes": 12075814080
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph003/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph003/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph003/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph003/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph003/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false
+    },
+    "ph004": {
+      "role": "training",
+      "truth_access": "development",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph004.fits",
+          "exists": true,
+          "bytes": 6654746880
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA4_nomask.fits",
+          "exists": true,
+          "bytes": 2663337600
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock4/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9778610880
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/fba4/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3488880960
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2018502720
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph004/BGS_box_ph004.fits",
+          "exists": true,
+          "bytes": 12079281600
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph004/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph004/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph004/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph004/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph004/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false
+    },
+    "ph005": {
+      "role": "training",
+      "truth_access": "development",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph005.fits",
+          "exists": true,
+          "bytes": 6662888640
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA5_nomask.fits",
+          "exists": true,
+          "bytes": 2693540160
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock5/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9894954240
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/fba5/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3530390400
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2048837760
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph005/BGS_box_ph005.fits",
+          "exists": true,
+          "bytes": 12077147520
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph005/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph005/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph005/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph005/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph005/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false
+    },
+    "ph006": {
+      "role": "validation_and_selection",
+      "truth_access": "selection",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph006.fits",
+          "exists": true,
+          "bytes": 8968233600
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA6_nomask.fits",
+          "exists": true,
+          "bytes": 2673190080
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock6/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9806319360
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/fba6/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3498966720
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2029271040
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph006/BGS_box_ph006.fits",
+          "exists": true,
+          "bytes": 12074198400
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph006/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph006/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph006/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph006/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph006/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph006/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false
+    },
+    "ph007": {
+      "role": "training",
+      "truth_access": "development",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph007.fits",
+          "exists": true,
+          "bytes": 6686519040
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA7_nomask.fits",
+          "exists": true,
+          "bytes": 2677440960
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock7/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9815820480
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/fba7/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3502157760
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2032577280
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph007/BGS_box_ph007.fits",
+          "exists": true,
+          "bytes": 12075825600
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false,
+      "density_receipt": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph007/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1110
+      },
+      "native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph007/counts_tsc_2048.npy",
+        "exists": true,
+        "bytes": 34359738496,
+        "receipt_size_matches": true,
+        "payload_hash_verified": false
+      }
+    },
+    "ph008": {
+      "role": "training",
+      "truth_access": "development",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph008.fits",
+          "exists": true,
+          "bytes": 6669751680
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA8_nomask.fits",
+          "exists": true,
+          "bytes": 2682509760
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock8/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9861088320
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/fba8/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3518311680
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2037764160
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph008/BGS_box_ph008.fits",
+          "exists": true,
+          "bytes": 12080088000
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph008/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph008/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph008/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph008/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph008/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph008/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false,
+      "density_receipt": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph008/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1107
+      },
+      "native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph008/counts_tsc_2048.npy",
+        "exists": true,
+        "bytes": 34359738496,
+        "receipt_size_matches": true,
+        "payload_hash_verified": false
+      }
+    },
+    "ph009": {
+      "role": "training",
+      "truth_access": "development",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph009.fits",
+          "exists": true,
+          "bytes": 6648520320
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA9_nomask.fits",
+          "exists": true,
+          "bytes": 2668608000
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock9/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9781269120
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/fba9/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3489819840
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2025858240
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph009/BGS_box_ph009.fits",
+          "exists": true,
+          "bytes": 12074771520
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph009/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph009/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph009/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph009/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph009/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph009/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false,
+      "density_receipt": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph009/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1109
+      },
+      "native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph009/counts_tsc_2048.npy",
+        "exists": true,
+        "bytes": 34359738496,
+        "receipt_size_matches": true,
+        "payload_hash_verified": false
+      }
+    },
+    "ph010": {
+      "role": "training",
+      "truth_access": "development",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph010.fits",
+          "exists": true,
+          "bytes": 6691907520
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA10_nomask.fits",
+          "exists": true,
+          "bytes": 2698580160
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock10/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9895890240
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/fba10/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3530715840
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2055801600
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph010/BGS_box_ph010.fits",
+          "exists": true,
+          "bytes": 12077965440
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph010/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph010/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph010/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph010/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph010/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph010/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false,
+      "density_receipt": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph010/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1109
+      },
+      "native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph010/counts_tsc_2048.npy",
+        "exists": true,
+        "bytes": 34359738496,
+        "receipt_size_matches": true,
+        "payload_hash_verified": false
+      }
+    },
+    "ph011": {
+      "role": "training",
+      "truth_access": "development",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph011.fits",
+          "exists": true,
+          "bytes": 6655386240
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA11_nomask.fits",
+          "exists": true,
+          "bytes": 2676922560
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock11/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9835706880
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/fba11/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3509228160
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2034259200
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph011/BGS_box_ph011.fits",
+          "exists": true,
+          "bytes": 12077904960
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph011/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph011/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph011/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph011/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph011/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph011/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false,
+      "density_receipt": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph011/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1108
+      },
+      "native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph011/counts_tsc_2048.npy",
+        "exists": true,
+        "bytes": 34359738496,
+        "receipt_size_matches": true,
+        "payload_hash_verified": false
+      }
+    },
+    "ph012": {
+      "role": "validation_and_selection",
+      "truth_access": "selection",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph012.fits",
+          "exists": true,
+          "bytes": 6690899520
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA12_nomask.fits",
+          "exists": true,
+          "bytes": 2697148800
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock12/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9903991680
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/fba12/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3533598720
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2055363840
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph012/BGS_box_ph012.fits",
+          "exists": true,
+          "bytes": 12076698240
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph012/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph012/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph012/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph012/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph012/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph012/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false,
+      "density_receipt": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph012/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1115
+      },
+      "native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph012/counts_tsc_2048.npy",
+        "exists": true,
+        "bytes": 34359738496,
+        "receipt_size_matches": true,
+        "payload_hash_verified": false
+      }
+    },
+    "ph013": {
+      "role": "validation_and_selection",
+      "truth_access": "selection",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph013.fits",
+          "exists": true,
+          "bytes": 6642380160
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA13_nomask.fits",
+          "exists": true,
+          "bytes": 2678440320
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock13/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9838042560
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/fba13/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3510072000
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2032536960
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph013/BGS_box_ph013.fits",
+          "exists": true,
+          "bytes": 12075808320
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph013/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph013/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph013/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph013/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph013/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph013/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false,
+      "density_receipt": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph013/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1115
+      },
+      "native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph013/counts_tsc_2048.npy",
+        "exists": true,
+        "bytes": 34359738496,
+        "receipt_size_matches": true,
+        "payload_hash_verified": false
+      }
+    },
+    "ph014": {
+      "role": "sealed_blind",
+      "truth_access": "sealed_until_predictions_frozen",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph014.fits",
+          "exists": true,
+          "bytes": 6669633600
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA14_nomask.fits",
+          "exists": true,
+          "bytes": 2674647360
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock14/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9814487040
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl14/fba14/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3501671040
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl14/kibo-v1/mock14/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl14/kibo-v1/mock14/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2030921280
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph014/BGS_box_ph014.fits",
+          "exists": true,
+          "bytes": 12078936000
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph014/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph014/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph014/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph014/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph014/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph014/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false,
+      "density_receipt": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph014/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1116
+      }
+    },
+    "ph015": {
+      "role": "sealed_blind",
+      "truth_access": "sealed_until_predictions_frozen",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph015.fits",
+          "exists": true,
+          "bytes": 6663110400
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA15_nomask.fits",
+          "exists": true,
+          "bytes": 2666828160
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock15/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9792480960
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl15/fba15/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3493802880
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl15/kibo-v1/mock15/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl15/kibo-v1/mock15/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2017359360
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph015/BGS_box_ph015.fits",
+          "exists": true,
+          "bytes": 12080021760
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph015/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph015/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph015/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph015/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph015/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph015/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false,
+      "density_receipt": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph015/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1116
+      }
+    },
+    "ph016": {
+      "role": "sealed_blind",
+      "truth_access": "sealed_until_predictions_frozen",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph016.fits",
+          "exists": true,
+          "bytes": 6661707840
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA16_nomask.fits",
+          "exists": true,
+          "bytes": 2672562240
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock16/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9819244800
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl16/fba16/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3503364480
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl16/kibo-v1/mock16/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl16/kibo-v1/mock16/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2026177920
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph016/BGS_box_ph016.fits",
+          "exists": true,
+          "bytes": 12079045440
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph016/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph016/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph016/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph016/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph016/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph016/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false,
+      "density_receipt": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph016/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1113
+      }
+    },
+    "ph017": {
+      "role": "sealed_blind",
+      "truth_access": "sealed_until_predictions_frozen",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph017.fits",
+          "exists": true,
+          "bytes": 6666105600
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA17_nomask.fits",
+          "exists": true,
+          "bytes": 2677590720
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock17/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9822769920
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl17/fba17/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3504625920
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl17/kibo-v1/mock17/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl17/kibo-v1/mock17/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2034576000
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph017/BGS_box_ph017.fits",
+          "exists": true,
+          "bytes": 12077285760
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph017/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph017/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph017/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph017/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph017/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph017/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false,
+      "density_receipt": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph017/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1117
+      }
+    },
+    "ph018": {
+      "role": "sealed_blind",
+      "truth_access": "sealed_until_predictions_frozen",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph018.fits",
+          "exists": true,
+          "bytes": 6673078080
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA18_nomask.fits",
+          "exists": true,
+          "bytes": 2682048960
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock18/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9832737600
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl18/fba18/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3508197120
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl18/kibo-v1/mock18/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl18/kibo-v1/mock18/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2036626560
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph018/BGS_box_ph018.fits",
+          "exists": true,
+          "bytes": 12076966080
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph018/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph018/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph018/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph018/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph018/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph018/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false,
+      "density_receipt": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph018/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1117
+      }
+    },
+    "ph019": {
+      "role": "sealed_blind",
+      "truth_access": "sealed_until_predictions_frozen",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph019.fits",
+          "exists": true,
+          "bytes": 6654450240
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA19_nomask.fits",
+          "exists": true,
+          "bytes": 2670433920
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock19/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9801872640
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl19/fba19/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3497166720
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl19/kibo-v1/mock19/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl19/kibo-v1/mock19/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2027520000
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph019/BGS_box_ph019.fits",
+          "exists": true,
+          "bytes": 12075978240
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph019/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph019/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph019/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph019/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph019/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph019/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false,
+      "density_receipt": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph019/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1115
+      }
+    },
+    "ph020": {
+      "role": "training",
+      "truth_access": "development",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph020.fits",
+          "exists": true,
+          "bytes": 6682697280
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA20_nomask.fits",
+          "exists": true,
+          "bytes": 2678967360
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock20/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9851227200
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/fba20/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3514772160
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2037700800
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph020/BGS_box_ph020.fits",
+          "exists": true,
+          "bytes": 12077487360
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph020/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph020/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph020/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph020/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph020/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph020/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false,
+      "density_receipt": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph020/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1109
+      },
+      "native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph020/counts_tsc_2048.npy",
+        "exists": true,
+        "bytes": 34359738496,
+        "receipt_size_matches": true,
+        "payload_hash_verified": false
+      }
+    },
+    "ph021": {
+      "role": "training",
+      "truth_access": "development",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph021.fits",
+          "exists": true,
+          "bytes": 6647022720
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA21_nomask.fits",
+          "exists": true,
+          "bytes": 2688281280
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock21/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9861048000
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/fba21/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3518291520
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2041015680
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph021/BGS_box_ph021.fits",
+          "exists": true,
+          "bytes": 12077130240
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph021/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph021/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph021/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph021/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph021/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph021/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false,
+      "density_receipt": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph021/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1109
+      },
+      "native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph021/counts_tsc_2048.npy",
+        "exists": true,
+        "bytes": 34359738496,
+        "receipt_size_matches": true,
+        "payload_hash_verified": false
+      }
+    },
+    "ph022": {
+      "role": "training",
+      "truth_access": "development",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph022.fits",
+          "exists": true,
+          "bytes": 6674883840
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA22_nomask.fits",
+          "exists": true,
+          "bytes": 2680251840
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock22/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9850392000
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/fba22/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3514495680
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2034993600
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph022/BGS_box_ph022.fits",
+          "exists": true,
+          "bytes": 12077544960
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph022/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph022/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph022/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph022/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph022/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph022/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false,
+      "density_receipt": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph022/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1109
+      },
+      "native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph022/counts_tsc_2048.npy",
+        "exists": true,
+        "bytes": 34359738496,
+        "receipt_size_matches": true,
+        "payload_hash_verified": false
+      }
+    },
+    "ph023": {
+      "role": "training",
+      "truth_access": "development",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph023.fits",
+          "exists": true,
+          "bytes": 6654467520
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA23_nomask.fits",
+          "exists": true,
+          "bytes": 2676654720
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock23/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9845527680
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/fba23/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3512744640
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2033377920
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph023/BGS_box_ph023.fits",
+          "exists": true,
+          "bytes": 12076200000
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph023/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph023/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph023/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph023/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph023/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph023/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false,
+      "density_receipt": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph023/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1108
+      },
+      "native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph023/counts_tsc_2048.npy",
+        "exists": true,
+        "bytes": 34359738496,
+        "receipt_size_matches": true,
+        "payload_hash_verified": false
+      }
+    },
+    "ph024": {
+      "role": "training",
+      "truth_access": "development",
+      "assets": {
+        "cutsky": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph024.fits",
+          "exists": true,
+          "bytes": 6669158400
+        },
+        "forfa": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA24_nomask.fits",
+          "exists": true,
+          "bytes": 2672907840
+        },
+        "pota": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock24/pota-BRIGHT.fits",
+          "exists": true,
+          "bytes": 9804951360
+        },
+        "fiberassign": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/fba24/datcomb_brightwdup.fits",
+          "exists": true,
+          "bytes": 3498266880
+        },
+        "lss": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats",
+          "exists": true,
+          "bytes": null
+        },
+        "lss_full": {
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+          "exists": true,
+          "bytes": 2026200960
+        },
+        "cubic": {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph024/BGS_box_ph024.fits",
+          "exists": true,
+          "bytes": 12077616960
+        }
+      },
+      "new_campaign_products": {
+        "tweb": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph024/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "catalogues": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph024/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p1": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph024/p1_canonical/CATALOGUE_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p2": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph024/p2_graph/P2_COMPLETE.json",
+          "exists": false,
+          "bytes": null
+        },
+        "p3": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph024/p3_fields/FIELD_COMPLETE",
+          "exists": false,
+          "bytes": null
+        },
+        "p4": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph024/p4_patches/PATCH_MANIFEST_COMPLETE",
+          "exists": false,
+          "bytes": null
+        }
+      },
+      "training_ready": false,
+      "density_receipt": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph024/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1109
+      },
+      "native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph024/counts_tsc_2048.npy",
+        "exists": true,
+        "bytes": 34359738496,
+        "receipt_size_matches": true,
+        "payload_hash_verified": false
+      }
+    }
+  },
+  "training_ready": false,
+  "scope": "Metadata only; no payload validation or readiness claim",
+  "registry_sha256": "31371363318735e01f26bcc28b244377cc022b0135f54c488db7d27140f705eb"
+}

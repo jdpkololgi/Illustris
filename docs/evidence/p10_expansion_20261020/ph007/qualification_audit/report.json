@@ -1,0 +1,353 @@
+{
+  "mapping": {
+    "version": "bgs-v01-c000-galaxy-realspace-v1",
+    "target": "tidal_field_at_galaxy_real_space_position",
+    "input_columns": [
+      "RA",
+      "DEC",
+      "Z_COSMO"
+    ],
+    "cosmology": "FlatLambdaCDM(H0=67.36 km / (Mpc s), Om0=0.3137721026737606, Tcmb0=2.7255 K, Neff=3.0328, m_nu=[0.   0.   0.06] eV, Ob0=0.049301692328524445)",
+    "distance_implementation": "Astropy massive-neutrino c000 approximation; 8193-knot cubic spline",
+    "observer_mpc_h": [
+      -1000.0,
+      -1000.0,
+      -1000.0
+    ],
+    "box_size_mpc_h": 2000.0,
+    "simulation": "AbacusSummit_base_c000",
+    "snapshot_z": 0.2,
+    "native_frame": "[-L/2,L/2); grid mod(native,L)",
+    "sampling": "nearest_cell_float32",
+    "no_observed_z_fallback": true
+  },
+  "job_id": "60055134",
+  "script_sha256": "643a8f0be15da9235d4022786e8dae63ee112cc75983d4bf788f485c1864f4ae",
+  "helper_sha256": "8ee5ee6a9537541491a353f4842d253610f31c6e0e41372549a585fdf36d4d16",
+  "tolerance_mpc_h": 0.005,
+  "mass_relative_tolerance": 1e-05,
+  "sampling": {
+    "rows_per_phase": 32000,
+    "method": "equally spaced original rows",
+    "native_slabs": [
+      0,
+      33
+    ]
+  },
+  "phases": {
+    "ph007": {
+      "sources": [
+        {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph007.fits",
+          "bytes": 6686519040,
+          "mtime_ns": 1706808907000000000
+        },
+        {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph007/BGS_box_ph007.fits",
+          "bytes": 12075825600,
+          "mtime_ns": 1698834990000000000
+        }
+      ],
+      "sample_rows": 32000,
+      "redshift_range": [
+        0.005268076900392771,
+        0.6870287656784058
+      ],
+      "distance_spline_error_mpc_h": {
+        "n": 256,
+        "median": 0.0,
+        "p95": 4.547473508864641e-13,
+        "max": 6.12222357532858e-13
+      },
+      "native_checks": [
+        {
+          "slab": 0,
+          "population": "resolved_central",
+          "rows": 533,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph007/halos/z0.200/halo_info/halo_info_000.asdf",
+            "bytes": 2173237294,
+            "mtime_ns": 1585880414000000000
+          },
+          "native_candidates": 1609697,
+          "position_error_mpc_h": {
+            "n": 533,
+            "median": 4.847398436487097e-05,
+            "p95": 0.0001084809198457885,
+            "max": 0.00015094992812890874
+          },
+          "uniquely_matched": 533,
+          "mass_matches": 533,
+          "accepted": 533,
+          "pass_gate": true,
+          "field": {
+            "rows": 533,
+            "same_voxel": 533,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        {
+          "slab": 0,
+          "population": "unresolved_central",
+          "rows": 131,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph007/halos/z0.200/field_rv_A/field_rv_A_000.asdf",
+            "bytes": 1291258787,
+            "mtime_ns": 1585880680000000000
+          },
+          "native_candidates": 33205919,
+          "position_error_mpc_h": {
+            "n": 131,
+            "median": 2.257423088331358e-05,
+            "p95": 8.478312390981159e-05,
+            "max": 9.824768348106886e-05
+          },
+          "uniquely_matched": 131,
+          "mass_matches": null,
+          "accepted": 131,
+          "pass_gate": true,
+          "field": {
+            "rows": 131,
+            "same_voxel": 131,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        {
+          "slab": 33,
+          "population": "resolved_central",
+          "rows": 534,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph007/halos/z0.200/halo_info/halo_info_033.asdf",
+            "bytes": 2196223437,
+            "mtime_ns": 1585882225000000000
+          },
+          "native_candidates": 1635672,
+          "position_error_mpc_h": {
+            "n": 534,
+            "median": 6.623848354699629e-05,
+            "p95": 0.00011665548006063575,
+            "max": 0.0001496636040840974
+          },
+          "uniquely_matched": 534,
+          "mass_matches": 534,
+          "accepted": 534,
+          "pass_gate": true,
+          "field": {
+            "rows": 534,
+            "same_voxel": 534,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        {
+          "slab": 33,
+          "population": "unresolved_central",
+          "rows": 140,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph007/halos/z0.200/field_rv_A/field_rv_A_033.asdf",
+            "bytes": 1306186206,
+            "mtime_ns": 1585882377000000000
+          },
+          "native_candidates": 33689414,
+          "position_error_mpc_h": {
+            "n": 140,
+            "median": 6.167892294703207e-05,
+            "p95": 0.00010154967510441862,
+            "max": 0.00011857172563223732
+          },
+          "uniquely_matched": 139,
+          "mass_matches": null,
+          "accepted": 139,
+          "pass_gate": false,
+          "field": {
+            "rows": 139,
+            "same_voxel": 139,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        }
+      ],
+      "field_path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7",
+      "field_sources": [
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0000.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1792532697000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0001.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1792532692000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0002.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1792532690000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0003.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1792532689000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0004.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1792532688000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0005.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1792532688000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0006.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1792532688000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0007.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1792532687000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0008.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1792532688000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0009.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1792532688000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0010.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1792532688000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0011.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1792532688000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0012.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1792532687000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0013.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1792532688000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0014.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1792532688000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0015.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1792532688000000000
+        }
+      ],
+      "cubic_file_starts": [
+        0,
+        6798048,
+        13718322,
+        20536340,
+        27379339,
+        34234961,
+        41082752,
+        47899871,
+        54696282,
+        61525372,
+        68342026,
+        75168093,
+        82000367,
+        88843614,
+        95695208,
+        102541441,
+        109372351,
+        116193992,
+        122964563,
+        129785933,
+        136651093,
+        143429619,
+        150279450,
+        157073945,
+        163911831,
+        170750957,
+        177601802,
+        184361374,
+        191077843,
+        198023383,
+        204893149,
+        211702390,
+        218516595,
+        225363619,
+        232227275
+      ],
+      "cubic_index_semantics": "FILE_NUM-local BOX_INDEX into concatenated cubic galaxy blocks",
+      "cubic": {
+        "cen0": {
+          "rows": 3092,
+          "identity_matches": 3092,
+          "position_error_mpc_h": {
+            "n": 3092,
+            "median": 0.00019579841160422066,
+            "p95": 0.00047635072034275214,
+            "max": 0.0008266368117602049
+          },
+          "within_tolerance": 3092,
+          "field": {
+            "rows": 3092,
+            "same_voxel": 3092,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        "cen1": {
+          "rows": 22040,
+          "identity_matches": 22040,
+          "position_error_mpc_h": {
+            "n": 22040,
+            "median": 0.00022561297970501517,
+            "p95": 0.0005474922025808068,
+            "max": 0.001022119815910432
+          },
+          "within_tolerance": 22040,
+          "field": {
+            "rows": 22040,
+            "same_voxel": 22034,
+            "same_voxel_fraction": 0.9997277676950999,
+            "max_abs_eigenvalue_difference": 0.03107762336730957,
+            "rms_eigenvalue_difference": 0.00024041371245235162,
+            "changed_web_class": 0
+          }
+        }
+      },
+      "unresolved_satellites_in_sample": 2,
+      "field_gate": true,
+      "pass_gate": false,
+      "elapsed_seconds": 109.51321222000115
+    }
+  },
+  "completed": true,
+  "phase_registry": {
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/outputs/p10_expansion_pilot_20261020/source_attempt2/configs/p10_phase_registry_v2.json",
+    "sha256": "31371363318735e01f26bcc28b244377cc022b0135f54c488db7d27140f705eb"
+  },
+  "pass_gate": false
+}

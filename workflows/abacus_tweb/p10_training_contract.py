@@ -217,11 +217,21 @@ class P10PhaseBalancedLoader:
         if not self.manifest.get("pass"):
             raise RuntimeError("training readiness marker does not pass")
         self.training_phases = tuple(self.manifest["roles"]["training"])
-        self.validation_phase = str(self.manifest["roles"]["validation_and_selection"])
-        self.blind_phase = str(self.manifest["roles"]["sealed_blind_test"])
-        phases = self.training_phases + (self.validation_phase,)
+        def role_tuple(name):
+            value = self.manifest["roles"][name]
+            return (value,) if isinstance(value, str) else tuple(value)
+        self.validation_phases = role_tuple("validation_and_selection")
+        self.blind_phases = role_tuple("sealed_blind_test")
+        if self.manifest["roles"].get("reserved_confirmation"):
+            self.blind_phases += role_tuple("reserved_confirmation")
+        self.validation_phase = self.validation_phases[0]
+        self.blind_phase = self.blind_phases[0]
+        all_phases = self.training_phases + self.validation_phases + self.blind_phases
+        if len(set(all_phases)) != len(all_phases):
+            raise ValueError("Overlapping phase roles")
+        phases = self.training_phases + self.validation_phases
         if include_blind:
-            phases += (self.blind_phase,)
+            phases += self.blind_phases
         self.phase_records = {
             phase: json.loads((self.root / "phases" / phase / "phase_contract.json").read_text())
             for phase in phases
@@ -258,24 +268,25 @@ class P10PhaseBalancedLoader:
         }
         return phase_balanced_epoch(ids, seed=seed, epoch=epoch, core_weight_by_phase=weights)
 
-    def validation_refs(self) -> tuple[PatchRef, ...]:
-        ids = self._array(self.validation_phase, "validation_core_id.npy")
+    def validation_refs(self, phase: str | None = None) -> tuple[PatchRef, ...]:
+        phases = self.validation_phases if phase is None else (phase,)
+        if not set(phases).issubset(self.validation_phases):
+            raise ValueError("Only registered selection phases are allowed")
         return tuple(
-            PatchRef(
-                phase=self.validation_phase,
-                core_id=int(core_id),
-                phase_index=0,
-                phase_objective_scale=1.0,
-            )
-            for core_id in ids
+            PatchRef(phase=p, core_id=int(core_id), phase_index=i,
+                     phase_objective_scale=1.0)
+            for i, p in enumerate(phases)
+            for core_id in self._array(p, "validation_core_id.npy")
         )
 
     def row_weights(self, phase: str) -> np.ndarray:
         return self._array(phase, "active_row_weight.npy")
 
     def targets_by_parent(self, phase: str) -> np.ndarray:
-        if phase == self.blind_phase:
-            raise PermissionError("ph001 truth is sealed; loader exposes inputs only")
+        if phase in self.blind_phases:
+            raise PermissionError(f"{phase} truth is sealed; loader exposes inputs only")
+        if phase not in self.training_phases + self.validation_phases:
+            raise ValueError("Unregistered target phase")
         return self._array(phase, "parent_eigenvalues.npy")
 
     def graph_adapter(self, phase: str) -> CanonicalGraphPatchAdapter:

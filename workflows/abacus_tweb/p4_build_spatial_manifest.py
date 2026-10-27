@@ -122,6 +122,44 @@ def greedy_balanced_folds(group_counts: np.ndarray, group_context: np.ndarray,
     return result
 
 
+def refine_folds_by_swaps(group_counts: np.ndarray, initial: np.ndarray,
+                          *, max_swaps: int = 50) -> np.ndarray:
+    """Improve cap/shell balance by swapping whole host-linked components.
+
+    The objective is the same normalized squared count imbalance used by LPT.
+    Fixed component order and strict improvement make this bounded fallback
+    deterministic. No component is split and no target values are consulted.
+    The caller still checks every registered spatial gate before accepting it.
+    """
+    result = np.asarray(initial, dtype=np.uint8).copy()
+    target = np.maximum(group_counts.sum(axis=0) / FOLD_COUNT, 1.0)
+    values = group_counts / target
+    residual = np.asarray([
+        values[result == fold].sum(axis=0) - 1.0 for fold in range(FOLD_COUNT)
+    ])
+    for _ in range(max_swaps):
+        best = (-1.0e-12, -1, -1)
+        for left in range(len(result)):
+            delta = values - values[left]
+            scores = 2.0 * np.sum(
+                (residual[result[left]] - residual[result]) * delta + delta * delta,
+                axis=(1, 2),
+            )
+            scores[result == result[left]] = 0.0
+            right = int(np.argmin(scores))
+            if scores[right] < best[0]:
+                best = (float(scores[right]), left, right)
+        if best[1] < 0:
+            break
+        _, left, right = best
+        a, b = int(result[left]), int(result[right])
+        delta = values[right] - values[left]
+        residual[a] += delta
+        residual[b] -= delta
+        result[left], result[right] = b, a
+    return result
+
+
 def same_fold_run_bounds(super_index: np.ndarray, super_cap: np.ndarray,
                          super_fold: np.ndarray, cap_origins: dict[int, np.ndarray],
                          super_size_mpc: float) -> tuple[np.ndarray, np.ndarray]:
@@ -375,6 +413,8 @@ def main() -> None:
         # registered fold balance gate. It removes a redundant context-count
         # penalty while retaining cap/shell and core-count balancing.
         ("boundary_balance_fallback_v1", 0.0, 0.05),
+        # Reached only after both existing assignments fail the unchanged gates.
+        ("whole_component_swap_fallback_v1", 0.0, 0.05),
     )
     fold_candidate_audit = []
     selected = None
@@ -383,6 +423,10 @@ def main() -> None:
             component_counts, component_context, component_cores,
             context_weight=context_weight, core_weight=core_weight,
         )
+        if candidate_name == "whole_component_swap_fallback_v1":
+            candidate_component_fold = refine_folds_by_swaps(
+                component_counts, candidate_component_fold,
+            )
         candidate_super_fold = candidate_component_fold[super_component]
         candidate_core_fold = candidate_super_fold[core_super]
         candidate_active_fold = candidate_core_fold[active_core]

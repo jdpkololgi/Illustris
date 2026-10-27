@@ -1,0 +1,23 @@
+{
+  "job_id": "60061613",
+  "array": "0-10%1",
+  "phases": [
+    "ph008",
+    "ph009",
+    "ph010",
+    "ph011",
+    "ph012",
+    "ph013",
+    "ph020",
+    "ph021",
+    "ph022",
+    "ph023",
+    "ph024"
+  ],
+  "nodes": 4,
+  "mpi_ranks": 16,
+  "minutes_per_task": 30,
+  "account": "desi",
+  "qos": "regular",
+  "reserved_targets_closed": true
+}

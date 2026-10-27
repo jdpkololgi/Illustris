@@ -12,6 +12,9 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+from p10_phase_assets import load_registry, DEFAULT_REGISTRY
 
 
 def sha256(path: Path) -> str:
@@ -32,20 +35,31 @@ def main() -> None:
     repo = Path(__file__).resolve().parents[2]
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--phase", required=True)
+    parser.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY)
     parser.add_argument("--phase-root", type=Path)
     parser.add_argument("--p3-base", type=Path,
                         default=repo / "docs/evidence/p3/p3_field_schema_v1.json")
     parser.add_argument("--p4-base", type=Path,
                         default=repo / "docs/evidence/p4/p4_spatial_schema_v1.json")
     args = parser.parse_args()
-    if args.phase not in {f"ph{i:03d}" for i in range(0, 7)}:
+    registry=load_registry(args.registry)
+    if args.phase not in registry["phases"]:
         raise RuntimeError(f"unsupported phase: {args.phase}")
     phase_root = args.phase_root or Path(
-        f"/pscratch/sd/d/dkololgi/abacus/p10_multiphase/{args.phase}"
+        registry["path_templates"]["phase_output"].format(phase=args.phase)
     )
     out_dir = phase_root / "contracts"
     out_dir.mkdir(parents=True, exist_ok=True)
     catalogue_id = f"{args.phase}_bgs_bright_full_ngc_sgc_v1"
+    p1_path=phase_root/'p1_canonical/manifest.json'
+    if p1_path.is_file():
+        p1=json.loads(p1_path.read_text())
+        if p1.get('phase')!=args.phase:raise ValueError('P1 phase mismatch')
+        catalogue_id=p1['catalogue_id']
+        blind=registry['phases'][args.phase]['role']=='sealed_blind'
+        if bool(p1['target_truth_present'])==blind:raise ValueError('P1 truth visibility differs from phase role')
+    elif registry['schema_version']=='p10-phase-registry-v2':
+        raise FileNotFoundError('Expanded schemas require completed P1 identity')
     records = {}
     for name, base in (("p3", args.p3_base), ("p4", args.p4_base)):
         payload = json.loads(base.read_text())
