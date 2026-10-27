@@ -17,7 +17,7 @@ The two model classes have different targets and dependencies.
 
 Sources: [field target configuration](../configs/e2e_coupled_data_v1.json), [field conditioning implementation](../workflows/sbi/e2e_coupled_condition_products.py), [expanded P12-A configuration](../configs/p12a_corrected_expanded_inputs_20261026.json), and [readiness report](../outputs/field_restart_repair_20261026/REPORT.md).
 
-Both training paths passed numerical restart checks, with zero parameter replay difference in the recorded checks. All fifteen P12-A cross-fit contracts and eighteen response products are prepared. The P12-A downstream tables still depend on fifteen fresh out-of-fold encoder fits, one full-training encoder, halo48 prediction exports and aligned table construction. Numerical readiness is not posterior calibration. Training budgets and scheduler resources remain separate run-planning decisions.
+Both training paths passed numerical restart checks on the old data split, with zero parameter replay difference. The user subsequently adopted the [shared 20/3/2 policy](shared_phase_policy_20261027.md): the fifteen prepared P12-A cross-fit contracts and eighteen response products are reusable historical preparation, not readiness for the new split. Expanded labels/caches and new contracts are required, followed by twenty fresh out-of-fold encoder fits, one full-training encoder, halo48 prediction exports and aligned table construction. CFM also requires expanded inputs and new normalization. Numerical readiness is not posterior calibration. Training budgets and scheduler resources remain separate run-planning decisions.
 
 The earlier whole-field pilot gives a reason to study sparsity, but does not isolate its effect. U-Net density CRPS rose from 0.106830 at region-center redshifts 0.154–0.248 to 0.188359 at 0.452–0.545, approximately 76%. Geometry, field structure and other covariates also differ between shells. Neither evaluated field configuration was qualified as a calibrated field posterior. These historical results describe the previous fits, not the outcome of the proposed retraining. See the [pilot closeout](e2e_wholefield_pilot_closeout_20261014.md).
 
@@ -105,7 +105,7 @@ The first diagnostic should distinguish an information limit from model failure.
 
 ## Evaluation boundaries and immediate next work
 
-Use the registered development/selection roles for exploratory work: the current field development panel uses ph012/ph013; the expanded P12-A contract uses ph006/ph012/ph013 with separate calibration, evaluation and selection subsets. Preserve the current reserved-data restrictions. Historically exposed phases are not fresh blind confirmation merely because a later contract excludes them from training.
+For new runs, both workflows use ph006/ph012/ph013 for development/calibration with separate calibration, evaluation and selection subsets. The [shared phase policy](../configs/shared_phase_policy_20261027.json) assigns ph001 and ph014–017 to training and reserves only ph018–019 for final tests after model/calibration freeze. Historically exposed phases are not fresh blind confirmation. Old contracts retain their original roles for provenance and must be versioned before the new campaign.
 
 The fixed-snapshot mock setup does not validate genuine cosmic evolution across the observed redshift interval. Nor does the existing finite-domain field result establish a coherent full-survey posterior. Keep those limits attached to later survey claims.
 

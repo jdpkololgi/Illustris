@@ -1,0 +1,36 @@
+{
+  "schema_version": "graphweb-shared-phase-policy-v1",
+  "policy_id": "abacus-c000-20train-3development-2test-20261027",
+  "status": "user_adopted_policy_pending_product_migration",
+  "applies_to": ["P12-A encoder and FMPE", "coupled CFM", "whole-field CFM"],
+  "training": ["ph000", "ph001", "ph002", "ph003", "ph004", "ph005", "ph007", "ph008", "ph009", "ph010", "ph011", "ph014", "ph015", "ph016", "ph017", "ph020", "ph021", "ph022", "ph023", "ph024"],
+  "development_and_calibration": ["ph006", "ph012", "ph013"],
+  "final_test": ["ph018", "ph019"],
+  "gaussian_smoothing_mpc_h": 7.0,
+  "phase_is_model_input": false,
+  "fresh_initialization_required": true,
+  "normalization": "fit on training phases only; P12-A OOF transforms exclude the omitted phase",
+  "checkpoint_policy": "fixed_budget_terminal; freeze budgets before scientific fits",
+  "p12a_crossfit": {"folds": 20, "training_phases_per_fold": 19, "full_training_encoders": 1, "context_halo_voxels": 48},
+  "development_partition": {
+    "p12a_calibration_folds": [0, 1],
+    "p12a_evaluation_folds": [2, 3, 4],
+    "p12a_selection_folds": [15, 16, 17],
+    "identity": "phase-cap-spatial-superblock",
+    "cfm": "register disjoint spatial calibration/evaluation subsets within each development phase before use"
+  },
+  "final_test_policy": "no training, normalization, model selection or calibration; assess after model and calibration are frozen; retain existing access guards until a registered evaluation contract",
+  "historical_exposure": {"ph001": "previous P12-A evaluation", "ph014-ph017": "previous CFM replication and model comparisons; now training, not independent tests"},
+  "supersedes_phase_roles_for_new_runs": [
+    "configs/p10_phase_registry_v2.json",
+    "configs/p12a_corrected_expanded_inputs_20261026.json",
+    "configs/e2e_coupled_data_v1.json",
+    "configs/e2e_wholefield_fullcap_v1.json"
+  ],
+  "historical_contracts_and_receipts": "immutable provenance; not launch contracts for the new campaign",
+  "p12a_expanded_inputs_ready": false,
+  "cfm_expanded_inputs_ready": false,
+  "scientific_training_authorized": false,
+  "scheduler_resources_authorized": false,
+  "runtime_contract_migration_complete": false
+}

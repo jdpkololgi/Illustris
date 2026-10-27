@@ -1,5 +1,17 @@
 # Plan — End-to-end conditional density-field posterior
 
+## New-training policy supersession (2026-10-27)
+
+New P12-A and CFM campaigns follow the shared 20/3/2 decision in
+`../configs/shared_phase_policy_20261027.json` and
+[migration/readiness](shared_phase_policy_20261027.md). Train ph000–005,
+ph007–011, ph014–017, ph020–024; develop/calibrate on ph006/012/013; final-test
+on ph018/019 after freeze. Keep R7. Earlier phase exclusions and launch budgets
+below are historical, not authority for new fits. Existing models, calibration
+results and DESI products retain their original lineage; no replacement is
+authorized by this policy alone. Expanded inputs and runtime contracts are not
+yet ready.
+
 ## CURRENT AUTHORITY — bounded coupled CFM pilot (2026-09-24)
 
 Latest2026-09-26: mixed model improves fine scores while retaining13k coarse

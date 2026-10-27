@@ -1,5 +1,15 @@
 # Research context — Illustris
 
+## Shared phase policy adopted (2026-10-27)
+
+New P12-A and coupled/whole-field CFM campaigns use **20 training / 3 development /
+2 final-test phases**: train ph000–005, ph007–011, ph014–017, ph020–024;
+development/calibration ph006/012/013; final test ph018/019. Keep Gaussian R7.
+Canonical decision: `configs/shared_phase_policy_20261027.json`; readiness and
+migration: `docs/shared_phase_policy_20261027.md`. Earlier phase roles and ready
+claims below describe historical products, not the new campaign. Runtime/data
+contract migration is pending; no new training or scheduler budget is authorized.
+
 ## Galaxy-position annotation and product lifecycle (2026-10-19)
 
 The legacy low-z HALO_INDEX addressed a filtered halo table, not the raw table.

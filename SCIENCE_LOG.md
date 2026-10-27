@@ -1,5 +1,33 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-27 — [science decision] Shared 20/3/2 phase policy adopted
+
+User approves the shared policy for new P12-A and coupled/whole-field CFM fits:
+20 training phases (ph000–005, ph007–011, ph014–017, ph020–024), three development/
+calibration phases (ph006/012/013), and two final-test phases (ph018/019).
+This supersedes prior reservations of ph001/ph014–017 and CFM exclusions of
+ph004/005 for NEW training. Historical exposure remains recorded, not erased.
+Retain R7, corrected P12-A own-position labels, native-density CFM targets,
+train-only/fold-specific normalization, disjoint development subsets and fixed-
+budget terminal checkpoints. Final tests follow model/calibration freeze.
+
+Canonical policy: configs/shared_phase_policy_20261027.json; migration/readiness:
+docs/shared_phase_policy_20261027.md. Old hash-bound contracts and receipts are
+preserved, not rewritten. Runtime defaults still require versioned migration;
+the new manifest is policy, not a ready-to-run trainer contract.
+
+Neither expanded dataset is training-ready. P12-A needs corrected labels/caches
+and response qualification for ph001/ph014–017, then a full-20 contract and
+20 OOF contracts (19 train phases each), 21 fresh encoders, halo48 exports and
+aligned FMPE tables. The old 18-phase preparation/15-fold readiness remains
+historical. CFM has qualified old 21-phase products, but lacks ph001/004/005/006
+in that target root; expand/qualify them, promote ph014–017 with training-scale
+sampling, and rebuild 20-phase normalization and selected domain interfaces.
+This audit inspected metadata, not all payloads. Existing numerical restart
+passes do not certify the new split. No jobs, fits or truth payload reads;
+compute budgets and final-test access remain separately controlled. Downstream
+GraphWeb_DESI notices preserve the old VAC and require a fresh model handoff.
+
 ## 2026-10-27 — [sequence decision] Retrain both classes at R7 first
 
 User selects fixed-scale retraining before further smoothing investigations.

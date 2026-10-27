@@ -1,5 +1,17 @@
 # P12-A to DESI Loa environmental-posterior VAC
 
+## New-training policy supersession (2026-10-27)
+
+New P12-A and CFM campaigns follow the shared 20/3/2 decision in
+`../configs/shared_phase_policy_20261027.json` and
+[migration/readiness](shared_phase_policy_20261027.md). Train ph000–005,
+ph007–011, ph014–017, ph020–024; develop/calibrate on ph006/012/013; final-test
+on ph018/019 after freeze. Keep R7. Earlier phase exclusions and launch budgets
+below are historical, not authority for new fits. Existing models, calibration
+results and DESI products retain their original lineage; no replacement is
+authorized by this policy alone. Expanded inputs and runtime contracts are not
+yet ready.
+
 Active plan, adopted 2026-09-24 following the user's approval of the roadmap
 disposition and request to proceed toward DESI application. SCIENCE_LOG.md and
 immutable experiment contracts control claims. This supersedes old prospective
