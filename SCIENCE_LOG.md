@@ -1,5 +1,60 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-26 — [science/code] Six-fit Loa shared-state fields requested
+
+User requests full-cap shared-state density for all six frozen fits and approves
+required compute. Target four NFE128 draws per fit/cap, matching the older views,
+not the separate gated 32-draw independent-tile extension. Preserve all old
+products; no retraining, mock truth, sealed-phase access or VAC replacement.
+Shared-state agreement changes the probability flow and is not calibration.
+
+GraphWeb_DESI now has an observation-only engineering runner extending the
+proven synchronous global-canvas integrator to the expanded 96x64x64 U-Net
+endpoint and transformer velocity fits, retaining their trained conversion and
+BF16 forward conventions. Five synthetic geometry/integration tests pass.
+Actual-checkpoint testing used approved allocation 60292984 on nid200257:
+one 80GB GPU, 32 CPUs, one hour, desi_g/shared_interactive with Scratch.
+All 12 fit/cap panels pass at NFE128: eight windows each, 336 decoded overlap
+comparisons exactly equal, maximum relative block-mass error 4.42e-16.
+An initial expanded-model parity failure was repaired without relaxing gates:
+retain native initial/proposal/update projections, remove the redundant velocity
+projection, and average only complete block-aligned windows. Cached and uncached
+single-window diagnostics match native sampling exactly at NFE4 and NFE128.
+Original failure evidence is retained. This is engineering parity, not calibration.
+
+Full-NGC benchmark passed with all 1,626 windows and four draws, NFE2 only
+(no posterior products). Preparation took 262.30 s; one coarse Heun step 374.62 s;
+legacy/U-Net/transformer fine steps 495.71/335.01/99.73 s. Peak memory 56.55 GiB;
+expanded four-draw native parity remains exact and final source hashes match.
+Projected NFE128 sampling is 23.27 GPU-hours per NGC seed; SGC is approximately
+12.1 hours by window-count scaling, not a separate full-cap measurement.
+User approved four single-80GB-GPU, 32-CPU desi_g/shared/Scratch jobs: two NGC jobs
+at 32 hours and two SGC jobs at 18 hours (100 GPU-hour requested ceiling,
+roughly 71 GPU-hours forecast, no automatic retries). Eleven focused tests pass,
+including positive/negative stored-field, mask, mass, checkpoint and coverage
+checks. The tested samplers are unchanged. GraphWeb commit 272b418 freezes the
+writer/launch contract; the 107-file isolated Scratch snapshot has passing tests
+and manifest SHA256 a209cafce3c7838b6fcedadbf8b47b11e7b11addb68411012068c55e81d60302.
+Submitted NGC seed17/29 jobs 60297178/60297181 and SGC seed17/29 jobs
+60297180/60297182. Scheduler requests match one GPU/32 CPUs/desi_g per job,
+32-hour NGC and 18-hour SGC limits; shared maps to effective gpu_shared QOS.
+All four initially pending Priority. No full shared-state field files generated
+yet; only per-task COMPLETE.json after independent stored-field verification
+can establish successful generation. Logs/output locations are recorded in the
+GraphWeb scope JSON. No automatic retry/resume or website replacement.
+The test allocation was relinquished after the benchmark. Required graphify AST
+refresh failed at filesystem flock with OSError 524; no bypass/global update.
+Receipts: `loa_shared_sixfit_20261026_v1/{smoke_v2,benchmark_ngc_v1}/COMPLETE.json`
+under GraphWeb Scratch outputs. Production requires frozen writer/launch sources,
+complete catalogue coverage, density/mass validation and preserved survey masks.
+Scope and provenance: sibling `GraphWeb_DESI/docs/loa_shared_sixfit_20261026.json`.
+
+Separately, the existing private website's click-to-tile jump is removed and
+display cells extend to their owned tile faces instead of stopping at centres.
+Synthetic tests preserve interior values/masks; both-cap/all-fit browser tests
+pass. Private deployment appgdep_6adeb960d3c48191b2f422ab98061881 succeeded.
+This display fix does not make independent tile draws jointly coherent.
+
 ## 2026-10-20 — [review/decision] Galaxy-position repair ready for staged catalogue migration; retraining not yet ready
 
 Independent review of current implementation and saved evidence supports the
@@ -28,6 +83,44 @@ lineages are distinct and their previous calibration limitations still apply.
 
 Full review: `docs/galaxy_position_readiness_review_20261020.md`. Existing repair
 work remains unmodified; this review does not claim production replacements exist.
+
+## 2026-10-15 — [science/code] Observed Loa field-model Page pilot complete
+
+GraphWeb_DESI now has a private interactive Page comparing the earlier CFM,
+expanded U-Net endpoint and transformer velocity, each seeds17/29, on two
+observed Loa cores. All48draws (four per fit/core) pass numerical checks;
+no training, mock truth or oracle coarse input. The retained50,790galaxies
+span z0.150–0.221, not the parent0.15–0.55range. The dense tiles were selected
+by observed row count, so this is not a representative survey sample.
+
+All models retain common physical cores, coarse draws within seed and a
+finite free-space local-plus-wide tidal closure, with mean density beyond.
+Expanded models share fine noise; the older fine shape has its own noise.
+This does not establish calibrated or coherent full-cap inference and does
+not supersede the mock-evaluation limitations below.
+
+The property view has48,368supported, uniquely matched CIGALE galaxies after
+9≤logM<12 and corrected r<19.5selection. It uses each field model's own
+environment weights, seven properties, mass/redshift/brightness filters,
+mass-stratified comparisons and CSV. P12-A is a distinct per-galaxy comparator.
+All98aggregate reconciliations and local wide/narrow browser tests pass;
+no causal environment claim or inferential confidence interval is made.
+
+CPU59820724prepared; GPU59827704completed inference in295.60s. Initial
+combined HTML exceeded the Page limit; CPU59827975split it and caught a UI
+syntax error; explicitly approved CPU59828019verified the corrected package.
+No inference rerun. All allocations released; final queue empty. Three
+full-width embeds are readback-verified in the same private Page. Original
+Site and older population Page are unchanged. Native commands/tmux were used
+for this GPU/final packaging work, without security-setting changes.
+
+Simple independent-tile scaling across2472tiles is98–102GPU-hours for all
+six fits/four draws, or785–812hours for32draws, excluding full-survey
+preparation/storage/global-method changes. This is an engineering scenario,
+not production authorization. No scale-up launched. Evidence and complete
+provenance: sibling `GraphWeb_DESI/docs/loa_model_page_pilot_20261015.md`;
+Scratch `graphweb_desi/outputs/loa_model_pilot_20261015_v1/page_v3/`.
+Page: <https://chatgpt.com/space/page_ac5434c5e9e88191967a300a10ade530>.
 
 ## 2026-10-14 — [science/code] Wholefield pilot analysis and checkpoint comparison complete
 
