@@ -105,3 +105,13 @@ docs/figures/p12_width_information_20260830/*
 !docs/figures/p11_jepa_v2_20260901/
 docs/figures/p11_jepa_v2_20260901/*
 !docs/figures/p11_jepa_v2_20260901/latent_trajectory_0_250_500.png
+
+# Local execution source snapshots; retain compact SOURCE_FREEZE receipts.
+# These directories duplicate the repository and remain on disk for replay.
+/outputs/*/source/
+/outputs/*/source_attempt*/
+
+# Large generated lifecycle inventories; canonical registry and compact evidence
+# are tracked under configs/ and docs/evidence/.
+/outputs/product_lifecycle_20261019.json
+/outputs/product_lifecycle_optimized_20261019.json
