@@ -1,0 +1,38 @@
+{
+  "steps": 1200,
+  "best_step": 1000,
+  "train_rows": 102815,
+  "validation_rows": 512,
+  "test_rows": 2048,
+  "balanced_accuracy": 0.7102594840924408,
+  "macro_f1": 0.6479590355338769,
+  "confusion_matrix": [
+    [
+      59,
+      28,
+      0,
+      0
+    ],
+    [
+      102,
+      348,
+      67,
+      2
+    ],
+    [
+      11,
+      204,
+      519,
+      163
+    ],
+    [
+      0,
+      0,
+      47,
+      498
+    ]
+  ],
+  "seconds": 169.99658461101353,
+  "block_parity": 2.9802322387695312e-08,
+  "recipe": "Exact legacy architecture and full incoming context; 16 random target nodes per update, float32 Adam, train-only BoxCox and class weights, spatial label splits. One seed. New optimization experiment, not bitwise historical training replay."
+}

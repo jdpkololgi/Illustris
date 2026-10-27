@@ -1,0 +1,19 @@
+{
+  "allocation": "60009248",
+  "released": true,
+  "node": "nid200073",
+  "scientific_census_completed": true,
+  "code_index_refresh_completed": true,
+  "global_index_refresh_completed": true,
+  "log": "outputs/bgs_scale_support_redshift_20261019.log",
+  "plot_visually_checked": true,
+  "checks": "24 bins; count conservation; nested magnitude selection; finite values; Gaussian threshold scaling; code-index receipt",
+  "sha256": {
+    "graph_refresh.json": "715b43260ff21ade3ce18337c9f98ba95a88834e35f5feb63cd8f412e795307c",
+    "radial_census.csv": "1427b539682227c7764a62a3dba1f6114451555cb9a05f1ab9c538197b5e197d",
+    "radial_census.npz": "cbbda3dc1a6bc17b5b99d21b5e92dbd13623f4088cee92489cd6f1f681e560ae",
+    "01_sampling_scale_vs_redshift.pdf": "afe0f21ef494f39afd2e6bb842d8db725cb7abf0d2027e91244f8022a656d512",
+    "01_sampling_scale_vs_redshift.png": "357e8df41ae563a1d82c818553e41c5af469eb1242f3c33b21749f3ce4637ac0",
+    "manifest.json": "28e55784e3a0b306fd2c6441ebe743b4f58c7e7179dc1ba8c6509a9b2b3dba42"
+  }
+}

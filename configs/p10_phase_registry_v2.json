@@ -1,0 +1,465 @@
+{
+  "schema_version": "p10-phase-registry-v2",
+  "registry_id": "graphweb-p10-abacus-c000-z0p2-galaxy-v2-20261020",
+  "phase_key_pattern": "ph%03d",
+  "convention_reference": {
+    "phase": "ph000",
+    "restored_snapshot_root": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/AbacusSummit_base_c000_ph000/halos/z0.200"
+  },
+  "target_contract": {
+    "simulation_family": "AbacusSummit",
+    "simulation_name_pattern": "AbacusSummit_base_c000_{phase}",
+    "cosmology": "c000",
+    "redshift": 0.2,
+    "box_size_mpc_h": 2000.0,
+    "grid_size": 2048,
+    "mass_assignment": "TSC",
+    "particle_subsamples": {
+      "A_fraction": 0.03,
+      "B_fraction": 0.07,
+      "total_fraction": 0.1,
+      "required_directories": [
+        "field_rv_A",
+        "halo_rv_A",
+        "field_rv_B",
+        "halo_rv_B"
+      ]
+    },
+    "tidal_smoothing_mpc_h": 7.0,
+    "eigenvalue_order": "lambda1<=lambda2<=lambda3",
+    "web_threshold": 0.2,
+    "coordinate_units": "Mpc/h",
+    "phase_is_model_input": false
+  },
+  "staging_contract": {
+    "expected_field_a_slabs": 34,
+    "expected_halo_a_slabs": 34,
+    "expected_field_b_slabs": 34,
+    "expected_halo_b_slabs": 34,
+    "checksum_filename": "checksums.crc32",
+    "checksum_algorithm": "POSIX cksum",
+    "headroom_gib": 32,
+    "completion_marker": "B_STAGE_COMPLETE.json",
+    "serial_phase_processing": true,
+    "implicit_cleanup_allowed": false
+  },
+  "path_templates": {
+    "cutsky": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_{phase}.fits",
+    "snapshot_root": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_{phase}/halos/z0.200",
+    "forfa": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA{mock}_nomask.fits",
+    "pota": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/mock{mock}/pota-BRIGHT.fits",
+    "fiberassign": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl{mock}/fba{mock}/datcomb_brightwdup.fits",
+    "lss": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl{mock}/kibo-v1/mock{mock}/LSScats",
+    "phase_output": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/{phase}"
+  },
+  "required_observation_assets": [
+    "cutsky",
+    "forfa",
+    "pota",
+    "fiberassign",
+    "lss"
+  ],
+  "model_phase_contract": {
+    "training": [
+      "ph000",
+      "ph002",
+      "ph003",
+      "ph004",
+      "ph005",
+      "ph007",
+      "ph008",
+      "ph009",
+      "ph010",
+      "ph011",
+      "ph020",
+      "ph021",
+      "ph022",
+      "ph023",
+      "ph024"
+    ],
+    "validation_and_selection": [
+      "ph006",
+      "ph012",
+      "ph013"
+    ],
+    "sealed_blind_test": [
+      "ph001"
+    ],
+    "fresh_initialization_required": true,
+    "phase_balanced_sampling": true,
+    "phase_is_model_input": false,
+    "ph000_scores_are_independent_generalisation_evidence": false,
+    "reserved_confirmation": [
+      "ph014",
+      "ph015",
+      "ph016",
+      "ph017",
+      "ph018",
+      "ph019"
+    ],
+    "ph001_scores_are_fresh_blind_evidence": false
+  },
+  "response_source_registry": "configs/p10_response_sources_v1.json",
+  "phases": {
+    "ph000": {
+      "mock": 0,
+      "role": "training_development_reference",
+      "truth_access": "development",
+      "historical_score_use": "reference_only",
+      "observation_path_overrides": {
+        "fiberassign": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/fba0_bkp/datcomb_brightwdup.fits"
+      },
+      "particle_b": {
+        "kind": "restored_reference",
+        "root": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/AbacusSummit_base_c000_ph000/halos/z0.200"
+      }
+    },
+    "ph001": {
+      "mock": 1,
+      "role": "sealed_blind",
+      "truth_access": "sealed_until_predictions_frozen",
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph001/Abacus_AbacusSummit_base_c000_ph001_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      }
+    },
+    "ph002": {
+      "mock": 2,
+      "role": "training_and_target_benchmark",
+      "truth_access": "development",
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph002/Abacus_AbacusSummit_base_c000_ph002_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      }
+    },
+    "ph003": {
+      "mock": 3,
+      "role": "training",
+      "truth_access": "development",
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph003/Abacus_AbacusSummit_base_c000_ph003_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      }
+    },
+    "ph004": {
+      "mock": 4,
+      "role": "training",
+      "truth_access": "development",
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph004/Abacus_AbacusSummit_base_c000_ph004_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      }
+    },
+    "ph005": {
+      "mock": 5,
+      "role": "training",
+      "truth_access": "development",
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph005/Abacus_AbacusSummit_base_c000_ph005_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      }
+    },
+    "ph006": {
+      "mock": 6,
+      "role": "validation_and_selection",
+      "truth_access": "selection",
+      "particle_b": {
+        "kind": "cfs",
+        "root": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph006/halos/z0.200"
+      }
+    },
+    "ph007": {
+      "mock": 7,
+      "role": "training",
+      "truth_access": "development",
+      "evaluation_group": null,
+      "particle_b": {
+        "kind": "cfs",
+        "root": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph007/halos/z0.200"
+      },
+      "density_reuse_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph007/DENSITY_COMPLETE.json"
+    },
+    "ph008": {
+      "mock": 8,
+      "role": "training",
+      "truth_access": "development",
+      "evaluation_group": null,
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph008/Abacus_AbacusSummit_base_c000_ph008_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      },
+      "density_reuse_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph008/DENSITY_COMPLETE.json"
+    },
+    "ph009": {
+      "mock": 9,
+      "role": "training",
+      "truth_access": "development",
+      "evaluation_group": null,
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph009/Abacus_AbacusSummit_base_c000_ph009_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      },
+      "density_reuse_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph009/DENSITY_COMPLETE.json"
+    },
+    "ph010": {
+      "mock": 10,
+      "role": "training",
+      "truth_access": "development",
+      "evaluation_group": null,
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph010/Abacus_AbacusSummit_base_c000_ph010_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      },
+      "density_reuse_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph010/DENSITY_COMPLETE.json"
+    },
+    "ph011": {
+      "mock": 11,
+      "role": "training",
+      "truth_access": "development",
+      "evaluation_group": null,
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph011/Abacus_AbacusSummit_base_c000_ph011_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      },
+      "density_reuse_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph011/DENSITY_COMPLETE.json"
+    },
+    "ph012": {
+      "mock": 12,
+      "role": "validation_and_selection",
+      "truth_access": "selection",
+      "evaluation_group": null,
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph012/Abacus_AbacusSummit_base_c000_ph012_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      },
+      "density_reuse_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph012/DENSITY_COMPLETE.json"
+    },
+    "ph013": {
+      "mock": 13,
+      "role": "validation_and_selection",
+      "truth_access": "selection",
+      "evaluation_group": null,
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph013/Abacus_AbacusSummit_base_c000_ph013_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      },
+      "density_reuse_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph013/DENSITY_COMPLETE.json"
+    },
+    "ph014": {
+      "mock": 14,
+      "role": "sealed_blind",
+      "truth_access": "sealed_until_predictions_frozen",
+      "evaluation_group": "reserved_confirmation",
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph014/Abacus_AbacusSummit_base_c000_ph014_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      },
+      "density_reuse_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph014/DENSITY_COMPLETE.json"
+    },
+    "ph015": {
+      "mock": 15,
+      "role": "sealed_blind",
+      "truth_access": "sealed_until_predictions_frozen",
+      "evaluation_group": "reserved_confirmation",
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph015/Abacus_AbacusSummit_base_c000_ph015_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      },
+      "density_reuse_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph015/DENSITY_COMPLETE.json"
+    },
+    "ph016": {
+      "mock": 16,
+      "role": "sealed_blind",
+      "truth_access": "sealed_until_predictions_frozen",
+      "evaluation_group": "reserved_confirmation",
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph016/Abacus_AbacusSummit_base_c000_ph016_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      },
+      "density_reuse_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph016/DENSITY_COMPLETE.json"
+    },
+    "ph017": {
+      "mock": 17,
+      "role": "sealed_blind",
+      "truth_access": "sealed_until_predictions_frozen",
+      "evaluation_group": "reserved_confirmation",
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph017/Abacus_AbacusSummit_base_c000_ph017_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      },
+      "density_reuse_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph017/DENSITY_COMPLETE.json"
+    },
+    "ph018": {
+      "mock": 18,
+      "role": "sealed_blind",
+      "truth_access": "sealed_until_predictions_frozen",
+      "evaluation_group": "reserved_confirmation",
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph018/Abacus_AbacusSummit_base_c000_ph018_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      },
+      "density_reuse_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph018/DENSITY_COMPLETE.json"
+    },
+    "ph019": {
+      "mock": 19,
+      "role": "sealed_blind",
+      "truth_access": "sealed_until_predictions_frozen",
+      "evaluation_group": "reserved_confirmation",
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph019/Abacus_AbacusSummit_base_c000_ph019_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      },
+      "density_reuse_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph019/DENSITY_COMPLETE.json"
+    },
+    "ph020": {
+      "mock": 20,
+      "role": "training",
+      "truth_access": "development",
+      "evaluation_group": null,
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph020/Abacus_AbacusSummit_base_c000_ph020_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      },
+      "density_reuse_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph020/DENSITY_COMPLETE.json"
+    },
+    "ph021": {
+      "mock": 21,
+      "role": "training",
+      "truth_access": "development",
+      "evaluation_group": null,
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph021/Abacus_AbacusSummit_base_c000_ph021_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      },
+      "density_reuse_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph021/DENSITY_COMPLETE.json"
+    },
+    "ph022": {
+      "mock": 22,
+      "role": "training",
+      "truth_access": "development",
+      "evaluation_group": null,
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph022/Abacus_AbacusSummit_base_c000_ph022_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      },
+      "density_reuse_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph022/DENSITY_COMPLETE.json"
+    },
+    "ph023": {
+      "mock": 23,
+      "role": "training",
+      "truth_access": "development",
+      "evaluation_group": null,
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph023/Abacus_AbacusSummit_base_c000_ph023_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      },
+      "density_reuse_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph023/DENSITY_COMPLETE.json"
+    },
+    "ph024": {
+      "mock": 24,
+      "role": "training",
+      "truth_access": "development",
+      "evaluation_group": null,
+      "particle_b": {
+        "kind": "hpss",
+        "archive": "/nersc/projects/desi/cosmosim/Abacus/AbacusSummit_base_c000_ph024/Abacus_AbacusSummit_base_c000_ph024_halos.tar",
+        "members": [
+          "./halos/z0.200/field_rv_B",
+          "./halos/z0.200/halo_rv_B"
+        ]
+      },
+      "density_reuse_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph024/DENSITY_COMPLETE.json"
+    }
+  },
+  "preparation_policy": {
+    "reserved_targets": "closed; geometry-only preparation until a separate frozen evaluation contract authorizes numerical truth access",
+    "training_ready": false,
+    "model_training_authorized": false,
+    "legacy_registry": "configs/p10_phase_registry_v1.json",
+    "legacy_products": "preserve; rebind only after exact geometry and target lineage verification"
+  }
+}

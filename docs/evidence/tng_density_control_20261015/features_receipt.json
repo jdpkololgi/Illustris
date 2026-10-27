@@ -1,0 +1,36 @@
+{
+  "full_rows": 283969,
+  "bgs_rows": 37545,
+  "full_density": 0.03296168076493376,
+  "bgs_density": 0.0043580331103727455,
+  "thinning_fraction": 0.13221513615922864,
+  "checks": [
+    {
+      "condition": "dense",
+      "periodic_brute_queries": 3,
+      "input_sha256": "290d848bbfdfda3233fb7ec6dbe8237a118448a55ebdc671314e32cd41263bd5"
+    },
+    {
+      "condition": "thin_20261015",
+      "periodic_brute_queries": 3,
+      "input_sha256": "59c64f61f307fe914d7d3a8eb6b11c7508399eaaef34a1ef2425bcaafaa2d9ff"
+    },
+    {
+      "condition": "thin_20261016",
+      "periodic_brute_queries": 3,
+      "input_sha256": "ae398ea24c3fa596695bb29cd862f60b6bc034383cd020c5f4e4f182ba145d5f"
+    },
+    {
+      "condition": "thin_20261017",
+      "periodic_brute_queries": 3,
+      "input_sha256": "ecdc004632f9dc945001cc08e63abaa20543e156b6c5e22deb7d337f6aacb4c8"
+    }
+  ],
+  "split_rows": {
+    "train": 102815,
+    "validation": 25588,
+    "test": 67052
+  },
+  "split_buffer_hmpc": 20.5,
+  "config_sha256": "fed96f1cf91d3f018b87ab4ca3b430242613e90aad3b9f189439407dba555c77"
+}

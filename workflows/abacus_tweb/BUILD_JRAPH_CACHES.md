@@ -22,19 +22,23 @@ Reference annotated CutSky (full):
 - `/pscratch/sd/d/dkololgi/abacus/sbi_caches/staged_mock_wedge_stage3_postcollision_rs7_sbi_cache.pkl`
 - `/pscratch/sd/d/dkololgi/abacus/SecondGen_Mocks/ph000/wedge/staged_mock_wedge_stage3_postcollision_rs7_annotated.fits` (+ manifest)
 
-## Rebuild annotate (compute node)
+## Rebuild annotation with the galaxy-position contract (compute node)
+
+The old host-linkage command is retired. Do not overwrite its outputs or reuse
+its labels in a new-target cache. First recover SOURCE_ROW, Z_COSMO, RES, CEN and
+HALO_MASS from the original catalogue, and use a passing phase qualification.
 
 ```bash
-unset PYTHONPATH PYTHONHOME; export PYTHONNOUSERSITE=1
-module purge
-PY=/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python
-cd $HOME/TNG/Illustris
-$PY workflows/abacus_tweb/annotate_cutsky_with_tweb_eigs.py \
-  --cutsky /pscratch/sd/d/dkololgi/abacus/SecondGen_Mocks/ph000/wedge/staged_mock_stage3_science_for_annotate.fits \
-  --output-dir /pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_24042026_rsmooth_7/ \
-  --output-name staged_mock_stage3_postcollision_rs7_with_tweb_eigs_rs7_ngrid2048_thr0p2.fits \
-  --overwrite
+$PY workflows/abacus_tweb/migrate_p10_galaxy_position_truth.py \
+  --phase ph002 --qualification /path/to/qualified/report.json
+# Add --execute only inside an approved compute step. Outputs use a new
+# catalogues/galaxy_realspace_v2 directory; no production products are overwritten.
 ```
+
+Rebuild label arrays, target normalisation, and dependent checkpoints for the new
+estimand. Geometry may be reused only after exact galaxy-order/position verification.
+The cache commands below document the historical pipeline; update their input and
+output paths and provenance before using them with the new target contract.
 
 ## Rebuild 15-d cache (graph unchanged)
 
@@ -70,3 +74,24 @@ $PY workflows/jraph/jraph_pipeline.py \
 ```
 
 Optional: `--heteroscedastic_15d` for mean+logvar head (30 outputs).
+
+
+### All-population labels and separate independent checks (2026-10-19)
+
+The v2 policy labels every RES/CEN population at its own RA/DEC/Z_COSMO position,
+including unresolved satellites. HAS_LABEL/TWEB_STATUS describe field-label
+availability. INDEP_POS separately records an exact independent check for that
+source row: 0=not individually checked, 1=original cubic galaxy XYZ,
+2=native halo central XYZ/mass, 3=native field-particle central XYZ. Code 0 does
+not mask labels and does not mean a coordinate failure. Most unsampled rows,
+including resolved galaxies, correctly have code 0.
+
+Use `galaxy_position_qualification_allpop_v2_20261019.json`; the earlier
+certificate and v1 masked outputs are historical evidence. Migration writes
+`catalogues/galaxy_realspace_v2/`. ph006 is not coordinate-qualified by this
+certificate; ph001 remains sealed. Existing scientific selection masks remain.
+
+See `../../docs/galaxy_position_migration_20261019.md` for the validated scope and
+`../../docs/product_lifecycle_20261019.md` for the legacy-product registry,
+archiving policy and corrected replacement procedure. No old product is silently
+overwritten or promoted to the new target contract.

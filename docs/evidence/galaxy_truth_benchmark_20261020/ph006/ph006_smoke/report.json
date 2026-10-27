@@ -1,0 +1,20 @@
+{
+  "certificate_sha256": "1b96f38b6a89bcab5ca9914f84b346fa0a498f652d3c53dcaba356f90217bae6",
+  "phases": {
+    "ph006": {
+      "rows": 125,
+      "labelled": 125,
+      "unresolved_satellites_labelled": 3,
+      "independently_checked": 98,
+      "independent_status_exact": true,
+      "metadata_exact": true,
+      "eigenvalues_exact_at_reconstructed_voxels": true,
+      "overwrite_rejected": true,
+      "output": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/ph006_smoke/ph006_annotated.fits",
+      "manifest": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/ph006_smoke/ph006_annotated.fits.manifest.json",
+      "pass_gate": true
+    }
+  },
+  "completed": true,
+  "pass_gate": true
+}

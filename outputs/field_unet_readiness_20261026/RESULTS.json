@@ -1,0 +1,113 @@
+{
+  "schema": "both-field-training-readiness-results-v1",
+  "training_ready": false,
+  "allocation": {
+    "job": 60299323,
+    "node": "nid200357",
+    "state": "FAILED",
+    "exit_code": "1:0",
+    "elapsed": "00:07:25",
+    "released": true,
+    "resources": "one 80GB GPU, 32 CPUs, desi_g/shared_interactive, Scratch",
+    "limit": "00:30:00"
+  },
+  "source_bindings_unchanged": true,
+  "source_files": 746,
+  "focused_tests_passed": 36,
+  "automatic_retries": 0,
+  "scientific_training_runs": 0,
+  "conditional_density_unet": {
+    "metadata_pass": true,
+    "payloads_verified": 656,
+    "maximum_payload_mass_error": 6.949054909277663e-08,
+    "maximum_payload_reconstruction_error": 1.5915154616408245e-07,
+    "development_forward_pass": true,
+    "decoder_mass_relative": 4.440892098500626e-16,
+    "endpoint_checkpoint_replay_pass": false,
+    "replay_gate": "model/EMA max difference <=2e-6 and loss difference <=1e-6",
+    "limitation": "First audit raised at combined replay gate before saving individual difference values; exact endpoint discrepancy not retained. No replay retry was made.",
+    "training_ready": false
+  },
+  "p12a_encoder": {
+    "metadata_pass": true,
+    "visible_phase_panels_passed": 18,
+    "scope": "One geometry-selected core per visible phase; corrected target hashes, own-phase row alignment and field-only forward; not a complete validation epoch",
+    "restart": {
+      "maximum_parameter_difference": 0.0003714342601597309,
+      "largest_parameters": [
+        [
+          "unet.enc2.0.weight",
+          0.0003714342601597309
+        ],
+        [
+          "unet.enc2.3.weight",
+          0.0003489670343697071
+        ],
+        [
+          "unet.enc0.3.weight",
+          0.0003462638705968857
+        ],
+        [
+          "unet.enc1.3.weight",
+          0.0003407727926969528
+        ],
+        [
+          "unet.enc1.0.weight",
+          0.0003405110037419945
+        ],
+        [
+          "unet.bottleneck.0.weight",
+          0.00031593069434165955
+        ],
+        [
+          "unet.dec2.0.weight",
+          0.00014846259728074074
+        ],
+        [
+          "unet.dec2.3.weight",
+          0.00013522151857614517
+        ]
+      ],
+      "global_steps": [
+        2,
+        2
+      ],
+      "cursors": [
+        2,
+        2
+      ],
+      "epoch_hashes": [
+        "a6030c357dd45565d322a1536610a7b8d1b22eff79c2745b197e7d8adb8deb2a",
+        "a6030c357dd45565d322a1536610a7b8d1b22eff79c2745b197e7d8adb8deb2a"
+      ],
+      "scheduler_equal": true,
+      "objective_sum": [
+        6.352970600128174,
+        6.352969169616699
+      ]
+    },
+    "restart_tolerance": 2e-06,
+    "restart_pass": false,
+    "training_ready": false
+  },
+  "p12a_posterior": {
+    "training_ready": false,
+    "missing": [
+      "Expanded versioned cross-fit and response-data preparation contracts (existing defaults still five old phases)",
+      "Fresh corrected-label full and out-of-fold U-PATCH fits",
+      "New halo48 base predictions and aligned posterior input tables",
+      "Versioned multi-phase calibration/selection contract before FMPE refitting"
+    ]
+  },
+  "remaining": [
+    "Diagnose and repair conditional endpoint restart replay, then separately authorize verification",
+    "Diagnose and repair P12-A encoder restart replay, then separately authorize verification",
+    "Complete the listed P12-A posterior prerequisites before any retraining claim"
+  ],
+  "repository_index": {
+    "refreshed": false,
+    "reason": "graphify filesystem flock OSError 524; no lock bypass or global publication"
+  },
+  "evidence_root": "/global/u2/d/dkololgi/TNG/Illustris/outputs/field_unet_readiness_20261026",
+  "scratch_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/field_unet_readiness_20261026_v1"
+}

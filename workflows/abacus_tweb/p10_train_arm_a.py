@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Train deterministic P10 Arm-A U-PATCH or G-PATCH across five phases.
+"""Train deterministic U-PATCH or G-PATCH using registered phase roles.
 
 The trainer consumes the frozen ``TRAINING_LOADER_READY`` contract.  Every
-scientific epoch visits every eligible core in ph000/ph002--ph005 exactly once,
-uses an equal-phase square-root-shell-weighted objective, and evaluates exactly
-all authoritative ph006 rows.  ph001 is never opened.
+scientific epoch visits every registered training core exactly once, uses an
+equal-phase square-root-shell-weighted objective, and evaluates each selection
+phase independently. Reserved truth is never opened. The historical P10 name
+identifies encoder infrastructure also used by P12-A, not the posterior itself.
 
 Runs are initialized from scratch and are exactly resumable at a patch cursor.
 ``--max-runtime-seconds`` permits a sequence of bounded interactive allocations;
@@ -104,6 +105,7 @@ def source_contract() -> dict[str, str]:
         REPO_ROOT / "workflows/abacus_tweb/p10_training_contract.py",
         REPO_ROOT / "workflows/abacus_tweb/p8_train_graph_patch.py",
         REPO_ROOT / "workflows/abacus_tweb/p8_train_unet_patch.py",
+        REPO_ROOT / "shared/deterministic_interpolation.py",
         REPO_ROOT / "workflows/abacus_tweb/p10_multitracer_training.py",
         REPO_ROOT / "workflows/abacus_tweb/p8_deterministic_common.py",
         REPO_ROOT / "workflows/abacus_tweb/p8_epoch_training.py",
@@ -121,6 +123,7 @@ def frozen_arguments(args: argparse.Namespace) -> dict:
         "loss_log_every",
         "max_runtime_seconds",
         "validation_reserve_seconds",
+        "stop_after_updates",  # Technical stop point; does not change the trajectory.
     }
     return {
         key: value
@@ -176,6 +179,63 @@ def prepare_phase_runtime(
         expected_core_weight=expected,
         weight_denominator=float(record["phase_weight_denominator"]),
     )
+
+
+def validation_core_groups(loader) -> dict[str, np.ndarray]:
+    """Keep phase-local core IDs bound to their registered phase."""
+    phases = tuple(getattr(loader, "validation_phases", (loader.validation_phase,)))
+    if not phases or len(set(phases)) != len(phases):
+        raise RuntimeError("Invalid validation phase roles")
+    groups = {phase: [] for phase in phases}
+    for ref in loader.validation_refs():
+        if ref.phase not in groups:
+            raise RuntimeError("Validation reference outside selection phases")
+        groups[ref.phase].append(ref.core_id)
+    result = {phase: np.asarray(ids, dtype=np.int64) for phase, ids in groups.items()}
+    if any(len(ids) == 0 or len(np.unique(ids)) != len(ids) for ids in result.values()):
+        raise RuntimeError("Empty or duplicated validation cores within phase")
+    return result
+
+
+def aggregate_validation_reports(reports: dict[str, dict], losses: dict[str, dict]):
+    """Equal phase mean of the existing per-phase shell-macro selection metric.
+
+    Parent IDs are never pooled across phases. Single-phase outputs retain their
+    historical schema; multi-phase details remain explicit and inspectable.
+    """
+    if not reports or set(reports) != set(losses):
+        raise RuntimeError("Incomplete validation reports")
+    for phase, report in reports.items():
+        if not report["complete_phase_coverage"] or report["validation_phase"] != phase:
+            raise RuntimeError("Validation phase coverage mismatch")
+        if not np.isfinite(report["primary_macro_r2_lambda1"]):
+            raise RuntimeError("Nonfinite phase selection score")
+    if len(reports) == 1:
+        phase = next(iter(reports))
+        return reports[phase], losses[phase]
+    mean = lambda key: float(np.mean([row[key] for row in reports.values()]))
+    report = {
+        "validation_phases": list(reports),
+        "aggregation": "equal phase mean of within-phase shell-macro R2; no pooled row IDs",
+        "complete_phase_coverage": True,
+        "n_authoritative": sum(row["n_authoritative"] for row in reports.values()),
+        "primary_macro_r2_lambda1": mean("primary_macro_r2_lambda1"),
+        "diagnostic_first_three_shell_macro_r2_lambda1": mean("diagnostic_first_three_shell_macro_r2_lambda1"),
+        "worst_shell_r2_lambda1": min(row["worst_shell_r2_lambda1"] for row in reports.values()),
+        "per_shell": {name: {"lambda1": {"r2": float(np.mean([
+            row["per_shell"][name]["lambda1"]["r2"] for row in reports.values()
+        ]))}} for name in SHELL_NAMES},
+        "per_phase": reports,
+    }
+    loss = {
+        "aggregation": "equal phase mean",
+        "all_rows_scaled_mse": float(np.mean([row["all_rows_scaled_mse"] for row in losses.values()])),
+        "per_shell_scaled_mse": {str(shell): float(np.mean([
+            row["per_shell_scaled_mse"][str(shell)] for row in losses.values()
+        ])) for shell in range(4)},
+        "per_phase": losses,
+    }
+    return report, loss
 
 
 def fresh_accumulators(phases: tuple[str, ...]) -> dict[str, EpochLossAccumulator]:
@@ -361,6 +421,15 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    if args.model == "unet":
+        # cuDNN alone does not cover point sampling/interpolation backward.
+        import os
+        os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
+        torch.use_deterministic_algorithms(True)
+        torch.backends.cudnn.benchmark = False
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cuda.matmul.allow_tf32 = False
+        torch.backends.cudnn.allow_tf32 = False
     if args.device.startswith("cuda") and not torch.cuda.is_available():
         raise RuntimeError("P10 Arm A requires a CUDA interactive allocation")
     torch.manual_seed(args.seed)
@@ -387,9 +456,11 @@ def main() -> None:
     else:
         loader = P10PhaseBalancedLoader(args.contract_root, include_blind=False)
     phases = tuple(loader.training_phases)
-    validation_phase = loader.validation_phase
-    if loader.blind_phase == validation_phase or loader.blind_phase in phases:
-        raise RuntimeError("sealed blind phase entered a visible P10 role")
+    validation_groups = validation_core_groups(loader)
+    validation_phases = tuple(validation_groups)
+    sealed = set(getattr(loader, "blind_phases", (loader.blind_phase,)))
+    if sealed.intersection(phases + validation_phases) or set(phases).intersection(validation_phases):
+        raise RuntimeError("Overlapping training, selection or reserved phase roles")
     scaler = loader.target_scaler
     sources = source_contract()
     graph_transform_path = args.contract_root / "transforms/graph/graph_transform.json"
@@ -406,13 +477,10 @@ def main() -> None:
         phase: prepare_phase_runtime(loader, phase, scaler, training=True)
         for phase in phases
     }
-    validation_runtime = prepare_phase_runtime(
-        loader, validation_phase, scaler, training=False
-    )
-    validation_refs = loader.validation_refs()
-    validation_core = np.asarray([ref.core_id for ref in validation_refs], dtype=np.int64)
-    validation_record = loader.phase_records[validation_phase]
-    validation_assignment_path = Path(validation_record["inputs"]["assignment"])
+    validation_runtimes = {
+        phase: prepare_phase_runtime(loader, phase, scaler, training=False)
+        for phase in validation_phases
+    }
 
     if args.model == "unet":
         model = unet_impl.UPatch(
@@ -519,13 +587,16 @@ def main() -> None:
         "fresh_initialization": True,
         "warm_start": None,
         "training_phases": list(phases),
-        "validation_and_selection_phase": validation_phase,
+        "validation_and_selection_phase": validation_phases[0] if len(validation_phases) == 1 else None,
+        "validation_and_selection_phases": list(validation_phases),
+        "validation_aggregation": "equal phase mean of within-phase shell-macro R2",
         "sealed_blind_phase": loader.blind_phase,
         "blind_truth_accessed": False,
         "phase_is_model_input": False,
         "training_cores_per_epoch": epoch_length,
         "scheduler_total_updates": scheduler_total_updates,
-        "validation_cores": int(len(validation_core)),
+        "validation_cores": sum(len(ids) for ids in validation_groups.values()),
+        "validation_cores_by_phase": {p: len(ids) for p, ids in validation_groups.items()},
         "sampler": loader.manifest["epoch"],
         "objective": loader.manifest["objective"],
         "view": (
@@ -576,7 +647,7 @@ def main() -> None:
                 root=args.multitracer_root,
                 view=args.multitracer_view,
             )
-            for phase in phases + (validation_phase,)
+            for phase in phases + validation_phases
         }
 
     def save_checkpoint(refs: tuple[PatchRef, ...], checkpoint_cursor: int) -> None:
@@ -802,80 +873,88 @@ def main() -> None:
             ):
                 pause(refs, cursor, "validation deferred to next interactive allocation")
 
-            if args.model == "graph":
-                val_parent, val_scaled, failures, val_nodes, val_edges = (
-                    graph_impl.predict_fold(
-                        model,
-                        loader.graph_adapter(validation_phase),
-                        validation_core,
-                        edge_spec,
-                        args.device,
-                        args.validation_group_cores,
-                    )
-                )
-                validation_details = {
-                    "maximum_patch_nodes": int(val_nodes),
-                    "maximum_patch_directed_edges": int(val_edges),
-                }
-            elif args.model == "unet":
-                val_parent, val_scaled, failures = unet_impl.predict_fold(
-                    model,
-                    loader.field_adapter(validation_phase),
-                    validation_core,
-                    normalization,
-                    args.device,
-                )
-                validation_details = {}
-            else:
-                val_parent, val_scaled, failures = multitracer_impl.predict_phase(
-                    model,
-                    multitracer_adapters[validation_phase],
-                    validation_core,
-                    args.device,
-                )
-                validation_details = {"multitracer_view": args.multitracer_view}
-            val_eigen = increments_to_eigenvalues(
-                unscale_increments(val_scaled, scaler)
-            ).astype(np.float32)
-            validation_assignment = np.load(validation_assignment_path, mmap_mode="r")
-            validation_truth = loader.targets_by_parent(validation_phase)
-            report = evaluate_complete_phase(
-                parent_node_id=val_parent,
-                predicted_eigenvalues=val_eigen,
-                truth_by_parent=validation_truth,
-                assignment=validation_assignment,
-                phase=validation_phase,
-                runtime={
-                    "epoch": epoch,
-                    "global_step": global_step,
-                    "patch_failures": failures,
-                    "maximum_cuda_memory_bytes": maximum_memory,
-                    **validation_details,
-                },
-            )
-            validation_assignment.close()
-            validation_row_loss = np.mean(
-                (
-                    np.asarray(val_scaled, dtype=np.float64)
-                    - np.asarray(
-                        validation_runtime.target_scaled[val_parent], dtype=np.float64
-                    )
-                ) ** 2,
-                axis=1,
-            )
-            validation_loss = {
-                "all_rows_scaled_mse": float(np.mean(validation_row_loss)),
-                "per_shell_scaled_mse": {
-                    str(shell): float(
-                        np.mean(
-                            validation_row_loss[
-                                validation_runtime.parent_shell[val_parent] == shell
-                            ]
+            phase_reports, phase_losses, phase_predictions = {}, {}, {}
+            for validation_phase, validation_core in validation_groups.items():
+                validation_runtime = validation_runtimes[validation_phase]
+                validation_assignment_path = Path(loader.phase_records[validation_phase]["inputs"]["assignment"])
+                if args.model == "graph":
+                    val_parent, val_scaled, failures, val_nodes, val_edges = (
+                        graph_impl.predict_fold(
+                            model,
+                            loader.graph_adapter(validation_phase),
+                            validation_core,
+                            edge_spec,
+                            args.device,
+                            args.validation_group_cores,
                         )
                     )
-                    for shell in range(4)
-                },
-            }
+                    validation_details = {
+                        "maximum_patch_nodes": int(val_nodes),
+                        "maximum_patch_directed_edges": int(val_edges),
+                    }
+                elif args.model == "unet":
+                    val_parent, val_scaled, failures = unet_impl.predict_fold(
+                        model,
+                        loader.field_adapter(validation_phase),
+                        validation_core,
+                        normalization,
+                        args.device,
+                    )
+                    validation_details = {}
+                else:
+                    val_parent, val_scaled, failures = multitracer_impl.predict_phase(
+                        model,
+                        multitracer_adapters[validation_phase],
+                        validation_core,
+                        args.device,
+                    )
+                    validation_details = {"multitracer_view": args.multitracer_view}
+                val_eigen = increments_to_eigenvalues(
+                    unscale_increments(val_scaled, scaler)
+                ).astype(np.float32)
+                validation_assignment = np.load(validation_assignment_path, mmap_mode="r")
+                validation_truth = loader.targets_by_parent(validation_phase)
+                report = evaluate_complete_phase(
+                    parent_node_id=val_parent,
+                    predicted_eigenvalues=val_eigen,
+                    truth_by_parent=validation_truth,
+                    assignment=validation_assignment,
+                    phase=validation_phase,
+                    runtime={
+                        "epoch": epoch,
+                        "global_step": global_step,
+                        "patch_failures": failures,
+                        "maximum_cuda_memory_bytes": maximum_memory,
+                        **validation_details,
+                    },
+                )
+                validation_assignment.close()
+                validation_row_loss = np.mean(
+                    (
+                        np.asarray(val_scaled, dtype=np.float64)
+                        - np.asarray(
+                            validation_runtime.target_scaled[val_parent], dtype=np.float64
+                        )
+                    ) ** 2,
+                    axis=1,
+                )
+                validation_loss = {
+                    "all_rows_scaled_mse": float(np.mean(validation_row_loss)),
+                    "per_shell_scaled_mse": {
+                        str(shell): float(
+                            np.mean(
+                                validation_row_loss[
+                                    validation_runtime.parent_shell[val_parent] == shell
+                                ]
+                            )
+                        )
+                        for shell in range(4)
+                    },
+                }
+                phase_reports[validation_phase] = report
+                phase_losses[validation_phase] = validation_loss
+                phase_predictions[validation_phase] = (val_parent, val_eigen)
+            report, validation_loss = aggregate_validation_reports(phase_reports, phase_losses)
             phase_shell_mse = np.divide(
                 shell_numerator,
                 shell_denominator,
@@ -947,12 +1026,16 @@ def main() -> None:
                         "graph_transform": graph_transform if args.model == "graph" else None,
                         "source_contract": sources,
                         "training_phases": list(phases),
-                        "validation_phase": validation_phase,
+                        "validation_phase": validation_phases[0] if len(validation_phases) == 1 else None,
+                        "validation_phases": list(validation_phases),
+                        "validation_aggregation": "equal phase mean of within-phase shell-macro R2",
                     },
                     output / "best_checkpoint.pt",
                 )
-                np.save(output / "best_validation_parent_node_id.npy", val_parent)
-                np.save(output / "best_validation_eigenvalues.npy", val_eigen)
+                for phase, (parent, eigen) in phase_predictions.items():
+                    prefix = "best_validation" if len(validation_phases) == 1 else f"best_validation_{phase}"
+                    np.save(output / f"{prefix}_parent_node_id.npy", parent)
+                    np.save(output / f"{prefix}_eigenvalues.npy", eigen)
                 atomic_json(output / "best_validation_report.json", report)
 
             if improved(score, early_best_score, args.min_delta):

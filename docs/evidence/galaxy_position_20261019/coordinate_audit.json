@@ -1,0 +1,2369 @@
+{
+  "mapping": {
+    "version": "bgs-v01-c000-galaxy-realspace-v1",
+    "target": "tidal_field_at_galaxy_real_space_position",
+    "input_columns": [
+      "RA",
+      "DEC",
+      "Z_COSMO"
+    ],
+    "cosmology": "FlatLambdaCDM(H0=67.36 km / (Mpc s), Om0=0.3137721026737606, Tcmb0=2.7255 K, Neff=3.0328, m_nu=[0.   0.   0.06] eV, Ob0=0.049301692328524445)",
+    "distance_implementation": "Astropy massive-neutrino c000 approximation; 8193-knot cubic spline",
+    "observer_mpc_h": [
+      -1000.0,
+      -1000.0,
+      -1000.0
+    ],
+    "box_size_mpc_h": 2000.0,
+    "simulation": "AbacusSummit_base_c000",
+    "snapshot_z": 0.2,
+    "native_frame": "[-L/2,L/2); grid mod(native,L)",
+    "sampling": "nearest_cell_float32",
+    "no_observed_z_fallback": true
+  },
+  "job_id": "60003795",
+  "script_sha256": "18c31fd4765f4906416131242a5768ff8fd4b2c3c4a6811f4c12aea462d2f542",
+  "helper_sha256": "8ee5ee6a9537541491a353f4842d253610f31c6e0e41372549a585fdf36d4d16",
+  "tolerance_mpc_h": 0.005,
+  "mass_relative_tolerance": 1e-05,
+  "sampling": {
+    "rows_per_phase": 32000,
+    "method": "equally spaced original rows",
+    "native_slabs": [
+      0,
+      33
+    ]
+  },
+  "phases": {
+    "ph000": {
+      "sources": [
+        {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000.fits",
+          "bytes": 6645378240,
+          "mtime_ns": 1706807554000000000
+        },
+        {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph000/BGS_box_ph000.fits",
+          "bytes": 12076937280,
+          "mtime_ns": 1698832019145813092
+        }
+      ],
+      "sample_rows": 32000,
+      "redshift_range": [
+        0.0034565182868391275,
+        0.7324629426002502
+      ],
+      "distance_spline_error_mpc_h": {
+        "n": 256,
+        "median": 0.0,
+        "p95": 4.211146297845962e-13,
+        "max": 6.629024818318272e-13
+      },
+      "native_checks": [
+        {
+          "slab": 0,
+          "population": "resolved_central",
+          "rows": 542,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph000/halos/z0.200/halo_info/halo_info_000.asdf",
+            "bytes": 2183219779,
+            "mtime_ns": 1587754967000000000
+          },
+          "native_candidates": 1617222,
+          "position_error_mpc_h": {
+            "n": 542,
+            "median": 5.015668728950339e-05,
+            "p95": 0.00010528398170445281,
+            "max": 0.00014266611176496656
+          },
+          "uniquely_matched": 542,
+          "mass_matches": 542,
+          "accepted": 542,
+          "pass_gate": true,
+          "field": {
+            "rows": 542,
+            "same_voxel": 542,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        {
+          "slab": 0,
+          "population": "unresolved_central",
+          "rows": 138,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph000/halos/z0.200/field_rv_A/field_rv_A_000.asdf",
+            "bytes": 1299929856,
+            "mtime_ns": 1587755468000000000
+          },
+          "native_candidates": 33469357,
+          "position_error_mpc_h": {
+            "n": 138,
+            "median": 3.607974072643363e-05,
+            "p95": 7.694630234717104e-05,
+            "max": 9.510326946383291e-05
+          },
+          "uniquely_matched": 138,
+          "mass_matches": null,
+          "accepted": 138,
+          "pass_gate": true,
+          "field": {
+            "rows": 138,
+            "same_voxel": 138,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        {
+          "slab": 33,
+          "population": "resolved_central",
+          "rows": 540,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph000/halos/z0.200/halo_info/halo_info_033.asdf",
+            "bytes": 2211542178,
+            "mtime_ns": 1587757208000000000
+          },
+          "native_candidates": 1625823,
+          "position_error_mpc_h": {
+            "n": 540,
+            "median": 6.59529047624964e-05,
+            "p95": 0.00011790258504497171,
+            "max": 0.00015636472849888067
+          },
+          "uniquely_matched": 540,
+          "mass_matches": 540,
+          "accepted": 540,
+          "pass_gate": true,
+          "field": {
+            "rows": 540,
+            "same_voxel": 540,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        {
+          "slab": 33,
+          "population": "unresolved_central",
+          "rows": 135,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph000/halos/z0.200/field_rv_A/field_rv_A_033.asdf",
+            "bytes": 1316844541,
+            "mtime_ns": 1587757388000000000
+          },
+          "native_candidates": 33560563,
+          "position_error_mpc_h": {
+            "n": 135,
+            "median": 6.0255761998947324e-05,
+            "p95": 0.00010130504642216962,
+            "max": 0.00011417565996757664
+          },
+          "uniquely_matched": 135,
+          "mass_matches": null,
+          "accepted": 135,
+          "pass_gate": true,
+          "field": {
+            "rows": 135,
+            "same_voxel": 135,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        }
+      ],
+      "field_path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7",
+      "unresolved_satellites_in_sample": 4,
+      "pass_gate": false,
+      "elapsed_seconds": 117.10095629299758,
+      "initial_incorrect_cubic_reference": {
+        "cen0": {
+          "rows": 3097,
+          "identity_matches": 129,
+          "position_error_mpc_h": {
+            "n": 3097,
+            "median": 897.4211359880676,
+            "p95": 1335.7093561085796,
+            "max": 1670.2915730438897
+          },
+          "within_tolerance": 129,
+          "field": {
+            "rows": 3097,
+            "same_voxel": 129,
+            "same_voxel_fraction": 0.041653212786567646,
+            "max_abs_eigenvalue_difference": 3.46456079185009,
+            "rms_eigenvalue_difference": 0.5805697828367632,
+            "changed_web_class": 2109
+          }
+        },
+        "cen1": {
+          "rows": 22151,
+          "identity_matches": 873,
+          "position_error_mpc_h": {
+            "n": 22151,
+            "median": 822.3658116423202,
+            "p95": 1239.7226611991223,
+            "max": 1624.4452694054364
+          },
+          "within_tolerance": 873,
+          "field": {
+            "rows": 22151,
+            "same_voxel": 873,
+            "same_voxel_fraction": 0.03941131325899508,
+            "max_abs_eigenvalue_difference": 2.4886273741722107,
+            "rms_eigenvalue_difference": 0.32827298818129697,
+            "changed_web_class": 14241
+          }
+        }
+      },
+      "cubic": {
+        "cen0": {
+          "rows": 3097,
+          "identity_matches": 3097,
+          "position_error_mpc_h": {
+            "n": 3097,
+            "median": 0.00020301734921980525,
+            "p95": 0.0004688690529763944,
+            "max": 0.000789269083829943
+          },
+          "within_tolerance": 3097,
+          "field": {
+            "rows": 3097,
+            "same_voxel": 3097,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        "cen1": {
+          "rows": 22151,
+          "identity_matches": 22151,
+          "position_error_mpc_h": {
+            "n": 22151,
+            "median": 0.0002244504920382954,
+            "p95": 0.0005465999921138473,
+            "max": 0.001146169476769334
+          },
+          "within_tolerance": 22151,
+          "field": {
+            "rows": 22151,
+            "same_voxel": 22141,
+            "same_voxel_fraction": 0.9995485531127263,
+            "max_abs_eigenvalue_difference": 0.037790678441524506,
+            "rms_eigenvalue_difference": 0.0002730541996957259,
+            "changed_web_class": 0
+          }
+        }
+      },
+      "cubic_file_starts": [
+        0,
+        6858369,
+        13669140,
+        20422223,
+        27183697,
+        34062092,
+        40954387,
+        47735799,
+        54562144,
+        61409808,
+        68312355,
+        75113319,
+        81947131,
+        88732852,
+        95573891,
+        102448923,
+        109267174,
+        116033701,
+        122855662,
+        129761442,
+        136604980,
+        143441050,
+        150277600,
+        157125278,
+        163901111,
+        170709040,
+        177578890,
+        184399218,
+        191203800,
+        197953169,
+        204784639,
+        211527327,
+        218414698,
+        225307011,
+        232248642
+      ],
+      "cubic_index_semantics": "FILE_NUM-local BOX_INDEX into concatenated cubic galaxy blocks",
+      "sample_source": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/galaxy_position_validation_20261019/job60003795/ph000_sample.npz",
+        "sha256": "301b8bac56a25777be4fcfec361f064d1efe62c6dbac013493fbc721193b9c24"
+      },
+      "field_sources": [
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0000.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0001.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0002.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0003.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0004.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0005.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0006.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0007.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0008.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0009.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0010.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0011.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0012.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0013.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028221000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0014.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0015.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0016.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0017.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0018.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0019.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0020.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0021.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0022.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0023.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0024.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0025.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0026.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0027.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0028.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0029.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0030.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0031.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0032.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0033.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0034.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0035.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0036.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0037.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0038.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0039.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0040.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0041.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0042.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0043.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0044.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0045.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028221000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0046.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028221000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0047.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0048.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0049.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0050.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0051.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0052.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0053.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0054.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0055.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0056.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0057.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0058.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0059.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0060.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0061.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0062.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0063.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0064.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0065.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0066.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0067.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0068.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0069.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0070.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028221000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0071.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0072.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0073.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028221000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0074.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0075.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0076.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0077.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0078.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0079.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0080.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0081.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0082.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0083.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0084.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028221000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0085.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0086.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0087.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0088.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0089.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0090.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0091.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0092.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0093.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0094.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0095.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0096.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0097.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0098.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0099.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0100.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0101.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0102.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0103.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0104.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0105.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0106.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0107.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0108.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0109.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0110.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0111.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0112.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0113.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0114.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0115.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0116.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0117.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0118.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0119.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0120.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0121.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028221000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0122.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0123.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0124.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0125.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0126.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0127.npz",
+          "bytes": 872417262,
+          "mtime_ns": 1777028222000000000
+        }
+      ],
+      "field_gate": true
+    },
+    "ph002": {
+      "sources": [
+        {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph002.fits",
+          "bytes": 6647120640,
+          "mtime_ns": 1706807927000000000
+        },
+        {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph002/BGS_box_ph002.fits",
+          "bytes": 12076018560,
+          "mtime_ns": 1698834870000000000
+        }
+      ],
+      "sample_rows": 32000,
+      "redshift_range": [
+        0.0036904667504131794,
+        0.7218866944313049
+      ],
+      "distance_spline_error_mpc_h": {
+        "n": 256,
+        "median": 5.684341886080802e-14,
+        "p95": 3.9382275817135387e-13,
+        "max": 1.016845989170083e-12
+      },
+      "native_checks": [
+        {
+          "slab": 0,
+          "population": "resolved_central",
+          "rows": 524,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph002/halos/z0.200/halo_info/halo_info_000.asdf",
+            "bytes": 2162879802,
+            "mtime_ns": 1586979571000000000
+          },
+          "native_candidates": 1595696,
+          "position_error_mpc_h": {
+            "n": 524,
+            "median": 4.9608194251861846e-05,
+            "p95": 0.0001148810040168349,
+            "max": 0.00015156443588329815
+          },
+          "uniquely_matched": 524,
+          "mass_matches": 524,
+          "accepted": 524,
+          "pass_gate": true,
+          "field": {
+            "rows": 524,
+            "same_voxel": 524,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        {
+          "slab": 0,
+          "population": "unresolved_central",
+          "rows": 131,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph002/halos/z0.200/field_rv_A/field_rv_A_000.asdf",
+            "bytes": 1288277166,
+            "mtime_ns": 1586979837000000000
+          },
+          "native_candidates": 33039969,
+          "position_error_mpc_h": {
+            "n": 131,
+            "median": 1.8881301520368594e-05,
+            "p95": 8.151649443169831e-05,
+            "max": 9.850732940488111e-05
+          },
+          "uniquely_matched": 131,
+          "mass_matches": null,
+          "accepted": 131,
+          "pass_gate": true,
+          "field": {
+            "rows": 131,
+            "same_voxel": 131,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        {
+          "slab": 33,
+          "population": "resolved_central",
+          "rows": 539,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph002/halos/z0.200/halo_info/halo_info_033.asdf",
+            "bytes": 2213911191,
+            "mtime_ns": 1586983153000000000
+          },
+          "native_candidates": 1634131,
+          "position_error_mpc_h": {
+            "n": 539,
+            "median": 6.585545642777498e-05,
+            "p95": 0.00012633884550575903,
+            "max": 0.0002047016270139712
+          },
+          "uniquely_matched": 539,
+          "mass_matches": 539,
+          "accepted": 539,
+          "pass_gate": true,
+          "field": {
+            "rows": 539,
+            "same_voxel": 539,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        {
+          "slab": 33,
+          "population": "unresolved_central",
+          "rows": 145,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph002/halos/z0.200/field_rv_A/field_rv_A_033.asdf",
+            "bytes": 1315797935,
+            "mtime_ns": 1586983461000000000
+          },
+          "native_candidates": 33779231,
+          "position_error_mpc_h": {
+            "n": 145,
+            "median": 6.175962873094386e-05,
+            "p95": 0.00010338630264545025,
+            "max": 0.0001294528176054023
+          },
+          "uniquely_matched": 145,
+          "mass_matches": null,
+          "accepted": 145,
+          "pass_gate": true,
+          "field": {
+            "rows": 145,
+            "same_voxel": 145,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        }
+      ],
+      "field_path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7",
+      "unresolved_satellites_in_sample": 3,
+      "pass_gate": false,
+      "elapsed_seconds": 107.35522753803525,
+      "initial_incorrect_cubic_reference": {
+        "cen0": {
+          "rows": 3106,
+          "identity_matches": 130,
+          "position_error_mpc_h": {
+            "n": 3106,
+            "median": 913.860992639841,
+            "p95": 1313.3874513648566,
+            "max": 1643.6579945194833
+          },
+          "within_tolerance": 130,
+          "field": {
+            "rows": 3106,
+            "same_voxel": 130,
+            "same_voxel_fraction": 0.04185447520927238,
+            "max_abs_eigenvalue_difference": 6.405799612402916,
+            "rms_eigenvalue_difference": 0.7462209689090158,
+            "changed_web_class": 2120
+          }
+        },
+        "cen1": {
+          "rows": 22187,
+          "identity_matches": 876,
+          "position_error_mpc_h": {
+            "n": 22187,
+            "median": 766.3160100268394,
+            "p95": 1208.6857344292648,
+            "max": 1665.039658240125
+          },
+          "within_tolerance": 876,
+          "field": {
+            "rows": 22187,
+            "same_voxel": 876,
+            "same_voxel_fraction": 0.039482579889124264,
+            "max_abs_eigenvalue_difference": 3.1961109042167664,
+            "rms_eigenvalue_difference": 0.3322405471536524,
+            "changed_web_class": 14222
+          }
+        }
+      },
+      "cubic": {
+        "cen0": {
+          "rows": 3106,
+          "identity_matches": 3106,
+          "position_error_mpc_h": {
+            "n": 3106,
+            "median": 0.00019463069279819717,
+            "p95": 0.00047732309909129207,
+            "max": 0.0008339154543137048
+          },
+          "within_tolerance": 3106,
+          "field": {
+            "rows": 3106,
+            "same_voxel": 3106,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        "cen1": {
+          "rows": 22187,
+          "identity_matches": 22187,
+          "position_error_mpc_h": {
+            "n": 22187,
+            "median": 0.0002240835389017431,
+            "p95": 0.0005468316606350737,
+            "max": 0.001147163821195025
+          },
+          "within_tolerance": 22187,
+          "field": {
+            "rows": 22187,
+            "same_voxel": 22182,
+            "same_voxel_fraction": 0.999774642808852,
+            "max_abs_eigenvalue_difference": 0.04692418873310089,
+            "rms_eigenvalue_difference": 0.00023349645464962283,
+            "changed_web_class": 0
+          }
+        }
+      },
+      "cubic_file_starts": [
+        0,
+        6770003,
+        13591457,
+        20440819,
+        27234138,
+        34069397,
+        40978448,
+        47862388,
+        54689472,
+        61499277,
+        68312480,
+        75125997,
+        82014390,
+        88925383,
+        95691512,
+        102521262,
+        109309269,
+        116140911,
+        122993726,
+        129830161,
+        136653984,
+        143434759,
+        150256058,
+        157134080,
+        164000127,
+        170881733,
+        177655379,
+        184492896,
+        191333682,
+        198086582,
+        204895670,
+        211670052,
+        218507307,
+        225294082,
+        232230993
+      ],
+      "cubic_index_semantics": "FILE_NUM-local BOX_INDEX into concatenated cubic galaxy blocks",
+      "sample_source": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/galaxy_position_validation_20261019/job60003795/ph002_sample.npz",
+        "sha256": "aca0d8fc13a40cdabab360a9e91fd4c564697a9ea6b61d1aeb0804dfc3fc53de"
+      },
+      "field_sources": [
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0000.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786543377000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0001.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786543377000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0002.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786543377000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0003.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786543377000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0004.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786543376000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0005.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786543377000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0006.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786543376000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0007.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786543376000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0008.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786543376000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0009.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786543376000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0010.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786543376000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0011.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786543376000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0012.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786543376000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0013.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786543376000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0014.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786543376000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0015.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786543376000000000
+        }
+      ],
+      "field_gate": true
+    },
+    "ph003": {
+      "sources": [
+        {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph003.fits",
+          "bytes": 6636481920,
+          "mtime_ns": 1706808122000000000
+        },
+        {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph003/BGS_box_ph003.fits",
+          "bytes": 12075814080,
+          "mtime_ns": 1698834897000000000
+        }
+      ],
+      "sample_rows": 32000,
+      "redshift_range": [
+        0.0034349134657531977,
+        0.7703078985214233
+      ],
+      "distance_spline_error_mpc_h": {
+        "n": 256,
+        "median": 0.0,
+        "p95": 3.2155493553843715e-13,
+        "max": 5.569494857771083e-13
+      },
+      "native_checks": [
+        {
+          "slab": 0,
+          "population": "resolved_central",
+          "rows": 515,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph003/halos/z0.200/halo_info/halo_info_000.asdf",
+            "bytes": 2161153095,
+            "mtime_ns": 1586980903000000000
+          },
+          "native_candidates": 1587248,
+          "position_error_mpc_h": {
+            "n": 515,
+            "median": 5.038825519213564e-05,
+            "p95": 0.00010762992511179558,
+            "max": 0.00015111732571357846
+          },
+          "uniquely_matched": 515,
+          "mass_matches": 515,
+          "accepted": 515,
+          "pass_gate": true,
+          "field": {
+            "rows": 515,
+            "same_voxel": 515,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        {
+          "slab": 0,
+          "population": "unresolved_central",
+          "rows": 129,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph003/halos/z0.200/field_rv_A/field_rv_A_000.asdf",
+            "bytes": 1286710591,
+            "mtime_ns": 1586981567000000000
+          },
+          "native_candidates": 32794237,
+          "position_error_mpc_h": {
+            "n": 129,
+            "median": 2.2529263777058783e-05,
+            "p95": 8.801493788216759e-05,
+            "max": 9.513374067985072e-05
+          },
+          "uniquely_matched": 129,
+          "mass_matches": null,
+          "accepted": 129,
+          "pass_gate": true,
+          "field": {
+            "rows": 129,
+            "same_voxel": 129,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        {
+          "slab": 33,
+          "population": "resolved_central",
+          "rows": 538,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph003/halos/z0.200/halo_info/halo_info_033.asdf",
+            "bytes": 2210288711,
+            "mtime_ns": 1586984568000000000
+          },
+          "native_candidates": 1626020,
+          "position_error_mpc_h": {
+            "n": 538,
+            "median": 6.86828617044894e-05,
+            "p95": 0.00012513653573127586,
+            "max": 0.00018880378526979393
+          },
+          "uniquely_matched": 538,
+          "mass_matches": 538,
+          "accepted": 538,
+          "pass_gate": true,
+          "field": {
+            "rows": 538,
+            "same_voxel": 538,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        {
+          "slab": 33,
+          "population": "unresolved_central",
+          "rows": 139,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph003/halos/z0.200/field_rv_A/field_rv_A_033.asdf",
+            "bytes": 1313641574,
+            "mtime_ns": 1586984937000000000
+          },
+          "native_candidates": 33557662,
+          "position_error_mpc_h": {
+            "n": 139,
+            "median": 6.25696820006074e-05,
+            "p95": 9.178081667318184e-05,
+            "max": 0.00010715631077990057
+          },
+          "uniquely_matched": 139,
+          "mass_matches": null,
+          "accepted": 139,
+          "pass_gate": true,
+          "field": {
+            "rows": 139,
+            "same_voxel": 139,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        }
+      ],
+      "field_path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7",
+      "unresolved_satellites_in_sample": 2,
+      "pass_gate": false,
+      "elapsed_seconds": 101.43068913801108,
+      "initial_incorrect_cubic_reference": {
+        "cen0": {
+          "rows": 3111,
+          "identity_matches": 127,
+          "position_error_mpc_h": {
+            "n": 3111,
+            "median": 908.5551303402748,
+            "p95": 1305.422533628114,
+            "max": 1670.6258015842182
+          },
+          "within_tolerance": 127,
+          "field": {
+            "rows": 3111,
+            "same_voxel": 127,
+            "same_voxel_fraction": 0.04082288653166184,
+            "max_abs_eigenvalue_difference": 3.076158657670021,
+            "rms_eigenvalue_difference": 0.5544688555040591,
+            "changed_web_class": 2134
+          }
+        },
+        "cen1": {
+          "rows": 22154,
+          "identity_matches": 883,
+          "position_error_mpc_h": {
+            "n": 22154,
+            "median": 868.9753917319008,
+            "p95": 1317.807564412305,
+            "max": 1680.5099306158108
+          },
+          "within_tolerance": 883,
+          "field": {
+            "rows": 22154,
+            "same_voxel": 883,
+            "same_voxel_fraction": 0.03985736210165207,
+            "max_abs_eigenvalue_difference": 3.7117783799767494,
+            "rms_eigenvalue_difference": 0.3279691736423448,
+            "changed_web_class": 14371
+          }
+        }
+      },
+      "cubic": {
+        "cen0": {
+          "rows": 3111,
+          "identity_matches": 3111,
+          "position_error_mpc_h": {
+            "n": 3111,
+            "median": 0.00019935482845920808,
+            "p95": 0.00046876236876582144,
+            "max": 0.0008913730654781498
+          },
+          "within_tolerance": 3111,
+          "field": {
+            "rows": 3111,
+            "same_voxel": 3111,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        "cen1": {
+          "rows": 22154,
+          "identity_matches": 22154,
+          "position_error_mpc_h": {
+            "n": 22154,
+            "median": 0.0002268118868765134,
+            "p95": 0.0005501525991429621,
+            "max": 0.0011618294022132047
+          },
+          "within_tolerance": 22154,
+          "field": {
+            "rows": 22154,
+            "same_voxel": 22146,
+            "same_voxel_fraction": 0.9996388913965876,
+            "max_abs_eigenvalue_difference": 0.05873596668243408,
+            "rms_eigenvalue_difference": 0.00041713895513466944,
+            "changed_web_class": 0
+          }
+        }
+      },
+      "cubic_file_starts": [
+        0,
+        6757131,
+        13550499,
+        20353211,
+        27171944,
+        33927734,
+        40723883,
+        47598433,
+        54465677,
+        61356307,
+        68157253,
+        74917105,
+        81726322,
+        88611663,
+        95374484,
+        102193040,
+        109047892,
+        115838764,
+        122765624,
+        129670629,
+        136522099,
+        143350625,
+        150220025,
+        157074196,
+        163900826,
+        170745518,
+        177455256,
+        184261998,
+        191118287,
+        198023786,
+        204827521,
+        211544464,
+        218404058,
+        225310760,
+        232227072
+      ],
+      "cubic_index_semantics": "FILE_NUM-local BOX_INDEX into concatenated cubic galaxy blocks",
+      "sample_source": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/galaxy_position_validation_20261019/job60003795/ph003_sample.npz",
+        "sha256": "33d9304f54182a284b2a5a1cfb126431f663eef9334c5fe14f89c54b4bcbc966"
+      },
+      "field_sources": [
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0000.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786620838000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0001.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786620836000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0002.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786620832000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0003.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786620827000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0004.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786620821000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0005.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786620824000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0006.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786620821000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0007.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786620821000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0008.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786620821000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0009.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786620821000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0010.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786620821000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0011.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786620821000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0012.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786620820000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0013.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786620821000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0014.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786620820000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph003/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0015.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786620820000000000
+        }
+      ],
+      "field_gate": true
+    },
+    "ph004": {
+      "sources": [
+        {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph004.fits",
+          "bytes": 6654746880,
+          "mtime_ns": 1706808304000000000
+        },
+        {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph004/BGS_box_ph004.fits",
+          "bytes": 12079281600,
+          "mtime_ns": 1698834883000000000
+        }
+      ],
+      "sample_rows": 32000,
+      "redshift_range": [
+        0.004686262924224138,
+        0.802031934261322
+      ],
+      "distance_spline_error_mpc_h": {
+        "n": 256,
+        "median": 1.1368683772161603e-13,
+        "p95": 3.410605131648481e-13,
+        "max": 6.431098710768743e-13
+      },
+      "native_checks": [
+        {
+          "slab": 0,
+          "population": "resolved_central",
+          "rows": 555,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph004/halos/z0.200/halo_info/halo_info_000.asdf",
+            "bytes": 2206347394,
+            "mtime_ns": 1586993046000000000
+          },
+          "native_candidates": 1665968,
+          "position_error_mpc_h": {
+            "n": 555,
+            "median": 5.046569748082002e-05,
+            "p95": 0.00011011552250902666,
+            "max": 0.00015581491724143252
+          },
+          "uniquely_matched": 555,
+          "mass_matches": 555,
+          "accepted": 555,
+          "pass_gate": true,
+          "field": {
+            "rows": 555,
+            "same_voxel": 554,
+            "same_voxel_fraction": 0.9981981981981982,
+            "max_abs_eigenvalue_difference": 0.02284136414527893,
+            "rms_eigenvalue_difference": 0.0006646475061229548,
+            "changed_web_class": 0
+          }
+        },
+        {
+          "slab": 0,
+          "population": "unresolved_central",
+          "rows": 144,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph004/halos/z0.200/field_rv_A/field_rv_A_000.asdf",
+            "bytes": 1311407856,
+            "mtime_ns": 1586993756000000000
+          },
+          "native_candidates": 34282178,
+          "position_error_mpc_h": {
+            "n": 144,
+            "median": 2.86184468059198e-05,
+            "p95": 7.993666390072937e-05,
+            "max": 0.00010836694049708761
+          },
+          "uniquely_matched": 144,
+          "mass_matches": null,
+          "accepted": 144,
+          "pass_gate": true,
+          "field": {
+            "rows": 144,
+            "same_voxel": 144,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        {
+          "slab": 33,
+          "population": "resolved_central",
+          "rows": 540,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph004/halos/z0.200/halo_info/halo_info_033.asdf",
+            "bytes": 2229503490,
+            "mtime_ns": 1586995658000000000
+          },
+          "native_candidates": 1621612,
+          "position_error_mpc_h": {
+            "n": 540,
+            "median": 6.678021693739771e-05,
+            "p95": 0.000127666474902617,
+            "max": 0.0001810017268223008
+          },
+          "uniquely_matched": 540,
+          "mass_matches": 540,
+          "accepted": 540,
+          "pass_gate": true,
+          "field": {
+            "rows": 540,
+            "same_voxel": 540,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        {
+          "slab": 33,
+          "population": "unresolved_central",
+          "rows": 124,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph004/halos/z0.200/field_rv_A/field_rv_A_033.asdf",
+            "bytes": 1326538144,
+            "mtime_ns": 1586995803000000000
+          },
+          "native_candidates": 33584794,
+          "position_error_mpc_h": {
+            "n": 124,
+            "median": 5.946064892146175e-05,
+            "p95": 9.387535265124529e-05,
+            "max": 0.0001306803918068733
+          },
+          "uniquely_matched": 124,
+          "mass_matches": null,
+          "accepted": 124,
+          "pass_gate": true,
+          "field": {
+            "rows": 124,
+            "same_voxel": 124,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        }
+      ],
+      "field_path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7",
+      "unresolved_satellites_in_sample": 2,
+      "pass_gate": false,
+      "elapsed_seconds": 100.79939809098141,
+      "initial_incorrect_cubic_reference": {
+        "cen0": {
+          "rows": 3060,
+          "identity_matches": 137,
+          "position_error_mpc_h": {
+            "n": 3060,
+            "median": 904.9338929055361,
+            "p95": 1324.9820981204102,
+            "max": 1631.1582995715028
+          },
+          "within_tolerance": 137,
+          "field": {
+            "rows": 3060,
+            "same_voxel": 137,
+            "same_voxel_fraction": 0.04477124183006536,
+            "max_abs_eigenvalue_difference": 2.9980866611003876,
+            "rms_eigenvalue_difference": 0.5520686811260785,
+            "changed_web_class": 2079
+          }
+        },
+        "cen1": {
+          "rows": 22083,
+          "identity_matches": 889,
+          "position_error_mpc_h": {
+            "n": 22083,
+            "median": 852.6400994821647,
+            "p95": 1311.4312337101605,
+            "max": 1701.9404820905565
+          },
+          "within_tolerance": 889,
+          "field": {
+            "rows": 22083,
+            "same_voxel": 889,
+            "same_voxel_fraction": 0.04025721142960648,
+            "max_abs_eigenvalue_difference": 3.049807146191597,
+            "rms_eigenvalue_difference": 0.3330804468480931,
+            "changed_web_class": 14211
+          }
+        }
+      },
+      "cubic": {
+        "cen0": {
+          "rows": 3060,
+          "identity_matches": 3060,
+          "position_error_mpc_h": {
+            "n": 3060,
+            "median": 0.00019596355852875678,
+            "p95": 0.0004777804094739879,
+            "max": 0.0007805889765676115
+          },
+          "within_tolerance": 3060,
+          "field": {
+            "rows": 3060,
+            "same_voxel": 3060,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        "cen1": {
+          "rows": 22083,
+          "identity_matches": 22083,
+          "position_error_mpc_h": {
+            "n": 22083,
+            "median": 0.00022616130137236292,
+            "p95": 0.0005493178827085636,
+            "max": 0.001287985501625569
+          },
+          "within_tolerance": 22083,
+          "field": {
+            "rows": 22083,
+            "same_voxel": 22077,
+            "same_voxel_fraction": 0.999728297785627,
+            "max_abs_eigenvalue_difference": 0.03958013653755188,
+            "rms_eigenvalue_difference": 0.00023303075353652824,
+            "changed_web_class": 0
+          }
+        }
+      },
+      "cubic_file_starts": [
+        0,
+        6941789,
+        13887950,
+        20725708,
+        27474423,
+        34219151,
+        41021392,
+        47795311,
+        54634145,
+        61455256,
+        68317907,
+        75150245,
+        81985686,
+        88807239,
+        95579363,
+        102395463,
+        109248433,
+        116152722,
+        123004553,
+        129850520,
+        136663790,
+        143498822,
+        150340756,
+        157208048,
+        164015531,
+        170728879,
+        177576222,
+        184452200,
+        191350618,
+        198125857,
+        204858287,
+        211608745,
+        218362068,
+        225288820,
+        232293756
+      ],
+      "cubic_index_semantics": "FILE_NUM-local BOX_INDEX into concatenated cubic galaxy blocks",
+      "sample_source": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/galaxy_position_validation_20261019/job60003795/ph004_sample.npz",
+        "sha256": "d7d9dac88102a900c775e312f6fac51d3a597737cff168798b5f260889df0bcc"
+      },
+      "field_sources": [
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0000.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621452000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0001.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621446000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0002.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621446000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0003.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621445000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0004.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621443000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0005.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621447000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0006.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621444000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0007.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621445000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0008.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621443000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0009.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621444000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0010.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621443000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0011.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621443000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0012.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621443000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0013.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621443000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0014.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621443000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph004/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0015.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621443000000000
+        }
+      ],
+      "field_gate": true
+    },
+    "ph005": {
+      "sources": [
+        {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph005.fits",
+          "bytes": 6662888640,
+          "mtime_ns": 1706808483000000000
+        },
+        {
+          "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CubicBox/BGS/v0.1/z0.200/AbacusSummit_base_c000_ph005/BGS_box_ph005.fits",
+          "bytes": 12077147520,
+          "mtime_ns": 1698834884000000000
+        }
+      ],
+      "sample_rows": 32000,
+      "redshift_range": [
+        0.0028228405863046646,
+        0.7642316818237305
+      ],
+      "distance_spline_error_mpc_h": {
+        "n": 256,
+        "median": 0.0,
+        "p95": 3.410605131648481e-13,
+        "max": 5.684341886080801e-13
+      },
+      "native_checks": [
+        {
+          "slab": 0,
+          "population": "resolved_central",
+          "rows": 518,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph005/halos/z0.200/halo_info/halo_info_000.asdf",
+            "bytes": 2167904998,
+            "mtime_ns": 1586456047000000000
+          },
+          "native_candidates": 1574270,
+          "position_error_mpc_h": {
+            "n": 518,
+            "median": 5.199390709479985e-05,
+            "p95": 0.0001081391483769975,
+            "max": 0.00015360691092562495
+          },
+          "uniquely_matched": 518,
+          "mass_matches": 518,
+          "accepted": 518,
+          "pass_gate": true,
+          "field": {
+            "rows": 518,
+            "same_voxel": 518,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        {
+          "slab": 0,
+          "population": "unresolved_central",
+          "rows": 136,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph005/halos/z0.200/field_rv_A/field_rv_A_000.asdf",
+            "bytes": 1290532061,
+            "mtime_ns": 1586456304000000000
+          },
+          "native_candidates": 32595572,
+          "position_error_mpc_h": {
+            "n": 136,
+            "median": 2.9907933556986893e-05,
+            "p95": 8.408856505152422e-05,
+            "max": 9.148225698033968e-05
+          },
+          "uniquely_matched": 136,
+          "mass_matches": null,
+          "accepted": 136,
+          "pass_gate": true,
+          "field": {
+            "rows": 136,
+            "same_voxel": 136,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        {
+          "slab": 33,
+          "population": "resolved_central",
+          "rows": 537,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph005/halos/z0.200/halo_info/halo_info_033.asdf",
+            "bytes": 2226158109,
+            "mtime_ns": 1586458640000000000
+          },
+          "native_candidates": 1646355,
+          "position_error_mpc_h": {
+            "n": 537,
+            "median": 6.930651506643531e-05,
+            "p95": 0.00012441117237779783,
+            "max": 0.00016206004355514943
+          },
+          "uniquely_matched": 537,
+          "mass_matches": 537,
+          "accepted": 537,
+          "pass_gate": true,
+          "field": {
+            "rows": 537,
+            "same_voxel": 537,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        },
+        {
+          "slab": 33,
+          "population": "unresolved_central",
+          "rows": 144,
+          "source": {
+            "path": "/global/cfs/cdirs/desi/public/cosmosim/AbacusSummit/AbacusSummit_base_c000_ph005/halos/z0.200/field_rv_A/field_rv_A_033.asdf",
+            "bytes": 1322865156,
+            "mtime_ns": 1586458861000000000
+          },
+          "native_candidates": 34024672,
+          "position_error_mpc_h": {
+            "n": 144,
+            "median": 6.163722639118205e-05,
+            "p95": 0.0001047740027387893,
+            "max": 0.0001320727343077185
+          },
+          "uniquely_matched": 144,
+          "mass_matches": null,
+          "accepted": 144,
+          "pass_gate": true,
+          "field": {
+            "rows": 144,
+            "same_voxel": 144,
+            "same_voxel_fraction": 1.0,
+            "max_abs_eigenvalue_difference": 0.0,
+            "rms_eigenvalue_difference": 0.0,
+            "changed_web_class": 0
+          }
+        }
+      ],
+      "field_path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7",
+      "unresolved_satellites_in_sample": 3,
+      "pass_gate": false,
+      "elapsed_seconds": 100.84426149702631,
+      "initial_incorrect_cubic_reference": {
+        "cen0": {
+          "rows": 3090,
+          "identity_matches": 126,
+          "position_error_mpc_h": {
+            "n": 3090,
+            "median": 898.591561341002,
+            "p95": 1312.8848502855226,
+            "max": 1642.9773565224368
+          },
+          "within_tolerance": 126,
+          "field": {
+            "rows": 3090,
+            "same_voxel": 126,
+            "same_voxel_fraction": 0.040776699029126215,
+            "max_abs_eigenvalue_difference": 4.246428161859512,
+            "rms_eigenvalue_difference": 0.5605342762498169,
+            "changed_web_class": 2134
+          }
+        },
+        "cen1": {
+          "rows": 22126,
+          "identity_matches": 875,
+          "position_error_mpc_h": {
+            "n": 22126,
+            "median": 805.4401114443699,
+            "p95": 1231.5510665049248,
+            "max": 1595.7039931544748
+          },
+          "within_tolerance": 875,
+          "field": {
+            "rows": 22126,
+            "same_voxel": 875,
+            "same_voxel_fraction": 0.039546235198409115,
+            "max_abs_eigenvalue_difference": 2.7383390367031097,
+            "rms_eigenvalue_difference": 0.32768637442356463,
+            "changed_web_class": 14320
+          }
+        }
+      },
+      "cubic": {
+        "cen0": {
+          "rows": 3090,
+          "identity_matches": 3090,
+          "position_error_mpc_h": {
+            "n": 3090,
+            "median": 0.00019685626382294992,
+            "p95": 0.0004686761127939442,
+            "max": 0.0009810674251739561
+          },
+          "within_tolerance": 3090,
+          "field": {
+            "rows": 3090,
+            "same_voxel": 3089,
+            "same_voxel_fraction": 0.9996763754045307,
+            "max_abs_eigenvalue_difference": 0.026450634002685547,
+            "rms_eigenvalue_difference": 0.00030741813281296625,
+            "changed_web_class": 0
+          }
+        },
+        "cen1": {
+          "rows": 22126,
+          "identity_matches": 22126,
+          "position_error_mpc_h": {
+            "n": 22126,
+            "median": 0.00022577254852326344,
+            "p95": 0.0005485598393349113,
+            "max": 0.0012373643308068035
+          },
+          "within_tolerance": 22126,
+          "field": {
+            "rows": 22126,
+            "same_voxel": 22115,
+            "same_voxel_fraction": 0.9995028473289342,
+            "max_abs_eigenvalue_difference": 0.06068235635757446,
+            "rms_eigenvalue_difference": 0.0004142510544690543,
+            "changed_web_class": 0
+          }
+        }
+      },
+      "cubic_file_starts": [
+        0,
+        6783818,
+        13455279,
+        20279313,
+        27138681,
+        33990938,
+        40855064,
+        47721888,
+        54575753,
+        61400896,
+        68168548,
+        75028494,
+        81816448,
+        88672445,
+        95465360,
+        102380007,
+        109287606,
+        116102006,
+        122841648,
+        129582674,
+        136337811,
+        143220305,
+        150060158,
+        156921698,
+        163679321,
+        170595926,
+        177374188,
+        184215885,
+        190962525,
+        197752734,
+        204656195,
+        211448521,
+        218403611,
+        225274886,
+        232252674
+      ],
+      "cubic_index_semantics": "FILE_NUM-local BOX_INDEX into concatenated cubic galaxy blocks",
+      "sample_source": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/galaxy_position_validation_20261019/job60003795/ph005_sample.npz",
+        "sha256": "97dea12923192eb78dd133570d035a8caf1659c3be4e16891b02a37715d6354d"
+      },
+      "field_sources": [
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0000.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621971000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0001.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621971000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0002.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621971000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0003.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621970000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0004.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621970000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0005.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621970000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0006.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621970000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0007.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621970000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0008.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621970000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0009.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621970000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0010.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621970000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0011.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621970000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0012.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621969000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0013.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621969000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0014.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621969000000000
+        },
+        {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph005/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/abacus_cactus_tweb_rank0015.npz",
+          "bytes": 6979324054,
+          "mtime_ns": 1786621970000000000
+        }
+      ],
+      "field_gate": true
+    }
+  },
+  "completed": true,
+  "pass_gate": false,
+  "corrected_reference_indexing": true,
+  "previous_audit": {
+    "path": "/pscratch/sd/d/dkololgi/abacus/galaxy_position_validation_20261019/job60003795/report.json",
+    "sha256": "a69cbef6983b96bdc18307e2b20097fb72e5a6b67e1869e9999add6358da05dd"
+  },
+  "correction_script_sha256": "002bdb696e375a133e662268f4c748cb7bbf8a72acacd2c9cac16e9461b234d8",
+  "cubic_reference_helper_sha256": "291ea005b97d84fe5c2a2bea61b8391c6bd57c580d39fb3111943d3564feddae",
+  "correction_job_id": "60003795"
+}

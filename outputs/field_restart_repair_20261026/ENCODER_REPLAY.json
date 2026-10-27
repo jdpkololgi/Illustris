@@ -1,0 +1,9 @@
+{
+  "model_maxabs": 0.0,
+  "global_steps": [
+    2,
+    2
+  ],
+  "scheduler_equal": true,
+  "pass": true
+}

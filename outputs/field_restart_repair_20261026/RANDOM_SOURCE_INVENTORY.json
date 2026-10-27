@@ -1,0 +1,2076 @@
+{
+  "scope": "visible phases only; file existence and sizes, not content validation",
+  "phases": [
+    {
+      "phase": "ph000",
+      "mock": 0,
+      "files": [
+        {
+          "random_id": 0,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803598720
+        },
+        {
+          "random_id": 1,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803699520
+        },
+        {
+          "random_id": 2,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803215680
+        },
+        {
+          "random_id": 3,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803460480
+        },
+        {
+          "random_id": 4,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804059520
+        },
+        {
+          "random_id": 5,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803569920
+        },
+        {
+          "random_id": 6,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803509440
+        },
+        {
+          "random_id": 7,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803984640
+        },
+        {
+          "random_id": 8,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803523840
+        },
+        {
+          "random_id": 9,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803330880
+        },
+        {
+          "random_id": 10,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803725440
+        },
+        {
+          "random_id": 11,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803895360
+        },
+        {
+          "random_id": 12,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803411520
+        },
+        {
+          "random_id": 13,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803693760
+        },
+        {
+          "random_id": 14,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803754240
+        },
+        {
+          "random_id": 15,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804338880
+        },
+        {
+          "random_id": 16,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803955840
+        },
+        {
+          "random_id": 17,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803607360
+        }
+      ],
+      "all_18_present": true
+    },
+    {
+      "phase": "ph002",
+      "mock": 2,
+      "files": [
+        {
+          "random_id": 0,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803598720
+        },
+        {
+          "random_id": 1,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803702400
+        },
+        {
+          "random_id": 2,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803218560
+        },
+        {
+          "random_id": 3,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803460480
+        },
+        {
+          "random_id": 4,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804062400
+        },
+        {
+          "random_id": 5,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803572800
+        },
+        {
+          "random_id": 6,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803509440
+        },
+        {
+          "random_id": 7,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803987520
+        },
+        {
+          "random_id": 8,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803526720
+        },
+        {
+          "random_id": 9,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803333760
+        },
+        {
+          "random_id": 10,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803728320
+        },
+        {
+          "random_id": 11,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803895360
+        },
+        {
+          "random_id": 12,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803414400
+        },
+        {
+          "random_id": 13,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803696640
+        },
+        {
+          "random_id": 14,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803757120
+        },
+        {
+          "random_id": 15,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804338880
+        },
+        {
+          "random_id": 16,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803955840
+        },
+        {
+          "random_id": 17,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl2/kibo-v1/mock2/LSScats/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803610240
+        }
+      ],
+      "all_18_present": true
+    },
+    {
+      "phase": "ph003",
+      "mock": 3,
+      "files": [
+        {
+          "random_id": 0,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803601600
+        },
+        {
+          "random_id": 1,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803702400
+        },
+        {
+          "random_id": 2,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803215680
+        },
+        {
+          "random_id": 3,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803460480
+        },
+        {
+          "random_id": 4,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804062400
+        },
+        {
+          "random_id": 5,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803572800
+        },
+        {
+          "random_id": 6,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803512320
+        },
+        {
+          "random_id": 7,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803987520
+        },
+        {
+          "random_id": 8,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803526720
+        },
+        {
+          "random_id": 9,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803333760
+        },
+        {
+          "random_id": 10,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803728320
+        },
+        {
+          "random_id": 11,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803895360
+        },
+        {
+          "random_id": 12,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803414400
+        },
+        {
+          "random_id": 13,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803696640
+        },
+        {
+          "random_id": 14,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803757120
+        },
+        {
+          "random_id": 15,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804338880
+        },
+        {
+          "random_id": 16,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803955840
+        },
+        {
+          "random_id": 17,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl3/kibo-v1/mock3/LSScats/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803610240
+        }
+      ],
+      "all_18_present": true
+    },
+    {
+      "phase": "ph004",
+      "mock": 4,
+      "files": [
+        {
+          "random_id": 0,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803601600
+        },
+        {
+          "random_id": 1,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803702400
+        },
+        {
+          "random_id": 2,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803215680
+        },
+        {
+          "random_id": 3,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803460480
+        },
+        {
+          "random_id": 4,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804062400
+        },
+        {
+          "random_id": 5,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803572800
+        },
+        {
+          "random_id": 6,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803509440
+        },
+        {
+          "random_id": 7,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803987520
+        },
+        {
+          "random_id": 8,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803526720
+        },
+        {
+          "random_id": 9,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803333760
+        },
+        {
+          "random_id": 10,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803728320
+        },
+        {
+          "random_id": 11,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803895360
+        },
+        {
+          "random_id": 12,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803414400
+        },
+        {
+          "random_id": 13,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803696640
+        },
+        {
+          "random_id": 14,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803757120
+        },
+        {
+          "random_id": 15,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804338880
+        },
+        {
+          "random_id": 16,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803955840
+        },
+        {
+          "random_id": 17,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl4/kibo-v1/mock4/LSScats/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803610240
+        }
+      ],
+      "all_18_present": true
+    },
+    {
+      "phase": "ph005",
+      "mock": 5,
+      "files": [
+        {
+          "random_id": 0,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803598720
+        },
+        {
+          "random_id": 1,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803699520
+        },
+        {
+          "random_id": 2,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803212800
+        },
+        {
+          "random_id": 3,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803457600
+        },
+        {
+          "random_id": 4,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804059520
+        },
+        {
+          "random_id": 5,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803569920
+        },
+        {
+          "random_id": 6,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803506560
+        },
+        {
+          "random_id": 7,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803984640
+        },
+        {
+          "random_id": 8,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803526720
+        },
+        {
+          "random_id": 9,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803330880
+        },
+        {
+          "random_id": 10,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803725440
+        },
+        {
+          "random_id": 11,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803892480
+        },
+        {
+          "random_id": 12,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803411520
+        },
+        {
+          "random_id": 13,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803693760
+        },
+        {
+          "random_id": 14,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803754240
+        },
+        {
+          "random_id": 15,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804336000
+        },
+        {
+          "random_id": 16,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803955840
+        },
+        {
+          "random_id": 17,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl5/kibo-v1/mock5/LSScats/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803607360
+        }
+      ],
+      "all_18_present": true
+    },
+    {
+      "phase": "ph007",
+      "mock": 7,
+      "files": [
+        {
+          "random_id": 0,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803598720
+        },
+        {
+          "random_id": 1,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803702400
+        },
+        {
+          "random_id": 2,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803215680
+        },
+        {
+          "random_id": 3,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803460480
+        },
+        {
+          "random_id": 4,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804059520
+        },
+        {
+          "random_id": 5,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803569920
+        },
+        {
+          "random_id": 6,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803509440
+        },
+        {
+          "random_id": 7,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803987520
+        },
+        {
+          "random_id": 8,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803526720
+        },
+        {
+          "random_id": 9,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803333760
+        },
+        {
+          "random_id": 10,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803725440
+        },
+        {
+          "random_id": 11,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803895360
+        },
+        {
+          "random_id": 12,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803411520
+        },
+        {
+          "random_id": 13,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803693760
+        },
+        {
+          "random_id": 14,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803754240
+        },
+        {
+          "random_id": 15,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804338880
+        },
+        {
+          "random_id": 16,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803955840
+        },
+        {
+          "random_id": 17,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl7/kibo-v1/mock7/LSScats/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803610240
+        }
+      ],
+      "all_18_present": true
+    },
+    {
+      "phase": "ph008",
+      "mock": 8,
+      "files": [
+        {
+          "random_id": 0,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803598720
+        },
+        {
+          "random_id": 1,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803702400
+        },
+        {
+          "random_id": 2,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803215680
+        },
+        {
+          "random_id": 3,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803460480
+        },
+        {
+          "random_id": 4,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804062400
+        },
+        {
+          "random_id": 5,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803572800
+        },
+        {
+          "random_id": 6,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803509440
+        },
+        {
+          "random_id": 7,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803987520
+        },
+        {
+          "random_id": 8,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803526720
+        },
+        {
+          "random_id": 9,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803333760
+        },
+        {
+          "random_id": 10,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803728320
+        },
+        {
+          "random_id": 11,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803895360
+        },
+        {
+          "random_id": 12,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803411520
+        },
+        {
+          "random_id": 13,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803693760
+        },
+        {
+          "random_id": 14,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803754240
+        },
+        {
+          "random_id": 15,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804338880
+        },
+        {
+          "random_id": 16,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803955840
+        },
+        {
+          "random_id": 17,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl8/kibo-v1/mock8/LSScats/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803610240
+        }
+      ],
+      "all_18_present": true
+    },
+    {
+      "phase": "ph009",
+      "mock": 9,
+      "files": [
+        {
+          "random_id": 0,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803601600
+        },
+        {
+          "random_id": 1,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803702400
+        },
+        {
+          "random_id": 2,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803215680
+        },
+        {
+          "random_id": 3,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803460480
+        },
+        {
+          "random_id": 4,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804062400
+        },
+        {
+          "random_id": 5,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803572800
+        },
+        {
+          "random_id": 6,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803509440
+        },
+        {
+          "random_id": 7,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803987520
+        },
+        {
+          "random_id": 8,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803526720
+        },
+        {
+          "random_id": 9,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803333760
+        },
+        {
+          "random_id": 10,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803728320
+        },
+        {
+          "random_id": 11,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803895360
+        },
+        {
+          "random_id": 12,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803414400
+        },
+        {
+          "random_id": 13,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803696640
+        },
+        {
+          "random_id": 14,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803757120
+        },
+        {
+          "random_id": 15,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804338880
+        },
+        {
+          "random_id": 16,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803955840
+        },
+        {
+          "random_id": 17,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl9/kibo-v1/mock9/LSScats/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803610240
+        }
+      ],
+      "all_18_present": true
+    },
+    {
+      "phase": "ph010",
+      "mock": 10,
+      "files": [
+        {
+          "random_id": 0,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803598720
+        },
+        {
+          "random_id": 1,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803702400
+        },
+        {
+          "random_id": 2,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803215680
+        },
+        {
+          "random_id": 3,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803460480
+        },
+        {
+          "random_id": 4,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804062400
+        },
+        {
+          "random_id": 5,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803572800
+        },
+        {
+          "random_id": 6,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803509440
+        },
+        {
+          "random_id": 7,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803987520
+        },
+        {
+          "random_id": 8,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803526720
+        },
+        {
+          "random_id": 9,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803333760
+        },
+        {
+          "random_id": 10,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803728320
+        },
+        {
+          "random_id": 11,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803892480
+        },
+        {
+          "random_id": 12,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803411520
+        },
+        {
+          "random_id": 13,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803696640
+        },
+        {
+          "random_id": 14,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803757120
+        },
+        {
+          "random_id": 15,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804338880
+        },
+        {
+          "random_id": 16,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803955840
+        },
+        {
+          "random_id": 17,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl10/kibo-v1/mock10/LSScats/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803610240
+        }
+      ],
+      "all_18_present": true
+    },
+    {
+      "phase": "ph011",
+      "mock": 11,
+      "files": [
+        {
+          "random_id": 0,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803601600
+        },
+        {
+          "random_id": 1,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803702400
+        },
+        {
+          "random_id": 2,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803215680
+        },
+        {
+          "random_id": 3,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803460480
+        },
+        {
+          "random_id": 4,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804062400
+        },
+        {
+          "random_id": 5,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803572800
+        },
+        {
+          "random_id": 6,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803509440
+        },
+        {
+          "random_id": 7,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803987520
+        },
+        {
+          "random_id": 8,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803526720
+        },
+        {
+          "random_id": 9,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803333760
+        },
+        {
+          "random_id": 10,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803728320
+        },
+        {
+          "random_id": 11,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803895360
+        },
+        {
+          "random_id": 12,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803414400
+        },
+        {
+          "random_id": 13,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803696640
+        },
+        {
+          "random_id": 14,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803757120
+        },
+        {
+          "random_id": 15,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804338880
+        },
+        {
+          "random_id": 16,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803955840
+        },
+        {
+          "random_id": 17,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl11/kibo-v1/mock11/LSScats/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803610240
+        }
+      ],
+      "all_18_present": true
+    },
+    {
+      "phase": "ph020",
+      "mock": 20,
+      "files": [
+        {
+          "random_id": 0,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803601600
+        },
+        {
+          "random_id": 1,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803702400
+        },
+        {
+          "random_id": 2,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803215680
+        },
+        {
+          "random_id": 3,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803460480
+        },
+        {
+          "random_id": 4,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804062400
+        },
+        {
+          "random_id": 5,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803572800
+        },
+        {
+          "random_id": 6,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803509440
+        },
+        {
+          "random_id": 7,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803984640
+        },
+        {
+          "random_id": 8,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803526720
+        },
+        {
+          "random_id": 9,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803333760
+        },
+        {
+          "random_id": 10,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803728320
+        },
+        {
+          "random_id": 11,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803892480
+        },
+        {
+          "random_id": 12,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803411520
+        },
+        {
+          "random_id": 13,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803693760
+        },
+        {
+          "random_id": 14,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803754240
+        },
+        {
+          "random_id": 15,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804338880
+        },
+        {
+          "random_id": 16,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803955840
+        },
+        {
+          "random_id": 17,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl20/kibo-v1/mock20/LSScats/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803610240
+        }
+      ],
+      "all_18_present": true
+    },
+    {
+      "phase": "ph021",
+      "mock": 21,
+      "files": [
+        {
+          "random_id": 0,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803601600
+        },
+        {
+          "random_id": 1,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803702400
+        },
+        {
+          "random_id": 2,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803218560
+        },
+        {
+          "random_id": 3,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803460480
+        },
+        {
+          "random_id": 4,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804062400
+        },
+        {
+          "random_id": 5,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803572800
+        },
+        {
+          "random_id": 6,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803509440
+        },
+        {
+          "random_id": 7,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803987520
+        },
+        {
+          "random_id": 8,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803526720
+        },
+        {
+          "random_id": 9,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803333760
+        },
+        {
+          "random_id": 10,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803728320
+        },
+        {
+          "random_id": 11,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803895360
+        },
+        {
+          "random_id": 12,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803414400
+        },
+        {
+          "random_id": 13,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803696640
+        },
+        {
+          "random_id": 14,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803754240
+        },
+        {
+          "random_id": 15,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804338880
+        },
+        {
+          "random_id": 16,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803955840
+        },
+        {
+          "random_id": 17,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl21/kibo-v1/mock21/LSScats/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803610240
+        }
+      ],
+      "all_18_present": true
+    },
+    {
+      "phase": "ph022",
+      "mock": 22,
+      "files": [
+        {
+          "random_id": 0,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803598720
+        },
+        {
+          "random_id": 1,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803699520
+        },
+        {
+          "random_id": 2,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803215680
+        },
+        {
+          "random_id": 3,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803460480
+        },
+        {
+          "random_id": 4,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804059520
+        },
+        {
+          "random_id": 5,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803569920
+        },
+        {
+          "random_id": 6,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803509440
+        },
+        {
+          "random_id": 7,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803984640
+        },
+        {
+          "random_id": 8,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803526720
+        },
+        {
+          "random_id": 9,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803330880
+        },
+        {
+          "random_id": 10,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803725440
+        },
+        {
+          "random_id": 11,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803892480
+        },
+        {
+          "random_id": 12,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803411520
+        },
+        {
+          "random_id": 13,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803693760
+        },
+        {
+          "random_id": 14,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803754240
+        },
+        {
+          "random_id": 15,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804338880
+        },
+        {
+          "random_id": 16,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803955840
+        },
+        {
+          "random_id": 17,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl22/kibo-v1/mock22/LSScats/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803610240
+        }
+      ],
+      "all_18_present": true
+    },
+    {
+      "phase": "ph023",
+      "mock": 23,
+      "files": [
+        {
+          "random_id": 0,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803598720
+        },
+        {
+          "random_id": 1,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803699520
+        },
+        {
+          "random_id": 2,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803215680
+        },
+        {
+          "random_id": 3,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803460480
+        },
+        {
+          "random_id": 4,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804062400
+        },
+        {
+          "random_id": 5,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803572800
+        },
+        {
+          "random_id": 6,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803512320
+        },
+        {
+          "random_id": 7,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803987520
+        },
+        {
+          "random_id": 8,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803526720
+        },
+        {
+          "random_id": 9,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803333760
+        },
+        {
+          "random_id": 10,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803725440
+        },
+        {
+          "random_id": 11,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803895360
+        },
+        {
+          "random_id": 12,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803411520
+        },
+        {
+          "random_id": 13,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803696640
+        },
+        {
+          "random_id": 14,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803757120
+        },
+        {
+          "random_id": 15,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804338880
+        },
+        {
+          "random_id": 16,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803955840
+        },
+        {
+          "random_id": 17,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl23/kibo-v1/mock23/LSScats/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803610240
+        }
+      ],
+      "all_18_present": true
+    },
+    {
+      "phase": "ph024",
+      "mock": 24,
+      "files": [
+        {
+          "random_id": 0,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803598720
+        },
+        {
+          "random_id": 1,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803699520
+        },
+        {
+          "random_id": 2,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803215680
+        },
+        {
+          "random_id": 3,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803460480
+        },
+        {
+          "random_id": 4,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804062400
+        },
+        {
+          "random_id": 5,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803572800
+        },
+        {
+          "random_id": 6,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803509440
+        },
+        {
+          "random_id": 7,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803984640
+        },
+        {
+          "random_id": 8,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803529600
+        },
+        {
+          "random_id": 9,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803333760
+        },
+        {
+          "random_id": 10,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803728320
+        },
+        {
+          "random_id": 11,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803895360
+        },
+        {
+          "random_id": 12,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803411520
+        },
+        {
+          "random_id": 13,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803693760
+        },
+        {
+          "random_id": 14,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803754240
+        },
+        {
+          "random_id": 15,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804338880
+        },
+        {
+          "random_id": 16,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803955840
+        },
+        {
+          "random_id": 17,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl24/kibo-v1/mock24/LSScats/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803610240
+        }
+      ],
+      "all_18_present": true
+    },
+    {
+      "phase": "ph006",
+      "mock": 6,
+      "files": [
+        {
+          "random_id": 0,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803598720
+        },
+        {
+          "random_id": 1,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803702400
+        },
+        {
+          "random_id": 2,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803215680
+        },
+        {
+          "random_id": 3,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803460480
+        },
+        {
+          "random_id": 4,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804062400
+        },
+        {
+          "random_id": 5,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803572800
+        },
+        {
+          "random_id": 6,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803509440
+        },
+        {
+          "random_id": 7,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803987520
+        },
+        {
+          "random_id": 8,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803526720
+        },
+        {
+          "random_id": 9,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803333760
+        },
+        {
+          "random_id": 10,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803725440
+        },
+        {
+          "random_id": 11,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803895360
+        },
+        {
+          "random_id": 12,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803414400
+        },
+        {
+          "random_id": 13,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803696640
+        },
+        {
+          "random_id": 14,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803757120
+        },
+        {
+          "random_id": 15,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804338880
+        },
+        {
+          "random_id": 16,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803955840
+        },
+        {
+          "random_id": 17,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl6/kibo-v1/mock6/LSScats/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803610240
+        }
+      ],
+      "all_18_present": true
+    },
+    {
+      "phase": "ph012",
+      "mock": 12,
+      "files": [
+        {
+          "random_id": 0,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803601600
+        },
+        {
+          "random_id": 1,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803702400
+        },
+        {
+          "random_id": 2,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803218560
+        },
+        {
+          "random_id": 3,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803463360
+        },
+        {
+          "random_id": 4,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804062400
+        },
+        {
+          "random_id": 5,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803572800
+        },
+        {
+          "random_id": 6,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803509440
+        },
+        {
+          "random_id": 7,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803987520
+        },
+        {
+          "random_id": 8,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803529600
+        },
+        {
+          "random_id": 9,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803333760
+        },
+        {
+          "random_id": 10,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803728320
+        },
+        {
+          "random_id": 11,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803895360
+        },
+        {
+          "random_id": 12,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803414400
+        },
+        {
+          "random_id": 13,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803696640
+        },
+        {
+          "random_id": 14,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803757120
+        },
+        {
+          "random_id": 15,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804341760
+        },
+        {
+          "random_id": 16,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803955840
+        },
+        {
+          "random_id": 17,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl12/kibo-v1/mock12/LSScats/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803610240
+        }
+      ],
+      "all_18_present": true
+    },
+    {
+      "phase": "ph013",
+      "mock": 13,
+      "files": [
+        {
+          "random_id": 0,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats/BGS_BRIGHT_0_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803598720
+        },
+        {
+          "random_id": 1,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats/BGS_BRIGHT_1_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803699520
+        },
+        {
+          "random_id": 2,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats/BGS_BRIGHT_2_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803215680
+        },
+        {
+          "random_id": 3,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats/BGS_BRIGHT_3_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803460480
+        },
+        {
+          "random_id": 4,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats/BGS_BRIGHT_4_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804059520
+        },
+        {
+          "random_id": 5,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats/BGS_BRIGHT_5_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803572800
+        },
+        {
+          "random_id": 6,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats/BGS_BRIGHT_6_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803509440
+        },
+        {
+          "random_id": 7,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats/BGS_BRIGHT_7_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803984640
+        },
+        {
+          "random_id": 8,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats/BGS_BRIGHT_8_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803523840
+        },
+        {
+          "random_id": 9,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats/BGS_BRIGHT_9_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803333760
+        },
+        {
+          "random_id": 10,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats/BGS_BRIGHT_10_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803725440
+        },
+        {
+          "random_id": 11,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats/BGS_BRIGHT_11_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803892480
+        },
+        {
+          "random_id": 12,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats/BGS_BRIGHT_12_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803411520
+        },
+        {
+          "random_id": 13,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats/BGS_BRIGHT_13_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803693760
+        },
+        {
+          "random_id": 14,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats/BGS_BRIGHT_14_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803754240
+        },
+        {
+          "random_id": 15,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats/BGS_BRIGHT_15_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3804338880
+        },
+        {
+          "random_id": 16,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats/BGS_BRIGHT_16_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803955840
+        },
+        {
+          "random_id": 17,
+          "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl13/kibo-v1/mock13/LSScats/BGS_BRIGHT_17_full_HPmapcut.ran.fits",
+          "exists": true,
+          "bytes": 3803610240
+        }
+      ],
+      "all_18_present": true
+    }
+  ],
+  "total_bytes": 1232394442560
+}

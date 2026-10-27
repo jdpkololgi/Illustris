@@ -1,0 +1,12 @@
+{
+  "pass": true,
+  "difference": {
+    "model": 0.0,
+    "ema": 0.0
+  },
+  "steps": [
+    2,
+    2
+  ],
+  "scope": "actual trainer fresh and resumed, fixed selected inputs; disposable updates only"
+}

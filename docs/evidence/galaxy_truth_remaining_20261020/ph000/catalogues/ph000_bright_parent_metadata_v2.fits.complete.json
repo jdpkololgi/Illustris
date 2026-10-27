@@ -1,0 +1,42 @@
+{
+  "blind_contract": null,
+  "created_utc": "2026-10-20T20:27:08.985472+00:00",
+  "cutsky": {
+    "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000.fits",
+    "rows": 63897781
+  },
+  "forfa": {
+    "bright_rows": 10480185,
+    "forfa_rows": 17993679,
+    "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/forFA0_nomask.fits"
+  },
+  "galaxy_identity": "phase + zero-based original CutSky SOURCE_ROW",
+  "git_sha": "0ba6d661e44a5de6c04290172ac29c027bdeb626",
+  "output": {
+    "bytes": 733622400,
+    "path": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/catalogues/ph000_bright_parent_metadata_v2.fits",
+    "rows": 10480185,
+    "sha256": "5c05cadea4da26315634192f41f7ed228fb4457403742dc30cd09c881915baa9"
+  },
+  "parity": {
+    "max_abs_differences": {
+      "DEC": 0.0,
+      "RA": 0.0,
+      "R_MAG_APP": 0.0,
+      "Z": 0.0,
+      "Z_COSMO": 0.0
+    },
+    "row_identity_verified": true
+  },
+  "phase": "ph000",
+  "registry": "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source/configs/p10_phase_registry_v1.json",
+  "registry_sha256": "968cd8ed010de9b75ec4115d3a0d2be51a27306c601d04aa11bac4bdf20bb303",
+  "role": "training_development_reference",
+  "schema_version": "p10-bright-parent-complete-v2",
+  "selection": {
+    "key_unique": true,
+    "linkage": "exact public-forFA BRIGHT (RA, DEC, RSDZ) key match",
+    "r_mag_app_lt": 19.5
+  },
+  "target_truth_present": false
+}

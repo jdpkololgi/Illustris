@@ -1,0 +1,209 @@
+{
+  "schema_version": "p10-galaxy-truth-replacement-v2",
+  "phase": "ph000",
+  "job_id": "60049125",
+  "catalogue_validated": true,
+  "rows": 7286820,
+  "truth_lineage": {
+    "label_policy_version": "galaxy-realspace-all-populations-v2",
+    "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+    "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/catalogues/ph000_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+    "observed_receipt_sha256": "b0c1c246f8784933130510a56fd22522df38422a1a67005566b19fb4cd603572",
+    "observed_sha256": "9239e9cf2f4c524b1d3c7a02c503e7b293cfcd595101bd8d92aecf98664ce847",
+    "annotation_receipt_sha256": "ef2cb00f0563b3db1560f7be2942d9f1bc236cbfae2b48f628a7eb969c69b7e0",
+    "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues",
+    "independent_status_masks_truth": false
+  },
+  "legacy_parent": "/pscratch/sd/d/dkololgi/abacus/mocks_with_eigs_05062026_rsmooth_7/mock_bgs_maglim_path1_fiberassign_graph_ready_with_tweb_eigs_rs7_ngrid2048_thr0p2_halo_xcom.fits",
+  "p1_manifest_sha256": "71fbc302a94a0e4fcf7db9ae11fa8d2104990d7756b9d5c3177e3184d8d765c2",
+  "legacy_p1_manifest_sha256": "7a0a98d13b65715f36b45454f892133e34d50233a6ae6adb66eeb6175e5e075b",
+  "catalogue_identity_and_selection": {
+    "TARGETID": false,
+    "RA": false,
+    "DEC": false,
+    "Z": false,
+    "ZWARN": false,
+    "BGS_TARGET": false,
+    "FILE_NUM": false,
+    "BOX_INDEX": false,
+    "HALO_INDEX": false
+  },
+  "missing_selection_columns": [
+    "COMP_TILE",
+    "FRACZ_TILELOCID",
+    "FRAC_TLOBS_TILES",
+    "GOODHARDLOC",
+    "GOODPRI",
+    "G_R_OBS",
+    "G_R_REST",
+    "LOCATION_ASSIGNED",
+    "MASKBITS",
+    "NOBS_G",
+    "NOBS_R",
+    "NOBS_Z",
+    "NTILE",
+    "PHOTSYS",
+    "R_MAG_ABS",
+    "R_MAG_APP"
+  ],
+  "p1_comparison": {
+    "parent_node_id": false,
+    "targetid": false,
+    "cap": false,
+    "shell": false,
+    "active": false,
+    "context": false,
+    "valid_target_changed_rows": null,
+    "points": false
+  },
+  "fold_audit": {
+    "pass": false,
+    "reason": "Membership/selection/masks differ; P4 requires rebuild"
+  },
+  "reused_payload_sha256": {},
+  "paired_label_rows": 3,
+  "class_boundary_ambiguity_rows": 1,
+  "difference_bin_edges": {
+    "redshift": [
+      0.1,
+      0.15,
+      0.25,
+      0.35,
+      0.45,
+      0.55,
+      0.6
+    ],
+    "halo_mass_1e10_msun_h": [
+      10,
+      100,
+      1000,
+      10000
+    ]
+  },
+  "label_differences": [
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 1,
+      "mean_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rms_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 1,
+      "mean_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rms_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 6,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 1,
+      "mean_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rms_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 1,
+      "mean_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rms_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 1,
+      "mean_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rms_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 6,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 1,
+      "mean_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rms_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "changed_classes": 0
+    }
+  ],
+  "pass": false,
+  "training_ready": false,
+  "geometry_reuse_candidate": false,
+  "next_action": "Rebind verified graph/field payloads and resolve fold audit before training."
+}

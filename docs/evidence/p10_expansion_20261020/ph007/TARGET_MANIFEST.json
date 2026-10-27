@@ -1,0 +1,10 @@
+{
+  "TWEB_COMPLETE.json": {
+    "source": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7/TWEB_COMPLETE.json",
+    "sha256": "c0fbb799c97cd47e080456294dd2c39fca13d5cb530218e0873dbe21b6e189ba"
+  },
+  "AbacusSummit_base_c000_ph007_z0.200_ngrid2048_ab10_tsc_counts.job60054561.manifest.json": {
+    "source": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/targets/density/AbacusSummit_base_c000_ph007_z0.200_ngrid2048_ab10_tsc_counts.job60054561.manifest.json",
+    "sha256": "88748428c3f52252c4814ea39ca90f600a7e90622b0af9f87af1a4730e22dfec"
+  }
+}

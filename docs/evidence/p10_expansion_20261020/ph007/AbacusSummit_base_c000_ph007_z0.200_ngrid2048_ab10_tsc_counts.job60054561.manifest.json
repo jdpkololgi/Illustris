@@ -1,0 +1,15 @@
+{
+  "schema_version": "p10-e2e-native-density-adapter-v1",
+  "phase": "ph007",
+  "source_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph007/DENSITY_COMPLETE.json",
+  "source_receipt_sha256": "9b8135f9d82e3553dcc655ca645a654766660b588d3a99d7f1dd358820d3c29f",
+  "source_payload_sha256": "5cabcf7d0577b46d845d30b035cc721522f5593fe87f655a0ca376265f4d0616",
+  "slurm_job_id": "60054561",
+  "build": {
+    "output": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph007/counts_tsc_2048.npy",
+    "processed_file_count": 136,
+    "max_files_per_directory": null,
+    "particle_count": 33022530364,
+    "relative_count_error": 9.453188113913738e-08
+  }
+}

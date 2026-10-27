@@ -1,0 +1,31 @@
+{
+  "phases": [
+    "ph000",
+    "ph003",
+    "ph004",
+    "ph005",
+    "ph006"
+  ],
+  "account": "desi",
+  "qos": "regular",
+  "nodes_per_task": 1,
+  "cpus_per_task": 64,
+  "walltime_per_task": "01:30:00",
+  "maximum_concurrent_tasks": 1,
+  "automatic_retry": false,
+  "source_freeze": "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/SOURCE_FREEZE.json",
+  "git_base": "0ba6d661e44a5de6c04290172ac29c027bdeb626",
+  "launcher_git_base": "0ba6d661e44a5de6c04290172ac29c027bdeb626",
+  "output_root": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020",
+  "frozen_files": {
+    "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_remaining_20261020/submit_galaxy_truth_remaining_20261020.slurm": "341391e047cc04c1342874e98ad02e9c8369eac4fb992e6cb3d4fc392cbe093d",
+    "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_remaining_20261020/qualification_ph006.json": "35948afcdf0240a4f2169216a831b8b41ac60d6c078d458e93f11174a834b9ec",
+    "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/SOURCE_FREEZE.json": "ae3b4def5a4f7d48d2ccb97112e02081e9dbc5751d8ade634b7319c006a7aed1",
+    "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/galaxy_position_qualification_ph006_allpop_v2_20261020_rows/ph006.npz": "18dd45a77795b14d999f83d85f8491b55af60efdf2858a56cd7d569c19685d68",
+    "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/galaxy_position_qualification_allpop_v2_20261019_rows/ph000.npz": "65d76165b58efb9fb5722a29a92b6a14276f806db5633cff7983ae8131600bda",
+    "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/galaxy_position_qualification_allpop_v2_20261019_rows/ph002.npz": "19b36a5951bacd3e462467eb2f35c984fae42b8e5bb19c68d4acd8ebb96fc35a",
+    "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/galaxy_position_qualification_allpop_v2_20261019_rows/ph003.npz": "ef73ff847217897c7b56f04c574552bc525f7f4d9f8e1af2f114afe4e8f6513d",
+    "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/galaxy_position_qualification_allpop_v2_20261019_rows/ph004.npz": "65fafa68acf71d06bdce53b4f29184cbe50c239fb0ca5dcb41dae3291fd5dedc",
+    "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/galaxy_position_qualification_allpop_v2_20261019_rows/ph005.npz": "4948eeba52356aacbe98cc76265c35e5b3fa4b75042b34cf0cd5135c7a92845a"
+  }
+}

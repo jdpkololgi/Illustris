@@ -57,6 +57,9 @@ from workflows.abacus_tweb.p8_deterministic_common import (
 ROOT = Path("/pscratch/sd/d/dkololgi/abacus/p10_multiphase")
 REGISTRY = Path("configs/p10_phase_registry_v1.json")
 PHASES = ("ph000", "ph001", "ph002", "ph003", "ph004", "ph005", "ph006")
+VALIDATION_PHASES = (VALIDATION_PHASE,)
+BLIND_PHASES = (BLIND_PHASE,)
+EXPANDED_REGISTRY = False
 CAP_NAME = {0: "SGC", 1: "NGC"}
 SI_COLUMNS = (0, 2, 3, 4, 5, 6)
 NODE_SAMPLE_PER_PHASE_CAP = 100_000
@@ -77,7 +80,30 @@ def phase_root(root: Path, phase: str) -> Path:
 
 
 def p1_manifest(root: Path, phase: str) -> dict:
-    return json.loads((phase_root(root, phase) / "p1_canonical/manifest.json").read_text())
+    manifest = json.loads((phase_root(root, phase) / "p1_canonical/manifest.json").read_text())
+    if phase not in BLIND_PHASES:
+        from workflows.abacus_tweb.product_lifecycle import reject_historical_input
+        from workflows.abacus_tweb.galaxy_position_validation_status import LABEL_POLICY_VERSION
+        reject_historical_input(manifest["parent"])
+        if manifest.get("truth_lineage", {}).get("label_policy_version") != LABEL_POLICY_VERSION:
+            raise RuntimeError(f"{phase}: corrected P1 truth lineage is required; legacy contracts are historical")
+        if EXPANDED_REGISTRY:
+            proof_path = phase_root(root, phase) / "PHASE_COMPLETE.json"
+            proof = json.loads(proof_path.read_text())
+            if proof.get("pass") is not True or proof.get("phase") != phase:
+                raise RuntimeError(f"{phase}: complete corrected phase proof required")
+            if proof["artifact_sha256"]["p1_manifest"] != sha256(phase_root(root, phase) / "p1_canonical/manifest.json"):
+                raise RuntimeError(f"{phase}: stale P1 completion binding")
+            for name, path in proof["artifacts"].items():
+                if sha256(Path(path)) != proof["artifact_sha256"][name]:
+                    raise RuntimeError(f"{phase}: stale phase artifact {name}")
+        else:
+            proof_path = phase_root(root, phase) / "TARGET_REPLACEMENT_COMPLETE.json"
+            proof = json.loads(proof_path.read_text())
+            if (proof.get("pass") is not True or proof.get("phase") != phase
+                    or proof.get("p1_manifest_sha256") != sha256(phase_root(root, phase) / "p1_canonical/manifest.json")):
+                raise RuntimeError(f"{phase}: replacement geometry/selection/fold proof is missing or stale")
+    return manifest
 
 
 def phase_files(root: Path, phase: str) -> dict[str, Path]:
@@ -111,6 +137,7 @@ def run(command: list[str]) -> None:
 def build_adapters(root: Path, contract: Path, phases: tuple[str, ...]) -> dict:
     records = {}
     for phase in phases:
+        p1_manifest(root, phase)
         files = phase_files(root, phase)
         for name, path in files.items():
             if name != "p4_root" and not path.is_file():
@@ -159,13 +186,22 @@ def build_adapters(root: Path, contract: Path, phases: tuple[str, ...]) -> dict:
 
 
 def read_parent_columns(root: Path, phase: str, columns: tuple[str, ...]) -> np.ndarray:
-    parent = Path(p1_manifest(root, phase)["parent"])
+    manifest = p1_manifest(root, phase)
+    parent = Path(manifest["parent"])
+    if phase not in BLIND_PHASES:
+        from workflows.abacus_tweb.galaxy_truth_contract import verify_observed_truth
+        lineage = verify_observed_truth(parent, phase)
+        if lineage != manifest["truth_lineage"]:
+            raise RuntimeError(f"{phase}: P1/catalogue truth lineage mismatch")
     return fitsio.read(parent, columns=list(columns))
 
 
 def prepare_phase_arrays(root: Path, contract: Path, phase: str) -> dict:
+    manifest = p1_manifest(root, phase)
     files = phase_files(root, phase)
     output = contract / "phases" / phase
+    if output.exists() and any(output.iterdir()):
+        raise FileExistsError(f"Use a new versioned training-contract directory: {output}")
     output.mkdir(parents=True, exist_ok=True)
     index = np.load(files["p1_index"], mmap_mode="r")
     assignment = np.load(files["assignment"], mmap_mode="r")
@@ -180,7 +216,7 @@ def prepare_phase_arrays(root: Path, contract: Path, phase: str) -> dict:
         raise RuntimeError(f"{phase} authoritative parents are not unique")
     if not np.array_equal(targetid, np.asarray(index["targetid"])[parent]):
         raise RuntimeError(f"{phase} P4/P1 TARGETID mismatch")
-    columns = ("TARGETID", "Z") if phase == BLIND_PHASE else (
+    columns = ("TARGETID", "Z") if phase in BLIND_PHASES else (
         "TARGETID", "Z", "LAMBDA1", "LAMBDA2", "LAMBDA3"
     )
     catalogue = read_parent_columns(root, phase, columns)
@@ -192,7 +228,7 @@ def prepare_phase_arrays(root: Path, contract: Path, phase: str) -> dict:
     np.save(output / "parent_targetid.npy", catalogue_targetid, allow_pickle=False)
     redshift = np.asarray(catalogue["Z"], dtype=np.float32)
     np.save(output / "parent_redshift.npy", redshift, allow_pickle=False)
-    truth_present = phase != BLIND_PHASE
+    truth_present = phase not in BLIND_PHASES
     target_record = None
     if truth_present:
         eigen = np.column_stack([
@@ -228,7 +264,7 @@ def prepare_phase_arrays(root: Path, contract: Path, phase: str) -> dict:
     eligible_core = np.flatnonzero(core_weight > 0).astype(np.int32)
     role = (
         "training" if phase in TRAINING_PHASES
-        else "validation_and_selection" if phase == VALIDATION_PHASE
+        else "validation_and_selection" if phase in VALIDATION_PHASES
         else "sealed_blind_test"
     )
     if role == "training":
@@ -244,6 +280,7 @@ def prepare_phase_arrays(root: Path, contract: Path, phase: str) -> dict:
         np.save(output / "blind_core_id.npy", eligible_core, allow_pickle=False)
     record = {
         "schema_version": "p10-phase-loader-contract-v1",
+        "truth_lineage": manifest.get("truth_lineage"),
         "phase": phase,
         "role": role,
         "truth_present": truth_present,
@@ -268,8 +305,8 @@ def prepare_phase_arrays(root: Path, contract: Path, phase: str) -> dict:
             "targetid_identity": True,
             "authoritative_unique": True,
             "all_four_shells": True,
-            "truth_sealed_if_blind": phase != BLIND_PHASE or not truth_present,
-            "targets_finite_ordered_if_visible": phase == BLIND_PHASE or target_record is not None,
+            "truth_sealed_if_blind": phase not in BLIND_PHASES or not truth_present,
+            "targets_finite_ordered_if_visible": phase in BLIND_PHASES or target_record is not None,
         },
     }
     record["pass"] = all(record["gates"].values())
@@ -357,7 +394,7 @@ def shared_selection_fit(root: Path, contract: Path) -> dict:
     selection = {
         "schema_version": "p10-shared-selection-v1",
         "fit_phases": list(TRAINING_PHASES),
-        "application_phases": [VALIDATION_PHASE, BLIND_PHASE],
+        "application_phases": list(VALIDATION_PHASES + BLIND_PHASES),
         "fit_scope": "all P4 context folds in each training phase; label-free observed counts and P3 exposure only",
         "rotations": {"0": {"caps": caps}},
         "cosmology": {
@@ -375,7 +412,7 @@ def shared_selection_fit(root: Path, contract: Path) -> dict:
     selection["gates"] = {
         "training_phases_only": set(selection["fit_phases"]) == set(TRAINING_PHASES),
         "no_validation_or_blind_fit": not (
-            {VALIDATION_PHASE, BLIND_PHASE} & set(selection["fit_phases"])
+            set(VALIDATION_PHASES + BLIND_PHASES) & set(selection["fit_phases"])
         ),
         "finite_positive_curves": all(
             np.all(np.isfinite(row["ntilde"])) and np.all(np.asarray(row["ntilde"]) > 0)
@@ -818,7 +855,7 @@ def run_canaries(root: Path, contract: Path, adapters: dict) -> dict:
     loss_accounting = bool(np.isclose(reconstructed, expected, rtol=1.0e-12, atol=1.0e-12))
 
     extraction = {}
-    for phase in TRAINING_PHASES + (VALIDATION_PHASE,):
+    for phase in TRAINING_PHASES + VALIDATION_PHASES:
         phase_dir = contract / "phases" / phase
         core_name = (
             "training_core_id.npy" if phase in TRAINING_PHASES
@@ -880,11 +917,10 @@ def run_canaries(root: Path, contract: Path, adapters: dict) -> dict:
         }
         field.close()
 
-    validation_ids = np.load(
-        contract / "phases" / VALIDATION_PHASE / "validation_core_id.npy"
-    )
-    validation_order_one = np.asarray(validation_ids, dtype=np.int64)
-    validation_order_two = np.asarray(validation_ids, dtype=np.int64)
+    validation_ids = {
+        phase: np.load(contract / "phases" / phase / "validation_core_id.npy")
+        for phase in VALIDATION_PHASES
+    }
     gates = {
         "all_phase_contracts_pass": all(row["pass"] for row in phase_records.values()),
         "all_adapters_pass": all(
@@ -907,12 +943,12 @@ def run_canaries(root: Path, contract: Path, adapters: dict) -> dict:
             row["target_rows_align"] for row in extraction.values()
         ),
         "complete_deterministic_validation_order": bool(
-            np.array_equal(validation_order_one, validation_order_two)
-            and len(np.unique(validation_order_one)) == len(validation_order_one)
+            all(len(ids) > 0 and len(np.unique(ids)) == len(ids)
+                and np.all(np.diff(ids) > 0) for ids in validation_ids.values())
         ),
-        "ph001_truth_absent": not (
-            contract / "phases" / BLIND_PHASE / "parent_eigenvalues.npy"
-        ).exists(),
+        "reserved_truth_absent": all(not (
+            contract / "phases" / phase / "parent_eigenvalues.npy"
+        ).exists() for phase in BLIND_PHASES),
     }
     return {
         "gates": gates,
@@ -930,8 +966,23 @@ def run_canaries(root: Path, contract: Path, adapters: dict) -> dict:
             "reconstructed_epoch_mean": reconstructed,
         },
         "extraction": extraction,
-        "validation_cores": int(len(validation_ids)),
+        "validation_cores": {phase: int(len(ids)) for phase, ids in validation_ids.items()},
     }
+
+
+def configure_phase_roles(registry: dict) -> None:
+    global TRAINING_PHASES, VALIDATION_PHASES, BLIND_PHASES, PHASES, EXPANDED_REGISTRY
+    from workflows.abacus_tweb.p10_phase_assets import validate_registry
+    validate_registry(registry)
+    roles = registry["model_phase_contract"]
+    TRAINING_PHASES = tuple(roles["training"])
+    VALIDATION_PHASES = tuple(roles["validation_and_selection"])
+    BLIND_PHASES = tuple(roles["sealed_blind_test"]) + tuple(roles.get("reserved_confirmation", ()))
+    PHASES = tuple(registry["phases"])
+    combined = TRAINING_PHASES + VALIDATION_PHASES + BLIND_PHASES
+    if len(set(combined)) != len(combined) or set(combined) != set(PHASES):
+        raise ValueError("Phase roles must be disjoint and exhaustive")
+    EXPANDED_REGISTRY = registry["schema_version"] == "p10-phase-registry-v2"
 
 
 def main() -> None:
@@ -950,21 +1001,17 @@ def main() -> None:
     parser.add_argument(
         "--phases",
         nargs="+",
-        choices=PHASES,
-        default=list(PHASES),
+        default=None,
         help="adapter phases; transforms/canary still require the frozen full role set",
     )
     args = parser.parse_args()
     started = time.time()
     args.contract_root.mkdir(parents=True, exist_ok=True)
     registry = json.loads(args.registry.read_text())
-    roles = registry["model_phase_contract"]
-    if tuple(roles["training"]) != TRAINING_PHASES:
-        raise RuntimeError("registry training roles do not match loader code")
-    if roles["validation_and_selection"] != [VALIDATION_PHASE]:
-        raise RuntimeError("registry validation role mismatch")
-    if roles["sealed_blind_test"] != [BLIND_PHASE]:
-        raise RuntimeError("registry blind role mismatch")
+    configure_phase_roles(registry)
+    args.phases = args.phases or list(PHASES)
+    if set(args.phases) - set(PHASES):
+        raise ValueError("Requested phases are not registered")
 
     adapters_path = args.contract_root / "adapter_inventory.json"
     if args.stage in ("adapters", "all"):
@@ -995,7 +1042,7 @@ def main() -> None:
         transform_manifest = {
             "schema_version": "p10-transform-freeze-v1",
             "fit_phases": list(TRAINING_PHASES),
-            "application_phases": [VALIDATION_PHASE, BLIND_PHASE],
+            "application_phases": list(VALIDATION_PHASES + BLIND_PHASES),
             "phase_records": {
                 phase: {
                     "path": str(args.contract_root / "phases" / phase / "phase_contract.json"),
@@ -1034,11 +1081,7 @@ def main() -> None:
         "created_utc": datetime.now(timezone.utc).isoformat(),
         "stage": "P10 deterministic multi-phase loader and transform readiness",
         "status": "TRAINING_LOADER_READY",
-        "roles": {
-            "training": list(TRAINING_PHASES),
-            "validation_and_selection": VALIDATION_PHASE,
-            "sealed_blind_test": BLIND_PHASE,
-        },
+        "roles": registry["model_phase_contract"],
         "fresh_model_initialization_required": True,
         "phase_is_model_input": False,
         "objective": (
@@ -1048,7 +1091,7 @@ def main() -> None:
             "every eligible core exactly once; weighted within-phase order; "
             "shuffled phase round-robin; deterministic seed+epoch"
         ),
-        "validation": "all authoritative ph006 cores in frozen core-id order",
+        "validation": "all registered selection phases, each in frozen core-id order",
         "registry": str(args.registry.resolve()),
         "registry_sha256": sha256(args.registry),
         "adapter_inventory": str(adapters_path),

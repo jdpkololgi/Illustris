@@ -71,7 +71,7 @@ def atomic_write_json(path: Path, payload: dict[str, Any]) -> None:
 
 def default_output(registry: dict[str, Any], phase: str) -> Path:
     root = Path(registry["path_templates"]["phase_output"].format(phase=phase))
-    return root / "catalogues/bright_parent" / f"{phase}_bgs_bright_parent_linkage.fits"
+    return root / "catalogues/bright_parent" / f"{phase}_bgs_bright_parent_galaxy_metadata_v2.fits"
 
 
 def default_blind_output(registry: dict[str, Any], phase: str) -> Path:
@@ -79,7 +79,21 @@ def default_blind_output(registry: dict[str, Any], phase: str) -> Path:
     return root / "catalogues/blind_parent" / f"{phase}_bgs_bright_parent_linkage.fits"
 
 
-def compact_parent_block(selected: np.ndarray, targetids: np.ndarray) -> np.ndarray:
+GALAXY_METADATA_COLUMNS = ("SOURCE_ROW", "RES", "CEN", "HALO_MASS")
+
+
+def with_source_rows(chunk: np.ndarray, start: int) -> np.ndarray:
+    """Attach identity before selection; host tuples do not identify galaxies."""
+    if "SOURCE_ROW" in chunk.dtype.names:
+        raise BrightParentError("Raw CutSky unexpectedly already contains SOURCE_ROW")
+    out = np.empty(len(chunk), dtype=[(name, chunk.dtype[name]) for name in chunk.dtype.names] + [("SOURCE_ROW", "i8")])
+    for name in chunk.dtype.names:
+        out[name] = chunk[name]
+    out["SOURCE_ROW"] = np.arange(start, start + len(chunk), dtype=np.int64)
+    return out
+
+
+def compact_parent_block(selected: np.ndarray, targetids: np.ndarray, *, galaxy_metadata: bool = False) -> np.ndarray:
     dtype = [
         ("TARGETID", "i8"),
         ("RA", "f8"),
@@ -92,10 +106,18 @@ def compact_parent_block(selected: np.ndarray, targetids: np.ndarray) -> np.ndar
         ("HALO_INDEX", "i4"),
         ("BOX_INDEX", "i4"),
     ]
+    if galaxy_metadata:
+        missing = set(GALAXY_METADATA_COLUMNS) - set(selected.dtype.names)
+        if missing:
+            raise BrightParentError(f"Galaxy metadata missing: {sorted(missing)}")
+        dtype += [("SOURCE_ROW", "i8"), ("RES", "i1"), ("CEN", "i1"), ("HALO_MASS", "f4")]
     block = np.empty(len(selected), dtype=dtype)
     block["TARGETID"] = np.asarray(targetids, dtype=np.int64)
     for column in ("RA", "DEC", "Z", "Z_COSMO", "R_MAG_APP", "FILE_NUM", "HALO_INDEX", "BOX_INDEX"):
         block[column] = selected[column]
+    if galaxy_metadata:
+        for column in GALAXY_METADATA_COLUMNS:
+            block[column] = selected[column]
     block["BGS_TARGET"] = BRIGHT_BIT
     return block
 
@@ -252,7 +274,10 @@ def main() -> int:
             source_rows = int(hdu.get_nrows())
             for start in range(0, source_rows, args.chunk_size):
                 stop = min(start + args.chunk_size, source_rows)
-                chunk = hdu[start:stop][list(CUTSKY_COLUMNS)]
+                columns = list(CUTSKY_COLUMNS) + ([] if is_blind else ["RES", "CEN", "HALO_MASS"])
+                chunk = hdu.read(rows=np.arange(start, stop), columns=columns)
+                if not is_blind:
+                    chunk = with_source_rows(chunk, start)
                 selected, targetids = match_bright_chunk(
                     chunk,
                     r_limit=args.r_limit,
@@ -265,9 +290,9 @@ def main() -> int:
                         raise BrightParentError(
                             f"CutSky/forFA order mismatch near TARGETID={next_targetid}"
                         )
-                    block = compact_parent_block(selected, targetids)
+                    block = compact_parent_block(selected, targetids, galaxy_metadata=not is_blind)
                     if first:
-                        writer.write(block, extname="PARENT")
+                        writer.write(block, extname="PARENT", header={"SIMPHASE": args.phase, "SRCIDENT": "CutSky SOURCE_ROW" if not is_blind else "legacy linkage"})
                         first = False
                     else:
                         writer[-1].append(block)
@@ -295,7 +320,8 @@ def main() -> int:
         ["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, check=True, capture_output=True, text=True
     ).stdout.strip()
     payload = {
-        "schema_version": "p10-bright-parent-complete-v1",
+        "schema_version": "p10-bright-parent-complete-v1" if is_blind else "p10-bright-parent-complete-v2",
+        "galaxy_identity": None if is_blind else "phase + zero-based original CutSky SOURCE_ROW",
         "created_utc": utc_now(),
         "phase": args.phase,
         "role": phase_cfg["role"],

@@ -73,12 +73,14 @@ def load_registry(path: Path = DEFAULT_REGISTRY) -> dict[str, Any]:
 
 
 def validate_registry(registry: dict[str, Any]) -> None:
-    if registry.get("schema_version") != "p10-phase-registry-v1":
+    version = registry.get("schema_version")
+    if version not in {"p10-phase-registry-v1", "p10-phase-registry-v2"}:
         raise RegistryError("unexpected registry schema")
     phases = registry.get("phases", {})
-    if tuple(sorted(phases)) != EXPECTED_PHASES:
+    expected = EXPECTED_PHASES if version == "p10-phase-registry-v1" else tuple(f"ph{i:03d}" for i in range(25))
+    if tuple(sorted(phases)) != expected:
         raise RegistryError(
-            f"phase registry must contain exactly {EXPECTED_PHASES}, got {tuple(sorted(phases))}"
+            f"phase registry must contain exactly {expected}, got {tuple(sorted(phases))}"
         )
     target = registry["target_contract"]
     samples = target["particle_subsamples"]
@@ -95,6 +97,26 @@ def validate_registry(registry: dict[str, Any]) -> None:
         raise RegistryError("ph001 must remain sealed blind")
     if roles["ph006"] != "validation_and_selection":
         raise RegistryError("ph006 must remain validation/selection")
+    if version == "p10-phase-registry-v2":
+        contract = registry["model_phase_contract"]
+        expected_groups = {
+            "training": [f"ph{i:03d}" for i in (0,2,3,4,5,7,8,9,10,11,20,21,22,23,24)],
+            "validation_and_selection": ["ph006", "ph012", "ph013"],
+            "sealed_blind_test": ["ph001"],
+            "reserved_confirmation": [f"ph{i:03d}" for i in range(14,20)],
+        }
+        for group, members in expected_groups.items():
+            if contract.get(group) != members:
+                raise RegistryError(f"expanded phase role drift: {group}")
+        for phase in expected_groups["sealed_blind_test"] + expected_groups["reserved_confirmation"]:
+            if phases[phase]["role"] != "sealed_blind" or phases[phase]["truth_access"] != "sealed_until_predictions_frozen":
+                raise RegistryError(f"reserved phase must remain sealed: {phase}")
+        for phase in expected_groups["validation_and_selection"]:
+            if phases[phase]["role"] != "validation_and_selection" or phases[phase]["truth_access"] != "selection":
+                raise RegistryError(f"selection role drift: {phase}")
+        for phase in expected_groups["training"]:
+            if not phases[phase]["role"].startswith("training") or phases[phase]["truth_access"] != "development":
+                raise RegistryError(f"training role drift: {phase}")
     for phase, cfg in phases.items():
         source = cfg["particle_b"]
         kind = source.get("kind")
@@ -102,7 +124,10 @@ def validate_registry(registry: dict[str, Any]) -> None:
             raise RegistryError("ph006 B must use the verified online CFS source")
         if phase == "ph000" and kind != "restored_reference":
             raise RegistryError("ph000 B must use the frozen restored reference source")
-        if phase not in {"ph000", "ph006"} and kind != "hpss":
+        if version == "p10-phase-registry-v2" and phase == "ph007" and kind != "cfs":
+            raise RegistryError("ph007 B must use its online CFS source")
+        online = {"ph000", "ph006"} | ({"ph007"} if version == "p10-phase-registry-v2" else set())
+        if phase not in online and kind != "hpss":
             raise RegistryError(f"{phase} B must use its registered HPSS source")
         if kind == "hpss":
             members = source.get("members", [])

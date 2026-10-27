@@ -1,0 +1,10 @@
+{
+  "report.json": {
+    "source": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/qualification_audit/report.json",
+    "sha256": "16b71f4ed1e0962933dabffadf1f9bc8c659e37f8f418712cfbac56b5e05acbe"
+  },
+  "ph007_sample.npz": {
+    "source": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/qualification_audit/ph007_sample.npz",
+    "sha256": "7682e6234ac07c8e468de1ee2963440553796c21dd2b4010d4abae3915a20f95"
+  }
+}

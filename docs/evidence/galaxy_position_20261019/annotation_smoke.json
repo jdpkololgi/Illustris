@@ -1,0 +1,62 @@
+{
+  "certificate_sha256": "93282db0cd10bbff33450042529b45bc2504b90462b970f6ed753491c414e269",
+  "phases": {
+    "ph000": {
+      "rows": 125,
+      "labelled": 121,
+      "unsupported_preserved": 4,
+      "metadata_exact": true,
+      "eigenvalues_exact_at_reconstructed_voxels": true,
+      "overwrite_rejected": true,
+      "output": "/pscratch/sd/d/dkololgi/abacus/galaxy_position_validation_20261019/smoke_job60003795/ph000_annotated.fits",
+      "manifest": "/pscratch/sd/d/dkololgi/abacus/galaxy_position_validation_20261019/smoke_job60003795/ph000_annotated.fits.manifest.json",
+      "pass_gate": true
+    },
+    "ph002": {
+      "rows": 125,
+      "labelled": 122,
+      "unsupported_preserved": 3,
+      "metadata_exact": true,
+      "eigenvalues_exact_at_reconstructed_voxels": true,
+      "overwrite_rejected": true,
+      "output": "/pscratch/sd/d/dkololgi/abacus/galaxy_position_validation_20261019/smoke_job60003795/ph002_annotated.fits",
+      "manifest": "/pscratch/sd/d/dkololgi/abacus/galaxy_position_validation_20261019/smoke_job60003795/ph002_annotated.fits.manifest.json",
+      "pass_gate": true
+    },
+    "ph003": {
+      "rows": 123,
+      "labelled": 121,
+      "unsupported_preserved": 2,
+      "metadata_exact": true,
+      "eigenvalues_exact_at_reconstructed_voxels": true,
+      "overwrite_rejected": true,
+      "output": "/pscratch/sd/d/dkololgi/abacus/galaxy_position_validation_20261019/smoke_job60003795/ph003_annotated.fits",
+      "manifest": "/pscratch/sd/d/dkololgi/abacus/galaxy_position_validation_20261019/smoke_job60003795/ph003_annotated.fits.manifest.json",
+      "pass_gate": true
+    },
+    "ph004": {
+      "rows": 122,
+      "labelled": 120,
+      "unsupported_preserved": 2,
+      "metadata_exact": true,
+      "eigenvalues_exact_at_reconstructed_voxels": true,
+      "overwrite_rejected": true,
+      "output": "/pscratch/sd/d/dkololgi/abacus/galaxy_position_validation_20261019/smoke_job60003795/ph004_annotated.fits",
+      "manifest": "/pscratch/sd/d/dkololgi/abacus/galaxy_position_validation_20261019/smoke_job60003795/ph004_annotated.fits.manifest.json",
+      "pass_gate": true
+    },
+    "ph005": {
+      "rows": 124,
+      "labelled": 121,
+      "unsupported_preserved": 3,
+      "metadata_exact": true,
+      "eigenvalues_exact_at_reconstructed_voxels": true,
+      "overwrite_rejected": true,
+      "output": "/pscratch/sd/d/dkololgi/abacus/galaxy_position_validation_20261019/smoke_job60003795/ph005_annotated.fits",
+      "manifest": "/pscratch/sd/d/dkololgi/abacus/galaxy_position_validation_20261019/smoke_job60003795/ph005_annotated.fits.manifest.json",
+      "pass_gate": true
+    }
+  },
+  "completed": true,
+  "pass_gate": true
+}

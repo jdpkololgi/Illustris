@@ -1,0 +1,54 @@
+{
+  "scales_mpc_h": [
+    2,
+    4,
+    7
+  ],
+  "smoothing": "3D Gaussian sigma=R, truncate=4; padded source block, valid interior projection",
+  "job_id": "60008919",
+  "native_fields_found": {
+    "R4": "fullgrid_v2, metadata 2048/2000/R4/threshold0.2; exact input-density provenance not yet recertified",
+    "R6_R7": "existing fullgrid_v3 ph000 native fields"
+  },
+  "support": [
+    {
+      "z": 0.0799064189195633,
+      "galaxies": 7794,
+      "mean_separation_mpc_h": 2.8391998161389402,
+      "expected_spherical_counts": {
+        "2": 1.4641673618439743,
+        "4": 11.713338894751795,
+        "6": 39.53251876978731,
+        "7": 62.776175639060405
+      }
+    },
+    {
+      "z": 0.2500009536743164,
+      "galaxies": 2407,
+      "mean_separation_mpc_h": 4.200400762152523,
+      "expected_spherical_counts": {
+        "2": 0.4521748575774244,
+        "4": 3.6173988606193954,
+        "6": 12.208721154590458,
+        "7": 19.38699701863207
+      }
+    },
+    {
+      "z": 0.4999896287918091,
+      "galaxies": 80,
+      "mean_separation_mpc_h": 13.064298546278952,
+      "expected_spherical_counts": {
+        "2": 0.015028661656083903,
+        "4": 0.12022929324867122,
+        "6": 0.4057738647142654,
+        "7": 0.6443538685045974
+      }
+    }
+  ],
+  "limitations": [
+    "Counts are mean-density top-hat aperture diagnostics, not Gaussian effective sample sizes or hard feasibility gates.",
+    "Full flux-limited parent is denser than footprint/fibre-assigned sample.",
+    "Local slabs, not representative full-redshift counts.",
+    "No model training or label regeneration; prior host-index-based scale ranking needs corrected-label re-evaluation."
+  ]
+}

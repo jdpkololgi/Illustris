@@ -1,0 +1,16 @@
+{
+  "job_id": "60057549",
+  "diagnostic_sha256": "5fd6ccf5b3162d8362fe2a477125215c935f977d823a899409fae2668f6783e4",
+  "candidate_separation_mpc_h": 0.001953125,
+  "candidate_separation_kpc_h": 1.953125,
+  "cell_width_mpc_h": 0.9765625,
+  "same_position": false,
+  "same_voxel": true,
+  "same_eigenvalues_exact": true,
+  "web_class": 1,
+  "web_class_name": "wall",
+  "independent_particle_identity_resolved": false,
+  "certificate_changed": false,
+  "catalogue_built": false,
+  "training_ready": false
+}

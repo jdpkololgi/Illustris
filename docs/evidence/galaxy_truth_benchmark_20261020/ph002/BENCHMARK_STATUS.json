@@ -1,0 +1,129 @@
+{
+  "job_id": "60038639",
+  "node": "nid200026",
+  "source_root": "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source",
+  "steps": [
+    {
+      "name": "tests",
+      "command": [
+        "/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python",
+        "-u",
+        "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source/workflows/abacus_tweb/run_galaxy_position_tests.py"
+      ],
+      "log": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/tests.log",
+      "started": 1792511198.2568316,
+      "exit_code": 0,
+      "seconds": 5.677722215652466
+    },
+    {
+      "name": "ph006_coordinate_audit",
+      "command": [
+        "/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python",
+        "-u",
+        "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source/workflows/abacus_tweb/validate_galaxy_position_mapping.py",
+        "--phases",
+        "ph006",
+        "--output",
+        "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/ph006_coordinate_audit"
+      ],
+      "log": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/ph006_coordinate_audit.log",
+      "started": 1792511205.5814912,
+      "exit_code": 0,
+      "seconds": 116.19786524772644
+    },
+    {
+      "name": "ph006_certificate",
+      "command": [
+        "/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python",
+        "-u",
+        "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source/workflows/abacus_tweb/certify_galaxy_position_scope.py",
+        "--audit",
+        "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/ph006_coordinate_audit/report.json",
+        "--samples",
+        "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/ph006_coordinate_audit",
+        "--output",
+        "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/qualification_ph006_v2.json"
+      ],
+      "log": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/ph006_certificate.log",
+      "started": 1792511321.7812862,
+      "exit_code": 0,
+      "seconds": 1.7214179039001465
+    },
+    {
+      "name": "ph006_annotation_smoke",
+      "command": [
+        "/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python",
+        "-u",
+        "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source/workflows/abacus_tweb/smoke_galaxy_position_annotation.py",
+        "--certificate",
+        "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/qualification_ph006_v2.json",
+        "--samples",
+        "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/ph006_coordinate_audit",
+        "--output",
+        "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/ph006_smoke"
+      ],
+      "log": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/ph006_annotation_smoke.log",
+      "started": 1792511323.5041842,
+      "exit_code": 0,
+      "seconds": 4.54663872718811
+    },
+    {
+      "name": "ph002_catalogues",
+      "command": [
+        "/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python",
+        "-u",
+        "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source/workflows/abacus_tweb/migrate_p10_galaxy_position_truth.py",
+        "--phase",
+        "ph002",
+        "--qualification",
+        "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source/workflows/abacus_tweb/galaxy_position_qualification_allpop_v2_20261019.json",
+        "--output-root",
+        "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/replacement/ph002/catalogues",
+        "--execute"
+      ],
+      "log": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/ph002_catalogues.log",
+      "started": 1792511328.052592,
+      "exit_code": 0,
+      "seconds": 3174.716786623001
+    },
+    {
+      "name": "ph002_p1",
+      "command": [
+        "/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python",
+        "-u",
+        "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source/workflows/abacus_tweb/p10_build_phase_index.py",
+        "--phase",
+        "ph002",
+        "--observed",
+        "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/replacement/ph002/catalogues/ph002_observed_galaxy_realspace_v2_tweb.fits",
+        "--out-dir",
+        "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/replacement/ph002/p1_canonical"
+      ],
+      "log": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/ph002_p1.log",
+      "started": 1792514502.7717361,
+      "exit_code": 0,
+      "seconds": 23.146889209747314
+    },
+    {
+      "name": "ph002_replacement_audit",
+      "command": [
+        "/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python",
+        "-u",
+        "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source/workflows/abacus_tweb/audit_galaxy_truth_replacement.py",
+        "--phase",
+        "ph002",
+        "--legacy-root",
+        "/pscratch/sd/d/dkololgi/abacus/p10_multiphase",
+        "--replacement-root",
+        "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/replacement",
+        "--observed",
+        "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/replacement/ph002/catalogues/ph002_observed_galaxy_realspace_v2_tweb.fits"
+      ],
+      "log": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/ph002_replacement_audit.log",
+      "started": 1792514525.9206908,
+      "exit_code": 0,
+      "seconds": 49.69921374320984
+    }
+  ],
+  "completed": true
+}

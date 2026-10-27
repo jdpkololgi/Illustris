@@ -1,0 +1,41 @@
+{
+  "job_id": 60003795,
+  "account": "desi",
+  "qos": "interactive",
+  "requested": {
+    "nodes": 1,
+    "cpus": 8,
+    "memory_gb": 64,
+    "walltime_minutes": 45
+  },
+  "node": "nid200118",
+  "allocation_state": "COMPLETED",
+  "allocation_elapsed": "00:31:28",
+  "allocation_exit_code": "0:0",
+  "allocation_released": true,
+  "regression_tests": 18,
+  "regression_pass": true,
+  "smoke_rows": 619,
+  "smoke_labelled": 605,
+  "smoke_unsupported_preserved": 14,
+  "migration_plan_phase": "ph002",
+  "production_rebuild_executed": false,
+  "graph_refreshed": true,
+  "graph_nodes": 14208,
+  "graph_edges": 31063,
+  "global_graph_refreshed": true,
+  "initial_failed_steps": {
+    "2": "pytest unavailable; replaced by successful stdlib unittest runner (step 4)",
+    "5": "login /tmp script not visible on compute; script moved to shared home",
+    "6": "compute-node home flock unsupported; normal graph lock held by login wrapper during successful compute step 9"
+  },
+  "code_sha256": {
+    "workflows/abacus_tweb/galaxy_position_mapping.py": "8ee5ee6a9537541491a353f4842d253610f31c6e0e41372549a585fdf36d4d16",
+    "workflows/abacus_tweb/tweb_grid_sampling.py": "832351872b1f165b30be52e18586d65267d89d7a8bc4f097221630cb32555ad4",
+    "workflows/abacus_tweb/annotate_cutsky_with_tweb_eigs.py": "376c619a021cdf0aef7a685545636885685827d9c31a76045095df46f3a761f5",
+    "workflows/abacus_tweb/p10_build_bright_parent.py": "8d8e753bc5b451642c164f290acad0ae572ac83c1bbb6a7c4a426e511413a6a7",
+    "workflows/abacus_tweb/p10_build_observed_truth.py": "8b517d04a7385e31dad8d3000f8f5864ce70fe1d738c4046cb8ccdaa22249412",
+    "workflows/abacus_tweb/migrate_p10_galaxy_position_truth.py": "533c4ef6308856709c6905ec776b8cad4c35d213321728ef13c110b4c0c0f6b3",
+    "workflows/abacus_tweb/galaxy_position_qualification_20261019.json": "93282db0cd10bbff33450042529b45bc2504b90462b970f6ed753491c414e269"
+  }
+}

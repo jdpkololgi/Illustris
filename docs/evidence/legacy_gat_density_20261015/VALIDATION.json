@@ -1,0 +1,64 @@
+{
+  "original_cache_sha256": "fdebb78ba50d9d610e41f1c8a3dde7cd10f46867b2a0f273f814fe2772517bb1",
+  "dense_position_max_Mpc": 1.7053025658242404e-13,
+  "dense_directed_edge_symmetric_difference": 0,
+  "dense_directed_edges": 3890098,
+  "full_fit_scaled_feature_absolute_difference_quantiles": [
+    1.3745285243338401e-08,
+    5.405046020756643e-08,
+    7.353391077158377e-08,
+    5.652780719067607e-07
+  ],
+  "feature_absolute_difference_max_by_column": [
+    1.359058985350714e-07,
+    1.3602028703374458e-07,
+    1.277610293115572e-07,
+    1.2605432564427588e-07,
+    2.945760071426662e-07,
+    1.6754706422261734e-07,
+    1.1916955244828387e-07,
+    5.652780719067607e-07,
+    1.1918091757934235e-07,
+    2.351681467338551e-07
+  ],
+  "models": {
+    "R2_dense": {
+      "checkpoint_sha256": "b5aea6bebbcb93744b102280fdc82000141974ad595f2ac0e2081eeffbef2a8f",
+      "trained_exact_block_parity": 0.0,
+      "heldout_same_ids": true,
+      "loa_inference_parity": {
+        "legacy_targetfit": 9.5367431640625e-07,
+        "frozen": 3.814697265625e-06
+      }
+    },
+    "R7_dense": {
+      "checkpoint_sha256": "a331c96b67c78b46e61c90773d3d4cf72c48b91f137f9a8113c91e5833cc3bbe",
+      "trained_exact_block_parity": 0.0,
+      "heldout_same_ids": true,
+      "loa_inference_parity": {
+        "legacy_targetfit": 9.5367431640625e-07,
+        "frozen": 1.9073486328125e-06
+      }
+    },
+    "R2_thin": {
+      "checkpoint_sha256": "f4087aa50bdf65f6a4b75e37239ddb0a0cb9ce1a5d0df8269eca7dad159cb93c",
+      "trained_exact_block_parity": 0.0,
+      "heldout_same_ids": true,
+      "loa_inference_parity": {
+        "legacy_targetfit": 7.152557373046875e-07,
+        "frozen": 4.76837158203125e-07
+      }
+    },
+    "R7_thin": {
+      "checkpoint_sha256": "f9c188cd2420a459cf5c0734047eb2f310887540ab181dc4ead62aab0171553b",
+      "trained_exact_block_parity": 0.0,
+      "heldout_same_ids": true,
+      "loa_inference_parity": {
+        "legacy_targetfit": 1.9073486328125e-06,
+        "frozen": 9.5367431640625e-07
+      }
+    }
+  },
+  "source_sha256": "54b0048c298d0af8d793e410673749d75c213880fbcdd3b2690d5780576c3ae9",
+  "verified": true
+}

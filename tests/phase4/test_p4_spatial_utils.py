@@ -77,6 +77,21 @@ class P4SpatialUtilsTests(unittest.TestCase):
             ),
         )
 
+    def test_whole_component_swaps_repair_imbalanced_folds(self):
+        counts = np.arange(9, -1, -1)[:, None, None] * np.ones((10, 2, 4), dtype=int)
+        initial = np.repeat(np.arange(5), 2).astype(np.uint8)
+        repaired = BUILD.refine_folds_by_swaps(counts, initial)
+        totals = np.array([counts[repaired == fold].sum(axis=0) for fold in range(5)])
+        np.testing.assert_array_equal(totals, np.full((5, 2, 4), 9))
+        np.testing.assert_array_equal(np.bincount(repaired), np.full(5, 2))
+        np.testing.assert_array_equal(initial, np.repeat(np.arange(5), 2))
+        np.testing.assert_array_equal(repaired, BUILD.refine_folds_by_swaps(counts, initial))
+
+    def test_whole_component_swaps_preserve_already_balanced_assignment(self):
+        counts = np.ones((10, 2, 4), dtype=int)
+        initial = np.repeat(np.arange(5), 2).astype(np.uint8)
+        np.testing.assert_array_equal(BUILD.refine_folds_by_swaps(counts, initial), initial)
+
     def test_grouped_support_quantiles(self):
         group = np.array([1, 0, 1, 0], dtype=np.int32)
         value = np.array([10.0, 1.0, 20.0, 3.0], dtype=np.float32)

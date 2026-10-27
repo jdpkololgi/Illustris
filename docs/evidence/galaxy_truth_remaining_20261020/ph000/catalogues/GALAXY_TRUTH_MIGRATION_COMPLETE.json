@@ -1,0 +1,46 @@
+{
+  "phase": "ph000",
+  "qualification_sha256": "b1bd606a5984e6dc20ba9ec19254cbb848a93a67d2ca12266bd839361db6be15",
+  "output_root": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/catalogues",
+  "commands": [
+    [
+      "/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python",
+      "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source/workflows/abacus_tweb/p10_build_bright_parent.py",
+      "--registry",
+      "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source/configs/p10_phase_registry_v1.json",
+      "--phase",
+      "ph000",
+      "--output",
+      "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/catalogues/ph000_bright_parent_metadata_v2.fits"
+    ],
+    [
+      "/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python",
+      "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source/workflows/abacus_tweb/annotate_cutsky_with_tweb_eigs.py",
+      "--phase",
+      "ph000",
+      "--qualification",
+      "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source/workflows/abacus_tweb/galaxy_position_qualification_allpop_v2_20261019.json",
+      "--cutsky",
+      "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/catalogues/ph000_bright_parent_metadata_v2.fits",
+      "--tweb-dir",
+      "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7",
+      "--output-dir",
+      "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/catalogues",
+      "--output-name",
+      "ph000_bright_parent_galaxy_realspace_v2_tweb.fits"
+    ],
+    [
+      "/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python",
+      "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source/workflows/abacus_tweb/p10_build_observed_truth.py",
+      "--registry",
+      "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source/configs/p10_phase_registry_v1.json",
+      "--phase",
+      "ph000",
+      "--annotated-parent",
+      "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/catalogues/ph000_bright_parent_galaxy_realspace_v2_tweb.fits",
+      "--output",
+      "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/catalogues/ph000_observed_galaxy_realspace_v2_tweb.fits"
+    ]
+  ],
+  "downstream_action": "Rebuild label arrays/caches with identical galaxy ordering; separately prove geometry reuse. Existing redshift gates remain unchanged."
+}

@@ -1,0 +1,98 @@
+{
+  "schema_version": "galaxy-position-tweb-annotation-v2",
+  "phase": "ph000",
+  "mapping": {
+    "version": "bgs-v01-c000-galaxy-realspace-v1",
+    "target": "tidal_field_at_galaxy_real_space_position",
+    "input_columns": [
+      "RA",
+      "DEC",
+      "Z_COSMO"
+    ],
+    "cosmology": "FlatLambdaCDM(H0=67.36 km / (Mpc s), Om0=0.3137721026737606, Tcmb0=2.7255 K, Neff=3.0328, m_nu=[0.   0.   0.06] eV, Ob0=0.049301692328524445)",
+    "distance_implementation": "Astropy massive-neutrino c000 approximation; 8193-knot cubic spline",
+    "observer_mpc_h": [
+      -1000.0,
+      -1000.0,
+      -1000.0
+    ],
+    "box_size_mpc_h": 2000.0,
+    "simulation": "AbacusSummit_base_c000",
+    "snapshot_z": 0.2,
+    "native_frame": "[-L/2,L/2); grid mod(native,L)",
+    "sampling": "nearest_cell_float32",
+    "no_observed_z_fallback": true
+  },
+  "label_policy_version": "galaxy-realspace-all-populations-v2",
+  "input": {
+    "path": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/catalogues/ph000_bright_parent_metadata_v2.fits",
+    "bytes": 733622400,
+    "mtime_ns": 1792528022000000000
+  },
+  "source_cutsky": {
+    "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000.fits",
+    "bytes": 6645378240,
+    "mtime_ns": 1706807554000000000
+  },
+  "source_identity": "phase + zero-based SOURCE_ROW",
+  "source_rows_verified": true,
+  "mapping_input_digest_sha256": "a23e1d7b3084de2ebea2ccd501a1693603c3fc2bdfc00e726171dc932ecf137c",
+  "mapping_digest_chunk_size": 100000,
+  "qualification": {
+    "path": "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source/workflows/abacus_tweb/galaxy_position_qualification_allpop_v2_20261019.json",
+    "sha256": "b1bd606a5984e6dc20ba9ec19254cbb848a93a67d2ca12266bd839361db6be15"
+  },
+  "field": {
+    "path": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7",
+    "ngrid": 2048,
+    "boxsize": 2000.0,
+    "threshold": 0.2,
+    "rsmooth": 7.0,
+    "slabs": 128,
+    "units": "Mpc/h",
+    "sampling": "nearest_cell",
+    "derivatives": "periodic_central_differences_scaled_by_R_or_R_squared"
+  },
+  "rows": 10480185,
+  "populations": {
+    "RES0_CEN0": 735,
+    "RES0_CEN1": 168372,
+    "RES1_CEN0": 1370505,
+    "RES1_CEN1": 8940573
+  },
+  "status_codes": {
+    "1": "finite_ordered_galaxy_realspace_labels"
+  },
+  "labelled_rows": 10480185,
+  "unsupported_rows": 0,
+  "input_rows_fully_labelled": true,
+  "independent_position_codes": {
+    "0": "not_individually_cross_checked",
+    "1": "original_cubic_galaxy_xyz",
+    "2": "native_halo_central_xyz_and_mass",
+    "3": "native_field_particle_central_xyz"
+  },
+  "independent_position_counts": {
+    "0": 10476494,
+    "1": 3513,
+    "2": 141,
+    "3": 37
+  },
+  "all_input_positions_individually_cross_checked": false,
+  "unresolved_satellite_rows": 735,
+  "full_mock_population_independently_qualified": false,
+  "source_code_sha256": {
+    "annotate_cutsky_with_tweb_eigs.py": "22fa2fe0900eeff0424a098bf27b2313bba07bf451a03cad5c9923e6a35b3829",
+    "galaxy_position_mapping.py": "8ee5ee6a9537541491a353f4842d253610f31c6e0e41372549a585fdf36d4d16",
+    "tweb_grid_sampling.py": "832351872b1f165b30be52e18586d65267d89d7a8bc4f097221630cb32555ad4",
+    "galaxy_position_validation_status.py": "58fce5220e77510728bbc880239926928aab97569ca54f8e6242e8e1fce0d52b"
+  },
+  "output": {
+    "path": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/catalogues/ph000_bright_parent_galaxy_realspace_v2_tweb.fits",
+    "bytes": 1593000000,
+    "sha256": "00e808ef1325c82a58955837e9be0a2d54dc82349febfe1b65d5d0765e1024dc"
+  },
+  "job_id": "60049125",
+  "elapsed_seconds": 2975.0325993580045,
+  "completed": true
+}

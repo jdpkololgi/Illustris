@@ -1,0 +1,223 @@
+{
+  "kind": "unresolved-satellite-native-host-closure",
+  "independent_satellite_positions": false,
+  "phases": {
+    "ph000": {
+      "sampled_satellites": 4,
+      "matched_to_centrals": 3,
+      "entries": [
+        {
+          "file_num": 0,
+          "halo_index": 364573,
+          "central_source_row": 52042521,
+          "satellite_source_rows": [
+            52088302
+          ],
+          "central_particle_distance_mpc_h": 1.2574213231087762e-05,
+          "particles_within_tolerance": 1,
+          "particle_row": 146723226,
+          "mass_equal": true,
+          "satellite_offset_mpc_h": [
+            0.04908259538694765
+          ],
+          "r200mean_mpc_h": [
+            0.10833312730576972
+          ],
+          "offset_within_r200_plus_tolerance": true,
+          "central_particle_match": true
+        },
+        {
+          "file_num": 1,
+          "halo_index": 118256,
+          "central_source_row": 53455610,
+          "satellite_source_rows": [
+            53571975
+          ],
+          "central_particle_distance_mpc_h": 6.600636419894129e-06,
+          "particles_within_tolerance": 1,
+          "particle_row": 88696402,
+          "mass_equal": true,
+          "satellite_offset_mpc_h": [
+            0.06679415921625823
+          ],
+          "r200mean_mpc_h": [
+            0.09401840818465264
+          ],
+          "offset_within_r200_plus_tolerance": true,
+          "central_particle_match": true
+        },
+        {
+          "file_num": 32,
+          "halo_index": 245994,
+          "central_source_row": 62223953,
+          "satellite_source_rows": [
+            62266338
+          ],
+          "central_particle_distance_mpc_h": 8.11600367172212e-05,
+          "particles_within_tolerance": 1,
+          "particle_row": 164023708,
+          "mass_equal": true,
+          "satellite_offset_mpc_h": [
+            0.06782228317468024
+          ],
+          "r200mean_mpc_h": [
+            0.10431830181995405
+          ],
+          "offset_within_r200_plus_tolerance": true,
+          "central_particle_match": true
+        }
+      ],
+      "host_closure_pass": false
+    },
+    "ph002": {
+      "sampled_satellites": 3,
+      "matched_to_centrals": 2,
+      "entries": [
+        {
+          "file_num": 0,
+          "halo_index": 41982,
+          "central_source_row": 51867231,
+          "satellite_source_rows": [
+            52101946
+          ],
+          "central_particle_distance_mpc_h": 2.087990965257672e-06,
+          "particles_within_tolerance": 1,
+          "particle_row": 27299352,
+          "mass_equal": true,
+          "satellite_offset_mpc_h": [
+            0.02354498288251526
+          ],
+          "r200mean_mpc_h": [
+            0.0862629076779145
+          ],
+          "offset_within_r200_plus_tolerance": true,
+          "central_particle_match": true
+        },
+        {
+          "file_num": 1,
+          "halo_index": 292753,
+          "central_source_row": 53504474,
+          "satellite_source_rows": [
+            53524089
+          ],
+          "central_particle_distance_mpc_h": 6.656323810257462e-05,
+          "particles_within_tolerance": 1,
+          "particle_row": 30158429,
+          "mass_equal": true,
+          "satellite_offset_mpc_h": [
+            0.08900385787910675
+          ],
+          "r200mean_mpc_h": [
+            0.11050113170412373
+          ],
+          "offset_within_r200_plus_tolerance": true,
+          "central_particle_match": true
+        }
+      ],
+      "host_closure_pass": false
+    },
+    "ph003": {
+      "sampled_satellites": 2,
+      "matched_to_centrals": 1,
+      "entries": [
+        {
+          "file_num": 0,
+          "halo_index": 188493,
+          "central_source_row": 51800723,
+          "satellite_source_rows": [
+            51934805
+          ],
+          "central_particle_distance_mpc_h": 2.4407336463796063e-05,
+          "particles_within_tolerance": 1,
+          "particle_row": 148140784,
+          "mass_equal": true,
+          "satellite_offset_mpc_h": [
+            0.06862778932931765
+          ],
+          "r200mean_mpc_h": [
+            0.10889794017653302
+          ],
+          "offset_within_r200_plus_tolerance": true,
+          "central_particle_match": true
+        }
+      ],
+      "host_closure_pass": false
+    },
+    "ph004": {
+      "sampled_satellites": 2,
+      "matched_to_centrals": 1,
+      "entries": [
+        {
+          "file_num": 0,
+          "halo_index": 306730,
+          "central_source_row": 51920576,
+          "satellite_source_rows": [
+            52009749
+          ],
+          "central_particle_distance_mpc_h": 5.810283047502408e-05,
+          "particles_within_tolerance": 1,
+          "particle_row": 75105529,
+          "mass_equal": true,
+          "satellite_offset_mpc_h": [
+            0.03026720153309828
+          ],
+          "r200mean_mpc_h": [
+            0.09721913291519903
+          ],
+          "offset_within_r200_plus_tolerance": true,
+          "central_particle_match": true
+        }
+      ],
+      "host_closure_pass": false
+    },
+    "ph005": {
+      "sampled_satellites": 3,
+      "matched_to_centrals": 2,
+      "entries": [
+        {
+          "file_num": 0,
+          "halo_index": 280008,
+          "central_source_row": 51979483,
+          "satellite_source_rows": [
+            52069390
+          ],
+          "central_particle_distance_mpc_h": 9.50044284625816e-06,
+          "particles_within_tolerance": 1,
+          "particle_row": 47865247,
+          "mass_equal": true,
+          "satellite_offset_mpc_h": [
+            0.05345548143274286
+          ],
+          "r200mean_mpc_h": [
+            0.09782950898272386
+          ],
+          "offset_within_r200_plus_tolerance": true,
+          "central_particle_match": true
+        },
+        {
+          "file_num": 2,
+          "halo_index": 126145,
+          "central_source_row": 54691638,
+          "satellite_source_rows": [
+            54722212
+          ],
+          "central_particle_distance_mpc_h": 2.5782611824068295e-05,
+          "particles_within_tolerance": 1,
+          "particle_row": 91206352,
+          "mass_equal": true,
+          "satellite_offset_mpc_h": [
+            0.08650412361021824
+          ],
+          "r200mean_mpc_h": [
+            0.10721898326084986
+          ],
+          "offset_within_r200_plus_tolerance": true,
+          "central_particle_match": true
+        }
+      ],
+      "host_closure_pass": false
+    }
+  },
+  "completed": true,
+  "host_closure_pass": false
+}

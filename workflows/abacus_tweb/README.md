@@ -10,7 +10,7 @@ SBI-ready caches or staged-mock products.
 ```text
 Abacus particle/halo products
   -> slabwise T-Web grids
-  -> host-halo linked CutSky FITS with CWEB/LAMBDA targets
+  -> galaxy-position CutSky FITS with CWEB/LAMBDA targets and separate validation status
   -> alpha or Delaunay graph artifacts
   -> graph node/edge features
   -> RA/Dec/z wedge subgraph and aligned wedge targets
@@ -34,10 +34,16 @@ Abacus particle/halo products
 
 ## Scientific And Alignment Constraints
 
-- `annotate_cutsky_with_tweb_eigs.py` assigns labels through host-halo linkage:
-  `(FILE_NUM, HALO_INDEX)` -> Abacus halo-info box-frame position -> T-Web voxel.
-  This is preferred over assigning labels by sky-coordinate inversion or modulo
-  wrapping.
+- `annotate_cutsky_with_tweb_eigs.py` now samples the tidal field at each galaxy's
+  own real-space position using RA, DEC and Z_COSMO, with a passing independent
+  qualification report, a phase-bound field inventory, and verified original
+  SOURCE_ROW identity. Raw HALO_INDEX lookup is retired: low-z indices refer to a
+  filtered host list, and host-centre labels also discard satellite offsets.
+- Use `migrate_p10_galaxy_position_truth.py --phase PHASE --qualification REPORT`
+  to inspect a versioned rebuild plan; `--execute` runs it inside an approved
+  compute step. Existing products, graph coordinates and redshift gates are
+  preserved. Missing Z_COSMO/RES/CEN/SOURCE_ROW must be recovered from the original
+  catalogue, never inferred from a host triple. See `ABACUS_LOWZ_REPAIR_PLAN_20261019.md`.
 - `build_abacus_graph.py` catalog mode applies DESI BGS mock selection
   `(IN_Y1 | IN_Y5)` and `R_MAG_APP < 19.5`, excludes `BOX_INDEX == -1` by
   default, and uses observed redshift `Z` to preserve RSD-like effects.
@@ -108,3 +114,24 @@ not start new Abacus SBI runs from partition artifacts.
   RAM; avoid login nodes.
 - For launch commands, environment overrides, and common pitfalls, see
   `RUNBOOK.md`.
+
+
+### All-population labels and separate independent checks (2026-10-19)
+
+The v2 policy labels every RES/CEN population at its own RA/DEC/Z_COSMO position,
+including unresolved satellites. HAS_LABEL/TWEB_STATUS describe field-label
+availability. INDEP_POS separately records an exact independent check for that
+source row: 0=not individually checked, 1=original cubic galaxy XYZ,
+2=native halo central XYZ/mass, 3=native field-particle central XYZ. Code 0 does
+not mask labels and does not mean a coordinate failure. Most unsampled rows,
+including resolved galaxies, correctly have code 0.
+
+Use `galaxy_position_qualification_allpop_v2_20261019.json`; the earlier
+certificate and v1 masked outputs are historical evidence. Migration writes
+`catalogues/galaxy_realspace_v2/`. ph006 is not coordinate-qualified by this
+certificate; ph001 remains sealed. Existing scientific selection masks remain.
+
+See `../../docs/galaxy_position_migration_20261019.md` for the validated scope and
+`../../docs/product_lifecycle_20261019.md` for the legacy-product registry,
+archiving policy and corrected replacement procedure. No old product is silently
+overwritten or promoted to the new target contract.

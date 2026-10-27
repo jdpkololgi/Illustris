@@ -53,7 +53,12 @@ DEFAULT_REGISTRY = REPO_ROOT / "configs/p10_response_sources_v1.json"
 DEFAULT_SELECTION = DEFAULT_ROOT / "training_contract/transforms/field/selection_manifest.json"
 PHASES = ("ph000", "ph002", "ph003", "ph004", "ph005", "ph006")
 BLIND_PHASE = "ph001"
-SUPPORTED_PHASES = PHASES + (BLIND_PHASE,)
+# Expanded visible phases are registered in p10_phase_registry_v2.json.
+# Confirmation ph014--ph019 remain excluded; ph001 still requires authority.
+SUPPORTED_PHASES = PHASES + (BLIND_PHASE,) + (
+    'ph007', 'ph008', 'ph009', 'ph010', 'ph011', 'ph012', 'ph013',
+    'ph020', 'ph021', 'ph022', 'ph023', 'ph024',
+)
 CANARY_PHASES = ("ph000", "ph006")
 CAPS = ((1, "NGC"), (0, "SGC"))
 SHELLS = ((0.15, 0.25), (0.25, 0.35), (0.35, 0.45), (0.45, 0.55))
@@ -141,11 +146,10 @@ def add_random_file(counts: np.ndarray, record: dict, *, nside: int = NSIDE,
     npix = hp.nside2npix(nside)
     for start in range(0, rows, chunk_rows):
         stop = min(start + chunk_rows, rows)
-        row_ids = np.arange(start, stop, dtype=np.int64)
-        block = hdu.read(
-            columns=["RA", "DEC", "PHOTSYS", "GOODHARDLOC", "MASKBITS"],
-            rows=row_ids,
-        )
+        # The chunk is contiguous. Explicit row-index/column gathers can issue
+        # millions of small reads on CFS; read_slice performs one sequential
+        # record-range read. Only the same five columns below enter the maps.
+        block = hdu.read_slice(start, stop)
         good = np.asarray(block["GOODHARDLOC"], dtype=bool)
         audit["goodhardloc_rejected"] += int((~good).sum())
         audit["maskbits_nonzero"] += int(np.count_nonzero(block["MASKBITS"]))

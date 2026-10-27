@@ -1,0 +1,96 @@
+{
+  "job_id": "60000317",
+  "eligible_for_production": false,
+  "prior_report_sha256": "b20083874d53bb8b515f195ae1c8d00e4b9efc6ed8239aca25b09139a4e42fc8",
+  "sample_sha256": "9ceec0c816956c82290b0513e2be2d9e8ce2910923dda14f8a2eb45d780d93f5",
+  "script_sha256": "95748de3bba12f9dde06e01504fa77e8e0f9c4ed393f0a92d67dc98f51368c41",
+  "method": "Geometry+mass uniquely identify centrals; alternating original-row order is training/heldout. Only training ranks choose the radius interval.",
+  "limitations": [
+    "File 0 only; exact export provenance remains unverified.",
+    "No inferred host mapping for RES=0.",
+    "A failed fixed radius hypothesis is not permission to tune mass cuts or reorder rows."
+  ],
+  "radius0_mpc_h": 461.07659911324174,
+  "radius_bracket_mpc_h": [
+    461.02659911324173,
+    461.12659911324175
+  ],
+  "n_centrals": 135,
+  "n_unique_matches": 135,
+  "n_missing": 0,
+  "n_ambiguous": 0,
+  "n_training": 68,
+  "n_heldout": 67,
+  "native_position_dtype": "float32",
+  "n_radius_boundary_events": 554,
+  "training_feasible_intervals_mpc_h": [
+    [
+      461.0765686035156,
+      461.07745361328125
+    ]
+  ],
+  "test_radius_mpc_h": 461.07701110839844,
+  "heldout_rank_exact_matches": 67,
+  "heldout_parent_in_mapping": 67,
+  "resolved_results": {
+    "central": {
+      "n": 135,
+      "inbounds": 135,
+      "position_error_mpc_h": {
+        "n": 135,
+        "n_finite": 135,
+        "median": 3.717532170046203e-05,
+        "p95": 6.663821234438186e-05,
+        "max": 9.289862824326251e-05
+      },
+      "mass_relative_error": {
+        "n": 135,
+        "n_finite": 135,
+        "median": 1.9579961096916065e-08,
+        "p95": 4.708884427939708e-08,
+        "max": 5.27063456212673e-08
+      },
+      "mass_matches_rtol1e5": 135,
+      "positions_within_001": 135
+    },
+    "satellite": {
+      "n": 39,
+      "inbounds": 39,
+      "position_error_mpc_h": {
+        "n": 39,
+        "n_finite": 39,
+        "median": 0.2577554821220914,
+        "p95": 0.9960097021587143,
+        "max": 1.6898728659611186
+      },
+      "mass_relative_error": {
+        "n": 39,
+        "n_finite": 39,
+        "median": 1.911448443969732e-08,
+        "p95": 4.445382917328545e-08,
+        "max": 4.9749274144694766e-08
+      },
+      "mass_matches_rtol1e5": 39,
+      "positions_within_001": 0
+    }
+  },
+  "completed": true,
+  "conclusion": "Radius candidate tested on heldout centrals; inspect all gates before any expansion. No production authorization.",
+  "postrun_identity_verification": {
+    "train_heldout_shared_raw_hosts": 0,
+    "training_exact_raw_rows": 68,
+    "heldout_exact_raw_rows": 67
+  },
+  "artifact_directory": "/pscratch/sd/d/dkololgi/abacus/lowz_index_audit_20261019/recovery_job60000317",
+  "recovery_report_sha256": "2783b050b4dea1d4ec1557bc25846d5f5fc93542668c2beed4a633a04547c38a",
+  "allocation_accounting": {
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "allocation_elapsed_seconds": 33,
+    "diagnostic_elapsed_seconds": 8,
+    "step_cpus": 8,
+    "allocation_cpus": 256,
+    "requested_memory": "32G",
+    "released": true
+  }
+}

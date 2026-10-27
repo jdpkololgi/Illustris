@@ -1,0 +1,119 @@
+{
+  "artifacts": {
+    "canonical_index": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/p1_canonical/canonical_index.npz",
+    "canonical_index_sha256": "f4e4fce103ef1ac8972f53619438029f6c102c31cae16c58bde16871441a47a1",
+    "points": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/p1_canonical/points.npy",
+    "points_sha256": "f091f1e7fdc87e842edd434993c7c93861e1252b6d8d792ef32cbc575b3abb51"
+  },
+  "blind_contract": null,
+  "box_index_policy": "BOX_INDEX is legacy bookkeeping, not target validity; all qualified galaxy labels are valid. Active supervision remains restricted to the registered observed-z shells.",
+  "canonical_parent": {
+    "bytes": 1661414400,
+    "path": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/catalogues/ph000_observed_galaxy_realspace_v2_tweb.fits",
+    "row_contract": "PARENT_NODE_ID == observed FITS row == future graph row",
+    "rows": 7286820,
+    "sha256": "9239e9cf2f4c524b1d3c7a02c503e7b293cfcd595101bd8d92aecf98664ce847"
+  },
+  "catalogue_id": "ph000_bgs_bright_full_ngc_sgc_galaxy_v2",
+  "counts": {
+    "NGC": 5154572,
+    "SGC": 2132248,
+    "active": 4962311,
+    "by_shell": {
+      "0.15_0.25": {
+        "NGC": 1904833,
+        "SGC": 796938,
+        "all": 2701771
+      },
+      "0.25_0.35": {
+        "NGC": 1153071,
+        "SGC": 479101,
+        "all": 1632172
+      },
+      "0.35_0.45": {
+        "NGC": 397413,
+        "SGC": 160342,
+        "all": 557755
+      },
+      "0.45_0.55": {
+        "NGC": 49907,
+        "SGC": 20706,
+        "all": 70613
+      }
+    },
+    "context": 6241894,
+    "legacy_negative_box_index": 2322306,
+    "total": 7286820,
+    "valid_target": 7286820
+  },
+  "created_utc": "2026-10-20T21:18:20.388665+00:00",
+  "geometry": {
+    "cap": {
+      "0": "SGC (Galactic b<=0)",
+      "1": "NGC (Galactic b>0)"
+    },
+    "coordinates": "observer-frame ICRS Cartesian from RA, DEC and observed Z",
+    "cosmology": "Astropy Planck18",
+    "units": "Mpc"
+  },
+  "git_sha": "0ba6d661e44a5de6c04290172ac29c027bdeb626",
+  "no_split_filtering": true,
+  "no_train_fitted_normalisation": true,
+  "pass": true,
+  "phase": "ph000",
+  "registry": "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source/configs/p10_phase_registry_v1.json",
+  "registry_sha256": "968cd8ed010de9b75ec4115d3a0d2be51a27306c601d04aa11bac4bdf20bb303",
+  "role": "training_development_reference",
+  "schema_version": "p10-p1-galaxy-truth-v2",
+  "selection": {
+    "active_z": [
+      0.15,
+      0.55
+    ],
+    "context_z": [
+      0.1,
+      0.6
+    ],
+    "sentinel_excluded_from_context": [
+      0.585,
+      0.595
+    ],
+    "successful_redshift_selection_applied_upstream": true
+  },
+  "target_contract": {
+    "box_size_mpc_h": 2000.0,
+    "coordinate_units": "Mpc/h",
+    "cosmology": "c000",
+    "eigenvalue_order": "lambda1<=lambda2<=lambda3",
+    "grid_size": 2048,
+    "mass_assignment": "TSC",
+    "particle_subsamples": {
+      "A_fraction": 0.03,
+      "B_fraction": 0.07,
+      "required_directories": [
+        "field_rv_A",
+        "halo_rv_A",
+        "field_rv_B",
+        "halo_rv_B"
+      ],
+      "total_fraction": 0.1
+    },
+    "phase_is_model_input": false,
+    "redshift": 0.2,
+    "simulation_family": "AbacusSummit",
+    "simulation_name_pattern": "AbacusSummit_base_c000_{phase}",
+    "tidal_smoothing_mpc_h": 7.0,
+    "web_threshold": 0.2
+  },
+  "target_truth_present": true,
+  "truth_lineage": {
+    "annotation_receipt_sha256": "ef2cb00f0563b3db1560f7be2942d9f1bc236cbfae2b48f628a7eb969c69b7e0",
+    "independent_status_masks_truth": false,
+    "label_policy_version": "galaxy-realspace-all-populations-v2",
+    "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+    "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/catalogues/ph000_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+    "observed_receipt_sha256": "b0c1c246f8784933130510a56fd22522df38422a1a67005566b19fb4cd603572",
+    "observed_sha256": "9239e9cf2f4c524b1d3c7a02c503e7b293cfcd595101bd8d92aecf98664ce847",
+    "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+  }
+}

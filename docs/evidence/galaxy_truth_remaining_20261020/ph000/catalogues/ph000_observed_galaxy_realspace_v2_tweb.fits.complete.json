@@ -1,0 +1,67 @@
+{
+  "annotated_parent": {
+    "path": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/catalogues/ph000_bright_parent_galaxy_realspace_v2_tweb.fits",
+    "rows": 10480185
+  },
+  "annotation_receipt_sha256": "ef2cb00f0563b3db1560f7be2942d9f1bc236cbfae2b48f628a7eb969c69b7e0",
+  "created_utc": "2026-10-20T21:17:57.076340+00:00",
+  "git_sha": "0ba6d661e44a5de6c04290172ac29c027bdeb626",
+  "independent_position_counts": {
+    "0": 7284284,
+    "1": 2411,
+    "2": 98,
+    "3": 27
+  },
+  "join": {
+    "cweb_nonboundary_mismatch_rows": 0,
+    "cweb_threshold_quantization_ambiguity_rows": 1,
+    "label_complete": true,
+    "labelled_rows": 7286820,
+    "max_dec_diff": 0.0,
+    "max_ra_diff": 0.0,
+    "targetid_unique": true,
+    "unsupported_rows_preserved": 0
+  },
+  "lss": {
+    "path": "/global/cfs/cdirs/desi/survey/catalogs/DA2/mocks/SecondGenMocks/AbacusSummitBGS_v2/altmtl0/kibo-v1/mock0/LSScats/BGS_BRIGHT_full_HPmapcut.dat.fits",
+    "rows": 9081669
+  },
+  "output": {
+    "bytes": 1661414400,
+    "path": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/catalogues/ph000_observed_galaxy_realspace_v2_tweb.fits",
+    "rows": 7286820,
+    "sha256": "9239e9cf2f4c524b1d3c7a02c503e7b293cfcd595101bd8d92aecf98664ce847"
+  },
+  "phase": "ph000",
+  "redshift_counts": {
+    "all_successful": 7286820,
+    "z_0p15_0p55": 4962311
+  },
+  "registry": "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source/configs/p10_phase_registry_v1.json",
+  "registry_sha256": "968cd8ed010de9b75ec4115d3a0d2be51a27306c601d04aa11bac4bdf20bb303",
+  "role": "training_development_reference",
+  "schema_version": "p10-observed-truth-complete-v3",
+  "selection": "isfinite(Z_not4clus) and Z_not4clus>0 and ZWARN==0",
+  "target_mapping": {
+    "box_size_mpc_h": 2000.0,
+    "cosmology": "FlatLambdaCDM(H0=67.36 km / (Mpc s), Om0=0.3137721026737606, Tcmb0=2.7255 K, Neff=3.0328, m_nu=[0.   0.   0.06] eV, Ob0=0.049301692328524445)",
+    "distance_implementation": "Astropy massive-neutrino c000 approximation; 8193-knot cubic spline",
+    "input_columns": [
+      "RA",
+      "DEC",
+      "Z_COSMO"
+    ],
+    "native_frame": "[-L/2,L/2); grid mod(native,L)",
+    "no_observed_z_fallback": true,
+    "observer_mpc_h": [
+      -1000.0,
+      -1000.0,
+      -1000.0
+    ],
+    "sampling": "nearest_cell_float32",
+    "simulation": "AbacusSummit_base_c000",
+    "snapshot_z": 0.2,
+    "target": "tidal_field_at_galaxy_real_space_position",
+    "version": "bgs-v01-c000-galaxy-realspace-v1"
+  }
+}

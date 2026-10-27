@@ -1,0 +1,34 @@
+{
+  "BENCHMARK_STATUS.json": {
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/BENCHMARK_STATUS.json",
+    "sha256": "bec4a02f12043458625db2e3b84ca3713fa13d62ae371a28df1e5423aed9b27c"
+  },
+  "replacement/ph002/TARGET_REPLACEMENT_COMPLETE.json": {
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/replacement/ph002/TARGET_REPLACEMENT_COMPLETE.json",
+    "sha256": "bfc056d2580d786fdefd0e8402719bec97d34aa2dca5935d2a3f7637cdacb7f2"
+  },
+  "replacement/ph002/p1_canonical/CATALOGUE_COMPLETE.json": {
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/replacement/ph002/p1_canonical/CATALOGUE_COMPLETE.json",
+    "sha256": "e9b5eb81c0e89562edcf827a19520c29ba925b8b9c37dd93fe45cf8bb0e956f8"
+  },
+  "replacement/ph002/p1_canonical/manifest.json": {
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/replacement/ph002/p1_canonical/manifest.json",
+    "sha256": "47cebfa8acce62443789c3a56216d0c9bb197de4febfc69c657e1cd23b406648"
+  },
+  "replacement/ph002/catalogues/ph002_bright_parent_metadata_v2.fits.complete.json": {
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/replacement/ph002/catalogues/ph002_bright_parent_metadata_v2.fits.complete.json",
+    "sha256": "54a31253feb212d437f68b9f2e8fa8851fac27f28148d5676bd583f01bd0e3f8"
+  },
+  "replacement/ph002/catalogues/ph002_observed_galaxy_realspace_v2_tweb.fits.complete.json": {
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/replacement/ph002/catalogues/ph002_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+    "sha256": "d1f63f523311be7588504390156f66a9f6f745ca69c2f74f5279d3ba1a181b85"
+  },
+  "replacement/ph002/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json": {
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/replacement/ph002/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+    "sha256": "46dd5a24b7db9e4ecca99f56122d1bbbaa97c04d2af3f1484ebd03242673ea6b"
+  },
+  "replacement/ph002/catalogues/ph002_bright_parent_galaxy_realspace_v2_tweb.fits.manifest.json": {
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/replacement/ph002/catalogues/ph002_bright_parent_galaxy_realspace_v2_tweb.fits.manifest.json",
+    "sha256": "027ae4b7a7b048773a090c85bb5be7e73726803ccf0fac2d21645e621043d5fd"
+  }
+}

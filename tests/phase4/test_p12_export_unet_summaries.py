@@ -11,6 +11,7 @@ from workflows.sbi.p12_export_unet_summaries import (
     ntilde_at_rows,
     parent_to_assignment_index,
     validate_oof_checkpoint,
+    terminal_export_checkpoint,
 )
 
 
@@ -45,11 +46,54 @@ class P12ExportUnetSummaryTests(unittest.TestCase):
     def test_out_of_fold_checkpoint_passes(self):
         validate_oof_checkpoint(self.checkpoint(), "ph005", 32)
 
+    def test_multiple_validation_phases_are_explicitly_supported(self):
+        row = self.checkpoint()
+        row['validation_phase'] = None
+        row['validation_phases'] = ['ph006', 'ph012', 'ph013']
+        for phase in row['validation_phases']:
+            validate_oof_checkpoint(row, phase, 32)
+        with self.assertRaises(RuntimeError):
+            validate_oof_checkpoint(row, 'ph014', 32)
+
     def test_in_sample_checkpoint_fails(self):
         row = self.checkpoint()
         row["training_phases"].append("ph005")
         with self.assertRaises(RuntimeError):
             validate_oof_checkpoint(row, "ph005", 32)
+
+    def test_terminal_export_requires_complete_fixed_budget(self):
+        from types import SimpleNamespace
+        from copy import deepcopy
+        from workflows.abacus_tweb.p10_training_contract import sha256
+        with TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            completion={'epochs_completed':2,'global_steps':6,'training_cores_per_epoch':3,
+                        'source_contract':{'train':'bound'},'training_phases':['ph000']}
+            for key,relative in [('training_ready_marker_sha256','TRAINING_LOADER_READY.json'),
+                                 ('target_scaler_sha256','transforms/target_scaler.json'),
+                                 ('field_transform_sha256','transforms/field/field_transform.json')]:
+                path=root/relative;path.parent.mkdir(parents=True,exist_ok=True);path.write_text('{}')
+                completion[key]=sha256(path)
+            state={'schema_version':'p10-arm-a-checkpoint-v1','model':'unet',
+                   'frozen_arguments':{'disable_early_stopping':True,'epochs':2},
+                   'global_step':6,'resume':{'epoch':2,'cursor':3},'source_contract':{'train':'bound'},
+                   'model_state':{'weight':torch.tensor([7.])}}
+            loader=SimpleNamespace(root=root,training_phases=('ph000',),validation_phases=('ph002',),
+                                   target_scaler={},field_normalization={})
+            result=terminal_export_checkpoint(state,completion,loader,2)
+            self.assertEqual(result['selection_policy'],'terminal_fixed_budget')
+            self.assertEqual(result['state_dict']['weight'].item(),7.)
+            for change in ({'schema_version':'p10-arm-a-best-v1'},
+                           {'resume':{'epoch':2,'cursor':2}},
+                           {'frozen_arguments':{'disable_early_stopping':False,'epochs':2}},
+                           {'source_contract':{'train':'different'}}):
+                bad=deepcopy(state);bad.update(change)
+                with self.assertRaises(RuntimeError):terminal_export_checkpoint(bad,completion,loader,2)
+            bad=deepcopy(state);bad['global_step']=5
+            incomplete=deepcopy(completion);incomplete['global_steps']=5
+            with self.assertRaises(RuntimeError):terminal_export_checkpoint(bad,incomplete,loader,2)
+            (root/'transforms/target_scaler.json').write_text('{"changed":true}')
+            with self.assertRaises(RuntimeError):terminal_export_checkpoint(state,completion,loader,2)
 
     def test_ntilde_is_cap_specific(self):
         selection = {"rotations": {"0": {"caps": {

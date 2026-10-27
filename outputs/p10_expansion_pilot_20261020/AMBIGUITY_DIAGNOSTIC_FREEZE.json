@@ -1,0 +1,18 @@
+{
+  "source_root": "/global/u2/d/dkololgi/TNG/Illustris/outputs/p10_expansion_pilot_20261020/ambiguity_diagnostic_source",
+  "source_sha256": {
+    "diagnose_ph007_particle_ambiguity.py": "646e51c1b715c5ddd2e3f47bd519e8a20424554ecfd9239e6fd3eae15b89d134",
+    "galaxy_position_mapping.py": "8ee5ee6a9537541491a353f4842d253610f31c6e0e41372549a585fdf36d4d16",
+    "validate_galaxy_position_mapping.py": "643a8f0be15da9235d4022786e8dae63ee112cc75983d4bf788f485c1864f4ae",
+    "p12a_coordinate_sample_audit.py": "3f2a537b0658d1270cf3b304592d796bbc377d0eafd9b841ef57ba45b9ac440f"
+  },
+  "resources": {
+    "nodes": 1,
+    "cpus": 64,
+    "minutes": 10,
+    "account": "desi",
+    "qos": "interactive",
+    "licenses": "scratch"
+  },
+  "scientific_changes_allowed": false
+}

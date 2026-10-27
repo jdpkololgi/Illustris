@@ -92,8 +92,8 @@ source /global/homes/d/dkololgi/miniforge3/bin/activate "${ABACUS_RAPIDS_ENV_PAT
 ### Main Pipeline Approaches
 
 1. **Abacus T-Web and mock graph pipeline** (`workflows/abacus_tweb/`): builds
-   slabwise T-Web outputs, annotates DESI/Abacus CutSky mocks via host-halo
-   linkage, constructs alpha/Delaunay graph artifacts, computes graph features,
+   slabwise T-Web outputs, annotates DESI/Abacus CutSky mocks at each galaxy's RA/DEC/Z_COSMO real-space
+   position (all populations; independent checks recorded separately), constructs alpha/Delaunay graph artifacts, computes graph features,
    and builds SBI caches (wedge subvolumes are current; partitioned caches are
    legacy).
 2. **Regression** (`workflows/jraph/jraph_pipeline.py`): JAX/Jraph

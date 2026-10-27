@@ -32,6 +32,10 @@ from workflows.sbi.p12_export_unet_summaries import parent_to_assignment_index
 
 TRAIN_PHASES = ("ph000", "ph002", "ph003", "ph004", "ph005")
 VALIDATION_PHASE = "ph006"
+VALIDATION_PHASES = (VALIDATION_PHASE,)
+PIPELINE_CONFIG = None
+PIPELINE_CONFIG_SHA256 = None
+RESERVED_PHASES = ("ph001",)
 SEALED_PHASE = "ph001"
 ROOT = Path("/pscratch/sd/d/dkololgi/abacus/p10_multiphase")
 SUMMARY_ROOT = ROOT / "p12_oof_summaries"
@@ -49,6 +53,35 @@ FEATURE_NAMES = (
     "cap_ngc",
     "log1p_random_support_boundary_distance_mpc",
 )
+
+
+def configure_pipeline(path: Path | str | None) -> None:
+    """Bind every downstream root and phase role to one versioned config."""
+    global TRAIN_PHASES, VALIDATION_PHASES, FULL_CONTRACT, CONTRACT_ROOT, SUMMARY_ROOT
+    global RANDOM_RESPONSE_CONTRACT, RANDOM_RESPONSE_CACHE, PIPELINE_CONFIG, PIPELINE_CONFIG_SHA256, RESERVED_PHASES
+    if path is None:
+        return
+    path = Path(path)
+    config = json.loads(path.read_text())
+    full = Path(config['full_contract'])
+    marker = full / 'TRAINING_LOADER_READY.json'
+    ready = json.loads(marker.read_text())
+    if not ready.get('pass') or sha256(marker) != config['full_contract_sha256']:
+        raise ValueError('Changed or failing full input contract')
+    roles = ready['roles']
+    train = tuple(roles['training']); validation = tuple(roles['validation_and_selection'])
+    reserved = tuple(roles['sealed_blind_test']) + tuple(roles.get('reserved_confirmation', []))
+    if len(set(train+validation+reserved)) != len(train+validation+reserved):
+        raise ValueError('Overlapping registered phase roles')
+    if config['calibration_folds'] != [0,1] or config['evaluation_folds'] != [2,3,4]:
+        raise ValueError('Unregistered calibration/selection folds')
+    TRAIN_PHASES, VALIDATION_PHASES, RESERVED_PHASES = train, validation, reserved
+    FULL_CONTRACT = full
+    CONTRACT_ROOT = Path(config['crossfit_contracts'])
+    SUMMARY_ROOT = Path(config['summaries'])
+    RANDOM_RESPONSE_CONTRACT = Path(config['response_contract'])
+    RANDOM_RESPONSE_CACHE = Path(config['response_cache'])
+    PIPELINE_CONFIG = str(path.resolve()); PIPELINE_CONFIG_SHA256 = sha256(path)
 
 
 def utc_now() -> str:
@@ -120,7 +153,7 @@ def stratified_indices(
 
 
 def phase_contract_root(phase: str) -> Path:
-    if phase == VALIDATION_PHASE:
+    if phase in VALIDATION_PHASES:
         return FULL_CONTRACT
     return CONTRACT_ROOT / f"omit_{phase}"
 
@@ -193,7 +226,35 @@ def random_response_for_phase(
     """Resolve, cache, and audit the frozen P3b-R response for a phase."""
     inventory_path = RANDOM_RESPONSE_CONTRACT / "adapter_inventory.json"
     inventory = json.loads(inventory_path.read_text())
+    if PIPELINE_CONFIG and (not inventory.get('pass') or inventory.get('full_contract_sha256') !=
+                            sha256(FULL_CONTRACT / 'TRAINING_LOADER_READY.json')):
+        raise RuntimeError('Corrected response inventory is incomplete or stale')
     phase_record = inventory["phases"][phase]
+    if 'parent_response' in phase_record:
+        marker_path = Path(phase_record['parent_response'])
+        if sha256(marker_path) != phase_record['parent_response_sha256']:
+            raise RuntimeError('Parent response marker changed')
+        marker = json.loads(marker_path.read_text())
+        contract = json.loads((phase_contract_root(phase) / 'phases' / phase / 'phase_contract.json').read_text())
+        if (not marker.get('pass') or marker.get('phase') != phase
+                or marker.get('p1_manifest_sha256') != contract['inputs']['p1_manifest_sha256']):
+            raise RuntimeError('Parent response identity mismatch')
+        for name in ('distance','support'):
+            if sha256(Path(marker['arrays'][name])) != marker['array_sha256'][name]:
+                raise RuntimeError('Parent response payload changed: ' + name)
+        all_distance = np.load(marker['arrays']['distance'],mmap_mode='r')
+        all_support = np.load(marker['arrays']['support'],mmap_mode='r')
+        if (len(all_distance) != marker['rows'] or len(all_support) != marker['rows']
+                or np.any(parent < 0) or np.any(parent >= marker['rows'])):
+            raise RuntimeError('Parent response row address mismatch')
+        distance = np.asarray(all_distance[parent]); support = np.asarray(all_support[parent])
+        if not support.any() or not np.isfinite(distance[support]).all() or (distance[support] < 0).any():
+            raise RuntimeError('Invalid supported parent response values')
+        audit = {'representation':'exact parent-indexed P3 voxel lookup', 'parent_response':str(marker_path),
+                 'parent_response_sha256':sha256(marker_path),'parent_sha256':parent_sha256,
+                 'support_rows':int(support.sum()),'unsupported_rows':int((~support).sum()),
+                 'support_fraction':float(support.mean()),'cache_reused':True}
+        return distance,support,audit
     field_manifest_path = Path(phase_record["field_manifest"])
     field_manifest_sha256 = sha256(field_manifest_path)
     cache_root = RANDOM_RESPONSE_CACHE / phase
@@ -273,8 +334,8 @@ def random_response_for_phase(
 def load_phase_sample(
     phase: str, maximum: int, seed: int
 ) -> tuple[dict[str, np.ndarray], dict]:
-    if phase == SEALED_PHASE:
-        raise PermissionError("ph001 is sealed")
+    if phase in RESERVED_PHASES or phase not in TRAIN_PHASES + VALIDATION_PHASES:
+        raise PermissionError('Phase is not registered for visible posterior preparation')
     marker_path = SUMMARY_ROOT / phase / "OOF_SUMMARY_COMPLETE.json"
     if not marker_path.exists():
         raise FileNotFoundError(f"missing OOF marker for {phase}: {marker_path}")
@@ -283,8 +344,20 @@ def load_phase_sample(
         raise RuntimeError(f"invalid OOF marker for {phase}")
     if phase in TRAIN_PHASES and phase in marker.get("training_phases", ()):
         raise RuntimeError(f"{phase} summary is not out of fold")
-    if phase == VALIDATION_PHASE and tuple(marker.get("training_phases", ())) != TRAIN_PHASES:
-        raise RuntimeError("ph006 summary is not from the frozen all-five-phase encoder")
+    expected_train = TRAIN_PHASES if phase in VALIDATION_PHASES else tuple(p for p in TRAIN_PHASES if p != phase)
+    if tuple(marker.get('training_phases', ())) != expected_train:
+        raise RuntimeError('Summary encoder training roles mismatch: ' + phase)
+    if PIPELINE_CONFIG:
+        if (marker.get('context_halo_voxels') != 48
+                or marker.get('precision', {}).get('strict_deterministic') is not True
+                or marker.get('contract_marker_sha256') != sha256(phase_contract_root(phase) / 'TRAINING_LOADER_READY.json')
+                or marker.get('truth_lineage', {}).get('label_policy_version') != 'galaxy-realspace-all-populations-v2'):
+            raise RuntimeError('Corrected halo48 summary provenance required: ' + phase)
+        if phase in TRAIN_PHASES and marker.get('checkpoint_selection') != 'terminal_fixed_budget':
+            raise RuntimeError('OOF checkpoint must not be selected by omitted-phase scores')
+        for name in ('parent_node_id','base_prediction','truth','response'):
+            if sha256(Path(marker['arrays'][name])) != marker['array_sha256'][name]:
+                raise RuntimeError('Changed summary array: ' + phase + '/' + name)
 
     parent = np.load(marker["arrays"]["parent_node_id"], mmap_mode="r")
     base = np.load(marker["arrays"]["base_prediction"], mmap_mode="r")
@@ -385,48 +458,56 @@ def concatenate(rows: list[dict[str, np.ndarray]]) -> dict[str, np.ndarray]:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-root", type=Path, default=OUTPUT)
+    parser.add_argument("--pipeline-config", type=Path)
     parser.add_argument("--train-rows", type=int, default=2_000_000)
     parser.add_argument("--validation-rows", type=int, default=600_000)
     parser.add_argument("--seed", type=int, default=12042)
     parser.add_argument("--workers", type=int, default=6)
     args = parser.parse_args()
+    configure_pipeline(args.pipeline_config)
     if args.workers <= 0:
         raise ValueError("--workers must be positive")
     output = args.output_root
     ready = output / "P12A_DATASET_READY.json"
     if ready.exists():
         existing = json.loads(ready.read_text())
-        if existing.get("pass") and not existing.get("sealed_phase_opened"):
+        if (existing.get("pass") and not existing.get("sealed_phase_opened")
+                and existing.get('pipeline_config_sha256') == PIPELINE_CONFIG_SHA256):
             print(json.dumps(existing, indent=2), flush=True)
             return
+        raise RuntimeError('Existing dataset has incompatible provenance; use a fresh output root')
     per_phase = max(1, args.train_rows // len(TRAIN_PHASES))
     specifications = [
         (phase, per_phase, args.seed + offset)
         for offset, phase in enumerate(TRAIN_PHASES)
-    ] + [(VALIDATION_PHASE, args.validation_rows, args.seed + 100)]
+    ] + [(phase, max(1,args.validation_rows // len(VALIDATION_PHASES)), args.seed + 100 + offset)
+         for offset,phase in enumerate(VALIDATION_PHASES)]
     if args.workers == 1:
         results = [load_phase_sample(*specification) for specification in specifications]
     else:
-        with ProcessPoolExecutor(max_workers=min(args.workers, len(specifications))) as pool:
+        with ProcessPoolExecutor(max_workers=min(args.workers, len(specifications)),
+                                 initializer=configure_pipeline, initargs=(args.pipeline_config,)) as pool:
             futures = [
                 pool.submit(load_phase_sample, *specification)
                 for specification in specifications
             ]
             results = [future.result() for future in futures]
     train_rows, audits = [], {}
-    for offset, (phase, result) in enumerate(zip(TRAIN_PHASES, results[:-1], strict=True)):
+    for offset, (phase, result) in enumerate(zip(TRAIN_PHASES, results[:len(TRAIN_PHASES)], strict=True)):
         row, audit = result
         row["phase_index"] = np.full(len(row["shell"]), offset, dtype=np.uint8)
         train_rows.append(row)
         audits[phase] = audit
     training = concatenate(train_rows)
-    validation, audits[VALIDATION_PHASE] = results[-1]
-    validation["phase_index"] = np.full(
-        len(validation["shell"]), len(TRAIN_PHASES), dtype=np.uint8
-    )
+    validation_rows = []
+    for offset, (phase, result) in enumerate(zip(VALIDATION_PHASES, results[len(TRAIN_PHASES):], strict=True)):
+        row, audits[phase] = result
+        row['phase_index'] = np.full(len(row['shell']), len(TRAIN_PHASES)+offset, dtype=np.uint8)
+        validation_rows.append(row)
+    validation = concatenate(validation_rows)
     output.mkdir(parents=True, exist_ok=True)
     train_path = output / "training_oof_sample.npz"
-    validation_path = output / "ph006_selection_sample.npz"
+    validation_path = output / ("selection_sample.npz" if PIPELINE_CONFIG else "ph006_selection_sample.npz")
     np.savez(train_path, **training)
     np.savez(validation_path, **validation)
     report = {
@@ -439,7 +520,11 @@ def main() -> None:
         "feature_names": list(FEATURE_NAMES),
         "target_parameterization": "ordered softplus increments",
         "training_phases": list(TRAIN_PHASES),
-        "validation_phase": VALIDATION_PHASE,
+        "validation_phase": VALIDATION_PHASES[0] if len(VALIDATION_PHASES) == 1 else None,
+        "validation_phases": list(VALIDATION_PHASES),
+        "pipeline_config": PIPELINE_CONFIG,
+        "pipeline_config_sha256": PIPELINE_CONFIG_SHA256,
+        "phase_index_order": list(TRAIN_PHASES + VALIDATION_PHASES),
         "sealed_phase": SEALED_PHASE,
         "sealed_phase_opened": False,
         "phase_is_feature": False,
@@ -463,7 +548,7 @@ def main() -> None:
         "pass": bool(
             len(training["shell"]) > 0
             and len(validation["shell"]) > 0
-            and not np.any(training["phase_index"] == len(TRAIN_PHASES))
+            and np.all(training["phase_index"] < len(TRAIN_PHASES))
             and np.all(np.isfinite(training["context"]))
             and np.all(np.isfinite(validation["context"]))
         ),

@@ -6,16 +6,16 @@ targets from the source FITS catalog into the cache schema consumed by:
 `workflows/sbi/jraph_sbi_flowjax.py`.
 
 Important:
-- Abacus CutSky catalogs can include rows that are not validly embedded in any
-  underlying cubic box (`BOX_INDEX == -1`). These must be excluded to keep
-  the node/target alignment consistent with graph construction.
+- Legacy graphs sometimes excluded `BOX_INDEX == -1`. That column is source
+  bookkeeping, not availability of corrected galaxy-position truth. The old
+  filter is rejected for new-format catalogues; explicitly match graph membership.
 - When `--apply-y1y5-filter` is enabled (default), targets are loaded using the
   same DESI BGS selection as graph construction: `(IN_Y1|IN_Y5)` and
   `R_MAG_APP < 19.5` (requires those FITS columns).
-- Any upstream workflow that assigns eigenvalues using sky coordinates
-  (RA/DEC/Z -> cubic frame) must do so in a way that is consistent with the
-  CutSky remap, i.e. using `BOX_INDEX` (or an equivalent explicit linkage)
-  rather than a naive periodic modulo into a single cube.
+- New targets use the qualified RA/DEC/Z_COSMO galaxy-position mapping and
+  separate independent-validation status. BOX_INDEX remains part of the existing
+  graph-selection contract, not a substitute for galaxy positions. Registered
+  historical targets are blocked from new builds by the product-lifecycle guard.
 
 Output pickle keys:
   - graph: jraph.GraphsTuple
@@ -61,6 +61,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from shared.abacus_cutsky_selection import cutsky_desi_bgs_mock_mask
+from workflows.abacus_tweb.product_lifecycle import reject_historical_input
 from shared.eigenvalue_transformations import (
     eigenvalues_to_increments,
     eigenvalues_to_linear_increments,
@@ -147,6 +148,16 @@ def _load_targets_from_source_catalog(
     box_index_col: str,
 ) -> tuple[np.ndarray, np.ndarray | None, np.ndarray | None, np.ndarray | None]:
     table = fitsio.read(str(source_path))
+    if "TWEB_STATUS" in table.dtype.names:
+        from workflows.abacus_tweb.galaxy_truth_contract import label_validity
+        if exclude_invalid_box_index:
+            raise ValueError(
+                "Galaxy-position truth cannot use BOX_INDEX as label validity. "
+                "Use --no-exclude-invalid-box-index with an identity-verified matching graph; "
+                "a low-z selection extension requires its own graph/selection contract."
+            )
+        if not label_validity(table).all():
+            raise ValueError("Corrected catalogue contains invalid galaxy-position labels")
     mask = np.ones(len(table), dtype=bool)
     if apply_y1y5_filter:
         mask &= cutsky_desi_bgs_mock_mask(table)
@@ -522,6 +533,8 @@ def main() -> None:
     )
     if targets_npz is not None and args.targets_catalog_path:
         raise ValueError("Use only one of --targets-npz-path or --targets-catalog-path.")
+
+    reject_historical_input(targets_npz if targets_npz is not None else targets_catalog)
 
     print(f"Loading graph arrays from: {npz_path}")
     graph = _build_graph_from_npz(

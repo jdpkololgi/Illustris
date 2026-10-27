@@ -1,0 +1,19 @@
+{
+  "nodes": 37545,
+  "edges": 266919,
+  "alpha_Mpc": 13.556551395941023,
+  "weighted_clustering_max_error": 8.326672684688674e-17,
+  "independent_probes": 24,
+  "features": [
+    "weighted degree",
+    "mean length",
+    "min length",
+    "max length",
+    "weighted clustering",
+    "tetra density",
+    "neighbor tetra density",
+    "cov eig1",
+    "cov eig2",
+    "cov eig3"
+  ]
+}

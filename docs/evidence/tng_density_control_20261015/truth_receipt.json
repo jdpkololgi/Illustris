@@ -1,0 +1,101 @@
+{
+  "operator_checks": {
+    "plane_wave_hessian_max_error": 5.551115123125783e-17,
+    "periodic_constant_test": true
+  },
+  "grids": [
+    {
+      "ngrid": 512,
+      "radius": 2.0,
+      "density_mean": 8.570717248587671,
+      "eigenvalue_std": [
+        2.7907471480228248,
+        3.8795919764704667,
+        4.433964733303874
+      ],
+      "class_counts": [
+        10761,
+        69067,
+        127976,
+        76165
+      ],
+      "native_nearest_replay_max_abs_error": 1.1816325695690466e-11,
+      "native_nearest_class_agreement": 1.0
+    },
+    {
+      "ngrid": 512,
+      "radius": 7.0,
+      "density_mean": 8.570717248587671,
+      "eigenvalue_std": [
+        0.25840387212639765,
+        0.337217689984671,
+        0.3985270599529808
+      ],
+      "class_counts": [
+        62951,
+        115023,
+        83632,
+        22363
+      ]
+    },
+    {
+      "ngrid": 256,
+      "radius": 2.0,
+      "density_mean": 8.570717248587673,
+      "eigenvalue_std": [
+        2.5841329892749907,
+        3.58953431542749,
+        4.121456613042586
+      ],
+      "class_counts": [
+        11463,
+        70500,
+        127191,
+        74815
+      ]
+    },
+    {
+      "ngrid": 256,
+      "radius": 7.0,
+      "density_mean": 8.570717248587673,
+      "eigenvalue_std": [
+        0.2570668461488986,
+        0.3354692564556248,
+        0.3963649283898852
+      ],
+      "class_counts": [
+        63251,
+        115101,
+        83433,
+        22184
+      ]
+    }
+  ],
+  "coarse_comparison": {
+    "2.0": {
+      "mean_abs_difference_over_fine_std": [
+        0.036085035651922226,
+        0.0375777930021286,
+        0.04082433506846428
+      ],
+      "class_agreement": 0.9767439403596871,
+      "trace_spearman": 0.9997044143748997
+    },
+    "7.0": {
+      "mean_abs_difference_over_fine_std": [
+        0.004202814772725105,
+        0.004088927060365677,
+        0.005355107598006725
+      ],
+      "class_agreement": 0.9966651289401308,
+      "trace_spearman": 0.9999958762405421
+    }
+  },
+  "density_path": "/pscratch/sd/d/dkololgi/IllustrisTNG300_densities/snap_099_total_dens_0.npz",
+  "density_file_bytes": 4294968876,
+  "density_sha256": "743122a8a8f9b5c13dcfda9df407082195db4ac4bd0f2b2ee0d9fd32134611fc",
+  "old_eigenvalues_path": "/pscratch/sd/d/dkololgi/Cosmic_env_TNG_cache/snap_099_eig_vals_0.npz",
+  "old_eigenvalues_sha256": "473bfc7e37ae9176aef8a46726bceb0ff06e58d4d2dba9eadce2014126ca41ca",
+  "config_sha256": "3e9177cf83cbdd41afa742e2979a697d5bef7f6ac99d26d1545a31008a604d1b",
+  "script_sha256": "58956eaf93f986132a9680e15ee13351fb2c17dd31c712fecbacce5994ebb3b1"
+}

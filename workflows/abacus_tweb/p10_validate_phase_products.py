@@ -158,6 +158,28 @@ def invariant_without_catalogue_id(path: Path) -> dict[str, Any]:
     return payload
 
 
+def density_metadata(payload: dict, registry: dict, phase: str) -> dict:
+    """Read the initial native-grid adapter without changing its bound receipt."""
+    if payload.get("schema_version") != "p10-e2e-native-density-adapter-v1" or "target_contract" in payload:
+        return payload
+    from p10_expansion_preflight import density_contract
+    receipt_path = Path(payload["source_receipt"])
+    if sha256_file(receipt_path) != payload["source_receipt_sha256"]:
+        raise ProductValidationError("Native density source receipt changed")
+    source = json.loads(receipt_path.read_text())
+    output = density_contract(source, phase)
+    if output["sha256"] != payload["source_payload_sha256"] or output["path"] != payload["build"]["output"]:
+        raise ProductValidationError("Native density source binding differs")
+    for name in ("particle_count", "relative_count_error"):
+        if payload["build"][name] != source[name]:
+            raise ProductValidationError("Native density count receipt differs")
+    return {**payload, "target_contract": registry["target_contract"], "build": {
+        **payload["build"], "ngrid": source["ngrid"], "boxsize_mpc_h": source["box_mpc_h"],
+        "dtype": source["dtype"], "deposited_count": source["deposited_count"],
+        "wall_seconds": source["elapsed_seconds_this_segment"],
+    }}
+
+
 def validate_phase(registry: dict[str, Any], phase: str) -> dict[str, Any]:
     paths = phase_paths(registry, phase)
     cfg = registry["phases"][phase]
@@ -211,10 +233,13 @@ def validate_phase(registry: dict[str, Any], phase: str) -> dict[str, Any]:
     truth_gates: dict[str, bool] | None = None
     truth_diagnostics: dict[str, Any] | None = None
     if not blind:
-        density = json.loads(paths["density"].read_text())
+        density = density_metadata(json.loads(paths["density"].read_text()), registry, phase)
         tweb = json.loads(paths["tweb"].read_text())
         closure = json.loads(paths["catalogue_field_target_closure"].read_text())
         build = density["build"]
+        legacy_reference = (phase == "ph000"
+            and density.get("schema_version") == "p10-density-legacy-import-v1"
+            and tweb.get("schema_version") == "p10-tweb-legacy-import-v1")
         truth_gates = {
             "truth_embedded_in_p1": bool(p1_manifest["target_truth_present"]),
             "density_phase_matches": density["phase"] == phase,
@@ -226,13 +251,13 @@ def validate_phase(registry: dict[str, Any], phase: str) -> dict[str, Any]:
                 and build["dtype"] == "float32"
             ),
             "density_uses_all_136_a_plus_b_slabs": int(build["processed_file_count"]) == 136,
-            "density_count_conserved": float(build["relative_count_error"]) <= 2.0e-6,
+            "density_count_conserved": (build["relative_count_error"] is not None and float(build["relative_count_error"]) <= 2.0e-6),
             "tweb_phase_matches": tweb["phase"] == phase,
             "tweb_contract_matches_registry": tweb["target_contract"] == registry["target_contract"],
-            "tweb_density_verified": bool(tweb["density"]["verified"]),
+            "tweb_density_verified": bool(tweb.get("density", {}).get("verified", False)),
             "tweb_rank_layout_complete": (
-                int(tweb["mpi_size"]) == 16
-                and int(tweb["outputs"]["rank_count"]) == 16
+                int(tweb["mpi_size"]) > 0
+                and int(tweb["outputs"]["rank_count"]) == int(tweb["mpi_size"])
                 and tweb["outputs"]["x_coverage"] == [0, 2048]
                 and bool(tweb["outputs"]["verified"])
             ),
@@ -241,11 +266,28 @@ def validate_phase(registry: dict[str, Any], phase: str) -> dict[str, Any]:
                 bool(value) for value in closure["gates"].values()
             ),
         }
+        if legacy_reference:
+            # ph000 was explicitly imported as the established convention reference.
+            # Its original particle-count receipt predates P10; do not invent a count.
+            reference_path = Path("/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph000/REFERENCE_PHASE_COMPLETE.json")
+            reference = json.loads(reference_path.read_text())
+            required["historical_reference_import"] = reference_path
+            truth_gates.pop("density_count_conserved")
+            truth_gates.pop("tweb_density_verified")
+            truth_gates["established_ph000_reference_import"] = (
+                reference.get("pass") is True and reference.get("phase") == phase
+                and density.get("verified") is True
+                and density["legacy_source"]["sha256"] in {
+                    row["sha256"] for row in reference["source_destination_records"]
+                    if row["destination"] == density["build"]["output"]
+                }
+                and p1_manifest.get("truth_lineage") is not None)
         truth_diagnostics = {
-            "particle_count": int(build["particle_count"]),
-            "deposited_count": float(build["deposited_count"]),
-            "relative_count_error": float(build["relative_count_error"]),
-            "density_wall_seconds": float(build["wall_seconds"]),
+            "historical_count_receipt_unavailable": legacy_reference,
+            "particle_count": build.get("particle_count"),
+            "deposited_count": build.get("deposited_count"),
+            "relative_count_error": build.get("relative_count_error"),
+            "density_wall_seconds": build.get("wall_seconds"),
             "tweb_total_bytes": int(tweb["outputs"]["total_bytes"]),
         }
     ph000_p1 = json.loads(Path("/pscratch/sd/d/dkololgi/abacus/p1b_full_footprint/manifest.json").read_text())

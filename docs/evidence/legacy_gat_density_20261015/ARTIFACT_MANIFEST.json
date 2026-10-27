@@ -1,0 +1,224 @@
+{
+  "files": [
+    {
+      "name": "R2_dense.pt",
+      "bytes": 131685,
+      "sha256": "b5aea6bebbcb93744b102280fdc82000141974ad595f2ac0e2081eeffbef2a8f"
+    },
+    {
+      "name": "R2_dense_heldout.npz",
+      "bytes": 39040,
+      "sha256": "cda5a8d8cb2cbc5b8f9d47d78b4f2fae8f7b30f7cf0ebef4437e2552606f52a7"
+    },
+    {
+      "name": "R2_dense_history.json",
+      "bytes": 2557,
+      "sha256": "8d1e6b3a9f2dd9a4b8366f3414dff2aab4e236e9c660f99a0d02d549e6a15e46"
+    },
+    {
+      "name": "R2_dense_loa.npz",
+      "bytes": 3421625,
+      "sha256": "4278d014c13fd7700b35262d1a3c1f4dc0b3cd3290cccc76a46bc2afef2bb288"
+    },
+    {
+      "name": "R2_dense_training.json",
+      "bytes": 756,
+      "sha256": "4d3329072ce8e2f601f28eed73a164a1deb586ce2e501ebdc69a6a06d7734de0"
+    },
+    {
+      "name": "R2_thin.pt",
+      "bytes": 131005,
+      "sha256": "f4087aa50bdf65f6a4b75e37239ddb0a0cb9ce1a5d0df8269eca7dad159cb93c"
+    },
+    {
+      "name": "R2_thin_heldout.npz",
+      "bytes": 38788,
+      "sha256": "38c64f9392544f294d88e00afdd793af14d4165c9cbbfb0546237e40d444843b"
+    },
+    {
+      "name": "R2_thin_history.json",
+      "bytes": 2555,
+      "sha256": "6c81d87a8acfbac79d4dd051d4a3b3ab96495f3a98709ee4570a3954df760c1c"
+    },
+    {
+      "name": "R2_thin_loa.npz",
+      "bytes": 3379663,
+      "sha256": "d267b676bcf80365973cbf29cc9ad3180559f5bb8be77d51923d352522778fbd"
+    },
+    {
+      "name": "R2_thin_training.json",
+      "bytes": 754,
+      "sha256": "82562570fe192a6963c11c05fefa2708785510098f802e5b52adae1e4aad17fe"
+    },
+    {
+      "name": "R7_dense.pt",
+      "bytes": 131685,
+      "sha256": "a331c96b67c78b46e61c90773d3d4cf72c48b91f137f9a8113c91e5833cc3bbe"
+    },
+    {
+      "name": "R7_dense_heldout.npz",
+      "bytes": 38931,
+      "sha256": "203807f343bf8cbff3c1b71d0bc375c05c6163a522ff8f3736eb4c100f0dfcc4"
+    },
+    {
+      "name": "R7_dense_history.json",
+      "bytes": 2553,
+      "sha256": "fd1f066df50a8ddc1d7fc6323213c1c44891cc30a03ba031fc64a9370c021801"
+    },
+    {
+      "name": "R7_dense_loa.npz",
+      "bytes": 3409056,
+      "sha256": "007706d95cab6820b7e450bb11a000a990ac3a06e33b14d2feec9501242b77bc"
+    },
+    {
+      "name": "R7_dense_training.json",
+      "bytes": 756,
+      "sha256": "eac3d83e07464dacf33300448dd25b3c139ede878f3e811f5c4ef41053ded70c"
+    },
+    {
+      "name": "R7_thin.pt",
+      "bytes": 131005,
+      "sha256": "f9c188cd2420a459cf5c0734047eb2f310887540ab181dc4ead62aab0171553b"
+    },
+    {
+      "name": "R7_thin_heldout.npz",
+      "bytes": 39050,
+      "sha256": "56c244b8451e0a018a170df4ef942861cb74d716e23e621d8fe291319c860353"
+    },
+    {
+      "name": "R7_thin_history.json",
+      "bytes": 2552,
+      "sha256": "44fba421b02c8e21491090437f373f33faae5af98bd607ebd87f6658eef568f7"
+    },
+    {
+      "name": "R7_thin_loa.npz",
+      "bytes": 3378898,
+      "sha256": "cf8d11dc3360fa22320202576d23166c63a0e0909366f6b1df6dedf7f94ae5ee"
+    },
+    {
+      "name": "R7_thin_training.json",
+      "bytes": 754,
+      "sha256": "88813ce9b5cc1876bd7f24dd77a9d5826c0c530e201ef8bea4873439eefb8bfb"
+    },
+    {
+      "name": "REPORT.md",
+      "bytes": 7852,
+      "sha256": "e86c635e514030d34d71c620d9af6bd3b6925c89df92cb41360d820a51c57b09"
+    },
+    {
+      "name": "VALIDATION.json",
+      "bytes": 2141,
+      "sha256": "d54513e817f7ef669107b7fcd1f84140e502f89a9df6557502c29fabde399416"
+    },
+    {
+      "name": "dense_graph.npz",
+      "bytes": 50018840,
+      "sha256": "c7fe3b69a0706e6cf9a98c0acf2a7b582b13bc8d8a2fd8829168f87c1d3a67e6"
+    },
+    {
+      "name": "dense_metrics.json",
+      "bytes": 386,
+      "sha256": "fe2b0c601a3d5324bd6019d9d02fa056f7095f51e21617684061aa3bf8b9dc96"
+    },
+    {
+      "name": "dense_topology.npz",
+      "bytes": 33356449,
+      "sha256": "052cdde599de8016822eb1e2e94c06b9c5df33c8bd2a5f760c3326e5e148f8e2"
+    },
+    {
+      "name": "infer_dense_radius_2.log",
+      "bytes": 321,
+      "sha256": "e32b0d6cc089def5ae48a0874efd3e40205667b152df19c5afdd897b671549ae"
+    },
+    {
+      "name": "infer_dense_radius_7.log",
+      "bytes": 322,
+      "sha256": "9385c95459e0ec3b885bbc563d9ef301083298743cb46914289ac41710aaeafc"
+    },
+    {
+      "name": "infer_thin_radius_2.log",
+      "bytes": 317,
+      "sha256": "f9d39d993f91e24e097e28b47cd3cd3765a469bc3a58508f6b00ac1ede65ef67"
+    },
+    {
+      "name": "infer_thin_radius_7.log",
+      "bytes": 314,
+      "sha256": "28e28d1f24a10d0566fff0f70c303b0f8cb646a3b7a3a2890c5091565fe8c43d"
+    },
+    {
+      "name": "legacy_gat_density_20261015.py",
+      "bytes": 17676,
+      "sha256": "54b0048c298d0af8d793e410673749d75c213880fbcdd3b2690d5780576c3ae9"
+    },
+    {
+      "name": "loa_graph.npz",
+      "bytes": 88708362,
+      "sha256": "330043dd2b06a5b7cebc4707db435ed6e5be40846ae64a2cb62e23939a0c268f"
+    },
+    {
+      "name": "loa_metrics.json",
+      "bytes": 387,
+      "sha256": "21f119bb9a8dc3ff973b8a0532bb478dea414c5165e4275c83cd50d7b6f95042"
+    },
+    {
+      "name": "loa_topology.npz",
+      "bytes": 51526783,
+      "sha256": "9ef218d6dabaa018818ae47b1bff11914230043d5a1a21b6b6dc17e643634ae5"
+    },
+    {
+      "name": "metrics_dense.log",
+      "bytes": 32,
+      "sha256": "e03ac3affa3f76953f59b3a63d13342513653b1515cc1a655747de4a468c4062"
+    },
+    {
+      "name": "metrics_loa.log",
+      "bytes": 30,
+      "sha256": "e59e179c2182d9cbf98b3ec66b16a6e86bd1398d49e0c1f4c414ba0af66fc00b"
+    },
+    {
+      "name": "run_legacy_gat_density_20261015.py",
+      "bytes": 1489,
+      "sha256": "e73b8e2816639b4b33f4bdecb4fb94a0926256d02b8819d2f2b58199aa263b2c"
+    },
+    {
+      "name": "thin_graph.npz",
+      "bytes": 6812909,
+      "sha256": "ab55ddce99b7a20d79f9de868f0d2ee2464cb5fb7eb724004c1b79c77d8bca21"
+    },
+    {
+      "name": "thin_metrics.json",
+      "bytes": 385,
+      "sha256": "15b67eed547375f0e99cf00cb614cb1bfdbbbd12a0c838ff6fc0d32475f8f820"
+    },
+    {
+      "name": "thin_topology.npz",
+      "bytes": 4161060,
+      "sha256": "a844302e0f6604a59d03b38b04735d2f1382d41cbb51b156e6dc2233c6f8856c"
+    },
+    {
+      "name": "topology_dense.log",
+      "bytes": 76,
+      "sha256": "8c41be7f03e643d0a4f9e31627fd5b18df34df32a3e180a4597fd79dd0dc4f49"
+    },
+    {
+      "name": "topology_loa.log",
+      "bytes": 72,
+      "sha256": "7c97a5991fcc6ca48eb56db306474ed610e165cac04df2014bbb3a357b6af9a7"
+    },
+    {
+      "name": "train_dense_radius_2.log",
+      "bytes": 2524,
+      "sha256": "19a545fccfd2351355b4f989f4efda0f8b692eb7ff9999faa957c9434a0b2282"
+    },
+    {
+      "name": "train_dense_radius_7.log",
+      "bytes": 2517,
+      "sha256": "738274ac8107503df17dd8c9f63d79ceee714208b065a13876a36ed2bcd6b72a"
+    },
+    {
+      "name": "train_thin_radius_7.log",
+      "bytes": 2497,
+      "sha256": "c3b2e225e23f30f76bd2f8a454db075aa0e8254447e8fbeb380ea94888312cdb"
+    }
+  ]
+}

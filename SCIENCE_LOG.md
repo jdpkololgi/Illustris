@@ -1,5 +1,1118 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-10-27 — [sequence decision] Retrain both classes at R7 first
+
+User selects fixed-scale retraining before further smoothing investigations.
+Both classes means the conditional density-field model and P12-A per-galaxy
+posterior pipeline, not a new U-Net versus transformer comparison. Preserve the
+existing Gaussian R = 7 h^-1 Mpc target definition. The earlier multiscale and
+redshift-dependent smoothing proposals are deferred, not retraining prerequisites.
+
+Report: docs/bgs_smoothing_investigation_20261027.md. It records the sampling-guide
+limitations, distinct implications for field and per-galaxy posteriors, and a
+sequential follow-up programme: actual selected support/noise, controlled sparsity
+versus tracer effects, fixed-scale calibration, information beyond a matched
+prior, then justified scale/model changes. No new targets or diagnostic runs.
+
+Numerical readiness and pre-fit preparation remain as recorded below. P12-A still
+requires 15 fresh OOF encoders plus a full-training encoder, halo48 exports and
+aligned tables before its downstream posterior fit. The new priority does not
+supply a training budget or scheduler resource allocation. This report-only change
+launches no jobs and preserves the existing data roles and confirmation gates.
+
+
+## 2026-10-26 — [restart repair] Both field trainers pass; expanded P12-A inputs
+
+Supersedes the earlier unresolved restart result below. Under explicitly approved
+allocation 60300734 (one 80GB GPU, 32 CPUs, desi_g/shared_interactive, Scratch,
+60-minute limit), strict deterministic GPU execution repairs both replay gates.
+The conditional endpoint model and EMA each reproduce with max absolute difference
+0.0, including independently launched actual trainer fresh/resume/fresh runs.
+P12-A now reproduces with parameter difference 0.0 and matching scheduler state.
+Its strict path replaces unsupported 3-D grid-sampler/pooling backward operations
+with equivalent deterministic interpolation/pooling; no tolerance relaxation.
+All 656 endpoint payloads were rehashed/loaded, mass error is 4.44e-16, and P12-A
+forward checks pass one geometry-selected core in each of 18 visible phases.
+These are numerical readiness checks, not full validation or calibration claims.
+
+All fifteen corrected-label leave-one-phase-out contracts are built and audited:
+fourteen training phases each, fold-specific transforms, fixed-budget terminal
+checkpoint policy, and seven reserved phases excluded. Expanded export and
+posterior-input consumers support three selection phases, halo48, corrected
+lineage, terminal OOF checkpoints and phase-cap-block identities. Sixty-one
+focused regression tests pass. The final source-bound configuration is
+configs/p12a_corrected_expanded_inputs_20261026.json.
+
+Twelve visible phases lacked random-response products. A slow FITS gather caused
+the first response canary to time out at 15 minutes. Equivalent sequential reads
+fixed it; ph007 completed in 320.1 seconds using the prehashed registry. The compact
+parent-indexed support/distance values exactly match addressed saved grid cells;
+the frozen 18-realisation protocol is retained. Remaining visible-phase preparation
+is bounded by the allocation; final completion and allocation release are recorded
+in outputs/field_restart_repair_20261026/RESULTS.json and REPORT.md.
+
+Both allocations are released: GPU diagnostic 60300734 COMPLETED in 59m34s;
+separately approved CPU continuation 60302320 COMPLETED in 4m58s. All eighteen
+response products passed payload checks and the complete inventory is published:
+132,231,271 parent rows, 111,631,040 supported. Fifteen fold contracts and all
+pre-fit data preparation are complete. Final receipts and exact inventory hash
+are in outputs/field_restart_repair_20261026/RESULTS.json. The required knowledge-
+graph refresh failed with filesystem flock error 524; no bypass used.
+
+Conditional field and P12-A encoder inputs pass their numerical training gates.
+P12-A posterior tables are NOT ready: they require 15 fresh fixed-budget OOF
+encoders plus a full-training encoder, halo48 exports and aligned response-table
+construction. No scientific fits were launched or authorized by this diagnostic
+allocation. No graph payloads or reserved ph001/ph014--ph019 were used.
+
+
+## 2026-10-26 — [readiness result] Both field paths fail strict restart checks
+
+User explicitly approved one 80GB GPU, 32 CPUs, desi_g/shared_interactive with
+Scratch for at most 30 minutes; release afterward, no automatic retries or
+scientific training. Allocation 60299323/nid200357 ran for 7m25s and was released.
+Job state FAILED 1:0 records the failed checks/index step, not a lost allocation.
+All 746 bound sources remained unchanged; no scientific fits or retries occurred.
+
+Conditional density-field U-Net: every one of 656 training/development domains
+passes payload SHA, actual normalized loader shape/finiteness, positive density,
+coarse alignment and residual reconstruction checks. The selected endpoint
+model fails the strict serialized replay gate (model/EMA tolerance 2e-6, loss
+1e-6); the first runner did not retain the separate difference values. This is
+an unresolved replay failure, not a diagnosed physical/data failure. Independent
+forward-only checks from its saved disposable EMA pass eight development
+cases and positive decoding with maximum relative block-mass error 4.44e-16.
+No optimizer or failed replay was repeated.
+
+P12-A U-PATCH encoder: the actual trainer completes disposable one-step +
+resume-to-two-step and independent two-step canaries. Saved model parameters
+differ by max 3.714342601597309e-4, exceeding 2e-6. Global step/cursor (2), epoch
+address hash and scheduler state match; objective sums are 6.352970600128174
+versus 6.352969169616699. Cause unresolved; no tolerance relaxation. Forward-only
+checks on one geometry-selected core in each of 18 visible phases pass corrected
+target/assignment hashes, authoritative row alignment, finite interpolated base
+predictions and zero graph-product access. These are numerical smoke panels,
+not model accuracy or a complete validation epoch.
+
+Neither path is cleared for training. Next: diagnose both replay discrepancies
+and separately authorize verification. P12-A also still needs expanded versioned
+cross-fit/response contracts, fresh corrected-label encoders/OOF predictions,
+halo48 exports and aligned posterior tables, with a multi-phase posterior
+calibration/selection contract. Existing posterior evidence does not qualify the
+new labels. The phase-routing code repair and 36 focused passing tests remain.
+
+Required repository-index refresh failed at filesystem flock (OSError 524);
+no bypass/global publication was attempted. Evidence and preserved pass/failure
+receipts: outputs/field_unet_readiness_20261026/RESULTS.json and adjacent logs.
+
+## 2026-10-26 — [both-scope readiness] P12-A naming corrected; encoder validation repaired
+
+User confirms both conditional density-field U-Net and P12-A readiness audits.
+P10 is the historical implementation/preparation stage, not an alternative name
+for the per-galaxy posterior. P12-A uses U-PATCH base predictions and response
+covariates in FMPE; neither requested field encoder needs graph extraction.
+
+Found and fixed an actual expanded-phase validation bug in p10_train_arm_a.py:
+the loader returned ph006/ph012/ph013 core IDs, but the trainer used only the
+first phase's adapter and targets. Validation now groups local IDs by phase,
+evaluates and saves each phase separately, and uses equal phase mean of the
+existing shell-macro R2 for model selection. Single-phase reports retain their
+schema. Role overlap, unknown phases, empty groups and duplicate local IDs fail.
+Technical stop-after-updates is treated as a runtime stop for smoke-test replay.
+Live routing confirms 16,796/16,819/16,919 cores for ph006/ph012/ph013, without
+opening field/graph payloads. Five trainer regression tests and eight shared
+loader tests pass; twelve P12-A production/base-response tests pass. Together
+with eleven conditional-field tests, 36 focused tests pass.
+
+Both metadata audits pass. P12-A's corrected encoder inputs bind all 18 visible
+phases to galaxy-realspace-all-populations-v2 own-position labels, fitting
+transforms only on the 15 training phases. Reserved target caches remain absent.
+Prepared a second compute audit using the actual encoder trainer for fresh versus
+checkpoint-resumed disposable updates, and field/target interpolation checks on
+one geometry-selected core in each visible phase. The old linear-increment base
+head's ordering rate is diagnostic; the FMPE posterior enforces ordered draws.
+
+Full GPU checks remain pending explicit allocation approval. The combined plan
+retains one 80GB GPU/32 CPUs, desi_g/shared_interactive, Scratch, 30 minutes,
+release afterward and no automatic retry. No job was launched. The source freeze
+now covers 746 Python files. Repository index refresh remains pending compute.
+
+Even after encoder smoke passes, P12-A posterior training is not ready on the
+new labels: its cross-fit/response utilities still default to the older five
+training phases; expanded versioned cross-fit/selection contracts, fresh encoder
+fits, halo48 out-of-fold/full predictions and new aligned posterior tables are
+needed. Existing posterior checkpoints/OOF caches cannot certify corrected-label
+retraining. No scientific fits, reserved opening or model replacement authorized
+or performed by this audit. Evidence: outputs/field_unet_readiness_20261026/
+{PLAN.json,METADATA_AUDIT.json,P12A_METADATA_AUDIT.json,SOURCE_BINDINGS.json}.
+
+## 2026-10-26 — [field readiness audit] Conditional U-Net is separate from P10
+
+User requests readiness for the actual field/U-Net setup after correcting the
+unnecessary graph work. The 25-phase P10 receipt below is not readiness for the
+conditional density-field U-Net. Current audit targets the recent 96x64x64
+clean-endpoint U-Net in e2e_wholefield_pilot_train.py. It reads the October-13
+field dataset: 13 training phases (624 domains), ph012/013 development (32
+domains), twelve observation channels and 48-cubed wide/coarse context. It does
+not read P10 graph products or corrected per-galaxy eigenvalue labels. The user subsequently requested both this pipeline and P12-A, and corrected
+the programme naming: P10-named files are older data/encoder infrastructure;
+P12-A is the per-galaxy eigenvalue posterior. See the later both-scope audit.
+
+Live metadata checks pass for all 656 domains/11,326,151,123 payload bytes:
+registered phase/cap counts, payload paths/sizes, observation and native-density
+receipt hashes, old-view parity receipts, train-only normalizer and unchanged
+preparation/model sources. Both previous endpoint U-Net fits completed 9,984
+updates and retain matching data/source bindings. Eleven focused synthetic
+loader/model tests pass in 1.343 s. This does not rehash the field payloads.
+
+Prepared field-only audit e2e_wholefield_unet_readiness.py checks every payload,
+normalized loader shapes, positive density/coarse alignment and reconstruction,
+and the selected endpoint model with original spectral loss, model/EMA/optimizer/
+RNG restart replay, development loader and short positive mass-conserving decode.
+The historical GPU smoke replayed the velocity form and only exercised endpoint
+backward, so exact endpoint replay is a remaining explicit check. All smoke
+updates use disposable weights and a separate output root; no new scientific fit.
+
+Full field readiness remains pending compute. Proposed one 80GB GPU, 32 CPUs,
+desi_g/shared_interactive, Scratch, maximum 30 minutes, no automatic retry,
+release on success/failure. No allocation submitted. Repository index refresh
+for the new audit also awaits approved compute. Plan, 745-file source bindings,
+launcher and completed metadata receipt: outputs/field_unet_readiness_20261026/.
+The 25-phase P10 split must not silently replace the field pipeline's 13-phase
+split. New training-run authorization and posterior qualification remain separate.
+
+## 2026-10-26 — [P10 readiness only] All 25 v2 P10 phase loaders pass
+
+Readiness job 60064796 completed 0:0 in 02:57:20, with
+TRAINING_LOADER_READY at 05:25:28 UTC. All 25 phase preparation receipts were
+hash-checked before the run. All graph/field adapters and phase contracts pass;
+shared selection, field, graph and target transforms pass and are frozen.
+All 12 final loader gates pass, including complete deterministic epoch and
+validation coverage, phase balance, resume parity, weighted loss accounting,
+deterministic graph/field extraction, target alignment and absent reserved truth.
+The final registry, adapter inventory and transform-manifest hashes were verified.
+
+Roles remain 15 training, three validation/selection, six reserved confirmation
+and one sealed blind phase. Fits use training phases only. The final graph step
+normalized existing graph features; it did not reconstruct graphs. The ph012
+whole-component assignment repair retains every original scientific threshold.
+No model training was launched. This is data/loader readiness, not model
+calibration or a production-VAC qualification. Both recovery and readiness jobs
+have finished and released their resources.
+
+Receipt: outputs/p10_recovery_20261026/TRAINING_LOADER_READY.json; scheduler and
+repair provenance: outputs/p10_recovery_20261026/RECOVERY.json. Canonical receipt:
+/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021/TRAINING_LOADER_READY.json.
+
+## 2026-10-26 — [science/code] Six-fit Loa shared-state fields requested
+
+User requests full-cap shared-state density for all six frozen fits and approves
+required compute. Target four NFE128 draws per fit/cap, matching the older views,
+not the separate gated 32-draw independent-tile extension. Preserve all old
+products; no retraining, mock truth, sealed-phase access or VAC replacement.
+Shared-state agreement changes the probability flow and is not calibration.
+
+GraphWeb_DESI now has an observation-only engineering runner extending the
+proven synchronous global-canvas integrator to the expanded 96x64x64 U-Net
+endpoint and transformer velocity fits, retaining their trained conversion and
+BF16 forward conventions. Five synthetic geometry/integration tests pass.
+Actual-checkpoint testing used approved allocation 60292984 on nid200257:
+one 80GB GPU, 32 CPUs, one hour, desi_g/shared_interactive with Scratch.
+All 12 fit/cap panels pass at NFE128: eight windows each, 336 decoded overlap
+comparisons exactly equal, maximum relative block-mass error 4.42e-16.
+An initial expanded-model parity failure was repaired without relaxing gates:
+retain native initial/proposal/update projections, remove the redundant velocity
+projection, and average only complete block-aligned windows. Cached and uncached
+single-window diagnostics match native sampling exactly at NFE4 and NFE128.
+Original failure evidence is retained. This is engineering parity, not calibration.
+
+Full-NGC benchmark passed with all 1,626 windows and four draws, NFE2 only
+(no posterior products). Preparation took 262.30 s; one coarse Heun step 374.62 s;
+legacy/U-Net/transformer fine steps 495.71/335.01/99.73 s. Peak memory 56.55 GiB;
+expanded four-draw native parity remains exact and final source hashes match.
+Projected NFE128 sampling is 23.27 GPU-hours per NGC seed; SGC is approximately
+12.1 hours by window-count scaling, not a separate full-cap measurement.
+User approved four single-80GB-GPU, 32-CPU desi_g/shared/Scratch jobs: two NGC jobs
+at 32 hours and two SGC jobs at 18 hours (100 GPU-hour requested ceiling,
+roughly 71 GPU-hours forecast, no automatic retries). Eleven focused tests pass,
+including positive/negative stored-field, mask, mass, checkpoint and coverage
+checks. The tested samplers are unchanged. GraphWeb commit 272b418 freezes the
+writer/launch contract; the 107-file isolated Scratch snapshot has passing tests
+and manifest SHA256 a209cafce3c7838b6fcedadbf8b47b11e7b11addb68411012068c55e81d60302.
+Submitted NGC seed17/29 jobs 60297178/60297181 and SGC seed17/29 jobs
+60297180/60297182. Scheduler requests match one GPU/32 CPUs/desi_g per job,
+32-hour NGC and 18-hour SGC limits; shared maps to effective gpu_shared QOS.
+All four initially pending Priority. No full shared-state field files generated
+yet; only per-task COMPLETE.json after independent stored-field verification
+can establish successful generation. Logs/output locations are recorded in the
+GraphWeb scope JSON. No automatic retry/resume or website replacement.
+The test allocation was relinquished after the benchmark. Required graphify AST
+refresh failed at filesystem flock with OSError 524; no bypass/global update.
+Receipts: `loa_shared_sixfit_20261026_v1/{smoke_v2,benchmark_ngc_v1}/COMPLETE.json`
+under GraphWeb Scratch outputs. Production requires frozen writer/launch sources,
+complete catalogue coverage, density/mass validation and preserved survey masks.
+Scope and provenance: sibling `GraphWeb_DESI/docs/loa_shared_sixfit_20261026.json`.
+
+Separately, the existing private website's click-to-tile jump is removed and
+display cells extend to their owned tile faces instead of stopping at centres.
+Synthetic tests preserve interior values/masks; both-cap/all-fit browser tests
+pass. Private deployment appgdep_6adeb960d3c48191b2f422ab98061881 succeeded.
+This display fix does not make independent tile draws jointly coherent.
+
+## 2026-10-26 — [recovery] Approved CPU repair of ph012 fold assignment
+
+User explicitly approved one CPU node, 64 CPUs, one hour, desi/interactive with
+Scratch, release after recovery, then unblock the existing three-hour readiness
+job. Allocation 60291063 on nid200043 is running this bounded recovery; the other
+interactive allocation is untouched.
+
+The ph012 failure is a greedy-assignment local optimum, not an infeasible balance
+threshold. Moving single whole components did not fix the 11.1% imbalance, but
+strictly improving pair swaps reduced it to 2.1691%, with active-count ratio
+1.00533 and occupied-superblock ratio 1.15789. The new fallback runs only after
+both existing candidates fail, uses at most 50 deterministic whole-component
+swaps, consults only cap/shell occupancy, and still requires all original gates.
+Host-linked components, core geometry, targets and thresholds are unchanged.
+Ten focused tests pass. A separate 1,359-file recovery source freeze preserves
+the original unattended source. Full ph012 geometry, independent rebuild,
+graph/field support and phase completion validation passed. Allocation 60291063
+completed 0:0 in 11:42 and was released after the AST/global graph refresh.
+All 25 phases now have passing preparation receipts. The user-approved update
+replaced readiness job 60064796's failed dependency with afterok:60291063. The
+final combined readiness check is unblocked; no readiness claim until it passes.
+Evidence: outputs/p10_recovery_20261026/RECOVERY.json and SOURCE_FREEZE.json.
+
+## 2026-10-26 — [recovery/blocker] Post-maintenance inventory: 24/25 phase receipts
+
+Live read-only inventory finds passing completion receipts for 24 phases (17
+truth-bearing plus seven reserved input-only phases). ph012 alone is incomplete.
+All queued target, catalogue, CPU graph and reserved build jobs completed; all
+final GPU jobs except 60064743_4 completed. Last successful build ended at
+2026-10-21 08:07:47 UTC, before the scheduled 13:00 UTC maintenance start.
+The final readiness job 60064796 is pending DependencyNeverSatisfied; its terminal
+TRAINING_LOADER_READY.json is absent. Receipt presence is not a fresh full hash
+verification, which remains part of the combined readiness job.
+
+ph012 P2/P3 and core-size probe succeeded. P4 spatial ownership failed because
+both deterministic assignment candidates exceed the unchanged 10% cap/shell
+balance limit (11.1128% and 11.1109%). No target-label or graph rebuild is indicated
+by this failure. Diagnose a deterministic geometry-only assignment repair, retain
+host-linked groups and all existing thresholds, then validate independent rebuilds
+before completing phase 012 and releasing the final readiness job.
+
+Native host queries work; sandbox startup still fails in bwrap. Automatic approval
+review rejected a one-node, 64-CPU, one-hour desi/interactive/Scratch allocation,
+requiring explicit approval of those resource parameters despite the earlier
+all-phase compute authorization. No allocation was created, no queued job was
+changed, and no products or frozen sources were overwritten. Existing unrelated
+interactive allocation 60290620 was left untouched. Await specific resource
+approval, then release the new allocation after diagnosis/recovery. Only after
+phase validation should job 60064796's failed dependency be replaced/cleared.
+Evidence: outputs/p10_unattended_20261021/POST_MAINTENANCE_STATUS.json and
+final-60064743_4.log. No model training.
+
+## 2026-10-21 — [handoff] Unattended build chain queued for the maintenance window
+
+User requested leaving work running and picking up after maintenance. Use Slurm
+batch dependencies, not tmux or an autonomous login-node process. The official
+NERSC outage calendar schedules Perlmutter/Scratch maintenance for 21 October
+13:00 UTC to 22 October 05:00 UTC (14:00 to 06:00 London). Scheduler reservation
+also starts at 06:00 Pacific on 21 October. The earlier same-day ETA is therefore
+conditional; full readiness may be after maintenance.
+
+ph007 job 60061527 COMPLETED 0:0 in 58:59. All 10,561,784 parent rows were
+annotated, observed truth and canonical P1 completed, and its allocation released.
+No recovery was required. Corrected ph002–ph005 each passed full P1–P4 preparation;
+their unchanged P2 graph arrays/metrics were verified and reused. ph000's fresh
+NGC/SGC graph, GPU metrics and full P1–P4 validation passed at 00:57 UTC
+(PHASE_COMPLETE.json pass=true). Its historical ph000 target import remains
+explicitly recorded; this does not establish all-phase training readiness. Completed CPU allocation 60061867
+was released. GPU allocation 60064334 also completed 0:0 and was released
+after ph000 validation and the final graph index refresh (GRAPH_REFRESH_COMPLETE).
+Final data-readiness job 60064796 remains dependency-pending. No model training
+has been submitted.
+
+Frozen unattended source: outputs/p10_unattended_20261021/source (1,359 files).
+Machine-readable jobs, dependencies, source and launcher hashes, maintenance
+window, success marker and restart policy: outputs/p10_unattended_20261021/SUBMISSIONS.json.
+The deterministic batch chain is:
+
+- targets 60061613, catalogues 60062177 (three independent jobs at a time);
+- new development/selection CPU graphs and fields 60064505, after matching catalogues;
+- ph007 CPU graph/field 60064507, after completed 60061527;
+- ph006 reuse/final fields plus unchanged ph001 blind-input adoption 60064520,
+  after catalogue task 60049122_4;
+- reserved ph014–ph019 geometry/graphs/fields 60062705, no target access;
+- GPU graph features and final patches: 60064743 (new development/selection),
+  60064745 (reserved), 60064747 (ph007), each after its matching CPU stage;
+- final all-25 product verification, train-only transforms and loader canary:
+  60064796 (one CPU node, 64 CPUs, three hours), after every final-stage job
+  and ph000 allocation succeeds. This prepares data; it does not train models.
+
+All batch jobs have automatic requeue disabled. Atomic completed products remain
+usable; partial products are not promoted. Failed dependencies block the final
+job. On return, inspect scheduler states and the failing application logs before
+any bounded corrective restart; do not overwrite existing output directories.
+The terminal readiness marker is
+/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021/TRAINING_LOADER_READY.json.
+Only a passing, current marker plus successful application completion establishes
+readiness. The four requirements remain label correctness, alignment, clean phase
+splits/train-only fitting, and a working deterministic loader.
+
+## 2026-10-21 — [execution] Finish builds and four practical readiness checks
+
+User reaffirmed this narrowed scope and requested an ETA. At 00:24 UTC,
+ph002 and ph003 have passed complete corrected P1–P4 preparation; ph004/ph005
+are in the same field/patch chain after exact graph reuse. Target tasks ph008
+and ph009 completed in 9:42 and 9:14. ph006 catalogue and ph007 annotation run.
+Reserved geometry array 60062705 builds ph014–ph019 serially without targets.
+
+Changed pending catalogue array 60062177 to three concurrent independent tasks
+and two hours per task, within existing compute authorization. Frozen source is
+unchanged; the scheduler override is recorded in SUBMISSION.json. Slurm refused
+increasing running allocation 60061527 to two hours (Access/permission denied),
+so ph007 retains its 90-minute limit; monitor throughput and preserve incomplete
+artifacts if recovery becomes necessary. No restart/cancellation performed.
+
+Planning ETA for all 25 input phases plus four readiness checks: approximately
+12–18 hours from 00:25 UTC (13:25–19:25 London on 21 October), conditional on
+queue throughput and successful completion/recovery. This is a planning range,
+not a measured end-to-end runtime: expanded transform/loader preparation and
+new-phase GPU feature steps have not yet been timed in this campaign.
+
+## 2026-10-21 — [execution scope] Consolidate preparation checks
+
+User challenged the accumulating gates/checks as overengineering. Preparation
+will retain four practical requirements: correct galaxy-position labels;
+row/node/target alignment; training/selection/reserved isolation with train-only
+normalisation; and a functioning deterministic loader. Consolidate their outcome
+in one readiness report; no new scientific acceptance programme before training.
+Existing reserved separation and actual failure checks remain in force.
+
+CPU development allocation 60061867 (one node, 64 CPUs, desi interactive,
+Scratch, one hour) is used for downstream checks and ph000 graph construction.
+Corrected ph000 P1/catalogues were verified and linked into the v2 campaign,
+preserving source files. Its changed membership requires fresh graph geometry.
+The 52 annotation/consumer tests passed, including distinct source galaxies in
+one host carrying different labels. Expanded loader work covers 15 training,
+3 selection and 7 reserved phases; its final verification is in progress.
+
+Eight loader tests now pass, including the complete 15/3/7 role split and refusal
+to expose any reserved targets. Eight existing phase-product tests also pass.
+ph008 target job 60061613_0 completed in 9:42 with its application receipt present.
+Serial catalogue array 60062177 is submitted for the same 11 new development and
+selection phases, with dependencies afterok:60061527 and aftercorr:60061613.
+It uses one CPU node/64 CPUs, 90 minutes per phase, desi regular/Scratch; source
+snapshot is outputs/p10_expanded_catalogues_20261021/source. No repeated whole-suite
+testing per phase. ph000 SGC graph completed; NGC is running in 60061867.
+ph002–ph005 corrected P1 catalogues were verified and adopted without copying.
+
+Pending downstream compatibility work preserves the established ph000 native-field
+reference (historical particle-count receipt unavailable, explicitly reported),
+accepts complete contiguous MPI layouts independent of rank count, and reads the
+initial ph007 density adapter through its bound original receipt. These are metadata
+compatibility changes; no target-field bytes or scientific conventions are changed.
+
+## 2026-10-21 — [authorization/execution] Exact candidate equivalence accepted; all-phase preparation authorized
+
+User explicitly approved the updated qualification rule and the compute needed to
+continue until all phase data products are ready for training. This supersedes the
+earlier per-attempt budget restriction for necessary preparation work. Preserve
+reserved evaluation separation; no model training or reserved truth opening is
+included. Use benchmarked resources, explicit phase lists, staged source and
+completion gates; diagnose failures before bounded corrective retries.
+
+Implemented exhaustive native-candidate qualification: every candidate within the
+unchanged 0.005 Mpc/h tolerance must share the query cell and exact ordered tidal
+eigenvalues. Resolved candidates must additionally pass the original mass check.
+Identity remains ambiguous: INDEP_POS=0 and new ID_AMBIG=1, propagated through the
+observed join. Zero ambiguity flags mean no detected ambiguity, not unique identity.
+Certificates validate unique/equivalent coverage independently, source/field
+freshness and exact sample identity. Historical failed audits and unique-identity
+pass flags remain intact. Ten new focused tests and all 51 regression tests pass.
+
+ph007 continuation job 60061527 runs one CPU node/64 CPUs, 90 minutes, desi
+interactive/Scratch. Frozen 1,351-file source lives at
+outputs/ph007_equivalence_20261021/source. Revised audit, certificate and real CLI
+smoke passed, with the ambiguous source row explicitly included and flagged. Full
+metadata/catalogue/P1 build is now running. Target fields are reused unchanged.
+
+Submitted serial target array 60061613 (0–10%1), phases ph008–ph013 and ph020–ph024,
+four CPU nodes/16 MPI ranks, 30 minutes per task, desi regular/Scratch, no automatic
+requeue. This uses the passed ph007 target layout and a separate 1,353-file source
+freeze at outputs/p10_expanded_targets_20261021/source. No reserved targets occur
+in the array. Next gates include corrected catalogue chains, P2/P3/P4 geometry,
+cache binding and expanded training/selection loaders. All-phase readiness false.
+
+## 2026-10-20 — [result] ph007 ambiguity is particle identity, not the sampled tidal label
+
+User approved one CPU node/64 CPUs, desi interactive, Scratch, 10 minutes for a
+diagnostic only. Job 60057549 completed successfully and released the allocation.
+It inspected the frozen failed row and all field-A slab-33 native positions without
+changing the mapping, tolerance, qualification certificate, catalogue or masks.
+
+Exactly two particles lie within 0.005 Mpc/h of reconstructed CutSky row 64130602:
+raw field-A rows 57354963 and 57354965. Their positions differ by 0.001953125 Mpc/h
+(1.953125 kpc/h); distances to the reconstructed point are 0.00006526342666 and
+0.00201735426733 Mpc/h. Both particles and the galaxy point occupy grid cell
+(983,1132,997), width 0.9765625 Mpc/h. All three give EXACT eigenvalues
+(-0.2919375002384186, -0.02702310122549534, 0.3550526201725006) and CWEB=1 (wall).
+This establishes label equivalence at the frozen grid/sampling convention, not a
+unique original particle identity. Do not choose an identity merely by proximity,
+relax the tolerance, or mark the row uniquely independently identified.
+
+Evidence: docs/evidence/p10_expansion_20261020/ph007/ambiguity_diagnostic.json
+and ambiguity_summary.json. The original failed audit remains unchanged.
+To finish ph007: extend the qualification report to distinguish unique native
+identity from exhaustive candidate agreement in the same target cell; retain
+INDEP_POS=0 for this ambiguous identity and bind the supplemental evidence to the
+original sample, source and target grid. Test that differing cells/labels, missing
+candidates or stale evidence still fail. Then issue the scoped certificate, run the
+annotation smoke and full metadata/annotation/observed/P1 chain in an approved
+replacement catalogue allocation. The existing target field needs no rebuild.
+Graph/field/patch/cache and expanded-loader verification remain subsequent
+training-readiness work. No new catalogue allocation was requested or approved.
+Reserved evaluation phases remain untouched.
+
+## 2026-10-20 — [qualification stop] ph007 has one ambiguous native-particle reference
+
+Catalogue pilot job 60055134 ended FAILED 1:0 in 2:07 and released its allocation.
+Seventeen tests passed. Independent coordinate audit completed in 1:56; certificate
+construction correctly refused inconsistent all-accepted coverage. No smoke,
+full catalogue or P1 build ran. No catalogue retry or other allocation submitted.
+
+Of 32,000 sampled rows, all 25,132 cubic-galaxy comparisons pass identity and fixed
+0.005 Mpc/h position tolerance. Native centrals: 1,067/1,067 resolved and 270/271
+unresolved pass the unique-match criterion. The sole unresolved central failure is
+raw CutSky row 64130602, FILE_NUM=33, HALO_INDEX=180598, BOX_INDEX=-1, RES=0, CEN=1,
+Z_COSMO=0.03924015164. Nearest-distance maximum for that whole 140-row group is
+0.000118572 Mpc/h, so this is multiple native candidates inside tolerance, not a
+missing nearby particle. Candidate distances/positions were not retained by the
+original audit. Field agreement gates pass; two sampled low-z unresolved satellites
+remain independently unchecked, as explicitly allowed by the all-population label
+policy. Neither ambiguity nor incomplete evidence is permission to silently change
+tolerances, promote INDEP_POS, or mask galaxy labels.
+
+Saved original audit report/sample under docs/evidence/p10_expansion_20261020/ph007/
+qualification_audit. Staged a one-slab compute diagnostic to report all native
+candidates within the frozen tolerance, their raw source identities, positions,
+voxel indices and eigenvalues. It makes no qualification/catalogue changes.
+Source imports and shell syntax pass; frozen launcher is
+outputs/p10_expansion_pilot_20261020/launch_ambiguity_diagnostic.sh. Proposed resource
+request: one CPU node/64 CPUs, desi interactive, Scratch, 10 minutes, release on exit,
+no retry/deletion. Awaiting explicit approval; reserved phases remain closed.
+
+## 2026-10-20 — [result] ph007 native R=7 targets pass; catalogue allocation requested
+
+Replacement job 60054561 completed 0:0 in 9:05; density checksum step 29 seconds,
+16-rank tidal solve/readback step 8:29. All 16 contiguous slabs cover x=[0,2048),
+with frozen 2048-cubed, box 2000 Mpc/h, R=7 Mpc/h, threshold 0.2 metadata. Output
+111,669,184,864 bytes (~104 GiB). The TWEB_COMPLETE receipt and checksum-bound
+native density adapter are preserved in docs/evidence/p10_expansion_20261020/ph007.
+The four-node allocation released normally. No reserved targets were accessed.
+
+Requested the previously approved one-node/64-CPU/90-minute catalogue allocation
+with desi interactive and Scratch, using the same verified attempt2 source freeze.
+This will run independent coordinate qualification, certification, real annotation
+smoke, corrected metadata/annotation/observed join/P1, and local graph maintenance.
+Target success is not yet a catalogue or training-readiness claim.
+
+## 2026-10-20 — [execution/result] ph007 replacement starts; ph000 catalogue chain passes
+
+User explicitly authorized one replacement four-node/30-minute target allocation.
+Job 60054561 started at 21:38:45 UTC on nid200215–nid200218, using the repaired
+1,347-file source_attempt2 freeze. Density verification passed again and the
+native tidal solver started. No further retry is authorized. The one-node,
+90-minute dependent catalogue allocation remains approved and not yet launched.
+
+Separately, array task 60049122_0 (allocation 60049125) completed in 1:02:40,
+exit 0:0. ph000 corrected observed catalogue has 7,286,820 rows and passes the
+catalogue audit. Canonical membership and geometry differ from legacy ph000;
+geometry_reuse_candidate is false. Rebuild its graphs, fields and patch supports
+before training. This is a membership incompatibility, not a whole-phase leakage
+finding. Small completion/lineage receipts are preserved under
+`docs/evidence/galaxy_truth_remaining_20261020/ph000/`. ph003 is now running;
+ph004–ph006 remain queued. No training-ready claim follows from catalogue success.
+
+## 2026-10-20 — [result/blocker] ph007 density verified; target attempt failed before solve
+
+Job 60052784 ended FAILED 1:0 after 42 seconds and released all four nodes.
+The 28-second density verification step passed: native 32-GiB payload SHA256
+5cabcf7d0577b46d845d30b035cc721522f5593fe87f655a0ca376265f4d0616 matches its
+receipt, shape/dtype match, 33,022,530,364 particles, relative count error
+9.453188113913738e-8. Durable receipt:
+`docs/evidence/p10_expansion_20261020/ph007_density_adapter_verified.json`.
+
+The MPI stage failed at import because the source snapshot omitted root-level
+config_paths.py, required by abacus_process_particles2.py. This is a packaging
+error, not a density/science failure. No target directory or rank outputs exist.
+Preserved original source/logs. Prepared a separate 1,347-file attempt2 snapshot
+including root compatibility modules; isolated native solver and shift imports
+pass from that snapshot. Adapter manifests are now attempt/job-specific to avoid
+overwrite, and graph refresh targets the live repository via the established
+local AST staging wrapper rather than the source snapshot.
+
+No retry submitted: the user-approved plan excluded retries. Requested one
+replacement four-node/30-minute target allocation with unchanged account/QOS and
+Scratch. The already-approved one-node/90-minute catalogue stage remains unused,
+dependent on passing targets. Reserved phase targets remain untouched.
+
+## 2026-10-20 — [execution] ph007 two-stage pilot authorized; target stage running
+
+User explicitly approved both proposed sequential allocations: four CPU nodes,
+16 ranks, 30 minutes for native density verification and R=7 targets; then one CPU
+node/64 CPUs, 90 minutes for qualification and corrected catalogues/P1. Account
+desi, interactive QOS, Scratch, no retry or deletion, release on exit. Reserved
+ph001/ph014–ph019 targets remain closed. No broader build or training submission.
+
+Target job 60052784 started on nid200198–nid200201 at 21:02:50 UTC. Source freeze
+contains 1,345 hash-bound files at outputs/p10_expansion_pilot_20261020/source;
+launch manifest and logs live alongside it. Target output root is
+/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007. Results pending.
+Existing array 60049122 has started ph000; other tasks remain queued.
+
+## 2026-10-20 — [preparation] Versioned 25-phase expansion staged; compute approval pending
+
+User requests corrected data products for all available phases, preserving reserved
+evaluation. Added configs/p10_phase_registry_v2.json: 15 training, ph006/ph012/ph013
+selection, ph014–ph019 reserved confirmation, and separately reserved historically
+exposed ph001. Original v1 registry and array 60049122 source freeze are unchanged.
+Reserved phases remain geometry-only in this migration. Metadata inventory confirms
+required observation/cubic paths for all 25 and native-density receipts for the
+18 added phases. For 12 non-reserved additions, density metadata and file sizes
+match; full checksums remain pending compute. No reserved target payload was read.
+
+Added a compute-only native-density adapter and explicit ph007 target/catalogue
+pilot. Seventeen focused tests pass. Pilot requests, not yet submitted: four CPU
+nodes/16 MPI ranks for up to 30 minutes, then one CPU node/64 CPUs for up to 90
+minutes, desi interactive with Scratch. No retry/deletion/model training. Source
+and detailed remaining graph/field/patch/loader gates are recorded in
+`docs/p10_phase_expansion_20261020.md`. All-phase training readiness is still false.
+The AST graph refresh is staged on compute with the pilot. Existing five-phase
+catalogue array remains queued at the latest check.
+
+## 2026-10-20 — [correction] Internal fold finding does not invalidate whole-phase separation
+
+User correctly points out that the intended inductive pipeline trains and evaluates
+on disjoint simulation phases. Source inspection confirms P10PhaseBalancedLoader
+training_epoch uses only training phases; validation_refs uses only ph006.
+p10_train_arm_a passes that separate phase's adapter and cores to the historically
+named predict_fold function. The function name does not imply a within-phase split.
+
+The 15,831 same-host cross-fold pairs in ph002 are a legacy P4 grouping-contract
+finding, NOT demonstrated leakage across the whole-phase train/validation boundary.
+The earlier statement that fold reassignment must precede all retraining was too
+broad and is superseded here. Repair internal folds only for consumers that actually
+use them as independent within-phase validation or out-of-fold partitions. Do not
+add an unnecessary fold-rebuild prerequisite to the whole-phase training design.
+Keep periodic-galaxy deduplication distinct from host grouping; do not drop distinct
+satellites. Corrected-target lineage and geometry/patch payload compatibility still
+need verification before reuse; that is separate from internal fold independence.
+
+This correction does not alter the frozen catalogue-only batch array 60049122.
+Its audit reports retain their original values for reproducibility; training_ready
+false is not evidence of cross-phase contamination. ph001 has historical P12-A
+exposure and cannot be described as fresh blind evidence for a new model campaign.
+
+
+## 2026-10-20 — [execution] Remaining five catalogue phases submitted as serial batch array
+
+User authorized the remaining five catalogue rebuilds following the ph002
+benchmark. Submitted array 60049122, task mapping 0=ph000, 1=ph003, 2=ph004,
+3=ph005, 4=ph006. One task at a time; each one CPU node/64 CPUs, desi regular
+QOS, Scratch access, 90-minute limit, no automatic retry. Batch scheduling
+survives client disconnection. Source is the tested 1,341-file benchmark freeze;
+all source hashes and phase certificates passed preflight. Source/launcher/
+certificate bindings are rechecked at task startup. Outputs use a fresh
+`/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/{phase}` root.
+
+Each task runs the same metadata -> own-position annotation -> observed join ->
+P1 -> full replacement audit pipeline as ph002. Catalogue validity is distinct
+from training readiness; fold reuse remains blocked where same-host objects
+cross folds. No training or other phase targets are opened by this submission.
+Launcher: `workflows/abacus_tweb/submit_galaxy_truth_remaining_20261020.slurm`;
+frozen launcher, resource manifest, submission receipt and per-task logs:
+`outputs/galaxy_truth_remaining_20261020/`. Results pending.
+
+Bounded existence checks confirm raw fiducial CutSky files ph000 through ph024.
+The extra phases have cross-programme exposure/reserved roles recorded in the
+September-24 VAC plan; they are not automatically fresh blind evidence or
+qualified corrected P10 catalogues. Existing E2E density products should not be
+confused with per-galaxy corrected labels. Additional-phase qualification and
+P10 registry/observation/field compatibility remain separate preparation work.
+
+
+## 2026-10-20 — [result] ph002 full catalogue replacement passes; old fold reuse fails
+
+Job 60038639 completed 0:0 in 57:43 and released its allocation. All seven
+benchmark stages and local/global graph refresh passed. ph002 parent reconstruction
+and annotation produced 10,619,510 labelled galaxies; the observed join contains
+7,370,124 unique galaxies, all with finite ordered eigenvalues and finite derivative
+targets, with zero class inconsistencies. Exact old/new ordering, observed geometry,
+selection columns, points, active masks and context masks agree. 2,379,758 rows
+previously rejected by BOX_INDEX now have valid targets; the existing active-z
+selection is unchanged. Across all 7,370,124 paired observed rows, 1,627,061 web
+classes change; this is a target-change diagnostic, not a model accuracy result.
+
+The downstream reuse audit is intentionally NOT a training pass. Among 4,929,962
+eligible rows, 15,831 adjacent same-host pairs cross folds when host identity uses
+FILE_NUM/HALO_INDEX rather than the cubic galaxy BOX_INDEX. These are pair counts,
+not distinct host counts. No low-branch rows enter this fold audit. Repair/rebuild
+fold assignments and dependent summaries before training. Exact point/mask parity
+makes geometry a reuse candidate; graph/field payload binding remains outstanding.
+
+ph006 independently passes the same supported-population coordinate/field checks
+and its 125-row actual-source annotation smoke. Individual low-z satellite XYZ
+coverage remains incomplete and is separately marked; this does not mask labels.
+All six development/selection phases now have mapping qualification. ph001 access
+is unchanged. Remaining catalogue phases ph000/ph003/ph004/ph005/ph006 can use the
+same parent -> annotation -> observed join -> P1 -> audit procedure. ph000's old
+membership may differ; that affects downstream reuse, not the repair algorithm.
+
+Measured ph002 catalogue stage: 52m55s, including 47m09s annotation; P1 plus full
+replacement audit: 73s. Peak reported step RSS approximately 54.6 GiB. Proposed
+remaining execution: frozen per-phase CPU batch jobs, initially serial, with
+90-minute limits for I/O margin; estimated about 4.5 node-hours for five comparable
+phases, not guaranteed. No additional jobs submitted or resources authorized.
+Durable evidence: `docs/evidence/galaxy_truth_benchmark_20261020/ph002/` and `ph006/`.
+
+
+## 2026-10-20 — [execution] Approved one-phase catalogue benchmark launched
+
+User approved one CPU node, 64 CPUs, account desi, interactive QOS, one hour,
+Scratch access and automatic release. Job 60038639 runs under tmux
+`galaxy_truth_20261020` on nid200026 from the frozen source snapshot
+`outputs/galaxy_truth_benchmark_20261020/source` (1,341 file hashes verified).
+Run root: `/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639`.
+The 41 focused tests pass again on compute. Native ph006 qualification and the
+full ph002 replacement benchmark are running; no success claim yet.
+
+Six-phase metadata inventory confirms ph000's distinct legacy canonical parent:
+9,538,254 rows and no modern LSS selection/weight columns, whereas ph002–006
+use the newer observed-truth products. Do not certify ph000 graph/response reuse
+by passing a different phase or by equating its old selection with current LSS.
+Remaining full-phase compute will be sized from this bounded benchmark.
+
+## 2026-10-20 — [code/decision] Phase-by-phase catalogue repair and consumer guards
+
+User requests checking every development phase, including ph000's older
+single-phase lineage, before retiring incorrect catalogues. Retire in place and
+preserve historical evidence. ph001 truth access is unchanged. Adopt the review's
+concrete target-lineage, phase-qualification, selection and reuse checks; keep R7
+and the existing observed-z range for the controlled first replacement.
+
+P1 now reads corrected truth by default into a new versioned directory and uses
+HAS_LABEL/TWEB_STATUS plus finite ordered eigenvalues for validity. BOX_INDEX and
+INDEP_POS no longer mask valid labels. Training preparation rejects archived or
+unbound parents and requires a replacement proof; corrected catalogues cannot
+silently take the generic cache builder's old BOX_INDEX filter. Low-z science
+shell/context/response extension is not bundled into this change.
+
+New full-catalogue audit compares ordered identity, selection columns, points,
+active/context masks and paired target differences. It distinguishes valid
+catalogues from reusable downstream geometry. Fold audit uses host FILE_NUM and
+HALO_INDEX within the correct low/high namespace, rather than confusing cubic
+galaxy BOX_INDEX with host identity; cross-namespace closure is not assumed.
+
+41 focused synthetic tests pass (0.306 s test execution). Frozen source and
+tmux runner: `outputs/galaxy_truth_benchmark_20261020/`. Prepared first run:
+six-phase metadata inventory, ph006 independent coordinate qualification, ph002
+full parent/annotation/observed/P1 rebuild and comparison. No allocation or
+full-catalogue execution yet at this checkpoint; resource approval requested.
+No retraining, new VAC or complete downstream reuse certification is claimed.
+
+## 2026-10-20 — [review/decision] Galaxy-position repair ready for staged catalogue migration; retraining not yet ready
+
+Independent review of current implementation and saved evidence supports the
+all-population own-position R7 repair. Fresh rerun: 25 focused synthetic tests
+pass; 35 source/evidence/certificate/registry hashes and live source/field metadata
+bindings pass. Prior 619-row real-source CLI smoke is verified as saved evidence,
+not rerun. No full payload rehash, production rebuild or scheduler action today.
+
+Proceed with versioned catalogue repair on ph000/ph002–005 under approved compute;
+do not launch retraining yet. ph006 coordinate qualification is missing. P10
+still derives valid_target from BOX_INDEX>=0, fixes supervision at z0.15–0.55,
+and reads legacy P1/P4 paths. Synthetic valid-label rows at z0.08/0.12 remain
+inactive. New FITS alone cannot establish corrected training lineage or low-z
+support. Complete versioned target/cache/scaler/loader adapters and exact geometry,
+selection and fold reuse checks; freeze source and benchmark one complete phase.
+Keep a matched existing-range replacement separate from the low-z extension's
+selection/context/evaluation contract. Retrain label-dependent base models and
+out-of-fold summaries before the posterior; keep R7. Historical ph001 exposure
+cannot be reset by its sealed registry role. No new phase targets opened.
+
+October-17 mock true-wall fractions and named classification-error examples used
+legacy host truth: preserve as historical and re-evaluate under own-galaxy labels.
+Direct matter anisotropy and paired geometry are not automatically invalidated;
+tidal-class interpretations remain provisional. Direct-density field-model
+lineages are distinct and their previous calibration limitations still apply.
+
+Full review: `docs/galaxy_position_readiness_review_20261020.md`. Existing repair
+work remains unmodified; this review does not claim production replacements exist.
+
+## 2026-10-19 — [decision] Multiscale eigenvalue targets parked
+
+User explicitly parks the multiscale-target proposal. Keep the current target
+configuration; do not launch multiscale label construction or model experiments
+on the strength of the earlier exploratory discussion. Redshift sampling-guide
+plots remain diagnostic evidence, not adopted smoothing prescriptions.
+
+
+## 2026-10-19 — [diagnostic/proposal] Redshift-wide scale support and multiscale targets
+
+Full ph000 census in dz=0.025 shells over 0<Z_COSMO<0.6 measures raw-parent and
+magnitude-only R_MAG_APP<19.5 number densities using full-sky comoving volumes.
+Every coarse equal-solid-angle bin is populated; this is not a measured survey
+mask. Input: 63,897,781 rows, no footprint/fibre/redshift-success selection.
+Plot and exact counts: `outputs/bgs_scale_support_redshift_20261019/`.
+Reproducer: `workflows/abacus_tweb/plot_bgs_scale_support_redshift.py`.
+
+The plot is explicitly a sampling guide, NOT R_opt(z). For normalized 3D
+Gaussian W, integral(W^2)=1/(8*pi^(3/2)*R^3), hence homogeneous unweighted
+Poisson effective count N_eff=8*pi^(3/2)*nbar*R^3. Shading spans illustrative
+N_eff=10 to 30, not uncertainty/confidence or accepted accuracy thresholds.
+These effective counts differ from the earlier hard-sphere aperture counts;
+neither alone predicts tidal-eigenvalue errors or model information gain.
+Magnitude-only bright subset guide radii (Mpc/h) by bin centre:
+0.1625: 2.43–3.50; 0.2625: 3.54–5.10; 0.3625: 5.70–8.22;
+0.4625: 11.68–16.84; 0.5625: 38.43–55.43. These are not adopted scales.
+The very large high-z radii also violate the spirit of a locally constant
+selection approximation: treat them as sparse-sampling warnings, not prescriptions.
+Observed selection/weights require a proper response/noise calculation.
+
+Proposal only: retain fixed physical targets across redshift; test joint
+ordered eigenvalue triplets at R=4,7,12 Mpc/h, with R=20 as a coarse comparison
+if the intended high-z range warrants it. Preserve R=7 baseline; no current
+target/schema/checkpoint default changed. Ordered-softplus increments apply
+within each triplet, never an imposed ordering/monotonicity across R. Fit scalers
+on training phases only; retain cross-scale posterior dependence and report
+per-scale skill so easy coarse targets cannot conceal poor fine-scale results.
+Condition on survey-available redshift and expected sampling/selection, not
+truth Z_COSMO or a local density feature mislabeled as the selection function.
+Existing 15-dimensional caches are eigenvalues+derivatives, not five scales.
+New multiscale targets require explicit per-scale provenance and a new cache
+schema; phase/field qualification remains necessary, especially the older R4 grid.
+
+Operational definition to agree before expensive evaluation: smallest R in each
+redshift bin that passes registered accuracy AND posterior-calibration gates and
+adds information beyond a selection/redshift-conditioned prior. Keep membership,
+graph geometry, selection and held-out development phases matched across scales.
+Do not choose a scale using raw R2 alone or only pooled calibration. Redshift-
+dependent reliability can be published alongside fixed-R targets; switching the
+physical definition with z would confound cross-redshift comparisons. Field-model
+posterior samples can in principle generate all scales coherently by smoothing
+one sampled field before forming tensors/eigenvalues, but current field-model
+validation gates still apply. No model training or multiscale label build here.
+
+Validation: count conservation, 24-bin coverage, nested selection, finite values,
+Gaussian threshold scaling and rendered figure inspection passed. Allocation
+60009248 released; census and AST/global graph refresh completed successfully.
+The earlier plotting-code index backlog is now resolved using supported local
+GRAPHIFY_OUT staging with normal locks and a concurrent-change check.
+
+Multiscale-web motivation has precedent in Cautun et al. (2013), NEXUS,
+https://academic.oup.com/mnras/article/429/2/1286/1038906 ; its morphology procedure
+and reported simulation scales do not determine a BGS tidal-inference optimum.
+
+
+## 2026-10-19 — [diagnostic/figures] Population overlays and light smoothing check
+
+Full 63,897,781-row ph000 CutSky scan selected ALL source galaxies in three
+110.35 x 110.35 x 14.65 (Mpc/h)^3 slabs, centred on the same predetermined
+z~0.08/0.25/0.50 locations as the coordinate figure. Selections use unwrapped
+RA/DEC/Z_COSMO positions, avoiding contamination by periodic copies at other
+redshifts. Native density wraps periodically. Matter and galaxy projections
+have identical boundaries/depth. No added magnitude, footprint or fibre cut.
+
+Slab galaxy counts: 7,794 / 2,407 / 80; R_MAG_APP<19.5 counts: 5,814 / 1,163 / 7.
+The densest 20% of projected map area contains respectively 4,463 / 1,697 / 78
+galaxies (57.26% / 70.50% / 97.50%). Overlays show galaxies following the dense
+web. This is descriptive evidence in three local volumes, not a measured
+selection-corrected galaxy bias or a full-survey validation. The sparse bright
+high-z population must not be hidden by the much denser raw parent sample.
+
+Light smoothing diagnostic: padded local density blocks were Gaussian-smoothed
+in 3D at R=2,4,7 Mpc/h and projected through the same depth. R=4 retains visibly
+more structure. Mean parent separations in these slabs are 2.84/4.20/13.06 Mpc/h;
+mean-density expected counts in a top-hat radius-4 aperture are 11.71/3.62/0.12,
+versus 62.78/19.39/0.64 at radius 7. These are volume/count heuristics, NOT Gaussian
+effective sample sizes, measured per-galaxy neighbour counts, or hard inference
+limits. Full observed selection can reduce support further.
+
+Provisional judgement: R=4 is a reasonable low-z experiment; no evidence here
+supports a blanket reduction across redshift. Keep existing defaults. A smaller
+R6/R4 vs R7 comparison should resample correct galaxy positions, hold source
+membership/geometry fixed, and compare eigenvalue accuracy and posterior
+calibration in redshift bins on held-out development phases under observed
+selection. Web-class comparisons must disclose smoothing/threshold dependence.
+The 2026-06-26 legacy catalogue-based optimum near R=10–11 needs corrected-label
+re-evaluation; do not use that old ranking to veto or endorse a new scale.
+
+An R4 2048-grid native output exists under tweb_rank_outputs_fullgrid_v2, with
+matching box/grid/threshold metadata, but its precise density provenance was
+not recertified here. The local smoothing illustration creates no new tidal
+labels or model and does not substitute for that qualification. All displayed
+fields are the fixed z=0.2 snapshot; redshift columns are not evolved snapshots.
+
+Outputs: `outputs/bgs_galaxy_density_slices_20261019/` (overlay, density-preference,
+and smoothing PNG/PDFs; saved slice galaxies/maps; manifests). Reproducers:
+`plot_bgs_galaxy_density_slices.py` and `inspect_bgs_smoothing_scales.py` in
+`workflows/abacus_tweb/`. Allocation 60008919 ran in tmux and was released after
+3:50; scan/plot and smoothing steps both completed 0:0. Follow-on graph refresh
+failed because the helper was in login-node /tmp, unavailable on the compute
+node; graph refresh remains pending. Small saved-array rendering corrected
+caption spacing afterwards, without re-reading large inputs.
+
+
+## 2026-10-19 — [diagnostic/figures] BGS coordinate-to-field agreement across redshift
+
+Three reproducible PNG/PDF figures cover 0 < Z_COSMO < 0.6 using the saved,
+corrected five-phase native-position audit (ph000/ph002–005): redshift-bin
+agreement, paired tidal trace/eigenvalues, and actual ph000 density/tidal patches
+around centrals nearest z=0.08/0.25/0.50 (no density-based example selection).
+132,589 independent pairs give pooled tidal-trace Pearson r=0.9999995316 and
+zero changed web classes at threshold 0.2. Bin-level same-cell agreement is at
+least 99.8933%; low-z and high-z trace r are approximately 0.99999998 and
+0.99999951. The correlation figures use identical count-colour normalization
+within each redshift row. Exact bin counts and residuals accompany the plots.
+
+Interpretation: validates coordinate/field registration for the checked sample,
+not galaxy bias, model skill, all-population independent XYZ coverage, or
+light-cone evolution. Fields are the fixed z=0.2 snapshot at R=7 Mpc/h. Low-z
+native references cover sampled centrals in slabs 0/33; high-z references use
+original cubic galaxies including satellites. Low-z satellite positions remain
+valid pipeline inputs without individual native XYZ checks. The raw catalogue
+redshift tail above 0.6 is outside these figures.
+
+Artifacts: `outputs/bgs_field_alignment_20261019/` (three PNG/PDF pairs,
+paired samples, manifest, redshift CSV, execution receipt). Reproducer:
+`workflows/abacus_tweb/plot_bgs_field_alignment.py`. Approved CPU allocation
+60008420 ran in tmux and was released after 1:39; plotting step completed 0:0.
+The subsequent graphify refresh failed with filesystem-lock OSError 524, making
+the aggregate job FAILED; code-index refresh remains pending. Figure layout
+was corrected separately using saved samples and bounded image patches.
+
+
+## 2026-10-19 — [policy/code/census/lifecycle] All HOD satellites receive own-position labels
+
+User explicitly approved using RA/DEC/Z_COSMO for unresolved satellites. The v2
+policy samples all populations at their recorded HOD galaxy positions. HAS_LABEL
+and TWEB_STATUS indicate label availability; INDEP_POS separately marks an exact
+source-row reference check (0 none, 1 cubic galaxy, 2 native halo central/mass,
+3 field-particle central). Code 0 never masks labels. Both low-z resolved and
+unresolved satellites can be unchecked. This supersedes the earlier masking
+policy; no coordinate transform refit or population-wide validation claim.
+
+All 619 real-source smoke rows now have finite labels, including all 14 unresolved
+satellites. Field-voxel reads, original metadata and validation-code matches pass;
+overwrite protection remains. New outputs/certificate use all-population v2;
+old v1 evidence is preserved. The certificate still covers only ph000/ph002–005,
+not every counted phase. Existing science selections and sealed gates remain.
+
+Exact census: 120,600/1,409,448,712 galaxies across 22 exposed fiducial CutSky catalogues
+are unresolved satellites (0.008557%). Magnitude-only R<19.5 subset:
+52,762/678,670,233 (0.007774%); not final observed membership. High-branch
+unresolved satellites: 0. ph001/ph018/ph019 and HOD/alternative variants
+excluded. Full counts, source bindings and per-phase table are in
+`docs/unresolved_satellite_census_20261019.md` and the v2 evidence directory.
+
+Product registry: 300 products/groups, 875 grouped dependency links, 53 archived
+in place (52 legacy targets/groups plus one documented incomplete field shard),
+10 retirement-review candidates. No files moved/deleted; all 52 legacy paths
+retain their original sizes/timestamps. A version suffix or failed scientific
+gate is not proof of redundancy. Known archived targets are rejected by the P10
+observed-truth and Abacus SBI-cache builders. Unknown dependencies still need
+review; this is not an exhaustive cross-repository consumer audit.
+
+Coupled/whole-field CFM targets derive directly from native matter density, so
+this host-index bug does not automatically invalidate those models/products.
+Separate old coordinate/calibration limitations remain. Replacement registration
+requires v2 completion/output hashes and exact galaxy membership/order/geometry.
+No production catalogue/cache/checkpoint regeneration or retraining occurred.
+GraphWeb_DESI CONTEXT now carries the training-label provenance warning.
+
+Validation: 25 focused tests pass; cache entrypoint imports, v2 migration plan,
+code/qualification hashes, local/global graph refresh and patch checks pass.
+Approved CPU allocation 60005529 released: COMPLETED, 29:46, all steps exit 0:0.
+
+Canonical register: `configs/product_lifecycle_20261019.json`; operating procedure:
+`docs/product_lifecycle_20261019.md`; pipeline details:
+`docs/galaxy_position_migration_20261019.md`; evidence:
+`docs/evidence/galaxy_position_allpop_v2_20261019/`.
+
+
+## 2026-10-19 clarification: satellite coordinates versus independent checks
+
+RA/DEC/Z_COSMO provide a galaxy position for unresolved satellites too. RES=0
+does not mean these coordinates are missing. The same pinned transformation can
+locate them in the density/T-Web grid without recovering a host halo or particle.
+The absence of an independent original Cartesian reference is a validation gap,
+not evidence that the reconstructed coordinates are wrong.
+
+Independent checks used: high-redshift resolved galaxies were compared with
+original cubic-catalogue galaxy XYZ (including satellite offsets); low-redshift
+resolved centrals with native halo centres and mass; unresolved centrals with
+native field-particle positions. The unresolved satellites sampled here belong
+to the low-redshift branch, for which this audit did not recover a separate
+original galaxy XYZ catalogue. A particle gives the pseudo-host centre, not the
+satellite's added random offset. Matching that centre cannot reproduce the exact
+satellite position. Supplemental host consistency passed for 9/14 sampled
+satellites; five lacked a matching selected central. This is not a demonstrated
+coordinate failure. Low-z resolved satellites also lack individual original XYZ
+checks in this audit; avoid presenting the populations as equally cross-checked.
+
+The recommendation is to use available galaxy coordinates while recording the
+level of independent validation separately. The implementation/certificate from
+job 60003795 still masks RES=0,CEN=0 (status 2, HAS_LABEL=0); revising that policy
+and its tests is pending. Do not mistake this documentation clarification for an
+implemented policy change or retroactively alter the saved validation receipts.
+
+Fourteen of 160,000 sampled rows are unresolved satellites (0.00875% of this
+sample). Sampling includes special endpoints: this is not an unbiased estimate
+of their abundance. Full-catalogue and final-selected-sample counts are unmeasured.
+
+
+## 2026-10-19 — [validation/implementation] Versioned galaxy-position T-Web annotation
+
+Approved CPU allocation 60003795 validated 32,000 source rows per phase across
+ph000/ph002/ph003/ph004/ph005. Cubic galaxy references pass position, FILE_NUM,
+CEN and mass checks for resolved centrals/satellites; native halo and field-particle
+checks pass for resolved/unresolved centrals in slabs 0 and 33 of every phase.
+Maximum cubic positional residual is 0.001288 Mpc/h; all tested web classes agree.
+Reference BOX_INDEX is file-local, not a global concatenated-catalogue row; the
+initial incorrect-reference audit remains preserved alongside the correction.
+This extends the earlier file-0 result but is bounded sampling, not exhaustive
+mock certification. Low-z resolved satellites rely on the independently tested
+branch convention; their original Cartesian positions were not separately recovered.
+
+Unresolved satellites remain an explicit open gate: 14 in the audit sample,
+9 with central-particle host/radius consistency, 5 without a selected matching
+central. None has independent original satellite-position truth. The supported-
+population certificate therefore retains full_population_pass=false. Annotation
+preserves these rows with status 2, HAS_LABEL=0, NaN targets and CWEB=255.
+ph006 is inventoried but not qualified; ph001 remains sealed.
+
+Implemented own-galaxy RA/DEC/Z_COSMO reconstruction, periodic grid sampling,
+source-row identity checks, certificate/hash/source binding, new metadata retention,
+and versioned P10 metadata -> annotation -> observed joins. No observed-Z or
+host-label fallback. Existing products cannot be overwritten by the migration.
+All 18 focused regressions passed; actual CLI smoke checks passed across 619 rows
+in all five phases (605 labelled, 14 retained unlabelled), with exact metadata,
+independent voxel eigenvalues and overwrite rejection. Existing selection masks
+and scientific gates are unchanged. No production catalogue/cache/model rebuild
+or retraining was performed.
+
+Inventory: 12 P10 labelled catalogues, 5 compact metadata inputs, 34 legacy FITS,
+6 P1 target-array roots; graph/response/fold reuse is conditional on identity and
+selection proofs. Trace target/scaler/checkpoint dependencies before retraining.
+Native density/T-Web grids and direct P12F field targets do not need rebuilding
+for this host-index defect. Do not infer restored learnability from this repair.
+
+Allocation released: COMPLETED, 31:28, exit 0:0. Initial environment/graph-launch
+failures and successful retries are recorded in the execution receipt. AST/global
+graph refresh and final integrity checks passed.
+
+Report: `docs/galaxy_position_migration_20261019.md`; durable evidence and exact
+path inventory: `docs/evidence/galaxy_position_20261019/`; runnable certificate:
+`workflows/abacus_tweb/galaxy_position_qualification_20261019.json`.
+
+## 2026-10-19 — [decision/visual audit] Target tidal field at galaxy positions
+
+User explicitly confirms galaxy-position rather than host-centre tidal targets,
+including satellites. This requires versioned migration even for high-z satellites.
+Approved plotting job 60002803 completed once, 8-CPU step 4 seconds, exit 0:0;
+allocation released (35-second allocation accounting). Actual ph000 particle-density
+patches and R=7 tidal slices demonstrate the low-z wrong-location problem.
+135 low-z resolved centrals have old-vs-galaxy tidal-trace correlation -0.150183;
+217 high-z centrals give 1.0. Diagnostic reference is x_L2com; historical annotator
+used x_com. This isolates index misuse, not exact reproduction of all old labels.
+No galaxy-clustering or downstream learnability claim; no production products changed.
+Artifacts: `outputs/lowz_mapping_explainer_20261019_job60002803/`; source:
+`workflows/abacus_tweb/plot_lowz_mapping_explainer.py`. Broader coordinate and
+unresolved-population qualification remains required. Repair plan updated.
+
+
+## 2026-10-19 — [audit] Abacus low-z halo-index misuse confirmed in a bounded file-0 test
+
+The direct `(FILE_NUM, HALO_INDEX)` lookup used by the eigenvalue annotator fails
+for all 209 sampled z<0.15 galaxies in file 0, including 174 resolved galaxies.
+Median periodic position errors are 777 Mpc/h for resolved centrals and 731 Mpc/h
+for particle-based centrals; none of the 209 matches host mass at relative 1e-5.
+In contrast, all 251 high-z controls match cubic HALO_ID, and all 217 high-z
+centrals match reconstructed x_L2com positions within 0.001017 Mpc/h. The corner
+observer and RA/DEC/Z_COSMO reconstruction pass; changing x_com to x_L2com or
+turning cleaning on does not fix the low-z direct lookup.
+
+A cleaned, mass/radius-filtered index hypothesis recovers 62/135 low-z centrals
+in both position and mass. This supports a distinct filtered index namespace,
+but is not a complete repair: exact v0.1 export/selection provenance remains
+unrecovered, boundary membership is cosmology-sensitive, and unresolved hosts
+need particle-based positions. No production labels changed; retain the low-z
+exclusion. Earlier snapshot-stitching or physical-independence interpretations
+are unsupported by the current evidence. This is a single-file diagnostic,
+not an all-phase mapping validation or a rerun of downstream learning tests.
+
+User-approved CPU allocation 59999126 ran the diagnostic once (8-CPU step,
+32 GB requested, 15 seconds, exit 0:0); allocation released after 54 seconds,
+COMPLETED. Evidence and limitations:
+`workflows/abacus_tweb/ABACUS_LOWZ_ANNOTATION_AUDIT_20261019.md` and Scratch
+`abacus/lowz_index_audit_20261019/job59999126/`. Existing unrelated edits retained.
+
+Follow-up recovery, separately approved: allocation 60000317 ran once (8-CPU step,
+8 seconds, exit 0:0), released after 33 seconds. Independently matched all 135
+resolved low-z centrals; 68 training rows constrain a radius interval
+(461.0765686035156,461.07745361328125) Mpc/h. Its midpoint, selected without using
+heldout rows, recovers **67/67 heldout raw halo identities**, with zero shared
+hosts across the split. All 135 centrals and 39 satellites match host mass.
+Central maximum positional residual is 9.29e-5 Mpc/h; satellite offsets remain
+distinct from host-centre positions. This passes the sampled file-0 resolved
+mapping test, not other slabs/phases or particle hosts. Exact export provenance
+and independent-file validation remain outstanding; no production migration ran.
+
+`ABACUS_LOWZ_REPAIR_PLAN_20261019.md` in the same workflow directory inventories
+annotation/export/join/schema/cache dependencies. Receipt:
+`lowz_recovery_validation_20261019.json`; Scratch
+`abacus/lowz_index_audit_20261019/recovery_job60000317/`. Do not remove low-z masks
+or use host triples as galaxy IDs before broader mapping qualification.
+
+## 2026-10-15 — [science/code] Observed Loa field-model Page pilot complete
+
+GraphWeb_DESI now has a private interactive Page comparing the earlier CFM,
+expanded U-Net endpoint and transformer velocity, each seeds17/29, on two
+observed Loa cores. All48draws (four per fit/core) pass numerical checks;
+no training, mock truth or oracle coarse input. The retained50,790galaxies
+span z0.150–0.221, not the parent0.15–0.55range. The dense tiles were selected
+by observed row count, so this is not a representative survey sample.
+
+All models retain common physical cores, coarse draws within seed and a
+finite free-space local-plus-wide tidal closure, with mean density beyond.
+Expanded models share fine noise; the older fine shape has its own noise.
+This does not establish calibrated or coherent full-cap inference and does
+not supersede the mock-evaluation limitations below.
+
+The property view has48,368supported, uniquely matched CIGALE galaxies after
+9≤logM<12 and corrected r<19.5selection. It uses each field model's own
+environment weights, seven properties, mass/redshift/brightness filters,
+mass-stratified comparisons and CSV. P12-A is a distinct per-galaxy comparator.
+All98aggregate reconciliations and local wide/narrow browser tests pass;
+no causal environment claim or inferential confidence interval is made.
+
+CPU59820724prepared; GPU59827704completed inference in295.60s. Initial
+combined HTML exceeded the Page limit; CPU59827975split it and caught a UI
+syntax error; explicitly approved CPU59828019verified the corrected package.
+No inference rerun. All allocations released; final queue empty. Three
+full-width embeds are readback-verified in the same private Page. Original
+Site and older population Page are unchanged. Native commands/tmux were used
+for this GPU/final packaging work, without security-setting changes.
+
+Simple independent-tile scaling across2472tiles is98–102GPU-hours for all
+six fits/four draws, or785–812hours for32draws, excluding full-survey
+preparation/storage/global-method changes. This is an engineering scenario,
+not production authorization. No scale-up launched. Evidence and complete
+provenance: sibling `GraphWeb_DESI/docs/loa_model_page_pilot_20261015.md`;
+Scratch `graphweb_desi/outputs/loa_model_pilot_20261015_v1/page_v3/`.
+Page: <https://chatgpt.com/space/page_ac5434c5e9e88191967a300a10ade530>.
+
 ## 2026-10-14 — [science/code] Wholefield pilot analysis and checkpoint comparison complete
 
 All four 32-epoch fits and all 772 final-checkpoint case/NFE addresses are
@@ -18161,3 +19274,1110 @@ workflows/presentation/desi_raw_environments_20261014.py and
 workflows/presentation/desi_raw_environment_plots_20261014.py.
 No model fitting/inference, CFS mutation or release overwrite. graphify unavailable;
 scoped direct inspection used. No commit/push.
+
+## 2026-10-14 — Legacy GAT VAC found; no consistent overlap with current P12-A
+
+User requested old TNG300 GAT property-trend reproduction and a diagnosis of
+weaker P12-A associations. Found GraphWeb_DESI/DESI_BGS_PRERELEASE_VAC.pkl:
+199314rows/198827distinct TARGETIDs, z.0100293–.05999996, four probabilities
+with exact argmax-label parity; median maxP=.9281. Current full P12-A range
+.15000002–.54999828. Seven exact integer IDs overlap but all have grossly
+different redshifts (normalized differences.186–.331): zero consistent pairs.
+487old IDs repeated twice;53have conflicting labels. Do not arbitrarily choose
+one prediction. Saved file timestamp Jan26,2026 does not prove exact provenance
+of the supplied Sept2025 slide; notebook contains multiple checkpoint variants.
+
+Old pickle contains FastSpecFit masses/fluxes/ABSMAG, no CIGALE properties.
+Four simple cuts ZWARN0/DELTACHI2>=25/LOGMSTAR>=9/BGS_TARGET!=0 on surviving
+768700row low-z input give exactly199314rows and identical TARGETID multiset.
+No extra mass-completeness filter is evident for this saved product. Separate
+2025 completeness notebooks exist, use redshift-dependent bright/faint limits
+and h=.704 mass conversion; their existence does not establish application.
+
+Reproduced observed and reference-z=.1 rest-frame g-r/mass figures with shared
+class-normalized intensity and normalized histogram companion. Rest-frame red
+peak~.94 resembles supplied slide better than observed~.83; not exact slide
+identification. Nonrepeated-ID sample198340: raw cluster-minus-void mean rest
+colour+.12542mag; common.1dex mass/.01z cells retain193679rows/98cells, contrast
++.10392mag. No errors estimated in this bounded colour diagnostic; raw/control
+support differs slightly. Not an old-versus-P12-A effect measurement.
+
+Report GraphWeb_DESI/docs/legacy_gat_comparison_20261014.md; source
+workflows/presentation/legacy_gat_comparison_20261014.py; figures/audit JSONs
+~/fmsu_tokyo_20261010/legacy_gat_comparison_20261014/. Prepared same-source CG15
+join and seven-property comparison remains UNRUN pending execution choice:
+Slurm configuration unavailable on login13;20GB source scan not launched.
+Next: same properties/label weighting, actual completeness tests in narrow
+slices, recover old smoothing provenance, then supported matched-model test.
+Do not extrapolate current P12-A to z<.06 or tune to stronger property trends.
+No new inference/training/Slurm action/release change. Bounded one-thread audit,
+source/probability/ID/selection checks and visual review pass; pending branch
+syntax-checked only. graphify unavailable; no commit/push.
+
+## 2026-10-14 — Same-CIGALE legacy comparison: mass and label treatment narrow the gap
+
+User explicitly authorized the bounded login-node run, superseding the pending
+execution status above. One single-thread scan of33,346,076source rows joins
+193706unique consistent CG15 observations to nonrepeated old GAT IDs;4634IDs
+with multiple consistent observations excluded,14source rows fail position/z.
+Seven-property validity with9<=logM<12 gives191951old and102623current rows.
+Current P12-A is the SHA-verified supported z.20–.30 geometric wedge cache;
+no neighbour-edge cuts. Class-probability and hard-label methods share rows
+and common.1dex mass/.01z support within each sample. Non-mass analyses retain
+187358old/75321current; mass controls z only. No new model inference.
+
+With each sample's own mass mixture, probability-weighted cluster-minus-void
+quenched contrasts21.872/8.970pp (GAT/P12-A), logssFR−.51767/−.22736dex.
+Explicit between-sample common-mass check uses bins10.2<=logM<11.3 and reference
+weights proportional to the smaller eligible sample count in each bin; each
+sample retains its own within-mass redshift mix. Retains63373/74816rows.
+Probability-weighted contrasts then14.367/8.809pp and−.32558/−.22190dex;
+hard-label contrasts14.888/11.850pp and−.33676/−.29404dex. Hard-label quenching
+16–84%sky-bootstrap intervals14.158–15.693/11.300–12.784pp.64draws;nside8.
+Stages change retained rows and weights: not a causal explained fraction or a
+matched-galaxy model-accuracy test. Disjoint redshifts/sky coverage, different
+tracer populations, SED and selection effects remain. Confidence median.928/.785
+does not establish calibration. User's mass-selection concern supported, but
+the recovered snapshot still does not show the remembered completeness cut.
+
+Seven-property raw/controlled plots, common-scale mass–sSFR panels, and compact
+selection/weighting contrast figure added to the same output folder/report.
+Unique IDs and all old coordinates/probabilities exactly verified;128fresh
+source-row property checks pass; independent grouped mean calculation matches
+all common-mass means to<4e-15 and both row counts exactly. Old pickle unchanged.
+Full source hashes inherited, extraction hashes fresh. No Slurm/model/release
+changes, no commit/push. Next: actual completeness limits in narrow z/mass bins,
+same sky footprint, then old label-scale provenance and shared supported-model
+comparison. Do not tune model selection to stronger property associations.
+
+
+## 2026-10-14 — Low-z cutoff provenance, completeness correction, and saved-row ordering audit
+
+Traced z=.15 to July13–14,2026 shell-0 label failure and exclusion, not a mass
+completeness requirement. The recorded wedge audit found BOX_INDEX=-1 for100%
+of z<.15 rows and0% above; position-based R2 .004 versus shuffled -.002.
+The July13 corrected interpretation attributes the mismatch to snapshot-shell
+mapping onto the z=.2 T-Web box; the exact upstream stitching configuration
+was not recovered. July14 valid-cache rebuild dropped shell0 and required
+BOX_INDEX>=0. P10/P12-A retained [.15,.25,.35,.45,.55] science shells. Restoring
+low-z support needs valid labels and training/validation, not an inference-cut edit.
+
+CORRECTION to today's earlier legacy-completeness interpretation: exact match
+to simple loader cuts does NOT rule out using completeness curves to CHOOSE
+z<=.06 plus a fixed mass threshold. Saved cell35 plot in the forDK notebook
+has bright completeness logmass~9 around z~.05–.06 (visual estimate). June17,
+2025 commit8848f4d changes zmax .1->.06 alongside Manasvee column definitions,
+without explicit rationale. This supports the user's recollection but does
+not recover a precise decision receipt. Notebook uses h=.704 conversion;
+raw loader LOGMSTAR>=9 corresponds logphysicalmass~9.305 (~2.02e9), not exactly
+physical1e9. Numerical completeness table remains permission-denied. Saved
+notebook source/output selections are mixed; no exact completeness certification.
+Report wording corrected; prior statistical comparisons unchanged.
+
+Found exact old north/south fix in Aug7,2025 commit5296648. Fresh reconstruction
+reproduces all199314old pickle rows in corrected [north,south] order, including
+IDs/RA/DEC/z/mass exactly (139545north/59769south); zero IDs match original
+unreordered input positions. No old model replay. For P12-A, inspected frozen
+production source is hash-matched to current code. Full5436413ID census equals
+selected inference inputs uniquely. Fresh1009row saved-draw checks across8cores
+cover both caps/all4shells: exact identities/coordinates, spatial core ownership,
+Cartesian reconstruction, probability/mean recomputation and final VAC fields.
+256plot-cache rows match original/augmented VAC;255CG15matches reproduce source
+properties exactly, separation0 and max normalized dz.000253<.001. No repeated
+ordering bug found; fresh prediction/property checks are sampled, not a full
+network replay or proof of scientific correctness. Original merge receipt
+also records full saved-draw/summary validation. No new inference/training/jobs.
+
+Reproducer GraphWeb_DESI/workflows/presentation/ordering_audit_20261014.py;
+evidence ~/fmsu_tokyo_20261010/legacy_gat_comparison_20261014/ordering_audit.json.
+Updated GraphWeb_DESI/docs/legacy_gat_comparison_20261014.md and artifact bundle.
+Bounded one-thread checks pass; graphify unavailable. No commit/push.
+
+
+## 2026-10-14 — CG5 preserves P12-A property-environment trends
+
+User-prioritized quick check on existing supported z.20-.30 wedge. CG15 and
+CG5 each have102623 valid rows; joint102621. Identical probabilities/rows and
+CG15 mass(.1dex)/z(.01) reference weights retain75321non-mass rows. All seven
+trend directions persist. Probability-weighted cluster-minus-void quenched
+contrast8.970pp(CG15) versus9.573pp(CG5), logssfr-.22736 versus-.21773dex.
+Hard labels11.764/12.291pp and-.29414/-.28175dex. CG5 own-mass control retains
+78317rows and gives8.894pp/-.20320dex: support changes, not paired. CG5 shifts
+overall SFR/sSFR upward but leaves similar environmental separation. Paired
+64sky-block16-84% change intervals: quenched+.603pp[+.437,+.793], ssfr
++.00963dex[+.00771,+.01200]. Small measurable changes; choosing CG15 does not
+explain away these trends. Shared SED assumptions remain, no truth claim.
+
+Exact cache ID/z/probability checks and64fresh CG5/CG15source-row checks pass.
+Figure visually checked. Bounded existing-wedge read/analysis, no new inference,
+full source scan or Slurm changes. Evidence ~/fmsu_tokyo_20261010/
+p12a_cg5_check_20261014/{RESULTS.json,README.md,cg5_vs_cg15.png,pdf}; script
+GraphWeb_DESI/workflows/presentation/p12a_cg5_check_20261014.py. Continue broader
+legacy contrast investigation in requested sequence.
+
+## 2026-10-14 — Sequential legacy/P12-A tests, low-z provenance correction, simulation alternatives
+
+Consolidated report: GraphWeb_DESI/docs/legacy_gat_sequential_tests_20261014.md.
+It contains the requested table of all tests/statuses, primary-source simulation
+comparison and controlled pretraining design. Evidence directory:
+~/fmsu_tokyo_20261010/legacy_selection_tests_20261014/ with JSON receipts,
+public source snapshots, report and source hashes in MANIFEST.json.
+
+Selection: reconstructed faintest20%/90th-percentile limiting-mass curve from
+old pre-mass-cut main-BRIGHT parent reaches physical logM=9.000 at z=.055-.06.
+All7305 eligible old wedge galaxies pass it and a +.2dex limit. Supports the
+user's remembered completeness rationale, not an exact original run receipt.
+P12 paired mass/z-controlled soft quench contrasts are9.459->9.425pp for the
+90% limit and8.940->8.562pp for +.2dex. Hard11.852->12.041 and10.251->10.146pp.
+These cuts do not restore the old contrast; they do not certify other forms
+of selection completeness. Old common-sky comparison retains only172 rows
+under strict common cells and is not a reliable sky-effect attribution.
+
+Probability weighting on identical rows: old p->hard21.872->22.667pp;
+current8.970->11.764pp. Normalized p^2,p^4 interpolate; not calibration fixes.
+At maxP>=.7 paired parent/subset soft contrasts old22.014/23.455pp and
+current9.735/11.119pp. Current .85/.95 thresholds fail common four-class
+support. CG5 result is recorded immediately above.
+
+Recovered eight GAT checkpoints; January15,2026 model reproduces eight
+saved-VAC queries to max1.19e-7; exact4hop vs5hop parity1.19e-7. Old saved
+density/trace Fourier transfer implies effective Gaussian R2.02662Mpc/h;
+historical5fd247b explicitly used R2 for those paths. Threshold.2 reproduces
+8192/8192 sampled voxel classes. Both283969-node training caches match
+283967 field labels; two voxel discrepancies remain. The old R~2 target
+differs from P12-A R7. No direct mass/colour/SFR input in old ten-feature GAT.
+This identifies the saved January VAC, not the exact September2025 slide.
+
+Old independent density probe measured1/2/4/7Mpc/h counts for2941 buffered
+queries using198340 unique tracers; brute-force checks pass, but common
+class/mass/z support fails. No old/current density-amplitude result claimed.
+New periodic TNG thinning probe uses10000 fixed queries and fixed nativeR~2
+trace,3seeds. Full tracer density.0329617h^3Mpc^-3 versus current wedge
+selection-density median.0043580 (ratio7.56). At10% retained, R2-count/trace
+Spearman .89087->.72322-.73337; zeroR2neighbours .0759->.4583-.4625.
+R7-count/trace .86573->.80482-.80859. This isolates random-sparsity information
+loss, not trained-model performance or the cause of property-contrast gaps.
+R7 is count aperture here, not newly generated R7 truth.
+
+CORRECTION to July's claimed snapshot-shell mechanism and the earlier summary:
+public Smith generator uses the SAME z=.2 snapshot for ordinary cubic and
+separately generated faint low-z populations. It mass/radius-filters haloes
+before assigning consecutive halo_ind. Newer code sets low-z box_ind=-1;
+high-z box_ind is a cubic GALAXY index. Thus BOX_INDEX=-1 alone does not mean
+a different epoch or unresolved host. Merging is at observedz=.15. Pinned
+old source amjsmith/shared_code a40a5d3be570a6ce9d5a0698268b04864d4d3af2;
+new amjsmith/hodpy14222dcf794b3bff68987bf8e271203db20f8730. Templates are
+not certified production receipts for the local c000v0.1 file.
+
+Fresh512000-row probe finds low-z flag in resolved and unresolved populations.
+One-slab12000-row raw HALO_INDEX mass match at.2 is.37%, at.1 .32%; high-z
+.2 positive control92.7%. Reconstruction of published mass>=1e11 and zmax.16
+radius cuts with correct c000 header cosmology still matches only.53% raw/
+.55% cleaned. The exact local low-z mapping is NOT repaired. Inspected BGS
+cutsky versions listz.2 only; public baseph000 haloes endatz.1, no z0 product.
+Keep low-z science exclusion until production/coordinate/particle mapping and
+truth checks pass. No inference-cut change or catalogue reannotation.
+
+Alternatives checked against official specifications/papers and September local
+support audits. Abacus base retains25independentc000phases; high/highbaseph100
+is a matched resolution pair, not new phase diversity. Uchuu has high-resolution
+BGS mocks but102EDR lightcones are not102independent volumes. Rosella is a
+relevant single-volume BGS SHAM/formation-history comparison. GLAM release
+phase count and exact matter mapping not established. MTNG paired simulations
+and FLAMINGO hydro variants are not equivalent to an independent-phase BGS
+ensemble. No researched candidate verified all requirements as a drop-in
+replacement; existing frozen/provisional product decision remains intact.
+
+Pretraining design: same architecture/ordered truth, Abacus scratch baseline,
+dense pretrain->adapt, density-augmented pretrain->adapt, equal-total-compute
+Abacus control,3optimizer seeds, protected phase split and recalibration.
+Require improved held-out proper scores/coverage, not stronger observed
+property gradients. GAT weights cannot directly initialize voxel U-Net.
+Same-row same-truth GAT/P12-A comparison and actual pretraining remain OPEN;
+recovered inputs/truth contracts need assembly and independent validation.
+
+User explicitly authorized additional compute with interactive-first/login
+fallback. Interactive CPU salloc failed before job creation (Slurm configuration
+unavailable in tool environment); bounded single-thread diagnostics used the
+authorized fallback. No training/full mock inference/production data changes.
+
+## 2026-10-15 — Density causality follow-up: Abacus count/trace intervention and HOD clarification
+
+Client-date follow-up to the October14 report. User clarifies that R7 was a
+deliberate response to poor/noisy R2 recovery at sparse sampling. This is an
+information–scale tradeoff, not an accidental model mismatch. Exact original
+R2 receipt not recovered; June26 scale/cluster studies support the motivation.
+Distinguish noise in a galaxy estimator from convergence of matter-derived
+truth; random galaxy thinning changes observability, not the fixed true field.
+
+Fresh exposed ph000 historical S2 observed/harmonized wedge diagnostic:
+10000 interior queries in each first3shells,2424 in last;14Mpc/h rectangular
+angular/radial buffer. Self-excluded counts; native saved R7 trace=lambda sum.
+N7/trace Spearman by .15-.25/.25-.35/.35-.45/.45-.55 is
+.76038/.70772/.62044/.41391; selection-adjusted .79067/.75439/.67660/.49573.
+MedianN7=22/8/2/0; zero fractions .0034/.0336/.1740/.6114.
+N2 versus SAME R7 truth=.34092/.24691/.16927/.07716, NOT an R2-truth test.
+TNG earlier .891 and .723-.733 were periodic real-space R~2-truth results,
+so these coefficients are not a matched simulation comparison.
+
+Within-Abacus 10% random retention,3seeds,same queries/truth, reduces N7/trace
+to .56572-.57902/.42322-.43402/.28894-.30237/.12001-.13708. Seed extrema
+are not confidence intervals. .02 redshift-bin checks are in receipt.
+All32424fresh N7 counts match cache exactly;48brute-force checks pass.
+Initial BOX_INDEX assertion identified50negative-index truth rows in first
+nominally valid shell; explicitly excluded from truth queries, retained as
+position-only tracers. No such rows in other shells. Internal mask holes not
+certified. Historical parent, not current P12 full-footprint performance.
+
+Freshly read MT4 final digest: actualFaint-minus-scrambledFaint macroR2
+.13204/.02067 across2rotations, positive in every shell; actualFaint-minus-
+Bright sparse-shell improvements .13918/.10913. Strong same-phase spatial
+information evidence; encoder failed rotation2 safeguards, no promotion.
+This is more specific than saying any extra points improve inference.
+
+HOD clarification: Smith2312.08792v2 section5.1 reports unselected cubic
+Mr<-18 density .037h^3Mpc^-3, comparable with localTNG .03296. Published
+parent value, not a new local parent census. Sections3.3/5.2 supplement
+hosts below1e11Msun/h using field particles. HOD can populate faint galaxies;
+survey selection still removes them, and proxy placement is not exact resolved
+galaxy–matter structure. Previous7.6density ratio compares different selected
+populations and does NOT establish a mass-resolution cause.
+
+Main-cause attribution remains open: samequeries/properties, converged R2/R7
+truths, dense/random-thinned populations and matched model; then luminosity/RSD/
+mask/assignment at fixed density, then matched simulation/resolution controls.
+Measure true property contrasts before inferred ones to separate smoothing
+from inference attenuation. No causal percentage from disjoint old/current VACs.
+
+Report docs/tracer_density_causality_20261015.md; script
+workflows/abacus_tweb/count_trace_density_probe_20261015.py; receipt
+~/fmsu_tokyo_20261010/abacus_density_followup_20261015/RESULTS.json.
+One-thread bounded diagnostic under prior login fallback authorization;
+Slurm inspection still fails configuration. No training or reserved-phase reads.
+
+## 2026-10-15 — Controlled TNG density x smoothing test completed
+
+User authorizes the same-galaxy R2/R7 truth and BGS-density tracer-thinning
+experiment. Both matter truths reconstructed from the same TNG300-1 snapshot99
+density; 283,969 original mass-selected tracers match the archived graph.
+Each of three random sparse subsets contains37,545 tracers, retaining13.2215%,
+matching n=.00435803 h^3/Mpc^3 (current wedge median, not full BGS n(z)).
+Queries/properties remain fixed:66,691 held-out galaxies in9<=logMstar<11.5.
+
+Twelve fits complete:2radii x2densities x3paired seeds, same two-layer64-wide
+geometry-only MLP, ordered-increment target,2,000steps, train-only scaling,
+spatial train/validation/test label splits. This is a new controlled point
+estimator, not the original GAT, P12-A, full-field model or a posterior.
+
+Primary within-mass-bin Q4-minus-Q1 trace-rank quenched contrast (percentage
+points), true/dense/sparse-retrained: R2=49.50/48.52/45.02;
+R7=32.73/33.75/32.64. Paired thinning loss relative to dense is7.22%
+[5.49,8.97] atR2 and3.28%[1.64,5.42] atR7. True R2->R7 quartile
+contrast decreases33.88%[28.52,37.68]; colour and capped-sSFR agree.
+Intervals are400 paired spatial-block bootstrap draws, conditional on this
+one box/split and three fits; no independent-phase/generalization claim.
+
+Estimand qualification: true physical cluster-minus-void quenched contrast
+on common mass support is52.04/47.45pp forR2/R7, not a34% decrease.
+AtR7 the dense model inflates this to62.10pp, sparse to54.64pp. Strong property
+contrasts do not establish correct classes. Frozen dense-trained models lose
+29.14%/13.69% of the R2/R7 quartile contrast under thinning; every frozenR7
+prediction is void while trace rank correlation stays.935-.955. Distribution
+shift, rank recovery and amplitude/class calibration are distinct.
+
+Model-free count-rank controls lose9.47%/4.32% of the quenched contrast.
+NativeR2 replay maxerror1.18e-11/8192points,100%classes; analytic Hessian and
+periodic tests pass. Fine/coarse512/256 trace rho=.999704/.999996;
+class agreement97.67%/99.67%; not particle-resolution convergence proof.
+122 final checks pass, including independent primary and physical-class
+contrast arithmetic, raw-row bootstrap reconstruction and checkpoint replay.
+200 within-mass permutations centre nearzero. One initial shuffle's small
+R7 residual is retained/disclosed. Unlabelled tracer contexts are shared;
+some sparse40th-neighbour distances exceed the20.5Mpc/h split buffer.
+
+Random sparsity alone does not force a large property-trend collapse in this
+experiment after adaptation. This does not attribute the observed old/current
+DESI gap. Next discrimination: random versus luminosity-selected tracers at
+fixed density, then RSD/mask/assignment, with verified truth and production
+estimator. R7 remains a deliberate information-scale choice. The7.56density
+ratio compares different population selections/epochs; no measured Abacus
+parent-to-observed stage budget yet. RSD moves positions; sky-area loss alone
+does not lower density per retained volume.
+
+Report docs/tng_density_control_20261015.md; existing density-causality and
+GraphWeb_DESI legacy_gat_sequential_tests reports updated. Code
+workflows/gcn_paper/tng_density_control_20261015.py; fixed config
+configs/tng_density_control_20261015.json. Outputs
+~/fmsu_tokyo_20261010/tng_density_control_20261015, small receipts and figure in
+docs/evidence/tng_density_control_20261015. Slurm inspection/allocation failed
+before creating any job; prior authorized bounded one-thread fallback used.
+Scratch was read-only; compact outputs saved underHome, no3Dgrids written.
+
+## 2026-10-15 — Same-Loa property overlays: Abacus P12-A and four TNG variants
+
+User requests the inferred property relationships on the same graph, accepting
+the training-redshift difference. Applied all 12 frozen controlled-TNG
+checkpoints to the same 103,788 Loa wedge queries as saved P12-A: R2/R7,
+normal/thinned training density, three seeds. Mean physical eigenvalues per
+family define four TNG curves; fifth is existing Abacus P12-A R7. This is
+the new geometry-only MLP experiment, not an old-GAT replay. No observed
+tracers thinned, feature renormalization, fitting, or VAC replacement.
+
+Current CIGALE common valid-property/geometry sample: 90,953 galaxies at
+.20<=z<.30, RA120–160, Dec14.5–30.6; 587,896 padded survey tracers. Exact
+same 11 count/neighbour inputs and frozen training scalers. Mask/radial
+margin exceeds max(14 Mpc/h,d40); no periodic wrapping. Controlled rank
+curves share 86,696 rows in 139 mass/z cells (mass panel controls z only).
+
+Quenched Q4-minus-Q1 contrasts [pp], common mass/z mix:
+Abacus 6.375; TNG R2 normal/thinned 4.981/8.361;
+TNG R7 normal/thinned 5.710/6.283. The sparse-R7 curves closely track
+Abacus across the seven properties; this is not an accuracy/calibration test.
+Intervals are 16–84% from 256 paired draws of 21 sky blocks, conditional on
+fixed fitted models and groups. Dense R2 individual-seed contrasts range
+1.94–5.25 pp; ensemble curves do not convey all fit-seed uncertainty.
+
+Class failure remains visible: TNG R7 normal classifies every selected galaxy
+void. Dense R2 has 67.13% void and .61% cluster, and its small cluster group
+reverses the raw quenched trend. TNG R7 thinned fractions are
+23.67/37.47/32.90/5.96%; Abacus mean-eigenvalue classes
+20.00/43.48/31.23/5.29%. Strong/similar rank curves can coexist with wrong
+class amplitudes. Empty classes shown as gaps; no shared all-model four-class
+mass/z support exists. Separate raw class overlays show mean-eigenvalue
+classes for every model, and usual probability-weighted Abacus versus point
+TNG classes, explicitly labelled as differing estimators.
+
+489 checks pass: native cached count parity on every query, 12 brute-force
+neighbour checks, 24 source-row/property checks, independent NumPy checkpoint
+replay (max1.18e-6), direct raw/controlled means (<1.6e-14), tie/null checks.
+Eight-page PDF, seven-property plots, compact summaries, occupancy, CSV and
+receipts saved. Geometry/mask controls do not remove RSD or angular selection;
+observed trend strengths were not used for training/tuning or promotion.
+
+GraphWeb_DESI report docs/loa_tng_abacus_overlay_20261015.md and code
+workflows/presentation/loa_tng_abacus_overlay_20261015.py. Output root
+~/fmsu_tokyo_20261010/loa_tng_abacus_overlay_20261015; review bundle in
+GraphWeb_DESI/docs/figures/loa_tng_abacus_overlay_20261015. Slurm unconfigured
+inside/outside sandbox; prior authorized bounded one-thread fallback used.
+
+User clarification: explicitly distinguish these new controlled TNG MLPs
+from the historical TNG GNN/GAT; the latter was not used or retrained for
+this overlay. No Loa mass-completeness treatment applied:9<=logMstar<12
+and common observed mass/z mixtures are not completeness corrections.
+Recovered old notebooks support completeness-informed fixed-mass/redshift
+selection near z<=.06, but exact historical execution receipt is unresolved.
+
+## 2026-10-15 — Actual legacy GAT retraining and paired Loa completeness tests
+
+[code] User explicitly requests the actual old GNN, not the new MLPs, at
+R2/R7 and normal/thinned density, on the same Loa queries with/without the
+historical completeness cut. Slurm remains unconfigured both inside/outside
+the sandbox; user explicitly authorizes login execution. All stages complete
+sequentially with one CPU thread. No scheduler job or release VAC changed.
+
+Four canonical SimpleGAT(10,4,heads4) fits complete, 1200 Adam updates each,
+one paired seed, 16 destination nodes/update with exact full four-hop context.
+Train-only BoxCox/class weights, spatial label splits, validation selection.
+Rebuilt sparse graphs/features; 283969/37545 tracers. Normal topology exactly
+matches archived3890098 directed edges; positions1.71e-13Mpc and all ten
+full-fit transformed features5.66e-7 max differences. Trained canonical/block
+replay and Loa layerwise/block replay pass (<=3.82e-6 logits). Identical2048
+held-out IDs give balanced accuracy R2 normal/thin71.03/61.25%, R7
+67.56/71.36%. One seed/bounded optimization: not convergence or density gain.
+
+Same103788 Loa queries/587896 context tracers, no observed thinning. Historical
+alpha6.906Mpc fixed for every observed graph; thin TNG alpha13.557Mpc remains
+a graph-scale transfer mismatch. Two normalization conventions retained:
+historical default observed-graph BoxCox fit+recenter, and frozen training
+transform. No outcome-driven tuning. GAT outputs four class scores, not
+eigenvalues or calibrated SBI probabilities. Abacus uses saved P_WEB.
+
+[science] Actual GAT does not restore a large old-GAT property-trend advantage
+on the tested .20-.30, .20-.25, .25-.30 samples. At the SAME parent/cut mass-z
+reference mixture, soft cluster-minus-void quenching contrast [pp] before/
+after90% completeness cut: Abacus9.460/9.647; R2 normal8.732/8.590,
+R2 thin5.893/5.894, R7 normal6.031/6.015, R7 thin7.595/7.644. This uses67
+common cells/52340 parent rows. Own-mixture panels show modest increases,
+but raw contrasts decrease after the cut. Population/support changes matter.
+Conservative >12alpha angular-margin test retains40571 galaxies/31260common
+rows and preserves the qualitative result. Neither test repeats old z<=.06.
+
+Frozen-transform class populations fail: R2 normal82.05%void/no clusters,
+R7 normal95.45%void/reversed raw trend; R2 thin65.04%clusters/.046%voids,
+R7 thin92.93%walls. SparseR2 raw hard24.24pp is not reliable recovery given
+the tiny void group. No shared four-class controlled support across all five
+models under frozen normalization. All gaps/failed-support panels preserved.
+Stronger class associations alone do not validate environmental inference.
+
+Separate MLP selection analysis completes690 arithmetic checks/21-page PDF:
+same windows plus90%/+0.2dex cuts, fixed parent trace quartiles. Full-range
+90% cut barely changes contrasts at a shared reference mixture, e.g.
+R2thin10.559->10.421pp; apparent own-mixture increase8.36->10.33pp is mostly
+population change. These rank contrasts differ from GAT class contrasts.
+
+Actual-GAT report/artifacts: GraphWeb_DESI/docs/loa_actual_gat_overlay_20261015.md
+and docs/figures/loa_actual_gat_overlay_20261015 (32-page PDF,8PNGs,CSV,JSON,
+receipts).840 raw mean-array checks,89 controlled panels reconstructed to
+5.16e-14, input identities/hashes and image/PDF completion checks pass.
+Simulation contract/results: docs/legacy_gat_density_20261015.md and
+docs/evidence/legacy_gat_density_20261015. Code
+workflows/gcn_paper/legacy_gat_density_20261015.py; observational scripts in
+GraphWeb_DESI/workflows/presentation. Full graph/checkpoint outputs remain
+~/fmsu_tokyo_20261010/legacy_gat_density_20261015. graphify is unavailable;
+direct source/receipt verification used. No calibration or model promotion.
+
+## 2026-10-15 — Three-test synthesis and new high-mass / posterior-width controls
+
+Organized the old/current environment-property investigation into the user's
+three proposed tests plus a fourth section for density interventions,
+independent environments, provenance, low-z mapping and simulation alternatives.
+Self-contained text/figure report (including original PDF supplements):
+~/fmsu_tokyo_20261010/environment_gap_three_tests_20261015/environment_gap_three_tests.html.
+Readable synthesis: GraphWeb_DESI/docs/environment_gap_three_tests_20261015.md.
+
+New Test 1: same 66,691 held-out z=0 TNG queries/truth; 9,338 with
+10.5<=logM<11.5. Mass-stratified true trace-quartile quenched contrasts:
+R2 49.50->12.03 pp and R7 32.73->10.11 pp after the mass cut.
+This is a population intervention, not a flux-limited z=.3 mock or a causal
+fraction of the observed gap. Direct GroupFirstSub census gives satellite
+fractions40.62%/33.75%; the DESI fractions remain unmeasured. Complete
+snapshot group-file census checked. Physical-class contrasts are different
+estimands; own-support supplementary arms must not be subtracted as a
+fixed-support scale effect.
+
+New Test 3: 236,774 SUPPORTED Loa wedge rows over .15<=z<.50;221,002 valid
+unambiguous CG15 quenching rows. 0.2dex/0.05z cells; select lowest half of
+lambda1 central68% posterior interval half-width within each cell (not SD).
+At common parent/selected class-support mixture the soft quenched contrast
+falls7.45->1.62pp full range,7.68->1.05pp at .15-.25; boundary>20Mpc gives
+7.73->1.01pp in that focus. Continuous partial-rank checks weaken too.
+The selection changes environment mixture: focus mean cluster weight5.50%
+->0.185%, void25.07%->48.63%, median trace .294->-.031. Passing Kish support
+does not make these tail-weight cluster curves equivalent to confident
+clusters. Certainty filtering is not a calibration correction or evidence
+of restoration. This test uses only quenching eligibility, not the earlier
+seven-property cuts or aperture-geometry mask; exact amplitudes differ.
+
+Conclusion: strong support for mass-population/scale mechanisms and estimator/
+transfer sensitivity, not superior old-GAT physics or density-only explanation.
+Prior actual-GAT Test2 remains .20-.30 and halves, not full-range nor historical
+weights. Separate contributions of satellite selection,RSD,fiber assignment,
+HOD and evolution remain unidentified without matched survey-forward truth.
+66 independent checks passed (fresh257-row source parity, direct class means,
+previous TNG result replay); images inspected. New code and JSON receipts in
+GraphWeb_DESI/workflows/presentation and docs/figures/environment_gap_three_tests_20261015.
+No scheduler/production changes; authorized one-thread login fallback.
+
+## 2026-10-15 — Supervisor figures: true/predicted curves after mass cut and thinning
+
+New shareable figures at ~/fmsu_tokyo_20261010/supervisor_environment_figures_20261015
+show full four-quarter property curves for TNG truth and three-seed MLP
+predictions, for full/high-mass populations and dense/sparse retrained inputs.
+High-mass R2 true/dense/sparse contrasts12.04/9.96/10.85pp; R7
+10.10/9.70/9.68pp. Full-range reproduces prior fractional-quartile results.
+The few .01pp changes from threshold-based high-mass summaries are rank-boundary
+conventions, not changed physical inputs. Mass cuts select queries only;
+no new training. 280 direct/block aggregation checks passed.
+Loa P12-A figure explains why >=1e9 is not completeness at z=.2−.3;
+90% limiting masses log10.496−10.884. Paired quenching9.46→9.65pp,
+raw16.59→12.56pp; no restored large old-GAT contrast. Reuses verified curves.
+Methods and explicit planned brightness/motion/mask/assignment controlled
+sequence: GraphWeb_DESI/docs/environment_selection_followup_20261015.md.
+Survey-forward experiments are designed, not executed; no scheduler changes.
+
+## 2026-10-15 — Full-range Loa mass–redshift completeness figures
+
+Fresh supported/unambiguous CG15 census and exact ID/RA/DEC/z join to registered
+BGS_BRIGHT photometry:4,989,187 valid-mass rows;4,989,181 satisfy explicit
+extinction-corrected Bright limits. Range .15−.55, full footprint and the
+property wedge(221,659). No pre-estimation mass/SFR/other-property cut.
+90% faintest20% limiting-mass estimates log10.508 at .20−.21,10.888 at
+.29−.30,11.648 at .54−.55. All40 full-footprint bins supported; low-count
+wedge endpoints are omitted. Not an unconditional completeness guarantee.
+Main mass-z plots place old/current masses on common CG15 scale and show
+redshift selection intervals; separate panels retain actual old FSF cut
+(raw9 ->physical9.305 at h=.704) and pre-cut FSF completeness. No artificial
+curve bridging .06−.15 or claim that DESI lacks galaxies there. P12-A .15
+boundary is mock-label validity, not mass completeness. Missing low-mass
+satellite contribution not measured by this plot; survey selection limits
+the population but does not forbid strong property/environment relations.
+Figures and numeric receipts: ~/fmsu_tokyo_20261010/loa_mass_redshift_completeness_20261015.
+Methods/code: GraphWeb_DESI/docs/loa_mass_redshift_completeness_20261015.md,
+workflows/presentation/loa_mass_redshift_completeness_20261015.py.
+
+## 2026-10-15 — Direct TNG/Loa quenching overlay with common rank definition
+
+Recomputed Loa trace quarters within .25dex mass/.01z cells, threshold
+sSFR<1e-11, against cached TNG truth/three-seed MLP predictions. No GAT or
+P12-A refit. Same R7 target primary; R2-TNG/R7-Loa supplement labelled mismatch.
+Native full TNG truth32.73pp vsLoa6.71; after shared support9.5−11.5 and
+Loa mass-bin reweighting13.28vs6.71. High-mass10.5−11.5 shared-mixture true/
+dense/sparse TNG7.88/7.28/7.29pp vsLoa8.30. Conditional95% intervals true
+6.22−9.88,Loa7.51−8.96. Absolute fractions remain discrepant:85−93%TNG vs
+55−64%Loa in matched high-mass panels. Thus modest observed contrasts are
+plausible, but not calibrated or established expected truth. Epoch, instantaneous
+vsSED SFR, luminosity selection, environment-rank physical meaning remain
+unmatched.209 direct mean checks;12 prior TNG curve parity checks passed.
+Report: GraphWeb_DESI/docs/tng_loa_quenched_overlay_20261015.md. Figures/JSON:
+~/fmsu_tokyo_20261010/tng_loa_quenched_overlay_20261015. No scheduler changes.
+
+## 2026-10-15 — z=0 TNG approximate BGS Bright selection-only overlay
+
+User authorized placing existing z=0 cube galaxies at Loa observing redshifts.
+No evolution, new snapshots, inference, graph rebuild or scheduler changes.
+Subfind-ID joined g/r photometry; r<19.5 at ten .20-.30 bin midpoints with
+power-law g/r K approximation. Shared .25dex/.01z weights, common >=80-row
+support across uncut/color-K/no-K/+0.3mag arms:87,256 Loa rows(97.0%);
+high-mass68,918(all). R7 truth versus P12-A posterior-mean trace quarters.
+Mean TNG-minus-Loa quenched gap29.32->4.70pp; high28.99->7.23pp.
+Conditional spatial95% residuals3.99-5.44 and6.31-8.16pp exclude systematics.
+Paired reductions24.61pp and21.76pp. Same spatial draws across repeated
+observing-z placements, no independent-copy inflation. Approximate cut retains
+40.0%quenched/81.7%starforming; high50.2%/92.6%, same reference cell weights.
+Nominal contrasts12.67->4.93 vsLoa6.89; high7.88->6.10 vsLoa8.30pp.
+No-K residual15.55pp(high20.14); additional0.3mag residual-6.28(high-6.38).
+Thus brightness selection is a major demonstrated mechanism in this toy test,
+but near-agreement and real-DESI explained fraction are not established.
+Dust/filter integration, SFR measurement, mass errors and epoch remain unmatched.
+Fixed-parent ranks yield similar selected curves.348 cell checks+10 independent
+scalar/prior-overlay checks passed(max2.22e-16); image inspected.
+Code/report:GraphWeb_DESI/workflows/presentation/tng_bright_selection_20261015.py
+and docs/tng_bright_selection_20261015.md. PNG/PDF/CSV/receipts under
+~/fmsu_tokyo_20261010/tng_bright_selection_20261015. Graphify unavailable.
+
+## 2026-10-15 — Refined dust-free DECam/BGS selection and finer mass matching
+
+Existing z=0 griz+stellar half-mass radii now constrain smooth positive
+f_nu continua; integrate installed SDSS2010 input/DECam2014 output responses.
+Not true stellar spectra or dust attenuation. Installed desitarget Bright
+colour/fiber cuts applied with isolated Sersic n1/n4, Re=.75Rhalf3D,1arcsec
+seeing profiles. No images/true light radii, masks, blends, assignment or
+spectroscopic success. Same held-out66,691 TNG galaxies, R7 truth vsP12A.
+Coarse .25dex common-support TNG-minus-Loa gaps29.15uncut,4.62oldcolor,
+8.62DECamflux,8.63BGS-n1,8.62n4pp; high28.99,7.23,12.18,12.20,12.18.
+Fine .10dex gaps30.09,4.51,8.69,8.70,8.69; high29.60,6.97,12.04,12.06,12.04.
+Common Loa rows coarse88,971/68,918 full/high; fine87,581/68,849.
+Thus residual survives mass-bin/profile checks, but previous near-agreement
+was not stable to filter/continuum treatment. Dust and genuine spectra remain
+unconstrained; no real-survey explained fraction or P12A validation claim.
+Actualfilter magnitudes median~.083mag brighter than previousapprox, increasing
+selected quenched fraction. Fiber proxy changes gap<.03pp; not evidence all
+surface-brightness/image selection is negligible.200block draws; one invalid
+fine-cell replicate excluded, min199valid.1260cell checks,288 independent
+5A speclite integrations(max6.04e-7mag),325freshsource parity rows and3prior
+high-mass curve replays passed. Image inspected. No scheduler changes.
+Report/code:GraphWeb_DESI/docs/tng_bright_refined_20261015.md and
+workflows/presentation/tng_bright_refined_20261015.py; separate validator.
+Outputs:~/fmsu_tokyo_20261010/tng_bright_refined_20261015. Graphify unavailable.
+
+
+### 2026-10-15 [code] Interactive galaxy-population Pages explorer
+
+Built private Page page_aec9d1a1537c81918114b8682a77d597 comparing low-z
+Loa GAT, Loa P12-A and held-out TNG300 z=0. Eight equal-prominence property
+panels, mass/brightness/redshift filters, source overlays, mass-mixture weights,
+within-source redshift balancing, hard/soft classes and trace quartiles, pinned
+references and CSV export. Eligible parents:191944/4988309/66691; 6910 packed
+aggregate records. Explicit missing-data reasons cover the .06-.15 Loa gap,
+missing TNG age/attenuation/AGN fits, absent old-Loa eigenvalues and unsupported
+mixture components. TNG observing redshift changes approximate brightness only,
+not galaxy evolution. Cross-source environments remain non-equivalent; no
+causal or uncertainty claim. 106 engine/payload checks passed; Page readback
+verified. Browser rendering unverified (browser executable absent). Graphify
+update unavailable (command not found). No scheduler changes.
+Code:GraphWeb_DESI/workflows/presentation/galaxy_population_dashboard_20261015/
+Outputs:~/fmsu_tokyo_20261010/galaxy_population_dashboard_20261015/
+
+### 2026-10-16 [science/code] Loa parent audit and empirical mass-complete sub-VACs
+
+The missing low-mass tail in the prior saved-VAC mass-z plot was a selection
+artifact: old GAT rows already passed its mass cut; P12-A begins at z=.15.
+Fresh Bright parent (ZWARN0, DELTACHI2>40, positive CG15 mass, unique ID,
+dereddened r<N19.54/S19.5) contains 266,849 galaxies below1e9 at z<.15,
+including30,845 at1e7-1e8. Broader SED parent differs from the user's old
+5,130,670-row example; no exact historical-sample reproduction is claimed.
+
+Faintest20% rescaled limiting masses, max of all/Q/SF95th percentiles in
+dz=.01 bins: all40bins .15-.55 supported. Fixed .20-.30 threshold logM>=10.96
+(9.12e10Msun),611,197 rows; redshift-dependent sub-VAC2,302,141 rows.
+These preserve original prediction/quality columns and add selection/source
+flags. Empirical flux completeness only, not absolute survey completeness.
+Mass threshold3e10 is insufficient over the full .20-.30 interval.
+
+Primary quenched sSFR<1e-11yr^-1, not observed colour. Same mass(.1dex)/z(.01)
+reference across soft/hard classes, Kish>=20 each,607,579 common rows.
+Soft fQ74.57/76.88/79.53/81.60% void/wall/filament/cluster; contrast7.03pp,
+conditional95%[6.69,7.36]. Hard8.55pp[8.01,9.04]. Fine .05dex7.01pp;
+additional .1dex mass margin6.23pp; quenching log thresholds-10.5/-11.5
+give5.74/8.46pp. Mean logssfr drops.194dex, g-r rises.0311mag. Fitted age,
+AV,FAGN remain SED parameters, not independent physical detections.
+Full selected range retains2,285,931 common rows, softcontrast9.18pp;
+matched support ends at z<.49 despite catalogue extending to.55. No imputation.
+256nside8 spatial resamples; excludes SED error, limit uncertainty, selection
+systematics and model transfer. Association, not causal or calibration claim.
+
+Six unit tests,124 grouped catalogue/source checks (all original columns at
+257fresh source rows per sub-VAC),12primary+12full independent curve checks
+passed. Four PNGs visually inspected; PDF/CSV/JSON/provenance retained.
+ApprovedCPU59853892/nid200058 used29m55s and released; completed payload
+steps exit0. Preliminary scan cancelled to add quality filtering before
+outputs. NoGPU,training,new inference or other-job changes. Graphify absent.
+Code/report:GraphWeb_DESI/workflows/presentation/loa_mass_complete_20261016/
+and GraphWeb_DESI/docs/loa_mass_complete_20261016.md; small evidence in repo.
+Large products:/pscratch/sd/d/dkololgi/graphweb_desi/outputs/loa_mass_complete_20261016_v1/
+
+### 2026-10-16 [science/code] Observed-colour Loa environment curves and lower-mass window
+
+User definition: red .75<g-r<1.5, blue g-r<.75; MW-corrected observed
+colour, no K correction. No atomic-gas/main-sequence assumption. Audit Bright
+parent limiting masses separately for red/blue, max with previous all/Q/SF
+95th-percentile limits. Fixed .20-.30 remains logM10.96:611197 total,
+532770red/375blue. .20-.25/.23/.22 thresholds10.77/10.73/10.69;
+.20-.22 gives232024 total,229932red/1922blue, mass>=4.8978e10Msun.
+No window passed predeclared20k-per-colour/100-per-hard-class count gate.
+Narrow range retained explicitly exploratory; blue hard counts477/863/517/65.
+
+Final plots show raw and within-colour soft-controlled curves, not a shared
+red/blue reference. Mass(.1dex)/z(.01) controls retain229721red/1462blue
+in narrow sample; stellar-mass panel z-only. Red fQ64.55->73.19%, delta8.64pp
+conditional95%[8.06,9.21];logssfr-.208dex[-.223,-.195],g-r+.03036mag.
+Blue logssfr-.015dex[-.082,.046],fQ+1.02pp[-.49,3.34];all8blue property
+contrasts include zero. .05dex retains996blue, fQcontrast flips-.39pp;
+red remains8.63pp. Jointsoft/hard support only447blue inone.1dexstratum,
+none at.05dex. Original.20-.30blue has no controlled support. No stable blue
+trend established; no claim of physical independence. Red fittedage/AV/FAGN
+associations are SED parameters, not independent physical/AGN detections.
+
+256pairedsky draws, fixed cells; excludes SED/selection/limit/modeltransfer
+systematics. Sparse zero-event bootstrap intervals can collapse without
+implying zero population probability. Empirical flux completeness only.
+Boundary/rounding,20colour-percentile reconstructions,194raw/controlledmean
+vectors and257row all-column FITS roundtrips passed. Final3PNG/PDFpairs
+visually inspected;CSV/copieshashverified/reportlinksresolve. Allpayloadsteps
+exit0. ApprovedCPU59855238/nid200002 used10m19s and released; no otherjobs
+changed. Graphify unavailable. Sourcecode originalanalysis frozen; separate
+presentation manifest. Report:GraphWeb_DESI/docs/loa_colour_split_20261016.md;
+code:workflows/presentation/loa_mass_complete_20261016/colour_{split,followup,export}.py.
+Large outputs:graphweb_desi/outputs/loa_colour_split_20261016_v1 and_v2 onScratch.
+
+### 2026-10-16 [science] High-mass environment literature interpretation
+
+Reviewed primary Peng2010,Wetzel2012,Alpaslan2015,Eardley2015,Kraljic2018,
+Xu2020,Parente2024,NandiPandey2026 for Loa logM>=10.69. Literature supports
+weak/selection-dependent high-mass residuals, particularly among surviving
+blue/starforming populations, but not a universal null or transferableamplitude.
+Parente's ~10.8 convergence is modeldependent; Xu's highmassweakening removes
+halo effects whereas our controls do not. Kraljic and recentSDSS reportresiduals.
+Our red meanlogssfr shift mixes quenchingfractions and state-specificmeans;
+not evidence of equalshift in SFsequence. No universal5-10pp/.1dexbenchmark.
+Primarypapersreviewedwithmethodandpopulationdifferences explicitly recorded.
+Report:GraphWeb_DESI/docs/massive_galaxy_environment_literature_20261016.md.
+User requestedallthisthreadworkcommitted; scopedreproducibilityarchive includes
+small historicalreports/figures/receipts, not largecatalogues/checkpoints.
+0.15-.20colourrerun prepared; pendingexplicitnewCPUapproval atthisentry.
+
+## 2026-10-16 — [science/code] Loa colour split extended to z=0.15–0.20
+
+User-approved CPU allocation 59857020 completed the same observed-colour audit
+and within-colour environment comparison; released and verified absent from queue.
+Fixed log10(Mstar/Msun)>=10.60 retains 518,962 red and 14,909 blue galaxies
+(534,070 total; 199 outside cuts). Blue hard-cluster count is 533. This gives
+7.76 times the previous blue sample but still fails the predeclared 20,000-blue
+gate; results remain exploratory. Observed cuts remain red 0.75<g-r<1.5 and
+blue g-r<0.75, without K correction.
+
+At 0.1 dex mass/0.01 redshift soft controls, red quenched fraction rises
+62.90% to 72.27% from void to cluster; red log-sSFR contrast is -0.202 dex.
+Blue log-sSFR contrast is -0.023 dex (conditional 95% CI -0.042 to -0.002),
+and colour +0.00425 mag. Blue hints are control-sensitive: finer joint support
+retains 6,451 galaxies and includes zero for log-sSFR and colour. Blue quenched
+fraction contrast also loses significance under alternative controls. No causal,
+calibration, robust blue-detection or isolated lower-mass-effect claim is made.
+
+All 128 mean vectors, ten colour percentiles, 256 bootstrap draws per calculation,
+257 sampled original-VAC row comparisons and FITS roundtrip passed. Fixed cut
+exceeds all old bin limits, excluding source truncation. Final plots inspected;
+small evidence copies SHA256 verified. Full FITS remains on Scratch under
+`graphweb_desi/outputs/loa_colour_lowz_20261016_v1/`. Report and figures are in
+sibling `GraphWeb_DESI/docs/loa_colour_lowz_20261016.md`.
+
+## 2026-10-16 — [science/code] Saved-selection colour–mass diagrams recreated
+
+Three raw observed-colour/mass distributions now compare z=0.15–0.20,
+0.20–0.22 and 0.20–0.30 at fixed log-mass cuts 10.60, 10.69 and 10.96.
+Frozen selected FITS inputs used directly; original selection/inference unchanged.
+Shared axes, count normalization and colour boundaries show the changing
+observed-colour membership; no K correction or volume normalization is applied.
+All saved counts, unique IDs, selection membership and independently rebuilt
+histograms passed. Common display bounds omit only 1/1/7 finite objects,
+explicitly annotated. Combined figure visually inspected; hashes archived.
+Approved CPU59858009 ran on nid200041; release verified with empty squeue output.
+Report: sibling `GraphWeb_DESI/docs/loa_colour_mass_20261016.md`.
+
+## 2026-10-16 — [science/code] Observed environment splits and rest-colour audit
+
+Original colour–mass plots now have hard argmax and soft probability-weighted
+void/wall/filament/cluster splits for all three windows at original mass limits
+10.60/10.69/10.96. CIGALE MASS_CG_15 is retained throughout. User subsequently
+narrowed the requested display to these observed-colour/CIGALE-mass plots to
+inspect bimodality. FastSpecFit stellar masses were NEVER substituted.
+
+The separately requested rest-colour comparison completed before that steering
+and is archived as exploratory provenance. Loa FastSpecFit supplied only
+ABSMAG01_SDSS_G-R (SDSS reference z=0.1, not internally dust-corrected).
+3,734,189/3,734,198 parent rows pass unique/position/redshift/photometry checks;
+no missing or duplicate IDs, nine quality failures. At original mass limits,
+observed/rest blue counts on identical valid rows are 14,909/79,206,
+1,922/32,793 and 375/51,292. This changes frame AND filter system, not a pure
+same-filter K correction. Fixed-mass (10.98) diagnostics also show that the
+observed blue-fraction decline is strongly dependent on colour definition.
+
+Rest-colour empirical completeness including 0.70/0.75/0.80 sensitivity cuts
+requires 10.65/10.74/10.98, retaining 64,026/25,993/44,725 primary blue galaxies.
+Each passes the pragmatic 20k-per-colour / 100-per-hard-class count rule, not
+production calibration or power gates. Primary blue cluster-minus-void log-sSFR
+contrasts are -0.047/-0.042/-0.046 dex, excluding zero under four matching
+specifications at boundary 0.75. However 0.70 plus fine joint support in the
+widest window retains 7,276 galaxies and includes zero. Primary blue quenched
+fraction intervals include zero in both higher-z windows. Rest-blue populations
+remain colour-selected mixtures, with raw quenched fractions 4.84/6.19/12.33%.
+No pure star-forming-sequence, physical-causality or DESI-calibration claim.
+
+Approved CPU59858561 on nid200021 completed and was released; queue empty.
+384 fresh FastSpecFit rows, all 50 original VAC columns at 257 rows per six
+primary/paired products, exact original observed TARGETID sets, 1,364 curve
+vectors and independent histograms passed. All available calculations have
+256 bootstrap draws; 46 unsupported controls explicitly unavailable. Final
+figures show all 12 predeclared sensitivity combinations and were visually
+reviewed. Hash-verified small evidence/figures are archived; large FITS remain
+on Scratch under `graphweb_desi/outputs/loa_rest_colour_20261016_v1/`.
+Report: sibling `GraphWeb_DESI/docs/loa_rest_colour_20261016.md`.
+
+## 2026-10-16 — [science/code] Overlaid observed-colour environment histograms
+
+User requested overlapping g−r distributions for the original three CIGALE
+mass selections. Marginalised the archived audited colour–mass grids, merged
+adjacent bins to 1/30 mag, and normalised each environment independently.
+Hard argmax and probability-weighted figures show linear and log-density views.
+Original observed colours retained; no FastSpecFit mass or rest colour used.
+Saved bounds omit 1/1/7 objects; all 24 distributions reconcile to source totals
+and integrate to one. Both figures visually checked; hashes/CSV archived.
+Dominant red peaks with blue shoulders are descriptive, not a bimodality test
+or mass/redshift-controlled environmental effect. Brief one-thread aggregate
+rendering only; no new scheduler allocation. Report in sibling GraphWeb_DESI:
+`docs/loa_colour_histograms_20261016.md`.
+
+## 2026-10-16 — [science/code] Joint mass/redshift matched observed-colour distributions
+
+Reweighted original CIGALE/observed-colour samples to the same pooled joint
+mass/redshift cell distribution across all four inferred environments. Primary
+cells 0.10 dex × 0.01 z, finer 0.05 dex × 0.005 z; require effective N≥20 in
+every hard/soft class per cell. Primary retains 533,037/231,388/607,579 galaxies
+(99.8/99.7/99.4%). No colour selection or new inference; FastSpecFit unused.
+
+Raw hard cluster-minus-void mean colour contrasts 0.0460/0.0465/0.0431 mag
+reduce to 0.03724/0.03740/0.03742 mag. Conditional 95% sky-block intervals:
+[0.03418,0.04017]/[0.03328,0.04106]/[0.03495,0.03950]. Soft contrasts are
+0.03110/0.03155/0.03114 mag; all primary/fine hard/soft intervals exclude zero.
+Fine hard contrasts differ by <0.0002 mag. Broad overlap persists with a small
+conditional colour association; no new bimodality, calibrated transfer or
+causal environmental effect claimed. Higher-z windows overlap.
+
+All 48 independent weighted histograms reconcile; joint-cell balance <3e-14.
+Fine residual mean mass/redshift differences <0.000357 dex/0.000047. All 256
+paired sky-block draws valid; fixed support/target, refitted weights. Residual
+bands are pointwise and conditional, excluding SED/selection/model systematics.
+CPU59873074 on nid200063 completed; two synthetic contracts also passed.
+Final plots retain original analysis with corrected shared display limits;
+small evidence and figures hash-verified. Report in sibling GraphWeb_DESI:
+`docs/loa_matched_colour_20261016.md`.
+
+## 2026-10-17 — [presentation] Three conditional density draws and one mock observation
+
+User requested a conceptual many-fields-to-one-observation diagram and a saved
+simulation-posterior version, plus options before redesigning A01. Produced both
+black16:9 PNG/PDF/SVG figures. Data version reuses exploratory expanded U-Net
+seed17/step9984 sampled-coarse NFE128 draws0–2 for ph012_NGC_s0_interior_00,
+central owned z-cell8; indices/geometry fixed before field inspection. Same1447
+saved observed-success galaxies, exact positions/IDs, matched slab and common
+rho/mean0–4 scale; no clipping, jitter, thinning, new draws, FFT or inference.
+Three-dimensional conditioning is fixed; displayed dots are only a slice.
+No claim of calibrated joint-field uncertainty or exact observation likelihood.
+P12-A per-galaxy posterior and A01ph002 truth are distinct products.
+
+Observation/galaxy hashes, point-cell/count/geometry parity, positive finite
+fields, shared scales, export dimensions/font/text and visual checks passed.
+Checkpoint hash inherited; source draws freshly hashed. Schematic explicitly
+not scientific data. A01 replacement remains user choice: survey-process chain,
+same universe/two surveys, or parent-versus-selected mocks. No Slurm changes.
+Code:workflows/presentation/tokyo_many_fields_20261017.py;
+report:docs/tokyo_many_fields_20261017.md;
+exports:~/fmsu_tokyo_20261010/many_fields_20261017/. Graphify initially unavailable;
+later cosmic_env refresh interrupted after AST extraction, not completed.
+
+### 2026-10-17 — [presentation] Local eigenvalue posterior replaces field-model framing
+
+User explicitly clarified current talk scope is per-galaxy eigenvalue inference.
+Stopped work on illustrative field sketch; kept oldfiles. Corrected savedfield
+arrowheads and labelled separate exploratory model. New primary figure uses
+P12-A ph006 parentrow2717758:512saved draws,209void/303wall atstrictλ>.2.
+Representative actual class-median-nearest triplets, no truth selection. Same
+observed target and242real neighbours in fixed80×80×15Mpc crop; golden target,
+no spatial-field/eigenvector inference. Posterior/points hashes and selectedFITS
+row geometry/redshift/IDs verified. The crop is not thefull3Dconditioning.
+
+ApprovedA01option1 complete:ph002density→survey selection→718observed-success
+mock galaxies; same sourcebound endpoints,no hatching,newcuts orRSDdisplacement.
+Middlebox observational steps conceptual; density istruth,notposterior. Three
+4KPNG/PDF/SVGfigures with sources,arrays,provenance; visual/export/archivechecks.
+No inference/training/Slurm actions. Report:docs/tokyo_local_environments_20261017.md;
+code:workflows/presentation/tokyo_local_environments_20261017.py;
+package:~/fmsu_tokyo_20261010/local_environments_selection_20261017.zip.
+
+### 2026-10-17 — [exploratory presentation] Filament morphology audit and slab screen
+
+Exact frozen Loa rows/IDs/coordinates/P_WEB verified for original4,459-row
+20Mpc slab. Projected covariance-shape upper20% (radius7/.6766Mpc, >=8
+neighbours, x/y edge margin) contains734 targets;482 havePfil<.2, with297
+wall and185void argmax. This is not tidal truth or a model error rate.
+Nested5/10/20Mpc full-depth screen on907fixed central targets has454/699/907
+shape-valid targets. Line-like counts176/214/157, low-Pfil39/81/102; on454
+common-valid targets these become176/105/31 and39/15/9. Eligibility loss and
+changing membership confound a thinner-slab improvement. No complete radius
+10.34585Mpc sphere fits in saved20Mpc slab. Cause remains unresolved; require
+padded off-slab controls and matched held-out mock tidal truth before retraining.
+Investigation prompt records conditional training and explicit Slurm approval gates.
+GraphWeb_DESI/docs/filament_visual_audit_20261017.md and
+GraphWeb_DESI/docs/filament_investigation_prompt_20261017.md hold evidence/plan.
+
+New figures: all4class probability maps on identical rows/scales; fixed central
+200x200Mpc crop with626Pfil>=.5 of1,539galaxies highlighted, all retained;
+conceptual void/wall geometry with actual209/303of512 P12-A class draws and
+same242ph006 neighbours. No inferred orientation or reconstructed field claimed.
+
+A07 keeps original left fractions and only controlled full-survey sSFR series
+(-.1861dex cluster-minus-void). User-approved cached-wedge continuous variants
+use tidal trace and selection-normalized top-hat galaxy density.77,669of89,809
+rows retained in106common .1dex/.01z cells; >=20 per eight-quantile bin in both
+estimators; same pooled mix,128paired sky-block draws (127/126valid). High-low
+contrasts -.2210/-.2698dex, not interchangeable with full-survey class contrast.
+Exact cell-balance/direct-weighted-mean and cell-only-outcome contracts passed.
+No SED, posterior or selection systematic coverage claimed; wedge panels labelled.
+Visual/export/hash/archive checks passed. No new inference/training/Slurm action.
+Outputs: ~/fmsu_tokyo_20261010/{filament_and_local_geometry_20261017,
+a07_simplified_20261017}/. Script: workflows/presentation/tokyo_ssfr_variants_20261017.py.
+
+### 2026-10-17 — [P12-A morphology] Padded-parent preparation; compute gate pending
+
+User requested causal investigation of apparent strings versus lowPfil, with
+explicit resource approval before Slurm. Current verdict unresolved; no retraining
+justification from projected metric. Inspected current cached audits and production
+aggregation: strict per-draw lambda>.2 class counts, not posterior-mean class.
+Fresh shard aggregation, exact training operator normalization and preprocessing
+bindings remain open; inherited plotting integrity is not newly revalidated.
+GraphWeb `docs/filament_parent_stage_20261017.md` records scope and limitations.
+New fail-closed extractor pins full VAC/A06/model hashes, retains all tracers in
+320Mpc parent sphere centred(0,1025,0), exact original4459 row/coordinate/Pfil checks.
+Registered5/10/20/40/80Mpc depths,0/30/60/90deg y rotations,±5/0 offsets and
+0.5/1/1.5R radii. Three synthetic geometry contracts passed in cosmic_env.
+No catalogue scan, new inference, mock payload or job launch yet. Requires user
+approval for oneCPU node/64logical CPUs/desi/interactive/30min/scratch plus
+release only own allocation. Active chat profile mismatch reported, not changed.
+Concurrent untracked files preserved. No new spatial truth/field claim.
+
+### 2026-10-17 — P12-A padded parent extracted and verified
+
+Approved CPU59904097/nid200020 completed0:0 (9s step,16s allocation); released
+automatically. Native escalation worked after bwrap sandbox directory failure;
+no profile/security changes. Parent180977 rows contains all4459 original targets.
+Fresh full VAC SHA256 before/after and posterior/encoder/manifest bindings pass;
+exact original IDs, positions, quality/support/Pfil reproduced. Off-slab geometry
+analysis remains pending; no wall interpretation or retraining conclusion yet.
+Receipt: GraphWeb docs/evidence/filament_parent_20261017/READY.json.
+
+### 2026-10-17 — [P12-A] Off-slab geometry: partial projection effect, not majority sheets
+
+User-approved CPU comparison of frozen Loa parent180977/original4459 complete.
+Main297 projected-line-like Pfil<.2 wall-argmax targets: atR=7/.6766Mpc,244
+with>=8neighbours yield191line/49sheet/4isotropic covariance-dominance proxies;
+53too sparse. At1.5R all297 yield211/59/27. Main-radius sheet fraction~20–21%
+for minimum6/8/12. This is tracer geometry, NOT tidal truth or model-error rate.
+Paired193 targets: adding off-slab raises P-L+.1334,95%spatial-blockCI[.0764,.1939];
+matching counts with32random subsets gives+.1154,[.0665,.1646].27of178slab-lines
+become sheets,149remain lines. Thus meaningful projection effect, not sufficient
+explanation that most wall predictions are hidden sheets. Filament-argmax controls
+also lose elongation; unmatched density/mass and survey/RSD caveats remain.
+
+Same297 targets at20/40/80Mpc depths:288/63/9 projected-line-like; corresponding
+filament-control161/41/8of173. All-five-depth common wall cohort only3; recorded
+secondary20/40/80 comparison avoids changing denominator. Rotations/offsets
+reselect parent and retain eligibility transitions; do not interpret unpaired
+rotated fractions as a common-cohort effect. Original projected statistic
+reproduced to1e-10, exact IDs/probabilities and parent hash checked.
+
+Three synthetic contracts and183saved-array reconciliations pass. CPU59904230
+complete; validator59904267failed on empty-bin handling, fixed59904281complete.
+Allocations released. Three PNG/PDF figure pages visually reviewed, exact IDs/
+arrays and hashes committed in GraphWeb. Report docs/filament_offslab_results_20261017.md.
+No catalogue/model change or retraining; full model-error cause remains unresolved.
+Next matched mock matter-truth control distinguishes true-wall tracer strings
+from excess model error; TARP does not certify visual correspondence or Loa transfer.
+
+### 2026-10-17 — [P12-A morphology] Mock truth control prepared; allocation approval pending
+
+User requested the same geometry test on mocks with tidal truth and approved
+necessary compute. Prepared GraphWeb workflows/p12a_vac/filament_geometry/mock_truth.py
+and docs/filament_mock_truth_20261017.md. Uses already-exposed ph006 evaluation
+rows/posterior draws and full canonical successful-redshift tracer context;
+original A06 target cuts and separately labelled local slabs, fixed geometry
+thresholds, natural shell weights and spatial-block intervals. Parent-ID/truth,
+coordinate and frozen-product hash assertions precede calculation. Syntax passes;
+no mock result, no misclassification verdict, no fresh sealed phase access.
+Automatic approval review rejected proposed oneCPU/64logicalCPU/desi/interactive/
+30min/scratch allocation because exact resource approval is required by workspace
+instructions. No allocation created and unrelated pending work untouched.
+
+### 2026-10-17 — [P12-A morphology] Mock truth: true walls commonly remain tracer strings
+
+Resource-specific user approval received; CPU59904645/nid200009 completed0:0
+and released after3m27s. Frozen already-exposed ph006 evaluation only, no sealed
+phase or retraining.21,052evaluation targets atz.2-.3,4,968,208full observed-context
+tracers atz.15-.55; sample/canonical parent-ID truth agreement and hashes pass.
+MainR=7/.6766Mpc,min8:4,521measurable truewalls are67.8%line/25.0%sheet weighted.
+968projected-string truewalls remain80.3%line/19.0%sheet in full3D. Thus tracer
+string morphology need not mean tidal-filament truth.
+
+772measurable projected-string,Pfil<.2,wallargmax predictions contain643truewalls,
+28filaments,101voids,0clusters. Weighted83.3%wall(95%blockCI80.5-86.1),3.6%filament
+(2.7-4.6),13.1%void. MeanPwall81.9%; truth-minus-probability+1.4pp[-.6,+3.6], no
+conditional mean evidence of wall overconfidence. All comparable wallpredictions
+83.1%wall/5.3%filament; overlapping/unmatched comparison, not causal significance.
+At1.5R all1,012boundary-cleared projected-wallstrings measurable:82.8%truewall,
+3.7%filament;65.2%line/25.9%sheet. Main min6/8/12truewallline69.2/67.8/65.3%.
+
+Headline uses target-centred20Mpc global-orientation slabs, not exactA06selection.
+OriginalA06cuts only52evaluationtargets,4eligible wallstrings across2blocks;
+all4truewall but too small for conclusion/reliable bootstrap intervals. Local
+centering reduces offslab effect; this tests geometry/truth correspondence, not
+replication of projection-loss magnitude. Stored native host matter-tidal labels
+not recomputed here; observed tracer covariance not tidal operator. Single
+model-selection-exposed phase; no DESIerrorrate or blindgeneralization claim.
+
+Three synthetic tests and1,080saved-array checks pass; figure visually reviewed.
+GraphWeb docs/filament_mock_truth_20261017.md, evidence and figures under matching
+filament_mock_truth_20261017 directories. Scientific conclusion: true-wall tracer
+strings dominate this mock cohort; appearance alone does not justify retraining.
+
+### 2026-10-17 — [P12-A morphology] Three matched mock truth/prediction examples
+
+User requested physical explanation and galaxy/truth/P12-A side-by-side views.
+Selected median parent ID in three predeclared eligible ph006 cohorts: truewall
+withlinegeometry(pool522), truewallwithsheetgeometry(118), truefilament predicted
+wall(28). TARGETIDs6032112/3743465/1493453. No visual reselection. True eigenvalues
+[-.1215,.1057,.3121]/[-.2624,.1285,.3893]/[-.2317,.2177,.2791]; centralPwall
+.6641/.9180/.6738. Third is a real argmaxerror withlambda2only.0177above.2.
+FullRneighbours17/14/13, LPS(.664,.272,.064)/(.042,.644,.314)/(.762,.189,.049).
+
+Panels show exact20Mpcslab projectedradiusR and orthogonalfullRsphere, withsame
+positions across galaxy/truth/predictioncolumns within each row. Nativehostlabels
+shown atobservedpositions, not continuousmatterfield.133unique paddedneighbours;
+frozenFMPE512newCPUdraws using savedencoder/responsecontext;7originalevaluation
+probabilityvectors retained incl3centres. Alltruth/predictionsavailable.13context
+replayspass1e-6; fullgeometry/countreplayR/1.5R andprojectedstat1e-10pass. Figures
+visuallychecked. CPU59904866/nid2000140:0,35sinitial+3sfinalplot, released3m33s.
+
+Physical explanation distinguishes thresholded smoothedpotentialHessian from
+sparse observedgalaxy covariance. Multiscale substructure, sampling, projection
+and RSD are plausible contributors, not individually attributed causes. Prior
+full3Dresult rules out projection as sole explanation. No new model/training,
+sealedphase or populationprevalence claim from selectedexamples. GraphWeb
+report docs/filament_mock_examples_20261017.md, matching evidence/figures dirs.
+
+### 2026-10-17 — [presentation] String-like wall main slide and matched sSFR overlay
+
+User requested genuine string-like tidalwall as main talk example, sheetlike wall
+and actual error as backups, plus continuous/discrete sSFR overlay. New black16:9
+main slide preserves ph006TARGETID6032112/Pwall66.4% and exact17-neighbour full
+sphere. Same positions across galaxy/truth/argmax columns; simple distinction
+between tracer geometry and smoothed gravitational environment. Backups retain
+3743465(sheet,orthogonal x/height) and1493453(error,x/y). No field reconstruction,
+new draws, example reselection or DESIaccuracy claim; original exposedmock scope.
+
+A07overlay recomputes eight tidaltrace bins and four hardP_WEBargmax class
+summaries on SAME63,347/89,809 cachedwedge galaxies,74 common .1dex/.01z cells,
+>=20rows per bin/class. Common pooled mass/z mix; class diamonds at standardized
+meantrace, explicitly overlapping classes, not trace thresholds. Stricter support
+changes means versus older variants. Greycurve/coloredpoints show same reference;
+120/128 jointly valid paired spatialbootstraps; no SED/posterior/systematic errors.
+Original leftfractionpanel pixel-identical; right explicitly wedge-only.
+Cache/mock hashes, centraltruth/probability/count replay, direct weighted x/y,
+jointcellbalance and cell-only outcome equality pass. 4KPNG/vectorPDF/editableSVG,
+2-pagebackupPDF,720pinspection and archive integrity verified. No Slurm or inference.
+Outputs ~/fmsu_tokyo_20261010/talk_wall_overlay_20261017/; source GraphWeb_DESI/
+workflows/presentation/tokyo_wall_and_ssfr_overlay_20261017.py. Graphify unavailable;
+targeted inspection used. Original reports and scientific results unchanged.
+
+### 2026-10-17 — [P12-A morphology] Same-region real matter, thinning and RSD controls
+
+User requested dense realspace matter then DESIdensity thinning for same3regions.
+Fixed TARGETIDs6032112/3743465/1493453. Nativeph00610%A+B TSCgrid2048^3,
+.97656Mpc/h cells; publicHODgalaxiesZ_COSMO vsZ; actualobservedpositions replay.
+Matter-origin halfbox offset(+1000) verified16hosts/region; localgeometry-only
+transform heldoutmax<.00078Mpc. Nativehosttidaleigenvalues exact3centre replay.
+No label fitting, new model, sealedphase or CFSwrite.
+
+Dense real matter L=.547/.443/.587 (positiveexcessL=.646/.693/.769): resolved
+anisotropic structure exists even in truewallregions. AllavailablegalaxiesN46/29/25,
+realL=.687/.765/.565.512uniform countmatchedthinnings toobservedN17/14/13:
+medianL=.686/.741/.565; line-dominance503/512,504/512,422/512 (98.2/98.4/82.4%).
+UniformisotropicfiniteNreference itself gives28.7/41.8/46.5%line labels, so this
+covariance category is not a significance test. Matter-sampling controls retained.
+Thinning matches localobservedcounts, not fullDESIselection or globalnbar(z).
+
+ExactlysameobservedRS-selectedIDs realL->RSL: .6639->.6637(originalwallstring),
+.2926->.0424(previoussheetwall), .5990->.7620(truefilamenterror). Secondregion
+P=.4156->.6441, delta(P-L)+.4789, but membershipalsochanges: realN11 vsRSN14,
+10common/4RSonly/1realonly. Fixedreal11IDs remainline L=.637->.704. Therefore
+aperture/selection important; oldsheetgeometry not straightforward densematter
+sheet. Originalstring realstructureexists; alternatefixedreal23IDs RSDamplifies
+L=.544->.728, so do not say velocities have zeroeffect onwhole region. Filament
+errorRSDenhances genuineanisotropy. R7smoothdensitycov S>.91 for3cases illustrates
+scale/operator difference, not tidalclass change.
+
+4180independent SVD/repeateddraw/count/massshape checks pass; all3figurepages
+reviewed. CPU59905073/nid200071 released12min0:0 overall; corrected initialsyntax
+and overlytight grid-isotropyvalidator failures preserved in logs. Extract52s,
+analysis9s/v2repeat7s; finalfiguresvalid. GraphWebdocs/filament_realspace_20261017.md
+plusmatching evidence/figuresdirs; scratchfilament_realspace_20261017_v2 final.
+Largeinputfiles metadata/buildmanifestbound, not fullyrehashed. Nativegridreslimits,
+HOD/selection differences and3illustrative exposed-phasecases constrain inference.
+
+### 2026-10-17 — [presentation] Extend sSFR curve with measured high-trace bin
+
+User noted classcluster meantrace beyond last continuous-bin mean. Original
+upperquantile bin was broad; split attrace1.75 after inspecting only trace/count
+support. No extrapolation or y-based fit. Recompute both class/continuous means
+on59,774galaxies/69common mass-zcells, >=20per bin/class. Added hightrace bin:
+3,301galaxies, standardizedmeantrace2.1488, meansSFR-11.1583; cluster summary
+trace2.0800, meansSFR-11.1586. Values independently computed; no enforced match.
+117/128jointly valid spatialbootstraps (previous120); computational usable-draw
+guard100 for extension, conditional valid-draw uncertainty explicitly documented.
+Original leftpanel pixelidentical; weightedmean/cellbalance,sourcehash,4K/vector,
+visual and archivechecks pass. Prior package preserved. Updated package:
+~/fmsu_tokyo_20261010/talk_wall_overlay_extended_20261017.zip; corresponding
+GraphWeb_DESI/workflows/presentation/tokyo_wall_and_ssfr_overlay_extended_20261017.py.
+No inference/training/Slurm actions; same exposedmock main/backup slides retained.
+
+
+## 2026-10-18 — FMSU A–E revisions and coordinate audit
+
+Package: /global/homes/d/dkololgi/fmsu_tokyo_20261010/tokyo_revisions_20261018.zip. Index, exact source bindings, coordinate audit, per-figure receipts and SHA256 manifest in revisions_20261018/. Seven compositions and 21 bodies/builds/components plus copied context asset; PNG/PDF/SVG, 1920×900, full previews 1920×1080, IBM Plex Sans.
+
+ph002 fields/dots use Z_COSMO and pinned DESI/c000 distances in h^-1 Mpc, same real-space chart/slab; ph006 context uses observed Z and Planck18 Mpc. Same TARGETID 6765665, 512 joint draws and 209/303/0/0 counts; actual draw indices 362/291. TARP curve and descriptive maximum-deviation envelope unchanged, already-exposed held-out ph006. Paper I reuses saved predicted-class contour paths; pointwise projection unavailable, so no entropy or true-class recolouring. No new scientific inference, training, Slurm action or production claim. Source checks, dimensions, fonts, transparent layers and half-size visual review passed. graphify update unavailable (command not found).
+
+See `docs/tokyo_revisions_20261018.md`.
+
+
+## 2026-10-19 — Talk notation corrections
+
+A/C diagrams consistently use bold lambda_g, including builds/components. Galaxy-properties axis retains Inferred tidal trace and adds Tr(T)=lambda1+lambda2+lambda3 proportional to delta. Saved arrays/statistics unchanged; no recomputation. Half-size visual QA passed. Package: ~/fmsu_tokyo_20261010/tokyo_notation_corrections_20261019.zip; earlier packages preserved.

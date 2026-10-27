@@ -1,0 +1,899 @@
+{
+  "schema_version": "full-exposed-fiducial-satellite-census-v1",
+  "completed": true,
+  "job_id": 60005529,
+  "input_receipts": [
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/galaxy_position_validation_20261019/census_job60005529/COMPLETE.json",
+      "sha256": "46ce8db0ce032095044ee83dd6c5b4897e9097f7e81d4900ee0db63179da58bc"
+    },
+    {
+      "path": "/pscratch/sd/d/dkololgi/abacus/galaxy_position_validation_20261019/census_training_extension_job60005529/COMPLETE.json",
+      "sha256": "96d7cc67bd8ae9d14086574244fa72fc55bdc7829311ba807fc486e0d8cdc4a8"
+    }
+  ],
+  "phases": {
+    "ph000": {
+      "phase": "ph000",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph000.fits",
+        "bytes": 6645378240,
+        "mtime_ns": 1706807554000000000
+      },
+      "rows": 63897781,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5476,
+          "RES0_CEN1": 1209631,
+          "RES1_CEN0": 8435952,
+          "RES1_CEN1": 54246722
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2198,
+          "RES0_CEN1": 502552,
+          "RES1_CEN0": 4010081,
+          "RES1_CEN1": 26177424
+        },
+        "low_branch": {
+          "RES0_CEN0": 5476,
+          "RES0_CEN1": 1209631,
+          "RES1_CEN0": 2254760,
+          "RES1_CEN1": 10011729
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6181192,
+          "RES1_CEN1": 44234993
+        }
+      },
+      "unresolved_satellites": 5476,
+      "fraction": 8.569937663406497e-05,
+      "elapsed_seconds": 143.47982003103243,
+      "completed": true
+    },
+    "ph002": {
+      "phase": "ph002",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph002.fits",
+        "bytes": 6647120640,
+        "mtime_ns": 1706807927000000000
+      },
+      "rows": 63914519,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5518,
+          "RES0_CEN1": 1207895,
+          "RES1_CEN0": 8429477,
+          "RES1_CEN1": 54271629
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2283,
+          "RES0_CEN1": 497128,
+          "RES1_CEN0": 4008674,
+          "RES1_CEN1": 26189151
+        },
+        "low_branch": {
+          "RES0_CEN0": 5518,
+          "RES0_CEN1": 1207895,
+          "RES1_CEN0": 2228144,
+          "RES1_CEN1": 9954136
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6201333,
+          "RES1_CEN1": 44317493
+        }
+      },
+      "unresolved_satellites": 5518,
+      "fraction": 8.633406127956622e-05,
+      "elapsed_seconds": 144.61547719599912,
+      "completed": true
+    },
+    "ph003": {
+      "phase": "ph003",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph003.fits",
+        "bytes": 6636481920,
+        "mtime_ns": 1706808122000000000
+      },
+      "rows": 63812228,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5394,
+          "RES0_CEN1": 1199308,
+          "RES1_CEN0": 8404983,
+          "RES1_CEN1": 54202543
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2204,
+          "RES0_CEN1": 493048,
+          "RES1_CEN0": 3991937,
+          "RES1_CEN1": 26158421
+        },
+        "low_branch": {
+          "RES0_CEN0": 5394,
+          "RES0_CEN1": 1199308,
+          "RES1_CEN0": 2227384,
+          "RES1_CEN1": 9997783
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6177599,
+          "RES1_CEN1": 44204760
+        }
+      },
+      "unresolved_satellites": 5394,
+      "fraction": 8.452925354682804e-05,
+      "elapsed_seconds": 141.30280067102285,
+      "completed": true
+    },
+    "ph004": {
+      "phase": "ph004",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph004.fits",
+        "bytes": 6654746880,
+        "mtime_ns": 1706808304000000000
+      },
+      "rows": 63987850,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5301,
+          "RES0_CEN1": 1206752,
+          "RES1_CEN0": 8443677,
+          "RES1_CEN1": 54332120
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2281,
+          "RES0_CEN1": 502763,
+          "RES1_CEN0": 4032895,
+          "RES1_CEN1": 26246646
+        },
+        "low_branch": {
+          "RES0_CEN0": 5301,
+          "RES0_CEN1": 1206752,
+          "RES1_CEN0": 2314073,
+          "RES1_CEN1": 10185607
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6129604,
+          "RES1_CEN1": 44146513
+        }
+      },
+      "unresolved_satellites": 5301,
+      "fraction": 8.284385238760171e-05,
+      "elapsed_seconds": 142.07841888902476,
+      "completed": true
+    },
+    "ph005": {
+      "phase": "ph005",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph005.fits",
+        "bytes": 6662888640,
+        "mtime_ns": 1706808483000000000
+      },
+      "rows": 64066153,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5593,
+          "RES0_CEN1": 1234014,
+          "RES1_CEN0": 8478630,
+          "RES1_CEN1": 54347916
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2431,
+          "RES0_CEN1": 520878,
+          "RES1_CEN0": 4045304,
+          "RES1_CEN1": 26255987
+        },
+        "low_branch": {
+          "RES0_CEN0": 5593,
+          "RES0_CEN1": 1234014,
+          "RES1_CEN0": 2283725,
+          "RES1_CEN1": 10057733
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6194905,
+          "RES1_CEN1": 44290183
+        }
+      },
+      "unresolved_satellites": 5593,
+      "fraction": 8.730038777261997e-05,
+      "elapsed_seconds": 147.75098829896888,
+      "completed": true
+    },
+    "ph006": {
+      "phase": "ph006",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph006.fits",
+        "bytes": 8968233600,
+        "mtime_ns": 1706808716000000000
+      },
+      "rows": 64058709,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5613,
+          "RES0_CEN1": 1237226,
+          "RES1_CEN0": 8458747,
+          "RES1_CEN1": 54357123
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2461,
+          "RES0_CEN1": 525187,
+          "RES1_CEN0": 4033630,
+          "RES1_CEN1": 26260876
+        },
+        "low_branch": {
+          "RES0_CEN0": 5613,
+          "RES0_CEN1": 1237226,
+          "RES1_CEN0": 2274955,
+          "RES1_CEN1": 10053732
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6183792,
+          "RES1_CEN1": 44303391
+        }
+      },
+      "unresolved_satellites": 5613,
+      "fraction": 8.762274619052969e-05,
+      "elapsed_seconds": 187.25674383499427,
+      "completed": true
+    },
+    "ph007": {
+      "phase": "ph007",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph007.fits",
+        "bytes": 6686519040,
+        "mtime_ns": 1706808907000000000
+      },
+      "rows": 64293351,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5516,
+          "RES0_CEN1": 1247160,
+          "RES1_CEN0": 8538316,
+          "RES1_CEN1": 54502359
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2401,
+          "RES0_CEN1": 542359,
+          "RES1_CEN0": 4104613,
+          "RES1_CEN1": 26412154
+        },
+        "low_branch": {
+          "RES0_CEN0": 5516,
+          "RES0_CEN1": 1247160,
+          "RES1_CEN0": 2338424,
+          "RES1_CEN1": 10206714
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6199892,
+          "RES1_CEN1": 44295645
+        }
+      },
+      "unresolved_satellites": 5516,
+      "fraction": 8.579425265919021e-05,
+      "elapsed_seconds": 148.1163958509569,
+      "completed": true
+    },
+    "ph008": {
+      "phase": "ph008",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph008.fits",
+        "bytes": 6669751680,
+        "mtime_ns": 1706809089000000000
+      },
+      "rows": 64132137,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5459,
+          "RES0_CEN1": 1219623,
+          "RES1_CEN0": 8479083,
+          "RES1_CEN1": 54427972
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2336,
+          "RES0_CEN1": 504844,
+          "RES1_CEN0": 4045091,
+          "RES1_CEN1": 26321564
+        },
+        "low_branch": {
+          "RES0_CEN0": 5459,
+          "RES0_CEN1": 1219623,
+          "RES1_CEN0": 2267638,
+          "RES1_CEN1": 10068411
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6211445,
+          "RES1_CEN1": 44359561
+        }
+      },
+      "unresolved_satellites": 5459,
+      "fraction": 8.512113045601459e-05,
+      "elapsed_seconds": 144.888580132043,
+      "completed": true
+    },
+    "ph009": {
+      "phase": "ph009",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph009.fits",
+        "bytes": 6648520320,
+        "mtime_ns": 1706809272000000000
+      },
+      "rows": 63927983,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5161,
+          "RES0_CEN1": 1169830,
+          "RES1_CEN0": 8435696,
+          "RES1_CEN1": 54317296
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2266,
+          "RES0_CEN1": 507517,
+          "RES1_CEN0": 4028160,
+          "RES1_CEN1": 26252534
+        },
+        "low_branch": {
+          "RES0_CEN0": 5161,
+          "RES0_CEN1": 1169830,
+          "RES1_CEN0": 2250900,
+          "RES1_CEN1": 9991919
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6184796,
+          "RES1_CEN1": 44325377
+        }
+      },
+      "unresolved_satellites": 5161,
+      "fraction": 8.073146934731227e-05,
+      "elapsed_seconds": 139.2132682860247,
+      "completed": true
+    },
+    "ph010": {
+      "phase": "ph010",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph010.fits",
+        "bytes": 6691907520,
+        "mtime_ns": 1706809474000000000
+      },
+      "rows": 64345160,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5894,
+          "RES0_CEN1": 1300726,
+          "RES1_CEN0": 8582456,
+          "RES1_CEN1": 54456084
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2842,
+          "RES0_CEN1": 591427,
+          "RES1_CEN0": 4150512,
+          "RES1_CEN1": 26367784
+        },
+        "low_branch": {
+          "RES0_CEN0": 5894,
+          "RES0_CEN1": 1300726,
+          "RES1_CEN0": 2382925,
+          "RES1_CEN1": 10139973
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6199531,
+          "RES1_CEN1": 44316111
+        }
+      },
+      "unresolved_satellites": 5894,
+      "fraction": 9.159974114603181e-05,
+      "elapsed_seconds": 140.51018274301896,
+      "completed": true
+    },
+    "ph011": {
+      "phase": "ph011",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph011.fits",
+        "bytes": 6655386240,
+        "mtime_ns": 1706809668000000000
+      },
+      "rows": 63994004,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5715,
+          "RES0_CEN1": 1246946,
+          "RES1_CEN0": 8460003,
+          "RES1_CEN1": 54281340
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2576,
+          "RES0_CEN1": 533566,
+          "RES1_CEN0": 4037721,
+          "RES1_CEN1": 26226434
+        },
+        "low_branch": {
+          "RES0_CEN0": 5715,
+          "RES0_CEN1": 1246946,
+          "RES1_CEN0": 2284697,
+          "RES1_CEN1": 10078035
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6175306,
+          "RES1_CEN1": 44203305
+        }
+      },
+      "unresolved_satellites": 5715,
+      "fraction": 8.930524178483972e-05,
+      "elapsed_seconds": 175.44334466400323,
+      "completed": true
+    },
+    "ph012": {
+      "phase": "ph012",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph012.fits",
+        "bytes": 6690899520,
+        "mtime_ns": 1706809875000000000
+      },
+      "rows": 64335474,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5324,
+          "RES0_CEN1": 1191817,
+          "RES1_CEN0": 8560801,
+          "RES1_CEN1": 54577532
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2417,
+          "RES0_CEN1": 525725,
+          "RES1_CEN0": 4122674,
+          "RES1_CEN1": 26463908
+        },
+        "low_branch": {
+          "RES0_CEN0": 5324,
+          "RES0_CEN1": 1191817,
+          "RES1_CEN0": 2331527,
+          "RES1_CEN1": 10184472
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6229274,
+          "RES1_CEN1": 44393060
+        }
+      },
+      "unresolved_satellites": 5324,
+      "fraction": 8.275372308596032e-05,
+      "elapsed_seconds": 145.94135832501343,
+      "completed": true
+    },
+    "ph013": {
+      "phase": "ph013",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph013.fits",
+        "bytes": 6642380160,
+        "mtime_ns": 1706810056000000000
+      },
+      "rows": 63868949,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5398,
+          "RES0_CEN1": 1228543,
+          "RES1_CEN0": 8428873,
+          "RES1_CEN1": 54206135
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2329,
+          "RES0_CEN1": 510818,
+          "RES1_CEN0": 4014770,
+          "RES1_CEN1": 26162519
+        },
+        "low_branch": {
+          "RES0_CEN0": 5398,
+          "RES0_CEN1": 1228543,
+          "RES1_CEN0": 2261391,
+          "RES1_CEN1": 10007114
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6167482,
+          "RES1_CEN1": 44199021
+        }
+      },
+      "unresolved_satellites": 5398,
+      "fraction": 8.45168127003311e-05,
+      "elapsed_seconds": 144.33091393503128,
+      "completed": true
+    },
+    "ph014": {
+      "phase": "ph014",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph014.fits",
+        "bytes": 6669633600,
+        "mtime_ns": 1706810240000000000
+      },
+      "rows": 64130988,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5749,
+          "RES0_CEN1": 1260305,
+          "RES1_CEN0": 8502950,
+          "RES1_CEN1": 54361984
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2466,
+          "RES0_CEN1": 537208,
+          "RES1_CEN0": 4072137,
+          "RES1_CEN1": 26289384
+        },
+        "low_branch": {
+          "RES0_CEN0": 5749,
+          "RES0_CEN1": 1260305,
+          "RES1_CEN0": 2327494,
+          "RES1_CEN1": 10121653
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6175456,
+          "RES1_CEN1": 44240331
+        }
+      },
+      "unresolved_satellites": 5749,
+      "fraction": 8.964465041455466e-05,
+      "elapsed_seconds": 150.34806662698975,
+      "completed": true
+    },
+    "ph015": {
+      "phase": "ph015",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph015.fits",
+        "bytes": 6663110400,
+        "mtime_ns": 1706810423000000000
+      },
+      "rows": 64068259,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5441,
+          "RES0_CEN1": 1230379,
+          "RES1_CEN0": 8472730,
+          "RES1_CEN1": 54359709
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2317,
+          "RES0_CEN1": 514074,
+          "RES1_CEN0": 4032569,
+          "RES1_CEN1": 26249731
+        },
+        "low_branch": {
+          "RES0_CEN0": 5441,
+          "RES0_CEN1": 1230379,
+          "RES1_CEN0": 2270511,
+          "RES1_CEN1": 10032081
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6202219,
+          "RES1_CEN1": 44327628
+        }
+      },
+      "unresolved_satellites": 5441,
+      "fraction": 8.492504845496114e-05,
+      "elapsed_seconds": 156.94283213902963,
+      "completed": true
+    },
+    "ph016": {
+      "phase": "ph016",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph016.fits",
+        "bytes": 6661707840,
+        "mtime_ns": 1706810617000000000
+      },
+      "rows": 64054800,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5266,
+          "RES0_CEN1": 1194539,
+          "RES1_CEN0": 8500417,
+          "RES1_CEN1": 54354578
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2179,
+          "RES0_CEN1": 475262,
+          "RES1_CEN0": 4047432,
+          "RES1_CEN1": 26264745
+        },
+        "low_branch": {
+          "RES0_CEN0": 5266,
+          "RES0_CEN1": 1194539,
+          "RES1_CEN0": 2289912,
+          "RES1_CEN1": 10080470
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6210505,
+          "RES1_CEN1": 44274108
+        }
+      },
+      "unresolved_satellites": 5266,
+      "fraction": 8.221085695373337e-05,
+      "elapsed_seconds": 155.20609345199773,
+      "completed": true
+    },
+    "ph017": {
+      "phase": "ph017",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph017.fits",
+        "bytes": 6666105600,
+        "mtime_ns": 1706810813000000000
+      },
+      "rows": 64097086,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5370,
+          "RES0_CEN1": 1220113,
+          "RES1_CEN0": 8507243,
+          "RES1_CEN1": 54364360
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2427,
+          "RES0_CEN1": 542497,
+          "RES1_CEN0": 4076436,
+          "RES1_CEN1": 26285262
+        },
+        "low_branch": {
+          "RES0_CEN0": 5370,
+          "RES0_CEN1": 1220113,
+          "RES1_CEN0": 2294240,
+          "RES1_CEN1": 10048895
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6213003,
+          "RES1_CEN1": 44315465
+        }
+      },
+      "unresolved_satellites": 5370,
+      "fraction": 8.377915963293557e-05,
+      "elapsed_seconds": 155.1379416959826,
+      "completed": true
+    },
+    "ph020": {
+      "phase": "ph020",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph020.fits",
+        "bytes": 6682697280,
+        "mtime_ns": 1706809919000000000
+      },
+      "rows": 64256598,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5577,
+          "RES0_CEN1": 1260503,
+          "RES1_CEN0": 8556063,
+          "RES1_CEN1": 54434455
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2564,
+          "RES0_CEN1": 561293,
+          "RES1_CEN0": 4115163,
+          "RES1_CEN1": 26341323
+        },
+        "low_branch": {
+          "RES0_CEN0": 5577,
+          "RES0_CEN1": 1260503,
+          "RES1_CEN0": 2339079,
+          "RES1_CEN1": 10087587
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6216984,
+          "RES1_CEN1": 44346868
+        }
+      },
+      "unresolved_satellites": 5577,
+      "fraction": 8.679264345740806e-05,
+      "elapsed_seconds": 181.23185904003913,
+      "completed": true
+    },
+    "ph021": {
+      "phase": "ph021",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph021.fits",
+        "bytes": 6647022720,
+        "mtime_ns": 1706810108000000000
+      },
+      "rows": 63913593,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5239,
+          "RES0_CEN1": 1182047,
+          "RES1_CEN0": 8450947,
+          "RES1_CEN1": 54275360
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2368,
+          "RES0_CEN1": 509654,
+          "RES1_CEN0": 4036829,
+          "RES1_CEN1": 26209122
+        },
+        "low_branch": {
+          "RES0_CEN0": 5239,
+          "RES0_CEN1": 1182047,
+          "RES1_CEN0": 2242899,
+          "RES1_CEN1": 10033523
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6208048,
+          "RES1_CEN1": 44241837
+        }
+      },
+      "unresolved_satellites": 5239,
+      "fraction": 8.197004352423122e-05,
+      "elapsed_seconds": 174.44238109403523,
+      "completed": true
+    },
+    "ph022": {
+      "phase": "ph022",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph022.fits",
+        "bytes": 6674883840,
+        "mtime_ns": 1706810316000000000
+      },
+      "rows": 64181478,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5481,
+          "RES0_CEN1": 1226000,
+          "RES1_CEN0": 8530663,
+          "RES1_CEN1": 54419334
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2436,
+          "RES0_CEN1": 528348,
+          "RES1_CEN0": 4084486,
+          "RES1_CEN1": 26301895
+        },
+        "low_branch": {
+          "RES0_CEN0": 5481,
+          "RES0_CEN1": 1226000,
+          "RES1_CEN0": 2312250,
+          "RES1_CEN1": 10096522
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6218413,
+          "RES1_CEN1": 44322812
+        }
+      },
+      "unresolved_satellites": 5481,
+      "fraction": 8.53984696332484e-05,
+      "elapsed_seconds": 198.78433816798497,
+      "completed": true
+    },
+    "ph023": {
+      "phase": "ph023",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph023.fits",
+        "bytes": 6654467520,
+        "mtime_ns": 1706810532000000000
+      },
+      "rows": 63985173,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5553,
+          "RES0_CEN1": 1233856,
+          "RES1_CEN0": 8494019,
+          "RES1_CEN1": 54251745
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2565,
+          "RES0_CEN1": 552422,
+          "RES1_CEN0": 4068128,
+          "RES1_CEN1": 26183631
+        },
+        "low_branch": {
+          "RES0_CEN0": 5553,
+          "RES0_CEN1": 1233856,
+          "RES1_CEN0": 2275727,
+          "RES1_CEN1": 9946708
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6218292,
+          "RES1_CEN1": 44305037
+        }
+      },
+      "unresolved_satellites": 5553,
+      "fraction": 8.678573081298069e-05,
+      "elapsed_seconds": 157.65647929703118,
+      "completed": true
+    },
+    "ph024": {
+      "phase": "ph024",
+      "source": {
+        "path": "/global/cfs/cdirs/desi/cosmosim/SecondGenMocks/AbacusSummit/CutSky/BGS/v0.1/z0.200/cutsky_BGS_z0.200_AbacusSummit_base_c000_ph024.fits",
+        "bytes": 6669158400,
+        "mtime_ns": 1706810720000000000
+      },
+      "rows": 64126439,
+      "groups": {
+        "full": {
+          "RES0_CEN0": 5562,
+          "RES0_CEN1": 1211721,
+          "RES1_CEN0": 8499413,
+          "RES1_CEN1": 54409743
+        },
+        "bright_r_lt_19p5": {
+          "RES0_CEN0": 2415,
+          "RES0_CEN1": 520591,
+          "RES1_CEN0": 4054768,
+          "RES1_CEN1": 26283805
+        },
+        "low_branch": {
+          "RES0_CEN0": 5562,
+          "RES0_CEN1": 1211721,
+          "RES1_CEN0": 2251316,
+          "RES1_CEN1": 9996065
+        },
+        "high_branch": {
+          "RES0_CEN0": 0,
+          "RES0_CEN1": 0,
+          "RES1_CEN0": 6248097,
+          "RES1_CEN1": 44413678
+        }
+      },
+      "unresolved_satellites": 5562,
+      "fraction": 8.673489572686237e-05,
+      "elapsed_seconds": 138.9471933870227,
+      "completed": true
+    }
+  },
+  "rows": 1409448712,
+  "unresolved_satellites": 120600,
+  "fraction": 8.556536961807519e-05,
+  "percent": 0.008556536961807519,
+  "bright_magnitude_only": {
+    "rows": 678670233,
+    "unresolved_satellites": 52762,
+    "percent": 0.007774320639756127,
+    "selection": "finite R_MAG_APP < 19.5; not the final observed selection"
+  },
+  "high_branch_unresolved_satellites": 0,
+  "excluded": [
+    "ph001",
+    "ph018",
+    "ph019",
+    "HOD variants",
+    "ph006_wdens alternative"
+  ],
+  "scope": "All rows in all 22 named exposed fiducial CutSky catalogues; input metadata bound before and after streaming.",
+  "phase_exposure_basis": [
+    "P10 exposed ph000/ph002-ph006",
+    "e2e_coupled_contract.TRAIN includes ph020-ph024",
+    "wholefield pilot exposed evaluation ph012-ph017; ph018/ph019 remain sealed"
+  ]
+}

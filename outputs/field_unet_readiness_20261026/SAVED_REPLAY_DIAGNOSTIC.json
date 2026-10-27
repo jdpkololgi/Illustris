@@ -1,0 +1,62 @@
+{
+  "training_ready": false,
+  "no_optimization_or_replay_retry": true,
+  "failures": [
+    "conditional endpoint restart tolerance",
+    "P12-A encoder restart tolerance"
+  ],
+  "p12a_saved_replay": {
+    "maximum_parameter_difference": 0.0003714342601597309,
+    "largest_parameters": [
+      [
+        "unet.enc2.0.weight",
+        0.0003714342601597309
+      ],
+      [
+        "unet.enc2.3.weight",
+        0.0003489670343697071
+      ],
+      [
+        "unet.enc0.3.weight",
+        0.0003462638705968857
+      ],
+      [
+        "unet.enc1.3.weight",
+        0.0003407727926969528
+      ],
+      [
+        "unet.enc1.0.weight",
+        0.0003405110037419945
+      ],
+      [
+        "unet.bottleneck.0.weight",
+        0.00031593069434165955
+      ],
+      [
+        "unet.dec2.0.weight",
+        0.00014846259728074074
+      ],
+      [
+        "unet.dec2.3.weight",
+        0.00013522151857614517
+      ]
+    ],
+    "global_steps": [
+      2,
+      2
+    ],
+    "cursors": [
+      2,
+      2
+    ],
+    "epoch_hashes": [
+      "a6030c357dd45565d322a1536610a7b8d1b22eff79c2745b197e7d8adb8deb2a",
+      "a6030c357dd45565d322a1536610a7b8d1b22eff79c2745b197e7d8adb8deb2a"
+    ],
+    "scheduler_equal": true,
+    "objective_sum": [
+      6.352970600128174,
+      6.352969169616699
+    ]
+  }
+}

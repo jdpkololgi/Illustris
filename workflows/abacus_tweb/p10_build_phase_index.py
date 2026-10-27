@@ -59,7 +59,7 @@ def utc_now() -> str:
 
 def default_observed(registry: dict[str, Any], phase: str) -> Path:
     root = Path(registry["path_templates"]["phase_output"].format(phase=phase))
-    return root / "catalogues/observed" / f"{phase}_bgs_bright_full_observed_with_tweb.fits"
+    return root / "catalogues/galaxy_realspace_v2" / f"{phase}_observed_galaxy_realspace_v2_tweb.fits"
 
 
 def default_blind_observed(registry: dict[str, Any], phase: str) -> Path:
@@ -69,7 +69,8 @@ def default_blind_observed(registry: dict[str, Any], phase: str) -> Path:
 
 def default_output_dir(registry: dict[str, Any], phase: str) -> Path:
     root = Path(registry["path_templates"]["phase_output"].format(phase=phase))
-    return root / "p1_canonical"
+    return root / ("p1_canonical" if registry["phases"][phase]["role"] == "sealed_blind"
+                   else "galaxy_realspace_v2/p1_canonical")
 
 
 def comoving_distance_mpc(z: np.ndarray) -> np.ndarray:
@@ -199,6 +200,7 @@ def write_compatibility_manifest(
         "target_truth_present": bool(payload.get("target_truth_present", True)),
         "blind_contract": payload.get("blind_contract"),
         "target_convention": payload.get("target_contract"),
+        "truth_lineage": payload.get("truth_lineage"),
         "no_train_fitted_normalisation": True,
         "no_split_filtering": True,
         "source_completion_marker": str(marker.resolve()),
@@ -224,6 +226,10 @@ def main() -> int:
         else default_observed(registry, args.phase)
     )
     out_dir = args.out_dir or default_output_dir(registry, args.phase)
+    truth_lineage = None
+    if not is_blind:
+        from workflows.abacus_tweb.galaxy_truth_contract import verify_observed_truth
+        truth_lineage = verify_observed_truth(observed, args.phase)
     out_dir.mkdir(parents=True, exist_ok=True)
     marker = out_dir / "CATALOGUE_COMPLETE.json"
     manifest = out_dir / "manifest.json"
@@ -232,6 +238,10 @@ def main() -> int:
     if args.reuse_validated:
         if not (marker.is_file() and index_path.is_file() and points_path.is_file()):
             raise PhaseIndexError("--reuse-validated requires all existing P1 artifacts")
+        if not is_blind:
+            saved = json.loads(marker.read_text())
+            if saved.get("truth_lineage") != truth_lineage:
+                raise PhaseIndexError("Existing P1 does not bind this corrected observed truth")
         legacy = write_compatibility_manifest(
             marker=marker, manifest=manifest, index_path=index_path, points_path=points_path,
         )
@@ -242,7 +252,7 @@ def main() -> int:
 
     required = ["TARGETID", "RA", "DEC", "Z", "BOX_INDEX"]
     if not is_blind:
-        required += ["LAMBDA1", "LAMBDA2", "LAMBDA3", "CWEB"]
+        required += ["LAMBDA1", "LAMBDA2", "LAMBDA3", "CWEB", "HAS_LABEL", "TWEB_STATUS"]
     table = fitsio.read(observed, columns=required)
     n = len(table)
     if not n:
@@ -253,6 +263,8 @@ def main() -> int:
     box_valid = np.asarray(table["BOX_INDEX"]) >= 0
     valid_target = box_valid.copy()
     if not is_blind:
+        from workflows.abacus_tweb.galaxy_truth_contract import label_validity
+        valid_target = label_validity(table)
         stored_eigenvalues = np.column_stack(
             (table["LAMBDA1"], table["LAMBDA2"], table["LAMBDA3"])
         )
@@ -262,7 +274,7 @@ def main() -> int:
                    & (eigenvalues[:, 1] <= eigenvalues[:, 2]))
         class_check = stored_class_consistency(stored_eigenvalues, table["CWEB"])
         valid_target &= finite & ordered
-        if not np.all(finite & ordered):
+        if not np.all(valid_target):
             raise PhaseIndexError(
                 f"{int((~(finite & ordered)).sum())} observed rows lack finite ordered truth"
             )
@@ -307,10 +319,10 @@ def main() -> int:
         for shell_id, (lo, hi) in enumerate(SHELLS)
     }
     payload = {
-        "schema_version": "p10-p1-canonical-v1",
+        "schema_version": "p10-p1-galaxy-truth-v2" if not is_blind else "p10-p1-canonical-v1",
         "created_utc": utc_now(),
         "phase": args.phase,
-        "catalogue_id": f"{args.phase}_bgs_bright_full_ngc_sgc_v1",
+        "catalogue_id": f"{args.phase}_bgs_bright_full_ngc_sgc_" + ("v1" if is_blind else "galaxy_v2"),
         "role": cfg["role"],
         "git_sha": git_sha,
         "registry": str(args.registry.resolve()),
@@ -345,13 +357,15 @@ def main() -> int:
             "active": int(np.count_nonzero(active)),
             "context": int(np.count_nonzero(context)),
             "valid_target": int(np.count_nonzero(valid_target)),
-            "context_only_invalid_box_index": int(np.count_nonzero(~box_valid)),
+            "legacy_negative_box_index": int(np.count_nonzero(~box_valid)),
             "by_shell": by_shell,
         },
         "box_index_policy": (
-            "BOX_INDEX<0 rows retain observed geometry as context but never become "
-            "authoritative supervised/evaluation rows, matching the frozen ph000 P1b contract"
+            "Blind geometry linkage only; no truth read" if is_blind else
+            "BOX_INDEX is legacy bookkeeping, not target validity; all qualified galaxy labels are valid. "
+            "Active supervision remains restricted to the registered observed-z shells."
         ),
+        "truth_lineage": truth_lineage,
         "target_contract": registry["target_contract"],
         "target_truth_present": not is_blind,
         "blind_contract": ({

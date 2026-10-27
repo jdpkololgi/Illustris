@@ -1,0 +1,119 @@
+{
+  "artifacts": {
+    "canonical_index": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/replacement/ph002/p1_canonical/canonical_index.npz",
+    "canonical_index_sha256": "281baae9d65fdc980b52f381c9f51ff4592e5610b2b442c1c2a5e15deb4f3e12",
+    "points": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/replacement/ph002/p1_canonical/points.npy",
+    "points_sha256": "7b1c59aea6955d83f8e074c646c2a6b7e225a0ae9702cdee18230fa2e86a2b69"
+  },
+  "blind_contract": null,
+  "box_index_policy": "BOX_INDEX is legacy bookkeeping, not target validity; all qualified galaxy labels are valid. Active supervision remains restricted to the registered observed-z shells.",
+  "canonical_parent": {
+    "bytes": 1680408000,
+    "path": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/replacement/ph002/catalogues/ph002_observed_galaxy_realspace_v2_tweb.fits",
+    "row_contract": "PARENT_NODE_ID == observed FITS row == future graph row",
+    "rows": 7370124,
+    "sha256": "d11045ae702cb49e418fe53c834ec9eaa255884910472d46102b131715097712"
+  },
+  "catalogue_id": "ph002_bgs_bright_full_ngc_sgc_galaxy_v2",
+  "counts": {
+    "NGC": 5218760,
+    "SGC": 2151364,
+    "active": 4988277,
+    "by_shell": {
+      "0.15_0.25": {
+        "NGC": 1935240,
+        "SGC": 779507,
+        "all": 2714747
+      },
+      "0.25_0.35": {
+        "NGC": 1161819,
+        "SGC": 487442,
+        "all": 1649261
+      },
+      "0.35_0.45": {
+        "NGC": 392253,
+        "SGC": 160799,
+        "all": 553052
+      },
+      "0.45_0.55": {
+        "NGC": 50559,
+        "SGC": 20658,
+        "all": 71217
+      }
+    },
+    "context": 6256475,
+    "legacy_negative_box_index": 2379758,
+    "total": 7370124,
+    "valid_target": 7370124
+  },
+  "created_utc": "2026-10-20T16:42:03.992960+00:00",
+  "geometry": {
+    "cap": {
+      "0": "SGC (Galactic b<=0)",
+      "1": "NGC (Galactic b>0)"
+    },
+    "coordinates": "observer-frame ICRS Cartesian from RA, DEC and observed Z",
+    "cosmology": "Astropy Planck18",
+    "units": "Mpc"
+  },
+  "git_sha": "0ba6d661e44a5de6c04290172ac29c027bdeb626",
+  "no_split_filtering": true,
+  "no_train_fitted_normalisation": true,
+  "pass": true,
+  "phase": "ph002",
+  "registry": "/global/u2/d/dkololgi/TNG/Illustris/outputs/galaxy_truth_benchmark_20261020/source/configs/p10_phase_registry_v1.json",
+  "registry_sha256": "968cd8ed010de9b75ec4115d3a0d2be51a27306c601d04aa11bac4bdf20bb303",
+  "role": "training_and_target_benchmark",
+  "schema_version": "p10-p1-galaxy-truth-v2",
+  "selection": {
+    "active_z": [
+      0.15,
+      0.55
+    ],
+    "context_z": [
+      0.1,
+      0.6
+    ],
+    "sentinel_excluded_from_context": [
+      0.585,
+      0.595
+    ],
+    "successful_redshift_selection_applied_upstream": true
+  },
+  "target_contract": {
+    "box_size_mpc_h": 2000.0,
+    "coordinate_units": "Mpc/h",
+    "cosmology": "c000",
+    "eigenvalue_order": "lambda1<=lambda2<=lambda3",
+    "grid_size": 2048,
+    "mass_assignment": "TSC",
+    "particle_subsamples": {
+      "A_fraction": 0.03,
+      "B_fraction": 0.07,
+      "required_directories": [
+        "field_rv_A",
+        "halo_rv_A",
+        "field_rv_B",
+        "halo_rv_B"
+      ],
+      "total_fraction": 0.1
+    },
+    "phase_is_model_input": false,
+    "redshift": 0.2,
+    "simulation_family": "AbacusSummit",
+    "simulation_name_pattern": "AbacusSummit_base_c000_{phase}",
+    "tidal_smoothing_mpc_h": 7.0,
+    "web_threshold": 0.2
+  },
+  "target_truth_present": true,
+  "truth_lineage": {
+    "annotation_receipt_sha256": "027ae4b7a7b048773a090c85bb5be7e73726803ccf0fac2d21645e621043d5fd",
+    "independent_status_masks_truth": false,
+    "label_policy_version": "galaxy-realspace-all-populations-v2",
+    "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+    "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/replacement/ph002/catalogues/ph002_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+    "observed_receipt_sha256": "d1f63f523311be7588504390156f66a9f6f745ca69c2f74f5279d3ba1a181b85",
+    "observed_sha256": "d11045ae702cb49e418fe53c834ec9eaa255884910472d46102b131715097712",
+    "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues"
+  }
+}

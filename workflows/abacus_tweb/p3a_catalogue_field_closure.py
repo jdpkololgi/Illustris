@@ -6,8 +6,8 @@ different links in the P1b -> P3a chain:
 
 1. an independent CIC redeposition of the canonical context coordinates must
    reproduce the stored count field voxel by voxel;
-2. repeated rows carrying the same (FILE_NUM, BOX_INDEX, HALO_INDEX) host key
-   must carry identical tidal labels, and CWEB must agree with the eigenvalues;
+2. repeated source-galaxy rows must carry identical tidal labels, and CWEB must
+   agree with eigenvalues; distinct satellites need not share their host labels;
 3. the T-Web trace must correlate positively with the selection-aware galaxy
    count field sampled at the exact catalogue coordinates, well above a
    within-cap/shell shuffled-label control.
@@ -147,6 +147,12 @@ def host_consistency(table: np.ndarray, active: np.ndarray) -> dict:
         & (box[order][1:] == box[order][:-1])
         & (halo[order][1:] == halo[order][:-1])
     )
+    identity_key='legacy_FILE_NUM_BOX_INDEX_HALO_INDEX'
+    if 'SOURCE_ROW' in table.dtype.names:
+        source=np.asarray(table['SOURCE_ROW'][ids],dtype=np.int64)
+        if np.any(source<0):raise ValueError('Invalid source-galaxy row identity')
+        order=np.argsort(source,kind='stable');same=source[order][1:]==source[order][:-1]
+        identity_key='SOURCE_ROW'
     delta = np.abs(lam[order][1:] - lam[order][:-1])
     repeated_pairs = int(same.sum())
     max_delta = float(np.max(delta[same])) if repeated_pairs else 0.0
@@ -155,6 +161,7 @@ def host_consistency(table: np.ndarray, active: np.ndarray) -> dict:
     cweb_boundary = int(class_check["boundary_ambiguous"].sum())
     cweb_nonboundary = int(class_check["nonboundary_mismatch"].sum())
     return {
+        "identity_key": identity_key,
         "active_rows": int(len(ids)),
         "repeated_host_adjacent_pairs": repeated_pairs,
         "max_abs_dlambda_within_repeated_host": max_delta,
@@ -202,6 +209,11 @@ def main() -> None:
 
     columns = ["FILE_NUM", "BOX_INDEX", "HALO_INDEX", "CWEB",
                "LAMBDA1", "LAMBDA2", "LAMBDA3"]
+    with fitsio.FITS(args.catalogue) as fits:
+        names=set(fits[1].get_colnames())
+    if 'TWEB_STATUS' in names and 'SOURCE_ROW' not in names:
+        raise ValueError('Corrected galaxy labels require source-row identity')
+    if 'SOURCE_ROW' in names:columns.append('SOURCE_ROW')
     table = fitsio.read(str(args.catalogue), columns=columns)
     if len(table) != len(cap):
         raise RuntimeError("catalogue/index length mismatch")
@@ -284,7 +296,7 @@ def main() -> None:
 
     gates = {
         "canonical_lengths_match": len(points) == len(table) == len(cap),
-        "host_labels_identical_for_repeated_host_keys": (
+        "labels_identical_for_repeated_source_identity": (
             host["max_abs_dlambda_within_repeated_host"] <= 1.0e-7),
         "cweb_matches_thresholded_eigenvalues_away_from_quantization_boundary": (
             host["cweb_nonboundary_mismatch_rows"] == 0

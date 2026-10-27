@@ -1,0 +1,34 @@
+{
+  "phase": "ph000",
+  "snapshot_z": 0.2,
+  "job_id": "60002803",
+  "field": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/tweb_rank_outputs_fullgrid_v3/dens_AbacusSummit_base_c000_ph000_z0.200_ngrid2048_box2000_thr0p2/backend_optimized_ngrid_2048_rsmooth_7",
+  "density": "/pscratch/sd/d/dkololgi/AbacusSummit_densities/density_fields/AbacusSummit_base_c000_ph000_z0.200_ngrid_2048_10pc_density_field.npy",
+  "example_original_row": 50805085,
+  "example_position_error_mpc_h": 777.4613426292606,
+  "central_lowz_median_old_error_mpc_h": 777.4613426292606,
+  "trace_correlations": {
+    "z < 0.15: 135 resolved centrals": -0.15018346627911744,
+    "z \u2265 0.15: 217 resolved centrals": 1.0
+  },
+  "density_dtype": "float32",
+  "density_projection_cells": 15,
+  "grid_spacing_mpc_h": 0.9765625,
+  "limitations": [
+    "One file and phase; resolved centrals only in statistical panels.",
+    "Galaxy-position field differs from host-centre estimand for satellites.",
+    "Original field files sampled, not fully checksummed; no full-grid FFT or recomputation.",
+    "No downstream learnability test; particle-host mapping not independently validated."
+  ],
+  "script_sha256": "c3548a407fd1bc869871ac0beae7c98acd5e340483fda89a0c2851eef35619e2",
+  "host_reference": "x_L2com; historical production used x_com",
+  "allocation_accounting": {
+    "state": "COMPLETED",
+    "step_seconds": 4,
+    "allocation_seconds": 35,
+    "step_cpus": 8,
+    "allocated_cpus": 256,
+    "exit_code": "0:0",
+    "released": true
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "success": true,
+  "mode": "GRAPHIFY_OUT local staging with normal flock; original graph hash checked before publication",
+  "before_sha256": "ec1e56e5b38167908d91e0ef03f558361460e9be876c271c9a1ecc508b4c8f77",
+  "after_sha256": "dab2dd4dc1a16766a42df0e871a1346acd5c4e75d0fa9464118c6f79bfd9712e",
+  "changed_files": [
+    "p10_phase_assets.py",
+    "p10_run_tweb.py",
+    "p10_expansion_preflight.py",
+    "validate_galaxy_position_mapping.py",
+    "annotate_cutsky_with_tweb_eigs.py",
+    "refresh_p10_expansion_graph.py",
+    "galaxy_label_equivalence.py",
+    "certify_galaxy_position_scope.py",
+    "galaxy_position_validation_status.py",
+    "p10_build_observed_truth.py",
+    "smoke_galaxy_position_annotation.py",
+    "run_galaxy_position_tests.py",
+    "diagnose_ph007_particle_ambiguity.py",
+    "p4_build_spatial_manifest.py",
+    "p10_materialize_phase_schemas.py",
+    "p3a_catalogue_field_closure.py",
+    "p10_prepare_training_contract.py",
+    "p10_training_contract.py",
+    "p10_validate_phase_products.py",
+    "adopt_corrected_p1_20261021.py",
+    "reuse_corrected_p2_20261021.py",
+    "adopt_p10_existing_inputs_20261021.py"
+  ]
+}

@@ -114,6 +114,40 @@ class P10TrainingContractTests(unittest.TestCase):
             with self.assertRaises(PermissionError):
                 loader.targets_by_parent(BLIND_PHASE)
 
+    def test_expanded_selection_coverage_and_all_reserved_truth_sealed(self):
+        roles = json.loads(Path("configs/p10_phase_registry_v2.json").read_text())["model_phase_contract"]
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "TRAINING_LOADER_READY.json").write_text(json.dumps({"pass": True, "roles": roles}))
+            for phase in roles["training"] + roles["validation_and_selection"] + roles["sealed_blind_test"] + roles["reserved_confirmation"]:
+                output = root / "phases" / phase
+                output.mkdir(parents=True)
+                (output / "phase_contract.json").write_text(json.dumps({"phase": phase}))
+                if phase in roles["validation_and_selection"]:
+                    np.save(output / "validation_core_id.npy", np.array([2, 4]))
+            loader = P10PhaseBalancedLoader(root)
+            refs = loader.validation_refs()
+            self.assertEqual(len(refs), 2 * len(roles["validation_and_selection"]))
+            self.assertEqual({r.phase for r in refs}, set(roles["validation_and_selection"]))
+            for phase in roles["sealed_blind_test"] + roles["reserved_confirmation"]:
+                self.assertNotIn(phase, loader.phase_records)
+                with self.assertRaises(PermissionError):
+                    loader.targets_by_parent(phase)
+                with self.assertRaises(ValueError):
+                    loader.validation_refs(phase)
+
+    def test_preparation_uses_all_registered_roles(self):
+        from workflows.abacus_tweb import p10_prepare_training_contract as prepare
+        registry = json.loads(Path("configs/p10_phase_registry_v2.json").read_text())
+        try:
+            prepare.configure_phase_roles(registry)
+            self.assertEqual(len(prepare.TRAINING_PHASES), 15)
+            self.assertEqual(len(prepare.VALIDATION_PHASES), 3)
+            self.assertEqual(len(prepare.BLIND_PHASES), 7)
+            self.assertEqual(len(prepare.PHASES), 25)
+        finally:
+            prepare.configure_phase_roles(json.loads(Path("configs/p10_phase_registry_v1.json").read_text()))
+
     def test_registry_roles_match_frozen_code(self):
         registry = json.loads(Path("configs/p10_phase_registry_v1.json").read_text())
         roles = registry["model_phase_contract"]

@@ -1,0 +1,5 @@
+# Tokyo A–E presentation revisions, 18 October 2026
+
+Package: /global/homes/d/dkololgi/fmsu_tokyo_20261010/tokyo_revisions_20261018.zip. Index, exact source bindings, coordinate audit, per-figure receipts and SHA256 manifest in revisions_20261018/. Seven compositions and 21 bodies/builds/components plus copied context asset; PNG/PDF/SVG, 1920×900, full previews 1920×1080, IBM Plex Sans.
+
+ph002 fields/dots use Z_COSMO and pinned DESI/c000 distances in h^-1 Mpc, same real-space chart/slab; ph006 context uses observed Z and Planck18 Mpc. Same TARGETID 6765665, 512 joint draws and 209/303/0/0 counts; actual draw indices 362/291. TARP curve and descriptive maximum-deviation envelope unchanged, already-exposed held-out ph006. Paper I reuses saved predicted-class contour paths; pointwise projection unavailable, so no entropy or true-class recolouring. No new scientific inference, training, Slurm action or production claim. Source checks, dimensions, fonts, transparent layers and half-size visual review passed. graphify update unavailable (command not found).

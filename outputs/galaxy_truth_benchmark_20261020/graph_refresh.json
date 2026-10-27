@@ -1,0 +1,16 @@
+{
+  "success": true,
+  "mode": "GRAPHIFY_OUT local staging with normal flock; original graph hash checked before publication",
+  "before_sha256": "b37138d8f6740277249e25758852815c8a3260b3af72af51d71d469451460f3d",
+  "after_sha256": "9efca495e018656ba78ab771076c45655403803661c054105e4c3146c1e45057",
+  "changed_files": [
+    "validate_galaxy_position_mapping.py",
+    "galaxy_truth_contract.py",
+    "p10_build_phase_index.py",
+    "p10_prepare_training_contract.py",
+    "build_abacus_sbi_cache.py",
+    "audit_galaxy_truth_replacement.py",
+    "run_galaxy_position_tests.py",
+    "run_galaxy_truth_benchmark.py"
+  ]
+}

@@ -92,6 +92,11 @@ def build_triple_lookup(
 ) -> tuple[dict[tuple[int, int, int], dict[str, float]], list[str]]:
     with fitsio.FITS(str(annotated)) as ff:
         cols = [str(c) for c in ff[1].get_colnames()]
+        if "TWEB_STATUS" in cols or ff[1].read_header().get("TWMAP"):
+            raise ValueError(
+                "Galaxy-position annotations cannot use a host-triple join. "
+                "Use the SOURCE_ROW-preserving P10 parent/TARGETID observed-truth pipeline."
+            )
     fn_c, hi_c, bi_c = (_resolve_col(cols, c) for c in TRIPLE_COLS)
     l1_c, l2_c, l3_c = (_resolve_col(cols, c) for c in EIG_COLS)
     read_cols = list(dict.fromkeys([fn_c, hi_c, bi_c, l1_c, l2_c, l3_c]))

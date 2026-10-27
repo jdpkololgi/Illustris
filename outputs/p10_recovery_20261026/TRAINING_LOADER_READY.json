@@ -1,0 +1,377 @@
+{
+  "adapter_inventory": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021/adapter_inventory.json",
+  "adapter_inventory_sha256": "b91987e164c7e1c168d1581c4910e8a08ce66109df231028c7f03a3122b32796",
+  "canary": {
+    "epoch": {
+      "cores": 252437,
+      "epoch": 0,
+      "phase_core_counts": {
+        "ph000": 16921,
+        "ph002": 16768,
+        "ph003": 16890,
+        "ph004": 16793,
+        "ph005": 16793,
+        "ph007": 16844,
+        "ph008": 16876,
+        "ph009": 16816,
+        "ph010": 16797,
+        "ph011": 16825,
+        "ph020": 16841,
+        "ph021": 16838,
+        "ph022": 16822,
+        "ph023": 16840,
+        "ph024": 16773
+      },
+      "resume_cursor": 12345,
+      "seed": 42,
+      "sha256": "c5d5d5435e3688e12484c65fb324ee3da878ac65fb530d2506cf5de3ed1d18c0"
+    },
+    "extraction": {
+      "ph000": {
+        "core_id": 9383,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          72,
+          72
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 56462,
+        "graph_nodes": 3712,
+        "target_rows_align": true
+      },
+      "ph002": {
+        "core_id": 9290,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          72,
+          72
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 33470,
+        "graph_nodes": 2412,
+        "target_rows_align": true
+      },
+      "ph003": {
+        "core_id": 9415,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          72,
+          80
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 15084,
+        "graph_nodes": 1144,
+        "target_rows_align": true
+      },
+      "ph004": {
+        "core_id": 9354,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          72,
+          72
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 21896,
+        "graph_nodes": 1631,
+        "target_rows_align": true
+      },
+      "ph005": {
+        "core_id": 9339,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          80,
+          72
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 62956,
+        "graph_nodes": 4087,
+        "target_rows_align": true
+      },
+      "ph006": {
+        "core_id": 9300,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          72,
+          72,
+          72
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 21124,
+        "graph_nodes": 1577,
+        "target_rows_align": true
+      },
+      "ph007": {
+        "core_id": 9383,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          72,
+          80,
+          80
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 11410,
+        "graph_nodes": 912,
+        "target_rows_align": true
+      },
+      "ph008": {
+        "core_id": 9357,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          72,
+          80
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 50794,
+        "graph_nodes": 3493,
+        "target_rows_align": true
+      },
+      "ph009": {
+        "core_id": 9314,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          72,
+          72
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 45438,
+        "graph_nodes": 3114,
+        "target_rows_align": true
+      },
+      "ph010": {
+        "core_id": 9329,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          72,
+          72
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 19358,
+        "graph_nodes": 1435,
+        "target_rows_align": true
+      },
+      "ph011": {
+        "core_id": 9357,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          80,
+          80
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 32494,
+        "graph_nodes": 2352,
+        "target_rows_align": true
+      },
+      "ph012": {
+        "core_id": 9328,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          80,
+          80
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 42124,
+        "graph_nodes": 2904,
+        "target_rows_align": true
+      },
+      "ph013": {
+        "core_id": 9360,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          72,
+          80
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 97304,
+        "graph_nodes": 5190,
+        "target_rows_align": true
+      },
+      "ph020": {
+        "core_id": 9380,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          72,
+          72
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 13042,
+        "graph_nodes": 996,
+        "target_rows_align": true
+      },
+      "ph021": {
+        "core_id": 9320,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          72,
+          72
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 16116,
+        "graph_nodes": 1229,
+        "target_rows_align": true
+      },
+      "ph022": {
+        "core_id": 9364,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          80,
+          72
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 19730,
+        "graph_nodes": 1479,
+        "target_rows_align": true
+      },
+      "ph023": {
+        "core_id": 9323,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          80,
+          80,
+          72
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 32976,
+        "graph_nodes": 2360,
+        "target_rows_align": true
+      },
+      "ph024": {
+        "core_id": 9359,
+        "field_deterministic": true,
+        "field_shape": [
+          3,
+          72,
+          72,
+          72
+        ],
+        "graph_deterministic": true,
+        "graph_edges": 10346,
+        "graph_nodes": 810,
+        "target_rows_align": true
+      }
+    },
+    "gates": {
+      "all_adapters_pass": true,
+      "all_phase_contracts_pass": true,
+      "complete_deterministic_validation_order": true,
+      "complete_epoch_coverage": true,
+      "epoch_order_deterministic": true,
+      "field_extraction_deterministic_all_phases": true,
+      "graph_extraction_deterministic_all_phases": true,
+      "phase_prefix_balanced": true,
+      "reserved_truth_absent": true,
+      "resume_parity": true,
+      "target_alignment_all_visible_phases": true,
+      "weighted_loss_accounting": true
+    },
+    "loss_accounting": {
+      "direct_equal_phase_loss": 0.5051735573597264,
+      "reconstructed_epoch_mean": 0.5051735573597219
+    },
+    "pass": true,
+    "validation_cores": {
+      "ph006": 16796,
+      "ph012": 16819,
+      "ph013": 16919
+    }
+  },
+  "created_utc": "2026-10-26T05:25:28.896437+00:00",
+  "elapsed_seconds": 10624.816384077072,
+  "epoch": "every eligible core exactly once; weighted within-phase order; shuffled phase round-robin; deterministic seed+epoch",
+  "fresh_model_initialization_required": true,
+  "gates": {
+    "all_adapters_pass": true,
+    "all_phase_contracts_pass": true,
+    "complete_deterministic_validation_order": true,
+    "complete_epoch_coverage": true,
+    "epoch_order_deterministic": true,
+    "field_extraction_deterministic_all_phases": true,
+    "graph_extraction_deterministic_all_phases": true,
+    "phase_prefix_balanced": true,
+    "reserved_truth_absent": true,
+    "resume_parity": true,
+    "target_alignment_all_visible_phases": true,
+    "weighted_loss_accounting": true
+  },
+  "objective": "equal mean over phases of within-phase sqrt-shell-weighted authoritative-row MSE",
+  "pass": true,
+  "phase_is_model_input": false,
+  "registry": "/global/u2/d/dkololgi/TNG/Illustris/outputs/p10_unattended_20261021/source/configs/p10_phase_registry_v2.json",
+  "registry_sha256": "31371363318735e01f26bcc28b244377cc022b0135f54c488db7d27140f705eb",
+  "roles": {
+    "fresh_initialization_required": true,
+    "ph000_scores_are_independent_generalisation_evidence": false,
+    "ph001_scores_are_fresh_blind_evidence": false,
+    "phase_balanced_sampling": true,
+    "phase_is_model_input": false,
+    "reserved_confirmation": [
+      "ph014",
+      "ph015",
+      "ph016",
+      "ph017",
+      "ph018",
+      "ph019"
+    ],
+    "sealed_blind_test": [
+      "ph001"
+    ],
+    "training": [
+      "ph000",
+      "ph002",
+      "ph003",
+      "ph004",
+      "ph005",
+      "ph007",
+      "ph008",
+      "ph009",
+      "ph010",
+      "ph011",
+      "ph020",
+      "ph021",
+      "ph022",
+      "ph023",
+      "ph024"
+    ],
+    "validation_and_selection": [
+      "ph006",
+      "ph012",
+      "ph013"
+    ]
+  },
+  "schema_version": "p10-training-loader-ready-v1",
+  "stage": "P10 deterministic multi-phase loader and transform readiness",
+  "status": "TRAINING_LOADER_READY",
+  "transform_manifest": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/training_contract_20261021/TRANSFORMS_FROZEN.json",
+  "transform_manifest_sha256": "c1686616b6f3df38955eed483fdac32991249a7575625008f4e9f02a7dcabfb6",
+  "validation": "all registered selection phases, each in frozen core-id order"
+}
