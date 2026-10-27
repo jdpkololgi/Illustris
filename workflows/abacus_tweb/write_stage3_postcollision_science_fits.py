@@ -61,6 +61,11 @@ def _resolve_output_columns(colnames: list[str], requested: list[str] | None, al
     if all_columns:
         return list(colnames)
     want = list(requested or DEFAULT_SCIENCE_COLS)
+    if requested is None:
+        present = {name.upper() for name in colnames}
+        for name in ("SOURCE_ROW", "RES", "CEN", "HALO_MASS"):
+            if name in present and name not in want:
+                want.append(name)
     return [_resolve_col(colnames, c) for c in want]
 
 

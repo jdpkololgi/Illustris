@@ -1,0 +1,32 @@
+{
+  "ph006_coordinate_audit/report.json": {
+    "sha256": "1e9d73574b7222335f49b51f9cf29cf1ded21af1467a60135b1d17f1abbf594b",
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/ph006_coordinate_audit/report.json",
+    "bytes": 12419
+  },
+  "ph006_coordinate_audit/ph006_sample.npz": {
+    "sha256": "b69e8fc2990da08f1838c11020962e31be49cbdff9bff073aa7c5d3d0f812a3b",
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/ph006_coordinate_audit/ph006_sample.npz",
+    "bytes": 6659774
+  },
+  "ph006_smoke/report.json": {
+    "sha256": "4bc312346a396f1e7abaec63892b1aa4f693041c62465ec0ccda0ff090c5a3c8",
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/ph006_smoke/report.json",
+    "bytes": 752
+  },
+  "ph006_smoke/ph006_annotated.fits.manifest.json": {
+    "sha256": "d08153d4b1a81fe3ab9f1329af1dccbf70a1c85035f95524efdef20634d7af74",
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/ph006_smoke/ph006_annotated.fits.manifest.json",
+    "bytes": 3670
+  },
+  "qualification_ph006_v2.json": {
+    "sha256": "1b96f38b6a89bcab5ca9914f84b346fa0a498f652d3c53dcaba356f90217bae6",
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/qualification_ph006_v2.json",
+    "bytes": 14052
+  },
+  "phase_catalogue_inventory.json": {
+    "sha256": "1f6e635318c8306b77b764d2ed0268210e1c0a68b3ef0e4ea64d2a7de6382e60",
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/phase_catalogue_inventory.json",
+    "bytes": 19884
+  }
+}

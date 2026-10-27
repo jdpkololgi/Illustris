@@ -1,5 +1,17 @@
 # Research context — Illustris
 
+## Galaxy-position annotation and product lifecycle (2026-10-19)
+
+The legacy low-z HALO_INDEX addressed a filtered halo table, not the raw table.
+Use the v2 all-population RA/DEC/Z_COSMO annotator: unresolved satellites receive
+own-position labels; exact independent checks are separate in INDEP_POS. The
+five-phase mapping certificate does not qualify additional phases or reopen
+selection gates. See `docs/galaxy_position_migration_20261019.md` and the latest
+`SCIENCE_LOG.md`. `configs/product_lifecycle_20261019.json` records archived-in-place
+legacy targets, dependency reviews and replacement lineage. Native matter fields
+and direct-density conditional-field targets are not automatically invalidated.
+See `docs/product_lifecycle_20261019.md` before reusing, replacing or moving products.
+
 ## Whole-field transformer CFM result (2026-10-09)
 
 A matched-budget whole-field transformer (eight blocks, 8.52M parameters) improves

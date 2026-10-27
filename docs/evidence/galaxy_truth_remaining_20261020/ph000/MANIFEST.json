@@ -1,0 +1,30 @@
+{
+  "TARGET_REPLACEMENT_COMPLETE.json": {
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/TARGET_REPLACEMENT_COMPLETE.json",
+    "sha256": "48a277872a222a3d7d19ac2cf0fcc2426890428757df27cf4ca05aebf9b6c289"
+  },
+  "p1_canonical/CATALOGUE_COMPLETE.json": {
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/p1_canonical/CATALOGUE_COMPLETE.json",
+    "sha256": "d8d0bb5222367abe2f431c0bdc85d3762229eec07db434ad2b0c68bf3bb264ec"
+  },
+  "p1_canonical/manifest.json": {
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/p1_canonical/manifest.json",
+    "sha256": "71fbc302a94a0e4fcf7db9ae11fa8d2104990d7756b9d5c3177e3184d8d765c2"
+  },
+  "catalogues/ph000_bright_parent_metadata_v2.fits.complete.json": {
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/catalogues/ph000_bright_parent_metadata_v2.fits.complete.json",
+    "sha256": "0a3fc3cabdd2a52ad89fd9aac6a98a58dd6bc8c2858d744ae71b5c54f2ddeeb9"
+  },
+  "catalogues/ph000_bright_parent_galaxy_realspace_v2_tweb.fits.manifest.json": {
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/catalogues/ph000_bright_parent_galaxy_realspace_v2_tweb.fits.manifest.json",
+    "sha256": "ef2cb00f0563b3db1560f7be2942d9f1bc236cbfae2b48f628a7eb969c69b7e0"
+  },
+  "catalogues/ph000_observed_galaxy_realspace_v2_tweb.fits.complete.json": {
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/catalogues/ph000_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+    "sha256": "b0c1c246f8784933130510a56fd22522df38422a1a67005566b19fb4cd603572"
+  },
+  "catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json": {
+    "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph000/catalogues/GALAXY_TRUTH_MIGRATION_COMPLETE.json",
+    "sha256": "8d8b543037d3012ef06eda7c78f6d50a05064bcb309e5f22b44b5c2a69e7ee5a"
+  }
+}

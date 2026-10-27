@@ -1,0 +1,17 @@
+{
+  "job_array_id": "60049122",
+  "phase_by_task": {
+    "0": "ph000",
+    "1": "ph003",
+    "2": "ph004",
+    "3": "ph005",
+    "4": "ph006"
+  },
+  "max_concurrent": 1,
+  "minutes_per_task": 90,
+  "account": "desi",
+  "qos": "regular",
+  "nodes_per_task": 1,
+  "cpus_per_task": 64,
+  "automatic_retry": false
+}

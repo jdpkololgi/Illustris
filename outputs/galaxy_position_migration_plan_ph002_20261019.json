@@ -1,0 +1,46 @@
+{
+  "phase": "ph002",
+  "qualification_sha256": "93282db0cd10bbff33450042529b45bc2504b90462b970f6ed753491c414e269",
+  "output_root": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/galaxy_realspace_v1",
+  "commands": [
+    [
+      "/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python",
+      "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p10_build_bright_parent.py",
+      "--registry",
+      "/global/u2/d/dkololgi/TNG/Illustris/configs/p10_phase_registry_v1.json",
+      "--phase",
+      "ph002",
+      "--output",
+      "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/galaxy_realspace_v1/ph002_bright_parent_metadata_v2.fits"
+    ],
+    [
+      "/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python",
+      "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/annotate_cutsky_with_tweb_eigs.py",
+      "--phase",
+      "ph002",
+      "--qualification",
+      "workflows/abacus_tweb/galaxy_position_qualification_20261019.json",
+      "--cutsky",
+      "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/galaxy_realspace_v1/ph002_bright_parent_metadata_v2.fits",
+      "--tweb-dir",
+      "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/targets/tweb/backend_optimized_ngrid_2048_rsmooth_7",
+      "--output-dir",
+      "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/galaxy_realspace_v1",
+      "--output-name",
+      "ph002_bright_parent_galaxy_realspace_v1_tweb.fits"
+    ],
+    [
+      "/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python",
+      "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p10_build_observed_truth.py",
+      "--registry",
+      "/global/u2/d/dkololgi/TNG/Illustris/configs/p10_phase_registry_v1.json",
+      "--phase",
+      "ph002",
+      "--annotated-parent",
+      "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/galaxy_realspace_v1/ph002_bright_parent_galaxy_realspace_v1_tweb.fits",
+      "--output",
+      "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/galaxy_realspace_v1/ph002_observed_galaxy_realspace_v1_tweb.fits"
+    ]
+  ],
+  "downstream_action": "Rebuild label arrays/caches with identical galaxy ordering; separately prove geometry reuse. Existing redshift gates remain unchanged."
+}

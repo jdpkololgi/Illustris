@@ -1,0 +1,96 @@
+[
+  {
+    "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/abacus_wiener_20260924_v1",
+    "reason": "newer_named_version",
+    "possible_successors": [
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/abacus_wiener_20260924_v2"
+    ],
+    "status": "review_only",
+    "archive_ready": false
+  },
+  {
+    "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_conditioning_augmentation_20261006_v1",
+    "reason": "newer_named_version",
+    "possible_successors": [
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_conditioning_augmentation_20261006_v2",
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_conditioning_augmentation_20261006_v3"
+    ],
+    "status": "review_only",
+    "archive_ready": false
+  },
+  {
+    "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_conditioning_augmentation_20261006_v2",
+    "reason": "newer_named_version",
+    "possible_successors": [
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_conditioning_augmentation_20261006_v3"
+    ],
+    "status": "review_only",
+    "archive_ready": false
+  },
+  {
+    "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_gallery_20260930_v1",
+    "reason": "newer_named_version",
+    "possible_successors": [
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_gallery_20260930_v2"
+    ],
+    "status": "review_only",
+    "archive_ready": false
+  },
+  {
+    "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_model_mixture_20261006_v1",
+    "reason": "newer_named_version",
+    "possible_successors": [
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_model_mixture_20261006_v2"
+    ],
+    "status": "review_only",
+    "archive_ready": false
+  },
+  {
+    "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/loa_slider_qa_20261001_v1",
+    "reason": "newer_named_version",
+    "possible_successors": [
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/loa_slider_qa_20261001_v2",
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/loa_slider_qa_20261001_v3",
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/loa_slider_qa_20261001_v4"
+    ],
+    "status": "review_only",
+    "archive_ready": false
+  },
+  {
+    "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/loa_slider_qa_20261001_v2",
+    "reason": "newer_named_version",
+    "possible_successors": [
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/loa_slider_qa_20261001_v3",
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/loa_slider_qa_20261001_v4"
+    ],
+    "status": "review_only",
+    "archive_ready": false
+  },
+  {
+    "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/loa_slider_qa_20261001_v3",
+    "reason": "newer_named_version",
+    "possible_successors": [
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/loa_slider_qa_20261001_v4"
+    ],
+    "status": "review_only",
+    "archive_ready": false
+  },
+  {
+    "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_partial_20260923_v1",
+    "reason": "newer_named_version",
+    "possible_successors": [
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_partial_20260923_v2"
+    ],
+    "status": "review_only",
+    "archive_ready": false
+  },
+  {
+    "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_targets_20260922_v1",
+    "reason": "newer_named_version",
+    "possible_successors": [
+      "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/reference_targets_20260922_v2"
+    ],
+    "status": "review_only",
+    "archive_ready": false
+  }
+]

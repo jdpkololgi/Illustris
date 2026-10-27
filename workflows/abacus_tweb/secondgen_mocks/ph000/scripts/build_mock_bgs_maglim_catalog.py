@@ -59,6 +59,7 @@ DEFAULT_OUT_COLS = (
     "FILE_NUM",
     "HALO_INDEX",
     "BOX_INDEX",
+    "SOURCE_ROW", "Z_COSMO", "RES", "CEN", "HALO_MASS",
 )
 
 

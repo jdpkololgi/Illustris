@@ -1,0 +1,4388 @@
+{
+  "schema_version": "p10-galaxy-truth-replacement-v2",
+  "phase": "ph002",
+  "job_id": "60038639",
+  "catalogue_validated": true,
+  "rows": 7370124,
+  "truth_lineage": {
+    "label_policy_version": "galaxy-realspace-all-populations-v2",
+    "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+    "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_benchmark_20261020/job60038639/replacement/ph002/catalogues/ph002_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+    "observed_receipt_sha256": "d1f63f523311be7588504390156f66a9f6f745ca69c2f74f5279d3ba1a181b85",
+    "observed_sha256": "d11045ae702cb49e418fe53c834ec9eaa255884910472d46102b131715097712",
+    "annotation_receipt_sha256": "027ae4b7a7b048773a090c85bb5be7e73726803ccf0fac2d21645e621043d5fd",
+    "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues",
+    "independent_status_masks_truth": false
+  },
+  "legacy_parent": "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/catalogues/observed/ph002_bgs_bright_full_observed_with_tweb.fits",
+  "p1_manifest_sha256": "47cebfa8acce62443789c3a56216d0c9bb197de4febfc69c657e1cd23b406648",
+  "legacy_p1_manifest_sha256": "3421c037445b0ba69fbef6738cc830dad650dd1af26db2138a1042287002dd3d",
+  "catalogue_identity_and_selection": {
+    "TARGETID": true,
+    "RA": true,
+    "DEC": true,
+    "Z": true,
+    "ZWARN": true,
+    "BGS_TARGET": true,
+    "R_MAG_APP": true,
+    "R_MAG_ABS": true,
+    "G_R_REST": true,
+    "G_R_OBS": true,
+    "NTILE": true,
+    "COMP_TILE": true,
+    "FRACZ_TILELOCID": true,
+    "FRAC_TLOBS_TILES": true,
+    "PHOTSYS": true,
+    "MASKBITS": true,
+    "NOBS_G": true,
+    "NOBS_R": true,
+    "NOBS_Z": true,
+    "GOODPRI": true,
+    "GOODHARDLOC": true,
+    "LOCATION_ASSIGNED": true,
+    "FILE_NUM": true,
+    "BOX_INDEX": true,
+    "HALO_INDEX": true
+  },
+  "missing_selection_columns": [],
+  "p1_comparison": {
+    "parent_node_id": true,
+    "targetid": true,
+    "cap": true,
+    "shell": true,
+    "active": true,
+    "context": true,
+    "valid_target_changed_rows": 2379758,
+    "points": true
+  },
+  "fold_audit": {
+    "eligible_rows": 4929962,
+    "low_branch_eligible_rows": 0,
+    "same_host_adjacent_pairs": 386516,
+    "cross_fold_host_pairs": 15831,
+    "key": "branch, FILE_NUM, HALO_INDEX (not BOX_INDEX)",
+    "pass": false,
+    "low_high_namespace_closure_required": false
+  },
+  "reused_payload_sha256": {
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p4_patches/active_assignment.npz": "56d5e10bff7b710fad495fbb122ba78487d475f907ba2022cd319f3fd3421069",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p4_patches/context_assignment.npz": "a47d347ec401cf24a203f0ce91a627e9e2b3afb09c8ae21195d996ab268ea1e5",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p4_patches/core_field_support.npz": "a1d439cb047a265b69022b16967cd35a4f9b96bf36db6bb95e631607216d49e1",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p4_patches/core_size_probe.json": "dd4a232db2de4871c26d55970dff198941a296f0b8786287b4aed1b7c3ec13ca",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p4_patches/cores.npz": "8dbd2fe3dbc5ac301ade28bfe0e7b6ffead7839bafc99d1c74d2f853ca8792ee",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p4_patches/field_support.npz": "b70f2cdb9750c13a116f75a12110d12c3404aacddb8751811d615ac1d402e8ca",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p4_patches/field_support_manifest.json": "91bf885e64a90f843485844c4b690950debd970af8d1a7cfc93c2c8b71ee28b6",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p4_patches/graph_support_active.npz": "9f12fe50cbc805454916d16c0416f0b89cfa6e2f971964a623f4635285ed30c9",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p4_patches/graph_support_context.npz": "6c13b0060160adbc67ac830466b881ce18aed10526fe7da4d7265f9603b2a586",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p4_patches/graph_support_manifest.json": "db4a63c39712ce31234afc5b491944048ac82cce1f975710de0a9ff2fd00df0c",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p4_patches/p4_validation.json": "b1a1fbd7d7d690f553e20d4d5a8f53cec07fe3c79c162cc87e6d82d63ddf8ed3",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p4_patches/rotations.json": "0ef521a7d45101aa759790b593d1e81e4c3b644e069b4cc790097382661fc4fb",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p4_patches/spatial_manifest.json": "444a0dc01a277d67da5286c621f412da80a84a077232a48754f404f6c53440cb",
+    "/pscratch/sd/d/dkololgi/abacus/p10_multiphase/ph002/p4_patches/super_blocks.npz": "97ff69b6530e65c951a52649c1537353894282495b9faa93e91a372a4ff44b64"
+  },
+  "paired_label_rows": 7370124,
+  "class_boundary_ambiguity_rows": 0,
+  "difference_bin_edges": {
+    "redshift": [
+      0.1,
+      0.15,
+      0.25,
+      0.35,
+      0.45,
+      0.55,
+      0.6
+    ],
+    "halo_mass_1e10_msun_h": [
+      10,
+      100,
+      1000,
+      10000
+    ]
+  },
+  "label_differences": [
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 0,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 0,
+      "rows": 124,
+      "mean_delta": [
+        -0.04563444586012572,
+        -0.02352027043572537,
+        -0.04133590664705186
+      ],
+      "rms_delta": [
+        0.23153028881694795,
+        0.3000179289543149,
+        0.347031253776628
+      ],
+      "changed_classes": 77
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 0,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 0,
+      "rows": 391,
+      "mean_delta": [
+        -0.03244821989228931,
+        -0.022780579553860928,
+        -0.04349514751918511
+      ],
+      "rms_delta": [
+        0.24788716053368642,
+        0.3113344604016853,
+        0.38125076824675885
+      ],
+      "changed_classes": 261
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 0,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 0,
+      "rows": 36365,
+      "mean_delta": [
+        -0.014731616705868178,
+        -0.005895706459317607,
+        -0.014501254388099679
+      ],
+      "rms_delta": [
+        0.25438711123314195,
+        0.32844959460920486,
+        0.4065124329354319
+      ],
+      "changed_classes": 24085
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 0,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 0,
+      "rows": 87666,
+      "mean_delta": [
+        -0.010040292103885249,
+        -0.02130843822384951,
+        -0.03041633339997759
+      ],
+      "rms_delta": [
+        0.2536716658272954,
+        0.3230291620575739,
+        0.3926982941267369
+      ],
+      "changed_classes": 58634
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 1,
+      "rows": 3058,
+      "mean_delta": [
+        -0.010271722788269407,
+        0.0038122084234363724,
+        0.011800123601643267
+      ],
+      "rms_delta": [
+        0.25321975067986996,
+        0.3239587349027232,
+        0.4120394067360189
+      ],
+      "changed_classes": 2028
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 10021,
+      "mean_delta": [
+        0.03143033589939186,
+        0.06704047801244503,
+        0.08902162724021226
+      ],
+      "rms_delta": [
+        0.25767433994318995,
+        0.33977446296890357,
+        0.4303129304729363
+      ],
+      "changed_classes": 6845
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 21460,
+      "mean_delta": [
+        0.12833798858910797,
+        0.19582970186240256,
+        0.2535651136980222
+      ],
+      "rms_delta": [
+        0.2965365109696177,
+        0.38749946828247145,
+        0.49569580862391716
+      ],
+      "changed_classes": 15717
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 15568,
+      "mean_delta": [
+        0.48196410053434846,
+        0.6350826284542451,
+        0.7108649072138725
+      ],
+      "rms_delta": [
+        0.6244549569190428,
+        0.7614512449991045,
+        0.8700918753687858
+      ],
+      "changed_classes": 12955
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 1,
+      "rows": 7654,
+      "mean_delta": [
+        -0.004749690404172428,
+        -0.004566029748705916,
+        -0.0013063209057081406
+      ],
+      "rms_delta": [
+        0.2505097377365597,
+        0.3268307930381259,
+        0.41087098896039875
+      ],
+      "changed_classes": 5060
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 24212,
+      "mean_delta": [
+        0.024313699885932114,
+        0.03845050653065109,
+        0.0546901578965662
+      ],
+      "rms_delta": [
+        0.2577519264276426,
+        0.3299293455493246,
+        0.4134680873714644
+      ],
+      "changed_classes": 16221
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 53641,
+      "mean_delta": [
+        0.13287728577333996,
+        0.1810239804622562,
+        0.21843637263304239
+      ],
+      "rms_delta": [
+        0.29785189501294373,
+        0.3854209637368605,
+        0.47458961117791615
+      ],
+      "changed_classes": 39168
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 36599,
+      "mean_delta": [
+        0.5066273555737172,
+        0.5709538302339695,
+        0.6207174468606906
+      ],
+      "rms_delta": [
+        0.6748409542488698,
+        0.7515193305411393,
+        0.8311123512917633
+      ],
+      "changed_classes": 31871
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 1,
+      "rows": 207304,
+      "mean_delta": [
+        -0.00640285483127109,
+        0.012425327600869965,
+        0.028874354399065712
+      ],
+      "rms_delta": [
+        0.25205329835379336,
+        0.32953124293325126,
+        0.4235210796583724
+      ],
+      "changed_classes": 138340
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 27837,
+      "mean_delta": [
+        0.018635899512301227,
+        0.044158023647765374,
+        0.06708353819668356
+      ],
+      "rms_delta": [
+        0.25631618020427277,
+        0.3361929267732107,
+        0.4329795597762054
+      ],
+      "changed_classes": 18791
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 2351,
+      "mean_delta": [
+        0.08733493685922215,
+        0.14546175555193216,
+        0.18606737335894383
+      ],
+      "rms_delta": [
+        0.27527518468477935,
+        0.36932369964327216,
+        0.46934371554736787
+      ],
+      "changed_classes": 1644
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 55,
+      "mean_delta": [
+        0.26023945350686767,
+        0.4285159876363733,
+        0.4614858998155052
+      ],
+      "rms_delta": [
+        0.4220928200629011,
+        0.5577554935253751,
+        0.627242387792297
+      ],
+      "changed_classes": 41
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 1,
+      "rows": 504853,
+      "mean_delta": [
+        -0.008245767626639354,
+        -0.0004574313822822449,
+        0.009669557147079054
+      ],
+      "rms_delta": [
+        0.2541717213376728,
+        0.32622378560533655,
+        0.4146577507050638
+      ],
+      "changed_classes": 336700
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 68020,
+      "mean_delta": [
+        0.016380934258446608,
+        0.03302785502239601,
+        0.04897394364450502
+      ],
+      "rms_delta": [
+        0.2561654332272119,
+        0.32925266447193224,
+        0.4197711127444996
+      ],
+      "changed_classes": 45714
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 5948,
+      "mean_delta": [
+        0.0825652017700565,
+        0.12658456492362843,
+        0.15711192608855815
+      ],
+      "rms_delta": [
+        0.27690719409532716,
+        0.3587930400398627,
+        0.45578003370818754
+      ],
+      "changed_classes": 4134
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 120,
+      "mean_delta": [
+        0.3305490811551863,
+        0.36860529356320815,
+        0.4252640468922133
+      ],
+      "rms_delta": [
+        0.4458483669885377,
+        0.5186586878238155,
+        0.6242821007540641
+      ],
+      "changed_classes": 96
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 1,
+      "rows": 2498,
+      "mean_delta": [
+        -0.004525223794014752,
+        -0.0004383014529339358,
+        0.009871619556710055
+      ],
+      "rms_delta": [
+        0.24791920683107604,
+        0.3166299490762575,
+        0.3979851410206546
+      ],
+      "changed_classes": 1671
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 9617,
+      "mean_delta": [
+        0.022561144448850916,
+        0.03591612495242674,
+        0.04064972953127769
+      ],
+      "rms_delta": [
+        0.25568633278245473,
+        0.3309759509491654,
+        0.413543590702099
+      ],
+      "changed_classes": 6550
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 20975,
+      "mean_delta": [
+        0.1287794818382031,
+        0.17146135524198342,
+        0.19532686072288288
+      ],
+      "rms_delta": [
+        0.29666594113299444,
+        0.384268278895613,
+        0.47158879646432333
+      ],
+      "changed_classes": 14759
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 13560,
+      "mean_delta": [
+        0.4425000880896456,
+        0.5282183382715332,
+        0.5768607976204181
+      ],
+      "rms_delta": [
+        0.5603375963135713,
+        0.6781295056340687,
+        0.752168971296321
+      ],
+      "changed_classes": 11711
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 1,
+      "rows": 6208,
+      "mean_delta": [
+        -0.0042118360293141015,
+        -0.015111405366747726,
+        -0.02287690155947134
+      ],
+      "rms_delta": [
+        0.243599202351568,
+        0.3161288552806241,
+        0.4028695612934919
+      ],
+      "changed_classes": 4124
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 22868,
+      "mean_delta": [
+        0.0248081315320567,
+        0.028079839402481717,
+        0.030367501482705436
+      ],
+      "rms_delta": [
+        0.2542370447045837,
+        0.32731483909678116,
+        0.41573203921936314
+      ],
+      "changed_classes": 15382
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 49523,
+      "mean_delta": [
+        0.12706549575935117,
+        0.15464833477022805,
+        0.1811583800905698
+      ],
+      "rms_delta": [
+        0.29393025703515047,
+        0.3673018282680033,
+        0.4626278681895219
+      ],
+      "changed_classes": 35245
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 27443,
+      "mean_delta": [
+        0.4368679098855587,
+        0.5080065410362579,
+        0.5911726864046977
+      ],
+      "rms_delta": [
+        0.5491348832207158,
+        0.6607436449156037,
+        0.7838158963398635
+      ],
+      "changed_classes": 23711
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 1,
+      "rows": 262445,
+      "mean_delta": [
+        -0.007758044428994522,
+        -0.005398928488948512,
+        -0.005116379821069246
+      ],
+      "rms_delta": [
+        0.25287720243572587,
+        0.32593337007997863,
+        0.40967130630682963
+      ],
+      "changed_classes": 175347
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 63537,
+      "mean_delta": [
+        0.015764278037545723,
+        0.025088563770182534,
+        0.029907326937275137
+      ],
+      "rms_delta": [
+        0.2576195228276843,
+        0.33038623653642135,
+        0.41454249722805486
+      ],
+      "changed_classes": 42819
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 5442,
+      "mean_delta": [
+        0.08893691580606129,
+        0.13028338584713664,
+        0.15197111664882726
+      ],
+      "rms_delta": [
+        0.28518023769871875,
+        0.36699527081428773,
+        0.45349240007170327
+      ],
+      "changed_classes": 3800
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 109,
+      "mean_delta": [
+        0.2817308330795473,
+        0.35366254409565806,
+        0.39566050479220605
+      ],
+      "rms_delta": [
+        0.39076293263222156,
+        0.5190657024386525,
+        0.585842274082021
+      ],
+      "changed_classes": 73
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 1,
+      "rows": 621748,
+      "mean_delta": [
+        -0.006009685583751896,
+        -0.016886356008900986,
+        -0.02219665734133145
+      ],
+      "rms_delta": [
+        0.24500623577196567,
+        0.3136131679951628,
+        0.4021837925415125
+      ],
+      "changed_classes": 412612
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 147731,
+      "mean_delta": [
+        0.014351993902462038,
+        0.009595017813529368,
+        0.0097819625795806
+      ],
+      "rms_delta": [
+        0.24820382374681774,
+        0.3157956779364402,
+        0.405344395088192
+      ],
+      "changed_classes": 99003
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 12586,
+      "mean_delta": [
+        0.08283951322767973,
+        0.10275978593357926,
+        0.1195561515497894
+      ],
+      "rms_delta": [
+        0.26905476417081653,
+        0.3370159909727144,
+        0.4297062638143493
+      ],
+      "changed_classes": 8656
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 221,
+      "mean_delta": [
+        0.31521444378433355,
+        0.3656761777413139,
+        0.39829646915669353
+      ],
+      "rms_delta": [
+        0.44457800254347785,
+        0.5216537148032024,
+        0.6134120340598481
+      ],
+      "changed_classes": 170
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 1,
+      "rows": 2807,
+      "mean_delta": [
+        -0.0001230861727438773,
+        4.386643492875506e-05,
+        -6.896737461301157e-05
+      ],
+      "rms_delta": [
+        0.005334548613764108,
+        0.006303436243052871,
+        0.005830007511954815
+      ],
+      "changed_classes": 11
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 17699,
+      "mean_delta": [
+        -6.560997390376163e-05,
+        -1.8981535311426452e-05,
+        -5.251596462147367e-05
+      ],
+      "rms_delta": [
+        0.008309363539299487,
+        0.008925010953228412,
+        0.008895383797615291
+      ],
+      "changed_classes": 168
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 38779,
+      "mean_delta": [
+        -0.00013103561363817168,
+        -0.00020099070080392022,
+        -0.00023301826939892841
+      ],
+      "rms_delta": [
+        0.014442109472339305,
+        0.014024081142528962,
+        0.014093308321347284
+      ],
+      "changed_classes": 816
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 23178,
+      "mean_delta": [
+        -0.0024383086696897643,
+        -0.0031677534839228234,
+        -0.004309066316947522
+      ],
+      "rms_delta": [
+        0.02683329075167471,
+        0.02731611078417229,
+        0.026536879715747596
+      ],
+      "changed_classes": 574
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 1,
+      "rows": 6972,
+      "mean_delta": [
+        9.286187911130717e-05,
+        0.00011790984755859025,
+        1.184795953873243e-05
+      ],
+      "rms_delta": [
+        0.005899544054159854,
+        0.006271047290745612,
+        0.006242249290177371
+      ],
+      "changed_classes": 39
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 45198,
+      "mean_delta": [
+        -2.321393108097085e-05,
+        -6.706288153631624e-05,
+        -8.35907739558032e-05
+      ],
+      "rms_delta": [
+        0.008381248323262085,
+        0.008701930595917937,
+        0.008906332900018453
+      ],
+      "changed_classes": 412
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 100807,
+      "mean_delta": [
+        -0.00020773444872437537,
+        -0.0002803500452652935,
+        -0.00033928425920051584
+      ],
+      "rms_delta": [
+        0.014229441518530622,
+        0.014411210553748778,
+        0.014352314490825092
+      ],
+      "changed_classes": 1939
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 61488,
+      "mean_delta": [
+        -0.0038118221391839884,
+        -0.003951452359193153,
+        -0.004961910937248016
+      ],
+      "rms_delta": [
+        0.02717840087684999,
+        0.029003569469993423,
+        0.028296205843094224
+      ],
+      "changed_classes": 1435
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 1,
+      "rows": 375922,
+      "mean_delta": [
+        2.140134263433718e-06,
+        -1.2036778070594033e-08,
+        -7.864308903698393e-07
+      ],
+      "rms_delta": [
+        0.0018905500940055438,
+        0.0019817784498983686,
+        0.002040281171330285
+      ],
+      "changed_classes": 199
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 293701,
+      "mean_delta": [
+        -3.447165120725323e-06,
+        -5.8996425462047e-06,
+        -5.025490265108659e-06
+      ],
+      "rms_delta": [
+        0.002425090139015914,
+        0.0025181589657632415,
+        0.0025139185354355713
+      ],
+      "changed_classes": 275
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 26836,
+      "mean_delta": [
+        -4.089410683796207e-05,
+        -5.3792217700690234e-05,
+        -7.168839268717025e-05
+      ],
+      "rms_delta": [
+        0.004051796712833571,
+        0.004063701741490892,
+        0.00389989087826982
+      ],
+      "changed_classes": 50
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 585,
+      "mean_delta": [
+        0.00025469670629399454,
+        0.00036705292315564604,
+        1.5536587462465987e-05
+      ],
+      "rms_delta": [
+        0.007754586183212774,
+        0.011927153848326617,
+        0.008765212237208742
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 1,
+      "rows": 925474,
+      "mean_delta": [
+        2.2296639205659082e-06,
+        -4.638677153956169e-06,
+        7.795550656921916e-07
+      ],
+      "rms_delta": [
+        0.0019864904351427934,
+        0.0021139355522464104,
+        0.002142612753783948
+      ],
+      "changed_classes": 491
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 726613,
+      "mean_delta": [
+        -3.1599998772410394e-06,
+        -9.196554000292298e-07,
+        -3.761408705726558e-06
+      ],
+      "rms_delta": [
+        0.0024870214989119203,
+        0.0025179002163865107,
+        0.002648556307516068
+      ],
+      "changed_classes": 610
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 67135,
+      "mean_delta": [
+        1.560767890543067e-06,
+        -1.4036797500889877e-05,
+        -1.0407519676241596e-05
+      ],
+      "rms_delta": [
+        0.003925458762780103,
+        0.004359265311455884,
+        0.004188451204318595
+      ],
+      "changed_classes": 123
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 1553,
+      "mean_delta": [
+        -0.000289071492592313,
+        -0.00012187642229424703,
+        -0.00021272039920072438
+      ],
+      "rms_delta": [
+        0.007609520041775584,
+        0.006773034136755602,
+        0.006055291433855655
+      ],
+      "changed_classes": 7
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 1,
+      "rows": 78,
+      "mean_delta": [
+        0.0004825363747584514,
+        -4.4963619588181755e-06,
+        0.0007366035611201555
+      ],
+      "rms_delta": [
+        0.003664561338207204,
+        0.004371906886357599,
+        0.006162579044710253
+      ],
+      "changed_classes": 1
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 7761,
+      "mean_delta": [
+        6.549334142515451e-05,
+        4.080008744071238e-05,
+        -0.0001511508012534562
+      ],
+      "rms_delta": [
+        0.008595789562410808,
+        0.009218994411841071,
+        0.009246672225220649
+      ],
+      "changed_classes": 65
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 21355,
+      "mean_delta": [
+        -0.00027554659510945216,
+        -0.0003367750902248036,
+        -0.00033251087633357347
+      ],
+      "rms_delta": [
+        0.013833575524685997,
+        0.013973978379562529,
+        0.014078804152003504
+      ],
+      "changed_classes": 421
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 14034,
+      "mean_delta": [
+        -0.003536819689119177,
+        -0.00354896869123116,
+        -0.004705286080576984
+      ],
+      "rms_delta": [
+        0.02731597890060355,
+        0.024969575417806207,
+        0.025941824971333582
+      ],
+      "changed_classes": 243
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 1,
+      "rows": 183,
+      "mean_delta": [
+        -0.0002091895035707234,
+        -0.0007423188529725447,
+        -0.0003268213553323609
+      ],
+      "rms_delta": [
+        0.005452383803093851,
+        0.008985240057769904,
+        0.00819672528707226
+      ],
+      "changed_classes": 2
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 18746,
+      "mean_delta": [
+        -8.824224155399126e-05,
+        -7.16725378337511e-05,
+        -0.0001978357470435758
+      ],
+      "rms_delta": [
+        0.008497614068638252,
+        0.00927917486545545,
+        0.00906980713032064
+      ],
+      "changed_classes": 191
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 50229,
+      "mean_delta": [
+        -0.00013516619566971655,
+        -0.0001460557113999294,
+        -0.00032648132610434025
+      ],
+      "rms_delta": [
+        0.014519767372896548,
+        0.014310228616646017,
+        0.0142697124493361
+      ],
+      "changed_classes": 948
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 34428,
+      "mean_delta": [
+        -0.004344578699147915,
+        -0.005421011831435669,
+        -0.004412595163613118
+      ],
+      "rms_delta": [
+        0.0333183190476365,
+        0.03987859128473386,
+        0.029210032108486137
+      ],
+      "changed_classes": 719
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 1,
+      "rows": 26461,
+      "mean_delta": [
+        1.289076853166852e-05,
+        1.1546700602934907e-05,
+        1.9174685765714278e-05
+      ],
+      "rms_delta": [
+        0.0022151385002665753,
+        0.002280305219659255,
+        0.002320606656320613
+      ],
+      "changed_classes": 12
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 356883,
+      "mean_delta": [
+        4.372160665237676e-06,
+        3.21164692837607e-06,
+        7.198829341777518e-06
+      ],
+      "rms_delta": [
+        0.002537896986862157,
+        0.002626960459626931,
+        0.0027534758821734394
+      ],
+      "changed_classes": 344
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 58981,
+      "mean_delta": [
+        1.949922004299365e-05,
+        1.0070536934566247e-05,
+        8.773637048393452e-06
+      ],
+      "rms_delta": [
+        0.0038998712809451856,
+        0.0039561090796677795,
+        0.0039915829569590975
+      ],
+      "changed_classes": 115
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 1889,
+      "mean_delta": [
+        -4.4896554972438066e-05,
+        -5.4457095902646824e-05,
+        -0.00015628667594643104
+      ],
+      "rms_delta": [
+        0.0071024383561558106,
+        0.006338355514569433,
+        0.005945313714271133
+      ],
+      "changed_classes": 7
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 1,
+      "rows": 62807,
+      "mean_delta": [
+        1.6087779323680087e-06,
+        1.116577977203112e-05,
+        2.6848503328936144e-06
+      ],
+      "rms_delta": [
+        0.0019389961005486026,
+        0.002059307976960955,
+        0.002145557786132844
+      ],
+      "changed_classes": 40
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 850509,
+      "mean_delta": [
+        -1.3759017728013936e-06,
+        -5.1362854639609e-07,
+        5.657566361301365e-07
+      ],
+      "rms_delta": [
+        0.0025803963831499827,
+        0.0027168494077356624,
+        0.0027281204126462124
+      ],
+      "changed_classes": 818
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 140247,
+      "mean_delta": [
+        3.7467708463107016e-06,
+        -1.0929783153528047e-05,
+        7.180556603910475e-07
+      ],
+      "rms_delta": [
+        0.00416926550700818,
+        0.004084480313984248,
+        0.004080923253781363
+      ],
+      "changed_classes": 254
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 4670,
+      "mean_delta": [
+        -3.126181479607264e-06,
+        4.2027866814835936e-05,
+        0.00014424021545263123
+      ],
+      "rms_delta": [
+        0.006911753840108666,
+        0.006793180460284213,
+        0.006813903107449129
+      ],
+      "changed_classes": 8
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 601,
+      "mean_delta": [
+        0.0001067584399877739,
+        2.9820516591615814e-05,
+        -0.0008023332435631514
+      ],
+      "rms_delta": [
+        0.007360792435482728,
+        0.007890103465263913,
+        0.00972490516818976
+      ],
+      "changed_classes": 7
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 4824,
+      "mean_delta": [
+        -2.3120824941277648e-05,
+        0.00010849824935986433,
+        -0.00027168238182995424
+      ],
+      "rms_delta": [
+        0.014289544452903355,
+        0.013472932595751696,
+        0.014168929378644715
+      ],
+      "changed_classes": 92
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 4090,
+      "mean_delta": [
+        -0.0033840829997332277,
+        -0.0038606313095313626,
+        -0.004447203131351611
+      ],
+      "rms_delta": [
+        0.02688406851826738,
+        0.024690155319132778,
+        0.025680157767393196
+      ],
+      "changed_classes": 87
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 1445,
+      "mean_delta": [
+        -0.00011114807409527599,
+        -0.0003920083874586815,
+        -0.00023798785739575083
+      ],
+      "rms_delta": [
+        0.008846387128349023,
+        0.009197034679107315,
+        0.00968011027795074
+      ],
+      "changed_classes": 14
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 11655,
+      "mean_delta": [
+        -0.0003020377156159451,
+        -0.00048369651471642203,
+        -0.00048028900799853305
+      ],
+      "rms_delta": [
+        0.014227316837816943,
+        0.014794218667879024,
+        0.014562383905202383
+      ],
+      "changed_classes": 231
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 10644,
+      "mean_delta": [
+        -0.00354813021375014,
+        -0.004195993924636202,
+        -0.0040447619155312515
+      ],
+      "rms_delta": [
+        0.026473392668779357,
+        0.02637030144993934,
+        0.026264589859449173
+      ],
+      "changed_classes": 240
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 1,
+      "rows": 5,
+      "mean_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rms_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 75399,
+      "mean_delta": [
+        3.7515387921897e-06,
+        -2.155315270666243e-06,
+        7.193009621872824e-06
+      ],
+      "rms_delta": [
+        0.002690238530947564,
+        0.002884213872197675,
+        0.002863968443659926
+      ],
+      "changed_classes": 83
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 72088,
+      "mean_delta": [
+        -6.254702193706501e-06,
+        4.159606068178797e-06,
+        -1.089983042672685e-05
+      ],
+      "rms_delta": [
+        0.004210653496132988,
+        0.00408544621456463,
+        0.004082186109963072
+      ],
+      "changed_classes": 139
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 3792,
+      "mean_delta": [
+        1.5036286080400027e-05,
+        -9.597543202623536e-05,
+        -1.203712814719365e-05
+      ],
+      "rms_delta": [
+        0.006508109902437459,
+        0.006157581591892112,
+        0.005998526102741145
+      ],
+      "changed_classes": 6
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 1,
+      "rows": 10,
+      "mean_delta": [
+        0.0010281413793563842,
+        -0.0023101761937141417,
+        -0.0008730143308639526
+      ],
+      "rms_delta": [
+        0.003251268515433397,
+        0.007305418568435049,
+        0.0027607137154979236
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 181498,
+      "mean_delta": [
+        -6.8917112732031136e-06,
+        6.334620336771051e-06,
+        3.135503073662864e-06
+      ],
+      "rms_delta": [
+        0.0028782969658230663,
+        0.0028592758845218474,
+        0.0029628482183443757
+      ],
+      "changed_classes": 199
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 177205,
+      "mean_delta": [
+        2.8811232509189317e-06,
+        1.969042214591957e-05,
+        1.1010325242734528e-05
+      ],
+      "rms_delta": [
+        0.004205618546466755,
+        0.0041458868437383644,
+        0.004313106182668416
+      ],
+      "changed_classes": 376
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 9796,
+      "mean_delta": [
+        7.860314444929446e-05,
+        -1.9488538229034086e-05,
+        3.9119191282182e-05
+      ],
+      "rms_delta": [
+        0.006678589952740615,
+        0.006498518380976771,
+        0.006600660348403167
+      ],
+      "changed_classes": 44
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 3,
+      "mean_delta": [
+        -0.004480314130584399,
+        0.0007268190383911133,
+        0.002406517664591471
+      ],
+      "rms_delta": [
+        0.007760131708040961,
+        0.0012588875024017625,
+        0.004168210864384426
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 108,
+      "mean_delta": [
+        0.0019729831902724174,
+        0.0026567287536131013,
+        0.0008524262380820734
+      ],
+      "rms_delta": [
+        0.014122583257768332,
+        0.015384725935322354,
+        0.012369193846142797
+      ],
+      "changed_classes": 2
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 319,
+      "mean_delta": [
+        -0.005778787686631119,
+        -0.003634560759818666,
+        -0.004550527629433755
+      ],
+      "rms_delta": [
+        0.030528174931336523,
+        0.025599809720143342,
+        0.025037157420994348
+      ],
+      "changed_classes": 6
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 10,
+      "mean_delta": [
+        -0.002003486454486847,
+        0.0004921844229102135,
+        0.0033473268151283262
+      ],
+      "rms_delta": [
+        0.004171128093772307,
+        0.006150638699426048,
+        0.009013128087065477
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 302,
+      "mean_delta": [
+        5.842384163637966e-05,
+        0.0005948630158499574,
+        -0.0004746798450583654
+      ],
+      "rms_delta": [
+        0.015093486494323042,
+        0.013998289312237676,
+        0.01255327180889817
+      ],
+      "changed_classes": 8
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 854,
+      "mean_delta": [
+        -0.004119414236983808,
+        -0.004472229485803522,
+        -0.004607746800717481
+      ],
+      "rms_delta": [
+        0.0326245915996175,
+        0.028890627398671254,
+        0.030188045243604675
+      ],
+      "changed_classes": 19
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 1742,
+      "mean_delta": [
+        5.2998005359056145e-05,
+        0.00012298592605658012,
+        6.26323729952376e-05
+      ],
+      "rms_delta": [
+        0.0024332957233697138,
+        0.0031815077133186456,
+        0.003908433554252676
+      ],
+      "changed_classes": 2
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 14702,
+      "mean_delta": [
+        -7.871171609478855e-05,
+        -2.5322079273550658e-05,
+        -6.946224433972615e-05
+      ],
+      "rms_delta": [
+        0.005122604310512883,
+        0.0052607448274189315,
+        0.005012832661335767
+      ],
+      "changed_classes": 26
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 3784,
+      "mean_delta": [
+        7.501402464797416e-05,
+        9.415512333523647e-05,
+        8.427936890916642e-05
+      ],
+      "rms_delta": [
+        0.006247352143321647,
+        0.0066929796306620425,
+        0.006459494620126548
+      ],
+      "changed_classes": 7
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 4233,
+      "mean_delta": [
+        5.790322593629128e-05,
+        2.5839020908754533e-05,
+        -1.2237340794467431e-05
+      ],
+      "rms_delta": [
+        0.002888563303340824,
+        0.0030361487277678193,
+        0.0030675276149823953
+      ],
+      "changed_classes": 6
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 36013,
+      "mean_delta": [
+        -4.134772327843047e-05,
+        -3.364936523170768e-05,
+        -5.262579404233908e-06
+      ],
+      "rms_delta": [
+        0.00489596921499947,
+        0.004600455791748581,
+        0.004983664520456686
+      ],
+      "changed_classes": 95
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 9147,
+      "mean_delta": [
+        -1.2597165589067689e-05,
+        -4.4828580925673836e-05,
+        -2.3152766767793554e-05
+      ],
+      "rms_delta": [
+        0.007156727796499853,
+        0.00771390722266811,
+        0.006946431655729174
+      ],
+      "changed_classes": 14
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 6,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 2,
+      "mean_delta": [
+        -0.010419785976409912,
+        0.008410871028900146,
+        -0.0062226057052612305
+      ],
+      "rms_delta": [
+        0.01473580264486388,
+        0.011894767880441536,
+        0.00880009338168063
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 6,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 5,
+      "mean_delta": [
+        -0.01213977336883545,
+        -0.0021190464496612547,
+        0.0033082842826843263
+      ],
+      "rms_delta": [
+        0.022189097041345654,
+        0.0044737466994020925,
+        0.007473419633287751
+      ],
+      "changed_classes": 1
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 6,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 8,
+      "mean_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rms_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 6,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 216,
+      "mean_delta": [
+        -5.9429051664968334e-05,
+        -4.17344962005262e-05,
+        -0.000260129295013569
+      ],
+      "rms_delta": [
+        0.004228706418217097,
+        0.00406069546231387,
+        0.003981534581591857
+      ],
+      "changed_classes": 1
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 6,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 322,
+      "mean_delta": [
+        0.00045889491354178936,
+        0.0007191025738760552,
+        -0.00017514797101109665
+      ],
+      "rms_delta": [
+        0.004192021704618304,
+        0.007519967155352836,
+        0.0048030495682540395
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 6,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 26,
+      "mean_delta": [
+        -0.003114938735961914,
+        -0.0006839316338300705,
+        -2.9220030857966496e-05
+      ],
+      "rms_delta": [
+        0.016467779077650374,
+        0.005963906087812542,
+        0.00553022909046233
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 6,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 544,
+      "mean_delta": [
+        -3.259830940377844e-05,
+        5.62541262137101e-06,
+        6.576772669658941e-05
+      ],
+      "rms_delta": [
+        0.006695108327403985,
+        0.00458235461729558,
+        0.005375845317157197
+      ],
+      "changed_classes": 2
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 6,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 718,
+      "mean_delta": [
+        0.00018769330497504235,
+        2.5050138696654594e-05,
+        -9.889585228019438e-05
+      ],
+      "rms_delta": [
+        0.006702919806885242,
+        0.005990306227887951,
+        0.005769862545058469
+      ],
+      "changed_classes": 1
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 7,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 28,
+      "mean_delta": [
+        0.00035421417227813175,
+        0.0005637460521289281,
+        0.0011943791593824113
+      ],
+      "rms_delta": [
+        0.0022759600983804913,
+        0.0021097648110017016,
+        0.007644175276137173
+      ],
+      "changed_classes": 1
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 7,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 56,
+      "mean_delta": [
+        -0.00048554914870432446,
+        -0.0001178402453660965,
+        -0.0011728097285543168
+      ],
+      "rms_delta": [
+        0.0036538345047146524,
+        0.0071867080140248256,
+        0.006181054630948547
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 7,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 1,
+      "mean_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rms_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 7,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 61,
+      "mean_delta": [
+        -0.0008678707431574337,
+        -0.0003038639905022793,
+        -0.00022374362242026408
+      ],
+      "rms_delta": [
+        0.010013300609080046,
+        0.007816913133282918,
+        0.003433398442287328
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z",
+      "z_bin": 7,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 102,
+      "mean_delta": [
+        0.0007476120018491558,
+        0.002043472128171547,
+        -5.919909944721297e-05
+      ],
+      "rms_delta": [
+        0.0098066447703074,
+        0.014111965616613884,
+        0.01026433945313413
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 0,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 0,
+      "rows": 124,
+      "mean_delta": [
+        -0.04563444586012572,
+        -0.02352027043572537,
+        -0.04133590664705186
+      ],
+      "rms_delta": [
+        0.23153028881694795,
+        0.3000179289543149,
+        0.347031253776628
+      ],
+      "changed_classes": 77
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 0,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 0,
+      "rows": 391,
+      "mean_delta": [
+        -0.03244821989228931,
+        -0.022780579553860928,
+        -0.04349514751918511
+      ],
+      "rms_delta": [
+        0.24788716053368642,
+        0.3113344604016853,
+        0.38125076824675885
+      ],
+      "changed_classes": 261
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 0,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 0,
+      "rows": 36365,
+      "mean_delta": [
+        -0.014731616705868178,
+        -0.005895706459317607,
+        -0.014501254388099679
+      ],
+      "rms_delta": [
+        0.25438711123314195,
+        0.32844959460920486,
+        0.4065124329354319
+      ],
+      "changed_classes": 24085
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 0,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 0,
+      "rows": 87666,
+      "mean_delta": [
+        -0.010040292103885249,
+        -0.02130843822384951,
+        -0.03041633339997759
+      ],
+      "rms_delta": [
+        0.2536716658272954,
+        0.3230291620575739,
+        0.3926982941267369
+      ],
+      "changed_classes": 58634
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 1,
+      "rows": 3070,
+      "mean_delta": [
+        -0.010461285647207977,
+        0.0031838183508030196,
+        0.010834214571447806
+      ],
+      "rms_delta": [
+        0.25360953658641433,
+        0.3238571377660216,
+        0.41247928726538985
+      ],
+      "changed_classes": 2037
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 10073,
+      "mean_delta": [
+        0.031609149894576,
+        0.0666412966942463,
+        0.08954286671263684
+      ],
+      "rms_delta": [
+        0.25746479738560585,
+        0.33963532460155926,
+        0.4306479926768802
+      ],
+      "changed_classes": 6879
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 21609,
+      "mean_delta": [
+        0.12874576141981356,
+        0.19656837733017388,
+        0.25425166935772747
+      ],
+      "rms_delta": [
+        0.2966330764883373,
+        0.3874085179767736,
+        0.4958651725988642
+      ],
+      "changed_classes": 15845
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 15648,
+      "mean_delta": [
+        0.4835885075970301,
+        0.6357929569388839,
+        0.7117346385558153
+      ],
+      "rms_delta": [
+        0.6260259823085161,
+        0.7616482984276456,
+        0.87035537568357
+      ],
+      "changed_classes": 13031
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 1,
+      "rows": 7670,
+      "mean_delta": [
+        -0.004778597766638132,
+        -0.00424751974008174,
+        -0.0010925178549402636
+      ],
+      "rms_delta": [
+        0.25058188996425595,
+        0.32722523744540455,
+        0.4108863117369619
+      ],
+      "changed_classes": 5076
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 24254,
+      "mean_delta": [
+        0.024104602203421244,
+        0.03873320648250861,
+        0.05517736837354295
+      ],
+      "rms_delta": [
+        0.2582355393966459,
+        0.3305564109782299,
+        0.41478386261035766
+      ],
+      "changed_classes": 16254
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 53712,
+      "mean_delta": [
+        0.13299586305076203,
+        0.18038476445956939,
+        0.21767358544045107
+      ],
+      "rms_delta": [
+        0.2976486033875639,
+        0.3842790083439765,
+        0.4730841859330653
+      ],
+      "changed_classes": 39238
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 36331,
+      "mean_delta": [
+        0.5052934729110058,
+        0.567752829228277,
+        0.6153665081413956
+      ],
+      "rms_delta": [
+        0.6737883930493607,
+        0.7468110553036134,
+        0.8240706059333215
+      ],
+      "changed_classes": 31651
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 1,
+      "rows": 208812,
+      "mean_delta": [
+        -0.0064143347193889024,
+        0.012262237851297783,
+        0.028961237402764965
+      ],
+      "rms_delta": [
+        0.2518597413764466,
+        0.3294135196265751,
+        0.423435117909803
+      ],
+      "changed_classes": 139295
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 28101,
+      "mean_delta": [
+        0.01852834432384148,
+        0.044010732070789364,
+        0.06724447589678927
+      ],
+      "rms_delta": [
+        0.25642279107848803,
+        0.3363712180996878,
+        0.43302323160262707
+      ],
+      "changed_classes": 18962
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 2373,
+      "mean_delta": [
+        0.08687538173920485,
+        0.14646141639254512,
+        0.18787609483108017
+      ],
+      "rms_delta": [
+        0.2758917054436122,
+        0.36921864289717365,
+        0.4697856908552059
+      ],
+      "changed_classes": 1660
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 54,
+      "mean_delta": [
+        0.2605223919866451,
+        0.42786124427598055,
+        0.4639532104893415
+      ],
+      "rms_delta": [
+        0.42467685753501183,
+        0.5593454860373911,
+        0.6314455332271205
+      ],
+      "changed_classes": 40
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 1,
+      "rows": 505613,
+      "mean_delta": [
+        -0.0081539731019286,
+        0.00023076455827287257,
+        0.010613590256885365
+      ],
+      "rms_delta": [
+        0.25434431082004305,
+        0.326439720185679,
+        0.41483056830321186
+      ],
+      "changed_classes": 337309
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 68170,
+      "mean_delta": [
+        0.016394406603605232,
+        0.03360078378225735,
+        0.049907885871498886
+      ],
+      "rms_delta": [
+        0.25679587726676817,
+        0.32980964848727096,
+        0.4205500252654198
+      ],
+      "changed_classes": 45850
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 5979,
+      "mean_delta": [
+        0.08352855619414776,
+        0.12764244043513917,
+        0.1577342260157169
+      ],
+      "rms_delta": [
+        0.2784259185958423,
+        0.360371646866677,
+        0.45773680049361176
+      ],
+      "changed_classes": 4154
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 0,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 122,
+      "mean_delta": [
+        0.3349421783887159,
+        0.38145335482459203,
+        0.4328884929342226
+      ],
+      "rms_delta": [
+        0.4517129346370519,
+        0.5371350194405626,
+        0.6345104623063891
+      ],
+      "changed_classes": 97
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 1,
+      "rows": 2477,
+      "mean_delta": [
+        -0.004882457734766839,
+        -0.0005584533404288057,
+        0.009520495952824962
+      ],
+      "rms_delta": [
+        0.24693794599252236,
+        0.3161826657659102,
+        0.39679299913340144
+      ],
+      "changed_classes": 1645
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 9554,
+      "mean_delta": [
+        0.021862425850355974,
+        0.03577916924275881,
+        0.03947848329178753
+      ],
+      "rms_delta": [
+        0.25481107041977064,
+        0.3292754775831166,
+        0.4110347709996445
+      ],
+      "changed_classes": 6447
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 20922,
+      "mean_delta": [
+        0.12582986261523632,
+        0.1678813175034824,
+        0.19094829028714713
+      ],
+      "rms_delta": [
+        0.2938874039502409,
+        0.38120839489422886,
+        0.4675957435754703
+      ],
+      "changed_classes": 14459
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 13347,
+      "mean_delta": [
+        0.43386778282701244,
+        0.5174966398246256,
+        0.5617968725535095
+      ],
+      "rms_delta": [
+        0.5533038665437818,
+        0.6708913608444547,
+        0.7386605905786655
+      ],
+      "changed_classes": 11391
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 1,
+      "rows": 6228,
+      "mean_delta": [
+        -0.004342458897424932,
+        -0.015894765256620206,
+        -0.02378960445682845
+      ],
+      "rms_delta": [
+        0.24190056261352177,
+        0.31384021120385286,
+        0.4005178243632241
+      ],
+      "changed_classes": 4081
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 22993,
+      "mean_delta": [
+        0.02446850799624545,
+        0.02736332867082454,
+        0.02931005223368343
+      ],
+      "rms_delta": [
+        0.25172603161981827,
+        0.3239274297603248,
+        0.4107681875710767
+      ],
+      "changed_classes": 15229
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 49695,
+      "mean_delta": [
+        0.12416497665357563,
+        0.15193784571869298,
+        0.1781250753898207
+      ],
+      "rms_delta": [
+        0.291044709365158,
+        0.3650025303699836,
+        0.45995200583469387
+      ],
+      "changed_classes": 34707
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 27692,
+      "mean_delta": [
+        0.428871132675777,
+        0.49937588437853714,
+        0.583226033211825
+      ],
+      "rms_delta": [
+        0.5455905487042557,
+        0.6597326412472503,
+        0.7831116444594018
+      ],
+      "changed_classes": 23405
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 1,
+      "rows": 260931,
+      "mean_delta": [
+        -0.00784180110484077,
+        -0.0055575199037408325,
+        -0.005692357528148637
+      ],
+      "rms_delta": [
+        0.25186418407533656,
+        0.324449551921283,
+        0.40788461079574345
+      ],
+      "changed_classes": 172866
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 63323,
+      "mean_delta": [
+        0.015249854304181057,
+        0.024390759751064067,
+        0.028767436245511584
+      ],
+      "rms_delta": [
+        0.2560453167975399,
+        0.3283721982444296,
+        0.4121028210334416
+      ],
+      "changed_classes": 42207
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 5415,
+      "mean_delta": [
+        0.08813270775436387,
+        0.12868062244014541,
+        0.14987694578959534
+      ],
+      "rms_delta": [
+        0.2830259137705425,
+        0.3648850163794157,
+        0.45080409070113875
+      ],
+      "changed_classes": 3739
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 109,
+      "mean_delta": [
+        0.280415460604714,
+        0.3541198694307374,
+        0.3941201197422417
+      ],
+      "rms_delta": [
+        0.3896955836015826,
+        0.5194522956321489,
+        0.5847574455875983
+      ],
+      "changed_classes": 73
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 1,
+      "rows": 625364,
+      "mean_delta": [
+        -0.006282857788887419,
+        -0.017562305694243215,
+        -0.023098161589842174
+      ],
+      "rms_delta": [
+        0.242973284797768,
+        0.3110837788976289,
+        0.3990835298728571
+      ],
+      "changed_classes": 409399
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 149019,
+      "mean_delta": [
+        0.013779545353457174,
+        0.00891881936709969,
+        0.00887434509819355
+      ],
+      "rms_delta": [
+        0.24511319008736815,
+        0.31213831956430954,
+        0.4006127489827421
+      ],
+      "changed_classes": 98005
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 12663,
+      "mean_delta": [
+        0.08038944284666434,
+        0.09995417336342971,
+        0.11648218350089357
+      ],
+      "rms_delta": [
+        0.2655775300330364,
+        0.3330180361968416,
+        0.42446626088748535
+      ],
+      "changed_classes": 8566
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 1,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 225,
+      "mean_delta": [
+        0.3023229008116242,
+        0.34608961158729573,
+        0.3817456263800462
+      ],
+      "rms_delta": [
+        0.43433139873685955,
+        0.5024920845946222,
+        0.5988278993129998
+      ],
+      "changed_classes": 168
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 1,
+      "rows": 2819,
+      "mean_delta": [
+        0.0004077880578493034,
+        0.0008141028732037434,
+        0.0013150709458871613
+      ],
+      "rms_delta": [
+        0.020610386697395015,
+        0.025691206325804735,
+        0.030473362237115047
+      ],
+      "changed_classes": 28
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 17723,
+      "mean_delta": [
+        0.00019700225469039754,
+        0.00021872894219916709,
+        0.0001691185570656411
+      ],
+      "rms_delta": [
+        0.02021983269518494,
+        0.02807964744063223,
+        0.03307572867116548
+      ],
+      "changed_classes": 237
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 38664,
+      "mean_delta": [
+        0.0009205449208348689,
+        0.0008062175851090094,
+        0.001051153285070996
+      ],
+      "rms_delta": [
+        0.02909423293340928,
+        0.03358737198191763,
+        0.038638324302597615
+      ],
+      "changed_classes": 986
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 23295,
+      "mean_delta": [
+        0.0037778901572925786,
+        0.005133896370812767,
+        0.006608773211513396
+      ],
+      "rms_delta": [
+        0.07359028219983271,
+        0.09136405660987676,
+        0.12041384006555945
+      ],
+      "changed_classes": 823
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 1,
+      "rows": 6925,
+      "mean_delta": [
+        0.000263884078437254,
+        0.0005277606749311191,
+        0.0006636800844745966
+      ],
+      "rms_delta": [
+        0.020500312191597408,
+        0.02269415632218686,
+        0.029422426428833505
+      ],
+      "changed_classes": 66
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 44948,
+      "mean_delta": [
+        0.0001708303294921477,
+        3.6771434483026614e-05,
+        6.119119342231467e-05
+      ],
+      "rms_delta": [
+        0.018562659471657292,
+        0.024121333081693737,
+        0.030826399570925762
+      ],
+      "changed_classes": 531
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 100279,
+      "mean_delta": [
+        0.0008496966235261373,
+        0.0010096584688386728,
+        0.0011012505428671957
+      ],
+      "rms_delta": [
+        0.029897228118032863,
+        0.03431449402428862,
+        0.040843507389152364
+      ],
+      "changed_classes": 2401
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 61298,
+      "mean_delta": [
+        0.0009908639549579827,
+        0.0022688046906961376,
+        0.0020874483586355262
+      ],
+      "rms_delta": [
+        0.06405671761807695,
+        0.07953391821066992,
+        0.09345133553230801
+      ],
+      "changed_classes": 1958
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 1,
+      "rows": 375981,
+      "mean_delta": [
+        6.13070698521324e-05,
+        0.00012882150411203504,
+        0.00021443929768901767
+      ],
+      "rms_delta": [
+        0.020378842297837554,
+        0.026626838784716902,
+        0.03185482034011106
+      ],
+      "changed_classes": 1727
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 293926,
+      "mean_delta": [
+        0.0001125061117555061,
+        0.00013693124158254744,
+        0.00018625427148523038
+      ],
+      "rms_delta": [
+        0.012814235733020755,
+        0.01608291706885952,
+        0.019847546857523574
+      ],
+      "changed_classes": 718
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 26856,
+      "mean_delta": [
+        0.00018003687800154021,
+        0.00018755005776548362,
+        0.00019242650221204866
+      ],
+      "rms_delta": [
+        0.015906340765959176,
+        0.01892731440991962,
+        0.022244014274267736
+      ],
+      "changed_classes": 95
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 590,
+      "mean_delta": [
+        0.0008868189465443967,
+        0.0010440159967895282,
+        0.0008688249451629186
+      ],
+      "rms_delta": [
+        0.01774509655894463,
+        0.02076799233976658,
+        0.0222108000379984
+      ],
+      "changed_classes": 1
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 1,
+      "rows": 920069,
+      "mean_delta": [
+        0.00016797188702354372,
+        0.00014331320103052778,
+        0.00017402071175070272
+      ],
+      "rms_delta": [
+        0.018459126695466625,
+        0.02294743456830334,
+        0.02892324704666191
+      ],
+      "changed_classes": 3096
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 722298,
+      "mean_delta": [
+        8.467127837552069e-05,
+        6.0164727481897126e-05,
+        6.811347551443236e-05
+      ],
+      "rms_delta": [
+        0.012912748184864578,
+        0.015658565591284916,
+        0.020060530447148717
+      ],
+      "changed_classes": 1471
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 66754,
+      "mean_delta": [
+        0.000245789235900938,
+        0.0002452995968208768,
+        0.0003018355702724328
+      ],
+      "rms_delta": [
+        0.013171496805779831,
+        0.015322758031009487,
+        0.01992943427601689
+      ],
+      "changed_classes": 192
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 2,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 1545,
+      "mean_delta": [
+        -1.1827698818326575e-05,
+        0.00029847486469062787,
+        -3.9359917532664674e-05
+      ],
+      "rms_delta": [
+        0.013609965037971936,
+        0.017642683468849434,
+        0.0107800823606385
+      ],
+      "changed_classes": 8
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 1,
+      "rows": 75,
+      "mean_delta": [
+        0.0005018378297487895,
+        -4.676216437170903e-06,
+        0.0007660677035649618
+      ],
+      "rms_delta": [
+        0.0037371339544552446,
+        0.004458487705029614,
+        0.006284622160607113
+      ],
+      "changed_classes": 1
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 7740,
+      "mean_delta": [
+        7.456870275170264e-05,
+        3.677157842185955e-05,
+        -0.00014908039604794374
+      ],
+      "rms_delta": [
+        0.008584911022620247,
+        0.009281012165097687,
+        0.009326449152881064
+      ],
+      "changed_classes": 65
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 21315,
+      "mean_delta": [
+        -0.0002591317429110249,
+        -0.00034011199489308137,
+        -0.00035367329357128126
+      ],
+      "rms_delta": [
+        0.01386701473401157,
+        0.013999195643093558,
+        0.014067697554000901
+      ],
+      "changed_classes": 419
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 13977,
+      "mean_delta": [
+        -0.003465158789042222,
+        -0.0034616557578216415,
+        -0.004698010001467765
+      ],
+      "rms_delta": [
+        0.027287784897525157,
+        0.024971084705287628,
+        0.026057171566916462
+      ],
+      "changed_classes": 234
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 1,
+      "rows": 194,
+      "mean_delta": [
+        -0.000117399182516275,
+        -0.0008115533789735019,
+        -0.0002593067426656939
+      ],
+      "rms_delta": [
+        0.005439989968560641,
+        0.008842025957490006,
+        0.00797823434620403
+      ],
+      "changed_classes": 2
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 18838,
+      "mean_delta": [
+        -8.088531606594362e-05,
+        -7.082887154757938e-05,
+        -0.0001947398133027637
+      ],
+      "rms_delta": [
+        0.008397963420048381,
+        0.00921550335941167,
+        0.009011226518077065
+      ],
+      "changed_classes": 192
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 50481,
+      "mean_delta": [
+        -0.00012863154945698282,
+        -0.00014946648621584274,
+        -0.0003162970428100959
+      ],
+      "rms_delta": [
+        0.014473514932902254,
+        0.014284906049383754,
+        0.014222790624051462
+      ],
+      "changed_classes": 956
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 34647,
+      "mean_delta": [
+        -0.004292051899089297,
+        -0.00540658404204604,
+        -0.0043652654257564415
+      ],
+      "rms_delta": [
+        0.03313893724335152,
+        0.039723156119356874,
+        0.029133044652501057
+      ],
+      "changed_classes": 722
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 1,
+      "rows": 26408,
+      "mean_delta": [
+        9.732283837243354e-06,
+        1.4833228714134678e-05,
+        1.6894234211478348e-05
+      ],
+      "rms_delta": [
+        0.002171395829730848,
+        0.0022906084305170456,
+        0.0023389973566916573
+      ],
+      "changed_classes": 10
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 355908,
+      "mean_delta": [
+        4.669513744212676e-06,
+        3.1436338652591304e-06,
+        7.323998683260413e-06
+      ],
+      "rms_delta": [
+        0.0025245111993598573,
+        0.0026292486175416977,
+        0.0027539975617790697
+      ],
+      "changed_classes": 339
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 58733,
+      "mean_delta": [
+        1.746695787420225e-05,
+        1.057735546892367e-05,
+        7.006440879917725e-06
+      ],
+      "rms_delta": [
+        0.003868251801227065,
+        0.003950370445467343,
+        0.004004544678100997
+      ],
+      "changed_classes": 114
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 1871,
+      "mean_delta": [
+        -4.111440350286133e-05,
+        -5.9749882984712304e-05,
+        -0.0001539488261807481
+      ],
+      "rms_delta": [
+        0.0071550936125618254,
+        0.0063527118451456,
+        0.005963349042841016
+      ],
+      "changed_classes": 6
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 1,
+      "rows": 63836,
+      "mean_delta": [
+        5.66713419389296e-07,
+        1.116574631852875e-05,
+        2.289659934865742e-06
+      ],
+      "rms_delta": [
+        0.0019177996807292887,
+        0.0020302300675504106,
+        0.002138571410037901
+      ],
+      "changed_classes": 39
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 853007,
+      "mean_delta": [
+        -1.6179593226858742e-06,
+        -3.273113699604921e-07,
+        5.0583712849481996e-08
+      ],
+      "rms_delta": [
+        0.0025835809793363232,
+        0.0027167589385238403,
+        0.0027300579913807277
+      ],
+      "changed_classes": 822
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 140344,
+      "mean_delta": [
+        2.1470680075738143e-06,
+        -9.157965295893883e-06,
+        4.066202045812209e-06
+      ],
+      "rms_delta": [
+        0.004175606256288178,
+        0.004092477590653533,
+        0.004086492444426835
+      ],
+      "changed_classes": 255
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 3,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 4670,
+      "mean_delta": [
+        5.129630187809531e-06,
+        3.555023950989292e-05,
+        0.00015769089059605078
+      ],
+      "rms_delta": [
+        0.006862985437172627,
+        0.006773659810047976,
+        0.006778701631109504
+      ],
+      "changed_classes": 9
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 609,
+      "mean_delta": [
+        6.4544301718620244e-06,
+        -9.275592811182386e-05,
+        -0.0009141542148976686
+      ],
+      "rms_delta": [
+        0.007470208588714027,
+        0.008416921282212931,
+        0.010146404703255455
+      ],
+      "changed_classes": 7
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 4882,
+      "mean_delta": [
+        -0.00010073825146333541,
+        0.00010046019942767676,
+        -0.00024925390296489373
+      ],
+      "rms_delta": [
+        0.014223075020663183,
+        0.013257943094468639,
+        0.014108215022916468
+      ],
+      "changed_classes": 96
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 4158,
+      "mean_delta": [
+        -0.0034121351562973867,
+        -0.003938634294842716,
+        -0.004534230309934098
+      ],
+      "rms_delta": [
+        0.027115956774213988,
+        0.02480758539272973,
+        0.0257054501293377
+      ],
+      "changed_classes": 90
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 1435,
+      "mean_delta": [
+        -0.0001712583325063414,
+        -0.0004708047731712993,
+        -0.00032551764114678735
+      ],
+      "rms_delta": [
+        0.008952824854373076,
+        0.00885330408664399,
+        0.00967157329942141
+      ],
+      "changed_classes": 14
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 11681,
+      "mean_delta": [
+        -0.0002944241014600455,
+        -0.00045546676437093397,
+        -0.0004759404561359985
+      ],
+      "rms_delta": [
+        0.01427891503145223,
+        0.014708872866884338,
+        0.014538148253760798
+      ],
+      "changed_classes": 229
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 10620,
+      "mean_delta": [
+        -0.0034755667473931984,
+        -0.004168311476244675,
+        -0.004090525872177548
+      ],
+      "rms_delta": [
+        0.026598439491859475,
+        0.026374082296183564,
+        0.026342124825898074
+      ],
+      "changed_classes": 237
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 1,
+      "rows": 5,
+      "mean_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rms_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 76104,
+      "mean_delta": [
+        1.3498387625894585e-06,
+        -5.204090936598606e-07,
+        7.862040340111175e-06
+      ],
+      "rms_delta": [
+        0.002721347349285528,
+        0.0028784572090459473,
+        0.0028563396325062373
+      ],
+      "changed_classes": 86
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 72353,
+      "mean_delta": [
+        -4.39864523098588e-06,
+        5.848303951052967e-06,
+        -9.958529134735861e-06
+      ],
+      "rms_delta": [
+        0.004235233009412701,
+        0.004095907647643815,
+        0.004078944143907727
+      ],
+      "changed_classes": 140
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 3804,
+      "mean_delta": [
+        1.986231701552611e-05,
+        -8.37957750923626e-05,
+        -2.1981946990818382e-05
+      ],
+      "rms_delta": [
+        0.0064634948605349855,
+        0.006064735315823759,
+        0.005948713955048037
+      ],
+      "changed_classes": 7
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 1,
+      "rows": 10,
+      "mean_delta": [
+        0.0010281413793563842,
+        -0.0023101761937141417,
+        -0.0008730143308639526
+      ],
+      "rms_delta": [
+        0.003251268515433397,
+        0.007305418568435049,
+        0.0027607137154979236
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 181903,
+      "mean_delta": [
+        -5.825177431213854e-06,
+        6.990059716671781e-06,
+        3.911575609580877e-06
+      ],
+      "rms_delta": [
+        0.002870881539837044,
+        0.0028446440900192545,
+        0.0029676478871036344
+      ],
+      "changed_classes": 196
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 177511,
+      "mean_delta": [
+        4.908178378842032e-06,
+        1.7331264180631978e-05,
+        9.320198868896293e-06
+      ],
+      "rms_delta": [
+        0.004207819938919958,
+        0.004147543281093651,
+        0.004315811310222886
+      ],
+      "changed_classes": 375
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 4,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 9810,
+      "mean_delta": [
+        8.955408691404987e-05,
+        -6.086667847727538e-06,
+        4.581462869099764e-05
+      ],
+      "rms_delta": [
+        0.006694421855998393,
+        0.006491286230746386,
+        0.006617454197292841
+      ],
+      "changed_classes": 42
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 3,
+      "mean_delta": [
+        -0.004480314130584399,
+        0.0007268190383911133,
+        0.002406517664591471
+      ],
+      "rms_delta": [
+        0.007760131708040961,
+        0.0012588875024017625,
+        0.004168210864384426
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 108,
+      "mean_delta": [
+        0.0015470195837594845,
+        0.002175018501778444,
+        0.0008019416558521765
+      ],
+      "rms_delta": [
+        0.0143036228763783,
+        0.015391461542568936,
+        0.012289725263116443
+      ],
+      "changed_classes": 2
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 324,
+      "mean_delta": [
+        -0.0053361114198959975,
+        -0.004075157456099987,
+        -0.004732563171857669
+      ],
+      "rms_delta": [
+        0.029535680743774606,
+        0.025743876324265284,
+        0.025890367875485494
+      ],
+      "changed_classes": 7
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 11,
+      "mean_delta": [
+        -0.003167017617008903,
+        -0.007809970358555967,
+        -0.0007068988951769742
+      ],
+      "rms_delta": [
+        0.005977929458675679,
+        0.0280075773152396,
+        0.015117291874192517
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 309,
+      "mean_delta": [
+        -7.878267754891791e-05,
+        0.00045882504355029764,
+        -0.0006645737535359405
+      ],
+      "rms_delta": [
+        0.014578502821078605,
+        0.014136331207042316,
+        0.013130477261235984
+      ],
+      "changed_classes": 8
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 867,
+      "mean_delta": [
+        -0.00392411940178169,
+        -0.004322787078641002,
+        -0.004207231559830416
+      ],
+      "rms_delta": [
+        0.032273303155523195,
+        0.028474055577045757,
+        0.029997060887064313
+      ],
+      "changed_classes": 22
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 1738,
+      "mean_delta": [
+        8.108307659986104e-05,
+        0.00010104241195644956,
+        8.258114178248084e-05
+      ],
+      "rms_delta": [
+        0.002658849904697252,
+        0.0031857534961096633,
+        0.004014438438780865
+      ],
+      "changed_classes": 2
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 14666,
+      "mean_delta": [
+        -8.292850903030958e-05,
+        -2.746052387892259e-05,
+        -7.061518095743602e-05
+      ],
+      "rms_delta": [
+        0.005108592117951645,
+        0.005278313722340616,
+        0.005027303093351293
+      ],
+      "changed_classes": 26
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 3786,
+      "mean_delta": [
+        6.799828783714504e-05,
+        9.15749306503705e-05,
+        8.747728646777637e-05
+      ],
+      "rms_delta": [
+        0.006279326968091238,
+        0.006781404135897157,
+        0.006503536144987412
+      ],
+      "changed_classes": 7
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 4206,
+      "mean_delta": [
+        6.053348329725099e-05,
+        2.4285184214940305e-05,
+        -1.1263604537609131e-05
+      ],
+      "rms_delta": [
+        0.0029028814549293797,
+        0.003046933223013655,
+        0.0030778646647931615
+      ],
+      "changed_classes": 6
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 35888,
+      "mean_delta": [
+        -4.5655598474146965e-05,
+        -2.9264294434066534e-05,
+        -2.946942656620053e-06
+      ],
+      "rms_delta": [
+        0.004858190428223095,
+        0.004558257746406074,
+        0.004933434363131975
+      ],
+      "changed_classes": 95
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 5,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 9140,
+      "mean_delta": [
+        -3.2361864015962865e-05,
+        -6.144227969757723e-05,
+        -2.7669351588714565e-05
+      ],
+      "rms_delta": [
+        0.007151776227065838,
+        0.007709879421132998,
+        0.006945258107243718
+      ],
+      "changed_classes": 15
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 6,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 1,
+      "mean_delta": [
+        -0.004687443375587463,
+        0.025151222944259644,
+        0.015275567770004272
+      ],
+      "rms_delta": [
+        0.004687443375587463,
+        0.025151222944259644,
+        0.015275567770004272
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 6,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 2,
+      "mean_delta": [
+        -0.010419785976409912,
+        0.008410871028900146,
+        -0.0062226057052612305
+      ],
+      "rms_delta": [
+        0.01473580264486388,
+        0.011894767880441536,
+        0.00880009338168063
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 6,
+      "RES": 1,
+      "CEN": 0,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 6,
+      "mean_delta": [
+        -0.019318451484044392,
+        -0.001962567369143168,
+        0.0007036228974660238
+      ],
+      "rms_delta": [
+        0.030304366135425375,
+        0.004112275394529014,
+        0.008475795141078938
+      ],
+      "changed_classes": 1
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 6,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 2,
+      "rows": 7,
+      "mean_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rms_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 6,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 219,
+      "mean_delta": [
+        0.00013913435767910797,
+        6.726581484215444e-05,
+        -0.00016021592431961129
+      ],
+      "rms_delta": [
+        0.0030121504746042672,
+        0.0036998157443443877,
+        0.0036881448888502135
+      ],
+      "changed_classes": 1
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 6,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 325,
+      "mean_delta": [
+        0.0004980408715514036,
+        0.0006697057989927439,
+        -0.00013923379091116097
+      ],
+      "rms_delta": [
+        0.004098681058909208,
+        0.007445381225966377,
+        0.004740678850384034
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 6,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 2,
+      "rows": 28,
+      "mean_delta": [
+        -0.0028924431119646344,
+        -0.0006350793742707797,
+        -2.7132885796683176e-05
+      ],
+      "rms_delta": [
+        0.015868748984704615,
+        0.0057469637058886365,
+        0.005329062094569909
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 6,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 544,
+      "mean_delta": [
+        3.618931976448306e-05,
+        0.0001017456131247694,
+        0.00011009829776252017
+      ],
+      "rms_delta": [
+        0.006579354311898332,
+        0.004132710109970482,
+        0.005365470984825621
+      ],
+      "changed_classes": 3
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 6,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 714,
+      "mean_delta": [
+        0.000269035894667641,
+        7.87070360170359e-05,
+        -0.0001358288843758634
+      ],
+      "rms_delta": [
+        0.006826563669460185,
+        0.006232986179353907,
+        0.005727404882455904
+      ],
+      "changed_classes": 1
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 7,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 3,
+      "rows": 29,
+      "mean_delta": [
+        0.0003419998904754376,
+        0.0005443065330899995,
+        0.0011531936711278454
+      ],
+      "rms_delta": [
+        0.0022363751639478758,
+        0.002073070449896176,
+        0.007511222955350606
+      ],
+      "changed_classes": 1
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 7,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 0,
+      "mass_bin": 4,
+      "rows": 53,
+      "mean_delta": [
+        -0.0005130330627819277,
+        -0.00012451044793398874,
+        -0.00123919518488758
+      ],
+      "rms_delta": [
+        0.003755821566579734,
+        0.007387305833626911,
+        0.006353582313914098
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 7,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 3,
+      "rows": 56,
+      "mean_delta": [
+        -0.0009453592023679189,
+        -0.00033099470393998284,
+        -0.00024372073156493052
+      ],
+      "rms_delta": [
+        0.010450766833070854,
+        0.008158422452256175,
+        0.0035833985182504276
+      ],
+      "changed_classes": 0
+    },
+    {
+      "redshift_coordinate": "Z_COSMO",
+      "z_bin": 7,
+      "RES": 1,
+      "CEN": 1,
+      "cap": 1,
+      "mass_bin": 4,
+      "rows": 101,
+      "mean_delta": [
+        0.0006379708647727966,
+        0.0020791149818071043,
+        0.0001238690744532217
+      ],
+      "rms_delta": [
+        0.00992502260392105,
+        0.014182500393695781,
+        0.01047885580235647
+      ],
+      "changed_classes": 0
+    }
+  ],
+  "pass": false,
+  "training_ready": false,
+  "geometry_reuse_candidate": true,
+  "next_action": "Rebind verified graph/field payloads and resolve fold audit before training."
+}
