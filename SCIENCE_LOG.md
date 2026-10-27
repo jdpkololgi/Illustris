@@ -20092,3 +20092,132 @@ Final plots retain original analysis with corrected shared display limits;
 small evidence and figures hash-verified. Report in sibling GraphWeb_DESI:
 `docs/loa_matched_colour_20261016.md`.
 
+
+## 2026-10-17 — [presentation] Three conditional density draws and one mock observation
+
+User requested a conceptual many-fields-to-one-observation diagram and a saved
+simulation-posterior version, plus options before redesigning A01. Produced both
+black16:9 PNG/PDF/SVG figures. Data version reuses exploratory expanded U-Net
+seed17/step9984 sampled-coarse NFE128 draws0–2 for ph012_NGC_s0_interior_00,
+central owned z-cell8; indices/geometry fixed before field inspection. Same1447
+saved observed-success galaxies, exact positions/IDs, matched slab and common
+rho/mean0–4 scale; no clipping, jitter, thinning, new draws, FFT or inference.
+Three-dimensional conditioning is fixed; displayed dots are only a slice.
+No claim of calibrated joint-field uncertainty or exact observation likelihood.
+P12-A per-galaxy posterior and A01ph002 truth are distinct products.
+
+Observation/galaxy hashes, point-cell/count/geometry parity, positive finite
+fields, shared scales, export dimensions/font/text and visual checks passed.
+Checkpoint hash inherited; source draws freshly hashed. Schematic explicitly
+not scientific data. A01 replacement remains user choice: survey-process chain,
+same universe/two surveys, or parent-versus-selected mocks. No Slurm changes.
+Code:workflows/presentation/tokyo_many_fields_20261017.py;
+report:docs/tokyo_many_fields_20261017.md;
+exports:~/fmsu_tokyo_20261010/many_fields_20261017/. Graphify initially unavailable;
+later cosmic_env refresh interrupted after AST extraction, not completed.
+
+### 2026-10-17 — [presentation] Local eigenvalue posterior replaces field-model framing
+
+User explicitly clarified current talk scope is per-galaxy eigenvalue inference.
+Stopped work on illustrative field sketch; kept oldfiles. Corrected savedfield
+arrowheads and labelled separate exploratory model. New primary figure uses
+P12-A ph006 parentrow2717758:512saved draws,209void/303wall atstrictλ>.2.
+Representative actual class-median-nearest triplets, no truth selection. Same
+observed target and242real neighbours in fixed80×80×15Mpc crop; golden target,
+no spatial-field/eigenvector inference. Posterior/points hashes and selectedFITS
+row geometry/redshift/IDs verified. The crop is not thefull3Dconditioning.
+
+ApprovedA01option1 complete:ph002density→survey selection→718observed-success
+mock galaxies; same sourcebound endpoints,no hatching,newcuts orRSDdisplacement.
+Middlebox observational steps conceptual; density istruth,notposterior. Three
+4KPNG/PDF/SVGfigures with sources,arrays,provenance; visual/export/archivechecks.
+No inference/training/Slurm actions. Report:docs/tokyo_local_environments_20261017.md;
+code:workflows/presentation/tokyo_local_environments_20261017.py;
+package:~/fmsu_tokyo_20261010/local_environments_selection_20261017.zip.
+
+### 2026-10-17 — [exploratory presentation] Filament morphology audit and slab screen
+
+Exact frozen Loa rows/IDs/coordinates/P_WEB verified for original4,459-row
+20Mpc slab. Projected covariance-shape upper20% (radius7/.6766Mpc, >=8
+neighbours, x/y edge margin) contains734 targets;482 havePfil<.2, with297
+wall and185void argmax. This is not tidal truth or a model error rate.
+Nested5/10/20Mpc full-depth screen on907fixed central targets has454/699/907
+shape-valid targets. Line-like counts176/214/157, low-Pfil39/81/102; on454
+common-valid targets these become176/105/31 and39/15/9. Eligibility loss and
+changing membership confound a thinner-slab improvement. No complete radius
+10.34585Mpc sphere fits in saved20Mpc slab. Cause remains unresolved; require
+padded off-slab controls and matched held-out mock tidal truth before retraining.
+Investigation prompt records conditional training and explicit Slurm approval gates.
+GraphWeb_DESI/docs/filament_visual_audit_20261017.md and
+GraphWeb_DESI/docs/filament_investigation_prompt_20261017.md hold evidence/plan.
+
+New figures: all4class probability maps on identical rows/scales; fixed central
+200x200Mpc crop with626Pfil>=.5 of1,539galaxies highlighted, all retained;
+conceptual void/wall geometry with actual209/303of512 P12-A class draws and
+same242ph006 neighbours. No inferred orientation or reconstructed field claimed.
+
+A07 keeps original left fractions and only controlled full-survey sSFR series
+(-.1861dex cluster-minus-void). User-approved cached-wedge continuous variants
+use tidal trace and selection-normalized top-hat galaxy density.77,669of89,809
+rows retained in106common .1dex/.01z cells; >=20 per eight-quantile bin in both
+estimators; same pooled mix,128paired sky-block draws (127/126valid). High-low
+contrasts -.2210/-.2698dex, not interchangeable with full-survey class contrast.
+Exact cell-balance/direct-weighted-mean and cell-only-outcome contracts passed.
+No SED, posterior or selection systematic coverage claimed; wedge panels labelled.
+Visual/export/hash/archive checks passed. No new inference/training/Slurm action.
+Outputs: ~/fmsu_tokyo_20261010/{filament_and_local_geometry_20261017,
+a07_simplified_20261017}/. Script: workflows/presentation/tokyo_ssfr_variants_20261017.py.
+
+### 2026-10-17 — [presentation] String-like wall main slide and matched sSFR overlay
+
+User requested genuine string-like tidalwall as main talk example, sheetlike wall
+and actual error as backups, plus continuous/discrete sSFR overlay. New black16:9
+main slide preserves ph006TARGETID6032112/Pwall66.4% and exact17-neighbour full
+sphere. Same positions across galaxy/truth/argmax columns; simple distinction
+between tracer geometry and smoothed gravitational environment. Backups retain
+3743465(sheet,orthogonal x/height) and1493453(error,x/y). No field reconstruction,
+new draws, example reselection or DESIaccuracy claim; original exposedmock scope.
+
+A07overlay recomputes eight tidaltrace bins and four hardP_WEBargmax class
+summaries on SAME63,347/89,809 cachedwedge galaxies,74 common .1dex/.01z cells,
+>=20rows per bin/class. Common pooled mass/z mix; class diamonds at standardized
+meantrace, explicitly overlapping classes, not trace thresholds. Stricter support
+changes means versus older variants. Greycurve/coloredpoints show same reference;
+120/128 jointly valid paired spatialbootstraps; no SED/posterior/systematic errors.
+Original leftfractionpanel pixel-identical; right explicitly wedge-only.
+Cache/mock hashes, centraltruth/probability/count replay, direct weighted x/y,
+jointcellbalance and cell-only outcome equality pass. 4KPNG/vectorPDF/editableSVG,
+2-pagebackupPDF,720pinspection and archive integrity verified. No Slurm or inference.
+Outputs ~/fmsu_tokyo_20261010/talk_wall_overlay_20261017/; source GraphWeb_DESI/
+workflows/presentation/tokyo_wall_and_ssfr_overlay_20261017.py. Graphify unavailable;
+targeted inspection used. Original reports and scientific results unchanged.
+
+### 2026-10-17 — [presentation] Extend sSFR curve with measured high-trace bin
+
+User noted classcluster meantrace beyond last continuous-bin mean. Original
+upperquantile bin was broad; split attrace1.75 after inspecting only trace/count
+support. No extrapolation or y-based fit. Recompute both class/continuous means
+on59,774galaxies/69common mass-zcells, >=20per bin/class. Added hightrace bin:
+3,301galaxies, standardizedmeantrace2.1488, meansSFR-11.1583; cluster summary
+trace2.0800, meansSFR-11.1586. Values independently computed; no enforced match.
+117/128jointly valid spatialbootstraps (previous120); computational usable-draw
+guard100 for extension, conditional valid-draw uncertainty explicitly documented.
+Original leftpanel pixelidentical; weightedmean/cellbalance,sourcehash,4K/vector,
+visual and archivechecks pass. Prior package preserved. Updated package:
+~/fmsu_tokyo_20261010/talk_wall_overlay_extended_20261017.zip; corresponding
+GraphWeb_DESI/workflows/presentation/tokyo_wall_and_ssfr_overlay_extended_20261017.py.
+No inference/training/Slurm actions; same exposedmock main/backup slides retained.
+
+
+## 2026-10-18 — FMSU A–E revisions and coordinate audit
+
+Package: /global/homes/d/dkololgi/fmsu_tokyo_20261010/tokyo_revisions_20261018.zip. Index, exact source bindings, coordinate audit, per-figure receipts and SHA256 manifest in revisions_20261018/. Seven compositions and 21 bodies/builds/components plus copied context asset; PNG/PDF/SVG, 1920×900, full previews 1920×1080, IBM Plex Sans.
+
+ph002 fields/dots use Z_COSMO and pinned DESI/c000 distances in h^-1 Mpc, same real-space chart/slab; ph006 context uses observed Z and Planck18 Mpc. Same TARGETID 6765665, 512 joint draws and 209/303/0/0 counts; actual draw indices 362/291. TARP curve and descriptive maximum-deviation envelope unchanged, already-exposed held-out ph006. Paper I reuses saved predicted-class contour paths; pointwise projection unavailable, so no entropy or true-class recolouring. No new scientific inference, training, Slurm action or production claim. Source checks, dimensions, fonts, transparent layers and half-size visual review passed. graphify update unavailable (command not found).
+
+See `docs/tokyo_revisions_20261018.md`.
+
+
+## 2026-10-19 — Talk notation corrections
+
+A/C diagrams consistently use bold lambda_g, including builds/components. Galaxy-properties axis retains Inferred tidal trace and adds Tr(T)=lambda1+lambda2+lambda3 proportional to delta. Saved arrays/statistics unchanged; no recomputation. Half-size visual QA passed. Package: ~/fmsu_tokyo_20261010/tokyo_notation_corrections_20261019.zip; earlier packages preserved.
