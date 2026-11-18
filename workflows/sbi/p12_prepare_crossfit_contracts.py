@@ -99,6 +99,38 @@ def phase_selection_statistics(root: Path, phase: str) -> dict:
                       'p3_manifest_sha256': sha256(files['p3_manifest'])}}
 
 
+def cached_phase_selection_statistics(root: Path, phase: str, cache_root: Path) -> dict:
+    """Persist exact label-free statistics, bound to inputs and computation code."""
+    files = phase_files(root, phase)
+    inputs = {name: {'path': str(files[name]), 'sha256': sha256(files[name])}
+              for name in ('p1_manifest', 'p3_manifest', 'cores')}
+    context = files['p4_root'] / 'context_assignment.npz'
+    inputs['context'] = {'path': str(context), 'sha256': sha256(context)}
+    source_files = [Path(__file__), Path(__file__).parents[1] / 'abacus_tweb/p6_refit_fullcap_selection.py',
+                    Path(__file__).parents[1] / 'abacus_tweb/p10_prepare_training_contract.py']
+    binding = {'inputs': inputs, 'code': {str(path): sha256(path) for path in source_files}}
+    marker = cache_root / phase / 'SELECTION_STATISTICS.json'
+    if marker.exists():
+        value = json.loads(marker.read_text())
+        if value.get('phase') != phase or value.get('binding') != binding or not value.get('pass'):
+            raise ValueError('Cached selection statistics source drift: ' + phase)
+        result = {'counts': np.asarray(value['counts'], dtype=np.int64),
+                  'volume': np.asarray(value['volume'], dtype=np.float64), 'audit': value['audit']}
+    else:
+        result = phase_selection_statistics(root, phase)
+    shape = (2, len(np.arange(Z_MIN, Z_MAX + .5 * BIN_WIDTH, BIN_WIDTH)) - 1)
+    if (result['counts'].shape != shape or result['volume'].shape != shape
+            or np.any(result['counts'] < 0) or np.any(result['volume'] < 0)
+            or not np.isfinite(result['volume']).all()):
+        raise ValueError('Invalid phase selection sufficient statistics')
+    if not marker.exists():
+        marker.parent.mkdir(parents=True, exist_ok=True)
+        atomic_json(marker, {'phase': phase, 'binding': binding, 'counts': result['counts'].tolist(),
+                            'volume': result['volume'].tolist(), 'audit': result['audit'],
+                            'label_free': True, 'pass': True})
+    return result
+
+
 def selection_fit(
     *, root: Path, output: Path, train: tuple[str, ...], omitted: str, statistics: dict | None = None
 ) -> dict:
@@ -282,6 +314,8 @@ def build_contract(*, root: Path, omitted: str, full_contract: Path = FULL_CONTR
             and all(row["pass"] for row in phase_records.values())
         ),
     }
+    if full.get('phase_policy'):
+        loader_manifest['phase_policy'] = full['phase_policy']
     atomic_json(output / "TRAINING_LOADER_READY.json", loader_manifest)
     loader = P10PhaseBalancedLoader(output, include_blind=False)
     refs = loader.training_epoch(seed=42, epoch=1)
@@ -343,7 +377,7 @@ def main() -> None:
         raise ValueError('Use one to four statistics workers')
     statistics = {}
     with ProcessPoolExecutor(max_workers=args.workers) as pool:
-        futures = {phase: pool.submit(phase_selection_statistics, args.source_root, phase) for phase in registered}
+        futures = {phase: pool.submit(cached_phase_selection_statistics, args.source_root, phase, args.output_root / 'selection_statistics') for phase in registered}
         for phase, future in futures.items():
             statistics[phase] = future.result()
             print(json.dumps({'selection_statistics_complete': phase}), flush=True)

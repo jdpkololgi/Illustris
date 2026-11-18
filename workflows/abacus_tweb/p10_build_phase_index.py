@@ -32,6 +32,7 @@ for import_root in (REPO_ROOT, WORKFLOW_DIR):
 
 from p10_phase_assets import DEFAULT_REGISTRY, load_registry, sha256_file  # noqa: E402
 from p10_target_contract import stored_class_consistency  # noqa: E402
+from workflows.abacus_tweb.p10_redshift_contract import domain_from, validate_domain  # noqa: E402
 
 
 SHELLS = ((0.15, 0.25), (0.25, 0.35), (0.35, 0.45), (0.45, 0.55))
@@ -93,13 +94,16 @@ def cartesian_points(ra_deg: np.ndarray, dec_deg: np.ndarray,
     return points
 
 
-def shell_and_masks(redshift: np.ndarray, valid_target: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+def shell_and_masks(redshift: np.ndarray, valid_target: np.ndarray,
+                    domain: dict | None = None) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    domain = domain_from({}) if domain is None else validate_domain(domain)
     z = np.asarray(redshift, dtype=np.float64)
     shell = np.full(len(z), -1, dtype=np.int8)
-    for shell_id, (lo, hi) in enumerate(SHELLS):
+    for shell_id, (lo, hi) in enumerate(domain["shells"]):
         shell[(z >= lo) & (z < hi)] = shell_id
-    sentinel = (z >= SENTINEL[0]) & (z < SENTINEL[1])
-    context = (z >= CONTEXT_RANGE[0]) & (z < CONTEXT_RANGE[1]) & ~sentinel
+    sentinel = (z >= domain["sentinel"][0]) & (z < domain["sentinel"][1])
+    context = (np.isfinite(z) & (z > 0) & (z >= domain["context"][0])
+               & (z < domain["context"][1]) & ~sentinel)
     active = np.asarray(valid_target, dtype=bool) & (shell >= 0)
     return shell, active, context
 
@@ -160,6 +164,7 @@ def write_compatibility_manifest(
     *, marker: Path, manifest: Path, index_path: Path, points_path: Path,
 ) -> dict[str, Any]:
     payload = json.loads(marker.read_text())
+    domain = domain_from(payload)
     index = np.load(index_path)
     points = np.load(points_path, mmap_mode="r")
     n = int(payload["counts"]["total"])
@@ -194,8 +199,8 @@ def write_compatibility_manifest(
         "scope": {
             "footprint": "full successful-redshift BGS BRIGHT NGC+SGC",
             "components": {"0": "SGC", "1": "NGC"},
-            "z_context": list(CONTEXT_RANGE), "z_core": [0.15, 0.55],
-            "sentinel_excluded_from_context": list(SENTINEL),
+            "z_context": domain["context"], "z_core": domain["science"],
+            "sentinel_excluded_from_context": domain["sentinel"],
         },
         "target_truth_present": bool(payload.get("target_truth_present", True)),
         "blind_contract": payload.get("blind_contract"),
@@ -206,6 +211,8 @@ def write_compatibility_manifest(
         "source_completion_marker": str(marker.resolve()),
         "source_completion_marker_sha256": sha256_file(marker),
     }
+    if "redshift_contract" in payload:
+        legacy["redshift_contract"] = domain
     atomic_json(manifest, legacy)
     return legacy
 
@@ -213,6 +220,7 @@ def write_compatibility_manifest(
 def main() -> int:
     args = build_parser().parse_args()
     registry = load_registry(args.registry)
+    domain = domain_from(registry)
     if args.phase not in registry["phases"]:
         raise PhaseIndexError(f"unregistered phase: {args.phase}")
     cfg = registry["phases"][args.phase]
@@ -242,6 +250,8 @@ def main() -> int:
             saved = json.loads(marker.read_text())
             if saved.get("truth_lineage") != truth_lineage:
                 raise PhaseIndexError("Existing P1 does not bind this corrected observed truth")
+        if domain_from(json.loads(marker.read_text())) != domain:
+            raise PhaseIndexError("Existing P1 has a different redshift domain")
         legacy = write_compatibility_manifest(
             marker=marker, manifest=manifest, index_path=index_path, points_path=points_path,
         )
@@ -290,7 +300,7 @@ def main() -> int:
     if not np.isfinite(points).all() or np.any(np.linalg.norm(points[:, :3], axis=1) <= 0):
         raise PhaseIndexError("non-finite or non-positive Cartesian geometry")
     cap = np.asarray(points[:, 3], dtype=np.uint8)
-    shell, active, context = shell_and_masks(z, valid_target)
+    shell, active, context = shell_and_masks(z, valid_target, domain)
     if not active.any() or not (active & (cap == 0)).any() or not (active & (cap == 1)).any():
         raise PhaseIndexError("active catalogue does not cover both Galactic caps")
 
@@ -316,7 +326,7 @@ def main() -> int:
             "NGC": int(np.count_nonzero(active & (shell == shell_id) & (cap == 1))),
             "SGC": int(np.count_nonzero(active & (shell == shell_id) & (cap == 0))),
         }
-        for shell_id, (lo, hi) in enumerate(SHELLS)
+        for shell_id, (lo, hi) in enumerate(domain["shells"])
     }
     payload = {
         "schema_version": "p10-p1-galaxy-truth-v2" if not is_blind else "p10-p1-canonical-v1",
@@ -346,9 +356,9 @@ def main() -> int:
         },
         "selection": {
             "successful_redshift_selection_applied_upstream": True,
-            "active_z": [0.15, 0.55],
-            "context_z": [0.10, 0.60],
-            "sentinel_excluded_from_context": list(SENTINEL),
+            "active_z": domain["science"],
+            "context_z": domain["context"],
+            "sentinel_excluded_from_context": domain["sentinel"],
         },
         "counts": {
             "total": n,
@@ -378,6 +388,8 @@ def main() -> int:
         "no_split_filtering": True,
         "pass": True,
     }
+    if "redshift_contract" in registry:
+        payload["redshift_contract"] = domain
     atomic_json(marker, payload)
     write_compatibility_manifest(
         marker=marker, manifest=manifest, index_path=index_path, points_path=points_path,

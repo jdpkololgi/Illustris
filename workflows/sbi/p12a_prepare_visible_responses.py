@@ -11,14 +11,18 @@ from workflows.sbi.e2e_coupled_contract import require_compute
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--workers',type=int,default=4,choices=range(1,5))
+    parser.add_argument('--root',type=Path,default=ROOT)
+    parser.add_argument('--contract',type=Path,default=CONTRACT)
+    parser.add_argument('--registry',type=Path)
+    parser.add_argument('--output',type=Path)
     args=parser.parse_args()
     require_compute()
-    _,phases=visible_roles(CONTRACT)
-    output=ROOT/'p12a_response_inputs_20261026_v1'
+    _,phases=visible_roles(args.contract)
+    output=args.output or args.root/'p12a_response_inputs_20261026_v1'
     output.mkdir(exist_ok=True)
     results={}
     with ProcessPoolExecutor(max_workers=args.workers) as pool:
-        futures={pool.submit(prepare,phase):phase for phase in phases}
+        futures={pool.submit(prepare,phase,args.root,args.contract,args.registry):phase for phase in phases}
         for future in as_completed(futures):
             phase=futures[future]
             result=future.result()
@@ -35,7 +39,7 @@ def main():
             print(json.dumps({'completed_phase':phase,'complete':len(results),'required':len(phases)}),flush=True)
     if set(results)!=set(phases):raise RuntimeError('Incomplete response inventory')
     atomic_json(output/'adapter_inventory.json',{'schema_version':'p12a-visible-parent-response-v1',
-        'pass':True,'full_contract_sha256':sha256(CONTRACT/'TRAINING_LOADER_READY.json'),
+        'pass':True,'full_contract_sha256':sha256(args.contract/'TRAINING_LOADER_READY.json'),
         'phases':results,'reserved_opened':False,'scientific_training':False,
         'scope':'exact parent-indexed support and boundary distance for P12-A'})
 

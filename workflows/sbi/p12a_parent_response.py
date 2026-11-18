@@ -10,9 +10,11 @@ import numpy as np
 import healpy as hp
 from workflows.abacus_tweb import p3br_build_random_response as b
 from workflows.abacus_tweb.p10_training_contract import atomic_json, sha256
+from workflows.abacus_tweb.p10_redshift_contract import domain_from, require_matching_domains
 
 
 def sample_centres(points, component, cap_support, boundary_angle, selection):
+    domain = domain_from(selection)
     spec = b.grid_from_component(component)
     index = np.floor((np.asarray(points[:,:3],dtype=np.float64)-spec.origin)/spec.cell_mpc).astype(np.int64)
     inside = np.all((index>=0)&(index<np.asarray(spec.shape)),axis=1)
@@ -22,11 +24,19 @@ def sample_centres(points, component, cap_support, boundary_angle, selection):
     xyz=np.asarray(spec.origin)+(index[selected].astype(np.float64)+.5)*spec.cell_mpc
     radius=np.sqrt(xyz[:,0]*xyz[:,0]+xyz[:,1]*xyz[:,1]+xyz[:,2]*xyz[:,2])
     safe=np.maximum(radius,1e-12)
-    pix=hp.vec2pix(hp.npix2nside(len(cap_support)),xyz[:,0]/safe,xyz[:,1]/safe,xyz[:,2]/safe,nest=False)
+    # The observer has no line of sight: use a finite dummy direction for the
+    # pixel lookup and explicitly exclude it from support below.
+    direction = xyz / safe[:, None]
+    direction[radius == 0] = [1., 0., 0.]
+    pix=hp.vec2pix(hp.npix2nside(len(cap_support)),*direction.T,nest=False)
     redshift=b.redshift_from_radius(radius,selection)
-    binary=(redshift>=.10)&(redshift<.60)&~((redshift>=.585)&(redshift<.595))&cap_support[pix]
+    lo, hi = domain['context']; slo, shi = domain['sentinel']
+    binary=(radius>0)&(redshift>=lo)&(redshift<hi)&~((redshift>=slo)&(redshift<shi))&cap_support[pix]
     angular=boundary_angle[pix].astype(np.float64)*radius
-    boundaries=np.interp([.10,.60,.585,.595],selection['cosmology']['redshift_grid'],selection['cosmology']['radius_grid_mpc'])
+    z_grid = np.asarray(selection['cosmology']['redshift_grid'])
+    if z_grid[0] > lo or z_grid[-1] < hi:
+        raise ValueError('Response distance lookup does not cover its registered context')
+    boundaries=np.interp([lo,hi,slo,shi],z_grid,selection['cosmology']['radius_grid_mpc'])
     radial=np.minimum(np.minimum(abs(radius-boundaries[0]),abs(radius-boundaries[1])),
                       np.minimum(abs(radius-boundaries[2]),abs(radius-boundaries[3])))
     distance[selected]=np.minimum(angular,radial).astype(np.float32)*binary
@@ -40,6 +50,7 @@ def prepare_parent_response(root, contract, phase, angular_path, output):
     p1_path=root/phase/'p1_canonical/manifest.json'
     selection_path=contract/'transforms/field/selection_manifest.json'
     selection=json.loads(selection_path.read_text())
+    domain = require_matching_domains(json.loads(p1_path.read_text()), p3, selection)
     angular=b.load_map(angular_path)
     if sha256(angular_path) != json.loads(angular_path.with_suffix('.json').read_text())['sha256']:
         raise ValueError('Angular payload checksum mismatch')
@@ -72,5 +83,7 @@ def prepare_parent_response(root, contract, phase, angular_path, output):
             'selection_sha256':sha256(selection_path),'source_sha256':sha256(Path(__file__)),
             'arrays':{key:str(path) for key,path in paths.items()},
             'array_sha256':{key:sha256(path) for key,path in paths.items()},'labels_read':False}
+    if 'redshift_contract' in selection:
+        record['redshift_contract'] = domain
     path=output/'P12A_PARENT_RESPONSE_READY.json';atomic_json(path,record)
     return path,record

@@ -4,7 +4,8 @@
 The checkpoint must have omitted the exported phase from deterministic
 training.  The exact 32-dimensional latent consumed by the point head, its
 base prediction, ordered truth and deployable response covariates are written
-in one parent-keyed shard.  ph001 is refused unconditionally.
+in one parent-keyed shard. Reserved phases are refused using the bound policy;
+historical contracts retain the legacy ph001 restriction.
 """
 from __future__ import annotations
 
@@ -30,6 +31,23 @@ from workflows.abacus_tweb.p8_deterministic_common import (
 )
 from workflows.abacus_tweb.p8_train_patch_recovery import torch_load
 from workflows.abacus_tweb.p10_training_contract import P10PhaseBalancedLoader, atomic_json
+
+
+def validate_export_phase(manifest: dict, phase: str) -> None:
+    """Reject reserved/in-sample exports before loading any phase payload."""
+    if not manifest.get("pass"):
+        raise ValueError("Export requires a passing input contract")
+    roles = manifest["roles"]
+    if manifest.get("phase_policy"):
+        from shared.phase_policy import check_roles
+        check_roles(manifest, roles, omitted=manifest.get("out_of_fold_phase"))
+    elif phase == "ph001":
+        raise PermissionError("ph001 remains sealed in historical contracts")
+    reserved = list(roles.get("sealed_blind_test", [])) + list(roles.get("reserved_confirmation", []))
+    validation = roles["validation_and_selection"]
+    validation = [validation] if isinstance(validation, str) else validation
+    if phase in reserved or phase in roles["training"] or phase not in validation:
+        raise PermissionError("Export phase must be non-reserved and out of training")
 
 
 def validate_oof_checkpoint(checkpoint: dict, export_phase: str, latent_size: int) -> None:
@@ -128,8 +146,10 @@ def main() -> None:
     torch.set_num_threads(8)
     torch.backends.cudnn.allow_tf32 = True
     torch.backends.cuda.matmul.allow_tf32 = False
-    if args.phase == "ph001":
-        raise PermissionError("ph001 summaries remain sealed until the final pipeline is frozen")
+    manifest = json.loads((args.contract_root / "TRAINING_LOADER_READY.json").read_text())
+    validate_export_phase(manifest, args.phase)
+    if manifest.get("phase_policy") and (args.context_halo != 48 or args.terminal_epochs is None):
+        raise ValueError("Shared campaign export requires halo48 and terminal epochs")
     if args.device.startswith("cuda") and not torch.cuda.is_available():
         raise RuntimeError("P12 summary export requires a GPU interactive allocation")
 

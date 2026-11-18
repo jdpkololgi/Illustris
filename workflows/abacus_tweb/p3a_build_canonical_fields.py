@@ -19,6 +19,7 @@ import json
 import math
 import shutil
 import subprocess
+import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -29,6 +30,11 @@ import healpy as hp
 import numpy as np
 from astropy.cosmology import Planck18
 from scipy.ndimage import gaussian_filter
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+from workflows.abacus_tweb.p10_redshift_contract import domain_from, require_matching_domains
 
 
 CAPS = ((1, "NGC"), (0, "SGC"))
@@ -230,10 +236,11 @@ def binary_support_block(spec: GridSpec, slices: tuple[slice, slice, slice],
     zz = np.broadcast_to(gz, ext_shape)
     radius = np.sqrt(xx * xx + yy * yy + zz * zz)
     safe = np.maximum(radius, 1e-12)
-    pix = hp.vec2pix(nside, xx / safe, yy / safe, zz / safe, nest=False)
+    pix = hp.vec2pix(nside, np.where(radius > 0, xx / safe, 1.),
+                    yy / safe, zz / safe, nest=False)
     redshift = radius_to_z(radius, z_grid, r_grid)
     radial = (
-        (redshift >= z_context[0])
+        (radius > 0) & (redshift >= z_context[0])
         & (redshift < z_context[1])
         & ~((redshift >= sentinel[0]) & (redshift < sentinel[1]))
     )
@@ -243,7 +250,7 @@ def binary_support_block(spec: GridSpec, slices: tuple[slice, slice, slice],
 
 def field_block(spec: GridSpec, slices: tuple[slice, slice, slice],
                 counts: np.ndarray, angular_support: np.ndarray, nside: int,
-                z_grid: np.ndarray, r_grid: np.ndarray, spline: dict,
+                z_grid: np.ndarray, r_grid: np.ndarray, spline: dict | None,
                 schema: dict, halo_override: int | None = None) -> dict[str, np.ndarray]:
     sigma_vox = float(schema["apodization"]["sigma_mpc"]) / spec.cell_mpc
     truncate = float(schema["apodization"]["truncate_sigma"])
@@ -267,7 +274,10 @@ def field_block(spec: GridSpec, slices: tuple[slice, slice, slice],
     redshift = redshift_ext[trim]
     radius = radius_ext[trim]
     count_chunk = np.asarray(counts[slices], dtype=np.float32)
-    ntilde = ntilde_at(redshift, spline).astype(np.float32)
+    # New-domain raw products contain counts/support only until a training-only
+    # selection is fitted. Never extrapolate the historical wedge curve.
+    ntilde = (np.zeros_like(redshift, dtype=np.float32) if spline is None
+              else ntilde_at(redshift, spline).astype(np.float32))
     ntilde *= (apod > float(schema["contrast"]["minimum_exposure"]))
     expected = (
         ntilde.astype(np.float64) * spec.cell_mpc ** 3 * apod.astype(np.float64)
@@ -277,6 +287,8 @@ def field_block(spec: GridSpec, slices: tuple[slice, slice, slice],
         float(schema["contrast"]["epsilon"]),
         float(schema["contrast"]["minimum_exposure"]),
     )
+    if spline is None:
+        contrast.fill(0)
     gx, gy, gz = coordinate_block(spec, slices, halo=0)
     core_shape = count_chunk.shape
     safe = np.maximum(radius, 1e-12)
@@ -337,10 +349,10 @@ def storage_probe(points: np.ndarray, cap: np.ndarray, context: np.ndarray,
     return result
 
 
-def shell_key(shell_id: int) -> str:
+def shell_key(shell_id: int, shells=ACTIVE_SHELLS) -> str:
     if shell_id < 0:
         return "context_buffer"
-    lo, hi = ACTIVE_SHELLS[shell_id]
+    lo, hi = shells[shell_id]
     return f"{lo:.2f}_{hi:.2f}"
 
 
@@ -349,6 +361,7 @@ def build_cap(cap_id: int, name: str, points: np.ndarray, cap: np.ndarray,
               schema: dict, spline: dict, z_grid: np.ndarray, r_grid: np.ndarray,
               out_dir: Path) -> dict:
     started = time.time()
+    shells = domain_from(schema)['shells']
     final_path = out_dir / f"{name.lower()}_fields.h5"
     cap_meta_path = out_dir / f"{name.lower()}_build.json"
     if final_path.exists() and cap_meta_path.exists():
@@ -376,7 +389,7 @@ def build_cap(cap_id: int, name: str, points: np.ndarray, cap: np.ndarray,
         if not selected.any():
             continue
         _, stat = cic_deposit(xyz[selected], spec, out=counts)
-        deposit_stats[shell_key(shell_id)] = stat
+        deposit_stats[shell_key(shell_id, shells)] = stat
     deposited_sum = float(np.sum(counts, dtype=np.float64))
     if abs(deposited_sum - len(ids)) > max(1e-3, 1e-7 * len(ids)):
         raise RuntimeError(f"{name} CIC is not conservative: {deposited_sum} vs {len(ids)}")
@@ -389,7 +402,7 @@ def build_cap(cap_id: int, name: str, points: np.ndarray, cap: np.ndarray,
             "expected_count_sum": 0.0,
             "input_galaxies": int(np.sum(labels == shell_id)),
         }
-        for shell_id, (lo, hi) in enumerate(ACTIVE_SHELLS)
+        for shell_id, (lo, hi) in enumerate(shells)
     }
     allocated_chunks = 0
     finite = True
@@ -428,9 +441,9 @@ def build_cap(cap_id: int, name: str, points: np.ndarray, cap: np.ndarray,
                 if first_materialized is None:
                     first_materialized = slices
             redshift = block["_redshift"]
-            for shell_id, (lo, hi) in enumerate(ACTIVE_SHELLS):
+            for shell_id, (lo, hi) in enumerate(shells):
                 selected = (redshift >= lo) & (redshift < hi)
-                key = shell_key(shell_id)
+                key = shell_key(shell_id, shells)
                 shell_atlas[key]["support_voxels"] += int(
                     np.sum(selected & (block["exposure_binary"] > 0))
                 )
@@ -549,6 +562,10 @@ def main() -> None:
         default=Path("/pscratch/sd/d/dkololgi/abacus/p3_full_footprint"),
     )
     ap.add_argument("--probe-only", action="store_true")
+    ap.add_argument("--defer-selection", action="store_true",
+                    help="Build raw counts/support; selection-derived channels are zero placeholders until a new training-only fit")
+    ap.add_argument("--angular-random-map", type=Path,
+                    help="Verified randoms_n18.npz footprint, split by its registered cap domains")
     args = ap.parse_args()
 
     started = time.time()
@@ -560,8 +577,15 @@ def main() -> None:
         return
 
     schema = json.loads(args.schema.read_text())
-    spline = json.loads(args.ntilde_spline.read_text())
+    spline = None if args.defer_selection else json.loads(args.ntilde_spline.read_text())
     p1 = json.loads(args.p1_manifest.read_text())
+    domain = require_matching_domains(schema, p1)
+    if list(schema['radial_support']['z_context']) != domain['context']:
+        raise ValueError('P3 radial support differs from P1 redshift contract')
+    if list(schema['radial_support']['sentinel_excluded']) != domain['sentinel']:
+        raise ValueError('P3 sentinel differs from P1 redshift contract')
+    if 'redshift_contract' in schema and not args.defer_selection:
+        raise ValueError('Versioned low-z raw fields require a fresh downstream selection fit')
     unit_audit = json.loads(args.unit_audit.read_text())
     if schema["catalogue_id"] != p1["catalogue_id"]:
         raise RuntimeError("P3 schema/P1 catalogue mismatch")
@@ -608,7 +632,28 @@ def main() -> None:
 
     angular_path = args.out_dir / "angular_support_nside256.npz"
     angular_meta_path = args.out_dir / "angular_support_metadata.json"
-    if angular_path.exists() and angular_meta_path.exists():
+    angular_by_cap = None
+    if args.angular_random_map is not None:
+        random_meta_path = args.angular_random_map.with_suffix('.json')
+        random_meta = json.loads(random_meta_path.read_text())
+        if (random_meta['sha256'] != sha256(args.angular_random_map)
+                or random_meta['phase'] != p1['phase']
+                or random_meta['random_ids'] != list(range(18))):
+            raise ValueError('Random angular map identity or hash mismatch')
+        with np.load(args.angular_random_map, allow_pickle=False) as randoms:
+            angular_support = np.asarray(randoms['support'], dtype=bool)
+            cap_domain = np.asarray(randoms['domain']) // 2
+        if int(random_meta['nside']) != int(schema['angular_support']['nside']):
+            raise ValueError('Random angular map resolution differs from schema')
+        angular_by_cap = {cap: angular_support & (cap_domain == cap) for cap, _ in CAPS}
+        angular_meta = {'source': str(args.angular_random_map.resolve()),
+                        'sha256': sha256(args.angular_random_map),
+                        'metadata_sha256': sha256(random_meta_path),
+                        'method': 'registered 18-realisation angular random support',
+                        'cap_domains_separate': True, 'labels_read': False}
+    elif 'redshift_contract' in schema:
+        raise ValueError('Low-z fields require registered cap-separated random support')
+    elif angular_path.exists() and angular_meta_path.exists():
         angular_data = np.load(angular_path)
         angular_support = np.asarray(angular_data["support"], dtype=bool)
         angular_meta = json.loads(angular_meta_path.read_text())
@@ -630,7 +675,8 @@ def main() -> None:
     components = {}
     for cap_id, name in CAPS:
         components[name] = build_cap(
-            cap_id, name, points, cap, context, shell, angular_support,
+            cap_id, name, points, cap, context, shell,
+            angular_support if angular_by_cap is None else angular_by_cap[cap_id],
             schema, spline, z_grid, r_grid, args.out_dir,
         )
     total_counts = sum(v["counts_readback_sum"] for v in components.values())
@@ -683,10 +729,10 @@ def main() -> None:
         "points": str(args.points),
         "frozen_schema": str(schema_runtime),
         "frozen_schema_sha256": sha256(schema_runtime),
-        "ntilde_spline": str(args.ntilde_spline),
+        "ntilde_spline": None if args.defer_selection else str(args.ntilde_spline),
         "unit_audit": str(args.unit_audit),
         "unit_audit_sha256": sha256(args.unit_audit),
-        "ntilde_spline_sha256": sha256(args.ntilde_spline),
+        "ntilde_spline_sha256": None if args.defer_selection else sha256(args.ntilde_spline),
         "angular_support": angular_meta,
         "components": components,
         "storage_probe": str(probe_path),
@@ -701,6 +747,15 @@ def main() -> None:
         ],
         "elapsed_seconds": time.time() - started,
     }
+    if 'redshift_contract' in schema:
+        payload['redshift_contract'] = domain
+        payload['selection_status'] = 'deferred_training_only_fit_required'
+        payload['model_inputs_ready'] = False
+        payload['p3a_limitations'] = [
+            'selection-derived channels are placeholders; refit before training',
+            'random support is binary, not a per-object completeness estimate',
+            'no luminosity-weighted count channel',
+        ]
     temporary_manifest = args.out_dir / "field_manifest.partial.json"
     temporary_manifest.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
     temporary_manifest.replace(manifest_path)

@@ -58,7 +58,7 @@ def main() -> None:
         catalogue_id=p1['catalogue_id']
         blind=registry['phases'][args.phase]['role']=='sealed_blind'
         if bool(p1['target_truth_present'])==blind:raise ValueError('P1 truth visibility differs from phase role')
-    elif registry['schema_version']=='p10-phase-registry-v2':
+    elif registry['schema_version'] in {'p10-phase-registry-v2','p10-phase-registry-v3'}:
         raise FileNotFoundError('Expanded schemas require completed P1 identity')
     records = {}
     for name, base in (("p3", args.p3_base), ("p4", args.p4_base)):

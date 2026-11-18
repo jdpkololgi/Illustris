@@ -1,5 +1,9 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-18 — Repository handoff: Prepare low-redshift P12-A response and encoder contracts
+
+Group the observed-redshift contracts, galaxy identity and matched-response adapters, conservative host checks, cross-fit preparation, tests and encoder-input evidence. This is input qualification, not posterior calibration.
+
 ## 2026-11-18 — Repository handoff: Version shared-phase migration, galaxy truth and reuse audits
 
 Group the phase registry and migration policy with the galaxy-position truth changes, reuse inventories, preparation scripts, interrupted-run evidence and loader checks for the shared 20/3/2 split.

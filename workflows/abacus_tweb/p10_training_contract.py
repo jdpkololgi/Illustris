@@ -208,14 +208,20 @@ class P10PhaseBalancedLoader:
         ),
         *,
         include_blind: bool = False,
+        allow_preparation: bool = False,
     ):
         self.root = Path(contract_root)
-        marker = self.root / "TRAINING_LOADER_READY.json"
+        marker = self.root / ("TRAINING_LOADER_CANDIDATE.json" if allow_preparation else "TRAINING_LOADER_READY.json")
         if not marker.is_file():
             raise RuntimeError(f"missing training readiness marker: {marker}")
         self.manifest = json.loads(marker.read_text())
         if not self.manifest.get("pass"):
             raise RuntimeError("training readiness marker does not pass")
+        if self.manifest.get('phase_policy'):
+            from shared.phase_policy import check_roles
+            check_roles(self.manifest, self.manifest['roles'], omitted=self.manifest.get('out_of_fold_phase'))
+            if include_blind:
+                raise PermissionError('Shared training contract does not authorize final-test payload access')
         self.training_phases = tuple(self.manifest["roles"]["training"])
         def role_tuple(name):
             value = self.manifest["roles"][name]
@@ -303,7 +309,11 @@ class P10PhaseBalancedLoader:
 
     def field_adapter(self, phase: str) -> CanonicalFieldPatchAdapter:
         if phase not in self._field:
-            self._field[phase] = CanonicalFieldPatchAdapter(
+            adapter_class = CanonicalFieldPatchAdapter
+            if self.manifest.get('field_adapter') == 'matched_cic':
+                from workflows.abacus_tweb.p12a_matched_field_adapter import MatchedFieldPatchAdapter
+                adapter_class = MatchedFieldPatchAdapter
+            self._field[phase] = adapter_class(
                 self.root / "adapters" / phase / "field",
                 selection_manifest=self.root / "transforms" / "field" / "selection_manifest.json",
                 rotation=0,

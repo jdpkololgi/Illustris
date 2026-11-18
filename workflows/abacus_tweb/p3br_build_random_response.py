@@ -85,7 +85,12 @@ def selected_random_sources(
     *,
     blind_authority: Path | None = None,
 ) -> list[dict]:
-    if phase == BLIND_PHASE:
+    if registry.get('phase_policy'):
+        from shared.phase_policy import bound_policy
+        policy = bound_policy(registry)
+        if phase not in policy['training'] + policy['development_and_calibration']:
+            raise PermissionError('New-campaign random response is restricted to preparation phases')
+    elif phase == BLIND_PHASE:
         validate_blind_authority(blind_authority)
     records = registry["mock_phases"][phase]["full_random"]
     by_id = {int(record.get("random_id", index)): record for index, record in enumerate(records)}
@@ -271,9 +276,14 @@ def refresh_map_normalization(path: Path) -> dict:
 
 def build_maps(root: Path, registry_path: Path, phase: str,
                snapshots: tuple[int, ...], blind_authority: Path | None = None) -> dict:
-    if phase not in SUPPORTED_PHASES:
-        raise ValueError(f"unsupported P3b-R phase {phase}")
     registry = load_json(registry_path)
+    if registry.get('phase_policy'):
+        from shared.phase_policy import bound_policy
+        policy = bound_policy(registry)
+        if phase not in policy['training'] + policy['development_and_calibration']:
+            raise PermissionError('Phase is outside the selected preparation policy')
+    elif phase not in SUPPORTED_PHASES:
+        raise ValueError(f"unsupported P3b-R phase {phase}")
     maximum = max(snapshots)
     ids = tuple(range(maximum))
     sources = selected_random_sources(

@@ -1,0 +1,148 @@
+{
+  "schema_version": "p12a-campaign-plan-v1",
+  "campaign_id": "p12a-r7-20phase-lowz-20261029",
+  "status": "z0p01_adopted_pending_lowz_preparation_and_resource_approval",
+  "source_inputs": "configs/p12a_20phase_inputs_bound_20261027.json",
+  "source_inputs_sha256": "41a6f5c1241d9580febf9de7a27c926f27f8c4914ba9183d3bde0e4d243a0763",
+  "phase_policy": {
+    "path": "configs/shared_phase_policy_20261027.json",
+    "sha256": "159396df0272393af3b448765f0fd01c806701a40ff956064bf8f40abce4f26f",
+    "policy_id": "abacus-c000-20train-3development-2test-20261027"
+  },
+  "gaussian_smoothing_mpc_h": 7,
+  "training_phases": "from bound shared phase policy",
+  "final_test_phases": [
+    "ph018",
+    "ph019"
+  ],
+  "final_test_access_authorized": false,
+  "redshift": {
+    "current_supervision": [
+      0.15,
+      0.55
+    ],
+    "current_context": [
+      0.1,
+      0.6
+    ],
+    "extension_requested": true,
+    "requested_supervision_min": 0.01,
+    "supervision_max": 0.55,
+    "context_bounds": "derive for supervision starting at z=0.01; include available lower-z observations where needed and explicitly represent missing near-observer/outside-footprint support; do not extrapolate existing selection curves",
+    "lowz_evaluation_bin_edges": [0.01, 0.03, 0.05, 0.075, 0.10, 0.15],
+    "population_audit": "check selected mock coverage and target validity in each low-z bin; evaluate by stellar mass only where validated comparable masses exist, otherwise name any luminosity proxy explicitly",
+    "current_inputs_satisfy_request": false
+  },
+  "encoder": {
+    "module": "workflows.abacus_tweb.p10_train_arm_a",
+    "model": "unet",
+    "seed": 42,
+    "unet_base": 24,
+    "unet_latent_channels": 32,
+    "optimizer": "AdamW",
+    "learning_rate": 0.002,
+    "weight_decay": 0.0001,
+    "gradient_clip": 5,
+    "epochs": null,
+    "epochs_policy": "freeze equal complete-epoch budget for full and each OOF fit after throughput measurement; no early stopping",
+    "scheduler": "CosineAnnealingLR; horizon=epochs*contract_training_cores",
+    "checkpoint": "terminal_fixed_budget",
+    "fresh_full_fits": 1,
+    "fresh_oof_fits": 20,
+    "strict_deterministic": true
+  },
+  "summary_export": {
+    "module": "workflows.sbi.p12_export_unet_summaries",
+    "context_halo_voxels": 48,
+    "training_phases": "each from its own omitted-phase encoder",
+    "development_phases": "from full encoder",
+    "terminal_epochs_required": true
+  },
+  "posterior_tables": {
+    "module": "workflows.sbi.p12_prepare_base_response_dataset",
+    "pipeline_config": "new low-redshift bound config required",
+    "proposed_training_rows": 2000000,
+    "proposed_development_rows": 600000,
+    "seed": 12042,
+    "phase_balanced": true,
+    "normalization": "training only",
+    "sample_design": "include explicit low-z strata after new shell registration"
+  },
+  "posterior": {
+    "module": "workflows.sbi.p12_train_base_response_fmpe",
+    "seed": 42,
+    "hidden_features": 128,
+    "num_layers": 5,
+    "batch_size": 4096,
+    "epochs": null,
+    "checkpoint_policy": "terminal_fixed_budget; adapt and verify trainer before production",
+    "target": "ordered softplus increments",
+    "calibration_folds": [
+      0,
+      1
+    ],
+    "evaluation_folds": [
+      2,
+      3,
+      4
+    ],
+    "evaluation": "per-phase and per-redshift joint eigenvalue calibration, proper scores, class reliability, sharpness and sampler checks; do not pool away low-z failure"
+  },
+  "resources": {
+    "authorized": false,
+    "preparation_cpu_budget": {
+      "scope": "initial low-z coverage and preparation canary only, not full 23-phase production rebuild",
+      "nodes": 1,
+      "cpus_per_task": 64,
+      "constraint": "cpu",
+      "account": "desi",
+      "qos": "interactive",
+      "walltime": "01:00:00",
+      "licenses": "scratch",
+      "maximum_cpu_node_hours": 1,
+      "phases": ["ph001", "ph006"],
+      "work": "catalogue low-z support and valid-label census; observed/context geometry and random-support canary; no fits, no full-volume FFT, no graph build",
+      "automatic_retries": 0,
+      "release_on_success_or_failure": true,
+      "authorized": true,
+      "status": "completed_and_released",
+      "job_id": "60475000",
+      "evidence": "docs/p12a_lowz_canary_60475000.json",
+      "remaining_authorized_runs": 0
+    },
+    "first_gpu_request": {
+      "purpose": "post-preparation actual-loader throughput, deterministic restart and halo48 memory/timing; disposable weights only",
+      "nodes": 1,
+      "gpus": 1,
+      "constraint": "gpu&hbm80g",
+      "cpus_per_task": 32,
+      "account": "desi_g",
+      "qos": "shared_interactive",
+      "walltime": "01:00:00",
+      "licenses": "scratch",
+      "maximum_gpu_hours": 1,
+      "automatic_retries": 0,
+      "release_on_success_or_failure": true
+    },
+    "production_budget": null,
+    "production_policy": "explicit separate approval after measured throughput; independent single-GPU fits; no speculative job array",
+    "maximum_interactive_allocations": 2
+  },
+  "baseline_cost": {
+    "current_full_cores_per_epoch": 336579,
+    "current_all_21_encoders_updates_per_epoch": 6731580,
+    "encoder_gpu_hours_formula": "epochs * 6731580 / measured_updates_per_second / 3600, plus validation, exports and posterior; recompute counts after low-z extension",
+    "twenty_epochs_would_be_updates": 134631600
+  },
+  "source_freeze": {
+    "git_head_alone_sufficient": false,
+    "reason": "preparation changes are currently uncommitted; preserve them and freeze exact reviewed source/config hashes before launch"
+  },
+  "blockers": [
+    "new supervision/geometry/selection/transforms and 20 OOF contracts for that range",
+    "post-preparation GPU benchmark and fixed training-budget choice",
+    "terminal-budget posterior implementation verification",
+    "separate resource approval"
+  ],
+  "scientific_training_authorized": false
+}

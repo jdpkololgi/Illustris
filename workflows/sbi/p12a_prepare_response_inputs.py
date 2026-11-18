@@ -28,6 +28,9 @@ def visible_roles(contract):
     if not ready.get('pass'):
         raise ValueError('Base contract failed')
     roles = ready['roles']
+    if ready.get('phase_policy'):
+        from shared.phase_policy import check_roles
+        check_roles(ready, roles)
     visible = roles['training'] + roles['validation_and_selection']
     sealed = roles['sealed_blind_test'] + roles.get('reserved_confirmation', [])
     if len(set(visible)) != len(visible) or set(visible) & set(sealed):
@@ -35,11 +38,21 @@ def visible_roles(contract):
     return ready, visible
 
 
-def prepare(phase: str, root: Path = ROOT, contract: Path = CONTRACT):
+def prepare(phase: str, root: Path = ROOT, contract: Path = CONTRACT, registry_path: Path | None = None):
     require_compute()
     ready, visible = visible_roles(contract)
     if phase not in visible:
         raise PermissionError('Response preparation is restricted to visible phases')
+    registry_source = registry_path or REPO/'configs/p10_phase_registry_v2.json'
+    registry_config = json.loads(registry_source.read_text())
+    if ready.get('phase_policy'):
+        from shared.phase_policy import check_roles
+        check_roles(registry_config, registry_config['model_phase_contract'])
+        expected_root = Path(registry_config['path_templates']['phase_output'].format(phase=phase)).parent
+        if root.resolve() != expected_root.resolve():
+            raise ValueError('Shared response output must use its registered campaign root')
+        if registry_config['phase_policy'] != ready['phase_policy']:
+            raise ValueError('Response registry and loader policy differ')
     record = json.loads((contract / 'phases' / phase / 'phase_contract.json').read_text())
     p1 = root / phase / 'p1_canonical/manifest.json'
     if sha256(p1) != record['inputs']['p1_manifest_sha256']:
@@ -50,10 +63,14 @@ def prepare(phase: str, root: Path = ROOT, contract: Path = CONTRACT):
     terminal = output / 'P12A_RESPONSE_INPUT_READY.json'
     selection = contract / 'transforms/field/selection_manifest.json'
     bindings = {'full_contract':sha256(contract/'TRAINING_LOADER_READY.json'),
-                'selection':sha256(selection),'decision':sha256(DECISION),
+                'source_registry':sha256(registry_source),'selection':sha256(selection),'decision':sha256(DECISION),
                 'p3_manifest':sha256(root/phase/'p3_fields/field_manifest.json'),
                 'builder_source':sha256(Path(build.__file__)), 'driver_source':sha256(Path(__file__)),
                 'parent_response_source':sha256(REPO/'workflows/sbi/p12a_parent_response.py')}
+    if ready.get('phase_policy'):
+        from workflows.sbi import reuse_shared_p12_angular as shared_angular
+        bindings['shared_angular_receipt'] = sha256(shared_angular.source_path(phase,ready))
+        bindings['shared_angular_helper'] = sha256(Path(shared_angular.__file__))
     if terminal.exists():
         saved = json.loads(terminal.read_text())
         if saved['bindings'] != bindings or sha256(saved['manifest']) != saved['manifest_sha256']:
@@ -67,7 +84,9 @@ def prepare(phase: str, root: Path = ROOT, contract: Path = CONTRACT):
     old_map = LEGACY / phase / 'p3b_random_response_v1/angular/randoms_n18.npz'
     angular = output / 'angular'
     angular.mkdir(exist_ok=True)
-    if old_map.is_file():
+    if ready.get('phase_policy'):
+        angular_origin = shared_angular.prepare(phase,ready,angular)
+    elif old_map.is_file():
         meta = json.loads(old_map.with_suffix('.json').read_text())
         # Copy small immutable angular products; never normalize a symlink into
         # an older run. Their response geometry is independent of galaxy labels.
@@ -87,7 +106,7 @@ def prepare(phase: str, root: Path = ROOT, contract: Path = CONTRACT):
     else:
         registry_path = output/'SOURCE_REGISTRY.json'
         if not registry_path.exists():
-            registry = json.loads((REPO/'configs/p10_phase_registry_v2.json').read_text())
+            registry = registry_config
             mock = registry['phases'][phase]['mock']
             lss = Path(registry['path_templates']['lss'].format(mock=mock))
             records = []
@@ -102,7 +121,8 @@ def prepare(phase: str, root: Path = ROOT, contract: Path = CONTRACT):
                 print(json.dumps({'phase':phase,'registered_random':i}),flush=True)
             atomic_json(registry_path,{'schema_version':'p12a-visible-response-sources-v1',
                 'visible_phases':visible,'mock_phases':{phase:{'full_random':records}},
-                'full_contract_sha256':bindings['full_contract']})
+                'full_contract_sha256':bindings['full_contract'],
+                **({'phase_policy':ready['phase_policy']} if ready.get('phase_policy') else {})})
         registry = json.loads(registry_path.read_text())
         if registry.get('full_contract_sha256') != bindings['full_contract']:
             raise ValueError('Response registry has stale base contract')
@@ -136,7 +156,8 @@ def main():
     parser.add_argument('--phase',required=True)
     parser.add_argument('--root',type=Path,default=ROOT)
     parser.add_argument('--contract',type=Path,default=CONTRACT)
+    parser.add_argument('--registry',type=Path)
     args=parser.parse_args()
-    print(json.dumps(prepare(args.phase,args.root,args.contract),indent=2),flush=True)
+    print(json.dumps(prepare(args.phase,args.root,args.contract,args.registry),indent=2),flush=True)
 
 if __name__ == '__main__': main()

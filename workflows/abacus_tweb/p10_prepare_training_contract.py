@@ -982,7 +982,10 @@ def configure_phase_roles(registry: dict) -> None:
     combined = TRAINING_PHASES + VALIDATION_PHASES + BLIND_PHASES
     if len(set(combined)) != len(combined) or set(combined) != set(PHASES):
         raise ValueError("Phase roles must be disjoint and exhaustive")
-    EXPANDED_REGISTRY = registry["schema_version"] == "p10-phase-registry-v2"
+    EXPANDED_REGISTRY = registry["schema_version"] in {"p10-phase-registry-v2", "p10-phase-registry-v3"}
+    if registry.get("phase_policy"):
+        # Final-test adapters and arrays stay unmaterialized until a later release.
+        PHASES = TRAINING_PHASES + VALIDATION_PHASES
 
 
 def main() -> None:
@@ -1105,6 +1108,11 @@ def main() -> None:
         "elapsed_seconds": time.time() - started,
         "pass": True,
     }
+    if registry.get('phase_policy'):
+        marker['phase_policy'] = registry['phase_policy']
+        marker['checkpoint_policy'] = 'terminal_fixed_budget'
+        marker['materialized_phases'] = list(PHASES)
+        marker['final_test_payloads_opened'] = False
     atomic_json(args.contract_root / "TRAINING_LOADER_READY.json", marker)
     print(json.dumps(marker, indent=2, sort_keys=True), flush=True)
 

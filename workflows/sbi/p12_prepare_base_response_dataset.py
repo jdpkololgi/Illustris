@@ -69,6 +69,13 @@ def configure_pipeline(path: Path | str | None) -> None:
     if not ready.get('pass') or sha256(marker) != config['full_contract_sha256']:
         raise ValueError('Changed or failing full input contract')
     roles = ready['roles']
+    if config.get('phase_policy'):
+        from shared.phase_policy import check_roles
+        if ready.get('phase_policy') != config['phase_policy']:
+            raise ValueError('Pipeline and full-contract phase policies differ')
+        check_roles(config, roles)
+        if config.get('context_halo_voxels') != 48 or config.get('full_checkpoint_policy') != 'terminal_fixed_budget':
+            raise ValueError('Shared campaign requires halo48 and terminal full encoder')
     train = tuple(roles['training']); validation = tuple(roles['validation_and_selection'])
     reserved = tuple(roles['sealed_blind_test']) + tuple(roles.get('reserved_confirmation', []))
     if len(set(train+validation+reserved)) != len(train+validation+reserved):

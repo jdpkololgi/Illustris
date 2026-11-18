@@ -1,0 +1,35 @@
+{
+  "schema": "p12a-lowz-preparation-v1",
+  "source_inputs": "configs/p12a_20phase_inputs_bound_20261027.json",
+  "source_inputs_sha256": "41a6f5c1241d9580febf9de7a27c926f27f8c4914ba9183d3bde0e4d243a0763",
+  "source_registry": "configs/p10_phase_registry_v3.json",
+  "output_root": "/pscratch/sd/d/dkololgi/abacus/p12a_lowz_20261029_v1",
+  "redshift_contract": {
+    "schema": "p12a-redshift-domain-v1",
+    "science": [0.01, 0.55],
+    "context": [0.0, 0.60],
+    "positive_context_only": true,
+    "sentinel": [0.585, 0.595],
+    "shells": [[0.01, 0.25], [0.25, 0.35], [0.35, 0.45], [0.45, 0.55]],
+    "diagnostic_edges": [0.01, 0.03, 0.05, 0.075, 0.10, 0.15, 0.25, 0.35, 0.45, 0.55]
+  },
+  "coordinate_policy": "Preserve P12 observer-frame Planck18 Mpc; CFM native Mpc/h grids are not interchangeable",
+  "smoothing_radius_mpc_h": 7,
+  "raw_field_policy": "Rebuild counts and cap-separated random angular support; zero placeholders for selection-derived channels until training-only refit",
+  "canary_phases": ["ph001", "ph006"],
+  "model_inputs_ready": false,
+  "resources": {
+    "scope": "ph001/ph006 indices, raw grids, support and preparation diagnostics only",
+    "approved": true,
+    "nodes": 1,
+    "cpus_per_task": 64,
+    "account": "desi",
+    "qos": "interactive",
+    "constraint": "cpu",
+    "walltime": "01:00:00",
+    "licenses": "scratch",
+    "retries": 0,
+    "release_on_exit": true,
+    "gpu_training_authorized": false
+  }
+}

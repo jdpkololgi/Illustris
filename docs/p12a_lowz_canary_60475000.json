@@ -1,0 +1,1316 @@
+{
+  "created_utc": "2026-10-29T00:55:10.728846+00:00",
+  "job": "60475000",
+  "host": "nid200053",
+  "phase_policy": {
+    "path": "configs/shared_phase_policy_20261027.json",
+    "sha256": "159396df0272393af3b448765f0fd01c806701a40ff956064bf8f40abce4f26f",
+    "policy_id": "abacus-c000-20train-3development-2test-20261027"
+  },
+  "sources": {
+    "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12a_lowz_canary.py": "0f6c7714603ee25ae198fe812fdfc5589a293d0fa99dc85cc28b019bbbb288c7",
+    "/global/u2/d/dkololgi/TNG/Illustris/configs/p12a_campaign_plan_20261029.json": "f8ac672b3d7b76f3a7fd26e26b3b362bc1dc6c0dedeaa89b757d54a29cf89c39",
+    "/global/u2/d/dkololgi/TNG/Illustris/configs/p12a_20phase_inputs_bound_20261027.json": "41a6f5c1241d9580febf9de7a27c926f27f8c4914ba9183d3bde0e4d243a0763",
+    "/global/u2/d/dkololgi/TNG/Illustris/shared/phase_policy.py": "dc16d5c0b62f595865b839ae28e31192b5f0656f00c3db96d7030b34a4e53dd3",
+    "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/galaxy_truth_contract.py": "a26873252fabc3bae51037f909752bf39d220d1dc5b3fec52e04b1fa57030f23",
+    "/global/u2/d/dkololgi/TNG/Illustris/workflows/abacus_tweb/p3br_build_random_response.py": "58eed7f6e549a7fe0e9215a467117daaef35d15893c764ab410f46a957123d14",
+    "/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/p12a_parent_response.py": "f5796a616bf8bce86aa85c3f00d5671be97012abeecb8fc143f59d87034f7168"
+  },
+  "sealed_access": false,
+  "scientific_training": false,
+  "lowz_training_inputs_ready": false,
+  "limitations": [
+    "label availability is not an independent tidal-field resampling check",
+    "angular support is not qualified low-z 3D response or selection",
+    "no stellar-mass completeness or real-DESI calibration claim"
+  ],
+  "phases": {
+    "ph001": {
+      "phase": "ph001",
+      "source": "/pscratch/sd/d/dkololgi/abacus/p12a_r7_20phase_20261027_v1/ph001/catalogues/ph001_observed_galaxy_realspace_v2_tweb.fits",
+      "lineage": {
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/p12a_r7_20phase_20261027_v1/ph001/catalogues/ph001_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "00f37960bc9755cb1855c88f29e38f45920249b0635f38f9d65c32db15c31cfc",
+        "observed_sha256": "4527f658e7cc6295697f69530642d1d2a723582b523520faf46f94b90853a0d0",
+        "annotation_receipt_sha256": "f271d137822ecf7818e83534824ac27d105437396d2845c0030d035a4412b01e",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues",
+        "independent_status_masks_truth": false
+      },
+      "p1_sha256": "6fe8eb94344537b73a66fda70ffa3ca43cd0d7adb275f9f2035fccd859ec3d1a",
+      "p3_sha256": "ada00aaeaf9c4baebe76601911e656210291b3dbeb69a1758d142282e0a1c2cd",
+      "angular_sha256": "e886fc26a76064cdc3343f645ccc89b54baa660bd0e34e4881c32ab972f63477",
+      "rows": 7328081,
+      "z_min": 0.0009640617063269019,
+      "z_max": 0.7734420895576477,
+      "bins": [
+        {
+          "z": [
+            0,
+            0.01
+          ],
+          "cap": "SGC",
+          "rows": 851,
+          "valid_labels": 851,
+          "angular_supported": 851,
+          "old_response_supported": 0,
+          "legacy_negative_box_index_with_valid_label": 851,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              12.060981273651123,
+              16.538970947265625,
+              19.175134658813477
+            ],
+            "R_MAG_ABS": [
+              -19.5136079788208,
+              -15.129505157470703,
+              -12.388089656829834
+            ]
+          }
+        },
+        {
+          "z": [
+            0,
+            0.01
+          ],
+          "cap": "NGC",
+          "rows": 3982,
+          "valid_labels": 3982,
+          "angular_supported": 3982,
+          "old_response_supported": 0,
+          "legacy_negative_box_index_with_valid_label": 3982,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              12.147712898254394,
+              16.773241996765137,
+              19.249388408660888
+            ],
+            "R_MAG_ABS": [
+              -19.60175666809082,
+              -15.063616275787354,
+              -12.631336975097657
+            ]
+          }
+        },
+        {
+          "z": [
+            0.01,
+            0.03
+          ],
+          "cap": "SGC",
+          "rows": 18729,
+          "valid_labels": 18729,
+          "angular_supported": 18729,
+          "old_response_supported": 0,
+          "legacy_negative_box_index_with_valid_label": 18729,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              13.838661575317383,
+              17.527795791625977,
+              19.326970291137695
+            ],
+            "R_MAG_ABS": [
+              -20.157939529418947,
+              -16.59328269958496,
+              -14.447726058959963
+            ]
+          }
+        },
+        {
+          "z": [
+            0.01,
+            0.03
+          ],
+          "cap": "NGC",
+          "rows": 63008,
+          "valid_labels": 63008,
+          "angular_supported": 63008,
+          "old_response_supported": 0,
+          "legacy_negative_box_index_with_valid_label": 63008,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              13.679939317703248,
+              17.455190658569336,
+              19.320007610321042
+            ],
+            "R_MAG_ABS": [
+              -20.088804149627684,
+              -16.44970417022705,
+              -14.297256374359131
+            ]
+          }
+        },
+        {
+          "z": [
+            0.03,
+            0.05
+          ],
+          "cap": "SGC",
+          "rows": 51949,
+          "valid_labels": 51949,
+          "angular_supported": 51949,
+          "old_response_supported": 0,
+          "legacy_negative_box_index_with_valid_label": 51949,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              14.81978645324707,
+              17.83648681640625,
+              19.360426330566405
+            ],
+            "R_MAG_ABS": [
+              -20.465003967285156,
+              -17.52296257019043,
+              -15.890528106689453
+            ]
+          }
+        },
+        {
+          "z": [
+            0.03,
+            0.05
+          ],
+          "cap": "NGC",
+          "rows": 117236,
+          "valid_labels": 117236,
+          "angular_supported": 117236,
+          "old_response_supported": 0,
+          "legacy_negative_box_index_with_valid_label": 117236,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              14.93180227279663,
+              17.85663414001465,
+              19.365256309509277
+            ],
+            "R_MAG_ABS": [
+              -20.47499990463257,
+              -17.595425605773926,
+              -16.002513885498047
+            ]
+          }
+        },
+        {
+          "z": [
+            0.05,
+            0.075
+          ],
+          "cap": "SGC",
+          "rows": 94132,
+          "valid_labels": 94132,
+          "angular_supported": 94132,
+          "old_response_supported": 0,
+          "legacy_negative_box_index_with_valid_label": 94132,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              15.655424690246582,
+              17.994315147399902,
+              19.38215799331665
+            ],
+            "R_MAG_ABS": [
+              -20.72099256515503,
+              -18.423203468322754,
+              -16.94935188293457
+            ]
+          }
+        },
+        {
+          "z": [
+            0.05,
+            0.075
+          ],
+          "cap": "NGC",
+          "rows": 234932,
+          "valid_labels": 234932,
+          "angular_supported": 234932,
+          "old_response_supported": 0,
+          "legacy_negative_box_index_with_valid_label": 234932,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              15.630345106124878,
+              17.996499061584473,
+              19.38278102874756
+            ],
+            "R_MAG_ABS": [
+              -20.720473861694337,
+              -18.40390396118164,
+              -16.90926351547241
+            ]
+          }
+        },
+        {
+          "z": [
+            0.075,
+            0.1
+          ],
+          "cap": "SGC",
+          "rows": 146639,
+          "valid_labels": 146639,
+          "angular_supported": 146639,
+          "old_response_supported": 876,
+          "legacy_negative_box_index_with_valid_label": 146639,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              16.20234069824219,
+              18.19622230529785,
+              19.383538436889648
+            ],
+            "R_MAG_ABS": [
+              -20.911925506591796,
+              -18.946407318115234,
+              -17.707709503173827
+            ]
+          }
+        },
+        {
+          "z": [
+            0.075,
+            0.1
+          ],
+          "cap": "NGC",
+          "rows": 348687,
+          "valid_labels": 348687,
+          "angular_supported": 348687,
+          "old_response_supported": 2337,
+          "legacy_negative_box_index_with_valid_label": 348687,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              16.222527694702148,
+              18.20143699645996,
+              19.38539524078369
+            ],
+            "R_MAG_ABS": [
+              -20.91939754486084,
+              -18.963369369506836,
+              -17.73597469329834
+            ]
+          }
+        },
+        {
+          "z": [
+            0.1,
+            0.15
+          ],
+          "cap": "SGC",
+          "rows": 360396,
+          "valid_labels": 360396,
+          "angular_supported": 360396,
+          "old_response_supported": 356037,
+          "legacy_negative_box_index_with_valid_label": 360396,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              16.82984685897827,
+              18.515507698059082,
+              19.409293174743652
+            ],
+            "R_MAG_ABS": [
+              -21.11512041091919,
+              -19.467373847961426,
+              -18.421714305877686
+            ]
+          }
+        },
+        {
+          "z": [
+            0.1,
+            0.15
+          ],
+          "cap": "NGC",
+          "rows": 898339,
+          "valid_labels": 898339,
+          "angular_supported": 898339,
+          "old_response_supported": 887329,
+          "legacy_negative_box_index_with_valid_label": 898339,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              16.822343635559083,
+              18.509117126464844,
+              19.41032428741455
+            ],
+            "R_MAG_ABS": [
+              -21.127903556823732,
+              -19.473072052001953,
+              -18.42724742889404
+            ]
+          }
+        },
+        {
+          "z": [
+            0.15,
+            0.25
+          ],
+          "cap": "SGC",
+          "rows": 799463,
+          "valid_labels": 799463,
+          "angular_supported": 799463,
+          "old_response_supported": 794323,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              17.577146911621092,
+              18.874597549438477,
+              19.446632385253906
+            ],
+            "R_MAG_ABS": [
+              -21.492549896240234,
+              -20.22889518737793,
+              -19.328463554382324
+            ]
+          }
+        },
+        {
+          "z": [
+            0.15,
+            0.25
+          ],
+          "cap": "NGC",
+          "rows": 1897048,
+          "valid_labels": 1897048,
+          "angular_supported": 1897048,
+          "old_response_supported": 1883559,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              17.58000831604004,
+              18.874958038330078,
+              19.446561813354492
+            ],
+            "R_MAG_ABS": [
+              -21.491380596160887,
+              -20.23079776763916,
+              -19.32337007522583
+            ]
+          }
+        },
+        {
+          "z": [
+            0.25,
+            0.35
+          ],
+          "cap": "SGC",
+          "rows": 483676,
+          "valid_labels": 483676,
+          "angular_supported": 483676,
+          "old_response_supported": 481415,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              18.19352960586548,
+              19.109272003173828,
+              19.468138217926025
+            ],
+            "R_MAG_ABS": [
+              -21.930394649505615,
+              -20.986628532409668,
+              -20.329527854919434
+            ]
+          }
+        },
+        {
+          "z": [
+            0.25,
+            0.35
+          ],
+          "cap": "NGC",
+          "rows": 1172291,
+          "valid_labels": 1172291,
+          "angular_supported": 1172291,
+          "old_response_supported": 1166391,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              18.19517993927002,
+              19.109867095947266,
+              19.46835994720459
+            ],
+            "R_MAG_ABS": [
+              -21.929105758666992,
+              -20.98585319519043,
+              -20.32927417755127
+            ]
+          }
+        },
+        {
+          "z": [
+            0.35,
+            0.45
+          ],
+          "cap": "SGC",
+          "rows": 164381,
+          "valid_labels": 164381,
+          "angular_supported": 164381,
+          "old_response_supported": 163822,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              18.59845542907715,
+              19.242582321166992,
+              19.479326248168945
+            ],
+            "R_MAG_ABS": [
+              -22.37493133544922,
+              -21.6552734375,
+              -21.086854934692383
+            ]
+          }
+        },
+        {
+          "z": [
+            0.35,
+            0.45
+          ],
+          "cap": "NGC",
+          "rows": 400029,
+          "valid_labels": 400029,
+          "angular_supported": 400029,
+          "old_response_supported": 398538,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              18.59267807006836,
+              19.24134635925293,
+              19.47930145263672
+            ],
+            "R_MAG_ABS": [
+              -22.37043914794922,
+              -21.646148681640625,
+              -21.081277084350585
+            ]
+          }
+        },
+        {
+          "z": [
+            0.45,
+            0.55
+          ],
+          "cap": "SGC",
+          "rows": 21243,
+          "valid_labels": 21243,
+          "angular_supported": 21243,
+          "old_response_supported": 21191,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              18.90719928741455,
+              19.336809158325195,
+              19.48754463195801
+            ],
+            "R_MAG_ABS": [
+              -22.83872261047363,
+              -22.270505905151367,
+              -21.66060447692871
+            ]
+          }
+        },
+        {
+          "z": [
+            0.45,
+            0.55
+          ],
+          "cap": "NGC",
+          "rows": 48869,
+          "valid_labels": 48869,
+          "angular_supported": 48869,
+          "old_response_supported": 48701,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              18.91853446960449,
+              19.33983612060547,
+              19.487708282470702
+            ],
+            "R_MAG_ABS": [
+              -22.836392211914063,
+              -22.271638870239258,
+              -21.662984466552736
+            ]
+          }
+        },
+        {
+          "z": [
+            0.55,
+            0.6
+          ],
+          "cap": "SGC",
+          "rows": 604,
+          "valid_labels": 604,
+          "angular_supported": 604,
+          "old_response_supported": 554,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              19.12223825454712,
+              19.419095993041992,
+              19.494539165496825
+            ],
+            "R_MAG_ABS": [
+              -23.185429096221924,
+              -22.786795616149902,
+              -22.033980464935304
+            ]
+          }
+        },
+        {
+          "z": [
+            0.55,
+            0.6
+          ],
+          "cap": "NGC",
+          "rows": 1371,
+          "valid_labels": 1371,
+          "angular_supported": 1371,
+          "old_response_supported": 1237,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              19.12122344970703,
+              19.401147842407227,
+              19.492175102233887
+            ],
+            "R_MAG_ABS": [
+              -23.255983352661133,
+              -22.80810546875,
+              -22.004952430725098
+            ]
+          }
+        }
+      ],
+      "source_columns": [
+        "TARGETID",
+        "RA",
+        "DEC",
+        "Z",
+        "ZWARN",
+        "BGS_TARGET",
+        "R_MAG_APP",
+        "R_MAG_ABS",
+        "G_R_REST",
+        "G_R_OBS",
+        "NTILE",
+        "COMP_TILE",
+        "FRACZ_TILELOCID",
+        "FRAC_TLOBS_TILES",
+        "PHOTSYS",
+        "MASKBITS",
+        "NOBS_G",
+        "NOBS_R",
+        "NOBS_Z",
+        "GOODPRI",
+        "GOODHARDLOC",
+        "LOCATION_ASSIGNED",
+        "FILE_NUM",
+        "HALO_INDEX",
+        "BOX_INDEX",
+        "HAS_LABEL",
+        "CWEB",
+        "LAMBDA1",
+        "LAMBDA2",
+        "LAMBDA3",
+        "DLAM1_DX",
+        "DLAM1_DY",
+        "DLAM1_DZ",
+        "DLAM2_DX",
+        "DLAM2_DY",
+        "DLAM2_DZ",
+        "DLAM3_DX",
+        "DLAM3_DY",
+        "DLAM3_DZ",
+        "LAP_LAM1",
+        "LAP_LAM2",
+        "LAP_LAM3",
+        "SOURCE_ROW",
+        "Z_COSMO",
+        "RES",
+        "CEN",
+        "HALO_MASS",
+        "TWEB_STATUS",
+        "INDEP_POS",
+        "TWEB_X",
+        "TWEB_Y",
+        "TWEB_Z",
+        "TWEB_IX",
+        "TWEB_IY",
+        "TWEB_IZ",
+        "ID_AMBIG"
+      ],
+      "optional_property_columns": [
+        "R_MAG_APP",
+        "R_MAG_ABS"
+      ],
+      "mask_counts": {
+        "requested_science": 7321047,
+        "lowz_science": 2334047,
+        "candidate_context": 7327682,
+        "old_context": 6247537
+      },
+      "sample_rows": 160,
+      "sample_inside_existing_grid": 152,
+      "sample_old_voxel_supported": 32,
+      "sample_angular_supported": 160,
+      "source_and_label_checks_pass": true,
+      "elapsed_seconds": 11.267010596999171,
+      "outputs": {
+        "observed_points.npz": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p12a_lowz_canary_20261029_60475000/ph001/observed_points.npz",
+          "sha256": "611a0eded810ecf121b3d905fbeabee71fcefad2e98ac3ad6bd3c52936579ce7"
+        },
+        "evaluation_only_labels.npz": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p12a_lowz_canary_20261029_60475000/ph001/evaluation_only_labels.npz",
+          "sha256": "5b91d6ab838a6f2ac2949f4394e98abcf964135060d9399e9599a244210f2a02"
+        }
+      }
+    },
+    "ph006": {
+      "phase": "ph006",
+      "source": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph006/catalogues/ph006_observed_galaxy_realspace_v2_tweb.fits",
+      "lineage": {
+        "label_policy_version": "galaxy-realspace-all-populations-v2",
+        "mapping_version": "bgs-v01-c000-galaxy-realspace-v1",
+        "observed_receipt": "/pscratch/sd/d/dkololgi/abacus/galaxy_truth_remaining_20261020/ph006/catalogues/ph006_observed_galaxy_realspace_v2_tweb.fits.complete.json",
+        "observed_receipt_sha256": "9d6a4256c7d1ac1cab404f42d75dbc0dd720d53d2a9eef848edf0fffefd092a1",
+        "observed_sha256": "fb8298a7a8598c56e017ca6770493e6c1c9229363d0515b7105322e085b1b40c",
+        "annotation_receipt_sha256": "bf506d7368a24422cdf3538d93f004d2b207f4fa86117d398edb1958fb358481",
+        "validity": "HAS_LABEL=1 and TWEB_STATUS=1 and finite ordered eigenvalues",
+        "independent_status_masks_truth": false
+      },
+      "p1_sha256": "f36b3d551ed548ea35caabd09d79294244cf34494091101bb6ed99be646b65fa",
+      "p3_sha256": "162fa2f45327ac2cc6c111960138b8564a5d919b22ed600cdca474dda2bcee26",
+      "angular_sha256": "b3d45d06447d2978ad4dd60ec534e0d3ee85b2c6ba1545b827a2b9e0f6d53dc4",
+      "rows": 7330186,
+      "z_min": 0.0000353587165591307,
+      "z_max": 0.7786921262741089,
+      "bins": [
+        {
+          "z": [
+            0,
+            0.01
+          ],
+          "cap": "SGC",
+          "rows": 1031,
+          "valid_labels": 1031,
+          "angular_supported": 1031,
+          "old_response_supported": 0,
+          "legacy_negative_box_index_with_valid_label": 1031,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              11.703051567077637,
+              16.390832901000977,
+              19.191746711730957
+            ],
+            "R_MAG_ABS": [
+              -19.52023220062256,
+              -14.91667652130127,
+              -11.912558555603027
+            ]
+          }
+        },
+        {
+          "z": [
+            0,
+            0.01
+          ],
+          "cap": "NGC",
+          "rows": 5928,
+          "valid_labels": 5928,
+          "angular_supported": 5928,
+          "old_response_supported": 0,
+          "legacy_negative_box_index_with_valid_label": 5928,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              11.894613885879517,
+              16.602675437927246,
+              19.195421123504637
+            ],
+            "R_MAG_ABS": [
+              -19.557210445404053,
+              -14.965956687927246,
+              -12.233070707321167
+            ]
+          }
+        },
+        {
+          "z": [
+            0.01,
+            0.03
+          ],
+          "cap": "SGC",
+          "rows": 28409,
+          "valid_labels": 28409,
+          "angular_supported": 28409,
+          "old_response_supported": 0,
+          "legacy_negative_box_index_with_valid_label": 28409,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              13.72778034210205,
+              17.5111141204834,
+              19.320814895629884
+            ],
+            "R_MAG_ABS": [
+              -20.19249382019043,
+              -16.542682647705078,
+              -14.421373558044433
+            ]
+          }
+        },
+        {
+          "z": [
+            0.01,
+            0.03
+          ],
+          "cap": "NGC",
+          "rows": 52530,
+          "valid_labels": 52530,
+          "angular_supported": 52530,
+          "old_response_supported": 0,
+          "legacy_negative_box_index_with_valid_label": 52530,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              13.746248006820679,
+              17.46315574645996,
+              19.315653610229493
+            ],
+            "R_MAG_ABS": [
+              -20.152727794647216,
+              -16.553752899169922,
+              -14.331499004364014
+            ]
+          }
+        },
+        {
+          "z": [
+            0.03,
+            0.05
+          ],
+          "cap": "SGC",
+          "rows": 53161,
+          "valid_labels": 53161,
+          "angular_supported": 53161,
+          "old_response_supported": 0,
+          "legacy_negative_box_index_with_valid_label": 53161,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              14.814194679260254,
+              17.810020446777344,
+              19.356609344482422
+            ],
+            "R_MAG_ABS": [
+              -20.477460861206055,
+              -17.539148330688477,
+              -15.880390167236328
+            ]
+          }
+        },
+        {
+          "z": [
+            0.03,
+            0.05
+          ],
+          "cap": "NGC",
+          "rows": 119694,
+          "valid_labels": 119694,
+          "angular_supported": 119694,
+          "old_response_supported": 0,
+          "legacy_negative_box_index_with_valid_label": 119694,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              14.856049728393554,
+              17.83005428314209,
+              19.36023082733154
+            ],
+            "R_MAG_ABS": [
+              -20.46738119125366,
+              -17.556156158447266,
+              -15.905750370025636
+            ]
+          }
+        },
+        {
+          "z": [
+            0.05,
+            0.075
+          ],
+          "cap": "SGC",
+          "rows": 92927,
+          "valid_labels": 92927,
+          "angular_supported": 92927,
+          "old_response_supported": 0,
+          "legacy_negative_box_index_with_valid_label": 92927,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              15.64071445465088,
+              17.993818283081055,
+              19.38327808380127
+            ],
+            "R_MAG_ABS": [
+              -20.718955039978027,
+              -18.417842864990234,
+              -16.926548576354982
+            ]
+          }
+        },
+        {
+          "z": [
+            0.05,
+            0.075
+          ],
+          "cap": "NGC",
+          "rows": 237343,
+          "valid_labels": 237343,
+          "angular_supported": 237343,
+          "old_response_supported": 0,
+          "legacy_negative_box_index_with_valid_label": 237343,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              15.628108596801757,
+              17.989295959472656,
+              19.3808292388916
+            ],
+            "R_MAG_ABS": [
+              -20.72377738952637,
+              -18.41482162475586,
+              -16.91635627746582
+            ]
+          }
+        },
+        {
+          "z": [
+            0.075,
+            0.1
+          ],
+          "cap": "SGC",
+          "rows": 139186,
+          "valid_labels": 139186,
+          "angular_supported": 139186,
+          "old_response_supported": 871,
+          "legacy_negative_box_index_with_valid_label": 139186,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              16.214335918426514,
+              18.20120143890381,
+              19.386052131652832
+            ],
+            "R_MAG_ABS": [
+              -20.914830684661865,
+              -18.952865600585938,
+              -17.726871013641357
+            ]
+          }
+        },
+        {
+          "z": [
+            0.075,
+            0.1
+          ],
+          "cap": "NGC",
+          "rows": 350916,
+          "valid_labels": 350916,
+          "angular_supported": 350916,
+          "old_response_supported": 2164,
+          "legacy_negative_box_index_with_valid_label": 350916,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              16.20150136947632,
+              18.201045036315918,
+              19.38538408279419
+            ],
+            "R_MAG_ABS": [
+              -20.924330711364746,
+              -18.94804096221924,
+              -17.716723442077637
+            ]
+          }
+        },
+        {
+          "z": [
+            0.1,
+            0.15
+          ],
+          "cap": "SGC",
+          "rows": 374151,
+          "valid_labels": 374151,
+          "angular_supported": 374151,
+          "old_response_supported": 369795,
+          "legacy_negative_box_index_with_valid_label": 374151,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              16.839058876037598,
+              18.511472702026367,
+              19.40947723388672
+            ],
+            "R_MAG_ABS": [
+              -21.125535011291504,
+              -19.477874755859375,
+              -18.442551612854004
+            ]
+          }
+        },
+        {
+          "z": [
+            0.1,
+            0.15
+          ],
+          "cap": "NGC",
+          "rows": 904579,
+          "valid_labels": 904579,
+          "angular_supported": 904579,
+          "old_response_supported": 893003,
+          "legacy_negative_box_index_with_valid_label": 904579,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              16.832450294494627,
+              18.514001846313477,
+              19.410354804992675
+            ],
+            "R_MAG_ABS": [
+              -21.127339172363282,
+              -19.4772891998291,
+              -18.435512161254884
+            ]
+          }
+        },
+        {
+          "z": [
+            0.15,
+            0.25
+          ],
+          "cap": "SGC",
+          "rows": 775671,
+          "valid_labels": 775671,
+          "angular_supported": 775671,
+          "old_response_supported": 770478,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              17.57677936553955,
+              18.874237060546875,
+              19.446932792663574
+            ],
+            "R_MAG_ABS": [
+              -21.485665321350098,
+              -20.22685432434082,
+              -19.315677642822266
+            ]
+          }
+        },
+        {
+          "z": [
+            0.15,
+            0.25
+          ],
+          "cap": "NGC",
+          "rows": 1928976,
+          "valid_labels": 1928976,
+          "angular_supported": 1928976,
+          "old_response_supported": 1915451,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              17.569257259368896,
+              18.87165927886963,
+              19.446510314941406
+            ],
+            "R_MAG_ABS": [
+              -21.490917205810547,
+              -20.225269317626953,
+              -19.31889295578003
+            ]
+          }
+        },
+        {
+          "z": [
+            0.25,
+            0.35
+          ],
+          "cap": "SGC",
+          "rows": 479734,
+          "valid_labels": 479734,
+          "angular_supported": 479734,
+          "old_response_supported": 477574,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              18.195877647399904,
+              19.11124324798584,
+              19.4685866355896
+            ],
+            "R_MAG_ABS": [
+              -21.93059492111206,
+              -20.985926628112793,
+              -20.33166561126709
+            ]
+          }
+        },
+        {
+          "z": [
+            0.25,
+            0.35
+          ],
+          "cap": "NGC",
+          "rows": 1155840,
+          "valid_labels": 1155840,
+          "angular_supported": 1155840,
+          "old_response_supported": 1150098,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              18.19988250732422,
+              19.109758377075195,
+              19.46845054626465
+            ],
+            "R_MAG_ABS": [
+              -21.930076694488527,
+              -20.987889289855957,
+              -20.331697463989258
+            ]
+          }
+        },
+        {
+          "z": [
+            0.35,
+            0.45
+          ],
+          "cap": "SGC",
+          "rows": 160714,
+          "valid_labels": 160714,
+          "angular_supported": 160714,
+          "old_response_supported": 160193,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              18.597091007232667,
+              19.24417018890381,
+              19.479768753051758
+            ],
+            "R_MAG_ABS": [
+              -22.370379829406737,
+              -21.649706840515137,
+              -21.079921340942384
+            ]
+          }
+        },
+        {
+          "z": [
+            0.35,
+            0.45
+          ],
+          "cap": "NGC",
+          "rows": 396169,
+          "valid_labels": 396169,
+          "angular_supported": 396169,
+          "old_response_supported": 394526,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              18.595616149902344,
+              19.242155075073242,
+              19.479434967041016
+            ],
+            "R_MAG_ABS": [
+              -22.371051788330078,
+              -21.647146224975586,
+              -21.081340789794922
+            ]
+          }
+        },
+        {
+          "z": [
+            0.45,
+            0.55
+          ],
+          "cap": "SGC",
+          "rows": 21258,
+          "valid_labels": 21258,
+          "angular_supported": 21258,
+          "old_response_supported": 21198,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              18.912426567077638,
+              19.33932399749756,
+              19.487557125091552
+            ],
+            "R_MAG_ABS": [
+              -22.84417610168457,
+              -22.265670776367188,
+              -21.671954822540282
+            ]
+          }
+        },
+        {
+          "z": [
+            0.45,
+            0.55
+          ],
+          "cap": "NGC",
+          "rows": 49846,
+          "valid_labels": 49846,
+          "angular_supported": 49846,
+          "old_response_supported": 49680,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              18.912428855895996,
+              19.340072631835938,
+              19.487738609313965
+            ],
+            "R_MAG_ABS": [
+              -22.837284564971924,
+              -22.268441200256348,
+              -21.662609577178955
+            ]
+          }
+        },
+        {
+          "z": [
+            0.55,
+            0.6
+          ],
+          "cap": "SGC",
+          "rows": 524,
+          "valid_labels": 524,
+          "angular_supported": 524,
+          "old_response_supported": 470,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              19.100636100769044,
+              19.399361610412598,
+              19.492236804962157
+            ],
+            "R_MAG_ABS": [
+              -23.215273284912108,
+              -22.826355934143066,
+              -22.038849067687988
+            ]
+          }
+        },
+        {
+          "z": [
+            0.55,
+            0.6
+          ],
+          "cap": "NGC",
+          "rows": 1354,
+          "valid_labels": 1354,
+          "angular_supported": 1354,
+          "old_response_supported": 1234,
+          "legacy_negative_box_index_with_valid_label": 0,
+          "property_quantiles_05_50_95": {
+            "R_MAG_APP": [
+              19.126236724853516,
+              19.408268928527832,
+              19.49272346496582
+            ],
+            "R_MAG_ABS": [
+              -23.249802112579346,
+              -22.77445411682129,
+              -21.990673732757568
+            ]
+          }
+        }
+      ],
+      "source_columns": [
+        "TARGETID",
+        "RA",
+        "DEC",
+        "Z",
+        "ZWARN",
+        "BGS_TARGET",
+        "R_MAG_APP",
+        "R_MAG_ABS",
+        "G_R_REST",
+        "G_R_OBS",
+        "NTILE",
+        "COMP_TILE",
+        "FRACZ_TILELOCID",
+        "FRAC_TLOBS_TILES",
+        "PHOTSYS",
+        "MASKBITS",
+        "NOBS_G",
+        "NOBS_R",
+        "NOBS_Z",
+        "GOODPRI",
+        "GOODHARDLOC",
+        "LOCATION_ASSIGNED",
+        "FILE_NUM",
+        "HALO_INDEX",
+        "BOX_INDEX",
+        "HAS_LABEL",
+        "CWEB",
+        "LAMBDA1",
+        "LAMBDA2",
+        "LAMBDA3",
+        "DLAM1_DX",
+        "DLAM1_DY",
+        "DLAM1_DZ",
+        "DLAM2_DX",
+        "DLAM2_DY",
+        "DLAM2_DZ",
+        "DLAM3_DX",
+        "DLAM3_DY",
+        "DLAM3_DZ",
+        "LAP_LAM1",
+        "LAP_LAM2",
+        "LAP_LAM3",
+        "SOURCE_ROW",
+        "Z_COSMO",
+        "RES",
+        "CEN",
+        "HALO_MASS",
+        "TWEB_STATUS",
+        "INDEP_POS",
+        "TWEB_X",
+        "TWEB_Y",
+        "TWEB_Z",
+        "TWEB_IX",
+        "TWEB_IY",
+        "TWEB_IZ"
+      ],
+      "optional_property_columns": [
+        "R_MAG_APP",
+        "R_MAG_ABS"
+      ],
+      "mask_counts": {
+        "requested_science": 7321104,
+        "lowz_science": 2352896,
+        "candidate_context": 7329765,
+        "old_context": 6248640
+      },
+      "sample_rows": 160,
+      "sample_inside_existing_grid": 151,
+      "sample_old_voxel_supported": 33,
+      "sample_angular_supported": 160,
+      "source_and_label_checks_pass": true,
+      "elapsed_seconds": 11.061174215999927,
+      "outputs": {
+        "observed_points.npz": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p12a_lowz_canary_20261029_60475000/ph006/observed_points.npz",
+          "sha256": "2cd7861e5ca95afcbdf9948c0f2dc6d0c450f27e7d10a86ae8d191aa3ef38f7e"
+        },
+        "evaluation_only_labels.npz": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p12a_lowz_canary_20261029_60475000/ph006/evaluation_only_labels.npz",
+          "sha256": "c0a0d2dd18f844bce6a65bd357de8b7c2347b7482fd9fbff4e28a3e0d18c4ed9"
+        }
+      }
+    }
+  },
+  "technical_complete": true,
+  "scheduler": {
+    "job_id": "60475000",
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed": "00:01:49",
+    "node": "nid200053",
+    "allocation_cpus": 256,
+    "canary_step_cpus": 64,
+    "canary_step_elapsed": "00:00:28",
+    "canary_step_exit": "0:0",
+    "graph_refresh_step_exit": "1:0",
+    "released": true
+  },
+  "graph_refresh": {
+    "status": "failed",
+    "error": "fcntl.flock OSError 524",
+    "bypass_used": false,
+    "global_refresh_performed": false
+  }
+}

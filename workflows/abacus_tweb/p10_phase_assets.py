@@ -14,11 +14,14 @@ import hashlib
 import json
 import re
 import subprocess
+import sys
 from pathlib import Path
 from typing import Any, Iterable
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 DEFAULT_REGISTRY = REPO_ROOT / "configs/p10_phase_registry_v1.json"
 EXPECTED_PHASES = tuple(f"ph{i:03d}" for i in range(7))
 ASDF_RE = re.compile(r"(field|halo)_rv_B_\d{3}\.asdf$")
@@ -74,7 +77,7 @@ def load_registry(path: Path = DEFAULT_REGISTRY) -> dict[str, Any]:
 
 def validate_registry(registry: dict[str, Any]) -> None:
     version = registry.get("schema_version")
-    if version not in {"p10-phase-registry-v1", "p10-phase-registry-v2"}:
+    if version not in {"p10-phase-registry-v1", "p10-phase-registry-v2", "p10-phase-registry-v3"}:
         raise RegistryError("unexpected registry schema")
     phases = registry.get("phases", {})
     expected = EXPECTED_PHASES if version == "p10-phase-registry-v1" else tuple(f"ph{i:03d}" for i in range(25))
@@ -93,7 +96,7 @@ def validate_registry(registry: dict[str, Any]) -> None:
     if target.get("phase_is_model_input") is not False:
         raise RegistryError("phase identity must remain provenance-only")
     roles = {phase: cfg["role"] for phase, cfg in phases.items()}
-    if roles["ph001"] != "sealed_blind":
+    if version != "p10-phase-registry-v3" and roles["ph001"] != "sealed_blind":
         raise RegistryError("ph001 must remain sealed blind")
     if roles["ph006"] != "validation_and_selection":
         raise RegistryError("ph006 must remain validation/selection")
@@ -117,6 +120,22 @@ def validate_registry(registry: dict[str, Any]) -> None:
         for phase in expected_groups["training"]:
             if not phases[phase]["role"].startswith("training") or phases[phase]["truth_access"] != "development":
                 raise RegistryError(f"training role drift: {phase}")
+    if version == "p10-phase-registry-v3":
+        from shared.phase_policy import check_roles
+        policy = check_roles(registry, registry["model_phase_contract"])
+        if target.get("tidal_smoothing_mpc_h") != policy['gaussian_smoothing_mpc_h']:
+            raise RegistryError("Smoothing differs from the shared phase policy")
+        for phase in policy['training']:
+            if phases[phase]['role'] != 'training' or phases[phase]['truth_access'] != 'development':
+                raise RegistryError("New training phase role mismatch: " + phase)
+        for phase in policy['development_and_calibration']:
+            if phases[phase]['role'] != 'validation_and_selection' or phases[phase]['truth_access'] != 'selection':
+                raise RegistryError("New development phase role mismatch: " + phase)
+        for phase in policy['final_test']:
+            if phases[phase]['role'] != 'sealed_blind' or phases[phase]['truth_access'] != 'sealed_until_predictions_frozen':
+                raise RegistryError("Final-test role mismatch: " + phase)
+        if registry['path_templates']['phase_output'].startswith(registry.get('reuse_source_root', '__missing__') + '/'):
+            raise RegistryError("New campaign cannot write to the historical source root")
     for phase, cfg in phases.items():
         source = cfg["particle_b"]
         kind = source.get("kind")
@@ -124,9 +143,9 @@ def validate_registry(registry: dict[str, Any]) -> None:
             raise RegistryError("ph006 B must use the verified online CFS source")
         if phase == "ph000" and kind != "restored_reference":
             raise RegistryError("ph000 B must use the frozen restored reference source")
-        if version == "p10-phase-registry-v2" and phase == "ph007" and kind != "cfs":
+        if version in {"p10-phase-registry-v2", "p10-phase-registry-v3"} and phase == "ph007" and kind != "cfs":
             raise RegistryError("ph007 B must use its online CFS source")
-        online = {"ph000", "ph006"} | ({"ph007"} if version == "p10-phase-registry-v2" else set())
+        online = {"ph000", "ph006"} | ({"ph007"} if version in {"p10-phase-registry-v2", "p10-phase-registry-v3"} else set())
         if phase not in online and kind != "hpss":
             raise RegistryError(f"{phase} B must use its registered HPSS source")
         if kind == "hpss":

@@ -10,14 +10,29 @@ from workflows.abacus_tweb.p10_validate_phase_products import validate_p2
 
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--phase',required=True);args=ap.parse_args()
-    if args.phase not in ('ph002','ph003','ph004','ph005','ph006'):raise ValueError('No geometry reuse for other phases')
+    ap=argparse.ArgumentParser();ap.add_argument('--phase',required=True)
+    ap.add_argument('--registry',type=Path)
+    ap.add_argument('--source-root',type=Path)
+    args=ap.parse_args()
     repo=Path(__file__).resolve().parents[2]
-    registry=load_registry(repo/'configs/p10_phase_registry_v2.json')
-    old=Path('/pscratch/sd/d/dkololgi/abacus/p10_multiphase')/args.phase
+    registry=load_registry(args.registry or repo/'configs/p10_phase_registry_v2.json')
+    shared_policy=bool(registry.get('phase_policy'))
+    if shared_policy:
+        from shared.phase_policy import check_preparation_phase
+        check_preparation_phase(registry,args.phase)
+        source_root=Path(registry['reuse_source_root'])
+        if args.source_root and args.source_root.resolve()!=source_root.resolve():
+            raise ValueError('Source root differs from the versioned reuse contract')
+    else:
+        if args.phase not in ('ph002','ph003','ph004','ph005','ph006') or args.source_root:
+            raise ValueError('No legacy geometry reuse for other phases or roots')
+        source_root=Path('/pscratch/sd/d/dkololgi/abacus/p10_multiphase')
+    old=source_root/args.phase
     new=Path(registry['path_templates']['phase_output'].format(phase=args.phase))
     checks=compare_p1(old/'p1_canonical',new/'p1_canonical')
-    if not all(checks[k] for k in ('parent_node_id','targetid','cap','shell','active','context','points')):
+    required=('parent_node_id','targetid','cap','shell','context','points')
+    if not shared_policy: required+=('active',)
+    if not all(checks[k] for k in required):
         raise ValueError('Geometry or selection changed; build fresh P2')
     prior=json.loads((old/'p2_graph/P2_COMPLETE.json').read_text())
     graph=json.loads((old/'p2_graph/GRAPH_COMPLETE.json').read_text())
@@ -56,6 +71,8 @@ def main():
     report=validate_p2(registry,args.phase)
     (new/'P2_GEOMETRY_REUSED.json').write_text(json.dumps(dict(
         phase=args.phase,original=str(old),geometry_checks=checks,
+        active_mask_change_requires_fresh_p4=not checks['active'],
+        phase_policy=registry.get('phase_policy'),
         original_p2_sha256=sha256_file(old/'p2_graph/P2_COMPLETE.json'),
         corrected_p1_sha256=sha256_file(new/'p1_canonical/manifest.json'),
         payload_sha256=hashes,**{'pass':report['pass']}),indent=2)+'\n')

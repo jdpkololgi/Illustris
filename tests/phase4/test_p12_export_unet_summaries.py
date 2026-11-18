@@ -12,10 +12,43 @@ from workflows.sbi.p12_export_unet_summaries import (
     parent_to_assignment_index,
     validate_oof_checkpoint,
     terminal_export_checkpoint,
+    validate_export_phase,
 )
 
 
 class P12ExportUnetSummaryTests(unittest.TestCase):
+    def test_shared_export_policy_admits_oof_ph001_not_final_tests(self):
+        from shared.phase_policy import binding, load_policy, p12_roles
+        policy = load_policy()
+        roles = p12_roles(policy)
+        roles["training"] = [p for p in policy["training"] if p != "ph001"]
+        roles["validation_and_selection"] = "ph001"
+        manifest = {"pass": True, "phase_policy": binding(), "roles": roles,
+                    "out_of_fold_phase": "ph001"}
+        validate_export_phase(manifest, "ph001")
+        for phase in ("ph000", "ph018", "ph019", "ph025"):
+            with self.assertRaises(PermissionError):
+                validate_export_phase(manifest, phase)
+        manifest["phase_policy"]["sha256"] = "changed"
+        with self.assertRaises(ValueError):
+            validate_export_phase(manifest, "ph001")
+
+    def test_full_contract_exports_development_only(self):
+        from shared.phase_policy import binding, load_policy, p12_roles
+        manifest = {"pass": True, "phase_policy": binding(),
+                    "roles": p12_roles(load_policy())}
+        for phase in ("ph006", "ph012", "ph013"):
+            validate_export_phase(manifest, phase)
+        for phase in ("ph001", "ph018", "ph019"):
+            with self.assertRaises(PermissionError):
+                validate_export_phase(manifest, phase)
+
+    def test_legacy_ph001_stays_sealed(self):
+        manifest = {"pass": True, "roles": {"training": ["ph000"],
+                    "validation_and_selection": "ph001"}}
+        with self.assertRaises(PermissionError):
+            validate_export_phase(manifest, "ph001")
+
     def checkpoint(self):
         return {
             "schema_version": "p10-arm-a-best-v1",
