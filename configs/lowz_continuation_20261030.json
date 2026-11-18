@@ -1,0 +1,15 @@
+{
+  "approval": "User explicitly approved this four-hour CPU window and requested tmux persistence",
+  "maximum_total_completion_allocations": 4,
+  "maximum_walltime_seconds": 14400,
+  "maximum_runner_seconds": 13800,
+  "nodes": 1,
+  "cpus_per_task": 64,
+  "account": "desi",
+  "qos": "interactive",
+  "constraint": "cpu",
+  "licenses": "scratch",
+  "automatic_retries": 0,
+  "model_training_authorized": false,
+  "release": "salloc exits after its directly waited srun child exits"
+}

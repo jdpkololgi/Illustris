@@ -1,0 +1,11 @@
+JobID|JobName|State|ExitCode|Elapsed|NodeList
+60478299|lowz_verify|COMPLETED|0:0|00:03:01|nid200063
+60478299.extern|extern|COMPLETED|0:0|00:03:02|nid200063
+60478299.0|timeout|COMPLETED|0:0|00:03:00|nid200063
+
+Application stdout:
+START 60478299 nid200063
+CFM_PAYLOAD_PASS
+COMBINED_PAYLOAD_PASS docs/lowz_response_verification_60478299.json
+
+Application stderr: empty

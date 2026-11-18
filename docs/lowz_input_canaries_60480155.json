@@ -1,0 +1,156 @@
+{
+  "schema": "lowz-input-canary-closeout-v1",
+  "selections": {
+    "p12": {
+      "marker": "/pscratch/sd/d/dkololgi/abacus/p12a_lowz_20261029_v1/point_selection_candidates_v1/CANDIDATES_COMPLETE.json",
+      "sha256": "a14cb204e637c8758173a77a2870a7d83bcf4fff4b165835b18831917c9cfacf",
+      "statistics_phases": 23,
+      "full_fits": 1,
+      "oof_fits": 20,
+      "density_unit": "Mpc^-3",
+      "development_used_for_fitting": false,
+      "fit_hashes": {
+        "full": "68217391abafab1beb94e7cf86c6dd4eabae28e64df12a4f044d868e4020b167",
+        "oof_ph000": "0cc6ffeefe700b38dcb869e28d34e40079f4163a53bba733bbc5c2fb6e84b1b5",
+        "oof_ph001": "cc06ed038008fb44244350403fcb804d1f31d068b97b194d5cbbc2707cd7c781",
+        "oof_ph002": "1659c88d0a8febe47e225f7f119b0f539b226da516f9befbb64a30f02387920d",
+        "oof_ph003": "32c7bb337580779ebca257f9260d4c552a7e294efb8eec5abd68a6bbb71b60f2",
+        "oof_ph004": "913576f1369d3c8581f7e0bf57f21761070ebad43fc6d7ccc2ff828df72f5f6a",
+        "oof_ph005": "dc24f201ddba4b575606a18792430130a0e8f108b2c1d813a8e77846af70d78a",
+        "oof_ph007": "b2f904f8f980141a07675f2e9d2662c6addda2a9c38a29e9374853697b9e25bd",
+        "oof_ph008": "9cbdc65ad47673f8a967b66fa31849c015cfa6549ca234615d106f871867d3d3",
+        "oof_ph009": "fe58e9d9f183d3fa885806bd4e665637e78e50ca4cf25c65354e14dfb13caf1d",
+        "oof_ph010": "8be37fd926f3e1142f331b94a4fcd30460c1bfa080ba5b3b8391c0eacee7fa5c",
+        "oof_ph011": "711cb24fd0df446134eaa5550add541f04ec57b68e5026349425dba10c537932",
+        "oof_ph014": "bc14c53ad13e871581395268e6574de848c142ae886319a35065653aea93f6e7",
+        "oof_ph015": "f328c7aee0c1e62660673de639caaf77ec5a1c2c34f9f74e21a2586d902c8773",
+        "oof_ph016": "27eaa440bc57c24ac359da50146e2c61517c84e43f6af0ef084d084d1f94db00",
+        "oof_ph017": "75e54031728b2c1380bad04ce47dcafe98eb9b41666c6c6d6d74dafe6f5ffc22",
+        "oof_ph020": "f35f9e5ef5ffc34c25b66f35c12a3c9555e69310cedb2ebf7d2215b6c7a78976",
+        "oof_ph021": "9646c831d73fb217128ed1998562d469a19e0c1b1925ca1d4b7d11f0f247261e",
+        "oof_ph022": "2f26079babeb3ef9ebbf460fc5c6f8294245b840acf5296fe8606560088e294b",
+        "oof_ph023": "3b2111921ab5e81b89395bc6db3454953737aa3eb04a3d2cf6b7f1c4c917ad38",
+        "oof_ph024": "87ddec3fcb771296cd3a0fc51905d9b65f8a9fef566a2a3778c5442b323e427a"
+      }
+    },
+    "cfm": {
+      "marker": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_lowz_selection_20261029_v1/point_selection_candidates_v1/CANDIDATES_COMPLETE.json",
+      "sha256": "6ec689bbf8a5fe94994ef495c0412a5f3a66293681640062dcc3e7a21f023115",
+      "statistics_phases": 23,
+      "full_fits": 1,
+      "oof_fits": 20,
+      "density_unit": "(Mpc/h)^-3",
+      "development_used_for_fitting": false,
+      "fit_hashes": {
+        "full": "17321b87097468a478e9d581ae7ff8c1b5b7fce6054c491f578fb86735eba8ee",
+        "oof_ph000": "2f082418f533b5655ece7b9cb46fb71578f9b3783e95fe4f3aa6c318c9c10047",
+        "oof_ph001": "4e77d873804cee94951a07cc860911ecc46b8e86125354ffa2e9b1106b75af31",
+        "oof_ph002": "9db622e557b2caf3b233bd9b4ef9014b0357f182434062a044ea27187b122f5a",
+        "oof_ph003": "b4f8bb20198de249ebe122a0763dd038dfd3d36b9b318111f7d06bb243630bef",
+        "oof_ph004": "36d28fef9abc14e8c31b7b9c694a79370319454219b5f5c25f7adfb99eddc12f",
+        "oof_ph005": "8d2b825f41dfd711d2a5d0fb56a4757c9df0a84663c3558a2c9bc531466ac65c",
+        "oof_ph007": "de77716aa205ef8fe26da9638d4cda740875f6f9680a9e9aaecfeefde09a94bd",
+        "oof_ph008": "ed1ef4b6246e7059a413ee5196015cf72546cba90abc1273925c5f7858aa5226",
+        "oof_ph009": "4c1809459fb83ce20a2bbfdfa2dae4d8499debfc35a49b21a03f6e2149eb63b2",
+        "oof_ph010": "edcda3448f40d8bb6c22fae8de092385840281abcbbbceacc669f32ecc7a652f",
+        "oof_ph011": "3d945dc66ff5a1e836557b7ac88bc01c91cfd2a9aa068b1df083895c7b6b7219",
+        "oof_ph014": "bf8215705edb8261be408ee6054fe69f6d4c8af9f080d882c5a54e70ca3b3f71",
+        "oof_ph015": "da32d47c9d7c372e36322da8b6573cd00be68bc2e4a96701d3a72bb3c6c3f6f1",
+        "oof_ph016": "f6aca2e66dead7d81b91d32bf76c155e14a9e0ce44b3cec6ca0a8eda3f3887bc",
+        "oof_ph017": "06d02ee5aeb9becbffc14ad87838cd70b56b5d0f4013603955baa2908a953644",
+        "oof_ph020": "a629f230da93e227ed1d8cb6e55a1dafa5d40fe30c1c0e542e4e30750de86578",
+        "oof_ph021": "09edcaded5b493b6db4426be044fa3e1671517f3f08311dc83254e1811a31ee7",
+        "oof_ph022": "d35bf4c94b361533d6cb78bdb68384a24da9069222b11115fca17bc620470927",
+        "oof_ph023": "4113d4143f6b3cfa0ce1cb8a8ead43632df41901a14005ff1d835aa6c8a9dfb3",
+        "oof_ph024": "ca9f10e8843c969848ea404e2f6c61884396cf1f51e29a519ffac3e89e517c41"
+      }
+    }
+  },
+  "cross_pipeline_point_counts_identical": true,
+  "paired_local_canaries": [
+    {
+      "phase": "ph001",
+      "paired_local_readback_pass": true,
+      "pairs": [
+        {
+          "roundtrip_max_relative": 8.325045833949784e-16,
+          "coarse_fine_max_relative": 6.454089024486697e-16,
+          "minimum_rho": 0.1614543370928243,
+          "minimum_wide_rho": 0.2810074779692989,
+          "all_seven_context_crops_verified": true,
+          "fullbox_trace_max_abs": 8.881784197001252e-16,
+          "physical_representation_gate_pass": null,
+          "pair_id": "ph001_SGC_lowz_target_canary",
+          "supported_local_cells_z0p01_0p03": 1187,
+          "half_quarter_expected_l1_relative": 0.012766821748680489
+        },
+        {
+          "roundtrip_max_relative": 8.096798821872411e-16,
+          "coarse_fine_max_relative": 7.477084578364268e-16,
+          "minimum_rho": 0.21514538195973054,
+          "minimum_wide_rho": 0.2249589461421979,
+          "all_seven_context_crops_verified": true,
+          "fullbox_trace_max_abs": 8.881784197001252e-16,
+          "physical_representation_gate_pass": null,
+          "pair_id": "ph001_NGC_lowz_target_canary",
+          "supported_local_cells_z0p01_0p03": 2344,
+          "half_quarter_expected_l1_relative": 0.012183144947800695
+        }
+      ],
+      "receipts": {
+        "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_lowz_selection_20261029_v1/local_condition_canaries/ph001/LOCAL_CONDITION_CANARY_COMPLETE.json": "83cae5d0dfaafc5fc1dcca59bba3e61cae26422c745cf117dcf75884ef760bb0",
+        "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_lowz_selection_20261029_v1/target_canaries/ph001/TARGET_CANARY_COMPLETE.json": "3d1f367d15af5e3a9564284a8ea7f4e7bdfbd4a548f87edb7bc71135051c8257",
+        "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_lowz_selection_20261029_v1/GEOMETRY_CANDIDATES_ph001.json": "15619e8a9bd3954a481db29236015cff3e3c3cda6b2acf9c0b97b8d82c50ebf4"
+      },
+      "wide_observation_ready": false,
+      "full_training_loader_ready": false
+    },
+    {
+      "phase": "ph006",
+      "paired_local_readback_pass": true,
+      "pairs": [
+        {
+          "roundtrip_max_relative": 9.400632808205766e-16,
+          "coarse_fine_max_relative": 5.027943515861345e-16,
+          "minimum_rho": 0.22576967720988184,
+          "minimum_wide_rho": 0.30416100797439305,
+          "all_seven_context_crops_verified": true,
+          "fullbox_trace_max_abs": 8.881784197001252e-16,
+          "physical_representation_gate_pass": null,
+          "pair_id": "ph006_SGC_lowz_target_canary",
+          "supported_local_cells_z0p01_0p03": 1187,
+          "half_quarter_expected_l1_relative": 0.012766784579159586
+        },
+        {
+          "roundtrip_max_relative": 8.11601885681031e-16,
+          "coarse_fine_max_relative": 6.9054964004589e-16,
+          "minimum_rho": 0.23377457753583009,
+          "minimum_wide_rho": 0.306359996781597,
+          "all_seven_context_crops_verified": true,
+          "fullbox_trace_max_abs": 8.881784197001252e-16,
+          "physical_representation_gate_pass": null,
+          "pair_id": "ph006_NGC_lowz_target_canary",
+          "supported_local_cells_z0p01_0p03": 2344,
+          "half_quarter_expected_l1_relative": 0.01218307061079153
+        }
+      ],
+      "receipts": {
+        "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_lowz_selection_20261029_v1/local_condition_canaries/ph006/LOCAL_CONDITION_CANARY_COMPLETE.json": "ea53df892672d5891f1ab61f9e9a528f55fbb696873b752dd4f2d997f2a4b333",
+        "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_lowz_selection_20261029_v1/target_canaries/ph006/TARGET_CANARY_COMPLETE.json": "6d1587dc5c5a4b8b8d7914be28fdd229ff543493e50c29858f1c17da826216f1",
+        "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_lowz_selection_20261029_v1/GEOMETRY_CANDIDATES_ph006.json": "141ddf955c0ae04444bcf53d66dea22d5a75eb08522ea19703ae74f60701c7f9"
+      },
+      "wide_observation_ready": false,
+      "full_training_loader_ready": false
+    }
+  ],
+  "checks_pass": true,
+  "model_inputs_ready": false,
+  "scientific_training_started": false,
+  "source_sha256": "befe081f8cceaeec69cc5c04ebcdbeb3000ae9adb2bca8befaa91a91375c6eec",
+  "remaining": [
+    "Full matched-CIC responses and wide observation channels",
+    "Final full-range geometry and role assignment, then all-phase matched targets",
+    "Full-training and OOF transforms and actual model-loader qualification",
+    "P12 distinct-galaxy identity versus host grouping and development split contract"
+  ]
+}

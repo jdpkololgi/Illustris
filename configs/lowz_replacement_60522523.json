@@ -1,0 +1,21 @@
+{
+  "schema": "lowz-explicit-interruption-replacement-v1",
+  "approval": "User answered Yes please do so to one replacement CPU node, desi/interactive, 64-CPU steps, Scratch, up to 3h56m, resuming the two interrupted stages once",
+  "interrupted_job": "60522523",
+  "interrupted_elapsed_seconds": 208,
+  "one_controlled_resume_approved": true,
+  "maximum_total_completion_allocations": 3,
+  "maximum_walltime_seconds": 14160,
+  "maximum_runner_seconds": 13700,
+  "nodes": 1,
+  "cpus_per_task": 64,
+  "account": "desi",
+  "qos": "interactive",
+  "constraint": "cpu",
+  "licenses": "scratch",
+  "automatic_retries": 0,
+  "failed_host_diagnostics_retried": false,
+  "model_training_authorized": false,
+  "sealed_phase_access_authorized": false,
+  "release": "after both directly launched srun processes exit"
+}
