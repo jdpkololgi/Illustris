@@ -1,5 +1,630 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-18 — Repository handoff: Preserve campaign science record and link GraphWeb handoff
+
+Restore the accumulated October–November campaign record and durable context to version control. GraphWeb_DESI commit e2df159 groups Loa density, tidal, cube and structure diagnostics; these are presentation and sensitivity checks, not a new calibrated VAC. GraphWeb_DESI commit 0ceafe7 records the upstream low-z handoff without adopting new checkpoints or changing observational defaults.
+
+## 2026-11-18 — P12-A integrated ordered prefetch passes mid-epoch restart
+
+On the full low-z contract, tmux-owned A100 job 61534946 compared 24
+uninterrupted updates with 11 updates followed by a fresh-process resume
+to 24. Loss traces and all compared training state (including weights,
+optimizer, scheduler, RNG and cursor) matched exactly. Job completed 0:0
+in 3:09. Evidence: Scratch `abacus/p12a_restart_61534946/PASS.json`.
+This establishes short mid-epoch restart parity, not convergence or
+epoch-boundary parity. No P12-A production fit submitted. Proposed
+four-epoch encoder budget: `docs/p12a_prefetch_budget_20261118.md`.
+
+## 2026-11-18 — P12-A ordered one-core lookahead cuts measured update time
+
+Tmux-owned single-A100 profile 61534658 completed 0:0 (93 s allocated).
+Four paired blocks alternated run order. Across ph000/008/017, each arm
+timed 96 updates after warm-up; per-step losses and final weight hashes
+matched exactly in all four pairs. Baseline 0.23290 s/core; one-worker
+ordered CPU preparation 0.13179 s/core (1.77x). Prefetch was faster in
+both orderings, but second-pass reads benefit from warm data. Revised
+update-only estimate: 12.68 A100-h/full encoder epoch, 253.59 A100-h
+per full+20 OOF common epoch (223–294 across the four block rates).
+Not a full epoch, pipeline integration, or production restart test;
+no P12-A fit launched. Source: workflows/sbi/p12a_ordered_profile.py;
+paired timings, addresses, losses and hashes: Scratch
+abacus/p12a_ordered_profile_61534658/RESULT.json.
+
+## 2026-11-18 — First low-z fine CFM production fit submitted
+
+Explicit approval: one seed-17 3D U-Net clean endpoint, 32 epochs, 1 A100
+(80 GB), 32 CPUs, desi_g/shared, Scratch, 3 hours, no requeue or retries.
+Job 61534556 submitted, last observed pending priority; not a finished fit.
+New lowz_unet_fit launcher streams two domains per update, checks 48 unique
+training domains per phase across 20 phases, profiles 40 training spectra,
+and writes to a fresh lowz_unet_endpoint_20261118_seed17 directory.
+Focused actual-panel and spectral-mean tests passed. Historical loader untouched.
+No P12-A GPU resources included. Its full+20 OOF contracts require exactly
+20 times the full-only core updates per common epoch. Potential overlap of
+HDF5 reads/CPU preparation with GPU work is unmeasured; do not weaken the
+held-out design or spend the full multi-fit budget without a decision.
+
+## 2026-11-18 — Low-z single-A100 disposable preflight; no production launch
+
+User approved one hour via tmux; 61534050 on nid200301 completed 0:0 in
+80 seconds allocated. Receipts: /pscratch/sd/d/dkololgi/abacus/lowz_gpu_preflight_61534050/
+(cfm.json, p12.json, halo48.json). Both one-update checkpoint replays had
+zero parameter difference. Training update estimates, not end-to-end timings:
+P12 24 timed ph000 cores, 0.29236 s/core, 1.46 GiB peak allocated; 346364
+full-fit cores or 6927280 cores across full + 20 omitted-phase fits per common
+epoch (28.13 or 562.57 A100-hours respectively). Five halo-48 inference-only
+patches 0.44–0.64 s; no summary file writes timed. Fine U-Net clean endpoint:
+48 timed uncached two-domain batches, 0.41090 s/update, 2.79 GiB peak;
+480 steps/epoch or 1.75 A100-hours per seed for 32 epochs excluding overhead.
+These estimates exclude validation, production checkpoint/export I/O, sampling,
+coarse-model and posterior fits. Short checks did not validate native full-run
+resume. Whole-field pilot launch path still assumes 624 domains, 640 cache limit,
+and 26 spectral samples rather than 40 for 20 phases. Adapt and test before
+production; no scientific fit, authorization for production, or calibration claim.
+
+## 2026-11-18 — Retraining inputs bound; U-Net clean endpoint first
+
+User selected the low-z encoder contracts and the 3D U-Net clean-endpoint
+fine CFM. New binding: configs/lowz_retraining_binding_20261118.json. Preserve
+the October preparation plan for provenance; do not use its old dataset as a
+runtime default. GPU scope/cost pending approval; neither fit launched.
+
+## 2026-11-18 — Low-z retraining inputs verified; no model fit
+
+Supersedes the November 2 launch status. Job 60684956 completed the outstanding
+CFM products, train-only normalization, 23 whole-field finalizations and real
+loader checks. On November 18 we checked the per-phase audit, wide-target and
+finalization receipts for the 20 training and three development phases. The
+loader receipt passes for all 23, with 960 training domains and no final-test
+payload opened. Its hashes match the current CFM config, contract module,
+whole-field loader, check implementation and normalization receipt.
+
+P12-A: all 21 encoder contract receipt hashes (full + 20 leave-one-phase-out)
+match the preparation manifest; 84 actual-loader checks, no sealed phase opened.
+These checks establish input readiness, not posterior calibration, model
+performance or GPU launch authority. No full scratch-array rehash was performed.
+See the [verified handoff](docs/lowz_preparation_checkpoint_20261029.md).
+
+## 2026-11-02 — CFM final preparation continuation launched
+
+60533554 and its step completed 0:0 after 3h29m, pausing for budget before
+ph012_whole_targets. 21/23 phases have paired/wide products; ph012 paired
+products/audit/wide observations are complete, ph013 preparation remains.
+Training-only normalization, all-phase whole-field finalization and loader
+checks remain; no training-readiness claim. User explicitly approved another
+one-node desi/interactive CPU window, 64-CPU steps, Scratch, up to four hours,
+with no training or automatic failed-stage retries and release when done.
+60684956 on nid200036 is launched from tmux cfm-finish-20261102 on login34.
+Log: /pscratch/sd/d/dkololgi/abacus/lowz_continuation_60684956/cfm.log.
+Six focused allowance/resume/cleanup tests passed. Historical stage receipts
+and failed P12 host diagnostic are preserved. This is the fifth recorded
+completion allocation; the new allowance admits no sixth allocation.
+
+## 2026-10-30 — CFM approved four-hour continuation in tmux
+
+Prior resumed preparation exited successfully at a budget pause: 14/23 phases
+complete, ph016 wide targets next. User explicitly approved one CPU node,
+desi/interactive, 64-CPU steps, Scratch, up to four hours and requested tmux.
+Job 60533554 on nid200049 is running ph016_whole_targets from
+tmux lowz-products:cfm-four-hour. The fixed launcher waits directly on srun;
+salloc releases the allocation after that process exits. No automatic retries,
+replacement allocations, or model training. Log:
+/pscratch/sd/d/dkololgi/abacus/lowz_continuation_60533554/cfm.log.
+Remaining phases, training-only normalization, whole-field finalization and
+actual loader checks are in the bounded runner. Completion is not yet claimed.
+P12 encoder data remain ready; the older failed host diagnostic is preserved
+and is not retried or treated as a CFM blocker.
+
+## 2026-10-30 — [P12 encoder data ready; CFM resumed] Coverage and shutdown diagnosis
+
+P12 all23phaseproducts/full+20OOF contracts complete;21READY receipts contain84
+actual-loader checks. Eligible observedZ verified0.01000001654–0.5499997139:
+145453703training+21876905development galaxies;1777677at.01–.03. Everyphase
+populates all27displayedredshiftbins. Two example/coverage figures pluscorezoom,
+savedarrays andprovenance: docs/figures/p12a_training_examples_20261030/.
+Actual three-channel inputs andsame-galaxy physical eigenvaluelabels shown;
+not continuousmattertargets, predictions, or calibration evidence. No training.
+
+CFMcompletedph000–009. Step60522907.0 waskilled at11:47:01JST; localexecution
+logs establish simultaneousCodexsession shutdown, notscientific failure/walltime.
+Userauthorizesfix/resume. Fixedtmuxlauncher onlogin34 nowruns within SAME60522907,
+sameendtime, no newallocation/retryloop. Allph010density/sixcomponent receipts
+reused;ph010targets nowcomplete50.1s,conditionsrunning. Laterphases/full20phase
+normalization/wholefieldfinalization/loaders stillpending. Waitsactualchildren
+beforeapprovedallocationrelease. Details inlow-zcheckpoint. Within-phaseposterior
+calibrationsplit remainsunqualified butdoesnotblockP12encodertraining.
+
+## 2026-10-30 — [preparation running] Explicit replacement 60522907
+
+User approves one replacementCPU/desi/interactive/64CPUsteps/Scratch/<=3h56m and
+one controlled resume after60522523's agent-caused interruption.60522907/nid200070
+now runs P12 --finish andCFM campaign continuation. Incomplete P12 directories
+archived by rename; partial CFM generation preserved. Scientific settings unchanged.
+Four resource/cleanup tests pass. The owning coordinator waits on both actual
+srun processes before release; no scheduler-empty-list inference or retry loop.
+Full/20OOF P12 andremainingCFM readiness remain pending. Resource amendment:
+configs/lowz_replacement_60522523.json; state/logs in the low-z checkpoint document.
+
+## 2026-10-30 — [operational interruption] Agent released continuation prematurely
+
+Allocation60522523 was released after3m28s by an incorrect agent-installed
+step-completion watcher while P12 andCFM were running. AllocationCOMPLETED0:0
+does not imply product completion: CFMstep.1 andP12step.2 areCANCELLED0:15.
+P12ph001canary step.0 remainscomplete0:0 in70s, with18,552cores andpassing
+whole-phase assembly receipts. No all-phase/OOF readiness was published.
+This is an orchestration error, not a scientific gate or data failure. No job
+remains; replacement compute/controlled interrupted-stage resume require explicit
+approval under the no-automatic-retry scope. Partial outputs and failure history
+are preserved. See docs/lowz_preparation_checkpoint_20261029.md.
+
+## 2026-10-30 — [preparation launch; interrupted above] Approved continuation recovered
+
+Recovered the explicit user approval for oneCPU/desi/interactive/64CPUsteps/
+Scratch/<=4h, no model training or automatic failed-stage retries. Allocation
+60522523/nid200081 is active. P12 ph001 real assembly canary completed0:0 in70s:
+18,552cores, corrected eligibility and unchanged whole-phase split. Remaining
+phase assembly/full+20OOF transforms/actual-loader reads now run in step.2;
+CFM step.1 resumes ph007_targets and preserves the old failed host diagnostic.
+Only one full-box FFT stage at a time. Owner exits when preparation steps end;
+no replacement allocation queued. These are running products, NOT a completed
+training-ready release. Details: docs/lowz_preparation_checkpoint_20261029.md.
+
+## 2026-10-30 — [scope correction] Phase-held-out encoder inputs do not require spatial folds
+
+All23P12 low-z matched-response pairs completed. CFM ph000–006 completed paired
+and wide raw products/audits; ph007 geometry completed before a budget pause.
+60483945 ended at its four-hour limit; both preparation queues terminated cleanly.
+
+The ph001 host-linked spatial-fold failure remains valid for the later registered
+within-phase calibration/evaluation split, but was unnecessarily blocking encoder
+data preparation. P12 encoder training already holds out whole simulation phases.
+New explicit phase-training cores preserve64Mpc/h ownership and corrected galaxy
+eligibility, store fold=-1 rather than invent spatial splits, and retain20/3/2roles.
+Full/20OOF matched-field loader assembly now has separate candidate/public-ready
+markers. Fourteen focused tests pass; real-data assembly is NOT yet executed.
+This does not qualify a replacement posterior calibration/evaluation split.
+
+The command reviewer blocked a new CPU allocation because it could not verify
+earlier resource authorization. Human confirmation requested; no new job or retry
+submitted. See latest resume section in docs/lowz_preparation_checkpoint_20261029.md.
+
+## 2026-10-29 — [data preparation] CFM canary passes; P12 host coverage passes but folds fail
+
+CFM ph001 low-z canary completes128paired domains and48wide domains. Independent
+paired-product audit passes558payload hashes, minimum density0.1498613 and worst
+tensor-trace residual1.776e-15. Remaining phases now build in approved CPU60483945;
+training-only normalization, whole-field finalization and actual loaders remain.
+
+The separately approved P12 conservative host test finds compatible native hosts
+for all1,937,389resolved low-branch groups inph001, with zero unmatched/ambiguous
+groups; all34high-branch checks pass and48independent full scans agree. Nevertheless
+host-safe spatial components connect99.7921% of eligible rows into one component,
+so all three existing five-fold balance assignments FAIL. No fold threshold,
+phase role, galaxy label, or eligibility rule was weakened. ph006 host test was
+not run after failure. This blocks P12 training readiness, not independent response
+construction. P12 ph001 matched-CIC responses are complete; remaining responses
+run in a bounded srun queue launched from tmux at the user's disconnect request.
+No retries, extra allocations, model training or sealed-phase access. Full current
+state and evidence: docs/lowz_preparation_checkpoint_20261029.md (disconnect handoff).
+
+## 2026-10-29 — [negative diagnostic] P12 host recovery unresolved; CFM canary continuation
+
+The ph001 low-z native-host reconstruction failed seven slab checks using the
+Astropy radius; all34 high-branch slab checks passed. These are host-grouping
+checks for fold integrity, NOT the corrected RA/DEC/Z_COSMO galaxy-position
+tidal labels. User explicitly approved one source-backed corrected validation.
+An isolated CLASS2.6.3/classylss0.2.9-patched background calculation with the
+public generator c000 ini and nbodykit clone normalization gives chi(.16)=
+461.07614908170405Mpc/h, without fitting catalogue indices. The corrected all-row
+ph001 check also FAILS (60483945.4,1:0,94s); ph006 was not run. Neither inferred
+radius tuning nor nearest-host replacement is justified. Exact production
+export/solver provenance remains unrecovered. No host groups were released,
+phase roles changed, or labels replaced. Preserve both failed reports.
+
+CFM corrected response builder60481835 ended COMPLETED0:0 after1h46m05s with
+31/46 cap receipts and empty stderr. Full training readiness remains incomplete.
+The ph001 full canary exposed repeated coordinate-file validation inside geometry
+candidate loops. A 256-draw real NGC benchmark gives EXACTLY equal candidates
+and rejection counts,7.610s reference versus0.671s with identical-grid caching.
+User explicitly approved cancellation of step60483945.0 ONLY and one optimized
+canary continuation within the same remaining allocation. Cache wrapper preserves
+all random draws/arithmetic/support/non-overlap rules and checks authority/source
+hashes before writing a scientific receipt. Ten focused cache/runner/campaign
+tests pass. The continuation is RUNNING, not a completed canary or data release.
+Evidence and command/resource details: docs/lowz_preparation_checkpoint_20261029.md.
+
+## 2026-10-29 — [preparation] Matched-CIC canaries pass; full response repair running
+
+Recovered CPU60480155 work and completed both local observation canaries plus
+independent paired payload readback. Four ph001/ph006 cap charts pass shape,
+input/target identity, positive R7 density, coarse/fine alignment and independent
+tensor-trace checks. Each chart has supported local cells at0.01–0.03. Both P12
+and CFM have23 point-statistics sets, one full and20OOF selection candidates;
+all fit/statistics hashes, exact fit-phase membership and pooled arithmetic pass.
+P12/CFM observed point counts agree in every bin; coordinate volumes/units remain
+separate. Evidence: docs/lowz_input_canaries_60480155.json. These are local
+canaries, NOT a full training loader or a completed low-z data release.
+
+The old1% volume check was an engineering diagnostic, not a measured prediction
+error or a physical requirement. Matched count/volume refinement exposed a real
+operator mismatch: CIC-deposited counts versus Gaussian-apodized expectations.
+Point-based selection plus CIC-integrated expectations replaces that mismatch;
+half/quarter-cell local expected-count L1 differences are1.22–1.28%, recorded as
+numerical sensitivity, not a new pass threshold. Gaussian apodization remains a
+separate geometry feature. Full response writing additionally applies the same
+source-point footprint selection to observed counts and expected intensity;
+all-observed counts remain separately accessible and excluded counts are audited.
+
+User explicitly requests finishing CFM products and approves P12 galaxy-identity
+repair while retaining existing phase roles. No ph006/ph012/ph013 role reassignment
+is authorized. New pure identity implementation retains distinct low-z SOURCE_ROW
+rows and only deduplicates high-z cubic IDs with matching attributes and periodic
+position evidence; cross-branch host closure remains separate. Eight focused
+identity/projector/full small FITS-HDF5 writer tests pass. Full-grid projector is
+algebraically equivalent to the tested midpoint CIC scatter quadrature.
+
+CPU60480155 ended COMPLETED0:0 after1h08m07s before the new identity step started.
+User then explicitly approves oneCPU node/64CPU steps/desi/interactive/Scratch
+<=2h, no retries/GPU/sealed phases, release afterward. New allocation60481835 on
+nid200108 starts the bounded identity checks and full-cap CFM response build.
+Source entry: workflows/sbi/run_lowz_repair_window.py; stdout/stderr:
+/pscratch/sd/d/dkololgi/abacus/lowz_repair_60481835.log/.err.
+This is RUNNING, not a completion claim. Final geometry, remaining matched targets,
+wide observations, train-only normalizers and actual loaders still follow.
+
+## 2026-10-29 — [verification] Low-z payload audit complete; qualification still blocked
+
+User approves a separate 20-minute verification-only CPU continuation. Allocation
+60478299/nid200063 completes in 3m01s and releases automatically; allocation
+and step both COMPLETED 0:0, stderr empty. Existing CFM audit verifies all 46
+response HDF5 hashes plus angular-source bindings and 1,104 sampled scalar
+response identities (989 supported). Combined non-metadata-only inventory
+independently rehashes both P12 geometry arrays for all 23 phases and checks
+full/20-OOF phase lists and terminal receipt bindings. The prior interrupted
+payload verification is resolved; original receipts remain historical evidence.
+
+No data rebuild, scientific fit or model training. The 2.314% worst-bin volume
+sensitivity still fails the 1% screen; model_inputs_ready=false. P12 radial
+selection/full-OOF transforms/fold-loader qualification and CFM volume/selection,
+domain/target/normalizer/loader work remain. No implementation code changed.
+Evidence: docs/lowz_response_verification_60478299.md/json and scheduler.txt.
+
+## 2026-10-29 — [preparation result] Low-z survey products built; qualification incomplete
+
+User explicitly extends the existing oneCPU-node/64CPU/desi/interactive/Scratch
+<=2h window to BOTH P12-A and CFM, no retries/sealed phases, release afterward.
+Allocation 60477149/nid200034 completes 23 CFM statistics, full+20 OOF selection
+fits and 23 full-response pairs (46 HDF5); all 23 P12 raw grids and geometry-only
+parent support/boundary arrays also complete. P12 has 168,675,903 supervised rows,
+25,209,536 below z0.1; 167,459,101/168,860,936 parents are random-supported.
+Writer explicitly excludes 9,469 non-context rows, including negative-z/sentinel
+cases: Cartesian radius alone cannot recover observed-redshift sign.
+
+CFM independent OOF/development closure and response-arithmetic checks complete.
+Lowest-bin phase residuals are large (worst OOF +76.45%, development -24.17% in
+SGC 0.01–0.03); cosmic variance contributes, so these are not a reason to tune
+away held-out structure. Native/half-cell low-z volume changes reach 2.314% SGC/
+1.872% NGC in ph001/ph006, failing the predeclared 1% numerical screen. No
+qualification, normalizer/model fit, target rebuild or training-readiness promotion.
+
+33 focused tests pass. AST graph refresh fails existing flock OSError524;
+no bypass. Owning-shell auto-logout releases allocation after 30m18s: data,
+geometry, volume and closure steps COMPLETED0:0; final CFM payload rehash/scalar
+audit CANCELLED0:15. No replacement allocation or automatic retry. Final
+inventory is JSON-metadata verification only; independent payload verification
+remains incomplete. P12 radial selection/fold/full-OOF loader integration and
+CFM volume/selection/domain/target/normalizer/loader qualification remain.
+Evidence: docs/lowz_response_60477149.md/json and matching scheduler.txt.
+
+
+## 2026-10-29 — [preparation] P12-A low-z raw grids built; legacy duplicate rule invalid
+
+Approved CPU60475597 completes ph001/ph006 versioned indices and cap-separated
+random-supported raw grids over positive-z context to0.60, supervision0.01–0.55,
+R7 and20/3/2unchanged. Allocation released after5m58s, both steps COMPLETED0:0.
+7,321,047/7,321,104supervised rows; all8,192sampled low-z points inside grids,
+8,091random-supported at voxel centres. Counts/support are real; selection-derived
+channels remain explicit placeholders pending fresh training-only fits.
+
+New domain metadata removes P1/response hardcoded low-z cuts without changing
+legacy defaults;21focused tests pass. No selection/normalizer/model fit yet.
+The old P4 duplicate tuple would discard582,562distinct low-z SOURCE_ROW rows
+across these phases. All16,384sampled repeated-key pairs are closer than its
+1000Mpc periodic-copy gate; RES collisions and same-host satellites are present.
+Separate galaxy-copy identity from host-fold grouping and qualify low/high
+namespace closure before training; do not loosen the gate or drop these rows.
+
+User now approves oneCPU-node/64CPU/desi/interactive/Scratch <=2h for23-phase
+preparation, grouping/fold repair validation, selection/response/full20OOF
+contracts and localASTgraph refresh, no retries/final-test access, release after.
+This second window is not allocated yet; GPU training remains separate.
+Detailed state, results and next steps: docs/p12a_lowz_preparation_60475597.md.
+
+## 2026-10-29 — [science/code] CFM low-z retraining required; response implementation
+
+User rejects frozen-weight extrapolation as a test of whether retraining is
+needed. Fresh low-z-covered training is required; preserve historical weights,
+transforms and results. Revised the October28 protocol accordingly. New science
+scope0.01–0.55, available positive-z context to0.60, sentinel excluded, R7 and
+shared20/3/2 phase policy unchanged. z=0.01 is a coverage floor, not a claim of
+negligible peculiar velocities. Source snapshot remains z=0.2.
+
+Audit distinguishes completed P12 ph001/ph006 label/angular-support canary from
+unbuilt low-z response/domain/target products. October27 release is old-range;
+the historical CFM low-z output directory was empty. Implemented a separate
+training-only native-coordinate selection-statistics/fitter and response writer,
+with phase guards, source hashes, explicit origin/missing-selection masks and
+full/19-phase OOF fitting support. No legacy defaults or payloads overwritten.
+The finite-volume binned estimator is provisional; pooled closure is a fitted
+identity, not validation. Geometry, matched R7 truth, new transforms/loaders,
+volume convergence and independent per-phase/cap closure remain required.
+
+19 focused synthetic tests and CLI help pass; no real selection fit, response
+grid, scientific target or learned model generated. No scheduler operations or
+sealed-phase reads. Graph refresh deferred to approved compute; existing graph
+query succeeded. Further compute needs a new budget, not the consumed P12 canary
+authorization. Scope/limits: docs/cfm_lowz_selection_response_20261029.md and
+configs/cfm_lowz_selection_response_20261029.json.
+
+## 2026-10-29 — [canary result] P12-A low-z labels available; response rebuild required
+
+Approved one-node/64CPU/desi/interactive/Scratch <=1h canary completed in60475000
+on nid200053; canary step28s exit0, allocation released after1m49s COMPLETED0:0.
+ph001/ph006 each have about1.075million observed galaxies at0.01<=z<0.1:
+2,149,478combined, all valid corrected labels and angular random-map supported.
+All have negative legacy BOX_INDEX; it must not mask valid supervision. Only
+3,213/3,035have old voxel-response support. In160observed-only sampled low-z
+points/phase,8/9lie outside existing grids and only32/33have old voxel support.
+Thus low-z labels exist, but new context/grid/selection/response/fold/transforms
+are required before training. No old-range fallback or readiness promotion.
+
+Catalogue/annotation, geometry and angular-map hashes checked; this is not an
+independent tidal-field resampling or mass-completeness result. Magnitudes are
+available, audited stellar masses are not. Observation prototypes and evaluation
+labels are separate; source snapshot remains z0.2. No fits, FFTs, full rebuild,
+raw-random rescan, final-test access or automatic retry. Three synthetic tests
+and final small-artifact checks pass. Graph refresh separately failed existing
+flock OSError524; no bypass. Evidence: docs/p12a_lowz_canary_60475000.md/json.
+The canary authorization is consumed; further compute requires a new budget.
+
+## 2026-10-29 — [science decision] P12-A supervision starts at z=0.01
+
+User selects z=0.01 as the lower training bound; coverage below0.1 is essential
+for lower-mass galaxy science. New campaign scope is0.01–0.55, retaining R7 and
+the20/3/2phase policy. Supersedes the unspecified lower bound below. Old prepared
+0.15–0.55 contracts cannot satisfy this request. Version P1/context, supervision,
+selection/support, sampling, full/OOF transforms and posterior inputs; do not
+only loosen a final sample cut. Low-z labels and population coverage require
+separate verification; redshift coverage alone is not low-mass validation.
+
+Campaign config/plan now register low-z diagnostic bins0.01/0.03/0.05/0.075/0.10/
+0.15 and an initial oneCPU-node/64CPU/desi/interactive/Scratch <=1h canary on
+ph001/ph006, no fits/FFT/graphs/retries, release afterward. Request only, not
+approved or launched; full rebuild and GPU budgets follow measured scope/cost.
+ph018/ph019 remain sealed. Existing bound preparation and other CFM work are
+unchanged. See configs/p12a_campaign_plan_20261029.json and matching docs plan.
+
+## 2026-10-29 — [campaign preparation] P12-A low-z intent confirmed; lower bound pending
+
+User requests fresh full + 20 OOF encoders, halo48 exports, aligned posterior
+tables and FMPE under the shared 20/3/2 policy and R7, with compute approval
+before launch. Bound input/OOF/response metadata hashes and corrected lineage
+pass the current audit, but supervision remains 0.15–0.55 (context 0.10–0.60).
+User confirms extension below0.15; no lower bound supplied yet. Do not train
+the old-range model as a substitute. New range-dependent preparation is needed.
+
+Exporter legacy ph001 refusal repaired to enforce the bound phase roles before
+payload IO; final-test ph018/019 stay protected. Halo48/terminal epochs required
+for the shared campaign; 16 focused tests pass. Model/resource draft and audit:
+configs/p12a_campaign_plan_20261029.json and docs/p12a_campaign_plan_20261029.md.
+No fixed scientific epoch budget or GPU-hour production budget is approved.
+Post-preparation proposal is one80GBGPU/32CPU/desi_g/shared_interactive/Scratch
+for <=1h throughput/restart/export timing with disposable weights, no retry,
+release afterward. No allocation, scientific training or sealed payload access.
+Existing uncommitted preparation changes are preserved; source freeze pending.
+
+## 2026-10-28 — [audit/preparation pending] CFM low-redshift extension
+
+User requests separate frozen-checkpoint mock evaluation below z=0.1, potentially
+to z=0.01, for low-mass DESI environmental science. Source/sidecar audit confirms
+native-density CFM targets do not depend on the corrected halo-index label lookup.
+Deployed seed17/29 bindings retain 13 training phases: 1664 paired domains and
+624 expanded domains, centres >=0.15016/0.15380. Continuous local-box intersections
+below z=0.1 number 145/115, but observed conditions are explicitly masked below
+0.10. This is geometric exposure, not low-z conditional validation. Checkpoint
+binaries were not rehashed/reloaded in this metadata audit.
+
+Both historical and new 20-phase configurations retain science0.15–0.55/context
+0.10–0.60. Low-z requires new training-only selection/effective volume, support/
+geometry and condition interfaces, matched native/periodic targets and separate
+calibration diagnostics. Preserve R7, original normalizers and all old results;
+also separate old-range frozen-input replay from augmented-context comparisons.
+The z=0.2 source epoch remains distinct from observer redshift.
+
+Prepared a versioned point-canary config/runner with observed-only inputs separate
+from evaluation-only own-real-space positions, plus seven guard/geometry tests.
+Existing untracked low-z draft preserved. No points, responses, targets, samples
+or plots generated. Python/tests/Graphify are blocked before execution by the
+session sandbox mkdir error under /cray/tmp; no security workaround attempted.
+One CPU-node/64-CPU/60-minute desi/interactive/Scratch canary approval requested;
+no scheduler operation or training launched. Final-test ph018/ph019 untouched.
+Low-z-specific retraining need remains undecided pending evidence.
+
+Protocol: docs/e2e_cfm_lowz_extension_20261028.md; metadata evidence:
+docs/e2e_cfm_lowz_metadata_audit_20261028.json; preparation contract:
+configs/e2e_cfm_lowz_input_canary_20261028.json.
+
+## 2026-10-28 — [Loa diagnostic] Density resolution and local tidal sensitivity
+
+Existing NGC expanded U-Net seed17 four shared-state draws only. Frozen target
+source confirms Gaussian R7 before learning; native 6.766 Mpc/h cells and video
+overview 2x pooling explain scale limitations without new smoothing. Matched-mask
+regional density dispersion falls about 9% under overview pooling. Grid peaks
+and extended connections are visible, not evidence for resolved true halos or
+calibrated real-DESI filament recovery. No training, truth reads or new inference.
+
+Numerically checked local free-space tidal layers use central 32^3 targets and
+96/144/192-cell source cubes, mean-density exterior. Direct-sum/padding/self-term
+errors <7e-16; trace errors <1.2e-14. Last context increase changes 0.54–0.69% of
+retained labels; alternate fractional-support versus covered-source treatment
+changes 2.62%. Not a complete exterior test or scientific validation; no release
+promotion. 680/32768 central cells fail the display support>=0.5 heuristic, but
+all have finite density and prediction coverage. These are display-mask exclusions,
+not failed predictions. 0.5 and support-rich-region 98% choices are uncalibrated
+visualization conventions, not physical or reliability thresholds.
+
+GraphWeb docs/loa_structure_audit_20261028.md and matching presentation script;
+scratch graphweb_desi/outputs/loa_structure_audit_20261028_v3 is final diagnostic.
+Initial all-supported assertion failure and v2 retained; v3 matches native/pooled
+comparison masks. CPU60418676/nid200008 released6m21s, COMPLETED0:0; final diagnostic
+step4 passed. AST graph refresh failed existing flock OSError524; no bypass.
+Existing video/VAC/website unchanged; provisional layers are separate artifacts.
+
+## 2026-10-27 — [preparation complete] Shared 20/3/2 deterministic data release
+
+All requested deterministic preparation gates now pass for CFM and P12-A.
+The final inventory has 23/23 passing corrected P12 phase datasets, raw
+adapters, parent-response products, CFM native/particle/geometry/condition/target
+receipts, independent audits and whole-field packages. Full P12 transforms and
+all loader gates pass; all 20 leave-one-training-phase-out contracts pass.
+CFM normalization uses equal weights over exactly 20 training phases, and
+its loader canaries cover all 23 permitted phases and 960 training domains.
+
+The bound P12 runtime config is
+configs/p12a_20phase_inputs_bound_20261027.json. The unbound template remains
+separate. Source/contract hashes and final readiness are recorded in
+docs/shared_phase_preparation_60358875_final.json and the launch manifest.
+The full P12 driver completed but declined cross-fit at its internal time
+reserve; a separate bounded step completed cross-fit in the same allocation.
+The response worker resumed after its first prerequisite wait expired and
+completed all 23 phase products. Failure and timeout logs remain retained.
+
+Allocation 60358875 was released explicitly after all preparation steps ended,
+within the combined approved two-node/two-hour continuation budget. See
+docs/shared_phase_preparation_60358875_scheduler.txt and
+docs/shared_phase_preparation_60358875.md. This establishes deterministic
+data readiness, not posterior calibration: fresh P12 encoder fits, halo48
+summary exports, aligned posterior tables and learned posterior/CFM fits
+remain subsequent work. No learned model was fitted; ph018/ph019 remain sealed.
+
+## 2026-10-27 — [preparation] New CFM campaign data and loaders pass
+
+The 20/3/2 campaign now has all 23 permitted phase products and independent
+CFM audits, a normalizer fitted to exactly 20 training phases with equal 0.05
+weights, and all 23 whole-field packages. Real loader canaries pass for all
+23 phases; a complete whole-field training epoch covers 960 unique domains.
+Final-test ph018/ph019 access is rejected before payload IO. No learned model
+was fitted and no posterior-calibration or production inference claim follows.
+
+Four imported native receipts used sums of eight-slab sums, whereas the audit
+replays one full-array float64 reduction. Differences of 0.00037–0.00105 out
+of about 33 billion particles exceeded the strict receipt-consistency bound.
+Exact original-sum replay and payload hashes established the cause. Corrected
+only the new-campaign bookkeeping and dependent receipt hashes, preserving
+original receipts; all four then passed the unchanged independent audit.
+Native arrays and physical targets were unchanged. Conservation errors remain
+about 9.5e-8 against the unchanged 2e-6 gate.
+
+P12 has 23 validated phase datasets and 23 raw adapter sets. Full transforms,
+full loader canaries, 20 OOF contracts and parent-response features are still
+being prepared. Twenty cached label-free selection-statistic sets reproduce
+the independently fitted full selection curves exactly in both caps. Angular
+reuse passed two real provenance-format checks and final-test rejection;
+this avoids another random-catalogue scan while retaining inherited raw-hash
+scope and fresh derived-map hashes/recomposition checks.
+
+Evidence: docs/shared_phase_preparation_60358875_progress.json and the run
+source manifest. CFM canonical canary receipt is under the new coupled root at
+readiness/DATA_LOADER_CANARIES.json. Resource budget and cleanup remain those
+of the approved continuation, with no additional allocation requested.
+
+
+## 2026-10-27 — [preparation] Shared-phase continuation and remaining gates
+
+Allocation 60358203 ended after 30m16s because its owning interactive shell
+logged out while separate compute steps were active. Outputs were preserved.
+Replacement 60358875 uses two CPU nodes for at most 85 minutes within the
+original two-node/two-hour budget; the owning shell now runs the foreground
+work driver. No timeout or security setting changed.
+
+At restart, P12 full phase validation passed for 21/23 preparation phases;
+ph015 P4 and ph017 downstream products remained. All five new corrected
+annotations/P1 products completed, including ph017 following expanded
+independent boundary checks (see docs/shared_phase_ph017_expanded_audit_60358203.md).
+CFM native matter and geometry were complete for 23/23, targets 18/23,
+conditions 21/23, and fresh product audits 2/23. Whole-field raw staging,
+full-20 normalization, full/OOF transforms and loader readiness remain pending.
+Neither pipeline has a new training-ready release. ph018/ph019 stay sealed.
+
+Source bindings and resource limits: docs/shared_phase_preparation_60358875.json.
+The interruption inventory is docs/shared_phase_preparation_60358203_interrupted.json.
+
+
+## 2026-10-27 — [preparation] Expanded R7 inputs partially completed
+
+Approved four-node CPU allocation 60355333 reached its one-hour limit. New
+ph014–017 R7 T-Web fields completed; ph001 historical field was qualified for
+reuse. Eighteen corrected P12 inputs staged with verified metadata lineage.
+ph016 completed corrected labels, P1–P4 and full phase validation. ph001/014/015
+annotations remain incomplete; partial outputs preserved. Resident-field mode
+passed 10,000-row parity and completed ph016 without changing sample arithmetic.
+ph017 label certification remains blocked by one near-voxel-face mismatch in a
+136-row native unresolved-central group; the existing gate was not weakened.
+
+All four missing CFM native sources and both-cap observations prepared.
+Geometry completed for ph004/005/006; ph006 full native spectral targets passed.
+ph005 target stages checkpointed; ph001 geometry and remaining targets pending.
+Full-20/OOF P12 transforms and equal-20-phase CFM normalizer remain unfitted;
+no training-ready release or learned-model fit is claimed. R7 remains fixed.
+
+Evidence and limitations: docs/shared_phase_preparation_60355333.md, its SHA-bound
+JSON inventory and scheduler record. Ten contract/source and fifteen annotation
+tests passed. User approved two annotation restarts only as the allocation
+expired; no restart occurred. Further compute requires the separately requested
+resource budget. Historical products and final-test payloads are unchanged.
+
+## 2026-10-27 — [preparation] Approved shared-phase reuse smoke passed
+
+CPU allocation 60354736/nid200035 (desi, interactive, 1 node, 64-CPU step,
+60-minute ceiling) released after 6m49s. Preparation step 0 completed 0:0 in
+6m12s. ph001 historical native-density/R7 T-Web listed files all hash-match
+(27 unique files including receipts, 146,029,081,192 bytes). ph000's 13 bound
+metadata files match; this is not a fresh full-payload phase certification.
+ph014 native 2048³ float32 density verified and P10 adapter written; T-Web
+input preflight passes 136 particle files and count error 9.5053e-08.
+
+Provenance/output bindings: docs/shared_phase_smoke_60354736.json. Scratch log
+and adapter in p12a_r7_20phase_20261027_v1/preparation_smoke_60354736. Existing
+source products unchanged. No T-Web construction, new labels or training run.
+Remaining new-campaign products/transforms still need preparation and resources.
+Graph refresh step 1 failed 1:0 with filesystem flock error 524; no bypass used.
+Future verifier avoids redundant hashes for repeated identical receipt pointers,
+while rejecting changed sources or conflicting hash/size declarations.
+
+## 2026-10-27 — [implementation] Versioned phase contracts and reuse inventory
+
+Implemented explicit new-campaign registry/configuration bindings for the shared
+20/3/2 split, full and 20 OOF loader role checks, configurable P12 response paths,
+and CFM/whole-field phase/root routing with equal-20-phase normalization checks.
+Historical defaults and comparison results remain available with their original
+model/phase provenance. R7 retained; smoothing work remains deferred.
+
+Inventory `docs/shared_phase_reuse_inventory_20261027.json` finds 18 corrected
+P12 phase markers and 19 CFM target markers among the 23 preparation phases.
+ph001 has existing native-density and R7 T-Web stage receipts: qualify reuse
+before restoring or depositing particles again. Five P12 corrected-label phases,
+four missing CFM phase inputs, ph014–017 training-size geometry, and all new-fit
+transforms still require preparation. Existence is not payload certification.
+
+Implementation/handoff: `docs/shared_phase_migration_implementation_20261027.md`.
+46 bounded unittest checks passed. Compute smoke script prepared for explicit
+approval: one CPU node/64 CPUs/60 minutes/desi/interactive, verify ph001 truth,
+check ph000 phase receipts, adapt ph014 density and preflight T-Web input.
+No new allocation, payload verification, scientific fit or data-release claim.
+The full-contract runtime hash is intentionally unset until preparation finishes.
+Graph refresh remains pending compute. Remaining multi-node builds need a budget
+based on the representative smoke and separate scheduler authorization.
+
 ## 2026-10-27 — [science decision] Shared 20/3/2 phase policy adopted
 
 User approves the shared policy for new P12-A and coupled/whole-field CFM fits:

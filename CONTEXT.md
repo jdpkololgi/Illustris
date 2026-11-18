@@ -1,5 +1,78 @@
 # Research context — Illustris
 
+Current low-z status (2026-11-18): P12-A encoder and CFM field inputs are
+verified on the shared 20/3/2 split. The November 2 run completed. Use the
+November 18 section of docs/lowz_preparation_checkpoint_20261029.md for input
+bindings and remaining launch decisions; earlier running statuses are historical.
+
+Latest (2026-11-02): CFM21/23 phase products complete; 60533554 ended cleanly
+at a budget pause before ph012 wide targets. User-approved four-hour CPU
+continuation60684956/nid200036 runs via tmux cfm-finish-20261102 on login34.
+ph012 wide targets, ph013, normalization, whole-field finalization and loader
+checks remain. No model training or automatic retries; no readiness claim yet.
+
+Latest CFM update (2026-10-30): successful previous window paused for budget at
+ph016 wide targets, after 14/23 complete phases. Explicitly approved four-hour
+CPU continuation 60533554/nid200049 runs from tmux lowz-products:cfm-four-hour,
+with no retries/training and automatic release after the actual srun exits.
+Remaining phases and normalization/finalization/loader checks are queued within
+that fixed window; readiness is not yet claimed. See latest SCIENCE_LOG.
+
+## Latest low-z preparation (2026-10-30)
+
+P12 encoder inputs are complete for all23visible phases andfull+20OOF contracts,
+with84actual-loader checks. All167330608eligible galaxies have observedZwithin
+0.01–0.55; everyphase populates the entire checkedrange. Figures/evidence:
+docs/figures/p12a_training_examples_20261030/. Encodertraining hasnotstarted;
+laterwithin-phaseposteriorcalibration split remainsseparate/unqualified.
+CFMph000–009products complete. A Codexsessionshutdown killedCFM, not a science
+gate. User-approveddetachedresume runsinexisting60522907 withunchangedendtime;
+ph010targetscomplete,conditionsrunning. Remainingphaseproducts,normalization,
+wholefieldfinalization/loaders arepending. Latestlow-zcheckpoint supersedes
+olderrunning statuses below. No additionalresourcebudget ormodeltrainingassumed.
+
+## Low-redshift retraining decision (2026-10-29)
+
+Current handoff: CFM ph001 full canary passed and remaining phase products are
+building in60483945. P12 ph001 matched responses are complete; the remaining
+response queue runs via srun from tmux `lowz-products`. Conservative host coverage
+passes, but the unchanged spatial-fold contract fails: one host-linked component
+contains99.7921% of eligible ph001 rows. No P12 training-readiness claim or phase
+role change. See the latest SCIENCE_LOG and disconnect section in
+docs/lowz_preparation_checkpoint_20261029.md; older running statuses below are
+historical checkpoints. No automatic retry or replacement allocation is queued.
+
+Latest: point-based full+20OOF selection candidates now exist for both P12 and CFM,
+with23phase statistics each and exact cross-pipeline point-count agreement.
+Four local CFM input/target canaries pass; docs/lowz_input_canaries_60480155.json.
+The earlier volume screen exposed mismatched count/expectation operators, not
+invalid native matter. Full CIC-matched response construction is now running in
+approved CPU60481835 (oneCPU node/64CPU steps/desi/interactive/Scratch <=2h).
+P12 identity repair preserves real satellites and current phase roles; host-fold
+closure remains distinct. No role reassignment, training-ready release or GPU
+training. The next paragraph records the superseded earlier checkpoint.
+
+CPU60477149 now completes 23-phase low-z CFM statistics, full+20 OOF selection
+and full-response products, plus 23 P12 raw grids and geometry-only survey arrays.
+They are NOT training-ready: low-z native/half-cell volume sensitivity reaches
+2.31%, above the predeclared 1% screen. The interrupted payload verification is
+now resolved by separately approved CPU 60478299 (3m01s, released): all 46 CFM
+HDF5 hashes, 1,104 sampled response identities and all 23 P12 geometry-array
+pairs pass. No data rebuild or training-readiness promotion.
+P12 radial selection/fold integration and CFM domains/targets/new normalizers
+remain separate prerequisites. Current evidence:
+docs/lowz_response_verification_60478299.md; preparation history:
+docs/lowz_response_60477149.md.
+
+Fresh low-z-covered CFM training is required, not contingent on extrapolating old
+weights below their original range. Preserve historical models/results. New
+supervision spans 0.01–0.55 with available positive-z context, R7 and shared20/3/2
+roles. The P12-A label/support canary is complete; new selection/response products
+have the partial completion status above. Observer-crossing domain geometry,
+matched targets and transforms remain to be built and qualified. CFM products are separate
+from historical defaults; they are not a ready release or full P12 integration.
+See `docs/cfm_lowz_selection_response_20261029.md` and newest SCIENCE_LOG.
+
 ## Shared phase policy adopted (2026-10-27)
 
 New P12-A and coupled/whole-field CFM campaigns use **20 training / 3 development /
@@ -7,8 +80,8 @@ New P12-A and coupled/whole-field CFM campaigns use **20 training / 3 developmen
 development/calibration ph006/012/013; final test ph018/019. Keep Gaussian R7.
 Canonical decision: `configs/shared_phase_policy_20261027.json`; readiness and
 migration: `docs/shared_phase_policy_20261027.md`. Earlier phase roles and ready
-claims below describe historical products, not the new campaign. Runtime/data
-contract migration is pending; no new training or scheduler budget is authorized.
+claims below describe historical products, not the new campaign. Versioned runtime contract migration is implemented. The approved CPU smoke
+verified ph001 truth reuse. Follow-on allocation 60355333 completed ph014–017 R7 fields, full ph016 P12 preparation and ph006 CFM targets; other stages remain incomplete. Allocation 60358203 is explicitly approved for two CPU nodes, at most two hours, desi/interactive/Scratch, release afterward, to continue preparation. Allocation 60358203 ended after 30m16s when its owning shell auto-logged out; replacement 60358875 has an 85-minute limit, keeping combined allocation time below the approved two hours. CFM data preparation now passes all 23 phase audits, equal-20-phase normalization, whole-field finalization and real loader canaries. P12 now also passes full transforms/loaders, all 20 OOF contracts and all 23 parent-response products. Final combined inventory passes; allocation 60358875 was released within the approved budget. Bound runtime inputs: configs/p12a_20phase_inputs_bound_20261027.json. Encoder fits, summary exports and posterior tables remain later work. No GPU or learned-model training is authorized. See `docs/shared_phase_migration_implementation_20261027.md` and the preparation receipts.
 
 ## Galaxy-position annotation and product lifecycle (2026-10-19)
 
