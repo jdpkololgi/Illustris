@@ -15,6 +15,7 @@ may continue the same optimizer trajectory.
 from __future__ import annotations
 
 import argparse
+from concurrent.futures import ThreadPoolExecutor
 import copy
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -389,9 +390,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--run-name", default="arm_a_r0_v1")
     parser.add_argument("--auto-resume", action="store_true")
+    parser.add_argument("--ordered-prefetch", action="store_true",
+                        help="Prepare one subsequent U-Net core on a single CPU worker")
     parser.add_argument("--contract-root", type=Path, default=CONTRACT_ROOT)
     parser.add_argument("--output-root", type=Path, default=OUTPUT_ROOT)
     args = parser.parse_args()
+    if args.ordered_prefetch and (args.model != "unet" or args.p11_dense_view):
+        parser.error("ordered prefetch is registered only for the base U-Net")
     if args.epochs <= 0 or args.min_epochs <= 0 or args.min_epochs > args.epochs:
         parser.error("require 0 < min-epochs <= epochs")
     if args.patience <= 0 or args.min_delta < 0:
@@ -597,8 +602,8 @@ def main() -> None:
         "scheduler_total_updates": scheduler_total_updates,
         "validation_cores": sum(len(ids) for ids in validation_groups.values()),
         "validation_cores_by_phase": {p: len(ids) for p, ids in validation_groups.items()},
-        "sampler": loader.manifest["epoch"],
-        "objective": loader.manifest["objective"],
+        "sampler": loader.manifest.get("epoch", "training_epoch: every eligible core once, weighted within phase and interleaved by phase"),
+        "objective": loader.manifest.get("objective", "equal phase mean of within-phase sqrt-shell-weighted authoritative-row MSE"),
         "view": (
             "V_dense BRIGHT frozen P11 response-adapter contract"
             if args.p11_dense_view
@@ -695,6 +700,13 @@ def main() -> None:
         )
         raise SystemExit(CONTINUE_EXIT_CODE)
 
+    def prepare_unet(ref):
+        adapter = loader.field_adapter(ref.phase)
+        patch = adapter.extract(ref.core_id, unet_impl.HALO_VOXELS, unet_impl.CHANNELS,
+                                alignment_voxels=unet_impl.ALIGNMENT_VOXELS)
+        return patch.authoritative_parent_id, unet_impl.model_inputs(patch, normalization, "cpu")
+
+    pool = ThreadPoolExecutor(max_workers=1) if args.ordered_prefetch else None
     try:
         while epoch <= args.epochs:
             refs = loader.training_epoch(seed=args.seed, epoch=epoch)
@@ -703,6 +715,7 @@ def main() -> None:
             if cursor == 0 and sum(a.patches for a in phase_accumulators.values()) != 0:
                 raise RuntimeError("new epoch has non-empty phase accumulators")
 
+            future = pool.submit(prepare_unet, refs[cursor]) if pool and cursor < len(refs) else None
             for position in range(cursor, len(refs)):
                 if should_pause(started, args):
                     pause(refs, position, "interactive allocation runtime budget")
@@ -726,6 +739,10 @@ def main() -> None:
                     )
                     parent = patch.parent_node_id[patch.loss_mask]
                     prediction = model(*tensors)[patch.loss_mask]
+                elif pool is not None:
+                    parent, (values, points) = future.result()
+                    future = pool.submit(prepare_unet, refs[position+1]) if position+1 < len(refs) else None
+                    prediction = model(values.to(args.device), points.to(args.device))
                 elif args.model == "unet":
                     adapter = loader.field_adapter(phase)
                     patch = adapter.extract(
@@ -1096,6 +1113,8 @@ def main() -> None:
             paused.unlink()
         print(json.dumps(final, indent=2), flush=True)
     finally:
+        if pool is not None:
+            pool.shutdown(wait=True, cancel_futures=True)
         for adapter in multitracer_adapters.values():
             adapter.close()
         for adapter in loader._field.values():

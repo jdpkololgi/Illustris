@@ -1,5 +1,9 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-18 — Repository handoff: Bind low-z training runs and integrate ordered encoder prefetch
+
+Group the bound input manifest, disposable profiling and restart checks, the 960-domain CFM launcher and the ordered-prefetch P12-A trainer and budget. Production submissions: CFM 61534556, P12-A 61535300; both jobs’ live constraints were relaxed to either A100 memory size. Submission does not establish convergence or posterior calibration.
+
 ## 2026-11-18 — Repository handoff: Record low-z campaign execution, recovery and verification
 
 Group the resource and continuation plans, point-selection checks, bounded recovery workers, progress monitoring and final preparation receipts. Historical job-specific commands are provenance, not instructions to relaunch.

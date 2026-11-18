@@ -1,0 +1,23 @@
+{
+  "schema": "lowz-retraining-inputs-v1",
+  "supervised_redshift": [0.01, 0.55],
+  "sealed_phases": ["ph018", "ph019"],
+  "p12a_encoder": {
+    "module": "workflows.abacus_tweb.p10_train_arm_a",
+    "manifest": "/pscratch/sd/d/dkololgi/abacus/p12a_lowz_20261029_v1/LOWZ_TRAINING_PRODUCTS_COMPLETE.json",
+    "sha256": "24764983f5424593240469c68cee01222174d2af1e261efc8ef05b79083c45ee",
+    "contract_argument": "--contract-root",
+    "contract_resolution": "Use contracts[fit].path from the hash-verified manifest for full and each omit_phNNN fit; verify its TRAINING_LOADER_READY.json against contracts[fit].sha256.",
+    "epochs": null
+  },
+  "cfm_fine": {
+    "architecture": "3D U-Net",
+    "prediction": "clean endpoint",
+    "config_env": "GRAPHWEB_CFM_DATA_CONFIG",
+    "config": "configs/e2e_coupled_data_lowz_20261029.json",
+    "config_sha256": "158fce06f64528f7d6f2f901934d5ce249388e531a6a08c203bd745717caaf31",
+    "loader_receipt": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_lowz_20261029_v1/readiness/DATA_LOADER_CANARIES.json",
+    "loader_receipt_sha256": "90885a1cc8c3174aa9b1cd5774e491fc5646b5dc0fa3e8d4e15e57445c950628"
+  },
+  "scheduler_budget_approved": false
+}
