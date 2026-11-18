@@ -23,9 +23,9 @@ from workflows.sbi import e2e_coupled_views as views
 from workflows.abacus_tweb import p3a_build_canonical_fields as grid_ops
 from workflows.abacus_tweb import p3br_build_random_response as response_ops
 
-ROOT = Path('/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/wholefield_pilot_20261013_v1')
+ROOT = Path(c.config().get('wholefield_root', '/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/wholefield_pilot_20261013_v1'))
 SHAPE = (96, 64, 64)
-EVAL = ('ph012', 'ph013', 'ph014', 'ph015', 'ph016', 'ph017')
+EVAL = c.DEVELOPMENT if c.SHARED_POLICY else ('ph012', 'ph013', 'ph014', 'ph015', 'ph016', 'ph017')
 COARSE_CROP = (slice(12, 36), slice(16, 32), slice(16, 32))
 OLD_CROP = (slice(16, 80), slice(8, 56), slice(8, 56))
 
@@ -79,6 +79,20 @@ def build_fine_observations(grid, midpoint, cap, counts, response_data):
     return result
 
 
+def build_lowz_fine_observations(grid,midpoint,raw):
+    """Read the corrected native response; never regenerate legacy expectations."""
+    shape=np.array(SHAPE)*2; start=np.asarray(midpoint)-np.array(SHAPE)
+    z=coord.redshift(products.radial_coordinates(grid,start,shape)['observer_radius_mpc_h'])
+    values=[]
+    for name in products.LOCAL_CHANNELS:
+        value=z if name=='observer_redshift' else products.padded_extract(raw[name],start,shape)
+        values.append(op.mean_pool(products.transformed(name,value),2).astype('f4'))
+    result=np.stack(values)
+    if result.shape!=(12,*SHAPE) or not np.isfinite(result).all():
+        raise ValueError('Invalid expanded low-z observation')
+    return result
+
+
 def observations(phase, rows):
     guard(phase)
     directory = ROOT/'data'/phase
@@ -100,7 +114,8 @@ def observations(phase, rows):
                 if (dest/'OBSERVATIONS.json').exists():
                     continue
                 midpoint = np.asarray(row['center'])+[16, 0, 0]
-                local = build_fine_observations(row['grid'], midpoint, cap, file['counts'], response)
+                local = (build_lowz_fine_observations(row['grid'],midpoint,file) if c.config().get('lowz')
+                         else build_fine_observations(row['grid'], midpoint, cap, file['counts'], response))
                 old = conditions.crop_context(conditions.load_pair(phase, pair), phase)
                 error = float(np.max(abs(local[(slice(None), *OLD_CROP)]-old['joint'])))
                 if error > 2e-5:

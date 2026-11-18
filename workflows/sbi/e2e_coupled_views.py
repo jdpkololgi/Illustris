@@ -43,8 +43,8 @@ an observation-only installation need not have any target payload mounted.
     path=coord.ROOT/'normalization/NORMALIZATION_COMPLETE.json'
     if c.sha256(path)!=expected_sha256: raise ValueError('global normalizer differs from frozen model binding')
     record=coord.verify_receipt(path,payload=False)
-    if record['fit_phases']!=list(c.TRAIN) or record['phase_weight']!=1/13:
-        raise PermissionError('normalizer must use exactly the thirteen equally weighted training phases')
+    if record['fit_phases']!=list(c.TRAIN) or record['phase_weight']!=1/len(c.TRAIN):
+        raise PermissionError('normalizer must use exactly the registered equally weighted training phases')
     return validate_chart(record['normalization'])
 
 

@@ -1,0 +1,143 @@
+{
+  "schema": "cfm-lowz-metadata-audit-v1",
+  "date": "2026-10-28",
+  "verification_scope": "Live JSON bindings and geometry metadata only; checkpoint payloads and hashes not reverified in this audit. Box intersections use continuous bounding boxes, not exact trained voxel counts.",
+  "calculation": "Match every binding ids/train_ids pair to geometry. Midpoint = grid.origin_mpc_h + (center+[16,0,0])*grid.cell_mpc_h. r_min = norm(max(abs(midpoint)-shape*cell/2,0)). Compare to pinned r(z=0.1)=292.5842397676456 Mpc/h.",
+  "deployment_binding": "/pscratch/sd/d/dkololgi/graphweb_desi/outputs/loa_shared_sixfit_20261026_v1/production_v1/NGC_seed17/BINDING.json",
+  "metadata": {
+    "coarse17": {
+      "domains": 1664,
+      "centre_z_min": 0.15015657687432907,
+      "centre_z_max": 0.5494336439363926,
+      "fine_shape": [
+        64,
+        48,
+        48
+      ],
+      "min_fine_radius_mpc_h": 151.73493529338248,
+      "min_wide_radius_mpc_h": 0,
+      "wide_boxes_containing_observer": 513,
+      "fine_boxes_intersecting_z_lt_0p1": 145,
+      "wide_boxes_intersecting_z_lt_0p1": 1110
+    },
+    "fine17": {
+      "domains": 1664,
+      "centre_z_min": 0.15015657687432907,
+      "centre_z_max": 0.5494336439363926,
+      "fine_shape": [
+        64,
+        48,
+        48
+      ],
+      "min_fine_radius_mpc_h": 151.73493529338248,
+      "min_wide_radius_mpc_h": 0,
+      "wide_boxes_containing_observer": 513,
+      "fine_boxes_intersecting_z_lt_0p1": 145,
+      "wide_boxes_intersecting_z_lt_0p1": 1110
+    },
+    "unet17": {
+      "domains": 624,
+      "centre_z_min": 0.1537989639317666,
+      "centre_z_max": 0.5494336439363926,
+      "fine_shape": [
+        96,
+        64,
+        64
+      ],
+      "min_fine_radius_mpc_h": 65.00947642635974,
+      "min_wide_radius_mpc_h": 0,
+      "wide_boxes_containing_observer": 192,
+      "fine_boxes_intersecting_z_lt_0p1": 115,
+      "wide_boxes_intersecting_z_lt_0p1": 415
+    },
+    "transformer17": {
+      "domains": 624,
+      "centre_z_min": 0.1537989639317666,
+      "centre_z_max": 0.5494336439363926,
+      "fine_shape": [
+        96,
+        64,
+        64
+      ],
+      "min_fine_radius_mpc_h": 65.00947642635974,
+      "min_wide_radius_mpc_h": 0,
+      "wide_boxes_containing_observer": 192,
+      "fine_boxes_intersecting_z_lt_0p1": 115,
+      "wide_boxes_intersecting_z_lt_0p1": 415
+    },
+    "coarse29": {
+      "domains": 1664,
+      "centre_z_min": 0.15015657687432907,
+      "centre_z_max": 0.5494336439363926,
+      "fine_shape": [
+        64,
+        48,
+        48
+      ],
+      "min_fine_radius_mpc_h": 151.73493529338248,
+      "min_wide_radius_mpc_h": 0,
+      "wide_boxes_containing_observer": 513,
+      "fine_boxes_intersecting_z_lt_0p1": 145,
+      "wide_boxes_intersecting_z_lt_0p1": 1110
+    },
+    "fine29": {
+      "domains": 1664,
+      "centre_z_min": 0.15015657687432907,
+      "centre_z_max": 0.5494336439363926,
+      "fine_shape": [
+        64,
+        48,
+        48
+      ],
+      "min_fine_radius_mpc_h": 151.73493529338248,
+      "min_wide_radius_mpc_h": 0,
+      "wide_boxes_containing_observer": 513,
+      "fine_boxes_intersecting_z_lt_0p1": 145,
+      "wide_boxes_intersecting_z_lt_0p1": 1110
+    },
+    "unet29": {
+      "domains": 624,
+      "centre_z_min": 0.1537989639317666,
+      "centre_z_max": 0.5494336439363926,
+      "fine_shape": [
+        96,
+        64,
+        64
+      ],
+      "min_fine_radius_mpc_h": 65.00947642635974,
+      "min_wide_radius_mpc_h": 0,
+      "wide_boxes_containing_observer": 192,
+      "fine_boxes_intersecting_z_lt_0p1": 115,
+      "wide_boxes_intersecting_z_lt_0p1": 415
+    },
+    "transformer29": {
+      "domains": 624,
+      "centre_z_min": 0.1537989639317666,
+      "centre_z_max": 0.5494336439363926,
+      "fine_shape": [
+        96,
+        64,
+        64
+      ],
+      "min_fine_radius_mpc_h": 65.00947642635974,
+      "min_wide_radius_mpc_h": 0,
+      "wide_boxes_containing_observer": 192,
+      "fine_boxes_intersecting_z_lt_0p1": 115,
+      "wide_boxes_intersecting_z_lt_0p1": 415
+    }
+  },
+  "condition_support_floor": 0.1,
+  "selection_fit_interval": [
+    0.15,
+    0.55
+  ],
+  "selection_interpolation_interval": [
+    0.1,
+    0.6
+  ],
+  "selection_volume_jacobian_lower_z": 0.05,
+  "source_cosmic_epoch": 0.2,
+  "normalizer_refitted": false,
+  "model_ready": false,
+  "lowz_performance_measured": false
+}

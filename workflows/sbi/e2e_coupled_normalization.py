@@ -152,7 +152,7 @@ def fit(collect_ready=False):
             return dict(complete=False,collected_phases=list(reports),
                         pending_phases=[p for p in c.TRAIN if p not in reports])
         result=dict(**coord.provenance(),binding=binding,fit_phases=list(c.TRAIN),sources=sources,
-            normalization=equal_phase_statistics(reports),phase_weight=1/13,
+            normalization=equal_phase_statistics(reports),phase_weight=1/len(c.TRAIN),
             policy='Global train-only moments; equal phase weight; no per-field scaling; all voxels including padding',
             context_offsets_raw=op.layout()['context_offsets_raw'],outputs=[],**{'pass':True})
         c.atomic_json(marker,result)

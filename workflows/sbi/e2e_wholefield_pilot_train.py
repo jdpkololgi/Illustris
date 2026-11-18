@@ -18,8 +18,8 @@ from workflows.sbi.e2e_wholefield_pilot_data import ROOT, SHAPE, guard
 from workflows.sbi.e2e_wholefield_pilot_models import Condition, FineModel
 from workflows.sbi.e2e_vdm_context_models import project
 
-STEPS = 9984
-EPOCH_STEPS = 312
+EPOCH_STEPS = 24 * len(c.TRAIN) if c.SHARED_POLICY else 312
+STEPS = 32 * EPOCH_STEPS
 CHECKPOINTS = tuple(EPOCH_STEPS*n for n in (4, 8, 16, 24, 32))
 
 
@@ -37,7 +37,7 @@ def panel(phases):
 def arrays(address, chart, training=True):
     phase, pair = address
     guard(phase)
-    if phase not in (c.TRAIN if training else ('ph012', 'ph013')):
+    if phase not in (c.TRAIN if training else c.DEVELOPMENT):
         raise PermissionError('Target access outside training/development role')
     directory = ROOT/'data'/phase/pair
     with np.load(directory/'OBSERVATIONS.npz') as f:
@@ -147,7 +147,7 @@ def setup(seed):
 
 @torch.no_grad()
 def development(ema, chart, weight, cache=None):
-    phases = ('ph012', 'ph013')
+    phases = c.DEVELOPMENT
     if not all((ROOT/'data'/p/'COMPLETE.json').exists() for p in phases):
         return dict(available=False, reason='development preparation still running')
     ids = panel(phases); chosen = []

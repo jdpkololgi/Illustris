@@ -24,6 +24,10 @@ def qualified(phase):
     report=coord.verify_receipt(path,payload=False)
     if report['source_code_sha256']!=c.sha256(auditor.__file__):
         raise ValueError('phase audit code differs from continuation; review required')
+    if c.SHARED_POLICY and report.get('source_reuse_qa',{}).get('helper_sha256')!=c.sha256(c.REPO/'workflows/sbi/audit_shared_phase_sources.py'):
+        raise ValueError('Shared source audit helper changed')
+    if c.config().get('lowz') and report.get('source_reuse_qa',{}).get('lowz_helper_sha256')!=c.sha256(c.REPO/'workflows/sbi/audit_cfm_lowz_products.py'):
+        raise ValueError('Low-z source audit helper changed')
     for item in record['completion_sources']:
         if c.sha256(item['path'])!=item['sha256']: raise ValueError('phase products changed after audit')
     return True

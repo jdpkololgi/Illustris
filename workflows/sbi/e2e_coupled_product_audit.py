@@ -118,15 +118,26 @@ def run(phase):
                 or not observed['exact_id_sky_rsd_join'] or observed['target_columns_present']
                 or parent['target_columns_present'] or not parent['parity']['row_identity_verified']):
             raise ValueError('paired catalogue identity/targetless gate failed')
-        for item in (*parent['sources'].values(),observed['source']): audit.file(item)
+        source_reuse_qa={}
         angular=audit.receipt(source/'angular/ANGULAR_COMPLETE.json')
-        if angular['random_ids']!=list(range(18)) or len(angular['sources'])!=18:
-            raise ValueError('angular response random panel incomplete')
-        for ordinal,item in enumerate(angular['sources']):
-            path=Path(item['receipt'])
-            if path!=source/'angular'/f'random_{ordinal:02d}.json': raise ValueError('random stream mismatch')
-            if c.sha256(path)!=item['sha256']: raise ValueError('random receipt hash mismatch')
-            record=audit.receipt(path); audit.file(record['source'])
+        if c.config().get('lowz'):
+            from workflows.sbi.audit_cfm_lowz_products import base_sources
+            source_reuse_qa=base_sources(audit,parent,observed,angular)
+        elif c.SHARED_POLICY:
+            from workflows.sbi.audit_shared_phase_sources import parent_sources, angular_sources
+            source_reuse_qa=dict(helper_sha256=c.sha256(c.REPO/'workflows/sbi/audit_shared_phase_sources.py'),
+                                 parent=parent_sources(audit,parent,observed),
+                                 angular=angular_sources(audit,angular))
+        else:
+            for item in (*parent['sources'].values(),observed['source']): audit.file(item)
+            angular=audit.receipt(source/'angular/ANGULAR_COMPLETE.json')
+            if angular['random_ids']!=list(range(18)) or len(angular['sources'])!=18:
+                raise ValueError('angular response random panel incomplete')
+            for ordinal,item in enumerate(angular['sources']):
+                path=Path(item['receipt'])
+                if path!=source/'angular'/f'random_{ordinal:02d}.json': raise ValueError('random stream mismatch')
+                if c.sha256(path)!=item['sha256']: raise ValueError('random receipt hash mismatch')
+                record=audit.receipt(path); audit.file(record['source'])
         p=audit.receipt(c.ROOT/'matter'/phase/'PARTICLES_VERIFIED.json')
         particle_qa=particles(audit,p)
         native=audit.receipt(c.ROOT/'matter'/phase/'DENSITY_COMPLETE.json')
@@ -143,16 +154,23 @@ def run(phase):
             raise ValueError('independent native count conservation failure')
         geo_path=coord.ROOT/'geometry'/phase/'GEOMETRY_COMPLETE.json'
         geo=audit.receipt(geo_path,True); geometry_qa=geometry.verify_rows(geo['pairs'],phase)
+        if c.config().get('lowz'):
+            from workflows.sbi.prepare_cfm_lowz_campaign import verify_lowz_rows
+            geometry_qa=verify_lowz_rows(geo['pairs'],phase)
         if geo['counts_or_targets_read'] is not False: raise ValueError('geometry is not support-only')
         raw_sources={}; response_hashes={}; coarse_hashes={}
         for cap in ('NGC','SGC'):
             path=coord.ROOT/'observations'/phase/f'{cap}_COMPLETE.json'
             if c.sha256(path)!=geo['sources'][cap]['sha256']: raise ValueError('geometry response source drift')
             raw=audit.receipt(path,True); coord.validate_grid(raw['grid']); audit.file(raw['selection'])
-            if raw['source_code_sha256']!=c.sha256(observations_builder.__file__):
-                raise ValueError('unrecognized observation builder')
-            if not all(raw['gates'].values()) or set(raw['selection']['fit_phases'])!={'ph000','ph002','ph003','ph004','ph005'}:
-                raise ValueError('response/selection qualification drift')
+            if c.config().get('lowz'):
+                from workflows.sbi.audit_cfm_lowz_products import response
+                source_reuse_qa.setdefault('matched_responses',{})[cap]=response(audit,raw)
+            else:
+                if raw['source_code_sha256']!=c.sha256(observations_builder.__file__):
+                    raise ValueError('unrecognized observation builder')
+                if not all(raw['gates'].values()) or set(raw['selection']['fit_phases'])!={'ph000','ph002','ph003','ph004','ph005'}:
+                    raise ValueError('response/selection qualification drift')
             raw_sources[cap]=raw
             response_hashes[cap]=c.sha256(path)
         condition_dir=coord.ROOT/'conditions'/phase; target_dir=coord.ROOT/'targets'/phase
@@ -186,8 +204,8 @@ def run(phase):
             with h5py.File(raw_sources[row['cap']]['outputs'][0]['path'],'r') as raw:
                 for side,crop in enumerate(op.layout()['owned_core_crops_in_joint']):
                     center=np.array(row['center'])+[32*side,0,0]
-                    region=tuple(slice(v-16,v+16) for v in center)
-                    expected_count=np.log1p(raw['counts'][region]).reshape(16,2,16,2,16,2).mean((1,3,5))
+                    native_count=conditions_builder.padded_extract(raw['counts'],center-16,(32,32,32))
+                    expected_count=np.log1p(native_count).reshape(16,2,16,2,16,2).mean((1,3,5))
                     owned=tuple(slice(*s) for s in crop)
                     if not np.array_equal(arrays['joint'][0][owned],expected_count):
                         raise ValueError('independent owned-core count extraction failed')
@@ -207,6 +225,7 @@ def run(phase):
             checks.append(dict(pair_id=pair_id,owned_condition_count_exact=True,support_exact=True,
                                independent_joint_truth_domain_exact=True,**qa))
         result=dict(**coord.provenance(),phase=phase,role=c.ROLES[phase],source_code_sha256=c.sha256(__file__),
+                    source_reuse_qa=source_reuse_qa,
             audit_dependencies={Path(module.__file__).name:c.sha256(module.__file__) for module in
                 (c,coord,reader,geometry,matter,op,targets,conditions_builder,observations_builder,views)},
             geometry=geometry_qa,particles=particle_qa,pairs=checks,

@@ -1,5 +1,9 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-18 — Repository handoff: Prepare low-redshift CFM targets, survey response and loaders
+
+Group the coupled data configuration, survey selection and response construction, geometry caching, target and normalization checks, whole-field loader changes and phase qualification evidence.
+
 ## 2026-11-18 — Repository handoff: Prepare low-redshift P12-A response and encoder contracts
 
 Group the observed-redshift contracts, galaxy identity and matched-response adapters, conservative host checks, cross-fit preparation, tests and encoder-input evidence. This is input qualification, not posterior calibration.

@@ -1,0 +1,109 @@
+{
+  "schema": "cfm-lowz-input-canary-v1",
+  "date": "2026-10-28",
+  "status": "prepared_not_executed",
+  "purpose": "Audit frozen checkpoint payload lineage and stage low-redshift observation-only points separately from evaluation-only real-space positions. Not a model-ready response/target release.",
+  "deployment_binding": "/pscratch/sd/d/dkololgi/graphweb_desi/outputs/loa_shared_sixfit_20261026_v1/production_v1/NGC_seed17/BINDING.json",
+  "coupled_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1",
+  "wholefield_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/wholefield_pilot_20261013_v1",
+  "historical_config": "configs/e2e_coupled_data_v1.json",
+  "new_campaign_config": "configs/e2e_coupled_data_20phase_20261027.json",
+  "distance_config": "configs/e2e_coupled_coordinates_v2.json",
+  "frozen_training_phases": [
+    "ph000",
+    "ph002",
+    "ph003",
+    "ph007",
+    "ph008",
+    "ph009",
+    "ph010",
+    "ph011",
+    "ph020",
+    "ph021",
+    "ph022",
+    "ph023",
+    "ph024"
+  ],
+  "development_phases": [
+    "ph012",
+    "ph013"
+  ],
+  "reserved_final_test_phases": [
+    "ph018",
+    "ph019"
+  ],
+  "new_campaign_development_reserve": "ph006",
+  "science_bin_edges": [
+    0.01,
+    0.03,
+    0.05,
+    0.075,
+    0.1,
+    0.15
+  ],
+  "catalogue_audit_bin_edges": [
+    0,
+    0.01,
+    0.03,
+    0.05,
+    0.075,
+    0.1,
+    0.15,
+    0.25,
+    0.35,
+    0.45,
+    0.55,
+    0.585,
+    0.595,
+    0.6
+  ],
+  "candidate_science_interval": [
+    0.01,
+    0.1
+  ],
+  "bridge_interval": [
+    0.1,
+    0.15
+  ],
+  "existing_science_interval": [
+    0.15,
+    0.55
+  ],
+  "existing_context_interval": [
+    0.1,
+    0.6
+  ],
+  "target": {
+    "source_epoch": 0.2,
+    "radius_mpc_h": 7,
+    "refit_smoothing": false
+  },
+  "preserve": [
+    "all existing checkpoint bytes, normalizer and selection manifests",
+    "all saved existing-range predictions, metrics and plots",
+    "all user changes, including draft e2e_cfm_lowz_audit.py"
+  ],
+  "execution": {
+    "requires_compute": true,
+    "approval_received": false,
+    "proposed_cpu_nodes": 1,
+    "proposed_cpus": 64,
+    "proposed_minutes": 60,
+    "account": "desi",
+    "qos": "interactive",
+    "filesystem": "scratch",
+    "release_afterward": true,
+    "automatic_renewal": false,
+    "gpu_authorized": false,
+    "training_authorized": false
+  },
+  "remaining_model_input_gates": [
+    "train-only low-z radial selection with matched effective-volume definition",
+    "low-z count/expected-count closure and volume resolution convergence",
+    "origin-crossing domain geometry with explicit support and LOS treatment",
+    "native-density R7 targets and periodic tidal reference at declared query positions",
+    "frozen-normalizer condition shards and old-range replay parity",
+    "development spatial partition frozen before model selection or calibration",
+    "GPU sampling and matched separate low-z diagnostics under a separately approved budget"
+  ]
+}

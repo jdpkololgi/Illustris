@@ -1,0 +1,42 @@
+{
+  "schema": "cfm-lowz-selection-response-v1",
+  "status": "implementation_pending_compute_validation",
+  "phase_policy": {
+    "path": "configs/shared_phase_policy_20261027.json",
+    "sha256": "159396df0272393af3b448765f0fd01c806701a40ff956064bf8f40abce4f26f",
+    "policy_id": "abacus-c000-20train-3development-2test-20261027"
+  },
+  "source_campaign": {
+    "path": "configs/e2e_coupled_data_20phase_20261027.json",
+    "sha256": "5b8b998b6b5ee805af82eaad23698e5dc748719b0fc8205d542c667b435b7129"
+  },
+  "coordinates": {
+    "path": "configs/e2e_coupled_coordinates_v2.json",
+    "sha256": "355db36fbcfacf7e37fd300d351ab7aad905e46fbb4c4b9e251a2264fa7a9d49",
+    "reuse": "distance table, cell and apodization only; NOT inherited selection policy"
+  },
+  "output_root": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/cfm_lowz_selection_20261029_v1",
+  "science_redshift": [0.01, 0.55],
+  "context_redshift": [0.0, 0.60],
+  "context_policy": "positive observed redshifts, excluding sentinel; origin has no LOS/support",
+  "excluded_sentinel_redshift": [0.585, 0.595],
+  "diagnostic_bin_edges": [0.01, 0.03, 0.05, 0.075, 0.10, 0.15, 0.25, 0.35, 0.45, 0.55],
+  "selection_bin_width": 0.005,
+  "selection_estimator": "pooled training CIC counts on supported voxel centres / matched angular-response times apodized voxel volume, piecewise constant within each radial bin",
+  "selection_units": "(Mpc/h)^-3",
+  "minimum_pooled_count": 20,
+  "fit_scope": "all 20 training phases; OOF excludes omitted training phase before reading statistics",
+  "smoothing_radius_mpc_h": 7.0,
+  "fresh_training_required": true,
+  "historical_checkpoints": "reference only; not a low-z deployment or retraining decision test",
+  "model_inputs_ready": false,
+  "scheduler_resources_authorized": false,
+  "remaining_gates": [
+    "compute-node source/response canary and low-z volume-resolution convergence",
+    "selection binning/smoothing sensitivity and per-phase/cap closure; pooled closure is a fitted identity",
+    "observer-crossing training-domain allocation and disjoint development spatial groups",
+    "matched native R7 density/tidal targets and own-real-space galaxy query estimand",
+    "new training-only normalizers and condition/target loaders",
+    "fresh model training, calibration and overlap comparison with preserved historical results"
+  ]
+}

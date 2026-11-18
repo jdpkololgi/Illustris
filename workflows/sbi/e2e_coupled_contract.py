@@ -13,7 +13,9 @@ import tempfile
 from datetime import datetime, timezone
 
 REPO = Path(__file__).resolve().parents[2]
-CONFIG = REPO / 'configs/e2e_coupled_data_v1.json'
+CONFIG = Path(os.environ.get('GRAPHWEB_CFM_DATA_CONFIG', REPO / 'configs/e2e_coupled_data_v1.json'))
+if not CONFIG.is_absolute():
+    CONFIG = REPO / CONFIG
 ROOT = Path('/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1')
 TRAIN = ('ph000', 'ph002', 'ph003', 'ph007', 'ph008', 'ph009', 'ph010',
          'ph011', 'ph020', 'ph021', 'ph022', 'ph023', 'ph024')
@@ -21,6 +23,22 @@ DEVELOPMENT = ('ph012', 'ph013')
 CONFIRMATION = tuple(f'ph{i:03d}' for i in range(14, 20))
 ROLES = {**dict.fromkeys(TRAIN, 'train'), **dict.fromkeys(DEVELOPMENT, 'development'),
          **dict.fromkeys(CONFIRMATION, 'confirmation')}
+
+
+# Explicit campaign selection leaves all historical entry points unchanged.
+CAMPAIGN = json.loads(CONFIG.read_text())
+SHARED_POLICY = CAMPAIGN.get('phase_policy')
+if SHARED_POLICY:
+    from shared.phase_policy import bound_policy
+    policy = bound_policy(CAMPAIGN)
+    ROOT = Path(CAMPAIGN['root'])
+    if ROOT.resolve() == Path(CAMPAIGN['reuse_source_root']).resolve():
+        raise ValueError('Migration output cannot overwrite historical inputs')
+    TRAIN = tuple(policy['training'])
+    DEVELOPMENT = tuple(policy['development_and_calibration'])
+    CONFIRMATION = tuple(policy['final_test'])
+    ROLES = {**dict.fromkeys(TRAIN, 'train'), **dict.fromkeys(DEVELOPMENT, 'development'),
+             **dict.fromkeys(CONFIRMATION, 'confirmation')}
 
 
 def digest(value):
@@ -38,6 +56,15 @@ def sha256(path):
 
 def config(path=CONFIG):
     value = json.loads(Path(path).read_text())
+    if SHARED_POLICY:
+        bound_policy(value)
+        if (value['schema'] != 'e2e-coupled-data-v2' or value['phase_roles'] != ROLES
+                or value['root'] != str(ROOT) or value['scientific_training_authorized']
+                or value['production_ready'] or value['forbidden_phases'] != list(CONFIRMATION)
+                or value['preparation_phases'] != list(TRAIN + DEVELOPMENT)
+                or value['target']['gaussian_radius_mpc_h'] != 7.0):
+            raise ValueError('Invalid shared coupled data authority')
+        return value
     if (value['schema'] != 'e2e-coupled-data-v1' or value['phase_roles'] != ROLES
             or value['root'] != str(ROOT) or value['scientific_training_authorized']
             or value['production_ready'] or value['forbidden_phases'] != ['ph001', 'ph006']):
@@ -46,7 +73,7 @@ def config(path=CONFIG):
 
 
 def phase_guard(phase):
-    if phase not in ROLES:
+    if phase not in ROLES or (SHARED_POLICY and phase in CONFIRMATION):
         raise PermissionError(f'Phase not authorized for coupled preparation: {phase}')
     return phase
 
@@ -57,7 +84,8 @@ def guarded(path, phase=None, output=False):
         phase_guard(phase)
     for name in (str(path), str(path.resolve())):
         phases = set(re.findall(r'ph\d{3}', name))
-        if not phases <= ROLES.keys() or (phase and phases and phases != {phase}):
+        if (not phases <= ROLES.keys() or (SHARED_POLICY and phases & set(CONFIRMATION))
+                or (phase and phases and phases != {phase})):
             raise PermissionError('forbidden/mismatched phase in path')
     resolved = path.resolve()
     if output and ROOT not in resolved.parents:
