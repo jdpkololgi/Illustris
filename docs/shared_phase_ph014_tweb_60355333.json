@@ -1,0 +1,78 @@
+{
+  "job_id": "60355333",
+  "nodes": "nid[200089-200092]",
+  "status": "running",
+  "git_head": "a8f8bb1d5a71fad55bbdf7a7f9b13e520ecd6430",
+  "source_sha256": {
+    "configs/shared_phase_policy_20261027.json": "159396df0272393af3b448765f0fd01c806701a40ff956064bf8f40abce4f26f",
+    "configs/p10_phase_registry_v3.json": "00e573827a996a5d32463b236c72c4f6f432f21a24e684dbecdbcfaffef3e1d4",
+    "workflows/sbi/run_shared_phase_ph014_tweb.sh": "8a247b88cc2fceb1972a3124ad38413ede1533a54bf3e8c70f101dd7249ae08a",
+    "workflows/abacus_tweb/p10_expansion_preflight.py": "0377e176fe83f1860f4e5a82b9b64006a95544419f1342e386e228af6d29a023",
+    "workflows/abacus_tweb/p10_phase_assets.py": "9ba9a6ce0e3c048d7bf6378f6f02363f16cbf7e4bcc77140d672c092bb1d0910",
+    "workflows/abacus_tweb/p10_run_tweb.py": "234fbe30742bdc745d0ee28b80442e82ce06d7c9d202954c3f32067ed1370fcf",
+    "workflows/abacus_tweb/abacus_process_particles2.py": "4167beba835757cb07e0c9e8e57bc1d5ea01c0fae9701b1e6f75f6cb44f0e1bb",
+    "shared/resource_requirements.py": "6ae027d83e90487dd5e6e8716ecc8d9c12e48a4e1054f6e29334f3fa5cd95deb",
+    "shared/phase_policy.py": "a335bd6e56701d8d2bd54e0cb283ee521b6ef850a15bd6f59543a24b31094a64"
+  },
+  "approved": {
+    "nodes": 4,
+    "ranks": 16,
+    "cpus_per_rank": 32,
+    "account": "desi",
+    "qos": "interactive",
+    "walltime": "01:00:00",
+    "scope": "ph014 R7 T-Web; release afterward"
+  },
+  "expanded_scope_authorization": "User requested preparation of remaining products now; confined to existing four-node one-hour allocation.",
+  "preparation_source_sha256": {
+    "workflows/sbi/run_shared_phase_remaining_tweb.sh": "c290615511aec994e2069243430e093cc146aeae2ec39a94ba716c213490a2db",
+    "workflows/sbi/run_shared_phase_catalogue.sh": "c87a10fbb54718f1fb6cb710fd96ef38655de81437ef83bc033c59f537284aa2",
+    "workflows/sbi/run_shared_phase_native_sources.sh": "5e6fdfffd993afbfc01cab254216d04d1b68b254e9218ccb93839872f065afd4",
+    "workflows/sbi/prepare_shared_phase_sources.py": "0e8fa100f3d9c4b7e71cd976367a6ae91d978dacb0efc3b5ee515585a1447a69",
+    "workflows/abacus_tweb/validate_galaxy_position_mapping.py": "c8c90935d116263215afaa6301d8ef11113a1f134b573fd2447d4245b9945df7",
+    "workflows/abacus_tweb/certify_galaxy_position_scope.py": "ca1498c23bf12723c52386ee5193a8ccae798e4bd9b76e803428c74e5f56399f",
+    "workflows/abacus_tweb/annotate_cutsky_with_tweb_eigs.py": "fbb8b9afea637d750ae53e5942473d9fb981acb4bc16398bf47e4c0b48f91195",
+    "workflows/abacus_tweb/migrate_p10_galaxy_position_truth.py": "fa33f2260f2083cbf86baeb28fabb1c4a6e1aafb08d8bcf6ae03dc1cce5ba712",
+    "workflows/abacus_tweb/p10_build_phase_index.py": "a4b3aee180b3740b0bfa3b32f90d04edc990fb413deef769b4234b52fd9abbcf",
+    "shared/phase_policy.py": "dc16d5c0b62f595865b839ae28e31192b5f0656f00c3db96d7030b34a4e53dd3"
+  },
+  "resident_mode_revision": {
+    "utc": "2026-10-27T06:05:36.791902+00:00",
+    "source_sha256": {
+      "workflows/abacus_tweb/tweb_grid_sampling.py": "d517765af9e83834cf13bff9495ecbe97542f6e9e3761b2237af15fc14e0b64d",
+      "workflows/abacus_tweb/annotate_cutsky_with_tweb_eigs.py": "9dcfc4ed0b5f537c49d839bd39758dd091d98e48d17bafa3aab8bb82512d194e",
+      "workflows/abacus_tweb/migrate_p10_galaxy_position_truth.py": "cec900868c4e3509c17122c4b41f9f2f3204d23333e6293e2cab693b41b0e429",
+      "workflows/abacus_tweb/reuse_corrected_p2_20261021.py": "e03d2e7d19a2cd5bd7167dee624ad7d89ed68efea70aeb93f3b2084fe194c63f",
+      "workflows/sbi/run_shared_phase_catalogue.sh": "c074ea8808430476869b43140855e7f7b91e004703e9d50cadd44a9cbb20b985",
+      "workflows/sbi/run_shared_phase_resume_annotation.sh": "addfc7d5b7ea6b3f3965066e3b9095c571bf4325623a3a6152a67d3f36dd616e",
+      "workflows/sbi/run_shared_phase_downstream.sh": "4ce816b3a2d7c977bad3f54e6140982fa08c47d62aee7b9668ab4ae8e5f5c7d0",
+      "workflows/sbi/prepare_shared_phase_observations.py": "52c6f3e8b6def912489a8e27def75bacca18647880e1330f24690e6462d7831f",
+      "workflows/sbi/stage_shared_p12_inputs.py": "ccb46651682ed7fabf8a48be0cc02e0cea55344c366abd554e3517b7ffffd613",
+      "workflows/sbi/warm_shared_phase_field.py": "72838b85986401f807b323a6804cc3b6a717ff8dd0b62dc350b1a8c02c8476db"
+    },
+    "synthetic_tests": 15,
+    "benchmark": {
+      "phase": "ph001",
+      "rows": 10000,
+      "node": "nid200089",
+      "load_seconds": 153.405002927,
+      "sample_seconds": 0.075346798985,
+      "exact_parity": true
+    },
+    "restart_status": "Cancellation of steps 4 and 6 rejected by automatic review; awaiting explicit user approval; no cancellation occurred.",
+    "source_sha256_final": {
+      "workflows/abacus_tweb/tweb_grid_sampling.py": "d517765af9e83834cf13bff9495ecbe97542f6e9e3761b2237af15fc14e0b64d",
+      "workflows/abacus_tweb/annotate_cutsky_with_tweb_eigs.py": "cb0f1e5d509a897e59e2fcf12f08798c3ca937b0b787e2a54f073f136afd11fb",
+      "workflows/abacus_tweb/migrate_p10_galaxy_position_truth.py": "cec900868c4e3509c17122c4b41f9f2f3204d23333e6293e2cab693b41b0e429",
+      "workflows/abacus_tweb/reuse_corrected_p2_20261021.py": "e03d2e7d19a2cd5bd7167dee624ad7d89ed68efea70aeb93f3b2084fe194c63f",
+      "workflows/sbi/run_shared_phase_catalogue.sh": "c074ea8808430476869b43140855e7f7b91e004703e9d50cadd44a9cbb20b985",
+      "workflows/sbi/run_shared_phase_resume_annotation.sh": "addfc7d5b7ea6b3f3965066e3b9095c571bf4325623a3a6152a67d3f36dd616e",
+      "workflows/sbi/run_shared_phase_downstream.sh": "ccfa88403339b37d7801b5694288c9e3c6fb23d9ecc1b4751aeac39d10999aad",
+      "workflows/sbi/prepare_shared_phase_observations.py": "52c6f3e8b6def912489a8e27def75bacca18647880e1330f24690e6462d7831f",
+      "workflows/sbi/stage_shared_p12_inputs.py": "ccb46651682ed7fabf8a48be0cc02e0cea55344c366abd554e3517b7ffffd613",
+      "workflows/sbi/warm_shared_phase_field.py": "72838b85986401f807b323a6804cc3b6a717ff8dd0b62dc350b1a8c02c8476db",
+      "workflows/sbi/adopt_shared_phase_angular.py": "a608e2b7b684fdc2a3a96280a550789670dd774eb9b1e596d7e2025b6106978c",
+      "docs/shared_phase_annotation_benchmark_60355333.py": "1908a900bcce6350ec0c66866afc1812161545507d5674ca8dca65a65e4d0047"
+    }
+  }
+}

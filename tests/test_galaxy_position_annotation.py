@@ -63,6 +63,17 @@ class SamplingTests(unittest.TestCase):
                         lap+=plus+minus-2*eig[k]
                     np.testing.assert_allclose(out[f'LAP_LAM{k+1}'],lap[idx]*49/250**2,rtol=1e-6,atol=1e-8)
                 np.testing.assert_array_equal(out['CWEB'],cls[idx])
+    def test_resident_copy_preserves_all_periodic_stencils(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);write_grid(root,[(0,1),(1,4),(4,8)]);grid=TWebGrid(root)
+            q=np.indices((8,8,8)).reshape(3,-1).T
+            expected=grid.sample_indices(q)
+            with self.assertRaises(ValueError):grid.load_into_memory(max_bytes=1)
+            self.assertEqual(grid.load_into_memory(),8**3*13)
+            actual=grid.sample_indices(q)
+            for key in expected:np.testing.assert_array_equal(expected[key],actual[key])
+            self.assertTrue(all(not isinstance(a,np.memmap) for pair in grid.cache.values() for a in pair))
+
     def test_missing_slab_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);write_grid(root,[(0,3),(4,8)])
@@ -130,6 +141,23 @@ class IdentityTests(unittest.TestCase):
             with self.assertRaises(ValueError):load_qualification(p,'ph002',root)
             report['helper_sha256']=sha256_file(WORKFLOW/'galaxy_position_mapping.py');p.write_text(json.dumps(report));raw.write_bytes(b'changed fixture')
             with self.assertRaises(ValueError):load_qualification(p,'ph002',root)
+
+    def test_shared_policy_allows_new_training_qualification_but_not_final_test(self):
+        from shared.phase_policy import binding
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp); raw=root/'raw.fits'; raw.write_bytes(b'fixture'); st=raw.stat()
+            source=dict(path=str(raw),bytes=st.st_size,mtime_ns=st.st_mtime_ns)
+            info=dict(pass_supported_population_gate=True,field_path=str(root),sources=[source],field_sources=[source])
+            report=dict(completed=True,pass_supported_population_gate=True,mapping={'version':MAPPING_VERSION},
+                helper_sha256=sha256_file(WORKFLOW/'galaxy_position_mapping.py'),label_policy_version=LABEL_POLICY_VERSION,
+                allow_all_coordinate_populations=True,phase_policy=binding(),
+                phases={phase:info for phase in ('ph001','ph014','ph018')})
+            path=root/'report.json';path.write_text(json.dumps(report))
+            load_qualification(path,'ph001',root);load_qualification(path,'ph014',root)
+            with self.assertRaises(ValueError):load_qualification(path,'ph018',root)
+            report['phase_policy']['sha256']='changed';path.write_text(json.dumps(report))
+            with self.assertRaises(ValueError):load_qualification(path,'ph001',root)
+
 
 class PipelineMetadataTests(unittest.TestCase):
     def test_parent_identity_is_original_row_not_selected_row(self):

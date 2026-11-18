@@ -52,6 +52,16 @@ class TWebGrid:
                 raise ValueError(f'T-Web member shape mismatch: {p}')
             self.cache[p]=(eig,cls)
         return self.cache[p]
+    def load_into_memory(self, max_bytes=128 << 30):
+        """Optional resident copy for allocated nodes; sampling arithmetic is unchanged."""
+        arrays=[(p,self._arrays(lo,hi,p)) for lo,hi,p in self.slabs]
+        total=sum(eig.nbytes+cls.nbytes for _,(eig,cls) in arrays)
+        if total>max_bytes:
+            raise ValueError(f'Resident field exceeds memory ceiling: {total}')
+        for p,(eig,cls) in arrays:
+            self.cache[p]=(np.array(eig),np.array(cls))
+        return total
+
     def _sample(self,indices,classes=False):
         q=np.asarray(indices,dtype=np.int64)%self.ngrid
         eig_out=np.full((len(q),3),np.nan,dtype=np.float32)

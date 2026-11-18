@@ -3,7 +3,9 @@
 
 Existing catalogues and downstream graphs are preserved. This builds metadata,
 annotation, and the observed truth join only; it does not change science masks,
-train models, rewrite caches, or unseal ph001. Default is a reviewable plan.
+train models or rewrite caches. Phase access follows the explicit registry;
+historical sealed-phase rules remain in force for historical registries.
+Default is a reviewable plan.
 """
 import argparse
 import json
@@ -23,6 +25,7 @@ def main():
  ap=argparse.ArgumentParser(description=__doc__)
  ap.add_argument('--phase',required=True);ap.add_argument('--qualification',type=Path,required=True)
  ap.add_argument('--registry',type=Path,default=DEFAULT_REGISTRY);ap.add_argument('--output-root',type=Path)
+ ap.add_argument('--field-in-memory',action='store_true')
  ap.add_argument('--execute',action='store_true');args=ap.parse_args()
  reg=load_registry(args.registry)
  if args.phase not in reg['phases'] or reg['phases'][args.phase]['role']=='sealed_blind':raise ValueError('Unregistered or sealed phase')
@@ -39,6 +42,7 @@ def main():
   [sys.executable,str(WORKFLOW/'p10_build_bright_parent.py'),'--registry',str(args.registry),'--phase',args.phase,'--output',str(parent)],
   [sys.executable,str(WORKFLOW/'annotate_cutsky_with_tweb_eigs.py'),'--phase',args.phase,'--qualification',str(args.qualification),'--cutsky',str(parent),'--tweb-dir',str(field),'--output-dir',str(root),'--output-name',annotated.name],
   [sys.executable,str(WORKFLOW/'p10_build_observed_truth.py'),'--registry',str(args.registry),'--phase',args.phase,'--annotated-parent',str(annotated),'--output',str(observed)]]
+ if args.field_in_memory:commands[1].append('--field-in-memory')
  plan=dict(phase=args.phase,qualification_sha256=sha256_file(args.qualification),output_root=str(root),commands=commands,
   downstream_action='Rebuild label arrays/caches with identical galaxy ordering; separately prove geometry reuse. Existing redshift gates remain unchanged.')
  print(json.dumps(plan,indent=2),flush=True)

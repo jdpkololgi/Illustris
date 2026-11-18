@@ -250,7 +250,7 @@ def main() -> int:
     registry = load_registry(args.registry)
     if args.phase not in registry["phases"]:
         raise TWebBuildError(f"unregistered phase: {args.phase}")
-    if (registry["schema_version"] == "p10-phase-registry-v2"
+    if (registry["schema_version"] in {"p10-phase-registry-v2", "p10-phase-registry-v3"}
             and registry["phases"][args.phase]["truth_access"] not in {"development", "selection"}):
         raise TWebBuildError("reserved target generation requires a separate frozen evaluation contract")
     density_default, manifest_default = default_density_paths(registry, args.phase)

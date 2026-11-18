@@ -1,0 +1,86 @@
+{
+  "job_id": "60354736",
+  "node": "nid200035",
+  "git_head": "a8f8bb1d5a71fad55bbdf7a7f9b13e520ecd6430",
+  "source_sha256": {
+    "configs/shared_phase_policy_20261027.json": "159396df0272393af3b448765f0fd01c806701a40ff956064bf8f40abce4f26f",
+    "configs/phase_migration_20261027.json": "23bc2b96d4e90166b2b2398991859e7ae8fe2a922201f1f868b48926fa54268b",
+    "configs/p10_phase_registry_v3.json": "00e573827a996a5d32463b236c72c4f6f432f21a24e684dbecdbcfaffef3e1d4",
+    "workflows/sbi/shared_phase_migration.py": "ee35fc02337bffede5334cb8e9e37626ab1e486257cadc1afb8b977dafc6091f",
+    "workflows/sbi/run_shared_phase_migration_smoke.sh": "c5ebbd746a9a6d6330ee7952ad0db08110e9358f69425bdb0a3cc845d4cba39b",
+    "workflows/abacus_tweb/p10_expansion_preflight.py": "0377e176fe83f1860f4e5a82b9b64006a95544419f1342e386e228af6d29a023",
+    "workflows/abacus_tweb/p10_phase_assets.py": "9ba9a6ce0e3c048d7bf6378f6f02363f16cbf7e4bcc77140d672c092bb1d0910",
+    "workflows/abacus_tweb/p10_run_tweb.py": "234fbe30742bdc745d0ee28b80442e82ce06d7c9d202954c3f32067ed1370fcf",
+    "workflows/sbi/e2e_coupled_contract.py": "f58ed61e2691ab27acf649224b9e8d351f4b89f4ee8984ee07f40c80512de8db",
+    "shared/phase_policy.py": "a335bd6e56701d8d2bd54e0cb283ee521b6ef850a15bd6f59543a24b31094a64"
+  },
+  "status": "completed_and_allocation_released",
+  "allocation_elapsed": "00:06:49",
+  "preparation_step_elapsed": "00:06:12",
+  "preparation_step_exit_code": "0:0",
+  "account": "desi",
+  "qos": "interactive",
+  "requested_cpus_per_task": 64,
+  "allocated_node_logical_cpus": 256,
+  "requested_walltime": "01:00:00",
+  "graph_refresh": {
+    "exit_code": "1:0",
+    "error": "fcntl.flock OSError 524",
+    "global_refresh": "not attempted because local rebuild failed"
+  },
+  "training_performed": false,
+  "remaining": "Missing labels/CFM inputs, source adoption, new full/OOF transforms and fitted models remain pending",
+  "log": "/pscratch/sd/d/dkololgi/abacus/p12a_r7_20phase_20261027_v1/preparation_smoke_60354736/run.log",
+  "outputs": {
+    "inventory.json": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12a_r7_20phase_20261027_v1/preparation_smoke_60354736/inventory.json",
+      "bytes": 33250,
+      "sha256": "1792d42afdc9ab4b3ad21d630ca141e75b1b46219be2dad1b2e0b05b5bc4f21a"
+    },
+    "ph001_truth_verified.json": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12a_r7_20phase_20261027_v1/preparation_smoke_60354736/ph001_truth_verified.json",
+      "bytes": 8192,
+      "sha256": "ea9b8eb4db2d1046a9be66bc07edc5fce90e6f626d338719df25eb1ad282e0c8"
+    },
+    "ph000_phase_receipts_verified.json": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12a_r7_20phase_20261027_v1/preparation_smoke_60354736/ph000_phase_receipts_verified.json",
+      "bytes": 3931,
+      "sha256": "622f74df43d62ae7481ddadceeb8df1017c79ec79884d2877333f3de69ef029f"
+    },
+    "ph014_density_adapter.json": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12a_r7_20phase_20261027_v1/preparation_smoke_60354736/ph014_density_adapter.json",
+      "bytes": 1548,
+      "sha256": "96f64c3ad49a5a712e176117e4037c632386820b7dfd429164de429526ddc080"
+    },
+    "run.log": {
+      "path": "/pscratch/sd/d/dkololgi/abacus/p12a_r7_20phase_20261027_v1/preparation_smoke_60354736/run.log",
+      "bytes": 1064,
+      "sha256": "fb3593cea39193e525a4b881b5f91890684760a69d4bcee771d53d1b881a1510"
+    }
+  },
+  "ph001_truth_verified": {
+    "pass": true,
+    "verified_files": 27,
+    "verified_bytes": 146029081192,
+    "scope": "Only explicitly listed files verified; no copied readiness or role receipts"
+  },
+  "ph000_phase_receipts_verified": {
+    "pass": true,
+    "verified_files": 13,
+    "verified_bytes": 186219,
+    "scope": "Only explicitly listed files verified; no copied readiness or role receipts"
+  },
+  "ph014_density_adapter": {
+    "source_payload_sha256": "297fa55f6e23de699160fe61e16ffa638dacc20e324c8768e436b964b6967c23",
+    "processed_files": 136,
+    "relative_count_error": 9.505277764399594e-08,
+    "shape": [
+      2048,
+      2048,
+      2048
+    ],
+    "dtype": "float32",
+    "preflight_pass": true
+  },
+  "post_run_change": "Verifier now deduplicates repeated files after matching hash, size and mtime; the source hashes above identify the original code used in this completed smoke."
+}

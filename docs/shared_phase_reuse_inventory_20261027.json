@@ -1,0 +1,732 @@
+{
+  "schema_version": "shared-phase-reuse-inventory-v1",
+  "created_utc": "2026-10-27T05:17:37.703201+00:00",
+  "phase_policy": {
+    "path": "configs/shared_phase_policy_20261027.json",
+    "sha256": "159396df0272393af3b448765f0fd01c806701a40ff956064bf8f40abce4f26f",
+    "policy_id": "abacus-c000-20train-3development-2test-20261027"
+  },
+  "phases": {
+    "ph000": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph000/PHASE_COMPLETE.json",
+        "exists": true,
+        "bytes": 5543,
+        "sha256": "a5fdc32a1508bfc15934584e0402c29bcff941358601a944d0f3d59a694440c9"
+      },
+      "p12_action": "verify_and_reuse_corrected_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph000/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "adadb7570d1600e085e536b11128717d5cda1da0c75ca57d238db02e6ba002e4"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph000/TARGETS_COMPLETE.json",
+        "exists": true,
+        "bytes": 79706,
+        "sha256": "d23644ea6ac84b00a5d0167dcd5484bad8857911b5eeeb5464dd5a8c7f49b0e6"
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph000/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1051,
+        "sha256": "e353d77e1453df589915a21ee45237e310a87b19a3a4e561ca58ae8db9105efa"
+      },
+      "cfm_action": "verify_reuse_physical_products",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph001": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph001/PHASE_COMPLETE.json",
+        "exists": false
+      },
+      "p12_action": "qualify_own_position_labels_then_rebuild_label_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph001/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "3e90821114722d161a8d2a7f855ce01a18de90ba3590b0bd0ed337290e1ffff2"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph001/TARGETS_COMPLETE.json",
+        "exists": false
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph001/DENSITY_COMPLETE.json",
+        "exists": false
+      },
+      "cfm_action": "prepare_missing_observations_and_targets",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false,
+      "historical_truth": {
+        "DENSITY": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/stages/DENSITY_COMPLETE.json",
+          "exists": true,
+          "bytes": 6117,
+          "sha256": "f7b7e8db37391ad8e54fd9f3f428845eeddd22959aa970d6cfd82f1723d9d6d5"
+        },
+        "TWEB": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/stages/TWEB_COMPLETE.json",
+          "exists": true,
+          "bytes": 12884,
+          "sha256": "63417a9dd5de4438964361dc7c78158ed157f6228b178549291f4b90b4a40817"
+        },
+        "ANNOTATION": {
+          "path": "/pscratch/sd/d/dkololgi/abacus/p12_blind_truth/ph001/p12a_v1/stages/ANNOTATION_COMPLETE.json",
+          "exists": true,
+          "bytes": 7058,
+          "sha256": "7013333a51f65cdda5844819219507be048bfb83e471098adec54b6018c88ecf"
+        }
+      }
+    },
+    "ph002": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph002/PHASE_COMPLETE.json",
+        "exists": true,
+        "bytes": 5469,
+        "sha256": "ce16eb664f11f01c7b3ccf2dd34a116d11c28897dea965d83a2f9f8b39da42f5"
+      },
+      "p12_action": "verify_and_reuse_corrected_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph002/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "a9f8b87e30630875bb17b7b895b632dfa26c3007f0bc344e94026d042fe56ae7"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph002/TARGETS_COMPLETE.json",
+        "exists": true,
+        "bytes": 79674,
+        "sha256": "9ca8c5a57bc6796d4f948a30f789efdb0e50f15db2ab836d8e9cdb2afbe6930e"
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph002/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1486,
+        "sha256": "a6987b99e6cf59a04d285e82537435f73d1fa8f8fc8f465cb3fc8b4604ddff16"
+      },
+      "cfm_action": "verify_reuse_physical_products",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph003": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph003/PHASE_COMPLETE.json",
+        "exists": true,
+        "bytes": 5399,
+        "sha256": "51efa912d64e7ac4892f0ea32c79b46c40b0a6a41f82db4a4b53b8520bb44c3f"
+      },
+      "p12_action": "verify_and_reuse_corrected_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph003/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "e07f8afa754d03eaac90da87790ab1d76201fefcc81bb9d85961f45c1f54f775"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph003/TARGETS_COMPLETE.json",
+        "exists": true,
+        "bytes": 79713,
+        "sha256": "3c61ba48652d2d33c5fba2e72648c4bba00c6346105e6b5835f8b4a46ceae0cd"
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph003/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1487,
+        "sha256": "2096067aa85bd6eb689d890d3de2536cc9a12725b31d7ed05b8a0fba789f5eb7"
+      },
+      "cfm_action": "verify_reuse_physical_products",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph004": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph004/PHASE_COMPLETE.json",
+        "exists": true,
+        "bytes": 5398,
+        "sha256": "934be89241cfa792649e997fc0a9584bdddb2088146e210535c28dcdf30a66d6"
+      },
+      "p12_action": "verify_and_reuse_corrected_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph004/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "4bf31a11e39d9f0855ce14e0a66e94d4960308447a8abaffa1380b1cbf25eb77"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph004/TARGETS_COMPLETE.json",
+        "exists": false
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph004/DENSITY_COMPLETE.json",
+        "exists": false
+      },
+      "cfm_action": "prepare_missing_observations_and_targets",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph005": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph005/PHASE_COMPLETE.json",
+        "exists": true,
+        "bytes": 5396,
+        "sha256": "3d695a1619c76dd361af9c6f47cf6b68267d2f8995b96a62e35a5af5ef9a9bab"
+      },
+      "p12_action": "verify_and_reuse_corrected_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph005/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "cb164f8962df5365a0c7edeba26791f57a5d5dd9674e9a8dc6277ab69d26f60d"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph005/TARGETS_COMPLETE.json",
+        "exists": false
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph005/DENSITY_COMPLETE.json",
+        "exists": false
+      },
+      "cfm_action": "prepare_missing_observations_and_targets",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph007": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/PHASE_COMPLETE.json",
+        "exists": true,
+        "bytes": 5397,
+        "sha256": "8e054cddbbe8bf669f68df64a2e56bc9a3a17ae26b49b309367ae59fcf45da9f"
+      },
+      "p12_action": "verify_and_reuse_corrected_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph007/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "3b78e1867e3b32e2ada94d2d94f4d1735e95921f00eb5e103b19d338ebb5e3a3"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph007/TARGETS_COMPLETE.json",
+        "exists": true,
+        "bytes": 79629,
+        "sha256": "95bdc9b1f8be1081f3ee1ebad9da03d30f08c679a658228eec41801bdd204df0"
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph007/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1110,
+        "sha256": "9b8135f9d82e3553dcc655ca645a654766660b588d3a99d7f1dd358820d3c29f"
+      },
+      "cfm_action": "verify_reuse_physical_products",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph008": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph008/PHASE_COMPLETE.json",
+        "exists": true,
+        "bytes": 5395,
+        "sha256": "9f41497c9c98346435f2fe04830d32966dd15833d2b1b117dd8c4e738c0d4b2d"
+      },
+      "p12_action": "verify_and_reuse_corrected_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph008/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "7916f7bb828d3ee61ed947cb7cecafb6c1016b71c489993f0956837becaa38a1"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph008/TARGETS_COMPLETE.json",
+        "exists": true,
+        "bytes": 79620,
+        "sha256": "8bd8268f041de24ab8754cd506f3b323eba7c37e4a0d26222ad25a7f6b9fe18d"
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph008/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1107,
+        "sha256": "5b44807f75f631cb5d4464df34539ccfcc702a1d048e58242502db6d40243377"
+      },
+      "cfm_action": "verify_reuse_physical_products",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph009": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph009/PHASE_COMPLETE.json",
+        "exists": true,
+        "bytes": 5396,
+        "sha256": "7c094dddda8d1e7b6220b8f44b36d22dd14c83b53ae7e3b09178226ae9ad0507"
+      },
+      "p12_action": "verify_and_reuse_corrected_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph009/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "a093124730e0bc8d0dcc495a7acfa026bb079777c4ae9f6a4e1ca7d2cf82e197"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph009/TARGETS_COMPLETE.json",
+        "exists": true,
+        "bytes": 79667,
+        "sha256": "05ca6f29eb18f08686aae202df3e1d559bb46a4f101de448dab53d25e7d1d858"
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph009/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1109,
+        "sha256": "ca8d10fbad681d4f5a60598f6fd5ced6af6a89f54ecec592ff87222669b6f922"
+      },
+      "cfm_action": "verify_reuse_physical_products",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph010": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph010/PHASE_COMPLETE.json",
+        "exists": true,
+        "bytes": 5396,
+        "sha256": "22458c3003fe19d1dac8da8027a5c8f3f7ceac356392a899cf91cea649379477"
+      },
+      "p12_action": "verify_and_reuse_corrected_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph010/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "b86cdb9eddae44e19b4e2cf74216e6e5147dec81a2e8d41267c52b0fdfc50028"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph010/TARGETS_COMPLETE.json",
+        "exists": true,
+        "bytes": 79627,
+        "sha256": "a74c39629daba07a6960f80dacff22d0c1ea6a0944d1d4b90af4be533e56bd24"
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph010/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1109,
+        "sha256": "a46f0192ecc116c44fd2748e2b1917d2cb2aba6026756e1274fa8e01c616e1f0"
+      },
+      "cfm_action": "verify_reuse_physical_products",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph011": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph011/PHASE_COMPLETE.json",
+        "exists": true,
+        "bytes": 5395,
+        "sha256": "7920be1018b7d28aa038455b52308c4fb88228b0b98d435fe9b1c0ed0546018a"
+      },
+      "p12_action": "verify_and_reuse_corrected_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph011/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "a2baa4025612b3bec01d97dcdb4b32660eda24875f7069342084009cb9fdf4e0"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph011/TARGETS_COMPLETE.json",
+        "exists": true,
+        "bytes": 79641,
+        "sha256": "303bfe6e1b635304f85ad850ce79c13d5cdb7149c34fb962728775fe3a3b8dff"
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph011/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1108,
+        "sha256": "49acd0c1706b4aacbde33383481991a53cba55d6f060857306bd6125ced2245e"
+      },
+      "cfm_action": "verify_reuse_physical_products",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph014": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph014/PHASE_COMPLETE.json",
+        "exists": false
+      },
+      "p12_action": "qualify_own_position_labels_then_rebuild_label_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph014/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "a1570b975c877cba78555b7dda6ee0c3c1832ec83af75efa591579f6acbd72e5"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph014/TARGETS_COMPLETE.json",
+        "exists": true,
+        "bytes": 12791,
+        "sha256": "52345fb839ceb40bb37dbd51a82a4534a7820a61e28f1b1a7b165952f075dc76"
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph014/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1116,
+        "sha256": "64cc4db545bb30bffa8f98d0d25a8d17d8f78a4d4c5e6862a15d93a4c0a082d2"
+      },
+      "cfm_action": "expand_to_128_pairs_and_48_wholefield_domains",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph015": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph015/PHASE_COMPLETE.json",
+        "exists": false
+      },
+      "p12_action": "qualify_own_position_labels_then_rebuild_label_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph015/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "773babbe5790318e7dd4f098292003b665d142e57f39c15d83f4eb978eabebf6"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph015/TARGETS_COMPLETE.json",
+        "exists": true,
+        "bytes": 12789,
+        "sha256": "f7cd8405ee567de747cf5c64c70f24ce7313600e358ce42491f10ae1572d25ae"
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph015/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1116,
+        "sha256": "1e883625f6f83e8b23d51f9224d05389daa514ec9a577b735afa46de7412908b"
+      },
+      "cfm_action": "expand_to_128_pairs_and_48_wholefield_domains",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph016": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph016/PHASE_COMPLETE.json",
+        "exists": false
+      },
+      "p12_action": "qualify_own_position_labels_then_rebuild_label_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph016/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "11faa7aeedf56dd383f85ed0e3534137e294c5257fb7d8dd0ca5243ecbbd2355"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph016/TARGETS_COMPLETE.json",
+        "exists": true,
+        "bytes": 12790,
+        "sha256": "7baead72a38c066c7d94014b7182709d7fc4d5867320ff2f8a168458ed63aa37"
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph016/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1113,
+        "sha256": "53d36d3862e78f6073de2a668d39198b73de97c3dc57f7c6b41bb0343ec9f1e0"
+      },
+      "cfm_action": "expand_to_128_pairs_and_48_wholefield_domains",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph017": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph017/PHASE_COMPLETE.json",
+        "exists": false
+      },
+      "p12_action": "qualify_own_position_labels_then_rebuild_label_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph017/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "55f761e96db9ae62c38d69d370b01e668e65f330db94c1ec7be370e330553d16"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph017/TARGETS_COMPLETE.json",
+        "exists": true,
+        "bytes": 12783,
+        "sha256": "fffea9438511866e2dc2d0a451d7a81ac65e825da457923f4d8f0064cbafa345"
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph017/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1117,
+        "sha256": "192b4664448fb232c4439bea6dafb0bbc38103c28a905a33bd00248b3b3cde85"
+      },
+      "cfm_action": "expand_to_128_pairs_and_48_wholefield_domains",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph020": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph020/PHASE_COMPLETE.json",
+        "exists": true,
+        "bytes": 5396,
+        "sha256": "4a6bc701d1a4ba8816a96ca6e88fab4f541fe77c587052824d0a937f08456271"
+      },
+      "p12_action": "verify_and_reuse_corrected_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph020/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "2eb1a77e66348d7648379e6d211879fdfe893fbee2da89036451607d48f47ddb"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph020/TARGETS_COMPLETE.json",
+        "exists": true,
+        "bytes": 79657,
+        "sha256": "260ceb27d6557a7cab9ee8f8e861a4969968919f1b351059c7c5a9f2b4777ac8"
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph020/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1109,
+        "sha256": "3ad7b69187099efafa92e94b4aafbc8ce65618232e30fa25d2b7bfa75fb25e4b"
+      },
+      "cfm_action": "verify_reuse_physical_products",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph021": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph021/PHASE_COMPLETE.json",
+        "exists": true,
+        "bytes": 5397,
+        "sha256": "42c2e10449874fc261574791a8b1dbf572277566f87826c0a4c3154ac56d0941"
+      },
+      "p12_action": "verify_and_reuse_corrected_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph021/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "dc45ded22642b191b5853361235cd8dfb433d43a5ed0493c74037fbad79498fd"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph021/TARGETS_COMPLETE.json",
+        "exists": true,
+        "bytes": 79620,
+        "sha256": "23361cab3a79c5f3156d191f938cec6edb453ce189009b69cd0f0e6b6cb4f77b"
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph021/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1109,
+        "sha256": "7c014cc39d1171f3e940e46afbf942e7753046ce7ce8269cf699665db92341ca"
+      },
+      "cfm_action": "verify_reuse_physical_products",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph022": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph022/PHASE_COMPLETE.json",
+        "exists": true,
+        "bytes": 5396,
+        "sha256": "cef28d1328e11963f4e6cc0532c0f9a46758568394a7514941223c63b27a5622"
+      },
+      "p12_action": "verify_and_reuse_corrected_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph022/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "ed27d277ed7569ef8de3b8f1002bdb9632632564ca48c165e0221b9efa421018"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph022/TARGETS_COMPLETE.json",
+        "exists": true,
+        "bytes": 79668,
+        "sha256": "4c29d2aa76c4f5ebbb82729e68d064d72509f2c3b4122ce862002aa072de8d6c"
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph022/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1109,
+        "sha256": "d0de4b31d2333a6e099ba9a8ec0c1db31db23cb53f21627b52f91c6dc178075e"
+      },
+      "cfm_action": "verify_reuse_physical_products",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph023": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph023/PHASE_COMPLETE.json",
+        "exists": true,
+        "bytes": 5395,
+        "sha256": "646079d88f9df3bc343a10a8c3312853351da04da2c22a4b83b601dea7d67ff2"
+      },
+      "p12_action": "verify_and_reuse_corrected_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph023/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "bca0ee3a74dbcccb3bb7ffb5b5a5bdcc17f4732c04e7db33b1ccfbab1217fdc0"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph023/TARGETS_COMPLETE.json",
+        "exists": true,
+        "bytes": 79643,
+        "sha256": "8257848b0b62aa7fa3e89802bedd0d0420aca4a3f48be762d8a803dcea8b8bff"
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph023/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1108,
+        "sha256": "ffff51b89457921a2833a3f6019ebe8fd0b78e58b3f9d7dcd940175f4988edf1"
+      },
+      "cfm_action": "verify_reuse_physical_products",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph024": {
+      "role": "training",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph024/PHASE_COMPLETE.json",
+        "exists": true,
+        "bytes": 5397,
+        "sha256": "23dca2bcb48f774117a9a0a8716a91fe207315941b17c07d44e0436a0ade9131"
+      },
+      "p12_action": "verify_and_reuse_corrected_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph024/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "88f941c25adf4538fa9acde8690742738f1c4f2e33751caf227c09eaf7f40642"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph024/TARGETS_COMPLETE.json",
+        "exists": true,
+        "bytes": 79653,
+        "sha256": "b47e0ac25f9380be9a6173890e25e2d629e7784137916ea2d3858146baf2e00a"
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph024/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1109,
+        "sha256": "f18e40fb26d722094003c220e64a36957f70aa801ada3b20b045f49987dcb10f"
+      },
+      "cfm_action": "verify_reuse_physical_products",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph006": {
+      "role": "development",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph006/PHASE_COMPLETE.json",
+        "exists": true,
+        "bytes": 5413,
+        "sha256": "ac4187da073c7a226531d79efd78e56dabd0be364b9f69165b9c54ac3efb9a0a"
+      },
+      "p12_action": "verify_and_reuse_corrected_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph006/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "0c5235a80068ed97f7eaa6e7bc64a98c14734c39fb0e71a6c49f2e2418a5836a"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph006/TARGETS_COMPLETE.json",
+        "exists": false
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph006/DENSITY_COMPLETE.json",
+        "exists": false
+      },
+      "cfm_action": "prepare_missing_observations_and_targets",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph012": {
+      "role": "development",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph012/PHASE_COMPLETE.json",
+        "exists": true,
+        "bytes": 5412,
+        "sha256": "5d3b26ebe7a1cd15958e10db82f46dca1cada700f0b6dab342445d7e14f64abc"
+      },
+      "p12_action": "verify_and_reuse_corrected_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph012/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "c405a49896914b4e0c3930f93eb369791b8bde90c103513e3e195471c8f7e3f2"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph012/TARGETS_COMPLETE.json",
+        "exists": true,
+        "bytes": 12786,
+        "sha256": "3ade1568c731b1c91d4803aaddb8273647f03b10da74d30393a069749ad68607"
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph012/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1115,
+        "sha256": "cca595131dec88e8a2bc3be79c09cd175c392023b5fd999cdd5458e8daf626ef"
+      },
+      "cfm_action": "verify_reuse_physical_products",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    },
+    "ph013": {
+      "role": "development",
+      "p12_phase": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph013/PHASE_COMPLETE.json",
+        "exists": true,
+        "bytes": 5413,
+        "sha256": "4d1371a1021538c7a5dbe28599745ee15ddb846f3649f048de641d420dc8f207"
+      },
+      "p12_action": "verify_and_reuse_corrected_products",
+      "p12_geometry": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/p10_galaxy_v2_20261020/ph013/p4_patches/PATCH_MANIFEST_COMPLETE",
+        "exists": true,
+        "bytes": 354,
+        "sha256": "68bdbbcc60f293c82e1244fdf6568fa2740e01ce3f821fd801222640d2ec8cdd"
+      },
+      "cfm_targets": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/cartesian_v2/targets/ph013/TARGETS_COMPLETE.json",
+        "exists": true,
+        "bytes": 12791,
+        "sha256": "f53a67043e4d286fc8c5a927b7eadaa44d503e9c76170427e1381fd2d5fe1952"
+      },
+      "cfm_native_density": {
+        "path": "/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/coupled_20260918_v1/matter/ph013/DENSITY_COMPLETE.json",
+        "exists": true,
+        "bytes": 1115,
+        "sha256": "7f882499d1987ff1f37c9be897a362eb0d381e3d3d26af269b4c1ec716ebbb8d"
+      },
+      "cfm_action": "verify_reuse_physical_products",
+      "response_action": "verify_angular_maps; rebuild_parent_response_against_new_selection",
+      "payload_verified": false
+    }
+  },
+  "final_test_payloads_opened": false,
+  "training_ready": false,
+  "refit": [
+    "full20 selection and target/field transforms",
+    "20 leave-one-phase-out transforms (19 each)",
+    "CFM equal-phase normalization over 20 training phases"
+  ],
+  "later_fits": [
+    "21 freshly initialized P12 encoders and halo48 exports",
+    "fresh CFM models and coarse/exterior interfaces bound to new normalization"
+  ],
+  "retained": "Historical models, receipts and comparison results; R7; CFM five-phase selection function",
+  "scope": "Metadata existence and hashes only; reuse candidates are not a readiness claim",
+  "migration_config_sha256": "23bc2b96d4e90166b2b2398991859e7ae8fe2a922201f1f868b48926fa54268b"
+}

@@ -21,6 +21,8 @@ import time
 import fitsio
 import numpy as np
 
+REPO=Path(__file__).resolve().parents[2]
+if str(REPO) not in sys.path: sys.path.insert(0,str(REPO))
 WORKFLOW=Path(__file__).resolve().parent
 if str(WORKFLOW) not in sys.path: sys.path.insert(0,str(WORKFLOW))
 from galaxy_position_mapping import MAPPING_VERSION, reconstruct_native, field_indices, mapping_definition
@@ -48,15 +50,17 @@ def parse_args():
     p.add_argument('--output-dir',type=Path,required=True)
     p.add_argument('--output-name',default=None)
     p.add_argument('--chunk-size',type=int,default=100_000)
+    p.add_argument('--field-in-memory',action='store_true',help='Requires 104 GiB of additional allocated node RAM')
     return p.parse_args()
 
 
 def load_qualification(path,phase,tweb_dir):
-    if phase == 'ph001':
-        raise ValueError('ph001 is sealed; this migration does not authorize unsealing')
-    if phase in {f'ph{i:03d}' for i in range(14,20)}:
-        raise ValueError('Reserved confirmation targets remain closed in the galaxy-position migration')
     receipt=json.loads(Path(path).read_text())
+    if receipt.get('phase_policy'):
+        from shared.phase_policy import check_preparation_phase
+        check_preparation_phase(receipt, phase)
+    elif phase == 'ph001' or phase in {f'ph{i:03d}' for i in range(14,20)}:
+        raise ValueError('Reserved phase requires a versioned preparation qualification')
     if receipt.get('completed') is not True or receipt.get('pass_supported_population_gate') is not True:
         raise ValueError('Coordinate qualification is incomplete or failed')
     if receipt.get('label_policy_version') != LABEL_POLICY_VERSION or receipt.get('allow_all_coordinate_populations') is not True:
@@ -140,6 +144,9 @@ def main():
     temporary=output.with_name('.'+output.name+f'.{os.getpid()}.partial')
     if any(p.exists() for p in [output,manifest,temporary]): raise FileExistsError(f'Refusing to overwrite annotation: {output}')
     args.output_dir.mkdir(parents=True,exist_ok=True)
+    if args.field_in_memory:
+        resident_bytes=grid.load_into_memory()
+        print(f'Resident field loaded: {resident_bytes:,} bytes',flush=True)
     source_is_input=args.cutsky.resolve()==source.resolve()
     started=time.monotonic();count=0;digest=hashlib.sha256();groups={};evidence_counts={str(k):0 for k in INDEPENDENT_POSITION_CODES}
     with fitsio.FITS(args.cutsky) as fin, fitsio.FITS(source) as fs:

@@ -142,6 +142,8 @@ def main():
         phases={},completed=False)
     if args.registry:
         report['phase_registry']={'path':str(args.registry.resolve()),'sha256':hashlib.sha256(args.registry.read_bytes()).hexdigest()}
+        if registry.get('phase_policy'):
+            report['phase_policy'] = registry['phase_policy']
     def save(): (args.output/'report.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
     save()
     from abacusnbody.data.compaso_halo_catalog import CompaSOHaloCatalog

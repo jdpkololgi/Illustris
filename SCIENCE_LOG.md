@@ -1,5 +1,9 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-18 — Repository handoff: Version shared-phase migration, galaxy truth and reuse audits
+
+Group the phase registry and migration policy with the galaxy-position truth changes, reuse inventories, preparation scripts, interrupted-run evidence and loader checks for the shared 20/3/2 split.
+
 ## 2026-11-18 — Repository handoff: Preserve campaign science record and link GraphWeb handoff
 
 Restore the accumulated October–November campaign record and durable context to version control. GraphWeb_DESI commit e2df159 groups Loa density, tidal, cube and structure diagnostics; these are presentation and sensitivity checks, not a new calibrated VAC. GraphWeb_DESI commit 0ceafe7 records the upstream low-z handoff without adopting new checkpoints or changing observational defaults.

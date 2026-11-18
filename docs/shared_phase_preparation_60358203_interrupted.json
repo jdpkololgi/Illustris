@@ -1,0 +1,230 @@
+{
+  "recorded_utc": "2026-10-27T07:09:24.946758+00:00",
+  "job_id": "60358203",
+  "termination": "Owning interactive shell auto-logout after 30 minutes idle; salloc relinquished allocation and scheduler cancelled active steps",
+  "elapsed": "00:30:16",
+  "approved_timelimit": "02:00:00",
+  "p12": {
+    "ph001": {
+      "p1": true,
+      "p2": true,
+      "p3": true,
+      "p4": true,
+      "full": true
+    },
+    "ph014": {
+      "p1": true,
+      "p2": true,
+      "p3": true,
+      "p4": true,
+      "full": true
+    },
+    "ph015": {
+      "p1": true,
+      "p2": true,
+      "p3": true,
+      "p4": false,
+      "full": false
+    },
+    "ph016": {
+      "p1": true,
+      "p2": true,
+      "p3": true,
+      "p4": true,
+      "full": true
+    },
+    "ph017": {
+      "p1": true,
+      "p2": false,
+      "p3": false,
+      "p4": false,
+      "full": false
+    }
+  },
+  "cfm": {
+    "ph000": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": true,
+      "conditions": true,
+      "audit": true
+    },
+    "ph001": {
+      "native": true,
+      "particles": false,
+      "geometry": true,
+      "targets": false,
+      "conditions": true,
+      "audit": false
+    },
+    "ph002": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": true,
+      "conditions": true,
+      "audit": false
+    },
+    "ph003": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": true,
+      "conditions": true,
+      "audit": true
+    },
+    "ph004": {
+      "native": true,
+      "particles": false,
+      "geometry": true,
+      "targets": true,
+      "conditions": true,
+      "audit": false
+    },
+    "ph005": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": true,
+      "conditions": true,
+      "audit": false
+    },
+    "ph006": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": true,
+      "conditions": true,
+      "audit": false
+    },
+    "ph007": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": true,
+      "conditions": true,
+      "audit": false
+    },
+    "ph008": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": true,
+      "conditions": true,
+      "audit": false
+    },
+    "ph009": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": true,
+      "conditions": true,
+      "audit": false
+    },
+    "ph010": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": true,
+      "conditions": true,
+      "audit": false
+    },
+    "ph011": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": true,
+      "conditions": true,
+      "audit": false
+    },
+    "ph012": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": true,
+      "conditions": true,
+      "audit": false
+    },
+    "ph013": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": true,
+      "conditions": true,
+      "audit": false
+    },
+    "ph014": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": false,
+      "conditions": true,
+      "audit": false
+    },
+    "ph015": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": false,
+      "conditions": false,
+      "audit": false
+    },
+    "ph016": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": false,
+      "conditions": true,
+      "audit": false
+    },
+    "ph017": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": false,
+      "conditions": false,
+      "audit": false
+    },
+    "ph020": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": true,
+      "conditions": true,
+      "audit": false
+    },
+    "ph021": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": true,
+      "conditions": true,
+      "audit": false
+    },
+    "ph022": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": true,
+      "conditions": true,
+      "audit": false
+    },
+    "ph023": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": true,
+      "conditions": true,
+      "audit": false
+    },
+    "ph024": {
+      "native": true,
+      "particles": true,
+      "geometry": true,
+      "targets": true,
+      "conditions": true,
+      "audit": false
+    }
+  }
+}

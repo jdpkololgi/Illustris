@@ -4,8 +4,11 @@ import argparse
 import copy
 import hashlib
 import json
+import sys
 from pathlib import Path
 import numpy as np
+REPO = Path(__file__).resolve().parents[2]
+if str(REPO) not in sys.path: sys.path.insert(0, str(REPO))
 from galaxy_position_validation_status import LABEL_POLICY_VERSION, REFERENCE_KIND_CODES, INDEPENDENT_POSITION_CODES
 from galaxy_position_mapping import periodic_delta
 from galaxy_label_equivalence import RULE_VERSION, validate_equivalence
@@ -67,7 +70,10 @@ def main():
     p.add_argument('--samples',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
     args=p.parse_args();audit=json.loads(args.audit.read_text())
     if audit.get('completed') is not True:raise ValueError('Incomplete coordinate audit')
-    if any(ph in {'ph001',*[f'ph{i:03d}' for i in range(14,20)]} for ph in audit['phases']):
+    if audit.get('phase_policy'):
+        from shared.phase_policy import check_preparation_phase
+        for ph in audit['phases']: check_preparation_phase(audit, ph)
+    elif any(ph in {'ph001',*[f'ph{i:03d}' for i in range(14,20)]} for ph in audit['phases']):
         raise ValueError('Reserved phases remain closed')
     certificate=copy.deepcopy(audit)
     certificate.update(schema_version='galaxy-position-coordinate-certificate-v2',
