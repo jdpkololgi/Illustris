@@ -1,5 +1,78 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-19 — ph006 SGC scored; NGC-only recovery pending
+
+The user relaxed job 61582948 to either A100 memory size. The allocation
+ended FAILED (1:0) after 3:31:33 on nid001832. The 20-phase, 2,560-patch
+exterior prior was fitted and frozen before inference; PRIOR.json SHA-256
+1d1a2d8a6f21b13ff6336e95e0b59da4fec734481033cb3d4a3638810db1782f.
+The SGC draw completed density, free-space tides and full-box scoring in
+~92 minutes. Receipt: /pscratch/sd/d/dkololgi/abacus/e2e_field_v3/lowz_cap_draw_61582948/SGC/SCORES.json.
+At 53,845 supported registered cells over 0.01 <= z < 0.55, density RMSE
+was 0.3652 and T-web class agreement 66.39%; for the 13,316 cells below
+0.15 these were 0.2273 and 73.18%. One draw, one cap: not posterior
+coverage, a full-sky evaluation, or a measured ensemble budget.
+
+NGC failed during fine integration on the 40 GB A100; no NGC density
+checkpoint survived. Authorized recovery 61610899 uses the same verified
+ph006_draw_source_JwpP1b snapshot and frozen prior. Its submitted batch
+script omits the prior-fit command, loops over NGC only (density, tides,
+score), requests gpu&a100&hbm80g, 32 logical CPUs, desi_g/shared, Scratch,
+4 hours, no requeue. Status at this entry: PENDING, elapsed zero. Do not
+rerun SGC or launch the ensemble before checking NGC scores and accounting.
+
+## 2026-11-19 — ph006 one-draw-per-cap boundary run submitted, not scored
+
+Job 61582948: one shared 80 GB A100, 32 logical CPUs, desi_g/shared,
+Scratch, six hours total, no requeue. Fixed helper snapshot
+/pscratch/sd/d/dkololgi/abacus/ph006_draw_source_JwpP1b with
+coarse_source_61551798 production imports. Fit the frozen three-scale
+log-density prior on 20 training phases only; use one identical prior for
+SGC and NGC. One coherent observation-conditioned draw per cap, 64 model
+evaluations per stage. Preserve finite density cells; 32-cell conditioned
+exterior, free-space cuboid tidal operator, no additional R7 smoothing.
+Score the uncorrected cell-average tidal operator against periodic full-box
+truth at supported registered cores, retaining low-z rows. This is not the
+subcell-corrected readout or a calibration ensemble. Last check: pending.
+Verify both SCORES.json files, density/tide receipts, job log and accounting
+before making any result or cost claim. No ensemble authorized.
+
+## 2026-11-19 — Corrected CFM shared-canvas engineering check, both caps
+
+Shared 80 GB A100 job 61582135 (nid200257) completed both steps 0:0 and
+released after 2:55. Frozen coarse_source_61551798 production imports; new
+lowz_canvas_check.py and lowz_canvas_extent_check.py. No truth read. Receipts
+under /pscratch/sd/d/dkololgi/abacus/e2e_field_v3/lowz_canvas_check_61582135.
+On ph006 NGC/SGC the trained EMA one-window coarse and endpoint outputs
+equal the patch references at 8 NFE. Two-window decoded density overlaps
+agree exactly over 215040/218880 cells; max relative block-mass errors
+3.86e-16/4.02e-16 (upper bounds). Occupied galaxy tiles over [0.01,0.55)
+plus registered cores give 7195 windows across ph006/012/013, both caps.
+Timing on actual cap extents with eight active windows at four evaluations
+per stage: 2.50 s combined per cap; peak allocated CUDA tensors 2.96/2.48
+GiB, not the full observation cache. Sequential one-draw extrapolation at
+64 evaluations per stage: ~10 A100-h per draw over six caps, ~640 A100-h
+for 64 draws, excluding preparation, streamed IO, tides and scoring. No
+full-cap ensemble generated, no calibration claim and no final-phase reads.
+
+## 2026-11-19 — Combined low-z seed-17 CFM: three-patch solver pilot complete
+
+Both production EMA checkpoints verified; observed local/wide inputs only,
+independent coarse/fine noise per draw, matched seeds across solver levels.
+Job 61580056 on nid200257 completed 0:0 in 4:08 and released. Receipts:
+Scratch e2e_field_v3/lowz_patch_pilot_61580056 under abacus; runner
+workflows/sbi/lowz_patch_solver_pilot.py with coarse_source_61551798 imports.
+One patch per development phase (006 low-z boundary, 012 low-z interior,
+013 high-z interior), local+wide free-space tides with unit exterior applied
+equally to draws and scoring truth. Max relative block mass error 4.41e-16
+(upper bound). With matched noise, density mean absolute change fell from
+0.030–0.038 to 0.014–0.0174 across successive solver doublings. At 16 coarse
+steps/32 fine NFE, 4 to 8 draws shifted density coverage by 16–19 percentage
+points. No calibrated coverage, baseline comparison, supported-voxel low-z
+result or full-cap claim. At 32 coarse steps/64 fine NFE measured 4.95 s/draw
+including local tides: 48 domains x 64 draws projects to 4.22 A100-h before
+baseline and run overhead. Full run not launched; final phases sealed.
+
 ## 2026-11-18 — Repository handoff: Bind low-z training runs and integrate ordered encoder prefetch
 
 Group the bound input manifest, disposable profiling and restart checks, the 960-domain CFM launcher and the ordered-prefetch P12-A trainer and budget. Production submissions: CFM 61534556, P12-A 61535300; both jobs’ live constraints were relaxed to either A100 memory size. Submission does not establish convergence or posterior calibration.
