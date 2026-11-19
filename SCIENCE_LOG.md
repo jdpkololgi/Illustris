@@ -1,35 +1,5 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
-## 2026-11-19 — Combined low-z CFM: fine fit complete, coarse fit outstanding
-
-Seed-17 fine endpoint job 61534556 completed 32 epochs / 15,360 updates.
-That fit alone is not the observation-to-density model. The historical wide
-coarse velocity trainer binds an older release and a 13-phase schedule.
-For the corrected data, 20 training condition manifests each list 128
-distinct paired domains. New entry point: workflows/sbi/lowz_coarse_fit.py.
-It binds the fine run and normalizer, starts the coarse weights fresh, and
-includes a train-address observation-only coarse-to-fine interface check.
-The proposed primary coarse checkpoint follows historical epoch 16 on a
-32-epoch learning-rate schedule (20,480 low-z updates at batch two).
-GPU preflight 61551766 completed 0:0 in 80 seconds: 24 training steps,
-then an observation-only sampled coarse-to-fine draw on ph000 yielding a
-finite positive 96x64x64 density patch. Scratch receipt:
-abacus/e2e_field_v3/lowz_coarse_preflight_61551766/PREFLIGHT.json.
-Steps 2–24 averaged 1.03 s/update (~5.85 A100-hours projected for 20,480
-updates, excluding startup/IO variation). Fresh seed-17 coarse production
-job 61551798 submitted on one shared A100 with an eight-hour cap and no
-requeue. Source archive SHA256:
-4b8853ae4823747eb9208d33696e3b24f0a9e8885d080693a57ac5454cd18dc3.
-The preflight checkpoint is disposable. Verify COARSE_FIT_COMPLETE.json
-and both checkpoint hashes before evaluation handoff; no calibration claim.
-
-Closeout: job 61551798 completed 0:0 in 2:11:38, all 20,480 updates.
-The production observation-only coarse-to-fine interface check passed.
-Both LATEST.pt hashes matched COARSE_FIT_COMPLETE.json under Scratch
-abacus/e2e_field_v3/lowz_coarse_velocity_seed17_v1. The fine checkpoint
-is in its sibling lowz_unet_endpoint_20261118_seed17 directory. Training
-is complete; this interface check alone does not establish calibration.
-
 ## 2026-11-19 — ph006 SGC scored; NGC-only recovery pending
 
 The user relaxed job 61582948 to either A100 memory size. The allocation
@@ -85,6 +55,24 @@ GiB, not the full observation cache. Sequential one-draw extrapolation at
 for 64 draws, excluding preparation, streamed IO, tides and scoring. No
 full-cap ensemble generated, no calibration claim and no final-phase reads.
 
+## 2026-11-19 — P12-A epoch-gated recovery windows
+
+Cancelled 61577997 while PENDING (zero elapsed). Epoch 1 validation allocation
+61581030, tmux p12a-epoch1-validation on login16, 4h shared_interactive.
+Resume is restricted to epoch-1 cursor 346364; no epoch-1 optimizer updates.
+On successful validation, checkpoint epoch 2 cursor zero before returning.
+Epochs 2/3/4: shared batch 61581047/61581049/61581051 respectively, 14h
+each, afterok chain plus per-epoch history/checkpoint guards; no requeues.
+The 46 GPU-hour cap is cumulative across the four allocations. Submission
+records scheduling, not a validation result.
+
+Result: validation job 61581030 completed 0:0 in 1:42:43, at the original
+step 346364. All authoritative rows were scored with zero patch failures:
+ph006 7,261,727 (shell-macro lambda1 R² 0.4418), ph012 7,339,923 (0.4340),
+ph013 7,275,255 (0.4294). Equal-phase mean 0.4351. Epoch 2 resumed without
+repeating epoch 1; at 23:36 GMT job 61581047 had logged 178,161/346,364
+epoch-2 updates. Epochs 3 and 4 remained dependency-pending.
+
 ## 2026-11-19 — Combined low-z seed-17 CFM: three-patch solver pilot complete
 
 Both production EMA checkpoints verified; observed local/wide inputs only,
@@ -102,6 +90,49 @@ points. No calibrated coverage, baseline comparison, supported-voxel low-z
 result or full-cap claim. At 32 coarse steps/64 fine NFE measured 4.95 s/draw
 including local tides: 48 domains x 64 draws projects to 4.22 A100-h before
 baseline and run overhead. Full run not launched; final phases sealed.
+
+## 2026-11-19 — P12-A corrected whole-phase validation recovery
+
+61548250 completed all 346,364 epoch-1 optimizer updates, then failed in the
+legacy spatial diagnostic. Corrected assignments deliberately have fold=-1
+and no internal superblock/boundary metadata. Only for the bound whole-phase
+schema, mark these diagnostics unavailable and label shells from the bound P1
+redshift contract. Preserve exact parent coverage and equal-phase scoring.
+14 focused tests passed. Full-encoder recovery 61577997 submitted; original
+checkpoint SHA256 6ceb15b449e0751757dfecff082af98becb7093f1c96e90d0aaac56e98bd5231.
+One-time source migration retains the original artifact and all optimizer/RNG
+state. Validation must cover ph006/012/013 before epoch 2; submission is not
+evidence that this gate has passed. No omitted-phase fits or sealed-phase reads.
+
+## 2026-11-19 — Combined low-z CFM: fine fit complete, coarse fit outstanding
+
+Seed-17 fine endpoint job 61534556 completed 32 epochs / 15,360 updates.
+That fit alone is not the observation-to-density model. The historical wide
+coarse velocity trainer binds an older release and a 13-phase schedule.
+For the corrected data, 20 training condition manifests each list 128
+distinct paired domains. New entry point: workflows/sbi/lowz_coarse_fit.py.
+It binds the fine run and normalizer, starts the coarse weights fresh, and
+includes a train-address observation-only coarse-to-fine interface check.
+The proposed primary coarse checkpoint follows historical epoch 16 on a
+32-epoch learning-rate schedule (20,480 low-z updates at batch two).
+GPU preflight 61551766 completed 0:0 in 80 seconds: 24 training steps,
+then an observation-only sampled coarse-to-fine draw on ph000 yielding a
+finite positive 96x64x64 density patch. Scratch receipt:
+abacus/e2e_field_v3/lowz_coarse_preflight_61551766/PREFLIGHT.json.
+Steps 2–24 averaged 1.03 s/update (~5.85 A100-hours projected for 20,480
+updates, excluding startup/IO variation). Fresh seed-17 coarse production
+job 61551798 submitted on one shared A100 with an eight-hour cap and no
+requeue. Source archive SHA256:
+4b8853ae4823747eb9208d33696e3b24f0a9e8885d080693a57ac5454cd18dc3.
+The preflight checkpoint is disposable. Verify COARSE_FIT_COMPLETE.json
+and both checkpoint hashes before evaluation handoff; no calibration claim.
+
+Closeout: job 61551798 completed 0:0 in 2:11:38, all 20,480 updates.
+The production observation-only coarse-to-fine interface check passed.
+Both LATEST.pt hashes matched COARSE_FIT_COMPLETE.json under Scratch
+abacus/e2e_field_v3/lowz_coarse_velocity_seed17_v1. The fine checkpoint
+is in its sibling lowz_unet_endpoint_20261118_seed17 directory. Training
+is complete; this interface check alone does not establish calibration.
 
 ## 2026-11-18 — Repository handoff: Bind low-z training runs and integrate ordered encoder prefetch
 

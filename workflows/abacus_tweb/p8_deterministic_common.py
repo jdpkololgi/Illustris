@@ -350,6 +350,8 @@ def evaluate_complete_phase(
     assignment,
     phase: str,
     runtime: dict | None = None,
+    whole_phase_only: bool = False,
+    shell_names: tuple = SHELL_NAMES,
 ) -> dict:
     """Evaluate exactly all authoritative rows in one independent phase.
 
@@ -390,18 +392,21 @@ def evaluate_complete_phase(
     aligned_prediction = prediction[order][lookup]
     truth = np.asarray(truth_by_parent[required_parent], dtype=np.float64)
     shell = np.asarray(assignment["shell"][required_rows], dtype=np.int8)
-    superblock = np.asarray(
-        assignment["superblock_id"][required_rows], dtype=np.int32
-    )
-    distance = np.asarray(
-        assignment["distance_to_conservative_fold_boundary_mpc"][required_rows],
-        dtype=np.float64,
-    )
+    if len(shell_names) != 4 or not np.isin(shell, np.arange(4)).all():
+        raise ValueError("Invalid validation shell contract")
+    if whole_phase_only:
+        if not np.all(assignment["fold"] == -1):
+            raise ValueError("Whole-phase assignment contains internal folds")
+        interval = boundary = {"available": False, "reason": "no within-phase spatial split"}
+    else:
+        superblock = np.asarray(assignment["superblock_id"][required_rows], dtype=np.int32)
+        distance = np.asarray(assignment["distance_to_conservative_fold_boundary_mpc"][required_rows],
+                              dtype=np.float64)
     if not np.all(np.isfinite(truth)) or not np.all(np.isfinite(aligned_prediction)):
         raise RuntimeError("non-finite truth or prediction in authoritative phase rows")
 
     per_shell = {}
-    for shell_id, name in enumerate(SHELL_NAMES):
+    for shell_id, name in enumerate(shell_names):
         selected = shell == shell_id
         if selected.sum() < 3:
             raise RuntimeError(f"validation shell {name} has only {selected.sum()} rows")
@@ -409,10 +414,10 @@ def evaluate_complete_phase(
             truth[selected], aligned_prediction[selected]
         )
     macro = float(
-        np.mean([per_shell[name]["lambda1"]["r2"] for name in SHELL_NAMES])
+        np.mean([per_shell[name]["lambda1"]["r2"] for name in shell_names])
     )
     tracer_supported_macro = float(
-        np.mean([per_shell[name]["lambda1"]["r2"] for name in SHELL_NAMES[:3]])
+        np.mean([per_shell[name]["lambda1"]["r2"] for name in shell_names[:3]])
     )
     return {
         "validation_phase": str(phase),
@@ -423,13 +428,13 @@ def evaluate_complete_phase(
         "pooled": _one_shell_metrics(truth, aligned_prediction),
         "per_shell": per_shell,
         "worst_shell_r2_lambda1": float(
-            min(per_shell[name]["lambda1"]["r2"] for name in SHELL_NAMES)
+            min(per_shell[name]["lambda1"]["r2"] for name in shell_names)
         ),
         "ordering_violation_rate": ordered_violation_rate(aligned_prediction),
-        "spatial_block_interval": spatial_block_interval(
+        "spatial_block_interval": interval if whole_phase_only else spatial_block_interval(
             truth, aligned_prediction, shell, superblock
         ),
-        "boundary": _boundary_summary(truth, aligned_prediction, shell, distance),
+        "boundary": boundary if whole_phase_only else _boundary_summary(truth, aligned_prediction, shell, distance),
         "runtime": {} if runtime is None else runtime,
     }
 

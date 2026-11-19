@@ -74,6 +74,25 @@ class P10ArmATrainingTests(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             validation_core_groups(WrongPhase())
 
+    def test_whole_phase_assignment_has_no_internal_fold_diagnostics(self):
+        original = self.assignment()
+        rows = {k: original[k] for k in ("parent_node_id","shell","supervised_eligible")}
+        rows["fold"] = np.full(12, -1)
+        truth = np.arange(36).reshape(12,3)
+        names = ("0p01_0p25", *SHELL_NAMES[1:])
+        args = dict(parent_node_id=rows["parent_node_id"], predicted_eigenvalues=truth,
+                    truth_by_parent=truth, assignment=rows, phase="ph006")
+        out = evaluate_complete_phase(**args, whole_phase_only=True, shell_names=names)
+        self.assertEqual(tuple(out["per_shell"]), names)
+        self.assertAlmostEqual(out["primary_macro_r2_lambda1"], 1.)
+        self.assertFalse(out["boundary"]["available"])
+        self.assertFalse(out["spatial_block_interval"]["available"])
+        with self.assertRaises(KeyError):
+            evaluate_complete_phase(**args)
+        rows["fold"][1] = 0
+        with self.assertRaises(ValueError):
+            evaluate_complete_phase(**args, whole_phase_only=True)
+
     def test_validation_scores_weight_phases_not_row_counts(self):
         reports, losses = {}, {}
         for phase, score, count in (("ph006", .9, 1000), ("ph012", .3, 10), ("ph013", .6, 100)):

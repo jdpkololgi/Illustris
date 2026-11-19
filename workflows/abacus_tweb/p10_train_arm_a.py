@@ -119,6 +119,7 @@ def frozen_arguments(args: argparse.Namespace) -> dict:
     """Arguments that can change weights or scientific model selection."""
     ignored = {
         "auto_resume",
+        "stage_epoch",
         "checkpoint_every",
         "device",
         "loss_log_every",
@@ -198,7 +199,7 @@ def validation_core_groups(loader) -> dict[str, np.ndarray]:
     return result
 
 
-def aggregate_validation_reports(reports: dict[str, dict], losses: dict[str, dict]):
+def aggregate_validation_reports(reports: dict[str, dict], losses: dict[str, dict], shell_names=SHELL_NAMES):
     """Equal phase mean of the existing per-phase shell-macro selection metric.
 
     Parent IDs are never pooled across phases. Single-phase outputs retain their
@@ -225,7 +226,7 @@ def aggregate_validation_reports(reports: dict[str, dict], losses: dict[str, dic
         "worst_shell_r2_lambda1": min(row["worst_shell_r2_lambda1"] for row in reports.values()),
         "per_shell": {name: {"lambda1": {"r2": float(np.mean([
             row["per_shell"][name]["lambda1"]["r2"] for row in reports.values()
-        ]))}} for name in SHELL_NAMES},
+        ]))}} for name in shell_names},
         "per_phase": reports,
     }
     loss = {
@@ -390,6 +391,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--run-name", default="arm_a_r0_v1")
     parser.add_argument("--auto-resume", action="store_true")
+    parser.add_argument("--stage-epoch", type=int, help="Resume only this epoch; stop after its validation and durable checkpoint")
     parser.add_argument("--ordered-prefetch", action="store_true",
                         help="Prepare one subsequent U-Net core on a single CPU worker")
     parser.add_argument("--contract-root", type=Path, default=CONTRACT_ROOT)
@@ -449,6 +451,8 @@ def main() -> None:
         print(complete_marker.read_text(), flush=True)
         return
     resume = bool(args.auto_resume and checkpoint_path.exists())
+    if args.stage_epoch is not None and (not resume or not 1 <= args.stage_epoch <= args.epochs):
+        raise RuntimeError("Epoch segment requires a resume checkpoint and a valid epoch")
     if any(path.name != ".run.lock" for path in output.iterdir()) and not resume:
         raise RuntimeError(f"non-empty Arm-A output requires --auto-resume: {output}")
 
@@ -463,6 +467,23 @@ def main() -> None:
     phases = tuple(loader.training_phases)
     validation_groups = validation_core_groups(loader)
     validation_phases = tuple(validation_groups)
+    whole_phase_only = loader.manifest.get("schema_version") == "p12a-lowz-unet-loader-v1"
+    validation_shells = SHELL_NAMES
+    if whole_phase_only:
+        from workflows.abacus_tweb.p10_redshift_contract import shell_names
+        if (loader.manifest.get("readiness_scope") != "encoder_training_whole_phase_split"
+                or loader.manifest.get("spatial_calibration_evaluation_qualified") is not False):
+            raise RuntimeError("Unexpected corrected low-z split contract")
+        definitions = set()
+        for p in validation_phases:
+            inputs = loader.phase_records[p]["inputs"]
+            for key in ("assignment", "p1_manifest"):
+                if sha256(Path(inputs[key])) != inputs[key+"_sha256"]:
+                    raise RuntimeError(f"{p}: changed {key}")
+            definitions.add(shell_names(json.loads(Path(inputs["p1_manifest"]).read_text())["redshift_contract"]))
+        if len(definitions) != 1:
+            raise RuntimeError("Inconsistent development shell definitions")
+        validation_shells = definitions.pop()
     sealed = set(getattr(loader, "blind_phases", (loader.blind_phase,)))
     if sealed.intersection(phases + validation_phases) or set(phases).intersection(validation_phases):
         raise RuntimeError("Overlapping training, selection or reserved phase roles")
@@ -553,6 +574,10 @@ def main() -> None:
         cursor = int(resume_row["cursor"])
         refs = loader.training_epoch(seed=args.seed, epoch=epoch)
         validate_resume_state(resume_row, refs)
+        if args.stage_epoch is not None:
+            expected_cursor = len(refs) if args.stage_epoch == 1 else 0
+            if epoch != args.stage_epoch or cursor != expected_cursor or state["global_step"] != (epoch-1)*len(refs)+cursor:
+                raise RuntimeError("Unexpected epoch/cursor for staged recovery")
         phase_accumulators = accumulators_from_dict(
             phases, resume_row.get("loss_accumulator")
         )
@@ -589,7 +614,7 @@ def main() -> None:
         ),
         "model": args.model,
         "seed": args.seed,
-        "fresh_initialization": True,
+        "fresh_initialization": not resume,
         "warm_start": None,
         "training_phases": list(phases),
         "validation_and_selection_phase": validation_phases[0] if len(validation_phases) == 1 else None,
@@ -937,6 +962,8 @@ def main() -> None:
                     truth_by_parent=validation_truth,
                     assignment=validation_assignment,
                     phase=validation_phase,
+                    whole_phase_only=whole_phase_only,
+                    shell_names=validation_shells,
                     runtime={
                         "epoch": epoch,
                         "global_step": global_step,
@@ -971,7 +998,13 @@ def main() -> None:
                 phase_reports[validation_phase] = report
                 phase_losses[validation_phase] = validation_loss
                 phase_predictions[validation_phase] = (val_parent, val_eigen)
-            report, validation_loss = aggregate_validation_reports(phase_reports, phase_losses)
+            if whole_phase_only:
+                for p, row in phase_reports.items():
+                    if (row["n_authoritative"] != loader.phase_records[p]["authoritative_rows"]
+                            or row["runtime"]["patch_failures"]
+                            or not np.isfinite(list(phase_losses[p]["per_shell_scaled_mse"].values())).all()):
+                        raise RuntimeError(f"{p}: failed low-z validation gates")
+            report, validation_loss = aggregate_validation_reports(phase_reports, phase_losses, validation_shells)
             phase_shell_mse = np.divide(
                 shell_numerator,
                 shell_denominator,
@@ -1013,7 +1046,7 @@ def main() -> None:
                 "worst_shell_r2_lambda1": report["worst_shell_r2_lambda1"],
                 "per_shell_lambda1_r2": {
                     name: report["per_shell"][name]["lambda1"]["r2"]
-                    for name in SHELL_NAMES
+                    for name in validation_shells
                 },
                 "learning_rate": float(scheduler.get_last_lr()[0]),
                 "invocation_elapsed_seconds": time.monotonic() - started,
@@ -1081,6 +1114,9 @@ def main() -> None:
             if epoch <= args.epochs:
                 next_refs = loader.training_epoch(seed=args.seed, epoch=epoch)
                 save_checkpoint(next_refs, 0)
+                if args.stage_epoch == completed_epoch:
+                    print("STAGED_VALIDATION_COMPLETE", completed_epoch, global_step, flush=True)
+                    return
             if stopped_early:
                 break
 
