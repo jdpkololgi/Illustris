@@ -1,5 +1,35 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-19 — Combined low-z CFM: fine fit complete, coarse fit outstanding
+
+Seed-17 fine endpoint job 61534556 completed 32 epochs / 15,360 updates.
+That fit alone is not the observation-to-density model. The historical wide
+coarse velocity trainer binds an older release and a 13-phase schedule.
+For the corrected data, 20 training condition manifests each list 128
+distinct paired domains. New entry point: workflows/sbi/lowz_coarse_fit.py.
+It binds the fine run and normalizer, starts the coarse weights fresh, and
+includes a train-address observation-only coarse-to-fine interface check.
+The proposed primary coarse checkpoint follows historical epoch 16 on a
+32-epoch learning-rate schedule (20,480 low-z updates at batch two).
+GPU preflight 61551766 completed 0:0 in 80 seconds: 24 training steps,
+then an observation-only sampled coarse-to-fine draw on ph000 yielding a
+finite positive 96x64x64 density patch. Scratch receipt:
+abacus/e2e_field_v3/lowz_coarse_preflight_61551766/PREFLIGHT.json.
+Steps 2–24 averaged 1.03 s/update (~5.85 A100-hours projected for 20,480
+updates, excluding startup/IO variation). Fresh seed-17 coarse production
+job 61551798 submitted on one shared A100 with an eight-hour cap and no
+requeue. Source archive SHA256:
+4b8853ae4823747eb9208d33696e3b24f0a9e8885d080693a57ac5454cd18dc3.
+The preflight checkpoint is disposable. Verify COARSE_FIT_COMPLETE.json
+and both checkpoint hashes before evaluation handoff; no calibration claim.
+
+Closeout: job 61551798 completed 0:0 in 2:11:38, all 20,480 updates.
+The production observation-only coarse-to-fine interface check passed.
+Both LATEST.pt hashes matched COARSE_FIT_COMPLETE.json under Scratch
+abacus/e2e_field_v3/lowz_coarse_velocity_seed17_v1. The fine checkpoint
+is in its sibling lowz_unet_endpoint_20261118_seed17 directory. Training
+is complete; this interface check alone does not establish calibration.
+
 ## 2026-11-19 — ph006 SGC scored; NGC-only recovery pending
 
 The user relaxed job 61582948 to either A100 memory size. The allocation
