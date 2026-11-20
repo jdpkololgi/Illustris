@@ -1,5 +1,17 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — first corrected LitePT production segment submitted
+
+After explicit acceptance of stochastic rather than numerically identical
+restarts: job **61671100**, fresh seed 42, measured trainer fc0b407,
+launcher/readout 1d198c7, 4-epoch cosine schedule. Slurm confirms a single
+40/80 GB A100, 32 CPUs, desi_g/shared, Scratch, 24 h maximum and no
+requeue. Initially pending for priority. No previous technical weights
+were imported, no follow-on job authorized. Separately approved: one
+one-hour conditional G-PATCH GPU check, only after CPU 61668072 completes
+successfully and its full transformed-loader receipt verifies. No corrected
+G-PATCH GPU allocation or held-out R² at this check.
+
 ## 2026-11-20 — measured GPU cost at matched P12-A scorecard epochs
 
 For the cost-vs-R² comparison use actual allocation elapsed time, not
