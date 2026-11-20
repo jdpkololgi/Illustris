@@ -1,5 +1,17 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — matched G-PATCH host-cone benchmark allocated
+
+User selected the one-hour host-cone benchmark, not production. Interactive
+job `61683377` on `nid200304` is owned by tmux `lowz_host_cone_1120` on
+`login16` (one 80 GB A100, 32 CPUs, desi_g/shared_interactive, Scratch).
+Zero existing interactive slots were occupied before launch. The wrapper
+ran with `--run 449c60da50e1d567aa8f007400c3fa1ee4391d35 --host-cone`;
+base GPU receipt hash and corrected loader bindings passed before launch.
+Scratch evidence: `$SCRATCH/abacus/lowz_gpatch_gpu_61683377/`. Read the real
+patch gate before the 256-update/24-group timing comparison. No automatic
+retry or production handoff; the allocation exits when the step ends.
+
 ## 2026-11-20 — first-segment launcher for the passed G-PATCH configuration
 
 Prepared but not submitted: `workflows/abacus_tweb/lowz_gpatch_first_segment.slurm`.
