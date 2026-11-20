@@ -1,5 +1,29 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — exact host-side G-PATCH cone prototype (not the running configuration)
+
+Receiver-streaming job 61675946 passed the former 47,196,542-edge failure
+and recorded 144 updates with a cumulative 4,841,787,392 B PyTorch peak.
+Sampled host RSS reached 49,702,100 KiB. The existing CPU extractor still
+collects incident IDs for every four-hop node, looks up endpoint pairs,
+tests membership, and duplicates all induced edge attributes in both
+directions before the GPU discards irrelevant messages.
+
+An **optional**, unbound extractor in `lowz_graph_host_cone.py` uses the
+bidirectional two-pass dependency instead: retain node features through
+distance four and all incoming edges at receivers through distance three.
+It queries incidence only through distance three and gathers directed
+IDs/attributes in blocks, preserving the canonical forward-then-reverse
+order and reverse-feature convention. Only the declared owned outputs
+are equivalent; outer-halo node outputs are not scientific readouts.
+No neighbor sampling. On a small branched graph with a fourth-shell
+lateral edge and an isolated scored node, two CPU tests passed for node
+and directed-edge identities, edge attributes, both owned scores and all
+parameter/input gradients (dropout off; removed edge gradients zero);
+mixed caps rejected. Real mock equivalence, timing, memory and stochastic
+training behavior have **not** been measured for this variant. It is not
+enabled in the running test or selected for production.
+
 ## 2026-11-20 — corrected G-PATCH: 47.2M-edge failure and receiver-streamed repair
 
 Job `61675084` failed (1:0, 5m59s). The corrected replay passed the
