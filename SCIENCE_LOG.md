@@ -1,5 +1,27 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — approved development calibration ensemble submitted (not scored)
+
+32 coherent draws separately for each cap of ph006/012/013. Reuse both
+ph006 draw-zero fields. Gate 61646642 (SGC replay + new draw one) checks
+supported-cell density and ordered eigenvalue replay and nontrivial change.
+After both succeed: 61646793/61646799 run NGC/SGC draw zero for ph012/013;
+after all four succeed: 61646846/61646847 supply remaining NGC/SGC draws.
+61647276 depends on both large arrays; checks all 192 unique field/tide
+receipts and hashes before scoring. No retries; ph018/019 remain sealed.
+Sources: 5ed6c27, bae4ecc, 2033573. Output on success:
+/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/lowz_calibration_61647276/CALIBRATION.json
+and six cap/phase map panels. Total maximum 472.90 additional A100-hours
+including gate and readout, below approved 480. Draws use 64 evaluations
+per stage, sampled coarse and fresh fine noise; indexed conditioned exterior.
+Cell- and observed-count-weighted marginal ranks, order-statistic coverage,
+width, bias, fair CRPS, class reliability, fair Brier and class-fraction ranks;
+joint density TARP and fair energy on supported core/subregion means.
+These subregions are not the historical extended patch blocks. Scores apply
+to registered supported locations in coherent fields, not every cap voxel;
+three phases are the replication units. No baseline improvement or calibration
+claim from queue state. Synthetic direct fair-CRPS and rank-count checks passed.
+
 ## 2026-11-20 — ph006 coherent draw-zero visual audit; ensemble calibration pending
 
 Recovery 61610899 completed 0:0 in 2:57:22. NGC draw-zero class agreement
