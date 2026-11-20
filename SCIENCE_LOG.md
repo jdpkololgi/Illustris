@@ -1,5 +1,16 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — conditional corrected G-PATCH GPU handoff
+
+`workflows/abacus_tweb/lowz_gpatch_gpu_step.sh --check` is a read-only
+pre-allocation gate: require 61668072 COMPLETED 0:0, the 23 expected
+visible phases, transformed patches in both caps of each phase, the exact
+training-only fit set, and matching graph/transform receipt hashes.
+`--run <revision>` stages a detached source checkout and executes just the
+256-update / 24-group diagnostic in the approved GPU step. Shell syntax
+passed; the live pre-allocation check correctly refused the nonterminal
+CPU job. This is not a positive loader pass or a GPU launch receipt.
+
 ## 2026-11-20 — which P12-A epochs can support the full matched scorecard
 
 Epoch 1 completed all three development phases, but the original full
