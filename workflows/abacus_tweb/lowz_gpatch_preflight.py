@@ -58,11 +58,20 @@ def main():
     # Read the clock at logged, completed updates. The trainer synchronizes the
     # loss and gradient values; the first 64 include cold adapter startup.
     marks={}
+    started=time.monotonic()
     original=trainer.append_jsonl
     def timed(path,row):
         original(path,row)
-        if path.name=="loss_trace.jsonl" and row["global_step"] in (64,256):
-            marks[row["global_step"]]=time.monotonic()
+        if path.name=="loss_trace.jsonl":
+            now=time.monotonic()
+            step=row["global_step"]
+            marks[step]=now
+            # If an unusually dense patch later fails, retain the actual cost
+            # of every completed window (not a full-gate throughput claim).
+            original(a.output/"GPATCH_PROGRESS.jsonl",dict(global_step=step,
+                     elapsed_since_probe_start=now-started,
+                     seconds_since_previous_trace=now-marks[step-16] if step-16 in marks else None,
+                     peak_torch_bytes=torch.cuda.max_memory_allocated()))
     trainer.append_jsonl=timed
     name="lowz_gpatch_preflight"
     sys.argv=["gpatch","--model","graph","--seed","42","--epochs","4","--min-epochs","4",

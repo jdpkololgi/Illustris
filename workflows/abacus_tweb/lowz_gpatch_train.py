@@ -78,8 +78,9 @@ def main():
         bind(a.index,a.transform_dir,a.output)
         return
     from workflows.abacus_tweb import p10_train_arm_a as trainer
-    from workflows.abacus_tweb.lowz_graph_attention import BoundedGraphPatchNet
-    trainer.graph_impl.GraphPatchNet = BoundedGraphPatchNet
+    from workflows.abacus_tweb.lowz_graph_streaming import StreamingGraphPatchNet, owned_patch
+    trainer.graph_impl.GraphPatchNet = StreamingGraphPatchNet
+    trainer.graph_impl.transformed_patch = owned_patch
     args = trainer.parse_args()
     require(args.model=="graph" and args.run_name.startswith("lowz_gpatch_")
             and not args.p11_dense_view and args.multitracer_view is None, "wrong arm")
@@ -89,7 +90,8 @@ def main():
     lib = Path(__file__).resolve().parent
     def hashes():
         keys = ["lowz_gpatch_train.py","lowz_graph_patch_index.py","lowz_graph_normalize.py",
-                "lowz_point_loader.py","p5_graph_patch_utils.py","lowz_epoch_reports.py","lowz_graph_attention.py"]
+                "lowz_point_loader.py","p5_graph_patch_utils.py","lowz_epoch_reports.py","lowz_graph_attention.py",
+                "lowz_graph_streaming.py"]
         return {**source(),**{f"workflows/abacus_tweb/{f}":digest(lib/f) for f in keys},
                 str(args.contract_root/"GRAPH_VIEW_READY.json"):digest(args.contract_root/"GRAPH_VIEW_READY.json")}
     trainer.source_contract = hashes

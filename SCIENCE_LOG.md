@@ -1,5 +1,37 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — corrected G-PATCH: 47.2M-edge failure and receiver-streamed repair
+
+Job `61675084` failed (1:0, 5m59s). The corrected replay passed the
+20,906,438-edge patch and 16 completed optimizer updates, then hit a
+110,789-node/47,196,542-directed-edge patch. The concatenation of all
+weighted edges requested 14.07 GiB with 13.83 GiB free on the 80 GB A100.
+The first repair had checkpointed internal activations but still constructed
+a patch-wide E×80 tensor. The 64→256 timing interval and all validation
+groups are absent. Do not infer R² or an epoch cost from this failure.
+Source/log: aedd3c7, `$SCRATCH/abacus/lowz_gpatch_gpu_61675084/probe.log`.
+
+For dense patches the new corrected-only path sorts directed edges into
+complete receiver neighborhoods. Each group computes its own exact
+incoming attention normalization and contributes to both endpoint sums.
+It recomputes first-layer edge states with the same dropout seed where
+needed by layer two; it does not store patch-wide edge latents. The required
+receiver sets are traced backward from the declared output rows, including
+the incoming normalization neighbors of outgoing messages. No neighbor
+sampling, change to supervised rows, gradient accumulation across optimizer
+steps, or modification to the historical graph or live grid trainers.
+Rows not requested from the partial readout are marked NaN. The graph
+index and raw features still scale with patch size; compute-node time,
+host memory and end-to-end GPU fit remain unverified.
+
+Six one-thread CPU tests passed: reference outputs and parameter/input
+gradients on partial and complete readouts; receiver closure when degree
+exceeds chunk size; checkpointed dropout replay versus uncheckpointed
+streaming; and an operator trace detecting patch-wide edge latents in
+forward/backward (none on the tested graph). The diagnostic now preserves
+16-update timings and CUDA high-water marks even on later failure.
+The previous job released its allocation; no automatic retry or production.
+
 ## 2026-11-20 — dense corrected G-PATCH activation OOM; bounded-activation repair
 
 Job `61673881` failed (1:0, 2m53s). It was an **80 GB** A100. Before
