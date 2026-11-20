@@ -1,5 +1,29 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — P12-A encoder comparison: local CPU probe, not a production ranking
+
+P10 historical re-read: at epoch 3 / 253,338 updates, ph006 four-shell
+lambda1 R2 is 0.39758 for arm_a_r0_v1/unet and 0.46986 for
+g_schedule_canary_lr2e4_v1/graph (G ahead in each shell). The schedules
+differ; the 0.57310 U result is epoch 20, not the age-matched comparator.
+The inductive G ceiling was not measured. No transductive results admitted.
+
+Single-thread local-stencil probe on corrected p12a_lowz_20261029_v1
+training_contract_v1. Sample 32 distinct eligible cores per phase, up to 40
+unique assigned parents/core uniformly (numpy default_rng(4700+phase));
+round authoritative fractional index, exclude 2-cell grid borders. Predict
+physical lambda1 from a flattened 5^3 log1p(counts) cube, mean apodized
+exposure over cube, and parent redshift. StandardScaler fitted on train
+only. Train ph002/003/004/005 (1038/883/634/984); dev ph006/012/013
+(712/864/840). Equal-weight R2 over 3 phases x 4 shells, not pooled:
+ridge(alpha=100) 0.11732; ExtraTrees(24 trees, depth 9, min leaf 5,
+seed 17) 0.14444; tiny Conv3d(1->8->8, valid 3^3, SiLU), plus the two
+scalar features through a 16-unit SiLU head, 0.27714/0.21670 (seeds
+17/42, standardized train target, AdamW .002, shuffled batch 128,
+10 epochs). These inputs omit the production selection correction; this is
+a spatial versus tabular micro-test, not a comparison to the production
+encoder, a GNN replay, or evidence of a ceiling. No sealed phase opened.
+
 ## 2026-11-20 — approved development calibration ensemble submitted (not scored)
 
 32 coherent draws separately for each cap of ph006/012/013. Reuse both
