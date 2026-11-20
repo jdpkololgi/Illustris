@@ -45,6 +45,7 @@ def bind(index_path, transform_dir, output):
 
 
 class Loader(P10PhaseBalancedLoader):
+    adapter_type = CorrectedPatchAdapter
     def __init__(self, root, **kw):
         ready = read(root / "GRAPH_VIEW_READY.json")
         path = Path(ready["geometry_index"])
@@ -64,11 +65,11 @@ class Loader(P10PhaseBalancedLoader):
             require(phase in self.training_phases+self.validation_phases, "no sealed graph access")
             d = Path(self.geometry[phase])
             require(digest(d / "PATCH_GEOMETRY_READY.json")==self.markers[phase], "geometry marker changed")
-            self._graph[phase] = CorrectedPatchAdapter(phase,d,self.root/"transforms/graph")
+            self._graph[phase] = self.adapter_type(phase,d,self.root/"transforms/graph")
         return self._graph[phase]
 
 
-def main():
+def main(*, host_cone=False):
     require("SLURM_STEP_ID" in os.environ, "compute step required")
     if sys.argv[1:2]==["bind"]:
         ap = argparse.ArgumentParser()
@@ -94,8 +95,18 @@ def main():
                 "lowz_graph_streaming.py"]
         return {**source(),**{f"workflows/abacus_tweb/{f}":digest(lib/f) for f in keys},
                 str(args.contract_root/"GRAPH_VIEW_READY.json"):digest(args.contract_root/"GRAPH_VIEW_READY.json")}
-    trainer.source_contract = hashes
-    trainer.P10PhaseBalancedLoader = Loader
+    if host_cone:
+        from workflows.abacus_tweb.lowz_host_cone_gate import ConeAdapter
+        from workflows.abacus_tweb.lowz_graph_host_cone import owned_patch
+        class ConeLoader(Loader):
+            adapter_type = ConeAdapter
+        trainer.P10PhaseBalancedLoader = ConeLoader
+        trainer.graph_impl.grouped_patch = owned_patch
+        trainer.source_contract = lambda: {**hashes(), **{f"workflows/abacus_tweb/{f}":digest(lib/f)
+            for f in ("lowz_host_cone_gate.py","lowz_graph_host_cone.py")}}
+    else:
+        trainer.source_contract = hashes
+        trainer.P10PhaseBalancedLoader = Loader
     trainer.main()
 
 

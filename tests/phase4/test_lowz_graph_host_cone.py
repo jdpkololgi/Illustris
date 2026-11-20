@@ -5,6 +5,7 @@ import numpy as np
 import torch
 
 from workflows.abacus_tweb.lowz_graph_host_cone import owned_patch
+from workflows.abacus_tweb.lowz_host_cone_gate import compare_arrays, comparison
 from workflows.abacus_tweb.p5_graph_patch_utils import assemble_patch
 from workflows.abacus_tweb.p8_train_graph_patch import GraphPatchNet
 
@@ -29,6 +30,7 @@ class HostConeTest(unittest.TestCase):
                            union_edge_features=a.union_edge_features,offsets=a.offsets,incident_edge_id=a.incident_edge_id)
         np.testing.assert_equal(g.parent_node_id,ref.parent_node_id)
         np.testing.assert_equal(g.loss_mask,ref.loss_mask)
+        compare_arrays(ref,g)
         # Independent expected closure: only 4 and 8 lie at distance four.
         keep=~np.isin(ref.parent_node_id[ref.receivers],[4,8])
         self.assertLess(g.n_edge,ref.n_edge)
@@ -54,3 +56,13 @@ class HostConeTest(unittest.TestCase):
         np.testing.assert_equal(g.parent_node_id,[9])
         with self.assertRaisesRegex(ValueError,"caps"):
             owned_patch(self.a,[0,2])
+
+    def test_comparison_rejects_row_substitution(self):
+        group=dict(phase="ph006",cap=1,cores=[2,4],rows=5,nodes=10,largest_owned=False,edges=32,seconds=1.)
+        ref=dict(seed=42,source_step=256,training_window=[64,256],training_cores_per_epoch=346364,
+                 validation_samples=[dict(group) for _ in range(24)],updates_per_second=.4)
+        obs=dict(ref,updates_per_second=.8,validation_samples=[dict(group,edges=20) for _ in range(24)])
+        self.assertEqual(comparison(obs,ref)["training_speed_ratio"],2.)
+        obs["validation_samples"][1]["cores"]=[3,4]
+        with self.assertRaisesRegex((RuntimeError,ValueError),"different inference workload"):
+            comparison(obs,ref)

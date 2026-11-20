@@ -1,5 +1,24 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — qualify the optional G-PATCH host extractor before pricing it
+
+The corrected GPU diagnostic now accepts an explicit `--host-cone` mode;
+the default remains the full canonical CPU extractor. The mode first verifies
+the exact 61675946 baseline receipt and frozen 256-update checkpoint. On two
+training cores (opposite caps, ph000) and six development groups (one per
+phase/cap, largest non-stress group from the original timing panel), require
+identical node IDs, features, ownership masks, ordered directed IDs,
+endpoints and attributes on the independently reconstructed three-hop
+receiver set. Require the frozen network's owned-row predictions to agree
+in FP32 (rtol 2e-4, atol 3e-5). Only then time the same 256 seed-42
+updates and 24 full/stress sample groups; reject changes to grouping, core
+IDs, row/node counts, epoch length, or timing window before reporting speed
+ratios. This compares total runtime including CPU loading; cache order and
+single-run variability still apply. Stochastic optimization is not expected
+to be bitwise identical between extractors. Three focused single-thread CPU
+tests, Python syntax, and shell syntax passed. No real-patch result, speedup
+claim, compute submission or change to the production configuration here.
+
 ## 2026-11-20 — corrected receiver-streamed G-PATCH GPU diagnostic passed
 
 Job 61675946 completed 0:0 in 18m07s (single 80 GB A100, revision

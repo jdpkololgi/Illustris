@@ -47,6 +47,7 @@ def main():
     ap=argparse.ArgumentParser(description=__doc__)
     ap.add_argument("campaign",type=Path)
     ap.add_argument("output",type=Path)
+    ap.add_argument("--host-cone",action="store_true")
     a=ap.parse_args()
     require("SLURM_STEP_ID" in os.environ and torch.cuda.is_available(),"GPU compute step required")
     receipt=read(a.campaign/"GRAPH_LOADER_CHECKED.json")
@@ -55,6 +56,9 @@ def main():
             and receipt["transform_sha256"]==digest(view/"transforms/graph/graph_transform.json"),
             "CPU prerequisites not qualified")
     a.output.mkdir(exist_ok=False)
+    if a.host_cone:
+        from workflows.abacus_tweb.lowz_host_cone_gate import qualify
+        qualify(view,a.campaign,a.output,gp.Loader)
     # Read the clock at logged, completed updates. The trainer synchronizes the
     # loss and gradient values; the first 64 include cold adapter startup.
     marks={}
@@ -78,7 +82,7 @@ def main():
         "--lr","0.002","--disable-early-stopping","--validation-group-cores","4",
         "--checkpoint-every","256","--loss-log-every","16","--stop-after-updates","256",
         "--contract-root",str(view),"--output-root",str(a.output),"--run-name",name]
-    gp.main()
+    gp.main(host_cone=a.host_cone)
     d=a.output/name/"graph/seed_42"
     gate=read(d/"TECHNICAL_CANARY_COMPLETE.json")
     require(gate["pass"] and gate["global_step"]==gate["cursor"]==256 and gate["epoch"]==1,
@@ -122,8 +126,13 @@ def main():
                         and np.isfinite(y).all(),"inference group failed")
                 checks.append(dict(phase=p,cap=cap,cores=group.tolist(),rows=len(rows),seconds=duration,
                                    nodes=n,edges=e,largest_owned=largest,peak_bytes=torch.cuda.max_memory_allocated()))
-    result=dict(**timing,passed=True,validation_samples=checks,
+    result=dict(**timing,passed=True,host_extractor="host_cone" if a.host_cone else "canonical",validation_samples=checks,
                 peak_torch_bytes_including_inference=max(timing["peak_training_torch_bytes"],max(c["peak_bytes"] for c in checks)))
+    if a.host_cone:
+        from workflows.abacus_tweb.lowz_host_cone_gate import comparison, BASE, GATE_HASH
+        base=BASE/"GPATCH_GPU_GATE.json"
+        require(digest(base)==GATE_HASH,"baseline gate changed during measurement")
+        result["comparison"]=comparison(result,read(base))
     (a.output/"GPATCH_GPU_GATE.json").write_text(json.dumps(result,indent=2,allow_nan=False))
 
 

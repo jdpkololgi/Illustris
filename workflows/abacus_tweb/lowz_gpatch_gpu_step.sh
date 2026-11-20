@@ -48,5 +48,8 @@ git -c advice.detachedHead=false checkout -q --detach "$rev"
 unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD
 export PYTHONNOUSERSITE=1 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=4
 echo "commit=$rev job=$SLURM_JOB_ID host=$(hostname)"
+extra=()
+if (( $# == 3 )) && [[ $3 == --host-cone ]]; then extra=(--host-cone)
+elif (( $# != 2 )); then echo "unexpected diagnostic mode" >&2; exit 2; fi
 exec /pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python -u \
-    -m workflows.abacus_tweb.lowz_gpatch_preflight "$campaign" "$out/measurement"
+    -m workflows.abacus_tweb.lowz_gpatch_preflight "$campaign" "$out/measurement" "${extra[@]}"
