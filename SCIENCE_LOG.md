@@ -1,5 +1,13 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — three encoder production segments submitted
+
+Launcher 53ee521: historical G-PATCH 61662008, corrected low-z large-kernel
+CNN 61662009, corrected low-z window attention 61662012. Each requests one
+80 GB A100, 32 CPUs, desi_g/shared, Scratch, 24 hours, no requeue or retry.
+All three pending for priority at launch check; no production scores yet.
+P12-A reference job 61581049 was running and was not modified.
+
 ## 2026-11-20 — G-PATCH replay and three grid smoke tests passed; production segments prepared
 
 61659392 replayed ph006 macro lambda1 R2 0.469858376801 vs archived
