@@ -17,6 +17,7 @@ from workflows.sbi.e2e_exterior_cap_tides import run as run_tides
 p=m.pilot
 c=p.c
 phase='ph006'
+draw=0
 prior=c.ROOT/'exterior_learned_pad32_v1'
 def checked(rec):
     item=rec['outputs'][0]
@@ -43,7 +44,8 @@ def density(cap, dest):
     keys=np.floor((xyz-grid['origin_mpc_h'])/grid['cell_mpc_h']/stride).astype('i4')
     extra=[(np.array(row['center'])+[side,0,0])//stride for row in r for side in (0,32)]
     mids=np.unique(np.vstack((keys,extra)),axis=0)*stride+stride//2
-    assert len(mids)==dict(NGC=1584,SGC=814)[cap]
+    assert len(mids)>0
+    if phase=='ph006': assert len(mids)==dict(NGC=1584,SGC=814)[cap]
     del xyz,keys,cat
     cg=Geometry.make(mids,'coarse'); fg=canvas.geometry(mids)
     models=[p.CoupledBackbone('coarse','wide',base=24,levels=3),m.fine.t.FineModel('unet','x')]
@@ -67,7 +69,7 @@ def density(cap, dest):
             if i%100==0: print(cap,'prepared',i,flush=True)
     prep=time.monotonic()-t;t=time.monotonic()
     def noise(g, stage):
-        seed=int(c.digest(['ph006_cap_draw_v1',cap,stage,0])[:15],16)
+        seed=int(c.digest([phase+'_cap_draw_v1',cap,stage,draw])[:15],16)
         return torch.randn((1,1,*g.shape),device='cuda',generator=torch.Generator(device='cuda').manual_seed(seed))
     z,_=coarse_run(models[0],'coarse',cc,noise(cg,'coarse'),cg,64)
     fc=[m.fine_models.Condition(j,cond.wide,z[cg.crop(i)],'sampled') for i,(j,cond) in enumerate(zip(joint,cc))]
@@ -85,8 +87,8 @@ def density(cap, dest):
         f.create_dataset('rho',data=values[None],compression='lzf')
         f.create_dataset('coverage',data=covered,compression='lzf')
         f.create_dataset('support',data=support,compression='lzf')
-        f.attrs.update(origin_mpc_h=np.array(grid['origin_mpc_h'])+np.array(fg.origin)*6.766,phase=phase,cap=cap,first_draw=0,cell_mpc_h=6.766)
-    c.atomic_json(dest/'COMPLETE.json',dict(passed=True,phase=phase,cap=cap,first=0,draws=1,windows=len(mids),field=c.file_record(path,content_hash=True),prep_seconds=prep,solve_seconds=solve,mass_error=err,checkpoints=hashes,normalizer=NORM,nfe=64))
+        f.attrs.update(origin_mpc_h=np.array(grid['origin_mpc_h'])+np.array(fg.origin)*6.766,phase=phase,cap=cap,first_draw=draw,cell_mpc_h=6.766)
+    c.atomic_json(dest/'COMPLETE.json',dict(passed=True,phase=phase,cap=cap,first=draw,draws=1,windows=len(mids),field=c.file_record(path,content_hash=True),prep_seconds=prep,solve_seconds=solve,mass_error=err,checkpoints=hashes,normalizer=NORM,nfe=64))
 def score(cap,d):
     vals=[]
     with h5py.File(d/'tides/COMPLETED_FIELD.h5') as t,h5py.File(d/'density/FIELD.h5') as f:
@@ -106,7 +108,10 @@ def score(cap,d):
     assert vals
     c.atomic_json(d/'SCORES.json',dict(phase=phase,cap=cap,rows=vals,operator='cap free-space cell-average, no subcell correction',scope='one draw, not posterior coverage'))
 if __name__=='__main__':
-    args=argparse.ArgumentParser();args.add_argument('stage',choices=['density','tides','score']);args.add_argument('cap',choices=['NGC','SGC']);a=args.parse_args()
+    args=argparse.ArgumentParser();args.add_argument('stage',choices=['density','tides','score']);args.add_argument('cap',choices=['NGC','SGC'])
+    args.add_argument('--phase',choices=('ph006','ph012','ph013'),default='ph006')
+    args.add_argument('--draw',type=int,choices=range(32),default=0)
+    a=args.parse_args();phase=a.phase;draw=a.draw
     assert c.DEVELOPMENT==('ph006','ph012','ph013')
     c.require_compute(); freeze(); d=c.ROOT.parent/('lowz_cap_draw_'+os.environ['SLURM_JOB_ID'])/a.cap
     if a.stage=='density': density(a.cap,d/'density')
