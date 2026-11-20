@@ -1,5 +1,15 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — freeze a common epoch-2 comparison point before best-report turnover
+
+The corrected P12-A checkpoint at update 692728, seed 42, scored all
+21,876,905 authoritative rows on ph006/012/013. Equal-weight mean across
+the 12 phase-shell cells: R² 0.509229 / 0.567746 / 0.577865 for λ1/2/3.
+Full per-cell scores, counts, epoch-order, source-report and data hashes:
+`docs/evidence/p12/lowz_encoder_epoch2_p12a.json`. The scorecard reader
+checks the complete-phase scorer's reports and rejects unmatched epochs,
+row counts, and evaluation bindings. One reference score is not a ranking.
+
 ## 2026-11-20 — matched LitePT-S adapter; corrected grid and CPU submissions
 
 CPU batch 61664731 started; pending 61662009 and 61662012 were cancelled
