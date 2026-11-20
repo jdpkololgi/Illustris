@@ -1,5 +1,30 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — exact host cone passes matched benchmark; prefer for next G-PATCH fit
+
+Tmux-owned job `61683377` completed 0:0 in 14m13s and released its 80 GB
+A100. Two ph000 training patches and six ph006/012/013 development groups
+passed the real-data topology, feature and ownership checks before timing.
+Maximum absolute difference in frozen-checkpoint scored predictions was
+2.98e-7. Same seed, 256 completed updates; the registered 64→256 interval
+took 339.59s vs 475.60s (0.5654 vs 0.4037 updates/s). **1.40× throughput,
+28.6% less training time**, faster in all twelve matched 16-update windows.
+At 346,364 updates/epoch this projects to 170.2 vs 238.3 single-A100 hours
+before validation, not an observed full epoch. Single benchmark per variant,
+not interleaved; cache and device effects are not isolated.
+
+Same 24 validation groups, cores, row/node counts and 217,200 scored
+galaxies against the baseline. Calls took 158.70s vs 217.39s (1.37×);
+retained 72.52% of sampled directed edges. Slurm sampled 9,686 MiB GPU
+(baseline 10,746 MiB), while host RSS remained ~56.1 GiB for both;
+the cone run includes its additional oracle. No full-panel validation
+cost, trained-model R² or ranking is established. Use the host cone for
+the next **separately approved** production segment, with these bindings;
+the previously prepared canonical-only launcher is not that configuration.
+No production job was submitted. Full receipts:
+`docs/evidence/p12/lowz_gpatch_host_cone_61683377.json` and
+`docs/evidence/p12/lowz_gpatch_gpu_gate_61675946.json`.
+
 ## 2026-11-20 — matched G-PATCH host-cone benchmark allocated
 
 User selected the one-hour host-cone benchmark, not production. Interactive

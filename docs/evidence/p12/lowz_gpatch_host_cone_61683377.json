@@ -1,0 +1,514 @@
+{
+  "job_id": 61683377,
+  "trainer_revision": "449c60da50e1d567aa8f007400c3fa1ee4391d35",
+  "baseline_job_id": 61675946,
+  "compared_windows": 12,
+  "faster_windows": 12,
+  "real_patch_gate": {
+    "passed": true,
+    "baseline_gate_sha256": "8793b55f90ae9cbd9c454304c251acd78221b031407a0d68d4c1a694c70620ee",
+    "checkpoint_sha256": "6f67ae9e3e632ae0fe3c438ee707c8f4801f347e59c673f20aadaadee7c835cf",
+    "checks": [
+      {
+        "phase": "ph000",
+        "cap": 0,
+        "cores": [
+          2823
+        ],
+        "owned": 26,
+        "reference_edges": 43098,
+        "cone_edges": 16587,
+        "max_abs": 2.384185791015625e-7
+      },
+      {
+        "phase": "ph000",
+        "cap": 1,
+        "cores": [
+          12493
+        ],
+        "owned": 5,
+        "reference_edges": 12016,
+        "cone_edges": 6714,
+        "max_abs": 5.960464477539063e-8
+      },
+      {
+        "phase": "ph006",
+        "cap": 0,
+        "cores": [
+          3301,
+          3302,
+          3303,
+          3304
+        ],
+        "owned": 281,
+        "reference_edges": 95282,
+        "cone_edges": 61268,
+        "max_abs": 2.980232238769531e-7
+      },
+      {
+        "phase": "ph006",
+        "cap": 1,
+        "cores": [
+          13688,
+          13689,
+          13690,
+          13692
+        ],
+        "owned": 335,
+        "reference_edges": 3493174,
+        "cone_edges": 317875,
+        "max_abs": 2.384185791015625e-7
+      },
+      {
+        "phase": "ph012",
+        "cap": 0,
+        "cores": [
+          3079,
+          3080,
+          3081,
+          3082
+        ],
+        "owned": 272,
+        "reference_edges": 83320,
+        "cone_edges": 52571,
+        "max_abs": 2.384185791015625e-7
+      },
+      {
+        "phase": "ph012",
+        "cap": 1,
+        "cores": [
+          18488,
+          18489
+        ],
+        "owned": 12,
+        "reference_edges": 391328,
+        "cone_edges": 70836,
+        "max_abs": 1.7881393432617188e-7
+      },
+      {
+        "phase": "ph013",
+        "cap": 0,
+        "cores": [
+          3999,
+          4000,
+          4001,
+          4002
+        ],
+        "owned": 263,
+        "reference_edges": 90294,
+        "cone_edges": 60710,
+        "max_abs": 2.384185791015625e-7
+      },
+      {
+        "phase": "ph013",
+        "cap": 1,
+        "cores": [
+          18550,
+          18551,
+          18552
+        ],
+        "owned": 5,
+        "reference_edges": 2882056,
+        "cone_edges": 469852,
+        "max_abs": 2.384185791015625e-7
+      }
+    ]
+  },
+  "benchmark": {
+    "source_step": 256,
+    "seed": 42,
+    "training_window": [
+      64,
+      256
+    ],
+    "seconds": 339.58592108800076,
+    "updates_per_second": 0.5653944644844239,
+    "training_cores_per_epoch": 346364,
+    "peak_training_torch_bytes": 4519670272,
+    "gpu_total_bytes": 85093777408,
+    "checkpoint_sha256": "283ce8329cb7d6ed35e519e50426a51a241dcdbae59613d2d9990fbdbc089abe",
+    "passed": true,
+    "host_extractor": "host_cone",
+    "validation_samples": [
+      {
+        "phase": "ph006",
+        "cap": 0,
+        "cores": [
+          2730,
+          2731,
+          2732,
+          2733
+        ],
+        "rows": 46,
+        "seconds": 0.3319095360056963,
+        "nodes": 2060,
+        "edges": 17166,
+        "largest_owned": false,
+        "peak_bytes": 75052544
+      },
+      {
+        "phase": "ph006",
+        "cap": 0,
+        "cores": [
+          3301,
+          3302,
+          3303,
+          3304
+        ],
+        "rows": 281,
+        "seconds": 0.3056247470085509,
+        "nodes": 6503,
+        "edges": 61268,
+        "largest_owned": false,
+        "peak_bytes": 214133760
+      },
+      {
+        "phase": "ph006",
+        "cap": 0,
+        "cores": [
+          5861,
+          5862,
+          5863,
+          5864
+        ],
+        "rows": 6,
+        "seconds": 0.3248553609882947,
+        "nodes": 1178,
+        "edges": 7971,
+        "largest_owned": false,
+        "peak_bytes": 45544448
+      },
+      {
+        "phase": "ph006",
+        "cap": 0,
+        "cores": [
+          8,
+          9,
+          10,
+          11
+        ],
+        "rows": 37659,
+        "seconds": 23.53370753498166,
+        "nodes": 145497,
+        "edges": 35137963,
+        "largest_owned": true,
+        "peak_bytes": 2827204608
+      },
+      {
+        "phase": "ph006",
+        "cap": 1,
+        "cores": [
+          12215,
+          12216,
+          12217,
+          12218
+        ],
+        "rows": 65,
+        "seconds": 0.366643771994859,
+        "nodes": 2513,
+        "edges": 21441,
+        "largest_owned": false,
+        "peak_bytes": 90168320
+      },
+      {
+        "phase": "ph006",
+        "cap": 1,
+        "cores": [
+          13688,
+          13689,
+          13690,
+          13692
+        ],
+        "rows": 335,
+        "seconds": 1.5894170500105247,
+        "nodes": 29368,
+        "edges": 317875,
+        "largest_owned": false,
+        "peak_bytes": 264235520
+      },
+      {
+        "phase": "ph006",
+        "cap": 1,
+        "cores": [
+          18447
+        ],
+        "rows": 5,
+        "seconds": 0.1574670059781056,
+        "nodes": 4068,
+        "edges": 18661,
+        "largest_owned": false,
+        "peak_bytes": 83402240
+      },
+      {
+        "phase": "ph006",
+        "cap": 1,
+        "cores": [
+          17683,
+          17684,
+          17685,
+          17686
+        ],
+        "rows": 38198,
+        "seconds": 31.541783370019402,
+        "nodes": 210585,
+        "edges": 37189837,
+        "largest_owned": true,
+        "peak_bytes": 2884084224
+      },
+      {
+        "phase": "ph012",
+        "cap": 0,
+        "cores": [
+          3599,
+          3600,
+          3601,
+          3602
+        ],
+        "rows": 42,
+        "seconds": 0.2714006569876801,
+        "nodes": 2747,
+        "edges": 23484,
+        "largest_owned": false,
+        "peak_bytes": 94857728
+      },
+      {
+        "phase": "ph012",
+        "cap": 0,
+        "cores": [
+          3079,
+          3080,
+          3081,
+          3082
+        ],
+        "rows": 272,
+        "seconds": 0.20035188598558307,
+        "nodes": 5806,
+        "edges": 52571,
+        "largest_owned": false,
+        "peak_bytes": 188174336
+      },
+      {
+        "phase": "ph012",
+        "cap": 0,
+        "cores": [
+          5915
+        ],
+        "rows": 1,
+        "seconds": 0.24528284897678532,
+        "nodes": 798,
+        "edges": 4795,
+        "largest_owned": false,
+        "peak_bytes": 35633152
+      },
+      {
+        "phase": "ph012",
+        "cap": 0,
+        "cores": [
+          8,
+          9,
+          10,
+          11
+        ],
+        "rows": 26510,
+        "seconds": 21.564149295998504,
+        "nodes": 144769,
+        "edges": 30996205,
+        "largest_owned": true,
+        "peak_bytes": 2363945984
+      },
+      {
+        "phase": "ph012",
+        "cap": 1,
+        "cores": [
+          11340,
+          11341,
+          11342,
+          11343
+        ],
+        "rows": 65,
+        "seconds": 0.29394963799859397,
+        "nodes": 2732,
+        "edges": 23016,
+        "largest_owned": false,
+        "peak_bytes": 93888000
+      },
+      {
+        "phase": "ph012",
+        "cap": 1,
+        "cores": [
+          16142,
+          16143,
+          16144,
+          16145
+        ],
+        "rows": 331,
+        "seconds": 0.1939217490144074,
+        "nodes": 6714,
+        "edges": 64829,
+        "largest_owned": false,
+        "peak_bytes": 226696192
+      },
+      {
+        "phase": "ph012",
+        "cap": 1,
+        "cores": [
+          18488,
+          18489
+        ],
+        "rows": 12,
+        "seconds": 0.6647632620006334,
+        "nodes": 15139,
+        "edges": 70836,
+        "largest_owned": false,
+        "peak_bytes": 198151680
+      },
+      {
+        "phase": "ph012",
+        "cap": 1,
+        "cores": [
+          17369,
+          17370,
+          17371,
+          17372
+        ],
+        "rows": 35403,
+        "seconds": 16.30031138297636,
+        "nodes": 161959,
+        "edges": 23271606,
+        "largest_owned": true,
+        "peak_bytes": 1898149376
+      },
+      {
+        "phase": "ph013",
+        "cap": 0,
+        "cores": [
+          4807,
+          4808,
+          4809,
+          4810
+        ],
+        "rows": 43,
+        "seconds": 0.3342008969921153,
+        "nodes": 3819,
+        "edges": 32177,
+        "largest_owned": false,
+        "peak_bytes": 124395520
+      },
+      {
+        "phase": "ph013",
+        "cap": 0,
+        "cores": [
+          3999,
+          4000,
+          4001,
+          4002
+        ],
+        "rows": 263,
+        "seconds": 0.3497991370095406,
+        "nodes": 6147,
+        "edges": 60710,
+        "largest_owned": false,
+        "peak_bytes": 212602368
+      },
+      {
+        "phase": "ph013",
+        "cap": 0,
+        "cores": [
+          5919
+        ],
+        "rows": 1,
+        "seconds": 0.13863731600577012,
+        "nodes": 694,
+        "edges": 4276,
+        "largest_owned": false,
+        "peak_bytes": 34428928
+      },
+      {
+        "phase": "ph013",
+        "cap": 0,
+        "cores": [
+          80,
+          81,
+          82,
+          83
+        ],
+        "rows": 27749,
+        "seconds": 11.631626524991589,
+        "nodes": 131488,
+        "edges": 17420648,
+        "largest_owned": true,
+        "peak_bytes": 1456650752
+      },
+      {
+        "phase": "ph013",
+        "cap": 1,
+        "cores": [
+          7261,
+          7262,
+          7263,
+          7265
+        ],
+        "rows": 63,
+        "seconds": 0.6650828419951722,
+        "nodes": 7486,
+        "edges": 45804,
+        "largest_owned": false,
+        "peak_bytes": 169686016
+      },
+      {
+        "phase": "ph013",
+        "cap": 1,
+        "cores": [
+          10349,
+          10350,
+          10351,
+          10352
+        ],
+        "rows": 325,
+        "seconds": 0.34591675302363,
+        "nodes": 6167,
+        "edges": 60137,
+        "largest_owned": false,
+        "peak_bytes": 209195520
+      },
+      {
+        "phase": "ph013",
+        "cap": 1,
+        "cores": [
+          18550,
+          18551,
+          18552
+        ],
+        "rows": 5,
+        "seconds": 1.4111244249797892,
+        "nodes": 22942,
+        "edges": 469852,
+        "largest_owned": false,
+        "peak_bytes": 268081664
+      },
+      {
+        "phase": "ph013",
+        "cap": 1,
+        "cores": [
+          17561,
+          17562,
+          17563,
+          17564
+        ],
+        "rows": 49520,
+        "seconds": 45.9425685259921,
+        "nodes": 209882,
+        "edges": 64020878,
+        "largest_owned": true,
+        "peak_bytes": 4971757056
+      }
+    ],
+    "peak_torch_bytes_including_inference": 4971757056,
+    "comparison": {
+      "baseline_gate_sha256": "8793b55f90ae9cbd9c454304c251acd78221b031407a0d68d4c1a694c70620ee",
+      "training_speed_ratio": 1.4005190083654135,
+      "sampled_inference_speed_ratio": 1.3697579465507128,
+      "retained_sample_edge_fraction": 0.725235330708465
+    }
+  }
+}
