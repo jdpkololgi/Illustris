@@ -1,5 +1,26 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — first corrected host-cone G-PATCH production segment submitted
+
+Slurm accepted **61685645** (initial state PENDING/Priority; no start
+estimate). Launcher `8893f77` stages the benchmarked trainer `449c60d`,
+explicitly calls `main(host_cone=True)`, and checks both the eight-patch
+equivalence and 256-update/24-group timing receipts plus five data bindings.
+Fresh seed 42 on corrected z=0.01–0.55 data; four-epoch learning-rate
+schedule with only this first segment approved. One A100 (40/80 GB eligible),
+32 CPUs, desi_g/shared (Slurm gpu_shared), Scratch, 24 hours; Requeue=0.
+Checkpoints every 256 updates. No automatic retry, dependency, or second
+segment. Log: `$SCRATCH/abacus/gpatch-lowz-s42-61685645.log`. Output root
+on start: `$SCRATCH/abacus/lowz_gpatch_s42_61685645`. At the measured
+rate the first segment is expected to cover ~14% of an epoch, not produce
+an epoch validation score. Submission does not establish optimizer progress.
+
+At submission, P12-A epoch 3 was running (>186k/346,364 updates); epoch 4
+was waiting on it. Current corrected full-development reference is epoch 2
+(λ1/λ2/λ3 macro R² 0.509229/0.567746/0.577865). Corrected large-kernel,
+shifted-window and LitePT jobs remain queued. No matched multi-encoder
+ranking yet; do not count historical graph runs or technical benchmarks.
+
 ## 2026-11-20 — exact host cone passes matched benchmark; prefer for next G-PATCH fit
 
 Tmux-owned job `61683377` completed 0:0 in 14m13s and released its 80 GB
