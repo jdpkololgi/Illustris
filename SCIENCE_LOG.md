@@ -1,5 +1,24 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — measured reason to retain 80 GB for historical G-PATCH
+
+Historical ph006 validation + 500 resumed updates (61659392.0) used
+48,356 MiB peak GPU memory in Slurm. Its epoch-3 report records a cumulative
+45,276,058,112 allocated CUDA bytes and a largest validation group of
+8,551,158 directed edges. Both exceed-40-GB memory readings concern the
+historical run, not a measurement on the corrected contracts. Leave
+61662008's existing 80 GB constraint intact; no scheduler change.
+
+The approved corrected GPU preflight still evaluates eight real groups
+per development phase (four per cap). Within that count, include each
+cap's largest group by owned row count and its final partial group where
+present. An independent enumeration using only P12-A ownership metadata
+confirmed that all six maxima are included (SGC/NGC: ph006 37,659/38,198;
+ph012 26,510/35,403; ph013 27,749/49,520). Row counts are not upper bounds
+on four-hop edges or VRAM. Record training throughput before inference and
+record actual device capacity and per-group peak allocation; a successful
+training-only timing receipt is not a pass of the grouped validation gate.
+
 ## 2026-11-20 — first corrected LitePT production segment submitted
 
 After explicit acceptance of stochastic rather than numerically identical

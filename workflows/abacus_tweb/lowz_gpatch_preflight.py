@@ -18,15 +18,28 @@ from workflows.abacus_tweb.lowz_point_loader import ROOT, DEV, array, read, requ
 from workflows.abacus_tweb.lowz_graph_union_pilot import digest
 
 
-def probe_groups(cores, caps, size=4, per_cap=4):
-    """Sample actual contiguous validation groups, not arbitrary far-apart cores."""
+def probe_groups(cores, caps, offsets, size=4):
+    """Four real inference groups per cap, including the largest owned-row count.
+
+    Ownership is cheap to measure before GPU inference. Its maximum is a
+    stress case, not a bound on four-hop edges or memory.
+    """
     groups = []
     for cap in (0,1):
         ids=np.sort(cores[caps[cores]==cap])
         starts=np.arange(0,len(ids),size)
-        require(len(starts)>=per_cap,"too few groups to sample")
-        sampled=np.linspace(0,len(starts)-1,per_cap,dtype=int)
-        groups.extend((cap,ids[starts[i]:starts[i]+size]) for i in sampled)
+        require(len(starts)>=4,"too few groups to sample")
+        counts=np.add.reduceat(offsets[ids+1]-offsets[ids], starts)
+        order=np.argsort(counts,kind="stable")
+        hi=int(np.argmax(counts)); last=len(starts)-1
+        # Prioritize two representative groups, the final (possibly partial)
+        # group and the stress case. Handle overlaps deterministically.
+        chosen=list(dict.fromkeys([int(order[len(order)//4]),int(order[len(order)//2]),last,hi]))
+        for i in order:
+            if len(chosen)==4: break
+            if int(i) not in chosen: chosen.append(int(i))
+        for i in chosen:
+            groups.append((cap,ids[starts[i]:starts[i]+size],int(counts[i]),i==hi))
     return groups
 
 
@@ -69,6 +82,13 @@ def main():
     ck=torch.load(d/"arm_a_checkpoint.pt",map_location="cpu",weights_only=False)
     require(ck["global_step"]==ck["resume"]["cursor"]==ck["scheduler_state"]["last_epoch"]==256,
             "inconsistent checkpoint cursor")
+    timing=dict(source_step=256,seed=42,training_window=[64,256],seconds=elapsed,
+                updates_per_second=192/elapsed,training_cores_per_epoch=read(d/"run_manifest.json")["training_cores_per_epoch"],
+                peak_training_torch_bytes=ck["maximum_memory"],
+                gpu_total_bytes=torch.cuda.get_device_properties(0).total_memory,
+                checkpoint_sha256=digest(d/"arm_a_checkpoint.pt"))
+    # Preserve measured training cost even if a subsequent dense group fails.
+    (a.output/"GPATCH_TRAIN_TIMING.json").write_text(json.dumps(timing,indent=2,allow_nan=False))
     m=graph.GraphPatchNet(latent_size=80,heads=8,dropout=0.1).cuda()
     m.load_state_dict(ck["model_state"])
     edge=read(view/"transforms/graph/graph_transform.json")["edge"]
@@ -77,25 +97,24 @@ def main():
         for p in DEV:
             adapter=loader.graph_adapter(p)
             cores=array(ROOT/"phases"/p/"validation_core_id.npy")
-            for cap,group in probe_groups(cores,adapter.core_cap):
+            field=ROOT/"adapters"/p/"field"
+            off=array(field/"core_active_offsets.npy")
+            parent=array(field/"core_active_parent.npy")
+            for cap,group,owned,largest in probe_groups(cores,adapter.core_cap,off):
+                print(f"{p} cap={cap} group={group.tolist()} owned={owned} largest_owned={largest}",flush=True)
+                torch.cuda.reset_peak_memory_stats()
                 start=time.monotonic()
                 rows,y,fail,n,e=graph.predict_fold(m,adapter,group,edge,"cuda",4)
                 duration=time.monotonic()-start
                 # Independent P12-A ownership, not the graph's own masked row count.
-                field=ROOT/"adapters"/p/"field"
-                off=array(field/"core_active_offsets.npy")
-                parent=array(field/"core_active_parent.npy")
                 expected=np.concatenate([parent[off[i]:off[i+1]] for i in group])
                 np.testing.assert_array_equal(np.sort(rows),np.sort(expected))
-                require(fail==0 and y.shape==(len(rows),3) and len(np.unique(rows))==len(rows)
+                require(fail==0 and y.shape==(owned,3) and len(np.unique(rows))==len(rows)
                         and np.isfinite(y).all(),"inference group failed")
                 checks.append(dict(phase=p,cap=cap,cores=group.tolist(),rows=len(rows),seconds=duration,
-                                   nodes=n,edges=e))
-    result=dict(passed=True,source_step=256,seed=42,training_window=[64,256],seconds=elapsed,
-                updates_per_second=192/elapsed,training_cores_per_epoch=read(d/"run_manifest.json")["training_cores_per_epoch"],
-                validation_samples=checks,peak_training_torch_bytes=ck["maximum_memory"],
-                peak_torch_bytes_including_inference=torch.cuda.max_memory_allocated(),
-                checkpoint_sha256=digest(d/"arm_a_checkpoint.pt"))
+                                   nodes=n,edges=e,largest_owned=largest,peak_bytes=torch.cuda.max_memory_allocated()))
+    result=dict(**timing,passed=True,validation_samples=checks,
+                peak_torch_bytes_including_inference=max(timing["peak_training_torch_bytes"],max(c["peak_bytes"] for c in checks)))
     (a.output/"GPATCH_GPU_GATE.json").write_text(json.dumps(result,indent=2,allow_nan=False))
 
 
