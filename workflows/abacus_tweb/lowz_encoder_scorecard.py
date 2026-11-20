@@ -37,7 +37,8 @@ def arm(m):
             return "litept_s"
         if name == "full" and not any("encoder_sweep" in k or "litept" in k for k in src):
             return "p12a"
-    if m["model"] == "graph" and name.startswith("lowz_gpatch_"):
+    if (m["model"] == "graph" and name.startswith("lowz_gpatch_") and m["graph_transform_sha256"]
+            and "workflows/abacus_tweb/lowz_gpatch_train.py" in src):
         return "inductive_gpatch"
     raise ValueError(f"unregistered encoder: {name}")
 

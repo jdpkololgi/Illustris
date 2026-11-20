@@ -1,5 +1,17 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — stage visible-phase graph campaign and bound claim about inputs
+
+`lowz_graph_campaign.sh` requires a complete 23-union receipt and passing
+ph002 patch oracle before scaling. It builds the remaining adapters, fits
+training-only features, binds the immutable P12-A core contracts, then
+checks transformed CPU inputs for both caps on every visible phase. It
+also records how many in-context nodes have direct parent-Delaunay edges
+to excluded rows: filtering a parent triangulation is not a new
+context-only triangulation. Same held-out galaxies and split do not mean
+identical engineered inputs: score the encoder pipelines as actually run.
+No full graph campaign or training result implied by this launcher.
+
 ## 2026-11-20 — isolate checkpoint boundary from independent-start drift in LitePT
 
 New diagnostic starts from the existing uninterrupted step 32 and pins its
