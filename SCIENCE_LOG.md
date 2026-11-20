@@ -1,5 +1,29 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — dense corrected G-PATCH activation OOM; bounded-activation repair
+
+Job `61673881` failed (1:0, 2m53s). It was an **80 GB** A100. Before
+the first 16-update log, the training forward requested a 6.94 GiB concatenation
+of edge/sender/receiver activations; PyTorch already held 71.06 GiB and
+the device reported 3.61 GiB free. No 256-update checkpoint, measured rate,
+validation group, or R². See `$SCRATCH/abacus/lowz_gpatch_gpu_61673881/probe.log`.
+No automatic retry. Reducing validation group size would not fix this training failure.
+
+The corrected graph wrapper now uses the original network up to 65,536
+directed edges, then chunks edge MLPs and attention logits and checkpoints
+edge computations and message passes. Receiver softmax and both node sums
+are still global across the patch. No change in graph, selected galaxies,
+parameter shapes, objective, or supervised core per optimizer step.
+In three small CPU tests, FP64 outputs and input/parameter gradients agreed
+with the original in evaluation and dropout-free training (rtol 1e-9,
+atol 1e-11). With dropout active, chunked checkpoint versus uncheckpointed
+chunked training reproduced gradients and RNG state. Chunking does **not**
+promise the original monolithic dropout realization. These tests do not
+establish GPU memory fit or throughput. A new diagnostic needs approval.
+For interpretation of future inference timing: the full panel uses
+4,318 / 4,326 / 4,348 four-core groups in ph006/012/013; the diagnostic
+oversamples dense groups and is not a random validation-time sample.
+
 ## 2026-11-20 — corrected G-PATCH loader passed; GPU diagnostic started
 
 CPU job `61668072` completed (0:0). The read-only launch gate passed for
