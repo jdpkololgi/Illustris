@@ -1,5 +1,21 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — ph006 coherent draw-zero visual audit; ensemble calibration pending
+
+Recovery 61610899 completed 0:0 in 2:57:22. NGC draw-zero class agreement
+63.79% (60,617 supported scored cells), 75.68% below z=0.15 (13,945 cells);
+SGC 66.39%/73.18%. Draw-zero density RMSE NGC/SGC 0.3819/0.3652.
+Matched fixed central slices of all 16 registered pairs inspected;
+docs/figures/lowz_ph006_draw_zero/{NGC,SGC}.png. Same mask, redshift cut,
+density scale, and threshold 0.2 for truth and draw. Visible location and
+class differences cannot establish underdispersion or joint calibration.
+Historical CFM diagnostics included finite-draw marginal ranks/intervals,
+fair CRPS, random-reference TARP for registered regional vectors, joint
+energy scores, class-frequency reliability/fair Brier, randomized discrete
+fraction ranks, cell vs galaxy weighting and exterior/operator controls.
+Use phases as replicates; correlated selected cases are not textbook iid SBC.
+No new posterior draws or scheduler submissions in this audit.
+
 ## 2026-11-19 — ph006 SGC scored; NGC-only recovery pending
 
 The user relaxed job 61582948 to either A100 memory size. The allocation
