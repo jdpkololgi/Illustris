@@ -1,5 +1,17 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — isolate checkpoint boundary from independent-start drift in LitePT
+
+New diagnostic starts from the existing uninterrupted step 32 and pins its
+original trainer and native kernels. Capture step 40 while continuing to
+48; compare it with two cold resumes from the byte-identical step-40 file
+at the same path, including optimizer, model, RNG, sampler and accumulator
+differences. Record warm/cold separately from cold/cold, with unchanged
+1e-5/1e-7 tolerance. A timed 384-update interval (128–512) excludes startup
+and validation and informs a production budget. Total 496 updates counted
+including duplicate continuations. Not a held-out measurement or a retry
+of the previous failed independent-start comparison.
+
 ## 2026-11-20 — corrected G-PATCH normalization and isolated trainer view prepared
 
 `lowz_graph_normalize.py` samples 100,000 nodes and canonical edges per
