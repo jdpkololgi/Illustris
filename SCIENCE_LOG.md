@@ -1,5 +1,20 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — G-PATCH replay and three grid smoke tests passed; production segments prepared
+
+61659392 replayed ph006 macro lambda1 R2 0.469858376801 vs archived
+0.469858376968; saved historical epoch 4 cursor 500 / global step 253838.
+61659884 reached update 64 for each corrected low-z grid arm, with no
+validation or ranking. Separate jobs preserve both preflight outputs.
+encoder_production_segment.sh resumes from verified full optimizer, RNG and
+scheduler states, with exact trainer source digests. The historical segment
+ends no later than update 400000 (cosine minimum), not a convergence claim.
+Any continuation beyond that point needs a separately identified nonzero
+LR schedule. Both fresh grid challenger runs follow the registered four-epoch
+seed-42 schedule against the existing P12-A reference; rank on matched
+completed epochs, not on partial traces. First batch segments only; no
+automatic retry. This entry is preparation evidence, not a launch receipt.
+
 ## 2026-11-20 — encoder comparison: historical restart and corrected grid challengers
 
 Job 61659392: one-hour historical seed-42 G-PATCH preflight, original
