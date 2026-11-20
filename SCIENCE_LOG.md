@@ -1,5 +1,17 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — graph qualification batch queued; LitePT common-checkpoint timing launched
+
+G-PATCH adapter/normalization batch 61668072 (desi/regular, six-hour cap)
+is held behind afterok:61664731 and pins c3b9712. The upstream union job
+has verified 15/23 visible phases at this check. Native LitePT probe
+61668057 started on nid200376 in a tmux-owned one-hour window, diagnostic
+731f5d4 against original trainer fc0b407. Neither job is a production
+encoder fit. Future G-PATCH GPU preflight entrypoint prices the actual first
+256 matched updates and checks physical row ownership for eight grouped
+validation samples in each development phase, without computing subset R².
+Group-identity and final partial-group smoke checks passed; GPU not submitted.
+
 ## 2026-11-20 — corrected ph002 graph passes independent patch extraction
 
 CPU 61666488 completed 0:0 in 13m26s (step MaxRSS 7,776,624 KiB).
