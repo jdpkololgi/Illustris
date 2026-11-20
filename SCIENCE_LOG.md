@@ -1,5 +1,23 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — corrected G-PATCH loader passed; GPU diagnostic started
+
+CPU job `61668072` completed (0:0). The read-only launch gate passed for
+the corrected 23-phase view: both cap probes per phase, the exact 20-phase
+training-only normalization set, and the view and transform file hashes.
+Receipt: `$SCRATCH/abacus/lowz_graph_adapters_61668072/GRAPH_LOADER_CHECKED.json`.
+The parent Delaunay boundary audit finds 536/485/498 supervised galaxies
+directly adjacent to excluded parent rows in ph006/012/013: 1,519 of
+21,876,905 development galaxies. This is a geometry diagnostic, not leakage
+of validation labels or a measured effect on R².
+
+The conditional one-hour diagnostic was allocated as `61673881` on
+`nid200269`, one A100, 32 CPUs, desi_g/shared_interactive, tmux session
+`lowz_gpatch_gate_1120`, wrapper revision `c84a4fca`. Output root:
+`$SCRATCH/abacus/lowz_gpatch_gpu_61673881`. Scope: 256 matched training
+updates and 24 sampled validation groups; no full-panel score or production
+launch follows automatically. The allocation start alone is not a test pass.
+
 ## 2026-11-20 — conditional corrected G-PATCH GPU handoff
 
 `workflows/abacus_tweb/lowz_gpatch_gpu_step.sh --check` is a read-only
