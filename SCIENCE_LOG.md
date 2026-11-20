@@ -1,5 +1,26 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — measured GPU cost at matched P12-A scorecard epochs
+
+For the cost-vs-R² comparison use actual allocation elapsed time, not
+the epoch-history invocation timer: epoch 1's history was written by the
+validation-only recovery process. Slurm allocation rows (one A100 each):
+61548250 43,332 s, including the failed original validation attempt;
+61581030 6,163 s, successful validation at the same 346,364 updates;
+61581047 47,368 s, epoch 2 train + validation. Thus the λ1 shell/phase
+macro R² points are 0.435058 at 13.749 cumulative allocated A100-h and
+0.509229 at 26.906 h (13.158 h incremental). Excludes queue time,
+preflights, CPU data preparation and the ongoing epoch 3; includes startup,
+validation, and the actual recovery cost. These are allocation costs, not
+kernel-active GPU times or retrospective best-epoch comparisons.
+
+Grid probe 61659884 ran all three 64-update tests in **one** 225 s Slurm
+step. Run-manifest to canary-marker UTC deltas are 17.39 s reference,
+12.61 s large kernel, 10.46 s window attention, including checkpoint I/O
+but excluding per-arm setup before manifest creation. Fixed test order,
+cache effects and absence of a full validation pass preclude treating
+these intervals as per-epoch cost or evidence one architecture is faster.
+
 ## 2026-11-20 — corrected low-z graph unions complete in all 23 visible phases
 
 CPU 61664731 completed 0:0 in 52m27s. Independently rechecked the phase
