@@ -10,7 +10,9 @@ weights, target scaler, optimizer, schedule and complete-phase validation;
 only observation packing and the encoder differ. Private LitePT Python
 resolves the old factorial module's astronomy imports via read-only fallback
 to cosmic_env. Registered technical comparison: 32 uninterrupted vs 16+16,
-weights and optimizer rtol 1e-5 / atol 1e-7. No held-out LitePT score.
+weights and optimizer rtol 1e-5 / atol 1e-7. Tmux-owned interactive
+request 61665541 (one 80 GB A100, up to one hour, no retries), launcher
+fc0b407; pending for resources at submission check. No held-out LitePT score.
 
 ## 2026-11-20 — corrected grid snapshot and remaining phase-union build
 
