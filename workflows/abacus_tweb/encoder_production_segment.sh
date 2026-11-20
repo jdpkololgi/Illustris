@@ -21,7 +21,7 @@ mkdir "$out"
 git clone --quiet --no-checkout --shared "$repo" "$out/src"
 cd "$out/src"
 git sparse-checkout init --cone
-git sparse-checkout set shared workflows
+git sparse-checkout set configs shared workflows
 rev=71307f51349fd71263d5db8daa01e1d40ce7c010
 if [[ $arm == graph ]]; then rev=37bef3a1c972948863d0e632bc07f8beb32092fd; fi
 git -c advice.detachedHead=false checkout --quiet --detach "$rev"

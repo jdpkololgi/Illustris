@@ -1,5 +1,16 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — corrected grid snapshot and remaining phase-union build
+
+Confirmed that the two grid jobs' original sparse checkout at 71307f5 omits
+the relative split-policy file required by TRAINING_LOADER_READY. Adding
+`configs` to the checkout restores the exact bound file: both preflight
+source contracts verify and the actual loader opens the 20/3 split. No
+change to model source, checkpoints, or data. New serial CPU batch launcher
+reuses the verified ph002 product and builds the other 22 visible unions
+from the tested pilot; it only emits the aggregate receipt after verifying
+all 23 component manifest hashes. Sealed phases are excluded.
+
 ## 2026-11-20 — native LitePT-S eight-update GPU preflight passed
 
 61662989 completed 0:0 in 2m48s including isolated dependency install.
