@@ -32,6 +32,13 @@ forward/backward (none on the tested graph). The diagnostic now preserves
 16-update timings and CUDA high-water marks even on later failure.
 The previous job released its allocation; no automatic retry or production.
 
+After separate approval, Slurm allocated the receiver-streaming diagnostic:
+`61675946` on `nid200301`, tmux `lowz_gp_stream_1120`, one 80 GB A100,
+32 CPUs, desi_g/shared_interactive, Scratch, one hour. CPU gate and input
+hashes passed before launch. Wrapper `lowz_gpatch_gpu_step.sh --run
+6b126dc329474f6c80035bc3821b20fddee93b13`; artifacts under
+`$SCRATCH/abacus/lowz_gpatch_gpu_61675946/`. No retries or production.
+
 ## 2026-11-20 — dense corrected G-PATCH activation OOM; bounded-activation repair
 
 Job `61673881` failed (1:0, 2m53s). It was an **80 GB** A100. Before
