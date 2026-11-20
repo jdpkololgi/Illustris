@@ -1,5 +1,18 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — first-segment launcher for the passed G-PATCH configuration
+
+Prepared but not submitted: `workflows/abacus_tweb/lowz_gpatch_first_segment.slurm`.
+The fresh seed-42 run pins receiver-streamed trainer `6b126dc` and the
+canonical host extractor from diagnostic 61675946, not the optional host
+cone. It preserves the four-epoch schedule and 256-update checkpoint
+cadence in a new job-specific Scratch directory. A 24-hour single-GPU
+segment may end with a budget pause, not an epoch score: accept exit 75
+only alongside a nonempty checkpoint and internally consistent pause
+receipt. No dependency chain, automatic retry or requeue. Shell syntax
+and the read-only `--check` passed against the six hashed live receipts/data
+bindings; no production workload has run by virtue of this check.
+
 ## 2026-11-20 — qualify the optional G-PATCH host extractor before pricing it
 
 The corrected GPU diagnostic now accepts an explicit `--host-cone` mode;
