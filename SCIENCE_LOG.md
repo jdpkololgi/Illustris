@@ -1,5 +1,25 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — encoder comparison: historical restart and corrected grid challengers
+
+Job 61659392: one-hour historical seed-42 G-PATCH preflight, original
+37bef3a source and five training phases; replay ph006 epoch 3, then 500
+epoch-4 updates. Separate Scratch output gpatch_restart_61659392. Do not
+interpret launch as success or as a corrected low-z graph fit.
+
+Grid challenger entrypoint p12a_encoder_sweep.py leaves active trainer
+sources untouched. Reference, added large-kernel depthwise residual blocks,
+and shifted-window attention bottleneck: matched BRIGHT inputs, loss, point
+head, seed and sampler. Reduced-width CPU odd-shape forward/backward and
+finite eval checks passed. Design inspirations: MedNeXt (arXiv:2303.09975),
+Swin UNETR (2201.01266), DarkAI (2501.12621); these are controlled
+ablations, not pretrained reproductions. LitePT (CVPR 2026) is a point
+challenger pending corrected point-contract audit. No science ranking yet.
+First GPU grid gate: 64 identical updates per arm, throughput/memory only;
+for ranking require all three dev phases, equal-shell lambda1 R2, all
+eigenvalues and shell scores, matched update and GPU-hour curves, and
+replicated finalist seeds. No access to sealed evaluation truth.
+
 ## 2026-11-20 — P12-A encoder comparison: local CPU probe, not a production ranking
 
 P10 historical re-read: at epoch 3 / 253,338 updates, ph006 four-shell
