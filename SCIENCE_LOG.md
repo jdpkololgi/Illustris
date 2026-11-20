@@ -1,5 +1,18 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — corrected low-z graph unions complete in all 23 visible phases
+
+CPU 61664731 completed 0:0 in 52m27s. Independently rechecked the phase
+set against the authoritative 20 training + 3 development assignments, all
+23 phase manifest hashes against their receipts, context counts, 14.78 Mpc
+radius, and addition of retained Delaunay and radius-only pair counts.
+Totals: 168,851,467 context nodes and 7,507,944,999 undirected pairs summed
+over phase-local graphs; context nodes are not the supervised evaluation
+row count. No sealed phases. Scratch `abacus/lowz_graph_unions_61664731/ALL_UNIONS_READY.json`,
+SHA256 8514f7f16bd2eb93059b33e8f00f43dd8fe942fd04f024f214851be6f818edd5.
+The downstream job 61668072 can now build and validate patch indices and
+training-only normalization; this union receipt is not an encoder score.
+
 ## 2026-11-20 — retain full per-epoch point-model reports for matched ranking
 
 The G-PATCH overlay links the same base readiness marker, target transform
