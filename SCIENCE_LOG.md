@@ -1,5 +1,19 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — corrected point index passes matched-parent gate; neither point model trained yet
+
+CPU job 61662493 completed 0:0 in 4m08s: Scratch
+`abacus/lowz_points_61662493/INDEX_READY.json`, all 20 training and 3 development
+phases. Exact development parent sets match P12-A: 7,261,727 / 7,339,923 /
+7,275,255 (006/012/013), including 7,102,471 below z=0.15. All authoritative
+parents unique per phase, cap checked, 12 neighborhood extractions per phase;
+sealed 018/019 not read. Old ph006 union has 6,248,640 context nodes vs new
+7,329,765. Rebuild corrected radius union and exact graph adapter; do not reuse
+old context or normalization. Official prs-eth/LitePT source pinned at
+436d04801c8151faebe66a1b2d368a9711e7e6aa. Regression wrapper uses inverse
+voxel mapping and P12-A observation channels; sparse environment/GPU checks
+pending. No model comparison or validation scores from point-index success.
+
 ## 2026-11-20 — three encoder production segments submitted
 
 Launcher 53ee521: historical G-PATCH 61662008, corrected low-z large-kernel
