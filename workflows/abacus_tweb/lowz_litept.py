@@ -49,7 +49,7 @@ def voxels(xyz, features, cell=1.):
 
 
 class LitePTRegressor(nn.Module):
-    def __init__(self, src):
+    def __init__(self, src, *, deterministic_attention=False):
         super().__init__()
         src=Path(src).resolve()
         if subprocess.check_output(["git","-C",str(src),"rev-parse","HEAD"],text=True).strip()!=UPSTREAM:
@@ -58,6 +58,15 @@ class LitePTRegressor(nn.Module):
         from litept import model
         if Path(model.__file__).resolve()!=src/"litept/model.py":
             raise ImportError("unexpected LitePT implementation")
+        if deterministic_attention:
+            # PyTorch's deterministic-algorithms switch does not set this
+            # third-party function argument. Limit the override to the LitePT
+            # module in this dedicated worker; do not rewrite upstream code.
+            from functools import partial
+            from types import SimpleNamespace
+            import flash_attn
+            model.flash_attn = SimpleNamespace(flash_attn_varlen_qkvpacked_func=
+                partial(flash_attn.flash_attn_varlen_qkvpacked_func, deterministic=True))
         self.backbone=model.LitePT(in_channels=3,shuffle_orders=False)
         self.head=nn.Sequential(nn.Linear(72,128),nn.SiLU(),nn.Linear(128,128),
                                 nn.SiLU(),nn.Linear(128,3))

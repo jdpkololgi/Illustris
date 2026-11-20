@@ -1,5 +1,20 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — LitePT matched-loop numerical gate failed before restart
+
+61665541 FAILED 1:0 in 4m54s. Both trajectories processed 32 updates
+(second split at 16); comparison did not pass. Step-1 objectives and
+gradient norms match; step-2 preclip norms differ (3.94482994 vs
+3.94480443). At step 16 the objectives are 4.99367952 vs 4.96163607,
+already before resume. At step 32 the first checked discrepant weight
+tensor had max absolute difference 0.0148534. Neither independent-run
+determinism nor restart equivalence is established; do not relax the gate
+or promote to production. Logs in `abacus/lowz_litept_matched_61665541`.
+New fixed-input, fixed-weight, buffer- and RNG-restored gradient probe
+isolates within-process repeatability and compares the upstream default
+to explicit deterministic FlashAttention backward. This is a candidate
+mechanism, not an attribution; no optimizer updates or retry submitted.
+
 ## 2026-11-20 — corrected graph patch-index pilot prepared
 
 `lowz_graph_patch_index.py` indexes the filtered parent Delaunay table and
