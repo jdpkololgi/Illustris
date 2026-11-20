@@ -1,5 +1,14 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — corrected ph002 graph-union gate passed
+
+61662908 completed 0:0 in 2m33s (step MaxRSS 29904108 KiB). Independent
+manifest SHA-256 matches CORRECTED_UNION_READY. In ph002, 7,369,722 context
+galaxies give 56,176,778 context Delaunay pairs plus 272,880,889 new radius
+pairs = 329,057,667 union pairs across the two disconnected caps. This
+validates the one-phase geometry/union rebuild, not yet an exact patch
+adapter, fitted transform, G-PATCH training checkpoint or validation R2.
+
 ## 2026-11-20 — corrected ph002 graph and official LitePT-S preflights launched
 
 CPU 61662908 rebuilds the corrected ph002 union against lowz_points_61662493;
