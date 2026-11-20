@@ -1,5 +1,15 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — corrected ph002 graph and official LitePT-S preflights launched
+
+CPU 61662908 rebuilds the corrected ph002 union against lowz_points_61662493;
+initial geometry checks passed. GPU 61662989 provisions a private Scratch venv
+then attempts eight ph002 updates with official LitePT-S. Two independent
+two-hour interactive windows, no resubmission. Launcher 708e609. Terminal
+gates: `abacus/lowz_graph_union_61662908/CORRECTED_UNION_READY.json` and
+`abacus/lowz_litept_preflight_61662989/LITEPT_PREFLIGHT_PASS.json`.
+Launch is not a validation result or a held-out R2 measurement.
+
 ## 2026-11-20 — corrected point index passes matched-parent gate; neither point model trained yet
 
 CPU job 61662493 completed 0:0 in 4m08s: Scratch
