@@ -1,5 +1,25 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — native LitePT shared-checkpoint replay and epoch cost
+
+GPU job 61668057 completed 0:0, 9m33s. At update 40 both cold processes
+received the identical checkpoint (SHA 5e33b9c2a5b9c0a4e0de68467672ab8b9b9f499a92df3b6dd5de7d834ac43e9a).
+All three reached update 48 with identical Torch CPU/CUDA RNG states,
+scheduler, shell-row counts, and first resumed loss. Final update losses
+(warm/B/C) were 2.082227/2.084267/2.084149. The strict model/optimizer
+replay gate **failed**, even cold vs cold; this rules out a discrepancy
+unique to the warm-vs-resume boundary, but does not establish that resuming
+has no effect on R². No specific kernel has been identified as the cause.
+Receipt: `abacus/lowz_litept_fork_61668057/FORK_DIAGNOSTIC_COMPLETE.json`.
+
+384 native training updates took 218.434 s (1.758/s); the matched 346,364
+updates project to 54.7 A100-hours/epoch **before validation**. Max allocated
+tensor memory at update 512 was 16,569,569,792 bytes. The staged first-segment
+launcher uses the measured source fc0b407 and the original 4-epoch LR
+schedule; it starts clean, not from a diagnostic fork, and authorizes no
+continuation by itself. A single 24-hour segment is not expected to produce
+an epoch score. Interpret any accepted continuation as stochastic.
+
 ## 2026-11-20 — widen grid GPU eligibility; preserve LitePT voxel identities
 
 The first 64 matched core updates of the two grid variants covered an
