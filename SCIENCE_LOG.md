@@ -1,5 +1,19 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — corrected ph002 graph passes independent patch extraction
+
+CPU 61666488 completed 0:0 in 13m26s (step MaxRSS 7,776,624 KiB).
+The checked phase contains 329,057,667 undirected edges. SGC core 2808:
+74 P12-A loss galaxies, 2,230 context nodes, 31,064 directed messages.
+NGC core 12349: 452 loss galaxies, 7,049 nodes, 161,356 messages.
+In each case a separate four-scan traversal of the source pairs recovered
+the identical node set and induced edge IDs, and loss rows matched the
+corrected P12-A core exactly. The 4.2 GiB index reuses the radius files
+in place. Receipt `abacus/lowz_patch_diagnostic_61666488/ph002/PATCH_GEOMETRY_READY.json`;
+union SHA a032c6ad0446bb122a127dd517f057745a9a081c1d52024a3dbf78f615ed4ea9
+independently rechecked. This proves two real patches, not all-phase
+qualification, training-only normalization, or an encoder validation score.
+
 ## 2026-11-20 — stage visible-phase graph campaign and bound claim about inputs
 
 `lowz_graph_campaign.sh` requires a complete 23-union receipt and passing
