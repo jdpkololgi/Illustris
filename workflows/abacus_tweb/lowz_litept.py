@@ -37,15 +37,20 @@ def observed_inputs(phase_points, field, normalization):
 def voxels(xyz, features, cell=1.):
     """Average all points in each 1 Mpc voxel; inverse maps every galaxy back."""
     key = np.floor(xyz/cell).astype(np.int64)
-    cells, inverse, counts = np.unique(key,axis=0,return_inverse=True,return_counts=True)
-    inverse = inverse.reshape(-1)
+    # A C-order linear key has exactly np.unique(axis=0)'s lexicographic
+    # ordering. Only sort occupied keys; never allocate the bounding volume.
+    lo = key.min(0)
+    shape = tuple(int(b)-int(a)+1 for a,b in zip(lo,key.max(0)))
+    linear = np.ravel_multi_index((key-lo).T, shape)
+    occupied, inverse, counts = np.unique(linear,return_inverse=True,return_counts=True)
+    grid_coord = np.column_stack(np.unravel_index(occupied,shape)).astype(np.int32)
     def mean(x):
-        acc=np.zeros((len(cells),x.shape[1]), dtype=np.float64)
-        np.add.at(acc,inverse,x)
+        acc=np.column_stack([np.bincount(inverse,weights=col,minlength=len(occupied))
+                             for col in x.T])
         return (acc/counts[:,None]).astype(np.float32)
     return dict(coord=mean(xyz)-xyz.min(0).astype(np.float32),
-                grid_coord=(cells-cells.min(0)).astype(np.int32),
-                feat=mean(features),offset=np.array([len(cells)],np.int64)), inverse
+                grid_coord=grid_coord,
+                feat=mean(features),offset=np.array([len(occupied)],np.int64)), inverse
 
 
 class LitePTRegressor(nn.Module):

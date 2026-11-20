@@ -1,5 +1,28 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — widen grid GPU eligibility; preserve LitePT voxel identities
+
+The first 64 matched core updates of the two grid variants covered an
+80³ patch (equal to the largest spatial patch across train/development).
+Peak allocated tensor memory was 2,139,496,448 bytes for large-kernel CNN
+and 1,559,075,328 bytes for window attention. The largest supervised
+population in those updates was 20,495 vs 28,816 over the whole contract;
+this is headroom evidence, not a 40 GB whole-run guarantee. With explicit
+approval both still-pending jobs (61664814 / 61664810 respectively) were
+changed in place to gpu&a100. Slurm verified original IDs and submit times,
+one GPU/32 CPUs each, desi_g/shared, 24 hours, Scratch, Requeue=0. Prefer
+40/80 GB eligibility for future A100 requests unless memory warrants 80 GB.
+
+LitePT voxel packing now sorts occupied integer keys instead of sorting
+three-column rows and sums features in input order using indexed bins.
+The reference test compares coordinates, occupied-voxel count, grid order,
+averaged features, and every galaxy's inverse index for float32/64, repeat
+points, negative coordinates, and half/whole-Mpc cells. All arrays agreed
+exactly. A single-thread, synthetic 20k-point microbenchmark took 3.58 ms vs
+28.48 ms for the old packer (best of three two-call pairs). This is a CPU
+preprocessing measurement only: no change to the pinned LitePT run, no
+end-to-end GPU speedup or held-out score claimed.
+
 ## 2026-11-20 — graph qualification batch queued; LitePT common-checkpoint timing launched
 
 G-PATCH adapter/normalization batch 61668072 (desi/regular, six-hour cap)
