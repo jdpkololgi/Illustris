@@ -61,6 +61,47 @@ def oracle(core, parts, num_nodes, hops):
     return np.flatnonzero(seen), np.concatenate(edge_ids)
 
 
+class CorrectedPatchAdapter:
+    """Arm-A extraction interface over the verified whole-phase graph and frozen 8D features."""
+    def __init__(self, phase, directory, transformed):
+        require(phase in roles(ROOT), "sealed or unknown graph phase")
+        receipt = read(directory / "PATCH_GEOMETRY_READY.json")
+        require(receipt["passed"] and receipt["phase"]==phase and
+                digest(receipt["union"])==receipt["union_sha256"], "unbound phase geometry")
+        transform = read(transformed / "graph_transform.json")
+        require(transform["pass"] and transform["schema"]=="corrected-lowz-gpatch-features-v1"
+                and transform["fit_phases"]==[p for p in roles(ROOT) if p not in DEV]
+                and transform["applied"][phase]["union_sha256"]==receipt["union_sha256"],
+                "unbound graph normalization")
+        self.node_features = array(transform["applied"][phase]["path"])
+        self.union_pairs = Segments([array(p) for p in receipt["source_pairs"]])
+        self.union_edge_features = Segments([array(p) for p in receipt["source_attrs"]])
+        self.offsets = array(directory / "incident_offsets.npy")
+        self.incident_edge_id = array(directory / "incident_edge_id.npy")
+        require(self.node_features.shape==(receipt["rows"],8) and len(self.offsets)==receipt["rows"]+1
+                and self.offsets[-1]==len(self.incident_edge_id)==2*len(self.union_pairs)
+                and len(self.union_pairs)==len(self.union_edge_features)==receipt["edges"], "bad adapter shape")
+        field = ROOT / "adapters" / phase / "field"
+        self.core_cap = array(field / "core_cap.npy")
+        self.core_fold = np.full(len(self.core_cap),-1,dtype=np.int8)
+        self.core_offsets = array(field / "core_active_offsets.npy")
+        self.core_parent = array(field / "core_active_parent.npy")
+
+    def core_nodes(self, cid):
+        require(0<=cid<len(self.core_cap),"invalid core")
+        a,b=self.core_offsets[cid:cid+2]
+        return self.core_parent[a:b],np.arange(b-a)
+
+    def extract(self, core_id, num_passes, *, dependency_hops_per_pass=2, loss_policy="authoritative"):
+        require(num_passes==2 and dependency_hops_per_pass==2 and loss_policy=="authoritative",
+                "only registered whole-phase G-PATCH objective is supported")
+        owned,_=self.core_nodes(core_id)
+        return assemble_patch(core_id=core_id, fold=-1, core_parent_ids=owned,loss_parent_ids=owned,
+            strict_parent_ids=np.empty(0,np.int64),loss_policy=loss_policy,num_passes=2,dependency_hops=4,
+            node_features=self.node_features,union_pairs=self.union_pairs,union_edge_features=self.union_edge_features,
+            offsets=self.offsets,incident_edge_id=self.incident_edge_id)
+
+
 def build(phase, union, out):
     require("SLURM_STEP_ID" in os.environ and phase in roles(ROOT), "visible phase compute step required")
     marker = read(union / "CORRECTED_UNION_READY.json")
@@ -134,7 +175,11 @@ def build(phase, union, out):
     offsets = np.r_[np.int64(0), np.cumsum(degree)]
     require(offsets[-1] == 2*len(combined), "incident count mismatch")
     np.save(out / "incident_offsets.npy", offsets, allow_pickle=False)
-    inc = table("incident_edge_id", np.int32, (2*len(combined),))
+    # Fill irregular-by-node addresses in RAM and write this ~2.5 GiB table
+    # sequentially. Filling a fresh Lustre mmap turns first-touch page faults
+    # into random filesystem traffic, although the CSR itself fits easily on
+    # the CPU node. Counts and edge order are unchanged.
+    inc = np.empty(2*len(combined), np.int32)
     cursor = offsets[:-1].copy()
     base = 0
     for part in pp:
@@ -142,7 +187,9 @@ def build(phase, union, out):
             fill_incident(part[a:b], base+a, cursor, inc)
         base += len(part)
     np.testing.assert_array_equal(cursor, offsets[1:])
-    inc.flush()
+    np.save(out / "incident_edge_id.npy",inc,allow_pickle=False)
+    del inc
+    inc = array(out / "incident_edge_id.npy")
     # Use the exact P12-A core ownership; no fabricated in-phase strict-support flags.
     field = ROOT / "adapters" / phase / "field"
     cores = array(ROOT / "phases" / phase / ("validation_core_id.npy" if phase in DEV else "training_core_id.npy"))

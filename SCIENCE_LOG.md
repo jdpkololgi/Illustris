@@ -1,5 +1,33 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — corrected G-PATCH normalization and isolated trainer view prepared
+
+`lowz_graph_normalize.py` samples 100,000 nodes and canonical edges per
+training phase and cap (20 phases only), fits the historical seven-feature
+Box-Cox / edge transforms anew, and uses the corrected P12-A observed
+redshift-bin selection for feature eight. No held-out phases used for fit;
+development is application only; no sealed phase is opened. Outside the
+supported radial bins the selection curve itself is zero before the log
+floor. Geometry uses phase-local observational parent-graph metrics,
+not tidal labels. `lowz_gpatch_train.py` binds a separate Scratch graph
+view to the exact corrected core, target, and split files and uses the
+unchanged Arm-A objective and complete-phase scorer. Future CSR builds
+fill RAM before one sequential Scratch write; the running pilot is unchanged.
+Five focused tests passed (including a small synthetic transform fit).
+No real 20-phase transform fit, G-PATCH optimizer update or R² yet.
+
+## 2026-11-20 — LitePT fixed-input repeat diagnostic and graph pilot receipts
+
+GPU 61666487 completed 0:0 in 44s. For the four ph002 cores (69/1/7/4
+supervised galaxies), both modes gave identical repeated predictions, zero
+gradient elements outside rtol 1e-5 / atol 1e-7, and worst absolute gradient
+differences 4.66e-8 (native) vs 4.10e-8 (deterministic attention). No
+optimizer update. This is not evidence of deterministic multi-step training
+or that FlashAttention caused the earlier divergence. Source and raw records:
+`abacus/lowz_repeat_diagnostic_61666487/REPEAT_DIAGNOSTIC_COMPLETE.json`.
+CPU patch pilot 61666488 started on nid200175; independent four-hop audit
+required before scaling up.
+
 ## 2026-11-20 — freeze two independent point-model diagnostic steps
 
 One-hour CPU ph002 CSR/closure audit and 30-minute A100 native versus
