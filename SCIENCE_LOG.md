@@ -1,5 +1,16 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — native LitePT-S eight-update GPU preflight passed
+
+61662989 completed 0:0 in 2m48s including isolated dependency install.
+LITEPT_PREFLIGHT_PASS.json verifies eight unique ph002 training cores, 954
+authoritative galaxy rows, finite losses and gradient norms, and peak torch
+allocation 3,556,175,360 bytes on the sampled patches only. Used upstream
+PyTorch PointROPE fallback on GPU with FlashAttention and spconv; no pretrained
+segmentation weights. Scratch environment and receipts under
+`abacus/lowz_litept_preflight_61662989`. No held-out scores, convergence,
+production checkpoint, full-epoch throughput or all-core memory bound implied.
+
 ## 2026-11-20 — corrected ph002 graph-union gate passed
 
 61662908 completed 0:0 in 2m33s (step MaxRSS 29904108 KiB). Independent
