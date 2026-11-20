@@ -1,5 +1,17 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — matched LitePT-S adapter; corrected grid and CPU submissions
+
+CPU batch 61664731 started; pending 61662009 and 61662012 were cancelled
+with zero elapsed time. Replacements: large-kernel 61664814, shifted-window
+61664810, from the original 64-update checkpoints, launcher 6f862c8.
+The LitePT-S training entry uses the unchanged P12-A phase/core sampler,
+weights, target scaler, optimizer, schedule and complete-phase validation;
+only observation packing and the encoder differ. Private LitePT Python
+resolves the old factorial module's astronomy imports via read-only fallback
+to cosmic_env. Registered technical comparison: 32 uninterrupted vs 16+16,
+weights and optimizer rtol 1e-5 / atol 1e-7. No held-out LitePT score.
+
 ## 2026-11-20 — corrected grid snapshot and remaining phase-union build
 
 Confirmed that the two grid jobs' original sparse checkout at 71307f5 omits

@@ -15,14 +15,18 @@ UPSTREAM = "436d04801c8151faebe66a1b2d368a9711e7e6aa"
 
 def obs_patch(phase_points, field_loader, phase, core):
     """Exact observed positions + the three production channels interpolated to each point."""
-    rows, xyz, loss_ix = phase_points.patch(core)
     field = field_loader.field_adapter(phase).extract(
         core, grid.HALO_VOXELS, grid.CHANNELS, alignment_voxels=grid.ALIGNMENT_VOXELS)
+    return observed_inputs(phase_points, field, field_loader.field_normalization)
+
+
+def observed_inputs(phase_points, field, normalization):
+    rows, xyz, loss_ix = phase_points.patch(field.core_id, halo=grid.HALO_VOXELS)
     np.testing.assert_array_equal(rows[loss_ix], field.authoritative_parent_id)
     cap = ("SGC", "NGC")[field.cap]
     g = phase_points.m["caps"][cap]
     frac = (xyz - g["origin_mpc"])/g["cell_mpc"] - .5 - field.context_start
-    channels, _ = grid.model_inputs(field, field_loader.field_normalization, "cpu")
+    channels, _ = grid.model_inputs(field, normalization, "cpu")
     feature = trilinear_sample(channels.numpy()[0], frac)
     if not np.isfinite(feature).all():
         raise ValueError("nonfinite observation channel")
