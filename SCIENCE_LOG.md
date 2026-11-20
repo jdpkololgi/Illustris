@@ -1,5 +1,16 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — corrected graph patch-index pilot prepared
+
+`lowz_graph_patch_index.py` indexes the filtered parent Delaunay table and
+the existing two corrected radius-only files with one incident-edge CSR.
+Keeping the radius tables in place avoids a second ~7.2 GiB copy on ph002.
+The pilot compares both cap patches against a separate four-scan traversal
+that never reads the CSR, checks the induced edges and P12-A loss rows,
+and emits no readiness marker on failure. Synthetic disconnected/cyclic
+multi-table test passed; real catalogue execution still required.
+Raw parent-geometry features are not fitted or training-ready.
+
 ## 2026-11-20 — freeze a common epoch-2 comparison point before best-report turnover
 
 The corrected P12-A checkpoint at update 692728, seed 42, scored all
