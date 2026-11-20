@@ -1,5 +1,29 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — corrected receiver-streamed G-PATCH GPU diagnostic passed
+
+Job 61675946 completed 0:0 in 18m07s (single 80 GB A100, revision
+`6b126dc`, canonical CPU extractor). All 256 optimizer updates completed;
+checkpoint cursor/optimizer schedule checked and file SHA-256 independently
+rechecked: 6f67ae9e3e632ae0fe3c438ee707c8f4801f347e59c673f20aadaadee7c835cf.
+Updates 64→256 took 475.60s (0.40370 updates/s). Applied to 346,364 updates,
+the short-window projection is **238.3 A100-hours per epoch before
+validation**. Four epochs would be ~953 training-only hours at that rate;
+24h buys ~34.9k updates, ~10% of an epoch. Dense patches vary greatly;
+these are budget estimates, not a convergence prediction or a commitment.
+
+All 24 sampled development groups passed independent P12-A parent-row
+identity, finite output, shape and uniqueness checks (four per phase/cap
+including all six max-owned stress groups). Total 217,200 owned rows;
+largest patch 89,317,234 directed edges. The sampled inference calls summed
+to 217.39s; deliberately nonrandom group selection is not a full validation
+timing or an R² estimate. All 21,876,905 rows must still be scored for ranking.
+PyTorch peaks: 4.51 GiB training, 5.48 GiB including inference; Slurm
+sampled 10,746 MiB device and 58,796,972 KiB host (~56.1 GiB). Either
+40 or 80 GB is reasonable for a bounded segment; full-panel memory fit is
+not guaranteed. No production job or automatic continuation authorized by
+this diagnostic. Full receipt: `docs/evidence/p12/lowz_gpatch_gpu_gate_61675946.json`.
+
 ## 2026-11-20 — exact host-side G-PATCH cone prototype (not the running configuration)
 
 Receiver-streaming job 61675946 passed the former 47,196,542-edge failure

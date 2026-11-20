@@ -1,0 +1,390 @@
+{
+  "source_step": 256,
+  "seed": 42,
+  "training_window": [
+    64,
+    256
+  ],
+  "seconds": 475.59653745702235,
+  "updates_per_second": 0.40370352784023417,
+  "training_cores_per_epoch": 346364,
+  "peak_training_torch_bytes": 4841787392,
+  "gpu_total_bytes": 85093777408,
+  "checkpoint_sha256": "6f67ae9e3e632ae0fe3c438ee707c8f4801f347e59c673f20aadaadee7c835cf",
+  "passed": true,
+  "validation_samples": [
+    {
+      "phase": "ph006",
+      "cap": 0,
+      "cores": [
+        2730,
+        2731,
+        2732,
+        2733
+      ],
+      "rows": 46,
+      "seconds": 0.45180850601173006,
+      "nodes": 2060,
+      "edges": 27934,
+      "largest_owned": false,
+      "peak_bytes": 109464064
+    },
+    {
+      "phase": "ph006",
+      "cap": 0,
+      "cores": [
+        3301,
+        3302,
+        3303,
+        3304
+      ],
+      "rows": 281,
+      "seconds": 0.37557729598484,
+      "nodes": 6503,
+      "edges": 95282,
+      "largest_owned": false,
+      "peak_bytes": 206377984
+    },
+    {
+      "phase": "ph006",
+      "cap": 0,
+      "cores": [
+        5861,
+        5862,
+        5863,
+        5864
+      ],
+      "rows": 6,
+      "seconds": 0.4007379619870335,
+      "nodes": 1178,
+      "edges": 15092,
+      "largest_owned": false,
+      "peak_bytes": 70011904
+    },
+    {
+      "phase": "ph006",
+      "cap": 0,
+      "cores": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "rows": 37659,
+      "seconds": 28.48486142899492,
+      "nodes": 145497,
+      "edges": 40042684,
+      "largest_owned": true,
+      "peak_bytes": 3003774464
+    },
+    {
+      "phase": "ph006",
+      "cap": 1,
+      "cores": [
+        12215,
+        12216,
+        12217,
+        12218
+      ],
+      "rows": 65,
+      "seconds": 0.4354700619878713,
+      "nodes": 2513,
+      "edges": 34460,
+      "largest_owned": false,
+      "peak_bytes": 127869952
+    },
+    {
+      "phase": "ph006",
+      "cap": 1,
+      "cores": [
+        13688,
+        13689,
+        13690,
+        13692
+      ],
+      "rows": 335,
+      "seconds": 5.289114408980822,
+      "nodes": 29368,
+      "edges": 3493174,
+      "largest_owned": false,
+      "peak_bytes": 378607104
+    },
+    {
+      "phase": "ph006",
+      "cap": 1,
+      "cores": [
+        18447
+      ],
+      "rows": 5,
+      "seconds": 0.18238751700846478,
+      "nodes": 4068,
+      "edges": 80964,
+      "largest_owned": false,
+      "peak_bytes": 197749760
+    },
+    {
+      "phase": "ph006",
+      "cap": 1,
+      "cores": [
+        17683,
+        17684,
+        17685,
+        17686
+      ],
+      "rows": 38198,
+      "seconds": 40.27274200701504,
+      "nodes": 210585,
+      "edges": 55106050,
+      "largest_owned": true,
+      "peak_bytes": 3530048512
+    },
+    {
+      "phase": "ph012",
+      "cap": 0,
+      "cores": [
+        3599,
+        3600,
+        3601,
+        3602
+      ],
+      "rows": 42,
+      "seconds": 0.3538702160003595,
+      "nodes": 2747,
+      "edges": 37998,
+      "largest_owned": false,
+      "peak_bytes": 138454016
+    },
+    {
+      "phase": "ph012",
+      "cap": 0,
+      "cores": [
+        3079,
+        3080,
+        3081,
+        3082
+      ],
+      "rows": 272,
+      "seconds": 0.23902698498568498,
+      "nodes": 5806,
+      "edges": 83320,
+      "largest_owned": false,
+      "peak_bytes": 199891968
+    },
+    {
+      "phase": "ph012",
+      "cap": 0,
+      "cores": [
+        5915
+      ],
+      "rows": 1,
+      "seconds": 0.45240221900166944,
+      "nodes": 798,
+      "edges": 9786,
+      "largest_owned": false,
+      "peak_bytes": 50688512
+    },
+    {
+      "phase": "ph012",
+      "cap": 0,
+      "cores": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "rows": 26510,
+      "seconds": 28.617766914976528,
+      "nodes": 144769,
+      "edges": 40355362,
+      "largest_owned": true,
+      "peak_bytes": 2700875776
+    },
+    {
+      "phase": "ph012",
+      "cap": 1,
+      "cores": [
+        11340,
+        11341,
+        11342,
+        11343
+      ],
+      "rows": 65,
+      "seconds": 0.4125229580095038,
+      "nodes": 2732,
+      "edges": 37352,
+      "largest_owned": false,
+      "peak_bytes": 136566272
+    },
+    {
+      "phase": "ph012",
+      "cap": 1,
+      "cores": [
+        16142,
+        16143,
+        16144,
+        16145
+      ],
+      "rows": 331,
+      "seconds": 0.2682536210049875,
+      "nodes": 6714,
+      "edges": 100994,
+      "largest_owned": false,
+      "peak_bytes": 206194688
+    },
+    {
+      "phase": "ph012",
+      "cap": 1,
+      "cores": [
+        18488,
+        18489
+      ],
+      "rows": 12,
+      "seconds": 1.7763608809909783,
+      "nodes": 15139,
+      "edges": 391328,
+      "largest_owned": false,
+      "peak_bytes": 225967104
+    },
+    {
+      "phase": "ph012",
+      "cap": 1,
+      "cores": [
+        17369,
+        17370,
+        17371,
+        17372
+      ],
+      "rows": 35403,
+      "seconds": 24.867638158990303,
+      "nodes": 161959,
+      "edges": 32537824,
+      "largest_owned": true,
+      "peak_bytes": 2230414848
+    },
+    {
+      "phase": "ph013",
+      "cap": 0,
+      "cores": [
+        4807,
+        4808,
+        4809,
+        4810
+      ],
+      "rows": 43,
+      "seconds": 0.38527463999344036,
+      "nodes": 3819,
+      "edges": 53284,
+      "largest_owned": false,
+      "peak_bytes": 187881472
+    },
+    {
+      "phase": "ph013",
+      "cap": 0,
+      "cores": [
+        3999,
+        4000,
+        4001,
+        4002
+      ],
+      "rows": 263,
+      "seconds": 0.3845535200089216,
+      "nodes": 6147,
+      "edges": 90294,
+      "largest_owned": false,
+      "peak_bytes": 202247168
+    },
+    {
+      "phase": "ph013",
+      "cap": 0,
+      "cores": [
+        5919
+      ],
+      "rows": 1,
+      "seconds": 0.16248673701193184,
+      "nodes": 694,
+      "edges": 8584,
+      "largest_owned": false,
+      "peak_bytes": 46579200
+    },
+    {
+      "phase": "ph013",
+      "cap": 0,
+      "cores": [
+        80,
+        81,
+        82,
+        83
+      ],
+      "rows": 27749,
+      "seconds": 17.153680662013358,
+      "nodes": 131488,
+      "edges": 23735530,
+      "largest_owned": true,
+      "peak_bytes": 1684566528
+    },
+    {
+      "phase": "ph013",
+      "cap": 1,
+      "cores": [
+        7261,
+        7262,
+        7263,
+        7265
+      ],
+      "rows": 63,
+      "seconds": 0.9967751929943915,
+      "nodes": 7486,
+      "edges": 99182,
+      "largest_owned": false,
+      "peak_bytes": 205856768
+    },
+    {
+      "phase": "ph013",
+      "cap": 1,
+      "cores": [
+        10349,
+        10350,
+        10351,
+        10352
+      ],
+      "rows": 325,
+      "seconds": 0.40935056502348743,
+      "nodes": 6167,
+      "edges": 89832,
+      "largest_owned": false,
+      "peak_bytes": 202092544
+    },
+    {
+      "phase": "ph013",
+      "cap": 1,
+      "cores": [
+        18550,
+        18551,
+        18552
+      ],
+      "rows": 5,
+      "seconds": 3.6970320790132973,
+      "nodes": 22942,
+      "edges": 2882056,
+      "largest_owned": false,
+      "peak_bytes": 356713472
+    },
+    {
+      "phase": "ph013",
+      "cap": 1,
+      "cores": [
+        17561,
+        17562,
+        17563,
+        17564
+      ],
+      "rows": 49520,
+      "seconds": 61.31704935099697,
+      "nodes": 209882,
+      "edges": 89317234,
+      "largest_owned": true,
+      "peak_bytes": 5881911808
+    }
+  ],
+  "peak_torch_bytes_including_inference": 5881911808
+}
