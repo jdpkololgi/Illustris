@@ -32,7 +32,10 @@ printf '%s  %s\n' \
 unset PYTHONPATH PYTHONHOME PYTHONUSERBASE LD_PRELOAD
 export PYTHONNOUSERSITE=1 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=4 CUMM_CUDA_ARCH_LIST=8.0
 export XDG_CACHE_HOME="$out/cache" CUDA_CACHE_PATH="$out/cache/cuda"
-boot='import runpy,sys;sys.path.append("/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/lib/python3.11/site-packages");runpy.run_module("workflows.abacus_tweb.lowz_litept_train",run_name="__main__")'
+# The report writer is a separate readout, not a change to the measured trainer.
+git -C "$repo" show "${1:?pinned readout revision}:workflows/abacus_tweb/lowz_epoch_reports.py" > "$out/src/epoch_readout.py"
+sha256sum epoch_readout.py > "$out/epoch_readout.sha256"
+boot='import runpy,sys;sys.path.append("/pscratch/sd/d/dkololgi/conda/envs/cosmic_env/lib/python3.11/site-packages");from workflows.abacus_tweb import p10_train_arm_a as trainer;from epoch_readout import install;install(trainer, trainer.parse_args());runpy.run_module("workflows.abacus_tweb.lowz_litept_train",run_name="__main__")'
 echo "trainer=$rev job=$SLURM_JOB_ID fresh seed=42"
 rc=0
 srun -N1 -n1 -c32 --gpus=1 --cpu-bind=cores "$py" -u -c "$boot" \

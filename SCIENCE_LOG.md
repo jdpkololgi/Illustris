@@ -1,5 +1,20 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — retain full per-epoch point-model reports for matched ranking
+
+The G-PATCH overlay links the same base readiness marker, target transform
+and phase contracts as P12-A, so a distinct graph feature transform does
+not require weakening the scorecard's row/split checks. The original
+trainer only retained a detailed report when the selection score improved;
+the history row alone cannot reconstruct all 36 phase/shell/eigenvalue
+scores for a non-best epoch. New G-PATCH and LitePT production entrypoints
+now archive the existing full report at each completed development evaluation.
+No change to training, selection, the sealed split, or running/queued jobs.
+The reader prefers that exact epoch's archive and still cross-checks it
+against the completed epoch history. Two focused tests passed. Replaying
+the real P12-A epoch-2 report through the archive and reader reproduced
+all 36 scores and the frozen macro triple exactly, without new inference.
+
 ## 2026-11-20 — native LitePT shared-checkpoint replay and epoch cost
 
 GPU job 61668057 completed 0:0, 9m33s. At update 40 both cold processes

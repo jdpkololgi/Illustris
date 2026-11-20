@@ -95,7 +95,10 @@ def scorecard(directories, epoch):
         h = rows[0]
         require(h["complete_epoch_coverage"] and h["global_step"] == step and h["repeat_cores"] == 0
                 and h["unique_cores_seen"] == m["training_cores_per_epoch"], "incomplete epoch")
-        raw_report = (d / "best_validation_report.json").read_bytes()
+        # New point runs retain every completed epoch; never substitute a
+        # different best epoch for an unavailable historical report.
+        retained = d / "validation_reports" / f"epoch_{epoch:04d}.json"
+        raw_report = (retained if retained.exists() else d / "best_validation_report.json").read_bytes()
         p, macro = reduce_report(json.loads(raw_report), counts, epoch, step)
         require(math.isclose(macro[0], h["primary_macro_r2_lambda1"], abs_tol=1e-12, rel_tol=0),
                 "epoch history/report mismatch")
