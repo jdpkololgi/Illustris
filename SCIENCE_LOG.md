@@ -35,6 +35,14 @@ excluding parameters/inputs, saw 8,982,480 bytes for the original and
 retained for backward, **not** transient peak allocation, the GPU allocator,
 or a bound for a real patch; the fresh GPU gate is still required.
 
+After separate human approval the repaired diagnostic started: job
+`61675084` on `nid200256`, tmux `lowz_gp_repair_1120`, single 80 GB
+A100, 32 CPUs, desi_g/shared_interactive, one-hour cap, no automatic
+retry. The step rechecked the view and transform and invokes
+`lowz_gpatch_gpu_step.sh --run aedd3c76884e7d58946fbd2b5a6f1054ccd0327e`.
+Log and measurements: `$SCRATCH/abacus/lowz_gpatch_gpu_61675084/`.
+Allocation verified; no test result or production fit implied.
+
 ## 2026-11-20 — corrected G-PATCH loader passed; GPU diagnostic started
 
 CPU job `61668072` completed (0:0). The read-only launch gate passed for
