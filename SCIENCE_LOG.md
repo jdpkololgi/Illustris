@@ -1,5 +1,12 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — freeze two independent point-model diagnostic steps
+
+One-hour CPU ph002 CSR/closure audit and 30-minute A100 native versus
+deterministic-attention repeat probe, source 2a1aa99. Private Scratch
+outputs; distinct receipts for complete measurements vs scientific success.
+Neither task updates model parameters or authorizes a training launch.
+
 ## 2026-11-20 — LitePT matched-loop numerical gate failed before restart
 
 61665541 FAILED 1:0 in 4m54s. Both trajectories processed 32 updates
