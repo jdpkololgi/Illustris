@@ -391,6 +391,16 @@ g_schedule_canary_lr2e4_v1/graph (G ahead in each shell). The schedules
 differ; the 0.57310 U result is epoch 20, not the age-matched comparator.
 The inductive G ceiling was not measured. No transductive results admitted.
 
+Historical shell cross-check from the two `epoch_history.jsonl` files:
+at identical epoch-3 order and step, G minus U on ph006 is +0.041206,
++0.053011, +0.070261, +0.124652 in increasing redshift. The largest
+gap is in z=0.45–0.55 (0.341635 vs 0.216984); it accounts for 43% of
+the summed four-shell improvement, but G improved in all four. U first
+reached those respective G epoch-3 scores at epochs 6, 4, 6, 5. This
+is evidence about early learning on the old five-phase training set,
+not a convergence ranking: graph and U-Net used initial LRs 0.0002 and
+0.002 and different schedules. These values exclude z<0.15.
+
 Single-thread local-stencil probe on corrected p12a_lowz_20261029_v1
 training_contract_v1. Sample 32 distinct eligible cores per phase, up to 40
 unique assigned parents/core uniformly (numpy default_rng(4700+phase));
