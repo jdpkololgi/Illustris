@@ -24,6 +24,17 @@ For interpretation of future inference timing: the full panel uses
 4,318 / 4,326 / 4,348 four-core groups in ph006/012/013; the diagnostic
 oversamples dense groups and is not a random validation-time sample.
 
+FP32 CPU mechanism check at repair `aedd3c7`: seeded (42) 64-node,
+769-directed-edge random graph, full 80-channel/8-head/two-pass models,
+dropout off, chunk width forced to 64 to exercise 13 chunks. The maximum
+absolute prediction difference was 1.34e-7; over 136 input and parameter
+gradient tensors it was 1.49e-8 (squared-output mean loss). Autograd
+saved-tensor hooks around forward, deduplicating backing storage and
+excluding parameters/inputs, saw 8,982,480 bytes for the original and
+553,600 bytes for the repaired model (16.2× less). This measures tensors
+retained for backward, **not** transient peak allocation, the GPU allocator,
+or a bound for a real patch; the fresh GPU gate is still required.
+
 ## 2026-11-20 — corrected G-PATCH loader passed; GPU diagnostic started
 
 CPU job `61668072` completed (0:0). The read-only launch gate passed for
