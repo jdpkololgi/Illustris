@@ -1,5 +1,21 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-20 — which P12-A epochs can support the full matched scorecard
+
+Epoch 1 completed all three development phases, but the original full
+per-phase/per-shell/per-eigenvalue JSON is not in the production run
+directory: best_validation_report.json is now epoch 2. The epoch-1 history
+does preserve the primary λ1 macro (0.4350582585) and its four phase-averaged
+shell scores (0.508111, 0.482167, 0.459674, 0.290280). These are usable
+for a like-for-like primary-score comparison; they cannot reconstruct the
+36 detailed scores. Do not fill the missing cells with best-epoch values.
+The original pre-validation epoch-1 checkpoint still matches migration.json:
+SHA256 6ceb15b449e0751757dfecff082af98becb7093f1c96e90d0aaac56e98bd5231,
+cursor/step 346364. It permits an isolated validation-only replay should
+the full epoch-1 panel become necessary. No replay is required for the
+full epoch-2 comparison: live report hash 8ab9a5816146a9b13da20d638a57ef09da85d04711ae7182839b7a19bfba4b0c
+matches `docs/evidence/p12/lowz_encoder_epoch2_p12a.json`.
+
 ## 2026-11-20 — measured reason to retain 80 GB for historical G-PATCH
 
 Historical ph006 validation + 500 resumed updates (61659392.0) used
