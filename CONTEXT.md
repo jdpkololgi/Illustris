@@ -1,6 +1,6 @@
 # CONTEXT.md — Illustris Live State Dashboard
 
-**Last Modified:** 2026-11-22
+**Last Modified:** 2026-11-22 07:16 PST
 **Rule:** Overwrite in place on `save-state` (keep ≤ 8 KB / ~150 lines). Durable science goes in `SCIENCE_LOG.md`; Slurm/tmux/receipt telemetry goes in `RUN_LOG.md`. Pre-2026-11-22 context archived in `docs/log_archive/CONTEXT_2026_pre_nov22.md`.
 
 ---
@@ -12,7 +12,7 @@
   - **Current stage:** Matched multi-encoder architecture comparison on the corrected 20/3 low-z contracts (same 346,364 cores/epoch, same 21,876,905 dev rows, 4-epoch cosine schedule, seed 42). Freeze the winning encoder once matched evidence is in, then train and calibrate the corrected low-z FMPE posterior head and run DESI Loa inference via `~/GraphWeb_DESI`.
 - **Paper 3 (Separate / Experimental — Coherent 3D Field-Level Posterior via CFM):**
   - Two-stage coarse + fine 3D Conditional Flow Matching over full survey caps ($0.01 \le z < 0.55$). Not a dependency for Paper 2.
-  - **Current stage:** Seed-17 fine + coarse trained; 32-draw coherent development calibration ensemble finishing across all 6 dev caps (`ph006/012/013` × NGC/SGC).
+  - **Current stage:** Seed-17 coarse and fine models trained. 188/192 distinct coherent development draws complete across `ph006/012/013` × NGC/SGC; final four ph013 NGC draws running. Full-box matter truth is for scoring only. No ensemble calibration verdict yet.
 
 ---
 
@@ -20,15 +20,17 @@
 
 *All Paper 2 encoder rows below share identical contract hashes: 20 train / 3 dev (`ph006, 012, 013`, 21,876,905 authoritative rows) / 2 sealed (`ph018, 019`), $0.01 \le z < 0.55$, own-galaxy `RA/DEC/Z_COSMO` $R_7$ targets (`training_ready_sha256: 63b3c61c...`). Never mix with historical 5-phase or $z \ge 0.15$ runs.*
 
-| Model / Track | Metric (`macro R² λ1/λ2/λ3` or Field) | Split / Eval Set | Status / Cost | Evidence Artifact |
-| :--- | :--- | :--- | :--- | :--- |
-| **P12-A U-PATCH (Ref)** | Ep1 λ1 `0.4351`; Ep2 `0.5092 / 0.5677 / 0.5779`; Ep3 λ1 `0.5666`; **Ep4 `0.5825 / 0.6747 / 0.7215`** | 20/3 dev (`ph006/012/013`), $0.01 \le z < 0.55$ | **4/4 epochs DONE** (~13.2 A100-h/ep) | `docs/evidence/p12/lowz_encoder_epoch4_p12a.json` |
-| **Window-Attention Grid** | Ep1 `0.3814 / 0.4758 / 0.4570` | Matched 20/3 dev, $0.01 \le z < 0.55$ | Ep1 done; Ep2 paused at 300,912/346,364; cont. `61786757` PD | `docs/evidence/p12/lowz_encoder_epoch1_window_attention.json` |
-| **Large-Kernel CNN** | Pending | Matched 20/3 dev, $0.01 \le z < 0.55$ | First 24h segment `61664814` PD | `RUN_LOG.md` |
-| **LitePT-S (Point)** | Pending (preflight passed; stochastic restart accepted) | Matched 20/3 dev, $0.01 \le z < 0.55$ | First 24h segment `61671100` PD (~54.7 A100-h/ep proj.) | `abacus/lowz_litept_fork_61668057/` |
-| **G-PATCH (Host-Cone)** | Pending (receiver-streamed + 1.40× exact host cone, max FP32 diff `2.98e-7`) | Matched 20/3 dev, $0.01 \le z < 0.55$ | First 24h segment `61685645` PD (~170.2 A100-h/ep proj.) | `docs/evidence/p12/lowz_gpatch_host_cone_61683377.json` |
-| **Historical G-PATCH** | **EXCLUDED** (`61662008` cancelled; old 5-phase $z \ge 0.15$ contract) | Do not enter into low-z table | Cancelled | `SCIENCE_LOG.md` (2026-11-22) |
-| **CFM Low-z Seed-17** | `ph006` draw-zero T-Web agree: 63.8% NGC / 66.4% SGC (75.7% / 73.2% at $z<0.15$); RMSE `0.3819 / 0.3652` | 20/3 dev (`ph006/012/013`), 6 caps, $0.01 \le z < 0.55$ | SGC 32-draw array DONE; NGC 4 tasks (`92–95`) left; scorer `61647276` PD | `docs/figures/lowz_ph006_draw_zero/`, `lowz_calibration_61647276` |
+| metric | split_type | phase_set | z_range | artifact_id |
+| --- | --- | --- | --- | --- |
+| P12-A epoch 1, macro R² λ1: 0.4351 | whole-phase dev, seed 42 | ph006/012/013 | [0.01,0.55) | `$SCRATCH/abacus/p12a_lowz_full_seed42_61548250/full/unet/seed_42/epoch_history.jsonl` (epoch 1) |
+| Window attention epoch 1, macro R² λ1/λ2/λ3: 0.3814 / 0.4758 / 0.4570 | whole-phase dev, seed 42 | ph006/012/013 | [0.01,0.55) | `docs/evidence/p12/lowz_encoder_epoch1_window_attention.json` |
+| P12-A epoch 2, macro R² λ1/λ2/λ3: 0.5092 / 0.5677 / 0.5779 | whole-phase dev, seed 42 | ph006/012/013 | [0.01,0.55) | `docs/evidence/p12/lowz_encoder_epoch2_p12a.json` |
+| P12-A epoch 4, macro R² λ1/λ2/λ3: 0.5825 / 0.6747 / 0.7215 | whole-phase dev, seed 42 | ph006/012/013 | [0.01,0.55) | `docs/evidence/p12/lowz_encoder_epoch4_p12a.json` |
+| CFM draw-zero T-Web agreement: 63.79% | supported registered NGC development cells, single draw | ph006 | [0.01,0.55) | `$SCRATCH/abacus/e2e_field_v3/lowz_cap_draw_61610899/NGC/SCORES.json` |
+| CFM draw-zero T-Web agreement: 66.39% | supported registered SGC development cells, single draw | ph006 | [0.01,0.55) | `$SCRATCH/abacus/e2e_field_v3/lowz_cap_draw_61582948/SGC/SCORES.json` |
+
+Only epoch 1 has scores from two encoders. No matched full-development R² yet for large-kernel CNN, LitePT-S or corrected host-cone G-PATCH. Exclude the historical G-PATCH extension: its input catalogue differs.
+
 
 ---
 
@@ -45,13 +47,13 @@
 
 ## 4. Next Steps & Active Queue (Two Live Codex Tracks)
 
-1. **Encoder comparison track:** Let queued jobs (`61786757` window-attn Ep2, `61664814` large-kernel, `61671100` LitePT-S, `61685645` host-cone G-PATCH) run and update the matched Claim Table at equal epochs & GPU-hours; freeze the winning Paper 2 encoder and proceed to low-z FMPE calibration.
-2. **CFM calibration track:** Wait for the final 4 NGC draws (`61646846_[92-95]`) and dependent calibration scorer (`61647276`) to produce `CALIBRATION.json` + 6 cap map panels, then audit marginal/joint calibration (fair CRPS, TARP, energy score, class reliability).
+1. **Encoder comparison:** Score the transformer's next complete epoch against the frozen P12-A epoch-2 card. Add the other three encoders only at matched epochs on verified identical parent rows, reporting each phase, shell and eigenvalue. Record compute separately. See `RUN_LOG.md` for live-job receipts.
+2. **CFM calibration:** Verify all 192 draw receipts before interpreting `CALIBRATION.json` and the six cap panels. Audit fair CRPS, TARP, energy score and class reliability.
 3. **Observational handoff (`~/GraphWeb_DESI`):** Keep Loa VAC defaults frozen until the new low-z encoder + FMPE passes dev calibration, sealed `ph018/019` check, and golden-mock parity.
 
 ---
 
-## Pending Ideas (Park Here — Do Not Hijack Active Deliverables)
+## Pending Ideas
 
 - **Candidate Theory Paper (with Ofer & Krishna):** Compare nonlinear volume-weighted Abacus ordered tidal-eigenvalue 1-point PDFs and auto/cross-power spectra against Gaussian predictions (Doroshkevich 1970; Lee & Shandarin 1998; Desjacques & Smith 2008). Existing pilot: `workflows/tidal_statistics/` & `docs/abacus_tidal_statistics_20261006.md` (`c000/ph000` $z=0.2$, $512^3$ integrated abs diff `0.428/0.343/0.355` vs `~0.001` Gaussian control). Keep cleanly separate from Paper 2 per-galaxy VAC; observational measurement requires coherent CFM fields or hierarchical reweighting, never stacked FMPE draws.
 - **Historical baselines & archival context:** See `docs/log_archive/CONTEXT_2026_pre_nov22.md` and `docs/log_archive/SCIENCE_LOG_2026_pre_nov.md`.
