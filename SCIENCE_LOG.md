@@ -14,6 +14,9 @@ Resume in the original 61664810 output using pinned 71307f5, from the
 epoch-2 pause at cursor 300912 / 346364, step 647276; no preflight replay.
 Do not count historical graph job 61662008 (p10_multiphase/training_contract)
 in the corrected z=0.01–0.55 table. Corrected host-cone job is 61685645.
+At user request, historical job 61662008 was cancelled; Slurm accounting
+confirmed CANCELLED after 04:51:39. Its products are excluded. Corrected
+jobs 61685645 and 61786757 remained pending and were not modified.
 
 ## 2026-11-20 — first corrected host-cone G-PATCH production segment submitted
 
