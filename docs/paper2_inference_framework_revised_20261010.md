@@ -1,6 +1,6 @@
 # Paper II: inference framework and statistical methodology
 
-Revised 10 October 2026 to follow `paper2_abstract_introduction_revised_20261009.md`. This supersedes the theoretical exposition in the older drafts for current writing purposes, without deleting those drafts. Manuscript prose is below; editorial recommendations, source checks and implementation notes are kept separate. Equations are Markdown/LaTeX for transfer to Overleaf, not a standalone compilable document.
+Updated 18 November 2026 for the corrected galaxy-position target and low-redshift campaign. Equations are in Markdown/LaTeX for transfer to Overleaf. The companion introduction needs the terminology changes listed below.
 
 ## Editorial recommendation
 
@@ -19,7 +19,7 @@ This follows the useful separation in Jeffrey's SBI papers rather than copying t
 
 ### Drafting outline
 
-- Define the host-linked physical estimand and nonlocal tidal operator before introducing ML.
+- Define the galaxy-position estimand and nonlocal tidal operator before introducing ML.
 - Define the forward survey operator and distinguish fixed assumptions, observed response covariates and random latent variables.
 - Derive the local posterior as a pushforward, then distinguish full-data and compressed-data posteriors.
 - Give the actual P12-A conditioning vector and ordered target coordinates.
@@ -46,14 +46,16 @@ T_{ab,R}(\boldsymbol x)=\partial_a\partial_b\Phi_R(\boldsymbol x),
 
 where \(W_R(k)=\exp(-k^2R^2/2)\) and the zero mode is fixed by the density-contrast convention. The ordered eigenvalues \(\boldsymbol\Lambda=(\lambda_1,\lambda_2,\lambda_3)\), with \(\lambda_1\leq\lambda_2\leq\lambda_3\), characterise the T-web environment [Forero-Romero et al. 2009]. This is the Hessian of the rescaled gravitational potential, not the Hessian of density. Although its trace is local in the smoothed density, \(\operatorname{tr}T_R=\delta_R\), its anisotropic components depend on surrounding matter through the inverse Laplacian. The smoothing scale is therefore not a strict radius beyond which structure becomes irrelevant.
 
-For P12-A, the target convention is \(R=7\,h^{-1}\mathrm{Mpc}\) and \(z_\star=0.2\). The mock label assigned to an observed galaxy is sampled at its linked host-halo location in the native simulation coordinates. This is distinct from evaluating a reconstructed field at the galaxy's observed redshift-space coordinate. Let \(U\) collect the latent matter, halo and galaxy realisation, including the host association. The target for object \(g\) is
+The corrected P12-A target uses \(R=7\,h^{-1}\mathrm{Mpc}\) and the fixed matter snapshot \(z_\star=0.2\). The label uses each mock galaxy's own real-space position, reconstructed from right ascension, declination and cosmological redshift \(Z_{\rm COSMO}\) with the pinned simulation distance relation and observer mapping. Let \(U\) collect the latent matter, halo and galaxy realisation. The target for object \(g\) is
 
 \[
-\boldsymbol\Lambda_g=F_R(U;\boldsymbol x_{h(g)}(U)).
+\boldsymbol\Lambda_g=F_R(U;\boldsymbol x_g^{\rm real}(U)).
 \tag{2}
 \]
 
-The observed coordinate determines where the galaxy enters the inference inputs; equation (2) defines the physical label being inferred. Host linking, position sampling, smoothing and numerical normalisation are part of the estimand, not interchangeable implementation choices. In particular, the fixed target epoch does not turn observed-redshift trends across the VAC into measurements of tidal-field evolution.
+Observed spectroscopic redshift, including peculiar-velocity effects, determines the input position. \(Z_{\rm COSMO}\) is used to construct simulation truth. For resolved and unresolved satellites, the label follows the assigned galaxy position, including the satellite displacement. The annotation records independent Cartesian position checks separately from label validity. Redshift trends are interpreted under the fixed-snapshot convention.
+
+The earlier P12-A model and provisional Loa catalogue used host-linked labels. In the legacy low-redshift branch, the halo index addressed a filtered table, and using it on the original table could misassign the label. The corrected annotation samples the native T-web field using the galaxy's own coordinates. Historical checkpoint results retain their original label provenance. [Galaxy-position migration](galaxy_position_migration_20261019.md)
 
 The training population consists of selected, supported mock galaxies. Its distribution of environments is consequently galaxy-weighted and selection-dependent, not the volume-weighted distribution of random spatial voxels. Throughout this section, probabilities refer to this registered population; conditioning on sample eligibility is suppressed in the notation.
 
@@ -64,7 +66,7 @@ Let \(\mathcal M\) denote fixed modelling choices, including cosmology, the gala
 \[
 U\sim p_{\mathcal M}(U),\qquad
 X\sim p_{\mathcal M}(X\mid U,r),\qquad
-\boldsymbol\Lambda_g=F_R(U;\boldsymbol x_{h(g)}(U)).
+\boldsymbol\Lambda_g=F_R(U;\boldsymbol x_g^{\rm real}(U)).
 \tag{3}
 \]
 
@@ -96,7 +98,7 @@ p_{\mathcal M}(U\mid X,r)
 \[
 p_{\mathcal M}(\boldsymbol\lambda_g\mid X,r)
 =\int \delta_{\rm D}^{(3)}
-  [\boldsymbol\lambda_g-F_R(U;\boldsymbol x_{h(g)}(U))]
+  [\boldsymbol\lambda_g-F_R(U;\boldsymbol x_g^{\rm real}(U))]
   p_{\mathcal M}(U\mid X,r)\,dU.
 \tag{6}
 \]
@@ -107,9 +109,9 @@ P12-A does not explicitly sample \(U\) or reconstruct the field posterior of equ
 
 ### 2.4 What P12-A actually conditions on
 
-The observed galaxy configuration is converted into a voxelised input for a frozen residual U-Net. In the production R0 path, the source fields are counts, apodised exposure and a log count-ratio field. The actual network tensor contains normalised counts, a clipped density proxy obtained from the count-ratio field, and apodised exposure. These selection-dependent quantities are rebuilt with the pinned transformations and selection curves. They encode aspects of observing conditions but are not a complete representation of the survey likelihood.
+The residual U-Net receives normalised counts, a clipped count-ratio density proxy and apodised exposure. In the corrected campaign, radial selection is fitted from training-phase galaxy positions in the observed coordinate chart. Expected counts and observed counts use the same cloud-in-cell deposition basis and source-point angular support. Matching these operators matters near the observer and at survey boundaries, where cells can span rapidly changing radial selection or partial angular coverage. This supplies a fitted response to the compressor. Equation (4) describes the additional modelling needed to propagate uncertainty in that response. [Low-redshift preparation and response checks](lowz_preparation_checkpoint_20261029.md)
 
-The compressor supplies a three-component physical prediction \(\boldsymbol b_g\). The conditional density estimator receives the seven-dimensional vector
+The historical P12-A compressor supplied a three-component physical prediction \(\boldsymbol b_g\), and its conditional density estimator used the seven-dimensional vector
 
 \[
 S_g=\left(
@@ -130,7 +132,7 @@ q_\phi(\boldsymbol\lambda_g\mid S_g)
 \tag{8}
 \]
 
-not automatically the full-catalogue posterior in equation (6). A three-number compression, finite context and reduced response descriptors can discard relevant information. Even an exact approximation in equation (8) would not establish sufficiency of \(S_g\). The distinction also prevents the phrase ``conditioned on survey systematics'' from being read as a claim that every systematic uncertainty has been integrated out.
+with \(S_g\) denoting the features available for the model generation being evaluated. Equality with the full-catalogue posterior in equation (6) requires sufficiency for the target. A three-number compression, finite context and reduced response descriptors can discard relevant information. Equation (7) documents the completed historical fit. The corrected estimator's feature vector and standardisation require confirmation against its exported tables and checkpoint.
 
 ### 2.5 Ordered posterior estimation and out-of-fold compression
 
@@ -170,7 +172,7 @@ The omitted phase is also excluded from the corresponding fitted selection, inpu
 
 This procedure is not a calibration theorem. Finite training samples, inadequate conditioning information, density-estimator approximation and differences between leave-one-phase-out compressors and the final full-fit compressor can still produce erroneous posteriors. The distribution learned from pooled folds is approximately a mixture over fold-specific compression laws; applying it to a full-fit compressor requires separate validation of that handoff. Cross-fitting is also not Bayesian integration over network weights or observing-condition parameters. Fold-to-fold variability may affect the empirical training distribution, but it is not automatically a correctly weighted posterior over those uncertainties.
 
-The implementation additionally distinguishes exclusion from optimisation from exclusion from all monitoring. The omitted phases were monitored, with retained summaries using terminal epoch 20. They should therefore be described as out-of-training-phase summaries rather than as independent blinded confirmation samples. The separate selection and confirmation phases serve a different inferential role. Context extent is part of this contract: when halo24 summaries were replaced by halo48 summaries, the frozen encoder weights were retained but the affected summaries were regenerated and the posterior refitted. Validation of the earlier composite pipeline does not automatically transfer to this successor.
+The corrected campaign uses 20 training phases, three development phases (ph006, ph012 and ph013), and two sealed final-test phases (ph018 and ph019). The full encoder contract uses all 20 training phases. Each of the 20 out-of-fold contracts fits on the other 19, including the corresponding selection fit and fitted transformations. Whole-phase omission defines the encoder split. The spatial split for posterior calibration and evaluation requires separate qualification. The planned halo48 exports and posterior fit will determine the handoff from the out-of-fold predictors to the full encoder.
 
 ### 2.6 What the posterior width means
 
@@ -227,9 +229,9 @@ For an exact conditional posterior, a region \(A_\alpha(S)\) assigned probabilit
 
 Finite mock tests assess selected consequences of this statement, not its validity for every configuration. Marginal interval coverage, conditional coverage in response strata, multivariate diagnostics such as TARP, proper scores and class-probability reliability probe different failure modes [Talts et al. 2018; Lemos et al. 2023]. Population-averaged coverage may conceal compensating errors; individual eigenvalue calibration does not establish their joint dependence. A distribution returning the prior can pass some aggregate checks while extracting little observational information. Validation must therefore test both uncertainty accuracy and useful conditioning.
 
-Spatial and phase dependence also matter. Millions of correlated galaxies are not millions of independent universes. Selection tests, spatial-block uncertainty estimates and independent-phase confirmation answer different questions and should not be combined into a single calibration percentage. P12-A's original blinded evaluation and the deployed halo48 successor's exposed-phase audits must be reported separately. The successor's tested modest overcoverage is compatible with passing specified tolerances but is not evidence of exact calibration.
+Selection tests, spatial-block uncertainty estimates and independent-phase confirmation answer different questions because galaxies within a simulation share structure. The original blinded evaluation and the deployed halo48 successor's exposed-phase audits apply to their respective historical checkpoints and label conventions. Calibration for the corrected galaxy-position target requires end-to-end evaluation of the new encoder, posterior and response pipeline against corrected labels. Input qualification and restart parity establish the integrity of data loading and training state over the tested steps.
 
-Finally, numerical replay of the observation adapter establishes consistency of a transformation, not adequacy of the mock population for DESI. Even an exact mock conditional law can fail if \(p_{\rm DESI}(\boldsymbol\Lambda\mid S)\ne p_{\mathcal M}(\boldsymbol\Lambda\mid S)\). The known redshift-dependent mock–data mismatch therefore limits observational interpretation independently of cross-fitting and mock coverage. The provisional catalogue spans \(0.15\leq z<0.55\); its extent must not be confused with uniform scientific qualification over that range.
+Numerical replay of the observation adapter tests transformation consistency. Transfer to DESI depends on the adequacy of the mock conditional law, which can differ from the survey's \(p_{\rm DESI}(\boldsymbol\Lambda\mid S)\). We plan to apply the retrained P12-A model to DESI Loa BGS galaxies over the full observed-redshift interval \(0.01\leq z<0.55\). Mock supervision covers this same interval. At its low-redshift end, interpreting posterior widths requires checking the effects of peculiar velocities, tracer selection and the representation of low-mass galaxies in the mocks. The September provisional Loa catalogue covered \(0.15\leq z<0.55\) using the earlier model trained with host-linked labels.
 
 ### 2.8 Environmental probabilities and the boundary of local inference
 
@@ -253,6 +255,8 @@ Nor does the catalogue provide \(p(\boldsymbol\Lambda_1,\ldots,\boldsymbol\Lambd
 ---
 
 ## Implementation and evidence checks for Section 3
+
+These entries document the historical Loa model and its mock pipeline. The corrected generation has versioned training contracts and requires its own fit and deployment receipts.
 
 | Item | Verified local source | What to report |
 | --- | --- | --- |
@@ -278,17 +282,15 @@ Cross-fitting addresses a different issue: whether the posterior is being taught
 
 ## What the latest repository changes alter
 
-Reviewed local Illustris HEAD `b5144c9` and GraphWeb_DESI HEAD `d959540`, with the science log through its 10 October entry. This was a read-only review of code, documents and committed receipts; no live NERSC jobs, large payloads or sealed phases were inspected. The existing 9 October introduction and 29 September outline were untracked and have been preserved.
+Evidence reviewed through 18 November consists of local Illustris HEAD `9af2b62`, GraphWeb_DESI HEAD `0ceafe7`, and the recorded NERSC receipts and submissions. Live job outcomes and sealed payloads are outside this evidence snapshot. [Science log](../SCIENCE_LOG.md)
 
-The recent work is predominantly the conditional-field branch, not a new P12-A model. Full-cap density/operator work has advanced beyond the September independent-tile status. However, true-density closure shows a material tidal-operator discrepancy that explains only part of the joint deficit; changing to operator-matched truth does not rescue qualification. The 8 October class-fraction analysis additionally shows target closure and sparse/high-redshift sensitivity. These motivate explicit estimand/operator definitions in equations (1)–(3), not rewriting P12-A's validated target to match the field branch.
+Illustris verified 21 encoder input contracts, one full fit and 20 phase omissions, with 84 actual-loader checks. The corresponding field campaign verified 23 permitted phase products and 960 training domains. The latest handoff records submission of the four-epoch full P12-A encoder job 61535300 and the fine conditional flow-matching U-Net job 61534556. The first submission covers the full encoder contract only. Out-of-fold fitting, halo48 summary export, posterior fitting and confirmation remain subsequent P12-A stages. Mid-epoch restart parity was measured over a 24-update check. The spatial-fold diagnostic found one host-linked component containing 99.7921 per cent of eligible ph001 rows, so the within-phase posterior calibration split still requires qualification. That diagnostic addresses split integrity. The corrected tidal labels are obtained from galaxy coordinates. [Preparation checkpoint](lowz_preparation_checkpoint_20261029.md) · [Full encoder launcher](../workflows/sbi/p12a_lowz_full.slurm)
 
-The early 9 October two-phase sensitivity rejection is superseded as the decision for the requested six-phase panel: the corrected panel requires missing full-cap tidal inputs. Subsequent generation is rebuilding the required evidence. On 10 October, one new four-draw generation task and corrected extraction passed technical checks; the log records bounded parallel continuation, not a completed Gate 2 or posterior qualification. The paper should not turn these technical completions into a field-calibration claim.
-
-The 9 October comparison-scope note explicitly rules out a current like-for-like dominance claim: field Stage B evaluates at observed coordinates, whereas P12-A uses native host-linked targets. P12-A has stronger original blind-mock evidence, not established superiority for every quantity. The main Paper II framework should remain local-posterior inference; include these field lessons as limits and future directions unless a separately validated matched result becomes available.
+GraphWeb_DESI's November handoff retains the existing observational inference defaults and checkpoint provenance. Its Loa density and tidal diagnostics document historical field products and sensitivity checks. Any matched local-versus-field comparison should evaluate a common target, including the same evaluation coordinate convention, smoothing, galaxy selection and held-out phases. Direct-density field targets have independent lineage from the legacy halo-index lookup and require their own spatial-joint validation.
 
 ### Small companion correction to the introduction
 
-Replace “at an individual galaxy location” with “at the native host-halo location associated with each mock galaxy, inferred from its observed galaxy configuration.” Keep the observational VAC phrased as host-environment inference under this mock convention, not as direct measurement of a tidal tensor at an observed redshift-space coordinate. The next section should open with this distinction rather than leaving it to an appendix.
+For the corrected campaign, use “the joint distribution of the three ordered tidal eigenvalues at each galaxy's real-space position, inferred from its observed redshift-space galaxy configuration.” Give the planned Loa inference range explicitly as \(0.01\leq z<0.55\) in observed redshift. Attribute any existing Loa galaxy-property results to the September provisional catalogue and its host-linked training labels.
 
 ## References and manuscript key suggestions
 
