@@ -1,5 +1,20 @@
 # SCIENCE_LOG.md — shared brain: Claude Desktop (science) ⇄ Claude Code (NERSC)
 
+## 2026-11-22 — corrected encoder comparison and transformer continuation
+
+Freeze the seed-42 window-attention epoch-1 and P12-A epoch-4 validation
+scorecards in docs/evidence/p12/lowz_encoder_epoch1_window_attention.json
+and lowz_encoder_epoch4_p12a.json. These cover all three physical eigenvalues,
+three development phases and four shells. At epoch 1 U-Net leads on macro
+lambda1 R² (0.435058 vs 0.381385); do not rank its epoch 4 against epoch 1.
+
+Approved continuation 61786757 submitted on one 80 GB A100, 32 CPUs,
+desi_g/shared, 24h, Scratch, no requeue. Pending priority at submission.
+Resume in the original 61664810 output using pinned 71307f5, from the
+epoch-2 pause at cursor 300912 / 346364, step 647276; no preflight replay.
+Do not count historical graph job 61662008 (p10_multiphase/training_contract)
+in the corrected z=0.01–0.55 table. Corrected host-cone job is 61685645.
+
 ## 2026-11-20 — first corrected host-cone G-PATCH production segment submitted
 
 Slurm accepted **61685645** (initial state PENDING/Priority; no start
