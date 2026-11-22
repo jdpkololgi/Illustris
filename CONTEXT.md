@@ -1,6 +1,6 @@
 # CONTEXT.md — Illustris Live State Dashboard
 
-**Last Modified:** 2026-11-22 07:16 PST
+**Last Modified:** 2026-11-22 10:05 PST (CFM readout)
 **Rule:** Overwrite in place on `save-state` (keep ≤ 8 KB / ~150 lines). Durable science goes in `SCIENCE_LOG.md`; Slurm/tmux/receipt telemetry goes in `RUN_LOG.md`. Pre-2026-11-22 context archived in `docs/log_archive/CONTEXT_2026_pre_nov22.md`.
 
 ---
@@ -12,7 +12,7 @@
   - **Current stage:** Matched multi-encoder architecture comparison on the corrected 20/3 low-z contracts (same 346,364 cores/epoch, same 21,876,905 dev rows, 4-epoch cosine schedule, seed 42). Freeze the winning encoder once matched evidence is in, then train and calibrate the corrected low-z FMPE posterior head and run DESI Loa inference via `~/GraphWeb_DESI`.
 - **Paper 3 (Separate / Experimental — Coherent 3D Field-Level Posterior via CFM):**
   - Two-stage coarse + fine 3D Conditional Flow Matching over full survey caps ($0.01 \le z < 0.55$). Not a dependency for Paper 2.
-  - **Current stage:** Seed-17 coarse and fine models trained. 188/192 distinct coherent development draws complete across `ph006/012/013` × NGC/SGC; final four ph013 NGC draws running. Full-box matter truth is for scoring only. No ensemble calibration verdict yet.
+  - **Current stage:** All 192 coherent seed-17 development draws scored against full-box truth. Pooled single-cell eigenvalue coverage is close to nominal at the checked level; low-z density overcovers, and regional TARP varies with scale. Not yet qualified for DESI.
 
 ---
 
@@ -22,6 +22,7 @@
 
 | metric | split_type | phase_set | z_range | artifact_id |
 | --- | --- | --- | --- | --- |
+| CFM nominal 81.82% interval: observed coverage 83.95% (density), 81.86% / 82.33% / 81.48% (ordered tides) | supported registered development cells, cell-weighted, both caps | ph006/012/013 | [0.01,0.55) | `$SCRATCH/abacus/e2e_field_v3/lowz_calibration_61647276/CALIBRATION.json` |
 | P12-A epoch 1, macro R² λ1: 0.4351 | whole-phase dev, seed 42 | ph006/012/013 | [0.01,0.55) | `$SCRATCH/abacus/p12a_lowz_full_seed42_61548250/full/unet/seed_42/epoch_history.jsonl` (epoch 1) |
 | Window attention epoch 1, macro R² λ1/λ2/λ3: 0.3814 / 0.4758 / 0.4570 | whole-phase dev, seed 42 | ph006/012/013 | [0.01,0.55) | `docs/evidence/p12/lowz_encoder_epoch1_window_attention.json` |
 | P12-A epoch 2, macro R² λ1/λ2/λ3: 0.5092 / 0.5677 / 0.5779 | whole-phase dev, seed 42 | ph006/012/013 | [0.01,0.55) | `docs/evidence/p12/lowz_encoder_epoch2_p12a.json` |
@@ -48,7 +49,7 @@ Only epoch 1 has scores from two encoders. No matched full-development R² yet f
 ## 4. Next Steps & Active Queue (Two Live Codex Tracks)
 
 1. **Encoder comparison:** Score the transformer's next complete epoch against the frozen P12-A epoch-2 card. Add the other three encoders only at matched epochs on verified identical parent rows, reporting each phase, shell and eigenvalue. Record compute separately. See `RUN_LOG.md` for live-job receipts.
-2. **CFM calibration:** Verify all 192 draw receipts before interpreting `CALIBRATION.json` and the six cap panels. Audit fair CRPS, TARP, energy score and class reliability.
+2. **CFM calibration:** Review support-stratified scores, rank histograms, class reliability and six cap panels in `$SCRATCH/abacus/e2e_field_v3/lowz_calibration_61647276/`; compare skill against a matched observation-only baseline before a production claim. Keep ph018/019 sealed.
 3. **Observational handoff (`~/GraphWeb_DESI`):** Keep Loa VAC defaults frozen until the new low-z encoder + FMPE passes dev calibration, sealed `ph018/019` check, and golden-mock parity.
 
 ---

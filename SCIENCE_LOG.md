@@ -2,6 +2,26 @@
 
 > **Scope:** Durable scientific results, negative results, bug discoveries, and methodological decisions **only** (newest first). Live state lives in `CONTEXT.md` (≤ 8 KB, overwritten); Slurm submissions, queue telemetry, tmux owners, and routine receipts go in `RUN_LOG.md`. Pre-November 2026 entries are archived verbatim in `docs/log_archive/SCIENCE_LOG_2026_pre_nov.md`.
 
+## 2026-11-22 — coherent development CFM: marginal coverage versus regional reliability
+
+Evidence A: `$SCRATCH/abacus/e2e_field_v3/lowz_calibration_61647276/CALIBRATION.json`.
+32 independent sampler seeds per cap/phase, observation-only conditioning;
+full-box truth for scoring. Central order-statistic interval (3rd to 30th
+draw) has nominal coverage 27/33. Values ordered as density, λ1, λ2, λ3.
+
+| metric | split_type | phase_set | z_range | artifact_id |
+|---|---|---|---|---|
+| Coverage 83.95%, 81.86%, 82.33%, 81.48%; mean widths 0.6109, 0.2367, 0.2512, 0.2933 | development, supported registered cells, cell-weighted, both caps | ph006/012/013 | [0.01,0.55) | A |
+| Coverage 87.01%, 83.52%, 85.29%, 84.41%; 81,783 scored cells | same development cell weighting | ph006/012/013 | [0.01,0.15) | A |
+| Fair CRPS 0.1196, 0.0474, 0.0508, 0.0620 | development, supported registered cells, cell-weighted, both caps | ph006/012/013 | [0.01,0.55) | A |
+
+Regional density TARP at nominal 0.80 (reference width 0.25): 0.866 for
+two-core means, 0.762 for eight subregions; at width 1.0: 0.847 and 0.792.
+Among 248 cells assigned knot probability ≥0.8, mean prediction 0.900,
+true knot frequency 0.802. These are descriptive findings across three
+independent mock phases, not 344,302 independent trials. Not a full-field
+calibration proof or a comparison against a matched baseline.
+
 ## 2026-11-22 — corrected encoder comparison and transformer continuation
 
 Freeze the seed-42 window-attention epoch-1 and P12-A epoch-4 validation

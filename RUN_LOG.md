@@ -5,6 +5,13 @@
 
 ---
 
+## 2026-11-22 10:05 PST — development calibration readout verified
+
+NGC/SGC production arrays completed 93/92 tasks respectively. Including
+the earlier draws, the report lists 192 distinct paths. Job 61647276 exited
+0:0 in 00:05:04; CALIBRATION.json and all six phase/cap PNGs were present
+in `$SCRATCH/abacus/e2e_field_v3/lowz_calibration_61647276/`.
+
 ## 2026-11-22 07:16 PST — final four CFM draws running
 
 188/192 distinct development draws complete (NGC 92/96, SGC 96/96).
