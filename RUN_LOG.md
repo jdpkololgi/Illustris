@@ -5,6 +5,15 @@
 
 ---
 
+## 2026-11-23 — ph018 confirmation draw 0 submitted
+
+NGC 61857305 (3:10), SGC 61857310 (1:46), each one 80 GB A100,
+32 logical CPUs, desi_g/shared, Scratch, no requeue. Both initially pending
+for Priority. Commit aad3932. Density then tides only; no truth or scores.
+Logs: `$SCRATCH/abacus/lowz-blind-draw0-{61857305,61857310}.log`.
+Verify both density and tides COMPLETE receipts before any ensemble decision.
+No remaining draws submitted.
+
 ## 2026-11-23 — Blind geometry registration completed
 
 CPU 61857133, nid200043, 64 logical CPUs, desi/interactive, Scratch, 1h limit.
