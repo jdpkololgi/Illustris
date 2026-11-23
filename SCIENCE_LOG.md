@@ -2,6 +2,22 @@
 
 > **Scope:** Durable scientific results, negative results, bug discoveries, and methodological decisions **only** (newest first). Live state lives in `CONTEXT.md` (≤ 8 KB, overwritten); Slurm submissions, queue telemetry, tmux owners, and routine receipts go in `RUN_LOG.md`. Pre-November 2026 entries are archived verbatim in `docs/log_archive/SCIENCE_LOG_2026_pre_nov.md`.
 
+## 2026-11-23 — Both Paper 3 confirmation phases have verified observation inputs
+
+The four native and factor-four cap responses for ph018 and ph019 passed
+the frozen development-window parity check, exact angular replay and count
+conservation checks. Supported BGS_BRIGHT source rows at 0.01 ≤ z < 0.15:
+ph018 NGC 1,713,232; ph018 SGC 692,642; ph019 NGC 1,686,768; ph019 SGC
+692,086. These are catalogue rows in the input, not independent replicates
+or counts of scored cells. The largest relative change across the four caps
+in either total counts or random-expected counts after coarsening was
+3.44e-10. Evidence: the four `RESPONSE_COMPLETE.json` receipts under
+`$SCRATCH/abacus/e2e_field_v3/lowz_cfm_blind_confirmation_v1/{ph018,ph019}/{NGC,SGC}/`;
+each binds the frozen release, observation and angular payloads, selection,
+and two output hashes. The interrupted file was not used. No matter truth
+was read and no posterior predictions were generated. Geometry registration
+and observation-only prediction remain prerequisites to any blind score.
+
 ## 2026-11-23 — Paper 3 blind confirmation authorized; no test outcomes yet
 
 The user released ph018 and ph019 for one test of the frozen seed-17 **CFM**.

@@ -7,6 +7,12 @@
 
 ## 2026-11-23 — CFM blind input preparation: one approved recovery
 
+Outcome: allocation COMPLETED 0:0 in 15:11; step 61855386.0 COMPLETED
+0:0 in 15:07. Foreground execution relinquished the node; empty stderr.
+All four complete markers report this job, the registered phase/cap,
+exact angular replay and the bound release, selection and source hashes.
+All eight output paths and sizes match their compute-node SHA-256 records.
+
 Job 61855386 on nid200029, one CPU node, 64 logical CPUs, desi/interactive,
 Scratch, two-hour limit. Foreground `salloc ... srun ...` runs the committed
 confirmation adapter with 16 workers, ph018 then ph019, stopping on error.
