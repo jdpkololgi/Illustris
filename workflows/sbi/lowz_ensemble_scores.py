@@ -72,8 +72,8 @@ def metrics(x,y,w,rng):
     return out
 
 
-def run():
-    c.require_compute(); paths=panel(); out=root/('lowz_calibration_'+os.environ['SLURM_JOB_ID'])
+def run(region_callback=None, prefix='lowz_calibration_'):
+    c.require_compute(); paths=panel(); out=root/(prefix+os.environ['SLURM_JOB_ID'])
     out.mkdir(exist_ok=False); rng=np.random.default_rng(1751); rows=[]; joint=[]
     for ph in phases:
         pilot.phase=ph
@@ -101,6 +101,8 @@ def run():
                     weights=counts.reshape(32,2,16,2,16,2).sum((1,3,5),dtype='f8')
                 assert np.isfinite(x[:,mask]).all() and np.isfinite(y[mask]).all()
                 label=dict(phase=ph,cap=cap,pair=pair,stratum=row['support_stratum'])
+                if region_callback is not None:
+                    region_callback(out, label, x, y, weights, mask, z)
                 for lo,hi in zip([.01,.15,.25,.35,.45],[.15,.25,.35,.45,.55]):
                     v=mask&(z>=lo)&(z<hi)
                     if not v.any():continue
@@ -129,6 +131,7 @@ def run():
             fig.savefig(out/f'{ph}_{cap}.png');plt.close(fig)
     c.atomic_json(out/'CALIBRATION.json',dict(fields=['rho','lambda1','lambda2','lambda3'],draws=32,
         paths={str(k):str(v) for k,v in paths.items()},rows=rows,joint=joint,independent_units=list(phases)))
+    return out
 
 
 if __name__=='__main__':run()
