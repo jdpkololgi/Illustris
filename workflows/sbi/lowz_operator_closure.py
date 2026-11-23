@@ -83,7 +83,13 @@ def score(phase,cap,root):
     paths=read(ref)['paths']
     r=root/phase/cap; matched=read(r/'matched_tides/COMPLETE.json')
     assert (matched['passed'],matched['phase'],matched['cap'],matched['first'],matched['draws'])==(True,phase,cap,0,1)
-    assert matched['method']=='learned' and matched['padding']==32
+    binding_path=r/'matched_tides/BINDING.json'
+    assert matched['binding']==c.sha256(binding_path)
+    binding=read(binding_path)
+    assert (matched['method'],binding['method'],binding['padding'])==('learned','learned',32)
+    assert (binding['phase'],binding['cap'])==(phase,cap)
+    assert binding['prior']['sha256']==pilot.freeze()['prior_sha256']
+    assert binding['input_receipt']['sha256']==c.sha256(r/'oracle_input/COMPLETE.json')
     item=matched['output'];assert c.sha256(item['path'])==item['sha256']
     oracle=read(r/'oracle_input/COMPLETE.json')['field']
     assert c.sha256(oracle['path'])==oracle['sha256']

@@ -86,6 +86,11 @@ docs/figures/
 # Durable P12 calibration evidence
 !docs/figures/
 docs/figures/*
+# Bounded Paper 3 development figures; keep raw ensembles on Scratch.
+!docs/figures/lowz_cfm_finish_61848915/
+docs/figures/lowz_cfm_finish_61848915/*
+!docs/figures/lowz_cfm_finish_61848915/MATCHED.pdf
+!docs/figures/lowz_cfm_finish_61848915/DENSITY_SHAPES.pdf
 !docs/figures/p12_calibration_audit_20260830/
 docs/figures/p12_calibration_audit_20260830/*
 !docs/figures/p12_calibration_audit_20260830/p12a_rank_histograms.png

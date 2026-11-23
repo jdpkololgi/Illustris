@@ -49,7 +49,7 @@ Only epoch 1 has scores from two encoders. No matched full-development R² yet f
 ## 4. Next Steps & Active Queue (Two Live Codex Tracks)
 
 1. **Encoder comparison:** Score the transformer's next complete epoch against the frozen P12-A epoch-2 card. Add the other three encoders only at matched epochs on verified identical parent rows, reporting each phase, shell and eigenvalue. Record compute separately. See `RUN_LOG.md` for live-job receipts.
-2. **CFM calibration:** Review support-stratified scores, rank histograms, class reliability and six cap panels in `$SCRATCH/abacus/e2e_field_v3/lowz_calibration_61647276/`; compare skill against a matched observation-only baseline before a production claim. Keep ph018/019 sealed.
+2. **CFM finishing:** Development count benchmark, regional and individual-draw diagnostics, and six matched operator controls complete. See `docs/paper3_lowz_cfm_development.md`. Much of the shear compression persists with true density; no post-hoc correction. Next: separately authorized confirmation-only release; ph018/019 remain sealed. DESI deferred; Gemini handoff separate.
 3. **Observational handoff (`~/GraphWeb_DESI`):** Keep Loa VAC defaults frozen until the new low-z encoder + FMPE passes dev calibration, sealed `ph018/019` check, and golden-mock parity.
 
 ---

@@ -1,0 +1,40 @@
+{
+  "schema": "lowz-cfm-confirmation-design-v1",
+  "status": "design_only_not_phase_access_authority",
+  "desi_inference": false,
+  "preserve_existing_results": true,
+  "further_training": false,
+  "development": ["ph006", "ph012", "ph013"],
+  "confirmation_after_separate_freeze": ["ph018", "ph019"],
+  "caps": ["NGC", "SGC"],
+  "cap_realizations": "independent across caps; shared spatial state across all windows of a cap",
+  "draw_indices": [0, 31],
+  "draw_indices_inclusive": true,
+  "conditioning": "galaxy observations only; fresh noise at both stages per draw; aligned sampled coarse masses to fine decoder",
+  "coarse_ema_sha256": "b79083d1df2a4129dc9511d1aa7a9d29ededa61d6b139656f66086520f75e6dd",
+  "fine_ema_sha256": "90a6f257c013160c330f75a7e2effbfa441ac39b025b241dd2f50907c96259c7",
+  "normalizer_receipt_sha256": "ce4e185228982341b52ab560c15090be2c3d1606c661d1add788402656dc46da",
+  "production_integrator_arguments": {"coarse_run": 64, "fine_canvas_integrate": 64},
+  "base_seed": 17,
+  "exterior": {"method": "learned", "padding_cells": 32, "prior_sha256": "1d1a2d8a6f21b13ff6336e95e0b59da4fec734481033cb3d4a3638810db1782f"},
+  "operator": {"smoothing_scale_mpc_h": 7, "smoothing_applications": 1, "fine_cell_mpc_h": 6.766, "class_threshold": 0.2, "ordering": "ascending", "boundary": "finite completed cuboid, free-space cell-average; no subcell correction"},
+  "scoring": {
+    "primary": ["per-cell density and ordered eigenvalue fair CRPS", "signed bias", "empirical 5th-95th percentile coverage and width", "randomized rank histograms", "fair Brier and reliability of each class"],
+    "sensitivity": "finite-ensemble central order statistics with their actual nominal levels; do not label them 90%",
+    "reference": "frozen smoothed-count ridge and joint within-cell residual bank trained with leave-one-training-phase-out errors",
+    "primary_population": "registered supported core cells with 0.01 <= observed radial z < 0.55",
+    "secondary_weighting": "observed gridded CIC counts, not exact galaxy coordinates",
+    "redshift_edges": [0.01, 0.15, 0.25, 0.35, 0.45, 0.55],
+    "report_by": ["phase", "cap", "shell", "support stratum"],
+    "independent_replication_unit": "simulation phase, not voxel, cap or draw",
+    "diagnostic_only": ["historical regional tidal summaries", "TARP on registered core summaries", "single-seed oracle-density operator gap", "masked local spectra", "density PDFs and fixed draw slice maps"]
+  },
+  "required_before_first_confirmation_read": [
+    "Complete and inspect development reports including matched operator closure",
+    "Bind immutable data/geometry production route, model weights, code, normalizer, prior, baseline, scoring implementation and approval to a new confirmation-only release",
+    "Derive geometry from observation and registered random support; do not select or replace cells by truth",
+    "Separate truth preparation/scoring from the observation-only sampler",
+    "Explicit confirmation authorization; do not weaken or reuse the training/development phase guard"
+  ],
+  "on_confirmation_failure": "Report all failures with denominators. Do not tune, refit or silently replace a test phase. No claim about DESI coverage."
+}

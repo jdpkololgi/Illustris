@@ -2,6 +2,47 @@
 
 > **Scope:** Durable scientific results, negative results, bug discoveries, and methodological decisions **only** (newest first). Live state lives in `CONTEXT.md` (≤ 8 KB, overwritten); Slurm submissions, queue telemetry, tmux owners, and routine receipts go in `RUN_LOG.md`. Pre-November 2026 entries are archived verbatim in `docs/log_archive/SCIENCE_LOG_2026_pre_nov.md`.
 
+## 2026-11-23 — CFM matched observation benchmark and draw diagnostics (Paper 3)
+
+| Metric | Split type | Phase/sky set | z range | Artifact |
+|---|---|---|---|---|
+| CFM fair CRPS skill over training-only smoothed counts: 16.8% density, 22.0%, 20.3%, 26.1% ascending eigenvalues | development, 344,302 supported registered cells, cell weighting | ph006/012/013, NGC+SGC | [0.01,0.55) | `lowz_finish_scorecard_61848915/SCORECARD.json` |
+| Empirical 5–95 percentile coverage CFM .869/.850/.855/.847, reference .857/.865/.853/.857; CFM narrower in all four fields | same | same | [0.01,0.55) | `lowz_count_reference_61848915/MATCHED_PERCENTILE90.json` |
+| Regional shear-spread error −0.97/−0.96/−1.32 posterior SD; 24/32, 25/32, 14/32 cores covered | development, historical full-core geometry, not supported-voxel metric | ph006/012/013 respectively, both caps | registered science pairs, not a per-voxel z cut | `lowz_finish_scorecard_61848915/SCORECARD.json` |
+| Highest local k-bin median pair draw/truth power 1.22/1.22/1.11 | development, supported paired cores, not whole-cap P(k) | same phase order | [0.01,0.55) | `lowz_dev_density_shapes_61848915/SHAPES.json` |
+
+Artifacts under Scratch `abacus/e2e_field_v3/`. Benchmark fitted on 20
+training phases with phase-held-out residuals; per-cell benchmark is not a
+coherent density-to-tides generator. Phase is the replication unit. No DESI
+inference or mock retraining. Formulas, limitations and paired figure links:
+`docs/paper3_lowz_cfm_development.md`.
+
+Closure: mean signed bias in posterior SD, original / matched true-density
+control / remainder, is +.161/+.107/+.054 for λ1 and −.143/−.087/−.056 for λ3
+(development, supported registered cells, ph006/012/013 both caps, [0.01,0.55),
+`lowz_dev_oracle_density_v1/CLOSURE_READOUT.json`). For regional shear spread
+on the historical 96 cores it is −1.084/−.723/−.361 SD. True density replaces
+finite model cells only; same frozen exterior, no true exterior. One exterior
+seed per phase/cap; combined operator/exterior diagnostic, not a correction.
+
+## 2026-11-22 — CFM individual-draw contrast and mock-to-Loa input check
+
+For 48 registered core pairs (ph006/012/013, both caps, supported cells,
+0.01≤z<0.55), the median across pairs of median-draw/truth spatial SD is
+0.983; the corresponding 95th-minus-5th percentile ratio is 0.996. These
+are local contrast checks, not recovered phases of Fourier modes or evidence
+for joint calibration. Individual draws, truth, mean and SD are shown on
+matched slices. Original calibration replayed exactly; no new CFM draws.
+
+On common NSIDE256 cap/PHOTSYS random-supported pixels, Loa v2.1 quality25
+BGS_BRIGHT / actual ph006 Kibo-v1 observed CFM mock counts in five shells
+(.01,.15,.25,.35,.45,.55) are SGC 0.962/1.031/1.086/1.277/1.964
+and NGC 1.030/1.027/1.113/1.274/1.918. One phase and one random per
+release: not a selection correction, equivalence test, nor DESI calibration.
+Do not treat adding low-z tracers as resolving high-z population mismatch.
+Keep a matched-observation transfer gate distinct from sealed mock tests.
+See `docs/paper3_lowz_cfm_development.md` for the keyed metrics and receipts.
+
 ## 2026-11-22 — coherent development CFM: marginal coverage versus regional reliability
 
 Evidence A: `$SCRATCH/abacus/e2e_field_v3/lowz_calibration_61647276/CALIBRATION.json`.
