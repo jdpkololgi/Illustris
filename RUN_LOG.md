@@ -5,6 +5,23 @@
 
 ---
 
+## 2026-11-23 — CFM blind input preparation interrupted (no retry)
+
+Allocation 61854512, nid200038, desi/interactive CPU, 64 logical CPUs,
+Scratch, limit 2 h. Release 5028056. The allocation exited COMPLETED after
+3:07; the actual srun step 61854512.0 was CANCELLED (0:15) after 2:41.
+The agent's cleanup watcher failed to recognize the live step and exited
+the allocation prematurely. No scheduler timeout, model error or scientific
+failure was observed. The ph018 NGC native writer was reached, downstream
+of development parity and angular replay checks. There is no completed
+response receipt for any cap. ph019 did not start. No truth, GPU or retry.
+Preserved incomplete (711234803 bytes; do not use):
+`$SCRATCH/abacus/e2e_field_v3/lowz_cfm_blind_confirmation_v1/ph018/NGC/NATIVE.h5`.
+Stdout/stderr: `$SCRATCH/abacus/lowz-confirm-input-61854512.{log,err}`.
+Recovery requires new approval: quarantine the incomplete directory without
+deleting it; let a single foreground srun command control the allocation
+lifetime, never a queue-display watcher.
+
 ## 2026-11-23 — CFM finishing, CPU 61848915 and GPU 61849771
 
 CPU desi/interactive nid200023: 64 logical CPUs requested, Scratch, 1 h
