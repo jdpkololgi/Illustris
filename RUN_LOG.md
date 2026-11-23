@@ -7,6 +7,11 @@
 
 ## 2026-11-23 — ph018 confirmation draw 0 submitted
 
+Verified outcome: both jobs and both steps per job COMPLETED 0:0; elapsed
+2:50:56 NGC and 1:27:16 SGC. Density and tides each emitted a passing
+receipt. Remaining 63 draws per cap project to 271.1 A100-hours at these
+rates, excluding baseline and scoring. No remaining draw submitted here.
+
 NGC 61857305 (3:10), SGC 61857310 (1:46), each one 80 GB A100,
 32 logical CPUs, desi_g/shared, Scratch, no requeue. Both initially pending
 for Priority. Commit aad3932. Density then tides only; no truth or scores.

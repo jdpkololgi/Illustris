@@ -2,6 +2,16 @@
 
 > **Scope:** Durable scientific results, negative results, bug discoveries, and methodological decisions **only** (newest first). Live state lives in `CONTEXT.md` (≤ 8 KB, overwritten); Slurm submissions, queue telemetry, tmux owners, and routine receipts go in `RUN_LOG.md`. Pre-November 2026 entries are archived verbatim in `docs/log_archive/SCIENCE_LOG_2026_pre_nov.md`.
 
+## 2026-11-23 — First blind CFM density-to-tides predictions passed numerical checks
+
+ph018 draw 0 passed on both caps (NGC 1585 windows, SGC 815). The maximum
+relative coarse-cell mass errors were 4.43e-16 and 4.48e-16 respectively;
+maximum absolute tidal trace residuals were 1.22e-13 and 9.88e-14.
+The release, geometry, input response, checkpoint, normalizer and exterior
+prior bindings matched the receipts. Evidence: `lowz_cfm_blind_confirmation_v1/ph018/{NGC,SGC}/predictions/draw_000/{density,tides}/COMPLETE.json`
+under the campaign Scratch root. These two draws count toward the 128;
+they are not blind accuracy or coverage measurements. Matter truth remains closed.
+
 ## 2026-11-23 — Blind CFM geometry frozen before predictions
 
 The geometry adapter reproduced the full 16-pair ph006 panel exactly.
