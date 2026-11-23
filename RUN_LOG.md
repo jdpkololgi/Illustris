@@ -7,6 +7,13 @@
 
 ## 2026-11-23 — ph018 confirmation draw 0 submitted
 
+Continuation: remaining blind draw arrays 61871857 (NGC, 3:10:00)
+and 61871864 (SGC, 1:46:00), 63 tasks each verified pending at launch.
+Task 1..31 = ph018 draw 1..31; task 32..63 = ph019 draw 0..31.
+One 80 GB A100, 32 logical CPUs, desi_g/shared, Scratch, no requeue.
+Runner 25de41a. Logs: `$SCRATCH/abacus/lowz-blind-ensemble-%A-%a.log`.
+No baseline, truth access or scoring in these jobs.
+
 Verified outcome: both jobs and both steps per job COMPLETED 0:0; elapsed
 2:50:56 NGC and 1:27:16 SGC. Density and tides each emitted a passing
 receipt. Remaining 63 draws per cap project to 271.1 A100-hours at these
