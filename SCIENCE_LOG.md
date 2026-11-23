@@ -2,6 +2,19 @@
 
 > **Scope:** Durable scientific results, negative results, bug discoveries, and methodological decisions **only** (newest first). Live state lives in `CONTEXT.md` (≤ 8 KB, overwritten); Slurm submissions, queue telemetry, tmux owners, and routine receipts go in `RUN_LOG.md`. Pre-November 2026 entries are archived verbatim in `docs/log_archive/SCIENCE_LOG_2026_pre_nov.md`.
 
+## 2026-11-23 — Paper 3 blind confirmation authorized; no test outcomes yet
+
+The user released ph018 and ph019 for one test of the frozen seed-17 **CFM**.
+The release does not change the shared training split or open either phase
+for Paper 2 model selection. Register observation/random-derived geometry;
+freeze the CFM and matched baseline predictions before reading matter truth.
+32 draws per cap per phase, 128 total. No retuning, DESI inference, or phase
+replacement. The two phases, not the draws or cells, are the independent units.
+The corrected native and factor-four response products must first be built:
+an older observed catalogue or angular map is not by itself a CFM-ready input.
+Release: `configs/lowz_cfm_confirmation_release_v1.json`; it binds the existing
+development freeze without overwriting it. Authorization is not a calibration result.
+
 ## 2026-11-23 — CFM matched observation benchmark and draw diagnostics (Paper 3)
 
 | Metric | Split type | Phase/sky set | z range | Artifact |

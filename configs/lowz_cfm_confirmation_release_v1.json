@@ -1,0 +1,24 @@
+{
+  "schema": "lowz-cfm-blind-confirmation-release-v1",
+  "authorization": "Yes, open `ph018` and `ph019` for blind confirmation.",
+  "scope": "Paper 3 seed-17 CFM only. This is not a P12-A release or a Slurm resource approval.",
+  "method_sha256": "80436676ce3cc07e4364a1ee62d524452a0635e2e08fb12975d5167b8a437be1",
+  "adapter_sha256": "1a14b7d7f5924451c55f9d898f2231158867582a7562f7bf474377107b8d864a",
+  "selection_sha256": "17321b87097468a478e9d581ae7ff8c1b5b7fce6054c491f578fb86735eba8ee",
+  "observed_builder": "697fad81721d75430e85b6549562152e4052b347badd5aef8c9f52a191c985e8",
+  "receipts": {
+    "ph018": {
+      "OBSERVED_COMPLETE.json": "9438bf9fc56b975d3b211b9b4fb27446186b269f81be1500aaa307c19ab0afea",
+      "angular/ANGULAR_COMPLETE.json": "d60e35fcee005cb1d6516ce503d8a9fe76506cc2fd006d992e66880b7caf8f6d"
+    },
+    "ph019": {
+      "OBSERVED_COMPLETE.json": "487b13a5c354d9b38f583d75452cf6bee9dd4de48a4876f044a082a6268835b8",
+      "angular/ANGULAR_COMPLETE.json": "a6679738ef8ba9a5386319c618facc9baadee770ddd9103c2e8619ee63715027"
+    }
+  },
+  "input_route": "Requalify the registered BGS_BRIGHT observed rows and randoms 0..17. Replay the training angular normalization from integer counts, matched source support, CIC counts and factor-four quadrature with frozen full-training selection. Use deployed native/wide transforms. No target-bearing files or refits.",
+  "geometry_route": "Use the METHOD_FROZEN source_files versions of e2e_coupled_geometry.candidate_buckets, prepare_cfm_lowz_geometry_candidates.candidates and prepare_cfm_lowz_campaign.build_geometry/select_panel with the one-per-stratum evaluation quota, original phase-addressed seeds, ordered NGC/SGC traversal and source nonoverlap. Register 16 pairs per phase before inference. No substitution on failure.",
+  "prediction_gate": "Frozen sampler_helpers, methods, checkpoints, normalization, prior, baseline and development scoring are all bound transitively by method_sha256. Separate confirmation orchestration must verify them, use both caps and draw IDs 0..31, and freeze all 128 predictions and baseline predictions before any truth preparation/scoring. Old guard and freeze are never edited.",
+  "no_tuning_or_retraining": true,
+  "desi_inference": false
+}

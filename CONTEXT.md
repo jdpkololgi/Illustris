@@ -1,6 +1,6 @@
 # CONTEXT.md — Illustris Live State Dashboard
 
-**Last Modified:** 2026-11-22 10:05 PST (CFM readout)
+**Last Modified:** 2026-11-23 (Paper 3 confirmation release)
 **Rule:** Overwrite in place on `save-state` (keep ≤ 8 KB / ~150 lines). Durable science goes in `SCIENCE_LOG.md`; Slurm/tmux/receipt telemetry goes in `RUN_LOG.md`. Pre-2026-11-22 context archived in `docs/log_archive/CONTEXT_2026_pre_nov22.md`.
 
 ---
@@ -37,7 +37,7 @@ Only epoch 1 has scores from two encoders. No matched full-development R² yet f
 
 ## 3. Frozen Contracts, Split Policy & Key Caveats
 
-- **Shared phase policy (`configs/shared_phase_policy_20261027.json`):** Train `ph000–005, 007–011, 014–017, 020–024` (20); Dev/calibration `ph006, 012, 013` (3); **Final test `ph018, 019` (2 — SEALED, do not open)**.
+- **Shared phase policy (`configs/shared_phase_policy_20261027.json`):** Train `ph000–005, 007–011, 014–017, 020–024` (20); Dev/calibration `ph006, 012, 013` (3); **Final test `ph018, 019` remains sealed for Paper 2; separate Paper 3 frozen-CFM confirmation authorized.** Not for tuning.
 - **Low-z bindings (`configs/lowz_retraining_binding_20261118.json`):** Supervision `0.01 ≤ z < 0.55`, positive-z context to `0.60`, matched-CIC selection/response, v2 own-galaxy `RA/DEC/Z_COSMO` labels (fixes legacy `HALO_INDEX` bug).
 - **Material scientific caveats (carry into Paper 2 & 3):**
   1. All low-z CutSky labels currently derive from the **$z = 0.2$ Abacus snapshot** (not an evolving lightcone).
@@ -49,7 +49,7 @@ Only epoch 1 has scores from two encoders. No matched full-development R² yet f
 ## 4. Next Steps & Active Queue (Two Live Codex Tracks)
 
 1. **Encoder comparison:** Score the transformer's next complete epoch against the frozen P12-A epoch-2 card. Add the other three encoders only at matched epochs on verified identical parent rows, reporting each phase, shell and eigenvalue. Record compute separately. See `RUN_LOG.md` for live-job receipts.
-2. **CFM finishing:** Development count benchmark, regional and individual-draw diagnostics, and six matched operator controls complete. See `docs/paper3_lowz_cfm_development.md`. Much of the shear compression persists with true density; no post-hoc correction. Next: separately authorized confirmation-only release; ph018/019 remain sealed. DESI deferred; Gemini handoff separate.
+2. **CFM finishing:** Development report: `docs/paper3_lowz_cfm_development.md`. No post-hoc correction. Confirmation-only release: `configs/lowz_cfm_confirmation_release_v1.json`. Both phases passed metadata checks only. Next: bounded CPU development-parity and observation-response preparation, then register geometry. Freeze 128 predictions before scoring. No test results; DESI deferred.
 3. **Observational handoff (`~/GraphWeb_DESI`):** Keep Loa VAC defaults frozen until the new low-z encoder + FMPE passes dev calibration, sealed `ph018/019` check, and golden-mock parity.
 
 ---
