@@ -5,6 +5,19 @@
 
 ---
 
+## 2026-11-23 — CFM blind input preparation: one approved recovery
+
+Job 61855386 on nid200029, one CPU node, 64 logical CPUs, desi/interactive,
+Scratch, two-hour limit. Foreground `salloc ... srun ...` runs the committed
+confirmation adapter with 16 workers, ph018 then ph019, stopping on error.
+The command's exit releases the allocation. No cleanup watcher, additional
+retry, GPU, matter truth, or DESI inference. Same release 5028056.
+Logs: `$SCRATCH/abacus/lowz-confirm-retry-61855386.{log,err}`.
+Output: `$SCRATCH/abacus/e2e_field_v3/lowz_cfm_blind_confirmation_v1/`
+under `{ph018,ph019}/{NGC,SGC}/RESPONSE_COMPLETE.json`.
+The previous 711234803-byte file was preserved by renaming its directory
+to `ph018/NGC.partial-61854512`; it is not a run input or qualified output.
+
 ## 2026-11-23 — CFM blind input preparation interrupted (no retry)
 
 Allocation 61854512, nid200038, desi/interactive CPU, 64 logical CPUs,
