@@ -2,6 +2,16 @@
 
 > **Scope:** Durable scientific results, negative results, bug discoveries, and methodological decisions **only** (newest first). Live state lives in `CONTEXT.md` (≤ 8 KB, overwritten); Slurm submissions, queue telemetry, tmux owners, and routine receipts go in `RUN_LOG.md`. Pre-November 2026 entries are archived verbatim in `docs/log_archive/SCIENCE_LOG_2026_pre_nov.md`.
 
+## 2026-11-23 — Blind CFM geometry frozen before predictions
+
+The geometry adapter reproduced the full 16-pair ph006 panel exactly.
+Observation/random support then fixed 16 region pairs each for ph018 and
+ph019, eight per cap, one per shell/support stratum. Two pairs per cap
+and phase have midpoints below z=0.15. These are midpoint counts, not
+scored voxel counts. All four response-receipt hashes matched. Artifact:
+`$SCRATCH/abacus/e2e_field_v3/lowz_cfm_blind_confirmation_v1/GEOMETRY_FROZEN.json`.
+No holdout matter truth, predictions or calibration scores entered registration.
+
 ## 2026-11-23 — Both Paper 3 confirmation phases have verified observation inputs
 
 The four native and factor-four cap responses for ph018 and ph019 passed

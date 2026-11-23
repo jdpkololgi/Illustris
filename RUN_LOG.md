@@ -5,6 +5,14 @@
 
 ---
 
+## 2026-11-23 — Blind geometry registration completed
+
+CPU 61857133, nid200043, 64 logical CPUs, desi/interactive, Scratch, 1h limit.
+Foreground allocation exited 0:0 after 1:15; step 0 exited 0:0 after 1:13.
+No retry. Adapter 45bbae6. Geometry SHA-256
+`eb20683dbbf052f19ec651b8711c403eab3f75a967d235faf12011f316b2e737`.
+Logs: `$SCRATCH/abacus/lowz-geom-61857133.{log,err}`.
+
 ## 2026-11-23 — CFM blind input preparation: one approved recovery
 
 Outcome: allocation COMPLETED 0:0 in 15:11; step 61855386.0 COMPLETED
