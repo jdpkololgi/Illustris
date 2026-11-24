@@ -177,6 +177,15 @@ the gap to 90% alone as underdispersion. Neither phase is used for tuning.
 These are marginal results from **two independent phases**, not 230,962
 independent simulations, proof of joint calibration, or coverage on DESI.
 
+Two differences matter for interpreting a catalogue. First, pooled mean
+predicted versus true class fractions were 53.01/52.28% (void),
+35.34/36.34% (sheet), 10.57/10.53% (filament) and 1.07/0.85% (knot).
+Thus a better Brier score does not imply exact class abundance, particularly
+for rare knots. Second, below z=0.15 the mean density bias (in units of
+cosmic mean density) was −0.0012 with equal cell weights but −0.0196 when
+weighted by gridded galaxy counts. The latter gives more weight to populated
+cells and is not an exact-galaxy-position test.
+
 [Phase/shell tables, including galaxy-count weighting](evidence/lowz_cfm_blind_score_table.json) ·
 [CRPS, coverage and widths by shell](figures/lowz_blind_61911489/marginals_by_shell.pdf) ·
 [Ranks and T-web reliability](figures/lowz_blind_61911489/ranks_and_web_reliability.pdf).
