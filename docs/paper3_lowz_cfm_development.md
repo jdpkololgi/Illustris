@@ -146,6 +146,25 @@ unique source nor licenses subtracting a bias from posterior draws.
 Evidence: `lowz_dev_oracle_density_v1/CLOSURE_READOUT.json` and its six
 phase/cap receipts under the same Scratch root.
 
-DESI inference is deferred. The mock evaluation retains the full redshift
-range; a possible later low-redshift observational demonstration would not be
-evidence of real-data calibration. Do not thin Loa or refit the normalizer.
+### Real DESI application (not a validation against real matter truth)
+
+The Paper 3 deliverable includes an application of the frozen two-stage CFM
+to the Loa BGS_BRIGHT observations. Use the v2.1 full HPmapcut catalogue,
+not a clustering catalogue or the Paper 2 VAC, and the matching 18 full
+randoms. The registry is `configs/p10_response_sources_v1.json`
+(`desi_candidate`). All 19 paths and sizes matched the registry at inventory;
+this was not a fresh payload hash or a validated production response.
+
+Keep the observed quality cut above, both caps, the training-only selection
+and normalizer, the learned exterior and the same R7 operator. Apply the
+model to each cap independently. Compare observed counts, angular support
+and expected counts with the corrected mocks by cap and redshift shell
+before interpreting a real-data posterior. Keep high-z discrepancies visible;
+do not thin Loa or refit on its counts to force agreement. A low-z science
+mask restricts the **reported locations**, not the surrounding observations
+used by the trained model, unless a different conditioning scheme is tested.
+
+Show representative density draws plus density uncertainty and T-web class
+probabilities, with support and redshift masks. Label empirical coverage and
+reliability as **mock** results. The real galaxy catalogue supplies conditioning,
+not an observed matter field with which to establish DESI coverage.
