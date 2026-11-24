@@ -49,7 +49,7 @@ Only epoch 1 has scores from two encoders. No matched full-development R² yet f
 ## 4. Next Steps & Active Queue (Two Live Codex Tracks)
 
 1. **Encoder comparison:** Score the transformer's next complete epoch against the frozen P12-A epoch-2 card. Add the other three encoders only at matched epochs on verified identical parent rows, reporting each phase, shell and eigenvalue. Record compute separately. See `RUN_LOG.md` for live-job receipts.
-2. **CFM finishing:** Development: `docs/paper3_lowz_cfm_development.md`; release: `configs/lowz_cfm_confirmation_release_v1.json`. Blind geometry frozen. ph018 draw 0 passed in both caps (2/128); remaining 126 submitted (see RUN_LOG). Verify all prediction receipts and freeze CFM and matched baseline predictions before truth. No blind scores; DESI deferred.
+2. **CFM finishing:** All 128 blind CFM draws verified and indexed in `docs/evidence/lowz_blind_cfm_prediction_index.json`. Next: generate and freeze matched baseline predictions before truth. No blind scores; DESI deferred.
 3. **Observational handoff (`~/GraphWeb_DESI`):** Keep Loa VAC defaults frozen until the new low-z encoder + FMPE passes dev calibration, sealed `ph018/019` check, and golden-mock parity.
 
 ---

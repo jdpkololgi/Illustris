@@ -2,6 +2,15 @@
 
 > **Scope:** Durable scientific results, negative results, bug discoveries, and methodological decisions **only** (newest first). Live state lives in `CONTEXT.md` (≤ 8 KB, overwritten); Slurm submissions, queue telemetry, tmux owners, and routine receipts go in `RUN_LOG.md`. Pre-November 2026 entries are archived verbatim in `docs/log_archive/SCIENCE_LOG_2026_pre_nov.md`.
 
+## 2026-11-24 — Complete blind CFM predictions indexed
+
+All 128 draws (32 per phase/cap, ph018/019 NGC/SGC) passed the density
+and tide receipt checks. Maximum relative mass error 5.10e-16; maximum
+absolute trace residual 1.48e-13. These are numerical checks, not blind
+calibration. The index in `docs/evidence/lowz_blind_cfm_prediction_index.json`
+binds the receipts and compute-time payload hashes. Sizes checked without
+bulk rehash. Keep truth closed pending the matched baseline freeze.
+
 ## 2026-11-23 — First blind CFM density-to-tides predictions passed numerical checks
 
 ph018 draw 0 passed on both caps (NGC 1585 windows, SGC 815). The maximum
