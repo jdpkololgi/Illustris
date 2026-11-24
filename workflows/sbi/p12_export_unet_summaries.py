@@ -94,6 +94,25 @@ def terminal_export_checkpoint(state: dict, completion: dict, loader, epochs: in
 
 
 def ntilde_at_rows(selection: dict, cap: np.ndarray, redshift: np.ndarray) -> np.ndarray:
+    if selection.get("schema") == "p12a-matched-cic-selection-v1":
+        spec = selection["selection"]
+        edges = np.asarray(spec["bin_edges"], dtype=float)
+        density = np.asarray(spec["density"], dtype=float)
+        valid = np.asarray(spec["valid"], dtype=bool)
+        c, z = np.asarray(cap), np.asarray(redshift)
+        if not (selection.get("pass") and spec["density_unit"] == "Mpc^-3"
+                and edges.ndim == 1 and np.all(np.diff(edges) > 0)
+                and density.shape == valid.shape == (2, len(edges)-1)
+                and c.shape == z.shape and c.dtype.kind in "iu"
+                and np.isin(c, [0, 1]).all()):
+            raise ValueError("Invalid corrected selection contract or cap")
+        b = np.searchsorted(edges, z, side="right") - 1
+        if not ((b >= 0) & (b < len(edges)-1)).all() or not valid[c,b].all():
+            raise ValueError("Export rows outside supported selection bins")
+        values = density[c,b]
+        if not (np.isfinite(values) & (values >= 0)).all():
+            raise ValueError("Invalid corrected selection density")
+        return values.astype(np.float32)
     result = np.empty(len(redshift), dtype=np.float32)
     for cap_id, name in ((0, "SGC"), (1, "NGC")):
         chosen = cap == cap_id
