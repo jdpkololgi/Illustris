@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-11-24 — Paper 3 blind scoring and real Loa observation preparation
+
+Blind full-box CPU score 61911489 on nid200007 (desi/interactive, 64 logical
+CPUs, Scratch, 4 h max, no retry); runner f6f5aef. Outputs under
+`$SCRATCH/abacus/e2e_field_v3/lowz_cfm_blind_confirmation_v1/blind_score_61911489`.
+Require SCORES_COMPLETE.json and matched phase/cap denominators.
+Loa observation CPU preparation 61911547 on nid200068 (same resources,
+2 h max, separate authorization, no retry), runner b56af45. Outputs:
+`$SCRATCH/abacus/e2e_field_v3/lowz_loa_preparation_61911547`. Require
+OBSERVATIONS_PREPARED.json. Logs: `$SCRATCH/abacus/lowz-score-61911489.{log,err}`
+and `lowz-loa-61911547.{log,err}`. No real-data GPU inference in either job.
+
 ## 2026-11-23 — ph018 confirmation draw 0 submitted
 
 Subsequent baseline freeze: CPU allocation 61911278 on nid200013, desi/interactive,
