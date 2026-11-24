@@ -64,9 +64,9 @@ def run(receipt,expected):
             fields={}
             f.attrs.update(phase=phase,cap=cap,contains_matter=False,coordinate_sha256=g['coordinate_sha256'],
                 distance_unit='Mpc/h',origin_mpc_h=geometry.origin,cell_mpc_h=geometry.cell_mpc)
-            for bb,expected in results:
+            for bb,projected_counts in results:
                 sl=tuple(slice(a,b) for a,b in bb)
-                vals=native_values(geometry,sl,angular,cap,plan,sel,boundary,deposited[sl],expected)
+                vals=native_values(geometry,sl,angular,cap,plan,sel,boundary,deposited[sl],projected_counts)
                 for key,v in vals.items():
                     check(np.isfinite(v).all(),key)
                     if key not in fields:
