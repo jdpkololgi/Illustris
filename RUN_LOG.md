@@ -1,5 +1,17 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+## 2026-11-24 — First omitted-ph000 production continuation submitted
+
+User approved the six-hour segment. Submitted batch 61929552 from revision
+5cf63a21246b7ca6f6bd0b3e1406d78fc1c27870 using
+`workflows/sbi/lowz_oof_ph000_segment.slurm`. Verified one 40/80 GB A100,
+32 CPUs, desi_g/gpu_shared (submitted shared), six hours, Scratch, seed 42,
+Requeue=0 and no dependency. Checkpoint and smoke-shard hashes matched
+the preceding receipt before submission. Resumes from update 256 toward
+the fixed four-epoch budget; this allocation need not finish all four epochs.
+Initial state PENDING/Priority, StartTime unknown. Log:
+`$SCRATCH/abacus/p12-oof-ph000-61929552.log`. Batch persists across disconnects.
+
 ## 2026-11-24 — OOF export retry passed; production continuation prepared
 
 Approved export-only job 61929126 completed on nid200273 in 33 seconds,

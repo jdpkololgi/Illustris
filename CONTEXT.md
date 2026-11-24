@@ -9,7 +9,7 @@
 
 - **Paper 2 (Primary — Per-Galaxy Probabilistic Cosmic Web VAC for DESI DR2 BGS_BRIGHT):**
   - **Core contribution:** Encoder-independent methodology yielding calibrated joint posteriors over the three ordered Gaussian-$R_7$ ($7\ h^{-1}\mathrm{Mpc}$) tidal-tensor eigenvalues ($\lambda_1 \le \lambda_2 \le \lambda_3$, softplus increment parameterisation) and derived T-Web classes ($\lambda_{\mathrm{th}}=0.2$) over **$0.01 \le z < 0.55$**.
-  - **Current stage:** User prioritized completing the corrected P12-A probabilistic model and Loa VAC. Full U-Net encoder is trained; 20 omitted-phase encoder fits, OOF exports, corrected FMPE and validation remain. The fresh omitted-ph000 256-update canary and 981-row export smoke passed. This is not completed OOF production. Six-hour ph000 production continuation is prepared, awaiting specific allocation approval.
+  - **Current stage:** User prioritized completing the corrected P12-A probabilistic model and Loa VAC. Full U-Net encoder is trained; 20 omitted-phase encoder fits, OOF exports, corrected FMPE and validation remain. The fresh omitted-ph000 256-update canary and 981-row export smoke passed. This is not completed OOF production. Approved six-hour ph000 continuation submitted as 61929552; see RUN_LOG.md for operational receipt.
 - **Paper 3 (Separate / Experimental — Coherent 3D Field-Level Posterior via CFM):**
   - Two-stage coarse + fine 3D Conditional Flow Matching over full survey caps ($0.01 \le z < 0.55$). Not a dependency for Paper 2.
   - **Current stage:** Frozen model scored on both blind phases (128 draws); better single-cell density, eigenvalue and class forecasts than the matched count baseline on each phase. Low-z density intervals remain cautious. This is not a calibration test on DESI.
