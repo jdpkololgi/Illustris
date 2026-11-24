@@ -146,6 +146,43 @@ unique source nor licenses subtracting a bias from posterior draws.
 Evidence: `lowz_dev_oracle_density_v1/CLOSURE_READOUT.json` and its six
 phase/cap receipts under the same Scratch root.
 
+### Frozen blind confirmation on ph018 and ph019
+
+The two independently held-out simulation phases contain 109,144 and 121,818
+supported evaluation cells, respectively, in the 16 preregistered core pairs
+per phase. Predictions were frozen before opening matter truth: 32 shared-canvas
+draws per phase and cap (128 total), and 32 draws from the training-only
+smoothed-count benchmark per cell. The comparison below is cell-weighted
+over both caps. The targets are the R7 density and ordered tidal eigenvalues
+from the full periodic simulation box, not the tides of a truncated truth patch.
+
+| Blind metric | Density | λ1 | λ2 | λ3 |
+|---|---:|---:|---:|---:|
+| CFM / benchmark fair CRPS (lower is better) | .1182 / .1465 | .0461 / .0604 | .0502 / .0634 | .0610 / .0836 |
+| Improvement over benchmark | 19.3% | 23.6% | 20.7% | 27.1% |
+| CFM empirical 5th–95th coverage | 87.83% | 86.93% | 86.21% | 85.22% |
+| Mean 5th–95th width, CFM / benchmark | .679 / .794 | .264 / .342 | .278 / .349 | .325 / .462 |
+| CFM order-statistic coverage (nominal 27/33 = 81.82%) | 84.89% | 83.99% | 83.16% | 82.05% |
+
+The CFM improved all four CRPS values and all four class-specific fair Brier
+scores **on each phase**. Pooled Brier reductions relative to the same count
+benchmark were 29.5%, 24.2%, 19.9%, and 16.6% for void, sheet, filament
+and knot. In the 54,522 cells at 0.01 ≤ z < 0.15, CRPS reductions were
+10.5%, 37.2%, 29.2%, and 33.4%; density rank-interval coverage was 86.23%
+against 81.82%, consistent with cautious low-z intervals on development.
+The empirical interpolated 5th–95th interval from 32 draws does not have
+exact 90% frequentist coverage even under exchangeability. Report its coverage
+and width alongside the finite-ensemble rank diagnostic; do not interpret
+the gap to 90% alone as underdispersion. Neither phase is used for tuning.
+These are marginal results from **two independent phases**, not 230,962
+independent simulations, proof of joint calibration, or coverage on DESI.
+
+[Phase/shell tables, including galaxy-count weighting](evidence/lowz_cfm_blind_score_table.json) ·
+[CRPS, coverage and widths by shell](figures/lowz_blind_61911489/marginals_by_shell.pdf) ·
+[Ranks and T-web reliability](figures/lowz_blind_61911489/ranks_and_web_reliability.pdf).
+Full stratification: `lowz_cfm_blind_confirmation_v1/blind_score_61911489/READOUT.json`
+under the campaign Scratch root.
+
 ### Real DESI application (not a validation against real matter truth)
 
 The Paper 3 deliverable includes an application of the frozen two-stage CFM

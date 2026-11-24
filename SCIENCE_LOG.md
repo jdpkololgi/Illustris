@@ -2,6 +2,20 @@
 
 > **Scope:** Durable scientific results, negative results, bug discoveries, and methodological decisions **only** (newest first). Live state lives in `CONTEXT.md` (≤ 8 KB, overwritten); Slurm submissions, queue telemetry, tmux owners, and routine receipts go in `RUN_LOG.md`. Pre-November 2026 entries are archived verbatim in `docs/log_archive/SCIENCE_LOG_2026_pre_nov.md`.
 
+## 2026-11-24 — Frozen Paper 3 CFM confirmed against full-box truth
+
+On ph018/019 the CFM reduced single-cell fair CRPS by 19.3/23.6/20.7/27.1%
+relative to the training-only smoothed-count ridge and resampled residuals
+(density/ascending eigenvalues). Both phases improved independently, as did
+fair Brier for each web class. Cell-weighted over 230,962 supported locations
+in both caps, 0.01 ≤ z < 0.55. Empirical 5th–95th coverage was
+87.83/86.93/86.21/85.22%; the separate 27/33 rank interval covered
+84.89/83.99/83.16/82.05%. Low-z density rank coverage was 86.23%
+(54,522 cells). No refit or post-blind corrections. These two mock phases
+confirm marginal predictive skill, not joint uncertainty or DESI coverage.
+The table, plots and frozen-score receipt are indexed in
+`docs/paper3_lowz_cfm_development.md` and `docs/evidence/lowz_cfm_blind_score_table.json`.
+
 ## 2026-11-24 — Matching blind single-cell reference predictions frozen
 
 The training-only smoothed-count ridge and joint residual bank yielded 32
