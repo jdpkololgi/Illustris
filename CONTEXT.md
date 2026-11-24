@@ -49,7 +49,7 @@ Only epoch 1 has scores from two encoders. No matched full-development R² yet f
 ## 4. Next Steps & Active Queue (Two Live Codex Tracks)
 
 1. **Encoder comparison:** Score the transformer's next complete epoch against the frozen P12-A epoch-2 card. Add the other three encoders only at matched epochs on verified identical parent rows, reporting each phase, shell and eigenvalue. Record compute separately. See `RUN_LOG.md` for live-job receipts.
-2. **CFM finishing:** Both prediction sets frozen: 128 CFM cap draws and matched pointwise baseline predictions at 230962 supported cells, ph018/019. See science log for the bound receipts. Next: prepare matched full-box truth and run the frozen scoring protocol. No blind scores yet; DESI deferred.
+2. **Finish Paper 3: mock validation plus a real DESI BGS application.** Both mock prediction sets frozen (ph018/019, 230962 cells). Run the full-box blind readout, then apply the frozen two-stage CFM to Loa BGS_BRIGHT, independently per cap; publish density and T-web uncertainty maps and a shell-specific transfer assessment. Do not confuse the separate Paper 2 per-galaxy VAC with this field product. No blind scores or real-data posterior yet.
 3. **Observational handoff (`~/GraphWeb_DESI`):** Keep Loa VAC defaults frozen until the new low-z encoder + FMPE passes dev calibration, sealed `ph018/019` check, and golden-mock parity.
 
 ---
