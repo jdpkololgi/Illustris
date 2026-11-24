@@ -58,6 +58,14 @@ def summarize(directory):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(); parser.add_argument('directory',type=Path)
-    d=parser.parse_args().directory
+    parser.add_argument('--paper-table',type=Path,help='Also save compact matched rows for the manuscript')
+    args=parser.parse_args();d=args.directory
     result=summarize(d)
     with (d/'READOUT.json').open('x') as f: json.dump(result,f,allow_nan=False)
+    if args.paper_table:
+        keep=('phase','cap','shell','support','weighting','method','cells','weight','fair_crps',
+              'coverage90','width90','bias','fair_brier')
+        table=[{**{k:r[k] for k in keep},'coverage_27_of_33':r['order_intervals']['3']['coverage']}
+               for r in result['rows'] if r['support']==r['cap']=='all']
+        with args.paper_table.open('x') as f:
+            json.dump({**{k:v for k,v in result.items() if k!='rows'},'rows':table},f,indent=1,allow_nan=False)
