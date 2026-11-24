@@ -1,5 +1,22 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+## 2026-11-24 — Interactive OOF progress and architecture queue hold
+
+User explicitly requested two interactive allocations with two phases each,
+overriding the usual batch preference for these bounded production segments.
+61932924 runs ph004/ph005; 61932921 runs ph007/ph008. Both allocated on
+nid200337, each two A100s, 64 CPUs, desi_g/shared_interactive, Scratch,
+four hours maximum, no retries. tmux owners on login35:
+`oof-pair-004-005`, `oof-pair-007-008`. Source 02bbd35, launcher
+`workflows/sbi/lowz_oof_interactive_pair.sh`; each worker gets one GPU,
+32 CPUs and 56 GB RAM, a fresh seed-42 fit, four-epoch schedule and
+12600-second checkpointed runtime limit. All four contract hashes passed.
+Logs: `$SCRATCH/abacus/p12-oof-phNNN-JOBID.log`, allocation logs
+`$SCRATCH/abacus/oof-pair-004-005.log` and `oof-pair-007-008.log`.
+Per user request, held still-pending sweep jobs 61685645 (G-PATCH),
+61860649 (LitePT), 61872278 (window transformer); verified JobHeldUser.
+Running CNN 61664814 and all OOF/development/CFM jobs were left unchanged.
+
 ## 2026-11-24 — Four OOF fits and development export queued in parallel
 
 User approved four concurrent OOF fits plus development export. Existing
