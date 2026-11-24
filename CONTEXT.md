@@ -50,7 +50,7 @@ Only epoch 1 has scores from two encoders. No matched full-development R² yet f
 ## 4. Next Steps & Active Queue (Two Live Codex Tracks)
 
 1. **Encoder comparison:** Score the transformer's next complete epoch against the frozen P12-A epoch-2 card. Add the other three encoders only at matched epochs on verified identical parent rows, reporting each phase, shell and eigenvalue. Record compute separately. See `RUN_LOG.md` for live-job receipts.
-2. **Finish Paper 3: mock validation plus a real DESI BGS application.** Blind readout and plots complete. Prepare Loa BGS_BRIGHT and matching randoms, build cap responses and compare counts on common support before interpreting per-cap density and T-web uncertainty maps. No real-data posterior yet. Separate from the Paper 2 VAC.
+2. **Finish Paper 3: mock validation plus a real DESI BGS application.** Blind readout and plots complete. Loa input and response grids verified for both caps; high-z Loa/mock count mismatch persists on three matched footprints. Next: separately approved draw zero per real cap before a full ensemble. Keep full context; prioritize z<0.25 for interpretation. No real-data posterior yet. Separate from the Paper 2 VAC.
 3. **Observational handoff (`~/GraphWeb_DESI`):** Keep Loa VAC defaults frozen until the new low-z encoder + FMPE passes dev calibration, sealed `ph018/019` check, and golden-mock parity.
 
 ---

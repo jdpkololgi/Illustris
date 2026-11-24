@@ -218,6 +218,17 @@ Source: `lowz_loa_preparation_61911547/OBSERVATIONS_PREPARED.json` under
 the campaign Scratch root. Transfer comparisons restrict both catalogues
 to the same angular domain; the totals above are for Loa alone.
 
+Both Loa responses passed development parity and count conservation. Across
+ph006/012/013, Loa/mock ratios in the five successive shells are
+1.024–1.035, 1.024–1.037, 1.093–1.113, 1.274–1.303, 1.876–1.918 (NGC)
+and 0.917–0.962, 1.002–1.035, 1.068–1.091, 1.244–1.279, 1.963–2.047
+(SGC). These are phase ranges on matched cap/photometric-domain pixels
+(184,726 NGC and 81,922 SGC), not error bars. The high-z excess recurs
+against all three mocks; its cause remains unresolved. Prioritize the
+lowest two shells for real-data interpretation without changing conditioning.
+[Counts by phase and cap](figures/lowz_loa_transfer_61911856/counts.json) ·
+[Count-ratio plot](figures/lowz_loa_transfer_61911856/counts.pdf).
+
 Keep the observed quality cut above, both caps, the training-only selection
 and normalizer, the learned exterior and the same R7 operator. Apply the
 model to each cap independently. Compare observed counts, angular support

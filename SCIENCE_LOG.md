@@ -2,6 +2,17 @@
 
 > **Scope:** Durable scientific results, negative results, bug discoveries, and methodological decisions **only** (newest first). Live state lives in `CONTEXT.md` (≤ 8 KB, overwritten); Slurm submissions, queue telemetry, tmux owners, and routine receipts go in `RUN_LOG.md`. Pre-November 2026 entries are archived verbatim in `docs/log_archive/SCIENCE_LOG_2026_pre_nov.md`.
 
+## 2026-11-24 — Real Loa input transfer on three common mock footprints
+
+Both cap responses passed training-only selection, development parity and
+factor-four conservation. Loa has 7,813,715 selected BGS_BRIGHT rows at
+0.01 ≤ z < 0.55 and 7,835,655 in the wider model context. Across ph006/012/013
+on matched pixels, Loa/mock counts range from 1.024–1.035 NGC and
+0.917–0.962 SGC below z=0.15, but 1.876–1.918 NGC and 1.963–2.047 SGC
+at 0.45 ≤ z < 0.55. This confirms the high-z mismatch, not its cause or
+DESI calibration. No refit, thinning or posterior sampling.
+See `docs/figures/lowz_loa_transfer_61911856/counts.json` for all counts.
+
 ## 2026-11-24 — Frozen Paper 3 CFM confirmed against full-box truth
 
 On ph018/019 the CFM reduced single-cell fair CRPS by 19.3/23.6/20.7/27.1%

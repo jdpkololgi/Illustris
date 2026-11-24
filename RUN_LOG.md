@@ -28,6 +28,10 @@ Scratch, 2 h max, foreground release, no retry, no GPU. Runner a4d40c3;
 logs `$SCRATCH/abacus/lowz-response-61911856.{log,err}`. Require
 `e2e_field_v3/lowz_loa_response_61911856/RESPONSE_PREPARED.json` under
 `$SCRATCH/abacus` before interpreting transfer or planning GPU work.
+61911856 and its step completed 0:0 in 8:08 and 8:07; peak step RSS
+19530164 KiB, allocation released. Verified both cap hashes in response
+receipt SHA-256 `2b82368046841046d1dddfb7e0bcb74401f63ca50adcf21b7f6e48a2db0ba451`.
+No retry or GPU allocation.
 
 ## 2026-11-23 — ph018 confirmation draw 0 submitted
 
