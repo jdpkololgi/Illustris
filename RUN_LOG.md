@@ -7,6 +7,10 @@
 
 ## 2026-11-23 — ph018 confirmation draw 0 submitted
 
+Subsequent baseline freeze: CPU allocation 61911278 on nid200013, desi/interactive,
+64 logical CPUs, one-hour ceiling, released after 42 seconds (step 35 seconds,
+both 0:0). No retry. Runner 75853a9, logs `$SCRATCH/abacus/lowz-reference-61911278.{log,err}`.
+
 Continuation: remaining blind draw arrays 61871857 (NGC, 3:10:00)
 and 61871864 (SGC, 1:46:00), 63 tasks each verified pending at launch.
 Task 1..31 = ph018 draw 1..31; task 32..63 = ph019 draw 0..31.

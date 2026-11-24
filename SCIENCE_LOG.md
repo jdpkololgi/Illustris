@@ -2,6 +2,20 @@
 
 > **Scope:** Durable scientific results, negative results, bug discoveries, and methodological decisions **only** (newest first). Live state lives in `CONTEXT.md` (≤ 8 KB, overwritten); Slurm submissions, queue telemetry, tmux owners, and routine receipts go in `RUN_LOG.md`. Pre-November 2026 entries are archived verbatim in `docs/log_archive/SCIENCE_LOG_2026_pre_nov.md`.
 
+## 2026-11-24 — Matching blind single-cell reference predictions frozen
+
+The training-only smoothed-count ridge and joint residual bank yielded 32
+pointwise draws per supported cell of the registered pairs. Development
+first-shell interval widths replayed (ph006_NGC_s0_interior_00); holdout
+support matched the CFM core support cell-by-cell. Cell counts (NGC, SGC)
+were ph018 (56031, 53113) and ph019 (62201, 59617), 230962 total in
+0.01 ≤ z < 0.55. This reference is not a spatial posterior. No refit,
+holdout truth access or scoring. The reference receipt binds all four data
+files to the CFM prediction index, geometry, fit, and training residual bank:
+`lowz_cfm_blind_confirmation_v1/matched_reference_v1/BASELINE_FROZEN.json`
+under the campaign Scratch root; SHA-256
+`beadad0e7baffa11696156810d009501bac3f754a6cea126e9387b6fb2dc7998`.
+
 ## 2026-11-24 — Complete blind CFM predictions indexed
 
 All 128 draws (32 per phase/cap, ph018/019 NGC/SGC) passed the density
