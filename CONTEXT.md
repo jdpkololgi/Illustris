@@ -9,7 +9,7 @@
 
 - **Paper 2 (Primary — Per-Galaxy Probabilistic Cosmic Web VAC for DESI DR2 BGS_BRIGHT):**
   - **Core contribution:** Encoder-independent methodology yielding calibrated joint posteriors over the three ordered Gaussian-$R_7$ ($7\ h^{-1}\mathrm{Mpc}$) tidal-tensor eigenvalues ($\lambda_1 \le \lambda_2 \le \lambda_3$, softplus increment parameterisation) and derived T-Web classes ($\lambda_{\mathrm{th}}=0.2$) over **$0.01 \le z < 0.55$**.
-  - **Current stage:** Matched multi-encoder architecture comparison on the corrected 20/3 low-z contracts (same 346,364 cores/epoch, same 21,876,905 dev rows, 4-epoch cosine schedule, seed 42). Freeze the winning encoder once matched evidence is in, then train and calibrate the corrected low-z FMPE posterior head and run DESI Loa inference via `~/GraphWeb_DESI`.
+  - **Current stage:** User prioritized completing the corrected P12-A probabilistic model and Loa VAC. Full U-Net encoder is trained; 20 omitted-phase encoder fits, OOF exports, corrected FMPE and validation remain. The fresh omitted-ph000 256-update canary and 981-row export smoke passed. This is not completed OOF production. Six-hour ph000 production continuation is prepared, awaiting specific allocation approval.
 - **Paper 3 (Separate / Experimental — Coherent 3D Field-Level Posterior via CFM):**
   - Two-stage coarse + fine 3D Conditional Flow Matching over full survey caps ($0.01 \le z < 0.55$). Not a dependency for Paper 2.
   - **Current stage:** Frozen model scored on both blind phases (128 draws); better single-cell density, eigenvalue and class forecasts than the matched count baseline on each phase. Low-z density intervals remain cautious. This is not a calibration test on DESI.
@@ -49,7 +49,7 @@ Only epoch 1 has scores from two encoders. No matched full-development R² yet f
 
 ## 4. Next Steps & Active Queue (Two Live Codex Tracks)
 
-1. **Encoder comparison:** Score the transformer's next complete epoch against the frozen P12-A epoch-2 card. Add the other three encoders only at matched epochs on verified identical parent rows, reporting each phase, shell and eigenvalue. Record compute separately. See `RUN_LOG.md` for live-job receipts.
+1. **Paper 2 posterior completion:** Run fixed four-epoch omitted-phase fits on corrected contracts, export terminal summaries without omitted-phase checkpoint selection, prepare posterior data, train FMPE, validate/freeze, then apply to Loa. First continuation: `workflows/sbi/lowz_oof_ph000_segment.slurm`; resumes 256-update checkpoint with unchanged trainer source. Architecture comparison is secondary. See `RUN_LOG.md` for receipts.
 2. **Finish Paper 3: mock validation plus a real DESI BGS application.** Blind readout and plots complete. Loa input and response grids verified for both caps; high-z Loa/mock count mismatch persists on three matched footprints. Next: separately approved draw zero per real cap before a full ensemble. Keep full context; prioritize z<0.25 for interpretation. No real-data posterior yet. Separate from the Paper 2 VAC.
 3. **Observational handoff (`~/GraphWeb_DESI`):** Keep Loa VAC defaults frozen until the new low-z encoder + FMPE passes dev calibration, sealed `ph018/019` check, and golden-mock parity.
 

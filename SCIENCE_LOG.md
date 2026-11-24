@@ -2,6 +2,19 @@
 
 > **Scope:** Durable scientific results, negative results, bug discoveries, and methodological decisions **only** (newest first). Live state lives in `CONTEXT.md` (≤ 8 KB, overwritten); Slurm submissions, queue telemetry, tmux owners, and routine receipts go in `RUN_LOG.md`. Pre-November 2026 entries are archived verbatim in `docs/log_archive/SCIENCE_LOG_2026_pre_nov.md`.
 
+## 2026-11-24 — Corrected P12-A OOF selection adapter passed smoke export
+
+The historical summary exporter expected a rotation-keyed selection curve;
+corrected low-z products store per-cap binned densities. The adapter now reads
+the matched-CIC selection schema, checks bin support and Mpc^-3 units, and
+preserves cap ordering (0 SGC, 1 NGC). A fresh 19-phase encoder omitting ph000
+passed 256 training updates; its first nonempty ph000 core exported 981 rows
+with finite 32-dimensional latents, base predictions, ordered truth, redshift
+and selection density. Evidence: `$SCRATCH/abacus/lowz_oof_probe_61925898/SMOKE_ONLY_ph000.npz`.
+This validates the interface only; it does not complete any production OOF
+encoder, establish calibration, or authorize use of this smoke shard for FMPE.
+Production exports must use fixed-budget terminal weights.
+
 ## 2026-11-24 — Real Loa input transfer on three common mock footprints
 
 Both cap responses passed training-only selection, development parity and

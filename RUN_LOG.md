@@ -1,5 +1,20 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+## 2026-11-24 — OOF export retry passed; production continuation prepared
+
+Approved export-only job 61929126 completed on nid200273 in 33 seconds,
+exit 0. tmux `oof-export-retry` on login35; one A100, 32 CPUs,
+desi_g/shared_interactive, Scratch, 30-minute ceiling, no retry; allocation
+released. Source fce24c4, log `$SCRATCH/abacus/oof-export-retry.log`.
+Checkpoint before/after SHA256:
+`3cdadd1006c5a69835bedeee4cf2ba712b6a5ad13111b407041eb3329612f3a8`.
+Smoke shard SHA256:
+`7660daf251010fe0b8d87dd59dffd82be9f214e45017d6b39d05b3cd35cb6033`.
+Prepared `workflows/sbi/lowz_oof_ph000_segment.slurm`: six-hour shared batch,
+one 40/80 GB A100, 32 CPUs, desi_g, seed 42, no requeue/follow-on. Syntax
+passes and all nine trainer source hashes match the saved checkpoint run.
+Not submitted: specific production allocation approval remains outstanding.
+
 ## 2026-11-24 — matched point-panel restart
 
 61911376 exited 1 before training: archived source lacked Git metadata.
