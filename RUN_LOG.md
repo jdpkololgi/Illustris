@@ -17,6 +17,18 @@ Loa observation CPU preparation 61911547 on nid200068 (same resources,
 OBSERVATIONS_PREPARED.json. Logs: `$SCRATCH/abacus/lowz-score-61911489.{log,err}`
 and `lowz-loa-61911547.{log,err}`. No real-data GPU inference in either job.
 
+Both steps and allocations completed 0:0, no retry. Blind score 16:48
+(step 16:41, peak RSS 329415608 KiB), receipt SHA-256
+`1539818124eb0b7843bb6c7f89f01c940c136329f567e5cdd144165b927d6281`.
+Loa inputs 17:49 (step 17:44, peak RSS 5668300 KiB), receipt SHA-256
+`79355192e0f4fbe96ca4f1486d9623b3b321f127a0ddd2dc65f12fddbfef39bc`.
+Following separate approval and receipt verification, response 61911856
+launched on nid200068: desi/interactive, one CPU node, 64 logical CPUs,
+Scratch, 2 h max, foreground release, no retry, no GPU. Runner a4d40c3;
+logs `$SCRATCH/abacus/lowz-response-61911856.{log,err}`. Require
+`e2e_field_v3/lowz_loa_response_61911856/RESPONSE_PREPARED.json` under
+`$SCRATCH/abacus` before interpreting transfer or planning GPU work.
+
 ## 2026-11-23 — ph018 confirmation draw 0 submitted
 
 Subsequent baseline freeze: CPU allocation 61911278 on nid200013, desi/interactive,
