@@ -190,7 +190,24 @@ to the Loa BGS_BRIGHT observations. Use the v2.1 full HPmapcut catalogue,
 not a clustering catalogue or the Paper 2 VAC, and the matching 18 full
 randoms. The registry is `configs/p10_response_sources_v1.json`
 (`desi_candidate`). All 19 paths and sizes matched the registry at inventory;
-this was not a fresh payload hash or a validated production response.
+this was not a fresh payload hash or a validated production response. Subsequent
+preparation verified all 19 source hashes and produced 7,835,655 context rows.
+Of these, 7,813,715 lie in the science range below; all fell on supported
+pixels of the 18-random map in the appropriate cap. This is **not** a measure
+of spectroscopic completeness. Positive-redshift context extends to z < 0.60
+with the registered sentinel exclusion; it is not the science sample.
+
+| Science redshift | Loa NGC galaxies | Loa SGC galaxies |
+|---|---:|---:|
+| [0.01,0.15) | 1,715,380 | 661,922 |
+| [0.15,0.25) | 1,981,867 | 799,947 |
+| [0.25,0.35) | 1,286,073 | 521,105 |
+| [0.35,0.45) | 504,806 | 205,287 |
+| [0.45,0.55) | 95,587 | 41,741 |
+
+Source: `lowz_loa_preparation_61911547/OBSERVATIONS_PREPARED.json` under
+the campaign Scratch root. Transfer comparisons restrict both catalogues
+to the same angular domain; the totals above are for Loa alone.
 
 Keep the observed quality cut above, both caps, the training-only selection
 and normalizer, the learned exterior and the same R7 operator. Apply the
