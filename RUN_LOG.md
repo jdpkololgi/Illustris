@@ -1,5 +1,23 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+## 2026-11-24 — Four OOF fits and development export queued in parallel
+
+User approved four concurrent OOF fits plus development export. Existing
+61929552 continues omitted-ph000. New array 61930823_1/2/3 starts fresh
+omitted-ph001/ph002/ph003 fits respectively, at most three array tasks
+concurrent. Separate 61930825 exports ph006/ph012/ph013 sequentially from
+the full encoder's four-epoch terminal checkpoint. Each new task: one
+40/80 GB A100, 32 CPUs, desi_g/shared (gpu_shared), six hours, Scratch,
+no requeue, retries or follow-on jobs. Training seed 42, fixed four-epoch
+schedule; segments checkpoint before budget exhaustion. New maximum
+authorized allocation is 24 GPU-hours across four tasks.
+Launcher `workflows/sbi/lowz_oof_parallel.slurm`, revision 6bcb666. Shell
+syntax and four input-contract hashes/phase counts verified. All submitted
+jobs initially pending, start times unknown. Logs use
+`$SCRATCH/abacus/p12-parallel-%A_%a.log`; immutable source snapshots and
+outputs carry job IDs. No duplicate ph000 submission. Batch jobs survive
+disconnects without tmux.
+
 ## 2026-11-24 — First omitted-ph000 production continuation submitted
 
 User approved the six-hour segment. Submitted batch 61929552 from revision

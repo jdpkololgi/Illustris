@@ -49,7 +49,7 @@ Only epoch 1 has scores from two encoders. No matched full-development R² yet f
 
 ## 4. Next Steps & Active Queue (Two Live Codex Tracks)
 
-1. **Paper 2 posterior completion:** Run fixed four-epoch omitted-phase fits on corrected contracts, export terminal summaries without omitted-phase checkpoint selection, prepare posterior data, train FMPE, validate/freeze, then apply to Loa. First continuation: `workflows/sbi/lowz_oof_ph000_segment.slurm`; resumes 256-update checkpoint with unchanged trainer source. Architecture comparison is secondary. See `RUN_LOG.md` for receipts.
+1. **Paper 2 posterior completion:** Four OOF fits submitted: omitted-ph000 continuation 61929552 and fresh omitted-ph001/002/003 array 61930823. Full-encoder development export 61930825 submitted separately. Fixed four-epoch training budgets and terminal-weight exports; six-hour allocation segments. Next: finish remaining fits/exports, prepare posterior data, train FMPE, validate/freeze, then apply to Loa. Architecture comparison is secondary. See `RUN_LOG.md` for receipts.
 2. **Finish Paper 3: mock validation plus a real DESI BGS application.** Blind readout and plots complete. Loa input and response grids verified for both caps; high-z Loa/mock count mismatch persists on three matched footprints. Next: separately approved draw zero per real cap before a full ensemble. Keep full context; prioritize z<0.25 for interpretation. No real-data posterior yet. Separate from the Paper 2 VAC.
 3. **Observational handoff (`~/GraphWeb_DESI`):** Keep Loa VAC defaults frozen until the new low-z encoder + FMPE passes dev calibration, sealed `ph018/019` check, and golden-mock parity.
 
