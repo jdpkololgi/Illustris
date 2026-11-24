@@ -7,7 +7,7 @@
 #SBATCH --cpus-per-task=32
 #SBATCH --constraint=gpu&a100
 #SBATCH --gpus=1
-#SBATCH --time=24:00:00
+#SBATCH --time=06:00:00
 #SBATCH --licenses=scratch
 #SBATCH --no-requeue
 #SBATCH --output=/pscratch/sd/d/dkololgi/abacus/litept-lowz-s42-%j.log
@@ -41,7 +41,7 @@ rc=0
 srun -N1 -n1 -c32 --gpus=1 --cpu-bind=cores "$py" -u -c "$boot" \
     --model unet --seed 42 --epochs 4 --min-epochs 4 --ordered-prefetch \
     --disable-early-stopping --checkpoint-every 1000 --loss-log-every 25 \
-    --max-runtime-seconds 84600 --validation-reserve-seconds 7200 \
+    --max-runtime-seconds 19800 --validation-reserve-seconds 7200 \
     --contract-root "$contract" --output-root "$out" --run-name litept_s_native || rc=$?
 dest="$out/litept_s_native/unet/seed_42"
 if [[ $rc == 75 ]]; then

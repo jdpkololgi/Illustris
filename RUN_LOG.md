@@ -1,5 +1,47 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+## 2026-11-24 — matched point-panel restart
+
+61911376 exited 1 before training: archived source lacked Git metadata.
+Verified detached graph 449c60d and LitePT fc0b407 checkouts on Scratch
+before requesting replacement interactive window 61916473. tmux
+point-panel-restart on login35; $SCRATCH/abacus/point_panel_retry_hgykYw/launch.log.
+One A100, 32 CPUs, desi_g/shared_interactive, 4h, 10-minute allocation wait,
+no automatic retry. First observed pending for priority; not a result.
+
+## 2026-11-24 — bounded corrected point-encoder diagnostic
+
+Interactive 61911376, nid200261, tmux point-panel-1124 on login18. One A100,
+32 CPUs, desi_g/shared_interactive, Scratch, four hours maximum; no retry.
+Graph then LitePT, fresh seed 42, 2048 updates each, registered 24 groups
+of ph006/012/013; diagnostic outputs only in $SCRATCH/abacus/point_panel_diag_61911376.
+Launcher log: $SCRATCH/abacus/point-panel-1124.log. Production jobs untouched.
+
+## 2026-11-23 — transformer epoch-3 continuation
+
+Replaced held 61786757 after verifying epoch 3 cursor 0, step/scheduler
+692728 and completed epoch-2 history. New 61872278: one A100 (40/80 GB),
+32 CPUs, desi_g/shared, Scratch, 24h, no requeue. Pending/Priority, no ETA
+at verification. Launcher: workflows/abacus_tweb/window_epoch3_resume.slurm.
+LitePT 61860649 untouched.
+
+## 2026-11-23 — LitePT first segment shortened
+
+Cancelled 61671100 while pending (zero elapsed). Replacement 61860649:
+desi_g/shared, one 40/80 GB A100, 32 CPUs, Scratch, six hours, no requeue
+or dependency. Corrected low-z inputs, fresh seed 42, same pinned trainer
+and readout. Internal runtime limit 19800 s for a checkpointed pause.
+Pending for priority with no start estimate at verification.
+
+## 2026-11-23 — window-attention epoch-2 interactive comparison
+
+Allocation 61847641 on nid200257: one A100, 32 CPUs, desi_g/shared_interactive,
+Scratch, 4h maximum; no retries. tmux window-e2-61786757 on login21.
+Batch 61786757 confirmed JobHeldUser before allocation. Python step 61847641.0
+started; original corrected run, epoch 2 cursor 300912. Launcher stops after
+validation and saving the epoch-3 cursor-zero checkpoint. Keep the batch held
+pending checkpoint review. Log: $SCRATCH/abacus/window-e2-61786757.log.
+
 **Purpose:** Append-only operational ledger (newest first) for Slurm submissions, `PENDING`/running status checks, tmux sessions, wrapper syntax checks, and SHA-256 receipts across `Illustris` and `GraphWeb_DESI`.
 **Boundary:** Put completed scientific results, negative results, bug discoveries, and methodological decisions in `SCIENCE_LOG.md`, and keep current live state in `CONTEXT.md` (≤ 8 KB overwritten).
 
