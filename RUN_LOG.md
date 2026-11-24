@@ -33,6 +33,19 @@ logs `$SCRATCH/abacus/lowz-response-61911856.{log,err}`. Require
 receipt SHA-256 `2b82368046841046d1dddfb7e0bcb74401f63ca50adcf21b7f6e48a2db0ba451`.
 No retry or GPU allocation.
 
+## 2026-11-24 — Real Loa draw zero submitted on both caps
+
+NGC 61912248 (3h30) and SGC 61912247 (2h) verified PENDING/Priority.
+One 80 GB A100, 32 logical CPUs, desi_g/shared, Scratch per job, no retry;
+5.5 GPU-hours combined ceiling. Source revision 132676d, launcher
+`workflows/sbi/lowz_loa_draw0.slurm`, runner SHA-256
+`01a4ed3372075d7486586e275377e6b20587c6c1f2ee4a4489f150adc66d2844`.
+Both use the verified 61911856 response digest above. Logs:
+`$SCRATCH/abacus/lowz-loa-draw0-{61912248,61912247}.log`.
+Require density and tides COMPLETE receipts under each cap's
+`predictions/draw_000` and successful accounting before reporting outputs
+or estimating ensemble cost. No ensemble submitted.
+
 ## 2026-11-23 — ph018 confirmation draw 0 submitted
 
 Subsequent baseline freeze: CPU allocation 61911278 on nid200013, desi/interactive,
