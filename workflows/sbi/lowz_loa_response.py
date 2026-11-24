@@ -81,7 +81,7 @@ def run(receipt,expected):
         with marker.open('x') as f: json.dump(result,f,sort_keys=True,allow_nan=False)
         print('RESPONSE_COMPLETE',phase,cap,flush=True)
 
-    coord.c.atomic_json(out/'RESPONSE_PREPARED.json',dict(passed=True,obs_receipt=expected,method=sha(b.FREEZE),
+    coord.c.atomic_json(out/'RESPONSE_PREPARED.json',dict(passed=True,obs_receipt=expected,observations_path=str(receipt),method=sha(b.FREEZE),
         source=sha(__file__),cap_order=['SGC','NGC'],shell_edges=p['shell_edges'],common_domain_counts=controls,
         caps={cap:sha(out/cap/'RESPONSE_COMPLETE.json') for cap in ('NGC','SGC')},
         scope='Matched cap response and transfer diagnostics; not proof of DESI calibration'))
