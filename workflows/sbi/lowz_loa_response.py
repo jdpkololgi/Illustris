@@ -18,8 +18,16 @@ def run(receipt,expected):
     from workflows.abacus_tweb import p3br_build_random_response as random,p3a_build_canonical_fields as grid
     import h5py, fitsio, numpy as np, healpy as hp
     p=read(receipt);assert p['phase']=='Loa' and p['passed'] and not p['refit'] and p['method']==sha(b.FREEZE)
+    registry=read(b.REPO/'configs/p10_response_sources_v1.json')['desi_candidate']
+    assert p['source']==registry['data']['full']['sha256'] and len(p['randoms'])==18
+    assert p['randoms']==[x['sha256'] for x in registry['full_random']]
+    assert p['cap_order']==['SGC','NGC'] and p['shell_edges']==[.01,.15,.25,.35,.45,.55]
+    counts,supported=[np.asarray(p[k]) for k in ('counts','supported_counts')]
+    assert counts.shape==supported.shape==(2,5) and np.all((supported>0)&(supported<=counts))
+    assert int(counts.sum())<=p['rows']<=registry['data']['full']['rows']
     obs,ang=[b.verify_record(v,receipt.parent) for v in p['outputs']]
     rows=fitsio.read(obs,columns=['RA','DEC','Z'])
+    assert len(rows)==p['rows']
     with np.load(ang,allow_pickle=False) as f: angular={k:f[k] for k in ('domain','support','angular_response')}
     plan,policy,_=low.load_plan();cfg=read(b.DEPLOY/b.CONFIG)
     selection_path=Path(cfg['observation']['fixed_selection_manifest']);sel=read(selection_path)
@@ -31,6 +39,7 @@ def run(receipt,expected):
         pix=hp.ang2pix(256,cat['RA'],cat['DEC'],lonlat=True)
         caps=random.galactic_cap(cat['RA'],cat['DEC']);z=cat['Z']
         return [np.histogram(z[common[pix]&(caps==j)&(angular['domain'][pix]//2==j)&(z<.55)],p['shell_edges'])[0].tolist() for j in range(2)]
+    np.testing.assert_array_equal(hist(rows,angular['support'].astype(bool)),supported)
     controls={}
     for ph in ('ph006','ph012','ph013'):
         dev=read(coord.ROOT/'observations'/ph/'NGC_COMPLETE.json')
