@@ -42,6 +42,9 @@ def summarize(directory):
         weights=[r['weight'] for r in rows]
         average=lambda items: np.average(items,axis=0,weights=weights).tolist()
         data={k:average([r[k] for r in rows]) for k in ('fair_crps','coverage90','width90','bias')}
+        data['order_intervals']={k:dict(nominal=rows[0]['intervals'][k]['nominal'],
+            coverage=average([r['intervals'][k]['coverage'] for r in rows]),
+            width=average([r['intervals'][k]['width'] for r in rows])) for k in ('1','3','8')}
         report.append(dict(zip(('phase','cap','shell','support','weighting','method'),key),
             cells=sum(r['cells'] for r in rows),weight=sum(weights),**data,
             ranks=np.sum([r['rank_counts'] for r in rows],axis=0).tolist(),
