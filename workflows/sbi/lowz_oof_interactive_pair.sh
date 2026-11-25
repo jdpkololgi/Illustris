@@ -2,7 +2,7 @@
 # User-authorized bounded production progress: two independent GPU workers.
 set -euo pipefail
 revision=${1:?}; first=${2:?}; second=${3:?}
-case "$first:$second" in ph004:ph005|ph007:ph008) ;; *) exit 2;; esac
+case "$first:$second" in ph004:ph005|ph007:ph008|ph009:ph010|ph011:ph014) ;; *) exit 2;; esac
 base=/pscratch/sd/d/dkololgi/abacus
 repo=/global/u2/d/dkololgi/TNG/Illustris
 manifest=$base/p12a_lowz_20261029_v1/LOWZ_TRAINING_PRODUCTS_COMPLETE.json
