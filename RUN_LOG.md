@@ -1,5 +1,23 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+## 2026-11-25 — Full OOF training and summary export queue
+
+Committed launcher 1e6e3e5. Each fold has up to three 24-hour shared A100
+segments (32 CPUs, desi_g, Scratch) and a six-hour terminal export. Later
+segments return immediately on completion. Slurm accepted 20 tasks per stage.
+Array IDs in stage order (training 1/2/3, export):
+
+- ph015–017/020–024: 61980028/029/030/031 (last three digits abbreviated).
+- ph000: 61980054/055/056/057.
+- ph001–003: 61980058/059/060/061.
+- ph004–005/007–008: 61980062/063/064/078.
+- ph009–010: 61980079/080/081/082.
+- ph011/014: 61980083/084/085/086.
+
+Fresh eight have no predecessor. Other groups wait for their prior allocations.
+Per-task aftercorr dependencies within each new chain. Both interactive pairs
+running at verification. No new first-wave start estimate from Slurm.
+
 ## 2026-11-25 — Additional interactive OOF phases for December 2 Loa target
 
 Requested two free interactive slots from login18 in tmux. 61979976
