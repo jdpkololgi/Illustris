@@ -36,11 +36,23 @@ run=$out/$name/unet/seed_42
 unset PYTHONHOME PYTHONPATH PYTHONUSERBASE LD_PRELOAD
 export PYTHONNOUSERSITE=1 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=4
 python_step=(srun -N1 -n1 -c32 --gpus=1 --cpu-bind=cores /pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python -um)
-if [[ $2 == export ]]; then
+publish_summary() {
+    local dest=$base/oof_campaign_20261125/summaries
+    local attempt=$dest/.attempts/${SLURM_JOB_ID}
+    local receipt=OOF_SUMMARY_COMPLETE.json
     test -s "$run/ARM_A_TRAINING_COMPLETE.json"
-    exec "${python_step[@]}" workflows.sbi.p12_export_unet_summaries --contract-root "$root" --phase "$phase" --checkpoint "$run/arm_a_checkpoint.pt" --context-halo 48 --terminal-epochs 4 --output-root "$base/oof_campaign_20261125/summaries"
-fi
-if [[ -s $run/ARM_A_TRAINING_COMPLETE.json ]]; then exit 0; fi
+    if [[ -e $dest/$phase ]]; then
+        jq -e --arg p "$phase" '.pass and .phase==$p and .terminal_epochs==4' "$dest/$phase/$receipt" >/dev/null
+        return
+    fi
+    # A partial attempt stays private. Array paths in the receipt remain valid.
+    mkdir -p "$attempt"
+    "${python_step[@]}" workflows.sbi.p12_export_unet_summaries --contract-root "$root" --phase "$phase" --checkpoint "$run/arm_a_checkpoint.pt" --context-halo 48 --terminal-epochs 4 --output-root "$attempt"
+    jq -e --arg p "$phase" '.pass and .phase==$p and .rows>0 and .terminal_epochs==4' "$attempt/$phase/$receipt" >/dev/null
+    ln -sT "$attempt/$phase" "$dest/$phase"
+}
+if [[ $2 == export ]]; then publish_summary; exit 0; fi
+if [[ -s $run/ARM_A_TRAINING_COMPLETE.json ]]; then publish_summary; exit 0; fi
 resume=()
 if [[ $2 != fresh ]]; then
     test -s "$run/arm_a_checkpoint.pt"
@@ -51,4 +63,8 @@ else
 fi
 rc=0
 "${python_step[@]}" workflows.abacus_tweb.p10_train_arm_a --contract-root "$root" --output-root "$out" --run-name "$name" --model unet --seed 42 --ordered-prefetch --epochs 4 --min-epochs 4 --disable-early-stopping --checkpoint-every 1000 --max-runtime-seconds 84600 --validation-reserve-seconds 3600 "${resume[@]}" || rc=$?
-if [[ $rc == 75 ]]; then test -s "$run/ALLOCATION_PAUSED.json"; else exit "$rc"; fi
+if [[ $rc == 75 ]]; then test -s "$run/ALLOCATION_PAUSED.json"; exit 0; fi
+if [[ $rc != 0 ]]; then exit "$rc"; fi
+test -s "$run/ARM_A_TRAINING_COMPLETE.json"
+# Retain the existing six-hour phase export budget when estimating spare time.
+if (( ${SLURM_JOB_END_TIME:-0} - $(date +%s) >= 21600 )); then publish_summary; fi
