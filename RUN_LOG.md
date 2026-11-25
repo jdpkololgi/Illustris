@@ -1,5 +1,14 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+## 2026-11-24 — Four OOF checkpoint continuations queued
+
+Interactive segments 61932924 and 61932921 reached their runtime budgets.
+Submitted array 61952194 (tasks 4/5/7/8 for omitted ph004/005/007/008).
+Epoch 1 resume cursors are 106797, 106797, 106796 and 106796 respectively.
+Checkpoint hashes pinned in launcher a18d9bc. Each uses its original trainer
+checkout 02bbd35, one A100, 32 CPUs, desi_g/shared, Scratch, six hours,
+no requeue or follow-on. All four tasks verified pending after submission.
+
 ## 2026-11-24 — Interactive OOF progress and architecture queue hold
 
 User explicitly requested two interactive allocations with two phases each,
