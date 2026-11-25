@@ -1,5 +1,15 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+## 2026-11-25 — Per-fold immediate summary publication
+
+Preserved all first stages. Replaced pending stages 2/3/export for the six
+groups below in their original order with arrays 61986117/118/120,
+61986121/122/123, 61986124/125/126, 61986127/128/129,
+61986169/170/171 and 61986173/174/175 (suffixes abbreviated).
+Verified 20 pending tasks per stage and no duplicate downstream tasks.
+Launcher f6b1d47 publishes each verified shard under the campaign summaries
+directory when six hours remain after training, or in the next allocation.
+
 ## 2026-11-25 — Full OOF training and summary export queue
 
 Committed launcher 1e6e3e5. Each fold has up to three 24-hour shared A100
