@@ -1,5 +1,13 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+## 2026-11-25 — Additional interactive OOF phases for December 2 Loa target
+
+Requested two free interactive slots from login18 in tmux. 61979976
+(ph009/ph010) and 61979977 (ph011/ph014), source 175905f, each two A100s,
+64 CPUs, desi_g/shared_interactive, Scratch, four-hour ceiling, ten-minute
+allocation wait, no retries. Initial state pending. tmux sessions and Scratch
+allocation logs use oof-ph009-ph010 and oof-ph011-ph014 respectively.
+
 ## 2026-11-24 — Four OOF checkpoint continuations queued
 
 Interactive segments 61932924 and 61932921 reached their runtime budgets.
