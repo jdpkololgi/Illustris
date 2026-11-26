@@ -255,9 +255,15 @@ def main() -> None:
         raise RuntimeError("exported parent lacks P4 assignment")
     cap = np.asarray(assignment["cap"][row], dtype=np.uint8)
     shell = np.asarray(assignment["shell"][row], dtype=np.int8)
-    boundary = np.asarray(
-        assignment["distance_to_conservative_fold_boundary_mpc"][row], dtype=np.float32
-    )
+    # Optional historical split diagnostic. The posterior's physical support
+    # distance comes from the random catalogue through a separate lookup.
+    split_diagnostic = {}
+    if "distance_to_conservative_fold_boundary_mpc" in assignment:
+        split_diagnostic["distance_to_fold_boundary_mpc"] = np.asarray(
+            assignment["distance_to_conservative_fold_boundary_mpc"][row], dtype=np.float32
+        )
+    elif not loader.manifest.get("phase_policy"):
+        raise KeyError("Historical assignment lacks its fold-boundary diagnostic")
     selection = json.loads(
         (args.contract_root / "transforms/field/selection_manifest.json").read_text()
     )
@@ -268,7 +274,7 @@ def main() -> None:
         ntilde_mpc3=ntilde_at_rows(selection, cap, redshift),
         cap=cap,
         shell=shell,
-        distance_to_fold_boundary_mpc=boundary,
+        **split_diagnostic,
     )
     manifest = {
         "schema_version": "p12-unet-oof-summary-v1",
