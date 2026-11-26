@@ -1,5 +1,19 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+## 2026-11-26 — Flexible 48-hour OOF continuations
+
+All 20 first-stage tasks running. Replaced pending chains with launcher
+f0a23c9. Stage 2 requests 48 hours with 24-hour backfill minimum. Stage 3
+requests 24 hours and export six hours. Verified 20 aftercorr tasks in each
+stage. Arrays (second / third / export), grouped by omitted phases:
+
+- 015–017,020–024: 62047832 / 62047833 / 62047835
+- 000: 62047859 / 62047863 / 62047864
+- 001–003: 62047872 / 62047879 / 62047882
+- 004,005,007,008: 62047884 / 62047885 / 62047886
+- 009,010: 62047887 / 62047888 / 62047889
+- 011,014: 62047891 / 62047892 / 62047893
+
 ## 2026-11-26 — Corrected pending OOF chains and development recovery
 
 Replacement arrays 62037192 through 62037237 (nonconsecutive) use baf0ace.
