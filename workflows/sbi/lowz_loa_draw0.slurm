@@ -13,6 +13,11 @@
 set -euo pipefail
 [[ $# == 4 ]] || exit 2
 case "$1" in NGC|SGC) cap="$1";; *) exit 2;; esac
+draw=0
+if [[ -v SLURM_ARRAY_TASK_ID ]]; then
+  draw="$SLURM_ARRAY_TASK_ID"
+  [[ "$draw" =~ ^([1-9]|[12][0-9]|3[01])$ ]] || exit 2
+fi
 runner=/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/lowz_loa_draw.py
 manifest="$2"
 [[ "$3" =~ ^[a-f0-9]{64}$ && "$4" =~ ^[a-f0-9]{64}$ ]] || exit 2
@@ -23,5 +28,5 @@ export GRAPHWEB_CFM_DATA_CONFIG=configs/e2e_coupled_data_lowz_20261029.json CUBL
 for stage in density tides; do
   echo "$3  $manifest" | sha256sum -c -
   echo "$4  $runner" | sha256sum -c -
-  srun --exact -N1 -n1 -c32 --gpus=1 --cpu-bind=cores /pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python -u "$runner" "$stage" "$cap" 0 "$manifest" "$3"
+  srun --exact -N1 -n1 -c32 --gpus=1 --cpu-bind=cores /pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python -u "$runner" "$stage" "$cap" "$draw" "$manifest" "$3"
 done
