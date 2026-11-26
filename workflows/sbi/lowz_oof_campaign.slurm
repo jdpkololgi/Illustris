@@ -62,7 +62,9 @@ else
     test ! -e "$out"
 fi
 rc=0
-"${python_step[@]}" workflows.abacus_tweb.p10_train_arm_a --contract-root "$root" --output-root "$out" --run-name "$name" --model unet --seed 42 --ordered-prefetch --epochs 4 --min-epochs 4 --disable-early-stopping --checkpoint-every 1000 --max-runtime-seconds 84600 --validation-reserve-seconds 3600 "${resume[@]}" || rc=$?
+runtime=$(( ${SLURM_JOB_END_TIME:?} - $(date +%s) - 1200 ))
+(( runtime > 3600 ))
+"${python_step[@]}" workflows.abacus_tweb.p10_train_arm_a --contract-root "$root" --output-root "$out" --run-name "$name" --model unet --seed 42 --ordered-prefetch --epochs 4 --min-epochs 4 --disable-early-stopping --checkpoint-every 1000 --max-runtime-seconds "$runtime" --validation-reserve-seconds 3600 "${resume[@]}" || rc=$?
 if [[ $rc == 75 ]]; then test -s "$run/ALLOCATION_PAUSED.json"; exit 0; fi
 if [[ $rc != 0 ]]; then exit "$rc"; fi
 test -s "$run/ARM_A_TRAINING_COMPLETE.json"
