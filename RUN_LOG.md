@@ -1,5 +1,12 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+## 2026-11-26 — Corrected pending OOF chains and development recovery
+
+Replacement arrays 62037192 through 62037237 (nonconsecutive) use baf0ace.
+Verified 20 pending tasks each for stages 2, 3 and export. Development
+recovery job 62037278 (1590c6d, six hours, one A100) verifies original
+ph006 arrays and then exports ph012/013. Pending at verification.
+
 ## 2026-11-25 — Per-fold immediate summary publication
 
 Preserved all first stages. Replaced pending stages 2/3/export for the six

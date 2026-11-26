@@ -1,5 +1,14 @@
 # SCIENCE_LOG.md — Shared Science Log (Illustris ⇄ GraphWeb_DESI)
 
+## 2026-11-26 — Legacy split distance blocked corrected P12-A export
+
+Development export 61930825 reached the response assembly after checking
+ph006 parent identity. Corrected assignments lack the historical conservative
+fold-boundary distance. This diagnostic is unused by the posterior reader,
+which samples physical support distance separately from random overlays.
+Revision baf0ace omits the absent diagnostic for shared-phase contracts.
+Recovery validation pending; no change to encoder weights or physical inputs.
+
 > **Scope:** Durable scientific results, negative results, bug discoveries, and methodological decisions **only** (newest first). Live state lives in `CONTEXT.md` (≤ 8 KB, overwritten); Slurm submissions, queue telemetry, tmux owners, and routine receipts go in `RUN_LOG.md`. Pre-November 2026 entries are archived verbatim in `docs/log_archive/SCIENCE_LOG_2026_pre_nov.md`.
 
 ## 2026-11-24 — Corrected P12-A OOF selection adapter passed smoke export
