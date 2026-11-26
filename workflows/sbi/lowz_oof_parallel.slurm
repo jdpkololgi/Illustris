@@ -41,17 +41,25 @@ if [[ $mode == train ]]; then
       --output-root "$out" --run-name oof --model unet --seed 42 \
       --ordered-prefetch --epochs 4 --min-epochs 4 --disable-early-stopping \
       --checkpoint-every 1000 --max-runtime-seconds 19800 --validation-reserve-seconds 3600
-elif [[ $mode == development ]]; then
+elif [[ $mode == development || $mode == recover-development ]]; then
     root=$(jq -er '.contracts.full.path' "$manifest")
     echo "$(jq -er '.contracts.full.sha256' "$manifest")  $root/TRAINING_LOADER_READY.json" | sha256sum -c -
     ck=$base/p12a_lowz_full_seed42_61548250/full/unet/seed_42/arm_a_checkpoint.pt
     out=$base/p12a_lowz_development_summaries_${SLURM_JOB_ID}
-    test ! -e "$out"
+    if [[ $mode == recover-development ]]; then
+        out=$base/p12a_lowz_development_summaries_61930825
+    else
+        test ! -e "$out"
+    fi
     for phase in ph006 ph012 ph013; do
+        extra=()
+        if [[ $mode == recover-development && $phase == ph006 ]]; then
+            extra=(--recover-ph006-job-61930825)
+        fi
         srun -N1 -n1 -c32 --gpus=1 --cpu-bind=cores "$py" \
           -um workflows.sbi.p12_export_unet_summaries --contract-root "$root" \
           --checkpoint "$ck" --phase "$phase" --output-root "$out" \
-          --context-halo 48 --terminal-epochs 4
+          --context-halo 48 --terminal-epochs 4 "${extra[@]}"
     done
 else
     exit 2

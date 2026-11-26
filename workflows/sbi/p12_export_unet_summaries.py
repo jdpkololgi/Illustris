@@ -155,11 +155,22 @@ def main() -> None:
     parser.add_argument("--terminal-epochs", type=int)
     parser.add_argument("--base", type=int, default=24)
     parser.add_argument("--latent-channels", type=int, default=32)
+    parser.add_argument("--recover-ph006-job-61930825", action="store_true",
+                        help="Finalize the saved predictions from the verified failed development export")
     args = parser.parse_args()
     if args.context_halo < 0:
         raise ValueError("context halo must be nonnegative")
     output = args.output_root / args.phase
-    if output.exists() and any(output.iterdir()):
+    recover = args.recover_ph006_job_61930825
+    if recover:
+        base = Path("/pscratch/sd/d/dkololgi/abacus")
+        if not (output.resolve() == base/"p12a_lowz_development_summaries_61930825/ph006"
+                and args.contract_root.resolve() == base/"p12a_lowz_20261029_v1/training_contract_v1"
+                and args.checkpoint.resolve() == base/"p12a_lowz_full_seed42_61548250/full/unet/seed_42/arm_a_checkpoint.pt"
+                and args.terminal_epochs == 4 and args.context_halo == 48
+                and not (output/"OOF_SUMMARY_COMPLETE.json").exists()):
+            raise ValueError("Recovery inputs do not match original job")
+    if not recover and output.exists() and any(output.iterdir()):
         raise FileExistsError(f"refusing to overwrite export directory: {output}")
     started = time.monotonic()
     torch.set_num_threads(8)
@@ -205,15 +216,26 @@ def main() -> None:
     n_rows = len(expected_parent)
     output = args.output_root / args.phase
     output.mkdir(parents=True, exist_ok=True)
-    arrays = {
+    if recover:
+        arrays = {key: np.load(output/path, mmap_mode="r") for key, path in
+                  [("parent_node_id","parent_node_id.npy"), ("latent","latent_32d.npy"),
+                   ("base_prediction","base_prediction_eigenvalues.npy")]}
+        for key, shape in [("parent_node_id",(n_rows,)), ("latent",(n_rows,32)),
+                           ("base_prediction",(n_rows,3))]:
+            arr = arrays[key]
+            if arr.shape != shape or not all(np.isfinite(arr[i:i+100000]).all()
+                                             for i in range(0,n_rows,100000)):
+                raise ValueError("Invalid saved array: " + key)
+    else:
+        arrays = {
         "parent_node_id": np.lib.format.open_memmap(output / "parent_node_id.npy", mode="w+", dtype=np.int64, shape=(n_rows,)),
         "latent": np.lib.format.open_memmap(output / "latent_32d.npy", mode="w+", dtype=np.float32, shape=(n_rows, args.latent_channels)),
         "base_prediction": np.lib.format.open_memmap(output / "base_prediction_eigenvalues.npy", mode="w+", dtype=np.float32, shape=(n_rows, 3)),
     }
-    cursor = 0
+    cursor = n_rows if recover else 0
     adapter = loader.field_adapter(args.phase)
     with torch.inference_mode():
-        for ref in loader.validation_refs(args.phase):
+        for ref in (() if recover else loader.validation_refs(args.phase)):
             patch = adapter.extract(
                 ref.core_id,
                 args.context_halo,
@@ -246,7 +268,11 @@ def main() -> None:
     truth_by_parent = loader.targets_by_parent(args.phase)
     truth = np.asarray(truth_by_parent[found_parent], dtype=np.float32)
     truth_path = output / "truth_eigenvalues.npy"
-    np.save(truth_path, truth, allow_pickle=False)
+    if recover:
+        if not np.array_equal(np.load(truth_path, mmap_mode="r"), truth):
+            raise ValueError("Saved truth does not match recovered parent order")
+    else:
+        np.save(truth_path, truth, allow_pickle=False)
     parent_redshift = np.load(phase_root / "parent_redshift.npy", mmap_mode="r")
     redshift = np.asarray(parent_redshift[found_parent], dtype=np.float32)
     parent_to_assignment = parent_to_assignment_index(assignment, len(truth_by_parent))
@@ -283,6 +309,7 @@ def main() -> None:
         "precision": {"cudnn_tf32": torch.backends.cudnn.allow_tf32, "matmul_tf32": False,
                       "strict_deterministic": torch.are_deterministic_algorithms_enabled()},
         "export_source_sha256": sha256(Path(__file__)),
+        "prediction_source_job": "61930825" if recover else None,
         "elapsed_seconds": time.monotonic() - started,
         "created_utc": datetime.now(timezone.utc).isoformat(),
         "phase": args.phase,
