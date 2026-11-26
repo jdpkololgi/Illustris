@@ -11,12 +11,14 @@ echo "01a4ed3372075d7486586e275377e6b20587c6c1f2ee4a4489f150adc66d2844  $r" | sh
 [[ "$SLURM_NTASKS" == 16 ]]
 cap=$1; rank=$SLURM_PROCID
 case "$cap" in
+ recoverA) cap=NGC; draws=($((rank+1)));;
+ recoverB) if ((rank<8)); then cap=NGC; draws=($((rank+17))); else cap=SGC; draws=($((rank+9))); if ((rank<15)); then draws+=($((rank+17))); fi; fi;;
  NGC) draws=($((rank+9)));;
  SGC) draws=($((rank+1))); if ((rank<15)); then draws+=($((rank+17))); fi;;
  *) exit 2;;
 esac
 for draw in "${draws[@]}"; do
- if ((draw>16 && SECONDS>7800)); then exit 1; fi
+ if ((SECONDS>7800)); then exit 1; fi
  for stage in density tides; do
    /pscratch/sd/d/dkololgi/conda/envs/cosmic_env/bin/python -u "$r" "$stage" "$cap" "$draw" "$m" "$h"
  done
