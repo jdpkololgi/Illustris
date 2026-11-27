@@ -1,6 +1,6 @@
 # CONTEXT.md — Illustris Live State Dashboard
 
-**Last Modified:** 2026-11-24 (Paper 3 blind confirmation)
+**Last Modified:** 2026-11-27 (Paper 3 blind field readout)
 **Rule:** Overwrite in place on `save-state` (keep ≤ 8 KB / ~150 lines). Durable science goes in `SCIENCE_LOG.md`; Slurm/tmux/receipt telemetry goes in `RUN_LOG.md`. Pre-2026-11-22 context archived in `docs/log_archive/CONTEXT_2026_pre_nov22.md`.
 
 ---
@@ -50,7 +50,7 @@ Only epoch 1 has scores from two encoders. No matched full-development R² yet f
 ## 4. Next Steps & Active Queue (Two Live Codex Tracks)
 
 1. **Paper 2 posterior completion:** OOF ph000 continuation 61929552 and ph001/002/003 array 61930823 queued; full-encoder development export 61930825 queued. Additional ph004/005 and ph007/008 fits launched in approved four-hour interactive allocations 61932924/61932921. Fixed four-epoch schedules and terminal exports. Queued G-PATCH/LitePT/window architecture jobs held at user request; already running CNN left alone. Next: finish fits/exports, prepare posterior data, train FMPE, validate/freeze, then apply to Loa. See `RUN_LOG.md` for receipts.
-2. **Finish Paper 3: mock validation plus a real DESI BGS application.** Blind readout and plots complete. Loa input and response grids verified for both caps; high-z Loa/mock count mismatch persists on three matched footprints. Next: separately approved draw zero per real cap before a full ensemble. Keep full context; prioritize z<0.25 for interpretation. No real-data posterior yet. Separate from the Paper 2 VAC.
+2. **Paper 3:** Both real caps have 32 draws; viewer live. Blind power, localization matrices and mock/Loa interpretation boundaries: docs/paper3_blind_field_handoff.md. Next: write up, retaining high-z transfer caveat.
 3. **Observational handoff (`~/GraphWeb_DESI`):** Keep Loa VAC defaults frozen until the new low-z encoder + FMPE passes dev calibration, sealed `ph018/019` check, and golden-mock parity.
 
 ---

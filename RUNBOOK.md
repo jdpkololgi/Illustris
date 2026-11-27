@@ -1,5 +1,9 @@
 # TNG/Illustris Runbook
 
+## Blind local density spectra
+
+In an approved CPU allocation, run cosmic_env Python on workflows/sbi/blind_local_power.py from the repository root through srun. No GPU or training. Output schema: per registered pair, draw and k bin, [auto-power ratio, normalized cross-power]. Use docs/paper3_blind_field_handoff.md for the reference run and aggregation.
+
 ## Shared phase policy adopted (2026-10-27)
 
 New P12-A and coupled/whole-field CFM campaigns use **20 training / 3 development /

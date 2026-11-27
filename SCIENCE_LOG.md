@@ -1,5 +1,9 @@
 # SCIENCE_LOG.md — Shared Science Log (Illustris ⇄ GraphWeb_DESI)
 
+## Blind local power and localization, 2026-11-27
+
+Median pair-level draw/truth density power in the finest measured band was 0.983/0.939 but normalized cross-power was 0.664/0.627. Matched supported blind windows | ph018/019 | [0.01,0.55) | blind_local_power_62103650. No broad power deficit; not full-cap joint calibration. Tables and paths: docs/paper3_blind_field_handoff.md.
+
 ## 2026-11-27 — Blind CFM filament and knot localization
 
 At matched supported 3D cells across both caps and 32 draws, true filaments received mean wall probabilities 0.402/0.390 and true knots filament probabilities 0.439/0.447 (ph018/ph019). These are draw probabilities, not majority-label errors. True vs inferred filament fractions were 10.28/10.26% and 10.76/10.85%; knots 0.80/1.06% and 0.90/1.09%. Density errors conditional on true filaments and knots were negative in both phases. Localization uncertainty and reduced contrast at true peaks are present in mocks, without requiring projection or Loa domain shift; this does not identify a training failure or rule out additional domain shift.
