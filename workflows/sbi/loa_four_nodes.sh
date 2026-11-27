@@ -8,9 +8,10 @@ r=/global/u2/d/dkololgi/TNG/Illustris/workflows/sbi/lowz_loa_draw.py
 m=/pscratch/sd/d/dkololgi/abacus/e2e_field_v3/lowz_loa_response_61911856/RESPONSE_PREPARED.json
 h=2b82368046841046d1dddfb7e0bcb74401f63ca50adcf21b7f6e48a2db0ba451
 echo "01a4ed3372075d7486586e275377e6b20587c6c1f2ee4a4489f150adc66d2844  $r" | sha256sum -c -
-[[ "$SLURM_NTASKS" == 16 ]]
+if [[ "$1" == final7 ]]; then [[ "$SLURM_NTASKS" == 8 ]]; else [[ "$SLURM_NTASKS" == 16 ]]; fi
 cap=$1; rank=$SLURM_PROCID
 case "$cap" in
+ final7) if ((rank==7)); then exit 0; fi; cap=NGC; draws=($((rank+25)));;
  recoverA) cap=NGC; draws=($((rank+1)));;
  recoverB) if ((rank<8)); then cap=NGC; draws=($((rank+17))); else cap=SGC; draws=($((rank+9))); if ((rank<15)); then draws+=($((rank+17))); fi; fi;;
  NGC) draws=($((rank+9)));;
