@@ -1,5 +1,13 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+## 2026-11-27 — Loa posterior map aggregation
+
+Job 62099144, desi/interactive, nid200014, one CPU node, 32 logical CPUs,
+two hours maximum, no retry. Detached tmux loa-maps on login21. One worker
+per cap; both created map_62099144 beneath their lowz_loa_response_61911856
+cap directories. Require both MAP_COMPLETE.json receipts and verify map values
+before reporting completion. Logs: $SCRATCH/abacus/loa-maps-62099144-{0,1}.log.
+
 ## 2026-11-27 — Development-only CPU table
 
 62094904 completed exit 0 in 45 seconds on nid200033, tmux p12-dev-table
