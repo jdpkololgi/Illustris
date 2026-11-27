@@ -1,5 +1,7 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+- Loa galaxy-point export and matched blind 32-draw diagnosis: CPU job 62103339 completed 0:0. Products: /pscratch/sd/d/dkololgi/abacus/e2e_field_v3/loa_points_blind_62103339 (NGC/SGC points and ph018/ph019 JSON). No new CFM inference.
+
 ## 2026-11-27 — Loa posterior map aggregation
 
 Job 62099144, desi/interactive, nid200014, one CPU node, 32 logical CPUs,

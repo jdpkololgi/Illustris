@@ -1,5 +1,9 @@
 # SCIENCE_LOG.md — Shared Science Log (Illustris ⇄ GraphWeb_DESI)
 
+## 2026-11-27 — Blind CFM filament and knot localization
+
+At matched supported 3D cells across both caps and 32 draws, true filaments received mean wall probabilities 0.402/0.390 and true knots filament probabilities 0.439/0.447 (ph018/ph019). These are draw probabilities, not majority-label errors. True vs inferred filament fractions were 10.28/10.26% and 10.76/10.85%; knots 0.80/1.06% and 0.90/1.09%. Density errors conditional on true filaments and knots were negative in both phases. Localization uncertainty and reduced contrast at true peaks are present in mocks, without requiring projection or Loa domain shift; this does not identify a training failure or rule out additional domain shift.
+
 ## 2026-11-27 — Corrected P12-A development sample assembled
 
 200,000 supported, shell-stratified galaxies each from ph006/012/013 have
