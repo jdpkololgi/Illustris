@@ -1,5 +1,12 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+## 2026-11-27 — Development-only CPU table
+
+62094904 completed exit 0 in 45 seconds on nid200033, tmux p12-dev-table
+on login21, desi/interactive, 64 CPUs. Builder ca9995d. Output
+`$SCRATCH/abacus/p12a_development_table_62094904/selection_sample.npz`
+SHA256 9f792dd000cadffdd72e5270ffa3d6bf172e6f3704aa31006b965acb0b86fef9.
+
 ## 2026-11-26 — Flexible 48-hour OOF continuations
 
 All 20 first-stage tasks running. Replaced pending chains with launcher

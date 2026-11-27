@@ -1,5 +1,15 @@
 # SCIENCE_LOG.md — Shared Science Log (Illustris ⇄ GraphWeb_DESI)
 
+## 2026-11-27 — Corrected P12-A development sample assembled
+
+200,000 supported, shell-stratified galaxies each from ph006/012/013 have
+verified parent identity, ordered mock truth, full-encoder predictions and
+seven finite conditioning inputs. Of 600,000 sampled rows, 139,478 have
+0.01 ≤ z < 0.15. Sampling weights and phase indices are stored. Whole-phase
+separation is available; the historical spatial calibration split remains
+unqualified. Assign calibration and reporting roles before fitting.
+Evidence: `$SCRATCH/abacus/p12a_development_table_62094904/DEVELOPMENT_TABLE_COMPLETE.json`.
+
 ## 2026-11-26 — Legacy split distance blocked corrected P12-A export
 
 Development export 61930825 reached the response assembly after checking
