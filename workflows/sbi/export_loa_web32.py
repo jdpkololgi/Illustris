@@ -23,12 +23,12 @@ with h5py.File(p) as f:
  ras=np.deg2rad(np.arange(360)+.5); kept=[]; checked=0
  for j in range(180):
   dec=np.deg2rad(j-89.5); direction=np.stack((np.cos(dec)*np.cos(ras),np.cos(dec)*np.sin(ras),np.full(360,np.sin(dec))),-1)
-  ix=np.floor((rad[:,None,None]*direction-o)/dx).astype(int);valid=((ix>=0)&(ix<shell.shape)).all(-1);idx=tuple(np.clip(ix,0,np.array(shell.shape)-1).T[::-1]) if False else tuple(np.moveaxis(np.clip(ix,0,np.array(shell.shape)-1),-1,0))
+  ix=np.floor((rad[:,None,None]*direction-o)/dx).astype(int);valid=((ix>=0)&(ix<shell.shape)).all(-1);idx=tuple(np.moveaxis(np.clip(ix,0,np.array(shell.shape)-1),-1,0))
   valid &= shell[idx]>=0
   if not valid.any() and not counts[j].any():continue
   a=np.zeros((208,360,9),dtype='<u2');a[...,8]=counts[j]
   if valid.any():
-   k=tuple(x[valid] for x in idx);raw=np.column_stack([rho[k],q[k]]);v=prob[k]*32
+   k=tuple(x[valid] for x in idx);raw=np.column_stack([rho[k],q[k]]).astype(np.float64);v=prob[k]*32
    assert (np.diff(raw[:,1:],axis=1)>=0).all() and (v==np.rint(v)).all() and (v.sum(1)==32).all()
    code=np.rint(np.log(raw)*2048+32768);assert ((code>0)&(code<65536)).all()
    a[valid,:4]=code;a[valid,4:8]=v
