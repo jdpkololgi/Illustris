@@ -11,6 +11,7 @@
   - **Core contribution:** Encoder-independent methodology yielding calibrated joint posteriors over the three ordered Gaussian-$R_7$ ($7\ h^{-1}\mathrm{Mpc}$) tidal-tensor eigenvalues ($\lambda_1 \le \lambda_2 \le \lambda_3$, softplus increment parameterisation) and derived T-Web classes ($\lambda_{\mathrm{th}}=0.2$) over **$0.01 \le z < 0.55$**.
   - **Current stage:** Seed 42 passes physical interval and TARP checks but fails the rank-shape test. Corrected two-cap Loa pilot complete; release and blind opening held.
 - **Paper 3 (Separate / Experimental — Coherent 3D Field-Level Posterior via CFM):**
+  - **Sampler claim:** Overlapping windows update one coarse and one conditional fine canvas per cap. Same-cell agreement is enforced, not a calibration result. Joint draws retain short-range filament association lost by independent resampling; held-out results do not show consistent superiority to a matched spatial rank template. See the [sampler interpretation](SCIENCE_LOG.md#2026-11-28--paper-iii-what-the-shared-canvas-sampler-guarantees).
   - Two-stage coarse + fine 3D Conditional Flow Matching over full survey caps ($0.01 \le z < 0.55$). Not a dependency for Paper 2.
   - **Current stage:** Frozen model scored on both blind phases (128 draws); better single-cell density, eigenvalue and class forecasts than the matched count baseline on each phase. Low-z density intervals remain cautious. The matched-rank spatial follow-up is complete. Current venue decision is an astronomy journal and a non-archival ML workshop.
 
