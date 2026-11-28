@@ -1,5 +1,9 @@
 # SCIENCE_LOG.md — Shared Science Log (Illustris ⇄ GraphWeb_DESI)
 
+## 2026-11-28 — Produce the corrected P12-A Loa catalogue independently of P12-B
+
+Use the unchanged golden-tested epoch-4 encoder, seed-42 FMPE and ph006 width correction for the full Loa science-range census. Retain unsupported TARGETIDs with null posteriors. Record failed development SBC, absence of independent blind validation and high-redshift selection caution in the product; do not imply that producing or publishing probabilities demonstrates their calibration. P12-B representation and joint-training ablations are a separate research question.
+
 ## 2026-11-28 — Corrected P12-A applied to a bounded Loa sample
 
 Deployment parity passed: 128 ph006 contexts × 256 archived standardized posterior draws; independently rebuilt low-z ph012 patch channels and seven-column contexts passed in both caps (74 SGC, 54 NGC; maximum context discrepancy 1.95e−6). Loa: 20 selected core/shell/edge strata, 2,210 unique galaxies, 2,195 supported posteriors (510 below z=0.15); 15 flagged without posterior. Finite ordered quantiles and normalized four-class probabilities passed row-level checks. GraphWeb evidence: docs/evidence/p12a_lowz_pilot_62157045/{pilot.json,pilot.png}. Selected cores are not representative, Loa has no truth, and these checks do not resolve the development SBC failure. P12-A blind phases remain sealed.

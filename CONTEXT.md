@@ -51,7 +51,7 @@ Only epoch 1 has scores from two encoders. No matched full-development R² yet f
 
 ## 4. Next Steps & Active Queue (Two Live Codex Tracks)
 
-1. **Paper 2:** Corrected golden parity and bounded internal Loa pilot passed. Resolve residual development rank/gap error before freezing for the blind release check. Do not tune on Loa.
+1. **Paper 2:** Full versioned corrected P12-A Loa VAC production authorized and submitted independently of P12-B (RUN_LOG). Verify the FITS, full TARGETID census and draw index before handoff. SBC failure remains a documented limitation; do not tune on Loa.
 2. **Paper 3:** Both real caps have 32 draws. Use the [scientific audit and principal figure](docs/paper3_cfm_scientific_audit_20261128.md) for the astronomy methods paper and workshop. Retain the fixed-snapshot and high-z Loa transfer caveats.
 3. **Observational handoff (`~/GraphWeb_DESI`):** Keep Loa VAC defaults frozen until the new low-z encoder + FMPE passes dev calibration, sealed `ph018/019` check, and golden-mock parity.
 

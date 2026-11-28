@@ -1,5 +1,7 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+Corrected Loa P12-A full VAC: CPU field build 62157891 (GraphWeb 748f7f2); afterok GPU array 62158093[0-15]; afterok CPU FITS merge 62158097 (GraphWeb fc6edef). Scratch graphweb_desi/catalogs/loa_lowz_62157891/. No automatic retries. FULL_VAC_COMPLETE.json and its FITS checksum are required for delivery; queue state alone is not completion.
+
 62157045 COMPLETED 0:0 in 4m21s; allocation released. Both GOLDEN_PASS.json and INTERNAL_PILOT_COMPLETE.json present. GraphWeb readout check verified all twenty shards and unique row identities.
 
 62157045: tmux loa_lowz_ed373de, nid002612, one GPU / 32 CPUs desi_g/shared_interactive, four hours maximum, no retries. Corrected GraphWeb deployment ed373de; upstream Illustris 19486d9. Log and outputs: $SCRATCH/abacus/loa_lowz_pilot_ed373de{.log,/}. Only GOLDEN_PASS.json permits observer inference; INTERNAL_PILOT_COMPLETE.json indicates all pilot strata processed, not release clearance.
