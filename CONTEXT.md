@@ -9,7 +9,7 @@
 
 - **Paper 2 (Primary — Per-Galaxy Probabilistic Cosmic Web VAC for DESI DR2 BGS_BRIGHT):**
   - **Core contribution:** Encoder-independent methodology yielding calibrated joint posteriors over the three ordered Gaussian-$R_7$ ($7\ h^{-1}\mathrm{Mpc}$) tidal-tensor eigenvalues ($\lambda_1 \le \lambda_2 \le \lambda_3$, softplus increment parameterisation) and derived T-Web classes ($\lambda_{\mathrm{th}}=0.2$) over **$0.01 \le z < 0.55$**.
-  - **Current stage:** Whole-phase FMPE development readout complete. Primary seed 42 passes physical interval and TARP checks but fails the rank-shape test. Production freeze, blind opening and Loa application held.
+  - **Current stage:** Seed 42 passes physical interval and TARP checks but fails the rank-shape test. Corrected two-cap Loa pilot complete; release and blind opening held.
 - **Paper 3 (Separate / Experimental — Coherent 3D Field-Level Posterior via CFM):**
   - Two-stage coarse + fine 3D Conditional Flow Matching over full survey caps ($0.01 \le z < 0.55$). Not a dependency for Paper 2.
   - **Current stage:** Frozen model scored on both blind phases (128 draws); better single-cell density, eigenvalue and class forecasts than the matched count baseline on each phase. Low-z density intervals remain cautious. The matched-rank spatial follow-up is complete. Current venue decision is an astronomy journal and a non-archival ML workshop.
@@ -22,6 +22,7 @@
 
 | metric | split_type | phase_set | z_range | artifact_id |
 | --- | --- | --- | --- | --- |
+| 2,195 supported posteriors / 2,210 unique rows; 510 supported below z=0.15 | internal geometry-selected deployment only | Loa SGC/NGC | [0.01,0.55) | GraphWeb docs/evidence/p12a_lowz_pilot_62157045/pilot.json |
 | Empirical CRPS(residual-rank CFM) minus CRPS(coherent CFM) at one cell: −0.000072 / +0.000367 | frozen Paper III held-out spatial follow-up, 16 equal-weight supported regions per phase, 20 matched members | ph018/019 | [0.01,0.55) | 62142570, docs/evidence/paper3_audit_20261128/all_phase_scores.csv |
 | CFM fair CRPS improvement vs matched count baseline: 19.3/23.6/20.7/27.1% (density, ordered tides) | preregistered supported blind cells, both caps | ph018/019 | [0.01,0.55) | `docs/evidence/lowz_cfm_blind_score_table.json` |
 | CFM nominal 81.82% interval: observed coverage 83.95% (density), 81.86% / 82.33% / 81.48% (ordered tides) | supported registered development cells, cell-weighted, both caps | ph006/012/013 | [0.01,0.55) | `$SCRATCH/abacus/e2e_field_v3/lowz_calibration_61647276/CALIBRATION.json` |
@@ -50,7 +51,7 @@ Only epoch 1 has scores from two encoders. No matched full-development R² yet f
 
 ## 4. Next Steps & Active Queue (Two Live Codex Tracks)
 
-1. **Paper 2 pilot:** Corrected GraphWeb launcher ed373de pins epoch 4, seed-42 FMPE and the ph006 width correction. Require posterior and mock observer parity before the internal two-cap, five-shell Loa pilot. See RUN_LOG for execution and receipts. This tests deployment, not calibration; hold release and blind opening.
+1. **Paper 2:** Corrected golden parity and bounded internal Loa pilot passed. Resolve residual development rank/gap error before freezing for the blind release check. Do not tune on Loa.
 2. **Paper 3:** Both real caps have 32 draws. Use the [scientific audit and principal figure](docs/paper3_cfm_scientific_audit_20261128.md) for the astronomy methods paper and workshop. Retain the fixed-snapshot and high-z Loa transfer caveats.
 3. **Observational handoff (`~/GraphWeb_DESI`):** Keep Loa VAC defaults frozen until the new low-z encoder + FMPE passes dev calibration, sealed `ph018/019` check, and golden-mock parity.
 
