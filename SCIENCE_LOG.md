@@ -1,5 +1,9 @@
 # SCIENCE_LOG.md — Shared Science Log (Illustris ⇄ GraphWeb_DESI)
 
+## 2026-11-28 — Corrected posterior eigengap rank replay
+
+Across 25,000 matched galaxies per reporting phase (ph012/ph013, corrected 0.01 ≤ z < 0.55), both FMPE seeds overpredict the population-weighted mean physical gap λ3−λ2. For seed 42 the excess is 0.00955/0.00905, against true means 0.26861/0.26727. Seed 42 randomized mean gap ranks are 0.4663/0.4654; both 128-Mpc spatial-block bootstrap intervals exclude 0.5. The shift predates scalar width calibration and appears in every redshift bin. Joint TARP curves replay the saved results. This diagnoses a conditional posterior mismatch, not its training-level cause. No change to the model or production gate. Evidence: `docs/evidence/p12/development_20261128/rank_diagnosis.json`, `sbc.png`, `tarp.png`.
+
 ## 2026-11-28 — Corrected P12-A development gate did not clear
 
 Whole-phase split: width calibrated on ph006 only, evaluation ph012 and ph013 (25,000 matched rows each, 256 draws per row, corrected 0.01 ≤ z < 0.55). Primary seed 42 met physical marginal/shell coverage, mean accuracy and TARP criteria on both phases but failed the increment-coordinate rank-shape test on both. Replication seed 43 also failed marginal coverage on both. The legacy continuous-uniform KS diagnostic on discrete, spatially dependent ranks is not a calibrated significance test; preserve the recorded failure, do not tune to the reporting phases. Both FMPE candidates used internal training-row early stopping rather than fixed-budget terminal weights. No blind access or release. Evidence: `docs/evidence/p12/development_20261128/seed{42,43}.json`.

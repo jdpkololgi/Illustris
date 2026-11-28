@@ -1,5 +1,7 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+CPU replay 62151724: desi/interactive, one node, 16 CPUs, 20-minute limit, released on completion. Source 876ee5c; outputs `$SCRATCH/abacus/p12a_rank_replay_876ee5c/`. No fitting or blind access.
+
 ## 2026-11-28 — Corrected FMPE development score
 
 Jobs 62151034/62151035, tmux p12dev{42,43}_6ade76a on login33, four 4-GPU nodes each, desi_g/interactive. Both COMPLETED 0:0 in 49 seconds. Source 6ade76a; raw shards and score reports in `$SCRATCH/abacus/p12a_dev_6ade76a/{42,43}`. No blind or Loa jobs.

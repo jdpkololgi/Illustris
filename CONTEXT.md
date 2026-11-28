@@ -49,7 +49,7 @@ Only epoch 1 has scores from two encoders. No matched full-development R² yet f
 
 ## 4. Next Steps & Active Queue (Two Live Codex Tracks)
 
-1. **Paper 2 posterior validation:** Diagnose finite-draw rank shape and spatial dependence using saved development samples; reconcile early stopping with fixed-budget policy before freeze. No blind opening. Evidence: `docs/evidence/p12/development_20261128/seed{42,43}.json`.
+1. **Paper 2 posterior validation:** Matched replay identifies a pre-calibration positive bias in λ3−λ2 across both seeds and reporting phases. Investigate training-OOF versus full-encoder transfer before choosing a remedy; reconcile checkpoint policy before freeze. Blind pair remains sealed. Evidence: `docs/evidence/p12/development_20261128/rank_diagnosis.json`.
 2. **Paper 3:** Both real caps have 32 draws; viewer live. Blind power, localization matrices and mock/Loa interpretation boundaries: docs/paper3_blind_field_handoff.md. Next: write up, retaining high-z transfer caveat.
 3. **Observational handoff (`~/GraphWeb_DESI`):** Keep Loa VAC defaults frozen until the new low-z encoder + FMPE passes dev calibration, sealed `ph018/019` check, and golden-mock parity.
 
