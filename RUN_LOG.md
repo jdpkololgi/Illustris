@@ -1,5 +1,7 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+Matched development encoder comparison: 62152889/ph012 and 62152890/ph013, four 4-GPU nodes apiece, desi_g/interactive, one-hour cap, Scratch, no retry. tmux match_ph{012,013}_bb9. Revision bb9a6d4, outputs `$SCRATCH/abacus/p12_encoder_match_bb9a6d4/`.
+
 62152258: single A100, desi_g/shared_interactive, 32 CPUs, Scratch, 30-minute maximum, COMPLETED 0:0 after 2m53s. Immutable source 65edc95; p12_gap_65edc95/attribution.json.
 
 CPU replay 62151724: desi/interactive, one node, 16 CPUs, 20-minute limit, released on completion. Source 876ee5c; outputs `$SCRATCH/abacus/p12a_rank_replay_876ee5c/`. No fitting or blind access.
