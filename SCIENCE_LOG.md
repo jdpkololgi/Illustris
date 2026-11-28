@@ -1,5 +1,9 @@
 # SCIENCE_LOG.md — Shared Science Log (Illustris ⇄ GraphWeb_DESI)
 
+## 2026-11-28 — Epoch budget and Loa decision boundary
+
+Macro R² λ1 | whole-phase corrected development, full seed-42 encoder | ph006/012/013 | [0.01,0.55) | `$SCRATCH/abacus/p12a_lowz_full_seed42_61548250/full/unet/seed_42/epoch_history.jsonl`: 0.4351, 0.5092, 0.5666, 0.5825 at epochs 1–4. Epoch 4 ended with learning rate zero. This is evidence of improving point prediction, not evidence that extending training will repair posterior calibration. The current recommendation distinguishes an internal, parity-gated deployment pilot from science release; neither Loa data nor sealed mock truth are to select a training epoch.
+
 ## 2026-11-28 — Epoch-1 replay rules out a purely late onset of the corrected gap bias
 
 Natural-weighted predicted minus true λ3−λ2 | matched development rows, 4,096 galaxies/phase | ph012/ph013 | 0.01 ≤ z < 0.55 | `docs/evidence/p12/epoch_parity_20261128/{ph012,ph013}.json`. Recovered epoch-1 full encoder (step 346364) +0.04389/+0.04082; terminal epoch 4 +0.00625/+0.00638. Paired changes −0.03763/−0.03445, both 95% spatial-block intervals exclude zero. Not evidence of monotonicity or that longer training removes residual bias. Same directory: validation hexbin parity PNGs, including seed-42 FMPE posterior mean, and previously opened historical ph001 test PNG (old model, 50,000 rows, 0.15–0.55). Old encoder: 20 × 84,446 updates; corrected: 4 × 346,364. No new blind opening.

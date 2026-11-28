@@ -1,5 +1,7 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+P12-A parity handoff verified: replay implementation 4005bd1, submission receipt 19e89cd, evidence and plots 4804ac3. Both development JSONs and all three PNGs are tracked. No continuation, blind opening or Loa inference submitted as part of this documentation update.
+
 62154873 and 62154874 completed 0:0 in 2m02s/1m48s. Epoch-1 checkpoint SHA-256 6ceb15b449e0751757dfecff082af98becb7093f1c96e90d0aaac56e98bd5231 matched migration receipt. Historical test truth and frozen prediction shards verified.
 
 Epoch-1 parity replay: 62154873/ph012 and 62154874/ph013, 16 GPUs per job, desi_g/interactive, 30 minutes maximum, auto-release, no retry. Source 4005bd1. Outputs `$SCRATCH/abacus/p12_parity_4005bd1`; historical ph001 plots use only previously opened artifacts.

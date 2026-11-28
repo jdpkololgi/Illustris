@@ -49,7 +49,7 @@ Only epoch 1 has scores from two encoders. No matched full-development R² yet f
 
 ## 4. Next Steps & Active Queue (Two Live Codex Tracks)
 
-1. **Paper 2 posterior validation:** Full-encoder gap offset follows the weights; it was larger at epoch 1 than epoch 4 on identical ph012/013 galaxies. No evidence yet that longer training fixes the residual. Keep preprocessing fixed and blind pair sealed; reconcile checkpoint policy before freeze. See `docs/evidence/p12/epoch_parity_20261128/` for truth/prediction PNGs and paired estimates.
+1. **Paper 2 recommendation (not launched):** Pin epoch-4 encoder + seed-42 FMPE and its ph006 width correction. Verify corrected golden-mock inference parity, then run a bounded internal Loa pilot spanning caps/redshift, flagged provisional. This checks deployment, not calibration. Hold the release VAC and blind opening. Do not extend all 20 folds on the epoch-1/4 contrast alone. See `docs/evidence/p12/epoch_parity_20261128/`.
 2. **Paper 3:** Both real caps have 32 draws; viewer live. Blind power, localization matrices and mock/Loa interpretation boundaries: docs/paper3_blind_field_handoff.md. Next: write up, retaining high-z transfer caveat.
 3. **Observational handoff (`~/GraphWeb_DESI`):** Keep Loa VAC defaults frozen until the new low-z encoder + FMPE passes dev calibration, sealed `ph018/019` check, and golden-mock parity.
 
