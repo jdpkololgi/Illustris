@@ -1,5 +1,7 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+- 62121276: one desi/interactive CPU node, 8 logical CPUs in the step, Scratch, one-hour ceiling. All 20 training donors and 48 development regions completed; exit zero and allocation released. Source 84cd321; spatial_venue_62121276/ph{006,012,013}.json.
+
 - CPU interactive 62103650, nid200062, desi, Scratch, 2 logical CPUs, 15-minute ceiling; both blind phase outputs passed support counts; exit 0 and allocation relinquished. See docs/paper3_blind_field_handoff.md.
 
 - Loa galaxy-point export and matched blind 32-draw diagnosis: CPU job 62103339 completed 0:0. Products: /pscratch/sd/d/dkololgi/abacus/e2e_field_v3/loa_points_blind_62103339 (NGC/SGC points and ph018/ph019 JSON). No new CFM inference.

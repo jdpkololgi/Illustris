@@ -1,5 +1,9 @@
 # SCIENCE_LOG.md — Shared Science Log (Illustris ⇄ GraphWeb_DESI)
 
+## 2026-11-27 — Spatial dependence adds predictive skill but not uniform coverage
+
+Equal-region fair CRPS for connected filament-indicator covariance | registered supported development pairs (16 per phase, both caps; 32 draws) | ph006/012/013 | [0.01,0.55) | spatial_venue_62121276. CFM beat cellwise draw shuffling and training-region correlated residuals at all three Cartesian lags (1,2,4 fine cells) on each phase. Shuffled 5th–95th intervals missed truth in all 48 regions at lags 1 and 2. CFM one-cell interval coverage 14/16,14/16,10/16. At observation-selected concentrations the mean truth-to-draw and draw-to-draw peak distances agreed within 0.22 Mpc/h per phase; median-draw peak heights averaged below truth on each phase. Descriptive, not fresh confirmation or proof of peak calibration. Reproduce tables with workflows/sbi/read_spatial_venue.py on the Scratch output under abacus/e2e_field_v3.
+
 ## Blind local power and localization, 2026-11-27
 
 Median pair-level draw/truth density power in the finest measured band was 0.983/0.939 but normalized cross-power was 0.664/0.627. Matched supported blind windows | ph018/019 | [0.01,0.55) | blind_local_power_62103650. No broad power deficit; not full-cap joint calibration. Tables and paths: docs/paper3_blind_field_handoff.md.
