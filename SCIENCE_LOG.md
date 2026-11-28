@@ -1,5 +1,9 @@
 # SCIENCE_LOG.md — Shared Science Log (Illustris ⇄ GraphWeb_DESI)
 
+## 2026-11-28 — Epoch-1 replay rules out a purely late onset of the corrected gap bias
+
+Natural-weighted predicted minus true λ3−λ2 | matched development rows, 4,096 galaxies/phase | ph012/ph013 | 0.01 ≤ z < 0.55 | `docs/evidence/p12/epoch_parity_20261128/{ph012,ph013}.json`. Recovered epoch-1 full encoder (step 346364) +0.04389/+0.04082; terminal epoch 4 +0.00625/+0.00638. Paired changes −0.03763/−0.03445, both 95% spatial-block intervals exclude zero. Not evidence of monotonicity or that longer training removes residual bias. Same directory: validation hexbin parity PNGs, including seed-42 FMPE posterior mean, and previously opened historical ph001 test PNG (old model, 50,000 rows, 0.15–0.55). Old encoder: 20 × 84,446 updates; corrected: 4 × 346,364. No new blind opening.
+
 ## 2026-11-28 — Learned weights, not inference transforms, drive full/fold gap shift
 
 Natural-weighted full-minus-fold mean physical λ3−λ2 | matched 4,096 development galaxies per phase, full vs omitted-ph000/010/024 | ph012/ph013 | 0.01 ≤ z < 0.55 | `docs/evidence/p12/development_20261128/swaps_{ph012,ph013}.json`. All 16 mixtures of weights, input normalization, selection and output scaling scored per comparison. Native gap predictions reproduced bitwise. Full-minus-fold shift +0.00606 to +0.00764. Weight-only effect +0.00606 to +0.00767 holding fold transforms fixed. Averaging over swap orders, weights explain 100.02–100.66% (minor counteracting transforms); all six block-bootstrap weight intervals exclude zero. Inference-time attribution only, not a training-history or layer-level attribution. No release or model changes.
