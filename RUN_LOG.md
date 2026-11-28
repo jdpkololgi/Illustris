@@ -1,5 +1,7 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+62157045: tmux loa_lowz_ed373de, nid002612, one GPU / 32 CPUs desi_g/shared_interactive, four hours maximum, no retries. Corrected GraphWeb deployment ed373de; upstream Illustris 19486d9. Log and outputs: $SCRATCH/abacus/loa_lowz_pilot_ed373de{.log,/}. Only GOLDEN_PASS.json permits observer inference; INTERNAL_PILOT_COMPLETE.json indicates all pilot strata processed, not release clearance.
+
 P12-A parity handoff verified: replay implementation 4005bd1, submission receipt 19e89cd, evidence and plots 4804ac3. Both development JSONs and all three PNGs are tracked. No continuation, blind opening or Loa inference submitted as part of this documentation update.
 
 62154873 and 62154874 completed 0:0 in 2m02s/1m48s. Epoch-1 checkpoint SHA-256 6ceb15b449e0751757dfecff082af98becb7093f1c96e90d0aaac56e98bd5231 matched migration receipt. Historical test truth and frozen prediction shards verified.

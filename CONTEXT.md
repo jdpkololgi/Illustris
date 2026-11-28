@@ -50,7 +50,7 @@ Only epoch 1 has scores from two encoders. No matched full-development R² yet f
 
 ## 4. Next Steps & Active Queue (Two Live Codex Tracks)
 
-1. **Paper 2 recommendation (not launched):** Pin epoch-4 encoder + seed-42 FMPE and its ph006 width correction. Verify corrected golden-mock inference parity, then run a bounded internal Loa pilot spanning caps/redshift, flagged provisional. This checks deployment, not calibration. Hold the release VAC and blind opening. Do not extend all 20 folds on the epoch-1/4 contrast alone. See `docs/evidence/p12/epoch_parity_20261128/`.
+1. **Paper 2 pilot:** Corrected GraphWeb launcher ed373de pins epoch 4, seed-42 FMPE and the ph006 width correction. Require posterior and mock observer parity before the internal two-cap, five-shell Loa pilot. See RUN_LOG for execution and receipts. This tests deployment, not calibration; hold release and blind opening.
 2. **Paper 3:** Both real caps have 32 draws. Use the [scientific audit and principal figure](docs/paper3_cfm_scientific_audit_20261128.md) for the astronomy methods paper and workshop. Retain the fixed-snapshot and high-z Loa transfer caveats.
 3. **Observational handoff (`~/GraphWeb_DESI`):** Keep Loa VAC defaults frozen until the new low-z encoder + FMPE passes dev calibration, sealed `ph018/019` check, and golden-mock parity.
 

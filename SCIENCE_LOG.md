@@ -1,5 +1,9 @@
 # SCIENCE_LOG.md — Shared Science Log (Illustris ⇄ GraphWeb_DESI)
 
+## 2026-11-28 — Separate corrected Loa deployment from historical replay
+
+The historical GraphWeb Loa canary selected context at z≥0.10 and assigned target shells only at z≥0.15, using the earlier selection manifest. It cannot test deployment of the corrected [0.01,0.55) P12-A. GraphWeb commit ed373de adds a separate corrected, target-free observer path and requires explicit historical replay on the old CLI. The internal pilot requires matched posterior draws on ph006 and independently reconstructed patch/encoder/context parity on ph012 before opening Loa. Neither gate establishes calibration on DESI or authorizes release; no new blind mock is needed.
+
 ## 2026-11-28 — Epoch budget and Loa decision boundary
 
 Macro R² λ1 | whole-phase corrected development, full seed-42 encoder | ph006/012/013 | [0.01,0.55) | `$SCRATCH/abacus/p12a_lowz_full_seed42_61548250/full/unet/seed_42/epoch_history.jsonl`: 0.4351, 0.5092, 0.5666, 0.5825 at epochs 1–4. Epoch 4 ended with learning rate zero. This is evidence of improving point prediction, not evidence that extending training will repair posterior calibration. The current recommendation distinguishes an internal, parity-gated deployment pilot from science release; neither Loa data nor sealed mock truth are to select a training epoch.
