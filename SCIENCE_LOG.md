@@ -1,5 +1,9 @@
 # SCIENCE_LOG.md — Shared Science Log (Illustris ⇄ GraphWeb_DESI)
 
+## 2026-11-28 — Corrected 20-phase P12-A posterior training sample
+
+The corrected P12-A posterior training sample passed assembly: 100,000 supported galaxies per omitted phase, 2,000,000 total, including 466,146 with z<0.15. Each seven-feature row uses an encoder trained without its phase; joins checked parent identity, truth, redshift, cap, shell and support provenance. Development and sealed phases are excluded. Receipt: `$SCRATCH/abacus/p12a_oof_fmpe_20261128_f036ce3/P12A_DATASET_READY.json`; training sample SHA-256 e1068aedda9da943cc58442d7deb5515b3028632e0860d6ed49ba995bada380e. This establishes the training sample, not posterior calibration.
+
 ## 2026-11-27 — Spatial dependence adds predictive skill but not uniform coverage
 
 Equal-region fair CRPS for connected filament-indicator covariance | registered supported development pairs (16 per phase, both caps; 32 draws) | ph006/012/013 | [0.01,0.55) | spatial_venue_62121276. CFM beat cellwise draw shuffling and training-region correlated residuals at all three Cartesian lags (1,2,4 fine cells) on each phase. Shuffled 5th–95th intervals missed truth in all 48 regions at lags 1 and 2. CFM one-cell interval coverage 14/16,14/16,10/16. At observation-selected concentrations the mean truth-to-draw and draw-to-draw peak distances agreed within 0.22 Mpc/h per phase; median-draw peak heights averaged below truth on each phase. Descriptive, not fresh confirmation or proof of peak calibration. Reproduce tables with workflows/sbi/read_spatial_venue.py on the Scratch output under abacus/e2e_field_v3.
