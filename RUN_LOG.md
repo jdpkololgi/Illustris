@@ -1,5 +1,7 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+Epoch-1 parity replay: 62154873/ph012 and 62154874/ph013, 16 GPUs per job, desi_g/interactive, 30 minutes maximum, auto-release, no retry. Source 4005bd1. Outputs `$SCRATCH/abacus/p12_parity_4005bd1`; historical ph001 plots use only previously opened artifacts.
+
 62153758/62153759 exited COMPLETED 0:0 after 10m27s/10m32s, respectively; phase JSON includes all factorial cell means, endpoint checks and paired spatial block estimates.
 
 62153758/ph012 and 62153759/ph013: full/fold factorial encoder swaps, 16 GPUs per job (desi_g/interactive, four nodes, one hour, Scratch, no retry). Frozen f0b48dd; outputs `$SCRATCH/abacus/p12_swaps_f0b48dd/`.
