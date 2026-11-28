@@ -34,6 +34,15 @@ Both corrected FMPE estimators finished 63 epochs and reloaded their best (epoch
 
 The corrected P12-A posterior training sample passed assembly: 100,000 supported galaxies per omitted phase, 2,000,000 total, including 466,146 with z<0.15. Each seven-feature row uses an encoder trained without its phase; joins checked parent identity, truth, redshift, cap, shell and support provenance. Development and sealed phases are excluded. Receipt: `$SCRATCH/abacus/p12a_oof_fmpe_20261128_f036ce3/P12A_DATASET_READY.json`; training sample SHA-256 e1068aedda9da943cc58442d7deb5515b3028632e0860d6ed49ba995bada380e. This establishes the training sample, not posterior calibration.
 
+## 2026-11-28 — Paper III marginal-preserving dependence control and held-out follow-up
+
+| metric | split_type | phase_set | z_range | artifact_id |
+|---|---|---|---|---|
+| Empirical CRPS(residual-rank CFM) minus CRPS(coherent CFM), one-cell within-region filament covariance: +0.000937 / +0.000082 / +0.000175 | matched 20-member development, 16 equal-weight supported regions per phase, both caps | ph006/012/013 | [0.01,0.55) | 62142490, docs/evidence/paper3_audit_20261128/all_phase_scores.csv |
+| Same paired difference: −0.000072 / +0.000367 | frozen Paper III held-out spatial follow-up, 16 equal-weight supported regions per phase, 20 members | ph018/019 | [0.01,0.55) | 62142570, docs/evidence/paper3_audit_20261128/all_phase_scores.csv |
+
+The original development statistic vectors replayed. Independent cellwise shuffling preserves filament marginals and loses short-lag skill. Transferring the filament-margin ranks of 20 training residual fields to intact CFM tuples recovers much of that skill. The ph018 one-cell ordering changes across fixed subsets. Ph019 favors coherent CFM throughout. These phases had previously been scored for Paper III marginals. Decision: astronomy methods journal plus non-archival ML workshop. [Audit, figure and calibration diagnostics](docs/paper3_cfm_scientific_audit_20261128.md).
+
 ## 2026-11-27 — Spatial dependence adds predictive skill but not uniform coverage
 
 Equal-region fair CRPS for connected filament-indicator covariance | registered supported development pairs (16 per phase, both caps; 32 draws) | ph006/012/013 | [0.01,0.55) | spatial_venue_62121276. CFM beat cellwise draw shuffling and training-region correlated residuals at all three Cartesian lags (1,2,4 fine cells) on each phase. Shuffled 5th–95th intervals missed truth in all 48 regions at lags 1 and 2. CFM one-cell interval coverage 14/16,14/16,10/16. At observation-selected concentrations the mean truth-to-draw and draw-to-draw peak distances agreed within 0.22 Mpc/h per phase; median-draw peak heights averaged below truth on each phase. Descriptive, not fresh confirmation or proof of peak calibration. Reproduce tables with workflows/sbi/read_spatial_venue.py on the Scratch output under abacus/e2e_field_v3.

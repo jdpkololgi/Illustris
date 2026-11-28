@@ -1,6 +1,6 @@
 # CONTEXT.md — Illustris Live State Dashboard
 
-**Last Modified:** 2026-11-27 (Paper 3 blind field readout)
+**Last Modified:** 2026-11-28 (Paper III spatial audit and publication decision)
 **Rule:** Overwrite in place on `save-state` (keep ≤ 8 KB / ~150 lines). Durable science goes in `SCIENCE_LOG.md`; Slurm/tmux/receipt telemetry goes in `RUN_LOG.md`. Pre-2026-11-22 context archived in `docs/log_archive/CONTEXT_2026_pre_nov22.md`.
 
 ---
@@ -12,7 +12,7 @@
   - **Current stage:** Whole-phase FMPE development readout complete. Primary seed 42 passes physical interval and TARP checks but fails the rank-shape test. Production freeze, blind opening and Loa application held.
 - **Paper 3 (Separate / Experimental — Coherent 3D Field-Level Posterior via CFM):**
   - Two-stage coarse + fine 3D Conditional Flow Matching over full survey caps ($0.01 \le z < 0.55$). Not a dependency for Paper 2.
-  - **Current stage:** Frozen model scored on both blind phases (128 draws); better single-cell density, eigenvalue and class forecasts than the matched count baseline on each phase. Low-z density intervals remain cautious. This is not a calibration test on DESI.
+  - **Current stage:** Frozen model scored on both blind phases (128 draws); better single-cell density, eigenvalue and class forecasts than the matched count baseline on each phase. Low-z density intervals remain cautious. The matched-rank spatial follow-up is complete. Current venue decision is an astronomy journal and a non-archival ML workshop.
 
 ---
 
@@ -22,6 +22,7 @@
 
 | metric | split_type | phase_set | z_range | artifact_id |
 | --- | --- | --- | --- | --- |
+| Empirical CRPS(residual-rank CFM) minus CRPS(coherent CFM) at one cell: −0.000072 / +0.000367 | frozen Paper III held-out spatial follow-up, 16 equal-weight supported regions per phase, 20 matched members | ph018/019 | [0.01,0.55) | 62142570, docs/evidence/paper3_audit_20261128/all_phase_scores.csv |
 | CFM fair CRPS improvement vs matched count baseline: 19.3/23.6/20.7/27.1% (density, ordered tides) | preregistered supported blind cells, both caps | ph018/019 | [0.01,0.55) | `docs/evidence/lowz_cfm_blind_score_table.json` |
 | CFM nominal 81.82% interval: observed coverage 83.95% (density), 81.86% / 82.33% / 81.48% (ordered tides) | supported registered development cells, cell-weighted, both caps | ph006/012/013 | [0.01,0.55) | `$SCRATCH/abacus/e2e_field_v3/lowz_calibration_61647276/CALIBRATION.json` |
 | P12-A epoch 1, macro R² λ1: 0.4351 | whole-phase dev, seed 42 | ph006/012/013 | [0.01,0.55) | `$SCRATCH/abacus/p12a_lowz_full_seed42_61548250/full/unet/seed_42/epoch_history.jsonl` (epoch 1) |
@@ -50,7 +51,7 @@ Only epoch 1 has scores from two encoders. No matched full-development R² yet f
 ## 4. Next Steps & Active Queue (Two Live Codex Tracks)
 
 1. **Paper 2 recommendation (not launched):** Pin epoch-4 encoder + seed-42 FMPE and its ph006 width correction. Verify corrected golden-mock inference parity, then run a bounded internal Loa pilot spanning caps/redshift, flagged provisional. This checks deployment, not calibration. Hold the release VAC and blind opening. Do not extend all 20 folds on the epoch-1/4 contrast alone. See `docs/evidence/p12/epoch_parity_20261128/`.
-2. **Paper 3:** Both real caps have 32 draws; viewer live. Blind power, localization matrices and mock/Loa interpretation boundaries: docs/paper3_blind_field_handoff.md. Next: write up, retaining high-z transfer caveat.
+2. **Paper 3:** Both real caps have 32 draws. Use the [scientific audit and principal figure](docs/paper3_cfm_scientific_audit_20261128.md) for the astronomy methods paper and workshop. Retain the fixed-snapshot and high-z Loa transfer caveats.
 3. **Observational handoff (`~/GraphWeb_DESI`):** Keep Loa VAC defaults frozen until the new low-z encoder + FMPE passes dev calibration, sealed `ph018/019` check, and golden-mock parity.
 
 ---

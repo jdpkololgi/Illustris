@@ -28,6 +28,10 @@ Both allocations returned COMPLETED 0:0 and released their nodes (62150495: 3m14
 
 Jobs 62150495 (seed 42) and 62150494 (seed 43), four GPU nodes each, four A100s per node, desi_g/interactive, Scratch, four hours maximum, no retry. tmux on login33: p12fmpe_0_f036ce3 and p12fmpe_1_f036ce3. Frozen source f036ce3. Each allocation builds ten OOF shards; only the combined 20-phase dataset marker releases the two fits. Logs and receipts: `$SCRATCH/abacus/p12a_oof_fmpe_20261128_f036ce3/`. Submission is not fit completion.
 
+## 2026-11-28 — Paper III CPU audit receipts
+
+Explicitly approved single-node desi interactive CPU steps, 8 logical CPUs, Scratch. Development 62142490, nid200030, one-hour ceiling, allocated 00:02:14, exit 0:0. Frozen Paper III follow-up 62142570, nid200030, 20-minute ceiling, allocated 00:01:48, exit 0:0. Both relinquished after their step. Raw outputs are in /pscratch/sd/d/dkololgi/abacus/e2e_field_v3/paper3_audit_20261128. Development freeze SHA-256 b5e7e9fee9134649612ba7cd382f929bbf2704a1ff885ce7f1cc270066e6b13d. Follow-up freeze c1dfe385bfdbf6f134f35c630e072837b75ea440859ef1a0ee738be629edb3dc. Source, freezes, phase vectors and completion receipts are preserved in docs/evidence/paper3_audit_20261128/replay_bundle.zip.
+
 - 62121276: one desi/interactive CPU node, 8 logical CPUs in the step, Scratch, one-hour ceiling. All 20 training donors and 48 development regions completed; exit zero and allocation released. Source 84cd321; spatial_venue_62121276/ph{006,012,013}.json.
 
 - CPU interactive 62103650, nid200062, desi, Scratch, 2 logical CPUs, 15-minute ceiling; both blind phase outputs passed support counts; exit 0 and allocation relinquished. See docs/paper3_blind_field_handoff.md.
