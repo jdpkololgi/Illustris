@@ -1,5 +1,7 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+62153758/ph012 and 62153759/ph013: full/fold factorial encoder swaps, 16 GPUs per job (desi_g/interactive, four nodes, one hour, Scratch, no retry). Frozen f0b48dd; outputs `$SCRATCH/abacus/p12_swaps_f0b48dd/`.
+
 Matched inference 62152889/62152890 completed 0:0 after 5m43s/5m35s; both released. Archive parity maximum zero in each phase; 32 inference shards scored.
 
 Matched development encoder comparison: 62152889/ph012 and 62152890/ph013, four 4-GPU nodes apiece, desi_g/interactive, one-hour cap, Scratch, no retry. tmux match_ph{012,013}_bb9. Revision bb9a6d4, outputs `$SCRATCH/abacus/p12_encoder_match_bb9a6d4/`.
