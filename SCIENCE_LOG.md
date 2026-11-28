@@ -1,5 +1,9 @@
 # SCIENCE_LOG.md — Shared Science Log (Illustris ⇄ GraphWeb_DESI)
 
+## 2026-11-28 — Corrected P12-A development gate did not clear
+
+Whole-phase split: width calibrated on ph006 only, evaluation ph012 and ph013 (25,000 matched rows each, 256 draws per row, corrected 0.01 ≤ z < 0.55). Primary seed 42 met physical marginal/shell coverage, mean accuracy and TARP criteria on both phases but failed the increment-coordinate rank-shape test on both. Replication seed 43 also failed marginal coverage on both. The legacy continuous-uniform KS diagnostic on discrete, spatially dependent ranks is not a calibrated significance test; preserve the recorded failure, do not tune to the reporting phases. Both FMPE candidates used internal training-row early stopping rather than fixed-budget terminal weights. No blind access or release. Evidence: `docs/evidence/p12/development_20261128/seed{42,43}.json`.
+
 ## 2026-11-28 — Corrected 20-phase P12-A posterior training sample
 
 Both corrected FMPE estimators finished 63 epochs and reloaded their best (epoch 43) weights. Each used a 90/10 row split internal to the OOF training sample, for checkpoint selection only. Seeds 42 and 43 are not yet calibrated or ranked on independent phases. Checkpoints and receipts: `seed_{42,43}/` under the sample directory below.

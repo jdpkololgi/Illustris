@@ -1,5 +1,9 @@
 # RUN_LOG.md — Operational & Slurm Receipt Ledger
 
+## 2026-11-28 — Corrected FMPE development score
+
+Jobs 62151034/62151035, tmux p12dev{42,43}_6ade76a on login33, four 4-GPU nodes each, desi_g/interactive. Both COMPLETED 0:0 in 49 seconds. Source 6ade76a; raw shards and score reports in `$SCRATCH/abacus/p12a_dev_6ade76a/{42,43}`. No blind or Loa jobs.
+
 ## 2026-11-28 — Corrected P12-A posterior assembly and fits
 
 Both allocations returned COMPLETED 0:0 and released their nodes (62150495: 3m14s; 62150494: 3m30s). Both file hashes independently matched the terminal fit receipts.

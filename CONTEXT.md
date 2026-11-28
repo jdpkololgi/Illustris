@@ -9,7 +9,7 @@
 
 - **Paper 2 (Primary — Per-Galaxy Probabilistic Cosmic Web VAC for DESI DR2 BGS_BRIGHT):**
   - **Core contribution:** Encoder-independent methodology yielding calibrated joint posteriors over the three ordered Gaussian-$R_7$ ($7\ h^{-1}\mathrm{Mpc}$) tidal-tensor eigenvalues ($\lambda_1 \le \lambda_2 \le \lambda_3$, softplus increment parameterisation) and derived T-Web classes ($\lambda_{\mathrm{th}}=0.2$) over **$0.01 \le z < 0.55$**.
-  - **Current stage:** Full corrected encoder, all 20 omitted-phase exports, 2M-row posterior table and two FMPE estimators are trained/complete. External calibration, freeze and Loa application remain.
+  - **Current stage:** Whole-phase FMPE development readout complete. Primary seed 42 passes physical interval and TARP checks but fails the rank-shape test. Production freeze, blind opening and Loa application held.
 - **Paper 3 (Separate / Experimental — Coherent 3D Field-Level Posterior via CFM):**
   - Two-stage coarse + fine 3D Conditional Flow Matching over full survey caps ($0.01 \le z < 0.55$). Not a dependency for Paper 2.
   - **Current stage:** Frozen model scored on both blind phases (128 draws); better single-cell density, eigenvalue and class forecasts than the matched count baseline on each phase. Low-z density intervals remain cautious. This is not a calibration test on DESI.
@@ -49,7 +49,7 @@ Only epoch 1 has scores from two encoders. No matched full-development R² yet f
 
 ## 4. Next Steps & Active Queue (Two Live Codex Tracks)
 
-1. **Paper 2 posterior validation:** Check seeds 42 and 43 on the corrected development table (ph006/012/013), keeping calibration and reporting separate by whole phase. Do not open the sealed pair before freeze. Evidence: `$SCRATCH/abacus/p12a_oof_fmpe_20261128_f036ce3/seed_{42,43}/FIT_COMPLETE.json`.
+1. **Paper 2 posterior validation:** Diagnose finite-draw rank shape and spatial dependence using saved development samples; reconcile early stopping with fixed-budget policy before freeze. No blind opening. Evidence: `docs/evidence/p12/development_20261128/seed{42,43}.json`.
 2. **Paper 3:** Both real caps have 32 draws; viewer live. Blind power, localization matrices and mock/Loa interpretation boundaries: docs/paper3_blind_field_handoff.md. Next: write up, retaining high-z transfer caveat.
 3. **Observational handoff (`~/GraphWeb_DESI`):** Keep Loa VAC defaults frozen until the new low-z encoder + FMPE passes dev calibration, sealed `ph018/019` check, and golden-mock parity.
 
