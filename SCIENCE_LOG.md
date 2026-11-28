@@ -2,6 +2,8 @@
 
 ## 2026-11-28 — Corrected 20-phase P12-A posterior training sample
 
+Both corrected FMPE estimators finished 63 epochs and reloaded their best (epoch 43) weights. Each used a 90/10 row split internal to the OOF training sample, for checkpoint selection only. Seeds 42 and 43 are not yet calibrated or ranked on independent phases. Checkpoints and receipts: `seed_{42,43}/` under the sample directory below.
+
 The corrected P12-A posterior training sample passed assembly: 100,000 supported galaxies per omitted phase, 2,000,000 total, including 466,146 with z<0.15. Each seven-feature row uses an encoder trained without its phase; joins checked parent identity, truth, redshift, cap, shell and support provenance. Development and sealed phases are excluded. Receipt: `$SCRATCH/abacus/p12a_oof_fmpe_20261128_f036ce3/P12A_DATASET_READY.json`; training sample SHA-256 e1068aedda9da943cc58442d7deb5515b3028632e0860d6ed49ba995bada380e. This establishes the training sample, not posterior calibration.
 
 ## 2026-11-27 — Spatial dependence adds predictive skill but not uniform coverage

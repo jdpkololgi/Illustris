@@ -2,6 +2,8 @@
 
 ## 2026-11-28 — Corrected P12-A posterior assembly and fits
 
+Both allocations returned COMPLETED 0:0 and released their nodes (62150495: 3m14s; 62150494: 3m30s). Both file hashes independently matched the terminal fit receipts.
+
 Jobs 62150495 (seed 42) and 62150494 (seed 43), four GPU nodes each, four A100s per node, desi_g/interactive, Scratch, four hours maximum, no retry. tmux on login33: p12fmpe_0_f036ce3 and p12fmpe_1_f036ce3. Frozen source f036ce3. Each allocation builds ten OOF shards; only the combined 20-phase dataset marker releases the two fits. Logs and receipts: `$SCRATCH/abacus/p12a_oof_fmpe_20261128_f036ce3/`. Submission is not fit completion.
 
 - 62121276: one desi/interactive CPU node, 8 logical CPUs in the step, Scratch, one-hour ceiling. All 20 training donors and 48 development regions completed; exit zero and allocation released. Source 84cd321; spatial_venue_62121276/ph{006,012,013}.json.
