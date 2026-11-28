@@ -1,5 +1,9 @@
 # SCIENCE_LOG.md — Shared Science Log (Illustris ⇄ GraphWeb_DESI)
 
+## 2026-11-28 — Attribution of positive gap residual
+
+Population-weighted mean physical gap error (prediction minus truth) | same galaxies within split | historical ph006 development, 50k rows at z=0.15–0.55: encoder −0.001435, posterior +0.000866. Corrected z=0.01–0.55, 25k matched rows per split: encoder −0.001251 on internal 20-phase OOF FMPE holdback, +0.006015/+0.005401 on full-encoder ph012/013. Calibrated seed 42 adds +0.003682/+0.003535/+0.003648 respectively. Seed 43 adds +0.002121/+0.001922/+0.002082. The transfer increase is predominantly in the encoder output; mock phase and encoder identity are confounded. Historical row set is not matched to corrected. Evidence: `docs/evidence/p12/development_20261128/attribution.json`. No model changes or blind opening.
+
 ## 2026-11-28 — Corrected posterior eigengap rank replay
 
 Across 25,000 matched galaxies per reporting phase (ph012/ph013, corrected 0.01 ≤ z < 0.55), both FMPE seeds overpredict the population-weighted mean physical gap λ3−λ2. For seed 42 the excess is 0.00955/0.00905, against true means 0.26861/0.26727. Seed 42 randomized mean gap ranks are 0.4663/0.4654; both 128-Mpc spatial-block bootstrap intervals exclude 0.5. The shift predates scalar width calibration and appears in every redshift bin. Joint TARP curves replay the saved results. This diagnoses a conditional posterior mismatch, not its training-level cause. No change to the model or production gate. Evidence: `docs/evidence/p12/development_20261128/rank_diagnosis.json`, `sbc.png`, `tarp.png`.

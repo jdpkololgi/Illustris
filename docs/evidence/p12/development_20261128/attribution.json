@@ -1,0 +1,1145 @@
+{
+  "holdback_sample_sha256": "819690c42080c0324ed7708af4b6949705d72daa3df3677a52c531d5ff021b17",
+  "42": {
+    "raw": {
+      "oof": {
+        "all": {
+          "n": 25000,
+          "truth": 0.2665298581123352,
+          "encoder_minus_truth": -0.0012509890366345644,
+          "posterior_minus_encoder": 0.0026282188542978975,
+          "posterior_minus_truth": 0.001377229637965992
+        },
+        "by_z": [
+          {
+            "n": 5708,
+            "truth": 0.26473864912986755,
+            "encoder_minus_truth": -0.0037222690880298615,
+            "posterior_minus_encoder": 0.004113340370900028,
+            "posterior_minus_truth": 0.0003910712876750486
+          },
+          {
+            "n": 6680,
+            "truth": 0.2629432678222656,
+            "encoder_minus_truth": 0.00012728555884677917,
+            "posterior_minus_encoder": 0.003188800286017497,
+            "posterior_minus_truth": 0.003316085975674601
+          },
+          {
+            "n": 7176,
+            "truth": 0.2700396776199341,
+            "encoder_minus_truth": -0.0005942146526649594,
+            "posterior_minus_encoder": 0.001121295139512584,
+            "posterior_minus_truth": 0.0005270804945185099
+          },
+          {
+            "n": 4063,
+            "truth": 0.2789755165576935,
+            "encoder_minus_truth": -0.0006982766790315509,
+            "posterior_minus_encoder": -0.0011653596160037124,
+            "posterior_minus_truth": -0.0018636363712711994
+          },
+          {
+            "n": 1373,
+            "truth": 0.2896769940853119,
+            "encoder_minus_truth": 0.008554937317967415,
+            "posterior_minus_encoder": -0.004487099029910855,
+            "posterior_minus_truth": 0.004067838241143409
+          }
+        ]
+      },
+      "oof_by_phase": {
+        "ph000": {
+          "n": 1278,
+          "truth": 0.2601519227027893,
+          "encoder_minus_truth": -0.0023136408999562263,
+          "posterior_minus_encoder": 0.0027880388023842117,
+          "posterior_minus_truth": 0.00047439795494914926
+        },
+        "ph001": {
+          "n": 1204,
+          "truth": 0.26189011335372925,
+          "encoder_minus_truth": 0.0020106073934584856,
+          "posterior_minus_encoder": 0.003197428390278861,
+          "posterior_minus_truth": 0.005208035850292999
+        },
+        "ph002": {
+          "n": 1285,
+          "truth": 0.25444090366363525,
+          "encoder_minus_truth": 0.0024764889385551214,
+          "posterior_minus_encoder": 0.0022718963788875926,
+          "posterior_minus_truth": 0.004748384793345363
+        },
+        "ph003": {
+          "n": 1266,
+          "truth": 0.25874170660972595,
+          "encoder_minus_truth": 0.0035300077870488167,
+          "posterior_minus_encoder": 0.0025597480737940535,
+          "posterior_minus_truth": 0.006089756233917495
+        },
+        "ph004": {
+          "n": 1266,
+          "truth": 0.2622132897377014,
+          "encoder_minus_truth": -2.431995017104782e-05,
+          "posterior_minus_encoder": 0.002496186733628278,
+          "posterior_minus_truth": 0.002471866973557559
+        },
+        "ph005": {
+          "n": 1238,
+          "truth": 0.26614516973495483,
+          "encoder_minus_truth": 0.0013806927017867565,
+          "posterior_minus_encoder": 0.002660886612731084,
+          "posterior_minus_truth": 0.004041579323958838
+        },
+        "ph007": {
+          "n": 1220,
+          "truth": 0.2663256824016571,
+          "encoder_minus_truth": -0.001929188729263842,
+          "posterior_minus_encoder": 0.0027286016064533465,
+          "posterior_minus_truth": 0.0007994127103374053
+        },
+        "ph008": {
+          "n": 1205,
+          "truth": 0.26071983575820923,
+          "encoder_minus_truth": 0.0018150334944948554,
+          "posterior_minus_encoder": 0.0025952692568295254,
+          "posterior_minus_truth": 0.00441030304447091
+        },
+        "ph009": {
+          "n": 1306,
+          "truth": 0.27840858697891235,
+          "encoder_minus_truth": -0.0006491243257187307,
+          "posterior_minus_encoder": 0.0028534705543998107,
+          "posterior_minus_truth": 0.002204346279952657
+        },
+        "ph010": {
+          "n": 1220,
+          "truth": 0.2685505747795105,
+          "encoder_minus_truth": -0.0003692985337693244,
+          "posterior_minus_encoder": 0.002853658416983504,
+          "posterior_minus_truth": 0.0024843598314500405
+        },
+        "ph011": {
+          "n": 1237,
+          "truth": 0.2731408178806305,
+          "encoder_minus_truth": -0.0020553693175315857,
+          "posterior_minus_encoder": 0.0026887901367394227,
+          "posterior_minus_truth": 0.0006334204681578615
+        },
+        "ph014": {
+          "n": 1243,
+          "truth": 0.27026253938674927,
+          "encoder_minus_truth": -0.004184633493423462,
+          "posterior_minus_encoder": 0.0025658121986459424,
+          "posterior_minus_truth": -0.0016188215161008874
+        },
+        "ph015": {
+          "n": 1253,
+          "truth": 0.2707463800907135,
+          "encoder_minus_truth": -0.002055402612313628,
+          "posterior_minus_encoder": 0.0019207498095557764,
+          "posterior_minus_truth": -0.00013465309301744868
+        },
+        "ph016": {
+          "n": 1206,
+          "truth": 0.26906058192253113,
+          "encoder_minus_truth": -0.0023169186897575855,
+          "posterior_minus_encoder": 0.002230038500758458,
+          "posterior_minus_truth": -8.688007985602352e-05
+        },
+        "ph017": {
+          "n": 1211,
+          "truth": 0.2560875415802002,
+          "encoder_minus_truth": 0.0005433024489320815,
+          "posterior_minus_encoder": 0.002353802958489357,
+          "posterior_minus_truth": 0.0028971049629358575
+        },
+        "ph020": {
+          "n": 1301,
+          "truth": 0.2707998752593994,
+          "encoder_minus_truth": -0.002775046741589904,
+          "posterior_minus_encoder": 0.0030374801810460488,
+          "posterior_minus_truth": 0.0002624330488061589
+        },
+        "ph021": {
+          "n": 1273,
+          "truth": 0.272084504365921,
+          "encoder_minus_truth": -0.003152192570269108,
+          "posterior_minus_encoder": 0.0030150644761063983,
+          "posterior_minus_truth": -0.00013712796481893787
+        },
+        "ph022": {
+          "n": 1259,
+          "truth": 0.2742627263069153,
+          "encoder_minus_truth": -0.0067898924462497234,
+          "posterior_minus_encoder": 0.0024759525933348864,
+          "posterior_minus_truth": -0.004313939721513932
+        },
+        "ph023": {
+          "n": 1254,
+          "truth": 0.2713702917098999,
+          "encoder_minus_truth": -0.00379716488532722,
+          "posterior_minus_encoder": 0.0025809561829744985,
+          "posterior_minus_truth": -0.0012162084537652403
+        },
+        "ph024": {
+          "n": 1275,
+          "truth": 0.26414036750793457,
+          "encoder_minus_truth": -0.003965108189731836,
+          "posterior_minus_encoder": 0.002672860204199737,
+          "posterior_minus_truth": -0.0012922482174406562
+        }
+      },
+      "ph012": {
+        "all": {
+          "n": 25000,
+          "truth": 0.26861318945884705,
+          "encoder_minus_truth": 0.00601477874442935,
+          "posterior_minus_encoder": 0.002467969090437783,
+          "posterior_minus_truth": 0.008482747835460033
+        },
+        "by_z": [
+          {
+            "n": 5882,
+            "truth": 0.26569098234176636,
+            "encoder_minus_truth": 0.008784969337284565,
+            "posterior_minus_encoder": 0.0037035973150770034,
+            "posterior_minus_truth": 0.012488566380026506
+          },
+          {
+            "n": 6701,
+            "truth": 0.2687045931816101,
+            "encoder_minus_truth": 0.004070771858096123,
+            "posterior_minus_encoder": 0.0029519695863669646,
+            "posterior_minus_truth": 0.0070227414747613005
+          },
+          {
+            "n": 7000,
+            "truth": 0.27105605602264404,
+            "encoder_minus_truth": 0.004015484359115362,
+            "posterior_minus_encoder": 0.001254258920841669,
+            "posterior_minus_truth": 0.005269742958783789
+          },
+          {
+            "n": 4018,
+            "truth": 0.2708958387374878,
+            "encoder_minus_truth": 0.009260964579880238,
+            "posterior_minus_encoder": -0.0011389996563073465,
+            "posterior_minus_truth": 0.00812196604565666
+          },
+          {
+            "n": 1399,
+            "truth": 0.2946414351463318,
+            "encoder_minus_truth": 0.00951259396970272,
+            "posterior_minus_encoder": -0.004812171635443018,
+            "posterior_minus_truth": 0.004700421960132978
+          }
+        ]
+      },
+      "ph013": {
+        "all": {
+          "n": 25000,
+          "truth": 0.267267107963562,
+          "encoder_minus_truth": 0.005401223432272673,
+          "posterior_minus_encoder": 0.0025791805739356437,
+          "posterior_minus_truth": 0.007980404112291296
+        },
+        "by_z": [
+          {
+            "n": 5825,
+            "truth": 0.2666238844394684,
+            "encoder_minus_truth": 0.00502581475302577,
+            "posterior_minus_encoder": 0.0039943144136070285,
+            "posterior_minus_truth": 0.009020128622308728
+          },
+          {
+            "n": 6579,
+            "truth": 0.2639022767543793,
+            "encoder_minus_truth": 0.005148150492459536,
+            "posterior_minus_encoder": 0.00301540788813363,
+            "posterior_minus_truth": 0.008163558047715064
+          },
+          {
+            "n": 7090,
+            "truth": 0.2692899703979492,
+            "encoder_minus_truth": 0.006149219814687967,
+            "posterior_minus_encoder": 0.0013954453269470009,
+            "posterior_minus_truth": 0.007544663690794653
+          },
+          {
+            "n": 4077,
+            "truth": 0.27834293246269226,
+            "encoder_minus_truth": 0.0046331193298101425,
+            "posterior_minus_encoder": -0.0013061895778627198,
+            "posterior_minus_truth": 0.0033269294632077276
+          },
+          {
+            "n": 1429,
+            "truth": 0.28662875294685364,
+            "encoder_minus_truth": 0.01687857322394848,
+            "posterior_minus_encoder": -0.0048565759091756845,
+            "posterior_minus_truth": 0.01202199841228659
+          }
+        ]
+      }
+    },
+    "calibrated": {
+      "oof": {
+        "all": {
+          "n": 25000,
+          "truth": 0.2665298581123352,
+          "encoder_minus_truth": -0.0012509890366345644,
+          "posterior_minus_encoder": 0.003681980647108223,
+          "posterior_minus_truth": 0.0024309914307763174
+        },
+        "by_z": [
+          {
+            "n": 5708,
+            "truth": 0.26473864912986755,
+            "encoder_minus_truth": -0.0037222690880298615,
+            "posterior_minus_encoder": 0.005130302239551727,
+            "posterior_minus_truth": 0.0014080331563267486
+          },
+          {
+            "n": 6680,
+            "truth": 0.2629432678222656,
+            "encoder_minus_truth": 0.00012728555884677917,
+            "posterior_minus_encoder": 0.004158717824210179,
+            "posterior_minus_truth": 0.004286003513867283
+          },
+          {
+            "n": 7176,
+            "truth": 0.2700396776199341,
+            "encoder_minus_truth": -0.0005942146526649594,
+            "posterior_minus_encoder": 0.0022076618309098714,
+            "posterior_minus_truth": 0.001613447185915798
+          },
+          {
+            "n": 4063,
+            "truth": 0.2789755165576935,
+            "encoder_minus_truth": -0.0006982766790315509,
+            "posterior_minus_encoder": 0.00022997875482225614,
+            "posterior_minus_truth": -0.0004682980004452303
+          },
+          {
+            "n": 1373,
+            "truth": 0.2896769940853119,
+            "encoder_minus_truth": 0.008554937317967415,
+            "posterior_minus_encoder": -0.002179329309614199,
+            "posterior_minus_truth": 0.006375607961440061
+          }
+        ]
+      },
+      "oof_by_phase": {
+        "ph000": {
+          "n": 1278,
+          "truth": 0.2601519227027893,
+          "encoder_minus_truth": -0.0023136408999562263,
+          "posterior_minus_encoder": 0.00383149565306758,
+          "posterior_minus_truth": 0.0015178548056325179
+        },
+        "ph001": {
+          "n": 1204,
+          "truth": 0.26189011335372925,
+          "encoder_minus_truth": 0.0020106073934584856,
+          "posterior_minus_encoder": 0.004265053284264634,
+          "posterior_minus_truth": 0.006275660744278775
+        },
+        "ph002": {
+          "n": 1285,
+          "truth": 0.25444090366363525,
+          "encoder_minus_truth": 0.0024764889385551214,
+          "posterior_minus_encoder": 0.0033308590992795492,
+          "posterior_minus_truth": 0.00580734751373732
+        },
+        "ph003": {
+          "n": 1266,
+          "truth": 0.25874170660972595,
+          "encoder_minus_truth": 0.0035300077870488167,
+          "posterior_minus_encoder": 0.003624517499167717,
+          "posterior_minus_truth": 0.007154525659291157
+        },
+        "ph004": {
+          "n": 1266,
+          "truth": 0.2622132897377014,
+          "encoder_minus_truth": -2.431995017104782e-05,
+          "posterior_minus_encoder": 0.0035298087053188196,
+          "posterior_minus_truth": 0.0035054889452480987
+        },
+        "ph005": {
+          "n": 1238,
+          "truth": 0.26614516973495483,
+          "encoder_minus_truth": 0.0013806927017867565,
+          "posterior_minus_encoder": 0.0037122011922316924,
+          "posterior_minus_truth": 0.005092893903459445
+        },
+        "ph007": {
+          "n": 1220,
+          "truth": 0.2663256824016571,
+          "encoder_minus_truth": -0.001929188729263842,
+          "posterior_minus_encoder": 0.0037708698064744424,
+          "posterior_minus_truth": 0.001841680910358501
+        },
+        "ph008": {
+          "n": 1205,
+          "truth": 0.26071983575820923,
+          "encoder_minus_truth": 0.0018150334944948554,
+          "posterior_minus_encoder": 0.003681093248369931,
+          "posterior_minus_truth": 0.005496127036011315
+        },
+        "ph009": {
+          "n": 1306,
+          "truth": 0.27840858697891235,
+          "encoder_minus_truth": -0.0006491243257187307,
+          "posterior_minus_encoder": 0.003896533905943109,
+          "posterior_minus_truth": 0.0032474096314959546
+        },
+        "ph010": {
+          "n": 1220,
+          "truth": 0.2685505747795105,
+          "encoder_minus_truth": -0.0003692985337693244,
+          "posterior_minus_encoder": 0.0039027037559597735,
+          "posterior_minus_truth": 0.0035334051704263097
+        },
+        "ph011": {
+          "n": 1237,
+          "truth": 0.2731408178806305,
+          "encoder_minus_truth": -0.0020553693175315857,
+          "posterior_minus_encoder": 0.00371802706499656,
+          "posterior_minus_truth": 0.0016626573964149982
+        },
+        "ph014": {
+          "n": 1243,
+          "truth": 0.27026253938674927,
+          "encoder_minus_truth": -0.004184633493423462,
+          "posterior_minus_encoder": 0.003618676423213805,
+          "posterior_minus_truth": -0.0005659572915330251
+        },
+        "ph015": {
+          "n": 1253,
+          "truth": 0.2707463800907135,
+          "encoder_minus_truth": -0.002055402612313628,
+          "posterior_minus_encoder": 0.002985522211721419,
+          "posterior_minus_truth": 0.0009301193091481935
+        },
+        "ph016": {
+          "n": 1206,
+          "truth": 0.26906058192253113,
+          "encoder_minus_truth": -0.0023169186897575855,
+          "posterior_minus_encoder": 0.0032736327112074023,
+          "posterior_minus_truth": 0.0009567141305929214
+        },
+        "ph017": {
+          "n": 1211,
+          "truth": 0.2560875415802002,
+          "encoder_minus_truth": 0.0005433024489320815,
+          "posterior_minus_encoder": 0.003426078305188039,
+          "posterior_minus_truth": 0.00396938030963454
+        },
+        "ph020": {
+          "n": 1301,
+          "truth": 0.2707998752593994,
+          "encoder_minus_truth": -0.002775046741589904,
+          "posterior_minus_encoder": 0.00407979213144886,
+          "posterior_minus_truth": 0.0013047449992089708
+        },
+        "ph021": {
+          "n": 1273,
+          "truth": 0.272084504365921,
+          "encoder_minus_truth": -0.003152192570269108,
+          "posterior_minus_encoder": 0.004085673448181332,
+          "posterior_minus_truth": 0.000933481007255996
+        },
+        "ph022": {
+          "n": 1259,
+          "truth": 0.2742627263069153,
+          "encoder_minus_truth": -0.0067898924462497234,
+          "posterior_minus_encoder": 0.0035224938042292065,
+          "posterior_minus_truth": -0.003267398510619612
+        },
+        "ph023": {
+          "n": 1254,
+          "truth": 0.2713702917098999,
+          "encoder_minus_truth": -0.00379716488532722,
+          "posterior_minus_encoder": 0.0036555792115808864,
+          "posterior_minus_truth": -0.00014158542515885358
+        },
+        "ph024": {
+          "n": 1275,
+          "truth": 0.26414036750793457,
+          "encoder_minus_truth": -0.003965108189731836,
+          "posterior_minus_encoder": 0.0037138171889753674,
+          "posterior_minus_truth": -0.00025129123266502484
+        }
+      },
+      "ph012": {
+        "all": {
+          "n": 25000,
+          "truth": 0.26861318945884705,
+          "encoder_minus_truth": 0.00601477874442935,
+          "posterior_minus_encoder": 0.0035352297095470097,
+          "posterior_minus_truth": 0.009550008454569261
+        },
+        "by_z": [
+          {
+            "n": 5882,
+            "truth": 0.26569098234176636,
+            "encoder_minus_truth": 0.008784969337284565,
+            "posterior_minus_encoder": 0.004754824172652575,
+            "posterior_minus_truth": 0.013539793237602078
+          },
+          {
+            "n": 6701,
+            "truth": 0.2687045931816101,
+            "encoder_minus_truth": 0.004070771858096123,
+            "posterior_minus_encoder": 0.003928670130711166,
+            "posterior_minus_truth": 0.007999442019105501
+          },
+          {
+            "n": 7000,
+            "truth": 0.27105605602264404,
+            "encoder_minus_truth": 0.004015484359115362,
+            "posterior_minus_encoder": 0.002339754872899504,
+            "posterior_minus_truth": 0.006355238910841624
+          },
+          {
+            "n": 4018,
+            "truth": 0.2708958387374878,
+            "encoder_minus_truth": 0.009260964579880238,
+            "posterior_minus_encoder": 0.0002735624967766952,
+            "posterior_minus_truth": 0.009534528198740701
+          },
+          {
+            "n": 1399,
+            "truth": 0.2946414351463318,
+            "encoder_minus_truth": 0.00951259396970272,
+            "posterior_minus_encoder": -0.0025042387494215008,
+            "posterior_minus_truth": 0.007008354846154496
+          }
+        ]
+      },
+      "ph013": {
+        "all": {
+          "n": 25000,
+          "truth": 0.267267107963562,
+          "encoder_minus_truth": 0.005401223432272673,
+          "posterior_minus_encoder": 0.0036482197851004884,
+          "posterior_minus_truth": 0.00904944332345614
+        },
+        "by_z": [
+          {
+            "n": 5825,
+            "truth": 0.2666238844394684,
+            "encoder_minus_truth": 0.00502581475302577,
+            "posterior_minus_encoder": 0.0050389932395174045,
+            "posterior_minus_truth": 0.010064807448219104
+          },
+          {
+            "n": 6579,
+            "truth": 0.2639022767543793,
+            "encoder_minus_truth": 0.005148150492459536,
+            "posterior_minus_encoder": 0.00399424135908136,
+            "posterior_minus_truth": 0.009142391518662795
+          },
+          {
+            "n": 7090,
+            "truth": 0.2692899703979492,
+            "encoder_minus_truth": 0.006149219814687967,
+            "posterior_minus_encoder": 0.002479930211724274,
+            "posterior_minus_truth": 0.008629148575571927
+          },
+          {
+            "n": 4077,
+            "truth": 0.27834293246269226,
+            "encoder_minus_truth": 0.0046331193298101425,
+            "posterior_minus_encoder": 0.00012254253706603502,
+            "posterior_minus_truth": 0.004755661578136484
+          },
+          {
+            "n": 1429,
+            "truth": 0.28662875294685364,
+            "encoder_minus_truth": 0.01687857322394848,
+            "posterior_minus_encoder": -0.0025305234020094134,
+            "posterior_minus_truth": 0.014348050919452862
+          }
+        ]
+      }
+    }
+  },
+  "43": {
+    "raw": {
+      "oof": {
+        "all": {
+          "n": 25000,
+          "truth": 0.2665298581123352,
+          "encoder_minus_truth": -0.0012509890366345644,
+          "posterior_minus_encoder": 0.0027065878267080205,
+          "posterior_minus_truth": 0.001455598610376115
+        },
+        "by_z": [
+          {
+            "n": 5708,
+            "truth": 0.26473864912986755,
+            "encoder_minus_truth": -0.0037222690880298615,
+            "posterior_minus_encoder": 0.004271081257603943,
+            "posterior_minus_truth": 0.0005488121743789635
+          },
+          {
+            "n": 6680,
+            "truth": 0.2629432678222656,
+            "encoder_minus_truth": 0.00012728555884677917,
+            "posterior_minus_encoder": 0.003056070165730072,
+            "posterior_minus_truth": 0.003183355855387177
+          },
+          {
+            "n": 7176,
+            "truth": 0.2700396776199341,
+            "encoder_minus_truth": -0.0005942146526649594,
+            "posterior_minus_encoder": 0.0012886247725221091,
+            "posterior_minus_truth": 0.0006944101275280353
+          },
+          {
+            "n": 4063,
+            "truth": 0.2789755165576935,
+            "encoder_minus_truth": -0.0006982766790315509,
+            "posterior_minus_encoder": -0.0007454770725426188,
+            "posterior_minus_truth": -0.001443753827810106
+          },
+          {
+            "n": 1373,
+            "truth": 0.2896769940853119,
+            "encoder_minus_truth": 0.008554937317967415,
+            "posterior_minus_encoder": -0.003447673603869867,
+            "posterior_minus_truth": 0.005107263667184396
+          }
+        ]
+      },
+      "oof_by_phase": {
+        "ph000": {
+          "n": 1278,
+          "truth": 0.2601519227027893,
+          "encoder_minus_truth": -0.0023136408999562263,
+          "posterior_minus_encoder": 0.0028391420838522986,
+          "posterior_minus_truth": 0.0005255012364172358
+        },
+        "ph001": {
+          "n": 1204,
+          "truth": 0.26189011335372925,
+          "encoder_minus_truth": 0.0020106073934584856,
+          "posterior_minus_encoder": 0.0032734747531580283,
+          "posterior_minus_truth": 0.005284082213172167
+        },
+        "ph002": {
+          "n": 1285,
+          "truth": 0.25444090366363525,
+          "encoder_minus_truth": 0.0024764889385551214,
+          "posterior_minus_encoder": 0.0023258566635302636,
+          "posterior_minus_truth": 0.004802345077988034
+        },
+        "ph003": {
+          "n": 1266,
+          "truth": 0.25874170660972595,
+          "encoder_minus_truth": 0.0035300077870488167,
+          "posterior_minus_encoder": 0.0026405785747617024,
+          "posterior_minus_truth": 0.006170586734885143
+        },
+        "ph004": {
+          "n": 1266,
+          "truth": 0.2622132897377014,
+          "encoder_minus_truth": -2.431995017104782e-05,
+          "posterior_minus_encoder": 0.002627016763232683,
+          "posterior_minus_truth": 0.002602697003161962
+        },
+        "ph005": {
+          "n": 1238,
+          "truth": 0.26614516973495483,
+          "encoder_minus_truth": 0.0013806927017867565,
+          "posterior_minus_encoder": 0.002733828200784593,
+          "posterior_minus_truth": 0.004114520912012346
+        },
+        "ph007": {
+          "n": 1220,
+          "truth": 0.2663256824016571,
+          "encoder_minus_truth": -0.001929188729263842,
+          "posterior_minus_encoder": 0.0026353303466550996,
+          "posterior_minus_truth": 0.0007061414505391588
+        },
+        "ph008": {
+          "n": 1205,
+          "truth": 0.26071983575820923,
+          "encoder_minus_truth": 0.0018150334944948554,
+          "posterior_minus_encoder": 0.002656052019530787,
+          "posterior_minus_truth": 0.004471085807172172
+        },
+        "ph009": {
+          "n": 1306,
+          "truth": 0.27840858697891235,
+          "encoder_minus_truth": -0.0006491243257187307,
+          "posterior_minus_encoder": 0.0026955743915896657,
+          "posterior_minus_truth": 0.0020464501171425123
+        },
+        "ph010": {
+          "n": 1220,
+          "truth": 0.2685505747795105,
+          "encoder_minus_truth": -0.0003692985337693244,
+          "posterior_minus_encoder": 0.0028586984709406457,
+          "posterior_minus_truth": 0.0024893998854071822
+        },
+        "ph011": {
+          "n": 1237,
+          "truth": 0.2731408178806305,
+          "encoder_minus_truth": -0.0020553693175315857,
+          "posterior_minus_encoder": 0.002579541146456694,
+          "posterior_minus_truth": 0.0005241714778751326
+        },
+        "ph014": {
+          "n": 1243,
+          "truth": 0.27026253938674927,
+          "encoder_minus_truth": -0.004184633493423462,
+          "posterior_minus_encoder": 0.0028699267426962067,
+          "posterior_minus_truth": -0.0013147069720506228
+        },
+        "ph015": {
+          "n": 1253,
+          "truth": 0.2707463800907135,
+          "encoder_minus_truth": -0.002055402612313628,
+          "posterior_minus_encoder": 0.002137839076987373,
+          "posterior_minus_truth": 8.243617441414813e-05
+        },
+        "ph016": {
+          "n": 1206,
+          "truth": 0.26906058192253113,
+          "encoder_minus_truth": -0.0023169186897575855,
+          "posterior_minus_encoder": 0.0021134833275707333,
+          "posterior_minus_truth": -0.0002034352530437486
+        },
+        "ph017": {
+          "n": 1211,
+          "truth": 0.2560875415802002,
+          "encoder_minus_truth": 0.0005433024489320815,
+          "posterior_minus_encoder": 0.0026510158722326716,
+          "posterior_minus_truth": 0.003194317876679173
+        },
+        "ph020": {
+          "n": 1301,
+          "truth": 0.2707998752593994,
+          "encoder_minus_truth": -0.002775046741589904,
+          "posterior_minus_encoder": 0.0030930152693531675,
+          "posterior_minus_truth": 0.00031796813711327865
+        },
+        "ph021": {
+          "n": 1273,
+          "truth": 0.272084504365921,
+          "encoder_minus_truth": -0.003152192570269108,
+          "posterior_minus_encoder": 0.00305466538737154,
+          "posterior_minus_truth": -9.752705355379604e-05
+        },
+        "ph022": {
+          "n": 1259,
+          "truth": 0.2742627263069153,
+          "encoder_minus_truth": -0.0067898924462497234,
+          "posterior_minus_encoder": 0.002714452754167836,
+          "posterior_minus_truth": -0.004075439560680983
+        },
+        "ph023": {
+          "n": 1254,
+          "truth": 0.2713702917098999,
+          "encoder_minus_truth": -0.00379716488532722,
+          "posterior_minus_encoder": 0.0027966741391388713,
+          "posterior_minus_truth": -0.001000490497600868
+        },
+        "ph024": {
+          "n": 1275,
+          "truth": 0.26414036750793457,
+          "encoder_minus_truth": -0.003965108189731836,
+          "posterior_minus_encoder": 0.0028118193332084137,
+          "posterior_minus_truth": -0.0011532890884319775
+        }
+      },
+      "ph012": {
+        "all": {
+          "n": 25000,
+          "truth": 0.26861318945884705,
+          "encoder_minus_truth": 0.00601477874442935,
+          "posterior_minus_encoder": 0.002515682181936703,
+          "posterior_minus_truth": 0.008530460926958954
+        },
+        "by_z": [
+          {
+            "n": 5882,
+            "truth": 0.26569098234176636,
+            "encoder_minus_truth": 0.008784969337284565,
+            "posterior_minus_encoder": 0.003808841000273552,
+            "posterior_minus_truth": 0.012593810065223057
+          },
+          {
+            "n": 6701,
+            "truth": 0.2687045931816101,
+            "encoder_minus_truth": 0.004070771858096123,
+            "posterior_minus_encoder": 0.0028054216269595865,
+            "posterior_minus_truth": 0.006876193515353922
+          },
+          {
+            "n": 7000,
+            "truth": 0.27105605602264404,
+            "encoder_minus_truth": 0.004015484359115362,
+            "posterior_minus_encoder": 0.0013568146092184509,
+            "posterior_minus_truth": 0.005372298647160572
+          },
+          {
+            "n": 4018,
+            "truth": 0.2708958387374878,
+            "encoder_minus_truth": 0.009260964579880238,
+            "posterior_minus_encoder": -0.0006233649135550141,
+            "posterior_minus_truth": 0.008637600788408993
+          },
+          {
+            "n": 1399,
+            "truth": 0.2946414351463318,
+            "encoder_minus_truth": 0.00951259396970272,
+            "posterior_minus_encoder": -0.0037767361047873725,
+            "posterior_minus_truth": 0.005735857490788624
+          }
+        ]
+      },
+      "ph013": {
+        "all": {
+          "n": 25000,
+          "truth": 0.267267107963562,
+          "encoder_minus_truth": 0.005401223432272673,
+          "posterior_minus_encoder": 0.0026769798639742323,
+          "posterior_minus_truth": 0.008078203402329884
+        },
+        "by_z": [
+          {
+            "n": 5825,
+            "truth": 0.2666238844394684,
+            "encoder_minus_truth": 0.00502581475302577,
+            "posterior_minus_encoder": 0.003997663109971014,
+            "posterior_minus_truth": 0.009023477318672715
+          },
+          {
+            "n": 6579,
+            "truth": 0.2639022767543793,
+            "encoder_minus_truth": 0.005148150492459536,
+            "posterior_minus_encoder": 0.003024130302268167,
+            "posterior_minus_truth": 0.0081722804618496
+          },
+          {
+            "n": 7090,
+            "truth": 0.2692899703979492,
+            "encoder_minus_truth": 0.006149219814687967,
+            "posterior_minus_encoder": 0.0015477195061185133,
+            "posterior_minus_truth": 0.007696937869966164
+          },
+          {
+            "n": 4077,
+            "truth": 0.27834293246269226,
+            "encoder_minus_truth": 0.0046331193298101425,
+            "posterior_minus_encoder": -0.0006059926231368599,
+            "posterior_minus_truth": 0.004027126417933588
+          },
+          {
+            "n": 1429,
+            "truth": 0.28662875294685364,
+            "encoder_minus_truth": 0.01687857322394848,
+            "posterior_minus_encoder": -0.003992324227096236,
+            "posterior_minus_truth": 0.012886250094366041
+          }
+        ]
+      }
+    },
+    "calibrated": {
+      "oof": {
+        "all": {
+          "n": 25000,
+          "truth": 0.2665298581123352,
+          "encoder_minus_truth": -0.0012509890366345644,
+          "posterior_minus_encoder": 0.0021209485638802044,
+          "posterior_minus_truth": 0.0008699593475482986
+        },
+        "by_z": [
+          {
+            "n": 5708,
+            "truth": 0.26473864912986755,
+            "encoder_minus_truth": -0.0037222690880298615,
+            "posterior_minus_encoder": 0.003709782933743834,
+            "posterior_minus_truth": -1.2486149481145915e-05
+          },
+          {
+            "n": 6680,
+            "truth": 0.2629432678222656,
+            "encoder_minus_truth": 0.00012728555884677917,
+            "posterior_minus_encoder": 0.0025134317442801913,
+            "posterior_minus_truth": 0.0026407174339372957
+          },
+          {
+            "n": 7176,
+            "truth": 0.2700396776199341,
+            "encoder_minus_truth": -0.0005942146526649594,
+            "posterior_minus_encoder": 0.0006822383189388677,
+            "posterior_minus_truth": 8.8023673944794e-05
+          },
+          {
+            "n": 4063,
+            "truth": 0.2789755165576935,
+            "encoder_minus_truth": -0.0006982766790315509,
+            "posterior_minus_encoder": -0.0015139829056332419,
+            "posterior_minus_truth": -0.0022122596609007285
+          },
+          {
+            "n": 1373,
+            "truth": 0.2896769940853119,
+            "encoder_minus_truth": 0.008554937317967415,
+            "posterior_minus_encoder": -0.004707155564655968,
+            "posterior_minus_truth": 0.003847781706398295
+          }
+        ]
+      },
+      "oof_by_phase": {
+        "ph000": {
+          "n": 1278,
+          "truth": 0.2601519227027893,
+          "encoder_minus_truth": -0.0023136408999562263,
+          "posterior_minus_encoder": 0.0022587151320180017,
+          "posterior_minus_truth": -5.4925715417061855e-05
+        },
+        "ph001": {
+          "n": 1204,
+          "truth": 0.26189011335372925,
+          "encoder_minus_truth": 0.0020106073934584856,
+          "posterior_minus_encoder": 0.002680709100163872,
+          "posterior_minus_truth": 0.00469131656017801
+        },
+        "ph002": {
+          "n": 1285,
+          "truth": 0.25444090366363525,
+          "encoder_minus_truth": 0.0024764889385551214,
+          "posterior_minus_encoder": 0.0017377637548721256,
+          "posterior_minus_truth": 0.004214252169329896
+        },
+        "ph003": {
+          "n": 1266,
+          "truth": 0.25874170660972595,
+          "encoder_minus_truth": 0.0035300077870488167,
+          "posterior_minus_encoder": 0.002049167655782362,
+          "posterior_minus_truth": 0.005579175815905803
+        },
+        "ph004": {
+          "n": 1266,
+          "truth": 0.2622132897377014,
+          "encoder_minus_truth": -2.431995017104782e-05,
+          "posterior_minus_encoder": 0.00205172891667159,
+          "posterior_minus_truth": 0.0020274091566008694
+        },
+        "ph005": {
+          "n": 1238,
+          "truth": 0.26614516973495483,
+          "encoder_minus_truth": 0.0013806927017867565,
+          "posterior_minus_encoder": 0.002150308128967187,
+          "posterior_minus_truth": 0.0035310008401949386
+        },
+        "ph007": {
+          "n": 1220,
+          "truth": 0.2663256824016571,
+          "encoder_minus_truth": -0.001929188729263842,
+          "posterior_minus_encoder": 0.002055470160152822,
+          "posterior_minus_truth": 0.00012628126403688177
+        },
+        "ph008": {
+          "n": 1205,
+          "truth": 0.26071983575820923,
+          "encoder_minus_truth": 0.0018150334944948554,
+          "posterior_minus_encoder": 0.0020528892507162273,
+          "posterior_minus_truth": 0.003867923038357613
+        },
+        "ph009": {
+          "n": 1306,
+          "truth": 0.27840858697891235,
+          "encoder_minus_truth": -0.0006491243257187307,
+          "posterior_minus_encoder": 0.0021143268345658736,
+          "posterior_minus_truth": 0.00146520256011872
+        },
+        "ph010": {
+          "n": 1220,
+          "truth": 0.2685505747795105,
+          "encoder_minus_truth": -0.0003692985337693244,
+          "posterior_minus_encoder": 0.0022751866119029135,
+          "posterior_minus_truth": 0.00190588802636945
+        },
+        "ph011": {
+          "n": 1237,
+          "truth": 0.2731408178806305,
+          "encoder_minus_truth": -0.0020553693175315857,
+          "posterior_minus_encoder": 0.002006462715095504,
+          "posterior_minus_truth": -4.8906953486056415e-05
+        },
+        "ph014": {
+          "n": 1243,
+          "truth": 0.27026253938674927,
+          "encoder_minus_truth": -0.004184633493423462,
+          "posterior_minus_encoder": 0.0022851588375286704,
+          "posterior_minus_truth": -0.0018994748772181585
+        },
+        "ph015": {
+          "n": 1253,
+          "truth": 0.2707463800907135,
+          "encoder_minus_truth": -0.002055402612313628,
+          "posterior_minus_encoder": 0.0015450696333341668,
+          "posterior_minus_truth": -0.0005103332692390595
+        },
+        "ph016": {
+          "n": 1206,
+          "truth": 0.26906058192253113,
+          "encoder_minus_truth": -0.0023169186897575855,
+          "posterior_minus_encoder": 0.001533666015799655,
+          "posterior_minus_truth": -0.0007832525648148264
+        },
+        "ph017": {
+          "n": 1211,
+          "truth": 0.2560875415802002,
+          "encoder_minus_truth": 0.0005433024489320815,
+          "posterior_minus_encoder": 0.0020567502387301715,
+          "posterior_minus_truth": 0.002600052243176672
+        },
+        "ph020": {
+          "n": 1301,
+          "truth": 0.2707998752593994,
+          "encoder_minus_truth": -0.002775046741589904,
+          "posterior_minus_encoder": 0.0025136080026467913,
+          "posterior_minus_truth": -0.00026143912959309887
+        },
+        "ph021": {
+          "n": 1273,
+          "truth": 0.272084504365921,
+          "encoder_minus_truth": -0.003152192570269108,
+          "posterior_minus_encoder": 0.0024599477005934176,
+          "posterior_minus_truth": -0.0006922447403319179
+        },
+        "ph022": {
+          "n": 1259,
+          "truth": 0.2742627263069153,
+          "encoder_minus_truth": -0.0067898924462497234,
+          "posterior_minus_encoder": 0.002132996480056821,
+          "posterior_minus_truth": -0.004656895834791998
+        },
+        "ph023": {
+          "n": 1254,
+          "truth": 0.2713702917098999,
+          "encoder_minus_truth": -0.00379716488532722,
+          "posterior_minus_encoder": 0.0022012634858781296,
+          "posterior_minus_truth": -0.0015959011508616101
+        },
+        "ph024": {
+          "n": 1275,
+          "truth": 0.26414036750793457,
+          "encoder_minus_truth": -0.003965108189731836,
+          "posterior_minus_encoder": 0.002232722407406846,
+          "posterior_minus_truth": -0.0017323860142335443
+        }
+      },
+      "ph012": {
+        "all": {
+          "n": 25000,
+          "truth": 0.26861318945884705,
+          "encoder_minus_truth": 0.00601477874442935,
+          "posterior_minus_encoder": 0.001922341678750614,
+          "posterior_minus_truth": 0.007937120423772865
+        },
+        "by_z": [
+          {
+            "n": 5882,
+            "truth": 0.26569098234176636,
+            "encoder_minus_truth": 0.008784969337284565,
+            "posterior_minus_encoder": 0.003228344983966797,
+            "posterior_minus_truth": 0.012013314048916302
+          },
+          {
+            "n": 6701,
+            "truth": 0.2687045931816101,
+            "encoder_minus_truth": 0.004070771858096123,
+            "posterior_minus_encoder": 0.0022588615369944685,
+            "posterior_minus_truth": 0.006329633425388804
+          },
+          {
+            "n": 7000,
+            "truth": 0.27105605602264404,
+            "encoder_minus_truth": 0.004015484359115362,
+            "posterior_minus_encoder": 0.0007508087221597301,
+            "posterior_minus_truth": 0.004766292760101849
+          },
+          {
+            "n": 4018,
+            "truth": 0.2708958387374878,
+            "encoder_minus_truth": 0.009260964579880238,
+            "posterior_minus_encoder": -0.0014028364223293186,
+            "posterior_minus_truth": 0.007858129279634689
+          },
+          {
+            "n": 1399,
+            "truth": 0.2946414351463318,
+            "encoder_minus_truth": 0.00951259396970272,
+            "posterior_minus_encoder": -0.005037754667321706,
+            "posterior_minus_truth": 0.00447483892825429
+          }
+        ]
+      },
+      "ph013": {
+        "all": {
+          "n": 25000,
+          "truth": 0.267267107963562,
+          "encoder_minus_truth": 0.005401223432272673,
+          "posterior_minus_encoder": 0.0020823436279372998,
+          "posterior_minus_truth": 0.007483567166292952
+        },
+        "by_z": [
+          {
+            "n": 5825,
+            "truth": 0.2666238844394684,
+            "encoder_minus_truth": 0.00502581475302577,
+            "posterior_minus_encoder": 0.0034203127381425727,
+            "posterior_minus_truth": 0.008446126946844275
+          },
+          {
+            "n": 6579,
+            "truth": 0.2639022767543793,
+            "encoder_minus_truth": 0.005148150492459536,
+            "posterior_minus_encoder": 0.0024762195303332526,
+            "posterior_minus_truth": 0.007624369689914687
+          },
+          {
+            "n": 7090,
+            "truth": 0.2692899703979492,
+            "encoder_minus_truth": 0.006149219814687967,
+            "posterior_minus_encoder": 0.0009415202452552554,
+            "posterior_minus_truth": 0.007090738609102908
+          },
+          {
+            "n": 4077,
+            "truth": 0.27834293246269226,
+            "encoder_minus_truth": 0.0046331193298101425,
+            "posterior_minus_encoder": -0.001393545172183188,
+            "posterior_minus_truth": 0.003239573868887259
+          },
+          {
+            "n": 1429,
+            "truth": 0.28662875294685364,
+            "encoder_minus_truth": 0.01687857322394848,
+            "posterior_minus_encoder": -0.00526329117948714,
+            "posterior_minus_truth": 0.011615283141975135
+          }
+        ]
+      }
+    }
+  },
+  "historical_ph006": {
+    "all": {
+      "n": 50000,
+      "truth": 0.2686499059200287,
+      "encoder_minus_truth": -0.0014346964890137315,
+      "posterior_minus_encoder": 0.0023008738300176416,
+      "posterior_minus_truth": 0.0008661773815454264
+    },
+    "by_z": []
+  }
+}
