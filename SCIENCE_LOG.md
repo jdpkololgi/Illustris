@@ -1,5 +1,9 @@
 # SCIENCE_LOG.md — Shared Science Log (Illustris ⇄ GraphWeb_DESI)
 
+## 2026-11-28 — Learned weights, not inference transforms, drive full/fold gap shift
+
+Natural-weighted full-minus-fold mean physical λ3−λ2 | matched 4,096 development galaxies per phase, full vs omitted-ph000/010/024 | ph012/ph013 | 0.01 ≤ z < 0.55 | `docs/evidence/p12/development_20261128/swaps_{ph012,ph013}.json`. All 16 mixtures of weights, input normalization, selection and output scaling scored per comparison. Native gap predictions reproduced bitwise. Full-minus-fold shift +0.00606 to +0.00764. Weight-only effect +0.00606 to +0.00767 holding fold transforms fixed. Averaging over swap orders, weights explain 100.02–100.66% (minor counteracting transforms); all six block-bootstrap weight intervals exclude zero. Inference-time attribution only, not a training-history or layer-level attribution. No release or model changes.
+
 ## 2026-11-28 — Full encoder shifts the mean physical gap upward on identical galaxies
 
 Metric: natural-weighted mean predicted minus true λ3−λ2 | matched development rows (4,096 per phase) | ph012/ph013 | 0.01 ≤ z < 0.55 | `docs/evidence/p12/development_20261128/matched_encoders.json`. Full +0.00625/+0.00638; omitted-ph000 −0.00052/−0.00126; omitted-ph010 +0.00019/−0.00047; omitted-ph024 −0.00101/−0.00036. All six fold-minus-full paired 95% spatial-block intervals exclude zero. Full predictions replay exactly. Holds galaxies fixed, not weights versus fold-specific transforms; three tested folds do not represent all possible fits. No posterior or Loa run.

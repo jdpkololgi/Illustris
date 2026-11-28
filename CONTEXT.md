@@ -49,7 +49,7 @@ Only epoch 1 has scores from two encoders. No matched full-development R² yet f
 
 ## 4. Next Steps & Active Queue (Two Live Codex Tracks)
 
-1. **Paper 2 posterior validation:** Full encoder systematically predicts a larger λ3−λ2 than three fold encoders on identical development galaxies. Audit full/fold transforms and output head before choosing a remedy; reconcile checkpoint policy before freeze. Blind pair remains sealed. Evidence: `docs/evidence/p12/development_20261128/matched_encoders.json`.
+1. **Paper 2 posterior validation:** Full/fold mean eigengap displacement follows the learned weights in all six paired comparisons, not the inference transforms. Do not change survey preprocessing to repair it. Next decision: test a training-only remedy and reconcile checkpoint policy before freeze. Blind pair remains sealed. Evidence: `docs/evidence/p12/development_20261128/swaps_ph012.json` and `swaps_ph013.json`.
 2. **Paper 3:** Both real caps have 32 draws; viewer live. Blind power, localization matrices and mock/Loa interpretation boundaries: docs/paper3_blind_field_handoff.md. Next: write up, retaining high-z transfer caveat.
 3. **Observational handoff (`~/GraphWeb_DESI`):** Keep Loa VAC defaults frozen until the new low-z encoder + FMPE passes dev calibration, sealed `ph018/019` check, and golden-mock parity.
 
