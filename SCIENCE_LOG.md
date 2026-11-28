@@ -1,5 +1,9 @@
 # SCIENCE_LOG.md — Shared Science Log (Illustris ⇄ GraphWeb_DESI)
 
+## 2026-11-28 — Full encoder shifts the mean physical gap upward on identical galaxies
+
+Metric: natural-weighted mean predicted minus true λ3−λ2 | matched development rows (4,096 per phase) | ph012/ph013 | 0.01 ≤ z < 0.55 | `docs/evidence/p12/development_20261128/matched_encoders.json`. Full +0.00625/+0.00638; omitted-ph000 −0.00052/−0.00126; omitted-ph010 +0.00019/−0.00047; omitted-ph024 −0.00101/−0.00036. All six fold-minus-full paired 95% spatial-block intervals exclude zero. Full predictions replay exactly. Holds galaxies fixed, not weights versus fold-specific transforms; three tested folds do not represent all possible fits. No posterior or Loa run.
+
 ## 2026-11-28 — Attribution of positive gap residual
 
 Population-weighted mean physical gap error (prediction minus truth) | same galaxies within split | historical ph006 development, 50k rows at z=0.15–0.55: encoder −0.001435, posterior +0.000866. Corrected z=0.01–0.55, 25k matched rows per split: encoder −0.001251 on internal 20-phase OOF FMPE holdback, +0.006015/+0.005401 on full-encoder ph012/013. Calibrated seed 42 adds +0.003682/+0.003535/+0.003648 respectively. Seed 43 adds +0.002121/+0.001922/+0.002082. The transfer increase is predominantly in the encoder output; mock phase and encoder identity are confounded. Historical row set is not matched to corrected. Evidence: `docs/evidence/p12/development_20261128/attribution.json`. No model changes or blind opening.
